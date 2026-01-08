@@ -119,7 +119,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := button.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", button.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", button.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -152,7 +152,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := node.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", node.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", node.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -185,7 +185,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := svgicon.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", svgicon.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", svgicon.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -218,7 +218,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := tree.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", tree.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", tree.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}

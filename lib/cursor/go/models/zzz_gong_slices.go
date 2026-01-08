@@ -62,7 +62,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := cursor.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", cursor.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", cursor.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}

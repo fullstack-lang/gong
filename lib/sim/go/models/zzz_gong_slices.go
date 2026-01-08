@@ -122,7 +122,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := command.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", command.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", command.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -155,7 +155,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := dummyagent.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", dummyagent.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", dummyagent.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -188,7 +188,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := engine.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", engine.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", engine.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -221,7 +221,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := event.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", event.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", event.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -254,7 +254,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := status.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", status.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", status.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -287,7 +287,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := updatestate.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", updatestate.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", updatestate.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}

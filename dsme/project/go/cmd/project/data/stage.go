@@ -1076,7 +1076,7 @@ another line to Write Specs`
 	__Task__00000007_.Name = `Compute all Instance Diff`
 	__Task__00000007_.Description = ``
 	__Task__00000007_.IsExpanded = false
-	__Task__00000007_.ComputedPrefix = `3`
+	__Task__00000007_.ComputedPrefix = `2`
 	__Task__00000007_.IsInputsNodeExpanded = false
 	__Task__00000007_.IsOutputsNodeExpanded = false
 	__Task__00000007_.IsWithCompletion = true
@@ -1094,7 +1094,7 @@ another line to Write Specs`
 	__Task__00000009_.Name = `Develop Probe Notifications`
 	__Task__00000009_.Description = ``
 	__Task__00000009_.IsExpanded = false
-	__Task__00000009_.ComputedPrefix = `2`
+	__Task__00000009_.ComputedPrefix = `6`
 	__Task__00000009_.IsInputsNodeExpanded = false
 	__Task__00000009_.IsOutputsNodeExpanded = false
 	__Task__00000009_.IsWithCompletion = true
@@ -1103,7 +1103,7 @@ another line to Write Specs`
 	__Task__00000010_.Name = `Display the the commit diff in the probe as marshalled go statements #1038 `
 	__Task__00000010_.Description = ``
 	__Task__00000010_.IsExpanded = false
-	__Task__00000010_.ComputedPrefix = `4`
+	__Task__00000010_.ComputedPrefix = `3`
 	__Task__00000010_.IsInputsNodeExpanded = false
 	__Task__00000010_.IsOutputsNodeExpanded = false
 	__Task__00000010_.IsWithCompletion = true
@@ -1112,7 +1112,7 @@ another line to Write Specs`
 	__Task__00000011_.Name = `Put the commit forward text in one notification #1044`
 	__Task__00000011_.Description = ``
 	__Task__00000011_.IsExpanded = false
-	__Task__00000011_.ComputedPrefix = `5`
+	__Task__00000011_.ComputedPrefix = `4`
 	__Task__00000011_.IsInputsNodeExpanded = false
 	__Task__00000011_.IsOutputsNodeExpanded = false
 	__Task__00000011_.IsWithCompletion = true
@@ -1121,7 +1121,7 @@ another line to Write Specs`
 	__Task__00000012_.Name = `Compute diff in slices with minimal edit distance #1045`
 	__Task__00000012_.Description = ``
 	__Task__00000012_.IsExpanded = false
-	__Task__00000012_.ComputedPrefix = `6`
+	__Task__00000012_.ComputedPrefix = `5`
 	__Task__00000012_.IsInputsNodeExpanded = false
 	__Task__00000012_.IsOutputsNodeExpanded = false
 	__Task__00000012_.IsWithCompletion = true
@@ -1561,11 +1561,11 @@ another line to Write Specs`
 	__Project__00000002_.RootProducts = append(__Project__00000002_.RootProducts, __Product__00000022_)
 	__Project__00000002_.RootProducts = append(__Project__00000002_.RootProducts, __Product__00000031_)
 	__Project__00000002_.RootTasks = append(__Project__00000002_.RootTasks, __Task__00000008_)
-	__Project__00000002_.RootTasks = append(__Project__00000002_.RootTasks, __Task__00000009_)
 	__Project__00000002_.RootTasks = append(__Project__00000002_.RootTasks, __Task__00000007_)
 	__Project__00000002_.RootTasks = append(__Project__00000002_.RootTasks, __Task__00000010_)
 	__Project__00000002_.RootTasks = append(__Project__00000002_.RootTasks, __Task__00000011_)
 	__Project__00000002_.RootTasks = append(__Project__00000002_.RootTasks, __Task__00000012_)
+	__Project__00000002_.RootTasks = append(__Project__00000002_.RootTasks, __Task__00000009_)
 	__Project__00000002_.Diagrams = append(__Project__00000002_.Diagrams, __Diagram__00000061_)
 	__Project__00000002_.Notes = append(__Project__00000002_.Notes, __Note__00000002_)
 	__Project__00000002_.Notes = append(__Project__00000002_.Notes, __Note__00000003_)

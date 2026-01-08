@@ -138,7 +138,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := button.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", button.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", button.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -171,7 +171,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := buttontoggle.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", buttontoggle.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", buttontoggle.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -204,7 +204,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := group.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", group.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", group.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -237,7 +237,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := grouptoogle.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", grouptoogle.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", grouptoogle.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -270,7 +270,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := layout.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", layout.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", layout.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}

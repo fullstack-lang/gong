@@ -1,6 +1,8 @@
 // generated code - do not edit
 package models
 
+import "fmt"
+
 func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) (ok bool) {
 
 	switch target := any(instance).(type) {
@@ -1983,7 +1985,7 @@ func (circle *Circle) GongDiff(stage *Stage, circleOther *Circle) (diffs []strin
 				AnimationsDifferent = true
 				break
 			} else if circle.Animations[i] != nil && circleOther.Animations[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if circle.Animations[i] != circleOther.Animations[i] {
 					AnimationsDifferent = true
 					break
@@ -1992,7 +1994,8 @@ func (circle *Circle) GongDiff(stage *Stage, circleOther *Circle) (diffs []strin
 		}
 	}
 	if AnimationsDifferent {
-		diffs = append(diffs, circle.GongMarshallField(stage, "Animations"))
+		ops := Diff(stage, circle, circleOther, "Animations", circleOther.Animations, circle.Animations)
+		diffs = append(diffs, ops)
 	}
 
 	return
@@ -2085,7 +2088,7 @@ func (ellipse *Ellipse) GongDiff(stage *Stage, ellipseOther *Ellipse) (diffs []s
 				AnimatesDifferent = true
 				break
 			} else if ellipse.Animates[i] != nil && ellipseOther.Animates[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if ellipse.Animates[i] != ellipseOther.Animates[i] {
 					AnimatesDifferent = true
 					break
@@ -2094,7 +2097,8 @@ func (ellipse *Ellipse) GongDiff(stage *Stage, ellipseOther *Ellipse) (diffs []s
 		}
 	}
 	if AnimatesDifferent {
-		diffs = append(diffs, ellipse.GongMarshallField(stage, "Animates"))
+		ops := Diff(stage, ellipse, ellipseOther, "Animates", ellipseOther.Animates, ellipse.Animates)
+		diffs = append(diffs, ops)
 	}
 
 	return
@@ -2116,7 +2120,7 @@ func (layer *Layer) GongDiff(stage *Stage, layerOther *Layer) (diffs []string) {
 				RectsDifferent = true
 				break
 			} else if layer.Rects[i] != nil && layerOther.Rects[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if layer.Rects[i] != layerOther.Rects[i] {
 					RectsDifferent = true
 					break
@@ -2125,7 +2129,8 @@ func (layer *Layer) GongDiff(stage *Stage, layerOther *Layer) (diffs []string) {
 		}
 	}
 	if RectsDifferent {
-		diffs = append(diffs, layer.GongMarshallField(stage, "Rects"))
+		ops := Diff(stage, layer, layerOther, "Rects", layerOther.Rects, layer.Rects)
+		diffs = append(diffs, ops)
 	}
 	TextsDifferent := false
 	if len(layer.Texts) != len(layerOther.Texts) {
@@ -2136,7 +2141,7 @@ func (layer *Layer) GongDiff(stage *Stage, layerOther *Layer) (diffs []string) {
 				TextsDifferent = true
 				break
 			} else if layer.Texts[i] != nil && layerOther.Texts[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if layer.Texts[i] != layerOther.Texts[i] {
 					TextsDifferent = true
 					break
@@ -2145,7 +2150,8 @@ func (layer *Layer) GongDiff(stage *Stage, layerOther *Layer) (diffs []string) {
 		}
 	}
 	if TextsDifferent {
-		diffs = append(diffs, layer.GongMarshallField(stage, "Texts"))
+		ops := Diff(stage, layer, layerOther, "Texts", layerOther.Texts, layer.Texts)
+		diffs = append(diffs, ops)
 	}
 	CirclesDifferent := false
 	if len(layer.Circles) != len(layerOther.Circles) {
@@ -2156,7 +2162,7 @@ func (layer *Layer) GongDiff(stage *Stage, layerOther *Layer) (diffs []string) {
 				CirclesDifferent = true
 				break
 			} else if layer.Circles[i] != nil && layerOther.Circles[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if layer.Circles[i] != layerOther.Circles[i] {
 					CirclesDifferent = true
 					break
@@ -2165,7 +2171,8 @@ func (layer *Layer) GongDiff(stage *Stage, layerOther *Layer) (diffs []string) {
 		}
 	}
 	if CirclesDifferent {
-		diffs = append(diffs, layer.GongMarshallField(stage, "Circles"))
+		ops := Diff(stage, layer, layerOther, "Circles", layerOther.Circles, layer.Circles)
+		diffs = append(diffs, ops)
 	}
 	LinesDifferent := false
 	if len(layer.Lines) != len(layerOther.Lines) {
@@ -2176,7 +2183,7 @@ func (layer *Layer) GongDiff(stage *Stage, layerOther *Layer) (diffs []string) {
 				LinesDifferent = true
 				break
 			} else if layer.Lines[i] != nil && layerOther.Lines[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if layer.Lines[i] != layerOther.Lines[i] {
 					LinesDifferent = true
 					break
@@ -2185,7 +2192,8 @@ func (layer *Layer) GongDiff(stage *Stage, layerOther *Layer) (diffs []string) {
 		}
 	}
 	if LinesDifferent {
-		diffs = append(diffs, layer.GongMarshallField(stage, "Lines"))
+		ops := Diff(stage, layer, layerOther, "Lines", layerOther.Lines, layer.Lines)
+		diffs = append(diffs, ops)
 	}
 	EllipsesDifferent := false
 	if len(layer.Ellipses) != len(layerOther.Ellipses) {
@@ -2196,7 +2204,7 @@ func (layer *Layer) GongDiff(stage *Stage, layerOther *Layer) (diffs []string) {
 				EllipsesDifferent = true
 				break
 			} else if layer.Ellipses[i] != nil && layerOther.Ellipses[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if layer.Ellipses[i] != layerOther.Ellipses[i] {
 					EllipsesDifferent = true
 					break
@@ -2205,7 +2213,8 @@ func (layer *Layer) GongDiff(stage *Stage, layerOther *Layer) (diffs []string) {
 		}
 	}
 	if EllipsesDifferent {
-		diffs = append(diffs, layer.GongMarshallField(stage, "Ellipses"))
+		ops := Diff(stage, layer, layerOther, "Ellipses", layerOther.Ellipses, layer.Ellipses)
+		diffs = append(diffs, ops)
 	}
 	PolylinesDifferent := false
 	if len(layer.Polylines) != len(layerOther.Polylines) {
@@ -2216,7 +2225,7 @@ func (layer *Layer) GongDiff(stage *Stage, layerOther *Layer) (diffs []string) {
 				PolylinesDifferent = true
 				break
 			} else if layer.Polylines[i] != nil && layerOther.Polylines[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if layer.Polylines[i] != layerOther.Polylines[i] {
 					PolylinesDifferent = true
 					break
@@ -2225,7 +2234,8 @@ func (layer *Layer) GongDiff(stage *Stage, layerOther *Layer) (diffs []string) {
 		}
 	}
 	if PolylinesDifferent {
-		diffs = append(diffs, layer.GongMarshallField(stage, "Polylines"))
+		ops := Diff(stage, layer, layerOther, "Polylines", layerOther.Polylines, layer.Polylines)
+		diffs = append(diffs, ops)
 	}
 	PolygonesDifferent := false
 	if len(layer.Polygones) != len(layerOther.Polygones) {
@@ -2236,7 +2246,7 @@ func (layer *Layer) GongDiff(stage *Stage, layerOther *Layer) (diffs []string) {
 				PolygonesDifferent = true
 				break
 			} else if layer.Polygones[i] != nil && layerOther.Polygones[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if layer.Polygones[i] != layerOther.Polygones[i] {
 					PolygonesDifferent = true
 					break
@@ -2245,7 +2255,8 @@ func (layer *Layer) GongDiff(stage *Stage, layerOther *Layer) (diffs []string) {
 		}
 	}
 	if PolygonesDifferent {
-		diffs = append(diffs, layer.GongMarshallField(stage, "Polygones"))
+		ops := Diff(stage, layer, layerOther, "Polygones", layerOther.Polygones, layer.Polygones)
+		diffs = append(diffs, ops)
 	}
 	PathsDifferent := false
 	if len(layer.Paths) != len(layerOther.Paths) {
@@ -2256,7 +2267,7 @@ func (layer *Layer) GongDiff(stage *Stage, layerOther *Layer) (diffs []string) {
 				PathsDifferent = true
 				break
 			} else if layer.Paths[i] != nil && layerOther.Paths[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if layer.Paths[i] != layerOther.Paths[i] {
 					PathsDifferent = true
 					break
@@ -2265,7 +2276,8 @@ func (layer *Layer) GongDiff(stage *Stage, layerOther *Layer) (diffs []string) {
 		}
 	}
 	if PathsDifferent {
-		diffs = append(diffs, layer.GongMarshallField(stage, "Paths"))
+		ops := Diff(stage, layer, layerOther, "Paths", layerOther.Paths, layer.Paths)
+		diffs = append(diffs, ops)
 	}
 	LinksDifferent := false
 	if len(layer.Links) != len(layerOther.Links) {
@@ -2276,7 +2288,7 @@ func (layer *Layer) GongDiff(stage *Stage, layerOther *Layer) (diffs []string) {
 				LinksDifferent = true
 				break
 			} else if layer.Links[i] != nil && layerOther.Links[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if layer.Links[i] != layerOther.Links[i] {
 					LinksDifferent = true
 					break
@@ -2285,7 +2297,8 @@ func (layer *Layer) GongDiff(stage *Stage, layerOther *Layer) (diffs []string) {
 		}
 	}
 	if LinksDifferent {
-		diffs = append(diffs, layer.GongMarshallField(stage, "Links"))
+		ops := Diff(stage, layer, layerOther, "Links", layerOther.Links, layer.Links)
+		diffs = append(diffs, ops)
 	}
 	RectLinkLinksDifferent := false
 	if len(layer.RectLinkLinks) != len(layerOther.RectLinkLinks) {
@@ -2296,7 +2309,7 @@ func (layer *Layer) GongDiff(stage *Stage, layerOther *Layer) (diffs []string) {
 				RectLinkLinksDifferent = true
 				break
 			} else if layer.RectLinkLinks[i] != nil && layerOther.RectLinkLinks[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if layer.RectLinkLinks[i] != layerOther.RectLinkLinks[i] {
 					RectLinkLinksDifferent = true
 					break
@@ -2305,7 +2318,8 @@ func (layer *Layer) GongDiff(stage *Stage, layerOther *Layer) (diffs []string) {
 		}
 	}
 	if RectLinkLinksDifferent {
-		diffs = append(diffs, layer.GongMarshallField(stage, "RectLinkLinks"))
+		ops := Diff(stage, layer, layerOther, "RectLinkLinks", layerOther.RectLinkLinks, layer.RectLinkLinks)
+		diffs = append(diffs, ops)
 	}
 
 	return
@@ -2363,7 +2377,7 @@ func (line *Line) GongDiff(stage *Stage, lineOther *Line) (diffs []string) {
 				AnimatesDifferent = true
 				break
 			} else if line.Animates[i] != nil && lineOther.Animates[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if line.Animates[i] != lineOther.Animates[i] {
 					AnimatesDifferent = true
 					break
@@ -2372,7 +2386,8 @@ func (line *Line) GongDiff(stage *Stage, lineOther *Line) (diffs []string) {
 		}
 	}
 	if AnimatesDifferent {
-		diffs = append(diffs, line.GongMarshallField(stage, "Animates"))
+		ops := Diff(stage, line, lineOther, "Animates", lineOther.Animates, line.Animates)
+		diffs = append(diffs, ops)
 	}
 	if line.MouseClickX != lineOther.MouseClickX {
 		diffs = append(diffs, line.GongMarshallField(stage, "MouseClickX"))
@@ -2462,7 +2477,7 @@ func (link *Link) GongDiff(stage *Stage, linkOther *Link) (diffs []string) {
 				TextAtArrowStartDifferent = true
 				break
 			} else if link.TextAtArrowStart[i] != nil && linkOther.TextAtArrowStart[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if link.TextAtArrowStart[i] != linkOther.TextAtArrowStart[i] {
 					TextAtArrowStartDifferent = true
 					break
@@ -2471,7 +2486,8 @@ func (link *Link) GongDiff(stage *Stage, linkOther *Link) (diffs []string) {
 		}
 	}
 	if TextAtArrowStartDifferent {
-		diffs = append(diffs, link.GongMarshallField(stage, "TextAtArrowStart"))
+		ops := Diff(stage, link, linkOther, "TextAtArrowStart", linkOther.TextAtArrowStart, link.TextAtArrowStart)
+		diffs = append(diffs, ops)
 	}
 	TextAtArrowEndDifferent := false
 	if len(link.TextAtArrowEnd) != len(linkOther.TextAtArrowEnd) {
@@ -2482,7 +2498,7 @@ func (link *Link) GongDiff(stage *Stage, linkOther *Link) (diffs []string) {
 				TextAtArrowEndDifferent = true
 				break
 			} else if link.TextAtArrowEnd[i] != nil && linkOther.TextAtArrowEnd[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if link.TextAtArrowEnd[i] != linkOther.TextAtArrowEnd[i] {
 					TextAtArrowEndDifferent = true
 					break
@@ -2491,7 +2507,8 @@ func (link *Link) GongDiff(stage *Stage, linkOther *Link) (diffs []string) {
 		}
 	}
 	if TextAtArrowEndDifferent {
-		diffs = append(diffs, link.GongMarshallField(stage, "TextAtArrowEnd"))
+		ops := Diff(stage, link, linkOther, "TextAtArrowEnd", linkOther.TextAtArrowEnd, link.TextAtArrowEnd)
+		diffs = append(diffs, ops)
 	}
 	ControlPointsDifferent := false
 	if len(link.ControlPoints) != len(linkOther.ControlPoints) {
@@ -2502,7 +2519,7 @@ func (link *Link) GongDiff(stage *Stage, linkOther *Link) (diffs []string) {
 				ControlPointsDifferent = true
 				break
 			} else if link.ControlPoints[i] != nil && linkOther.ControlPoints[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if link.ControlPoints[i] != linkOther.ControlPoints[i] {
 					ControlPointsDifferent = true
 					break
@@ -2511,7 +2528,8 @@ func (link *Link) GongDiff(stage *Stage, linkOther *Link) (diffs []string) {
 		}
 	}
 	if ControlPointsDifferent {
-		diffs = append(diffs, link.GongMarshallField(stage, "ControlPoints"))
+		ops := Diff(stage, link, linkOther, "ControlPoints", linkOther.ControlPoints, link.ControlPoints)
+		diffs = append(diffs, ops)
 	}
 	if link.Color != linkOther.Color {
 		diffs = append(diffs, link.GongMarshallField(stage, "Color"))
@@ -2623,7 +2641,7 @@ func (linkanchoredtext *LinkAnchoredText) GongDiff(stage *Stage, linkanchoredtex
 				AnimatesDifferent = true
 				break
 			} else if linkanchoredtext.Animates[i] != nil && linkanchoredtextOther.Animates[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if linkanchoredtext.Animates[i] != linkanchoredtextOther.Animates[i] {
 					AnimatesDifferent = true
 					break
@@ -2632,7 +2650,8 @@ func (linkanchoredtext *LinkAnchoredText) GongDiff(stage *Stage, linkanchoredtex
 		}
 	}
 	if AnimatesDifferent {
-		diffs = append(diffs, linkanchoredtext.GongMarshallField(stage, "Animates"))
+		ops := Diff(stage, linkanchoredtext, linkanchoredtextOther, "Animates", linkanchoredtextOther.Animates, linkanchoredtext.Animates)
+		diffs = append(diffs, ops)
 	}
 
 	return
@@ -2681,7 +2700,7 @@ func (path *Path) GongDiff(stage *Stage, pathOther *Path) (diffs []string) {
 				AnimatesDifferent = true
 				break
 			} else if path.Animates[i] != nil && pathOther.Animates[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if path.Animates[i] != pathOther.Animates[i] {
 					AnimatesDifferent = true
 					break
@@ -2690,7 +2709,8 @@ func (path *Path) GongDiff(stage *Stage, pathOther *Path) (diffs []string) {
 		}
 	}
 	if AnimatesDifferent {
-		diffs = append(diffs, path.GongMarshallField(stage, "Animates"))
+		ops := Diff(stage, path, pathOther, "Animates", pathOther.Animates, path.Animates)
+		diffs = append(diffs, ops)
 	}
 
 	return
@@ -2756,7 +2776,7 @@ func (polygone *Polygone) GongDiff(stage *Stage, polygoneOther *Polygone) (diffs
 				AnimatesDifferent = true
 				break
 			} else if polygone.Animates[i] != nil && polygoneOther.Animates[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if polygone.Animates[i] != polygoneOther.Animates[i] {
 					AnimatesDifferent = true
 					break
@@ -2765,7 +2785,8 @@ func (polygone *Polygone) GongDiff(stage *Stage, polygoneOther *Polygone) (diffs
 		}
 	}
 	if AnimatesDifferent {
-		diffs = append(diffs, polygone.GongMarshallField(stage, "Animates"))
+		ops := Diff(stage, polygone, polygoneOther, "Animates", polygoneOther.Animates, polygone.Animates)
+		diffs = append(diffs, ops)
 	}
 
 	return
@@ -2814,7 +2835,7 @@ func (polyline *Polyline) GongDiff(stage *Stage, polylineOther *Polyline) (diffs
 				AnimatesDifferent = true
 				break
 			} else if polyline.Animates[i] != nil && polylineOther.Animates[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if polyline.Animates[i] != polylineOther.Animates[i] {
 					AnimatesDifferent = true
 					break
@@ -2823,7 +2844,8 @@ func (polyline *Polyline) GongDiff(stage *Stage, polylineOther *Polyline) (diffs
 		}
 	}
 	if AnimatesDifferent {
-		diffs = append(diffs, polyline.GongMarshallField(stage, "Animates"))
+		ops := Diff(stage, polyline, polylineOther, "Animates", polylineOther.Animates, polyline.Animates)
+		diffs = append(diffs, ops)
 	}
 
 	return
@@ -2884,7 +2906,7 @@ func (rect *Rect) GongDiff(stage *Stage, rectOther *Rect) (diffs []string) {
 				HoveringTriggerDifferent = true
 				break
 			} else if rect.HoveringTrigger[i] != nil && rectOther.HoveringTrigger[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if rect.HoveringTrigger[i] != rectOther.HoveringTrigger[i] {
 					HoveringTriggerDifferent = true
 					break
@@ -2893,7 +2915,8 @@ func (rect *Rect) GongDiff(stage *Stage, rectOther *Rect) (diffs []string) {
 		}
 	}
 	if HoveringTriggerDifferent {
-		diffs = append(diffs, rect.GongMarshallField(stage, "HoveringTrigger"))
+		ops := Diff(stage, rect, rectOther, "HoveringTrigger", rectOther.HoveringTrigger, rect.HoveringTrigger)
+		diffs = append(diffs, ops)
 	}
 	DisplayConditionsDifferent := false
 	if len(rect.DisplayConditions) != len(rectOther.DisplayConditions) {
@@ -2904,7 +2927,7 @@ func (rect *Rect) GongDiff(stage *Stage, rectOther *Rect) (diffs []string) {
 				DisplayConditionsDifferent = true
 				break
 			} else if rect.DisplayConditions[i] != nil && rectOther.DisplayConditions[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if rect.DisplayConditions[i] != rectOther.DisplayConditions[i] {
 					DisplayConditionsDifferent = true
 					break
@@ -2913,7 +2936,8 @@ func (rect *Rect) GongDiff(stage *Stage, rectOther *Rect) (diffs []string) {
 		}
 	}
 	if DisplayConditionsDifferent {
-		diffs = append(diffs, rect.GongMarshallField(stage, "DisplayConditions"))
+		ops := Diff(stage, rect, rectOther, "DisplayConditions", rectOther.DisplayConditions, rect.DisplayConditions)
+		diffs = append(diffs, ops)
 	}
 	AnimationsDifferent := false
 	if len(rect.Animations) != len(rectOther.Animations) {
@@ -2924,7 +2948,7 @@ func (rect *Rect) GongDiff(stage *Stage, rectOther *Rect) (diffs []string) {
 				AnimationsDifferent = true
 				break
 			} else if rect.Animations[i] != nil && rectOther.Animations[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if rect.Animations[i] != rectOther.Animations[i] {
 					AnimationsDifferent = true
 					break
@@ -2933,7 +2957,8 @@ func (rect *Rect) GongDiff(stage *Stage, rectOther *Rect) (diffs []string) {
 		}
 	}
 	if AnimationsDifferent {
-		diffs = append(diffs, rect.GongMarshallField(stage, "Animations"))
+		ops := Diff(stage, rect, rectOther, "Animations", rectOther.Animations, rect.Animations)
+		diffs = append(diffs, ops)
 	}
 	if rect.IsSelectable != rectOther.IsSelectable {
 		diffs = append(diffs, rect.GongMarshallField(stage, "IsSelectable"))
@@ -2983,7 +3008,7 @@ func (rect *Rect) GongDiff(stage *Stage, rectOther *Rect) (diffs []string) {
 				RectAnchoredTextsDifferent = true
 				break
 			} else if rect.RectAnchoredTexts[i] != nil && rectOther.RectAnchoredTexts[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if rect.RectAnchoredTexts[i] != rectOther.RectAnchoredTexts[i] {
 					RectAnchoredTextsDifferent = true
 					break
@@ -2992,7 +3017,8 @@ func (rect *Rect) GongDiff(stage *Stage, rectOther *Rect) (diffs []string) {
 		}
 	}
 	if RectAnchoredTextsDifferent {
-		diffs = append(diffs, rect.GongMarshallField(stage, "RectAnchoredTexts"))
+		ops := Diff(stage, rect, rectOther, "RectAnchoredTexts", rectOther.RectAnchoredTexts, rect.RectAnchoredTexts)
+		diffs = append(diffs, ops)
 	}
 	RectAnchoredRectsDifferent := false
 	if len(rect.RectAnchoredRects) != len(rectOther.RectAnchoredRects) {
@@ -3003,7 +3029,7 @@ func (rect *Rect) GongDiff(stage *Stage, rectOther *Rect) (diffs []string) {
 				RectAnchoredRectsDifferent = true
 				break
 			} else if rect.RectAnchoredRects[i] != nil && rectOther.RectAnchoredRects[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if rect.RectAnchoredRects[i] != rectOther.RectAnchoredRects[i] {
 					RectAnchoredRectsDifferent = true
 					break
@@ -3012,7 +3038,8 @@ func (rect *Rect) GongDiff(stage *Stage, rectOther *Rect) (diffs []string) {
 		}
 	}
 	if RectAnchoredRectsDifferent {
-		diffs = append(diffs, rect.GongMarshallField(stage, "RectAnchoredRects"))
+		ops := Diff(stage, rect, rectOther, "RectAnchoredRects", rectOther.RectAnchoredRects, rect.RectAnchoredRects)
+		diffs = append(diffs, ops)
 	}
 	RectAnchoredPathsDifferent := false
 	if len(rect.RectAnchoredPaths) != len(rectOther.RectAnchoredPaths) {
@@ -3023,7 +3050,7 @@ func (rect *Rect) GongDiff(stage *Stage, rectOther *Rect) (diffs []string) {
 				RectAnchoredPathsDifferent = true
 				break
 			} else if rect.RectAnchoredPaths[i] != nil && rectOther.RectAnchoredPaths[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if rect.RectAnchoredPaths[i] != rectOther.RectAnchoredPaths[i] {
 					RectAnchoredPathsDifferent = true
 					break
@@ -3032,7 +3059,8 @@ func (rect *Rect) GongDiff(stage *Stage, rectOther *Rect) (diffs []string) {
 		}
 	}
 	if RectAnchoredPathsDifferent {
-		diffs = append(diffs, rect.GongMarshallField(stage, "RectAnchoredPaths"))
+		ops := Diff(stage, rect, rectOther, "RectAnchoredPaths", rectOther.RectAnchoredPaths, rect.RectAnchoredPaths)
+		diffs = append(diffs, ops)
 	}
 	if rect.ChangeColorWhenHovered != rectOther.ChangeColorWhenHovered {
 		diffs = append(diffs, rect.GongMarshallField(stage, "ChangeColorWhenHovered"))
@@ -3274,7 +3302,7 @@ func (rectanchoredtext *RectAnchoredText) GongDiff(stage *Stage, rectanchoredtex
 				AnimatesDifferent = true
 				break
 			} else if rectanchoredtext.Animates[i] != nil && rectanchoredtextOther.Animates[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if rectanchoredtext.Animates[i] != rectanchoredtextOther.Animates[i] {
 					AnimatesDifferent = true
 					break
@@ -3283,7 +3311,8 @@ func (rectanchoredtext *RectAnchoredText) GongDiff(stage *Stage, rectanchoredtex
 		}
 	}
 	if AnimatesDifferent {
-		diffs = append(diffs, rectanchoredtext.GongMarshallField(stage, "Animates"))
+		ops := Diff(stage, rectanchoredtext, rectanchoredtextOther, "Animates", rectanchoredtextOther.Animates, rectanchoredtext.Animates)
+		diffs = append(diffs, ops)
 	}
 
 	return
@@ -3357,7 +3386,7 @@ func (svg *SVG) GongDiff(stage *Stage, svgOther *SVG) (diffs []string) {
 				LayersDifferent = true
 				break
 			} else if svg.Layers[i] != nil && svgOther.Layers[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if svg.Layers[i] != svgOther.Layers[i] {
 					LayersDifferent = true
 					break
@@ -3366,7 +3395,8 @@ func (svg *SVG) GongDiff(stage *Stage, svgOther *SVG) (diffs []string) {
 		}
 	}
 	if LayersDifferent {
-		diffs = append(diffs, svg.GongMarshallField(stage, "Layers"))
+		ops := Diff(stage, svg, svgOther, "Layers", svgOther.Layers, svg.Layers)
+		diffs = append(diffs, ops)
 	}
 	if svg.DrawingState != svgOther.DrawingState {
 		diffs = append(diffs, svg.GongMarshallField(stage, "DrawingState"))
@@ -3497,7 +3527,7 @@ func (text *Text) GongDiff(stage *Stage, textOther *Text) (diffs []string) {
 				AnimatesDifferent = true
 				break
 			} else if text.Animates[i] != nil && textOther.Animates[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if text.Animates[i] != textOther.Animates[i] {
 					AnimatesDifferent = true
 					break
@@ -3506,8 +3536,86 @@ func (text *Text) GongDiff(stage *Stage, textOther *Text) (diffs []string) {
 		}
 	}
 	if AnimatesDifferent {
-		diffs = append(diffs, text.GongMarshallField(stage, "Animates"))
+		ops := Diff(stage, text, textOther, "Animates", textOther.Animates, text.Animates)
+		diffs = append(diffs, ops)
 	}
 
 	return
+}
+
+// Diff returns the sequence of operations to transform oldSlice into newSlice.
+// It requires type T to be comparable (e.g., pointers, ints, strings).
+func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
+	m, n := len(oldSlice), len(newSlice)
+
+	// 1. Build the LCS (Longest Common Subsequence) Matrix
+	// This helps us find the "anchor" elements that shouldn't move.
+	dp := make([][]int, m+1)
+	for i := range dp {
+		dp[i] = make([]int, n+1)
+	}
+
+	for i := 0; i < m; i++ {
+		for j := 0; j < n; j++ {
+			if oldSlice[i] == newSlice[j] {
+				dp[i+1][j+1] = dp[i][j] + 1
+			} else {
+				// Take the maximum of previous options
+				if dp[i][j+1] > dp[i+1][j] {
+					dp[i+1][j+1] = dp[i][j+1]
+				} else {
+					dp[i+1][j+1] = dp[i+1][j]
+				}
+			}
+		}
+	}
+
+	// 2. Backtrack to find which indices in oldSlice are part of the LCS
+	// We use a map for O(1) lookups.
+	keptIndices := make(map[int]bool)
+	i, j := m, n
+	for i > 0 && j > 0 {
+		if oldSlice[i-1] == newSlice[j-1] {
+			keptIndices[i-1] = true
+			i--
+			j--
+		} else if dp[i-1][j] > dp[i][j-1] {
+			i--
+		} else {
+			j--
+		}
+	}
+
+	// 3. PHASE 1: Generate Deletions
+	// MUST go from High Index -> Low Index to preserve validity of lower indices.
+	for k := m - 1; k >= 0; k-- {
+		if !keptIndices[k] {
+			ops += fmt.Sprintf("\t%s.%s = slices.Delete( %s.%s, %d, %d)\n", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, k+1)
+		}
+	}
+
+	// 4. PHASE 2: Generate Insertions
+	// We simulate the state of the slice after deletions to determine insertion points.
+	// The 'current' slice essentially consists of only the kept LCS items.
+
+	// Create a temporary view of what's left after deletions for tracking matches
+	var currentLCS []T2
+	for k := 0; k < m; k++ {
+		if keptIndices[k] {
+			currentLCS = append(currentLCS, oldSlice[k])
+		}
+	}
+
+	lcsIdx := 0
+	// Iterate through the NEW slice. If it matches the current LCS head, we keep it.
+	// If it doesn't match, it must be inserted here.
+	for k, targetVal := range newSlice {
+		if lcsIdx < len(currentLCS) && currentLCS[lcsIdx] == targetVal {
+			lcsIdx++
+		} else {
+			ops += fmt.Sprintf("\t%s.%s = slices.Insert( %s.%s, %d, %s)\n",  a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, targetVal.GongGetIdentifier(stage))
+		}
+	}
+
+	return ops
 }
