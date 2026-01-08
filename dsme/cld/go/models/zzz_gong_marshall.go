@@ -1251,8 +1251,6 @@ func (influenceshape *InfluenceShape) GongMarshallField(stage *Stage, fieldName 
 // insertion point for marshall all fields methods
 func (category1 *Category1) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += category1.GongMarshallField(stage, "Name")
 	}
@@ -1260,8 +1258,6 @@ func (category1 *Category1) GongMarshallAllFields(stage *Stage) (initializerStat
 }
 func (category1shape *Category1Shape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += category1shape.GongMarshallField(stage, "Name")
 		pointersInitializesStatements += category1shape.GongMarshallField(stage, "Category1")
@@ -1274,8 +1270,6 @@ func (category1shape *Category1Shape) GongMarshallAllFields(stage *Stage) (initi
 }
 func (category2 *Category2) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += category2.GongMarshallField(stage, "Name")
 	}
@@ -1283,8 +1277,6 @@ func (category2 *Category2) GongMarshallAllFields(stage *Stage) (initializerStat
 }
 func (category2shape *Category2Shape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += category2shape.GongMarshallField(stage, "Name")
 		pointersInitializesStatements += category2shape.GongMarshallField(stage, "Category2")
@@ -1297,8 +1289,6 @@ func (category2shape *Category2Shape) GongMarshallAllFields(stage *Stage) (initi
 }
 func (category3 *Category3) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += category3.GongMarshallField(stage, "Name")
 	}
@@ -1306,8 +1296,6 @@ func (category3 *Category3) GongMarshallAllFields(stage *Stage) (initializerStat
 }
 func (category3shape *Category3Shape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += category3shape.GongMarshallField(stage, "Name")
 		pointersInitializesStatements += category3shape.GongMarshallField(stage, "Category3")
@@ -1320,8 +1308,6 @@ func (category3shape *Category3Shape) GongMarshallAllFields(stage *Stage) (initi
 }
 func (controlpointshape *ControlPointShape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += controlpointshape.GongMarshallField(stage, "Name")
 		initializerStatements += controlpointshape.GongMarshallField(stage, "X_Relative")
@@ -1332,8 +1318,6 @@ func (controlpointshape *ControlPointShape) GongMarshallAllFields(stage *Stage) 
 }
 func (desk *Desk) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += desk.GongMarshallField(stage, "Name")
 		pointersInitializesStatements += desk.GongMarshallField(stage, "SelectedDiagram")
@@ -1342,8 +1326,6 @@ func (desk *Desk) GongMarshallAllFields(stage *Stage) (initializerStatements str
 }
 func (diagram *Diagram) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += diagram.GongMarshallField(stage, "Name")
 		pointersInitializesStatements += diagram.GongMarshallField(stage, "Category1Shapes")
@@ -1404,8 +1386,6 @@ func (diagram *Diagram) GongMarshallAllFields(stage *Stage) (initializerStatemen
 }
 func (influence *Influence) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += influence.GongMarshallField(stage, "Name")
 		pointersInitializesStatements += influence.GongMarshallField(stage, "SourceCategory1")
@@ -1421,8 +1401,6 @@ func (influence *Influence) GongMarshallAllFields(stage *Stage) (initializerStat
 }
 func (influenceshape *InfluenceShape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += influenceshape.GongMarshallField(stage, "Name")
 		pointersInitializesStatements += influenceshape.GongMarshallField(stage, "Influence")

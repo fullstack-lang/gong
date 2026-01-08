@@ -474,8 +474,6 @@ func (slider *Slider) GongMarshallField(stage *Stage, fieldName string) (res str
 // insertion point for marshall all fields methods
 func (checkbox *Checkbox) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += checkbox.GongMarshallField(stage, "Name")
 		initializerStatements += checkbox.GongMarshallField(stage, "ValueBool")
@@ -486,8 +484,6 @@ func (checkbox *Checkbox) GongMarshallAllFields(stage *Stage) (initializerStatem
 }
 func (group *Group) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += group.GongMarshallField(stage, "Name")
 		initializerStatements += group.GongMarshallField(stage, "Percentage")
@@ -498,8 +494,6 @@ func (group *Group) GongMarshallAllFields(stage *Stage) (initializerStatements s
 }
 func (layout *Layout) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += layout.GongMarshallField(stage, "Name")
 		pointersInitializesStatements += layout.GongMarshallField(stage, "Groups")
@@ -508,8 +502,6 @@ func (layout *Layout) GongMarshallAllFields(stage *Stage) (initializerStatements
 }
 func (slider *Slider) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += slider.GongMarshallField(stage, "Name")
 		initializerStatements += slider.GongMarshallField(stage, "IsFloat64")

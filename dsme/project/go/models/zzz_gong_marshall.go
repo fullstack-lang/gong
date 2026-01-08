@@ -1731,8 +1731,6 @@ func (taskshape *TaskShape) GongMarshallField(stage *Stage, fieldName string) (r
 // insertion point for marshall all fields methods
 func (diagram *Diagram) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += diagram.GongMarshallField(stage, "Name")
 		initializerStatements += diagram.GongMarshallField(stage, "IsChecked")
@@ -1765,8 +1763,6 @@ func (diagram *Diagram) GongMarshallAllFields(stage *Stage) (initializerStatemen
 }
 func (note *Note) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += note.GongMarshallField(stage, "Name")
 		pointersInitializesStatements += note.GongMarshallField(stage, "Products")
@@ -1777,8 +1773,6 @@ func (note *Note) GongMarshallAllFields(stage *Stage) (initializerStatements str
 }
 func (noteproductshape *NoteProductShape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += noteproductshape.GongMarshallField(stage, "Name")
 		pointersInitializesStatements += noteproductshape.GongMarshallField(stage, "Note")
@@ -1793,8 +1787,6 @@ func (noteproductshape *NoteProductShape) GongMarshallAllFields(stage *Stage) (i
 }
 func (noteshape *NoteShape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += noteshape.GongMarshallField(stage, "Name")
 		pointersInitializesStatements += noteshape.GongMarshallField(stage, "Note")
@@ -1808,8 +1800,6 @@ func (noteshape *NoteShape) GongMarshallAllFields(stage *Stage) (initializerStat
 }
 func (notetaskshape *NoteTaskShape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += notetaskshape.GongMarshallField(stage, "Name")
 		pointersInitializesStatements += notetaskshape.GongMarshallField(stage, "Note")
@@ -1824,8 +1814,6 @@ func (notetaskshape *NoteTaskShape) GongMarshallAllFields(stage *Stage) (initial
 }
 func (product *Product) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += product.GongMarshallField(stage, "Name")
 		initializerStatements += product.GongMarshallField(stage, "Description")
@@ -1839,8 +1827,6 @@ func (product *Product) GongMarshallAllFields(stage *Stage) (initializerStatemen
 }
 func (productcompositionshape *ProductCompositionShape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += productcompositionshape.GongMarshallField(stage, "Name")
 		pointersInitializesStatements += productcompositionshape.GongMarshallField(stage, "Product")
@@ -1854,8 +1840,6 @@ func (productcompositionshape *ProductCompositionShape) GongMarshallAllFields(st
 }
 func (productshape *ProductShape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += productshape.GongMarshallField(stage, "Name")
 		pointersInitializesStatements += productshape.GongMarshallField(stage, "Product")
@@ -1869,8 +1853,6 @@ func (productshape *ProductShape) GongMarshallAllFields(stage *Stage) (initializ
 }
 func (project *Project) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += project.GongMarshallField(stage, "Name")
 		pointersInitializesStatements += project.GongMarshallField(stage, "RootProducts")
@@ -1888,8 +1870,6 @@ func (project *Project) GongMarshallAllFields(stage *Stage) (initializerStatemen
 }
 func (root *Root) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += root.GongMarshallField(stage, "Name")
 		pointersInitializesStatements += root.GongMarshallField(stage, "Projects")
@@ -1901,8 +1881,6 @@ func (root *Root) GongMarshallAllFields(stage *Stage) (initializerStatements str
 }
 func (task *Task) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += task.GongMarshallField(stage, "Name")
 		initializerStatements += task.GongMarshallField(stage, "Description")
@@ -1920,8 +1898,6 @@ func (task *Task) GongMarshallAllFields(stage *Stage) (initializerStatements str
 }
 func (taskcompositionshape *TaskCompositionShape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += taskcompositionshape.GongMarshallField(stage, "Name")
 		pointersInitializesStatements += taskcompositionshape.GongMarshallField(stage, "Task")
@@ -1935,8 +1911,6 @@ func (taskcompositionshape *TaskCompositionShape) GongMarshallAllFields(stage *S
 }
 func (taskinputshape *TaskInputShape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += taskinputshape.GongMarshallField(stage, "Name")
 		pointersInitializesStatements += taskinputshape.GongMarshallField(stage, "Task")
@@ -1951,8 +1925,6 @@ func (taskinputshape *TaskInputShape) GongMarshallAllFields(stage *Stage) (initi
 }
 func (taskoutputshape *TaskOutputShape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += taskoutputshape.GongMarshallField(stage, "Name")
 		pointersInitializesStatements += taskoutputshape.GongMarshallField(stage, "Task")
@@ -1967,8 +1939,6 @@ func (taskoutputshape *TaskOutputShape) GongMarshallAllFields(stage *Stage) (ini
 }
 func (taskshape *TaskShape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += taskshape.GongMarshallField(stage, "Name")
 		pointersInitializesStatements += taskshape.GongMarshallField(stage, "Task")

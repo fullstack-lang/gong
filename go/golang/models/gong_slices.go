@@ -42,7 +42,7 @@ func (stage *Stage) ComputeDifference() {
 	var lenNewInstances int
 	var lenModifiedInstances int
 	var lenDeletedInstances int
-	
+
 	var newInstancesStmt string
 	_ = newInstancesStmt
 	var fieldsEditStmt string
@@ -50,14 +50,22 @@ func (stage *Stage) ComputeDifference() {
 	var deletedInstancesStmt string
 	_ = deletedInstancesStmt
 
+	// first clean the staging area to remove non staged instances
+	// from pointers fields and slices of pointers fields
+	stage.Clean()
+
 	// insertion point per named struct{{` + string(rune(GongSliceGongComputeDifference)) + `}}
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
+		notif := newInstancesStmt+fieldsEditStmt+deletedInstancesStmt
+		notif += fmt.Sprintf("\n\t// %s", time.Now().Format(time.RFC3339Nano))
+		notif += fmt.Sprintf("\n\tstage.Commit()")
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().AddNotification(
 				time.Now(),
-				newInstancesStmt+fieldsEditStmt+deletedInstancesStmt,
+				notif,
 			)
+			stage.GetProbeIF().CommitNotificationTable()
 		}
 	}
 }
@@ -139,7 +147,7 @@ func ({{structname}} *{{Structname}}) GongCopy() GongstructIF {
 		} else {
 			diffs := {{structname}}.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", {{structname}}.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", {{structname}}.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}

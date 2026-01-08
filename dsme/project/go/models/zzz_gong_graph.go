@@ -1913,14 +1913,14 @@ func (noteproductshape *NoteProductShape) GongDiff(stage *Stage, noteproductshap
 		diffs = append(diffs, noteproductshape.GongMarshallField(stage, "Name"))
 	}
 	if (noteproductshape.Note == nil) != (noteproductshapeOther.Note == nil) {
-		diffs = append(diffs, "Note")
+		diffs = append(diffs, noteproductshape.GongMarshallField(stage, "Note"))
 	} else if noteproductshape.Note != nil && noteproductshapeOther.Note != nil {
 		if noteproductshape.Note != noteproductshapeOther.Note {
 			diffs = append(diffs, noteproductshape.GongMarshallField(stage, "Note"))
 		}
 	}
 	if (noteproductshape.Product == nil) != (noteproductshapeOther.Product == nil) {
-		diffs = append(diffs, "Product")
+		diffs = append(diffs, noteproductshape.GongMarshallField(stage, "Product"))
 	} else if noteproductshape.Product != nil && noteproductshapeOther.Product != nil {
 		if noteproductshape.Product != noteproductshapeOther.Product {
 			diffs = append(diffs, noteproductshape.GongMarshallField(stage, "Product"))
@@ -1953,7 +1953,7 @@ func (noteshape *NoteShape) GongDiff(stage *Stage, noteshapeOther *NoteShape) (d
 		diffs = append(diffs, noteshape.GongMarshallField(stage, "Name"))
 	}
 	if (noteshape.Note == nil) != (noteshapeOther.Note == nil) {
-		diffs = append(diffs, "Note")
+		diffs = append(diffs, noteshape.GongMarshallField(stage, "Note"))
 	} else if noteshape.Note != nil && noteshapeOther.Note != nil {
 		if noteshape.Note != noteshapeOther.Note {
 			diffs = append(diffs, noteshape.GongMarshallField(stage, "Note"))
@@ -1986,14 +1986,14 @@ func (notetaskshape *NoteTaskShape) GongDiff(stage *Stage, notetaskshapeOther *N
 		diffs = append(diffs, notetaskshape.GongMarshallField(stage, "Name"))
 	}
 	if (notetaskshape.Note == nil) != (notetaskshapeOther.Note == nil) {
-		diffs = append(diffs, "Note")
+		diffs = append(diffs, notetaskshape.GongMarshallField(stage, "Note"))
 	} else if notetaskshape.Note != nil && notetaskshapeOther.Note != nil {
 		if notetaskshape.Note != notetaskshapeOther.Note {
 			diffs = append(diffs, notetaskshape.GongMarshallField(stage, "Note"))
 		}
 	}
 	if (notetaskshape.Task == nil) != (notetaskshapeOther.Task == nil) {
-		diffs = append(diffs, "Task")
+		diffs = append(diffs, notetaskshape.GongMarshallField(stage, "Task"))
 	} else if notetaskshape.Task != nil && notetaskshapeOther.Task != nil {
 		if notetaskshape.Task != notetaskshapeOther.Task {
 			diffs = append(diffs, notetaskshape.GongMarshallField(stage, "Task"))
@@ -2073,7 +2073,7 @@ func (productcompositionshape *ProductCompositionShape) GongDiff(stage *Stage, p
 		diffs = append(diffs, productcompositionshape.GongMarshallField(stage, "Name"))
 	}
 	if (productcompositionshape.Product == nil) != (productcompositionshapeOther.Product == nil) {
-		diffs = append(diffs, "Product")
+		diffs = append(diffs, productcompositionshape.GongMarshallField(stage, "Product"))
 	} else if productcompositionshape.Product != nil && productcompositionshapeOther.Product != nil {
 		if productcompositionshape.Product != productcompositionshapeOther.Product {
 			diffs = append(diffs, productcompositionshape.GongMarshallField(stage, "Product"))
@@ -2106,7 +2106,7 @@ func (productshape *ProductShape) GongDiff(stage *Stage, productshapeOther *Prod
 		diffs = append(diffs, productshape.GongMarshallField(stage, "Name"))
 	}
 	if (productshape.Product == nil) != (productshapeOther.Product == nil) {
-		diffs = append(diffs, "Product")
+		diffs = append(diffs, productshape.GongMarshallField(stage, "Product"))
 	} else if productshape.Product != nil && productshapeOther.Product != nil {
 		if productshape.Product != productshapeOther.Product {
 			diffs = append(diffs, productshape.GongMarshallField(stage, "Product"))
@@ -2424,7 +2424,7 @@ func (taskcompositionshape *TaskCompositionShape) GongDiff(stage *Stage, taskcom
 		diffs = append(diffs, taskcompositionshape.GongMarshallField(stage, "Name"))
 	}
 	if (taskcompositionshape.Task == nil) != (taskcompositionshapeOther.Task == nil) {
-		diffs = append(diffs, "Task")
+		diffs = append(diffs, taskcompositionshape.GongMarshallField(stage, "Task"))
 	} else if taskcompositionshape.Task != nil && taskcompositionshapeOther.Task != nil {
 		if taskcompositionshape.Task != taskcompositionshapeOther.Task {
 			diffs = append(diffs, taskcompositionshape.GongMarshallField(stage, "Task"))
@@ -2457,14 +2457,14 @@ func (taskinputshape *TaskInputShape) GongDiff(stage *Stage, taskinputshapeOther
 		diffs = append(diffs, taskinputshape.GongMarshallField(stage, "Name"))
 	}
 	if (taskinputshape.Task == nil) != (taskinputshapeOther.Task == nil) {
-		diffs = append(diffs, "Task")
+		diffs = append(diffs, taskinputshape.GongMarshallField(stage, "Task"))
 	} else if taskinputshape.Task != nil && taskinputshapeOther.Task != nil {
 		if taskinputshape.Task != taskinputshapeOther.Task {
 			diffs = append(diffs, taskinputshape.GongMarshallField(stage, "Task"))
 		}
 	}
 	if (taskinputshape.Product == nil) != (taskinputshapeOther.Product == nil) {
-		diffs = append(diffs, "Product")
+		diffs = append(diffs, taskinputshape.GongMarshallField(stage, "Product"))
 	} else if taskinputshape.Product != nil && taskinputshapeOther.Product != nil {
 		if taskinputshape.Product != taskinputshapeOther.Product {
 			diffs = append(diffs, taskinputshape.GongMarshallField(stage, "Product"))
@@ -2497,14 +2497,14 @@ func (taskoutputshape *TaskOutputShape) GongDiff(stage *Stage, taskoutputshapeOt
 		diffs = append(diffs, taskoutputshape.GongMarshallField(stage, "Name"))
 	}
 	if (taskoutputshape.Task == nil) != (taskoutputshapeOther.Task == nil) {
-		diffs = append(diffs, "Task")
+		diffs = append(diffs, taskoutputshape.GongMarshallField(stage, "Task"))
 	} else if taskoutputshape.Task != nil && taskoutputshapeOther.Task != nil {
 		if taskoutputshape.Task != taskoutputshapeOther.Task {
 			diffs = append(diffs, taskoutputshape.GongMarshallField(stage, "Task"))
 		}
 	}
 	if (taskoutputshape.Product == nil) != (taskoutputshapeOther.Product == nil) {
-		diffs = append(diffs, "Product")
+		diffs = append(diffs, taskoutputshape.GongMarshallField(stage, "Product"))
 	} else if taskoutputshape.Product != nil && taskoutputshapeOther.Product != nil {
 		if taskoutputshape.Product != taskoutputshapeOther.Product {
 			diffs = append(diffs, taskoutputshape.GongMarshallField(stage, "Product"))
@@ -2537,7 +2537,7 @@ func (taskshape *TaskShape) GongDiff(stage *Stage, taskshapeOther *TaskShape) (d
 		diffs = append(diffs, taskshape.GongMarshallField(stage, "Name"))
 	}
 	if (taskshape.Task == nil) != (taskshapeOther.Task == nil) {
-		diffs = append(diffs, "Task")
+		diffs = append(diffs, taskshape.GongMarshallField(stage, "Task"))
 	} else if taskshape.Task != nil && taskshapeOther.Task != nil {
 		if taskshape.Task != taskshapeOther.Task {
 			diffs = append(diffs, taskshape.GongMarshallField(stage, "Task"))
@@ -2609,7 +2609,7 @@ func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, o
 	// MUST go from High Index -> Low Index to preserve validity of lower indices.
 	for k := m - 1; k >= 0; k-- {
 		if !keptIndices[k] {
-			ops += fmt.Sprintf("\t%s.%s = slices.Delete( %s.%s, %d, %d)\n", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, k+1)
+			ops += fmt.Sprintf("\n\t%s.%s = slices.Delete( %s.%s, %d, %d)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, k+1)
 		}
 	}
 
@@ -2632,7 +2632,7 @@ func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, o
 		if lcsIdx < len(currentLCS) && currentLCS[lcsIdx] == targetVal {
 			lcsIdx++
 		} else {
-			ops += fmt.Sprintf("\t%s.%s = slices.Insert( %s.%s, %d, %s)\n",  a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, targetVal.GongGetIdentifier(stage))
+			ops += fmt.Sprintf("\n\t%s.%s = slices.Insert( %s.%s, %d, %s)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, targetVal.GongGetIdentifier(stage))
 		}
 	}
 

@@ -167,13 +167,17 @@ func (stage *Stage) ComputeDifference() {
 	var lenNewInstances int
 	var lenModifiedInstances int
 	var lenDeletedInstances int
-	
+
 	var newInstancesStmt string
 	_ = newInstancesStmt
 	var fieldsEditStmt string
 	_ = fieldsEditStmt
 	var deletedInstancesStmt string
 	_ = deletedInstancesStmt
+
+	// first clean the staging area to remove non staged instances
+	// from pointers fields and slices of pointers fields
+	stage.Clean()
 
 	// insertion point per named struct
 	var astructs_newInstances []*Astruct
@@ -190,7 +194,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := astruct.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", astruct.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", astruct.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -223,7 +227,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := astructbstruct2use.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", astructbstruct2use.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", astructbstruct2use.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -256,7 +260,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := astructbstructuse.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", astructbstructuse.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", astructbstructuse.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -289,7 +293,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := bstruct.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", bstruct.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", bstruct.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -322,7 +326,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := dstruct.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", dstruct.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", dstruct.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -355,7 +359,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := f0123456789012345678901234567890.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", f0123456789012345678901234567890.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", f0123456789012345678901234567890.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -388,7 +392,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := gstruct.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", gstruct.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", gstruct.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -409,11 +413,15 @@ func (stage *Stage) ComputeDifference() {
 	lenDeletedInstances += len(gstructs_deletedInstances)
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
+		notif := newInstancesStmt+fieldsEditStmt+deletedInstancesStmt
+		notif += fmt.Sprintf("\n\t// %s", time.Now().Format(time.RFC3339Nano))
+		notif += fmt.Sprintf("\n\tstage.Commit()")
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().AddNotification(
 				time.Now(),
-				newInstancesStmt+fieldsEditStmt+deletedInstancesStmt,
+				notif,
 			)
+			stage.GetProbeIF().CommitNotificationTable()
 		}
 	}
 }
