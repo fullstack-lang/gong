@@ -1567,14 +1567,14 @@ func (message *Message) GongDiff(stage *Stage, messageOther *Message) (diffs []s
 		diffs = append(diffs, message.GongMarshallField(stage, "IsSelected"))
 	}
 	if (message.MessageType == nil) != (messageOther.MessageType == nil) {
-		diffs = append(diffs, "MessageType")
+		diffs = append(diffs, message.GongMarshallField(stage, "MessageType"))
 	} else if message.MessageType != nil && messageOther.MessageType != nil {
 		if message.MessageType != messageOther.MessageType {
 			diffs = append(diffs, message.GongMarshallField(stage, "MessageType"))
 		}
 	}
 	if (message.OriginTransition == nil) != (messageOther.OriginTransition == nil) {
-		diffs = append(diffs, "OriginTransition")
+		diffs = append(diffs, message.GongMarshallField(stage, "OriginTransition"))
 	} else if message.OriginTransition != nil && messageOther.OriginTransition != nil {
 		if message.OriginTransition != messageOther.OriginTransition {
 			diffs = append(diffs, message.GongMarshallField(stage, "OriginTransition"))
@@ -1606,7 +1606,7 @@ func (object *Object) GongDiff(stage *Stage, objectOther *Object) (diffs []strin
 		diffs = append(diffs, object.GongMarshallField(stage, "Name"))
 	}
 	if (object.State == nil) != (objectOther.State == nil) {
-		diffs = append(diffs, "State")
+		diffs = append(diffs, object.GongMarshallField(stage, "State"))
 	} else if object.State != nil && objectOther.State != nil {
 		if object.State != objectOther.State {
 			diffs = append(diffs, object.GongMarshallField(stage, "State"))
@@ -1689,7 +1689,7 @@ func (state *State) GongDiff(stage *Stage, stateOther *State) (diffs []string) {
 		diffs = append(diffs, state.GongMarshallField(stage, "Name"))
 	}
 	if (state.Parent == nil) != (stateOther.Parent == nil) {
-		diffs = append(diffs, "Parent")
+		diffs = append(diffs, state.GongMarshallField(stage, "Parent"))
 	} else if state.Parent != nil && stateOther.Parent != nil {
 		if state.Parent != stateOther.Parent {
 			diffs = append(diffs, state.GongMarshallField(stage, "Parent"))
@@ -1747,7 +1747,7 @@ func (state *State) GongDiff(stage *Stage, stateOther *State) (diffs []string) {
 		diffs = append(diffs, ops)
 	}
 	if (state.Entry == nil) != (stateOther.Entry == nil) {
-		diffs = append(diffs, "Entry")
+		diffs = append(diffs, state.GongMarshallField(stage, "Entry"))
 	} else if state.Entry != nil && stateOther.Entry != nil {
 		if state.Entry != stateOther.Entry {
 			diffs = append(diffs, state.GongMarshallField(stage, "Entry"))
@@ -1775,7 +1775,7 @@ func (state *State) GongDiff(stage *Stage, stateOther *State) (diffs []string) {
 		diffs = append(diffs, ops)
 	}
 	if (state.Exit == nil) != (stateOther.Exit == nil) {
-		diffs = append(diffs, "Exit")
+		diffs = append(diffs, state.GongMarshallField(stage, "Exit"))
 	} else if state.Exit != nil && stateOther.Exit != nil {
 		if state.Exit != stateOther.Exit {
 			diffs = append(diffs, state.GongMarshallField(stage, "Exit"))
@@ -1838,7 +1838,7 @@ func (statemachine *StateMachine) GongDiff(stage *Stage, statemachineOther *Stat
 		diffs = append(diffs, ops)
 	}
 	if (statemachine.InitialState == nil) != (statemachineOther.InitialState == nil) {
-		diffs = append(diffs, "InitialState")
+		diffs = append(diffs, statemachine.GongMarshallField(stage, "InitialState"))
 	} else if statemachine.InitialState != nil && statemachineOther.InitialState != nil {
 		if statemachine.InitialState != statemachineOther.InitialState {
 			diffs = append(diffs, statemachine.GongMarshallField(stage, "InitialState"))
@@ -1856,7 +1856,7 @@ func (stateshape *StateShape) GongDiff(stage *Stage, stateshapeOther *StateShape
 		diffs = append(diffs, stateshape.GongMarshallField(stage, "Name"))
 	}
 	if (stateshape.State == nil) != (stateshapeOther.State == nil) {
-		diffs = append(diffs, "State")
+		diffs = append(diffs, stateshape.GongMarshallField(stage, "State"))
 	} else if stateshape.State != nil && stateshapeOther.State != nil {
 		if stateshape.State != stateshapeOther.State {
 			diffs = append(diffs, stateshape.GongMarshallField(stage, "State"))
@@ -1889,14 +1889,14 @@ func (transition *Transition) GongDiff(stage *Stage, transitionOther *Transition
 		diffs = append(diffs, transition.GongMarshallField(stage, "Name"))
 	}
 	if (transition.Start == nil) != (transitionOther.Start == nil) {
-		diffs = append(diffs, "Start")
+		diffs = append(diffs, transition.GongMarshallField(stage, "Start"))
 	} else if transition.Start != nil && transitionOther.Start != nil {
 		if transition.Start != transitionOther.Start {
 			diffs = append(diffs, transition.GongMarshallField(stage, "Start"))
 		}
 	}
 	if (transition.End == nil) != (transitionOther.End == nil) {
-		diffs = append(diffs, "End")
+		diffs = append(diffs, transition.GongMarshallField(stage, "End"))
 	} else if transition.End != nil && transitionOther.End != nil {
 		if transition.End != transitionOther.End {
 			diffs = append(diffs, transition.GongMarshallField(stage, "End"))
@@ -1945,7 +1945,7 @@ func (transition *Transition) GongDiff(stage *Stage, transitionOther *Transition
 		diffs = append(diffs, ops)
 	}
 	if (transition.Guard == nil) != (transitionOther.Guard == nil) {
-		diffs = append(diffs, "Guard")
+		diffs = append(diffs, transition.GongMarshallField(stage, "Guard"))
 	} else if transition.Guard != nil && transitionOther.Guard != nil {
 		if transition.Guard != transitionOther.Guard {
 			diffs = append(diffs, transition.GongMarshallField(stage, "Guard"))
@@ -1984,7 +1984,7 @@ func (transition_shape *Transition_Shape) GongDiff(stage *Stage, transition_shap
 		diffs = append(diffs, transition_shape.GongMarshallField(stage, "Name"))
 	}
 	if (transition_shape.Transition == nil) != (transition_shapeOther.Transition == nil) {
-		diffs = append(diffs, "Transition")
+		diffs = append(diffs, transition_shape.GongMarshallField(stage, "Transition"))
 	} else if transition_shape.Transition != nil && transition_shapeOther.Transition != nil {
 		if transition_shape.Transition != transition_shapeOther.Transition {
 			diffs = append(diffs, transition_shape.GongMarshallField(stage, "Transition"))
@@ -2056,7 +2056,7 @@ func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, o
 	// MUST go from High Index -> Low Index to preserve validity of lower indices.
 	for k := m - 1; k >= 0; k-- {
 		if !keptIndices[k] {
-			ops += fmt.Sprintf("\t%s.%s = slices.Delete( %s.%s, %d, %d)\n", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, k+1)
+			ops += fmt.Sprintf("\n\t%s.%s = slices.Delete( %s.%s, %d, %d)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, k+1)
 		}
 	}
 
@@ -2079,7 +2079,7 @@ func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, o
 		if lcsIdx < len(currentLCS) && currentLCS[lcsIdx] == targetVal {
 			lcsIdx++
 		} else {
-			ops += fmt.Sprintf("\t%s.%s = slices.Insert( %s.%s, %d, %s)\n",  a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, targetVal.GongGetIdentifier(stage))
+			ops += fmt.Sprintf("\n\t%s.%s = slices.Insert( %s.%s, %d, %s)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, targetVal.GongGetIdentifier(stage))
 		}
 	}
 

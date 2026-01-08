@@ -75,13 +75,17 @@ func (stage *Stage) ComputeDifference() {
 	var lenNewInstances int
 	var lenModifiedInstances int
 	var lenDeletedInstances int
-	
+
 	var newInstancesStmt string
 	_ = newInstancesStmt
 	var fieldsEditStmt string
 	_ = fieldsEditStmt
 	var deletedInstancesStmt string
 	_ = deletedInstancesStmt
+
+	// first clean the staging area to remove non staged instances
+	// from pointers fields and slices of pointers fields
+	stage.Clean()
 
 	// insertion point per named struct
 	var contents_newInstances []*Content
@@ -98,7 +102,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := content.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", content.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", content.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -131,7 +135,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := jpgimage.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", jpgimage.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", jpgimage.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -164,7 +168,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := pngimage.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", pngimage.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", pngimage.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -197,7 +201,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := svgimage.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", svgimage.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", svgimage.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -218,11 +222,15 @@ func (stage *Stage) ComputeDifference() {
 	lenDeletedInstances += len(svgimages_deletedInstances)
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
+		notif := newInstancesStmt+fieldsEditStmt+deletedInstancesStmt
+		notif += fmt.Sprintf("\n\t// %s", time.Now().Format(time.RFC3339Nano))
+		notif += fmt.Sprintf("\n\tstage.Commit()")
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().AddNotification(
 				time.Now(),
-				newInstancesStmt+fieldsEditStmt+deletedInstancesStmt,
+				notif,
 			)
+			stage.GetProbeIF().CommitNotificationTable()
 		}
 	}
 }

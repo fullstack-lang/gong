@@ -32,9 +32,7 @@ func _(stage *models.Stage) {
 	__AstructBstruct2Use__00000001_ := (&models.AstructBstruct2Use{Name: ``}).Stage(stage)
 
 	__Bstruct__00000000_ := (&models.Bstruct{Name: `B0`}).Stage(stage)
-	__Bstruct__00000001_ := (&models.Bstruct{Name: `B1`}).Stage(stage)
-	__Bstruct__00000003_ := (&models.Bstruct{Name: `B3`}).Stage(stage)
-	__Bstruct__00000004_ := (&models.Bstruct{Name: `B4`}).Stage(stage)
+	__Bstruct__00000004_ := (&models.Bstruct{Name: `vv`}).Stage(stage)
 
 	__Dstruct__00000000_ := (&models.Dstruct{Name: `D1`}).Stage(stage)
 
@@ -127,17 +125,7 @@ sqd
 	__Bstruct__00000000_.Floatfield2 = 0.000000
 	__Bstruct__00000000_.Intfield = 0
 
-	__Bstruct__00000001_.Name = `B1`
-	__Bstruct__00000001_.Floatfield = 0.000000
-	__Bstruct__00000001_.Floatfield2 = 0.000000
-	__Bstruct__00000001_.Intfield = 0
-
-	__Bstruct__00000003_.Name = `B3`
-	__Bstruct__00000003_.Floatfield = 0.000000
-	__Bstruct__00000003_.Floatfield2 = 0.000000
-	__Bstruct__00000003_.Intfield = 0
-
-	__Bstruct__00000004_.Name = `B4`
+	__Bstruct__00000004_.Name = `vv`
 	__Bstruct__00000004_.Floatfield = 0.000000
 	__Bstruct__00000004_.Floatfield2 = 0.000000
 	__Bstruct__00000004_.Intfield = 0
@@ -156,12 +144,9 @@ sqd
 
 	// insertion point for setup of pointers
 	__Astruct__00000000_.Anarrayofb = append(__Astruct__00000000_.Anarrayofb, __Bstruct__00000000_)
-	__Astruct__00000000_.Anarrayofb = append(__Astruct__00000000_.Anarrayofb, __Bstruct__00000001_)
-	__Astruct__00000000_.Anarrayofb = append(__Astruct__00000000_.Anarrayofb, __Bstruct__00000003_)
 	__Astruct__00000000_.Anarrayofb = append(__Astruct__00000000_.Anarrayofb, __Bstruct__00000004_)
 	__Astruct__00000000_.Anarrayofb2Use = append(__Astruct__00000000_.Anarrayofb2Use, __AstructBstruct2Use__00000001_)
 	__Astruct__00000001_.Anarrayofb = append(__Astruct__00000001_.Anarrayofb, __Bstruct__00000000_)
 	__AstructBstruct2Use__00000000_.Bstrcut2 = __Bstruct__00000000_
 	__AstructBstruct2Use__00000001_.Bstrcut2 = __Bstruct__00000000_
-	__Dstruct__00000000_.Anarrayofb = append(__Dstruct__00000000_.Anarrayofb, __Bstruct__00000001_)
 }

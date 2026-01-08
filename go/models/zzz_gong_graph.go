@@ -955,7 +955,7 @@ func (gongbasicfield *GongBasicField) GongDiff(stage *Stage, gongbasicfieldOther
 		diffs = append(diffs, gongbasicfield.GongMarshallField(stage, "BasicKindName"))
 	}
 	if (gongbasicfield.GongEnum == nil) != (gongbasicfieldOther.GongEnum == nil) {
-		diffs = append(diffs, "GongEnum")
+		diffs = append(diffs, gongbasicfield.GongMarshallField(stage, "GongEnum"))
 	} else if gongbasicfield.GongEnum != nil && gongbasicfieldOther.GongEnum != nil {
 		if gongbasicfield.GongEnum != gongbasicfieldOther.GongEnum {
 			diffs = append(diffs, gongbasicfield.GongMarshallField(stage, "GongEnum"))
@@ -1295,7 +1295,7 @@ func (pointertogongstructfield *PointerToGongStructField) GongDiff(stage *Stage,
 		diffs = append(diffs, pointertogongstructfield.GongMarshallField(stage, "Name"))
 	}
 	if (pointertogongstructfield.GongStruct == nil) != (pointertogongstructfieldOther.GongStruct == nil) {
-		diffs = append(diffs, "GongStruct")
+		diffs = append(diffs, pointertogongstructfield.GongMarshallField(stage, "GongStruct"))
 	} else if pointertogongstructfield.GongStruct != nil && pointertogongstructfieldOther.GongStruct != nil {
 		if pointertogongstructfield.GongStruct != pointertogongstructfieldOther.GongStruct {
 			diffs = append(diffs, pointertogongstructfield.GongMarshallField(stage, "GongStruct"))
@@ -1322,7 +1322,7 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongDiff
 		diffs = append(diffs, sliceofpointertogongstructfield.GongMarshallField(stage, "Name"))
 	}
 	if (sliceofpointertogongstructfield.GongStruct == nil) != (sliceofpointertogongstructfieldOther.GongStruct == nil) {
-		diffs = append(diffs, "GongStruct")
+		diffs = append(diffs, sliceofpointertogongstructfield.GongMarshallField(stage, "GongStruct"))
 	} else if sliceofpointertogongstructfield.GongStruct != nil && sliceofpointertogongstructfieldOther.GongStruct != nil {
 		if sliceofpointertogongstructfield.GongStruct != sliceofpointertogongstructfieldOther.GongStruct {
 			diffs = append(diffs, sliceofpointertogongstructfield.GongMarshallField(stage, "GongStruct"))
@@ -1385,7 +1385,7 @@ func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, o
 	// MUST go from High Index -> Low Index to preserve validity of lower indices.
 	for k := m - 1; k >= 0; k-- {
 		if !keptIndices[k] {
-			ops += fmt.Sprintf("\t%s.%s = slices.Delete( %s.%s, %d, %d)\n", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, k+1)
+			ops += fmt.Sprintf("\n\t%s.%s = slices.Delete( %s.%s, %d, %d)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, k+1)
 		}
 	}
 
@@ -1408,7 +1408,7 @@ func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, o
 		if lcsIdx < len(currentLCS) && currentLCS[lcsIdx] == targetVal {
 			lcsIdx++
 		} else {
-			ops += fmt.Sprintf("\t%s.%s = slices.Insert( %s.%s, %d, %s)\n",  a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, targetVal.GongGetIdentifier(stage))
+			ops += fmt.Sprintf("\n\t%s.%s = slices.Insert( %s.%s, %d, %s)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, targetVal.GongGetIdentifier(stage))
 		}
 	}
 

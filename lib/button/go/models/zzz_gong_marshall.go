@@ -538,8 +538,6 @@ func (layout *Layout) GongMarshallField(stage *Stage, fieldName string) (res str
 // insertion point for marshall all fields methods
 func (button *Button) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += button.GongMarshallField(stage, "Name")
 		initializerStatements += button.GongMarshallField(stage, "Label")
@@ -553,8 +551,6 @@ func (button *Button) GongMarshallAllFields(stage *Stage) (initializerStatements
 }
 func (buttontoggle *ButtonToggle) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += buttontoggle.GongMarshallField(stage, "Name")
 		initializerStatements += buttontoggle.GongMarshallField(stage, "Label")
@@ -566,8 +562,6 @@ func (buttontoggle *ButtonToggle) GongMarshallAllFields(stage *Stage) (initializ
 }
 func (group *Group) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += group.GongMarshallField(stage, "Name")
 		initializerStatements += group.GongMarshallField(stage, "Percentage")
@@ -578,8 +572,6 @@ func (group *Group) GongMarshallAllFields(stage *Stage) (initializerStatements s
 }
 func (grouptoogle *GroupToogle) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += grouptoogle.GongMarshallField(stage, "Name")
 		initializerStatements += grouptoogle.GongMarshallField(stage, "Percentage")
@@ -590,8 +582,6 @@ func (grouptoogle *GroupToogle) GongMarshallAllFields(stage *Stage) (initializer
 }
 func (layout *Layout) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += layout.GongMarshallField(stage, "Name")
 		pointersInitializesStatements += layout.GongMarshallField(stage, "Groups")

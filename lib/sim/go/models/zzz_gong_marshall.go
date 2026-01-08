@@ -587,8 +587,6 @@ func (updatestate *UpdateState) GongMarshallField(stage *Stage, fieldName string
 // insertion point for marshall all fields methods
 func (command *Command) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += command.GongMarshallField(stage, "Name")
 		initializerStatements += command.GongMarshallField(stage, "Command")
@@ -599,8 +597,6 @@ func (command *Command) GongMarshallAllFields(stage *Stage) (initializerStatemen
 }
 func (dummyagent *DummyAgent) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += dummyagent.GongMarshallField(stage, "TechName")
 		initializerStatements += dummyagent.GongMarshallField(stage, "Name")
@@ -609,8 +605,6 @@ func (dummyagent *DummyAgent) GongMarshallAllFields(stage *Stage) (initializerSt
 }
 func (engine *Engine) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += engine.GongMarshallField(stage, "Name")
 		initializerStatements += engine.GongMarshallField(stage, "EndTime")
@@ -626,8 +620,6 @@ func (engine *Engine) GongMarshallAllFields(stage *Stage) (initializerStatements
 }
 func (event *Event) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += event.GongMarshallField(stage, "Name")
 		initializerStatements += event.GongMarshallField(stage, "Duration")
@@ -636,8 +628,6 @@ func (event *Event) GongMarshallAllFields(stage *Stage) (initializerStatements s
 }
 func (status *Status) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += status.GongMarshallField(stage, "Name")
 		initializerStatements += status.GongMarshallField(stage, "CurrentCommand")
@@ -649,8 +639,6 @@ func (status *Status) GongMarshallAllFields(stage *Stage) (initializerStatements
 }
 func (updatestate *UpdateState) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += updatestate.GongMarshallField(stage, "Name")
 		initializerStatements += updatestate.GongMarshallField(stage, "Duration")

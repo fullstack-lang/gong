@@ -412,8 +412,6 @@ func (page *Page) GongMarshallField(stage *Stage, fieldName string) (res string)
 // insertion point for marshall all fields methods
 func (chapter *Chapter) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += chapter.GongMarshallField(stage, "Name")
 		initializerStatements += chapter.GongMarshallField(stage, "MardownContent")
@@ -423,8 +421,6 @@ func (chapter *Chapter) GongMarshallAllFields(stage *Stage) (initializerStatemen
 }
 func (content *Content) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += content.GongMarshallField(stage, "Name")
 		initializerStatements += content.GongMarshallField(stage, "MardownContent")
@@ -444,8 +440,6 @@ func (content *Content) GongMarshallAllFields(stage *Stage) (initializerStatemen
 }
 func (page *Page) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += page.GongMarshallField(stage, "Name")
 		initializerStatements += page.GongMarshallField(stage, "MardownContent")

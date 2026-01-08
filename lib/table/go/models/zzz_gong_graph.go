@@ -1942,35 +1942,35 @@ func (cell *Cell) GongDiff(stage *Stage, cellOther *Cell) (diffs []string) {
 		diffs = append(diffs, cell.GongMarshallField(stage, "Name"))
 	}
 	if (cell.CellString == nil) != (cellOther.CellString == nil) {
-		diffs = append(diffs, "CellString")
+		diffs = append(diffs, cell.GongMarshallField(stage, "CellString"))
 	} else if cell.CellString != nil && cellOther.CellString != nil {
 		if cell.CellString != cellOther.CellString {
 			diffs = append(diffs, cell.GongMarshallField(stage, "CellString"))
 		}
 	}
 	if (cell.CellFloat64 == nil) != (cellOther.CellFloat64 == nil) {
-		diffs = append(diffs, "CellFloat64")
+		diffs = append(diffs, cell.GongMarshallField(stage, "CellFloat64"))
 	} else if cell.CellFloat64 != nil && cellOther.CellFloat64 != nil {
 		if cell.CellFloat64 != cellOther.CellFloat64 {
 			diffs = append(diffs, cell.GongMarshallField(stage, "CellFloat64"))
 		}
 	}
 	if (cell.CellInt == nil) != (cellOther.CellInt == nil) {
-		diffs = append(diffs, "CellInt")
+		diffs = append(diffs, cell.GongMarshallField(stage, "CellInt"))
 	} else if cell.CellInt != nil && cellOther.CellInt != nil {
 		if cell.CellInt != cellOther.CellInt {
 			diffs = append(diffs, cell.GongMarshallField(stage, "CellInt"))
 		}
 	}
 	if (cell.CellBool == nil) != (cellOther.CellBool == nil) {
-		diffs = append(diffs, "CellBool")
+		diffs = append(diffs, cell.GongMarshallField(stage, "CellBool"))
 	} else if cell.CellBool != nil && cellOther.CellBool != nil {
 		if cell.CellBool != cellOther.CellBool {
 			diffs = append(diffs, cell.GongMarshallField(stage, "CellBool"))
 		}
 	}
 	if (cell.CellIcon == nil) != (cellOther.CellIcon == nil) {
-		diffs = append(diffs, "CellIcon")
+		diffs = append(diffs, cell.GongMarshallField(stage, "CellIcon"))
 	} else if cell.CellIcon != nil && cellOther.CellIcon != nil {
 		if cell.CellIcon != cellOther.CellIcon {
 			diffs = append(diffs, cell.GongMarshallField(stage, "CellIcon"))
@@ -2131,14 +2131,14 @@ func (formdiv *FormDiv) GongDiff(stage *Stage, formdivOther *FormDiv) (diffs []s
 		diffs = append(diffs, ops)
 	}
 	if (formdiv.FormEditAssocButton == nil) != (formdivOther.FormEditAssocButton == nil) {
-		diffs = append(diffs, "FormEditAssocButton")
+		diffs = append(diffs, formdiv.GongMarshallField(stage, "FormEditAssocButton"))
 	} else if formdiv.FormEditAssocButton != nil && formdivOther.FormEditAssocButton != nil {
 		if formdiv.FormEditAssocButton != formdivOther.FormEditAssocButton {
 			diffs = append(diffs, formdiv.GongMarshallField(stage, "FormEditAssocButton"))
 		}
 	}
 	if (formdiv.FormSortAssocButton == nil) != (formdivOther.FormSortAssocButton == nil) {
-		diffs = append(diffs, "FormSortAssocButton")
+		diffs = append(diffs, formdiv.GongMarshallField(stage, "FormSortAssocButton"))
 	} else if formdiv.FormSortAssocButton != nil && formdivOther.FormSortAssocButton != nil {
 		if formdiv.FormSortAssocButton != formdivOther.FormSortAssocButton {
 			diffs = append(diffs, formdiv.GongMarshallField(stage, "FormSortAssocButton"))
@@ -2197,49 +2197,49 @@ func (formfield *FormField) GongDiff(stage *Stage, formfieldOther *FormField) (d
 		diffs = append(diffs, formfield.GongMarshallField(stage, "Placeholder"))
 	}
 	if (formfield.FormFieldString == nil) != (formfieldOther.FormFieldString == nil) {
-		diffs = append(diffs, "FormFieldString")
+		diffs = append(diffs, formfield.GongMarshallField(stage, "FormFieldString"))
 	} else if formfield.FormFieldString != nil && formfieldOther.FormFieldString != nil {
 		if formfield.FormFieldString != formfieldOther.FormFieldString {
 			diffs = append(diffs, formfield.GongMarshallField(stage, "FormFieldString"))
 		}
 	}
 	if (formfield.FormFieldFloat64 == nil) != (formfieldOther.FormFieldFloat64 == nil) {
-		diffs = append(diffs, "FormFieldFloat64")
+		diffs = append(diffs, formfield.GongMarshallField(stage, "FormFieldFloat64"))
 	} else if formfield.FormFieldFloat64 != nil && formfieldOther.FormFieldFloat64 != nil {
 		if formfield.FormFieldFloat64 != formfieldOther.FormFieldFloat64 {
 			diffs = append(diffs, formfield.GongMarshallField(stage, "FormFieldFloat64"))
 		}
 	}
 	if (formfield.FormFieldInt == nil) != (formfieldOther.FormFieldInt == nil) {
-		diffs = append(diffs, "FormFieldInt")
+		diffs = append(diffs, formfield.GongMarshallField(stage, "FormFieldInt"))
 	} else if formfield.FormFieldInt != nil && formfieldOther.FormFieldInt != nil {
 		if formfield.FormFieldInt != formfieldOther.FormFieldInt {
 			diffs = append(diffs, formfield.GongMarshallField(stage, "FormFieldInt"))
 		}
 	}
 	if (formfield.FormFieldDate == nil) != (formfieldOther.FormFieldDate == nil) {
-		diffs = append(diffs, "FormFieldDate")
+		diffs = append(diffs, formfield.GongMarshallField(stage, "FormFieldDate"))
 	} else if formfield.FormFieldDate != nil && formfieldOther.FormFieldDate != nil {
 		if formfield.FormFieldDate != formfieldOther.FormFieldDate {
 			diffs = append(diffs, formfield.GongMarshallField(stage, "FormFieldDate"))
 		}
 	}
 	if (formfield.FormFieldTime == nil) != (formfieldOther.FormFieldTime == nil) {
-		diffs = append(diffs, "FormFieldTime")
+		diffs = append(diffs, formfield.GongMarshallField(stage, "FormFieldTime"))
 	} else if formfield.FormFieldTime != nil && formfieldOther.FormFieldTime != nil {
 		if formfield.FormFieldTime != formfieldOther.FormFieldTime {
 			diffs = append(diffs, formfield.GongMarshallField(stage, "FormFieldTime"))
 		}
 	}
 	if (formfield.FormFieldDateTime == nil) != (formfieldOther.FormFieldDateTime == nil) {
-		diffs = append(diffs, "FormFieldDateTime")
+		diffs = append(diffs, formfield.GongMarshallField(stage, "FormFieldDateTime"))
 	} else if formfield.FormFieldDateTime != nil && formfieldOther.FormFieldDateTime != nil {
 		if formfield.FormFieldDateTime != formfieldOther.FormFieldDateTime {
 			diffs = append(diffs, formfield.GongMarshallField(stage, "FormFieldDateTime"))
 		}
 	}
 	if (formfield.FormFieldSelect == nil) != (formfieldOther.FormFieldSelect == nil) {
-		diffs = append(diffs, "FormFieldSelect")
+		diffs = append(diffs, formfield.GongMarshallField(stage, "FormFieldSelect"))
 	} else if formfield.FormFieldSelect != nil && formfieldOther.FormFieldSelect != nil {
 		if formfield.FormFieldSelect != formfieldOther.FormFieldSelect {
 			diffs = append(diffs, formfield.GongMarshallField(stage, "FormFieldSelect"))
@@ -2349,7 +2349,7 @@ func (formfieldselect *FormFieldSelect) GongDiff(stage *Stage, formfieldselectOt
 		diffs = append(diffs, formfieldselect.GongMarshallField(stage, "Name"))
 	}
 	if (formfieldselect.Value == nil) != (formfieldselectOther.Value == nil) {
-		diffs = append(diffs, "Value")
+		diffs = append(diffs, formfieldselect.GongMarshallField(stage, "Value"))
 	} else if formfieldselect.Value != nil && formfieldselectOther.Value != nil {
 		if formfieldselect.Value != formfieldselectOther.Value {
 			diffs = append(diffs, formfieldselect.GongMarshallField(stage, "Value"))
@@ -2481,7 +2481,7 @@ func (formsortassocbutton *FormSortAssocButton) GongDiff(stage *Stage, formsorta
 		diffs = append(diffs, formsortassocbutton.GongMarshallField(stage, "MatTooltipShowDelay"))
 	}
 	if (formsortassocbutton.FormEditAssocButton == nil) != (formsortassocbuttonOther.FormEditAssocButton == nil) {
-		diffs = append(diffs, "FormEditAssocButton")
+		diffs = append(diffs, formsortassocbutton.GongMarshallField(stage, "FormEditAssocButton"))
 	} else if formsortassocbutton.FormEditAssocButton != nil && formsortassocbuttonOther.FormEditAssocButton != nil {
 		if formsortassocbutton.FormEditAssocButton != formsortassocbuttonOther.FormEditAssocButton {
 			diffs = append(diffs, formsortassocbutton.GongMarshallField(stage, "FormEditAssocButton"))
@@ -2667,7 +2667,7 @@ func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, o
 	// MUST go from High Index -> Low Index to preserve validity of lower indices.
 	for k := m - 1; k >= 0; k-- {
 		if !keptIndices[k] {
-			ops += fmt.Sprintf("\t%s.%s = slices.Delete( %s.%s, %d, %d)\n", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, k+1)
+			ops += fmt.Sprintf("\n\t%s.%s = slices.Delete( %s.%s, %d, %d)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, k+1)
 		}
 	}
 
@@ -2690,7 +2690,7 @@ func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, o
 		if lcsIdx < len(currentLCS) && currentLCS[lcsIdx] == targetVal {
 			lcsIdx++
 		} else {
-			ops += fmt.Sprintf("\t%s.%s = slices.Insert( %s.%s, %d, %s)\n",  a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, targetVal.GongGetIdentifier(stage))
+			ops += fmt.Sprintf("\n\t%s.%s = slices.Insert( %s.%s, %d, %s)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, targetVal.GongGetIdentifier(stage))
 		}
 	}
 

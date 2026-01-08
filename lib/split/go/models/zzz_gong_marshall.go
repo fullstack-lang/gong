@@ -1404,8 +1404,6 @@ func (xlsx *Xlsx) GongMarshallField(stage *Stage, fieldName string) (res string)
 // insertion point for marshall all fields methods
 func (assplit *AsSplit) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += assplit.GongMarshallField(stage, "Name")
 		initializerStatements += assplit.GongMarshallField(stage, "Direction")
@@ -1415,8 +1413,6 @@ func (assplit *AsSplit) GongMarshallAllFields(stage *Stage) (initializerStatemen
 }
 func (assplitarea *AsSplitArea) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += assplitarea.GongMarshallField(stage, "Name")
 		initializerStatements += assplitarea.GongMarshallField(stage, "ShowNameInHeader")
@@ -1442,8 +1438,6 @@ func (assplitarea *AsSplitArea) GongMarshallAllFields(stage *Stage) (initializer
 }
 func (button *Button) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += button.GongMarshallField(stage, "Name")
 		initializerStatements += button.GongMarshallField(stage, "StackName")
@@ -1452,8 +1446,6 @@ func (button *Button) GongMarshallAllFields(stage *Stage) (initializerStatements
 }
 func (cursor *Cursor) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += cursor.GongMarshallField(stage, "Name")
 		initializerStatements += cursor.GongMarshallField(stage, "StackName")
@@ -1463,8 +1455,6 @@ func (cursor *Cursor) GongMarshallAllFields(stage *Stage) (initializerStatements
 }
 func (favicon *FavIcon) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += favicon.GongMarshallField(stage, "Name")
 		initializerStatements += favicon.GongMarshallField(stage, "SVG")
@@ -1473,8 +1463,6 @@ func (favicon *FavIcon) GongMarshallAllFields(stage *Stage) (initializerStatemen
 }
 func (form *Form) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += form.GongMarshallField(stage, "Name")
 		initializerStatements += form.GongMarshallField(stage, "StackName")
@@ -1483,8 +1471,6 @@ func (form *Form) GongMarshallAllFields(stage *Stage) (initializerStatements str
 }
 func (load *Load) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += load.GongMarshallField(stage, "Name")
 		initializerStatements += load.GongMarshallField(stage, "StackName")
@@ -1493,8 +1479,6 @@ func (load *Load) GongMarshallAllFields(stage *Stage) (initializerStatements str
 }
 func (logoontheleft *LogoOnTheLeft) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += logoontheleft.GongMarshallField(stage, "Name")
 		initializerStatements += logoontheleft.GongMarshallField(stage, "Width")
@@ -1505,8 +1489,6 @@ func (logoontheleft *LogoOnTheLeft) GongMarshallAllFields(stage *Stage) (initial
 }
 func (logoontheright *LogoOnTheRight) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += logoontheright.GongMarshallField(stage, "Name")
 		initializerStatements += logoontheright.GongMarshallField(stage, "Width")
@@ -1517,8 +1499,6 @@ func (logoontheright *LogoOnTheRight) GongMarshallAllFields(stage *Stage) (initi
 }
 func (markdown *Markdown) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += markdown.GongMarshallField(stage, "Name")
 		initializerStatements += markdown.GongMarshallField(stage, "StackName")
@@ -1527,8 +1507,6 @@ func (markdown *Markdown) GongMarshallAllFields(stage *Stage) (initializerStatem
 }
 func (slider *Slider) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += slider.GongMarshallField(stage, "Name")
 		initializerStatements += slider.GongMarshallField(stage, "StackName")
@@ -1537,8 +1515,6 @@ func (slider *Slider) GongMarshallAllFields(stage *Stage) (initializerStatements
 }
 func (split *Split) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += split.GongMarshallField(stage, "Name")
 		initializerStatements += split.GongMarshallField(stage, "StackName")
@@ -1547,8 +1523,6 @@ func (split *Split) GongMarshallAllFields(stage *Stage) (initializerStatements s
 }
 func (svg *Svg) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += svg.GongMarshallField(stage, "Name")
 		initializerStatements += svg.GongMarshallField(stage, "StackName")
@@ -1558,8 +1532,6 @@ func (svg *Svg) GongMarshallAllFields(stage *Stage) (initializerStatements strin
 }
 func (table *Table) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += table.GongMarshallField(stage, "Name")
 		initializerStatements += table.GongMarshallField(stage, "StackName")
@@ -1568,8 +1540,6 @@ func (table *Table) GongMarshallAllFields(stage *Stage) (initializerStatements s
 }
 func (title *Title) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += title.GongMarshallField(stage, "Name")
 	}
@@ -1577,8 +1547,6 @@ func (title *Title) GongMarshallAllFields(stage *Stage) (initializerStatements s
 }
 func (tone *Tone) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += tone.GongMarshallField(stage, "Name")
 		initializerStatements += tone.GongMarshallField(stage, "StackName")
@@ -1587,8 +1555,6 @@ func (tone *Tone) GongMarshallAllFields(stage *Stage) (initializerStatements str
 }
 func (tree *Tree) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += tree.GongMarshallField(stage, "Name")
 		initializerStatements += tree.GongMarshallField(stage, "StackName")
@@ -1597,8 +1563,6 @@ func (tree *Tree) GongMarshallAllFields(stage *Stage) (initializerStatements str
 }
 func (view *View) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += view.GongMarshallField(stage, "Name")
 		initializerStatements += view.GongMarshallField(stage, "ShowViewName")
@@ -1610,8 +1574,6 @@ func (view *View) GongMarshallAllFields(stage *Stage) (initializerStatements str
 }
 func (xlsx *Xlsx) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += xlsx.GongMarshallField(stage, "Name")
 		initializerStatements += xlsx.GongMarshallField(stage, "StackName")

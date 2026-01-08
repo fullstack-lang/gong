@@ -2026,7 +2026,7 @@ func (controlpoint *ControlPoint) GongDiff(stage *Stage, controlpointOther *Cont
 		diffs = append(diffs, controlpoint.GongMarshallField(stage, "Y_Relative"))
 	}
 	if (controlpoint.ClosestRect == nil) != (controlpointOther.ClosestRect == nil) {
-		diffs = append(diffs, "ClosestRect")
+		diffs = append(diffs, controlpoint.GongMarshallField(stage, "ClosestRect"))
 	} else if controlpoint.ClosestRect != nil && controlpointOther.ClosestRect != nil {
 		if controlpoint.ClosestRect != controlpointOther.ClosestRect {
 			diffs = append(diffs, controlpoint.GongMarshallField(stage, "ClosestRect"))
@@ -2413,7 +2413,7 @@ func (link *Link) GongDiff(stage *Stage, linkOther *Link) (diffs []string) {
 		diffs = append(diffs, link.GongMarshallField(stage, "IsBezierCurve"))
 	}
 	if (link.Start == nil) != (linkOther.Start == nil) {
-		diffs = append(diffs, "Start")
+		diffs = append(diffs, link.GongMarshallField(stage, "Start"))
 	} else if link.Start != nil && linkOther.Start != nil {
 		if link.Start != linkOther.Start {
 			diffs = append(diffs, link.GongMarshallField(stage, "Start"))
@@ -2423,7 +2423,7 @@ func (link *Link) GongDiff(stage *Stage, linkOther *Link) (diffs []string) {
 		diffs = append(diffs, link.GongMarshallField(stage, "StartAnchorType"))
 	}
 	if (link.End == nil) != (linkOther.End == nil) {
-		diffs = append(diffs, "End")
+		diffs = append(diffs, link.GongMarshallField(stage, "End"))
 	} else if link.End != nil && linkOther.End != nil {
 		if link.End != linkOther.End {
 			diffs = append(diffs, link.GongMarshallField(stage, "End"))
@@ -3326,14 +3326,14 @@ func (rectlinklink *RectLinkLink) GongDiff(stage *Stage, rectlinklinkOther *Rect
 		diffs = append(diffs, rectlinklink.GongMarshallField(stage, "Name"))
 	}
 	if (rectlinklink.Start == nil) != (rectlinklinkOther.Start == nil) {
-		diffs = append(diffs, "Start")
+		diffs = append(diffs, rectlinklink.GongMarshallField(stage, "Start"))
 	} else if rectlinklink.Start != nil && rectlinklinkOther.Start != nil {
 		if rectlinklink.Start != rectlinklinkOther.Start {
 			diffs = append(diffs, rectlinklink.GongMarshallField(stage, "Start"))
 		}
 	}
 	if (rectlinklink.End == nil) != (rectlinklinkOther.End == nil) {
-		diffs = append(diffs, "End")
+		diffs = append(diffs, rectlinklink.GongMarshallField(stage, "End"))
 	} else if rectlinklink.End != nil && rectlinklinkOther.End != nil {
 		if rectlinklink.End != rectlinklinkOther.End {
 			diffs = append(diffs, rectlinklink.GongMarshallField(stage, "End"))
@@ -3402,14 +3402,14 @@ func (svg *SVG) GongDiff(stage *Stage, svgOther *SVG) (diffs []string) {
 		diffs = append(diffs, svg.GongMarshallField(stage, "DrawingState"))
 	}
 	if (svg.StartRect == nil) != (svgOther.StartRect == nil) {
-		diffs = append(diffs, "StartRect")
+		diffs = append(diffs, svg.GongMarshallField(stage, "StartRect"))
 	} else if svg.StartRect != nil && svgOther.StartRect != nil {
 		if svg.StartRect != svgOther.StartRect {
 			diffs = append(diffs, svg.GongMarshallField(stage, "StartRect"))
 		}
 	}
 	if (svg.EndRect == nil) != (svgOther.EndRect == nil) {
-		diffs = append(diffs, "EndRect")
+		diffs = append(diffs, svg.GongMarshallField(stage, "EndRect"))
 	} else if svg.EndRect != nil && svgOther.EndRect != nil {
 		if svg.EndRect != svgOther.EndRect {
 			diffs = append(diffs, svg.GongMarshallField(stage, "EndRect"))
@@ -3590,7 +3590,7 @@ func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, o
 	// MUST go from High Index -> Low Index to preserve validity of lower indices.
 	for k := m - 1; k >= 0; k-- {
 		if !keptIndices[k] {
-			ops += fmt.Sprintf("\t%s.%s = slices.Delete( %s.%s, %d, %d)\n", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, k+1)
+			ops += fmt.Sprintf("\n\t%s.%s = slices.Delete( %s.%s, %d, %d)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, k+1)
 		}
 	}
 
@@ -3613,7 +3613,7 @@ func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, o
 		if lcsIdx < len(currentLCS) && currentLCS[lcsIdx] == targetVal {
 			lcsIdx++
 		} else {
-			ops += fmt.Sprintf("\t%s.%s = slices.Insert( %s.%s, %d, %s)\n",  a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, targetVal.GongGetIdentifier(stage))
+			ops += fmt.Sprintf("\n\t%s.%s = slices.Insert( %s.%s, %d, %s)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, targetVal.GongGetIdentifier(stage))
 		}
 	}
 

@@ -1026,7 +1026,7 @@ func (category1shape *Category1Shape) GongDiff(stage *Stage, category1shapeOther
 		diffs = append(diffs, category1shape.GongMarshallField(stage, "Name"))
 	}
 	if (category1shape.Category1 == nil) != (category1shapeOther.Category1 == nil) {
-		diffs = append(diffs, "Category1")
+		diffs = append(diffs, category1shape.GongMarshallField(stage, "Category1"))
 	} else if category1shape.Category1 != nil && category1shapeOther.Category1 != nil {
 		if category1shape.Category1 != category1shapeOther.Category1 {
 			diffs = append(diffs, category1shape.GongMarshallField(stage, "Category1"))
@@ -1067,7 +1067,7 @@ func (category2shape *Category2Shape) GongDiff(stage *Stage, category2shapeOther
 		diffs = append(diffs, category2shape.GongMarshallField(stage, "Name"))
 	}
 	if (category2shape.Category2 == nil) != (category2shapeOther.Category2 == nil) {
-		diffs = append(diffs, "Category2")
+		diffs = append(diffs, category2shape.GongMarshallField(stage, "Category2"))
 	} else if category2shape.Category2 != nil && category2shapeOther.Category2 != nil {
 		if category2shape.Category2 != category2shapeOther.Category2 {
 			diffs = append(diffs, category2shape.GongMarshallField(stage, "Category2"))
@@ -1108,7 +1108,7 @@ func (category3shape *Category3Shape) GongDiff(stage *Stage, category3shapeOther
 		diffs = append(diffs, category3shape.GongMarshallField(stage, "Name"))
 	}
 	if (category3shape.Category3 == nil) != (category3shapeOther.Category3 == nil) {
-		diffs = append(diffs, "Category3")
+		diffs = append(diffs, category3shape.GongMarshallField(stage, "Category3"))
 	} else if category3shape.Category3 != nil && category3shapeOther.Category3 != nil {
 		if category3shape.Category3 != category3shapeOther.Category3 {
 			diffs = append(diffs, category3shape.GongMarshallField(stage, "Category3"))
@@ -1158,7 +1158,7 @@ func (desk *Desk) GongDiff(stage *Stage, deskOther *Desk) (diffs []string) {
 		diffs = append(diffs, desk.GongMarshallField(stage, "Name"))
 	}
 	if (desk.SelectedDiagram == nil) != (deskOther.SelectedDiagram == nil) {
-		diffs = append(diffs, "SelectedDiagram")
+		diffs = append(diffs, desk.GongMarshallField(stage, "SelectedDiagram"))
 	} else if desk.SelectedDiagram != nil && deskOther.SelectedDiagram != nil {
 		if desk.SelectedDiagram != deskOther.SelectedDiagram {
 			diffs = append(diffs, desk.GongMarshallField(stage, "SelectedDiagram"))
@@ -1418,42 +1418,42 @@ func (influence *Influence) GongDiff(stage *Stage, influenceOther *Influence) (d
 		diffs = append(diffs, influence.GongMarshallField(stage, "Name"))
 	}
 	if (influence.SourceCategory1 == nil) != (influenceOther.SourceCategory1 == nil) {
-		diffs = append(diffs, "SourceCategory1")
+		diffs = append(diffs, influence.GongMarshallField(stage, "SourceCategory1"))
 	} else if influence.SourceCategory1 != nil && influenceOther.SourceCategory1 != nil {
 		if influence.SourceCategory1 != influenceOther.SourceCategory1 {
 			diffs = append(diffs, influence.GongMarshallField(stage, "SourceCategory1"))
 		}
 	}
 	if (influence.SourceCategory2 == nil) != (influenceOther.SourceCategory2 == nil) {
-		diffs = append(diffs, "SourceCategory2")
+		diffs = append(diffs, influence.GongMarshallField(stage, "SourceCategory2"))
 	} else if influence.SourceCategory2 != nil && influenceOther.SourceCategory2 != nil {
 		if influence.SourceCategory2 != influenceOther.SourceCategory2 {
 			diffs = append(diffs, influence.GongMarshallField(stage, "SourceCategory2"))
 		}
 	}
 	if (influence.SourceCategory3 == nil) != (influenceOther.SourceCategory3 == nil) {
-		diffs = append(diffs, "SourceCategory3")
+		diffs = append(diffs, influence.GongMarshallField(stage, "SourceCategory3"))
 	} else if influence.SourceCategory3 != nil && influenceOther.SourceCategory3 != nil {
 		if influence.SourceCategory3 != influenceOther.SourceCategory3 {
 			diffs = append(diffs, influence.GongMarshallField(stage, "SourceCategory3"))
 		}
 	}
 	if (influence.TargetCategory1 == nil) != (influenceOther.TargetCategory1 == nil) {
-		diffs = append(diffs, "TargetCategory1")
+		diffs = append(diffs, influence.GongMarshallField(stage, "TargetCategory1"))
 	} else if influence.TargetCategory1 != nil && influenceOther.TargetCategory1 != nil {
 		if influence.TargetCategory1 != influenceOther.TargetCategory1 {
 			diffs = append(diffs, influence.GongMarshallField(stage, "TargetCategory1"))
 		}
 	}
 	if (influence.TargetCategory2 == nil) != (influenceOther.TargetCategory2 == nil) {
-		diffs = append(diffs, "TargetCategory2")
+		diffs = append(diffs, influence.GongMarshallField(stage, "TargetCategory2"))
 	} else if influence.TargetCategory2 != nil && influenceOther.TargetCategory2 != nil {
 		if influence.TargetCategory2 != influenceOther.TargetCategory2 {
 			diffs = append(diffs, influence.GongMarshallField(stage, "TargetCategory2"))
 		}
 	}
 	if (influence.TargetCategory3 == nil) != (influenceOther.TargetCategory3 == nil) {
-		diffs = append(diffs, "TargetCategory3")
+		diffs = append(diffs, influence.GongMarshallField(stage, "TargetCategory3"))
 	} else if influence.TargetCategory3 != nil && influenceOther.TargetCategory3 != nil {
 		if influence.TargetCategory3 != influenceOther.TargetCategory3 {
 			diffs = append(diffs, influence.GongMarshallField(stage, "TargetCategory3"))
@@ -1477,7 +1477,7 @@ func (influenceshape *InfluenceShape) GongDiff(stage *Stage, influenceshapeOther
 		diffs = append(diffs, influenceshape.GongMarshallField(stage, "Name"))
 	}
 	if (influenceshape.Influence == nil) != (influenceshapeOther.Influence == nil) {
-		diffs = append(diffs, "Influence")
+		diffs = append(diffs, influenceshape.GongMarshallField(stage, "Influence"))
 	} else if influenceshape.Influence != nil && influenceshapeOther.Influence != nil {
 		if influenceshape.Influence != influenceshapeOther.Influence {
 			diffs = append(diffs, influenceshape.GongMarshallField(stage, "Influence"))
@@ -1555,7 +1555,7 @@ func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, o
 	// MUST go from High Index -> Low Index to preserve validity of lower indices.
 	for k := m - 1; k >= 0; k-- {
 		if !keptIndices[k] {
-			ops += fmt.Sprintf("\t%s.%s = slices.Delete( %s.%s, %d, %d)\n", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, k+1)
+			ops += fmt.Sprintf("\n\t%s.%s = slices.Delete( %s.%s, %d, %d)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, k+1)
 		}
 	}
 
@@ -1578,7 +1578,7 @@ func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, o
 		if lcsIdx < len(currentLCS) && currentLCS[lcsIdx] == targetVal {
 			lcsIdx++
 		} else {
-			ops += fmt.Sprintf("\t%s.%s = slices.Insert( %s.%s, %d, %s)\n",  a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, targetVal.GongGetIdentifier(stage))
+			ops += fmt.Sprintf("\n\t%s.%s = slices.Insert( %s.%s, %d, %s)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, targetVal.GongGetIdentifier(stage))
 		}
 	}
 
