@@ -224,7 +224,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := gongbasicfield.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", gongbasicfield.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", gongbasicfield.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -257,7 +257,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := gongenum.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", gongenum.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", gongenum.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -290,7 +290,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := gongenumvalue.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", gongenumvalue.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", gongenumvalue.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -323,7 +323,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := gonglink.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", gonglink.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", gonglink.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -356,7 +356,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := gongnote.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", gongnote.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", gongnote.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -389,7 +389,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := gongstruct.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", gongstruct.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", gongstruct.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -422,7 +422,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := gongtimefield.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", gongtimefield.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", gongtimefield.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -455,7 +455,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := metareference.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", metareference.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", metareference.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -488,7 +488,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := modelpkg.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", modelpkg.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", modelpkg.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -521,7 +521,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := pointertogongstructfield.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", pointertogongstructfield.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", pointertogongstructfield.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -554,7 +554,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := sliceofpointertogongstructfield.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", sliceofpointertogongstructfield.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", sliceofpointertogongstructfield.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}

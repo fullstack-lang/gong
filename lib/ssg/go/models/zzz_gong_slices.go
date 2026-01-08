@@ -100,7 +100,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := chapter.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", chapter.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", chapter.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -133,7 +133,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := content.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", content.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", content.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -166,7 +166,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := page.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", page.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", page.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}

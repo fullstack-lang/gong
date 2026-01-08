@@ -86,7 +86,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := filetodownload.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", filetodownload.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", filetodownload.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -119,7 +119,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := filetoupload.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", filetoupload.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", filetoupload.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -152,7 +152,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := message.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", message.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", message.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}

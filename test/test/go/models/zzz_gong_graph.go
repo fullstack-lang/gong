@@ -1,6 +1,8 @@
 // generated code - do not edit
 package models
 
+import "fmt"
+
 func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) (ok bool) {
 
 	switch target := any(instance).(type) {
@@ -779,7 +781,7 @@ func (astruct *Astruct) GongDiff(stage *Stage, astructOther *Astruct) (diffs []s
 				AnarrayofbDifferent = true
 				break
 			} else if astruct.Anarrayofb[i] != nil && astructOther.Anarrayofb[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if astruct.Anarrayofb[i] != astructOther.Anarrayofb[i] {
 					AnarrayofbDifferent = true
 					break
@@ -788,7 +790,8 @@ func (astruct *Astruct) GongDiff(stage *Stage, astructOther *Astruct) (diffs []s
 		}
 	}
 	if AnarrayofbDifferent {
-		diffs = append(diffs, astruct.GongMarshallField(stage, "Anarrayofb"))
+		ops := Diff(stage, astruct, astructOther, "Anarrayofb", astructOther.Anarrayofb, astruct.Anarrayofb)
+		diffs = append(diffs, ops)
 	}
 	if (astruct.Anotherassociationtob_2 == nil) != (astructOther.Anotherassociationtob_2 == nil) {
 		diffs = append(diffs, "Anotherassociationtob_2")
@@ -875,7 +878,7 @@ func (astruct *Astruct) GongDiff(stage *Stage, astructOther *Astruct) (diffs []s
 				Dstruct4sDifferent = true
 				break
 			} else if astruct.Dstruct4s[i] != nil && astructOther.Dstruct4s[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if astruct.Dstruct4s[i] != astructOther.Dstruct4s[i] {
 					Dstruct4sDifferent = true
 					break
@@ -884,7 +887,8 @@ func (astruct *Astruct) GongDiff(stage *Stage, astructOther *Astruct) (diffs []s
 		}
 	}
 	if Dstruct4sDifferent {
-		diffs = append(diffs, astruct.GongMarshallField(stage, "Dstruct4s"))
+		ops := Diff(stage, astruct, astructOther, "Dstruct4s", astructOther.Dstruct4s, astruct.Dstruct4s)
+		diffs = append(diffs, ops)
 	}
 	if astruct.Floatfield != astructOther.Floatfield {
 		diffs = append(diffs, astruct.GongMarshallField(stage, "Floatfield"))
@@ -907,7 +911,7 @@ func (astruct *Astruct) GongDiff(stage *Stage, astructOther *Astruct) (diffs []s
 				AnarrayofaDifferent = true
 				break
 			} else if astruct.Anarrayofa[i] != nil && astructOther.Anarrayofa[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if astruct.Anarrayofa[i] != astructOther.Anarrayofa[i] {
 					AnarrayofaDifferent = true
 					break
@@ -916,7 +920,8 @@ func (astruct *Astruct) GongDiff(stage *Stage, astructOther *Astruct) (diffs []s
 		}
 	}
 	if AnarrayofaDifferent {
-		diffs = append(diffs, astruct.GongMarshallField(stage, "Anarrayofa"))
+		ops := Diff(stage, astruct, astructOther, "Anarrayofa", astructOther.Anarrayofa, astruct.Anarrayofa)
+		diffs = append(diffs, ops)
 	}
 	AnotherarrayofbDifferent := false
 	if len(astruct.Anotherarrayofb) != len(astructOther.Anotherarrayofb) {
@@ -927,7 +932,7 @@ func (astruct *Astruct) GongDiff(stage *Stage, astructOther *Astruct) (diffs []s
 				AnotherarrayofbDifferent = true
 				break
 			} else if astruct.Anotherarrayofb[i] != nil && astructOther.Anotherarrayofb[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if astruct.Anotherarrayofb[i] != astructOther.Anotherarrayofb[i] {
 					AnotherarrayofbDifferent = true
 					break
@@ -936,7 +941,8 @@ func (astruct *Astruct) GongDiff(stage *Stage, astructOther *Astruct) (diffs []s
 		}
 	}
 	if AnotherarrayofbDifferent {
-		diffs = append(diffs, astruct.GongMarshallField(stage, "Anotherarrayofb"))
+		ops := Diff(stage, astruct, astructOther, "Anotherarrayofb", astructOther.Anotherarrayofb, astruct.Anotherarrayofb)
+		diffs = append(diffs, ops)
 	}
 	AnarrayofbUseDifferent := false
 	if len(astruct.AnarrayofbUse) != len(astructOther.AnarrayofbUse) {
@@ -947,7 +953,7 @@ func (astruct *Astruct) GongDiff(stage *Stage, astructOther *Astruct) (diffs []s
 				AnarrayofbUseDifferent = true
 				break
 			} else if astruct.AnarrayofbUse[i] != nil && astructOther.AnarrayofbUse[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if astruct.AnarrayofbUse[i] != astructOther.AnarrayofbUse[i] {
 					AnarrayofbUseDifferent = true
 					break
@@ -956,7 +962,8 @@ func (astruct *Astruct) GongDiff(stage *Stage, astructOther *Astruct) (diffs []s
 		}
 	}
 	if AnarrayofbUseDifferent {
-		diffs = append(diffs, astruct.GongMarshallField(stage, "AnarrayofbUse"))
+		ops := Diff(stage, astruct, astructOther, "AnarrayofbUse", astructOther.AnarrayofbUse, astruct.AnarrayofbUse)
+		diffs = append(diffs, ops)
 	}
 	Anarrayofb2UseDifferent := false
 	if len(astruct.Anarrayofb2Use) != len(astructOther.Anarrayofb2Use) {
@@ -967,7 +974,7 @@ func (astruct *Astruct) GongDiff(stage *Stage, astructOther *Astruct) (diffs []s
 				Anarrayofb2UseDifferent = true
 				break
 			} else if astruct.Anarrayofb2Use[i] != nil && astructOther.Anarrayofb2Use[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if astruct.Anarrayofb2Use[i] != astructOther.Anarrayofb2Use[i] {
 					Anarrayofb2UseDifferent = true
 					break
@@ -976,7 +983,8 @@ func (astruct *Astruct) GongDiff(stage *Stage, astructOther *Astruct) (diffs []s
 		}
 	}
 	if Anarrayofb2UseDifferent {
-		diffs = append(diffs, astruct.GongMarshallField(stage, "Anarrayofb2Use"))
+		ops := Diff(stage, astruct, astructOther, "Anarrayofb2Use", astructOther.Anarrayofb2Use, astruct.Anarrayofb2Use)
+		diffs = append(diffs, ops)
 	}
 	if (astruct.AnAstruct == nil) != (astructOther.AnAstruct == nil) {
 		diffs = append(diffs, "AnAstruct")
@@ -1067,7 +1075,7 @@ func (dstruct *Dstruct) GongDiff(stage *Stage, dstructOther *Dstruct) (diffs []s
 				AnarrayofbDifferent = true
 				break
 			} else if dstruct.Anarrayofb[i] != nil && dstructOther.Anarrayofb[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if dstruct.Anarrayofb[i] != dstructOther.Anarrayofb[i] {
 					AnarrayofbDifferent = true
 					break
@@ -1076,7 +1084,8 @@ func (dstruct *Dstruct) GongDiff(stage *Stage, dstructOther *Dstruct) (diffs []s
 		}
 	}
 	if AnarrayofbDifferent {
-		diffs = append(diffs, dstruct.GongMarshallField(stage, "Anarrayofb"))
+		ops := Diff(stage, dstruct, dstructOther, "Anarrayofb", dstructOther.Anarrayofb, dstruct.Anarrayofb)
+		diffs = append(diffs, ops)
 	}
 	if (dstruct.Gstruct == nil) != (dstructOther.Gstruct == nil) {
 		diffs = append(diffs, "Gstruct")
@@ -1094,7 +1103,7 @@ func (dstruct *Dstruct) GongDiff(stage *Stage, dstructOther *Dstruct) (diffs []s
 				GstructsDifferent = true
 				break
 			} else if dstruct.Gstructs[i] != nil && dstructOther.Gstructs[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if dstruct.Gstructs[i] != dstructOther.Gstructs[i] {
 					GstructsDifferent = true
 					break
@@ -1103,7 +1112,8 @@ func (dstruct *Dstruct) GongDiff(stage *Stage, dstructOther *Dstruct) (diffs []s
 		}
 	}
 	if GstructsDifferent {
-		diffs = append(diffs, dstruct.GongMarshallField(stage, "Gstructs"))
+		ops := Diff(stage, dstruct, dstructOther, "Gstructs", dstructOther.Gstructs, dstruct.Gstructs)
+		diffs = append(diffs, ops)
 	}
 
 	return
@@ -1141,4 +1151,81 @@ func (gstruct *Gstruct) GongDiff(stage *Stage, gstructOther *Gstruct) (diffs []s
 	}
 
 	return
+}
+
+// Diff returns the sequence of operations to transform oldSlice into newSlice.
+// It requires type T to be comparable (e.g., pointers, ints, strings).
+func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
+	m, n := len(oldSlice), len(newSlice)
+
+	// 1. Build the LCS (Longest Common Subsequence) Matrix
+	// This helps us find the "anchor" elements that shouldn't move.
+	dp := make([][]int, m+1)
+	for i := range dp {
+		dp[i] = make([]int, n+1)
+	}
+
+	for i := 0; i < m; i++ {
+		for j := 0; j < n; j++ {
+			if oldSlice[i] == newSlice[j] {
+				dp[i+1][j+1] = dp[i][j] + 1
+			} else {
+				// Take the maximum of previous options
+				if dp[i][j+1] > dp[i+1][j] {
+					dp[i+1][j+1] = dp[i][j+1]
+				} else {
+					dp[i+1][j+1] = dp[i+1][j]
+				}
+			}
+		}
+	}
+
+	// 2. Backtrack to find which indices in oldSlice are part of the LCS
+	// We use a map for O(1) lookups.
+	keptIndices := make(map[int]bool)
+	i, j := m, n
+	for i > 0 && j > 0 {
+		if oldSlice[i-1] == newSlice[j-1] {
+			keptIndices[i-1] = true
+			i--
+			j--
+		} else if dp[i-1][j] > dp[i][j-1] {
+			i--
+		} else {
+			j--
+		}
+	}
+
+	// 3. PHASE 1: Generate Deletions
+	// MUST go from High Index -> Low Index to preserve validity of lower indices.
+	for k := m - 1; k >= 0; k-- {
+		if !keptIndices[k] {
+			ops += fmt.Sprintf("\t%s.%s = slices.Delete( %s.%s, %d, %d)\n", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, k+1)
+		}
+	}
+
+	// 4. PHASE 2: Generate Insertions
+	// We simulate the state of the slice after deletions to determine insertion points.
+	// The 'current' slice essentially consists of only the kept LCS items.
+
+	// Create a temporary view of what's left after deletions for tracking matches
+	var currentLCS []T2
+	for k := 0; k < m; k++ {
+		if keptIndices[k] {
+			currentLCS = append(currentLCS, oldSlice[k])
+		}
+	}
+
+	lcsIdx := 0
+	// Iterate through the NEW slice. If it matches the current LCS head, we keep it.
+	// If it doesn't match, it must be inserted here.
+	for k, targetVal := range newSlice {
+		if lcsIdx < len(currentLCS) && currentLCS[lcsIdx] == targetVal {
+			lcsIdx++
+		} else {
+			ops += fmt.Sprintf("\t%s.%s = slices.Insert( %s.%s, %d, %s)\n",  a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, targetVal.GongGetIdentifier(stage))
+		}
+	}
+
+	return ops
 }
