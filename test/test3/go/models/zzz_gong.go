@@ -670,6 +670,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.BMap_Staged_Order = make(map[*B]uint)
 	stage.BOrder = 0
 
+	if stage.GetProbeIF() != nil {
+		stage.GetProbeIF().ResetNotifications()
+	}
 	stage.ComputeReference()
 }
 

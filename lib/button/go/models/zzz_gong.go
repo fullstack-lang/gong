@@ -1081,6 +1081,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.LayoutMap_Staged_Order = make(map[*Layout]uint)
 	stage.LayoutOrder = 0
 
+	if stage.GetProbeIF() != nil {
+		stage.GetProbeIF().ResetNotifications()
+	}
 	stage.ComputeReference()
 }
 

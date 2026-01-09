@@ -1359,6 +1359,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.GstructMap_Staged_Order = make(map[*Gstruct]uint)
 	stage.GstructOrder = 0
 
+	if stage.GetProbeIF() != nil {
+		stage.GetProbeIF().ResetNotifications()
+	}
 	stage.ComputeReference()
 }
 
