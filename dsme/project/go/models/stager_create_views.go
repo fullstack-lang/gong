@@ -153,5 +153,16 @@ func createViews(stager *Stager, stage *Stage) {
 		},
 	})
 
+	split.StageBranch(stager.splitStage, &split.View{
+		Name: "Svg Probe",
+		RootAsSplitAreas: []*split.AsSplitArea{
+			{
+				Split: &split.Split{
+					StackName: stager.svgStage.GetProbeSplitStageName(),
+				},
+			},
+		},
+	})
+
 	stager.splitStage.Commit()
 }
