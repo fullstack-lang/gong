@@ -803,6 +803,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.MessageMap_Staged_Order = make(map[*Message]uint)
 	stage.MessageOrder = 0
 
+	if stage.GetProbeIF() != nil {
+		stage.GetProbeIF().ResetNotifications()
+	}
 	stage.ComputeReference()
 }
 

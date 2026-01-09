@@ -938,6 +938,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.SvgImageMap_Staged_Order = make(map[*SvgImage]uint)
 	stage.SvgImageOrder = 0
 
+	if stage.GetProbeIF() != nil {
+		stage.GetProbeIF().ResetNotifications()
+	}
 	stage.ComputeReference()
 }
 

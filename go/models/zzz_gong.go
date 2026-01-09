@@ -1895,6 +1895,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.SliceOfPointerToGongStructFieldMap_Staged_Order = make(map[*SliceOfPointerToGongStructField]uint)
 	stage.SliceOfPointerToGongStructFieldOrder = 0
 
+	if stage.GetProbeIF() != nil {
+		stage.GetProbeIF().ResetNotifications()
+	}
 	stage.ComputeReference()
 }
 

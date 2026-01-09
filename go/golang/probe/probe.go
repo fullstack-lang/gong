@@ -178,12 +178,18 @@ func (probe *Probe) Refresh() {
 	probe.docStager.UpdateAndCommitSVGStage()
 }
 
+const NbNotificationMax = 100
+
 func (probe *Probe) AddNotification(date time.Time, message string) {
 	notification := Notification{
 		Date:    date,
 		Message: message,
 	}
 	probe.notification = append(probe.notification, &notification)
+
+	if len(probe.notification) > NbNotificationMax {
+		probe.notification = probe.notification[1:] // Drop the first element (index 0)
+	}
 }
 
 func (probe *Probe) CommitNotificationTable() {

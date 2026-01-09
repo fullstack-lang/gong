@@ -1629,6 +1629,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.LinkShapeMap_Staged_Order = make(map[*LinkShape]uint)
 	stage.LinkShapeOrder = 0
 
+	if stage.GetProbeIF() != nil {
+		stage.GetProbeIF().ResetNotifications()
+	}
 	stage.ComputeReference()
 }
 

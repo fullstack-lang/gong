@@ -2574,6 +2574,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.TextMap_Staged_Order = make(map[*Text]uint)
 	stage.TextOrder = 0
 
+	if stage.GetProbeIF() != nil {
+		stage.GetProbeIF().ResetNotifications()
+	}
 	stage.ComputeReference()
 }
 
