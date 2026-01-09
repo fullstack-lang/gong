@@ -93,9 +93,10 @@ type Stage struct {
 	name string
 
 	// insertion point for definition of arrays registering instances
-	Chapters           map[*Chapter]struct{}
-	Chapters_reference map[*Chapter]*Chapter
-	Chapters_mapString map[string]*Chapter
+	Chapters                map[*Chapter]struct{}
+	Chapters_reference      map[*Chapter]*Chapter
+	Chapters_referenceOrder map[*Chapter]uint // diff Unstage needs the reference order 
+	Chapters_mapString      map[string]*Chapter
 
 	// insertion point for slice of pointers maps
 	Chapter_Pages_reverseMap map[*Page]*Chapter
@@ -105,9 +106,10 @@ type Stage struct {
 	OnAfterChapterDeleteCallback OnAfterDeleteInterface[Chapter]
 	OnAfterChapterReadCallback   OnAfterReadInterface[Chapter]
 
-	Contents           map[*Content]struct{}
-	Contents_reference map[*Content]*Content
-	Contents_mapString map[string]*Content
+	Contents                map[*Content]struct{}
+	Contents_reference      map[*Content]*Content
+	Contents_referenceOrder map[*Content]uint // diff Unstage needs the reference order 
+	Contents_mapString      map[string]*Content
 
 	// insertion point for slice of pointers maps
 	Content_Chapters_reverseMap map[*Chapter]*Content
@@ -117,9 +119,10 @@ type Stage struct {
 	OnAfterContentDeleteCallback OnAfterDeleteInterface[Content]
 	OnAfterContentReadCallback   OnAfterReadInterface[Content]
 
-	Pages           map[*Page]struct{}
-	Pages_reference map[*Page]*Page
-	Pages_mapString map[string]*Page
+	Pages                map[*Page]struct{}
+	Pages_reference      map[*Page]*Page
+	Pages_referenceOrder map[*Page]uint // diff Unstage needs the reference order 
+	Pages_mapString      map[string]*Page
 
 	// insertion point for slice of pointers maps
 	OnAfterPageCreateCallback OnAfterCreateInterface[Page]
@@ -867,6 +870,7 @@ type GongstructIF interface {
 	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
+	GongGetReferenceIdentifier(stage *Stage) string
 	GongGetIdentifier(stage *Stage) string
 	GongCopy() GongstructIF
 	GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) string

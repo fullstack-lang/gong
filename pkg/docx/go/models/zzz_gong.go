@@ -93,9 +93,10 @@ type Stage struct {
 	name string
 
 	// insertion point for definition of arrays registering instances
-	Bodys           map[*Body]struct{}
-	Bodys_reference map[*Body]*Body
-	Bodys_mapString map[string]*Body
+	Bodys                map[*Body]struct{}
+	Bodys_reference      map[*Body]*Body
+	Bodys_referenceOrder map[*Body]uint // diff Unstage needs the reference order 
+	Bodys_mapString      map[string]*Body
 
 	// insertion point for slice of pointers maps
 	Body_Paragraphs_reverseMap map[*Paragraph]*Body
@@ -107,9 +108,10 @@ type Stage struct {
 	OnAfterBodyDeleteCallback OnAfterDeleteInterface[Body]
 	OnAfterBodyReadCallback   OnAfterReadInterface[Body]
 
-	Documents           map[*Document]struct{}
-	Documents_reference map[*Document]*Document
-	Documents_mapString map[string]*Document
+	Documents                map[*Document]struct{}
+	Documents_reference      map[*Document]*Document
+	Documents_referenceOrder map[*Document]uint // diff Unstage needs the reference order 
+	Documents_mapString      map[string]*Document
 
 	// insertion point for slice of pointers maps
 	OnAfterDocumentCreateCallback OnAfterCreateInterface[Document]
@@ -117,9 +119,10 @@ type Stage struct {
 	OnAfterDocumentDeleteCallback OnAfterDeleteInterface[Document]
 	OnAfterDocumentReadCallback   OnAfterReadInterface[Document]
 
-	Docxs           map[*Docx]struct{}
-	Docxs_reference map[*Docx]*Docx
-	Docxs_mapString map[string]*Docx
+	Docxs                map[*Docx]struct{}
+	Docxs_reference      map[*Docx]*Docx
+	Docxs_referenceOrder map[*Docx]uint // diff Unstage needs the reference order 
+	Docxs_mapString      map[string]*Docx
 
 	// insertion point for slice of pointers maps
 	Docx_Files_reverseMap map[*File]*Docx
@@ -129,9 +132,10 @@ type Stage struct {
 	OnAfterDocxDeleteCallback OnAfterDeleteInterface[Docx]
 	OnAfterDocxReadCallback   OnAfterReadInterface[Docx]
 
-	Files           map[*File]struct{}
-	Files_reference map[*File]*File
-	Files_mapString map[string]*File
+	Files                map[*File]struct{}
+	Files_reference      map[*File]*File
+	Files_referenceOrder map[*File]uint // diff Unstage needs the reference order 
+	Files_mapString      map[string]*File
 
 	// insertion point for slice of pointers maps
 	OnAfterFileCreateCallback OnAfterCreateInterface[File]
@@ -139,9 +143,10 @@ type Stage struct {
 	OnAfterFileDeleteCallback OnAfterDeleteInterface[File]
 	OnAfterFileReadCallback   OnAfterReadInterface[File]
 
-	Nodes           map[*Node]struct{}
-	Nodes_reference map[*Node]*Node
-	Nodes_mapString map[string]*Node
+	Nodes                map[*Node]struct{}
+	Nodes_reference      map[*Node]*Node
+	Nodes_referenceOrder map[*Node]uint // diff Unstage needs the reference order 
+	Nodes_mapString      map[string]*Node
 
 	// insertion point for slice of pointers maps
 	Node_Nodes_reverseMap map[*Node]*Node
@@ -151,9 +156,10 @@ type Stage struct {
 	OnAfterNodeDeleteCallback OnAfterDeleteInterface[Node]
 	OnAfterNodeReadCallback   OnAfterReadInterface[Node]
 
-	Paragraphs           map[*Paragraph]struct{}
-	Paragraphs_reference map[*Paragraph]*Paragraph
-	Paragraphs_mapString map[string]*Paragraph
+	Paragraphs                map[*Paragraph]struct{}
+	Paragraphs_reference      map[*Paragraph]*Paragraph
+	Paragraphs_referenceOrder map[*Paragraph]uint // diff Unstage needs the reference order 
+	Paragraphs_mapString      map[string]*Paragraph
 
 	// insertion point for slice of pointers maps
 	Paragraph_Runes_reverseMap map[*Rune]*Paragraph
@@ -163,9 +169,10 @@ type Stage struct {
 	OnAfterParagraphDeleteCallback OnAfterDeleteInterface[Paragraph]
 	OnAfterParagraphReadCallback   OnAfterReadInterface[Paragraph]
 
-	ParagraphPropertiess           map[*ParagraphProperties]struct{}
-	ParagraphPropertiess_reference map[*ParagraphProperties]*ParagraphProperties
-	ParagraphPropertiess_mapString map[string]*ParagraphProperties
+	ParagraphPropertiess                map[*ParagraphProperties]struct{}
+	ParagraphPropertiess_reference      map[*ParagraphProperties]*ParagraphProperties
+	ParagraphPropertiess_referenceOrder map[*ParagraphProperties]uint // diff Unstage needs the reference order 
+	ParagraphPropertiess_mapString      map[string]*ParagraphProperties
 
 	// insertion point for slice of pointers maps
 	OnAfterParagraphPropertiesCreateCallback OnAfterCreateInterface[ParagraphProperties]
@@ -173,9 +180,10 @@ type Stage struct {
 	OnAfterParagraphPropertiesDeleteCallback OnAfterDeleteInterface[ParagraphProperties]
 	OnAfterParagraphPropertiesReadCallback   OnAfterReadInterface[ParagraphProperties]
 
-	ParagraphStyles           map[*ParagraphStyle]struct{}
-	ParagraphStyles_reference map[*ParagraphStyle]*ParagraphStyle
-	ParagraphStyles_mapString map[string]*ParagraphStyle
+	ParagraphStyles                map[*ParagraphStyle]struct{}
+	ParagraphStyles_reference      map[*ParagraphStyle]*ParagraphStyle
+	ParagraphStyles_referenceOrder map[*ParagraphStyle]uint // diff Unstage needs the reference order 
+	ParagraphStyles_mapString      map[string]*ParagraphStyle
 
 	// insertion point for slice of pointers maps
 	OnAfterParagraphStyleCreateCallback OnAfterCreateInterface[ParagraphStyle]
@@ -183,9 +191,10 @@ type Stage struct {
 	OnAfterParagraphStyleDeleteCallback OnAfterDeleteInterface[ParagraphStyle]
 	OnAfterParagraphStyleReadCallback   OnAfterReadInterface[ParagraphStyle]
 
-	Runes           map[*Rune]struct{}
-	Runes_reference map[*Rune]*Rune
-	Runes_mapString map[string]*Rune
+	Runes                map[*Rune]struct{}
+	Runes_reference      map[*Rune]*Rune
+	Runes_referenceOrder map[*Rune]uint // diff Unstage needs the reference order 
+	Runes_mapString      map[string]*Rune
 
 	// insertion point for slice of pointers maps
 	OnAfterRuneCreateCallback OnAfterCreateInterface[Rune]
@@ -193,9 +202,10 @@ type Stage struct {
 	OnAfterRuneDeleteCallback OnAfterDeleteInterface[Rune]
 	OnAfterRuneReadCallback   OnAfterReadInterface[Rune]
 
-	RunePropertiess           map[*RuneProperties]struct{}
-	RunePropertiess_reference map[*RuneProperties]*RuneProperties
-	RunePropertiess_mapString map[string]*RuneProperties
+	RunePropertiess                map[*RuneProperties]struct{}
+	RunePropertiess_reference      map[*RuneProperties]*RuneProperties
+	RunePropertiess_referenceOrder map[*RuneProperties]uint // diff Unstage needs the reference order 
+	RunePropertiess_mapString      map[string]*RuneProperties
 
 	// insertion point for slice of pointers maps
 	OnAfterRunePropertiesCreateCallback OnAfterCreateInterface[RuneProperties]
@@ -203,9 +213,10 @@ type Stage struct {
 	OnAfterRunePropertiesDeleteCallback OnAfterDeleteInterface[RuneProperties]
 	OnAfterRunePropertiesReadCallback   OnAfterReadInterface[RuneProperties]
 
-	Tables           map[*Table]struct{}
-	Tables_reference map[*Table]*Table
-	Tables_mapString map[string]*Table
+	Tables                map[*Table]struct{}
+	Tables_reference      map[*Table]*Table
+	Tables_referenceOrder map[*Table]uint // diff Unstage needs the reference order 
+	Tables_mapString      map[string]*Table
 
 	// insertion point for slice of pointers maps
 	Table_TableRows_reverseMap map[*TableRow]*Table
@@ -215,9 +226,10 @@ type Stage struct {
 	OnAfterTableDeleteCallback OnAfterDeleteInterface[Table]
 	OnAfterTableReadCallback   OnAfterReadInterface[Table]
 
-	TableColumns           map[*TableColumn]struct{}
-	TableColumns_reference map[*TableColumn]*TableColumn
-	TableColumns_mapString map[string]*TableColumn
+	TableColumns                map[*TableColumn]struct{}
+	TableColumns_reference      map[*TableColumn]*TableColumn
+	TableColumns_referenceOrder map[*TableColumn]uint // diff Unstage needs the reference order 
+	TableColumns_mapString      map[string]*TableColumn
 
 	// insertion point for slice of pointers maps
 	TableColumn_Paragraphs_reverseMap map[*Paragraph]*TableColumn
@@ -227,9 +239,10 @@ type Stage struct {
 	OnAfterTableColumnDeleteCallback OnAfterDeleteInterface[TableColumn]
 	OnAfterTableColumnReadCallback   OnAfterReadInterface[TableColumn]
 
-	TablePropertiess           map[*TableProperties]struct{}
-	TablePropertiess_reference map[*TableProperties]*TableProperties
-	TablePropertiess_mapString map[string]*TableProperties
+	TablePropertiess                map[*TableProperties]struct{}
+	TablePropertiess_reference      map[*TableProperties]*TableProperties
+	TablePropertiess_referenceOrder map[*TableProperties]uint // diff Unstage needs the reference order 
+	TablePropertiess_mapString      map[string]*TableProperties
 
 	// insertion point for slice of pointers maps
 	OnAfterTablePropertiesCreateCallback OnAfterCreateInterface[TableProperties]
@@ -237,9 +250,10 @@ type Stage struct {
 	OnAfterTablePropertiesDeleteCallback OnAfterDeleteInterface[TableProperties]
 	OnAfterTablePropertiesReadCallback   OnAfterReadInterface[TableProperties]
 
-	TableRows           map[*TableRow]struct{}
-	TableRows_reference map[*TableRow]*TableRow
-	TableRows_mapString map[string]*TableRow
+	TableRows                map[*TableRow]struct{}
+	TableRows_reference      map[*TableRow]*TableRow
+	TableRows_referenceOrder map[*TableRow]uint // diff Unstage needs the reference order 
+	TableRows_mapString      map[string]*TableRow
 
 	// insertion point for slice of pointers maps
 	TableRow_TableColumns_reverseMap map[*TableColumn]*TableRow
@@ -249,9 +263,10 @@ type Stage struct {
 	OnAfterTableRowDeleteCallback OnAfterDeleteInterface[TableRow]
 	OnAfterTableRowReadCallback   OnAfterReadInterface[TableRow]
 
-	TableStyles           map[*TableStyle]struct{}
-	TableStyles_reference map[*TableStyle]*TableStyle
-	TableStyles_mapString map[string]*TableStyle
+	TableStyles                map[*TableStyle]struct{}
+	TableStyles_reference      map[*TableStyle]*TableStyle
+	TableStyles_referenceOrder map[*TableStyle]uint // diff Unstage needs the reference order 
+	TableStyles_mapString      map[string]*TableStyle
 
 	// insertion point for slice of pointers maps
 	OnAfterTableStyleCreateCallback OnAfterCreateInterface[TableStyle]
@@ -259,9 +274,10 @@ type Stage struct {
 	OnAfterTableStyleDeleteCallback OnAfterDeleteInterface[TableStyle]
 	OnAfterTableStyleReadCallback   OnAfterReadInterface[TableStyle]
 
-	Texts           map[*Text]struct{}
-	Texts_reference map[*Text]*Text
-	Texts_mapString map[string]*Text
+	Texts                map[*Text]struct{}
+	Texts_reference      map[*Text]*Text
+	Texts_referenceOrder map[*Text]uint // diff Unstage needs the reference order 
+	Texts_mapString      map[string]*Text
 
 	// insertion point for slice of pointers maps
 	OnAfterTextCreateCallback OnAfterCreateInterface[Text]
@@ -2725,6 +2741,7 @@ type GongstructIF interface {
 	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
+	GongGetReferenceIdentifier(stage *Stage) string
 	GongGetIdentifier(stage *Stage) string
 	GongCopy() GongstructIF
 	GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) string

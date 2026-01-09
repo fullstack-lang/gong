@@ -93,9 +93,10 @@ type Stage struct {
 	name string
 
 	// insertion point for definition of arrays registering instances
-	Buttons           map[*Button]struct{}
-	Buttons_reference map[*Button]*Button
-	Buttons_mapString map[string]*Button
+	Buttons                map[*Button]struct{}
+	Buttons_reference      map[*Button]*Button
+	Buttons_referenceOrder map[*Button]uint // diff Unstage needs the reference order 
+	Buttons_mapString      map[string]*Button
 
 	// insertion point for slice of pointers maps
 	OnAfterButtonCreateCallback OnAfterCreateInterface[Button]
@@ -103,9 +104,10 @@ type Stage struct {
 	OnAfterButtonDeleteCallback OnAfterDeleteInterface[Button]
 	OnAfterButtonReadCallback   OnAfterReadInterface[Button]
 
-	Nodes           map[*Node]struct{}
-	Nodes_reference map[*Node]*Node
-	Nodes_mapString map[string]*Node
+	Nodes                map[*Node]struct{}
+	Nodes_reference      map[*Node]*Node
+	Nodes_referenceOrder map[*Node]uint // diff Unstage needs the reference order 
+	Nodes_mapString      map[string]*Node
 
 	// insertion point for slice of pointers maps
 	Node_Children_reverseMap map[*Node]*Node
@@ -117,9 +119,10 @@ type Stage struct {
 	OnAfterNodeDeleteCallback OnAfterDeleteInterface[Node]
 	OnAfterNodeReadCallback   OnAfterReadInterface[Node]
 
-	SVGIcons           map[*SVGIcon]struct{}
-	SVGIcons_reference map[*SVGIcon]*SVGIcon
-	SVGIcons_mapString map[string]*SVGIcon
+	SVGIcons                map[*SVGIcon]struct{}
+	SVGIcons_reference      map[*SVGIcon]*SVGIcon
+	SVGIcons_referenceOrder map[*SVGIcon]uint // diff Unstage needs the reference order 
+	SVGIcons_mapString      map[string]*SVGIcon
 
 	// insertion point for slice of pointers maps
 	OnAfterSVGIconCreateCallback OnAfterCreateInterface[SVGIcon]
@@ -127,9 +130,10 @@ type Stage struct {
 	OnAfterSVGIconDeleteCallback OnAfterDeleteInterface[SVGIcon]
 	OnAfterSVGIconReadCallback   OnAfterReadInterface[SVGIcon]
 
-	Trees           map[*Tree]struct{}
-	Trees_reference map[*Tree]*Tree
-	Trees_mapString map[string]*Tree
+	Trees                map[*Tree]struct{}
+	Trees_reference      map[*Tree]*Tree
+	Trees_referenceOrder map[*Tree]uint // diff Unstage needs the reference order 
+	Trees_mapString      map[string]*Tree
 
 	// insertion point for slice of pointers maps
 	Tree_RootNodes_reverseMap map[*Node]*Tree
@@ -1011,6 +1015,7 @@ type GongstructIF interface {
 	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
+	GongGetReferenceIdentifier(stage *Stage) string
 	GongGetIdentifier(stage *Stage) string
 	GongCopy() GongstructIF
 	GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) string

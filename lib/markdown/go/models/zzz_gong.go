@@ -93,9 +93,10 @@ type Stage struct {
 	name string
 
 	// insertion point for definition of arrays registering instances
-	Contents           map[*Content]struct{}
-	Contents_reference map[*Content]*Content
-	Contents_mapString map[string]*Content
+	Contents                map[*Content]struct{}
+	Contents_reference      map[*Content]*Content
+	Contents_referenceOrder map[*Content]uint // diff Unstage needs the reference order 
+	Contents_mapString      map[string]*Content
 
 	// insertion point for slice of pointers maps
 	OnAfterContentCreateCallback OnAfterCreateInterface[Content]
@@ -103,9 +104,10 @@ type Stage struct {
 	OnAfterContentDeleteCallback OnAfterDeleteInterface[Content]
 	OnAfterContentReadCallback   OnAfterReadInterface[Content]
 
-	JpgImages           map[*JpgImage]struct{}
-	JpgImages_reference map[*JpgImage]*JpgImage
-	JpgImages_mapString map[string]*JpgImage
+	JpgImages                map[*JpgImage]struct{}
+	JpgImages_reference      map[*JpgImage]*JpgImage
+	JpgImages_referenceOrder map[*JpgImage]uint // diff Unstage needs the reference order 
+	JpgImages_mapString      map[string]*JpgImage
 
 	// insertion point for slice of pointers maps
 	OnAfterJpgImageCreateCallback OnAfterCreateInterface[JpgImage]
@@ -113,9 +115,10 @@ type Stage struct {
 	OnAfterJpgImageDeleteCallback OnAfterDeleteInterface[JpgImage]
 	OnAfterJpgImageReadCallback   OnAfterReadInterface[JpgImage]
 
-	PngImages           map[*PngImage]struct{}
-	PngImages_reference map[*PngImage]*PngImage
-	PngImages_mapString map[string]*PngImage
+	PngImages                map[*PngImage]struct{}
+	PngImages_reference      map[*PngImage]*PngImage
+	PngImages_referenceOrder map[*PngImage]uint // diff Unstage needs the reference order 
+	PngImages_mapString      map[string]*PngImage
 
 	// insertion point for slice of pointers maps
 	OnAfterPngImageCreateCallback OnAfterCreateInterface[PngImage]
@@ -123,9 +126,10 @@ type Stage struct {
 	OnAfterPngImageDeleteCallback OnAfterDeleteInterface[PngImage]
 	OnAfterPngImageReadCallback   OnAfterReadInterface[PngImage]
 
-	SvgImages           map[*SvgImage]struct{}
-	SvgImages_reference map[*SvgImage]*SvgImage
-	SvgImages_mapString map[string]*SvgImage
+	SvgImages                map[*SvgImage]struct{}
+	SvgImages_reference      map[*SvgImage]*SvgImage
+	SvgImages_referenceOrder map[*SvgImage]uint // diff Unstage needs the reference order 
+	SvgImages_mapString      map[string]*SvgImage
 
 	// insertion point for slice of pointers maps
 	OnAfterSvgImageCreateCallback OnAfterCreateInterface[SvgImage]
@@ -1005,6 +1009,7 @@ type GongstructIF interface {
 	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
+	GongGetReferenceIdentifier(stage *Stage) string
 	GongGetIdentifier(stage *Stage) string
 	GongCopy() GongstructIF
 	GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) string

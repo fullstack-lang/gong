@@ -57,7 +57,7 @@ func (stage *Stage) ComputeDifference() {
 	// insertion point per named struct{{` + string(rune(GongSliceGongComputeDifference)) + `}}
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
-		notif := newInstancesStmt+fieldsEditStmt+deletedInstancesStmt
+		notif := newInstancesStmt + fieldsEditStmt + deletedInstancesStmt
 		notif += fmt.Sprintf("\n\t// %s", time.Now().Format(time.RFC3339Nano))
 		notif += "\n\tstage.Commit()"
 		if stage.GetProbeIF() != nil {
@@ -180,10 +180,19 @@ func ({{structname}} *{{Structname}}) GongCopy() GongstructIF {
 func ({{structname}} *{{Structname}}) GongGetOrder(stage *Stage) uint {
 	return stage.{{Structname}}Map_Staged_Order[{{structname}}]
 }
+
+func ({{structname}} *{{Structname}}) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.{{Structname}}s_referenceOrder[{{structname}}]
+}
 `,
 	GongSliceGongGetIdentifier: `
 func ({{structname}} *{{Structname}}) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", {{structname}}.GongGetGongstructName(), {{structname}}.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func ({{structname}} *{{Structname}}) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", {{structname}}.GongGetGongstructName(), {{structname}}.GongGetReferenceOrder(stage))
 }
 `,
 	GongSliceMarshallDeclaration: `
@@ -197,7 +206,7 @@ func ({{structname}} *{{Structname}}) GongMarshallIdentifier(stage *Stage) (decl
 	GongSliceMarshallUnstaging: `
 func ({{structname}} *{{Structname}}) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", {{structname}}.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", {{structname}}.GongGetReferenceIdentifier(stage))
 	return
 }`,
 }

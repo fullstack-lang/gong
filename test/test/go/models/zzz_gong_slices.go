@@ -413,9 +413,9 @@ func (stage *Stage) ComputeDifference() {
 	lenDeletedInstances += len(gstructs_deletedInstances)
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
-		notif := newInstancesStmt+fieldsEditStmt+deletedInstancesStmt
+		notif := newInstancesStmt + fieldsEditStmt + deletedInstancesStmt
 		notif += fmt.Sprintf("\n\t// %s", time.Now().Format(time.RFC3339Nano))
-		notif += fmt.Sprintf("\n\tstage.Commit()")
+		notif += "\n\tstage.Commit()"
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().AddNotification(
 				time.Now(),
@@ -431,38 +431,52 @@ func (stage *Stage) ComputeReference() {
 
 	// insertion point per named struct
 	stage.Astructs_reference = make(map[*Astruct]*Astruct)
+	stage.Astructs_referenceOrder = make(map[*Astruct]uint) // diff Unstage needs the reference order
 	for instance := range stage.Astructs {
 		stage.Astructs_reference[instance] = instance.GongCopy().(*Astruct)
+		stage.Astructs_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.AstructBstruct2Uses_reference = make(map[*AstructBstruct2Use]*AstructBstruct2Use)
+	stage.AstructBstruct2Uses_referenceOrder = make(map[*AstructBstruct2Use]uint) // diff Unstage needs the reference order
 	for instance := range stage.AstructBstruct2Uses {
 		stage.AstructBstruct2Uses_reference[instance] = instance.GongCopy().(*AstructBstruct2Use)
+		stage.AstructBstruct2Uses_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.AstructBstructUses_reference = make(map[*AstructBstructUse]*AstructBstructUse)
+	stage.AstructBstructUses_referenceOrder = make(map[*AstructBstructUse]uint) // diff Unstage needs the reference order
 	for instance := range stage.AstructBstructUses {
 		stage.AstructBstructUses_reference[instance] = instance.GongCopy().(*AstructBstructUse)
+		stage.AstructBstructUses_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Bstructs_reference = make(map[*Bstruct]*Bstruct)
+	stage.Bstructs_referenceOrder = make(map[*Bstruct]uint) // diff Unstage needs the reference order
 	for instance := range stage.Bstructs {
 		stage.Bstructs_reference[instance] = instance.GongCopy().(*Bstruct)
+		stage.Bstructs_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Dstructs_reference = make(map[*Dstruct]*Dstruct)
+	stage.Dstructs_referenceOrder = make(map[*Dstruct]uint) // diff Unstage needs the reference order
 	for instance := range stage.Dstructs {
 		stage.Dstructs_reference[instance] = instance.GongCopy().(*Dstruct)
+		stage.Dstructs_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.F0123456789012345678901234567890s_reference = make(map[*F0123456789012345678901234567890]*F0123456789012345678901234567890)
+	stage.F0123456789012345678901234567890s_referenceOrder = make(map[*F0123456789012345678901234567890]uint) // diff Unstage needs the reference order
 	for instance := range stage.F0123456789012345678901234567890s {
 		stage.F0123456789012345678901234567890s_reference[instance] = instance.GongCopy().(*F0123456789012345678901234567890)
+		stage.F0123456789012345678901234567890s_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Gstructs_reference = make(map[*Gstruct]*Gstruct)
+	stage.Gstructs_referenceOrder = make(map[*Gstruct]uint) // diff Unstage needs the reference order
 	for instance := range stage.Gstructs {
 		stage.Gstructs_reference[instance] = instance.GongCopy().(*Gstruct)
+		stage.Gstructs_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 }
@@ -478,28 +492,56 @@ func (astruct *Astruct) GongGetOrder(stage *Stage) uint {
 	return stage.AstructMap_Staged_Order[astruct]
 }
 
+func (astruct *Astruct) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.Astructs_referenceOrder[astruct]
+}
+
 func (astructbstruct2use *AstructBstruct2Use) GongGetOrder(stage *Stage) uint {
 	return stage.AstructBstruct2UseMap_Staged_Order[astructbstruct2use]
+}
+
+func (astructbstruct2use *AstructBstruct2Use) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.AstructBstruct2Uses_referenceOrder[astructbstruct2use]
 }
 
 func (astructbstructuse *AstructBstructUse) GongGetOrder(stage *Stage) uint {
 	return stage.AstructBstructUseMap_Staged_Order[astructbstructuse]
 }
 
+func (astructbstructuse *AstructBstructUse) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.AstructBstructUses_referenceOrder[astructbstructuse]
+}
+
 func (bstruct *Bstruct) GongGetOrder(stage *Stage) uint {
 	return stage.BstructMap_Staged_Order[bstruct]
+}
+
+func (bstruct *Bstruct) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.Bstructs_referenceOrder[bstruct]
 }
 
 func (dstruct *Dstruct) GongGetOrder(stage *Stage) uint {
 	return stage.DstructMap_Staged_Order[dstruct]
 }
 
+func (dstruct *Dstruct) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.Dstructs_referenceOrder[dstruct]
+}
+
 func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GongGetOrder(stage *Stage) uint {
 	return stage.F0123456789012345678901234567890Map_Staged_Order[f0123456789012345678901234567890]
 }
 
+func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.F0123456789012345678901234567890s_referenceOrder[f0123456789012345678901234567890]
+}
+
 func (gstruct *Gstruct) GongGetOrder(stage *Stage) uint {
 	return stage.GstructMap_Staged_Order[gstruct]
+}
+
+func (gstruct *Gstruct) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.Gstructs_referenceOrder[gstruct]
 }
 
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
@@ -511,28 +553,63 @@ func (astruct *Astruct) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", astruct.GongGetGongstructName(), astruct.GongGetOrder(stage))
 }
 
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (astruct *Astruct) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", astruct.GongGetGongstructName(), astruct.GongGetReferenceOrder(stage))
+}
+
 func (astructbstruct2use *AstructBstruct2Use) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", astructbstruct2use.GongGetGongstructName(), astructbstruct2use.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (astructbstruct2use *AstructBstruct2Use) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", astructbstruct2use.GongGetGongstructName(), astructbstruct2use.GongGetReferenceOrder(stage))
 }
 
 func (astructbstructuse *AstructBstructUse) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", astructbstructuse.GongGetGongstructName(), astructbstructuse.GongGetOrder(stage))
 }
 
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (astructbstructuse *AstructBstructUse) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", astructbstructuse.GongGetGongstructName(), astructbstructuse.GongGetReferenceOrder(stage))
+}
+
 func (bstruct *Bstruct) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", bstruct.GongGetGongstructName(), bstruct.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (bstruct *Bstruct) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", bstruct.GongGetGongstructName(), bstruct.GongGetReferenceOrder(stage))
 }
 
 func (dstruct *Dstruct) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", dstruct.GongGetGongstructName(), dstruct.GongGetOrder(stage))
 }
 
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (dstruct *Dstruct) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", dstruct.GongGetGongstructName(), dstruct.GongGetReferenceOrder(stage))
+}
+
 func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", f0123456789012345678901234567890.GongGetGongstructName(), f0123456789012345678901234567890.GongGetOrder(stage))
 }
 
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", f0123456789012345678901234567890.GongGetGongstructName(), f0123456789012345678901234567890.GongGetReferenceOrder(stage))
+}
+
 func (gstruct *Gstruct) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", gstruct.GongGetGongstructName(), gstruct.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (gstruct *Gstruct) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", gstruct.GongGetGongstructName(), gstruct.GongGetReferenceOrder(stage))
 }
 
 // MarshallIdentifier returns the code to instantiate the instance
@@ -591,36 +668,36 @@ func (gstruct *Gstruct) GongMarshallIdentifier(stage *Stage) (decl string) {
 // insertion point for unstaging
 func (astruct *Astruct) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", astruct.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", astruct.GongGetReferenceIdentifier(stage))
 	return
 }
 func (astructbstruct2use *AstructBstruct2Use) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", astructbstruct2use.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", astructbstruct2use.GongGetReferenceIdentifier(stage))
 	return
 }
 func (astructbstructuse *AstructBstructUse) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", astructbstructuse.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", astructbstructuse.GongGetReferenceIdentifier(stage))
 	return
 }
 func (bstruct *Bstruct) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", bstruct.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", bstruct.GongGetReferenceIdentifier(stage))
 	return
 }
 func (dstruct *Dstruct) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", dstruct.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", dstruct.GongGetReferenceIdentifier(stage))
 	return
 }
 func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", f0123456789012345678901234567890.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", f0123456789012345678901234567890.GongGetReferenceIdentifier(stage))
 	return
 }
 func (gstruct *Gstruct) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", gstruct.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", gstruct.GongGetReferenceIdentifier(stage))
 	return
 }

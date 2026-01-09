@@ -295,9 +295,9 @@ func (stage *Stage) ComputeDifference() {
 	lenDeletedInstances += len(layouts_deletedInstances)
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
-		notif := newInstancesStmt+fieldsEditStmt+deletedInstancesStmt
+		notif := newInstancesStmt + fieldsEditStmt + deletedInstancesStmt
 		notif += fmt.Sprintf("\n\t// %s", time.Now().Format(time.RFC3339Nano))
-		notif += fmt.Sprintf("\n\tstage.Commit()")
+		notif += "\n\tstage.Commit()"
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().AddNotification(
 				time.Now(),
@@ -313,28 +313,38 @@ func (stage *Stage) ComputeReference() {
 
 	// insertion point per named struct
 	stage.Buttons_reference = make(map[*Button]*Button)
+	stage.Buttons_referenceOrder = make(map[*Button]uint) // diff Unstage needs the reference order
 	for instance := range stage.Buttons {
 		stage.Buttons_reference[instance] = instance.GongCopy().(*Button)
+		stage.Buttons_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.ButtonToggles_reference = make(map[*ButtonToggle]*ButtonToggle)
+	stage.ButtonToggles_referenceOrder = make(map[*ButtonToggle]uint) // diff Unstage needs the reference order
 	for instance := range stage.ButtonToggles {
 		stage.ButtonToggles_reference[instance] = instance.GongCopy().(*ButtonToggle)
+		stage.ButtonToggles_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Groups_reference = make(map[*Group]*Group)
+	stage.Groups_referenceOrder = make(map[*Group]uint) // diff Unstage needs the reference order
 	for instance := range stage.Groups {
 		stage.Groups_reference[instance] = instance.GongCopy().(*Group)
+		stage.Groups_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.GroupToogles_reference = make(map[*GroupToogle]*GroupToogle)
+	stage.GroupToogles_referenceOrder = make(map[*GroupToogle]uint) // diff Unstage needs the reference order
 	for instance := range stage.GroupToogles {
 		stage.GroupToogles_reference[instance] = instance.GongCopy().(*GroupToogle)
+		stage.GroupToogles_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Layouts_reference = make(map[*Layout]*Layout)
+	stage.Layouts_referenceOrder = make(map[*Layout]uint) // diff Unstage needs the reference order
 	for instance := range stage.Layouts {
 		stage.Layouts_reference[instance] = instance.GongCopy().(*Layout)
+		stage.Layouts_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 }
@@ -350,20 +360,40 @@ func (button *Button) GongGetOrder(stage *Stage) uint {
 	return stage.ButtonMap_Staged_Order[button]
 }
 
+func (button *Button) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.Buttons_referenceOrder[button]
+}
+
 func (buttontoggle *ButtonToggle) GongGetOrder(stage *Stage) uint {
 	return stage.ButtonToggleMap_Staged_Order[buttontoggle]
+}
+
+func (buttontoggle *ButtonToggle) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.ButtonToggles_referenceOrder[buttontoggle]
 }
 
 func (group *Group) GongGetOrder(stage *Stage) uint {
 	return stage.GroupMap_Staged_Order[group]
 }
 
+func (group *Group) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.Groups_referenceOrder[group]
+}
+
 func (grouptoogle *GroupToogle) GongGetOrder(stage *Stage) uint {
 	return stage.GroupToogleMap_Staged_Order[grouptoogle]
 }
 
+func (grouptoogle *GroupToogle) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.GroupToogles_referenceOrder[grouptoogle]
+}
+
 func (layout *Layout) GongGetOrder(stage *Stage) uint {
 	return stage.LayoutMap_Staged_Order[layout]
+}
+
+func (layout *Layout) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.Layouts_referenceOrder[layout]
 }
 
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
@@ -375,20 +405,45 @@ func (button *Button) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", button.GongGetGongstructName(), button.GongGetOrder(stage))
 }
 
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (button *Button) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", button.GongGetGongstructName(), button.GongGetReferenceOrder(stage))
+}
+
 func (buttontoggle *ButtonToggle) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", buttontoggle.GongGetGongstructName(), buttontoggle.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (buttontoggle *ButtonToggle) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", buttontoggle.GongGetGongstructName(), buttontoggle.GongGetReferenceOrder(stage))
 }
 
 func (group *Group) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", group.GongGetGongstructName(), group.GongGetOrder(stage))
 }
 
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (group *Group) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", group.GongGetGongstructName(), group.GongGetReferenceOrder(stage))
+}
+
 func (grouptoogle *GroupToogle) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", grouptoogle.GongGetGongstructName(), grouptoogle.GongGetOrder(stage))
 }
 
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (grouptoogle *GroupToogle) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", grouptoogle.GongGetGongstructName(), grouptoogle.GongGetReferenceOrder(stage))
+}
+
 func (layout *Layout) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", layout.GongGetGongstructName(), layout.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (layout *Layout) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", layout.GongGetGongstructName(), layout.GongGetReferenceOrder(stage))
 }
 
 // MarshallIdentifier returns the code to instantiate the instance
@@ -433,26 +488,26 @@ func (layout *Layout) GongMarshallIdentifier(stage *Stage) (decl string) {
 // insertion point for unstaging
 func (button *Button) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", button.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", button.GongGetReferenceIdentifier(stage))
 	return
 }
 func (buttontoggle *ButtonToggle) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", buttontoggle.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", buttontoggle.GongGetReferenceIdentifier(stage))
 	return
 }
 func (group *Group) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", group.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", group.GongGetReferenceIdentifier(stage))
 	return
 }
 func (grouptoogle *GroupToogle) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", grouptoogle.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", grouptoogle.GongGetReferenceIdentifier(stage))
 	return
 }
 func (layout *Layout) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", layout.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", layout.GongGetReferenceIdentifier(stage))
 	return
 }
