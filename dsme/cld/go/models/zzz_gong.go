@@ -1893,6 +1893,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.InfluenceShapeMap_Staged_Order = make(map[*InfluenceShape]uint)
 	stage.InfluenceShapeOrder = 0
 
+	if stage.GetProbeIF() != nil {
+		stage.GetProbeIF().ResetNotifications()
+	}
 	stage.ComputeReference()
 }
 
