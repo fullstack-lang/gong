@@ -2451,6 +2451,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Transition_ShapeMap_Staged_Order = make(map[*Transition_Shape]uint)
 	stage.Transition_ShapeOrder = 0
 
+	if stage.GetProbeIF() != nil {
+		stage.GetProbeIF().ResetNotifications()
+	}
 	stage.ComputeReference()
 }
 

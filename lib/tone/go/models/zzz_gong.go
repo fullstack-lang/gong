@@ -805,6 +805,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.PlayerMap_Staged_Order = make(map[*Player]uint)
 	stage.PlayerOrder = 0
 
+	if stage.GetProbeIF() != nil {
+		stage.GetProbeIF().ResetNotifications()
+	}
 	stage.ComputeReference()
 }
 

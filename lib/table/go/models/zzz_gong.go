@@ -3517,6 +3517,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.TableMap_Staged_Order = make(map[*Table]uint)
 	stage.TableOrder = 0
 
+	if stage.GetProbeIF() != nil {
+		stage.GetProbeIF().ResetNotifications()
+	}
 	stage.ComputeReference()
 }
 
