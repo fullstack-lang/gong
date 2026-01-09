@@ -93,9 +93,10 @@ type Stage struct {
 	name string
 
 	// insertion point for definition of arrays registering instances
-	Category1s           map[*Category1]struct{}
-	Category1s_reference map[*Category1]*Category1
-	Category1s_mapString map[string]*Category1
+	Category1s                map[*Category1]struct{}
+	Category1s_reference      map[*Category1]*Category1
+	Category1s_referenceOrder map[*Category1]uint // diff Unstage needs the reference order 
+	Category1s_mapString      map[string]*Category1
 
 	// insertion point for slice of pointers maps
 	OnAfterCategory1CreateCallback OnAfterCreateInterface[Category1]
@@ -103,9 +104,10 @@ type Stage struct {
 	OnAfterCategory1DeleteCallback OnAfterDeleteInterface[Category1]
 	OnAfterCategory1ReadCallback   OnAfterReadInterface[Category1]
 
-	Category1Shapes           map[*Category1Shape]struct{}
-	Category1Shapes_reference map[*Category1Shape]*Category1Shape
-	Category1Shapes_mapString map[string]*Category1Shape
+	Category1Shapes                map[*Category1Shape]struct{}
+	Category1Shapes_reference      map[*Category1Shape]*Category1Shape
+	Category1Shapes_referenceOrder map[*Category1Shape]uint // diff Unstage needs the reference order 
+	Category1Shapes_mapString      map[string]*Category1Shape
 
 	// insertion point for slice of pointers maps
 	OnAfterCategory1ShapeCreateCallback OnAfterCreateInterface[Category1Shape]
@@ -113,9 +115,10 @@ type Stage struct {
 	OnAfterCategory1ShapeDeleteCallback OnAfterDeleteInterface[Category1Shape]
 	OnAfterCategory1ShapeReadCallback   OnAfterReadInterface[Category1Shape]
 
-	Category2s           map[*Category2]struct{}
-	Category2s_reference map[*Category2]*Category2
-	Category2s_mapString map[string]*Category2
+	Category2s                map[*Category2]struct{}
+	Category2s_reference      map[*Category2]*Category2
+	Category2s_referenceOrder map[*Category2]uint // diff Unstage needs the reference order 
+	Category2s_mapString      map[string]*Category2
 
 	// insertion point for slice of pointers maps
 	OnAfterCategory2CreateCallback OnAfterCreateInterface[Category2]
@@ -123,9 +126,10 @@ type Stage struct {
 	OnAfterCategory2DeleteCallback OnAfterDeleteInterface[Category2]
 	OnAfterCategory2ReadCallback   OnAfterReadInterface[Category2]
 
-	Category2Shapes           map[*Category2Shape]struct{}
-	Category2Shapes_reference map[*Category2Shape]*Category2Shape
-	Category2Shapes_mapString map[string]*Category2Shape
+	Category2Shapes                map[*Category2Shape]struct{}
+	Category2Shapes_reference      map[*Category2Shape]*Category2Shape
+	Category2Shapes_referenceOrder map[*Category2Shape]uint // diff Unstage needs the reference order 
+	Category2Shapes_mapString      map[string]*Category2Shape
 
 	// insertion point for slice of pointers maps
 	OnAfterCategory2ShapeCreateCallback OnAfterCreateInterface[Category2Shape]
@@ -133,9 +137,10 @@ type Stage struct {
 	OnAfterCategory2ShapeDeleteCallback OnAfterDeleteInterface[Category2Shape]
 	OnAfterCategory2ShapeReadCallback   OnAfterReadInterface[Category2Shape]
 
-	Category3s           map[*Category3]struct{}
-	Category3s_reference map[*Category3]*Category3
-	Category3s_mapString map[string]*Category3
+	Category3s                map[*Category3]struct{}
+	Category3s_reference      map[*Category3]*Category3
+	Category3s_referenceOrder map[*Category3]uint // diff Unstage needs the reference order 
+	Category3s_mapString      map[string]*Category3
 
 	// insertion point for slice of pointers maps
 	OnAfterCategory3CreateCallback OnAfterCreateInterface[Category3]
@@ -143,9 +148,10 @@ type Stage struct {
 	OnAfterCategory3DeleteCallback OnAfterDeleteInterface[Category3]
 	OnAfterCategory3ReadCallback   OnAfterReadInterface[Category3]
 
-	Category3Shapes           map[*Category3Shape]struct{}
-	Category3Shapes_reference map[*Category3Shape]*Category3Shape
-	Category3Shapes_mapString map[string]*Category3Shape
+	Category3Shapes                map[*Category3Shape]struct{}
+	Category3Shapes_reference      map[*Category3Shape]*Category3Shape
+	Category3Shapes_referenceOrder map[*Category3Shape]uint // diff Unstage needs the reference order 
+	Category3Shapes_mapString      map[string]*Category3Shape
 
 	// insertion point for slice of pointers maps
 	OnAfterCategory3ShapeCreateCallback OnAfterCreateInterface[Category3Shape]
@@ -153,9 +159,10 @@ type Stage struct {
 	OnAfterCategory3ShapeDeleteCallback OnAfterDeleteInterface[Category3Shape]
 	OnAfterCategory3ShapeReadCallback   OnAfterReadInterface[Category3Shape]
 
-	ControlPointShapes           map[*ControlPointShape]struct{}
-	ControlPointShapes_reference map[*ControlPointShape]*ControlPointShape
-	ControlPointShapes_mapString map[string]*ControlPointShape
+	ControlPointShapes                map[*ControlPointShape]struct{}
+	ControlPointShapes_reference      map[*ControlPointShape]*ControlPointShape
+	ControlPointShapes_referenceOrder map[*ControlPointShape]uint // diff Unstage needs the reference order 
+	ControlPointShapes_mapString      map[string]*ControlPointShape
 
 	// insertion point for slice of pointers maps
 	OnAfterControlPointShapeCreateCallback OnAfterCreateInterface[ControlPointShape]
@@ -163,9 +170,10 @@ type Stage struct {
 	OnAfterControlPointShapeDeleteCallback OnAfterDeleteInterface[ControlPointShape]
 	OnAfterControlPointShapeReadCallback   OnAfterReadInterface[ControlPointShape]
 
-	Desks           map[*Desk]struct{}
-	Desks_reference map[*Desk]*Desk
-	Desks_mapString map[string]*Desk
+	Desks                map[*Desk]struct{}
+	Desks_reference      map[*Desk]*Desk
+	Desks_referenceOrder map[*Desk]uint // diff Unstage needs the reference order 
+	Desks_mapString      map[string]*Desk
 
 	// insertion point for slice of pointers maps
 	OnAfterDeskCreateCallback OnAfterCreateInterface[Desk]
@@ -173,9 +181,10 @@ type Stage struct {
 	OnAfterDeskDeleteCallback OnAfterDeleteInterface[Desk]
 	OnAfterDeskReadCallback   OnAfterReadInterface[Desk]
 
-	Diagrams           map[*Diagram]struct{}
-	Diagrams_reference map[*Diagram]*Diagram
-	Diagrams_mapString map[string]*Diagram
+	Diagrams                map[*Diagram]struct{}
+	Diagrams_reference      map[*Diagram]*Diagram
+	Diagrams_referenceOrder map[*Diagram]uint // diff Unstage needs the reference order 
+	Diagrams_mapString      map[string]*Diagram
 
 	// insertion point for slice of pointers maps
 	Diagram_Category1Shapes_reverseMap map[*Category1Shape]*Diagram
@@ -191,9 +200,10 @@ type Stage struct {
 	OnAfterDiagramDeleteCallback OnAfterDeleteInterface[Diagram]
 	OnAfterDiagramReadCallback   OnAfterReadInterface[Diagram]
 
-	Influences           map[*Influence]struct{}
-	Influences_reference map[*Influence]*Influence
-	Influences_mapString map[string]*Influence
+	Influences                map[*Influence]struct{}
+	Influences_reference      map[*Influence]*Influence
+	Influences_referenceOrder map[*Influence]uint // diff Unstage needs the reference order 
+	Influences_mapString      map[string]*Influence
 
 	// insertion point for slice of pointers maps
 	OnAfterInfluenceCreateCallback OnAfterCreateInterface[Influence]
@@ -201,9 +211,10 @@ type Stage struct {
 	OnAfterInfluenceDeleteCallback OnAfterDeleteInterface[Influence]
 	OnAfterInfluenceReadCallback   OnAfterReadInterface[Influence]
 
-	InfluenceShapes           map[*InfluenceShape]struct{}
-	InfluenceShapes_reference map[*InfluenceShape]*InfluenceShape
-	InfluenceShapes_mapString map[string]*InfluenceShape
+	InfluenceShapes                map[*InfluenceShape]struct{}
+	InfluenceShapes_reference      map[*InfluenceShape]*InfluenceShape
+	InfluenceShapes_referenceOrder map[*InfluenceShape]uint // diff Unstage needs the reference order 
+	InfluenceShapes_mapString      map[string]*InfluenceShape
 
 	// insertion point for slice of pointers maps
 	InfluenceShape_ControlPointShapes_reverseMap map[*ControlPointShape]*InfluenceShape
@@ -2009,6 +2020,7 @@ type GongstructIF interface {
 	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
+	GongGetReferenceIdentifier(stage *Stage) string
 	GongGetIdentifier(stage *Stage) string
 	GongCopy() GongstructIF
 	GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) string
