@@ -93,9 +93,10 @@ type Stage struct {
 	name string
 
 	// insertion point for definition of arrays registering instances
-	Commands           map[*Command]struct{}
-	Commands_reference map[*Command]*Command
-	Commands_mapString map[string]*Command
+	Commands                map[*Command]struct{}
+	Commands_reference      map[*Command]*Command
+	Commands_referenceOrder map[*Command]uint // diff Unstage needs the reference order 
+	Commands_mapString      map[string]*Command
 
 	// insertion point for slice of pointers maps
 	OnAfterCommandCreateCallback OnAfterCreateInterface[Command]
@@ -103,9 +104,10 @@ type Stage struct {
 	OnAfterCommandDeleteCallback OnAfterDeleteInterface[Command]
 	OnAfterCommandReadCallback   OnAfterReadInterface[Command]
 
-	DummyAgents           map[*DummyAgent]struct{}
-	DummyAgents_reference map[*DummyAgent]*DummyAgent
-	DummyAgents_mapString map[string]*DummyAgent
+	DummyAgents                map[*DummyAgent]struct{}
+	DummyAgents_reference      map[*DummyAgent]*DummyAgent
+	DummyAgents_referenceOrder map[*DummyAgent]uint // diff Unstage needs the reference order 
+	DummyAgents_mapString      map[string]*DummyAgent
 
 	// insertion point for slice of pointers maps
 	OnAfterDummyAgentCreateCallback OnAfterCreateInterface[DummyAgent]
@@ -113,9 +115,10 @@ type Stage struct {
 	OnAfterDummyAgentDeleteCallback OnAfterDeleteInterface[DummyAgent]
 	OnAfterDummyAgentReadCallback   OnAfterReadInterface[DummyAgent]
 
-	Engines           map[*Engine]struct{}
-	Engines_reference map[*Engine]*Engine
-	Engines_mapString map[string]*Engine
+	Engines                map[*Engine]struct{}
+	Engines_reference      map[*Engine]*Engine
+	Engines_referenceOrder map[*Engine]uint // diff Unstage needs the reference order 
+	Engines_mapString      map[string]*Engine
 
 	// insertion point for slice of pointers maps
 	OnAfterEngineCreateCallback OnAfterCreateInterface[Engine]
@@ -123,9 +126,10 @@ type Stage struct {
 	OnAfterEngineDeleteCallback OnAfterDeleteInterface[Engine]
 	OnAfterEngineReadCallback   OnAfterReadInterface[Engine]
 
-	Events           map[*Event]struct{}
-	Events_reference map[*Event]*Event
-	Events_mapString map[string]*Event
+	Events                map[*Event]struct{}
+	Events_reference      map[*Event]*Event
+	Events_referenceOrder map[*Event]uint // diff Unstage needs the reference order 
+	Events_mapString      map[string]*Event
 
 	// insertion point for slice of pointers maps
 	OnAfterEventCreateCallback OnAfterCreateInterface[Event]
@@ -133,9 +137,10 @@ type Stage struct {
 	OnAfterEventDeleteCallback OnAfterDeleteInterface[Event]
 	OnAfterEventReadCallback   OnAfterReadInterface[Event]
 
-	Statuss           map[*Status]struct{}
-	Statuss_reference map[*Status]*Status
-	Statuss_mapString map[string]*Status
+	Statuss                map[*Status]struct{}
+	Statuss_reference      map[*Status]*Status
+	Statuss_referenceOrder map[*Status]uint // diff Unstage needs the reference order 
+	Statuss_mapString      map[string]*Status
 
 	// insertion point for slice of pointers maps
 	OnAfterStatusCreateCallback OnAfterCreateInterface[Status]
@@ -143,9 +148,10 @@ type Stage struct {
 	OnAfterStatusDeleteCallback OnAfterDeleteInterface[Status]
 	OnAfterStatusReadCallback   OnAfterReadInterface[Status]
 
-	UpdateStates           map[*UpdateState]struct{}
-	UpdateStates_reference map[*UpdateState]*UpdateState
-	UpdateStates_mapString map[string]*UpdateState
+	UpdateStates                map[*UpdateState]struct{}
+	UpdateStates_reference      map[*UpdateState]*UpdateState
+	UpdateStates_referenceOrder map[*UpdateState]uint // diff Unstage needs the reference order 
+	UpdateStates_mapString      map[string]*UpdateState
 
 	// insertion point for slice of pointers maps
 	OnAfterUpdateStateCreateCallback OnAfterCreateInterface[UpdateState]
@@ -1289,6 +1295,7 @@ type GongstructIF interface {
 	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
+	GongGetReferenceIdentifier(stage *Stage) string
 	GongGetIdentifier(stage *Stage) string
 	GongCopy() GongstructIF
 	GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) string

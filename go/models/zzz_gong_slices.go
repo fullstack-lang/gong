@@ -579,9 +579,9 @@ func (stage *Stage) ComputeDifference() {
 	lenDeletedInstances += len(sliceofpointertogongstructfields_deletedInstances)
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
-		notif := newInstancesStmt+fieldsEditStmt+deletedInstancesStmt
+		notif := newInstancesStmt + fieldsEditStmt + deletedInstancesStmt
 		notif += fmt.Sprintf("\n\t// %s", time.Now().Format(time.RFC3339Nano))
-		notif += fmt.Sprintf("\n\tstage.Commit()")
+		notif += "\n\tstage.Commit()"
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().AddNotification(
 				time.Now(),
@@ -597,58 +597,80 @@ func (stage *Stage) ComputeReference() {
 
 	// insertion point per named struct
 	stage.GongBasicFields_reference = make(map[*GongBasicField]*GongBasicField)
+	stage.GongBasicFields_referenceOrder = make(map[*GongBasicField]uint) // diff Unstage needs the reference order
 	for instance := range stage.GongBasicFields {
 		stage.GongBasicFields_reference[instance] = instance.GongCopy().(*GongBasicField)
+		stage.GongBasicFields_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.GongEnums_reference = make(map[*GongEnum]*GongEnum)
+	stage.GongEnums_referenceOrder = make(map[*GongEnum]uint) // diff Unstage needs the reference order
 	for instance := range stage.GongEnums {
 		stage.GongEnums_reference[instance] = instance.GongCopy().(*GongEnum)
+		stage.GongEnums_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.GongEnumValues_reference = make(map[*GongEnumValue]*GongEnumValue)
+	stage.GongEnumValues_referenceOrder = make(map[*GongEnumValue]uint) // diff Unstage needs the reference order
 	for instance := range stage.GongEnumValues {
 		stage.GongEnumValues_reference[instance] = instance.GongCopy().(*GongEnumValue)
+		stage.GongEnumValues_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.GongLinks_reference = make(map[*GongLink]*GongLink)
+	stage.GongLinks_referenceOrder = make(map[*GongLink]uint) // diff Unstage needs the reference order
 	for instance := range stage.GongLinks {
 		stage.GongLinks_reference[instance] = instance.GongCopy().(*GongLink)
+		stage.GongLinks_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.GongNotes_reference = make(map[*GongNote]*GongNote)
+	stage.GongNotes_referenceOrder = make(map[*GongNote]uint) // diff Unstage needs the reference order
 	for instance := range stage.GongNotes {
 		stage.GongNotes_reference[instance] = instance.GongCopy().(*GongNote)
+		stage.GongNotes_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.GongStructs_reference = make(map[*GongStruct]*GongStruct)
+	stage.GongStructs_referenceOrder = make(map[*GongStruct]uint) // diff Unstage needs the reference order
 	for instance := range stage.GongStructs {
 		stage.GongStructs_reference[instance] = instance.GongCopy().(*GongStruct)
+		stage.GongStructs_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.GongTimeFields_reference = make(map[*GongTimeField]*GongTimeField)
+	stage.GongTimeFields_referenceOrder = make(map[*GongTimeField]uint) // diff Unstage needs the reference order
 	for instance := range stage.GongTimeFields {
 		stage.GongTimeFields_reference[instance] = instance.GongCopy().(*GongTimeField)
+		stage.GongTimeFields_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.MetaReferences_reference = make(map[*MetaReference]*MetaReference)
+	stage.MetaReferences_referenceOrder = make(map[*MetaReference]uint) // diff Unstage needs the reference order
 	for instance := range stage.MetaReferences {
 		stage.MetaReferences_reference[instance] = instance.GongCopy().(*MetaReference)
+		stage.MetaReferences_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.ModelPkgs_reference = make(map[*ModelPkg]*ModelPkg)
+	stage.ModelPkgs_referenceOrder = make(map[*ModelPkg]uint) // diff Unstage needs the reference order
 	for instance := range stage.ModelPkgs {
 		stage.ModelPkgs_reference[instance] = instance.GongCopy().(*ModelPkg)
+		stage.ModelPkgs_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.PointerToGongStructFields_reference = make(map[*PointerToGongStructField]*PointerToGongStructField)
+	stage.PointerToGongStructFields_referenceOrder = make(map[*PointerToGongStructField]uint) // diff Unstage needs the reference order
 	for instance := range stage.PointerToGongStructFields {
 		stage.PointerToGongStructFields_reference[instance] = instance.GongCopy().(*PointerToGongStructField)
+		stage.PointerToGongStructFields_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.SliceOfPointerToGongStructFields_reference = make(map[*SliceOfPointerToGongStructField]*SliceOfPointerToGongStructField)
+	stage.SliceOfPointerToGongStructFields_referenceOrder = make(map[*SliceOfPointerToGongStructField]uint) // diff Unstage needs the reference order
 	for instance := range stage.SliceOfPointerToGongStructFields {
 		stage.SliceOfPointerToGongStructFields_reference[instance] = instance.GongCopy().(*SliceOfPointerToGongStructField)
+		stage.SliceOfPointerToGongStructFields_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 }
@@ -664,44 +686,88 @@ func (gongbasicfield *GongBasicField) GongGetOrder(stage *Stage) uint {
 	return stage.GongBasicFieldMap_Staged_Order[gongbasicfield]
 }
 
+func (gongbasicfield *GongBasicField) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.GongBasicFields_referenceOrder[gongbasicfield]
+}
+
 func (gongenum *GongEnum) GongGetOrder(stage *Stage) uint {
 	return stage.GongEnumMap_Staged_Order[gongenum]
+}
+
+func (gongenum *GongEnum) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.GongEnums_referenceOrder[gongenum]
 }
 
 func (gongenumvalue *GongEnumValue) GongGetOrder(stage *Stage) uint {
 	return stage.GongEnumValueMap_Staged_Order[gongenumvalue]
 }
 
+func (gongenumvalue *GongEnumValue) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.GongEnumValues_referenceOrder[gongenumvalue]
+}
+
 func (gonglink *GongLink) GongGetOrder(stage *Stage) uint {
 	return stage.GongLinkMap_Staged_Order[gonglink]
+}
+
+func (gonglink *GongLink) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.GongLinks_referenceOrder[gonglink]
 }
 
 func (gongnote *GongNote) GongGetOrder(stage *Stage) uint {
 	return stage.GongNoteMap_Staged_Order[gongnote]
 }
 
+func (gongnote *GongNote) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.GongNotes_referenceOrder[gongnote]
+}
+
 func (gongstruct *GongStruct) GongGetOrder(stage *Stage) uint {
 	return stage.GongStructMap_Staged_Order[gongstruct]
+}
+
+func (gongstruct *GongStruct) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.GongStructs_referenceOrder[gongstruct]
 }
 
 func (gongtimefield *GongTimeField) GongGetOrder(stage *Stage) uint {
 	return stage.GongTimeFieldMap_Staged_Order[gongtimefield]
 }
 
+func (gongtimefield *GongTimeField) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.GongTimeFields_referenceOrder[gongtimefield]
+}
+
 func (metareference *MetaReference) GongGetOrder(stage *Stage) uint {
 	return stage.MetaReferenceMap_Staged_Order[metareference]
+}
+
+func (metareference *MetaReference) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.MetaReferences_referenceOrder[metareference]
 }
 
 func (modelpkg *ModelPkg) GongGetOrder(stage *Stage) uint {
 	return stage.ModelPkgMap_Staged_Order[modelpkg]
 }
 
+func (modelpkg *ModelPkg) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.ModelPkgs_referenceOrder[modelpkg]
+}
+
 func (pointertogongstructfield *PointerToGongStructField) GongGetOrder(stage *Stage) uint {
 	return stage.PointerToGongStructFieldMap_Staged_Order[pointertogongstructfield]
 }
 
+func (pointertogongstructfield *PointerToGongStructField) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.PointerToGongStructFields_referenceOrder[pointertogongstructfield]
+}
+
 func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongGetOrder(stage *Stage) uint {
 	return stage.SliceOfPointerToGongStructFieldMap_Staged_Order[sliceofpointertogongstructfield]
+}
+
+func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.SliceOfPointerToGongStructFields_referenceOrder[sliceofpointertogongstructfield]
 }
 
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
@@ -713,44 +779,99 @@ func (gongbasicfield *GongBasicField) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", gongbasicfield.GongGetGongstructName(), gongbasicfield.GongGetOrder(stage))
 }
 
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (gongbasicfield *GongBasicField) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", gongbasicfield.GongGetGongstructName(), gongbasicfield.GongGetReferenceOrder(stage))
+}
+
 func (gongenum *GongEnum) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", gongenum.GongGetGongstructName(), gongenum.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (gongenum *GongEnum) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", gongenum.GongGetGongstructName(), gongenum.GongGetReferenceOrder(stage))
 }
 
 func (gongenumvalue *GongEnumValue) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", gongenumvalue.GongGetGongstructName(), gongenumvalue.GongGetOrder(stage))
 }
 
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (gongenumvalue *GongEnumValue) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", gongenumvalue.GongGetGongstructName(), gongenumvalue.GongGetReferenceOrder(stage))
+}
+
 func (gonglink *GongLink) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", gonglink.GongGetGongstructName(), gonglink.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (gonglink *GongLink) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", gonglink.GongGetGongstructName(), gonglink.GongGetReferenceOrder(stage))
 }
 
 func (gongnote *GongNote) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", gongnote.GongGetGongstructName(), gongnote.GongGetOrder(stage))
 }
 
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (gongnote *GongNote) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", gongnote.GongGetGongstructName(), gongnote.GongGetReferenceOrder(stage))
+}
+
 func (gongstruct *GongStruct) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", gongstruct.GongGetGongstructName(), gongstruct.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (gongstruct *GongStruct) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", gongstruct.GongGetGongstructName(), gongstruct.GongGetReferenceOrder(stage))
 }
 
 func (gongtimefield *GongTimeField) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", gongtimefield.GongGetGongstructName(), gongtimefield.GongGetOrder(stage))
 }
 
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (gongtimefield *GongTimeField) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", gongtimefield.GongGetGongstructName(), gongtimefield.GongGetReferenceOrder(stage))
+}
+
 func (metareference *MetaReference) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", metareference.GongGetGongstructName(), metareference.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (metareference *MetaReference) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", metareference.GongGetGongstructName(), metareference.GongGetReferenceOrder(stage))
 }
 
 func (modelpkg *ModelPkg) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", modelpkg.GongGetGongstructName(), modelpkg.GongGetOrder(stage))
 }
 
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (modelpkg *ModelPkg) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", modelpkg.GongGetGongstructName(), modelpkg.GongGetReferenceOrder(stage))
+}
+
 func (pointertogongstructfield *PointerToGongStructField) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", pointertogongstructfield.GongGetGongstructName(), pointertogongstructfield.GongGetOrder(stage))
 }
 
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (pointertogongstructfield *PointerToGongStructField) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", pointertogongstructfield.GongGetGongstructName(), pointertogongstructfield.GongGetReferenceOrder(stage))
+}
+
 func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", sliceofpointertogongstructfield.GongGetGongstructName(), sliceofpointertogongstructfield.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", sliceofpointertogongstructfield.GongGetGongstructName(), sliceofpointertogongstructfield.GongGetReferenceOrder(stage))
 }
 
 // MarshallIdentifier returns the code to instantiate the instance
@@ -837,56 +958,56 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongMars
 // insertion point for unstaging
 func (gongbasicfield *GongBasicField) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongbasicfield.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongbasicfield.GongGetReferenceIdentifier(stage))
 	return
 }
 func (gongenum *GongEnum) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongenum.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongenum.GongGetReferenceIdentifier(stage))
 	return
 }
 func (gongenumvalue *GongEnumValue) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongenumvalue.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongenumvalue.GongGetReferenceIdentifier(stage))
 	return
 }
 func (gonglink *GongLink) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", gonglink.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", gonglink.GongGetReferenceIdentifier(stage))
 	return
 }
 func (gongnote *GongNote) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongnote.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongnote.GongGetReferenceIdentifier(stage))
 	return
 }
 func (gongstruct *GongStruct) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongstruct.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongstruct.GongGetReferenceIdentifier(stage))
 	return
 }
 func (gongtimefield *GongTimeField) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongtimefield.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongtimefield.GongGetReferenceIdentifier(stage))
 	return
 }
 func (metareference *MetaReference) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", metareference.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", metareference.GongGetReferenceIdentifier(stage))
 	return
 }
 func (modelpkg *ModelPkg) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", modelpkg.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", modelpkg.GongGetReferenceIdentifier(stage))
 	return
 }
 func (pointertogongstructfield *PointerToGongStructField) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", pointertogongstructfield.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", pointertogongstructfield.GongGetReferenceIdentifier(stage))
 	return
 }
 func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", sliceofpointertogongstructfield.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", sliceofpointertogongstructfield.GongGetReferenceIdentifier(stage))
 	return
 }

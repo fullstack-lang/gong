@@ -1126,9 +1126,9 @@ func (stage *Stage) ComputeDifference() {
 	lenDeletedInstances += len(tables_deletedInstances)
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
-		notif := newInstancesStmt+fieldsEditStmt+deletedInstancesStmt
+		notif := newInstancesStmt + fieldsEditStmt + deletedInstancesStmt
 		notif += fmt.Sprintf("\n\t// %s", time.Now().Format(time.RFC3339Nano))
-		notif += fmt.Sprintf("\n\tstage.Commit()")
+		notif += "\n\tstage.Commit()"
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().AddNotification(
 				time.Now(),
@@ -1144,118 +1144,164 @@ func (stage *Stage) ComputeReference() {
 
 	// insertion point per named struct
 	stage.Cells_reference = make(map[*Cell]*Cell)
+	stage.Cells_referenceOrder = make(map[*Cell]uint) // diff Unstage needs the reference order
 	for instance := range stage.Cells {
 		stage.Cells_reference[instance] = instance.GongCopy().(*Cell)
+		stage.Cells_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.CellBooleans_reference = make(map[*CellBoolean]*CellBoolean)
+	stage.CellBooleans_referenceOrder = make(map[*CellBoolean]uint) // diff Unstage needs the reference order
 	for instance := range stage.CellBooleans {
 		stage.CellBooleans_reference[instance] = instance.GongCopy().(*CellBoolean)
+		stage.CellBooleans_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.CellFloat64s_reference = make(map[*CellFloat64]*CellFloat64)
+	stage.CellFloat64s_referenceOrder = make(map[*CellFloat64]uint) // diff Unstage needs the reference order
 	for instance := range stage.CellFloat64s {
 		stage.CellFloat64s_reference[instance] = instance.GongCopy().(*CellFloat64)
+		stage.CellFloat64s_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.CellIcons_reference = make(map[*CellIcon]*CellIcon)
+	stage.CellIcons_referenceOrder = make(map[*CellIcon]uint) // diff Unstage needs the reference order
 	for instance := range stage.CellIcons {
 		stage.CellIcons_reference[instance] = instance.GongCopy().(*CellIcon)
+		stage.CellIcons_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.CellInts_reference = make(map[*CellInt]*CellInt)
+	stage.CellInts_referenceOrder = make(map[*CellInt]uint) // diff Unstage needs the reference order
 	for instance := range stage.CellInts {
 		stage.CellInts_reference[instance] = instance.GongCopy().(*CellInt)
+		stage.CellInts_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.CellStrings_reference = make(map[*CellString]*CellString)
+	stage.CellStrings_referenceOrder = make(map[*CellString]uint) // diff Unstage needs the reference order
 	for instance := range stage.CellStrings {
 		stage.CellStrings_reference[instance] = instance.GongCopy().(*CellString)
+		stage.CellStrings_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.CheckBoxs_reference = make(map[*CheckBox]*CheckBox)
+	stage.CheckBoxs_referenceOrder = make(map[*CheckBox]uint) // diff Unstage needs the reference order
 	for instance := range stage.CheckBoxs {
 		stage.CheckBoxs_reference[instance] = instance.GongCopy().(*CheckBox)
+		stage.CheckBoxs_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.DisplayedColumns_reference = make(map[*DisplayedColumn]*DisplayedColumn)
+	stage.DisplayedColumns_referenceOrder = make(map[*DisplayedColumn]uint) // diff Unstage needs the reference order
 	for instance := range stage.DisplayedColumns {
 		stage.DisplayedColumns_reference[instance] = instance.GongCopy().(*DisplayedColumn)
+		stage.DisplayedColumns_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.FormDivs_reference = make(map[*FormDiv]*FormDiv)
+	stage.FormDivs_referenceOrder = make(map[*FormDiv]uint) // diff Unstage needs the reference order
 	for instance := range stage.FormDivs {
 		stage.FormDivs_reference[instance] = instance.GongCopy().(*FormDiv)
+		stage.FormDivs_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.FormEditAssocButtons_reference = make(map[*FormEditAssocButton]*FormEditAssocButton)
+	stage.FormEditAssocButtons_referenceOrder = make(map[*FormEditAssocButton]uint) // diff Unstage needs the reference order
 	for instance := range stage.FormEditAssocButtons {
 		stage.FormEditAssocButtons_reference[instance] = instance.GongCopy().(*FormEditAssocButton)
+		stage.FormEditAssocButtons_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.FormFields_reference = make(map[*FormField]*FormField)
+	stage.FormFields_referenceOrder = make(map[*FormField]uint) // diff Unstage needs the reference order
 	for instance := range stage.FormFields {
 		stage.FormFields_reference[instance] = instance.GongCopy().(*FormField)
+		stage.FormFields_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.FormFieldDates_reference = make(map[*FormFieldDate]*FormFieldDate)
+	stage.FormFieldDates_referenceOrder = make(map[*FormFieldDate]uint) // diff Unstage needs the reference order
 	for instance := range stage.FormFieldDates {
 		stage.FormFieldDates_reference[instance] = instance.GongCopy().(*FormFieldDate)
+		stage.FormFieldDates_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.FormFieldDateTimes_reference = make(map[*FormFieldDateTime]*FormFieldDateTime)
+	stage.FormFieldDateTimes_referenceOrder = make(map[*FormFieldDateTime]uint) // diff Unstage needs the reference order
 	for instance := range stage.FormFieldDateTimes {
 		stage.FormFieldDateTimes_reference[instance] = instance.GongCopy().(*FormFieldDateTime)
+		stage.FormFieldDateTimes_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.FormFieldFloat64s_reference = make(map[*FormFieldFloat64]*FormFieldFloat64)
+	stage.FormFieldFloat64s_referenceOrder = make(map[*FormFieldFloat64]uint) // diff Unstage needs the reference order
 	for instance := range stage.FormFieldFloat64s {
 		stage.FormFieldFloat64s_reference[instance] = instance.GongCopy().(*FormFieldFloat64)
+		stage.FormFieldFloat64s_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.FormFieldInts_reference = make(map[*FormFieldInt]*FormFieldInt)
+	stage.FormFieldInts_referenceOrder = make(map[*FormFieldInt]uint) // diff Unstage needs the reference order
 	for instance := range stage.FormFieldInts {
 		stage.FormFieldInts_reference[instance] = instance.GongCopy().(*FormFieldInt)
+		stage.FormFieldInts_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.FormFieldSelects_reference = make(map[*FormFieldSelect]*FormFieldSelect)
+	stage.FormFieldSelects_referenceOrder = make(map[*FormFieldSelect]uint) // diff Unstage needs the reference order
 	for instance := range stage.FormFieldSelects {
 		stage.FormFieldSelects_reference[instance] = instance.GongCopy().(*FormFieldSelect)
+		stage.FormFieldSelects_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.FormFieldStrings_reference = make(map[*FormFieldString]*FormFieldString)
+	stage.FormFieldStrings_referenceOrder = make(map[*FormFieldString]uint) // diff Unstage needs the reference order
 	for instance := range stage.FormFieldStrings {
 		stage.FormFieldStrings_reference[instance] = instance.GongCopy().(*FormFieldString)
+		stage.FormFieldStrings_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.FormFieldTimes_reference = make(map[*FormFieldTime]*FormFieldTime)
+	stage.FormFieldTimes_referenceOrder = make(map[*FormFieldTime]uint) // diff Unstage needs the reference order
 	for instance := range stage.FormFieldTimes {
 		stage.FormFieldTimes_reference[instance] = instance.GongCopy().(*FormFieldTime)
+		stage.FormFieldTimes_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.FormGroups_reference = make(map[*FormGroup]*FormGroup)
+	stage.FormGroups_referenceOrder = make(map[*FormGroup]uint) // diff Unstage needs the reference order
 	for instance := range stage.FormGroups {
 		stage.FormGroups_reference[instance] = instance.GongCopy().(*FormGroup)
+		stage.FormGroups_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.FormSortAssocButtons_reference = make(map[*FormSortAssocButton]*FormSortAssocButton)
+	stage.FormSortAssocButtons_referenceOrder = make(map[*FormSortAssocButton]uint) // diff Unstage needs the reference order
 	for instance := range stage.FormSortAssocButtons {
 		stage.FormSortAssocButtons_reference[instance] = instance.GongCopy().(*FormSortAssocButton)
+		stage.FormSortAssocButtons_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Options_reference = make(map[*Option]*Option)
+	stage.Options_referenceOrder = make(map[*Option]uint) // diff Unstage needs the reference order
 	for instance := range stage.Options {
 		stage.Options_reference[instance] = instance.GongCopy().(*Option)
+		stage.Options_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Rows_reference = make(map[*Row]*Row)
+	stage.Rows_referenceOrder = make(map[*Row]uint) // diff Unstage needs the reference order
 	for instance := range stage.Rows {
 		stage.Rows_reference[instance] = instance.GongCopy().(*Row)
+		stage.Rows_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Tables_reference = make(map[*Table]*Table)
+	stage.Tables_referenceOrder = make(map[*Table]uint) // diff Unstage needs the reference order
 	for instance := range stage.Tables {
 		stage.Tables_reference[instance] = instance.GongCopy().(*Table)
+		stage.Tables_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 }
@@ -1271,92 +1317,184 @@ func (cell *Cell) GongGetOrder(stage *Stage) uint {
 	return stage.CellMap_Staged_Order[cell]
 }
 
+func (cell *Cell) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.Cells_referenceOrder[cell]
+}
+
 func (cellboolean *CellBoolean) GongGetOrder(stage *Stage) uint {
 	return stage.CellBooleanMap_Staged_Order[cellboolean]
+}
+
+func (cellboolean *CellBoolean) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.CellBooleans_referenceOrder[cellboolean]
 }
 
 func (cellfloat64 *CellFloat64) GongGetOrder(stage *Stage) uint {
 	return stage.CellFloat64Map_Staged_Order[cellfloat64]
 }
 
+func (cellfloat64 *CellFloat64) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.CellFloat64s_referenceOrder[cellfloat64]
+}
+
 func (cellicon *CellIcon) GongGetOrder(stage *Stage) uint {
 	return stage.CellIconMap_Staged_Order[cellicon]
+}
+
+func (cellicon *CellIcon) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.CellIcons_referenceOrder[cellicon]
 }
 
 func (cellint *CellInt) GongGetOrder(stage *Stage) uint {
 	return stage.CellIntMap_Staged_Order[cellint]
 }
 
+func (cellint *CellInt) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.CellInts_referenceOrder[cellint]
+}
+
 func (cellstring *CellString) GongGetOrder(stage *Stage) uint {
 	return stage.CellStringMap_Staged_Order[cellstring]
+}
+
+func (cellstring *CellString) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.CellStrings_referenceOrder[cellstring]
 }
 
 func (checkbox *CheckBox) GongGetOrder(stage *Stage) uint {
 	return stage.CheckBoxMap_Staged_Order[checkbox]
 }
 
+func (checkbox *CheckBox) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.CheckBoxs_referenceOrder[checkbox]
+}
+
 func (displayedcolumn *DisplayedColumn) GongGetOrder(stage *Stage) uint {
 	return stage.DisplayedColumnMap_Staged_Order[displayedcolumn]
+}
+
+func (displayedcolumn *DisplayedColumn) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.DisplayedColumns_referenceOrder[displayedcolumn]
 }
 
 func (formdiv *FormDiv) GongGetOrder(stage *Stage) uint {
 	return stage.FormDivMap_Staged_Order[formdiv]
 }
 
+func (formdiv *FormDiv) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.FormDivs_referenceOrder[formdiv]
+}
+
 func (formeditassocbutton *FormEditAssocButton) GongGetOrder(stage *Stage) uint {
 	return stage.FormEditAssocButtonMap_Staged_Order[formeditassocbutton]
+}
+
+func (formeditassocbutton *FormEditAssocButton) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.FormEditAssocButtons_referenceOrder[formeditassocbutton]
 }
 
 func (formfield *FormField) GongGetOrder(stage *Stage) uint {
 	return stage.FormFieldMap_Staged_Order[formfield]
 }
 
+func (formfield *FormField) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.FormFields_referenceOrder[formfield]
+}
+
 func (formfielddate *FormFieldDate) GongGetOrder(stage *Stage) uint {
 	return stage.FormFieldDateMap_Staged_Order[formfielddate]
+}
+
+func (formfielddate *FormFieldDate) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.FormFieldDates_referenceOrder[formfielddate]
 }
 
 func (formfielddatetime *FormFieldDateTime) GongGetOrder(stage *Stage) uint {
 	return stage.FormFieldDateTimeMap_Staged_Order[formfielddatetime]
 }
 
+func (formfielddatetime *FormFieldDateTime) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.FormFieldDateTimes_referenceOrder[formfielddatetime]
+}
+
 func (formfieldfloat64 *FormFieldFloat64) GongGetOrder(stage *Stage) uint {
 	return stage.FormFieldFloat64Map_Staged_Order[formfieldfloat64]
+}
+
+func (formfieldfloat64 *FormFieldFloat64) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.FormFieldFloat64s_referenceOrder[formfieldfloat64]
 }
 
 func (formfieldint *FormFieldInt) GongGetOrder(stage *Stage) uint {
 	return stage.FormFieldIntMap_Staged_Order[formfieldint]
 }
 
+func (formfieldint *FormFieldInt) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.FormFieldInts_referenceOrder[formfieldint]
+}
+
 func (formfieldselect *FormFieldSelect) GongGetOrder(stage *Stage) uint {
 	return stage.FormFieldSelectMap_Staged_Order[formfieldselect]
+}
+
+func (formfieldselect *FormFieldSelect) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.FormFieldSelects_referenceOrder[formfieldselect]
 }
 
 func (formfieldstring *FormFieldString) GongGetOrder(stage *Stage) uint {
 	return stage.FormFieldStringMap_Staged_Order[formfieldstring]
 }
 
+func (formfieldstring *FormFieldString) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.FormFieldStrings_referenceOrder[formfieldstring]
+}
+
 func (formfieldtime *FormFieldTime) GongGetOrder(stage *Stage) uint {
 	return stage.FormFieldTimeMap_Staged_Order[formfieldtime]
+}
+
+func (formfieldtime *FormFieldTime) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.FormFieldTimes_referenceOrder[formfieldtime]
 }
 
 func (formgroup *FormGroup) GongGetOrder(stage *Stage) uint {
 	return stage.FormGroupMap_Staged_Order[formgroup]
 }
 
+func (formgroup *FormGroup) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.FormGroups_referenceOrder[formgroup]
+}
+
 func (formsortassocbutton *FormSortAssocButton) GongGetOrder(stage *Stage) uint {
 	return stage.FormSortAssocButtonMap_Staged_Order[formsortassocbutton]
+}
+
+func (formsortassocbutton *FormSortAssocButton) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.FormSortAssocButtons_referenceOrder[formsortassocbutton]
 }
 
 func (option *Option) GongGetOrder(stage *Stage) uint {
 	return stage.OptionMap_Staged_Order[option]
 }
 
+func (option *Option) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.Options_referenceOrder[option]
+}
+
 func (row *Row) GongGetOrder(stage *Stage) uint {
 	return stage.RowMap_Staged_Order[row]
 }
 
+func (row *Row) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.Rows_referenceOrder[row]
+}
+
 func (table *Table) GongGetOrder(stage *Stage) uint {
 	return stage.TableMap_Staged_Order[table]
+}
+
+func (table *Table) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.Tables_referenceOrder[table]
 }
 
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
@@ -1368,92 +1506,207 @@ func (cell *Cell) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", cell.GongGetGongstructName(), cell.GongGetOrder(stage))
 }
 
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (cell *Cell) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", cell.GongGetGongstructName(), cell.GongGetReferenceOrder(stage))
+}
+
 func (cellboolean *CellBoolean) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", cellboolean.GongGetGongstructName(), cellboolean.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (cellboolean *CellBoolean) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", cellboolean.GongGetGongstructName(), cellboolean.GongGetReferenceOrder(stage))
 }
 
 func (cellfloat64 *CellFloat64) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", cellfloat64.GongGetGongstructName(), cellfloat64.GongGetOrder(stage))
 }
 
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (cellfloat64 *CellFloat64) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", cellfloat64.GongGetGongstructName(), cellfloat64.GongGetReferenceOrder(stage))
+}
+
 func (cellicon *CellIcon) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", cellicon.GongGetGongstructName(), cellicon.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (cellicon *CellIcon) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", cellicon.GongGetGongstructName(), cellicon.GongGetReferenceOrder(stage))
 }
 
 func (cellint *CellInt) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", cellint.GongGetGongstructName(), cellint.GongGetOrder(stage))
 }
 
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (cellint *CellInt) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", cellint.GongGetGongstructName(), cellint.GongGetReferenceOrder(stage))
+}
+
 func (cellstring *CellString) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", cellstring.GongGetGongstructName(), cellstring.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (cellstring *CellString) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", cellstring.GongGetGongstructName(), cellstring.GongGetReferenceOrder(stage))
 }
 
 func (checkbox *CheckBox) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", checkbox.GongGetGongstructName(), checkbox.GongGetOrder(stage))
 }
 
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (checkbox *CheckBox) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", checkbox.GongGetGongstructName(), checkbox.GongGetReferenceOrder(stage))
+}
+
 func (displayedcolumn *DisplayedColumn) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", displayedcolumn.GongGetGongstructName(), displayedcolumn.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (displayedcolumn *DisplayedColumn) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", displayedcolumn.GongGetGongstructName(), displayedcolumn.GongGetReferenceOrder(stage))
 }
 
 func (formdiv *FormDiv) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", formdiv.GongGetGongstructName(), formdiv.GongGetOrder(stage))
 }
 
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (formdiv *FormDiv) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", formdiv.GongGetGongstructName(), formdiv.GongGetReferenceOrder(stage))
+}
+
 func (formeditassocbutton *FormEditAssocButton) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", formeditassocbutton.GongGetGongstructName(), formeditassocbutton.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (formeditassocbutton *FormEditAssocButton) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", formeditassocbutton.GongGetGongstructName(), formeditassocbutton.GongGetReferenceOrder(stage))
 }
 
 func (formfield *FormField) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", formfield.GongGetGongstructName(), formfield.GongGetOrder(stage))
 }
 
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (formfield *FormField) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", formfield.GongGetGongstructName(), formfield.GongGetReferenceOrder(stage))
+}
+
 func (formfielddate *FormFieldDate) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", formfielddate.GongGetGongstructName(), formfielddate.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (formfielddate *FormFieldDate) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", formfielddate.GongGetGongstructName(), formfielddate.GongGetReferenceOrder(stage))
 }
 
 func (formfielddatetime *FormFieldDateTime) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", formfielddatetime.GongGetGongstructName(), formfielddatetime.GongGetOrder(stage))
 }
 
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (formfielddatetime *FormFieldDateTime) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", formfielddatetime.GongGetGongstructName(), formfielddatetime.GongGetReferenceOrder(stage))
+}
+
 func (formfieldfloat64 *FormFieldFloat64) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", formfieldfloat64.GongGetGongstructName(), formfieldfloat64.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (formfieldfloat64 *FormFieldFloat64) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", formfieldfloat64.GongGetGongstructName(), formfieldfloat64.GongGetReferenceOrder(stage))
 }
 
 func (formfieldint *FormFieldInt) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", formfieldint.GongGetGongstructName(), formfieldint.GongGetOrder(stage))
 }
 
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (formfieldint *FormFieldInt) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", formfieldint.GongGetGongstructName(), formfieldint.GongGetReferenceOrder(stage))
+}
+
 func (formfieldselect *FormFieldSelect) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", formfieldselect.GongGetGongstructName(), formfieldselect.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (formfieldselect *FormFieldSelect) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", formfieldselect.GongGetGongstructName(), formfieldselect.GongGetReferenceOrder(stage))
 }
 
 func (formfieldstring *FormFieldString) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", formfieldstring.GongGetGongstructName(), formfieldstring.GongGetOrder(stage))
 }
 
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (formfieldstring *FormFieldString) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", formfieldstring.GongGetGongstructName(), formfieldstring.GongGetReferenceOrder(stage))
+}
+
 func (formfieldtime *FormFieldTime) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", formfieldtime.GongGetGongstructName(), formfieldtime.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (formfieldtime *FormFieldTime) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", formfieldtime.GongGetGongstructName(), formfieldtime.GongGetReferenceOrder(stage))
 }
 
 func (formgroup *FormGroup) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", formgroup.GongGetGongstructName(), formgroup.GongGetOrder(stage))
 }
 
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (formgroup *FormGroup) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", formgroup.GongGetGongstructName(), formgroup.GongGetReferenceOrder(stage))
+}
+
 func (formsortassocbutton *FormSortAssocButton) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", formsortassocbutton.GongGetGongstructName(), formsortassocbutton.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (formsortassocbutton *FormSortAssocButton) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", formsortassocbutton.GongGetGongstructName(), formsortassocbutton.GongGetReferenceOrder(stage))
 }
 
 func (option *Option) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", option.GongGetGongstructName(), option.GongGetOrder(stage))
 }
 
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (option *Option) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", option.GongGetGongstructName(), option.GongGetReferenceOrder(stage))
+}
+
 func (row *Row) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", row.GongGetGongstructName(), row.GongGetOrder(stage))
 }
 
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (row *Row) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", row.GongGetGongstructName(), row.GongGetReferenceOrder(stage))
+}
+
 func (table *Table) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", table.GongGetGongstructName(), table.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (table *Table) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", table.GongGetGongstructName(), table.GongGetReferenceOrder(stage))
 }
 
 // MarshallIdentifier returns the code to instantiate the instance
@@ -1624,116 +1877,116 @@ func (table *Table) GongMarshallIdentifier(stage *Stage) (decl string) {
 // insertion point for unstaging
 func (cell *Cell) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", cell.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", cell.GongGetReferenceIdentifier(stage))
 	return
 }
 func (cellboolean *CellBoolean) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", cellboolean.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", cellboolean.GongGetReferenceIdentifier(stage))
 	return
 }
 func (cellfloat64 *CellFloat64) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", cellfloat64.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", cellfloat64.GongGetReferenceIdentifier(stage))
 	return
 }
 func (cellicon *CellIcon) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", cellicon.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", cellicon.GongGetReferenceIdentifier(stage))
 	return
 }
 func (cellint *CellInt) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", cellint.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", cellint.GongGetReferenceIdentifier(stage))
 	return
 }
 func (cellstring *CellString) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", cellstring.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", cellstring.GongGetReferenceIdentifier(stage))
 	return
 }
 func (checkbox *CheckBox) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", checkbox.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", checkbox.GongGetReferenceIdentifier(stage))
 	return
 }
 func (displayedcolumn *DisplayedColumn) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", displayedcolumn.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", displayedcolumn.GongGetReferenceIdentifier(stage))
 	return
 }
 func (formdiv *FormDiv) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", formdiv.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", formdiv.GongGetReferenceIdentifier(stage))
 	return
 }
 func (formeditassocbutton *FormEditAssocButton) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", formeditassocbutton.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", formeditassocbutton.GongGetReferenceIdentifier(stage))
 	return
 }
 func (formfield *FormField) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", formfield.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", formfield.GongGetReferenceIdentifier(stage))
 	return
 }
 func (formfielddate *FormFieldDate) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", formfielddate.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", formfielddate.GongGetReferenceIdentifier(stage))
 	return
 }
 func (formfielddatetime *FormFieldDateTime) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", formfielddatetime.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", formfielddatetime.GongGetReferenceIdentifier(stage))
 	return
 }
 func (formfieldfloat64 *FormFieldFloat64) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", formfieldfloat64.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", formfieldfloat64.GongGetReferenceIdentifier(stage))
 	return
 }
 func (formfieldint *FormFieldInt) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", formfieldint.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", formfieldint.GongGetReferenceIdentifier(stage))
 	return
 }
 func (formfieldselect *FormFieldSelect) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", formfieldselect.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", formfieldselect.GongGetReferenceIdentifier(stage))
 	return
 }
 func (formfieldstring *FormFieldString) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", formfieldstring.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", formfieldstring.GongGetReferenceIdentifier(stage))
 	return
 }
 func (formfieldtime *FormFieldTime) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", formfieldtime.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", formfieldtime.GongGetReferenceIdentifier(stage))
 	return
 }
 func (formgroup *FormGroup) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", formgroup.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", formgroup.GongGetReferenceIdentifier(stage))
 	return
 }
 func (formsortassocbutton *FormSortAssocButton) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", formsortassocbutton.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", formsortassocbutton.GongGetReferenceIdentifier(stage))
 	return
 }
 func (option *Option) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", option.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", option.GongGetReferenceIdentifier(stage))
 	return
 }
 func (row *Row) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", row.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", row.GongGetReferenceIdentifier(stage))
 	return
 }
 func (table *Table) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", table.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", table.GongGetReferenceIdentifier(stage))
 	return
 }

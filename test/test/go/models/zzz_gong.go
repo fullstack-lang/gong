@@ -93,9 +93,10 @@ type Stage struct {
 	name string
 
 	// insertion point for definition of arrays registering instances
-	Astructs           map[*Astruct]struct{}
-	Astructs_reference map[*Astruct]*Astruct
-	Astructs_mapString map[string]*Astruct
+	Astructs                map[*Astruct]struct{}
+	Astructs_reference      map[*Astruct]*Astruct
+	Astructs_referenceOrder map[*Astruct]uint // diff Unstage needs the reference order 
+	Astructs_mapString      map[string]*Astruct
 
 	// insertion point for slice of pointers maps
 	Astruct_Anarrayofb_reverseMap map[*Bstruct]*Astruct
@@ -115,9 +116,10 @@ type Stage struct {
 	OnAfterAstructDeleteCallback OnAfterDeleteInterface[Astruct]
 	OnAfterAstructReadCallback   OnAfterReadInterface[Astruct]
 
-	AstructBstruct2Uses           map[*AstructBstruct2Use]struct{}
-	AstructBstruct2Uses_reference map[*AstructBstruct2Use]*AstructBstruct2Use
-	AstructBstruct2Uses_mapString map[string]*AstructBstruct2Use
+	AstructBstruct2Uses                map[*AstructBstruct2Use]struct{}
+	AstructBstruct2Uses_reference      map[*AstructBstruct2Use]*AstructBstruct2Use
+	AstructBstruct2Uses_referenceOrder map[*AstructBstruct2Use]uint // diff Unstage needs the reference order 
+	AstructBstruct2Uses_mapString      map[string]*AstructBstruct2Use
 
 	// insertion point for slice of pointers maps
 	OnAfterAstructBstruct2UseCreateCallback OnAfterCreateInterface[AstructBstruct2Use]
@@ -125,9 +127,10 @@ type Stage struct {
 	OnAfterAstructBstruct2UseDeleteCallback OnAfterDeleteInterface[AstructBstruct2Use]
 	OnAfterAstructBstruct2UseReadCallback   OnAfterReadInterface[AstructBstruct2Use]
 
-	AstructBstructUses           map[*AstructBstructUse]struct{}
-	AstructBstructUses_reference map[*AstructBstructUse]*AstructBstructUse
-	AstructBstructUses_mapString map[string]*AstructBstructUse
+	AstructBstructUses                map[*AstructBstructUse]struct{}
+	AstructBstructUses_reference      map[*AstructBstructUse]*AstructBstructUse
+	AstructBstructUses_referenceOrder map[*AstructBstructUse]uint // diff Unstage needs the reference order 
+	AstructBstructUses_mapString      map[string]*AstructBstructUse
 
 	// insertion point for slice of pointers maps
 	OnAfterAstructBstructUseCreateCallback OnAfterCreateInterface[AstructBstructUse]
@@ -135,9 +138,10 @@ type Stage struct {
 	OnAfterAstructBstructUseDeleteCallback OnAfterDeleteInterface[AstructBstructUse]
 	OnAfterAstructBstructUseReadCallback   OnAfterReadInterface[AstructBstructUse]
 
-	Bstructs           map[*Bstruct]struct{}
-	Bstructs_reference map[*Bstruct]*Bstruct
-	Bstructs_mapString map[string]*Bstruct
+	Bstructs                map[*Bstruct]struct{}
+	Bstructs_reference      map[*Bstruct]*Bstruct
+	Bstructs_referenceOrder map[*Bstruct]uint // diff Unstage needs the reference order 
+	Bstructs_mapString      map[string]*Bstruct
 
 	// insertion point for slice of pointers maps
 	OnAfterBstructCreateCallback OnAfterCreateInterface[Bstruct]
@@ -145,9 +149,10 @@ type Stage struct {
 	OnAfterBstructDeleteCallback OnAfterDeleteInterface[Bstruct]
 	OnAfterBstructReadCallback   OnAfterReadInterface[Bstruct]
 
-	Dstructs           map[*Dstruct]struct{}
-	Dstructs_reference map[*Dstruct]*Dstruct
-	Dstructs_mapString map[string]*Dstruct
+	Dstructs                map[*Dstruct]struct{}
+	Dstructs_reference      map[*Dstruct]*Dstruct
+	Dstructs_referenceOrder map[*Dstruct]uint // diff Unstage needs the reference order 
+	Dstructs_mapString      map[string]*Dstruct
 
 	// insertion point for slice of pointers maps
 	Dstruct_Anarrayofb_reverseMap map[*Bstruct]*Dstruct
@@ -159,9 +164,10 @@ type Stage struct {
 	OnAfterDstructDeleteCallback OnAfterDeleteInterface[Dstruct]
 	OnAfterDstructReadCallback   OnAfterReadInterface[Dstruct]
 
-	F0123456789012345678901234567890s           map[*F0123456789012345678901234567890]struct{}
-	F0123456789012345678901234567890s_reference map[*F0123456789012345678901234567890]*F0123456789012345678901234567890
-	F0123456789012345678901234567890s_mapString map[string]*F0123456789012345678901234567890
+	F0123456789012345678901234567890s                map[*F0123456789012345678901234567890]struct{}
+	F0123456789012345678901234567890s_reference      map[*F0123456789012345678901234567890]*F0123456789012345678901234567890
+	F0123456789012345678901234567890s_referenceOrder map[*F0123456789012345678901234567890]uint // diff Unstage needs the reference order 
+	F0123456789012345678901234567890s_mapString      map[string]*F0123456789012345678901234567890
 
 	// insertion point for slice of pointers maps
 	OnAfterF0123456789012345678901234567890CreateCallback OnAfterCreateInterface[F0123456789012345678901234567890]
@@ -169,9 +175,10 @@ type Stage struct {
 	OnAfterF0123456789012345678901234567890DeleteCallback OnAfterDeleteInterface[F0123456789012345678901234567890]
 	OnAfterF0123456789012345678901234567890ReadCallback   OnAfterReadInterface[F0123456789012345678901234567890]
 
-	Gstructs           map[*Gstruct]struct{}
-	Gstructs_reference map[*Gstruct]*Gstruct
-	Gstructs_mapString map[string]*Gstruct
+	Gstructs                map[*Gstruct]struct{}
+	Gstructs_reference      map[*Gstruct]*Gstruct
+	Gstructs_referenceOrder map[*Gstruct]uint // diff Unstage needs the reference order 
+	Gstructs_mapString      map[string]*Gstruct
 
 	// insertion point for slice of pointers maps
 	OnAfterGstructCreateCallback OnAfterCreateInterface[Gstruct]
@@ -1447,6 +1454,7 @@ type GongstructIF interface {
 	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
+	GongGetReferenceIdentifier(stage *Stage) string
 	GongGetIdentifier(stage *Stage) string
 	GongCopy() GongstructIF
 	GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) string

@@ -93,9 +93,10 @@ type Stage struct {
 	name string
 
 	// insertion point for definition of arrays registering instances
-	Arrows           map[*Arrow]struct{}
-	Arrows_reference map[*Arrow]*Arrow
-	Arrows_mapString map[string]*Arrow
+	Arrows                map[*Arrow]struct{}
+	Arrows_reference      map[*Arrow]*Arrow
+	Arrows_referenceOrder map[*Arrow]uint // diff Unstage needs the reference order 
+	Arrows_mapString      map[string]*Arrow
 
 	// insertion point for slice of pointers maps
 	OnAfterArrowCreateCallback OnAfterCreateInterface[Arrow]
@@ -103,9 +104,10 @@ type Stage struct {
 	OnAfterArrowDeleteCallback OnAfterDeleteInterface[Arrow]
 	OnAfterArrowReadCallback   OnAfterReadInterface[Arrow]
 
-	Bars           map[*Bar]struct{}
-	Bars_reference map[*Bar]*Bar
-	Bars_mapString map[string]*Bar
+	Bars                map[*Bar]struct{}
+	Bars_reference      map[*Bar]*Bar
+	Bars_referenceOrder map[*Bar]uint // diff Unstage needs the reference order 
+	Bars_mapString      map[string]*Bar
 
 	// insertion point for slice of pointers maps
 	OnAfterBarCreateCallback OnAfterCreateInterface[Bar]
@@ -113,9 +115,10 @@ type Stage struct {
 	OnAfterBarDeleteCallback OnAfterDeleteInterface[Bar]
 	OnAfterBarReadCallback   OnAfterReadInterface[Bar]
 
-	Gantts           map[*Gantt]struct{}
-	Gantts_reference map[*Gantt]*Gantt
-	Gantts_mapString map[string]*Gantt
+	Gantts                map[*Gantt]struct{}
+	Gantts_reference      map[*Gantt]*Gantt
+	Gantts_referenceOrder map[*Gantt]uint // diff Unstage needs the reference order 
+	Gantts_mapString      map[string]*Gantt
 
 	// insertion point for slice of pointers maps
 	Gantt_Lanes_reverseMap map[*Lane]*Gantt
@@ -131,9 +134,10 @@ type Stage struct {
 	OnAfterGanttDeleteCallback OnAfterDeleteInterface[Gantt]
 	OnAfterGanttReadCallback   OnAfterReadInterface[Gantt]
 
-	Groups           map[*Group]struct{}
-	Groups_reference map[*Group]*Group
-	Groups_mapString map[string]*Group
+	Groups                map[*Group]struct{}
+	Groups_reference      map[*Group]*Group
+	Groups_referenceOrder map[*Group]uint // diff Unstage needs the reference order 
+	Groups_mapString      map[string]*Group
 
 	// insertion point for slice of pointers maps
 	Group_GroupLanes_reverseMap map[*Lane]*Group
@@ -143,9 +147,10 @@ type Stage struct {
 	OnAfterGroupDeleteCallback OnAfterDeleteInterface[Group]
 	OnAfterGroupReadCallback   OnAfterReadInterface[Group]
 
-	Lanes           map[*Lane]struct{}
-	Lanes_reference map[*Lane]*Lane
-	Lanes_mapString map[string]*Lane
+	Lanes                map[*Lane]struct{}
+	Lanes_reference      map[*Lane]*Lane
+	Lanes_referenceOrder map[*Lane]uint // diff Unstage needs the reference order 
+	Lanes_mapString      map[string]*Lane
 
 	// insertion point for slice of pointers maps
 	Lane_Bars_reverseMap map[*Bar]*Lane
@@ -155,9 +160,10 @@ type Stage struct {
 	OnAfterLaneDeleteCallback OnAfterDeleteInterface[Lane]
 	OnAfterLaneReadCallback   OnAfterReadInterface[Lane]
 
-	LaneUses           map[*LaneUse]struct{}
-	LaneUses_reference map[*LaneUse]*LaneUse
-	LaneUses_mapString map[string]*LaneUse
+	LaneUses                map[*LaneUse]struct{}
+	LaneUses_reference      map[*LaneUse]*LaneUse
+	LaneUses_referenceOrder map[*LaneUse]uint // diff Unstage needs the reference order 
+	LaneUses_mapString      map[string]*LaneUse
 
 	// insertion point for slice of pointers maps
 	OnAfterLaneUseCreateCallback OnAfterCreateInterface[LaneUse]
@@ -165,9 +171,10 @@ type Stage struct {
 	OnAfterLaneUseDeleteCallback OnAfterDeleteInterface[LaneUse]
 	OnAfterLaneUseReadCallback   OnAfterReadInterface[LaneUse]
 
-	Milestones           map[*Milestone]struct{}
-	Milestones_reference map[*Milestone]*Milestone
-	Milestones_mapString map[string]*Milestone
+	Milestones                map[*Milestone]struct{}
+	Milestones_reference      map[*Milestone]*Milestone
+	Milestones_referenceOrder map[*Milestone]uint // diff Unstage needs the reference order 
+	Milestones_mapString      map[string]*Milestone
 
 	// insertion point for slice of pointers maps
 	Milestone_LanesToDisplay_reverseMap map[*Lane]*Milestone
@@ -1445,6 +1452,7 @@ type GongstructIF interface {
 	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
+	GongGetReferenceIdentifier(stage *Stage) string
 	GongGetIdentifier(stage *Stage) string
 	GongCopy() GongstructIF
 	GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) string
