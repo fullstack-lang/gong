@@ -936,15 +936,15 @@ another line to Write Specs`
 
 	__ProductShape__00000472_.Name = `NewProduct-NewDiagram`
 	__ProductShape__00000472_.IsExpanded = false
-	__ProductShape__00000472_.X = 868.696003
-	__ProductShape__00000472_.Y = 958.377332
+	__ProductShape__00000472_.X = 950.696003
+	__ProductShape__00000472_.Y = 962.377332
 	__ProductShape__00000472_.Width = 122.000000
 	__ProductShape__00000472_.Height = 55.000000
 
 	__ProductShape__00000473_.Name = `Probe Redo-NewDiagram`
 	__ProductShape__00000473_.IsExpanded = false
-	__ProductShape__00000473_.X = 1085.554776
-	__ProductShape__00000473_.Y = 955.390410
+	__ProductShape__00000473_.X = 1167.554776
+	__ProductShape__00000473_.Y = 959.390410
 	__ProductShape__00000473_.Width = 116.000000
 	__ProductShape__00000473_.Height = 63.000000
 
@@ -964,8 +964,8 @@ another line to Write Specs`
 
 	__ProductShape__00000476_.Name = `Rebase Log Commits-NewDiagram`
 	__ProductShape__00000476_.IsExpanded = false
-	__ProductShape__00000476_.X = 1289.656434
-	__ProductShape__00000476_.Y = 958.230597
+	__ProductShape__00000476_.X = 1371.656434
+	__ProductShape__00000476_.Y = 962.230597
 	__ProductShape__00000476_.Width = 126.000000
 	__ProductShape__00000476_.Height = 65.000000
 
@@ -978,8 +978,8 @@ another line to Write Specs`
 
 	__ProductShape__00000478_.Name = `Display the marshalled reverse commit-Work diagram x`
 	__ProductShape__00000478_.IsExpanded = false
-	__ProductShape__00000478_.X = 583.717385
-	__ProductShape__00000478_.Y = 959.308469
+	__ProductShape__00000478_.X = 665.717385
+	__ProductShape__00000478_.Y = 963.308469
 	__ProductShape__00000478_.Width = 250.000000
 	__ProductShape__00000478_.Height = 64.000000
 

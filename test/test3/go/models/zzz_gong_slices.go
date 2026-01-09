@@ -141,7 +141,7 @@ func (stage *Stage) ComputeDifference() {
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
 		notif := newInstancesStmt+fieldsEditStmt+deletedInstancesStmt
 		notif += fmt.Sprintf("\n\t// %s", time.Now().Format(time.RFC3339Nano))
-		notif += fmt.Sprintf("\n\tstage.Commit()")
+		notif += "\n\tstage.Commit()"
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().AddNotification(
 				time.Now(),
@@ -157,13 +157,17 @@ func (stage *Stage) ComputeReference() {
 
 	// insertion point per named struct
 	stage.As_reference = make(map[*A]*A)
+	stage.As_referenceOrder = make(map[*A]uint) // diff Unstage needs the reference order
 	for instance := range stage.As {
 		stage.As_reference[instance] = instance.GongCopy().(*A)
+		stage.As_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Bs_reference = make(map[*B]*B)
+	stage.Bs_referenceOrder = make(map[*B]uint) // diff Unstage needs the reference order
 	for instance := range stage.Bs {
 		stage.Bs_reference[instance] = instance.GongCopy().(*B)
+		stage.Bs_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 }

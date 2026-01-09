@@ -59,7 +59,7 @@ func (stage *Stage) ComputeDifference() {
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
 		notif := newInstancesStmt+fieldsEditStmt+deletedInstancesStmt
 		notif += fmt.Sprintf("\n\t// %s", time.Now().Format(time.RFC3339Nano))
-		notif += fmt.Sprintf("\n\tstage.Commit()")
+		notif += "\n\tstage.Commit()"
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().AddNotification(
 				time.Now(),
@@ -169,8 +169,10 @@ func ({{structname}} *{{Structname}}) GongCopy() GongstructIF {
 
 	GongSliceGongComputeReference: `
 	stage.{{Structname}}s_reference = make(map[*{{Structname}}]*{{Structname}})
+	stage.{{Structname}}s_referenceOrder = make(map[*{{Structname}}]uint) // diff Unstage needs the reference order
 	for instance := range stage.{{Structname}}s {
 		stage.{{Structname}}s_reference[instance] = instance.GongCopy().(*{{Structname}})
+		stage.{{Structname}}s_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 `,
 
