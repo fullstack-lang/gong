@@ -93,9 +93,10 @@ type Stage struct {
 	name string
 
 	// insertion point for definition of arrays registering instances
-	As           map[*A]struct{}
-	As_reference map[*A]*A
-	As_mapString map[string]*A
+	As                map[*A]struct{}
+	As_reference      map[*A]*A
+	As_referenceOrder map[*A]uint // diff Unstage needs the reference order 
+	As_mapString      map[string]*A
 
 	// insertion point for slice of pointers maps
 	A_Bs_reverseMap map[*B]*A
@@ -105,9 +106,10 @@ type Stage struct {
 	OnAfterADeleteCallback OnAfterDeleteInterface[A]
 	OnAfterAReadCallback   OnAfterReadInterface[A]
 
-	Bs           map[*B]struct{}
-	Bs_reference map[*B]*B
-	Bs_mapString map[string]*B
+	Bs                map[*B]struct{}
+	Bs_reference      map[*B]*B
+	Bs_referenceOrder map[*B]uint // diff Unstage needs the reference order 
+	Bs_mapString      map[string]*B
 
 	// insertion point for slice of pointers maps
 	OnAfterBCreateCallback OnAfterCreateInterface[B]

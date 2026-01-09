@@ -52,7 +52,6 @@ func _(stage *models.Stage) {
 	__B__00000025_ := (&models.B{Name: `25`}).Stage(stage)
 	__B__00000026_ := (&models.B{Name: `26`}).Stage(stage)
 	__B__00000027_ := (&models.B{Name: `27`}).Stage(stage)
-	__B__00000028_ := (&models.B{Name: `28`}).Stage(stage)
 	__B__00000029_ := (&models.B{Name: `29`}).Stage(stage)
 	__B__00000030_ := (&models.B{Name: `30`}).Stage(stage)
 	__B__00000031_ := (&models.B{Name: `31`}).Stage(stage)
@@ -118,8 +117,6 @@ func _(stage *models.Stage) {
 	__B__00000026_.Name = `26`
 
 	__B__00000027_.Name = `27`
-
-	__B__00000028_.Name = `28`
 
 	__B__00000029_.Name = `29`
 
