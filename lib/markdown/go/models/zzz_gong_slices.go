@@ -222,9 +222,9 @@ func (stage *Stage) ComputeDifference() {
 	lenDeletedInstances += len(svgimages_deletedInstances)
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
-		notif := newInstancesStmt+fieldsEditStmt+deletedInstancesStmt
+		notif := newInstancesStmt + fieldsEditStmt + deletedInstancesStmt
 		notif += fmt.Sprintf("\n\t// %s", time.Now().Format(time.RFC3339Nano))
-		notif += fmt.Sprintf("\n\tstage.Commit()")
+		notif += "\n\tstage.Commit()"
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().AddNotification(
 				time.Now(),
@@ -240,23 +240,31 @@ func (stage *Stage) ComputeReference() {
 
 	// insertion point per named struct
 	stage.Contents_reference = make(map[*Content]*Content)
+	stage.Contents_referenceOrder = make(map[*Content]uint) // diff Unstage needs the reference order
 	for instance := range stage.Contents {
 		stage.Contents_reference[instance] = instance.GongCopy().(*Content)
+		stage.Contents_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.JpgImages_reference = make(map[*JpgImage]*JpgImage)
+	stage.JpgImages_referenceOrder = make(map[*JpgImage]uint) // diff Unstage needs the reference order
 	for instance := range stage.JpgImages {
 		stage.JpgImages_reference[instance] = instance.GongCopy().(*JpgImage)
+		stage.JpgImages_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.PngImages_reference = make(map[*PngImage]*PngImage)
+	stage.PngImages_referenceOrder = make(map[*PngImage]uint) // diff Unstage needs the reference order
 	for instance := range stage.PngImages {
 		stage.PngImages_reference[instance] = instance.GongCopy().(*PngImage)
+		stage.PngImages_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.SvgImages_reference = make(map[*SvgImage]*SvgImage)
+	stage.SvgImages_referenceOrder = make(map[*SvgImage]uint) // diff Unstage needs the reference order
 	for instance := range stage.SvgImages {
 		stage.SvgImages_reference[instance] = instance.GongCopy().(*SvgImage)
+		stage.SvgImages_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 }
@@ -272,16 +280,32 @@ func (content *Content) GongGetOrder(stage *Stage) uint {
 	return stage.ContentMap_Staged_Order[content]
 }
 
+func (content *Content) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.Contents_referenceOrder[content]
+}
+
 func (jpgimage *JpgImage) GongGetOrder(stage *Stage) uint {
 	return stage.JpgImageMap_Staged_Order[jpgimage]
+}
+
+func (jpgimage *JpgImage) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.JpgImages_referenceOrder[jpgimage]
 }
 
 func (pngimage *PngImage) GongGetOrder(stage *Stage) uint {
 	return stage.PngImageMap_Staged_Order[pngimage]
 }
 
+func (pngimage *PngImage) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.PngImages_referenceOrder[pngimage]
+}
+
 func (svgimage *SvgImage) GongGetOrder(stage *Stage) uint {
 	return stage.SvgImageMap_Staged_Order[svgimage]
+}
+
+func (svgimage *SvgImage) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.SvgImages_referenceOrder[svgimage]
 }
 
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
@@ -293,16 +317,36 @@ func (content *Content) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", content.GongGetGongstructName(), content.GongGetOrder(stage))
 }
 
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (content *Content) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", content.GongGetGongstructName(), content.GongGetReferenceOrder(stage))
+}
+
 func (jpgimage *JpgImage) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", jpgimage.GongGetGongstructName(), jpgimage.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (jpgimage *JpgImage) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", jpgimage.GongGetGongstructName(), jpgimage.GongGetReferenceOrder(stage))
 }
 
 func (pngimage *PngImage) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", pngimage.GongGetGongstructName(), pngimage.GongGetOrder(stage))
 }
 
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (pngimage *PngImage) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", pngimage.GongGetGongstructName(), pngimage.GongGetReferenceOrder(stage))
+}
+
 func (svgimage *SvgImage) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", svgimage.GongGetGongstructName(), svgimage.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (svgimage *SvgImage) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", svgimage.GongGetGongstructName(), svgimage.GongGetReferenceOrder(stage))
 }
 
 // MarshallIdentifier returns the code to instantiate the instance
@@ -340,21 +384,21 @@ func (svgimage *SvgImage) GongMarshallIdentifier(stage *Stage) (decl string) {
 // insertion point for unstaging
 func (content *Content) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", content.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", content.GongGetReferenceIdentifier(stage))
 	return
 }
 func (jpgimage *JpgImage) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", jpgimage.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", jpgimage.GongGetReferenceIdentifier(stage))
 	return
 }
 func (pngimage *PngImage) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", pngimage.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", pngimage.GongGetReferenceIdentifier(stage))
 	return
 }
 func (svgimage *SvgImage) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", svgimage.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", svgimage.GongGetReferenceIdentifier(stage))
 	return
 }

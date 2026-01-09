@@ -93,9 +93,10 @@ type Stage struct {
 	name string
 
 	// insertion point for definition of arrays registering instances
-	Animates           map[*Animate]struct{}
-	Animates_reference map[*Animate]*Animate
-	Animates_mapString map[string]*Animate
+	Animates                map[*Animate]struct{}
+	Animates_reference      map[*Animate]*Animate
+	Animates_referenceOrder map[*Animate]uint // diff Unstage needs the reference order 
+	Animates_mapString      map[string]*Animate
 
 	// insertion point for slice of pointers maps
 	OnAfterAnimateCreateCallback OnAfterCreateInterface[Animate]
@@ -103,9 +104,10 @@ type Stage struct {
 	OnAfterAnimateDeleteCallback OnAfterDeleteInterface[Animate]
 	OnAfterAnimateReadCallback   OnAfterReadInterface[Animate]
 
-	Circles           map[*Circle]struct{}
-	Circles_reference map[*Circle]*Circle
-	Circles_mapString map[string]*Circle
+	Circles                map[*Circle]struct{}
+	Circles_reference      map[*Circle]*Circle
+	Circles_referenceOrder map[*Circle]uint // diff Unstage needs the reference order 
+	Circles_mapString      map[string]*Circle
 
 	// insertion point for slice of pointers maps
 	Circle_Animations_reverseMap map[*Animate]*Circle
@@ -115,9 +117,10 @@ type Stage struct {
 	OnAfterCircleDeleteCallback OnAfterDeleteInterface[Circle]
 	OnAfterCircleReadCallback   OnAfterReadInterface[Circle]
 
-	Conditions           map[*Condition]struct{}
-	Conditions_reference map[*Condition]*Condition
-	Conditions_mapString map[string]*Condition
+	Conditions                map[*Condition]struct{}
+	Conditions_reference      map[*Condition]*Condition
+	Conditions_referenceOrder map[*Condition]uint // diff Unstage needs the reference order 
+	Conditions_mapString      map[string]*Condition
 
 	// insertion point for slice of pointers maps
 	OnAfterConditionCreateCallback OnAfterCreateInterface[Condition]
@@ -125,9 +128,10 @@ type Stage struct {
 	OnAfterConditionDeleteCallback OnAfterDeleteInterface[Condition]
 	OnAfterConditionReadCallback   OnAfterReadInterface[Condition]
 
-	ControlPoints           map[*ControlPoint]struct{}
-	ControlPoints_reference map[*ControlPoint]*ControlPoint
-	ControlPoints_mapString map[string]*ControlPoint
+	ControlPoints                map[*ControlPoint]struct{}
+	ControlPoints_reference      map[*ControlPoint]*ControlPoint
+	ControlPoints_referenceOrder map[*ControlPoint]uint // diff Unstage needs the reference order 
+	ControlPoints_mapString      map[string]*ControlPoint
 
 	// insertion point for slice of pointers maps
 	OnAfterControlPointCreateCallback OnAfterCreateInterface[ControlPoint]
@@ -135,9 +139,10 @@ type Stage struct {
 	OnAfterControlPointDeleteCallback OnAfterDeleteInterface[ControlPoint]
 	OnAfterControlPointReadCallback   OnAfterReadInterface[ControlPoint]
 
-	Ellipses           map[*Ellipse]struct{}
-	Ellipses_reference map[*Ellipse]*Ellipse
-	Ellipses_mapString map[string]*Ellipse
+	Ellipses                map[*Ellipse]struct{}
+	Ellipses_reference      map[*Ellipse]*Ellipse
+	Ellipses_referenceOrder map[*Ellipse]uint // diff Unstage needs the reference order 
+	Ellipses_mapString      map[string]*Ellipse
 
 	// insertion point for slice of pointers maps
 	Ellipse_Animates_reverseMap map[*Animate]*Ellipse
@@ -147,9 +152,10 @@ type Stage struct {
 	OnAfterEllipseDeleteCallback OnAfterDeleteInterface[Ellipse]
 	OnAfterEllipseReadCallback   OnAfterReadInterface[Ellipse]
 
-	Layers           map[*Layer]struct{}
-	Layers_reference map[*Layer]*Layer
-	Layers_mapString map[string]*Layer
+	Layers                map[*Layer]struct{}
+	Layers_reference      map[*Layer]*Layer
+	Layers_referenceOrder map[*Layer]uint // diff Unstage needs the reference order 
+	Layers_mapString      map[string]*Layer
 
 	// insertion point for slice of pointers maps
 	Layer_Rects_reverseMap map[*Rect]*Layer
@@ -177,9 +183,10 @@ type Stage struct {
 	OnAfterLayerDeleteCallback OnAfterDeleteInterface[Layer]
 	OnAfterLayerReadCallback   OnAfterReadInterface[Layer]
 
-	Lines           map[*Line]struct{}
-	Lines_reference map[*Line]*Line
-	Lines_mapString map[string]*Line
+	Lines                map[*Line]struct{}
+	Lines_reference      map[*Line]*Line
+	Lines_referenceOrder map[*Line]uint // diff Unstage needs the reference order 
+	Lines_mapString      map[string]*Line
 
 	// insertion point for slice of pointers maps
 	Line_Animates_reverseMap map[*Animate]*Line
@@ -189,9 +196,10 @@ type Stage struct {
 	OnAfterLineDeleteCallback OnAfterDeleteInterface[Line]
 	OnAfterLineReadCallback   OnAfterReadInterface[Line]
 
-	Links           map[*Link]struct{}
-	Links_reference map[*Link]*Link
-	Links_mapString map[string]*Link
+	Links                map[*Link]struct{}
+	Links_reference      map[*Link]*Link
+	Links_referenceOrder map[*Link]uint // diff Unstage needs the reference order 
+	Links_mapString      map[string]*Link
 
 	// insertion point for slice of pointers maps
 	Link_TextAtArrowStart_reverseMap map[*LinkAnchoredText]*Link
@@ -205,9 +213,10 @@ type Stage struct {
 	OnAfterLinkDeleteCallback OnAfterDeleteInterface[Link]
 	OnAfterLinkReadCallback   OnAfterReadInterface[Link]
 
-	LinkAnchoredTexts           map[*LinkAnchoredText]struct{}
-	LinkAnchoredTexts_reference map[*LinkAnchoredText]*LinkAnchoredText
-	LinkAnchoredTexts_mapString map[string]*LinkAnchoredText
+	LinkAnchoredTexts                map[*LinkAnchoredText]struct{}
+	LinkAnchoredTexts_reference      map[*LinkAnchoredText]*LinkAnchoredText
+	LinkAnchoredTexts_referenceOrder map[*LinkAnchoredText]uint // diff Unstage needs the reference order 
+	LinkAnchoredTexts_mapString      map[string]*LinkAnchoredText
 
 	// insertion point for slice of pointers maps
 	LinkAnchoredText_Animates_reverseMap map[*Animate]*LinkAnchoredText
@@ -217,9 +226,10 @@ type Stage struct {
 	OnAfterLinkAnchoredTextDeleteCallback OnAfterDeleteInterface[LinkAnchoredText]
 	OnAfterLinkAnchoredTextReadCallback   OnAfterReadInterface[LinkAnchoredText]
 
-	Paths           map[*Path]struct{}
-	Paths_reference map[*Path]*Path
-	Paths_mapString map[string]*Path
+	Paths                map[*Path]struct{}
+	Paths_reference      map[*Path]*Path
+	Paths_referenceOrder map[*Path]uint // diff Unstage needs the reference order 
+	Paths_mapString      map[string]*Path
 
 	// insertion point for slice of pointers maps
 	Path_Animates_reverseMap map[*Animate]*Path
@@ -229,9 +239,10 @@ type Stage struct {
 	OnAfterPathDeleteCallback OnAfterDeleteInterface[Path]
 	OnAfterPathReadCallback   OnAfterReadInterface[Path]
 
-	Points           map[*Point]struct{}
-	Points_reference map[*Point]*Point
-	Points_mapString map[string]*Point
+	Points                map[*Point]struct{}
+	Points_reference      map[*Point]*Point
+	Points_referenceOrder map[*Point]uint // diff Unstage needs the reference order 
+	Points_mapString      map[string]*Point
 
 	// insertion point for slice of pointers maps
 	OnAfterPointCreateCallback OnAfterCreateInterface[Point]
@@ -239,9 +250,10 @@ type Stage struct {
 	OnAfterPointDeleteCallback OnAfterDeleteInterface[Point]
 	OnAfterPointReadCallback   OnAfterReadInterface[Point]
 
-	Polygones           map[*Polygone]struct{}
-	Polygones_reference map[*Polygone]*Polygone
-	Polygones_mapString map[string]*Polygone
+	Polygones                map[*Polygone]struct{}
+	Polygones_reference      map[*Polygone]*Polygone
+	Polygones_referenceOrder map[*Polygone]uint // diff Unstage needs the reference order 
+	Polygones_mapString      map[string]*Polygone
 
 	// insertion point for slice of pointers maps
 	Polygone_Animates_reverseMap map[*Animate]*Polygone
@@ -251,9 +263,10 @@ type Stage struct {
 	OnAfterPolygoneDeleteCallback OnAfterDeleteInterface[Polygone]
 	OnAfterPolygoneReadCallback   OnAfterReadInterface[Polygone]
 
-	Polylines           map[*Polyline]struct{}
-	Polylines_reference map[*Polyline]*Polyline
-	Polylines_mapString map[string]*Polyline
+	Polylines                map[*Polyline]struct{}
+	Polylines_reference      map[*Polyline]*Polyline
+	Polylines_referenceOrder map[*Polyline]uint // diff Unstage needs the reference order 
+	Polylines_mapString      map[string]*Polyline
 
 	// insertion point for slice of pointers maps
 	Polyline_Animates_reverseMap map[*Animate]*Polyline
@@ -263,9 +276,10 @@ type Stage struct {
 	OnAfterPolylineDeleteCallback OnAfterDeleteInterface[Polyline]
 	OnAfterPolylineReadCallback   OnAfterReadInterface[Polyline]
 
-	Rects           map[*Rect]struct{}
-	Rects_reference map[*Rect]*Rect
-	Rects_mapString map[string]*Rect
+	Rects                map[*Rect]struct{}
+	Rects_reference      map[*Rect]*Rect
+	Rects_referenceOrder map[*Rect]uint // diff Unstage needs the reference order 
+	Rects_mapString      map[string]*Rect
 
 	// insertion point for slice of pointers maps
 	Rect_HoveringTrigger_reverseMap map[*Condition]*Rect
@@ -285,9 +299,10 @@ type Stage struct {
 	OnAfterRectDeleteCallback OnAfterDeleteInterface[Rect]
 	OnAfterRectReadCallback   OnAfterReadInterface[Rect]
 
-	RectAnchoredPaths           map[*RectAnchoredPath]struct{}
-	RectAnchoredPaths_reference map[*RectAnchoredPath]*RectAnchoredPath
-	RectAnchoredPaths_mapString map[string]*RectAnchoredPath
+	RectAnchoredPaths                map[*RectAnchoredPath]struct{}
+	RectAnchoredPaths_reference      map[*RectAnchoredPath]*RectAnchoredPath
+	RectAnchoredPaths_referenceOrder map[*RectAnchoredPath]uint // diff Unstage needs the reference order 
+	RectAnchoredPaths_mapString      map[string]*RectAnchoredPath
 
 	// insertion point for slice of pointers maps
 	OnAfterRectAnchoredPathCreateCallback OnAfterCreateInterface[RectAnchoredPath]
@@ -295,9 +310,10 @@ type Stage struct {
 	OnAfterRectAnchoredPathDeleteCallback OnAfterDeleteInterface[RectAnchoredPath]
 	OnAfterRectAnchoredPathReadCallback   OnAfterReadInterface[RectAnchoredPath]
 
-	RectAnchoredRects           map[*RectAnchoredRect]struct{}
-	RectAnchoredRects_reference map[*RectAnchoredRect]*RectAnchoredRect
-	RectAnchoredRects_mapString map[string]*RectAnchoredRect
+	RectAnchoredRects                map[*RectAnchoredRect]struct{}
+	RectAnchoredRects_reference      map[*RectAnchoredRect]*RectAnchoredRect
+	RectAnchoredRects_referenceOrder map[*RectAnchoredRect]uint // diff Unstage needs the reference order 
+	RectAnchoredRects_mapString      map[string]*RectAnchoredRect
 
 	// insertion point for slice of pointers maps
 	OnAfterRectAnchoredRectCreateCallback OnAfterCreateInterface[RectAnchoredRect]
@@ -305,9 +321,10 @@ type Stage struct {
 	OnAfterRectAnchoredRectDeleteCallback OnAfterDeleteInterface[RectAnchoredRect]
 	OnAfterRectAnchoredRectReadCallback   OnAfterReadInterface[RectAnchoredRect]
 
-	RectAnchoredTexts           map[*RectAnchoredText]struct{}
-	RectAnchoredTexts_reference map[*RectAnchoredText]*RectAnchoredText
-	RectAnchoredTexts_mapString map[string]*RectAnchoredText
+	RectAnchoredTexts                map[*RectAnchoredText]struct{}
+	RectAnchoredTexts_reference      map[*RectAnchoredText]*RectAnchoredText
+	RectAnchoredTexts_referenceOrder map[*RectAnchoredText]uint // diff Unstage needs the reference order 
+	RectAnchoredTexts_mapString      map[string]*RectAnchoredText
 
 	// insertion point for slice of pointers maps
 	RectAnchoredText_Animates_reverseMap map[*Animate]*RectAnchoredText
@@ -317,9 +334,10 @@ type Stage struct {
 	OnAfterRectAnchoredTextDeleteCallback OnAfterDeleteInterface[RectAnchoredText]
 	OnAfterRectAnchoredTextReadCallback   OnAfterReadInterface[RectAnchoredText]
 
-	RectLinkLinks           map[*RectLinkLink]struct{}
-	RectLinkLinks_reference map[*RectLinkLink]*RectLinkLink
-	RectLinkLinks_mapString map[string]*RectLinkLink
+	RectLinkLinks                map[*RectLinkLink]struct{}
+	RectLinkLinks_reference      map[*RectLinkLink]*RectLinkLink
+	RectLinkLinks_referenceOrder map[*RectLinkLink]uint // diff Unstage needs the reference order 
+	RectLinkLinks_mapString      map[string]*RectLinkLink
 
 	// insertion point for slice of pointers maps
 	OnAfterRectLinkLinkCreateCallback OnAfterCreateInterface[RectLinkLink]
@@ -327,9 +345,10 @@ type Stage struct {
 	OnAfterRectLinkLinkDeleteCallback OnAfterDeleteInterface[RectLinkLink]
 	OnAfterRectLinkLinkReadCallback   OnAfterReadInterface[RectLinkLink]
 
-	SVGs           map[*SVG]struct{}
-	SVGs_reference map[*SVG]*SVG
-	SVGs_mapString map[string]*SVG
+	SVGs                map[*SVG]struct{}
+	SVGs_reference      map[*SVG]*SVG
+	SVGs_referenceOrder map[*SVG]uint // diff Unstage needs the reference order 
+	SVGs_mapString      map[string]*SVG
 
 	// insertion point for slice of pointers maps
 	SVG_Layers_reverseMap map[*Layer]*SVG
@@ -339,9 +358,10 @@ type Stage struct {
 	OnAfterSVGDeleteCallback OnAfterDeleteInterface[SVG]
 	OnAfterSVGReadCallback   OnAfterReadInterface[SVG]
 
-	SvgTexts           map[*SvgText]struct{}
-	SvgTexts_reference map[*SvgText]*SvgText
-	SvgTexts_mapString map[string]*SvgText
+	SvgTexts                map[*SvgText]struct{}
+	SvgTexts_reference      map[*SvgText]*SvgText
+	SvgTexts_referenceOrder map[*SvgText]uint // diff Unstage needs the reference order 
+	SvgTexts_mapString      map[string]*SvgText
 
 	// insertion point for slice of pointers maps
 	OnAfterSvgTextCreateCallback OnAfterCreateInterface[SvgText]
@@ -349,9 +369,10 @@ type Stage struct {
 	OnAfterSvgTextDeleteCallback OnAfterDeleteInterface[SvgText]
 	OnAfterSvgTextReadCallback   OnAfterReadInterface[SvgText]
 
-	Texts           map[*Text]struct{}
-	Texts_reference map[*Text]*Text
-	Texts_mapString map[string]*Text
+	Texts                map[*Text]struct{}
+	Texts_reference      map[*Text]*Text
+	Texts_referenceOrder map[*Text]uint // diff Unstage needs the reference order 
+	Texts_mapString      map[string]*Text
 
 	// insertion point for slice of pointers maps
 	Text_Animates_reverseMap map[*Animate]*Text
@@ -3477,6 +3498,7 @@ type GongstructIF interface {
 	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
+	GongGetReferenceIdentifier(stage *Stage) string
 	GongGetIdentifier(stage *Stage) string
 	GongCopy() GongstructIF
 	GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) string

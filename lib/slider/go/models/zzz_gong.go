@@ -93,9 +93,10 @@ type Stage struct {
 	name string
 
 	// insertion point for definition of arrays registering instances
-	Checkboxs           map[*Checkbox]struct{}
-	Checkboxs_reference map[*Checkbox]*Checkbox
-	Checkboxs_mapString map[string]*Checkbox
+	Checkboxs                map[*Checkbox]struct{}
+	Checkboxs_reference      map[*Checkbox]*Checkbox
+	Checkboxs_referenceOrder map[*Checkbox]uint // diff Unstage needs the reference order 
+	Checkboxs_mapString      map[string]*Checkbox
 
 	// insertion point for slice of pointers maps
 	OnAfterCheckboxCreateCallback OnAfterCreateInterface[Checkbox]
@@ -103,9 +104,10 @@ type Stage struct {
 	OnAfterCheckboxDeleteCallback OnAfterDeleteInterface[Checkbox]
 	OnAfterCheckboxReadCallback   OnAfterReadInterface[Checkbox]
 
-	Groups           map[*Group]struct{}
-	Groups_reference map[*Group]*Group
-	Groups_mapString map[string]*Group
+	Groups                map[*Group]struct{}
+	Groups_reference      map[*Group]*Group
+	Groups_referenceOrder map[*Group]uint // diff Unstage needs the reference order 
+	Groups_mapString      map[string]*Group
 
 	// insertion point for slice of pointers maps
 	Group_Sliders_reverseMap map[*Slider]*Group
@@ -117,9 +119,10 @@ type Stage struct {
 	OnAfterGroupDeleteCallback OnAfterDeleteInterface[Group]
 	OnAfterGroupReadCallback   OnAfterReadInterface[Group]
 
-	Layouts           map[*Layout]struct{}
-	Layouts_reference map[*Layout]*Layout
-	Layouts_mapString map[string]*Layout
+	Layouts                map[*Layout]struct{}
+	Layouts_reference      map[*Layout]*Layout
+	Layouts_referenceOrder map[*Layout]uint // diff Unstage needs the reference order 
+	Layouts_mapString      map[string]*Layout
 
 	// insertion point for slice of pointers maps
 	Layout_Groups_reverseMap map[*Group]*Layout
@@ -129,9 +132,10 @@ type Stage struct {
 	OnAfterLayoutDeleteCallback OnAfterDeleteInterface[Layout]
 	OnAfterLayoutReadCallback   OnAfterReadInterface[Layout]
 
-	Sliders           map[*Slider]struct{}
-	Sliders_reference map[*Slider]*Slider
-	Sliders_mapString map[string]*Slider
+	Sliders                map[*Slider]struct{}
+	Sliders_reference      map[*Slider]*Slider
+	Sliders_referenceOrder map[*Slider]uint // diff Unstage needs the reference order 
+	Sliders_mapString      map[string]*Slider
 
 	// insertion point for slice of pointers maps
 	OnAfterSliderCreateCallback OnAfterCreateInterface[Slider]
@@ -1011,6 +1015,7 @@ type GongstructIF interface {
 	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
+	GongGetReferenceIdentifier(stage *Stage) string
 	GongGetIdentifier(stage *Stage) string
 	GongCopy() GongstructIF
 	GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) string

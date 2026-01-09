@@ -87,9 +87,9 @@ func (stage *Stage) ComputeDifference() {
 	lenDeletedInstances += len(cursors_deletedInstances)
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
-		notif := newInstancesStmt+fieldsEditStmt+deletedInstancesStmt
+		notif := newInstancesStmt + fieldsEditStmt + deletedInstancesStmt
 		notif += fmt.Sprintf("\n\t// %s", time.Now().Format(time.RFC3339Nano))
-		notif += fmt.Sprintf("\n\tstage.Commit()")
+		notif += "\n\tstage.Commit()"
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().AddNotification(
 				time.Now(),
@@ -105,8 +105,10 @@ func (stage *Stage) ComputeReference() {
 
 	// insertion point per named struct
 	stage.Cursors_reference = make(map[*Cursor]*Cursor)
+	stage.Cursors_referenceOrder = make(map[*Cursor]uint) // diff Unstage needs the reference order
 	for instance := range stage.Cursors {
 		stage.Cursors_reference[instance] = instance.GongCopy().(*Cursor)
+		stage.Cursors_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 }
@@ -122,6 +124,10 @@ func (cursor *Cursor) GongGetOrder(stage *Stage) uint {
 	return stage.CursorMap_Staged_Order[cursor]
 }
 
+func (cursor *Cursor) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.Cursors_referenceOrder[cursor]
+}
+
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
 // This identifier is composed of the Gongstruct name and the order of the instance
 // in the staging area
@@ -129,6 +135,11 @@ func (cursor *Cursor) GongGetOrder(stage *Stage) uint {
 // insertion point per named struct
 func (cursor *Cursor) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", cursor.GongGetGongstructName(), cursor.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (cursor *Cursor) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", cursor.GongGetGongstructName(), cursor.GongGetReferenceOrder(stage))
 }
 
 // MarshallIdentifier returns the code to instantiate the instance
@@ -145,6 +156,6 @@ func (cursor *Cursor) GongMarshallIdentifier(stage *Stage) (decl string) {
 // insertion point for unstaging
 func (cursor *Cursor) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", cursor.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", cursor.GongGetReferenceIdentifier(stage))
 	return
 }
