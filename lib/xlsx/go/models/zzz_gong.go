@@ -1081,6 +1081,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.XLSheetMap_Staged_Order = make(map[*XLSheet]uint)
 	stage.XLSheetOrder = 0
 
+	if stage.GetProbeIF() != nil {
+		stage.GetProbeIF().ResetNotifications()
+	}
 	stage.ComputeReference()
 }
 

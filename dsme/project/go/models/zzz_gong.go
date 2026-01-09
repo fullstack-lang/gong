@@ -2477,6 +2477,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.TaskShapeMap_Staged_Order = make(map[*TaskShape]uint)
 	stage.TaskShapeOrder = 0
 
+	if stage.GetProbeIF() != nil {
+		stage.GetProbeIF().ResetNotifications()
+	}
 	stage.ComputeReference()
 }
 

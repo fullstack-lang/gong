@@ -1357,6 +1357,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.MilestoneMap_Staged_Order = make(map[*Milestone]uint)
 	stage.MilestoneOrder = 0
 
+	if stage.GetProbeIF() != nil {
+		stage.GetProbeIF().ResetNotifications()
+	}
 	stage.ComputeReference()
 }
 

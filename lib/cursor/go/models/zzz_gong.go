@@ -533,6 +533,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.CursorMap_Staged_Order = make(map[*Cursor]uint)
 	stage.CursorOrder = 0
 
+	if stage.GetProbeIF() != nil {
+		stage.GetProbeIF().ResetNotifications()
+	}
 	stage.ComputeReference()
 }
 

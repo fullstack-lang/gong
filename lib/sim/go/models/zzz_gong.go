@@ -1208,6 +1208,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.UpdateStateMap_Staged_Order = make(map[*UpdateState]uint)
 	stage.UpdateStateOrder = 0
 
+	if stage.GetProbeIF() != nil {
+		stage.GetProbeIF().ResetNotifications()
+	}
 	stage.ComputeReference()
 }
 

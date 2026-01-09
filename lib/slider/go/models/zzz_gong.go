@@ -944,6 +944,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.SliderMap_Staged_Order = make(map[*Slider]uint)
 	stage.SliderOrder = 0
 
+	if stage.GetProbeIF() != nil {
+		stage.GetProbeIF().ResetNotifications()
+	}
 	stage.ComputeReference()
 }
 

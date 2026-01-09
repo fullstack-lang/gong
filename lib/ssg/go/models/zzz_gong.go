@@ -807,6 +807,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.PageMap_Staged_Order = make(map[*Page]uint)
 	stage.PageOrder = 0
 
+	if stage.GetProbeIF() != nil {
+		stage.GetProbeIF().ResetNotifications()
+	}
 	stage.ComputeReference()
 }
 

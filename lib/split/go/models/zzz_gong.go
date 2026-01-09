@@ -2967,6 +2967,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.XlsxMap_Staged_Order = make(map[*Xlsx]uint)
 	stage.XlsxOrder = 0
 
+	if stage.GetProbeIF() != nil {
+		stage.GetProbeIF().ResetNotifications()
+	}
 	stage.ComputeReference()
 }
 
