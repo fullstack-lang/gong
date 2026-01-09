@@ -295,9 +295,9 @@ func (stage *Stage) ComputeDifference() {
 	lenDeletedInstances += len(xlsheets_deletedInstances)
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
-		notif := newInstancesStmt+fieldsEditStmt+deletedInstancesStmt
+		notif := newInstancesStmt + fieldsEditStmt + deletedInstancesStmt
 		notif += fmt.Sprintf("\n\t// %s", time.Now().Format(time.RFC3339Nano))
-		notif += fmt.Sprintf("\n\tstage.Commit()")
+		notif += "\n\tstage.Commit()"
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().AddNotification(
 				time.Now(),
@@ -313,28 +313,38 @@ func (stage *Stage) ComputeReference() {
 
 	// insertion point per named struct
 	stage.DisplaySelections_reference = make(map[*DisplaySelection]*DisplaySelection)
+	stage.DisplaySelections_referenceOrder = make(map[*DisplaySelection]uint) // diff Unstage needs the reference order
 	for instance := range stage.DisplaySelections {
 		stage.DisplaySelections_reference[instance] = instance.GongCopy().(*DisplaySelection)
+		stage.DisplaySelections_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.XLCells_reference = make(map[*XLCell]*XLCell)
+	stage.XLCells_referenceOrder = make(map[*XLCell]uint) // diff Unstage needs the reference order
 	for instance := range stage.XLCells {
 		stage.XLCells_reference[instance] = instance.GongCopy().(*XLCell)
+		stage.XLCells_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.XLFiles_reference = make(map[*XLFile]*XLFile)
+	stage.XLFiles_referenceOrder = make(map[*XLFile]uint) // diff Unstage needs the reference order
 	for instance := range stage.XLFiles {
 		stage.XLFiles_reference[instance] = instance.GongCopy().(*XLFile)
+		stage.XLFiles_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.XLRows_reference = make(map[*XLRow]*XLRow)
+	stage.XLRows_referenceOrder = make(map[*XLRow]uint) // diff Unstage needs the reference order
 	for instance := range stage.XLRows {
 		stage.XLRows_reference[instance] = instance.GongCopy().(*XLRow)
+		stage.XLRows_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.XLSheets_reference = make(map[*XLSheet]*XLSheet)
+	stage.XLSheets_referenceOrder = make(map[*XLSheet]uint) // diff Unstage needs the reference order
 	for instance := range stage.XLSheets {
 		stage.XLSheets_reference[instance] = instance.GongCopy().(*XLSheet)
+		stage.XLSheets_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 }
@@ -350,20 +360,40 @@ func (displayselection *DisplaySelection) GongGetOrder(stage *Stage) uint {
 	return stage.DisplaySelectionMap_Staged_Order[displayselection]
 }
 
+func (displayselection *DisplaySelection) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.DisplaySelections_referenceOrder[displayselection]
+}
+
 func (xlcell *XLCell) GongGetOrder(stage *Stage) uint {
 	return stage.XLCellMap_Staged_Order[xlcell]
+}
+
+func (xlcell *XLCell) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.XLCells_referenceOrder[xlcell]
 }
 
 func (xlfile *XLFile) GongGetOrder(stage *Stage) uint {
 	return stage.XLFileMap_Staged_Order[xlfile]
 }
 
+func (xlfile *XLFile) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.XLFiles_referenceOrder[xlfile]
+}
+
 func (xlrow *XLRow) GongGetOrder(stage *Stage) uint {
 	return stage.XLRowMap_Staged_Order[xlrow]
 }
 
+func (xlrow *XLRow) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.XLRows_referenceOrder[xlrow]
+}
+
 func (xlsheet *XLSheet) GongGetOrder(stage *Stage) uint {
 	return stage.XLSheetMap_Staged_Order[xlsheet]
+}
+
+func (xlsheet *XLSheet) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.XLSheets_referenceOrder[xlsheet]
 }
 
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
@@ -375,20 +405,45 @@ func (displayselection *DisplaySelection) GongGetIdentifier(stage *Stage) string
 	return fmt.Sprintf("__%s__%08d_", displayselection.GongGetGongstructName(), displayselection.GongGetOrder(stage))
 }
 
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (displayselection *DisplaySelection) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", displayselection.GongGetGongstructName(), displayselection.GongGetReferenceOrder(stage))
+}
+
 func (xlcell *XLCell) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", xlcell.GongGetGongstructName(), xlcell.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (xlcell *XLCell) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", xlcell.GongGetGongstructName(), xlcell.GongGetReferenceOrder(stage))
 }
 
 func (xlfile *XLFile) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", xlfile.GongGetGongstructName(), xlfile.GongGetOrder(stage))
 }
 
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (xlfile *XLFile) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", xlfile.GongGetGongstructName(), xlfile.GongGetReferenceOrder(stage))
+}
+
 func (xlrow *XLRow) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", xlrow.GongGetGongstructName(), xlrow.GongGetOrder(stage))
 }
 
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (xlrow *XLRow) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", xlrow.GongGetGongstructName(), xlrow.GongGetReferenceOrder(stage))
+}
+
 func (xlsheet *XLSheet) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", xlsheet.GongGetGongstructName(), xlsheet.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (xlsheet *XLSheet) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", xlsheet.GongGetGongstructName(), xlsheet.GongGetReferenceOrder(stage))
 }
 
 // MarshallIdentifier returns the code to instantiate the instance
@@ -433,26 +488,26 @@ func (xlsheet *XLSheet) GongMarshallIdentifier(stage *Stage) (decl string) {
 // insertion point for unstaging
 func (displayselection *DisplaySelection) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", displayselection.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", displayselection.GongGetReferenceIdentifier(stage))
 	return
 }
 func (xlcell *XLCell) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", xlcell.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", xlcell.GongGetReferenceIdentifier(stage))
 	return
 }
 func (xlfile *XLFile) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", xlfile.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", xlfile.GongGetReferenceIdentifier(stage))
 	return
 }
 func (xlrow *XLRow) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", xlrow.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", xlrow.GongGetReferenceIdentifier(stage))
 	return
 }
 func (xlsheet *XLSheet) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", xlsheet.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", xlsheet.GongGetReferenceIdentifier(stage))
 	return
 }

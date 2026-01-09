@@ -93,9 +93,10 @@ type Stage struct {
 	name string
 
 	// insertion point for definition of arrays registering instances
-	Diagrams           map[*Diagram]struct{}
-	Diagrams_reference map[*Diagram]*Diagram
-	Diagrams_mapString map[string]*Diagram
+	Diagrams                map[*Diagram]struct{}
+	Diagrams_reference      map[*Diagram]*Diagram
+	Diagrams_referenceOrder map[*Diagram]uint // diff Unstage needs the reference order 
+	Diagrams_mapString      map[string]*Diagram
 
 	// insertion point for slice of pointers maps
 	Diagram_Product_Shapes_reverseMap map[*ProductShape]*Diagram
@@ -131,9 +132,10 @@ type Stage struct {
 	OnAfterDiagramDeleteCallback OnAfterDeleteInterface[Diagram]
 	OnAfterDiagramReadCallback   OnAfterReadInterface[Diagram]
 
-	Notes           map[*Note]struct{}
-	Notes_reference map[*Note]*Note
-	Notes_mapString map[string]*Note
+	Notes                map[*Note]struct{}
+	Notes_reference      map[*Note]*Note
+	Notes_referenceOrder map[*Note]uint // diff Unstage needs the reference order 
+	Notes_mapString      map[string]*Note
 
 	// insertion point for slice of pointers maps
 	Note_Products_reverseMap map[*Product]*Note
@@ -145,9 +147,10 @@ type Stage struct {
 	OnAfterNoteDeleteCallback OnAfterDeleteInterface[Note]
 	OnAfterNoteReadCallback   OnAfterReadInterface[Note]
 
-	NoteProductShapes           map[*NoteProductShape]struct{}
-	NoteProductShapes_reference map[*NoteProductShape]*NoteProductShape
-	NoteProductShapes_mapString map[string]*NoteProductShape
+	NoteProductShapes                map[*NoteProductShape]struct{}
+	NoteProductShapes_reference      map[*NoteProductShape]*NoteProductShape
+	NoteProductShapes_referenceOrder map[*NoteProductShape]uint // diff Unstage needs the reference order 
+	NoteProductShapes_mapString      map[string]*NoteProductShape
 
 	// insertion point for slice of pointers maps
 	OnAfterNoteProductShapeCreateCallback OnAfterCreateInterface[NoteProductShape]
@@ -155,9 +158,10 @@ type Stage struct {
 	OnAfterNoteProductShapeDeleteCallback OnAfterDeleteInterface[NoteProductShape]
 	OnAfterNoteProductShapeReadCallback   OnAfterReadInterface[NoteProductShape]
 
-	NoteShapes           map[*NoteShape]struct{}
-	NoteShapes_reference map[*NoteShape]*NoteShape
-	NoteShapes_mapString map[string]*NoteShape
+	NoteShapes                map[*NoteShape]struct{}
+	NoteShapes_reference      map[*NoteShape]*NoteShape
+	NoteShapes_referenceOrder map[*NoteShape]uint // diff Unstage needs the reference order 
+	NoteShapes_mapString      map[string]*NoteShape
 
 	// insertion point for slice of pointers maps
 	OnAfterNoteShapeCreateCallback OnAfterCreateInterface[NoteShape]
@@ -165,9 +169,10 @@ type Stage struct {
 	OnAfterNoteShapeDeleteCallback OnAfterDeleteInterface[NoteShape]
 	OnAfterNoteShapeReadCallback   OnAfterReadInterface[NoteShape]
 
-	NoteTaskShapes           map[*NoteTaskShape]struct{}
-	NoteTaskShapes_reference map[*NoteTaskShape]*NoteTaskShape
-	NoteTaskShapes_mapString map[string]*NoteTaskShape
+	NoteTaskShapes                map[*NoteTaskShape]struct{}
+	NoteTaskShapes_reference      map[*NoteTaskShape]*NoteTaskShape
+	NoteTaskShapes_referenceOrder map[*NoteTaskShape]uint // diff Unstage needs the reference order 
+	NoteTaskShapes_mapString      map[string]*NoteTaskShape
 
 	// insertion point for slice of pointers maps
 	OnAfterNoteTaskShapeCreateCallback OnAfterCreateInterface[NoteTaskShape]
@@ -175,9 +180,10 @@ type Stage struct {
 	OnAfterNoteTaskShapeDeleteCallback OnAfterDeleteInterface[NoteTaskShape]
 	OnAfterNoteTaskShapeReadCallback   OnAfterReadInterface[NoteTaskShape]
 
-	Products           map[*Product]struct{}
-	Products_reference map[*Product]*Product
-	Products_mapString map[string]*Product
+	Products                map[*Product]struct{}
+	Products_reference      map[*Product]*Product
+	Products_referenceOrder map[*Product]uint // diff Unstage needs the reference order 
+	Products_mapString      map[string]*Product
 
 	// insertion point for slice of pointers maps
 	Product_SubProducts_reverseMap map[*Product]*Product
@@ -187,9 +193,10 @@ type Stage struct {
 	OnAfterProductDeleteCallback OnAfterDeleteInterface[Product]
 	OnAfterProductReadCallback   OnAfterReadInterface[Product]
 
-	ProductCompositionShapes           map[*ProductCompositionShape]struct{}
-	ProductCompositionShapes_reference map[*ProductCompositionShape]*ProductCompositionShape
-	ProductCompositionShapes_mapString map[string]*ProductCompositionShape
+	ProductCompositionShapes                map[*ProductCompositionShape]struct{}
+	ProductCompositionShapes_reference      map[*ProductCompositionShape]*ProductCompositionShape
+	ProductCompositionShapes_referenceOrder map[*ProductCompositionShape]uint // diff Unstage needs the reference order 
+	ProductCompositionShapes_mapString      map[string]*ProductCompositionShape
 
 	// insertion point for slice of pointers maps
 	OnAfterProductCompositionShapeCreateCallback OnAfterCreateInterface[ProductCompositionShape]
@@ -197,9 +204,10 @@ type Stage struct {
 	OnAfterProductCompositionShapeDeleteCallback OnAfterDeleteInterface[ProductCompositionShape]
 	OnAfterProductCompositionShapeReadCallback   OnAfterReadInterface[ProductCompositionShape]
 
-	ProductShapes           map[*ProductShape]struct{}
-	ProductShapes_reference map[*ProductShape]*ProductShape
-	ProductShapes_mapString map[string]*ProductShape
+	ProductShapes                map[*ProductShape]struct{}
+	ProductShapes_reference      map[*ProductShape]*ProductShape
+	ProductShapes_referenceOrder map[*ProductShape]uint // diff Unstage needs the reference order 
+	ProductShapes_mapString      map[string]*ProductShape
 
 	// insertion point for slice of pointers maps
 	OnAfterProductShapeCreateCallback OnAfterCreateInterface[ProductShape]
@@ -207,9 +215,10 @@ type Stage struct {
 	OnAfterProductShapeDeleteCallback OnAfterDeleteInterface[ProductShape]
 	OnAfterProductShapeReadCallback   OnAfterReadInterface[ProductShape]
 
-	Projects           map[*Project]struct{}
-	Projects_reference map[*Project]*Project
-	Projects_mapString map[string]*Project
+	Projects                map[*Project]struct{}
+	Projects_reference      map[*Project]*Project
+	Projects_referenceOrder map[*Project]uint // diff Unstage needs the reference order 
+	Projects_mapString      map[string]*Project
 
 	// insertion point for slice of pointers maps
 	Project_RootProducts_reverseMap map[*Product]*Project
@@ -225,9 +234,10 @@ type Stage struct {
 	OnAfterProjectDeleteCallback OnAfterDeleteInterface[Project]
 	OnAfterProjectReadCallback   OnAfterReadInterface[Project]
 
-	Roots           map[*Root]struct{}
-	Roots_reference map[*Root]*Root
-	Roots_mapString map[string]*Root
+	Roots                map[*Root]struct{}
+	Roots_reference      map[*Root]*Root
+	Roots_referenceOrder map[*Root]uint // diff Unstage needs the reference order 
+	Roots_mapString      map[string]*Root
 
 	// insertion point for slice of pointers maps
 	Root_Projects_reverseMap map[*Project]*Root
@@ -241,9 +251,10 @@ type Stage struct {
 	OnAfterRootDeleteCallback OnAfterDeleteInterface[Root]
 	OnAfterRootReadCallback   OnAfterReadInterface[Root]
 
-	Tasks           map[*Task]struct{}
-	Tasks_reference map[*Task]*Task
-	Tasks_mapString map[string]*Task
+	Tasks                map[*Task]struct{}
+	Tasks_reference      map[*Task]*Task
+	Tasks_referenceOrder map[*Task]uint // diff Unstage needs the reference order 
+	Tasks_mapString      map[string]*Task
 
 	// insertion point for slice of pointers maps
 	Task_SubTasks_reverseMap map[*Task]*Task
@@ -257,9 +268,10 @@ type Stage struct {
 	OnAfterTaskDeleteCallback OnAfterDeleteInterface[Task]
 	OnAfterTaskReadCallback   OnAfterReadInterface[Task]
 
-	TaskCompositionShapes           map[*TaskCompositionShape]struct{}
-	TaskCompositionShapes_reference map[*TaskCompositionShape]*TaskCompositionShape
-	TaskCompositionShapes_mapString map[string]*TaskCompositionShape
+	TaskCompositionShapes                map[*TaskCompositionShape]struct{}
+	TaskCompositionShapes_reference      map[*TaskCompositionShape]*TaskCompositionShape
+	TaskCompositionShapes_referenceOrder map[*TaskCompositionShape]uint // diff Unstage needs the reference order 
+	TaskCompositionShapes_mapString      map[string]*TaskCompositionShape
 
 	// insertion point for slice of pointers maps
 	OnAfterTaskCompositionShapeCreateCallback OnAfterCreateInterface[TaskCompositionShape]
@@ -267,9 +279,10 @@ type Stage struct {
 	OnAfterTaskCompositionShapeDeleteCallback OnAfterDeleteInterface[TaskCompositionShape]
 	OnAfterTaskCompositionShapeReadCallback   OnAfterReadInterface[TaskCompositionShape]
 
-	TaskInputShapes           map[*TaskInputShape]struct{}
-	TaskInputShapes_reference map[*TaskInputShape]*TaskInputShape
-	TaskInputShapes_mapString map[string]*TaskInputShape
+	TaskInputShapes                map[*TaskInputShape]struct{}
+	TaskInputShapes_reference      map[*TaskInputShape]*TaskInputShape
+	TaskInputShapes_referenceOrder map[*TaskInputShape]uint // diff Unstage needs the reference order 
+	TaskInputShapes_mapString      map[string]*TaskInputShape
 
 	// insertion point for slice of pointers maps
 	OnAfterTaskInputShapeCreateCallback OnAfterCreateInterface[TaskInputShape]
@@ -277,9 +290,10 @@ type Stage struct {
 	OnAfterTaskInputShapeDeleteCallback OnAfterDeleteInterface[TaskInputShape]
 	OnAfterTaskInputShapeReadCallback   OnAfterReadInterface[TaskInputShape]
 
-	TaskOutputShapes           map[*TaskOutputShape]struct{}
-	TaskOutputShapes_reference map[*TaskOutputShape]*TaskOutputShape
-	TaskOutputShapes_mapString map[string]*TaskOutputShape
+	TaskOutputShapes                map[*TaskOutputShape]struct{}
+	TaskOutputShapes_reference      map[*TaskOutputShape]*TaskOutputShape
+	TaskOutputShapes_referenceOrder map[*TaskOutputShape]uint // diff Unstage needs the reference order 
+	TaskOutputShapes_mapString      map[string]*TaskOutputShape
 
 	// insertion point for slice of pointers maps
 	OnAfterTaskOutputShapeCreateCallback OnAfterCreateInterface[TaskOutputShape]
@@ -287,9 +301,10 @@ type Stage struct {
 	OnAfterTaskOutputShapeDeleteCallback OnAfterDeleteInterface[TaskOutputShape]
 	OnAfterTaskOutputShapeReadCallback   OnAfterReadInterface[TaskOutputShape]
 
-	TaskShapes           map[*TaskShape]struct{}
-	TaskShapes_reference map[*TaskShape]*TaskShape
-	TaskShapes_mapString map[string]*TaskShape
+	TaskShapes                map[*TaskShape]struct{}
+	TaskShapes_reference      map[*TaskShape]*TaskShape
+	TaskShapes_referenceOrder map[*TaskShape]uint // diff Unstage needs the reference order 
+	TaskShapes_mapString      map[string]*TaskShape
 
 	// insertion point for slice of pointers maps
 	OnAfterTaskShapeCreateCallback OnAfterCreateInterface[TaskShape]
@@ -2621,6 +2636,7 @@ type GongstructIF interface {
 	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
+	GongGetReferenceIdentifier(stage *Stage) string
 	GongGetIdentifier(stage *Stage) string
 	GongCopy() GongstructIF
 	GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) string

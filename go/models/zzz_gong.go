@@ -93,9 +93,10 @@ type Stage struct {
 	name string
 
 	// insertion point for definition of arrays registering instances
-	GongBasicFields           map[*GongBasicField]struct{}
-	GongBasicFields_reference map[*GongBasicField]*GongBasicField
-	GongBasicFields_mapString map[string]*GongBasicField
+	GongBasicFields                map[*GongBasicField]struct{}
+	GongBasicFields_reference      map[*GongBasicField]*GongBasicField
+	GongBasicFields_referenceOrder map[*GongBasicField]uint // diff Unstage needs the reference order 
+	GongBasicFields_mapString      map[string]*GongBasicField
 
 	// insertion point for slice of pointers maps
 	OnAfterGongBasicFieldCreateCallback OnAfterCreateInterface[GongBasicField]
@@ -103,9 +104,10 @@ type Stage struct {
 	OnAfterGongBasicFieldDeleteCallback OnAfterDeleteInterface[GongBasicField]
 	OnAfterGongBasicFieldReadCallback   OnAfterReadInterface[GongBasicField]
 
-	GongEnums           map[*GongEnum]struct{}
-	GongEnums_reference map[*GongEnum]*GongEnum
-	GongEnums_mapString map[string]*GongEnum
+	GongEnums                map[*GongEnum]struct{}
+	GongEnums_reference      map[*GongEnum]*GongEnum
+	GongEnums_referenceOrder map[*GongEnum]uint // diff Unstage needs the reference order 
+	GongEnums_mapString      map[string]*GongEnum
 
 	// insertion point for slice of pointers maps
 	GongEnum_GongEnumValues_reverseMap map[*GongEnumValue]*GongEnum
@@ -115,9 +117,10 @@ type Stage struct {
 	OnAfterGongEnumDeleteCallback OnAfterDeleteInterface[GongEnum]
 	OnAfterGongEnumReadCallback   OnAfterReadInterface[GongEnum]
 
-	GongEnumValues           map[*GongEnumValue]struct{}
-	GongEnumValues_reference map[*GongEnumValue]*GongEnumValue
-	GongEnumValues_mapString map[string]*GongEnumValue
+	GongEnumValues                map[*GongEnumValue]struct{}
+	GongEnumValues_reference      map[*GongEnumValue]*GongEnumValue
+	GongEnumValues_referenceOrder map[*GongEnumValue]uint // diff Unstage needs the reference order 
+	GongEnumValues_mapString      map[string]*GongEnumValue
 
 	// insertion point for slice of pointers maps
 	OnAfterGongEnumValueCreateCallback OnAfterCreateInterface[GongEnumValue]
@@ -125,9 +128,10 @@ type Stage struct {
 	OnAfterGongEnumValueDeleteCallback OnAfterDeleteInterface[GongEnumValue]
 	OnAfterGongEnumValueReadCallback   OnAfterReadInterface[GongEnumValue]
 
-	GongLinks           map[*GongLink]struct{}
-	GongLinks_reference map[*GongLink]*GongLink
-	GongLinks_mapString map[string]*GongLink
+	GongLinks                map[*GongLink]struct{}
+	GongLinks_reference      map[*GongLink]*GongLink
+	GongLinks_referenceOrder map[*GongLink]uint // diff Unstage needs the reference order 
+	GongLinks_mapString      map[string]*GongLink
 
 	// insertion point for slice of pointers maps
 	OnAfterGongLinkCreateCallback OnAfterCreateInterface[GongLink]
@@ -135,9 +139,10 @@ type Stage struct {
 	OnAfterGongLinkDeleteCallback OnAfterDeleteInterface[GongLink]
 	OnAfterGongLinkReadCallback   OnAfterReadInterface[GongLink]
 
-	GongNotes           map[*GongNote]struct{}
-	GongNotes_reference map[*GongNote]*GongNote
-	GongNotes_mapString map[string]*GongNote
+	GongNotes                map[*GongNote]struct{}
+	GongNotes_reference      map[*GongNote]*GongNote
+	GongNotes_referenceOrder map[*GongNote]uint // diff Unstage needs the reference order 
+	GongNotes_mapString      map[string]*GongNote
 
 	// insertion point for slice of pointers maps
 	GongNote_Links_reverseMap map[*GongLink]*GongNote
@@ -147,9 +152,10 @@ type Stage struct {
 	OnAfterGongNoteDeleteCallback OnAfterDeleteInterface[GongNote]
 	OnAfterGongNoteReadCallback   OnAfterReadInterface[GongNote]
 
-	GongStructs           map[*GongStruct]struct{}
-	GongStructs_reference map[*GongStruct]*GongStruct
-	GongStructs_mapString map[string]*GongStruct
+	GongStructs                map[*GongStruct]struct{}
+	GongStructs_reference      map[*GongStruct]*GongStruct
+	GongStructs_referenceOrder map[*GongStruct]uint // diff Unstage needs the reference order 
+	GongStructs_mapString      map[string]*GongStruct
 
 	// insertion point for slice of pointers maps
 	GongStruct_GongBasicFields_reverseMap map[*GongBasicField]*GongStruct
@@ -165,9 +171,10 @@ type Stage struct {
 	OnAfterGongStructDeleteCallback OnAfterDeleteInterface[GongStruct]
 	OnAfterGongStructReadCallback   OnAfterReadInterface[GongStruct]
 
-	GongTimeFields           map[*GongTimeField]struct{}
-	GongTimeFields_reference map[*GongTimeField]*GongTimeField
-	GongTimeFields_mapString map[string]*GongTimeField
+	GongTimeFields                map[*GongTimeField]struct{}
+	GongTimeFields_reference      map[*GongTimeField]*GongTimeField
+	GongTimeFields_referenceOrder map[*GongTimeField]uint // diff Unstage needs the reference order 
+	GongTimeFields_mapString      map[string]*GongTimeField
 
 	// insertion point for slice of pointers maps
 	OnAfterGongTimeFieldCreateCallback OnAfterCreateInterface[GongTimeField]
@@ -175,9 +182,10 @@ type Stage struct {
 	OnAfterGongTimeFieldDeleteCallback OnAfterDeleteInterface[GongTimeField]
 	OnAfterGongTimeFieldReadCallback   OnAfterReadInterface[GongTimeField]
 
-	MetaReferences           map[*MetaReference]struct{}
-	MetaReferences_reference map[*MetaReference]*MetaReference
-	MetaReferences_mapString map[string]*MetaReference
+	MetaReferences                map[*MetaReference]struct{}
+	MetaReferences_reference      map[*MetaReference]*MetaReference
+	MetaReferences_referenceOrder map[*MetaReference]uint // diff Unstage needs the reference order 
+	MetaReferences_mapString      map[string]*MetaReference
 
 	// insertion point for slice of pointers maps
 	OnAfterMetaReferenceCreateCallback OnAfterCreateInterface[MetaReference]
@@ -185,9 +193,10 @@ type Stage struct {
 	OnAfterMetaReferenceDeleteCallback OnAfterDeleteInterface[MetaReference]
 	OnAfterMetaReferenceReadCallback   OnAfterReadInterface[MetaReference]
 
-	ModelPkgs           map[*ModelPkg]struct{}
-	ModelPkgs_reference map[*ModelPkg]*ModelPkg
-	ModelPkgs_mapString map[string]*ModelPkg
+	ModelPkgs                map[*ModelPkg]struct{}
+	ModelPkgs_reference      map[*ModelPkg]*ModelPkg
+	ModelPkgs_referenceOrder map[*ModelPkg]uint // diff Unstage needs the reference order 
+	ModelPkgs_mapString      map[string]*ModelPkg
 
 	// insertion point for slice of pointers maps
 	OnAfterModelPkgCreateCallback OnAfterCreateInterface[ModelPkg]
@@ -195,9 +204,10 @@ type Stage struct {
 	OnAfterModelPkgDeleteCallback OnAfterDeleteInterface[ModelPkg]
 	OnAfterModelPkgReadCallback   OnAfterReadInterface[ModelPkg]
 
-	PointerToGongStructFields           map[*PointerToGongStructField]struct{}
-	PointerToGongStructFields_reference map[*PointerToGongStructField]*PointerToGongStructField
-	PointerToGongStructFields_mapString map[string]*PointerToGongStructField
+	PointerToGongStructFields                map[*PointerToGongStructField]struct{}
+	PointerToGongStructFields_reference      map[*PointerToGongStructField]*PointerToGongStructField
+	PointerToGongStructFields_referenceOrder map[*PointerToGongStructField]uint // diff Unstage needs the reference order 
+	PointerToGongStructFields_mapString      map[string]*PointerToGongStructField
 
 	// insertion point for slice of pointers maps
 	OnAfterPointerToGongStructFieldCreateCallback OnAfterCreateInterface[PointerToGongStructField]
@@ -205,9 +215,10 @@ type Stage struct {
 	OnAfterPointerToGongStructFieldDeleteCallback OnAfterDeleteInterface[PointerToGongStructField]
 	OnAfterPointerToGongStructFieldReadCallback   OnAfterReadInterface[PointerToGongStructField]
 
-	SliceOfPointerToGongStructFields           map[*SliceOfPointerToGongStructField]struct{}
-	SliceOfPointerToGongStructFields_reference map[*SliceOfPointerToGongStructField]*SliceOfPointerToGongStructField
-	SliceOfPointerToGongStructFields_mapString map[string]*SliceOfPointerToGongStructField
+	SliceOfPointerToGongStructFields                map[*SliceOfPointerToGongStructField]struct{}
+	SliceOfPointerToGongStructFields_reference      map[*SliceOfPointerToGongStructField]*SliceOfPointerToGongStructField
+	SliceOfPointerToGongStructFields_referenceOrder map[*SliceOfPointerToGongStructField]uint // diff Unstage needs the reference order 
+	SliceOfPointerToGongStructFields_mapString      map[string]*SliceOfPointerToGongStructField
 
 	// insertion point for slice of pointers maps
 	OnAfterSliceOfPointerToGongStructFieldCreateCallback OnAfterCreateInterface[SliceOfPointerToGongStructField]
@@ -2011,6 +2022,7 @@ type GongstructIF interface {
 	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
+	GongGetReferenceIdentifier(stage *Stage) string
 	GongGetIdentifier(stage *Stage) string
 	GongCopy() GongstructIF
 	GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) string

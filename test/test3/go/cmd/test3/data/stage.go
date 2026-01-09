@@ -30,8 +30,6 @@ func _(stage *models.Stage) {
 	__B__00000001_ := (&models.B{Name: `1___0009`}).Stage(stage)
 	__B__00000002_ := (&models.B{Name: `2gfsdfggf`}).Stage(stage)
 	__B__00000003_ := (&models.B{Name: `3`}).Stage(stage)
-	__B__00000004_ := (&models.B{Name: `4`}).Stage(stage)
-	__B__00000005_ := (&models.B{Name: `5`}).Stage(stage)
 	__B__00000006_ := (&models.B{Name: `6`}).Stage(stage)
 	__B__00000007_ := (&models.B{Name: `7`}).Stage(stage)
 	__B__00000008_ := (&models.B{Name: `8`}).Stage(stage)
@@ -47,12 +45,10 @@ func _(stage *models.Stage) {
 	__B__00000020_ := (&models.B{Name: `20`}).Stage(stage)
 	__B__00000021_ := (&models.B{Name: `21`}).Stage(stage)
 	__B__00000022_ := (&models.B{Name: `22`}).Stage(stage)
-	__B__00000023_ := (&models.B{Name: `23`}).Stage(stage)
 	__B__00000024_ := (&models.B{Name: `24`}).Stage(stage)
 	__B__00000025_ := (&models.B{Name: `25`}).Stage(stage)
 	__B__00000026_ := (&models.B{Name: `26`}).Stage(stage)
 	__B__00000027_ := (&models.B{Name: `27`}).Stage(stage)
-	__B__00000028_ := (&models.B{Name: `28`}).Stage(stage)
 	__B__00000029_ := (&models.B{Name: `29`}).Stage(stage)
 	__B__00000030_ := (&models.B{Name: `30`}).Stage(stage)
 	__B__00000031_ := (&models.B{Name: `31`}).Stage(stage)
@@ -74,10 +70,6 @@ func _(stage *models.Stage) {
 	__B__00000002_.Name = `2gfsdfggf`
 
 	__B__00000003_.Name = `3`
-
-	__B__00000004_.Name = `4`
-
-	__B__00000005_.Name = `5`
 
 	__B__00000006_.Name = `6`
 
@@ -109,8 +101,6 @@ func _(stage *models.Stage) {
 
 	__B__00000022_.Name = `22`
 
-	__B__00000023_.Name = `23`
-
 	__B__00000024_.Name = `24`
 
 	__B__00000025_.Name = `25`
@@ -118,8 +108,6 @@ func _(stage *models.Stage) {
 	__B__00000026_.Name = `26`
 
 	__B__00000027_.Name = `27`
-
-	__B__00000028_.Name = `28`
 
 	__B__00000029_.Name = `29`
 
@@ -140,7 +128,6 @@ func _(stage *models.Stage) {
 	__A__00000006_.B = __B__00000001_
 	__A__00000006_.Bs = append(__A__00000006_.Bs, __B__00000007_)
 	__A__00000006_.Bs = append(__A__00000006_.Bs, __B__00000008_)
-	__A__00000006_.Bs = append(__A__00000006_.Bs, __B__00000005_)
 	__A__00000007_.B = __B__00000012_
 	__A__00000007_.Bs = append(__A__00000007_.Bs, __B__00000006_)
 	__A__00000007_.Bs = append(__A__00000007_.Bs, __B__00000008_)

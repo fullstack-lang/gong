@@ -243,9 +243,9 @@ func (stage *Stage) ComputeDifference() {
 	lenDeletedInstances += len(sliders_deletedInstances)
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
-		notif := newInstancesStmt+fieldsEditStmt+deletedInstancesStmt
+		notif := newInstancesStmt + fieldsEditStmt + deletedInstancesStmt
 		notif += fmt.Sprintf("\n\t// %s", time.Now().Format(time.RFC3339Nano))
-		notif += fmt.Sprintf("\n\tstage.Commit()")
+		notif += "\n\tstage.Commit()"
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().AddNotification(
 				time.Now(),
@@ -261,23 +261,31 @@ func (stage *Stage) ComputeReference() {
 
 	// insertion point per named struct
 	stage.Checkboxs_reference = make(map[*Checkbox]*Checkbox)
+	stage.Checkboxs_referenceOrder = make(map[*Checkbox]uint) // diff Unstage needs the reference order
 	for instance := range stage.Checkboxs {
 		stage.Checkboxs_reference[instance] = instance.GongCopy().(*Checkbox)
+		stage.Checkboxs_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Groups_reference = make(map[*Group]*Group)
+	stage.Groups_referenceOrder = make(map[*Group]uint) // diff Unstage needs the reference order
 	for instance := range stage.Groups {
 		stage.Groups_reference[instance] = instance.GongCopy().(*Group)
+		stage.Groups_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Layouts_reference = make(map[*Layout]*Layout)
+	stage.Layouts_referenceOrder = make(map[*Layout]uint) // diff Unstage needs the reference order
 	for instance := range stage.Layouts {
 		stage.Layouts_reference[instance] = instance.GongCopy().(*Layout)
+		stage.Layouts_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Sliders_reference = make(map[*Slider]*Slider)
+	stage.Sliders_referenceOrder = make(map[*Slider]uint) // diff Unstage needs the reference order
 	for instance := range stage.Sliders {
 		stage.Sliders_reference[instance] = instance.GongCopy().(*Slider)
+		stage.Sliders_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 }
@@ -293,16 +301,32 @@ func (checkbox *Checkbox) GongGetOrder(stage *Stage) uint {
 	return stage.CheckboxMap_Staged_Order[checkbox]
 }
 
+func (checkbox *Checkbox) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.Checkboxs_referenceOrder[checkbox]
+}
+
 func (group *Group) GongGetOrder(stage *Stage) uint {
 	return stage.GroupMap_Staged_Order[group]
+}
+
+func (group *Group) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.Groups_referenceOrder[group]
 }
 
 func (layout *Layout) GongGetOrder(stage *Stage) uint {
 	return stage.LayoutMap_Staged_Order[layout]
 }
 
+func (layout *Layout) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.Layouts_referenceOrder[layout]
+}
+
 func (slider *Slider) GongGetOrder(stage *Stage) uint {
 	return stage.SliderMap_Staged_Order[slider]
+}
+
+func (slider *Slider) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.Sliders_referenceOrder[slider]
 }
 
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
@@ -314,16 +338,36 @@ func (checkbox *Checkbox) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", checkbox.GongGetGongstructName(), checkbox.GongGetOrder(stage))
 }
 
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (checkbox *Checkbox) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", checkbox.GongGetGongstructName(), checkbox.GongGetReferenceOrder(stage))
+}
+
 func (group *Group) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", group.GongGetGongstructName(), group.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (group *Group) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", group.GongGetGongstructName(), group.GongGetReferenceOrder(stage))
 }
 
 func (layout *Layout) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", layout.GongGetGongstructName(), layout.GongGetOrder(stage))
 }
 
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (layout *Layout) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", layout.GongGetGongstructName(), layout.GongGetReferenceOrder(stage))
+}
+
 func (slider *Slider) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", slider.GongGetGongstructName(), slider.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (slider *Slider) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", slider.GongGetGongstructName(), slider.GongGetReferenceOrder(stage))
 }
 
 // MarshallIdentifier returns the code to instantiate the instance
@@ -361,21 +405,21 @@ func (slider *Slider) GongMarshallIdentifier(stage *Stage) (decl string) {
 // insertion point for unstaging
 func (checkbox *Checkbox) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", checkbox.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", checkbox.GongGetReferenceIdentifier(stage))
 	return
 }
 func (group *Group) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", group.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", group.GongGetReferenceIdentifier(stage))
 	return
 }
 func (layout *Layout) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", layout.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", layout.GongGetReferenceIdentifier(stage))
 	return
 }
 func (slider *Slider) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", slider.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", slider.GongGetReferenceIdentifier(stage))
 	return
 }

@@ -93,9 +93,10 @@ type Stage struct {
 	name string
 
 	// insertion point for definition of arrays registering instances
-	Buttons           map[*Button]struct{}
-	Buttons_reference map[*Button]*Button
-	Buttons_mapString map[string]*Button
+	Buttons                map[*Button]struct{}
+	Buttons_reference      map[*Button]*Button
+	Buttons_referenceOrder map[*Button]uint // diff Unstage needs the reference order 
+	Buttons_mapString      map[string]*Button
 
 	// insertion point for slice of pointers maps
 	OnAfterButtonCreateCallback OnAfterCreateInterface[Button]
@@ -103,9 +104,10 @@ type Stage struct {
 	OnAfterButtonDeleteCallback OnAfterDeleteInterface[Button]
 	OnAfterButtonReadCallback   OnAfterReadInterface[Button]
 
-	ButtonToggles           map[*ButtonToggle]struct{}
-	ButtonToggles_reference map[*ButtonToggle]*ButtonToggle
-	ButtonToggles_mapString map[string]*ButtonToggle
+	ButtonToggles                map[*ButtonToggle]struct{}
+	ButtonToggles_reference      map[*ButtonToggle]*ButtonToggle
+	ButtonToggles_referenceOrder map[*ButtonToggle]uint // diff Unstage needs the reference order 
+	ButtonToggles_mapString      map[string]*ButtonToggle
 
 	// insertion point for slice of pointers maps
 	OnAfterButtonToggleCreateCallback OnAfterCreateInterface[ButtonToggle]
@@ -113,9 +115,10 @@ type Stage struct {
 	OnAfterButtonToggleDeleteCallback OnAfterDeleteInterface[ButtonToggle]
 	OnAfterButtonToggleReadCallback   OnAfterReadInterface[ButtonToggle]
 
-	Groups           map[*Group]struct{}
-	Groups_reference map[*Group]*Group
-	Groups_mapString map[string]*Group
+	Groups                map[*Group]struct{}
+	Groups_reference      map[*Group]*Group
+	Groups_referenceOrder map[*Group]uint // diff Unstage needs the reference order 
+	Groups_mapString      map[string]*Group
 
 	// insertion point for slice of pointers maps
 	Group_Buttons_reverseMap map[*Button]*Group
@@ -125,9 +128,10 @@ type Stage struct {
 	OnAfterGroupDeleteCallback OnAfterDeleteInterface[Group]
 	OnAfterGroupReadCallback   OnAfterReadInterface[Group]
 
-	GroupToogles           map[*GroupToogle]struct{}
-	GroupToogles_reference map[*GroupToogle]*GroupToogle
-	GroupToogles_mapString map[string]*GroupToogle
+	GroupToogles                map[*GroupToogle]struct{}
+	GroupToogles_reference      map[*GroupToogle]*GroupToogle
+	GroupToogles_referenceOrder map[*GroupToogle]uint // diff Unstage needs the reference order 
+	GroupToogles_mapString      map[string]*GroupToogle
 
 	// insertion point for slice of pointers maps
 	GroupToogle_ButtonToggles_reverseMap map[*ButtonToggle]*GroupToogle
@@ -137,9 +141,10 @@ type Stage struct {
 	OnAfterGroupToogleDeleteCallback OnAfterDeleteInterface[GroupToogle]
 	OnAfterGroupToogleReadCallback   OnAfterReadInterface[GroupToogle]
 
-	Layouts           map[*Layout]struct{}
-	Layouts_reference map[*Layout]*Layout
-	Layouts_mapString map[string]*Layout
+	Layouts                map[*Layout]struct{}
+	Layouts_reference      map[*Layout]*Layout
+	Layouts_referenceOrder map[*Layout]uint // diff Unstage needs the reference order 
+	Layouts_mapString      map[string]*Layout
 
 	// insertion point for slice of pointers maps
 	Layout_Groups_reverseMap map[*Group]*Layout
@@ -1155,6 +1160,7 @@ type GongstructIF interface {
 	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
+	GongGetReferenceIdentifier(stage *Stage) string
 	GongGetIdentifier(stage *Stage) string
 	GongCopy() GongstructIF
 	GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) string

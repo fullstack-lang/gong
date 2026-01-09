@@ -177,9 +177,9 @@ func (stage *Stage) ComputeDifference() {
 	lenDeletedInstances += len(messages_deletedInstances)
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
-		notif := newInstancesStmt+fieldsEditStmt+deletedInstancesStmt
+		notif := newInstancesStmt + fieldsEditStmt + deletedInstancesStmt
 		notif += fmt.Sprintf("\n\t// %s", time.Now().Format(time.RFC3339Nano))
-		notif += fmt.Sprintf("\n\tstage.Commit()")
+		notif += "\n\tstage.Commit()"
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().AddNotification(
 				time.Now(),
@@ -195,18 +195,24 @@ func (stage *Stage) ComputeReference() {
 
 	// insertion point per named struct
 	stage.FileToDownloads_reference = make(map[*FileToDownload]*FileToDownload)
+	stage.FileToDownloads_referenceOrder = make(map[*FileToDownload]uint) // diff Unstage needs the reference order
 	for instance := range stage.FileToDownloads {
 		stage.FileToDownloads_reference[instance] = instance.GongCopy().(*FileToDownload)
+		stage.FileToDownloads_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.FileToUploads_reference = make(map[*FileToUpload]*FileToUpload)
+	stage.FileToUploads_referenceOrder = make(map[*FileToUpload]uint) // diff Unstage needs the reference order
 	for instance := range stage.FileToUploads {
 		stage.FileToUploads_reference[instance] = instance.GongCopy().(*FileToUpload)
+		stage.FileToUploads_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Messages_reference = make(map[*Message]*Message)
+	stage.Messages_referenceOrder = make(map[*Message]uint) // diff Unstage needs the reference order
 	for instance := range stage.Messages {
 		stage.Messages_reference[instance] = instance.GongCopy().(*Message)
+		stage.Messages_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 }
@@ -222,12 +228,24 @@ func (filetodownload *FileToDownload) GongGetOrder(stage *Stage) uint {
 	return stage.FileToDownloadMap_Staged_Order[filetodownload]
 }
 
+func (filetodownload *FileToDownload) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.FileToDownloads_referenceOrder[filetodownload]
+}
+
 func (filetoupload *FileToUpload) GongGetOrder(stage *Stage) uint {
 	return stage.FileToUploadMap_Staged_Order[filetoupload]
 }
 
+func (filetoupload *FileToUpload) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.FileToUploads_referenceOrder[filetoupload]
+}
+
 func (message *Message) GongGetOrder(stage *Stage) uint {
 	return stage.MessageMap_Staged_Order[message]
+}
+
+func (message *Message) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.Messages_referenceOrder[message]
 }
 
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
@@ -239,12 +257,27 @@ func (filetodownload *FileToDownload) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", filetodownload.GongGetGongstructName(), filetodownload.GongGetOrder(stage))
 }
 
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (filetodownload *FileToDownload) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", filetodownload.GongGetGongstructName(), filetodownload.GongGetReferenceOrder(stage))
+}
+
 func (filetoupload *FileToUpload) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", filetoupload.GongGetGongstructName(), filetoupload.GongGetOrder(stage))
 }
 
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (filetoupload *FileToUpload) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", filetoupload.GongGetGongstructName(), filetoupload.GongGetReferenceOrder(stage))
+}
+
 func (message *Message) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", message.GongGetGongstructName(), message.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (message *Message) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", message.GongGetGongstructName(), message.GongGetReferenceOrder(stage))
 }
 
 // MarshallIdentifier returns the code to instantiate the instance
@@ -275,16 +308,16 @@ func (message *Message) GongMarshallIdentifier(stage *Stage) (decl string) {
 // insertion point for unstaging
 func (filetodownload *FileToDownload) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", filetodownload.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", filetodownload.GongGetReferenceIdentifier(stage))
 	return
 }
 func (filetoupload *FileToUpload) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", filetoupload.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", filetoupload.GongGetReferenceIdentifier(stage))
 	return
 }
 func (message *Message) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", message.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", message.GongGetReferenceIdentifier(stage))
 	return
 }

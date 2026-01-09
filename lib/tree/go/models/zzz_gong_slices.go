@@ -243,9 +243,9 @@ func (stage *Stage) ComputeDifference() {
 	lenDeletedInstances += len(trees_deletedInstances)
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
-		notif := newInstancesStmt+fieldsEditStmt+deletedInstancesStmt
+		notif := newInstancesStmt + fieldsEditStmt + deletedInstancesStmt
 		notif += fmt.Sprintf("\n\t// %s", time.Now().Format(time.RFC3339Nano))
-		notif += fmt.Sprintf("\n\tstage.Commit()")
+		notif += "\n\tstage.Commit()"
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().AddNotification(
 				time.Now(),
@@ -261,23 +261,31 @@ func (stage *Stage) ComputeReference() {
 
 	// insertion point per named struct
 	stage.Buttons_reference = make(map[*Button]*Button)
+	stage.Buttons_referenceOrder = make(map[*Button]uint) // diff Unstage needs the reference order
 	for instance := range stage.Buttons {
 		stage.Buttons_reference[instance] = instance.GongCopy().(*Button)
+		stage.Buttons_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Nodes_reference = make(map[*Node]*Node)
+	stage.Nodes_referenceOrder = make(map[*Node]uint) // diff Unstage needs the reference order
 	for instance := range stage.Nodes {
 		stage.Nodes_reference[instance] = instance.GongCopy().(*Node)
+		stage.Nodes_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.SVGIcons_reference = make(map[*SVGIcon]*SVGIcon)
+	stage.SVGIcons_referenceOrder = make(map[*SVGIcon]uint) // diff Unstage needs the reference order
 	for instance := range stage.SVGIcons {
 		stage.SVGIcons_reference[instance] = instance.GongCopy().(*SVGIcon)
+		stage.SVGIcons_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Trees_reference = make(map[*Tree]*Tree)
+	stage.Trees_referenceOrder = make(map[*Tree]uint) // diff Unstage needs the reference order
 	for instance := range stage.Trees {
 		stage.Trees_reference[instance] = instance.GongCopy().(*Tree)
+		stage.Trees_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 }
@@ -293,16 +301,32 @@ func (button *Button) GongGetOrder(stage *Stage) uint {
 	return stage.ButtonMap_Staged_Order[button]
 }
 
+func (button *Button) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.Buttons_referenceOrder[button]
+}
+
 func (node *Node) GongGetOrder(stage *Stage) uint {
 	return stage.NodeMap_Staged_Order[node]
+}
+
+func (node *Node) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.Nodes_referenceOrder[node]
 }
 
 func (svgicon *SVGIcon) GongGetOrder(stage *Stage) uint {
 	return stage.SVGIconMap_Staged_Order[svgicon]
 }
 
+func (svgicon *SVGIcon) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.SVGIcons_referenceOrder[svgicon]
+}
+
 func (tree *Tree) GongGetOrder(stage *Stage) uint {
 	return stage.TreeMap_Staged_Order[tree]
+}
+
+func (tree *Tree) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.Trees_referenceOrder[tree]
 }
 
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
@@ -314,16 +338,36 @@ func (button *Button) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", button.GongGetGongstructName(), button.GongGetOrder(stage))
 }
 
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (button *Button) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", button.GongGetGongstructName(), button.GongGetReferenceOrder(stage))
+}
+
 func (node *Node) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", node.GongGetGongstructName(), node.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (node *Node) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", node.GongGetGongstructName(), node.GongGetReferenceOrder(stage))
 }
 
 func (svgicon *SVGIcon) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", svgicon.GongGetGongstructName(), svgicon.GongGetOrder(stage))
 }
 
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (svgicon *SVGIcon) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", svgicon.GongGetGongstructName(), svgicon.GongGetReferenceOrder(stage))
+}
+
 func (tree *Tree) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", tree.GongGetGongstructName(), tree.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (tree *Tree) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", tree.GongGetGongstructName(), tree.GongGetReferenceOrder(stage))
 }
 
 // MarshallIdentifier returns the code to instantiate the instance
@@ -361,21 +405,21 @@ func (tree *Tree) GongMarshallIdentifier(stage *Stage) (decl string) {
 // insertion point for unstaging
 func (button *Button) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", button.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", button.GongGetReferenceIdentifier(stage))
 	return
 }
 func (node *Node) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", node.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", node.GongGetReferenceIdentifier(stage))
 	return
 }
 func (svgicon *SVGIcon) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", svgicon.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", svgicon.GongGetReferenceIdentifier(stage))
 	return
 }
 func (tree *Tree) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", tree.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", tree.GongGetReferenceIdentifier(stage))
 	return
 }

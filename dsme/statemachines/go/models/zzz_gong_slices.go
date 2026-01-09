@@ -815,9 +815,9 @@ func (stage *Stage) ComputeDifference() {
 	lenDeletedInstances += len(transition_shapes_deletedInstances)
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
-		notif := newInstancesStmt+fieldsEditStmt+deletedInstancesStmt
+		notif := newInstancesStmt + fieldsEditStmt + deletedInstancesStmt
 		notif += fmt.Sprintf("\n\t// %s", time.Now().Format(time.RFC3339Nano))
-		notif += fmt.Sprintf("\n\tstage.Commit()")
+		notif += "\n\tstage.Commit()"
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().AddNotification(
 				time.Now(),
@@ -833,78 +833,108 @@ func (stage *Stage) ComputeReference() {
 
 	// insertion point per named struct
 	stage.Actions_reference = make(map[*Action]*Action)
+	stage.Actions_referenceOrder = make(map[*Action]uint) // diff Unstage needs the reference order
 	for instance := range stage.Actions {
 		stage.Actions_reference[instance] = instance.GongCopy().(*Action)
+		stage.Actions_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Activitiess_reference = make(map[*Activities]*Activities)
+	stage.Activitiess_referenceOrder = make(map[*Activities]uint) // diff Unstage needs the reference order
 	for instance := range stage.Activitiess {
 		stage.Activitiess_reference[instance] = instance.GongCopy().(*Activities)
+		stage.Activitiess_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Architectures_reference = make(map[*Architecture]*Architecture)
+	stage.Architectures_referenceOrder = make(map[*Architecture]uint) // diff Unstage needs the reference order
 	for instance := range stage.Architectures {
 		stage.Architectures_reference[instance] = instance.GongCopy().(*Architecture)
+		stage.Architectures_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Diagrams_reference = make(map[*Diagram]*Diagram)
+	stage.Diagrams_referenceOrder = make(map[*Diagram]uint) // diff Unstage needs the reference order
 	for instance := range stage.Diagrams {
 		stage.Diagrams_reference[instance] = instance.GongCopy().(*Diagram)
+		stage.Diagrams_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Guards_reference = make(map[*Guard]*Guard)
+	stage.Guards_referenceOrder = make(map[*Guard]uint) // diff Unstage needs the reference order
 	for instance := range stage.Guards {
 		stage.Guards_reference[instance] = instance.GongCopy().(*Guard)
+		stage.Guards_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Kills_reference = make(map[*Kill]*Kill)
+	stage.Kills_referenceOrder = make(map[*Kill]uint) // diff Unstage needs the reference order
 	for instance := range stage.Kills {
 		stage.Kills_reference[instance] = instance.GongCopy().(*Kill)
+		stage.Kills_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Messages_reference = make(map[*Message]*Message)
+	stage.Messages_referenceOrder = make(map[*Message]uint) // diff Unstage needs the reference order
 	for instance := range stage.Messages {
 		stage.Messages_reference[instance] = instance.GongCopy().(*Message)
+		stage.Messages_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.MessageTypes_reference = make(map[*MessageType]*MessageType)
+	stage.MessageTypes_referenceOrder = make(map[*MessageType]uint) // diff Unstage needs the reference order
 	for instance := range stage.MessageTypes {
 		stage.MessageTypes_reference[instance] = instance.GongCopy().(*MessageType)
+		stage.MessageTypes_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Objects_reference = make(map[*Object]*Object)
+	stage.Objects_referenceOrder = make(map[*Object]uint) // diff Unstage needs the reference order
 	for instance := range stage.Objects {
 		stage.Objects_reference[instance] = instance.GongCopy().(*Object)
+		stage.Objects_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Roles_reference = make(map[*Role]*Role)
+	stage.Roles_referenceOrder = make(map[*Role]uint) // diff Unstage needs the reference order
 	for instance := range stage.Roles {
 		stage.Roles_reference[instance] = instance.GongCopy().(*Role)
+		stage.Roles_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.States_reference = make(map[*State]*State)
+	stage.States_referenceOrder = make(map[*State]uint) // diff Unstage needs the reference order
 	for instance := range stage.States {
 		stage.States_reference[instance] = instance.GongCopy().(*State)
+		stage.States_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.StateMachines_reference = make(map[*StateMachine]*StateMachine)
+	stage.StateMachines_referenceOrder = make(map[*StateMachine]uint) // diff Unstage needs the reference order
 	for instance := range stage.StateMachines {
 		stage.StateMachines_reference[instance] = instance.GongCopy().(*StateMachine)
+		stage.StateMachines_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.StateShapes_reference = make(map[*StateShape]*StateShape)
+	stage.StateShapes_referenceOrder = make(map[*StateShape]uint) // diff Unstage needs the reference order
 	for instance := range stage.StateShapes {
 		stage.StateShapes_reference[instance] = instance.GongCopy().(*StateShape)
+		stage.StateShapes_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Transitions_reference = make(map[*Transition]*Transition)
+	stage.Transitions_referenceOrder = make(map[*Transition]uint) // diff Unstage needs the reference order
 	for instance := range stage.Transitions {
 		stage.Transitions_reference[instance] = instance.GongCopy().(*Transition)
+		stage.Transitions_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Transition_Shapes_reference = make(map[*Transition_Shape]*Transition_Shape)
+	stage.Transition_Shapes_referenceOrder = make(map[*Transition_Shape]uint) // diff Unstage needs the reference order
 	for instance := range stage.Transition_Shapes {
 		stage.Transition_Shapes_reference[instance] = instance.GongCopy().(*Transition_Shape)
+		stage.Transition_Shapes_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 }
@@ -920,60 +950,120 @@ func (action *Action) GongGetOrder(stage *Stage) uint {
 	return stage.ActionMap_Staged_Order[action]
 }
 
+func (action *Action) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.Actions_referenceOrder[action]
+}
+
 func (activities *Activities) GongGetOrder(stage *Stage) uint {
 	return stage.ActivitiesMap_Staged_Order[activities]
+}
+
+func (activities *Activities) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.Activitiess_referenceOrder[activities]
 }
 
 func (architecture *Architecture) GongGetOrder(stage *Stage) uint {
 	return stage.ArchitectureMap_Staged_Order[architecture]
 }
 
+func (architecture *Architecture) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.Architectures_referenceOrder[architecture]
+}
+
 func (diagram *Diagram) GongGetOrder(stage *Stage) uint {
 	return stage.DiagramMap_Staged_Order[diagram]
+}
+
+func (diagram *Diagram) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.Diagrams_referenceOrder[diagram]
 }
 
 func (guard *Guard) GongGetOrder(stage *Stage) uint {
 	return stage.GuardMap_Staged_Order[guard]
 }
 
+func (guard *Guard) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.Guards_referenceOrder[guard]
+}
+
 func (kill *Kill) GongGetOrder(stage *Stage) uint {
 	return stage.KillMap_Staged_Order[kill]
+}
+
+func (kill *Kill) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.Kills_referenceOrder[kill]
 }
 
 func (message *Message) GongGetOrder(stage *Stage) uint {
 	return stage.MessageMap_Staged_Order[message]
 }
 
+func (message *Message) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.Messages_referenceOrder[message]
+}
+
 func (messagetype *MessageType) GongGetOrder(stage *Stage) uint {
 	return stage.MessageTypeMap_Staged_Order[messagetype]
+}
+
+func (messagetype *MessageType) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.MessageTypes_referenceOrder[messagetype]
 }
 
 func (object *Object) GongGetOrder(stage *Stage) uint {
 	return stage.ObjectMap_Staged_Order[object]
 }
 
+func (object *Object) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.Objects_referenceOrder[object]
+}
+
 func (role *Role) GongGetOrder(stage *Stage) uint {
 	return stage.RoleMap_Staged_Order[role]
+}
+
+func (role *Role) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.Roles_referenceOrder[role]
 }
 
 func (state *State) GongGetOrder(stage *Stage) uint {
 	return stage.StateMap_Staged_Order[state]
 }
 
+func (state *State) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.States_referenceOrder[state]
+}
+
 func (statemachine *StateMachine) GongGetOrder(stage *Stage) uint {
 	return stage.StateMachineMap_Staged_Order[statemachine]
+}
+
+func (statemachine *StateMachine) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.StateMachines_referenceOrder[statemachine]
 }
 
 func (stateshape *StateShape) GongGetOrder(stage *Stage) uint {
 	return stage.StateShapeMap_Staged_Order[stateshape]
 }
 
+func (stateshape *StateShape) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.StateShapes_referenceOrder[stateshape]
+}
+
 func (transition *Transition) GongGetOrder(stage *Stage) uint {
 	return stage.TransitionMap_Staged_Order[transition]
 }
 
+func (transition *Transition) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.Transitions_referenceOrder[transition]
+}
+
 func (transition_shape *Transition_Shape) GongGetOrder(stage *Stage) uint {
 	return stage.Transition_ShapeMap_Staged_Order[transition_shape]
+}
+
+func (transition_shape *Transition_Shape) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.Transition_Shapes_referenceOrder[transition_shape]
 }
 
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
@@ -985,60 +1075,135 @@ func (action *Action) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", action.GongGetGongstructName(), action.GongGetOrder(stage))
 }
 
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (action *Action) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", action.GongGetGongstructName(), action.GongGetReferenceOrder(stage))
+}
+
 func (activities *Activities) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", activities.GongGetGongstructName(), activities.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (activities *Activities) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", activities.GongGetGongstructName(), activities.GongGetReferenceOrder(stage))
 }
 
 func (architecture *Architecture) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", architecture.GongGetGongstructName(), architecture.GongGetOrder(stage))
 }
 
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (architecture *Architecture) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", architecture.GongGetGongstructName(), architecture.GongGetReferenceOrder(stage))
+}
+
 func (diagram *Diagram) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", diagram.GongGetGongstructName(), diagram.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (diagram *Diagram) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", diagram.GongGetGongstructName(), diagram.GongGetReferenceOrder(stage))
 }
 
 func (guard *Guard) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", guard.GongGetGongstructName(), guard.GongGetOrder(stage))
 }
 
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (guard *Guard) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", guard.GongGetGongstructName(), guard.GongGetReferenceOrder(stage))
+}
+
 func (kill *Kill) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", kill.GongGetGongstructName(), kill.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (kill *Kill) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", kill.GongGetGongstructName(), kill.GongGetReferenceOrder(stage))
 }
 
 func (message *Message) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", message.GongGetGongstructName(), message.GongGetOrder(stage))
 }
 
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (message *Message) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", message.GongGetGongstructName(), message.GongGetReferenceOrder(stage))
+}
+
 func (messagetype *MessageType) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", messagetype.GongGetGongstructName(), messagetype.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (messagetype *MessageType) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", messagetype.GongGetGongstructName(), messagetype.GongGetReferenceOrder(stage))
 }
 
 func (object *Object) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", object.GongGetGongstructName(), object.GongGetOrder(stage))
 }
 
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (object *Object) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", object.GongGetGongstructName(), object.GongGetReferenceOrder(stage))
+}
+
 func (role *Role) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", role.GongGetGongstructName(), role.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (role *Role) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", role.GongGetGongstructName(), role.GongGetReferenceOrder(stage))
 }
 
 func (state *State) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", state.GongGetGongstructName(), state.GongGetOrder(stage))
 }
 
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (state *State) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", state.GongGetGongstructName(), state.GongGetReferenceOrder(stage))
+}
+
 func (statemachine *StateMachine) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", statemachine.GongGetGongstructName(), statemachine.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (statemachine *StateMachine) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", statemachine.GongGetGongstructName(), statemachine.GongGetReferenceOrder(stage))
 }
 
 func (stateshape *StateShape) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", stateshape.GongGetGongstructName(), stateshape.GongGetOrder(stage))
 }
 
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (stateshape *StateShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", stateshape.GongGetGongstructName(), stateshape.GongGetReferenceOrder(stage))
+}
+
 func (transition *Transition) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", transition.GongGetGongstructName(), transition.GongGetOrder(stage))
 }
 
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (transition *Transition) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", transition.GongGetGongstructName(), transition.GongGetReferenceOrder(stage))
+}
+
 func (transition_shape *Transition_Shape) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", transition_shape.GongGetGongstructName(), transition_shape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (transition_shape *Transition_Shape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", transition_shape.GongGetGongstructName(), transition_shape.GongGetReferenceOrder(stage))
 }
 
 // MarshallIdentifier returns the code to instantiate the instance
@@ -1153,76 +1318,76 @@ func (transition_shape *Transition_Shape) GongMarshallIdentifier(stage *Stage) (
 // insertion point for unstaging
 func (action *Action) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", action.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", action.GongGetReferenceIdentifier(stage))
 	return
 }
 func (activities *Activities) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", activities.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", activities.GongGetReferenceIdentifier(stage))
 	return
 }
 func (architecture *Architecture) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", architecture.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", architecture.GongGetReferenceIdentifier(stage))
 	return
 }
 func (diagram *Diagram) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", diagram.GongGetReferenceIdentifier(stage))
 	return
 }
 func (guard *Guard) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", guard.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", guard.GongGetReferenceIdentifier(stage))
 	return
 }
 func (kill *Kill) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", kill.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", kill.GongGetReferenceIdentifier(stage))
 	return
 }
 func (message *Message) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", message.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", message.GongGetReferenceIdentifier(stage))
 	return
 }
 func (messagetype *MessageType) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", messagetype.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", messagetype.GongGetReferenceIdentifier(stage))
 	return
 }
 func (object *Object) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", object.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", object.GongGetReferenceIdentifier(stage))
 	return
 }
 func (role *Role) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", role.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", role.GongGetReferenceIdentifier(stage))
 	return
 }
 func (state *State) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", state.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", state.GongGetReferenceIdentifier(stage))
 	return
 }
 func (statemachine *StateMachine) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", statemachine.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", statemachine.GongGetReferenceIdentifier(stage))
 	return
 }
 func (stateshape *StateShape) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", stateshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", stateshape.GongGetReferenceIdentifier(stage))
 	return
 }
 func (transition *Transition) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", transition.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", transition.GongGetReferenceIdentifier(stage))
 	return
 }
 func (transition_shape *Transition_Shape) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", transition_shape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", transition_shape.GongGetReferenceIdentifier(stage))
 	return
 }

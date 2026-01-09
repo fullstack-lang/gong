@@ -184,9 +184,9 @@ func (stage *Stage) ComputeDifference() {
 	lenDeletedInstances += len(players_deletedInstances)
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
-		notif := newInstancesStmt+fieldsEditStmt+deletedInstancesStmt
+		notif := newInstancesStmt + fieldsEditStmt + deletedInstancesStmt
 		notif += fmt.Sprintf("\n\t// %s", time.Now().Format(time.RFC3339Nano))
-		notif += fmt.Sprintf("\n\tstage.Commit()")
+		notif += "\n\tstage.Commit()"
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().AddNotification(
 				time.Now(),
@@ -202,18 +202,24 @@ func (stage *Stage) ComputeReference() {
 
 	// insertion point per named struct
 	stage.Freqencys_reference = make(map[*Freqency]*Freqency)
+	stage.Freqencys_referenceOrder = make(map[*Freqency]uint) // diff Unstage needs the reference order
 	for instance := range stage.Freqencys {
 		stage.Freqencys_reference[instance] = instance.GongCopy().(*Freqency)
+		stage.Freqencys_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Notes_reference = make(map[*Note]*Note)
+	stage.Notes_referenceOrder = make(map[*Note]uint) // diff Unstage needs the reference order
 	for instance := range stage.Notes {
 		stage.Notes_reference[instance] = instance.GongCopy().(*Note)
+		stage.Notes_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Players_reference = make(map[*Player]*Player)
+	stage.Players_referenceOrder = make(map[*Player]uint) // diff Unstage needs the reference order
 	for instance := range stage.Players {
 		stage.Players_reference[instance] = instance.GongCopy().(*Player)
+		stage.Players_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 }
@@ -229,12 +235,24 @@ func (freqency *Freqency) GongGetOrder(stage *Stage) uint {
 	return stage.FreqencyMap_Staged_Order[freqency]
 }
 
+func (freqency *Freqency) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.Freqencys_referenceOrder[freqency]
+}
+
 func (note *Note) GongGetOrder(stage *Stage) uint {
 	return stage.NoteMap_Staged_Order[note]
 }
 
+func (note *Note) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.Notes_referenceOrder[note]
+}
+
 func (player *Player) GongGetOrder(stage *Stage) uint {
 	return stage.PlayerMap_Staged_Order[player]
+}
+
+func (player *Player) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.Players_referenceOrder[player]
 }
 
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
@@ -246,12 +264,27 @@ func (freqency *Freqency) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", freqency.GongGetGongstructName(), freqency.GongGetOrder(stage))
 }
 
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (freqency *Freqency) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", freqency.GongGetGongstructName(), freqency.GongGetReferenceOrder(stage))
+}
+
 func (note *Note) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", note.GongGetGongstructName(), note.GongGetOrder(stage))
 }
 
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (note *Note) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", note.GongGetGongstructName(), note.GongGetReferenceOrder(stage))
+}
+
 func (player *Player) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", player.GongGetGongstructName(), player.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (player *Player) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", player.GongGetGongstructName(), player.GongGetReferenceOrder(stage))
 }
 
 // MarshallIdentifier returns the code to instantiate the instance
@@ -282,16 +315,16 @@ func (player *Player) GongMarshallIdentifier(stage *Stage) (decl string) {
 // insertion point for unstaging
 func (freqency *Freqency) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", freqency.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", freqency.GongGetReferenceIdentifier(stage))
 	return
 }
 func (note *Note) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", note.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", note.GongGetReferenceIdentifier(stage))
 	return
 }
 func (player *Player) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", player.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", player.GongGetReferenceIdentifier(stage))
 	return
 }

@@ -93,9 +93,10 @@ type Stage struct {
 	name string
 
 	// insertion point for definition of arrays registering instances
-	DisplaySelections           map[*DisplaySelection]struct{}
-	DisplaySelections_reference map[*DisplaySelection]*DisplaySelection
-	DisplaySelections_mapString map[string]*DisplaySelection
+	DisplaySelections                map[*DisplaySelection]struct{}
+	DisplaySelections_reference      map[*DisplaySelection]*DisplaySelection
+	DisplaySelections_referenceOrder map[*DisplaySelection]uint // diff Unstage needs the reference order 
+	DisplaySelections_mapString      map[string]*DisplaySelection
 
 	// insertion point for slice of pointers maps
 	OnAfterDisplaySelectionCreateCallback OnAfterCreateInterface[DisplaySelection]
@@ -103,9 +104,10 @@ type Stage struct {
 	OnAfterDisplaySelectionDeleteCallback OnAfterDeleteInterface[DisplaySelection]
 	OnAfterDisplaySelectionReadCallback   OnAfterReadInterface[DisplaySelection]
 
-	XLCells           map[*XLCell]struct{}
-	XLCells_reference map[*XLCell]*XLCell
-	XLCells_mapString map[string]*XLCell
+	XLCells                map[*XLCell]struct{}
+	XLCells_reference      map[*XLCell]*XLCell
+	XLCells_referenceOrder map[*XLCell]uint // diff Unstage needs the reference order 
+	XLCells_mapString      map[string]*XLCell
 
 	// insertion point for slice of pointers maps
 	OnAfterXLCellCreateCallback OnAfterCreateInterface[XLCell]
@@ -113,9 +115,10 @@ type Stage struct {
 	OnAfterXLCellDeleteCallback OnAfterDeleteInterface[XLCell]
 	OnAfterXLCellReadCallback   OnAfterReadInterface[XLCell]
 
-	XLFiles           map[*XLFile]struct{}
-	XLFiles_reference map[*XLFile]*XLFile
-	XLFiles_mapString map[string]*XLFile
+	XLFiles                map[*XLFile]struct{}
+	XLFiles_reference      map[*XLFile]*XLFile
+	XLFiles_referenceOrder map[*XLFile]uint // diff Unstage needs the reference order 
+	XLFiles_mapString      map[string]*XLFile
 
 	// insertion point for slice of pointers maps
 	XLFile_Sheets_reverseMap map[*XLSheet]*XLFile
@@ -125,9 +128,10 @@ type Stage struct {
 	OnAfterXLFileDeleteCallback OnAfterDeleteInterface[XLFile]
 	OnAfterXLFileReadCallback   OnAfterReadInterface[XLFile]
 
-	XLRows           map[*XLRow]struct{}
-	XLRows_reference map[*XLRow]*XLRow
-	XLRows_mapString map[string]*XLRow
+	XLRows                map[*XLRow]struct{}
+	XLRows_reference      map[*XLRow]*XLRow
+	XLRows_referenceOrder map[*XLRow]uint // diff Unstage needs the reference order 
+	XLRows_mapString      map[string]*XLRow
 
 	// insertion point for slice of pointers maps
 	XLRow_Cells_reverseMap map[*XLCell]*XLRow
@@ -137,9 +141,10 @@ type Stage struct {
 	OnAfterXLRowDeleteCallback OnAfterDeleteInterface[XLRow]
 	OnAfterXLRowReadCallback   OnAfterReadInterface[XLRow]
 
-	XLSheets           map[*XLSheet]struct{}
-	XLSheets_reference map[*XLSheet]*XLSheet
-	XLSheets_mapString map[string]*XLSheet
+	XLSheets                map[*XLSheet]struct{}
+	XLSheets_reference      map[*XLSheet]*XLSheet
+	XLSheets_referenceOrder map[*XLSheet]uint // diff Unstage needs the reference order 
+	XLSheets_mapString      map[string]*XLSheet
 
 	// insertion point for slice of pointers maps
 	XLSheet_Rows_reverseMap map[*XLRow]*XLSheet
@@ -1155,6 +1160,7 @@ type GongstructIF interface {
 	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
+	GongGetReferenceIdentifier(stage *Stage) string
 	GongGetIdentifier(stage *Stage) string
 	GongCopy() GongstructIF
 	GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) string
