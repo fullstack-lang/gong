@@ -191,9 +191,9 @@ func (stage *Stage) ComputeDifference() {
 	lenDeletedInstances += len(pages_deletedInstances)
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
-		notif := newInstancesStmt+fieldsEditStmt+deletedInstancesStmt
+		notif := newInstancesStmt + fieldsEditStmt + deletedInstancesStmt
 		notif += fmt.Sprintf("\n\t// %s", time.Now().Format(time.RFC3339Nano))
-		notif += fmt.Sprintf("\n\tstage.Commit()")
+		notif += "\n\tstage.Commit()"
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().AddNotification(
 				time.Now(),
@@ -209,18 +209,24 @@ func (stage *Stage) ComputeReference() {
 
 	// insertion point per named struct
 	stage.Chapters_reference = make(map[*Chapter]*Chapter)
+	stage.Chapters_referenceOrder = make(map[*Chapter]uint) // diff Unstage needs the reference order
 	for instance := range stage.Chapters {
 		stage.Chapters_reference[instance] = instance.GongCopy().(*Chapter)
+		stage.Chapters_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Contents_reference = make(map[*Content]*Content)
+	stage.Contents_referenceOrder = make(map[*Content]uint) // diff Unstage needs the reference order
 	for instance := range stage.Contents {
 		stage.Contents_reference[instance] = instance.GongCopy().(*Content)
+		stage.Contents_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Pages_reference = make(map[*Page]*Page)
+	stage.Pages_referenceOrder = make(map[*Page]uint) // diff Unstage needs the reference order
 	for instance := range stage.Pages {
 		stage.Pages_reference[instance] = instance.GongCopy().(*Page)
+		stage.Pages_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 }
@@ -236,12 +242,24 @@ func (chapter *Chapter) GongGetOrder(stage *Stage) uint {
 	return stage.ChapterMap_Staged_Order[chapter]
 }
 
+func (chapter *Chapter) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.Chapters_referenceOrder[chapter]
+}
+
 func (content *Content) GongGetOrder(stage *Stage) uint {
 	return stage.ContentMap_Staged_Order[content]
 }
 
+func (content *Content) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.Contents_referenceOrder[content]
+}
+
 func (page *Page) GongGetOrder(stage *Stage) uint {
 	return stage.PageMap_Staged_Order[page]
+}
+
+func (page *Page) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.Pages_referenceOrder[page]
 }
 
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
@@ -253,12 +271,27 @@ func (chapter *Chapter) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", chapter.GongGetGongstructName(), chapter.GongGetOrder(stage))
 }
 
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (chapter *Chapter) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", chapter.GongGetGongstructName(), chapter.GongGetReferenceOrder(stage))
+}
+
 func (content *Content) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", content.GongGetGongstructName(), content.GongGetOrder(stage))
 }
 
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (content *Content) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", content.GongGetGongstructName(), content.GongGetReferenceOrder(stage))
+}
+
 func (page *Page) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", page.GongGetGongstructName(), page.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (page *Page) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", page.GongGetGongstructName(), page.GongGetReferenceOrder(stage))
 }
 
 // MarshallIdentifier returns the code to instantiate the instance
@@ -289,16 +322,16 @@ func (page *Page) GongMarshallIdentifier(stage *Stage) (decl string) {
 // insertion point for unstaging
 func (chapter *Chapter) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", chapter.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", chapter.GongGetReferenceIdentifier(stage))
 	return
 }
 func (content *Content) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", content.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", content.GongGetReferenceIdentifier(stage))
 	return
 }
 func (page *Page) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", page.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", page.GongGetReferenceIdentifier(stage))
 	return
 }

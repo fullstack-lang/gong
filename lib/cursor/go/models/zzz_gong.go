@@ -93,9 +93,10 @@ type Stage struct {
 	name string
 
 	// insertion point for definition of arrays registering instances
-	Cursors           map[*Cursor]struct{}
-	Cursors_reference map[*Cursor]*Cursor
-	Cursors_mapString map[string]*Cursor
+	Cursors                map[*Cursor]struct{}
+	Cursors_reference      map[*Cursor]*Cursor
+	Cursors_referenceOrder map[*Cursor]uint // diff Unstage needs the reference order 
+	Cursors_mapString      map[string]*Cursor
 
 	// insertion point for slice of pointers maps
 	OnAfterCursorCreateCallback OnAfterCreateInterface[Cursor]
@@ -579,6 +580,7 @@ type GongstructIF interface {
 	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
+	GongGetReferenceIdentifier(stage *Stage) string
 	GongGetIdentifier(stage *Stage) string
 	GongCopy() GongstructIF
 	GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) string

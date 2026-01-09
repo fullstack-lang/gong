@@ -93,9 +93,10 @@ type Stage struct {
 	name string
 
 	// insertion point for definition of arrays registering instances
-	AttributeShapes           map[*AttributeShape]struct{}
-	AttributeShapes_reference map[*AttributeShape]*AttributeShape
-	AttributeShapes_mapString map[string]*AttributeShape
+	AttributeShapes                map[*AttributeShape]struct{}
+	AttributeShapes_reference      map[*AttributeShape]*AttributeShape
+	AttributeShapes_referenceOrder map[*AttributeShape]uint // diff Unstage needs the reference order 
+	AttributeShapes_mapString      map[string]*AttributeShape
 
 	// insertion point for slice of pointers maps
 	OnAfterAttributeShapeCreateCallback OnAfterCreateInterface[AttributeShape]
@@ -103,9 +104,10 @@ type Stage struct {
 	OnAfterAttributeShapeDeleteCallback OnAfterDeleteInterface[AttributeShape]
 	OnAfterAttributeShapeReadCallback   OnAfterReadInterface[AttributeShape]
 
-	Classdiagrams           map[*Classdiagram]struct{}
-	Classdiagrams_reference map[*Classdiagram]*Classdiagram
-	Classdiagrams_mapString map[string]*Classdiagram
+	Classdiagrams                map[*Classdiagram]struct{}
+	Classdiagrams_reference      map[*Classdiagram]*Classdiagram
+	Classdiagrams_referenceOrder map[*Classdiagram]uint // diff Unstage needs the reference order 
+	Classdiagrams_mapString      map[string]*Classdiagram
 
 	// insertion point for slice of pointers maps
 	Classdiagram_GongStructShapes_reverseMap map[*GongStructShape]*Classdiagram
@@ -119,9 +121,10 @@ type Stage struct {
 	OnAfterClassdiagramDeleteCallback OnAfterDeleteInterface[Classdiagram]
 	OnAfterClassdiagramReadCallback   OnAfterReadInterface[Classdiagram]
 
-	DiagramPackages           map[*DiagramPackage]struct{}
-	DiagramPackages_reference map[*DiagramPackage]*DiagramPackage
-	DiagramPackages_mapString map[string]*DiagramPackage
+	DiagramPackages                map[*DiagramPackage]struct{}
+	DiagramPackages_reference      map[*DiagramPackage]*DiagramPackage
+	DiagramPackages_referenceOrder map[*DiagramPackage]uint // diff Unstage needs the reference order 
+	DiagramPackages_mapString      map[string]*DiagramPackage
 
 	// insertion point for slice of pointers maps
 	DiagramPackage_Classdiagrams_reverseMap map[*Classdiagram]*DiagramPackage
@@ -131,9 +134,10 @@ type Stage struct {
 	OnAfterDiagramPackageDeleteCallback OnAfterDeleteInterface[DiagramPackage]
 	OnAfterDiagramPackageReadCallback   OnAfterReadInterface[DiagramPackage]
 
-	GongEnumShapes           map[*GongEnumShape]struct{}
-	GongEnumShapes_reference map[*GongEnumShape]*GongEnumShape
-	GongEnumShapes_mapString map[string]*GongEnumShape
+	GongEnumShapes                map[*GongEnumShape]struct{}
+	GongEnumShapes_reference      map[*GongEnumShape]*GongEnumShape
+	GongEnumShapes_referenceOrder map[*GongEnumShape]uint // diff Unstage needs the reference order 
+	GongEnumShapes_mapString      map[string]*GongEnumShape
 
 	// insertion point for slice of pointers maps
 	GongEnumShape_GongEnumValueShapes_reverseMap map[*GongEnumValueShape]*GongEnumShape
@@ -143,9 +147,10 @@ type Stage struct {
 	OnAfterGongEnumShapeDeleteCallback OnAfterDeleteInterface[GongEnumShape]
 	OnAfterGongEnumShapeReadCallback   OnAfterReadInterface[GongEnumShape]
 
-	GongEnumValueShapes           map[*GongEnumValueShape]struct{}
-	GongEnumValueShapes_reference map[*GongEnumValueShape]*GongEnumValueShape
-	GongEnumValueShapes_mapString map[string]*GongEnumValueShape
+	GongEnumValueShapes                map[*GongEnumValueShape]struct{}
+	GongEnumValueShapes_reference      map[*GongEnumValueShape]*GongEnumValueShape
+	GongEnumValueShapes_referenceOrder map[*GongEnumValueShape]uint // diff Unstage needs the reference order 
+	GongEnumValueShapes_mapString      map[string]*GongEnumValueShape
 
 	// insertion point for slice of pointers maps
 	OnAfterGongEnumValueShapeCreateCallback OnAfterCreateInterface[GongEnumValueShape]
@@ -153,9 +158,10 @@ type Stage struct {
 	OnAfterGongEnumValueShapeDeleteCallback OnAfterDeleteInterface[GongEnumValueShape]
 	OnAfterGongEnumValueShapeReadCallback   OnAfterReadInterface[GongEnumValueShape]
 
-	GongNoteLinkShapes           map[*GongNoteLinkShape]struct{}
-	GongNoteLinkShapes_reference map[*GongNoteLinkShape]*GongNoteLinkShape
-	GongNoteLinkShapes_mapString map[string]*GongNoteLinkShape
+	GongNoteLinkShapes                map[*GongNoteLinkShape]struct{}
+	GongNoteLinkShapes_reference      map[*GongNoteLinkShape]*GongNoteLinkShape
+	GongNoteLinkShapes_referenceOrder map[*GongNoteLinkShape]uint // diff Unstage needs the reference order 
+	GongNoteLinkShapes_mapString      map[string]*GongNoteLinkShape
 
 	// insertion point for slice of pointers maps
 	OnAfterGongNoteLinkShapeCreateCallback OnAfterCreateInterface[GongNoteLinkShape]
@@ -163,9 +169,10 @@ type Stage struct {
 	OnAfterGongNoteLinkShapeDeleteCallback OnAfterDeleteInterface[GongNoteLinkShape]
 	OnAfterGongNoteLinkShapeReadCallback   OnAfterReadInterface[GongNoteLinkShape]
 
-	GongNoteShapes           map[*GongNoteShape]struct{}
-	GongNoteShapes_reference map[*GongNoteShape]*GongNoteShape
-	GongNoteShapes_mapString map[string]*GongNoteShape
+	GongNoteShapes                map[*GongNoteShape]struct{}
+	GongNoteShapes_reference      map[*GongNoteShape]*GongNoteShape
+	GongNoteShapes_referenceOrder map[*GongNoteShape]uint // diff Unstage needs the reference order 
+	GongNoteShapes_mapString      map[string]*GongNoteShape
 
 	// insertion point for slice of pointers maps
 	GongNoteShape_GongNoteLinkShapes_reverseMap map[*GongNoteLinkShape]*GongNoteShape
@@ -175,9 +182,10 @@ type Stage struct {
 	OnAfterGongNoteShapeDeleteCallback OnAfterDeleteInterface[GongNoteShape]
 	OnAfterGongNoteShapeReadCallback   OnAfterReadInterface[GongNoteShape]
 
-	GongStructShapes           map[*GongStructShape]struct{}
-	GongStructShapes_reference map[*GongStructShape]*GongStructShape
-	GongStructShapes_mapString map[string]*GongStructShape
+	GongStructShapes                map[*GongStructShape]struct{}
+	GongStructShapes_reference      map[*GongStructShape]*GongStructShape
+	GongStructShapes_referenceOrder map[*GongStructShape]uint // diff Unstage needs the reference order 
+	GongStructShapes_mapString      map[string]*GongStructShape
 
 	// insertion point for slice of pointers maps
 	GongStructShape_AttributeShapes_reverseMap map[*AttributeShape]*GongStructShape
@@ -189,9 +197,10 @@ type Stage struct {
 	OnAfterGongStructShapeDeleteCallback OnAfterDeleteInterface[GongStructShape]
 	OnAfterGongStructShapeReadCallback   OnAfterReadInterface[GongStructShape]
 
-	LinkShapes           map[*LinkShape]struct{}
-	LinkShapes_reference map[*LinkShape]*LinkShape
-	LinkShapes_mapString map[string]*LinkShape
+	LinkShapes                map[*LinkShape]struct{}
+	LinkShapes_reference      map[*LinkShape]*LinkShape
+	LinkShapes_referenceOrder map[*LinkShape]uint // diff Unstage needs the reference order 
+	LinkShapes_mapString      map[string]*LinkShape
 
 	// insertion point for slice of pointers maps
 	OnAfterLinkShapeCreateCallback OnAfterCreateInterface[LinkShape]
@@ -1731,6 +1740,7 @@ type GongstructIF interface {
 	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
+	GongGetReferenceIdentifier(stage *Stage) string
 	GongGetIdentifier(stage *Stage) string
 	GongCopy() GongstructIF
 	GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) string
