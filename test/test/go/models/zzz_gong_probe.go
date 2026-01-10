@@ -17,4 +17,6 @@ type ProbeIF interface {
 	AddNotification(date time.Time, message string)
 	CommitNotificationTable()
 	ResetNotifications()
+	SetMaxElementsNbPerGongStructNode(nb int)
+	GetMaxElementsNbPerGongStructNode() int
 }

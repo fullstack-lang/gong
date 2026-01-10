@@ -105,7 +105,13 @@ func updateAndCommitTree(
 		case "Astruct":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.Astruct](probe.stageOfInterest)
+			count := 0
 			for _astruct := range set {
+				if count >= probe.GetMaxElementsNbPerGongStructNode() {
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree.Node{Name: "..."})
+					break
+				}
+				count++
 				nodeInstance := &tree.Node{Name: _astruct.GetName()}
 				nodeInstance.IsNodeClickable = true
 				nodeInstance.Impl = NewInstanceNodeCallback(_astruct, "Astruct", probe)
@@ -115,7 +121,13 @@ func updateAndCommitTree(
 		case "AstructBstruct2Use":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.AstructBstruct2Use](probe.stageOfInterest)
+			count := 0
 			for _astructbstruct2use := range set {
+				if count >= probe.GetMaxElementsNbPerGongStructNode() {
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree.Node{Name: "..."})
+					break
+				}
+				count++
 				nodeInstance := &tree.Node{Name: _astructbstruct2use.GetName()}
 				nodeInstance.IsNodeClickable = true
 				nodeInstance.Impl = NewInstanceNodeCallback(_astructbstruct2use, "AstructBstruct2Use", probe)
@@ -125,7 +137,13 @@ func updateAndCommitTree(
 		case "AstructBstructUse":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.AstructBstructUse](probe.stageOfInterest)
+			count := 0
 			for _astructbstructuse := range set {
+				if count >= probe.GetMaxElementsNbPerGongStructNode() {
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree.Node{Name: "..."})
+					break
+				}
+				count++
 				nodeInstance := &tree.Node{Name: _astructbstructuse.GetName()}
 				nodeInstance.IsNodeClickable = true
 				nodeInstance.Impl = NewInstanceNodeCallback(_astructbstructuse, "AstructBstructUse", probe)
@@ -135,7 +153,13 @@ func updateAndCommitTree(
 		case "Bstruct":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.Bstruct](probe.stageOfInterest)
+			count := 0
 			for _bstruct := range set {
+				if count >= probe.GetMaxElementsNbPerGongStructNode() {
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree.Node{Name: "..."})
+					break
+				}
+				count++
 				nodeInstance := &tree.Node{Name: _bstruct.GetName()}
 				nodeInstance.IsNodeClickable = true
 				nodeInstance.Impl = NewInstanceNodeCallback(_bstruct, "Bstruct", probe)
@@ -145,7 +169,13 @@ func updateAndCommitTree(
 		case "Dstruct":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.Dstruct](probe.stageOfInterest)
+			count := 0
 			for _dstruct := range set {
+				if count >= probe.GetMaxElementsNbPerGongStructNode() {
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree.Node{Name: "..."})
+					break
+				}
+				count++
 				nodeInstance := &tree.Node{Name: _dstruct.GetName()}
 				nodeInstance.IsNodeClickable = true
 				nodeInstance.Impl = NewInstanceNodeCallback(_dstruct, "Dstruct", probe)
@@ -155,7 +185,13 @@ func updateAndCommitTree(
 		case "F0123456789012345678901234567890":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.F0123456789012345678901234567890](probe.stageOfInterest)
+			count := 0
 			for _f0123456789012345678901234567890 := range set {
+				if count >= probe.GetMaxElementsNbPerGongStructNode() {
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree.Node{Name: "..."})
+					break
+				}
+				count++
 				nodeInstance := &tree.Node{Name: _f0123456789012345678901234567890.GetName()}
 				nodeInstance.IsNodeClickable = true
 				nodeInstance.Impl = NewInstanceNodeCallback(_f0123456789012345678901234567890, "F0123456789012345678901234567890", probe)
@@ -165,7 +201,13 @@ func updateAndCommitTree(
 		case "Gstruct":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.Gstruct](probe.stageOfInterest)
+			count := 0
 			for _gstruct := range set {
+				if count >= probe.GetMaxElementsNbPerGongStructNode() {
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree.Node{Name: "..."})
+					break
+				}
+				count++
 				nodeInstance := &tree.Node{Name: _gstruct.GetName()}
 				nodeInstance.IsNodeClickable = true
 				nodeInstance.Impl = NewInstanceNodeCallback(_gstruct, "Gstruct", probe)
