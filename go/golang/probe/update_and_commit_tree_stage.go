@@ -181,7 +181,13 @@ map[string]string{
 		case "{{Structname}}":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.{{Structname}}](probe.stageOfInterest)
+			count := 0
 			for _{{structname}} := range set {
+				if count >= probe.GetMaxElementsNbPerGongStructNode() {
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree.Node{Name: "..."})
+					break
+				}
+				count++
 				nodeInstance := &tree.Node{Name: _{{structname}}.GetName()}
 				nodeInstance.IsNodeClickable = true
 				nodeInstance.Impl = NewInstanceNodeCallback(_{{structname}}, "{{Structname}}", probe)

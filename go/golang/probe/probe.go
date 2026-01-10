@@ -45,6 +45,17 @@ type Probe struct {
 	docStager *doc.Stager
 
 	notification []*Notification
+
+	// to limit the  number of elements per gong struct node in the tree
+	maxElementsNbPerGongStructNode int
+}
+
+func (probe *Probe) SetMaxElementsNbPerGongStructNode(nb int) {
+	probe.maxElementsNbPerGongStructNode = nb
+}
+
+func (probe *Probe) GetMaxElementsNbPerGongStructNode() int {
+	return probe.maxElementsNbPerGongStructNode
 }
 
 func NewProbe(
@@ -77,14 +88,15 @@ func NewProbe(
 	formStage.Commit()
 
 	probe = &Probe{
-		r:                      r,
-		stageOfInterest:        stageOfInterest,
-		gongStage:              stage,
-		treeStage:              treeStage,
-		formStage:              formStage,
-		tableStage:             tableStage,
-		notificationTableStage: notificationTableStage,
-		splitStage:             splitStage,
+		r:                              r,
+		stageOfInterest:                stageOfInterest,
+		gongStage:                      stage,
+		treeStage:                      treeStage,
+		formStage:                      formStage,
+		tableStage:                     tableStage,
+		notificationTableStage:         notificationTableStage,
+		splitStage:                     splitStage,
+		maxElementsNbPerGongStructNode: 10,
 	}
 
 	// prepare the receiving AsSplitArea
