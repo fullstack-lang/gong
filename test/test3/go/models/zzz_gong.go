@@ -88,7 +88,6 @@ type GongStructInterface interface {
 }
 
 // Stage enables storage of staged instances
-// swagger:ignore
 type Stage struct {
 	name string
 
