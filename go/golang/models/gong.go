@@ -221,7 +221,7 @@ func ({{structname}} *{{Structname}}) SetName(name string) {
 	ModelGongStructInsertionArrayDefintion: `
 	{{Structname}}s                map[*{{Structname}}]struct{}
 	{{Structname}}s_reference      map[*{{Structname}}]*{{Structname}}
-	{{Structname}}s_referenceOrder map[*{{Structname}}]uint // diff Unstage needs the reference order 
+	{{Structname}}s_referenceOrder map[*{{Structname}}]uint // diff Unstage needs the reference order
 	{{Structname}}s_mapString      map[string]*{{Structname}}
 
 	// insertion point for slice of pointers maps{{SliceOfPointersReverseMaps}}
