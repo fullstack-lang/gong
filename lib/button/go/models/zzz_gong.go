@@ -88,14 +88,17 @@ type GongStructInterface interface {
 }
 
 // Stage enables storage of staged instances
-// swagger:ignore
 type Stage struct {
 	name string
+
+	// isInDeltaMode is true when the stage is used to compute difference between
+	// succesive commit
+	isInDeltaMode bool
 
 	// insertion point for definition of arrays registering instances
 	Buttons                map[*Button]struct{}
 	Buttons_reference      map[*Button]*Button
-	Buttons_referenceOrder map[*Button]uint // diff Unstage needs the reference order 
+	Buttons_referenceOrder map[*Button]uint // diff Unstage needs the reference order
 	Buttons_mapString      map[string]*Button
 
 	// insertion point for slice of pointers maps
@@ -106,7 +109,7 @@ type Stage struct {
 
 	ButtonToggles                map[*ButtonToggle]struct{}
 	ButtonToggles_reference      map[*ButtonToggle]*ButtonToggle
-	ButtonToggles_referenceOrder map[*ButtonToggle]uint // diff Unstage needs the reference order 
+	ButtonToggles_referenceOrder map[*ButtonToggle]uint // diff Unstage needs the reference order
 	ButtonToggles_mapString      map[string]*ButtonToggle
 
 	// insertion point for slice of pointers maps
@@ -117,7 +120,7 @@ type Stage struct {
 
 	Groups                map[*Group]struct{}
 	Groups_reference      map[*Group]*Group
-	Groups_referenceOrder map[*Group]uint // diff Unstage needs the reference order 
+	Groups_referenceOrder map[*Group]uint // diff Unstage needs the reference order
 	Groups_mapString      map[string]*Group
 
 	// insertion point for slice of pointers maps
@@ -130,7 +133,7 @@ type Stage struct {
 
 	GroupToogles                map[*GroupToogle]struct{}
 	GroupToogles_reference      map[*GroupToogle]*GroupToogle
-	GroupToogles_referenceOrder map[*GroupToogle]uint // diff Unstage needs the reference order 
+	GroupToogles_referenceOrder map[*GroupToogle]uint // diff Unstage needs the reference order
 	GroupToogles_mapString      map[string]*GroupToogle
 
 	// insertion point for slice of pointers maps
@@ -143,7 +146,7 @@ type Stage struct {
 
 	Layouts                map[*Layout]struct{}
 	Layouts_reference      map[*Layout]*Layout
-	Layouts_referenceOrder map[*Layout]uint // diff Unstage needs the reference order 
+	Layouts_referenceOrder map[*Layout]uint // diff Unstage needs the reference order
 	Layouts_mapString      map[string]*Layout
 
 	// insertion point for slice of pointers maps
@@ -204,6 +207,14 @@ type Stage struct {
 	// probeIF is the interface to the probe that allows log
 	// commit event to the probe
 	probeIF ProbeIF
+}
+
+func (stager *Stage) SetDeltaMode(inDeltaMode bool) {
+	stager.isInDeltaMode = inDeltaMode
+}
+
+func (stage *Stage) IsDeltaMode() bool {
+	return stage.isInDeltaMode
 }
 
 func (stage *Stage) SetProbeIF(probeIF ProbeIF) {
@@ -562,8 +573,10 @@ func (stage *Stage) Commit() {
 		stage.BackRepo.Commit(stage)
 	}
 	stage.ComputeInstancesNb()
-	stage.ComputeDifference()
-	stage.ComputeReference()
+	if stage.IsDeltaMode() {
+		stage.ComputeDifference()
+		stage.ComputeReference()
+	}
 }
 
 func (stage *Stage) ComputeInstancesNb() {
@@ -1089,7 +1102,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
 	}
-	stage.ComputeReference()
+	if stage.IsDeltaMode() {
+		stage.ComputeReference()
+	}
 }
 
 func (stage *Stage) Nil() { // insertion point for array nil

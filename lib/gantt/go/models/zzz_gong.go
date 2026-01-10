@@ -88,14 +88,17 @@ type GongStructInterface interface {
 }
 
 // Stage enables storage of staged instances
-// swagger:ignore
 type Stage struct {
 	name string
+
+	// isInDeltaMode is true when the stage is used to compute difference between
+	// succesive commit
+	isInDeltaMode bool
 
 	// insertion point for definition of arrays registering instances
 	Arrows                map[*Arrow]struct{}
 	Arrows_reference      map[*Arrow]*Arrow
-	Arrows_referenceOrder map[*Arrow]uint // diff Unstage needs the reference order 
+	Arrows_referenceOrder map[*Arrow]uint // diff Unstage needs the reference order
 	Arrows_mapString      map[string]*Arrow
 
 	// insertion point for slice of pointers maps
@@ -106,7 +109,7 @@ type Stage struct {
 
 	Bars                map[*Bar]struct{}
 	Bars_reference      map[*Bar]*Bar
-	Bars_referenceOrder map[*Bar]uint // diff Unstage needs the reference order 
+	Bars_referenceOrder map[*Bar]uint // diff Unstage needs the reference order
 	Bars_mapString      map[string]*Bar
 
 	// insertion point for slice of pointers maps
@@ -117,7 +120,7 @@ type Stage struct {
 
 	Gantts                map[*Gantt]struct{}
 	Gantts_reference      map[*Gantt]*Gantt
-	Gantts_referenceOrder map[*Gantt]uint // diff Unstage needs the reference order 
+	Gantts_referenceOrder map[*Gantt]uint // diff Unstage needs the reference order
 	Gantts_mapString      map[string]*Gantt
 
 	// insertion point for slice of pointers maps
@@ -136,7 +139,7 @@ type Stage struct {
 
 	Groups                map[*Group]struct{}
 	Groups_reference      map[*Group]*Group
-	Groups_referenceOrder map[*Group]uint // diff Unstage needs the reference order 
+	Groups_referenceOrder map[*Group]uint // diff Unstage needs the reference order
 	Groups_mapString      map[string]*Group
 
 	// insertion point for slice of pointers maps
@@ -149,7 +152,7 @@ type Stage struct {
 
 	Lanes                map[*Lane]struct{}
 	Lanes_reference      map[*Lane]*Lane
-	Lanes_referenceOrder map[*Lane]uint // diff Unstage needs the reference order 
+	Lanes_referenceOrder map[*Lane]uint // diff Unstage needs the reference order
 	Lanes_mapString      map[string]*Lane
 
 	// insertion point for slice of pointers maps
@@ -162,7 +165,7 @@ type Stage struct {
 
 	LaneUses                map[*LaneUse]struct{}
 	LaneUses_reference      map[*LaneUse]*LaneUse
-	LaneUses_referenceOrder map[*LaneUse]uint // diff Unstage needs the reference order 
+	LaneUses_referenceOrder map[*LaneUse]uint // diff Unstage needs the reference order
 	LaneUses_mapString      map[string]*LaneUse
 
 	// insertion point for slice of pointers maps
@@ -173,7 +176,7 @@ type Stage struct {
 
 	Milestones                map[*Milestone]struct{}
 	Milestones_reference      map[*Milestone]*Milestone
-	Milestones_referenceOrder map[*Milestone]uint // diff Unstage needs the reference order 
+	Milestones_referenceOrder map[*Milestone]uint // diff Unstage needs the reference order
 	Milestones_mapString      map[string]*Milestone
 
 	// insertion point for slice of pointers maps
@@ -238,6 +241,14 @@ type Stage struct {
 	// probeIF is the interface to the probe that allows log
 	// commit event to the probe
 	probeIF ProbeIF
+}
+
+func (stager *Stage) SetDeltaMode(inDeltaMode bool) {
+	stager.isInDeltaMode = inDeltaMode
+}
+
+func (stage *Stage) IsDeltaMode() bool {
+	return stage.isInDeltaMode
 }
 
 func (stage *Stage) SetProbeIF(probeIF ProbeIF) {
@@ -652,8 +663,10 @@ func (stage *Stage) Commit() {
 		stage.BackRepo.Commit(stage)
 	}
 	stage.ComputeInstancesNb()
-	stage.ComputeDifference()
-	stage.ComputeReference()
+	if stage.IsDeltaMode() {
+		stage.ComputeDifference()
+		stage.ComputeReference()
+	}
 }
 
 func (stage *Stage) ComputeInstancesNb() {
@@ -1367,7 +1380,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
 	}
-	stage.ComputeReference()
+	if stage.IsDeltaMode() {
+		stage.ComputeReference()
+	}
 }
 
 func (stage *Stage) Nil() { // insertion point for array nil
