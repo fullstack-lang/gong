@@ -362,6 +362,12 @@ func (displayselection *DisplaySelection) GongMarshallField(stage *Stage, fieldN
 			res = strings.ReplaceAll(res, "{{Identifier}}", displayselection.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "XLFile")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", displayselection.XLFile.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", displayselection.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "XLFile")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "XLSheet":
 		if displayselection.XLSheet != nil {
@@ -369,6 +375,12 @@ func (displayselection *DisplaySelection) GongMarshallField(stage *Stage, fieldN
 			res = strings.ReplaceAll(res, "{{Identifier}}", displayselection.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "XLSheet")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", displayselection.XLSheet.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", displayselection.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "XLSheet")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct DisplaySelection", fieldName)
