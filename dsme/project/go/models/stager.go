@@ -41,9 +41,12 @@ func NewStager(
 	stager.stage = stage
 	stager.probeForm = probeForm
 
+	// enable delta mode on the stage
+	// so that changes are tracked and undo/redo are possible
+	stage.SetDeltaMode(true)
+
 	stager.splitStage = split_stack.NewStack(r, "", "", "", "", false, false).Stage
 	stager.treeStage = tree_stack.NewStack(r, "", "", "", "", true, true).Stage
-
 	stager.svgStage = svg_stack.NewStack(r, "", "", "", "", true, true).Stage
 
 	createViews(stager, stage)

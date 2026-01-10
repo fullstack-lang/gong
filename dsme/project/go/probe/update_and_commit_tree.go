@@ -105,7 +105,14 @@ func updateAndCommitTree(
 		case "Diagram":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](probe.stageOfInterest)
+
+			// for each instance of, but limit the number of instances shown according to
+			// maxElementsNbPerGongStructNode
+			count := 0
 			for _diagram := range set {
+				if count >= probe.GetMaxElementsNbPerGongStructNode() {
+					break
+				}
 				nodeInstance := &tree.Node{Name: _diagram.GetName()}
 				nodeInstance.IsNodeClickable = true
 				nodeInstance.Impl = NewInstanceNodeCallback(_diagram, "Diagram", probe)
