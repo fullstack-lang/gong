@@ -105,7 +105,13 @@ func updateAndCommitTree(
 		case "A":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.A](probe.stageOfInterest)
+			count := 0
 			for _a := range set {
+				if count >= probe.GetMaxElementsNbPerGongStructNode() {
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree.Node{Name: "..."})
+					break
+				}
+				count++
 				nodeInstance := &tree.Node{Name: _a.GetName()}
 				nodeInstance.IsNodeClickable = true
 				nodeInstance.Impl = NewInstanceNodeCallback(_a, "A", probe)
@@ -115,7 +121,13 @@ func updateAndCommitTree(
 		case "B":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.B](probe.stageOfInterest)
+			count := 0
 			for _b := range set {
+				if count >= probe.GetMaxElementsNbPerGongStructNode() {
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree.Node{Name: "..."})
+					break
+				}
+				count++
 				nodeInstance := &tree.Node{Name: _b.GetName()}
 				nodeInstance.IsNodeClickable = true
 				nodeInstance.Impl = NewInstanceNodeCallback(_b, "B", probe)

@@ -105,7 +105,13 @@ func updateAndCommitTree(
 		case "Button":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.Button](probe.stageOfInterest)
+			count := 0
 			for _button := range set {
+				if count >= probe.GetMaxElementsNbPerGongStructNode() {
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree.Node{Name: "..."})
+					break
+				}
+				count++
 				nodeInstance := &tree.Node{Name: _button.GetName()}
 				nodeInstance.IsNodeClickable = true
 				nodeInstance.Impl = NewInstanceNodeCallback(_button, "Button", probe)
@@ -115,7 +121,13 @@ func updateAndCommitTree(
 		case "ButtonToggle":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.ButtonToggle](probe.stageOfInterest)
+			count := 0
 			for _buttontoggle := range set {
+				if count >= probe.GetMaxElementsNbPerGongStructNode() {
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree.Node{Name: "..."})
+					break
+				}
+				count++
 				nodeInstance := &tree.Node{Name: _buttontoggle.GetName()}
 				nodeInstance.IsNodeClickable = true
 				nodeInstance.Impl = NewInstanceNodeCallback(_buttontoggle, "ButtonToggle", probe)
@@ -125,7 +137,13 @@ func updateAndCommitTree(
 		case "Group":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.Group](probe.stageOfInterest)
+			count := 0
 			for _group := range set {
+				if count >= probe.GetMaxElementsNbPerGongStructNode() {
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree.Node{Name: "..."})
+					break
+				}
+				count++
 				nodeInstance := &tree.Node{Name: _group.GetName()}
 				nodeInstance.IsNodeClickable = true
 				nodeInstance.Impl = NewInstanceNodeCallback(_group, "Group", probe)
@@ -135,7 +153,13 @@ func updateAndCommitTree(
 		case "GroupToogle":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.GroupToogle](probe.stageOfInterest)
+			count := 0
 			for _grouptoogle := range set {
+				if count >= probe.GetMaxElementsNbPerGongStructNode() {
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree.Node{Name: "..."})
+					break
+				}
+				count++
 				nodeInstance := &tree.Node{Name: _grouptoogle.GetName()}
 				nodeInstance.IsNodeClickable = true
 				nodeInstance.Impl = NewInstanceNodeCallback(_grouptoogle, "GroupToogle", probe)
@@ -145,7 +169,13 @@ func updateAndCommitTree(
 		case "Layout":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.Layout](probe.stageOfInterest)
+			count := 0
 			for _layout := range set {
+				if count >= probe.GetMaxElementsNbPerGongStructNode() {
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree.Node{Name: "..."})
+					break
+				}
+				count++
 				nodeInstance := &tree.Node{Name: _layout.GetName()}
 				nodeInstance.IsNodeClickable = true
 				nodeInstance.Impl = NewInstanceNodeCallback(_layout, "Layout", probe)
