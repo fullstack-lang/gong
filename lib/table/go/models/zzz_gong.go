@@ -88,14 +88,17 @@ type GongStructInterface interface {
 }
 
 // Stage enables storage of staged instances
-// swagger:ignore
 type Stage struct {
 	name string
+
+	// isInDeltaMode is true when the stage is used to compute difference between
+	// succesive commit
+	isInDeltaMode bool
 
 	// insertion point for definition of arrays registering instances
 	Cells                map[*Cell]struct{}
 	Cells_reference      map[*Cell]*Cell
-	Cells_referenceOrder map[*Cell]uint // diff Unstage needs the reference order 
+	Cells_referenceOrder map[*Cell]uint // diff Unstage needs the reference order
 	Cells_mapString      map[string]*Cell
 
 	// insertion point for slice of pointers maps
@@ -106,7 +109,7 @@ type Stage struct {
 
 	CellBooleans                map[*CellBoolean]struct{}
 	CellBooleans_reference      map[*CellBoolean]*CellBoolean
-	CellBooleans_referenceOrder map[*CellBoolean]uint // diff Unstage needs the reference order 
+	CellBooleans_referenceOrder map[*CellBoolean]uint // diff Unstage needs the reference order
 	CellBooleans_mapString      map[string]*CellBoolean
 
 	// insertion point for slice of pointers maps
@@ -117,7 +120,7 @@ type Stage struct {
 
 	CellFloat64s                map[*CellFloat64]struct{}
 	CellFloat64s_reference      map[*CellFloat64]*CellFloat64
-	CellFloat64s_referenceOrder map[*CellFloat64]uint // diff Unstage needs the reference order 
+	CellFloat64s_referenceOrder map[*CellFloat64]uint // diff Unstage needs the reference order
 	CellFloat64s_mapString      map[string]*CellFloat64
 
 	// insertion point for slice of pointers maps
@@ -128,7 +131,7 @@ type Stage struct {
 
 	CellIcons                map[*CellIcon]struct{}
 	CellIcons_reference      map[*CellIcon]*CellIcon
-	CellIcons_referenceOrder map[*CellIcon]uint // diff Unstage needs the reference order 
+	CellIcons_referenceOrder map[*CellIcon]uint // diff Unstage needs the reference order
 	CellIcons_mapString      map[string]*CellIcon
 
 	// insertion point for slice of pointers maps
@@ -139,7 +142,7 @@ type Stage struct {
 
 	CellInts                map[*CellInt]struct{}
 	CellInts_reference      map[*CellInt]*CellInt
-	CellInts_referenceOrder map[*CellInt]uint // diff Unstage needs the reference order 
+	CellInts_referenceOrder map[*CellInt]uint // diff Unstage needs the reference order
 	CellInts_mapString      map[string]*CellInt
 
 	// insertion point for slice of pointers maps
@@ -150,7 +153,7 @@ type Stage struct {
 
 	CellStrings                map[*CellString]struct{}
 	CellStrings_reference      map[*CellString]*CellString
-	CellStrings_referenceOrder map[*CellString]uint // diff Unstage needs the reference order 
+	CellStrings_referenceOrder map[*CellString]uint // diff Unstage needs the reference order
 	CellStrings_mapString      map[string]*CellString
 
 	// insertion point for slice of pointers maps
@@ -161,7 +164,7 @@ type Stage struct {
 
 	CheckBoxs                map[*CheckBox]struct{}
 	CheckBoxs_reference      map[*CheckBox]*CheckBox
-	CheckBoxs_referenceOrder map[*CheckBox]uint // diff Unstage needs the reference order 
+	CheckBoxs_referenceOrder map[*CheckBox]uint // diff Unstage needs the reference order
 	CheckBoxs_mapString      map[string]*CheckBox
 
 	// insertion point for slice of pointers maps
@@ -172,7 +175,7 @@ type Stage struct {
 
 	DisplayedColumns                map[*DisplayedColumn]struct{}
 	DisplayedColumns_reference      map[*DisplayedColumn]*DisplayedColumn
-	DisplayedColumns_referenceOrder map[*DisplayedColumn]uint // diff Unstage needs the reference order 
+	DisplayedColumns_referenceOrder map[*DisplayedColumn]uint // diff Unstage needs the reference order
 	DisplayedColumns_mapString      map[string]*DisplayedColumn
 
 	// insertion point for slice of pointers maps
@@ -183,7 +186,7 @@ type Stage struct {
 
 	FormDivs                map[*FormDiv]struct{}
 	FormDivs_reference      map[*FormDiv]*FormDiv
-	FormDivs_referenceOrder map[*FormDiv]uint // diff Unstage needs the reference order 
+	FormDivs_referenceOrder map[*FormDiv]uint // diff Unstage needs the reference order
 	FormDivs_mapString      map[string]*FormDiv
 
 	// insertion point for slice of pointers maps
@@ -198,7 +201,7 @@ type Stage struct {
 
 	FormEditAssocButtons                map[*FormEditAssocButton]struct{}
 	FormEditAssocButtons_reference      map[*FormEditAssocButton]*FormEditAssocButton
-	FormEditAssocButtons_referenceOrder map[*FormEditAssocButton]uint // diff Unstage needs the reference order 
+	FormEditAssocButtons_referenceOrder map[*FormEditAssocButton]uint // diff Unstage needs the reference order
 	FormEditAssocButtons_mapString      map[string]*FormEditAssocButton
 
 	// insertion point for slice of pointers maps
@@ -209,7 +212,7 @@ type Stage struct {
 
 	FormFields                map[*FormField]struct{}
 	FormFields_reference      map[*FormField]*FormField
-	FormFields_referenceOrder map[*FormField]uint // diff Unstage needs the reference order 
+	FormFields_referenceOrder map[*FormField]uint // diff Unstage needs the reference order
 	FormFields_mapString      map[string]*FormField
 
 	// insertion point for slice of pointers maps
@@ -220,7 +223,7 @@ type Stage struct {
 
 	FormFieldDates                map[*FormFieldDate]struct{}
 	FormFieldDates_reference      map[*FormFieldDate]*FormFieldDate
-	FormFieldDates_referenceOrder map[*FormFieldDate]uint // diff Unstage needs the reference order 
+	FormFieldDates_referenceOrder map[*FormFieldDate]uint // diff Unstage needs the reference order
 	FormFieldDates_mapString      map[string]*FormFieldDate
 
 	// insertion point for slice of pointers maps
@@ -231,7 +234,7 @@ type Stage struct {
 
 	FormFieldDateTimes                map[*FormFieldDateTime]struct{}
 	FormFieldDateTimes_reference      map[*FormFieldDateTime]*FormFieldDateTime
-	FormFieldDateTimes_referenceOrder map[*FormFieldDateTime]uint // diff Unstage needs the reference order 
+	FormFieldDateTimes_referenceOrder map[*FormFieldDateTime]uint // diff Unstage needs the reference order
 	FormFieldDateTimes_mapString      map[string]*FormFieldDateTime
 
 	// insertion point for slice of pointers maps
@@ -242,7 +245,7 @@ type Stage struct {
 
 	FormFieldFloat64s                map[*FormFieldFloat64]struct{}
 	FormFieldFloat64s_reference      map[*FormFieldFloat64]*FormFieldFloat64
-	FormFieldFloat64s_referenceOrder map[*FormFieldFloat64]uint // diff Unstage needs the reference order 
+	FormFieldFloat64s_referenceOrder map[*FormFieldFloat64]uint // diff Unstage needs the reference order
 	FormFieldFloat64s_mapString      map[string]*FormFieldFloat64
 
 	// insertion point for slice of pointers maps
@@ -253,7 +256,7 @@ type Stage struct {
 
 	FormFieldInts                map[*FormFieldInt]struct{}
 	FormFieldInts_reference      map[*FormFieldInt]*FormFieldInt
-	FormFieldInts_referenceOrder map[*FormFieldInt]uint // diff Unstage needs the reference order 
+	FormFieldInts_referenceOrder map[*FormFieldInt]uint // diff Unstage needs the reference order
 	FormFieldInts_mapString      map[string]*FormFieldInt
 
 	// insertion point for slice of pointers maps
@@ -264,7 +267,7 @@ type Stage struct {
 
 	FormFieldSelects                map[*FormFieldSelect]struct{}
 	FormFieldSelects_reference      map[*FormFieldSelect]*FormFieldSelect
-	FormFieldSelects_referenceOrder map[*FormFieldSelect]uint // diff Unstage needs the reference order 
+	FormFieldSelects_referenceOrder map[*FormFieldSelect]uint // diff Unstage needs the reference order
 	FormFieldSelects_mapString      map[string]*FormFieldSelect
 
 	// insertion point for slice of pointers maps
@@ -277,7 +280,7 @@ type Stage struct {
 
 	FormFieldStrings                map[*FormFieldString]struct{}
 	FormFieldStrings_reference      map[*FormFieldString]*FormFieldString
-	FormFieldStrings_referenceOrder map[*FormFieldString]uint // diff Unstage needs the reference order 
+	FormFieldStrings_referenceOrder map[*FormFieldString]uint // diff Unstage needs the reference order
 	FormFieldStrings_mapString      map[string]*FormFieldString
 
 	// insertion point for slice of pointers maps
@@ -288,7 +291,7 @@ type Stage struct {
 
 	FormFieldTimes                map[*FormFieldTime]struct{}
 	FormFieldTimes_reference      map[*FormFieldTime]*FormFieldTime
-	FormFieldTimes_referenceOrder map[*FormFieldTime]uint // diff Unstage needs the reference order 
+	FormFieldTimes_referenceOrder map[*FormFieldTime]uint // diff Unstage needs the reference order
 	FormFieldTimes_mapString      map[string]*FormFieldTime
 
 	// insertion point for slice of pointers maps
@@ -299,7 +302,7 @@ type Stage struct {
 
 	FormGroups                map[*FormGroup]struct{}
 	FormGroups_reference      map[*FormGroup]*FormGroup
-	FormGroups_referenceOrder map[*FormGroup]uint // diff Unstage needs the reference order 
+	FormGroups_referenceOrder map[*FormGroup]uint // diff Unstage needs the reference order
 	FormGroups_mapString      map[string]*FormGroup
 
 	// insertion point for slice of pointers maps
@@ -312,7 +315,7 @@ type Stage struct {
 
 	FormSortAssocButtons                map[*FormSortAssocButton]struct{}
 	FormSortAssocButtons_reference      map[*FormSortAssocButton]*FormSortAssocButton
-	FormSortAssocButtons_referenceOrder map[*FormSortAssocButton]uint // diff Unstage needs the reference order 
+	FormSortAssocButtons_referenceOrder map[*FormSortAssocButton]uint // diff Unstage needs the reference order
 	FormSortAssocButtons_mapString      map[string]*FormSortAssocButton
 
 	// insertion point for slice of pointers maps
@@ -323,7 +326,7 @@ type Stage struct {
 
 	Options                map[*Option]struct{}
 	Options_reference      map[*Option]*Option
-	Options_referenceOrder map[*Option]uint // diff Unstage needs the reference order 
+	Options_referenceOrder map[*Option]uint // diff Unstage needs the reference order
 	Options_mapString      map[string]*Option
 
 	// insertion point for slice of pointers maps
@@ -334,7 +337,7 @@ type Stage struct {
 
 	Rows                map[*Row]struct{}
 	Rows_reference      map[*Row]*Row
-	Rows_referenceOrder map[*Row]uint // diff Unstage needs the reference order 
+	Rows_referenceOrder map[*Row]uint // diff Unstage needs the reference order
 	Rows_mapString      map[string]*Row
 
 	// insertion point for slice of pointers maps
@@ -347,7 +350,7 @@ type Stage struct {
 
 	Tables                map[*Table]struct{}
 	Tables_reference      map[*Table]*Table
-	Tables_referenceOrder map[*Table]uint // diff Unstage needs the reference order 
+	Tables_referenceOrder map[*Table]uint // diff Unstage needs the reference order
 	Tables_mapString      map[string]*Table
 
 	// insertion point for slice of pointers maps
@@ -462,6 +465,14 @@ type Stage struct {
 	// probeIF is the interface to the probe that allows log
 	// commit event to the probe
 	probeIF ProbeIF
+}
+
+func (stager *Stage) SetDeltaMode(inDeltaMode bool) {
+	stager.isInDeltaMode = inDeltaMode
+}
+
+func (stage *Stage) IsDeltaMode() bool {
+	return stage.isInDeltaMode
 }
 
 func (stage *Stage) SetProbeIF(probeIF ProbeIF) {
@@ -1324,8 +1335,10 @@ func (stage *Stage) Commit() {
 		stage.BackRepo.Commit(stage)
 	}
 	stage.ComputeInstancesNb()
-	stage.ComputeDifference()
-	stage.ComputeReference()
+	if stage.IsDeltaMode() {
+		stage.ComputeDifference()
+		stage.ComputeReference()
+	}
 }
 
 func (stage *Stage) ComputeInstancesNb() {
@@ -3543,7 +3556,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
 	}
-	stage.ComputeReference()
+	if stage.IsDeltaMode() {
+		stage.ComputeReference()
+	}
 }
 
 func (stage *Stage) Nil() { // insertion point for array nil
