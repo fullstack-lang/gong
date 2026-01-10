@@ -88,14 +88,17 @@ type GongStructInterface interface {
 }
 
 // Stage enables storage of staged instances
-// swagger:ignore
 type Stage struct {
 	name string
+
+	// isInDeltaMode is true when the stage is used to compute difference between
+	// succesive commit
+	isInDeltaMode bool
 
 	// insertion point for definition of arrays registering instances
 	DisplaySelections                map[*DisplaySelection]struct{}
 	DisplaySelections_reference      map[*DisplaySelection]*DisplaySelection
-	DisplaySelections_referenceOrder map[*DisplaySelection]uint // diff Unstage needs the reference order 
+	DisplaySelections_referenceOrder map[*DisplaySelection]uint // diff Unstage needs the reference order
 	DisplaySelections_mapString      map[string]*DisplaySelection
 
 	// insertion point for slice of pointers maps
@@ -106,7 +109,7 @@ type Stage struct {
 
 	XLCells                map[*XLCell]struct{}
 	XLCells_reference      map[*XLCell]*XLCell
-	XLCells_referenceOrder map[*XLCell]uint // diff Unstage needs the reference order 
+	XLCells_referenceOrder map[*XLCell]uint // diff Unstage needs the reference order
 	XLCells_mapString      map[string]*XLCell
 
 	// insertion point for slice of pointers maps
@@ -117,7 +120,7 @@ type Stage struct {
 
 	XLFiles                map[*XLFile]struct{}
 	XLFiles_reference      map[*XLFile]*XLFile
-	XLFiles_referenceOrder map[*XLFile]uint // diff Unstage needs the reference order 
+	XLFiles_referenceOrder map[*XLFile]uint // diff Unstage needs the reference order
 	XLFiles_mapString      map[string]*XLFile
 
 	// insertion point for slice of pointers maps
@@ -130,7 +133,7 @@ type Stage struct {
 
 	XLRows                map[*XLRow]struct{}
 	XLRows_reference      map[*XLRow]*XLRow
-	XLRows_referenceOrder map[*XLRow]uint // diff Unstage needs the reference order 
+	XLRows_referenceOrder map[*XLRow]uint // diff Unstage needs the reference order
 	XLRows_mapString      map[string]*XLRow
 
 	// insertion point for slice of pointers maps
@@ -143,7 +146,7 @@ type Stage struct {
 
 	XLSheets                map[*XLSheet]struct{}
 	XLSheets_reference      map[*XLSheet]*XLSheet
-	XLSheets_referenceOrder map[*XLSheet]uint // diff Unstage needs the reference order 
+	XLSheets_referenceOrder map[*XLSheet]uint // diff Unstage needs the reference order
 	XLSheets_mapString      map[string]*XLSheet
 
 	// insertion point for slice of pointers maps
@@ -204,6 +207,14 @@ type Stage struct {
 	// probeIF is the interface to the probe that allows log
 	// commit event to the probe
 	probeIF ProbeIF
+}
+
+func (stager *Stage) SetDeltaMode(inDeltaMode bool) {
+	stager.isInDeltaMode = inDeltaMode
+}
+
+func (stage *Stage) IsDeltaMode() bool {
+	return stage.isInDeltaMode
 }
 
 func (stage *Stage) SetProbeIF(probeIF ProbeIF) {
@@ -562,8 +573,10 @@ func (stage *Stage) Commit() {
 		stage.BackRepo.Commit(stage)
 	}
 	stage.ComputeInstancesNb()
-	stage.ComputeDifference()
-	stage.ComputeReference()
+	if stage.IsDeltaMode() {
+		stage.ComputeDifference()
+		stage.ComputeReference()
+	}
 }
 
 func (stage *Stage) ComputeInstancesNb() {
@@ -1089,7 +1102,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
 	}
-	stage.ComputeReference()
+	if stage.IsDeltaMode() {
+		stage.ComputeReference()
+	}
 }
 
 func (stage *Stage) Nil() { // insertion point for array nil

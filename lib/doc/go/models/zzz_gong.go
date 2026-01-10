@@ -88,14 +88,17 @@ type GongStructInterface interface {
 }
 
 // Stage enables storage of staged instances
-// swagger:ignore
 type Stage struct {
 	name string
+
+	// isInDeltaMode is true when the stage is used to compute difference between
+	// succesive commit
+	isInDeltaMode bool
 
 	// insertion point for definition of arrays registering instances
 	AttributeShapes                map[*AttributeShape]struct{}
 	AttributeShapes_reference      map[*AttributeShape]*AttributeShape
-	AttributeShapes_referenceOrder map[*AttributeShape]uint // diff Unstage needs the reference order 
+	AttributeShapes_referenceOrder map[*AttributeShape]uint // diff Unstage needs the reference order
 	AttributeShapes_mapString      map[string]*AttributeShape
 
 	// insertion point for slice of pointers maps
@@ -106,7 +109,7 @@ type Stage struct {
 
 	Classdiagrams                map[*Classdiagram]struct{}
 	Classdiagrams_reference      map[*Classdiagram]*Classdiagram
-	Classdiagrams_referenceOrder map[*Classdiagram]uint // diff Unstage needs the reference order 
+	Classdiagrams_referenceOrder map[*Classdiagram]uint // diff Unstage needs the reference order
 	Classdiagrams_mapString      map[string]*Classdiagram
 
 	// insertion point for slice of pointers maps
@@ -123,7 +126,7 @@ type Stage struct {
 
 	DiagramPackages                map[*DiagramPackage]struct{}
 	DiagramPackages_reference      map[*DiagramPackage]*DiagramPackage
-	DiagramPackages_referenceOrder map[*DiagramPackage]uint // diff Unstage needs the reference order 
+	DiagramPackages_referenceOrder map[*DiagramPackage]uint // diff Unstage needs the reference order
 	DiagramPackages_mapString      map[string]*DiagramPackage
 
 	// insertion point for slice of pointers maps
@@ -136,7 +139,7 @@ type Stage struct {
 
 	GongEnumShapes                map[*GongEnumShape]struct{}
 	GongEnumShapes_reference      map[*GongEnumShape]*GongEnumShape
-	GongEnumShapes_referenceOrder map[*GongEnumShape]uint // diff Unstage needs the reference order 
+	GongEnumShapes_referenceOrder map[*GongEnumShape]uint // diff Unstage needs the reference order
 	GongEnumShapes_mapString      map[string]*GongEnumShape
 
 	// insertion point for slice of pointers maps
@@ -149,7 +152,7 @@ type Stage struct {
 
 	GongEnumValueShapes                map[*GongEnumValueShape]struct{}
 	GongEnumValueShapes_reference      map[*GongEnumValueShape]*GongEnumValueShape
-	GongEnumValueShapes_referenceOrder map[*GongEnumValueShape]uint // diff Unstage needs the reference order 
+	GongEnumValueShapes_referenceOrder map[*GongEnumValueShape]uint // diff Unstage needs the reference order
 	GongEnumValueShapes_mapString      map[string]*GongEnumValueShape
 
 	// insertion point for slice of pointers maps
@@ -160,7 +163,7 @@ type Stage struct {
 
 	GongNoteLinkShapes                map[*GongNoteLinkShape]struct{}
 	GongNoteLinkShapes_reference      map[*GongNoteLinkShape]*GongNoteLinkShape
-	GongNoteLinkShapes_referenceOrder map[*GongNoteLinkShape]uint // diff Unstage needs the reference order 
+	GongNoteLinkShapes_referenceOrder map[*GongNoteLinkShape]uint // diff Unstage needs the reference order
 	GongNoteLinkShapes_mapString      map[string]*GongNoteLinkShape
 
 	// insertion point for slice of pointers maps
@@ -171,7 +174,7 @@ type Stage struct {
 
 	GongNoteShapes                map[*GongNoteShape]struct{}
 	GongNoteShapes_reference      map[*GongNoteShape]*GongNoteShape
-	GongNoteShapes_referenceOrder map[*GongNoteShape]uint // diff Unstage needs the reference order 
+	GongNoteShapes_referenceOrder map[*GongNoteShape]uint // diff Unstage needs the reference order
 	GongNoteShapes_mapString      map[string]*GongNoteShape
 
 	// insertion point for slice of pointers maps
@@ -184,7 +187,7 @@ type Stage struct {
 
 	GongStructShapes                map[*GongStructShape]struct{}
 	GongStructShapes_reference      map[*GongStructShape]*GongStructShape
-	GongStructShapes_referenceOrder map[*GongStructShape]uint // diff Unstage needs the reference order 
+	GongStructShapes_referenceOrder map[*GongStructShape]uint // diff Unstage needs the reference order
 	GongStructShapes_mapString      map[string]*GongStructShape
 
 	// insertion point for slice of pointers maps
@@ -199,7 +202,7 @@ type Stage struct {
 
 	LinkShapes                map[*LinkShape]struct{}
 	LinkShapes_reference      map[*LinkShape]*LinkShape
-	LinkShapes_referenceOrder map[*LinkShape]uint // diff Unstage needs the reference order 
+	LinkShapes_referenceOrder map[*LinkShape]uint // diff Unstage needs the reference order
 	LinkShapes_mapString      map[string]*LinkShape
 
 	// insertion point for slice of pointers maps
@@ -268,6 +271,14 @@ type Stage struct {
 	// probeIF is the interface to the probe that allows log
 	// commit event to the probe
 	probeIF ProbeIF
+}
+
+func (stager *Stage) SetDeltaMode(inDeltaMode bool) {
+	stager.isInDeltaMode = inDeltaMode
+}
+
+func (stage *Stage) IsDeltaMode() bool {
+	return stage.isInDeltaMode
 }
 
 func (stage *Stage) SetProbeIF(probeIF ProbeIF) {
@@ -738,8 +749,10 @@ func (stage *Stage) Commit() {
 		stage.BackRepo.Commit(stage)
 	}
 	stage.ComputeInstancesNb()
-	stage.ComputeDifference()
-	stage.ComputeReference()
+	if stage.IsDeltaMode() {
+		stage.ComputeDifference()
+		stage.ComputeReference()
+	}
 }
 
 func (stage *Stage) ComputeInstancesNb() {
@@ -1641,7 +1654,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
 	}
-	stage.ComputeReference()
+	if stage.IsDeltaMode() {
+		stage.ComputeReference()
+	}
 }
 
 func (stage *Stage) Nil() { // insertion point for array nil

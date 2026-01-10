@@ -88,14 +88,17 @@ type GongStructInterface interface {
 }
 
 // Stage enables storage of staged instances
-// swagger:ignore
 type Stage struct {
 	name string
+
+	// isInDeltaMode is true when the stage is used to compute difference between
+	// succesive commit
+	isInDeltaMode bool
 
 	// insertion point for definition of arrays registering instances
 	Actions                map[*Action]struct{}
 	Actions_reference      map[*Action]*Action
-	Actions_referenceOrder map[*Action]uint // diff Unstage needs the reference order 
+	Actions_referenceOrder map[*Action]uint // diff Unstage needs the reference order
 	Actions_mapString      map[string]*Action
 
 	// insertion point for slice of pointers maps
@@ -106,7 +109,7 @@ type Stage struct {
 
 	Activitiess                map[*Activities]struct{}
 	Activitiess_reference      map[*Activities]*Activities
-	Activitiess_referenceOrder map[*Activities]uint // diff Unstage needs the reference order 
+	Activitiess_referenceOrder map[*Activities]uint // diff Unstage needs the reference order
 	Activitiess_mapString      map[string]*Activities
 
 	// insertion point for slice of pointers maps
@@ -117,7 +120,7 @@ type Stage struct {
 
 	Architectures                map[*Architecture]struct{}
 	Architectures_reference      map[*Architecture]*Architecture
-	Architectures_referenceOrder map[*Architecture]uint // diff Unstage needs the reference order 
+	Architectures_referenceOrder map[*Architecture]uint // diff Unstage needs the reference order
 	Architectures_mapString      map[string]*Architecture
 
 	// insertion point for slice of pointers maps
@@ -132,7 +135,7 @@ type Stage struct {
 
 	Diagrams                map[*Diagram]struct{}
 	Diagrams_reference      map[*Diagram]*Diagram
-	Diagrams_referenceOrder map[*Diagram]uint // diff Unstage needs the reference order 
+	Diagrams_referenceOrder map[*Diagram]uint // diff Unstage needs the reference order
 	Diagrams_mapString      map[string]*Diagram
 
 	// insertion point for slice of pointers maps
@@ -147,7 +150,7 @@ type Stage struct {
 
 	Guards                map[*Guard]struct{}
 	Guards_reference      map[*Guard]*Guard
-	Guards_referenceOrder map[*Guard]uint // diff Unstage needs the reference order 
+	Guards_referenceOrder map[*Guard]uint // diff Unstage needs the reference order
 	Guards_mapString      map[string]*Guard
 
 	// insertion point for slice of pointers maps
@@ -158,7 +161,7 @@ type Stage struct {
 
 	Kills                map[*Kill]struct{}
 	Kills_reference      map[*Kill]*Kill
-	Kills_referenceOrder map[*Kill]uint // diff Unstage needs the reference order 
+	Kills_referenceOrder map[*Kill]uint // diff Unstage needs the reference order
 	Kills_mapString      map[string]*Kill
 
 	// insertion point for slice of pointers maps
@@ -169,7 +172,7 @@ type Stage struct {
 
 	Messages                map[*Message]struct{}
 	Messages_reference      map[*Message]*Message
-	Messages_referenceOrder map[*Message]uint // diff Unstage needs the reference order 
+	Messages_referenceOrder map[*Message]uint // diff Unstage needs the reference order
 	Messages_mapString      map[string]*Message
 
 	// insertion point for slice of pointers maps
@@ -180,7 +183,7 @@ type Stage struct {
 
 	MessageTypes                map[*MessageType]struct{}
 	MessageTypes_reference      map[*MessageType]*MessageType
-	MessageTypes_referenceOrder map[*MessageType]uint // diff Unstage needs the reference order 
+	MessageTypes_referenceOrder map[*MessageType]uint // diff Unstage needs the reference order
 	MessageTypes_mapString      map[string]*MessageType
 
 	// insertion point for slice of pointers maps
@@ -191,7 +194,7 @@ type Stage struct {
 
 	Objects                map[*Object]struct{}
 	Objects_reference      map[*Object]*Object
-	Objects_referenceOrder map[*Object]uint // diff Unstage needs the reference order 
+	Objects_referenceOrder map[*Object]uint // diff Unstage needs the reference order
 	Objects_mapString      map[string]*Object
 
 	// insertion point for slice of pointers maps
@@ -204,7 +207,7 @@ type Stage struct {
 
 	Roles                map[*Role]struct{}
 	Roles_reference      map[*Role]*Role
-	Roles_referenceOrder map[*Role]uint // diff Unstage needs the reference order 
+	Roles_referenceOrder map[*Role]uint // diff Unstage needs the reference order
 	Roles_mapString      map[string]*Role
 
 	// insertion point for slice of pointers maps
@@ -217,7 +220,7 @@ type Stage struct {
 
 	States                map[*State]struct{}
 	States_reference      map[*State]*State
-	States_referenceOrder map[*State]uint // diff Unstage needs the reference order 
+	States_referenceOrder map[*State]uint // diff Unstage needs the reference order
 	States_mapString      map[string]*State
 
 	// insertion point for slice of pointers maps
@@ -234,7 +237,7 @@ type Stage struct {
 
 	StateMachines                map[*StateMachine]struct{}
 	StateMachines_reference      map[*StateMachine]*StateMachine
-	StateMachines_referenceOrder map[*StateMachine]uint // diff Unstage needs the reference order 
+	StateMachines_referenceOrder map[*StateMachine]uint // diff Unstage needs the reference order
 	StateMachines_mapString      map[string]*StateMachine
 
 	// insertion point for slice of pointers maps
@@ -249,7 +252,7 @@ type Stage struct {
 
 	StateShapes                map[*StateShape]struct{}
 	StateShapes_reference      map[*StateShape]*StateShape
-	StateShapes_referenceOrder map[*StateShape]uint // diff Unstage needs the reference order 
+	StateShapes_referenceOrder map[*StateShape]uint // diff Unstage needs the reference order
 	StateShapes_mapString      map[string]*StateShape
 
 	// insertion point for slice of pointers maps
@@ -260,7 +263,7 @@ type Stage struct {
 
 	Transitions                map[*Transition]struct{}
 	Transitions_reference      map[*Transition]*Transition
-	Transitions_referenceOrder map[*Transition]uint // diff Unstage needs the reference order 
+	Transitions_referenceOrder map[*Transition]uint // diff Unstage needs the reference order
 	Transitions_mapString      map[string]*Transition
 
 	// insertion point for slice of pointers maps
@@ -277,7 +280,7 @@ type Stage struct {
 
 	Transition_Shapes                map[*Transition_Shape]struct{}
 	Transition_Shapes_reference      map[*Transition_Shape]*Transition_Shape
-	Transition_Shapes_referenceOrder map[*Transition_Shape]uint // diff Unstage needs the reference order 
+	Transition_Shapes_referenceOrder map[*Transition_Shape]uint // diff Unstage needs the reference order
 	Transition_Shapes_mapString      map[string]*Transition_Shape
 
 	// insertion point for slice of pointers maps
@@ -364,6 +367,14 @@ type Stage struct {
 	// probeIF is the interface to the probe that allows log
 	// commit event to the probe
 	probeIF ProbeIF
+}
+
+func (stager *Stage) SetDeltaMode(inDeltaMode bool) {
+	stager.isInDeltaMode = inDeltaMode
+}
+
+func (stage *Stage) IsDeltaMode() bool {
+	return stage.isInDeltaMode
 }
 
 func (stage *Stage) SetProbeIF(probeIF ProbeIF) {
@@ -1002,8 +1013,10 @@ func (stage *Stage) Commit() {
 		stage.BackRepo.Commit(stage)
 	}
 	stage.ComputeInstancesNb()
-	stage.ComputeDifference()
-	stage.ComputeReference()
+	if stage.IsDeltaMode() {
+		stage.ComputeDifference()
+		stage.ComputeReference()
+	}
 }
 
 func (stage *Stage) ComputeInstancesNb() {
@@ -2469,7 +2482,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
 	}
-	stage.ComputeReference()
+	if stage.IsDeltaMode() {
+		stage.ComputeReference()
+	}
 }
 
 func (stage *Stage) Nil() { // insertion point for array nil
