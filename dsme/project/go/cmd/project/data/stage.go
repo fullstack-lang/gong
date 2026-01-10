@@ -1008,9 +1008,9 @@ another line to Write Specs`
 
 	__Project__00000002_.Name = `gong : persist stage.go as an history of commits  #934`
 	__Project__00000002_.IsPBSNodeExpanded = false
-	__Project__00000002_.IsWBSNodeExpanded = true
+	__Project__00000002_.IsWBSNodeExpanded = false
 	__Project__00000002_.IsDiagramsNodeExpanded = true
-	__Project__00000002_.IsNotesNodeExpanded = true
+	__Project__00000002_.IsNotesNodeExpanded = false
 	__Project__00000002_.IsExpanded = true
 	__Project__00000002_.ComputedPrefix = ``
 
@@ -1297,8 +1297,8 @@ another line to Write Specs`
 
 	__TaskShape__00000020_.Name = `NewTask-NewDiagram`
 	__TaskShape__00000020_.IsExpanded = false
-	__TaskShape__00000020_.X = 253.214318
-	__TaskShape__00000020_.Y = 379.572924
+	__TaskShape__00000020_.X = 215.214318
+	__TaskShape__00000020_.Y = 390.572924
 	__TaskShape__00000020_.Width = 195.000000
 	__TaskShape__00000020_.Height = 72.000000
 
