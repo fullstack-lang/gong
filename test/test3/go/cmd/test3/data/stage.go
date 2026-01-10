@@ -77,6 +77,8 @@ func _(stage *models.Stage) {
 
 	__B__00000008_.Name = `8`
 
+	__A__00000000_.B = nil
+
 	__B__00000009_.Name = `9`
 
 	__B__00000010_.Name = `10`
@@ -124,7 +126,7 @@ func _(stage *models.Stage) {
 	__B__00000035_.Name = `B35`
 
 	// insertion point for setup of pointers
-	__A__00000000_.B = __B__00000011_
+	__A__00000000_.B = nil
 	__A__00000006_.B = __B__00000001_
 	__A__00000006_.Bs = append(__A__00000006_.Bs, __B__00000007_)
 	__A__00000006_.Bs = append(__A__00000006_.Bs, __B__00000008_)

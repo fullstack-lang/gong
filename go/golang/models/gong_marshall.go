@@ -163,6 +163,12 @@ map[GongMarshallFilePerStructSubTemplateId]string{
 			res = strings.ReplaceAll(res, "{{Identifier}}", {{structname}}.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "{{FieldName}}")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", {{structname}}.{{FieldName}}.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", {{structname}}.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "{{FieldName}}")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 `,
 	GongMarshallFileFieldSubTmplSetSliceOfPointersField: `

@@ -1042,6 +1042,12 @@ func (cell *Cell) GongMarshallField(stage *Stage, fieldName string) (res string)
 			res = strings.ReplaceAll(res, "{{Identifier}}", cell.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CellString")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", cell.CellString.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", cell.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CellString")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "CellFloat64":
 		if cell.CellFloat64 != nil {
@@ -1049,6 +1055,12 @@ func (cell *Cell) GongMarshallField(stage *Stage, fieldName string) (res string)
 			res = strings.ReplaceAll(res, "{{Identifier}}", cell.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CellFloat64")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", cell.CellFloat64.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", cell.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CellFloat64")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "CellInt":
 		if cell.CellInt != nil {
@@ -1056,6 +1068,12 @@ func (cell *Cell) GongMarshallField(stage *Stage, fieldName string) (res string)
 			res = strings.ReplaceAll(res, "{{Identifier}}", cell.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CellInt")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", cell.CellInt.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", cell.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CellInt")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "CellBool":
 		if cell.CellBool != nil {
@@ -1063,6 +1081,12 @@ func (cell *Cell) GongMarshallField(stage *Stage, fieldName string) (res string)
 			res = strings.ReplaceAll(res, "{{Identifier}}", cell.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CellBool")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", cell.CellBool.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", cell.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CellBool")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "CellIcon":
 		if cell.CellIcon != nil {
@@ -1070,6 +1094,12 @@ func (cell *Cell) GongMarshallField(stage *Stage, fieldName string) (res string)
 			res = strings.ReplaceAll(res, "{{Identifier}}", cell.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CellIcon")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", cell.CellIcon.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", cell.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CellIcon")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Cell", fieldName)
@@ -1253,6 +1283,12 @@ func (formdiv *FormDiv) GongMarshallField(stage *Stage, fieldName string) (res s
 			res = strings.ReplaceAll(res, "{{Identifier}}", formdiv.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormEditAssocButton")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", formdiv.FormEditAssocButton.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", formdiv.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormEditAssocButton")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "FormSortAssocButton":
 		if formdiv.FormSortAssocButton != nil {
@@ -1260,6 +1296,12 @@ func (formdiv *FormDiv) GongMarshallField(stage *Stage, fieldName string) (res s
 			res = strings.ReplaceAll(res, "{{Identifier}}", formdiv.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormSortAssocButton")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", formdiv.FormSortAssocButton.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", formdiv.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormSortAssocButton")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct FormDiv", fieldName)
@@ -1369,6 +1411,12 @@ func (formfield *FormField) GongMarshallField(stage *Stage, fieldName string) (r
 			res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormFieldString")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", formfield.FormFieldString.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormFieldString")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "FormFieldFloat64":
 		if formfield.FormFieldFloat64 != nil {
@@ -1376,6 +1424,12 @@ func (formfield *FormField) GongMarshallField(stage *Stage, fieldName string) (r
 			res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormFieldFloat64")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", formfield.FormFieldFloat64.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormFieldFloat64")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "FormFieldInt":
 		if formfield.FormFieldInt != nil {
@@ -1383,6 +1437,12 @@ func (formfield *FormField) GongMarshallField(stage *Stage, fieldName string) (r
 			res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormFieldInt")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", formfield.FormFieldInt.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormFieldInt")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "FormFieldDate":
 		if formfield.FormFieldDate != nil {
@@ -1390,6 +1450,12 @@ func (formfield *FormField) GongMarshallField(stage *Stage, fieldName string) (r
 			res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormFieldDate")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", formfield.FormFieldDate.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormFieldDate")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "FormFieldTime":
 		if formfield.FormFieldTime != nil {
@@ -1397,6 +1463,12 @@ func (formfield *FormField) GongMarshallField(stage *Stage, fieldName string) (r
 			res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormFieldTime")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", formfield.FormFieldTime.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormFieldTime")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "FormFieldDateTime":
 		if formfield.FormFieldDateTime != nil {
@@ -1404,6 +1476,12 @@ func (formfield *FormField) GongMarshallField(stage *Stage, fieldName string) (r
 			res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormFieldDateTime")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", formfield.FormFieldDateTime.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormFieldDateTime")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "FormFieldSelect":
 		if formfield.FormFieldSelect != nil {
@@ -1411,6 +1489,12 @@ func (formfield *FormField) GongMarshallField(stage *Stage, fieldName string) (r
 			res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormFieldSelect")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", formfield.FormFieldSelect.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormFieldSelect")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct FormField", fieldName)
@@ -1563,6 +1647,12 @@ func (formfieldselect *FormFieldSelect) GongMarshallField(stage *Stage, fieldNam
 			res = strings.ReplaceAll(res, "{{Identifier}}", formfieldselect.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Value")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", formfieldselect.Value.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", formfieldselect.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Value")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "Options":
 		for _, _option := range formfieldselect.Options {
@@ -1701,6 +1791,12 @@ func (formsortassocbutton *FormSortAssocButton) GongMarshallField(stage *Stage, 
 			res = strings.ReplaceAll(res, "{{Identifier}}", formsortassocbutton.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormEditAssocButton")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", formsortassocbutton.FormEditAssocButton.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", formsortassocbutton.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FormEditAssocButton")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct FormSortAssocButton", fieldName)

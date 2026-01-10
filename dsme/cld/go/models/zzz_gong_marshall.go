@@ -670,6 +670,12 @@ func (category1shape *Category1Shape) GongMarshallField(stage *Stage, fieldName 
 			res = strings.ReplaceAll(res, "{{Identifier}}", category1shape.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Category1")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", category1shape.Category1.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", category1shape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Category1")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Category1Shape", fieldName)
@@ -727,6 +733,12 @@ func (category2shape *Category2Shape) GongMarshallField(stage *Stage, fieldName 
 			res = strings.ReplaceAll(res, "{{Identifier}}", category2shape.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Category2")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", category2shape.Category2.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", category2shape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Category2")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Category2Shape", fieldName)
@@ -784,6 +796,12 @@ func (category3shape *Category3Shape) GongMarshallField(stage *Stage, fieldName 
 			res = strings.ReplaceAll(res, "{{Identifier}}", category3shape.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Category3")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", category3shape.Category3.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", category3shape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Category3")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Category3Shape", fieldName)
@@ -836,6 +854,12 @@ func (desk *Desk) GongMarshallField(stage *Stage, fieldName string) (res string)
 			res = strings.ReplaceAll(res, "{{Identifier}}", desk.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SelectedDiagram")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", desk.SelectedDiagram.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", desk.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SelectedDiagram")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Desk", fieldName)
@@ -1176,6 +1200,12 @@ func (influence *Influence) GongMarshallField(stage *Stage, fieldName string) (r
 			res = strings.ReplaceAll(res, "{{Identifier}}", influence.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SourceCategory1")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", influence.SourceCategory1.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", influence.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SourceCategory1")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "SourceCategory2":
 		if influence.SourceCategory2 != nil {
@@ -1183,6 +1213,12 @@ func (influence *Influence) GongMarshallField(stage *Stage, fieldName string) (r
 			res = strings.ReplaceAll(res, "{{Identifier}}", influence.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SourceCategory2")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", influence.SourceCategory2.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", influence.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SourceCategory2")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "SourceCategory3":
 		if influence.SourceCategory3 != nil {
@@ -1190,6 +1226,12 @@ func (influence *Influence) GongMarshallField(stage *Stage, fieldName string) (r
 			res = strings.ReplaceAll(res, "{{Identifier}}", influence.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SourceCategory3")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", influence.SourceCategory3.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", influence.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SourceCategory3")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "TargetCategory1":
 		if influence.TargetCategory1 != nil {
@@ -1197,6 +1239,12 @@ func (influence *Influence) GongMarshallField(stage *Stage, fieldName string) (r
 			res = strings.ReplaceAll(res, "{{Identifier}}", influence.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TargetCategory1")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", influence.TargetCategory1.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", influence.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TargetCategory1")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "TargetCategory2":
 		if influence.TargetCategory2 != nil {
@@ -1204,6 +1252,12 @@ func (influence *Influence) GongMarshallField(stage *Stage, fieldName string) (r
 			res = strings.ReplaceAll(res, "{{Identifier}}", influence.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TargetCategory2")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", influence.TargetCategory2.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", influence.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TargetCategory2")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "TargetCategory3":
 		if influence.TargetCategory3 != nil {
@@ -1211,6 +1265,12 @@ func (influence *Influence) GongMarshallField(stage *Stage, fieldName string) (r
 			res = strings.ReplaceAll(res, "{{Identifier}}", influence.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TargetCategory3")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", influence.TargetCategory3.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", influence.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TargetCategory3")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Influence", fieldName)
@@ -1233,6 +1293,12 @@ func (influenceshape *InfluenceShape) GongMarshallField(stage *Stage, fieldName 
 			res = strings.ReplaceAll(res, "{{Identifier}}", influenceshape.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Influence")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", influenceshape.Influence.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", influenceshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Influence")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "ControlPointShapes":
 		for _, _controlpointshape := range influenceshape.ControlPointShapes {
