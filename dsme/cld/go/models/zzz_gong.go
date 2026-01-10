@@ -88,14 +88,17 @@ type GongStructInterface interface {
 }
 
 // Stage enables storage of staged instances
-// swagger:ignore
 type Stage struct {
 	name string
+
+	// isInDeltaMode is true when the stage is used to compute difference between
+	// succesive commit
+	isInDeltaMode bool
 
 	// insertion point for definition of arrays registering instances
 	Category1s                map[*Category1]struct{}
 	Category1s_reference      map[*Category1]*Category1
-	Category1s_referenceOrder map[*Category1]uint // diff Unstage needs the reference order 
+	Category1s_referenceOrder map[*Category1]uint // diff Unstage needs the reference order
 	Category1s_mapString      map[string]*Category1
 
 	// insertion point for slice of pointers maps
@@ -106,7 +109,7 @@ type Stage struct {
 
 	Category1Shapes                map[*Category1Shape]struct{}
 	Category1Shapes_reference      map[*Category1Shape]*Category1Shape
-	Category1Shapes_referenceOrder map[*Category1Shape]uint // diff Unstage needs the reference order 
+	Category1Shapes_referenceOrder map[*Category1Shape]uint // diff Unstage needs the reference order
 	Category1Shapes_mapString      map[string]*Category1Shape
 
 	// insertion point for slice of pointers maps
@@ -117,7 +120,7 @@ type Stage struct {
 
 	Category2s                map[*Category2]struct{}
 	Category2s_reference      map[*Category2]*Category2
-	Category2s_referenceOrder map[*Category2]uint // diff Unstage needs the reference order 
+	Category2s_referenceOrder map[*Category2]uint // diff Unstage needs the reference order
 	Category2s_mapString      map[string]*Category2
 
 	// insertion point for slice of pointers maps
@@ -128,7 +131,7 @@ type Stage struct {
 
 	Category2Shapes                map[*Category2Shape]struct{}
 	Category2Shapes_reference      map[*Category2Shape]*Category2Shape
-	Category2Shapes_referenceOrder map[*Category2Shape]uint // diff Unstage needs the reference order 
+	Category2Shapes_referenceOrder map[*Category2Shape]uint // diff Unstage needs the reference order
 	Category2Shapes_mapString      map[string]*Category2Shape
 
 	// insertion point for slice of pointers maps
@@ -139,7 +142,7 @@ type Stage struct {
 
 	Category3s                map[*Category3]struct{}
 	Category3s_reference      map[*Category3]*Category3
-	Category3s_referenceOrder map[*Category3]uint // diff Unstage needs the reference order 
+	Category3s_referenceOrder map[*Category3]uint // diff Unstage needs the reference order
 	Category3s_mapString      map[string]*Category3
 
 	// insertion point for slice of pointers maps
@@ -150,7 +153,7 @@ type Stage struct {
 
 	Category3Shapes                map[*Category3Shape]struct{}
 	Category3Shapes_reference      map[*Category3Shape]*Category3Shape
-	Category3Shapes_referenceOrder map[*Category3Shape]uint // diff Unstage needs the reference order 
+	Category3Shapes_referenceOrder map[*Category3Shape]uint // diff Unstage needs the reference order
 	Category3Shapes_mapString      map[string]*Category3Shape
 
 	// insertion point for slice of pointers maps
@@ -161,7 +164,7 @@ type Stage struct {
 
 	ControlPointShapes                map[*ControlPointShape]struct{}
 	ControlPointShapes_reference      map[*ControlPointShape]*ControlPointShape
-	ControlPointShapes_referenceOrder map[*ControlPointShape]uint // diff Unstage needs the reference order 
+	ControlPointShapes_referenceOrder map[*ControlPointShape]uint // diff Unstage needs the reference order
 	ControlPointShapes_mapString      map[string]*ControlPointShape
 
 	// insertion point for slice of pointers maps
@@ -172,7 +175,7 @@ type Stage struct {
 
 	Desks                map[*Desk]struct{}
 	Desks_reference      map[*Desk]*Desk
-	Desks_referenceOrder map[*Desk]uint // diff Unstage needs the reference order 
+	Desks_referenceOrder map[*Desk]uint // diff Unstage needs the reference order
 	Desks_mapString      map[string]*Desk
 
 	// insertion point for slice of pointers maps
@@ -183,7 +186,7 @@ type Stage struct {
 
 	Diagrams                map[*Diagram]struct{}
 	Diagrams_reference      map[*Diagram]*Diagram
-	Diagrams_referenceOrder map[*Diagram]uint // diff Unstage needs the reference order 
+	Diagrams_referenceOrder map[*Diagram]uint // diff Unstage needs the reference order
 	Diagrams_mapString      map[string]*Diagram
 
 	// insertion point for slice of pointers maps
@@ -202,7 +205,7 @@ type Stage struct {
 
 	Influences                map[*Influence]struct{}
 	Influences_reference      map[*Influence]*Influence
-	Influences_referenceOrder map[*Influence]uint // diff Unstage needs the reference order 
+	Influences_referenceOrder map[*Influence]uint // diff Unstage needs the reference order
 	Influences_mapString      map[string]*Influence
 
 	// insertion point for slice of pointers maps
@@ -213,7 +216,7 @@ type Stage struct {
 
 	InfluenceShapes                map[*InfluenceShape]struct{}
 	InfluenceShapes_reference      map[*InfluenceShape]*InfluenceShape
-	InfluenceShapes_referenceOrder map[*InfluenceShape]uint // diff Unstage needs the reference order 
+	InfluenceShapes_referenceOrder map[*InfluenceShape]uint // diff Unstage needs the reference order
 	InfluenceShapes_mapString      map[string]*InfluenceShape
 
 	// insertion point for slice of pointers maps
@@ -290,6 +293,14 @@ type Stage struct {
 	// probeIF is the interface to the probe that allows log
 	// commit event to the probe
 	probeIF ProbeIF
+}
+
+func (stager *Stage) SetDeltaMode(inDeltaMode bool) {
+	stager.isInDeltaMode = inDeltaMode
+}
+
+func (stage *Stage) IsDeltaMode() bool {
+	return stage.isInDeltaMode
 }
 
 func (stage *Stage) SetProbeIF(probeIF ProbeIF) {
@@ -816,8 +827,10 @@ func (stage *Stage) Commit() {
 		stage.BackRepo.Commit(stage)
 	}
 	stage.ComputeInstancesNb()
-	stage.ComputeDifference()
-	stage.ComputeReference()
+	if stage.IsDeltaMode() {
+		stage.ComputeDifference()
+		stage.ComputeReference()
+	}
 }
 
 func (stage *Stage) ComputeInstancesNb() {
@@ -1907,7 +1920,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
 	}
-	stage.ComputeReference()
+	if stage.IsDeltaMode() {
+		stage.ComputeReference()
+	}
 }
 
 func (stage *Stage) Nil() { // insertion point for array nil
