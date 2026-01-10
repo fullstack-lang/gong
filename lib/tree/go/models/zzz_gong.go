@@ -88,14 +88,17 @@ type GongStructInterface interface {
 }
 
 // Stage enables storage of staged instances
-// swagger:ignore
 type Stage struct {
 	name string
+
+	// isInDeltaMode is true when the stage is used to compute difference between
+	// succesive commit
+	isInDeltaMode bool
 
 	// insertion point for definition of arrays registering instances
 	Buttons                map[*Button]struct{}
 	Buttons_reference      map[*Button]*Button
-	Buttons_referenceOrder map[*Button]uint // diff Unstage needs the reference order 
+	Buttons_referenceOrder map[*Button]uint // diff Unstage needs the reference order
 	Buttons_mapString      map[string]*Button
 
 	// insertion point for slice of pointers maps
@@ -106,7 +109,7 @@ type Stage struct {
 
 	Nodes                map[*Node]struct{}
 	Nodes_reference      map[*Node]*Node
-	Nodes_referenceOrder map[*Node]uint // diff Unstage needs the reference order 
+	Nodes_referenceOrder map[*Node]uint // diff Unstage needs the reference order
 	Nodes_mapString      map[string]*Node
 
 	// insertion point for slice of pointers maps
@@ -121,7 +124,7 @@ type Stage struct {
 
 	SVGIcons                map[*SVGIcon]struct{}
 	SVGIcons_reference      map[*SVGIcon]*SVGIcon
-	SVGIcons_referenceOrder map[*SVGIcon]uint // diff Unstage needs the reference order 
+	SVGIcons_referenceOrder map[*SVGIcon]uint // diff Unstage needs the reference order
 	SVGIcons_mapString      map[string]*SVGIcon
 
 	// insertion point for slice of pointers maps
@@ -132,7 +135,7 @@ type Stage struct {
 
 	Trees                map[*Tree]struct{}
 	Trees_reference      map[*Tree]*Tree
-	Trees_referenceOrder map[*Tree]uint // diff Unstage needs the reference order 
+	Trees_referenceOrder map[*Tree]uint // diff Unstage needs the reference order
 	Trees_mapString      map[string]*Tree
 
 	// insertion point for slice of pointers maps
@@ -188,6 +191,14 @@ type Stage struct {
 	// probeIF is the interface to the probe that allows log
 	// commit event to the probe
 	probeIF ProbeIF
+}
+
+func (stager *Stage) SetDeltaMode(inDeltaMode bool) {
+	stager.isInDeltaMode = inDeltaMode
+}
+
+func (stage *Stage) IsDeltaMode() bool {
+	return stage.isInDeltaMode
 }
 
 func (stage *Stage) SetProbeIF(probeIF ProbeIF) {
@@ -518,8 +529,10 @@ func (stage *Stage) Commit() {
 		stage.BackRepo.Commit(stage)
 	}
 	stage.ComputeInstancesNb()
-	stage.ComputeDifference()
-	stage.ComputeReference()
+	if stage.IsDeltaMode() {
+		stage.ComputeDifference()
+		stage.ComputeReference()
+	}
 }
 
 func (stage *Stage) ComputeInstancesNb() {
@@ -951,7 +964,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
 	}
-	stage.ComputeReference()
+	if stage.IsDeltaMode() {
+		stage.ComputeReference()
+	}
 }
 
 func (stage *Stage) Nil() { // insertion point for array nil

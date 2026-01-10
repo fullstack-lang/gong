@@ -88,14 +88,17 @@ type GongStructInterface interface {
 }
 
 // Stage enables storage of staged instances
-// swagger:ignore
 type Stage struct {
 	name string
+
+	// isInDeltaMode is true when the stage is used to compute difference between
+	// succesive commit
+	isInDeltaMode bool
 
 	// insertion point for definition of arrays registering instances
 	Commands                map[*Command]struct{}
 	Commands_reference      map[*Command]*Command
-	Commands_referenceOrder map[*Command]uint // diff Unstage needs the reference order 
+	Commands_referenceOrder map[*Command]uint // diff Unstage needs the reference order
 	Commands_mapString      map[string]*Command
 
 	// insertion point for slice of pointers maps
@@ -106,7 +109,7 @@ type Stage struct {
 
 	DummyAgents                map[*DummyAgent]struct{}
 	DummyAgents_reference      map[*DummyAgent]*DummyAgent
-	DummyAgents_referenceOrder map[*DummyAgent]uint // diff Unstage needs the reference order 
+	DummyAgents_referenceOrder map[*DummyAgent]uint // diff Unstage needs the reference order
 	DummyAgents_mapString      map[string]*DummyAgent
 
 	// insertion point for slice of pointers maps
@@ -117,7 +120,7 @@ type Stage struct {
 
 	Engines                map[*Engine]struct{}
 	Engines_reference      map[*Engine]*Engine
-	Engines_referenceOrder map[*Engine]uint // diff Unstage needs the reference order 
+	Engines_referenceOrder map[*Engine]uint // diff Unstage needs the reference order
 	Engines_mapString      map[string]*Engine
 
 	// insertion point for slice of pointers maps
@@ -128,7 +131,7 @@ type Stage struct {
 
 	Events                map[*Event]struct{}
 	Events_reference      map[*Event]*Event
-	Events_referenceOrder map[*Event]uint // diff Unstage needs the reference order 
+	Events_referenceOrder map[*Event]uint // diff Unstage needs the reference order
 	Events_mapString      map[string]*Event
 
 	// insertion point for slice of pointers maps
@@ -139,7 +142,7 @@ type Stage struct {
 
 	Statuss                map[*Status]struct{}
 	Statuss_reference      map[*Status]*Status
-	Statuss_referenceOrder map[*Status]uint // diff Unstage needs the reference order 
+	Statuss_referenceOrder map[*Status]uint // diff Unstage needs the reference order
 	Statuss_mapString      map[string]*Status
 
 	// insertion point for slice of pointers maps
@@ -150,7 +153,7 @@ type Stage struct {
 
 	UpdateStates                map[*UpdateState]struct{}
 	UpdateStates_reference      map[*UpdateState]*UpdateState
-	UpdateStates_referenceOrder map[*UpdateState]uint // diff Unstage needs the reference order 
+	UpdateStates_referenceOrder map[*UpdateState]uint // diff Unstage needs the reference order
 	UpdateStates_mapString      map[string]*UpdateState
 
 	// insertion point for slice of pointers maps
@@ -210,6 +213,14 @@ type Stage struct {
 	// probeIF is the interface to the probe that allows log
 	// commit event to the probe
 	probeIF ProbeIF
+}
+
+func (stager *Stage) SetDeltaMode(inDeltaMode bool) {
+	stager.isInDeltaMode = inDeltaMode
+}
+
+func (stage *Stage) IsDeltaMode() bool {
+	return stage.isInDeltaMode
 }
 
 func (stage *Stage) SetProbeIF(probeIF ProbeIF) {
@@ -596,8 +607,10 @@ func (stage *Stage) Commit() {
 		stage.BackRepo.Commit(stage)
 	}
 	stage.ComputeInstancesNb()
-	stage.ComputeDifference()
-	stage.ComputeReference()
+	if stage.IsDeltaMode() {
+		stage.ComputeDifference()
+		stage.ComputeReference()
+	}
 }
 
 func (stage *Stage) ComputeInstancesNb() {
@@ -1217,7 +1230,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
 	}
-	stage.ComputeReference()
+	if stage.IsDeltaMode() {
+		stage.ComputeReference()
+	}
 }
 
 func (stage *Stage) Nil() { // insertion point for array nil

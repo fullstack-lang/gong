@@ -88,14 +88,17 @@ type GongStructInterface interface {
 }
 
 // Stage enables storage of staged instances
-// swagger:ignore
 type Stage struct {
 	name string
+
+	// isInDeltaMode is true when the stage is used to compute difference between
+	// succesive commit
+	isInDeltaMode bool
 
 	// insertion point for definition of arrays registering instances
 	FileToDownloads                map[*FileToDownload]struct{}
 	FileToDownloads_reference      map[*FileToDownload]*FileToDownload
-	FileToDownloads_referenceOrder map[*FileToDownload]uint // diff Unstage needs the reference order 
+	FileToDownloads_referenceOrder map[*FileToDownload]uint // diff Unstage needs the reference order
 	FileToDownloads_mapString      map[string]*FileToDownload
 
 	// insertion point for slice of pointers maps
@@ -106,7 +109,7 @@ type Stage struct {
 
 	FileToUploads                map[*FileToUpload]struct{}
 	FileToUploads_reference      map[*FileToUpload]*FileToUpload
-	FileToUploads_referenceOrder map[*FileToUpload]uint // diff Unstage needs the reference order 
+	FileToUploads_referenceOrder map[*FileToUpload]uint // diff Unstage needs the reference order
 	FileToUploads_mapString      map[string]*FileToUpload
 
 	// insertion point for slice of pointers maps
@@ -117,7 +120,7 @@ type Stage struct {
 
 	Messages                map[*Message]struct{}
 	Messages_reference      map[*Message]*Message
-	Messages_referenceOrder map[*Message]uint // diff Unstage needs the reference order 
+	Messages_referenceOrder map[*Message]uint // diff Unstage needs the reference order
 	Messages_mapString      map[string]*Message
 
 	// insertion point for slice of pointers maps
@@ -168,6 +171,14 @@ type Stage struct {
 	// probeIF is the interface to the probe that allows log
 	// commit event to the probe
 	probeIF ProbeIF
+}
+
+func (stager *Stage) SetDeltaMode(inDeltaMode bool) {
+	stager.isInDeltaMode = inDeltaMode
+}
+
+func (stage *Stage) IsDeltaMode() bool {
+	return stage.isInDeltaMode
 }
 
 func (stage *Stage) SetProbeIF(probeIF ProbeIF) {
@@ -470,8 +481,10 @@ func (stage *Stage) Commit() {
 		stage.BackRepo.Commit(stage)
 	}
 	stage.ComputeInstancesNb()
-	stage.ComputeDifference()
-	stage.ComputeReference()
+	if stage.IsDeltaMode() {
+		stage.ComputeDifference()
+		stage.ComputeReference()
+	}
 }
 
 func (stage *Stage) ComputeInstancesNb() {
@@ -809,7 +822,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
 	}
-	stage.ComputeReference()
+	if stage.IsDeltaMode() {
+		stage.ComputeReference()
+	}
 }
 
 func (stage *Stage) Nil() { // insertion point for array nil
