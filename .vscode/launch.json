@@ -771,6 +771,17 @@
             ]
         },
         {
+            "name": "go run test3 -unmarshallFromCode=data/issue1061.go -marshallOnCommit=data/issue1061_out.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/test/test3/go/cmd/test3",
+            "args": [
+                "-unmarshallFromCode=data/issue1061.go",
+                "-marshallOnCommit=data/issue1061_out.go"
+            ]
+        },
+        {
             "name": "gong generate project -level1",
             "type": "go",
             "request": "launch",
