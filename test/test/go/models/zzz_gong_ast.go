@@ -14,6 +14,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"slices"
 	"strconv"
 	"strings"
 	"time"
@@ -23,6 +24,8 @@ var dummy_strconv_import strconv.NumError
 var _ = dummy_strconv_import
 var dummy_time_import time.Time
 var _ = dummy_time_import
+var dummy_slices_import = slices.Insert([]int{0}, 0)
+var _ = dummy_slices_import
 
 // swagger:ignore
 type GONG__ExpressionType string
@@ -105,13 +108,25 @@ func ParseAstEmbeddedFile(stage *Stage, directory embed.FS, pathToFile string) e
 // ParseAstFile Parse pathToFile and stages all instances
 // declared in the file
 func ParseAstFileFromAst(stage *Stage, inFile *ast.File, fset *token.FileSet, preserveOrder bool) error {
-	// if there is a meta package import, it is the third import
-	if len(inFile.Imports) > 3 {
-		log.Fatalln("Too many imports in file", inFile.Name)
-	}
-	if len(inFile.Imports) == 3 {
-		stage.MetaPackageImportAlias = inFile.Imports[2].Name.Name
-		stage.MetaPackageImportPath = inFile.Imports[2].Path.Value
+	// Robust parsing of imports to identify the meta package.
+	// We ignore standard imports and the primary models package import.
+	stage.MetaPackageImportAlias = ""
+	stage.MetaPackageImportPath = ""
+	for _, imp := range inFile.Imports {
+		path := strings.Trim(imp.Path.Value, "\"")
+
+		// Skip known standard packages and the main models package for this stage
+		if path == "time" || path == "slices" || path == stage.GetType() {
+			continue
+		}
+
+		// The remaining import is the meta package used for docLink renaming.
+		// Capture the alias if it exists.
+		if imp.Name != nil {
+			stage.MetaPackageImportAlias = imp.Name.Name
+		}
+		// Store the path (including quotes for the marshaller)
+		stage.MetaPackageImportPath = imp.Path.Value
 	}
 
 	// astCoordinate := "File "
@@ -470,6 +485,122 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 			var basicLit *ast.BasicLit
 
 			callExpr := expr
+
+			// 1. Detect the function call type
+			var isAppend bool
+			_ = isAppend
+			var isSlicesInsert bool
+			var isSlicesDelete bool
+
+			if id, ok := callExpr.Fun.(*ast.Ident); ok && id.Name == "append" {
+				isAppend = true
+			} else if se, ok := callExpr.Fun.(*ast.SelectorExpr); ok {
+				if id, ok := se.X.(*ast.Ident); ok && id.Name == "slices" {
+					if se.Sel.Name == "Insert" {
+						isSlicesInsert = true
+					} else if se.Sel.Name == "Delete" {
+						isSlicesDelete = true
+					}
+				}
+			}
+
+			// 2. Handle slices.Delete immediately
+			if isSlicesDelete {
+				var start, end int
+				_, _ = start, end
+				if bl, ok := callExpr.Args[1].(*ast.BasicLit); ok && bl.Kind == token.INT {
+					start, _ = strconv.Atoi(bl.Value)
+				}
+				if bl, ok := callExpr.Args[2].(*ast.BasicLit); ok && bl.Kind == token.INT {
+					end, _ = strconv.Atoi(bl.Value)
+				}
+				var ok bool
+				gongstructName, ok = __gong__map_Indentifiers_gongstructName[identifier]
+				if ok {
+					switch gongstructName {
+					// insertion point for slices.Delete code
+					case "Astruct":
+						switch fieldName {
+						// insertion point for slices.Delete field code
+						case "Anarrayofb":
+							instance := __gong__map_Astruct[identifier]
+							if start < len(instance.Anarrayofb) && end <= len(instance.Anarrayofb) && start < end {
+								instance.Anarrayofb = slices.Delete(instance.Anarrayofb, start, end)
+							}
+						case "Dstruct4s":
+							instance := __gong__map_Astruct[identifier]
+							if start < len(instance.Dstruct4s) && end <= len(instance.Dstruct4s) && start < end {
+								instance.Dstruct4s = slices.Delete(instance.Dstruct4s, start, end)
+							}
+						case "Anarrayofa":
+							instance := __gong__map_Astruct[identifier]
+							if start < len(instance.Anarrayofa) && end <= len(instance.Anarrayofa) && start < end {
+								instance.Anarrayofa = slices.Delete(instance.Anarrayofa, start, end)
+							}
+						case "Anotherarrayofb":
+							instance := __gong__map_Astruct[identifier]
+							if start < len(instance.Anotherarrayofb) && end <= len(instance.Anotherarrayofb) && start < end {
+								instance.Anotherarrayofb = slices.Delete(instance.Anotherarrayofb, start, end)
+							}
+						case "AnarrayofbUse":
+							instance := __gong__map_Astruct[identifier]
+							if start < len(instance.AnarrayofbUse) && end <= len(instance.AnarrayofbUse) && start < end {
+								instance.AnarrayofbUse = slices.Delete(instance.AnarrayofbUse, start, end)
+							}
+						case "Anarrayofb2Use":
+							instance := __gong__map_Astruct[identifier]
+							if start < len(instance.Anarrayofb2Use) && end <= len(instance.Anarrayofb2Use) && start < end {
+								instance.Anarrayofb2Use = slices.Delete(instance.Anarrayofb2Use, start, end)
+							}
+						}
+					case "AstructBstruct2Use":
+						switch fieldName {
+						// insertion point for slices.Delete field code
+						}
+					case "AstructBstructUse":
+						switch fieldName {
+						// insertion point for slices.Delete field code
+						}
+					case "Bstruct":
+						switch fieldName {
+						// insertion point for slices.Delete field code
+						}
+					case "Dstruct":
+						switch fieldName {
+						// insertion point for slices.Delete field code
+						case "Anarrayofb":
+							instance := __gong__map_Dstruct[identifier]
+							if start < len(instance.Anarrayofb) && end <= len(instance.Anarrayofb) && start < end {
+								instance.Anarrayofb = slices.Delete(instance.Anarrayofb, start, end)
+							}
+						case "Gstructs":
+							instance := __gong__map_Dstruct[identifier]
+							if start < len(instance.Gstructs) && end <= len(instance.Gstructs) && start < end {
+								instance.Gstructs = slices.Delete(instance.Gstructs, start, end)
+							}
+						}
+					case "F0123456789012345678901234567890":
+						switch fieldName {
+						// insertion point for slices.Delete field code
+						}
+					case "Gstruct":
+						switch fieldName {
+						// insertion point for slices.Delete field code
+						}
+					}
+				}
+				return
+			}
+
+			// 3. Prepare index for slices.Insert
+			var insertIndex int
+			_ = insertIndex
+			if isSlicesInsert {
+				if bl, ok := callExpr.Args[1].(*ast.BasicLit); ok && bl.Kind == token.INT {
+					insertIndex, _ = strconv.Atoi(bl.Value)
+				}
+			}
+
 			// astCoordinate := astCoordinate + "\tFun"
 			switch fun := callExpr.Fun.(type) {
 			// the is Fun      Expr
@@ -672,7 +803,14 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						}
 
 						// remove first and last char
-						date := basicLit.Value[1 : len(basicLit.Value)-1]
+						// Only remove first and last char if it is a STRING literal
+						// Indices in slices.Insert/Delete are INT literals and must not be trimmed
+						var date string
+						if basicLit.Kind == token.STRING {
+							date = basicLit.Value[1 : len(basicLit.Value)-1]
+						} else {
+							date = basicLit.Value
+						}
 						_ = date
 
 						var ok bool
@@ -776,7 +914,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 							// log.Println("we are in the case of append(....)")
 						}
 					}
-					_ = ident
+
+					if ident == nil {
+						continue
+					}
 
 					gongstructName, ok = __gong__map_Indentifiers_gongstructName[identifier]
 					if !ok {
@@ -791,64 +932,124 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "Field":
 							__gong__map_Astruct[identifier].Field = basicLit.Value
 						case "Anarrayofb":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
+							// Handle append: elements start at argNb 1
+							if isAppend && argNb > 0 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_Bstruct[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_Astruct[identifier]
+									instanceWhoseFieldIsAppended.Anarrayofb = append(instanceWhoseFieldIsAppended.Anarrayofb, instanceToAppend)
+								}
 							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_Bstruct[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_Astruct[identifier]
-								instanceWhoseFieldIsAppended.Anarrayofb = append(instanceWhoseFieldIsAppended.Anarrayofb, instanceToAppend)
+							// Handle slices.Insert: elements start at argNb 2
+							if isSlicesInsert && argNb > 1 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_Bstruct[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_Astruct[identifier]
+									if insertIndex <= len(instanceWhoseFieldIsAppended.Anarrayofb) {
+										instanceWhoseFieldIsAppended.Anarrayofb = slices.Insert(instanceWhoseFieldIsAppended.Anarrayofb, insertIndex, instanceToAppend)
+										insertIndex++ // Increment for subsequent elements in the same call
+									}
+								}
 							}
 						case "Dstruct4s":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
+							// Handle append: elements start at argNb 1
+							if isAppend && argNb > 0 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_Dstruct[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_Astruct[identifier]
+									instanceWhoseFieldIsAppended.Dstruct4s = append(instanceWhoseFieldIsAppended.Dstruct4s, instanceToAppend)
+								}
 							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_Dstruct[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_Astruct[identifier]
-								instanceWhoseFieldIsAppended.Dstruct4s = append(instanceWhoseFieldIsAppended.Dstruct4s, instanceToAppend)
+							// Handle slices.Insert: elements start at argNb 2
+							if isSlicesInsert && argNb > 1 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_Dstruct[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_Astruct[identifier]
+									if insertIndex <= len(instanceWhoseFieldIsAppended.Dstruct4s) {
+										instanceWhoseFieldIsAppended.Dstruct4s = slices.Insert(instanceWhoseFieldIsAppended.Dstruct4s, insertIndex, instanceToAppend)
+										insertIndex++ // Increment for subsequent elements in the same call
+									}
+								}
 							}
 						case "Anarrayofa":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
+							// Handle append: elements start at argNb 1
+							if isAppend && argNb > 0 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_Astruct[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_Astruct[identifier]
+									instanceWhoseFieldIsAppended.Anarrayofa = append(instanceWhoseFieldIsAppended.Anarrayofa, instanceToAppend)
+								}
 							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_Astruct[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_Astruct[identifier]
-								instanceWhoseFieldIsAppended.Anarrayofa = append(instanceWhoseFieldIsAppended.Anarrayofa, instanceToAppend)
+							// Handle slices.Insert: elements start at argNb 2
+							if isSlicesInsert && argNb > 1 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_Astruct[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_Astruct[identifier]
+									if insertIndex <= len(instanceWhoseFieldIsAppended.Anarrayofa) {
+										instanceWhoseFieldIsAppended.Anarrayofa = slices.Insert(instanceWhoseFieldIsAppended.Anarrayofa, insertIndex, instanceToAppend)
+										insertIndex++ // Increment for subsequent elements in the same call
+									}
+								}
 							}
 						case "Anotherarrayofb":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
+							// Handle append: elements start at argNb 1
+							if isAppend && argNb > 0 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_Bstruct[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_Astruct[identifier]
+									instanceWhoseFieldIsAppended.Anotherarrayofb = append(instanceWhoseFieldIsAppended.Anotherarrayofb, instanceToAppend)
+								}
 							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_Bstruct[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_Astruct[identifier]
-								instanceWhoseFieldIsAppended.Anotherarrayofb = append(instanceWhoseFieldIsAppended.Anotherarrayofb, instanceToAppend)
+							// Handle slices.Insert: elements start at argNb 2
+							if isSlicesInsert && argNb > 1 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_Bstruct[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_Astruct[identifier]
+									if insertIndex <= len(instanceWhoseFieldIsAppended.Anotherarrayofb) {
+										instanceWhoseFieldIsAppended.Anotherarrayofb = slices.Insert(instanceWhoseFieldIsAppended.Anotherarrayofb, insertIndex, instanceToAppend)
+										insertIndex++ // Increment for subsequent elements in the same call
+									}
+								}
 							}
 						case "AnarrayofbUse":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
+							// Handle append: elements start at argNb 1
+							if isAppend && argNb > 0 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_AstructBstructUse[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_Astruct[identifier]
+									instanceWhoseFieldIsAppended.AnarrayofbUse = append(instanceWhoseFieldIsAppended.AnarrayofbUse, instanceToAppend)
+								}
 							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_AstructBstructUse[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_Astruct[identifier]
-								instanceWhoseFieldIsAppended.AnarrayofbUse = append(instanceWhoseFieldIsAppended.AnarrayofbUse, instanceToAppend)
+							// Handle slices.Insert: elements start at argNb 2
+							if isSlicesInsert && argNb > 1 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_AstructBstructUse[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_Astruct[identifier]
+									if insertIndex <= len(instanceWhoseFieldIsAppended.AnarrayofbUse) {
+										instanceWhoseFieldIsAppended.AnarrayofbUse = slices.Insert(instanceWhoseFieldIsAppended.AnarrayofbUse, insertIndex, instanceToAppend)
+										insertIndex++ // Increment for subsequent elements in the same call
+									}
+								}
 							}
 						case "Anarrayofb2Use":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
+							// Handle append: elements start at argNb 1
+							if isAppend && argNb > 0 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_AstructBstruct2Use[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_Astruct[identifier]
+									instanceWhoseFieldIsAppended.Anarrayofb2Use = append(instanceWhoseFieldIsAppended.Anarrayofb2Use, instanceToAppend)
+								}
 							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_AstructBstruct2Use[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_Astruct[identifier]
-								instanceWhoseFieldIsAppended.Anarrayofb2Use = append(instanceWhoseFieldIsAppended.Anarrayofb2Use, instanceToAppend)
+							// Handle slices.Insert: elements start at argNb 2
+							if isSlicesInsert && argNb > 1 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_AstructBstruct2Use[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_Astruct[identifier]
+									if insertIndex <= len(instanceWhoseFieldIsAppended.Anarrayofb2Use) {
+										instanceWhoseFieldIsAppended.Anarrayofb2Use = slices.Insert(instanceWhoseFieldIsAppended.Anarrayofb2Use, insertIndex, instanceToAppend)
+										insertIndex++ // Increment for subsequent elements in the same call
+									}
+								}
 							}
 						}
 					case "AstructBstruct2Use":
@@ -867,24 +1068,44 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "Anarrayofb":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
+							// Handle append: elements start at argNb 1
+							if isAppend && argNb > 0 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_Bstruct[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_Dstruct[identifier]
+									instanceWhoseFieldIsAppended.Anarrayofb = append(instanceWhoseFieldIsAppended.Anarrayofb, instanceToAppend)
+								}
 							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_Bstruct[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_Dstruct[identifier]
-								instanceWhoseFieldIsAppended.Anarrayofb = append(instanceWhoseFieldIsAppended.Anarrayofb, instanceToAppend)
+							// Handle slices.Insert: elements start at argNb 2
+							if isSlicesInsert && argNb > 1 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_Bstruct[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_Dstruct[identifier]
+									if insertIndex <= len(instanceWhoseFieldIsAppended.Anarrayofb) {
+										instanceWhoseFieldIsAppended.Anarrayofb = slices.Insert(instanceWhoseFieldIsAppended.Anarrayofb, insertIndex, instanceToAppend)
+										insertIndex++ // Increment for subsequent elements in the same call
+									}
+								}
 							}
 						case "Gstructs":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
+							// Handle append: elements start at argNb 1
+							if isAppend && argNb > 0 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_Gstruct[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_Dstruct[identifier]
+									instanceWhoseFieldIsAppended.Gstructs = append(instanceWhoseFieldIsAppended.Gstructs, instanceToAppend)
+								}
 							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_Gstruct[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_Dstruct[identifier]
-								instanceWhoseFieldIsAppended.Gstructs = append(instanceWhoseFieldIsAppended.Gstructs, instanceToAppend)
+							// Handle slices.Insert: elements start at argNb 2
+							if isSlicesInsert && argNb > 1 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_Gstruct[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_Dstruct[identifier]
+									if insertIndex <= len(instanceWhoseFieldIsAppended.Gstructs) {
+										instanceWhoseFieldIsAppended.Gstructs = slices.Insert(instanceWhoseFieldIsAppended.Gstructs, insertIndex, instanceToAppend)
+										insertIndex++ // Increment for subsequent elements in the same call
+									}
+								}
 							}
 						}
 					case "F0123456789012345678901234567890":

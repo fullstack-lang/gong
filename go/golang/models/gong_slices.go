@@ -50,6 +50,13 @@ func (stage *Stage) ComputeDifference() {
 	var deletedInstancesStmt string
 	_ = deletedInstancesStmt
 
+	var newInstancesReverseStmt string
+	_ = newInstancesReverseStmt
+	var fieldsEditReverseStmt string
+	_ = fieldsEditReverseStmt
+	var deletedInstancesReverseStmt string
+	_ = deletedInstancesReverseStmt
+
 	// first clean the staging area to remove non staged instances
 	// from pointers fields and slices of pointers fields
 	stage.Clean()
@@ -57,14 +64,38 @@ func (stage *Stage) ComputeDifference() {
 	// insertion point per named struct{{` + string(rune(GongSliceGongComputeDifference)) + `}}
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
-		notif := newInstancesStmt + fieldsEditStmt + deletedInstancesStmt
-		notif += fmt.Sprintf("\n\t// %s", time.Now().Format(time.RFC3339Nano))
-		notif += "\n\tstage.Commit()"
+		forwardCommit := newInstancesStmt + fieldsEditStmt + deletedInstancesStmt
+		forwardCommit += fmt.Sprintf("\n\t// %s", time.Now().Format(time.RFC3339Nano))
+		forwardCommit += "\n\tstage.Commit()\n"
+		stage.forwardCommits = append(stage.forwardCommits, forwardCommit)
+
+		backwardCommit := deletedInstancesReverseStmt + fieldsEditReverseStmt + newInstancesReverseStmt
+		backwardCommit += fmt.Sprintf("\n\t// %s", time.Now().Format(time.RFC3339Nano))
+		backwardCommit += "\n\tstage.Commit()\n"
+		// append to the start of the backward commits slice
+		stage.backwardCommits = append([]string{backwardCommit}, stage.backwardCommits...)
+
 		if stage.GetProbeIF() != nil {
+			var mergedCommits string
+			for _, commit := range stage.forwardCommits {
+				mergedCommits += commit
+			}
 			stage.GetProbeIF().AddNotification(
 				time.Now(),
-				notif,
+				"	// Forward commits:\n"+
+					mergedCommits,
 			)
+
+			var reverseMergedCommits string
+			for _, reverserCommit := range stage.backwardCommits {
+				reverseMergedCommits += reverserCommit
+			}
+			stage.GetProbeIF().AddNotification(
+				time.Now(),
+				"	// Backward commits:\n"+
+					reverseMergedCommits,
+			)
+
 			stage.GetProbeIF().CommitNotificationTable()
 		}
 	}
@@ -141,15 +172,20 @@ func ({{structname}} *{{Structname}}) GongCopy() GongstructIF {
 		if ref, ok := stage.{{Structname}}s_reference[{{structname}}]; !ok {
 			{{structname}}s_newInstances = append({{structname}}s_newInstances, {{structname}})
 			newInstancesStmt += {{structname}}.GongMarshallIdentifier(stage)
+			newInstancesReverseStmt += {{structname}}.GongMarshallUnstaging(stage)
 			fieldInitializers, pointersInitializations := {{structname}}.GongMarshallAllFields(stage)
 			fieldsEditStmt += fieldInitializers
 			fieldsEditStmt += pointersInitializations
 		} else {
 			diffs := {{structname}}.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, {{structname}})
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", {{structname}}.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// %s", {{structname}}.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
+				}
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseStmt += reverseDiff
 				}
 				lenModifiedInstances++
 			}
@@ -157,10 +193,14 @@ func ({{structname}} *{{Structname}}) GongCopy() GongstructIF {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for {{structname}} := range stage.{{Structname}}s_reference {
-		if _, ok := stage.{{Structname}}s[{{structname}}]; !ok {
-			{{structname}}s_deletedInstances = append({{structname}}s_deletedInstances, {{structname}})
-			deletedInstancesStmt += {{structname}}.GongMarshallUnstaging(stage)
+	for ref := range stage.{{Structname}}s_reference {
+		if _, ok := stage.{{Structname}}s[ref]; !ok {
+			{{structname}}s_deletedInstances = append({{structname}}s_deletedInstances, ref)
+			deletedInstancesStmt += ref.GongMarshallUnstaging(stage)
+			deletedInstancesReverseStmt += ref.GongMarshallIdentifier(stage)
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseStmt += fieldInitializers
+			fieldsEditReverseStmt += pointersInitializations
 		}
 	}
 

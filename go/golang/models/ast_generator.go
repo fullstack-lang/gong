@@ -26,6 +26,7 @@ const (
 	ModelGongAstIdentSelectorExprAssignment
 	ModelGongAstDateAssignment
 	ModelGongAstSliceOfPointersAssignment
+	ModelGongAstSlicesDelete
 	ModelGongAstStructInsertionsNb
 )
 
@@ -74,6 +75,11 @@ var __gong__map_{{Structname}} = make(map[string]*{{Structname}})`,
 						switch fieldName {
 						// insertion point for slice of pointers assign code{{sliceOfPointersAssignCode}}
 						}`,
+	ModelGongAstSlicesDelete: `
+					case "{{Structname}}":
+						switch fieldName {
+						// insertion point for slices.Delete field code{{slicesDeleteFieldCode}}
+						}`,
 }
 
 type ModelGongAstFieldInsertionId int
@@ -90,6 +96,7 @@ const (
 	ModelGongAstFieldAssignBoolean
 	ModelGongAstFieldAssignPointer
 	ModelGongAstFieldAssignSliceOfPointers
+	ModelGongAstFieldSlicesDelete
 	ModelGongAstFieldAssignEnum
 
 	ModelGongAstFieldInsertionsNb
@@ -162,14 +169,30 @@ map[ModelGongAstFieldInsertionId]string{
 									date)`,
 	ModelGongAstFieldAssignSliceOfPointers: `
 						case "{{FieldName}}":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
+							// Handle append: elements start at argNb 1
+							if isAppend && argNb > 0 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_{{AssociationStructName}}[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_{{Structname}}[identifier]
+									instanceWhoseFieldIsAppended.{{FieldName}} = append(instanceWhoseFieldIsAppended.{{FieldName}}, instanceToAppend)
+								}
 							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_{{AssociationStructName}}[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_{{Structname}}[identifier]
-								instanceWhoseFieldIsAppended.{{FieldName}} = append(instanceWhoseFieldIsAppended.{{FieldName}}, instanceToAppend)
+							// Handle slices.Insert: elements start at argNb 2
+							if isSlicesInsert && argNb > 1 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_{{AssociationStructName}}[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_{{Structname}}[identifier]
+									if insertIndex <= len(instanceWhoseFieldIsAppended.{{FieldName}}) {
+										instanceWhoseFieldIsAppended.{{FieldName}} = slices.Insert(instanceWhoseFieldIsAppended.{{FieldName}}, insertIndex, instanceToAppend)
+										insertIndex++ // Increment for subsequent elements in the same call
+									}
+								}
+							}`,
+	ModelGongAstFieldSlicesDelete: `
+						case "{{FieldName}}":
+							instance := __gong__map_{{Structname}}[identifier]
+							if start < len(instance.{{FieldName}}) && end <= len(instance.{{FieldName}}) && start < end {
+								instance.{{FieldName}} = slices.Delete(instance.{{FieldName}}, start, end)
 							}`,
 }
 
@@ -203,6 +226,7 @@ func GongAstGenerator(modelPkg *models.ModelPkg, pkgPath string) {
 			selectorExprAssgmCode := ""
 			dateAssignCode := ""
 			sliceOfPointersAssignCode := ""
+			slicesDeleteCode := ""
 
 			for _, field := range gongStruct.Fields {
 				switch field := field.(type) {
@@ -268,6 +292,9 @@ func GongAstGenerator(modelPkg *models.ModelPkg, pkgPath string) {
 						ModelGongAstFieldSubTemplateCode[ModelGongAstFieldAssignSliceOfPointers],
 						"{{FieldName}}", field.Name,
 						"{{AssociationStructName}}", field.GongStruct.Name)
+					slicesDeleteCode += models.Replace1(
+						ModelGongAstFieldSubTemplateCode[ModelGongAstFieldSlicesDelete],
+						"{{FieldName}}", field.Name)
 				case *models.GongTimeField:
 					dateAssignCode += models.Replace1(
 						ModelGongAstFieldSubTemplateCode[ModelGongAstFieldAssignDate],
@@ -283,6 +310,10 @@ func GongAstGenerator(modelPkg *models.ModelPkg, pkgPath string) {
 				"{{selectorExprAssignCode}}", selectorExprAssgmCode,
 				"{{sliceOfPointersAssignCode}}", sliceOfPointersAssignCode,
 				"{{dateAssignCode}}", dateAssignCode,
+			)
+
+			generatedCodeFromSubTemplate = models.Replace1(generatedCodeFromSubTemplate,
+				"{{slicesDeleteFieldCode}}", slicesDeleteCode,
 			)
 
 			generatedCodeFromSubTemplate = models.Replace7(generatedCodeFromSubTemplate,
