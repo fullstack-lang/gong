@@ -178,6 +178,7 @@ another line to Write Specs`}).Stage(stage)
 	__Task__00000010_ := (&models.Task{Name: `Display the the commit diff in the probe as marshalled go statements #1038 `}).Stage(stage)
 	__Task__00000011_ := (&models.Task{Name: `Put the commit forward text in one notification #1044`}).Stage(stage)
 	__Task__00000012_ := (&models.Task{Name: `Compute diff in slices with minimal edit distance #1045`}).Stage(stage)
+	__Task__00000013_ := (&models.Task{Name: `refactor AST generation`}).Stage(stage)
 
 	__TaskCompositionShape__00000005_ := (&models.TaskCompositionShape{Name: `Develop Backend to Dev UXx`}).Stage(stage)
 	__TaskCompositionShape__00000006_ := (&models.TaskCompositionShape{Name: `Develop Backend to Dev views`}).Stage(stage)
@@ -915,8 +916,8 @@ another line to Write Specs`
 
 	__ProductShape__00000469_.Name = `NewProduct-NewDiagram`
 	__ProductShape__00000469_.IsExpanded = false
-	__ProductShape__00000469_.X = 464.358054
-	__ProductShape__00000469_.Y = 601.125900
+	__ProductShape__00000469_.X = 443.358054
+	__ProductShape__00000469_.Y = 590.125900
 	__ProductShape__00000469_.Width = 155.000000
 	__ProductShape__00000469_.Height = 79.000000
 
@@ -1126,6 +1127,14 @@ another line to Write Specs`
 	__Task__00000012_.IsOutputsNodeExpanded = false
 	__Task__00000012_.IsWithCompletion = true
 	__Task__00000012_.Completion = models.PERCENT_100
+
+	__Task__00000013_.Name = `refactor AST generation`
+	__Task__00000013_.Description = ``
+	__Task__00000013_.IsExpanded = false
+	__Task__00000013_.ComputedPrefix = `7`
+	__Task__00000013_.IsInputsNodeExpanded = false
+	__Task__00000013_.IsOutputsNodeExpanded = false
+	__Task__00000013_.IsWithCompletion = false
 
 	__TaskCompositionShape__00000005_.Name = `Develop Backend to Dev UXx`
 	__TaskCompositionShape__00000005_.StartRatio = 0.500000
@@ -1566,6 +1575,7 @@ another line to Write Specs`
 	__Project__00000002_.RootTasks = append(__Project__00000002_.RootTasks, __Task__00000011_)
 	__Project__00000002_.RootTasks = append(__Project__00000002_.RootTasks, __Task__00000012_)
 	__Project__00000002_.RootTasks = append(__Project__00000002_.RootTasks, __Task__00000009_)
+	__Project__00000002_.RootTasks = append(__Project__00000002_.RootTasks, __Task__00000013_)
 	__Project__00000002_.Diagrams = append(__Project__00000002_.Diagrams, __Diagram__00000061_)
 	__Project__00000002_.Notes = append(__Project__00000002_.Notes, __Note__00000002_)
 	__Project__00000002_.Notes = append(__Project__00000002_.Notes, __Note__00000003_)

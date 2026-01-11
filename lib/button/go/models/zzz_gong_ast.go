@@ -14,6 +14,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"slices"
 	"strconv"
 	"strings"
 	"time"
@@ -23,6 +24,8 @@ var dummy_strconv_import strconv.NumError
 var _ = dummy_strconv_import
 var dummy_time_import time.Time
 var _ = dummy_time_import
+var dummy_slices_import = slices.Insert([]int{0}, 0)
+var _ = dummy_slices_import
 
 // swagger:ignore
 type GONG__ExpressionType string
@@ -105,13 +108,25 @@ func ParseAstEmbeddedFile(stage *Stage, directory embed.FS, pathToFile string) e
 // ParseAstFile Parse pathToFile and stages all instances
 // declared in the file
 func ParseAstFileFromAst(stage *Stage, inFile *ast.File, fset *token.FileSet, preserveOrder bool) error {
-	// if there is a meta package import, it is the third import
-	if len(inFile.Imports) > 3 {
-		log.Fatalln("Too many imports in file", inFile.Name)
-	}
-	if len(inFile.Imports) == 3 {
-		stage.MetaPackageImportAlias = inFile.Imports[2].Name.Name
-		stage.MetaPackageImportPath = inFile.Imports[2].Path.Value
+	// Robust parsing of imports to identify the meta package.
+	// We ignore standard imports and the primary models package import.
+	stage.MetaPackageImportAlias = ""
+	stage.MetaPackageImportPath = ""
+	for _, imp := range inFile.Imports {
+		path := strings.Trim(imp.Path.Value, "\"")
+
+		// Skip known standard packages and the main models package for this stage
+		if path == "time" || path == "slices" || path == stage.GetType() {
+			continue
+		}
+
+		// The remaining import is the meta package used for docLink renaming.
+		// Capture the alias if it exists.
+		if imp.Name != nil {
+			stage.MetaPackageImportAlias = imp.Name.Name
+		}
+		// Store the path (including quotes for the marshaller)
+		stage.MetaPackageImportPath = imp.Path.Value
 	}
 
 	// astCoordinate := "File "
@@ -468,6 +483,94 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 			var basicLit *ast.BasicLit
 
 			callExpr := expr
+
+			// 1. Detect the function call type
+			var isAppend bool
+			_ = isAppend
+			var isSlicesInsert bool
+			var isSlicesDelete bool
+
+			if id, ok := callExpr.Fun.(*ast.Ident); ok && id.Name == "append" {
+				isAppend = true
+			} else if se, ok := callExpr.Fun.(*ast.SelectorExpr); ok {
+				if id, ok := se.X.(*ast.Ident); ok && id.Name == "slices" {
+					if se.Sel.Name == "Insert" {
+						isSlicesInsert = true
+					} else if se.Sel.Name == "Delete" {
+						isSlicesDelete = true
+					}
+				}
+			}
+
+			// 2. Handle slices.Delete immediately
+			if isSlicesDelete {
+				var start, end int
+				_, _ = start, end
+				if bl, ok := callExpr.Args[1].(*ast.BasicLit); ok && bl.Kind == token.INT {
+					start, _ = strconv.Atoi(bl.Value)
+				}
+				if bl, ok := callExpr.Args[2].(*ast.BasicLit); ok && bl.Kind == token.INT {
+					end, _ = strconv.Atoi(bl.Value)
+				}
+				var ok bool
+				gongstructName, ok = __gong__map_Indentifiers_gongstructName[identifier]
+				if ok {
+					switch gongstructName {
+					// insertion point for slices.Delete code
+					case "Button":
+						switch fieldName {
+						// insertion point for slices.Delete field code
+						}
+					case "ButtonToggle":
+						switch fieldName {
+						// insertion point for slices.Delete field code
+						}
+					case "Group":
+						switch fieldName {
+						// insertion point for slices.Delete field code
+						case "Buttons":
+							instance := __gong__map_Group[identifier]
+							if start < len(instance.Buttons) && end <= len(instance.Buttons) && start < end {
+								instance.Buttons = slices.Delete(instance.Buttons, start, end)
+							}
+						}
+					case "GroupToogle":
+						switch fieldName {
+						// insertion point for slices.Delete field code
+						case "ButtonToggles":
+							instance := __gong__map_GroupToogle[identifier]
+							if start < len(instance.ButtonToggles) && end <= len(instance.ButtonToggles) && start < end {
+								instance.ButtonToggles = slices.Delete(instance.ButtonToggles, start, end)
+							}
+						}
+					case "Layout":
+						switch fieldName {
+						// insertion point for slices.Delete field code
+						case "Groups":
+							instance := __gong__map_Layout[identifier]
+							if start < len(instance.Groups) && end <= len(instance.Groups) && start < end {
+								instance.Groups = slices.Delete(instance.Groups, start, end)
+							}
+						case "GroupToogles":
+							instance := __gong__map_Layout[identifier]
+							if start < len(instance.GroupToogles) && end <= len(instance.GroupToogles) && start < end {
+								instance.GroupToogles = slices.Delete(instance.GroupToogles, start, end)
+							}
+						}
+					}
+				}
+				return
+			}
+
+			// 3. Prepare index for slices.Insert
+			var insertIndex int
+			_ = insertIndex
+			if isSlicesInsert {
+				if bl, ok := callExpr.Args[1].(*ast.BasicLit); ok && bl.Kind == token.INT {
+					insertIndex, _ = strconv.Atoi(bl.Value)
+				}
+			}
+
 			// astCoordinate := astCoordinate + "\tFun"
 			switch fun := callExpr.Fun.(type) {
 			// the is Fun      Expr
@@ -640,7 +743,14 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						}
 
 						// remove first and last char
-						date := basicLit.Value[1 : len(basicLit.Value)-1]
+						// Only remove first and last char if it is a STRING literal
+						// Indices in slices.Insert/Delete are INT literals and must not be trimmed
+						var date string
+						if basicLit.Kind == token.STRING {
+							date = basicLit.Value[1 : len(basicLit.Value)-1]
+						} else {
+							date = basicLit.Value
+						}
 						_ = date
 
 						var ok bool
@@ -724,7 +834,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 							// log.Println("we are in the case of append(....)")
 						}
 					}
-					_ = ident
+
+					if ident == nil {
+						continue
+					}
 
 					gongstructName, ok = __gong__map_Indentifiers_gongstructName[identifier]
 					if !ok {
@@ -745,52 +858,92 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "Buttons":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
+							// Handle append: elements start at argNb 1
+							if isAppend && argNb > 0 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_Button[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_Group[identifier]
+									instanceWhoseFieldIsAppended.Buttons = append(instanceWhoseFieldIsAppended.Buttons, instanceToAppend)
+								}
 							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_Button[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_Group[identifier]
-								instanceWhoseFieldIsAppended.Buttons = append(instanceWhoseFieldIsAppended.Buttons, instanceToAppend)
+							// Handle slices.Insert: elements start at argNb 2
+							if isSlicesInsert && argNb > 1 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_Button[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_Group[identifier]
+									if insertIndex <= len(instanceWhoseFieldIsAppended.Buttons) {
+										instanceWhoseFieldIsAppended.Buttons = slices.Insert(instanceWhoseFieldIsAppended.Buttons, insertIndex, instanceToAppend)
+										insertIndex++ // Increment for subsequent elements in the same call
+									}
+								}
 							}
 						}
 					case "GroupToogle":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "ButtonToggles":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
+							// Handle append: elements start at argNb 1
+							if isAppend && argNb > 0 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_ButtonToggle[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_GroupToogle[identifier]
+									instanceWhoseFieldIsAppended.ButtonToggles = append(instanceWhoseFieldIsAppended.ButtonToggles, instanceToAppend)
+								}
 							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_ButtonToggle[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_GroupToogle[identifier]
-								instanceWhoseFieldIsAppended.ButtonToggles = append(instanceWhoseFieldIsAppended.ButtonToggles, instanceToAppend)
+							// Handle slices.Insert: elements start at argNb 2
+							if isSlicesInsert && argNb > 1 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_ButtonToggle[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_GroupToogle[identifier]
+									if insertIndex <= len(instanceWhoseFieldIsAppended.ButtonToggles) {
+										instanceWhoseFieldIsAppended.ButtonToggles = slices.Insert(instanceWhoseFieldIsAppended.ButtonToggles, insertIndex, instanceToAppend)
+										insertIndex++ // Increment for subsequent elements in the same call
+									}
+								}
 							}
 						}
 					case "Layout":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "Groups":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
+							// Handle append: elements start at argNb 1
+							if isAppend && argNb > 0 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_Group[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_Layout[identifier]
+									instanceWhoseFieldIsAppended.Groups = append(instanceWhoseFieldIsAppended.Groups, instanceToAppend)
+								}
 							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_Group[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_Layout[identifier]
-								instanceWhoseFieldIsAppended.Groups = append(instanceWhoseFieldIsAppended.Groups, instanceToAppend)
+							// Handle slices.Insert: elements start at argNb 2
+							if isSlicesInsert && argNb > 1 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_Group[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_Layout[identifier]
+									if insertIndex <= len(instanceWhoseFieldIsAppended.Groups) {
+										instanceWhoseFieldIsAppended.Groups = slices.Insert(instanceWhoseFieldIsAppended.Groups, insertIndex, instanceToAppend)
+										insertIndex++ // Increment for subsequent elements in the same call
+									}
+								}
 							}
 						case "GroupToogles":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
+							// Handle append: elements start at argNb 1
+							if isAppend && argNb > 0 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_GroupToogle[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_Layout[identifier]
+									instanceWhoseFieldIsAppended.GroupToogles = append(instanceWhoseFieldIsAppended.GroupToogles, instanceToAppend)
+								}
 							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_GroupToogle[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_Layout[identifier]
-								instanceWhoseFieldIsAppended.GroupToogles = append(instanceWhoseFieldIsAppended.GroupToogles, instanceToAppend)
+							// Handle slices.Insert: elements start at argNb 2
+							if isSlicesInsert && argNb > 1 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_GroupToogle[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_Layout[identifier]
+									if insertIndex <= len(instanceWhoseFieldIsAppended.GroupToogles) {
+										instanceWhoseFieldIsAppended.GroupToogles = slices.Insert(instanceWhoseFieldIsAppended.GroupToogles, insertIndex, instanceToAppend)
+										insertIndex++ // Increment for subsequent elements in the same call
+									}
+								}
 							}
 						}
 					}
