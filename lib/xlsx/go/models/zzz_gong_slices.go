@@ -123,6 +123,13 @@ func (stage *Stage) ComputeDifference() {
 	var deletedInstancesStmt string
 	_ = deletedInstancesStmt
 
+	var newInstancesReverseStmt string
+	_ = newInstancesReverseStmt
+	var fieldsEditReverseStmt string
+	_ = fieldsEditReverseStmt
+	var deletedInstancesReverseStmt string
+	_ = deletedInstancesReverseStmt
+
 	// first clean the staging area to remove non staged instances
 	// from pointers fields and slices of pointers fields
 	stage.Clean()
@@ -136,15 +143,20 @@ func (stage *Stage) ComputeDifference() {
 		if ref, ok := stage.DisplaySelections_reference[displayselection]; !ok {
 			displayselections_newInstances = append(displayselections_newInstances, displayselection)
 			newInstancesStmt += displayselection.GongMarshallIdentifier(stage)
+			newInstancesReverseStmt += displayselection.GongMarshallUnstaging(stage)
 			fieldInitializers, pointersInitializations := displayselection.GongMarshallAllFields(stage)
 			fieldsEditStmt += fieldInitializers
 			fieldsEditStmt += pointersInitializations
 		} else {
 			diffs := displayselection.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, displayselection)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", displayselection.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// %s", displayselection.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
+				}
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseStmt += reverseDiff
 				}
 				lenModifiedInstances++
 			}
@@ -152,10 +164,14 @@ func (stage *Stage) ComputeDifference() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for displayselection := range stage.DisplaySelections_reference {
-		if _, ok := stage.DisplaySelections[displayselection]; !ok {
-			displayselections_deletedInstances = append(displayselections_deletedInstances, displayselection)
-			deletedInstancesStmt += displayselection.GongMarshallUnstaging(stage)
+	for ref := range stage.DisplaySelections_reference {
+		if _, ok := stage.DisplaySelections[ref]; !ok {
+			displayselections_deletedInstances = append(displayselections_deletedInstances, ref)
+			deletedInstancesStmt += ref.GongMarshallUnstaging(stage)
+			deletedInstancesReverseStmt += ref.GongMarshallIdentifier(stage)
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseStmt += fieldInitializers
+			fieldsEditReverseStmt += pointersInitializations
 		}
 	}
 
@@ -169,15 +185,20 @@ func (stage *Stage) ComputeDifference() {
 		if ref, ok := stage.XLCells_reference[xlcell]; !ok {
 			xlcells_newInstances = append(xlcells_newInstances, xlcell)
 			newInstancesStmt += xlcell.GongMarshallIdentifier(stage)
+			newInstancesReverseStmt += xlcell.GongMarshallUnstaging(stage)
 			fieldInitializers, pointersInitializations := xlcell.GongMarshallAllFields(stage)
 			fieldsEditStmt += fieldInitializers
 			fieldsEditStmt += pointersInitializations
 		} else {
 			diffs := xlcell.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, xlcell)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", xlcell.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// %s", xlcell.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
+				}
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseStmt += reverseDiff
 				}
 				lenModifiedInstances++
 			}
@@ -185,10 +206,14 @@ func (stage *Stage) ComputeDifference() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for xlcell := range stage.XLCells_reference {
-		if _, ok := stage.XLCells[xlcell]; !ok {
-			xlcells_deletedInstances = append(xlcells_deletedInstances, xlcell)
-			deletedInstancesStmt += xlcell.GongMarshallUnstaging(stage)
+	for ref := range stage.XLCells_reference {
+		if _, ok := stage.XLCells[ref]; !ok {
+			xlcells_deletedInstances = append(xlcells_deletedInstances, ref)
+			deletedInstancesStmt += ref.GongMarshallUnstaging(stage)
+			deletedInstancesReverseStmt += ref.GongMarshallIdentifier(stage)
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseStmt += fieldInitializers
+			fieldsEditReverseStmt += pointersInitializations
 		}
 	}
 
@@ -202,15 +227,20 @@ func (stage *Stage) ComputeDifference() {
 		if ref, ok := stage.XLFiles_reference[xlfile]; !ok {
 			xlfiles_newInstances = append(xlfiles_newInstances, xlfile)
 			newInstancesStmt += xlfile.GongMarshallIdentifier(stage)
+			newInstancesReverseStmt += xlfile.GongMarshallUnstaging(stage)
 			fieldInitializers, pointersInitializations := xlfile.GongMarshallAllFields(stage)
 			fieldsEditStmt += fieldInitializers
 			fieldsEditStmt += pointersInitializations
 		} else {
 			diffs := xlfile.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, xlfile)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", xlfile.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// %s", xlfile.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
+				}
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseStmt += reverseDiff
 				}
 				lenModifiedInstances++
 			}
@@ -218,10 +248,14 @@ func (stage *Stage) ComputeDifference() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for xlfile := range stage.XLFiles_reference {
-		if _, ok := stage.XLFiles[xlfile]; !ok {
-			xlfiles_deletedInstances = append(xlfiles_deletedInstances, xlfile)
-			deletedInstancesStmt += xlfile.GongMarshallUnstaging(stage)
+	for ref := range stage.XLFiles_reference {
+		if _, ok := stage.XLFiles[ref]; !ok {
+			xlfiles_deletedInstances = append(xlfiles_deletedInstances, ref)
+			deletedInstancesStmt += ref.GongMarshallUnstaging(stage)
+			deletedInstancesReverseStmt += ref.GongMarshallIdentifier(stage)
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseStmt += fieldInitializers
+			fieldsEditReverseStmt += pointersInitializations
 		}
 	}
 
@@ -235,15 +269,20 @@ func (stage *Stage) ComputeDifference() {
 		if ref, ok := stage.XLRows_reference[xlrow]; !ok {
 			xlrows_newInstances = append(xlrows_newInstances, xlrow)
 			newInstancesStmt += xlrow.GongMarshallIdentifier(stage)
+			newInstancesReverseStmt += xlrow.GongMarshallUnstaging(stage)
 			fieldInitializers, pointersInitializations := xlrow.GongMarshallAllFields(stage)
 			fieldsEditStmt += fieldInitializers
 			fieldsEditStmt += pointersInitializations
 		} else {
 			diffs := xlrow.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, xlrow)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", xlrow.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// %s", xlrow.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
+				}
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseStmt += reverseDiff
 				}
 				lenModifiedInstances++
 			}
@@ -251,10 +290,14 @@ func (stage *Stage) ComputeDifference() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for xlrow := range stage.XLRows_reference {
-		if _, ok := stage.XLRows[xlrow]; !ok {
-			xlrows_deletedInstances = append(xlrows_deletedInstances, xlrow)
-			deletedInstancesStmt += xlrow.GongMarshallUnstaging(stage)
+	for ref := range stage.XLRows_reference {
+		if _, ok := stage.XLRows[ref]; !ok {
+			xlrows_deletedInstances = append(xlrows_deletedInstances, ref)
+			deletedInstancesStmt += ref.GongMarshallUnstaging(stage)
+			deletedInstancesReverseStmt += ref.GongMarshallIdentifier(stage)
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseStmt += fieldInitializers
+			fieldsEditReverseStmt += pointersInitializations
 		}
 	}
 
@@ -268,15 +311,20 @@ func (stage *Stage) ComputeDifference() {
 		if ref, ok := stage.XLSheets_reference[xlsheet]; !ok {
 			xlsheets_newInstances = append(xlsheets_newInstances, xlsheet)
 			newInstancesStmt += xlsheet.GongMarshallIdentifier(stage)
+			newInstancesReverseStmt += xlsheet.GongMarshallUnstaging(stage)
 			fieldInitializers, pointersInitializations := xlsheet.GongMarshallAllFields(stage)
 			fieldsEditStmt += fieldInitializers
 			fieldsEditStmt += pointersInitializations
 		} else {
 			diffs := xlsheet.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, xlsheet)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", xlsheet.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// %s", xlsheet.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
+				}
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseStmt += reverseDiff
 				}
 				lenModifiedInstances++
 			}
@@ -284,10 +332,14 @@ func (stage *Stage) ComputeDifference() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for xlsheet := range stage.XLSheets_reference {
-		if _, ok := stage.XLSheets[xlsheet]; !ok {
-			xlsheets_deletedInstances = append(xlsheets_deletedInstances, xlsheet)
-			deletedInstancesStmt += xlsheet.GongMarshallUnstaging(stage)
+	for ref := range stage.XLSheets_reference {
+		if _, ok := stage.XLSheets[ref]; !ok {
+			xlsheets_deletedInstances = append(xlsheets_deletedInstances, ref)
+			deletedInstancesStmt += ref.GongMarshallUnstaging(stage)
+			deletedInstancesReverseStmt += ref.GongMarshallIdentifier(stage)
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseStmt += fieldInitializers
+			fieldsEditReverseStmt += pointersInitializations
 		}
 	}
 
@@ -295,14 +347,38 @@ func (stage *Stage) ComputeDifference() {
 	lenDeletedInstances += len(xlsheets_deletedInstances)
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
-		notif := newInstancesStmt + fieldsEditStmt + deletedInstancesStmt
-		notif += fmt.Sprintf("\n\t// %s", time.Now().Format(time.RFC3339Nano))
-		notif += "\n\tstage.Commit()"
+		forwardCommit := newInstancesStmt + fieldsEditStmt + deletedInstancesStmt
+		forwardCommit += fmt.Sprintf("\n\t// %s", time.Now().Format(time.RFC3339Nano))
+		forwardCommit += "\n\tstage.Commit()\n"
+		stage.forwardCommits = append(stage.forwardCommits, forwardCommit)
+
+		backwardCommit := deletedInstancesReverseStmt + fieldsEditReverseStmt + newInstancesReverseStmt
+		backwardCommit += fmt.Sprintf("\n\t// %s", time.Now().Format(time.RFC3339Nano))
+		backwardCommit += "\n\tstage.Commit()\n"
+		// append to the start of the backward commits slice
+		stage.backwardCommits = append([]string{backwardCommit}, stage.backwardCommits...)
+
 		if stage.GetProbeIF() != nil {
+			var mergedCommits string
+			for _, commit := range stage.forwardCommits {
+				mergedCommits += commit
+			}
 			stage.GetProbeIF().AddNotification(
 				time.Now(),
-				notif,
+				"	// Forward commits:\n"+
+					mergedCommits,
 			)
+
+			var reverseMergedCommits string
+			for _, reverserCommit := range stage.backwardCommits {
+				reverseMergedCommits += reverserCommit
+			}
+			stage.GetProbeIF().AddNotification(
+				time.Now(),
+				"	// Backward commits:\n"+
+					reverseMergedCommits,
+			)
+
 			stage.GetProbeIF().CommitNotificationTable()
 		}
 	}
