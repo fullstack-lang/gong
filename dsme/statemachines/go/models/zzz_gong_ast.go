@@ -14,6 +14,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"slices"
 	"strconv"
 	"strings"
 	"time"
@@ -23,6 +24,8 @@ var dummy_strconv_import strconv.NumError
 var _ = dummy_strconv_import
 var dummy_time_import time.Time
 var _ = dummy_time_import
+var dummy_slices_import = slices.Insert([]int{0}, 0)
+var _ = dummy_slices_import
 
 // swagger:ignore
 type GONG__ExpressionType string
@@ -105,13 +108,25 @@ func ParseAstEmbeddedFile(stage *Stage, directory embed.FS, pathToFile string) e
 // ParseAstFile Parse pathToFile and stages all instances
 // declared in the file
 func ParseAstFileFromAst(stage *Stage, inFile *ast.File, fset *token.FileSet, preserveOrder bool) error {
-	// if there is a meta package import, it is the third import
-	if len(inFile.Imports) > 3 {
-		log.Fatalln("Too many imports in file", inFile.Name)
-	}
-	if len(inFile.Imports) == 3 {
-		stage.MetaPackageImportAlias = inFile.Imports[2].Name.Name
-		stage.MetaPackageImportPath = inFile.Imports[2].Path.Value
+	// Robust parsing of imports to identify the meta package.
+	// We ignore standard imports and the primary models package import.
+	stage.MetaPackageImportAlias = ""
+	stage.MetaPackageImportPath = ""
+	for _, imp := range inFile.Imports {
+		path := strings.Trim(imp.Path.Value, "\"")
+
+		// Skip known standard packages and the main models package for this stage
+		if path == "time" || path == "slices" || path == stage.GetType() {
+			continue
+		}
+
+		// The remaining import is the meta package used for docLink renaming.
+		// Capture the alias if it exists.
+		if imp.Name != nil {
+			stage.MetaPackageImportAlias = imp.Name.Name
+		}
+		// Store the path (including quotes for the marshaller)
+		stage.MetaPackageImportPath = imp.Path.Value
 	}
 
 	// astCoordinate := "File "
@@ -478,6 +493,184 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 			var basicLit *ast.BasicLit
 
 			callExpr := expr
+
+			// 1. Detect the function call type
+			var isAppend bool
+			_ = isAppend
+			var isSlicesInsert bool
+			var isSlicesDelete bool
+
+			if id, ok := callExpr.Fun.(*ast.Ident); ok && id.Name == "append" {
+				isAppend = true
+			} else if se, ok := callExpr.Fun.(*ast.SelectorExpr); ok {
+				if id, ok := se.X.(*ast.Ident); ok && id.Name == "slices" {
+					if se.Sel.Name == "Insert" {
+						isSlicesInsert = true
+					} else if se.Sel.Name == "Delete" {
+						isSlicesDelete = true
+					}
+				}
+			}
+
+			// 2. Handle slices.Delete immediately
+			if isSlicesDelete {
+				var start, end int
+				_, _ = start, end
+				if bl, ok := callExpr.Args[1].(*ast.BasicLit); ok && bl.Kind == token.INT {
+					start, _ = strconv.Atoi(bl.Value)
+				}
+				if bl, ok := callExpr.Args[2].(*ast.BasicLit); ok && bl.Kind == token.INT {
+					end, _ = strconv.Atoi(bl.Value)
+				}
+				var ok bool
+				gongstructName, ok = __gong__map_Indentifiers_gongstructName[identifier]
+				if ok {
+					switch gongstructName {
+					// insertion point for slices.Delete code
+					case "Action":
+						switch fieldName {
+						// insertion point for slices.Delete field code
+						}
+					case "Activities":
+						switch fieldName {
+						// insertion point for slices.Delete field code
+						}
+					case "Architecture":
+						switch fieldName {
+						// insertion point for slices.Delete field code
+						case "StateMachines":
+							instance := __gong__map_Architecture[identifier]
+							if start < len(instance.StateMachines) && end <= len(instance.StateMachines) && start < end {
+								instance.StateMachines = slices.Delete(instance.StateMachines, start, end)
+							}
+						case "Roles":
+							instance := __gong__map_Architecture[identifier]
+							if start < len(instance.Roles) && end <= len(instance.Roles) && start < end {
+								instance.Roles = slices.Delete(instance.Roles, start, end)
+							}
+						}
+					case "Diagram":
+						switch fieldName {
+						// insertion point for slices.Delete field code
+						case "State_Shapes":
+							instance := __gong__map_Diagram[identifier]
+							if start < len(instance.State_Shapes) && end <= len(instance.State_Shapes) && start < end {
+								instance.State_Shapes = slices.Delete(instance.State_Shapes, start, end)
+							}
+						case "Transition_Shapes":
+							instance := __gong__map_Diagram[identifier]
+							if start < len(instance.Transition_Shapes) && end <= len(instance.Transition_Shapes) && start < end {
+								instance.Transition_Shapes = slices.Delete(instance.Transition_Shapes, start, end)
+							}
+						}
+					case "Guard":
+						switch fieldName {
+						// insertion point for slices.Delete field code
+						}
+					case "Kill":
+						switch fieldName {
+						// insertion point for slices.Delete field code
+						}
+					case "Message":
+						switch fieldName {
+						// insertion point for slices.Delete field code
+						}
+					case "MessageType":
+						switch fieldName {
+						// insertion point for slices.Delete field code
+						}
+					case "Object":
+						switch fieldName {
+						// insertion point for slices.Delete field code
+						case "Messages":
+							instance := __gong__map_Object[identifier]
+							if start < len(instance.Messages) && end <= len(instance.Messages) && start < end {
+								instance.Messages = slices.Delete(instance.Messages, start, end)
+							}
+						}
+					case "Role":
+						switch fieldName {
+						// insertion point for slices.Delete field code
+						case "RolesWithSamePermissions":
+							instance := __gong__map_Role[identifier]
+							if start < len(instance.RolesWithSamePermissions) && end <= len(instance.RolesWithSamePermissions) && start < end {
+								instance.RolesWithSamePermissions = slices.Delete(instance.RolesWithSamePermissions, start, end)
+							}
+						}
+					case "State":
+						switch fieldName {
+						// insertion point for slices.Delete field code
+						case "SubStates":
+							instance := __gong__map_State[identifier]
+							if start < len(instance.SubStates) && end <= len(instance.SubStates) && start < end {
+								instance.SubStates = slices.Delete(instance.SubStates, start, end)
+							}
+						case "Diagrams":
+							instance := __gong__map_State[identifier]
+							if start < len(instance.Diagrams) && end <= len(instance.Diagrams) && start < end {
+								instance.Diagrams = slices.Delete(instance.Diagrams, start, end)
+							}
+						case "Activities":
+							instance := __gong__map_State[identifier]
+							if start < len(instance.Activities) && end <= len(instance.Activities) && start < end {
+								instance.Activities = slices.Delete(instance.Activities, start, end)
+							}
+						}
+					case "StateMachine":
+						switch fieldName {
+						// insertion point for slices.Delete field code
+						case "States":
+							instance := __gong__map_StateMachine[identifier]
+							if start < len(instance.States) && end <= len(instance.States) && start < end {
+								instance.States = slices.Delete(instance.States, start, end)
+							}
+						case "Diagrams":
+							instance := __gong__map_StateMachine[identifier]
+							if start < len(instance.Diagrams) && end <= len(instance.Diagrams) && start < end {
+								instance.Diagrams = slices.Delete(instance.Diagrams, start, end)
+							}
+						}
+					case "StateShape":
+						switch fieldName {
+						// insertion point for slices.Delete field code
+						}
+					case "Transition":
+						switch fieldName {
+						// insertion point for slices.Delete field code
+						case "RolesWithPermissions":
+							instance := __gong__map_Transition[identifier]
+							if start < len(instance.RolesWithPermissions) && end <= len(instance.RolesWithPermissions) && start < end {
+								instance.RolesWithPermissions = slices.Delete(instance.RolesWithPermissions, start, end)
+							}
+						case "GeneratedMessages":
+							instance := __gong__map_Transition[identifier]
+							if start < len(instance.GeneratedMessages) && end <= len(instance.GeneratedMessages) && start < end {
+								instance.GeneratedMessages = slices.Delete(instance.GeneratedMessages, start, end)
+							}
+						case "Diagrams":
+							instance := __gong__map_Transition[identifier]
+							if start < len(instance.Diagrams) && end <= len(instance.Diagrams) && start < end {
+								instance.Diagrams = slices.Delete(instance.Diagrams, start, end)
+							}
+						}
+					case "Transition_Shape":
+						switch fieldName {
+						// insertion point for slices.Delete field code
+						}
+					}
+				}
+				return
+			}
+
+			// 3. Prepare index for slices.Insert
+			var insertIndex int
+			_ = insertIndex
+			if isSlicesInsert {
+				if bl, ok := callExpr.Args[1].(*ast.BasicLit); ok && bl.Kind == token.INT {
+					insertIndex, _ = strconv.Atoi(bl.Value)
+				}
+			}
+
 			// astCoordinate := astCoordinate + "\tFun"
 			switch fun := callExpr.Fun.(type) {
 			// the is Fun      Expr
@@ -800,7 +993,14 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						}
 
 						// remove first and last char
-						date := basicLit.Value[1 : len(basicLit.Value)-1]
+						// Only remove first and last char if it is a STRING literal
+						// Indices in slices.Insert/Delete are INT literals and must not be trimmed
+						var date string
+						if basicLit.Kind == token.STRING {
+							date = basicLit.Value[1 : len(basicLit.Value)-1]
+						} else {
+							date = basicLit.Value
+						}
 						_ = date
 
 						var ok bool
@@ -928,7 +1128,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 							// log.Println("we are in the case of append(....)")
 						}
 					}
-					_ = ident
+
+					if ident == nil {
+						continue
+					}
 
 					gongstructName, ok = __gong__map_Indentifiers_gongstructName[identifier]
 					if !ok {
@@ -949,48 +1152,88 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "StateMachines":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
+							// Handle append: elements start at argNb 1
+							if isAppend && argNb > 0 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_StateMachine[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_Architecture[identifier]
+									instanceWhoseFieldIsAppended.StateMachines = append(instanceWhoseFieldIsAppended.StateMachines, instanceToAppend)
+								}
 							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_StateMachine[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_Architecture[identifier]
-								instanceWhoseFieldIsAppended.StateMachines = append(instanceWhoseFieldIsAppended.StateMachines, instanceToAppend)
+							// Handle slices.Insert: elements start at argNb 2
+							if isSlicesInsert && argNb > 1 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_StateMachine[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_Architecture[identifier]
+									if insertIndex <= len(instanceWhoseFieldIsAppended.StateMachines) {
+										instanceWhoseFieldIsAppended.StateMachines = slices.Insert(instanceWhoseFieldIsAppended.StateMachines, insertIndex, instanceToAppend)
+										insertIndex++ // Increment for subsequent elements in the same call
+									}
+								}
 							}
 						case "Roles":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
+							// Handle append: elements start at argNb 1
+							if isAppend && argNb > 0 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_Role[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_Architecture[identifier]
+									instanceWhoseFieldIsAppended.Roles = append(instanceWhoseFieldIsAppended.Roles, instanceToAppend)
+								}
 							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_Role[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_Architecture[identifier]
-								instanceWhoseFieldIsAppended.Roles = append(instanceWhoseFieldIsAppended.Roles, instanceToAppend)
+							// Handle slices.Insert: elements start at argNb 2
+							if isSlicesInsert && argNb > 1 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_Role[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_Architecture[identifier]
+									if insertIndex <= len(instanceWhoseFieldIsAppended.Roles) {
+										instanceWhoseFieldIsAppended.Roles = slices.Insert(instanceWhoseFieldIsAppended.Roles, insertIndex, instanceToAppend)
+										insertIndex++ // Increment for subsequent elements in the same call
+									}
+								}
 							}
 						}
 					case "Diagram":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "State_Shapes":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
+							// Handle append: elements start at argNb 1
+							if isAppend && argNb > 0 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_StateShape[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_Diagram[identifier]
+									instanceWhoseFieldIsAppended.State_Shapes = append(instanceWhoseFieldIsAppended.State_Shapes, instanceToAppend)
+								}
 							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_StateShape[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_Diagram[identifier]
-								instanceWhoseFieldIsAppended.State_Shapes = append(instanceWhoseFieldIsAppended.State_Shapes, instanceToAppend)
+							// Handle slices.Insert: elements start at argNb 2
+							if isSlicesInsert && argNb > 1 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_StateShape[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_Diagram[identifier]
+									if insertIndex <= len(instanceWhoseFieldIsAppended.State_Shapes) {
+										instanceWhoseFieldIsAppended.State_Shapes = slices.Insert(instanceWhoseFieldIsAppended.State_Shapes, insertIndex, instanceToAppend)
+										insertIndex++ // Increment for subsequent elements in the same call
+									}
+								}
 							}
 						case "Transition_Shapes":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
+							// Handle append: elements start at argNb 1
+							if isAppend && argNb > 0 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_Transition_Shape[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_Diagram[identifier]
+									instanceWhoseFieldIsAppended.Transition_Shapes = append(instanceWhoseFieldIsAppended.Transition_Shapes, instanceToAppend)
+								}
 							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_Transition_Shape[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_Diagram[identifier]
-								instanceWhoseFieldIsAppended.Transition_Shapes = append(instanceWhoseFieldIsAppended.Transition_Shapes, instanceToAppend)
+							// Handle slices.Insert: elements start at argNb 2
+							if isSlicesInsert && argNb > 1 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_Transition_Shape[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_Diagram[identifier]
+									if insertIndex <= len(instanceWhoseFieldIsAppended.Transition_Shapes) {
+										instanceWhoseFieldIsAppended.Transition_Shapes = slices.Insert(instanceWhoseFieldIsAppended.Transition_Shapes, insertIndex, instanceToAppend)
+										insertIndex++ // Increment for subsequent elements in the same call
+									}
+								}
 							}
 						}
 					case "Guard":
@@ -1013,86 +1256,156 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "Messages":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
+							// Handle append: elements start at argNb 1
+							if isAppend && argNb > 0 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_Message[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_Object[identifier]
+									instanceWhoseFieldIsAppended.Messages = append(instanceWhoseFieldIsAppended.Messages, instanceToAppend)
+								}
 							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_Message[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_Object[identifier]
-								instanceWhoseFieldIsAppended.Messages = append(instanceWhoseFieldIsAppended.Messages, instanceToAppend)
+							// Handle slices.Insert: elements start at argNb 2
+							if isSlicesInsert && argNb > 1 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_Message[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_Object[identifier]
+									if insertIndex <= len(instanceWhoseFieldIsAppended.Messages) {
+										instanceWhoseFieldIsAppended.Messages = slices.Insert(instanceWhoseFieldIsAppended.Messages, insertIndex, instanceToAppend)
+										insertIndex++ // Increment for subsequent elements in the same call
+									}
+								}
 							}
 						}
 					case "Role":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "RolesWithSamePermissions":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
+							// Handle append: elements start at argNb 1
+							if isAppend && argNb > 0 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_Role[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_Role[identifier]
+									instanceWhoseFieldIsAppended.RolesWithSamePermissions = append(instanceWhoseFieldIsAppended.RolesWithSamePermissions, instanceToAppend)
+								}
 							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_Role[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_Role[identifier]
-								instanceWhoseFieldIsAppended.RolesWithSamePermissions = append(instanceWhoseFieldIsAppended.RolesWithSamePermissions, instanceToAppend)
+							// Handle slices.Insert: elements start at argNb 2
+							if isSlicesInsert && argNb > 1 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_Role[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_Role[identifier]
+									if insertIndex <= len(instanceWhoseFieldIsAppended.RolesWithSamePermissions) {
+										instanceWhoseFieldIsAppended.RolesWithSamePermissions = slices.Insert(instanceWhoseFieldIsAppended.RolesWithSamePermissions, insertIndex, instanceToAppend)
+										insertIndex++ // Increment for subsequent elements in the same call
+									}
+								}
 							}
 						}
 					case "State":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "SubStates":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
+							// Handle append: elements start at argNb 1
+							if isAppend && argNb > 0 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_State[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_State[identifier]
+									instanceWhoseFieldIsAppended.SubStates = append(instanceWhoseFieldIsAppended.SubStates, instanceToAppend)
+								}
 							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_State[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_State[identifier]
-								instanceWhoseFieldIsAppended.SubStates = append(instanceWhoseFieldIsAppended.SubStates, instanceToAppend)
+							// Handle slices.Insert: elements start at argNb 2
+							if isSlicesInsert && argNb > 1 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_State[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_State[identifier]
+									if insertIndex <= len(instanceWhoseFieldIsAppended.SubStates) {
+										instanceWhoseFieldIsAppended.SubStates = slices.Insert(instanceWhoseFieldIsAppended.SubStates, insertIndex, instanceToAppend)
+										insertIndex++ // Increment for subsequent elements in the same call
+									}
+								}
 							}
 						case "Diagrams":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
+							// Handle append: elements start at argNb 1
+							if isAppend && argNb > 0 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_Diagram[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_State[identifier]
+									instanceWhoseFieldIsAppended.Diagrams = append(instanceWhoseFieldIsAppended.Diagrams, instanceToAppend)
+								}
 							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_Diagram[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_State[identifier]
-								instanceWhoseFieldIsAppended.Diagrams = append(instanceWhoseFieldIsAppended.Diagrams, instanceToAppend)
+							// Handle slices.Insert: elements start at argNb 2
+							if isSlicesInsert && argNb > 1 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_Diagram[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_State[identifier]
+									if insertIndex <= len(instanceWhoseFieldIsAppended.Diagrams) {
+										instanceWhoseFieldIsAppended.Diagrams = slices.Insert(instanceWhoseFieldIsAppended.Diagrams, insertIndex, instanceToAppend)
+										insertIndex++ // Increment for subsequent elements in the same call
+									}
+								}
 							}
 						case "Activities":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
+							// Handle append: elements start at argNb 1
+							if isAppend && argNb > 0 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_Activities[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_State[identifier]
+									instanceWhoseFieldIsAppended.Activities = append(instanceWhoseFieldIsAppended.Activities, instanceToAppend)
+								}
 							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_Activities[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_State[identifier]
-								instanceWhoseFieldIsAppended.Activities = append(instanceWhoseFieldIsAppended.Activities, instanceToAppend)
+							// Handle slices.Insert: elements start at argNb 2
+							if isSlicesInsert && argNb > 1 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_Activities[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_State[identifier]
+									if insertIndex <= len(instanceWhoseFieldIsAppended.Activities) {
+										instanceWhoseFieldIsAppended.Activities = slices.Insert(instanceWhoseFieldIsAppended.Activities, insertIndex, instanceToAppend)
+										insertIndex++ // Increment for subsequent elements in the same call
+									}
+								}
 							}
 						}
 					case "StateMachine":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "States":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
+							// Handle append: elements start at argNb 1
+							if isAppend && argNb > 0 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_State[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_StateMachine[identifier]
+									instanceWhoseFieldIsAppended.States = append(instanceWhoseFieldIsAppended.States, instanceToAppend)
+								}
 							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_State[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_StateMachine[identifier]
-								instanceWhoseFieldIsAppended.States = append(instanceWhoseFieldIsAppended.States, instanceToAppend)
+							// Handle slices.Insert: elements start at argNb 2
+							if isSlicesInsert && argNb > 1 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_State[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_StateMachine[identifier]
+									if insertIndex <= len(instanceWhoseFieldIsAppended.States) {
+										instanceWhoseFieldIsAppended.States = slices.Insert(instanceWhoseFieldIsAppended.States, insertIndex, instanceToAppend)
+										insertIndex++ // Increment for subsequent elements in the same call
+									}
+								}
 							}
 						case "Diagrams":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
+							// Handle append: elements start at argNb 1
+							if isAppend && argNb > 0 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_Diagram[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_StateMachine[identifier]
+									instanceWhoseFieldIsAppended.Diagrams = append(instanceWhoseFieldIsAppended.Diagrams, instanceToAppend)
+								}
 							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_Diagram[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_StateMachine[identifier]
-								instanceWhoseFieldIsAppended.Diagrams = append(instanceWhoseFieldIsAppended.Diagrams, instanceToAppend)
+							// Handle slices.Insert: elements start at argNb 2
+							if isSlicesInsert && argNb > 1 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_Diagram[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_StateMachine[identifier]
+									if insertIndex <= len(instanceWhoseFieldIsAppended.Diagrams) {
+										instanceWhoseFieldIsAppended.Diagrams = slices.Insert(instanceWhoseFieldIsAppended.Diagrams, insertIndex, instanceToAppend)
+										insertIndex++ // Increment for subsequent elements in the same call
+									}
+								}
 							}
 						}
 					case "StateShape":
@@ -1103,34 +1416,64 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "RolesWithPermissions":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
+							// Handle append: elements start at argNb 1
+							if isAppend && argNb > 0 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_Role[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_Transition[identifier]
+									instanceWhoseFieldIsAppended.RolesWithPermissions = append(instanceWhoseFieldIsAppended.RolesWithPermissions, instanceToAppend)
+								}
 							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_Role[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_Transition[identifier]
-								instanceWhoseFieldIsAppended.RolesWithPermissions = append(instanceWhoseFieldIsAppended.RolesWithPermissions, instanceToAppend)
+							// Handle slices.Insert: elements start at argNb 2
+							if isSlicesInsert && argNb > 1 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_Role[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_Transition[identifier]
+									if insertIndex <= len(instanceWhoseFieldIsAppended.RolesWithPermissions) {
+										instanceWhoseFieldIsAppended.RolesWithPermissions = slices.Insert(instanceWhoseFieldIsAppended.RolesWithPermissions, insertIndex, instanceToAppend)
+										insertIndex++ // Increment for subsequent elements in the same call
+									}
+								}
 							}
 						case "GeneratedMessages":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
+							// Handle append: elements start at argNb 1
+							if isAppend && argNb > 0 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_MessageType[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_Transition[identifier]
+									instanceWhoseFieldIsAppended.GeneratedMessages = append(instanceWhoseFieldIsAppended.GeneratedMessages, instanceToAppend)
+								}
 							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_MessageType[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_Transition[identifier]
-								instanceWhoseFieldIsAppended.GeneratedMessages = append(instanceWhoseFieldIsAppended.GeneratedMessages, instanceToAppend)
+							// Handle slices.Insert: elements start at argNb 2
+							if isSlicesInsert && argNb > 1 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_MessageType[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_Transition[identifier]
+									if insertIndex <= len(instanceWhoseFieldIsAppended.GeneratedMessages) {
+										instanceWhoseFieldIsAppended.GeneratedMessages = slices.Insert(instanceWhoseFieldIsAppended.GeneratedMessages, insertIndex, instanceToAppend)
+										insertIndex++ // Increment for subsequent elements in the same call
+									}
+								}
 							}
 						case "Diagrams":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
+							// Handle append: elements start at argNb 1
+							if isAppend && argNb > 0 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_Diagram[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_Transition[identifier]
+									instanceWhoseFieldIsAppended.Diagrams = append(instanceWhoseFieldIsAppended.Diagrams, instanceToAppend)
+								}
 							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_Diagram[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_Transition[identifier]
-								instanceWhoseFieldIsAppended.Diagrams = append(instanceWhoseFieldIsAppended.Diagrams, instanceToAppend)
+							// Handle slices.Insert: elements start at argNb 2
+							if isSlicesInsert && argNb > 1 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_Diagram[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_Transition[identifier]
+									if insertIndex <= len(instanceWhoseFieldIsAppended.Diagrams) {
+										instanceWhoseFieldIsAppended.Diagrams = slices.Insert(instanceWhoseFieldIsAppended.Diagrams, insertIndex, instanceToAppend)
+										insertIndex++ // Increment for subsequent elements in the same call
+									}
+								}
 							}
 						}
 					case "Transition_Shape":
