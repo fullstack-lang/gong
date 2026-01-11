@@ -14,6 +14,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"slices"
 	"strconv"
 	"strings"
 	"time"
@@ -23,6 +24,8 @@ var dummy_strconv_import strconv.NumError
 var _ = dummy_strconv_import
 var dummy_time_import time.Time
 var _ = dummy_time_import
+var dummy_slices_import = slices.Insert([]int{0}, 0)
+var _ = dummy_slices_import
 
 // swagger:ignore
 type GONG__ExpressionType string
@@ -105,13 +108,25 @@ func ParseAstEmbeddedFile(stage *Stage, directory embed.FS, pathToFile string) e
 // ParseAstFile Parse pathToFile and stages all instances
 // declared in the file
 func ParseAstFileFromAst(stage *Stage, inFile *ast.File, fset *token.FileSet, preserveOrder bool) error {
-	// if there is a meta package import, it is the third import
-	if len(inFile.Imports) > 3 {
-		log.Fatalln("Too many imports in file", inFile.Name)
-	}
-	if len(inFile.Imports) == 3 {
-		stage.MetaPackageImportAlias = inFile.Imports[2].Name.Name
-		stage.MetaPackageImportPath = inFile.Imports[2].Path.Value
+	// Robust parsing of imports to identify the meta package.
+	// We ignore standard imports and the primary models package import.
+	stage.MetaPackageImportAlias = ""
+	stage.MetaPackageImportPath = ""
+	for _, imp := range inFile.Imports {
+		path := strings.Trim(imp.Path.Value, "\"")
+
+		// Skip known standard packages and the main models package for this stage
+		if path == "time" || path == "slices" || path == stage.GetType() {
+			continue
+		}
+
+		// The remaining import is the meta package used for docLink renaming.
+		// Capture the alias if it exists.
+		if imp.Name != nil {
+			stage.MetaPackageImportAlias = imp.Name.Name
+		}
+		// Store the path (including quotes for the marshaller)
+		stage.MetaPackageImportPath = imp.Path.Value
 	}
 
 	// astCoordinate := "File "
@@ -474,6 +489,128 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 			var basicLit *ast.BasicLit
 
 			callExpr := expr
+
+			// 1. Detect the function call type
+			var isAppend bool
+			_ = isAppend
+			var isSlicesInsert bool
+			var isSlicesDelete bool
+
+			if id, ok := callExpr.Fun.(*ast.Ident); ok && id.Name == "append" {
+				isAppend = true
+			} else if se, ok := callExpr.Fun.(*ast.SelectorExpr); ok {
+				if id, ok := se.X.(*ast.Ident); ok && id.Name == "slices" {
+					if se.Sel.Name == "Insert" {
+						isSlicesInsert = true
+					} else if se.Sel.Name == "Delete" {
+						isSlicesDelete = true
+					}
+				}
+			}
+
+			// 2. Handle slices.Delete immediately
+			if isSlicesDelete {
+				var start, end int
+				_, _ = start, end
+				if bl, ok := callExpr.Args[1].(*ast.BasicLit); ok && bl.Kind == token.INT {
+					start, _ = strconv.Atoi(bl.Value)
+				}
+				if bl, ok := callExpr.Args[2].(*ast.BasicLit); ok && bl.Kind == token.INT {
+					end, _ = strconv.Atoi(bl.Value)
+				}
+				var ok bool
+				gongstructName, ok = __gong__map_Indentifiers_gongstructName[identifier]
+				if ok {
+					switch gongstructName {
+					// insertion point for slices.Delete code
+					case "GongBasicField":
+						switch fieldName {
+						// insertion point for slices.Delete field code
+						}
+					case "GongEnum":
+						switch fieldName {
+						// insertion point for slices.Delete field code
+						case "GongEnumValues":
+							instance := __gong__map_GongEnum[identifier]
+							if start < len(instance.GongEnumValues) && end <= len(instance.GongEnumValues) && start < end {
+								instance.GongEnumValues = slices.Delete(instance.GongEnumValues, start, end)
+							}
+						}
+					case "GongEnumValue":
+						switch fieldName {
+						// insertion point for slices.Delete field code
+						}
+					case "GongLink":
+						switch fieldName {
+						// insertion point for slices.Delete field code
+						}
+					case "GongNote":
+						switch fieldName {
+						// insertion point for slices.Delete field code
+						case "Links":
+							instance := __gong__map_GongNote[identifier]
+							if start < len(instance.Links) && end <= len(instance.Links) && start < end {
+								instance.Links = slices.Delete(instance.Links, start, end)
+							}
+						}
+					case "GongStruct":
+						switch fieldName {
+						// insertion point for slices.Delete field code
+						case "GongBasicFields":
+							instance := __gong__map_GongStruct[identifier]
+							if start < len(instance.GongBasicFields) && end <= len(instance.GongBasicFields) && start < end {
+								instance.GongBasicFields = slices.Delete(instance.GongBasicFields, start, end)
+							}
+						case "GongTimeFields":
+							instance := __gong__map_GongStruct[identifier]
+							if start < len(instance.GongTimeFields) && end <= len(instance.GongTimeFields) && start < end {
+								instance.GongTimeFields = slices.Delete(instance.GongTimeFields, start, end)
+							}
+						case "PointerToGongStructFields":
+							instance := __gong__map_GongStruct[identifier]
+							if start < len(instance.PointerToGongStructFields) && end <= len(instance.PointerToGongStructFields) && start < end {
+								instance.PointerToGongStructFields = slices.Delete(instance.PointerToGongStructFields, start, end)
+							}
+						case "SliceOfPointerToGongStructFields":
+							instance := __gong__map_GongStruct[identifier]
+							if start < len(instance.SliceOfPointerToGongStructFields) && end <= len(instance.SliceOfPointerToGongStructFields) && start < end {
+								instance.SliceOfPointerToGongStructFields = slices.Delete(instance.SliceOfPointerToGongStructFields, start, end)
+							}
+						}
+					case "GongTimeField":
+						switch fieldName {
+						// insertion point for slices.Delete field code
+						}
+					case "MetaReference":
+						switch fieldName {
+						// insertion point for slices.Delete field code
+						}
+					case "ModelPkg":
+						switch fieldName {
+						// insertion point for slices.Delete field code
+						}
+					case "PointerToGongStructField":
+						switch fieldName {
+						// insertion point for slices.Delete field code
+						}
+					case "SliceOfPointerToGongStructField":
+						switch fieldName {
+						// insertion point for slices.Delete field code
+						}
+					}
+				}
+				return
+			}
+
+			// 3. Prepare index for slices.Insert
+			var insertIndex int
+			_ = insertIndex
+			if isSlicesInsert {
+				if bl, ok := callExpr.Args[1].(*ast.BasicLit); ok && bl.Kind == token.INT {
+					insertIndex, _ = strconv.Atoi(bl.Value)
+				}
+			}
+
 			// astCoordinate := astCoordinate + "\tFun"
 			switch fun := callExpr.Fun.(type) {
 			// the is Fun      Expr
@@ -736,7 +873,14 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						}
 
 						// remove first and last char
-						date := basicLit.Value[1 : len(basicLit.Value)-1]
+						// Only remove first and last char if it is a STRING literal
+						// Indices in slices.Insert/Delete are INT literals and must not be trimmed
+						var date string
+						if basicLit.Kind == token.STRING {
+							date = basicLit.Value[1 : len(basicLit.Value)-1]
+						} else {
+							date = basicLit.Value
+						}
 						_ = date
 
 						var ok bool
@@ -844,7 +988,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 							// log.Println("we are in the case of append(....)")
 						}
 					}
-					_ = ident
+
+					if ident == nil {
+						continue
+					}
 
 					gongstructName, ok = __gong__map_Indentifiers_gongstructName[identifier]
 					if !ok {
@@ -861,14 +1008,24 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "GongEnumValues":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
+							// Handle append: elements start at argNb 1
+							if isAppend && argNb > 0 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_GongEnumValue[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_GongEnum[identifier]
+									instanceWhoseFieldIsAppended.GongEnumValues = append(instanceWhoseFieldIsAppended.GongEnumValues, instanceToAppend)
+								}
 							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_GongEnumValue[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_GongEnum[identifier]
-								instanceWhoseFieldIsAppended.GongEnumValues = append(instanceWhoseFieldIsAppended.GongEnumValues, instanceToAppend)
+							// Handle slices.Insert: elements start at argNb 2
+							if isSlicesInsert && argNb > 1 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_GongEnumValue[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_GongEnum[identifier]
+									if insertIndex <= len(instanceWhoseFieldIsAppended.GongEnumValues) {
+										instanceWhoseFieldIsAppended.GongEnumValues = slices.Insert(instanceWhoseFieldIsAppended.GongEnumValues, insertIndex, instanceToAppend)
+										insertIndex++ // Increment for subsequent elements in the same call
+									}
+								}
 							}
 						}
 					case "GongEnumValue":
@@ -883,58 +1040,108 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "Links":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
+							// Handle append: elements start at argNb 1
+							if isAppend && argNb > 0 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_GongLink[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_GongNote[identifier]
+									instanceWhoseFieldIsAppended.Links = append(instanceWhoseFieldIsAppended.Links, instanceToAppend)
+								}
 							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_GongLink[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_GongNote[identifier]
-								instanceWhoseFieldIsAppended.Links = append(instanceWhoseFieldIsAppended.Links, instanceToAppend)
+							// Handle slices.Insert: elements start at argNb 2
+							if isSlicesInsert && argNb > 1 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_GongLink[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_GongNote[identifier]
+									if insertIndex <= len(instanceWhoseFieldIsAppended.Links) {
+										instanceWhoseFieldIsAppended.Links = slices.Insert(instanceWhoseFieldIsAppended.Links, insertIndex, instanceToAppend)
+										insertIndex++ // Increment for subsequent elements in the same call
+									}
+								}
 							}
 						}
 					case "GongStruct":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "GongBasicFields":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
+							// Handle append: elements start at argNb 1
+							if isAppend && argNb > 0 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_GongBasicField[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_GongStruct[identifier]
+									instanceWhoseFieldIsAppended.GongBasicFields = append(instanceWhoseFieldIsAppended.GongBasicFields, instanceToAppend)
+								}
 							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_GongBasicField[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_GongStruct[identifier]
-								instanceWhoseFieldIsAppended.GongBasicFields = append(instanceWhoseFieldIsAppended.GongBasicFields, instanceToAppend)
+							// Handle slices.Insert: elements start at argNb 2
+							if isSlicesInsert && argNb > 1 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_GongBasicField[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_GongStruct[identifier]
+									if insertIndex <= len(instanceWhoseFieldIsAppended.GongBasicFields) {
+										instanceWhoseFieldIsAppended.GongBasicFields = slices.Insert(instanceWhoseFieldIsAppended.GongBasicFields, insertIndex, instanceToAppend)
+										insertIndex++ // Increment for subsequent elements in the same call
+									}
+								}
 							}
 						case "GongTimeFields":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
+							// Handle append: elements start at argNb 1
+							if isAppend && argNb > 0 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_GongTimeField[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_GongStruct[identifier]
+									instanceWhoseFieldIsAppended.GongTimeFields = append(instanceWhoseFieldIsAppended.GongTimeFields, instanceToAppend)
+								}
 							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_GongTimeField[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_GongStruct[identifier]
-								instanceWhoseFieldIsAppended.GongTimeFields = append(instanceWhoseFieldIsAppended.GongTimeFields, instanceToAppend)
+							// Handle slices.Insert: elements start at argNb 2
+							if isSlicesInsert && argNb > 1 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_GongTimeField[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_GongStruct[identifier]
+									if insertIndex <= len(instanceWhoseFieldIsAppended.GongTimeFields) {
+										instanceWhoseFieldIsAppended.GongTimeFields = slices.Insert(instanceWhoseFieldIsAppended.GongTimeFields, insertIndex, instanceToAppend)
+										insertIndex++ // Increment for subsequent elements in the same call
+									}
+								}
 							}
 						case "PointerToGongStructFields":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
+							// Handle append: elements start at argNb 1
+							if isAppend && argNb > 0 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_PointerToGongStructField[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_GongStruct[identifier]
+									instanceWhoseFieldIsAppended.PointerToGongStructFields = append(instanceWhoseFieldIsAppended.PointerToGongStructFields, instanceToAppend)
+								}
 							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_PointerToGongStructField[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_GongStruct[identifier]
-								instanceWhoseFieldIsAppended.PointerToGongStructFields = append(instanceWhoseFieldIsAppended.PointerToGongStructFields, instanceToAppend)
+							// Handle slices.Insert: elements start at argNb 2
+							if isSlicesInsert && argNb > 1 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_PointerToGongStructField[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_GongStruct[identifier]
+									if insertIndex <= len(instanceWhoseFieldIsAppended.PointerToGongStructFields) {
+										instanceWhoseFieldIsAppended.PointerToGongStructFields = slices.Insert(instanceWhoseFieldIsAppended.PointerToGongStructFields, insertIndex, instanceToAppend)
+										insertIndex++ // Increment for subsequent elements in the same call
+									}
+								}
 							}
 						case "SliceOfPointerToGongStructFields":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
+							// Handle append: elements start at argNb 1
+							if isAppend && argNb > 0 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_SliceOfPointerToGongStructField[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_GongStruct[identifier]
+									instanceWhoseFieldIsAppended.SliceOfPointerToGongStructFields = append(instanceWhoseFieldIsAppended.SliceOfPointerToGongStructFields, instanceToAppend)
+								}
 							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_SliceOfPointerToGongStructField[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_GongStruct[identifier]
-								instanceWhoseFieldIsAppended.SliceOfPointerToGongStructFields = append(instanceWhoseFieldIsAppended.SliceOfPointerToGongStructFields, instanceToAppend)
+							// Handle slices.Insert: elements start at argNb 2
+							if isSlicesInsert && argNb > 1 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_SliceOfPointerToGongStructField[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_GongStruct[identifier]
+									if insertIndex <= len(instanceWhoseFieldIsAppended.SliceOfPointerToGongStructFields) {
+										instanceWhoseFieldIsAppended.SliceOfPointerToGongStructFields = slices.Insert(instanceWhoseFieldIsAppended.SliceOfPointerToGongStructFields, insertIndex, instanceToAppend)
+										insertIndex++ // Increment for subsequent elements in the same call
+									}
+								}
 							}
 						}
 					case "GongTimeField":

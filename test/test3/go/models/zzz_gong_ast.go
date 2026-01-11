@@ -24,6 +24,8 @@ var dummy_strconv_import strconv.NumError
 var _ = dummy_strconv_import
 var dummy_time_import time.Time
 var _ = dummy_time_import
+var dummy_slices_import = slices.Insert([]int{0}, 0)
+var _ = dummy_slices_import
 
 // swagger:ignore
 type GONG__ExpressionType string
@@ -481,6 +483,7 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 
 			// 1. Detect the function call type
 			var isAppend bool
+			_ = isAppend
 			var isSlicesInsert bool
 			var isSlicesDelete bool
 
@@ -499,6 +502,7 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 			// 2. Handle slices.Delete immediately
 			if isSlicesDelete {
 				var start, end int
+				_, _ = start, end
 				if bl, ok := callExpr.Args[1].(*ast.BasicLit); ok && bl.Kind == token.INT {
 					start, _ = strconv.Atoi(bl.Value)
 				}
@@ -512,6 +516,7 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// insertion point for slices.Delete code
 					case "A":
 						switch fieldName {
+						// insertion point for slices.Delete field code
 						case "Bs":
 							instance := __gong__map_A[identifier]
 							if start < len(instance.Bs) && end <= len(instance.Bs) && start < end {
@@ -520,6 +525,7 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						}
 					case "B":
 						switch fieldName {
+						// insertion point for slices.Delete field code
 						}
 					}
 				}
@@ -528,6 +534,7 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 
 			// 3. Prepare index for slices.Insert
 			var insertIndex int
+			_ = insertIndex
 			if isSlicesInsert {
 				if bl, ok := callExpr.Args[1].(*ast.BasicLit); ok && bl.Kind == token.INT {
 					insertIndex, _ = strconv.Atoi(bl.Value)
