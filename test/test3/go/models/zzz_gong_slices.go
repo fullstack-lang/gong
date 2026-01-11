@@ -157,13 +157,14 @@ func (stage *Stage) ComputeDifference() {
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
 		forwardCommit := newInstancesStmt + fieldsEditStmt + deletedInstancesStmt
 		forwardCommit += fmt.Sprintf("\n\t// %s", time.Now().Format(time.RFC3339Nano))
-		forwardCommit += "\n\tstage.Commit()"
+		forwardCommit += "\n\tstage.Commit()\n"
 		stage.forwardCommits = append(stage.forwardCommits, forwardCommit)
 
 		backwardCommit := deletedInstancesReverseStmt + fieldsEditReverseStmt + newInstancesReverseStmt
 		backwardCommit += fmt.Sprintf("\n\t// %s", time.Now().Format(time.RFC3339Nano))
-		backwardCommit += "\n\tstage.Commit()"
-		stage.backwardCommits = append(stage.backwardCommits, backwardCommit)
+		backwardCommit += "\n\tstage.Commit()\n"
+		// append to the start of the backward commits slice
+		stage.backwardCommits = append([]string{backwardCommit}, stage.backwardCommits...)
 
 		if stage.GetProbeIF() != nil {
 			var mergedCommits string
