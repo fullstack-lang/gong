@@ -80,6 +80,20 @@
             ]
         },
         {
+            "name": "gong generate cursor --skipGoModCommands --skipNpmWorkspaces --skipGoModCommands",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/lib/cursor/go/models",
+            "program": "${workspaceFolder}/go/cmd/gong",
+            "args": [
+                "generate",
+                "--skipGoModCommands",
+                "--skipNpmWorkspaces",
+                "--skipGoModCommands"
+            ]
+        },
+        {
             "name": "gong generate gongreqif",
             "type": "go",
             "request": "launch",
