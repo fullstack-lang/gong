@@ -293,10 +293,18 @@ type Stage struct {
 	// probeIF is the interface to the probe that allows log
 	// commit event to the probe
 	probeIF ProbeIF
+
+	forwardCommits  []string
+	backwardCommits []string
 }
 
-func (stager *Stage) SetDeltaMode(inDeltaMode bool) {
-	stager.isInDeltaMode = inDeltaMode
+func (stage *Stage) ResetCommits() {
+	stage.forwardCommits = []string{}
+	stage.backwardCommits = []string{}
+}
+
+func (stage *Stage) SetDeltaMode(inDeltaMode bool) {
+	stage.isInDeltaMode = inDeltaMode
 }
 
 func (stage *Stage) IsDeltaMode() bool {
