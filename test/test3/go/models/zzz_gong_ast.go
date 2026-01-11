@@ -105,13 +105,25 @@ func ParseAstEmbeddedFile(stage *Stage, directory embed.FS, pathToFile string) e
 // ParseAstFile Parse pathToFile and stages all instances
 // declared in the file
 func ParseAstFileFromAst(stage *Stage, inFile *ast.File, fset *token.FileSet, preserveOrder bool) error {
-	// if there is a meta package import, it is the third import
-	if len(inFile.Imports) > 3 {
-		log.Fatalln("Too many imports in file", inFile.Name)
-	}
-	if len(inFile.Imports) == 3 {
-		stage.MetaPackageImportAlias = inFile.Imports[2].Name.Name
-		stage.MetaPackageImportPath = inFile.Imports[2].Path.Value
+	// Robust parsing of imports to identify the meta package.
+	// We ignore standard imports and the primary models package import.
+	stage.MetaPackageImportAlias = ""
+	stage.MetaPackageImportPath = ""
+	for _, imp := range inFile.Imports {
+		path := strings.Trim(imp.Path.Value, "\"")
+
+		// Skip known standard packages and the main models package for this stage
+		if path == "time" || path == "slices" || path == stage.GetType() {
+			continue
+		}
+
+		// The remaining import is the meta package used for docLink renaming.
+		// Capture the alias if it exists.
+		if imp.Name != nil {
+			stage.MetaPackageImportAlias = imp.Name.Name
+		}
+		// Store the path (including quotes for the marshaller)
+		stage.MetaPackageImportPath = imp.Path.Value
 	}
 
 	// astCoordinate := "File "
