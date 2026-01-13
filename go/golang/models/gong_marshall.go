@@ -124,7 +124,7 @@ map[GongMarshallFilePerStructSubTemplateId]string{
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", {{structname}}.{{FieldName}}))
 `,
 	GongMarshallFileFieldSubTmplSetBasicFieldEnumString: `
-		if {{structname}}.{{FieldName}} != "" {
+		if {{structname}}.{{FieldName}}.ToCodeString() != "" {
 			res = StringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", {{structname}}.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "{{FieldName}}")
