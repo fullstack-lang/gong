@@ -366,6 +366,9 @@ type Stage struct {
 
 	NamedStructs []*NamedStruct
 
+	// GongUnmarshallers is the registry of all model unmarshallers
+	GongUnmarshallers map[string]ModelUnmarshaller
+
 	// probeIF is the interface to the probe that allows log
 	// commit event to the probe
 	probeIF ProbeIF
@@ -919,6 +922,40 @@ func NewStage(name string) (stage *Stage) {
 		TextMap_Staged_Order: make(map[*Text]uint),
 
 		// end of insertion point
+		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
+			"Body": &BodyUnmarshaller{},
+	
+			"Document": &DocumentUnmarshaller{},
+	
+			"Docx": &DocxUnmarshaller{},
+	
+			"File": &FileUnmarshaller{},
+	
+			"Node": &NodeUnmarshaller{},
+	
+			"Paragraph": &ParagraphUnmarshaller{},
+	
+			"ParagraphProperties": &ParagraphPropertiesUnmarshaller{},
+	
+			"ParagraphStyle": &ParagraphStyleUnmarshaller{},
+	
+			"Rune": &RuneUnmarshaller{},
+	
+			"RuneProperties": &RunePropertiesUnmarshaller{},
+	
+			"Table": &TableUnmarshaller{},
+	
+			"TableColumn": &TableColumnUnmarshaller{},
+	
+			"TableProperties": &TablePropertiesUnmarshaller{},
+	
+			"TableRow": &TableRowUnmarshaller{},
+	
+			"TableStyle": &TableStyleUnmarshaller{},
+	
+			"Text": &TextUnmarshaller{},
+	
+		}, // end of insertion point
 
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
 			{name: "Body"},

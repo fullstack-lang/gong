@@ -204,6 +204,9 @@ type Stage struct {
 
 	NamedStructs []*NamedStruct
 
+	// GongUnmarshallers is the registry of all model unmarshallers
+	GongUnmarshallers map[string]ModelUnmarshaller
+
 	// probeIF is the interface to the probe that allows log
 	// commit event to the probe
 	probeIF ProbeIF
@@ -504,6 +507,18 @@ func NewStage(name string) (stage *Stage) {
 		XLSheetMap_Staged_Order: make(map[*XLSheet]uint),
 
 		// end of insertion point
+		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
+			"DisplaySelection": &DisplaySelectionUnmarshaller{},
+	
+			"XLCell": &XLCellUnmarshaller{},
+	
+			"XLFile": &XLFileUnmarshaller{},
+	
+			"XLRow": &XLRowUnmarshaller{},
+	
+			"XLSheet": &XLSheetUnmarshaller{},
+	
+		}, // end of insertion point
 
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
 			{name: "DisplaySelection"},
