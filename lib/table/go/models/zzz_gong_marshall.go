@@ -1368,7 +1368,7 @@ func (formfield *FormField) GongMarshallField(stage *Stage, fieldName string) (r
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(formfield.Name))
 	case "InputTypeEnum":
-		if formfield.InputTypeEnum != "" {
+		if formfield.InputTypeEnum.ToCodeString() != "" {
 			res = StringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", formfield.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "InputTypeEnum")

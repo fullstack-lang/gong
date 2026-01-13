@@ -864,7 +864,7 @@ func (assplit *AsSplit) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(assplit.Name))
 	case "Direction":
-		if assplit.Direction != "" {
+		if assplit.Direction.ToCodeString() != "" {
 			res = StringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", assplit.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Direction")
@@ -1444,7 +1444,7 @@ func (view *View) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsSelectedView")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", view.IsSelectedView))
 	case "Direction":
-		if view.Direction != "" {
+		if view.Direction.ToCodeString() != "" {
 			res = StringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", view.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Direction")
