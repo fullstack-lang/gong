@@ -1619,7 +1619,7 @@ func (link *Link) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(link.Name))
 	case "Type":
-		if link.Type != "" {
+		if link.Type.ToCodeString() != "" {
 			res = StringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", link.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Type")
@@ -1637,7 +1637,7 @@ func (link *Link) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsBezierCurve")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", link.IsBezierCurve))
 	case "StartAnchorType":
-		if link.StartAnchorType != "" {
+		if link.StartAnchorType.ToCodeString() != "" {
 			res = StringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", link.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartAnchorType")
@@ -1650,7 +1650,7 @@ func (link *Link) GongMarshallField(stage *Stage, fieldName string) (res string)
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
 		}
 	case "EndAnchorType":
-		if link.EndAnchorType != "" {
+		if link.EndAnchorType.ToCodeString() != "" {
 			res = StringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", link.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndAnchorType")
@@ -1663,7 +1663,7 @@ func (link *Link) GongMarshallField(stage *Stage, fieldName string) (res string)
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
 		}
 	case "StartOrientation":
-		if link.StartOrientation != "" {
+		if link.StartOrientation.ToCodeString() != "" {
 			res = StringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", link.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartOrientation")
@@ -1681,7 +1681,7 @@ func (link *Link) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartRatio")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", link.StartRatio))
 	case "EndOrientation":
-		if link.EndOrientation != "" {
+		if link.EndOrientation.ToCodeString() != "" {
 			res = StringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", link.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndOrientation")
@@ -1789,7 +1789,7 @@ func (link *Link) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "MouseY")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", link.MouseY))
 	case "MouseEventKey":
-		if link.MouseEventKey != "" {
+		if link.MouseEventKey.ToCodeString() != "" {
 			res = StringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", link.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "MouseEventKey")
@@ -1877,7 +1877,7 @@ func (linkanchoredtext *LinkAnchoredText) GongMarshallField(stage *Stage, fieldN
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "AutomaticLayout")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", linkanchoredtext.AutomaticLayout))
 	case "LinkAnchorType":
-		if linkanchoredtext.LinkAnchorType != "" {
+		if linkanchoredtext.LinkAnchorType.ToCodeString() != "" {
 			res = StringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", linkanchoredtext.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LinkAnchorType")
@@ -1925,7 +1925,7 @@ func (linkanchoredtext *LinkAnchoredText) GongMarshallField(stage *Stage, fieldN
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FontFamily")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(linkanchoredtext.FontFamily))
 	case "WhiteSpace":
-		if linkanchoredtext.WhiteSpace != "" {
+		if linkanchoredtext.WhiteSpace.ToCodeString() != "" {
 			res = StringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", linkanchoredtext.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "WhiteSpace")
@@ -2395,7 +2395,7 @@ func (rect *Rect) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ToolTipText")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(rect.ToolTipText))
 	case "ToolTipPosition":
-		if rect.ToolTipPosition != "" {
+		if rect.ToolTipPosition.ToCodeString() != "" {
 			res = StringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", rect.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ToolTipPosition")
@@ -2418,7 +2418,7 @@ func (rect *Rect) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "MouseY")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", rect.MouseY))
 	case "MouseEventKey":
-		if rect.MouseEventKey != "" {
+		if rect.MouseEventKey.ToCodeString() != "" {
 			res = StringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", rect.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "MouseEventKey")
@@ -2509,7 +2509,7 @@ func (rectanchoredpath *RectAnchoredPath) GongMarshallField(stage *Stage, fieldN
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Y_Offset")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", rectanchoredpath.Y_Offset))
 	case "RectAnchorType":
-		if rectanchoredpath.RectAnchorType != "" {
+		if rectanchoredpath.RectAnchorType.ToCodeString() != "" {
 			res = StringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredpath.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RectAnchorType")
@@ -2622,7 +2622,7 @@ func (rectanchoredrect *RectAnchoredRect) GongMarshallField(stage *Stage, fieldN
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Y_Offset")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", rectanchoredrect.Y_Offset))
 	case "RectAnchorType":
-		if rectanchoredrect.RectAnchorType != "" {
+		if rectanchoredrect.RectAnchorType.ToCodeString() != "" {
 			res = StringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredrect.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RectAnchorType")
@@ -2740,7 +2740,7 @@ func (rectanchoredtext *RectAnchoredText) GongMarshallField(stage *Stage, fieldN
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FontFamily")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(rectanchoredtext.FontFamily))
 	case "WhiteSpace":
-		if rectanchoredtext.WhiteSpace != "" {
+		if rectanchoredtext.WhiteSpace.ToCodeString() != "" {
 			res = StringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredtext.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "WhiteSpace")
@@ -2763,7 +2763,7 @@ func (rectanchoredtext *RectAnchoredText) GongMarshallField(stage *Stage, fieldN
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Y_Offset")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", rectanchoredtext.Y_Offset))
 	case "RectAnchorType":
-		if rectanchoredtext.RectAnchorType != "" {
+		if rectanchoredtext.RectAnchorType.ToCodeString() != "" {
 			res = StringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredtext.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RectAnchorType")
@@ -2776,7 +2776,7 @@ func (rectanchoredtext *RectAnchoredText) GongMarshallField(stage *Stage, fieldN
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
 		}
 	case "TextAnchorType":
-		if rectanchoredtext.TextAnchorType != "" {
+		if rectanchoredtext.TextAnchorType.ToCodeString() != "" {
 			res = StringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredtext.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TextAnchorType")
@@ -2789,7 +2789,7 @@ func (rectanchoredtext *RectAnchoredText) GongMarshallField(stage *Stage, fieldN
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
 		}
 	case "DominantBaseline":
-		if rectanchoredtext.DominantBaseline != "" {
+		if rectanchoredtext.DominantBaseline.ToCodeString() != "" {
 			res = StringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredtext.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DominantBaseline")
@@ -2802,7 +2802,7 @@ func (rectanchoredtext *RectAnchoredText) GongMarshallField(stage *Stage, fieldN
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
 		}
 	case "WritingMode":
-		if rectanchoredtext.WritingMode != "" {
+		if rectanchoredtext.WritingMode.ToCodeString() != "" {
 			res = StringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredtext.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "WritingMode")
@@ -2964,7 +2964,7 @@ func (svg *SVG) GongMarshallField(stage *Stage, fieldName string) (res string) {
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(svg.Name))
 	case "DrawingState":
-		if svg.DrawingState != "" {
+		if svg.DrawingState.ToCodeString() != "" {
 			res = StringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", svg.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DrawingState")
@@ -3171,7 +3171,7 @@ func (text *Text) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FontFamily")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(text.FontFamily))
 	case "WhiteSpace":
-		if text.WhiteSpace != "" {
+		if text.WhiteSpace.ToCodeString() != "" {
 			res = StringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", text.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "WhiteSpace")

@@ -363,7 +363,7 @@ func (content *Content) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "BespokePageTileLogoFileName")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(content.BespokePageTileLogoFileName))
 	case "Target":
-		if content.Target != "" {
+		if content.Target.ToCodeString() != "" {
 			res = StringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", content.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Target")

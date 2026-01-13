@@ -476,7 +476,7 @@ func (astruct *Astruct) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Booleanfield")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", astruct.Booleanfield))
 	case "Aenum":
-		if astruct.Aenum != "" {
+		if astruct.Aenum.ToCodeString() != "" {
 			res = StringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", astruct.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Aenum")
@@ -489,7 +489,7 @@ func (astruct *Astruct) GongMarshallField(stage *Stage, fieldName string) (res s
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
 		}
 	case "Aenum_2":
-		if astruct.Aenum_2 != "" {
+		if astruct.Aenum_2.ToCodeString() != "" {
 			res = StringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", astruct.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Aenum_2")
@@ -502,7 +502,7 @@ func (astruct *Astruct) GongMarshallField(stage *Stage, fieldName string) (res s
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
 		}
 	case "Benum":
-		if astruct.Benum != "" {
+		if astruct.Benum.ToCodeString() != "" {
 			res = StringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", astruct.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Benum")

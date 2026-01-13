@@ -376,7 +376,7 @@ func (button *Button) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsDisabled")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", button.IsDisabled))
 	case "Color":
-		if button.Color != "" {
+		if button.Color.ToCodeString() != "" {
 			res = StringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", button.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
@@ -389,7 +389,7 @@ func (button *Button) GongMarshallField(stage *Stage, fieldName string) (res str
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
 		}
 	case "MatButtonType":
-		if button.MatButtonType != "" {
+		if button.MatButtonType.ToCodeString() != "" {
 			res = StringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", button.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "MatButtonType")
@@ -402,7 +402,7 @@ func (button *Button) GongMarshallField(stage *Stage, fieldName string) (res str
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
 		}
 	case "MatButtonAppearance":
-		if button.MatButtonAppearance != "" {
+		if button.MatButtonAppearance.ToCodeString() != "" {
 			res = StringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", button.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "MatButtonAppearance")

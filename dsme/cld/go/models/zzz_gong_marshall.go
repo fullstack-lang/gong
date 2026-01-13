@@ -966,7 +966,7 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "GrayColorCode")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(diagram.GrayColorCode))
 	case "Category1RectAnchorType":
-		if diagram.Category1RectAnchorType != "" {
+		if diagram.Category1RectAnchorType.ToCodeString() != "" {
 			res = StringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Category1RectAnchorType")
@@ -979,7 +979,7 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
 		}
 	case "Category1TextAnchorType":
-		if diagram.Category1TextAnchorType != "" {
+		if diagram.Category1TextAnchorType.ToCodeString() != "" {
 			res = StringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Category1TextAnchorType")
@@ -992,7 +992,7 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
 		}
 	case "Category1DominantBaselineType":
-		if diagram.Category1DominantBaselineType != "" {
+		if diagram.Category1DominantBaselineType.ToCodeString() != "" {
 			res = StringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Category1DominantBaselineType")
@@ -1045,7 +1045,7 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Category2TypeLetterSpacing")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(diagram.Category2TypeLetterSpacing))
 	case "Category2TypeRectAnchorType":
-		if diagram.Category2TypeRectAnchorType != "" {
+		if diagram.Category2TypeRectAnchorType.ToCodeString() != "" {
 			res = StringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Category2TypeRectAnchorType")
@@ -1058,7 +1058,7 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
 		}
 	case "Category2DominantBaselineType":
-		if diagram.Category2DominantBaselineType != "" {
+		if diagram.Category2DominantBaselineType.ToCodeString() != "" {
 			res = StringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Category2DominantBaselineType")
@@ -1076,7 +1076,7 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Category2StrokeWidth")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.Category2StrokeWidth))
 	case "Category3RectAnchorType":
-		if diagram.Category3RectAnchorType != "" {
+		if diagram.Category3RectAnchorType.ToCodeString() != "" {
 			res = StringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Category3RectAnchorType")
@@ -1089,7 +1089,7 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
 		}
 	case "Category3TextAnchorType":
-		if diagram.Category3TextAnchorType != "" {
+		if diagram.Category3TextAnchorType.ToCodeString() != "" {
 			res = StringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Category3TextAnchorType")
@@ -1102,7 +1102,7 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
 		}
 	case "Category3DominantBaselineType":
-		if diagram.Category3DominantBaselineType != "" {
+		if diagram.Category3DominantBaselineType.ToCodeString() != "" {
 			res = StringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Category3DominantBaselineType")

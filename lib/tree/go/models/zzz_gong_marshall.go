@@ -363,7 +363,7 @@ func (button *Button) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ToolTipText")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(button.ToolTipText))
 	case "ToolTipPosition":
-		if button.ToolTipPosition != "" {
+		if button.ToolTipPosition.ToCodeString() != "" {
 			res = StringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", button.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ToolTipPosition")
@@ -404,7 +404,7 @@ func (node *Node) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(node.Name))
 	case "FontStyle":
-		if node.FontStyle != "" {
+		if node.FontStyle.ToCodeString() != "" {
 			res = StringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FontStyle")
@@ -452,7 +452,7 @@ func (node *Node) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CheckboxToolTipText")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(node.CheckboxToolTipText))
 	case "CheckboxToolTipPosition":
-		if node.CheckboxToolTipPosition != "" {
+		if node.CheckboxToolTipPosition.ToCodeString() != "" {
 			res = StringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CheckboxToolTipPosition")
@@ -490,7 +490,7 @@ func (node *Node) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SecondCheckboxToolTipText")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(node.SecondCheckboxToolTipText))
 	case "SecondCheckboxToolTipPosition":
-		if node.SecondCheckboxToolTipPosition != "" {
+		if node.SecondCheckboxToolTipPosition.ToCodeString() != "" {
 			res = StringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SecondCheckboxToolTipPosition")
@@ -518,7 +518,7 @@ func (node *Node) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ToolTipText")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(node.ToolTipText))
 	case "ToolTipPosition":
-		if node.ToolTipPosition != "" {
+		if node.ToolTipPosition.ToCodeString() != "" {
 			res = StringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ToolTipPosition")

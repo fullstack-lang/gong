@@ -736,7 +736,7 @@ func (action *Action) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(action.Name))
 	case "Criticality":
-		if action.Criticality != "" {
+		if action.Criticality.ToCodeString() != "" {
 			res = StringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", action.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Criticality")
@@ -764,7 +764,7 @@ func (activities *Activities) GongMarshallField(stage *Stage, fieldName string) 
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(activities.Name))
 	case "Criticality":
-		if activities.Criticality != "" {
+		if activities.Criticality.ToCodeString() != "" {
 			res = StringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", activities.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Criticality")
@@ -1337,7 +1337,7 @@ func (transition_shape *Transition_Shape) GongMarshallField(stage *Stage, fieldN
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndRatio")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", transition_shape.EndRatio))
 	case "StartOrientation":
-		if transition_shape.StartOrientation != "" {
+		if transition_shape.StartOrientation.ToCodeString() != "" {
 			res = StringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", transition_shape.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartOrientation")
@@ -1350,7 +1350,7 @@ func (transition_shape *Transition_Shape) GongMarshallField(stage *Stage, fieldN
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
 		}
 	case "EndOrientation":
-		if transition_shape.EndOrientation != "" {
+		if transition_shape.EndOrientation.ToCodeString() != "" {
 			res = StringEnumInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", transition_shape.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndOrientation")
