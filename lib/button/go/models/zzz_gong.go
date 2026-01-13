@@ -204,6 +204,9 @@ type Stage struct {
 
 	NamedStructs []*NamedStruct
 
+	// GongUnmarshallers is the registry of all model unmarshallers
+	GongUnmarshallers map[string]ModelUnmarshaller
+
 	// probeIF is the interface to the probe that allows log
 	// commit event to the probe
 	probeIF ProbeIF
@@ -504,6 +507,18 @@ func NewStage(name string) (stage *Stage) {
 		LayoutMap_Staged_Order: make(map[*Layout]uint),
 
 		// end of insertion point
+		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
+			"Button": &ButtonUnmarshaller{},
+	
+			"ButtonToggle": &ButtonToggleUnmarshaller{},
+	
+			"Group": &GroupUnmarshaller{},
+	
+			"GroupToogle": &GroupToogleUnmarshaller{},
+	
+			"Layout": &LayoutUnmarshaller{},
+	
+		}, // end of insertion point
 
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
 			{name: "Button"},

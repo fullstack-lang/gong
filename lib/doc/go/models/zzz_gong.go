@@ -268,6 +268,9 @@ type Stage struct {
 
 	NamedStructs []*NamedStruct
 
+	// GongUnmarshallers is the registry of all model unmarshallers
+	GongUnmarshallers map[string]ModelUnmarshaller
+
 	// probeIF is the interface to the probe that allows log
 	// commit event to the probe
 	probeIF ProbeIF
@@ -660,6 +663,26 @@ func NewStage(name string) (stage *Stage) {
 		LinkShapeMap_Staged_Order: make(map[*LinkShape]uint),
 
 		// end of insertion point
+		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
+			"AttributeShape": &AttributeShapeUnmarshaller{},
+	
+			"Classdiagram": &ClassdiagramUnmarshaller{},
+	
+			"DiagramPackage": &DiagramPackageUnmarshaller{},
+	
+			"GongEnumShape": &GongEnumShapeUnmarshaller{},
+	
+			"GongEnumValueShape": &GongEnumValueShapeUnmarshaller{},
+	
+			"GongNoteLinkShape": &GongNoteLinkShapeUnmarshaller{},
+	
+			"GongNoteShape": &GongNoteShapeUnmarshaller{},
+	
+			"GongStructShape": &GongStructShapeUnmarshaller{},
+	
+			"LinkShape": &LinkShapeUnmarshaller{},
+	
+		}, // end of insertion point
 
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
 			{name: "AttributeShape"},
