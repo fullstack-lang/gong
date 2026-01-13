@@ -22,14 +22,14 @@ import (
 // ModelUnmarshaller abstracts the logic for setting fields on a staged instance
 type ModelUnmarshaller interface {
 	// Initialize creates the struct, stages it, and returns the pointer as 'any'
-	Initialize(stage *Stage, instanceName string, preserveOrder bool) (any, error)
+	Initialize(stage *Stage, instanceName string, preserveOrder bool) (GongstructIF, error)
 
 	// UnmarshallField sets a field's value based on the AST expression
-	UnmarshallField(stage *Stage, instance any, fieldName string, valueExpr ast.Expr, identifierMap map[string]any) error
+	UnmarshallField(stage *Stage, instance GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error
 }
 
-// Unmarshallers is the registry of all model unmarshallers
-var Unmarshallers = make(map[string]ModelUnmarshaller)
+// GongUnmarshallers is the registry of all model unmarshallers
+var GongUnmarshallers = make(map[string]ModelUnmarshaller)
 
 // ParseAstFile Parse pathToFile and stages all instances declared in the file
 func ParseAstFile2(stage *Stage, pathToFile string, preserveOrder bool) error {
@@ -106,7 +106,7 @@ func ParseAstFileFromAst(stage *Stage, inFile *ast.File, fset *token.FileSet, pr
 
 					// Dispatch to specific Unmarshaller
 					if typeName != "" {
-						if unmarshaller, exists := Unmarshallers[typeName]; exists {
+						if unmarshaller, exists := GongUnmarshallers[typeName]; exists {
 							instance, err := unmarshaller.Initialize(stage, instanceName, preserveOrder)
 							if err == nil {
 								identifierMap[ident.Name] = instance
@@ -127,7 +127,7 @@ func ParseAstFileFromAst(stage *Stage, inFile *ast.File, fset *token.FileSet, pr
 							parts := strings.Split(ident.Name, "__")
 							if len(parts) >= 2 {
 								typeName := parts[1]
-								if unmarshaller, exists := Unmarshallers[typeName]; exists {
+								if unmarshaller, exists := GongUnmarshallers[typeName]; exists {
 									// 3. Strategy Pattern: Delegate to Handler
 									unmarshaller.UnmarshallField(stage, instance, selExpr.Sel.Name, node.Rhs[0], identifierMap)
 								}
@@ -145,14 +145,14 @@ func ParseAstFileFromAst(stage *Stage, inFile *ast.File, fset *token.FileSet, pr
 
 // --- Generic Helpers for Unmarshallers ---
 
-func ExtractString(expr ast.Expr) string {
+func GongExtractString(expr ast.Expr) string {
 	if bl, ok := expr.(*ast.BasicLit); ok {
 		return strings.Trim(bl.Value, "\"`")
 	}
 	return ""
 }
 
-func ExtractInt(expr ast.Expr) int {
+func GongExtractInt(expr ast.Expr) int {
 	if bl, ok := expr.(*ast.BasicLit); ok {
 		val, _ := strconv.Atoi(bl.Value)
 		return val
@@ -166,7 +166,7 @@ func ExtractInt(expr ast.Expr) int {
 	return 0
 }
 
-func ExtractFloat(expr ast.Expr) float64 {
+func GongExtractFloat(expr ast.Expr) float64 {
 	if bl, ok := expr.(*ast.BasicLit); ok {
 		val, _ := strconv.ParseFloat(bl.Value, 64)
 		return val
@@ -180,7 +180,7 @@ func ExtractFloat(expr ast.Expr) float64 {
 	return 0.0
 }
 
-func ExtractBool(expr ast.Expr) bool {
+func GongExtractBool(expr ast.Expr) bool {
 	if ident, ok := expr.(*ast.Ident); ok {
 		return ident.Name == "true"
 	}
@@ -192,8 +192,8 @@ func ExtractBool(expr ast.Expr) bool {
 // ------------------------------------------------------------------------------------------------
 
 func init() {
-	Unmarshallers["A"] = &AUnmarshaller{}
-	Unmarshallers["B"] = &BUnmarshaller{}
+	GongUnmarshallers["A"] = &AUnmarshaller{}
+	GongUnmarshallers["B"] = &BUnmarshaller{}
 }
 
 // --- A Unmarshaller ---
@@ -214,17 +214,17 @@ func (u *AUnmarshaller) UnmarshallField(stage *Stage, i any, fieldName string, v
 	instance := i.(*A)
 	switch fieldName {
 	case "Name":
-		instance.Name = ExtractString(valueExpr)
+		instance.Name = GongExtractString(valueExpr)
 	case "Date":
 		if bl, ok := valueExpr.(*ast.BasicLit); ok {
 			instance.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
 		}
 	case "FloatValue":
-		instance.FloatValue = ExtractFloat(valueExpr)
+		instance.FloatValue = GongExtractFloat(valueExpr)
 	case "IntValue":
-		instance.IntValue = ExtractInt(valueExpr)
+		instance.IntValue = GongExtractInt(valueExpr)
 	case "Duration":
-		instance.Duration = time.Duration(ExtractInt(valueExpr))
+		instance.Duration = time.Duration(GongExtractInt(valueExpr))
 	case "EnumString":
 		// Handle Enum (Usually a SelectorExpr like models.Value1)
 		if sel, ok := valueExpr.(*ast.SelectorExpr); ok {
@@ -234,7 +234,7 @@ func (u *AUnmarshaller) UnmarshallField(stage *Stage, i any, fieldName string, v
 			instance.EnumString = EnumTypeString(sel.Sel.Name)
 		} else {
 			// Fallback if it is a string literal
-			instance.EnumString = EnumTypeString(ExtractString(valueExpr))
+			instance.EnumString = EnumTypeString(GongExtractString(valueExpr))
 		}
 	case "EnumInt":
 		if sel, ok := valueExpr.(*ast.SelectorExpr); ok {
@@ -268,11 +268,11 @@ func (u *AUnmarshaller) UnmarshallField(stage *Stage, i any, fieldName string, v
 
 			if isSlices {
 				if funcName == "Delete" && len(call.Args) == 3 {
-					start := ExtractInt(call.Args[1])
-					end := ExtractInt(call.Args[2])
+					start := GongExtractInt(call.Args[1])
+					end := GongExtractInt(call.Args[2])
 					instance.Bs = slices.Delete(instance.Bs, start, end)
 				} else if funcName == "Insert" && len(call.Args) == 3 {
-					index := ExtractInt(call.Args[1])
+					index := GongExtractInt(call.Args[1])
 					if ident, ok := call.Args[2].(*ast.Ident); ok {
 						if val, ok := identifierMap[ident.Name]; ok {
 							instance.Bs = slices.Insert(instance.Bs, index, val.(*B))
@@ -307,7 +307,7 @@ func (u *BUnmarshaller) UnmarshallField(stage *Stage, i any, fieldName string, v
 	instance := i.(*B)
 	switch fieldName {
 	case "Name":
-		instance.Name = ExtractString(valueExpr)
+		instance.Name = GongExtractString(valueExpr)
 	}
 	return nil
 }
