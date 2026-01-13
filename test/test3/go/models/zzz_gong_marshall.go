@@ -274,12 +274,26 @@ func (a *A) GongMarshallField(stage *Stage, fieldName string) (res string) {
 			res = strings.ReplaceAll(res, "{{Identifier}}", a.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnumString")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+a.EnumString.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", a.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnumString")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
 		}
 	case "EnumInt":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", a.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnumInt")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+a.EnumInt.ToCodeString())
+		if a.EnumInt.ToCodeString() != "" {
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", a.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnumInt")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+a.EnumInt.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", a.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnumInt")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
+		}
 
 	case "B":
 		if a.B != nil {
