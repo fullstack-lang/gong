@@ -64,10 +64,10 @@ func ParseAstEmbeddedFile2(stage *Stage, directory embed.FS, pathToFile string) 
 }
 
 // ParseAstFileFromAst traverses the AST and stages instances using the Unmarshaller registry
-func ParseAstFileFromAst(stage *Stage, inFile *ast.File, fset *token.FileSet, preserveOrder bool) error {
+func ParseAstFileFromAst2(stage *Stage, inFile *ast.File, fset *token.FileSet, preserveOrder bool) error {
 
 	// 1. Remove Global Variables: Use a local map to track variable names to instances
-	identifierMap := make(map[string]any)
+	identifierMap := make(map[string]GongstructIF)
 
 	// 2. Visitor Pattern: Traverse the AST
 	ast.Inspect(inFile, func(n ast.Node) bool {
@@ -199,7 +199,7 @@ func init() {
 // --- A Unmarshaller ---
 type AUnmarshaller struct{}
 
-func (u *AUnmarshaller) Initialize(stage *Stage, instanceName string, preserveOrder bool) (any, error) {
+func (u *AUnmarshaller) Initialize(stage *Stage, instanceName string, preserveOrder bool) (GongstructIF, error) {
 	instance := new(A)
 	instance.Name = instanceName
 	if !preserveOrder {
@@ -210,7 +210,7 @@ func (u *AUnmarshaller) Initialize(stage *Stage, instanceName string, preserveOr
 	return instance, nil
 }
 
-func (u *AUnmarshaller) UnmarshallField(stage *Stage, i any, fieldName string, valueExpr ast.Expr, identifierMap map[string]any) error {
+func (u *AUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
 	instance := i.(*A)
 	switch fieldName {
 	case "Name":
@@ -296,14 +296,14 @@ func (u *AUnmarshaller) UnmarshallField(stage *Stage, i any, fieldName string, v
 // --- B Unmarshaller ---
 type BUnmarshaller struct{}
 
-func (u *BUnmarshaller) Initialize(stage *Stage, instanceName string, preserveOrder bool) (any, error) {
+func (u *BUnmarshaller) Initialize(stage *Stage, instanceName string, preserveOrder bool) (GongstructIF, error) {
 	instance := new(B)
 	instance.Name = instanceName
 	instance.Stage(stage)
 	return instance, nil
 }
 
-func (u *BUnmarshaller) UnmarshallField(stage *Stage, i any, fieldName string, valueExpr ast.Expr, identifierMap map[string]any) error {
+func (u *BUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
 	instance := i.(*B)
 	switch fieldName {
 	case "Name":
