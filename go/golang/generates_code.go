@@ -299,6 +299,7 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 	}
 
 	models.GongAstGenerator(modelPkg, pkgPath)
+	models.GongAst2(modelPkg, pkgPath)
 
 	if !level1 {
 		gong_models.SimpleCodeGeneratorForGongStructWithNameField(
