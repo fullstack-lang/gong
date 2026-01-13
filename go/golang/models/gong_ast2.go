@@ -281,8 +281,7 @@ func GongUnmarshallEnum[T interface{ FromCodeString(string) error }](
 	}
 }
 
-// insertion point per named struct{{` + string(rune(GongAst2Unmarshaller)) + `}}
-`
+// insertion point per named struct{{` + string(rune(GongAst2Unmarshaller)) + `}}`
 
 type GongAst2GongstructInsertionId int
 
@@ -294,8 +293,7 @@ const (
 var GongAst2GongstructSubTemplateCode map[GongAst2GongstructInsertionId]string = // new line
 map[GongAst2GongstructInsertionId]string{
 	GongAst2Unmarshaller: `
-
-type {{Structname}}Unmarshaller struct {}
+type {{Structname}}Unmarshaller struct{}
 
 func (u *{{Structname}}Unmarshaller) Initialize(stage *Stage, instanceName string, preserveOrder bool) (GongstructIF, error) {
 	instance := new({{Structname}})
