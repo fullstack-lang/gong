@@ -462,6 +462,9 @@ type Stage struct {
 
 	NamedStructs []*NamedStruct
 
+	// GongUnmarshallers is the registry of all model unmarshallers
+	GongUnmarshallers map[string]ModelUnmarshaller
+
 	// probeIF is the interface to the probe that allows log
 	// commit event to the probe
 	probeIF ProbeIF
@@ -1176,6 +1179,54 @@ func NewStage(name string) (stage *Stage) {
 		TableMap_Staged_Order: make(map[*Table]uint),
 
 		// end of insertion point
+		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
+			"Cell": &CellUnmarshaller{},
+	
+			"CellBoolean": &CellBooleanUnmarshaller{},
+	
+			"CellFloat64": &CellFloat64Unmarshaller{},
+	
+			"CellIcon": &CellIconUnmarshaller{},
+	
+			"CellInt": &CellIntUnmarshaller{},
+	
+			"CellString": &CellStringUnmarshaller{},
+	
+			"CheckBox": &CheckBoxUnmarshaller{},
+	
+			"DisplayedColumn": &DisplayedColumnUnmarshaller{},
+	
+			"FormDiv": &FormDivUnmarshaller{},
+	
+			"FormEditAssocButton": &FormEditAssocButtonUnmarshaller{},
+	
+			"FormField": &FormFieldUnmarshaller{},
+	
+			"FormFieldDate": &FormFieldDateUnmarshaller{},
+	
+			"FormFieldDateTime": &FormFieldDateTimeUnmarshaller{},
+	
+			"FormFieldFloat64": &FormFieldFloat64Unmarshaller{},
+	
+			"FormFieldInt": &FormFieldIntUnmarshaller{},
+	
+			"FormFieldSelect": &FormFieldSelectUnmarshaller{},
+	
+			"FormFieldString": &FormFieldStringUnmarshaller{},
+	
+			"FormFieldTime": &FormFieldTimeUnmarshaller{},
+	
+			"FormGroup": &FormGroupUnmarshaller{},
+	
+			"FormSortAssocButton": &FormSortAssocButtonUnmarshaller{},
+	
+			"Option": &OptionUnmarshaller{},
+	
+			"Row": &RowUnmarshaller{},
+	
+			"Table": &TableUnmarshaller{},
+	
+		}, // end of insertion point
 
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
 			{name: "Cell"},

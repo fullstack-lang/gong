@@ -36,6 +36,8 @@ func (generatedgofilepath GeneratedGoFilePath) ToString() (res string) {
 		res = "gong_wop.go"
 	case GeneratedGongAstGoFilePath:
 		res = "zzz_gong_ast.go"
+	case GeneratedGongAstGo2FilePath:
+		res = "zzz_gong_ast2.go"
 	case GeneratedGongCallbacksGoFilePath:
 		res = "zzz_gong_callbacks.go"
 	case GeneratedGongCleanGoFilePath:
@@ -118,6 +120,9 @@ func (generatedgofilepath *GeneratedGoFilePath) FromString(input string) (err er
 		return
 	case "zzz_gong_ast.go":
 		*generatedgofilepath = GeneratedGongAstGoFilePath
+		return
+	case "zzz_gong_ast2.go":
+		*generatedgofilepath = GeneratedGongAstGo2FilePath
 		return
 	case "zzz_gong_callbacks.go":
 		*generatedgofilepath = GeneratedGongCallbacksGoFilePath
@@ -208,6 +213,8 @@ func (generatedgofilepath *GeneratedGoFilePath) FromCodeString(input string) (er
 		*generatedgofilepath = LegacyGeneratedGongWopGoFilePath
 	case "GeneratedGongAstGoFilePath":
 		*generatedgofilepath = GeneratedGongAstGoFilePath
+	case "GeneratedGongAstGo2FilePath":
+		*generatedgofilepath = GeneratedGongAstGo2FilePath
 	case "GeneratedGongCallbacksGoFilePath":
 		*generatedgofilepath = GeneratedGongCallbacksGoFilePath
 	case "GeneratedGongCleanGoFilePath":
@@ -280,6 +287,8 @@ func (generatedgofilepath *GeneratedGoFilePath) ToCodeString() (res string) {
 		res = "LegacyGeneratedGongWopGoFilePath"
 	case GeneratedGongAstGoFilePath:
 		res = "GeneratedGongAstGoFilePath"
+	case GeneratedGongAstGo2FilePath:
+		res = "GeneratedGongAstGo2FilePath"
 	case GeneratedGongCallbacksGoFilePath:
 		res = "GeneratedGongCallbacksGoFilePath"
 	case GeneratedGongCleanGoFilePath:
@@ -338,6 +347,7 @@ func (generatedgofilepath GeneratedGoFilePath) Codes() (res []string) {
 	res = append(res, "LegacyGeneratedGongSerializeGoFilePath")
 	res = append(res, "LegacyGeneratedGongWopGoFilePath")
 	res = append(res, "GeneratedGongAstGoFilePath")
+	res = append(res, "GeneratedGongAstGo2FilePath")
 	res = append(res, "GeneratedGongCallbacksGoFilePath")
 	res = append(res, "GeneratedGongCleanGoFilePath")
 	res = append(res, "GeneratedGongCoderGoFilePath")
@@ -378,6 +388,7 @@ func (generatedgofilepath GeneratedGoFilePath) CodeValues() (res []string) {
 	res = append(res, "gong_serialize.go")
 	res = append(res, "gong_wop.go")
 	res = append(res, "zzz_gong_ast.go")
+	res = append(res, "zzz_gong_ast2.go")
 	res = append(res, "zzz_gong_callbacks.go")
 	res = append(res, "zzz_gong_clean.go")
 	res = append(res, "zzz_gong_coder.go")
