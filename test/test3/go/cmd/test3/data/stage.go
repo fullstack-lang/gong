@@ -59,10 +59,26 @@ func _(stage *models.Stage) {
 	// insertion point for initialization of values
 
 	__A__00000000_.Name = `A09xxx`
+	__A__00000000_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2040-01-01 00:00:00 +0000 UTC")
+	__A__00000000_.FloatValue = 14.500000
+	__A__00000000_.IntValue = 9
+	__A__00000000_.Duration = -446400000000000
+	__A__00000000_.EnumString = models.EnumTypeString_Value1
+	__A__00000000_.EnumInt = models.EnumTypeInt_Value1
 
 	__A__00000006_.Name = `A6`
+	__A__00000006_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__A__00000006_.FloatValue = 0.000000
+	__A__00000006_.IntValue = 0
+	__A__00000006_.Duration = 0
+	__A__00000006_.EnumInt = models.
 
 	__A__00000007_.Name = `fff`
+	__A__00000007_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__A__00000007_.FloatValue = 0.000000
+	__A__00000007_.IntValue = 0
+	__A__00000007_.Duration = 0
+	__A__00000007_.EnumInt = models.
 
 	__B__00000001_.Name = `1___0009`
 
@@ -121,7 +137,7 @@ func _(stage *models.Stage) {
 	__B__00000035_.Name = `B35`
 
 	// insertion point for setup of pointers
-	__A__00000000_.B = nil
+	__A__00000000_.B = __B__00000010_
 	__A__00000006_.B = __B__00000001_
 	__A__00000006_.Bs = append(__A__00000006_.Bs, __B__00000007_)
 	__A__00000006_.Bs = append(__A__00000006_.Bs, __B__00000008_)

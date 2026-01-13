@@ -689,6 +689,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "A":
 							switch fieldName {
 							// insertion point for date assign code
+							case "Date":
+								__gong__map_A[identifier].Date, _ = time.Parse(
+									"2006-01-02 15:04:05.999999999 -0700 MST",
+									date)
 							}
 						case "B":
 							switch fieldName {
@@ -854,6 +858,27 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_A[identifier].Name = fielValue
+				case "FloatValue":
+					// convert string to float64
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_A[identifier].FloatValue = exprSign * fielValue
+				case "IntValue":
+					// convert string to int
+					fielValue, err := strconv.ParseInt(basicLit.Value, 10, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_A[identifier].IntValue = int(exprSign) * int(fielValue)
+				case "Duration":
+					// convert string to duration
+					fielValue, err := strconv.ParseInt(basicLit.Value, 10, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_A[identifier].Duration = time.Duration(int(exprSign) * int(fielValue))
 				}
 			case "B":
 				switch fieldName {
@@ -950,6 +975,20 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				case "A":
 					switch fieldName {
 					// insertion point for selector expr assign code
+					case "EnumString":
+						var val EnumTypeString
+						err := (&val).FromCodeString(enumValue)
+						if err != nil {
+							log.Fatalln(err)
+						}
+						__gong__map_A[identifier].EnumString = EnumTypeString(val)
+					case "EnumInt":
+						var val EnumTypeInt
+						err := (&val).FromCodeString(enumValue)
+						if err != nil {
+							log.Fatalln(err)
+						}
+						__gong__map_A[identifier].EnumInt = EnumTypeInt(val)
 					}
 				case "B":
 					switch fieldName {

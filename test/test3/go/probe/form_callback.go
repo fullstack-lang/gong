@@ -64,6 +64,18 @@ func (aFormCallback *AFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(a_.Name), formDiv)
+		case "Date":
+			FormDivBasicFieldToField(&(a_.Date), formDiv)
+		case "FloatValue":
+			FormDivBasicFieldToField(&(a_.FloatValue), formDiv)
+		case "IntValue":
+			FormDivBasicFieldToField(&(a_.IntValue), formDiv)
+		case "Duration":
+			FormDivBasicFieldToField(&(a_.Duration), formDiv)
+		case "EnumString":
+			FormDivEnumStringFieldToField(&(a_.EnumString), formDiv)
+		case "EnumInt":
+			FormDivEnumIntFieldToField(&(a_.EnumInt), formDiv)
 		case "B":
 			FormDivSelectFieldToField(&(a_.B), aFormCallback.probe.stageOfInterest, formDiv)
 		case "Bs":
