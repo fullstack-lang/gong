@@ -129,13 +129,27 @@ map[GongMarshallFilePerStructSubTemplateId]string{
 			res = strings.ReplaceAll(res, "{{Identifier}}", {{structname}}.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "{{FieldName}}")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+{{structname}}.{{FieldName}}.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", {{structname}}.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "{{FieldName}}")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
 		}
 `,
 	GongMarshallFileFieldSubTmplSetBasicFieldEnumInt: `
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", {{structname}}.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "{{FieldName}}")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+{{structname}}.{{FieldName}}.ToCodeString())
+		if {{structname}}.{{FieldName}}.ToCodeString() != "" {
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", {{structname}}.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "{{FieldName}}")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+{{structname}}.{{FieldName}}.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", {{structname}}.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "{{FieldName}}")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
+		}
 `,
 	GongMarshallFileFieldSubTmplSetBasicFieldFloat64: `
 		res = NumberInitStatement
