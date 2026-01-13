@@ -9,6 +9,7 @@ import (
 	"go/token"
 	"log"
 	"path/filepath"
+	"slices"
 	"strconv"
 	"strings"
 	"time"
@@ -253,10 +254,37 @@ func (u *AUnmarshaller) UnmarshallField(stage *Stage, i any, fieldName string, v
 		}
 	case "Bs":
 		if call, ok := valueExpr.(*ast.CallExpr); ok {
-			if len(call.Args) >= 2 {
-				if ident, ok := call.Args[len(call.Args)-1].(*ast.Ident); ok {
-					if val, ok := identifierMap[ident.Name]; ok {
-						instance.Bs = append(instance.Bs, val.(*B))
+			funcName := ""
+			var isSlices bool
+
+			if sel, ok := call.Fun.(*ast.SelectorExpr); ok {
+				if ident, ok := sel.X.(*ast.Ident); ok && ident.Name == "slices" {
+					isSlices = true
+					funcName = sel.Sel.Name
+				}
+			} else if ident, ok := call.Fun.(*ast.Ident); ok {
+				funcName = ident.Name
+			}
+
+			if isSlices {
+				if funcName == "Delete" && len(call.Args) == 3 {
+					start := ExtractInt(call.Args[1])
+					end := ExtractInt(call.Args[2])
+					instance.Bs = slices.Delete(instance.Bs, start, end)
+				} else if funcName == "Insert" && len(call.Args) == 3 {
+					index := ExtractInt(call.Args[1])
+					if ident, ok := call.Args[2].(*ast.Ident); ok {
+						if val, ok := identifierMap[ident.Name]; ok {
+							instance.Bs = slices.Insert(instance.Bs, index, val.(*B))
+						}
+					}
+				}
+			} else if funcName == "append" {
+				if len(call.Args) >= 2 {
+					if ident, ok := call.Args[len(call.Args)-1].(*ast.Ident); ok {
+						if val, ok := identifierMap[ident.Name]; ok {
+							instance.Bs = append(instance.Bs, val.(*B))
+						}
 					}
 				}
 			}
