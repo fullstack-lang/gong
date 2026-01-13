@@ -13,11 +13,29 @@ type A_WOP struct {
 	// insertion point
 
 	Name string
+
+	Date time.Time
+
+	FloatValue float64
+
+	IntValue int
+
+	Duration time.Duration
+
+	EnumString EnumTypeString
+
+	EnumInt EnumTypeInt
 }
 
 func (from *A) CopyBasicFields(to *A) {
 	// insertion point
 	to.Name = from.Name
+	to.Date = from.Date
+	to.FloatValue = from.FloatValue
+	to.IntValue = from.IntValue
+	to.Duration = from.Duration
+	to.EnumString = from.EnumString
+	to.EnumInt = from.EnumInt
 }
 
 type B_WOP struct {

@@ -1025,6 +1025,30 @@ func (a *A) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
+			Name:               "Date",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "FloatValue",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "IntValue",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "Duration",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "EnumString",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "EnumInt",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
 			Name:                 "B",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "B",
@@ -1108,6 +1132,63 @@ func (a *A) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValu
 	// string value of fields
 	case "Name":
 		res.valueString = a.Name
+	case "Date":
+		res.valueString = a.Date.String()
+	case "FloatValue":
+		res.valueString = fmt.Sprintf("%f", a.FloatValue)
+		res.valueFloat = a.FloatValue
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IntValue":
+		res.valueString = fmt.Sprintf("%d", a.IntValue)
+		res.valueInt = a.IntValue
+		res.GongFieldValueType = GongFieldValueTypeInt
+	case "Duration":
+		if math.Abs(a.Duration.Hours()) >= 24 {
+			days := __Gong__Abs(int(int(a.Duration.Hours()) / 24))
+			months := int(days / 31)
+			days = days - months*31
+
+			remainingHours := int(a.Duration.Hours()) % 24
+			remainingMinutes := int(a.Duration.Minutes()) % 60
+			remainingSeconds := int(a.Duration.Seconds()) % 60
+
+			if a.Duration.Hours() < 0 {
+				res.valueString = "- "
+			}
+
+			if months > 0 {
+				if months > 1 {
+					res.valueString = res.valueString + fmt.Sprintf("%d months", months)
+				} else {
+					res.valueString = res.valueString + fmt.Sprintf("%d month", months)
+				}
+			}
+			if days > 0 {
+				if months != 0 {
+					res.valueString = res.valueString + ", "
+				}
+				if days > 1 {
+					res.valueString = res.valueString + fmt.Sprintf("%d days", days)
+				} else {
+					res.valueString = res.valueString + fmt.Sprintf("%d day", days)
+				}
+
+			}
+			if remainingHours != 0 || remainingMinutes != 0 || remainingSeconds != 0 {
+				if days != 0 || (days == 0 && months != 0) {
+					res.valueString = res.valueString + ", "
+				}
+				res.valueString = res.valueString + fmt.Sprintf("%d hours, %d minutes, %d seconds\n", remainingHours, remainingMinutes, remainingSeconds)
+			}
+		} else {
+			res.valueString = fmt.Sprintf("%s\n", a.Duration.String())
+		}
+	case "EnumString":
+		enum := a.EnumString
+		res.valueString = enum.ToCodeString()
+	case "EnumInt":
+		enum := a.EnumInt
+		res.valueString = enum.ToCodeString()
 	case "B":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if a.B != nil {
@@ -1147,6 +1228,14 @@ func (a *A) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Sta
 	// insertion point for per field code
 	case "Name":
 		a.Name = value.GetValueString()
+	case "FloatValue":
+		a.FloatValue = value.GetValueFloat()
+	case "IntValue":
+		a.IntValue = int(value.GetValueInt())
+	case "EnumString":
+		a.EnumString.FromCodeString(value.GetValueString())
+	case "EnumInt":
+		a.EnumInt.FromCodeString(value.GetValueString())
 	case "B":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
