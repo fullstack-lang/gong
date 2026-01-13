@@ -6,6 +6,7 @@ var GeneratedModelFiles = []string{
 	"../embed.go",
 
 	string(GeneratedGongAstGoFilePath),
+	string(GeneratedGongAstGo2FilePath),
 	string(GeneratedGongCallbacksGoFilePath),
 	string(GeneratedGongCleanGoFilePath),
 	string(GeneratedGongCoderGoFilePath),
@@ -54,6 +55,7 @@ const (
 	LegacyGeneratedGongWopGoFilePath          GeneratedGoFilePath = "gong_wop.go"
 
 	GeneratedGongAstGoFilePath             GeneratedGoFilePath = "zzz_gong_ast.go"
+	GeneratedGongAstGo2FilePath            GeneratedGoFilePath = "zzz_gong_ast2.go"
 	GeneratedGongCallbacksGoFilePath       GeneratedGoFilePath = "zzz_gong_callbacks.go"
 	GeneratedGongCleanGoFilePath           GeneratedGoFilePath = "zzz_gong_clean.go"
 	GeneratedGongCoderGoFilePath           GeneratedGoFilePath = "zzz_gong_coder.go"
