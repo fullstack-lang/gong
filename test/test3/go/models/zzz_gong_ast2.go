@@ -28,9 +28,6 @@ type ModelUnmarshaller interface {
 	UnmarshallField(stage *Stage, instance GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error
 }
 
-// GongUnmarshallers is the registry of all model unmarshallers
-var GongUnmarshallers = make(map[string]ModelUnmarshaller)
-
 // ParseAstFile Parse pathToFile and stages all instances declared in the file
 func ParseAstFile2(stage *Stage, pathToFile string, preserveOrder bool) error {
 	fileOfInterest, err := filepath.Abs(pathToFile)
@@ -64,7 +61,7 @@ func ParseAstEmbeddedFile2(stage *Stage, directory embed.FS, pathToFile string) 
 }
 
 // ParseAstFileFromAst traverses the AST and stages instances using the Unmarshaller registry
-func ParseAstFileFromAst2(stage *Stage, inFile *ast.File, fset *token.FileSet, preserveOrder bool) error {
+func ParseAstFileFromAst(stage *Stage, inFile *ast.File, fset *token.FileSet, preserveOrder bool) error {
 
 	// 1. Remove Global Variables: Use a local map to track variable names to instances
 	identifierMap := make(map[string]GongstructIF)
@@ -106,7 +103,7 @@ func ParseAstFileFromAst2(stage *Stage, inFile *ast.File, fset *token.FileSet, p
 
 					// Dispatch to specific Unmarshaller
 					if typeName != "" {
-						if unmarshaller, exists := GongUnmarshallers[typeName]; exists {
+						if unmarshaller, exists := stage.GongUnmarshallers[typeName]; exists {
 							instance, err := unmarshaller.Initialize(stage, instanceName, preserveOrder)
 							if err == nil {
 								identifierMap[ident.Name] = instance
@@ -127,7 +124,7 @@ func ParseAstFileFromAst2(stage *Stage, inFile *ast.File, fset *token.FileSet, p
 							parts := strings.Split(ident.Name, "__")
 							if len(parts) >= 2 {
 								typeName := parts[1]
-								if unmarshaller, exists := GongUnmarshallers[typeName]; exists {
+								if unmarshaller, exists := stage.GongUnmarshallers[typeName]; exists {
 									// 3. Strategy Pattern: Delegate to Handler
 									unmarshaller.UnmarshallField(stage, instance, selExpr.Sel.Name, node.Rhs[0], identifierMap)
 								}
@@ -268,11 +265,6 @@ func GongUnmarshallEnum[T interface{ FromCodeString(string) error }](
 // ------------------------------------------------------------------------------------------------
 // GENERATED MODULAR HANDLERS
 // ------------------------------------------------------------------------------------------------
-
-func init() {
-	GongUnmarshallers["A"] = &AUnmarshaller{}
-	GongUnmarshallers["B"] = &BUnmarshaller{}
-}
 
 // --- A Unmarshaller ---
 type AUnmarshaller struct{}
