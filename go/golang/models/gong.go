@@ -60,6 +60,7 @@ const (
 	ModelGongOrderMapsInit
 	ModelGongOrderSwitchGet
 
+	ModelGongNamedStructsUnmarshallers
 	ModelGongNamedStructsSliceInit
 	ModelGongNamedStructsInstancesNames
 
@@ -344,6 +345,10 @@ func ({{structname}} *{{Structname}}) SetName(name string) {
 	ModelGongOrderSwitchGet: `
 	case *{{Structname}}:
 		return stage.{{Structname}}Map_Staged_Order[instance]`,
+
+	ModelGongNamedStructsUnmarshallers: `
+			"{{Structname}}": &{{Structname}}Unmarshaller{},
+	`,
 
 	ModelGongNamedStructsSliceInit: `
 			{name: "{{Structname}}"},`,

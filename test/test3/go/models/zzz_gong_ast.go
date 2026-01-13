@@ -107,7 +107,7 @@ func ParseAstEmbeddedFile(stage *Stage, directory embed.FS, pathToFile string) e
 
 // ParseAstFile Parse pathToFile and stages all instances
 // declared in the file
-func ParseAstFileFromAst2(stage *Stage, inFile *ast.File, fset *token.FileSet, preserveOrder bool) error {
+func ParseAstFileFromAst(stage *Stage, inFile *ast.File, fset *token.FileSet, preserveOrder bool) error {
 	// Robust parsing of imports to identify the meta package.
 	// We ignore standard imports and the primary models package import.
 	stage.MetaPackageImportAlias = ""

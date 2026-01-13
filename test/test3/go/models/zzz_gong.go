@@ -390,11 +390,12 @@ func NewStage(name string) (stage *Stage) {
 		BMap_Staged_Order: make(map[*B]uint),
 
 		// end of insertion point
-
-		GongUnmarshallers: map[string]ModelUnmarshaller{
+		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
 			"A": &AUnmarshaller{},
+	
 			"B": &BUnmarshaller{},
-		},
+	
+		}, // end of insertion point
 
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
 			{name: "A"},
