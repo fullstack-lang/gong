@@ -187,6 +187,84 @@ func GongExtractBool(expr ast.Expr) bool {
 	return false
 }
 
+// GongUnmarshallSliceOfPointers handles append, slices.Delete, and slices.Insert for slice fields
+func GongUnmarshallSliceOfPointers[T PointerToGongstruct](
+	slice *[]T,
+	valueExpr ast.Expr,
+	identifierMap map[string]GongstructIF) {
+
+	if call, ok := valueExpr.(*ast.CallExpr); ok {
+		funcName := ""
+		var isSlices bool
+
+		if sel, ok := call.Fun.(*ast.SelectorExpr); ok {
+			if ident, ok := sel.X.(*ast.Ident); ok && ident.Name == "slices" {
+				isSlices = true
+				funcName = sel.Sel.Name
+			}
+		} else if ident, ok := call.Fun.(*ast.Ident); ok {
+			funcName = ident.Name
+		}
+
+		if isSlices {
+			if funcName == "Delete" && len(call.Args) == 3 {
+				start := GongExtractInt(call.Args[1])
+				end := GongExtractInt(call.Args[2])
+				*slice = slices.Delete(*slice, start, end)
+			} else if funcName == "Insert" && len(call.Args) == 3 {
+				index := GongExtractInt(call.Args[1])
+				if ident, ok := call.Args[2].(*ast.Ident); ok {
+					if val, ok := identifierMap[ident.Name]; ok {
+						*slice = slices.Insert(*slice, index, val.(T))
+					}
+				}
+			}
+		} else if funcName == "append" {
+			if len(call.Args) >= 2 {
+				if ident, ok := call.Args[len(call.Args)-1].(*ast.Ident); ok {
+					if val, ok := identifierMap[ident.Name]; ok {
+						*slice = append(*slice, val.(T))
+					}
+				}
+			}
+		}
+	}
+}
+
+// GongUnmarshallPointer handles assignment of a single pointer field
+func GongUnmarshallPointer[T PointerToGongstruct](
+	ptr *T,
+	valueExpr ast.Expr,
+	identifierMap map[string]GongstructIF) {
+
+	if ident, ok := valueExpr.(*ast.Ident); ok {
+		if val, ok := identifierMap[ident.Name]; ok {
+			*ptr = val.(T)
+		}
+	}
+}
+
+// GongUnmarshallEnum handles assignment of enum fields (via SelectorExpr or String fallback)
+func GongUnmarshallEnum[T interface{ FromCodeString(string) error }](
+	ptr T,
+	valueExpr ast.Expr) {
+
+	// Case 1: Standard Enum usage (models.EnumType_Value)
+	if sel, ok := valueExpr.(*ast.SelectorExpr); ok {
+		if err := ptr.FromCodeString(sel.Sel.Name); err != nil {
+			log.Printf("UnmarshallEnum: Error parsing code string '%s': %v", sel.Sel.Name, err)
+		}
+	} else {
+		// Case 2: Fallback to string literal
+		valStr := GongExtractString(valueExpr)
+		if valStr != "" {
+			if err := ptr.FromCodeString(valStr); err != nil {
+				log.Printf("UnmarshallEnum: Error parsing string literal '%s': %v", valStr, err)
+			}
+		}
+	}
+}
+
 // ------------------------------------------------------------------------------------------------
 // GENERATED MODULAR HANDLERS
 // ------------------------------------------------------------------------------------------------
@@ -226,69 +304,13 @@ func (u *AUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName 
 	case "Duration":
 		instance.Duration = time.Duration(GongExtractInt(valueExpr))
 	case "EnumString":
-		// Handle Enum (Usually a SelectorExpr like models.Value1)
-		if sel, ok := valueExpr.(*ast.SelectorExpr); ok {
-			// In case the generated code requires FromCodeString (standard Gong pattern)
-			// We can simulate it or direct cast if the method isn't generated yet.
-			// Here we assume direct cast for simplicity or standard string extraction.
-			instance.EnumString = EnumTypeString(sel.Sel.Name)
-		} else {
-			// Fallback if it is a string literal
-			instance.EnumString = EnumTypeString(GongExtractString(valueExpr))
-		}
+		GongUnmarshallEnum(&instance.EnumString, valueExpr)
 	case "EnumInt":
-		if sel, ok := valueExpr.(*ast.SelectorExpr); ok {
-			enumValue := sel.Sel.Name
-			var val EnumTypeInt
-			err := (&val).FromCodeString(enumValue)
-			if err != nil {
-				log.Fatalln(err)
-			}
-			instance.EnumInt = EnumTypeInt(val)
-		}
+		GongUnmarshallEnum(&instance.EnumInt, valueExpr)
 	case "B":
-		if ident, ok := valueExpr.(*ast.Ident); ok {
-			if val, ok := identifierMap[ident.Name]; ok {
-				instance.B = val.(*B)
-			}
-		}
+		GongUnmarshallPointer(&instance.B, valueExpr, identifierMap)
 	case "Bs":
-		if call, ok := valueExpr.(*ast.CallExpr); ok {
-			funcName := ""
-			var isSlices bool
-
-			if sel, ok := call.Fun.(*ast.SelectorExpr); ok {
-				if ident, ok := sel.X.(*ast.Ident); ok && ident.Name == "slices" {
-					isSlices = true
-					funcName = sel.Sel.Name
-				}
-			} else if ident, ok := call.Fun.(*ast.Ident); ok {
-				funcName = ident.Name
-			}
-
-			if isSlices {
-				if funcName == "Delete" && len(call.Args) == 3 {
-					start := GongExtractInt(call.Args[1])
-					end := GongExtractInt(call.Args[2])
-					instance.Bs = slices.Delete(instance.Bs, start, end)
-				} else if funcName == "Insert" && len(call.Args) == 3 {
-					index := GongExtractInt(call.Args[1])
-					if ident, ok := call.Args[2].(*ast.Ident); ok {
-						if val, ok := identifierMap[ident.Name]; ok {
-							instance.Bs = slices.Insert(instance.Bs, index, val.(*B))
-						}
-					}
-				}
-			} else if funcName == "append" {
-				if len(call.Args) >= 2 {
-					if ident, ok := call.Args[len(call.Args)-1].(*ast.Ident); ok {
-						if val, ok := identifierMap[ident.Name]; ok {
-							instance.Bs = append(instance.Bs, val.(*B))
-						}
-					}
-				}
-			}
-		}
+		GongUnmarshallSliceOfPointers(&instance.Bs, valueExpr, identifierMap)
 	}
 	return nil
 }
