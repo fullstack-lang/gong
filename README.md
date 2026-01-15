@@ -9,7 +9,7 @@
 
 # 1. Why Gong ?
 
-Gong is a framework for developping Domain Specific Modelling Environnement (DSME).
+Gong is a framework for lowering the effort for developping Domain Specific Modelling Environnement (DSME).
 
 A DSME is an application that allows a users to edit data and diagrams.
 The data is based on the abstract syntax of the Domain Specific Language (DSL). The diagrams are based on the concrete syntax of the DSL.
