@@ -27,7 +27,7 @@ type Paragraph struct {
 	ParagraphProperties *ParagraphProperties
 	Runes               []*Rune
 
-	Text string // collated text of all runes
+	CollatedText string // collated text of all runes
 
 	// navigation
 	Next                 *Paragraph

@@ -62,7 +62,7 @@ func walk(
 			rune_.Text = text
 			text.EnclosingRune = rune_
 			if rune_.EnclosingParagraph != nil {
-				rune_.EnclosingParagraph.Text = rune_.EnclosingParagraph.Text + text.Content
+				rune_.EnclosingParagraph.CollatedText = rune_.EnclosingParagraph.CollatedText + text.Content
 			}
 		}
 
