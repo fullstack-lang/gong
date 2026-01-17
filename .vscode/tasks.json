@@ -157,6 +157,21 @@
       ]
     },
     {
+      "label": "01 - gong generate docx",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}/pkg/docx"
+      },
+      "command": "gong",
+      "group": "build",
+      "args": [
+        "generate",
+        "--skipGoModCommands",
+        "--level1",
+        "go/models"
+      ]
+    },
+    {
       "label": "01 - gong generate load",
       "type": "shell",
       "options": {

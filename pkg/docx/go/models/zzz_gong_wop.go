@@ -71,14 +71,14 @@ type Paragraph_WOP struct {
 
 	Content string
 
-	Text string
+	CollatedText string
 }
 
 func (from *Paragraph) CopyBasicFields(to *Paragraph) {
 	// insertion point
 	to.Name = from.Name
 	to.Content = from.Content
-	to.Text = from.Text
+	to.CollatedText = from.CollatedText
 }
 
 type ParagraphProperties_WOP struct {

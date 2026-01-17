@@ -432,7 +432,7 @@ func (u *ParagraphUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 		GongUnmarshallPointer(&instance.ParagraphProperties, valueExpr, identifierMap)
 	case "Runes":
 		GongUnmarshallSliceOfPointers(&instance.Runes, valueExpr, identifierMap)
-	case "Text":
+	case "CollatedText":
 		instance.Name = GongExtractString(valueExpr)
 	case "Next":
 		GongUnmarshallPointer(&instance.Next, valueExpr, identifierMap)

@@ -4207,7 +4207,7 @@ func (paragraph *Paragraph) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Rune",
 		},
 		{
-			Name:               "Text",
+			Name:               "CollatedText",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
@@ -4701,8 +4701,8 @@ func (paragraph *Paragraph) GongGetFieldValue(fieldName string, stage *Stage) (r
 			res.valueString += __instance__.Name
 			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 		}
-	case "Text":
-		res.valueString = paragraph.Text
+	case "CollatedText":
+		res.valueString = paragraph.CollatedText
 	case "Next":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if paragraph.Next != nil {
@@ -5198,8 +5198,8 @@ func (paragraph *Paragraph) GongSetFieldValue(fieldName string, value GongFieldV
 				}
 			}
 		}
-	case "Text":
-		paragraph.Text = value.GetValueString()
+	case "CollatedText":
+		paragraph.CollatedText = value.GetValueString()
 	case "Next":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {

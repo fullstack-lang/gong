@@ -104,7 +104,7 @@ func FillUpForm(
 		AssociationFieldToForm("Node", instanceWithInferedType.Node, formGroup, probe)
 		AssociationFieldToForm("ParagraphProperties", instanceWithInferedType.ParagraphProperties, formGroup, probe)
 		AssociationSliceToForm("Runes", instanceWithInferedType, &instanceWithInferedType.Runes, formGroup, probe)
-		BasicFieldtoForm("Text", instanceWithInferedType.Text, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("CollatedText", instanceWithInferedType.CollatedText, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		AssociationFieldToForm("Next", instanceWithInferedType.Next, formGroup, probe)
 		AssociationFieldToForm("Previous", instanceWithInferedType.Previous, formGroup, probe)

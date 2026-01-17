@@ -747,8 +747,8 @@ func (paragraphFormCallback *ParagraphFormCallback) OnSave() {
 			}
 			paragraph_.Runes = instanceSlice
 
-		case "Text":
-			FormDivBasicFieldToField(&(paragraph_.Text), formDiv)
+		case "CollatedText":
+			FormDivBasicFieldToField(&(paragraph_.CollatedText), formDiv)
 		case "Next":
 			FormDivSelectFieldToField(&(paragraph_.Next), paragraphFormCallback.probe.stageOfInterest, formDiv)
 		case "Previous":
