@@ -1766,8 +1766,8 @@ func (paragraph *Paragraph) GongDiff(stage *Stage, paragraphOther *Paragraph) (d
 		ops := Diff(stage, paragraph, paragraphOther, "Runes", paragraphOther.Runes, paragraph.Runes)
 		diffs = append(diffs, ops)
 	}
-	if paragraph.Text != paragraphOther.Text {
-		diffs = append(diffs, paragraph.GongMarshallField(stage, "Text"))
+	if paragraph.CollatedText != paragraphOther.CollatedText {
+		diffs = append(diffs, paragraph.GongMarshallField(stage, "CollatedText"))
 	}
 	if (paragraph.Next == nil) != (paragraphOther.Next == nil) {
 		diffs = append(diffs, paragraph.GongMarshallField(stage, "Next"))

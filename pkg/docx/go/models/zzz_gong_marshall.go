@@ -276,7 +276,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements += paragraph.GongMarshallField(stage, "Node")
 		pointersInitializesStatements += paragraph.GongMarshallField(stage, "ParagraphProperties")
 		pointersInitializesStatements += paragraph.GongMarshallField(stage, "Runes")
-		initializerStatements += paragraph.GongMarshallField(stage, "Text")
+		initializerStatements += paragraph.GongMarshallField(stage, "CollatedText")
 		pointersInitializesStatements += paragraph.GongMarshallField(stage, "Next")
 		pointersInitializesStatements += paragraph.GongMarshallField(stage, "Previous")
 		pointersInitializesStatements += paragraph.GongMarshallField(stage, "EnclosingBody")
@@ -947,11 +947,11 @@ func (paragraph *Paragraph) GongMarshallField(stage *Stage, fieldName string) (r
 		res = strings.ReplaceAll(res, "{{Identifier}}", paragraph.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Content")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(paragraph.Content))
-	case "Text":
+	case "CollatedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", paragraph.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Text")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(paragraph.Text))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CollatedText")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(paragraph.CollatedText))
 
 	case "Node":
 		if paragraph.Node != nil {
@@ -1573,7 +1573,7 @@ func (paragraph *Paragraph) GongMarshallAllFields(stage *Stage) (initializerStat
 		pointersInitializesStatements += paragraph.GongMarshallField(stage, "Node")
 		pointersInitializesStatements += paragraph.GongMarshallField(stage, "ParagraphProperties")
 		pointersInitializesStatements += paragraph.GongMarshallField(stage, "Runes")
-		initializerStatements += paragraph.GongMarshallField(stage, "Text")
+		initializerStatements += paragraph.GongMarshallField(stage, "CollatedText")
 		pointersInitializesStatements += paragraph.GongMarshallField(stage, "Next")
 		pointersInitializesStatements += paragraph.GongMarshallField(stage, "Previous")
 		pointersInitializesStatements += paragraph.GongMarshallField(stage, "EnclosingBody")
