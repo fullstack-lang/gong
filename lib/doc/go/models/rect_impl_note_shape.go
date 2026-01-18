@@ -9,30 +9,52 @@ import (
 // RectImplNoteShape
 // it meets the interface of RectImplInterface
 type RectImplNoteShape struct {
-	noteShape    *GongNoteShape
-	gongdocStage *Stage
+	noteShape *GongNoteShape
+	stager    *Stager
 }
 
 func NewRectImplNoteShape(
 	noteShape *GongNoteShape,
-	gongdocStage *Stage) (rectImplNoteShape *RectImplNoteShape) {
+	stager *Stager) (rectImplNoteShape *RectImplNoteShape) {
 
 	rectImplNoteShape = new(RectImplNoteShape)
 	rectImplNoteShape.noteShape = noteShape
-	rectImplNoteShape.gongdocStage = gongdocStage
+	rectImplNoteShape.stager = stager
 
 	return
 }
 
-func (rectImplNoteShape *RectImplNoteShape) RectUpdated(updatedRect *gongsvg_models.Rect) {
+func (p *RectImplNoteShape) RectUpdated(updatedRect *gongsvg_models.Rect) {
 
 	log.Println("RectImplNoteShape:RectUpdated")
 
-	// update the shape
-	rectImplNoteShape.noteShape.X = updatedRect.X
-	rectImplNoteShape.noteShape.Y = updatedRect.Y
-	rectImplNoteShape.noteShape.Width = updatedRect.Width
-	rectImplNoteShape.noteShape.Height = updatedRect.Height
+	diffSize :=
+		p.noteShape.Width != updatedRect.Width ||
+			p.noteShape.Height != updatedRect.Height
 
-	rectImplNoteShape.gongdocStage.CommitWithSuspendedCallbacks()
+	diffPosition :=
+		p.noteShape.X != updatedRect.X ||
+			p.noteShape.Y != updatedRect.Y
+
+	// update the shape
+	if diffSize {
+		p.noteShape.Width = updatedRect.Width
+		p.noteShape.Height = updatedRect.Height
+		p.noteShape.X = updatedRect.X
+		p.noteShape.Y = updatedRect.Y
+		// one need to recomputes the text within the note shape
+		p.stager.stage.CommitWithSuspendedCallbacks()
+		p.stager.UpdateAndCommitSVGStage()
+
+		return
+	}
+
+	if diffPosition {
+		p.noteShape.X = updatedRect.X
+		p.noteShape.Y = updatedRect.Y
+		p.stager.stage.CommitWithSuspendedCallbacks()
+
+		return
+	}
+
 }
