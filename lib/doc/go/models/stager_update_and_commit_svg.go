@@ -410,7 +410,7 @@ func (stager *Stager) UpdateAndCommitSVGStage() {
 		rect := new(svg_models.Rect)
 		rect.Name = noteShape.Identifier
 
-		rect.Impl = NewRectImplNoteShape(noteShape, stager.stage)
+		rect.Impl = NewRectImplNoteShape(noteShape, stager)
 
 		stager.map_NoteShape_Rect[noteShape] = rect
 		stager.map_Structname_Rect[noteShape.Identifier] = rect
