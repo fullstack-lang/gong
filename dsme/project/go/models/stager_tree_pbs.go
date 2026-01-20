@@ -31,7 +31,7 @@ func (stager *Stager) treePBSRecusriveInDiagram(diagram *Diagram, product *Produ
 
 	// what to do when the product node is clicked
 	productNode.Impl = &tree.FunctionalNodeProxy{
-		OnUpdate: OnUpdateElementInDiagram(
+		OnUpdate: onUpdateElementInDiagram(
 			stager,
 			diagram,
 			product,
@@ -61,7 +61,7 @@ func (stager *Stager) treePBSRecusriveInDiagram(diagram *Diagram, product *Produ
 					// 	OnUpdated: stager.OnAddProductCompositionShape(diagram, parentProduct, product),
 					// }
 					showHideCompositionButton.Impl = &tree.FunctionalButtonProxy{
-						OnUpdated: OnAddAssociationShape(stager, diagram, parentProduct, product, &diagram.ProductComposition_Shapes),
+						OnUpdated: onAddAssociationShape(stager, diagram, parentProduct, product, &diagram.ProductComposition_Shapes),
 					}
 				} else {
 					showHideCompositionButton.Icon = string(buttons.BUTTON_unfold_less)
@@ -69,7 +69,7 @@ func (stager *Stager) treePBSRecusriveInDiagram(diagram *Diagram, product *Produ
 						"\" to \"" + product.Name + "\""
 
 					showHideCompositionButton.Impl = &tree.FunctionalButtonProxy{
-						OnUpdated: OnRemoveAssociationShape(stager, diagram, compositionShape, &diagram.ProductComposition_Shapes),
+						OnUpdated: onRemoveAssociationShape(stager, diagram, compositionShape, &diagram.ProductComposition_Shapes),
 					}
 				}
 				productNode.Buttons = append(productNode.Buttons, showHideCompositionButton)
