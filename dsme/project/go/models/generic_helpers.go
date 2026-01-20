@@ -194,3 +194,20 @@ func OnUpdateExpandableNode[
 		stager.stage.Commit()
 	}
 }
+
+func OnUpdateExpansion2[PT PointerToGongstruct](stager *Stager, itemsWhoseNodeIsExpanded *[]PT, item PT) func(
+	stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+	return func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+		if frontNode.IsExpanded == true && stagedNode.IsExpanded == false {
+			if slices.Index(*itemsWhoseNodeIsExpanded, item) == -1 {
+				*itemsWhoseNodeIsExpanded = append(*itemsWhoseNodeIsExpanded, item)
+			}
+		}
+		if frontNode.IsExpanded == false && stagedNode.IsExpanded == true {
+			if idx := slices.Index(*itemsWhoseNodeIsExpanded, item); idx != -1 {
+				*itemsWhoseNodeIsExpanded = slices.Delete(*itemsWhoseNodeIsExpanded, idx, idx+1)
+			}
+		}
+		stager.stage.Commit()
+	}
+}
