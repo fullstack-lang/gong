@@ -25,7 +25,6 @@ type BeforeCommitImplementation struct {
 }
 
 func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.Stage) {
-
 	// the ".go" is not provided
 	filename := impl.marshallOnCommit
 	if !strings.HasSuffix(filename, ".go") {
@@ -59,14 +58,12 @@ func NewLevel1Stack(
 	withProbe bool,
 	embeddedDiagrams bool,
 ) (level1Stack *Level1Stack) {
-
 	level1Stack = new(Level1Stack)
 	stage := models.NewStage(stackPath)
 	level1Stack.Stage = stage
 
 	if unmarshallFromCode != "" {
 		err := models.ParseAstFile(stage, unmarshallFromCode, true)
-
 		// if the application is run with -unmarshallFromCode=xxx.go -marshallOnCommit
 		// xxx.go might be absent the first time. However, this shall not be a show stopper.
 		if err != nil {

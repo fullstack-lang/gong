@@ -180,12 +180,12 @@ func (stager *Stager) tree() {
 			notesNode := &tree.Node{
 				Name:            "Notes",
 				FontStyle:       tree.ITALIC,
-				IsExpanded:      project.IsNotesNodeExpanded,
+				IsExpanded:      diagram.IsNotesNodeExpanded,
 				IsNodeClickable: true,
 			}
 			diagramNode.Children = append(diagramNode.Children, notesNode)
 			notesNode.Impl = &tree.FunctionalNodeProxy{
-				OnUpdate: stager.OnUpdateExpansion(&project.IsNotesNodeExpanded),
+				OnUpdate: stager.OnUpdateExpansion(&diagram.IsNotesNodeExpanded),
 			}
 
 			addAddItemButton(stager, nil, nil, notesNode, &project.Notes)
