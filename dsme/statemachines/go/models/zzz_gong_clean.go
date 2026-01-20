@@ -47,8 +47,8 @@ func (activities *Activities) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Architecture
 func (architecture *Architecture) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &architecture.StateMachines)  || modified
-	modified = GongCleanSlice(stage, &architecture.Roles)  || modified
+	modified = GongCleanSlice(stage, &architecture.StateMachines) || modified
+	modified = GongCleanSlice(stage, &architecture.Roles) || modified
 	// insertion point per field
 	return
 }
@@ -56,8 +56,8 @@ func (architecture *Architecture) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Diagram
 func (diagram *Diagram) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &diagram.State_Shapes)  || modified
-	modified = GongCleanSlice(stage, &diagram.Transition_Shapes)  || modified
+	modified = GongCleanSlice(stage, &diagram.State_Shapes) || modified
+	modified = GongCleanSlice(stage, &diagram.Transition_Shapes) || modified
 	// insertion point per field
 	return
 }
@@ -80,8 +80,8 @@ func (kill *Kill) GongClean(stage *Stage) (modified bool) {
 func (message *Message) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &message.MessageType)  || modified
-	modified = GongCleanPointer(stage, &message.OriginTransition)  || modified
+	modified = GongCleanPointer(stage, &message.MessageType) || modified
+	modified = GongCleanPointer(stage, &message.OriginTransition) || modified
 	return
 }
 
@@ -95,16 +95,16 @@ func (messagetype *MessageType) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Object
 func (object *Object) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &object.Messages)  || modified
+	modified = GongCleanSlice(stage, &object.Messages) || modified
 	// insertion point per field
-	modified = GongCleanPointer(stage, &object.State)  || modified
+	modified = GongCleanPointer(stage, &object.State) || modified
 	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by Role
 func (role *Role) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &role.RolesWithSamePermissions)  || modified
+	modified = GongCleanSlice(stage, &role.RolesWithSamePermissions) || modified
 	// insertion point per field
 	return
 }
@@ -112,23 +112,23 @@ func (role *Role) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by State
 func (state *State) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &state.SubStates)  || modified
-	modified = GongCleanSlice(stage, &state.Diagrams)  || modified
-	modified = GongCleanSlice(stage, &state.Activities)  || modified
+	modified = GongCleanSlice(stage, &state.SubStates) || modified
+	modified = GongCleanSlice(stage, &state.Diagrams) || modified
+	modified = GongCleanSlice(stage, &state.Activities) || modified
 	// insertion point per field
-	modified = GongCleanPointer(stage, &state.Parent)  || modified
-	modified = GongCleanPointer(stage, &state.Entry)  || modified
-	modified = GongCleanPointer(stage, &state.Exit)  || modified
+	modified = GongCleanPointer(stage, &state.Parent) || modified
+	modified = GongCleanPointer(stage, &state.Entry) || modified
+	modified = GongCleanPointer(stage, &state.Exit) || modified
 	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by StateMachine
 func (statemachine *StateMachine) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &statemachine.States)  || modified
-	modified = GongCleanSlice(stage, &statemachine.Diagrams)  || modified
+	modified = GongCleanSlice(stage, &statemachine.States) || modified
+	modified = GongCleanSlice(stage, &statemachine.Diagrams) || modified
 	// insertion point per field
-	modified = GongCleanPointer(stage, &statemachine.InitialState)  || modified
+	modified = GongCleanPointer(stage, &statemachine.InitialState) || modified
 	return
 }
 
@@ -136,20 +136,20 @@ func (statemachine *StateMachine) GongClean(stage *Stage) (modified bool) {
 func (stateshape *StateShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &stateshape.State)  || modified
+	modified = GongCleanPointer(stage, &stateshape.State) || modified
 	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by Transition
 func (transition *Transition) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &transition.RolesWithPermissions)  || modified
-	modified = GongCleanSlice(stage, &transition.GeneratedMessages)  || modified
-	modified = GongCleanSlice(stage, &transition.Diagrams)  || modified
+	modified = GongCleanSlice(stage, &transition.RolesWithPermissions) || modified
+	modified = GongCleanSlice(stage, &transition.GeneratedMessages) || modified
+	modified = GongCleanSlice(stage, &transition.Diagrams) || modified
 	// insertion point per field
-	modified = GongCleanPointer(stage, &transition.Start)  || modified
-	modified = GongCleanPointer(stage, &transition.End)  || modified
-	modified = GongCleanPointer(stage, &transition.Guard)  || modified
+	modified = GongCleanPointer(stage, &transition.Start) || modified
+	modified = GongCleanPointer(stage, &transition.End) || modified
+	modified = GongCleanPointer(stage, &transition.Guard) || modified
 	return
 }
 
@@ -157,7 +157,7 @@ func (transition *Transition) GongClean(stage *Stage) (modified bool) {
 func (transition_shape *Transition_Shape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &transition_shape.Transition)  || modified
+	modified = GongCleanPointer(stage, &transition_shape.Transition) || modified
 	return
 }
 
