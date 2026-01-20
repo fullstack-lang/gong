@@ -22,7 +22,6 @@ var _ map[string]any = map[string]any{
 
 // function will stage objects
 func _(stage *models.Stage) {
-
 	// insertion point for declaration of instances to stage
 
 	__Classdiagram__00000000_ := (&models.Classdiagram{Name: `Abstract model`}).Stage(stage)
