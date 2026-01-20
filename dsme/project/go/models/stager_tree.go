@@ -34,66 +34,6 @@ func (stager *Stager) tree() {
 			OnUpdate: stager.OnUpdateProject(project),
 		}
 
-		pbsNode := &tree.Node{
-			Name:            "PBS",
-			FontStyle:       tree.ITALIC,
-			IsExpanded:      project.IsPBSNodeExpanded,
-			IsNodeClickable: true,
-		}
-		projectNode.Children = append(projectNode.Children, pbsNode)
-		pbsNode.Impl = &tree.FunctionalNodeProxy{
-			OnUpdate: stager.OnUpdateExpansion(&project.IsPBSNodeExpanded),
-		}
-
-		addAddItemButton(stager, pbsNode, &project.RootProducts)
-
-		for _, product := range project.RootProducts {
-			stager.treePBSRecursive(product, pbsNode)
-		}
-
-		wbsNode := &tree.Node{
-			Name:            "WBS",
-			FontStyle:       tree.ITALIC,
-			IsExpanded:      project.IsWBSNodeExpanded,
-			IsNodeClickable: true,
-		}
-		projectNode.Children = append(projectNode.Children, wbsNode)
-		wbsNode.Impl = &tree.FunctionalNodeProxy{
-			OnUpdate: stager.OnUpdateExpansion(&project.IsWBSNodeExpanded),
-		}
-
-		addAddItemButton(stager, wbsNode, &project.RootTasks)
-
-		for _, task := range project.RootTasks {
-			stager.treeWBSRecursive(task, wbsNode)
-		}
-
-		notesNode := &tree.Node{
-			Name:            "Notes",
-			FontStyle:       tree.ITALIC,
-			IsExpanded:      project.IsNotesNodeExpanded,
-			IsNodeClickable: true,
-		}
-		projectNode.Children = append(projectNode.Children, notesNode)
-		notesNode.Impl = &tree.FunctionalNodeProxy{
-			OnUpdate: stager.OnUpdateExpansion(&project.IsNotesNodeExpanded),
-		}
-
-		addAddItemButton(stager, notesNode, &project.Notes)
-
-		for _, note := range project.Notes {
-			noteNode := &tree.Node{
-				Name:            note.Name,
-				IsNodeClickable: true,
-			}
-			notesNode.Children = append(notesNode.Children, noteNode)
-			noteNode.Impl = &tree.FunctionalNodeProxy{
-				OnUpdate: func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
-					stager.probeForm.FillUpFormFromGongstruct(note, GetPointerToGongstructName[*Note]())
-				},
-			}
-		}
-
 		diagramsNode := &tree.Node{
 			Name:            "Diagrams",
 			FontStyle:       tree.ITALIC,
