@@ -88,7 +88,7 @@ func (p *svgProxy) SVGUpdated(updatedSVG *svg.SVG) {
 		parentProduct := sourceAbstratctElement.(*Product)
 
 		parentProduct.SubProducts = append(parentProduct.SubProducts, subProduct)
-		OnAddAssociationShape(p.stager, p.diagram, parentProduct, subProduct, &diagram.ProductComposition_Shapes)
+		onAddAssociationShape(p.stager, p.diagram, parentProduct, subProduct, &diagram.ProductComposition_Shapes)
 
 	case ASSOCIATION_TYPE_TASK_COMPOSITION:
 		subTask := targetAbstractElement.(*Task)

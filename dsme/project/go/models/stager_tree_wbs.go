@@ -32,7 +32,7 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 
 	// what to do when the task node is clicked
 	taskNode.Impl = &tree.FunctionalNodeProxy{
-		OnUpdate: OnUpdateElementInDiagram(
+		OnUpdate: onUpdateElementInDiagram(
 			stager,
 			diagram,
 			task,
@@ -58,7 +58,7 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 						"\" to \"" + task.Name + "\""
 
 					showHideCompositionButton.Impl = &tree.FunctionalButtonProxy{
-						OnUpdated: OnAddAssociationShape(stager, diagram, parentTask, task, &diagram.TaskComposition_Shapes),
+						OnUpdated: onAddAssociationShape(stager, diagram, parentTask, task, &diagram.TaskComposition_Shapes),
 					}
 				} else {
 					showHideCompositionButton.Icon = string(buttons.BUTTON_unfold_less)
@@ -66,7 +66,7 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 						"\" to \"" + task.Name + "\""
 
 					showHideCompositionButton.Impl = &tree.FunctionalButtonProxy{
-						OnUpdated: OnRemoveAssociationShape(stager, diagram, compositionShape, &diagram.TaskComposition_Shapes),
+						OnUpdated: onRemoveAssociationShape(stager, diagram, compositionShape, &diagram.TaskComposition_Shapes),
 					}
 				}
 				taskNode.Buttons = append(taskNode.Buttons, showHideCompositionButton)
@@ -89,7 +89,7 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 		taskNode.Children = append(taskNode.Children, inputProductsNode)
 
 		inputProductsNode.Impl = &tree.FunctionalNodeProxy{
-			OnUpdate: OnUpdateExpandableNode(stager, task, &diagram.TasksWhoseInputNodeIsExpanded),
+			OnUpdate: onUpdateExpandableNode(stager, task, &diagram.TasksWhoseInputNodeIsExpanded),
 		}
 
 		for _, product := range task.Inputs {
@@ -122,7 +122,7 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 							"\" to \"" + product.Name + "\""
 
 						showHideTaskInputButton.Impl = &tree.FunctionalButtonProxy{
-							OnUpdated: OnRemoveAssociationShape(stager, diagram, taskInputShape, &diagram.TaskInputShapes),
+							OnUpdated: onRemoveAssociationShape(stager, diagram, taskInputShape, &diagram.TaskInputShapes),
 						}
 					} else {
 						showHideTaskInputButton.Icon = string(buttons.BUTTON_unfold_more)
@@ -130,7 +130,7 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 							"\" to \"" + product.Name + "\""
 
 						showHideTaskInputButton.Impl = &tree.FunctionalButtonProxy{
-							OnUpdated: OnAddAssociationShape(stager, diagram, task, product, &diagram.TaskInputShapes),
+							OnUpdated: onAddAssociationShape(stager, diagram, task, product, &diagram.TaskInputShapes),
 						}
 					}
 				}
@@ -149,7 +149,7 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 		taskNode.Children = append(taskNode.Children, outputProductsNode)
 
 		outputProductsNode.Impl = &tree.FunctionalNodeProxy{
-			OnUpdate: OnUpdateExpandableNode(stager, task, &diagram.TasksWhoseOutputNodeIsExpanded),
+			OnUpdate: onUpdateExpandableNode(stager, task, &diagram.TasksWhoseOutputNodeIsExpanded),
 		}
 
 		for _, product := range task.Outputs {
@@ -182,7 +182,7 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 							"\" to \"" + product.Name + "\""
 
 						showHideTaskOutputButton.Impl = &tree.FunctionalButtonProxy{
-							OnUpdated: OnRemoveAssociationShape(stager, diagram, taskOutputShape, &diagram.TaskOutputShapes),
+							OnUpdated: onRemoveAssociationShape(stager, diagram, taskOutputShape, &diagram.TaskOutputShapes),
 						}
 					} else {
 						showHideTaskOutputButton.Icon = string(buttons.BUTTON_unfold_more)
@@ -190,7 +190,7 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 							"\" to \"" + product.Name + "\""
 
 						showHideTaskOutputButton.Impl = &tree.FunctionalButtonProxy{
-							OnUpdated: OnAddAssociationShape(stager, diagram, task, product, &diagram.TaskOutputShapes),
+							OnUpdated: onAddAssociationShape(stager, diagram, task, product, &diagram.TaskOutputShapes),
 						}
 					}
 				}

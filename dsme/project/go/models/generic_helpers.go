@@ -7,7 +7,7 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
-func OnUpdateAbstractElement[AT AbstractType](stager *Stager, element AT) func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+func onUpdateAbstractElement[AT AbstractType](stager *Stager, element AT) func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
 	return func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
 		if frontNode.IsExpanded != stagedNode.IsExpanded {
 			stagedNode.IsExpanded = frontNode.IsExpanded
@@ -19,7 +19,7 @@ func OnUpdateAbstractElement[AT AbstractType](stager *Stager, element AT) func(s
 	}
 }
 
-func OnAddAssociationShape[
+func onAddAssociationShape[
 	ATstart AbstractType,
 	ATend AbstractType,
 	ACT interface {
@@ -84,7 +84,7 @@ func newConcreteAssociation[
 	return compositionShape
 }
 
-func OnRemoveAssociationShape[
+func onRemoveAssociationShape[
 	ACT interface {
 		*ACT_
 		LinkShapeInterface
@@ -100,7 +100,7 @@ func OnRemoveAssociationShape[
 	}
 }
 
-func OnUpdateElementInDiagram[
+func onUpdateElementInDiagram[
 	AT interface {
 		*AT_
 		AbstractType
@@ -164,7 +164,7 @@ func OnUpdateElementInDiagram[
 	}
 }
 
-func OnUpdateExpandableNode[
+func onUpdateExpandableNode[
 	AT interface {
 		*AT_
 		AbstractType
@@ -191,23 +191,6 @@ func OnUpdateExpandableNode[
 		}
 
 		stager.probeForm.FillUpFormFromGongstruct(element, GetPointerToGongstructName[AT]())
-		stager.stage.Commit()
-	}
-}
-
-func OnUpdateExpansion2[PT PointerToGongstruct](stager *Stager, itemsWhoseNodeIsExpanded *[]PT, item PT) func(
-	stage *tree.Stage, stagedNode, frontNode *tree.Node) {
-	return func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
-		if frontNode.IsExpanded == true && stagedNode.IsExpanded == false {
-			if slices.Index(*itemsWhoseNodeIsExpanded, item) == -1 {
-				*itemsWhoseNodeIsExpanded = append(*itemsWhoseNodeIsExpanded, item)
-			}
-		}
-		if frontNode.IsExpanded == false && stagedNode.IsExpanded == true {
-			if idx := slices.Index(*itemsWhoseNodeIsExpanded, item); idx != -1 {
-				*itemsWhoseNodeIsExpanded = slices.Delete(*itemsWhoseNodeIsExpanded, idx, idx+1)
-			}
-		}
 		stager.stage.Commit()
 	}
 }
