@@ -392,3 +392,4 @@ func (from *TaskShape) CopyBasicFields(to *TaskShape) {
 	to.Width = from.Width
 	to.Height = from.Height
 }
+
