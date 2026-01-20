@@ -15,8 +15,10 @@ import (
 	"time"
 )
 
-var _time__dummyDeclaration2 time.Duration
-var _ = _time__dummyDeclaration2
+var (
+	_time__dummyDeclaration2 time.Duration
+	_                        = _time__dummyDeclaration2
+)
 
 // ------------------------------------------------------------------------------------------------
 // STATIC AST PARSING LOGIC
@@ -65,7 +67,6 @@ func ParseAstEmbeddedFile2(stage *Stage, directory embed.FS, pathToFile string) 
 
 // ParseAstFileFromAst traverses the AST and stages instances using the Unmarshaller registry
 func ParseAstFileFromAst2(stage *Stage, inFile *ast.File, fset *token.FileSet, preserveOrder bool) error {
-
 	// 1. Remove Global Variables: Use a local map to track variable names to instances
 	identifierMap := make(map[string]GongstructIF)
 
@@ -191,8 +192,8 @@ func GongExtractBool(expr ast.Expr) bool {
 func GongUnmarshallSliceOfPointers[T PointerToGongstruct](
 	slice *[]T,
 	valueExpr ast.Expr,
-	identifierMap map[string]GongstructIF) {
-
+	identifierMap map[string]GongstructIF,
+) {
 	if call, ok := valueExpr.(*ast.CallExpr); ok {
 		funcName := ""
 		var isSlices bool
@@ -235,8 +236,8 @@ func GongUnmarshallSliceOfPointers[T PointerToGongstruct](
 func GongUnmarshallPointer[T PointerToGongstruct](
 	ptr *T,
 	valueExpr ast.Expr,
-	identifierMap map[string]GongstructIF) {
-
+	identifierMap map[string]GongstructIF,
+) {
 	if ident, ok := valueExpr.(*ast.Ident); ok {
 		if val, ok := identifierMap[ident.Name]; ok {
 			*ptr = val.(T)
@@ -247,8 +248,8 @@ func GongUnmarshallPointer[T PointerToGongstruct](
 // GongUnmarshallEnum handles assignment of enum fields (via SelectorExpr or String fallback)
 func GongUnmarshallEnum[T interface{ FromCodeString(string) error }](
 	ptr T,
-	valueExpr ast.Expr) {
-
+	valueExpr ast.Expr,
+) {
 	// Case 1: Standard Enum usage (models.EnumType_Value)
 	if sel, ok := valueExpr.(*ast.SelectorExpr); ok {
 		if err := ptr.FromCodeString(sel.Sel.Name); err != nil {
@@ -612,20 +613,14 @@ func (u *ProjectUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.Name = GongExtractString(valueExpr)
 	case "RootProducts":
 		GongUnmarshallSliceOfPointers(&instance.RootProducts, valueExpr, identifierMap)
-	case "IsPBSNodeExpanded":
-		instance.IsPBSNodeExpanded = GongExtractBool(valueExpr)
 	case "RootTasks":
 		GongUnmarshallSliceOfPointers(&instance.RootTasks, valueExpr, identifierMap)
-	case "IsWBSNodeExpanded":
-		instance.IsWBSNodeExpanded = GongExtractBool(valueExpr)
 	case "Diagrams":
 		GongUnmarshallSliceOfPointers(&instance.Diagrams, valueExpr, identifierMap)
-	case "IsDiagramsNodeExpanded":
-		instance.IsDiagramsNodeExpanded = GongExtractBool(valueExpr)
 	case "Notes":
 		GongUnmarshallSliceOfPointers(&instance.Notes, valueExpr, identifierMap)
-	case "IsNotesNodeExpanded":
-		instance.IsNotesNodeExpanded = GongExtractBool(valueExpr)
+	case "IsDiagramsNodeExpanded":
+		instance.IsDiagramsNodeExpanded = GongExtractBool(valueExpr)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
 	case "ComputedPrefix":
