@@ -122,13 +122,6 @@ func (inst *Product) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Re
 				res = _project.Name
 			}
 		}
-	case "Root":
-		switch reverseField.Fieldname {
-		case "OrphanedProducts":
-			if _root, ok := stage.Root_OrphanedProducts_reverseMap[inst]; ok {
-				res = _root.Name
-			}
-		}
 	case "Task":
 		switch reverseField.Fieldname {
 		case "Inputs":
@@ -233,13 +226,6 @@ func (inst *Task) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Rever
 		case "RootTasks":
 			if _project, ok := stage.Project_RootTasks_reverseMap[inst]; ok {
 				res = _project.Name
-			}
-		}
-	case "Root":
-		switch reverseField.Fieldname {
-		case "OrphanedTasks":
-			if _root, ok := stage.Root_OrphanedTasks_reverseMap[inst]; ok {
-				res = _root.Name
 			}
 		}
 	case "Task":
@@ -418,11 +404,6 @@ func (inst *Product) GongGetReverseFieldOwner(stage *Stage, reverseField *Revers
 		case "RootProducts":
 			res = stage.Project_RootProducts_reverseMap[inst]
 		}
-	case "Root":
-		switch reverseField.Fieldname {
-		case "OrphanedProducts":
-			res = stage.Root_OrphanedProducts_reverseMap[inst]
-		}
 	case "Task":
 		switch reverseField.Fieldname {
 		case "Inputs":
@@ -508,11 +489,6 @@ func (inst *Task) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseFi
 		switch reverseField.Fieldname {
 		case "RootTasks":
 			res = stage.Project_RootTasks_reverseMap[inst]
-		}
-	case "Root":
-		switch reverseField.Fieldname {
-		case "OrphanedTasks":
-			res = stage.Root_OrphanedTasks_reverseMap[inst]
 		}
 	case "Task":
 		switch reverseField.Fieldname {

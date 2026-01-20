@@ -1,11 +1,8 @@
 package models
 
 func (stager *Stager) collectOrphans() (needCommit bool) {
-
-	root := stager.root
-
-	needCommit = CollectOrphans(
-		GetGongstrucsSorted[*Product](stager.stage),
+	needCommit = unstageOrphans(
+		stager,
 		func() []*Product {
 			roots := make([]*Product, 0)
 			for _, project := range GetGongstrucsSorted[*Project](stager.stage) {
@@ -16,11 +13,10 @@ func (stager *Stager) collectOrphans() (needCommit bool) {
 		func(product *Product) []*Product {
 			return product.SubProducts
 		},
-		&root.OrphanedProducts,
 	)
 
-	needCommit = needCommit || CollectOrphans(
-		GetGongstrucsSorted[*Task](stager.stage),
+	needCommit = needCommit || unstageOrphans(
+		stager,
 		func() []*Task {
 			roots := make([]*Task, 0)
 			for _, task := range GetGongstrucsSorted[*Project](stager.stage) {
@@ -31,19 +27,16 @@ func (stager *Stager) collectOrphans() (needCommit bool) {
 		func(product *Task) []*Task {
 			return product.SubTasks
 		},
-		&root.OrphanedTasks,
 	)
 
 	return
 }
 
-func CollectOrphans[T comparable](
-	allNodes []T,
+func unstageOrphans[T PointerToGongstruct](
+	stager *Stager,
 	getRoots func() []T,
 	getChildren func(T) []T,
-	orphanedSlice *[]T,
 ) (needCommit bool) {
-
 	// 1. Find all reachable nodes
 	reachable := make(map[T]struct{})
 	var collectReachable func(node T)
@@ -66,34 +59,8 @@ func CollectOrphans[T comparable](
 		collectReachable(root)
 	}
 
-	// 2. Find all nodes and check for orphans
-	orphanNodes := make([]T, 0)
-	for _, node := range allNodes {
-		if _, ok := reachable[node]; !ok {
-			orphanNodes = append(orphanNodes, node)
-		}
-	}
-
-	// 3. check if the slice has changed (order does not matter)
-	if len(orphanNodes) != len(*orphanedSlice) {
-		needCommit = true
-	} else {
-		currentOrphansMap := make(map[T]struct{})
-		for _, p := range *orphanedSlice {
-			currentOrphansMap[p] = struct{}{}
-		}
-		for _, p := range orphanNodes {
-			if _, ok := currentOrphansMap[p]; !ok {
-				needCommit = true
-				break
-			}
-		}
-	}
-
-	if needCommit {
-		*orphanedSlice = (*orphanedSlice)[:0]
-		*orphanedSlice = append(*orphanedSlice, orphanNodes...)
-	}
+	// 2. Find all nodes and delete them
+	unstageUnreachableOrphans(stager, reachable)
 
 	return
 }

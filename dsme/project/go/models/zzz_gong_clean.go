@@ -114,8 +114,6 @@ func (project *Project) GongClean(stage *Stage) {
 func (root *Root) GongClean(stage *Stage) {
 	// insertion point per field
 	root.Projects = GongCleanSlice(stage, root.Projects)
-	root.OrphanedProducts = GongCleanSlice(stage, root.OrphanedProducts)
-	root.OrphanedTasks = GongCleanSlice(stage, root.OrphanedTasks)
 	// insertion point per field
 }
 

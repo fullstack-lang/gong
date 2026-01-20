@@ -444,8 +444,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for basic fields value assignment
 		initializerStatements += root.GongMarshallField(stage, "Name")
 		pointersInitializesStatements += root.GongMarshallField(stage, "Projects")
-		pointersInitializesStatements += root.GongMarshallField(stage, "OrphanedProducts")
-		pointersInitializesStatements += root.GongMarshallField(stage, "OrphanedTasks")
 		initializerStatements += root.GongMarshallField(stage, "NbPixPerCharacter")
 	}
 
@@ -1494,22 +1492,6 @@ func (root *Root) GongMarshallField(stage *Stage, fieldName string) (res string)
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _project.GongGetIdentifier(stage))
 			res += tmp
 		}
-	case "OrphanedProducts":
-		for _, _product := range root.OrphanedProducts {
-			tmp := SliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", root.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "OrphanedProducts")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _product.GongGetIdentifier(stage))
-			res += tmp
-		}
-	case "OrphanedTasks":
-		for _, _task := range root.OrphanedTasks {
-			tmp := SliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", root.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "OrphanedTasks")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _task.GongGetIdentifier(stage))
-			res += tmp
-		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Root", fieldName)
 	}
@@ -2029,8 +2011,6 @@ func (root *Root) GongMarshallAllFields(stage *Stage) (initializerStatements str
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += root.GongMarshallField(stage, "Name")
 		pointersInitializesStatements += root.GongMarshallField(stage, "Projects")
-		pointersInitializesStatements += root.GongMarshallField(stage, "OrphanedProducts")
-		pointersInitializesStatements += root.GongMarshallField(stage, "OrphanedTasks")
 		initializerStatements += root.GongMarshallField(stage, "NbPixPerCharacter")
 	}
 	return

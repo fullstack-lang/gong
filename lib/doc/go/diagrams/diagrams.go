@@ -4,6 +4,8 @@ import (
 	"time"
 
 	"github.com/fullstack-lang/gong/lib/doc/go/models"
+
+	ref_models "github.com/fullstack-lang/gong/lib/doc/go/models"
 	// injection point for ident package import declaration{{ImportPackageDeclaration}}
 )
 
@@ -20,7 +22,6 @@ var _ map[string]any = map[string]any{
 
 // function will stage objects
 func _(stage *models.Stage) {
-
 	// insertion point for declaration of instances to stage
 
 	__Classdiagram__00000000_ := (&models.Classdiagram{Name: `Default`}).Stage(stage)

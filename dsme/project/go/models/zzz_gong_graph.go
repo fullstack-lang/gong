@@ -512,12 +512,6 @@ func (stage *Stage) StageBranchRoot(root *Root) {
 	for _, _project := range root.Projects {
 		StageBranch(stage, _project)
 	}
-	for _, _product := range root.OrphanedProducts {
-		StageBranch(stage, _product)
-	}
-	for _, _task := range root.OrphanedTasks {
-		StageBranch(stage, _task)
-	}
 
 }
 
@@ -974,12 +968,6 @@ func CopyBranchRoot(mapOrigCopy map[any]any, rootFrom *Root) (rootTo *Root) {
 	for _, _project := range rootFrom.Projects {
 		rootTo.Projects = append(rootTo.Projects, CopyBranchProject(mapOrigCopy, _project))
 	}
-	for _, _product := range rootFrom.OrphanedProducts {
-		rootTo.OrphanedProducts = append(rootTo.OrphanedProducts, CopyBranchProduct(mapOrigCopy, _product))
-	}
-	for _, _task := range rootFrom.OrphanedTasks {
-		rootTo.OrphanedTasks = append(rootTo.OrphanedTasks, CopyBranchTask(mapOrigCopy, _task))
-	}
 
 	return
 }
@@ -1398,12 +1386,6 @@ func (stage *Stage) UnstageBranchRoot(root *Root) {
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _project := range root.Projects {
 		UnstageBranch(stage, _project)
-	}
-	for _, _product := range root.OrphanedProducts {
-		UnstageBranch(stage, _product)
-	}
-	for _, _task := range root.OrphanedTasks {
-		UnstageBranch(stage, _task)
 	}
 
 }
@@ -2270,48 +2252,6 @@ func (root *Root) GongDiff(stage *Stage, rootOther *Root) (diffs []string) {
 	}
 	if ProjectsDifferent {
 		ops := Diff(stage, root, rootOther, "Projects", rootOther.Projects, root.Projects)
-		diffs = append(diffs, ops)
-	}
-	OrphanedProductsDifferent := false
-	if len(root.OrphanedProducts) != len(rootOther.OrphanedProducts) {
-		OrphanedProductsDifferent = true
-	} else {
-		for i := range root.OrphanedProducts {
-			if (root.OrphanedProducts[i] == nil) != (rootOther.OrphanedProducts[i] == nil) {
-				OrphanedProductsDifferent = true
-				break
-			} else if root.OrphanedProducts[i] != nil && rootOther.OrphanedProducts[i] != nil {
-				// this is a pointer comparaison
-				if root.OrphanedProducts[i] != rootOther.OrphanedProducts[i] {
-					OrphanedProductsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if OrphanedProductsDifferent {
-		ops := Diff(stage, root, rootOther, "OrphanedProducts", rootOther.OrphanedProducts, root.OrphanedProducts)
-		diffs = append(diffs, ops)
-	}
-	OrphanedTasksDifferent := false
-	if len(root.OrphanedTasks) != len(rootOther.OrphanedTasks) {
-		OrphanedTasksDifferent = true
-	} else {
-		for i := range root.OrphanedTasks {
-			if (root.OrphanedTasks[i] == nil) != (rootOther.OrphanedTasks[i] == nil) {
-				OrphanedTasksDifferent = true
-				break
-			} else if root.OrphanedTasks[i] != nil && rootOther.OrphanedTasks[i] != nil {
-				// this is a pointer comparaison
-				if root.OrphanedTasks[i] != rootOther.OrphanedTasks[i] {
-					OrphanedTasksDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if OrphanedTasksDifferent {
-		ops := Diff(stage, root, rootOther, "OrphanedTasks", rootOther.OrphanedTasks, root.OrphanedTasks)
 		diffs = append(diffs, ops)
 	}
 	if root.NbPixPerCharacter != rootOther.NbPixPerCharacter {

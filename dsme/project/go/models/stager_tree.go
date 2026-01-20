@@ -305,22 +305,6 @@ func (stager *Stager) tree() {
 
 	}
 
-	if len(root.OrphanedProducts) > 0 {
-		orphansProductNode := &tree.Node{Name: "Orphans Products", IsExpanded: true}
-		treeInstance.RootNodes = append(treeInstance.RootNodes, orphansProductNode)
-		for _, product := range root.OrphanedProducts {
-			stager.treePBSRecursive(product, orphansProductNode)
-		}
-	}
-
-	if len(root.OrphanedTasks) > 0 {
-		orphansTaskNode := &tree.Node{Name: "Orphans Tasks", IsExpanded: true}
-		treeInstance.RootNodes = append(treeInstance.RootNodes, orphansTaskNode)
-		for _, task := range root.OrphanedTasks {
-			stager.treeWBSRecursive(task, orphansTaskNode)
-		}
-	}
-
 	tree.StageBranch(stager.treeStage, treeInstance)
 
 	stager.treeStage.Commit()
