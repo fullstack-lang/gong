@@ -5,6 +5,10 @@ package models
 func (stager *Stager) enforceDuplicateRemove() (needCommit bool) {
 	stage := stager.stage
 
+	if removeDuplicatesSlice(&stager.root.Projects) {
+		needCommit = true
+	}
+
 	for project := range stage.Projects {
 		if removeDuplicatesSlice(&project.RootProducts) {
 			needCommit = true

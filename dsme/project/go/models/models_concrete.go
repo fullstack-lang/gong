@@ -92,6 +92,9 @@ type ProductShape struct {
 }
 
 func (s *ProductShape) GetAbstractElement() AbstractType {
+	if s.Product == nil {
+		return nil
+	}
 	return s.Product
 }
 
@@ -142,6 +145,9 @@ type TaskShape struct {
 }
 
 func (s *TaskShape) GetAbstractElement() AbstractType {
+	if s.Task == nil {
+		return nil // Explicitly return interface nil, otherwise returns (*Task, nil)
+	}
 	return s.Task
 }
 
@@ -287,6 +293,9 @@ type NoteShape struct {
 }
 
 func (s *NoteShape) GetAbstractElement() AbstractType {
+	if s.Note == nil {
+		return nil // otherwise returns s.Note returns (*Note, nil), not nil
+	}
 	return s.Note
 }
 
