@@ -21,7 +21,7 @@ func (stager *Stager) tree() {
 	}
 	treeInstance.RootNodes = append(treeInstance.RootNodes, allProjectsNode)
 
-	addAddItemButton(stager, allProjectsNode, &root.Projects)
+	addAddItemButton(stager, nil, nil, allProjectsNode, &root.Projects)
 
 	for _, project := range root.Projects {
 		projectNode := &tree.Node{
@@ -45,7 +45,7 @@ func (stager *Stager) tree() {
 			OnUpdate: stager.OnUpdateExpansion(&project.IsDiagramsNodeExpanded),
 		}
 
-		addAddItemButton(stager, diagramsNode, &project.Diagrams)
+		addAddItemButton(stager, nil, nil, diagramsNode, &project.Diagrams)
 
 		for _, diagram := range project.Diagrams {
 			diagramNode := &tree.Node{
@@ -147,7 +147,7 @@ func (stager *Stager) tree() {
 				OnUpdate: stager.OnUpdateExpansion(&diagram.IsPBSNodeExpanded),
 			}
 
-			addAddItemButton(stager, pbsNode, &project.RootProducts)
+			addAddItemButton(stager, nil, nil, pbsNode, &project.RootProducts)
 
 			for _, product := range project.RootProducts {
 				stager.treePBSRecusriveInDiagram(diagram, product, pbsNode)
@@ -171,7 +171,7 @@ func (stager *Stager) tree() {
 				OnUpdate: stager.OnUpdateExpansion(&diagram.IsWBSNodeExpanded),
 			}
 
-			addAddItemButton(stager, wbsNode, &project.RootTasks)
+			addAddItemButton(stager, nil, nil, wbsNode, &project.RootTasks)
 
 			for _, task := range project.RootTasks {
 				stager.treeWBSinDiagram(diagram, task, wbsNode)
@@ -188,7 +188,7 @@ func (stager *Stager) tree() {
 				OnUpdate: stager.OnUpdateExpansion(&project.IsNotesNodeExpanded),
 			}
 
-			addAddItemButton(stager, notesNode, &project.Notes)
+			addAddItemButton(stager, nil, nil, notesNode, &project.Notes)
 
 			for _, note := range project.Notes {
 				noteNode := &tree.Node{
@@ -313,7 +313,9 @@ func (stager *Stager) tree() {
 func addAddItemButton[T Gongstruct, PT interface {
 	*T
 	GongstructIF
-}](stager *Stager, node *tree.Node, items *[]*T) {
+}](stager *Stager, parentItemsWhoseNodeIsExpanded *[]PT, parentItem PT,
+	node *tree.Node, items *[]PT,
+) {
 	var item PT
 	addButton := &tree.Button{
 		Name:            GetGongstructNameFromPointer(item) + " " + string(buttons.BUTTON_add),
@@ -337,6 +339,12 @@ func addAddItemButton[T Gongstruct, PT interface {
 			}
 
 			stager.probeForm.FillUpFormFromGongstruct(item, GetPointerToGongstructName[PT]())
+
+			// add the parent item to the list of items whose node is expanded
+			if parentItemsWhoseNodeIsExpanded != nil && parentItem != nil &&
+				!slices.Contains(*parentItemsWhoseNodeIsExpanded, parentItem) {
+				*parentItemsWhoseNodeIsExpanded = append(*parentItemsWhoseNodeIsExpanded, parentItem)
+			}
 
 			stager.stage.Commit()
 		},
