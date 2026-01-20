@@ -48,8 +48,7 @@ func updateAndCommitTree(
 	topNode.Buttons = append(topNode.Buttons, refreshButton)
 	refreshButton.Impl = &tree.FunctionalButtonProxy{
 		OnUpdated: func(stage *tree.Stage,
-			stagedButton, frontButton *tree.Button,
-		) {
+			stagedButton, frontButton *tree.Button) {
 			probe.stageOfInterest.ComputeInstancesNb()
 			probe.docStager.SetMap_GongStructName_InstancesNb(
 				probe.stageOfInterest.Map_GongStructName_InstancesNb,
@@ -68,8 +67,7 @@ func updateAndCommitTree(
 	topNode.Buttons = append(topNode.Buttons, notificationsResetButton)
 	notificationsResetButton.Impl = &tree.FunctionalButtonProxy{
 		OnUpdated: func(stage *tree.Stage,
-			stagedButton, frontButton *tree.Button,
-		) {
+			stagedButton, frontButton *tree.Button) {
 			probe.ResetNotifications()
 		},
 	}
@@ -399,8 +397,8 @@ func NewInstanceNodeCallback[T models.PointerToGongstruct](
 
 func (instanceNodeCallback *InstanceNodeCallback[T]) OnAfterUpdate(
 	gongtreeStage *tree.Stage,
-	stagedNode, frontNode *tree.Node,
-) {
+	stagedNode, frontNode *tree.Node) {
+
 	FillUpFormFromGongstruct(
 		instanceNodeCallback.Instance,
 		instanceNodeCallback.probe,

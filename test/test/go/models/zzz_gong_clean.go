@@ -3,96 +3,106 @@ package models
 
 // GongCleanSlice removes unstaged elements from a slice of pointers of type T.
 // T must be a pointer to a struct that implements PointerToGongstruct.
-func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice []T) []T {
-	if slice == nil {
-		return nil
+func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice *[]T) (modified bool) {
+	if *slice == nil {
+		return false
 	}
 
 	var cleanedSlice []T
-	for _, element := range slice {
+	for _, element := range *slice {
 		if IsStagedPointerToGongstruct(stage, element) {
 			cleanedSlice = append(cleanedSlice, element)
 		}
 	}
-	return cleanedSlice
+	*slice = cleanedSlice
+	return len(cleanedSlice) != len(*slice)
 }
 
 // GongCleanPointer sets the pointer to nil if the referenced element is not staged.
 // T must be a pointer to a struct that implements PointerToGongstruct.
-func GongCleanPointer[T PointerToGongstruct](stage *Stage, element T) T {
-	if !IsStagedPointerToGongstruct(stage, element) {
+func GongCleanPointer[T PointerToGongstruct](stage *Stage, element *T) (modified bool) {
+	if !IsStagedPointerToGongstruct(stage, *element) {
 		var zero T
-		return zero
+		*element = zero
+		return true
 	}
-	return element
+	return false
 }
 
 // insertion point per named struct
 // Clean garbage collect unstaged instances that are referenced by Astruct
-func (astruct *Astruct) GongClean(stage *Stage) {
+func (astruct *Astruct) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	astruct.Anarrayofb = GongCleanSlice(stage, astruct.Anarrayofb)
-	astruct.Dstruct4s = GongCleanSlice(stage, astruct.Dstruct4s)
-	astruct.Anarrayofa = GongCleanSlice(stage, astruct.Anarrayofa)
-	astruct.Anotherarrayofb = GongCleanSlice(stage, astruct.Anotherarrayofb)
-	astruct.AnarrayofbUse = GongCleanSlice(stage, astruct.AnarrayofbUse)
-	astruct.Anarrayofb2Use = GongCleanSlice(stage, astruct.Anarrayofb2Use)
+	modified = GongCleanSlice(stage, &astruct.Anarrayofb)  || modified
+	modified = GongCleanSlice(stage, &astruct.Dstruct4s)  || modified
+	modified = GongCleanSlice(stage, &astruct.Anarrayofa)  || modified
+	modified = GongCleanSlice(stage, &astruct.Anotherarrayofb)  || modified
+	modified = GongCleanSlice(stage, &astruct.AnarrayofbUse)  || modified
+	modified = GongCleanSlice(stage, &astruct.Anarrayofb2Use)  || modified
 	// insertion point per field
-	astruct.Associationtob = GongCleanPointer(stage, astruct.Associationtob)
-	astruct.Anotherassociationtob_2 = GongCleanPointer(stage, astruct.Anotherassociationtob_2)
-	astruct.Bstruct = GongCleanPointer(stage, astruct.Bstruct)
-	astruct.Bstruct2 = GongCleanPointer(stage, astruct.Bstruct2)
-	astruct.Dstruct = GongCleanPointer(stage, astruct.Dstruct)
-	astruct.Dstruct2 = GongCleanPointer(stage, astruct.Dstruct2)
-	astruct.Dstruct3 = GongCleanPointer(stage, astruct.Dstruct3)
-	astruct.Dstruct4 = GongCleanPointer(stage, astruct.Dstruct4)
-	astruct.AnAstruct = GongCleanPointer(stage, astruct.AnAstruct)
+	modified = GongCleanPointer(stage, &astruct.Associationtob)  || modified
+	modified = GongCleanPointer(stage, &astruct.Anotherassociationtob_2)  || modified
+	modified = GongCleanPointer(stage, &astruct.Bstruct)  || modified
+	modified = GongCleanPointer(stage, &astruct.Bstruct2)  || modified
+	modified = GongCleanPointer(stage, &astruct.Dstruct)  || modified
+	modified = GongCleanPointer(stage, &astruct.Dstruct2)  || modified
+	modified = GongCleanPointer(stage, &astruct.Dstruct3)  || modified
+	modified = GongCleanPointer(stage, &astruct.Dstruct4)  || modified
+	modified = GongCleanPointer(stage, &astruct.AnAstruct)  || modified
+	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by AstructBstruct2Use
-func (astructbstruct2use *AstructBstruct2Use) GongClean(stage *Stage) {
+func (astructbstruct2use *AstructBstruct2Use) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	astructbstruct2use.Bstrcut2 = GongCleanPointer(stage, astructbstruct2use.Bstrcut2)
+	modified = GongCleanPointer(stage, &astructbstruct2use.Bstrcut2)  || modified
+	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by AstructBstructUse
-func (astructbstructuse *AstructBstructUse) GongClean(stage *Stage) {
+func (astructbstructuse *AstructBstructUse) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	astructbstructuse.Bstruct2 = GongCleanPointer(stage, astructbstructuse.Bstruct2)
+	modified = GongCleanPointer(stage, &astructbstructuse.Bstruct2)  || modified
+	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by Bstruct
-func (bstruct *Bstruct) GongClean(stage *Stage) {
+func (bstruct *Bstruct) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
+	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by Dstruct
-func (dstruct *Dstruct) GongClean(stage *Stage) {
+func (dstruct *Dstruct) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	dstruct.Anarrayofb = GongCleanSlice(stage, dstruct.Anarrayofb)
-	dstruct.Gstructs = GongCleanSlice(stage, dstruct.Gstructs)
+	modified = GongCleanSlice(stage, &dstruct.Anarrayofb)  || modified
+	modified = GongCleanSlice(stage, &dstruct.Gstructs)  || modified
 	// insertion point per field
-	dstruct.Gstruct = GongCleanPointer(stage, dstruct.Gstruct)
+	modified = GongCleanPointer(stage, &dstruct.Gstruct)  || modified
+	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by F0123456789012345678901234567890
-func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GongClean(stage *Stage) {
+func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
+	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by Gstruct
-func (gstruct *Gstruct) GongClean(stage *Stage) {
+func (gstruct *Gstruct) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
+	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by staged elements
-func (stage *Stage) Clean() {
+func (stage *Stage) Clean() (modified bool) {
 	for _, instance := range stage.GetInstances() {
-		instance.GongClean(stage)
+		modified = instance.GongClean(stage) || modified
 	}
+	return
 }

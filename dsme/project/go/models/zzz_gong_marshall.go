@@ -73,6 +73,7 @@ const TimeInitStatement = `
 
 // Marshall marshall the stage content into the file as an instanciation into a stage
 func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName string) {
+
 	name := file.Name()
 
 	if !strings.HasSuffix(name, ".go") {
@@ -91,6 +92,7 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 
 // MarshallToString marshall the stage content into a string
 func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res string, err error) {
+
 	res = marshallRes
 	res = strings.ReplaceAll(res, "{{PackageName}}", packageName)
 	res = strings.ReplaceAll(res, "{{ModelsPackageName}}", modelsPackageName)
@@ -754,6 +756,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 			return valuesOrdered[i].Ident < valuesOrdered[j].Ident
 		})
 		for _, value := range valuesOrdered {
+
 			// get the number of points in the value to find if it is a field
 			// or a struct
 
@@ -783,6 +786,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 // insertion point for marshall field methods
 func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
 	switch fieldName {
 	case "Name":
 		res = StringInitStatement
@@ -964,6 +968,7 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 }
 
 func (note *Note) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
 	switch fieldName {
 	case "Name":
 		res = StringInitStatement
@@ -999,6 +1004,7 @@ func (note *Note) GongMarshallField(stage *Stage, fieldName string) (res string)
 }
 
 func (noteproductshape *NoteProductShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
 	switch fieldName {
 	case "Name":
 		res = StringInitStatement
@@ -1080,6 +1086,7 @@ func (noteproductshape *NoteProductShape) GongMarshallField(stage *Stage, fieldN
 }
 
 func (noteshape *NoteShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
 	switch fieldName {
 	case "Name":
 		res = StringInitStatement
@@ -1132,6 +1139,7 @@ func (noteshape *NoteShape) GongMarshallField(stage *Stage, fieldName string) (r
 }
 
 func (notetaskshape *NoteTaskShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
 	switch fieldName {
 	case "Name":
 		res = StringInitStatement
@@ -1213,6 +1221,7 @@ func (notetaskshape *NoteTaskShape) GongMarshallField(stage *Stage, fieldName st
 }
 
 func (product *Product) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
 	switch fieldName {
 	case "Name":
 		res = StringInitStatement
@@ -1260,6 +1269,7 @@ func (product *Product) GongMarshallField(stage *Stage, fieldName string) (res s
 }
 
 func (productcompositionshape *ProductCompositionShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
 	switch fieldName {
 	case "Name":
 		res = StringInitStatement
@@ -1328,6 +1338,7 @@ func (productcompositionshape *ProductCompositionShape) GongMarshallField(stage 
 }
 
 func (productshape *ProductShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
 	switch fieldName {
 	case "Name":
 		res = StringInitStatement
@@ -1380,6 +1391,7 @@ func (productshape *ProductShape) GongMarshallField(stage *Stage, fieldName stri
 }
 
 func (project *Project) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
 	switch fieldName {
 	case "Name":
 		res = StringInitStatement
@@ -1441,6 +1453,7 @@ func (project *Project) GongMarshallField(stage *Stage, fieldName string) (res s
 }
 
 func (root *Root) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
 	switch fieldName {
 	case "Name":
 		res = StringInitStatement
@@ -1468,6 +1481,7 @@ func (root *Root) GongMarshallField(stage *Stage, fieldName string) (res string)
 }
 
 func (task *Task) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
 	switch fieldName {
 	case "Name":
 		res = StringInitStatement
@@ -1549,6 +1563,7 @@ func (task *Task) GongMarshallField(stage *Stage, fieldName string) (res string)
 }
 
 func (taskcompositionshape *TaskCompositionShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
 	switch fieldName {
 	case "Name":
 		res = StringInitStatement
@@ -1617,6 +1632,7 @@ func (taskcompositionshape *TaskCompositionShape) GongMarshallField(stage *Stage
 }
 
 func (taskinputshape *TaskInputShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
 	switch fieldName {
 	case "Name":
 		res = StringInitStatement
@@ -1698,6 +1714,7 @@ func (taskinputshape *TaskInputShape) GongMarshallField(stage *Stage, fieldName 
 }
 
 func (taskoutputshape *TaskOutputShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
 	switch fieldName {
 	case "Name":
 		res = StringInitStatement
@@ -1779,6 +1796,7 @@ func (taskoutputshape *TaskOutputShape) GongMarshallField(stage *Stage, fieldNam
 }
 
 func (taskshape *TaskShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
 	switch fieldName {
 	case "Name":
 		res = StringInitStatement
@@ -1832,6 +1850,7 @@ func (taskshape *TaskShape) GongMarshallField(stage *Stage, fieldName string) (r
 
 // insertion point for marshall all fields methods
 func (diagram *Diagram) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += diagram.GongMarshallField(stage, "Name")
 		initializerStatements += diagram.GongMarshallField(stage, "IsChecked")
@@ -1862,8 +1881,8 @@ func (diagram *Diagram) GongMarshallAllFields(stage *Stage) (initializerStatemen
 	}
 	return
 }
-
 func (note *Note) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += note.GongMarshallField(stage, "Name")
 		pointersInitializesStatements += note.GongMarshallField(stage, "Products")
@@ -1872,8 +1891,8 @@ func (note *Note) GongMarshallAllFields(stage *Stage) (initializerStatements str
 	}
 	return
 }
-
 func (noteproductshape *NoteProductShape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += noteproductshape.GongMarshallField(stage, "Name")
 		pointersInitializesStatements += noteproductshape.GongMarshallField(stage, "Note")
@@ -1886,8 +1905,8 @@ func (noteproductshape *NoteProductShape) GongMarshallAllFields(stage *Stage) (i
 	}
 	return
 }
-
 func (noteshape *NoteShape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += noteshape.GongMarshallField(stage, "Name")
 		pointersInitializesStatements += noteshape.GongMarshallField(stage, "Note")
@@ -1899,8 +1918,8 @@ func (noteshape *NoteShape) GongMarshallAllFields(stage *Stage) (initializerStat
 	}
 	return
 }
-
 func (notetaskshape *NoteTaskShape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += notetaskshape.GongMarshallField(stage, "Name")
 		pointersInitializesStatements += notetaskshape.GongMarshallField(stage, "Note")
@@ -1913,8 +1932,8 @@ func (notetaskshape *NoteTaskShape) GongMarshallAllFields(stage *Stage) (initial
 	}
 	return
 }
-
 func (product *Product) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += product.GongMarshallField(stage, "Name")
 		initializerStatements += product.GongMarshallField(stage, "Description")
@@ -1926,8 +1945,8 @@ func (product *Product) GongMarshallAllFields(stage *Stage) (initializerStatemen
 	}
 	return
 }
-
 func (productcompositionshape *ProductCompositionShape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += productcompositionshape.GongMarshallField(stage, "Name")
 		pointersInitializesStatements += productcompositionshape.GongMarshallField(stage, "Product")
@@ -1939,8 +1958,8 @@ func (productcompositionshape *ProductCompositionShape) GongMarshallAllFields(st
 	}
 	return
 }
-
 func (productshape *ProductShape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += productshape.GongMarshallField(stage, "Name")
 		pointersInitializesStatements += productshape.GongMarshallField(stage, "Product")
@@ -1952,8 +1971,8 @@ func (productshape *ProductShape) GongMarshallAllFields(stage *Stage) (initializ
 	}
 	return
 }
-
 func (project *Project) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += project.GongMarshallField(stage, "Name")
 		pointersInitializesStatements += project.GongMarshallField(stage, "RootProducts")
@@ -1966,8 +1985,8 @@ func (project *Project) GongMarshallAllFields(stage *Stage) (initializerStatemen
 	}
 	return
 }
-
 func (root *Root) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += root.GongMarshallField(stage, "Name")
 		pointersInitializesStatements += root.GongMarshallField(stage, "Projects")
@@ -1975,8 +1994,8 @@ func (root *Root) GongMarshallAllFields(stage *Stage) (initializerStatements str
 	}
 	return
 }
-
 func (task *Task) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += task.GongMarshallField(stage, "Name")
 		initializerStatements += task.GongMarshallField(stage, "Description")
@@ -1992,8 +2011,8 @@ func (task *Task) GongMarshallAllFields(stage *Stage) (initializerStatements str
 	}
 	return
 }
-
 func (taskcompositionshape *TaskCompositionShape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += taskcompositionshape.GongMarshallField(stage, "Name")
 		pointersInitializesStatements += taskcompositionshape.GongMarshallField(stage, "Task")
@@ -2005,8 +2024,8 @@ func (taskcompositionshape *TaskCompositionShape) GongMarshallAllFields(stage *S
 	}
 	return
 }
-
 func (taskinputshape *TaskInputShape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += taskinputshape.GongMarshallField(stage, "Name")
 		pointersInitializesStatements += taskinputshape.GongMarshallField(stage, "Task")
@@ -2019,8 +2038,8 @@ func (taskinputshape *TaskInputShape) GongMarshallAllFields(stage *Stage) (initi
 	}
 	return
 }
-
 func (taskoutputshape *TaskOutputShape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += taskoutputshape.GongMarshallField(stage, "Name")
 		pointersInitializesStatements += taskoutputshape.GongMarshallField(stage, "Task")
@@ -2033,8 +2052,8 @@ func (taskoutputshape *TaskOutputShape) GongMarshallAllFields(stage *Stage) (ini
 	}
 	return
 }
-
 func (taskshape *TaskShape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += taskshape.GongMarshallField(stage, "Name")
 		pointersInitializesStatements += taskshape.GongMarshallField(stage, "Task")

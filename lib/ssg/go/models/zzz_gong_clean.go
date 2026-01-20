@@ -3,54 +3,60 @@ package models
 
 // GongCleanSlice removes unstaged elements from a slice of pointers of type T.
 // T must be a pointer to a struct that implements PointerToGongstruct.
-func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice []T) []T {
-	if slice == nil {
-		return nil
+func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice *[]T) (modified bool) {
+	if *slice == nil {
+		return false
 	}
 
 	var cleanedSlice []T
-	for _, element := range slice {
+	for _, element := range *slice {
 		if IsStagedPointerToGongstruct(stage, element) {
 			cleanedSlice = append(cleanedSlice, element)
 		}
 	}
-	return cleanedSlice
+	*slice = cleanedSlice
+	return len(cleanedSlice) != len(*slice)
 }
 
 // GongCleanPointer sets the pointer to nil if the referenced element is not staged.
 // T must be a pointer to a struct that implements PointerToGongstruct.
-func GongCleanPointer[T PointerToGongstruct](stage *Stage, element T) T {
-	if !IsStagedPointerToGongstruct(stage, element) {
+func GongCleanPointer[T PointerToGongstruct](stage *Stage, element *T) (modified bool) {
+	if !IsStagedPointerToGongstruct(stage, *element) {
 		var zero T
-		return zero
+		*element = zero
+		return true
 	}
-	return element
+	return false
 }
 
 // insertion point per named struct
 // Clean garbage collect unstaged instances that are referenced by Chapter
-func (chapter *Chapter) GongClean(stage *Stage) {
+func (chapter *Chapter) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	chapter.Pages = GongCleanSlice(stage, chapter.Pages)
+	modified = GongCleanSlice(stage, &chapter.Pages)  || modified
 	// insertion point per field
+	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by Content
-func (content *Content) GongClean(stage *Stage) {
+func (content *Content) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	content.Chapters = GongCleanSlice(stage, content.Chapters)
+	modified = GongCleanSlice(stage, &content.Chapters)  || modified
 	// insertion point per field
+	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by Page
-func (page *Page) GongClean(stage *Stage) {
+func (page *Page) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
+	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by staged elements
-func (stage *Stage) Clean() {
+func (stage *Stage) Clean() (modified bool) {
 	for _, instance := range stage.GetInstances() {
-		instance.GongClean(stage)
+		modified = instance.GongClean(stage) || modified
 	}
+	return
 }

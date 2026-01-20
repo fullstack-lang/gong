@@ -3,166 +3,185 @@ package models
 
 // GongCleanSlice removes unstaged elements from a slice of pointers of type T.
 // T must be a pointer to a struct that implements PointerToGongstruct.
-func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice []T) []T {
-	if slice == nil {
-		return nil
+func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice *[]T) (modified bool) {
+	if *slice == nil {
+		return false
 	}
 
 	var cleanedSlice []T
-	for _, element := range slice {
+	for _, element := range *slice {
 		if IsStagedPointerToGongstruct(stage, element) {
 			cleanedSlice = append(cleanedSlice, element)
 		}
 	}
-	return cleanedSlice
+	*slice = cleanedSlice
+	return len(cleanedSlice) != len(*slice)
 }
 
 // GongCleanPointer sets the pointer to nil if the referenced element is not staged.
 // T must be a pointer to a struct that implements PointerToGongstruct.
-func GongCleanPointer[T PointerToGongstruct](stage *Stage, element T) T {
-	if !IsStagedPointerToGongstruct(stage, element) {
+func GongCleanPointer[T PointerToGongstruct](stage *Stage, element *T) (modified bool) {
+	if !IsStagedPointerToGongstruct(stage, *element) {
 		var zero T
-		return zero
+		*element = zero
+		return true
 	}
-	return element
+	return false
 }
 
 // insertion point per named struct
 // Clean garbage collect unstaged instances that are referenced by Body
-func (body *Body) GongClean(stage *Stage) {
+func (body *Body) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	body.Paragraphs = GongCleanSlice(stage, body.Paragraphs)
-	body.Tables = GongCleanSlice(stage, body.Tables)
+	modified = GongCleanSlice(stage, &body.Paragraphs)  || modified
+	modified = GongCleanSlice(stage, &body.Tables)  || modified
 	// insertion point per field
-	body.LastParagraph = GongCleanPointer(stage, body.LastParagraph)
+	modified = GongCleanPointer(stage, &body.LastParagraph)  || modified
+	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by Document
-func (document *Document) GongClean(stage *Stage) {
+func (document *Document) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	document.File = GongCleanPointer(stage, document.File)
-	document.Root = GongCleanPointer(stage, document.Root)
-	document.Body = GongCleanPointer(stage, document.Body)
+	modified = GongCleanPointer(stage, &document.File)  || modified
+	modified = GongCleanPointer(stage, &document.Root)  || modified
+	modified = GongCleanPointer(stage, &document.Body)  || modified
+	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by Docx
-func (docx *Docx) GongClean(stage *Stage) {
+func (docx *Docx) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	docx.Files = GongCleanSlice(stage, docx.Files)
+	modified = GongCleanSlice(stage, &docx.Files)  || modified
 	// insertion point per field
-	docx.Document = GongCleanPointer(stage, docx.Document)
+	modified = GongCleanPointer(stage, &docx.Document)  || modified
+	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by File
-func (file *File) GongClean(stage *Stage) {
+func (file *File) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
+	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by Node
-func (node *Node) GongClean(stage *Stage) {
+func (node *Node) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	node.Nodes = GongCleanSlice(stage, node.Nodes)
+	modified = GongCleanSlice(stage, &node.Nodes)  || modified
 	// insertion point per field
+	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by Paragraph
-func (paragraph *Paragraph) GongClean(stage *Stage) {
+func (paragraph *Paragraph) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	paragraph.Runes = GongCleanSlice(stage, paragraph.Runes)
+	modified = GongCleanSlice(stage, &paragraph.Runes)  || modified
 	// insertion point per field
-	paragraph.Node = GongCleanPointer(stage, paragraph.Node)
-	paragraph.ParagraphProperties = GongCleanPointer(stage, paragraph.ParagraphProperties)
-	paragraph.Next = GongCleanPointer(stage, paragraph.Next)
-	paragraph.Previous = GongCleanPointer(stage, paragraph.Previous)
-	paragraph.EnclosingBody = GongCleanPointer(stage, paragraph.EnclosingBody)
-	paragraph.EnclosingTableColumn = GongCleanPointer(stage, paragraph.EnclosingTableColumn)
+	modified = GongCleanPointer(stage, &paragraph.Node)  || modified
+	modified = GongCleanPointer(stage, &paragraph.ParagraphProperties)  || modified
+	modified = GongCleanPointer(stage, &paragraph.Next)  || modified
+	modified = GongCleanPointer(stage, &paragraph.Previous)  || modified
+	modified = GongCleanPointer(stage, &paragraph.EnclosingBody)  || modified
+	modified = GongCleanPointer(stage, &paragraph.EnclosingTableColumn)  || modified
+	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by ParagraphProperties
-func (paragraphproperties *ParagraphProperties) GongClean(stage *Stage) {
+func (paragraphproperties *ParagraphProperties) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	paragraphproperties.ParagraphStyle = GongCleanPointer(stage, paragraphproperties.ParagraphStyle)
-	paragraphproperties.Node = GongCleanPointer(stage, paragraphproperties.Node)
+	modified = GongCleanPointer(stage, &paragraphproperties.ParagraphStyle)  || modified
+	modified = GongCleanPointer(stage, &paragraphproperties.Node)  || modified
+	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by ParagraphStyle
-func (paragraphstyle *ParagraphStyle) GongClean(stage *Stage) {
+func (paragraphstyle *ParagraphStyle) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	paragraphstyle.Node = GongCleanPointer(stage, paragraphstyle.Node)
+	modified = GongCleanPointer(stage, &paragraphstyle.Node)  || modified
+	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by Rune
-func (rune *Rune) GongClean(stage *Stage) {
+func (rune *Rune) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	rune.Node = GongCleanPointer(stage, rune.Node)
-	rune.Text = GongCleanPointer(stage, rune.Text)
-	rune.RuneProperties = GongCleanPointer(stage, rune.RuneProperties)
-	rune.EnclosingParagraph = GongCleanPointer(stage, rune.EnclosingParagraph)
+	modified = GongCleanPointer(stage, &rune.Node)  || modified
+	modified = GongCleanPointer(stage, &rune.Text)  || modified
+	modified = GongCleanPointer(stage, &rune.RuneProperties)  || modified
+	modified = GongCleanPointer(stage, &rune.EnclosingParagraph)  || modified
+	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by RuneProperties
-func (runeproperties *RuneProperties) GongClean(stage *Stage) {
+func (runeproperties *RuneProperties) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	runeproperties.Node = GongCleanPointer(stage, runeproperties.Node)
+	modified = GongCleanPointer(stage, &runeproperties.Node)  || modified
+	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by Table
-func (table *Table) GongClean(stage *Stage) {
+func (table *Table) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	table.TableRows = GongCleanSlice(stage, table.TableRows)
+	modified = GongCleanSlice(stage, &table.TableRows)  || modified
 	// insertion point per field
-	table.Node = GongCleanPointer(stage, table.Node)
-	table.TableProperties = GongCleanPointer(stage, table.TableProperties)
+	modified = GongCleanPointer(stage, &table.Node)  || modified
+	modified = GongCleanPointer(stage, &table.TableProperties)  || modified
+	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by TableColumn
-func (tablecolumn *TableColumn) GongClean(stage *Stage) {
+func (tablecolumn *TableColumn) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	tablecolumn.Paragraphs = GongCleanSlice(stage, tablecolumn.Paragraphs)
+	modified = GongCleanSlice(stage, &tablecolumn.Paragraphs)  || modified
 	// insertion point per field
-	tablecolumn.Node = GongCleanPointer(stage, tablecolumn.Node)
+	modified = GongCleanPointer(stage, &tablecolumn.Node)  || modified
+	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by TableProperties
-func (tableproperties *TableProperties) GongClean(stage *Stage) {
+func (tableproperties *TableProperties) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	tableproperties.Node = GongCleanPointer(stage, tableproperties.Node)
-	tableproperties.TableStyle = GongCleanPointer(stage, tableproperties.TableStyle)
+	modified = GongCleanPointer(stage, &tableproperties.Node)  || modified
+	modified = GongCleanPointer(stage, &tableproperties.TableStyle)  || modified
+	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by TableRow
-func (tablerow *TableRow) GongClean(stage *Stage) {
+func (tablerow *TableRow) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	tablerow.TableColumns = GongCleanSlice(stage, tablerow.TableColumns)
+	modified = GongCleanSlice(stage, &tablerow.TableColumns)  || modified
 	// insertion point per field
-	tablerow.Node = GongCleanPointer(stage, tablerow.Node)
+	modified = GongCleanPointer(stage, &tablerow.Node)  || modified
+	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by TableStyle
-func (tablestyle *TableStyle) GongClean(stage *Stage) {
+func (tablestyle *TableStyle) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	tablestyle.Node = GongCleanPointer(stage, tablestyle.Node)
+	modified = GongCleanPointer(stage, &tablestyle.Node)  || modified
+	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by Text
-func (text *Text) GongClean(stage *Stage) {
+func (text *Text) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	text.Node = GongCleanPointer(stage, text.Node)
-	text.EnclosingRune = GongCleanPointer(stage, text.EnclosingRune)
+	modified = GongCleanPointer(stage, &text.Node)  || modified
+	modified = GongCleanPointer(stage, &text.EnclosingRune)  || modified
+	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by staged elements
-func (stage *Stage) Clean() {
+func (stage *Stage) Clean() (modified bool) {
 	for _, instance := range stage.GetInstances() {
-		instance.GongClean(stage)
+		modified = instance.GongClean(stage) || modified
 	}
+	return
 }

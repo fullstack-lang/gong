@@ -3,63 +3,70 @@ package models
 
 // GongCleanSlice removes unstaged elements from a slice of pointers of type T.
 // T must be a pointer to a struct that implements PointerToGongstruct.
-func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice []T) []T {
-	if slice == nil {
-		return nil
+func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice *[]T) (modified bool) {
+	if *slice == nil {
+		return false
 	}
 
 	var cleanedSlice []T
-	for _, element := range slice {
+	for _, element := range *slice {
 		if IsStagedPointerToGongstruct(stage, element) {
 			cleanedSlice = append(cleanedSlice, element)
 		}
 	}
-	return cleanedSlice
+	*slice = cleanedSlice
+	return len(cleanedSlice) != len(*slice)
 }
 
 // GongCleanPointer sets the pointer to nil if the referenced element is not staged.
 // T must be a pointer to a struct that implements PointerToGongstruct.
-func GongCleanPointer[T PointerToGongstruct](stage *Stage, element T) T {
-	if !IsStagedPointerToGongstruct(stage, element) {
+func GongCleanPointer[T PointerToGongstruct](stage *Stage, element *T) (modified bool) {
+	if !IsStagedPointerToGongstruct(stage, *element) {
 		var zero T
-		return zero
+		*element = zero
+		return true
 	}
-	return element
+	return false
 }
 
 // insertion point per named struct
 // Clean garbage collect unstaged instances that are referenced by Button
-func (button *Button) GongClean(stage *Stage) {
+func (button *Button) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	button.SVGIcon = GongCleanPointer(stage, button.SVGIcon)
+	modified = GongCleanPointer(stage, &button.SVGIcon)  || modified
+	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by Node
-func (node *Node) GongClean(stage *Stage) {
+func (node *Node) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	node.Children = GongCleanSlice(stage, node.Children)
-	node.Buttons = GongCleanSlice(stage, node.Buttons)
+	modified = GongCleanSlice(stage, &node.Children)  || modified
+	modified = GongCleanSlice(stage, &node.Buttons)  || modified
 	// insertion point per field
-	node.PreceedingSVGIcon = GongCleanPointer(stage, node.PreceedingSVGIcon)
+	modified = GongCleanPointer(stage, &node.PreceedingSVGIcon)  || modified
+	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by SVGIcon
-func (svgicon *SVGIcon) GongClean(stage *Stage) {
+func (svgicon *SVGIcon) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
+	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by Tree
-func (tree *Tree) GongClean(stage *Stage) {
+func (tree *Tree) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	tree.RootNodes = GongCleanSlice(stage, tree.RootNodes)
+	modified = GongCleanSlice(stage, &tree.RootNodes)  || modified
 	// insertion point per field
+	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by staged elements
-func (stage *Stage) Clean() {
+func (stage *Stage) Clean() (modified bool) {
 	for _, instance := range stage.GetInstances() {
-		instance.GongClean(stage)
+		modified = instance.GongClean(stage) || modified
 	}
+	return
 }
