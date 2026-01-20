@@ -9,7 +9,7 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 	// this is the Clean that delete them from slices and pointers that reference
 	// them. If the checkout is not performed, the stage might be dirty
 	// with slices of pointer or pointer to unstaged instance
-	stage.Clean()
+	needCommit = stage.Clean() || needCommit
 
 	// Ensures that there is one and only one root
 	// prune the other

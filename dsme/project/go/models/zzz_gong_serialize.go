@@ -14,8 +14,8 @@ import (
 func SerializeStage(stage *Stage, filename string) {
 	SerializeStage2(stage, filename, false)
 }
-
 func SerializeStage2(stage *Stage, filename string, addIDs bool) {
+
 	f := excelize.NewFile()
 	{
 		// insertion point
@@ -180,6 +180,7 @@ func (tab *ExcelizeTabulator) SetExcelizeFile(f *excelize.File) {
 }
 
 func (tab *ExcelizeTabulator) AddSheet(sheetName string) {
+
 }
 
 func (tab *ExcelizeTabulator) AddRow(sheetName string) (rowId int) {
@@ -187,6 +188,7 @@ func (tab *ExcelizeTabulator) AddRow(sheetName string) (rowId int) {
 }
 
 func (tab *ExcelizeTabulator) AddCell(sheetName string, rowId, columnIndex int, value string) {
+
 }
 
 func SerializeExcelizePointerToGongstruct[Type PointerToGongstruct](stage *Stage, f *excelize.File) {

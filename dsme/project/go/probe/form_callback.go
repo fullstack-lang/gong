@@ -46,6 +46,7 @@ type DiagramFormCallback struct {
 }
 
 func (diagramFormCallback *DiagramFormCallback) OnSave() {
+
 	// log.Println("DiagramFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
@@ -95,6 +96,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -125,6 +127,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -157,6 +160,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -189,6 +193,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -219,6 +224,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -249,6 +255,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -279,6 +286,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -309,6 +317,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -339,6 +348,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -369,6 +379,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -399,6 +410,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -429,6 +441,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -461,6 +474,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -491,6 +505,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -557,6 +572,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			// (2) find the source
 			var newSource *models.Project
 			for _project := range *models.GetGongstructInstancesSet[models.Project](diagramFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _project.GetName() == newSourceName.GetName() {
 					newSource = _project // we have a match
@@ -601,7 +617,6 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 
 	updateAndCommitTree(diagramFormCallback.probe)
 }
-
 func __gong__New__NoteFormCallback(
 	note *models.Note,
 	probe *Probe,
@@ -629,6 +644,7 @@ type NoteFormCallback struct {
 }
 
 func (noteFormCallback *NoteFormCallback) OnSave() {
+
 	// log.Println("NoteFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
@@ -662,6 +678,7 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -692,6 +709,7 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -760,6 +778,7 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 			// (2) find the source
 			var newSource *models.Diagram
 			for _diagram := range *models.GetGongstructInstancesSet[models.Diagram](noteFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _diagram.GetName() == newSourceName.GetName() {
 					newSource = _diagram // we have a match
@@ -825,6 +844,7 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 			// (2) find the source
 			var newSource *models.Project
 			for _project := range *models.GetGongstructInstancesSet[models.Project](noteFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _project.GetName() == newSourceName.GetName() {
 					newSource = _project // we have a match
@@ -869,7 +889,6 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 
 	updateAndCommitTree(noteFormCallback.probe)
 }
-
 func __gong__New__NoteProductShapeFormCallback(
 	noteproductshape *models.NoteProductShape,
 	probe *Probe,
@@ -897,6 +916,7 @@ type NoteProductShapeFormCallback struct {
 }
 
 func (noteproductshapeFormCallback *NoteProductShapeFormCallback) OnSave() {
+
 	// log.Println("NoteProductShapeFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
@@ -980,6 +1000,7 @@ func (noteproductshapeFormCallback *NoteProductShapeFormCallback) OnSave() {
 			// (2) find the source
 			var newSource *models.Diagram
 			for _diagram := range *models.GetGongstructInstancesSet[models.Diagram](noteproductshapeFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _diagram.GetName() == newSourceName.GetName() {
 					newSource = _diagram // we have a match
@@ -1024,7 +1045,6 @@ func (noteproductshapeFormCallback *NoteProductShapeFormCallback) OnSave() {
 
 	updateAndCommitTree(noteproductshapeFormCallback.probe)
 }
-
 func __gong__New__NoteShapeFormCallback(
 	noteshape *models.NoteShape,
 	probe *Probe,
@@ -1052,6 +1072,7 @@ type NoteShapeFormCallback struct {
 }
 
 func (noteshapeFormCallback *NoteShapeFormCallback) OnSave() {
+
 	// log.Println("NoteShapeFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
@@ -1133,6 +1154,7 @@ func (noteshapeFormCallback *NoteShapeFormCallback) OnSave() {
 			// (2) find the source
 			var newSource *models.Diagram
 			for _diagram := range *models.GetGongstructInstancesSet[models.Diagram](noteshapeFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _diagram.GetName() == newSourceName.GetName() {
 					newSource = _diagram // we have a match
@@ -1177,7 +1199,6 @@ func (noteshapeFormCallback *NoteShapeFormCallback) OnSave() {
 
 	updateAndCommitTree(noteshapeFormCallback.probe)
 }
-
 func __gong__New__NoteTaskShapeFormCallback(
 	notetaskshape *models.NoteTaskShape,
 	probe *Probe,
@@ -1205,6 +1226,7 @@ type NoteTaskShapeFormCallback struct {
 }
 
 func (notetaskshapeFormCallback *NoteTaskShapeFormCallback) OnSave() {
+
 	// log.Println("NoteTaskShapeFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
@@ -1288,6 +1310,7 @@ func (notetaskshapeFormCallback *NoteTaskShapeFormCallback) OnSave() {
 			// (2) find the source
 			var newSource *models.Diagram
 			for _diagram := range *models.GetGongstructInstancesSet[models.Diagram](notetaskshapeFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _diagram.GetName() == newSourceName.GetName() {
 					newSource = _diagram // we have a match
@@ -1332,7 +1355,6 @@ func (notetaskshapeFormCallback *NoteTaskShapeFormCallback) OnSave() {
 
 	updateAndCommitTree(notetaskshapeFormCallback.probe)
 }
-
 func __gong__New__ProductFormCallback(
 	product *models.Product,
 	probe *Probe,
@@ -1360,6 +1382,7 @@ type ProductFormCallback struct {
 }
 
 func (productFormCallback *ProductFormCallback) OnSave() {
+
 	// log.Println("ProductFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
@@ -1395,6 +1418,7 @@ func (productFormCallback *ProductFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -1469,6 +1493,7 @@ func (productFormCallback *ProductFormCallback) OnSave() {
 			// (2) find the source
 			var newSource *models.Diagram
 			for _diagram := range *models.GetGongstructInstancesSet[models.Diagram](productFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _diagram.GetName() == newSourceName.GetName() {
 					newSource = _diagram // we have a match
@@ -1534,6 +1559,7 @@ func (productFormCallback *ProductFormCallback) OnSave() {
 			// (2) find the source
 			var newSource *models.Note
 			for _note := range *models.GetGongstructInstancesSet[models.Note](productFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _note.GetName() == newSourceName.GetName() {
 					newSource = _note // we have a match
@@ -1599,6 +1625,7 @@ func (productFormCallback *ProductFormCallback) OnSave() {
 			// (2) find the source
 			var newSource *models.Product
 			for _product := range *models.GetGongstructInstancesSet[models.Product](productFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _product.GetName() == newSourceName.GetName() {
 					newSource = _product // we have a match
@@ -1664,6 +1691,7 @@ func (productFormCallback *ProductFormCallback) OnSave() {
 			// (2) find the source
 			var newSource *models.Project
 			for _project := range *models.GetGongstructInstancesSet[models.Project](productFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _project.GetName() == newSourceName.GetName() {
 					newSource = _project // we have a match
@@ -1729,6 +1757,7 @@ func (productFormCallback *ProductFormCallback) OnSave() {
 			// (2) find the source
 			var newSource *models.Task
 			for _task := range *models.GetGongstructInstancesSet[models.Task](productFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _task.GetName() == newSourceName.GetName() {
 					newSource = _task // we have a match
@@ -1794,6 +1823,7 @@ func (productFormCallback *ProductFormCallback) OnSave() {
 			// (2) find the source
 			var newSource *models.Task
 			for _task := range *models.GetGongstructInstancesSet[models.Task](productFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _task.GetName() == newSourceName.GetName() {
 					newSource = _task // we have a match
@@ -1838,7 +1868,6 @@ func (productFormCallback *ProductFormCallback) OnSave() {
 
 	updateAndCommitTree(productFormCallback.probe)
 }
-
 func __gong__New__ProductCompositionShapeFormCallback(
 	productcompositionshape *models.ProductCompositionShape,
 	probe *Probe,
@@ -1866,6 +1895,7 @@ type ProductCompositionShapeFormCallback struct {
 }
 
 func (productcompositionshapeFormCallback *ProductCompositionShapeFormCallback) OnSave() {
+
 	// log.Println("ProductCompositionShapeFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
@@ -1947,6 +1977,7 @@ func (productcompositionshapeFormCallback *ProductCompositionShapeFormCallback) 
 			// (2) find the source
 			var newSource *models.Diagram
 			for _diagram := range *models.GetGongstructInstancesSet[models.Diagram](productcompositionshapeFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _diagram.GetName() == newSourceName.GetName() {
 					newSource = _diagram // we have a match
@@ -1991,7 +2022,6 @@ func (productcompositionshapeFormCallback *ProductCompositionShapeFormCallback) 
 
 	updateAndCommitTree(productcompositionshapeFormCallback.probe)
 }
-
 func __gong__New__ProductShapeFormCallback(
 	productshape *models.ProductShape,
 	probe *Probe,
@@ -2019,6 +2049,7 @@ type ProductShapeFormCallback struct {
 }
 
 func (productshapeFormCallback *ProductShapeFormCallback) OnSave() {
+
 	// log.Println("ProductShapeFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
@@ -2100,6 +2131,7 @@ func (productshapeFormCallback *ProductShapeFormCallback) OnSave() {
 			// (2) find the source
 			var newSource *models.Diagram
 			for _diagram := range *models.GetGongstructInstancesSet[models.Diagram](productshapeFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _diagram.GetName() == newSourceName.GetName() {
 					newSource = _diagram // we have a match
@@ -2144,7 +2176,6 @@ func (productshapeFormCallback *ProductShapeFormCallback) OnSave() {
 
 	updateAndCommitTree(productshapeFormCallback.probe)
 }
-
 func __gong__New__ProjectFormCallback(
 	project *models.Project,
 	probe *Probe,
@@ -2172,6 +2203,7 @@ type ProjectFormCallback struct {
 }
 
 func (projectFormCallback *ProjectFormCallback) OnSave() {
+
 	// log.Println("ProjectFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
@@ -2205,6 +2237,7 @@ func (projectFormCallback *ProjectFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -2235,6 +2268,7 @@ func (projectFormCallback *ProjectFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -2265,6 +2299,7 @@ func (projectFormCallback *ProjectFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -2295,6 +2330,7 @@ func (projectFormCallback *ProjectFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -2367,6 +2403,7 @@ func (projectFormCallback *ProjectFormCallback) OnSave() {
 			// (2) find the source
 			var newSource *models.Root
 			for _root := range *models.GetGongstructInstancesSet[models.Root](projectFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _root.GetName() == newSourceName.GetName() {
 					newSource = _root // we have a match
@@ -2411,7 +2448,6 @@ func (projectFormCallback *ProjectFormCallback) OnSave() {
 
 	updateAndCommitTree(projectFormCallback.probe)
 }
-
 func __gong__New__RootFormCallback(
 	root *models.Root,
 	probe *Probe,
@@ -2439,6 +2475,7 @@ type RootFormCallback struct {
 }
 
 func (rootFormCallback *RootFormCallback) OnSave() {
+
 	// log.Println("RootFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
@@ -2472,6 +2509,7 @@ func (rootFormCallback *RootFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -2519,7 +2557,6 @@ func (rootFormCallback *RootFormCallback) OnSave() {
 
 	updateAndCommitTree(rootFormCallback.probe)
 }
-
 func __gong__New__TaskFormCallback(
 	task *models.Task,
 	probe *Probe,
@@ -2547,6 +2584,7 @@ type TaskFormCallback struct {
 }
 
 func (taskFormCallback *TaskFormCallback) OnSave() {
+
 	// log.Println("TaskFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
@@ -2582,6 +2620,7 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -2616,6 +2655,7 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -2648,6 +2688,7 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -2720,6 +2761,7 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 			// (2) find the source
 			var newSource *models.Diagram
 			for _diagram := range *models.GetGongstructInstancesSet[models.Diagram](taskFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _diagram.GetName() == newSourceName.GetName() {
 					newSource = _diagram // we have a match
@@ -2785,6 +2827,7 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 			// (2) find the source
 			var newSource *models.Diagram
 			for _diagram := range *models.GetGongstructInstancesSet[models.Diagram](taskFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _diagram.GetName() == newSourceName.GetName() {
 					newSource = _diagram // we have a match
@@ -2850,6 +2893,7 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 			// (2) find the source
 			var newSource *models.Diagram
 			for _diagram := range *models.GetGongstructInstancesSet[models.Diagram](taskFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _diagram.GetName() == newSourceName.GetName() {
 					newSource = _diagram // we have a match
@@ -2915,6 +2959,7 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 			// (2) find the source
 			var newSource *models.Note
 			for _note := range *models.GetGongstructInstancesSet[models.Note](taskFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _note.GetName() == newSourceName.GetName() {
 					newSource = _note // we have a match
@@ -2980,6 +3025,7 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 			// (2) find the source
 			var newSource *models.Project
 			for _project := range *models.GetGongstructInstancesSet[models.Project](taskFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _project.GetName() == newSourceName.GetName() {
 					newSource = _project // we have a match
@@ -3045,6 +3091,7 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 			// (2) find the source
 			var newSource *models.Task
 			for _task := range *models.GetGongstructInstancesSet[models.Task](taskFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _task.GetName() == newSourceName.GetName() {
 					newSource = _task // we have a match
@@ -3089,7 +3136,6 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 
 	updateAndCommitTree(taskFormCallback.probe)
 }
-
 func __gong__New__TaskCompositionShapeFormCallback(
 	taskcompositionshape *models.TaskCompositionShape,
 	probe *Probe,
@@ -3117,6 +3163,7 @@ type TaskCompositionShapeFormCallback struct {
 }
 
 func (taskcompositionshapeFormCallback *TaskCompositionShapeFormCallback) OnSave() {
+
 	// log.Println("TaskCompositionShapeFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
@@ -3198,6 +3245,7 @@ func (taskcompositionshapeFormCallback *TaskCompositionShapeFormCallback) OnSave
 			// (2) find the source
 			var newSource *models.Diagram
 			for _diagram := range *models.GetGongstructInstancesSet[models.Diagram](taskcompositionshapeFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _diagram.GetName() == newSourceName.GetName() {
 					newSource = _diagram // we have a match
@@ -3242,7 +3290,6 @@ func (taskcompositionshapeFormCallback *TaskCompositionShapeFormCallback) OnSave
 
 	updateAndCommitTree(taskcompositionshapeFormCallback.probe)
 }
-
 func __gong__New__TaskInputShapeFormCallback(
 	taskinputshape *models.TaskInputShape,
 	probe *Probe,
@@ -3270,6 +3317,7 @@ type TaskInputShapeFormCallback struct {
 }
 
 func (taskinputshapeFormCallback *TaskInputShapeFormCallback) OnSave() {
+
 	// log.Println("TaskInputShapeFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
@@ -3353,6 +3401,7 @@ func (taskinputshapeFormCallback *TaskInputShapeFormCallback) OnSave() {
 			// (2) find the source
 			var newSource *models.Diagram
 			for _diagram := range *models.GetGongstructInstancesSet[models.Diagram](taskinputshapeFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _diagram.GetName() == newSourceName.GetName() {
 					newSource = _diagram // we have a match
@@ -3397,7 +3446,6 @@ func (taskinputshapeFormCallback *TaskInputShapeFormCallback) OnSave() {
 
 	updateAndCommitTree(taskinputshapeFormCallback.probe)
 }
-
 func __gong__New__TaskOutputShapeFormCallback(
 	taskoutputshape *models.TaskOutputShape,
 	probe *Probe,
@@ -3425,6 +3473,7 @@ type TaskOutputShapeFormCallback struct {
 }
 
 func (taskoutputshapeFormCallback *TaskOutputShapeFormCallback) OnSave() {
+
 	// log.Println("TaskOutputShapeFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
@@ -3508,6 +3557,7 @@ func (taskoutputshapeFormCallback *TaskOutputShapeFormCallback) OnSave() {
 			// (2) find the source
 			var newSource *models.Diagram
 			for _diagram := range *models.GetGongstructInstancesSet[models.Diagram](taskoutputshapeFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _diagram.GetName() == newSourceName.GetName() {
 					newSource = _diagram // we have a match
@@ -3552,7 +3602,6 @@ func (taskoutputshapeFormCallback *TaskOutputShapeFormCallback) OnSave() {
 
 	updateAndCommitTree(taskoutputshapeFormCallback.probe)
 }
-
 func __gong__New__TaskShapeFormCallback(
 	taskshape *models.TaskShape,
 	probe *Probe,
@@ -3580,6 +3629,7 @@ type TaskShapeFormCallback struct {
 }
 
 func (taskshapeFormCallback *TaskShapeFormCallback) OnSave() {
+
 	// log.Println("TaskShapeFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
@@ -3661,6 +3711,7 @@ func (taskshapeFormCallback *TaskShapeFormCallback) OnSave() {
 			// (2) find the source
 			var newSource *models.Diagram
 			for _diagram := range *models.GetGongstructInstancesSet[models.Diagram](taskshapeFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _diagram.GetName() == newSourceName.GetName() {
 					newSource = _diagram // we have a match

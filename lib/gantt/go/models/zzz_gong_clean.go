@@ -3,86 +3,96 @@ package models
 
 // GongCleanSlice removes unstaged elements from a slice of pointers of type T.
 // T must be a pointer to a struct that implements PointerToGongstruct.
-func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice []T) []T {
-	if slice == nil {
-		return nil
+func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice *[]T) (modified bool) {
+	if *slice == nil {
+		return false
 	}
 
 	var cleanedSlice []T
-	for _, element := range slice {
+	for _, element := range *slice {
 		if IsStagedPointerToGongstruct(stage, element) {
 			cleanedSlice = append(cleanedSlice, element)
 		}
 	}
-	return cleanedSlice
+	*slice = cleanedSlice
+	return len(cleanedSlice) != len(*slice)
 }
 
 // GongCleanPointer sets the pointer to nil if the referenced element is not staged.
 // T must be a pointer to a struct that implements PointerToGongstruct.
-func GongCleanPointer[T PointerToGongstruct](stage *Stage, element T) T {
-	if !IsStagedPointerToGongstruct(stage, element) {
+func GongCleanPointer[T PointerToGongstruct](stage *Stage, element *T) (modified bool) {
+	if !IsStagedPointerToGongstruct(stage, *element) {
 		var zero T
-		return zero
+		*element = zero
+		return true
 	}
-	return element
+	return false
 }
 
 // insertion point per named struct
 // Clean garbage collect unstaged instances that are referenced by Arrow
-func (arrow *Arrow) GongClean(stage *Stage) {
+func (arrow *Arrow) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	arrow.From = GongCleanPointer(stage, arrow.From)
-	arrow.To = GongCleanPointer(stage, arrow.To)
+	modified = GongCleanPointer(stage, &arrow.From)  || modified
+	modified = GongCleanPointer(stage, &arrow.To)  || modified
+	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by Bar
-func (bar *Bar) GongClean(stage *Stage) {
+func (bar *Bar) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
+	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by Gantt
-func (gantt *Gantt) GongClean(stage *Stage) {
+func (gantt *Gantt) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	gantt.Lanes = GongCleanSlice(stage, gantt.Lanes)
-	gantt.Milestones = GongCleanSlice(stage, gantt.Milestones)
-	gantt.Groups = GongCleanSlice(stage, gantt.Groups)
-	gantt.Arrows = GongCleanSlice(stage, gantt.Arrows)
+	modified = GongCleanSlice(stage, &gantt.Lanes)  || modified
+	modified = GongCleanSlice(stage, &gantt.Milestones)  || modified
+	modified = GongCleanSlice(stage, &gantt.Groups)  || modified
+	modified = GongCleanSlice(stage, &gantt.Arrows)  || modified
 	// insertion point per field
+	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by Group
-func (group *Group) GongClean(stage *Stage) {
+func (group *Group) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	group.GroupLanes = GongCleanSlice(stage, group.GroupLanes)
+	modified = GongCleanSlice(stage, &group.GroupLanes)  || modified
 	// insertion point per field
+	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by Lane
-func (lane *Lane) GongClean(stage *Stage) {
+func (lane *Lane) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	lane.Bars = GongCleanSlice(stage, lane.Bars)
+	modified = GongCleanSlice(stage, &lane.Bars)  || modified
 	// insertion point per field
+	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by LaneUse
-func (laneuse *LaneUse) GongClean(stage *Stage) {
+func (laneuse *LaneUse) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	laneuse.Lane = GongCleanPointer(stage, laneuse.Lane)
+	modified = GongCleanPointer(stage, &laneuse.Lane)  || modified
+	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by Milestone
-func (milestone *Milestone) GongClean(stage *Stage) {
+func (milestone *Milestone) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	milestone.LanesToDisplay = GongCleanSlice(stage, milestone.LanesToDisplay)
+	modified = GongCleanSlice(stage, &milestone.LanesToDisplay)  || modified
 	// insertion point per field
+	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by staged elements
-func (stage *Stage) Clean() {
+func (stage *Stage) Clean() (modified bool) {
 	for _, instance := range stage.GetInstances() {
-		instance.GongClean(stage)
+		modified = instance.GongClean(stage) || modified
 	}
+	return
 }

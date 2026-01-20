@@ -20,14 +20,12 @@ import (
 	"time"
 )
 
-var (
-	dummy_strconv_import strconv.NumError
-	_                    = dummy_strconv_import
-	dummy_time_import    time.Time
-	_                    = dummy_time_import
-	dummy_slices_import  = slices.Insert([]int{0}, 0)
-	_                    = dummy_slices_import
-)
+var dummy_strconv_import strconv.NumError
+var _ = dummy_strconv_import
+var dummy_time_import time.Time
+var _ = dummy_time_import
+var dummy_slices_import = slices.Insert([]int{0}, 0)
+var _ = dummy_slices_import
 
 // swagger:ignore
 type GONG__ExpressionType string
@@ -44,6 +42,7 @@ const (
 // ParseAstFile Parse pathToFile and stages all instances
 // declared in the file
 func ParseAstFile(stage *Stage, pathToFile string, preserveOrder bool) error {
+
 	ReplaceOldDeclarationsInFile(pathToFile)
 
 	fileOfInterest, err := filepath.Abs(pathToFile)
@@ -77,6 +76,7 @@ func ParseAstFile(stage *Stage, pathToFile string, preserveOrder bool) error {
 //
 //	An error if reading or parsing the file fails, or if ParseAstFileFromAst fails.
 func ParseAstEmbeddedFile(stage *Stage, directory embed.FS, pathToFile string) error {
+
 	// 1. Read the content from the embedded filesystem.
 	//    We don't need filepath.Abs as embed.FS uses relative paths.
 	//    We also skip ReplaceOldDeclarationsInFile as embedded files are read-only.
@@ -179,8 +179,9 @@ func ParseAstFileFromAst(stage *Stage, inFile *ast.File, fset *token.FileSet, pr
 						astCoordinate := "\tAssignStmt: "
 						// log.Println(// astCoordinate)
 						assignStmt := stmt
-						instance, id, gongstruct, fieldName := UnmarshallGongstructStaging(
-							stage, &cmap, assignStmt, astCoordinate, preserveOrder)
+						instance, id, gongstruct, fieldName :=
+							UnmarshallGongstructStaging(
+								stage, &cmap, assignStmt, astCoordinate, preserveOrder)
 						_ = instance
 						_ = id
 						_ = gongstruct
@@ -306,6 +307,7 @@ func ParseAstFileFromAst(stage *Stage, inFile *ast.File, fset *token.FileSet, pr
 											fset.Position(kve.Pos()).String())
 									}
 								} else {
+
 								}
 							}
 
@@ -367,6 +369,7 @@ func ParseAstFileFromAst(stage *Stage, inFile *ast.File, fset *token.FileSet, pr
 				}
 			}
 		}
+
 	}
 	return nil
 }
@@ -374,23 +377,21 @@ func ParseAstFileFromAst(stage *Stage, inFile *ast.File, fset *token.FileSet, pr
 var __gong__map_Indentifiers_gongstructName = make(map[string]string)
 
 // insertion point for identifiers maps
-var (
-	__gong__map_Diagram                 = make(map[string]*Diagram)
-	__gong__map_Note                    = make(map[string]*Note)
-	__gong__map_NoteProductShape        = make(map[string]*NoteProductShape)
-	__gong__map_NoteShape               = make(map[string]*NoteShape)
-	__gong__map_NoteTaskShape           = make(map[string]*NoteTaskShape)
-	__gong__map_Product                 = make(map[string]*Product)
-	__gong__map_ProductCompositionShape = make(map[string]*ProductCompositionShape)
-	__gong__map_ProductShape            = make(map[string]*ProductShape)
-	__gong__map_Project                 = make(map[string]*Project)
-	__gong__map_Root                    = make(map[string]*Root)
-	__gong__map_Task                    = make(map[string]*Task)
-	__gong__map_TaskCompositionShape    = make(map[string]*TaskCompositionShape)
-	__gong__map_TaskInputShape          = make(map[string]*TaskInputShape)
-	__gong__map_TaskOutputShape         = make(map[string]*TaskOutputShape)
-	__gong__map_TaskShape               = make(map[string]*TaskShape)
-)
+var __gong__map_Diagram = make(map[string]*Diagram)
+var __gong__map_Note = make(map[string]*Note)
+var __gong__map_NoteProductShape = make(map[string]*NoteProductShape)
+var __gong__map_NoteShape = make(map[string]*NoteShape)
+var __gong__map_NoteTaskShape = make(map[string]*NoteTaskShape)
+var __gong__map_Product = make(map[string]*Product)
+var __gong__map_ProductCompositionShape = make(map[string]*ProductCompositionShape)
+var __gong__map_ProductShape = make(map[string]*ProductShape)
+var __gong__map_Project = make(map[string]*Project)
+var __gong__map_Root = make(map[string]*Root)
+var __gong__map_Task = make(map[string]*Task)
+var __gong__map_TaskCompositionShape = make(map[string]*TaskCompositionShape)
+var __gong__map_TaskInputShape = make(map[string]*TaskInputShape)
+var __gong__map_TaskOutputShape = make(map[string]*TaskOutputShape)
+var __gong__map_TaskShape = make(map[string]*TaskShape)
 
 // Parser needs to be configured for having the [Name1.Name2] or [pkg.Name1] ...
 // to be recognized as a proper identifier.
@@ -409,8 +410,8 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 	instance any,
 	identifier string,
 	gongstructName string,
-	fieldName string,
-) {
+	fieldName string) {
+
 	// used for debug purposes
 	astCoordinate := "\tAssignStmt: "
 
@@ -1756,7 +1757,7 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 		case *ast.BasicLit, *ast.UnaryExpr, *ast.CompositeLit:
 
 			var basicLit *ast.BasicLit
-			exprSign := 1.0
+			var exprSign = 1.0
 			_ = exprSign // in case this is not used
 			switch v := expr.(type) {
 			case *ast.BasicLit:

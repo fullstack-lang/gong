@@ -14,6 +14,7 @@ func FillUpForm(
 	formGroup *form.FormGroup,
 	probe *Probe,
 ) {
+
 	switch instanceWithInferedType := any(instance).(type) {
 	// insertion point
 	case *models.Diagram:
