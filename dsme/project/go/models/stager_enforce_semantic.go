@@ -25,6 +25,7 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 		if len(roots) > 1 {
 			for _, root := range roots[1:] {
 				root.Unstage(stage)
+				needCommit = true
 			}
 		}
 	}
@@ -36,6 +37,7 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 	for _, project := range GetGongstrucsSorted[*Project](stage) {
 		if slices.Index(root.Projects, project) == -1 {
 			root.Projects = append(root.Projects, project)
+			needCommit = true
 		}
 	}
 
