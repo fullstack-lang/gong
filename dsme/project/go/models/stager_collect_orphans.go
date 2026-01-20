@@ -1,6 +1,6 @@
 package models
 
-func (stager *Stager) collectOrphans() (needCommit bool) {
+func (stager *Stager) unstageAllOrphans() (needCommit bool) {
 	needCommit = unstageOrphans(
 		stager,
 		func() []*Product {
@@ -19,13 +19,41 @@ func (stager *Stager) collectOrphans() (needCommit bool) {
 		stager,
 		func() []*Task {
 			roots := make([]*Task, 0)
-			for _, task := range GetGongstrucsSorted[*Project](stager.stage) {
-				roots = append(roots, task.RootTasks...)
+			for _, project := range GetGongstrucsSorted[*Project](stager.stage) {
+				roots = append(roots, project.RootTasks...)
 			}
 			return roots
 		},
 		func(product *Task) []*Task {
 			return product.SubTasks
+		},
+	)
+
+	needCommit = needCommit || unstageOrphans(
+		stager,
+		func() []*Note {
+			roots := make([]*Note, 0)
+			for _, project := range GetGongstrucsSorted[*Project](stager.stage) {
+				roots = append(roots, project.Notes...)
+			}
+			return roots
+		},
+		func(product *Note) []*Note {
+			return []*Note{}
+		},
+	)
+
+	needCommit = needCommit || unstageOrphans(
+		stager,
+		func() []*Diagram {
+			roots := make([]*Diagram, 0)
+			for _, project := range GetGongstrucsSorted[*Project](stager.stage) {
+				roots = append(roots, project.Diagrams...)
+			}
+			return roots
+		},
+		func(product *Diagram) []*Diagram {
+			return []*Diagram{}
 		},
 	)
 

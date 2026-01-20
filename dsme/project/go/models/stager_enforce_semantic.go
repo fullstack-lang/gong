@@ -55,7 +55,7 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 		needCommit = true
 	}
 
-	if stager.collectOrphans() {
+	if stager.unstageAllOrphans() {
 		needCommit = true
 	}
 
@@ -92,6 +92,15 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 
 	if stager.enforceDuplicateRemove() {
 		needCommit = true
+	}
+
+	for _, instance := range stage.GetInstances() {
+		if shape, ok := instance.(ConcreteType); ok {
+			if shape.GetAbstractElement() == nil {
+				shape.UnstageVoid(stage)
+				needCommit = true
+			}
+		}
 	}
 
 	// computes fields that are not persisted
