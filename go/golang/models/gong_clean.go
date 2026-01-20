@@ -84,9 +84,9 @@ var GongCleanFileFieldFieldSubTemplateCode map[GongCleanSubTemplateId]string = /
 map[GongCleanSubTemplateId]string{
 
 	GongCleanSubTmplCleanPointer: `
-	modified = GongCleanPointer(stage, &{{structname}}.{{FieldName}})  || modified`,
+	modified = GongCleanPointer(stage, &{{structname}}.{{FieldName}}) || modified`,
 	GongCleanSubTmplCleanOfSlicePointers: `
-	modified = GongCleanSlice(stage, &{{structname}}.{{FieldName}})  || modified`,
+	modified = GongCleanSlice(stage, &{{structname}}.{{FieldName}}) || modified`,
 }
 
 func CodeGeneratorModelGongClean(

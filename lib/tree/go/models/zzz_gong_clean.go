@@ -34,17 +34,17 @@ func GongCleanPointer[T PointerToGongstruct](stage *Stage, element *T) (modified
 func (button *Button) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &button.SVGIcon)  || modified
+	modified = GongCleanPointer(stage, &button.SVGIcon) || modified
 	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by Node
 func (node *Node) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &node.Children)  || modified
-	modified = GongCleanSlice(stage, &node.Buttons)  || modified
+	modified = GongCleanSlice(stage, &node.Children) || modified
+	modified = GongCleanSlice(stage, &node.Buttons) || modified
 	// insertion point per field
-	modified = GongCleanPointer(stage, &node.PreceedingSVGIcon)  || modified
+	modified = GongCleanPointer(stage, &node.PreceedingSVGIcon) || modified
 	return
 }
 
@@ -58,7 +58,7 @@ func (svgicon *SVGIcon) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Tree
 func (tree *Tree) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &tree.RootNodes)  || modified
+	modified = GongCleanSlice(stage, &tree.RootNodes) || modified
 	// insertion point per field
 	return
 }

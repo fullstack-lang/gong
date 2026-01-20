@@ -34,8 +34,8 @@ func GongCleanPointer[T PointerToGongstruct](stage *Stage, element *T) (modified
 func (displayselection *DisplaySelection) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &displayselection.XLFile)  || modified
-	modified = GongCleanPointer(stage, &displayselection.XLSheet)  || modified
+	modified = GongCleanPointer(stage, &displayselection.XLFile) || modified
+	modified = GongCleanPointer(stage, &displayselection.XLSheet) || modified
 	return
 }
 
@@ -49,7 +49,7 @@ func (xlcell *XLCell) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by XLFile
 func (xlfile *XLFile) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &xlfile.Sheets)  || modified
+	modified = GongCleanSlice(stage, &xlfile.Sheets) || modified
 	// insertion point per field
 	return
 }
@@ -57,7 +57,7 @@ func (xlfile *XLFile) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by XLRow
 func (xlrow *XLRow) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &xlrow.Cells)  || modified
+	modified = GongCleanSlice(stage, &xlrow.Cells) || modified
 	// insertion point per field
 	return
 }
@@ -65,8 +65,8 @@ func (xlrow *XLRow) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by XLSheet
 func (xlsheet *XLSheet) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &xlsheet.Rows)  || modified
-	modified = GongCleanSlice(stage, &xlsheet.SheetCells)  || modified
+	modified = GongCleanSlice(stage, &xlsheet.Rows) || modified
+	modified = GongCleanSlice(stage, &xlsheet.SheetCells) || modified
 	// insertion point per field
 	return
 }

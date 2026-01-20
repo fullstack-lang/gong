@@ -34,8 +34,8 @@ func GongCleanPointer[T PointerToGongstruct](stage *Stage, element *T) (modified
 func (arrow *Arrow) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &arrow.From)  || modified
-	modified = GongCleanPointer(stage, &arrow.To)  || modified
+	modified = GongCleanPointer(stage, &arrow.From) || modified
+	modified = GongCleanPointer(stage, &arrow.To) || modified
 	return
 }
 
@@ -49,10 +49,10 @@ func (bar *Bar) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Gantt
 func (gantt *Gantt) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &gantt.Lanes)  || modified
-	modified = GongCleanSlice(stage, &gantt.Milestones)  || modified
-	modified = GongCleanSlice(stage, &gantt.Groups)  || modified
-	modified = GongCleanSlice(stage, &gantt.Arrows)  || modified
+	modified = GongCleanSlice(stage, &gantt.Lanes) || modified
+	modified = GongCleanSlice(stage, &gantt.Milestones) || modified
+	modified = GongCleanSlice(stage, &gantt.Groups) || modified
+	modified = GongCleanSlice(stage, &gantt.Arrows) || modified
 	// insertion point per field
 	return
 }
@@ -60,7 +60,7 @@ func (gantt *Gantt) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Group
 func (group *Group) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &group.GroupLanes)  || modified
+	modified = GongCleanSlice(stage, &group.GroupLanes) || modified
 	// insertion point per field
 	return
 }
@@ -68,7 +68,7 @@ func (group *Group) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Lane
 func (lane *Lane) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &lane.Bars)  || modified
+	modified = GongCleanSlice(stage, &lane.Bars) || modified
 	// insertion point per field
 	return
 }
@@ -77,14 +77,14 @@ func (lane *Lane) GongClean(stage *Stage) (modified bool) {
 func (laneuse *LaneUse) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &laneuse.Lane)  || modified
+	modified = GongCleanPointer(stage, &laneuse.Lane) || modified
 	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by Milestone
 func (milestone *Milestone) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &milestone.LanesToDisplay)  || modified
+	modified = GongCleanSlice(stage, &milestone.LanesToDisplay) || modified
 	// insertion point per field
 	return
 }
