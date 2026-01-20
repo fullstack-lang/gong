@@ -40,9 +40,9 @@ func (attributeshape *AttributeShape) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Classdiagram
 func (classdiagram *Classdiagram) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &classdiagram.GongStructShapes)  || modified
-	modified = GongCleanSlice(stage, &classdiagram.GongEnumShapes)  || modified
-	modified = GongCleanSlice(stage, &classdiagram.GongNoteShapes)  || modified
+	modified = GongCleanSlice(stage, &classdiagram.GongStructShapes) || modified
+	modified = GongCleanSlice(stage, &classdiagram.GongEnumShapes) || modified
+	modified = GongCleanSlice(stage, &classdiagram.GongNoteShapes) || modified
 	// insertion point per field
 	return
 }
@@ -50,16 +50,16 @@ func (classdiagram *Classdiagram) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by DiagramPackage
 func (diagrampackage *DiagramPackage) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &diagrampackage.Classdiagrams)  || modified
+	modified = GongCleanSlice(stage, &diagrampackage.Classdiagrams) || modified
 	// insertion point per field
-	modified = GongCleanPointer(stage, &diagrampackage.SelectedClassdiagram)  || modified
+	modified = GongCleanPointer(stage, &diagrampackage.SelectedClassdiagram) || modified
 	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by GongEnumShape
 func (gongenumshape *GongEnumShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &gongenumshape.GongEnumValueShapes)  || modified
+	modified = GongCleanSlice(stage, &gongenumshape.GongEnumValueShapes) || modified
 	// insertion point per field
 	return
 }
@@ -81,7 +81,7 @@ func (gongnotelinkshape *GongNoteLinkShape) GongClean(stage *Stage) (modified bo
 // Clean garbage collect unstaged instances that are referenced by GongNoteShape
 func (gongnoteshape *GongNoteShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &gongnoteshape.GongNoteLinkShapes)  || modified
+	modified = GongCleanSlice(stage, &gongnoteshape.GongNoteLinkShapes) || modified
 	// insertion point per field
 	return
 }
@@ -89,8 +89,8 @@ func (gongnoteshape *GongNoteShape) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by GongStructShape
 func (gongstructshape *GongStructShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &gongstructshape.AttributeShapes)  || modified
-	modified = GongCleanSlice(stage, &gongstructshape.LinkShapes)  || modified
+	modified = GongCleanSlice(stage, &gongstructshape.AttributeShapes) || modified
+	modified = GongCleanSlice(stage, &gongstructshape.LinkShapes) || modified
 	// insertion point per field
 	return
 }
