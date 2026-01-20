@@ -27,6 +27,8 @@ func _(stage *models.Stage) {
 	__Diagram__00000057_ := (&models.Diagram{Name: `NewDiagram`}).Stage(stage)
 	__Diagram__00000058_ := (&models.Diagram{Name: `NewDiagram`}).Stage(stage)
 	__Diagram__00000061_ := (&models.Diagram{Name: `Work diagram x`}).Stage(stage)
+	__Diagram__00000062_ := (&models.Diagram{Name: `NewDiagram`}).Stage(stage)
+	__Diagram__00000063_ := (&models.Diagram{Name: `NewDiagram`}).Stage(stage)
 
 	__Note__00000000_ := (&models.Note{Name: `This is an example to explain a particular product
 
@@ -100,6 +102,7 @@ another line to Write Specs`}).Stage(stage)
 	__Product__00000035_ := (&models.Product{Name: `Probe display the marshalled commit`}).Stage(stage)
 	__Product__00000036_ := (&models.Product{Name: `Display the marshalled reverse commit`}).Stage(stage)
 	__Product__00000037_ := (&models.Product{Name: `Instance method for marshalling Unstage`}).Stage(stage)
+	__Product__00000038_ := (&models.Product{Name: `NewProduct`}).Stage(stage)
 
 	__ProductCompositionShape__00000204_ := (&models.ProductCompositionShape{Name: `Product 1 to Product 1.1`}).Stage(stage)
 	__ProductCompositionShape__00000205_ := (&models.ProductCompositionShape{Name: `Product 1.2 to Product 1.2.1`}).Stage(stage)
@@ -162,6 +165,7 @@ another line to Write Specs`}).Stage(stage)
 	__Project__00000000_ := (&models.Project{Name: `Project Editor`}).Stage(stage)
 	__Project__00000001_ := (&models.Project{Name: `DSME Docx`}).Stage(stage)
 	__Project__00000002_ := (&models.Project{Name: `gong : persist stage.go as an history of commits  #934`}).Stage(stage)
+	__Project__00000003_ := (&models.Project{Name: `test`}).Stage(stage)
 
 	__Root__00000000_ := (&models.Root{Name: `Root`}).Stage(stage)
 
@@ -255,7 +259,7 @@ another line to Write Specs`}).Stage(stage)
 	__Diagram__00000058_.IsNotesNodeExpanded = false
 
 	__Diagram__00000061_.Name = `Work diagram x`
-	__Diagram__00000061_.IsChecked = true
+	__Diagram__00000061_.IsChecked = false
 	__Diagram__00000061_.IsEditable_ = true
 	__Diagram__00000061_.IsInRenameMode = false
 	__Diagram__00000061_.ShowPrefix = true
@@ -264,8 +268,34 @@ another line to Write Specs`}).Stage(stage)
 	__Diagram__00000061_.IsExpanded = true
 	__Diagram__00000061_.ComputedPrefix = ``
 	__Diagram__00000061_.IsPBSNodeExpanded = false
-	__Diagram__00000061_.IsWBSNodeExpanded = true
+	__Diagram__00000061_.IsWBSNodeExpanded = false
 	__Diagram__00000061_.IsNotesNodeExpanded = false
+
+	__Diagram__00000062_.Name = `NewDiagram`
+	__Diagram__00000062_.IsChecked = true
+	__Diagram__00000062_.IsEditable_ = true
+	__Diagram__00000062_.IsInRenameMode = false
+	__Diagram__00000062_.ShowPrefix = false
+	__Diagram__00000062_.DefaultBoxWidth = 250.000000
+	__Diagram__00000062_.DefaultBoxHeigth = 100.000000
+	__Diagram__00000062_.IsExpanded = true
+	__Diagram__00000062_.ComputedPrefix = ``
+	__Diagram__00000062_.IsPBSNodeExpanded = true
+	__Diagram__00000062_.IsWBSNodeExpanded = false
+	__Diagram__00000062_.IsNotesNodeExpanded = false
+
+	__Diagram__00000063_.Name = `NewDiagram`
+	__Diagram__00000063_.IsChecked = false
+	__Diagram__00000063_.IsEditable_ = true
+	__Diagram__00000063_.IsInRenameMode = false
+	__Diagram__00000063_.ShowPrefix = false
+	__Diagram__00000063_.DefaultBoxWidth = 250.000000
+	__Diagram__00000063_.DefaultBoxHeigth = 100.000000
+	__Diagram__00000063_.IsExpanded = false
+	__Diagram__00000063_.ComputedPrefix = ``
+	__Diagram__00000063_.IsPBSNodeExpanded = false
+	__Diagram__00000063_.IsWBSNodeExpanded = false
+	__Diagram__00000063_.IsNotesNodeExpanded = false
 
 	__Note__00000000_.Name = `This is an example to explain a particular product
 
@@ -598,6 +628,13 @@ another line to Write Specs`
 	__Product__00000037_.ComputedPrefix = `1.2`
 	__Product__00000037_.IsProducersNodeExpanded = false
 	__Product__00000037_.IsConsumersNodeExpanded = false
+
+	__Product__00000038_.Name = `NewProduct`
+	__Product__00000038_.Description = ``
+	__Product__00000038_.IsExpanded = false
+	__Product__00000038_.ComputedPrefix = `1`
+	__Product__00000038_.IsProducersNodeExpanded = false
+	__Product__00000038_.IsConsumersNodeExpanded = false
 
 	__ProductCompositionShape__00000204_.Name = `Product 1 to Product 1.1`
 	__ProductCompositionShape__00000204_.StartRatio = 0.500000
@@ -996,7 +1033,7 @@ another line to Write Specs`
 	__Project__00000000_.IsWBSNodeExpanded = false
 	__Project__00000000_.IsDiagramsNodeExpanded = true
 	__Project__00000000_.IsNotesNodeExpanded = false
-	__Project__00000000_.IsExpanded = false
+	__Project__00000000_.IsExpanded = true
 	__Project__00000000_.ComputedPrefix = ``
 
 	__Project__00000001_.Name = `DSME Docx`
@@ -1004,16 +1041,24 @@ another line to Write Specs`
 	__Project__00000001_.IsWBSNodeExpanded = false
 	__Project__00000001_.IsDiagramsNodeExpanded = true
 	__Project__00000001_.IsNotesNodeExpanded = false
-	__Project__00000001_.IsExpanded = false
+	__Project__00000001_.IsExpanded = true
 	__Project__00000001_.ComputedPrefix = ``
 
 	__Project__00000002_.Name = `gong : persist stage.go as an history of commits  #934`
 	__Project__00000002_.IsPBSNodeExpanded = false
 	__Project__00000002_.IsWBSNodeExpanded = false
-	__Project__00000002_.IsDiagramsNodeExpanded = true
+	__Project__00000002_.IsDiagramsNodeExpanded = false
 	__Project__00000002_.IsNotesNodeExpanded = false
-	__Project__00000002_.IsExpanded = true
+	__Project__00000002_.IsExpanded = false
 	__Project__00000002_.ComputedPrefix = ``
+
+	__Project__00000003_.Name = `test`
+	__Project__00000003_.IsPBSNodeExpanded = false
+	__Project__00000003_.IsWBSNodeExpanded = false
+	__Project__00000003_.IsDiagramsNodeExpanded = true
+	__Project__00000003_.IsNotesNodeExpanded = false
+	__Project__00000003_.IsExpanded = true
+	__Project__00000003_.ComputedPrefix = ``
 
 	__Root__00000000_.Name = `Root`
 	__Root__00000000_.NbPixPerCharacter = 8.000000
@@ -1025,6 +1070,7 @@ another line to Write Specs`
 	__Task__00000000_.IsInputsNodeExpanded = false
 	__Task__00000000_.IsOutputsNodeExpanded = false
 	__Task__00000000_.IsWithCompletion = false
+	__Task__00000000_.Completion = ""
 
 	__Task__00000001_.Name = `Dev WBS Tree`
 	__Task__00000001_.Description = ``
@@ -1033,6 +1079,7 @@ another line to Write Specs`
 	__Task__00000001_.IsInputsNodeExpanded = false
 	__Task__00000001_.IsOutputsNodeExpanded = false
 	__Task__00000001_.IsWithCompletion = false
+	__Task__00000001_.Completion = ""
 
 	__Task__00000002_.Name = `Dev PBS Tree`
 	__Task__00000002_.Description = ``
@@ -1041,6 +1088,7 @@ another line to Write Specs`
 	__Task__00000002_.IsInputsNodeExpanded = false
 	__Task__00000002_.IsOutputsNodeExpanded = false
 	__Task__00000002_.IsWithCompletion = false
+	__Task__00000002_.Completion = ""
 
 	__Task__00000003_.Name = `Task 1`
 	__Task__00000003_.Description = ``
@@ -1049,6 +1097,7 @@ another line to Write Specs`
 	__Task__00000003_.IsInputsNodeExpanded = true
 	__Task__00000003_.IsOutputsNodeExpanded = true
 	__Task__00000003_.IsWithCompletion = false
+	__Task__00000003_.Completion = ""
 
 	__Task__00000004_.Name = `Dev views`
 	__Task__00000004_.Description = ``
@@ -1057,6 +1106,7 @@ another line to Write Specs`
 	__Task__00000004_.IsInputsNodeExpanded = false
 	__Task__00000004_.IsOutputsNodeExpanded = false
 	__Task__00000004_.IsWithCompletion = false
+	__Task__00000004_.Completion = ""
 
 	__Task__00000005_.Name = `Dev UXx`
 	__Task__00000005_.Description = ``
@@ -1065,6 +1115,7 @@ another line to Write Specs`
 	__Task__00000005_.IsInputsNodeExpanded = false
 	__Task__00000005_.IsOutputsNodeExpanded = false
 	__Task__00000005_.IsWithCompletion = false
+	__Task__00000005_.Completion = ""
 
 	__Task__00000006_.Name = `Write Specs`
 	__Task__00000006_.Description = ``
@@ -1073,6 +1124,7 @@ another line to Write Specs`
 	__Task__00000006_.IsInputsNodeExpanded = false
 	__Task__00000006_.IsOutputsNodeExpanded = false
 	__Task__00000006_.IsWithCompletion = false
+	__Task__00000006_.Completion = ""
 
 	__Task__00000007_.Name = `Compute all Instance Diff`
 	__Task__00000007_.Description = ``
@@ -1135,6 +1187,7 @@ another line to Write Specs`
 	__Task__00000013_.IsInputsNodeExpanded = false
 	__Task__00000013_.IsOutputsNodeExpanded = false
 	__Task__00000013_.IsWithCompletion = false
+	__Task__00000013_.Completion = ""
 
 	__TaskCompositionShape__00000005_.Name = `Develop Backend to Dev UXx`
 	__TaskCompositionShape__00000005_.StartRatio = 0.500000
@@ -1429,6 +1482,7 @@ another line to Write Specs`
 	__Diagram__00000061_.Task_Shapes = append(__Diagram__00000061_.Task_Shapes, __TaskShape__00000022_)
 	__Diagram__00000061_.Task_Shapes = append(__Diagram__00000061_.Task_Shapes, __TaskShape__00000023_)
 	__Diagram__00000061_.Task_Shapes = append(__Diagram__00000061_.Task_Shapes, __TaskShape__00000024_)
+	__Diagram__00000061_.TasksWhoseNodeIsExpanded = append(__Diagram__00000061_.TasksWhoseNodeIsExpanded, __Task__00000008_)
 	__Diagram__00000061_.TasksWhoseOutputNodeIsExpanded = append(__Diagram__00000061_.TasksWhoseOutputNodeIsExpanded, __Task__00000007_)
 	__Diagram__00000061_.TasksWhoseOutputNodeIsExpanded = append(__Diagram__00000061_.TasksWhoseOutputNodeIsExpanded, __Task__00000010_)
 	__Diagram__00000061_.TaskInputShapes = append(__Diagram__00000061_.TaskInputShapes, __TaskInputShape__00000001_)
@@ -1580,9 +1634,13 @@ another line to Write Specs`
 	__Project__00000002_.Notes = append(__Project__00000002_.Notes, __Note__00000002_)
 	__Project__00000002_.Notes = append(__Project__00000002_.Notes, __Note__00000003_)
 	__Project__00000002_.Notes = append(__Project__00000002_.Notes, __Note__00000004_)
+	__Project__00000003_.RootProducts = append(__Project__00000003_.RootProducts, __Product__00000038_)
+	__Project__00000003_.Diagrams = append(__Project__00000003_.Diagrams, __Diagram__00000062_)
+	__Project__00000003_.Diagrams = append(__Project__00000003_.Diagrams, __Diagram__00000063_)
 	__Root__00000000_.Projects = append(__Root__00000000_.Projects, __Project__00000000_)
 	__Root__00000000_.Projects = append(__Root__00000000_.Projects, __Project__00000001_)
 	__Root__00000000_.Projects = append(__Root__00000000_.Projects, __Project__00000002_)
+	__Root__00000000_.Projects = append(__Root__00000000_.Projects, __Project__00000003_)
 	__Task__00000000_.SubTasks = append(__Task__00000000_.SubTasks, __Task__00000004_)
 	__Task__00000000_.SubTasks = append(__Task__00000000_.SubTasks, __Task__00000005_)
 	__Task__00000000_.Inputs = append(__Task__00000000_.Inputs, __Product__00000010_)

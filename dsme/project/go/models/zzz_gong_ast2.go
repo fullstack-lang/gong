@@ -656,10 +656,6 @@ func (u *RootUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.Name = GongExtractString(valueExpr)
 	case "Projects":
 		GongUnmarshallSliceOfPointers(&instance.Projects, valueExpr, identifierMap)
-	case "OrphanedProducts":
-		GongUnmarshallSliceOfPointers(&instance.OrphanedProducts, valueExpr, identifierMap)
-	case "OrphanedTasks":
-		GongUnmarshallSliceOfPointers(&instance.OrphanedTasks, valueExpr, identifierMap)
 	case "NbPixPerCharacter":
 		instance.NbPixPerCharacter = GongExtractFloat(valueExpr)
 	}

@@ -67,8 +67,5 @@ func (stager *Stager) enforceHierarchy() (needCommit bool) {
 		verifyTaskHierarchy(&project.RootTasks, nil)
 	}
 
-	verifyProductHierarchy(&root.OrphanedProducts, nil)
-	verifyTaskHierarchy(&root.OrphanedTasks, nil)
-
 	return
 }

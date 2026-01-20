@@ -676,16 +676,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 							if start < len(instance.Projects) && end <= len(instance.Projects) && start < end {
 								instance.Projects = slices.Delete(instance.Projects, start, end)
 							}
-						case "OrphanedProducts":
-							instance := __gong__map_Root[identifier]
-							if start < len(instance.OrphanedProducts) && end <= len(instance.OrphanedProducts) && start < end {
-								instance.OrphanedProducts = slices.Delete(instance.OrphanedProducts, start, end)
-							}
-						case "OrphanedTasks":
-							instance := __gong__map_Root[identifier]
-							if start < len(instance.OrphanedTasks) && end <= len(instance.OrphanedTasks) && start < end {
-								instance.OrphanedTasks = slices.Delete(instance.OrphanedTasks, start, end)
-							}
 						}
 					case "Task":
 						switch fieldName {
@@ -1676,46 +1666,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 									instanceWhoseFieldIsAppended := __gong__map_Root[identifier]
 									if insertIndex <= len(instanceWhoseFieldIsAppended.Projects) {
 										instanceWhoseFieldIsAppended.Projects = slices.Insert(instanceWhoseFieldIsAppended.Projects, insertIndex, instanceToAppend)
-										insertIndex++ // Increment for subsequent elements in the same call
-									}
-								}
-							}
-						case "OrphanedProducts":
-							// Handle append: elements start at argNb 1
-							if isAppend && argNb > 0 {
-								identifierOfInstanceToAppend := ident.Name
-								if instanceToAppend, ok := __gong__map_Product[identifierOfInstanceToAppend]; ok {
-									instanceWhoseFieldIsAppended := __gong__map_Root[identifier]
-									instanceWhoseFieldIsAppended.OrphanedProducts = append(instanceWhoseFieldIsAppended.OrphanedProducts, instanceToAppend)
-								}
-							}
-							// Handle slices.Insert: elements start at argNb 2
-							if isSlicesInsert && argNb > 1 {
-								identifierOfInstanceToAppend := ident.Name
-								if instanceToAppend, ok := __gong__map_Product[identifierOfInstanceToAppend]; ok {
-									instanceWhoseFieldIsAppended := __gong__map_Root[identifier]
-									if insertIndex <= len(instanceWhoseFieldIsAppended.OrphanedProducts) {
-										instanceWhoseFieldIsAppended.OrphanedProducts = slices.Insert(instanceWhoseFieldIsAppended.OrphanedProducts, insertIndex, instanceToAppend)
-										insertIndex++ // Increment for subsequent elements in the same call
-									}
-								}
-							}
-						case "OrphanedTasks":
-							// Handle append: elements start at argNb 1
-							if isAppend && argNb > 0 {
-								identifierOfInstanceToAppend := ident.Name
-								if instanceToAppend, ok := __gong__map_Task[identifierOfInstanceToAppend]; ok {
-									instanceWhoseFieldIsAppended := __gong__map_Root[identifier]
-									instanceWhoseFieldIsAppended.OrphanedTasks = append(instanceWhoseFieldIsAppended.OrphanedTasks, instanceToAppend)
-								}
-							}
-							// Handle slices.Insert: elements start at argNb 2
-							if isSlicesInsert && argNb > 1 {
-								identifierOfInstanceToAppend := ident.Name
-								if instanceToAppend, ok := __gong__map_Task[identifierOfInstanceToAppend]; ok {
-									instanceWhoseFieldIsAppended := __gong__map_Root[identifier]
-									if insertIndex <= len(instanceWhoseFieldIsAppended.OrphanedTasks) {
-										instanceWhoseFieldIsAppended.OrphanedTasks = slices.Insert(instanceWhoseFieldIsAppended.OrphanedTasks, insertIndex, instanceToAppend)
 										insertIndex++ // Increment for subsequent elements in the same call
 									}
 								}

@@ -30,15 +30,15 @@ func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 	}
 
 	// 2. unstage shapes that are not attached to a diagram
-	needCommit = unstageOrphans(stager, reachableProductShapes) || needCommit
-	needCommit = unstageOrphans(stager, reachableProductCompositionShapes) || needCommit
-	needCommit = unstageOrphans(stager, reachableTaskShapes) || needCommit
-	needCommit = unstageOrphans(stager, reachableTaskCompositionShapes) || needCommit
-	needCommit = unstageOrphans(stager, reachableTaskInputShapes) || needCommit
-	needCommit = unstageOrphans(stager, reachableTaskOutputShapes) || needCommit
-	needCommit = unstageOrphans(stager, reachableNoteShapes) || needCommit
-	needCommit = unstageOrphans(stager, reachableNoteProductShapes) || needCommit
-	needCommit = unstageOrphans(stager, reachableNoteTaskShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableProductShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableProductCompositionShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableTaskShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableTaskCompositionShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableTaskInputShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableTaskOutputShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableNoteShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableNoteProductShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableNoteTaskShapes) || needCommit
 
 	return
 }
@@ -49,7 +49,7 @@ func collectShapes[T comparable](shapes []T, reachable map[T]struct{}) {
 	}
 }
 
-func unstageOrphans[T PointerToGongstruct](stager *Stager, reachable map[T]struct{}) (needCommit bool) {
+func unstageUnreachableOrphans[T PointerToGongstruct](stager *Stager, reachable map[T]struct{}) (needCommit bool) {
 	for _, shape := range GetGongstrucsSorted[T](stager.stage) {
 		if _, ok := reachable[shape]; !ok {
 			shape.UnstageVoid(stager.stage)

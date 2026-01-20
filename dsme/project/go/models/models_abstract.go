@@ -6,12 +6,6 @@ type Root struct {
 
 	Projects []*Project
 
-	// product that do not belong to projects
-	OrphanedProducts []*Product
-
-	// task that do not belong to projects
-	OrphanedTasks []*Task
-
 	NbPixPerCharacter float64
 }
 
