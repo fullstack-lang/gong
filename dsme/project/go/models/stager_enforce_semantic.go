@@ -39,60 +39,24 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 		}
 	}
 
-	if stager.enforceObjectValues() {
-		needCommit = true
-	}
-
-	if stager.enforceDAG() {
-		needCommit = true
-	}
-
-	if stager.enforceHierarchy() {
-		needCommit = true
-	}
-
-	if stager.enforceUniquenessInProjects() {
-		needCommit = true
-	}
-
-	if stager.unstageAllOrphans() {
-		needCommit = true
-	}
-
-	if stager.enforceComputedPrefix() {
-		needCommit = true
-	}
+	needCommit = stager.enforceObjectValues() || needCommit
+	needCommit = stager.enforceDAG() || needCommit
+	needCommit = stager.enforceHierarchy() || needCommit
+	needCommit = stager.enforceUniquenessInProjects() || needCommit
+	needCommit = stager.unstageAllOrphans() || needCommit
+	needCommit = stager.enforceComputedPrefix() || needCommit
 
 	// Semantic for shapes relation to concrete objects
 	{
-		if stager.enforceProductCompositionShapes() {
-			needCommit = true
-		}
-
-		if stager.enforceTaskCompositionShapes() {
-			needCommit = true
-		}
-
-		if stager.enforceTaskInputOutputShapes() {
-			needCommit = true
-		}
-
-		if stager.enforceNoteRelatedShapes() {
-			needCommit = true
-		}
+		needCommit = stager.enforceProductCompositionShapes() || needCommit
+		needCommit = stager.enforceTaskCompositionShapes() || needCommit
+		needCommit = stager.enforceTaskInputOutputShapes() || needCommit
+		needCommit = stager.enforceNoteRelatedShapes() || needCommit
 	}
 
-	if stager.enforceShapeOrphans() {
-		needCommit = true
-	}
-
-	if stager.enforceTaskInputOutputProjectConsistency() {
-		needCommit = true
-	}
-
-	if stager.enforceDuplicateRemove() {
-		needCommit = true
-	}
+	needCommit = stager.enforceShapeOrphans() || needCommit
+	needCommit = stager.enforceTaskInputOutputProjectConsistency() || needCommit
+	needCommit = stager.enforceDuplicateRemove() || needCommit
 
 	for _, instance := range stage.GetInstances() {
 		if shape, ok := instance.(ConcreteType); ok {
