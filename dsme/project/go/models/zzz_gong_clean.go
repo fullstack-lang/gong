@@ -33,20 +33,20 @@ func GongCleanPointer[T PointerToGongstruct](stage *Stage, element *T) (modified
 // Clean garbage collect unstaged instances that are referenced by Diagram
 func (diagram *Diagram) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &diagram.Product_Shapes)  || modified
-	modified = GongCleanSlice(stage, &diagram.ProductsWhoseNodeIsExpanded)  || modified
-	modified = GongCleanSlice(stage, &diagram.ProductComposition_Shapes)  || modified
-	modified = GongCleanSlice(stage, &diagram.Task_Shapes)  || modified
-	modified = GongCleanSlice(stage, &diagram.TasksWhoseNodeIsExpanded)  || modified
-	modified = GongCleanSlice(stage, &diagram.TasksWhoseInputNodeIsExpanded)  || modified
-	modified = GongCleanSlice(stage, &diagram.TasksWhoseOutputNodeIsExpanded)  || modified
-	modified = GongCleanSlice(stage, &diagram.TaskComposition_Shapes)  || modified
-	modified = GongCleanSlice(stage, &diagram.TaskInputShapes)  || modified
-	modified = GongCleanSlice(stage, &diagram.TaskOutputShapes)  || modified
-	modified = GongCleanSlice(stage, &diagram.Note_Shapes)  || modified
-	modified = GongCleanSlice(stage, &diagram.NotesWhoseNodeIsExpanded)  || modified
-	modified = GongCleanSlice(stage, &diagram.NoteProductShapes)  || modified
-	modified = GongCleanSlice(stage, &diagram.NoteTaskShapes)  || modified
+	modified = GongCleanSlice(stage, &diagram.Product_Shapes) || modified
+	modified = GongCleanSlice(stage, &diagram.ProductsWhoseNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &diagram.ProductComposition_Shapes) || modified
+	modified = GongCleanSlice(stage, &diagram.Task_Shapes) || modified
+	modified = GongCleanSlice(stage, &diagram.TasksWhoseNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &diagram.TasksWhoseInputNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &diagram.TasksWhoseOutputNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &diagram.TaskComposition_Shapes) || modified
+	modified = GongCleanSlice(stage, &diagram.TaskInputShapes) || modified
+	modified = GongCleanSlice(stage, &diagram.TaskOutputShapes) || modified
+	modified = GongCleanSlice(stage, &diagram.Note_Shapes) || modified
+	modified = GongCleanSlice(stage, &diagram.NotesWhoseNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &diagram.NoteProductShapes) || modified
+	modified = GongCleanSlice(stage, &diagram.NoteTaskShapes) || modified
 	// insertion point per field
 	return
 }
@@ -54,8 +54,8 @@ func (diagram *Diagram) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Note
 func (note *Note) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &note.Products)  || modified
-	modified = GongCleanSlice(stage, &note.Tasks)  || modified
+	modified = GongCleanSlice(stage, &note.Products) || modified
+	modified = GongCleanSlice(stage, &note.Tasks) || modified
 	// insertion point per field
 	return
 }
@@ -64,8 +64,8 @@ func (note *Note) GongClean(stage *Stage) (modified bool) {
 func (noteproductshape *NoteProductShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &noteproductshape.Note)  || modified
-	modified = GongCleanPointer(stage, &noteproductshape.Product)  || modified
+	modified = GongCleanPointer(stage, &noteproductshape.Note) || modified
+	modified = GongCleanPointer(stage, &noteproductshape.Product) || modified
 	return
 }
 
@@ -73,7 +73,7 @@ func (noteproductshape *NoteProductShape) GongClean(stage *Stage) (modified bool
 func (noteshape *NoteShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &noteshape.Note)  || modified
+	modified = GongCleanPointer(stage, &noteshape.Note) || modified
 	return
 }
 
@@ -81,15 +81,15 @@ func (noteshape *NoteShape) GongClean(stage *Stage) (modified bool) {
 func (notetaskshape *NoteTaskShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &notetaskshape.Note)  || modified
-	modified = GongCleanPointer(stage, &notetaskshape.Task)  || modified
+	modified = GongCleanPointer(stage, &notetaskshape.Note) || modified
+	modified = GongCleanPointer(stage, &notetaskshape.Task) || modified
 	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by Product
 func (product *Product) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &product.SubProducts)  || modified
+	modified = GongCleanSlice(stage, &product.SubProducts) || modified
 	// insertion point per field
 	return
 }
@@ -98,7 +98,7 @@ func (product *Product) GongClean(stage *Stage) (modified bool) {
 func (productcompositionshape *ProductCompositionShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &productcompositionshape.Product)  || modified
+	modified = GongCleanPointer(stage, &productcompositionshape.Product) || modified
 	return
 }
 
@@ -106,17 +106,17 @@ func (productcompositionshape *ProductCompositionShape) GongClean(stage *Stage) 
 func (productshape *ProductShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &productshape.Product)  || modified
+	modified = GongCleanPointer(stage, &productshape.Product) || modified
 	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by Project
 func (project *Project) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &project.RootProducts)  || modified
-	modified = GongCleanSlice(stage, &project.RootTasks)  || modified
-	modified = GongCleanSlice(stage, &project.Diagrams)  || modified
-	modified = GongCleanSlice(stage, &project.Notes)  || modified
+	modified = GongCleanSlice(stage, &project.RootProducts) || modified
+	modified = GongCleanSlice(stage, &project.RootTasks) || modified
+	modified = GongCleanSlice(stage, &project.Diagrams) || modified
+	modified = GongCleanSlice(stage, &project.Notes) || modified
 	// insertion point per field
 	return
 }
@@ -124,7 +124,7 @@ func (project *Project) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Root
 func (root *Root) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &root.Projects)  || modified
+	modified = GongCleanSlice(stage, &root.Projects) || modified
 	// insertion point per field
 	return
 }
@@ -132,9 +132,9 @@ func (root *Root) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Task
 func (task *Task) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &task.SubTasks)  || modified
-	modified = GongCleanSlice(stage, &task.Inputs)  || modified
-	modified = GongCleanSlice(stage, &task.Outputs)  || modified
+	modified = GongCleanSlice(stage, &task.SubTasks) || modified
+	modified = GongCleanSlice(stage, &task.Inputs) || modified
+	modified = GongCleanSlice(stage, &task.Outputs) || modified
 	// insertion point per field
 	return
 }
@@ -143,7 +143,7 @@ func (task *Task) GongClean(stage *Stage) (modified bool) {
 func (taskcompositionshape *TaskCompositionShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &taskcompositionshape.Task)  || modified
+	modified = GongCleanPointer(stage, &taskcompositionshape.Task) || modified
 	return
 }
 
@@ -151,8 +151,8 @@ func (taskcompositionshape *TaskCompositionShape) GongClean(stage *Stage) (modif
 func (taskinputshape *TaskInputShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &taskinputshape.Task)  || modified
-	modified = GongCleanPointer(stage, &taskinputshape.Product)  || modified
+	modified = GongCleanPointer(stage, &taskinputshape.Task) || modified
+	modified = GongCleanPointer(stage, &taskinputshape.Product) || modified
 	return
 }
 
@@ -160,8 +160,8 @@ func (taskinputshape *TaskInputShape) GongClean(stage *Stage) (modified bool) {
 func (taskoutputshape *TaskOutputShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &taskoutputshape.Task)  || modified
-	modified = GongCleanPointer(stage, &taskoutputshape.Product)  || modified
+	modified = GongCleanPointer(stage, &taskoutputshape.Task) || modified
+	modified = GongCleanPointer(stage, &taskoutputshape.Product) || modified
 	return
 }
 
@@ -169,7 +169,7 @@ func (taskoutputshape *TaskOutputShape) GongClean(stage *Stage) (modified bool) 
 func (taskshape *TaskShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &taskshape.Task)  || modified
+	modified = GongCleanPointer(stage, &taskshape.Task) || modified
 	return
 }
 

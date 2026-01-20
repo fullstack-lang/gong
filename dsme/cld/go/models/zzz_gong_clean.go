@@ -41,7 +41,7 @@ func (category1 *Category1) GongClean(stage *Stage) (modified bool) {
 func (category1shape *Category1Shape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &category1shape.Category1)  || modified
+	modified = GongCleanPointer(stage, &category1shape.Category1) || modified
 	return
 }
 
@@ -56,7 +56,7 @@ func (category2 *Category2) GongClean(stage *Stage) (modified bool) {
 func (category2shape *Category2Shape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &category2shape.Category2)  || modified
+	modified = GongCleanPointer(stage, &category2shape.Category2) || modified
 	return
 }
 
@@ -71,7 +71,7 @@ func (category3 *Category3) GongClean(stage *Stage) (modified bool) {
 func (category3shape *Category3Shape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &category3shape.Category3)  || modified
+	modified = GongCleanPointer(stage, &category3shape.Category3) || modified
 	return
 }
 
@@ -86,17 +86,17 @@ func (controlpointshape *ControlPointShape) GongClean(stage *Stage) (modified bo
 func (desk *Desk) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &desk.SelectedDiagram)  || modified
+	modified = GongCleanPointer(stage, &desk.SelectedDiagram) || modified
 	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by Diagram
 func (diagram *Diagram) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &diagram.Category1Shapes)  || modified
-	modified = GongCleanSlice(stage, &diagram.Category2Shapes)  || modified
-	modified = GongCleanSlice(stage, &diagram.Category3Shapes)  || modified
-	modified = GongCleanSlice(stage, &diagram.InfluenceShapes)  || modified
+	modified = GongCleanSlice(stage, &diagram.Category1Shapes) || modified
+	modified = GongCleanSlice(stage, &diagram.Category2Shapes) || modified
+	modified = GongCleanSlice(stage, &diagram.Category3Shapes) || modified
+	modified = GongCleanSlice(stage, &diagram.InfluenceShapes) || modified
 	// insertion point per field
 	return
 }
@@ -105,21 +105,21 @@ func (diagram *Diagram) GongClean(stage *Stage) (modified bool) {
 func (influence *Influence) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &influence.SourceCategory1)  || modified
-	modified = GongCleanPointer(stage, &influence.SourceCategory2)  || modified
-	modified = GongCleanPointer(stage, &influence.SourceCategory3)  || modified
-	modified = GongCleanPointer(stage, &influence.TargetCategory1)  || modified
-	modified = GongCleanPointer(stage, &influence.TargetCategory2)  || modified
-	modified = GongCleanPointer(stage, &influence.TargetCategory3)  || modified
+	modified = GongCleanPointer(stage, &influence.SourceCategory1) || modified
+	modified = GongCleanPointer(stage, &influence.SourceCategory2) || modified
+	modified = GongCleanPointer(stage, &influence.SourceCategory3) || modified
+	modified = GongCleanPointer(stage, &influence.TargetCategory1) || modified
+	modified = GongCleanPointer(stage, &influence.TargetCategory2) || modified
+	modified = GongCleanPointer(stage, &influence.TargetCategory3) || modified
 	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by InfluenceShape
 func (influenceshape *InfluenceShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &influenceshape.ControlPointShapes)  || modified
+	modified = GongCleanSlice(stage, &influenceshape.ControlPointShapes) || modified
 	// insertion point per field
-	modified = GongCleanPointer(stage, &influenceshape.Influence)  || modified
+	modified = GongCleanPointer(stage, &influenceshape.Influence) || modified
 	return
 }
 
