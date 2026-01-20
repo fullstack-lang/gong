@@ -61,7 +61,7 @@ func (stager *Stager) treePBSRecusriveInDiagram(diagram *Diagram, product *Produ
 					// 	OnUpdated: stager.OnAddProductCompositionShape(diagram, parentProduct, product),
 					// }
 					showHideCompositionButton.Impl = &tree.FunctionalButtonProxy{
-						OnUpdated: onAddAssociationShape(stager, diagram, parentProduct, product, &diagram.ProductComposition_Shapes),
+						OnUpdated: onAddAssociationShape(stager, parentProduct, product, &diagram.ProductComposition_Shapes),
 					}
 				} else {
 					showHideCompositionButton.Icon = string(buttons.BUTTON_unfold_less)

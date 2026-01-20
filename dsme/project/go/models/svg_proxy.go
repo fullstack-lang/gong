@@ -88,42 +88,42 @@ func (p *svgProxy) SVGUpdated(updatedSVG *svg.SVG) {
 		parentProduct := sourceAbstratctElement.(*Product)
 
 		parentProduct.SubProducts = append(parentProduct.SubProducts, subProduct)
-		onAddAssociationShape(p.stager, p.diagram, parentProduct, subProduct, &diagram.ProductComposition_Shapes)
+		onAddAssociationShape(p.stager, parentProduct, subProduct, &diagram.ProductComposition_Shapes)
 
 	case ASSOCIATION_TYPE_TASK_COMPOSITION:
 		subTask := targetAbstractElement.(*Task)
 		parentTask := sourceAbstratctElement.(*Task)
 
 		parentTask.SubTasks = append(parentTask.SubTasks, subTask)
-		addShapeToDiagram(p.stager, parentTask, subTask, &diagram.TaskComposition_Shapes)
+		addAssociationShapeToDiagram(p.stager, parentTask, subTask, &diagram.TaskComposition_Shapes)
 
 	case ASSOCIATION_TYPE_TASK_INPUT:
 		product := sourceAbstratctElement.(*Product)
 		task := targetAbstractElement.(*Task)
 
 		task.Inputs = append(task.Inputs, product)
-		addShapeToDiagram(p.stager, task, product, &diagram.TaskInputShapes)
+		addAssociationShapeToDiagram(p.stager, task, product, &diagram.TaskInputShapes)
 
 	case ASSOCIATION_TYPE_TASK_OUTPUT:
 		task := sourceAbstratctElement.(*Task)
 		product := targetAbstractElement.(*Product)
 
 		task.Outputs = append(task.Outputs, product)
-		addShapeToDiagram(p.stager, task, product, &diagram.TaskOutputShapes)
+		addAssociationShapeToDiagram(p.stager, task, product, &diagram.TaskOutputShapes)
 
 	case ASSOCIAITON_TYPE_NOTE_PRODUCT:
 		note := sourceAbstratctElement.(*Note)
 		product := targetAbstractElement.(*Product)
 
 		note.Products = append(note.Products, product)
-		addShapeToDiagram(p.stager, note, product, &diagram.NoteProductShapes)
+		addAssociationShapeToDiagram(p.stager, note, product, &diagram.NoteProductShapes)
 
 	case ASSOCIAITON_TYPE_NOTE_TASK:
 		note := sourceAbstratctElement.(*Note)
 		task := targetAbstractElement.(*Task)
 
 		note.Tasks = append(note.Tasks, task)
-		addShapeToDiagram(p.stager, note, task, &diagram.NoteTaskShapes)
+		addAssociationShapeToDiagram(p.stager, note, task, &diagram.NoteTaskShapes)
 	}
 
 	if assocType == "" {

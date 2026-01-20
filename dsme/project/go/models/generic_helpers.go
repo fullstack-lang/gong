@@ -7,18 +7,6 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
-func onUpdateAbstractElement[AT AbstractType](stager *Stager, element AT) func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
-	return func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
-		if frontNode.IsExpanded != stagedNode.IsExpanded {
-			stagedNode.IsExpanded = frontNode.IsExpanded
-			element.SetIsExpanded(frontNode.IsExpanded)
-		} else {
-			stager.probeForm.FillUpFormFromGongstruct(element, GetPointerToGongstructName[AT]())
-		}
-		stager.stage.Commit()
-	}
-}
-
 func onAddAssociationShape[
 	ATstart AbstractType,
 	ATend AbstractType,
@@ -28,20 +16,20 @@ func onAddAssociationShape[
 		AssociationConcreteType
 	},
 	ACT_ Gongstruct](
-	stager *Stager, diagram *Diagram, start ATstart, end ATend, shapes *[]ACT) func(
+	stager *Stager, start ATstart, end ATend, shapes *[]ACT) func(
 	stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
 	return func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
-		addShapeToDiagram(stager, start, end, shapes)
+		addAssociationShapeToDiagram(stager, start, end, shapes)
 	}
 }
 
-func addShapeToDiagram[
+func addAssociationShapeToDiagram[
 	ATstart AbstractType,
 	ATend AbstractType,
 	ACT interface {
 		*ACT_
 		LinkShapeInterface
-		AssociationConcreteType
+		AssociationConcreteType // the association concrete type shape
 	},
 	ACT_ Gongstruct](stager *Stager, start ATstart, end ATend, shapes *[]ACT) {
 	compositionShape := newConcreteAssociation(start, end, shapes)

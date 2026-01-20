@@ -58,7 +58,7 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 						"\" to \"" + task.Name + "\""
 
 					showHideCompositionButton.Impl = &tree.FunctionalButtonProxy{
-						OnUpdated: onAddAssociationShape(stager, diagram, parentTask, task, &diagram.TaskComposition_Shapes),
+						OnUpdated: onAddAssociationShape(stager, parentTask, task, &diagram.TaskComposition_Shapes),
 					}
 				} else {
 					showHideCompositionButton.Icon = string(buttons.BUTTON_unfold_less)
@@ -130,7 +130,7 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 							"\" to \"" + product.Name + "\""
 
 						showHideTaskInputButton.Impl = &tree.FunctionalButtonProxy{
-							OnUpdated: onAddAssociationShape(stager, diagram, task, product, &diagram.TaskInputShapes),
+							OnUpdated: onAddAssociationShape(stager, task, product, &diagram.TaskInputShapes),
 						}
 					}
 				}
@@ -190,7 +190,7 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 							"\" to \"" + product.Name + "\""
 
 						showHideTaskOutputButton.Impl = &tree.FunctionalButtonProxy{
-							OnUpdated: onAddAssociationShape(stager, diagram, task, product, &diagram.TaskOutputShapes),
+							OnUpdated: onAddAssociationShape(stager, task, product, &diagram.TaskOutputShapes),
 						}
 					}
 				}

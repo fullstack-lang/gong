@@ -256,7 +256,7 @@ func (stager *Stager) tree() {
 								showHideRelationButton.ToolTipText = "Show link from note \"" + note.Name +
 									"\" to product \"" + product.Name + "\""
 								showHideRelationButton.Impl = &tree.FunctionalButtonProxy{
-									OnUpdated: onAddAssociationShape(stager, diagram, note, product, &diagram.NoteProductShapes),
+									OnUpdated: onAddAssociationShape(stager, note, product, &diagram.NoteProductShapes),
 								}
 							}
 						}
@@ -293,7 +293,7 @@ func (stager *Stager) tree() {
 								showHideRelationButton.ToolTipText = "Show link from note \"" + note.Name +
 									"\" to task \"" + task.Name + "\""
 								showHideRelationButton.Impl = &tree.FunctionalButtonProxy{
-									OnUpdated: onAddAssociationShape(stager, diagram, note, task, &diagram.NoteTaskShapes),
+									OnUpdated: onAddAssociationShape(stager, note, task, &diagram.NoteTaskShapes),
 								}
 							}
 						}
