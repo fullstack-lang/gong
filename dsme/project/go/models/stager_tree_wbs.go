@@ -24,7 +24,7 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 	}
 	parentNode.Children = append(parentNode.Children, taskNode)
 
-	addAddItemButton(stager, taskNode, &task.SubTasks)
+	addAddItemButton(stager, &diagram.TasksWhoseNodeIsExpanded, task, taskNode, &task.SubTasks)
 
 	if _, ok := diagram.map_Task_TaskShape[task]; ok {
 		taskNode.IsChecked = true
