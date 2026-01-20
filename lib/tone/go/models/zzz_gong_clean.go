@@ -40,7 +40,7 @@ func (freqency *Freqency) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Note
 func (note *Note) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &note.Frequencies)  || modified
+	modified = GongCleanSlice(stage, &note.Frequencies) || modified
 	// insertion point per field
 	return
 }

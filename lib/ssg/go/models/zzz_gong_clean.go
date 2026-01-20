@@ -33,7 +33,7 @@ func GongCleanPointer[T PointerToGongstruct](stage *Stage, element *T) (modified
 // Clean garbage collect unstaged instances that are referenced by Chapter
 func (chapter *Chapter) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &chapter.Pages)  || modified
+	modified = GongCleanSlice(stage, &chapter.Pages) || modified
 	// insertion point per field
 	return
 }
@@ -41,7 +41,7 @@ func (chapter *Chapter) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Content
 func (content *Content) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &content.Chapters)  || modified
+	modified = GongCleanSlice(stage, &content.Chapters) || modified
 	// insertion point per field
 	return
 }

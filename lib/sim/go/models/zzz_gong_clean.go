@@ -34,7 +34,7 @@ func GongCleanPointer[T PointerToGongstruct](stage *Stage, element *T) (modified
 func (command *Command) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &command.Engine)  || modified
+	modified = GongCleanPointer(stage, &command.Engine) || modified
 	return
 }
 

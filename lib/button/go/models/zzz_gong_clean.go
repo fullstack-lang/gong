@@ -47,7 +47,7 @@ func (buttontoggle *ButtonToggle) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Group
 func (group *Group) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &group.Buttons)  || modified
+	modified = GongCleanSlice(stage, &group.Buttons) || modified
 	// insertion point per field
 	return
 }
@@ -55,7 +55,7 @@ func (group *Group) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by GroupToogle
 func (grouptoogle *GroupToogle) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &grouptoogle.ButtonToggles)  || modified
+	modified = GongCleanSlice(stage, &grouptoogle.ButtonToggles) || modified
 	// insertion point per field
 	return
 }
@@ -63,8 +63,8 @@ func (grouptoogle *GroupToogle) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Layout
 func (layout *Layout) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &layout.Groups)  || modified
-	modified = GongCleanSlice(stage, &layout.GroupToogles)  || modified
+	modified = GongCleanSlice(stage, &layout.Groups) || modified
+	modified = GongCleanSlice(stage, &layout.GroupToogles) || modified
 	// insertion point per field
 	return
 }
