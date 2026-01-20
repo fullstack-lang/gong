@@ -115,6 +115,9 @@ type ProductCompositionShape struct {
 }
 
 func (s *ProductCompositionShape) GetAbstractEndElement() AbstractType {
+	if s.Product == nil {
+		return nil
+	}
 	return s.Product
 }
 
@@ -123,6 +126,9 @@ func (s *ProductCompositionShape) SetAbstractEndElement(abstractElement Abstract
 }
 
 func (s *ProductCompositionShape) GetAbstractStartElement() AbstractType {
+	if s.Product == nil || s.Product.parentProduct == nil {
+		return nil
+	}
 	return s.Product.parentProduct
 }
 
@@ -168,6 +174,9 @@ type TaskCompositionShape struct {
 }
 
 func (s *TaskCompositionShape) GetAbstractEndElement() AbstractType {
+	if s.Task == nil {
+		return nil
+	}
 	return s.Task
 }
 
@@ -176,6 +185,9 @@ func (s *TaskCompositionShape) SetAbstractEndElement(abstractElement AbstractTyp
 }
 
 func (s *TaskCompositionShape) GetAbstractStartElement() AbstractType {
+	if s.Task == nil || s.Task.parentTask == nil {
+		return nil
+	}
 	return s.Task.parentTask
 }
 
@@ -241,6 +253,9 @@ func (s *TaskInputShape) SetAbstractStartElement(abstractElement AbstractType) {
 }
 
 func (s *TaskInputShape) GetAbstractEndElement() AbstractType {
+	if s.Task == nil {
+		return nil
+	}
 	return s.Task
 }
 
@@ -249,6 +264,9 @@ func (s *TaskInputShape) SetAbstractEndElement(abstractElement AbstractType) {
 }
 
 func (s *TaskInputShape) GetAbstractStartElement() AbstractType {
+	if s.Task == nil {
+		return nil
+	}
 	return s.Task
 }
 
@@ -269,6 +287,9 @@ func (s *TaskOutputShape) SetAbstractStartElement(abstractElement AbstractType) 
 }
 
 func (s *TaskOutputShape) GetAbstractEndElement() AbstractType {
+	if s.Task == nil {
+		return nil
+	}
 	return s.Task
 }
 
@@ -277,6 +298,9 @@ func (s *TaskOutputShape) SetAbstractEndElement(abstractElement AbstractType) {
 }
 
 func (s *TaskOutputShape) GetAbstractStartElement() AbstractType {
+	if s.Task == nil {
+		return nil
+	}
 	return s.Task
 }
 
@@ -316,11 +340,17 @@ type NoteProductShape struct {
 
 // GetAbstractEndElement implements [AssociationConcreteType].
 func (noteproductshape *NoteProductShape) GetAbstractEndElement() AbstractType {
+	if noteproductshape.Product == nil {
+		return nil
+	}
 	return noteproductshape.Product
 }
 
 // GetAbstractStartElement implements [AssociationConcreteType].
 func (noteproductshape *NoteProductShape) GetAbstractStartElement() AbstractType {
+	if noteproductshape.Note == nil {
+		return nil
+	}
 	return noteproductshape.Note
 }
 
@@ -347,6 +377,9 @@ type NoteTaskShape struct {
 }
 
 func (s *NoteTaskShape) GetAbstractEndElement() AbstractType {
+	if s.Task == nil {
+		return nil
+	}
 	return s.Task
 }
 
@@ -355,6 +388,9 @@ func (s *NoteTaskShape) SetAbstractEndElement(abstractElement AbstractType) {
 }
 
 func (s *NoteTaskShape) GetAbstractStartElement() AbstractType {
+	if s.Note == nil {
+		return nil
+	}
 	return s.Note
 }
 
