@@ -212,7 +212,7 @@ func (stager *Stager) tree() {
 
 				// what to do when the note node is clicked
 				noteNode.Impl = &tree.FunctionalNodeProxy{
-					OnUpdate: OnUpdateElementInDiagram(
+					OnUpdate: onUpdateElementInDiagram(
 						stager,
 						diagram,
 						note,
@@ -249,14 +249,14 @@ func (stager *Stager) tree() {
 									"\" to product \"" + product.Name + "\""
 								// what to do when the product node is clicked
 								showHideRelationButton.Impl = &tree.FunctionalButtonProxy{
-									OnUpdated: OnRemoveAssociationShape(stager, diagram, noteProductShape, &diagram.NoteProductShapes),
+									OnUpdated: onRemoveAssociationShape(stager, diagram, noteProductShape, &diagram.NoteProductShapes),
 								}
 							} else {
 								showHideRelationButton.Icon = string(buttons.BUTTON_unfold_more)
 								showHideRelationButton.ToolTipText = "Show link from note \"" + note.Name +
 									"\" to product \"" + product.Name + "\""
 								showHideRelationButton.Impl = &tree.FunctionalButtonProxy{
-									OnUpdated: OnAddAssociationShape(stager, diagram, note, product, &diagram.NoteProductShapes),
+									OnUpdated: onAddAssociationShape(stager, diagram, note, product, &diagram.NoteProductShapes),
 								}
 							}
 						}
@@ -286,14 +286,14 @@ func (stager *Stager) tree() {
 									"\" to task \"" + task.Name + "\""
 								// what to do when the product node is clicked
 								showHideRelationButton.Impl = &tree.FunctionalButtonProxy{
-									OnUpdated: OnRemoveAssociationShape(stager, diagram, noteTaskShape, &diagram.NoteTaskShapes),
+									OnUpdated: onRemoveAssociationShape(stager, diagram, noteTaskShape, &diagram.NoteTaskShapes),
 								}
 							} else {
 								showHideRelationButton.Icon = string(buttons.BUTTON_unfold_more)
 								showHideRelationButton.ToolTipText = "Show link from note \"" + note.Name +
 									"\" to task \"" + task.Name + "\""
 								showHideRelationButton.Impl = &tree.FunctionalButtonProxy{
-									OnUpdated: OnAddAssociationShape(stager, diagram, note, task, &diagram.NoteTaskShapes),
+									OnUpdated: onAddAssociationShape(stager, diagram, note, task, &diagram.NoteTaskShapes),
 								}
 							}
 						}
