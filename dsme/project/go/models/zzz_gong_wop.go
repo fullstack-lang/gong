@@ -228,13 +228,7 @@ type Project_WOP struct {
 
 	Name string
 
-	IsPBSNodeExpanded bool
-
-	IsWBSNodeExpanded bool
-
 	IsDiagramsNodeExpanded bool
-
-	IsNotesNodeExpanded bool
 
 	IsExpanded bool
 
@@ -244,10 +238,7 @@ type Project_WOP struct {
 func (from *Project) CopyBasicFields(to *Project) {
 	// insertion point
 	to.Name = from.Name
-	to.IsPBSNodeExpanded = from.IsPBSNodeExpanded
-	to.IsWBSNodeExpanded = from.IsWBSNodeExpanded
 	to.IsDiagramsNodeExpanded = from.IsDiagramsNodeExpanded
-	to.IsNotesNodeExpanded = from.IsNotesNodeExpanded
 	to.IsExpanded = from.IsExpanded
 	to.ComputedPrefix = from.ComputedPrefix
 }
@@ -401,4 +392,3 @@ func (from *TaskShape) CopyBasicFields(to *TaskShape) {
 	to.Width = from.Width
 	to.Height = from.Height
 }
-

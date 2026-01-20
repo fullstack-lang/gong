@@ -730,26 +730,17 @@ another line-NewDiagram`
 	__ProductShape__00000480_.Height = 70.000000
 
 	__Project__00000000_.Name = `Project Editor`
-	__Project__00000000_.IsPBSNodeExpanded = false
-	__Project__00000000_.IsWBSNodeExpanded = false
-	__Project__00000000_.IsDiagramsNodeExpanded = true
-	__Project__00000000_.IsNotesNodeExpanded = true
+	__Project__00000000_.IsDiagramsNodeExpanded = false
 	__Project__00000000_.IsExpanded = true
 	__Project__00000000_.ComputedPrefix = ``
 
 	__Project__00000001_.Name = `DSME Docx`
-	__Project__00000001_.IsPBSNodeExpanded = false
-	__Project__00000001_.IsWBSNodeExpanded = false
-	__Project__00000001_.IsDiagramsNodeExpanded = true
-	__Project__00000001_.IsNotesNodeExpanded = false
+	__Project__00000001_.IsDiagramsNodeExpanded = false
 	__Project__00000001_.IsExpanded = true
 	__Project__00000001_.ComputedPrefix = ``
 
 	__Project__00000002_.Name = `gong : persist stage.go as an history of commits  #934`
-	__Project__00000002_.IsPBSNodeExpanded = false
-	__Project__00000002_.IsWBSNodeExpanded = false
-	__Project__00000002_.IsDiagramsNodeExpanded = true
-	__Project__00000002_.IsNotesNodeExpanded = false
+	__Project__00000002_.IsDiagramsNodeExpanded = false
 	__Project__00000002_.IsExpanded = true
 	__Project__00000002_.ComputedPrefix = ``
 

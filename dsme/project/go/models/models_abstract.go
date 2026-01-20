@@ -12,17 +12,12 @@ type Root struct {
 type Project struct {
 	Name string
 
-	RootProducts      []*Product
-	IsPBSNodeExpanded bool
+	RootProducts []*Product
+	RootTasks    []*Task
+	Diagrams     []*Diagram
+	Notes        []*Note
 
-	RootTasks         []*Task
-	IsWBSNodeExpanded bool
-
-	Diagrams               []*Diagram
 	IsDiagramsNodeExpanded bool
-
-	Notes               []*Note
-	IsNotesNodeExpanded bool
 
 	ExpandableNodeObject
 }

@@ -3,7 +3,6 @@ package models
 
 // AfterCreateFromFront is called after a create from front
 func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
-
 	switch target := any(instance).(type) {
 	// insertion point
 	case *Diagram:
@@ -77,7 +76,6 @@ type Gong__MouseEvent struct {
 
 // OnAfterUpdateFromFront is called after a update from front
 func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
-
 	switch oldTarget := any(old).(type) {
 	// insertion point
 	case *Diagram:
@@ -162,7 +160,6 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 
 // AfterDeleteFromFront is called after a delete from front
 func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
-
 	switch front := any(front).(type) {
 	// insertion point
 	case *Diagram:
@@ -247,7 +244,6 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 
 // AfterReadFromFront is called after a Read from front
 func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
-
 	switch target := any(instance).(type) {
 	// insertion point
 	case *Diagram:
@@ -317,7 +313,6 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 
 // SetCallbackAfterUpdateFromFront is a function to set up callback that is robust to refactoring
 func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnAfterUpdateInterface[Type]) {
-
 	var instance Type
 	switch any(instance).(type) {
 	// insertion point
@@ -353,11 +348,11 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterTaskShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[TaskShape])
 	}
 }
-func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnAfterCreateInterface[Type]) {
 
+func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnAfterCreateInterface[Type]) {
 	var instance Type
 	switch any(instance).(type) {
-		// insertion point
+	// insertion point
 	case *Diagram:
 		stage.OnAfterDiagramCreateCallback = any(callback).(OnAfterCreateInterface[Diagram])
 	case *Note:
@@ -390,11 +385,11 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterTaskShapeCreateCallback = any(callback).(OnAfterCreateInterface[TaskShape])
 	}
 }
-func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnAfterDeleteInterface[Type]) {
 
+func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnAfterDeleteInterface[Type]) {
 	var instance Type
 	switch any(instance).(type) {
-		// insertion point
+	// insertion point
 	case *Diagram:
 		stage.OnAfterDiagramDeleteCallback = any(callback).(OnAfterDeleteInterface[Diagram])
 	case *Note:
@@ -427,11 +422,11 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterTaskShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[TaskShape])
 	}
 }
-func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAfterReadInterface[Type]) {
 
+func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAfterReadInterface[Type]) {
 	var instance Type
 	switch any(instance).(type) {
-		// insertion point
+	// insertion point
 	case *Diagram:
 		stage.OnAfterDiagramReadCallback = any(callback).(OnAfterReadInterface[Diagram])
 	case *Note:
