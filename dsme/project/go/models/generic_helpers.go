@@ -8,11 +8,23 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
-func addAddItemButton[T Gongstruct, PT interface {
-	*T
-	GongstructIF
-}](stager *Stager, parentItemsWhoseNodeIsExpanded *[]PT, parentItem PT,
+func addAddItemButton[
+	T Gongstruct,
+	PT interface {
+		*T
+		AbstractType
+	},
+	CT interface {
+		*S
+		RectShapeInterface
+		ConcreteType
+	},
+	S Gongstruct,
+](
+	stager *Stager,
+	parentItemsWhoseNodeIsExpanded *[]PT, parentItem PT, isNodeExpanded *bool,
 	node *tree.Node, items *[]PT,
+	diagram *Diagram, shapes *[]CT,
 ) {
 	var item PT
 	addButton := &tree.Button{
@@ -31,9 +43,13 @@ func addAddItemButton[T Gongstruct, PT interface {
 			*items = append(*items, item)
 			stager.stage.ComputeReverseMaps() // this is important, otherwise, the form is not correctly initialized
 
-			// check if the item is a diagram, if so, set the IsEditable_ field to true
+			// if the created item is a diagram, set the IsEditable_ field to true
 			if diagram, ok := any(item).(*Diagram); ok {
 				diagram.IsEditable_ = true
+			}
+
+			if diagram != nil && shapes != nil {
+				newShapeToDiagram(item, diagram, shapes, stager.stage)
 			}
 
 			stager.probeForm.FillUpFormFromGongstruct(item, GetPointerToGongstructName[PT]())
@@ -42,6 +58,9 @@ func addAddItemButton[T Gongstruct, PT interface {
 			if parentItemsWhoseNodeIsExpanded != nil && parentItem != nil &&
 				!slices.Contains(*parentItemsWhoseNodeIsExpanded, parentItem) {
 				*parentItemsWhoseNodeIsExpanded = append(*parentItemsWhoseNodeIsExpanded, parentItem)
+			}
+			if isNodeExpanded != nil {
+				*isNodeExpanded = true
 			}
 
 			stager.stage.Commit()
