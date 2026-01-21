@@ -14,10 +14,9 @@ type Project struct {
 
 	RootProducts []*Product
 	RootTasks    []*Task
-	Diagrams     []*Diagram
 	Notes        []*Note
 
-	IsDiagramsNodeExpanded bool
+	Diagrams []*Diagram
 
 	ExpandableNodeObject
 }

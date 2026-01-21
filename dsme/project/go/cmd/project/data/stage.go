@@ -176,20 +176,20 @@ another line-NewDiagram`}).Stage(stage)
 	__Diagram__00000057_.ShowPrefix = false
 	__Diagram__00000057_.DefaultBoxWidth = 150.000000
 	__Diagram__00000057_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000057_.IsExpanded = true
+	__Diagram__00000057_.IsExpanded = false
 	__Diagram__00000057_.ComputedPrefix = ``
 	__Diagram__00000057_.IsPBSNodeExpanded = true
 	__Diagram__00000057_.IsWBSNodeExpanded = false
 	__Diagram__00000057_.IsNotesNodeExpanded = false
 
 	__Diagram__00000061_.Name = `Work diagram x`
-	__Diagram__00000061_.IsChecked = true
+	__Diagram__00000061_.IsChecked = false
 	__Diagram__00000061_.IsEditable_ = true
 	__Diagram__00000061_.IsInRenameMode = false
 	__Diagram__00000061_.ShowPrefix = true
 	__Diagram__00000061_.DefaultBoxWidth = 250.000000
 	__Diagram__00000061_.DefaultBoxHeigth = 100.000000
-	__Diagram__00000061_.IsExpanded = true
+	__Diagram__00000061_.IsExpanded = false
 	__Diagram__00000061_.ComputedPrefix = ``
 	__Diagram__00000061_.IsPBSNodeExpanded = true
 	__Diagram__00000061_.IsWBSNodeExpanded = false
@@ -730,18 +730,15 @@ another line-NewDiagram`
 	__ProductShape__00000481_.Height = 57.000000
 
 	__Project__00000000_.Name = `Project Editor`
-	__Project__00000000_.IsDiagramsNodeExpanded = false
-	__Project__00000000_.IsExpanded = true
+	__Project__00000000_.IsExpanded = false
 	__Project__00000000_.ComputedPrefix = ``
 
 	__Project__00000001_.Name = `DSME Docx`
-	__Project__00000001_.IsDiagramsNodeExpanded = false
-	__Project__00000001_.IsExpanded = true
+	__Project__00000001_.IsExpanded = false
 	__Project__00000001_.ComputedPrefix = ``
 
 	__Project__00000002_.Name = `gong : persist stage.go as an history of commits  #934`
-	__Project__00000002_.IsDiagramsNodeExpanded = true
-	__Project__00000002_.IsExpanded = true
+	__Project__00000002_.IsExpanded = false
 	__Project__00000002_.ComputedPrefix = ``
 
 	__Root__00000000_.Name = `Root`
@@ -1077,9 +1074,9 @@ another line-NewDiagram`
 	__ProductShape__00000481_.Product = __Product__00000031_
 	__Project__00000000_.RootProducts = append(__Project__00000000_.RootProducts, __Product__00000038_)
 	__Project__00000000_.RootProducts = append(__Project__00000000_.RootProducts, __Product__00000042_)
-	__Project__00000000_.Diagrams = append(__Project__00000000_.Diagrams, __Diagram__00000057_)
 	__Project__00000000_.Notes = append(__Project__00000000_.Notes, __Note__00000000_)
 	__Project__00000000_.Notes = append(__Project__00000000_.Notes, __Note__00000001_)
+	__Project__00000000_.Diagrams = append(__Project__00000000_.Diagrams, __Diagram__00000057_)
 	__Project__00000001_.RootProducts = append(__Project__00000001_.RootProducts, __Product__00000011_)
 	__Project__00000001_.RootProducts = append(__Project__00000001_.RootProducts, __Product__00000015_)
 	__Project__00000001_.RootTasks = append(__Project__00000001_.RootTasks, __Task__00000003_)
@@ -1093,10 +1090,10 @@ another line-NewDiagram`
 	__Project__00000002_.RootTasks = append(__Project__00000002_.RootTasks, __Task__00000012_)
 	__Project__00000002_.RootTasks = append(__Project__00000002_.RootTasks, __Task__00000009_)
 	__Project__00000002_.RootTasks = append(__Project__00000002_.RootTasks, __Task__00000013_)
-	__Project__00000002_.Diagrams = append(__Project__00000002_.Diagrams, __Diagram__00000061_)
 	__Project__00000002_.Notes = append(__Project__00000002_.Notes, __Note__00000002_)
 	__Project__00000002_.Notes = append(__Project__00000002_.Notes, __Note__00000003_)
 	__Project__00000002_.Notes = append(__Project__00000002_.Notes, __Note__00000004_)
+	__Project__00000002_.Diagrams = append(__Project__00000002_.Diagrams, __Diagram__00000061_)
 	__Root__00000000_.Projects = append(__Root__00000000_.Projects, __Project__00000000_)
 	__Root__00000000_.Projects = append(__Root__00000000_.Projects, __Project__00000001_)
 	__Root__00000000_.Projects = append(__Root__00000000_.Projects, __Project__00000002_)

@@ -1,9 +1,34 @@
 package models
 
 import (
+	"math/rand/v2"
+
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 	"github.com/fullstack-lang/gong/pkg/strutils"
 )
+
+func newShapeToDiagram[AT AbstractType, CT interface {
+	*S
+	RectShapeInterface
+	ConcreteType
+}, S Gongstruct](
+	abstractElement AT,
+	diagram *Diagram,
+	shapes *[]CT,
+	stage *Stage,
+) CT {
+	shape := CT(new(S))
+	shape.StageVoid(stage)
+	shape.SetAbstractElement(abstractElement)
+	shape.SetName(abstractElement.GetName() + "-" + diagram.GetName())
+	shape.SetHeight(diagram.DefaultBoxHeigth)
+	shape.SetWidth(diagram.DefaultBoxWidth)
+	shape.SetX(100 + rand.Float64()*100.0)
+	shape.SetY(100 + rand.Float64()*100.0)
+	*shapes = append(*shapes, shape)
+
+	return shape
+}
 
 func svgRect[CT interface {
 	*CT_
@@ -42,7 +67,7 @@ func svgRect[CT interface {
 		rect.CanMoveVerticaly = true
 
 		rect.Impl = &svg.FunctionalSvgRectProxy{
-			OnUpdated: OnUpdateRectElement(stager, abstractElement, shape),
+			OnUpdated: onUpdateRectElement(stager, abstractElement, shape),
 		}
 		// for allowing later Stage() on the rect shape
 		shape.SetReceiver(shape)
@@ -80,7 +105,7 @@ func svgRect[CT interface {
 	return rect
 }
 
-func OnUpdateRectElement[CT interface {
+func onUpdateRectElement[CT interface {
 	*CT_
 	RectShapeInterface
 	ConcreteType
