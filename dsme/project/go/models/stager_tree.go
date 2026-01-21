@@ -34,18 +34,7 @@ func (stager *Stager) tree() {
 			OnUpdate: stager.OnUpdateProject(project),
 		}
 
-		diagramsNode := &tree.Node{
-			Name:            "Diagrams",
-			FontStyle:       tree.ITALIC,
-			IsExpanded:      project.IsDiagramsNodeExpanded,
-			IsNodeClickable: true,
-		}
-		projectNode.Children = append(projectNode.Children, diagramsNode)
-		diagramsNode.Impl = &tree.FunctionalNodeProxy{
-			OnUpdate: stager.OnUpdateExpansion(&project.IsDiagramsNodeExpanded),
-		}
-
-		addAddItemButton(stager, nil, nil, &project.IsDiagramsNodeExpanded, diagramsNode, &project.Diagrams, nil, &[]*ProductShape{}, &[]*ProductCompositionShape{})
+		addAddItemButton(stager, nil, nil, &project.IsExpanded, projectNode, &project.Diagrams, nil, &[]*ProductShape{}, &[]*ProductCompositionShape{})
 
 		for _, diagram := range project.Diagrams {
 			diagramNode := &tree.Node{
@@ -55,7 +44,7 @@ func (stager *Stager) tree() {
 				HasCheckboxButton: true,
 				IsChecked:         diagram.IsChecked,
 			}
-			diagramsNode.Children = append(diagramsNode.Children, diagramNode)
+			projectNode.Children = append(projectNode.Children, diagramNode)
 			diagramNode.Impl = &tree.FunctionalNodeProxy{
 				OnUpdate: stager.OnUpdateDiagram(diagram),
 			}

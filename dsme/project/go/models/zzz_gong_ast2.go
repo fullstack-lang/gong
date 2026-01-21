@@ -614,12 +614,10 @@ func (u *ProjectUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		GongUnmarshallSliceOfPointers(&instance.RootProducts, valueExpr, identifierMap)
 	case "RootTasks":
 		GongUnmarshallSliceOfPointers(&instance.RootTasks, valueExpr, identifierMap)
-	case "Diagrams":
-		GongUnmarshallSliceOfPointers(&instance.Diagrams, valueExpr, identifierMap)
 	case "Notes":
 		GongUnmarshallSliceOfPointers(&instance.Notes, valueExpr, identifierMap)
-	case "IsDiagramsNodeExpanded":
-		instance.IsDiagramsNodeExpanded = GongExtractBool(valueExpr)
+	case "Diagrams":
+		GongUnmarshallSliceOfPointers(&instance.Diagrams, valueExpr, identifierMap)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
 	case "ComputedPrefix":
