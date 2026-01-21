@@ -78,7 +78,7 @@ func onRemoveAssociationShape[
 		LinkShapeInterface
 		AssociationConcreteType
 	},
-	ACT_ Gongstruct](stager *Stager, diagram *Diagram, compositionShape ACT, shapes *[]ACT) func(
+	ACT_ Gongstruct](stager *Stager, compositionShape ACT, shapes *[]ACT) func(
 	stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
 	return func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
 		compositionShape.UnstageVoid(stager.stage)

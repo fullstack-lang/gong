@@ -69,7 +69,7 @@ func (stager *Stager) treePBSRecusriveInDiagram(diagram *Diagram, product *Produ
 						"\" to \"" + product.Name + "\""
 
 					showHideCompositionButton.Impl = &tree.FunctionalButtonProxy{
-						OnUpdated: onRemoveAssociationShape(stager, diagram, compositionShape, &diagram.ProductComposition_Shapes),
+						OnUpdated: onRemoveAssociationShape(stager, compositionShape, &diagram.ProductComposition_Shapes),
 					}
 				}
 				productNode.Buttons = append(productNode.Buttons, showHideCompositionButton)
