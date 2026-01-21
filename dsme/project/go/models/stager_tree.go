@@ -21,7 +21,7 @@ func (stager *Stager) tree() {
 	}
 	treeInstance.RootNodes = append(treeInstance.RootNodes, allProjectsNode)
 
-	addAddItemButton(stager, nil, nil, allProjectsNode, &root.Projects)
+	addAddItemButton(stager, nil, nil, nil, allProjectsNode, &root.Projects, nil, &[]*ProductShape{}, &[]*ProductCompositionShape{})
 
 	for _, project := range root.Projects {
 		projectNode := &tree.Node{
@@ -34,18 +34,7 @@ func (stager *Stager) tree() {
 			OnUpdate: stager.OnUpdateProject(project),
 		}
 
-		diagramsNode := &tree.Node{
-			Name:            "Diagrams",
-			FontStyle:       tree.ITALIC,
-			IsExpanded:      project.IsDiagramsNodeExpanded,
-			IsNodeClickable: true,
-		}
-		projectNode.Children = append(projectNode.Children, diagramsNode)
-		diagramsNode.Impl = &tree.FunctionalNodeProxy{
-			OnUpdate: stager.OnUpdateExpansion(&project.IsDiagramsNodeExpanded),
-		}
-
-		addAddItemButton(stager, nil, nil, diagramsNode, &project.Diagrams)
+		addAddItemButton(stager, nil, nil, &project.IsExpanded, projectNode, &project.Diagrams, nil, &[]*ProductShape{}, &[]*ProductCompositionShape{})
 
 		for _, diagram := range project.Diagrams {
 			diagramNode := &tree.Node{
@@ -55,7 +44,7 @@ func (stager *Stager) tree() {
 				HasCheckboxButton: true,
 				IsChecked:         diagram.IsChecked,
 			}
-			diagramsNode.Children = append(diagramsNode.Children, diagramNode)
+			projectNode.Children = append(projectNode.Children, diagramNode)
 			diagramNode.Impl = &tree.FunctionalNodeProxy{
 				OnUpdate: stager.OnUpdateDiagram(diagram),
 			}
@@ -147,7 +136,7 @@ func (stager *Stager) tree() {
 				OnUpdate: stager.OnUpdateExpansion(&diagram.IsPBSNodeExpanded),
 			}
 
-			addAddItemButton(stager, nil, nil, pbsNode, &project.RootProducts)
+			addAddItemButton(stager, nil, nil, &diagram.IsPBSNodeExpanded, pbsNode, &project.RootProducts, diagram, &diagram.Product_Shapes, &diagram.ProductComposition_Shapes)
 
 			for _, product := range project.RootProducts {
 				stager.treePBSRecusriveInDiagram(diagram, product, pbsNode)
@@ -171,7 +160,7 @@ func (stager *Stager) tree() {
 				OnUpdate: stager.OnUpdateExpansion(&diagram.IsWBSNodeExpanded),
 			}
 
-			addAddItemButton(stager, nil, nil, wbsNode, &project.RootTasks)
+			addAddItemButton(stager, nil, nil, &diagram.IsWBSNodeExpanded, wbsNode, &project.RootTasks, diagram, &diagram.Task_Shapes, &diagram.TaskComposition_Shapes)
 
 			for _, task := range project.RootTasks {
 				stager.treeWBSinDiagram(diagram, task, wbsNode)
@@ -188,7 +177,7 @@ func (stager *Stager) tree() {
 				OnUpdate: stager.OnUpdateExpansion(&diagram.IsNotesNodeExpanded),
 			}
 
-			addAddItemButton(stager, nil, nil, notesNode, &project.Notes)
+			addAddItemButton(stager, nil, nil, &diagram.IsNotesNodeExpanded, notesNode, &project.Notes, diagram, &diagram.Note_Shapes, &diagram.NoteProductShapes)
 
 			for _, note := range project.Notes {
 				noteNode := &tree.Node{

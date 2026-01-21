@@ -657,15 +657,15 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 							if start < len(instance.RootTasks) && end <= len(instance.RootTasks) && start < end {
 								instance.RootTasks = slices.Delete(instance.RootTasks, start, end)
 							}
-						case "Diagrams":
-							instance := __gong__map_Project[identifier]
-							if start < len(instance.Diagrams) && end <= len(instance.Diagrams) && start < end {
-								instance.Diagrams = slices.Delete(instance.Diagrams, start, end)
-							}
 						case "Notes":
 							instance := __gong__map_Project[identifier]
 							if start < len(instance.Notes) && end <= len(instance.Notes) && start < end {
 								instance.Notes = slices.Delete(instance.Notes, start, end)
+							}
+						case "Diagrams":
+							instance := __gong__map_Project[identifier]
+							if start < len(instance.Diagrams) && end <= len(instance.Diagrams) && start < end {
+								instance.Diagrams = slices.Delete(instance.Diagrams, start, end)
 							}
 						}
 					case "Root":
@@ -1606,26 +1606,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 									}
 								}
 							}
-						case "Diagrams":
-							// Handle append: elements start at argNb 1
-							if isAppend && argNb > 0 {
-								identifierOfInstanceToAppend := ident.Name
-								if instanceToAppend, ok := __gong__map_Diagram[identifierOfInstanceToAppend]; ok {
-									instanceWhoseFieldIsAppended := __gong__map_Project[identifier]
-									instanceWhoseFieldIsAppended.Diagrams = append(instanceWhoseFieldIsAppended.Diagrams, instanceToAppend)
-								}
-							}
-							// Handle slices.Insert: elements start at argNb 2
-							if isSlicesInsert && argNb > 1 {
-								identifierOfInstanceToAppend := ident.Name
-								if instanceToAppend, ok := __gong__map_Diagram[identifierOfInstanceToAppend]; ok {
-									instanceWhoseFieldIsAppended := __gong__map_Project[identifier]
-									if insertIndex <= len(instanceWhoseFieldIsAppended.Diagrams) {
-										instanceWhoseFieldIsAppended.Diagrams = slices.Insert(instanceWhoseFieldIsAppended.Diagrams, insertIndex, instanceToAppend)
-										insertIndex++ // Increment for subsequent elements in the same call
-									}
-								}
-							}
 						case "Notes":
 							// Handle append: elements start at argNb 1
 							if isAppend && argNb > 0 {
@@ -1642,6 +1622,26 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 									instanceWhoseFieldIsAppended := __gong__map_Project[identifier]
 									if insertIndex <= len(instanceWhoseFieldIsAppended.Notes) {
 										instanceWhoseFieldIsAppended.Notes = slices.Insert(instanceWhoseFieldIsAppended.Notes, insertIndex, instanceToAppend)
+										insertIndex++ // Increment for subsequent elements in the same call
+									}
+								}
+							}
+						case "Diagrams":
+							// Handle append: elements start at argNb 1
+							if isAppend && argNb > 0 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_Diagram[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_Project[identifier]
+									instanceWhoseFieldIsAppended.Diagrams = append(instanceWhoseFieldIsAppended.Diagrams, instanceToAppend)
+								}
+							}
+							// Handle slices.Insert: elements start at argNb 2
+							if isSlicesInsert && argNb > 1 {
+								identifierOfInstanceToAppend := ident.Name
+								if instanceToAppend, ok := __gong__map_Diagram[identifierOfInstanceToAppend]; ok {
+									instanceWhoseFieldIsAppended := __gong__map_Project[identifier]
+									if insertIndex <= len(instanceWhoseFieldIsAppended.Diagrams) {
+										instanceWhoseFieldIsAppended.Diagrams = slices.Insert(instanceWhoseFieldIsAppended.Diagrams, insertIndex, instanceToAppend)
 										insertIndex++ // Increment for subsequent elements in the same call
 									}
 								}
@@ -2355,13 +2355,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 			case "Project":
 				switch fieldName {
 				// insertion point for field dependant code
-				case "IsDiagramsNodeExpanded":
-					// convert string to boolean
-					fielValue, err := strconv.ParseBool(ident.Name)
-					if err != nil {
-						log.Fatalln(err)
-					}
-					__gong__map_Project[identifier].IsDiagramsNodeExpanded = fielValue
 				case "IsExpanded":
 					// convert string to boolean
 					fielValue, err := strconv.ParseBool(ident.Name)
