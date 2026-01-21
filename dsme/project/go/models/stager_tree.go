@@ -249,7 +249,7 @@ func (stager *Stager) tree() {
 									"\" to product \"" + product.Name + "\""
 								// what to do when the product node is clicked
 								showHideRelationButton.Impl = &tree.FunctionalButtonProxy{
-									OnUpdated: onRemoveAssociationShape(stager, diagram, noteProductShape, &diagram.NoteProductShapes),
+									OnUpdated: onRemoveAssociationShape(stager, noteProductShape, &diagram.NoteProductShapes),
 								}
 							} else {
 								showHideRelationButton.Icon = string(buttons.BUTTON_unfold_more)
@@ -286,7 +286,7 @@ func (stager *Stager) tree() {
 									"\" to task \"" + task.Name + "\""
 								// what to do when the product node is clicked
 								showHideRelationButton.Impl = &tree.FunctionalButtonProxy{
-									OnUpdated: onRemoveAssociationShape(stager, diagram, noteTaskShape, &diagram.NoteTaskShapes),
+									OnUpdated: onRemoveAssociationShape(stager, noteTaskShape, &diagram.NoteTaskShapes),
 								}
 							} else {
 								showHideRelationButton.Icon = string(buttons.BUTTON_unfold_more)
