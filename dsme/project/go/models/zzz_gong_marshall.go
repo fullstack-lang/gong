@@ -409,9 +409,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements += project.GongMarshallField(stage, "Name")
 		pointersInitializesStatements += project.GongMarshallField(stage, "RootProducts")
 		pointersInitializesStatements += project.GongMarshallField(stage, "RootTasks")
-		pointersInitializesStatements += project.GongMarshallField(stage, "Diagrams")
 		pointersInitializesStatements += project.GongMarshallField(stage, "Notes")
-		initializerStatements += project.GongMarshallField(stage, "IsDiagramsNodeExpanded")
+		pointersInitializesStatements += project.GongMarshallField(stage, "Diagrams")
 		initializerStatements += project.GongMarshallField(stage, "IsExpanded")
 		initializerStatements += project.GongMarshallField(stage, "ComputedPrefix")
 	}
@@ -1398,11 +1397,6 @@ func (project *Project) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{Identifier}}", project.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(project.Name))
-	case "IsDiagramsNodeExpanded":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", project.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsDiagramsNodeExpanded")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", project.IsDiagramsNodeExpanded))
 	case "IsExpanded":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", project.GongGetIdentifier(stage))
@@ -1430,20 +1424,20 @@ func (project *Project) GongMarshallField(stage *Stage, fieldName string) (res s
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _task.GongGetIdentifier(stage))
 			res += tmp
 		}
-	case "Diagrams":
-		for _, _diagram := range project.Diagrams {
-			tmp := SliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", project.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Diagrams")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _diagram.GongGetIdentifier(stage))
-			res += tmp
-		}
 	case "Notes":
 		for _, _note := range project.Notes {
 			tmp := SliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", project.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Notes")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _note.GongGetIdentifier(stage))
+			res += tmp
+		}
+	case "Diagrams":
+		for _, _diagram := range project.Diagrams {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", project.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Diagrams")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _diagram.GongGetIdentifier(stage))
 			res += tmp
 		}
 	default:
@@ -1977,9 +1971,8 @@ func (project *Project) GongMarshallAllFields(stage *Stage) (initializerStatemen
 		initializerStatements += project.GongMarshallField(stage, "Name")
 		pointersInitializesStatements += project.GongMarshallField(stage, "RootProducts")
 		pointersInitializesStatements += project.GongMarshallField(stage, "RootTasks")
-		pointersInitializesStatements += project.GongMarshallField(stage, "Diagrams")
 		pointersInitializesStatements += project.GongMarshallField(stage, "Notes")
-		initializerStatements += project.GongMarshallField(stage, "IsDiagramsNodeExpanded")
+		pointersInitializesStatements += project.GongMarshallField(stage, "Diagrams")
 		initializerStatements += project.GongMarshallField(stage, "IsExpanded")
 		initializerStatements += project.GongMarshallField(stage, "ComputedPrefix")
 	}

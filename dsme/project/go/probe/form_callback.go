@@ -2283,37 +2283,6 @@ func (projectFormCallback *ProjectFormCallback) OnSave() {
 			}
 			project_.RootTasks = instanceSlice
 
-		case "Diagrams":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](projectFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.Diagram, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Diagram)
-
-			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					projectFormCallback.probe.stageOfInterest,
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](projectFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			project_.Diagrams = instanceSlice
-
 		case "Notes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Note](projectFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Note, 0)
@@ -2345,8 +2314,37 @@ func (projectFormCallback *ProjectFormCallback) OnSave() {
 			}
 			project_.Notes = instanceSlice
 
-		case "IsDiagramsNodeExpanded":
-			FormDivBasicFieldToField(&(project_.IsDiagramsNodeExpanded), formDiv)
+		case "Diagrams":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](projectFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Diagram, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Diagram)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					projectFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](projectFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			project_.Diagrams = instanceSlice
+
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(project_.IsExpanded), formDiv)
 		case "ComputedPrefix":
