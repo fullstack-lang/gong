@@ -21,7 +21,7 @@ func (stager *Stager) tree() {
 	}
 	treeInstance.RootNodes = append(treeInstance.RootNodes, allProjectsNode)
 
-	addAddItemButton(stager, nil, nil, allProjectsNode, &root.Projects)
+	addAddItemButton(stager, nil, nil, nil, allProjectsNode, &root.Projects, nil, &[]*ProductShape{})
 
 	for _, project := range root.Projects {
 		projectNode := &tree.Node{
@@ -45,7 +45,7 @@ func (stager *Stager) tree() {
 			OnUpdate: stager.OnUpdateExpansion(&project.IsDiagramsNodeExpanded),
 		}
 
-		addAddItemButton(stager, nil, nil, diagramsNode, &project.Diagrams)
+		addAddItemButton(stager, nil, nil, &project.IsDiagramsNodeExpanded, diagramsNode, &project.Diagrams, nil, &[]*ProductShape{})
 
 		for _, diagram := range project.Diagrams {
 			diagramNode := &tree.Node{
@@ -147,7 +147,7 @@ func (stager *Stager) tree() {
 				OnUpdate: stager.OnUpdateExpansion(&diagram.IsPBSNodeExpanded),
 			}
 
-			addAddItemButton(stager, nil, nil, pbsNode, &project.RootProducts)
+			addAddItemButton(stager, nil, nil, &diagram.IsPBSNodeExpanded, pbsNode, &project.RootProducts, diagram, &diagram.Product_Shapes)
 
 			for _, product := range project.RootProducts {
 				stager.treePBSRecusriveInDiagram(diagram, product, pbsNode)
@@ -171,7 +171,7 @@ func (stager *Stager) tree() {
 				OnUpdate: stager.OnUpdateExpansion(&diagram.IsWBSNodeExpanded),
 			}
 
-			addAddItemButton(stager, nil, nil, wbsNode, &project.RootTasks)
+			addAddItemButton(stager, nil, nil, &diagram.IsWBSNodeExpanded, wbsNode, &project.RootTasks, diagram, &diagram.Task_Shapes)
 
 			for _, task := range project.RootTasks {
 				stager.treeWBSinDiagram(diagram, task, wbsNode)
@@ -188,7 +188,7 @@ func (stager *Stager) tree() {
 				OnUpdate: stager.OnUpdateExpansion(&diagram.IsNotesNodeExpanded),
 			}
 
-			addAddItemButton(stager, nil, nil, notesNode, &project.Notes)
+			addAddItemButton(stager, nil, nil, &diagram.IsNotesNodeExpanded, notesNode, &project.Notes, diagram, &diagram.Note_Shapes)
 
 			for _, note := range project.Notes {
 				noteNode := &tree.Node{

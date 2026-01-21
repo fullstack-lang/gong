@@ -1,8 +1,6 @@
 package models
 
 import (
-	"math/rand"
-
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 )
 
@@ -198,29 +196,6 @@ func (s *TaskCompositionShape) SetAbstractStartElement(abstractElement AbstractT
 }
 
 var _ AssociationConcreteType = (*TaskCompositionShape)(nil)
-
-func newShapeToDiagram[AT AbstractType, CT interface {
-	*S
-	RectShapeInterface
-	ConcreteType
-}, S Gongstruct](
-	abstractElement AT,
-	diagram *Diagram,
-	shapes *[]CT,
-	stage *Stage,
-) CT {
-	shape := CT(new(S))
-	shape.StageVoid(stage)
-	shape.SetAbstractElement(abstractElement)
-	shape.SetName(abstractElement.GetName() + "-" + diagram.GetName())
-	shape.SetHeight(diagram.DefaultBoxHeigth)
-	shape.SetWidth(diagram.DefaultBoxWidth)
-	shape.SetX(100 + rand.Float64()*100.0)
-	shape.SetY(100 + rand.Float64()*100.0)
-	*shapes = append(*shapes, shape)
-
-	return shape
-}
 
 // A taskProductKey allows mapping of [TaskInputShape] within a diagram
 type taskProductKey struct {
