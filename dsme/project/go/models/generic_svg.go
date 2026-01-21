@@ -67,7 +67,7 @@ func svgRect[CT interface {
 		rect.CanMoveVerticaly = true
 
 		rect.Impl = &svg.FunctionalSvgRectProxy{
-			OnUpdated: OnUpdateRectElement(stager, abstractElement, shape),
+			OnUpdated: onUpdateRectElement(stager, abstractElement, shape),
 		}
 		// for allowing later Stage() on the rect shape
 		shape.SetReceiver(shape)
@@ -105,7 +105,7 @@ func svgRect[CT interface {
 	return rect
 }
 
-func OnUpdateRectElement[CT interface {
+func onUpdateRectElement[CT interface {
 	*CT_
 	RectShapeInterface
 	ConcreteType
