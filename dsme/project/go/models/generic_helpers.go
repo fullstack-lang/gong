@@ -56,10 +56,23 @@ func addAddItemButton[
 			}
 
 			if diagram != nil && shapes != nil {
-				newShapeToDiagram(item, diagram, shapes, stager.stage)
+				newShape := newShapeToDiagram(item, diagram, shapes, stager.stage)
 
+				// get the parent shape to eventually create an association shape
+				var parentShape CT
 				if parentItem != nil {
+					for _, parentShape_ := range *shapes {
+						if parentShape_.GetAbstractElement() == parentItem {
+							parentShape = parentShape_
+							break
+						}
+					}
+				}
+				if parentShape != nil && parentItem != nil && associationShapes != nil {
 					addAssociationShapeToDiagram(stager, parentItem, item, associationShapes)
+
+					newShape.SetX(parentShape.GetX() + float64(len(*items)-1)*parentShape.GetWidth()*1.2)
+					newShape.SetY(parentShape.GetY() + parentShape.GetHeight()*2.0)
 				}
 			}
 
