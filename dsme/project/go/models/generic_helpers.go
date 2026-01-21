@@ -4,8 +4,50 @@ import (
 	"log"
 	"slices"
 
+	"github.com/fullstack-lang/gong/lib/tree/go/buttons"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
+
+func addAddItemButton[T Gongstruct, PT interface {
+	*T
+	GongstructIF
+}](stager *Stager, parentItemsWhoseNodeIsExpanded *[]PT, parentItem PT,
+	node *tree.Node, items *[]PT,
+) {
+	var item PT
+	addButton := &tree.Button{
+		Name:            GetGongstructNameFromPointer(item) + " " + string(buttons.BUTTON_add),
+		Icon:            string(buttons.BUTTON_add),
+		ToolTipText:     "Add a " + GetGongstructNameFromPointer(item) + " to \"" + node.Name + "\"",
+		HasToolTip:      true,
+		ToolTipPosition: tree.Right,
+	}
+	node.Buttons = append(node.Buttons, addButton)
+	addButton.Impl = &tree.FunctionalButtonProxy{
+		OnUpdated: func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
+			item := PT(new(T))
+			item.SetName("New" + GetGongstructNameFromPointer(item))
+			item.StageVoid(stager.stage)
+			*items = append(*items, item)
+			stager.stage.ComputeReverseMaps() // this is important, otherwise, the form is not correctly initialized
+
+			// check if the item is a diagram, if so, set the IsEditable_ field to true
+			if diagram, ok := any(item).(*Diagram); ok {
+				diagram.IsEditable_ = true
+			}
+
+			stager.probeForm.FillUpFormFromGongstruct(item, GetPointerToGongstructName[PT]())
+
+			// add the parent item to the list of items whose node is expanded
+			if parentItemsWhoseNodeIsExpanded != nil && parentItem != nil &&
+				!slices.Contains(*parentItemsWhoseNodeIsExpanded, parentItem) {
+				*parentItemsWhoseNodeIsExpanded = append(*parentItemsWhoseNodeIsExpanded, parentItem)
+			}
+
+			stager.stage.Commit()
+		},
+	}
+}
 
 func onAddAssociationShape[
 	ATstart AbstractType,
