@@ -20,11 +20,18 @@ func addAddItemButton[
 		ConcreteType
 	},
 	S Gongstruct,
+	ACT interface {
+		*ACT_
+		LinkShapeInterface
+		AssociationConcreteType
+	},
+	ACT_ Gongstruct,
 ](
 	stager *Stager,
 	parentItemsWhoseNodeIsExpanded *[]PT, parentItem PT, isNodeExpanded *bool,
 	node *tree.Node, items *[]PT,
 	diagram *Diagram, shapes *[]CT,
+	associationShapes *[]ACT,
 ) {
 	var item PT
 	addButton := &tree.Button{
@@ -50,6 +57,10 @@ func addAddItemButton[
 
 			if diagram != nil && shapes != nil {
 				newShapeToDiagram(item, diagram, shapes, stager.stage)
+
+				if parentItem != nil {
+					addAssociationShapeToDiagram(stager, parentItem, item, associationShapes)
+				}
 			}
 
 			stager.probeForm.FillUpFormFromGongstruct(item, GetPointerToGongstructName[PT]())
@@ -76,7 +87,8 @@ func onAddAssociationShape[
 		LinkShapeInterface
 		AssociationConcreteType
 	},
-	ACT_ Gongstruct](
+	ACT_ Gongstruct,
+](
 	stager *Stager, start ATstart, end ATend, shapes *[]ACT) func(
 	stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
 	return func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
