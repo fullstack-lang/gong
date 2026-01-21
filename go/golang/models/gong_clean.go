@@ -29,8 +29,9 @@ func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice *[]T) (modified b
 			cleanedSlice = append(cleanedSlice, element)
 		}
 	}
+	modified = len(cleanedSlice) != len(*slice)
 	*slice = cleanedSlice
-	return len(cleanedSlice) != len(*slice)
+	return
 }
 
 // GongCleanPointer sets the pointer to nil if the referenced element is not staged.
