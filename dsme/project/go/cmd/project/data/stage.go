@@ -26,7 +26,6 @@ func _(stage *models.Stage) {
 	__Diagram__00000042_ := (&models.Diagram{Name: `NewDiagram`}).Stage(stage)
 	__Diagram__00000057_ := (&models.Diagram{Name: `NewDiagram`}).Stage(stage)
 	__Diagram__00000061_ := (&models.Diagram{Name: `Work diagram x`}).Stage(stage)
-	__Diagram__00000066_ := (&models.Diagram{Name: `NewDiagram`}).Stage(stage)
 
 	__Note__00000000_ := (&models.Note{Name: `This is an example to explain a particular product
 
@@ -79,10 +78,6 @@ another line-NewDiagram`}).Stage(stage)
 	__Product__00000040_ := (&models.Product{Name: `NewProduct`}).Stage(stage)
 	__Product__00000041_ := (&models.Product{Name: `NewProduct`}).Stage(stage)
 	__Product__00000042_ := (&models.Product{Name: `NewProduct`}).Stage(stage)
-	__Product__00000060_ := (&models.Product{Name: `NewProduct`}).Stage(stage)
-	__Product__00000061_ := (&models.Product{Name: `NewProduct`}).Stage(stage)
-	__Product__00000062_ := (&models.Product{Name: `NewProduct`}).Stage(stage)
-	__Product__00000063_ := (&models.Product{Name: `NewProduct`}).Stage(stage)
 
 	__ProductCompositionShape__00000204_ := (&models.ProductCompositionShape{Name: `Product 1 to Product 1.1`}).Stage(stage)
 	__ProductCompositionShape__00000205_ := (&models.ProductCompositionShape{Name: `Product 1.2 to Product 1.2.1`}).Stage(stage)
@@ -101,9 +96,6 @@ another line-NewDiagram`}).Stage(stage)
 	__ProductCompositionShape__00000314_ := (&models.ProductCompositionShape{Name: `New Probe to Probe Undo`}).Stage(stage)
 	__ProductCompositionShape__00000315_ := (&models.ProductCompositionShape{Name: `New Probe to Probe Redo`}).Stage(stage)
 	__ProductCompositionShape__00000316_ := (&models.ProductCompositionShape{Name: `New Probe to Rebase Log Commits`}).Stage(stage)
-	__ProductCompositionShape__00000329_ := (&models.ProductCompositionShape{Name: `NewProduct to NewProduct`}).Stage(stage)
-	__ProductCompositionShape__00000330_ := (&models.ProductCompositionShape{Name: `NewProduct to NewProduct`}).Stage(stage)
-	__ProductCompositionShape__00000331_ := (&models.ProductCompositionShape{Name: `NewProduct to NewProduct`}).Stage(stage)
 
 	__ProductShape__00000330_ := (&models.ProductShape{Name: `Product 1-NewDiagram`}).Stage(stage)
 	__ProductShape__00000331_ := (&models.ProductShape{Name: `Product 1.1-NewDiagram`}).Stage(stage)
@@ -127,15 +119,10 @@ another line-NewDiagram`}).Stage(stage)
 	__ProductShape__00000479_ := (&models.ProductShape{Name: `Instance method for marshalling Unstage-Work diagram x`}).Stage(stage)
 	__ProductShape__00000480_ := (&models.ProductShape{Name: `NewProduct-NewDiagram`}).Stage(stage)
 	__ProductShape__00000481_ := (&models.ProductShape{Name: `New Probe-Work diagram x`}).Stage(stage)
-	__ProductShape__00000499_ := (&models.ProductShape{Name: `NewProduct-NewDiagram`}).Stage(stage)
-	__ProductShape__00000500_ := (&models.ProductShape{Name: `NewProduct-NewDiagram`}).Stage(stage)
-	__ProductShape__00000501_ := (&models.ProductShape{Name: `NewProduct-NewDiagram`}).Stage(stage)
-	__ProductShape__00000502_ := (&models.ProductShape{Name: `NewProduct-NewDiagram`}).Stage(stage)
 
 	__Project__00000000_ := (&models.Project{Name: `Project Editor`}).Stage(stage)
 	__Project__00000001_ := (&models.Project{Name: `DSME Docx`}).Stage(stage)
 	__Project__00000002_ := (&models.Project{Name: `gong : persist stage.go as an history of commits  #934`}).Stage(stage)
-	__Project__00000007_ := (&models.Project{Name: `NewProject`}).Stage(stage)
 
 	__Root__00000000_ := (&models.Root{Name: `Root`}).Stage(stage)
 
@@ -189,7 +176,7 @@ another line-NewDiagram`}).Stage(stage)
 	__Diagram__00000057_.ShowPrefix = false
 	__Diagram__00000057_.DefaultBoxWidth = 150.000000
 	__Diagram__00000057_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000057_.IsExpanded = true
+	__Diagram__00000057_.IsExpanded = false
 	__Diagram__00000057_.ComputedPrefix = ``
 	__Diagram__00000057_.IsPBSNodeExpanded = true
 	__Diagram__00000057_.IsWBSNodeExpanded = false
@@ -202,24 +189,11 @@ another line-NewDiagram`}).Stage(stage)
 	__Diagram__00000061_.ShowPrefix = true
 	__Diagram__00000061_.DefaultBoxWidth = 250.000000
 	__Diagram__00000061_.DefaultBoxHeigth = 100.000000
-	__Diagram__00000061_.IsExpanded = true
+	__Diagram__00000061_.IsExpanded = false
 	__Diagram__00000061_.ComputedPrefix = ``
 	__Diagram__00000061_.IsPBSNodeExpanded = true
 	__Diagram__00000061_.IsWBSNodeExpanded = false
 	__Diagram__00000061_.IsNotesNodeExpanded = false
-
-	__Diagram__00000066_.Name = `NewDiagram`
-	__Diagram__00000066_.IsChecked = true
-	__Diagram__00000066_.IsEditable_ = true
-	__Diagram__00000066_.IsInRenameMode = false
-	__Diagram__00000066_.ShowPrefix = false
-	__Diagram__00000066_.DefaultBoxWidth = 250.000000
-	__Diagram__00000066_.DefaultBoxHeigth = 100.000000
-	__Diagram__00000066_.IsExpanded = true
-	__Diagram__00000066_.ComputedPrefix = ``
-	__Diagram__00000066_.IsPBSNodeExpanded = true
-	__Diagram__00000066_.IsWBSNodeExpanded = false
-	__Diagram__00000066_.IsNotesNodeExpanded = false
 
 	__Note__00000000_.Name = `This is an example to explain a particular product
 
@@ -482,34 +456,6 @@ another line-NewDiagram`
 	__Product__00000042_.IsProducersNodeExpanded = false
 	__Product__00000042_.IsConsumersNodeExpanded = false
 
-	__Product__00000060_.Name = `NewProduct`
-	__Product__00000060_.Description = ``
-	__Product__00000060_.IsExpanded = false
-	__Product__00000060_.ComputedPrefix = `1`
-	__Product__00000060_.IsProducersNodeExpanded = false
-	__Product__00000060_.IsConsumersNodeExpanded = false
-
-	__Product__00000061_.Name = `NewProduct`
-	__Product__00000061_.Description = ``
-	__Product__00000061_.IsExpanded = false
-	__Product__00000061_.ComputedPrefix = `1.1`
-	__Product__00000061_.IsProducersNodeExpanded = false
-	__Product__00000061_.IsConsumersNodeExpanded = false
-
-	__Product__00000062_.Name = `NewProduct`
-	__Product__00000062_.Description = ``
-	__Product__00000062_.IsExpanded = false
-	__Product__00000062_.ComputedPrefix = `1.2`
-	__Product__00000062_.IsProducersNodeExpanded = false
-	__Product__00000062_.IsConsumersNodeExpanded = false
-
-	__Product__00000063_.Name = `NewProduct`
-	__Product__00000063_.Description = ``
-	__Product__00000063_.IsExpanded = false
-	__Product__00000063_.ComputedPrefix = `1.3`
-	__Product__00000063_.IsProducersNodeExpanded = false
-	__Product__00000063_.IsConsumersNodeExpanded = false
-
 	__ProductCompositionShape__00000204_.Name = `Product 1 to Product 1.1`
 	__ProductCompositionShape__00000204_.StartRatio = 0.500000
 	__ProductCompositionShape__00000204_.EndRatio = 0.500000
@@ -628,27 +574,6 @@ another line-NewDiagram`
 	__ProductCompositionShape__00000316_.StartOrientation = models.ORIENTATION_VERTICAL
 	__ProductCompositionShape__00000316_.EndOrientation = models.ORIENTATION_VERTICAL
 	__ProductCompositionShape__00000316_.CornerOffsetRatio = 1.680000
-
-	__ProductCompositionShape__00000329_.Name = `NewProduct to NewProduct`
-	__ProductCompositionShape__00000329_.StartRatio = 0.500000
-	__ProductCompositionShape__00000329_.EndRatio = 0.500000
-	__ProductCompositionShape__00000329_.StartOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000329_.EndOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000329_.CornerOffsetRatio = 1.680000
-
-	__ProductCompositionShape__00000330_.Name = `NewProduct to NewProduct`
-	__ProductCompositionShape__00000330_.StartRatio = 0.500000
-	__ProductCompositionShape__00000330_.EndRatio = 0.500000
-	__ProductCompositionShape__00000330_.StartOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000330_.EndOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000330_.CornerOffsetRatio = 1.680000
-
-	__ProductCompositionShape__00000331_.Name = `NewProduct to NewProduct`
-	__ProductCompositionShape__00000331_.StartRatio = 0.500000
-	__ProductCompositionShape__00000331_.EndRatio = 0.500000
-	__ProductCompositionShape__00000331_.StartOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000331_.EndOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000331_.CornerOffsetRatio = 1.680000
 
 	__ProductShape__00000330_.Name = `Product 1-NewDiagram`
 	__ProductShape__00000330_.IsExpanded = false
@@ -804,53 +729,17 @@ another line-NewDiagram`
 	__ProductShape__00000481_.Width = 250.000000
 	__ProductShape__00000481_.Height = 57.000000
 
-	__ProductShape__00000499_.Name = `NewProduct-NewDiagram`
-	__ProductShape__00000499_.IsExpanded = false
-	__ProductShape__00000499_.X = 112.439211
-	__ProductShape__00000499_.Y = 114.138415
-	__ProductShape__00000499_.Width = 250.000000
-	__ProductShape__00000499_.Height = 100.000000
-
-	__ProductShape__00000500_.Name = `NewProduct-NewDiagram`
-	__ProductShape__00000500_.IsExpanded = false
-	__ProductShape__00000500_.X = 110.439211
-	__ProductShape__00000500_.Y = 320.138415
-	__ProductShape__00000500_.Width = 250.000000
-	__ProductShape__00000500_.Height = 100.000000
-
-	__ProductShape__00000501_.Name = `NewProduct-NewDiagram`
-	__ProductShape__00000501_.IsExpanded = false
-	__ProductShape__00000501_.X = 412.439211
-	__ProductShape__00000501_.Y = 282.138415
-	__ProductShape__00000501_.Width = 250.000000
-	__ProductShape__00000501_.Height = 100.000000
-
-	__ProductShape__00000502_.Name = `NewProduct-NewDiagram`
-	__ProductShape__00000502_.IsExpanded = false
-	__ProductShape__00000502_.X = 712.439211
-	__ProductShape__00000502_.Y = 282.138415
-	__ProductShape__00000502_.Width = 250.000000
-	__ProductShape__00000502_.Height = 100.000000
-
 	__Project__00000000_.Name = `Project Editor`
-	__Project__00000000_.IsDiagramsNodeExpanded = false
-	__Project__00000000_.IsExpanded = true
+	__Project__00000000_.IsExpanded = false
 	__Project__00000000_.ComputedPrefix = ``
 
 	__Project__00000001_.Name = `DSME Docx`
-	__Project__00000001_.IsDiagramsNodeExpanded = false
-	__Project__00000001_.IsExpanded = true
+	__Project__00000001_.IsExpanded = false
 	__Project__00000001_.ComputedPrefix = ``
 
 	__Project__00000002_.Name = `gong : persist stage.go as an history of commits  #934`
-	__Project__00000002_.IsDiagramsNodeExpanded = true
-	__Project__00000002_.IsExpanded = true
+	__Project__00000002_.IsExpanded = false
 	__Project__00000002_.ComputedPrefix = ``
-
-	__Project__00000007_.Name = `NewProject`
-	__Project__00000007_.IsDiagramsNodeExpanded = true
-	__Project__00000007_.IsExpanded = true
-	__Project__00000007_.ComputedPrefix = ``
 
 	__Root__00000000_.Name = `Root`
 	__Root__00000000_.NbPixPerCharacter = 8.000000
@@ -1107,14 +996,6 @@ another line-NewDiagram`
 	__Diagram__00000061_.NoteProductShapes = append(__Diagram__00000061_.NoteProductShapes, __NoteProductShape__00000002_)
 	__Diagram__00000061_.NoteTaskShapes = append(__Diagram__00000061_.NoteTaskShapes, __NoteTaskShape__00000001_)
 	__Diagram__00000061_.NoteTaskShapes = append(__Diagram__00000061_.NoteTaskShapes, __NoteTaskShape__00000003_)
-	__Diagram__00000066_.Product_Shapes = append(__Diagram__00000066_.Product_Shapes, __ProductShape__00000499_)
-	__Diagram__00000066_.Product_Shapes = append(__Diagram__00000066_.Product_Shapes, __ProductShape__00000500_)
-	__Diagram__00000066_.Product_Shapes = append(__Diagram__00000066_.Product_Shapes, __ProductShape__00000501_)
-	__Diagram__00000066_.Product_Shapes = append(__Diagram__00000066_.Product_Shapes, __ProductShape__00000502_)
-	__Diagram__00000066_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000066_.ProductsWhoseNodeIsExpanded, __Product__00000060_)
-	__Diagram__00000066_.ProductComposition_Shapes = append(__Diagram__00000066_.ProductComposition_Shapes, __ProductCompositionShape__00000329_)
-	__Diagram__00000066_.ProductComposition_Shapes = append(__Diagram__00000066_.ProductComposition_Shapes, __ProductCompositionShape__00000330_)
-	__Diagram__00000066_.ProductComposition_Shapes = append(__Diagram__00000066_.ProductComposition_Shapes, __ProductCompositionShape__00000331_)
 	__Note__00000002_.Tasks = append(__Note__00000002_.Tasks, __Task__00000007_)
 	__Note__00000003_.Products = append(__Note__00000003_.Products, __Product__00000035_)
 	__Note__00000003_.Products = append(__Note__00000003_.Products, __Product__00000025_)
@@ -1152,9 +1033,6 @@ another line-NewDiagram`
 	__Product__00000038_.SubProducts = append(__Product__00000038_.SubProducts, __Product__00000039_)
 	__Product__00000038_.SubProducts = append(__Product__00000038_.SubProducts, __Product__00000040_)
 	__Product__00000038_.SubProducts = append(__Product__00000038_.SubProducts, __Product__00000041_)
-	__Product__00000060_.SubProducts = append(__Product__00000060_.SubProducts, __Product__00000061_)
-	__Product__00000060_.SubProducts = append(__Product__00000060_.SubProducts, __Product__00000062_)
-	__Product__00000060_.SubProducts = append(__Product__00000060_.SubProducts, __Product__00000063_)
 	__ProductCompositionShape__00000204_.Product = __Product__00000013_
 	__ProductCompositionShape__00000205_.Product = __Product__00000016_
 	__ProductCompositionShape__00000206_.Product = __Product__00000014_
@@ -1172,9 +1050,6 @@ another line-NewDiagram`
 	__ProductCompositionShape__00000314_.Product = __Product__00000029_
 	__ProductCompositionShape__00000315_.Product = __Product__00000030_
 	__ProductCompositionShape__00000316_.Product = __Product__00000034_
-	__ProductCompositionShape__00000329_.Product = __Product__00000061_
-	__ProductCompositionShape__00000330_.Product = __Product__00000062_
-	__ProductCompositionShape__00000331_.Product = __Product__00000063_
 	__ProductShape__00000330_.Product = __Product__00000011_
 	__ProductShape__00000331_.Product = __Product__00000013_
 	__ProductShape__00000332_.Product = __Product__00000014_
@@ -1197,15 +1072,11 @@ another line-NewDiagram`
 	__ProductShape__00000479_.Product = __Product__00000037_
 	__ProductShape__00000480_.Product = __Product__00000038_
 	__ProductShape__00000481_.Product = __Product__00000031_
-	__ProductShape__00000499_.Product = __Product__00000060_
-	__ProductShape__00000500_.Product = __Product__00000061_
-	__ProductShape__00000501_.Product = __Product__00000062_
-	__ProductShape__00000502_.Product = __Product__00000063_
 	__Project__00000000_.RootProducts = append(__Project__00000000_.RootProducts, __Product__00000038_)
 	__Project__00000000_.RootProducts = append(__Project__00000000_.RootProducts, __Product__00000042_)
-	__Project__00000000_.Diagrams = append(__Project__00000000_.Diagrams, __Diagram__00000057_)
 	__Project__00000000_.Notes = append(__Project__00000000_.Notes, __Note__00000000_)
 	__Project__00000000_.Notes = append(__Project__00000000_.Notes, __Note__00000001_)
+	__Project__00000000_.Diagrams = append(__Project__00000000_.Diagrams, __Diagram__00000057_)
 	__Project__00000001_.RootProducts = append(__Project__00000001_.RootProducts, __Product__00000011_)
 	__Project__00000001_.RootProducts = append(__Project__00000001_.RootProducts, __Product__00000015_)
 	__Project__00000001_.RootTasks = append(__Project__00000001_.RootTasks, __Task__00000003_)
@@ -1219,16 +1090,13 @@ another line-NewDiagram`
 	__Project__00000002_.RootTasks = append(__Project__00000002_.RootTasks, __Task__00000012_)
 	__Project__00000002_.RootTasks = append(__Project__00000002_.RootTasks, __Task__00000009_)
 	__Project__00000002_.RootTasks = append(__Project__00000002_.RootTasks, __Task__00000013_)
-	__Project__00000002_.Diagrams = append(__Project__00000002_.Diagrams, __Diagram__00000061_)
 	__Project__00000002_.Notes = append(__Project__00000002_.Notes, __Note__00000002_)
 	__Project__00000002_.Notes = append(__Project__00000002_.Notes, __Note__00000003_)
 	__Project__00000002_.Notes = append(__Project__00000002_.Notes, __Note__00000004_)
-	__Project__00000007_.RootProducts = append(__Project__00000007_.RootProducts, __Product__00000060_)
-	__Project__00000007_.Diagrams = append(__Project__00000007_.Diagrams, __Diagram__00000066_)
+	__Project__00000002_.Diagrams = append(__Project__00000002_.Diagrams, __Diagram__00000061_)
 	__Root__00000000_.Projects = append(__Root__00000000_.Projects, __Project__00000000_)
 	__Root__00000000_.Projects = append(__Root__00000000_.Projects, __Project__00000001_)
 	__Root__00000000_.Projects = append(__Root__00000000_.Projects, __Project__00000002_)
-	__Root__00000000_.Projects = append(__Root__00000000_.Projects, __Project__00000007_)
 	__Task__00000007_.Inputs = append(__Task__00000007_.Inputs, __Product__00000025_)
 	__Task__00000007_.Inputs = append(__Task__00000007_.Inputs, __Product__00000026_)
 	__Task__00000007_.Outputs = append(__Task__00000007_.Outputs, __Product__00000021_)

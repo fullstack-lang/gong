@@ -488,11 +488,11 @@ func (stage *Stage) StageBranchProject(project *Project) {
 	for _, _task := range project.RootTasks {
 		StageBranch(stage, _task)
 	}
-	for _, _diagram := range project.Diagrams {
-		StageBranch(stage, _diagram)
-	}
 	for _, _note := range project.Notes {
 		StageBranch(stage, _note)
+	}
+	for _, _diagram := range project.Diagrams {
+		StageBranch(stage, _diagram)
 	}
 
 }
@@ -940,11 +940,11 @@ func CopyBranchProject(mapOrigCopy map[any]any, projectFrom *Project) (projectTo
 	for _, _task := range projectFrom.RootTasks {
 		projectTo.RootTasks = append(projectTo.RootTasks, CopyBranchTask(mapOrigCopy, _task))
 	}
-	for _, _diagram := range projectFrom.Diagrams {
-		projectTo.Diagrams = append(projectTo.Diagrams, CopyBranchDiagram(mapOrigCopy, _diagram))
-	}
 	for _, _note := range projectFrom.Notes {
 		projectTo.Notes = append(projectTo.Notes, CopyBranchNote(mapOrigCopy, _note))
+	}
+	for _, _diagram := range projectFrom.Diagrams {
+		projectTo.Diagrams = append(projectTo.Diagrams, CopyBranchDiagram(mapOrigCopy, _diagram))
 	}
 
 	return
@@ -1363,11 +1363,11 @@ func (stage *Stage) UnstageBranchProject(project *Project) {
 	for _, _task := range project.RootTasks {
 		UnstageBranch(stage, _task)
 	}
-	for _, _diagram := range project.Diagrams {
-		UnstageBranch(stage, _diagram)
-	}
 	for _, _note := range project.Notes {
 		UnstageBranch(stage, _note)
+	}
+	for _, _diagram := range project.Diagrams {
+		UnstageBranch(stage, _diagram)
 	}
 
 }
@@ -2162,27 +2162,6 @@ func (project *Project) GongDiff(stage *Stage, projectOther *Project) (diffs []s
 		ops := Diff(stage, project, projectOther, "RootTasks", projectOther.RootTasks, project.RootTasks)
 		diffs = append(diffs, ops)
 	}
-	DiagramsDifferent := false
-	if len(project.Diagrams) != len(projectOther.Diagrams) {
-		DiagramsDifferent = true
-	} else {
-		for i := range project.Diagrams {
-			if (project.Diagrams[i] == nil) != (projectOther.Diagrams[i] == nil) {
-				DiagramsDifferent = true
-				break
-			} else if project.Diagrams[i] != nil && projectOther.Diagrams[i] != nil {
-				// this is a pointer comparaison
-				if project.Diagrams[i] != projectOther.Diagrams[i] {
-					DiagramsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if DiagramsDifferent {
-		ops := Diff(stage, project, projectOther, "Diagrams", projectOther.Diagrams, project.Diagrams)
-		diffs = append(diffs, ops)
-	}
 	NotesDifferent := false
 	if len(project.Notes) != len(projectOther.Notes) {
 		NotesDifferent = true
@@ -2204,8 +2183,26 @@ func (project *Project) GongDiff(stage *Stage, projectOther *Project) (diffs []s
 		ops := Diff(stage, project, projectOther, "Notes", projectOther.Notes, project.Notes)
 		diffs = append(diffs, ops)
 	}
-	if project.IsDiagramsNodeExpanded != projectOther.IsDiagramsNodeExpanded {
-		diffs = append(diffs, project.GongMarshallField(stage, "IsDiagramsNodeExpanded"))
+	DiagramsDifferent := false
+	if len(project.Diagrams) != len(projectOther.Diagrams) {
+		DiagramsDifferent = true
+	} else {
+		for i := range project.Diagrams {
+			if (project.Diagrams[i] == nil) != (projectOther.Diagrams[i] == nil) {
+				DiagramsDifferent = true
+				break
+			} else if project.Diagrams[i] != nil && projectOther.Diagrams[i] != nil {
+				// this is a pointer comparaison
+				if project.Diagrams[i] != projectOther.Diagrams[i] {
+					DiagramsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if DiagramsDifferent {
+		ops := Diff(stage, project, projectOther, "Diagrams", projectOther.Diagrams, project.Diagrams)
+		diffs = append(diffs, ops)
 	}
 	if project.IsExpanded != projectOther.IsExpanded {
 		diffs = append(diffs, project.GongMarshallField(stage, "IsExpanded"))

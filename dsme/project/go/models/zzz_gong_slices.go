@@ -173,18 +173,18 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Project_RootTasks_reverseMap[_task] = project
 		}
 	}
-	stage.Project_Diagrams_reverseMap = make(map[*Diagram]*Project)
-	for project := range stage.Projects {
-		_ = project
-		for _, _diagram := range project.Diagrams {
-			stage.Project_Diagrams_reverseMap[_diagram] = project
-		}
-	}
 	stage.Project_Notes_reverseMap = make(map[*Note]*Project)
 	for project := range stage.Projects {
 		_ = project
 		for _, _note := range project.Notes {
 			stage.Project_Notes_reverseMap[_note] = project
+		}
+	}
+	stage.Project_Diagrams_reverseMap = make(map[*Diagram]*Project)
+	for project := range stage.Projects {
+		_ = project
+		for _, _diagram := range project.Diagrams {
+			stage.Project_Diagrams_reverseMap[_diagram] = project
 		}
 	}
 
