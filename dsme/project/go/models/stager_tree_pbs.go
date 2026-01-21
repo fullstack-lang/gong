@@ -23,7 +23,7 @@ func (stager *Stager) treePBSRecusriveInDiagram(diagram *Diagram, product *Produ
 	}
 	parentNode.Children = append(parentNode.Children, productNode)
 
-	addAddItemButton(stager, &diagram.ProductsWhoseNodeIsExpanded, product, productNode, &product.SubProducts)
+	addAddItemButton(stager, &diagram.ProductsWhoseNodeIsExpanded, product, nil, productNode, &product.SubProducts, diagram, &diagram.Product_Shapes)
 
 	if _, ok := diagram.map_Product_ProductShape[product]; ok {
 		productNode.IsChecked = true

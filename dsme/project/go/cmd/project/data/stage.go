@@ -183,7 +183,7 @@ another line-NewDiagram`}).Stage(stage)
 	__Diagram__00000057_.IsNotesNodeExpanded = false
 
 	__Diagram__00000061_.Name = `Work diagram x`
-	__Diagram__00000061_.IsChecked = true
+	__Diagram__00000061_.IsChecked = false
 	__Diagram__00000061_.IsEditable_ = true
 	__Diagram__00000061_.IsInRenameMode = false
 	__Diagram__00000061_.ShowPrefix = true
