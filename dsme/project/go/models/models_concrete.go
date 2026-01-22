@@ -79,6 +79,14 @@ type AssociationConcreteType interface {
 	SetAbstractEndElement(AbstractType)
 }
 
+type AssociationConcreteType2[SourceAT AbstractType, TargetAT AbstractType] interface {
+	GongstructIF
+	GetAbstractStartElement() SourceAT
+	SetAbstractStartElement(SourceAT)
+	GetAbstractEndElement() TargetAT
+	SetAbstractEndElement(TargetAT)
+}
+
 // ProductShape
 type ProductShape struct {
 	Name    string

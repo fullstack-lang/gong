@@ -23,7 +23,6 @@ func (stager *Stager) svg() {
 	}
 
 	if diagram == nil {
-		log.Println("No diagram is selected for SVG rendering")
 		stager.svgStage.Commit()
 		return
 	}

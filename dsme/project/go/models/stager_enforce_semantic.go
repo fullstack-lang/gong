@@ -54,6 +54,8 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 		needCommit = stager.enforceTaskCompositionShapes() || needCommit
 		needCommit = stager.enforceTaskInputOutputShapes() || needCommit
 		needCommit = stager.enforceNoteRelatedShapes() || needCommit
+
+		needCommit = stager.enforceRelationDuplicates() || needCommit
 	}
 
 	needCommit = stager.enforceShapeOrphans() || needCommit
