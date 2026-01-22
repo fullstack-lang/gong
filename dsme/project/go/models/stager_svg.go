@@ -12,7 +12,6 @@ func (stager *Stager) svg() {
 	root := stager.root
 
 	svgStage := stager.svgStage
-	svgObject := (&svg.SVG{Name: `SVG`})
 
 	var diagram *Diagram
 	{
@@ -24,9 +23,12 @@ func (stager *Stager) svg() {
 	}
 
 	if diagram == nil {
+		log.Println("No diagram is selected for SVG rendering")
 		stager.svgStage.Commit()
 		return
 	}
+
+	svgObject := (&svg.SVG{Name: `SVG`})
 
 	diagram.map_Product_Rect = make(map[*Product]*svg.Rect)
 	diagram.map_Task_Rect = make(map[*Task]*svg.Rect)

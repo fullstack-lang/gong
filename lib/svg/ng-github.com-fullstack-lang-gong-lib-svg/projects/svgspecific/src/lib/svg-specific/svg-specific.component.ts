@@ -309,6 +309,7 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
     this.gongsvgFrontRepoService.connectToWebSocket(this.Name).subscribe(
       gongsvgsFrontRepo => {
         this.gongsvgFrontRepo = gongsvgsFrontRepo
+        this.svg = new svg.SVG()
         //   "in promise to front repose servive pull", "gongsvgFrontRepo not good")
 
         // Initialize conditionHoverStates after repo is loaded
@@ -329,10 +330,12 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
           // console.log(getFunctionName(), "state switch, current", this.State)
 
         } else {
+          this.changeDetectorRef.detectChanges()
           return
         }
 
         if (this.svg.Layers == undefined) {
+          this.changeDetectorRef.detectChanges()
           return
         }
 
