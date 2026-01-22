@@ -219,7 +219,7 @@ func (stager *Stager) tree() {
 					noteNode.Children = append(noteNode.Children, nodeProduct)
 
 					showHideRelationButton := &tree.Button{
-						Name: GetGongstructNameFromPointer(product),
+						Name: GetGongstructNameFromPointer(product) + "- showHideRelationButton" + note.Name + " - " + product.Name,
 
 						HasToolTip:      true,
 						ToolTipPosition: tree.Right,
@@ -358,11 +358,6 @@ func (stager *Stager) OnUpdateDiagram(diagram *Diagram) func(stage *tree.Stage, 
 		}
 		stager.probeForm.FillUpFormFromGongstruct(diagram, "Diagram")
 	}
-}
-
-// Append is a generic helper that appends an item to a slice via a pointer
-func Append[T any](slice *[]T, item T) {
-	*slice = append(*slice, item)
 }
 
 func OnCopyDiagram(stager *Stager, diagram *Diagram) func(

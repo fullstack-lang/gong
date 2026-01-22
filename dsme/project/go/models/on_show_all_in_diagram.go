@@ -10,21 +10,25 @@ func onShowAllInDiagram(stager *Stager, diagram *Diagram) func(
 	stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
 	return func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
 		// 1. Reset the diagram: remove all shapes from the stage to start fresh
-		stager.deletePBSShapes(diagram)
+		diagram.Product_Shapes = []*ProductShape{}
+		diagram.Task_Shapes = []*TaskShape{}
+		diagram.Note_Shapes = []*NoteShape{}
 
 		// 2. Compute the rank of each node (Product or Task)
 		// The rank is determined by the longest path from a root node.
 		// Rank 0 = Root. Rank N = Dependencies have Max(Rank) = N-1.
 		map_Node_Rank := make(map[any]int)
 
-		products := GetGongstrucsSorted[*Product](stager.stage)
-		for _, product := range products {
-			map_Node_Rank[product] = 0
-		}
-		tasks := GetGongstrucsSorted[*Task](stager.stage)
-		for _, task := range tasks {
-			map_Node_Rank[task] = 0
-		}
+		project := stager.stage.Project_Diagrams_reverseMap[diagram]
+
+		// collect all Products and Tasks that are reachable from the Project
+		products := collectProjectElements(project.RootProducts, func(p *Product) []*Product {
+			return p.SubProducts
+		})
+
+		tasks := collectProjectElements(project.RootTasks, func(t *Task) []*Task {
+			return t.SubTasks
+		})
 
 		// Relax edges to propagate ranks.
 		// We loop enough times to cover the maximum possible path length (number of nodes).

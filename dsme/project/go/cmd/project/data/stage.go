@@ -26,6 +26,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000042_ := (&models.Diagram{Name: `NewDiagram`}).Stage(stage)
 	__Diagram__00000057_ := (&models.Diagram{Name: `NewDiagram`}).Stage(stage)
 	__Diagram__00000061_ := (&models.Diagram{Name: `Work diagram x`}).Stage(stage)
+	__Diagram__00000077_ := (&models.Diagram{Name: `NewDiagram`}).Stage(stage)
 
 	__Note__00000000_ := (&models.Note{Name: `This is an example to explain a particular product
 
@@ -78,6 +79,9 @@ another line-NewDiagram`}).Stage(stage)
 	__Product__00000040_ := (&models.Product{Name: `NewProduct`}).Stage(stage)
 	__Product__00000041_ := (&models.Product{Name: `NewProduct`}).Stage(stage)
 	__Product__00000042_ := (&models.Product{Name: `NewProduct`}).Stage(stage)
+	__Product__00000050_ := (&models.Product{Name: `NewProduct`}).Stage(stage)
+	__Product__00000051_ := (&models.Product{Name: `NewProduct`}).Stage(stage)
+	__Product__00000053_ := (&models.Product{Name: `NewProduct`}).Stage(stage)
 
 	__ProductCompositionShape__00000204_ := (&models.ProductCompositionShape{Name: `Product 1 to Product 1.1`}).Stage(stage)
 	__ProductCompositionShape__00000205_ := (&models.ProductCompositionShape{Name: `Product 1.2 to Product 1.2.1`}).Stage(stage)
@@ -96,6 +100,7 @@ another line-NewDiagram`}).Stage(stage)
 	__ProductCompositionShape__00000314_ := (&models.ProductCompositionShape{Name: `New Probe to Probe Undo`}).Stage(stage)
 	__ProductCompositionShape__00000315_ := (&models.ProductCompositionShape{Name: `New Probe to Probe Redo`}).Stage(stage)
 	__ProductCompositionShape__00000316_ := (&models.ProductCompositionShape{Name: `New Probe to Rebase Log Commits`}).Stage(stage)
+	__ProductCompositionShape__00000321_ := (&models.ProductCompositionShape{Name: `NewProduct to NewProduct`}).Stage(stage)
 
 	__ProductShape__00000330_ := (&models.ProductShape{Name: `Product 1-NewDiagram`}).Stage(stage)
 	__ProductShape__00000331_ := (&models.ProductShape{Name: `Product 1.1-NewDiagram`}).Stage(stage)
@@ -119,10 +124,14 @@ another line-NewDiagram`}).Stage(stage)
 	__ProductShape__00000479_ := (&models.ProductShape{Name: `Instance method for marshalling Unstage-Work diagram x`}).Stage(stage)
 	__ProductShape__00000480_ := (&models.ProductShape{Name: `NewProduct-NewDiagram`}).Stage(stage)
 	__ProductShape__00000481_ := (&models.ProductShape{Name: `New Probe-Work diagram x`}).Stage(stage)
+	__ProductShape__00000542_ := (&models.ProductShape{Name: `NewProduct-NewDiagram`}).Stage(stage)
+	__ProductShape__00000543_ := (&models.ProductShape{Name: `NewProduct-NewDiagram`}).Stage(stage)
+	__ProductShape__00000544_ := (&models.ProductShape{Name: `NewProduct-NewDiagram`}).Stage(stage)
 
 	__Project__00000000_ := (&models.Project{Name: `Project Editor`}).Stage(stage)
 	__Project__00000001_ := (&models.Project{Name: `DSME Docx`}).Stage(stage)
 	__Project__00000002_ := (&models.Project{Name: `gong : persist stage.go as an history of commits  #934`}).Stage(stage)
+	__Project__00000005_ := (&models.Project{Name: `NewProject`}).Stage(stage)
 
 	__Root__00000000_ := (&models.Root{Name: `Root`}).Stage(stage)
 
@@ -134,15 +143,17 @@ another line-NewDiagram`}).Stage(stage)
 	__Task__00000011_ := (&models.Task{Name: `Put the commit forward text in one notification #1044`}).Stage(stage)
 	__Task__00000012_ := (&models.Task{Name: `Compute diff in slices with minimal edit distance #1045`}).Stage(stage)
 	__Task__00000013_ := (&models.Task{Name: `refactor AST generation`}).Stage(stage)
+	__Task__00000014_ := (&models.Task{Name: `NewTask`}).Stage(stage)
+	__Task__00000015_ := (&models.Task{Name: `NewTask`}).Stage(stage)
+	__Task__00000016_ := (&models.Task{Name: `NewTask`}).Stage(stage)
+	__Task__00000017_ := (&models.Task{Name: `NewTask`}).Stage(stage)
 
 	__TaskInputShape__00000001_ := (&models.TaskInputShape{Name: `code GongDiff to Probe Notification Table`}).Stage(stage)
 	__TaskInputShape__00000002_ := (&models.TaskInputShape{Name: `Compute all Instance Diff to Probe Notification Table`}).Stage(stage)
-	__TaskInputShape__00000003_ := (&models.TaskInputShape{Name: `Compute all Instance Diff to <instance>. GongDiff(another instance)`}).Stage(stage)
 
 	__TaskOutputShape__00000063_ := (&models.TaskOutputShape{Name: `Compute Instance Diff to String of New+Stage/Updated/Unstage`}).Stage(stage)
 	__TaskOutputShape__00000064_ := (&models.TaskOutputShape{Name: `Develop Probe Notifications to Probe Notification Table`}).Stage(stage)
 	__TaskOutputShape__00000065_ := (&models.TaskOutputShape{Name: `code GongDiff per instance to <instance>. GongDiff(another instance)`}).Stage(stage)
-	__TaskOutputShape__00000066_ := (&models.TaskOutputShape{Name: `Compute all Instance Diff to Reverse Commit log Code`}).Stage(stage)
 	__TaskOutputShape__00000067_ := (&models.TaskOutputShape{Name: `#1038 Display the the commit diff in the probe as marshalled go statements to Probe display the marshalled commit`}).Stage(stage)
 	__TaskOutputShape__00000068_ := (&models.TaskOutputShape{Name: `Put the commit forward text in one notification #1044 to Probe display the marshalled commit`}).Stage(stage)
 	__TaskOutputShape__00000069_ := (&models.TaskOutputShape{Name: `Compute diff in slices with minimal edit distance #1045 to Probe display the marshalled commit`}).Stage(stage)
@@ -194,6 +205,19 @@ another line-NewDiagram`}).Stage(stage)
 	__Diagram__00000061_.IsPBSNodeExpanded = true
 	__Diagram__00000061_.IsWBSNodeExpanded = false
 	__Diagram__00000061_.IsNotesNodeExpanded = false
+
+	__Diagram__00000077_.Name = `NewDiagram`
+	__Diagram__00000077_.IsChecked = true
+	__Diagram__00000077_.IsEditable_ = true
+	__Diagram__00000077_.IsInRenameMode = false
+	__Diagram__00000077_.ShowPrefix = true
+	__Diagram__00000077_.DefaultBoxWidth = 250.000000
+	__Diagram__00000077_.DefaultBoxHeigth = 100.000000
+	__Diagram__00000077_.IsExpanded = true
+	__Diagram__00000077_.ComputedPrefix = ``
+	__Diagram__00000077_.IsPBSNodeExpanded = true
+	__Diagram__00000077_.IsWBSNodeExpanded = true
+	__Diagram__00000077_.IsNotesNodeExpanded = false
 
 	__Note__00000000_.Name = `This is an example to explain a particular product
 
@@ -456,6 +480,27 @@ another line-NewDiagram`
 	__Product__00000042_.IsProducersNodeExpanded = false
 	__Product__00000042_.IsConsumersNodeExpanded = false
 
+	__Product__00000050_.Name = `NewProduct`
+	__Product__00000050_.Description = ``
+	__Product__00000050_.IsExpanded = false
+	__Product__00000050_.ComputedPrefix = `1`
+	__Product__00000050_.IsProducersNodeExpanded = false
+	__Product__00000050_.IsConsumersNodeExpanded = false
+
+	__Product__00000051_.Name = `NewProduct`
+	__Product__00000051_.Description = ``
+	__Product__00000051_.IsExpanded = false
+	__Product__00000051_.ComputedPrefix = `1.1`
+	__Product__00000051_.IsProducersNodeExpanded = false
+	__Product__00000051_.IsConsumersNodeExpanded = false
+
+	__Product__00000053_.Name = `NewProduct`
+	__Product__00000053_.Description = ``
+	__Product__00000053_.IsExpanded = false
+	__Product__00000053_.ComputedPrefix = `1.2`
+	__Product__00000053_.IsProducersNodeExpanded = false
+	__Product__00000053_.IsConsumersNodeExpanded = false
+
 	__ProductCompositionShape__00000204_.Name = `Product 1 to Product 1.1`
 	__ProductCompositionShape__00000204_.StartRatio = 0.500000
 	__ProductCompositionShape__00000204_.EndRatio = 0.500000
@@ -574,6 +619,13 @@ another line-NewDiagram`
 	__ProductCompositionShape__00000316_.StartOrientation = models.ORIENTATION_VERTICAL
 	__ProductCompositionShape__00000316_.EndOrientation = models.ORIENTATION_VERTICAL
 	__ProductCompositionShape__00000316_.CornerOffsetRatio = 1.680000
+
+	__ProductCompositionShape__00000321_.Name = `NewProduct to NewProduct`
+	__ProductCompositionShape__00000321_.StartRatio = 0.205023
+	__ProductCompositionShape__00000321_.EndRatio = 0.500000
+	__ProductCompositionShape__00000321_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000321_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000321_.CornerOffsetRatio = -1.319941
 
 	__ProductShape__00000330_.Name = `Product 1-NewDiagram`
 	__ProductShape__00000330_.IsExpanded = false
@@ -729,6 +781,27 @@ another line-NewDiagram`
 	__ProductShape__00000481_.Width = 250.000000
 	__ProductShape__00000481_.Height = 57.000000
 
+	__ProductShape__00000542_.Name = `NewProduct-NewDiagram`
+	__ProductShape__00000542_.IsExpanded = false
+	__ProductShape__00000542_.X = 222.500000
+	__ProductShape__00000542_.Y = 859.000000
+	__ProductShape__00000542_.Width = 250.000000
+	__ProductShape__00000542_.Height = 100.000000
+
+	__ProductShape__00000543_.Name = `NewProduct-NewDiagram`
+	__ProductShape__00000543_.IsExpanded = false
+	__ProductShape__00000543_.X = 68.000000
+	__ProductShape__00000543_.Y = 511.000000
+	__ProductShape__00000543_.Width = 250.000000
+	__ProductShape__00000543_.Height = 100.000000
+
+	__ProductShape__00000544_.Name = `NewProduct-NewDiagram`
+	__ProductShape__00000544_.IsExpanded = false
+	__ProductShape__00000544_.X = 425.000000
+	__ProductShape__00000544_.Y = 250.000000
+	__ProductShape__00000544_.Width = 250.000000
+	__ProductShape__00000544_.Height = 100.000000
+
 	__Project__00000000_.Name = `Project Editor`
 	__Project__00000000_.IsExpanded = false
 	__Project__00000000_.ComputedPrefix = ``
@@ -740,6 +813,10 @@ another line-NewDiagram`
 	__Project__00000002_.Name = `gong : persist stage.go as an history of commits  #934`
 	__Project__00000002_.IsExpanded = false
 	__Project__00000002_.ComputedPrefix = ``
+
+	__Project__00000005_.Name = `NewProject`
+	__Project__00000005_.IsExpanded = true
+	__Project__00000005_.ComputedPrefix = ``
 
 	__Root__00000000_.Name = `Root`
 	__Root__00000000_.NbPixPerCharacter = 8.000000
@@ -816,6 +893,42 @@ another line-NewDiagram`
 	__Task__00000013_.IsWithCompletion = false
 	__Task__00000013_.Completion = ""
 
+	__Task__00000014_.Name = `NewTask`
+	__Task__00000014_.Description = ``
+	__Task__00000014_.IsExpanded = false
+	__Task__00000014_.ComputedPrefix = `1`
+	__Task__00000014_.IsInputsNodeExpanded = false
+	__Task__00000014_.IsOutputsNodeExpanded = false
+	__Task__00000014_.IsWithCompletion = false
+	__Task__00000014_.Completion = ""
+
+	__Task__00000015_.Name = `NewTask`
+	__Task__00000015_.Description = ``
+	__Task__00000015_.IsExpanded = false
+	__Task__00000015_.ComputedPrefix = `2`
+	__Task__00000015_.IsInputsNodeExpanded = false
+	__Task__00000015_.IsOutputsNodeExpanded = false
+	__Task__00000015_.IsWithCompletion = false
+	__Task__00000015_.Completion = ""
+
+	__Task__00000016_.Name = `NewTask`
+	__Task__00000016_.Description = ``
+	__Task__00000016_.IsExpanded = false
+	__Task__00000016_.ComputedPrefix = `2.1`
+	__Task__00000016_.IsInputsNodeExpanded = false
+	__Task__00000016_.IsOutputsNodeExpanded = false
+	__Task__00000016_.IsWithCompletion = false
+	__Task__00000016_.Completion = ""
+
+	__Task__00000017_.Name = `NewTask`
+	__Task__00000017_.Description = ``
+	__Task__00000017_.IsExpanded = false
+	__Task__00000017_.ComputedPrefix = `1.1`
+	__Task__00000017_.IsInputsNodeExpanded = false
+	__Task__00000017_.IsOutputsNodeExpanded = false
+	__Task__00000017_.IsWithCompletion = false
+	__Task__00000017_.Completion = ""
+
 	__TaskInputShape__00000001_.Name = `code GongDiff to Probe Notification Table`
 	__TaskInputShape__00000001_.StartRatio = 0.664301
 	__TaskInputShape__00000001_.EndRatio = 0.500000
@@ -829,13 +942,6 @@ another line-NewDiagram`
 	__TaskInputShape__00000002_.StartOrientation = models.ORIENTATION_VERTICAL
 	__TaskInputShape__00000002_.EndOrientation = models.ORIENTATION_HORIZONTAL
 	__TaskInputShape__00000002_.CornerOffsetRatio = -0.552338
-
-	__TaskInputShape__00000003_.Name = `Compute all Instance Diff to <instance>. GongDiff(another instance)`
-	__TaskInputShape__00000003_.StartRatio = 0.863857
-	__TaskInputShape__00000003_.EndRatio = 0.693411
-	__TaskInputShape__00000003_.StartOrientation = models.ORIENTATION_VERTICAL
-	__TaskInputShape__00000003_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__TaskInputShape__00000003_.CornerOffsetRatio = 0.552529
 
 	__TaskOutputShape__00000063_.Name = `Compute Instance Diff to String of New+Stage/Updated/Unstage`
 	__TaskOutputShape__00000063_.StartRatio = 0.500000
@@ -857,13 +963,6 @@ another line-NewDiagram`
 	__TaskOutputShape__00000065_.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__TaskOutputShape__00000065_.EndOrientation = models.ORIENTATION_VERTICAL
 	__TaskOutputShape__00000065_.CornerOffsetRatio = 1.000288
-
-	__TaskOutputShape__00000066_.Name = `Compute all Instance Diff to Reverse Commit log Code`
-	__TaskOutputShape__00000066_.StartRatio = 0.440078
-	__TaskOutputShape__00000066_.EndRatio = 0.287454
-	__TaskOutputShape__00000066_.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__TaskOutputShape__00000066_.EndOrientation = models.ORIENTATION_VERTICAL
-	__TaskOutputShape__00000066_.CornerOffsetRatio = 1.070120
 
 	__TaskOutputShape__00000067_.Name = `#1038 Display the the commit diff in the probe as marshalled go statements to Probe display the marshalled commit`
 	__TaskOutputShape__00000067_.StartRatio = 0.386529
@@ -981,11 +1080,9 @@ another line-NewDiagram`
 	__Diagram__00000061_.TasksWhoseOutputNodeIsExpanded = append(__Diagram__00000061_.TasksWhoseOutputNodeIsExpanded, __Task__00000010_)
 	__Diagram__00000061_.TaskInputShapes = append(__Diagram__00000061_.TaskInputShapes, __TaskInputShape__00000001_)
 	__Diagram__00000061_.TaskInputShapes = append(__Diagram__00000061_.TaskInputShapes, __TaskInputShape__00000002_)
-	__Diagram__00000061_.TaskInputShapes = append(__Diagram__00000061_.TaskInputShapes, __TaskInputShape__00000003_)
 	__Diagram__00000061_.TaskOutputShapes = append(__Diagram__00000061_.TaskOutputShapes, __TaskOutputShape__00000063_)
 	__Diagram__00000061_.TaskOutputShapes = append(__Diagram__00000061_.TaskOutputShapes, __TaskOutputShape__00000064_)
 	__Diagram__00000061_.TaskOutputShapes = append(__Diagram__00000061_.TaskOutputShapes, __TaskOutputShape__00000065_)
-	__Diagram__00000061_.TaskOutputShapes = append(__Diagram__00000061_.TaskOutputShapes, __TaskOutputShape__00000066_)
 	__Diagram__00000061_.TaskOutputShapes = append(__Diagram__00000061_.TaskOutputShapes, __TaskOutputShape__00000067_)
 	__Diagram__00000061_.TaskOutputShapes = append(__Diagram__00000061_.TaskOutputShapes, __TaskOutputShape__00000068_)
 	__Diagram__00000061_.TaskOutputShapes = append(__Diagram__00000061_.TaskOutputShapes, __TaskOutputShape__00000069_)
@@ -996,6 +1093,13 @@ another line-NewDiagram`
 	__Diagram__00000061_.NoteProductShapes = append(__Diagram__00000061_.NoteProductShapes, __NoteProductShape__00000002_)
 	__Diagram__00000061_.NoteTaskShapes = append(__Diagram__00000061_.NoteTaskShapes, __NoteTaskShape__00000001_)
 	__Diagram__00000061_.NoteTaskShapes = append(__Diagram__00000061_.NoteTaskShapes, __NoteTaskShape__00000003_)
+	__Diagram__00000077_.Product_Shapes = append(__Diagram__00000077_.Product_Shapes, __ProductShape__00000542_)
+	__Diagram__00000077_.Product_Shapes = append(__Diagram__00000077_.Product_Shapes, __ProductShape__00000543_)
+	__Diagram__00000077_.Product_Shapes = append(__Diagram__00000077_.Product_Shapes, __ProductShape__00000544_)
+	__Diagram__00000077_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000077_.ProductsWhoseNodeIsExpanded, __Product__00000050_)
+	__Diagram__00000077_.ProductComposition_Shapes = append(__Diagram__00000077_.ProductComposition_Shapes, __ProductCompositionShape__00000321_)
+	__Diagram__00000077_.TasksWhoseNodeIsExpanded = append(__Diagram__00000077_.TasksWhoseNodeIsExpanded, __Task__00000015_)
+	__Diagram__00000077_.TasksWhoseNodeIsExpanded = append(__Diagram__00000077_.TasksWhoseNodeIsExpanded, __Task__00000014_)
 	__Note__00000002_.Tasks = append(__Note__00000002_.Tasks, __Task__00000007_)
 	__Note__00000003_.Products = append(__Note__00000003_.Products, __Product__00000035_)
 	__Note__00000003_.Products = append(__Note__00000003_.Products, __Product__00000025_)
@@ -1033,6 +1137,8 @@ another line-NewDiagram`
 	__Product__00000038_.SubProducts = append(__Product__00000038_.SubProducts, __Product__00000039_)
 	__Product__00000038_.SubProducts = append(__Product__00000038_.SubProducts, __Product__00000040_)
 	__Product__00000038_.SubProducts = append(__Product__00000038_.SubProducts, __Product__00000041_)
+	__Product__00000050_.SubProducts = append(__Product__00000050_.SubProducts, __Product__00000051_)
+	__Product__00000050_.SubProducts = append(__Product__00000050_.SubProducts, __Product__00000053_)
 	__ProductCompositionShape__00000204_.Product = __Product__00000013_
 	__ProductCompositionShape__00000205_.Product = __Product__00000016_
 	__ProductCompositionShape__00000206_.Product = __Product__00000014_
@@ -1050,6 +1156,7 @@ another line-NewDiagram`
 	__ProductCompositionShape__00000314_.Product = __Product__00000029_
 	__ProductCompositionShape__00000315_.Product = __Product__00000030_
 	__ProductCompositionShape__00000316_.Product = __Product__00000034_
+	__ProductCompositionShape__00000321_.Product = __Product__00000051_
 	__ProductShape__00000330_.Product = __Product__00000011_
 	__ProductShape__00000331_.Product = __Product__00000013_
 	__ProductShape__00000332_.Product = __Product__00000014_
@@ -1072,6 +1179,9 @@ another line-NewDiagram`
 	__ProductShape__00000479_.Product = __Product__00000037_
 	__ProductShape__00000480_.Product = __Product__00000038_
 	__ProductShape__00000481_.Product = __Product__00000031_
+	__ProductShape__00000542_.Product = __Product__00000050_
+	__ProductShape__00000543_.Product = __Product__00000051_
+	__ProductShape__00000544_.Product = __Product__00000053_
 	__Project__00000000_.RootProducts = append(__Project__00000000_.RootProducts, __Product__00000038_)
 	__Project__00000000_.RootProducts = append(__Project__00000000_.RootProducts, __Product__00000042_)
 	__Project__00000000_.Notes = append(__Project__00000000_.Notes, __Note__00000000_)
@@ -1094,9 +1204,14 @@ another line-NewDiagram`
 	__Project__00000002_.Notes = append(__Project__00000002_.Notes, __Note__00000003_)
 	__Project__00000002_.Notes = append(__Project__00000002_.Notes, __Note__00000004_)
 	__Project__00000002_.Diagrams = append(__Project__00000002_.Diagrams, __Diagram__00000061_)
+	__Project__00000005_.RootProducts = append(__Project__00000005_.RootProducts, __Product__00000050_)
+	__Project__00000005_.RootTasks = append(__Project__00000005_.RootTasks, __Task__00000014_)
+	__Project__00000005_.RootTasks = append(__Project__00000005_.RootTasks, __Task__00000015_)
+	__Project__00000005_.Diagrams = append(__Project__00000005_.Diagrams, __Diagram__00000077_)
 	__Root__00000000_.Projects = append(__Root__00000000_.Projects, __Project__00000000_)
 	__Root__00000000_.Projects = append(__Root__00000000_.Projects, __Project__00000001_)
 	__Root__00000000_.Projects = append(__Root__00000000_.Projects, __Project__00000002_)
+	__Root__00000000_.Projects = append(__Root__00000000_.Projects, __Project__00000005_)
 	__Task__00000007_.Inputs = append(__Task__00000007_.Inputs, __Product__00000025_)
 	__Task__00000007_.Inputs = append(__Task__00000007_.Inputs, __Product__00000026_)
 	__Task__00000007_.Outputs = append(__Task__00000007_.Outputs, __Product__00000021_)
@@ -1107,20 +1222,18 @@ another line-NewDiagram`
 	__Task__00000010_.Outputs = append(__Task__00000010_.Outputs, __Product__00000035_)
 	__Task__00000011_.Outputs = append(__Task__00000011_.Outputs, __Product__00000035_)
 	__Task__00000012_.Outputs = append(__Task__00000012_.Outputs, __Product__00000035_)
+	__Task__00000014_.SubTasks = append(__Task__00000014_.SubTasks, __Task__00000017_)
+	__Task__00000015_.SubTasks = append(__Task__00000015_.SubTasks, __Task__00000016_)
 	__TaskInputShape__00000001_.Task = __Task__00000008_
 	__TaskInputShape__00000001_.Product = __Product__00000025_
 	__TaskInputShape__00000002_.Task = __Task__00000007_
 	__TaskInputShape__00000002_.Product = __Product__00000025_
-	__TaskInputShape__00000003_.Task = __Task__00000007_
-	__TaskInputShape__00000003_.Product = __Product__00000026_
 	__TaskOutputShape__00000063_.Task = __Task__00000007_
 	__TaskOutputShape__00000063_.Product = __Product__00000021_
 	__TaskOutputShape__00000064_.Task = __Task__00000009_
 	__TaskOutputShape__00000064_.Product = __Product__00000025_
 	__TaskOutputShape__00000065_.Task = __Task__00000008_
 	__TaskOutputShape__00000065_.Product = __Product__00000026_
-	__TaskOutputShape__00000066_.Task = __Task__00000007_
-	__TaskOutputShape__00000066_.Product = __Product__00000033_
 	__TaskOutputShape__00000067_.Task = __Task__00000010_
 	__TaskOutputShape__00000067_.Product = __Product__00000035_
 	__TaskOutputShape__00000068_.Task = __Task__00000011_
