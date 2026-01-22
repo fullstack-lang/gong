@@ -63,6 +63,9 @@ func addAddItemButton[
 			// if the created item is a project, add a diagram to it
 			if newProject, ok := any(newItem).(*Project); ok {
 				newProject.IsExpanded = true
+				for diagram_ := range *GetGongstructInstancesSet[Diagram](stager.stage) {
+					diagram_.IsChecked = false
+				}
 				newDiagram := &Diagram{
 					Name:        "Default Diagram",
 					IsChecked:   true,
