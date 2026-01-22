@@ -2,11 +2,17 @@ package models
 
 import (
 	"log"
+	"maps"
 	"slices"
 
 	"github.com/fullstack-lang/gong/lib/tree/go/buttons"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
+
+// Append is a generic helper that appends an item to a slice via a pointer
+func Append[T any](slice *[]T, item T) {
+	*slice = append(*slice, item)
+}
 
 func addAddItemButton[
 	T Gongstruct,
@@ -290,4 +296,34 @@ func onUpdateExpandableNode[
 		stager.probeForm.FillUpFormFromGongstruct(element, GetPointerToGongstructName[AT]())
 		stager.stage.Commit()
 	}
+}
+
+func collectProjectElements[T PointerToGongstruct](
+	rootElements []T,
+	getChildren func(T) []T,
+) []T {
+	// 1. Find all reachable nodes
+	reachable := make(map[T]struct{})
+	var collectReachable func(node T)
+	collectReachable = func(node T) {
+		var zero T
+		if node == zero {
+			return
+		}
+		if _, ok := reachable[node]; ok {
+			return // already visited
+		}
+		reachable[node] = struct{}{}
+
+		for _, child := range getChildren(node) {
+			collectReachable(child)
+		}
+	}
+
+	for _, root := range rootElements {
+		collectReachable(root)
+	}
+
+	// 2. Convert map to slice
+	return slices.Collect(maps.Keys(reachable))
 }

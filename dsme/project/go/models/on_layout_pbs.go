@@ -15,7 +15,10 @@ func onLayoutPBS(stager *Stager, diagram *Diagram) func(
 	stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
 	return func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
 		// 1. Reset the diagram: remove all shapes from the stage to start fresh
-		stager.deletePBSShapes(diagram)
+		diagram.Product_Shapes = []*ProductShape{}
+		diagram.Task_Shapes = []*TaskShape{}
+		diagram.Note_Shapes = []*NoteShape{}
+		// Note: Task and Note shapes are not considered in PBS layout
 
 		// 2. Identify Project
 		project := stager.stage.Project_Diagrams_reverseMap[diagram]
