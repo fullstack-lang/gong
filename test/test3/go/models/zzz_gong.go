@@ -181,7 +181,31 @@ const (
 	NavigationModeNavigating gongStageNavigationMode = "Navigating"
 )
 
+// ApplyBackwardCommit applies the commit before the current one
 func (stage *Stage) ApplyBackwardCommit() error {
+
+	if len(stage.backwardCommits) == 0 {
+		return nil
+	}
+
+	if stage.navigationMode == NavigationModeNormal && stage.nbCommitsBackward != 0 {
+		return errors.New("in navigation mode normal, cannot have have nbCommitsBackward != 0")
+	}
+
+	if stage.navigationMode == NavigationModeNormal {
+		stage.navigationMode = NavigationModeNavigating
+	}
+
+	if stage.nbCommitsBackward >= len(stage.backwardCommits) {
+		return errors.New("no more backward commit to apply")
+	}
+
+	backwardCommitToApply := stage.backwardCommits[len(stage.backwardCommits)-1-stage.nbCommitsBackward]
+	_ = backwardCommitToApply
+
+	// umarshall the backward commit to the stage
+
+	stage.nbCommitsBackward++
 
 	return nil
 }
