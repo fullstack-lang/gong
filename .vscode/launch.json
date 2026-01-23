@@ -888,6 +888,18 @@
                 "-marshallOnCommit=data/stage-large.go"
             ]
         },
+        // run test3 test
+        {            
+            "name": "test3, debug commits navigation",
+            "type": "go",
+            "request": "launch",
+            "mode": "test",
+            "program": "${workspaceFolder}/test/test3/go/tests",
+            "args": [
+                "-test.run",
+                "^TestCommitNavigation$"
+            ]
+        },
         {
             "name": "Debug TestStageCount",
             "type": "go",
