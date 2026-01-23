@@ -63,8 +63,8 @@ func ParseAstEmbeddedFile2(stage *Stage, directory embed.FS, pathToFile string) 
 	return ParseAstFileFromAst2(stage, inFile, fset, false)
 }
 
-// ParseAstString parses the Go source code from a string
-func ParseAstString(stage *Stage, blob string) error {
+// GongParseAstString parses the Go source code from a string
+func GongParseAstString(stage *Stage, blob string) error {
 	fset := token.NewFileSet()
 	inFile, errParser := parser.ParseFile(fset, "", blob, parser.ParseComments)
 	if errParser != nil {
