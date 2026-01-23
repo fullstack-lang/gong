@@ -185,7 +185,7 @@ const (
 func (stage *Stage) ApplyBackwardCommit() error {
 
 	if len(stage.backwardCommits) == 0 {
-		return nil
+		return errors.New("no backward commit to apply")
 	}
 
 	if stage.navigationMode == NavigationModeNormal && stage.nbCommitsBackward != 0 {
@@ -210,7 +210,23 @@ func (stage *Stage) ApplyBackwardCommit() error {
 	return nil
 }
 
+func (stage *Stage) GetForwardCommits() []string {
+	return stage.forwardCommits
+}
+
+func (stage *Stage) GetBackwardCommits() []string {
+	return stage.backwardCommits
+}
+
 func (stage *Stage) ApplyForwardCommit() error {
+	if stage.navigationMode == NavigationModeNormal && stage.nbCommitsBackward != 0 {
+		return errors.New("in navigation mode normal, cannot have have nbCommitsBackward != 0")
+	}
+
+	if stage.nbCommitsBackward == 0 {
+		return errors.New("no more forward commit to apply")
+	}
+	stage.nbCommitsBackward--
 	return nil
 }
 
@@ -227,7 +243,7 @@ func (stage *Stage) SetDeltaMode(inDeltaMode bool) {
 	stage.isInDeltaMode = inDeltaMode
 }
 
-func (stage *Stage) IsDeltaMode() bool {
+func (stage *Stage) IsInDeltaMode() bool {
 	return stage.isInDeltaMode
 }
 
@@ -508,7 +524,7 @@ func (stage *Stage) Commit() {
 		stage.BackRepo.Commit(stage)
 	}
 	stage.ComputeInstancesNb()
-	if stage.IsDeltaMode() {
+	if stage.IsInDeltaMode() {
 		stage.ComputeDifference()
 		stage.ComputeReference()
 	}
@@ -755,7 +771,7 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
 	}
-	if stage.IsDeltaMode() {
+	if stage.IsInDeltaMode() {
 		stage.ComputeReference()
 	}
 }

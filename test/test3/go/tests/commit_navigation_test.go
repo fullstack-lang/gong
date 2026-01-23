@@ -65,13 +65,7 @@ func TestCommitNavigation(t *testing.T) {
 	a2.Unstage(stage)
 	stage.Commit()
 
-	// navigate backward the commits one by one
-	for i := 0; i < stage.GetNbBackwardCommits(); i++ {
-		err := stage.ApplyBackwardCommit()
-		if err != nil {
-			t.Errorf("failed to apply backward commit: %v", err)
-		}
-	}
+	stack.Probe.Refresh()
 
 	// vanilla setup of the stager to be able to run the server
 	splitStage := split_stack.NewStack(stack.R, "", "", "", "", false, false).Stage

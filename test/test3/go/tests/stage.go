@@ -35,7 +35,7 @@ func _(stage *models.Stage) {
 	__A__00000000_.FloatValue = 14.500000
 	__A__00000000_.IntValue = 9
 	__A__00000000_.Duration = -446400000000000
-	__A__00000000_.EnumString = ""
+	__A__00000000_.EnumString = models.EnumTypeString_Value1
 	__A__00000000_.EnumInt = models.EnumTypeInt_Value2
 
 	__A__00000001_.Name = `initial A1`
@@ -43,7 +43,7 @@ func _(stage *models.Stage) {
 	__A__00000001_.FloatValue = 0.000000
 	__A__00000001_.IntValue = 0
 	__A__00000001_.Duration = 0
-	__A__00000001_.EnumString = ""
+	__A__00000001_.EnumString = models.EnumTypeString_Value1
 	__A__00000001_.EnumInt = models.EnumTypeInt_Value2
 
 	__A__00000002_.Name = `initial A2`
@@ -51,8 +51,8 @@ func _(stage *models.Stage) {
 	__A__00000002_.FloatValue = 0.000000
 	__A__00000002_.IntValue = 0
 	__A__00000002_.Duration = 0
-	__A__00000002_.EnumString = ""
-	__A__00000002_.EnumInt = 0
+	__A__00000002_.EnumString = models.EnumTypeString_Value1
+	__A__00000002_.EnumInt = models.EnumTypeInt_Value2
 
 	__B__00000000_.Name = `initial B0`
 
