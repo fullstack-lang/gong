@@ -65,8 +65,9 @@ func ParseAstEmbeddedFile2(stage *Stage, directory embed.FS, pathToFile string) 
 
 // GongParseAstString parses the Go source code from a string
 func GongParseAstString(stage *Stage, blob string) error {
+	fileString := "package main\nfunc _() {\n" + blob + "\n}"
 	fset := token.NewFileSet()
-	inFile, errParser := parser.ParseFile(fset, "", blob, parser.ParseComments)
+	inFile, errParser := parser.ParseFile(fset, "", fileString, parser.ParseComments)
 	if errParser != nil {
 		return errors.New("Unable to parser " + errParser.Error())
 	}
@@ -79,6 +80,10 @@ func ParseAstFileFromAst2(stage *Stage, inFile *ast.File, fset *token.FileSet, p
 
 	// 1. Remove Global Variables: Use a local map to track variable names to instances
 	identifierMap := make(map[string]GongstructIF)
+
+	for _, instance := range stage.GetInstances() {
+		identifierMap[instance.GongGetIdentifier(stage)] = instance
+	}
 
 	// 2. Visitor Pattern: Traverse the AST
 	ast.Inspect(inFile, func(n ast.Node) bool {
@@ -142,6 +147,18 @@ func ParseAstFileFromAst2(stage *Stage, inFile *ast.File, fset *token.FileSet, p
 									// 3. Strategy Pattern: Delegate to Handler
 									unmarshaller.UnmarshallField(stage, instance, selExpr.Sel.Name, node.Rhs[0], identifierMap)
 								}
+							}
+						}
+					}
+				}
+			}
+		case *ast.ExprStmt:
+			if call, ok := node.X.(*ast.CallExpr); ok {
+				if sel, ok := call.Fun.(*ast.SelectorExpr); ok {
+					if sel.Sel.Name == "Unstage" {
+						if ident, ok := sel.X.(*ast.Ident); ok {
+							if instance, ok := identifierMap[ident.Name]; ok {
+								instance.UnstageVoid(stage)
 							}
 						}
 					}
