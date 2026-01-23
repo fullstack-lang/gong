@@ -22,6 +22,16 @@ func TestCommitNavigation(t *testing.T) {
 
 	stage.SetDeltaMode(true)
 
+	// load initial data into stage
+	err := models.ParseAstFile2(
+		stage,
+		"./stage.go",
+		false)
+	if err != nil {
+		t.Errorf("failed to parse stage.go: %v", err)
+	}
+	stage.Commit()
+
 	// 1. creates A and B instances in the stage, commit
 	a1 := (&models.A{Name: "A1"}).Stage(stage)
 	b1 := (&models.B{Name: "B1"}).Stage(stage)
@@ -80,8 +90,8 @@ func TestCommitNavigation(t *testing.T) {
 	splitStage.Commit()
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(8080))
-	err := stack.R.Run(":" + strconv.Itoa(8080))
+	err = stack.R.Run(":" + strconv.Itoa(8080))
 	if err != nil {
-		log.Fatalln(err.Error())
+		t.Errorf("failed to run server: %v", err)
 	}
 }

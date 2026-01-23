@@ -44,7 +44,7 @@ func ParseAstFile2(stage *Stage, pathToFile string, preserveOrder bool) error {
 		return errors.New("Unable to parser " + errParser.Error())
 	}
 
-	return ParseAstFileFromAst(stage, inFile, fset, preserveOrder)
+	return ParseAstFileFromAst2(stage, inFile, fset, preserveOrder)
 }
 
 // ParseAstEmbeddedFile parses the Go source code from an embedded file
@@ -60,7 +60,7 @@ func ParseAstEmbeddedFile2(stage *Stage, directory embed.FS, pathToFile string) 
 		return errors.New("Unable to parse embedded file '" + pathToFile + "': " + errParser.Error())
 	}
 
-	return ParseAstFileFromAst(stage, inFile, fset, false)
+	return ParseAstFileFromAst2(stage, inFile, fset, false)
 }
 
 // ParseAstFileFromAst traverses the AST and stages instances using the Unmarshaller registry

@@ -59,7 +59,7 @@ func ParseAstFile(stage *Stage, pathToFile string, preserveOrder bool) error {
 		return errors.New("Unable to parser " + errParser.Error())
 	}
 
-	return ParseAstFileFromAst(stage, inFile, fset, preserveOrder)
+	return ParseAstFileFromAst2(stage, inFile, fset, preserveOrder)
 }
 
 // ParseAstEmbeddedFile parses the Go source code from an embedded file
@@ -102,12 +102,12 @@ func ParseAstEmbeddedFile(stage *Stage, directory embed.FS, pathToFile string) e
 
 	// 4. Call the common AST processing logic.
 	//    Pass the parsed AST (*ast.File), the FileSet, and the stage.
-	return ParseAstFileFromAst(stage, inFile, fset, false)
+	return ParseAstFileFromAst2(stage, inFile, fset, false)
 }
 
 // ParseAstFile Parse pathToFile and stages all instances
 // declared in the file
-func ParseAstFileFromAst(stage *Stage, inFile *ast.File, fset *token.FileSet, preserveOrder bool) error {
+func ParseAstFileFromAstLegacy(stage *Stage, inFile *ast.File, fset *token.FileSet, preserveOrder bool) error {
 	// Robust parsing of imports to identify the meta package.
 	// We ignore standard imports and the primary models package import.
 	stage.MetaPackageImportAlias = ""
