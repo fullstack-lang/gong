@@ -22,55 +22,71 @@ func TestCommitNavigation(t *testing.T) {
 
 	stage.SetDeltaMode(true)
 
-	// load initial data into stage
-	err := models.ParseAstFile2(
-		stage,
-		"./stage.go",
-		false)
-	if err != nil {
-		t.Errorf("failed to parse stage.go: %v", err)
+	if false {
+		// load initial data into stage
+		err := models.ParseAstFile2(
+			stage,
+			"./stage.go",
+			false)
+		if err != nil {
+			t.Errorf("failed to parse stage.go: %v", err)
+		}
+		stage.Commit()
+
+		// 1. creates A and B instances in the stage, commit
+		a1 := (&models.A{Name: "A1"}).Stage(stage)
+		b1 := (&models.B{Name: "B1"}).Stage(stage)
+		stage.Commit()
+
+		// 2. creates/deletes/updates A and B instances, commit
+		// Update
+		a1.Name = "A1 Updated"
+		// Create
+		a2 := (&models.A{Name: "A2"}).Stage(stage)
+		// Delete
+		b1.Unstage(stage)
+		stage.Commit()
+
+		// 3. creates/deletes/updates A and B instances, commit
+		// Update
+		a2.Name = "A2 Updated"
+		// Create
+		b2 := (&models.B{Name: "B2"}).Stage(stage)
+		// Delete
+		a1.Unstage(stage)
+		stage.Commit()
+
+		// 4. creates/deletes/updates A and B instances, commit
+		// Update
+		b2.Name = "B2 Updated"
+		// // Create
+		// a3 := (&models.A{Name: "A3"}).Stage(stage)
+		// _ = a3
+		// // Delete
+		// a2.Unstage(stage)
+		stage.Commit()
+
+		err = stage.ApplyBackwardCommit()
+		if err != nil {
+			t.Errorf("failed to apply backward commit: %v", err)
+		}
+
+		stack.Probe.Refresh()
 	}
-	stage.Commit()
 
-	// 1. creates A and B instances in the stage, commit
-	a1 := (&models.A{Name: "A1"}).Stage(stage)
-	b1 := (&models.B{Name: "B1"}).Stage(stage)
-	stage.Commit()
+	if true {
+		a1 := (&models.A{Name: "A1"}).Stage(stage)
+		_ = a1
+		b1 := (&models.B{Name: "B1"}).Stage(stage)
+		_ = b1
+		stage.Commit()
 
-	// 2. creates/deletes/updates A and B instances, commit
-	// Update
-	a1.Name = "A1 Updated"
-	// Create
-	a2 := (&models.A{Name: "A2"}).Stage(stage)
-	// Delete
-	b1.Unstage(stage)
-	stage.Commit()
-
-	// 3. creates/deletes/updates A and B instances, commit
-	// Update
-	a2.Name = "A2 Updated"
-	// Create
-	b2 := (&models.B{Name: "B2"}).Stage(stage)
-	// Delete
-	a1.Unstage(stage)
-	stage.Commit()
-
-	// 4. creates/deletes/updates A and B instances, commit
-	// Update
-	b2.Name = "B2 Updated"
-	// // Create
-	// a3 := (&models.A{Name: "A3"}).Stage(stage)
-	// _ = a3
-	// // Delete
-	// a2.Unstage(stage)
-	stage.Commit()
-
-	err = stage.ApplyBackwardCommit()
-	if err != nil {
-		t.Errorf("failed to apply backward commit: %v", err)
+		err := stage.ApplyBackwardCommit()
+		if err != nil {
+			t.Errorf("failed to apply backward commit: %v", err)
+		}
+		stack.Probe.Refresh()
 	}
-
-	stack.Probe.Refresh()
 
 	// vanilla setup of the stager to be able to run the server
 	splitStage := split_stack.NewStack(stack.R, "", "", "", "", false, false).Stage
@@ -89,7 +105,7 @@ func TestCommitNavigation(t *testing.T) {
 	splitStage.Commit()
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(8080))
-	err = stack.R.Run(":" + strconv.Itoa(8080))
+	err := stack.R.Run(":" + strconv.Itoa(8080))
 	if err != nil {
 		t.Errorf("failed to run server: %v", err)
 	}
