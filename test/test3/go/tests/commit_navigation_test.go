@@ -58,12 +58,17 @@ func TestCommitNavigation(t *testing.T) {
 	// 4. creates/deletes/updates A and B instances, commit
 	// Update
 	b2.Name = "B2 Updated"
-	// Create
-	a3 := (&models.A{Name: "A3"}).Stage(stage)
-	_ = a3
-	// Delete
-	a2.Unstage(stage)
+	// // Create
+	// a3 := (&models.A{Name: "A3"}).Stage(stage)
+	// _ = a3
+	// // Delete
+	// a2.Unstage(stage)
 	stage.Commit()
+
+	err = stage.ApplyBackwardCommit()
+	if err != nil {
+		t.Errorf("failed to apply backward commit: %v", err)
+	}
 
 	stack.Probe.Refresh()
 
