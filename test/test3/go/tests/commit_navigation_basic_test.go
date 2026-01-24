@@ -44,19 +44,29 @@ func TestBasicCommitNavigation(t *testing.T) {
 	_ = b0
 	b1 := (&models.B{Name: `B1`}).Stage(stage)
 	_ = b1
+
+	a0.B = b0
 	stage.Commit()
 
 	a1.IntValue = 150
-	// a0.IntValue = 200
-	// a0.B = b0
-	// a0.EnumString = ""
-	// a0.Bs = append(a0.Bs, b0)
-	// a0.Bs = append(a0.Bs, b1)
+	a0.IntValue = 200
+	a0.B = nil
+	a0.EnumString = ""
+	a0.Bs = append(a0.Bs, b0)
+	a0.Bs = append(a0.Bs, b1)
 
 	stage.Commit()
 	stack.Probe.Refresh()
 
-	// 	err := stage.ApplyBackwardCommit()
+	a0.Bs = []*models.B{}
+	a0.Bs = append(a0.Bs, b1)
+	a0.Bs = append(a0.Bs, b0)
+	a0.B = b1
+
+	stage.Commit()
+	stack.Probe.Refresh()
+
+	// err := stage.ApplyBackwardCommit()
 	// if err != nil {
 	// 	t.Errorf("failed to apply backward commit: %v", err)
 	// }

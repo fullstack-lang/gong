@@ -200,11 +200,10 @@ func (stage *Stage) ApplyBackwardCommit() error {
 		return errors.New("no more backward commit to apply")
 	}
 
-	backwardCommitToApply := stage.backwardCommits[stage.nbCommitsBackward]
-	_ = backwardCommitToApply
+	commitToApply := stage.backwardCommits[stage.nbCommitsBackward]
 
 	// umarshall the backward commit to the stage
-	err := GongParseAstString(stage, backwardCommitToApply)
+	err := GongParseAstString(stage, commitToApply)
 	if err != nil {
 		log.Println("error during ApplyBackwardCommit: ", err)
 		return err
@@ -230,6 +229,13 @@ func (stage *Stage) ApplyForwardCommit() error {
 
 	if stage.nbCommitsBackward == 0 {
 		return errors.New("no more forward commit to apply")
+	}
+
+	commitToApply := stage.forwardCommits[len(stage.forwardCommits)-1-stage.nbCommitsBackward+1]
+	err := GongParseAstString(stage, commitToApply)
+	if err != nil {
+		log.Println("error during ApplyBackwardCommit: ", err)
+		return err
 	}
 	stage.nbCommitsBackward--
 	return nil
