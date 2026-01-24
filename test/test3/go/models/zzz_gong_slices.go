@@ -86,13 +86,20 @@ func (stage *Stage) ComputeDifference() {
 		if ref, ok := stage.As_reference[a]; !ok {
 			as_newInstances = append(as_newInstances, a)
 			newInstancesStmt += a.GongMarshallIdentifier(stage)
+			if stage.As_referenceOrder == nil {
+				stage.As_referenceOrder = make(map[*A]uint)
+			}
+			stage.As_referenceOrder[a] = stage.AMap_Staged_Order[a]
 			newInstancesReverseStmt += a.GongMarshallUnstaging(stage)
+			delete(stage.As_referenceOrder, a)
 			fieldInitializers, pointersInitializations := a.GongMarshallAllFields(stage)
 			fieldsEditStmt += fieldInitializers
 			fieldsEditStmt += pointersInitializations
 		} else {
+			stage.AMap_Staged_Order[ref] = stage.AMap_Staged_Order[a]
 			diffs := a.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, a)
+			delete(stage.AMap_Staged_Order, ref)
 			if len(diffs) > 0 {
 				fieldsEditStmt += fmt.Sprintf("\n\t// %s", a.GetName())
 				for _, diff := range diffs {
@@ -128,13 +135,20 @@ func (stage *Stage) ComputeDifference() {
 		if ref, ok := stage.Bs_reference[b]; !ok {
 			bs_newInstances = append(bs_newInstances, b)
 			newInstancesStmt += b.GongMarshallIdentifier(stage)
+			if stage.Bs_referenceOrder == nil {
+				stage.Bs_referenceOrder = make(map[*B]uint)
+			}
+			stage.Bs_referenceOrder[b] = stage.BMap_Staged_Order[b]
 			newInstancesReverseStmt += b.GongMarshallUnstaging(stage)
+			delete(stage.Bs_referenceOrder, b)
 			fieldInitializers, pointersInitializations := b.GongMarshallAllFields(stage)
 			fieldsEditStmt += fieldInitializers
 			fieldsEditStmt += pointersInitializations
 		} else {
+			stage.BMap_Staged_Order[ref] = stage.BMap_Staged_Order[b]
 			diffs := b.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, b)
+			delete(stage.BMap_Staged_Order, ref)
 			if len(diffs) > 0 {
 				fieldsEditStmt += fmt.Sprintf("\n\t// %s", b.GetName())
 				for _, diff := range diffs {
