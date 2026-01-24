@@ -32,11 +32,26 @@ func TestBasicCommitNavigation(t *testing.T) {
 	a0.EnumInt = models.EnumTypeInt_Value2
 	_ = a0
 
+	a1 := (&models.A{Name: "A1"}).Stage(stage)
+	a1.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	a1.FloatValue = 14.5
+	a1.IntValue = 100
+	a1.Duration = -446400000
+	a1.EnumString = models.EnumTypeString_Value1
+	a1.EnumInt = models.EnumTypeInt_Value2
+
 	b0 := (&models.B{Name: `B0`}).Stage(stage)
+	_ = b0
+	b1 := (&models.B{Name: `B1`}).Stage(stage)
+	_ = b1
 	stage.Commit()
 
-	a0.IntValue = 200
-	a0.B = b0
+	a1.IntValue = 150
+	// a0.IntValue = 200
+	// a0.B = b0
+	// a0.EnumString = ""
+	// a0.Bs = append(a0.Bs, b0)
+	// a0.Bs = append(a0.Bs, b1)
 
 	stage.Commit()
 	stack.Probe.Refresh()
