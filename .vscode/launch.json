@@ -900,6 +900,17 @@
                 "^TestCommitNavigation$"
             ]
         },
+        {            
+            "name": "test3, debug basic commits navigation",
+            "type": "go",
+            "request": "launch",
+            "mode": "test",
+            "program": "${workspaceFolder}/test/test3/go/tests",
+            "args": [
+                "-test.run",
+                "^TestBasicCommitNavigation$"
+            ]
+        },
         {
             "name": "Debug TestStageCount",
             "type": "go",
