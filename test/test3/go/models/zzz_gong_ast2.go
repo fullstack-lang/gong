@@ -266,6 +266,11 @@ func GongUnmarshallPointer[T PointerToGongstruct](
 	identifierMap map[string]GongstructIF) {
 
 	if ident, ok := valueExpr.(*ast.Ident); ok {
+		if ident.Name == "nil" {
+			var zero T
+			*ptr = zero
+			return
+		}
 		if val, ok := identifierMap[ident.Name]; ok {
 			*ptr = val.(T)
 		}
