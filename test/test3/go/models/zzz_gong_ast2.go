@@ -176,6 +176,13 @@ func ParseAstFileFromAst2(stage *Stage, inFile *ast.File, fset *token.FileSet, p
 							}
 						}
 					}
+					if sel.Sel.Name == "Commit" {
+						if ident, ok := sel.X.(*ast.Ident); ok && ident.Name == "stage" {
+							if stage.IsInDeltaMode() && stage.navigationMode != GongNavigationModeNavigating {
+								stage.Commit()
+							}
+						}
+					}
 				}
 			}
 		}
