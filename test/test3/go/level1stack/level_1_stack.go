@@ -80,6 +80,22 @@ func NewLevel1StackDelta(
 
 	level1Stack.Stage = stage
 
+	level1Stack.R = split_static.ServeStaticFiles(false)
+	if withProbe {
+		// if the application edits the diagrams via the probe, it is surmised
+		// that the application is launched from "go/cmd/<appl>/". Therefore, to reach
+		// "go/diagrams/diagrams.go", the path is "../../diagrams/diagrams.go"
+		level1Stack.Probe = probe.NewProbe(
+			level1Stack.R,
+			test3_go.GoModelsDir,
+			test3_go.GoDiagramsDir,
+			embeddedDiagrams,
+			stage,
+		)
+
+		stage.SetProbeIF(level1Stack.Probe)
+	}
+
 	if unmarshallFromCode != "" {
 		err := models.ParseAstFile2(stage, unmarshallFromCode, true)
 
@@ -102,22 +118,6 @@ func NewLevel1StackDelta(
 		hook := new(BeforeCommitImplementation)
 		hook.marshallOnCommit = marshallOnCommit
 		stage.OnInitCommitCallback = hook
-	}
-
-	level1Stack.R = split_static.ServeStaticFiles(false)
-	if withProbe {
-		// if the application edits the diagrams via the probe, it is surmised
-		// that the application is launched from "go/cmd/<appl>/". Therefore, to reach
-		// "go/diagrams/diagrams.go", the path is "../../diagrams/diagrams.go"
-		level1Stack.Probe = probe.NewProbe(
-			level1Stack.R,
-			test3_go.GoModelsDir,
-			test3_go.GoDiagramsDir,
-			embeddedDiagrams,
-			stage,
-		)
-
-		stage.SetProbeIF(level1Stack.Probe)
 	}
 
 	// add orchestration

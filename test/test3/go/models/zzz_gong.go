@@ -175,10 +175,10 @@ type Stage struct {
 type gongStageNavigationMode string
 
 const (
-	NavigationModeNormal gongStageNavigationMode = "Normal"
+	GongNavigationModeNormal gongStageNavigationMode = "Normal"
 	// when the mode is navigating, each commit backward and forward
 	// it is possible to go apply the nbCommitsBackward forward commits
-	NavigationModeNavigating gongStageNavigationMode = "Navigating"
+	GongNavigationModeNavigating gongStageNavigationMode = "Navigating"
 )
 
 // ApplyBackwardCommit applies the commit before the current one
@@ -188,12 +188,12 @@ func (stage *Stage) ApplyBackwardCommit() error {
 		return errors.New("no backward commit to apply")
 	}
 
-	if stage.navigationMode == NavigationModeNormal && stage.nbCommitsBackward != 0 {
+	if stage.navigationMode == GongNavigationModeNormal && stage.nbCommitsBackward != 0 {
 		return errors.New("in navigation mode normal, cannot have have nbCommitsBackward != 0")
 	}
 
-	if stage.navigationMode == NavigationModeNormal {
-		stage.navigationMode = NavigationModeNavigating
+	if stage.navigationMode == GongNavigationModeNormal {
+		stage.navigationMode = GongNavigationModeNavigating
 	}
 
 	if stage.nbCommitsBackward >= len(stage.backwardCommits) {
@@ -223,7 +223,7 @@ func (stage *Stage) GetBackwardCommits() []string {
 }
 
 func (stage *Stage) ApplyForwardCommit() error {
-	if stage.navigationMode == NavigationModeNormal && stage.nbCommitsBackward != 0 {
+	if stage.navigationMode == GongNavigationModeNormal && stage.nbCommitsBackward != 0 {
 		return errors.New("in navigation mode normal, cannot have have nbCommitsBackward != 0")
 	}
 
