@@ -203,7 +203,7 @@ func (stage *Stage) ApplyBackwardCommit() error {
 	commitToApply := stage.backwardCommits[len(stage.backwardCommits)-1-stage.nbCommitsBackward]
 
 	// umarshall the backward commit to the stage
-	err := GongParseAstString(stage, commitToApply)
+	err := GongParseAstString(stage, commitToApply, true)
 	if err != nil {
 		log.Println("error during ApplyBackwardCommit: ", err)
 		return err
@@ -232,7 +232,7 @@ func (stage *Stage) ApplyForwardCommit() error {
 	}
 
 	commitToApply := stage.forwardCommits[len(stage.forwardCommits)-1-stage.nbCommitsBackward+1]
-	err := GongParseAstString(stage, commitToApply)
+	err := GongParseAstString(stage, commitToApply, true)
 	if err != nil {
 		log.Println("error during ApplyBackwardCommit: ", err)
 		return err
@@ -478,6 +478,8 @@ func NewStage(name string) (stage *Stage) {
 			{name: "A"},
 			{name: "B"},
 		}, // end of insertion point
+
+		navigationMode: GongNavigationModeNormal,
 	}
 
 	return
