@@ -7,6 +7,30 @@ import (
 	"github.com/fullstack-lang/gong/test/test3/go/models"
 )
 
+// updateFillUpForm updates the current form if there is one
+func (probe *Probe) updateFillUpForm() {
+	var formGroup *form.FormGroup
+	for fg := range probe.formStage.FormGroups {
+		formGroup = fg
+	}
+	if formGroup != nil {
+		switch onSave := formGroup.OnSave.(type) {
+		case *AFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "A", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.a, probe)
+			}
+		case *BFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "B", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.b, probe)
+			}
+		}
+	}
+}
+
 func FillUpFormFromGongstructName(
 	probe *Probe,
 	gongstructName string,
