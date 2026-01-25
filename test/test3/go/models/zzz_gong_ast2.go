@@ -4,11 +4,13 @@ package models
 import (
 	"embed"
 	"errors"
+	"fmt"
 	"go/ast"
 	"go/parser"
 	"go/token"
 	"log"
 	"path/filepath"
+	"regexp"
 	"slices"
 	"strconv"
 	"strings"
@@ -17,6 +19,18 @@ import (
 
 var _time__dummyDeclaration2 time.Duration
 var _ = _time__dummyDeclaration2
+
+// swagger:ignore
+type GONG__ExpressionType string
+
+const (
+	GONG__STRUCT_INSTANCE      GONG__ExpressionType = "STRUCT_INSTANCE"
+	GONG__FIELD_OR_CONST_VALUE GONG__ExpressionType = "FIELD_OR_CONST_VALUE"
+	GONG__FIELD_VALUE          GONG__ExpressionType = "FIELD_VALUE"
+	GONG__ENUM_CAST_INT        GONG__ExpressionType = "ENUM_CAST_INT"
+	GONG__ENUM_CAST_STRING     GONG__ExpressionType = "ENUM_CAST_STRING"
+	GONG__IDENTIFIER_CONST     GONG__ExpressionType = "IDENTIFIER_CONST"
+)
 
 // ------------------------------------------------------------------------------------------------
 // STATIC AST PARSING LOGIC
@@ -172,6 +186,30 @@ func ParseAstFileFromAst2(stage *Stage, inFile *ast.File, fset *token.FileSet, p
 }
 
 // --- Generic Helpers for Unmarshallers ---
+// ExtractMiddleUint takes a formatted string and returns the extracted integer.
+func ExtractMiddleUint(input string) (uint, error) {
+	// Compile the Regex Pattern
+	re := regexp.MustCompile(`__.*?__(\d+)_.*`)
+
+	// Find the matches
+	matches := re.FindStringSubmatch(input)
+
+	// Validate that we found the pattern and the capture group
+	if len(matches) < 2 {
+		return 0, fmt.Errorf("pattern not found in string: %s", input)
+	}
+
+	// matches[0] is the whole string, matches[1] is the capture group (\d+)
+	numberStr := matches[1]
+
+	// Convert string to integer (handles leading zeros automatically)
+	result, err := strconv.Atoi(numberStr)
+	if err != nil {
+		return 0, fmt.Errorf("failed to convert %s to int: %v", numberStr, err)
+	}
+
+	return uint(result), nil
+}
 
 func GongExtractString(expr ast.Expr) string {
 	if bl, ok := expr.(*ast.BasicLit); ok {
