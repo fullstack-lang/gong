@@ -16,10 +16,9 @@ func TestCommitNavigation(t *testing.T) {
 	// setup
 	// - model level1 stack with its probe
 	// - unmarshall/marshall go file with stage data
-	stack := level1stack.NewLevel1StackDelta("test3", "stage.go", "stage_out.go", true, true, true)
+	stack := level1stack.NewLevel1StackDelta("test3", "stage.go", "", true, true, true)
 	stage := stack.Stage
-
-	stage.SetDeltaMode(true)
+	stack.Probe.Refresh()
 
 	// vanilla setup of the stager to be able to run the server
 	splitStage := split_stack.NewStack(stack.R, "", "", "", "", false, false).Stage
