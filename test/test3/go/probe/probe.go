@@ -185,6 +185,9 @@ func NewProbe(
 
 func (probe *Probe) Refresh() {
 	updateAndCommitTree(probe)
+	updateCurrentProbeTable(probe)
+	probe.updateFillUpForm()
+	// update and commit the current table, is there is one
 	probe.docStager.UpdateAndCommitSVGStage()
 }
 
