@@ -4,13 +4,11 @@ package models
 import (
 	"embed"
 	"errors"
-	"fmt"
 	"go/ast"
 	"go/parser"
 	"go/token"
 	"log"
 	"path/filepath"
-	"regexp"
 	"slices"
 	"strconv"
 	"strings"
@@ -39,7 +37,7 @@ const (
 // ModelUnmarshaller abstracts the logic for setting fields on a staged instance
 type ModelUnmarshaller interface {
 	// Initialize creates the struct, stages it, and returns the pointer as 'any'
-	Initialize(stage *Stage, instanceName string, preserveOrder bool) (GongstructIF, error)
+	Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error)
 
 	// UnmarshallField sets a field's value based on the AST expression
 	UnmarshallField(stage *Stage, instance GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error
@@ -137,7 +135,7 @@ func ParseAstFileFromAst2(stage *Stage, inFile *ast.File, fset *token.FileSet, p
 					// Dispatch to specific Unmarshaller
 					if typeName != "" {
 						if unmarshaller, exists := stage.GongUnmarshallers[typeName]; exists {
-							instance, err := unmarshaller.Initialize(stage, instanceName, preserveOrder)
+							instance, err := unmarshaller.Initialize(stage, ident.Name, instanceName, preserveOrder)
 							if err == nil {
 								identifierMap[ident.Name] = instance
 							}
@@ -190,32 +188,6 @@ func ParseAstFileFromAst2(stage *Stage, inFile *ast.File, fset *token.FileSet, p
 	})
 
 	return nil
-}
-
-// --- Generic Helpers for Unmarshallers ---
-// ExtractMiddleUint takes a formatted string and returns the extracted integer.
-func ExtractMiddleUint(input string) (uint, error) {
-	// Compile the Regex Pattern
-	re := regexp.MustCompile(`__.*?__(\d+)_.*`)
-
-	// Find the matches
-	matches := re.FindStringSubmatch(input)
-
-	// Validate that we found the pattern and the capture group
-	if len(matches) < 2 {
-		return 0, fmt.Errorf("pattern not found in string: %s", input)
-	}
-
-	// matches[0] is the whole string, matches[1] is the capture group (\d+)
-	numberStr := matches[1]
-
-	// Convert string to integer (handles leading zeros automatically)
-	result, err := strconv.Atoi(numberStr)
-	if err != nil {
-		return 0, fmt.Errorf("failed to convert %s to int: %v", numberStr, err)
-	}
-
-	return uint(result), nil
 }
 
 func GongExtractString(expr ast.Expr) string {
@@ -346,13 +318,18 @@ func GongUnmarshallEnum[T interface{ FromCodeString(string) error }](
 // insertion point per named struct
 type AUnmarshaller struct{}
 
-func (u *AUnmarshaller) Initialize(stage *Stage, instanceName string, preserveOrder bool) (GongstructIF, error) {
+func (u *AUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
 	instance := new(A)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		instance.Stage(stage)
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.GongStageForceOrder(stage, newOrder)
+		}
 	}
 	return instance, nil
 }
@@ -388,13 +365,18 @@ func (u *AUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName 
 
 type BUnmarshaller struct{}
 
-func (u *BUnmarshaller) Initialize(stage *Stage, instanceName string, preserveOrder bool) (GongstructIF, error) {
+func (u *BUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
 	instance := new(B)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		instance.Stage(stage)
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.GongStageForceOrder(stage, newOrder)
+		}
 	}
 	return instance, nil
 }

@@ -796,6 +796,39 @@
             ]
         },
         {
+            "name": "go run test3 -unmarshallFromCode=data/stage-large.go -marshallOnCommit=data/stage-large.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/test/test3/go/cmd/test3",
+            "args": [
+                "-unmarshallFromCode=data/stage-large.go",
+                "-marshallOnCommit=data/stage-large.go"
+            ]
+        },
+        {            
+            "name": "test3, debug commits navigation",
+            "type": "go",
+            "request": "launch",
+            "mode": "test",
+            "program": "${workspaceFolder}/test/test3/go/tests",
+            "args": [
+                "-test.run",
+                "^TestCommitNavigation$"
+            ]
+        },
+        {            
+            "name": "test3, debug basic commits navigation",
+            "type": "go",
+            "request": "launch",
+            "mode": "test",
+            "program": "${workspaceFolder}/test/test3/go/tests",
+            "args": [
+                "-test.run",
+                "^TestBasicCommitNavigation$"
+            ]
+        },
+        {
             "name": "gong generate project -level1",
             "type": "go",
             "request": "launch",
@@ -877,40 +910,7 @@
                 "-marshallOnCommit=data/influence.go"
             ]
         },
-        {
-            "name": "go run test3 -unmarshallFromCode=data/stage-large.go -marshallOnCommit=data/stage-large.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/test/test3/go/cmd/test3",
-            "args": [
-                "-unmarshallFromCode=data/stage-large.go",
-                "-marshallOnCommit=data/stage-large.go"
-            ]
-        },
-        // run test3 test
-        {            
-            "name": "test3, debug commits navigation",
-            "type": "go",
-            "request": "launch",
-            "mode": "test",
-            "program": "${workspaceFolder}/test/test3/go/tests",
-            "args": [
-                "-test.run",
-                "^TestCommitNavigation$"
-            ]
-        },
-        {            
-            "name": "test3, debug basic commits navigation",
-            "type": "go",
-            "request": "launch",
-            "mode": "test",
-            "program": "${workspaceFolder}/test/test3/go/tests",
-            "args": [
-                "-test.run",
-                "^TestBasicCommitNavigation$"
-            ]
-        },
+       
         {
             "name": "Debug TestStageCount",
             "type": "go",
