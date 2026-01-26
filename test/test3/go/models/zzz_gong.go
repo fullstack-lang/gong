@@ -472,14 +472,14 @@ func NewStage(name string) (stage *Stage) {
 			"A": &AUnmarshaller{},
 
 			"B": &BUnmarshaller{},
-		}, // end of insertion point
+
+			// end of insertion point
+		},
 
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
 			{name: "A"},
 			{name: "B"},
 		}, // end of insertion point
-
-		navigationMode: GongNavigationModeNormal,
 	}
 
 	return
@@ -729,7 +729,7 @@ func (b *B) StagePreserveOrder(stage *Stage, order uint) {
 // struct, it reuses the order and does not increment
 func (b *B) GongStageForceOrder(stage *Stage, order uint) {
 
-	if order >= stage.AOrder {
+	if order >= stage.BOrder {
 		b.StageVoid(stage)
 		return
 	}
