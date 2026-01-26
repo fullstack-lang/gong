@@ -143,8 +143,8 @@ func NewLevel1StackDelta(
 		// "go/diagrams/diagrams.go", the path is "../../diagrams/diagrams.go"
 		level1Stack.Probe = probe.NewProbe(
 			level1Stack.R,
-			test3_go.GoModelsDir,
-			test3_go.GoDiagramsDir,
+			{{pkgname}}_go.GoModelsDir,
+			{{pkgname}}_go.GoDiagramsDir,
 			embeddedDiagrams,
 			stage,
 		)
