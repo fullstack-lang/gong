@@ -44,7 +44,7 @@ type ModelUnmarshaller interface {
 }
 
 // ParseAstFile Parse pathToFile and stages all instances declared in the file
-func ParseAstFile2(stage *Stage, pathToFile string, preserveOrder bool) error {
+func ParseAstFile(stage *Stage, pathToFile string, preserveOrder bool) error {
 	fileOfInterest, err := filepath.Abs(pathToFile)
 	if err != nil {
 		return errors.New("Path does not exist %s ;" + fileOfInterest)
@@ -56,11 +56,11 @@ func ParseAstFile2(stage *Stage, pathToFile string, preserveOrder bool) error {
 		return errors.New("Unable to parser " + errParser.Error())
 	}
 
-	return ParseAstFileFromAst2(stage, inFile, fset, preserveOrder)
+	return ParseAstFileFromAst(stage, inFile, fset, preserveOrder)
 }
 
 // ParseAstEmbeddedFile parses the Go source code from an embedded file
-func ParseAstEmbeddedFile2(stage *Stage, directory embed.FS, pathToFile string) error {
+func ParseAstEmbeddedFile(stage *Stage, directory embed.FS, pathToFile string) error {
 	fileContentBytes, err := directory.ReadFile(pathToFile)
 	if err != nil {
 		return errors.New(stage.GetName() + "; Unable to read embedded file " + err.Error())
@@ -72,7 +72,7 @@ func ParseAstEmbeddedFile2(stage *Stage, directory embed.FS, pathToFile string) 
 		return errors.New("Unable to parse embedded file '" + pathToFile + "': " + errParser.Error())
 	}
 
-	return ParseAstFileFromAst2(stage, inFile, fset, false)
+	return ParseAstFileFromAst(stage, inFile, fset, false)
 }
 
 // GongParseAstString parses the Go source code from a string
@@ -84,11 +84,11 @@ func GongParseAstString(stage *Stage, blob string, preserveOrder bool) error {
 		return errors.New("Unable to parser " + errParser.Error())
 	}
 
-	return ParseAstFileFromAst2(stage, inFile, fset, preserveOrder)
+	return ParseAstFileFromAst(stage, inFile, fset, preserveOrder)
 }
 
 // ParseAstFileFromAst traverses the AST and stages instances using the Unmarshaller registry
-func ParseAstFileFromAst2(stage *Stage, inFile *ast.File, fset *token.FileSet, preserveOrder bool) error {
+func ParseAstFileFromAst(stage *Stage, inFile *ast.File, fset *token.FileSet, preserveOrder bool) error {
 
 	// 1. Remove Global Variables: Use a local map to track variable names to instances
 	identifierMap := make(map[string]GongstructIF)
@@ -189,6 +189,8 @@ func ParseAstFileFromAst2(stage *Stage, inFile *ast.File, fset *token.FileSet, p
 
 	return nil
 }
+
+// --- Generic Helpers for Unmarshallers ---
 
 func GongExtractString(expr ast.Expr) string {
 	if bl, ok := expr.(*ast.BasicLit); ok {
