@@ -29,21 +29,9 @@ var _ = dummy_time_import
 var dummy_slices_import = slices.Insert([]int{0}, 0)
 var _ = dummy_slices_import
 
-// swagger:ignore
-type GONG__ExpressionType string
-
-const (
-	GONG__STRUCT_INSTANCE      GONG__ExpressionType = "STRUCT_INSTANCE"
-	GONG__FIELD_OR_CONST_VALUE GONG__ExpressionType = "FIELD_OR_CONST_VALUE"
-	GONG__FIELD_VALUE          GONG__ExpressionType = "FIELD_VALUE"
-	GONG__ENUM_CAST_INT        GONG__ExpressionType = "ENUM_CAST_INT"
-	GONG__ENUM_CAST_STRING     GONG__ExpressionType = "ENUM_CAST_STRING"
-	GONG__IDENTIFIER_CONST     GONG__ExpressionType = "IDENTIFIER_CONST"
-)
-
-// ParseAstFile Parse pathToFile and stages all instances
+// ParseAstFileLegacy Parse pathToFile and stages all instances
 // declared in the file
-func ParseAstFile(stage *Stage, pathToFile string, preserveOrder bool) error {
+func ParseAstFileLegacy(stage *Stage, pathToFile string, preserveOrder bool) error {
 
 	ReplaceOldDeclarationsInFile(pathToFile)
 
@@ -61,10 +49,10 @@ func ParseAstFile(stage *Stage, pathToFile string, preserveOrder bool) error {
 		return errors.New("Unable to parser " + errParser.Error())
 	}
 
-	return ParseAstFileFromAst(stage, inFile, fset, preserveOrder)
+	return ParseAstFileLegacyFromAst(stage, inFile, fset, preserveOrder)
 }
 
-// ParseAstEmbeddedFile parses the Go source code from an embedded file
+// ParseAstEmbeddedFileLegacy parses the Go source code from an embedded file
 // specified by pathToFile within the provided embed.FS directory and
 // stages instances declared in the file using the provided Stage.
 //
@@ -76,8 +64,8 @@ func ParseAstFile(stage *Stage, pathToFile string, preserveOrder bool) error {
 //
 // Returns:
 //
-//	An error if reading or parsing the file fails, or if ParseAstFileFromAst fails.
-func ParseAstEmbeddedFile(stage *Stage, directory embed.FS, pathToFile string) error {
+//	An error if reading or parsing the file fails, or if ParseAstFileLegacyFromAst fails.
+func ParseAstEmbeddedFileLegacy(stage *Stage, directory embed.FS, pathToFile string) error {
 
 	// 1. Read the content from the embedded filesystem.
 	//    We don't need filepath.Abs as embed.FS uses relative paths.
@@ -104,12 +92,12 @@ func ParseAstEmbeddedFile(stage *Stage, directory embed.FS, pathToFile string) e
 
 	// 4. Call the common AST processing logic.
 	//    Pass the parsed AST (*ast.File), the FileSet, and the stage.
-	return ParseAstFileFromAst(stage, inFile, fset, false)
+	return ParseAstFileLegacyFromAst(stage, inFile, fset, false)
 }
 
-// ParseAstFile Parse pathToFile and stages all instances
+// ParseAstFileLegacy Parse pathToFile and stages all instances
 // declared in the file
-func ParseAstFileFromAst(stage *Stage, inFile *ast.File, fset *token.FileSet, preserveOrder bool) error {
+func ParseAstFileLegacyFromAst(stage *Stage, inFile *ast.File, fset *token.FileSet, preserveOrder bool) error {
 	// Robust parsing of imports to identify the meta package.
 	// We ignore standard imports and the primary models package import.
 	stage.MetaPackageImportAlias = ""
