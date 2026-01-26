@@ -34,10 +34,66 @@ func updateAndCommitTree(
 
 	probe.treeStage.Reset()
 
+	stageOfInterest := probe.stageOfInterest
+
 	// create tree
 	sidebar := &tree.Tree{Name: "Sidebar"}
 
-	topNode := &tree.Node{Name: fmt.Sprintf("Stage %s", probe.stageOfInterest.GetName())}
+	topNode := &tree.Node{Name: fmt.Sprintf("Stage %s", stageOfInterest.GetName())}
+
+	if stageOfInterest.IsInDeltaMode() {
+		topNode.Name += " (Delta Mode) " + fmt.Sprintf("history %d, depth %d",
+			len(stageOfInterest.GetBackwardCommits()),
+			stageOfInterest.GetNbBackwardCommits())
+
+		backwardButton := &tree.Button{
+			Name:            "BackwardButton",
+			Icon:            string(gongtree_buttons.BUTTON_arrow_back),
+			HasToolTip:      true,
+			ToolTipText:     "Go to previous commit",
+			ToolTipPosition: tree.Left,
+		}
+		topNode.Buttons = append(topNode.Buttons, backwardButton)
+		backwardButton.Impl = &tree.FunctionalButtonProxy{
+			OnUpdated: func(stage *tree.Stage,
+				stagedButton, frontButton *tree.Button) {
+				err := stageOfInterest.ApplyBackwardCommit()
+				if err != nil {
+					panic(err)
+				}
+				probe.Refresh()
+			},
+		}
+
+		if stageOfInterest.GetNbBackwardCommits() == len(stageOfInterest.GetBackwardCommits()) {
+			backwardButton.IsDisabled = true
+		}
+
+		forwardButton := &tree.Button{
+			Name:            "ForwardButton",
+			Icon:            string(gongtree_buttons.BUTTON_arrow_forward),
+			HasToolTip:      true,
+			ToolTipText:     "Go to next commit",
+			ToolTipPosition: tree.Left,
+		}
+		topNode.Buttons = append(topNode.Buttons, forwardButton)
+		forwardButton.Impl = &tree.FunctionalButtonProxy{
+			OnUpdated: func(stage *tree.Stage,
+				stagedButton, frontButton *tree.Button) {
+				err := stageOfInterest.ApplyForwardCommit()
+				if err != nil {
+					panic(err)
+				}
+				probe.Refresh()
+			},
+		}
+
+		if stageOfInterest.GetNbBackwardCommits() == 0 {
+			forwardButton.IsDisabled = true
+		}
+	} else {
+		topNode.Name += ""
+	}
 
 	sidebar.RootNodes = append(sidebar.RootNodes, topNode)
 	refreshButton := &tree.Button{
