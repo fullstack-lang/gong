@@ -14,7 +14,7 @@ func (probe *Probe) updateFillUpForm() {
 		formGroup = fg
 	}
 	if formGroup != nil {
-		switch onSave := formGroup.OnSave.(type) {
+		switch onSave := formGroup.OnSave.(type) { // insertion point
 		case *AFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "A", true)
