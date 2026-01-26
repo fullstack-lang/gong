@@ -9,6 +9,18 @@ import (
 	"{{PkgPathRoot}}/models"
 )
 
+// updateFillUpForm updates the current form if there is one
+func (probe *Probe) updateFillUpForm() {
+	var formGroup *form.FormGroup
+	for fg := range probe.formStage.FormGroups {
+		formGroup = fg
+	}
+	if formGroup != nil {
+		switch onSave := formGroup.OnSave.(type) { // insertion point{{` + string(rune(FillUpFormFromGongstructNameSwitchCase1)) + `}}
+		}
+	}
+}
+
 func FillUpFormFromGongstructName(
 	probe *Probe,
 	gongstructName string,
@@ -36,12 +48,13 @@ type FillUpFormFromGongstructNameInsertionId int
 
 const (
 	FillUpFormFromGongstructNameSwitchCase FillUpFormFromGongstructNameInsertionId = iota
+	FillUpFormFromGongstructNameSwitchCase1
 	FillUpFormFromGongstructNameInsertionNb
 )
 
 var FillUpFormFromGongstructNameSubTemplateCode map[string]string = // new line
 map[string]string{
-	string(rune(FillUpTreeStructCase)): `
+	string(rune(FillUpFormFromGongstructNameSwitchCase)): `
 	case "{{Structname}}":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -55,4 +68,11 @@ map[string]string{
 		{{structname}} := new(models.{{Structname}})
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm({{structname}}, formGroup, probe)`,
+	string(rune(FillUpFormFromGongstructNameSwitchCase1)): `
+		case *{{Structname}}FormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "{{Structname}}", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.{{structname}}, probe)
+			}`,
 }
