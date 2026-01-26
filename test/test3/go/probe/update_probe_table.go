@@ -36,7 +36,7 @@ func updateProbeTable[T models.PointerToGongstruct](
 	probe.tableStage.Reset()
 
 	table := new(gongtable.Table)
-	table.Name = models.GetPointerToGongstructName[T]()
+	table.Name = TableName
 	table.HasColumnSorting = true
 	table.HasFiltering = true
 	table.HasPaginator = true
