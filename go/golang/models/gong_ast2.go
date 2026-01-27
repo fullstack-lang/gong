@@ -250,6 +250,31 @@ func GongExtractBool(expr ast.Expr) bool {
 	return false
 }
 
+func GongExtractExpr(expr ast.Expr) any {
+	switch v := expr.(type) {
+	case *ast.BasicLit:
+		return v.Value
+	case *ast.CompositeLit:
+		// Reconstruct "Package.Struct{}"
+		if sel, ok := v.Type.(*ast.SelectorExpr); ok {
+			if id, ok := sel.X.(*ast.Ident); ok {
+				return id.Name + "." + sel.Sel.Name + "{}"
+			}
+		}
+	case *ast.SelectorExpr:
+		// Reconstruct "Package.Struct{}.Field"
+		// X is likely a CompositeLit (Package.Struct{})
+		if cl, ok := v.X.(*ast.CompositeLit); ok {
+			if sel, ok := cl.Type.(*ast.SelectorExpr); ok {
+				if id, ok := sel.X.(*ast.Ident); ok {
+					return id.Name + "." + sel.Sel.Name + "{}." + v.Sel.Name
+				}
+			}
+		}
+	}
+	return ""
+}
+
 // GongUnmarshallSliceOfPointers handles append, slices.Delete, and slices.Insert for slice fields
 func GongUnmarshallSliceOfPointers[T PointerToGongstruct](
 	slice *[]T,
@@ -387,6 +412,7 @@ const (
 	GongAst2SubTmplBasicFieldEnumInt
 	GongAst2SubTmplPointerToStruct
 	GongAst2SubTmplSliceOfPointers
+	GongAst2SubTmplAnyField
 )
 
 var GongAst2FileFieldFieldSubTemplateCode map[GongAst2SubTemplateId]string = // declaration of the sub templates
@@ -424,6 +450,9 @@ map[GongAst2SubTemplateId]string{
 	GongAst2SubTmplSliceOfPointers: `
 	case "{{FieldName}}":
 		GongUnmarshallSliceOfPointers(&instance.{{FieldName}}, valueExpr, identifierMap)`,
+	GongAst2SubTmplAnyField: `
+	case "{{FieldName}}":
+		instance.{{FieldName}} = GongExtractExpr(valueExpr)`,
 }
 
 func GongAst2(modelPkg *models.ModelPkg, pkgPath string) {
@@ -493,6 +522,10 @@ func GongAst2(modelPkg *models.ModelPkg, pkgPath string) {
 					case types.Bool:
 						perFieldCode += models.Replace1(
 							GongAst2FileFieldFieldSubTemplateCode[GongAst2SubTmplBoolField],
+							"{{FieldName}}", field.Name)
+					case types.UntypedNil:
+						perFieldCode += models.Replace1(
+							GongAst2FileFieldFieldSubTemplateCode[GongAst2SubTmplAnyField],
 							"{{FieldName}}", field.Name)
 
 					default:
