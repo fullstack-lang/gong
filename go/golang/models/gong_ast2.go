@@ -394,7 +394,7 @@ map[GongAst2SubTemplateId]string{
 
 	GongAst2SubTmplStringField: `
 	case "{{FieldName}}":
-		instance.Name = GongExtractString(valueExpr)`,
+		instance.{{FieldName}} = GongExtractString(valueExpr)`,
 	GongAst2SubTmplDateField: `
 	case "{{FieldName}}":
 		if bl, ok := valueExpr.(*ast.BasicLit); ok {
