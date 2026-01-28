@@ -615,7 +615,7 @@ func (a *A) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.AOrder {
 			stage.AOrder = order
 		}
-		stage.AMap_Staged_Order[a] = stage.AOrder
+		stage.AMap_Staged_Order[a] = order
 		stage.AOrder++
 	}
 	stage.As_mapString[a.Name] = a
