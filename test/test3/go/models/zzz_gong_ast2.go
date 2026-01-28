@@ -178,6 +178,8 @@ func ParseAstFileFromAst(stage *Stage, inFile *ast.File, fset *token.FileSet, pr
 						if ident, ok := sel.X.(*ast.Ident); ok && ident.Name == "stage" {
 							if stage.IsInDeltaMode() && stage.navigationMode != GongNavigationModeNavigating {
 								stage.Commit()
+							} else {
+								stage.ComputeInstancesNb()
 							}
 						}
 					}
@@ -232,6 +234,31 @@ func GongExtractBool(expr ast.Expr) bool {
 		return ident.Name == "true"
 	}
 	return false
+}
+
+func GongExtractExpr(expr ast.Expr) any {
+	switch v := expr.(type) {
+	case *ast.BasicLit:
+		return v.Value
+	case *ast.CompositeLit:
+		// Reconstruct "Package.Struct{}"
+		if sel, ok := v.Type.(*ast.SelectorExpr); ok {
+			if id, ok := sel.X.(*ast.Ident); ok {
+				return id.Name + "." + sel.Sel.Name + "{}"
+			}
+		}
+	case *ast.SelectorExpr:
+		// Reconstruct "Package.Struct{}.Field"
+		// X is likely a CompositeLit (Package.Struct{})
+		if cl, ok := v.X.(*ast.CompositeLit); ok {
+			if sel, ok := cl.Type.(*ast.SelectorExpr); ok {
+				if id, ok := sel.X.(*ast.Ident); ok {
+					return id.Name + "." + sel.Sel.Name + "{}." + v.Sel.Name
+				}
+			}
+		}
+	}
+	return ""
 }
 
 // GongUnmarshallSliceOfPointers handles append, slices.Delete, and slices.Insert for slice fields
@@ -330,7 +357,7 @@ func (u *AUnmarshaller) Initialize(stage *Stage, identifier string, instanceName
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
-			instance.GongStageForceOrder(stage, newOrder)
+			instance.StagePreserveOrder(stage, newOrder)
 		}
 	}
 	return instance, nil
@@ -377,7 +404,7 @@ func (u *BUnmarshaller) Initialize(stage *Stage, identifier string, instanceName
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
-			instance.GongStageForceOrder(stage, newOrder)
+			instance.StagePreserveOrder(stage, newOrder)
 		}
 	}
 	return instance, nil

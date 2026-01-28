@@ -26,7 +26,6 @@ func NewStager(
 	stager = new(Stager)
 
 	stager.stage = stage
-	stage.SetDeltaMode(true)
 	stager.probeForm = probeForm
 
 	// the root split name is "" by convention. Is is the same for all gong applications
