@@ -701,7 +701,7 @@ func (b *B) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.BOrder {
 			stage.BOrder = order
 		}
-		stage.BMap_Staged_Order[b] = stage.BOrder
+		stage.BMap_Staged_Order[b] = order
 		stage.BOrder++
 	}
 	stage.Bs_mapString[b.Name] = b
