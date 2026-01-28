@@ -290,6 +290,8 @@ func GongUnmarshallSliceOfPointers[T PointerToGongstruct](
 				if ident, ok := call.Args[2].(*ast.Ident); ok {
 					if val, ok := identifierMap[ident.Name]; ok {
 						*slice = slices.Insert(*slice, index, val.(T))
+					} else {
+						log.Println("Ast2 Insert Unkown identifier", ident.Name)
 					}
 				}
 			}
@@ -298,6 +300,8 @@ func GongUnmarshallSliceOfPointers[T PointerToGongstruct](
 				if ident, ok := call.Args[len(call.Args)-1].(*ast.Ident); ok {
 					if val, ok := identifierMap[ident.Name]; ok {
 						*slice = append(*slice, val.(T))
+					} else {
+						log.Println("Ast2 append Unkown identifier", ident.Name)
 					}
 				}
 			}
