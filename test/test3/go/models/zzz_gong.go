@@ -480,6 +480,8 @@ func NewStage(name string) (stage *Stage) {
 			{name: "A"},
 			{name: "B"},
 		}, // end of insertion point
+
+		navigationMode: GongNavigationModeNormal,
 	}
 
 	return
@@ -619,24 +621,6 @@ func (a *A) StagePreserveOrder(stage *Stage, order uint) {
 	stage.As_mapString[a.Name] = a
 }
 
-// GongStageForceOrder methods stages a
-//
-// but if the order is below the current max order for this
-// struct, it reuses the order and does not increment
-func (a *A) GongStageForceOrder(stage *Stage, order uint) {
-
-	if order >= stage.AOrder {
-		a.StageVoid(stage)
-		return
-	}
-
-	if _, ok := stage.As[a]; !ok {
-		stage.As[a] = struct{}{}
-		stage.AMap_Staged_Order[a] = order
-	}
-	stage.As_mapString[a.Name] = a
-}
-
 // Unstage removes a off the model stage
 func (a *A) Unstage(stage *Stage) *A {
 	delete(stage.As, a)
@@ -719,24 +703,6 @@ func (b *B) StagePreserveOrder(stage *Stage, order uint) {
 		}
 		stage.BMap_Staged_Order[b] = stage.BOrder
 		stage.BOrder++
-	}
-	stage.Bs_mapString[b.Name] = b
-}
-
-// GongStageForceOrder methods stages b
-//
-// but if the order is below the current max order for this
-// struct, it reuses the order and does not increment
-func (b *B) GongStageForceOrder(stage *Stage, order uint) {
-
-	if order >= stage.BOrder {
-		b.StageVoid(stage)
-		return
-	}
-
-	if _, ok := stage.Bs[b]; !ok {
-		stage.Bs[b] = struct{}{}
-		stage.BMap_Staged_Order[b] = order
 	}
 	stage.Bs_mapString[b.Name] = b
 }

@@ -132,6 +132,7 @@ func NewProbe(
 			},
 			{
 				Name: "both tables",
+				Size: 50,
 				AsSplit: &split.AsSplit{
 					Direction: split.Vertical,
 					AsSplitAreas: []*split.AsSplitArea{

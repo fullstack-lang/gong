@@ -158,24 +158,6 @@ func ({{structname}} *{{Structname}}) StagePreserveOrder(stage *Stage, order uin
 	stage.{{Structname}}s_mapString[{{structname}}.Name] = {{structname}}
 }
 
-// GongStageForceOrder methods stages {{structname}}
-//
-// but if the order is below the current max order for this
-// struct, it reuses the order and does not increment
-func ({{structname}} *{{Structname}}) GongStageForceOrder(stage *Stage, order uint) {
-
-	if order >= stage.{{Structname}}Order {
-		{{structname}}.StageVoid(stage)
-		return
-	}
-
-	if _, ok := stage.{{Structname}}s[{{structname}}]; !ok {
-		stage.{{Structname}}s[{{structname}}] = struct{}{}
-		stage.{{Structname}}Map_Staged_Order[{{structname}}] = order
-	}
-	stage.{{Structname}}s_mapString[{{structname}}.Name] = {{structname}}
-}
-
 // Unstage removes {{structname}} off the model stage
 func ({{structname}} *{{Structname}}) Unstage(stage *Stage) *{{Structname}} {
 	delete(stage.{{Structname}}s, {{structname}})

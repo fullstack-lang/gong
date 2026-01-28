@@ -40,7 +40,7 @@ func updateAndCommitTree(
 	topNode := &tree.Node{Name: fmt.Sprintf("Stage %s", stageOfInterest.GetName())}
 
 	if stageOfInterest.IsInDeltaMode() {
-		topNode.Name += " (Delta Mode) " + fmt.Sprintf("history %d, depth %d",
+		topNode.Name += fmt.Sprintf("(h %d, d %d)",
 			len(stageOfInterest.GetBackwardCommits()),
 			stageOfInterest.GetNbBackwardCommits())
 

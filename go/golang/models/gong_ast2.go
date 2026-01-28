@@ -382,7 +382,7 @@ func (u *{{Structname}}Unmarshaller) Initialize(stage *Stage, identifier string,
 			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 			instance.Stage(stage)
 		} else {
-			instance.GongStageForceOrder(stage, newOrder)
+			instance.StagePreserveOrder(stage, newOrder)
 		}
 	}
 	return instance, nil
