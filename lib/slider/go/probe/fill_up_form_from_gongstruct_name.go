@@ -7,6 +7,42 @@ import (
 	"github.com/fullstack-lang/gong/lib/slider/go/models"
 )
 
+// updateFillUpForm updates the current form if there is one
+func (probe *Probe) updateFillUpForm() {
+	var formGroup *form.FormGroup
+	for fg := range probe.formStage.FormGroups {
+		formGroup = fg
+	}
+	if formGroup != nil {
+		switch onSave := formGroup.OnSave.(type) { // insertion point
+		case *CheckboxFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Checkbox", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.checkbox, probe)
+			}
+		case *GroupFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Group", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.group, probe)
+			}
+		case *LayoutFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Layout", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.layout, probe)
+			}
+		case *SliderFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Slider", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.slider, probe)
+			}
+		}
+	}
+}
+
 func FillUpFormFromGongstructName(
 	probe *Probe,
 	gongstructName string,

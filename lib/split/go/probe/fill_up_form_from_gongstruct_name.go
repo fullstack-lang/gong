@@ -7,6 +7,132 @@ import (
 	"github.com/fullstack-lang/gong/lib/split/go/models"
 )
 
+// updateFillUpForm updates the current form if there is one
+func (probe *Probe) updateFillUpForm() {
+	var formGroup *form.FormGroup
+	for fg := range probe.formStage.FormGroups {
+		formGroup = fg
+	}
+	if formGroup != nil {
+		switch onSave := formGroup.OnSave.(type) { // insertion point
+		case *AsSplitFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "AsSplit", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.assplit, probe)
+			}
+		case *AsSplitAreaFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "AsSplitArea", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.assplitarea, probe)
+			}
+		case *ButtonFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Button", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.button, probe)
+			}
+		case *CursorFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Cursor", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.cursor, probe)
+			}
+		case *FavIconFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "FavIcon", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.favicon, probe)
+			}
+		case *FormFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Form", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.form, probe)
+			}
+		case *LoadFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Load", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.load, probe)
+			}
+		case *LogoOnTheLeftFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "LogoOnTheLeft", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.logoontheleft, probe)
+			}
+		case *LogoOnTheRightFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "LogoOnTheRight", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.logoontheright, probe)
+			}
+		case *MarkdownFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Markdown", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.markdown, probe)
+			}
+		case *SliderFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Slider", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.slider, probe)
+			}
+		case *SplitFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Split", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.split, probe)
+			}
+		case *SvgFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Svg", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.svg, probe)
+			}
+		case *TableFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Table", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.table, probe)
+			}
+		case *TitleFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Title", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.title, probe)
+			}
+		case *ToneFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Tone", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.tone, probe)
+			}
+		case *TreeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Tree", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.tree, probe)
+			}
+		case *ViewFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "View", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.view, probe)
+			}
+		case *XlsxFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Xlsx", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.xlsx, probe)
+			}
+		}
+	}
+}
+
 func FillUpFormFromGongstructName(
 	probe *Probe,
 	gongstructName string,

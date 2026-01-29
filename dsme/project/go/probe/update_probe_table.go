@@ -14,6 +14,47 @@ import (
 
 const TableName = "Table"
 
+// update the current table if there is one
+func updateCurrentProbeTable(probe *Probe) {
+	var tableName string
+	for table := range probe.tableStage.Tables {
+		tableName = table.Name
+	}
+	switch tableName {
+	// insertion point
+	case "Diagram":
+		updateProbeTable[*models.Diagram](probe)
+	case "Note":
+		updateProbeTable[*models.Note](probe)
+	case "NoteProductShape":
+		updateProbeTable[*models.NoteProductShape](probe)
+	case "NoteShape":
+		updateProbeTable[*models.NoteShape](probe)
+	case "NoteTaskShape":
+		updateProbeTable[*models.NoteTaskShape](probe)
+	case "Product":
+		updateProbeTable[*models.Product](probe)
+	case "ProductCompositionShape":
+		updateProbeTable[*models.ProductCompositionShape](probe)
+	case "ProductShape":
+		updateProbeTable[*models.ProductShape](probe)
+	case "Project":
+		updateProbeTable[*models.Project](probe)
+	case "Root":
+		updateProbeTable[*models.Root](probe)
+	case "Task":
+		updateProbeTable[*models.Task](probe)
+	case "TaskCompositionShape":
+		updateProbeTable[*models.TaskCompositionShape](probe)
+	case "TaskInputShape":
+		updateProbeTable[*models.TaskInputShape](probe)
+	case "TaskOutputShape":
+		updateProbeTable[*models.TaskOutputShape](probe)
+	case "TaskShape":
+		updateProbeTable[*models.TaskShape](probe)
+	}
+}
+
 func updateProbeTable[T models.PointerToGongstruct](
 	probe *Probe,
 ) {
@@ -21,7 +62,7 @@ func updateProbeTable[T models.PointerToGongstruct](
 	probe.tableStage.Reset()
 
 	table := new(gongtable.Table)
-	table.Name = TableName
+	table.Name = models.GetPointerToGongstructName[T]()
 	table.HasColumnSorting = true
 	table.HasFiltering = true
 	table.HasPaginator = true
