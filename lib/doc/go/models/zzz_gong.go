@@ -277,6 +277,84 @@ type Stage struct {
 
 	forwardCommits  []string
 	backwardCommits []string
+
+	// when navigating the commit history
+	// navigationMode is set to Navigating
+	navigationMode    gongStageNavigationMode
+	nbCommitsBackward int // the number of backward commits that have been applied
+}
+
+type gongStageNavigationMode string
+
+const (
+	GongNavigationModeNormal gongStageNavigationMode = "Normal"
+	// when the mode is navigating, each commit backward and forward
+	// it is possible to go apply the nbCommitsBackward forward commits
+	GongNavigationModeNavigating gongStageNavigationMode = "Navigating"
+)
+
+// ApplyBackwardCommit applies the commit before the current one
+func (stage *Stage) ApplyBackwardCommit() error {
+
+	if len(stage.backwardCommits) == 0 {
+		return errors.New("no backward commit to apply")
+	}
+
+	if stage.navigationMode == GongNavigationModeNormal && stage.nbCommitsBackward != 0 {
+		return errors.New("in navigation mode normal, cannot have have nbCommitsBackward != 0")
+	}
+
+	if stage.navigationMode == GongNavigationModeNormal {
+		stage.navigationMode = GongNavigationModeNavigating
+	}
+
+	if stage.nbCommitsBackward >= len(stage.backwardCommits) {
+		return errors.New("no more backward commit to apply")
+	}
+
+	commitToApply := stage.backwardCommits[len(stage.backwardCommits)-1-stage.nbCommitsBackward]
+
+	// umarshall the backward commit to the stage
+	err := GongParseAstString(stage, commitToApply, true)
+	if err != nil {
+		log.Println("error during ApplyBackwardCommit: ", err)
+		return err
+	}
+
+	stage.nbCommitsBackward++
+
+	return nil
+}
+
+func (stage *Stage) GetForwardCommits() []string {
+	return stage.forwardCommits
+}
+
+func (stage *Stage) GetBackwardCommits() []string {
+	return stage.backwardCommits
+}
+
+func (stage *Stage) ApplyForwardCommit() error {
+	if stage.navigationMode == GongNavigationModeNormal && stage.nbCommitsBackward != 0 {
+		return errors.New("in navigation mode normal, cannot have have nbCommitsBackward != 0")
+	}
+
+	if stage.nbCommitsBackward == 0 {
+		return errors.New("no more forward commit to apply")
+	}
+
+	commitToApply := stage.forwardCommits[len(stage.forwardCommits)-1-stage.nbCommitsBackward+1]
+	err := GongParseAstString(stage, commitToApply, true)
+	if err != nil {
+		log.Println("error during ApplyBackwardCommit: ", err)
+		return err
+	}
+	stage.nbCommitsBackward--
+	return nil
+}
+
+func (stage *Stage) GetNbBackwardCommits() int {
+	return stage.nbCommitsBackward
 }
 
 func (stage *Stage) ResetCommits() {
@@ -288,7 +366,7 @@ func (stage *Stage) SetDeltaMode(inDeltaMode bool) {
 	stage.isInDeltaMode = inDeltaMode
 }
 
-func (stage *Stage) IsDeltaMode() bool {
+func (stage *Stage) IsInDeltaMode() bool {
 	return stage.isInDeltaMode
 }
 
@@ -297,6 +375,10 @@ func (stage *Stage) SetProbeIF(probeIF ProbeIF) {
 }
 
 func (stage *Stage) GetProbeIF() ProbeIF {
+    if stage.probeIF == nil {
+        return nil
+    }
+
 	return stage.probeIF
 }
 
@@ -665,24 +747,25 @@ func NewStage(name string) (stage *Stage) {
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
 			"AttributeShape": &AttributeShapeUnmarshaller{},
-	
+
 			"Classdiagram": &ClassdiagramUnmarshaller{},
-	
+
 			"DiagramPackage": &DiagramPackageUnmarshaller{},
-	
+
 			"GongEnumShape": &GongEnumShapeUnmarshaller{},
-	
+
 			"GongEnumValueShape": &GongEnumValueShapeUnmarshaller{},
-	
+
 			"GongNoteLinkShape": &GongNoteLinkShapeUnmarshaller{},
-	
+
 			"GongNoteShape": &GongNoteShapeUnmarshaller{},
-	
+
 			"GongStructShape": &GongStructShapeUnmarshaller{},
-	
+
 			"LinkShape": &LinkShapeUnmarshaller{},
-	
-		}, // end of insertion point
+
+			// end of insertion point
+		},
 
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
 			{name: "AttributeShape"},
@@ -695,6 +778,8 @@ func NewStage(name string) (stage *Stage) {
 			{name: "GongStructShape"},
 			{name: "LinkShape"},
 		}, // end of insertion point
+
+		navigationMode: GongNavigationModeNormal,
 	}
 
 	return
@@ -780,9 +865,12 @@ func (stage *Stage) Commit() {
 		stage.BackRepo.Commit(stage)
 	}
 	stage.ComputeInstancesNb()
-	if stage.IsDeltaMode() {
+	if stage.IsInDeltaMode() {
 		stage.ComputeDifference()
 		stage.ComputeReference()
+		if stage.GetProbeIF() != nil {
+			stage.GetProbeIF().Refresh()
+		}
 	}
 }
 
@@ -863,7 +951,7 @@ func (attributeshape *AttributeShape) StagePreserveOrder(stage *Stage, order uin
 		if order > stage.AttributeShapeOrder {
 			stage.AttributeShapeOrder = order
 		}
-		stage.AttributeShapeMap_Staged_Order[attributeshape] = stage.AttributeShapeOrder
+		stage.AttributeShapeMap_Staged_Order[attributeshape] = order
 		stage.AttributeShapeOrder++
 	}
 	stage.AttributeShapes_mapString[attributeshape.Name] = attributeshape
@@ -949,7 +1037,7 @@ func (classdiagram *Classdiagram) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.ClassdiagramOrder {
 			stage.ClassdiagramOrder = order
 		}
-		stage.ClassdiagramMap_Staged_Order[classdiagram] = stage.ClassdiagramOrder
+		stage.ClassdiagramMap_Staged_Order[classdiagram] = order
 		stage.ClassdiagramOrder++
 	}
 	stage.Classdiagrams_mapString[classdiagram.Name] = classdiagram
@@ -1035,7 +1123,7 @@ func (diagrampackage *DiagramPackage) StagePreserveOrder(stage *Stage, order uin
 		if order > stage.DiagramPackageOrder {
 			stage.DiagramPackageOrder = order
 		}
-		stage.DiagramPackageMap_Staged_Order[diagrampackage] = stage.DiagramPackageOrder
+		stage.DiagramPackageMap_Staged_Order[diagrampackage] = order
 		stage.DiagramPackageOrder++
 	}
 	stage.DiagramPackages_mapString[diagrampackage.Name] = diagrampackage
@@ -1121,7 +1209,7 @@ func (gongenumshape *GongEnumShape) StagePreserveOrder(stage *Stage, order uint)
 		if order > stage.GongEnumShapeOrder {
 			stage.GongEnumShapeOrder = order
 		}
-		stage.GongEnumShapeMap_Staged_Order[gongenumshape] = stage.GongEnumShapeOrder
+		stage.GongEnumShapeMap_Staged_Order[gongenumshape] = order
 		stage.GongEnumShapeOrder++
 	}
 	stage.GongEnumShapes_mapString[gongenumshape.Name] = gongenumshape
@@ -1207,7 +1295,7 @@ func (gongenumvalueshape *GongEnumValueShape) StagePreserveOrder(stage *Stage, o
 		if order > stage.GongEnumValueShapeOrder {
 			stage.GongEnumValueShapeOrder = order
 		}
-		stage.GongEnumValueShapeMap_Staged_Order[gongenumvalueshape] = stage.GongEnumValueShapeOrder
+		stage.GongEnumValueShapeMap_Staged_Order[gongenumvalueshape] = order
 		stage.GongEnumValueShapeOrder++
 	}
 	stage.GongEnumValueShapes_mapString[gongenumvalueshape.Name] = gongenumvalueshape
@@ -1293,7 +1381,7 @@ func (gongnotelinkshape *GongNoteLinkShape) StagePreserveOrder(stage *Stage, ord
 		if order > stage.GongNoteLinkShapeOrder {
 			stage.GongNoteLinkShapeOrder = order
 		}
-		stage.GongNoteLinkShapeMap_Staged_Order[gongnotelinkshape] = stage.GongNoteLinkShapeOrder
+		stage.GongNoteLinkShapeMap_Staged_Order[gongnotelinkshape] = order
 		stage.GongNoteLinkShapeOrder++
 	}
 	stage.GongNoteLinkShapes_mapString[gongnotelinkshape.Name] = gongnotelinkshape
@@ -1379,7 +1467,7 @@ func (gongnoteshape *GongNoteShape) StagePreserveOrder(stage *Stage, order uint)
 		if order > stage.GongNoteShapeOrder {
 			stage.GongNoteShapeOrder = order
 		}
-		stage.GongNoteShapeMap_Staged_Order[gongnoteshape] = stage.GongNoteShapeOrder
+		stage.GongNoteShapeMap_Staged_Order[gongnoteshape] = order
 		stage.GongNoteShapeOrder++
 	}
 	stage.GongNoteShapes_mapString[gongnoteshape.Name] = gongnoteshape
@@ -1465,7 +1553,7 @@ func (gongstructshape *GongStructShape) StagePreserveOrder(stage *Stage, order u
 		if order > stage.GongStructShapeOrder {
 			stage.GongStructShapeOrder = order
 		}
-		stage.GongStructShapeMap_Staged_Order[gongstructshape] = stage.GongStructShapeOrder
+		stage.GongStructShapeMap_Staged_Order[gongstructshape] = order
 		stage.GongStructShapeOrder++
 	}
 	stage.GongStructShapes_mapString[gongstructshape.Name] = gongstructshape
@@ -1551,7 +1639,7 @@ func (linkshape *LinkShape) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.LinkShapeOrder {
 			stage.LinkShapeOrder = order
 		}
-		stage.LinkShapeMap_Staged_Order[linkshape] = stage.LinkShapeOrder
+		stage.LinkShapeMap_Staged_Order[linkshape] = order
 		stage.LinkShapeOrder++
 	}
 	stage.LinkShapes_mapString[linkshape.Name] = linkshape
@@ -1685,7 +1773,7 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
 	}
-	if stage.IsDeltaMode() {
+	if stage.IsInDeltaMode() {
 		stage.ComputeReference()
 	}
 }

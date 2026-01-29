@@ -132,6 +132,7 @@ func NewProbe(
 			},
 			{
 				Name: "both tables",
+				Size: 50,
 				AsSplit: &split.AsSplit{
 					Direction: split.Vertical,
 					AsSplitAreas: []*split.AsSplitArea{
@@ -185,6 +186,8 @@ func NewProbe(
 
 func (probe *Probe) Refresh() {
 	updateAndCommitTree(probe)
+	updateCurrentProbeTable(probe)
+	probe.updateFillUpForm()
 	probe.docStager.UpdateAndCommitSVGStage()
 }
 

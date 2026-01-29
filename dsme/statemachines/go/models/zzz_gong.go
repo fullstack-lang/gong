@@ -373,6 +373,84 @@ type Stage struct {
 
 	forwardCommits  []string
 	backwardCommits []string
+
+	// when navigating the commit history
+	// navigationMode is set to Navigating
+	navigationMode    gongStageNavigationMode
+	nbCommitsBackward int // the number of backward commits that have been applied
+}
+
+type gongStageNavigationMode string
+
+const (
+	GongNavigationModeNormal gongStageNavigationMode = "Normal"
+	// when the mode is navigating, each commit backward and forward
+	// it is possible to go apply the nbCommitsBackward forward commits
+	GongNavigationModeNavigating gongStageNavigationMode = "Navigating"
+)
+
+// ApplyBackwardCommit applies the commit before the current one
+func (stage *Stage) ApplyBackwardCommit() error {
+
+	if len(stage.backwardCommits) == 0 {
+		return errors.New("no backward commit to apply")
+	}
+
+	if stage.navigationMode == GongNavigationModeNormal && stage.nbCommitsBackward != 0 {
+		return errors.New("in navigation mode normal, cannot have have nbCommitsBackward != 0")
+	}
+
+	if stage.navigationMode == GongNavigationModeNormal {
+		stage.navigationMode = GongNavigationModeNavigating
+	}
+
+	if stage.nbCommitsBackward >= len(stage.backwardCommits) {
+		return errors.New("no more backward commit to apply")
+	}
+
+	commitToApply := stage.backwardCommits[len(stage.backwardCommits)-1-stage.nbCommitsBackward]
+
+	// umarshall the backward commit to the stage
+	err := GongParseAstString(stage, commitToApply, true)
+	if err != nil {
+		log.Println("error during ApplyBackwardCommit: ", err)
+		return err
+	}
+
+	stage.nbCommitsBackward++
+
+	return nil
+}
+
+func (stage *Stage) GetForwardCommits() []string {
+	return stage.forwardCommits
+}
+
+func (stage *Stage) GetBackwardCommits() []string {
+	return stage.backwardCommits
+}
+
+func (stage *Stage) ApplyForwardCommit() error {
+	if stage.navigationMode == GongNavigationModeNormal && stage.nbCommitsBackward != 0 {
+		return errors.New("in navigation mode normal, cannot have have nbCommitsBackward != 0")
+	}
+
+	if stage.nbCommitsBackward == 0 {
+		return errors.New("no more forward commit to apply")
+	}
+
+	commitToApply := stage.forwardCommits[len(stage.forwardCommits)-1-stage.nbCommitsBackward+1]
+	err := GongParseAstString(stage, commitToApply, true)
+	if err != nil {
+		log.Println("error during ApplyBackwardCommit: ", err)
+		return err
+	}
+	stage.nbCommitsBackward--
+	return nil
+}
+
+func (stage *Stage) GetNbBackwardCommits() int {
+	return stage.nbCommitsBackward
 }
 
 func (stage *Stage) ResetCommits() {
@@ -384,7 +462,7 @@ func (stage *Stage) SetDeltaMode(inDeltaMode bool) {
 	stage.isInDeltaMode = inDeltaMode
 }
 
-func (stage *Stage) IsDeltaMode() bool {
+func (stage *Stage) IsInDeltaMode() bool {
 	return stage.isInDeltaMode
 }
 
@@ -393,6 +471,10 @@ func (stage *Stage) SetProbeIF(probeIF ProbeIF) {
 }
 
 func (stage *Stage) GetProbeIF() ProbeIF {
+    if stage.probeIF == nil {
+        return nil
+    }
+
 	return stage.probeIF
 }
 
@@ -899,36 +981,37 @@ func NewStage(name string) (stage *Stage) {
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
 			"Action": &ActionUnmarshaller{},
-	
+
 			"Activities": &ActivitiesUnmarshaller{},
-	
+
 			"Architecture": &ArchitectureUnmarshaller{},
-	
+
 			"Diagram": &DiagramUnmarshaller{},
-	
+
 			"Guard": &GuardUnmarshaller{},
-	
+
 			"Kill": &KillUnmarshaller{},
-	
+
 			"Message": &MessageUnmarshaller{},
-	
+
 			"MessageType": &MessageTypeUnmarshaller{},
-	
+
 			"Object": &ObjectUnmarshaller{},
-	
+
 			"Role": &RoleUnmarshaller{},
-	
+
 			"State": &StateUnmarshaller{},
-	
+
 			"StateMachine": &StateMachineUnmarshaller{},
-	
+
 			"StateShape": &StateShapeUnmarshaller{},
-	
+
 			"Transition": &TransitionUnmarshaller{},
-	
+
 			"Transition_Shape": &Transition_ShapeUnmarshaller{},
-	
-		}, // end of insertion point
+
+			// end of insertion point
+		},
 
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
 			{name: "Action"},
@@ -947,6 +1030,8 @@ func NewStage(name string) (stage *Stage) {
 			{name: "Transition"},
 			{name: "Transition_Shape"},
 		}, // end of insertion point
+
+		navigationMode: GongNavigationModeNormal,
 	}
 
 	return
@@ -1056,9 +1141,12 @@ func (stage *Stage) Commit() {
 		stage.BackRepo.Commit(stage)
 	}
 	stage.ComputeInstancesNb()
-	if stage.IsDeltaMode() {
+	if stage.IsInDeltaMode() {
 		stage.ComputeDifference()
 		stage.ComputeReference()
+		if stage.GetProbeIF() != nil {
+			stage.GetProbeIF().Refresh()
+		}
 	}
 }
 
@@ -1145,7 +1233,7 @@ func (action *Action) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.ActionOrder {
 			stage.ActionOrder = order
 		}
-		stage.ActionMap_Staged_Order[action] = stage.ActionOrder
+		stage.ActionMap_Staged_Order[action] = order
 		stage.ActionOrder++
 	}
 	stage.Actions_mapString[action.Name] = action
@@ -1231,7 +1319,7 @@ func (activities *Activities) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.ActivitiesOrder {
 			stage.ActivitiesOrder = order
 		}
-		stage.ActivitiesMap_Staged_Order[activities] = stage.ActivitiesOrder
+		stage.ActivitiesMap_Staged_Order[activities] = order
 		stage.ActivitiesOrder++
 	}
 	stage.Activitiess_mapString[activities.Name] = activities
@@ -1317,7 +1405,7 @@ func (architecture *Architecture) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.ArchitectureOrder {
 			stage.ArchitectureOrder = order
 		}
-		stage.ArchitectureMap_Staged_Order[architecture] = stage.ArchitectureOrder
+		stage.ArchitectureMap_Staged_Order[architecture] = order
 		stage.ArchitectureOrder++
 	}
 	stage.Architectures_mapString[architecture.Name] = architecture
@@ -1403,7 +1491,7 @@ func (diagram *Diagram) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.DiagramOrder {
 			stage.DiagramOrder = order
 		}
-		stage.DiagramMap_Staged_Order[diagram] = stage.DiagramOrder
+		stage.DiagramMap_Staged_Order[diagram] = order
 		stage.DiagramOrder++
 	}
 	stage.Diagrams_mapString[diagram.Name] = diagram
@@ -1489,7 +1577,7 @@ func (guard *Guard) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.GuardOrder {
 			stage.GuardOrder = order
 		}
-		stage.GuardMap_Staged_Order[guard] = stage.GuardOrder
+		stage.GuardMap_Staged_Order[guard] = order
 		stage.GuardOrder++
 	}
 	stage.Guards_mapString[guard.Name] = guard
@@ -1575,7 +1663,7 @@ func (kill *Kill) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.KillOrder {
 			stage.KillOrder = order
 		}
-		stage.KillMap_Staged_Order[kill] = stage.KillOrder
+		stage.KillMap_Staged_Order[kill] = order
 		stage.KillOrder++
 	}
 	stage.Kills_mapString[kill.Name] = kill
@@ -1661,7 +1749,7 @@ func (message *Message) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.MessageOrder {
 			stage.MessageOrder = order
 		}
-		stage.MessageMap_Staged_Order[message] = stage.MessageOrder
+		stage.MessageMap_Staged_Order[message] = order
 		stage.MessageOrder++
 	}
 	stage.Messages_mapString[message.Name] = message
@@ -1747,7 +1835,7 @@ func (messagetype *MessageType) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.MessageTypeOrder {
 			stage.MessageTypeOrder = order
 		}
-		stage.MessageTypeMap_Staged_Order[messagetype] = stage.MessageTypeOrder
+		stage.MessageTypeMap_Staged_Order[messagetype] = order
 		stage.MessageTypeOrder++
 	}
 	stage.MessageTypes_mapString[messagetype.Name] = messagetype
@@ -1833,7 +1921,7 @@ func (object *Object) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.ObjectOrder {
 			stage.ObjectOrder = order
 		}
-		stage.ObjectMap_Staged_Order[object] = stage.ObjectOrder
+		stage.ObjectMap_Staged_Order[object] = order
 		stage.ObjectOrder++
 	}
 	stage.Objects_mapString[object.Name] = object
@@ -1919,7 +2007,7 @@ func (role *Role) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.RoleOrder {
 			stage.RoleOrder = order
 		}
-		stage.RoleMap_Staged_Order[role] = stage.RoleOrder
+		stage.RoleMap_Staged_Order[role] = order
 		stage.RoleOrder++
 	}
 	stage.Roles_mapString[role.Name] = role
@@ -2005,7 +2093,7 @@ func (state *State) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.StateOrder {
 			stage.StateOrder = order
 		}
-		stage.StateMap_Staged_Order[state] = stage.StateOrder
+		stage.StateMap_Staged_Order[state] = order
 		stage.StateOrder++
 	}
 	stage.States_mapString[state.Name] = state
@@ -2091,7 +2179,7 @@ func (statemachine *StateMachine) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.StateMachineOrder {
 			stage.StateMachineOrder = order
 		}
-		stage.StateMachineMap_Staged_Order[statemachine] = stage.StateMachineOrder
+		stage.StateMachineMap_Staged_Order[statemachine] = order
 		stage.StateMachineOrder++
 	}
 	stage.StateMachines_mapString[statemachine.Name] = statemachine
@@ -2177,7 +2265,7 @@ func (stateshape *StateShape) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.StateShapeOrder {
 			stage.StateShapeOrder = order
 		}
-		stage.StateShapeMap_Staged_Order[stateshape] = stage.StateShapeOrder
+		stage.StateShapeMap_Staged_Order[stateshape] = order
 		stage.StateShapeOrder++
 	}
 	stage.StateShapes_mapString[stateshape.Name] = stateshape
@@ -2263,7 +2351,7 @@ func (transition *Transition) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.TransitionOrder {
 			stage.TransitionOrder = order
 		}
-		stage.TransitionMap_Staged_Order[transition] = stage.TransitionOrder
+		stage.TransitionMap_Staged_Order[transition] = order
 		stage.TransitionOrder++
 	}
 	stage.Transitions_mapString[transition.Name] = transition
@@ -2349,7 +2437,7 @@ func (transition_shape *Transition_Shape) StagePreserveOrder(stage *Stage, order
 		if order > stage.Transition_ShapeOrder {
 			stage.Transition_ShapeOrder = order
 		}
-		stage.Transition_ShapeMap_Staged_Order[transition_shape] = stage.Transition_ShapeOrder
+		stage.Transition_ShapeMap_Staged_Order[transition_shape] = order
 		stage.Transition_ShapeOrder++
 	}
 	stage.Transition_Shapes_mapString[transition_shape.Name] = transition_shape
@@ -2525,7 +2613,7 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
 	}
-	if stage.IsDeltaMode() {
+	if stage.IsInDeltaMode() {
 		stage.ComputeReference()
 	}
 }

@@ -152,7 +152,7 @@ func ({{structname}} *{{Structname}}) StagePreserveOrder(stage *Stage, order uin
 		if order > stage.{{Structname}}Order {
 			stage.{{Structname}}Order = order
 		}
-		stage.{{Structname}}Map_Staged_Order[{{structname}}] = stage.{{Structname}}Order
+		stage.{{Structname}}Map_Staged_Order[{{structname}}] = order
 		stage.{{Structname}}Order++
 	}
 	stage.{{Structname}}s_mapString[{{structname}}.Name] = {{structname}}
@@ -348,7 +348,7 @@ func ({{structname}} *{{Structname}}) SetName(name string) {
 
 	ModelGongNamedStructsUnmarshallers: `
 			"{{Structname}}": &{{Structname}}Unmarshaller{},
-	`,
+`,
 
 	ModelGongNamedStructsSliceInit: `
 			{name: "{{Structname}}"},`,

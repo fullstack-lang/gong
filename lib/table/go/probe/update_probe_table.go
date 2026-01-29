@@ -14,6 +14,63 @@ import (
 
 const TableName = "Table"
 
+// update the current table if there is one
+func updateCurrentProbeTable(probe *Probe) {
+	var tableName string
+	for table := range probe.tableStage.Tables {
+		tableName = table.Name
+	}
+	switch tableName {
+	// insertion point
+	case "Cell":
+		updateProbeTable[*models.Cell](probe)
+	case "CellBoolean":
+		updateProbeTable[*models.CellBoolean](probe)
+	case "CellFloat64":
+		updateProbeTable[*models.CellFloat64](probe)
+	case "CellIcon":
+		updateProbeTable[*models.CellIcon](probe)
+	case "CellInt":
+		updateProbeTable[*models.CellInt](probe)
+	case "CellString":
+		updateProbeTable[*models.CellString](probe)
+	case "CheckBox":
+		updateProbeTable[*models.CheckBox](probe)
+	case "DisplayedColumn":
+		updateProbeTable[*models.DisplayedColumn](probe)
+	case "FormDiv":
+		updateProbeTable[*models.FormDiv](probe)
+	case "FormEditAssocButton":
+		updateProbeTable[*models.FormEditAssocButton](probe)
+	case "FormField":
+		updateProbeTable[*models.FormField](probe)
+	case "FormFieldDate":
+		updateProbeTable[*models.FormFieldDate](probe)
+	case "FormFieldDateTime":
+		updateProbeTable[*models.FormFieldDateTime](probe)
+	case "FormFieldFloat64":
+		updateProbeTable[*models.FormFieldFloat64](probe)
+	case "FormFieldInt":
+		updateProbeTable[*models.FormFieldInt](probe)
+	case "FormFieldSelect":
+		updateProbeTable[*models.FormFieldSelect](probe)
+	case "FormFieldString":
+		updateProbeTable[*models.FormFieldString](probe)
+	case "FormFieldTime":
+		updateProbeTable[*models.FormFieldTime](probe)
+	case "FormGroup":
+		updateProbeTable[*models.FormGroup](probe)
+	case "FormSortAssocButton":
+		updateProbeTable[*models.FormSortAssocButton](probe)
+	case "Option":
+		updateProbeTable[*models.Option](probe)
+	case "Row":
+		updateProbeTable[*models.Row](probe)
+	case "Table":
+		updateProbeTable[*models.Table](probe)
+	}
+}
+
 func updateProbeTable[T models.PointerToGongstruct](
 	probe *Probe,
 ) {
@@ -21,7 +78,7 @@ func updateProbeTable[T models.PointerToGongstruct](
 	probe.tableStage.Reset()
 
 	table := new(gongtable.Table)
-	table.Name = TableName
+	table.Name = models.GetPointerToGongstructName[T]()
 	table.HasColumnSorting = true
 	table.HasFiltering = true
 	table.HasPaginator = true

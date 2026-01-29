@@ -7,6 +7,48 @@ import (
 	"github.com/fullstack-lang/gong/lib/button/go/models"
 )
 
+// updateFillUpForm updates the current form if there is one
+func (probe *Probe) updateFillUpForm() {
+	var formGroup *form.FormGroup
+	for fg := range probe.formStage.FormGroups {
+		formGroup = fg
+	}
+	if formGroup != nil {
+		switch onSave := formGroup.OnSave.(type) { // insertion point
+		case *ButtonFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Button", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.button, probe)
+			}
+		case *ButtonToggleFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "ButtonToggle", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.buttontoggle, probe)
+			}
+		case *GroupFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Group", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.group, probe)
+			}
+		case *GroupToogleFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "GroupToogle", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.grouptoogle, probe)
+			}
+		case *LayoutFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Layout", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.layout, probe)
+			}
+		}
+	}
+}
+
 func FillUpFormFromGongstructName(
 	probe *Probe,
 	gongstructName string,

@@ -97,19 +97,20 @@ func createViews(stager *Stager, stage *Stage) {
 	})
 
 	split.StageBranch(stager.splitStage, &split.View{
-		Name:      "All",
-		Direction: split.Horizontal,
+		Name:           "All",
+		Direction:      split.Horizontal,
+		IsSelectedView: true,
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
 				Name:             "Sidebar with both trees",
 				ShowNameInHeader: false,
-				Size:             62,
+				Size:             35,
 				AsSplit: &split.AsSplit{
 					Name:      "as split",
 					Direction: split.Horizontal,
 					AsSplitAreas: []*split.AsSplitArea{
 						{
-							Size: 38,
+							Size: 50,
 							AsSplit: &split.AsSplit{
 								Direction: split.Vertical,
 								AsSplitAreas: []*split.AsSplitArea{
@@ -125,7 +126,7 @@ func createViews(stager *Stager, stage *Stage) {
 							},
 						},
 						{
-							Size: 62,
+							Size: 50,
 							Svg: &split.Svg{
 								StackName: stager.svgStage.GetName(),
 							},
@@ -134,7 +135,7 @@ func createViews(stager *Stager, stage *Stage) {
 				},
 			},
 			{
-				Size: 38,
+				Size: 65,
 				Split: &split.Split{
 					StackName: stage.GetProbeSplitStageName(),
 				},

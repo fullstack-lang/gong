@@ -7,6 +7,36 @@ import (
 	"github.com/fullstack-lang/gong/lib/tone/go/models"
 )
 
+// updateFillUpForm updates the current form if there is one
+func (probe *Probe) updateFillUpForm() {
+	var formGroup *form.FormGroup
+	for fg := range probe.formStage.FormGroups {
+		formGroup = fg
+	}
+	if formGroup != nil {
+		switch onSave := formGroup.OnSave.(type) { // insertion point
+		case *FreqencyFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Freqency", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.freqency, probe)
+			}
+		case *NoteFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Note", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.note, probe)
+			}
+		case *PlayerFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Player", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.player, probe)
+			}
+		}
+	}
+}
+
 func FillUpFormFromGongstructName(
 	probe *Probe,
 	gongstructName string,

@@ -115,10 +115,42 @@ func NewLevel1Stack(
 	withProbe bool,
 	embeddedDiagrams bool,
 ) (level1Stack *Level1Stack) {
+	return NewLevel1StackDelta(stackPath, unmarshallFromCode, marshallOnCommit, withProbe, embeddedDiagrams, false)
+}
+
+func NewLevel1StackDelta(
+	stackPath string,
+	unmarshallFromCode string,
+	marshallOnCommit string,
+	withProbe bool,
+	embeddedDiagrams bool,
+	deltaMode bool,
+) (level1Stack *Level1Stack) {
 
 	level1Stack = new(Level1Stack)
 	stage := models.NewStage(stackPath)
+
+	if deltaMode {
+		stage.SetDeltaMode(true)
+	}
+
 	level1Stack.Stage = stage
+
+	level1Stack.R = split_static.ServeStaticFiles(false)
+	if withProbe {
+		// if the application edits the diagrams via the probe, it is surmised
+		// that the application is launched from "go/cmd/<appl>/". Therefore, to reach
+		// "go/diagrams/diagrams.go", the path is "../../diagrams/diagrams.go"
+		level1Stack.Probe = probe.NewProbe(
+			level1Stack.R,
+			{{pkgname}}_go.GoModelsDir,
+			{{pkgname}}_go.GoDiagramsDir,
+			embeddedDiagrams,
+			stage,
+		)
+
+		stage.SetProbeIF(level1Stack.Probe)
+	}
 
 	if unmarshallFromCode != "" {
 		err := models.ParseAstFile(stage, unmarshallFromCode, true)
@@ -142,22 +174,6 @@ func NewLevel1Stack(
 		hook := new(BeforeCommitImplementation)
 		hook.marshallOnCommit = marshallOnCommit
 		stage.OnInitCommitCallback = hook
-	}
-
-	level1Stack.R = split_static.ServeStaticFiles(false)
-	if withProbe {
-		// if the application edits the diagrams via the probe, it is surmised
-		// that the application is launched from "go/cmd/<appl>/". Therefore, to reach
-		// "go/diagrams/diagrams.go", the path is "../../diagrams/diagrams.go"
-		level1Stack.Probe = probe.NewProbe(
-			level1Stack.R,
-			{{pkgname}}_go.GoModelsDir,
-			{{pkgname}}_go.GoDiagramsDir,
-			embeddedDiagrams,
-			stage,
-		)
-
-		stage.SetProbeIF(level1Stack.Probe)
 	}
 
 	// add orchestration

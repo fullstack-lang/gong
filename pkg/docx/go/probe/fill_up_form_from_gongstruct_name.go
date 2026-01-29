@@ -7,6 +7,114 @@ import (
 	"github.com/fullstack-lang/gong/pkg/docx/go/models"
 )
 
+// updateFillUpForm updates the current form if there is one
+func (probe *Probe) updateFillUpForm() {
+	var formGroup *form.FormGroup
+	for fg := range probe.formStage.FormGroups {
+		formGroup = fg
+	}
+	if formGroup != nil {
+		switch onSave := formGroup.OnSave.(type) { // insertion point
+		case *BodyFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Body", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.body, probe)
+			}
+		case *DocumentFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Document", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.document, probe)
+			}
+		case *DocxFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Docx", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.docx, probe)
+			}
+		case *FileFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "File", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.file, probe)
+			}
+		case *NodeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Node", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.node, probe)
+			}
+		case *ParagraphFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Paragraph", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.paragraph, probe)
+			}
+		case *ParagraphPropertiesFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "ParagraphProperties", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.paragraphproperties, probe)
+			}
+		case *ParagraphStyleFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "ParagraphStyle", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.paragraphstyle, probe)
+			}
+		case *RuneFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Rune", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.rune, probe)
+			}
+		case *RunePropertiesFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "RuneProperties", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.runeproperties, probe)
+			}
+		case *TableFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Table", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.table, probe)
+			}
+		case *TableColumnFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "TableColumn", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.tablecolumn, probe)
+			}
+		case *TablePropertiesFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "TableProperties", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.tableproperties, probe)
+			}
+		case *TableRowFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "TableRow", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.tablerow, probe)
+			}
+		case *TableStyleFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "TableStyle", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.tablestyle, probe)
+			}
+		case *TextFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Text", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.text, probe)
+			}
+		}
+	}
+}
+
 func FillUpFormFromGongstructName(
 	probe *Probe,
 	gongstructName string,
