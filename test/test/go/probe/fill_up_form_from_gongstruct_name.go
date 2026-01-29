@@ -7,6 +7,60 @@ import (
 	"github.com/fullstack-lang/gong/test/test/go/models"
 )
 
+// updateFillUpForm updates the current form if there is one
+func (probe *Probe) updateFillUpForm() {
+	var formGroup *form.FormGroup
+	for fg := range probe.formStage.FormGroups {
+		formGroup = fg
+	}
+	if formGroup != nil {
+		switch onSave := formGroup.OnSave.(type) { // insertion point
+		case *AstructFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Astruct", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.astruct, probe)
+			}
+		case *AstructBstruct2UseFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "AstructBstruct2Use", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.astructbstruct2use, probe)
+			}
+		case *AstructBstructUseFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "AstructBstructUse", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.astructbstructuse, probe)
+			}
+		case *BstructFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Bstruct", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.bstruct, probe)
+			}
+		case *DstructFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Dstruct", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.dstruct, probe)
+			}
+		case *F0123456789012345678901234567890FormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "F0123456789012345678901234567890", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.f0123456789012345678901234567890, probe)
+			}
+		case *GstructFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Gstruct", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.gstruct, probe)
+			}
+		}
+	}
+}
+
 func FillUpFormFromGongstructName(
 	probe *Probe,
 	gongstructName string,

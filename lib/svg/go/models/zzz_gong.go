@@ -487,6 +487,84 @@ type Stage struct {
 
 	forwardCommits  []string
 	backwardCommits []string
+
+	// when navigating the commit history
+	// navigationMode is set to Navigating
+	navigationMode    gongStageNavigationMode
+	nbCommitsBackward int // the number of backward commits that have been applied
+}
+
+type gongStageNavigationMode string
+
+const (
+	GongNavigationModeNormal gongStageNavigationMode = "Normal"
+	// when the mode is navigating, each commit backward and forward
+	// it is possible to go apply the nbCommitsBackward forward commits
+	GongNavigationModeNavigating gongStageNavigationMode = "Navigating"
+)
+
+// ApplyBackwardCommit applies the commit before the current one
+func (stage *Stage) ApplyBackwardCommit() error {
+
+	if len(stage.backwardCommits) == 0 {
+		return errors.New("no backward commit to apply")
+	}
+
+	if stage.navigationMode == GongNavigationModeNormal && stage.nbCommitsBackward != 0 {
+		return errors.New("in navigation mode normal, cannot have have nbCommitsBackward != 0")
+	}
+
+	if stage.navigationMode == GongNavigationModeNormal {
+		stage.navigationMode = GongNavigationModeNavigating
+	}
+
+	if stage.nbCommitsBackward >= len(stage.backwardCommits) {
+		return errors.New("no more backward commit to apply")
+	}
+
+	commitToApply := stage.backwardCommits[len(stage.backwardCommits)-1-stage.nbCommitsBackward]
+
+	// umarshall the backward commit to the stage
+	err := GongParseAstString(stage, commitToApply, true)
+	if err != nil {
+		log.Println("error during ApplyBackwardCommit: ", err)
+		return err
+	}
+
+	stage.nbCommitsBackward++
+
+	return nil
+}
+
+func (stage *Stage) GetForwardCommits() []string {
+	return stage.forwardCommits
+}
+
+func (stage *Stage) GetBackwardCommits() []string {
+	return stage.backwardCommits
+}
+
+func (stage *Stage) ApplyForwardCommit() error {
+	if stage.navigationMode == GongNavigationModeNormal && stage.nbCommitsBackward != 0 {
+		return errors.New("in navigation mode normal, cannot have have nbCommitsBackward != 0")
+	}
+
+	if stage.nbCommitsBackward == 0 {
+		return errors.New("no more forward commit to apply")
+	}
+
+	commitToApply := stage.forwardCommits[len(stage.forwardCommits)-1-stage.nbCommitsBackward+1]
+	err := GongParseAstString(stage, commitToApply, true)
+	if err != nil {
+		log.Println("error during ApplyBackwardCommit: ", err)
+		return err
+	}
+	stage.nbCommitsBackward--
+	return nil
+}
+
+func (stage *Stage) GetNbBackwardCommits() int {
+	return stage.nbCommitsBackward
 }
 
 func (stage *Stage) ResetCommits() {
@@ -498,7 +576,7 @@ func (stage *Stage) SetDeltaMode(inDeltaMode bool) {
 	stage.isInDeltaMode = inDeltaMode
 }
 
-func (stage *Stage) IsDeltaMode() bool {
+func (stage *Stage) IsInDeltaMode() bool {
 	return stage.isInDeltaMode
 }
 
@@ -507,6 +585,10 @@ func (stage *Stage) SetProbeIF(probeIF ProbeIF) {
 }
 
 func (stage *Stage) GetProbeIF() ProbeIF {
+    if stage.probeIF == nil {
+        return nil
+    }
+
 	return stage.probeIF
 }
 
@@ -1151,48 +1233,49 @@ func NewStage(name string) (stage *Stage) {
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
 			"Animate": &AnimateUnmarshaller{},
-	
+
 			"Circle": &CircleUnmarshaller{},
-	
+
 			"Condition": &ConditionUnmarshaller{},
-	
+
 			"ControlPoint": &ControlPointUnmarshaller{},
-	
+
 			"Ellipse": &EllipseUnmarshaller{},
-	
+
 			"Layer": &LayerUnmarshaller{},
-	
+
 			"Line": &LineUnmarshaller{},
-	
+
 			"Link": &LinkUnmarshaller{},
-	
+
 			"LinkAnchoredText": &LinkAnchoredTextUnmarshaller{},
-	
+
 			"Path": &PathUnmarshaller{},
-	
+
 			"Point": &PointUnmarshaller{},
-	
+
 			"Polygone": &PolygoneUnmarshaller{},
-	
+
 			"Polyline": &PolylineUnmarshaller{},
-	
+
 			"Rect": &RectUnmarshaller{},
-	
+
 			"RectAnchoredPath": &RectAnchoredPathUnmarshaller{},
-	
+
 			"RectAnchoredRect": &RectAnchoredRectUnmarshaller{},
-	
+
 			"RectAnchoredText": &RectAnchoredTextUnmarshaller{},
-	
+
 			"RectLinkLink": &RectLinkLinkUnmarshaller{},
-	
+
 			"SVG": &SVGUnmarshaller{},
-	
+
 			"SvgText": &SvgTextUnmarshaller{},
-	
+
 			"Text": &TextUnmarshaller{},
-	
-		}, // end of insertion point
+
+			// end of insertion point
+		},
 
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
 			{name: "Animate"},
@@ -1217,6 +1300,8 @@ func NewStage(name string) (stage *Stage) {
 			{name: "SvgText"},
 			{name: "Text"},
 		}, // end of insertion point
+
+		navigationMode: GongNavigationModeNormal,
 	}
 
 	return
@@ -1350,9 +1435,12 @@ func (stage *Stage) Commit() {
 		stage.BackRepo.Commit(stage)
 	}
 	stage.ComputeInstancesNb()
-	if stage.IsDeltaMode() {
+	if stage.IsInDeltaMode() {
 		stage.ComputeDifference()
 		stage.ComputeReference()
+		if stage.GetProbeIF() != nil {
+			stage.GetProbeIF().Refresh()
+		}
 	}
 }
 
@@ -1445,7 +1533,7 @@ func (animate *Animate) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.AnimateOrder {
 			stage.AnimateOrder = order
 		}
-		stage.AnimateMap_Staged_Order[animate] = stage.AnimateOrder
+		stage.AnimateMap_Staged_Order[animate] = order
 		stage.AnimateOrder++
 	}
 	stage.Animates_mapString[animate.Name] = animate
@@ -1531,7 +1619,7 @@ func (circle *Circle) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.CircleOrder {
 			stage.CircleOrder = order
 		}
-		stage.CircleMap_Staged_Order[circle] = stage.CircleOrder
+		stage.CircleMap_Staged_Order[circle] = order
 		stage.CircleOrder++
 	}
 	stage.Circles_mapString[circle.Name] = circle
@@ -1617,7 +1705,7 @@ func (condition *Condition) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.ConditionOrder {
 			stage.ConditionOrder = order
 		}
-		stage.ConditionMap_Staged_Order[condition] = stage.ConditionOrder
+		stage.ConditionMap_Staged_Order[condition] = order
 		stage.ConditionOrder++
 	}
 	stage.Conditions_mapString[condition.Name] = condition
@@ -1703,7 +1791,7 @@ func (controlpoint *ControlPoint) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.ControlPointOrder {
 			stage.ControlPointOrder = order
 		}
-		stage.ControlPointMap_Staged_Order[controlpoint] = stage.ControlPointOrder
+		stage.ControlPointMap_Staged_Order[controlpoint] = order
 		stage.ControlPointOrder++
 	}
 	stage.ControlPoints_mapString[controlpoint.Name] = controlpoint
@@ -1789,7 +1877,7 @@ func (ellipse *Ellipse) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.EllipseOrder {
 			stage.EllipseOrder = order
 		}
-		stage.EllipseMap_Staged_Order[ellipse] = stage.EllipseOrder
+		stage.EllipseMap_Staged_Order[ellipse] = order
 		stage.EllipseOrder++
 	}
 	stage.Ellipses_mapString[ellipse.Name] = ellipse
@@ -1875,7 +1963,7 @@ func (layer *Layer) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.LayerOrder {
 			stage.LayerOrder = order
 		}
-		stage.LayerMap_Staged_Order[layer] = stage.LayerOrder
+		stage.LayerMap_Staged_Order[layer] = order
 		stage.LayerOrder++
 	}
 	stage.Layers_mapString[layer.Name] = layer
@@ -1961,7 +2049,7 @@ func (line *Line) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.LineOrder {
 			stage.LineOrder = order
 		}
-		stage.LineMap_Staged_Order[line] = stage.LineOrder
+		stage.LineMap_Staged_Order[line] = order
 		stage.LineOrder++
 	}
 	stage.Lines_mapString[line.Name] = line
@@ -2047,7 +2135,7 @@ func (link *Link) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.LinkOrder {
 			stage.LinkOrder = order
 		}
-		stage.LinkMap_Staged_Order[link] = stage.LinkOrder
+		stage.LinkMap_Staged_Order[link] = order
 		stage.LinkOrder++
 	}
 	stage.Links_mapString[link.Name] = link
@@ -2133,7 +2221,7 @@ func (linkanchoredtext *LinkAnchoredText) StagePreserveOrder(stage *Stage, order
 		if order > stage.LinkAnchoredTextOrder {
 			stage.LinkAnchoredTextOrder = order
 		}
-		stage.LinkAnchoredTextMap_Staged_Order[linkanchoredtext] = stage.LinkAnchoredTextOrder
+		stage.LinkAnchoredTextMap_Staged_Order[linkanchoredtext] = order
 		stage.LinkAnchoredTextOrder++
 	}
 	stage.LinkAnchoredTexts_mapString[linkanchoredtext.Name] = linkanchoredtext
@@ -2219,7 +2307,7 @@ func (path *Path) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.PathOrder {
 			stage.PathOrder = order
 		}
-		stage.PathMap_Staged_Order[path] = stage.PathOrder
+		stage.PathMap_Staged_Order[path] = order
 		stage.PathOrder++
 	}
 	stage.Paths_mapString[path.Name] = path
@@ -2305,7 +2393,7 @@ func (point *Point) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.PointOrder {
 			stage.PointOrder = order
 		}
-		stage.PointMap_Staged_Order[point] = stage.PointOrder
+		stage.PointMap_Staged_Order[point] = order
 		stage.PointOrder++
 	}
 	stage.Points_mapString[point.Name] = point
@@ -2391,7 +2479,7 @@ func (polygone *Polygone) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.PolygoneOrder {
 			stage.PolygoneOrder = order
 		}
-		stage.PolygoneMap_Staged_Order[polygone] = stage.PolygoneOrder
+		stage.PolygoneMap_Staged_Order[polygone] = order
 		stage.PolygoneOrder++
 	}
 	stage.Polygones_mapString[polygone.Name] = polygone
@@ -2477,7 +2565,7 @@ func (polyline *Polyline) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.PolylineOrder {
 			stage.PolylineOrder = order
 		}
-		stage.PolylineMap_Staged_Order[polyline] = stage.PolylineOrder
+		stage.PolylineMap_Staged_Order[polyline] = order
 		stage.PolylineOrder++
 	}
 	stage.Polylines_mapString[polyline.Name] = polyline
@@ -2563,7 +2651,7 @@ func (rect *Rect) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.RectOrder {
 			stage.RectOrder = order
 		}
-		stage.RectMap_Staged_Order[rect] = stage.RectOrder
+		stage.RectMap_Staged_Order[rect] = order
 		stage.RectOrder++
 	}
 	stage.Rects_mapString[rect.Name] = rect
@@ -2649,7 +2737,7 @@ func (rectanchoredpath *RectAnchoredPath) StagePreserveOrder(stage *Stage, order
 		if order > stage.RectAnchoredPathOrder {
 			stage.RectAnchoredPathOrder = order
 		}
-		stage.RectAnchoredPathMap_Staged_Order[rectanchoredpath] = stage.RectAnchoredPathOrder
+		stage.RectAnchoredPathMap_Staged_Order[rectanchoredpath] = order
 		stage.RectAnchoredPathOrder++
 	}
 	stage.RectAnchoredPaths_mapString[rectanchoredpath.Name] = rectanchoredpath
@@ -2735,7 +2823,7 @@ func (rectanchoredrect *RectAnchoredRect) StagePreserveOrder(stage *Stage, order
 		if order > stage.RectAnchoredRectOrder {
 			stage.RectAnchoredRectOrder = order
 		}
-		stage.RectAnchoredRectMap_Staged_Order[rectanchoredrect] = stage.RectAnchoredRectOrder
+		stage.RectAnchoredRectMap_Staged_Order[rectanchoredrect] = order
 		stage.RectAnchoredRectOrder++
 	}
 	stage.RectAnchoredRects_mapString[rectanchoredrect.Name] = rectanchoredrect
@@ -2821,7 +2909,7 @@ func (rectanchoredtext *RectAnchoredText) StagePreserveOrder(stage *Stage, order
 		if order > stage.RectAnchoredTextOrder {
 			stage.RectAnchoredTextOrder = order
 		}
-		stage.RectAnchoredTextMap_Staged_Order[rectanchoredtext] = stage.RectAnchoredTextOrder
+		stage.RectAnchoredTextMap_Staged_Order[rectanchoredtext] = order
 		stage.RectAnchoredTextOrder++
 	}
 	stage.RectAnchoredTexts_mapString[rectanchoredtext.Name] = rectanchoredtext
@@ -2907,7 +2995,7 @@ func (rectlinklink *RectLinkLink) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.RectLinkLinkOrder {
 			stage.RectLinkLinkOrder = order
 		}
-		stage.RectLinkLinkMap_Staged_Order[rectlinklink] = stage.RectLinkLinkOrder
+		stage.RectLinkLinkMap_Staged_Order[rectlinklink] = order
 		stage.RectLinkLinkOrder++
 	}
 	stage.RectLinkLinks_mapString[rectlinklink.Name] = rectlinklink
@@ -2993,7 +3081,7 @@ func (svg *SVG) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.SVGOrder {
 			stage.SVGOrder = order
 		}
-		stage.SVGMap_Staged_Order[svg] = stage.SVGOrder
+		stage.SVGMap_Staged_Order[svg] = order
 		stage.SVGOrder++
 	}
 	stage.SVGs_mapString[svg.Name] = svg
@@ -3079,7 +3167,7 @@ func (svgtext *SvgText) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.SvgTextOrder {
 			stage.SvgTextOrder = order
 		}
-		stage.SvgTextMap_Staged_Order[svgtext] = stage.SvgTextOrder
+		stage.SvgTextMap_Staged_Order[svgtext] = order
 		stage.SvgTextOrder++
 	}
 	stage.SvgTexts_mapString[svgtext.Name] = svgtext
@@ -3165,7 +3253,7 @@ func (text *Text) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.TextOrder {
 			stage.TextOrder = order
 		}
-		stage.TextMap_Staged_Order[text] = stage.TextOrder
+		stage.TextMap_Staged_Order[text] = order
 		stage.TextOrder++
 	}
 	stage.Texts_mapString[text.Name] = text
@@ -3383,7 +3471,7 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
 	}
-	if stage.IsDeltaMode() {
+	if stage.IsInDeltaMode() {
 		stage.ComputeReference()
 	}
 }
