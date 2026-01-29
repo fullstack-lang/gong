@@ -7,6 +7,84 @@ import (
 	"github.com/fullstack-lang/gong/dsme/cld/go/models"
 )
 
+// updateFillUpForm updates the current form if there is one
+func (probe *Probe) updateFillUpForm() {
+	var formGroup *form.FormGroup
+	for fg := range probe.formStage.FormGroups {
+		formGroup = fg
+	}
+	if formGroup != nil {
+		switch onSave := formGroup.OnSave.(type) { // insertion point
+		case *Category1FormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Category1", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.category1, probe)
+			}
+		case *Category1ShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Category1Shape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.category1shape, probe)
+			}
+		case *Category2FormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Category2", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.category2, probe)
+			}
+		case *Category2ShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Category2Shape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.category2shape, probe)
+			}
+		case *Category3FormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Category3", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.category3, probe)
+			}
+		case *Category3ShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Category3Shape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.category3shape, probe)
+			}
+		case *ControlPointShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "ControlPointShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.controlpointshape, probe)
+			}
+		case *DeskFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Desk", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.desk, probe)
+			}
+		case *DiagramFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Diagram", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.diagram, probe)
+			}
+		case *InfluenceFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Influence", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.influence, probe)
+			}
+		case *InfluenceShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "InfluenceShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.influenceshape, probe)
+			}
+		}
+	}
+}
+
 func FillUpFormFromGongstructName(
 	probe *Probe,
 	gongstructName string,

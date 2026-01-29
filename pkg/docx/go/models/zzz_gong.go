@@ -375,6 +375,84 @@ type Stage struct {
 
 	forwardCommits  []string
 	backwardCommits []string
+
+	// when navigating the commit history
+	// navigationMode is set to Navigating
+	navigationMode    gongStageNavigationMode
+	nbCommitsBackward int // the number of backward commits that have been applied
+}
+
+type gongStageNavigationMode string
+
+const (
+	GongNavigationModeNormal gongStageNavigationMode = "Normal"
+	// when the mode is navigating, each commit backward and forward
+	// it is possible to go apply the nbCommitsBackward forward commits
+	GongNavigationModeNavigating gongStageNavigationMode = "Navigating"
+)
+
+// ApplyBackwardCommit applies the commit before the current one
+func (stage *Stage) ApplyBackwardCommit() error {
+
+	if len(stage.backwardCommits) == 0 {
+		return errors.New("no backward commit to apply")
+	}
+
+	if stage.navigationMode == GongNavigationModeNormal && stage.nbCommitsBackward != 0 {
+		return errors.New("in navigation mode normal, cannot have have nbCommitsBackward != 0")
+	}
+
+	if stage.navigationMode == GongNavigationModeNormal {
+		stage.navigationMode = GongNavigationModeNavigating
+	}
+
+	if stage.nbCommitsBackward >= len(stage.backwardCommits) {
+		return errors.New("no more backward commit to apply")
+	}
+
+	commitToApply := stage.backwardCommits[len(stage.backwardCommits)-1-stage.nbCommitsBackward]
+
+	// umarshall the backward commit to the stage
+	err := GongParseAstString(stage, commitToApply, true)
+	if err != nil {
+		log.Println("error during ApplyBackwardCommit: ", err)
+		return err
+	}
+
+	stage.nbCommitsBackward++
+
+	return nil
+}
+
+func (stage *Stage) GetForwardCommits() []string {
+	return stage.forwardCommits
+}
+
+func (stage *Stage) GetBackwardCommits() []string {
+	return stage.backwardCommits
+}
+
+func (stage *Stage) ApplyForwardCommit() error {
+	if stage.navigationMode == GongNavigationModeNormal && stage.nbCommitsBackward != 0 {
+		return errors.New("in navigation mode normal, cannot have have nbCommitsBackward != 0")
+	}
+
+	if stage.nbCommitsBackward == 0 {
+		return errors.New("no more forward commit to apply")
+	}
+
+	commitToApply := stage.forwardCommits[len(stage.forwardCommits)-1-stage.nbCommitsBackward+1]
+	err := GongParseAstString(stage, commitToApply, true)
+	if err != nil {
+		log.Println("error during ApplyBackwardCommit: ", err)
+		return err
+	}
+	stage.nbCommitsBackward--
+	return nil
+}
+
+func (stage *Stage) GetNbBackwardCommits() int {
+	return stage.nbCommitsBackward
 }
 
 func (stage *Stage) ResetCommits() {
@@ -386,7 +464,7 @@ func (stage *Stage) SetDeltaMode(inDeltaMode bool) {
 	stage.isInDeltaMode = inDeltaMode
 }
 
-func (stage *Stage) IsDeltaMode() bool {
+func (stage *Stage) IsInDeltaMode() bool {
 	return stage.isInDeltaMode
 }
 
@@ -395,6 +473,10 @@ func (stage *Stage) SetProbeIF(probeIF ProbeIF) {
 }
 
 func (stage *Stage) GetProbeIF() ProbeIF {
+    if stage.probeIF == nil {
+        return nil
+    }
+
 	return stage.probeIF
 }
 
@@ -924,38 +1006,39 @@ func NewStage(name string) (stage *Stage) {
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
 			"Body": &BodyUnmarshaller{},
-	
+
 			"Document": &DocumentUnmarshaller{},
-	
+
 			"Docx": &DocxUnmarshaller{},
-	
+
 			"File": &FileUnmarshaller{},
-	
+
 			"Node": &NodeUnmarshaller{},
-	
+
 			"Paragraph": &ParagraphUnmarshaller{},
-	
+
 			"ParagraphProperties": &ParagraphPropertiesUnmarshaller{},
-	
+
 			"ParagraphStyle": &ParagraphStyleUnmarshaller{},
-	
+
 			"Rune": &RuneUnmarshaller{},
-	
+
 			"RuneProperties": &RunePropertiesUnmarshaller{},
-	
+
 			"Table": &TableUnmarshaller{},
-	
+
 			"TableColumn": &TableColumnUnmarshaller{},
-	
+
 			"TableProperties": &TablePropertiesUnmarshaller{},
-	
+
 			"TableRow": &TableRowUnmarshaller{},
-	
+
 			"TableStyle": &TableStyleUnmarshaller{},
-	
+
 			"Text": &TextUnmarshaller{},
-	
-		}, // end of insertion point
+
+			// end of insertion point
+		},
 
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
 			{name: "Body"},
@@ -975,6 +1058,8 @@ func NewStage(name string) (stage *Stage) {
 			{name: "TableStyle"},
 			{name: "Text"},
 		}, // end of insertion point
+
+		navigationMode: GongNavigationModeNormal,
 	}
 
 	return
@@ -1088,9 +1173,12 @@ func (stage *Stage) Commit() {
 		stage.BackRepo.Commit(stage)
 	}
 	stage.ComputeInstancesNb()
-	if stage.IsDeltaMode() {
+	if stage.IsInDeltaMode() {
 		stage.ComputeDifference()
 		stage.ComputeReference()
+		if stage.GetProbeIF() != nil {
+			stage.GetProbeIF().Refresh()
+		}
 	}
 }
 
@@ -1178,7 +1266,7 @@ func (body *Body) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.BodyOrder {
 			stage.BodyOrder = order
 		}
-		stage.BodyMap_Staged_Order[body] = stage.BodyOrder
+		stage.BodyMap_Staged_Order[body] = order
 		stage.BodyOrder++
 	}
 	stage.Bodys_mapString[body.Name] = body
@@ -1264,7 +1352,7 @@ func (document *Document) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.DocumentOrder {
 			stage.DocumentOrder = order
 		}
-		stage.DocumentMap_Staged_Order[document] = stage.DocumentOrder
+		stage.DocumentMap_Staged_Order[document] = order
 		stage.DocumentOrder++
 	}
 	stage.Documents_mapString[document.Name] = document
@@ -1350,7 +1438,7 @@ func (docx *Docx) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.DocxOrder {
 			stage.DocxOrder = order
 		}
-		stage.DocxMap_Staged_Order[docx] = stage.DocxOrder
+		stage.DocxMap_Staged_Order[docx] = order
 		stage.DocxOrder++
 	}
 	stage.Docxs_mapString[docx.Name] = docx
@@ -1436,7 +1524,7 @@ func (file *File) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.FileOrder {
 			stage.FileOrder = order
 		}
-		stage.FileMap_Staged_Order[file] = stage.FileOrder
+		stage.FileMap_Staged_Order[file] = order
 		stage.FileOrder++
 	}
 	stage.Files_mapString[file.Name] = file
@@ -1522,7 +1610,7 @@ func (node *Node) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.NodeOrder {
 			stage.NodeOrder = order
 		}
-		stage.NodeMap_Staged_Order[node] = stage.NodeOrder
+		stage.NodeMap_Staged_Order[node] = order
 		stage.NodeOrder++
 	}
 	stage.Nodes_mapString[node.Name] = node
@@ -1608,7 +1696,7 @@ func (paragraph *Paragraph) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.ParagraphOrder {
 			stage.ParagraphOrder = order
 		}
-		stage.ParagraphMap_Staged_Order[paragraph] = stage.ParagraphOrder
+		stage.ParagraphMap_Staged_Order[paragraph] = order
 		stage.ParagraphOrder++
 	}
 	stage.Paragraphs_mapString[paragraph.Name] = paragraph
@@ -1694,7 +1782,7 @@ func (paragraphproperties *ParagraphProperties) StagePreserveOrder(stage *Stage,
 		if order > stage.ParagraphPropertiesOrder {
 			stage.ParagraphPropertiesOrder = order
 		}
-		stage.ParagraphPropertiesMap_Staged_Order[paragraphproperties] = stage.ParagraphPropertiesOrder
+		stage.ParagraphPropertiesMap_Staged_Order[paragraphproperties] = order
 		stage.ParagraphPropertiesOrder++
 	}
 	stage.ParagraphPropertiess_mapString[paragraphproperties.Name] = paragraphproperties
@@ -1780,7 +1868,7 @@ func (paragraphstyle *ParagraphStyle) StagePreserveOrder(stage *Stage, order uin
 		if order > stage.ParagraphStyleOrder {
 			stage.ParagraphStyleOrder = order
 		}
-		stage.ParagraphStyleMap_Staged_Order[paragraphstyle] = stage.ParagraphStyleOrder
+		stage.ParagraphStyleMap_Staged_Order[paragraphstyle] = order
 		stage.ParagraphStyleOrder++
 	}
 	stage.ParagraphStyles_mapString[paragraphstyle.Name] = paragraphstyle
@@ -1866,7 +1954,7 @@ func (rune *Rune) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.RuneOrder {
 			stage.RuneOrder = order
 		}
-		stage.RuneMap_Staged_Order[rune] = stage.RuneOrder
+		stage.RuneMap_Staged_Order[rune] = order
 		stage.RuneOrder++
 	}
 	stage.Runes_mapString[rune.Name] = rune
@@ -1952,7 +2040,7 @@ func (runeproperties *RuneProperties) StagePreserveOrder(stage *Stage, order uin
 		if order > stage.RunePropertiesOrder {
 			stage.RunePropertiesOrder = order
 		}
-		stage.RunePropertiesMap_Staged_Order[runeproperties] = stage.RunePropertiesOrder
+		stage.RunePropertiesMap_Staged_Order[runeproperties] = order
 		stage.RunePropertiesOrder++
 	}
 	stage.RunePropertiess_mapString[runeproperties.Name] = runeproperties
@@ -2038,7 +2126,7 @@ func (table *Table) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.TableOrder {
 			stage.TableOrder = order
 		}
-		stage.TableMap_Staged_Order[table] = stage.TableOrder
+		stage.TableMap_Staged_Order[table] = order
 		stage.TableOrder++
 	}
 	stage.Tables_mapString[table.Name] = table
@@ -2124,7 +2212,7 @@ func (tablecolumn *TableColumn) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.TableColumnOrder {
 			stage.TableColumnOrder = order
 		}
-		stage.TableColumnMap_Staged_Order[tablecolumn] = stage.TableColumnOrder
+		stage.TableColumnMap_Staged_Order[tablecolumn] = order
 		stage.TableColumnOrder++
 	}
 	stage.TableColumns_mapString[tablecolumn.Name] = tablecolumn
@@ -2210,7 +2298,7 @@ func (tableproperties *TableProperties) StagePreserveOrder(stage *Stage, order u
 		if order > stage.TablePropertiesOrder {
 			stage.TablePropertiesOrder = order
 		}
-		stage.TablePropertiesMap_Staged_Order[tableproperties] = stage.TablePropertiesOrder
+		stage.TablePropertiesMap_Staged_Order[tableproperties] = order
 		stage.TablePropertiesOrder++
 	}
 	stage.TablePropertiess_mapString[tableproperties.Name] = tableproperties
@@ -2296,7 +2384,7 @@ func (tablerow *TableRow) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.TableRowOrder {
 			stage.TableRowOrder = order
 		}
-		stage.TableRowMap_Staged_Order[tablerow] = stage.TableRowOrder
+		stage.TableRowMap_Staged_Order[tablerow] = order
 		stage.TableRowOrder++
 	}
 	stage.TableRows_mapString[tablerow.Name] = tablerow
@@ -2382,7 +2470,7 @@ func (tablestyle *TableStyle) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.TableStyleOrder {
 			stage.TableStyleOrder = order
 		}
-		stage.TableStyleMap_Staged_Order[tablestyle] = stage.TableStyleOrder
+		stage.TableStyleMap_Staged_Order[tablestyle] = order
 		stage.TableStyleOrder++
 	}
 	stage.TableStyles_mapString[tablestyle.Name] = tablestyle
@@ -2468,7 +2556,7 @@ func (text *Text) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.TextOrder {
 			stage.TextOrder = order
 		}
-		stage.TextMap_Staged_Order[text] = stage.TextOrder
+		stage.TextMap_Staged_Order[text] = order
 		stage.TextOrder++
 	}
 	stage.Texts_mapString[text.Name] = text
@@ -2651,7 +2739,7 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
 	}
-	if stage.IsDeltaMode() {
+	if stage.IsInDeltaMode() {
 		stage.ComputeReference()
 	}
 }

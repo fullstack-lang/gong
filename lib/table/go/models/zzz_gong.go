@@ -471,6 +471,84 @@ type Stage struct {
 
 	forwardCommits  []string
 	backwardCommits []string
+
+	// when navigating the commit history
+	// navigationMode is set to Navigating
+	navigationMode    gongStageNavigationMode
+	nbCommitsBackward int // the number of backward commits that have been applied
+}
+
+type gongStageNavigationMode string
+
+const (
+	GongNavigationModeNormal gongStageNavigationMode = "Normal"
+	// when the mode is navigating, each commit backward and forward
+	// it is possible to go apply the nbCommitsBackward forward commits
+	GongNavigationModeNavigating gongStageNavigationMode = "Navigating"
+)
+
+// ApplyBackwardCommit applies the commit before the current one
+func (stage *Stage) ApplyBackwardCommit() error {
+
+	if len(stage.backwardCommits) == 0 {
+		return errors.New("no backward commit to apply")
+	}
+
+	if stage.navigationMode == GongNavigationModeNormal && stage.nbCommitsBackward != 0 {
+		return errors.New("in navigation mode normal, cannot have have nbCommitsBackward != 0")
+	}
+
+	if stage.navigationMode == GongNavigationModeNormal {
+		stage.navigationMode = GongNavigationModeNavigating
+	}
+
+	if stage.nbCommitsBackward >= len(stage.backwardCommits) {
+		return errors.New("no more backward commit to apply")
+	}
+
+	commitToApply := stage.backwardCommits[len(stage.backwardCommits)-1-stage.nbCommitsBackward]
+
+	// umarshall the backward commit to the stage
+	err := GongParseAstString(stage, commitToApply, true)
+	if err != nil {
+		log.Println("error during ApplyBackwardCommit: ", err)
+		return err
+	}
+
+	stage.nbCommitsBackward++
+
+	return nil
+}
+
+func (stage *Stage) GetForwardCommits() []string {
+	return stage.forwardCommits
+}
+
+func (stage *Stage) GetBackwardCommits() []string {
+	return stage.backwardCommits
+}
+
+func (stage *Stage) ApplyForwardCommit() error {
+	if stage.navigationMode == GongNavigationModeNormal && stage.nbCommitsBackward != 0 {
+		return errors.New("in navigation mode normal, cannot have have nbCommitsBackward != 0")
+	}
+
+	if stage.nbCommitsBackward == 0 {
+		return errors.New("no more forward commit to apply")
+	}
+
+	commitToApply := stage.forwardCommits[len(stage.forwardCommits)-1-stage.nbCommitsBackward+1]
+	err := GongParseAstString(stage, commitToApply, true)
+	if err != nil {
+		log.Println("error during ApplyBackwardCommit: ", err)
+		return err
+	}
+	stage.nbCommitsBackward--
+	return nil
+}
+
+func (stage *Stage) GetNbBackwardCommits() int {
+	return stage.nbCommitsBackward
 }
 
 func (stage *Stage) ResetCommits() {
@@ -482,7 +560,7 @@ func (stage *Stage) SetDeltaMode(inDeltaMode bool) {
 	stage.isInDeltaMode = inDeltaMode
 }
 
-func (stage *Stage) IsDeltaMode() bool {
+func (stage *Stage) IsInDeltaMode() bool {
 	return stage.isInDeltaMode
 }
 
@@ -491,6 +569,10 @@ func (stage *Stage) SetProbeIF(probeIF ProbeIF) {
 }
 
 func (stage *Stage) GetProbeIF() ProbeIF {
+    if stage.probeIF == nil {
+        return nil
+    }
+
 	return stage.probeIF
 }
 
@@ -1181,52 +1263,53 @@ func NewStage(name string) (stage *Stage) {
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
 			"Cell": &CellUnmarshaller{},
-	
+
 			"CellBoolean": &CellBooleanUnmarshaller{},
-	
+
 			"CellFloat64": &CellFloat64Unmarshaller{},
-	
+
 			"CellIcon": &CellIconUnmarshaller{},
-	
+
 			"CellInt": &CellIntUnmarshaller{},
-	
+
 			"CellString": &CellStringUnmarshaller{},
-	
+
 			"CheckBox": &CheckBoxUnmarshaller{},
-	
+
 			"DisplayedColumn": &DisplayedColumnUnmarshaller{},
-	
+
 			"FormDiv": &FormDivUnmarshaller{},
-	
+
 			"FormEditAssocButton": &FormEditAssocButtonUnmarshaller{},
-	
+
 			"FormField": &FormFieldUnmarshaller{},
-	
+
 			"FormFieldDate": &FormFieldDateUnmarshaller{},
-	
+
 			"FormFieldDateTime": &FormFieldDateTimeUnmarshaller{},
-	
+
 			"FormFieldFloat64": &FormFieldFloat64Unmarshaller{},
-	
+
 			"FormFieldInt": &FormFieldIntUnmarshaller{},
-	
+
 			"FormFieldSelect": &FormFieldSelectUnmarshaller{},
-	
+
 			"FormFieldString": &FormFieldStringUnmarshaller{},
-	
+
 			"FormFieldTime": &FormFieldTimeUnmarshaller{},
-	
+
 			"FormGroup": &FormGroupUnmarshaller{},
-	
+
 			"FormSortAssocButton": &FormSortAssocButtonUnmarshaller{},
-	
+
 			"Option": &OptionUnmarshaller{},
-	
+
 			"Row": &RowUnmarshaller{},
-	
+
 			"Table": &TableUnmarshaller{},
-	
-		}, // end of insertion point
+
+			// end of insertion point
+		},
 
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
 			{name: "Cell"},
@@ -1253,6 +1336,8 @@ func NewStage(name string) (stage *Stage) {
 			{name: "Row"},
 			{name: "Table"},
 		}, // end of insertion point
+
+		navigationMode: GongNavigationModeNormal,
 	}
 
 	return
@@ -1394,9 +1479,12 @@ func (stage *Stage) Commit() {
 		stage.BackRepo.Commit(stage)
 	}
 	stage.ComputeInstancesNb()
-	if stage.IsDeltaMode() {
+	if stage.IsInDeltaMode() {
 		stage.ComputeDifference()
 		stage.ComputeReference()
+		if stage.GetProbeIF() != nil {
+			stage.GetProbeIF().Refresh()
+		}
 	}
 }
 
@@ -1491,7 +1579,7 @@ func (cell *Cell) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.CellOrder {
 			stage.CellOrder = order
 		}
-		stage.CellMap_Staged_Order[cell] = stage.CellOrder
+		stage.CellMap_Staged_Order[cell] = order
 		stage.CellOrder++
 	}
 	stage.Cells_mapString[cell.Name] = cell
@@ -1577,7 +1665,7 @@ func (cellboolean *CellBoolean) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.CellBooleanOrder {
 			stage.CellBooleanOrder = order
 		}
-		stage.CellBooleanMap_Staged_Order[cellboolean] = stage.CellBooleanOrder
+		stage.CellBooleanMap_Staged_Order[cellboolean] = order
 		stage.CellBooleanOrder++
 	}
 	stage.CellBooleans_mapString[cellboolean.Name] = cellboolean
@@ -1663,7 +1751,7 @@ func (cellfloat64 *CellFloat64) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.CellFloat64Order {
 			stage.CellFloat64Order = order
 		}
-		stage.CellFloat64Map_Staged_Order[cellfloat64] = stage.CellFloat64Order
+		stage.CellFloat64Map_Staged_Order[cellfloat64] = order
 		stage.CellFloat64Order++
 	}
 	stage.CellFloat64s_mapString[cellfloat64.Name] = cellfloat64
@@ -1749,7 +1837,7 @@ func (cellicon *CellIcon) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.CellIconOrder {
 			stage.CellIconOrder = order
 		}
-		stage.CellIconMap_Staged_Order[cellicon] = stage.CellIconOrder
+		stage.CellIconMap_Staged_Order[cellicon] = order
 		stage.CellIconOrder++
 	}
 	stage.CellIcons_mapString[cellicon.Name] = cellicon
@@ -1835,7 +1923,7 @@ func (cellint *CellInt) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.CellIntOrder {
 			stage.CellIntOrder = order
 		}
-		stage.CellIntMap_Staged_Order[cellint] = stage.CellIntOrder
+		stage.CellIntMap_Staged_Order[cellint] = order
 		stage.CellIntOrder++
 	}
 	stage.CellInts_mapString[cellint.Name] = cellint
@@ -1921,7 +2009,7 @@ func (cellstring *CellString) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.CellStringOrder {
 			stage.CellStringOrder = order
 		}
-		stage.CellStringMap_Staged_Order[cellstring] = stage.CellStringOrder
+		stage.CellStringMap_Staged_Order[cellstring] = order
 		stage.CellStringOrder++
 	}
 	stage.CellStrings_mapString[cellstring.Name] = cellstring
@@ -2007,7 +2095,7 @@ func (checkbox *CheckBox) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.CheckBoxOrder {
 			stage.CheckBoxOrder = order
 		}
-		stage.CheckBoxMap_Staged_Order[checkbox] = stage.CheckBoxOrder
+		stage.CheckBoxMap_Staged_Order[checkbox] = order
 		stage.CheckBoxOrder++
 	}
 	stage.CheckBoxs_mapString[checkbox.Name] = checkbox
@@ -2093,7 +2181,7 @@ func (displayedcolumn *DisplayedColumn) StagePreserveOrder(stage *Stage, order u
 		if order > stage.DisplayedColumnOrder {
 			stage.DisplayedColumnOrder = order
 		}
-		stage.DisplayedColumnMap_Staged_Order[displayedcolumn] = stage.DisplayedColumnOrder
+		stage.DisplayedColumnMap_Staged_Order[displayedcolumn] = order
 		stage.DisplayedColumnOrder++
 	}
 	stage.DisplayedColumns_mapString[displayedcolumn.Name] = displayedcolumn
@@ -2179,7 +2267,7 @@ func (formdiv *FormDiv) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.FormDivOrder {
 			stage.FormDivOrder = order
 		}
-		stage.FormDivMap_Staged_Order[formdiv] = stage.FormDivOrder
+		stage.FormDivMap_Staged_Order[formdiv] = order
 		stage.FormDivOrder++
 	}
 	stage.FormDivs_mapString[formdiv.Name] = formdiv
@@ -2265,7 +2353,7 @@ func (formeditassocbutton *FormEditAssocButton) StagePreserveOrder(stage *Stage,
 		if order > stage.FormEditAssocButtonOrder {
 			stage.FormEditAssocButtonOrder = order
 		}
-		stage.FormEditAssocButtonMap_Staged_Order[formeditassocbutton] = stage.FormEditAssocButtonOrder
+		stage.FormEditAssocButtonMap_Staged_Order[formeditassocbutton] = order
 		stage.FormEditAssocButtonOrder++
 	}
 	stage.FormEditAssocButtons_mapString[formeditassocbutton.Name] = formeditassocbutton
@@ -2351,7 +2439,7 @@ func (formfield *FormField) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.FormFieldOrder {
 			stage.FormFieldOrder = order
 		}
-		stage.FormFieldMap_Staged_Order[formfield] = stage.FormFieldOrder
+		stage.FormFieldMap_Staged_Order[formfield] = order
 		stage.FormFieldOrder++
 	}
 	stage.FormFields_mapString[formfield.Name] = formfield
@@ -2437,7 +2525,7 @@ func (formfielddate *FormFieldDate) StagePreserveOrder(stage *Stage, order uint)
 		if order > stage.FormFieldDateOrder {
 			stage.FormFieldDateOrder = order
 		}
-		stage.FormFieldDateMap_Staged_Order[formfielddate] = stage.FormFieldDateOrder
+		stage.FormFieldDateMap_Staged_Order[formfielddate] = order
 		stage.FormFieldDateOrder++
 	}
 	stage.FormFieldDates_mapString[formfielddate.Name] = formfielddate
@@ -2523,7 +2611,7 @@ func (formfielddatetime *FormFieldDateTime) StagePreserveOrder(stage *Stage, ord
 		if order > stage.FormFieldDateTimeOrder {
 			stage.FormFieldDateTimeOrder = order
 		}
-		stage.FormFieldDateTimeMap_Staged_Order[formfielddatetime] = stage.FormFieldDateTimeOrder
+		stage.FormFieldDateTimeMap_Staged_Order[formfielddatetime] = order
 		stage.FormFieldDateTimeOrder++
 	}
 	stage.FormFieldDateTimes_mapString[formfielddatetime.Name] = formfielddatetime
@@ -2609,7 +2697,7 @@ func (formfieldfloat64 *FormFieldFloat64) StagePreserveOrder(stage *Stage, order
 		if order > stage.FormFieldFloat64Order {
 			stage.FormFieldFloat64Order = order
 		}
-		stage.FormFieldFloat64Map_Staged_Order[formfieldfloat64] = stage.FormFieldFloat64Order
+		stage.FormFieldFloat64Map_Staged_Order[formfieldfloat64] = order
 		stage.FormFieldFloat64Order++
 	}
 	stage.FormFieldFloat64s_mapString[formfieldfloat64.Name] = formfieldfloat64
@@ -2695,7 +2783,7 @@ func (formfieldint *FormFieldInt) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.FormFieldIntOrder {
 			stage.FormFieldIntOrder = order
 		}
-		stage.FormFieldIntMap_Staged_Order[formfieldint] = stage.FormFieldIntOrder
+		stage.FormFieldIntMap_Staged_Order[formfieldint] = order
 		stage.FormFieldIntOrder++
 	}
 	stage.FormFieldInts_mapString[formfieldint.Name] = formfieldint
@@ -2781,7 +2869,7 @@ func (formfieldselect *FormFieldSelect) StagePreserveOrder(stage *Stage, order u
 		if order > stage.FormFieldSelectOrder {
 			stage.FormFieldSelectOrder = order
 		}
-		stage.FormFieldSelectMap_Staged_Order[formfieldselect] = stage.FormFieldSelectOrder
+		stage.FormFieldSelectMap_Staged_Order[formfieldselect] = order
 		stage.FormFieldSelectOrder++
 	}
 	stage.FormFieldSelects_mapString[formfieldselect.Name] = formfieldselect
@@ -2867,7 +2955,7 @@ func (formfieldstring *FormFieldString) StagePreserveOrder(stage *Stage, order u
 		if order > stage.FormFieldStringOrder {
 			stage.FormFieldStringOrder = order
 		}
-		stage.FormFieldStringMap_Staged_Order[formfieldstring] = stage.FormFieldStringOrder
+		stage.FormFieldStringMap_Staged_Order[formfieldstring] = order
 		stage.FormFieldStringOrder++
 	}
 	stage.FormFieldStrings_mapString[formfieldstring.Name] = formfieldstring
@@ -2953,7 +3041,7 @@ func (formfieldtime *FormFieldTime) StagePreserveOrder(stage *Stage, order uint)
 		if order > stage.FormFieldTimeOrder {
 			stage.FormFieldTimeOrder = order
 		}
-		stage.FormFieldTimeMap_Staged_Order[formfieldtime] = stage.FormFieldTimeOrder
+		stage.FormFieldTimeMap_Staged_Order[formfieldtime] = order
 		stage.FormFieldTimeOrder++
 	}
 	stage.FormFieldTimes_mapString[formfieldtime.Name] = formfieldtime
@@ -3039,7 +3127,7 @@ func (formgroup *FormGroup) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.FormGroupOrder {
 			stage.FormGroupOrder = order
 		}
-		stage.FormGroupMap_Staged_Order[formgroup] = stage.FormGroupOrder
+		stage.FormGroupMap_Staged_Order[formgroup] = order
 		stage.FormGroupOrder++
 	}
 	stage.FormGroups_mapString[formgroup.Name] = formgroup
@@ -3125,7 +3213,7 @@ func (formsortassocbutton *FormSortAssocButton) StagePreserveOrder(stage *Stage,
 		if order > stage.FormSortAssocButtonOrder {
 			stage.FormSortAssocButtonOrder = order
 		}
-		stage.FormSortAssocButtonMap_Staged_Order[formsortassocbutton] = stage.FormSortAssocButtonOrder
+		stage.FormSortAssocButtonMap_Staged_Order[formsortassocbutton] = order
 		stage.FormSortAssocButtonOrder++
 	}
 	stage.FormSortAssocButtons_mapString[formsortassocbutton.Name] = formsortassocbutton
@@ -3211,7 +3299,7 @@ func (option *Option) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.OptionOrder {
 			stage.OptionOrder = order
 		}
-		stage.OptionMap_Staged_Order[option] = stage.OptionOrder
+		stage.OptionMap_Staged_Order[option] = order
 		stage.OptionOrder++
 	}
 	stage.Options_mapString[option.Name] = option
@@ -3297,7 +3385,7 @@ func (row *Row) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.RowOrder {
 			stage.RowOrder = order
 		}
-		stage.RowMap_Staged_Order[row] = stage.RowOrder
+		stage.RowMap_Staged_Order[row] = order
 		stage.RowOrder++
 	}
 	stage.Rows_mapString[row.Name] = row
@@ -3383,7 +3471,7 @@ func (table *Table) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.TableOrder {
 			stage.TableOrder = order
 		}
-		stage.TableMap_Staged_Order[table] = stage.TableOrder
+		stage.TableMap_Staged_Order[table] = order
 		stage.TableOrder++
 	}
 	stage.Tables_mapString[table.Name] = table
@@ -3615,7 +3703,7 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
 	}
-	if stage.IsDeltaMode() {
+	if stage.IsInDeltaMode() {
 		stage.ComputeReference()
 	}
 }

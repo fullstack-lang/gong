@@ -42,6 +42,7 @@ func _(stage *models.Stage) {
 	// insertion point for initialization of values
 
 	__Astruct__00000000_.Name = `A0xxdd`
+	__Astruct__00000000_.Field = models.Astruct{}.Date2
 	__Astruct__00000000_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2042-11-14 03:08:21 +0000 UTC")
 	__Astruct__00000000_.Date2, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Astruct__00000000_.Booleanfield = false
@@ -75,9 +76,13 @@ sqd
 `
 
 	__Astruct__00000001_.Name = `A1`
+	__Astruct__00000001_.Field = models.Astruct{}
 	__Astruct__00000001_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2024-01-28 09:59:06 +0000 UTC")
 	__Astruct__00000001_.Date2, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Astruct__00000001_.Booleanfield = false
+	__Astruct__00000001_.Aenum = ""
+	__Astruct__00000001_.Aenum_2 = ""
+	__Astruct__00000001_.Benum = ""
 	__Astruct__00000001_.CEnum = models.CENUM_VAL1
 	__Astruct__00000001_.CName = ``
 	__Astruct__00000001_.CFloatfield = 0.000000
@@ -92,6 +97,9 @@ sqd
 	__Astruct__00000005_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Astruct__00000005_.Date2, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Astruct__00000005_.Booleanfield = false
+	__Astruct__00000005_.Aenum = ""
+	__Astruct__00000005_.Aenum_2 = ""
+	__Astruct__00000005_.Benum = ""
 	__Astruct__00000005_.CEnum = models.CENUM_VAL1
 	__Astruct__00000005_.CName = ``
 	__Astruct__00000005_.CFloatfield = 0.000000
@@ -106,6 +114,9 @@ sqd
 	__Astruct__00000006_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Astruct__00000006_.Date2, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Astruct__00000006_.Booleanfield = false
+	__Astruct__00000006_.Aenum = ""
+	__Astruct__00000006_.Aenum_2 = ""
+	__Astruct__00000006_.Benum = ""
 	__Astruct__00000006_.CEnum = models.CENUM_VAL1
 	__Astruct__00000006_.CName = ``
 	__Astruct__00000006_.CFloatfield = 0.000000
@@ -143,10 +154,47 @@ sqd
 	__Gstruct__00000001_.Intfield = 0
 
 	// insertion point for setup of pointers
+	__Astruct__00000000_.Associationtob = nil
 	__Astruct__00000000_.Anarrayofb = append(__Astruct__00000000_.Anarrayofb, __Bstruct__00000000_)
 	__Astruct__00000000_.Anarrayofb = append(__Astruct__00000000_.Anarrayofb, __Bstruct__00000004_)
+	__Astruct__00000000_.Anotherassociationtob_2 = nil
+	__Astruct__00000000_.Bstruct = nil
+	__Astruct__00000000_.Bstruct2 = nil
+	__Astruct__00000000_.Dstruct = nil
+	__Astruct__00000000_.Dstruct2 = nil
+	__Astruct__00000000_.Dstruct3 = nil
+	__Astruct__00000000_.Dstruct4 = nil
 	__Astruct__00000000_.Anarrayofb2Use = append(__Astruct__00000000_.Anarrayofb2Use, __AstructBstruct2Use__00000001_)
+	__Astruct__00000000_.AnAstruct = nil
+	__Astruct__00000001_.Associationtob = nil
 	__Astruct__00000001_.Anarrayofb = append(__Astruct__00000001_.Anarrayofb, __Bstruct__00000000_)
+	__Astruct__00000001_.Anotherassociationtob_2 = nil
+	__Astruct__00000001_.Bstruct = nil
+	__Astruct__00000001_.Bstruct2 = nil
+	__Astruct__00000001_.Dstruct = nil
+	__Astruct__00000001_.Dstruct2 = nil
+	__Astruct__00000001_.Dstruct3 = nil
+	__Astruct__00000001_.Dstruct4 = nil
+	__Astruct__00000001_.AnAstruct = nil
+	__Astruct__00000005_.Associationtob = nil
+	__Astruct__00000005_.Anotherassociationtob_2 = nil
+	__Astruct__00000005_.Bstruct = nil
+	__Astruct__00000005_.Bstruct2 = nil
+	__Astruct__00000005_.Dstruct = nil
+	__Astruct__00000005_.Dstruct2 = nil
+	__Astruct__00000005_.Dstruct3 = nil
+	__Astruct__00000005_.Dstruct4 = nil
+	__Astruct__00000005_.AnAstruct = nil
+	__Astruct__00000006_.Associationtob = nil
+	__Astruct__00000006_.Anotherassociationtob_2 = nil
+	__Astruct__00000006_.Bstruct = nil
+	__Astruct__00000006_.Bstruct2 = nil
+	__Astruct__00000006_.Dstruct = nil
+	__Astruct__00000006_.Dstruct2 = nil
+	__Astruct__00000006_.Dstruct3 = nil
+	__Astruct__00000006_.Dstruct4 = nil
+	__Astruct__00000006_.AnAstruct = nil
 	__AstructBstruct2Use__00000000_.Bstrcut2 = __Bstruct__00000000_
 	__AstructBstruct2Use__00000001_.Bstrcut2 = __Bstruct__00000000_
+	__Dstruct__00000000_.Gstruct = nil
 }

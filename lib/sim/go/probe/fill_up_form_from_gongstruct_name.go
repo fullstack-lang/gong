@@ -7,6 +7,54 @@ import (
 	"github.com/fullstack-lang/gong/lib/sim/go/models"
 )
 
+// updateFillUpForm updates the current form if there is one
+func (probe *Probe) updateFillUpForm() {
+	var formGroup *form.FormGroup
+	for fg := range probe.formStage.FormGroups {
+		formGroup = fg
+	}
+	if formGroup != nil {
+		switch onSave := formGroup.OnSave.(type) { // insertion point
+		case *CommandFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Command", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.command, probe)
+			}
+		case *DummyAgentFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "DummyAgent", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.dummyagent, probe)
+			}
+		case *EngineFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Engine", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.engine, probe)
+			}
+		case *EventFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Event", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.event, probe)
+			}
+		case *StatusFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Status", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.status, probe)
+			}
+		case *UpdateStateFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "UpdateState", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.updatestate, probe)
+			}
+		}
+	}
+}
+
 func FillUpFormFromGongstructName(
 	probe *Probe,
 	gongstructName string,

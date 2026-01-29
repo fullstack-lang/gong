@@ -16,6 +16,17 @@ import (
 
 const TableName = "Table"
 
+// update the current table if there is one
+func updateCurrentProbeTable(probe *Probe) {
+	var tableName string
+	for table := range probe.tableStage.Tables {
+		tableName = table.Name
+	}
+	switch tableName {
+	// insertion point{{` + string(rune(UpdateProberTableCase)) + `}}
+	}
+}
+
 func updateProbeTable[T models.PointerToGongstruct](
 	probe *Probe,
 ) {
@@ -23,7 +34,7 @@ func updateProbeTable[T models.PointerToGongstruct](
 	probe.tableStage.Reset()
 
 	table := new(gongtable.Table)
-	table.Name = TableName
+	table.Name = models.GetPointerToGongstructName[T]()
 	table.HasColumnSorting = true
 	table.HasFiltering = true
 	table.HasPaginator = true
@@ -259,29 +270,13 @@ func (probe *Probe) UpdateAndCommitNotificationTable() {
 type FillUpTableInsertionId int
 
 const (
-	FillUpTableCase FillUpTableInsertionId = iota
-	FillUpTableCaseForCastingDown
-	FillUpTableCaseForDeleteIcon
+	UpdateProberTableCase FillUpTableInsertionId = iota
 )
 
 var UpdateProbeTableSubTemplateCode map[string]string = // new line
 map[string]string{
 
-	string(rune(FillUpTableCaseForCastingDown)): `
-	case *models.{{Structname}}:
-		updateProbeTable[models.{{Structname}}](probe)`,
-	string(rune(FillUpTableCase)): `
-	case *models.{{Structname}}:
-		formGroup := (&gongtable.FormGroup{
-			Name:  FormName,
-			Label: "Update {{Structname}} Form",
-			OnSave: __gong__New__{{Structname}}FormCallback(
-				instancesTyped,
-				rowUpdate.probe,
-			),
-		}).Stage(formStage)
-		FillUpForm(instancesTyped, formGroup, rowUpdate.probe)`,
-	string(rune(FillUpTableCaseForDeleteIcon)): `
-	case *models.{{Structname}}:
-		instancesTyped.Unstage(cellDeleteIconImpl.probe.stageOfInterest)`,
+	string(rune(UpdateProberTableCase)): `
+	case "{{Structname}}":
+		updateProbeTable[*models.{{Structname}}](probe)`,
 }

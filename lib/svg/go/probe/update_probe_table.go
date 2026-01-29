@@ -14,6 +14,59 @@ import (
 
 const TableName = "Table"
 
+// update the current table if there is one
+func updateCurrentProbeTable(probe *Probe) {
+	var tableName string
+	for table := range probe.tableStage.Tables {
+		tableName = table.Name
+	}
+	switch tableName {
+	// insertion point
+	case "Animate":
+		updateProbeTable[*models.Animate](probe)
+	case "Circle":
+		updateProbeTable[*models.Circle](probe)
+	case "Condition":
+		updateProbeTable[*models.Condition](probe)
+	case "ControlPoint":
+		updateProbeTable[*models.ControlPoint](probe)
+	case "Ellipse":
+		updateProbeTable[*models.Ellipse](probe)
+	case "Layer":
+		updateProbeTable[*models.Layer](probe)
+	case "Line":
+		updateProbeTable[*models.Line](probe)
+	case "Link":
+		updateProbeTable[*models.Link](probe)
+	case "LinkAnchoredText":
+		updateProbeTable[*models.LinkAnchoredText](probe)
+	case "Path":
+		updateProbeTable[*models.Path](probe)
+	case "Point":
+		updateProbeTable[*models.Point](probe)
+	case "Polygone":
+		updateProbeTable[*models.Polygone](probe)
+	case "Polyline":
+		updateProbeTable[*models.Polyline](probe)
+	case "Rect":
+		updateProbeTable[*models.Rect](probe)
+	case "RectAnchoredPath":
+		updateProbeTable[*models.RectAnchoredPath](probe)
+	case "RectAnchoredRect":
+		updateProbeTable[*models.RectAnchoredRect](probe)
+	case "RectAnchoredText":
+		updateProbeTable[*models.RectAnchoredText](probe)
+	case "RectLinkLink":
+		updateProbeTable[*models.RectLinkLink](probe)
+	case "SVG":
+		updateProbeTable[*models.SVG](probe)
+	case "SvgText":
+		updateProbeTable[*models.SvgText](probe)
+	case "Text":
+		updateProbeTable[*models.Text](probe)
+	}
+}
+
 func updateProbeTable[T models.PointerToGongstruct](
 	probe *Probe,
 ) {
@@ -21,7 +74,7 @@ func updateProbeTable[T models.PointerToGongstruct](
 	probe.tableStage.Reset()
 
 	table := new(gongtable.Table)
-	table.Name = TableName
+	table.Name = models.GetPointerToGongstructName[T]()
 	table.HasColumnSorting = true
 	table.HasFiltering = true
 	table.HasPaginator = true

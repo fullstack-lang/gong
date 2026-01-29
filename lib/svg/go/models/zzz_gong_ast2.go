@@ -18,6 +18,18 @@ import (
 var _time__dummyDeclaration2 time.Duration
 var _ = _time__dummyDeclaration2
 
+// swagger:ignore
+type GONG__ExpressionType string
+
+const (
+	GONG__STRUCT_INSTANCE      GONG__ExpressionType = "STRUCT_INSTANCE"
+	GONG__FIELD_OR_CONST_VALUE GONG__ExpressionType = "FIELD_OR_CONST_VALUE"
+	GONG__FIELD_VALUE          GONG__ExpressionType = "FIELD_VALUE"
+	GONG__ENUM_CAST_INT        GONG__ExpressionType = "ENUM_CAST_INT"
+	GONG__ENUM_CAST_STRING     GONG__ExpressionType = "ENUM_CAST_STRING"
+	GONG__IDENTIFIER_CONST     GONG__ExpressionType = "IDENTIFIER_CONST"
+)
+
 // ------------------------------------------------------------------------------------------------
 // STATIC AST PARSING LOGIC
 // ------------------------------------------------------------------------------------------------
@@ -25,14 +37,14 @@ var _ = _time__dummyDeclaration2
 // ModelUnmarshaller abstracts the logic for setting fields on a staged instance
 type ModelUnmarshaller interface {
 	// Initialize creates the struct, stages it, and returns the pointer as 'any'
-	Initialize(stage *Stage, instanceName string, preserveOrder bool) (GongstructIF, error)
+	Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error)
 
 	// UnmarshallField sets a field's value based on the AST expression
 	UnmarshallField(stage *Stage, instance GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error
 }
 
 // ParseAstFile Parse pathToFile and stages all instances declared in the file
-func ParseAstFile2(stage *Stage, pathToFile string, preserveOrder bool) error {
+func ParseAstFile(stage *Stage, pathToFile string, preserveOrder bool) error {
 	fileOfInterest, err := filepath.Abs(pathToFile)
 	if err != nil {
 		return errors.New("Path does not exist %s ;" + fileOfInterest)
@@ -48,7 +60,7 @@ func ParseAstFile2(stage *Stage, pathToFile string, preserveOrder bool) error {
 }
 
 // ParseAstEmbeddedFile parses the Go source code from an embedded file
-func ParseAstEmbeddedFile2(stage *Stage, directory embed.FS, pathToFile string) error {
+func ParseAstEmbeddedFile(stage *Stage, directory embed.FS, pathToFile string) error {
 	fileContentBytes, err := directory.ReadFile(pathToFile)
 	if err != nil {
 		return errors.New(stage.GetName() + "; Unable to read embedded file " + err.Error())
@@ -63,11 +75,27 @@ func ParseAstEmbeddedFile2(stage *Stage, directory embed.FS, pathToFile string) 
 	return ParseAstFileFromAst(stage, inFile, fset, false)
 }
 
+// GongParseAstString parses the Go source code from a string
+func GongParseAstString(stage *Stage, blob string, preserveOrder bool) error {
+	fileString := "package main\nfunc _() {\n" + blob + "\n}"
+	fset := token.NewFileSet()
+	inFile, errParser := parser.ParseFile(fset, "", fileString, parser.ParseComments)
+	if errParser != nil {
+		return errors.New("Unable to parser " + errParser.Error())
+	}
+
+	return ParseAstFileFromAst(stage, inFile, fset, preserveOrder)
+}
+
 // ParseAstFileFromAst traverses the AST and stages instances using the Unmarshaller registry
-func ParseAstFileFromAst2(stage *Stage, inFile *ast.File, fset *token.FileSet, preserveOrder bool) error {
+func ParseAstFileFromAst(stage *Stage, inFile *ast.File, fset *token.FileSet, preserveOrder bool) error {
 
 	// 1. Remove Global Variables: Use a local map to track variable names to instances
 	identifierMap := make(map[string]GongstructIF)
+
+	for _, instance := range stage.GetInstances() {
+		identifierMap[instance.GongGetIdentifier(stage)] = instance
+	}
 
 	// 2. Visitor Pattern: Traverse the AST
 	ast.Inspect(inFile, func(n ast.Node) bool {
@@ -107,7 +135,7 @@ func ParseAstFileFromAst2(stage *Stage, inFile *ast.File, fset *token.FileSet, p
 					// Dispatch to specific Unmarshaller
 					if typeName != "" {
 						if unmarshaller, exists := stage.GongUnmarshallers[typeName]; exists {
-							instance, err := unmarshaller.Initialize(stage, instanceName, preserveOrder)
+							instance, err := unmarshaller.Initialize(stage, ident.Name, instanceName, preserveOrder)
 							if err == nil {
 								identifierMap[ident.Name] = instance
 							}
@@ -130,6 +158,33 @@ func ParseAstFileFromAst2(stage *Stage, inFile *ast.File, fset *token.FileSet, p
 								if unmarshaller, exists := stage.GongUnmarshallers[typeName]; exists {
 									// 3. Strategy Pattern: Delegate to Handler
 									unmarshaller.UnmarshallField(stage, instance, selExpr.Sel.Name, node.Rhs[0], identifierMap)
+								}
+							}
+						}
+					}
+				}
+			}
+		case *ast.ExprStmt:
+			if call, ok := node.X.(*ast.CallExpr); ok {
+				if sel, ok := call.Fun.(*ast.SelectorExpr); ok {
+					if sel.Sel.Name == "Unstage" {
+						if ident, ok := sel.X.(*ast.Ident); ok {
+							if instance, ok := identifierMap[ident.Name]; ok {
+								instance.UnstageVoid(stage)
+							}
+						}
+					}
+					if sel.Sel.Name == "Commit" {
+						if ident, ok := sel.X.(*ast.Ident); ok && ident.Name == "stage" {
+							if stage.IsInDeltaMode() && stage.navigationMode != GongNavigationModeNavigating {
+								stage.Commit()
+							} else {
+								stage.ComputeInstancesNb()
+								if stage.OnInitCommitCallback != nil {
+									stage.OnInitCommitCallback.BeforeCommit(stage)
+								}
+								if stage.OnInitCommitFromBackCallback != nil {
+									stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
 								}
 							}
 						}
@@ -187,6 +242,31 @@ func GongExtractBool(expr ast.Expr) bool {
 	return false
 }
 
+func GongExtractExpr(expr ast.Expr) any {
+	switch v := expr.(type) {
+	case *ast.BasicLit:
+		return v.Value
+	case *ast.CompositeLit:
+		// Reconstruct "Package.Struct{}"
+		if sel, ok := v.Type.(*ast.SelectorExpr); ok {
+			if id, ok := sel.X.(*ast.Ident); ok {
+				return id.Name + "." + sel.Sel.Name + "{}"
+			}
+		}
+	case *ast.SelectorExpr:
+		// Reconstruct "Package.Struct{}.Field"
+		// X is likely a CompositeLit (Package.Struct{})
+		if cl, ok := v.X.(*ast.CompositeLit); ok {
+			if sel, ok := cl.Type.(*ast.SelectorExpr); ok {
+				if id, ok := sel.X.(*ast.Ident); ok {
+					return id.Name + "." + sel.Sel.Name + "{}." + v.Sel.Name
+				}
+			}
+		}
+	}
+	return ""
+}
+
 // GongUnmarshallSliceOfPointers handles append, slices.Delete, and slices.Insert for slice fields
 func GongUnmarshallSliceOfPointers[T PointerToGongstruct](
 	slice *[]T,
@@ -216,6 +296,8 @@ func GongUnmarshallSliceOfPointers[T PointerToGongstruct](
 				if ident, ok := call.Args[2].(*ast.Ident); ok {
 					if val, ok := identifierMap[ident.Name]; ok {
 						*slice = slices.Insert(*slice, index, val.(T))
+					} else {
+						log.Println("Ast2 Insert Unkown identifier", ident.Name)
 					}
 				}
 			}
@@ -224,6 +306,8 @@ func GongUnmarshallSliceOfPointers[T PointerToGongstruct](
 				if ident, ok := call.Args[len(call.Args)-1].(*ast.Ident); ok {
 					if val, ok := identifierMap[ident.Name]; ok {
 						*slice = append(*slice, val.(T))
+					} else {
+						log.Println("Ast2 append Unkown identifier", ident.Name)
 					}
 				}
 			}
@@ -238,6 +322,11 @@ func GongUnmarshallPointer[T PointerToGongstruct](
 	identifierMap map[string]GongstructIF) {
 
 	if ident, ok := valueExpr.(*ast.Ident); ok {
+		if ident.Name == "nil" {
+			var zero T
+			*ptr = zero
+			return
+		}
 		if val, ok := identifierMap[ident.Name]; ok {
 			*ptr = val.(T)
 		}
@@ -268,13 +357,18 @@ func GongUnmarshallEnum[T interface{ FromCodeString(string) error }](
 // insertion point per named struct
 type AnimateUnmarshaller struct{}
 
-func (u *AnimateUnmarshaller) Initialize(stage *Stage, instanceName string, preserveOrder bool) (GongstructIF, error) {
+func (u *AnimateUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
 	instance := new(Animate)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		instance.Stage(stage)
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
 	}
 	return instance, nil
 }
@@ -287,30 +381,35 @@ func (u *AnimateUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
 	case "AttributeName":
-		instance.Name = GongExtractString(valueExpr)
+		instance.AttributeName = GongExtractString(valueExpr)
 	case "Values":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Values = GongExtractString(valueExpr)
 	case "From":
-		instance.Name = GongExtractString(valueExpr)
+		instance.From = GongExtractString(valueExpr)
 	case "To":
-		instance.Name = GongExtractString(valueExpr)
+		instance.To = GongExtractString(valueExpr)
 	case "Dur":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Dur = GongExtractString(valueExpr)
 	case "RepeatCount":
-		instance.Name = GongExtractString(valueExpr)
+		instance.RepeatCount = GongExtractString(valueExpr)
 	}
 	return nil
 }
 
 type CircleUnmarshaller struct{}
 
-func (u *CircleUnmarshaller) Initialize(stage *Stage, instanceName string, preserveOrder bool) (GongstructIF, error) {
+func (u *CircleUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
 	instance := new(Circle)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		instance.Stage(stage)
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
 	}
 	return instance, nil
 }
@@ -329,21 +428,21 @@ func (u *CircleUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, field
 	case "Radius":
 		instance.Radius = GongExtractFloat(valueExpr)
 	case "Color":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Color = GongExtractString(valueExpr)
 	case "FillOpacity":
 		instance.FillOpacity = GongExtractFloat(valueExpr)
 	case "Stroke":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Stroke = GongExtractString(valueExpr)
 	case "StrokeOpacity":
 		instance.StrokeOpacity = GongExtractFloat(valueExpr)
 	case "StrokeWidth":
 		instance.StrokeWidth = GongExtractFloat(valueExpr)
 	case "StrokeDashArray":
-		instance.Name = GongExtractString(valueExpr)
+		instance.StrokeDashArray = GongExtractString(valueExpr)
 	case "StrokeDashArrayWhenSelected":
-		instance.Name = GongExtractString(valueExpr)
+		instance.StrokeDashArrayWhenSelected = GongExtractString(valueExpr)
 	case "Transform":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Transform = GongExtractString(valueExpr)
 	case "Animations":
 		GongUnmarshallSliceOfPointers(&instance.Animations, valueExpr, identifierMap)
 	}
@@ -352,13 +451,18 @@ func (u *CircleUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, field
 
 type ConditionUnmarshaller struct{}
 
-func (u *ConditionUnmarshaller) Initialize(stage *Stage, instanceName string, preserveOrder bool) (GongstructIF, error) {
+func (u *ConditionUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
 	instance := new(Condition)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		instance.Stage(stage)
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
 	}
 	return instance, nil
 }
@@ -376,13 +480,18 @@ func (u *ConditionUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 
 type ControlPointUnmarshaller struct{}
 
-func (u *ControlPointUnmarshaller) Initialize(stage *Stage, instanceName string, preserveOrder bool) (GongstructIF, error) {
+func (u *ControlPointUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
 	instance := new(ControlPoint)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		instance.Stage(stage)
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
 	}
 	return instance, nil
 }
@@ -406,13 +515,18 @@ func (u *ControlPointUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 
 type EllipseUnmarshaller struct{}
 
-func (u *EllipseUnmarshaller) Initialize(stage *Stage, instanceName string, preserveOrder bool) (GongstructIF, error) {
+func (u *EllipseUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
 	instance := new(Ellipse)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		instance.Stage(stage)
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
 	}
 	return instance, nil
 }
@@ -433,21 +547,21 @@ func (u *EllipseUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 	case "RY":
 		instance.RY = GongExtractFloat(valueExpr)
 	case "Color":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Color = GongExtractString(valueExpr)
 	case "FillOpacity":
 		instance.FillOpacity = GongExtractFloat(valueExpr)
 	case "Stroke":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Stroke = GongExtractString(valueExpr)
 	case "StrokeOpacity":
 		instance.StrokeOpacity = GongExtractFloat(valueExpr)
 	case "StrokeWidth":
 		instance.StrokeWidth = GongExtractFloat(valueExpr)
 	case "StrokeDashArray":
-		instance.Name = GongExtractString(valueExpr)
+		instance.StrokeDashArray = GongExtractString(valueExpr)
 	case "StrokeDashArrayWhenSelected":
-		instance.Name = GongExtractString(valueExpr)
+		instance.StrokeDashArrayWhenSelected = GongExtractString(valueExpr)
 	case "Transform":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Transform = GongExtractString(valueExpr)
 	case "Animates":
 		GongUnmarshallSliceOfPointers(&instance.Animates, valueExpr, identifierMap)
 	}
@@ -456,13 +570,18 @@ func (u *EllipseUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 
 type LayerUnmarshaller struct{}
 
-func (u *LayerUnmarshaller) Initialize(stage *Stage, instanceName string, preserveOrder bool) (GongstructIF, error) {
+func (u *LayerUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
 	instance := new(Layer)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		instance.Stage(stage)
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
 	}
 	return instance, nil
 }
@@ -500,13 +619,18 @@ func (u *LayerUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 
 type LineUnmarshaller struct{}
 
-func (u *LineUnmarshaller) Initialize(stage *Stage, instanceName string, preserveOrder bool) (GongstructIF, error) {
+func (u *LineUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
 	instance := new(Line)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		instance.Stage(stage)
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
 	}
 	return instance, nil
 }
@@ -527,21 +651,21 @@ func (u *LineUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 	case "Y2":
 		instance.Y2 = GongExtractFloat(valueExpr)
 	case "Color":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Color = GongExtractString(valueExpr)
 	case "FillOpacity":
 		instance.FillOpacity = GongExtractFloat(valueExpr)
 	case "Stroke":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Stroke = GongExtractString(valueExpr)
 	case "StrokeOpacity":
 		instance.StrokeOpacity = GongExtractFloat(valueExpr)
 	case "StrokeWidth":
 		instance.StrokeWidth = GongExtractFloat(valueExpr)
 	case "StrokeDashArray":
-		instance.Name = GongExtractString(valueExpr)
+		instance.StrokeDashArray = GongExtractString(valueExpr)
 	case "StrokeDashArrayWhenSelected":
-		instance.Name = GongExtractString(valueExpr)
+		instance.StrokeDashArrayWhenSelected = GongExtractString(valueExpr)
 	case "Transform":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Transform = GongExtractString(valueExpr)
 	case "Animates":
 		GongUnmarshallSliceOfPointers(&instance.Animates, valueExpr, identifierMap)
 	case "MouseClickX":
@@ -554,13 +678,18 @@ func (u *LineUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 
 type LinkUnmarshaller struct{}
 
-func (u *LinkUnmarshaller) Initialize(stage *Stage, instanceName string, preserveOrder bool) (GongstructIF, error) {
+func (u *LinkUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
 	instance := new(Link)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		instance.Stage(stage)
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
 	}
 	return instance, nil
 }
@@ -615,21 +744,21 @@ func (u *LinkUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 	case "ControlPoints":
 		GongUnmarshallSliceOfPointers(&instance.ControlPoints, valueExpr, identifierMap)
 	case "Color":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Color = GongExtractString(valueExpr)
 	case "FillOpacity":
 		instance.FillOpacity = GongExtractFloat(valueExpr)
 	case "Stroke":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Stroke = GongExtractString(valueExpr)
 	case "StrokeOpacity":
 		instance.StrokeOpacity = GongExtractFloat(valueExpr)
 	case "StrokeWidth":
 		instance.StrokeWidth = GongExtractFloat(valueExpr)
 	case "StrokeDashArray":
-		instance.Name = GongExtractString(valueExpr)
+		instance.StrokeDashArray = GongExtractString(valueExpr)
 	case "StrokeDashArrayWhenSelected":
-		instance.Name = GongExtractString(valueExpr)
+		instance.StrokeDashArrayWhenSelected = GongExtractString(valueExpr)
 	case "Transform":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Transform = GongExtractString(valueExpr)
 	case "MouseX":
 		instance.MouseX = GongExtractFloat(valueExpr)
 	case "MouseY":
@@ -642,13 +771,18 @@ func (u *LinkUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 
 type LinkAnchoredTextUnmarshaller struct{}
 
-func (u *LinkAnchoredTextUnmarshaller) Initialize(stage *Stage, instanceName string, preserveOrder bool) (GongstructIF, error) {
+func (u *LinkAnchoredTextUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
 	instance := new(LinkAnchoredText)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		instance.Stage(stage)
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
 	}
 	return instance, nil
 }
@@ -661,7 +795,7 @@ func (u *LinkAnchoredTextUnmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
 	case "Content":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Content = GongExtractString(valueExpr)
 	case "AutomaticLayout":
 		instance.AutomaticLayout = GongExtractBool(valueExpr)
 	case "LinkAnchorType":
@@ -671,33 +805,33 @@ func (u *LinkAnchoredTextUnmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 	case "Y_Offset":
 		instance.Y_Offset = GongExtractFloat(valueExpr)
 	case "FontWeight":
-		instance.Name = GongExtractString(valueExpr)
+		instance.FontWeight = GongExtractString(valueExpr)
 	case "FontSize":
-		instance.Name = GongExtractString(valueExpr)
+		instance.FontSize = GongExtractString(valueExpr)
 	case "FontStyle":
-		instance.Name = GongExtractString(valueExpr)
+		instance.FontStyle = GongExtractString(valueExpr)
 	case "LetterSpacing":
-		instance.Name = GongExtractString(valueExpr)
+		instance.LetterSpacing = GongExtractString(valueExpr)
 	case "FontFamily":
-		instance.Name = GongExtractString(valueExpr)
+		instance.FontFamily = GongExtractString(valueExpr)
 	case "WhiteSpace":
 		GongUnmarshallEnum(&instance.WhiteSpace, valueExpr)
 	case "Color":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Color = GongExtractString(valueExpr)
 	case "FillOpacity":
 		instance.FillOpacity = GongExtractFloat(valueExpr)
 	case "Stroke":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Stroke = GongExtractString(valueExpr)
 	case "StrokeOpacity":
 		instance.StrokeOpacity = GongExtractFloat(valueExpr)
 	case "StrokeWidth":
 		instance.StrokeWidth = GongExtractFloat(valueExpr)
 	case "StrokeDashArray":
-		instance.Name = GongExtractString(valueExpr)
+		instance.StrokeDashArray = GongExtractString(valueExpr)
 	case "StrokeDashArrayWhenSelected":
-		instance.Name = GongExtractString(valueExpr)
+		instance.StrokeDashArrayWhenSelected = GongExtractString(valueExpr)
 	case "Transform":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Transform = GongExtractString(valueExpr)
 	case "Animates":
 		GongUnmarshallSliceOfPointers(&instance.Animates, valueExpr, identifierMap)
 	}
@@ -706,13 +840,18 @@ func (u *LinkAnchoredTextUnmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 
 type PathUnmarshaller struct{}
 
-func (u *PathUnmarshaller) Initialize(stage *Stage, instanceName string, preserveOrder bool) (GongstructIF, error) {
+func (u *PathUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
 	instance := new(Path)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		instance.Stage(stage)
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
 	}
 	return instance, nil
 }
@@ -725,23 +864,23 @@ func (u *PathUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
 	case "Definition":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Definition = GongExtractString(valueExpr)
 	case "Color":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Color = GongExtractString(valueExpr)
 	case "FillOpacity":
 		instance.FillOpacity = GongExtractFloat(valueExpr)
 	case "Stroke":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Stroke = GongExtractString(valueExpr)
 	case "StrokeOpacity":
 		instance.StrokeOpacity = GongExtractFloat(valueExpr)
 	case "StrokeWidth":
 		instance.StrokeWidth = GongExtractFloat(valueExpr)
 	case "StrokeDashArray":
-		instance.Name = GongExtractString(valueExpr)
+		instance.StrokeDashArray = GongExtractString(valueExpr)
 	case "StrokeDashArrayWhenSelected":
-		instance.Name = GongExtractString(valueExpr)
+		instance.StrokeDashArrayWhenSelected = GongExtractString(valueExpr)
 	case "Transform":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Transform = GongExtractString(valueExpr)
 	case "Animates":
 		GongUnmarshallSliceOfPointers(&instance.Animates, valueExpr, identifierMap)
 	}
@@ -750,13 +889,18 @@ func (u *PathUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 
 type PointUnmarshaller struct{}
 
-func (u *PointUnmarshaller) Initialize(stage *Stage, instanceName string, preserveOrder bool) (GongstructIF, error) {
+func (u *PointUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
 	instance := new(Point)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		instance.Stage(stage)
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
 	}
 	return instance, nil
 }
@@ -778,13 +922,18 @@ func (u *PointUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 
 type PolygoneUnmarshaller struct{}
 
-func (u *PolygoneUnmarshaller) Initialize(stage *Stage, instanceName string, preserveOrder bool) (GongstructIF, error) {
+func (u *PolygoneUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
 	instance := new(Polygone)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		instance.Stage(stage)
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
 	}
 	return instance, nil
 }
@@ -797,23 +946,23 @@ func (u *PolygoneUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
 	case "Points":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Points = GongExtractString(valueExpr)
 	case "Color":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Color = GongExtractString(valueExpr)
 	case "FillOpacity":
 		instance.FillOpacity = GongExtractFloat(valueExpr)
 	case "Stroke":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Stroke = GongExtractString(valueExpr)
 	case "StrokeOpacity":
 		instance.StrokeOpacity = GongExtractFloat(valueExpr)
 	case "StrokeWidth":
 		instance.StrokeWidth = GongExtractFloat(valueExpr)
 	case "StrokeDashArray":
-		instance.Name = GongExtractString(valueExpr)
+		instance.StrokeDashArray = GongExtractString(valueExpr)
 	case "StrokeDashArrayWhenSelected":
-		instance.Name = GongExtractString(valueExpr)
+		instance.StrokeDashArrayWhenSelected = GongExtractString(valueExpr)
 	case "Transform":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Transform = GongExtractString(valueExpr)
 	case "Animates":
 		GongUnmarshallSliceOfPointers(&instance.Animates, valueExpr, identifierMap)
 	}
@@ -822,13 +971,18 @@ func (u *PolygoneUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 
 type PolylineUnmarshaller struct{}
 
-func (u *PolylineUnmarshaller) Initialize(stage *Stage, instanceName string, preserveOrder bool) (GongstructIF, error) {
+func (u *PolylineUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
 	instance := new(Polyline)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		instance.Stage(stage)
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
 	}
 	return instance, nil
 }
@@ -841,23 +995,23 @@ func (u *PolylineUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
 	case "Points":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Points = GongExtractString(valueExpr)
 	case "Color":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Color = GongExtractString(valueExpr)
 	case "FillOpacity":
 		instance.FillOpacity = GongExtractFloat(valueExpr)
 	case "Stroke":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Stroke = GongExtractString(valueExpr)
 	case "StrokeOpacity":
 		instance.StrokeOpacity = GongExtractFloat(valueExpr)
 	case "StrokeWidth":
 		instance.StrokeWidth = GongExtractFloat(valueExpr)
 	case "StrokeDashArray":
-		instance.Name = GongExtractString(valueExpr)
+		instance.StrokeDashArray = GongExtractString(valueExpr)
 	case "StrokeDashArrayWhenSelected":
-		instance.Name = GongExtractString(valueExpr)
+		instance.StrokeDashArrayWhenSelected = GongExtractString(valueExpr)
 	case "Transform":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Transform = GongExtractString(valueExpr)
 	case "Animates":
 		GongUnmarshallSliceOfPointers(&instance.Animates, valueExpr, identifierMap)
 	}
@@ -866,13 +1020,18 @@ func (u *PolylineUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 
 type RectUnmarshaller struct{}
 
-func (u *RectUnmarshaller) Initialize(stage *Stage, instanceName string, preserveOrder bool) (GongstructIF, error) {
+func (u *RectUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
 	instance := new(Rect)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		instance.Stage(stage)
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
 	}
 	return instance, nil
 }
@@ -895,21 +1054,21 @@ func (u *RectUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 	case "RX":
 		instance.RX = GongExtractFloat(valueExpr)
 	case "Color":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Color = GongExtractString(valueExpr)
 	case "FillOpacity":
 		instance.FillOpacity = GongExtractFloat(valueExpr)
 	case "Stroke":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Stroke = GongExtractString(valueExpr)
 	case "StrokeOpacity":
 		instance.StrokeOpacity = GongExtractFloat(valueExpr)
 	case "StrokeWidth":
 		instance.StrokeWidth = GongExtractFloat(valueExpr)
 	case "StrokeDashArray":
-		instance.Name = GongExtractString(valueExpr)
+		instance.StrokeDashArray = GongExtractString(valueExpr)
 	case "StrokeDashArrayWhenSelected":
-		instance.Name = GongExtractString(valueExpr)
+		instance.StrokeDashArrayWhenSelected = GongExtractString(valueExpr)
 	case "Transform":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Transform = GongExtractString(valueExpr)
 	case "HoveringTrigger":
 		GongUnmarshallSliceOfPointers(&instance.HoveringTrigger, valueExpr, identifierMap)
 	case "DisplayConditions":
@@ -951,9 +1110,9 @@ func (u *RectUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 	case "ChangeColorWhenHovered":
 		instance.ChangeColorWhenHovered = GongExtractBool(valueExpr)
 	case "ColorWhenHovered":
-		instance.Name = GongExtractString(valueExpr)
+		instance.ColorWhenHovered = GongExtractString(valueExpr)
 	case "OriginalColor":
-		instance.Name = GongExtractString(valueExpr)
+		instance.OriginalColor = GongExtractString(valueExpr)
 	case "FillOpacityWhenHovered":
 		instance.FillOpacityWhenHovered = GongExtractFloat(valueExpr)
 	case "OriginalFillOpacity":
@@ -961,7 +1120,7 @@ func (u *RectUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 	case "HasToolTip":
 		instance.HasToolTip = GongExtractBool(valueExpr)
 	case "ToolTipText":
-		instance.Name = GongExtractString(valueExpr)
+		instance.ToolTipText = GongExtractString(valueExpr)
 	case "ToolTipPosition":
 		GongUnmarshallEnum(&instance.ToolTipPosition, valueExpr)
 	case "MouseX":
@@ -976,13 +1135,18 @@ func (u *RectUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 
 type RectAnchoredPathUnmarshaller struct{}
 
-func (u *RectAnchoredPathUnmarshaller) Initialize(stage *Stage, instanceName string, preserveOrder bool) (GongstructIF, error) {
+func (u *RectAnchoredPathUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
 	instance := new(RectAnchoredPath)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		instance.Stage(stage)
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
 	}
 	return instance, nil
 }
@@ -995,7 +1159,7 @@ func (u *RectAnchoredPathUnmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
 	case "Definition":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Definition = GongExtractString(valueExpr)
 	case "X_Offset":
 		instance.X_Offset = GongExtractFloat(valueExpr)
 	case "Y_Offset":
@@ -1007,34 +1171,39 @@ func (u *RectAnchoredPathUnmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 	case "AppliedScaling":
 		instance.AppliedScaling = GongExtractFloat(valueExpr)
 	case "Color":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Color = GongExtractString(valueExpr)
 	case "FillOpacity":
 		instance.FillOpacity = GongExtractFloat(valueExpr)
 	case "Stroke":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Stroke = GongExtractString(valueExpr)
 	case "StrokeOpacity":
 		instance.StrokeOpacity = GongExtractFloat(valueExpr)
 	case "StrokeWidth":
 		instance.StrokeWidth = GongExtractFloat(valueExpr)
 	case "StrokeDashArray":
-		instance.Name = GongExtractString(valueExpr)
+		instance.StrokeDashArray = GongExtractString(valueExpr)
 	case "StrokeDashArrayWhenSelected":
-		instance.Name = GongExtractString(valueExpr)
+		instance.StrokeDashArrayWhenSelected = GongExtractString(valueExpr)
 	case "Transform":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Transform = GongExtractString(valueExpr)
 	}
 	return nil
 }
 
 type RectAnchoredRectUnmarshaller struct{}
 
-func (u *RectAnchoredRectUnmarshaller) Initialize(stage *Stage, instanceName string, preserveOrder bool) (GongstructIF, error) {
+func (u *RectAnchoredRectUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
 	instance := new(RectAnchoredRect)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		instance.Stage(stage)
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
 	}
 	return instance, nil
 }
@@ -1069,36 +1238,41 @@ func (u *RectAnchoredRectUnmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 	case "HasToolTip":
 		instance.HasToolTip = GongExtractBool(valueExpr)
 	case "ToolTipText":
-		instance.Name = GongExtractString(valueExpr)
+		instance.ToolTipText = GongExtractString(valueExpr)
 	case "Color":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Color = GongExtractString(valueExpr)
 	case "FillOpacity":
 		instance.FillOpacity = GongExtractFloat(valueExpr)
 	case "Stroke":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Stroke = GongExtractString(valueExpr)
 	case "StrokeOpacity":
 		instance.StrokeOpacity = GongExtractFloat(valueExpr)
 	case "StrokeWidth":
 		instance.StrokeWidth = GongExtractFloat(valueExpr)
 	case "StrokeDashArray":
-		instance.Name = GongExtractString(valueExpr)
+		instance.StrokeDashArray = GongExtractString(valueExpr)
 	case "StrokeDashArrayWhenSelected":
-		instance.Name = GongExtractString(valueExpr)
+		instance.StrokeDashArrayWhenSelected = GongExtractString(valueExpr)
 	case "Transform":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Transform = GongExtractString(valueExpr)
 	}
 	return nil
 }
 
 type RectAnchoredTextUnmarshaller struct{}
 
-func (u *RectAnchoredTextUnmarshaller) Initialize(stage *Stage, instanceName string, preserveOrder bool) (GongstructIF, error) {
+func (u *RectAnchoredTextUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
 	instance := new(RectAnchoredText)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		instance.Stage(stage)
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
 	}
 	return instance, nil
 }
@@ -1111,17 +1285,17 @@ func (u *RectAnchoredTextUnmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
 	case "Content":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Content = GongExtractString(valueExpr)
 	case "FontWeight":
-		instance.Name = GongExtractString(valueExpr)
+		instance.FontWeight = GongExtractString(valueExpr)
 	case "FontSize":
-		instance.Name = GongExtractString(valueExpr)
+		instance.FontSize = GongExtractString(valueExpr)
 	case "FontStyle":
-		instance.Name = GongExtractString(valueExpr)
+		instance.FontStyle = GongExtractString(valueExpr)
 	case "LetterSpacing":
-		instance.Name = GongExtractString(valueExpr)
+		instance.LetterSpacing = GongExtractString(valueExpr)
 	case "FontFamily":
-		instance.Name = GongExtractString(valueExpr)
+		instance.FontFamily = GongExtractString(valueExpr)
 	case "WhiteSpace":
 		GongUnmarshallEnum(&instance.WhiteSpace, valueExpr)
 	case "X_Offset":
@@ -1137,21 +1311,21 @@ func (u *RectAnchoredTextUnmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 	case "WritingMode":
 		GongUnmarshallEnum(&instance.WritingMode, valueExpr)
 	case "Color":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Color = GongExtractString(valueExpr)
 	case "FillOpacity":
 		instance.FillOpacity = GongExtractFloat(valueExpr)
 	case "Stroke":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Stroke = GongExtractString(valueExpr)
 	case "StrokeOpacity":
 		instance.StrokeOpacity = GongExtractFloat(valueExpr)
 	case "StrokeWidth":
 		instance.StrokeWidth = GongExtractFloat(valueExpr)
 	case "StrokeDashArray":
-		instance.Name = GongExtractString(valueExpr)
+		instance.StrokeDashArray = GongExtractString(valueExpr)
 	case "StrokeDashArrayWhenSelected":
-		instance.Name = GongExtractString(valueExpr)
+		instance.StrokeDashArrayWhenSelected = GongExtractString(valueExpr)
 	case "Transform":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Transform = GongExtractString(valueExpr)
 	case "Animates":
 		GongUnmarshallSliceOfPointers(&instance.Animates, valueExpr, identifierMap)
 	}
@@ -1160,13 +1334,18 @@ func (u *RectAnchoredTextUnmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 
 type RectLinkLinkUnmarshaller struct{}
 
-func (u *RectLinkLinkUnmarshaller) Initialize(stage *Stage, instanceName string, preserveOrder bool) (GongstructIF, error) {
+func (u *RectLinkLinkUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
 	instance := new(RectLinkLink)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		instance.Stage(stage)
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
 	}
 	return instance, nil
 }
@@ -1185,34 +1364,39 @@ func (u *RectLinkLinkUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 	case "TargetAnchorPosition":
 		instance.TargetAnchorPosition = GongExtractFloat(valueExpr)
 	case "Color":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Color = GongExtractString(valueExpr)
 	case "FillOpacity":
 		instance.FillOpacity = GongExtractFloat(valueExpr)
 	case "Stroke":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Stroke = GongExtractString(valueExpr)
 	case "StrokeOpacity":
 		instance.StrokeOpacity = GongExtractFloat(valueExpr)
 	case "StrokeWidth":
 		instance.StrokeWidth = GongExtractFloat(valueExpr)
 	case "StrokeDashArray":
-		instance.Name = GongExtractString(valueExpr)
+		instance.StrokeDashArray = GongExtractString(valueExpr)
 	case "StrokeDashArrayWhenSelected":
-		instance.Name = GongExtractString(valueExpr)
+		instance.StrokeDashArrayWhenSelected = GongExtractString(valueExpr)
 	case "Transform":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Transform = GongExtractString(valueExpr)
 	}
 	return nil
 }
 
 type SVGUnmarshaller struct{}
 
-func (u *SVGUnmarshaller) Initialize(stage *Stage, instanceName string, preserveOrder bool) (GongstructIF, error) {
+func (u *SVGUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
 	instance := new(SVG)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		instance.Stage(stage)
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
 	}
 	return instance, nil
 }
@@ -1239,7 +1423,7 @@ func (u *SVGUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNam
 	case "IsSVGBackEndFileGenerated":
 		instance.IsSVGBackEndFileGenerated = GongExtractBool(valueExpr)
 	case "DefaultDirectoryForGeneratedImages":
-		instance.Name = GongExtractString(valueExpr)
+		instance.DefaultDirectoryForGeneratedImages = GongExtractString(valueExpr)
 	case "IsControlBannerHidden":
 		instance.IsControlBannerHidden = GongExtractBool(valueExpr)
 	case "OverrideWidth":
@@ -1256,13 +1440,18 @@ func (u *SVGUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNam
 
 type SvgTextUnmarshaller struct{}
 
-func (u *SvgTextUnmarshaller) Initialize(stage *Stage, instanceName string, preserveOrder bool) (GongstructIF, error) {
+func (u *SvgTextUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
 	instance := new(SvgText)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		instance.Stage(stage)
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
 	}
 	return instance, nil
 }
@@ -1275,20 +1464,25 @@ func (u *SvgTextUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
 	case "Text":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Text = GongExtractString(valueExpr)
 	}
 	return nil
 }
 
 type TextUnmarshaller struct{}
 
-func (u *TextUnmarshaller) Initialize(stage *Stage, instanceName string, preserveOrder bool) (GongstructIF, error) {
+func (u *TextUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
 	instance := new(Text)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		instance.Stage(stage)
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
 	}
 	return instance, nil
 }
@@ -1305,33 +1499,33 @@ func (u *TextUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 	case "Y":
 		instance.Y = GongExtractFloat(valueExpr)
 	case "Content":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Content = GongExtractString(valueExpr)
 	case "Color":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Color = GongExtractString(valueExpr)
 	case "FillOpacity":
 		instance.FillOpacity = GongExtractFloat(valueExpr)
 	case "Stroke":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Stroke = GongExtractString(valueExpr)
 	case "StrokeOpacity":
 		instance.StrokeOpacity = GongExtractFloat(valueExpr)
 	case "StrokeWidth":
 		instance.StrokeWidth = GongExtractFloat(valueExpr)
 	case "StrokeDashArray":
-		instance.Name = GongExtractString(valueExpr)
+		instance.StrokeDashArray = GongExtractString(valueExpr)
 	case "StrokeDashArrayWhenSelected":
-		instance.Name = GongExtractString(valueExpr)
+		instance.StrokeDashArrayWhenSelected = GongExtractString(valueExpr)
 	case "Transform":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Transform = GongExtractString(valueExpr)
 	case "FontWeight":
-		instance.Name = GongExtractString(valueExpr)
+		instance.FontWeight = GongExtractString(valueExpr)
 	case "FontSize":
-		instance.Name = GongExtractString(valueExpr)
+		instance.FontSize = GongExtractString(valueExpr)
 	case "FontStyle":
-		instance.Name = GongExtractString(valueExpr)
+		instance.FontStyle = GongExtractString(valueExpr)
 	case "LetterSpacing":
-		instance.Name = GongExtractString(valueExpr)
+		instance.LetterSpacing = GongExtractString(valueExpr)
 	case "FontFamily":
-		instance.Name = GongExtractString(valueExpr)
+		instance.FontFamily = GongExtractString(valueExpr)
 	case "WhiteSpace":
 		GongUnmarshallEnum(&instance.WhiteSpace, valueExpr)
 	case "Animates":

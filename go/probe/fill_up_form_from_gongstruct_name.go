@@ -7,6 +7,84 @@ import (
 	"github.com/fullstack-lang/gong/go/models"
 )
 
+// updateFillUpForm updates the current form if there is one
+func (probe *Probe) updateFillUpForm() {
+	var formGroup *form.FormGroup
+	for fg := range probe.formStage.FormGroups {
+		formGroup = fg
+	}
+	if formGroup != nil {
+		switch onSave := formGroup.OnSave.(type) { // insertion point
+		case *GongBasicFieldFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "GongBasicField", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.gongbasicfield, probe)
+			}
+		case *GongEnumFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "GongEnum", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.gongenum, probe)
+			}
+		case *GongEnumValueFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "GongEnumValue", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.gongenumvalue, probe)
+			}
+		case *GongLinkFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "GongLink", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.gonglink, probe)
+			}
+		case *GongNoteFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "GongNote", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.gongnote, probe)
+			}
+		case *GongStructFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "GongStruct", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.gongstruct, probe)
+			}
+		case *GongTimeFieldFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "GongTimeField", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.gongtimefield, probe)
+			}
+		case *MetaReferenceFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "MetaReference", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.metareference, probe)
+			}
+		case *ModelPkgFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "ModelPkg", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.modelpkg, probe)
+			}
+		case *PointerToGongStructFieldFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "PointerToGongStructField", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.pointertogongstructfield, probe)
+			}
+		case *SliceOfPointerToGongStructFieldFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "SliceOfPointerToGongStructField", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.sliceofpointertogongstructfield, probe)
+			}
+		}
+	}
+}
+
 func FillUpFormFromGongstructName(
 	probe *Probe,
 	gongstructName string,

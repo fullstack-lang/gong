@@ -7,6 +7,144 @@ import (
 	"github.com/fullstack-lang/gong/lib/svg/go/models"
 )
 
+// updateFillUpForm updates the current form if there is one
+func (probe *Probe) updateFillUpForm() {
+	var formGroup *form.FormGroup
+	for fg := range probe.formStage.FormGroups {
+		formGroup = fg
+	}
+	if formGroup != nil {
+		switch onSave := formGroup.OnSave.(type) { // insertion point
+		case *AnimateFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Animate", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.animate, probe)
+			}
+		case *CircleFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Circle", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.circle, probe)
+			}
+		case *ConditionFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Condition", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.condition, probe)
+			}
+		case *ControlPointFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "ControlPoint", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.controlpoint, probe)
+			}
+		case *EllipseFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Ellipse", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.ellipse, probe)
+			}
+		case *LayerFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Layer", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.layer, probe)
+			}
+		case *LineFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Line", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.line, probe)
+			}
+		case *LinkFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Link", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.link, probe)
+			}
+		case *LinkAnchoredTextFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "LinkAnchoredText", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.linkanchoredtext, probe)
+			}
+		case *PathFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Path", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.path, probe)
+			}
+		case *PointFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Point", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.point, probe)
+			}
+		case *PolygoneFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Polygone", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.polygone, probe)
+			}
+		case *PolylineFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Polyline", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.polyline, probe)
+			}
+		case *RectFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Rect", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.rect, probe)
+			}
+		case *RectAnchoredPathFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "RectAnchoredPath", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.rectanchoredpath, probe)
+			}
+		case *RectAnchoredRectFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "RectAnchoredRect", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.rectanchoredrect, probe)
+			}
+		case *RectAnchoredTextFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "RectAnchoredText", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.rectanchoredtext, probe)
+			}
+		case *RectLinkLinkFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "RectLinkLink", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.rectlinklink, probe)
+			}
+		case *SVGFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "SVG", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.svg, probe)
+			}
+		case *SvgTextFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "SvgText", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.svgtext, probe)
+			}
+		case *TextFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Text", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.text, probe)
+			}
+		}
+	}
+}
+
 func FillUpFormFromGongstructName(
 	probe *Probe,
 	gongstructName string,

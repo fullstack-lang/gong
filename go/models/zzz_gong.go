@@ -301,6 +301,84 @@ type Stage struct {
 
 	forwardCommits  []string
 	backwardCommits []string
+
+	// when navigating the commit history
+	// navigationMode is set to Navigating
+	navigationMode    gongStageNavigationMode
+	nbCommitsBackward int // the number of backward commits that have been applied
+}
+
+type gongStageNavigationMode string
+
+const (
+	GongNavigationModeNormal gongStageNavigationMode = "Normal"
+	// when the mode is navigating, each commit backward and forward
+	// it is possible to go apply the nbCommitsBackward forward commits
+	GongNavigationModeNavigating gongStageNavigationMode = "Navigating"
+)
+
+// ApplyBackwardCommit applies the commit before the current one
+func (stage *Stage) ApplyBackwardCommit() error {
+
+	if len(stage.backwardCommits) == 0 {
+		return errors.New("no backward commit to apply")
+	}
+
+	if stage.navigationMode == GongNavigationModeNormal && stage.nbCommitsBackward != 0 {
+		return errors.New("in navigation mode normal, cannot have have nbCommitsBackward != 0")
+	}
+
+	if stage.navigationMode == GongNavigationModeNormal {
+		stage.navigationMode = GongNavigationModeNavigating
+	}
+
+	if stage.nbCommitsBackward >= len(stage.backwardCommits) {
+		return errors.New("no more backward commit to apply")
+	}
+
+	commitToApply := stage.backwardCommits[len(stage.backwardCommits)-1-stage.nbCommitsBackward]
+
+	// umarshall the backward commit to the stage
+	err := GongParseAstString(stage, commitToApply, true)
+	if err != nil {
+		log.Println("error during ApplyBackwardCommit: ", err)
+		return err
+	}
+
+	stage.nbCommitsBackward++
+
+	return nil
+}
+
+func (stage *Stage) GetForwardCommits() []string {
+	return stage.forwardCommits
+}
+
+func (stage *Stage) GetBackwardCommits() []string {
+	return stage.backwardCommits
+}
+
+func (stage *Stage) ApplyForwardCommit() error {
+	if stage.navigationMode == GongNavigationModeNormal && stage.nbCommitsBackward != 0 {
+		return errors.New("in navigation mode normal, cannot have have nbCommitsBackward != 0")
+	}
+
+	if stage.nbCommitsBackward == 0 {
+		return errors.New("no more forward commit to apply")
+	}
+
+	commitToApply := stage.forwardCommits[len(stage.forwardCommits)-1-stage.nbCommitsBackward+1]
+	err := GongParseAstString(stage, commitToApply, true)
+	if err != nil {
+		log.Println("error during ApplyBackwardCommit: ", err)
+		return err
+	}
+	stage.nbCommitsBackward--
+	return nil
+}
+
+func (stage *Stage) GetNbBackwardCommits() int {
+	return stage.nbCommitsBackward
 }
 
 func (stage *Stage) ResetCommits() {
@@ -312,7 +390,7 @@ func (stage *Stage) SetDeltaMode(inDeltaMode bool) {
 	stage.isInDeltaMode = inDeltaMode
 }
 
-func (stage *Stage) IsDeltaMode() bool {
+func (stage *Stage) IsInDeltaMode() bool {
 	return stage.isInDeltaMode
 }
 
@@ -321,6 +399,10 @@ func (stage *Stage) SetProbeIF(probeIF ProbeIF) {
 }
 
 func (stage *Stage) GetProbeIF() ProbeIF {
+    if stage.probeIF == nil {
+        return nil
+    }
+
 	return stage.probeIF
 }
 
@@ -735,28 +817,29 @@ func NewStage(name string) (stage *Stage) {
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
 			"GongBasicField": &GongBasicFieldUnmarshaller{},
-	
+
 			"GongEnum": &GongEnumUnmarshaller{},
-	
+
 			"GongEnumValue": &GongEnumValueUnmarshaller{},
-	
+
 			"GongLink": &GongLinkUnmarshaller{},
-	
+
 			"GongNote": &GongNoteUnmarshaller{},
-	
+
 			"GongStruct": &GongStructUnmarshaller{},
-	
+
 			"GongTimeField": &GongTimeFieldUnmarshaller{},
-	
+
 			"MetaReference": &MetaReferenceUnmarshaller{},
-	
+
 			"ModelPkg": &ModelPkgUnmarshaller{},
-	
+
 			"PointerToGongStructField": &PointerToGongStructFieldUnmarshaller{},
-	
+
 			"SliceOfPointerToGongStructField": &SliceOfPointerToGongStructFieldUnmarshaller{},
-	
-		}, // end of insertion point
+
+			// end of insertion point
+		},
 
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
 			{name: "GongBasicField"},
@@ -771,6 +854,8 @@ func NewStage(name string) (stage *Stage) {
 			{name: "PointerToGongStructField"},
 			{name: "SliceOfPointerToGongStructField"},
 		}, // end of insertion point
+
+		navigationMode: GongNavigationModeNormal,
 	}
 
 	return
@@ -864,9 +949,12 @@ func (stage *Stage) Commit() {
 		stage.BackRepo.Commit(stage)
 	}
 	stage.ComputeInstancesNb()
-	if stage.IsDeltaMode() {
+	if stage.IsInDeltaMode() {
 		stage.ComputeDifference()
 		stage.ComputeReference()
+		if stage.GetProbeIF() != nil {
+			stage.GetProbeIF().Refresh()
+		}
 	}
 }
 
@@ -949,7 +1037,7 @@ func (gongbasicfield *GongBasicField) StagePreserveOrder(stage *Stage, order uin
 		if order > stage.GongBasicFieldOrder {
 			stage.GongBasicFieldOrder = order
 		}
-		stage.GongBasicFieldMap_Staged_Order[gongbasicfield] = stage.GongBasicFieldOrder
+		stage.GongBasicFieldMap_Staged_Order[gongbasicfield] = order
 		stage.GongBasicFieldOrder++
 	}
 	stage.GongBasicFields_mapString[gongbasicfield.Name] = gongbasicfield
@@ -1035,7 +1123,7 @@ func (gongenum *GongEnum) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.GongEnumOrder {
 			stage.GongEnumOrder = order
 		}
-		stage.GongEnumMap_Staged_Order[gongenum] = stage.GongEnumOrder
+		stage.GongEnumMap_Staged_Order[gongenum] = order
 		stage.GongEnumOrder++
 	}
 	stage.GongEnums_mapString[gongenum.Name] = gongenum
@@ -1121,7 +1209,7 @@ func (gongenumvalue *GongEnumValue) StagePreserveOrder(stage *Stage, order uint)
 		if order > stage.GongEnumValueOrder {
 			stage.GongEnumValueOrder = order
 		}
-		stage.GongEnumValueMap_Staged_Order[gongenumvalue] = stage.GongEnumValueOrder
+		stage.GongEnumValueMap_Staged_Order[gongenumvalue] = order
 		stage.GongEnumValueOrder++
 	}
 	stage.GongEnumValues_mapString[gongenumvalue.Name] = gongenumvalue
@@ -1207,7 +1295,7 @@ func (gonglink *GongLink) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.GongLinkOrder {
 			stage.GongLinkOrder = order
 		}
-		stage.GongLinkMap_Staged_Order[gonglink] = stage.GongLinkOrder
+		stage.GongLinkMap_Staged_Order[gonglink] = order
 		stage.GongLinkOrder++
 	}
 	stage.GongLinks_mapString[gonglink.Name] = gonglink
@@ -1293,7 +1381,7 @@ func (gongnote *GongNote) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.GongNoteOrder {
 			stage.GongNoteOrder = order
 		}
-		stage.GongNoteMap_Staged_Order[gongnote] = stage.GongNoteOrder
+		stage.GongNoteMap_Staged_Order[gongnote] = order
 		stage.GongNoteOrder++
 	}
 	stage.GongNotes_mapString[gongnote.Name] = gongnote
@@ -1379,7 +1467,7 @@ func (gongstruct *GongStruct) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.GongStructOrder {
 			stage.GongStructOrder = order
 		}
-		stage.GongStructMap_Staged_Order[gongstruct] = stage.GongStructOrder
+		stage.GongStructMap_Staged_Order[gongstruct] = order
 		stage.GongStructOrder++
 	}
 	stage.GongStructs_mapString[gongstruct.Name] = gongstruct
@@ -1465,7 +1553,7 @@ func (gongtimefield *GongTimeField) StagePreserveOrder(stage *Stage, order uint)
 		if order > stage.GongTimeFieldOrder {
 			stage.GongTimeFieldOrder = order
 		}
-		stage.GongTimeFieldMap_Staged_Order[gongtimefield] = stage.GongTimeFieldOrder
+		stage.GongTimeFieldMap_Staged_Order[gongtimefield] = order
 		stage.GongTimeFieldOrder++
 	}
 	stage.GongTimeFields_mapString[gongtimefield.Name] = gongtimefield
@@ -1551,7 +1639,7 @@ func (metareference *MetaReference) StagePreserveOrder(stage *Stage, order uint)
 		if order > stage.MetaReferenceOrder {
 			stage.MetaReferenceOrder = order
 		}
-		stage.MetaReferenceMap_Staged_Order[metareference] = stage.MetaReferenceOrder
+		stage.MetaReferenceMap_Staged_Order[metareference] = order
 		stage.MetaReferenceOrder++
 	}
 	stage.MetaReferences_mapString[metareference.Name] = metareference
@@ -1637,7 +1725,7 @@ func (modelpkg *ModelPkg) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.ModelPkgOrder {
 			stage.ModelPkgOrder = order
 		}
-		stage.ModelPkgMap_Staged_Order[modelpkg] = stage.ModelPkgOrder
+		stage.ModelPkgMap_Staged_Order[modelpkg] = order
 		stage.ModelPkgOrder++
 	}
 	stage.ModelPkgs_mapString[modelpkg.Name] = modelpkg
@@ -1723,7 +1811,7 @@ func (pointertogongstructfield *PointerToGongStructField) StagePreserveOrder(sta
 		if order > stage.PointerToGongStructFieldOrder {
 			stage.PointerToGongStructFieldOrder = order
 		}
-		stage.PointerToGongStructFieldMap_Staged_Order[pointertogongstructfield] = stage.PointerToGongStructFieldOrder
+		stage.PointerToGongStructFieldMap_Staged_Order[pointertogongstructfield] = order
 		stage.PointerToGongStructFieldOrder++
 	}
 	stage.PointerToGongStructFields_mapString[pointertogongstructfield.Name] = pointertogongstructfield
@@ -1809,7 +1897,7 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) StagePre
 		if order > stage.SliceOfPointerToGongStructFieldOrder {
 			stage.SliceOfPointerToGongStructFieldOrder = order
 		}
-		stage.SliceOfPointerToGongStructFieldMap_Staged_Order[sliceofpointertogongstructfield] = stage.SliceOfPointerToGongStructFieldOrder
+		stage.SliceOfPointerToGongStructFieldMap_Staged_Order[sliceofpointertogongstructfield] = order
 		stage.SliceOfPointerToGongStructFieldOrder++
 	}
 	stage.SliceOfPointerToGongStructFields_mapString[sliceofpointertogongstructfield.Name] = sliceofpointertogongstructfield
@@ -1957,7 +2045,7 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
 	}
-	if stage.IsDeltaMode() {
+	if stage.IsInDeltaMode() {
 		stage.ComputeReference()
 	}
 }

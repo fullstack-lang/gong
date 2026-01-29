@@ -14,6 +14,39 @@ import (
 
 const TableName = "Table"
 
+// update the current table if there is one
+func updateCurrentProbeTable(probe *Probe) {
+	var tableName string
+	for table := range probe.tableStage.Tables {
+		tableName = table.Name
+	}
+	switch tableName {
+	// insertion point
+	case "Category1":
+		updateProbeTable[*models.Category1](probe)
+	case "Category1Shape":
+		updateProbeTable[*models.Category1Shape](probe)
+	case "Category2":
+		updateProbeTable[*models.Category2](probe)
+	case "Category2Shape":
+		updateProbeTable[*models.Category2Shape](probe)
+	case "Category3":
+		updateProbeTable[*models.Category3](probe)
+	case "Category3Shape":
+		updateProbeTable[*models.Category3Shape](probe)
+	case "ControlPointShape":
+		updateProbeTable[*models.ControlPointShape](probe)
+	case "Desk":
+		updateProbeTable[*models.Desk](probe)
+	case "Diagram":
+		updateProbeTable[*models.Diagram](probe)
+	case "Influence":
+		updateProbeTable[*models.Influence](probe)
+	case "InfluenceShape":
+		updateProbeTable[*models.InfluenceShape](probe)
+	}
+}
+
 func updateProbeTable[T models.PointerToGongstruct](
 	probe *Probe,
 ) {
@@ -21,7 +54,7 @@ func updateProbeTable[T models.PointerToGongstruct](
 	probe.tableStage.Reset()
 
 	table := new(gongtable.Table)
-	table.Name = TableName
+	table.Name = models.GetPointerToGongstructName[T]()
 	table.HasColumnSorting = true
 	table.HasFiltering = true
 	table.HasPaginator = true

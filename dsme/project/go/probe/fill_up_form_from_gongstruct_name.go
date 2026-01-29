@@ -7,6 +7,108 @@ import (
 	"github.com/fullstack-lang/gong/dsme/project/go/models"
 )
 
+// updateFillUpForm updates the current form if there is one
+func (probe *Probe) updateFillUpForm() {
+	var formGroup *form.FormGroup
+	for fg := range probe.formStage.FormGroups {
+		formGroup = fg
+	}
+	if formGroup != nil {
+		switch onSave := formGroup.OnSave.(type) { // insertion point
+		case *DiagramFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Diagram", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.diagram, probe)
+			}
+		case *NoteFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Note", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.note, probe)
+			}
+		case *NoteProductShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "NoteProductShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.noteproductshape, probe)
+			}
+		case *NoteShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "NoteShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.noteshape, probe)
+			}
+		case *NoteTaskShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "NoteTaskShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.notetaskshape, probe)
+			}
+		case *ProductFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Product", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.product, probe)
+			}
+		case *ProductCompositionShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "ProductCompositionShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.productcompositionshape, probe)
+			}
+		case *ProductShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "ProductShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.productshape, probe)
+			}
+		case *ProjectFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Project", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.project, probe)
+			}
+		case *RootFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Root", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.root, probe)
+			}
+		case *TaskFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Task", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.task, probe)
+			}
+		case *TaskCompositionShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "TaskCompositionShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.taskcompositionshape, probe)
+			}
+		case *TaskInputShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "TaskInputShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.taskinputshape, probe)
+			}
+		case *TaskOutputShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "TaskOutputShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.taskoutputshape, probe)
+			}
+		case *TaskShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "TaskShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.taskshape, probe)
+			}
+		}
+	}
+}
+
 func FillUpFormFromGongstructName(
 	probe *Probe,
 	gongstructName string,
