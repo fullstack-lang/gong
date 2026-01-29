@@ -454,6 +454,9 @@ func (stage *Stage) Commit() {
 	if stage.IsInDeltaMode() {
 		stage.ComputeDifference()
 		stage.ComputeReference()
+		if stage.GetProbeIF() != nil {
+			stage.GetProbeIF().Refresh()
+		}
 	}
 }
 
