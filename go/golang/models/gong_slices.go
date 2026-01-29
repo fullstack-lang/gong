@@ -234,7 +234,10 @@ func ({{structname}} *{{Structname}}) GongCopy() GongstructIF {
 
 	GongSliceGongGetOrder: `
 func ({{structname}} *{{Structname}}) GongGetOrder(stage *Stage) uint {
-	return stage.{{Structname}}Map_Staged_Order[{{structname}}]
+	if order, ok := stage.{{Structname}}Map_Staged_Order[{{structname}}]; ok {
+		return order
+	}
+	return stage.{{Structname}}s_referenceOrder[{{structname}}]
 }
 
 func ({{structname}} *{{Structname}}) GongGetReferenceOrder(stage *Stage) uint {

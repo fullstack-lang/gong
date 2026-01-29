@@ -39,10 +39,10 @@ func updateAndCommitTree(
 	// create tree
 	sidebar := &tree.Tree{Name: "Sidebar"}
 
-	topNode := &tree.Node{Name: fmt.Sprintf("Stage %s", stageOfInterest.GetName())}
+	topNode := &tree.Node{Name: fmt.Sprintf("%s", stageOfInterest.GetName())}
 
 	if stageOfInterest.IsInDeltaMode() {
-		topNode.Name += fmt.Sprintf("(h %d, d %d)",
+		topNode.Name += fmt.Sprintf(" (h %d, d %d)",
 			len(stageOfInterest.GetBackwardCommits()),
 			stageOfInterest.GetNbBackwardCommits())
 
@@ -67,6 +67,8 @@ func updateAndCommitTree(
 
 		if stageOfInterest.GetNbBackwardCommits() == len(stageOfInterest.GetBackwardCommits()) {
 			backwardButton.IsDisabled = true
+			backwardButton.Icon = string(gongtree_buttons.BUTTON_do_not_disturb)
+			backwardButton.ToolTipText = "No more previous commits"
 		}
 
 		forwardButton := &tree.Button{
@@ -90,6 +92,8 @@ func updateAndCommitTree(
 
 		if stageOfInterest.GetNbBackwardCommits() == 0 {
 			forwardButton.IsDisabled = true
+			forwardButton.Icon = string(gongtree_buttons.BUTTON_do_not_disturb)
+			forwardButton.ToolTipText = "No more next commits"
 		}
 	} else {
 		topNode.Name += ""
