@@ -196,6 +196,12 @@ func ParseAstFileFromAst(stage *Stage, inFile *ast.File, fset *token.FileSet, pr
 								stage.Commit()
 							} else {
 								stage.ComputeInstancesNb()
+								if stage.OnInitCommitCallback != nil {
+									stage.OnInitCommitCallback.BeforeCommit(stage)
+								}
+								if stage.OnInitCommitFromBackCallback != nil {
+									stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
+								}
 							}
 						}
 					}

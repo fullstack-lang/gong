@@ -3,6 +3,7 @@ package models
 
 import (
 	"fmt"
+	"sort"
 	"strings"
 	"time"
 )
@@ -383,19 +384,13 @@ func (stage *Stage) ComputeDifference() {
 	var lenModifiedInstances int
 	var lenDeletedInstances int
 
-	var newInstancesStmt string
-	_ = newInstancesStmt
-	var fieldsEditStmt string
-	_ = fieldsEditStmt
-	var deletedInstancesStmt string
-	_ = deletedInstancesStmt
+	var newInstancesSlice []string
+	var fieldsEditSlice []string
+	var deletedInstancesSlice []string
 
-	var newInstancesReverseStmt string
-	_ = newInstancesReverseStmt
-	var fieldsEditReverseStmt string
-	_ = fieldsEditReverseStmt
-	var deletedInstancesReverseStmt string
-	_ = deletedInstancesReverseStmt
+	var newInstancesReverseSlice []string
+	var fieldsEditReverseSlice []string
+	var deletedInstancesReverseSlice []string
 
 	// first clean the staging area to remove non staged instances
 	// from pointers fields and slices of pointers fields
@@ -409,21 +404,29 @@ func (stage *Stage) ComputeDifference() {
 	for diagram := range stage.Diagrams {
 		if ref, ok := stage.Diagrams_reference[diagram]; !ok {
 			diagrams_newInstances = append(diagrams_newInstances, diagram)
-			newInstancesStmt += diagram.GongMarshallIdentifier(stage)
-			newInstancesReverseStmt += diagram.GongMarshallUnstaging(stage)
+			newInstancesSlice = append(newInstancesSlice, diagram.GongMarshallIdentifier(stage))
+			if stage.Diagrams_referenceOrder == nil {
+				stage.Diagrams_referenceOrder = make(map[*Diagram]uint)
+			}
+			stage.Diagrams_referenceOrder[diagram] = stage.DiagramMap_Staged_Order[diagram]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, diagram.GongMarshallUnstaging(stage))
+			delete(stage.Diagrams_referenceOrder, diagram)
 			fieldInitializers, pointersInitializations := diagram.GongMarshallAllFields(stage)
-			fieldsEditStmt += fieldInitializers
-			fieldsEditStmt += pointersInitializations
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
+			stage.DiagramMap_Staged_Order[ref] = stage.DiagramMap_Staged_Order[diagram]
 			diffs := diagram.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, diagram)
+			delete(stage.DiagramMap_Staged_Order, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\n\t// %s", diagram.GetName())
+				var fieldsEdit string
+				fieldsEdit += fmt.Sprintf("\n\t// %s", diagram.GetName())
 				for _, diff := range diffs {
-					fieldsEditStmt += diff
+					fieldsEdit += diff
 				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
 				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseStmt += reverseDiff
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
 				}
 				lenModifiedInstances++
 			}
@@ -434,11 +437,10 @@ func (stage *Stage) ComputeDifference() {
 	for ref := range stage.Diagrams_reference {
 		if _, ok := stage.Diagrams[ref]; !ok {
 			diagrams_deletedInstances = append(diagrams_deletedInstances, ref)
-			deletedInstancesStmt += ref.GongMarshallUnstaging(stage)
-			deletedInstancesReverseStmt += ref.GongMarshallIdentifier(stage)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseStmt += fieldInitializers
-			fieldsEditReverseStmt += pointersInitializations
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
 		}
 	}
 
@@ -451,21 +453,29 @@ func (stage *Stage) ComputeDifference() {
 	for note := range stage.Notes {
 		if ref, ok := stage.Notes_reference[note]; !ok {
 			notes_newInstances = append(notes_newInstances, note)
-			newInstancesStmt += note.GongMarshallIdentifier(stage)
-			newInstancesReverseStmt += note.GongMarshallUnstaging(stage)
+			newInstancesSlice = append(newInstancesSlice, note.GongMarshallIdentifier(stage))
+			if stage.Notes_referenceOrder == nil {
+				stage.Notes_referenceOrder = make(map[*Note]uint)
+			}
+			stage.Notes_referenceOrder[note] = stage.NoteMap_Staged_Order[note]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, note.GongMarshallUnstaging(stage))
+			delete(stage.Notes_referenceOrder, note)
 			fieldInitializers, pointersInitializations := note.GongMarshallAllFields(stage)
-			fieldsEditStmt += fieldInitializers
-			fieldsEditStmt += pointersInitializations
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
+			stage.NoteMap_Staged_Order[ref] = stage.NoteMap_Staged_Order[note]
 			diffs := note.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, note)
+			delete(stage.NoteMap_Staged_Order, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\n\t// %s", note.GetName())
+				var fieldsEdit string
+				fieldsEdit += fmt.Sprintf("\n\t// %s", note.GetName())
 				for _, diff := range diffs {
-					fieldsEditStmt += diff
+					fieldsEdit += diff
 				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
 				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseStmt += reverseDiff
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
 				}
 				lenModifiedInstances++
 			}
@@ -476,11 +486,10 @@ func (stage *Stage) ComputeDifference() {
 	for ref := range stage.Notes_reference {
 		if _, ok := stage.Notes[ref]; !ok {
 			notes_deletedInstances = append(notes_deletedInstances, ref)
-			deletedInstancesStmt += ref.GongMarshallUnstaging(stage)
-			deletedInstancesReverseStmt += ref.GongMarshallIdentifier(stage)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseStmt += fieldInitializers
-			fieldsEditReverseStmt += pointersInitializations
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
 		}
 	}
 
@@ -493,21 +502,29 @@ func (stage *Stage) ComputeDifference() {
 	for noteproductshape := range stage.NoteProductShapes {
 		if ref, ok := stage.NoteProductShapes_reference[noteproductshape]; !ok {
 			noteproductshapes_newInstances = append(noteproductshapes_newInstances, noteproductshape)
-			newInstancesStmt += noteproductshape.GongMarshallIdentifier(stage)
-			newInstancesReverseStmt += noteproductshape.GongMarshallUnstaging(stage)
+			newInstancesSlice = append(newInstancesSlice, noteproductshape.GongMarshallIdentifier(stage))
+			if stage.NoteProductShapes_referenceOrder == nil {
+				stage.NoteProductShapes_referenceOrder = make(map[*NoteProductShape]uint)
+			}
+			stage.NoteProductShapes_referenceOrder[noteproductshape] = stage.NoteProductShapeMap_Staged_Order[noteproductshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, noteproductshape.GongMarshallUnstaging(stage))
+			delete(stage.NoteProductShapes_referenceOrder, noteproductshape)
 			fieldInitializers, pointersInitializations := noteproductshape.GongMarshallAllFields(stage)
-			fieldsEditStmt += fieldInitializers
-			fieldsEditStmt += pointersInitializations
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
+			stage.NoteProductShapeMap_Staged_Order[ref] = stage.NoteProductShapeMap_Staged_Order[noteproductshape]
 			diffs := noteproductshape.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, noteproductshape)
+			delete(stage.NoteProductShapeMap_Staged_Order, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\n\t// %s", noteproductshape.GetName())
+				var fieldsEdit string
+				fieldsEdit += fmt.Sprintf("\n\t// %s", noteproductshape.GetName())
 				for _, diff := range diffs {
-					fieldsEditStmt += diff
+					fieldsEdit += diff
 				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
 				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseStmt += reverseDiff
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
 				}
 				lenModifiedInstances++
 			}
@@ -518,11 +535,10 @@ func (stage *Stage) ComputeDifference() {
 	for ref := range stage.NoteProductShapes_reference {
 		if _, ok := stage.NoteProductShapes[ref]; !ok {
 			noteproductshapes_deletedInstances = append(noteproductshapes_deletedInstances, ref)
-			deletedInstancesStmt += ref.GongMarshallUnstaging(stage)
-			deletedInstancesReverseStmt += ref.GongMarshallIdentifier(stage)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseStmt += fieldInitializers
-			fieldsEditReverseStmt += pointersInitializations
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
 		}
 	}
 
@@ -535,21 +551,29 @@ func (stage *Stage) ComputeDifference() {
 	for noteshape := range stage.NoteShapes {
 		if ref, ok := stage.NoteShapes_reference[noteshape]; !ok {
 			noteshapes_newInstances = append(noteshapes_newInstances, noteshape)
-			newInstancesStmt += noteshape.GongMarshallIdentifier(stage)
-			newInstancesReverseStmt += noteshape.GongMarshallUnstaging(stage)
+			newInstancesSlice = append(newInstancesSlice, noteshape.GongMarshallIdentifier(stage))
+			if stage.NoteShapes_referenceOrder == nil {
+				stage.NoteShapes_referenceOrder = make(map[*NoteShape]uint)
+			}
+			stage.NoteShapes_referenceOrder[noteshape] = stage.NoteShapeMap_Staged_Order[noteshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, noteshape.GongMarshallUnstaging(stage))
+			delete(stage.NoteShapes_referenceOrder, noteshape)
 			fieldInitializers, pointersInitializations := noteshape.GongMarshallAllFields(stage)
-			fieldsEditStmt += fieldInitializers
-			fieldsEditStmt += pointersInitializations
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
+			stage.NoteShapeMap_Staged_Order[ref] = stage.NoteShapeMap_Staged_Order[noteshape]
 			diffs := noteshape.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, noteshape)
+			delete(stage.NoteShapeMap_Staged_Order, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\n\t// %s", noteshape.GetName())
+				var fieldsEdit string
+				fieldsEdit += fmt.Sprintf("\n\t// %s", noteshape.GetName())
 				for _, diff := range diffs {
-					fieldsEditStmt += diff
+					fieldsEdit += diff
 				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
 				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseStmt += reverseDiff
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
 				}
 				lenModifiedInstances++
 			}
@@ -560,11 +584,10 @@ func (stage *Stage) ComputeDifference() {
 	for ref := range stage.NoteShapes_reference {
 		if _, ok := stage.NoteShapes[ref]; !ok {
 			noteshapes_deletedInstances = append(noteshapes_deletedInstances, ref)
-			deletedInstancesStmt += ref.GongMarshallUnstaging(stage)
-			deletedInstancesReverseStmt += ref.GongMarshallIdentifier(stage)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseStmt += fieldInitializers
-			fieldsEditReverseStmt += pointersInitializations
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
 		}
 	}
 
@@ -577,21 +600,29 @@ func (stage *Stage) ComputeDifference() {
 	for notetaskshape := range stage.NoteTaskShapes {
 		if ref, ok := stage.NoteTaskShapes_reference[notetaskshape]; !ok {
 			notetaskshapes_newInstances = append(notetaskshapes_newInstances, notetaskshape)
-			newInstancesStmt += notetaskshape.GongMarshallIdentifier(stage)
-			newInstancesReverseStmt += notetaskshape.GongMarshallUnstaging(stage)
+			newInstancesSlice = append(newInstancesSlice, notetaskshape.GongMarshallIdentifier(stage))
+			if stage.NoteTaskShapes_referenceOrder == nil {
+				stage.NoteTaskShapes_referenceOrder = make(map[*NoteTaskShape]uint)
+			}
+			stage.NoteTaskShapes_referenceOrder[notetaskshape] = stage.NoteTaskShapeMap_Staged_Order[notetaskshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, notetaskshape.GongMarshallUnstaging(stage))
+			delete(stage.NoteTaskShapes_referenceOrder, notetaskshape)
 			fieldInitializers, pointersInitializations := notetaskshape.GongMarshallAllFields(stage)
-			fieldsEditStmt += fieldInitializers
-			fieldsEditStmt += pointersInitializations
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
+			stage.NoteTaskShapeMap_Staged_Order[ref] = stage.NoteTaskShapeMap_Staged_Order[notetaskshape]
 			diffs := notetaskshape.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, notetaskshape)
+			delete(stage.NoteTaskShapeMap_Staged_Order, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\n\t// %s", notetaskshape.GetName())
+				var fieldsEdit string
+				fieldsEdit += fmt.Sprintf("\n\t// %s", notetaskshape.GetName())
 				for _, diff := range diffs {
-					fieldsEditStmt += diff
+					fieldsEdit += diff
 				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
 				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseStmt += reverseDiff
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
 				}
 				lenModifiedInstances++
 			}
@@ -602,11 +633,10 @@ func (stage *Stage) ComputeDifference() {
 	for ref := range stage.NoteTaskShapes_reference {
 		if _, ok := stage.NoteTaskShapes[ref]; !ok {
 			notetaskshapes_deletedInstances = append(notetaskshapes_deletedInstances, ref)
-			deletedInstancesStmt += ref.GongMarshallUnstaging(stage)
-			deletedInstancesReverseStmt += ref.GongMarshallIdentifier(stage)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseStmt += fieldInitializers
-			fieldsEditReverseStmt += pointersInitializations
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
 		}
 	}
 
@@ -619,21 +649,29 @@ func (stage *Stage) ComputeDifference() {
 	for product := range stage.Products {
 		if ref, ok := stage.Products_reference[product]; !ok {
 			products_newInstances = append(products_newInstances, product)
-			newInstancesStmt += product.GongMarshallIdentifier(stage)
-			newInstancesReverseStmt += product.GongMarshallUnstaging(stage)
+			newInstancesSlice = append(newInstancesSlice, product.GongMarshallIdentifier(stage))
+			if stage.Products_referenceOrder == nil {
+				stage.Products_referenceOrder = make(map[*Product]uint)
+			}
+			stage.Products_referenceOrder[product] = stage.ProductMap_Staged_Order[product]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, product.GongMarshallUnstaging(stage))
+			delete(stage.Products_referenceOrder, product)
 			fieldInitializers, pointersInitializations := product.GongMarshallAllFields(stage)
-			fieldsEditStmt += fieldInitializers
-			fieldsEditStmt += pointersInitializations
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
+			stage.ProductMap_Staged_Order[ref] = stage.ProductMap_Staged_Order[product]
 			diffs := product.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, product)
+			delete(stage.ProductMap_Staged_Order, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\n\t// %s", product.GetName())
+				var fieldsEdit string
+				fieldsEdit += fmt.Sprintf("\n\t// %s", product.GetName())
 				for _, diff := range diffs {
-					fieldsEditStmt += diff
+					fieldsEdit += diff
 				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
 				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseStmt += reverseDiff
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
 				}
 				lenModifiedInstances++
 			}
@@ -644,11 +682,10 @@ func (stage *Stage) ComputeDifference() {
 	for ref := range stage.Products_reference {
 		if _, ok := stage.Products[ref]; !ok {
 			products_deletedInstances = append(products_deletedInstances, ref)
-			deletedInstancesStmt += ref.GongMarshallUnstaging(stage)
-			deletedInstancesReverseStmt += ref.GongMarshallIdentifier(stage)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseStmt += fieldInitializers
-			fieldsEditReverseStmt += pointersInitializations
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
 		}
 	}
 
@@ -661,21 +698,29 @@ func (stage *Stage) ComputeDifference() {
 	for productcompositionshape := range stage.ProductCompositionShapes {
 		if ref, ok := stage.ProductCompositionShapes_reference[productcompositionshape]; !ok {
 			productcompositionshapes_newInstances = append(productcompositionshapes_newInstances, productcompositionshape)
-			newInstancesStmt += productcompositionshape.GongMarshallIdentifier(stage)
-			newInstancesReverseStmt += productcompositionshape.GongMarshallUnstaging(stage)
+			newInstancesSlice = append(newInstancesSlice, productcompositionshape.GongMarshallIdentifier(stage))
+			if stage.ProductCompositionShapes_referenceOrder == nil {
+				stage.ProductCompositionShapes_referenceOrder = make(map[*ProductCompositionShape]uint)
+			}
+			stage.ProductCompositionShapes_referenceOrder[productcompositionshape] = stage.ProductCompositionShapeMap_Staged_Order[productcompositionshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, productcompositionshape.GongMarshallUnstaging(stage))
+			delete(stage.ProductCompositionShapes_referenceOrder, productcompositionshape)
 			fieldInitializers, pointersInitializations := productcompositionshape.GongMarshallAllFields(stage)
-			fieldsEditStmt += fieldInitializers
-			fieldsEditStmt += pointersInitializations
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
+			stage.ProductCompositionShapeMap_Staged_Order[ref] = stage.ProductCompositionShapeMap_Staged_Order[productcompositionshape]
 			diffs := productcompositionshape.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, productcompositionshape)
+			delete(stage.ProductCompositionShapeMap_Staged_Order, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\n\t// %s", productcompositionshape.GetName())
+				var fieldsEdit string
+				fieldsEdit += fmt.Sprintf("\n\t// %s", productcompositionshape.GetName())
 				for _, diff := range diffs {
-					fieldsEditStmt += diff
+					fieldsEdit += diff
 				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
 				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseStmt += reverseDiff
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
 				}
 				lenModifiedInstances++
 			}
@@ -686,11 +731,10 @@ func (stage *Stage) ComputeDifference() {
 	for ref := range stage.ProductCompositionShapes_reference {
 		if _, ok := stage.ProductCompositionShapes[ref]; !ok {
 			productcompositionshapes_deletedInstances = append(productcompositionshapes_deletedInstances, ref)
-			deletedInstancesStmt += ref.GongMarshallUnstaging(stage)
-			deletedInstancesReverseStmt += ref.GongMarshallIdentifier(stage)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseStmt += fieldInitializers
-			fieldsEditReverseStmt += pointersInitializations
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
 		}
 	}
 
@@ -703,21 +747,29 @@ func (stage *Stage) ComputeDifference() {
 	for productshape := range stage.ProductShapes {
 		if ref, ok := stage.ProductShapes_reference[productshape]; !ok {
 			productshapes_newInstances = append(productshapes_newInstances, productshape)
-			newInstancesStmt += productshape.GongMarshallIdentifier(stage)
-			newInstancesReverseStmt += productshape.GongMarshallUnstaging(stage)
+			newInstancesSlice = append(newInstancesSlice, productshape.GongMarshallIdentifier(stage))
+			if stage.ProductShapes_referenceOrder == nil {
+				stage.ProductShapes_referenceOrder = make(map[*ProductShape]uint)
+			}
+			stage.ProductShapes_referenceOrder[productshape] = stage.ProductShapeMap_Staged_Order[productshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, productshape.GongMarshallUnstaging(stage))
+			delete(stage.ProductShapes_referenceOrder, productshape)
 			fieldInitializers, pointersInitializations := productshape.GongMarshallAllFields(stage)
-			fieldsEditStmt += fieldInitializers
-			fieldsEditStmt += pointersInitializations
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
+			stage.ProductShapeMap_Staged_Order[ref] = stage.ProductShapeMap_Staged_Order[productshape]
 			diffs := productshape.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, productshape)
+			delete(stage.ProductShapeMap_Staged_Order, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\n\t// %s", productshape.GetName())
+				var fieldsEdit string
+				fieldsEdit += fmt.Sprintf("\n\t// %s", productshape.GetName())
 				for _, diff := range diffs {
-					fieldsEditStmt += diff
+					fieldsEdit += diff
 				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
 				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseStmt += reverseDiff
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
 				}
 				lenModifiedInstances++
 			}
@@ -728,11 +780,10 @@ func (stage *Stage) ComputeDifference() {
 	for ref := range stage.ProductShapes_reference {
 		if _, ok := stage.ProductShapes[ref]; !ok {
 			productshapes_deletedInstances = append(productshapes_deletedInstances, ref)
-			deletedInstancesStmt += ref.GongMarshallUnstaging(stage)
-			deletedInstancesReverseStmt += ref.GongMarshallIdentifier(stage)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseStmt += fieldInitializers
-			fieldsEditReverseStmt += pointersInitializations
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
 		}
 	}
 
@@ -745,21 +796,29 @@ func (stage *Stage) ComputeDifference() {
 	for project := range stage.Projects {
 		if ref, ok := stage.Projects_reference[project]; !ok {
 			projects_newInstances = append(projects_newInstances, project)
-			newInstancesStmt += project.GongMarshallIdentifier(stage)
-			newInstancesReverseStmt += project.GongMarshallUnstaging(stage)
+			newInstancesSlice = append(newInstancesSlice, project.GongMarshallIdentifier(stage))
+			if stage.Projects_referenceOrder == nil {
+				stage.Projects_referenceOrder = make(map[*Project]uint)
+			}
+			stage.Projects_referenceOrder[project] = stage.ProjectMap_Staged_Order[project]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, project.GongMarshallUnstaging(stage))
+			delete(stage.Projects_referenceOrder, project)
 			fieldInitializers, pointersInitializations := project.GongMarshallAllFields(stage)
-			fieldsEditStmt += fieldInitializers
-			fieldsEditStmt += pointersInitializations
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
+			stage.ProjectMap_Staged_Order[ref] = stage.ProjectMap_Staged_Order[project]
 			diffs := project.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, project)
+			delete(stage.ProjectMap_Staged_Order, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\n\t// %s", project.GetName())
+				var fieldsEdit string
+				fieldsEdit += fmt.Sprintf("\n\t// %s", project.GetName())
 				for _, diff := range diffs {
-					fieldsEditStmt += diff
+					fieldsEdit += diff
 				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
 				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseStmt += reverseDiff
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
 				}
 				lenModifiedInstances++
 			}
@@ -770,11 +829,10 @@ func (stage *Stage) ComputeDifference() {
 	for ref := range stage.Projects_reference {
 		if _, ok := stage.Projects[ref]; !ok {
 			projects_deletedInstances = append(projects_deletedInstances, ref)
-			deletedInstancesStmt += ref.GongMarshallUnstaging(stage)
-			deletedInstancesReverseStmt += ref.GongMarshallIdentifier(stage)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseStmt += fieldInitializers
-			fieldsEditReverseStmt += pointersInitializations
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
 		}
 	}
 
@@ -787,21 +845,29 @@ func (stage *Stage) ComputeDifference() {
 	for root := range stage.Roots {
 		if ref, ok := stage.Roots_reference[root]; !ok {
 			roots_newInstances = append(roots_newInstances, root)
-			newInstancesStmt += root.GongMarshallIdentifier(stage)
-			newInstancesReverseStmt += root.GongMarshallUnstaging(stage)
+			newInstancesSlice = append(newInstancesSlice, root.GongMarshallIdentifier(stage))
+			if stage.Roots_referenceOrder == nil {
+				stage.Roots_referenceOrder = make(map[*Root]uint)
+			}
+			stage.Roots_referenceOrder[root] = stage.RootMap_Staged_Order[root]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, root.GongMarshallUnstaging(stage))
+			delete(stage.Roots_referenceOrder, root)
 			fieldInitializers, pointersInitializations := root.GongMarshallAllFields(stage)
-			fieldsEditStmt += fieldInitializers
-			fieldsEditStmt += pointersInitializations
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
+			stage.RootMap_Staged_Order[ref] = stage.RootMap_Staged_Order[root]
 			diffs := root.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, root)
+			delete(stage.RootMap_Staged_Order, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\n\t// %s", root.GetName())
+				var fieldsEdit string
+				fieldsEdit += fmt.Sprintf("\n\t// %s", root.GetName())
 				for _, diff := range diffs {
-					fieldsEditStmt += diff
+					fieldsEdit += diff
 				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
 				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseStmt += reverseDiff
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
 				}
 				lenModifiedInstances++
 			}
@@ -812,11 +878,10 @@ func (stage *Stage) ComputeDifference() {
 	for ref := range stage.Roots_reference {
 		if _, ok := stage.Roots[ref]; !ok {
 			roots_deletedInstances = append(roots_deletedInstances, ref)
-			deletedInstancesStmt += ref.GongMarshallUnstaging(stage)
-			deletedInstancesReverseStmt += ref.GongMarshallIdentifier(stage)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseStmt += fieldInitializers
-			fieldsEditReverseStmt += pointersInitializations
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
 		}
 	}
 
@@ -829,21 +894,29 @@ func (stage *Stage) ComputeDifference() {
 	for task := range stage.Tasks {
 		if ref, ok := stage.Tasks_reference[task]; !ok {
 			tasks_newInstances = append(tasks_newInstances, task)
-			newInstancesStmt += task.GongMarshallIdentifier(stage)
-			newInstancesReverseStmt += task.GongMarshallUnstaging(stage)
+			newInstancesSlice = append(newInstancesSlice, task.GongMarshallIdentifier(stage))
+			if stage.Tasks_referenceOrder == nil {
+				stage.Tasks_referenceOrder = make(map[*Task]uint)
+			}
+			stage.Tasks_referenceOrder[task] = stage.TaskMap_Staged_Order[task]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, task.GongMarshallUnstaging(stage))
+			delete(stage.Tasks_referenceOrder, task)
 			fieldInitializers, pointersInitializations := task.GongMarshallAllFields(stage)
-			fieldsEditStmt += fieldInitializers
-			fieldsEditStmt += pointersInitializations
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
+			stage.TaskMap_Staged_Order[ref] = stage.TaskMap_Staged_Order[task]
 			diffs := task.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, task)
+			delete(stage.TaskMap_Staged_Order, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\n\t// %s", task.GetName())
+				var fieldsEdit string
+				fieldsEdit += fmt.Sprintf("\n\t// %s", task.GetName())
 				for _, diff := range diffs {
-					fieldsEditStmt += diff
+					fieldsEdit += diff
 				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
 				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseStmt += reverseDiff
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
 				}
 				lenModifiedInstances++
 			}
@@ -854,11 +927,10 @@ func (stage *Stage) ComputeDifference() {
 	for ref := range stage.Tasks_reference {
 		if _, ok := stage.Tasks[ref]; !ok {
 			tasks_deletedInstances = append(tasks_deletedInstances, ref)
-			deletedInstancesStmt += ref.GongMarshallUnstaging(stage)
-			deletedInstancesReverseStmt += ref.GongMarshallIdentifier(stage)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseStmt += fieldInitializers
-			fieldsEditReverseStmt += pointersInitializations
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
 		}
 	}
 
@@ -871,21 +943,29 @@ func (stage *Stage) ComputeDifference() {
 	for taskcompositionshape := range stage.TaskCompositionShapes {
 		if ref, ok := stage.TaskCompositionShapes_reference[taskcompositionshape]; !ok {
 			taskcompositionshapes_newInstances = append(taskcompositionshapes_newInstances, taskcompositionshape)
-			newInstancesStmt += taskcompositionshape.GongMarshallIdentifier(stage)
-			newInstancesReverseStmt += taskcompositionshape.GongMarshallUnstaging(stage)
+			newInstancesSlice = append(newInstancesSlice, taskcompositionshape.GongMarshallIdentifier(stage))
+			if stage.TaskCompositionShapes_referenceOrder == nil {
+				stage.TaskCompositionShapes_referenceOrder = make(map[*TaskCompositionShape]uint)
+			}
+			stage.TaskCompositionShapes_referenceOrder[taskcompositionshape] = stage.TaskCompositionShapeMap_Staged_Order[taskcompositionshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, taskcompositionshape.GongMarshallUnstaging(stage))
+			delete(stage.TaskCompositionShapes_referenceOrder, taskcompositionshape)
 			fieldInitializers, pointersInitializations := taskcompositionshape.GongMarshallAllFields(stage)
-			fieldsEditStmt += fieldInitializers
-			fieldsEditStmt += pointersInitializations
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
+			stage.TaskCompositionShapeMap_Staged_Order[ref] = stage.TaskCompositionShapeMap_Staged_Order[taskcompositionshape]
 			diffs := taskcompositionshape.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, taskcompositionshape)
+			delete(stage.TaskCompositionShapeMap_Staged_Order, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\n\t// %s", taskcompositionshape.GetName())
+				var fieldsEdit string
+				fieldsEdit += fmt.Sprintf("\n\t// %s", taskcompositionshape.GetName())
 				for _, diff := range diffs {
-					fieldsEditStmt += diff
+					fieldsEdit += diff
 				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
 				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseStmt += reverseDiff
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
 				}
 				lenModifiedInstances++
 			}
@@ -896,11 +976,10 @@ func (stage *Stage) ComputeDifference() {
 	for ref := range stage.TaskCompositionShapes_reference {
 		if _, ok := stage.TaskCompositionShapes[ref]; !ok {
 			taskcompositionshapes_deletedInstances = append(taskcompositionshapes_deletedInstances, ref)
-			deletedInstancesStmt += ref.GongMarshallUnstaging(stage)
-			deletedInstancesReverseStmt += ref.GongMarshallIdentifier(stage)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseStmt += fieldInitializers
-			fieldsEditReverseStmt += pointersInitializations
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
 		}
 	}
 
@@ -913,21 +992,29 @@ func (stage *Stage) ComputeDifference() {
 	for taskinputshape := range stage.TaskInputShapes {
 		if ref, ok := stage.TaskInputShapes_reference[taskinputshape]; !ok {
 			taskinputshapes_newInstances = append(taskinputshapes_newInstances, taskinputshape)
-			newInstancesStmt += taskinputshape.GongMarshallIdentifier(stage)
-			newInstancesReverseStmt += taskinputshape.GongMarshallUnstaging(stage)
+			newInstancesSlice = append(newInstancesSlice, taskinputshape.GongMarshallIdentifier(stage))
+			if stage.TaskInputShapes_referenceOrder == nil {
+				stage.TaskInputShapes_referenceOrder = make(map[*TaskInputShape]uint)
+			}
+			stage.TaskInputShapes_referenceOrder[taskinputshape] = stage.TaskInputShapeMap_Staged_Order[taskinputshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, taskinputshape.GongMarshallUnstaging(stage))
+			delete(stage.TaskInputShapes_referenceOrder, taskinputshape)
 			fieldInitializers, pointersInitializations := taskinputshape.GongMarshallAllFields(stage)
-			fieldsEditStmt += fieldInitializers
-			fieldsEditStmt += pointersInitializations
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
+			stage.TaskInputShapeMap_Staged_Order[ref] = stage.TaskInputShapeMap_Staged_Order[taskinputshape]
 			diffs := taskinputshape.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, taskinputshape)
+			delete(stage.TaskInputShapeMap_Staged_Order, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\n\t// %s", taskinputshape.GetName())
+				var fieldsEdit string
+				fieldsEdit += fmt.Sprintf("\n\t// %s", taskinputshape.GetName())
 				for _, diff := range diffs {
-					fieldsEditStmt += diff
+					fieldsEdit += diff
 				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
 				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseStmt += reverseDiff
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
 				}
 				lenModifiedInstances++
 			}
@@ -938,11 +1025,10 @@ func (stage *Stage) ComputeDifference() {
 	for ref := range stage.TaskInputShapes_reference {
 		if _, ok := stage.TaskInputShapes[ref]; !ok {
 			taskinputshapes_deletedInstances = append(taskinputshapes_deletedInstances, ref)
-			deletedInstancesStmt += ref.GongMarshallUnstaging(stage)
-			deletedInstancesReverseStmt += ref.GongMarshallIdentifier(stage)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseStmt += fieldInitializers
-			fieldsEditReverseStmt += pointersInitializations
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
 		}
 	}
 
@@ -955,21 +1041,29 @@ func (stage *Stage) ComputeDifference() {
 	for taskoutputshape := range stage.TaskOutputShapes {
 		if ref, ok := stage.TaskOutputShapes_reference[taskoutputshape]; !ok {
 			taskoutputshapes_newInstances = append(taskoutputshapes_newInstances, taskoutputshape)
-			newInstancesStmt += taskoutputshape.GongMarshallIdentifier(stage)
-			newInstancesReverseStmt += taskoutputshape.GongMarshallUnstaging(stage)
+			newInstancesSlice = append(newInstancesSlice, taskoutputshape.GongMarshallIdentifier(stage))
+			if stage.TaskOutputShapes_referenceOrder == nil {
+				stage.TaskOutputShapes_referenceOrder = make(map[*TaskOutputShape]uint)
+			}
+			stage.TaskOutputShapes_referenceOrder[taskoutputshape] = stage.TaskOutputShapeMap_Staged_Order[taskoutputshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, taskoutputshape.GongMarshallUnstaging(stage))
+			delete(stage.TaskOutputShapes_referenceOrder, taskoutputshape)
 			fieldInitializers, pointersInitializations := taskoutputshape.GongMarshallAllFields(stage)
-			fieldsEditStmt += fieldInitializers
-			fieldsEditStmt += pointersInitializations
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
+			stage.TaskOutputShapeMap_Staged_Order[ref] = stage.TaskOutputShapeMap_Staged_Order[taskoutputshape]
 			diffs := taskoutputshape.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, taskoutputshape)
+			delete(stage.TaskOutputShapeMap_Staged_Order, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\n\t// %s", taskoutputshape.GetName())
+				var fieldsEdit string
+				fieldsEdit += fmt.Sprintf("\n\t// %s", taskoutputshape.GetName())
 				for _, diff := range diffs {
-					fieldsEditStmt += diff
+					fieldsEdit += diff
 				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
 				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseStmt += reverseDiff
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
 				}
 				lenModifiedInstances++
 			}
@@ -980,11 +1074,10 @@ func (stage *Stage) ComputeDifference() {
 	for ref := range stage.TaskOutputShapes_reference {
 		if _, ok := stage.TaskOutputShapes[ref]; !ok {
 			taskoutputshapes_deletedInstances = append(taskoutputshapes_deletedInstances, ref)
-			deletedInstancesStmt += ref.GongMarshallUnstaging(stage)
-			deletedInstancesReverseStmt += ref.GongMarshallIdentifier(stage)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseStmt += fieldInitializers
-			fieldsEditReverseStmt += pointersInitializations
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
 		}
 	}
 
@@ -997,21 +1090,29 @@ func (stage *Stage) ComputeDifference() {
 	for taskshape := range stage.TaskShapes {
 		if ref, ok := stage.TaskShapes_reference[taskshape]; !ok {
 			taskshapes_newInstances = append(taskshapes_newInstances, taskshape)
-			newInstancesStmt += taskshape.GongMarshallIdentifier(stage)
-			newInstancesReverseStmt += taskshape.GongMarshallUnstaging(stage)
+			newInstancesSlice = append(newInstancesSlice, taskshape.GongMarshallIdentifier(stage))
+			if stage.TaskShapes_referenceOrder == nil {
+				stage.TaskShapes_referenceOrder = make(map[*TaskShape]uint)
+			}
+			stage.TaskShapes_referenceOrder[taskshape] = stage.TaskShapeMap_Staged_Order[taskshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, taskshape.GongMarshallUnstaging(stage))
+			delete(stage.TaskShapes_referenceOrder, taskshape)
 			fieldInitializers, pointersInitializations := taskshape.GongMarshallAllFields(stage)
-			fieldsEditStmt += fieldInitializers
-			fieldsEditStmt += pointersInitializations
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
+			stage.TaskShapeMap_Staged_Order[ref] = stage.TaskShapeMap_Staged_Order[taskshape]
 			diffs := taskshape.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, taskshape)
+			delete(stage.TaskShapeMap_Staged_Order, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\n\t// %s", taskshape.GetName())
+				var fieldsEdit string
+				fieldsEdit += fmt.Sprintf("\n\t// %s", taskshape.GetName())
 				for _, diff := range diffs {
-					fieldsEditStmt += diff
+					fieldsEdit += diff
 				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
 				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseStmt += reverseDiff
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
 				}
 				lenModifiedInstances++
 			}
@@ -1022,11 +1123,10 @@ func (stage *Stage) ComputeDifference() {
 	for ref := range stage.TaskShapes_reference {
 		if _, ok := stage.TaskShapes[ref]; !ok {
 			taskshapes_deletedInstances = append(taskshapes_deletedInstances, ref)
-			deletedInstancesStmt += ref.GongMarshallUnstaging(stage)
-			deletedInstancesReverseStmt += ref.GongMarshallIdentifier(stage)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseStmt += fieldInitializers
-			fieldsEditReverseStmt += pointersInitializations
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
 		}
 	}
 
@@ -1034,16 +1134,30 @@ func (stage *Stage) ComputeDifference() {
 	lenDeletedInstances += len(taskshapes_deletedInstances)
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
+
+		// sort the stmt to have reproductible forward/backward commit
+		sort.Strings(newInstancesSlice)
+		newInstancesStmt := strings.Join(newInstancesSlice, "")
+		sort.Strings(fieldsEditSlice)
+		fieldsEditStmt := strings.Join(fieldsEditSlice, "")
+		sort.Strings(deletedInstancesSlice)
+		deletedInstancesStmt := strings.Join(deletedInstancesSlice, "")
+
+		sort.Strings(newInstancesReverseSlice)
+		newInstancesReverseStmt := strings.Join(newInstancesReverseSlice, "")
+		sort.Strings(fieldsEditReverseSlice)
+		fieldsEditReverseStmt := strings.Join(fieldsEditReverseSlice, "")
+		sort.Strings(deletedInstancesReverseSlice)
+		deletedInstancesReverseStmt := strings.Join(deletedInstancesReverseSlice, "")
+
 		forwardCommit := newInstancesStmt + fieldsEditStmt + deletedInstancesStmt
-		forwardCommit += fmt.Sprintf("\n\t// %s", time.Now().Format(time.RFC3339Nano))
-		forwardCommit += "\n\tstage.Commit()\n"
+		forwardCommit += "\n\tstage.Commit()"
 		stage.forwardCommits = append(stage.forwardCommits, forwardCommit)
 
 		backwardCommit := deletedInstancesReverseStmt + fieldsEditReverseStmt + newInstancesReverseStmt
-		backwardCommit += fmt.Sprintf("\n\t// %s", time.Now().Format(time.RFC3339Nano))
-		backwardCommit += "\n\tstage.Commit()\n"
-		// append to the start of the backward commits slice
-		stage.backwardCommits = append([]string{backwardCommit}, stage.backwardCommits...)
+		backwardCommit += "\n\tstage.Commit()"
+		// append to the end of the backward commits slice
+		stage.backwardCommits = append(stage.backwardCommits, backwardCommit)
 
 		if stage.GetProbeIF() != nil {
 			var mergedCommits string
@@ -1190,7 +1304,10 @@ func (stage *Stage) ComputeReference() {
 // to avoid unnecessary re-renderings
 // insertion point per named struct
 func (diagram *Diagram) GongGetOrder(stage *Stage) uint {
-	return stage.DiagramMap_Staged_Order[diagram]
+	if order, ok := stage.DiagramMap_Staged_Order[diagram]; ok {
+		return order
+	}
+	return stage.Diagrams_referenceOrder[diagram]
 }
 
 func (diagram *Diagram) GongGetReferenceOrder(stage *Stage) uint {
@@ -1198,7 +1315,10 @@ func (diagram *Diagram) GongGetReferenceOrder(stage *Stage) uint {
 }
 
 func (note *Note) GongGetOrder(stage *Stage) uint {
-	return stage.NoteMap_Staged_Order[note]
+	if order, ok := stage.NoteMap_Staged_Order[note]; ok {
+		return order
+	}
+	return stage.Notes_referenceOrder[note]
 }
 
 func (note *Note) GongGetReferenceOrder(stage *Stage) uint {
@@ -1206,7 +1326,10 @@ func (note *Note) GongGetReferenceOrder(stage *Stage) uint {
 }
 
 func (noteproductshape *NoteProductShape) GongGetOrder(stage *Stage) uint {
-	return stage.NoteProductShapeMap_Staged_Order[noteproductshape]
+	if order, ok := stage.NoteProductShapeMap_Staged_Order[noteproductshape]; ok {
+		return order
+	}
+	return stage.NoteProductShapes_referenceOrder[noteproductshape]
 }
 
 func (noteproductshape *NoteProductShape) GongGetReferenceOrder(stage *Stage) uint {
@@ -1214,7 +1337,10 @@ func (noteproductshape *NoteProductShape) GongGetReferenceOrder(stage *Stage) ui
 }
 
 func (noteshape *NoteShape) GongGetOrder(stage *Stage) uint {
-	return stage.NoteShapeMap_Staged_Order[noteshape]
+	if order, ok := stage.NoteShapeMap_Staged_Order[noteshape]; ok {
+		return order
+	}
+	return stage.NoteShapes_referenceOrder[noteshape]
 }
 
 func (noteshape *NoteShape) GongGetReferenceOrder(stage *Stage) uint {
@@ -1222,7 +1348,10 @@ func (noteshape *NoteShape) GongGetReferenceOrder(stage *Stage) uint {
 }
 
 func (notetaskshape *NoteTaskShape) GongGetOrder(stage *Stage) uint {
-	return stage.NoteTaskShapeMap_Staged_Order[notetaskshape]
+	if order, ok := stage.NoteTaskShapeMap_Staged_Order[notetaskshape]; ok {
+		return order
+	}
+	return stage.NoteTaskShapes_referenceOrder[notetaskshape]
 }
 
 func (notetaskshape *NoteTaskShape) GongGetReferenceOrder(stage *Stage) uint {
@@ -1230,7 +1359,10 @@ func (notetaskshape *NoteTaskShape) GongGetReferenceOrder(stage *Stage) uint {
 }
 
 func (product *Product) GongGetOrder(stage *Stage) uint {
-	return stage.ProductMap_Staged_Order[product]
+	if order, ok := stage.ProductMap_Staged_Order[product]; ok {
+		return order
+	}
+	return stage.Products_referenceOrder[product]
 }
 
 func (product *Product) GongGetReferenceOrder(stage *Stage) uint {
@@ -1238,7 +1370,10 @@ func (product *Product) GongGetReferenceOrder(stage *Stage) uint {
 }
 
 func (productcompositionshape *ProductCompositionShape) GongGetOrder(stage *Stage) uint {
-	return stage.ProductCompositionShapeMap_Staged_Order[productcompositionshape]
+	if order, ok := stage.ProductCompositionShapeMap_Staged_Order[productcompositionshape]; ok {
+		return order
+	}
+	return stage.ProductCompositionShapes_referenceOrder[productcompositionshape]
 }
 
 func (productcompositionshape *ProductCompositionShape) GongGetReferenceOrder(stage *Stage) uint {
@@ -1246,7 +1381,10 @@ func (productcompositionshape *ProductCompositionShape) GongGetReferenceOrder(st
 }
 
 func (productshape *ProductShape) GongGetOrder(stage *Stage) uint {
-	return stage.ProductShapeMap_Staged_Order[productshape]
+	if order, ok := stage.ProductShapeMap_Staged_Order[productshape]; ok {
+		return order
+	}
+	return stage.ProductShapes_referenceOrder[productshape]
 }
 
 func (productshape *ProductShape) GongGetReferenceOrder(stage *Stage) uint {
@@ -1254,7 +1392,10 @@ func (productshape *ProductShape) GongGetReferenceOrder(stage *Stage) uint {
 }
 
 func (project *Project) GongGetOrder(stage *Stage) uint {
-	return stage.ProjectMap_Staged_Order[project]
+	if order, ok := stage.ProjectMap_Staged_Order[project]; ok {
+		return order
+	}
+	return stage.Projects_referenceOrder[project]
 }
 
 func (project *Project) GongGetReferenceOrder(stage *Stage) uint {
@@ -1262,7 +1403,10 @@ func (project *Project) GongGetReferenceOrder(stage *Stage) uint {
 }
 
 func (root *Root) GongGetOrder(stage *Stage) uint {
-	return stage.RootMap_Staged_Order[root]
+	if order, ok := stage.RootMap_Staged_Order[root]; ok {
+		return order
+	}
+	return stage.Roots_referenceOrder[root]
 }
 
 func (root *Root) GongGetReferenceOrder(stage *Stage) uint {
@@ -1270,7 +1414,10 @@ func (root *Root) GongGetReferenceOrder(stage *Stage) uint {
 }
 
 func (task *Task) GongGetOrder(stage *Stage) uint {
-	return stage.TaskMap_Staged_Order[task]
+	if order, ok := stage.TaskMap_Staged_Order[task]; ok {
+		return order
+	}
+	return stage.Tasks_referenceOrder[task]
 }
 
 func (task *Task) GongGetReferenceOrder(stage *Stage) uint {
@@ -1278,7 +1425,10 @@ func (task *Task) GongGetReferenceOrder(stage *Stage) uint {
 }
 
 func (taskcompositionshape *TaskCompositionShape) GongGetOrder(stage *Stage) uint {
-	return stage.TaskCompositionShapeMap_Staged_Order[taskcompositionshape]
+	if order, ok := stage.TaskCompositionShapeMap_Staged_Order[taskcompositionshape]; ok {
+		return order
+	}
+	return stage.TaskCompositionShapes_referenceOrder[taskcompositionshape]
 }
 
 func (taskcompositionshape *TaskCompositionShape) GongGetReferenceOrder(stage *Stage) uint {
@@ -1286,7 +1436,10 @@ func (taskcompositionshape *TaskCompositionShape) GongGetReferenceOrder(stage *S
 }
 
 func (taskinputshape *TaskInputShape) GongGetOrder(stage *Stage) uint {
-	return stage.TaskInputShapeMap_Staged_Order[taskinputshape]
+	if order, ok := stage.TaskInputShapeMap_Staged_Order[taskinputshape]; ok {
+		return order
+	}
+	return stage.TaskInputShapes_referenceOrder[taskinputshape]
 }
 
 func (taskinputshape *TaskInputShape) GongGetReferenceOrder(stage *Stage) uint {
@@ -1294,7 +1447,10 @@ func (taskinputshape *TaskInputShape) GongGetReferenceOrder(stage *Stage) uint {
 }
 
 func (taskoutputshape *TaskOutputShape) GongGetOrder(stage *Stage) uint {
-	return stage.TaskOutputShapeMap_Staged_Order[taskoutputshape]
+	if order, ok := stage.TaskOutputShapeMap_Staged_Order[taskoutputshape]; ok {
+		return order
+	}
+	return stage.TaskOutputShapes_referenceOrder[taskoutputshape]
 }
 
 func (taskoutputshape *TaskOutputShape) GongGetReferenceOrder(stage *Stage) uint {
@@ -1302,7 +1458,10 @@ func (taskoutputshape *TaskOutputShape) GongGetReferenceOrder(stage *Stage) uint
 }
 
 func (taskshape *TaskShape) GongGetOrder(stage *Stage) uint {
-	return stage.TaskShapeMap_Staged_Order[taskshape]
+	if order, ok := stage.TaskShapeMap_Staged_Order[taskshape]; ok {
+		return order
+	}
+	return stage.TaskShapes_referenceOrder[taskshape]
 }
 
 func (taskshape *TaskShape) GongGetReferenceOrder(stage *Stage) uint {
