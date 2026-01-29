@@ -14,6 +14,27 @@ import (
 
 const TableName = "Table"
 
+// update the current table if there is one
+func updateCurrentProbeTable(probe *Probe) {
+	var tableName string
+	for table := range probe.tableStage.Tables {
+		tableName = table.Name
+	}
+	switch tableName {
+	// insertion point
+	case "DisplaySelection":
+		updateProbeTable[*models.DisplaySelection](probe)
+	case "XLCell":
+		updateProbeTable[*models.XLCell](probe)
+	case "XLFile":
+		updateProbeTable[*models.XLFile](probe)
+	case "XLRow":
+		updateProbeTable[*models.XLRow](probe)
+	case "XLSheet":
+		updateProbeTable[*models.XLSheet](probe)
+	}
+}
+
 func updateProbeTable[T models.PointerToGongstruct](
 	probe *Probe,
 ) {
@@ -21,7 +42,7 @@ func updateProbeTable[T models.PointerToGongstruct](
 	probe.tableStage.Reset()
 
 	table := new(gongtable.Table)
-	table.Name = TableName
+	table.Name = models.GetPointerToGongstructName[T]()
 	table.HasColumnSorting = true
 	table.HasFiltering = true
 	table.HasPaginator = true

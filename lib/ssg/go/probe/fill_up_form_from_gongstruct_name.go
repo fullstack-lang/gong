@@ -7,6 +7,36 @@ import (
 	"github.com/fullstack-lang/gong/lib/ssg/go/models"
 )
 
+// updateFillUpForm updates the current form if there is one
+func (probe *Probe) updateFillUpForm() {
+	var formGroup *form.FormGroup
+	for fg := range probe.formStage.FormGroups {
+		formGroup = fg
+	}
+	if formGroup != nil {
+		switch onSave := formGroup.OnSave.(type) { // insertion point
+		case *ChapterFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Chapter", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.chapter, probe)
+			}
+		case *ContentFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Content", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.content, probe)
+			}
+		case *PageFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Page", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.page, probe)
+			}
+		}
+	}
+}
+
 func FillUpFormFromGongstructName(
 	probe *Probe,
 	gongstructName string,

@@ -405,6 +405,84 @@ type Stage struct {
 
 	forwardCommits  []string
 	backwardCommits []string
+
+	// when navigating the commit history
+	// navigationMode is set to Navigating
+	navigationMode    gongStageNavigationMode
+	nbCommitsBackward int // the number of backward commits that have been applied
+}
+
+type gongStageNavigationMode string
+
+const (
+	GongNavigationModeNormal gongStageNavigationMode = "Normal"
+	// when the mode is navigating, each commit backward and forward
+	// it is possible to go apply the nbCommitsBackward forward commits
+	GongNavigationModeNavigating gongStageNavigationMode = "Navigating"
+)
+
+// ApplyBackwardCommit applies the commit before the current one
+func (stage *Stage) ApplyBackwardCommit() error {
+
+	if len(stage.backwardCommits) == 0 {
+		return errors.New("no backward commit to apply")
+	}
+
+	if stage.navigationMode == GongNavigationModeNormal && stage.nbCommitsBackward != 0 {
+		return errors.New("in navigation mode normal, cannot have have nbCommitsBackward != 0")
+	}
+
+	if stage.navigationMode == GongNavigationModeNormal {
+		stage.navigationMode = GongNavigationModeNavigating
+	}
+
+	if stage.nbCommitsBackward >= len(stage.backwardCommits) {
+		return errors.New("no more backward commit to apply")
+	}
+
+	commitToApply := stage.backwardCommits[len(stage.backwardCommits)-1-stage.nbCommitsBackward]
+
+	// umarshall the backward commit to the stage
+	err := GongParseAstString(stage, commitToApply, true)
+	if err != nil {
+		log.Println("error during ApplyBackwardCommit: ", err)
+		return err
+	}
+
+	stage.nbCommitsBackward++
+
+	return nil
+}
+
+func (stage *Stage) GetForwardCommits() []string {
+	return stage.forwardCommits
+}
+
+func (stage *Stage) GetBackwardCommits() []string {
+	return stage.backwardCommits
+}
+
+func (stage *Stage) ApplyForwardCommit() error {
+	if stage.navigationMode == GongNavigationModeNormal && stage.nbCommitsBackward != 0 {
+		return errors.New("in navigation mode normal, cannot have have nbCommitsBackward != 0")
+	}
+
+	if stage.nbCommitsBackward == 0 {
+		return errors.New("no more forward commit to apply")
+	}
+
+	commitToApply := stage.forwardCommits[len(stage.forwardCommits)-1-stage.nbCommitsBackward+1]
+	err := GongParseAstString(stage, commitToApply, true)
+	if err != nil {
+		log.Println("error during ApplyBackwardCommit: ", err)
+		return err
+	}
+	stage.nbCommitsBackward--
+	return nil
+}
+
+func (stage *Stage) GetNbBackwardCommits() int {
+	return stage.nbCommitsBackward
 }
 
 func (stage *Stage) ResetCommits() {
@@ -416,7 +494,7 @@ func (stage *Stage) SetDeltaMode(inDeltaMode bool) {
 	stage.isInDeltaMode = inDeltaMode
 }
 
-func (stage *Stage) IsDeltaMode() bool {
+func (stage *Stage) IsInDeltaMode() bool {
 	return stage.isInDeltaMode
 }
 
@@ -425,6 +503,10 @@ func (stage *Stage) SetProbeIF(probeIF ProbeIF) {
 }
 
 func (stage *Stage) GetProbeIF() ProbeIF {
+    if stage.probeIF == nil {
+        return nil
+    }
+
 	return stage.probeIF
 }
 
@@ -1023,44 +1105,45 @@ func NewStage(name string) (stage *Stage) {
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
 			"AsSplit": &AsSplitUnmarshaller{},
-	
+
 			"AsSplitArea": &AsSplitAreaUnmarshaller{},
-	
+
 			"Button": &ButtonUnmarshaller{},
-	
+
 			"Cursor": &CursorUnmarshaller{},
-	
+
 			"FavIcon": &FavIconUnmarshaller{},
-	
+
 			"Form": &FormUnmarshaller{},
-	
+
 			"Load": &LoadUnmarshaller{},
-	
+
 			"LogoOnTheLeft": &LogoOnTheLeftUnmarshaller{},
-	
+
 			"LogoOnTheRight": &LogoOnTheRightUnmarshaller{},
-	
+
 			"Markdown": &MarkdownUnmarshaller{},
-	
+
 			"Slider": &SliderUnmarshaller{},
-	
+
 			"Split": &SplitUnmarshaller{},
-	
+
 			"Svg": &SvgUnmarshaller{},
-	
+
 			"Table": &TableUnmarshaller{},
-	
+
 			"Title": &TitleUnmarshaller{},
-	
+
 			"Tone": &ToneUnmarshaller{},
-	
+
 			"Tree": &TreeUnmarshaller{},
-	
+
 			"View": &ViewUnmarshaller{},
-	
+
 			"Xlsx": &XlsxUnmarshaller{},
-	
-		}, // end of insertion point
+
+			// end of insertion point
+		},
 
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
 			{name: "AsSplit"},
@@ -1083,6 +1166,8 @@ func NewStage(name string) (stage *Stage) {
 			{name: "View"},
 			{name: "Xlsx"},
 		}, // end of insertion point
+
+		navigationMode: GongNavigationModeNormal,
 	}
 
 	return
@@ -1208,9 +1293,12 @@ func (stage *Stage) Commit() {
 		stage.BackRepo.Commit(stage)
 	}
 	stage.ComputeInstancesNb()
-	if stage.IsDeltaMode() {
+	if stage.IsInDeltaMode() {
 		stage.ComputeDifference()
 		stage.ComputeReference()
+		if stage.GetProbeIF() != nil {
+			stage.GetProbeIF().Refresh()
+		}
 	}
 }
 
@@ -1301,7 +1389,7 @@ func (assplit *AsSplit) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.AsSplitOrder {
 			stage.AsSplitOrder = order
 		}
-		stage.AsSplitMap_Staged_Order[assplit] = stage.AsSplitOrder
+		stage.AsSplitMap_Staged_Order[assplit] = order
 		stage.AsSplitOrder++
 	}
 	stage.AsSplits_mapString[assplit.Name] = assplit
@@ -1387,7 +1475,7 @@ func (assplitarea *AsSplitArea) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.AsSplitAreaOrder {
 			stage.AsSplitAreaOrder = order
 		}
-		stage.AsSplitAreaMap_Staged_Order[assplitarea] = stage.AsSplitAreaOrder
+		stage.AsSplitAreaMap_Staged_Order[assplitarea] = order
 		stage.AsSplitAreaOrder++
 	}
 	stage.AsSplitAreas_mapString[assplitarea.Name] = assplitarea
@@ -1473,7 +1561,7 @@ func (button *Button) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.ButtonOrder {
 			stage.ButtonOrder = order
 		}
-		stage.ButtonMap_Staged_Order[button] = stage.ButtonOrder
+		stage.ButtonMap_Staged_Order[button] = order
 		stage.ButtonOrder++
 	}
 	stage.Buttons_mapString[button.Name] = button
@@ -1559,7 +1647,7 @@ func (cursor *Cursor) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.CursorOrder {
 			stage.CursorOrder = order
 		}
-		stage.CursorMap_Staged_Order[cursor] = stage.CursorOrder
+		stage.CursorMap_Staged_Order[cursor] = order
 		stage.CursorOrder++
 	}
 	stage.Cursors_mapString[cursor.Name] = cursor
@@ -1645,7 +1733,7 @@ func (favicon *FavIcon) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.FavIconOrder {
 			stage.FavIconOrder = order
 		}
-		stage.FavIconMap_Staged_Order[favicon] = stage.FavIconOrder
+		stage.FavIconMap_Staged_Order[favicon] = order
 		stage.FavIconOrder++
 	}
 	stage.FavIcons_mapString[favicon.Name] = favicon
@@ -1731,7 +1819,7 @@ func (form *Form) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.FormOrder {
 			stage.FormOrder = order
 		}
-		stage.FormMap_Staged_Order[form] = stage.FormOrder
+		stage.FormMap_Staged_Order[form] = order
 		stage.FormOrder++
 	}
 	stage.Forms_mapString[form.Name] = form
@@ -1817,7 +1905,7 @@ func (load *Load) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.LoadOrder {
 			stage.LoadOrder = order
 		}
-		stage.LoadMap_Staged_Order[load] = stage.LoadOrder
+		stage.LoadMap_Staged_Order[load] = order
 		stage.LoadOrder++
 	}
 	stage.Loads_mapString[load.Name] = load
@@ -1903,7 +1991,7 @@ func (logoontheleft *LogoOnTheLeft) StagePreserveOrder(stage *Stage, order uint)
 		if order > stage.LogoOnTheLeftOrder {
 			stage.LogoOnTheLeftOrder = order
 		}
-		stage.LogoOnTheLeftMap_Staged_Order[logoontheleft] = stage.LogoOnTheLeftOrder
+		stage.LogoOnTheLeftMap_Staged_Order[logoontheleft] = order
 		stage.LogoOnTheLeftOrder++
 	}
 	stage.LogoOnTheLefts_mapString[logoontheleft.Name] = logoontheleft
@@ -1989,7 +2077,7 @@ func (logoontheright *LogoOnTheRight) StagePreserveOrder(stage *Stage, order uin
 		if order > stage.LogoOnTheRightOrder {
 			stage.LogoOnTheRightOrder = order
 		}
-		stage.LogoOnTheRightMap_Staged_Order[logoontheright] = stage.LogoOnTheRightOrder
+		stage.LogoOnTheRightMap_Staged_Order[logoontheright] = order
 		stage.LogoOnTheRightOrder++
 	}
 	stage.LogoOnTheRights_mapString[logoontheright.Name] = logoontheright
@@ -2075,7 +2163,7 @@ func (markdown *Markdown) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.MarkdownOrder {
 			stage.MarkdownOrder = order
 		}
-		stage.MarkdownMap_Staged_Order[markdown] = stage.MarkdownOrder
+		stage.MarkdownMap_Staged_Order[markdown] = order
 		stage.MarkdownOrder++
 	}
 	stage.Markdowns_mapString[markdown.Name] = markdown
@@ -2161,7 +2249,7 @@ func (slider *Slider) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.SliderOrder {
 			stage.SliderOrder = order
 		}
-		stage.SliderMap_Staged_Order[slider] = stage.SliderOrder
+		stage.SliderMap_Staged_Order[slider] = order
 		stage.SliderOrder++
 	}
 	stage.Sliders_mapString[slider.Name] = slider
@@ -2247,7 +2335,7 @@ func (split *Split) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.SplitOrder {
 			stage.SplitOrder = order
 		}
-		stage.SplitMap_Staged_Order[split] = stage.SplitOrder
+		stage.SplitMap_Staged_Order[split] = order
 		stage.SplitOrder++
 	}
 	stage.Splits_mapString[split.Name] = split
@@ -2333,7 +2421,7 @@ func (svg *Svg) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.SvgOrder {
 			stage.SvgOrder = order
 		}
-		stage.SvgMap_Staged_Order[svg] = stage.SvgOrder
+		stage.SvgMap_Staged_Order[svg] = order
 		stage.SvgOrder++
 	}
 	stage.Svgs_mapString[svg.Name] = svg
@@ -2419,7 +2507,7 @@ func (table *Table) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.TableOrder {
 			stage.TableOrder = order
 		}
-		stage.TableMap_Staged_Order[table] = stage.TableOrder
+		stage.TableMap_Staged_Order[table] = order
 		stage.TableOrder++
 	}
 	stage.Tables_mapString[table.Name] = table
@@ -2505,7 +2593,7 @@ func (title *Title) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.TitleOrder {
 			stage.TitleOrder = order
 		}
-		stage.TitleMap_Staged_Order[title] = stage.TitleOrder
+		stage.TitleMap_Staged_Order[title] = order
 		stage.TitleOrder++
 	}
 	stage.Titles_mapString[title.Name] = title
@@ -2591,7 +2679,7 @@ func (tone *Tone) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.ToneOrder {
 			stage.ToneOrder = order
 		}
-		stage.ToneMap_Staged_Order[tone] = stage.ToneOrder
+		stage.ToneMap_Staged_Order[tone] = order
 		stage.ToneOrder++
 	}
 	stage.Tones_mapString[tone.Name] = tone
@@ -2677,7 +2765,7 @@ func (tree *Tree) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.TreeOrder {
 			stage.TreeOrder = order
 		}
-		stage.TreeMap_Staged_Order[tree] = stage.TreeOrder
+		stage.TreeMap_Staged_Order[tree] = order
 		stage.TreeOrder++
 	}
 	stage.Trees_mapString[tree.Name] = tree
@@ -2763,7 +2851,7 @@ func (view *View) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.ViewOrder {
 			stage.ViewOrder = order
 		}
-		stage.ViewMap_Staged_Order[view] = stage.ViewOrder
+		stage.ViewMap_Staged_Order[view] = order
 		stage.ViewOrder++
 	}
 	stage.Views_mapString[view.Name] = view
@@ -2849,7 +2937,7 @@ func (xlsx *Xlsx) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.XlsxOrder {
 			stage.XlsxOrder = order
 		}
-		stage.XlsxMap_Staged_Order[xlsx] = stage.XlsxOrder
+		stage.XlsxMap_Staged_Order[xlsx] = order
 		stage.XlsxOrder++
 	}
 	stage.Xlsxs_mapString[xlsx.Name] = xlsx
@@ -3053,7 +3141,7 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
 	}
-	if stage.IsDeltaMode() {
+	if stage.IsInDeltaMode() {
 		stage.ComputeReference()
 	}
 }

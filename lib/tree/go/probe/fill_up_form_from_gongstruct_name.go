@@ -7,6 +7,42 @@ import (
 	"github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
+// updateFillUpForm updates the current form if there is one
+func (probe *Probe) updateFillUpForm() {
+	var formGroup *form.FormGroup
+	for fg := range probe.formStage.FormGroups {
+		formGroup = fg
+	}
+	if formGroup != nil {
+		switch onSave := formGroup.OnSave.(type) { // insertion point
+		case *ButtonFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Button", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.button, probe)
+			}
+		case *NodeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Node", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.node, probe)
+			}
+		case *SVGIconFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "SVGIcon", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.svgicon, probe)
+			}
+		case *TreeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Tree", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.tree, probe)
+			}
+		}
+	}
+}
+
 func FillUpFormFromGongstructName(
 	probe *Probe,
 	gongstructName string,

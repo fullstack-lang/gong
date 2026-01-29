@@ -7,6 +7,156 @@ import (
 	"github.com/fullstack-lang/gong/lib/table/go/models"
 )
 
+// updateFillUpForm updates the current form if there is one
+func (probe *Probe) updateFillUpForm() {
+	var formGroup *form.FormGroup
+	for fg := range probe.formStage.FormGroups {
+		formGroup = fg
+	}
+	if formGroup != nil {
+		switch onSave := formGroup.OnSave.(type) { // insertion point
+		case *CellFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Cell", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.cell, probe)
+			}
+		case *CellBooleanFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "CellBoolean", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.cellboolean, probe)
+			}
+		case *CellFloat64FormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "CellFloat64", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.cellfloat64, probe)
+			}
+		case *CellIconFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "CellIcon", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.cellicon, probe)
+			}
+		case *CellIntFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "CellInt", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.cellint, probe)
+			}
+		case *CellStringFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "CellString", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.cellstring, probe)
+			}
+		case *CheckBoxFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "CheckBox", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.checkbox, probe)
+			}
+		case *DisplayedColumnFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "DisplayedColumn", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.displayedcolumn, probe)
+			}
+		case *FormDivFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "FormDiv", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.formdiv, probe)
+			}
+		case *FormEditAssocButtonFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "FormEditAssocButton", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.formeditassocbutton, probe)
+			}
+		case *FormFieldFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "FormField", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.formfield, probe)
+			}
+		case *FormFieldDateFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "FormFieldDate", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.formfielddate, probe)
+			}
+		case *FormFieldDateTimeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "FormFieldDateTime", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.formfielddatetime, probe)
+			}
+		case *FormFieldFloat64FormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "FormFieldFloat64", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.formfieldfloat64, probe)
+			}
+		case *FormFieldIntFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "FormFieldInt", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.formfieldint, probe)
+			}
+		case *FormFieldSelectFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "FormFieldSelect", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.formfieldselect, probe)
+			}
+		case *FormFieldStringFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "FormFieldString", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.formfieldstring, probe)
+			}
+		case *FormFieldTimeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "FormFieldTime", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.formfieldtime, probe)
+			}
+		case *FormGroupFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "FormGroup", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.formgroup, probe)
+			}
+		case *FormSortAssocButtonFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "FormSortAssocButton", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.formsortassocbutton, probe)
+			}
+		case *OptionFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Option", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.option, probe)
+			}
+		case *RowFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Row", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.row, probe)
+			}
+		case *TableFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Table", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.table, probe)
+			}
+		}
+	}
+}
+
 func FillUpFormFromGongstructName(
 	probe *Probe,
 	gongstructName string,

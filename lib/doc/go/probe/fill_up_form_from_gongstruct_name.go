@@ -7,6 +7,72 @@ import (
 	"github.com/fullstack-lang/gong/lib/doc/go/models"
 )
 
+// updateFillUpForm updates the current form if there is one
+func (probe *Probe) updateFillUpForm() {
+	var formGroup *form.FormGroup
+	for fg := range probe.formStage.FormGroups {
+		formGroup = fg
+	}
+	if formGroup != nil {
+		switch onSave := formGroup.OnSave.(type) { // insertion point
+		case *AttributeShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "AttributeShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.attributeshape, probe)
+			}
+		case *ClassdiagramFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Classdiagram", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.classdiagram, probe)
+			}
+		case *DiagramPackageFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "DiagramPackage", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.diagrampackage, probe)
+			}
+		case *GongEnumShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "GongEnumShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.gongenumshape, probe)
+			}
+		case *GongEnumValueShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "GongEnumValueShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.gongenumvalueshape, probe)
+			}
+		case *GongNoteLinkShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "GongNoteLinkShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.gongnotelinkshape, probe)
+			}
+		case *GongNoteShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "GongNoteShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.gongnoteshape, probe)
+			}
+		case *GongStructShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "GongStructShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.gongstructshape, probe)
+			}
+		case *LinkShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "LinkShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.linkshape, probe)
+			}
+		}
+	}
+}
+
 func FillUpFormFromGongstructName(
 	probe *Probe,
 	gongstructName string,

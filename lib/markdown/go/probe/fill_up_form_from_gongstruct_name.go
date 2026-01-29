@@ -7,6 +7,42 @@ import (
 	"github.com/fullstack-lang/gong/lib/markdown/go/models"
 )
 
+// updateFillUpForm updates the current form if there is one
+func (probe *Probe) updateFillUpForm() {
+	var formGroup *form.FormGroup
+	for fg := range probe.formStage.FormGroups {
+		formGroup = fg
+	}
+	if formGroup != nil {
+		switch onSave := formGroup.OnSave.(type) { // insertion point
+		case *ContentFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Content", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.content, probe)
+			}
+		case *JpgImageFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "JpgImage", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.jpgimage, probe)
+			}
+		case *PngImageFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "PngImage", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.pngimage, probe)
+			}
+		case *SvgImageFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "SvgImage", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.svgimage, probe)
+			}
+		}
+	}
+}
+
 func FillUpFormFromGongstructName(
 	probe *Probe,
 	gongstructName string,

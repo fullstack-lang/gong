@@ -249,6 +249,84 @@ type Stage struct {
 
 	forwardCommits  []string
 	backwardCommits []string
+
+	// when navigating the commit history
+	// navigationMode is set to Navigating
+	navigationMode    gongStageNavigationMode
+	nbCommitsBackward int // the number of backward commits that have been applied
+}
+
+type gongStageNavigationMode string
+
+const (
+	GongNavigationModeNormal gongStageNavigationMode = "Normal"
+	// when the mode is navigating, each commit backward and forward
+	// it is possible to go apply the nbCommitsBackward forward commits
+	GongNavigationModeNavigating gongStageNavigationMode = "Navigating"
+)
+
+// ApplyBackwardCommit applies the commit before the current one
+func (stage *Stage) ApplyBackwardCommit() error {
+
+	if len(stage.backwardCommits) == 0 {
+		return errors.New("no backward commit to apply")
+	}
+
+	if stage.navigationMode == GongNavigationModeNormal && stage.nbCommitsBackward != 0 {
+		return errors.New("in navigation mode normal, cannot have have nbCommitsBackward != 0")
+	}
+
+	if stage.navigationMode == GongNavigationModeNormal {
+		stage.navigationMode = GongNavigationModeNavigating
+	}
+
+	if stage.nbCommitsBackward >= len(stage.backwardCommits) {
+		return errors.New("no more backward commit to apply")
+	}
+
+	commitToApply := stage.backwardCommits[len(stage.backwardCommits)-1-stage.nbCommitsBackward]
+
+	// umarshall the backward commit to the stage
+	err := GongParseAstString(stage, commitToApply, true)
+	if err != nil {
+		log.Println("error during ApplyBackwardCommit: ", err)
+		return err
+	}
+
+	stage.nbCommitsBackward++
+
+	return nil
+}
+
+func (stage *Stage) GetForwardCommits() []string {
+	return stage.forwardCommits
+}
+
+func (stage *Stage) GetBackwardCommits() []string {
+	return stage.backwardCommits
+}
+
+func (stage *Stage) ApplyForwardCommit() error {
+	if stage.navigationMode == GongNavigationModeNormal && stage.nbCommitsBackward != 0 {
+		return errors.New("in navigation mode normal, cannot have have nbCommitsBackward != 0")
+	}
+
+	if stage.nbCommitsBackward == 0 {
+		return errors.New("no more forward commit to apply")
+	}
+
+	commitToApply := stage.forwardCommits[len(stage.forwardCommits)-1-stage.nbCommitsBackward+1]
+	err := GongParseAstString(stage, commitToApply, true)
+	if err != nil {
+		log.Println("error during ApplyBackwardCommit: ", err)
+		return err
+	}
+	stage.nbCommitsBackward--
+	return nil
+}
+
+func (stage *Stage) GetNbBackwardCommits() int {
+	return stage.nbCommitsBackward
 }
 
 func (stage *Stage) ResetCommits() {
@@ -260,7 +338,7 @@ func (stage *Stage) SetDeltaMode(inDeltaMode bool) {
 	stage.isInDeltaMode = inDeltaMode
 }
 
-func (stage *Stage) IsDeltaMode() bool {
+func (stage *Stage) IsInDeltaMode() bool {
 	return stage.isInDeltaMode
 }
 
@@ -269,6 +347,10 @@ func (stage *Stage) SetProbeIF(probeIF ProbeIF) {
 }
 
 func (stage *Stage) GetProbeIF() ProbeIF {
+    if stage.probeIF == nil {
+        return nil
+    }
+
 	return stage.probeIF
 }
 
@@ -591,20 +673,21 @@ func NewStage(name string) (stage *Stage) {
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
 			"Astruct": &AstructUnmarshaller{},
-	
+
 			"AstructBstruct2Use": &AstructBstruct2UseUnmarshaller{},
-	
+
 			"AstructBstructUse": &AstructBstructUseUnmarshaller{},
-	
+
 			"Bstruct": &BstructUnmarshaller{},
-	
+
 			"Dstruct": &DstructUnmarshaller{},
-	
+
 			"F0123456789012345678901234567890": &F0123456789012345678901234567890Unmarshaller{},
-	
+
 			"Gstruct": &GstructUnmarshaller{},
-	
-		}, // end of insertion point
+
+			// end of insertion point
+		},
 
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
 			{name: "Astruct"},
@@ -615,6 +698,8 @@ func NewStage(name string) (stage *Stage) {
 			{name: "F0123456789012345678901234567890"},
 			{name: "Gstruct"},
 		}, // end of insertion point
+
+		navigationMode: GongNavigationModeNormal,
 	}
 
 	return
@@ -692,9 +777,12 @@ func (stage *Stage) Commit() {
 		stage.BackRepo.Commit(stage)
 	}
 	stage.ComputeInstancesNb()
-	if stage.IsDeltaMode() {
+	if stage.IsInDeltaMode() {
 		stage.ComputeDifference()
 		stage.ComputeReference()
+		if stage.GetProbeIF() != nil {
+			stage.GetProbeIF().Refresh()
+		}
 	}
 }
 
@@ -773,7 +861,7 @@ func (astruct *Astruct) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.AstructOrder {
 			stage.AstructOrder = order
 		}
-		stage.AstructMap_Staged_Order[astruct] = stage.AstructOrder
+		stage.AstructMap_Staged_Order[astruct] = order
 		stage.AstructOrder++
 	}
 	stage.Astructs_mapString[astruct.Name] = astruct
@@ -859,7 +947,7 @@ func (astructbstruct2use *AstructBstruct2Use) StagePreserveOrder(stage *Stage, o
 		if order > stage.AstructBstruct2UseOrder {
 			stage.AstructBstruct2UseOrder = order
 		}
-		stage.AstructBstruct2UseMap_Staged_Order[astructbstruct2use] = stage.AstructBstruct2UseOrder
+		stage.AstructBstruct2UseMap_Staged_Order[astructbstruct2use] = order
 		stage.AstructBstruct2UseOrder++
 	}
 	stage.AstructBstruct2Uses_mapString[astructbstruct2use.Name] = astructbstruct2use
@@ -945,7 +1033,7 @@ func (astructbstructuse *AstructBstructUse) StagePreserveOrder(stage *Stage, ord
 		if order > stage.AstructBstructUseOrder {
 			stage.AstructBstructUseOrder = order
 		}
-		stage.AstructBstructUseMap_Staged_Order[astructbstructuse] = stage.AstructBstructUseOrder
+		stage.AstructBstructUseMap_Staged_Order[astructbstructuse] = order
 		stage.AstructBstructUseOrder++
 	}
 	stage.AstructBstructUses_mapString[astructbstructuse.Name] = astructbstructuse
@@ -1031,7 +1119,7 @@ func (bstruct *Bstruct) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.BstructOrder {
 			stage.BstructOrder = order
 		}
-		stage.BstructMap_Staged_Order[bstruct] = stage.BstructOrder
+		stage.BstructMap_Staged_Order[bstruct] = order
 		stage.BstructOrder++
 	}
 	stage.Bstructs_mapString[bstruct.Name] = bstruct
@@ -1117,7 +1205,7 @@ func (dstruct *Dstruct) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.DstructOrder {
 			stage.DstructOrder = order
 		}
-		stage.DstructMap_Staged_Order[dstruct] = stage.DstructOrder
+		stage.DstructMap_Staged_Order[dstruct] = order
 		stage.DstructOrder++
 	}
 	stage.Dstructs_mapString[dstruct.Name] = dstruct
@@ -1203,7 +1291,7 @@ func (f0123456789012345678901234567890 *F0123456789012345678901234567890) StageP
 		if order > stage.F0123456789012345678901234567890Order {
 			stage.F0123456789012345678901234567890Order = order
 		}
-		stage.F0123456789012345678901234567890Map_Staged_Order[f0123456789012345678901234567890] = stage.F0123456789012345678901234567890Order
+		stage.F0123456789012345678901234567890Map_Staged_Order[f0123456789012345678901234567890] = order
 		stage.F0123456789012345678901234567890Order++
 	}
 	stage.F0123456789012345678901234567890s_mapString[f0123456789012345678901234567890.Name] = f0123456789012345678901234567890
@@ -1289,7 +1377,7 @@ func (gstruct *Gstruct) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.GstructOrder {
 			stage.GstructOrder = order
 		}
-		stage.GstructMap_Staged_Order[gstruct] = stage.GstructOrder
+		stage.GstructMap_Staged_Order[gstruct] = order
 		stage.GstructOrder++
 	}
 	stage.Gstructs_mapString[gstruct.Name] = gstruct
@@ -1409,7 +1497,7 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
 	}
-	if stage.IsDeltaMode() {
+	if stage.IsInDeltaMode() {
 		stage.ComputeReference()
 	}
 }
