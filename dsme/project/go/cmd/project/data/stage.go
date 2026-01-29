@@ -797,8 +797,8 @@ another line-NewDiagram`
 
 	__ProductShape__00000544_.Name = `NewProduct-NewDiagram`
 	__ProductShape__00000544_.IsExpanded = false
-	__ProductShape__00000544_.X = 425.000000
-	__ProductShape__00000544_.Y = 250.000000
+	__ProductShape__00000544_.X = 58.000000
+	__ProductShape__00000544_.Y = 245.000000
 	__ProductShape__00000544_.Width = 250.000000
 	__ProductShape__00000544_.Height = 100.000000
 
