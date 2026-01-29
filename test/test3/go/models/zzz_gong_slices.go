@@ -252,7 +252,10 @@ func (stage *Stage) ComputeReference() {
 // to avoid unnecessary re-renderings
 // insertion point per named struct
 func (a *A) GongGetOrder(stage *Stage) uint {
-	return stage.AMap_Staged_Order[a]
+	if order, ok := stage.AMap_Staged_Order[a]; ok {
+		return order
+	}
+	return stage.As_referenceOrder[a]
 }
 
 func (a *A) GongGetReferenceOrder(stage *Stage) uint {
@@ -260,7 +263,10 @@ func (a *A) GongGetReferenceOrder(stage *Stage) uint {
 }
 
 func (b *B) GongGetOrder(stage *Stage) uint {
-	return stage.BMap_Staged_Order[b]
+	if order, ok := stage.BMap_Staged_Order[b]; ok {
+		return order
+	}
+	return stage.Bs_referenceOrder[b]
 }
 
 func (b *B) GongGetReferenceOrder(stage *Stage) uint {
