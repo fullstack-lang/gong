@@ -14,6 +14,55 @@ import (
 
 const TableName = "Table"
 
+// update the current table if there is one
+func updateCurrentProbeTable(probe *Probe) {
+	var tableName string
+	for table := range probe.tableStage.Tables {
+		tableName = table.Name
+	}
+	switch tableName {
+	// insertion point
+	case "AsSplit":
+		updateProbeTable[*models.AsSplit](probe)
+	case "AsSplitArea":
+		updateProbeTable[*models.AsSplitArea](probe)
+	case "Button":
+		updateProbeTable[*models.Button](probe)
+	case "Cursor":
+		updateProbeTable[*models.Cursor](probe)
+	case "FavIcon":
+		updateProbeTable[*models.FavIcon](probe)
+	case "Form":
+		updateProbeTable[*models.Form](probe)
+	case "Load":
+		updateProbeTable[*models.Load](probe)
+	case "LogoOnTheLeft":
+		updateProbeTable[*models.LogoOnTheLeft](probe)
+	case "LogoOnTheRight":
+		updateProbeTable[*models.LogoOnTheRight](probe)
+	case "Markdown":
+		updateProbeTable[*models.Markdown](probe)
+	case "Slider":
+		updateProbeTable[*models.Slider](probe)
+	case "Split":
+		updateProbeTable[*models.Split](probe)
+	case "Svg":
+		updateProbeTable[*models.Svg](probe)
+	case "Table":
+		updateProbeTable[*models.Table](probe)
+	case "Title":
+		updateProbeTable[*models.Title](probe)
+	case "Tone":
+		updateProbeTable[*models.Tone](probe)
+	case "Tree":
+		updateProbeTable[*models.Tree](probe)
+	case "View":
+		updateProbeTable[*models.View](probe)
+	case "Xlsx":
+		updateProbeTable[*models.Xlsx](probe)
+	}
+}
+
 func updateProbeTable[T models.PointerToGongstruct](
 	probe *Probe,
 ) {
@@ -21,7 +70,7 @@ func updateProbeTable[T models.PointerToGongstruct](
 	probe.tableStage.Reset()
 
 	table := new(gongtable.Table)
-	table.Name = TableName
+	table.Name = models.GetPointerToGongstructName[T]()
 	table.HasColumnSorting = true
 	table.HasFiltering = true
 	table.HasPaginator = true

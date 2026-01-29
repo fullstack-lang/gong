@@ -18,6 +18,18 @@ import (
 var _time__dummyDeclaration2 time.Duration
 var _ = _time__dummyDeclaration2
 
+// swagger:ignore
+type GONG__ExpressionType string
+
+const (
+	GONG__STRUCT_INSTANCE      GONG__ExpressionType = "STRUCT_INSTANCE"
+	GONG__FIELD_OR_CONST_VALUE GONG__ExpressionType = "FIELD_OR_CONST_VALUE"
+	GONG__FIELD_VALUE          GONG__ExpressionType = "FIELD_VALUE"
+	GONG__ENUM_CAST_INT        GONG__ExpressionType = "ENUM_CAST_INT"
+	GONG__ENUM_CAST_STRING     GONG__ExpressionType = "ENUM_CAST_STRING"
+	GONG__IDENTIFIER_CONST     GONG__ExpressionType = "IDENTIFIER_CONST"
+)
+
 // ------------------------------------------------------------------------------------------------
 // STATIC AST PARSING LOGIC
 // ------------------------------------------------------------------------------------------------
@@ -25,14 +37,14 @@ var _ = _time__dummyDeclaration2
 // ModelUnmarshaller abstracts the logic for setting fields on a staged instance
 type ModelUnmarshaller interface {
 	// Initialize creates the struct, stages it, and returns the pointer as 'any'
-	Initialize(stage *Stage, instanceName string, preserveOrder bool) (GongstructIF, error)
+	Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error)
 
 	// UnmarshallField sets a field's value based on the AST expression
 	UnmarshallField(stage *Stage, instance GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error
 }
 
 // ParseAstFile Parse pathToFile and stages all instances declared in the file
-func ParseAstFile2(stage *Stage, pathToFile string, preserveOrder bool) error {
+func ParseAstFile(stage *Stage, pathToFile string, preserveOrder bool) error {
 	fileOfInterest, err := filepath.Abs(pathToFile)
 	if err != nil {
 		return errors.New("Path does not exist %s ;" + fileOfInterest)
@@ -48,7 +60,7 @@ func ParseAstFile2(stage *Stage, pathToFile string, preserveOrder bool) error {
 }
 
 // ParseAstEmbeddedFile parses the Go source code from an embedded file
-func ParseAstEmbeddedFile2(stage *Stage, directory embed.FS, pathToFile string) error {
+func ParseAstEmbeddedFile(stage *Stage, directory embed.FS, pathToFile string) error {
 	fileContentBytes, err := directory.ReadFile(pathToFile)
 	if err != nil {
 		return errors.New(stage.GetName() + "; Unable to read embedded file " + err.Error())
@@ -63,11 +75,27 @@ func ParseAstEmbeddedFile2(stage *Stage, directory embed.FS, pathToFile string) 
 	return ParseAstFileFromAst(stage, inFile, fset, false)
 }
 
+// GongParseAstString parses the Go source code from a string
+func GongParseAstString(stage *Stage, blob string, preserveOrder bool) error {
+	fileString := "package main\nfunc _() {\n" + blob + "\n}"
+	fset := token.NewFileSet()
+	inFile, errParser := parser.ParseFile(fset, "", fileString, parser.ParseComments)
+	if errParser != nil {
+		return errors.New("Unable to parser " + errParser.Error())
+	}
+
+	return ParseAstFileFromAst(stage, inFile, fset, preserveOrder)
+}
+
 // ParseAstFileFromAst traverses the AST and stages instances using the Unmarshaller registry
-func ParseAstFileFromAst2(stage *Stage, inFile *ast.File, fset *token.FileSet, preserveOrder bool) error {
+func ParseAstFileFromAst(stage *Stage, inFile *ast.File, fset *token.FileSet, preserveOrder bool) error {
 
 	// 1. Remove Global Variables: Use a local map to track variable names to instances
 	identifierMap := make(map[string]GongstructIF)
+
+	for _, instance := range stage.GetInstances() {
+		identifierMap[instance.GongGetIdentifier(stage)] = instance
+	}
 
 	// 2. Visitor Pattern: Traverse the AST
 	ast.Inspect(inFile, func(n ast.Node) bool {
@@ -107,7 +135,7 @@ func ParseAstFileFromAst2(stage *Stage, inFile *ast.File, fset *token.FileSet, p
 					// Dispatch to specific Unmarshaller
 					if typeName != "" {
 						if unmarshaller, exists := stage.GongUnmarshallers[typeName]; exists {
-							instance, err := unmarshaller.Initialize(stage, instanceName, preserveOrder)
+							instance, err := unmarshaller.Initialize(stage, ident.Name, instanceName, preserveOrder)
 							if err == nil {
 								identifierMap[ident.Name] = instance
 							}
@@ -130,6 +158,33 @@ func ParseAstFileFromAst2(stage *Stage, inFile *ast.File, fset *token.FileSet, p
 								if unmarshaller, exists := stage.GongUnmarshallers[typeName]; exists {
 									// 3. Strategy Pattern: Delegate to Handler
 									unmarshaller.UnmarshallField(stage, instance, selExpr.Sel.Name, node.Rhs[0], identifierMap)
+								}
+							}
+						}
+					}
+				}
+			}
+		case *ast.ExprStmt:
+			if call, ok := node.X.(*ast.CallExpr); ok {
+				if sel, ok := call.Fun.(*ast.SelectorExpr); ok {
+					if sel.Sel.Name == "Unstage" {
+						if ident, ok := sel.X.(*ast.Ident); ok {
+							if instance, ok := identifierMap[ident.Name]; ok {
+								instance.UnstageVoid(stage)
+							}
+						}
+					}
+					if sel.Sel.Name == "Commit" {
+						if ident, ok := sel.X.(*ast.Ident); ok && ident.Name == "stage" {
+							if stage.IsInDeltaMode() && stage.navigationMode != GongNavigationModeNavigating {
+								stage.Commit()
+							} else {
+								stage.ComputeInstancesNb()
+								if stage.OnInitCommitCallback != nil {
+									stage.OnInitCommitCallback.BeforeCommit(stage)
+								}
+								if stage.OnInitCommitFromBackCallback != nil {
+									stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
 								}
 							}
 						}
@@ -187,6 +242,31 @@ func GongExtractBool(expr ast.Expr) bool {
 	return false
 }
 
+func GongExtractExpr(expr ast.Expr) any {
+	switch v := expr.(type) {
+	case *ast.BasicLit:
+		return v.Value
+	case *ast.CompositeLit:
+		// Reconstruct "Package.Struct{}"
+		if sel, ok := v.Type.(*ast.SelectorExpr); ok {
+			if id, ok := sel.X.(*ast.Ident); ok {
+				return id.Name + "." + sel.Sel.Name + "{}"
+			}
+		}
+	case *ast.SelectorExpr:
+		// Reconstruct "Package.Struct{}.Field"
+		// X is likely a CompositeLit (Package.Struct{})
+		if cl, ok := v.X.(*ast.CompositeLit); ok {
+			if sel, ok := cl.Type.(*ast.SelectorExpr); ok {
+				if id, ok := sel.X.(*ast.Ident); ok {
+					return id.Name + "." + sel.Sel.Name + "{}." + v.Sel.Name
+				}
+			}
+		}
+	}
+	return ""
+}
+
 // GongUnmarshallSliceOfPointers handles append, slices.Delete, and slices.Insert for slice fields
 func GongUnmarshallSliceOfPointers[T PointerToGongstruct](
 	slice *[]T,
@@ -216,6 +296,8 @@ func GongUnmarshallSliceOfPointers[T PointerToGongstruct](
 				if ident, ok := call.Args[2].(*ast.Ident); ok {
 					if val, ok := identifierMap[ident.Name]; ok {
 						*slice = slices.Insert(*slice, index, val.(T))
+					} else {
+						log.Println("Ast2 Insert Unkown identifier", ident.Name)
 					}
 				}
 			}
@@ -224,6 +306,8 @@ func GongUnmarshallSliceOfPointers[T PointerToGongstruct](
 				if ident, ok := call.Args[len(call.Args)-1].(*ast.Ident); ok {
 					if val, ok := identifierMap[ident.Name]; ok {
 						*slice = append(*slice, val.(T))
+					} else {
+						log.Println("Ast2 append Unkown identifier", ident.Name)
 					}
 				}
 			}
@@ -238,6 +322,11 @@ func GongUnmarshallPointer[T PointerToGongstruct](
 	identifierMap map[string]GongstructIF) {
 
 	if ident, ok := valueExpr.(*ast.Ident); ok {
+		if ident.Name == "nil" {
+			var zero T
+			*ptr = zero
+			return
+		}
 		if val, ok := identifierMap[ident.Name]; ok {
 			*ptr = val.(T)
 		}
@@ -268,13 +357,18 @@ func GongUnmarshallEnum[T interface{ FromCodeString(string) error }](
 // insertion point per named struct
 type GongBasicFieldUnmarshaller struct{}
 
-func (u *GongBasicFieldUnmarshaller) Initialize(stage *Stage, instanceName string, preserveOrder bool) (GongstructIF, error) {
+func (u *GongBasicFieldUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
 	instance := new(GongBasicField)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		instance.Stage(stage)
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
 	}
 	return instance, nil
 }
@@ -287,13 +381,13 @@ func (u *GongBasicFieldUnmarshaller) UnmarshallField(stage *Stage, i GongstructI
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
 	case "BasicKindName":
-		instance.Name = GongExtractString(valueExpr)
+		instance.BasicKindName = GongExtractString(valueExpr)
 	case "GongEnum":
 		GongUnmarshallPointer(&instance.GongEnum, valueExpr, identifierMap)
 	case "DeclaredType":
-		instance.Name = GongExtractString(valueExpr)
+		instance.DeclaredType = GongExtractString(valueExpr)
 	case "CompositeStructName":
-		instance.Name = GongExtractString(valueExpr)
+		instance.CompositeStructName = GongExtractString(valueExpr)
 	case "Index":
 		instance.Index = GongExtractInt(valueExpr)
 	case "IsTextArea":
@@ -312,13 +406,18 @@ func (u *GongBasicFieldUnmarshaller) UnmarshallField(stage *Stage, i GongstructI
 
 type GongEnumUnmarshaller struct{}
 
-func (u *GongEnumUnmarshaller) Initialize(stage *Stage, instanceName string, preserveOrder bool) (GongstructIF, error) {
+func (u *GongEnumUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
 	instance := new(GongEnum)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		instance.Stage(stage)
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
 	}
 	return instance, nil
 }
@@ -340,13 +439,18 @@ func (u *GongEnumUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 
 type GongEnumValueUnmarshaller struct{}
 
-func (u *GongEnumValueUnmarshaller) Initialize(stage *Stage, instanceName string, preserveOrder bool) (GongstructIF, error) {
+func (u *GongEnumValueUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
 	instance := new(GongEnumValue)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		instance.Stage(stage)
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
 	}
 	return instance, nil
 }
@@ -359,20 +463,25 @@ func (u *GongEnumValueUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
 	case "Value":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Value = GongExtractString(valueExpr)
 	}
 	return nil
 }
 
 type GongLinkUnmarshaller struct{}
 
-func (u *GongLinkUnmarshaller) Initialize(stage *Stage, instanceName string, preserveOrder bool) (GongstructIF, error) {
+func (u *GongLinkUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
 	instance := new(GongLink)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		instance.Stage(stage)
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
 	}
 	return instance, nil
 }
@@ -385,22 +494,27 @@ func (u *GongLinkUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
 	case "Recv":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Recv = GongExtractString(valueExpr)
 	case "ImportPath":
-		instance.Name = GongExtractString(valueExpr)
+		instance.ImportPath = GongExtractString(valueExpr)
 	}
 	return nil
 }
 
 type GongNoteUnmarshaller struct{}
 
-func (u *GongNoteUnmarshaller) Initialize(stage *Stage, instanceName string, preserveOrder bool) (GongstructIF, error) {
+func (u *GongNoteUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
 	instance := new(GongNote)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		instance.Stage(stage)
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
 	}
 	return instance, nil
 }
@@ -413,9 +527,9 @@ func (u *GongNoteUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
 	case "Body":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Body = GongExtractString(valueExpr)
 	case "BodyHTML":
-		instance.Name = GongExtractString(valueExpr)
+		instance.BodyHTML = GongExtractString(valueExpr)
 	case "Links":
 		GongUnmarshallSliceOfPointers(&instance.Links, valueExpr, identifierMap)
 	}
@@ -424,13 +538,18 @@ func (u *GongNoteUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 
 type GongStructUnmarshaller struct{}
 
-func (u *GongStructUnmarshaller) Initialize(stage *Stage, instanceName string, preserveOrder bool) (GongstructIF, error) {
+func (u *GongStructUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
 	instance := new(GongStruct)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		instance.Stage(stage)
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
 	}
 	return instance, nil
 }
@@ -460,13 +579,18 @@ func (u *GongStructUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, f
 
 type GongTimeFieldUnmarshaller struct{}
 
-func (u *GongTimeFieldUnmarshaller) Initialize(stage *Stage, instanceName string, preserveOrder bool) (GongstructIF, error) {
+func (u *GongTimeFieldUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
 	instance := new(GongTimeField)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		instance.Stage(stage)
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
 	}
 	return instance, nil
 }
@@ -481,22 +605,27 @@ func (u *GongTimeFieldUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 	case "Index":
 		instance.Index = GongExtractInt(valueExpr)
 	case "CompositeStructName":
-		instance.Name = GongExtractString(valueExpr)
+		instance.CompositeStructName = GongExtractString(valueExpr)
 	case "BespokeTimeFormat":
-		instance.Name = GongExtractString(valueExpr)
+		instance.BespokeTimeFormat = GongExtractString(valueExpr)
 	}
 	return nil
 }
 
 type MetaReferenceUnmarshaller struct{}
 
-func (u *MetaReferenceUnmarshaller) Initialize(stage *Stage, instanceName string, preserveOrder bool) (GongstructIF, error) {
+func (u *MetaReferenceUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
 	instance := new(MetaReference)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		instance.Stage(stage)
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
 	}
 	return instance, nil
 }
@@ -514,13 +643,18 @@ func (u *MetaReferenceUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 
 type ModelPkgUnmarshaller struct{}
 
-func (u *ModelPkgUnmarshaller) Initialize(stage *Stage, instanceName string, preserveOrder bool) (GongstructIF, error) {
+func (u *ModelPkgUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
 	instance := new(ModelPkg)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		instance.Stage(stage)
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
 	}
 	return instance, nil
 }
@@ -533,52 +667,57 @@ func (u *ModelPkgUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
 	case "PkgPath":
-		instance.Name = GongExtractString(valueExpr)
+		instance.PkgPath = GongExtractString(valueExpr)
 	case "PathToGoSubDirectory":
-		instance.Name = GongExtractString(valueExpr)
+		instance.PathToGoSubDirectory = GongExtractString(valueExpr)
 	case "OrmPkgGenPath":
-		instance.Name = GongExtractString(valueExpr)
+		instance.OrmPkgGenPath = GongExtractString(valueExpr)
 	case "DbOrmPkgGenPath":
-		instance.Name = GongExtractString(valueExpr)
+		instance.DbOrmPkgGenPath = GongExtractString(valueExpr)
 	case "DbLiteOrmPkgGenPath":
-		instance.Name = GongExtractString(valueExpr)
+		instance.DbLiteOrmPkgGenPath = GongExtractString(valueExpr)
 	case "DbPkgGenPath":
-		instance.Name = GongExtractString(valueExpr)
+		instance.DbPkgGenPath = GongExtractString(valueExpr)
 	case "ControllersPkgGenPath":
-		instance.Name = GongExtractString(valueExpr)
+		instance.ControllersPkgGenPath = GongExtractString(valueExpr)
 	case "FullstackPkgGenPath":
-		instance.Name = GongExtractString(valueExpr)
+		instance.FullstackPkgGenPath = GongExtractString(valueExpr)
 	case "StackPkgGenPath":
-		instance.Name = GongExtractString(valueExpr)
+		instance.StackPkgGenPath = GongExtractString(valueExpr)
 	case "Level1StackPkgGenPath":
-		instance.Name = GongExtractString(valueExpr)
+		instance.Level1StackPkgGenPath = GongExtractString(valueExpr)
 	case "StaticPkgGenPath":
-		instance.Name = GongExtractString(valueExpr)
+		instance.StaticPkgGenPath = GongExtractString(valueExpr)
 	case "ProbePkgGenPath":
-		instance.Name = GongExtractString(valueExpr)
+		instance.ProbePkgGenPath = GongExtractString(valueExpr)
 	case "NgWorkspacePath":
-		instance.Name = GongExtractString(valueExpr)
+		instance.NgWorkspacePath = GongExtractString(valueExpr)
 	case "NgWorkspaceName":
-		instance.Name = GongExtractString(valueExpr)
+		instance.NgWorkspaceName = GongExtractString(valueExpr)
 	case "NgDataLibrarySourceCodeDirectory":
-		instance.Name = GongExtractString(valueExpr)
+		instance.NgDataLibrarySourceCodeDirectory = GongExtractString(valueExpr)
 	case "NgSpecificLibrarySourceCodeDirectory":
-		instance.Name = GongExtractString(valueExpr)
+		instance.NgSpecificLibrarySourceCodeDirectory = GongExtractString(valueExpr)
 	case "MaterialLibDatamodelTargetPath":
-		instance.Name = GongExtractString(valueExpr)
+		instance.MaterialLibDatamodelTargetPath = GongExtractString(valueExpr)
 	}
 	return nil
 }
 
 type PointerToGongStructFieldUnmarshaller struct{}
 
-func (u *PointerToGongStructFieldUnmarshaller) Initialize(stage *Stage, instanceName string, preserveOrder bool) (GongstructIF, error) {
+func (u *PointerToGongStructFieldUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
 	instance := new(PointerToGongStructField)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		instance.Stage(stage)
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
 	}
 	return instance, nil
 }
@@ -595,7 +734,7 @@ func (u *PointerToGongStructFieldUnmarshaller) UnmarshallField(stage *Stage, i G
 	case "Index":
 		instance.Index = GongExtractInt(valueExpr)
 	case "CompositeStructName":
-		instance.Name = GongExtractString(valueExpr)
+		instance.CompositeStructName = GongExtractString(valueExpr)
 	case "IsType":
 		instance.IsType = GongExtractBool(valueExpr)
 	}
@@ -604,13 +743,18 @@ func (u *PointerToGongStructFieldUnmarshaller) UnmarshallField(stage *Stage, i G
 
 type SliceOfPointerToGongStructFieldUnmarshaller struct{}
 
-func (u *SliceOfPointerToGongStructFieldUnmarshaller) Initialize(stage *Stage, instanceName string, preserveOrder bool) (GongstructIF, error) {
+func (u *SliceOfPointerToGongStructFieldUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
 	instance := new(SliceOfPointerToGongStructField)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
 	} else {
-		instance.Stage(stage)
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
 	}
 	return instance, nil
 }
@@ -627,7 +771,7 @@ func (u *SliceOfPointerToGongStructFieldUnmarshaller) UnmarshallField(stage *Sta
 	case "Index":
 		instance.Index = GongExtractInt(valueExpr)
 	case "CompositeStructName":
-		instance.Name = GongExtractString(valueExpr)
+		instance.CompositeStructName = GongExtractString(valueExpr)
 	}
 	return nil
 }
