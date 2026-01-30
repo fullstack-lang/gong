@@ -44,7 +44,7 @@ func updateAndCommitTree(
 	if stageOfInterest.IsInDeltaMode() {
 		topNode.Name += fmt.Sprintf(" (h %d, d %d)",
 			len(stageOfInterest.GetBackwardCommits()),
-			stageOfInterest.GetNbBackwardCommits())
+			stageOfInterest.GetCommitsBehind())
 
 		backwardButton := &tree.Button{
 			Name:            "BackwardButton",
@@ -65,7 +65,7 @@ func updateAndCommitTree(
 			},
 		}
 
-		if stageOfInterest.GetNbBackwardCommits() == len(stageOfInterest.GetBackwardCommits()) {
+		if stageOfInterest.GetCommitsBehind() == len(stageOfInterest.GetBackwardCommits()) {
 			backwardButton.IsDisabled = true
 			backwardButton.Icon = string(gongtree_buttons.BUTTON_do_not_disturb)
 			backwardButton.ToolTipText = "No more previous commits"
@@ -90,10 +90,28 @@ func updateAndCommitTree(
 			},
 		}
 
-		if stageOfInterest.GetNbBackwardCommits() == 0 {
+		if stageOfInterest.GetCommitsBehind() == 0 {
 			forwardButton.IsDisabled = true
 			forwardButton.Icon = string(gongtree_buttons.BUTTON_do_not_disturb)
 			forwardButton.ToolTipText = "No more next commits"
+		}
+
+		if stageOfInterest.GetCommitsBehind() > 0 {
+			discardButton := &tree.Button{
+				Name:            "DiscardButton",
+				Icon:            string(gongtree_buttons.BUTTON_cancel),
+				HasToolTip:      true,
+				ToolTipText:     "Discard commits ahead (git reset --hard HEAD)",
+				ToolTipPosition: tree.Left,
+			}
+			topNode.Buttons = append(topNode.Buttons, discardButton)
+			discardButton.Impl = &tree.FunctionalButtonProxy{
+				OnUpdated: func(stage *tree.Stage,
+					stagedButton, frontButton *tree.Button) {
+					stageOfInterest.ResetHard()
+					probe.Refresh()
+				},
+			}
 		}
 	} else {
 		topNode.Name += ""

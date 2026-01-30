@@ -245,11 +245,6 @@ func (stage *Stage) GetCommitsBehind() int {
 	return stage.commitsBehind
 }
 
-func (stage *Stage) ResetCommits() {
-	stage.forwardCommits = []string{}
-	stage.backwardCommits = []string{}
-}
-
 // ResetHard removes the more recent
 // commitsBehind forward/backward Commits from the
 // stage
@@ -266,6 +261,7 @@ func (stage *Stage) ResetHard() {
 	// recompute the next order for each struct
 	// this is necessary because the order might have been incremented
 	// during the commits that have been discarded
+	// insertion point for max order recomputation
 	var maxAOrder uint
 	var foundA bool
 	for _, order := range stage.AMap_Staged_Order {
@@ -293,6 +289,7 @@ func (stage *Stage) ResetHard() {
 	} else {
 		stage.BOrder = 0
 	}
+
 }
 
 func (stage *Stage) SetDeltaMode(inDeltaMode bool) {
