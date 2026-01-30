@@ -99,7 +99,7 @@ func updateAndCommitTree(
 				Name:            "DiscardButton",
 				Icon:            string(gongtree_buttons.BUTTON_cancel),
 				HasToolTip:      true,
-				ToolTipText:     "Discard commits ahead",
+				ToolTipText:     "Discard commits ahead (git reset --hard HEAD)",
 				ToolTipPosition: tree.Left,
 			}
 			topNode.Buttons = append(topNode.Buttons, discardButton)
