@@ -186,7 +186,6 @@ func (stage *Stage) ApplyBackwardCommit() error {
 	return nil
 }
 
-
 func (stage *Stage) GetForwardCommits() []string {
 	return stage.forwardCommits
 }
