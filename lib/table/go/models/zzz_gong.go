@@ -474,8 +474,8 @@ type Stage struct {
 
 	// when navigating the commit history
 	// navigationMode is set to Navigating
-	navigationMode    gongStageNavigationMode
-	nbCommitsBackward int // the number of backward commits that have been applied
+	navigationMode gongStageNavigationMode
+	commitsBehind  int // the number of commits the stage is behind the front of the history
 }
 
 type gongStageNavigationMode string
@@ -494,19 +494,19 @@ func (stage *Stage) ApplyBackwardCommit() error {
 		return errors.New("no backward commit to apply")
 	}
 
-	if stage.navigationMode == GongNavigationModeNormal && stage.nbCommitsBackward != 0 {
-		return errors.New("in navigation mode normal, cannot have have nbCommitsBackward != 0")
+	if stage.navigationMode == GongNavigationModeNormal && stage.commitsBehind != 0 {
+		return errors.New("in navigation mode normal, cannot have commitsBehind != 0")
 	}
 
 	if stage.navigationMode == GongNavigationModeNormal {
 		stage.navigationMode = GongNavigationModeNavigating
 	}
 
-	if stage.nbCommitsBackward >= len(stage.backwardCommits) {
+	if stage.commitsBehind >= len(stage.backwardCommits) {
 		return errors.New("no more backward commit to apply")
 	}
 
-	commitToApply := stage.backwardCommits[len(stage.backwardCommits)-1-stage.nbCommitsBackward]
+	commitToApply := stage.backwardCommits[len(stage.backwardCommits)-1-stage.commitsBehind]
 
 	// umarshall the backward commit to the stage
 	err := GongParseAstString(stage, commitToApply, true)
@@ -515,7 +515,7 @@ func (stage *Stage) ApplyBackwardCommit() error {
 		return err
 	}
 
-	stage.nbCommitsBackward++
+	stage.commitsBehind++
 
 	return nil
 }
@@ -529,31 +529,371 @@ func (stage *Stage) GetBackwardCommits() []string {
 }
 
 func (stage *Stage) ApplyForwardCommit() error {
-	if stage.navigationMode == GongNavigationModeNormal && stage.nbCommitsBackward != 0 {
-		return errors.New("in navigation mode normal, cannot have have nbCommitsBackward != 0")
+	if stage.navigationMode == GongNavigationModeNormal && stage.commitsBehind != 0 {
+		return errors.New("in navigation mode normal, cannot have commitsBehind != 0")
 	}
 
-	if stage.nbCommitsBackward == 0 {
+	if stage.commitsBehind == 0 {
 		return errors.New("no more forward commit to apply")
 	}
 
-	commitToApply := stage.forwardCommits[len(stage.forwardCommits)-1-stage.nbCommitsBackward+1]
+	if stage.navigationMode == GongNavigationModeNormal {
+		stage.navigationMode = GongNavigationModeNavigating
+	}
+
+	commitToApply := stage.forwardCommits[len(stage.forwardCommits)-1-stage.commitsBehind+1]
 	err := GongParseAstString(stage, commitToApply, true)
 	if err != nil {
-		log.Println("error during ApplyBackwardCommit: ", err)
+		log.Println("error during ApplyForwardCommit: ", err)
 		return err
 	}
-	stage.nbCommitsBackward--
+	stage.commitsBehind--
 	return nil
 }
 
-func (stage *Stage) GetNbBackwardCommits() int {
-	return stage.nbCommitsBackward
+func (stage *Stage) GetCommitsBehind() int {
+	return stage.commitsBehind
 }
 
-func (stage *Stage) ResetCommits() {
-	stage.forwardCommits = []string{}
-	stage.backwardCommits = []string{}
+// ResetHard removes the more recent
+// commitsBehind forward/backward Commits from the
+// stage
+func (stage *Stage) ResetHard() {
+
+	newCommitsLen := len(stage.forwardCommits) - stage.GetCommitsBehind()
+
+	stage.forwardCommits = stage.forwardCommits[:newCommitsLen]
+	stage.backwardCommits = stage.backwardCommits[:newCommitsLen]
+	stage.ComputeReference() // this is the new reference.
+	stage.commitsBehind = 0
+	stage.navigationMode = GongNavigationModeNormal
+
+	// recompute the next order for each struct
+	// this is necessary because the order might have been incremented
+	// during the commits that have been discarded
+	// insertion point for max order recomputation 
+	var maxCellOrder uint
+	var foundCell bool
+	for _, order := range stage.CellMap_Staged_Order {
+		if !foundCell || order > maxCellOrder {
+			maxCellOrder = order
+			foundCell = true
+		}
+	}
+	if foundCell {
+		stage.CellOrder = maxCellOrder + 1
+	} else {
+		stage.CellOrder = 0
+	}
+
+	var maxCellBooleanOrder uint
+	var foundCellBoolean bool
+	for _, order := range stage.CellBooleanMap_Staged_Order {
+		if !foundCellBoolean || order > maxCellBooleanOrder {
+			maxCellBooleanOrder = order
+			foundCellBoolean = true
+		}
+	}
+	if foundCellBoolean {
+		stage.CellBooleanOrder = maxCellBooleanOrder + 1
+	} else {
+		stage.CellBooleanOrder = 0
+	}
+
+	var maxCellFloat64Order uint
+	var foundCellFloat64 bool
+	for _, order := range stage.CellFloat64Map_Staged_Order {
+		if !foundCellFloat64 || order > maxCellFloat64Order {
+			maxCellFloat64Order = order
+			foundCellFloat64 = true
+		}
+	}
+	if foundCellFloat64 {
+		stage.CellFloat64Order = maxCellFloat64Order + 1
+	} else {
+		stage.CellFloat64Order = 0
+	}
+
+	var maxCellIconOrder uint
+	var foundCellIcon bool
+	for _, order := range stage.CellIconMap_Staged_Order {
+		if !foundCellIcon || order > maxCellIconOrder {
+			maxCellIconOrder = order
+			foundCellIcon = true
+		}
+	}
+	if foundCellIcon {
+		stage.CellIconOrder = maxCellIconOrder + 1
+	} else {
+		stage.CellIconOrder = 0
+	}
+
+	var maxCellIntOrder uint
+	var foundCellInt bool
+	for _, order := range stage.CellIntMap_Staged_Order {
+		if !foundCellInt || order > maxCellIntOrder {
+			maxCellIntOrder = order
+			foundCellInt = true
+		}
+	}
+	if foundCellInt {
+		stage.CellIntOrder = maxCellIntOrder + 1
+	} else {
+		stage.CellIntOrder = 0
+	}
+
+	var maxCellStringOrder uint
+	var foundCellString bool
+	for _, order := range stage.CellStringMap_Staged_Order {
+		if !foundCellString || order > maxCellStringOrder {
+			maxCellStringOrder = order
+			foundCellString = true
+		}
+	}
+	if foundCellString {
+		stage.CellStringOrder = maxCellStringOrder + 1
+	} else {
+		stage.CellStringOrder = 0
+	}
+
+	var maxCheckBoxOrder uint
+	var foundCheckBox bool
+	for _, order := range stage.CheckBoxMap_Staged_Order {
+		if !foundCheckBox || order > maxCheckBoxOrder {
+			maxCheckBoxOrder = order
+			foundCheckBox = true
+		}
+	}
+	if foundCheckBox {
+		stage.CheckBoxOrder = maxCheckBoxOrder + 1
+	} else {
+		stage.CheckBoxOrder = 0
+	}
+
+	var maxDisplayedColumnOrder uint
+	var foundDisplayedColumn bool
+	for _, order := range stage.DisplayedColumnMap_Staged_Order {
+		if !foundDisplayedColumn || order > maxDisplayedColumnOrder {
+			maxDisplayedColumnOrder = order
+			foundDisplayedColumn = true
+		}
+	}
+	if foundDisplayedColumn {
+		stage.DisplayedColumnOrder = maxDisplayedColumnOrder + 1
+	} else {
+		stage.DisplayedColumnOrder = 0
+	}
+
+	var maxFormDivOrder uint
+	var foundFormDiv bool
+	for _, order := range stage.FormDivMap_Staged_Order {
+		if !foundFormDiv || order > maxFormDivOrder {
+			maxFormDivOrder = order
+			foundFormDiv = true
+		}
+	}
+	if foundFormDiv {
+		stage.FormDivOrder = maxFormDivOrder + 1
+	} else {
+		stage.FormDivOrder = 0
+	}
+
+	var maxFormEditAssocButtonOrder uint
+	var foundFormEditAssocButton bool
+	for _, order := range stage.FormEditAssocButtonMap_Staged_Order {
+		if !foundFormEditAssocButton || order > maxFormEditAssocButtonOrder {
+			maxFormEditAssocButtonOrder = order
+			foundFormEditAssocButton = true
+		}
+	}
+	if foundFormEditAssocButton {
+		stage.FormEditAssocButtonOrder = maxFormEditAssocButtonOrder + 1
+	} else {
+		stage.FormEditAssocButtonOrder = 0
+	}
+
+	var maxFormFieldOrder uint
+	var foundFormField bool
+	for _, order := range stage.FormFieldMap_Staged_Order {
+		if !foundFormField || order > maxFormFieldOrder {
+			maxFormFieldOrder = order
+			foundFormField = true
+		}
+	}
+	if foundFormField {
+		stage.FormFieldOrder = maxFormFieldOrder + 1
+	} else {
+		stage.FormFieldOrder = 0
+	}
+
+	var maxFormFieldDateOrder uint
+	var foundFormFieldDate bool
+	for _, order := range stage.FormFieldDateMap_Staged_Order {
+		if !foundFormFieldDate || order > maxFormFieldDateOrder {
+			maxFormFieldDateOrder = order
+			foundFormFieldDate = true
+		}
+	}
+	if foundFormFieldDate {
+		stage.FormFieldDateOrder = maxFormFieldDateOrder + 1
+	} else {
+		stage.FormFieldDateOrder = 0
+	}
+
+	var maxFormFieldDateTimeOrder uint
+	var foundFormFieldDateTime bool
+	for _, order := range stage.FormFieldDateTimeMap_Staged_Order {
+		if !foundFormFieldDateTime || order > maxFormFieldDateTimeOrder {
+			maxFormFieldDateTimeOrder = order
+			foundFormFieldDateTime = true
+		}
+	}
+	if foundFormFieldDateTime {
+		stage.FormFieldDateTimeOrder = maxFormFieldDateTimeOrder + 1
+	} else {
+		stage.FormFieldDateTimeOrder = 0
+	}
+
+	var maxFormFieldFloat64Order uint
+	var foundFormFieldFloat64 bool
+	for _, order := range stage.FormFieldFloat64Map_Staged_Order {
+		if !foundFormFieldFloat64 || order > maxFormFieldFloat64Order {
+			maxFormFieldFloat64Order = order
+			foundFormFieldFloat64 = true
+		}
+	}
+	if foundFormFieldFloat64 {
+		stage.FormFieldFloat64Order = maxFormFieldFloat64Order + 1
+	} else {
+		stage.FormFieldFloat64Order = 0
+	}
+
+	var maxFormFieldIntOrder uint
+	var foundFormFieldInt bool
+	for _, order := range stage.FormFieldIntMap_Staged_Order {
+		if !foundFormFieldInt || order > maxFormFieldIntOrder {
+			maxFormFieldIntOrder = order
+			foundFormFieldInt = true
+		}
+	}
+	if foundFormFieldInt {
+		stage.FormFieldIntOrder = maxFormFieldIntOrder + 1
+	} else {
+		stage.FormFieldIntOrder = 0
+	}
+
+	var maxFormFieldSelectOrder uint
+	var foundFormFieldSelect bool
+	for _, order := range stage.FormFieldSelectMap_Staged_Order {
+		if !foundFormFieldSelect || order > maxFormFieldSelectOrder {
+			maxFormFieldSelectOrder = order
+			foundFormFieldSelect = true
+		}
+	}
+	if foundFormFieldSelect {
+		stage.FormFieldSelectOrder = maxFormFieldSelectOrder + 1
+	} else {
+		stage.FormFieldSelectOrder = 0
+	}
+
+	var maxFormFieldStringOrder uint
+	var foundFormFieldString bool
+	for _, order := range stage.FormFieldStringMap_Staged_Order {
+		if !foundFormFieldString || order > maxFormFieldStringOrder {
+			maxFormFieldStringOrder = order
+			foundFormFieldString = true
+		}
+	}
+	if foundFormFieldString {
+		stage.FormFieldStringOrder = maxFormFieldStringOrder + 1
+	} else {
+		stage.FormFieldStringOrder = 0
+	}
+
+	var maxFormFieldTimeOrder uint
+	var foundFormFieldTime bool
+	for _, order := range stage.FormFieldTimeMap_Staged_Order {
+		if !foundFormFieldTime || order > maxFormFieldTimeOrder {
+			maxFormFieldTimeOrder = order
+			foundFormFieldTime = true
+		}
+	}
+	if foundFormFieldTime {
+		stage.FormFieldTimeOrder = maxFormFieldTimeOrder + 1
+	} else {
+		stage.FormFieldTimeOrder = 0
+	}
+
+	var maxFormGroupOrder uint
+	var foundFormGroup bool
+	for _, order := range stage.FormGroupMap_Staged_Order {
+		if !foundFormGroup || order > maxFormGroupOrder {
+			maxFormGroupOrder = order
+			foundFormGroup = true
+		}
+	}
+	if foundFormGroup {
+		stage.FormGroupOrder = maxFormGroupOrder + 1
+	} else {
+		stage.FormGroupOrder = 0
+	}
+
+	var maxFormSortAssocButtonOrder uint
+	var foundFormSortAssocButton bool
+	for _, order := range stage.FormSortAssocButtonMap_Staged_Order {
+		if !foundFormSortAssocButton || order > maxFormSortAssocButtonOrder {
+			maxFormSortAssocButtonOrder = order
+			foundFormSortAssocButton = true
+		}
+	}
+	if foundFormSortAssocButton {
+		stage.FormSortAssocButtonOrder = maxFormSortAssocButtonOrder + 1
+	} else {
+		stage.FormSortAssocButtonOrder = 0
+	}
+
+	var maxOptionOrder uint
+	var foundOption bool
+	for _, order := range stage.OptionMap_Staged_Order {
+		if !foundOption || order > maxOptionOrder {
+			maxOptionOrder = order
+			foundOption = true
+		}
+	}
+	if foundOption {
+		stage.OptionOrder = maxOptionOrder + 1
+	} else {
+		stage.OptionOrder = 0
+	}
+
+	var maxRowOrder uint
+	var foundRow bool
+	for _, order := range stage.RowMap_Staged_Order {
+		if !foundRow || order > maxRowOrder {
+			maxRowOrder = order
+			foundRow = true
+		}
+	}
+	if foundRow {
+		stage.RowOrder = maxRowOrder + 1
+	} else {
+		stage.RowOrder = 0
+	}
+
+	var maxTableOrder uint
+	var foundTable bool
+	for _, order := range stage.TableMap_Staged_Order {
+		if !foundTable || order > maxTableOrder {
+			maxTableOrder = order
+			foundTable = true
+		}
+	}
+	if foundTable {
+		stage.TableOrder = maxTableOrder + 1
+	} else {
+		stage.TableOrder = 0
+	}
+
 }
 
 func (stage *Stage) SetDeltaMode(inDeltaMode bool) {

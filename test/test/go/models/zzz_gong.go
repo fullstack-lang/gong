@@ -252,8 +252,8 @@ type Stage struct {
 
 	// when navigating the commit history
 	// navigationMode is set to Navigating
-	navigationMode    gongStageNavigationMode
-	nbCommitsBackward int // the number of backward commits that have been applied
+	navigationMode gongStageNavigationMode
+	commitsBehind  int // the number of commits the stage is behind the front of the history
 }
 
 type gongStageNavigationMode string
@@ -272,19 +272,19 @@ func (stage *Stage) ApplyBackwardCommit() error {
 		return errors.New("no backward commit to apply")
 	}
 
-	if stage.navigationMode == GongNavigationModeNormal && stage.nbCommitsBackward != 0 {
-		return errors.New("in navigation mode normal, cannot have have nbCommitsBackward != 0")
+	if stage.navigationMode == GongNavigationModeNormal && stage.commitsBehind != 0 {
+		return errors.New("in navigation mode normal, cannot have commitsBehind != 0")
 	}
 
 	if stage.navigationMode == GongNavigationModeNormal {
 		stage.navigationMode = GongNavigationModeNavigating
 	}
 
-	if stage.nbCommitsBackward >= len(stage.backwardCommits) {
+	if stage.commitsBehind >= len(stage.backwardCommits) {
 		return errors.New("no more backward commit to apply")
 	}
 
-	commitToApply := stage.backwardCommits[len(stage.backwardCommits)-1-stage.nbCommitsBackward]
+	commitToApply := stage.backwardCommits[len(stage.backwardCommits)-1-stage.commitsBehind]
 
 	// umarshall the backward commit to the stage
 	err := GongParseAstString(stage, commitToApply, true)
@@ -293,7 +293,7 @@ func (stage *Stage) ApplyBackwardCommit() error {
 		return err
 	}
 
-	stage.nbCommitsBackward++
+	stage.commitsBehind++
 
 	return nil
 }
@@ -307,31 +307,147 @@ func (stage *Stage) GetBackwardCommits() []string {
 }
 
 func (stage *Stage) ApplyForwardCommit() error {
-	if stage.navigationMode == GongNavigationModeNormal && stage.nbCommitsBackward != 0 {
-		return errors.New("in navigation mode normal, cannot have have nbCommitsBackward != 0")
+	if stage.navigationMode == GongNavigationModeNormal && stage.commitsBehind != 0 {
+		return errors.New("in navigation mode normal, cannot have commitsBehind != 0")
 	}
 
-	if stage.nbCommitsBackward == 0 {
+	if stage.commitsBehind == 0 {
 		return errors.New("no more forward commit to apply")
 	}
 
-	commitToApply := stage.forwardCommits[len(stage.forwardCommits)-1-stage.nbCommitsBackward+1]
+	if stage.navigationMode == GongNavigationModeNormal {
+		stage.navigationMode = GongNavigationModeNavigating
+	}
+
+	commitToApply := stage.forwardCommits[len(stage.forwardCommits)-1-stage.commitsBehind+1]
 	err := GongParseAstString(stage, commitToApply, true)
 	if err != nil {
-		log.Println("error during ApplyBackwardCommit: ", err)
+		log.Println("error during ApplyForwardCommit: ", err)
 		return err
 	}
-	stage.nbCommitsBackward--
+	stage.commitsBehind--
 	return nil
 }
 
-func (stage *Stage) GetNbBackwardCommits() int {
-	return stage.nbCommitsBackward
+func (stage *Stage) GetCommitsBehind() int {
+	return stage.commitsBehind
 }
 
-func (stage *Stage) ResetCommits() {
-	stage.forwardCommits = []string{}
-	stage.backwardCommits = []string{}
+// ResetHard removes the more recent
+// commitsBehind forward/backward Commits from the
+// stage
+func (stage *Stage) ResetHard() {
+
+	newCommitsLen := len(stage.forwardCommits) - stage.GetCommitsBehind()
+
+	stage.forwardCommits = stage.forwardCommits[:newCommitsLen]
+	stage.backwardCommits = stage.backwardCommits[:newCommitsLen]
+	stage.ComputeReference() // this is the new reference.
+	stage.commitsBehind = 0
+	stage.navigationMode = GongNavigationModeNormal
+
+	// recompute the next order for each struct
+	// this is necessary because the order might have been incremented
+	// during the commits that have been discarded
+	// insertion point for max order recomputation 
+	var maxAstructOrder uint
+	var foundAstruct bool
+	for _, order := range stage.AstructMap_Staged_Order {
+		if !foundAstruct || order > maxAstructOrder {
+			maxAstructOrder = order
+			foundAstruct = true
+		}
+	}
+	if foundAstruct {
+		stage.AstructOrder = maxAstructOrder + 1
+	} else {
+		stage.AstructOrder = 0
+	}
+
+	var maxAstructBstruct2UseOrder uint
+	var foundAstructBstruct2Use bool
+	for _, order := range stage.AstructBstruct2UseMap_Staged_Order {
+		if !foundAstructBstruct2Use || order > maxAstructBstruct2UseOrder {
+			maxAstructBstruct2UseOrder = order
+			foundAstructBstruct2Use = true
+		}
+	}
+	if foundAstructBstruct2Use {
+		stage.AstructBstruct2UseOrder = maxAstructBstruct2UseOrder + 1
+	} else {
+		stage.AstructBstruct2UseOrder = 0
+	}
+
+	var maxAstructBstructUseOrder uint
+	var foundAstructBstructUse bool
+	for _, order := range stage.AstructBstructUseMap_Staged_Order {
+		if !foundAstructBstructUse || order > maxAstructBstructUseOrder {
+			maxAstructBstructUseOrder = order
+			foundAstructBstructUse = true
+		}
+	}
+	if foundAstructBstructUse {
+		stage.AstructBstructUseOrder = maxAstructBstructUseOrder + 1
+	} else {
+		stage.AstructBstructUseOrder = 0
+	}
+
+	var maxBstructOrder uint
+	var foundBstruct bool
+	for _, order := range stage.BstructMap_Staged_Order {
+		if !foundBstruct || order > maxBstructOrder {
+			maxBstructOrder = order
+			foundBstruct = true
+		}
+	}
+	if foundBstruct {
+		stage.BstructOrder = maxBstructOrder + 1
+	} else {
+		stage.BstructOrder = 0
+	}
+
+	var maxDstructOrder uint
+	var foundDstruct bool
+	for _, order := range stage.DstructMap_Staged_Order {
+		if !foundDstruct || order > maxDstructOrder {
+			maxDstructOrder = order
+			foundDstruct = true
+		}
+	}
+	if foundDstruct {
+		stage.DstructOrder = maxDstructOrder + 1
+	} else {
+		stage.DstructOrder = 0
+	}
+
+	var maxF0123456789012345678901234567890Order uint
+	var foundF0123456789012345678901234567890 bool
+	for _, order := range stage.F0123456789012345678901234567890Map_Staged_Order {
+		if !foundF0123456789012345678901234567890 || order > maxF0123456789012345678901234567890Order {
+			maxF0123456789012345678901234567890Order = order
+			foundF0123456789012345678901234567890 = true
+		}
+	}
+	if foundF0123456789012345678901234567890 {
+		stage.F0123456789012345678901234567890Order = maxF0123456789012345678901234567890Order + 1
+	} else {
+		stage.F0123456789012345678901234567890Order = 0
+	}
+
+	var maxGstructOrder uint
+	var foundGstruct bool
+	for _, order := range stage.GstructMap_Staged_Order {
+		if !foundGstruct || order > maxGstructOrder {
+			maxGstructOrder = order
+			foundGstruct = true
+		}
+	}
+	if foundGstruct {
+		stage.GstructOrder = maxGstructOrder + 1
+	} else {
+		stage.GstructOrder = 0
+	}
+
 }
 
 func (stage *Stage) SetDeltaMode(inDeltaMode bool) {
