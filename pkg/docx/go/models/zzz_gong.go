@@ -378,8 +378,8 @@ type Stage struct {
 
 	// when navigating the commit history
 	// navigationMode is set to Navigating
-	navigationMode    gongStageNavigationMode
-	nbCommitsBackward int // the number of backward commits that have been applied
+	navigationMode gongStageNavigationMode
+	commitsBehind  int // the number of commits the stage is behind the front of the history
 }
 
 type gongStageNavigationMode string
@@ -398,19 +398,19 @@ func (stage *Stage) ApplyBackwardCommit() error {
 		return errors.New("no backward commit to apply")
 	}
 
-	if stage.navigationMode == GongNavigationModeNormal && stage.nbCommitsBackward != 0 {
-		return errors.New("in navigation mode normal, cannot have have nbCommitsBackward != 0")
+	if stage.navigationMode == GongNavigationModeNormal && stage.commitsBehind != 0 {
+		return errors.New("in navigation mode normal, cannot have commitsBehind != 0")
 	}
 
 	if stage.navigationMode == GongNavigationModeNormal {
 		stage.navigationMode = GongNavigationModeNavigating
 	}
 
-	if stage.nbCommitsBackward >= len(stage.backwardCommits) {
+	if stage.commitsBehind >= len(stage.backwardCommits) {
 		return errors.New("no more backward commit to apply")
 	}
 
-	commitToApply := stage.backwardCommits[len(stage.backwardCommits)-1-stage.nbCommitsBackward]
+	commitToApply := stage.backwardCommits[len(stage.backwardCommits)-1-stage.commitsBehind]
 
 	// umarshall the backward commit to the stage
 	err := GongParseAstString(stage, commitToApply, true)
@@ -419,7 +419,7 @@ func (stage *Stage) ApplyBackwardCommit() error {
 		return err
 	}
 
-	stage.nbCommitsBackward++
+	stage.commitsBehind++
 
 	return nil
 }
@@ -433,31 +433,273 @@ func (stage *Stage) GetBackwardCommits() []string {
 }
 
 func (stage *Stage) ApplyForwardCommit() error {
-	if stage.navigationMode == GongNavigationModeNormal && stage.nbCommitsBackward != 0 {
-		return errors.New("in navigation mode normal, cannot have have nbCommitsBackward != 0")
+	if stage.navigationMode == GongNavigationModeNormal && stage.commitsBehind != 0 {
+		return errors.New("in navigation mode normal, cannot have commitsBehind != 0")
 	}
 
-	if stage.nbCommitsBackward == 0 {
+	if stage.commitsBehind == 0 {
 		return errors.New("no more forward commit to apply")
 	}
 
-	commitToApply := stage.forwardCommits[len(stage.forwardCommits)-1-stage.nbCommitsBackward+1]
+	if stage.navigationMode == GongNavigationModeNormal {
+		stage.navigationMode = GongNavigationModeNavigating
+	}
+
+	commitToApply := stage.forwardCommits[len(stage.forwardCommits)-1-stage.commitsBehind+1]
 	err := GongParseAstString(stage, commitToApply, true)
 	if err != nil {
-		log.Println("error during ApplyBackwardCommit: ", err)
+		log.Println("error during ApplyForwardCommit: ", err)
 		return err
 	}
-	stage.nbCommitsBackward--
+	stage.commitsBehind--
 	return nil
 }
 
-func (stage *Stage) GetNbBackwardCommits() int {
-	return stage.nbCommitsBackward
+func (stage *Stage) GetCommitsBehind() int {
+	return stage.commitsBehind
 }
 
-func (stage *Stage) ResetCommits() {
-	stage.forwardCommits = []string{}
-	stage.backwardCommits = []string{}
+// ResetHard removes the more recent
+// commitsBehind forward/backward Commits from the
+// stage
+func (stage *Stage) ResetHard() {
+
+	newCommitsLen := len(stage.forwardCommits) - stage.GetCommitsBehind()
+
+	stage.forwardCommits = stage.forwardCommits[:newCommitsLen]
+	stage.backwardCommits = stage.backwardCommits[:newCommitsLen]
+	stage.ComputeReference() // this is the new reference.
+	stage.commitsBehind = 0
+	stage.navigationMode = GongNavigationModeNormal
+
+	// recompute the next order for each struct
+	// this is necessary because the order might have been incremented
+	// during the commits that have been discarded
+	// insertion point for max order recomputation 
+	var maxBodyOrder uint
+	var foundBody bool
+	for _, order := range stage.BodyMap_Staged_Order {
+		if !foundBody || order > maxBodyOrder {
+			maxBodyOrder = order
+			foundBody = true
+		}
+	}
+	if foundBody {
+		stage.BodyOrder = maxBodyOrder + 1
+	} else {
+		stage.BodyOrder = 0
+	}
+
+	var maxDocumentOrder uint
+	var foundDocument bool
+	for _, order := range stage.DocumentMap_Staged_Order {
+		if !foundDocument || order > maxDocumentOrder {
+			maxDocumentOrder = order
+			foundDocument = true
+		}
+	}
+	if foundDocument {
+		stage.DocumentOrder = maxDocumentOrder + 1
+	} else {
+		stage.DocumentOrder = 0
+	}
+
+	var maxDocxOrder uint
+	var foundDocx bool
+	for _, order := range stage.DocxMap_Staged_Order {
+		if !foundDocx || order > maxDocxOrder {
+			maxDocxOrder = order
+			foundDocx = true
+		}
+	}
+	if foundDocx {
+		stage.DocxOrder = maxDocxOrder + 1
+	} else {
+		stage.DocxOrder = 0
+	}
+
+	var maxFileOrder uint
+	var foundFile bool
+	for _, order := range stage.FileMap_Staged_Order {
+		if !foundFile || order > maxFileOrder {
+			maxFileOrder = order
+			foundFile = true
+		}
+	}
+	if foundFile {
+		stage.FileOrder = maxFileOrder + 1
+	} else {
+		stage.FileOrder = 0
+	}
+
+	var maxNodeOrder uint
+	var foundNode bool
+	for _, order := range stage.NodeMap_Staged_Order {
+		if !foundNode || order > maxNodeOrder {
+			maxNodeOrder = order
+			foundNode = true
+		}
+	}
+	if foundNode {
+		stage.NodeOrder = maxNodeOrder + 1
+	} else {
+		stage.NodeOrder = 0
+	}
+
+	var maxParagraphOrder uint
+	var foundParagraph bool
+	for _, order := range stage.ParagraphMap_Staged_Order {
+		if !foundParagraph || order > maxParagraphOrder {
+			maxParagraphOrder = order
+			foundParagraph = true
+		}
+	}
+	if foundParagraph {
+		stage.ParagraphOrder = maxParagraphOrder + 1
+	} else {
+		stage.ParagraphOrder = 0
+	}
+
+	var maxParagraphPropertiesOrder uint
+	var foundParagraphProperties bool
+	for _, order := range stage.ParagraphPropertiesMap_Staged_Order {
+		if !foundParagraphProperties || order > maxParagraphPropertiesOrder {
+			maxParagraphPropertiesOrder = order
+			foundParagraphProperties = true
+		}
+	}
+	if foundParagraphProperties {
+		stage.ParagraphPropertiesOrder = maxParagraphPropertiesOrder + 1
+	} else {
+		stage.ParagraphPropertiesOrder = 0
+	}
+
+	var maxParagraphStyleOrder uint
+	var foundParagraphStyle bool
+	for _, order := range stage.ParagraphStyleMap_Staged_Order {
+		if !foundParagraphStyle || order > maxParagraphStyleOrder {
+			maxParagraphStyleOrder = order
+			foundParagraphStyle = true
+		}
+	}
+	if foundParagraphStyle {
+		stage.ParagraphStyleOrder = maxParagraphStyleOrder + 1
+	} else {
+		stage.ParagraphStyleOrder = 0
+	}
+
+	var maxRuneOrder uint
+	var foundRune bool
+	for _, order := range stage.RuneMap_Staged_Order {
+		if !foundRune || order > maxRuneOrder {
+			maxRuneOrder = order
+			foundRune = true
+		}
+	}
+	if foundRune {
+		stage.RuneOrder = maxRuneOrder + 1
+	} else {
+		stage.RuneOrder = 0
+	}
+
+	var maxRunePropertiesOrder uint
+	var foundRuneProperties bool
+	for _, order := range stage.RunePropertiesMap_Staged_Order {
+		if !foundRuneProperties || order > maxRunePropertiesOrder {
+			maxRunePropertiesOrder = order
+			foundRuneProperties = true
+		}
+	}
+	if foundRuneProperties {
+		stage.RunePropertiesOrder = maxRunePropertiesOrder + 1
+	} else {
+		stage.RunePropertiesOrder = 0
+	}
+
+	var maxTableOrder uint
+	var foundTable bool
+	for _, order := range stage.TableMap_Staged_Order {
+		if !foundTable || order > maxTableOrder {
+			maxTableOrder = order
+			foundTable = true
+		}
+	}
+	if foundTable {
+		stage.TableOrder = maxTableOrder + 1
+	} else {
+		stage.TableOrder = 0
+	}
+
+	var maxTableColumnOrder uint
+	var foundTableColumn bool
+	for _, order := range stage.TableColumnMap_Staged_Order {
+		if !foundTableColumn || order > maxTableColumnOrder {
+			maxTableColumnOrder = order
+			foundTableColumn = true
+		}
+	}
+	if foundTableColumn {
+		stage.TableColumnOrder = maxTableColumnOrder + 1
+	} else {
+		stage.TableColumnOrder = 0
+	}
+
+	var maxTablePropertiesOrder uint
+	var foundTableProperties bool
+	for _, order := range stage.TablePropertiesMap_Staged_Order {
+		if !foundTableProperties || order > maxTablePropertiesOrder {
+			maxTablePropertiesOrder = order
+			foundTableProperties = true
+		}
+	}
+	if foundTableProperties {
+		stage.TablePropertiesOrder = maxTablePropertiesOrder + 1
+	} else {
+		stage.TablePropertiesOrder = 0
+	}
+
+	var maxTableRowOrder uint
+	var foundTableRow bool
+	for _, order := range stage.TableRowMap_Staged_Order {
+		if !foundTableRow || order > maxTableRowOrder {
+			maxTableRowOrder = order
+			foundTableRow = true
+		}
+	}
+	if foundTableRow {
+		stage.TableRowOrder = maxTableRowOrder + 1
+	} else {
+		stage.TableRowOrder = 0
+	}
+
+	var maxTableStyleOrder uint
+	var foundTableStyle bool
+	for _, order := range stage.TableStyleMap_Staged_Order {
+		if !foundTableStyle || order > maxTableStyleOrder {
+			maxTableStyleOrder = order
+			foundTableStyle = true
+		}
+	}
+	if foundTableStyle {
+		stage.TableStyleOrder = maxTableStyleOrder + 1
+	} else {
+		stage.TableStyleOrder = 0
+	}
+
+	var maxTextOrder uint
+	var foundText bool
+	for _, order := range stage.TextMap_Staged_Order {
+		if !foundText || order > maxTextOrder {
+			maxTextOrder = order
+			foundText = true
+		}
+	}
+	if foundText {
+		stage.TextOrder = maxTextOrder + 1
+	} else {
+		stage.TextOrder = 0
+	}
+
 }
 
 func (stage *Stage) SetDeltaMode(inDeltaMode bool) {
