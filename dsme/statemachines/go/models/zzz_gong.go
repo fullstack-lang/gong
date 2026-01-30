@@ -376,8 +376,8 @@ type Stage struct {
 
 	// when navigating the commit history
 	// navigationMode is set to Navigating
-	navigationMode    gongStageNavigationMode
-	nbCommitsBackward int // the number of backward commits that have been applied
+	navigationMode gongStageNavigationMode
+	commitsBehind  int // the number of commits the stage is behind the front of the history
 }
 
 type gongStageNavigationMode string
@@ -396,19 +396,19 @@ func (stage *Stage) ApplyBackwardCommit() error {
 		return errors.New("no backward commit to apply")
 	}
 
-	if stage.navigationMode == GongNavigationModeNormal && stage.nbCommitsBackward != 0 {
-		return errors.New("in navigation mode normal, cannot have have nbCommitsBackward != 0")
+	if stage.navigationMode == GongNavigationModeNormal && stage.commitsBehind != 0 {
+		return errors.New("in navigation mode normal, cannot have commitsBehind != 0")
 	}
 
 	if stage.navigationMode == GongNavigationModeNormal {
 		stage.navigationMode = GongNavigationModeNavigating
 	}
 
-	if stage.nbCommitsBackward >= len(stage.backwardCommits) {
+	if stage.commitsBehind >= len(stage.backwardCommits) {
 		return errors.New("no more backward commit to apply")
 	}
 
-	commitToApply := stage.backwardCommits[len(stage.backwardCommits)-1-stage.nbCommitsBackward]
+	commitToApply := stage.backwardCommits[len(stage.backwardCommits)-1-stage.commitsBehind]
 
 	// umarshall the backward commit to the stage
 	err := GongParseAstString(stage, commitToApply, true)
@@ -417,7 +417,7 @@ func (stage *Stage) ApplyBackwardCommit() error {
 		return err
 	}
 
-	stage.nbCommitsBackward++
+	stage.commitsBehind++
 
 	return nil
 }
@@ -431,31 +431,259 @@ func (stage *Stage) GetBackwardCommits() []string {
 }
 
 func (stage *Stage) ApplyForwardCommit() error {
-	if stage.navigationMode == GongNavigationModeNormal && stage.nbCommitsBackward != 0 {
-		return errors.New("in navigation mode normal, cannot have have nbCommitsBackward != 0")
+	if stage.navigationMode == GongNavigationModeNormal && stage.commitsBehind != 0 {
+		return errors.New("in navigation mode normal, cannot have commitsBehind != 0")
 	}
 
-	if stage.nbCommitsBackward == 0 {
+	if stage.commitsBehind == 0 {
 		return errors.New("no more forward commit to apply")
 	}
 
-	commitToApply := stage.forwardCommits[len(stage.forwardCommits)-1-stage.nbCommitsBackward+1]
+	if stage.navigationMode == GongNavigationModeNormal {
+		stage.navigationMode = GongNavigationModeNavigating
+	}
+
+	commitToApply := stage.forwardCommits[len(stage.forwardCommits)-1-stage.commitsBehind+1]
 	err := GongParseAstString(stage, commitToApply, true)
 	if err != nil {
-		log.Println("error during ApplyBackwardCommit: ", err)
+		log.Println("error during ApplyForwardCommit: ", err)
 		return err
 	}
-	stage.nbCommitsBackward--
+	stage.commitsBehind--
 	return nil
 }
 
-func (stage *Stage) GetNbBackwardCommits() int {
-	return stage.nbCommitsBackward
+func (stage *Stage) GetCommitsBehind() int {
+	return stage.commitsBehind
 }
 
-func (stage *Stage) ResetCommits() {
-	stage.forwardCommits = []string{}
-	stage.backwardCommits = []string{}
+// ResetHard removes the more recent
+// commitsBehind forward/backward Commits from the
+// stage
+func (stage *Stage) ResetHard() {
+
+	newCommitsLen := len(stage.forwardCommits) - stage.GetCommitsBehind()
+
+	stage.forwardCommits = stage.forwardCommits[:newCommitsLen]
+	stage.backwardCommits = stage.backwardCommits[:newCommitsLen]
+	stage.ComputeReference() // this is the new reference.
+	stage.commitsBehind = 0
+	stage.navigationMode = GongNavigationModeNormal
+
+	// recompute the next order for each struct
+	// this is necessary because the order might have been incremented
+	// during the commits that have been discarded
+	// insertion point for max order recomputation 
+	var maxActionOrder uint
+	var foundAction bool
+	for _, order := range stage.ActionMap_Staged_Order {
+		if !foundAction || order > maxActionOrder {
+			maxActionOrder = order
+			foundAction = true
+		}
+	}
+	if foundAction {
+		stage.ActionOrder = maxActionOrder + 1
+	} else {
+		stage.ActionOrder = 0
+	}
+
+	var maxActivitiesOrder uint
+	var foundActivities bool
+	for _, order := range stage.ActivitiesMap_Staged_Order {
+		if !foundActivities || order > maxActivitiesOrder {
+			maxActivitiesOrder = order
+			foundActivities = true
+		}
+	}
+	if foundActivities {
+		stage.ActivitiesOrder = maxActivitiesOrder + 1
+	} else {
+		stage.ActivitiesOrder = 0
+	}
+
+	var maxArchitectureOrder uint
+	var foundArchitecture bool
+	for _, order := range stage.ArchitectureMap_Staged_Order {
+		if !foundArchitecture || order > maxArchitectureOrder {
+			maxArchitectureOrder = order
+			foundArchitecture = true
+		}
+	}
+	if foundArchitecture {
+		stage.ArchitectureOrder = maxArchitectureOrder + 1
+	} else {
+		stage.ArchitectureOrder = 0
+	}
+
+	var maxDiagramOrder uint
+	var foundDiagram bool
+	for _, order := range stage.DiagramMap_Staged_Order {
+		if !foundDiagram || order > maxDiagramOrder {
+			maxDiagramOrder = order
+			foundDiagram = true
+		}
+	}
+	if foundDiagram {
+		stage.DiagramOrder = maxDiagramOrder + 1
+	} else {
+		stage.DiagramOrder = 0
+	}
+
+	var maxGuardOrder uint
+	var foundGuard bool
+	for _, order := range stage.GuardMap_Staged_Order {
+		if !foundGuard || order > maxGuardOrder {
+			maxGuardOrder = order
+			foundGuard = true
+		}
+	}
+	if foundGuard {
+		stage.GuardOrder = maxGuardOrder + 1
+	} else {
+		stage.GuardOrder = 0
+	}
+
+	var maxKillOrder uint
+	var foundKill bool
+	for _, order := range stage.KillMap_Staged_Order {
+		if !foundKill || order > maxKillOrder {
+			maxKillOrder = order
+			foundKill = true
+		}
+	}
+	if foundKill {
+		stage.KillOrder = maxKillOrder + 1
+	} else {
+		stage.KillOrder = 0
+	}
+
+	var maxMessageOrder uint
+	var foundMessage bool
+	for _, order := range stage.MessageMap_Staged_Order {
+		if !foundMessage || order > maxMessageOrder {
+			maxMessageOrder = order
+			foundMessage = true
+		}
+	}
+	if foundMessage {
+		stage.MessageOrder = maxMessageOrder + 1
+	} else {
+		stage.MessageOrder = 0
+	}
+
+	var maxMessageTypeOrder uint
+	var foundMessageType bool
+	for _, order := range stage.MessageTypeMap_Staged_Order {
+		if !foundMessageType || order > maxMessageTypeOrder {
+			maxMessageTypeOrder = order
+			foundMessageType = true
+		}
+	}
+	if foundMessageType {
+		stage.MessageTypeOrder = maxMessageTypeOrder + 1
+	} else {
+		stage.MessageTypeOrder = 0
+	}
+
+	var maxObjectOrder uint
+	var foundObject bool
+	for _, order := range stage.ObjectMap_Staged_Order {
+		if !foundObject || order > maxObjectOrder {
+			maxObjectOrder = order
+			foundObject = true
+		}
+	}
+	if foundObject {
+		stage.ObjectOrder = maxObjectOrder + 1
+	} else {
+		stage.ObjectOrder = 0
+	}
+
+	var maxRoleOrder uint
+	var foundRole bool
+	for _, order := range stage.RoleMap_Staged_Order {
+		if !foundRole || order > maxRoleOrder {
+			maxRoleOrder = order
+			foundRole = true
+		}
+	}
+	if foundRole {
+		stage.RoleOrder = maxRoleOrder + 1
+	} else {
+		stage.RoleOrder = 0
+	}
+
+	var maxStateOrder uint
+	var foundState bool
+	for _, order := range stage.StateMap_Staged_Order {
+		if !foundState || order > maxStateOrder {
+			maxStateOrder = order
+			foundState = true
+		}
+	}
+	if foundState {
+		stage.StateOrder = maxStateOrder + 1
+	} else {
+		stage.StateOrder = 0
+	}
+
+	var maxStateMachineOrder uint
+	var foundStateMachine bool
+	for _, order := range stage.StateMachineMap_Staged_Order {
+		if !foundStateMachine || order > maxStateMachineOrder {
+			maxStateMachineOrder = order
+			foundStateMachine = true
+		}
+	}
+	if foundStateMachine {
+		stage.StateMachineOrder = maxStateMachineOrder + 1
+	} else {
+		stage.StateMachineOrder = 0
+	}
+
+	var maxStateShapeOrder uint
+	var foundStateShape bool
+	for _, order := range stage.StateShapeMap_Staged_Order {
+		if !foundStateShape || order > maxStateShapeOrder {
+			maxStateShapeOrder = order
+			foundStateShape = true
+		}
+	}
+	if foundStateShape {
+		stage.StateShapeOrder = maxStateShapeOrder + 1
+	} else {
+		stage.StateShapeOrder = 0
+	}
+
+	var maxTransitionOrder uint
+	var foundTransition bool
+	for _, order := range stage.TransitionMap_Staged_Order {
+		if !foundTransition || order > maxTransitionOrder {
+			maxTransitionOrder = order
+			foundTransition = true
+		}
+	}
+	if foundTransition {
+		stage.TransitionOrder = maxTransitionOrder + 1
+	} else {
+		stage.TransitionOrder = 0
+	}
+
+	var maxTransition_ShapeOrder uint
+	var foundTransition_Shape bool
+	for _, order := range stage.Transition_ShapeMap_Staged_Order {
+		if !foundTransition_Shape || order > maxTransition_ShapeOrder {
+			maxTransition_ShapeOrder = order
+			foundTransition_Shape = true
+		}
+	}
+	if foundTransition_Shape {
+		stage.Transition_ShapeOrder = maxTransition_ShapeOrder + 1
+	} else {
+		stage.Transition_ShapeOrder = 0
+	}
+
 }
 
 func (stage *Stage) SetDeltaMode(inDeltaMode bool) {

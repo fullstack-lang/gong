@@ -66,6 +66,8 @@ const (
 
 	ModelGongNamedStructSortedOrderInstances
 
+	ModelGongStructResetHard
+
 	ModelGongStructInsertionsNb
 )
 
@@ -371,6 +373,22 @@ func ({{structname}} *{{Structname}}) SetName(name string) {
 			res = append(res, any(v).(T))
 		}
 		return res`,
+
+	ModelGongStructResetHard: `
+	var max{{Structname}}Order uint
+	var found{{Structname}} bool
+	for _, order := range stage.{{Structname}}Map_Staged_Order {
+		if !found{{Structname}} || order > max{{Structname}}Order {
+			max{{Structname}}Order = order
+			found{{Structname}} = true
+		}
+	}
+	if found{{Structname}} {
+		stage.{{Structname}}Order = max{{Structname}}Order + 1
+	} else {
+		stage.{{Structname}}Order = 0
+	}
+`,
 }
 
 // Sub sub Templates identifiers per gong field
