@@ -189,7 +189,7 @@ func (stage *Stage) ApplyBackwardCommit() error {
 	}
 
 	if stage.navigationMode == GongNavigationModeNormal && stage.commitsBehind != 0 {
-		return errors.New("in navigation mode normal, cannot have have commitsBehind != 0")
+		return errors.New("in navigation mode normal, cannot have commitsBehind != 0")
 	}
 
 	if stage.navigationMode == GongNavigationModeNormal {
@@ -224,17 +224,21 @@ func (stage *Stage) GetBackwardCommits() []string {
 
 func (stage *Stage) ApplyForwardCommit() error {
 	if stage.navigationMode == GongNavigationModeNormal && stage.commitsBehind != 0 {
-		return errors.New("in navigation mode normal, cannot have have commitsBehind != 0")
+		return errors.New("in navigation mode normal, cannot have commitsBehind != 0")
 	}
 
 	if stage.commitsBehind == 0 {
 		return errors.New("no more forward commit to apply")
 	}
 
+	if stage.navigationMode == GongNavigationModeNormal {
+		stage.navigationMode = GongNavigationModeNavigating
+	}
+
 	commitToApply := stage.forwardCommits[len(stage.forwardCommits)-1-stage.commitsBehind+1]
 	err := GongParseAstString(stage, commitToApply, true)
 	if err != nil {
-		log.Println("error during ApplyBackwardCommit: ", err)
+		log.Println("error during ApplyForwardCommit: ", err)
 		return err
 	}
 	stage.commitsBehind--
@@ -261,7 +265,7 @@ func (stage *Stage) ResetHard() {
 	// recompute the next order for each struct
 	// this is necessary because the order might have been incremented
 	// during the commits that have been discarded
-	// insertion point for max order recomputation
+	// insertion point for max order recomputation 
 	var maxAOrder uint
 	var foundA bool
 	for _, order := range stage.AMap_Staged_Order {
@@ -305,9 +309,9 @@ func (stage *Stage) SetProbeIF(probeIF ProbeIF) {
 }
 
 func (stage *Stage) GetProbeIF() ProbeIF {
-	if stage.probeIF == nil {
-		return nil
-	}
+    if stage.probeIF == nil {
+        return nil
+    }
 
 	return stage.probeIF
 }

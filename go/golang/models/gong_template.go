@@ -161,7 +161,7 @@ func (stage *Stage) ApplyBackwardCommit() error {
 	}
 
 	if stage.navigationMode == GongNavigationModeNormal && stage.commitsBehind != 0 {
-		return errors.New("in navigation mode normal, cannot have have commitsBehind != 0")
+		return errors.New("in navigation mode normal, cannot have commitsBehind != 0")
 	}
 
 	if stage.navigationMode == GongNavigationModeNormal {
@@ -196,17 +196,21 @@ func (stage *Stage) GetBackwardCommits() []string {
 
 func (stage *Stage) ApplyForwardCommit() error {
 	if stage.navigationMode == GongNavigationModeNormal && stage.commitsBehind != 0 {
-		return errors.New("in navigation mode normal, cannot have have commitsBehind != 0")
+		return errors.New("in navigation mode normal, cannot have commitsBehind != 0")
 	}
 
 	if stage.commitsBehind == 0 {
 		return errors.New("no more forward commit to apply")
 	}
 
+	if stage.navigationMode == GongNavigationModeNormal {
+		stage.navigationMode = GongNavigationModeNavigating
+	}
+
 	commitToApply := stage.forwardCommits[len(stage.forwardCommits)-1-stage.commitsBehind+1]
 	err := GongParseAstString(stage, commitToApply, true)
 	if err != nil {
-		log.Println("error during ApplyBackwardCommit: ", err)
+		log.Println("error during ApplyForwardCommit: ", err)
 		return err
 	}
 	stage.commitsBehind--
