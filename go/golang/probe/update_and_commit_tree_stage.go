@@ -51,7 +51,7 @@ func updateAndCommitTree(
 			Icon:            string(gongtree_buttons.BUTTON_arrow_back),
 			HasToolTip:      true,
 			ToolTipText:     "Go to previous commit",
-			ToolTipPosition: tree.Left,
+			ToolTipPosition: tree.Below,
 		}
 		topNode.Buttons = append(topNode.Buttons, backwardButton)
 		backwardButton.Impl = &tree.FunctionalButtonProxy{
@@ -76,7 +76,7 @@ func updateAndCommitTree(
 			Icon:            string(gongtree_buttons.BUTTON_arrow_forward),
 			HasToolTip:      true,
 			ToolTipText:     "Go to next commit",
-			ToolTipPosition: tree.Left,
+			ToolTipPosition: tree.Below,
 		}
 		topNode.Buttons = append(topNode.Buttons, forwardButton)
 		forwardButton.Impl = &tree.FunctionalButtonProxy{
@@ -102,7 +102,7 @@ func updateAndCommitTree(
 				Icon:            string(gongtree_buttons.BUTTON_cancel),
 				HasToolTip:      true,
 				ToolTipText:     "Discard commits ahead (git reset --hard HEAD)",
-				ToolTipPosition: tree.Left,
+				ToolTipPosition: tree.Below,
 			}
 			topNode.Buttons = append(topNode.Buttons, discardButton)
 			discardButton.Impl = &tree.FunctionalButtonProxy{
@@ -123,7 +123,7 @@ func updateAndCommitTree(
 		Icon:            string(gongtree_buttons.BUTTON_refresh),
 		HasToolTip:      true,
 		ToolTipText:     "Refresh probe",
-		ToolTipPosition: tree.Left,
+		ToolTipPosition: tree.Below,
 	}
 	topNode.Buttons = append(topNode.Buttons, refreshButton)
 	refreshButton.Impl = &tree.FunctionalButtonProxy{
@@ -142,7 +142,7 @@ func updateAndCommitTree(
 		Icon:            string(gongtree_buttons.BUTTON_reset_tv),
 		HasToolTip:      true,
 		ToolTipText:     "Reset notification table",
-		ToolTipPosition: tree.Left,
+		ToolTipPosition: tree.Below,
 	}
 	topNode.Buttons = append(topNode.Buttons, notificationsResetButton)
 	notificationsResetButton.Impl = &tree.FunctionalButtonProxy{
