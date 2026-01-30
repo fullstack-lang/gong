@@ -222,8 +222,8 @@ type Stage struct {
 
 	// when navigating the commit history
 	// navigationMode is set to Navigating
-	navigationMode    gongStageNavigationMode
-	nbCommitsBackward int // the number of backward commits that have been applied
+	navigationMode gongStageNavigationMode
+	commitsBehind  int // the number of commits the stage is behind the front of the history
 }
 
 type gongStageNavigationMode string
@@ -242,19 +242,19 @@ func (stage *Stage) ApplyBackwardCommit() error {
 		return errors.New("no backward commit to apply")
 	}
 
-	if stage.navigationMode == GongNavigationModeNormal && stage.nbCommitsBackward != 0 {
-		return errors.New("in navigation mode normal, cannot have have nbCommitsBackward != 0")
+	if stage.navigationMode == GongNavigationModeNormal && stage.commitsBehind != 0 {
+		return errors.New("in navigation mode normal, cannot have commitsBehind != 0")
 	}
 
 	if stage.navigationMode == GongNavigationModeNormal {
 		stage.navigationMode = GongNavigationModeNavigating
 	}
 
-	if stage.nbCommitsBackward >= len(stage.backwardCommits) {
+	if stage.commitsBehind >= len(stage.backwardCommits) {
 		return errors.New("no more backward commit to apply")
 	}
 
-	commitToApply := stage.backwardCommits[len(stage.backwardCommits)-1-stage.nbCommitsBackward]
+	commitToApply := stage.backwardCommits[len(stage.backwardCommits)-1-stage.commitsBehind]
 
 	// umarshall the backward commit to the stage
 	err := GongParseAstString(stage, commitToApply, true)
@@ -263,7 +263,7 @@ func (stage *Stage) ApplyBackwardCommit() error {
 		return err
 	}
 
-	stage.nbCommitsBackward++
+	stage.commitsBehind++
 
 	return nil
 }
@@ -277,31 +277,133 @@ func (stage *Stage) GetBackwardCommits() []string {
 }
 
 func (stage *Stage) ApplyForwardCommit() error {
-	if stage.navigationMode == GongNavigationModeNormal && stage.nbCommitsBackward != 0 {
-		return errors.New("in navigation mode normal, cannot have have nbCommitsBackward != 0")
+	if stage.navigationMode == GongNavigationModeNormal && stage.commitsBehind != 0 {
+		return errors.New("in navigation mode normal, cannot have commitsBehind != 0")
 	}
 
-	if stage.nbCommitsBackward == 0 {
+	if stage.commitsBehind == 0 {
 		return errors.New("no more forward commit to apply")
 	}
 
-	commitToApply := stage.forwardCommits[len(stage.forwardCommits)-1-stage.nbCommitsBackward+1]
+	if stage.navigationMode == GongNavigationModeNormal {
+		stage.navigationMode = GongNavigationModeNavigating
+	}
+
+	commitToApply := stage.forwardCommits[len(stage.forwardCommits)-1-stage.commitsBehind+1]
 	err := GongParseAstString(stage, commitToApply, true)
 	if err != nil {
-		log.Println("error during ApplyBackwardCommit: ", err)
+		log.Println("error during ApplyForwardCommit: ", err)
 		return err
 	}
-	stage.nbCommitsBackward--
+	stage.commitsBehind--
 	return nil
 }
 
-func (stage *Stage) GetNbBackwardCommits() int {
-	return stage.nbCommitsBackward
+func (stage *Stage) GetCommitsBehind() int {
+	return stage.commitsBehind
 }
 
-func (stage *Stage) ResetCommits() {
-	stage.forwardCommits = []string{}
-	stage.backwardCommits = []string{}
+// ResetHard removes the more recent
+// commitsBehind forward/backward Commits from the
+// stage
+func (stage *Stage) ResetHard() {
+
+	newCommitsLen := len(stage.forwardCommits) - stage.GetCommitsBehind()
+
+	stage.forwardCommits = stage.forwardCommits[:newCommitsLen]
+	stage.backwardCommits = stage.backwardCommits[:newCommitsLen]
+	stage.ComputeReference() // this is the new reference.
+	stage.commitsBehind = 0
+	stage.navigationMode = GongNavigationModeNormal
+
+	// recompute the next order for each struct
+	// this is necessary because the order might have been incremented
+	// during the commits that have been discarded
+	// insertion point for max order recomputation 
+	var maxCommandOrder uint
+	var foundCommand bool
+	for _, order := range stage.CommandMap_Staged_Order {
+		if !foundCommand || order > maxCommandOrder {
+			maxCommandOrder = order
+			foundCommand = true
+		}
+	}
+	if foundCommand {
+		stage.CommandOrder = maxCommandOrder + 1
+	} else {
+		stage.CommandOrder = 0
+	}
+
+	var maxDummyAgentOrder uint
+	var foundDummyAgent bool
+	for _, order := range stage.DummyAgentMap_Staged_Order {
+		if !foundDummyAgent || order > maxDummyAgentOrder {
+			maxDummyAgentOrder = order
+			foundDummyAgent = true
+		}
+	}
+	if foundDummyAgent {
+		stage.DummyAgentOrder = maxDummyAgentOrder + 1
+	} else {
+		stage.DummyAgentOrder = 0
+	}
+
+	var maxEngineOrder uint
+	var foundEngine bool
+	for _, order := range stage.EngineMap_Staged_Order {
+		if !foundEngine || order > maxEngineOrder {
+			maxEngineOrder = order
+			foundEngine = true
+		}
+	}
+	if foundEngine {
+		stage.EngineOrder = maxEngineOrder + 1
+	} else {
+		stage.EngineOrder = 0
+	}
+
+	var maxEventOrder uint
+	var foundEvent bool
+	for _, order := range stage.EventMap_Staged_Order {
+		if !foundEvent || order > maxEventOrder {
+			maxEventOrder = order
+			foundEvent = true
+		}
+	}
+	if foundEvent {
+		stage.EventOrder = maxEventOrder + 1
+	} else {
+		stage.EventOrder = 0
+	}
+
+	var maxStatusOrder uint
+	var foundStatus bool
+	for _, order := range stage.StatusMap_Staged_Order {
+		if !foundStatus || order > maxStatusOrder {
+			maxStatusOrder = order
+			foundStatus = true
+		}
+	}
+	if foundStatus {
+		stage.StatusOrder = maxStatusOrder + 1
+	} else {
+		stage.StatusOrder = 0
+	}
+
+	var maxUpdateStateOrder uint
+	var foundUpdateState bool
+	for _, order := range stage.UpdateStateMap_Staged_Order {
+		if !foundUpdateState || order > maxUpdateStateOrder {
+			maxUpdateStateOrder = order
+			foundUpdateState = true
+		}
+	}
+	if foundUpdateState {
+		stage.UpdateStateOrder = maxUpdateStateOrder + 1
+	} else {
+		stage.UpdateStateOrder = 0
+	}
+
 }
 
 func (stage *Stage) SetDeltaMode(inDeltaMode bool) {
