@@ -240,19 +240,15 @@ func (probe *Probe) AddCommitNavigationNode(appendChildrenNodeFunc func(models.G
 	stageOfInterest := probe.stageOfInterest
 
 	deltaNode := &tree.Node{}
-	deltaNode.Name += fmt.Sprintf("%d",
-		len(stageOfInterest.GetBackwardCommits()))
-	if stageOfInterest.GetCommitsBehind() > 0 {
-		deltaNode.Name += fmt.Sprintf(" (-%d)", stageOfInterest.GetCommitsBehind())
-	}
 	deltaNode.PreceedingIcon = string(gongtree_buttons.BUTTON_history)
 	deltaNode.IsWithPreceedingIcon = true
 
 	backwardButton := &tree.Button{
-		Name:            "BackwardButton",
-		Icon:            string(gongtree_buttons.BUTTON_undo),
-		HasToolTip:      true,
-		ToolTipText:     "Go to previous commit",
+		Name:       "BackwardButton",
+		Icon:       string(gongtree_buttons.BUTTON_undo),
+		HasToolTip: true,
+		ToolTipText: fmt.Sprintf("Go to previous commit (%d/%d)",
+			len(stageOfInterest.GetBackwardCommits()), stageOfInterest.GetCommitsBehind()),
 		ToolTipPosition: tree.Below,
 	}
 	deltaNode.Buttons = append(deltaNode.Buttons, backwardButton)
@@ -273,10 +269,11 @@ func (probe *Probe) AddCommitNavigationNode(appendChildrenNodeFunc func(models.G
 	}
 
 	forwardButton := &tree.Button{
-		Name:            "ForwardButton",
-		Icon:            string(gongtree_buttons.BUTTON_redo),
-		HasToolTip:      true,
-		ToolTipText:     "Go to next commit",
+		Name:       "ForwardButton",
+		Icon:       string(gongtree_buttons.BUTTON_redo),
+		HasToolTip: true,
+		ToolTipText: fmt.Sprintf("Go to next commit (%d/%d)",
+			len(stageOfInterest.GetBackwardCommits()), stageOfInterest.GetCommitsBehind()),
 		ToolTipPosition: tree.Below,
 	}
 	deltaNode.Buttons = append(deltaNode.Buttons, forwardButton)
