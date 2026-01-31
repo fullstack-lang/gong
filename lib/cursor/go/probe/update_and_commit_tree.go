@@ -192,7 +192,7 @@ func (probe *Probe) AddCommitNavigationNode(appendChildrenNodeFunc func(models.G
 	stageOfInterest := probe.stageOfInterest
 
 	deltaNode := &tree.Node{}
-	deltaNode.Name += fmt.Sprintf(".... <-->   %d   <-   %d ",
+	deltaNode.Name += fmt.Sprintf("<--> %d < -%d ",
 		len(stageOfInterest.GetBackwardCommits()),
 		stageOfInterest.GetCommitsBehind())
 
