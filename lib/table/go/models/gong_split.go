@@ -14,4 +14,8 @@ type ProbeIF interface {
 	AddNotification(date time.Time, message string)
 	CommitNotificationTable()
 	ResetNotifications()
+	AddCommitNavigationNode(appendChildrenNodeFunc func(GongNodeIF))
+}
+
+type GongNodeIF interface {
 }
