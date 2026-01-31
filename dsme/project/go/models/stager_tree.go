@@ -19,6 +19,9 @@ func (stager *Stager) tree() {
 		Name:       "** Tree of Projects **",
 		IsExpanded: true,
 	}
+	stager.probeForm.AddCommitNavigationNode(func(gni GongNodeIF) {
+		treeInstance.RootNodes = append(treeInstance.RootNodes, gni.(*tree.Node))
+	})
 	treeInstance.RootNodes = append(treeInstance.RootNodes, allProjectsNode)
 
 	addAddItemButton(stager, nil, nil, nil, allProjectsNode, &root.Projects, nil, &[]*ProductShape{}, &[]*ProductCompositionShape{})
