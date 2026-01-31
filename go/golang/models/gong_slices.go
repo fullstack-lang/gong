@@ -39,7 +39,7 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 }
 
 // insertion point per named struct{{` + string(rune(GongSliceGongCopy)) + `}}
-func (stage *Stage) ComputeDifference() {
+func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	var lenNewInstances int
 	var lenModifiedInstances int
 	var lenDeletedInstances int
