@@ -285,8 +285,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 }
 
-// ComputeReference will creates a deep copy of each of the staged elements
-func (stage *Stage) ComputeReference() {
+// ComputeReferenceAndOrders will creates a deep copy of each of the staged elements
+func (stage *Stage) ComputeReferenceAndOrders() {
 
 	// insertion point per named struct
 	stage.Freqencys_reference = make(map[*Freqency]*Freqency)
@@ -310,6 +310,7 @@ func (stage *Stage) ComputeReference() {
 		stage.Players_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
+	stage.recomputeOrders()
 }
 
 // GongGetOrder returns the order of the instance in the staging area
