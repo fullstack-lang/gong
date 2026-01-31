@@ -577,6 +577,15 @@ func (stage *Stage) ResetHard() {
 	stage.backwardCommits = stage.backwardCommits[:newCommitsLen]
 	stage.commitsBehind = 0
 	stage.navigationMode = GongNavigationModeNormal
+
+	stage.ComputeInstancesNb()
+	stage.ComputeReferenceAndOrders()
+	if stage.OnInitCommitCallback != nil {
+		stage.OnInitCommitCallback.BeforeCommit(stage)
+	}
+	if stage.OnInitCommitFromBackCallback != nil {
+		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
+	}
 }
 
 // recomputeOrders recomputes the next order for each struct
