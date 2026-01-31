@@ -198,7 +198,7 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongCopy
 	return &newInstance
 }
 
-func (stage *Stage) ComputeDifference() {
+func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	var lenNewInstances int
 	var lenModifiedInstances int
 	var lenDeletedInstances int

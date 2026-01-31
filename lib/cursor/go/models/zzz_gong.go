@@ -193,6 +193,7 @@ func (stage *Stage) ApplyBackwardCommit() error {
 		return err
 	}
 
+	stage.ComputeReference()
 	stage.commitsBehind++
 
 	return nil
@@ -225,6 +226,7 @@ func (stage *Stage) ApplyForwardCommit() error {
 		log.Println("error during ApplyForwardCommit: ", err)
 		return err
 	}
+	stage.ComputeReference()
 	stage.commitsBehind--
 	return nil
 }
@@ -242,7 +244,6 @@ func (stage *Stage) ResetHard() {
 
 	stage.forwardCommits = stage.forwardCommits[:newCommitsLen]
 	stage.backwardCommits = stage.backwardCommits[:newCommitsLen]
-	stage.ComputeReference() // this is the new reference.
 	stage.commitsBehind = 0
 	stage.navigationMode = GongNavigationModeNormal
 
@@ -529,8 +530,16 @@ func (stage *Stage) Commit() {
 		stage.BackRepo.Commit(stage)
 	}
 	stage.ComputeInstancesNb()
+
+	// if a commit is applied when in navigation mode
+	// this will reset the commits behind and swith the
+	// naviagation
+	if stage.isInDeltaMode && stage.navigationMode == GongNavigationModeNavigating && stage.GetCommitsBehind() > 0 {
+		stage.ResetHard()
+	}
+
 	if stage.IsInDeltaMode() {
-		stage.ComputeDifference()
+		stage.ComputeForwardAndBackwardCommits()
 		stage.ComputeReference()
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().Refresh()
