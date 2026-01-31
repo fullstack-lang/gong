@@ -265,7 +265,7 @@ func (stage *Stage) ResetHard() {
 	// recompute the next order for each struct
 	// this is necessary because the order might have been incremented
 	// during the commits that have been discarded
-	// insertion point for max order recomputation 
+	// insertion point for max order recomputation
 	var maxAOrder uint
 	var foundA bool
 	for _, order := range stage.AMap_Staged_Order {
@@ -309,9 +309,9 @@ func (stage *Stage) SetProbeIF(probeIF ProbeIF) {
 }
 
 func (stage *Stage) GetProbeIF() ProbeIF {
-    if stage.probeIF == nil {
-        return nil
-    }
+	if stage.probeIF == nil {
+		return nil
+	}
 
 	return stage.probeIF
 }
@@ -598,7 +598,7 @@ func (stage *Stage) Commit() {
 	}
 
 	if stage.IsInDeltaMode() {
-		stage.ComputeDifference()
+		stage.ComputeForwardAndBackwardCommits()
 		stage.ComputeReference()
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().Refresh()
