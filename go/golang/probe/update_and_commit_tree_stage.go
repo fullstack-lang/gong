@@ -38,11 +38,46 @@ func updateAndCommitTree(
 
 	// create tree
 	sidebar := &tree.Tree{Name: "Sidebar"}
-
 	topNode := &tree.Node{Name: fmt.Sprintf("%s", stageOfInterest.GetName())}
+	sidebar.RootNodes = append(sidebar.RootNodes, topNode)
+
+	notificationsResetButton := &tree.Button{
+		Name:            "NotificationsResetButton",
+		Icon:            string(gongtree_buttons.BUTTON_reset_tv),
+		HasToolTip:      true,
+		ToolTipText:     "Reset notification table",
+		ToolTipPosition: tree.Below,
+	}
+	topNode.Buttons = append(topNode.Buttons, notificationsResetButton)
+	notificationsResetButton.Impl = &tree.FunctionalButtonProxy{
+		OnUpdated: func(stage *tree.Stage,
+			stagedButton, frontButton *tree.Button) {
+			probe.ResetNotifications()
+		},
+	}
+	refreshButton := &tree.Button{
+		Name:            "RefreshButton" + " " + string(gongtree_buttons.BUTTON_refresh),
+		Icon:            string(gongtree_buttons.BUTTON_refresh),
+		HasToolTip:      true,
+		ToolTipText:     "Refresh probe",
+		ToolTipPosition: tree.Below,
+	}
+	topNode.Buttons = append(topNode.Buttons, refreshButton)
+	refreshButton.Impl = &tree.FunctionalButtonProxy{
+		OnUpdated: func(stage *tree.Stage,
+			stagedButton, frontButton *tree.Button) {
+			probe.stageOfInterest.ComputeInstancesNb()
+			probe.docStager.SetMap_GongStructName_InstancesNb(
+				probe.stageOfInterest.Map_GongStructName_InstancesNb,
+			)
+			probe.Refresh()
+		},
+	}
 
 	if stageOfInterest.IsInDeltaMode() {
-		topNode.Name += fmt.Sprintf(" (h %d, d %d)",
+		deltaNode := &tree.Node{}
+		sidebar.RootNodes = append(sidebar.RootNodes, deltaNode)
+		deltaNode.Name += fmt.Sprintf(".... <-->   %d   <-   %d ",
 			len(stageOfInterest.GetBackwardCommits()),
 			stageOfInterest.GetCommitsBehind())
 
@@ -53,7 +88,7 @@ func updateAndCommitTree(
 			ToolTipText:     "Go to previous commit",
 			ToolTipPosition: tree.Below,
 		}
-		topNode.Buttons = append(topNode.Buttons, backwardButton)
+		deltaNode.Buttons = append(deltaNode.Buttons, backwardButton)
 		backwardButton.Impl = &tree.FunctionalButtonProxy{
 			OnUpdated: func(stage *tree.Stage,
 				stagedButton, frontButton *tree.Button) {
@@ -78,7 +113,7 @@ func updateAndCommitTree(
 			ToolTipText:     "Go to next commit",
 			ToolTipPosition: tree.Below,
 		}
-		topNode.Buttons = append(topNode.Buttons, forwardButton)
+		deltaNode.Buttons = append(deltaNode.Buttons, forwardButton)
 		forwardButton.Impl = &tree.FunctionalButtonProxy{
 			OnUpdated: func(stage *tree.Stage,
 				stagedButton, frontButton *tree.Button) {
@@ -104,7 +139,7 @@ func updateAndCommitTree(
 				ToolTipText:     "Discard commits ahead (git reset --hard HEAD)",
 				ToolTipPosition: tree.Below,
 			}
-			topNode.Buttons = append(topNode.Buttons, discardButton)
+			deltaNode.Buttons = append(deltaNode.Buttons, discardButton)
 			discardButton.Impl = &tree.FunctionalButtonProxy{
 				OnUpdated: func(stage *tree.Stage,
 					stagedButton, frontButton *tree.Button) {
@@ -113,43 +148,6 @@ func updateAndCommitTree(
 				},
 			}
 		}
-	} else {
-		topNode.Name += ""
-	}
-
-	sidebar.RootNodes = append(sidebar.RootNodes, topNode)
-	refreshButton := &tree.Button{
-		Name:            "RefreshButton" + " " + string(gongtree_buttons.BUTTON_refresh),
-		Icon:            string(gongtree_buttons.BUTTON_refresh),
-		HasToolTip:      true,
-		ToolTipText:     "Refresh probe",
-		ToolTipPosition: tree.Below,
-	}
-	topNode.Buttons = append(topNode.Buttons, refreshButton)
-	refreshButton.Impl = &tree.FunctionalButtonProxy{
-		OnUpdated: func(stage *tree.Stage,
-			stagedButton, frontButton *tree.Button) {
-			probe.stageOfInterest.ComputeInstancesNb()
-			probe.docStager.SetMap_GongStructName_InstancesNb(
-				probe.stageOfInterest.Map_GongStructName_InstancesNb,
-			)
-			probe.Refresh()
-		},
-	}
-
-	notificationsResetButton := &tree.Button{
-		Name:            "NotificationsResetButton",
-		Icon:            string(gongtree_buttons.BUTTON_reset_tv),
-		HasToolTip:      true,
-		ToolTipText:     "Reset notification table",
-		ToolTipPosition: tree.Below,
-	}
-	topNode.Buttons = append(topNode.Buttons, notificationsResetButton)
-	notificationsResetButton.Impl = &tree.FunctionalButtonProxy{
-		OnUpdated: func(stage *tree.Stage,
-			stagedButton, frontButton *tree.Button) {
-			probe.ResetNotifications()
-		},
 	}
 
 	// collect all gong struct to construe the true
