@@ -163,7 +163,7 @@ func NewLevel1StackDelta(
 
 		stage.ComputeReverseMaps()
 		stage.ComputeInstancesNb()
-		stage.ComputeReference()
+		stage.ComputeReferenceAndOrders()
 	} else {
 		// in case the database is used, checkout the content to the stage
 		stage.Checkout()
