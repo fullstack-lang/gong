@@ -479,7 +479,7 @@ func (text *Text) GongCopy() GongstructIF {
 	return &newInstance
 }
 
-func (stage *Stage) ComputeDifference() {
+func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	var lenNewInstances int
 	var lenModifiedInstances int
 	var lenDeletedInstances int
