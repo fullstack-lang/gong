@@ -199,8 +199,8 @@ func _(stage *models.Stage) {
 
 	__StateShape__00000000_.Name = `Probe Form`
 	__StateShape__00000000_.IsExpanded = false
-	__StateShape__00000000_.X = 314.000000
-	__StateShape__00000000_.Y = 152.000000
+	__StateShape__00000000_.X = 166.000000
+	__StateShape__00000000_.Y = 165.000000
 	__StateShape__00000000_.Width = 221.000000
 	__StateShape__00000000_.Height = 80.000000
 

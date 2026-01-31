@@ -349,7 +349,7 @@ func (table *Table) GongCopy() GongstructIF {
 	return &newInstance
 }
 
-func (stage *Stage) ComputeDifference() {
+func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	var lenNewInstances int
 	var lenModifiedInstances int
 	var lenDeletedInstances int
@@ -1547,8 +1547,8 @@ func (stage *Stage) ComputeDifference() {
 	}
 }
 
-// ComputeReference will creates a deep copy of each of the staged elements
-func (stage *Stage) ComputeReference() {
+// ComputeReferenceAndOrders will creates a deep copy of each of the staged elements
+func (stage *Stage) ComputeReferenceAndOrders() {
 
 	// insertion point per named struct
 	stage.Cells_reference = make(map[*Cell]*Cell)
@@ -1712,6 +1712,7 @@ func (stage *Stage) ComputeReference() {
 		stage.Tables_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
+	stage.recomputeOrders()
 }
 
 // GongGetOrder returns the order of the instance in the staging area

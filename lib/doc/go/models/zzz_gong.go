@@ -315,13 +315,18 @@ func (stage *Stage) ApplyBackwardCommit() error {
 	commitToApply := stage.backwardCommits[len(stage.backwardCommits)-1-stage.commitsBehind]
 
 	// umarshall the backward commit to the stage
+
+	// the parsing of the commit will call the UX update
+	// therefore, it is important to stage.commitsBehind before because it is used in the
+	// UX
+	stage.commitsBehind++
 	err := GongParseAstString(stage, commitToApply, true)
 	if err != nil {
 		log.Println("error during ApplyBackwardCommit: ", err)
 		return err
 	}
 
-	stage.commitsBehind++
+	stage.ComputeReferenceAndOrders()
 
 	return nil
 }
@@ -348,12 +353,18 @@ func (stage *Stage) ApplyForwardCommit() error {
 	}
 
 	commitToApply := stage.forwardCommits[len(stage.forwardCommits)-1-stage.commitsBehind+1]
+
+	// the parsing of the commit will call the UX update
+	// therefore, it is important to stage.commitsBehind before because it is used in the
+	// UX
+	stage.commitsBehind--
 	err := GongParseAstString(stage, commitToApply, true)
 	if err != nil {
 		log.Println("error during ApplyForwardCommit: ", err)
 		return err
 	}
-	stage.commitsBehind--
+	stage.ComputeReferenceAndOrders()
+
 	return nil
 }
 
@@ -370,13 +381,23 @@ func (stage *Stage) ResetHard() {
 
 	stage.forwardCommits = stage.forwardCommits[:newCommitsLen]
 	stage.backwardCommits = stage.backwardCommits[:newCommitsLen]
-	stage.ComputeReference() // this is the new reference.
 	stage.commitsBehind = 0
 	stage.navigationMode = GongNavigationModeNormal
 
-	// recompute the next order for each struct
-	// this is necessary because the order might have been incremented
-	// during the commits that have been discarded
+	stage.ComputeInstancesNb()
+	if stage.OnInitCommitCallback != nil {
+		stage.OnInitCommitCallback.BeforeCommit(stage)
+	}
+	if stage.OnInitCommitFromBackCallback != nil {
+		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
+	}
+}
+
+// recomputeOrders recomputes the next order for each struct
+// this is necessary because the order might have been incremented
+// during the commits that have been discarded
+// insertion point for max order recomputation
+func (stage *Stage) recomputeOrders() {
 	// insertion point for max order recomputation 
 	var maxAttributeShapeOrder uint
 	var foundAttributeShape bool
@@ -519,9 +540,9 @@ func (stage *Stage) SetProbeIF(probeIF ProbeIF) {
 }
 
 func (stage *Stage) GetProbeIF() ProbeIF {
-    if stage.probeIF == nil {
-        return nil
-    }
+	if stage.probeIF == nil {
+		return nil
+	}
 
 	return stage.probeIF
 }
@@ -1009,9 +1030,17 @@ func (stage *Stage) Commit() {
 		stage.BackRepo.Commit(stage)
 	}
 	stage.ComputeInstancesNb()
+
+	// if a commit is applied when in navigation mode
+	// this will reset the commits behind and swith the
+	// naviagation
+	if stage.isInDeltaMode && stage.navigationMode == GongNavigationModeNavigating && stage.GetCommitsBehind() > 0 {
+		stage.ResetHard()
+	}
+
 	if stage.IsInDeltaMode() {
-		stage.ComputeDifference()
-		stage.ComputeReference()
+		stage.ComputeForwardAndBackwardCommits()
+		stage.ComputeReferenceAndOrders()
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().Refresh()
 		}
@@ -1918,7 +1947,7 @@ func (stage *Stage) Reset() { // insertion point for array reset
 		stage.GetProbeIF().ResetNotifications()
 	}
 	if stage.IsInDeltaMode() {
-		stage.ComputeReference()
+		stage.ComputeReferenceAndOrders()
 	}
 }
 
