@@ -129,11 +129,15 @@ func onUpdateRectElement[CT interface {
 		if !diffSize && !diffPosition {
 			stager.stage.CommitWithSuspendedCallbacks()
 			stager.probeForm.FillUpFormFromGongstruct(abstractElement, GetPointerToGongstructName[AbstractType]())
+			// update the tree because it contains the undo/redo calls
+			stager.tree()
 		}
 
 		if diffPosition {
 			// Issue #7, this will allow multiple rect to be moved together
 			stager.stage.CommitWithSuspendedCallbacks()
+			// update the tree because it contains the undo/redo calls
+			stager.tree()
 		}
 
 		if diffSize {
