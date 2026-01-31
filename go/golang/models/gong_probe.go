@@ -21,5 +21,9 @@ type ProbeIF interface {
 	ResetNotifications()
 	SetMaxElementsNbPerGongStructNode(nb int)
 	GetMaxElementsNbPerGongStructNode() int
+	AddCommitNavigationNode(appendChildrenNodeFunc func(GongNodeIF))
+}
+
+type GongNodeIF interface {
 }
 `

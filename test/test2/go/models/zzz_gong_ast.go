@@ -479,9 +479,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				isAppend = true
 			} else if se, ok := callExpr.Fun.(*ast.SelectorExpr); ok {
 				if id, ok := se.X.(*ast.Ident); ok && id.Name == "slices" {
-					if se.Sel.Name == "Insert" {
+					switch se.Sel.Name {
+					case "Insert":
 						isSlicesInsert = true
-					} else if se.Sel.Name == "Delete" {
+					case "Delete":
 						isSlicesDelete = true
 					}
 				}
