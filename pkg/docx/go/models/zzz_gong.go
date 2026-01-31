@@ -413,6 +413,11 @@ func (stage *Stage) ApplyBackwardCommit() error {
 	commitToApply := stage.backwardCommits[len(stage.backwardCommits)-1-stage.commitsBehind]
 
 	// umarshall the backward commit to the stage
+
+	// the parsing of the commit will call the UX update
+	// therefore, it is important to stage.commitsBehind before because it is used in the
+	// UX
+	stage.commitsBehind++
 	err := GongParseAstString(stage, commitToApply, true)
 	if err != nil {
 		log.Println("error during ApplyBackwardCommit: ", err)
@@ -420,8 +425,6 @@ func (stage *Stage) ApplyBackwardCommit() error {
 	}
 
 	stage.ComputeReferenceAndOrders()
-
-	stage.commitsBehind++
 
 	return nil
 }
@@ -448,6 +451,11 @@ func (stage *Stage) ApplyForwardCommit() error {
 	}
 
 	commitToApply := stage.forwardCommits[len(stage.forwardCommits)-1-stage.commitsBehind+1]
+
+	// the parsing of the commit will call the UX update
+	// therefore, it is important to stage.commitsBehind before because it is used in the
+	// UX
+	stage.commitsBehind--
 	err := GongParseAstString(stage, commitToApply, true)
 	if err != nil {
 		log.Println("error during ApplyForwardCommit: ", err)
@@ -455,7 +463,6 @@ func (stage *Stage) ApplyForwardCommit() error {
 	}
 	stage.ComputeReferenceAndOrders()
 
-	stage.commitsBehind--
 	return nil
 }
 
