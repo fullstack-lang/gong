@@ -181,6 +181,7 @@ func (stage *Stage) ApplyBackwardCommit() error {
 		return err
 	}
 
+	stage.ComputeReference()
 	stage.commitsBehind++
 
 	return nil
@@ -213,6 +214,7 @@ func (stage *Stage) ApplyForwardCommit() error {
 		log.Println("error during ApplyForwardCommit: ", err)
 		return err
 	}
+	stage.ComputeReference()
 	stage.commitsBehind--
 	return nil
 }
@@ -230,7 +232,6 @@ func (stage *Stage) ResetHard() {
 
 	stage.forwardCommits = stage.forwardCommits[:newCommitsLen]
 	stage.backwardCommits = stage.backwardCommits[:newCommitsLen]
-	stage.ComputeReference() // this is the new reference.
 	stage.commitsBehind = 0
 	stage.navigationMode = GongNavigationModeNormal
 
