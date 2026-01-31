@@ -209,7 +209,8 @@ func (stage *Stage) ApplyBackwardCommit() error {
 		return err
 	}
 
-	stage.ComputeReference()
+	stage.ComputeReferenceAndOrders()
+
 	stage.commitsBehind++
 
 	return nil
@@ -242,7 +243,8 @@ func (stage *Stage) ApplyForwardCommit() error {
 		log.Println("error during ApplyForwardCommit: ", err)
 		return err
 	}
-	stage.ComputeReference()
+	stage.ComputeReferenceAndOrders()
+
 	stage.commitsBehind--
 	return nil
 }
@@ -262,11 +264,13 @@ func (stage *Stage) ResetHard() {
 	stage.backwardCommits = stage.backwardCommits[:newCommitsLen]
 	stage.commitsBehind = 0
 	stage.navigationMode = GongNavigationModeNormal
+}
 
-	// recompute the next order for each struct
-	// this is necessary because the order might have been incremented
-	// during the commits that have been discarded
-	// insertion point for max order recomputation 
+// recomputeOrders recomputes the next order for each struct
+// this is necessary because the order might have been incremented
+// during the commits that have been discarded
+// insertion point for max order recomputation
+func (stage *Stage) recomputeOrders() {
 	var maxAOrder uint
 	var foundA bool
 	for _, order := range stage.AMap_Staged_Order {
@@ -280,6 +284,8 @@ func (stage *Stage) ResetHard() {
 	} else {
 		stage.AOrder = 0
 	}
+
+	log.Println("stage.AOrder", stage.AOrder)
 
 	var maxBOrder uint
 	var foundB bool
@@ -295,6 +301,7 @@ func (stage *Stage) ResetHard() {
 		stage.BOrder = 0
 	}
 
+	log.Println("stage.BOrder", stage.BOrder)
 }
 
 func (stage *Stage) SetDeltaMode(inDeltaMode bool) {
@@ -310,9 +317,9 @@ func (stage *Stage) SetProbeIF(probeIF ProbeIF) {
 }
 
 func (stage *Stage) GetProbeIF() ProbeIF {
-    if stage.probeIF == nil {
-        return nil
-    }
+	if stage.probeIF == nil {
+		return nil
+	}
 
 	return stage.probeIF
 }
@@ -600,7 +607,7 @@ func (stage *Stage) Commit() {
 
 	if stage.IsInDeltaMode() {
 		stage.ComputeForwardAndBackwardCommits()
-		stage.ComputeReference()
+		stage.ComputeReferenceAndOrders()
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().Refresh()
 		}
@@ -849,7 +856,7 @@ func (stage *Stage) Reset() { // insertion point for array reset
 		stage.GetProbeIF().ResetNotifications()
 	}
 	if stage.IsInDeltaMode() {
-		stage.ComputeReference()
+		stage.ComputeReferenceAndOrders()
 	}
 }
 
