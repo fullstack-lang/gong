@@ -209,6 +209,7 @@ func (stage *Stage) ApplyBackwardCommit() error {
 		return err
 	}
 
+	stage.ComputeReference()
 	stage.commitsBehind++
 
 	return nil
@@ -241,6 +242,7 @@ func (stage *Stage) ApplyForwardCommit() error {
 		log.Println("error during ApplyForwardCommit: ", err)
 		return err
 	}
+	stage.ComputeReference()
 	stage.commitsBehind--
 	return nil
 }
@@ -258,14 +260,13 @@ func (stage *Stage) ResetHard() {
 
 	stage.forwardCommits = stage.forwardCommits[:newCommitsLen]
 	stage.backwardCommits = stage.backwardCommits[:newCommitsLen]
-	stage.ComputeReference() // this is the new reference.
 	stage.commitsBehind = 0
 	stage.navigationMode = GongNavigationModeNormal
 
 	// recompute the next order for each struct
 	// this is necessary because the order might have been incremented
 	// during the commits that have been discarded
-	// insertion point for max order recomputation
+	// insertion point for max order recomputation 
 	var maxAOrder uint
 	var foundA bool
 	for _, order := range stage.AMap_Staged_Order {
@@ -309,9 +310,9 @@ func (stage *Stage) SetProbeIF(probeIF ProbeIF) {
 }
 
 func (stage *Stage) GetProbeIF() ProbeIF {
-	if stage.probeIF == nil {
-		return nil
-	}
+    if stage.probeIF == nil {
+        return nil
+    }
 
 	return stage.probeIF
 }
