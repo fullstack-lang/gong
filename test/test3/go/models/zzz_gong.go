@@ -271,6 +271,7 @@ func (stage *Stage) ResetHard() {
 // during the commits that have been discarded
 // insertion point for max order recomputation
 func (stage *Stage) recomputeOrders() {
+	// insertion point for max order recomputation 
 	var maxAOrder uint
 	var foundA bool
 	for _, order := range stage.AMap_Staged_Order {
@@ -284,8 +285,6 @@ func (stage *Stage) recomputeOrders() {
 	} else {
 		stage.AOrder = 0
 	}
-
-	log.Println("stage.AOrder", stage.AOrder)
 
 	var maxBOrder uint
 	var foundB bool
@@ -301,7 +300,6 @@ func (stage *Stage) recomputeOrders() {
 		stage.BOrder = 0
 	}
 
-	log.Println("stage.BOrder", stage.BOrder)
 }
 
 func (stage *Stage) SetDeltaMode(inDeltaMode bool) {
