@@ -17,9 +17,14 @@ func (stager *Stager) updateTreeDiagramStage() {
 	transitionsSet := *GetGongstructInstancesSet[Transition](stager.stage)
 	transitionSlice := SortGongstructSetByName(transitionsSet)
 
+	stager.probeForm.AddCommitNavigationNode(func(gni GongNodeIF) {
+		treeInstance.RootNodes = append(treeInstance.RootNodes, gni.(*tree.Node))
+	})
+
 	// architecture node
 	architectureNode := &tree.Node{
-		Name:            "-- State Machines --",
+		Name:            "State Machines",
+		FontStyle:       tree.ITALIC,
 		IsNodeClickable: true,
 		Impl: &diagramArchitectureNodeProxy{
 			stager:       stager,
