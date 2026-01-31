@@ -257,7 +257,6 @@ func (stage *Stage) ResetHard() {
 	stage.navigationMode = GongNavigationModeNormal
 
 	stage.ComputeInstancesNb()
-	stage.ComputeReferenceAndOrders()
 	if stage.OnInitCommitCallback != nil {
 		stage.OnInitCommitCallback.BeforeCommit(stage)
 	}
