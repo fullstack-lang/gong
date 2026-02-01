@@ -20,11 +20,13 @@ package models
 import (
 	"embed"
 	"errors"
+	"fmt"
 	"go/ast"
 	"go/parser"
 	"go/token"
 	"log"
 	"path/filepath"
+	"regexp"
 	"slices"
 	"strconv"
 	"strings"
@@ -236,6 +238,31 @@ func GongExtractInt(expr ast.Expr) int {
 		}
 	}
 	return 0
+}
+
+// ExtractMiddleUint takes a formatted string and returns the extracted integer.
+func ExtractMiddleUint(input string) (uint, error) {
+	// Compile the Regex Pattern
+	re := regexp.MustCompile(` + "`" + `__.*?__(\d+)_.*` + "`" + `)
+
+	// Find the matches
+	matches := re.FindStringSubmatch(input)
+
+	// Validate that we found the pattern and the capture group
+	if len(matches) < 2 {
+		return 0, fmt.Errorf("pattern not found in string: %s", input)
+	}
+
+	// matches[0] is the whole string, matches[1] is the capture group (\d+)
+	numberStr := matches[1]
+
+	// Convert string to integer (handles leading zeros automatically)
+	result, err := strconv.Atoi(numberStr)
+	if err != nil {
+		return 0, fmt.Errorf("failed to convert %s to int: %v", numberStr, err)
+	}
+
+	return uint(result), nil
 }
 
 func GongExtractFloat(expr ast.Expr) float64 {
