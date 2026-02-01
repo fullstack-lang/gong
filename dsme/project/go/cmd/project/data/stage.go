@@ -181,7 +181,7 @@ another line-NewDiagram`}).Stage(stage)
 	__Diagram__00000057_.IsNotesNodeExpanded = false
 
 	__Diagram__00000061_.Name = `Work diagram x`
-	__Diagram__00000061_.IsChecked = false
+	__Diagram__00000061_.IsChecked = true
 	__Diagram__00000061_.IsEditable_ = true
 	__Diagram__00000061_.IsInRenameMode = false
 	__Diagram__00000061_.ShowPrefix = true
@@ -736,7 +736,7 @@ another line-NewDiagram`
 	__Project__00000001_.ComputedPrefix = ``
 
 	__Project__00000002_.Name = `gong : persist stage.go as an history of commits  #934`
-	__Project__00000002_.IsExpanded = false
+	__Project__00000002_.IsExpanded = true
 	__Project__00000002_.ComputedPrefix = ``
 
 	__Root__00000000_.Name = `Root`
@@ -758,7 +758,7 @@ another line-NewDiagram`
 	__Task__00000007_.IsInputsNodeExpanded = false
 	__Task__00000007_.IsOutputsNodeExpanded = false
 	__Task__00000007_.IsWithCompletion = true
-	__Task__00000007_.Completion = models.PERCENT_025
+	__Task__00000007_.Completion = models.PERCENT_100
 
 	__Task__00000008_.Name = `code GongDiff per instance`
 	__Task__00000008_.Description = ``
@@ -767,7 +767,7 @@ another line-NewDiagram`
 	__Task__00000008_.IsInputsNodeExpanded = false
 	__Task__00000008_.IsOutputsNodeExpanded = false
 	__Task__00000008_.IsWithCompletion = true
-	__Task__00000008_.Completion = models.PERCENT_075
+	__Task__00000008_.Completion = models.PERCENT_100
 
 	__Task__00000009_.Name = `Develop Probe Notifications`
 	__Task__00000009_.Description = ``
