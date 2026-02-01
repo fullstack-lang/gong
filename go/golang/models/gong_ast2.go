@@ -280,6 +280,21 @@ func GongExtractExpr(expr ast.Expr) any {
 				}
 			}
 		}
+		// Reconstruct "Package.Identifier"
+		if id, ok := v.X.(*ast.Ident); ok {
+			return id.Name + "." + v.Sel.Name
+		}
+	case *ast.CallExpr:
+		// Reconstruct "new(Package.Struct)"
+		if fun, ok := v.Fun.(*ast.Ident); ok && fun.Name == "new" {
+			if len(v.Args) == 1 {
+				if sel, ok := v.Args[0].(*ast.SelectorExpr); ok {
+					if id, ok := sel.X.(*ast.Ident); ok {
+						return "new(" + id.Name + "." + sel.Sel.Name + ")"
+					}
+				}
+			}
+		}
 	}
 	return ""
 }
