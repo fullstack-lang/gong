@@ -277,7 +277,7 @@ func _(stage *models.Stage) {
 	__Classdiagram__00000000_.ShowMultiplicity = true
 	__Classdiagram__00000000_.ShowLinkNames = true
 	__Classdiagram__00000000_.IsInRenameMode = false
-	__Classdiagram__00000000_.IsExpanded = true
+	__Classdiagram__00000000_.IsExpanded = false
 	__Classdiagram__00000000_.NodeGongStructsIsExpanded = true
 	__Classdiagram__00000000_.NodeGongStructNodeExpansion = `[false,false,false,false,false,false,false,true,true,false,false,false,false,false,false,false,false,false,false]`
 	__Classdiagram__00000000_.NodeGongEnumsIsExpanded = false
