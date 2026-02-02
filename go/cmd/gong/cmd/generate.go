@@ -67,7 +67,7 @@ var generateCmd = &cobra.Command{
 		modelPkg, _ := gong_models.LoadSource(modelStage, pkgPath)
 
 		// check wether the package name follows gong naming convention
-		if strings.ContainsAny(modelPkg.Name, "-") {
+		if strings.ContainsAny(modelPkg.Name, "-") && !level1 {
 			log.Panicln(modelPkg.Name + " is not OK for a gong package name because it contains a - (dash) " +
 				"and it cannot be used for naming a typescript class (in the generated front end lib)")
 		}
@@ -132,10 +132,9 @@ var generateCmd = &cobra.Command{
 
 			}
 			{
-				directory, err :=
-					filepath.Abs(
-						filepath.Join(pkgPath,
-							fmt.Sprintf("../../%s/projects/%s/src/lib", modelPkg.NgWorkspaceName, modelPkg.Name)))
+				directory, err := filepath.Abs(
+					filepath.Join(pkgPath,
+						fmt.Sprintf("../../%s/projects/%s/src/lib", modelPkg.NgWorkspaceName, modelPkg.Name)))
 				modelPkg.NgDataLibrarySourceCodeDirectory = directory
 				if err != nil {
 					log.Panic("Problem with frontend target path " + err.Error())
@@ -143,10 +142,9 @@ var generateCmd = &cobra.Command{
 			}
 
 			{
-				directory, err :=
-					filepath.Abs(
-						filepath.Join(pkgPath,
-							fmt.Sprintf("../../%s/projects/%sspecific/src/lib", modelPkg.NgWorkspaceName, modelPkg.Name)))
+				directory, err := filepath.Abs(
+					filepath.Join(pkgPath,
+						fmt.Sprintf("../../%s/projects/%sspecific/src/lib", modelPkg.NgWorkspaceName, modelPkg.Name)))
 				modelPkg.NgSpecificLibrarySourceCodeDirectory = directory
 				if err != nil {
 					log.Panic("Problem with frontend target path " + err.Error())
@@ -154,10 +152,9 @@ var generateCmd = &cobra.Command{
 			}
 
 			{
-				directory, err :=
-					filepath.Abs(
-						filepath.Join(pkgPath,
-							fmt.Sprintf("../../%s/projects/%sdatamodel/src/lib", modelPkg.NgWorkspaceName, modelPkg.Name)))
+				directory, err := filepath.Abs(
+					filepath.Join(pkgPath,
+						fmt.Sprintf("../../%s/projects/%sdatamodel/src/lib", modelPkg.NgWorkspaceName, modelPkg.Name)))
 				modelPkg.MaterialLibDatamodelTargetPath = directory
 				if err != nil {
 					log.Panic("Problem with frontend target path " + err.Error())
@@ -207,7 +204,7 @@ var generateCmd = &cobra.Command{
 					log.Panic(err)
 				}
 
-				f, err := os.OpenFile(".gitignore", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+				f, err := os.OpenFile(".gitignore", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0o644)
 				if err != nil {
 					log.Fatalf("failed opening file: %s", err)
 				}
