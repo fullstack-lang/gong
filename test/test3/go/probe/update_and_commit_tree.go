@@ -266,7 +266,7 @@ func (probe *Probe) AddCommitNavigationNode(appendChildrenNodeFunc func(models.G
 	if stageOfInterest.GetCommitsBehind() > 0 {
 		discardButton := &tree.Button{
 			Name:            "DiscardButton",
-			Icon:            string(gongtree_buttons.BUTTON_history_toggle_off),
+			Icon:            string(gongtree_buttons.BUTTON_cancel),
 			HasToolTip:      true,
 			ToolTipText:     "Discard commits ahead (git reset --hard HEAD)",
 			ToolTipPosition: tree.Below,
@@ -280,23 +280,6 @@ func (probe *Probe) AddCommitNavigationNode(appendChildrenNodeFunc func(models.G
 				probe.Refresh()
 			},
 		}
-	}
-
-	resetCommitsButton := &tree.Button{
-		Name:            "resetCommitsButton",
-		Icon:            string(gongtree_buttons.BUTTON_manage_history),
-		HasToolTip:      true,
-		ToolTipText:     "discard all commits (git checkout --orphan)",
-		ToolTipPosition: tree.Below,
-	}
-	deltaNode.Buttons = append(deltaNode.Buttons, resetCommitsButton)
-	resetCommitsButton.Impl = &tree.FunctionalButtonProxy{
-		OnUpdated: func(stage *tree.Stage,
-			stagedButton, frontButton *tree.Button,
-		) {
-			stageOfInterest.Orphans()
-			probe.Refresh()
-		},
 	}
 
 	logCommitsButton := &tree.Button{
