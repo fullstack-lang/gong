@@ -26,14 +26,18 @@ func __Gong__Abs(x int) int {
 	return x
 }
 
-var _ = __Gong__Abs
-var _ = strings.Clone("")
+var (
+	_ = __Gong__Abs
+	_ = strings.Clone("")
+)
 
-const ProbeTreeSidebarSuffix = ":sidebar of the probe"
-const ProbeTableSuffix = ":table of the probe"
-const ProbeNotificationTableSuffix = ":notification table of the probe"
-const ProbeFormSuffix = ":form of the probe"
-const ProbeSplitSuffix = ":probe of the probe"
+const (
+	ProbeTreeSidebarSuffix       = ":sidebar of the probe"
+	ProbeTableSuffix             = ":table of the probe"
+	ProbeNotificationTableSuffix = ":notification table of the probe"
+	ProbeFormSuffix              = ":form of the probe"
+	ProbeSplitSuffix             = ":probe of the probe"
+)
 
 func (stage *Stage) GetProbeTreeSidebarStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeTreeSidebarSuffix
@@ -56,8 +60,10 @@ func (stage *Stage) GetProbeSplitStageName() string {
 }
 
 // errUnkownEnum is returns when a value cannot match enum values
-var errUnkownEnum = errors.New("unkown enum")
-var _ = errUnkownEnum
+var (
+	errUnkownEnum = errors.New("unkown enum")
+	_             = errUnkownEnum
+)
 
 // needed to avoid when fmt package is not needed by generated code
 var __dummy__fmt_variable fmt.Scanner
@@ -73,8 +79,10 @@ var _ = __dummy_math_variable
 type __void any
 
 // needed for creating set of instances in the stage
-var __member __void
-var _ = __member
+var (
+	__member __void
+	_        = __member
+)
 
 // GongStructInterface is the interface met by GongStructs
 // It allows runtime reflexion of instances (without the hassle of the "reflect" package)
@@ -489,7 +497,6 @@ const (
 
 // ApplyBackwardCommit applies the commit before the current one
 func (stage *Stage) ApplyBackwardCommit() error {
-
 	if len(stage.backwardCommits) == 0 {
 		return errors.New("no backward commit to apply")
 	}
@@ -570,11 +577,26 @@ func (stage *Stage) GetCommitsBehind() int {
 // commitsBehind forward/backward Commits from the
 // stage
 func (stage *Stage) ResetHard() {
-
 	newCommitsLen := len(stage.forwardCommits) - stage.GetCommitsBehind()
 
 	stage.forwardCommits = stage.forwardCommits[:newCommitsLen]
 	stage.backwardCommits = stage.backwardCommits[:newCommitsLen]
+	stage.commitsBehind = 0
+	stage.navigationMode = GongNavigationModeNormal
+
+	stage.ComputeInstancesNb()
+	if stage.OnInitCommitCallback != nil {
+		stage.OnInitCommitCallback.BeforeCommit(stage)
+	}
+	if stage.OnInitCommitFromBackCallback != nil {
+		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
+	}
+}
+
+// Orphans removes all commits
+func (stage *Stage) Orphans() {
+	stage.forwardCommits = stage.forwardCommits[:0]
+	stage.backwardCommits = stage.backwardCommits[:0]
 	stage.commitsBehind = 0
 	stage.navigationMode = GongNavigationModeNormal
 
@@ -592,7 +614,7 @@ func (stage *Stage) ResetHard() {
 // during the commits that have been discarded
 // insertion point for max order recomputation
 func (stage *Stage) recomputeOrders() {
-	// insertion point for max order recomputation 
+	// insertion point for max order recomputation
 	var maxCellOrder uint
 	var foundCell bool
 	for _, order := range stage.CellMap_Staged_Order {
@@ -915,6 +937,7 @@ func (stage *Stage) recomputeOrders() {
 		stage.TableOrder = 0
 	}
 
+	// end of insertion point for max order recomputation
 }
 
 func (stage *Stage) SetDeltaMode(inDeltaMode bool) {
@@ -939,7 +962,6 @@ func (stage *Stage) GetProbeIF() ProbeIF {
 
 // GetNamedStructs implements models.ProbebStage.
 func (stage *Stage) GetNamedStructsNames() (res []string) {
-
 	for _, namedStruct := range stage.NamedStructs {
 		res = append(res, namedStruct.name)
 	}
@@ -948,7 +970,6 @@ func (stage *Stage) GetNamedStructsNames() (res []string) {
 }
 
 func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []string) {
-
 	orderedSet := []T{}
 	for instance := range set {
 		orderedSet = append(orderedSet, instance)
@@ -1303,7 +1324,6 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 }
 
 func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []T) {
-
 	orderedSet := []T{}
 	for instance := range set {
 		orderedSet = append(orderedSet, instance)
@@ -1325,7 +1345,6 @@ func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order 
 }
 
 func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
-
 	switch namedStructName {
 	// insertion point for case
 	case "Cell":
@@ -1494,7 +1513,6 @@ type BackRepoInterface interface {
 }
 
 func NewStage(name string) (stage *Stage) {
-
 	stage = &Stage{ // insertion point for array initiatialisation
 		Cells:           make(map[*Cell]struct{}),
 		Cells_mapString: make(map[string]*Cell),
@@ -1705,7 +1723,6 @@ func NewStage(name string) (stage *Stage) {
 }
 
 func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
-
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
 	case *Cell:
@@ -1760,7 +1777,6 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 }
 
 func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) uint {
-
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
 	case *Cell:
@@ -1819,7 +1835,6 @@ func (stage *Stage) GetName() string {
 }
 
 func (stage *Stage) CommitWithSuspendedCallbacks() {
-
 	tmp := stage.OnInitCommitFromBackCallback
 	stage.OnInitCommitFromBackCallback = nil
 	stage.Commit()
@@ -1924,7 +1939,6 @@ func (stage *Stage) RestoreXL(dirPath string) {
 // insertion point for cumulative sub template with model space calls
 // Stage puts cell to the model stage
 func (cell *Cell) Stage(stage *Stage) *Cell {
-
 	if _, ok := stage.Cells[cell]; !ok {
 		stage.Cells[cell] = struct{}{}
 		stage.CellMap_Staged_Order[cell] = stage.CellOrder
@@ -1941,7 +1955,6 @@ func (cell *Cell) Stage(stage *Stage) *Cell {
 // - force the order if the order is equal or greater than the stage.CellOrder
 // - update stage.CellOrder accordingly
 func (cell *Cell) StagePreserveOrder(stage *Stage, order uint) {
-
 	if _, ok := stage.Cells[cell]; !ok {
 		stage.Cells[cell] = struct{}{}
 
@@ -2010,7 +2023,6 @@ func (cell *Cell) SetName(name string) {
 
 // Stage puts cellboolean to the model stage
 func (cellboolean *CellBoolean) Stage(stage *Stage) *CellBoolean {
-
 	if _, ok := stage.CellBooleans[cellboolean]; !ok {
 		stage.CellBooleans[cellboolean] = struct{}{}
 		stage.CellBooleanMap_Staged_Order[cellboolean] = stage.CellBooleanOrder
@@ -2027,7 +2039,6 @@ func (cellboolean *CellBoolean) Stage(stage *Stage) *CellBoolean {
 // - force the order if the order is equal or greater than the stage.CellBooleanOrder
 // - update stage.CellBooleanOrder accordingly
 func (cellboolean *CellBoolean) StagePreserveOrder(stage *Stage, order uint) {
-
 	if _, ok := stage.CellBooleans[cellboolean]; !ok {
 		stage.CellBooleans[cellboolean] = struct{}{}
 
@@ -2096,7 +2107,6 @@ func (cellboolean *CellBoolean) SetName(name string) {
 
 // Stage puts cellfloat64 to the model stage
 func (cellfloat64 *CellFloat64) Stage(stage *Stage) *CellFloat64 {
-
 	if _, ok := stage.CellFloat64s[cellfloat64]; !ok {
 		stage.CellFloat64s[cellfloat64] = struct{}{}
 		stage.CellFloat64Map_Staged_Order[cellfloat64] = stage.CellFloat64Order
@@ -2113,7 +2123,6 @@ func (cellfloat64 *CellFloat64) Stage(stage *Stage) *CellFloat64 {
 // - force the order if the order is equal or greater than the stage.CellFloat64Order
 // - update stage.CellFloat64Order accordingly
 func (cellfloat64 *CellFloat64) StagePreserveOrder(stage *Stage, order uint) {
-
 	if _, ok := stage.CellFloat64s[cellfloat64]; !ok {
 		stage.CellFloat64s[cellfloat64] = struct{}{}
 
@@ -2182,7 +2191,6 @@ func (cellfloat64 *CellFloat64) SetName(name string) {
 
 // Stage puts cellicon to the model stage
 func (cellicon *CellIcon) Stage(stage *Stage) *CellIcon {
-
 	if _, ok := stage.CellIcons[cellicon]; !ok {
 		stage.CellIcons[cellicon] = struct{}{}
 		stage.CellIconMap_Staged_Order[cellicon] = stage.CellIconOrder
@@ -2199,7 +2207,6 @@ func (cellicon *CellIcon) Stage(stage *Stage) *CellIcon {
 // - force the order if the order is equal or greater than the stage.CellIconOrder
 // - update stage.CellIconOrder accordingly
 func (cellicon *CellIcon) StagePreserveOrder(stage *Stage, order uint) {
-
 	if _, ok := stage.CellIcons[cellicon]; !ok {
 		stage.CellIcons[cellicon] = struct{}{}
 
@@ -2268,7 +2275,6 @@ func (cellicon *CellIcon) SetName(name string) {
 
 // Stage puts cellint to the model stage
 func (cellint *CellInt) Stage(stage *Stage) *CellInt {
-
 	if _, ok := stage.CellInts[cellint]; !ok {
 		stage.CellInts[cellint] = struct{}{}
 		stage.CellIntMap_Staged_Order[cellint] = stage.CellIntOrder
@@ -2285,7 +2291,6 @@ func (cellint *CellInt) Stage(stage *Stage) *CellInt {
 // - force the order if the order is equal or greater than the stage.CellIntOrder
 // - update stage.CellIntOrder accordingly
 func (cellint *CellInt) StagePreserveOrder(stage *Stage, order uint) {
-
 	if _, ok := stage.CellInts[cellint]; !ok {
 		stage.CellInts[cellint] = struct{}{}
 
@@ -2354,7 +2359,6 @@ func (cellint *CellInt) SetName(name string) {
 
 // Stage puts cellstring to the model stage
 func (cellstring *CellString) Stage(stage *Stage) *CellString {
-
 	if _, ok := stage.CellStrings[cellstring]; !ok {
 		stage.CellStrings[cellstring] = struct{}{}
 		stage.CellStringMap_Staged_Order[cellstring] = stage.CellStringOrder
@@ -2371,7 +2375,6 @@ func (cellstring *CellString) Stage(stage *Stage) *CellString {
 // - force the order if the order is equal or greater than the stage.CellStringOrder
 // - update stage.CellStringOrder accordingly
 func (cellstring *CellString) StagePreserveOrder(stage *Stage, order uint) {
-
 	if _, ok := stage.CellStrings[cellstring]; !ok {
 		stage.CellStrings[cellstring] = struct{}{}
 
@@ -2440,7 +2443,6 @@ func (cellstring *CellString) SetName(name string) {
 
 // Stage puts checkbox to the model stage
 func (checkbox *CheckBox) Stage(stage *Stage) *CheckBox {
-
 	if _, ok := stage.CheckBoxs[checkbox]; !ok {
 		stage.CheckBoxs[checkbox] = struct{}{}
 		stage.CheckBoxMap_Staged_Order[checkbox] = stage.CheckBoxOrder
@@ -2457,7 +2459,6 @@ func (checkbox *CheckBox) Stage(stage *Stage) *CheckBox {
 // - force the order if the order is equal or greater than the stage.CheckBoxOrder
 // - update stage.CheckBoxOrder accordingly
 func (checkbox *CheckBox) StagePreserveOrder(stage *Stage, order uint) {
-
 	if _, ok := stage.CheckBoxs[checkbox]; !ok {
 		stage.CheckBoxs[checkbox] = struct{}{}
 
@@ -2526,7 +2527,6 @@ func (checkbox *CheckBox) SetName(name string) {
 
 // Stage puts displayedcolumn to the model stage
 func (displayedcolumn *DisplayedColumn) Stage(stage *Stage) *DisplayedColumn {
-
 	if _, ok := stage.DisplayedColumns[displayedcolumn]; !ok {
 		stage.DisplayedColumns[displayedcolumn] = struct{}{}
 		stage.DisplayedColumnMap_Staged_Order[displayedcolumn] = stage.DisplayedColumnOrder
@@ -2543,7 +2543,6 @@ func (displayedcolumn *DisplayedColumn) Stage(stage *Stage) *DisplayedColumn {
 // - force the order if the order is equal or greater than the stage.DisplayedColumnOrder
 // - update stage.DisplayedColumnOrder accordingly
 func (displayedcolumn *DisplayedColumn) StagePreserveOrder(stage *Stage, order uint) {
-
 	if _, ok := stage.DisplayedColumns[displayedcolumn]; !ok {
 		stage.DisplayedColumns[displayedcolumn] = struct{}{}
 
@@ -2612,7 +2611,6 @@ func (displayedcolumn *DisplayedColumn) SetName(name string) {
 
 // Stage puts formdiv to the model stage
 func (formdiv *FormDiv) Stage(stage *Stage) *FormDiv {
-
 	if _, ok := stage.FormDivs[formdiv]; !ok {
 		stage.FormDivs[formdiv] = struct{}{}
 		stage.FormDivMap_Staged_Order[formdiv] = stage.FormDivOrder
@@ -2629,7 +2627,6 @@ func (formdiv *FormDiv) Stage(stage *Stage) *FormDiv {
 // - force the order if the order is equal or greater than the stage.FormDivOrder
 // - update stage.FormDivOrder accordingly
 func (formdiv *FormDiv) StagePreserveOrder(stage *Stage, order uint) {
-
 	if _, ok := stage.FormDivs[formdiv]; !ok {
 		stage.FormDivs[formdiv] = struct{}{}
 
@@ -2698,7 +2695,6 @@ func (formdiv *FormDiv) SetName(name string) {
 
 // Stage puts formeditassocbutton to the model stage
 func (formeditassocbutton *FormEditAssocButton) Stage(stage *Stage) *FormEditAssocButton {
-
 	if _, ok := stage.FormEditAssocButtons[formeditassocbutton]; !ok {
 		stage.FormEditAssocButtons[formeditassocbutton] = struct{}{}
 		stage.FormEditAssocButtonMap_Staged_Order[formeditassocbutton] = stage.FormEditAssocButtonOrder
@@ -2715,7 +2711,6 @@ func (formeditassocbutton *FormEditAssocButton) Stage(stage *Stage) *FormEditAss
 // - force the order if the order is equal or greater than the stage.FormEditAssocButtonOrder
 // - update stage.FormEditAssocButtonOrder accordingly
 func (formeditassocbutton *FormEditAssocButton) StagePreserveOrder(stage *Stage, order uint) {
-
 	if _, ok := stage.FormEditAssocButtons[formeditassocbutton]; !ok {
 		stage.FormEditAssocButtons[formeditassocbutton] = struct{}{}
 
@@ -2784,7 +2779,6 @@ func (formeditassocbutton *FormEditAssocButton) SetName(name string) {
 
 // Stage puts formfield to the model stage
 func (formfield *FormField) Stage(stage *Stage) *FormField {
-
 	if _, ok := stage.FormFields[formfield]; !ok {
 		stage.FormFields[formfield] = struct{}{}
 		stage.FormFieldMap_Staged_Order[formfield] = stage.FormFieldOrder
@@ -2801,7 +2795,6 @@ func (formfield *FormField) Stage(stage *Stage) *FormField {
 // - force the order if the order is equal or greater than the stage.FormFieldOrder
 // - update stage.FormFieldOrder accordingly
 func (formfield *FormField) StagePreserveOrder(stage *Stage, order uint) {
-
 	if _, ok := stage.FormFields[formfield]; !ok {
 		stage.FormFields[formfield] = struct{}{}
 
@@ -2870,7 +2863,6 @@ func (formfield *FormField) SetName(name string) {
 
 // Stage puts formfielddate to the model stage
 func (formfielddate *FormFieldDate) Stage(stage *Stage) *FormFieldDate {
-
 	if _, ok := stage.FormFieldDates[formfielddate]; !ok {
 		stage.FormFieldDates[formfielddate] = struct{}{}
 		stage.FormFieldDateMap_Staged_Order[formfielddate] = stage.FormFieldDateOrder
@@ -2887,7 +2879,6 @@ func (formfielddate *FormFieldDate) Stage(stage *Stage) *FormFieldDate {
 // - force the order if the order is equal or greater than the stage.FormFieldDateOrder
 // - update stage.FormFieldDateOrder accordingly
 func (formfielddate *FormFieldDate) StagePreserveOrder(stage *Stage, order uint) {
-
 	if _, ok := stage.FormFieldDates[formfielddate]; !ok {
 		stage.FormFieldDates[formfielddate] = struct{}{}
 
@@ -2956,7 +2947,6 @@ func (formfielddate *FormFieldDate) SetName(name string) {
 
 // Stage puts formfielddatetime to the model stage
 func (formfielddatetime *FormFieldDateTime) Stage(stage *Stage) *FormFieldDateTime {
-
 	if _, ok := stage.FormFieldDateTimes[formfielddatetime]; !ok {
 		stage.FormFieldDateTimes[formfielddatetime] = struct{}{}
 		stage.FormFieldDateTimeMap_Staged_Order[formfielddatetime] = stage.FormFieldDateTimeOrder
@@ -2973,7 +2963,6 @@ func (formfielddatetime *FormFieldDateTime) Stage(stage *Stage) *FormFieldDateTi
 // - force the order if the order is equal or greater than the stage.FormFieldDateTimeOrder
 // - update stage.FormFieldDateTimeOrder accordingly
 func (formfielddatetime *FormFieldDateTime) StagePreserveOrder(stage *Stage, order uint) {
-
 	if _, ok := stage.FormFieldDateTimes[formfielddatetime]; !ok {
 		stage.FormFieldDateTimes[formfielddatetime] = struct{}{}
 
@@ -3042,7 +3031,6 @@ func (formfielddatetime *FormFieldDateTime) SetName(name string) {
 
 // Stage puts formfieldfloat64 to the model stage
 func (formfieldfloat64 *FormFieldFloat64) Stage(stage *Stage) *FormFieldFloat64 {
-
 	if _, ok := stage.FormFieldFloat64s[formfieldfloat64]; !ok {
 		stage.FormFieldFloat64s[formfieldfloat64] = struct{}{}
 		stage.FormFieldFloat64Map_Staged_Order[formfieldfloat64] = stage.FormFieldFloat64Order
@@ -3059,7 +3047,6 @@ func (formfieldfloat64 *FormFieldFloat64) Stage(stage *Stage) *FormFieldFloat64 
 // - force the order if the order is equal or greater than the stage.FormFieldFloat64Order
 // - update stage.FormFieldFloat64Order accordingly
 func (formfieldfloat64 *FormFieldFloat64) StagePreserveOrder(stage *Stage, order uint) {
-
 	if _, ok := stage.FormFieldFloat64s[formfieldfloat64]; !ok {
 		stage.FormFieldFloat64s[formfieldfloat64] = struct{}{}
 
@@ -3128,7 +3115,6 @@ func (formfieldfloat64 *FormFieldFloat64) SetName(name string) {
 
 // Stage puts formfieldint to the model stage
 func (formfieldint *FormFieldInt) Stage(stage *Stage) *FormFieldInt {
-
 	if _, ok := stage.FormFieldInts[formfieldint]; !ok {
 		stage.FormFieldInts[formfieldint] = struct{}{}
 		stage.FormFieldIntMap_Staged_Order[formfieldint] = stage.FormFieldIntOrder
@@ -3145,7 +3131,6 @@ func (formfieldint *FormFieldInt) Stage(stage *Stage) *FormFieldInt {
 // - force the order if the order is equal or greater than the stage.FormFieldIntOrder
 // - update stage.FormFieldIntOrder accordingly
 func (formfieldint *FormFieldInt) StagePreserveOrder(stage *Stage, order uint) {
-
 	if _, ok := stage.FormFieldInts[formfieldint]; !ok {
 		stage.FormFieldInts[formfieldint] = struct{}{}
 
@@ -3214,7 +3199,6 @@ func (formfieldint *FormFieldInt) SetName(name string) {
 
 // Stage puts formfieldselect to the model stage
 func (formfieldselect *FormFieldSelect) Stage(stage *Stage) *FormFieldSelect {
-
 	if _, ok := stage.FormFieldSelects[formfieldselect]; !ok {
 		stage.FormFieldSelects[formfieldselect] = struct{}{}
 		stage.FormFieldSelectMap_Staged_Order[formfieldselect] = stage.FormFieldSelectOrder
@@ -3231,7 +3215,6 @@ func (formfieldselect *FormFieldSelect) Stage(stage *Stage) *FormFieldSelect {
 // - force the order if the order is equal or greater than the stage.FormFieldSelectOrder
 // - update stage.FormFieldSelectOrder accordingly
 func (formfieldselect *FormFieldSelect) StagePreserveOrder(stage *Stage, order uint) {
-
 	if _, ok := stage.FormFieldSelects[formfieldselect]; !ok {
 		stage.FormFieldSelects[formfieldselect] = struct{}{}
 
@@ -3300,7 +3283,6 @@ func (formfieldselect *FormFieldSelect) SetName(name string) {
 
 // Stage puts formfieldstring to the model stage
 func (formfieldstring *FormFieldString) Stage(stage *Stage) *FormFieldString {
-
 	if _, ok := stage.FormFieldStrings[formfieldstring]; !ok {
 		stage.FormFieldStrings[formfieldstring] = struct{}{}
 		stage.FormFieldStringMap_Staged_Order[formfieldstring] = stage.FormFieldStringOrder
@@ -3317,7 +3299,6 @@ func (formfieldstring *FormFieldString) Stage(stage *Stage) *FormFieldString {
 // - force the order if the order is equal or greater than the stage.FormFieldStringOrder
 // - update stage.FormFieldStringOrder accordingly
 func (formfieldstring *FormFieldString) StagePreserveOrder(stage *Stage, order uint) {
-
 	if _, ok := stage.FormFieldStrings[formfieldstring]; !ok {
 		stage.FormFieldStrings[formfieldstring] = struct{}{}
 
@@ -3386,7 +3367,6 @@ func (formfieldstring *FormFieldString) SetName(name string) {
 
 // Stage puts formfieldtime to the model stage
 func (formfieldtime *FormFieldTime) Stage(stage *Stage) *FormFieldTime {
-
 	if _, ok := stage.FormFieldTimes[formfieldtime]; !ok {
 		stage.FormFieldTimes[formfieldtime] = struct{}{}
 		stage.FormFieldTimeMap_Staged_Order[formfieldtime] = stage.FormFieldTimeOrder
@@ -3403,7 +3383,6 @@ func (formfieldtime *FormFieldTime) Stage(stage *Stage) *FormFieldTime {
 // - force the order if the order is equal or greater than the stage.FormFieldTimeOrder
 // - update stage.FormFieldTimeOrder accordingly
 func (formfieldtime *FormFieldTime) StagePreserveOrder(stage *Stage, order uint) {
-
 	if _, ok := stage.FormFieldTimes[formfieldtime]; !ok {
 		stage.FormFieldTimes[formfieldtime] = struct{}{}
 
@@ -3472,7 +3451,6 @@ func (formfieldtime *FormFieldTime) SetName(name string) {
 
 // Stage puts formgroup to the model stage
 func (formgroup *FormGroup) Stage(stage *Stage) *FormGroup {
-
 	if _, ok := stage.FormGroups[formgroup]; !ok {
 		stage.FormGroups[formgroup] = struct{}{}
 		stage.FormGroupMap_Staged_Order[formgroup] = stage.FormGroupOrder
@@ -3489,7 +3467,6 @@ func (formgroup *FormGroup) Stage(stage *Stage) *FormGroup {
 // - force the order if the order is equal or greater than the stage.FormGroupOrder
 // - update stage.FormGroupOrder accordingly
 func (formgroup *FormGroup) StagePreserveOrder(stage *Stage, order uint) {
-
 	if _, ok := stage.FormGroups[formgroup]; !ok {
 		stage.FormGroups[formgroup] = struct{}{}
 
@@ -3558,7 +3535,6 @@ func (formgroup *FormGroup) SetName(name string) {
 
 // Stage puts formsortassocbutton to the model stage
 func (formsortassocbutton *FormSortAssocButton) Stage(stage *Stage) *FormSortAssocButton {
-
 	if _, ok := stage.FormSortAssocButtons[formsortassocbutton]; !ok {
 		stage.FormSortAssocButtons[formsortassocbutton] = struct{}{}
 		stage.FormSortAssocButtonMap_Staged_Order[formsortassocbutton] = stage.FormSortAssocButtonOrder
@@ -3575,7 +3551,6 @@ func (formsortassocbutton *FormSortAssocButton) Stage(stage *Stage) *FormSortAss
 // - force the order if the order is equal or greater than the stage.FormSortAssocButtonOrder
 // - update stage.FormSortAssocButtonOrder accordingly
 func (formsortassocbutton *FormSortAssocButton) StagePreserveOrder(stage *Stage, order uint) {
-
 	if _, ok := stage.FormSortAssocButtons[formsortassocbutton]; !ok {
 		stage.FormSortAssocButtons[formsortassocbutton] = struct{}{}
 
@@ -3644,7 +3619,6 @@ func (formsortassocbutton *FormSortAssocButton) SetName(name string) {
 
 // Stage puts option to the model stage
 func (option *Option) Stage(stage *Stage) *Option {
-
 	if _, ok := stage.Options[option]; !ok {
 		stage.Options[option] = struct{}{}
 		stage.OptionMap_Staged_Order[option] = stage.OptionOrder
@@ -3661,7 +3635,6 @@ func (option *Option) Stage(stage *Stage) *Option {
 // - force the order if the order is equal or greater than the stage.OptionOrder
 // - update stage.OptionOrder accordingly
 func (option *Option) StagePreserveOrder(stage *Stage, order uint) {
-
 	if _, ok := stage.Options[option]; !ok {
 		stage.Options[option] = struct{}{}
 
@@ -3730,7 +3703,6 @@ func (option *Option) SetName(name string) {
 
 // Stage puts row to the model stage
 func (row *Row) Stage(stage *Stage) *Row {
-
 	if _, ok := stage.Rows[row]; !ok {
 		stage.Rows[row] = struct{}{}
 		stage.RowMap_Staged_Order[row] = stage.RowOrder
@@ -3747,7 +3719,6 @@ func (row *Row) Stage(stage *Stage) *Row {
 // - force the order if the order is equal or greater than the stage.RowOrder
 // - update stage.RowOrder accordingly
 func (row *Row) StagePreserveOrder(stage *Stage, order uint) {
-
 	if _, ok := stage.Rows[row]; !ok {
 		stage.Rows[row] = struct{}{}
 
@@ -3816,7 +3787,6 @@ func (row *Row) SetName(name string) {
 
 // Stage puts table to the model stage
 func (table *Table) Stage(stage *Stage) *Table {
-
 	if _, ok := stage.Tables[table]; !ok {
 		stage.Tables[table] = struct{}{}
 		stage.TableMap_Staged_Order[table] = stage.TableOrder
@@ -3833,7 +3803,6 @@ func (table *Table) Stage(stage *Stage) *Table {
 // - force the order if the order is equal or greater than the stage.TableOrder
 // - update stage.TableOrder accordingly
 func (table *Table) StagePreserveOrder(stage *Stage, order uint) {
-
 	if _, ok := stage.Tables[table]; !ok {
 		stage.Tables[table] = struct{}{}
 
@@ -4147,6 +4116,7 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.Tables = nil
 	stage.Tables_mapString = nil
 
+	// end of insertion point for array nil
 }
 
 func (stage *Stage) Unstage() { // insertion point for array nil
@@ -4242,14 +4212,14 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 		table.Unstage(stage)
 	}
 
+	// end of insertion point for array nil
 }
 
 // Gongstruct is the type parameter for generated generic function that allows
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
-type Gongstruct interface {
-}
+type Gongstruct interface{}
 
 type GongtructBasicField interface {
 	int | float64 | bool | string | time.Time | time.Duration
@@ -4287,7 +4257,6 @@ func CompareGongstructByName[T PointerToGongstruct](a, b T) int {
 }
 
 func SortGongstructSetByName[T PointerToGongstruct](set map[T]struct{}) (sortedSlice []T) {
-
 	for key := range set {
 		sortedSlice = append(sortedSlice, key)
 	}
@@ -4297,7 +4266,6 @@ func SortGongstructSetByName[T PointerToGongstruct](set map[T]struct{}) (sortedS
 }
 
 func GetGongstrucsSorted[T PointerToGongstruct](stage *Stage) (sortedSlice []T) {
-
 	set := GetGongstructInstancesSetFromPointerType[T](stage)
 	sortedSlice = SortGongstructSetByName(*set)
 
@@ -4762,7 +4730,6 @@ func GetAssociationName[Type Gongstruct]() *Type {
 // the map is construed by iterating over all Start instances and populationg keys with End instances
 // and values with slice of Start instances
 func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End][]*Start {
-
 	var ret Start
 
 	switch any(ret).(type) {
@@ -5165,7 +5132,6 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 // the map is construed by iterating over all Start instances and populating keys with End instances
 // and values with the Start instances
 func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End][]*Start {
-
 	var ret Start
 
 	switch any(ret).(type) {
@@ -5348,7 +5314,6 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 // GetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
 func GetPointerToGongstructName[Type GongstructIF]() (res string) {
-
 	var ret Type
 
 	switch any(ret).(type) {
@@ -5409,7 +5374,6 @@ type ReverseField struct {
 }
 
 func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
-
 	res = make([]ReverseField, 0)
 
 	var ret Type
@@ -6114,7 +6078,6 @@ func (table *Table) GongGetFieldHeaders() (res []GongFieldHeader) {
 
 // GetFieldsFromPointer return the array of the fields
 func GetFieldsFromPointer[Type PointerToGongstruct]() (res []GongFieldHeader) {
-
 	var ret Type
 	return ret.GongGetFieldHeaders()
 }
@@ -6204,6 +6167,7 @@ func (cell *Cell) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	}
 	return
 }
+
 func (cellboolean *CellBoolean) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -6216,6 +6180,7 @@ func (cellboolean *CellBoolean) GongGetFieldValue(fieldName string, stage *Stage
 	}
 	return
 }
+
 func (cellfloat64 *CellFloat64) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -6228,6 +6193,7 @@ func (cellfloat64 *CellFloat64) GongGetFieldValue(fieldName string, stage *Stage
 	}
 	return
 }
+
 func (cellicon *CellIcon) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -6244,6 +6210,7 @@ func (cellicon *CellIcon) GongGetFieldValue(fieldName string, stage *Stage) (res
 	}
 	return
 }
+
 func (cellint *CellInt) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -6256,6 +6223,7 @@ func (cellint *CellInt) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	}
 	return
 }
+
 func (cellstring *CellString) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -6266,6 +6234,7 @@ func (cellstring *CellString) GongGetFieldValue(fieldName string, stage *Stage) 
 	}
 	return
 }
+
 func (checkbox *CheckBox) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -6278,6 +6247,7 @@ func (checkbox *CheckBox) GongGetFieldValue(fieldName string, stage *Stage) (res
 	}
 	return
 }
+
 func (displayedcolumn *DisplayedColumn) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -6286,6 +6256,7 @@ func (displayedcolumn *DisplayedColumn) GongGetFieldValue(fieldName string, stag
 	}
 	return
 }
+
 func (formdiv *FormDiv) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -6326,6 +6297,7 @@ func (formdiv *FormDiv) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	}
 	return
 }
+
 func (formeditassocbutton *FormEditAssocButton) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -6354,6 +6326,7 @@ func (formeditassocbutton *FormEditAssocButton) GongGetFieldValue(fieldName stri
 	}
 	return
 }
+
 func (formfield *FormField) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -6427,6 +6400,7 @@ func (formfield *FormField) GongGetFieldValue(fieldName string, stage *Stage) (r
 	}
 	return
 }
+
 func (formfielddate *FormFieldDate) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -6437,6 +6411,7 @@ func (formfielddate *FormFieldDate) GongGetFieldValue(fieldName string, stage *S
 	}
 	return
 }
+
 func (formfielddatetime *FormFieldDateTime) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -6447,6 +6422,7 @@ func (formfielddatetime *FormFieldDateTime) GongGetFieldValue(fieldName string, 
 	}
 	return
 }
+
 func (formfieldfloat64 *FormFieldFloat64) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -6475,6 +6451,7 @@ func (formfieldfloat64 *FormFieldFloat64) GongGetFieldValue(fieldName string, st
 	}
 	return
 }
+
 func (formfieldint *FormFieldInt) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -6503,6 +6480,7 @@ func (formfieldint *FormFieldInt) GongGetFieldValue(fieldName string, stage *Sta
 	}
 	return
 }
+
 func (formfieldselect *FormFieldSelect) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -6535,6 +6513,7 @@ func (formfieldselect *FormFieldSelect) GongGetFieldValue(fieldName string, stag
 	}
 	return
 }
+
 func (formfieldstring *FormFieldString) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -6549,6 +6528,7 @@ func (formfieldstring *FormFieldString) GongGetFieldValue(fieldName string, stag
 	}
 	return
 }
+
 func (formfieldtime *FormFieldTime) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -6563,6 +6543,7 @@ func (formfieldtime *FormFieldTime) GongGetFieldValue(fieldName string, stage *S
 	}
 	return
 }
+
 func (formgroup *FormGroup) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -6591,6 +6572,7 @@ func (formgroup *FormGroup) GongGetFieldValue(fieldName string, stage *Stage) (r
 	}
 	return
 }
+
 func (formsortassocbutton *FormSortAssocButton) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -6615,6 +6597,7 @@ func (formsortassocbutton *FormSortAssocButton) GongGetFieldValue(fieldName stri
 	}
 	return
 }
+
 func (option *Option) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -6623,6 +6606,7 @@ func (option *Option) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 	}
 	return
 }
+
 func (row *Row) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -6645,6 +6629,7 @@ func (row *Row) GongGetFieldValue(fieldName string, stage *Stage) (res GongField
 	}
 	return
 }
+
 func (table *Table) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -6711,8 +6696,8 @@ func (table *Table) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 	}
 	return
 }
-func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, stage *Stage) (res GongFieldValue) {
 
+func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, stage *Stage) (res GongFieldValue) {
 	res = instance.GongGetFieldValue(fieldName, stage)
 	return
 }
@@ -7458,7 +7443,6 @@ func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 }
 
 func (stage *Stage) ResetMapStrings() {
-
 	// insertion point for generic get gongstruct name
 	stage.Cells_mapString = make(map[string]*Cell)
 	for cell := range stage.Cells {
@@ -7575,6 +7559,7 @@ func (stage *Stage) ResetMapStrings() {
 		stage.Tables_mapString[table.Name] = table
 	}
 
+	// end of insertion point for generic get gongstruct name
 }
 
 // Last line of the template
