@@ -8,8 +8,10 @@ import (
 	"time"
 )
 
-var __GongSliceTemplate_time__dummyDeclaration time.Duration
-var _ = __GongSliceTemplate_time__dummyDeclaration
+var (
+	__GongSliceTemplate_time__dummyDeclaration time.Duration
+	_                                          = __GongSliceTemplate_time__dummyDeclaration
+)
 
 // ComputeReverseMaps computes the reverse map, for all intances, for all slice to pointers field
 // Its complexity is in O(n)O(p) where p is the number of pointers
@@ -33,10 +35,10 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct UpdateState
 	// insertion point per field
 
+	// end of insertion point per named struct
 }
 
 func (stage *Stage) GetInstances() (res []GongstructIF) {
-
 	// insertion point per named struct
 	for instance := range stage.Commands {
 		res = append(res, instance)
@@ -434,36 +436,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 		backwardCommit += "\n\tstage.Commit()"
 		// append to the end of the backward commits slice
 		stage.backwardCommits = append(stage.backwardCommits, backwardCommit)
-
-		if stage.GetProbeIF() != nil {
-			var mergedCommits string
-			for _, commit := range stage.forwardCommits {
-				mergedCommits += commit
-			}
-			stage.GetProbeIF().AddNotification(
-				time.Now(),
-				"	// Forward commits:\n"+
-					mergedCommits,
-			)
-
-			var reverseMergedCommits string
-			for _, reverserCommit := range stage.backwardCommits {
-				reverseMergedCommits += reverserCommit
-			}
-			stage.GetProbeIF().AddNotification(
-				time.Now(),
-				"	// Backward commits:\n"+
-					reverseMergedCommits,
-			)
-
-			stage.GetProbeIF().CommitNotificationTable()
-		}
 	}
 }
 
 // ComputeReferenceAndOrders will creates a deep copy of each of the staged elements
 func (stage *Stage) ComputeReferenceAndOrders() {
-
 	// insertion point per named struct
 	stage.Commands_reference = make(map[*Command]*Command)
 	stage.Commands_referenceOrder = make(map[*Command]uint) // diff Unstage needs the reference order
@@ -652,6 +629,7 @@ func (command *Command) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", command.Name)
 	return
 }
+
 func (dummyagent *DummyAgent) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", dummyagent.GongGetIdentifier(stage))
@@ -659,6 +637,7 @@ func (dummyagent *DummyAgent) GongMarshallIdentifier(stage *Stage) (decl string)
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", dummyagent.Name)
 	return
 }
+
 func (engine *Engine) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", engine.GongGetIdentifier(stage))
@@ -666,6 +645,7 @@ func (engine *Engine) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", engine.Name)
 	return
 }
+
 func (event *Event) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", event.GongGetIdentifier(stage))
@@ -673,6 +653,7 @@ func (event *Event) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", event.Name)
 	return
 }
+
 func (status *Status) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", status.GongGetIdentifier(stage))
@@ -680,6 +661,7 @@ func (status *Status) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", status.Name)
 	return
 }
+
 func (updatestate *UpdateState) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = IdentifiersDeclsWithoutNameInit
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", updatestate.GongGetIdentifier(stage))
@@ -694,28 +676,35 @@ func (command *Command) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", command.GongGetReferenceIdentifier(stage))
 	return
 }
+
 func (dummyagent *DummyAgent) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", dummyagent.GongGetReferenceIdentifier(stage))
 	return
 }
+
 func (engine *Engine) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", engine.GongGetReferenceIdentifier(stage))
 	return
 }
+
 func (event *Event) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", event.GongGetReferenceIdentifier(stage))
 	return
 }
+
 func (status *Status) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", status.GongGetReferenceIdentifier(stage))
 	return
 }
+
 func (updatestate *UpdateState) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", updatestate.GongGetReferenceIdentifier(stage))
 	return
 }
+
+// end of template

@@ -8,8 +8,10 @@ import (
 	"time"
 )
 
-var __GongSliceTemplate_time__dummyDeclaration time.Duration
-var _ = __GongSliceTemplate_time__dummyDeclaration
+var (
+	__GongSliceTemplate_time__dummyDeclaration time.Duration
+	_                                          = __GongSliceTemplate_time__dummyDeclaration
+)
 
 // ComputeReverseMaps computes the reverse map, for all intances, for all slice to pointers field
 // Its complexity is in O(n)O(p) where p is the number of pointers
@@ -27,10 +29,10 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct SvgImage
 	// insertion point per field
 
+	// end of insertion point per named struct
 }
 
 func (stage *Stage) GetInstances() (res []GongstructIF) {
-
 	// insertion point per named struct
 	for instance := range stage.Contents {
 		res = append(res, instance)
@@ -312,36 +314,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 		backwardCommit += "\n\tstage.Commit()"
 		// append to the end of the backward commits slice
 		stage.backwardCommits = append(stage.backwardCommits, backwardCommit)
-
-		if stage.GetProbeIF() != nil {
-			var mergedCommits string
-			for _, commit := range stage.forwardCommits {
-				mergedCommits += commit
-			}
-			stage.GetProbeIF().AddNotification(
-				time.Now(),
-				"	// Forward commits:\n"+
-					mergedCommits,
-			)
-
-			var reverseMergedCommits string
-			for _, reverserCommit := range stage.backwardCommits {
-				reverseMergedCommits += reverserCommit
-			}
-			stage.GetProbeIF().AddNotification(
-				time.Now(),
-				"	// Backward commits:\n"+
-					reverseMergedCommits,
-			)
-
-			stage.GetProbeIF().CommitNotificationTable()
-		}
 	}
 }
 
 // ComputeReferenceAndOrders will creates a deep copy of each of the staged elements
 func (stage *Stage) ComputeReferenceAndOrders() {
-
 	// insertion point per named struct
 	stage.Contents_reference = make(map[*Content]*Content)
 	stage.Contents_referenceOrder = make(map[*Content]uint) // diff Unstage needs the reference order
@@ -476,6 +453,7 @@ func (content *Content) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", content.Name)
 	return
 }
+
 func (jpgimage *JpgImage) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", jpgimage.GongGetIdentifier(stage))
@@ -483,6 +461,7 @@ func (jpgimage *JpgImage) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", jpgimage.Name)
 	return
 }
+
 func (pngimage *PngImage) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", pngimage.GongGetIdentifier(stage))
@@ -490,6 +469,7 @@ func (pngimage *PngImage) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", pngimage.Name)
 	return
 }
+
 func (svgimage *SvgImage) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", svgimage.GongGetIdentifier(stage))
@@ -504,18 +484,23 @@ func (content *Content) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", content.GongGetReferenceIdentifier(stage))
 	return
 }
+
 func (jpgimage *JpgImage) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", jpgimage.GongGetReferenceIdentifier(stage))
 	return
 }
+
 func (pngimage *PngImage) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", pngimage.GongGetReferenceIdentifier(stage))
 	return
 }
+
 func (svgimage *SvgImage) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", svgimage.GongGetReferenceIdentifier(stage))
 	return
 }
+
+// end of template

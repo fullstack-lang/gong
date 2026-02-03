@@ -8,8 +8,10 @@ import (
 	"time"
 )
 
-var __GongSliceTemplate_time__dummyDeclaration time.Duration
-var _ = __GongSliceTemplate_time__dummyDeclaration
+var (
+	__GongSliceTemplate_time__dummyDeclaration time.Duration
+	_                                          = __GongSliceTemplate_time__dummyDeclaration
+)
 
 // ComputeReverseMaps computes the reverse map, for all intances, for all slice to pointers field
 // Its complexity is in O(n)O(p) where p is the number of pointers
@@ -58,10 +60,10 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
+	// end of insertion point per named struct
 }
 
 func (stage *Stage) GetInstances() (res []GongstructIF) {
-
 	// insertion point per named struct
 	for instance := range stage.DisplaySelections {
 		res = append(res, instance)
@@ -401,36 +403,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 		backwardCommit += "\n\tstage.Commit()"
 		// append to the end of the backward commits slice
 		stage.backwardCommits = append(stage.backwardCommits, backwardCommit)
-
-		if stage.GetProbeIF() != nil {
-			var mergedCommits string
-			for _, commit := range stage.forwardCommits {
-				mergedCommits += commit
-			}
-			stage.GetProbeIF().AddNotification(
-				time.Now(),
-				"	// Forward commits:\n"+
-					mergedCommits,
-			)
-
-			var reverseMergedCommits string
-			for _, reverserCommit := range stage.backwardCommits {
-				reverseMergedCommits += reverserCommit
-			}
-			stage.GetProbeIF().AddNotification(
-				time.Now(),
-				"	// Backward commits:\n"+
-					reverseMergedCommits,
-			)
-
-			stage.GetProbeIF().CommitNotificationTable()
-		}
 	}
 }
 
 // ComputeReferenceAndOrders will creates a deep copy of each of the staged elements
 func (stage *Stage) ComputeReferenceAndOrders() {
-
 	// insertion point per named struct
 	stage.DisplaySelections_reference = make(map[*DisplaySelection]*DisplaySelection)
 	stage.DisplaySelections_referenceOrder = make(map[*DisplaySelection]uint) // diff Unstage needs the reference order
@@ -592,6 +569,7 @@ func (displayselection *DisplaySelection) GongMarshallIdentifier(stage *Stage) (
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", displayselection.Name)
 	return
 }
+
 func (xlcell *XLCell) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", xlcell.GongGetIdentifier(stage))
@@ -599,6 +577,7 @@ func (xlcell *XLCell) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", xlcell.Name)
 	return
 }
+
 func (xlfile *XLFile) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", xlfile.GongGetIdentifier(stage))
@@ -606,6 +585,7 @@ func (xlfile *XLFile) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", xlfile.Name)
 	return
 }
+
 func (xlrow *XLRow) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", xlrow.GongGetIdentifier(stage))
@@ -613,6 +593,7 @@ func (xlrow *XLRow) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", xlrow.Name)
 	return
 }
+
 func (xlsheet *XLSheet) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", xlsheet.GongGetIdentifier(stage))
@@ -627,23 +608,29 @@ func (displayselection *DisplaySelection) GongMarshallUnstaging(stage *Stage) (d
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", displayselection.GongGetReferenceIdentifier(stage))
 	return
 }
+
 func (xlcell *XLCell) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", xlcell.GongGetReferenceIdentifier(stage))
 	return
 }
+
 func (xlfile *XLFile) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", xlfile.GongGetReferenceIdentifier(stage))
 	return
 }
+
 func (xlrow *XLRow) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", xlrow.GongGetReferenceIdentifier(stage))
 	return
 }
+
 func (xlsheet *XLSheet) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", xlsheet.GongGetReferenceIdentifier(stage))
 	return
 }
+
+// end of template

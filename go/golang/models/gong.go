@@ -102,7 +102,8 @@ func ({{structname}} *{{Structname}}) GongGetFieldValue(fieldName string, stage 
 	// string value of fields{{StringValueOfFields}}
 	}
 	return
-}`,
+}
+`,
 
 	ModelGongStructInsertionGenericSetFieldValuesFromPointer: `
 func ({{structname}} *{{Structname}}) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
@@ -130,7 +131,6 @@ func ({{structname}} *{{Structname}}) GongGetGongstructName() string {
 	ModelGongStructInsertionStageFunctions: `
 // Stage puts {{structname}} to the model stage
 func ({{structname}} *{{Structname}}) Stage(stage *Stage) *{{Structname}} {
-
 	if _, ok := stage.{{Structname}}s[{{structname}}]; !ok {
 		stage.{{Structname}}s[{{structname}}] = struct{}{}
 		stage.{{Structname}}Map_Staged_Order[{{structname}}] = stage.{{Structname}}Order
@@ -147,7 +147,6 @@ func ({{structname}} *{{Structname}}) Stage(stage *Stage) *{{Structname}} {
 // - force the order if the order is equal or greater than the stage.{{Structname}}Order
 // - update stage.{{Structname}}Order accordingly
 func ({{structname}} *{{Structname}}) StagePreserveOrder(stage *Stage, order uint) {
-
 	if _, ok := stage.{{Structname}}s[{{structname}}]; !ok {
 		stage.{{Structname}}s[{{structname}}] = struct{}{}
 
@@ -441,7 +440,6 @@ const (
 // for each sub template code, there is the sub template code
 var GongFileFieldFieldSubTemplateCode map[GongFilePerStructSubTemplateId]string = // declaration of the sub templates
 map[GongFilePerStructSubTemplateId]string{
-
 	GongFileFieldSubTmplStringFieldName: `"{{FieldName}}"`,
 
 	GongFileFieldSubTmplReverseField: `
@@ -670,8 +668,8 @@ map[GongFilePerStructSubTemplateId]string{
 func CodeGeneratorModelGong(
 	modelPkg *models.ModelPkg,
 	pkgName string,
-	pkgPath string) {
-
+	pkgPath string,
+) {
 	// generate the typescript file
 	codeGO := ModelGongFileTemplate
 
@@ -926,7 +924,6 @@ func CodeGeneratorModelGong(
 					case *models.SliceOfPointerToGongStructField:
 
 						if field.GongStruct == gongStruct {
-
 							reverseFields += models.Replace2(
 								GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplReverseField],
 								"{{AssocStructName}}", __struct.Name,
@@ -1022,5 +1019,4 @@ func CodeGeneratorModelGong(
 	}
 	defer file.Close()
 	fmt.Fprint(file, codeGO)
-
 }
