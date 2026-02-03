@@ -336,6 +336,8 @@ func (stage *Stage) recomputeOrders() {
 	} else {
 		stage.BOrder = 0
 	}
+
+	// end of insertion point for max order recomputation
 }
 
 func (stage *Stage) SetDeltaMode(inDeltaMode bool) {
@@ -888,6 +890,8 @@ func (stage *Stage) Nil() { // insertion point for array nil
 
 	stage.Bs = nil
 	stage.Bs_mapString = nil
+
+	// end of insertion point for array nil
 }
 
 func (stage *Stage) Unstage() { // insertion point for array nil
@@ -898,13 +902,15 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 	for b := range stage.Bs {
 		b.Unstage(stage)
 	}
+
+	// end of insertion point for array nil
 }
 
 // Gongstruct is the type parameter for generated generic function that allows
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
-type Gongstruct interface{}
+type Gongstruct interface {}
 
 type GongtructBasicField interface {
 	int | float64 | bool | string | time.Time | time.Duration
@@ -1479,6 +1485,8 @@ func (stage *Stage) ResetMapStrings() {
 	for b := range stage.Bs {
 		stage.Bs_mapString[b.Name] = b
 	}
+
+	// end of insertion point for generic get gongstruct name
 }
 
 // Last line of the template
