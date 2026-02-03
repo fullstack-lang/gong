@@ -32,10 +32,10 @@ var (
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per named struct{{` + string(rune(GongSliceReverseMapCompute)) + `}}
+	// end of insertion point per named struct
 }
 
 func (stage *Stage) GetInstances() (res []GongstructIF) {
-
 	// insertion point per named struct{{` + string(rune(GongSliceGetInstances)) + `}}
 	return
 }
@@ -90,7 +90,6 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 // ComputeReferenceAndOrders will creates a deep copy of each of the staged elements
 func (stage *Stage) ComputeReferenceAndOrders() {
-
 	// insertion point per named struct{{` + string(rune(GongSliceGongComputeReference)) + `}}
 	stage.recomputeOrders()
 }
@@ -110,8 +109,8 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 // MarshallIdentifier returns the code to instantiate the instance
 // in a marshalling file
 // insertion point per named struct{{` + string(rune(GongSliceMarshallDeclaration)) + `}}
-
 // insertion point for unstaging{{` + string(rune(GongSliceMarshallUnstaging)) + `}}
+// end of template
 `
 
 type GongSliceGongstructInsertionId int
@@ -240,13 +239,15 @@ func ({{structname}} *{{Structname}}) GongMarshallIdentifier(stage *Stage) (decl
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "{{Structname}}")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", {{structname}}.Name)
 	return
-}`,
+}
+`,
 	GongSliceMarshallUnstaging: `
 func ({{structname}} *{{Structname}}) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", {{structname}}.GongGetReferenceIdentifier(stage))
 	return
-}`,
+}
+`,
 }
 
 type GongSliceSubTemplateId int
