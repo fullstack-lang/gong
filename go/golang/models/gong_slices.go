@@ -23,17 +23,19 @@ import (
 	"time"
 )
 
-var __GongSliceTemplate_time__dummyDeclaration time.Duration
-var _ = __GongSliceTemplate_time__dummyDeclaration
+var (
+	__GongSliceTemplate_time__dummyDeclaration time.Duration
+	_                                          = __GongSliceTemplate_time__dummyDeclaration
+)
 
 // ComputeReverseMaps computes the reverse map, for all intances, for all slice to pointers field
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per named struct{{` + string(rune(GongSliceReverseMapCompute)) + `}}
+	// end of insertion point per named struct
 }
 
 func (stage *Stage) GetInstances() (res []GongstructIF) {
-
 	// insertion point per named struct{{` + string(rune(GongSliceGetInstances)) + `}}
 	return
 }
@@ -83,36 +85,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 		backwardCommit += "\n\tstage.Commit()"
 		// append to the end of the backward commits slice
 		stage.backwardCommits = append(stage.backwardCommits, backwardCommit)
-
-		if stage.GetProbeIF() != nil {
-			var mergedCommits string
-			for _, commit := range stage.forwardCommits {
-				mergedCommits += commit
-			}
-			stage.GetProbeIF().AddNotification(
-				time.Now(),
-				"	// Forward commits:\n"+
-					mergedCommits,
-			)
-
-			var reverseMergedCommits string
-			for _, reverserCommit := range stage.backwardCommits {
-				reverseMergedCommits += reverserCommit
-			}
-			stage.GetProbeIF().AddNotification(
-				time.Now(),
-				"	// Backward commits:\n"+
-					reverseMergedCommits,
-			)
-
-			stage.GetProbeIF().CommitNotificationTable()
-		}
 	}
 }
 
 // ComputeReferenceAndOrders will creates a deep copy of each of the staged elements
 func (stage *Stage) ComputeReferenceAndOrders() {
-
 	// insertion point per named struct{{` + string(rune(GongSliceGongComputeReference)) + `}}
 	stage.recomputeOrders()
 }
@@ -132,8 +109,8 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 // MarshallIdentifier returns the code to instantiate the instance
 // in a marshalling file
 // insertion point per named struct{{` + string(rune(GongSliceMarshallDeclaration)) + `}}
-
 // insertion point for unstaging{{` + string(rune(GongSliceMarshallUnstaging)) + `}}
+// end of template
 `
 
 type GongSliceGongstructInsertionId int
@@ -262,13 +239,15 @@ func ({{structname}} *{{Structname}}) GongMarshallIdentifier(stage *Stage) (decl
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "{{Structname}}")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", {{structname}}.Name)
 	return
-}`,
+}
+`,
 	GongSliceMarshallUnstaging: `
 func ({{structname}} *{{Structname}}) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", {{structname}}.GongGetReferenceIdentifier(stage))
 	return
-}`,
+}
+`,
 }
 
 type GongSliceSubTemplateId int
@@ -280,7 +259,6 @@ const (
 
 var GongSliceFileFieldFieldSubTemplateCode map[GongSliceSubTemplateId]string = // declaration of the sub templates
 map[GongSliceSubTemplateId]string{
-
 	GongSliceSubTmplSliceOfPointersToStruct: `
 		if fieldName == "{{FieldName}}" {
 
@@ -315,8 +293,8 @@ func CodeGeneratorModelGongSlice(
 	modelPkg *models.ModelPkg,
 	pkgName string,
 	pkgPath string,
-	pkgGoPath string) {
-
+	pkgGoPath string,
+) {
 	// this code is not robust to empty models
 	// map[Gongstruct]any cannot compile
 	if len(modelPkg.GongStructs) == 0 {
@@ -440,5 +418,4 @@ func CodeGeneratorModelGongSlice(
 	}
 	defer file.Close()
 	fmt.Fprint(file, codeGO)
-
 }
