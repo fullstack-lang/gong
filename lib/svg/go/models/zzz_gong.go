@@ -26,14 +26,18 @@ func __Gong__Abs(x int) int {
 	return x
 }
 
-var _ = __Gong__Abs
-var _ = strings.Clone("")
+var (
+	_ = __Gong__Abs
+	_ = strings.Clone("")
+)
 
-const ProbeTreeSidebarSuffix = ":sidebar of the probe"
-const ProbeTableSuffix = ":table of the probe"
-const ProbeNotificationTableSuffix = ":notification table of the probe"
-const ProbeFormSuffix = ":form of the probe"
-const ProbeSplitSuffix = ":probe of the probe"
+const (
+	ProbeTreeSidebarSuffix       = ":sidebar of the probe"
+	ProbeTableSuffix             = ":table of the probe"
+	ProbeNotificationTableSuffix = ":notification table of the probe"
+	ProbeFormSuffix              = ":form of the probe"
+	ProbeSplitSuffix             = ":probe of the probe"
+)
 
 func (stage *Stage) GetProbeTreeSidebarStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeTreeSidebarSuffix
@@ -56,8 +60,10 @@ func (stage *Stage) GetProbeSplitStageName() string {
 }
 
 // errUnkownEnum is returns when a value cannot match enum values
-var errUnkownEnum = errors.New("unkown enum")
-var _ = errUnkownEnum
+var (
+	errUnkownEnum = errors.New("unkown enum")
+	_             = errUnkownEnum
+)
 
 // needed to avoid when fmt package is not needed by generated code
 var __dummy__fmt_variable fmt.Scanner
@@ -73,8 +79,10 @@ var _ = __dummy_math_variable
 type __void any
 
 // needed for creating set of instances in the stage
-var __member __void
-var _ = __member
+var (
+	__member __void
+	_        = __member
+)
 
 // GongStructInterface is the interface met by GongStructs
 // It allows runtime reflexion of instances (without the hassle of the "reflect" package)
@@ -505,7 +513,6 @@ const (
 
 // ApplyBackwardCommit applies the commit before the current one
 func (stage *Stage) ApplyBackwardCommit() error {
-
 	if len(stage.backwardCommits) == 0 {
 		return errors.New("no backward commit to apply")
 	}
@@ -586,11 +593,26 @@ func (stage *Stage) GetCommitsBehind() int {
 // commitsBehind forward/backward Commits from the
 // stage
 func (stage *Stage) ResetHard() {
-
 	newCommitsLen := len(stage.forwardCommits) - stage.GetCommitsBehind()
 
 	stage.forwardCommits = stage.forwardCommits[:newCommitsLen]
 	stage.backwardCommits = stage.backwardCommits[:newCommitsLen]
+	stage.commitsBehind = 0
+	stage.navigationMode = GongNavigationModeNormal
+
+	stage.ComputeInstancesNb()
+	if stage.OnInitCommitCallback != nil {
+		stage.OnInitCommitCallback.BeforeCommit(stage)
+	}
+	if stage.OnInitCommitFromBackCallback != nil {
+		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
+	}
+}
+
+// Orphans removes all commits
+func (stage *Stage) Orphans() {
+	stage.forwardCommits = stage.forwardCommits[:0]
+	stage.backwardCommits = stage.backwardCommits[:0]
 	stage.commitsBehind = 0
 	stage.navigationMode = GongNavigationModeNormal
 
@@ -608,7 +630,7 @@ func (stage *Stage) ResetHard() {
 // during the commits that have been discarded
 // insertion point for max order recomputation
 func (stage *Stage) recomputeOrders() {
-	// insertion point for max order recomputation 
+	// insertion point for max order recomputation
 	var maxAnimateOrder uint
 	var foundAnimate bool
 	for _, order := range stage.AnimateMap_Staged_Order {
@@ -903,6 +925,7 @@ func (stage *Stage) recomputeOrders() {
 		stage.TextOrder = 0
 	}
 
+	// end of insertion point for max order recomputation
 }
 
 func (stage *Stage) SetDeltaMode(inDeltaMode bool) {
@@ -927,7 +950,6 @@ func (stage *Stage) GetProbeIF() ProbeIF {
 
 // GetNamedStructs implements models.ProbebStage.
 func (stage *Stage) GetNamedStructsNames() (res []string) {
-
 	for _, namedStruct := range stage.NamedStructs {
 		res = append(res, namedStruct.name)
 	}
@@ -936,7 +958,6 @@ func (stage *Stage) GetNamedStructsNames() (res []string) {
 }
 
 func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []string) {
-
 	orderedSet := []T{}
 	for instance := range set {
 		orderedSet = append(orderedSet, instance)
@@ -1263,7 +1284,6 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 }
 
 func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []T) {
-
 	orderedSet := []T{}
 	for instance := range set {
 		orderedSet = append(orderedSet, instance)
@@ -1285,7 +1305,6 @@ func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order 
 }
 
 func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
-
 	switch namedStructName {
 	// insertion point for case
 	case "Animate":
@@ -1446,7 +1465,6 @@ type BackRepoInterface interface {
 }
 
 func NewStage(name string) (stage *Stage) {
-
 	stage = &Stage{ // insertion point for array initiatialisation
 		Animates:           make(map[*Animate]struct{}),
 		Animates_mapString: make(map[string]*Animate),
@@ -1641,7 +1659,6 @@ func NewStage(name string) (stage *Stage) {
 }
 
 func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
-
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
 	case *Animate:
@@ -1692,7 +1709,6 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 }
 
 func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) uint {
-
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
 	case *Animate:
@@ -1747,7 +1763,6 @@ func (stage *Stage) GetName() string {
 }
 
 func (stage *Stage) CommitWithSuspendedCallbacks() {
-
 	tmp := stage.OnInitCommitFromBackCallback
 	stage.OnInitCommitFromBackCallback = nil
 	stage.Commit()
@@ -1850,7 +1865,6 @@ func (stage *Stage) RestoreXL(dirPath string) {
 // insertion point for cumulative sub template with model space calls
 // Stage puts animate to the model stage
 func (animate *Animate) Stage(stage *Stage) *Animate {
-
 	if _, ok := stage.Animates[animate]; !ok {
 		stage.Animates[animate] = struct{}{}
 		stage.AnimateMap_Staged_Order[animate] = stage.AnimateOrder
@@ -1867,7 +1881,6 @@ func (animate *Animate) Stage(stage *Stage) *Animate {
 // - force the order if the order is equal or greater than the stage.AnimateOrder
 // - update stage.AnimateOrder accordingly
 func (animate *Animate) StagePreserveOrder(stage *Stage, order uint) {
-
 	if _, ok := stage.Animates[animate]; !ok {
 		stage.Animates[animate] = struct{}{}
 
@@ -1936,7 +1949,6 @@ func (animate *Animate) SetName(name string) {
 
 // Stage puts circle to the model stage
 func (circle *Circle) Stage(stage *Stage) *Circle {
-
 	if _, ok := stage.Circles[circle]; !ok {
 		stage.Circles[circle] = struct{}{}
 		stage.CircleMap_Staged_Order[circle] = stage.CircleOrder
@@ -1953,7 +1965,6 @@ func (circle *Circle) Stage(stage *Stage) *Circle {
 // - force the order if the order is equal or greater than the stage.CircleOrder
 // - update stage.CircleOrder accordingly
 func (circle *Circle) StagePreserveOrder(stage *Stage, order uint) {
-
 	if _, ok := stage.Circles[circle]; !ok {
 		stage.Circles[circle] = struct{}{}
 
@@ -2022,7 +2033,6 @@ func (circle *Circle) SetName(name string) {
 
 // Stage puts condition to the model stage
 func (condition *Condition) Stage(stage *Stage) *Condition {
-
 	if _, ok := stage.Conditions[condition]; !ok {
 		stage.Conditions[condition] = struct{}{}
 		stage.ConditionMap_Staged_Order[condition] = stage.ConditionOrder
@@ -2039,7 +2049,6 @@ func (condition *Condition) Stage(stage *Stage) *Condition {
 // - force the order if the order is equal or greater than the stage.ConditionOrder
 // - update stage.ConditionOrder accordingly
 func (condition *Condition) StagePreserveOrder(stage *Stage, order uint) {
-
 	if _, ok := stage.Conditions[condition]; !ok {
 		stage.Conditions[condition] = struct{}{}
 
@@ -2108,7 +2117,6 @@ func (condition *Condition) SetName(name string) {
 
 // Stage puts controlpoint to the model stage
 func (controlpoint *ControlPoint) Stage(stage *Stage) *ControlPoint {
-
 	if _, ok := stage.ControlPoints[controlpoint]; !ok {
 		stage.ControlPoints[controlpoint] = struct{}{}
 		stage.ControlPointMap_Staged_Order[controlpoint] = stage.ControlPointOrder
@@ -2125,7 +2133,6 @@ func (controlpoint *ControlPoint) Stage(stage *Stage) *ControlPoint {
 // - force the order if the order is equal or greater than the stage.ControlPointOrder
 // - update stage.ControlPointOrder accordingly
 func (controlpoint *ControlPoint) StagePreserveOrder(stage *Stage, order uint) {
-
 	if _, ok := stage.ControlPoints[controlpoint]; !ok {
 		stage.ControlPoints[controlpoint] = struct{}{}
 
@@ -2194,7 +2201,6 @@ func (controlpoint *ControlPoint) SetName(name string) {
 
 // Stage puts ellipse to the model stage
 func (ellipse *Ellipse) Stage(stage *Stage) *Ellipse {
-
 	if _, ok := stage.Ellipses[ellipse]; !ok {
 		stage.Ellipses[ellipse] = struct{}{}
 		stage.EllipseMap_Staged_Order[ellipse] = stage.EllipseOrder
@@ -2211,7 +2217,6 @@ func (ellipse *Ellipse) Stage(stage *Stage) *Ellipse {
 // - force the order if the order is equal or greater than the stage.EllipseOrder
 // - update stage.EllipseOrder accordingly
 func (ellipse *Ellipse) StagePreserveOrder(stage *Stage, order uint) {
-
 	if _, ok := stage.Ellipses[ellipse]; !ok {
 		stage.Ellipses[ellipse] = struct{}{}
 
@@ -2280,7 +2285,6 @@ func (ellipse *Ellipse) SetName(name string) {
 
 // Stage puts layer to the model stage
 func (layer *Layer) Stage(stage *Stage) *Layer {
-
 	if _, ok := stage.Layers[layer]; !ok {
 		stage.Layers[layer] = struct{}{}
 		stage.LayerMap_Staged_Order[layer] = stage.LayerOrder
@@ -2297,7 +2301,6 @@ func (layer *Layer) Stage(stage *Stage) *Layer {
 // - force the order if the order is equal or greater than the stage.LayerOrder
 // - update stage.LayerOrder accordingly
 func (layer *Layer) StagePreserveOrder(stage *Stage, order uint) {
-
 	if _, ok := stage.Layers[layer]; !ok {
 		stage.Layers[layer] = struct{}{}
 
@@ -2366,7 +2369,6 @@ func (layer *Layer) SetName(name string) {
 
 // Stage puts line to the model stage
 func (line *Line) Stage(stage *Stage) *Line {
-
 	if _, ok := stage.Lines[line]; !ok {
 		stage.Lines[line] = struct{}{}
 		stage.LineMap_Staged_Order[line] = stage.LineOrder
@@ -2383,7 +2385,6 @@ func (line *Line) Stage(stage *Stage) *Line {
 // - force the order if the order is equal or greater than the stage.LineOrder
 // - update stage.LineOrder accordingly
 func (line *Line) StagePreserveOrder(stage *Stage, order uint) {
-
 	if _, ok := stage.Lines[line]; !ok {
 		stage.Lines[line] = struct{}{}
 
@@ -2452,7 +2453,6 @@ func (line *Line) SetName(name string) {
 
 // Stage puts link to the model stage
 func (link *Link) Stage(stage *Stage) *Link {
-
 	if _, ok := stage.Links[link]; !ok {
 		stage.Links[link] = struct{}{}
 		stage.LinkMap_Staged_Order[link] = stage.LinkOrder
@@ -2469,7 +2469,6 @@ func (link *Link) Stage(stage *Stage) *Link {
 // - force the order if the order is equal or greater than the stage.LinkOrder
 // - update stage.LinkOrder accordingly
 func (link *Link) StagePreserveOrder(stage *Stage, order uint) {
-
 	if _, ok := stage.Links[link]; !ok {
 		stage.Links[link] = struct{}{}
 
@@ -2538,7 +2537,6 @@ func (link *Link) SetName(name string) {
 
 // Stage puts linkanchoredtext to the model stage
 func (linkanchoredtext *LinkAnchoredText) Stage(stage *Stage) *LinkAnchoredText {
-
 	if _, ok := stage.LinkAnchoredTexts[linkanchoredtext]; !ok {
 		stage.LinkAnchoredTexts[linkanchoredtext] = struct{}{}
 		stage.LinkAnchoredTextMap_Staged_Order[linkanchoredtext] = stage.LinkAnchoredTextOrder
@@ -2555,7 +2553,6 @@ func (linkanchoredtext *LinkAnchoredText) Stage(stage *Stage) *LinkAnchoredText 
 // - force the order if the order is equal or greater than the stage.LinkAnchoredTextOrder
 // - update stage.LinkAnchoredTextOrder accordingly
 func (linkanchoredtext *LinkAnchoredText) StagePreserveOrder(stage *Stage, order uint) {
-
 	if _, ok := stage.LinkAnchoredTexts[linkanchoredtext]; !ok {
 		stage.LinkAnchoredTexts[linkanchoredtext] = struct{}{}
 
@@ -2624,7 +2621,6 @@ func (linkanchoredtext *LinkAnchoredText) SetName(name string) {
 
 // Stage puts path to the model stage
 func (path *Path) Stage(stage *Stage) *Path {
-
 	if _, ok := stage.Paths[path]; !ok {
 		stage.Paths[path] = struct{}{}
 		stage.PathMap_Staged_Order[path] = stage.PathOrder
@@ -2641,7 +2637,6 @@ func (path *Path) Stage(stage *Stage) *Path {
 // - force the order if the order is equal or greater than the stage.PathOrder
 // - update stage.PathOrder accordingly
 func (path *Path) StagePreserveOrder(stage *Stage, order uint) {
-
 	if _, ok := stage.Paths[path]; !ok {
 		stage.Paths[path] = struct{}{}
 
@@ -2710,7 +2705,6 @@ func (path *Path) SetName(name string) {
 
 // Stage puts point to the model stage
 func (point *Point) Stage(stage *Stage) *Point {
-
 	if _, ok := stage.Points[point]; !ok {
 		stage.Points[point] = struct{}{}
 		stage.PointMap_Staged_Order[point] = stage.PointOrder
@@ -2727,7 +2721,6 @@ func (point *Point) Stage(stage *Stage) *Point {
 // - force the order if the order is equal or greater than the stage.PointOrder
 // - update stage.PointOrder accordingly
 func (point *Point) StagePreserveOrder(stage *Stage, order uint) {
-
 	if _, ok := stage.Points[point]; !ok {
 		stage.Points[point] = struct{}{}
 
@@ -2796,7 +2789,6 @@ func (point *Point) SetName(name string) {
 
 // Stage puts polygone to the model stage
 func (polygone *Polygone) Stage(stage *Stage) *Polygone {
-
 	if _, ok := stage.Polygones[polygone]; !ok {
 		stage.Polygones[polygone] = struct{}{}
 		stage.PolygoneMap_Staged_Order[polygone] = stage.PolygoneOrder
@@ -2813,7 +2805,6 @@ func (polygone *Polygone) Stage(stage *Stage) *Polygone {
 // - force the order if the order is equal or greater than the stage.PolygoneOrder
 // - update stage.PolygoneOrder accordingly
 func (polygone *Polygone) StagePreserveOrder(stage *Stage, order uint) {
-
 	if _, ok := stage.Polygones[polygone]; !ok {
 		stage.Polygones[polygone] = struct{}{}
 
@@ -2882,7 +2873,6 @@ func (polygone *Polygone) SetName(name string) {
 
 // Stage puts polyline to the model stage
 func (polyline *Polyline) Stage(stage *Stage) *Polyline {
-
 	if _, ok := stage.Polylines[polyline]; !ok {
 		stage.Polylines[polyline] = struct{}{}
 		stage.PolylineMap_Staged_Order[polyline] = stage.PolylineOrder
@@ -2899,7 +2889,6 @@ func (polyline *Polyline) Stage(stage *Stage) *Polyline {
 // - force the order if the order is equal or greater than the stage.PolylineOrder
 // - update stage.PolylineOrder accordingly
 func (polyline *Polyline) StagePreserveOrder(stage *Stage, order uint) {
-
 	if _, ok := stage.Polylines[polyline]; !ok {
 		stage.Polylines[polyline] = struct{}{}
 
@@ -2968,7 +2957,6 @@ func (polyline *Polyline) SetName(name string) {
 
 // Stage puts rect to the model stage
 func (rect *Rect) Stage(stage *Stage) *Rect {
-
 	if _, ok := stage.Rects[rect]; !ok {
 		stage.Rects[rect] = struct{}{}
 		stage.RectMap_Staged_Order[rect] = stage.RectOrder
@@ -2985,7 +2973,6 @@ func (rect *Rect) Stage(stage *Stage) *Rect {
 // - force the order if the order is equal or greater than the stage.RectOrder
 // - update stage.RectOrder accordingly
 func (rect *Rect) StagePreserveOrder(stage *Stage, order uint) {
-
 	if _, ok := stage.Rects[rect]; !ok {
 		stage.Rects[rect] = struct{}{}
 
@@ -3054,7 +3041,6 @@ func (rect *Rect) SetName(name string) {
 
 // Stage puts rectanchoredpath to the model stage
 func (rectanchoredpath *RectAnchoredPath) Stage(stage *Stage) *RectAnchoredPath {
-
 	if _, ok := stage.RectAnchoredPaths[rectanchoredpath]; !ok {
 		stage.RectAnchoredPaths[rectanchoredpath] = struct{}{}
 		stage.RectAnchoredPathMap_Staged_Order[rectanchoredpath] = stage.RectAnchoredPathOrder
@@ -3071,7 +3057,6 @@ func (rectanchoredpath *RectAnchoredPath) Stage(stage *Stage) *RectAnchoredPath 
 // - force the order if the order is equal or greater than the stage.RectAnchoredPathOrder
 // - update stage.RectAnchoredPathOrder accordingly
 func (rectanchoredpath *RectAnchoredPath) StagePreserveOrder(stage *Stage, order uint) {
-
 	if _, ok := stage.RectAnchoredPaths[rectanchoredpath]; !ok {
 		stage.RectAnchoredPaths[rectanchoredpath] = struct{}{}
 
@@ -3140,7 +3125,6 @@ func (rectanchoredpath *RectAnchoredPath) SetName(name string) {
 
 // Stage puts rectanchoredrect to the model stage
 func (rectanchoredrect *RectAnchoredRect) Stage(stage *Stage) *RectAnchoredRect {
-
 	if _, ok := stage.RectAnchoredRects[rectanchoredrect]; !ok {
 		stage.RectAnchoredRects[rectanchoredrect] = struct{}{}
 		stage.RectAnchoredRectMap_Staged_Order[rectanchoredrect] = stage.RectAnchoredRectOrder
@@ -3157,7 +3141,6 @@ func (rectanchoredrect *RectAnchoredRect) Stage(stage *Stage) *RectAnchoredRect 
 // - force the order if the order is equal or greater than the stage.RectAnchoredRectOrder
 // - update stage.RectAnchoredRectOrder accordingly
 func (rectanchoredrect *RectAnchoredRect) StagePreserveOrder(stage *Stage, order uint) {
-
 	if _, ok := stage.RectAnchoredRects[rectanchoredrect]; !ok {
 		stage.RectAnchoredRects[rectanchoredrect] = struct{}{}
 
@@ -3226,7 +3209,6 @@ func (rectanchoredrect *RectAnchoredRect) SetName(name string) {
 
 // Stage puts rectanchoredtext to the model stage
 func (rectanchoredtext *RectAnchoredText) Stage(stage *Stage) *RectAnchoredText {
-
 	if _, ok := stage.RectAnchoredTexts[rectanchoredtext]; !ok {
 		stage.RectAnchoredTexts[rectanchoredtext] = struct{}{}
 		stage.RectAnchoredTextMap_Staged_Order[rectanchoredtext] = stage.RectAnchoredTextOrder
@@ -3243,7 +3225,6 @@ func (rectanchoredtext *RectAnchoredText) Stage(stage *Stage) *RectAnchoredText 
 // - force the order if the order is equal or greater than the stage.RectAnchoredTextOrder
 // - update stage.RectAnchoredTextOrder accordingly
 func (rectanchoredtext *RectAnchoredText) StagePreserveOrder(stage *Stage, order uint) {
-
 	if _, ok := stage.RectAnchoredTexts[rectanchoredtext]; !ok {
 		stage.RectAnchoredTexts[rectanchoredtext] = struct{}{}
 
@@ -3312,7 +3293,6 @@ func (rectanchoredtext *RectAnchoredText) SetName(name string) {
 
 // Stage puts rectlinklink to the model stage
 func (rectlinklink *RectLinkLink) Stage(stage *Stage) *RectLinkLink {
-
 	if _, ok := stage.RectLinkLinks[rectlinklink]; !ok {
 		stage.RectLinkLinks[rectlinklink] = struct{}{}
 		stage.RectLinkLinkMap_Staged_Order[rectlinklink] = stage.RectLinkLinkOrder
@@ -3329,7 +3309,6 @@ func (rectlinklink *RectLinkLink) Stage(stage *Stage) *RectLinkLink {
 // - force the order if the order is equal or greater than the stage.RectLinkLinkOrder
 // - update stage.RectLinkLinkOrder accordingly
 func (rectlinklink *RectLinkLink) StagePreserveOrder(stage *Stage, order uint) {
-
 	if _, ok := stage.RectLinkLinks[rectlinklink]; !ok {
 		stage.RectLinkLinks[rectlinklink] = struct{}{}
 
@@ -3398,7 +3377,6 @@ func (rectlinklink *RectLinkLink) SetName(name string) {
 
 // Stage puts svg to the model stage
 func (svg *SVG) Stage(stage *Stage) *SVG {
-
 	if _, ok := stage.SVGs[svg]; !ok {
 		stage.SVGs[svg] = struct{}{}
 		stage.SVGMap_Staged_Order[svg] = stage.SVGOrder
@@ -3415,7 +3393,6 @@ func (svg *SVG) Stage(stage *Stage) *SVG {
 // - force the order if the order is equal or greater than the stage.SVGOrder
 // - update stage.SVGOrder accordingly
 func (svg *SVG) StagePreserveOrder(stage *Stage, order uint) {
-
 	if _, ok := stage.SVGs[svg]; !ok {
 		stage.SVGs[svg] = struct{}{}
 
@@ -3484,7 +3461,6 @@ func (svg *SVG) SetName(name string) {
 
 // Stage puts svgtext to the model stage
 func (svgtext *SvgText) Stage(stage *Stage) *SvgText {
-
 	if _, ok := stage.SvgTexts[svgtext]; !ok {
 		stage.SvgTexts[svgtext] = struct{}{}
 		stage.SvgTextMap_Staged_Order[svgtext] = stage.SvgTextOrder
@@ -3501,7 +3477,6 @@ func (svgtext *SvgText) Stage(stage *Stage) *SvgText {
 // - force the order if the order is equal or greater than the stage.SvgTextOrder
 // - update stage.SvgTextOrder accordingly
 func (svgtext *SvgText) StagePreserveOrder(stage *Stage, order uint) {
-
 	if _, ok := stage.SvgTexts[svgtext]; !ok {
 		stage.SvgTexts[svgtext] = struct{}{}
 
@@ -3570,7 +3545,6 @@ func (svgtext *SvgText) SetName(name string) {
 
 // Stage puts text to the model stage
 func (text *Text) Stage(stage *Stage) *Text {
-
 	if _, ok := stage.Texts[text]; !ok {
 		stage.Texts[text] = struct{}{}
 		stage.TextMap_Staged_Order[text] = stage.TextOrder
@@ -3587,7 +3561,6 @@ func (text *Text) Stage(stage *Stage) *Text {
 // - force the order if the order is equal or greater than the stage.TextOrder
 // - update stage.TextOrder accordingly
 func (text *Text) StagePreserveOrder(stage *Stage, order uint) {
-
 	if _, ok := stage.Texts[text]; !ok {
 		stage.Texts[text] = struct{}{}
 
@@ -3881,6 +3854,7 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.Texts = nil
 	stage.Texts_mapString = nil
 
+	// end of insertion point for array nil
 }
 
 func (stage *Stage) Unstage() { // insertion point for array nil
@@ -3968,14 +3942,14 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 		text.Unstage(stage)
 	}
 
+	// end of insertion point for array nil
 }
 
 // Gongstruct is the type parameter for generated generic function that allows
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
-type Gongstruct interface {
-}
+type Gongstruct interface{}
 
 type GongtructBasicField interface {
 	int | float64 | bool | string | time.Time | time.Duration
@@ -4013,7 +3987,6 @@ func CompareGongstructByName[T PointerToGongstruct](a, b T) int {
 }
 
 func SortGongstructSetByName[T PointerToGongstruct](set map[T]struct{}) (sortedSlice []T) {
-
 	for key := range set {
 		sortedSlice = append(sortedSlice, key)
 	}
@@ -4023,7 +3996,6 @@ func SortGongstructSetByName[T PointerToGongstruct](set map[T]struct{}) (sortedS
 }
 
 func GetGongstrucsSorted[T PointerToGongstruct](stage *Stage) (sortedSlice []T) {
-
 	set := GetGongstructInstancesSetFromPointerType[T](stage)
 	sortedSlice = SortGongstructSetByName(*set)
 
@@ -4482,7 +4454,6 @@ func GetAssociationName[Type Gongstruct]() *Type {
 // the map is construed by iterating over all Start instances and populationg keys with End instances
 // and values with slice of Start instances
 func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End][]*Start {
-
 	var ret Start
 
 	switch any(ret).(type) {
@@ -4722,7 +4693,6 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 // the map is construed by iterating over all Start instances and populating keys with End instances
 // and values with the Start instances
 func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End][]*Start {
-
 	var ret Start
 
 	switch any(ret).(type) {
@@ -5071,7 +5041,6 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 // GetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
 func GetPointerToGongstructName[Type GongstructIF]() (res string) {
-
 	var ret Type
 
 	switch any(ret).(type) {
@@ -5128,7 +5097,6 @@ type ReverseField struct {
 }
 
 func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
-
 	res = make([]ReverseField, 0)
 
 	var ret Type
@@ -6700,7 +6668,6 @@ func (text *Text) GongGetFieldHeaders() (res []GongFieldHeader) {
 
 // GetFieldsFromPointer return the array of the fields
 func GetFieldsFromPointer[Type PointerToGongstruct]() (res []GongFieldHeader) {
-
 	var ret Type
 	return ret.GongGetFieldHeaders()
 }
@@ -6772,6 +6739,7 @@ func (animate *Animate) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	}
 	return
 }
+
 func (circle *Circle) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -6824,6 +6792,7 @@ func (circle *Circle) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 	}
 	return
 }
+
 func (condition *Condition) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -6832,6 +6801,7 @@ func (condition *Condition) GongGetFieldValue(fieldName string, stage *Stage) (r
 	}
 	return
 }
+
 func (controlpoint *ControlPoint) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -6854,6 +6824,7 @@ func (controlpoint *ControlPoint) GongGetFieldValue(fieldName string, stage *Sta
 	}
 	return
 }
+
 func (ellipse *Ellipse) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -6910,6 +6881,7 @@ func (ellipse *Ellipse) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	}
 	return
 }
+
 func (layer *Layer) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -7018,6 +6990,7 @@ func (layer *Layer) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 	}
 	return
 }
+
 func (line *Line) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -7082,6 +7055,7 @@ func (line *Line) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	}
 	return
 }
+
 func (link *Link) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -7224,6 +7198,7 @@ func (link *Link) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	}
 	return
 }
+
 func (linkanchoredtext *LinkAnchoredText) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -7294,6 +7269,7 @@ func (linkanchoredtext *LinkAnchoredText) GongGetFieldValue(fieldName string, st
 	}
 	return
 }
+
 func (path *Path) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -7336,6 +7312,7 @@ func (path *Path) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	}
 	return
 }
+
 func (point *Point) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -7352,6 +7329,7 @@ func (point *Point) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 	}
 	return
 }
+
 func (polygone *Polygone) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -7394,6 +7372,7 @@ func (polygone *Polygone) GongGetFieldValue(fieldName string, stage *Stage) (res
 	}
 	return
 }
+
 func (polyline *Polyline) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -7436,6 +7415,7 @@ func (polyline *Polyline) GongGetFieldValue(fieldName string, stage *Stage) (res
 	}
 	return
 }
+
 func (rect *Rect) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -7634,6 +7614,7 @@ func (rect *Rect) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	}
 	return
 }
+
 func (rectanchoredpath *RectAnchoredPath) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -7685,6 +7666,7 @@ func (rectanchoredpath *RectAnchoredPath) GongGetFieldValue(fieldName string, st
 	}
 	return
 }
+
 func (rectanchoredrect *RectAnchoredRect) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -7760,6 +7742,7 @@ func (rectanchoredrect *RectAnchoredRect) GongGetFieldValue(fieldName string, st
 	}
 	return
 }
+
 func (rectanchoredtext *RectAnchoredText) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -7835,6 +7818,7 @@ func (rectanchoredtext *RectAnchoredText) GongGetFieldValue(fieldName string, st
 	}
 	return
 }
+
 func (rectlinklink *RectLinkLink) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -7881,6 +7865,7 @@ func (rectlinklink *RectLinkLink) GongGetFieldValue(fieldName string, stage *Sta
 	}
 	return
 }
+
 func (svg *SVG) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -7948,6 +7933,7 @@ func (svg *SVG) GongGetFieldValue(fieldName string, stage *Stage) (res GongField
 	}
 	return
 }
+
 func (svgtext *SvgText) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -7958,6 +7944,7 @@ func (svgtext *SvgText) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	}
 	return
 }
+
 func (text *Text) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -8021,8 +8008,8 @@ func (text *Text) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	}
 	return
 }
-func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, stage *Stage) (res GongFieldValue) {
 
+func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, stage *Stage) (res GongFieldValue) {
 	res = instance.GongGetFieldValue(fieldName, stage)
 	return
 }
@@ -9335,7 +9322,6 @@ func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 }
 
 func (stage *Stage) ResetMapStrings() {
-
 	// insertion point for generic get gongstruct name
 	stage.Animates_mapString = make(map[string]*Animate)
 	for animate := range stage.Animates {
@@ -9442,6 +9428,7 @@ func (stage *Stage) ResetMapStrings() {
 		stage.Texts_mapString[text.Name] = text
 	}
 
+	// end of insertion point for generic get gongstruct name
 }
 
 // Last line of the template
