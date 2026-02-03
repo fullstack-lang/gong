@@ -17,8 +17,7 @@ var (
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per named struct
-	// Compute reverse map for named struct A
-	// insertion point per field
+	// Compute reverse map for named struct A insertion point per field
 	stage.A_Bs_reverseMap = make(map[*B]*A)
 	for a := range stage.As {
 		_ = a
@@ -27,8 +26,7 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
-	// Compute reverse map for named struct B
-	// insertion point per field
+	// Compute reverse map for named struct B insertion point per field
 }
 
 func (stage *Stage) GetInstances() (res []GongstructIF) {

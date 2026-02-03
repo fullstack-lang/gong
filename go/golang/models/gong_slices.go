@@ -23,8 +23,10 @@ import (
 	"time"
 )
 
-var __GongSliceTemplate_time__dummyDeclaration time.Duration
-var _ = __GongSliceTemplate_time__dummyDeclaration
+var (
+	__GongSliceTemplate_time__dummyDeclaration time.Duration
+	_                                          = __GongSliceTemplate_time__dummyDeclaration
+)
 
 // ComputeReverseMaps computes the reverse map, for all intances, for all slice to pointers field
 // Its complexity is in O(n)O(p) where p is the number of pointers
@@ -83,30 +85,6 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 		backwardCommit += "\n\tstage.Commit()"
 		// append to the end of the backward commits slice
 		stage.backwardCommits = append(stage.backwardCommits, backwardCommit)
-
-		if stage.GetProbeIF() != nil {
-			var mergedCommits string
-			for _, commit := range stage.forwardCommits {
-				mergedCommits += commit
-			}
-			stage.GetProbeIF().AddNotification(
-				time.Now(),
-				"	// Forward commits:\n"+
-					mergedCommits,
-			)
-
-			var reverseMergedCommits string
-			for _, reverserCommit := range stage.backwardCommits {
-				reverseMergedCommits += reverserCommit
-			}
-			stage.GetProbeIF().AddNotification(
-				time.Now(),
-				"	// Backward commits:\n"+
-					reverseMergedCommits,
-			)
-
-			stage.GetProbeIF().CommitNotificationTable()
-		}
 	}
 }
 
@@ -280,7 +258,6 @@ const (
 
 var GongSliceFileFieldFieldSubTemplateCode map[GongSliceSubTemplateId]string = // declaration of the sub templates
 map[GongSliceSubTemplateId]string{
-
 	GongSliceSubTmplSliceOfPointersToStruct: `
 		if fieldName == "{{FieldName}}" {
 
@@ -315,8 +292,8 @@ func CodeGeneratorModelGongSlice(
 	modelPkg *models.ModelPkg,
 	pkgName string,
 	pkgPath string,
-	pkgGoPath string) {
-
+	pkgGoPath string,
+) {
 	// this code is not robust to empty models
 	// map[Gongstruct]any cannot compile
 	if len(modelPkg.GongStructs) == 0 {
@@ -440,5 +417,4 @@ func CodeGeneratorModelGongSlice(
 	}
 	defer file.Close()
 	fmt.Fprint(file, codeGO)
-
 }
