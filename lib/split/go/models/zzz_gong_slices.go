@@ -8,8 +8,10 @@ import (
 	"time"
 )
 
-var __GongSliceTemplate_time__dummyDeclaration time.Duration
-var _ = __GongSliceTemplate_time__dummyDeclaration
+var (
+	__GongSliceTemplate_time__dummyDeclaration time.Duration
+	_                                          = __GongSliceTemplate_time__dummyDeclaration
+)
 
 // ComputeReverseMaps computes the reverse map, for all intances, for all slice to pointers field
 // Its complexity is in O(n)O(p) where p is the number of pointers
@@ -86,10 +88,10 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct Xlsx
 	// insertion point per field
 
+	// end of insertion point per named struct
 }
 
 func (stage *Stage) GetInstances() (res []GongstructIF) {
-
 	// insertion point per named struct
 	for instance := range stage.AsSplits {
 		res = append(res, instance)
@@ -1241,36 +1243,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 		backwardCommit += "\n\tstage.Commit()"
 		// append to the end of the backward commits slice
 		stage.backwardCommits = append(stage.backwardCommits, backwardCommit)
-
-		if stage.GetProbeIF() != nil {
-			var mergedCommits string
-			for _, commit := range stage.forwardCommits {
-				mergedCommits += commit
-			}
-			stage.GetProbeIF().AddNotification(
-				time.Now(),
-				"	// Forward commits:\n"+
-					mergedCommits,
-			)
-
-			var reverseMergedCommits string
-			for _, reverserCommit := range stage.backwardCommits {
-				reverseMergedCommits += reverserCommit
-			}
-			stage.GetProbeIF().AddNotification(
-				time.Now(),
-				"	// Backward commits:\n"+
-					reverseMergedCommits,
-			)
-
-			stage.GetProbeIF().CommitNotificationTable()
-		}
 	}
 }
 
 // ComputeReferenceAndOrders will creates a deep copy of each of the staged elements
 func (stage *Stage) ComputeReferenceAndOrders() {
-
 	// insertion point per named struct
 	stage.AsSplits_reference = make(map[*AsSplit]*AsSplit)
 	stage.AsSplits_referenceOrder = make(map[*AsSplit]uint) // diff Unstage needs the reference order
@@ -1810,6 +1787,7 @@ func (assplit *AsSplit) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", assplit.Name)
 	return
 }
+
 func (assplitarea *AsSplitArea) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", assplitarea.GongGetIdentifier(stage))
@@ -1817,6 +1795,7 @@ func (assplitarea *AsSplitArea) GongMarshallIdentifier(stage *Stage) (decl strin
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", assplitarea.Name)
 	return
 }
+
 func (button *Button) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", button.GongGetIdentifier(stage))
@@ -1824,6 +1803,7 @@ func (button *Button) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", button.Name)
 	return
 }
+
 func (cursor *Cursor) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", cursor.GongGetIdentifier(stage))
@@ -1831,6 +1811,7 @@ func (cursor *Cursor) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", cursor.Name)
 	return
 }
+
 func (favicon *FavIcon) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", favicon.GongGetIdentifier(stage))
@@ -1838,6 +1819,7 @@ func (favicon *FavIcon) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", favicon.Name)
 	return
 }
+
 func (form *Form) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", form.GongGetIdentifier(stage))
@@ -1845,6 +1827,7 @@ func (form *Form) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", form.Name)
 	return
 }
+
 func (load *Load) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", load.GongGetIdentifier(stage))
@@ -1852,6 +1835,7 @@ func (load *Load) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", load.Name)
 	return
 }
+
 func (logoontheleft *LogoOnTheLeft) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", logoontheleft.GongGetIdentifier(stage))
@@ -1859,6 +1843,7 @@ func (logoontheleft *LogoOnTheLeft) GongMarshallIdentifier(stage *Stage) (decl s
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", logoontheleft.Name)
 	return
 }
+
 func (logoontheright *LogoOnTheRight) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", logoontheright.GongGetIdentifier(stage))
@@ -1866,6 +1851,7 @@ func (logoontheright *LogoOnTheRight) GongMarshallIdentifier(stage *Stage) (decl
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", logoontheright.Name)
 	return
 }
+
 func (markdown *Markdown) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", markdown.GongGetIdentifier(stage))
@@ -1873,6 +1859,7 @@ func (markdown *Markdown) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", markdown.Name)
 	return
 }
+
 func (slider *Slider) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", slider.GongGetIdentifier(stage))
@@ -1880,6 +1867,7 @@ func (slider *Slider) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", slider.Name)
 	return
 }
+
 func (split *Split) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", split.GongGetIdentifier(stage))
@@ -1887,6 +1875,7 @@ func (split *Split) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", split.Name)
 	return
 }
+
 func (svg *Svg) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", svg.GongGetIdentifier(stage))
@@ -1894,6 +1883,7 @@ func (svg *Svg) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", svg.Name)
 	return
 }
+
 func (table *Table) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", table.GongGetIdentifier(stage))
@@ -1901,6 +1891,7 @@ func (table *Table) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", table.Name)
 	return
 }
+
 func (title *Title) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", title.GongGetIdentifier(stage))
@@ -1908,6 +1899,7 @@ func (title *Title) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", title.Name)
 	return
 }
+
 func (tone *Tone) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", tone.GongGetIdentifier(stage))
@@ -1915,6 +1907,7 @@ func (tone *Tone) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", tone.Name)
 	return
 }
+
 func (tree *Tree) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", tree.GongGetIdentifier(stage))
@@ -1922,6 +1915,7 @@ func (tree *Tree) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", tree.Name)
 	return
 }
+
 func (view *View) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", view.GongGetIdentifier(stage))
@@ -1929,6 +1923,7 @@ func (view *View) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", view.Name)
 	return
 }
+
 func (xlsx *Xlsx) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", xlsx.GongGetIdentifier(stage))
@@ -1943,93 +1938,113 @@ func (assplit *AsSplit) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", assplit.GongGetReferenceIdentifier(stage))
 	return
 }
+
 func (assplitarea *AsSplitArea) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", assplitarea.GongGetReferenceIdentifier(stage))
 	return
 }
+
 func (button *Button) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", button.GongGetReferenceIdentifier(stage))
 	return
 }
+
 func (cursor *Cursor) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", cursor.GongGetReferenceIdentifier(stage))
 	return
 }
+
 func (favicon *FavIcon) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", favicon.GongGetReferenceIdentifier(stage))
 	return
 }
+
 func (form *Form) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", form.GongGetReferenceIdentifier(stage))
 	return
 }
+
 func (load *Load) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", load.GongGetReferenceIdentifier(stage))
 	return
 }
+
 func (logoontheleft *LogoOnTheLeft) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", logoontheleft.GongGetReferenceIdentifier(stage))
 	return
 }
+
 func (logoontheright *LogoOnTheRight) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", logoontheright.GongGetReferenceIdentifier(stage))
 	return
 }
+
 func (markdown *Markdown) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", markdown.GongGetReferenceIdentifier(stage))
 	return
 }
+
 func (slider *Slider) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", slider.GongGetReferenceIdentifier(stage))
 	return
 }
+
 func (split *Split) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", split.GongGetReferenceIdentifier(stage))
 	return
 }
+
 func (svg *Svg) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", svg.GongGetReferenceIdentifier(stage))
 	return
 }
+
 func (table *Table) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", table.GongGetReferenceIdentifier(stage))
 	return
 }
+
 func (title *Title) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", title.GongGetReferenceIdentifier(stage))
 	return
 }
+
 func (tone *Tone) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", tone.GongGetReferenceIdentifier(stage))
 	return
 }
+
 func (tree *Tree) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", tree.GongGetReferenceIdentifier(stage))
 	return
 }
+
 func (view *View) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", view.GongGetReferenceIdentifier(stage))
 	return
 }
+
 func (xlsx *Xlsx) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", xlsx.GongGetReferenceIdentifier(stage))
 	return
 }
+
+// end of template
