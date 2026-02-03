@@ -8,8 +8,10 @@ import (
 	"time"
 )
 
-var __GongSliceTemplate_time__dummyDeclaration time.Duration
-var _ = __GongSliceTemplate_time__dummyDeclaration
+var (
+	__GongSliceTemplate_time__dummyDeclaration time.Duration
+	_                                          = __GongSliceTemplate_time__dummyDeclaration
+)
 
 // ComputeReverseMaps computes the reverse map, for all intances, for all slice to pointers field
 // Its complexity is in O(n)O(p) where p is the number of pointers
@@ -90,10 +92,10 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct SliceOfPointerToGongStructField
 	// insertion point per field
 
+	// end of insertion point per named struct
 }
 
 func (stage *Stage) GetInstances() (res []GongstructIF) {
-
 	// insertion point per named struct
 	for instance := range stage.GongBasicFields {
 		res = append(res, instance)
@@ -781,36 +783,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 		backwardCommit += "\n\tstage.Commit()"
 		// append to the end of the backward commits slice
 		stage.backwardCommits = append(stage.backwardCommits, backwardCommit)
-
-		if stage.GetProbeIF() != nil {
-			var mergedCommits string
-			for _, commit := range stage.forwardCommits {
-				mergedCommits += commit
-			}
-			stage.GetProbeIF().AddNotification(
-				time.Now(),
-				"	// Forward commits:\n"+
-					mergedCommits,
-			)
-
-			var reverseMergedCommits string
-			for _, reverserCommit := range stage.backwardCommits {
-				reverseMergedCommits += reverserCommit
-			}
-			stage.GetProbeIF().AddNotification(
-				time.Now(),
-				"	// Backward commits:\n"+
-					reverseMergedCommits,
-			)
-
-			stage.GetProbeIF().CommitNotificationTable()
-		}
 	}
 }
 
 // ComputeReferenceAndOrders will creates a deep copy of each of the staged elements
 func (stage *Stage) ComputeReferenceAndOrders() {
-
 	// insertion point per named struct
 	stage.GongBasicFields_reference = make(map[*GongBasicField]*GongBasicField)
 	stage.GongBasicFields_referenceOrder = make(map[*GongBasicField]uint) // diff Unstage needs the reference order
@@ -1134,6 +1111,7 @@ func (gongbasicfield *GongBasicField) GongMarshallIdentifier(stage *Stage) (decl
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", gongbasicfield.Name)
 	return
 }
+
 func (gongenum *GongEnum) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongenum.GongGetIdentifier(stage))
@@ -1141,6 +1119,7 @@ func (gongenum *GongEnum) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", gongenum.Name)
 	return
 }
+
 func (gongenumvalue *GongEnumValue) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongenumvalue.GongGetIdentifier(stage))
@@ -1148,6 +1127,7 @@ func (gongenumvalue *GongEnumValue) GongMarshallIdentifier(stage *Stage) (decl s
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", gongenumvalue.Name)
 	return
 }
+
 func (gonglink *GongLink) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", gonglink.GongGetIdentifier(stage))
@@ -1155,6 +1135,7 @@ func (gonglink *GongLink) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", gonglink.Name)
 	return
 }
+
 func (gongnote *GongNote) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongnote.GongGetIdentifier(stage))
@@ -1162,6 +1143,7 @@ func (gongnote *GongNote) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", gongnote.Name)
 	return
 }
+
 func (gongstruct *GongStruct) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongstruct.GongGetIdentifier(stage))
@@ -1169,6 +1151,7 @@ func (gongstruct *GongStruct) GongMarshallIdentifier(stage *Stage) (decl string)
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", gongstruct.Name)
 	return
 }
+
 func (gongtimefield *GongTimeField) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongtimefield.GongGetIdentifier(stage))
@@ -1176,6 +1159,7 @@ func (gongtimefield *GongTimeField) GongMarshallIdentifier(stage *Stage) (decl s
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", gongtimefield.Name)
 	return
 }
+
 func (metareference *MetaReference) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", metareference.GongGetIdentifier(stage))
@@ -1183,6 +1167,7 @@ func (metareference *MetaReference) GongMarshallIdentifier(stage *Stage) (decl s
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", metareference.Name)
 	return
 }
+
 func (modelpkg *ModelPkg) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", modelpkg.GongGetIdentifier(stage))
@@ -1190,6 +1175,7 @@ func (modelpkg *ModelPkg) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", modelpkg.Name)
 	return
 }
+
 func (pointertogongstructfield *PointerToGongStructField) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", pointertogongstructfield.GongGetIdentifier(stage))
@@ -1197,6 +1183,7 @@ func (pointertogongstructfield *PointerToGongStructField) GongMarshallIdentifier
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", pointertogongstructfield.Name)
 	return
 }
+
 func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", sliceofpointertogongstructfield.GongGetIdentifier(stage))
@@ -1211,53 +1198,65 @@ func (gongbasicfield *GongBasicField) GongMarshallUnstaging(stage *Stage) (decl 
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongbasicfield.GongGetReferenceIdentifier(stage))
 	return
 }
+
 func (gongenum *GongEnum) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongenum.GongGetReferenceIdentifier(stage))
 	return
 }
+
 func (gongenumvalue *GongEnumValue) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongenumvalue.GongGetReferenceIdentifier(stage))
 	return
 }
+
 func (gonglink *GongLink) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", gonglink.GongGetReferenceIdentifier(stage))
 	return
 }
+
 func (gongnote *GongNote) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongnote.GongGetReferenceIdentifier(stage))
 	return
 }
+
 func (gongstruct *GongStruct) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongstruct.GongGetReferenceIdentifier(stage))
 	return
 }
+
 func (gongtimefield *GongTimeField) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongtimefield.GongGetReferenceIdentifier(stage))
 	return
 }
+
 func (metareference *MetaReference) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", metareference.GongGetReferenceIdentifier(stage))
 	return
 }
+
 func (modelpkg *ModelPkg) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", modelpkg.GongGetReferenceIdentifier(stage))
 	return
 }
+
 func (pointertogongstructfield *PointerToGongStructField) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", pointertogongstructfield.GongGetReferenceIdentifier(stage))
 	return
 }
+
 func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", sliceofpointertogongstructfield.GongGetReferenceIdentifier(stage))
 	return
 }
+
+// end of template

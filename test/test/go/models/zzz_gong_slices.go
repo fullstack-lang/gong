@@ -8,8 +8,10 @@ import (
 	"time"
 )
 
-var __GongSliceTemplate_time__dummyDeclaration time.Duration
-var _ = __GongSliceTemplate_time__dummyDeclaration
+var (
+	__GongSliceTemplate_time__dummyDeclaration time.Duration
+	_                                          = __GongSliceTemplate_time__dummyDeclaration
+)
 
 // ComputeReverseMaps computes the reverse map, for all intances, for all slice to pointers field
 // Its complexity is in O(n)O(p) where p is the number of pointers
@@ -92,10 +94,10 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct Gstruct
 	// insertion point per field
 
+	// end of insertion point per named struct
 }
 
 func (stage *Stage) GetInstances() (res []GongstructIF) {
-
 	// insertion point per named struct
 	for instance := range stage.Astructs {
 		res = append(res, instance)
@@ -551,36 +553,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 		backwardCommit += "\n\tstage.Commit()"
 		// append to the end of the backward commits slice
 		stage.backwardCommits = append(stage.backwardCommits, backwardCommit)
-
-		if stage.GetProbeIF() != nil {
-			var mergedCommits string
-			for _, commit := range stage.forwardCommits {
-				mergedCommits += commit
-			}
-			stage.GetProbeIF().AddNotification(
-				time.Now(),
-				"	// Forward commits:\n"+
-					mergedCommits,
-			)
-
-			var reverseMergedCommits string
-			for _, reverserCommit := range stage.backwardCommits {
-				reverseMergedCommits += reverserCommit
-			}
-			stage.GetProbeIF().AddNotification(
-				time.Now(),
-				"	// Backward commits:\n"+
-					reverseMergedCommits,
-			)
-
-			stage.GetProbeIF().CommitNotificationTable()
-		}
 	}
 }
 
 // ComputeReferenceAndOrders will creates a deep copy of each of the staged elements
 func (stage *Stage) ComputeReferenceAndOrders() {
-
 	// insertion point per named struct
 	stage.Astructs_reference = make(map[*Astruct]*Astruct)
 	stage.Astructs_referenceOrder = make(map[*Astruct]uint) // diff Unstage needs the reference order
@@ -796,6 +773,7 @@ func (astruct *Astruct) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", astruct.Name)
 	return
 }
+
 func (astructbstruct2use *AstructBstruct2Use) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", astructbstruct2use.GongGetIdentifier(stage))
@@ -803,6 +781,7 @@ func (astructbstruct2use *AstructBstruct2Use) GongMarshallIdentifier(stage *Stag
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", astructbstruct2use.Name)
 	return
 }
+
 func (astructbstructuse *AstructBstructUse) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", astructbstructuse.GongGetIdentifier(stage))
@@ -810,6 +789,7 @@ func (astructbstructuse *AstructBstructUse) GongMarshallIdentifier(stage *Stage)
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", astructbstructuse.Name)
 	return
 }
+
 func (bstruct *Bstruct) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", bstruct.GongGetIdentifier(stage))
@@ -817,6 +797,7 @@ func (bstruct *Bstruct) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", bstruct.Name)
 	return
 }
+
 func (dstruct *Dstruct) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", dstruct.GongGetIdentifier(stage))
@@ -824,6 +805,7 @@ func (dstruct *Dstruct) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", dstruct.Name)
 	return
 }
+
 func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", f0123456789012345678901234567890.GongGetIdentifier(stage))
@@ -831,6 +813,7 @@ func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GongMa
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", f0123456789012345678901234567890.Name)
 	return
 }
+
 func (gstruct *Gstruct) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = IdentifiersDeclsWithoutNameInit
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", gstruct.GongGetIdentifier(stage))
@@ -845,33 +828,41 @@ func (astruct *Astruct) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", astruct.GongGetReferenceIdentifier(stage))
 	return
 }
+
 func (astructbstruct2use *AstructBstruct2Use) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", astructbstruct2use.GongGetReferenceIdentifier(stage))
 	return
 }
+
 func (astructbstructuse *AstructBstructUse) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", astructbstructuse.GongGetReferenceIdentifier(stage))
 	return
 }
+
 func (bstruct *Bstruct) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", bstruct.GongGetReferenceIdentifier(stage))
 	return
 }
+
 func (dstruct *Dstruct) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", dstruct.GongGetReferenceIdentifier(stage))
 	return
 }
+
 func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", f0123456789012345678901234567890.GongGetReferenceIdentifier(stage))
 	return
 }
+
 func (gstruct *Gstruct) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", gstruct.GongGetReferenceIdentifier(stage))
 	return
 }
+
+// end of template
