@@ -17,7 +17,8 @@ var (
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per named struct
-	// Compute reverse map for named struct A insertion point per field
+	// Compute reverse map for named struct A
+	// insertion point per field
 	stage.A_Bs_reverseMap = make(map[*B]*A)
 	for a := range stage.As {
 		_ = a
@@ -26,10 +27,13 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
-	// Compute reverse map for named struct B insertion point per field
+	// Compute reverse map for named struct B
+	// insertion point per field
+
 }
 
 func (stage *Stage) GetInstances() (res []GongstructIF) {
+
 	// insertion point per named struct
 	for instance := range stage.As {
 		res = append(res, instance)
@@ -200,6 +204,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 // ComputeReferenceAndOrders will creates a deep copy of each of the staged elements
 func (stage *Stage) ComputeReferenceAndOrders() {
+
 	// insertion point per named struct
 	stage.As_reference = make(map[*A]*A)
 	stage.As_referenceOrder = make(map[*A]uint) // diff Unstage needs the reference order
@@ -280,7 +285,6 @@ func (a *A) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", a.Name)
 	return
 }
-
 func (b *B) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", b.GongGetIdentifier(stage))
@@ -295,7 +299,6 @@ func (a *A) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", a.GongGetReferenceIdentifier(stage))
 	return
 }
-
 func (b *B) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", b.GongGetReferenceIdentifier(stage))
