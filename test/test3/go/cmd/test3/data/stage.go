@@ -59,7 +59,7 @@ func _(stage *models.Stage) {
 	// insertion point for initialization of values
 
 	__A__00000000_.Name = `A09xxx`
-	__A__00000000_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__A__00000000_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2022-01-01 00:00:00 +0000 UTC")
 	__A__00000000_.FloatValue = 14.500000
 	__A__00000000_.IntValue = 9
 	__A__00000000_.Duration = -446400000000000
