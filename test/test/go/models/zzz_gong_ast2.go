@@ -432,12 +432,20 @@ func (u *AstructUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 	case "Anotherassociationtob_2":
 		GongUnmarshallPointer(&instance.Anotherassociationtob_2, valueExpr, identifierMap)
 	case "Date":
-		if bl, ok := valueExpr.(*ast.BasicLit); ok {
-			instance.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
+		if call, ok := valueExpr.(*ast.CallExpr); ok {
+			if len(call.Args) == 2 {
+				if bl, ok := call.Args[1].(*ast.BasicLit); ok {
+					instance.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
+				}
+			}
 		}
 	case "Date2":
-		if bl, ok := valueExpr.(*ast.BasicLit); ok {
-			instance.Date2, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
+		if call, ok := valueExpr.(*ast.CallExpr); ok {
+			if len(call.Args) == 2 {
+				if bl, ok := call.Args[1].(*ast.BasicLit); ok {
+					instance.Date2, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
+				}
+			}
 		}
 	case "Booleanfield":
 		instance.Booleanfield = GongExtractBool(valueExpr)
@@ -651,8 +659,12 @@ func (u *F0123456789012345678901234567890Unmarshaller) UnmarshallField(stage *St
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
 	case "Date":
-		if bl, ok := valueExpr.(*ast.BasicLit); ok {
-			instance.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
+		if call, ok := valueExpr.(*ast.CallExpr); ok {
+			if len(call.Args) == 2 {
+				if bl, ok := call.Args[1].(*ast.BasicLit); ok {
+					instance.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
+				}
+			}
 		}
 	}
 	return nil
