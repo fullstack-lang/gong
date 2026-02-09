@@ -819,8 +819,12 @@ func (u *FormFieldDateUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
 	case "Value":
-		if bl, ok := valueExpr.(*ast.BasicLit); ok {
-			instance.Value, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
+		if call, ok := valueExpr.(*ast.CallExpr); ok {
+			if len(call.Args) == 2 {
+				if bl, ok := call.Args[1].(*ast.BasicLit); ok {
+					instance.Value, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
+				}
+			}
 		}
 	}
 	return nil
@@ -852,8 +856,12 @@ func (u *FormFieldDateTimeUnmarshaller) UnmarshallField(stage *Stage, i Gongstru
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
 	case "Value":
-		if bl, ok := valueExpr.(*ast.BasicLit); ok {
-			instance.Value, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
+		if call, ok := valueExpr.(*ast.CallExpr); ok {
+			if len(call.Args) == 2 {
+				if bl, ok := call.Args[1].(*ast.BasicLit); ok {
+					instance.Value, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
+				}
+			}
 		}
 	}
 	return nil
@@ -1033,8 +1041,12 @@ func (u *FormFieldTimeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
 	case "Value":
-		if bl, ok := valueExpr.(*ast.BasicLit); ok {
-			instance.Value, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
+		if call, ok := valueExpr.(*ast.CallExpr); ok {
+			if len(call.Args) == 2 {
+				if bl, ok := call.Args[1].(*ast.BasicLit); ok {
+					instance.Value, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
+				}
+			}
 		}
 	case "Step":
 		instance.Step = GongExtractFloat(valueExpr)

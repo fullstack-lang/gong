@@ -461,12 +461,20 @@ func (u *BarUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNam
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
 	case "Start":
-		if bl, ok := valueExpr.(*ast.BasicLit); ok {
-			instance.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
+		if call, ok := valueExpr.(*ast.CallExpr); ok {
+			if len(call.Args) == 2 {
+				if bl, ok := call.Args[1].(*ast.BasicLit); ok {
+					instance.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
+				}
+			}
 		}
 	case "End":
-		if bl, ok := valueExpr.(*ast.BasicLit); ok {
-			instance.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
+		if call, ok := valueExpr.(*ast.CallExpr); ok {
+			if len(call.Args) == 2 {
+				if bl, ok := call.Args[1].(*ast.BasicLit); ok {
+					instance.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
+				}
+			}
 		}
 	case "ComputedDuration":
 		instance.ComputedDuration = time.Duration(GongExtractInt(valueExpr))
@@ -510,24 +518,40 @@ func (u *GanttUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
 	case "ComputedStart":
-		if bl, ok := valueExpr.(*ast.BasicLit); ok {
-			instance.ComputedStart, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
+		if call, ok := valueExpr.(*ast.CallExpr); ok {
+			if len(call.Args) == 2 {
+				if bl, ok := call.Args[1].(*ast.BasicLit); ok {
+					instance.ComputedStart, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
+				}
+			}
 		}
 	case "ComputedEnd":
-		if bl, ok := valueExpr.(*ast.BasicLit); ok {
-			instance.ComputedEnd, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
+		if call, ok := valueExpr.(*ast.CallExpr); ok {
+			if len(call.Args) == 2 {
+				if bl, ok := call.Args[1].(*ast.BasicLit); ok {
+					instance.ComputedEnd, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
+				}
+			}
 		}
 	case "ComputedDuration":
 		instance.ComputedDuration = time.Duration(GongExtractInt(valueExpr))
 	case "UseManualStartAndEndDates":
 		instance.UseManualStartAndEndDates = GongExtractBool(valueExpr)
 	case "ManualStart":
-		if bl, ok := valueExpr.(*ast.BasicLit); ok {
-			instance.ManualStart, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
+		if call, ok := valueExpr.(*ast.CallExpr); ok {
+			if len(call.Args) == 2 {
+				if bl, ok := call.Args[1].(*ast.BasicLit); ok {
+					instance.ManualStart, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
+				}
+			}
 		}
 	case "ManualEnd":
-		if bl, ok := valueExpr.(*ast.BasicLit); ok {
-			instance.ManualEnd, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
+		if call, ok := valueExpr.(*ast.CallExpr); ok {
+			if len(call.Args) == 2 {
+				if bl, ok := call.Args[1].(*ast.BasicLit); ok {
+					instance.ManualEnd, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
+				}
+			}
 		}
 	case "LaneHeight":
 		instance.LaneHeight = GongExtractFloat(valueExpr)
@@ -698,8 +722,12 @@ func (u *MilestoneUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
 	case "Date":
-		if bl, ok := valueExpr.(*ast.BasicLit); ok {
-			instance.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
+		if call, ok := valueExpr.(*ast.CallExpr); ok {
+			if len(call.Args) == 2 {
+				if bl, ok := call.Args[1].(*ast.BasicLit); ok {
+					instance.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
+				}
+			}
 		}
 	case "DisplayVerticalBar":
 		instance.DisplayVerticalBar = GongExtractBool(valueExpr)
