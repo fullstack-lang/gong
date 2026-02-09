@@ -692,8 +692,12 @@ func (u *ObjectUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, field
 	case "Rank":
 		instance.Rank = GongExtractInt(valueExpr)
 	case "DOF":
-		if bl, ok := valueExpr.(*ast.BasicLit); ok {
-			instance.DOF, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
+		if call, ok := valueExpr.(*ast.CallExpr); ok {
+			if len(call.Args) == 2 {
+				if bl, ok := call.Args[1].(*ast.BasicLit); ok {
+					instance.DOF, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
+				}
+			}
 		}
 	case "Messages":
 		GongUnmarshallSliceOfPointers(&instance.Messages, valueExpr, identifierMap)

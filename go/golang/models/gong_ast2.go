@@ -478,8 +478,12 @@ map[GongAst2SubTemplateId]string{
 		instance.{{FieldName}} = GongExtractString(valueExpr)`,
 	GongAst2SubTmplDateField: `
 	case "{{FieldName}}":
-		if bl, ok := valueExpr.(*ast.BasicLit); ok {
-			instance.{{FieldName}}, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"` + "`" + `"))
+		if call, ok := valueExpr.(*ast.CallExpr); ok {
+			if len(call.Args) == 2 {
+				if bl, ok := call.Args[1].(*ast.BasicLit); ok {
+					instance.{{FieldName}}, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"` + "`" + `"))
+				}
+			}
 		}`,
 	GongAst2SubTmplDurationField: `
 	case "{{FieldName}}":
