@@ -424,8 +424,12 @@ func (u *AUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName 
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
 	case "Date":
-		if bl, ok := valueExpr.(*ast.BasicLit); ok {
-			instance.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
+		if call, ok := valueExpr.(*ast.CallExpr); ok {
+			if len(call.Args) == 2 {
+				if bl, ok := call.Args[1].(*ast.BasicLit); ok {
+					instance.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
+				}
+			}
 		}
 	case "FloatValue":
 		instance.FloatValue = GongExtractFloat(valueExpr)
