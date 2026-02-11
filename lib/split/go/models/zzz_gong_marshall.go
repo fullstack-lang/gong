@@ -99,9 +99,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	// map of identifiers
 	// var StageMapDstructIds map[*Dstruct]string
-	identifiersDecl := ""
-	initializerStatements := ""
-	pointersInitializesStatements := ""
+	var identifiersDecl strings.Builder
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 
 	decl := ""
 	_ = decl
@@ -124,17 +124,17 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return asspliti_order < assplitj_order
 	})
 	if len(assplitOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, assplit := range assplitOrdered {
 
-		identifiersDecl += assplit.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(assplit.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += assplit.GongMarshallField(stage, "Name")
-		initializerStatements += assplit.GongMarshallField(stage, "Direction")
-		pointersInitializesStatements += assplit.GongMarshallField(stage, "AsSplitAreas")
+		initializerStatements.WriteString(assplit.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(assplit.GongMarshallField(stage, "Direction"))
+		pointersInitializesStatements.WriteString(assplit.GongMarshallField(stage, "AsSplitAreas"))
 	}
 
 	assplitareaOrdered := []*AsSplitArea{}
@@ -152,33 +152,33 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return assplitareai_order < assplitareaj_order
 	})
 	if len(assplitareaOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, assplitarea := range assplitareaOrdered {
 
-		identifiersDecl += assplitarea.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(assplitarea.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += assplitarea.GongMarshallField(stage, "Name")
-		initializerStatements += assplitarea.GongMarshallField(stage, "ShowNameInHeader")
-		initializerStatements += assplitarea.GongMarshallField(stage, "Size")
-		initializerStatements += assplitarea.GongMarshallField(stage, "IsAny")
-		pointersInitializesStatements += assplitarea.GongMarshallField(stage, "AsSplit")
-		pointersInitializesStatements += assplitarea.GongMarshallField(stage, "Button")
-		pointersInitializesStatements += assplitarea.GongMarshallField(stage, "Cursor")
-		pointersInitializesStatements += assplitarea.GongMarshallField(stage, "Form")
-		pointersInitializesStatements += assplitarea.GongMarshallField(stage, "Load")
-		pointersInitializesStatements += assplitarea.GongMarshallField(stage, "Markdown")
-		pointersInitializesStatements += assplitarea.GongMarshallField(stage, "Slider")
-		pointersInitializesStatements += assplitarea.GongMarshallField(stage, "Split")
-		pointersInitializesStatements += assplitarea.GongMarshallField(stage, "Svg")
-		pointersInitializesStatements += assplitarea.GongMarshallField(stage, "Table")
-		pointersInitializesStatements += assplitarea.GongMarshallField(stage, "Tone")
-		pointersInitializesStatements += assplitarea.GongMarshallField(stage, "Tree")
-		pointersInitializesStatements += assplitarea.GongMarshallField(stage, "Xlsx")
-		initializerStatements += assplitarea.GongMarshallField(stage, "HasDiv")
-		initializerStatements += assplitarea.GongMarshallField(stage, "DivStyle")
+		initializerStatements.WriteString(assplitarea.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(assplitarea.GongMarshallField(stage, "ShowNameInHeader"))
+		initializerStatements.WriteString(assplitarea.GongMarshallField(stage, "Size"))
+		initializerStatements.WriteString(assplitarea.GongMarshallField(stage, "IsAny"))
+		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "AsSplit"))
+		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Button"))
+		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Cursor"))
+		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Form"))
+		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Load"))
+		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Markdown"))
+		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Slider"))
+		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Split"))
+		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Svg"))
+		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Table"))
+		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Tone"))
+		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Tree"))
+		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Xlsx"))
+		initializerStatements.WriteString(assplitarea.GongMarshallField(stage, "HasDiv"))
+		initializerStatements.WriteString(assplitarea.GongMarshallField(stage, "DivStyle"))
 	}
 
 	buttonOrdered := []*Button{}
@@ -196,16 +196,16 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return buttoni_order < buttonj_order
 	})
 	if len(buttonOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, button := range buttonOrdered {
 
-		identifiersDecl += button.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(button.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += button.GongMarshallField(stage, "Name")
-		initializerStatements += button.GongMarshallField(stage, "StackName")
+		initializerStatements.WriteString(button.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(button.GongMarshallField(stage, "StackName"))
 	}
 
 	cursorOrdered := []*Cursor{}
@@ -223,17 +223,17 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return cursori_order < cursorj_order
 	})
 	if len(cursorOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, cursor := range cursorOrdered {
 
-		identifiersDecl += cursor.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(cursor.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += cursor.GongMarshallField(stage, "Name")
-		initializerStatements += cursor.GongMarshallField(stage, "StackName")
-		initializerStatements += cursor.GongMarshallField(stage, "Style")
+		initializerStatements.WriteString(cursor.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(cursor.GongMarshallField(stage, "StackName"))
+		initializerStatements.WriteString(cursor.GongMarshallField(stage, "Style"))
 	}
 
 	faviconOrdered := []*FavIcon{}
@@ -251,16 +251,16 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return faviconi_order < faviconj_order
 	})
 	if len(faviconOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, favicon := range faviconOrdered {
 
-		identifiersDecl += favicon.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(favicon.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += favicon.GongMarshallField(stage, "Name")
-		initializerStatements += favicon.GongMarshallField(stage, "SVG")
+		initializerStatements.WriteString(favicon.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(favicon.GongMarshallField(stage, "SVG"))
 	}
 
 	formOrdered := []*Form{}
@@ -278,16 +278,16 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return formi_order < formj_order
 	})
 	if len(formOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, form := range formOrdered {
 
-		identifiersDecl += form.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(form.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += form.GongMarshallField(stage, "Name")
-		initializerStatements += form.GongMarshallField(stage, "StackName")
+		initializerStatements.WriteString(form.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(form.GongMarshallField(stage, "StackName"))
 	}
 
 	loadOrdered := []*Load{}
@@ -305,16 +305,16 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return loadi_order < loadj_order
 	})
 	if len(loadOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, load := range loadOrdered {
 
-		identifiersDecl += load.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(load.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += load.GongMarshallField(stage, "Name")
-		initializerStatements += load.GongMarshallField(stage, "StackName")
+		initializerStatements.WriteString(load.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(load.GongMarshallField(stage, "StackName"))
 	}
 
 	logoontheleftOrdered := []*LogoOnTheLeft{}
@@ -332,18 +332,18 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return logoonthelefti_order < logoontheleftj_order
 	})
 	if len(logoontheleftOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, logoontheleft := range logoontheleftOrdered {
 
-		identifiersDecl += logoontheleft.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(logoontheleft.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += logoontheleft.GongMarshallField(stage, "Name")
-		initializerStatements += logoontheleft.GongMarshallField(stage, "Width")
-		initializerStatements += logoontheleft.GongMarshallField(stage, "Height")
-		initializerStatements += logoontheleft.GongMarshallField(stage, "SVG")
+		initializerStatements.WriteString(logoontheleft.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(logoontheleft.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(logoontheleft.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(logoontheleft.GongMarshallField(stage, "SVG"))
 	}
 
 	logoontherightOrdered := []*LogoOnTheRight{}
@@ -361,18 +361,18 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return logoontherighti_order < logoontherightj_order
 	})
 	if len(logoontherightOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, logoontheright := range logoontherightOrdered {
 
-		identifiersDecl += logoontheright.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(logoontheright.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += logoontheright.GongMarshallField(stage, "Name")
-		initializerStatements += logoontheright.GongMarshallField(stage, "Width")
-		initializerStatements += logoontheright.GongMarshallField(stage, "Height")
-		initializerStatements += logoontheright.GongMarshallField(stage, "SVG")
+		initializerStatements.WriteString(logoontheright.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(logoontheright.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(logoontheright.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(logoontheright.GongMarshallField(stage, "SVG"))
 	}
 
 	markdownOrdered := []*Markdown{}
@@ -390,16 +390,16 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return markdowni_order < markdownj_order
 	})
 	if len(markdownOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, markdown := range markdownOrdered {
 
-		identifiersDecl += markdown.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(markdown.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += markdown.GongMarshallField(stage, "Name")
-		initializerStatements += markdown.GongMarshallField(stage, "StackName")
+		initializerStatements.WriteString(markdown.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(markdown.GongMarshallField(stage, "StackName"))
 	}
 
 	sliderOrdered := []*Slider{}
@@ -417,16 +417,16 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return slideri_order < sliderj_order
 	})
 	if len(sliderOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, slider := range sliderOrdered {
 
-		identifiersDecl += slider.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(slider.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += slider.GongMarshallField(stage, "Name")
-		initializerStatements += slider.GongMarshallField(stage, "StackName")
+		initializerStatements.WriteString(slider.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(slider.GongMarshallField(stage, "StackName"))
 	}
 
 	splitOrdered := []*Split{}
@@ -444,16 +444,16 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return spliti_order < splitj_order
 	})
 	if len(splitOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, split := range splitOrdered {
 
-		identifiersDecl += split.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(split.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += split.GongMarshallField(stage, "Name")
-		initializerStatements += split.GongMarshallField(stage, "StackName")
+		initializerStatements.WriteString(split.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(split.GongMarshallField(stage, "StackName"))
 	}
 
 	svgOrdered := []*Svg{}
@@ -471,17 +471,17 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return svgi_order < svgj_order
 	})
 	if len(svgOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, svg := range svgOrdered {
 
-		identifiersDecl += svg.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(svg.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += svg.GongMarshallField(stage, "Name")
-		initializerStatements += svg.GongMarshallField(stage, "StackName")
-		initializerStatements += svg.GongMarshallField(stage, "Style")
+		initializerStatements.WriteString(svg.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(svg.GongMarshallField(stage, "StackName"))
+		initializerStatements.WriteString(svg.GongMarshallField(stage, "Style"))
 	}
 
 	tableOrdered := []*Table{}
@@ -499,16 +499,16 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return tablei_order < tablej_order
 	})
 	if len(tableOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, table := range tableOrdered {
 
-		identifiersDecl += table.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(table.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += table.GongMarshallField(stage, "Name")
-		initializerStatements += table.GongMarshallField(stage, "StackName")
+		initializerStatements.WriteString(table.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(table.GongMarshallField(stage, "StackName"))
 	}
 
 	titleOrdered := []*Title{}
@@ -526,15 +526,15 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return titlei_order < titlej_order
 	})
 	if len(titleOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, title := range titleOrdered {
 
-		identifiersDecl += title.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(title.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += title.GongMarshallField(stage, "Name")
+		initializerStatements.WriteString(title.GongMarshallField(stage, "Name"))
 	}
 
 	toneOrdered := []*Tone{}
@@ -552,16 +552,16 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return tonei_order < tonej_order
 	})
 	if len(toneOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, tone := range toneOrdered {
 
-		identifiersDecl += tone.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(tone.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += tone.GongMarshallField(stage, "Name")
-		initializerStatements += tone.GongMarshallField(stage, "StackName")
+		initializerStatements.WriteString(tone.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(tone.GongMarshallField(stage, "StackName"))
 	}
 
 	treeOrdered := []*Tree{}
@@ -579,16 +579,16 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return treei_order < treej_order
 	})
 	if len(treeOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, tree := range treeOrdered {
 
-		identifiersDecl += tree.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(tree.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += tree.GongMarshallField(stage, "Name")
-		initializerStatements += tree.GongMarshallField(stage, "StackName")
+		initializerStatements.WriteString(tree.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(tree.GongMarshallField(stage, "StackName"))
 	}
 
 	viewOrdered := []*View{}
@@ -606,19 +606,19 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return viewi_order < viewj_order
 	})
 	if len(viewOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, view := range viewOrdered {
 
-		identifiersDecl += view.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(view.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += view.GongMarshallField(stage, "Name")
-		initializerStatements += view.GongMarshallField(stage, "ShowViewName")
-		pointersInitializesStatements += view.GongMarshallField(stage, "RootAsSplitAreas")
-		initializerStatements += view.GongMarshallField(stage, "IsSelectedView")
-		initializerStatements += view.GongMarshallField(stage, "Direction")
+		initializerStatements.WriteString(view.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(view.GongMarshallField(stage, "ShowViewName"))
+		pointersInitializesStatements.WriteString(view.GongMarshallField(stage, "RootAsSplitAreas"))
+		initializerStatements.WriteString(view.GongMarshallField(stage, "IsSelectedView"))
+		initializerStatements.WriteString(view.GongMarshallField(stage, "Direction"))
 	}
 
 	xlsxOrdered := []*Xlsx{}
@@ -636,16 +636,16 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return xlsxi_order < xlsxj_order
 	})
 	if len(xlsxOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, xlsx := range xlsxOrdered {
 
-		identifiersDecl += xlsx.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(xlsx.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += xlsx.GongMarshallField(stage, "Name")
-		initializerStatements += xlsx.GongMarshallField(stage, "StackName")
+		initializerStatements.WriteString(xlsx.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(xlsx.GongMarshallField(stage, "StackName"))
 	}
 
 	// insertion initialization of objects to stage
@@ -801,9 +801,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for pointers initialization
 	}
 
-	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)
-	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements)
-	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements)
+	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl.String())
+	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements.String())
+	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements.String())
 
 	if stage.MetaPackageImportAlias != "" {
 		res = strings.ReplaceAll(res, "{{ImportPackageDeclaration}}",
@@ -813,7 +813,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 			fmt.Sprintf("\nvar _ %s.Stage",
 				stage.MetaPackageImportAlias))
 
-		var entries string
+		var entries strings.Builder
 
 		// regenerate the map of doc link renaming
 		// the key and value are set to the value because
@@ -832,24 +832,24 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 			switch value.Type {
 			case GONG__ENUM_CAST_INT:
-				entries += fmt.Sprintf("\n\n\t\"%s\": %s(0),", value.Ident, value.Ident)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": %s(0),", value.Ident, value.Ident))
 			case GONG__ENUM_CAST_STRING:
-				entries += fmt.Sprintf("\n\n\t\"%s\": %s(\"\"),", value.Ident, value.Ident)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": %s(\"\"),", value.Ident, value.Ident))
 			case GONG__FIELD_VALUE:
 				// substitute the second point with "{})."
 				joker := "__substitute_for_first_point__"
 				valueIdentifier := strings.Replace(value.Ident, ".", joker, 1)
 				valueIdentifier = strings.Replace(valueIdentifier, ".", "{}).", 1)
 				valueIdentifier = strings.Replace(valueIdentifier, joker, ".", 1)
-				entries += fmt.Sprintf("\n\n\t\"%s\": (%s,", value.Ident, valueIdentifier)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": (%s,", value.Ident, valueIdentifier))
 			case GONG__IDENTIFIER_CONST:
-				entries += fmt.Sprintf("\n\n\t\"%s\": %s,", value.Ident, value.Ident)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": %s,", value.Ident, value.Ident))
 			case GONG__STRUCT_INSTANCE:
-				entries += fmt.Sprintf("\n\n\t\"%s\": &(%s{}),", value.Ident, value.Ident)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": &(%s{}),", value.Ident, value.Ident))
 			}
 		}
 
-		// res = strings.ReplaceAll(res, "{{EntriesDocLinkStringDocLinkIdentifier}}", entries)
+		// res = strings.ReplaceAll(res, "{{EntriesDocLinkStringDocLinkIdentifier}}", entries.String())
 	}
 	return
 }
@@ -878,13 +878,15 @@ func (assplit *AsSplit) GongMarshallField(stage *Stage, fieldName string) (res s
 		}
 
 	case "AsSplitAreas":
+		var sb strings.Builder
 		for _, _assplitarea := range assplit.AsSplitAreas {
 			tmp := SliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", assplit.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "AsSplitAreas")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _assplitarea.GongGetIdentifier(stage))
-			res += tmp
+			sb.WriteString(tmp)
 		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct AsSplit", fieldName)
 	}
@@ -1458,13 +1460,15 @@ func (view *View) GongMarshallField(stage *Stage, fieldName string) (res string)
 		}
 
 	case "RootAsSplitAreas":
+		var sb strings.Builder
 		for _, _assplitarea := range view.RootAsSplitAreas {
 			tmp := SliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", view.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "RootAsSplitAreas")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _assplitarea.GongGetIdentifier(stage))
-			res += tmp
+			sb.WriteString(tmp)
 		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct View", fieldName)
 	}
@@ -1492,181 +1496,257 @@ func (xlsx *Xlsx) GongMarshallField(stage *Stage, fieldName string) (res string)
 }
 
 // insertion point for marshall all fields methods
-func (assplit *AsSplit) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (assplit *AsSplit) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += assplit.GongMarshallField(stage, "Name")
-		initializerStatements += assplit.GongMarshallField(stage, "Direction")
-		pointersInitializesStatements += assplit.GongMarshallField(stage, "AsSplitAreas")
+		initializerStatements.WriteString(assplit.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(assplit.GongMarshallField(stage, "Direction"))
+		pointersInitializesStatements.WriteString(assplit.GongMarshallField(stage, "AsSplitAreas"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (assplitarea *AsSplitArea) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (assplitarea *AsSplitArea) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += assplitarea.GongMarshallField(stage, "Name")
-		initializerStatements += assplitarea.GongMarshallField(stage, "ShowNameInHeader")
-		initializerStatements += assplitarea.GongMarshallField(stage, "Size")
-		initializerStatements += assplitarea.GongMarshallField(stage, "IsAny")
-		pointersInitializesStatements += assplitarea.GongMarshallField(stage, "AsSplit")
-		pointersInitializesStatements += assplitarea.GongMarshallField(stage, "Button")
-		pointersInitializesStatements += assplitarea.GongMarshallField(stage, "Cursor")
-		pointersInitializesStatements += assplitarea.GongMarshallField(stage, "Form")
-		pointersInitializesStatements += assplitarea.GongMarshallField(stage, "Load")
-		pointersInitializesStatements += assplitarea.GongMarshallField(stage, "Markdown")
-		pointersInitializesStatements += assplitarea.GongMarshallField(stage, "Slider")
-		pointersInitializesStatements += assplitarea.GongMarshallField(stage, "Split")
-		pointersInitializesStatements += assplitarea.GongMarshallField(stage, "Svg")
-		pointersInitializesStatements += assplitarea.GongMarshallField(stage, "Table")
-		pointersInitializesStatements += assplitarea.GongMarshallField(stage, "Tone")
-		pointersInitializesStatements += assplitarea.GongMarshallField(stage, "Tree")
-		pointersInitializesStatements += assplitarea.GongMarshallField(stage, "Xlsx")
-		initializerStatements += assplitarea.GongMarshallField(stage, "HasDiv")
-		initializerStatements += assplitarea.GongMarshallField(stage, "DivStyle")
+		initializerStatements.WriteString(assplitarea.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(assplitarea.GongMarshallField(stage, "ShowNameInHeader"))
+		initializerStatements.WriteString(assplitarea.GongMarshallField(stage, "Size"))
+		initializerStatements.WriteString(assplitarea.GongMarshallField(stage, "IsAny"))
+		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "AsSplit"))
+		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Button"))
+		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Cursor"))
+		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Form"))
+		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Load"))
+		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Markdown"))
+		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Slider"))
+		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Split"))
+		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Svg"))
+		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Table"))
+		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Tone"))
+		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Tree"))
+		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Xlsx"))
+		initializerStatements.WriteString(assplitarea.GongMarshallField(stage, "HasDiv"))
+		initializerStatements.WriteString(assplitarea.GongMarshallField(stage, "DivStyle"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (button *Button) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (button *Button) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += button.GongMarshallField(stage, "Name")
-		initializerStatements += button.GongMarshallField(stage, "StackName")
+		initializerStatements.WriteString(button.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(button.GongMarshallField(stage, "StackName"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (cursor *Cursor) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (cursor *Cursor) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += cursor.GongMarshallField(stage, "Name")
-		initializerStatements += cursor.GongMarshallField(stage, "StackName")
-		initializerStatements += cursor.GongMarshallField(stage, "Style")
+		initializerStatements.WriteString(cursor.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(cursor.GongMarshallField(stage, "StackName"))
+		initializerStatements.WriteString(cursor.GongMarshallField(stage, "Style"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (favicon *FavIcon) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (favicon *FavIcon) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += favicon.GongMarshallField(stage, "Name")
-		initializerStatements += favicon.GongMarshallField(stage, "SVG")
+		initializerStatements.WriteString(favicon.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(favicon.GongMarshallField(stage, "SVG"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (form *Form) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (form *Form) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += form.GongMarshallField(stage, "Name")
-		initializerStatements += form.GongMarshallField(stage, "StackName")
+		initializerStatements.WriteString(form.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(form.GongMarshallField(stage, "StackName"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (load *Load) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (load *Load) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += load.GongMarshallField(stage, "Name")
-		initializerStatements += load.GongMarshallField(stage, "StackName")
+		initializerStatements.WriteString(load.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(load.GongMarshallField(stage, "StackName"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (logoontheleft *LogoOnTheLeft) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (logoontheleft *LogoOnTheLeft) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += logoontheleft.GongMarshallField(stage, "Name")
-		initializerStatements += logoontheleft.GongMarshallField(stage, "Width")
-		initializerStatements += logoontheleft.GongMarshallField(stage, "Height")
-		initializerStatements += logoontheleft.GongMarshallField(stage, "SVG")
+		initializerStatements.WriteString(logoontheleft.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(logoontheleft.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(logoontheleft.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(logoontheleft.GongMarshallField(stage, "SVG"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (logoontheright *LogoOnTheRight) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (logoontheright *LogoOnTheRight) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += logoontheright.GongMarshallField(stage, "Name")
-		initializerStatements += logoontheright.GongMarshallField(stage, "Width")
-		initializerStatements += logoontheright.GongMarshallField(stage, "Height")
-		initializerStatements += logoontheright.GongMarshallField(stage, "SVG")
+		initializerStatements.WriteString(logoontheright.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(logoontheright.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(logoontheright.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(logoontheright.GongMarshallField(stage, "SVG"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (markdown *Markdown) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (markdown *Markdown) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += markdown.GongMarshallField(stage, "Name")
-		initializerStatements += markdown.GongMarshallField(stage, "StackName")
+		initializerStatements.WriteString(markdown.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(markdown.GongMarshallField(stage, "StackName"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (slider *Slider) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (slider *Slider) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += slider.GongMarshallField(stage, "Name")
-		initializerStatements += slider.GongMarshallField(stage, "StackName")
+		initializerStatements.WriteString(slider.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(slider.GongMarshallField(stage, "StackName"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (split *Split) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (split *Split) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += split.GongMarshallField(stage, "Name")
-		initializerStatements += split.GongMarshallField(stage, "StackName")
+		initializerStatements.WriteString(split.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(split.GongMarshallField(stage, "StackName"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (svg *Svg) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (svg *Svg) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += svg.GongMarshallField(stage, "Name")
-		initializerStatements += svg.GongMarshallField(stage, "StackName")
-		initializerStatements += svg.GongMarshallField(stage, "Style")
+		initializerStatements.WriteString(svg.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(svg.GongMarshallField(stage, "StackName"))
+		initializerStatements.WriteString(svg.GongMarshallField(stage, "Style"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (table *Table) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (table *Table) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += table.GongMarshallField(stage, "Name")
-		initializerStatements += table.GongMarshallField(stage, "StackName")
+		initializerStatements.WriteString(table.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(table.GongMarshallField(stage, "StackName"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (title *Title) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (title *Title) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += title.GongMarshallField(stage, "Name")
+		initializerStatements.WriteString(title.GongMarshallField(stage, "Name"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (tone *Tone) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (tone *Tone) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += tone.GongMarshallField(stage, "Name")
-		initializerStatements += tone.GongMarshallField(stage, "StackName")
+		initializerStatements.WriteString(tone.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(tone.GongMarshallField(stage, "StackName"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (tree *Tree) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (tree *Tree) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += tree.GongMarshallField(stage, "Name")
-		initializerStatements += tree.GongMarshallField(stage, "StackName")
+		initializerStatements.WriteString(tree.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(tree.GongMarshallField(stage, "StackName"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (view *View) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (view *View) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += view.GongMarshallField(stage, "Name")
-		initializerStatements += view.GongMarshallField(stage, "ShowViewName")
-		pointersInitializesStatements += view.GongMarshallField(stage, "RootAsSplitAreas")
-		initializerStatements += view.GongMarshallField(stage, "IsSelectedView")
-		initializerStatements += view.GongMarshallField(stage, "Direction")
+		initializerStatements.WriteString(view.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(view.GongMarshallField(stage, "ShowViewName"))
+		pointersInitializesStatements.WriteString(view.GongMarshallField(stage, "RootAsSplitAreas"))
+		initializerStatements.WriteString(view.GongMarshallField(stage, "IsSelectedView"))
+		initializerStatements.WriteString(view.GongMarshallField(stage, "Direction"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (xlsx *Xlsx) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (xlsx *Xlsx) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += xlsx.GongMarshallField(stage, "Name")
-		initializerStatements += xlsx.GongMarshallField(stage, "StackName")
+		initializerStatements.WriteString(xlsx.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(xlsx.GongMarshallField(stage, "StackName"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }

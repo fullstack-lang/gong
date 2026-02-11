@@ -99,9 +99,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	// map of identifiers
 	// var StageMapDstructIds map[*Dstruct]string
-	identifiersDecl := ""
-	initializerStatements := ""
-	pointersInitializesStatements := ""
+	var identifiersDecl strings.Builder
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 
 	decl := ""
 	_ = decl
@@ -124,18 +124,18 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return commandi_order < commandj_order
 	})
 	if len(commandOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, command := range commandOrdered {
 
-		identifiersDecl += command.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(command.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += command.GongMarshallField(stage, "Name")
-		initializerStatements += command.GongMarshallField(stage, "Command")
-		initializerStatements += command.GongMarshallField(stage, "CommandDate")
-		pointersInitializesStatements += command.GongMarshallField(stage, "Engine")
+		initializerStatements.WriteString(command.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(command.GongMarshallField(stage, "Command"))
+		initializerStatements.WriteString(command.GongMarshallField(stage, "CommandDate"))
+		pointersInitializesStatements.WriteString(command.GongMarshallField(stage, "Engine"))
 	}
 
 	dummyagentOrdered := []*DummyAgent{}
@@ -153,16 +153,16 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return dummyagenti_order < dummyagentj_order
 	})
 	if len(dummyagentOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, dummyagent := range dummyagentOrdered {
 
-		identifiersDecl += dummyagent.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(dummyagent.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += dummyagent.GongMarshallField(stage, "TechName")
-		initializerStatements += dummyagent.GongMarshallField(stage, "Name")
+		initializerStatements.WriteString(dummyagent.GongMarshallField(stage, "TechName"))
+		initializerStatements.WriteString(dummyagent.GongMarshallField(stage, "Name"))
 	}
 
 	engineOrdered := []*Engine{}
@@ -180,23 +180,23 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return enginei_order < enginej_order
 	})
 	if len(engineOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, engine := range engineOrdered {
 
-		identifiersDecl += engine.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(engine.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += engine.GongMarshallField(stage, "Name")
-		initializerStatements += engine.GongMarshallField(stage, "EndTime")
-		initializerStatements += engine.GongMarshallField(stage, "CurrentTime")
-		initializerStatements += engine.GongMarshallField(stage, "DisplayFormat")
-		initializerStatements += engine.GongMarshallField(stage, "SecondsSinceStart")
-		initializerStatements += engine.GongMarshallField(stage, "Fired")
-		initializerStatements += engine.GongMarshallField(stage, "ControlMode")
-		initializerStatements += engine.GongMarshallField(stage, "State")
-		initializerStatements += engine.GongMarshallField(stage, "Speed")
+		initializerStatements.WriteString(engine.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(engine.GongMarshallField(stage, "EndTime"))
+		initializerStatements.WriteString(engine.GongMarshallField(stage, "CurrentTime"))
+		initializerStatements.WriteString(engine.GongMarshallField(stage, "DisplayFormat"))
+		initializerStatements.WriteString(engine.GongMarshallField(stage, "SecondsSinceStart"))
+		initializerStatements.WriteString(engine.GongMarshallField(stage, "Fired"))
+		initializerStatements.WriteString(engine.GongMarshallField(stage, "ControlMode"))
+		initializerStatements.WriteString(engine.GongMarshallField(stage, "State"))
+		initializerStatements.WriteString(engine.GongMarshallField(stage, "Speed"))
 	}
 
 	eventOrdered := []*Event{}
@@ -214,16 +214,16 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return eventi_order < eventj_order
 	})
 	if len(eventOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, event := range eventOrdered {
 
-		identifiersDecl += event.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(event.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += event.GongMarshallField(stage, "Name")
-		initializerStatements += event.GongMarshallField(stage, "Duration")
+		initializerStatements.WriteString(event.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(event.GongMarshallField(stage, "Duration"))
 	}
 
 	statusOrdered := []*Status{}
@@ -241,19 +241,19 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return statusi_order < statusj_order
 	})
 	if len(statusOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, status := range statusOrdered {
 
-		identifiersDecl += status.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(status.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += status.GongMarshallField(stage, "Name")
-		initializerStatements += status.GongMarshallField(stage, "CurrentCommand")
-		initializerStatements += status.GongMarshallField(stage, "CompletionDate")
-		initializerStatements += status.GongMarshallField(stage, "CurrentSpeedCommand")
-		initializerStatements += status.GongMarshallField(stage, "SpeedCommandCompletionDate")
+		initializerStatements.WriteString(status.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(status.GongMarshallField(stage, "CurrentCommand"))
+		initializerStatements.WriteString(status.GongMarshallField(stage, "CompletionDate"))
+		initializerStatements.WriteString(status.GongMarshallField(stage, "CurrentSpeedCommand"))
+		initializerStatements.WriteString(status.GongMarshallField(stage, "SpeedCommandCompletionDate"))
 	}
 
 	updatestateOrdered := []*UpdateState{}
@@ -271,17 +271,17 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return updatestatei_order < updatestatej_order
 	})
 	if len(updatestateOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, updatestate := range updatestateOrdered {
 
-		identifiersDecl += updatestate.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(updatestate.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += updatestate.GongMarshallField(stage, "Name")
-		initializerStatements += updatestate.GongMarshallField(stage, "Duration")
-		initializerStatements += updatestate.GongMarshallField(stage, "Period")
+		initializerStatements.WriteString(updatestate.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(updatestate.GongMarshallField(stage, "Duration"))
+		initializerStatements.WriteString(updatestate.GongMarshallField(stage, "Period"))
 	}
 
 	// insertion initialization of objects to stage
@@ -333,9 +333,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for pointers initialization
 	}
 
-	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)
-	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements)
-	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements)
+	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl.String())
+	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements.String())
+	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements.String())
 
 	if stage.MetaPackageImportAlias != "" {
 		res = strings.ReplaceAll(res, "{{ImportPackageDeclaration}}",
@@ -345,7 +345,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 			fmt.Sprintf("\nvar _ %s.Stage",
 				stage.MetaPackageImportAlias))
 
-		var entries string
+		var entries strings.Builder
 
 		// regenerate the map of doc link renaming
 		// the key and value are set to the value because
@@ -364,24 +364,24 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 			switch value.Type {
 			case GONG__ENUM_CAST_INT:
-				entries += fmt.Sprintf("\n\n\t\"%s\": %s(0),", value.Ident, value.Ident)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": %s(0),", value.Ident, value.Ident))
 			case GONG__ENUM_CAST_STRING:
-				entries += fmt.Sprintf("\n\n\t\"%s\": %s(\"\"),", value.Ident, value.Ident)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": %s(\"\"),", value.Ident, value.Ident))
 			case GONG__FIELD_VALUE:
 				// substitute the second point with "{})."
 				joker := "__substitute_for_first_point__"
 				valueIdentifier := strings.Replace(value.Ident, ".", joker, 1)
 				valueIdentifier = strings.Replace(valueIdentifier, ".", "{}).", 1)
 				valueIdentifier = strings.Replace(valueIdentifier, joker, ".", 1)
-				entries += fmt.Sprintf("\n\n\t\"%s\": (%s,", value.Ident, valueIdentifier)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": (%s,", value.Ident, valueIdentifier))
 			case GONG__IDENTIFIER_CONST:
-				entries += fmt.Sprintf("\n\n\t\"%s\": %s,", value.Ident, value.Ident)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": %s,", value.Ident, value.Ident))
 			case GONG__STRUCT_INSTANCE:
-				entries += fmt.Sprintf("\n\n\t\"%s\": &(%s{}),", value.Ident, value.Ident)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": &(%s{}),", value.Ident, value.Ident))
 			}
 		}
 
-		// res = strings.ReplaceAll(res, "{{EntriesDocLinkStringDocLinkIdentifier}}", entries)
+		// res = strings.ReplaceAll(res, "{{EntriesDocLinkStringDocLinkIdentifier}}", entries.String())
 	}
 	return
 }
@@ -621,64 +621,88 @@ func (updatestate *UpdateState) GongMarshallField(stage *Stage, fieldName string
 }
 
 // insertion point for marshall all fields methods
-func (command *Command) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (command *Command) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += command.GongMarshallField(stage, "Name")
-		initializerStatements += command.GongMarshallField(stage, "Command")
-		initializerStatements += command.GongMarshallField(stage, "CommandDate")
-		pointersInitializesStatements += command.GongMarshallField(stage, "Engine")
+		initializerStatements.WriteString(command.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(command.GongMarshallField(stage, "Command"))
+		initializerStatements.WriteString(command.GongMarshallField(stage, "CommandDate"))
+		pointersInitializesStatements.WriteString(command.GongMarshallField(stage, "Engine"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (dummyagent *DummyAgent) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (dummyagent *DummyAgent) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += dummyagent.GongMarshallField(stage, "TechName")
-		initializerStatements += dummyagent.GongMarshallField(stage, "Name")
+		initializerStatements.WriteString(dummyagent.GongMarshallField(stage, "TechName"))
+		initializerStatements.WriteString(dummyagent.GongMarshallField(stage, "Name"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (engine *Engine) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (engine *Engine) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += engine.GongMarshallField(stage, "Name")
-		initializerStatements += engine.GongMarshallField(stage, "EndTime")
-		initializerStatements += engine.GongMarshallField(stage, "CurrentTime")
-		initializerStatements += engine.GongMarshallField(stage, "DisplayFormat")
-		initializerStatements += engine.GongMarshallField(stage, "SecondsSinceStart")
-		initializerStatements += engine.GongMarshallField(stage, "Fired")
-		initializerStatements += engine.GongMarshallField(stage, "ControlMode")
-		initializerStatements += engine.GongMarshallField(stage, "State")
-		initializerStatements += engine.GongMarshallField(stage, "Speed")
+		initializerStatements.WriteString(engine.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(engine.GongMarshallField(stage, "EndTime"))
+		initializerStatements.WriteString(engine.GongMarshallField(stage, "CurrentTime"))
+		initializerStatements.WriteString(engine.GongMarshallField(stage, "DisplayFormat"))
+		initializerStatements.WriteString(engine.GongMarshallField(stage, "SecondsSinceStart"))
+		initializerStatements.WriteString(engine.GongMarshallField(stage, "Fired"))
+		initializerStatements.WriteString(engine.GongMarshallField(stage, "ControlMode"))
+		initializerStatements.WriteString(engine.GongMarshallField(stage, "State"))
+		initializerStatements.WriteString(engine.GongMarshallField(stage, "Speed"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (event *Event) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (event *Event) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += event.GongMarshallField(stage, "Name")
-		initializerStatements += event.GongMarshallField(stage, "Duration")
+		initializerStatements.WriteString(event.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(event.GongMarshallField(stage, "Duration"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (status *Status) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (status *Status) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += status.GongMarshallField(stage, "Name")
-		initializerStatements += status.GongMarshallField(stage, "CurrentCommand")
-		initializerStatements += status.GongMarshallField(stage, "CompletionDate")
-		initializerStatements += status.GongMarshallField(stage, "CurrentSpeedCommand")
-		initializerStatements += status.GongMarshallField(stage, "SpeedCommandCompletionDate")
+		initializerStatements.WriteString(status.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(status.GongMarshallField(stage, "CurrentCommand"))
+		initializerStatements.WriteString(status.GongMarshallField(stage, "CompletionDate"))
+		initializerStatements.WriteString(status.GongMarshallField(stage, "CurrentSpeedCommand"))
+		initializerStatements.WriteString(status.GongMarshallField(stage, "SpeedCommandCompletionDate"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (updatestate *UpdateState) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (updatestate *UpdateState) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += updatestate.GongMarshallField(stage, "Name")
-		initializerStatements += updatestate.GongMarshallField(stage, "Duration")
-		initializerStatements += updatestate.GongMarshallField(stage, "Period")
+		initializerStatements.WriteString(updatestate.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(updatestate.GongMarshallField(stage, "Duration"))
+		initializerStatements.WriteString(updatestate.GongMarshallField(stage, "Period"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }

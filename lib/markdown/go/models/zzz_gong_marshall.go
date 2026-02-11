@@ -99,9 +99,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	// map of identifiers
 	// var StageMapDstructIds map[*Dstruct]string
-	identifiersDecl := ""
-	initializerStatements := ""
-	pointersInitializesStatements := ""
+	var identifiersDecl strings.Builder
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 
 	decl := ""
 	_ = decl
@@ -124,16 +124,16 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return contenti_order < contentj_order
 	})
 	if len(contentOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, content := range contentOrdered {
 
-		identifiersDecl += content.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(content.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += content.GongMarshallField(stage, "Name")
-		initializerStatements += content.GongMarshallField(stage, "Content")
+		initializerStatements.WriteString(content.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(content.GongMarshallField(stage, "Content"))
 	}
 
 	jpgimageOrdered := []*JpgImage{}
@@ -151,16 +151,16 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return jpgimagei_order < jpgimagej_order
 	})
 	if len(jpgimageOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, jpgimage := range jpgimageOrdered {
 
-		identifiersDecl += jpgimage.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(jpgimage.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += jpgimage.GongMarshallField(stage, "Name")
-		initializerStatements += jpgimage.GongMarshallField(stage, "Base64Content")
+		initializerStatements.WriteString(jpgimage.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(jpgimage.GongMarshallField(stage, "Base64Content"))
 	}
 
 	pngimageOrdered := []*PngImage{}
@@ -178,16 +178,16 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return pngimagei_order < pngimagej_order
 	})
 	if len(pngimageOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, pngimage := range pngimageOrdered {
 
-		identifiersDecl += pngimage.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(pngimage.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += pngimage.GongMarshallField(stage, "Name")
-		initializerStatements += pngimage.GongMarshallField(stage, "Base64Content")
+		initializerStatements.WriteString(pngimage.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(pngimage.GongMarshallField(stage, "Base64Content"))
 	}
 
 	svgimageOrdered := []*SvgImage{}
@@ -205,16 +205,16 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return svgimagei_order < svgimagej_order
 	})
 	if len(svgimageOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, svgimage := range svgimageOrdered {
 
-		identifiersDecl += svgimage.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(svgimage.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += svgimage.GongMarshallField(stage, "Name")
-		initializerStatements += svgimage.GongMarshallField(stage, "Content")
+		initializerStatements.WriteString(svgimage.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(svgimage.GongMarshallField(stage, "Content"))
 	}
 
 	// insertion initialization of objects to stage
@@ -250,9 +250,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for pointers initialization
 	}
 
-	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)
-	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements)
-	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements)
+	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl.String())
+	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements.String())
+	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements.String())
 
 	if stage.MetaPackageImportAlias != "" {
 		res = strings.ReplaceAll(res, "{{ImportPackageDeclaration}}",
@@ -262,7 +262,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 			fmt.Sprintf("\nvar _ %s.Stage",
 				stage.MetaPackageImportAlias))
 
-		var entries string
+		var entries strings.Builder
 
 		// regenerate the map of doc link renaming
 		// the key and value are set to the value because
@@ -281,24 +281,24 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 			switch value.Type {
 			case GONG__ENUM_CAST_INT:
-				entries += fmt.Sprintf("\n\n\t\"%s\": %s(0),", value.Ident, value.Ident)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": %s(0),", value.Ident, value.Ident))
 			case GONG__ENUM_CAST_STRING:
-				entries += fmt.Sprintf("\n\n\t\"%s\": %s(\"\"),", value.Ident, value.Ident)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": %s(\"\"),", value.Ident, value.Ident))
 			case GONG__FIELD_VALUE:
 				// substitute the second point with "{})."
 				joker := "__substitute_for_first_point__"
 				valueIdentifier := strings.Replace(value.Ident, ".", joker, 1)
 				valueIdentifier = strings.Replace(valueIdentifier, ".", "{}).", 1)
 				valueIdentifier = strings.Replace(valueIdentifier, joker, ".", 1)
-				entries += fmt.Sprintf("\n\n\t\"%s\": (%s,", value.Ident, valueIdentifier)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": (%s,", value.Ident, valueIdentifier))
 			case GONG__IDENTIFIER_CONST:
-				entries += fmt.Sprintf("\n\n\t\"%s\": %s,", value.Ident, value.Ident)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": %s,", value.Ident, value.Ident))
 			case GONG__STRUCT_INSTANCE:
-				entries += fmt.Sprintf("\n\n\t\"%s\": &(%s{}),", value.Ident, value.Ident)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": &(%s{}),", value.Ident, value.Ident))
 			}
 		}
 
-		// res = strings.ReplaceAll(res, "{{EntriesDocLinkStringDocLinkIdentifier}}", entries)
+		// res = strings.ReplaceAll(res, "{{EntriesDocLinkStringDocLinkIdentifier}}", entries.String())
 	}
 	return
 }
@@ -385,35 +385,51 @@ func (svgimage *SvgImage) GongMarshallField(stage *Stage, fieldName string) (res
 }
 
 // insertion point for marshall all fields methods
-func (content *Content) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (content *Content) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += content.GongMarshallField(stage, "Name")
-		initializerStatements += content.GongMarshallField(stage, "Content")
+		initializerStatements.WriteString(content.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(content.GongMarshallField(stage, "Content"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (jpgimage *JpgImage) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (jpgimage *JpgImage) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += jpgimage.GongMarshallField(stage, "Name")
-		initializerStatements += jpgimage.GongMarshallField(stage, "Base64Content")
+		initializerStatements.WriteString(jpgimage.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(jpgimage.GongMarshallField(stage, "Base64Content"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (pngimage *PngImage) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (pngimage *PngImage) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += pngimage.GongMarshallField(stage, "Name")
-		initializerStatements += pngimage.GongMarshallField(stage, "Base64Content")
+		initializerStatements.WriteString(pngimage.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(pngimage.GongMarshallField(stage, "Base64Content"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (svgimage *SvgImage) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (svgimage *SvgImage) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += svgimage.GongMarshallField(stage, "Name")
-		initializerStatements += svgimage.GongMarshallField(stage, "Content")
+		initializerStatements.WriteString(svgimage.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(svgimage.GongMarshallField(stage, "Content"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }

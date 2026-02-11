@@ -99,9 +99,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	// map of identifiers
 	// var StageMapDstructIds map[*Dstruct]string
-	identifiersDecl := ""
-	initializerStatements := ""
-	pointersInitializesStatements := ""
+	var identifiersDecl strings.Builder
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 
 	decl := ""
 	_ = decl
@@ -124,16 +124,16 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return actioni_order < actionj_order
 	})
 	if len(actionOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, action := range actionOrdered {
 
-		identifiersDecl += action.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(action.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += action.GongMarshallField(stage, "Name")
-		initializerStatements += action.GongMarshallField(stage, "Criticality")
+		initializerStatements.WriteString(action.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(action.GongMarshallField(stage, "Criticality"))
 	}
 
 	activitiesOrdered := []*Activities{}
@@ -151,16 +151,16 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return activitiesi_order < activitiesj_order
 	})
 	if len(activitiesOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, activities := range activitiesOrdered {
 
-		identifiersDecl += activities.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(activities.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += activities.GongMarshallField(stage, "Name")
-		initializerStatements += activities.GongMarshallField(stage, "Criticality")
+		initializerStatements.WriteString(activities.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(activities.GongMarshallField(stage, "Criticality"))
 	}
 
 	architectureOrdered := []*Architecture{}
@@ -178,18 +178,18 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return architecturei_order < architecturej_order
 	})
 	if len(architectureOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, architecture := range architectureOrdered {
 
-		identifiersDecl += architecture.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(architecture.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += architecture.GongMarshallField(stage, "Name")
-		pointersInitializesStatements += architecture.GongMarshallField(stage, "StateMachines")
-		pointersInitializesStatements += architecture.GongMarshallField(stage, "Roles")
-		initializerStatements += architecture.GongMarshallField(stage, "NbPixPerCharacter")
+		initializerStatements.WriteString(architecture.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(architecture.GongMarshallField(stage, "StateMachines"))
+		pointersInitializesStatements.WriteString(architecture.GongMarshallField(stage, "Roles"))
+		initializerStatements.WriteString(architecture.GongMarshallField(stage, "NbPixPerCharacter"))
 	}
 
 	diagramOrdered := []*Diagram{}
@@ -207,21 +207,21 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return diagrami_order < diagramj_order
 	})
 	if len(diagramOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, diagram := range diagramOrdered {
 
-		identifiersDecl += diagram.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(diagram.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += diagram.GongMarshallField(stage, "Name")
-		initializerStatements += diagram.GongMarshallField(stage, "IsChecked")
-		initializerStatements += diagram.GongMarshallField(stage, "IsExpanded")
-		initializerStatements += diagram.GongMarshallField(stage, "IsEditable_")
-		initializerStatements += diagram.GongMarshallField(stage, "IsInRenameMode")
-		pointersInitializesStatements += diagram.GongMarshallField(stage, "State_Shapes")
-		pointersInitializesStatements += diagram.GongMarshallField(stage, "Transition_Shapes")
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsChecked"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsEditable_"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsInRenameMode"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "State_Shapes"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "Transition_Shapes"))
 	}
 
 	guardOrdered := []*Guard{}
@@ -239,15 +239,15 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return guardi_order < guardj_order
 	})
 	if len(guardOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, guard := range guardOrdered {
 
-		identifiersDecl += guard.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(guard.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += guard.GongMarshallField(stage, "Name")
+		initializerStatements.WriteString(guard.GongMarshallField(stage, "Name"))
 	}
 
 	killOrdered := []*Kill{}
@@ -265,15 +265,15 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return killi_order < killj_order
 	})
 	if len(killOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, kill := range killOrdered {
 
-		identifiersDecl += kill.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(kill.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += kill.GongMarshallField(stage, "Name")
+		initializerStatements.WriteString(kill.GongMarshallField(stage, "Name"))
 	}
 
 	messageOrdered := []*Message{}
@@ -291,18 +291,18 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return messagei_order < messagej_order
 	})
 	if len(messageOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, message := range messageOrdered {
 
-		identifiersDecl += message.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(message.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += message.GongMarshallField(stage, "Name")
-		initializerStatements += message.GongMarshallField(stage, "IsSelected")
-		pointersInitializesStatements += message.GongMarshallField(stage, "MessageType")
-		pointersInitializesStatements += message.GongMarshallField(stage, "OriginTransition")
+		initializerStatements.WriteString(message.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(message.GongMarshallField(stage, "IsSelected"))
+		pointersInitializesStatements.WriteString(message.GongMarshallField(stage, "MessageType"))
+		pointersInitializesStatements.WriteString(message.GongMarshallField(stage, "OriginTransition"))
 	}
 
 	messagetypeOrdered := []*MessageType{}
@@ -320,16 +320,16 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return messagetypei_order < messagetypej_order
 	})
 	if len(messagetypeOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, messagetype := range messagetypeOrdered {
 
-		identifiersDecl += messagetype.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(messagetype.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += messagetype.GongMarshallField(stage, "Name")
-		initializerStatements += messagetype.GongMarshallField(stage, "Description")
+		initializerStatements.WriteString(messagetype.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(messagetype.GongMarshallField(stage, "Description"))
 	}
 
 	objectOrdered := []*Object{}
@@ -347,20 +347,20 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return objecti_order < objectj_order
 	})
 	if len(objectOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, object := range objectOrdered {
 
-		identifiersDecl += object.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(object.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += object.GongMarshallField(stage, "Name")
-		pointersInitializesStatements += object.GongMarshallField(stage, "State")
-		initializerStatements += object.GongMarshallField(stage, "IsSelected")
-		initializerStatements += object.GongMarshallField(stage, "Rank")
-		initializerStatements += object.GongMarshallField(stage, "DOF")
-		pointersInitializesStatements += object.GongMarshallField(stage, "Messages")
+		initializerStatements.WriteString(object.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(object.GongMarshallField(stage, "State"))
+		initializerStatements.WriteString(object.GongMarshallField(stage, "IsSelected"))
+		initializerStatements.WriteString(object.GongMarshallField(stage, "Rank"))
+		initializerStatements.WriteString(object.GongMarshallField(stage, "DOF"))
+		pointersInitializesStatements.WriteString(object.GongMarshallField(stage, "Messages"))
 	}
 
 	roleOrdered := []*Role{}
@@ -378,17 +378,17 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return rolei_order < rolej_order
 	})
 	if len(roleOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, role := range roleOrdered {
 
-		identifiersDecl += role.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(role.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += role.GongMarshallField(stage, "Name")
-		initializerStatements += role.GongMarshallField(stage, "Acronym")
-		pointersInitializesStatements += role.GongMarshallField(stage, "RolesWithSamePermissions")
+		initializerStatements.WriteString(role.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(role.GongMarshallField(stage, "Acronym"))
+		pointersInitializesStatements.WriteString(role.GongMarshallField(stage, "RolesWithSamePermissions"))
 	}
 
 	stateOrdered := []*State{}
@@ -406,24 +406,24 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return statei_order < statej_order
 	})
 	if len(stateOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, state := range stateOrdered {
 
-		identifiersDecl += state.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(state.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += state.GongMarshallField(stage, "Name")
-		pointersInitializesStatements += state.GongMarshallField(stage, "Parent")
-		initializerStatements += state.GongMarshallField(stage, "IsDecisionNode")
-		initializerStatements += state.GongMarshallField(stage, "IsFictif")
-		initializerStatements += state.GongMarshallField(stage, "IsEndState")
-		pointersInitializesStatements += state.GongMarshallField(stage, "SubStates")
-		pointersInitializesStatements += state.GongMarshallField(stage, "Diagrams")
-		pointersInitializesStatements += state.GongMarshallField(stage, "Entry")
-		pointersInitializesStatements += state.GongMarshallField(stage, "Activities")
-		pointersInitializesStatements += state.GongMarshallField(stage, "Exit")
+		initializerStatements.WriteString(state.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "Parent"))
+		initializerStatements.WriteString(state.GongMarshallField(stage, "IsDecisionNode"))
+		initializerStatements.WriteString(state.GongMarshallField(stage, "IsFictif"))
+		initializerStatements.WriteString(state.GongMarshallField(stage, "IsEndState"))
+		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "SubStates"))
+		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "Diagrams"))
+		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "Entry"))
+		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "Activities"))
+		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "Exit"))
 	}
 
 	statemachineOrdered := []*StateMachine{}
@@ -441,19 +441,19 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return statemachinei_order < statemachinej_order
 	})
 	if len(statemachineOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, statemachine := range statemachineOrdered {
 
-		identifiersDecl += statemachine.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(statemachine.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += statemachine.GongMarshallField(stage, "Name")
-		initializerStatements += statemachine.GongMarshallField(stage, "IsNodeExpanded")
-		pointersInitializesStatements += statemachine.GongMarshallField(stage, "States")
-		pointersInitializesStatements += statemachine.GongMarshallField(stage, "Diagrams")
-		pointersInitializesStatements += statemachine.GongMarshallField(stage, "InitialState")
+		initializerStatements.WriteString(statemachine.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(statemachine.GongMarshallField(stage, "IsNodeExpanded"))
+		pointersInitializesStatements.WriteString(statemachine.GongMarshallField(stage, "States"))
+		pointersInitializesStatements.WriteString(statemachine.GongMarshallField(stage, "Diagrams"))
+		pointersInitializesStatements.WriteString(statemachine.GongMarshallField(stage, "InitialState"))
 	}
 
 	stateshapeOrdered := []*StateShape{}
@@ -471,21 +471,21 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return stateshapei_order < stateshapej_order
 	})
 	if len(stateshapeOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, stateshape := range stateshapeOrdered {
 
-		identifiersDecl += stateshape.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(stateshape.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += stateshape.GongMarshallField(stage, "Name")
-		pointersInitializesStatements += stateshape.GongMarshallField(stage, "State")
-		initializerStatements += stateshape.GongMarshallField(stage, "IsExpanded")
-		initializerStatements += stateshape.GongMarshallField(stage, "X")
-		initializerStatements += stateshape.GongMarshallField(stage, "Y")
-		initializerStatements += stateshape.GongMarshallField(stage, "Width")
-		initializerStatements += stateshape.GongMarshallField(stage, "Height")
+		initializerStatements.WriteString(stateshape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(stateshape.GongMarshallField(stage, "State"))
+		initializerStatements.WriteString(stateshape.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(stateshape.GongMarshallField(stage, "X"))
+		initializerStatements.WriteString(stateshape.GongMarshallField(stage, "Y"))
+		initializerStatements.WriteString(stateshape.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(stateshape.GongMarshallField(stage, "Height"))
 	}
 
 	transitionOrdered := []*Transition{}
@@ -503,21 +503,21 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return transitioni_order < transitionj_order
 	})
 	if len(transitionOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, transition := range transitionOrdered {
 
-		identifiersDecl += transition.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(transition.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += transition.GongMarshallField(stage, "Name")
-		pointersInitializesStatements += transition.GongMarshallField(stage, "Start")
-		pointersInitializesStatements += transition.GongMarshallField(stage, "End")
-		pointersInitializesStatements += transition.GongMarshallField(stage, "RolesWithPermissions")
-		pointersInitializesStatements += transition.GongMarshallField(stage, "GeneratedMessages")
-		pointersInitializesStatements += transition.GongMarshallField(stage, "Guard")
-		pointersInitializesStatements += transition.GongMarshallField(stage, "Diagrams")
+		initializerStatements.WriteString(transition.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(transition.GongMarshallField(stage, "Start"))
+		pointersInitializesStatements.WriteString(transition.GongMarshallField(stage, "End"))
+		pointersInitializesStatements.WriteString(transition.GongMarshallField(stage, "RolesWithPermissions"))
+		pointersInitializesStatements.WriteString(transition.GongMarshallField(stage, "GeneratedMessages"))
+		pointersInitializesStatements.WriteString(transition.GongMarshallField(stage, "Guard"))
+		pointersInitializesStatements.WriteString(transition.GongMarshallField(stage, "Diagrams"))
 	}
 
 	transition_shapeOrdered := []*Transition_Shape{}
@@ -535,21 +535,21 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return transition_shapei_order < transition_shapej_order
 	})
 	if len(transition_shapeOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, transition_shape := range transition_shapeOrdered {
 
-		identifiersDecl += transition_shape.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(transition_shape.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += transition_shape.GongMarshallField(stage, "Name")
-		pointersInitializesStatements += transition_shape.GongMarshallField(stage, "Transition")
-		initializerStatements += transition_shape.GongMarshallField(stage, "StartRatio")
-		initializerStatements += transition_shape.GongMarshallField(stage, "EndRatio")
-		initializerStatements += transition_shape.GongMarshallField(stage, "StartOrientation")
-		initializerStatements += transition_shape.GongMarshallField(stage, "EndOrientation")
-		initializerStatements += transition_shape.GongMarshallField(stage, "CornerOffsetRatio")
+		initializerStatements.WriteString(transition_shape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(transition_shape.GongMarshallField(stage, "Transition"))
+		initializerStatements.WriteString(transition_shape.GongMarshallField(stage, "StartRatio"))
+		initializerStatements.WriteString(transition_shape.GongMarshallField(stage, "EndRatio"))
+		initializerStatements.WriteString(transition_shape.GongMarshallField(stage, "StartOrientation"))
+		initializerStatements.WriteString(transition_shape.GongMarshallField(stage, "EndOrientation"))
+		initializerStatements.WriteString(transition_shape.GongMarshallField(stage, "CornerOffsetRatio"))
 	}
 
 	// insertion initialization of objects to stage
@@ -673,9 +673,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for pointers initialization
 	}
 
-	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)
-	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements)
-	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements)
+	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl.String())
+	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements.String())
+	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements.String())
 
 	if stage.MetaPackageImportAlias != "" {
 		res = strings.ReplaceAll(res, "{{ImportPackageDeclaration}}",
@@ -685,7 +685,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 			fmt.Sprintf("\nvar _ %s.Stage",
 				stage.MetaPackageImportAlias))
 
-		var entries string
+		var entries strings.Builder
 
 		// regenerate the map of doc link renaming
 		// the key and value are set to the value because
@@ -704,24 +704,24 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 			switch value.Type {
 			case GONG__ENUM_CAST_INT:
-				entries += fmt.Sprintf("\n\n\t\"%s\": %s(0),", value.Ident, value.Ident)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": %s(0),", value.Ident, value.Ident))
 			case GONG__ENUM_CAST_STRING:
-				entries += fmt.Sprintf("\n\n\t\"%s\": %s(\"\"),", value.Ident, value.Ident)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": %s(\"\"),", value.Ident, value.Ident))
 			case GONG__FIELD_VALUE:
 				// substitute the second point with "{})."
 				joker := "__substitute_for_first_point__"
 				valueIdentifier := strings.Replace(value.Ident, ".", joker, 1)
 				valueIdentifier = strings.Replace(valueIdentifier, ".", "{}).", 1)
 				valueIdentifier = strings.Replace(valueIdentifier, joker, ".", 1)
-				entries += fmt.Sprintf("\n\n\t\"%s\": (%s,", value.Ident, valueIdentifier)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": (%s,", value.Ident, valueIdentifier))
 			case GONG__IDENTIFIER_CONST:
-				entries += fmt.Sprintf("\n\n\t\"%s\": %s,", value.Ident, value.Ident)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": %s,", value.Ident, value.Ident))
 			case GONG__STRUCT_INSTANCE:
-				entries += fmt.Sprintf("\n\n\t\"%s\": &(%s{}),", value.Ident, value.Ident)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": &(%s{}),", value.Ident, value.Ident))
 			}
 		}
 
-		// res = strings.ReplaceAll(res, "{{EntriesDocLinkStringDocLinkIdentifier}}", entries)
+		// res = strings.ReplaceAll(res, "{{EntriesDocLinkStringDocLinkIdentifier}}", entries.String())
 	}
 	return
 }
@@ -798,21 +798,25 @@ func (architecture *Architecture) GongMarshallField(stage *Stage, fieldName stri
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", architecture.NbPixPerCharacter))
 
 	case "StateMachines":
+		var sb strings.Builder
 		for _, _statemachine := range architecture.StateMachines {
 			tmp := SliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", architecture.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "StateMachines")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _statemachine.GongGetIdentifier(stage))
-			res += tmp
+			sb.WriteString(tmp)
 		}
+		res = sb.String()
 	case "Roles":
+		var sb strings.Builder
 		for _, _role := range architecture.Roles {
 			tmp := SliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", architecture.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Roles")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _role.GongGetIdentifier(stage))
-			res += tmp
+			sb.WriteString(tmp)
 		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Architecture", fieldName)
 	}
@@ -849,21 +853,25 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsInRenameMode))
 
 	case "State_Shapes":
+		var sb strings.Builder
 		for _, _stateshape := range diagram.State_Shapes {
 			tmp := SliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "State_Shapes")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _stateshape.GongGetIdentifier(stage))
-			res += tmp
+			sb.WriteString(tmp)
 		}
+		res = sb.String()
 	case "Transition_Shapes":
+		var sb strings.Builder
 		for _, _transition_shape := range diagram.Transition_Shapes {
 			tmp := SliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Transition_Shapes")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _transition_shape.GongGetIdentifier(stage))
-			res += tmp
+			sb.WriteString(tmp)
 		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Diagram", fieldName)
 	}
@@ -1004,13 +1012,15 @@ func (object *Object) GongMarshallField(stage *Stage, fieldName string) (res str
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "Messages":
+		var sb strings.Builder
 		for _, _message := range object.Messages {
 			tmp := SliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", object.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Messages")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _message.GongGetIdentifier(stage))
-			res += tmp
+			sb.WriteString(tmp)
 		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Object", fieldName)
 	}
@@ -1032,13 +1042,15 @@ func (role *Role) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(role.Acronym))
 
 	case "RolesWithSamePermissions":
+		var sb strings.Builder
 		for _, _role := range role.RolesWithSamePermissions {
 			tmp := SliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", role.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "RolesWithSamePermissions")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _role.GongGetIdentifier(stage))
-			res += tmp
+			sb.WriteString(tmp)
 		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Role", fieldName)
 	}
@@ -1083,21 +1095,25 @@ func (state *State) GongMarshallField(stage *Stage, fieldName string) (res strin
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "SubStates":
+		var sb strings.Builder
 		for _, _state := range state.SubStates {
 			tmp := SliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", state.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "SubStates")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _state.GongGetIdentifier(stage))
-			res += tmp
+			sb.WriteString(tmp)
 		}
+		res = sb.String()
 	case "Diagrams":
+		var sb strings.Builder
 		for _, _diagram := range state.Diagrams {
 			tmp := SliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", state.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Diagrams")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _diagram.GongGetIdentifier(stage))
-			res += tmp
+			sb.WriteString(tmp)
 		}
+		res = sb.String()
 	case "Entry":
 		if state.Entry != nil {
 			res = PointerFieldInitStatement
@@ -1112,13 +1128,15 @@ func (state *State) GongMarshallField(stage *Stage, fieldName string) (res strin
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "Activities":
+		var sb strings.Builder
 		for _, _activities := range state.Activities {
 			tmp := SliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", state.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Activities")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _activities.GongGetIdentifier(stage))
-			res += tmp
+			sb.WriteString(tmp)
 		}
+		res = sb.String()
 	case "Exit":
 		if state.Exit != nil {
 			res = PointerFieldInitStatement
@@ -1153,21 +1171,25 @@ func (statemachine *StateMachine) GongMarshallField(stage *Stage, fieldName stri
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", statemachine.IsNodeExpanded))
 
 	case "States":
+		var sb strings.Builder
 		for _, _state := range statemachine.States {
 			tmp := SliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", statemachine.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "States")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _state.GongGetIdentifier(stage))
-			res += tmp
+			sb.WriteString(tmp)
 		}
+		res = sb.String()
 	case "Diagrams":
+		var sb strings.Builder
 		for _, _diagram := range statemachine.Diagrams {
 			tmp := SliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", statemachine.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Diagrams")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _diagram.GongGetIdentifier(stage))
-			res += tmp
+			sb.WriteString(tmp)
 		}
+		res = sb.String()
 	case "InitialState":
 		if statemachine.InitialState != nil {
 			res = PointerFieldInitStatement
@@ -1276,21 +1298,25 @@ func (transition *Transition) GongMarshallField(stage *Stage, fieldName string) 
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "RolesWithPermissions":
+		var sb strings.Builder
 		for _, _role := range transition.RolesWithPermissions {
 			tmp := SliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", transition.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "RolesWithPermissions")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _role.GongGetIdentifier(stage))
-			res += tmp
+			sb.WriteString(tmp)
 		}
+		res = sb.String()
 	case "GeneratedMessages":
+		var sb strings.Builder
 		for _, _messagetype := range transition.GeneratedMessages {
 			tmp := SliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", transition.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "GeneratedMessages")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _messagetype.GongGetIdentifier(stage))
-			res += tmp
+			sb.WriteString(tmp)
 		}
+		res = sb.String()
 	case "Guard":
 		if transition.Guard != nil {
 			res = PointerFieldInitStatement
@@ -1305,13 +1331,15 @@ func (transition *Transition) GongMarshallField(stage *Stage, fieldName string) 
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "Diagrams":
+		var sb strings.Builder
 		for _, _diagram := range transition.Diagrams {
 			tmp := SliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", transition.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Diagrams")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _diagram.GongGetIdentifier(stage))
-			res += tmp
+			sb.WriteString(tmp)
 		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Transition", fieldName)
 	}
@@ -1388,161 +1416,221 @@ func (transition_shape *Transition_Shape) GongMarshallField(stage *Stage, fieldN
 }
 
 // insertion point for marshall all fields methods
-func (action *Action) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (action *Action) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += action.GongMarshallField(stage, "Name")
-		initializerStatements += action.GongMarshallField(stage, "Criticality")
+		initializerStatements.WriteString(action.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(action.GongMarshallField(stage, "Criticality"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (activities *Activities) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (activities *Activities) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += activities.GongMarshallField(stage, "Name")
-		initializerStatements += activities.GongMarshallField(stage, "Criticality")
+		initializerStatements.WriteString(activities.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(activities.GongMarshallField(stage, "Criticality"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (architecture *Architecture) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (architecture *Architecture) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += architecture.GongMarshallField(stage, "Name")
-		pointersInitializesStatements += architecture.GongMarshallField(stage, "StateMachines")
-		pointersInitializesStatements += architecture.GongMarshallField(stage, "Roles")
-		initializerStatements += architecture.GongMarshallField(stage, "NbPixPerCharacter")
+		initializerStatements.WriteString(architecture.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(architecture.GongMarshallField(stage, "StateMachines"))
+		pointersInitializesStatements.WriteString(architecture.GongMarshallField(stage, "Roles"))
+		initializerStatements.WriteString(architecture.GongMarshallField(stage, "NbPixPerCharacter"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (diagram *Diagram) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (diagram *Diagram) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += diagram.GongMarshallField(stage, "Name")
-		initializerStatements += diagram.GongMarshallField(stage, "IsChecked")
-		initializerStatements += diagram.GongMarshallField(stage, "IsExpanded")
-		initializerStatements += diagram.GongMarshallField(stage, "IsEditable_")
-		initializerStatements += diagram.GongMarshallField(stage, "IsInRenameMode")
-		pointersInitializesStatements += diagram.GongMarshallField(stage, "State_Shapes")
-		pointersInitializesStatements += diagram.GongMarshallField(stage, "Transition_Shapes")
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsChecked"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsEditable_"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsInRenameMode"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "State_Shapes"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "Transition_Shapes"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (guard *Guard) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (guard *Guard) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += guard.GongMarshallField(stage, "Name")
+		initializerStatements.WriteString(guard.GongMarshallField(stage, "Name"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (kill *Kill) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (kill *Kill) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += kill.GongMarshallField(stage, "Name")
+		initializerStatements.WriteString(kill.GongMarshallField(stage, "Name"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (message *Message) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (message *Message) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += message.GongMarshallField(stage, "Name")
-		initializerStatements += message.GongMarshallField(stage, "IsSelected")
-		pointersInitializesStatements += message.GongMarshallField(stage, "MessageType")
-		pointersInitializesStatements += message.GongMarshallField(stage, "OriginTransition")
+		initializerStatements.WriteString(message.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(message.GongMarshallField(stage, "IsSelected"))
+		pointersInitializesStatements.WriteString(message.GongMarshallField(stage, "MessageType"))
+		pointersInitializesStatements.WriteString(message.GongMarshallField(stage, "OriginTransition"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (messagetype *MessageType) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (messagetype *MessageType) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += messagetype.GongMarshallField(stage, "Name")
-		initializerStatements += messagetype.GongMarshallField(stage, "Description")
+		initializerStatements.WriteString(messagetype.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(messagetype.GongMarshallField(stage, "Description"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (object *Object) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (object *Object) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += object.GongMarshallField(stage, "Name")
-		pointersInitializesStatements += object.GongMarshallField(stage, "State")
-		initializerStatements += object.GongMarshallField(stage, "IsSelected")
-		initializerStatements += object.GongMarshallField(stage, "Rank")
-		initializerStatements += object.GongMarshallField(stage, "DOF")
-		pointersInitializesStatements += object.GongMarshallField(stage, "Messages")
+		initializerStatements.WriteString(object.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(object.GongMarshallField(stage, "State"))
+		initializerStatements.WriteString(object.GongMarshallField(stage, "IsSelected"))
+		initializerStatements.WriteString(object.GongMarshallField(stage, "Rank"))
+		initializerStatements.WriteString(object.GongMarshallField(stage, "DOF"))
+		pointersInitializesStatements.WriteString(object.GongMarshallField(stage, "Messages"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (role *Role) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (role *Role) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += role.GongMarshallField(stage, "Name")
-		initializerStatements += role.GongMarshallField(stage, "Acronym")
-		pointersInitializesStatements += role.GongMarshallField(stage, "RolesWithSamePermissions")
+		initializerStatements.WriteString(role.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(role.GongMarshallField(stage, "Acronym"))
+		pointersInitializesStatements.WriteString(role.GongMarshallField(stage, "RolesWithSamePermissions"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (state *State) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (state *State) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += state.GongMarshallField(stage, "Name")
-		pointersInitializesStatements += state.GongMarshallField(stage, "Parent")
-		initializerStatements += state.GongMarshallField(stage, "IsDecisionNode")
-		initializerStatements += state.GongMarshallField(stage, "IsFictif")
-		initializerStatements += state.GongMarshallField(stage, "IsEndState")
-		pointersInitializesStatements += state.GongMarshallField(stage, "SubStates")
-		pointersInitializesStatements += state.GongMarshallField(stage, "Diagrams")
-		pointersInitializesStatements += state.GongMarshallField(stage, "Entry")
-		pointersInitializesStatements += state.GongMarshallField(stage, "Activities")
-		pointersInitializesStatements += state.GongMarshallField(stage, "Exit")
+		initializerStatements.WriteString(state.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "Parent"))
+		initializerStatements.WriteString(state.GongMarshallField(stage, "IsDecisionNode"))
+		initializerStatements.WriteString(state.GongMarshallField(stage, "IsFictif"))
+		initializerStatements.WriteString(state.GongMarshallField(stage, "IsEndState"))
+		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "SubStates"))
+		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "Diagrams"))
+		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "Entry"))
+		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "Activities"))
+		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "Exit"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (statemachine *StateMachine) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (statemachine *StateMachine) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += statemachine.GongMarshallField(stage, "Name")
-		initializerStatements += statemachine.GongMarshallField(stage, "IsNodeExpanded")
-		pointersInitializesStatements += statemachine.GongMarshallField(stage, "States")
-		pointersInitializesStatements += statemachine.GongMarshallField(stage, "Diagrams")
-		pointersInitializesStatements += statemachine.GongMarshallField(stage, "InitialState")
+		initializerStatements.WriteString(statemachine.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(statemachine.GongMarshallField(stage, "IsNodeExpanded"))
+		pointersInitializesStatements.WriteString(statemachine.GongMarshallField(stage, "States"))
+		pointersInitializesStatements.WriteString(statemachine.GongMarshallField(stage, "Diagrams"))
+		pointersInitializesStatements.WriteString(statemachine.GongMarshallField(stage, "InitialState"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (stateshape *StateShape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (stateshape *StateShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += stateshape.GongMarshallField(stage, "Name")
-		pointersInitializesStatements += stateshape.GongMarshallField(stage, "State")
-		initializerStatements += stateshape.GongMarshallField(stage, "IsExpanded")
-		initializerStatements += stateshape.GongMarshallField(stage, "X")
-		initializerStatements += stateshape.GongMarshallField(stage, "Y")
-		initializerStatements += stateshape.GongMarshallField(stage, "Width")
-		initializerStatements += stateshape.GongMarshallField(stage, "Height")
+		initializerStatements.WriteString(stateshape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(stateshape.GongMarshallField(stage, "State"))
+		initializerStatements.WriteString(stateshape.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(stateshape.GongMarshallField(stage, "X"))
+		initializerStatements.WriteString(stateshape.GongMarshallField(stage, "Y"))
+		initializerStatements.WriteString(stateshape.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(stateshape.GongMarshallField(stage, "Height"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (transition *Transition) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (transition *Transition) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += transition.GongMarshallField(stage, "Name")
-		pointersInitializesStatements += transition.GongMarshallField(stage, "Start")
-		pointersInitializesStatements += transition.GongMarshallField(stage, "End")
-		pointersInitializesStatements += transition.GongMarshallField(stage, "RolesWithPermissions")
-		pointersInitializesStatements += transition.GongMarshallField(stage, "GeneratedMessages")
-		pointersInitializesStatements += transition.GongMarshallField(stage, "Guard")
-		pointersInitializesStatements += transition.GongMarshallField(stage, "Diagrams")
+		initializerStatements.WriteString(transition.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(transition.GongMarshallField(stage, "Start"))
+		pointersInitializesStatements.WriteString(transition.GongMarshallField(stage, "End"))
+		pointersInitializesStatements.WriteString(transition.GongMarshallField(stage, "RolesWithPermissions"))
+		pointersInitializesStatements.WriteString(transition.GongMarshallField(stage, "GeneratedMessages"))
+		pointersInitializesStatements.WriteString(transition.GongMarshallField(stage, "Guard"))
+		pointersInitializesStatements.WriteString(transition.GongMarshallField(stage, "Diagrams"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (transition_shape *Transition_Shape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (transition_shape *Transition_Shape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += transition_shape.GongMarshallField(stage, "Name")
-		pointersInitializesStatements += transition_shape.GongMarshallField(stage, "Transition")
-		initializerStatements += transition_shape.GongMarshallField(stage, "StartRatio")
-		initializerStatements += transition_shape.GongMarshallField(stage, "EndRatio")
-		initializerStatements += transition_shape.GongMarshallField(stage, "StartOrientation")
-		initializerStatements += transition_shape.GongMarshallField(stage, "EndOrientation")
-		initializerStatements += transition_shape.GongMarshallField(stage, "CornerOffsetRatio")
+		initializerStatements.WriteString(transition_shape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(transition_shape.GongMarshallField(stage, "Transition"))
+		initializerStatements.WriteString(transition_shape.GongMarshallField(stage, "StartRatio"))
+		initializerStatements.WriteString(transition_shape.GongMarshallField(stage, "EndRatio"))
+		initializerStatements.WriteString(transition_shape.GongMarshallField(stage, "StartOrientation"))
+		initializerStatements.WriteString(transition_shape.GongMarshallField(stage, "EndOrientation"))
+		initializerStatements.WriteString(transition_shape.GongMarshallField(stage, "CornerOffsetRatio"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }

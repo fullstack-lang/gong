@@ -99,9 +99,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	// map of identifiers
 	// var StageMapDstructIds map[*Dstruct]string
-	identifiersDecl := ""
-	initializerStatements := ""
-	pointersInitializesStatements := ""
+	var identifiersDecl strings.Builder
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 
 	decl := ""
 	_ = decl
@@ -124,21 +124,21 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return buttoni_order < buttonj_order
 	})
 	if len(buttonOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, button := range buttonOrdered {
 
-		identifiersDecl += button.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(button.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += button.GongMarshallField(stage, "Name")
-		initializerStatements += button.GongMarshallField(stage, "Label")
-		initializerStatements += button.GongMarshallField(stage, "Icon")
-		initializerStatements += button.GongMarshallField(stage, "IsDisabled")
-		initializerStatements += button.GongMarshallField(stage, "Color")
-		initializerStatements += button.GongMarshallField(stage, "MatButtonType")
-		initializerStatements += button.GongMarshallField(stage, "MatButtonAppearance")
+		initializerStatements.WriteString(button.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(button.GongMarshallField(stage, "Label"))
+		initializerStatements.WriteString(button.GongMarshallField(stage, "Icon"))
+		initializerStatements.WriteString(button.GongMarshallField(stage, "IsDisabled"))
+		initializerStatements.WriteString(button.GongMarshallField(stage, "Color"))
+		initializerStatements.WriteString(button.GongMarshallField(stage, "MatButtonType"))
+		initializerStatements.WriteString(button.GongMarshallField(stage, "MatButtonAppearance"))
 	}
 
 	buttontoggleOrdered := []*ButtonToggle{}
@@ -156,19 +156,19 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return buttontogglei_order < buttontogglej_order
 	})
 	if len(buttontoggleOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, buttontoggle := range buttontoggleOrdered {
 
-		identifiersDecl += buttontoggle.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(buttontoggle.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += buttontoggle.GongMarshallField(stage, "Name")
-		initializerStatements += buttontoggle.GongMarshallField(stage, "Label")
-		initializerStatements += buttontoggle.GongMarshallField(stage, "Icon")
-		initializerStatements += buttontoggle.GongMarshallField(stage, "IsDisabled")
-		initializerStatements += buttontoggle.GongMarshallField(stage, "IsChecked")
+		initializerStatements.WriteString(buttontoggle.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(buttontoggle.GongMarshallField(stage, "Label"))
+		initializerStatements.WriteString(buttontoggle.GongMarshallField(stage, "Icon"))
+		initializerStatements.WriteString(buttontoggle.GongMarshallField(stage, "IsDisabled"))
+		initializerStatements.WriteString(buttontoggle.GongMarshallField(stage, "IsChecked"))
 	}
 
 	groupOrdered := []*Group{}
@@ -186,18 +186,18 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return groupi_order < groupj_order
 	})
 	if len(groupOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, group := range groupOrdered {
 
-		identifiersDecl += group.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(group.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += group.GongMarshallField(stage, "Name")
-		initializerStatements += group.GongMarshallField(stage, "Percentage")
-		pointersInitializesStatements += group.GongMarshallField(stage, "Buttons")
-		initializerStatements += group.GongMarshallField(stage, "NbColumns")
+		initializerStatements.WriteString(group.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(group.GongMarshallField(stage, "Percentage"))
+		pointersInitializesStatements.WriteString(group.GongMarshallField(stage, "Buttons"))
+		initializerStatements.WriteString(group.GongMarshallField(stage, "NbColumns"))
 	}
 
 	grouptoogleOrdered := []*GroupToogle{}
@@ -215,18 +215,18 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return grouptooglei_order < grouptooglej_order
 	})
 	if len(grouptoogleOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, grouptoogle := range grouptoogleOrdered {
 
-		identifiersDecl += grouptoogle.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(grouptoogle.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += grouptoogle.GongMarshallField(stage, "Name")
-		initializerStatements += grouptoogle.GongMarshallField(stage, "Percentage")
-		pointersInitializesStatements += grouptoogle.GongMarshallField(stage, "ButtonToggles")
-		initializerStatements += grouptoogle.GongMarshallField(stage, "IsSingleSelector")
+		initializerStatements.WriteString(grouptoogle.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(grouptoogle.GongMarshallField(stage, "Percentage"))
+		pointersInitializesStatements.WriteString(grouptoogle.GongMarshallField(stage, "ButtonToggles"))
+		initializerStatements.WriteString(grouptoogle.GongMarshallField(stage, "IsSingleSelector"))
 	}
 
 	layoutOrdered := []*Layout{}
@@ -244,17 +244,17 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return layouti_order < layoutj_order
 	})
 	if len(layoutOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, layout := range layoutOrdered {
 
-		identifiersDecl += layout.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(layout.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += layout.GongMarshallField(stage, "Name")
-		pointersInitializesStatements += layout.GongMarshallField(stage, "Groups")
-		pointersInitializesStatements += layout.GongMarshallField(stage, "GroupToogles")
+		initializerStatements.WriteString(layout.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(layout.GongMarshallField(stage, "Groups"))
+		pointersInitializesStatements.WriteString(layout.GongMarshallField(stage, "GroupToogles"))
 	}
 
 	// insertion initialization of objects to stage
@@ -298,9 +298,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for pointers initialization
 	}
 
-	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)
-	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements)
-	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements)
+	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl.String())
+	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements.String())
+	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements.String())
 
 	if stage.MetaPackageImportAlias != "" {
 		res = strings.ReplaceAll(res, "{{ImportPackageDeclaration}}",
@@ -310,7 +310,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 			fmt.Sprintf("\nvar _ %s.Stage",
 				stage.MetaPackageImportAlias))
 
-		var entries string
+		var entries strings.Builder
 
 		// regenerate the map of doc link renaming
 		// the key and value are set to the value because
@@ -329,24 +329,24 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 			switch value.Type {
 			case GONG__ENUM_CAST_INT:
-				entries += fmt.Sprintf("\n\n\t\"%s\": %s(0),", value.Ident, value.Ident)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": %s(0),", value.Ident, value.Ident))
 			case GONG__ENUM_CAST_STRING:
-				entries += fmt.Sprintf("\n\n\t\"%s\": %s(\"\"),", value.Ident, value.Ident)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": %s(\"\"),", value.Ident, value.Ident))
 			case GONG__FIELD_VALUE:
 				// substitute the second point with "{})."
 				joker := "__substitute_for_first_point__"
 				valueIdentifier := strings.Replace(value.Ident, ".", joker, 1)
 				valueIdentifier = strings.Replace(valueIdentifier, ".", "{}).", 1)
 				valueIdentifier = strings.Replace(valueIdentifier, joker, ".", 1)
-				entries += fmt.Sprintf("\n\n\t\"%s\": (%s,", value.Ident, valueIdentifier)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": (%s,", value.Ident, valueIdentifier))
 			case GONG__IDENTIFIER_CONST:
-				entries += fmt.Sprintf("\n\n\t\"%s\": %s,", value.Ident, value.Ident)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": %s,", value.Ident, value.Ident))
 			case GONG__STRUCT_INSTANCE:
-				entries += fmt.Sprintf("\n\n\t\"%s\": &(%s{}),", value.Ident, value.Ident)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": &(%s{}),", value.Ident, value.Ident))
 			}
 		}
 
-		// res = strings.ReplaceAll(res, "{{EntriesDocLinkStringDocLinkIdentifier}}", entries)
+		// res = strings.ReplaceAll(res, "{{EntriesDocLinkStringDocLinkIdentifier}}", entries.String())
 	}
 	return
 }
@@ -476,13 +476,15 @@ func (group *Group) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", group.NbColumns))
 
 	case "Buttons":
+		var sb strings.Builder
 		for _, _button := range group.Buttons {
 			tmp := SliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", group.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Buttons")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _button.GongGetIdentifier(stage))
-			res += tmp
+			sb.WriteString(tmp)
 		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Group", fieldName)
 	}
@@ -509,13 +511,15 @@ func (grouptoogle *GroupToogle) GongMarshallField(stage *Stage, fieldName string
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", grouptoogle.IsSingleSelector))
 
 	case "ButtonToggles":
+		var sb strings.Builder
 		for _, _buttontoggle := range grouptoogle.ButtonToggles {
 			tmp := SliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", grouptoogle.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ButtonToggles")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _buttontoggle.GongGetIdentifier(stage))
-			res += tmp
+			sb.WriteString(tmp)
 		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct GroupToogle", fieldName)
 	}
@@ -532,21 +536,25 @@ func (layout *Layout) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(layout.Name))
 
 	case "Groups":
+		var sb strings.Builder
 		for _, _group := range layout.Groups {
 			tmp := SliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", layout.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Groups")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _group.GongGetIdentifier(stage))
-			res += tmp
+			sb.WriteString(tmp)
 		}
+		res = sb.String()
 	case "GroupToogles":
+		var sb strings.Builder
 		for _, _grouptoogle := range layout.GroupToogles {
 			tmp := SliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", layout.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "GroupToogles")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _grouptoogle.GongGetIdentifier(stage))
-			res += tmp
+			sb.WriteString(tmp)
 		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Layout", fieldName)
 	}
@@ -554,56 +562,76 @@ func (layout *Layout) GongMarshallField(stage *Stage, fieldName string) (res str
 }
 
 // insertion point for marshall all fields methods
-func (button *Button) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (button *Button) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += button.GongMarshallField(stage, "Name")
-		initializerStatements += button.GongMarshallField(stage, "Label")
-		initializerStatements += button.GongMarshallField(stage, "Icon")
-		initializerStatements += button.GongMarshallField(stage, "IsDisabled")
-		initializerStatements += button.GongMarshallField(stage, "Color")
-		initializerStatements += button.GongMarshallField(stage, "MatButtonType")
-		initializerStatements += button.GongMarshallField(stage, "MatButtonAppearance")
+		initializerStatements.WriteString(button.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(button.GongMarshallField(stage, "Label"))
+		initializerStatements.WriteString(button.GongMarshallField(stage, "Icon"))
+		initializerStatements.WriteString(button.GongMarshallField(stage, "IsDisabled"))
+		initializerStatements.WriteString(button.GongMarshallField(stage, "Color"))
+		initializerStatements.WriteString(button.GongMarshallField(stage, "MatButtonType"))
+		initializerStatements.WriteString(button.GongMarshallField(stage, "MatButtonAppearance"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (buttontoggle *ButtonToggle) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (buttontoggle *ButtonToggle) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += buttontoggle.GongMarshallField(stage, "Name")
-		initializerStatements += buttontoggle.GongMarshallField(stage, "Label")
-		initializerStatements += buttontoggle.GongMarshallField(stage, "Icon")
-		initializerStatements += buttontoggle.GongMarshallField(stage, "IsDisabled")
-		initializerStatements += buttontoggle.GongMarshallField(stage, "IsChecked")
+		initializerStatements.WriteString(buttontoggle.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(buttontoggle.GongMarshallField(stage, "Label"))
+		initializerStatements.WriteString(buttontoggle.GongMarshallField(stage, "Icon"))
+		initializerStatements.WriteString(buttontoggle.GongMarshallField(stage, "IsDisabled"))
+		initializerStatements.WriteString(buttontoggle.GongMarshallField(stage, "IsChecked"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (group *Group) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (group *Group) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += group.GongMarshallField(stage, "Name")
-		initializerStatements += group.GongMarshallField(stage, "Percentage")
-		pointersInitializesStatements += group.GongMarshallField(stage, "Buttons")
-		initializerStatements += group.GongMarshallField(stage, "NbColumns")
+		initializerStatements.WriteString(group.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(group.GongMarshallField(stage, "Percentage"))
+		pointersInitializesStatements.WriteString(group.GongMarshallField(stage, "Buttons"))
+		initializerStatements.WriteString(group.GongMarshallField(stage, "NbColumns"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (grouptoogle *GroupToogle) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (grouptoogle *GroupToogle) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += grouptoogle.GongMarshallField(stage, "Name")
-		initializerStatements += grouptoogle.GongMarshallField(stage, "Percentage")
-		pointersInitializesStatements += grouptoogle.GongMarshallField(stage, "ButtonToggles")
-		initializerStatements += grouptoogle.GongMarshallField(stage, "IsSingleSelector")
+		initializerStatements.WriteString(grouptoogle.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(grouptoogle.GongMarshallField(stage, "Percentage"))
+		pointersInitializesStatements.WriteString(grouptoogle.GongMarshallField(stage, "ButtonToggles"))
+		initializerStatements.WriteString(grouptoogle.GongMarshallField(stage, "IsSingleSelector"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (layout *Layout) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (layout *Layout) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += layout.GongMarshallField(stage, "Name")
-		pointersInitializesStatements += layout.GongMarshallField(stage, "Groups")
-		pointersInitializesStatements += layout.GongMarshallField(stage, "GroupToogles")
+		initializerStatements.WriteString(layout.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(layout.GongMarshallField(stage, "Groups"))
+		pointersInitializesStatements.WriteString(layout.GongMarshallField(stage, "GroupToogles"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
