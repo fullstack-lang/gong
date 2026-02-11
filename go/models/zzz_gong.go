@@ -11,6 +11,7 @@ import (
 	"slices"
 	"sort"
 	"strings"
+	"sync"
 	"time"
 
 	gong_go "github.com/fullstack-lang/gong/go"
@@ -314,6 +315,8 @@ type Stage struct {
 	// navigationMode is set to Navigating
 	navigationMode gongStageNavigationMode
 	commitsBehind  int // the number of commits the stage is behind the front of the history
+
+	lock sync.RWMutex
 }
 
 type gongStageNavigationMode string
@@ -401,6 +404,22 @@ func (stage *Stage) ApplyForwardCommit() error {
 
 func (stage *Stage) GetCommitsBehind() int {
 	return stage.commitsBehind
+}
+
+func (stage *Stage) Lock() {
+	stage.lock.Lock()
+}
+
+func (stage *Stage) Unlock() {
+	stage.lock.Unlock()
+}
+
+func (stage *Stage) RLock() {
+	stage.lock.RLock()
+}
+
+func (stage *Stage) RUnlock() {
+	stage.lock.RUnlock()
 }
 
 // ResetHard removes the more recent
