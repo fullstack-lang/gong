@@ -45,13 +45,13 @@ map[ModelGongMarshallStructInsertionId]string{
 		return {{structname}}i_order < {{structname}}j_order
 	})
 	if len({{structname}}Ordered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, {{structname}} := range {{structname}}Ordered {
 
-		identifiersDecl += {{structname}}.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString({{structname}}.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment{{ValuesInitialization}}
 	}
 `,
@@ -77,10 +77,14 @@ func ({{structname}} *{{Structname}}) GongMarshallField(stage *Stage, fieldName 
 }
 `,
 	ModelGongMarshallMarshallAllFieldsMethods: `
-func ({{structname}} *{{Structname}}) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func ({{structname}} *{{Structname}}) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment{{ValuesInitialization}}
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }`,
 }
@@ -186,18 +190,20 @@ map[GongMarshallFilePerStructSubTemplateId]string{
 		}
 `,
 	GongMarshallFileFieldSubTmplSetSliceOfPointersField: `
+		var sb strings.Builder
 		for _, _{{assocstructname}} := range {{structname}}.{{FieldName}} {
 			tmp := SliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", {{structname}}.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "{{FieldName}}")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _{{assocstructname}}.GongGetIdentifier(stage))
-			res += tmp
+			sb.WriteString(tmp)
 		}
+		res = sb.String()
 `,
 	GongMarshallNonPointerFieldInitializerStatement: `
-		initializerStatements += {{structname}}.GongMarshallField(stage, "{{FieldName}}")`,
+		initializerStatements.WriteString({{structname}}.GongMarshallField(stage, "{{FieldName}}"))`,
 	GongMarshallPointerFieldInitializerStatement: `
-		pointersInitializesStatements += {{structname}}.GongMarshallField(stage, "{{FieldName}}")`,
+		pointersInitializesStatements.WriteString({{structname}}.GongMarshallField(stage, "{{FieldName}}"))`,
 }
 
 func CodeGeneratorModelGongMarshall(
