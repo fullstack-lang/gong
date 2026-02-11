@@ -99,9 +99,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	// map of identifiers
 	// var StageMapDstructIds map[*Dstruct]string
-	identifiersDecl := ""
-	initializerStatements := ""
-	pointersInitializesStatements := ""
+	var identifiersDecl strings.Builder
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 
 	decl := ""
 	_ = decl
@@ -124,16 +124,16 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return filetodownloadi_order < filetodownloadj_order
 	})
 	if len(filetodownloadOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, filetodownload := range filetodownloadOrdered {
 
-		identifiersDecl += filetodownload.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(filetodownload.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += filetodownload.GongMarshallField(stage, "Name")
-		initializerStatements += filetodownload.GongMarshallField(stage, "Base64EncodedContent")
+		initializerStatements.WriteString(filetodownload.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(filetodownload.GongMarshallField(stage, "Base64EncodedContent"))
 	}
 
 	filetouploadOrdered := []*FileToUpload{}
@@ -151,16 +151,16 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return filetouploadi_order < filetouploadj_order
 	})
 	if len(filetouploadOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, filetoupload := range filetouploadOrdered {
 
-		identifiersDecl += filetoupload.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(filetoupload.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += filetoupload.GongMarshallField(stage, "Name")
-		initializerStatements += filetoupload.GongMarshallField(stage, "Base64EncodedContent")
+		initializerStatements.WriteString(filetoupload.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(filetoupload.GongMarshallField(stage, "Base64EncodedContent"))
 	}
 
 	messageOrdered := []*Message{}
@@ -178,15 +178,15 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return messagei_order < messagej_order
 	})
 	if len(messageOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, message := range messageOrdered {
 
-		identifiersDecl += message.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(message.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += message.GongMarshallField(stage, "Name")
+		initializerStatements.WriteString(message.GongMarshallField(stage, "Name"))
 	}
 
 	// insertion initialization of objects to stage
@@ -214,9 +214,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for pointers initialization
 	}
 
-	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)
-	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements)
-	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements)
+	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl.String())
+	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements.String())
+	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements.String())
 
 	if stage.MetaPackageImportAlias != "" {
 		res = strings.ReplaceAll(res, "{{ImportPackageDeclaration}}",
@@ -226,7 +226,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 			fmt.Sprintf("\nvar _ %s.Stage",
 				stage.MetaPackageImportAlias))
 
-		var entries string
+		var entries strings.Builder
 
 		// regenerate the map of doc link renaming
 		// the key and value are set to the value because
@@ -245,24 +245,24 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 			switch value.Type {
 			case GONG__ENUM_CAST_INT:
-				entries += fmt.Sprintf("\n\n\t\"%s\": %s(0),", value.Ident, value.Ident)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": %s(0),", value.Ident, value.Ident))
 			case GONG__ENUM_CAST_STRING:
-				entries += fmt.Sprintf("\n\n\t\"%s\": %s(\"\"),", value.Ident, value.Ident)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": %s(\"\"),", value.Ident, value.Ident))
 			case GONG__FIELD_VALUE:
 				// substitute the second point with "{})."
 				joker := "__substitute_for_first_point__"
 				valueIdentifier := strings.Replace(value.Ident, ".", joker, 1)
 				valueIdentifier = strings.Replace(valueIdentifier, ".", "{}).", 1)
 				valueIdentifier = strings.Replace(valueIdentifier, joker, ".", 1)
-				entries += fmt.Sprintf("\n\n\t\"%s\": (%s,", value.Ident, valueIdentifier)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": (%s,", value.Ident, valueIdentifier))
 			case GONG__IDENTIFIER_CONST:
-				entries += fmt.Sprintf("\n\n\t\"%s\": %s,", value.Ident, value.Ident)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": %s,", value.Ident, value.Ident))
 			case GONG__STRUCT_INSTANCE:
-				entries += fmt.Sprintf("\n\n\t\"%s\": &(%s{}),", value.Ident, value.Ident)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": &(%s{}),", value.Ident, value.Ident))
 			}
 		}
 
-		// res = strings.ReplaceAll(res, "{{EntriesDocLinkStringDocLinkIdentifier}}", entries)
+		// res = strings.ReplaceAll(res, "{{EntriesDocLinkStringDocLinkIdentifier}}", entries.String())
 	}
 	return
 }
@@ -324,26 +324,38 @@ func (message *Message) GongMarshallField(stage *Stage, fieldName string) (res s
 }
 
 // insertion point for marshall all fields methods
-func (filetodownload *FileToDownload) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (filetodownload *FileToDownload) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += filetodownload.GongMarshallField(stage, "Name")
-		initializerStatements += filetodownload.GongMarshallField(stage, "Base64EncodedContent")
+		initializerStatements.WriteString(filetodownload.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(filetodownload.GongMarshallField(stage, "Base64EncodedContent"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (filetoupload *FileToUpload) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (filetoupload *FileToUpload) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += filetoupload.GongMarshallField(stage, "Name")
-		initializerStatements += filetoupload.GongMarshallField(stage, "Base64EncodedContent")
+		initializerStatements.WriteString(filetoupload.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(filetoupload.GongMarshallField(stage, "Base64EncodedContent"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (message *Message) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (message *Message) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += message.GongMarshallField(stage, "Name")
+		initializerStatements.WriteString(message.GongMarshallField(stage, "Name"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
