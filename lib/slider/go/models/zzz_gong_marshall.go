@@ -99,9 +99,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	// map of identifiers
 	// var StageMapDstructIds map[*Dstruct]string
-	identifiersDecl := ""
-	initializerStatements := ""
-	pointersInitializesStatements := ""
+	var identifiersDecl strings.Builder
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 
 	decl := ""
 	_ = decl
@@ -124,18 +124,18 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return checkboxi_order < checkboxj_order
 	})
 	if len(checkboxOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, checkbox := range checkboxOrdered {
 
-		identifiersDecl += checkbox.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(checkbox.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += checkbox.GongMarshallField(stage, "Name")
-		initializerStatements += checkbox.GongMarshallField(stage, "ValueBool")
-		initializerStatements += checkbox.GongMarshallField(stage, "LabelForTrue")
-		initializerStatements += checkbox.GongMarshallField(stage, "LabelForFalse")
+		initializerStatements.WriteString(checkbox.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(checkbox.GongMarshallField(stage, "ValueBool"))
+		initializerStatements.WriteString(checkbox.GongMarshallField(stage, "LabelForTrue"))
+		initializerStatements.WriteString(checkbox.GongMarshallField(stage, "LabelForFalse"))
 	}
 
 	groupOrdered := []*Group{}
@@ -153,18 +153,18 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return groupi_order < groupj_order
 	})
 	if len(groupOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, group := range groupOrdered {
 
-		identifiersDecl += group.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(group.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += group.GongMarshallField(stage, "Name")
-		initializerStatements += group.GongMarshallField(stage, "Percentage")
-		pointersInitializesStatements += group.GongMarshallField(stage, "Sliders")
-		pointersInitializesStatements += group.GongMarshallField(stage, "Checkboxes")
+		initializerStatements.WriteString(group.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(group.GongMarshallField(stage, "Percentage"))
+		pointersInitializesStatements.WriteString(group.GongMarshallField(stage, "Sliders"))
+		pointersInitializesStatements.WriteString(group.GongMarshallField(stage, "Checkboxes"))
 	}
 
 	layoutOrdered := []*Layout{}
@@ -182,16 +182,16 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return layouti_order < layoutj_order
 	})
 	if len(layoutOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, layout := range layoutOrdered {
 
-		identifiersDecl += layout.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(layout.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += layout.GongMarshallField(stage, "Name")
-		pointersInitializesStatements += layout.GongMarshallField(stage, "Groups")
+		initializerStatements.WriteString(layout.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(layout.GongMarshallField(stage, "Groups"))
 	}
 
 	sliderOrdered := []*Slider{}
@@ -209,25 +209,25 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return slideri_order < sliderj_order
 	})
 	if len(sliderOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, slider := range sliderOrdered {
 
-		identifiersDecl += slider.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(slider.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += slider.GongMarshallField(stage, "Name")
-		initializerStatements += slider.GongMarshallField(stage, "IsFloat64")
-		initializerStatements += slider.GongMarshallField(stage, "IsInt")
-		initializerStatements += slider.GongMarshallField(stage, "MinInt")
-		initializerStatements += slider.GongMarshallField(stage, "MaxInt")
-		initializerStatements += slider.GongMarshallField(stage, "StepInt")
-		initializerStatements += slider.GongMarshallField(stage, "ValueInt")
-		initializerStatements += slider.GongMarshallField(stage, "MinFloat64")
-		initializerStatements += slider.GongMarshallField(stage, "MaxFloat64")
-		initializerStatements += slider.GongMarshallField(stage, "StepFloat64")
-		initializerStatements += slider.GongMarshallField(stage, "ValueFloat64")
+		initializerStatements.WriteString(slider.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(slider.GongMarshallField(stage, "IsFloat64"))
+		initializerStatements.WriteString(slider.GongMarshallField(stage, "IsInt"))
+		initializerStatements.WriteString(slider.GongMarshallField(stage, "MinInt"))
+		initializerStatements.WriteString(slider.GongMarshallField(stage, "MaxInt"))
+		initializerStatements.WriteString(slider.GongMarshallField(stage, "StepInt"))
+		initializerStatements.WriteString(slider.GongMarshallField(stage, "ValueInt"))
+		initializerStatements.WriteString(slider.GongMarshallField(stage, "MinFloat64"))
+		initializerStatements.WriteString(slider.GongMarshallField(stage, "MaxFloat64"))
+		initializerStatements.WriteString(slider.GongMarshallField(stage, "StepFloat64"))
+		initializerStatements.WriteString(slider.GongMarshallField(stage, "ValueFloat64"))
 	}
 
 	// insertion initialization of objects to stage
@@ -263,9 +263,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for pointers initialization
 	}
 
-	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)
-	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements)
-	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements)
+	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl.String())
+	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements.String())
+	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements.String())
 
 	if stage.MetaPackageImportAlias != "" {
 		res = strings.ReplaceAll(res, "{{ImportPackageDeclaration}}",
@@ -275,7 +275,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 			fmt.Sprintf("\nvar _ %s.Stage",
 				stage.MetaPackageImportAlias))
 
-		var entries string
+		var entries strings.Builder
 
 		// regenerate the map of doc link renaming
 		// the key and value are set to the value because
@@ -294,24 +294,24 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 			switch value.Type {
 			case GONG__ENUM_CAST_INT:
-				entries += fmt.Sprintf("\n\n\t\"%s\": %s(0),", value.Ident, value.Ident)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": %s(0),", value.Ident, value.Ident))
 			case GONG__ENUM_CAST_STRING:
-				entries += fmt.Sprintf("\n\n\t\"%s\": %s(\"\"),", value.Ident, value.Ident)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": %s(\"\"),", value.Ident, value.Ident))
 			case GONG__FIELD_VALUE:
 				// substitute the second point with "{})."
 				joker := "__substitute_for_first_point__"
 				valueIdentifier := strings.Replace(value.Ident, ".", joker, 1)
 				valueIdentifier = strings.Replace(valueIdentifier, ".", "{}).", 1)
 				valueIdentifier = strings.Replace(valueIdentifier, joker, ".", 1)
-				entries += fmt.Sprintf("\n\n\t\"%s\": (%s,", value.Ident, valueIdentifier)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": (%s,", value.Ident, valueIdentifier))
 			case GONG__IDENTIFIER_CONST:
-				entries += fmt.Sprintf("\n\n\t\"%s\": %s,", value.Ident, value.Ident)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": %s,", value.Ident, value.Ident))
 			case GONG__STRUCT_INSTANCE:
-				entries += fmt.Sprintf("\n\n\t\"%s\": &(%s{}),", value.Ident, value.Ident)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": &(%s{}),", value.Ident, value.Ident))
 			}
 		}
 
-		// res = strings.ReplaceAll(res, "{{EntriesDocLinkStringDocLinkIdentifier}}", entries)
+		// res = strings.ReplaceAll(res, "{{EntriesDocLinkStringDocLinkIdentifier}}", entries.String())
 	}
 	return
 }
@@ -362,21 +362,25 @@ func (group *Group) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", group.Percentage))
 
 	case "Sliders":
+		var sb strings.Builder
 		for _, _slider := range group.Sliders {
 			tmp := SliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", group.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Sliders")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _slider.GongGetIdentifier(stage))
-			res += tmp
+			sb.WriteString(tmp)
 		}
+		res = sb.String()
 	case "Checkboxes":
+		var sb strings.Builder
 		for _, _checkbox := range group.Checkboxes {
 			tmp := SliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", group.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Checkboxes")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _checkbox.GongGetIdentifier(stage))
-			res += tmp
+			sb.WriteString(tmp)
 		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Group", fieldName)
 	}
@@ -393,13 +397,15 @@ func (layout *Layout) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(layout.Name))
 
 	case "Groups":
+		var sb strings.Builder
 		for _, _group := range layout.Groups {
 			tmp := SliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", layout.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Groups")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _group.GongGetIdentifier(stage))
-			res += tmp
+			sb.WriteString(tmp)
 		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Layout", fieldName)
 	}
@@ -472,48 +478,64 @@ func (slider *Slider) GongMarshallField(stage *Stage, fieldName string) (res str
 }
 
 // insertion point for marshall all fields methods
-func (checkbox *Checkbox) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (checkbox *Checkbox) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += checkbox.GongMarshallField(stage, "Name")
-		initializerStatements += checkbox.GongMarshallField(stage, "ValueBool")
-		initializerStatements += checkbox.GongMarshallField(stage, "LabelForTrue")
-		initializerStatements += checkbox.GongMarshallField(stage, "LabelForFalse")
+		initializerStatements.WriteString(checkbox.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(checkbox.GongMarshallField(stage, "ValueBool"))
+		initializerStatements.WriteString(checkbox.GongMarshallField(stage, "LabelForTrue"))
+		initializerStatements.WriteString(checkbox.GongMarshallField(stage, "LabelForFalse"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (group *Group) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (group *Group) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += group.GongMarshallField(stage, "Name")
-		initializerStatements += group.GongMarshallField(stage, "Percentage")
-		pointersInitializesStatements += group.GongMarshallField(stage, "Sliders")
-		pointersInitializesStatements += group.GongMarshallField(stage, "Checkboxes")
+		initializerStatements.WriteString(group.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(group.GongMarshallField(stage, "Percentage"))
+		pointersInitializesStatements.WriteString(group.GongMarshallField(stage, "Sliders"))
+		pointersInitializesStatements.WriteString(group.GongMarshallField(stage, "Checkboxes"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (layout *Layout) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (layout *Layout) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += layout.GongMarshallField(stage, "Name")
-		pointersInitializesStatements += layout.GongMarshallField(stage, "Groups")
+		initializerStatements.WriteString(layout.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(layout.GongMarshallField(stage, "Groups"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (slider *Slider) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (slider *Slider) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += slider.GongMarshallField(stage, "Name")
-		initializerStatements += slider.GongMarshallField(stage, "IsFloat64")
-		initializerStatements += slider.GongMarshallField(stage, "IsInt")
-		initializerStatements += slider.GongMarshallField(stage, "MinInt")
-		initializerStatements += slider.GongMarshallField(stage, "MaxInt")
-		initializerStatements += slider.GongMarshallField(stage, "StepInt")
-		initializerStatements += slider.GongMarshallField(stage, "ValueInt")
-		initializerStatements += slider.GongMarshallField(stage, "MinFloat64")
-		initializerStatements += slider.GongMarshallField(stage, "MaxFloat64")
-		initializerStatements += slider.GongMarshallField(stage, "StepFloat64")
-		initializerStatements += slider.GongMarshallField(stage, "ValueFloat64")
+		initializerStatements.WriteString(slider.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(slider.GongMarshallField(stage, "IsFloat64"))
+		initializerStatements.WriteString(slider.GongMarshallField(stage, "IsInt"))
+		initializerStatements.WriteString(slider.GongMarshallField(stage, "MinInt"))
+		initializerStatements.WriteString(slider.GongMarshallField(stage, "MaxInt"))
+		initializerStatements.WriteString(slider.GongMarshallField(stage, "StepInt"))
+		initializerStatements.WriteString(slider.GongMarshallField(stage, "ValueInt"))
+		initializerStatements.WriteString(slider.GongMarshallField(stage, "MinFloat64"))
+		initializerStatements.WriteString(slider.GongMarshallField(stage, "MaxFloat64"))
+		initializerStatements.WriteString(slider.GongMarshallField(stage, "StepFloat64"))
+		initializerStatements.WriteString(slider.GongMarshallField(stage, "ValueFloat64"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
