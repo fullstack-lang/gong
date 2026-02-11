@@ -99,9 +99,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	// map of identifiers
 	// var StageMapDstructIds map[*Dstruct]string
-	identifiersDecl := ""
-	initializerStatements := ""
-	pointersInitializesStatements := ""
+	var identifiersDecl strings.Builder
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 
 	decl := ""
 	_ = decl
@@ -124,21 +124,21 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return buttoni_order < buttonj_order
 	})
 	if len(buttonOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, button := range buttonOrdered {
 
-		identifiersDecl += button.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(button.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += button.GongMarshallField(stage, "Name")
-		initializerStatements += button.GongMarshallField(stage, "Icon")
-		pointersInitializesStatements += button.GongMarshallField(stage, "SVGIcon")
-		initializerStatements += button.GongMarshallField(stage, "IsDisabled")
-		initializerStatements += button.GongMarshallField(stage, "HasToolTip")
-		initializerStatements += button.GongMarshallField(stage, "ToolTipText")
-		initializerStatements += button.GongMarshallField(stage, "ToolTipPosition")
+		initializerStatements.WriteString(button.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(button.GongMarshallField(stage, "Icon"))
+		pointersInitializesStatements.WriteString(button.GongMarshallField(stage, "SVGIcon"))
+		initializerStatements.WriteString(button.GongMarshallField(stage, "IsDisabled"))
+		initializerStatements.WriteString(button.GongMarshallField(stage, "HasToolTip"))
+		initializerStatements.WriteString(button.GongMarshallField(stage, "ToolTipText"))
+		initializerStatements.WriteString(button.GongMarshallField(stage, "ToolTipPosition"))
 	}
 
 	nodeOrdered := []*Node{}
@@ -156,41 +156,41 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return nodei_order < nodej_order
 	})
 	if len(nodeOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, node := range nodeOrdered {
 
-		identifiersDecl += node.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(node.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += node.GongMarshallField(stage, "Name")
-		initializerStatements += node.GongMarshallField(stage, "FontStyle")
-		initializerStatements += node.GongMarshallField(stage, "BackgroundColor")
-		initializerStatements += node.GongMarshallField(stage, "IsExpanded")
-		initializerStatements += node.GongMarshallField(stage, "HasCheckboxButton")
-		initializerStatements += node.GongMarshallField(stage, "IsChecked")
-		initializerStatements += node.GongMarshallField(stage, "IsCheckboxDisabled")
-		initializerStatements += node.GongMarshallField(stage, "CheckboxHasToolTip")
-		initializerStatements += node.GongMarshallField(stage, "CheckboxToolTipText")
-		initializerStatements += node.GongMarshallField(stage, "CheckboxToolTipPosition")
-		initializerStatements += node.GongMarshallField(stage, "HasSecondCheckboxButton")
-		initializerStatements += node.GongMarshallField(stage, "IsSecondCheckboxChecked")
-		initializerStatements += node.GongMarshallField(stage, "IsSecondCheckboxDisabled")
-		initializerStatements += node.GongMarshallField(stage, "SecondCheckboxHasToolTip")
-		initializerStatements += node.GongMarshallField(stage, "SecondCheckboxToolTipText")
-		initializerStatements += node.GongMarshallField(stage, "SecondCheckboxToolTipPosition")
-		initializerStatements += node.GongMarshallField(stage, "TextAfterSecondCheckbox")
-		initializerStatements += node.GongMarshallField(stage, "HasToolTip")
-		initializerStatements += node.GongMarshallField(stage, "ToolTipText")
-		initializerStatements += node.GongMarshallField(stage, "ToolTipPosition")
-		initializerStatements += node.GongMarshallField(stage, "IsInEditMode")
-		initializerStatements += node.GongMarshallField(stage, "IsNodeClickable")
-		initializerStatements += node.GongMarshallField(stage, "IsWithPreceedingIcon")
-		initializerStatements += node.GongMarshallField(stage, "PreceedingIcon")
-		pointersInitializesStatements += node.GongMarshallField(stage, "PreceedingSVGIcon")
-		pointersInitializesStatements += node.GongMarshallField(stage, "Children")
-		pointersInitializesStatements += node.GongMarshallField(stage, "Buttons")
+		initializerStatements.WriteString(node.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "FontStyle"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "BackgroundColor"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "HasCheckboxButton"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "IsChecked"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "IsCheckboxDisabled"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "CheckboxHasToolTip"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "CheckboxToolTipText"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "CheckboxToolTipPosition"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "HasSecondCheckboxButton"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "IsSecondCheckboxChecked"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "IsSecondCheckboxDisabled"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "SecondCheckboxHasToolTip"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "SecondCheckboxToolTipText"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "SecondCheckboxToolTipPosition"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "TextAfterSecondCheckbox"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "HasToolTip"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "ToolTipText"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "ToolTipPosition"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "IsInEditMode"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "IsNodeClickable"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "IsWithPreceedingIcon"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "PreceedingIcon"))
+		pointersInitializesStatements.WriteString(node.GongMarshallField(stage, "PreceedingSVGIcon"))
+		pointersInitializesStatements.WriteString(node.GongMarshallField(stage, "Children"))
+		pointersInitializesStatements.WriteString(node.GongMarshallField(stage, "Buttons"))
 	}
 
 	svgiconOrdered := []*SVGIcon{}
@@ -208,16 +208,16 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return svgiconi_order < svgiconj_order
 	})
 	if len(svgiconOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, svgicon := range svgiconOrdered {
 
-		identifiersDecl += svgicon.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(svgicon.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += svgicon.GongMarshallField(stage, "Name")
-		initializerStatements += svgicon.GongMarshallField(stage, "SVG")
+		initializerStatements.WriteString(svgicon.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(svgicon.GongMarshallField(stage, "SVG"))
 	}
 
 	treeOrdered := []*Tree{}
@@ -235,16 +235,16 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return treei_order < treej_order
 	})
 	if len(treeOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, tree := range treeOrdered {
 
-		identifiersDecl += tree.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(tree.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += tree.GongMarshallField(stage, "Name")
-		pointersInitializesStatements += tree.GongMarshallField(stage, "RootNodes")
+		initializerStatements.WriteString(tree.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(tree.GongMarshallField(stage, "RootNodes"))
 	}
 
 	// insertion initialization of objects to stage
@@ -280,9 +280,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for pointers initialization
 	}
 
-	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)
-	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements)
-	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements)
+	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl.String())
+	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements.String())
+	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements.String())
 
 	if stage.MetaPackageImportAlias != "" {
 		res = strings.ReplaceAll(res, "{{ImportPackageDeclaration}}",
@@ -292,7 +292,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 			fmt.Sprintf("\nvar _ %s.Stage",
 				stage.MetaPackageImportAlias))
 
-		var entries string
+		var entries strings.Builder
 
 		// regenerate the map of doc link renaming
 		// the key and value are set to the value because
@@ -311,24 +311,24 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 			switch value.Type {
 			case GONG__ENUM_CAST_INT:
-				entries += fmt.Sprintf("\n\n\t\"%s\": %s(0),", value.Ident, value.Ident)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": %s(0),", value.Ident, value.Ident))
 			case GONG__ENUM_CAST_STRING:
-				entries += fmt.Sprintf("\n\n\t\"%s\": %s(\"\"),", value.Ident, value.Ident)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": %s(\"\"),", value.Ident, value.Ident))
 			case GONG__FIELD_VALUE:
 				// substitute the second point with "{})."
 				joker := "__substitute_for_first_point__"
 				valueIdentifier := strings.Replace(value.Ident, ".", joker, 1)
 				valueIdentifier = strings.Replace(valueIdentifier, ".", "{}).", 1)
 				valueIdentifier = strings.Replace(valueIdentifier, joker, ".", 1)
-				entries += fmt.Sprintf("\n\n\t\"%s\": (%s,", value.Ident, valueIdentifier)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": (%s,", value.Ident, valueIdentifier))
 			case GONG__IDENTIFIER_CONST:
-				entries += fmt.Sprintf("\n\n\t\"%s\": %s,", value.Ident, value.Ident)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": %s,", value.Ident, value.Ident))
 			case GONG__STRUCT_INSTANCE:
-				entries += fmt.Sprintf("\n\n\t\"%s\": &(%s{}),", value.Ident, value.Ident)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": &(%s{}),", value.Ident, value.Ident))
 			}
 		}
 
-		// res = strings.ReplaceAll(res, "{{EntriesDocLinkStringDocLinkIdentifier}}", entries)
+		// res = strings.ReplaceAll(res, "{{EntriesDocLinkStringDocLinkIdentifier}}", entries.String())
 	}
 	return
 }
@@ -565,21 +565,25 @@ func (node *Node) GongMarshallField(stage *Stage, fieldName string) (res string)
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "Children":
+		var sb strings.Builder
 		for _, _node := range node.Children {
 			tmp := SliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", node.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Children")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _node.GongGetIdentifier(stage))
-			res += tmp
+			sb.WriteString(tmp)
 		}
+		res = sb.String()
 	case "Buttons":
+		var sb strings.Builder
 		for _, _button := range node.Buttons {
 			tmp := SliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", node.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Buttons")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _button.GongGetIdentifier(stage))
-			res += tmp
+			sb.WriteString(tmp)
 		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Node", fieldName)
 	}
@@ -616,13 +620,15 @@ func (tree *Tree) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(tree.Name))
 
 	case "RootNodes":
+		var sb strings.Builder
 		for _, _node := range tree.RootNodes {
 			tmp := SliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", tree.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "RootNodes")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _node.GongGetIdentifier(stage))
-			res += tmp
+			sb.WriteString(tmp)
 		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Tree", fieldName)
 	}
@@ -630,65 +636,81 @@ func (tree *Tree) GongMarshallField(stage *Stage, fieldName string) (res string)
 }
 
 // insertion point for marshall all fields methods
-func (button *Button) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (button *Button) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += button.GongMarshallField(stage, "Name")
-		initializerStatements += button.GongMarshallField(stage, "Icon")
-		pointersInitializesStatements += button.GongMarshallField(stage, "SVGIcon")
-		initializerStatements += button.GongMarshallField(stage, "IsDisabled")
-		initializerStatements += button.GongMarshallField(stage, "HasToolTip")
-		initializerStatements += button.GongMarshallField(stage, "ToolTipText")
-		initializerStatements += button.GongMarshallField(stage, "ToolTipPosition")
+		initializerStatements.WriteString(button.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(button.GongMarshallField(stage, "Icon"))
+		pointersInitializesStatements.WriteString(button.GongMarshallField(stage, "SVGIcon"))
+		initializerStatements.WriteString(button.GongMarshallField(stage, "IsDisabled"))
+		initializerStatements.WriteString(button.GongMarshallField(stage, "HasToolTip"))
+		initializerStatements.WriteString(button.GongMarshallField(stage, "ToolTipText"))
+		initializerStatements.WriteString(button.GongMarshallField(stage, "ToolTipPosition"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (node *Node) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (node *Node) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += node.GongMarshallField(stage, "Name")
-		initializerStatements += node.GongMarshallField(stage, "FontStyle")
-		initializerStatements += node.GongMarshallField(stage, "BackgroundColor")
-		initializerStatements += node.GongMarshallField(stage, "IsExpanded")
-		initializerStatements += node.GongMarshallField(stage, "HasCheckboxButton")
-		initializerStatements += node.GongMarshallField(stage, "IsChecked")
-		initializerStatements += node.GongMarshallField(stage, "IsCheckboxDisabled")
-		initializerStatements += node.GongMarshallField(stage, "CheckboxHasToolTip")
-		initializerStatements += node.GongMarshallField(stage, "CheckboxToolTipText")
-		initializerStatements += node.GongMarshallField(stage, "CheckboxToolTipPosition")
-		initializerStatements += node.GongMarshallField(stage, "HasSecondCheckboxButton")
-		initializerStatements += node.GongMarshallField(stage, "IsSecondCheckboxChecked")
-		initializerStatements += node.GongMarshallField(stage, "IsSecondCheckboxDisabled")
-		initializerStatements += node.GongMarshallField(stage, "SecondCheckboxHasToolTip")
-		initializerStatements += node.GongMarshallField(stage, "SecondCheckboxToolTipText")
-		initializerStatements += node.GongMarshallField(stage, "SecondCheckboxToolTipPosition")
-		initializerStatements += node.GongMarshallField(stage, "TextAfterSecondCheckbox")
-		initializerStatements += node.GongMarshallField(stage, "HasToolTip")
-		initializerStatements += node.GongMarshallField(stage, "ToolTipText")
-		initializerStatements += node.GongMarshallField(stage, "ToolTipPosition")
-		initializerStatements += node.GongMarshallField(stage, "IsInEditMode")
-		initializerStatements += node.GongMarshallField(stage, "IsNodeClickable")
-		initializerStatements += node.GongMarshallField(stage, "IsWithPreceedingIcon")
-		initializerStatements += node.GongMarshallField(stage, "PreceedingIcon")
-		pointersInitializesStatements += node.GongMarshallField(stage, "PreceedingSVGIcon")
-		pointersInitializesStatements += node.GongMarshallField(stage, "Children")
-		pointersInitializesStatements += node.GongMarshallField(stage, "Buttons")
+		initializerStatements.WriteString(node.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "FontStyle"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "BackgroundColor"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "HasCheckboxButton"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "IsChecked"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "IsCheckboxDisabled"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "CheckboxHasToolTip"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "CheckboxToolTipText"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "CheckboxToolTipPosition"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "HasSecondCheckboxButton"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "IsSecondCheckboxChecked"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "IsSecondCheckboxDisabled"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "SecondCheckboxHasToolTip"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "SecondCheckboxToolTipText"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "SecondCheckboxToolTipPosition"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "TextAfterSecondCheckbox"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "HasToolTip"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "ToolTipText"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "ToolTipPosition"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "IsInEditMode"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "IsNodeClickable"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "IsWithPreceedingIcon"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "PreceedingIcon"))
+		pointersInitializesStatements.WriteString(node.GongMarshallField(stage, "PreceedingSVGIcon"))
+		pointersInitializesStatements.WriteString(node.GongMarshallField(stage, "Children"))
+		pointersInitializesStatements.WriteString(node.GongMarshallField(stage, "Buttons"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (svgicon *SVGIcon) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (svgicon *SVGIcon) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += svgicon.GongMarshallField(stage, "Name")
-		initializerStatements += svgicon.GongMarshallField(stage, "SVG")
+		initializerStatements.WriteString(svgicon.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(svgicon.GongMarshallField(stage, "SVG"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (tree *Tree) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (tree *Tree) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += tree.GongMarshallField(stage, "Name")
-		pointersInitializesStatements += tree.GongMarshallField(stage, "RootNodes")
+		initializerStatements.WriteString(tree.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(tree.GongMarshallField(stage, "RootNodes"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }

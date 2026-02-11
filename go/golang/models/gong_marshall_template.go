@@ -108,9 +108,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	// map of identifiers
 	// var StageMapDstructIds map[*Dstruct]string
-	identifiersDecl := ""
-	initializerStatements := ""
-	pointersInitializesStatements := ""
+	var identifiersDecl strings.Builder
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 
 	decl := ""
 	_ = decl
@@ -119,9 +119,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	// insertion initialization of objects to stage{{` + string(rune(ModelGongMarshallStructInsertionUnmarshallDeclarations)) + `}}
 	// insertion initialization of objects to stage{{` + string(rune(ModelGongMarshallStructInsertionUnmarshallPointersInitializations)) + `}}
-	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)
-	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements)
-	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements)
+	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl.String())
+	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements.String())
+	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements.String())
 
 	if stage.MetaPackageImportAlias != "" {
 		res = strings.ReplaceAll(res, "{{ImportPackageDeclaration}}",
@@ -131,7 +131,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 			fmt.Sprintf("\nvar _ %s.Stage",
 				stage.MetaPackageImportAlias))
 
-		var entries string
+		var entries strings.Builder
 
 		// regenerate the map of doc link renaming
 		// the key and value are set to the value because
@@ -150,24 +150,24 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 			switch value.Type {
 			case GONG__ENUM_CAST_INT:
-				entries += fmt.Sprintf("\n\n\t\"%s\": %s(0),", value.Ident, value.Ident)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": %s(0),", value.Ident, value.Ident))
 			case GONG__ENUM_CAST_STRING:
-				entries += fmt.Sprintf("\n\n\t\"%s\": %s(\"\"),", value.Ident, value.Ident)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": %s(\"\"),", value.Ident, value.Ident))
 			case GONG__FIELD_VALUE:
 				// substitute the second point with "{})."
 				joker := "__substitute_for_first_point__"
 				valueIdentifier := strings.Replace(value.Ident, ".", joker, 1)
 				valueIdentifier = strings.Replace(valueIdentifier, ".", "{}).", 1)
 				valueIdentifier = strings.Replace(valueIdentifier, joker, ".", 1)
-				entries += fmt.Sprintf("\n\n\t\"%s\": (%s,", value.Ident, valueIdentifier)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": (%s,", value.Ident, valueIdentifier))
 			case GONG__IDENTIFIER_CONST:
-				entries += fmt.Sprintf("\n\n\t\"%s\": %s,", value.Ident, value.Ident)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": %s,", value.Ident, value.Ident))
 			case GONG__STRUCT_INSTANCE:
-				entries += fmt.Sprintf("\n\n\t\"%s\": &(%s{}),", value.Ident, value.Ident)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": &(%s{}),", value.Ident, value.Ident))
 			}
 		}
 
-		// res = strings.ReplaceAll(res, "{{EntriesDocLinkStringDocLinkIdentifier}}", entries)
+		// res = strings.ReplaceAll(res, "{{EntriesDocLinkStringDocLinkIdentifier}}", entries.String())
 	}
 	return
 }

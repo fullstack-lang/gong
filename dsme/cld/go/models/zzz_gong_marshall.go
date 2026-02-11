@@ -99,9 +99,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	// map of identifiers
 	// var StageMapDstructIds map[*Dstruct]string
-	identifiersDecl := ""
-	initializerStatements := ""
-	pointersInitializesStatements := ""
+	var identifiersDecl strings.Builder
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 
 	decl := ""
 	_ = decl
@@ -124,15 +124,15 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return category1i_order < category1j_order
 	})
 	if len(category1Ordered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, category1 := range category1Ordered {
 
-		identifiersDecl += category1.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(category1.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += category1.GongMarshallField(stage, "Name")
+		initializerStatements.WriteString(category1.GongMarshallField(stage, "Name"))
 	}
 
 	category1shapeOrdered := []*Category1Shape{}
@@ -150,20 +150,20 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return category1shapei_order < category1shapej_order
 	})
 	if len(category1shapeOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, category1shape := range category1shapeOrdered {
 
-		identifiersDecl += category1shape.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(category1shape.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += category1shape.GongMarshallField(stage, "Name")
-		pointersInitializesStatements += category1shape.GongMarshallField(stage, "Category1")
-		initializerStatements += category1shape.GongMarshallField(stage, "X")
-		initializerStatements += category1shape.GongMarshallField(stage, "Y")
-		initializerStatements += category1shape.GongMarshallField(stage, "Width")
-		initializerStatements += category1shape.GongMarshallField(stage, "Height")
+		initializerStatements.WriteString(category1shape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(category1shape.GongMarshallField(stage, "Category1"))
+		initializerStatements.WriteString(category1shape.GongMarshallField(stage, "X"))
+		initializerStatements.WriteString(category1shape.GongMarshallField(stage, "Y"))
+		initializerStatements.WriteString(category1shape.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(category1shape.GongMarshallField(stage, "Height"))
 	}
 
 	category2Ordered := []*Category2{}
@@ -181,15 +181,15 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return category2i_order < category2j_order
 	})
 	if len(category2Ordered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, category2 := range category2Ordered {
 
-		identifiersDecl += category2.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(category2.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += category2.GongMarshallField(stage, "Name")
+		initializerStatements.WriteString(category2.GongMarshallField(stage, "Name"))
 	}
 
 	category2shapeOrdered := []*Category2Shape{}
@@ -207,20 +207,20 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return category2shapei_order < category2shapej_order
 	})
 	if len(category2shapeOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, category2shape := range category2shapeOrdered {
 
-		identifiersDecl += category2shape.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(category2shape.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += category2shape.GongMarshallField(stage, "Name")
-		pointersInitializesStatements += category2shape.GongMarshallField(stage, "Category2")
-		initializerStatements += category2shape.GongMarshallField(stage, "X")
-		initializerStatements += category2shape.GongMarshallField(stage, "Y")
-		initializerStatements += category2shape.GongMarshallField(stage, "Width")
-		initializerStatements += category2shape.GongMarshallField(stage, "Height")
+		initializerStatements.WriteString(category2shape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(category2shape.GongMarshallField(stage, "Category2"))
+		initializerStatements.WriteString(category2shape.GongMarshallField(stage, "X"))
+		initializerStatements.WriteString(category2shape.GongMarshallField(stage, "Y"))
+		initializerStatements.WriteString(category2shape.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(category2shape.GongMarshallField(stage, "Height"))
 	}
 
 	category3Ordered := []*Category3{}
@@ -238,15 +238,15 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return category3i_order < category3j_order
 	})
 	if len(category3Ordered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, category3 := range category3Ordered {
 
-		identifiersDecl += category3.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(category3.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += category3.GongMarshallField(stage, "Name")
+		initializerStatements.WriteString(category3.GongMarshallField(stage, "Name"))
 	}
 
 	category3shapeOrdered := []*Category3Shape{}
@@ -264,20 +264,20 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return category3shapei_order < category3shapej_order
 	})
 	if len(category3shapeOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, category3shape := range category3shapeOrdered {
 
-		identifiersDecl += category3shape.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(category3shape.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += category3shape.GongMarshallField(stage, "Name")
-		pointersInitializesStatements += category3shape.GongMarshallField(stage, "Category3")
-		initializerStatements += category3shape.GongMarshallField(stage, "X")
-		initializerStatements += category3shape.GongMarshallField(stage, "Y")
-		initializerStatements += category3shape.GongMarshallField(stage, "Width")
-		initializerStatements += category3shape.GongMarshallField(stage, "Height")
+		initializerStatements.WriteString(category3shape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(category3shape.GongMarshallField(stage, "Category3"))
+		initializerStatements.WriteString(category3shape.GongMarshallField(stage, "X"))
+		initializerStatements.WriteString(category3shape.GongMarshallField(stage, "Y"))
+		initializerStatements.WriteString(category3shape.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(category3shape.GongMarshallField(stage, "Height"))
 	}
 
 	controlpointshapeOrdered := []*ControlPointShape{}
@@ -295,18 +295,18 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return controlpointshapei_order < controlpointshapej_order
 	})
 	if len(controlpointshapeOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, controlpointshape := range controlpointshapeOrdered {
 
-		identifiersDecl += controlpointshape.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(controlpointshape.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += controlpointshape.GongMarshallField(stage, "Name")
-		initializerStatements += controlpointshape.GongMarshallField(stage, "X_Relative")
-		initializerStatements += controlpointshape.GongMarshallField(stage, "Y_Relative")
-		initializerStatements += controlpointshape.GongMarshallField(stage, "IsStartShapeTheClosestShape")
+		initializerStatements.WriteString(controlpointshape.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(controlpointshape.GongMarshallField(stage, "X_Relative"))
+		initializerStatements.WriteString(controlpointshape.GongMarshallField(stage, "Y_Relative"))
+		initializerStatements.WriteString(controlpointshape.GongMarshallField(stage, "IsStartShapeTheClosestShape"))
 	}
 
 	deskOrdered := []*Desk{}
@@ -324,16 +324,16 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return deski_order < deskj_order
 	})
 	if len(deskOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, desk := range deskOrdered {
 
-		identifiersDecl += desk.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(desk.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += desk.GongMarshallField(stage, "Name")
-		pointersInitializesStatements += desk.GongMarshallField(stage, "SelectedDiagram")
+		initializerStatements.WriteString(desk.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(desk.GongMarshallField(stage, "SelectedDiagram"))
 	}
 
 	diagramOrdered := []*Diagram{}
@@ -351,68 +351,68 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return diagrami_order < diagramj_order
 	})
 	if len(diagramOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, diagram := range diagramOrdered {
 
-		identifiersDecl += diagram.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(diagram.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += diagram.GongMarshallField(stage, "Name")
-		pointersInitializesStatements += diagram.GongMarshallField(stage, "Category1Shapes")
-		pointersInitializesStatements += diagram.GongMarshallField(stage, "Category2Shapes")
-		pointersInitializesStatements += diagram.GongMarshallField(stage, "Category3Shapes")
-		pointersInitializesStatements += diagram.GongMarshallField(stage, "InfluenceShapes")
-		initializerStatements += diagram.GongMarshallField(stage, "IsEditable")
-		initializerStatements += diagram.GongMarshallField(stage, "IsNodeExpanded")
-		initializerStatements += diagram.GongMarshallField(stage, "IsCategory1NodeExpanded")
-		initializerStatements += diagram.GongMarshallField(stage, "IsCategory2NodeExpanded")
-		initializerStatements += diagram.GongMarshallField(stage, "IsCategory3NodeExpanded")
-		initializerStatements += diagram.GongMarshallField(stage, "IsInfluenceCategoryNodeExpanded")
-		initializerStatements += diagram.GongMarshallField(stage, "IsCategory1Shown")
-		initializerStatements += diagram.GongMarshallField(stage, "IsCategory2Shown")
-		initializerStatements += diagram.GongMarshallField(stage, "IsCategory3Shown")
-		initializerStatements += diagram.GongMarshallField(stage, "IsInfluenceCategoryShown")
-		initializerStatements += diagram.GongMarshallField(stage, "XMargin")
-		initializerStatements += diagram.GongMarshallField(stage, "YMargin")
-		initializerStatements += diagram.GongMarshallField(stage, "Height")
-		initializerStatements += diagram.GongMarshallField(stage, "Width")
-		initializerStatements += diagram.GongMarshallField(stage, "NbPixPerCharacter")
-		initializerStatements += diagram.GongMarshallField(stage, "RedColorCode")
-		initializerStatements += diagram.GongMarshallField(stage, "BackgroundGreyColorCode")
-		initializerStatements += diagram.GongMarshallField(stage, "GrayColorCode")
-		initializerStatements += diagram.GongMarshallField(stage, "Category1RectAnchorType")
-		initializerStatements += diagram.GongMarshallField(stage, "Category1TextAnchorType")
-		initializerStatements += diagram.GongMarshallField(stage, "Category1DominantBaselineType")
-		initializerStatements += diagram.GongMarshallField(stage, "Category1FontSize")
-		initializerStatements += diagram.GongMarshallField(stage, "Category1FontWeigth")
-		initializerStatements += diagram.GongMarshallField(stage, "Category1FontFamily")
-		initializerStatements += diagram.GongMarshallField(stage, "Category1LetterSpacing")
-		initializerStatements += diagram.GongMarshallField(stage, "Category2TypeFontSize")
-		initializerStatements += diagram.GongMarshallField(stage, "Category2TypeFontWeigth")
-		initializerStatements += diagram.GongMarshallField(stage, "Category2TypeFontFamily")
-		initializerStatements += diagram.GongMarshallField(stage, "Category2TypeLetterSpacing")
-		initializerStatements += diagram.GongMarshallField(stage, "Category2TypeRectAnchorType")
-		initializerStatements += diagram.GongMarshallField(stage, "Category2DominantBaselineType")
-		initializerStatements += diagram.GongMarshallField(stage, "Category2StrokeWidth")
-		initializerStatements += diagram.GongMarshallField(stage, "Category3RectAnchorType")
-		initializerStatements += diagram.GongMarshallField(stage, "Category3TextAnchorType")
-		initializerStatements += diagram.GongMarshallField(stage, "Category3DominantBaselineType")
-		initializerStatements += diagram.GongMarshallField(stage, "Category3FontSize")
-		initializerStatements += diagram.GongMarshallField(stage, "Category3FontWeigth")
-		initializerStatements += diagram.GongMarshallField(stage, "Category3FontFamily")
-		initializerStatements += diagram.GongMarshallField(stage, "Category3LetterSpacing")
-		initializerStatements += diagram.GongMarshallField(stage, "InfluenceStrokeWidth")
-		initializerStatements += diagram.GongMarshallField(stage, "InfluenceArrowSize")
-		initializerStatements += diagram.GongMarshallField(stage, "InfluenceArrowStartOffset")
-		initializerStatements += diagram.GongMarshallField(stage, "InfluenceArrowEndOffset")
-		initializerStatements += diagram.GongMarshallField(stage, "InfluenceCornerRadius")
-		initializerStatements += diagram.GongMarshallField(stage, "InfluenceFontSize")
-		initializerStatements += diagram.GongMarshallField(stage, "InfluenceFontWeigth")
-		initializerStatements += diagram.GongMarshallField(stage, "InfluenceFontFamily")
-		initializerStatements += diagram.GongMarshallField(stage, "InfluenceLetterSpacing")
-		initializerStatements += diagram.GongMarshallField(stage, "InfluenceDashedLinePattern")
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "Category1Shapes"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "Category2Shapes"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "Category3Shapes"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "InfluenceShapes"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsEditable"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsNodeExpanded"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsCategory1NodeExpanded"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsCategory2NodeExpanded"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsCategory3NodeExpanded"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsInfluenceCategoryNodeExpanded"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsCategory1Shown"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsCategory2Shown"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsCategory3Shown"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsInfluenceCategoryShown"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "XMargin"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "YMargin"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "NbPixPerCharacter"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "RedColorCode"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "BackgroundGreyColorCode"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "GrayColorCode"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Category1RectAnchorType"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Category1TextAnchorType"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Category1DominantBaselineType"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Category1FontSize"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Category1FontWeigth"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Category1FontFamily"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Category1LetterSpacing"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Category2TypeFontSize"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Category2TypeFontWeigth"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Category2TypeFontFamily"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Category2TypeLetterSpacing"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Category2TypeRectAnchorType"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Category2DominantBaselineType"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Category2StrokeWidth"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Category3RectAnchorType"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Category3TextAnchorType"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Category3DominantBaselineType"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Category3FontSize"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Category3FontWeigth"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Category3FontFamily"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Category3LetterSpacing"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "InfluenceStrokeWidth"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "InfluenceArrowSize"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "InfluenceArrowStartOffset"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "InfluenceArrowEndOffset"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "InfluenceCornerRadius"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "InfluenceFontSize"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "InfluenceFontWeigth"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "InfluenceFontFamily"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "InfluenceLetterSpacing"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "InfluenceDashedLinePattern"))
 	}
 
 	influenceOrdered := []*Influence{}
@@ -430,23 +430,23 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return influencei_order < influencej_order
 	})
 	if len(influenceOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, influence := range influenceOrdered {
 
-		identifiersDecl += influence.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(influence.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += influence.GongMarshallField(stage, "Name")
-		pointersInitializesStatements += influence.GongMarshallField(stage, "SourceCategory1")
-		pointersInitializesStatements += influence.GongMarshallField(stage, "SourceCategory2")
-		pointersInitializesStatements += influence.GongMarshallField(stage, "SourceCategory3")
-		pointersInitializesStatements += influence.GongMarshallField(stage, "TargetCategory1")
-		pointersInitializesStatements += influence.GongMarshallField(stage, "TargetCategory2")
-		pointersInitializesStatements += influence.GongMarshallField(stage, "TargetCategory3")
-		initializerStatements += influence.GongMarshallField(stage, "IsHypothtical")
-		initializerStatements += influence.GongMarshallField(stage, "TextAtEndOfArrow")
+		initializerStatements.WriteString(influence.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(influence.GongMarshallField(stage, "SourceCategory1"))
+		pointersInitializesStatements.WriteString(influence.GongMarshallField(stage, "SourceCategory2"))
+		pointersInitializesStatements.WriteString(influence.GongMarshallField(stage, "SourceCategory3"))
+		pointersInitializesStatements.WriteString(influence.GongMarshallField(stage, "TargetCategory1"))
+		pointersInitializesStatements.WriteString(influence.GongMarshallField(stage, "TargetCategory2"))
+		pointersInitializesStatements.WriteString(influence.GongMarshallField(stage, "TargetCategory3"))
+		initializerStatements.WriteString(influence.GongMarshallField(stage, "IsHypothtical"))
+		initializerStatements.WriteString(influence.GongMarshallField(stage, "TextAtEndOfArrow"))
 	}
 
 	influenceshapeOrdered := []*InfluenceShape{}
@@ -464,17 +464,17 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		return influenceshapei_order < influenceshapej_order
 	})
 	if len(influenceshapeOrdered) > 0 {
-		identifiersDecl += "\n"
+		identifiersDecl.WriteString("\n")
 	}
 	for _, influenceshape := range influenceshapeOrdered {
 
-		identifiersDecl += influenceshape.GongMarshallIdentifier(stage)
+		identifiersDecl.WriteString(influenceshape.GongMarshallIdentifier(stage))
 
-		initializerStatements += "\n"
+		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements += influenceshape.GongMarshallField(stage, "Name")
-		pointersInitializesStatements += influenceshape.GongMarshallField(stage, "Influence")
-		pointersInitializesStatements += influenceshape.GongMarshallField(stage, "ControlPointShapes")
+		initializerStatements.WriteString(influenceshape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(influenceshape.GongMarshallField(stage, "Influence"))
+		pointersInitializesStatements.WriteString(influenceshape.GongMarshallField(stage, "ControlPointShapes"))
 	}
 
 	// insertion initialization of objects to stage
@@ -566,9 +566,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for pointers initialization
 	}
 
-	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)
-	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements)
-	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements)
+	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl.String())
+	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements.String())
+	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements.String())
 
 	if stage.MetaPackageImportAlias != "" {
 		res = strings.ReplaceAll(res, "{{ImportPackageDeclaration}}",
@@ -578,7 +578,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 			fmt.Sprintf("\nvar _ %s.Stage",
 				stage.MetaPackageImportAlias))
 
-		var entries string
+		var entries strings.Builder
 
 		// regenerate the map of doc link renaming
 		// the key and value are set to the value because
@@ -597,24 +597,24 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 			switch value.Type {
 			case GONG__ENUM_CAST_INT:
-				entries += fmt.Sprintf("\n\n\t\"%s\": %s(0),", value.Ident, value.Ident)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": %s(0),", value.Ident, value.Ident))
 			case GONG__ENUM_CAST_STRING:
-				entries += fmt.Sprintf("\n\n\t\"%s\": %s(\"\"),", value.Ident, value.Ident)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": %s(\"\"),", value.Ident, value.Ident))
 			case GONG__FIELD_VALUE:
 				// substitute the second point with "{})."
 				joker := "__substitute_for_first_point__"
 				valueIdentifier := strings.Replace(value.Ident, ".", joker, 1)
 				valueIdentifier = strings.Replace(valueIdentifier, ".", "{}).", 1)
 				valueIdentifier = strings.Replace(valueIdentifier, joker, ".", 1)
-				entries += fmt.Sprintf("\n\n\t\"%s\": (%s,", value.Ident, valueIdentifier)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": (%s,", value.Ident, valueIdentifier))
 			case GONG__IDENTIFIER_CONST:
-				entries += fmt.Sprintf("\n\n\t\"%s\": %s,", value.Ident, value.Ident)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": %s,", value.Ident, value.Ident))
 			case GONG__STRUCT_INSTANCE:
-				entries += fmt.Sprintf("\n\n\t\"%s\": &(%s{}),", value.Ident, value.Ident)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": &(%s{}),", value.Ident, value.Ident))
 			}
 		}
 
-		// res = strings.ReplaceAll(res, "{{EntriesDocLinkStringDocLinkIdentifier}}", entries)
+		// res = strings.ReplaceAll(res, "{{EntriesDocLinkStringDocLinkIdentifier}}", entries.String())
 	}
 	return
 }
@@ -1186,37 +1186,45 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(diagram.InfluenceDashedLinePattern))
 
 	case "Category1Shapes":
+		var sb strings.Builder
 		for _, _category1shape := range diagram.Category1Shapes {
 			tmp := SliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Category1Shapes")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _category1shape.GongGetIdentifier(stage))
-			res += tmp
+			sb.WriteString(tmp)
 		}
+		res = sb.String()
 	case "Category2Shapes":
+		var sb strings.Builder
 		for _, _category2shape := range diagram.Category2Shapes {
 			tmp := SliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Category2Shapes")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _category2shape.GongGetIdentifier(stage))
-			res += tmp
+			sb.WriteString(tmp)
 		}
+		res = sb.String()
 	case "Category3Shapes":
+		var sb strings.Builder
 		for _, _category3shape := range diagram.Category3Shapes {
 			tmp := SliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Category3Shapes")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _category3shape.GongGetIdentifier(stage))
-			res += tmp
+			sb.WriteString(tmp)
 		}
+		res = sb.String()
 	case "InfluenceShapes":
+		var sb strings.Builder
 		for _, _influenceshape := range diagram.InfluenceShapes {
 			tmp := SliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "InfluenceShapes")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _influenceshape.GongGetIdentifier(stage))
-			res += tmp
+			sb.WriteString(tmp)
 		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Diagram", fieldName)
 	}
@@ -1349,13 +1357,15 @@ func (influenceshape *InfluenceShape) GongMarshallField(stage *Stage, fieldName 
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "ControlPointShapes":
+		var sb strings.Builder
 		for _, _controlpointshape := range influenceshape.ControlPointShapes {
 			tmp := SliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", influenceshape.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ControlPointShapes")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _controlpointshape.GongGetIdentifier(stage))
-			res += tmp
+			sb.WriteString(tmp)
 		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct InfluenceShape", fieldName)
 	}
@@ -1363,162 +1373,206 @@ func (influenceshape *InfluenceShape) GongMarshallField(stage *Stage, fieldName 
 }
 
 // insertion point for marshall all fields methods
-func (category1 *Category1) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (category1 *Category1) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += category1.GongMarshallField(stage, "Name")
+		initializerStatements.WriteString(category1.GongMarshallField(stage, "Name"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (category1shape *Category1Shape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (category1shape *Category1Shape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += category1shape.GongMarshallField(stage, "Name")
-		pointersInitializesStatements += category1shape.GongMarshallField(stage, "Category1")
-		initializerStatements += category1shape.GongMarshallField(stage, "X")
-		initializerStatements += category1shape.GongMarshallField(stage, "Y")
-		initializerStatements += category1shape.GongMarshallField(stage, "Width")
-		initializerStatements += category1shape.GongMarshallField(stage, "Height")
+		initializerStatements.WriteString(category1shape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(category1shape.GongMarshallField(stage, "Category1"))
+		initializerStatements.WriteString(category1shape.GongMarshallField(stage, "X"))
+		initializerStatements.WriteString(category1shape.GongMarshallField(stage, "Y"))
+		initializerStatements.WriteString(category1shape.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(category1shape.GongMarshallField(stage, "Height"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (category2 *Category2) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (category2 *Category2) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += category2.GongMarshallField(stage, "Name")
+		initializerStatements.WriteString(category2.GongMarshallField(stage, "Name"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (category2shape *Category2Shape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (category2shape *Category2Shape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += category2shape.GongMarshallField(stage, "Name")
-		pointersInitializesStatements += category2shape.GongMarshallField(stage, "Category2")
-		initializerStatements += category2shape.GongMarshallField(stage, "X")
-		initializerStatements += category2shape.GongMarshallField(stage, "Y")
-		initializerStatements += category2shape.GongMarshallField(stage, "Width")
-		initializerStatements += category2shape.GongMarshallField(stage, "Height")
+		initializerStatements.WriteString(category2shape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(category2shape.GongMarshallField(stage, "Category2"))
+		initializerStatements.WriteString(category2shape.GongMarshallField(stage, "X"))
+		initializerStatements.WriteString(category2shape.GongMarshallField(stage, "Y"))
+		initializerStatements.WriteString(category2shape.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(category2shape.GongMarshallField(stage, "Height"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (category3 *Category3) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (category3 *Category3) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += category3.GongMarshallField(stage, "Name")
+		initializerStatements.WriteString(category3.GongMarshallField(stage, "Name"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (category3shape *Category3Shape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (category3shape *Category3Shape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += category3shape.GongMarshallField(stage, "Name")
-		pointersInitializesStatements += category3shape.GongMarshallField(stage, "Category3")
-		initializerStatements += category3shape.GongMarshallField(stage, "X")
-		initializerStatements += category3shape.GongMarshallField(stage, "Y")
-		initializerStatements += category3shape.GongMarshallField(stage, "Width")
-		initializerStatements += category3shape.GongMarshallField(stage, "Height")
+		initializerStatements.WriteString(category3shape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(category3shape.GongMarshallField(stage, "Category3"))
+		initializerStatements.WriteString(category3shape.GongMarshallField(stage, "X"))
+		initializerStatements.WriteString(category3shape.GongMarshallField(stage, "Y"))
+		initializerStatements.WriteString(category3shape.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(category3shape.GongMarshallField(stage, "Height"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (controlpointshape *ControlPointShape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (controlpointshape *ControlPointShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += controlpointshape.GongMarshallField(stage, "Name")
-		initializerStatements += controlpointshape.GongMarshallField(stage, "X_Relative")
-		initializerStatements += controlpointshape.GongMarshallField(stage, "Y_Relative")
-		initializerStatements += controlpointshape.GongMarshallField(stage, "IsStartShapeTheClosestShape")
+		initializerStatements.WriteString(controlpointshape.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(controlpointshape.GongMarshallField(stage, "X_Relative"))
+		initializerStatements.WriteString(controlpointshape.GongMarshallField(stage, "Y_Relative"))
+		initializerStatements.WriteString(controlpointshape.GongMarshallField(stage, "IsStartShapeTheClosestShape"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (desk *Desk) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (desk *Desk) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += desk.GongMarshallField(stage, "Name")
-		pointersInitializesStatements += desk.GongMarshallField(stage, "SelectedDiagram")
+		initializerStatements.WriteString(desk.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(desk.GongMarshallField(stage, "SelectedDiagram"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (diagram *Diagram) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (diagram *Diagram) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += diagram.GongMarshallField(stage, "Name")
-		pointersInitializesStatements += diagram.GongMarshallField(stage, "Category1Shapes")
-		pointersInitializesStatements += diagram.GongMarshallField(stage, "Category2Shapes")
-		pointersInitializesStatements += diagram.GongMarshallField(stage, "Category3Shapes")
-		pointersInitializesStatements += diagram.GongMarshallField(stage, "InfluenceShapes")
-		initializerStatements += diagram.GongMarshallField(stage, "IsEditable")
-		initializerStatements += diagram.GongMarshallField(stage, "IsNodeExpanded")
-		initializerStatements += diagram.GongMarshallField(stage, "IsCategory1NodeExpanded")
-		initializerStatements += diagram.GongMarshallField(stage, "IsCategory2NodeExpanded")
-		initializerStatements += diagram.GongMarshallField(stage, "IsCategory3NodeExpanded")
-		initializerStatements += diagram.GongMarshallField(stage, "IsInfluenceCategoryNodeExpanded")
-		initializerStatements += diagram.GongMarshallField(stage, "IsCategory1Shown")
-		initializerStatements += diagram.GongMarshallField(stage, "IsCategory2Shown")
-		initializerStatements += diagram.GongMarshallField(stage, "IsCategory3Shown")
-		initializerStatements += diagram.GongMarshallField(stage, "IsInfluenceCategoryShown")
-		initializerStatements += diagram.GongMarshallField(stage, "XMargin")
-		initializerStatements += diagram.GongMarshallField(stage, "YMargin")
-		initializerStatements += diagram.GongMarshallField(stage, "Height")
-		initializerStatements += diagram.GongMarshallField(stage, "Width")
-		initializerStatements += diagram.GongMarshallField(stage, "NbPixPerCharacter")
-		initializerStatements += diagram.GongMarshallField(stage, "RedColorCode")
-		initializerStatements += diagram.GongMarshallField(stage, "BackgroundGreyColorCode")
-		initializerStatements += diagram.GongMarshallField(stage, "GrayColorCode")
-		initializerStatements += diagram.GongMarshallField(stage, "Category1RectAnchorType")
-		initializerStatements += diagram.GongMarshallField(stage, "Category1TextAnchorType")
-		initializerStatements += diagram.GongMarshallField(stage, "Category1DominantBaselineType")
-		initializerStatements += diagram.GongMarshallField(stage, "Category1FontSize")
-		initializerStatements += diagram.GongMarshallField(stage, "Category1FontWeigth")
-		initializerStatements += diagram.GongMarshallField(stage, "Category1FontFamily")
-		initializerStatements += diagram.GongMarshallField(stage, "Category1LetterSpacing")
-		initializerStatements += diagram.GongMarshallField(stage, "Category2TypeFontSize")
-		initializerStatements += diagram.GongMarshallField(stage, "Category2TypeFontWeigth")
-		initializerStatements += diagram.GongMarshallField(stage, "Category2TypeFontFamily")
-		initializerStatements += diagram.GongMarshallField(stage, "Category2TypeLetterSpacing")
-		initializerStatements += diagram.GongMarshallField(stage, "Category2TypeRectAnchorType")
-		initializerStatements += diagram.GongMarshallField(stage, "Category2DominantBaselineType")
-		initializerStatements += diagram.GongMarshallField(stage, "Category2StrokeWidth")
-		initializerStatements += diagram.GongMarshallField(stage, "Category3RectAnchorType")
-		initializerStatements += diagram.GongMarshallField(stage, "Category3TextAnchorType")
-		initializerStatements += diagram.GongMarshallField(stage, "Category3DominantBaselineType")
-		initializerStatements += diagram.GongMarshallField(stage, "Category3FontSize")
-		initializerStatements += diagram.GongMarshallField(stage, "Category3FontWeigth")
-		initializerStatements += diagram.GongMarshallField(stage, "Category3FontFamily")
-		initializerStatements += diagram.GongMarshallField(stage, "Category3LetterSpacing")
-		initializerStatements += diagram.GongMarshallField(stage, "InfluenceStrokeWidth")
-		initializerStatements += diagram.GongMarshallField(stage, "InfluenceArrowSize")
-		initializerStatements += diagram.GongMarshallField(stage, "InfluenceArrowStartOffset")
-		initializerStatements += diagram.GongMarshallField(stage, "InfluenceArrowEndOffset")
-		initializerStatements += diagram.GongMarshallField(stage, "InfluenceCornerRadius")
-		initializerStatements += diagram.GongMarshallField(stage, "InfluenceFontSize")
-		initializerStatements += diagram.GongMarshallField(stage, "InfluenceFontWeigth")
-		initializerStatements += diagram.GongMarshallField(stage, "InfluenceFontFamily")
-		initializerStatements += diagram.GongMarshallField(stage, "InfluenceLetterSpacing")
-		initializerStatements += diagram.GongMarshallField(stage, "InfluenceDashedLinePattern")
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "Category1Shapes"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "Category2Shapes"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "Category3Shapes"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "InfluenceShapes"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsEditable"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsNodeExpanded"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsCategory1NodeExpanded"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsCategory2NodeExpanded"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsCategory3NodeExpanded"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsInfluenceCategoryNodeExpanded"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsCategory1Shown"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsCategory2Shown"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsCategory3Shown"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsInfluenceCategoryShown"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "XMargin"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "YMargin"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "NbPixPerCharacter"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "RedColorCode"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "BackgroundGreyColorCode"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "GrayColorCode"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Category1RectAnchorType"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Category1TextAnchorType"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Category1DominantBaselineType"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Category1FontSize"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Category1FontWeigth"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Category1FontFamily"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Category1LetterSpacing"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Category2TypeFontSize"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Category2TypeFontWeigth"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Category2TypeFontFamily"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Category2TypeLetterSpacing"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Category2TypeRectAnchorType"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Category2DominantBaselineType"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Category2StrokeWidth"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Category3RectAnchorType"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Category3TextAnchorType"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Category3DominantBaselineType"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Category3FontSize"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Category3FontWeigth"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Category3FontFamily"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Category3LetterSpacing"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "InfluenceStrokeWidth"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "InfluenceArrowSize"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "InfluenceArrowStartOffset"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "InfluenceArrowEndOffset"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "InfluenceCornerRadius"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "InfluenceFontSize"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "InfluenceFontWeigth"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "InfluenceFontFamily"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "InfluenceLetterSpacing"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "InfluenceDashedLinePattern"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (influence *Influence) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (influence *Influence) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += influence.GongMarshallField(stage, "Name")
-		pointersInitializesStatements += influence.GongMarshallField(stage, "SourceCategory1")
-		pointersInitializesStatements += influence.GongMarshallField(stage, "SourceCategory2")
-		pointersInitializesStatements += influence.GongMarshallField(stage, "SourceCategory3")
-		pointersInitializesStatements += influence.GongMarshallField(stage, "TargetCategory1")
-		pointersInitializesStatements += influence.GongMarshallField(stage, "TargetCategory2")
-		pointersInitializesStatements += influence.GongMarshallField(stage, "TargetCategory3")
-		initializerStatements += influence.GongMarshallField(stage, "IsHypothtical")
-		initializerStatements += influence.GongMarshallField(stage, "TextAtEndOfArrow")
+		initializerStatements.WriteString(influence.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(influence.GongMarshallField(stage, "SourceCategory1"))
+		pointersInitializesStatements.WriteString(influence.GongMarshallField(stage, "SourceCategory2"))
+		pointersInitializesStatements.WriteString(influence.GongMarshallField(stage, "SourceCategory3"))
+		pointersInitializesStatements.WriteString(influence.GongMarshallField(stage, "TargetCategory1"))
+		pointersInitializesStatements.WriteString(influence.GongMarshallField(stage, "TargetCategory2"))
+		pointersInitializesStatements.WriteString(influence.GongMarshallField(stage, "TargetCategory3"))
+		initializerStatements.WriteString(influence.GongMarshallField(stage, "IsHypothtical"))
+		initializerStatements.WriteString(influence.GongMarshallField(stage, "TextAtEndOfArrow"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
-func (influenceshape *InfluenceShape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+func (influenceshape *InfluenceShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements += influenceshape.GongMarshallField(stage, "Name")
-		pointersInitializesStatements += influenceshape.GongMarshallField(stage, "Influence")
-		pointersInitializesStatements += influenceshape.GongMarshallField(stage, "ControlPointShapes")
+		initializerStatements.WriteString(influenceshape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(influenceshape.GongMarshallField(stage, "Influence"))
+		pointersInitializesStatements.WriteString(influenceshape.GongMarshallField(stage, "ControlPointShapes"))
 	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
 	return
 }
