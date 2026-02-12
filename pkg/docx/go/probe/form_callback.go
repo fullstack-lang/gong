@@ -46,6 +46,8 @@ type BodyFormCallback struct {
 }
 
 func (bodyFormCallback *BodyFormCallback) OnSave() {
+	bodyFormCallback.probe.stageOfInterest.Lock()
+	defer bodyFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("BodyFormCallback, OnSave")
 
@@ -186,6 +188,8 @@ type DocumentFormCallback struct {
 }
 
 func (documentFormCallback *DocumentFormCallback) OnSave() {
+	documentFormCallback.probe.stageOfInterest.Lock()
+	defer documentFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("DocumentFormCallback, OnSave")
 
@@ -268,6 +272,8 @@ type DocxFormCallback struct {
 }
 
 func (docxFormCallback *DocxFormCallback) OnSave() {
+	docxFormCallback.probe.stageOfInterest.Lock()
+	defer docxFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("DocxFormCallback, OnSave")
 
@@ -377,6 +383,8 @@ type FileFormCallback struct {
 }
 
 func (fileFormCallback *FileFormCallback) OnSave() {
+	fileFormCallback.probe.stageOfInterest.Lock()
+	defer fileFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("FileFormCallback, OnSave")
 
@@ -519,6 +527,8 @@ type NodeFormCallback struct {
 }
 
 func (nodeFormCallback *NodeFormCallback) OnSave() {
+	nodeFormCallback.probe.stageOfInterest.Lock()
+	defer nodeFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("NodeFormCallback, OnSave")
 
@@ -692,6 +702,8 @@ type ParagraphFormCallback struct {
 }
 
 func (paragraphFormCallback *ParagraphFormCallback) OnSave() {
+	paragraphFormCallback.probe.stageOfInterest.Lock()
+	defer paragraphFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("ParagraphFormCallback, OnSave")
 
@@ -947,6 +959,8 @@ type ParagraphPropertiesFormCallback struct {
 }
 
 func (paragraphpropertiesFormCallback *ParagraphPropertiesFormCallback) OnSave() {
+	paragraphpropertiesFormCallback.probe.stageOfInterest.Lock()
+	defer paragraphpropertiesFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("ParagraphPropertiesFormCallback, OnSave")
 
@@ -1029,6 +1043,8 @@ type ParagraphStyleFormCallback struct {
 }
 
 func (paragraphstyleFormCallback *ParagraphStyleFormCallback) OnSave() {
+	paragraphstyleFormCallback.probe.stageOfInterest.Lock()
+	defer paragraphstyleFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("ParagraphStyleFormCallback, OnSave")
 
@@ -1111,6 +1127,8 @@ type RuneFormCallback struct {
 }
 
 func (runeFormCallback *RuneFormCallback) OnSave() {
+	runeFormCallback.probe.stageOfInterest.Lock()
+	defer runeFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("RuneFormCallback, OnSave")
 
@@ -1263,6 +1281,8 @@ type RunePropertiesFormCallback struct {
 }
 
 func (runepropertiesFormCallback *RunePropertiesFormCallback) OnSave() {
+	runepropertiesFormCallback.probe.stageOfInterest.Lock()
+	defer runepropertiesFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("RunePropertiesFormCallback, OnSave")
 
@@ -1349,6 +1369,8 @@ type TableFormCallback struct {
 }
 
 func (tableFormCallback *TableFormCallback) OnSave() {
+	tableFormCallback.probe.stageOfInterest.Lock()
+	defer tableFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("TableFormCallback, OnSave")
 
@@ -1528,6 +1550,8 @@ type TableColumnFormCallback struct {
 }
 
 func (tablecolumnFormCallback *TableColumnFormCallback) OnSave() {
+	tablecolumnFormCallback.probe.stageOfInterest.Lock()
+	defer tablecolumnFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("TableColumnFormCallback, OnSave")
 
@@ -1705,6 +1729,8 @@ type TablePropertiesFormCallback struct {
 }
 
 func (tablepropertiesFormCallback *TablePropertiesFormCallback) OnSave() {
+	tablepropertiesFormCallback.probe.stageOfInterest.Lock()
+	defer tablepropertiesFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("TablePropertiesFormCallback, OnSave")
 
@@ -1787,6 +1813,8 @@ type TableRowFormCallback struct {
 }
 
 func (tablerowFormCallback *TableRowFormCallback) OnSave() {
+	tablerowFormCallback.probe.stageOfInterest.Lock()
+	defer tablerowFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("TableRowFormCallback, OnSave")
 
@@ -1964,6 +1992,8 @@ type TableStyleFormCallback struct {
 }
 
 func (tablestyleFormCallback *TableStyleFormCallback) OnSave() {
+	tablestyleFormCallback.probe.stageOfInterest.Lock()
+	defer tablestyleFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("TableStyleFormCallback, OnSave")
 
@@ -2046,6 +2076,8 @@ type TextFormCallback struct {
 }
 
 func (textFormCallback *TextFormCallback) OnSave() {
+	textFormCallback.probe.stageOfInterest.Lock()
+	defer textFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("TextFormCallback, OnSave")
 

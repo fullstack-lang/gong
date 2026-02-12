@@ -46,6 +46,8 @@ type Category1FormCallback struct {
 }
 
 func (category1FormCallback *Category1FormCallback) OnSave() {
+	category1FormCallback.probe.stageOfInterest.Lock()
+	defer category1FormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("Category1FormCallback, OnSave")
 
@@ -122,6 +124,8 @@ type Category1ShapeFormCallback struct {
 }
 
 func (category1shapeFormCallback *Category1ShapeFormCallback) OnSave() {
+	category1shapeFormCallback.probe.stageOfInterest.Lock()
+	defer category1shapeFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("Category1ShapeFormCallback, OnSave")
 
@@ -274,6 +278,8 @@ type Category2FormCallback struct {
 }
 
 func (category2FormCallback *Category2FormCallback) OnSave() {
+	category2FormCallback.probe.stageOfInterest.Lock()
+	defer category2FormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("Category2FormCallback, OnSave")
 
@@ -350,6 +356,8 @@ type Category2ShapeFormCallback struct {
 }
 
 func (category2shapeFormCallback *Category2ShapeFormCallback) OnSave() {
+	category2shapeFormCallback.probe.stageOfInterest.Lock()
+	defer category2shapeFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("Category2ShapeFormCallback, OnSave")
 
@@ -502,6 +510,8 @@ type Category3FormCallback struct {
 }
 
 func (category3FormCallback *Category3FormCallback) OnSave() {
+	category3FormCallback.probe.stageOfInterest.Lock()
+	defer category3FormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("Category3FormCallback, OnSave")
 
@@ -578,6 +588,8 @@ type Category3ShapeFormCallback struct {
 }
 
 func (category3shapeFormCallback *Category3ShapeFormCallback) OnSave() {
+	category3shapeFormCallback.probe.stageOfInterest.Lock()
+	defer category3shapeFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("Category3ShapeFormCallback, OnSave")
 
@@ -730,6 +742,8 @@ type ControlPointShapeFormCallback struct {
 }
 
 func (controlpointshapeFormCallback *ControlPointShapeFormCallback) OnSave() {
+	controlpointshapeFormCallback.probe.stageOfInterest.Lock()
+	defer controlpointshapeFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("ControlPointShapeFormCallback, OnSave")
 
@@ -878,6 +892,8 @@ type DeskFormCallback struct {
 }
 
 func (deskFormCallback *DeskFormCallback) OnSave() {
+	deskFormCallback.probe.stageOfInterest.Lock()
+	defer deskFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("DeskFormCallback, OnSave")
 
@@ -956,6 +972,8 @@ type DiagramFormCallback struct {
 }
 
 func (diagramFormCallback *DiagramFormCallback) OnSave() {
+	diagramFormCallback.probe.stageOfInterest.Lock()
+	defer diagramFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("DiagramFormCallback, OnSave")
 
@@ -1254,6 +1272,8 @@ type InfluenceFormCallback struct {
 }
 
 func (influenceFormCallback *InfluenceFormCallback) OnSave() {
+	influenceFormCallback.probe.stageOfInterest.Lock()
+	defer influenceFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("InfluenceFormCallback, OnSave")
 
@@ -1346,6 +1366,8 @@ type InfluenceShapeFormCallback struct {
 }
 
 func (influenceshapeFormCallback *InfluenceShapeFormCallback) OnSave() {
+	influenceshapeFormCallback.probe.stageOfInterest.Lock()
+	defer influenceshapeFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("InfluenceShapeFormCallback, OnSave")
 

@@ -46,6 +46,8 @@ type AttributeShapeFormCallback struct {
 }
 
 func (attributeshapeFormCallback *AttributeShapeFormCallback) OnSave() {
+	attributeshapeFormCallback.probe.stageOfInterest.Lock()
+	defer attributeshapeFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("AttributeShapeFormCallback, OnSave")
 
@@ -194,6 +196,8 @@ type ClassdiagramFormCallback struct {
 }
 
 func (classdiagramFormCallback *ClassdiagramFormCallback) OnSave() {
+	classdiagramFormCallback.probe.stageOfInterest.Lock()
+	defer classdiagramFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("ClassdiagramFormCallback, OnSave")
 
@@ -455,6 +459,8 @@ type DiagramPackageFormCallback struct {
 }
 
 func (diagrampackageFormCallback *DiagramPackageFormCallback) OnSave() {
+	diagrampackageFormCallback.probe.stageOfInterest.Lock()
+	defer diagrampackageFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("DiagramPackageFormCallback, OnSave")
 
@@ -570,6 +576,8 @@ type GongEnumShapeFormCallback struct {
 }
 
 func (gongenumshapeFormCallback *GongEnumShapeFormCallback) OnSave() {
+	gongenumshapeFormCallback.probe.stageOfInterest.Lock()
+	defer gongenumshapeFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("GongEnumShapeFormCallback, OnSave")
 
@@ -753,6 +761,8 @@ type GongEnumValueShapeFormCallback struct {
 }
 
 func (gongenumvalueshapeFormCallback *GongEnumValueShapeFormCallback) OnSave() {
+	gongenumvalueshapeFormCallback.probe.stageOfInterest.Lock()
+	defer gongenumvalueshapeFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("GongEnumValueShapeFormCallback, OnSave")
 
@@ -895,6 +905,8 @@ type GongNoteLinkShapeFormCallback struct {
 }
 
 func (gongnotelinkshapeFormCallback *GongNoteLinkShapeFormCallback) OnSave() {
+	gongnotelinkshapeFormCallback.probe.stageOfInterest.Lock()
+	defer gongnotelinkshapeFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("GongNoteLinkShapeFormCallback, OnSave")
 
@@ -1041,6 +1053,8 @@ type GongNoteShapeFormCallback struct {
 }
 
 func (gongnoteshapeFormCallback *GongNoteShapeFormCallback) OnSave() {
+	gongnoteshapeFormCallback.probe.stageOfInterest.Lock()
+	defer gongnoteshapeFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("GongNoteShapeFormCallback, OnSave")
 
@@ -1232,6 +1246,8 @@ type GongStructShapeFormCallback struct {
 }
 
 func (gongstructshapeFormCallback *GongStructShapeFormCallback) OnSave() {
+	gongstructshapeFormCallback.probe.stageOfInterest.Lock()
+	defer gongstructshapeFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("GongStructShapeFormCallback, OnSave")
 
@@ -1446,6 +1462,8 @@ type LinkShapeFormCallback struct {
 }
 
 func (linkshapeFormCallback *LinkShapeFormCallback) OnSave() {
+	linkshapeFormCallback.probe.stageOfInterest.Lock()
+	defer linkshapeFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("LinkShapeFormCallback, OnSave")
 

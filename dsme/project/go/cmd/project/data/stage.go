@@ -151,6 +151,7 @@ another line-NewDiagram`}).Stage(stage)
 	__TaskShape__00000022_ := (&models.TaskShape{Name: `Unstage Method Marshalling-Work diagram x`}).Stage(stage)
 	__TaskShape__00000023_ := (&models.TaskShape{Name: `NewTask-Work diagram x`}).Stage(stage)
 	__TaskShape__00000024_ := (&models.TaskShape{Name: `Compute diff in slices with minimal edit distance #1045-Work diagram x`}).Stage(stage)
+	__TaskShape__00000025_ := (&models.TaskShape{Name: `refactor AST generation-Work diagram x`}).Stage(stage)
 
 	// insertion point for initialization of values
 
@@ -187,10 +188,10 @@ another line-NewDiagram`}).Stage(stage)
 	__Diagram__00000061_.ShowPrefix = true
 	__Diagram__00000061_.DefaultBoxWidth = 250.000000
 	__Diagram__00000061_.DefaultBoxHeigth = 100.000000
-	__Diagram__00000061_.IsExpanded = false
+	__Diagram__00000061_.IsExpanded = true
 	__Diagram__00000061_.ComputedPrefix = ``
 	__Diagram__00000061_.IsPBSNodeExpanded = true
-	__Diagram__00000061_.IsWBSNodeExpanded = false
+	__Diagram__00000061_.IsWBSNodeExpanded = true
 	__Diagram__00000061_.IsNotesNodeExpanded = false
 
 	__Note__00000000_.Name = `This is an example to explain a particular product
@@ -811,8 +812,8 @@ another line-NewDiagram`
 	__Task__00000013_.ComputedPrefix = `7`
 	__Task__00000013_.IsInputsNodeExpanded = false
 	__Task__00000013_.IsOutputsNodeExpanded = false
-	__Task__00000013_.IsWithCompletion = false
-	__Task__00000013_.Completion = ""
+	__Task__00000013_.IsWithCompletion = true
+	__Task__00000013_.Completion = models.PERCENT_100
 
 	__TaskInputShape__00000001_.Name = `code GongDiff to Probe Notification Table`
 	__TaskInputShape__00000001_.StartRatio = 0.664301
@@ -912,6 +913,13 @@ another line-NewDiagram`
 	__TaskShape__00000024_.Width = 250.000000
 	__TaskShape__00000024_.Height = 100.000000
 
+	__TaskShape__00000025_.Name = `refactor AST generation-Work diagram x`
+	__TaskShape__00000025_.IsExpanded = false
+	__TaskShape__00000025_.X = 594.989280
+	__TaskShape__00000025_.Y = 753.694736
+	__TaskShape__00000025_.Width = 250.000000
+	__TaskShape__00000025_.Height = 100.000000
+
 	// insertion point for setup of pointers
 	__Diagram__00000042_.Product_Shapes = append(__Diagram__00000042_.Product_Shapes, __ProductShape__00000330_)
 	__Diagram__00000042_.Product_Shapes = append(__Diagram__00000042_.Product_Shapes, __ProductShape__00000331_)
@@ -960,7 +968,7 @@ another line-NewDiagram`
 	__Diagram__00000061_.Task_Shapes = append(__Diagram__00000061_.Task_Shapes, __TaskShape__00000022_)
 	__Diagram__00000061_.Task_Shapes = append(__Diagram__00000061_.Task_Shapes, __TaskShape__00000023_)
 	__Diagram__00000061_.Task_Shapes = append(__Diagram__00000061_.Task_Shapes, __TaskShape__00000024_)
-	__Diagram__00000061_.TasksWhoseNodeIsExpanded = append(__Diagram__00000061_.TasksWhoseNodeIsExpanded, __Task__00000008_)
+	__Diagram__00000061_.Task_Shapes = append(__Diagram__00000061_.Task_Shapes, __TaskShape__00000025_)
 	__Diagram__00000061_.TasksWhoseOutputNodeIsExpanded = append(__Diagram__00000061_.TasksWhoseOutputNodeIsExpanded, __Task__00000007_)
 	__Diagram__00000061_.TasksWhoseOutputNodeIsExpanded = append(__Diagram__00000061_.TasksWhoseOutputNodeIsExpanded, __Task__00000010_)
 	__Diagram__00000061_.TaskInputShapes = append(__Diagram__00000061_.TaskInputShapes, __TaskInputShape__00000001_)
@@ -1111,4 +1119,5 @@ another line-NewDiagram`
 	__TaskShape__00000022_.Task = __Task__00000010_
 	__TaskShape__00000023_.Task = __Task__00000011_
 	__TaskShape__00000024_.Task = __Task__00000012_
+	__TaskShape__00000025_.Task = __Task__00000013_
 }
