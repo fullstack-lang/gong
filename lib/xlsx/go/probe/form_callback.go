@@ -46,6 +46,8 @@ type DisplaySelectionFormCallback struct {
 }
 
 func (displayselectionFormCallback *DisplaySelectionFormCallback) OnSave() {
+	displayselectionFormCallback.probe.stageOfInterest.Lock()
+	defer displayselectionFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("DisplaySelectionFormCallback, OnSave")
 
@@ -126,6 +128,8 @@ type XLCellFormCallback struct {
 }
 
 func (xlcellFormCallback *XLCellFormCallback) OnSave() {
+	xlcellFormCallback.probe.stageOfInterest.Lock()
+	defer xlcellFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("XLCellFormCallback, OnSave")
 
@@ -338,6 +342,8 @@ type XLFileFormCallback struct {
 }
 
 func (xlfileFormCallback *XLFileFormCallback) OnSave() {
+	xlfileFormCallback.probe.stageOfInterest.Lock()
+	defer xlfileFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("XLFileFormCallback, OnSave")
 
@@ -447,6 +453,8 @@ type XLRowFormCallback struct {
 }
 
 func (xlrowFormCallback *XLRowFormCallback) OnSave() {
+	xlrowFormCallback.probe.stageOfInterest.Lock()
+	defer xlrowFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("XLRowFormCallback, OnSave")
 
@@ -622,6 +630,8 @@ type XLSheetFormCallback struct {
 }
 
 func (xlsheetFormCallback *XLSheetFormCallback) OnSave() {
+	xlsheetFormCallback.probe.stageOfInterest.Lock()
+	defer xlsheetFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("XLSheetFormCallback, OnSave")
 

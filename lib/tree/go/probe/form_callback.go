@@ -46,6 +46,8 @@ type ButtonFormCallback struct {
 }
 
 func (buttonFormCallback *ButtonFormCallback) OnSave() {
+	buttonFormCallback.probe.stageOfInterest.Lock()
+	defer buttonFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("ButtonFormCallback, OnSave")
 
@@ -200,6 +202,8 @@ type NodeFormCallback struct {
 }
 
 func (nodeFormCallback *NodeFormCallback) OnSave() {
+	nodeFormCallback.probe.stageOfInterest.Lock()
+	defer nodeFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("NodeFormCallback, OnSave")
 
@@ -518,6 +522,8 @@ type SVGIconFormCallback struct {
 }
 
 func (svgiconFormCallback *SVGIconFormCallback) OnSave() {
+	svgiconFormCallback.probe.stageOfInterest.Lock()
+	defer svgiconFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("SVGIconFormCallback, OnSave")
 
@@ -596,6 +602,8 @@ type TreeFormCallback struct {
 }
 
 func (treeFormCallback *TreeFormCallback) OnSave() {
+	treeFormCallback.probe.stageOfInterest.Lock()
+	defer treeFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("TreeFormCallback, OnSave")
 

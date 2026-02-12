@@ -46,6 +46,8 @@ type ArrowFormCallback struct {
 }
 
 func (arrowFormCallback *ArrowFormCallback) OnSave() {
+	arrowFormCallback.probe.stageOfInterest.Lock()
+	defer arrowFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("ArrowFormCallback, OnSave")
 
@@ -196,6 +198,8 @@ type BarFormCallback struct {
 }
 
 func (barFormCallback *BarFormCallback) OnSave() {
+	barFormCallback.probe.stageOfInterest.Lock()
+	defer barFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("BarFormCallback, OnSave")
 
@@ -354,6 +358,8 @@ type GanttFormCallback struct {
 }
 
 func (ganttFormCallback *GanttFormCallback) OnSave() {
+	ganttFormCallback.probe.stageOfInterest.Lock()
+	defer ganttFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("GanttFormCallback, OnSave")
 
@@ -602,6 +608,8 @@ type GroupFormCallback struct {
 }
 
 func (groupFormCallback *GroupFormCallback) OnSave() {
+	groupFormCallback.probe.stageOfInterest.Lock()
+	defer groupFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("GroupFormCallback, OnSave")
 
@@ -775,6 +783,8 @@ type LaneFormCallback struct {
 }
 
 func (laneFormCallback *LaneFormCallback) OnSave() {
+	laneFormCallback.probe.stageOfInterest.Lock()
+	defer laneFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("LaneFormCallback, OnSave")
 
@@ -1082,6 +1092,8 @@ type LaneUseFormCallback struct {
 }
 
 func (laneuseFormCallback *LaneUseFormCallback) OnSave() {
+	laneuseFormCallback.probe.stageOfInterest.Lock()
+	defer laneuseFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("LaneUseFormCallback, OnSave")
 
@@ -1160,6 +1172,8 @@ type MilestoneFormCallback struct {
 }
 
 func (milestoneFormCallback *MilestoneFormCallback) OnSave() {
+	milestoneFormCallback.probe.stageOfInterest.Lock()
+	defer milestoneFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("MilestoneFormCallback, OnSave")
 

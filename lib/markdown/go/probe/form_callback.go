@@ -46,6 +46,8 @@ type ContentFormCallback struct {
 }
 
 func (contentFormCallback *ContentFormCallback) OnSave() {
+	contentFormCallback.probe.stageOfInterest.Lock()
+	defer contentFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("ContentFormCallback, OnSave")
 
@@ -124,6 +126,8 @@ type JpgImageFormCallback struct {
 }
 
 func (jpgimageFormCallback *JpgImageFormCallback) OnSave() {
+	jpgimageFormCallback.probe.stageOfInterest.Lock()
+	defer jpgimageFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("JpgImageFormCallback, OnSave")
 
@@ -202,6 +206,8 @@ type PngImageFormCallback struct {
 }
 
 func (pngimageFormCallback *PngImageFormCallback) OnSave() {
+	pngimageFormCallback.probe.stageOfInterest.Lock()
+	defer pngimageFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("PngImageFormCallback, OnSave")
 
@@ -280,6 +286,8 @@ type SvgImageFormCallback struct {
 }
 
 func (svgimageFormCallback *SvgImageFormCallback) OnSave() {
+	svgimageFormCallback.probe.stageOfInterest.Lock()
+	defer svgimageFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("SvgImageFormCallback, OnSave")
 
