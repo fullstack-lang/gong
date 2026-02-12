@@ -46,6 +46,8 @@ type DiagramFormCallback struct {
 }
 
 func (diagramFormCallback *DiagramFormCallback) OnSave() {
+	diagramFormCallback.probe.stageOfInterest.Lock()
+	defer diagramFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("DiagramFormCallback, OnSave")
 
@@ -644,6 +646,8 @@ type NoteFormCallback struct {
 }
 
 func (noteFormCallback *NoteFormCallback) OnSave() {
+	noteFormCallback.probe.stageOfInterest.Lock()
+	defer noteFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("NoteFormCallback, OnSave")
 
@@ -916,6 +920,8 @@ type NoteProductShapeFormCallback struct {
 }
 
 func (noteproductshapeFormCallback *NoteProductShapeFormCallback) OnSave() {
+	noteproductshapeFormCallback.probe.stageOfInterest.Lock()
+	defer noteproductshapeFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("NoteProductShapeFormCallback, OnSave")
 
@@ -1072,6 +1078,8 @@ type NoteShapeFormCallback struct {
 }
 
 func (noteshapeFormCallback *NoteShapeFormCallback) OnSave() {
+	noteshapeFormCallback.probe.stageOfInterest.Lock()
+	defer noteshapeFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("NoteShapeFormCallback, OnSave")
 
@@ -1226,6 +1234,8 @@ type NoteTaskShapeFormCallback struct {
 }
 
 func (notetaskshapeFormCallback *NoteTaskShapeFormCallback) OnSave() {
+	notetaskshapeFormCallback.probe.stageOfInterest.Lock()
+	defer notetaskshapeFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("NoteTaskShapeFormCallback, OnSave")
 
@@ -1382,6 +1392,8 @@ type ProductFormCallback struct {
 }
 
 func (productFormCallback *ProductFormCallback) OnSave() {
+	productFormCallback.probe.stageOfInterest.Lock()
+	defer productFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("ProductFormCallback, OnSave")
 
@@ -1895,6 +1907,8 @@ type ProductCompositionShapeFormCallback struct {
 }
 
 func (productcompositionshapeFormCallback *ProductCompositionShapeFormCallback) OnSave() {
+	productcompositionshapeFormCallback.probe.stageOfInterest.Lock()
+	defer productcompositionshapeFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("ProductCompositionShapeFormCallback, OnSave")
 
@@ -2049,6 +2063,8 @@ type ProductShapeFormCallback struct {
 }
 
 func (productshapeFormCallback *ProductShapeFormCallback) OnSave() {
+	productshapeFormCallback.probe.stageOfInterest.Lock()
+	defer productshapeFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("ProductShapeFormCallback, OnSave")
 
@@ -2203,6 +2219,8 @@ type ProjectFormCallback struct {
 }
 
 func (projectFormCallback *ProjectFormCallback) OnSave() {
+	projectFormCallback.probe.stageOfInterest.Lock()
+	defer projectFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("ProjectFormCallback, OnSave")
 
@@ -2473,6 +2491,8 @@ type RootFormCallback struct {
 }
 
 func (rootFormCallback *RootFormCallback) OnSave() {
+	rootFormCallback.probe.stageOfInterest.Lock()
+	defer rootFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("RootFormCallback, OnSave")
 
@@ -2582,6 +2602,8 @@ type TaskFormCallback struct {
 }
 
 func (taskFormCallback *TaskFormCallback) OnSave() {
+	taskFormCallback.probe.stageOfInterest.Lock()
+	defer taskFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("TaskFormCallback, OnSave")
 
@@ -3161,6 +3183,8 @@ type TaskCompositionShapeFormCallback struct {
 }
 
 func (taskcompositionshapeFormCallback *TaskCompositionShapeFormCallback) OnSave() {
+	taskcompositionshapeFormCallback.probe.stageOfInterest.Lock()
+	defer taskcompositionshapeFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("TaskCompositionShapeFormCallback, OnSave")
 
@@ -3315,6 +3339,8 @@ type TaskInputShapeFormCallback struct {
 }
 
 func (taskinputshapeFormCallback *TaskInputShapeFormCallback) OnSave() {
+	taskinputshapeFormCallback.probe.stageOfInterest.Lock()
+	defer taskinputshapeFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("TaskInputShapeFormCallback, OnSave")
 
@@ -3471,6 +3497,8 @@ type TaskOutputShapeFormCallback struct {
 }
 
 func (taskoutputshapeFormCallback *TaskOutputShapeFormCallback) OnSave() {
+	taskoutputshapeFormCallback.probe.stageOfInterest.Lock()
+	defer taskoutputshapeFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("TaskOutputShapeFormCallback, OnSave")
 
@@ -3627,6 +3655,8 @@ type TaskShapeFormCallback struct {
 }
 
 func (taskshapeFormCallback *TaskShapeFormCallback) OnSave() {
+	taskshapeFormCallback.probe.stageOfInterest.Lock()
+	defer taskshapeFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("TaskShapeFormCallback, OnSave")
 

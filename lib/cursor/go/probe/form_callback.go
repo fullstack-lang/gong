@@ -46,6 +46,8 @@ type CursorFormCallback struct {
 }
 
 func (cursorFormCallback *CursorFormCallback) OnSave() {
+	cursorFormCallback.probe.stageOfInterest.Lock()
+	defer cursorFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("CursorFormCallback, OnSave")
 

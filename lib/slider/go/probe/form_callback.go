@@ -46,6 +46,8 @@ type CheckboxFormCallback struct {
 }
 
 func (checkboxFormCallback *CheckboxFormCallback) OnSave() {
+	checkboxFormCallback.probe.stageOfInterest.Lock()
+	defer checkboxFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("CheckboxFormCallback, OnSave")
 
@@ -194,6 +196,8 @@ type GroupFormCallback struct {
 }
 
 func (groupFormCallback *GroupFormCallback) OnSave() {
+	groupFormCallback.probe.stageOfInterest.Lock()
+	defer groupFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("GroupFormCallback, OnSave")
 
@@ -400,6 +404,8 @@ type LayoutFormCallback struct {
 }
 
 func (layoutFormCallback *LayoutFormCallback) OnSave() {
+	layoutFormCallback.probe.stageOfInterest.Lock()
+	defer layoutFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("LayoutFormCallback, OnSave")
 
@@ -507,6 +513,8 @@ type SliderFormCallback struct {
 }
 
 func (sliderFormCallback *SliderFormCallback) OnSave() {
+	sliderFormCallback.probe.stageOfInterest.Lock()
+	defer sliderFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("SliderFormCallback, OnSave")
 

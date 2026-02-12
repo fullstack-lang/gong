@@ -46,6 +46,8 @@ type AsSplitFormCallback struct {
 }
 
 func (assplitFormCallback *AsSplitFormCallback) OnSave() {
+	assplitFormCallback.probe.stageOfInterest.Lock()
+	defer assplitFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("AsSplitFormCallback, OnSave")
 
@@ -155,6 +157,8 @@ type AsSplitAreaFormCallback struct {
 }
 
 func (assplitareaFormCallback *AsSplitAreaFormCallback) OnSave() {
+	assplitareaFormCallback.probe.stageOfInterest.Lock()
+	defer assplitareaFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("AsSplitAreaFormCallback, OnSave")
 
@@ -399,6 +403,8 @@ type ButtonFormCallback struct {
 }
 
 func (buttonFormCallback *ButtonFormCallback) OnSave() {
+	buttonFormCallback.probe.stageOfInterest.Lock()
+	defer buttonFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("ButtonFormCallback, OnSave")
 
@@ -477,6 +483,8 @@ type CursorFormCallback struct {
 }
 
 func (cursorFormCallback *CursorFormCallback) OnSave() {
+	cursorFormCallback.probe.stageOfInterest.Lock()
+	defer cursorFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("CursorFormCallback, OnSave")
 
@@ -557,6 +565,8 @@ type FavIconFormCallback struct {
 }
 
 func (faviconFormCallback *FavIconFormCallback) OnSave() {
+	faviconFormCallback.probe.stageOfInterest.Lock()
+	defer faviconFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("FavIconFormCallback, OnSave")
 
@@ -635,6 +645,8 @@ type FormFormCallback struct {
 }
 
 func (formFormCallback *FormFormCallback) OnSave() {
+	formFormCallback.probe.stageOfInterest.Lock()
+	defer formFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("FormFormCallback, OnSave")
 
@@ -713,6 +725,8 @@ type LoadFormCallback struct {
 }
 
 func (loadFormCallback *LoadFormCallback) OnSave() {
+	loadFormCallback.probe.stageOfInterest.Lock()
+	defer loadFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("LoadFormCallback, OnSave")
 
@@ -791,6 +805,8 @@ type LogoOnTheLeftFormCallback struct {
 }
 
 func (logoontheleftFormCallback *LogoOnTheLeftFormCallback) OnSave() {
+	logoontheleftFormCallback.probe.stageOfInterest.Lock()
+	defer logoontheleftFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("LogoOnTheLeftFormCallback, OnSave")
 
@@ -873,6 +889,8 @@ type LogoOnTheRightFormCallback struct {
 }
 
 func (logoontherightFormCallback *LogoOnTheRightFormCallback) OnSave() {
+	logoontherightFormCallback.probe.stageOfInterest.Lock()
+	defer logoontherightFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("LogoOnTheRightFormCallback, OnSave")
 
@@ -955,6 +973,8 @@ type MarkdownFormCallback struct {
 }
 
 func (markdownFormCallback *MarkdownFormCallback) OnSave() {
+	markdownFormCallback.probe.stageOfInterest.Lock()
+	defer markdownFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("MarkdownFormCallback, OnSave")
 
@@ -1033,6 +1053,8 @@ type SliderFormCallback struct {
 }
 
 func (sliderFormCallback *SliderFormCallback) OnSave() {
+	sliderFormCallback.probe.stageOfInterest.Lock()
+	defer sliderFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("SliderFormCallback, OnSave")
 
@@ -1111,6 +1133,8 @@ type SplitFormCallback struct {
 }
 
 func (splitFormCallback *SplitFormCallback) OnSave() {
+	splitFormCallback.probe.stageOfInterest.Lock()
+	defer splitFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("SplitFormCallback, OnSave")
 
@@ -1189,6 +1213,8 @@ type SvgFormCallback struct {
 }
 
 func (svgFormCallback *SvgFormCallback) OnSave() {
+	svgFormCallback.probe.stageOfInterest.Lock()
+	defer svgFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("SvgFormCallback, OnSave")
 
@@ -1269,6 +1295,8 @@ type TableFormCallback struct {
 }
 
 func (tableFormCallback *TableFormCallback) OnSave() {
+	tableFormCallback.probe.stageOfInterest.Lock()
+	defer tableFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("TableFormCallback, OnSave")
 
@@ -1347,6 +1375,8 @@ type TitleFormCallback struct {
 }
 
 func (titleFormCallback *TitleFormCallback) OnSave() {
+	titleFormCallback.probe.stageOfInterest.Lock()
+	defer titleFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("TitleFormCallback, OnSave")
 
@@ -1423,6 +1453,8 @@ type ToneFormCallback struct {
 }
 
 func (toneFormCallback *ToneFormCallback) OnSave() {
+	toneFormCallback.probe.stageOfInterest.Lock()
+	defer toneFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("ToneFormCallback, OnSave")
 
@@ -1501,6 +1533,8 @@ type TreeFormCallback struct {
 }
 
 func (treeFormCallback *TreeFormCallback) OnSave() {
+	treeFormCallback.probe.stageOfInterest.Lock()
+	defer treeFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("TreeFormCallback, OnSave")
 
@@ -1579,6 +1613,8 @@ type ViewFormCallback struct {
 }
 
 func (viewFormCallback *ViewFormCallback) OnSave() {
+	viewFormCallback.probe.stageOfInterest.Lock()
+	defer viewFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("ViewFormCallback, OnSave")
 
@@ -1692,6 +1728,8 @@ type XlsxFormCallback struct {
 }
 
 func (xlsxFormCallback *XlsxFormCallback) OnSave() {
+	xlsxFormCallback.probe.stageOfInterest.Lock()
+	defer xlsxFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("XlsxFormCallback, OnSave")
 

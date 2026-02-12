@@ -46,6 +46,8 @@ type CommandFormCallback struct {
 }
 
 func (commandFormCallback *CommandFormCallback) OnSave() {
+	commandFormCallback.probe.stageOfInterest.Lock()
+	defer commandFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("CommandFormCallback, OnSave")
 
@@ -128,6 +130,8 @@ type DummyAgentFormCallback struct {
 }
 
 func (dummyagentFormCallback *DummyAgentFormCallback) OnSave() {
+	dummyagentFormCallback.probe.stageOfInterest.Lock()
+	defer dummyagentFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("DummyAgentFormCallback, OnSave")
 
@@ -206,6 +210,8 @@ type EngineFormCallback struct {
 }
 
 func (engineFormCallback *EngineFormCallback) OnSave() {
+	engineFormCallback.probe.stageOfInterest.Lock()
+	defer engineFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("EngineFormCallback, OnSave")
 
@@ -298,6 +304,8 @@ type EventFormCallback struct {
 }
 
 func (eventFormCallback *EventFormCallback) OnSave() {
+	eventFormCallback.probe.stageOfInterest.Lock()
+	defer eventFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("EventFormCallback, OnSave")
 
@@ -376,6 +384,8 @@ type StatusFormCallback struct {
 }
 
 func (statusFormCallback *StatusFormCallback) OnSave() {
+	statusFormCallback.probe.stageOfInterest.Lock()
+	defer statusFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("StatusFormCallback, OnSave")
 
@@ -460,6 +470,8 @@ type UpdateStateFormCallback struct {
 }
 
 func (updatestateFormCallback *UpdateStateFormCallback) OnSave() {
+	updatestateFormCallback.probe.stageOfInterest.Lock()
+	defer updatestateFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("UpdateStateFormCallback, OnSave")
 

@@ -46,6 +46,8 @@ type ActionFormCallback struct {
 }
 
 func (actionFormCallback *ActionFormCallback) OnSave() {
+	actionFormCallback.probe.stageOfInterest.Lock()
+	defer actionFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("ActionFormCallback, OnSave")
 
@@ -124,6 +126,8 @@ type ActivitiesFormCallback struct {
 }
 
 func (activitiesFormCallback *ActivitiesFormCallback) OnSave() {
+	activitiesFormCallback.probe.stageOfInterest.Lock()
+	defer activitiesFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("ActivitiesFormCallback, OnSave")
 
@@ -268,6 +272,8 @@ type ArchitectureFormCallback struct {
 }
 
 func (architectureFormCallback *ArchitectureFormCallback) OnSave() {
+	architectureFormCallback.probe.stageOfInterest.Lock()
+	defer architectureFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("ArchitectureFormCallback, OnSave")
 
@@ -408,6 +414,8 @@ type DiagramFormCallback struct {
 }
 
 func (diagramFormCallback *DiagramFormCallback) OnSave() {
+	diagramFormCallback.probe.stageOfInterest.Lock()
+	defer diagramFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("DiagramFormCallback, OnSave")
 
@@ -752,6 +760,8 @@ type GuardFormCallback struct {
 }
 
 func (guardFormCallback *GuardFormCallback) OnSave() {
+	guardFormCallback.probe.stageOfInterest.Lock()
+	defer guardFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("GuardFormCallback, OnSave")
 
@@ -828,6 +838,8 @@ type KillFormCallback struct {
 }
 
 func (killFormCallback *KillFormCallback) OnSave() {
+	killFormCallback.probe.stageOfInterest.Lock()
+	defer killFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("KillFormCallback, OnSave")
 
@@ -904,6 +916,8 @@ type MessageFormCallback struct {
 }
 
 func (messageFormCallback *MessageFormCallback) OnSave() {
+	messageFormCallback.probe.stageOfInterest.Lock()
+	defer messageFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("MessageFormCallback, OnSave")
 
@@ -1052,6 +1066,8 @@ type MessageTypeFormCallback struct {
 }
 
 func (messagetypeFormCallback *MessageTypeFormCallback) OnSave() {
+	messagetypeFormCallback.probe.stageOfInterest.Lock()
+	defer messagetypeFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("MessageTypeFormCallback, OnSave")
 
@@ -1196,6 +1212,8 @@ type ObjectFormCallback struct {
 }
 
 func (objectFormCallback *ObjectFormCallback) OnSave() {
+	objectFormCallback.probe.stageOfInterest.Lock()
+	defer objectFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("ObjectFormCallback, OnSave")
 
@@ -1311,6 +1329,8 @@ type RoleFormCallback struct {
 }
 
 func (roleFormCallback *RoleFormCallback) OnSave() {
+	roleFormCallback.probe.stageOfInterest.Lock()
+	defer roleFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("RoleFormCallback, OnSave")
 
@@ -1618,6 +1638,8 @@ type StateFormCallback struct {
 }
 
 func (stateFormCallback *StateFormCallback) OnSave() {
+	stateFormCallback.probe.stageOfInterest.Lock()
+	defer stateFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("StateFormCallback, OnSave")
 
@@ -1931,6 +1953,8 @@ type StateMachineFormCallback struct {
 }
 
 func (statemachineFormCallback *StateMachineFormCallback) OnSave() {
+	statemachineFormCallback.probe.stageOfInterest.Lock()
+	defer statemachineFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("StateMachineFormCallback, OnSave")
 
@@ -2139,6 +2163,8 @@ type StateShapeFormCallback struct {
 }
 
 func (stateshapeFormCallback *StateShapeFormCallback) OnSave() {
+	stateshapeFormCallback.probe.stageOfInterest.Lock()
+	defer stateshapeFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("StateShapeFormCallback, OnSave")
 
@@ -2293,6 +2319,8 @@ type TransitionFormCallback struct {
 }
 
 func (transitionFormCallback *TransitionFormCallback) OnSave() {
+	transitionFormCallback.probe.stageOfInterest.Lock()
+	defer transitionFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("TransitionFormCallback, OnSave")
 
@@ -2468,6 +2496,8 @@ type Transition_ShapeFormCallback struct {
 }
 
 func (transition_shapeFormCallback *Transition_ShapeFormCallback) OnSave() {
+	transition_shapeFormCallback.probe.stageOfInterest.Lock()
+	defer transition_shapeFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("Transition_ShapeFormCallback, OnSave")
 
