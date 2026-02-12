@@ -282,6 +282,23 @@ func (probe *Probe) AddCommitNavigationNode(appendChildrenNodeFunc func(models.G
 		}
 	}
 
+	orphansButton := &tree.Button{
+		Name:            "OrphansButton",
+		Icon:            string(gongtree_buttons.BUTTON_delete),
+		HasToolTip:      true,
+		ToolTipText:     "Discard all commits history (git orphan)",
+		ToolTipPosition: tree.Below,
+	}
+	deltaNode.Buttons = append(deltaNode.Buttons, orphansButton)
+	orphansButton.Impl = &tree.FunctionalButtonProxy{
+		OnUpdated: func(stage *tree.Stage,
+			stagedButton, frontButton *tree.Button,
+		) {
+			stageOfInterest.Orphans()
+			probe.Refresh()
+		},
+	}
+
 	logCommitsButton := &tree.Button{
 		Name:            "LogCommitsButton",
 		Icon:            string(gongtree_buttons.BUTTON_playlist_add),
