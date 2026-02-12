@@ -1004,6 +1004,8 @@ func (u *ViewUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.IsSelectedView = GongExtractBool(valueExpr)
 	case "Direction":
 		GongUnmarshallEnum(&instance.Direction, valueExpr)
+	case "IsSecondatyView":
+		instance.IsSecondatyView = GongExtractBool(valueExpr)
 	}
 	return nil
 }

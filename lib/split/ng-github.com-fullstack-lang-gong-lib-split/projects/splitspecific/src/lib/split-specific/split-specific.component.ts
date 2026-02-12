@@ -6,6 +6,12 @@ import * as split from '../../../../split/src/public-api'
 import { MatRadioModule } from '@angular/material/radio';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatOptionModule } from '@angular/material/core';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+
+
 
 import { AngularSplitModule } from 'angular-split';
 
@@ -29,6 +35,10 @@ import { DomSanitizer, SafeHtml, Title } from '@angular/platform-browser';
     MatRadioModule,
     CommonModule,
     FormsModule,
+    MatFormFieldModule,
+    MatOptionModule,
+    MatInputModule,
+    MatSelectModule,
 
     AngularSplitModule,
 

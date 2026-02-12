@@ -80,6 +80,10 @@ type ViewDB struct {
 	// Declation for basic field viewDB.Direction
 	Direction_Data sql.NullString
 
+	// Declation for basic field viewDB.IsSecondatyView
+	// provide the sql storage for the boolan
+	IsSecondatyView_Data sql.NullBool
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	ViewPointersEncoding
@@ -109,6 +113,8 @@ type ViewWOP struct {
 	IsSelectedView bool `xlsx:"3"`
 
 	Direction models.Direction `xlsx:"4"`
+
+	IsSecondatyView bool `xlsx:"5"`
 	// insertion for WOP pointer fields
 }
 
@@ -119,6 +125,7 @@ var View_Fields = []string{
 	"ShowViewName",
 	"IsSelectedView",
 	"Direction",
+	"IsSecondatyView",
 }
 
 type BackRepoViewStruct struct {
@@ -432,6 +439,9 @@ func (viewDB *ViewDB) CopyBasicFieldsFromView(view *models.View) {
 
 	viewDB.Direction_Data.String = view.Direction.ToString()
 	viewDB.Direction_Data.Valid = true
+
+	viewDB.IsSecondatyView_Data.Bool = view.IsSecondatyView
+	viewDB.IsSecondatyView_Data.Valid = true
 }
 
 // CopyBasicFieldsFromView_WOP
@@ -449,6 +459,9 @@ func (viewDB *ViewDB) CopyBasicFieldsFromView_WOP(view *models.View_WOP) {
 
 	viewDB.Direction_Data.String = view.Direction.ToString()
 	viewDB.Direction_Data.Valid = true
+
+	viewDB.IsSecondatyView_Data.Bool = view.IsSecondatyView
+	viewDB.IsSecondatyView_Data.Valid = true
 }
 
 // CopyBasicFieldsFromViewWOP
@@ -466,6 +479,9 @@ func (viewDB *ViewDB) CopyBasicFieldsFromViewWOP(view *ViewWOP) {
 
 	viewDB.Direction_Data.String = view.Direction.ToString()
 	viewDB.Direction_Data.Valid = true
+
+	viewDB.IsSecondatyView_Data.Bool = view.IsSecondatyView
+	viewDB.IsSecondatyView_Data.Valid = true
 }
 
 // CopyBasicFieldsToView
@@ -475,6 +491,7 @@ func (viewDB *ViewDB) CopyBasicFieldsToView(view *models.View) {
 	view.ShowViewName = viewDB.ShowViewName_Data.Bool
 	view.IsSelectedView = viewDB.IsSelectedView_Data.Bool
 	view.Direction.FromString(viewDB.Direction_Data.String)
+	view.IsSecondatyView = viewDB.IsSecondatyView_Data.Bool
 }
 
 // CopyBasicFieldsToView_WOP
@@ -484,6 +501,7 @@ func (viewDB *ViewDB) CopyBasicFieldsToView_WOP(view *models.View_WOP) {
 	view.ShowViewName = viewDB.ShowViewName_Data.Bool
 	view.IsSelectedView = viewDB.IsSelectedView_Data.Bool
 	view.Direction.FromString(viewDB.Direction_Data.String)
+	view.IsSecondatyView = viewDB.IsSecondatyView_Data.Bool
 }
 
 // CopyBasicFieldsToViewWOP
@@ -494,6 +512,7 @@ func (viewDB *ViewDB) CopyBasicFieldsToViewWOP(view *ViewWOP) {
 	view.ShowViewName = viewDB.ShowViewName_Data.Bool
 	view.IsSelectedView = viewDB.IsSelectedView_Data.Bool
 	view.Direction.FromString(viewDB.Direction_Data.String)
+	view.IsSecondatyView = viewDB.IsSecondatyView_Data.Bool
 }
 
 // Backup generates a json file from a slice of all ViewDB instances in the backrepo
