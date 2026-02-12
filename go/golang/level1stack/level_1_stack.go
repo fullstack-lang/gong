@@ -1,7 +1,7 @@
 package level1stack
 
 const DebouncedMarshallingLevel1StackInstanceTemplate = `// do not modify, generated file
-package stack
+package level1stack
 
 import (
 	"fmt"
@@ -45,7 +45,11 @@ func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.Stage) {
 	// Start a new timer. When it fires, it will execute performMarshalling
 	// in a new goroutine.
 	impl.timer = time.AfterFunc(debounceDuration, func() {
-		go impl.performMarshalling(stage)
+		go func() {
+			stage.RLock()
+			defer stage.RUnlock()
+			impl.performMarshalling(stage)
+		}()
 	})
 }
 

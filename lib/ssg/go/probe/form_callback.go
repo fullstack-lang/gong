@@ -46,6 +46,8 @@ type ChapterFormCallback struct {
 }
 
 func (chapterFormCallback *ChapterFormCallback) OnSave() {
+	chapterFormCallback.probe.stageOfInterest.Lock()
+	defer chapterFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("ChapterFormCallback, OnSave")
 
@@ -221,6 +223,8 @@ type ContentFormCallback struct {
 }
 
 func (contentFormCallback *ContentFormCallback) OnSave() {
+	contentFormCallback.probe.stageOfInterest.Lock()
+	defer contentFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("ContentFormCallback, OnSave")
 
@@ -350,6 +354,8 @@ type PageFormCallback struct {
 }
 
 func (pageFormCallback *PageFormCallback) OnSave() {
+	pageFormCallback.probe.stageOfInterest.Lock()
+	defer pageFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("PageFormCallback, OnSave")
 

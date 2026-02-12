@@ -74,6 +74,8 @@ type {{Structname}}FormCallback struct {
 }
 
 func ({{structname}}FormCallback *{{Structname}}FormCallback) OnSave() {
+	{{structname}}FormCallback.probe.stageOfInterest.Lock()
+	defer {{structname}}FormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("{{Structname}}FormCallback, OnSave")
 
