@@ -288,6 +288,7 @@ func main() {
 				}).Stage(splitStage),
 			}).Stage(splitStage),
 		},
+		IsSecondatyView: true,
 	}).Stage(splitStage)
 
 	(&split.View{
@@ -299,6 +300,7 @@ func main() {
 				}).Stage(splitStage),
 			}).Stage(splitStage),
 		},
+		IsSecondatyView: true,
 	}).Stage(splitStage)
 
 	(&split.View{
@@ -310,6 +312,7 @@ func main() {
 				}).Stage(splitStage),
 			}).Stage(splitStage),
 		},
+		IsSecondatyView: true,
 	}).Stage(splitStage)
 
 	(&split.View{
@@ -333,6 +336,7 @@ func main() {
 				}).Stage(splitStage),
 			}).Stage(splitStage),
 		},
+		IsSecondatyView: true,
 	}).Stage(splitStage)
 
 	(&split.View{

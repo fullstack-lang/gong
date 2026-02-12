@@ -619,6 +619,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(view.GongMarshallField(stage, "RootAsSplitAreas"))
 		initializerStatements.WriteString(view.GongMarshallField(stage, "IsSelectedView"))
 		initializerStatements.WriteString(view.GongMarshallField(stage, "Direction"))
+		initializerStatements.WriteString(view.GongMarshallField(stage, "IsSecondatyView"))
 	}
 
 	xlsxOrdered := []*Xlsx{}
@@ -1458,6 +1459,11 @@ func (view *View) GongMarshallField(stage *Stage, fieldName string) (res string)
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Direction")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
 		}
+	case "IsSecondatyView":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", view.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsSecondatyView")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", view.IsSecondatyView))
 
 	case "RootAsSplitAreas":
 		var sb strings.Builder
@@ -1733,6 +1739,7 @@ func (view *View) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		pointersInitializesStatements.WriteString(view.GongMarshallField(stage, "RootAsSplitAreas"))
 		initializerStatements.WriteString(view.GongMarshallField(stage, "IsSelectedView"))
 		initializerStatements.WriteString(view.GongMarshallField(stage, "Direction"))
+		initializerStatements.WriteString(view.GongMarshallField(stage, "IsSecondatyView"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

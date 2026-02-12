@@ -15,6 +15,7 @@ export class ViewAPI {
 	ShowViewName: boolean = false
 	IsSelectedView: boolean = false
 	Direction: string = ""
+	IsSecondatyView: boolean = false
 
 	// insertion point for other decls
 

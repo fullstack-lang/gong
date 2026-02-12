@@ -284,6 +284,8 @@ type View_WOP struct {
 	IsSelectedView bool
 
 	Direction Direction
+
+	IsSecondatyView bool
 }
 
 func (from *View) CopyBasicFields(to *View) {
@@ -292,6 +294,7 @@ func (from *View) CopyBasicFields(to *View) {
 	to.ShowViewName = from.ShowViewName
 	to.IsSelectedView = from.IsSelectedView
 	to.Direction = from.Direction
+	to.IsSecondatyView = from.IsSecondatyView
 }
 
 type Xlsx_WOP struct {

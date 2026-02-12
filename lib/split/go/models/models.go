@@ -28,6 +28,9 @@ type View struct {
 
 	// Direction the initial direction for the split dividing of the view. Vertical if ""
 	Direction Direction
+
+	// will be displayed in a vertical manner, with the first element at the top and the last element at the bottom
+	IsSecondatyView bool
 }
 
 type Direction string

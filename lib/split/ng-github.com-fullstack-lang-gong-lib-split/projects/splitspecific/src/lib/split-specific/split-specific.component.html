@@ -10,14 +10,28 @@
         }
         
         <!-- Radio group -->
-        <div style="flex: 1; min-width: 0;">
+        <div style="flex: 1; min-width: 0; display: flex; align-items: center;">
             <mat-radio-group aria-label="Select an option" [(ngModel)]="view" style="display: flex; align-items: center; flex-wrap: nowrap;">
                 @for (view_ of frontRepo?.array_Views; track view_) {
+                @if (!view_.IsSecondatyView) {
                 <mat-radio-button [value]="view_" style="margin-right: 16px; white-space: nowrap;">
                     {{view_.Name}}
                 </mat-radio-button>
                 }
+                }
             </mat-radio-group>
+            <mat-form-field subscriptSizing="dynamic">
+                <mat-label>Other views</mat-label>
+                <mat-select [(ngModel)]="view">
+                    @for (view_ of frontRepo?.array_Views; track view_) {
+                    @if (view_.IsSecondatyView) {
+                    <mat-option [value]="view_">
+                        {{view_.Name}}
+                    </mat-option>
+                    }
+                    }
+                </mat-select>
+            </mat-form-field>
         </div>
 
         <!-- SVG Logo section -->
