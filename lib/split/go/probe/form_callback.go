@@ -1670,6 +1670,8 @@ func (viewFormCallback *ViewFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(view_.IsSelectedView), formDiv)
 		case "Direction":
 			FormDivEnumStringFieldToField(&(view_.Direction), formDiv)
+		case "IsSecondatyView":
+			FormDivBasicFieldToField(&(view_.IsSecondatyView), formDiv)
 		}
 	}
 

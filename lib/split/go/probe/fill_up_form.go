@@ -221,6 +221,8 @@ func FillUpForm(
 		BasicFieldtoForm("IsSelectedView", instanceWithInferedType.IsSelectedView, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		EnumTypeStringToForm("Direction", instanceWithInferedType.Direction, instanceWithInferedType, probe.formStage, formGroup)
+		BasicFieldtoForm("IsSecondatyView", instanceWithInferedType.IsSecondatyView, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 
 	case *models.Xlsx:
 		// insertion point

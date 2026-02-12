@@ -5004,6 +5004,10 @@ func (view *View) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:               "Direction",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
+		{
+			Name:               "IsSecondatyView",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
 	}
 	return
 }
@@ -5412,6 +5416,10 @@ func (view *View) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	case "Direction":
 		enum := view.Direction
 		res.valueString = enum.ToCodeString()
+	case "IsSecondatyView":
+		res.valueString = fmt.Sprintf("%t", view.IsSecondatyView)
+		res.valueBool = view.IsSecondatyView
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -5854,6 +5862,8 @@ func (view *View) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 		view.IsSelectedView = value.GetValueBool()
 	case "Direction":
 		view.Direction.FromCodeString(value.GetValueString())
+	case "IsSecondatyView":
+		view.IsSecondatyView = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
