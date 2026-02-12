@@ -46,6 +46,8 @@ type ButtonFormCallback struct {
 }
 
 func (buttonFormCallback *ButtonFormCallback) OnSave() {
+	buttonFormCallback.probe.stageOfInterest.Lock()
+	defer buttonFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("ButtonFormCallback, OnSave")
 
@@ -200,6 +202,8 @@ type ButtonToggleFormCallback struct {
 }
 
 func (buttontoggleFormCallback *ButtonToggleFormCallback) OnSave() {
+	buttontoggleFormCallback.probe.stageOfInterest.Lock()
+	defer buttontoggleFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("ButtonToggleFormCallback, OnSave")
 
@@ -350,6 +354,8 @@ type GroupFormCallback struct {
 }
 
 func (groupFormCallback *GroupFormCallback) OnSave() {
+	groupFormCallback.probe.stageOfInterest.Lock()
+	defer groupFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("GroupFormCallback, OnSave")
 
@@ -527,6 +533,8 @@ type GroupToogleFormCallback struct {
 }
 
 func (grouptoogleFormCallback *GroupToogleFormCallback) OnSave() {
+	grouptoogleFormCallback.probe.stageOfInterest.Lock()
+	defer grouptoogleFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("GroupToogleFormCallback, OnSave")
 
@@ -704,6 +712,8 @@ type LayoutFormCallback struct {
 }
 
 func (layoutFormCallback *LayoutFormCallback) OnSave() {
+	layoutFormCallback.probe.stageOfInterest.Lock()
+	defer layoutFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("LayoutFormCallback, OnSave")
 

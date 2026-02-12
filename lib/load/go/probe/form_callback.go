@@ -46,6 +46,8 @@ type FileToDownloadFormCallback struct {
 }
 
 func (filetodownloadFormCallback *FileToDownloadFormCallback) OnSave() {
+	filetodownloadFormCallback.probe.stageOfInterest.Lock()
+	defer filetodownloadFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("FileToDownloadFormCallback, OnSave")
 
@@ -124,6 +126,8 @@ type FileToUploadFormCallback struct {
 }
 
 func (filetouploadFormCallback *FileToUploadFormCallback) OnSave() {
+	filetouploadFormCallback.probe.stageOfInterest.Lock()
+	defer filetouploadFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("FileToUploadFormCallback, OnSave")
 
@@ -202,6 +206,8 @@ type MessageFormCallback struct {
 }
 
 func (messageFormCallback *MessageFormCallback) OnSave() {
+	messageFormCallback.probe.stageOfInterest.Lock()
+	defer messageFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("MessageFormCallback, OnSave")
 

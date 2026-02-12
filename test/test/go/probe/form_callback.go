@@ -46,6 +46,8 @@ type AstructFormCallback struct {
 }
 
 func (astructFormCallback *AstructFormCallback) OnSave() {
+	astructFormCallback.probe.stageOfInterest.Lock()
+	defer astructFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("AstructFormCallback, OnSave")
 
@@ -422,6 +424,8 @@ type AstructBstruct2UseFormCallback struct {
 }
 
 func (astructbstruct2useFormCallback *AstructBstruct2UseFormCallback) OnSave() {
+	astructbstruct2useFormCallback.probe.stageOfInterest.Lock()
+	defer astructbstruct2useFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("AstructBstruct2UseFormCallback, OnSave")
 
@@ -566,6 +570,8 @@ type AstructBstructUseFormCallback struct {
 }
 
 func (astructbstructuseFormCallback *AstructBstructUseFormCallback) OnSave() {
+	astructbstructuseFormCallback.probe.stageOfInterest.Lock()
+	defer astructbstructuseFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("AstructBstructUseFormCallback, OnSave")
 
@@ -710,6 +716,8 @@ type BstructFormCallback struct {
 }
 
 func (bstructFormCallback *BstructFormCallback) OnSave() {
+	bstructFormCallback.probe.stageOfInterest.Lock()
+	defer bstructFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("BstructFormCallback, OnSave")
 
@@ -990,6 +998,8 @@ type DstructFormCallback struct {
 }
 
 func (dstructFormCallback *DstructFormCallback) OnSave() {
+	dstructFormCallback.probe.stageOfInterest.Lock()
+	defer dstructFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("DstructFormCallback, OnSave")
 
@@ -1196,6 +1206,8 @@ type F0123456789012345678901234567890FormCallback struct {
 }
 
 func (f0123456789012345678901234567890FormCallback *F0123456789012345678901234567890FormCallback) OnSave() {
+	f0123456789012345678901234567890FormCallback.probe.stageOfInterest.Lock()
+	defer f0123456789012345678901234567890FormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("F0123456789012345678901234567890FormCallback, OnSave")
 
@@ -1274,6 +1286,8 @@ type GstructFormCallback struct {
 }
 
 func (gstructFormCallback *GstructFormCallback) OnSave() {
+	gstructFormCallback.probe.stageOfInterest.Lock()
+	defer gstructFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("GstructFormCallback, OnSave")
 

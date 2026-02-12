@@ -46,6 +46,8 @@ type FreqencyFormCallback struct {
 }
 
 func (freqencyFormCallback *FreqencyFormCallback) OnSave() {
+	freqencyFormCallback.probe.stageOfInterest.Lock()
+	defer freqencyFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("FreqencyFormCallback, OnSave")
 
@@ -188,6 +190,8 @@ type NoteFormCallback struct {
 }
 
 func (noteFormCallback *NoteFormCallback) OnSave() {
+	noteFormCallback.probe.stageOfInterest.Lock()
+	defer noteFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("NoteFormCallback, OnSave")
 
@@ -303,6 +307,8 @@ type PlayerFormCallback struct {
 }
 
 func (playerFormCallback *PlayerFormCallback) OnSave() {
+	playerFormCallback.probe.stageOfInterest.Lock()
+	defer playerFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("PlayerFormCallback, OnSave")
 

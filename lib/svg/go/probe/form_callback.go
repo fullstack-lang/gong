@@ -46,6 +46,8 @@ type AnimateFormCallback struct {
 }
 
 func (animateFormCallback *AnimateFormCallback) OnSave() {
+	animateFormCallback.probe.stageOfInterest.Lock()
+	defer animateFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("AnimateFormCallback, OnSave")
 
@@ -794,6 +796,8 @@ type CircleFormCallback struct {
 }
 
 func (circleFormCallback *CircleFormCallback) OnSave() {
+	circleFormCallback.probe.stageOfInterest.Lock()
+	defer circleFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("CircleFormCallback, OnSave")
 
@@ -989,6 +993,8 @@ type ConditionFormCallback struct {
 }
 
 func (conditionFormCallback *ConditionFormCallback) OnSave() {
+	conditionFormCallback.probe.stageOfInterest.Lock()
+	defer conditionFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("ConditionFormCallback, OnSave")
 
@@ -1197,6 +1203,8 @@ type ControlPointFormCallback struct {
 }
 
 func (controlpointFormCallback *ControlPointFormCallback) OnSave() {
+	controlpointFormCallback.probe.stageOfInterest.Lock()
+	defer controlpointFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("ControlPointFormCallback, OnSave")
 
@@ -1345,6 +1353,8 @@ type EllipseFormCallback struct {
 }
 
 func (ellipseFormCallback *EllipseFormCallback) OnSave() {
+	ellipseFormCallback.probe.stageOfInterest.Lock()
+	defer ellipseFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("EllipseFormCallback, OnSave")
 
@@ -1542,6 +1552,8 @@ type LayerFormCallback struct {
 }
 
 func (layerFormCallback *LayerFormCallback) OnSave() {
+	layerFormCallback.probe.stageOfInterest.Lock()
+	defer layerFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("LayerFormCallback, OnSave")
 
@@ -1994,6 +2006,8 @@ type LineFormCallback struct {
 }
 
 func (lineFormCallback *LineFormCallback) OnSave() {
+	lineFormCallback.probe.stageOfInterest.Lock()
+	defer lineFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("LineFormCallback, OnSave")
 
@@ -2195,6 +2209,8 @@ type LinkFormCallback struct {
 }
 
 func (linkFormCallback *LinkFormCallback) OnSave() {
+	linkFormCallback.probe.stageOfInterest.Lock()
+	defer linkFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("LinkFormCallback, OnSave")
 
@@ -2488,6 +2504,8 @@ type LinkAnchoredTextFormCallback struct {
 }
 
 func (linkanchoredtextFormCallback *LinkAnchoredTextFormCallback) OnSave() {
+	linkanchoredtextFormCallback.probe.stageOfInterest.Lock()
+	defer linkanchoredtextFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("LinkAnchoredTextFormCallback, OnSave")
 
@@ -2765,6 +2783,8 @@ type PathFormCallback struct {
 }
 
 func (pathFormCallback *PathFormCallback) OnSave() {
+	pathFormCallback.probe.stageOfInterest.Lock()
+	defer pathFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("PathFormCallback, OnSave")
 
@@ -2956,6 +2976,8 @@ type PointFormCallback struct {
 }
 
 func (pointFormCallback *PointFormCallback) OnSave() {
+	pointFormCallback.probe.stageOfInterest.Lock()
+	defer pointFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("PointFormCallback, OnSave")
 
@@ -3036,6 +3058,8 @@ type PolygoneFormCallback struct {
 }
 
 func (polygoneFormCallback *PolygoneFormCallback) OnSave() {
+	polygoneFormCallback.probe.stageOfInterest.Lock()
+	defer polygoneFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("PolygoneFormCallback, OnSave")
 
@@ -3227,6 +3251,8 @@ type PolylineFormCallback struct {
 }
 
 func (polylineFormCallback *PolylineFormCallback) OnSave() {
+	polylineFormCallback.probe.stageOfInterest.Lock()
+	defer polylineFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("PolylineFormCallback, OnSave")
 
@@ -3418,6 +3444,8 @@ type RectFormCallback struct {
 }
 
 func (rectFormCallback *RectFormCallback) OnSave() {
+	rectFormCallback.probe.stageOfInterest.Lock()
+	defer rectFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("RectFormCallback, OnSave")
 
@@ -3820,6 +3848,8 @@ type RectAnchoredPathFormCallback struct {
 }
 
 func (rectanchoredpathFormCallback *RectAnchoredPathFormCallback) OnSave() {
+	rectanchoredpathFormCallback.probe.stageOfInterest.Lock()
+	defer rectanchoredpathFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("RectAnchoredPathFormCallback, OnSave")
 
@@ -3990,6 +4020,8 @@ type RectAnchoredRectFormCallback struct {
 }
 
 func (rectanchoredrectFormCallback *RectAnchoredRectFormCallback) OnSave() {
+	rectanchoredrectFormCallback.probe.stageOfInterest.Lock()
+	defer rectanchoredrectFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("RectAnchoredRectFormCallback, OnSave")
 
@@ -4172,6 +4204,8 @@ type RectAnchoredTextFormCallback struct {
 }
 
 func (rectanchoredtextFormCallback *RectAnchoredTextFormCallback) OnSave() {
+	rectanchoredtextFormCallback.probe.stageOfInterest.Lock()
+	defer rectanchoredtextFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("RectAnchoredTextFormCallback, OnSave")
 
@@ -4387,6 +4421,8 @@ type RectLinkLinkFormCallback struct {
 }
 
 func (rectlinklinkFormCallback *RectLinkLinkFormCallback) OnSave() {
+	rectlinklinkFormCallback.probe.stageOfInterest.Lock()
+	defer rectlinklinkFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("RectLinkLinkFormCallback, OnSave")
 
@@ -4551,6 +4587,8 @@ type SVGFormCallback struct {
 }
 
 func (svgFormCallback *SVGFormCallback) OnSave() {
+	svgFormCallback.probe.stageOfInterest.Lock()
+	defer svgFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("SVGFormCallback, OnSave")
 
@@ -4682,6 +4720,8 @@ type SvgTextFormCallback struct {
 }
 
 func (svgtextFormCallback *SvgTextFormCallback) OnSave() {
+	svgtextFormCallback.probe.stageOfInterest.Lock()
+	defer svgtextFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("SvgTextFormCallback, OnSave")
 
@@ -4760,6 +4800,8 @@ type TextFormCallback struct {
 }
 
 func (textFormCallback *TextFormCallback) OnSave() {
+	textFormCallback.probe.stageOfInterest.Lock()
+	defer textFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("TextFormCallback, OnSave")
 

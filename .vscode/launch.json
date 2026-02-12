@@ -773,6 +773,20 @@
                 // "--debouncedMarshall=true"
             ]
         },
+                {
+            "name": "gong generate test3 --debouncedMarshall=true",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/test/test3/go/models",
+            "program": "${workspaceFolder}/go/cmd/gong",
+            "args": [
+                "generate",
+                "--skipGoModCommands",
+                "--level1",
+                "--debouncedMarshall=true"
+            ]
+        },
         {
             "name": "go run test3 -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage.go",
             "type": "go",

@@ -46,6 +46,8 @@ type AFormCallback struct {
 }
 
 func (aFormCallback *AFormCallback) OnSave() {
+	aFormCallback.probe.stageOfInterest.Lock()
+	defer aFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("AFormCallback, OnSave")
 
@@ -157,6 +159,8 @@ type BFormCallback struct {
 }
 
 func (bFormCallback *BFormCallback) OnSave() {
+	bFormCallback.probe.stageOfInterest.Lock()
+	defer bFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("BFormCallback, OnSave")
 

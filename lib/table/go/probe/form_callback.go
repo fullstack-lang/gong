@@ -46,6 +46,8 @@ type CellFormCallback struct {
 }
 
 func (cellFormCallback *CellFormCallback) OnSave() {
+	cellFormCallback.probe.stageOfInterest.Lock()
+	defer cellFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("CellFormCallback, OnSave")
 
@@ -198,6 +200,8 @@ type CellBooleanFormCallback struct {
 }
 
 func (cellbooleanFormCallback *CellBooleanFormCallback) OnSave() {
+	cellbooleanFormCallback.probe.stageOfInterest.Lock()
+	defer cellbooleanFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("CellBooleanFormCallback, OnSave")
 
@@ -276,6 +280,8 @@ type CellFloat64FormCallback struct {
 }
 
 func (cellfloat64FormCallback *CellFloat64FormCallback) OnSave() {
+	cellfloat64FormCallback.probe.stageOfInterest.Lock()
+	defer cellfloat64FormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("CellFloat64FormCallback, OnSave")
 
@@ -354,6 +360,8 @@ type CellIconFormCallback struct {
 }
 
 func (celliconFormCallback *CellIconFormCallback) OnSave() {
+	celliconFormCallback.probe.stageOfInterest.Lock()
+	defer celliconFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("CellIconFormCallback, OnSave")
 
@@ -436,6 +444,8 @@ type CellIntFormCallback struct {
 }
 
 func (cellintFormCallback *CellIntFormCallback) OnSave() {
+	cellintFormCallback.probe.stageOfInterest.Lock()
+	defer cellintFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("CellIntFormCallback, OnSave")
 
@@ -514,6 +524,8 @@ type CellStringFormCallback struct {
 }
 
 func (cellstringFormCallback *CellStringFormCallback) OnSave() {
+	cellstringFormCallback.probe.stageOfInterest.Lock()
+	defer cellstringFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("CellStringFormCallback, OnSave")
 
@@ -592,6 +604,8 @@ type CheckBoxFormCallback struct {
 }
 
 func (checkboxFormCallback *CheckBoxFormCallback) OnSave() {
+	checkboxFormCallback.probe.stageOfInterest.Lock()
+	defer checkboxFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("CheckBoxFormCallback, OnSave")
 
@@ -736,6 +750,8 @@ type DisplayedColumnFormCallback struct {
 }
 
 func (displayedcolumnFormCallback *DisplayedColumnFormCallback) OnSave() {
+	displayedcolumnFormCallback.probe.stageOfInterest.Lock()
+	defer displayedcolumnFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("DisplayedColumnFormCallback, OnSave")
 
@@ -878,6 +894,8 @@ type FormDivFormCallback struct {
 }
 
 func (formdivFormCallback *FormDivFormCallback) OnSave() {
+	formdivFormCallback.probe.stageOfInterest.Lock()
+	defer formdivFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("FormDivFormCallback, OnSave")
 
@@ -1086,6 +1104,8 @@ type FormEditAssocButtonFormCallback struct {
 }
 
 func (formeditassocbuttonFormCallback *FormEditAssocButtonFormCallback) OnSave() {
+	formeditassocbuttonFormCallback.probe.stageOfInterest.Lock()
+	defer formeditassocbuttonFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("FormEditAssocButtonFormCallback, OnSave")
 
@@ -1176,6 +1196,8 @@ type FormFieldFormCallback struct {
 }
 
 func (formfieldFormCallback *FormFieldFormCallback) OnSave() {
+	formfieldFormCallback.probe.stageOfInterest.Lock()
+	defer formfieldFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("FormFieldFormCallback, OnSave")
 
@@ -1346,6 +1368,8 @@ type FormFieldDateFormCallback struct {
 }
 
 func (formfielddateFormCallback *FormFieldDateFormCallback) OnSave() {
+	formfielddateFormCallback.probe.stageOfInterest.Lock()
+	defer formfielddateFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("FormFieldDateFormCallback, OnSave")
 
@@ -1424,6 +1448,8 @@ type FormFieldDateTimeFormCallback struct {
 }
 
 func (formfielddatetimeFormCallback *FormFieldDateTimeFormCallback) OnSave() {
+	formfielddatetimeFormCallback.probe.stageOfInterest.Lock()
+	defer formfielddatetimeFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("FormFieldDateTimeFormCallback, OnSave")
 
@@ -1502,6 +1528,8 @@ type FormFieldFloat64FormCallback struct {
 }
 
 func (formfieldfloat64FormCallback *FormFieldFloat64FormCallback) OnSave() {
+	formfieldfloat64FormCallback.probe.stageOfInterest.Lock()
+	defer formfieldfloat64FormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("FormFieldFloat64FormCallback, OnSave")
 
@@ -1588,6 +1616,8 @@ type FormFieldIntFormCallback struct {
 }
 
 func (formfieldintFormCallback *FormFieldIntFormCallback) OnSave() {
+	formfieldintFormCallback.probe.stageOfInterest.Lock()
+	defer formfieldintFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("FormFieldIntFormCallback, OnSave")
 
@@ -1674,6 +1704,8 @@ type FormFieldSelectFormCallback struct {
 }
 
 func (formfieldselectFormCallback *FormFieldSelectFormCallback) OnSave() {
+	formfieldselectFormCallback.probe.stageOfInterest.Lock()
+	defer formfieldselectFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("FormFieldSelectFormCallback, OnSave")
 
@@ -1787,6 +1819,8 @@ type FormFieldStringFormCallback struct {
 }
 
 func (formfieldstringFormCallback *FormFieldStringFormCallback) OnSave() {
+	formfieldstringFormCallback.probe.stageOfInterest.Lock()
+	defer formfieldstringFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("FormFieldStringFormCallback, OnSave")
 
@@ -1867,6 +1901,8 @@ type FormFieldTimeFormCallback struct {
 }
 
 func (formfieldtimeFormCallback *FormFieldTimeFormCallback) OnSave() {
+	formfieldtimeFormCallback.probe.stageOfInterest.Lock()
+	defer formfieldtimeFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("FormFieldTimeFormCallback, OnSave")
 
@@ -1947,6 +1983,8 @@ type FormGroupFormCallback struct {
 }
 
 func (formgroupFormCallback *FormGroupFormCallback) OnSave() {
+	formgroupFormCallback.probe.stageOfInterest.Lock()
+	defer formgroupFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("FormGroupFormCallback, OnSave")
 
@@ -2060,6 +2098,8 @@ type FormSortAssocButtonFormCallback struct {
 }
 
 func (formsortassocbuttonFormCallback *FormSortAssocButtonFormCallback) OnSave() {
+	formsortassocbuttonFormCallback.probe.stageOfInterest.Lock()
+	defer formsortassocbuttonFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("FormSortAssocButtonFormCallback, OnSave")
 
@@ -2146,6 +2186,8 @@ type OptionFormCallback struct {
 }
 
 func (optionFormCallback *OptionFormCallback) OnSave() {
+	optionFormCallback.probe.stageOfInterest.Lock()
+	defer optionFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("OptionFormCallback, OnSave")
 
@@ -2288,6 +2330,8 @@ type RowFormCallback struct {
 }
 
 func (rowFormCallback *RowFormCallback) OnSave() {
+	rowFormCallback.probe.stageOfInterest.Lock()
+	defer rowFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("RowFormCallback, OnSave")
 
@@ -2463,6 +2507,8 @@ type TableFormCallback struct {
 }
 
 func (tableFormCallback *TableFormCallback) OnSave() {
+	tableFormCallback.probe.stageOfInterest.Lock()
+	defer tableFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("TableFormCallback, OnSave")
 
