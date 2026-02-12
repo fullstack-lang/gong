@@ -46,6 +46,8 @@ type GongBasicFieldFormCallback struct {
 }
 
 func (gongbasicfieldFormCallback *GongBasicFieldFormCallback) OnSave() {
+	gongbasicfieldFormCallback.probe.stageOfInterest.Lock()
+	defer gongbasicfieldFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("GongBasicFieldFormCallback, OnSave")
 
@@ -208,6 +210,8 @@ type GongEnumFormCallback struct {
 }
 
 func (gongenumFormCallback *GongEnumFormCallback) OnSave() {
+	gongenumFormCallback.probe.stageOfInterest.Lock()
+	defer gongenumFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("GongEnumFormCallback, OnSave")
 
@@ -317,6 +321,8 @@ type GongEnumValueFormCallback struct {
 }
 
 func (gongenumvalueFormCallback *GongEnumValueFormCallback) OnSave() {
+	gongenumvalueFormCallback.probe.stageOfInterest.Lock()
+	defer gongenumvalueFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("GongEnumValueFormCallback, OnSave")
 
@@ -461,6 +467,8 @@ type GongLinkFormCallback struct {
 }
 
 func (gonglinkFormCallback *GongLinkFormCallback) OnSave() {
+	gonglinkFormCallback.probe.stageOfInterest.Lock()
+	defer gonglinkFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("GongLinkFormCallback, OnSave")
 
@@ -607,6 +615,8 @@ type GongNoteFormCallback struct {
 }
 
 func (gongnoteFormCallback *GongNoteFormCallback) OnSave() {
+	gongnoteFormCallback.probe.stageOfInterest.Lock()
+	defer gongnoteFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("GongNoteFormCallback, OnSave")
 
@@ -718,6 +728,8 @@ type GongStructFormCallback struct {
 }
 
 func (gongstructFormCallback *GongStructFormCallback) OnSave() {
+	gongstructFormCallback.probe.stageOfInterest.Lock()
+	defer gongstructFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("GongStructFormCallback, OnSave")
 
@@ -922,6 +934,8 @@ type GongTimeFieldFormCallback struct {
 }
 
 func (gongtimefieldFormCallback *GongTimeFieldFormCallback) OnSave() {
+	gongtimefieldFormCallback.probe.stageOfInterest.Lock()
+	defer gongtimefieldFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("GongTimeFieldFormCallback, OnSave")
 
@@ -1070,6 +1084,8 @@ type MetaReferenceFormCallback struct {
 }
 
 func (metareferenceFormCallback *MetaReferenceFormCallback) OnSave() {
+	metareferenceFormCallback.probe.stageOfInterest.Lock()
+	defer metareferenceFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("MetaReferenceFormCallback, OnSave")
 
@@ -1146,6 +1162,8 @@ type ModelPkgFormCallback struct {
 }
 
 func (modelpkgFormCallback *ModelPkgFormCallback) OnSave() {
+	modelpkgFormCallback.probe.stageOfInterest.Lock()
+	defer modelpkgFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("ModelPkgFormCallback, OnSave")
 
@@ -1256,6 +1274,8 @@ type PointerToGongStructFieldFormCallback struct {
 }
 
 func (pointertogongstructfieldFormCallback *PointerToGongStructFieldFormCallback) OnSave() {
+	pointertogongstructfieldFormCallback.probe.stageOfInterest.Lock()
+	defer pointertogongstructfieldFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("PointerToGongStructFieldFormCallback, OnSave")
 
@@ -1406,6 +1426,8 @@ type SliceOfPointerToGongStructFieldFormCallback struct {
 }
 
 func (sliceofpointertogongstructfieldFormCallback *SliceOfPointerToGongStructFieldFormCallback) OnSave() {
+	sliceofpointertogongstructfieldFormCallback.probe.stageOfInterest.Lock()
+	defer sliceofpointertogongstructfieldFormCallback.probe.stageOfInterest.Unlock()
 
 	// log.Println("SliceOfPointerToGongStructFieldFormCallback, OnSave")
 
