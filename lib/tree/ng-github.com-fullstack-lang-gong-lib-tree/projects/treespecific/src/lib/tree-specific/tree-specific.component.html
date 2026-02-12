@@ -16,16 +16,16 @@
             }
             
             @if (node.gongNode.HasCheckboxButton) {
-                <mat-checkbox [id]="'checkbox-' + node.gongNode.Name" 
-                             [disabled]="node.gongNode.IsCheckboxDisabled" 
-                             [checked]="node.gongNode.IsChecked" 
-                             (change)="toggleNodeCheckbox(node)"
-                             (click)="$event.stopPropagation()"
-                             
-                             [matTooltip]="node.gongNode.CheckboxToolTipText"
-                             [matTooltipPosition]="node.gongNode.CheckboxToolTipPosition"
-                             [matTooltipDisabled]="!node.gongNode.CheckboxHasToolTip">
-                </mat-checkbox>
+                <span [matTooltip]="node.gongNode.CheckboxToolTipText"
+                      [matTooltipPosition]="node.gongNode.CheckboxToolTipPosition"
+                      [matTooltipDisabled]="!node.gongNode.CheckboxHasToolTip">
+                    <mat-checkbox [id]="'checkbox-' + node.gongNode.Name" 
+                                 [disabled]="node.gongNode.IsCheckboxDisabled" 
+                                 [checked]="node.gongNode.IsChecked" 
+                                 (change)="toggleNodeCheckbox(node)"
+                                 (click)="$event.stopPropagation()">
+                    </mat-checkbox>
+                </span>
             }
             
             @if (!node.gongNode.IsInEditMode) {
@@ -58,16 +58,16 @@
             }
             
             @if (node.gongNode.HasSecondCheckboxButton) {
-                <mat-checkbox [id]="'checkbox-' + node.gongNode.Name" 
-                             [disabled]="node.gongNode.IsSecondCheckboxDisabled" 
-                             [checked]="node.gongNode.IsSecondCheckboxChecked" 
-                             (change)="toggleNodeSecondCheckbox(node)"
-                             (click)="$event.stopPropagation()"
-                             
-                             [matTooltip]="node.gongNode.SecondCheckboxToolTipText"
-                             [matTooltipPosition]="node.gongNode.SecondCheckboxToolTipPosition"
-                             [matTooltipDisabled]="!node.gongNode.SecondCheckboxHasToolTip">
-                </mat-checkbox>
+                <span [matTooltip]="node.gongNode.SecondCheckboxToolTipText"
+                      [matTooltipPosition]="node.gongNode.SecondCheckboxToolTipPosition"
+                      [matTooltipDisabled]="!node.gongNode.SecondCheckboxHasToolTip">
+                    <mat-checkbox [id]="'checkbox-' + node.gongNode.Name" 
+                                 [disabled]="node.gongNode.IsSecondCheckboxDisabled" 
+                                 [checked]="node.gongNode.IsSecondCheckboxChecked" 
+                                 (change)="toggleNodeSecondCheckbox(node)"
+                                 (click)="$event.stopPropagation()">
+                    </mat-checkbox>
+                </span>
             }
             
             @if (!node.gongNode.HasSecondCheckboxButton && node.gongNode.TextAfterSecondCheckbox != "") {
@@ -96,11 +96,11 @@
                             [disabled]="button.IsDisabled">
                 
                         @if (!button.SVGIcon) {
-                            <mat-icon [ngStyle]="{'color':'rgba(0,0,0,.50)'}">
+                            <mat-icon [ngStyle]="{'color': button.IsDisabled ? 'rgba(0,0,0,.20)' : 'rgba(0,0,0,.50)'}">
                                 {{button.Icon}}
                             </mat-icon>
                         } @else {
-                            <mat-icon [ngStyle]="{'color':'rgba(0,0,0,.50)'}"
+                            <mat-icon [ngStyle]="{'color': button.IsDisabled ? 'rgba(0,0,0,.20)' : 'rgba(0,0,0,.50)'}"
                                       [svgIcon]="button.SVGIcon.Name">
                             </mat-icon>
                         }
