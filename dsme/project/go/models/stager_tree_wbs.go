@@ -53,7 +53,7 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 				}
 
 				if compositionShape, ok := diagram.map_Task_TaskCompositionShape[task]; !ok {
-					showHideCompositionButton.Icon = string(buttons.BUTTON_unfold_more)
+					showHideCompositionButton.Icon = string(buttons.BUTTON_visibility)
 					showHideCompositionButton.ToolTipText = "Show link from \"" + parentTask.Name +
 						"\" to \"" + task.Name + "\""
 
@@ -61,7 +61,7 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 						OnUpdated: onAddAssociationShape(stager, parentTask, task, &diagram.TaskComposition_Shapes),
 					}
 				} else {
-					showHideCompositionButton.Icon = string(buttons.BUTTON_unfold_less)
+					showHideCompositionButton.Icon = string(buttons.BUTTON_visibility_off)
 					showHideCompositionButton.ToolTipText = "Hide link from \"" + parentTask.Name +
 						"\" to \"" + task.Name + "\""
 
@@ -117,7 +117,7 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 						Product: product,
 					}
 					if taskInputShape, ok := diagram.map_Task_TaskInputShape[taskProductKey]; ok {
-						showHideTaskInputButton.Icon = string(buttons.BUTTON_unfold_less)
+						showHideTaskInputButton.Icon = string(buttons.BUTTON_visibility_off)
 						showHideTaskInputButton.ToolTipText = "Hide link from \"" + task.Name +
 							"\" to \"" + product.Name + "\""
 
@@ -125,7 +125,7 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 							OnUpdated: onRemoveAssociationShape(stager, taskInputShape, &diagram.TaskInputShapes),
 						}
 					} else {
-						showHideTaskInputButton.Icon = string(buttons.BUTTON_unfold_more)
+						showHideTaskInputButton.Icon = string(buttons.BUTTON_visibility)
 						showHideTaskInputButton.ToolTipText = "Show link from \"" + task.Name +
 							"\" to \"" + product.Name + "\""
 
@@ -177,7 +177,7 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 						Product: product,
 					}
 					if taskOutputShape, ok := diagram.map_Task_TaskOutputShape[taskProductKey]; ok {
-						showHideTaskOutputButton.Icon = string(buttons.BUTTON_unfold_less)
+						showHideTaskOutputButton.Icon = string(buttons.BUTTON_visibility_off)
 						showHideTaskOutputButton.ToolTipText = "Hide link from \"" + task.Name +
 							"\" to \"" + product.Name + "\""
 
@@ -185,7 +185,7 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 							OnUpdated: onRemoveAssociationShape(stager, taskOutputShape, &diagram.TaskOutputShapes),
 						}
 					} else {
-						showHideTaskOutputButton.Icon = string(buttons.BUTTON_unfold_more)
+						showHideTaskOutputButton.Icon = string(buttons.BUTTON_visibility)
 						showHideTaskOutputButton.ToolTipText = "Show link from \"" + task.Name +
 							"\" to \"" + product.Name + "\""
 
