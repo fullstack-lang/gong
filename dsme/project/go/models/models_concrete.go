@@ -224,9 +224,9 @@ type noteTaskKey struct {
 type TaskInputShape struct {
 	Name string
 
-	Task *Task
+	Product *Product // input product
 
-	Product *Product
+	Task *Task
 
 	LinkShape
 }
@@ -247,10 +247,10 @@ func (s *TaskInputShape) SetAbstractEndElement(abstractElement AbstractType) {
 }
 
 func (s *TaskInputShape) GetAbstractStartElement() AbstractType {
-	if s.Task == nil {
+	if s.Product == nil {
 		return nil
 	}
-	return s.Task
+	return s.Product
 }
 
 var _ AssociationConcreteType = (*TaskInputShape)(nil)
@@ -270,10 +270,10 @@ func (s *TaskOutputShape) SetAbstractStartElement(abstractElement AbstractType) 
 }
 
 func (s *TaskOutputShape) GetAbstractEndElement() AbstractType {
-	if s.Task == nil {
+	if s.Product == nil {
 		return nil
 	}
-	return s.Task
+	return s.Product
 }
 
 func (s *TaskOutputShape) SetAbstractEndElement(abstractElement AbstractType) {
