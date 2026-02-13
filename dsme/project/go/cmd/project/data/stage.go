@@ -124,6 +124,12 @@ another line-NewDiagram`}).Stage(stage)
 	__Project__00000001_ := (&models.Project{Name: `DSME Docx`}).Stage(stage)
 	__Project__00000002_ := (&models.Project{Name: `gong : persist stage.go as an history of commits  #934`}).Stage(stage)
 
+	__Resource__00000000_ := (&models.Resource{Name: `T`}).Stage(stage)
+
+	__ResourceShape__00000000_ := (&models.ResourceShape{Name: `NewResource-Work diagram x`}).Stage(stage)
+	__ResourceShape__00000001_ := (&models.ResourceShape{Name: `T-Work diagram x`}).Stage(stage)
+	__ResourceShape__00000002_ := (&models.ResourceShape{Name: `T-Work diagram x`}).Stage(stage)
+
 	__Root__00000000_ := (&models.Root{Name: `Root`}).Stage(stage)
 
 	__Task__00000003_ := (&models.Task{Name: `Task 1`}).Stage(stage)
@@ -167,6 +173,7 @@ another line-NewDiagram`}).Stage(stage)
 	__Diagram__00000042_.IsPBSNodeExpanded = true
 	__Diagram__00000042_.IsWBSNodeExpanded = true
 	__Diagram__00000042_.IsNotesNodeExpanded = false
+	__Diagram__00000042_.IsResourcesNodeExpanded = false
 
 	__Diagram__00000057_.Name = `NewDiagram`
 	__Diagram__00000057_.IsChecked = false
@@ -180,6 +187,7 @@ another line-NewDiagram`}).Stage(stage)
 	__Diagram__00000057_.IsPBSNodeExpanded = true
 	__Diagram__00000057_.IsWBSNodeExpanded = false
 	__Diagram__00000057_.IsNotesNodeExpanded = false
+	__Diagram__00000057_.IsResourcesNodeExpanded = false
 
 	__Diagram__00000061_.Name = `Work diagram x`
 	__Diagram__00000061_.IsChecked = true
@@ -193,6 +201,7 @@ another line-NewDiagram`}).Stage(stage)
 	__Diagram__00000061_.IsPBSNodeExpanded = true
 	__Diagram__00000061_.IsWBSNodeExpanded = true
 	__Diagram__00000061_.IsNotesNodeExpanded = false
+	__Diagram__00000061_.IsResourcesNodeExpanded = true
 
 	__Note__00000000_.Name = `This is an example to explain a particular product
 
@@ -740,6 +749,32 @@ another line-NewDiagram`
 	__Project__00000002_.IsExpanded = true
 	__Project__00000002_.ComputedPrefix = ``
 
+	__Resource__00000000_.Name = `T`
+	__Resource__00000000_.Description = ``
+	__Resource__00000000_.IsExpanded = false
+	__Resource__00000000_.ComputedPrefix = ``
+
+	__ResourceShape__00000000_.Name = `NewResource-Work diagram x`
+	__ResourceShape__00000000_.IsExpanded = false
+	__ResourceShape__00000000_.X = 197.905888
+	__ResourceShape__00000000_.Y = 164.497153
+	__ResourceShape__00000000_.Width = 250.000000
+	__ResourceShape__00000000_.Height = 100.000000
+
+	__ResourceShape__00000001_.Name = `T-Work diagram x`
+	__ResourceShape__00000001_.IsExpanded = false
+	__ResourceShape__00000001_.X = 186.392291
+	__ResourceShape__00000001_.Y = 108.018591
+	__ResourceShape__00000001_.Width = 250.000000
+	__ResourceShape__00000001_.Height = 100.000000
+
+	__ResourceShape__00000002_.Name = `T-Work diagram x`
+	__ResourceShape__00000002_.IsExpanded = false
+	__ResourceShape__00000002_.X = 126.560696
+	__ResourceShape__00000002_.Y = 182.001251
+	__ResourceShape__00000002_.Width = 250.000000
+	__ResourceShape__00000002_.Height = 100.000000
+
 	__Root__00000000_.Name = `Root`
 	__Root__00000000_.NbPixPerCharacter = 8.000000
 
@@ -986,6 +1021,9 @@ another line-NewDiagram`
 	__Diagram__00000061_.NoteProductShapes = append(__Diagram__00000061_.NoteProductShapes, __NoteProductShape__00000002_)
 	__Diagram__00000061_.NoteTaskShapes = append(__Diagram__00000061_.NoteTaskShapes, __NoteTaskShape__00000001_)
 	__Diagram__00000061_.NoteTaskShapes = append(__Diagram__00000061_.NoteTaskShapes, __NoteTaskShape__00000003_)
+	__Diagram__00000061_.Resource_Shapes = append(__Diagram__00000061_.Resource_Shapes, __ResourceShape__00000000_)
+	__Diagram__00000061_.Resource_Shapes = append(__Diagram__00000061_.Resource_Shapes, __ResourceShape__00000001_)
+	__Diagram__00000061_.Resource_Shapes = append(__Diagram__00000061_.Resource_Shapes, __ResourceShape__00000002_)
 	__Note__00000002_.Tasks = append(__Note__00000002_.Tasks, __Task__00000007_)
 	__Note__00000003_.Products = append(__Note__00000003_.Products, __Product__00000035_)
 	__Note__00000003_.Products = append(__Note__00000003_.Products, __Product__00000025_)
@@ -1083,7 +1121,11 @@ another line-NewDiagram`
 	__Project__00000002_.Notes = append(__Project__00000002_.Notes, __Note__00000002_)
 	__Project__00000002_.Notes = append(__Project__00000002_.Notes, __Note__00000003_)
 	__Project__00000002_.Notes = append(__Project__00000002_.Notes, __Note__00000004_)
+	__Project__00000002_.Resources = append(__Project__00000002_.Resources, __Resource__00000000_)
 	__Project__00000002_.Diagrams = append(__Project__00000002_.Diagrams, __Diagram__00000061_)
+	__ResourceShape__00000000_.Resource = __Resource__00000000_
+	__ResourceShape__00000001_.Resource = __Resource__00000000_
+	__ResourceShape__00000002_.Resource = __Resource__00000000_
 	__Root__00000000_.Projects = append(__Root__00000000_.Projects, __Project__00000000_)
 	__Root__00000000_.Projects = append(__Root__00000000_.Projects, __Project__00000001_)
 	__Root__00000000_.Projects = append(__Root__00000000_.Projects, __Project__00000002_)
@@ -1097,10 +1139,10 @@ another line-NewDiagram`
 	__Task__00000010_.Outputs = append(__Task__00000010_.Outputs, __Product__00000035_)
 	__Task__00000011_.Outputs = append(__Task__00000011_.Outputs, __Product__00000035_)
 	__Task__00000012_.Outputs = append(__Task__00000012_.Outputs, __Product__00000035_)
-	__TaskInputShape__00000001_.Task = __Task__00000008_
 	__TaskInputShape__00000001_.Product = __Product__00000025_
-	__TaskInputShape__00000002_.Task = __Task__00000007_
+	__TaskInputShape__00000001_.Task = __Task__00000008_
 	__TaskInputShape__00000002_.Product = __Product__00000025_
+	__TaskInputShape__00000002_.Task = __Task__00000007_
 	__TaskOutputShape__00000063_.Task = __Task__00000007_
 	__TaskOutputShape__00000063_.Product = __Product__00000021_
 	__TaskOutputShape__00000064_.Task = __Task__00000009_

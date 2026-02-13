@@ -293,6 +293,51 @@ func (stager *Stager) tree() {
 				}
 			}
 
+			resourcesNode := &tree.Node{
+				Name:            "Resources",
+				FontStyle:       tree.ITALIC,
+				IsExpanded:      diagram.IsResourcesNodeExpanded,
+				IsNodeClickable: true,
+			}
+			diagramNode.Children = append(diagramNode.Children, resourcesNode)
+			resourcesNode.Impl = &tree.FunctionalNodeProxy{
+				OnUpdate: stager.OnUpdateExpansion(&diagram.IsResourcesNodeExpanded),
+			}
+
+			addAddItemButton(stager, nil, nil, &diagram.IsResourcesNodeExpanded, resourcesNode, &project.Resources, diagram, &diagram.Resource_Shapes, &diagram.ResourceTaskShapes)
+
+			for _, resource := range project.Resources {
+				resourceNode := &tree.Node{
+					Name:            resource.Name,
+					IsNodeClickable: true,
+
+					HasCheckboxButton:  true,
+					IsCheckboxDisabled: !diagram.IsChecked,
+
+					HasToolTip:      true,
+					ToolTipPosition: tree.Above,
+					ToolTipText:     "Add resource to diagram",
+
+					IsExpanded: slices.Index(diagram.ResourcesWhoseNodeIsExpanded, resource) != -1,
+				}
+				resourcesNode.Children = append(resourcesNode.Children, resourceNode)
+
+				if _, ok := diagram.map_Resource_ResourceShape[resource]; ok {
+					resourceNode.IsChecked = true
+				}
+
+				// what to do when the resource node is clicked
+				resourceNode.Impl = &tree.FunctionalNodeProxy{
+					OnUpdate: onUpdateElementInDiagram(
+						stager,
+						diagram,
+						resource,
+						&diagram.ResourcesWhoseNodeIsExpanded,
+						&diagram.Resource_Shapes,
+						&diagram.map_Resource_ResourceShape),
+				}
+			}
+
 		}
 
 	}

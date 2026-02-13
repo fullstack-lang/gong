@@ -139,6 +139,10 @@ type Stage struct {
 
 	Diagram_NoteTaskShapes_reverseMap map[*NoteTaskShape]*Diagram
 
+	Diagram_Resource_Shapes_reverseMap map[*ResourceShape]*Diagram
+
+	Diagram_ResourcesWhoseNodeIsExpanded_reverseMap map[*Resource]*Diagram
+
 	OnAfterDiagramCreateCallback OnAfterCreateInterface[Diagram]
 	OnAfterDiagramUpdateCallback OnAfterUpdateInterface[Diagram]
 	OnAfterDiagramDeleteCallback OnAfterDeleteInterface[Diagram]
@@ -239,12 +243,49 @@ type Stage struct {
 
 	Project_Notes_reverseMap map[*Note]*Project
 
+	Project_Resources_reverseMap map[*Resource]*Project
+
 	Project_Diagrams_reverseMap map[*Diagram]*Project
 
 	OnAfterProjectCreateCallback OnAfterCreateInterface[Project]
 	OnAfterProjectUpdateCallback OnAfterUpdateInterface[Project]
 	OnAfterProjectDeleteCallback OnAfterDeleteInterface[Project]
 	OnAfterProjectReadCallback   OnAfterReadInterface[Project]
+
+	Resources                map[*Resource]struct{}
+	Resources_reference      map[*Resource]*Resource
+	Resources_referenceOrder map[*Resource]uint // diff Unstage needs the reference order
+	Resources_mapString      map[string]*Resource
+
+	// insertion point for slice of pointers maps
+	Resource_Tasks_reverseMap map[*Task]*Resource
+
+	OnAfterResourceCreateCallback OnAfterCreateInterface[Resource]
+	OnAfterResourceUpdateCallback OnAfterUpdateInterface[Resource]
+	OnAfterResourceDeleteCallback OnAfterDeleteInterface[Resource]
+	OnAfterResourceReadCallback   OnAfterReadInterface[Resource]
+
+	ResourceShapes                map[*ResourceShape]struct{}
+	ResourceShapes_reference      map[*ResourceShape]*ResourceShape
+	ResourceShapes_referenceOrder map[*ResourceShape]uint // diff Unstage needs the reference order
+	ResourceShapes_mapString      map[string]*ResourceShape
+
+	// insertion point for slice of pointers maps
+	OnAfterResourceShapeCreateCallback OnAfterCreateInterface[ResourceShape]
+	OnAfterResourceShapeUpdateCallback OnAfterUpdateInterface[ResourceShape]
+	OnAfterResourceShapeDeleteCallback OnAfterDeleteInterface[ResourceShape]
+	OnAfterResourceShapeReadCallback   OnAfterReadInterface[ResourceShape]
+
+	ResourceTaskShapes                map[*ResourceTaskShape]struct{}
+	ResourceTaskShapes_reference      map[*ResourceTaskShape]*ResourceTaskShape
+	ResourceTaskShapes_referenceOrder map[*ResourceTaskShape]uint // diff Unstage needs the reference order
+	ResourceTaskShapes_mapString      map[string]*ResourceTaskShape
+
+	// insertion point for slice of pointers maps
+	OnAfterResourceTaskShapeCreateCallback OnAfterCreateInterface[ResourceTaskShape]
+	OnAfterResourceTaskShapeUpdateCallback OnAfterUpdateInterface[ResourceTaskShape]
+	OnAfterResourceTaskShapeDeleteCallback OnAfterDeleteInterface[ResourceTaskShape]
+	OnAfterResourceTaskShapeReadCallback   OnAfterReadInterface[ResourceTaskShape]
 
 	Roots                map[*Root]struct{}
 	Roots_reference      map[*Root]*Root
@@ -372,6 +413,15 @@ type Stage struct {
 
 	ProjectOrder            uint
 	ProjectMap_Staged_Order map[*Project]uint
+
+	ResourceOrder            uint
+	ResourceMap_Staged_Order map[*Resource]uint
+
+	ResourceShapeOrder            uint
+	ResourceShapeMap_Staged_Order map[*ResourceShape]uint
+
+	ResourceTaskShapeOrder            uint
+	ResourceTaskShapeMap_Staged_Order map[*ResourceTaskShape]uint
 
 	RootOrder            uint
 	RootMap_Staged_Order map[*Root]uint
@@ -684,6 +734,48 @@ func (stage *Stage) recomputeOrders() {
 		stage.ProjectOrder = 0
 	}
 
+	var maxResourceOrder uint
+	var foundResource bool
+	for _, order := range stage.ResourceMap_Staged_Order {
+		if !foundResource || order > maxResourceOrder {
+			maxResourceOrder = order
+			foundResource = true
+		}
+	}
+	if foundResource {
+		stage.ResourceOrder = maxResourceOrder + 1
+	} else {
+		stage.ResourceOrder = 0
+	}
+
+	var maxResourceShapeOrder uint
+	var foundResourceShape bool
+	for _, order := range stage.ResourceShapeMap_Staged_Order {
+		if !foundResourceShape || order > maxResourceShapeOrder {
+			maxResourceShapeOrder = order
+			foundResourceShape = true
+		}
+	}
+	if foundResourceShape {
+		stage.ResourceShapeOrder = maxResourceShapeOrder + 1
+	} else {
+		stage.ResourceShapeOrder = 0
+	}
+
+	var maxResourceTaskShapeOrder uint
+	var foundResourceTaskShape bool
+	for _, order := range stage.ResourceTaskShapeMap_Staged_Order {
+		if !foundResourceTaskShape || order > maxResourceTaskShapeOrder {
+			maxResourceTaskShapeOrder = order
+			foundResourceTaskShape = true
+		}
+	}
+	if foundResourceTaskShape {
+		stage.ResourceTaskShapeOrder = maxResourceTaskShapeOrder + 1
+	} else {
+		stage.ResourceTaskShapeOrder = 0
+	}
+
 	var maxRootOrder uint
 	var foundRoot bool
 	for _, order := range stage.RootMap_Staged_Order {
@@ -953,6 +1045,48 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *Resource:
+		tmp := GetStructInstancesByOrder(stage.Resources, stage.ResourceMap_Staged_Order)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *Resource implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *ResourceShape:
+		tmp := GetStructInstancesByOrder(stage.ResourceShapes, stage.ResourceShapeMap_Staged_Order)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *ResourceShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *ResourceTaskShape:
+		tmp := GetStructInstancesByOrder(stage.ResourceTaskShapes, stage.ResourceTaskShapeMap_Staged_Order)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *ResourceTaskShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *Root:
 		tmp := GetStructInstancesByOrder(stage.Roots, stage.RootMap_Staged_Order)
 
@@ -1084,6 +1218,12 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.ProductShapes, stage.ProductShapeMap_Staged_Order)
 	case "Project":
 		res = GetNamedStructInstances(stage.Projects, stage.ProjectMap_Staged_Order)
+	case "Resource":
+		res = GetNamedStructInstances(stage.Resources, stage.ResourceMap_Staged_Order)
+	case "ResourceShape":
+		res = GetNamedStructInstances(stage.ResourceShapes, stage.ResourceShapeMap_Staged_Order)
+	case "ResourceTaskShape":
+		res = GetNamedStructInstances(stage.ResourceTaskShapes, stage.ResourceTaskShapeMap_Staged_Order)
 	case "Root":
 		res = GetNamedStructInstances(stage.Roots, stage.RootMap_Staged_Order)
 	case "Task":
@@ -1183,6 +1323,12 @@ type BackRepoInterface interface {
 	CheckoutProductShape(productshape *ProductShape)
 	CommitProject(project *Project)
 	CheckoutProject(project *Project)
+	CommitResource(resource *Resource)
+	CheckoutResource(resource *Resource)
+	CommitResourceShape(resourceshape *ResourceShape)
+	CheckoutResourceShape(resourceshape *ResourceShape)
+	CommitResourceTaskShape(resourcetaskshape *ResourceTaskShape)
+	CheckoutResourceTaskShape(resourcetaskshape *ResourceTaskShape)
 	CommitRoot(root *Root)
 	CheckoutRoot(root *Root)
 	CommitTask(task *Task)
@@ -1227,6 +1373,15 @@ func NewStage(name string) (stage *Stage) {
 
 		Projects:           make(map[*Project]struct{}),
 		Projects_mapString: make(map[string]*Project),
+
+		Resources:           make(map[*Resource]struct{}),
+		Resources_mapString: make(map[string]*Resource),
+
+		ResourceShapes:           make(map[*ResourceShape]struct{}),
+		ResourceShapes_mapString: make(map[string]*ResourceShape),
+
+		ResourceTaskShapes:           make(map[*ResourceTaskShape]struct{}),
+		ResourceTaskShapes_mapString: make(map[string]*ResourceTaskShape),
 
 		Roots:           make(map[*Root]struct{}),
 		Roots_mapString: make(map[string]*Root),
@@ -1274,6 +1429,12 @@ func NewStage(name string) (stage *Stage) {
 
 		ProjectMap_Staged_Order: make(map[*Project]uint),
 
+		ResourceMap_Staged_Order: make(map[*Resource]uint),
+
+		ResourceShapeMap_Staged_Order: make(map[*ResourceShape]uint),
+
+		ResourceTaskShapeMap_Staged_Order: make(map[*ResourceTaskShape]uint),
+
 		RootMap_Staged_Order: make(map[*Root]uint),
 
 		TaskMap_Staged_Order: make(map[*Task]uint),
@@ -1306,6 +1467,12 @@ func NewStage(name string) (stage *Stage) {
 
 			"Project": &ProjectUnmarshaller{},
 
+			"Resource": &ResourceUnmarshaller{},
+
+			"ResourceShape": &ResourceShapeUnmarshaller{},
+
+			"ResourceTaskShape": &ResourceTaskShapeUnmarshaller{},
+
 			"Root": &RootUnmarshaller{},
 
 			"Task": &TaskUnmarshaller{},
@@ -1331,6 +1498,9 @@ func NewStage(name string) (stage *Stage) {
 			{name: "ProductCompositionShape"},
 			{name: "ProductShape"},
 			{name: "Project"},
+			{name: "Resource"},
+			{name: "ResourceShape"},
+			{name: "ResourceTaskShape"},
 			{name: "Root"},
 			{name: "Task"},
 			{name: "TaskCompositionShape"},
@@ -1366,6 +1536,12 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.ProductShapeMap_Staged_Order[instance]
 	case *Project:
 		return stage.ProjectMap_Staged_Order[instance]
+	case *Resource:
+		return stage.ResourceMap_Staged_Order[instance]
+	case *ResourceShape:
+		return stage.ResourceShapeMap_Staged_Order[instance]
+	case *ResourceTaskShape:
+		return stage.ResourceTaskShapeMap_Staged_Order[instance]
 	case *Root:
 		return stage.RootMap_Staged_Order[instance]
 	case *Task:
@@ -1404,6 +1580,12 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.ProductShapeMap_Staged_Order[instance]
 	case *Project:
 		return stage.ProjectMap_Staged_Order[instance]
+	case *Resource:
+		return stage.ResourceMap_Staged_Order[instance]
+	case *ResourceShape:
+		return stage.ResourceShapeMap_Staged_Order[instance]
+	case *ResourceTaskShape:
+		return stage.ResourceTaskShapeMap_Staged_Order[instance]
 	case *Root:
 		return stage.RootMap_Staged_Order[instance]
 	case *Task:
@@ -1474,6 +1656,9 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["ProductCompositionShape"] = len(stage.ProductCompositionShapes)
 	stage.Map_GongStructName_InstancesNb["ProductShape"] = len(stage.ProductShapes)
 	stage.Map_GongStructName_InstancesNb["Project"] = len(stage.Projects)
+	stage.Map_GongStructName_InstancesNb["Resource"] = len(stage.Resources)
+	stage.Map_GongStructName_InstancesNb["ResourceShape"] = len(stage.ResourceShapes)
+	stage.Map_GongStructName_InstancesNb["ResourceTaskShape"] = len(stage.ResourceTaskShapes)
 	stage.Map_GongStructName_InstancesNb["Root"] = len(stage.Roots)
 	stage.Map_GongStructName_InstancesNb["Task"] = len(stage.Tasks)
 	stage.Map_GongStructName_InstancesNb["TaskCompositionShape"] = len(stage.TaskCompositionShapes)
@@ -2276,6 +2461,258 @@ func (project *Project) SetName(name string) {
 	project.Name = name
 }
 
+// Stage puts resource to the model stage
+func (resource *Resource) Stage(stage *Stage) *Resource {
+	if _, ok := stage.Resources[resource]; !ok {
+		stage.Resources[resource] = struct{}{}
+		stage.ResourceMap_Staged_Order[resource] = stage.ResourceOrder
+		stage.ResourceOrder++
+	}
+	stage.Resources_mapString[resource.Name] = resource
+
+	return resource
+}
+
+// StagePreserveOrder puts resource to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ResourceOrder
+// - update stage.ResourceOrder accordingly
+func (resource *Resource) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.Resources[resource]; !ok {
+		stage.Resources[resource] = struct{}{}
+
+		if order > stage.ResourceOrder {
+			stage.ResourceOrder = order
+		}
+		stage.ResourceMap_Staged_Order[resource] = order
+		stage.ResourceOrder++
+	}
+	stage.Resources_mapString[resource.Name] = resource
+}
+
+// Unstage removes resource off the model stage
+func (resource *Resource) Unstage(stage *Stage) *Resource {
+	delete(stage.Resources, resource)
+	delete(stage.ResourceMap_Staged_Order, resource)
+	delete(stage.Resources_mapString, resource.Name)
+
+	return resource
+}
+
+// UnstageVoid removes resource off the model stage
+func (resource *Resource) UnstageVoid(stage *Stage) {
+	delete(stage.Resources, resource)
+	delete(stage.ResourceMap_Staged_Order, resource)
+	delete(stage.Resources_mapString, resource.Name)
+}
+
+// commit resource to the back repo (if it is already staged)
+func (resource *Resource) Commit(stage *Stage) *Resource {
+	if _, ok := stage.Resources[resource]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitResource(resource)
+		}
+	}
+	return resource
+}
+
+func (resource *Resource) CommitVoid(stage *Stage) {
+	resource.Commit(stage)
+}
+
+func (resource *Resource) StageVoid(stage *Stage) {
+	resource.Stage(stage)
+}
+
+// Checkout resource to the back repo (if it is already staged)
+func (resource *Resource) Checkout(stage *Stage) *Resource {
+	if _, ok := stage.Resources[resource]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutResource(resource)
+		}
+	}
+	return resource
+}
+
+// for satisfaction of GongStruct interface
+func (resource *Resource) GetName() (res string) {
+	return resource.Name
+}
+
+// for satisfaction of GongStruct interface
+func (resource *Resource) SetName(name string) {
+	resource.Name = name
+}
+
+// Stage puts resourceshape to the model stage
+func (resourceshape *ResourceShape) Stage(stage *Stage) *ResourceShape {
+	if _, ok := stage.ResourceShapes[resourceshape]; !ok {
+		stage.ResourceShapes[resourceshape] = struct{}{}
+		stage.ResourceShapeMap_Staged_Order[resourceshape] = stage.ResourceShapeOrder
+		stage.ResourceShapeOrder++
+	}
+	stage.ResourceShapes_mapString[resourceshape.Name] = resourceshape
+
+	return resourceshape
+}
+
+// StagePreserveOrder puts resourceshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ResourceShapeOrder
+// - update stage.ResourceShapeOrder accordingly
+func (resourceshape *ResourceShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.ResourceShapes[resourceshape]; !ok {
+		stage.ResourceShapes[resourceshape] = struct{}{}
+
+		if order > stage.ResourceShapeOrder {
+			stage.ResourceShapeOrder = order
+		}
+		stage.ResourceShapeMap_Staged_Order[resourceshape] = order
+		stage.ResourceShapeOrder++
+	}
+	stage.ResourceShapes_mapString[resourceshape.Name] = resourceshape
+}
+
+// Unstage removes resourceshape off the model stage
+func (resourceshape *ResourceShape) Unstage(stage *Stage) *ResourceShape {
+	delete(stage.ResourceShapes, resourceshape)
+	delete(stage.ResourceShapeMap_Staged_Order, resourceshape)
+	delete(stage.ResourceShapes_mapString, resourceshape.Name)
+
+	return resourceshape
+}
+
+// UnstageVoid removes resourceshape off the model stage
+func (resourceshape *ResourceShape) UnstageVoid(stage *Stage) {
+	delete(stage.ResourceShapes, resourceshape)
+	delete(stage.ResourceShapeMap_Staged_Order, resourceshape)
+	delete(stage.ResourceShapes_mapString, resourceshape.Name)
+}
+
+// commit resourceshape to the back repo (if it is already staged)
+func (resourceshape *ResourceShape) Commit(stage *Stage) *ResourceShape {
+	if _, ok := stage.ResourceShapes[resourceshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitResourceShape(resourceshape)
+		}
+	}
+	return resourceshape
+}
+
+func (resourceshape *ResourceShape) CommitVoid(stage *Stage) {
+	resourceshape.Commit(stage)
+}
+
+func (resourceshape *ResourceShape) StageVoid(stage *Stage) {
+	resourceshape.Stage(stage)
+}
+
+// Checkout resourceshape to the back repo (if it is already staged)
+func (resourceshape *ResourceShape) Checkout(stage *Stage) *ResourceShape {
+	if _, ok := stage.ResourceShapes[resourceshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutResourceShape(resourceshape)
+		}
+	}
+	return resourceshape
+}
+
+// for satisfaction of GongStruct interface
+func (resourceshape *ResourceShape) GetName() (res string) {
+	return resourceshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (resourceshape *ResourceShape) SetName(name string) {
+	resourceshape.Name = name
+}
+
+// Stage puts resourcetaskshape to the model stage
+func (resourcetaskshape *ResourceTaskShape) Stage(stage *Stage) *ResourceTaskShape {
+	if _, ok := stage.ResourceTaskShapes[resourcetaskshape]; !ok {
+		stage.ResourceTaskShapes[resourcetaskshape] = struct{}{}
+		stage.ResourceTaskShapeMap_Staged_Order[resourcetaskshape] = stage.ResourceTaskShapeOrder
+		stage.ResourceTaskShapeOrder++
+	}
+	stage.ResourceTaskShapes_mapString[resourcetaskshape.Name] = resourcetaskshape
+
+	return resourcetaskshape
+}
+
+// StagePreserveOrder puts resourcetaskshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ResourceTaskShapeOrder
+// - update stage.ResourceTaskShapeOrder accordingly
+func (resourcetaskshape *ResourceTaskShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.ResourceTaskShapes[resourcetaskshape]; !ok {
+		stage.ResourceTaskShapes[resourcetaskshape] = struct{}{}
+
+		if order > stage.ResourceTaskShapeOrder {
+			stage.ResourceTaskShapeOrder = order
+		}
+		stage.ResourceTaskShapeMap_Staged_Order[resourcetaskshape] = order
+		stage.ResourceTaskShapeOrder++
+	}
+	stage.ResourceTaskShapes_mapString[resourcetaskshape.Name] = resourcetaskshape
+}
+
+// Unstage removes resourcetaskshape off the model stage
+func (resourcetaskshape *ResourceTaskShape) Unstage(stage *Stage) *ResourceTaskShape {
+	delete(stage.ResourceTaskShapes, resourcetaskshape)
+	delete(stage.ResourceTaskShapeMap_Staged_Order, resourcetaskshape)
+	delete(stage.ResourceTaskShapes_mapString, resourcetaskshape.Name)
+
+	return resourcetaskshape
+}
+
+// UnstageVoid removes resourcetaskshape off the model stage
+func (resourcetaskshape *ResourceTaskShape) UnstageVoid(stage *Stage) {
+	delete(stage.ResourceTaskShapes, resourcetaskshape)
+	delete(stage.ResourceTaskShapeMap_Staged_Order, resourcetaskshape)
+	delete(stage.ResourceTaskShapes_mapString, resourcetaskshape.Name)
+}
+
+// commit resourcetaskshape to the back repo (if it is already staged)
+func (resourcetaskshape *ResourceTaskShape) Commit(stage *Stage) *ResourceTaskShape {
+	if _, ok := stage.ResourceTaskShapes[resourcetaskshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitResourceTaskShape(resourcetaskshape)
+		}
+	}
+	return resourcetaskshape
+}
+
+func (resourcetaskshape *ResourceTaskShape) CommitVoid(stage *Stage) {
+	resourcetaskshape.Commit(stage)
+}
+
+func (resourcetaskshape *ResourceTaskShape) StageVoid(stage *Stage) {
+	resourcetaskshape.Stage(stage)
+}
+
+// Checkout resourcetaskshape to the back repo (if it is already staged)
+func (resourcetaskshape *ResourceTaskShape) Checkout(stage *Stage) *ResourceTaskShape {
+	if _, ok := stage.ResourceTaskShapes[resourcetaskshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutResourceTaskShape(resourcetaskshape)
+		}
+	}
+	return resourcetaskshape
+}
+
+// for satisfaction of GongStruct interface
+func (resourcetaskshape *ResourceTaskShape) GetName() (res string) {
+	return resourcetaskshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (resourcetaskshape *ResourceTaskShape) SetName(name string) {
+	resourcetaskshape.Name = name
+}
+
 // Stage puts root to the model stage
 func (root *Root) Stage(stage *Stage) *Root {
 	if _, ok := stage.Roots[root]; !ok {
@@ -2791,6 +3228,9 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMProductCompositionShape(ProductCompositionShape *ProductCompositionShape)
 	CreateORMProductShape(ProductShape *ProductShape)
 	CreateORMProject(Project *Project)
+	CreateORMResource(Resource *Resource)
+	CreateORMResourceShape(ResourceShape *ResourceShape)
+	CreateORMResourceTaskShape(ResourceTaskShape *ResourceTaskShape)
 	CreateORMRoot(Root *Root)
 	CreateORMTask(Task *Task)
 	CreateORMTaskCompositionShape(TaskCompositionShape *TaskCompositionShape)
@@ -2809,6 +3249,9 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMProductCompositionShape(ProductCompositionShape *ProductCompositionShape)
 	DeleteORMProductShape(ProductShape *ProductShape)
 	DeleteORMProject(Project *Project)
+	DeleteORMResource(Resource *Resource)
+	DeleteORMResourceShape(ResourceShape *ResourceShape)
+	DeleteORMResourceTaskShape(ResourceTaskShape *ResourceTaskShape)
 	DeleteORMRoot(Root *Root)
 	DeleteORMTask(Task *Task)
 	DeleteORMTaskCompositionShape(TaskCompositionShape *TaskCompositionShape)
@@ -2862,6 +3305,21 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Projects_mapString = make(map[string]*Project)
 	stage.ProjectMap_Staged_Order = make(map[*Project]uint)
 	stage.ProjectOrder = 0
+
+	stage.Resources = make(map[*Resource]struct{})
+	stage.Resources_mapString = make(map[string]*Resource)
+	stage.ResourceMap_Staged_Order = make(map[*Resource]uint)
+	stage.ResourceOrder = 0
+
+	stage.ResourceShapes = make(map[*ResourceShape]struct{})
+	stage.ResourceShapes_mapString = make(map[string]*ResourceShape)
+	stage.ResourceShapeMap_Staged_Order = make(map[*ResourceShape]uint)
+	stage.ResourceShapeOrder = 0
+
+	stage.ResourceTaskShapes = make(map[*ResourceTaskShape]struct{})
+	stage.ResourceTaskShapes_mapString = make(map[string]*ResourceTaskShape)
+	stage.ResourceTaskShapeMap_Staged_Order = make(map[*ResourceTaskShape]uint)
+	stage.ResourceTaskShapeOrder = 0
 
 	stage.Roots = make(map[*Root]struct{})
 	stage.Roots_mapString = make(map[string]*Root)
@@ -2929,6 +3387,15 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.Projects = nil
 	stage.Projects_mapString = nil
 
+	stage.Resources = nil
+	stage.Resources_mapString = nil
+
+	stage.ResourceShapes = nil
+	stage.ResourceShapes_mapString = nil
+
+	stage.ResourceTaskShapes = nil
+	stage.ResourceTaskShapes_mapString = nil
+
 	stage.Roots = nil
 	stage.Roots_mapString = nil
 
@@ -2985,6 +3452,18 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for project := range stage.Projects {
 		project.Unstage(stage)
+	}
+
+	for resource := range stage.Resources {
+		resource.Unstage(stage)
+	}
+
+	for resourceshape := range stage.ResourceShapes {
+		resourceshape.Unstage(stage)
+	}
+
+	for resourcetaskshape := range stage.ResourceTaskShapes {
+		resourcetaskshape.Unstage(stage)
 	}
 
 	for root := range stage.Roots {
@@ -3104,6 +3583,12 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.ProductShapes).(*Type)
 	case map[*Project]any:
 		return any(&stage.Projects).(*Type)
+	case map[*Resource]any:
+		return any(&stage.Resources).(*Type)
+	case map[*ResourceShape]any:
+		return any(&stage.ResourceShapes).(*Type)
+	case map[*ResourceTaskShape]any:
+		return any(&stage.ResourceTaskShapes).(*Type)
 	case map[*Root]any:
 		return any(&stage.Roots).(*Type)
 	case map[*Task]any:
@@ -3146,6 +3631,12 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.ProductShapes_mapString).(map[string]Type)
 	case *Project:
 		return any(stage.Projects_mapString).(map[string]Type)
+	case *Resource:
+		return any(stage.Resources_mapString).(map[string]Type)
+	case *ResourceShape:
+		return any(stage.ResourceShapes_mapString).(map[string]Type)
+	case *ResourceTaskShape:
+		return any(stage.ResourceTaskShapes_mapString).(map[string]Type)
 	case *Root:
 		return any(stage.Roots_mapString).(map[string]Type)
 	case *Task:
@@ -3188,6 +3679,12 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.ProductShapes).(*map[*Type]struct{})
 	case Project:
 		return any(&stage.Projects).(*map[*Type]struct{})
+	case Resource:
+		return any(&stage.Resources).(*map[*Type]struct{})
+	case ResourceShape:
+		return any(&stage.ResourceShapes).(*map[*Type]struct{})
+	case ResourceTaskShape:
+		return any(&stage.ResourceTaskShapes).(*map[*Type]struct{})
 	case Root:
 		return any(&stage.Roots).(*map[*Type]struct{})
 	case Task:
@@ -3230,6 +3727,12 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.ProductShapes).(*map[Type]struct{})
 	case *Project:
 		return any(&stage.Projects).(*map[Type]struct{})
+	case *Resource:
+		return any(&stage.Resources).(*map[Type]struct{})
+	case *ResourceShape:
+		return any(&stage.ResourceShapes).(*map[Type]struct{})
+	case *ResourceTaskShape:
+		return any(&stage.ResourceTaskShapes).(*map[Type]struct{})
 	case *Root:
 		return any(&stage.Roots).(*map[Type]struct{})
 	case *Task:
@@ -3272,6 +3775,12 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.ProductShapes_mapString).(*map[string]*Type)
 	case Project:
 		return any(&stage.Projects_mapString).(*map[string]*Type)
+	case Resource:
+		return any(&stage.Resources_mapString).(*map[string]*Type)
+	case ResourceShape:
+		return any(&stage.ResourceShapes_mapString).(*map[string]*Type)
+	case ResourceTaskShape:
+		return any(&stage.ResourceTaskShapes_mapString).(*map[string]*Type)
 	case Root:
 		return any(&stage.Roots_mapString).(*map[string]*Type)
 	case Task:
@@ -3329,6 +3838,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			NoteProductShapes: []*NoteProductShape{{Name: "NoteProductShapes"}},
 			// field is initialized with an instance of NoteTaskShape with the name of the field
 			NoteTaskShapes: []*NoteTaskShape{{Name: "NoteTaskShapes"}},
+			// field is initialized with an instance of ResourceShape with the name of the field
+			Resource_Shapes: []*ResourceShape{{Name: "Resource_Shapes"}},
+			// field is initialized with an instance of Resource with the name of the field
+			ResourcesWhoseNodeIsExpanded: []*Resource{{Name: "ResourcesWhoseNodeIsExpanded"}},
 		}).(*Type)
 	case Note:
 		return any(&Note{
@@ -3387,8 +3900,30 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			RootTasks: []*Task{{Name: "RootTasks"}},
 			// field is initialized with an instance of Note with the name of the field
 			Notes: []*Note{{Name: "Notes"}},
+			// field is initialized with an instance of Resource with the name of the field
+			Resources: []*Resource{{Name: "Resources"}},
 			// field is initialized with an instance of Diagram with the name of the field
 			Diagrams: []*Diagram{{Name: "Diagrams"}},
+		}).(*Type)
+	case Resource:
+		return any(&Resource{
+			// Initialisation of associations
+			// field is initialized with an instance of Task with the name of the field
+			Tasks: []*Task{{Name: "Tasks"}},
+		}).(*Type)
+	case ResourceShape:
+		return any(&ResourceShape{
+			// Initialisation of associations
+			// field is initialized with an instance of Resource with the name of the field
+			Resource: &Resource{Name: "Resource"},
+		}).(*Type)
+	case ResourceTaskShape:
+		return any(&ResourceTaskShape{
+			// Initialisation of associations
+			// field is initialized with an instance of Resource with the name of the field
+			Resource: &Resource{Name: "Resource"},
+			// field is initialized with an instance of Task with the name of the field
+			Task: &Task{Name: "Task"},
 		}).(*Type)
 	case Root:
 		return any(&Root{
@@ -3415,10 +3950,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case TaskInputShape:
 		return any(&TaskInputShape{
 			// Initialisation of associations
-			// field is initialized with an instance of Task with the name of the field
-			Task: &Task{Name: "Task"},
 			// field is initialized with an instance of Product with the name of the field
 			Product: &Product{Name: "Product"},
+			// field is initialized with an instance of Task with the name of the field
+			Task: &Task{Name: "Task"},
 		}).(*Type)
 	case TaskOutputShape:
 		return any(&TaskOutputShape{
@@ -3615,6 +4150,72 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of Resource
+	case Resource:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of ResourceShape
+	case ResourceShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Resource":
+			res := make(map[*Resource][]*ResourceShape)
+			for resourceshape := range stage.ResourceShapes {
+				if resourceshape.Resource != nil {
+					resource_ := resourceshape.Resource
+					var resourceshapes []*ResourceShape
+					_, ok := res[resource_]
+					if ok {
+						resourceshapes = res[resource_]
+					} else {
+						resourceshapes = make([]*ResourceShape, 0)
+					}
+					resourceshapes = append(resourceshapes, resourceshape)
+					res[resource_] = resourceshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of ResourceTaskShape
+	case ResourceTaskShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Resource":
+			res := make(map[*Resource][]*ResourceTaskShape)
+			for resourcetaskshape := range stage.ResourceTaskShapes {
+				if resourcetaskshape.Resource != nil {
+					resource_ := resourcetaskshape.Resource
+					var resourcetaskshapes []*ResourceTaskShape
+					_, ok := res[resource_]
+					if ok {
+						resourcetaskshapes = res[resource_]
+					} else {
+						resourcetaskshapes = make([]*ResourceTaskShape, 0)
+					}
+					resourcetaskshapes = append(resourcetaskshapes, resourcetaskshape)
+					res[resource_] = resourcetaskshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Task":
+			res := make(map[*Task][]*ResourceTaskShape)
+			for resourcetaskshape := range stage.ResourceTaskShapes {
+				if resourcetaskshape.Task != nil {
+					task_ := resourcetaskshape.Task
+					var resourcetaskshapes []*ResourceTaskShape
+					_, ok := res[task_]
+					if ok {
+						resourcetaskshapes = res[task_]
+					} else {
+						resourcetaskshapes = make([]*ResourceTaskShape, 0)
+					}
+					resourcetaskshapes = append(resourcetaskshapes, resourcetaskshape)
+					res[task_] = resourcetaskshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
 	// reverse maps of direct associations of Root
 	case Root:
 		switch fieldname {
@@ -3651,23 +4252,6 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	case TaskInputShape:
 		switch fieldname {
 		// insertion point for per direct association field
-		case "Task":
-			res := make(map[*Task][]*TaskInputShape)
-			for taskinputshape := range stage.TaskInputShapes {
-				if taskinputshape.Task != nil {
-					task_ := taskinputshape.Task
-					var taskinputshapes []*TaskInputShape
-					_, ok := res[task_]
-					if ok {
-						taskinputshapes = res[task_]
-					} else {
-						taskinputshapes = make([]*TaskInputShape, 0)
-					}
-					taskinputshapes = append(taskinputshapes, taskinputshape)
-					res[task_] = taskinputshapes
-				}
-			}
-			return any(res).(map[*End][]*Start)
 		case "Product":
 			res := make(map[*Product][]*TaskInputShape)
 			for taskinputshape := range stage.TaskInputShapes {
@@ -3682,6 +4266,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 					}
 					taskinputshapes = append(taskinputshapes, taskinputshape)
 					res[product_] = taskinputshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Task":
+			res := make(map[*Task][]*TaskInputShape)
+			for taskinputshape := range stage.TaskInputShapes {
+				if taskinputshape.Task != nil {
+					task_ := taskinputshape.Task
+					var taskinputshapes []*TaskInputShape
+					_, ok := res[task_]
+					if ok {
+						taskinputshapes = res[task_]
+					} else {
+						taskinputshapes = make([]*TaskInputShape, 0)
+					}
+					taskinputshapes = append(taskinputshapes, taskinputshape)
+					res[task_] = taskinputshapes
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -3878,6 +4479,22 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "Resource_Shapes":
+			res := make(map[*ResourceShape][]*Diagram)
+			for diagram := range stage.Diagrams {
+				for _, resourceshape_ := range diagram.Resource_Shapes {
+					res[resourceshape_] = append(res[resourceshape_], diagram)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "ResourcesWhoseNodeIsExpanded":
+			res := make(map[*Resource][]*Diagram)
+			for diagram := range stage.Diagrams {
+				for _, resource_ := range diagram.ResourcesWhoseNodeIsExpanded {
+					res[resource_] = append(res[resource_], diagram)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Note
 	case Note:
@@ -3966,6 +4583,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "Resources":
+			res := make(map[*Resource][]*Project)
+			for project := range stage.Projects {
+				for _, resource_ := range project.Resources {
+					res[resource_] = append(res[resource_], project)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "Diagrams":
 			res := make(map[*Diagram][]*Project)
 			for project := range stage.Projects {
@@ -3974,6 +4599,29 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of Resource
+	case Resource:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Tasks":
+			res := make(map[*Task][]*Resource)
+			for resource := range stage.Resources {
+				for _, task_ := range resource.Tasks {
+					res[task_] = append(res[task_], resource)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of ResourceShape
+	case ResourceShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of ResourceTaskShape
+	case ResourceTaskShape:
+		switch fieldname {
+		// insertion point for per direct association field
 		}
 	// reverse maps of direct associations of Root
 	case Root:
@@ -4066,6 +4714,12 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "ProductShape"
 	case *Project:
 		res = "Project"
+	case *Resource:
+		res = "Resource"
+	case *ResourceShape:
+		res = "ResourceShape"
+	case *ResourceTaskShape:
+		res = "ResourceTaskShape"
 	case *Root:
 		res = "Root"
 	case *Task:
@@ -4167,6 +4821,24 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.GongstructName = "Root"
 		rf.Fieldname = "Projects"
 		res = append(res, rf)
+	case *Resource:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Diagram"
+		rf.Fieldname = "ResourcesWhoseNodeIsExpanded"
+		res = append(res, rf)
+		rf.GongstructName = "Project"
+		rf.Fieldname = "Resources"
+		res = append(res, rf)
+	case *ResourceShape:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Diagram"
+		rf.Fieldname = "Resource_Shapes"
+		res = append(res, rf)
+	case *ResourceTaskShape:
+		var rf ReverseField
+		_ = rf
 	case *Root:
 		var rf ReverseField
 		_ = rf
@@ -4187,6 +4859,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		res = append(res, rf)
 		rf.GongstructName = "Project"
 		rf.Fieldname = "RootTasks"
+		res = append(res, rf)
+		rf.GongstructName = "Resource"
+		rf.Fieldname = "Tasks"
 		res = append(res, rf)
 		rf.GongstructName = "Task"
 		rf.Fieldname = "SubTasks"
@@ -4340,6 +5015,20 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "NoteTaskShapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "NoteTaskShape",
+		},
+		{
+			Name:                 "Resource_Shapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "ResourceShape",
+		},
+		{
+			Name:                 "ResourcesWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Resource",
+		},
+		{
+			Name:               "IsResourcesNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 	}
 	return
@@ -4619,6 +5308,11 @@ func (project *Project) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Note",
 		},
 		{
+			Name:                 "Resources",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Resource",
+		},
+		{
 			Name:                 "Diagrams",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Diagram",
@@ -4629,6 +5323,111 @@ func (project *Project) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:               "ComputedPrefix",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+	}
+	return
+}
+
+func (resource *Resource) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "Description",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:                 "Tasks",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Task",
+		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "ComputedPrefix",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+	}
+	return
+}
+
+func (resourceshape *ResourceShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:                 "Resource",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Resource",
+		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "X",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "Y",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "Width",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "Height",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+	}
+	return
+}
+
+func (resourcetaskshape *ResourceTaskShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:                 "Resource",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Resource",
+		},
+		{
+			Name:                 "Task",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Task",
+		},
+		{
+			Name:               "StartRatio",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "EndRatio",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "StartOrientation",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "EndOrientation",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "CornerOffsetRatio",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 	}
@@ -4753,14 +5552,14 @@ func (taskinputshape *TaskInputShape) GongGetFieldHeaders() (res []GongFieldHead
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:                 "Task",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "Task",
-		},
-		{
 			Name:                 "Product",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Product",
+		},
+		{
+			Name:                 "Task",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Task",
 		},
 		{
 			Name:               "StartRatio",
@@ -5103,6 +5902,30 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.valueString += __instance__.Name
 			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 		}
+	case "Resource_Shapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.Resource_Shapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
+	case "ResourcesWhoseNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.ResourcesWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
+	case "IsResourcesNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", diagram.IsResourcesNodeExpanded)
+		res.valueBool = diagram.IsResourcesNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -5391,6 +6214,16 @@ func (project *Project) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.valueString += __instance__.Name
 			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 		}
+	case "Resources":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range project.Resources {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
 	case "Diagrams":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range project.Diagrams {
@@ -5407,6 +6240,107 @@ func (project *Project) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "ComputedPrefix":
 		res.valueString = project.ComputedPrefix
+	}
+	return
+}
+
+func (resource *Resource) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = resource.Name
+	case "Description":
+		res.valueString = resource.Description
+	case "Tasks":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range resource.Tasks {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", resource.IsExpanded)
+		res.valueBool = resource.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ComputedPrefix":
+		res.valueString = resource.ComputedPrefix
+	}
+	return
+}
+
+func (resourceshape *ResourceShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = resourceshape.Name
+	case "Resource":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if resourceshape.Resource != nil {
+			res.valueString = resourceshape.Resource.Name
+			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, resourceshape.Resource))
+		}
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", resourceshape.IsExpanded)
+		res.valueBool = resourceshape.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "X":
+		res.valueString = fmt.Sprintf("%f", resourceshape.X)
+		res.valueFloat = resourceshape.X
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Y":
+		res.valueString = fmt.Sprintf("%f", resourceshape.Y)
+		res.valueFloat = resourceshape.Y
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Width":
+		res.valueString = fmt.Sprintf("%f", resourceshape.Width)
+		res.valueFloat = resourceshape.Width
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Height":
+		res.valueString = fmt.Sprintf("%f", resourceshape.Height)
+		res.valueFloat = resourceshape.Height
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	}
+	return
+}
+
+func (resourcetaskshape *ResourceTaskShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = resourcetaskshape.Name
+	case "Resource":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if resourcetaskshape.Resource != nil {
+			res.valueString = resourcetaskshape.Resource.Name
+			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, resourcetaskshape.Resource))
+		}
+	case "Task":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if resourcetaskshape.Task != nil {
+			res.valueString = resourcetaskshape.Task.Name
+			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, resourcetaskshape.Task))
+		}
+	case "StartRatio":
+		res.valueString = fmt.Sprintf("%f", resourcetaskshape.StartRatio)
+		res.valueFloat = resourcetaskshape.StartRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "EndRatio":
+		res.valueString = fmt.Sprintf("%f", resourcetaskshape.EndRatio)
+		res.valueFloat = resourcetaskshape.EndRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StartOrientation":
+		enum := resourcetaskshape.StartOrientation
+		res.valueString = enum.ToCodeString()
+	case "EndOrientation":
+		enum := resourcetaskshape.EndOrientation
+		res.valueString = enum.ToCodeString()
+	case "CornerOffsetRatio":
+		res.valueString = fmt.Sprintf("%f", resourcetaskshape.CornerOffsetRatio)
+		res.valueFloat = resourcetaskshape.CornerOffsetRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	}
 	return
 }
@@ -5534,17 +6468,17 @@ func (taskinputshape *TaskInputShape) GongGetFieldValue(fieldName string, stage 
 	// string value of fields
 	case "Name":
 		res.valueString = taskinputshape.Name
-	case "Task":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if taskinputshape.Task != nil {
-			res.valueString = taskinputshape.Task.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, taskinputshape.Task))
-		}
 	case "Product":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if taskinputshape.Product != nil {
 			res.valueString = taskinputshape.Product.Name
 			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, taskinputshape.Product))
+		}
+	case "Task":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if taskinputshape.Task != nil {
+			res.valueString = taskinputshape.Task.Name
+			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, taskinputshape.Task))
 		}
 	case "StartRatio":
 		res.valueString = fmt.Sprintf("%f", taskinputshape.StartRatio)
@@ -5871,6 +6805,36 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 				}
 			}
 		}
+	case "Resource_Shapes":
+		diagram.Resource_Shapes = make([]*ResourceShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.ResourceShapes {
+					if stage.ResourceShapeMap_Staged_Order[__instance__] == uint(id) {
+						diagram.Resource_Shapes = append(diagram.Resource_Shapes, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "ResourcesWhoseNodeIsExpanded":
+		diagram.ResourcesWhoseNodeIsExpanded = make([]*Resource, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Resources {
+					if stage.ResourceMap_Staged_Order[__instance__] == uint(id) {
+						diagram.ResourcesWhoseNodeIsExpanded = append(diagram.ResourcesWhoseNodeIsExpanded, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "IsResourcesNodeExpanded":
+		diagram.IsResourcesNodeExpanded = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -6182,6 +7146,20 @@ func (project *Project) GongSetFieldValue(fieldName string, value GongFieldValue
 				}
 			}
 		}
+	case "Resources":
+		project.Resources = make([]*Resource, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Resources {
+					if stage.ResourceMap_Staged_Order[__instance__] == uint(id) {
+						project.Resources = append(project.Resources, __instance__)
+						break
+					}
+				}
+			}
+		}
 	case "Diagrams":
 		project.Diagrams = make([]*Diagram, 0)
 		ids := strings.Split(value.ids, ";")
@@ -6200,6 +7178,112 @@ func (project *Project) GongSetFieldValue(fieldName string, value GongFieldValue
 		project.IsExpanded = value.GetValueBool()
 	case "ComputedPrefix":
 		project.ComputedPrefix = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (resource *Resource) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		resource.Name = value.GetValueString()
+	case "Description":
+		resource.Description = value.GetValueString()
+	case "Tasks":
+		resource.Tasks = make([]*Task, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Tasks {
+					if stage.TaskMap_Staged_Order[__instance__] == uint(id) {
+						resource.Tasks = append(resource.Tasks, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "IsExpanded":
+		resource.IsExpanded = value.GetValueBool()
+	case "ComputedPrefix":
+		resource.ComputedPrefix = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (resourceshape *ResourceShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		resourceshape.Name = value.GetValueString()
+	case "Resource":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			resourceshape.Resource = nil
+			for __instance__ := range stage.Resources {
+				if stage.ResourceMap_Staged_Order[__instance__] == uint(id) {
+					resourceshape.Resource = __instance__
+					break
+				}
+			}
+		}
+	case "IsExpanded":
+		resourceshape.IsExpanded = value.GetValueBool()
+	case "X":
+		resourceshape.X = value.GetValueFloat()
+	case "Y":
+		resourceshape.Y = value.GetValueFloat()
+	case "Width":
+		resourceshape.Width = value.GetValueFloat()
+	case "Height":
+		resourceshape.Height = value.GetValueFloat()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (resourcetaskshape *ResourceTaskShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		resourcetaskshape.Name = value.GetValueString()
+	case "Resource":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			resourcetaskshape.Resource = nil
+			for __instance__ := range stage.Resources {
+				if stage.ResourceMap_Staged_Order[__instance__] == uint(id) {
+					resourcetaskshape.Resource = __instance__
+					break
+				}
+			}
+		}
+	case "Task":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			resourcetaskshape.Task = nil
+			for __instance__ := range stage.Tasks {
+				if stage.TaskMap_Staged_Order[__instance__] == uint(id) {
+					resourcetaskshape.Task = __instance__
+					break
+				}
+			}
+		}
+	case "StartRatio":
+		resourcetaskshape.StartRatio = value.GetValueFloat()
+	case "EndRatio":
+		resourcetaskshape.EndRatio = value.GetValueFloat()
+	case "StartOrientation":
+		resourcetaskshape.StartOrientation.FromCodeString(value.GetValueString())
+	case "EndOrientation":
+		resourcetaskshape.EndOrientation.FromCodeString(value.GetValueString())
+	case "CornerOffsetRatio":
+		resourcetaskshape.CornerOffsetRatio = value.GetValueFloat()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -6337,17 +7421,6 @@ func (taskinputshape *TaskInputShape) GongSetFieldValue(fieldName string, value 
 	// insertion point for per field code
 	case "Name":
 		taskinputshape.Name = value.GetValueString()
-	case "Task":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			taskinputshape.Task = nil
-			for __instance__ := range stage.Tasks {
-				if stage.TaskMap_Staged_Order[__instance__] == uint(id) {
-					taskinputshape.Task = __instance__
-					break
-				}
-			}
-		}
 	case "Product":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
@@ -6355,6 +7428,17 @@ func (taskinputshape *TaskInputShape) GongSetFieldValue(fieldName string, value 
 			for __instance__ := range stage.Products {
 				if stage.ProductMap_Staged_Order[__instance__] == uint(id) {
 					taskinputshape.Product = __instance__
+					break
+				}
+			}
+		}
+	case "Task":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			taskinputshape.Task = nil
+			for __instance__ := range stage.Tasks {
+				if stage.TaskMap_Staged_Order[__instance__] == uint(id) {
+					taskinputshape.Task = __instance__
 					break
 				}
 			}
@@ -6491,6 +7575,18 @@ func (project *Project) GongGetGongstructName() string {
 	return "Project"
 }
 
+func (resource *Resource) GongGetGongstructName() string {
+	return "Resource"
+}
+
+func (resourceshape *ResourceShape) GongGetGongstructName() string {
+	return "ResourceShape"
+}
+
+func (resourcetaskshape *ResourceTaskShape) GongGetGongstructName() string {
+	return "ResourceTaskShape"
+}
+
 func (root *Root) GongGetGongstructName() string {
 	return "Root"
 }
@@ -6565,6 +7661,21 @@ func (stage *Stage) ResetMapStrings() {
 	stage.Projects_mapString = make(map[string]*Project)
 	for project := range stage.Projects {
 		stage.Projects_mapString[project.Name] = project
+	}
+
+	stage.Resources_mapString = make(map[string]*Resource)
+	for resource := range stage.Resources {
+		stage.Resources_mapString[resource.Name] = resource
+	}
+
+	stage.ResourceShapes_mapString = make(map[string]*ResourceShape)
+	for resourceshape := range stage.ResourceShapes {
+		stage.ResourceShapes_mapString[resourceshape.Name] = resourceshape
+	}
+
+	stage.ResourceTaskShapes_mapString = make(map[string]*ResourceTaskShape)
+	for resourcetaskshape := range stage.ResourceTaskShapes {
+		stage.ResourceTaskShapes_mapString[resourcetaskshape.Name] = resourcetaskshape
 	}
 
 	stage.Roots_mapString = make(map[string]*Root)
