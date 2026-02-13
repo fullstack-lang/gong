@@ -53,7 +53,7 @@ func (stager *Stager) treePBSRecusriveInDiagram(diagram *Diagram, product *Produ
 				}
 
 				if compositionShape, ok := diagram.map_Product_ProductCompositionShape[product]; !ok {
-					showHideCompositionButton.Icon = string(buttons.BUTTON_unfold_more)
+					showHideCompositionButton.Icon = string(buttons.BUTTON_visibility)
 					showHideCompositionButton.ToolTipText = "Show link from \"" + parentProduct.Name +
 						"\" to \"" + product.Name + "\""
 
@@ -64,7 +64,7 @@ func (stager *Stager) treePBSRecusriveInDiagram(diagram *Diagram, product *Produ
 						OnUpdated: onAddAssociationShape(stager, parentProduct, product, &diagram.ProductComposition_Shapes),
 					}
 				} else {
-					showHideCompositionButton.Icon = string(buttons.BUTTON_unfold_less)
+					showHideCompositionButton.Icon = string(buttons.BUTTON_visibility_off)
 					showHideCompositionButton.ToolTipText = "Hide link from \"" + parentProduct.Name +
 						"\" to \"" + product.Name + "\""
 
