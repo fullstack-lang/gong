@@ -236,7 +236,7 @@ func (stager *Stager) tree() {
 							nodeProduct.IsChecked = ok
 
 							if ok {
-								showHideRelationButton.Icon = string(buttons.BUTTON_unfold_less)
+								showHideRelationButton.Icon = string(buttons.BUTTON_visibility_off)
 								showHideRelationButton.ToolTipText = "Hide link from note \"" + note.Name +
 									"\" to product \"" + product.Name + "\""
 								// what to do when the product node is clicked
@@ -244,7 +244,7 @@ func (stager *Stager) tree() {
 									OnUpdated: onRemoveAssociationShape(stager, noteProductShape, &diagram.NoteProductShapes),
 								}
 							} else {
-								showHideRelationButton.Icon = string(buttons.BUTTON_unfold_more)
+								showHideRelationButton.Icon = string(buttons.BUTTON_visibility)
 								showHideRelationButton.ToolTipText = "Show link from note \"" + note.Name +
 									"\" to product \"" + product.Name + "\""
 								showHideRelationButton.Impl = &tree.FunctionalButtonProxy{
@@ -273,7 +273,7 @@ func (stager *Stager) tree() {
 							nodeTask.IsChecked = ok
 
 							if ok {
-								showHideRelationButton.Icon = string(buttons.BUTTON_unfold_less)
+								showHideRelationButton.Icon = string(buttons.BUTTON_visibility_off)
 								showHideRelationButton.ToolTipText = "Hide link from note \"" + note.Name +
 									"\" to task \"" + task.Name + "\""
 								// what to do when the product node is clicked
@@ -281,7 +281,7 @@ func (stager *Stager) tree() {
 									OnUpdated: onRemoveAssociationShape(stager, noteTaskShape, &diagram.NoteTaskShapes),
 								}
 							} else {
-								showHideRelationButton.Icon = string(buttons.BUTTON_unfold_more)
+								showHideRelationButton.Icon = string(buttons.BUTTON_visibility)
 								showHideRelationButton.ToolTipText = "Show link from note \"" + note.Name +
 									"\" to task \"" + task.Name + "\""
 								showHideRelationButton.Impl = &tree.FunctionalButtonProxy{

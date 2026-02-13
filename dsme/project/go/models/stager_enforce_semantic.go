@@ -1,6 +1,9 @@
 package models
 
-import "slices"
+import (
+	"slices"
+	"time"
+)
 
 func (stager *Stager) enforceSemantic() (needCommit bool) {
 	stage := stager.stage
@@ -91,7 +94,25 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 
 	if needCommit {
 		stager.stage.Clean()
+
+		stager.enforceProducersConsumers()
+		stager.enforceDiagramMaps()
+
 		stager.stage.CommitWithSuspendedCallbacks()
+		stager.probeForm.AddNotification(time.Now(), "Stage was modified to enforce semantic, please check the diagram for details")
+		stager.probeForm.CommitNotificationTable()
+
+		var selectedDiagram *Diagram
+		for _, diagram := range GetGongstrucsSorted[*Diagram](stage) {
+			if diagram.IsEditable() {
+				selectedDiagram = diagram
+				break
+			}
+		}
+		if selectedDiagram != nil {
+			TaskOutputShapes := selectedDiagram.TaskOutputShapes
+			_ = TaskOutputShapes
+		}
 	}
 
 	return
