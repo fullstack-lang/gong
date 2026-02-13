@@ -1,14 +1,16 @@
 package models
 
+import "time"
+
 func (stager *Stager) enforceRelationDuplicates() (needCommit bool) {
 	// Iterate through all diagrams in the stage
 	for _, diagram := range GetGongstrucsSorted[*Diagram](stager.stage) {
-		removeDuplicateRelation(stager, diagram.ProductComposition_Shapes)
-		removeDuplicateRelation(stager, diagram.TaskComposition_Shapes)
-		removeDuplicateRelation(stager, diagram.TaskInputShapes)
-		removeDuplicateRelation(stager, diagram.TaskOutputShapes)
-		removeDuplicateRelation(stager, diagram.NoteProductShapes)
-		removeDuplicateRelation(stager, diagram.NoteTaskShapes)
+		needCommit = needCommit || removeDuplicateRelation(stager, diagram.ProductComposition_Shapes)
+		needCommit = needCommit || removeDuplicateRelation(stager, diagram.TaskComposition_Shapes)
+		needCommit = needCommit || removeDuplicateRelation(stager, diagram.TaskInputShapes)
+		needCommit = needCommit || removeDuplicateRelation(stager, diagram.TaskOutputShapes)
+		needCommit = needCommit || removeDuplicateRelation(stager, diagram.NoteProductShapes)
+		needCommit = needCommit || removeDuplicateRelation(stager, diagram.NoteTaskShapes)
 	}
 	return
 }
@@ -32,6 +34,7 @@ func removeDuplicateRelation[SourceAT AbstractType, TargetAT AbstractType, ACT A
 
 		if seenPairs[pairKey] {
 			relation.UnstageVoid(stager.stage)
+			stager.probeForm.AddNotification(time.Now(), "Unstaged duplicate relation"+relation.GetName())
 			needCommit = true
 		} else {
 			// Mark this pair as seen
