@@ -11,6 +11,31 @@ func (stager *Stager) enforceDuplicateRemove() (needCommit bool) {
 		needCommit = true
 	}
 
+	for diagram := range stage.Diagrams {
+		if removeDuplicatesSlice(stager, &diagram.Product_Shapes) {
+			needCommit = true
+		}
+		if removeDuplicatesSlice(stager, &diagram.Task_Shapes) {
+			needCommit = true
+		}
+		if removeDuplicatesSlice(stager, &diagram.Note_Shapes) {
+			needCommit = true
+		}
+		if removeDuplicatesSlice(stager, &diagram.Resource_Shapes) {
+			needCommit = true
+		}
+
+		if removeDuplicatesSlice(stager, &diagram.TaskComposition_Shapes) {
+			needCommit = true
+		}
+		if removeDuplicatesSlice(stager, &diagram.TaskInputShapes) {
+			needCommit = true
+		}
+		if removeDuplicatesSlice(stager, &diagram.TaskOutputShapes) {
+			needCommit = true
+		}
+	}
+
 	for project := range stage.Projects {
 		if removeDuplicatesSlice(stager, &project.RootProducts) {
 			needCommit = true
