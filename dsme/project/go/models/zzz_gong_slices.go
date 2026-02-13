@@ -117,6 +117,20 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Diagram_NoteTaskShapes_reverseMap[_notetaskshape] = diagram
 		}
 	}
+	stage.Diagram_Resource_Shapes_reverseMap = make(map[*ResourceShape]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _resourceshape := range diagram.Resource_Shapes {
+			stage.Diagram_Resource_Shapes_reverseMap[_resourceshape] = diagram
+		}
+	}
+	stage.Diagram_ResourcesWhoseNodeIsExpanded_reverseMap = make(map[*Resource]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _resource := range diagram.ResourcesWhoseNodeIsExpanded {
+			stage.Diagram_ResourcesWhoseNodeIsExpanded_reverseMap[_resource] = diagram
+		}
+	}
 
 	// Compute reverse map for named struct Note
 	// insertion point per field
@@ -183,6 +197,13 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Project_Notes_reverseMap[_note] = project
 		}
 	}
+	stage.Project_Resources_reverseMap = make(map[*Resource]*Project)
+	for project := range stage.Projects {
+		_ = project
+		for _, _resource := range project.Resources {
+			stage.Project_Resources_reverseMap[_resource] = project
+		}
+	}
 	stage.Project_Diagrams_reverseMap = make(map[*Diagram]*Project)
 	for project := range stage.Projects {
 		_ = project
@@ -190,6 +211,22 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Project_Diagrams_reverseMap[_diagram] = project
 		}
 	}
+
+	// Compute reverse map for named struct Resource
+	// insertion point per field
+	stage.Resource_Tasks_reverseMap = make(map[*Task]*Resource)
+	for resource := range stage.Resources {
+		_ = resource
+		for _, _task := range resource.Tasks {
+			stage.Resource_Tasks_reverseMap[_task] = resource
+		}
+	}
+
+	// Compute reverse map for named struct ResourceShape
+	// insertion point per field
+
+	// Compute reverse map for named struct ResourceTaskShape
+	// insertion point per field
 
 	// Compute reverse map for named struct Root
 	// insertion point per field
@@ -278,6 +315,18 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
+	for instance := range stage.Resources {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.ResourceShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.ResourceTaskShapes {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.Roots {
 		res = append(res, instance)
 	}
@@ -348,6 +397,21 @@ func (productshape *ProductShape) GongCopy() GongstructIF {
 
 func (project *Project) GongCopy() GongstructIF {
 	newInstance := *project
+	return &newInstance
+}
+
+func (resource *Resource) GongCopy() GongstructIF {
+	newInstance := *resource
+	return &newInstance
+}
+
+func (resourceshape *ResourceShape) GongCopy() GongstructIF {
+	newInstance := *resourceshape
+	return &newInstance
+}
+
+func (resourcetaskshape *ResourceTaskShape) GongCopy() GongstructIF {
+	newInstance := *resourcetaskshape
 	return &newInstance
 }
 
@@ -840,6 +904,153 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(projects_newInstances)
 	lenDeletedInstances += len(projects_deletedInstances)
+	var resources_newInstances []*Resource
+	var resources_deletedInstances []*Resource
+
+	// parse all staged instances and check if they have a reference
+	for resource := range stage.Resources {
+		if ref, ok := stage.Resources_reference[resource]; !ok {
+			resources_newInstances = append(resources_newInstances, resource)
+			newInstancesSlice = append(newInstancesSlice, resource.GongMarshallIdentifier(stage))
+			if stage.Resources_referenceOrder == nil {
+				stage.Resources_referenceOrder = make(map[*Resource]uint)
+			}
+			stage.Resources_referenceOrder[resource] = stage.ResourceMap_Staged_Order[resource]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, resource.GongMarshallUnstaging(stage))
+			delete(stage.Resources_referenceOrder, resource)
+			fieldInitializers, pointersInitializations := resource.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.ResourceMap_Staged_Order[ref] = stage.ResourceMap_Staged_Order[resource]
+			diffs := resource.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, resource)
+			delete(stage.ResourceMap_Staged_Order, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				fieldsEdit += fmt.Sprintf("\n\t// %s", resource.GetName())
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for ref := range stage.Resources_reference {
+		if _, ok := stage.Resources[ref]; !ok {
+			resources_deletedInstances = append(resources_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(resources_newInstances)
+	lenDeletedInstances += len(resources_deletedInstances)
+	var resourceshapes_newInstances []*ResourceShape
+	var resourceshapes_deletedInstances []*ResourceShape
+
+	// parse all staged instances and check if they have a reference
+	for resourceshape := range stage.ResourceShapes {
+		if ref, ok := stage.ResourceShapes_reference[resourceshape]; !ok {
+			resourceshapes_newInstances = append(resourceshapes_newInstances, resourceshape)
+			newInstancesSlice = append(newInstancesSlice, resourceshape.GongMarshallIdentifier(stage))
+			if stage.ResourceShapes_referenceOrder == nil {
+				stage.ResourceShapes_referenceOrder = make(map[*ResourceShape]uint)
+			}
+			stage.ResourceShapes_referenceOrder[resourceshape] = stage.ResourceShapeMap_Staged_Order[resourceshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, resourceshape.GongMarshallUnstaging(stage))
+			delete(stage.ResourceShapes_referenceOrder, resourceshape)
+			fieldInitializers, pointersInitializations := resourceshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.ResourceShapeMap_Staged_Order[ref] = stage.ResourceShapeMap_Staged_Order[resourceshape]
+			diffs := resourceshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, resourceshape)
+			delete(stage.ResourceShapeMap_Staged_Order, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				fieldsEdit += fmt.Sprintf("\n\t// %s", resourceshape.GetName())
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for ref := range stage.ResourceShapes_reference {
+		if _, ok := stage.ResourceShapes[ref]; !ok {
+			resourceshapes_deletedInstances = append(resourceshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(resourceshapes_newInstances)
+	lenDeletedInstances += len(resourceshapes_deletedInstances)
+	var resourcetaskshapes_newInstances []*ResourceTaskShape
+	var resourcetaskshapes_deletedInstances []*ResourceTaskShape
+
+	// parse all staged instances and check if they have a reference
+	for resourcetaskshape := range stage.ResourceTaskShapes {
+		if ref, ok := stage.ResourceTaskShapes_reference[resourcetaskshape]; !ok {
+			resourcetaskshapes_newInstances = append(resourcetaskshapes_newInstances, resourcetaskshape)
+			newInstancesSlice = append(newInstancesSlice, resourcetaskshape.GongMarshallIdentifier(stage))
+			if stage.ResourceTaskShapes_referenceOrder == nil {
+				stage.ResourceTaskShapes_referenceOrder = make(map[*ResourceTaskShape]uint)
+			}
+			stage.ResourceTaskShapes_referenceOrder[resourcetaskshape] = stage.ResourceTaskShapeMap_Staged_Order[resourcetaskshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, resourcetaskshape.GongMarshallUnstaging(stage))
+			delete(stage.ResourceTaskShapes_referenceOrder, resourcetaskshape)
+			fieldInitializers, pointersInitializations := resourcetaskshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.ResourceTaskShapeMap_Staged_Order[ref] = stage.ResourceTaskShapeMap_Staged_Order[resourcetaskshape]
+			diffs := resourcetaskshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, resourcetaskshape)
+			delete(stage.ResourceTaskShapeMap_Staged_Order, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				fieldsEdit += fmt.Sprintf("\n\t// %s", resourcetaskshape.GetName())
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for ref := range stage.ResourceTaskShapes_reference {
+		if _, ok := stage.ResourceTaskShapes[ref]; !ok {
+			resourcetaskshapes_deletedInstances = append(resourcetaskshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(resourcetaskshapes_newInstances)
+	lenDeletedInstances += len(resourcetaskshapes_deletedInstances)
 	var roots_newInstances []*Root
 	var roots_deletedInstances []*Root
 
@@ -1229,6 +1440,27 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.Projects_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
+	stage.Resources_reference = make(map[*Resource]*Resource)
+	stage.Resources_referenceOrder = make(map[*Resource]uint) // diff Unstage needs the reference order
+	for instance := range stage.Resources {
+		stage.Resources_reference[instance] = instance.GongCopy().(*Resource)
+		stage.Resources_referenceOrder[instance] = instance.GongGetOrder(stage)
+	}
+
+	stage.ResourceShapes_reference = make(map[*ResourceShape]*ResourceShape)
+	stage.ResourceShapes_referenceOrder = make(map[*ResourceShape]uint) // diff Unstage needs the reference order
+	for instance := range stage.ResourceShapes {
+		stage.ResourceShapes_reference[instance] = instance.GongCopy().(*ResourceShape)
+		stage.ResourceShapes_referenceOrder[instance] = instance.GongGetOrder(stage)
+	}
+
+	stage.ResourceTaskShapes_reference = make(map[*ResourceTaskShape]*ResourceTaskShape)
+	stage.ResourceTaskShapes_referenceOrder = make(map[*ResourceTaskShape]uint) // diff Unstage needs the reference order
+	for instance := range stage.ResourceTaskShapes {
+		stage.ResourceTaskShapes_reference[instance] = instance.GongCopy().(*ResourceTaskShape)
+		stage.ResourceTaskShapes_referenceOrder[instance] = instance.GongGetOrder(stage)
+	}
+
 	stage.Roots_reference = make(map[*Root]*Root)
 	stage.Roots_referenceOrder = make(map[*Root]uint) // diff Unstage needs the reference order
 	for instance := range stage.Roots {
@@ -1378,6 +1610,39 @@ func (project *Project) GongGetOrder(stage *Stage) uint {
 
 func (project *Project) GongGetReferenceOrder(stage *Stage) uint {
 	return stage.Projects_referenceOrder[project]
+}
+
+func (resource *Resource) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.ResourceMap_Staged_Order[resource]; ok {
+		return order
+	}
+	return stage.Resources_referenceOrder[resource]
+}
+
+func (resource *Resource) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.Resources_referenceOrder[resource]
+}
+
+func (resourceshape *ResourceShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.ResourceShapeMap_Staged_Order[resourceshape]; ok {
+		return order
+	}
+	return stage.ResourceShapes_referenceOrder[resourceshape]
+}
+
+func (resourceshape *ResourceShape) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.ResourceShapes_referenceOrder[resourceshape]
+}
+
+func (resourcetaskshape *ResourceTaskShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.ResourceTaskShapeMap_Staged_Order[resourcetaskshape]; ok {
+		return order
+	}
+	return stage.ResourceTaskShapes_referenceOrder[resourcetaskshape]
+}
+
+func (resourcetaskshape *ResourceTaskShape) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.ResourceTaskShapes_referenceOrder[resourcetaskshape]
 }
 
 func (root *Root) GongGetOrder(stage *Stage) uint {
@@ -1532,6 +1797,33 @@ func (project *Project) GongGetReferenceIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", project.GongGetGongstructName(), project.GongGetReferenceOrder(stage))
 }
 
+func (resource *Resource) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", resource.GongGetGongstructName(), resource.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (resource *Resource) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", resource.GongGetGongstructName(), resource.GongGetReferenceOrder(stage))
+}
+
+func (resourceshape *ResourceShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", resourceshape.GongGetGongstructName(), resourceshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (resourceshape *ResourceShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", resourceshape.GongGetGongstructName(), resourceshape.GongGetReferenceOrder(stage))
+}
+
+func (resourcetaskshape *ResourceTaskShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", resourcetaskshape.GongGetGongstructName(), resourcetaskshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (resourcetaskshape *ResourceTaskShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", resourcetaskshape.GongGetGongstructName(), resourcetaskshape.GongGetReferenceOrder(stage))
+}
+
 func (root *Root) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", root.GongGetGongstructName(), root.GongGetOrder(stage))
 }
@@ -1661,6 +1953,30 @@ func (project *Project) GongMarshallIdentifier(stage *Stage) (decl string) {
 	return
 }
 
+func (resource *Resource) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", resource.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Resource")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", resource.Name)
+	return
+}
+
+func (resourceshape *ResourceShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", resourceshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ResourceShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", resourceshape.Name)
+	return
+}
+
+func (resourcetaskshape *ResourceTaskShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", resourcetaskshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ResourceTaskShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", resourcetaskshape.Name)
+	return
+}
+
 func (root *Root) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", root.GongGetIdentifier(stage))
@@ -1761,6 +2077,24 @@ func (productshape *ProductShape) GongMarshallUnstaging(stage *Stage) (decl stri
 func (project *Project) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", project.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (resource *Resource) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", resource.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (resourceshape *ResourceShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", resourceshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (resourcetaskshape *ResourceTaskShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", resourcetaskshape.GongGetReferenceIdentifier(stage))
 	return
 }
 

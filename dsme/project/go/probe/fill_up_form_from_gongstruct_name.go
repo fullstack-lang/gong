@@ -69,6 +69,24 @@ func (probe *Probe) updateFillUpForm() {
 			} else {
 				FillUpFormFromGongstruct(onSave.project, probe)
 			}
+		case *ResourceFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Resource", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.resource, probe)
+			}
+		case *ResourceShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "ResourceShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.resourceshape, probe)
+			}
+		case *ResourceTaskShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "ResourceTaskShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.resourcetaskshape, probe)
+			}
 		case *RootFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "Root", true)
@@ -244,6 +262,45 @@ func FillUpFormFromGongstructName(
 		project := new(models.Project)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(project, formGroup, probe)
+	case "Resource":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "Resource Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ResourceFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		resource := new(models.Resource)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(resource, formGroup, probe)
+	case "ResourceShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "ResourceShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ResourceShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		resourceshape := new(models.ResourceShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(resourceshape, formGroup, probe)
+	case "ResourceTaskShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "ResourceTaskShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ResourceTaskShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		resourcetaskshape := new(models.ResourceTaskShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(resourcetaskshape, formGroup, probe)
 	case "Root":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

@@ -76,7 +76,7 @@ func addAddItemButton[
 					Name:        "Default Diagram",
 					IsChecked:   true,
 					IsEditable_: true,
-					ExpandableNodeObject: ExpandableNodeObject{
+					AbstractTypeFields: AbstractTypeFields{
 						IsExpanded: true,
 					},
 				}
