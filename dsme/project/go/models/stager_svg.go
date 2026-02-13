@@ -9,6 +9,8 @@ import (
 
 func (stager *Stager) svg() {
 	stager.svgStage.Reset()
+	stage := stager.stage
+	_ = stage
 	root := stager.root
 
 	svgStage := stager.svgStage
