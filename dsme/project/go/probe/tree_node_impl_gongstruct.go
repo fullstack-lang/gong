@@ -77,6 +77,15 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 	if nodeImplGongstruct.gongStruct.GetName() == "Project" {
 		updateProbeTable[*models.Project](nodeImplGongstruct.probe)
 	}
+	if nodeImplGongstruct.gongStruct.GetName() == "Resource" {
+		updateProbeTable[*models.Resource](nodeImplGongstruct.probe)
+	}
+	if nodeImplGongstruct.gongStruct.GetName() == "ResourceShape" {
+		updateProbeTable[*models.ResourceShape](nodeImplGongstruct.probe)
+	}
+	if nodeImplGongstruct.gongStruct.GetName() == "ResourceTaskShape" {
+		updateProbeTable[*models.ResourceTaskShape](nodeImplGongstruct.probe)
+	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Root" {
 		updateProbeTable[*models.Root](nodeImplGongstruct.probe)
 	}

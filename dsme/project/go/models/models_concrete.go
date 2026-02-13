@@ -14,7 +14,7 @@ type Diagram struct {
 	DefaultBoxWidth  float64
 	DefaultBoxHeigth float64
 
-	ExpandableNodeObject
+	AbstractTypeFields
 
 	Product_Shapes              []*ProductShape
 	map_Product_ProductShape    map[*Product]*ProductShape
@@ -51,6 +51,14 @@ type Diagram struct {
 
 	NoteTaskShapes         []*NoteTaskShape
 	map_Note_NoteTaskShape map[noteTaskKey]*NoteTaskShape
+
+	Resource_Shapes              []*ResourceShape
+	map_Resource_ResourceShape   map[*Resource]*ResourceShape
+	ResourcesWhoseNodeIsExpanded []*Resource
+	IsResourcesNodeExpanded      bool
+
+	ResourceTaskShapes             []*ResourceTaskShape
+	map_Resource_ResourceTaskShape map[resourceTaskKey]*ResourceTaskShape
 
 	map_Product_Rect map[*Product]*svg.Rect
 	map_Task_Rect    map[*Task]*svg.Rect
@@ -221,6 +229,11 @@ type noteTaskKey struct {
 	Task *Task
 }
 
+type resourceTaskKey struct {
+	Resource *Resource
+	Task     *Task
+}
+
 type TaskInputShape struct {
 	Name string
 
@@ -382,3 +395,60 @@ func (s *NoteTaskShape) SetAbstractStartElement(abstractElement AbstractType) {
 }
 
 var _ AssociationConcreteType = (*NoteTaskShape)(nil)
+
+// ResourceShape
+type ResourceShape struct {
+	Name     string
+	Resource *Resource
+
+	IsExpanded bool
+
+	RectShape
+}
+
+func (s *ResourceShape) GetAbstractElement() AbstractType {
+	if s.Resource == nil {
+		return nil // otherwise returns s.Resource returns (*Resource, nil), not nil
+	}
+	return s.Resource
+}
+
+func (s *ResourceShape) SetAbstractElement(abstractElement AbstractType) {
+	s.Resource = abstractElement.(*Resource)
+}
+
+var _ ConcreteType = (*ResourceShape)(nil)
+
+type ResourceTaskShape struct {
+	Name string
+
+	Resource *Resource
+
+	Task *Task
+
+	LinkShape
+}
+
+func (s *ResourceTaskShape) GetAbstractEndElement() AbstractType {
+	if s.Task == nil {
+		return nil
+	}
+	return s.Task
+}
+
+func (s *ResourceTaskShape) SetAbstractEndElement(abstractElement AbstractType) {
+	s.Task = abstractElement.(*Task)
+}
+
+func (s *ResourceTaskShape) GetAbstractStartElement() AbstractType {
+	if s.Resource == nil {
+		return nil
+	}
+	return s.Resource
+}
+
+func (s *ResourceTaskShape) SetAbstractStartElement(abstractElement AbstractType) {
+	s.Resource = abstractElement.(*Resource)
+}
+
+var _ AssociationConcreteType = (*ResourceTaskShape)(nil)

@@ -15,13 +15,14 @@ type Project struct {
 	RootProducts []*Product
 	RootTasks    []*Task
 	Notes        []*Note
+	Resources    []*Resource
 
 	Diagrams []*Diagram
 
-	ExpandableNodeObject
+	AbstractTypeFields
 }
 
-type ExpandableNodeObject struct {
+type AbstractTypeFields struct {
 	IsExpanded bool // to be made private once in production (no need to persist)
 
 	// ComputedPrefix is automaticaly computed by the semantic enforcing mechanism
@@ -73,7 +74,7 @@ func (note *Note) SetIsExpanded(val bool) {
 func (note *Note) SetComputedWidth(int) {
 }
 
-func (r *ExpandableNodeObject) GetComputedWidth() int {
+func (r *AbstractTypeFields) GetComputedWidth() int {
 	return r.computedWidth
 }
 
@@ -85,7 +86,7 @@ type Task struct {
 
 	SubTasks []*Task
 
-	ExpandableNodeObject
+	AbstractTypeFields
 
 	Inputs               []*Product
 	IsInputsNodeExpanded bool
@@ -133,7 +134,7 @@ type Product struct {
 
 	SubProducts []*Product
 
-	ExpandableNodeObject
+	AbstractTypeFields
 
 	// producers are computed from [models.Task.Outputs]
 	// this is a computed field, therefore, not exported
@@ -161,19 +162,19 @@ type AbstractType interface {
 	GetComputedWidth() int
 }
 
-func (r *ExpandableNodeObject) GetIsExpanded() bool {
+func (r *AbstractTypeFields) GetIsExpanded() bool {
 	return r.IsExpanded
 }
 
-func (r *ExpandableNodeObject) SetIsExpanded(isExpanded bool) {
+func (r *AbstractTypeFields) SetIsExpanded(isExpanded bool) {
 	r.IsExpanded = isExpanded
 }
 
-func (r *ExpandableNodeObject) GetComputedPrefix() string {
+func (r *AbstractTypeFields) GetComputedPrefix() string {
 	return r.ComputedPrefix
 }
 
-func (r *ExpandableNodeObject) SetComputedPrefix(ComputedPrefix string) {
+func (r *AbstractTypeFields) SetComputedPrefix(ComputedPrefix string) {
 	r.ComputedPrefix = ComputedPrefix
 }
 
@@ -182,4 +183,16 @@ var (
 	_ AbstractType = (*Project)(nil)
 	_ AbstractType = (*Task)(nil)
 	_ AbstractType = (*Note)(nil)
+	_ AbstractType = (*Resource)(nil)
 )
+
+type Resource struct {
+	Name string
+
+	//gong:text width:300 height:300
+	Description string
+
+	Tasks []*Task
+
+	AbstractTypeFields
+}

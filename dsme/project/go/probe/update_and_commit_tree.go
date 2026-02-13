@@ -255,6 +255,54 @@ func updateAndCommitTree(
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
+		case "Resource":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.Resource](probe.stageOfInterest)
+			count := 0
+			for _resource := range set {
+				if count >= probe.GetMaxElementsNbPerGongStructNode() {
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree.Node{Name: "..."})
+					break
+				}
+				count++
+				nodeInstance := &tree.Node{Name: _resource.GetName()}
+				nodeInstance.IsNodeClickable = true
+				nodeInstance.Impl = NewInstanceNodeCallback(_resource, "Resource", probe)
+
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
+		case "ResourceShape":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.ResourceShape](probe.stageOfInterest)
+			count := 0
+			for _resourceshape := range set {
+				if count >= probe.GetMaxElementsNbPerGongStructNode() {
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree.Node{Name: "..."})
+					break
+				}
+				count++
+				nodeInstance := &tree.Node{Name: _resourceshape.GetName()}
+				nodeInstance.IsNodeClickable = true
+				nodeInstance.Impl = NewInstanceNodeCallback(_resourceshape, "ResourceShape", probe)
+
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
+		case "ResourceTaskShape":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.ResourceTaskShape](probe.stageOfInterest)
+			count := 0
+			for _resourcetaskshape := range set {
+				if count >= probe.GetMaxElementsNbPerGongStructNode() {
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree.Node{Name: "..."})
+					break
+				}
+				count++
+				nodeInstance := &tree.Node{Name: _resourcetaskshape.GetName()}
+				nodeInstance.IsNodeClickable = true
+				nodeInstance.Impl = NewInstanceNodeCallback(_resourcetaskshape, "ResourceTaskShape", probe)
+
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
 		case "Root":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.Root](probe.stageOfInterest)

@@ -35,6 +35,8 @@ type Diagram_WOP struct {
 	IsWBSNodeExpanded bool
 
 	IsNotesNodeExpanded bool
+
+	IsResourcesNodeExpanded bool
 }
 
 func (from *Diagram) CopyBasicFields(to *Diagram) {
@@ -51,6 +53,7 @@ func (from *Diagram) CopyBasicFields(to *Diagram) {
 	to.IsPBSNodeExpanded = from.IsPBSNodeExpanded
 	to.IsWBSNodeExpanded = from.IsWBSNodeExpanded
 	to.IsNotesNodeExpanded = from.IsNotesNodeExpanded
+	to.IsResourcesNodeExpanded = from.IsResourcesNodeExpanded
 }
 
 type Note_WOP struct {
@@ -238,6 +241,78 @@ func (from *Project) CopyBasicFields(to *Project) {
 	to.Name = from.Name
 	to.IsExpanded = from.IsExpanded
 	to.ComputedPrefix = from.ComputedPrefix
+}
+
+type Resource_WOP struct {
+	// insertion point
+
+	Name string
+
+	Description string
+
+	IsExpanded bool
+
+	ComputedPrefix string
+}
+
+func (from *Resource) CopyBasicFields(to *Resource) {
+	// insertion point
+	to.Name = from.Name
+	to.Description = from.Description
+	to.IsExpanded = from.IsExpanded
+	to.ComputedPrefix = from.ComputedPrefix
+}
+
+type ResourceShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	IsExpanded bool
+
+	X float64
+
+	Y float64
+
+	Width float64
+
+	Height float64
+}
+
+func (from *ResourceShape) CopyBasicFields(to *ResourceShape) {
+	// insertion point
+	to.Name = from.Name
+	to.IsExpanded = from.IsExpanded
+	to.X = from.X
+	to.Y = from.Y
+	to.Width = from.Width
+	to.Height = from.Height
+}
+
+type ResourceTaskShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	StartRatio float64
+
+	EndRatio float64
+
+	StartOrientation OrientationType
+
+	EndOrientation OrientationType
+
+	CornerOffsetRatio float64
+}
+
+func (from *ResourceTaskShape) CopyBasicFields(to *ResourceTaskShape) {
+	// insertion point
+	to.Name = from.Name
+	to.StartRatio = from.StartRatio
+	to.EndRatio = from.EndRatio
+	to.StartOrientation = from.StartOrientation
+	to.EndOrientation = from.EndOrientation
+	to.CornerOffsetRatio = from.CornerOffsetRatio
 }
 
 type Root_WOP struct {
