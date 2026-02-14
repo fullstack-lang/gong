@@ -228,6 +228,13 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Resource_Tasks_reverseMap[_task] = resource
 		}
 	}
+	stage.Resource_SubResources_reverseMap = make(map[*Resource]*Resource)
+	for resource := range stage.Resources {
+		_ = resource
+		for _, _resource := range resource.SubResources {
+			stage.Resource_SubResources_reverseMap[_resource] = resource
+		}
+	}
 
 	// Compute reverse map for named struct ResourceShape
 	// insertion point per field
