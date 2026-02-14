@@ -161,6 +161,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "Resource_Shapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ResourcesWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsResourcesNodeExpanded"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ResourceTaskShapes"))
 	}
 
 	noteOrdered := []*Note{}
@@ -190,6 +191,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Products"))
 		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Tasks"))
 		initializerStatements.WriteString(note.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(note.GongMarshallField(stage, "ComputedPrefix"))
 	}
 
 	noteproductshapeOrdered := []*NoteProductShape{}
@@ -412,8 +414,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(project.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(project.GongMarshallField(stage, "RootProducts"))
 		pointersInitializesStatements.WriteString(project.GongMarshallField(stage, "RootTasks"))
+		pointersInitializesStatements.WriteString(project.GongMarshallField(stage, "RootResources"))
 		pointersInitializesStatements.WriteString(project.GongMarshallField(stage, "Notes"))
-		pointersInitializesStatements.WriteString(project.GongMarshallField(stage, "Resources"))
 		pointersInitializesStatements.WriteString(project.GongMarshallField(stage, "Diagrams"))
 		initializerStatements.WriteString(project.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(project.GongMarshallField(stage, "ComputedPrefix"))
@@ -1136,6 +1138,16 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
+	case "ResourceTaskShapes":
+		var sb strings.Builder
+		for _, _resourcetaskshape := range diagram.ResourceTaskShapes {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ResourceTaskShapes")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _resourcetaskshape.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Diagram", fieldName)
 	}
@@ -1155,6 +1167,11 @@ func (note *Note) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = strings.ReplaceAll(res, "{{Identifier}}", note.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", note.IsExpanded))
+	case "ComputedPrefix":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", note.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(note.ComputedPrefix))
 
 	case "Products":
 		var sb strings.Builder
@@ -1610,6 +1627,16 @@ func (project *Project) GongMarshallField(stage *Stage, fieldName string) (res s
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
+	case "RootResources":
+		var sb strings.Builder
+		for _, _resource := range project.RootResources {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", project.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "RootResources")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _resource.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	case "Notes":
 		var sb strings.Builder
 		for _, _note := range project.Notes {
@@ -1617,16 +1644,6 @@ func (project *Project) GongMarshallField(stage *Stage, fieldName string) (res s
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", project.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Notes")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _note.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
-		}
-		res = sb.String()
-	case "Resources":
-		var sb strings.Builder
-		for _, _resource := range project.Resources {
-			tmp := SliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", project.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Resources")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _resource.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
@@ -2260,6 +2277,7 @@ func (diagram *Diagram) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "Resource_Shapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ResourcesWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsResourcesNodeExpanded"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ResourceTaskShapes"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -2274,6 +2292,7 @@ func (note *Note) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Products"))
 		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Tasks"))
 		initializerStatements.WriteString(note.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(note.GongMarshallField(stage, "ComputedPrefix"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -2391,8 +2410,8 @@ func (project *Project) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		initializerStatements.WriteString(project.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(project.GongMarshallField(stage, "RootProducts"))
 		pointersInitializesStatements.WriteString(project.GongMarshallField(stage, "RootTasks"))
+		pointersInitializesStatements.WriteString(project.GongMarshallField(stage, "RootResources"))
 		pointersInitializesStatements.WriteString(project.GongMarshallField(stage, "Notes"))
-		pointersInitializesStatements.WriteString(project.GongMarshallField(stage, "Resources"))
 		pointersInitializesStatements.WriteString(project.GongMarshallField(stage, "Diagrams"))
 		initializerStatements.WriteString(project.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(project.GongMarshallField(stage, "ComputedPrefix"))

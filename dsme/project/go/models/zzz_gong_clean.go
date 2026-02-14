@@ -50,6 +50,7 @@ func (diagram *Diagram) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &diagram.NoteTaskShapes) || modified
 	modified = GongCleanSlice(stage, &diagram.Resource_Shapes) || modified
 	modified = GongCleanSlice(stage, &diagram.ResourcesWhoseNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &diagram.ResourceTaskShapes) || modified
 	// insertion point per field
 	return
 }
@@ -118,8 +119,8 @@ func (project *Project) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = GongCleanSlice(stage, &project.RootProducts) || modified
 	modified = GongCleanSlice(stage, &project.RootTasks) || modified
+	modified = GongCleanSlice(stage, &project.RootResources) || modified
 	modified = GongCleanSlice(stage, &project.Notes) || modified
-	modified = GongCleanSlice(stage, &project.Resources) || modified
 	modified = GongCleanSlice(stage, &project.Diagrams) || modified
 	// insertion point per field
 	return

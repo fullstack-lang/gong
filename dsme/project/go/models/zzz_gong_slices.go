@@ -131,6 +131,13 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Diagram_ResourcesWhoseNodeIsExpanded_reverseMap[_resource] = diagram
 		}
 	}
+	stage.Diagram_ResourceTaskShapes_reverseMap = make(map[*ResourceTaskShape]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _resourcetaskshape := range diagram.ResourceTaskShapes {
+			stage.Diagram_ResourceTaskShapes_reverseMap[_resourcetaskshape] = diagram
+		}
+	}
 
 	// Compute reverse map for named struct Note
 	// insertion point per field
@@ -190,18 +197,18 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Project_RootTasks_reverseMap[_task] = project
 		}
 	}
+	stage.Project_RootResources_reverseMap = make(map[*Resource]*Project)
+	for project := range stage.Projects {
+		_ = project
+		for _, _resource := range project.RootResources {
+			stage.Project_RootResources_reverseMap[_resource] = project
+		}
+	}
 	stage.Project_Notes_reverseMap = make(map[*Note]*Project)
 	for project := range stage.Projects {
 		_ = project
 		for _, _note := range project.Notes {
 			stage.Project_Notes_reverseMap[_note] = project
-		}
-	}
-	stage.Project_Resources_reverseMap = make(map[*Resource]*Project)
-	for project := range stage.Projects {
-		_ = project
-		for _, _resource := range project.Resources {
-			stage.Project_Resources_reverseMap[_resource] = project
 		}
 	}
 	stage.Project_Diagrams_reverseMap = make(map[*Diagram]*Project)

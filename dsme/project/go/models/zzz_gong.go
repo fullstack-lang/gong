@@ -143,6 +143,8 @@ type Stage struct {
 
 	Diagram_ResourcesWhoseNodeIsExpanded_reverseMap map[*Resource]*Diagram
 
+	Diagram_ResourceTaskShapes_reverseMap map[*ResourceTaskShape]*Diagram
+
 	OnAfterDiagramCreateCallback OnAfterCreateInterface[Diagram]
 	OnAfterDiagramUpdateCallback OnAfterUpdateInterface[Diagram]
 	OnAfterDiagramDeleteCallback OnAfterDeleteInterface[Diagram]
@@ -241,9 +243,9 @@ type Stage struct {
 
 	Project_RootTasks_reverseMap map[*Task]*Project
 
-	Project_Notes_reverseMap map[*Note]*Project
+	Project_RootResources_reverseMap map[*Resource]*Project
 
-	Project_Resources_reverseMap map[*Resource]*Project
+	Project_Notes_reverseMap map[*Note]*Project
 
 	Project_Diagrams_reverseMap map[*Diagram]*Project
 
@@ -3842,6 +3844,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Resource_Shapes: []*ResourceShape{{Name: "Resource_Shapes"}},
 			// field is initialized with an instance of Resource with the name of the field
 			ResourcesWhoseNodeIsExpanded: []*Resource{{Name: "ResourcesWhoseNodeIsExpanded"}},
+			// field is initialized with an instance of ResourceTaskShape with the name of the field
+			ResourceTaskShapes: []*ResourceTaskShape{{Name: "ResourceTaskShapes"}},
 		}).(*Type)
 	case Note:
 		return any(&Note{
@@ -3898,10 +3902,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			RootProducts: []*Product{{Name: "RootProducts"}},
 			// field is initialized with an instance of Task with the name of the field
 			RootTasks: []*Task{{Name: "RootTasks"}},
+			// field is initialized with an instance of Resource with the name of the field
+			RootResources: []*Resource{{Name: "RootResources"}},
 			// field is initialized with an instance of Note with the name of the field
 			Notes: []*Note{{Name: "Notes"}},
-			// field is initialized with an instance of Resource with the name of the field
-			Resources: []*Resource{{Name: "Resources"}},
 			// field is initialized with an instance of Diagram with the name of the field
 			Diagrams: []*Diagram{{Name: "Diagrams"}},
 		}).(*Type)
@@ -4495,6 +4499,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "ResourceTaskShapes":
+			res := make(map[*ResourceTaskShape][]*Diagram)
+			for diagram := range stage.Diagrams {
+				for _, resourcetaskshape_ := range diagram.ResourceTaskShapes {
+					res[resourcetaskshape_] = append(res[resourcetaskshape_], diagram)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Note
 	case Note:
@@ -4575,19 +4587,19 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "RootResources":
+			res := make(map[*Resource][]*Project)
+			for project := range stage.Projects {
+				for _, resource_ := range project.RootResources {
+					res[resource_] = append(res[resource_], project)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "Notes":
 			res := make(map[*Note][]*Project)
 			for project := range stage.Projects {
 				for _, note_ := range project.Notes {
 					res[note_] = append(res[note_], project)
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "Resources":
-			res := make(map[*Resource][]*Project)
-			for project := range stage.Projects {
-				for _, resource_ := range project.Resources {
-					res[resource_] = append(res[resource_], project)
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -4828,7 +4840,7 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.Fieldname = "ResourcesWhoseNodeIsExpanded"
 		res = append(res, rf)
 		rf.GongstructName = "Project"
-		rf.Fieldname = "Resources"
+		rf.Fieldname = "RootResources"
 		res = append(res, rf)
 	case *ResourceShape:
 		var rf ReverseField
@@ -4839,6 +4851,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *ResourceTaskShape:
 		var rf ReverseField
 		_ = rf
+		rf.GongstructName = "Diagram"
+		rf.Fieldname = "ResourceTaskShapes"
+		res = append(res, rf)
 	case *Root:
 		var rf ReverseField
 		_ = rf
@@ -5030,6 +5045,11 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:               "IsResourcesNodeExpanded",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
+		{
+			Name:                 "ResourceTaskShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "ResourceTaskShape",
+		},
 	}
 	return
 }
@@ -5053,6 +5073,10 @@ func (note *Note) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 	}
@@ -5303,14 +5327,14 @@ func (project *Project) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Task",
 		},
 		{
+			Name:                 "RootResources",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Resource",
+		},
+		{
 			Name:                 "Notes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Note",
-		},
-		{
-			Name:                 "Resources",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Resource",
 		},
 		{
 			Name:                 "Diagrams",
@@ -5926,6 +5950,16 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%t", diagram.IsResourcesNodeExpanded)
 		res.valueBool = diagram.IsResourcesNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ResourceTaskShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.ResourceTaskShapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
 	}
 	return
 }
@@ -5959,6 +5993,8 @@ func (note *Note) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.valueString = fmt.Sprintf("%t", note.IsExpanded)
 		res.valueBool = note.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ComputedPrefix":
+		res.valueString = note.ComputedPrefix
 	}
 	return
 }
@@ -6204,9 +6240,9 @@ func (project *Project) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.valueString += __instance__.Name
 			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 		}
-	case "Notes":
+	case "RootResources":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range project.Notes {
+		for idx, __instance__ := range project.RootResources {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -6214,9 +6250,9 @@ func (project *Project) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.valueString += __instance__.Name
 			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 		}
-	case "Resources":
+	case "Notes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range project.Resources {
+		for idx, __instance__ := range project.Notes {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -6835,6 +6871,20 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 		}
 	case "IsResourcesNodeExpanded":
 		diagram.IsResourcesNodeExpanded = value.GetValueBool()
+	case "ResourceTaskShapes":
+		diagram.ResourceTaskShapes = make([]*ResourceTaskShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.ResourceTaskShapes {
+					if stage.ResourceTaskShapeMap_Staged_Order[__instance__] == uint(id) {
+						diagram.ResourceTaskShapes = append(diagram.ResourceTaskShapes, __instance__)
+						break
+					}
+				}
+			}
+		}
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -6876,6 +6926,8 @@ func (note *Note) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 		}
 	case "IsExpanded":
 		note.IsExpanded = value.GetValueBool()
+	case "ComputedPrefix":
+		note.ComputedPrefix = value.GetValueString()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -7132,6 +7184,20 @@ func (project *Project) GongSetFieldValue(fieldName string, value GongFieldValue
 				}
 			}
 		}
+	case "RootResources":
+		project.RootResources = make([]*Resource, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Resources {
+					if stage.ResourceMap_Staged_Order[__instance__] == uint(id) {
+						project.RootResources = append(project.RootResources, __instance__)
+						break
+					}
+				}
+			}
+		}
 	case "Notes":
 		project.Notes = make([]*Note, 0)
 		ids := strings.Split(value.ids, ";")
@@ -7141,20 +7207,6 @@ func (project *Project) GongSetFieldValue(fieldName string, value GongFieldValue
 				for __instance__ := range stage.Notes {
 					if stage.NoteMap_Staged_Order[__instance__] == uint(id) {
 						project.Notes = append(project.Notes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Resources":
-		project.Resources = make([]*Resource, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Resources {
-					if stage.ResourceMap_Staged_Order[__instance__] == uint(id) {
-						project.Resources = append(project.Resources, __instance__)
 						break
 					}
 				}

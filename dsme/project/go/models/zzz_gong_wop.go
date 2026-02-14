@@ -62,12 +62,15 @@ type Note_WOP struct {
 	Name string
 
 	IsExpanded bool
+
+	ComputedPrefix string
 }
 
 func (from *Note) CopyBasicFields(to *Note) {
 	// insertion point
 	to.Name = from.Name
 	to.IsExpanded = from.IsExpanded
+	to.ComputedPrefix = from.ComputedPrefix
 }
 
 type NoteProductShape_WOP struct {
