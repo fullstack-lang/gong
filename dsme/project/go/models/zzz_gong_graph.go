@@ -37,6 +37,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *Resource:
 		ok = stage.IsStagedResource(target)
 
+	case *ResourceCompositionShape:
+		ok = stage.IsStagedResourceCompositionShape(target)
+
 	case *ResourceShape:
 		ok = stage.IsStagedResourceShape(target)
 
@@ -100,6 +103,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *Resource:
 		ok = stage.IsStagedResource(target)
+
+	case *ResourceCompositionShape:
+		ok = stage.IsStagedResourceCompositionShape(target)
 
 	case *ResourceShape:
 		ok = stage.IsStagedResourceShape(target)
@@ -202,6 +208,13 @@ func (stage *Stage) IsStagedResource(resource *Resource) (ok bool) {
 	return
 }
 
+func (stage *Stage) IsStagedResourceCompositionShape(resourcecompositionshape *ResourceCompositionShape) (ok bool) {
+
+	_, ok = stage.ResourceCompositionShapes[resourcecompositionshape]
+
+	return
+}
+
 func (stage *Stage) IsStagedResourceShape(resourceshape *ResourceShape) (ok bool) {
 
 	_, ok = stage.ResourceShapes[resourceshape]
@@ -296,6 +309,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Resource:
 		stage.StageBranchResource(target)
 
+	case *ResourceCompositionShape:
+		stage.StageBranchResourceCompositionShape(target)
+
 	case *ResourceShape:
 		stage.StageBranchResourceShape(target)
 
@@ -385,6 +401,9 @@ func (stage *Stage) StageBranchDiagram(diagram *Diagram) {
 	}
 	for _, _resource := range diagram.ResourcesWhoseNodeIsExpanded {
 		StageBranch(stage, _resource)
+	}
+	for _, _resourcecompositionshape := range diagram.ResourceComposition_Shapes {
+		StageBranch(stage, _resourcecompositionshape)
 	}
 	for _, _resourcetaskshape := range diagram.ResourceTaskShapes {
 		StageBranch(stage, _resourcetaskshape)
@@ -575,6 +594,24 @@ func (stage *Stage) StageBranchResource(resource *Resource) {
 	for _, _resource := range resource.SubResources {
 		StageBranch(stage, _resource)
 	}
+
+}
+
+func (stage *Stage) StageBranchResourceCompositionShape(resourcecompositionshape *ResourceCompositionShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, resourcecompositionshape) {
+		return
+	}
+
+	resourcecompositionshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if resourcecompositionshape.Resource != nil {
+		StageBranch(stage, resourcecompositionshape.Resource)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -788,6 +825,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchResource(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *ResourceCompositionShape:
+		toT := CopyBranchResourceCompositionShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *ResourceShape:
 		toT := CopyBranchResourceShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -889,6 +930,9 @@ func CopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagramTo
 	}
 	for _, _resource := range diagramFrom.ResourcesWhoseNodeIsExpanded {
 		diagramTo.ResourcesWhoseNodeIsExpanded = append(diagramTo.ResourcesWhoseNodeIsExpanded, CopyBranchResource(mapOrigCopy, _resource))
+	}
+	for _, _resourcecompositionshape := range diagramFrom.ResourceComposition_Shapes {
+		diagramTo.ResourceComposition_Shapes = append(diagramTo.ResourceComposition_Shapes, CopyBranchResourceCompositionShape(mapOrigCopy, _resourcecompositionshape))
 	}
 	for _, _resourcetaskshape := range diagramFrom.ResourceTaskShapes {
 		diagramTo.ResourceTaskShapes = append(diagramTo.ResourceTaskShapes, CopyBranchResourceTaskShape(mapOrigCopy, _resourcetaskshape))
@@ -1115,6 +1159,28 @@ func CopyBranchResource(mapOrigCopy map[any]any, resourceFrom *Resource) (resour
 	for _, _resource := range resourceFrom.SubResources {
 		resourceTo.SubResources = append(resourceTo.SubResources, CopyBranchResource(mapOrigCopy, _resource))
 	}
+
+	return
+}
+
+func CopyBranchResourceCompositionShape(mapOrigCopy map[any]any, resourcecompositionshapeFrom *ResourceCompositionShape) (resourcecompositionshapeTo *ResourceCompositionShape) {
+
+	// resourcecompositionshapeFrom has already been copied
+	if _resourcecompositionshapeTo, ok := mapOrigCopy[resourcecompositionshapeFrom]; ok {
+		resourcecompositionshapeTo = _resourcecompositionshapeTo.(*ResourceCompositionShape)
+		return
+	}
+
+	resourcecompositionshapeTo = new(ResourceCompositionShape)
+	mapOrigCopy[resourcecompositionshapeFrom] = resourcecompositionshapeTo
+	resourcecompositionshapeFrom.CopyBasicFields(resourcecompositionshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if resourcecompositionshapeFrom.Resource != nil {
+		resourcecompositionshapeTo.Resource = CopyBranchResource(mapOrigCopy, resourcecompositionshapeFrom.Resource)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 	return
 }
@@ -1348,6 +1414,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Resource:
 		stage.UnstageBranchResource(target)
 
+	case *ResourceCompositionShape:
+		stage.UnstageBranchResourceCompositionShape(target)
+
 	case *ResourceShape:
 		stage.UnstageBranchResourceShape(target)
 
@@ -1437,6 +1506,9 @@ func (stage *Stage) UnstageBranchDiagram(diagram *Diagram) {
 	}
 	for _, _resource := range diagram.ResourcesWhoseNodeIsExpanded {
 		UnstageBranch(stage, _resource)
+	}
+	for _, _resourcecompositionshape := range diagram.ResourceComposition_Shapes {
+		UnstageBranch(stage, _resourcecompositionshape)
 	}
 	for _, _resourcetaskshape := range diagram.ResourceTaskShapes {
 		UnstageBranch(stage, _resourcetaskshape)
@@ -1627,6 +1699,24 @@ func (stage *Stage) UnstageBranchResource(resource *Resource) {
 	for _, _resource := range resource.SubResources {
 		UnstageBranch(stage, _resource)
 	}
+
+}
+
+func (stage *Stage) UnstageBranchResourceCompositionShape(resourcecompositionshape *ResourceCompositionShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, resourcecompositionshape) {
+		return
+	}
+
+	resourcecompositionshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if resourcecompositionshape.Resource != nil {
+		UnstageBranch(stage, resourcecompositionshape.Resource)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -2169,6 +2259,27 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 	if diagram.IsResourcesNodeExpanded != diagramOther.IsResourcesNodeExpanded {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "IsResourcesNodeExpanded"))
 	}
+	ResourceComposition_ShapesDifferent := false
+	if len(diagram.ResourceComposition_Shapes) != len(diagramOther.ResourceComposition_Shapes) {
+		ResourceComposition_ShapesDifferent = true
+	} else {
+		for i := range diagram.ResourceComposition_Shapes {
+			if (diagram.ResourceComposition_Shapes[i] == nil) != (diagramOther.ResourceComposition_Shapes[i] == nil) {
+				ResourceComposition_ShapesDifferent = true
+				break
+			} else if diagram.ResourceComposition_Shapes[i] != nil && diagramOther.ResourceComposition_Shapes[i] != nil {
+				// this is a pointer comparaison
+				if diagram.ResourceComposition_Shapes[i] != diagramOther.ResourceComposition_Shapes[i] {
+					ResourceComposition_ShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ResourceComposition_ShapesDifferent {
+		ops := Diff(stage, diagram, diagramOther, "ResourceComposition_Shapes", diagramOther.ResourceComposition_Shapes, diagram.ResourceComposition_Shapes)
+		diffs = append(diffs, ops)
+	}
 	ResourceTaskShapesDifferent := false
 	if len(diagram.ResourceTaskShapes) != len(diagramOther.ResourceTaskShapes) {
 		ResourceTaskShapesDifferent = true
@@ -2658,6 +2769,39 @@ func (resource *Resource) GongDiff(stage *Stage, resourceOther *Resource) (diffs
 	}
 	if resource.ComputedPrefix != resourceOther.ComputedPrefix {
 		diffs = append(diffs, resource.GongMarshallField(stage, "ComputedPrefix"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (resourcecompositionshape *ResourceCompositionShape) GongDiff(stage *Stage, resourcecompositionshapeOther *ResourceCompositionShape) (diffs []string) {
+	// insertion point for field diffs
+	if resourcecompositionshape.Name != resourcecompositionshapeOther.Name {
+		diffs = append(diffs, resourcecompositionshape.GongMarshallField(stage, "Name"))
+	}
+	if (resourcecompositionshape.Resource == nil) != (resourcecompositionshapeOther.Resource == nil) {
+		diffs = append(diffs, resourcecompositionshape.GongMarshallField(stage, "Resource"))
+	} else if resourcecompositionshape.Resource != nil && resourcecompositionshapeOther.Resource != nil {
+		if resourcecompositionshape.Resource != resourcecompositionshapeOther.Resource {
+			diffs = append(diffs, resourcecompositionshape.GongMarshallField(stage, "Resource"))
+		}
+	}
+	if resourcecompositionshape.StartRatio != resourcecompositionshapeOther.StartRatio {
+		diffs = append(diffs, resourcecompositionshape.GongMarshallField(stage, "StartRatio"))
+	}
+	if resourcecompositionshape.EndRatio != resourcecompositionshapeOther.EndRatio {
+		diffs = append(diffs, resourcecompositionshape.GongMarshallField(stage, "EndRatio"))
+	}
+	if resourcecompositionshape.StartOrientation != resourcecompositionshapeOther.StartOrientation {
+		diffs = append(diffs, resourcecompositionshape.GongMarshallField(stage, "StartOrientation"))
+	}
+	if resourcecompositionshape.EndOrientation != resourcecompositionshapeOther.EndOrientation {
+		diffs = append(diffs, resourcecompositionshape.GongMarshallField(stage, "EndOrientation"))
+	}
+	if resourcecompositionshape.CornerOffsetRatio != resourcecompositionshapeOther.CornerOffsetRatio {
+		diffs = append(diffs, resourcecompositionshape.GongMarshallField(stage, "CornerOffsetRatio"))
 	}
 
 	return
