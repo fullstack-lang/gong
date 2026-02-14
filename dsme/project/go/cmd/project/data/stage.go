@@ -754,7 +754,7 @@ another line-NewDiagram`
 	__Project__00000001_.ComputedPrefix = ``
 
 	__Project__00000002_.Name = `gong : persist stage.go as an history of commits  #934`
-	__Project__00000002_.IsExpanded = true
+	__Project__00000002_.IsExpanded = false
 	__Project__00000002_.ComputedPrefix = ``
 
 	__Resource__00000000_.Name = `T`
