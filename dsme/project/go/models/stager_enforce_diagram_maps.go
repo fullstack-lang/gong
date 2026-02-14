@@ -66,6 +66,13 @@ func (stager *Stager) enforceDiagramMaps() {
 			}
 		}
 
+		diagram.map_Resource_ResourceShape = make(map[*Resource]*ResourceShape)
+		for _, shape := range diagram.Resource_Shapes {
+			if shape.Resource != nil {
+				diagram.map_Resource_ResourceShape[shape.Resource] = shape
+			}
+		}
+
 		diagram.map_Resource_ResourceCompositionShape = make(map[*Resource]*ResourceCompositionShape)
 		for _, shape := range diagram.ResourceComposition_Shapes {
 			if shape.Resource != nil {
