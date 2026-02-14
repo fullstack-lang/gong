@@ -152,6 +152,8 @@ type Resource struct {
 
 	Tasks []*Task
 
+	SubResources []*Resource
+
 	AbstractTypeFields
 }
 
