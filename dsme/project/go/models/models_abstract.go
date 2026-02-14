@@ -12,14 +12,24 @@ type Root struct {
 type Project struct {
 	Name string
 
-	RootProducts []*Product
-	RootTasks    []*Task
-	Notes        []*Note
-	Resources    []*Resource
+	RootProducts  []*Product
+	RootTasks     []*Task
+	RootResources []*Resource
+
+	Notes []*Note
 
 	Diagrams []*Diagram
 
 	AbstractTypeFields
+}
+
+type AbstractType interface {
+	GongstructIF
+	GetIsExpanded() bool
+	SetIsExpanded(bool)
+	GetComputedPrefix() string
+	SetComputedPrefix(string)
+	GetComputedWidth() int
 }
 
 type AbstractTypeFields struct {
@@ -40,38 +50,9 @@ type Note struct {
 	Name string
 
 	Products []*Product
+	Tasks    []*Task
 
-	Tasks []*Task
-
-	IsExpanded bool
-}
-
-// GetComputedPrefix implements [AbstractType].
-func (note *Note) GetComputedPrefix() string {
-	return ""
-}
-
-// GetComputedWidth implements [AbstractType].
-func (note *Note) GetComputedWidth() int {
-	return 0
-}
-
-// GetIsExpanded implements [AbstractType].
-func (note *Note) GetIsExpanded() bool {
-	return note.IsExpanded
-}
-
-// SetComputedPrefix implements [AbstractType].
-func (note *Note) SetComputedPrefix(string) {
-}
-
-// SetIsExpanded implements [AbstractType].
-func (note *Note) SetIsExpanded(val bool) {
-	note.IsExpanded = val
-}
-
-// SetComputedWidth implements [AbstractType].
-func (note *Note) SetComputedWidth(int) {
+	AbstractTypeFields
 }
 
 func (r *AbstractTypeFields) GetComputedWidth() int {
@@ -153,13 +134,15 @@ type Product struct {
 	parentProduct *Product
 }
 
-type AbstractType interface {
-	GongstructIF
-	GetIsExpanded() bool
-	SetIsExpanded(bool)
-	GetComputedPrefix() string
-	SetComputedPrefix(string)
-	GetComputedWidth() int
+type Resource struct {
+	Name string
+
+	//gong:text width:300 height:300
+	Description string
+
+	Tasks []*Task
+
+	AbstractTypeFields
 }
 
 func (r *AbstractTypeFields) GetIsExpanded() bool {
@@ -185,14 +168,3 @@ var (
 	_ AbstractType = (*Note)(nil)
 	_ AbstractType = (*Resource)(nil)
 )
-
-type Resource struct {
-	Name string
-
-	//gong:text width:300 height:300
-	Description string
-
-	Tasks []*Task
-
-	AbstractTypeFields
-}

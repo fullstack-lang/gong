@@ -479,6 +479,8 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		GongUnmarshallSliceOfPointers(&instance.ResourcesWhoseNodeIsExpanded, valueExpr, identifierMap)
 	case "IsResourcesNodeExpanded":
 		instance.IsResourcesNodeExpanded = GongExtractBool(valueExpr)
+	case "ResourceTaskShapes":
+		GongUnmarshallSliceOfPointers(&instance.ResourceTaskShapes, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -514,6 +516,8 @@ func (u *NoteUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		GongUnmarshallSliceOfPointers(&instance.Tasks, valueExpr, identifierMap)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
+	case "ComputedPrefix":
+		instance.ComputedPrefix = GongExtractString(valueExpr)
 	}
 	return nil
 }
@@ -797,10 +801,10 @@ func (u *ProjectUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		GongUnmarshallSliceOfPointers(&instance.RootProducts, valueExpr, identifierMap)
 	case "RootTasks":
 		GongUnmarshallSliceOfPointers(&instance.RootTasks, valueExpr, identifierMap)
+	case "RootResources":
+		GongUnmarshallSliceOfPointers(&instance.RootResources, valueExpr, identifierMap)
 	case "Notes":
 		GongUnmarshallSliceOfPointers(&instance.Notes, valueExpr, identifierMap)
-	case "Resources":
-		GongUnmarshallSliceOfPointers(&instance.Resources, valueExpr, identifierMap)
 	case "Diagrams":
 		GongUnmarshallSliceOfPointers(&instance.Diagrams, valueExpr, identifierMap)
 	case "IsExpanded":

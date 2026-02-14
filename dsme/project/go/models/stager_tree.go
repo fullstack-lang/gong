@@ -184,7 +184,7 @@ func (stager *Stager) tree() {
 
 			for _, note := range project.Notes {
 				noteNode := &tree.Node{
-					Name:            note.Name,
+					Name:            note.ComputedPrefix + " " + note.Name,
 					IsNodeClickable: true,
 
 					HasCheckboxButton:  true,
@@ -304,9 +304,9 @@ func (stager *Stager) tree() {
 				OnUpdate: stager.OnUpdateExpansion(&diagram.IsResourcesNodeExpanded),
 			}
 
-			addAddItemButton(stager, nil, nil, &diagram.IsResourcesNodeExpanded, resourcesNode, &project.Resources, diagram, &diagram.Resource_Shapes, &diagram.ResourceTaskShapes)
+			addAddItemButton(stager, nil, nil, &diagram.IsResourcesNodeExpanded, resourcesNode, &project.RootResources, diagram, &diagram.Resource_Shapes, &diagram.ResourceTaskShapes)
 
-			for _, resource := range project.Resources {
+			for _, resource := range project.RootResources {
 				resourceNode := &tree.Node{
 					Name:            resource.Name,
 					IsNodeClickable: true,
