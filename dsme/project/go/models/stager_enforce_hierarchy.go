@@ -91,6 +91,7 @@ func (stager *Stager) enforceHierarchy() (needCommit bool) {
 	for _, project := range root.Projects {
 		verifyProductHierarchy(&project.RootProducts, nil)
 		verifyTaskHierarchy(&project.RootTasks, nil)
+		verifyResourceHierarchy(&project.RootResources, nil)
 	}
 
 	return
