@@ -34,9 +34,12 @@ func (stager *Stager) svg() {
 	diagram.map_Product_Rect = make(map[*Product]*svg.Rect)
 	diagram.map_Task_Rect = make(map[*Task]*svg.Rect)
 	diagram.map_Note_Rect = make(map[*Note]*svg.Rect)
+	diagram.map_Resource_Rect = make(map[*Resource]*svg.Rect)
+
 	diagram.map_SvgRect_ProductShape = make(map[*svg.Rect]*ProductShape)
 	diagram.map_SvgRect_TaskShape = make(map[*svg.Rect]*TaskShape)
 	diagram.map_SvgRect_NoteShape = make(map[*svg.Rect]*NoteShape)
+	diagram.map_SvgRect_ResourceShape = make(map[*svg.Rect]*ResourceShape)
 
 	// to implement association between abstract elements by mouse drag
 	svgImpl := &svgProxy{
@@ -274,6 +277,34 @@ func (stager *Stager) svg() {
 		link.StartAnchorType = svg.ANCHOR_CENTER
 		link.EndAnchorType = svg.ANCHOR_CENTER
 		link.HasEndArrow = false
+	}
+
+	for _, resourceShape := range diagram.Resource_Shapes {
+		rect := svgRect(
+			stager,
+			diagram,
+			resourceShape,
+			layer)
+		diagram.map_Resource_Rect[resourceShape.Resource] = rect
+		diagram.map_SvgRect_ResourceShape[rect] = resourceShape
+	}
+
+	for _, resourceCompositionShape := range diagram.ResourceComposition_Shapes {
+		subResource := resourceCompositionShape.Resource
+		parentResource := subResource.parentResource
+		if subResource == nil || parentResource == nil {
+			log.Panic("There should be a subResource and a parentResource")
+		}
+		startRect := diagram.map_Resource_Rect[parentResource]
+		endRect := diagram.map_Resource_Rect[subResource]
+		svgAssociationLink(
+			stager,
+			startRect, endRect,
+			resourceCompositionShape,
+			parentResource,
+			layer,
+			false,
+		)
 	}
 
 	svg.StageBranch(svgStage, svgObject)
