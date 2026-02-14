@@ -130,6 +130,7 @@ func (project *Project) GongClean(stage *Stage) (modified bool) {
 func (resource *Resource) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = GongCleanSlice(stage, &resource.Tasks) || modified
+	modified = GongCleanSlice(stage, &resource.SubResources) || modified
 	// insertion point per field
 	return
 }

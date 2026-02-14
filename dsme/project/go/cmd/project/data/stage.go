@@ -212,23 +212,23 @@ This has lot of lines of explaining
 
 another line`
 	__Note__00000000_.IsExpanded = false
-	__Note__00000000_.ComputedPrefix = ``
+	__Note__00000000_.ComputedPrefix = `1`
 
 	__Note__00000001_.Name = `Second Note`
 	__Note__00000001_.IsExpanded = false
-	__Note__00000001_.ComputedPrefix = ``
+	__Note__00000001_.ComputedPrefix = `2`
 
 	__Note__00000002_.Name = `The algo uses the stage.reference to computes all new/deleted/modified instances of the stage`
 	__Note__00000002_.IsExpanded = false
-	__Note__00000002_.ComputedPrefix = ``
+	__Note__00000002_.ComputedPrefix = `1`
 
 	__Note__00000003_.Name = `The probe Notfication Table Allows the verification of commit diff`
 	__Note__00000003_.IsExpanded = false
-	__Note__00000003_.ComputedPrefix = ``
+	__Note__00000003_.ComputedPrefix = `2`
 
 	__Note__00000004_.Name = `https://github.com/fullstack-lang/gong/issues/998`
 	__Note__00000004_.IsExpanded = false
-	__Note__00000004_.ComputedPrefix = ``
+	__Note__00000004_.ComputedPrefix = `3`
 
 	__NoteProductShape__00000001_.Name = `The probe Notfication Table Allows the verification of commit diff to Probe display the marshalled commit`
 	__NoteProductShape__00000001_.StartRatio = 0.500000
@@ -760,12 +760,12 @@ another line-NewDiagram`
 	__Resource__00000000_.Name = `T`
 	__Resource__00000000_.Description = ``
 	__Resource__00000000_.IsExpanded = false
-	__Resource__00000000_.ComputedPrefix = ``
+	__Resource__00000000_.ComputedPrefix = `1`
 
 	__Resource__00000001_.Name = `NewResource`
 	__Resource__00000001_.Description = ``
 	__Resource__00000001_.IsExpanded = false
-	__Resource__00000001_.ComputedPrefix = ``
+	__Resource__00000001_.ComputedPrefix = `2`
 
 	__ResourceShape__00000000_.Name = `NewResource-Work diagram x`
 	__ResourceShape__00000000_.IsExpanded = false

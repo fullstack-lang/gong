@@ -572,6 +572,9 @@ func (stage *Stage) StageBranchResource(resource *Resource) {
 	for _, _task := range resource.Tasks {
 		StageBranch(stage, _task)
 	}
+	for _, _resource := range resource.SubResources {
+		StageBranch(stage, _resource)
+	}
 
 }
 
@@ -1109,6 +1112,9 @@ func CopyBranchResource(mapOrigCopy map[any]any, resourceFrom *Resource) (resour
 	for _, _task := range resourceFrom.Tasks {
 		resourceTo.Tasks = append(resourceTo.Tasks, CopyBranchTask(mapOrigCopy, _task))
 	}
+	for _, _resource := range resourceFrom.SubResources {
+		resourceTo.SubResources = append(resourceTo.SubResources, CopyBranchResource(mapOrigCopy, _resource))
+	}
 
 	return
 }
@@ -1617,6 +1623,9 @@ func (stage *Stage) UnstageBranchResource(resource *Resource) {
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _task := range resource.Tasks {
 		UnstageBranch(stage, _task)
+	}
+	for _, _resource := range resource.SubResources {
+		UnstageBranch(stage, _resource)
 	}
 
 }
@@ -2621,6 +2630,27 @@ func (resource *Resource) GongDiff(stage *Stage, resourceOther *Resource) (diffs
 	}
 	if TasksDifferent {
 		ops := Diff(stage, resource, resourceOther, "Tasks", resourceOther.Tasks, resource.Tasks)
+		diffs = append(diffs, ops)
+	}
+	SubResourcesDifferent := false
+	if len(resource.SubResources) != len(resourceOther.SubResources) {
+		SubResourcesDifferent = true
+	} else {
+		for i := range resource.SubResources {
+			if (resource.SubResources[i] == nil) != (resourceOther.SubResources[i] == nil) {
+				SubResourcesDifferent = true
+				break
+			} else if resource.SubResources[i] != nil && resourceOther.SubResources[i] != nil {
+				// this is a pointer comparaison
+				if resource.SubResources[i] != resourceOther.SubResources[i] {
+					SubResourcesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if SubResourcesDifferent {
+		ops := Diff(stage, resource, resourceOther, "SubResources", resourceOther.SubResources, resource.SubResources)
 		diffs = append(diffs, ops)
 	}
 	if resource.IsExpanded != resourceOther.IsExpanded {

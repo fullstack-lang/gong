@@ -447,6 +447,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(resource.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(resource.GongMarshallField(stage, "Description"))
 		pointersInitializesStatements.WriteString(resource.GongMarshallField(stage, "Tasks"))
+		pointersInitializesStatements.WriteString(resource.GongMarshallField(stage, "SubResources"))
 		initializerStatements.WriteString(resource.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(resource.GongMarshallField(stage, "ComputedPrefix"))
 	}
@@ -1697,6 +1698,16 @@ func (resource *Resource) GongMarshallField(stage *Stage, fieldName string) (res
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
+	case "SubResources":
+		var sb strings.Builder
+		for _, _resource := range resource.SubResources {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", resource.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "SubResources")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _resource.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Resource", fieldName)
 	}
@@ -2428,6 +2439,7 @@ func (resource *Resource) GongMarshallAllFields(stage *Stage) (initRes string, p
 		initializerStatements.WriteString(resource.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(resource.GongMarshallField(stage, "Description"))
 		pointersInitializesStatements.WriteString(resource.GongMarshallField(stage, "Tasks"))
+		pointersInitializesStatements.WriteString(resource.GongMarshallField(stage, "SubResources"))
 		initializerStatements.WriteString(resource.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(resource.GongMarshallField(stage, "ComputedPrefix"))
 	}
