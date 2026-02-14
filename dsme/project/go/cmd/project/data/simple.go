@@ -43,6 +43,9 @@ func _(stage *models.Stage) {
 	__Resource__00000001_ := (&models.Resource{Name: `R1.1`}).Stage(stage)
 	__Resource__00000002_ := (&models.Resource{Name: `R1.2`}).Stage(stage)
 
+	__ResourceCompositionShape__00000000_ := (&models.ResourceCompositionShape{Name: `R1 to R1.1`}).Stage(stage)
+	__ResourceCompositionShape__00000001_ := (&models.ResourceCompositionShape{Name: `R1 to R1.2`}).Stage(stage)
+
 	__ResourceShape__00000000_ := (&models.ResourceShape{Name: `NewResource-Default Diagram`}).Stage(stage)
 	__ResourceShape__00000001_ := (&models.ResourceShape{Name: `NewResource-Default Diagram`}).Stage(stage)
 	__ResourceShape__00000002_ := (&models.ResourceShape{Name: `NewResource-Default Diagram`}).Stage(stage)
@@ -50,7 +53,7 @@ func _(stage *models.Stage) {
 	__Root__00000000_ := (&models.Root{Name: `Root`}).Stage(stage)
 
 	__Task__00000000_ := (&models.Task{Name: `T1`}).Stage(stage)
-	__Task__00000001_ := (&models.Task{Name: `NewTask`}).Stage(stage)
+	__Task__00000001_ := (&models.Task{Name: `T1.1`}).Stage(stage)
 
 	__TaskCompositionShape__00000000_ := (&models.TaskCompositionShape{Name: `T1 to NewTask`}).Stage(stage)
 
@@ -69,7 +72,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.IsExpanded = true
 	__Diagram__00000000_.ComputedPrefix = ``
 	__Diagram__00000000_.IsPBSNodeExpanded = true
-	__Diagram__00000000_.IsWBSNodeExpanded = true
+	__Diagram__00000000_.IsWBSNodeExpanded = false
 	__Diagram__00000000_.IsNotesNodeExpanded = true
 	__Diagram__00000000_.IsResourcesNodeExpanded = true
 
@@ -79,8 +82,8 @@ func _(stage *models.Stage) {
 
 	__NoteShape__00000000_.Name = `NewNote-Default Diagram`
 	__NoteShape__00000000_.IsExpanded = false
-	__NoteShape__00000000_.X = 39.497483
-	__NoteShape__00000000_.Y = 321.852682
+	__NoteShape__00000000_.X = 292.643327
+	__NoteShape__00000000_.Y = 363.847494
 	__NoteShape__00000000_.Width = 250.000000
 	__NoteShape__00000000_.Height = 50.000000
 
@@ -138,6 +141,20 @@ func _(stage *models.Stage) {
 	__Resource__00000002_.IsExpanded = false
 	__Resource__00000002_.ComputedPrefix = `1.2`
 
+	__ResourceCompositionShape__00000000_.Name = `R1 to R1.1`
+	__ResourceCompositionShape__00000000_.StartRatio = 0.500000
+	__ResourceCompositionShape__00000000_.EndRatio = 0.500000
+	__ResourceCompositionShape__00000000_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000000_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000000_.CornerOffsetRatio = 1.680000
+
+	__ResourceCompositionShape__00000001_.Name = `R1 to R1.2`
+	__ResourceCompositionShape__00000001_.StartRatio = 0.235952
+	__ResourceCompositionShape__00000001_.EndRatio = 0.188280
+	__ResourceCompositionShape__00000001_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000001_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceCompositionShape__00000001_.CornerOffsetRatio = 0.097994
+
 	__ResourceShape__00000000_.Name = `NewResource-Default Diagram`
 	__ResourceShape__00000000_.IsExpanded = false
 	__ResourceShape__00000000_.X = 25.501544
@@ -147,15 +164,15 @@ func _(stage *models.Stage) {
 
 	__ResourceShape__00000001_.Name = `NewResource-Default Diagram`
 	__ResourceShape__00000001_.IsExpanded = false
-	__ResourceShape__00000001_.X = 167.876437
-	__ResourceShape__00000001_.Y = 552.483878
+	__ResourceShape__00000001_.X = 161.876437
+	__ResourceShape__00000001_.Y = 584.483878
 	__ResourceShape__00000001_.Width = 250.000000
 	__ResourceShape__00000001_.Height = 55.000000
 
 	__ResourceShape__00000002_.Name = `NewResource-Default Diagram`
 	__ResourceShape__00000002_.IsExpanded = false
-	__ResourceShape__00000002_.X = 158.862056
-	__ResourceShape__00000002_.Y = 639.845003
+	__ResourceShape__00000002_.X = 149.862056
+	__ResourceShape__00000002_.Y = 683.845003
 	__ResourceShape__00000002_.Width = 250.000000
 	__ResourceShape__00000002_.Height = 54.000000
 
@@ -171,7 +188,7 @@ func _(stage *models.Stage) {
 	__Task__00000000_.IsWithCompletion = false
 	__Task__00000000_.Completion = ""
 
-	__Task__00000001_.Name = `NewTask`
+	__Task__00000001_.Name = `T1.1`
 	__Task__00000001_.Description = ``
 	__Task__00000001_.IsExpanded = false
 	__Task__00000001_.ComputedPrefix = `1.1`
@@ -197,9 +214,9 @@ func _(stage *models.Stage) {
 	__TaskShape__00000001_.Name = `NewTask-Default Diagram`
 	__TaskShape__00000001_.IsExpanded = false
 	__TaskShape__00000001_.X = 33.604908
-	__TaskShape__00000001_.Y = 342.374505
+	__TaskShape__00000001_.Y = 341.374505
 	__TaskShape__00000001_.Width = 250.000000
-	__TaskShape__00000001_.Height = 100.000000
+	__TaskShape__00000001_.Height = 55.000000
 
 	// insertion point for setup of pointers
 	__Diagram__00000000_.Product_Shapes = append(__Diagram__00000000_.Product_Shapes, __ProductShape__00000000_)
@@ -215,6 +232,8 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.Resource_Shapes = append(__Diagram__00000000_.Resource_Shapes, __ResourceShape__00000001_)
 	__Diagram__00000000_.Resource_Shapes = append(__Diagram__00000000_.Resource_Shapes, __ResourceShape__00000002_)
 	__Diagram__00000000_.ResourcesWhoseNodeIsExpanded = append(__Diagram__00000000_.ResourcesWhoseNodeIsExpanded, __Resource__00000000_)
+	__Diagram__00000000_.ResourceComposition_Shapes = append(__Diagram__00000000_.ResourceComposition_Shapes, __ResourceCompositionShape__00000000_)
+	__Diagram__00000000_.ResourceComposition_Shapes = append(__Diagram__00000000_.ResourceComposition_Shapes, __ResourceCompositionShape__00000001_)
 	__NoteShape__00000000_.Note = __Note__00000000_
 	__Product__00000000_.SubProducts = append(__Product__00000000_.SubProducts, __Product__00000001_)
 	__ProductCompositionShape__00000000_.Product = __Product__00000001_
@@ -227,6 +246,8 @@ func _(stage *models.Stage) {
 	__Project__00000000_.Diagrams = append(__Project__00000000_.Diagrams, __Diagram__00000000_)
 	__Resource__00000000_.SubResources = append(__Resource__00000000_.SubResources, __Resource__00000001_)
 	__Resource__00000000_.SubResources = append(__Resource__00000000_.SubResources, __Resource__00000002_)
+	__ResourceCompositionShape__00000000_.Resource = __Resource__00000001_
+	__ResourceCompositionShape__00000001_.Resource = __Resource__00000002_
 	__ResourceShape__00000000_.Resource = __Resource__00000000_
 	__ResourceShape__00000001_.Resource = __Resource__00000001_
 	__ResourceShape__00000002_.Resource = __Resource__00000002_
