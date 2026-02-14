@@ -32,7 +32,7 @@ func _(stage *models.Stage) {
 	__Product__00000000_ := (&models.Product{Name: `P1`}).Stage(stage)
 	__Product__00000001_ := (&models.Product{Name: `P1.1`}).Stage(stage)
 
-	__ProductCompositionShape__00000000_ := (&models.ProductCompositionShape{Name: `P1 to NewProduct`}).Stage(stage)
+	__ProductCompositionShape__00000000_ := (&models.ProductCompositionShape{Name: `P1 to P1.1`}).Stage(stage)
 
 	__ProductShape__00000000_ := (&models.ProductShape{Name: `NewProduct-Default Diagram`}).Stage(stage)
 	__ProductShape__00000001_ := (&models.ProductShape{Name: `NewProduct-Default Diagram`}).Stage(stage)
@@ -46,13 +46,16 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000000_ := (&models.ResourceShape{Name: `NewResource-Default Diagram`}).Stage(stage)
 	__ResourceShape__00000001_ := (&models.ResourceShape{Name: `NewResource-Default Diagram`}).Stage(stage)
 	__ResourceShape__00000002_ := (&models.ResourceShape{Name: `NewResource-Default Diagram`}).Stage(stage)
-	__ResourceShape__00000003_ := (&models.ResourceShape{Name: `R1-Default Diagram`}).Stage(stage)
 
 	__Root__00000000_ := (&models.Root{Name: `Root`}).Stage(stage)
 
 	__Task__00000000_ := (&models.Task{Name: `T1`}).Stage(stage)
+	__Task__00000001_ := (&models.Task{Name: `NewTask`}).Stage(stage)
+
+	__TaskCompositionShape__00000000_ := (&models.TaskCompositionShape{Name: `T1 to NewTask`}).Stage(stage)
 
 	__TaskShape__00000000_ := (&models.TaskShape{Name: `NewTask-Default Diagram`}).Stage(stage)
+	__TaskShape__00000001_ := (&models.TaskShape{Name: `NewTask-Default Diagram`}).Stage(stage)
 
 	// insertion point for initialization of values
 
@@ -95,7 +98,7 @@ func _(stage *models.Stage) {
 	__Product__00000001_.IsProducersNodeExpanded = false
 	__Product__00000001_.IsConsumersNodeExpanded = false
 
-	__ProductCompositionShape__00000000_.Name = `P1 to NewProduct`
+	__ProductCompositionShape__00000000_.Name = `P1 to P1.1`
 	__ProductCompositionShape__00000000_.StartRatio = 0.500000
 	__ProductCompositionShape__00000000_.EndRatio = 0.500000
 	__ProductCompositionShape__00000000_.StartOrientation = models.ORIENTATION_VERTICAL
@@ -156,13 +159,6 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000002_.Width = 250.000000
 	__ResourceShape__00000002_.Height = 54.000000
 
-	__ResourceShape__00000003_.Name = `R1-Default Diagram`
-	__ResourceShape__00000003_.IsExpanded = false
-	__ResourceShape__00000003_.X = 156.475207
-	__ResourceShape__00000003_.Y = 168.964625
-	__ResourceShape__00000003_.Width = 250.000000
-	__ResourceShape__00000003_.Height = 100.000000
-
 	__Root__00000000_.Name = `Root`
 	__Root__00000000_.NbPixPerCharacter = 8.000000
 
@@ -175,6 +171,22 @@ func _(stage *models.Stage) {
 	__Task__00000000_.IsWithCompletion = false
 	__Task__00000000_.Completion = ""
 
+	__Task__00000001_.Name = `NewTask`
+	__Task__00000001_.Description = ``
+	__Task__00000001_.IsExpanded = false
+	__Task__00000001_.ComputedPrefix = `1.1`
+	__Task__00000001_.IsInputsNodeExpanded = false
+	__Task__00000001_.IsOutputsNodeExpanded = false
+	__Task__00000001_.IsWithCompletion = false
+	__Task__00000001_.Completion = ""
+
+	__TaskCompositionShape__00000000_.Name = `T1 to NewTask`
+	__TaskCompositionShape__00000000_.StartRatio = 0.500000
+	__TaskCompositionShape__00000000_.EndRatio = 0.500000
+	__TaskCompositionShape__00000000_.StartOrientation = models.ORIENTATION_VERTICAL
+	__TaskCompositionShape__00000000_.EndOrientation = models.ORIENTATION_VERTICAL
+	__TaskCompositionShape__00000000_.CornerOffsetRatio = 1.680000
+
 	__TaskShape__00000000_.Name = `NewTask-Default Diagram`
 	__TaskShape__00000000_.IsExpanded = false
 	__TaskShape__00000000_.X = 33.604908
@@ -182,17 +194,26 @@ func _(stage *models.Stage) {
 	__TaskShape__00000000_.Width = 250.000000
 	__TaskShape__00000000_.Height = 58.000000
 
+	__TaskShape__00000001_.Name = `NewTask-Default Diagram`
+	__TaskShape__00000001_.IsExpanded = false
+	__TaskShape__00000001_.X = 33.604908
+	__TaskShape__00000001_.Y = 342.374505
+	__TaskShape__00000001_.Width = 250.000000
+	__TaskShape__00000001_.Height = 100.000000
+
 	// insertion point for setup of pointers
 	__Diagram__00000000_.Product_Shapes = append(__Diagram__00000000_.Product_Shapes, __ProductShape__00000000_)
 	__Diagram__00000000_.Product_Shapes = append(__Diagram__00000000_.Product_Shapes, __ProductShape__00000001_)
 	__Diagram__00000000_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000000_.ProductsWhoseNodeIsExpanded, __Product__00000000_)
 	__Diagram__00000000_.ProductComposition_Shapes = append(__Diagram__00000000_.ProductComposition_Shapes, __ProductCompositionShape__00000000_)
 	__Diagram__00000000_.Task_Shapes = append(__Diagram__00000000_.Task_Shapes, __TaskShape__00000000_)
+	__Diagram__00000000_.Task_Shapes = append(__Diagram__00000000_.Task_Shapes, __TaskShape__00000001_)
+	__Diagram__00000000_.TasksWhoseNodeIsExpanded = append(__Diagram__00000000_.TasksWhoseNodeIsExpanded, __Task__00000000_)
+	__Diagram__00000000_.TaskComposition_Shapes = append(__Diagram__00000000_.TaskComposition_Shapes, __TaskCompositionShape__00000000_)
 	__Diagram__00000000_.Note_Shapes = append(__Diagram__00000000_.Note_Shapes, __NoteShape__00000000_)
 	__Diagram__00000000_.Resource_Shapes = append(__Diagram__00000000_.Resource_Shapes, __ResourceShape__00000000_)
 	__Diagram__00000000_.Resource_Shapes = append(__Diagram__00000000_.Resource_Shapes, __ResourceShape__00000001_)
 	__Diagram__00000000_.Resource_Shapes = append(__Diagram__00000000_.Resource_Shapes, __ResourceShape__00000002_)
-	__Diagram__00000000_.Resource_Shapes = append(__Diagram__00000000_.Resource_Shapes, __ResourceShape__00000003_)
 	__Diagram__00000000_.ResourcesWhoseNodeIsExpanded = append(__Diagram__00000000_.ResourcesWhoseNodeIsExpanded, __Resource__00000000_)
 	__NoteShape__00000000_.Note = __Note__00000000_
 	__Product__00000000_.SubProducts = append(__Product__00000000_.SubProducts, __Product__00000001_)
@@ -209,7 +230,9 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000000_.Resource = __Resource__00000000_
 	__ResourceShape__00000001_.Resource = __Resource__00000001_
 	__ResourceShape__00000002_.Resource = __Resource__00000002_
-	__ResourceShape__00000003_.Resource = __Resource__00000000_
 	__Root__00000000_.Projects = append(__Root__00000000_.Projects, __Project__00000000_)
+	__Task__00000000_.SubTasks = append(__Task__00000000_.SubTasks, __Task__00000001_)
+	__TaskCompositionShape__00000000_.Task = __Task__00000001_
 	__TaskShape__00000000_.Task = __Task__00000000_
+	__TaskShape__00000001_.Task = __Task__00000001_
 }
