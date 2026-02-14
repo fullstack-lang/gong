@@ -215,6 +215,22 @@ func (inst *Resource) GongGetReverseFieldOwnerName(stage *Stage, reverseField *R
 	return
 }
 
+func (inst *ResourceCompositionShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "Diagram":
+		switch reverseField.Fieldname {
+		case "ResourceComposition_Shapes":
+			if _diagram, ok := stage.Diagram_ResourceComposition_Shapes_reverseMap[inst]; ok {
+				res = _diagram.Name
+			}
+		}
+	}
+	return
+}
+
 func (inst *ResourceShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -545,6 +561,20 @@ func (inst *Resource) GongGetReverseFieldOwner(stage *Stage, reverseField *Rever
 		switch reverseField.Fieldname {
 		case "SubResources":
 			res = stage.Resource_SubResources_reverseMap[inst]
+		}
+	}
+	return res
+}
+
+func (inst *ResourceCompositionShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	case "Diagram":
+		switch reverseField.Fieldname {
+		case "ResourceComposition_Shapes":
+			res = stage.Diagram_ResourceComposition_Shapes_reverseMap[inst]
 		}
 	}
 	return res

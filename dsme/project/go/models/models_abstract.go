@@ -154,6 +154,12 @@ type Resource struct {
 
 	SubResources []*Resource
 
+	// parentResource is a computed field
+	// since a Resource belongs to at most one RBS,
+	// a parentResource is computed at each UX look. It can be null if the
+	// resource is a root resource or an orphaned resource
+	parentResource *Resource
+
 	AbstractTypeFields
 }
 

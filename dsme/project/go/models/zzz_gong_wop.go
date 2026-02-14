@@ -266,6 +266,32 @@ func (from *Resource) CopyBasicFields(to *Resource) {
 	to.ComputedPrefix = from.ComputedPrefix
 }
 
+type ResourceCompositionShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	StartRatio float64
+
+	EndRatio float64
+
+	StartOrientation OrientationType
+
+	EndOrientation OrientationType
+
+	CornerOffsetRatio float64
+}
+
+func (from *ResourceCompositionShape) CopyBasicFields(to *ResourceCompositionShape) {
+	// insertion point
+	to.Name = from.Name
+	to.StartRatio = from.StartRatio
+	to.EndRatio = from.EndRatio
+	to.StartOrientation = from.StartOrientation
+	to.EndOrientation = from.EndOrientation
+	to.CornerOffsetRatio = from.CornerOffsetRatio
+}
+
 type ResourceShape_WOP struct {
 	// insertion point
 

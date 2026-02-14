@@ -80,6 +80,9 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 	if nodeImplGongstruct.gongStruct.GetName() == "Resource" {
 		updateProbeTable[*models.Resource](nodeImplGongstruct.probe)
 	}
+	if nodeImplGongstruct.gongStruct.GetName() == "ResourceCompositionShape" {
+		updateProbeTable[*models.ResourceCompositionShape](nodeImplGongstruct.probe)
+	}
 	if nodeImplGongstruct.gongStruct.GetName() == "ResourceShape" {
 		updateProbeTable[*models.ResourceShape](nodeImplGongstruct.probe)
 	}

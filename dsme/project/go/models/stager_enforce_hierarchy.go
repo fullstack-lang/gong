@@ -19,10 +19,9 @@ func (stager *Stager) enforceHierarchy() (needCommit bool) {
 	// not necessary as we will traverse the whole graph
 
 	// 2. Traverse the graph and check for uniqueness
-	visitedProducts := make(map[*Product]struct{})
-	visitedTasks := make(map[*Task]struct{})
 
 	// helper for products
+	visitedProducts := make(map[*Product]struct{})
 	var verifyProductHierarchy func(products *[]*Product, parent *Product)
 	verifyProductHierarchy = func(products *[]*Product, parent *Product) {
 		for i := len(*products) - 1; i >= 0; i-- {
@@ -43,6 +42,7 @@ func (stager *Stager) enforceHierarchy() (needCommit bool) {
 	}
 
 	// helper for tasks
+	visitedTasks := make(map[*Task]struct{})
 	var verifyTaskHierarchy func(tasks *[]*Task, parent *Task)
 	verifyTaskHierarchy = func(tasks *[]*Task, parent *Task) {
 		for i := len(*tasks) - 1; i >= 0; i-- {
@@ -58,6 +58,32 @@ func (stager *Stager) enforceHierarchy() (needCommit bool) {
 				visitedTasks[task] = struct{}{}
 				task.parentTask = parent
 				verifyTaskHierarchy(&task.SubTasks, task)
+			}
+		}
+	}
+
+	visitedResources := make(map[*Resource]struct{})
+	var verifyResourceHierarchy func(resources *[]*Resource, parent *Resource)
+	verifyResourceHierarchy = func(resources *[]*Resource, parent *Resource) {
+		for i := len(*resources) - 1; i >= 0; i-- {
+			resource := (*resources)[i]
+
+			if resource == nil {
+				// remove nil resource
+				*resources = slices.Delete(*resources, i, i+1)
+				stager.probeForm.AddNotification(time.Now(),
+					fmt.Sprintf("Nil resource found in the hierarchy, removing it"))
+				needCommit = true
+			} else if _, ok := visitedResources[resource]; ok {
+				// already present in the hierarchy, remove it
+				*resources = slices.Delete(*resources, i, i+1)
+				stager.probeForm.AddNotification(time.Now(),
+					fmt.Sprintf("Resource %s is already present in the hierarchy, removing it", resource.Name))
+				needCommit = true
+			} else {
+				visitedResources[resource] = struct{}{}
+				resource.parentResource = parent
+				verifyResourceHierarchy(&resource.SubResources, resource)
 			}
 		}
 	}
