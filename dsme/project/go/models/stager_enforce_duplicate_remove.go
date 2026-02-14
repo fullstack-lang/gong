@@ -23,6 +23,7 @@ func (stager *Stager) enforceDuplicateRemove() (needCommit bool) {
 	for project := range stage.Projects {
 		needCommit = removeDuplicatesSlice(stager, &project.RootProducts) || needCommit
 		needCommit = removeDuplicatesSlice(stager, &project.RootTasks) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &project.RootResources) || needCommit
 		needCommit = removeDuplicatesSlice(stager, &project.Notes) || needCommit
 	}
 
@@ -39,6 +40,11 @@ func (stager *Stager) enforceDuplicateRemove() (needCommit bool) {
 	for note := range stage.Notes {
 		needCommit = removeDuplicatesSlice(stager, &note.Products) || needCommit
 		needCommit = removeDuplicatesSlice(stager, &note.Tasks) || needCommit
+	}
+
+	for resource := range stage.Resources {
+		needCommit = removeDuplicatesSlice(stager, &resource.SubResources) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &resource.Tasks) || needCommit
 	}
 
 	return
