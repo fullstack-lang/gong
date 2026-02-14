@@ -30,6 +30,8 @@ type AbstractType interface {
 	GetComputedPrefix() string
 	SetComputedPrefix(string)
 	GetComputedWidth() int
+	SetComputedWidth(int)
+	SetComputedPrefixInt([]int)
 }
 
 type AbstractTypeFields struct {
@@ -57,6 +59,14 @@ type Note struct {
 
 func (r *AbstractTypeFields) GetComputedWidth() int {
 	return r.computedWidth
+}
+
+func (r *AbstractTypeFields) SetComputedWidth(w int) {
+	r.computedWidth = w
+}
+
+func (r *AbstractTypeFields) SetComputedPrefixInt(p []int) {
+	r.computedPrefix = p
 }
 
 type Task struct {
