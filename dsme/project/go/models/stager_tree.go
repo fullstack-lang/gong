@@ -307,35 +307,7 @@ func (stager *Stager) tree() {
 			addAddItemButton(stager, nil, nil, &diagram.IsResourcesNodeExpanded, resourcesNode, &project.RootResources, diagram, &diagram.Resource_Shapes, &diagram.ResourceTaskShapes)
 
 			for _, resource := range project.RootResources {
-				resourceNode := &tree.Node{
-					Name:            resource.Name,
-					IsNodeClickable: true,
-
-					HasCheckboxButton:  true,
-					IsCheckboxDisabled: !diagram.IsChecked,
-
-					HasToolTip:      true,
-					ToolTipPosition: tree.Above,
-					ToolTipText:     "Add resource to diagram",
-
-					IsExpanded: slices.Index(diagram.ResourcesWhoseNodeIsExpanded, resource) != -1,
-				}
-				resourcesNode.Children = append(resourcesNode.Children, resourceNode)
-
-				if _, ok := diagram.map_Resource_ResourceShape[resource]; ok {
-					resourceNode.IsChecked = true
-				}
-
-				// what to do when the resource node is clicked
-				resourceNode.Impl = &tree.FunctionalNodeProxy{
-					OnUpdate: onUpdateElementInDiagram(
-						stager,
-						diagram,
-						resource,
-						&diagram.ResourcesWhoseNodeIsExpanded,
-						&diagram.Resource_Shapes,
-						&diagram.map_Resource_ResourceShape),
-				}
+				stager.treeRBSinDiagram(diagram, resource, resourcesNode)
 			}
 
 		}
