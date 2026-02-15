@@ -9,74 +9,17 @@ import (
 )
 
 func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode *tree.Node) {
-	taskNode := &tree.Node{
-		Name:         task.Name,
-		IsWithPrefix: true,
-		Prefix:       task.ComputedPrefix,
-
-		IsExpanded: slices.Index(diagram.TasksWhoseNodeIsExpanded, task) != -1,
-
-		HasCheckboxButton:  true,
-		IsCheckboxDisabled: !diagram.IsChecked,
-
-		HasToolTip:      true,
-		ToolTipPosition: tree.Above,
-		ToolTipText:     "Add task to diagram",
-
-		IsNodeClickable: true,
-
-		IsInEditMode: task.IsInRenameMode,
-	}
-	parentNode.Children = append(parentNode.Children, taskNode)
-
-	if !task.IsInRenameMode {
-		taskNode.Buttons = append(taskNode.Buttons,
-			&tree.Button{
-				Name: task.GetName() + " " + string(buttons.BUTTON_edit_note),
-				Icon: string(buttons.BUTTON_edit_note),
-				Impl: &tree.FunctionalButtonProxy{
-					OnUpdated: func(stage *tree.Stage, button, updatedButton *tree.Button) {
-						task.IsInRenameMode = true
-						stager.stage.Commit()
-					},
-				},
-				HasToolTip:      true,
-				ToolTipText:     "Rename the task",
-				ToolTipPosition: tree.Above,
-			})
-	} else {
-		taskNode.Buttons = append(taskNode.Buttons,
-			&tree.Button{
-				Name: task.GetName() + " " + string(buttons.BUTTON_edit_off),
-				Icon: string(buttons.BUTTON_edit_off),
-				Impl: &tree.FunctionalButtonProxy{
-					OnUpdated: func(stage *tree.Stage, button, updatedButton *tree.Button) {
-						task.IsInRenameMode = false
-						stager.stage.Commit()
-					},
-				},
-				HasToolTip:      true,
-				ToolTipText:     "Cancel renaming",
-				ToolTipPosition: tree.Above,
-			})
-	}
+	taskNode := addNodeToTree(
+		stager,
+		diagram,
+		parentNode,
+		task,
+		&diagram.TasksWhoseNodeIsExpanded,
+		&diagram.Task_Shapes,
+		&diagram.map_Task_TaskShape,
+	)
 
 	addAddItemButton(stager, &diagram.TasksWhoseNodeIsExpanded, task, nil, taskNode, &task.SubTasks, diagram, &diagram.Task_Shapes, &diagram.TaskComposition_Shapes)
-
-	if _, ok := diagram.map_Task_TaskShape[task]; ok {
-		taskNode.IsChecked = true
-	}
-
-	// what to do when the task node is clicked
-	taskNode.Impl = &tree.FunctionalNodeProxy{
-		OnUpdate: onUpdateElementInDiagram(
-			stager,
-			diagram,
-			task,
-			&diagram.TasksWhoseNodeIsExpanded,
-			&diagram.Task_Shapes,
-			&diagram.map_Task_TaskShape),
-	}
 
 	// if task has a parent task, add a button to show/hide the link to the parent
 	if parentTask := task.parentTask; parentTask != nil {

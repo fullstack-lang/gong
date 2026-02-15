@@ -9,11 +9,6 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
-// Append is a generic helper that appends an item to a slice via a pointer
-func Append[T any](slice *[]T, item T) {
-	*slice = append(*slice, item)
-}
-
 func addAddItemButton[
 	T Gongstruct,
 	PT interface {
@@ -336,4 +331,99 @@ func collectProjectElements[T PointerToGongstruct](
 
 	// 2. Convert map to slice
 	return slices.Collect(maps.Keys(reachable))
+}
+
+// Append is a generic helper that appends an item to a slice via a pointer
+func Append[T any](slice *[]T, item T) {
+	*slice = append(*slice, item)
+}
+
+func addNodeToTree[
+	AT interface {
+		*AT_
+		AbstractType
+	},
+	AT_ Gongstruct,
+	CT interface {
+		*CT_
+		RectShapeInterface
+		ConcreteType
+	},
+	CT_ Gongstruct](
+	stager *Stager,
+	diagram *Diagram,
+	parentNode *tree.Node,
+	element AT,
+	elementsWhoseNodeIsExpanded *[]AT,
+	shapes *[]CT,
+	shapesMap *map[AT]CT,
+) *tree.Node {
+	node := &tree.Node{
+		Name:         element.GetName(),
+		IsWithPrefix: true,
+		Prefix:       element.GetComputedPrefix(),
+
+		IsExpanded: slices.Index(*elementsWhoseNodeIsExpanded, element) != -1,
+
+		HasCheckboxButton:  true,
+		IsCheckboxDisabled: !diagram.IsChecked,
+
+		HasToolTip:      true,
+		ToolTipPosition: tree.Above,
+		ToolTipText:     "Add " + GetGongstructNameFromPointer(element) + " to diagram",
+
+		IsNodeClickable: true,
+
+		IsInEditMode: element.GetIsInRenameMode(),
+	}
+	parentNode.Children = append(parentNode.Children, node)
+
+	if !element.GetIsInRenameMode() {
+		node.Buttons = append(node.Buttons,
+			&tree.Button{
+				Name: element.GetName() + " " + string(buttons.BUTTON_edit_note),
+				Icon: string(buttons.BUTTON_edit_note),
+				Impl: &tree.FunctionalButtonProxy{
+					OnUpdated: func(stage *tree.Stage, button, updatedButton *tree.Button) {
+						element.SetIsInRenameMode(true)
+						stager.stage.Commit()
+					},
+				},
+				HasToolTip:      true,
+				ToolTipText:     "Rename the " + GetGongstructNameFromPointer(element),
+				ToolTipPosition: tree.Above,
+			})
+	} else {
+		node.Buttons = append(node.Buttons,
+			&tree.Button{
+				Name: element.GetName() + " " + string(buttons.BUTTON_edit_off),
+				Icon: string(buttons.BUTTON_edit_off),
+				Impl: &tree.FunctionalButtonProxy{
+					OnUpdated: func(stage *tree.Stage, button, updatedButton *tree.Button) {
+						element.SetIsInRenameMode(false)
+						stager.stage.Commit()
+					},
+				},
+				HasToolTip:      true,
+				ToolTipText:     "Cancel renaming",
+				ToolTipPosition: tree.Above,
+			})
+	}
+
+	if _, ok := (*shapesMap)[element]; ok {
+		node.IsChecked = true
+	}
+
+	// what to do when the node is clicked
+	node.Impl = &tree.FunctionalNodeProxy{
+		OnUpdate: onUpdateElementInDiagram(
+			stager,
+			diagram,
+			element,
+			elementsWhoseNodeIsExpanded,
+			shapes,
+			shapesMap),
+	}
+
+	return node
 }
