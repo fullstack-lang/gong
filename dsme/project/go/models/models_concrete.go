@@ -52,6 +52,9 @@ type Diagram struct {
 	NoteTaskShapes         []*NoteTaskShape
 	map_Note_NoteTaskShape map[noteTaskKey]*NoteTaskShape
 
+	NoteResourceShapes         []*NoteResourceShape
+	map_Note_NoteResourceShape map[noteResourceKey]*NoteResourceShape
+
 	Resource_Shapes              []*ResourceShape
 	map_Resource_ResourceShape   map[*Resource]*ResourceShape
 	ResourcesWhoseNodeIsExpanded []*Resource
@@ -234,6 +237,11 @@ type noteTaskKey struct {
 	Task *Task
 }
 
+type noteResourceKey struct {
+	Note     *Note
+	Resource *Resource
+}
+
 type resourceTaskKey struct {
 	Resource *Resource
 	Task     *Task
@@ -400,6 +408,40 @@ func (s *NoteTaskShape) SetAbstractStartElement(abstractElement AbstractType) {
 }
 
 var _ AssociationConcreteType = (*NoteTaskShape)(nil)
+
+type NoteResourceShape struct {
+	Name string
+
+	Note *Note
+
+	Resource *Resource
+
+	LinkShape
+}
+
+func (s *NoteResourceShape) GetAbstractEndElement() AbstractType {
+	if s.Resource == nil {
+		return nil
+	}
+	return s.Resource
+}
+
+func (s *NoteResourceShape) SetAbstractEndElement(abstractElement AbstractType) {
+	s.Resource = abstractElement.(*Resource)
+}
+
+func (s *NoteResourceShape) GetAbstractStartElement() AbstractType {
+	if s.Note == nil {
+		return nil
+	}
+	return s.Note
+}
+
+func (s *NoteResourceShape) SetAbstractStartElement(abstractElement AbstractType) {
+	s.Note = abstractElement.(*Note)
+}
+
+var _ AssociationConcreteType = (*NoteResourceShape)(nil)
 
 // ResourceShape
 type ResourceShape struct {

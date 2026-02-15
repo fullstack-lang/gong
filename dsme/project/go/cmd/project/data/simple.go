@@ -29,6 +29,8 @@ func _(stage *models.Stage) {
 
 	__NoteProductShape__00000000_ := (&models.NoteProductShape{Name: `N1 to P1`}).Stage(stage)
 
+	__NoteResourceShape__00000000_ := (&models.NoteResourceShape{Name: `N1 to R1.2`}).Stage(stage)
+
 	__NoteShape__00000000_ := (&models.NoteShape{Name: `NewNote-Default Diagram`}).Stage(stage)
 
 	__NoteTaskShape__00000000_ := (&models.NoteTaskShape{Name: `N1 to T1`}).Stage(stage)
@@ -101,10 +103,17 @@ func _(stage *models.Stage) {
 	__NoteProductShape__00000000_.EndOrientation = models.ORIENTATION_VERTICAL
 	__NoteProductShape__00000000_.CornerOffsetRatio = 1.680000
 
+	__NoteResourceShape__00000000_.Name = `N1 to R1.2`
+	__NoteResourceShape__00000000_.StartRatio = 0.500000
+	__NoteResourceShape__00000000_.EndRatio = 0.500000
+	__NoteResourceShape__00000000_.StartOrientation = models.ORIENTATION_VERTICAL
+	__NoteResourceShape__00000000_.EndOrientation = models.ORIENTATION_VERTICAL
+	__NoteResourceShape__00000000_.CornerOffsetRatio = 1.680000
+
 	__NoteShape__00000000_.Name = `NewNote-Default Diagram`
 	__NoteShape__00000000_.IsExpanded = false
-	__NoteShape__00000000_.X = 357.643327
-	__NoteShape__00000000_.Y = 111.847509
+	__NoteShape__00000000_.X = 763.643327
+	__NoteShape__00000000_.Y = 448.847494
 	__NoteShape__00000000_.Width = 250.000000
 	__NoteShape__00000000_.Height = 50.000000
 
@@ -316,6 +325,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.NotesWhoseNodeIsExpanded = append(__Diagram__00000000_.NotesWhoseNodeIsExpanded, __Note__00000000_)
 	__Diagram__00000000_.NoteProductShapes = append(__Diagram__00000000_.NoteProductShapes, __NoteProductShape__00000000_)
 	__Diagram__00000000_.NoteTaskShapes = append(__Diagram__00000000_.NoteTaskShapes, __NoteTaskShape__00000000_)
+	__Diagram__00000000_.NoteResourceShapes = append(__Diagram__00000000_.NoteResourceShapes, __NoteResourceShape__00000000_)
 	__Diagram__00000000_.Resource_Shapes = append(__Diagram__00000000_.Resource_Shapes, __ResourceShape__00000000_)
 	__Diagram__00000000_.Resource_Shapes = append(__Diagram__00000000_.Resource_Shapes, __ResourceShape__00000002_)
 	__Diagram__00000000_.Resource_Shapes = append(__Diagram__00000000_.Resource_Shapes, __ResourceShape__00000003_)
@@ -325,8 +335,11 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.ResourceTaskShapes = append(__Diagram__00000000_.ResourceTaskShapes, __ResourceTaskShape__00000000_)
 	__Note__00000000_.Products = append(__Note__00000000_.Products, __Product__00000000_)
 	__Note__00000000_.Tasks = append(__Note__00000000_.Tasks, __Task__00000000_)
+	__Note__00000000_.Resources = append(__Note__00000000_.Resources, __Resource__00000002_)
 	__NoteProductShape__00000000_.Note = __Note__00000000_
 	__NoteProductShape__00000000_.Product = __Product__00000000_
+	__NoteResourceShape__00000000_.Note = __Note__00000000_
+	__NoteResourceShape__00000000_.Resource = __Resource__00000002_
 	__NoteShape__00000000_.Note = __Note__00000000_
 	__NoteTaskShape__00000000_.Note = __Note__00000000_
 	__NoteTaskShape__00000000_.Task = __Task__00000000_

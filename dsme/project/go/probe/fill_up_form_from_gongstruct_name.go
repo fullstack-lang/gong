@@ -33,6 +33,12 @@ func (probe *Probe) updateFillUpForm() {
 			} else {
 				FillUpFormFromGongstruct(onSave.noteproductshape, probe)
 			}
+		case *NoteResourceShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "NoteResourceShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.noteresourceshape, probe)
+			}
 		case *NoteShapeFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "NoteShape", true)
@@ -190,6 +196,19 @@ func FillUpFormFromGongstructName(
 		noteproductshape := new(models.NoteProductShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(noteproductshape, formGroup, probe)
+	case "NoteResourceShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "NoteResourceShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__NoteResourceShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		noteresourceshape := new(models.NoteResourceShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(noteresourceshape, formGroup, probe)
 	case "NoteShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

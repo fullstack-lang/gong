@@ -320,6 +320,25 @@ func (stager *Stager) svg() {
 		}
 	}
 
+	for _, noteResourceShape := range diagram.NoteResourceShapes {
+		note := noteResourceShape.Note
+		resource := noteResourceShape.Resource
+		startRect := diagram.map_Note_Rect[note]
+		endRect := diagram.map_Resource_Rect[resource]
+		link := svgAssociationLink(
+			stager,
+			startRect, endRect,
+			noteResourceShape,
+			note,
+			layer,
+			true,
+		)
+		link.Type = svg.LINK_TYPE_LINE_WITH_CONTROL_POINTS
+		link.StartAnchorType = svg.ANCHOR_CENTER
+		link.EndAnchorType = svg.ANCHOR_CENTER
+		link.HasEndArrow = false
+	}
+
 	for _, resourceCompositionShape := range diagram.ResourceComposition_Shapes {
 		subResource := resourceCompositionShape.Resource
 		parentResource := subResource.parentResource
