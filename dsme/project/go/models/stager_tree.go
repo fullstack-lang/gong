@@ -44,8 +44,46 @@ func (stager *Stager) tree() {
 				IsNodeClickable:   true,
 				HasCheckboxButton: true,
 				IsChecked:         diagram.IsChecked,
+
+				IsInEditMode: diagram.IsInRenameMode,
 			}
 			projectNode.Children = append(projectNode.Children, diagramNode)
+
+			element := diagram
+			node := diagramNode
+
+			if !element.GetIsInRenameMode() {
+				node.Buttons = append(node.Buttons,
+					&tree.Button{
+						Name: element.GetName() + " " + string(buttons.BUTTON_edit_note),
+						Icon: string(buttons.BUTTON_edit_note),
+						Impl: &tree.FunctionalButtonProxy{
+							OnUpdated: func(stage *tree.Stage, button, updatedButton *tree.Button) {
+								element.SetIsInRenameMode(true)
+								stager.stage.Commit()
+							},
+						},
+						HasToolTip:      true,
+						ToolTipText:     "Rename the " + GetGongstructNameFromPointer(element),
+						ToolTipPosition: tree.Above,
+					})
+			} else {
+				node.Buttons = append(node.Buttons,
+					&tree.Button{
+						Name: element.GetName() + " " + string(buttons.BUTTON_edit_off),
+						Icon: string(buttons.BUTTON_edit_off),
+						Impl: &tree.FunctionalButtonProxy{
+							OnUpdated: func(stage *tree.Stage, button, updatedButton *tree.Button) {
+								element.SetIsInRenameMode(false)
+								stager.stage.Commit()
+							},
+						},
+						HasToolTip:      true,
+						ToolTipText:     "Cancel renaming",
+						ToolTipPosition: tree.Above,
+					})
+			}
+
 			diagramNode.Impl = &tree.FunctionalNodeProxy{
 				OnUpdate: stager.OnUpdateDiagram(diagram),
 			}

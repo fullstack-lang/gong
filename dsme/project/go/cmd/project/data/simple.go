@@ -23,7 +23,7 @@ func _(stage *models.Stage) {
 
 	// insertion point for declaration of instances to stage
 
-	__Diagram__00000000_ := (&models.Diagram{Name: `Default Diagram`}).Stage(stage)
+	__Diagram__00000000_ := (&models.Diagram{Name: `D1`}).Stage(stage)
 
 	__Note__00000000_ := (&models.Note{Name: `N1`}).Stage(stage)
 
@@ -77,7 +77,7 @@ func _(stage *models.Stage) {
 
 	// insertion point for initialization of values
 
-	__Diagram__00000000_.Name = `Default Diagram`
+	__Diagram__00000000_.Name = `D1`
 	__Diagram__00000000_.IsChecked = true
 	__Diagram__00000000_.IsEditable_ = true
 	__Diagram__00000000_.ShowPrefix = true
@@ -86,10 +86,10 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.IsExpanded = true
 	__Diagram__00000000_.ComputedPrefix = ``
 	__Diagram__00000000_.IsInRenameMode = false
-	__Diagram__00000000_.IsPBSNodeExpanded = true
-	__Diagram__00000000_.IsWBSNodeExpanded = true
-	__Diagram__00000000_.IsNotesNodeExpanded = true
-	__Diagram__00000000_.IsResourcesNodeExpanded = true
+	__Diagram__00000000_.IsPBSNodeExpanded = false
+	__Diagram__00000000_.IsWBSNodeExpanded = false
+	__Diagram__00000000_.IsNotesNodeExpanded = false
+	__Diagram__00000000_.IsResourcesNodeExpanded = false
 
 	__Note__00000000_.Name = `N1`
 	__Note__00000000_.IsExpanded = false
