@@ -464,6 +464,10 @@ func (u *NodeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
+	case "IsWithPrefix":
+		instance.IsWithPrefix = GongExtractBool(valueExpr)
+	case "Prefix":
+		instance.Prefix = GongExtractString(valueExpr)
 	case "FontStyle":
 		GongUnmarshallEnum(&instance.FontStyle, valueExpr)
 	case "BackgroundColor":

@@ -18,8 +18,6 @@ type Diagram_WOP struct {
 
 	IsEditable_ bool
 
-	IsInRenameMode bool
-
 	ShowPrefix bool
 
 	DefaultBoxWidth float64
@@ -29,6 +27,8 @@ type Diagram_WOP struct {
 	IsExpanded bool
 
 	ComputedPrefix string
+
+	IsInRenameMode bool
 
 	IsPBSNodeExpanded bool
 
@@ -44,12 +44,12 @@ func (from *Diagram) CopyBasicFields(to *Diagram) {
 	to.Name = from.Name
 	to.IsChecked = from.IsChecked
 	to.IsEditable_ = from.IsEditable_
-	to.IsInRenameMode = from.IsInRenameMode
 	to.ShowPrefix = from.ShowPrefix
 	to.DefaultBoxWidth = from.DefaultBoxWidth
 	to.DefaultBoxHeigth = from.DefaultBoxHeigth
 	to.IsExpanded = from.IsExpanded
 	to.ComputedPrefix = from.ComputedPrefix
+	to.IsInRenameMode = from.IsInRenameMode
 	to.IsPBSNodeExpanded = from.IsPBSNodeExpanded
 	to.IsWBSNodeExpanded = from.IsWBSNodeExpanded
 	to.IsNotesNodeExpanded = from.IsNotesNodeExpanded
@@ -64,6 +64,8 @@ type Note_WOP struct {
 	IsExpanded bool
 
 	ComputedPrefix string
+
+	IsInRenameMode bool
 }
 
 func (from *Note) CopyBasicFields(to *Note) {
@@ -71,6 +73,7 @@ func (from *Note) CopyBasicFields(to *Note) {
 	to.Name = from.Name
 	to.IsExpanded = from.IsExpanded
 	to.ComputedPrefix = from.ComputedPrefix
+	to.IsInRenameMode = from.IsInRenameMode
 }
 
 type NoteProductShape_WOP struct {
@@ -162,6 +165,8 @@ type Product_WOP struct {
 
 	ComputedPrefix string
 
+	IsInRenameMode bool
+
 	IsProducersNodeExpanded bool
 
 	IsConsumersNodeExpanded bool
@@ -173,6 +178,7 @@ func (from *Product) CopyBasicFields(to *Product) {
 	to.Description = from.Description
 	to.IsExpanded = from.IsExpanded
 	to.ComputedPrefix = from.ComputedPrefix
+	to.IsInRenameMode = from.IsInRenameMode
 	to.IsProducersNodeExpanded = from.IsProducersNodeExpanded
 	to.IsConsumersNodeExpanded = from.IsConsumersNodeExpanded
 }
@@ -237,6 +243,8 @@ type Project_WOP struct {
 	IsExpanded bool
 
 	ComputedPrefix string
+
+	IsInRenameMode bool
 }
 
 func (from *Project) CopyBasicFields(to *Project) {
@@ -244,6 +252,7 @@ func (from *Project) CopyBasicFields(to *Project) {
 	to.Name = from.Name
 	to.IsExpanded = from.IsExpanded
 	to.ComputedPrefix = from.ComputedPrefix
+	to.IsInRenameMode = from.IsInRenameMode
 }
 
 type Resource_WOP struct {
@@ -256,6 +265,8 @@ type Resource_WOP struct {
 	IsExpanded bool
 
 	ComputedPrefix string
+
+	IsInRenameMode bool
 }
 
 func (from *Resource) CopyBasicFields(to *Resource) {
@@ -264,6 +275,7 @@ func (from *Resource) CopyBasicFields(to *Resource) {
 	to.Description = from.Description
 	to.IsExpanded = from.IsExpanded
 	to.ComputedPrefix = from.ComputedPrefix
+	to.IsInRenameMode = from.IsInRenameMode
 }
 
 type ResourceCompositionShape_WOP struct {
@@ -369,6 +381,8 @@ type Task_WOP struct {
 
 	ComputedPrefix string
 
+	IsInRenameMode bool
+
 	IsInputsNodeExpanded bool
 
 	IsOutputsNodeExpanded bool
@@ -384,6 +398,7 @@ func (from *Task) CopyBasicFields(to *Task) {
 	to.Description = from.Description
 	to.IsExpanded = from.IsExpanded
 	to.ComputedPrefix = from.ComputedPrefix
+	to.IsInRenameMode = from.IsInRenameMode
 	to.IsInputsNodeExpanded = from.IsInputsNodeExpanded
 	to.IsOutputsNodeExpanded = from.IsOutputsNodeExpanded
 	to.IsWithCompletion = from.IsWithCompletion

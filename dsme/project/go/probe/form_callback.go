@@ -70,8 +70,6 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(diagram_.IsChecked), formDiv)
 		case "IsEditable_":
 			FormDivBasicFieldToField(&(diagram_.IsEditable_), formDiv)
-		case "IsInRenameMode":
-			FormDivBasicFieldToField(&(diagram_.IsInRenameMode), formDiv)
 		case "ShowPrefix":
 			FormDivBasicFieldToField(&(diagram_.ShowPrefix), formDiv)
 		case "DefaultBoxWidth":
@@ -82,6 +80,8 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(diagram_.IsExpanded), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(diagram_.ComputedPrefix), formDiv)
+		case "IsInRenameMode":
+			FormDivBasicFieldToField(&(diagram_.IsInRenameMode), formDiv)
 		case "Product_Shapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ProductShape](diagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ProductShape, 0)
@@ -858,6 +858,8 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(note_.IsExpanded), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(note_.ComputedPrefix), formDiv)
+		case "IsInRenameMode":
+			FormDivBasicFieldToField(&(note_.IsInRenameMode), formDiv)
 		case "Diagram:NotesWhoseNodeIsExpanded":
 			// WARNING : this form deals with the N-N association "Diagram.NotesWhoseNodeIsExpanded []*Note" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
@@ -1577,6 +1579,8 @@ func (productFormCallback *ProductFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(product_.IsExpanded), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(product_.ComputedPrefix), formDiv)
+		case "IsInRenameMode":
+			FormDivBasicFieldToField(&(product_.IsInRenameMode), formDiv)
 		case "IsProducersNodeExpanded":
 			FormDivBasicFieldToField(&(product_.IsProducersNodeExpanded), formDiv)
 		case "IsConsumersNodeExpanded":
@@ -2526,6 +2530,8 @@ func (projectFormCallback *ProjectFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(project_.IsExpanded), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(project_.ComputedPrefix), formDiv)
+		case "IsInRenameMode":
+			FormDivBasicFieldToField(&(project_.IsInRenameMode), formDiv)
 		case "Root:Projects":
 			// WARNING : this form deals with the N-N association "Root.Projects []*Project" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
@@ -2738,6 +2744,8 @@ func (resourceFormCallback *ResourceFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(resource_.IsExpanded), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(resource_.ComputedPrefix), formDiv)
+		case "IsInRenameMode":
+			FormDivBasicFieldToField(&(resource_.IsInRenameMode), formDiv)
 		case "Diagram:ResourcesWhoseNodeIsExpanded":
 			// WARNING : this form deals with the N-N association "Diagram.ResourcesWhoseNodeIsExpanded []*Resource" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
@@ -3632,6 +3640,8 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(task_.IsExpanded), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(task_.ComputedPrefix), formDiv)
+		case "IsInRenameMode":
+			FormDivBasicFieldToField(&(task_.IsInRenameMode), formDiv)
 		case "Inputs":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Product](taskFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Product, 0)

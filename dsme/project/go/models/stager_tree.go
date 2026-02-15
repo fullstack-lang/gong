@@ -1,8 +1,6 @@
 package models
 
 import (
-	"slices"
-
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 
 	"github.com/fullstack-lang/gong/lib/tree/go/buttons"
@@ -183,35 +181,15 @@ func (stager *Stager) tree() {
 			addAddItemButton(stager, nil, nil, &diagram.IsNotesNodeExpanded, notesNode, &project.Notes, diagram, &diagram.Note_Shapes, &diagram.NoteProductShapes)
 
 			for _, note := range project.Notes {
-				noteNode := &tree.Node{
-					Name:            note.ComputedPrefix + " " + note.Name,
-					IsNodeClickable: true,
-
-					HasCheckboxButton:  true,
-					IsCheckboxDisabled: !diagram.IsChecked,
-
-					HasToolTip:      true,
-					ToolTipPosition: tree.Above,
-					ToolTipText:     "Add note to diagram",
-
-					IsExpanded: slices.Index(diagram.NotesWhoseNodeIsExpanded, note) != -1,
-				}
-				notesNode.Children = append(notesNode.Children, noteNode)
-
-				if _, ok := diagram.map_Note_NoteShape[note]; ok {
-					noteNode.IsChecked = true
-				}
-
-				// what to do when the note node is clicked
-				noteNode.Impl = &tree.FunctionalNodeProxy{
-					OnUpdate: onUpdateElementInDiagram(
-						stager,
-						diagram,
-						note,
-						&diagram.NotesWhoseNodeIsExpanded,
-						&diagram.Note_Shapes,
-						&diagram.map_Note_NoteShape),
-				}
+				noteNode := addNodeToTree(
+					stager,
+					diagram,
+					notesNode,
+					note,
+					&diagram.NotesWhoseNodeIsExpanded,
+					&diagram.Note_Shapes,
+					&diagram.map_Note_NoteShape,
+				)
 
 				// allow display of associations note to products
 				for _, product := range note.Products {

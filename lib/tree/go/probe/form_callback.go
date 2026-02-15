@@ -222,6 +222,10 @@ func (nodeFormCallback *NodeFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(node_.Name), formDiv)
+		case "IsWithPrefix":
+			FormDivBasicFieldToField(&(node_.IsWithPrefix), formDiv)
+		case "Prefix":
+			FormDivBasicFieldToField(&(node_.Prefix), formDiv)
 		case "FontStyle":
 			FormDivEnumStringFieldToField(&(node_.FontStyle), formDiv)
 		case "BackgroundColor":

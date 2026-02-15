@@ -1679,6 +1679,14 @@ func (node *Node) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
+			Name:               "IsWithPrefix",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "Prefix",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
 			Name:               "FontStyle",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
@@ -1908,6 +1916,12 @@ func (node *Node) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	// string value of fields
 	case "Name":
 		res.valueString = node.Name
+	case "IsWithPrefix":
+		res.valueString = fmt.Sprintf("%t", node.IsWithPrefix)
+		res.valueBool = node.IsWithPrefix
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Prefix":
+		res.valueString = node.Prefix
 	case "FontStyle":
 		enum := node.FontStyle
 		res.valueString = enum.ToCodeString()
@@ -2087,6 +2101,10 @@ func (node *Node) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 	// insertion point for per field code
 	case "Name":
 		node.Name = value.GetValueString()
+	case "IsWithPrefix":
+		node.IsWithPrefix = value.GetValueBool()
+	case "Prefix":
+		node.Prefix = value.GetValueString()
 	case "FontStyle":
 		node.FontStyle.FromCodeString(value.GetValueString())
 	case "BackgroundColor":
