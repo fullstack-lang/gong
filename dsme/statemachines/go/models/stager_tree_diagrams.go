@@ -98,10 +98,11 @@ func (stager *Stager) updateTreeDiagramStage() {
 					&tree.Button{
 						Name: diagram.GetName() + " " + string(buttons.BUTTON_edit_note),
 						Icon: string(buttons.BUTTON_edit_note),
-						Impl: &DiagramRenameButtonProxy{
-							stager:     stager,
-							diagram:    diagram,
-							buttonType: RENAME,
+						Impl: &tree.FunctionalButtonProxy{
+							OnUpdated: func(stage *tree.Stage, button, updatedButton *tree.Button) {
+								diagram.IsInRenameMode = true
+								stager.stage.Commit()
+							},
 						},
 						HasToolTip:      true,
 						ToolTipText:     "Rename the diagram",
@@ -112,10 +113,11 @@ func (stager *Stager) updateTreeDiagramStage() {
 					&tree.Button{
 						Name: diagram.GetName() + " " + string(buttons.BUTTON_edit_off),
 						Icon: string(buttons.BUTTON_edit_off),
-						Impl: &DiagramRenameButtonProxy{
-							stager:     stager,
-							diagram:    diagram,
-							buttonType: RENAME_CANCEL,
+						Impl: &tree.FunctionalButtonProxy{
+							OnUpdated: func(stage *tree.Stage, button, updatedButton *tree.Button) {
+								diagram.IsInRenameMode = false
+								stager.stage.Commit()
+							},
 						},
 						HasToolTip:      true,
 						ToolTipText:     "Cancel renaming",
