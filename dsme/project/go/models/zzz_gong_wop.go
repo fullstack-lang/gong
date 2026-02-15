@@ -102,6 +102,32 @@ func (from *NoteProductShape) CopyBasicFields(to *NoteProductShape) {
 	to.CornerOffsetRatio = from.CornerOffsetRatio
 }
 
+type NoteResourceShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	StartRatio float64
+
+	EndRatio float64
+
+	StartOrientation OrientationType
+
+	EndOrientation OrientationType
+
+	CornerOffsetRatio float64
+}
+
+func (from *NoteResourceShape) CopyBasicFields(to *NoteResourceShape) {
+	// insertion point
+	to.Name = from.Name
+	to.StartRatio = from.StartRatio
+	to.EndRatio = from.EndRatio
+	to.StartOrientation = from.StartOrientation
+	to.EndOrientation = from.EndOrientation
+	to.CornerOffsetRatio = from.CornerOffsetRatio
+}
+
 type NoteShape_WOP struct {
 	// insertion point
 

@@ -158,6 +158,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsNotesNodeExpanded"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "NoteProductShapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "NoteTaskShapes"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "NoteResourceShapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "Resource_Shapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ResourcesWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsResourcesNodeExpanded"))
@@ -191,6 +192,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(note.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Products"))
 		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Tasks"))
+		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Resources"))
 		initializerStatements.WriteString(note.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(note.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(note.GongMarshallField(stage, "IsInRenameMode"))
@@ -227,6 +229,39 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(noteproductshape.GongMarshallField(stage, "StartOrientation"))
 		initializerStatements.WriteString(noteproductshape.GongMarshallField(stage, "EndOrientation"))
 		initializerStatements.WriteString(noteproductshape.GongMarshallField(stage, "CornerOffsetRatio"))
+	}
+
+	noteresourceshapeOrdered := []*NoteResourceShape{}
+	for noteresourceshape := range stage.NoteResourceShapes {
+		noteresourceshapeOrdered = append(noteresourceshapeOrdered, noteresourceshape)
+	}
+	sort.Slice(noteresourceshapeOrdered[:], func(i, j int) bool {
+		noteresourceshapei := noteresourceshapeOrdered[i]
+		noteresourceshapej := noteresourceshapeOrdered[j]
+		noteresourceshapei_order, oki := stage.NoteResourceShapeMap_Staged_Order[noteresourceshapei]
+		noteresourceshapej_order, okj := stage.NoteResourceShapeMap_Staged_Order[noteresourceshapej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return noteresourceshapei_order < noteresourceshapej_order
+	})
+	if len(noteresourceshapeOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, noteresourceshape := range noteresourceshapeOrdered {
+
+		identifiersDecl.WriteString(noteresourceshape.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(noteresourceshape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(noteresourceshape.GongMarshallField(stage, "Note"))
+		pointersInitializesStatements.WriteString(noteresourceshape.GongMarshallField(stage, "Resource"))
+		initializerStatements.WriteString(noteresourceshape.GongMarshallField(stage, "StartRatio"))
+		initializerStatements.WriteString(noteresourceshape.GongMarshallField(stage, "EndRatio"))
+		initializerStatements.WriteString(noteresourceshape.GongMarshallField(stage, "StartOrientation"))
+		initializerStatements.WriteString(noteresourceshape.GongMarshallField(stage, "EndOrientation"))
+		initializerStatements.WriteString(noteresourceshape.GongMarshallField(stage, "CornerOffsetRatio"))
 	}
 
 	noteshapeOrdered := []*NoteShape{}
@@ -774,6 +809,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for pointers initialization
 	}
 
+	for _, noteresourceshape := range noteresourceshapeOrdered {
+		_ = noteresourceshape
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
 	for _, noteshape := range noteshapeOrdered {
 		_ = noteshape
 		var setPointerField string
@@ -1165,6 +1208,16 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
+	case "NoteResourceShapes":
+		var sb strings.Builder
+		for _, _noteresourceshape := range diagram.NoteResourceShapes {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "NoteResourceShapes")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _noteresourceshape.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	case "Resource_Shapes":
 		var sb strings.Builder
 		for _, _resourceshape := range diagram.Resource_Shapes {
@@ -1255,6 +1308,16 @@ func (note *Note) GongMarshallField(stage *Stage, fieldName string) (res string)
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
+	case "Resources":
+		var sb strings.Builder
+		for _, _resource := range note.Resources {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", note.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Resources")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _resource.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Note", fieldName)
 	}
@@ -1339,6 +1402,88 @@ func (noteproductshape *NoteProductShape) GongMarshallField(stage *Stage, fieldN
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct NoteProductShape", fieldName)
+	}
+	return
+}
+
+func (noteresourceshape *NoteResourceShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", noteresourceshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(noteresourceshape.Name))
+	case "StartRatio":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", noteresourceshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartRatio")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", noteresourceshape.StartRatio))
+	case "EndRatio":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", noteresourceshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndRatio")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", noteresourceshape.EndRatio))
+	case "StartOrientation":
+		if noteresourceshape.StartOrientation.ToCodeString() != "" {
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", noteresourceshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartOrientation")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+noteresourceshape.StartOrientation.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", noteresourceshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartOrientation")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
+		}
+	case "EndOrientation":
+		if noteresourceshape.EndOrientation.ToCodeString() != "" {
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", noteresourceshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndOrientation")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+noteresourceshape.EndOrientation.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", noteresourceshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndOrientation")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
+		}
+	case "CornerOffsetRatio":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", noteresourceshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CornerOffsetRatio")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", noteresourceshape.CornerOffsetRatio))
+
+	case "Note":
+		if noteresourceshape.Note != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", noteresourceshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Note")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", noteresourceshape.Note.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", noteresourceshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Note")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	case "Resource":
+		if noteresourceshape.Resource != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", noteresourceshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Resource")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", noteresourceshape.Resource.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", noteresourceshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Resource")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct NoteResourceShape", fieldName)
 	}
 	return
 }
@@ -2435,6 +2580,7 @@ func (diagram *Diagram) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsNotesNodeExpanded"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "NoteProductShapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "NoteTaskShapes"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "NoteResourceShapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "Resource_Shapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ResourcesWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsResourcesNodeExpanded"))
@@ -2453,6 +2599,7 @@ func (note *Note) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		initializerStatements.WriteString(note.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Products"))
 		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Tasks"))
+		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Resources"))
 		initializerStatements.WriteString(note.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(note.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(note.GongMarshallField(stage, "IsInRenameMode"))
@@ -2474,6 +2621,24 @@ func (noteproductshape *NoteProductShape) GongMarshallAllFields(stage *Stage) (i
 		initializerStatements.WriteString(noteproductshape.GongMarshallField(stage, "StartOrientation"))
 		initializerStatements.WriteString(noteproductshape.GongMarshallField(stage, "EndOrientation"))
 		initializerStatements.WriteString(noteproductshape.GongMarshallField(stage, "CornerOffsetRatio"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (noteresourceshape *NoteResourceShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(noteresourceshape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(noteresourceshape.GongMarshallField(stage, "Note"))
+		pointersInitializesStatements.WriteString(noteresourceshape.GongMarshallField(stage, "Resource"))
+		initializerStatements.WriteString(noteresourceshape.GongMarshallField(stage, "StartRatio"))
+		initializerStatements.WriteString(noteresourceshape.GongMarshallField(stage, "EndRatio"))
+		initializerStatements.WriteString(noteresourceshape.GongMarshallField(stage, "StartOrientation"))
+		initializerStatements.WriteString(noteresourceshape.GongMarshallField(stage, "EndOrientation"))
+		initializerStatements.WriteString(noteresourceshape.GongMarshallField(stage, "CornerOffsetRatio"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

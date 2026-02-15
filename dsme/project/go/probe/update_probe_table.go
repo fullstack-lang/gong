@@ -28,6 +28,8 @@ func updateCurrentProbeTable(probe *Probe) {
 		updateProbeTable[*models.Note](probe)
 	case "NoteProductShape":
 		updateProbeTable[*models.NoteProductShape](probe)
+	case "NoteResourceShape":
+		updateProbeTable[*models.NoteResourceShape](probe)
 	case "NoteShape":
 		updateProbeTable[*models.NoteShape](probe)
 	case "NoteTaskShape":

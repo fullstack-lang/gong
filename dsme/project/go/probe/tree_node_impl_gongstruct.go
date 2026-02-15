@@ -59,6 +59,9 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 	if nodeImplGongstruct.gongStruct.GetName() == "NoteProductShape" {
 		updateProbeTable[*models.NoteProductShape](nodeImplGongstruct.probe)
 	}
+	if nodeImplGongstruct.gongStruct.GetName() == "NoteResourceShape" {
+		updateProbeTable[*models.NoteResourceShape](nodeImplGongstruct.probe)
+	}
 	if nodeImplGongstruct.gongStruct.GetName() == "NoteShape" {
 		updateProbeTable[*models.NoteShape](nodeImplGongstruct.probe)
 	}

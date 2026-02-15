@@ -9,8 +9,13 @@ func (stager *Stager) enforceRelationDuplicates() (needCommit bool) {
 		needCommit = needCommit || removeDuplicateRelation(stager, diagram.TaskComposition_Shapes)
 		needCommit = needCommit || removeDuplicateRelation(stager, diagram.TaskInputShapes)
 		needCommit = needCommit || removeDuplicateRelation(stager, diagram.TaskOutputShapes)
+
 		needCommit = needCommit || removeDuplicateRelation(stager, diagram.NoteProductShapes)
 		needCommit = needCommit || removeDuplicateRelation(stager, diagram.NoteTaskShapes)
+		needCommit = needCommit || removeDuplicateRelation(stager, diagram.NoteResourceShapes)
+
+		needCommit = needCommit || removeDuplicateRelation(stager, diagram.ResourceComposition_Shapes)
+		needCommit = needCommit || removeDuplicateRelation(stager, diagram.ResourceTaskShapes)
 	}
 	return
 }

@@ -16,6 +16,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *NoteProductShape:
 		ok = stage.IsStagedNoteProductShape(target)
 
+	case *NoteResourceShape:
+		ok = stage.IsStagedNoteResourceShape(target)
+
 	case *NoteShape:
 		ok = stage.IsStagedNoteShape(target)
 
@@ -82,6 +85,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *NoteProductShape:
 		ok = stage.IsStagedNoteProductShape(target)
+
+	case *NoteResourceShape:
+		ok = stage.IsStagedNoteResourceShape(target)
 
 	case *NoteShape:
 		ok = stage.IsStagedNoteShape(target)
@@ -155,6 +161,13 @@ func (stage *Stage) IsStagedNote(note *Note) (ok bool) {
 func (stage *Stage) IsStagedNoteProductShape(noteproductshape *NoteProductShape) (ok bool) {
 
 	_, ok = stage.NoteProductShapes[noteproductshape]
+
+	return
+}
+
+func (stage *Stage) IsStagedNoteResourceShape(noteresourceshape *NoteResourceShape) (ok bool) {
+
+	_, ok = stage.NoteResourceShapes[noteresourceshape]
 
 	return
 }
@@ -288,6 +301,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *NoteProductShape:
 		stage.StageBranchNoteProductShape(target)
 
+	case *NoteResourceShape:
+		stage.StageBranchNoteResourceShape(target)
+
 	case *NoteShape:
 		stage.StageBranchNoteShape(target)
 
@@ -396,6 +412,9 @@ func (stage *Stage) StageBranchDiagram(diagram *Diagram) {
 	for _, _notetaskshape := range diagram.NoteTaskShapes {
 		StageBranch(stage, _notetaskshape)
 	}
+	for _, _noteresourceshape := range diagram.NoteResourceShapes {
+		StageBranch(stage, _noteresourceshape)
+	}
 	for _, _resourceshape := range diagram.Resource_Shapes {
 		StageBranch(stage, _resourceshape)
 	}
@@ -429,6 +448,9 @@ func (stage *Stage) StageBranchNote(note *Note) {
 	for _, _task := range note.Tasks {
 		StageBranch(stage, _task)
 	}
+	for _, _resource := range note.Resources {
+		StageBranch(stage, _resource)
+	}
 
 }
 
@@ -447,6 +469,27 @@ func (stage *Stage) StageBranchNoteProductShape(noteproductshape *NoteProductSha
 	}
 	if noteproductshape.Product != nil {
 		StageBranch(stage, noteproductshape.Product)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchNoteResourceShape(noteresourceshape *NoteResourceShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, noteresourceshape) {
+		return
+	}
+
+	noteresourceshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if noteresourceshape.Note != nil {
+		StageBranch(stage, noteresourceshape.Note)
+	}
+	if noteresourceshape.Resource != nil {
+		StageBranch(stage, noteresourceshape.Resource)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -797,6 +840,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchNoteProductShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *NoteResourceShape:
+		toT := CopyBranchNoteResourceShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *NoteShape:
 		toT := CopyBranchNoteShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -925,6 +972,9 @@ func CopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagramTo
 	for _, _notetaskshape := range diagramFrom.NoteTaskShapes {
 		diagramTo.NoteTaskShapes = append(diagramTo.NoteTaskShapes, CopyBranchNoteTaskShape(mapOrigCopy, _notetaskshape))
 	}
+	for _, _noteresourceshape := range diagramFrom.NoteResourceShapes {
+		diagramTo.NoteResourceShapes = append(diagramTo.NoteResourceShapes, CopyBranchNoteResourceShape(mapOrigCopy, _noteresourceshape))
+	}
 	for _, _resourceshape := range diagramFrom.Resource_Shapes {
 		diagramTo.Resource_Shapes = append(diagramTo.Resource_Shapes, CopyBranchResourceShape(mapOrigCopy, _resourceshape))
 	}
@@ -962,6 +1012,9 @@ func CopyBranchNote(mapOrigCopy map[any]any, noteFrom *Note) (noteTo *Note) {
 	for _, _task := range noteFrom.Tasks {
 		noteTo.Tasks = append(noteTo.Tasks, CopyBranchTask(mapOrigCopy, _task))
 	}
+	for _, _resource := range noteFrom.Resources {
+		noteTo.Resources = append(noteTo.Resources, CopyBranchResource(mapOrigCopy, _resource))
+	}
 
 	return
 }
@@ -984,6 +1037,31 @@ func CopyBranchNoteProductShape(mapOrigCopy map[any]any, noteproductshapeFrom *N
 	}
 	if noteproductshapeFrom.Product != nil {
 		noteproductshapeTo.Product = CopyBranchProduct(mapOrigCopy, noteproductshapeFrom.Product)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchNoteResourceShape(mapOrigCopy map[any]any, noteresourceshapeFrom *NoteResourceShape) (noteresourceshapeTo *NoteResourceShape) {
+
+	// noteresourceshapeFrom has already been copied
+	if _noteresourceshapeTo, ok := mapOrigCopy[noteresourceshapeFrom]; ok {
+		noteresourceshapeTo = _noteresourceshapeTo.(*NoteResourceShape)
+		return
+	}
+
+	noteresourceshapeTo = new(NoteResourceShape)
+	mapOrigCopy[noteresourceshapeFrom] = noteresourceshapeTo
+	noteresourceshapeFrom.CopyBasicFields(noteresourceshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if noteresourceshapeFrom.Note != nil {
+		noteresourceshapeTo.Note = CopyBranchNote(mapOrigCopy, noteresourceshapeFrom.Note)
+	}
+	if noteresourceshapeFrom.Resource != nil {
+		noteresourceshapeTo.Resource = CopyBranchResource(mapOrigCopy, noteresourceshapeFrom.Resource)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1393,6 +1471,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *NoteProductShape:
 		stage.UnstageBranchNoteProductShape(target)
 
+	case *NoteResourceShape:
+		stage.UnstageBranchNoteResourceShape(target)
+
 	case *NoteShape:
 		stage.UnstageBranchNoteShape(target)
 
@@ -1501,6 +1582,9 @@ func (stage *Stage) UnstageBranchDiagram(diagram *Diagram) {
 	for _, _notetaskshape := range diagram.NoteTaskShapes {
 		UnstageBranch(stage, _notetaskshape)
 	}
+	for _, _noteresourceshape := range diagram.NoteResourceShapes {
+		UnstageBranch(stage, _noteresourceshape)
+	}
 	for _, _resourceshape := range diagram.Resource_Shapes {
 		UnstageBranch(stage, _resourceshape)
 	}
@@ -1534,6 +1618,9 @@ func (stage *Stage) UnstageBranchNote(note *Note) {
 	for _, _task := range note.Tasks {
 		UnstageBranch(stage, _task)
 	}
+	for _, _resource := range note.Resources {
+		UnstageBranch(stage, _resource)
+	}
 
 }
 
@@ -1552,6 +1639,27 @@ func (stage *Stage) UnstageBranchNoteProductShape(noteproductshape *NoteProductS
 	}
 	if noteproductshape.Product != nil {
 		UnstageBranch(stage, noteproductshape.Product)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchNoteResourceShape(noteresourceshape *NoteResourceShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, noteresourceshape) {
+		return
+	}
+
+	noteresourceshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if noteresourceshape.Note != nil {
+		UnstageBranch(stage, noteresourceshape.Note)
+	}
+	if noteresourceshape.Resource != nil {
+		UnstageBranch(stage, noteresourceshape.Resource)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2214,6 +2322,27 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		ops := Diff(stage, diagram, diagramOther, "NoteTaskShapes", diagramOther.NoteTaskShapes, diagram.NoteTaskShapes)
 		diffs = append(diffs, ops)
 	}
+	NoteResourceShapesDifferent := false
+	if len(diagram.NoteResourceShapes) != len(diagramOther.NoteResourceShapes) {
+		NoteResourceShapesDifferent = true
+	} else {
+		for i := range diagram.NoteResourceShapes {
+			if (diagram.NoteResourceShapes[i] == nil) != (diagramOther.NoteResourceShapes[i] == nil) {
+				NoteResourceShapesDifferent = true
+				break
+			} else if diagram.NoteResourceShapes[i] != nil && diagramOther.NoteResourceShapes[i] != nil {
+				// this is a pointer comparaison
+				if diagram.NoteResourceShapes[i] != diagramOther.NoteResourceShapes[i] {
+					NoteResourceShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if NoteResourceShapesDifferent {
+		ops := Diff(stage, diagram, diagramOther, "NoteResourceShapes", diagramOther.NoteResourceShapes, diagram.NoteResourceShapes)
+		diffs = append(diffs, ops)
+	}
 	Resource_ShapesDifferent := false
 	if len(diagram.Resource_Shapes) != len(diagramOther.Resource_Shapes) {
 		Resource_ShapesDifferent = true
@@ -2354,6 +2483,27 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 		ops := Diff(stage, note, noteOther, "Tasks", noteOther.Tasks, note.Tasks)
 		diffs = append(diffs, ops)
 	}
+	ResourcesDifferent := false
+	if len(note.Resources) != len(noteOther.Resources) {
+		ResourcesDifferent = true
+	} else {
+		for i := range note.Resources {
+			if (note.Resources[i] == nil) != (noteOther.Resources[i] == nil) {
+				ResourcesDifferent = true
+				break
+			} else if note.Resources[i] != nil && noteOther.Resources[i] != nil {
+				// this is a pointer comparaison
+				if note.Resources[i] != noteOther.Resources[i] {
+					ResourcesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ResourcesDifferent {
+		ops := Diff(stage, note, noteOther, "Resources", noteOther.Resources, note.Resources)
+		diffs = append(diffs, ops)
+	}
 	if note.IsExpanded != noteOther.IsExpanded {
 		diffs = append(diffs, note.GongMarshallField(stage, "IsExpanded"))
 	}
@@ -2402,6 +2552,46 @@ func (noteproductshape *NoteProductShape) GongDiff(stage *Stage, noteproductshap
 	}
 	if noteproductshape.CornerOffsetRatio != noteproductshapeOther.CornerOffsetRatio {
 		diffs = append(diffs, noteproductshape.GongMarshallField(stage, "CornerOffsetRatio"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (noteresourceshape *NoteResourceShape) GongDiff(stage *Stage, noteresourceshapeOther *NoteResourceShape) (diffs []string) {
+	// insertion point for field diffs
+	if noteresourceshape.Name != noteresourceshapeOther.Name {
+		diffs = append(diffs, noteresourceshape.GongMarshallField(stage, "Name"))
+	}
+	if (noteresourceshape.Note == nil) != (noteresourceshapeOther.Note == nil) {
+		diffs = append(diffs, noteresourceshape.GongMarshallField(stage, "Note"))
+	} else if noteresourceshape.Note != nil && noteresourceshapeOther.Note != nil {
+		if noteresourceshape.Note != noteresourceshapeOther.Note {
+			diffs = append(diffs, noteresourceshape.GongMarshallField(stage, "Note"))
+		}
+	}
+	if (noteresourceshape.Resource == nil) != (noteresourceshapeOther.Resource == nil) {
+		diffs = append(diffs, noteresourceshape.GongMarshallField(stage, "Resource"))
+	} else if noteresourceshape.Resource != nil && noteresourceshapeOther.Resource != nil {
+		if noteresourceshape.Resource != noteresourceshapeOther.Resource {
+			diffs = append(diffs, noteresourceshape.GongMarshallField(stage, "Resource"))
+		}
+	}
+	if noteresourceshape.StartRatio != noteresourceshapeOther.StartRatio {
+		diffs = append(diffs, noteresourceshape.GongMarshallField(stage, "StartRatio"))
+	}
+	if noteresourceshape.EndRatio != noteresourceshapeOther.EndRatio {
+		diffs = append(diffs, noteresourceshape.GongMarshallField(stage, "EndRatio"))
+	}
+	if noteresourceshape.StartOrientation != noteresourceshapeOther.StartOrientation {
+		diffs = append(diffs, noteresourceshape.GongMarshallField(stage, "StartOrientation"))
+	}
+	if noteresourceshape.EndOrientation != noteresourceshapeOther.EndOrientation {
+		diffs = append(diffs, noteresourceshape.GongMarshallField(stage, "EndOrientation"))
+	}
+	if noteresourceshape.CornerOffsetRatio != noteresourceshapeOther.CornerOffsetRatio {
+		diffs = append(diffs, noteresourceshape.GongMarshallField(stage, "CornerOffsetRatio"))
 	}
 
 	return

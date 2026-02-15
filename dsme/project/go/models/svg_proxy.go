@@ -24,12 +24,16 @@ func (p *svgProxy) SVGUpdated(updatedSVG *svg.SVG) {
 
 	type associationType string
 	const (
-		ASSOCIATION_TYPE_PRODUCT_COMPOSITION  associationType = "ProductComposition"
-		ASSOCIATION_TYPE_TASK_COMPOSITION     associationType = "TaskComposition"
-		ASSOCIATION_TYPE_TASK_INPUT           associationType = "TaskInput"
-		ASSOCIATION_TYPE_TASK_OUTPUT          associationType = "TaskOutput"
-		ASSOCIAITON_TYPE_NOTE_PRODUCT         associationType = "NoteProduct"
-		ASSOCIAITON_TYPE_NOTE_TASK            associationType = "NoteTask"
+		ASSOCIATION_TYPE_PRODUCT_COMPOSITION associationType = "ProductComposition"
+
+		ASSOCIATION_TYPE_TASK_COMPOSITION associationType = "TaskComposition"
+		ASSOCIATION_TYPE_TASK_INPUT       associationType = "TaskInput"
+		ASSOCIATION_TYPE_TASK_OUTPUT      associationType = "TaskOutput"
+
+		ASSOCIAITON_TYPE_NOTE_PRODUCT  associationType = "NoteProduct"
+		ASSOCIAITON_TYPE_NOTE_TASK     associationType = "NoteTask"
+		ASSOCIAITON_TYPE_NOTE_RESOURCE associationType = "NoteResource"
+
 		ASSOCATIONN_TYPE_RESOURCE_COMPOSITION associationType = "ResourceComposition"
 		ASSOCIATION_TYPE_RESOURCE_TASK        associationType = "ResourceTask"
 	)
@@ -82,6 +86,14 @@ func (p *svgProxy) SVGUpdated(updatedSVG *svg.SVG) {
 			targetAbstractElement = taskShape.Task
 		}
 	}
+	if noteShape, ok := diagram.map_SvgRect_NoteShape[startRect]; ok {
+		if resourceShape, ok := diagram.map_SvgRect_ResourceShape[endRect]; ok {
+			assocType = ASSOCIAITON_TYPE_NOTE_RESOURCE
+			sourceAbstratctElement = noteShape.Note
+			targetAbstractElement = resourceShape.Resource
+		}
+	}
+
 	if resourceShape, ok := diagram.map_SvgRect_ResourceShape[startRect]; ok {
 		if subResourceShape, ok := diagram.map_SvgRect_ResourceShape[endRect]; ok {
 			assocType = ASSOCATIONN_TYPE_RESOURCE_COMPOSITION
@@ -140,6 +152,13 @@ func (p *svgProxy) SVGUpdated(updatedSVG *svg.SVG) {
 
 		note.Tasks = append(note.Tasks, task)
 		addAssociationShapeToDiagram(p.stager, note, task, &diagram.NoteTaskShapes)
+
+	case ASSOCIAITON_TYPE_NOTE_RESOURCE:
+		note := sourceAbstratctElement.(*Note)
+		resource := targetAbstractElement.(*Resource)
+
+		note.Resources = append(note.Resources, resource)
+		addAssociationShapeToDiagram(p.stager, note, resource, &diagram.NoteResourceShapes)
 
 	case ASSOCATIONN_TYPE_RESOURCE_COMPOSITION:
 		subResource := targetAbstractElement.(*Resource)

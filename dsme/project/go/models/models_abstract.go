@@ -56,8 +56,9 @@ type Note struct {
 	//gong:text width:300 height:300
 	Name string
 
-	Products []*Product
-	Tasks    []*Task
+	Products  []*Product
+	Tasks     []*Task
+	Resources []*Resource
 
 	AbstractTypeFields
 }
