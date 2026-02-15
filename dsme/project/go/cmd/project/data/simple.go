@@ -64,7 +64,7 @@ func _(stage *models.Stage) {
 	__Task__00000000_ := (&models.Task{Name: `T1`}).Stage(stage)
 	__Task__00000001_ := (&models.Task{Name: `T1.1`}).Stage(stage)
 
-	__TaskCompositionShape__00000000_ := (&models.TaskCompositionShape{Name: `T1 to NewTask`}).Stage(stage)
+	__TaskCompositionShape__00000000_ := (&models.TaskCompositionShape{Name: `T1 to T1.1`}).Stage(stage)
 
 	__TaskInputShape__00000000_ := (&models.TaskInputShape{Name: `T1.1 to P1.2`}).Stage(stage)
 
@@ -78,12 +78,12 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.Name = `Default Diagram`
 	__Diagram__00000000_.IsChecked = true
 	__Diagram__00000000_.IsEditable_ = true
-	__Diagram__00000000_.IsInRenameMode = false
 	__Diagram__00000000_.ShowPrefix = true
 	__Diagram__00000000_.DefaultBoxWidth = 250.000000
 	__Diagram__00000000_.DefaultBoxHeigth = 100.000000
 	__Diagram__00000000_.IsExpanded = true
 	__Diagram__00000000_.ComputedPrefix = ``
+	__Diagram__00000000_.IsInRenameMode = false
 	__Diagram__00000000_.IsPBSNodeExpanded = true
 	__Diagram__00000000_.IsWBSNodeExpanded = true
 	__Diagram__00000000_.IsNotesNodeExpanded = true
@@ -92,6 +92,7 @@ func _(stage *models.Stage) {
 	__Note__00000000_.Name = `N1`
 	__Note__00000000_.IsExpanded = false
 	__Note__00000000_.ComputedPrefix = `1`
+	__Note__00000000_.IsInRenameMode = false
 
 	__NoteProductShape__00000000_.Name = `N1 to P1`
 	__NoteProductShape__00000000_.StartRatio = 0.500000
@@ -118,6 +119,7 @@ func _(stage *models.Stage) {
 	__Product__00000000_.Description = ``
 	__Product__00000000_.IsExpanded = false
 	__Product__00000000_.ComputedPrefix = `1`
+	__Product__00000000_.IsInRenameMode = false
 	__Product__00000000_.IsProducersNodeExpanded = false
 	__Product__00000000_.IsConsumersNodeExpanded = false
 
@@ -125,6 +127,7 @@ func _(stage *models.Stage) {
 	__Product__00000001_.Description = ``
 	__Product__00000001_.IsExpanded = false
 	__Product__00000001_.ComputedPrefix = `1.1`
+	__Product__00000001_.IsInRenameMode = false
 	__Product__00000001_.IsProducersNodeExpanded = false
 	__Product__00000001_.IsConsumersNodeExpanded = false
 
@@ -132,6 +135,7 @@ func _(stage *models.Stage) {
 	__Product__00000002_.Description = ``
 	__Product__00000002_.IsExpanded = false
 	__Product__00000002_.ComputedPrefix = `1.2`
+	__Product__00000002_.IsInRenameMode = false
 	__Product__00000002_.IsProducersNodeExpanded = false
 	__Product__00000002_.IsConsumersNodeExpanded = false
 
@@ -173,21 +177,25 @@ func _(stage *models.Stage) {
 	__Project__00000000_.Name = `NewProject`
 	__Project__00000000_.IsExpanded = true
 	__Project__00000000_.ComputedPrefix = ``
+	__Project__00000000_.IsInRenameMode = false
 
 	__Resource__00000000_.Name = `R1`
 	__Resource__00000000_.Description = ``
 	__Resource__00000000_.IsExpanded = false
 	__Resource__00000000_.ComputedPrefix = `1`
+	__Resource__00000000_.IsInRenameMode = false
 
 	__Resource__00000001_.Name = `R1.1`
 	__Resource__00000001_.Description = ``
 	__Resource__00000001_.IsExpanded = false
 	__Resource__00000001_.ComputedPrefix = `1.1`
+	__Resource__00000001_.IsInRenameMode = false
 
 	__Resource__00000002_.Name = `R1.2`
 	__Resource__00000002_.Description = ``
 	__Resource__00000002_.IsExpanded = false
 	__Resource__00000002_.ComputedPrefix = `1.2`
+	__Resource__00000002_.IsInRenameMode = false
 
 	__ResourceCompositionShape__00000001_.Name = `R1 to R1.2`
 	__ResourceCompositionShape__00000001_.StartRatio = 0.235952
@@ -238,6 +246,7 @@ func _(stage *models.Stage) {
 	__Task__00000000_.Description = ``
 	__Task__00000000_.IsExpanded = false
 	__Task__00000000_.ComputedPrefix = `1`
+	__Task__00000000_.IsInRenameMode = false
 	__Task__00000000_.IsInputsNodeExpanded = false
 	__Task__00000000_.IsOutputsNodeExpanded = false
 	__Task__00000000_.IsWithCompletion = false
@@ -247,12 +256,13 @@ func _(stage *models.Stage) {
 	__Task__00000001_.Description = ``
 	__Task__00000001_.IsExpanded = false
 	__Task__00000001_.ComputedPrefix = `1.1`
+	__Task__00000001_.IsInRenameMode = false
 	__Task__00000001_.IsInputsNodeExpanded = false
 	__Task__00000001_.IsOutputsNodeExpanded = false
 	__Task__00000001_.IsWithCompletion = true
 	__Task__00000001_.Completion = models.PERCENT_050
 
-	__TaskCompositionShape__00000000_.Name = `T1 to NewTask`
+	__TaskCompositionShape__00000000_.Name = `T1 to T1.1`
 	__TaskCompositionShape__00000000_.StartRatio = 0.500000
 	__TaskCompositionShape__00000000_.EndRatio = 0.500000
 	__TaskCompositionShape__00000000_.StartOrientation = models.ORIENTATION_VERTICAL
@@ -268,10 +278,10 @@ func _(stage *models.Stage) {
 
 	__TaskOutputShape__00000000_.Name = `T1.1 to P1.1`
 	__TaskOutputShape__00000000_.StartRatio = 0.500000
-	__TaskOutputShape__00000000_.EndRatio = 0.405192
+	__TaskOutputShape__00000000_.EndRatio = 0.500000
 	__TaskOutputShape__00000000_.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__TaskOutputShape__00000000_.EndOrientation = models.ORIENTATION_VERTICAL
-	__TaskOutputShape__00000000_.CornerOffsetRatio = -0.577653
+	__TaskOutputShape__00000000_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__TaskOutputShape__00000000_.CornerOffsetRatio = 1.680000
 
 	__TaskShape__00000000_.Name = `NewTask-Default Diagram`
 	__TaskShape__00000000_.IsExpanded = false
@@ -310,7 +320,6 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.Resource_Shapes = append(__Diagram__00000000_.Resource_Shapes, __ResourceShape__00000002_)
 	__Diagram__00000000_.Resource_Shapes = append(__Diagram__00000000_.Resource_Shapes, __ResourceShape__00000003_)
 	__Diagram__00000000_.ResourcesWhoseNodeIsExpanded = append(__Diagram__00000000_.ResourcesWhoseNodeIsExpanded, __Resource__00000000_)
-	__Diagram__00000000_.ResourcesWhoseNodeIsExpanded = append(__Diagram__00000000_.ResourcesWhoseNodeIsExpanded, __Resource__00000001_)
 	__Diagram__00000000_.ResourceComposition_Shapes = append(__Diagram__00000000_.ResourceComposition_Shapes, __ResourceCompositionShape__00000001_)
 	__Diagram__00000000_.ResourceComposition_Shapes = append(__Diagram__00000000_.ResourceComposition_Shapes, __ResourceCompositionShape__00000002_)
 	__Diagram__00000000_.ResourceTaskShapes = append(__Diagram__00000000_.ResourceTaskShapes, __ResourceTaskShape__00000000_)
