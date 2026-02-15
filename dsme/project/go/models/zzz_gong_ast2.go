@@ -427,8 +427,6 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.IsChecked = GongExtractBool(valueExpr)
 	case "IsEditable_":
 		instance.IsEditable_ = GongExtractBool(valueExpr)
-	case "IsInRenameMode":
-		instance.IsInRenameMode = GongExtractBool(valueExpr)
 	case "ShowPrefix":
 		instance.ShowPrefix = GongExtractBool(valueExpr)
 	case "DefaultBoxWidth":
@@ -439,6 +437,8 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.IsExpanded = GongExtractBool(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "IsInRenameMode":
+		instance.IsInRenameMode = GongExtractBool(valueExpr)
 	case "Product_Shapes":
 		GongUnmarshallSliceOfPointers(&instance.Product_Shapes, valueExpr, identifierMap)
 	case "ProductsWhoseNodeIsExpanded":
@@ -520,6 +520,8 @@ func (u *NoteUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.IsExpanded = GongExtractBool(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "IsInRenameMode":
+		instance.IsInRenameMode = GongExtractBool(valueExpr)
 	}
 	return nil
 }
@@ -684,6 +686,8 @@ func (u *ProductUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.IsExpanded = GongExtractBool(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "IsInRenameMode":
+		instance.IsInRenameMode = GongExtractBool(valueExpr)
 	case "IsProducersNodeExpanded":
 		instance.IsProducersNodeExpanded = GongExtractBool(valueExpr)
 	case "IsConsumersNodeExpanded":
@@ -813,6 +817,8 @@ func (u *ProjectUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.IsExpanded = GongExtractBool(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "IsInRenameMode":
+		instance.IsInRenameMode = GongExtractBool(valueExpr)
 	}
 	return nil
 }
@@ -852,6 +858,8 @@ func (u *ResourceUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 		instance.IsExpanded = GongExtractBool(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "IsInRenameMode":
+		instance.IsInRenameMode = GongExtractBool(valueExpr)
 	}
 	return nil
 }
@@ -1047,6 +1055,8 @@ func (u *TaskUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.IsExpanded = GongExtractBool(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "IsInRenameMode":
+		instance.IsInRenameMode = GongExtractBool(valueExpr)
 	case "Inputs":
 		GongUnmarshallSliceOfPointers(&instance.Inputs, valueExpr, identifierMap)
 	case "IsInputsNodeExpanded":
