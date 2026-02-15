@@ -54,8 +54,8 @@ func _(stage *models.Stage) {
 	__ResourceCompositionShape__00000002_ := (&models.ResourceCompositionShape{Name: `R1 to R1.1`}).Stage(stage)
 
 	__ResourceShape__00000000_ := (&models.ResourceShape{Name: `NewResource-Default Diagram`}).Stage(stage)
-	__ResourceShape__00000001_ := (&models.ResourceShape{Name: `NewResource-Default Diagram`}).Stage(stage)
 	__ResourceShape__00000002_ := (&models.ResourceShape{Name: `NewResource-Default Diagram`}).Stage(stage)
+	__ResourceShape__00000003_ := (&models.ResourceShape{Name: `R1.1-Default Diagram`}).Stage(stage)
 
 	__ResourceTaskShape__00000000_ := (&models.ResourceTaskShape{Name: `R1.1 to T1.1`}).Stage(stage)
 
@@ -210,13 +210,6 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000000_.Width = 250.000000
 	__ResourceShape__00000000_.Height = 71.000000
 
-	__ResourceShape__00000001_.Name = `NewResource-Default Diagram`
-	__ResourceShape__00000001_.IsExpanded = false
-	__ResourceShape__00000001_.X = 164.876437
-	__ResourceShape__00000001_.Y = 615.483878
-	__ResourceShape__00000001_.Width = 250.000000
-	__ResourceShape__00000001_.Height = 70.000000
-
 	__ResourceShape__00000002_.Name = `NewResource-Default Diagram`
 	__ResourceShape__00000002_.IsExpanded = false
 	__ResourceShape__00000002_.X = 158.862056
@@ -224,12 +217,19 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000002_.Width = 250.000000
 	__ResourceShape__00000002_.Height = 73.000000
 
+	__ResourceShape__00000003_.Name = `R1.1-Default Diagram`
+	__ResourceShape__00000003_.IsExpanded = false
+	__ResourceShape__00000003_.X = 269.043648
+	__ResourceShape__00000003_.Y = 618.652577
+	__ResourceShape__00000003_.Width = 250.000000
+	__ResourceShape__00000003_.Height = 72.000000
+
 	__ResourceTaskShape__00000000_.Name = `R1.1 to T1.1`
-	__ResourceTaskShape__00000000_.StartRatio = 0.853348
-	__ResourceTaskShape__00000000_.EndRatio = 0.500000
-	__ResourceTaskShape__00000000_.StartOrientation = models.ORIENTATION_VERTICAL
-	__ResourceTaskShape__00000000_.EndOrientation = models.ORIENTATION_VERTICAL
-	__ResourceTaskShape__00000000_.CornerOffsetRatio = -2.563956
+	__ResourceTaskShape__00000000_.StartRatio = 0.727144
+	__ResourceTaskShape__00000000_.EndRatio = 1.000000
+	__ResourceTaskShape__00000000_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceTaskShape__00000000_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceTaskShape__00000000_.CornerOffsetRatio = 1.616679
 
 	__Root__00000000_.Name = `Root`
 	__Root__00000000_.NbPixPerCharacter = 8.000000
@@ -307,8 +307,8 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.NoteProductShapes = append(__Diagram__00000000_.NoteProductShapes, __NoteProductShape__00000000_)
 	__Diagram__00000000_.NoteTaskShapes = append(__Diagram__00000000_.NoteTaskShapes, __NoteTaskShape__00000000_)
 	__Diagram__00000000_.Resource_Shapes = append(__Diagram__00000000_.Resource_Shapes, __ResourceShape__00000000_)
-	__Diagram__00000000_.Resource_Shapes = append(__Diagram__00000000_.Resource_Shapes, __ResourceShape__00000001_)
 	__Diagram__00000000_.Resource_Shapes = append(__Diagram__00000000_.Resource_Shapes, __ResourceShape__00000002_)
+	__Diagram__00000000_.Resource_Shapes = append(__Diagram__00000000_.Resource_Shapes, __ResourceShape__00000003_)
 	__Diagram__00000000_.ResourcesWhoseNodeIsExpanded = append(__Diagram__00000000_.ResourcesWhoseNodeIsExpanded, __Resource__00000000_)
 	__Diagram__00000000_.ResourcesWhoseNodeIsExpanded = append(__Diagram__00000000_.ResourcesWhoseNodeIsExpanded, __Resource__00000001_)
 	__Diagram__00000000_.ResourceComposition_Shapes = append(__Diagram__00000000_.ResourceComposition_Shapes, __ResourceCompositionShape__00000001_)
@@ -339,8 +339,8 @@ func _(stage *models.Stage) {
 	__ResourceCompositionShape__00000001_.Resource = __Resource__00000002_
 	__ResourceCompositionShape__00000002_.Resource = __Resource__00000001_
 	__ResourceShape__00000000_.Resource = __Resource__00000000_
-	__ResourceShape__00000001_.Resource = __Resource__00000001_
 	__ResourceShape__00000002_.Resource = __Resource__00000002_
+	__ResourceShape__00000003_.Resource = __Resource__00000001_
 	__ResourceTaskShape__00000000_.Resource = __Resource__00000001_
 	__ResourceTaskShape__00000000_.Task = __Task__00000001_
 	__Root__00000000_.Projects = append(__Root__00000000_.Projects, __Project__00000000_)
