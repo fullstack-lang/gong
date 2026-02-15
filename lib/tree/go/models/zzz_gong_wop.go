@@ -40,6 +40,10 @@ type Node_WOP struct {
 
 	Name string
 
+	IsWithPrefix bool
+
+	Prefix string
+
 	FontStyle FontStyleEnum
 
 	BackgroundColor string
@@ -90,6 +94,8 @@ type Node_WOP struct {
 func (from *Node) CopyBasicFields(to *Node) {
 	// insertion point
 	to.Name = from.Name
+	to.IsWithPrefix = from.IsWithPrefix
+	to.Prefix = from.Prefix
 	to.FontStyle = from.FontStyle
 	to.BackgroundColor = from.BackgroundColor
 	to.IsExpanded = from.IsExpanded
