@@ -76,6 +76,13 @@ type NodeDB struct {
 	// Declation for basic field nodeDB.Name
 	Name_Data sql.NullString
 
+	// Declation for basic field nodeDB.IsWithPrefix
+	// provide the sql storage for the boolan
+	IsWithPrefix_Data sql.NullBool
+
+	// Declation for basic field nodeDB.Prefix
+	Prefix_Data sql.NullString
+
 	// Declation for basic field nodeDB.FontStyle
 	FontStyle_Data sql.NullString
 
@@ -182,51 +189,55 @@ type NodeWOP struct {
 
 	Name string `xlsx:"1"`
 
-	FontStyle models.FontStyleEnum `xlsx:"2"`
+	IsWithPrefix bool `xlsx:"2"`
 
-	BackgroundColor string `xlsx:"3"`
+	Prefix string `xlsx:"3"`
 
-	IsExpanded bool `xlsx:"4"`
+	FontStyle models.FontStyleEnum `xlsx:"4"`
 
-	HasCheckboxButton bool `xlsx:"5"`
+	BackgroundColor string `xlsx:"5"`
 
-	IsChecked bool `xlsx:"6"`
+	IsExpanded bool `xlsx:"6"`
 
-	IsCheckboxDisabled bool `xlsx:"7"`
+	HasCheckboxButton bool `xlsx:"7"`
 
-	CheckboxHasToolTip bool `xlsx:"8"`
+	IsChecked bool `xlsx:"8"`
 
-	CheckboxToolTipText string `xlsx:"9"`
+	IsCheckboxDisabled bool `xlsx:"9"`
 
-	CheckboxToolTipPosition models.ToolTipPositionEnum `xlsx:"10"`
+	CheckboxHasToolTip bool `xlsx:"10"`
 
-	HasSecondCheckboxButton bool `xlsx:"11"`
+	CheckboxToolTipText string `xlsx:"11"`
 
-	IsSecondCheckboxChecked bool `xlsx:"12"`
+	CheckboxToolTipPosition models.ToolTipPositionEnum `xlsx:"12"`
 
-	IsSecondCheckboxDisabled bool `xlsx:"13"`
+	HasSecondCheckboxButton bool `xlsx:"13"`
 
-	SecondCheckboxHasToolTip bool `xlsx:"14"`
+	IsSecondCheckboxChecked bool `xlsx:"14"`
 
-	SecondCheckboxToolTipText string `xlsx:"15"`
+	IsSecondCheckboxDisabled bool `xlsx:"15"`
 
-	SecondCheckboxToolTipPosition models.ToolTipPositionEnum `xlsx:"16"`
+	SecondCheckboxHasToolTip bool `xlsx:"16"`
 
-	TextAfterSecondCheckbox string `xlsx:"17"`
+	SecondCheckboxToolTipText string `xlsx:"17"`
 
-	HasToolTip bool `xlsx:"18"`
+	SecondCheckboxToolTipPosition models.ToolTipPositionEnum `xlsx:"18"`
 
-	ToolTipText string `xlsx:"19"`
+	TextAfterSecondCheckbox string `xlsx:"19"`
 
-	ToolTipPosition models.ToolTipPositionEnum `xlsx:"20"`
+	HasToolTip bool `xlsx:"20"`
 
-	IsInEditMode bool `xlsx:"21"`
+	ToolTipText string `xlsx:"21"`
 
-	IsNodeClickable bool `xlsx:"22"`
+	ToolTipPosition models.ToolTipPositionEnum `xlsx:"22"`
 
-	IsWithPreceedingIcon bool `xlsx:"23"`
+	IsInEditMode bool `xlsx:"23"`
 
-	PreceedingIcon string `xlsx:"24"`
+	IsNodeClickable bool `xlsx:"24"`
+
+	IsWithPreceedingIcon bool `xlsx:"25"`
+
+	PreceedingIcon string `xlsx:"26"`
 	// insertion for WOP pointer fields
 }
 
@@ -234,6 +245,8 @@ var Node_Fields = []string{
 	// insertion for WOP basic fields
 	"ID",
 	"Name",
+	"IsWithPrefix",
+	"Prefix",
 	"FontStyle",
 	"BackgroundColor",
 	"IsExpanded",
@@ -622,6 +635,12 @@ func (nodeDB *NodeDB) CopyBasicFieldsFromNode(node *models.Node) {
 	nodeDB.Name_Data.String = node.Name
 	nodeDB.Name_Data.Valid = true
 
+	nodeDB.IsWithPrefix_Data.Bool = node.IsWithPrefix
+	nodeDB.IsWithPrefix_Data.Valid = true
+
+	nodeDB.Prefix_Data.String = node.Prefix
+	nodeDB.Prefix_Data.Valid = true
+
 	nodeDB.FontStyle_Data.String = node.FontStyle.ToString()
 	nodeDB.FontStyle_Data.Valid = true
 
@@ -698,6 +717,12 @@ func (nodeDB *NodeDB) CopyBasicFieldsFromNode_WOP(node *models.Node_WOP) {
 
 	nodeDB.Name_Data.String = node.Name
 	nodeDB.Name_Data.Valid = true
+
+	nodeDB.IsWithPrefix_Data.Bool = node.IsWithPrefix
+	nodeDB.IsWithPrefix_Data.Valid = true
+
+	nodeDB.Prefix_Data.String = node.Prefix
+	nodeDB.Prefix_Data.Valid = true
 
 	nodeDB.FontStyle_Data.String = node.FontStyle.ToString()
 	nodeDB.FontStyle_Data.Valid = true
@@ -776,6 +801,12 @@ func (nodeDB *NodeDB) CopyBasicFieldsFromNodeWOP(node *NodeWOP) {
 	nodeDB.Name_Data.String = node.Name
 	nodeDB.Name_Data.Valid = true
 
+	nodeDB.IsWithPrefix_Data.Bool = node.IsWithPrefix
+	nodeDB.IsWithPrefix_Data.Valid = true
+
+	nodeDB.Prefix_Data.String = node.Prefix
+	nodeDB.Prefix_Data.Valid = true
+
 	nodeDB.FontStyle_Data.String = node.FontStyle.ToString()
 	nodeDB.FontStyle_Data.Valid = true
 
@@ -850,6 +881,8 @@ func (nodeDB *NodeDB) CopyBasicFieldsFromNodeWOP(node *NodeWOP) {
 func (nodeDB *NodeDB) CopyBasicFieldsToNode(node *models.Node) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	node.Name = nodeDB.Name_Data.String
+	node.IsWithPrefix = nodeDB.IsWithPrefix_Data.Bool
+	node.Prefix = nodeDB.Prefix_Data.String
 	node.FontStyle.FromString(nodeDB.FontStyle_Data.String)
 	node.BackgroundColor = nodeDB.BackgroundColor_Data.String
 	node.IsExpanded = nodeDB.IsExpanded_Data.Bool
@@ -879,6 +912,8 @@ func (nodeDB *NodeDB) CopyBasicFieldsToNode(node *models.Node) {
 func (nodeDB *NodeDB) CopyBasicFieldsToNode_WOP(node *models.Node_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	node.Name = nodeDB.Name_Data.String
+	node.IsWithPrefix = nodeDB.IsWithPrefix_Data.Bool
+	node.Prefix = nodeDB.Prefix_Data.String
 	node.FontStyle.FromString(nodeDB.FontStyle_Data.String)
 	node.BackgroundColor = nodeDB.BackgroundColor_Data.String
 	node.IsExpanded = nodeDB.IsExpanded_Data.Bool
@@ -909,6 +944,8 @@ func (nodeDB *NodeDB) CopyBasicFieldsToNodeWOP(node *NodeWOP) {
 	node.ID = int(nodeDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	node.Name = nodeDB.Name_Data.String
+	node.IsWithPrefix = nodeDB.IsWithPrefix_Data.Bool
+	node.Prefix = nodeDB.Prefix_Data.String
 	node.FontStyle.FromString(nodeDB.FontStyle_Data.String)
 	node.BackgroundColor = nodeDB.BackgroundColor_Data.String
 	node.IsExpanded = nodeDB.IsExpanded_Data.Bool

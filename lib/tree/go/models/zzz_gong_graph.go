@@ -444,6 +444,12 @@ func (node *Node) GongDiff(stage *Stage, nodeOther *Node) (diffs []string) {
 	if node.Name != nodeOther.Name {
 		diffs = append(diffs, node.GongMarshallField(stage, "Name"))
 	}
+	if node.IsWithPrefix != nodeOther.IsWithPrefix {
+		diffs = append(diffs, node.GongMarshallField(stage, "IsWithPrefix"))
+	}
+	if node.Prefix != nodeOther.Prefix {
+		diffs = append(diffs, node.GongMarshallField(stage, "Prefix"))
+	}
 	if node.FontStyle != nodeOther.FontStyle {
 		diffs = append(diffs, node.GongMarshallField(stage, "FontStyle"))
 	}

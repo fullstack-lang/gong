@@ -34,7 +34,11 @@
                      [matTooltip]="node.gongNode.ToolTipText"
                      [matTooltipPosition]="node.gongNode.ToolTipPosition"
                      [matTooltipDisabled]="!node.gongNode.HasToolTip">
-                    {{node.name}}
+                    @if (node.gongNode.IsWithPrefix) {
+                        {{node.gongNode.Prefix}} {{node.name}}
+                    } @else {
+                        {{node.name}}
+                    }
                 </div>
             } @else {
                 <span class="node-edit-container">

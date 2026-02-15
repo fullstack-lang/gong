@@ -32,6 +32,8 @@ type AbstractType interface {
 	GetComputedWidth() int
 	SetComputedWidth(int)
 	SetComputedPrefixInt([]int)
+	GetIsInRenameMode() bool
+	SetIsInRenameMode(bool)
 }
 
 type AbstractTypeFields struct {
@@ -44,6 +46,9 @@ type AbstractTypeFields struct {
 	// When the full PBS is displayed, the computedWidth is the number of node
 	// aligned below. A leaf node has a computedWidth of 1
 	computedWidth int
+
+	// nodes can be edited
+	IsInRenameMode bool
 }
 
 // Note brings information to a diagram
@@ -177,6 +182,14 @@ func (r *AbstractTypeFields) GetComputedPrefix() string {
 
 func (r *AbstractTypeFields) SetComputedPrefix(ComputedPrefix string) {
 	r.ComputedPrefix = ComputedPrefix
+}
+
+func (r *AbstractTypeFields) GetIsInRenameMode() bool {
+	return r.IsInRenameMode
+}
+
+func (r *AbstractTypeFields) SetIsInRenameMode(isInRenameMode bool) {
+	r.IsInRenameMode = isInRenameMode
 }
 
 var (
