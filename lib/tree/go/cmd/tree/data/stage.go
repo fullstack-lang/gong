@@ -142,6 +142,8 @@ func _(stage *models.Stage) {
 	__Button__00000011_.ToolTipPosition = models.Right
 
 	__Node__00000000_.Name = `Test 1.2 without checkbox`
+	__Node__00000000_.IsWithPrefix = false
+	__Node__00000000_.Prefix = ``
 	__Node__00000000_.FontStyle = models.NORMAL
 	__Node__00000000_.BackgroundColor = ``
 	__Node__00000000_.IsExpanded = false
@@ -167,6 +169,8 @@ func _(stage *models.Stage) {
 	__Node__00000000_.PreceedingIcon = ``
 
 	__Node__00000001_.Name = `root1`
+	__Node__00000001_.IsWithPrefix = false
+	__Node__00000001_.Prefix = ``
 	__Node__00000001_.FontStyle = ""
 	__Node__00000001_.BackgroundColor = ``
 	__Node__00000001_.IsExpanded = true
@@ -192,6 +196,8 @@ func _(stage *models.Stage) {
 	__Node__00000001_.PreceedingIcon = ``
 
 	__Node__00000002_.Name = `root2`
+	__Node__00000002_.IsWithPrefix = false
+	__Node__00000002_.Prefix = ``
 	__Node__00000002_.FontStyle = ""
 	__Node__00000002_.BackgroundColor = ``
 	__Node__00000002_.IsExpanded = true
@@ -217,6 +223,8 @@ func _(stage *models.Stage) {
 	__Node__00000002_.PreceedingIcon = ``
 
 	__Node__00000003_.Name = `root3`
+	__Node__00000003_.IsWithPrefix = false
+	__Node__00000003_.Prefix = ``
 	__Node__00000003_.FontStyle = ""
 	__Node__00000003_.BackgroundColor = ``
 	__Node__00000003_.IsExpanded = true
@@ -242,6 +250,8 @@ func _(stage *models.Stage) {
 	__Node__00000003_.PreceedingIcon = ``
 
 	__Node__00000004_.Name = `root3.test3`
+	__Node__00000004_.IsWithPrefix = false
+	__Node__00000004_.Prefix = ``
 	__Node__00000004_.FontStyle = ""
 	__Node__00000004_.BackgroundColor = ``
 	__Node__00000004_.IsExpanded = false
@@ -267,6 +277,8 @@ func _(stage *models.Stage) {
 	__Node__00000004_.PreceedingIcon = ``
 
 	__Node__00000005_.Name = `test 1.1`
+	__Node__00000005_.IsWithPrefix = true
+	__Node__00000005_.Prefix = `1.1`
 	__Node__00000005_.FontStyle = ""
 	__Node__00000005_.BackgroundColor = ``
 	__Node__00000005_.IsExpanded = false
@@ -292,6 +304,8 @@ func _(stage *models.Stage) {
 	__Node__00000005_.PreceedingIcon = ``
 
 	__Node__00000006_.Name = `test 1.2 (clickable)`
+	__Node__00000006_.IsWithPrefix = false
+	__Node__00000006_.Prefix = ``
 	__Node__00000006_.FontStyle = ""
 	__Node__00000006_.BackgroundColor = ``
 	__Node__00000006_.IsExpanded = false
@@ -317,6 +331,8 @@ func _(stage *models.Stage) {
 	__Node__00000006_.PreceedingIcon = `directions_walk`
 
 	__Node__00000007_.Name = `test 1.3`
+	__Node__00000007_.IsWithPrefix = false
+	__Node__00000007_.Prefix = ``
 	__Node__00000007_.FontStyle = models.ITALIC
 	__Node__00000007_.BackgroundColor = `yellow`
 	__Node__00000007_.IsExpanded = true
@@ -342,6 +358,8 @@ func _(stage *models.Stage) {
 	__Node__00000007_.PreceedingIcon = ``
 
 	__Node__00000008_.Name = `test 1.3.1..F`
+	__Node__00000008_.IsWithPrefix = false
+	__Node__00000008_.Prefix = ``
 	__Node__00000008_.FontStyle = models.ITALIC
 	__Node__00000008_.BackgroundColor = ``
 	__Node__00000008_.IsExpanded = false
@@ -367,6 +385,8 @@ func _(stage *models.Stage) {
 	__Node__00000008_.PreceedingIcon = `query_stats`
 
 	__Node__00000009_.Name = `test 1.3.1 / svg icon`
+	__Node__00000009_.IsWithPrefix = false
+	__Node__00000009_.Prefix = ``
 	__Node__00000009_.FontStyle = ""
 	__Node__00000009_.BackgroundColor = ``
 	__Node__00000009_.IsExpanded = false
@@ -392,6 +412,8 @@ func _(stage *models.Stage) {
 	__Node__00000009_.PreceedingIcon = ``
 
 	__Node__00000010_.Name = `test 1.4`
+	__Node__00000010_.IsWithPrefix = false
+	__Node__00000010_.Prefix = ``
 	__Node__00000010_.FontStyle = ""
 	__Node__00000010_.BackgroundColor = `#4ece92`
 	__Node__00000010_.IsExpanded = false
@@ -417,6 +439,8 @@ func _(stage *models.Stage) {
 	__Node__00000010_.PreceedingIcon = ``
 
 	__Node__00000011_.Name = `test 2.1`
+	__Node__00000011_.IsWithPrefix = false
+	__Node__00000011_.Prefix = ``
 	__Node__00000011_.FontStyle = ""
 	__Node__00000011_.BackgroundColor = ``
 	__Node__00000011_.IsExpanded = false
@@ -442,6 +466,8 @@ func _(stage *models.Stage) {
 	__Node__00000011_.PreceedingIcon = ``
 
 	__Node__00000012_.Name = `test3`
+	__Node__00000012_.IsWithPrefix = false
+	__Node__00000012_.Prefix = ``
 	__Node__00000012_.FontStyle = ""
 	__Node__00000012_.BackgroundColor = `#F8F8F8`
 	__Node__00000012_.IsExpanded = false

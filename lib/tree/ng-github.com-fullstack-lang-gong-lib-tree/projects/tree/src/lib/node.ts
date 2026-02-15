@@ -18,6 +18,8 @@ export class Node {
 
 	// insertion point for basic fields declarations
 	Name: string = ""
+	IsWithPrefix: boolean = false
+	Prefix: string = ""
 	FontStyle: string = ""
 	BackgroundColor: string = ""
 	IsExpanded: boolean = false
@@ -60,6 +62,8 @@ export function CopyNodeToNodeAPI(node: Node, nodeAPI: NodeAPI) {
 
 	// insertion point for basic fields copy operations
 	nodeAPI.Name = node.Name
+	nodeAPI.IsWithPrefix = node.IsWithPrefix
+	nodeAPI.Prefix = node.Prefix
 	nodeAPI.FontStyle = node.FontStyle
 	nodeAPI.BackgroundColor = node.BackgroundColor
 	nodeAPI.IsExpanded = node.IsExpanded
@@ -118,6 +122,8 @@ export function CopyNodeAPIToNode(nodeAPI: NodeAPI, node: Node, frontRepo: Front
 
 	// insertion point for basic fields copy operations
 	node.Name = nodeAPI.Name
+	node.IsWithPrefix = nodeAPI.IsWithPrefix
+	node.Prefix = nodeAPI.Prefix
 	node.FontStyle = nodeAPI.FontStyle
 	node.BackgroundColor = nodeAPI.BackgroundColor
 	node.IsExpanded = nodeAPI.IsExpanded
