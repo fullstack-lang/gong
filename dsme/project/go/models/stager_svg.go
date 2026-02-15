@@ -338,6 +338,24 @@ func (stager *Stager) svg() {
 		)
 	}
 
+	for _, resourceTaskShape := range diagram.ResourceTaskShapes {
+		resource := resourceTaskShape.Resource
+		task := resourceTaskShape.Task
+		if resource == nil || task == nil {
+			log.Panic("There should be a resource and a task")
+		}
+		startRect := diagram.map_Resource_Rect[resource]
+		endRect := diagram.map_Task_Rect[task]
+		svgAssociationLink(
+			stager,
+			startRect, endRect,
+			resourceTaskShape,
+			resource,
+			layer,
+			true,
+		)
+	}
+
 	svg.StageBranch(svgStage, svgObject)
 	stager.svgStage.Commit()
 }
