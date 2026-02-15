@@ -11,13 +11,20 @@ func (stager *Stager) enforceDuplicateRemove() (needCommit bool) {
 
 	for diagram := range stage.Diagrams {
 		needCommit = removeDuplicatesSlice(stager, &diagram.Product_Shapes) || needCommit
-		needCommit = removeDuplicatesSlice(stager, &diagram.Task_Shapes) || needCommit
-		needCommit = removeDuplicatesSlice(stager, &diagram.Note_Shapes) || needCommit
-		needCommit = removeDuplicatesSlice(stager, &diagram.Resource_Shapes) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &diagram.ProductComposition_Shapes) || needCommit
 
+		needCommit = removeDuplicatesSlice(stager, &diagram.Task_Shapes) || needCommit
 		needCommit = removeDuplicatesSlice(stager, &diagram.TaskComposition_Shapes) || needCommit
 		needCommit = removeDuplicatesSlice(stager, &diagram.TaskInputShapes) || needCommit
 		needCommit = removeDuplicatesSlice(stager, &diagram.TaskOutputShapes) || needCommit
+
+		needCommit = removeDuplicatesSlice(stager, &diagram.Note_Shapes) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &diagram.NoteProductShapes) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &diagram.NoteTaskShapes) || needCommit
+
+		needCommit = removeDuplicatesSlice(stager, &diagram.Resource_Shapes) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &diagram.ResourceComposition_Shapes) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &diagram.ResourceTaskShapes) || needCommit
 	}
 
 	for project := range stage.Projects {
