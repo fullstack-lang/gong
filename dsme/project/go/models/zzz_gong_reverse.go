@@ -57,6 +57,22 @@ func (inst *NoteProductShape) GongGetReverseFieldOwnerName(stage *Stage, reverse
 	return
 }
 
+func (inst *NoteResourceShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "Diagram":
+		switch reverseField.Fieldname {
+		case "NoteResourceShapes":
+			if _diagram, ok := stage.Diagram_NoteResourceShapes_reverseMap[inst]; ok {
+				res = _diagram.Name
+			}
+		}
+	}
+	return
+}
+
 func (inst *NoteShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -195,6 +211,13 @@ func (inst *Resource) GongGetReverseFieldOwnerName(stage *Stage, reverseField *R
 		case "ResourcesWhoseNodeIsExpanded":
 			if _diagram, ok := stage.Diagram_ResourcesWhoseNodeIsExpanded_reverseMap[inst]; ok {
 				res = _diagram.Name
+			}
+		}
+	case "Note":
+		switch reverseField.Fieldname {
+		case "Resources":
+			if _note, ok := stage.Note_Resources_reverseMap[inst]; ok {
+				res = _note.Name
 			}
 		}
 	case "Project":
@@ -436,6 +459,20 @@ func (inst *NoteProductShape) GongGetReverseFieldOwner(stage *Stage, reverseFiel
 	return res
 }
 
+func (inst *NoteResourceShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	case "Diagram":
+		switch reverseField.Fieldname {
+		case "NoteResourceShapes":
+			res = stage.Diagram_NoteResourceShapes_reverseMap[inst]
+		}
+	}
+	return res
+}
+
 func (inst *NoteShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
@@ -551,6 +588,11 @@ func (inst *Resource) GongGetReverseFieldOwner(stage *Stage, reverseField *Rever
 		switch reverseField.Fieldname {
 		case "ResourcesWhoseNodeIsExpanded":
 			res = stage.Diagram_ResourcesWhoseNodeIsExpanded_reverseMap[inst]
+		}
+	case "Note":
+		switch reverseField.Fieldname {
+		case "Resources":
+			res = stage.Note_Resources_reverseMap[inst]
 		}
 	case "Project":
 		switch reverseField.Fieldname {

@@ -22,6 +22,7 @@ var _ map[string]any = map[string]any{
 
 // function will stage objects
 func _(stage *models.Stage) {
+
 	// insertion point for declaration of instances to stage
 
 	__Classdiagram__00000000_ := (&models.Classdiagram{Name: `Abstract model`}).Stage(stage)
@@ -32,6 +33,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000001_ := (&models.GongStructShape{Name: `Default-Project`}).Stage(stage)
 	__GongStructShape__00000002_ := (&models.GongStructShape{Name: `Default-Task`}).Stage(stage)
 	__GongStructShape__00000003_ := (&models.GongStructShape{Name: `Default-Note`}).Stage(stage)
+	__GongStructShape__00000004_ := (&models.GongStructShape{Name: `Abstract model-Resource`}).Stage(stage)
 
 	__LinkShape__00000000_ := (&models.LinkShape{Name: `SubProducts`}).Stage(stage)
 	__LinkShape__00000001_ := (&models.LinkShape{Name: `SubTasks`}).Stage(stage)
@@ -42,6 +44,9 @@ func _(stage *models.Stage) {
 	__LinkShape__00000006_ := (&models.LinkShape{Name: `Notes`}).Stage(stage)
 	__LinkShape__00000007_ := (&models.LinkShape{Name: `Products`}).Stage(stage)
 	__LinkShape__00000008_ := (&models.LinkShape{Name: `Tasks`}).Stage(stage)
+	__LinkShape__00000009_ := (&models.LinkShape{Name: `RootResources`}).Stage(stage)
+	__LinkShape__00000010_ := (&models.LinkShape{Name: `SubResources`}).Stage(stage)
+	__LinkShape__00000011_ := (&models.LinkShape{Name: `Tasks`}).Stage(stage)
 
 	// insertion point for initialization of values
 
@@ -49,12 +54,12 @@ func _(stage *models.Stage) {
 	__Classdiagram__00000000_.Description = ``
 	__Classdiagram__00000000_.IsIncludedInStaticWebSite = false
 	__Classdiagram__00000000_.ShowNbInstances = true
-	__Classdiagram__00000000_.ShowMultiplicity = true
+	__Classdiagram__00000000_.ShowMultiplicity = false
 	__Classdiagram__00000000_.ShowLinkNames = true
 	__Classdiagram__00000000_.IsInRenameMode = false
 	__Classdiagram__00000000_.IsExpanded = true
-	__Classdiagram__00000000_.NodeGongStructsIsExpanded = false
-	__Classdiagram__00000000_.NodeGongStructNodeExpansion = `[false,true,false,false,false,false,false,false,false]`
+	__Classdiagram__00000000_.NodeGongStructsIsExpanded = true
+	__Classdiagram__00000000_.NodeGongStructNodeExpansion = `[false,true,false,false,false,false,false,false,true,true]`
 	__Classdiagram__00000000_.NodeGongEnumsIsExpanded = false
 	__Classdiagram__00000000_.NodeGongEnumNodeExpansion = ``
 	__Classdiagram__00000000_.NodeGongNotesIsExpanded = false
@@ -86,16 +91,24 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000002_.Y = 353.000000
 	__GongStructShape__00000002_.IdentifierMeta = ref_models.Task{}
 	__GongStructShape__00000002_.Width = 240.000000
-	__GongStructShape__00000002_.Height = 211.000000
+	__GongStructShape__00000002_.Height = 191.000000
 	__GongStructShape__00000002_.IsSelected = false
 
 	__GongStructShape__00000003_.Name = `Default-Note`
-	__GongStructShape__00000003_.X = 529.000000
-	__GongStructShape__00000003_.Y = 636.000000
+	__GongStructShape__00000003_.X = 525.000000
+	__GongStructShape__00000003_.Y = 694.000000
 	__GongStructShape__00000003_.IdentifierMeta = ref_models.Note{}
 	__GongStructShape__00000003_.Width = 240.000000
 	__GongStructShape__00000003_.Height = 105.000000
 	__GongStructShape__00000003_.IsSelected = false
+
+	__GongStructShape__00000004_.Name = `Abstract model-Resource`
+	__GongStructShape__00000004_.X = 521.000000
+	__GongStructShape__00000004_.Y = 565.000000
+	__GongStructShape__00000004_.IdentifierMeta = ref_models.Resource{}
+	__GongStructShape__00000004_.Width = 240.000000
+	__GongStructShape__00000004_.Height = 102.000000
+	__GongStructShape__00000004_.IsSelected = false
 
 	__LinkShape__00000000_.Name = `SubProducts`
 	__LinkShape__00000000_.IdentifierMeta = ref_models.Product{}.SubProducts
@@ -114,7 +127,7 @@ func _(stage *models.Stage) {
 	__LinkShape__00000000_.StartRatio = 0.102427
 	__LinkShape__00000000_.EndOrientation = models.ORIENTATION_HORIZONTAL
 	__LinkShape__00000000_.EndRatio = 0.378618
-	__LinkShape__00000000_.CornerOffsetRatio = 1.656893
+	__LinkShape__00000000_.CornerOffsetRatio = 1.620631
 
 	__LinkShape__00000001_.Name = `SubTasks`
 	__LinkShape__00000001_.IdentifierMeta = ref_models.Task{}.SubTasks
@@ -130,9 +143,9 @@ func _(stage *models.Stage) {
 	__LinkShape__00000001_.X = 884.000000
 	__LinkShape__00000001_.Y = 293.500000
 	__LinkShape__00000001_.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__LinkShape__00000001_.StartRatio = 0.200720
+	__LinkShape__00000001_.StartRatio = 0.073380
 	__LinkShape__00000001_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__LinkShape__00000001_.EndRatio = 0.610851
+	__LinkShape__00000001_.EndRatio = 0.335160
 	__LinkShape__00000001_.CornerOffsetRatio = 1.590112
 
 	__LinkShape__00000002_.Name = `RootProducts`
@@ -168,7 +181,7 @@ func _(stage *models.Stage) {
 	__LinkShape__00000003_.X = 637.500000
 	__LinkShape__00000003_.Y = 255.500000
 	__LinkShape__00000003_.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__LinkShape__00000003_.StartRatio = 0.635535
+	__LinkShape__00000003_.StartRatio = 0.612005
 	__LinkShape__00000003_.EndOrientation = models.ORIENTATION_HORIZONTAL
 	__LinkShape__00000003_.EndRatio = 0.784406
 	__LinkShape__00000003_.CornerOffsetRatio = 1.380000
@@ -225,7 +238,7 @@ func _(stage *models.Stage) {
 	__LinkShape__00000006_.X = 632.500000
 	__LinkShape__00000006_.Y = 705.000000
 	__LinkShape__00000006_.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__LinkShape__00000006_.StartRatio = 0.880898
+	__LinkShape__00000006_.StartRatio = 0.944387
 	__LinkShape__00000006_.EndOrientation = models.ORIENTATION_HORIZONTAL
 	__LinkShape__00000006_.EndRatio = 0.500000
 	__LinkShape__00000006_.CornerOffsetRatio = 1.380000
@@ -265,23 +278,84 @@ func _(stage *models.Stage) {
 	__LinkShape__00000008_.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__LinkShape__00000008_.StartRatio = 0.328664
 	__LinkShape__00000008_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__LinkShape__00000008_.EndRatio = 0.872215
-	__LinkShape__00000008_.CornerOffsetRatio = 1.614062
+	__LinkShape__00000008_.EndRatio = 0.617883
+	__LinkShape__00000008_.CornerOffsetRatio = 1.724797
+
+	__LinkShape__00000009_.Name = `RootResources`
+	__LinkShape__00000009_.IdentifierMeta = ref_models.Project{}.RootResources
+	__LinkShape__00000009_.FieldTypeIdentifierMeta = ref_models.Resource{}
+	__LinkShape__00000009_.FieldOffsetX = 0.000000
+	__LinkShape__00000009_.FieldOffsetY = 0.000000
+	__LinkShape__00000009_.TargetMultiplicity = models.MANY
+	__LinkShape__00000009_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000009_.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__00000009_.SourceMultiplicity = models.MANY
+	__LinkShape__00000009_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000009_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000009_.X = 628.500000
+	__LinkShape__00000009_.Y = 669.500000
+	__LinkShape__00000009_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000009_.StartRatio = 0.760365
+	__LinkShape__00000009_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000009_.EndRatio = 0.500000
+	__LinkShape__00000009_.CornerOffsetRatio = 1.380000
+
+	__LinkShape__00000010_.Name = `SubResources`
+	__LinkShape__00000010_.IdentifierMeta = ref_models.Resource{}.SubResources
+	__LinkShape__00000010_.FieldTypeIdentifierMeta = ref_models.Resource{}
+	__LinkShape__00000010_.FieldOffsetX = 0.000000
+	__LinkShape__00000010_.FieldOffsetY = 0.000000
+	__LinkShape__00000010_.TargetMultiplicity = models.MANY
+	__LinkShape__00000010_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000010_.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__00000010_.SourceMultiplicity = models.MANY
+	__LinkShape__00000010_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000010_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000010_.X = 881.000000
+	__LinkShape__00000010_.Y = 596.500000
+	__LinkShape__00000010_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000010_.StartRatio = 0.392310
+	__LinkShape__00000010_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000010_.EndRatio = 0.892310
+	__LinkShape__00000010_.CornerOffsetRatio = 1.587297
+
+	__LinkShape__00000011_.Name = `Tasks`
+	__LinkShape__00000011_.IdentifierMeta = ref_models.Resource{}.Tasks
+	__LinkShape__00000011_.FieldTypeIdentifierMeta = ref_models.Task{}
+	__LinkShape__00000011_.FieldOffsetX = 0.000000
+	__LinkShape__00000011_.FieldOffsetY = 0.000000
+	__LinkShape__00000011_.TargetMultiplicity = models.MANY
+	__LinkShape__00000011_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000011_.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__00000011_.SourceMultiplicity = models.MANY
+	__LinkShape__00000011_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000011_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000011_.X = 881.000000
+	__LinkShape__00000011_.Y = 510.000000
+	__LinkShape__00000011_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000011_.StartRatio = 0.186428
+	__LinkShape__00000011_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000011_.EndRatio = 0.895370
+	__LinkShape__00000011_.CornerOffsetRatio = 1.591464
 
 	// insertion point for setup of pointers
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000000_)
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000001_)
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000002_)
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000003_)
+	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000004_)
 	__DiagramPackage__00000000_.Classdiagrams = append(__DiagramPackage__00000000_.Classdiagrams, __Classdiagram__00000000_)
 	__DiagramPackage__00000000_.SelectedClassdiagram = __Classdiagram__00000000_
 	__GongStructShape__00000000_.LinkShapes = append(__GongStructShape__00000000_.LinkShapes, __LinkShape__00000000_)
 	__GongStructShape__00000001_.LinkShapes = append(__GongStructShape__00000001_.LinkShapes, __LinkShape__00000002_)
 	__GongStructShape__00000001_.LinkShapes = append(__GongStructShape__00000001_.LinkShapes, __LinkShape__00000003_)
 	__GongStructShape__00000001_.LinkShapes = append(__GongStructShape__00000001_.LinkShapes, __LinkShape__00000006_)
+	__GongStructShape__00000001_.LinkShapes = append(__GongStructShape__00000001_.LinkShapes, __LinkShape__00000009_)
 	__GongStructShape__00000002_.LinkShapes = append(__GongStructShape__00000002_.LinkShapes, __LinkShape__00000001_)
 	__GongStructShape__00000002_.LinkShapes = append(__GongStructShape__00000002_.LinkShapes, __LinkShape__00000004_)
 	__GongStructShape__00000002_.LinkShapes = append(__GongStructShape__00000002_.LinkShapes, __LinkShape__00000005_)
 	__GongStructShape__00000003_.LinkShapes = append(__GongStructShape__00000003_.LinkShapes, __LinkShape__00000007_)
 	__GongStructShape__00000003_.LinkShapes = append(__GongStructShape__00000003_.LinkShapes, __LinkShape__00000008_)
+	__GongStructShape__00000004_.LinkShapes = append(__GongStructShape__00000004_.LinkShapes, __LinkShape__00000010_)
+	__GongStructShape__00000004_.LinkShapes = append(__GongStructShape__00000004_.LinkShapes, __LinkShape__00000011_)
 }

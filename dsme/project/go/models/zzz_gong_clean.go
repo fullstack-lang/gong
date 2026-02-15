@@ -48,6 +48,7 @@ func (diagram *Diagram) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &diagram.NotesWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &diagram.NoteProductShapes) || modified
 	modified = GongCleanSlice(stage, &diagram.NoteTaskShapes) || modified
+	modified = GongCleanSlice(stage, &diagram.NoteResourceShapes) || modified
 	modified = GongCleanSlice(stage, &diagram.Resource_Shapes) || modified
 	modified = GongCleanSlice(stage, &diagram.ResourcesWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &diagram.ResourceComposition_Shapes) || modified
@@ -61,6 +62,7 @@ func (note *Note) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = GongCleanSlice(stage, &note.Products) || modified
 	modified = GongCleanSlice(stage, &note.Tasks) || modified
+	modified = GongCleanSlice(stage, &note.Resources) || modified
 	// insertion point per field
 	return
 }
@@ -71,6 +73,15 @@ func (noteproductshape *NoteProductShape) GongClean(stage *Stage) (modified bool
 	// insertion point per field
 	modified = GongCleanPointer(stage, &noteproductshape.Note) || modified
 	modified = GongCleanPointer(stage, &noteproductshape.Product) || modified
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by NoteResourceShape
+func (noteresourceshape *NoteResourceShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = GongCleanPointer(stage, &noteresourceshape.Note) || modified
+	modified = GongCleanPointer(stage, &noteresourceshape.Resource) || modified
 	return
 }
 
