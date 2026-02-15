@@ -10,7 +10,10 @@ import (
 
 func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode *tree.Node) {
 	taskNode := &tree.Node{
-		Name:       task.ComputedPrefix + " " + task.Name,
+		Name:         task.Name,
+		IsWithPrefix: true,
+		Prefix:       task.ComputedPrefix,
+
 		IsExpanded: slices.Index(diagram.TasksWhoseNodeIsExpanded, task) != -1,
 
 		HasCheckboxButton:  true,
@@ -21,8 +24,42 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 		ToolTipText:     "Add task to diagram",
 
 		IsNodeClickable: true,
+
+		IsInEditMode: task.IsInRenameMode,
 	}
 	parentNode.Children = append(parentNode.Children, taskNode)
+
+	if !task.IsInRenameMode {
+		taskNode.Buttons = append(taskNode.Buttons,
+			&tree.Button{
+				Name: task.GetName() + " " + string(buttons.BUTTON_edit_note),
+				Icon: string(buttons.BUTTON_edit_note),
+				Impl: &tree.FunctionalButtonProxy{
+					OnUpdated: func(stage *tree.Stage, button, updatedButton *tree.Button) {
+						task.IsInRenameMode = true
+						stager.stage.Commit()
+					},
+				},
+				HasToolTip:      true,
+				ToolTipText:     "Rename the task",
+				ToolTipPosition: tree.Above,
+			})
+	} else {
+		taskNode.Buttons = append(taskNode.Buttons,
+			&tree.Button{
+				Name: task.GetName() + " " + string(buttons.BUTTON_edit_off),
+				Icon: string(buttons.BUTTON_edit_off),
+				Impl: &tree.FunctionalButtonProxy{
+					OnUpdated: func(stage *tree.Stage, button, updatedButton *tree.Button) {
+						task.IsInRenameMode = false
+						stager.stage.Commit()
+					},
+				},
+				HasToolTip:      true,
+				ToolTipText:     "Cancel renaming",
+				ToolTipPosition: tree.Above,
+			})
+	}
 
 	addAddItemButton(stager, &diagram.TasksWhoseNodeIsExpanded, task, nil, taskNode, &task.SubTasks, diagram, &diagram.Task_Shapes, &diagram.TaskComposition_Shapes)
 

@@ -9,7 +9,10 @@ import (
 
 func (stager *Stager) treePBSRecusriveInDiagram(diagram *Diagram, product *Product, parentNode *tree.Node) {
 	productNode := &tree.Node{
-		Name:       product.ComputedPrefix + " " + product.Name,
+		Name:         product.Name,
+		IsWithPrefix: true,
+		Prefix:       product.ComputedPrefix,
+
 		IsExpanded: slices.Index(diagram.ProductsWhoseNodeIsExpanded, product) != -1,
 
 		HasCheckboxButton:  true,
@@ -20,8 +23,42 @@ func (stager *Stager) treePBSRecusriveInDiagram(diagram *Diagram, product *Produ
 		ToolTipText:     "Add product to diagram",
 
 		IsNodeClickable: true,
+
+		IsInEditMode: product.IsInRenameMode,
 	}
 	parentNode.Children = append(parentNode.Children, productNode)
+
+	if !product.IsInRenameMode {
+		productNode.Buttons = append(productNode.Buttons,
+			&tree.Button{
+				Name: product.GetName() + " " + string(buttons.BUTTON_edit_note),
+				Icon: string(buttons.BUTTON_edit_note),
+				Impl: &tree.FunctionalButtonProxy{
+					OnUpdated: func(stage *tree.Stage, button, updatedButton *tree.Button) {
+						product.IsInRenameMode = true
+						stager.stage.Commit()
+					},
+				},
+				HasToolTip:      true,
+				ToolTipText:     "Rename the product",
+				ToolTipPosition: tree.Above,
+			})
+	} else {
+		productNode.Buttons = append(productNode.Buttons,
+			&tree.Button{
+				Name: product.GetName() + " " + string(buttons.BUTTON_edit_off),
+				Icon: string(buttons.BUTTON_edit_off),
+				Impl: &tree.FunctionalButtonProxy{
+					OnUpdated: func(stage *tree.Stage, button, updatedButton *tree.Button) {
+						product.IsInRenameMode = false
+						stager.stage.Commit()
+					},
+				},
+				HasToolTip:      true,
+				ToolTipText:     "Cancel renaming",
+				ToolTipPosition: tree.Above,
+			})
+	}
 
 	addAddItemButton(stager, &diagram.ProductsWhoseNodeIsExpanded, product, nil, productNode, &product.SubProducts, diagram, &diagram.Product_Shapes, &diagram.ProductComposition_Shapes)
 

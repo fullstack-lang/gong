@@ -5,11 +5,11 @@ import (
 )
 
 type Diagram struct {
-	Name           string
-	IsChecked      bool
-	IsEditable_    bool
-	IsInRenameMode bool
-	ShowPrefix     bool // display shapes with their prefix
+	Name        string
+	IsChecked   bool
+	IsEditable_ bool
+
+	ShowPrefix bool // display shapes with their prefix
 
 	DefaultBoxWidth  float64
 	DefaultBoxHeigth float64
