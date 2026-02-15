@@ -45,6 +45,20 @@ func (stager *Stager) unstageAllOrphans() (needCommit bool) {
 
 	needCommit = needCommit || unstageOrphans(
 		stager,
+		func() []*Resource {
+			roots := make([]*Resource, 0)
+			for _, project := range GetGongstrucsSorted[*Project](stager.stage) {
+				roots = append(roots, project.RootResources...)
+			}
+			return roots
+		},
+		func(product *Resource) []*Resource {
+			return product.SubResources
+		},
+	)
+
+	needCommit = needCommit || unstageOrphans(
+		stager,
 		func() []*Diagram {
 			roots := make([]*Diagram, 0)
 			for _, project := range GetGongstrucsSorted[*Project](stager.stage) {
