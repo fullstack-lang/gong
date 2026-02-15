@@ -287,6 +287,37 @@ func (stager *Stager) svg() {
 			layer)
 		diagram.map_Resource_Rect[resourceShape.Resource] = rect
 		diagram.map_SvgRect_ResourceShape[rect] = resourceShape
+		{
+			rectAnchoredPath := new(svg.RectAnchoredPath)
+			rect.IsScalingProportionally = false
+			rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, rectAnchoredPath)
+
+			rectAnchoredPath.Definition = "M 30, 11 a 10, 10 0 1, 1 -20, 0 a 10, 10 0 1, 1 20, 0 M 1, 49 h 38 v -9 c 0 -6.6 -5.4 -12 -12 -12 H 13 c -6.6 0 -12 5.4 -12 12 z"
+
+			rectAnchoredPath.Name = "Person"
+
+			rectAnchoredPath.Stroke = svg.Lightgray.ToString()
+			rectAnchoredPath.StrokeWidth = 4
+			rectAnchoredPath.StrokeOpacity = 1
+
+			rectAnchoredPath.FillOpacity = 0.0
+
+			distanceFromBorder := 10.0
+			iconWidth := 40.0
+
+			rectAnchoredPath.X_Offset = distanceFromBorder
+			rectAnchoredPath.Y_Offset = distanceFromBorder
+
+			rectAnchoredPath.RectAnchorType = svg.RECT_TOP_LEFT
+
+			// shift the text on the right
+			title := rect.RectAnchoredTexts[0]
+			if rect.Width > (distanceFromBorder + iconWidth) {
+				title.Content = strutils.WrapString(title.Content, int((rect.Width-(distanceFromBorder+iconWidth))/root.NbPixPerCharacter))
+			}
+			title.X_Offset = (distanceFromBorder + iconWidth) / 2.0
+
+		}
 	}
 
 	for _, resourceCompositionShape := range diagram.ResourceComposition_Shapes {
