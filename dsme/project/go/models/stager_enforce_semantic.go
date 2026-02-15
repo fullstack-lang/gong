@@ -51,16 +51,16 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 	needCommit = stager.unstageAllOrphans() || needCommit
 	needCommit = stager.enforceComputedPrefix() || needCommit
 
-	// Semantic for shapes relation to concrete objects
+	// Semantic for shapes
 	{
+		// enforce visibility will unstage shapes that are not visible
+		// and indirectly shapes whose abstract element is not staged (because they are not visible)
 		needCommit = stager.enforceVisibility() || needCommit
-		needCommit = stager.enforceNoteRelatedShapes() || needCommit
-
 		needCommit = stager.enforceRelationDuplicates() || needCommit
 		needCommit = stager.enforceNodeShapeDuplicates() || needCommit
+		needCommit = stager.enforceShapeOrphans() || needCommit
 	}
 
-	needCommit = stager.enforceShapeOrphans() || needCommit
 	needCommit = stager.enforceTaskInputOutputProjectConsistency() || needCommit
 	needCommit = stager.enforceDuplicateRemove() || needCommit
 
