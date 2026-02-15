@@ -46,6 +46,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterResourceCreateCallback != nil {
 			stage.OnAfterResourceCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *ResourceCompositionShape:
+		if stage.OnAfterResourceCompositionShapeCreateCallback != nil {
+			stage.OnAfterResourceCompositionShapeCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *ResourceShape:
 		if stage.OnAfterResourceShapeCreateCallback != nil {
 			stage.OnAfterResourceShapeCreateCallback.OnAfterCreate(stage, target)
@@ -141,6 +145,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*Resource)
 		if stage.OnAfterResourceUpdateCallback != nil {
 			stage.OnAfterResourceUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *ResourceCompositionShape:
+		newTarget := any(new).(*ResourceCompositionShape)
+		if stage.OnAfterResourceCompositionShapeUpdateCallback != nil {
+			stage.OnAfterResourceCompositionShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *ResourceShape:
 		newTarget := any(new).(*ResourceShape)
@@ -242,6 +251,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*Resource)
 			stage.OnAfterResourceDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *ResourceCompositionShape:
+		if stage.OnAfterResourceCompositionShapeDeleteCallback != nil {
+			staged := any(staged).(*ResourceCompositionShape)
+			stage.OnAfterResourceCompositionShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *ResourceShape:
 		if stage.OnAfterResourceShapeDeleteCallback != nil {
 			staged := any(staged).(*ResourceShape)
@@ -332,6 +346,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterResourceReadCallback != nil {
 			stage.OnAfterResourceReadCallback.OnAfterRead(stage, target)
 		}
+	case *ResourceCompositionShape:
+		if stage.OnAfterResourceCompositionShapeReadCallback != nil {
+			stage.OnAfterResourceCompositionShapeReadCallback.OnAfterRead(stage, target)
+		}
 	case *ResourceShape:
 		if stage.OnAfterResourceShapeReadCallback != nil {
 			stage.OnAfterResourceShapeReadCallback.OnAfterRead(stage, target)
@@ -395,6 +413,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterProjectUpdateCallback = any(callback).(OnAfterUpdateInterface[Project])
 	case *Resource:
 		stage.OnAfterResourceUpdateCallback = any(callback).(OnAfterUpdateInterface[Resource])
+	case *ResourceCompositionShape:
+		stage.OnAfterResourceCompositionShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ResourceCompositionShape])
 	case *ResourceShape:
 		stage.OnAfterResourceShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ResourceShape])
 	case *ResourceTaskShape:
@@ -438,6 +458,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterProjectCreateCallback = any(callback).(OnAfterCreateInterface[Project])
 	case *Resource:
 		stage.OnAfterResourceCreateCallback = any(callback).(OnAfterCreateInterface[Resource])
+	case *ResourceCompositionShape:
+		stage.OnAfterResourceCompositionShapeCreateCallback = any(callback).(OnAfterCreateInterface[ResourceCompositionShape])
 	case *ResourceShape:
 		stage.OnAfterResourceShapeCreateCallback = any(callback).(OnAfterCreateInterface[ResourceShape])
 	case *ResourceTaskShape:
@@ -481,6 +503,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterProjectDeleteCallback = any(callback).(OnAfterDeleteInterface[Project])
 	case *Resource:
 		stage.OnAfterResourceDeleteCallback = any(callback).(OnAfterDeleteInterface[Resource])
+	case *ResourceCompositionShape:
+		stage.OnAfterResourceCompositionShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ResourceCompositionShape])
 	case *ResourceShape:
 		stage.OnAfterResourceShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ResourceShape])
 	case *ResourceTaskShape:
@@ -524,6 +548,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterProjectReadCallback = any(callback).(OnAfterReadInterface[Project])
 	case *Resource:
 		stage.OnAfterResourceReadCallback = any(callback).(OnAfterReadInterface[Resource])
+	case *ResourceCompositionShape:
+		stage.OnAfterResourceCompositionShapeReadCallback = any(callback).(OnAfterReadInterface[ResourceCompositionShape])
 	case *ResourceShape:
 		stage.OnAfterResourceShapeReadCallback = any(callback).(OnAfterReadInterface[ResourceShape])
 	case *ResourceTaskShape:

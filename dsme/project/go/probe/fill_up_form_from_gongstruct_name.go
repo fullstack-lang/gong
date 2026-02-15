@@ -75,6 +75,12 @@ func (probe *Probe) updateFillUpForm() {
 			} else {
 				FillUpFormFromGongstruct(onSave.resource, probe)
 			}
+		case *ResourceCompositionShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "ResourceCompositionShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.resourcecompositionshape, probe)
+			}
 		case *ResourceShapeFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "ResourceShape", true)
@@ -275,6 +281,19 @@ func FillUpFormFromGongstructName(
 		resource := new(models.Resource)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(resource, formGroup, probe)
+	case "ResourceCompositionShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "ResourceCompositionShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ResourceCompositionShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		resourcecompositionshape := new(models.ResourceCompositionShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(resourcecompositionshape, formGroup, probe)
 	case "ResourceShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

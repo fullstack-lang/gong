@@ -42,6 +42,8 @@ func updateCurrentProbeTable(probe *Probe) {
 		updateProbeTable[*models.Project](probe)
 	case "Resource":
 		updateProbeTable[*models.Resource](probe)
+	case "ResourceCompositionShape":
+		updateProbeTable[*models.ResourceCompositionShape](probe)
 	case "ResourceShape":
 		updateProbeTable[*models.ResourceShape](probe)
 	case "ResourceTaskShape":

@@ -57,16 +57,21 @@ type Diagram struct {
 	ResourcesWhoseNodeIsExpanded []*Resource
 	IsResourcesNodeExpanded      bool
 
+	ResourceComposition_Shapes            []*ResourceCompositionShape
+	map_Resource_ResourceCompositionShape map[*Resource]*ResourceCompositionShape
+
 	ResourceTaskShapes             []*ResourceTaskShape
 	map_Resource_ResourceTaskShape map[resourceTaskKey]*ResourceTaskShape
 
-	map_Product_Rect map[*Product]*svg.Rect
-	map_Task_Rect    map[*Task]*svg.Rect
-	map_Note_Rect    map[*Note]*svg.Rect
+	map_Product_Rect  map[*Product]*svg.Rect
+	map_Task_Rect     map[*Task]*svg.Rect
+	map_Note_Rect     map[*Note]*svg.Rect
+	map_Resource_Rect map[*Resource]*svg.Rect
 
-	map_SvgRect_ProductShape map[*svg.Rect]*ProductShape
-	map_SvgRect_TaskShape    map[*svg.Rect]*TaskShape
-	map_SvgRect_NoteShape    map[*svg.Rect]*NoteShape
+	map_SvgRect_ProductShape  map[*svg.Rect]*ProductShape
+	map_SvgRect_TaskShape     map[*svg.Rect]*TaskShape
+	map_SvgRect_NoteShape     map[*svg.Rect]*NoteShape
+	map_SvgRect_ResourceShape map[*svg.Rect]*ResourceShape
 }
 
 func (d *Diagram) IsEditable() bool {
@@ -418,6 +423,42 @@ func (s *ResourceShape) SetAbstractElement(abstractElement AbstractType) {
 }
 
 var _ ConcreteType = (*ResourceShape)(nil)
+
+// A ResourceCompositionShape is the link between a Resource
+// and its parent Resource
+type ResourceCompositionShape struct {
+	Name string
+
+	Resource *Resource
+
+	LinkShape
+}
+
+func (s *ResourceCompositionShape) GetAbstractEndElement() AbstractType {
+	if s.Resource == nil {
+		return nil
+	}
+	return s.Resource
+}
+
+func (s *ResourceCompositionShape) SetAbstractEndElement(abstractElement AbstractType) {
+	s.Resource = abstractElement.(*Resource)
+}
+
+func (s *ResourceCompositionShape) GetAbstractStartElement() AbstractType {
+	if s.Resource == nil || s.Resource.parentResource == nil {
+		return nil
+	}
+	return s.Resource.parentResource
+}
+
+func (s *ResourceCompositionShape) SetAbstractStartElement(abstractElement AbstractType) {
+	// the parent element shall not be set by the concrete element, because it is computed
+	// elsewhere
+	// s.Resource.parentResource = abstractElement.(*Resource)
+}
+
+var _ AssociationConcreteType = (*ProductCompositionShape)(nil)
 
 type ResourceTaskShape struct {
 	Name string

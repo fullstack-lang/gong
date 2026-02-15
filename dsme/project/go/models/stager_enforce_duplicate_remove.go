@@ -7,72 +7,51 @@ import "time"
 func (stager *Stager) enforceDuplicateRemove() (needCommit bool) {
 	stage := stager.stage
 
-	if removeDuplicatesSlice(stager, &stager.root.Projects) {
-		needCommit = true
-	}
+	needCommit = removeDuplicatesSlice(stager, &stager.root.Projects) || needCommit
 
 	for diagram := range stage.Diagrams {
-		if removeDuplicatesSlice(stager, &diagram.Product_Shapes) {
-			needCommit = true
-		}
-		if removeDuplicatesSlice(stager, &diagram.Task_Shapes) {
-			needCommit = true
-		}
-		if removeDuplicatesSlice(stager, &diagram.Note_Shapes) {
-			needCommit = true
-		}
-		if removeDuplicatesSlice(stager, &diagram.Resource_Shapes) {
-			needCommit = true
-		}
+		needCommit = removeDuplicatesSlice(stager, &diagram.Product_Shapes) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &diagram.ProductComposition_Shapes) || needCommit
 
-		if removeDuplicatesSlice(stager, &diagram.TaskComposition_Shapes) {
-			needCommit = true
-		}
-		if removeDuplicatesSlice(stager, &diagram.TaskInputShapes) {
-			needCommit = true
-		}
-		if removeDuplicatesSlice(stager, &diagram.TaskOutputShapes) {
-			needCommit = true
-		}
+		needCommit = removeDuplicatesSlice(stager, &diagram.Task_Shapes) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &diagram.TaskComposition_Shapes) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &diagram.TaskInputShapes) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &diagram.TaskOutputShapes) || needCommit
+
+		needCommit = removeDuplicatesSlice(stager, &diagram.Note_Shapes) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &diagram.NoteProductShapes) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &diagram.NoteTaskShapes) || needCommit
+
+		needCommit = removeDuplicatesSlice(stager, &diagram.Resource_Shapes) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &diagram.ResourceComposition_Shapes) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &diagram.ResourceTaskShapes) || needCommit
 	}
 
 	for project := range stage.Projects {
-		if removeDuplicatesSlice(stager, &project.RootProducts) {
-			needCommit = true
-		}
-		if removeDuplicatesSlice(stager, &project.RootTasks) {
-			needCommit = true
-		}
-		if removeDuplicatesSlice(stager, &project.Notes) {
-			needCommit = true
-		}
+		needCommit = removeDuplicatesSlice(stager, &project.RootProducts) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &project.RootTasks) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &project.RootResources) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &project.Notes) || needCommit
 	}
 
 	for product := range stage.Products {
-		if removeDuplicatesSlice(stager, &product.SubProducts) {
-			needCommit = true
-		}
+		needCommit = removeDuplicatesSlice(stager, &product.SubProducts) || needCommit
 	}
 
 	for task := range stage.Tasks {
-		if removeDuplicatesSlice(stager, &task.SubTasks) {
-			needCommit = true
-		}
-		if removeDuplicatesSlice(stager, &task.Inputs) {
-			needCommit = true
-		}
-		if removeDuplicatesSlice(stager, &task.Outputs) {
-			needCommit = true
-		}
+		needCommit = removeDuplicatesSlice(stager, &task.SubTasks) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &task.Inputs) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &task.Outputs) || needCommit
 	}
 
 	for note := range stage.Notes {
-		if removeDuplicatesSlice(stager, &note.Products) {
-			needCommit = true
-		}
-		if removeDuplicatesSlice(stager, &note.Tasks) {
-			needCommit = true
-		}
+		needCommit = removeDuplicatesSlice(stager, &note.Products) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &note.Tasks) || needCommit
+	}
+
+	for resource := range stage.Resources {
+		needCommit = removeDuplicatesSlice(stager, &resource.SubResources) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &resource.Tasks) || needCommit
 	}
 
 	return
