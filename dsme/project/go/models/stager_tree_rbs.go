@@ -2,81 +2,23 @@ package models
 
 import (
 	"fmt"
-	"slices"
 
 	"github.com/fullstack-lang/gong/lib/tree/go/buttons"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
 func (stager *Stager) treeRBSinDiagram(diagram *Diagram, resource *Resource, parentNode *tree.Node) {
-	resourceNode := &tree.Node{
-		Name:         resource.Name,
-		IsWithPrefix: true,
-		Prefix:       resource.ComputedPrefix,
-
-		IsExpanded: slices.Index(diagram.ResourcesWhoseNodeIsExpanded, resource) != -1,
-
-		HasCheckboxButton:  true,
-		IsCheckboxDisabled: !diagram.IsChecked,
-
-		HasToolTip:      true,
-		ToolTipPosition: tree.Above,
-		ToolTipText:     "Add resource to diagram",
-
-		IsNodeClickable: true,
-
-		IsInEditMode: resource.IsInRenameMode,
-	}
-	parentNode.Children = append(parentNode.Children, resourceNode)
-
-	if !resource.IsInRenameMode {
-		resourceNode.Buttons = append(resourceNode.Buttons,
-			&tree.Button{
-				Name: resource.GetName() + " " + string(buttons.BUTTON_edit_note),
-				Icon: string(buttons.BUTTON_edit_note),
-				Impl: &tree.FunctionalButtonProxy{
-					OnUpdated: func(stage *tree.Stage, button, updatedButton *tree.Button) {
-						resource.IsInRenameMode = true
-						stager.stage.Commit()
-					},
-				},
-				HasToolTip:      true,
-				ToolTipText:     "Rename the resource",
-				ToolTipPosition: tree.Above,
-			})
-	} else {
-		resourceNode.Buttons = append(resourceNode.Buttons,
-			&tree.Button{
-				Name: resource.GetName() + " " + string(buttons.BUTTON_edit_off),
-				Icon: string(buttons.BUTTON_edit_off),
-				Impl: &tree.FunctionalButtonProxy{
-					OnUpdated: func(stage *tree.Stage, button, updatedButton *tree.Button) {
-						resource.IsInRenameMode = false
-						stager.stage.Commit()
-					},
-				},
-				HasToolTip:      true,
-				ToolTipText:     "Cancel renaming",
-				ToolTipPosition: tree.Above,
-			})
-	}
+	resourceNode := addNodeToTree(
+		stager,
+		diagram,
+		parentNode,
+		resource,
+		&diagram.ResourcesWhoseNodeIsExpanded,
+		&diagram.Resource_Shapes,
+		&diagram.map_Resource_ResourceShape,
+	)
 
 	addAddItemButton(stager, &diagram.ResourcesWhoseNodeIsExpanded, resource, nil, resourceNode, &resource.SubResources, diagram, &diagram.Resource_Shapes, &diagram.ResourceComposition_Shapes)
-
-	if _, ok := diagram.map_Resource_ResourceShape[resource]; ok {
-		resourceNode.IsChecked = true
-	}
-
-	// what to do when the resource node is clicked
-	resourceNode.Impl = &tree.FunctionalNodeProxy{
-		OnUpdate: onUpdateElementInDiagram(
-			stager,
-			diagram,
-			resource,
-			&diagram.ResourcesWhoseNodeIsExpanded,
-			&diagram.Resource_Shapes,
-			&diagram.map_Resource_ResourceShape),
-	}
 
 	// if resource has a parent resource, add a button to show/hide the link to the parent
 	if parentResource := resource.parentResource; parentResource != nil {
