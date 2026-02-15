@@ -24,12 +24,14 @@ func (p *svgProxy) SVGUpdated(updatedSVG *svg.SVG) {
 
 	type associationType string
 	const (
-		ASSOCIATION_TYPE_PRODUCT_COMPOSITION associationType = "ProductComposition"
-		ASSOCIATION_TYPE_TASK_COMPOSITION    associationType = "TaskComposition"
-		ASSOCIATION_TYPE_TASK_INPUT          associationType = "TaskInput"
-		ASSOCIATION_TYPE_TASK_OUTPUT         associationType = "TaskOutput"
-		ASSOCIAITON_TYPE_NOTE_PRODUCT        associationType = "NoteProduct"
-		ASSOCIAITON_TYPE_NOTE_TASK           associationType = "NoteTask"
+		ASSOCIATION_TYPE_PRODUCT_COMPOSITION  associationType = "ProductComposition"
+		ASSOCIATION_TYPE_TASK_COMPOSITION     associationType = "TaskComposition"
+		ASSOCIATION_TYPE_TASK_INPUT           associationType = "TaskInput"
+		ASSOCIATION_TYPE_TASK_OUTPUT          associationType = "TaskOutput"
+		ASSOCIAITON_TYPE_NOTE_PRODUCT         associationType = "NoteProduct"
+		ASSOCIAITON_TYPE_NOTE_TASK            associationType = "NoteTask"
+		ASSOCATIONN_TYPE_RESOURCE_COMPOSITION associationType = "ResourceComposition"
+		ASSOCIATION_TYPE_RESOURCE_TASK        associationType = "ResourceTask"
 	)
 
 	var assocType associationType
@@ -80,6 +82,20 @@ func (p *svgProxy) SVGUpdated(updatedSVG *svg.SVG) {
 			targetAbstractElement = taskShape.Task
 		}
 	}
+	if resourceShape, ok := diagram.map_SvgRect_ResourceShape[startRect]; ok {
+		if subResourceShape, ok := diagram.map_SvgRect_ResourceShape[endRect]; ok {
+			assocType = ASSOCATIONN_TYPE_RESOURCE_COMPOSITION
+			sourceAbstratctElement = resourceShape.Resource
+			targetAbstractElement = subResourceShape.Resource
+		}
+	}
+	if resourceShape, ok := diagram.map_SvgRect_ResourceShape[startRect]; ok {
+		if taskShape, ok := diagram.map_SvgRect_TaskShape[endRect]; ok {
+			assocType = ASSOCIATION_TYPE_RESOURCE_TASK
+			sourceAbstratctElement = resourceShape.Resource
+			targetAbstractElement = taskShape.Task
+		}
+	}
 
 	// create the association according to the association type
 	switch assocType {
@@ -124,6 +140,20 @@ func (p *svgProxy) SVGUpdated(updatedSVG *svg.SVG) {
 
 		note.Tasks = append(note.Tasks, task)
 		addAssociationShapeToDiagram(p.stager, note, task, &diagram.NoteTaskShapes)
+
+	case ASSOCATIONN_TYPE_RESOURCE_COMPOSITION:
+		subResource := targetAbstractElement.(*Resource)
+		parentResource := sourceAbstratctElement.(*Resource)
+
+		parentResource.SubResources = append(parentResource.SubResources, subResource)
+		addAssociationShapeToDiagram(p.stager, parentResource, subResource, &diagram.ResourceComposition_Shapes)
+
+	case ASSOCIATION_TYPE_RESOURCE_TASK:
+		resource := sourceAbstratctElement.(*Resource)
+		task := targetAbstractElement.(*Task)
+
+		resource.Tasks = append(resource.Tasks, task)
+		addAssociationShapeToDiagram(p.stager, resource, task, &diagram.ResourceTaskShapes)
 	}
 
 	if assocType == "" {
