@@ -12,14 +12,26 @@ type Root struct {
 type Project struct {
 	Name string
 
-	RootProducts []*Product
-	RootTasks    []*Task
-	Notes        []*Note
-	Resources    []*Resource
+	RootProducts  []*Product
+	RootTasks     []*Task
+	RootResources []*Resource
+
+	Notes []*Note
 
 	Diagrams []*Diagram
 
 	AbstractTypeFields
+}
+
+type AbstractType interface {
+	GongstructIF
+	GetIsExpanded() bool
+	SetIsExpanded(bool)
+	GetComputedPrefix() string
+	SetComputedPrefix(string)
+	GetComputedWidth() int
+	SetComputedWidth(int)
+	SetComputedPrefixInt([]int)
 }
 
 type AbstractTypeFields struct {
@@ -40,42 +52,21 @@ type Note struct {
 	Name string
 
 	Products []*Product
+	Tasks    []*Task
 
-	Tasks []*Task
-
-	IsExpanded bool
-}
-
-// GetComputedPrefix implements [AbstractType].
-func (note *Note) GetComputedPrefix() string {
-	return ""
-}
-
-// GetComputedWidth implements [AbstractType].
-func (note *Note) GetComputedWidth() int {
-	return 0
-}
-
-// GetIsExpanded implements [AbstractType].
-func (note *Note) GetIsExpanded() bool {
-	return note.IsExpanded
-}
-
-// SetComputedPrefix implements [AbstractType].
-func (note *Note) SetComputedPrefix(string) {
-}
-
-// SetIsExpanded implements [AbstractType].
-func (note *Note) SetIsExpanded(val bool) {
-	note.IsExpanded = val
-}
-
-// SetComputedWidth implements [AbstractType].
-func (note *Note) SetComputedWidth(int) {
+	AbstractTypeFields
 }
 
 func (r *AbstractTypeFields) GetComputedWidth() int {
 	return r.computedWidth
+}
+
+func (r *AbstractTypeFields) SetComputedWidth(w int) {
+	r.computedWidth = w
+}
+
+func (r *AbstractTypeFields) SetComputedPrefixInt(p []int) {
+	r.computedPrefix = p
 }
 
 type Task struct {
@@ -153,13 +144,23 @@ type Product struct {
 	parentProduct *Product
 }
 
-type AbstractType interface {
-	GongstructIF
-	GetIsExpanded() bool
-	SetIsExpanded(bool)
-	GetComputedPrefix() string
-	SetComputedPrefix(string)
-	GetComputedWidth() int
+type Resource struct {
+	Name string
+
+	//gong:text width:300 height:300
+	Description string
+
+	Tasks []*Task
+
+	SubResources []*Resource
+
+	// parentResource is a computed field
+	// since a Resource belongs to at most one RBS,
+	// a parentResource is computed at each UX look. It can be null if the
+	// resource is a root resource or an orphaned resource
+	parentResource *Resource
+
+	AbstractTypeFields
 }
 
 func (r *AbstractTypeFields) GetIsExpanded() bool {
@@ -185,14 +186,3 @@ var (
 	_ AbstractType = (*Note)(nil)
 	_ AbstractType = (*Resource)(nil)
 )
-
-type Resource struct {
-	Name string
-
-	//gong:text width:300 height:300
-	Description string
-
-	Tasks []*Task
-
-	AbstractTypeFields
-}

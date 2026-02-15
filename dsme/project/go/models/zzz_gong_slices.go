@@ -131,6 +131,20 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Diagram_ResourcesWhoseNodeIsExpanded_reverseMap[_resource] = diagram
 		}
 	}
+	stage.Diagram_ResourceComposition_Shapes_reverseMap = make(map[*ResourceCompositionShape]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _resourcecompositionshape := range diagram.ResourceComposition_Shapes {
+			stage.Diagram_ResourceComposition_Shapes_reverseMap[_resourcecompositionshape] = diagram
+		}
+	}
+	stage.Diagram_ResourceTaskShapes_reverseMap = make(map[*ResourceTaskShape]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _resourcetaskshape := range diagram.ResourceTaskShapes {
+			stage.Diagram_ResourceTaskShapes_reverseMap[_resourcetaskshape] = diagram
+		}
+	}
 
 	// Compute reverse map for named struct Note
 	// insertion point per field
@@ -190,18 +204,18 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Project_RootTasks_reverseMap[_task] = project
 		}
 	}
+	stage.Project_RootResources_reverseMap = make(map[*Resource]*Project)
+	for project := range stage.Projects {
+		_ = project
+		for _, _resource := range project.RootResources {
+			stage.Project_RootResources_reverseMap[_resource] = project
+		}
+	}
 	stage.Project_Notes_reverseMap = make(map[*Note]*Project)
 	for project := range stage.Projects {
 		_ = project
 		for _, _note := range project.Notes {
 			stage.Project_Notes_reverseMap[_note] = project
-		}
-	}
-	stage.Project_Resources_reverseMap = make(map[*Resource]*Project)
-	for project := range stage.Projects {
-		_ = project
-		for _, _resource := range project.Resources {
-			stage.Project_Resources_reverseMap[_resource] = project
 		}
 	}
 	stage.Project_Diagrams_reverseMap = make(map[*Diagram]*Project)
@@ -221,6 +235,16 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Resource_Tasks_reverseMap[_task] = resource
 		}
 	}
+	stage.Resource_SubResources_reverseMap = make(map[*Resource]*Resource)
+	for resource := range stage.Resources {
+		_ = resource
+		for _, _resource := range resource.SubResources {
+			stage.Resource_SubResources_reverseMap[_resource] = resource
+		}
+	}
+
+	// Compute reverse map for named struct ResourceCompositionShape
+	// insertion point per field
 
 	// Compute reverse map for named struct ResourceShape
 	// insertion point per field
@@ -319,6 +343,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
+	for instance := range stage.ResourceCompositionShapes {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.ResourceShapes {
 		res = append(res, instance)
 	}
@@ -402,6 +430,11 @@ func (project *Project) GongCopy() GongstructIF {
 
 func (resource *Resource) GongCopy() GongstructIF {
 	newInstance := *resource
+	return &newInstance
+}
+
+func (resourcecompositionshape *ResourceCompositionShape) GongCopy() GongstructIF {
+	newInstance := *resourcecompositionshape
 	return &newInstance
 }
 
@@ -953,6 +986,55 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(resources_newInstances)
 	lenDeletedInstances += len(resources_deletedInstances)
+	var resourcecompositionshapes_newInstances []*ResourceCompositionShape
+	var resourcecompositionshapes_deletedInstances []*ResourceCompositionShape
+
+	// parse all staged instances and check if they have a reference
+	for resourcecompositionshape := range stage.ResourceCompositionShapes {
+		if ref, ok := stage.ResourceCompositionShapes_reference[resourcecompositionshape]; !ok {
+			resourcecompositionshapes_newInstances = append(resourcecompositionshapes_newInstances, resourcecompositionshape)
+			newInstancesSlice = append(newInstancesSlice, resourcecompositionshape.GongMarshallIdentifier(stage))
+			if stage.ResourceCompositionShapes_referenceOrder == nil {
+				stage.ResourceCompositionShapes_referenceOrder = make(map[*ResourceCompositionShape]uint)
+			}
+			stage.ResourceCompositionShapes_referenceOrder[resourcecompositionshape] = stage.ResourceCompositionShapeMap_Staged_Order[resourcecompositionshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, resourcecompositionshape.GongMarshallUnstaging(stage))
+			delete(stage.ResourceCompositionShapes_referenceOrder, resourcecompositionshape)
+			fieldInitializers, pointersInitializations := resourcecompositionshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.ResourceCompositionShapeMap_Staged_Order[ref] = stage.ResourceCompositionShapeMap_Staged_Order[resourcecompositionshape]
+			diffs := resourcecompositionshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, resourcecompositionshape)
+			delete(stage.ResourceCompositionShapeMap_Staged_Order, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				fieldsEdit += fmt.Sprintf("\n\t// %s", resourcecompositionshape.GetName())
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for ref := range stage.ResourceCompositionShapes_reference {
+		if _, ok := stage.ResourceCompositionShapes[ref]; !ok {
+			resourcecompositionshapes_deletedInstances = append(resourcecompositionshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(resourcecompositionshapes_newInstances)
+	lenDeletedInstances += len(resourcecompositionshapes_deletedInstances)
 	var resourceshapes_newInstances []*ResourceShape
 	var resourceshapes_deletedInstances []*ResourceShape
 
@@ -1447,6 +1529,13 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.Resources_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
+	stage.ResourceCompositionShapes_reference = make(map[*ResourceCompositionShape]*ResourceCompositionShape)
+	stage.ResourceCompositionShapes_referenceOrder = make(map[*ResourceCompositionShape]uint) // diff Unstage needs the reference order
+	for instance := range stage.ResourceCompositionShapes {
+		stage.ResourceCompositionShapes_reference[instance] = instance.GongCopy().(*ResourceCompositionShape)
+		stage.ResourceCompositionShapes_referenceOrder[instance] = instance.GongGetOrder(stage)
+	}
+
 	stage.ResourceShapes_reference = make(map[*ResourceShape]*ResourceShape)
 	stage.ResourceShapes_referenceOrder = make(map[*ResourceShape]uint) // diff Unstage needs the reference order
 	for instance := range stage.ResourceShapes {
@@ -1621,6 +1710,17 @@ func (resource *Resource) GongGetOrder(stage *Stage) uint {
 
 func (resource *Resource) GongGetReferenceOrder(stage *Stage) uint {
 	return stage.Resources_referenceOrder[resource]
+}
+
+func (resourcecompositionshape *ResourceCompositionShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.ResourceCompositionShapeMap_Staged_Order[resourcecompositionshape]; ok {
+		return order
+	}
+	return stage.ResourceCompositionShapes_referenceOrder[resourcecompositionshape]
+}
+
+func (resourcecompositionshape *ResourceCompositionShape) GongGetReferenceOrder(stage *Stage) uint {
+	return stage.ResourceCompositionShapes_referenceOrder[resourcecompositionshape]
 }
 
 func (resourceshape *ResourceShape) GongGetOrder(stage *Stage) uint {
@@ -1806,6 +1906,15 @@ func (resource *Resource) GongGetReferenceIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", resource.GongGetGongstructName(), resource.GongGetReferenceOrder(stage))
 }
 
+func (resourcecompositionshape *ResourceCompositionShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", resourcecompositionshape.GongGetGongstructName(), resourcecompositionshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (resourcecompositionshape *ResourceCompositionShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", resourcecompositionshape.GongGetGongstructName(), resourcecompositionshape.GongGetReferenceOrder(stage))
+}
+
 func (resourceshape *ResourceShape) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", resourceshape.GongGetGongstructName(), resourceshape.GongGetOrder(stage))
 }
@@ -1961,6 +2070,14 @@ func (resource *Resource) GongMarshallIdentifier(stage *Stage) (decl string) {
 	return
 }
 
+func (resourcecompositionshape *ResourceCompositionShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", resourcecompositionshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ResourceCompositionShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", resourcecompositionshape.Name)
+	return
+}
+
 func (resourceshape *ResourceShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", resourceshape.GongGetIdentifier(stage))
@@ -2083,6 +2200,12 @@ func (project *Project) GongMarshallUnstaging(stage *Stage) (decl string) {
 func (resource *Resource) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", resource.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (resourcecompositionshape *ResourceCompositionShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", resourcecompositionshape.GongGetReferenceIdentifier(stage))
 	return
 }
 

@@ -479,6 +479,10 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		GongUnmarshallSliceOfPointers(&instance.ResourcesWhoseNodeIsExpanded, valueExpr, identifierMap)
 	case "IsResourcesNodeExpanded":
 		instance.IsResourcesNodeExpanded = GongExtractBool(valueExpr)
+	case "ResourceComposition_Shapes":
+		GongUnmarshallSliceOfPointers(&instance.ResourceComposition_Shapes, valueExpr, identifierMap)
+	case "ResourceTaskShapes":
+		GongUnmarshallSliceOfPointers(&instance.ResourceTaskShapes, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -514,6 +518,8 @@ func (u *NoteUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		GongUnmarshallSliceOfPointers(&instance.Tasks, valueExpr, identifierMap)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
+	case "ComputedPrefix":
+		instance.ComputedPrefix = GongExtractString(valueExpr)
 	}
 	return nil
 }
@@ -797,10 +803,10 @@ func (u *ProjectUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		GongUnmarshallSliceOfPointers(&instance.RootProducts, valueExpr, identifierMap)
 	case "RootTasks":
 		GongUnmarshallSliceOfPointers(&instance.RootTasks, valueExpr, identifierMap)
+	case "RootResources":
+		GongUnmarshallSliceOfPointers(&instance.RootResources, valueExpr, identifierMap)
 	case "Notes":
 		GongUnmarshallSliceOfPointers(&instance.Notes, valueExpr, identifierMap)
-	case "Resources":
-		GongUnmarshallSliceOfPointers(&instance.Resources, valueExpr, identifierMap)
 	case "Diagrams":
 		GongUnmarshallSliceOfPointers(&instance.Diagrams, valueExpr, identifierMap)
 	case "IsExpanded":
@@ -840,10 +846,53 @@ func (u *ResourceUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 		instance.Description = GongExtractString(valueExpr)
 	case "Tasks":
 		GongUnmarshallSliceOfPointers(&instance.Tasks, valueExpr, identifierMap)
+	case "SubResources":
+		GongUnmarshallSliceOfPointers(&instance.SubResources, valueExpr, identifierMap)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
+type ResourceCompositionShapeUnmarshaller struct{}
+
+func (u *ResourceCompositionShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(ResourceCompositionShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *ResourceCompositionShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*ResourceCompositionShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Resource":
+		GongUnmarshallPointer(&instance.Resource, valueExpr, identifierMap)
+	case "StartRatio":
+		instance.StartRatio = GongExtractFloat(valueExpr)
+	case "EndRatio":
+		instance.EndRatio = GongExtractFloat(valueExpr)
+	case "StartOrientation":
+		GongUnmarshallEnum(&instance.StartOrientation, valueExpr)
+	case "EndOrientation":
+		GongUnmarshallEnum(&instance.EndOrientation, valueExpr)
+	case "CornerOffsetRatio":
+		instance.CornerOffsetRatio = GongExtractFloat(valueExpr)
 	}
 	return nil
 }
