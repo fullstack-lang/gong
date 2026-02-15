@@ -32,7 +32,7 @@ func _(stage *models.Stage) {
 
 	__Architecture__00000000_ := (&models.Architecture{Name: `Gong UX loop Architecture`}).Stage(stage)
 
-	__Diagram__00000000_ := (&models.Diagram{Name: `UX Loop Diagram 2`}).Stage(stage)
+	__Diagram__00000000_ := (&models.Diagram{Name: `UX Loop Diagram`}).Stage(stage)
 
 	__Guard__00000000_ := (&models.Guard{Name: `yes`}).Stage(stage)
 	__Guard__00000001_ := (&models.Guard{Name: `no`}).Stage(stage)
@@ -115,7 +115,7 @@ func _(stage *models.Stage) {
 	__Architecture__00000000_.Name = `Gong UX loop Architecture`
 	__Architecture__00000000_.NbPixPerCharacter = 8.000000
 
-	__Diagram__00000000_.Name = `UX Loop Diagram 2`
+	__Diagram__00000000_.Name = `UX Loop Diagram`
 	__Diagram__00000000_.IsChecked = true
 	__Diagram__00000000_.IsExpanded = true
 	__Diagram__00000000_.IsEditable_ = true

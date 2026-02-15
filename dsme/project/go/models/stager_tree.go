@@ -195,8 +195,45 @@ func (stager *Stager) tree() {
 					ToolTipText:     "Add note to diagram",
 
 					IsExpanded: slices.Index(diagram.NotesWhoseNodeIsExpanded, note) != -1,
+
+					IsInEditMode: note.IsInRenameMode,
 				}
 				notesNode.Children = append(notesNode.Children, noteNode)
+
+				if !note.IsInRenameMode {
+					noteNode.Buttons = append(noteNode.Buttons,
+						&tree.Button{
+							Name: note.GetName() + " " + string(buttons.BUTTON_edit_note),
+
+							Icon: string(buttons.BUTTON_edit_note),
+							Impl: &tree.FunctionalButtonProxy{
+								OnUpdated: func(stage *tree.Stage, button, updatedButton *tree.Button) {
+
+									note.IsInRenameMode = true
+									stager.stage.Commit()
+								},
+							},
+							HasToolTip:      true,
+							ToolTipText:     "Rename the note",
+							ToolTipPosition: tree.Above,
+						})
+				} else {
+					noteNode.Buttons = append(noteNode.Buttons,
+						&tree.Button{
+							Name: note.GetName() + " " + string(buttons.BUTTON_edit_off),
+							Icon: string(buttons.BUTTON_edit_off),
+							Impl: &tree.FunctionalButtonProxy{
+								OnUpdated: func(stage *tree.Stage, button, updatedButton *tree.Button) {
+
+									note.IsInRenameMode = false
+									stager.stage.Commit()
+								},
+							},
+							HasToolTip:      true,
+							ToolTipText:     "Cancel renaming",
+							ToolTipPosition: tree.Above,
+						})
+				}
 
 				if _, ok := diagram.map_Note_NoteShape[note]; ok {
 					noteNode.IsChecked = true

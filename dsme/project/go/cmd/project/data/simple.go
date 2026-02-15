@@ -78,12 +78,12 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.Name = `Default Diagram`
 	__Diagram__00000000_.IsChecked = true
 	__Diagram__00000000_.IsEditable_ = true
-	__Diagram__00000000_.IsInRenameMode = false
 	__Diagram__00000000_.ShowPrefix = true
 	__Diagram__00000000_.DefaultBoxWidth = 250.000000
 	__Diagram__00000000_.DefaultBoxHeigth = 100.000000
 	__Diagram__00000000_.IsExpanded = true
 	__Diagram__00000000_.ComputedPrefix = ``
+	__Diagram__00000000_.IsInRenameMode = false
 	__Diagram__00000000_.IsPBSNodeExpanded = true
 	__Diagram__00000000_.IsWBSNodeExpanded = true
 	__Diagram__00000000_.IsNotesNodeExpanded = true
@@ -92,6 +92,7 @@ func _(stage *models.Stage) {
 	__Note__00000000_.Name = `N1`
 	__Note__00000000_.IsExpanded = false
 	__Note__00000000_.ComputedPrefix = `1`
+	__Note__00000000_.IsInRenameMode = false
 
 	__NoteProductShape__00000000_.Name = `N1 to P1`
 	__NoteProductShape__00000000_.StartRatio = 0.500000
@@ -118,6 +119,7 @@ func _(stage *models.Stage) {
 	__Product__00000000_.Description = ``
 	__Product__00000000_.IsExpanded = false
 	__Product__00000000_.ComputedPrefix = `1`
+	__Product__00000000_.IsInRenameMode = false
 	__Product__00000000_.IsProducersNodeExpanded = false
 	__Product__00000000_.IsConsumersNodeExpanded = false
 
@@ -125,6 +127,7 @@ func _(stage *models.Stage) {
 	__Product__00000001_.Description = ``
 	__Product__00000001_.IsExpanded = false
 	__Product__00000001_.ComputedPrefix = `1.1`
+	__Product__00000001_.IsInRenameMode = false
 	__Product__00000001_.IsProducersNodeExpanded = false
 	__Product__00000001_.IsConsumersNodeExpanded = false
 
@@ -132,6 +135,7 @@ func _(stage *models.Stage) {
 	__Product__00000002_.Description = ``
 	__Product__00000002_.IsExpanded = false
 	__Product__00000002_.ComputedPrefix = `1.2`
+	__Product__00000002_.IsInRenameMode = false
 	__Product__00000002_.IsProducersNodeExpanded = false
 	__Product__00000002_.IsConsumersNodeExpanded = false
 
@@ -173,21 +177,25 @@ func _(stage *models.Stage) {
 	__Project__00000000_.Name = `NewProject`
 	__Project__00000000_.IsExpanded = true
 	__Project__00000000_.ComputedPrefix = ``
+	__Project__00000000_.IsInRenameMode = false
 
 	__Resource__00000000_.Name = `R1`
 	__Resource__00000000_.Description = ``
 	__Resource__00000000_.IsExpanded = false
 	__Resource__00000000_.ComputedPrefix = `1`
+	__Resource__00000000_.IsInRenameMode = false
 
 	__Resource__00000001_.Name = `R1.1`
 	__Resource__00000001_.Description = ``
 	__Resource__00000001_.IsExpanded = false
 	__Resource__00000001_.ComputedPrefix = `1.1`
+	__Resource__00000001_.IsInRenameMode = false
 
 	__Resource__00000002_.Name = `R1.2`
 	__Resource__00000002_.Description = ``
 	__Resource__00000002_.IsExpanded = false
 	__Resource__00000002_.ComputedPrefix = `1.2`
+	__Resource__00000002_.IsInRenameMode = false
 
 	__ResourceCompositionShape__00000001_.Name = `R1 to R1.2`
 	__ResourceCompositionShape__00000001_.StartRatio = 0.235952
@@ -238,6 +246,7 @@ func _(stage *models.Stage) {
 	__Task__00000000_.Description = ``
 	__Task__00000000_.IsExpanded = false
 	__Task__00000000_.ComputedPrefix = `1`
+	__Task__00000000_.IsInRenameMode = false
 	__Task__00000000_.IsInputsNodeExpanded = false
 	__Task__00000000_.IsOutputsNodeExpanded = false
 	__Task__00000000_.IsWithCompletion = false
@@ -247,6 +256,7 @@ func _(stage *models.Stage) {
 	__Task__00000001_.Description = ``
 	__Task__00000001_.IsExpanded = false
 	__Task__00000001_.ComputedPrefix = `1.1`
+	__Task__00000001_.IsInRenameMode = false
 	__Task__00000001_.IsInputsNodeExpanded = false
 	__Task__00000001_.IsOutputsNodeExpanded = false
 	__Task__00000001_.IsWithCompletion = true

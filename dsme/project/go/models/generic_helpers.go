@@ -265,6 +265,13 @@ func onUpdateElementInDiagram[
 			return
 		}
 
+		if frontNode.Name != stagedNode.Name {
+			element.SetName(frontNode.Name)
+			element.SetIsInRenameMode(false)
+			stager.stage.Commit()
+			return
+		}
+
 		stager.probeForm.FillUpFormFromGongstruct(element, GetPointerToGongstructName[AT]())
 		stager.stage.Commit()
 	}

@@ -135,12 +135,12 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsChecked"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsEditable_"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsInRenameMode"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ShowPrefix"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "DefaultBoxWidth"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "DefaultBoxHeigth"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsInRenameMode"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "Product_Shapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ProductsWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsPBSNodeExpanded"))
@@ -193,6 +193,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Tasks"))
 		initializerStatements.WriteString(note.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(note.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(note.GongMarshallField(stage, "IsInRenameMode"))
 	}
 
 	noteproductshapeOrdered := []*NoteProductShape{}
@@ -321,6 +322,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(product.GongMarshallField(stage, "SubProducts"))
 		initializerStatements.WriteString(product.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(product.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(product.GongMarshallField(stage, "IsInRenameMode"))
 		initializerStatements.WriteString(product.GongMarshallField(stage, "IsProducersNodeExpanded"))
 		initializerStatements.WriteString(product.GongMarshallField(stage, "IsConsumersNodeExpanded"))
 	}
@@ -420,6 +422,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(project.GongMarshallField(stage, "Diagrams"))
 		initializerStatements.WriteString(project.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(project.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(project.GongMarshallField(stage, "IsInRenameMode"))
 	}
 
 	resourceOrdered := []*Resource{}
@@ -451,6 +454,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(resource.GongMarshallField(stage, "SubResources"))
 		initializerStatements.WriteString(resource.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(resource.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(resource.GongMarshallField(stage, "IsInRenameMode"))
 	}
 
 	resourcecompositionshapeOrdered := []*ResourceCompositionShape{}
@@ -606,6 +610,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "SubTasks"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(task.GongMarshallField(stage, "IsInRenameMode"))
 		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "Inputs"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "IsInputsNodeExpanded"))
 		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "Outputs"))
@@ -969,11 +974,6 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsEditable_")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsEditable_))
-	case "IsInRenameMode":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsInRenameMode")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsInRenameMode))
 	case "ShowPrefix":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
@@ -999,6 +999,11 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(diagram.ComputedPrefix))
+	case "IsInRenameMode":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsInRenameMode")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsInRenameMode))
 	case "IsPBSNodeExpanded":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
@@ -1224,6 +1229,11 @@ func (note *Note) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = strings.ReplaceAll(res, "{{Identifier}}", note.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(note.ComputedPrefix))
+	case "IsInRenameMode":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", note.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsInRenameMode")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", note.IsInRenameMode))
 
 	case "Products":
 		var sb strings.Builder
@@ -1491,6 +1501,11 @@ func (product *Product) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{Identifier}}", product.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(product.ComputedPrefix))
+	case "IsInRenameMode":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", product.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsInRenameMode")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", product.IsInRenameMode))
 	case "IsProducersNodeExpanded":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", product.GongGetIdentifier(stage))
@@ -1658,6 +1673,11 @@ func (project *Project) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{Identifier}}", project.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(project.ComputedPrefix))
+	case "IsInRenameMode":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", project.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsInRenameMode")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", project.IsInRenameMode))
 
 	case "RootProducts":
 		var sb strings.Builder
@@ -1738,6 +1758,11 @@ func (resource *Resource) GongMarshallField(stage *Stage, fieldName string) (res
 		res = strings.ReplaceAll(res, "{{Identifier}}", resource.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(resource.ComputedPrefix))
+	case "IsInRenameMode":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", resource.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsInRenameMode")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", resource.IsInRenameMode))
 
 	case "Tasks":
 		var sb strings.Builder
@@ -2022,6 +2047,11 @@ func (task *Task) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(task.ComputedPrefix))
+	case "IsInRenameMode":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsInRenameMode")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", task.IsInRenameMode))
 	case "IsInputsNodeExpanded":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
@@ -2382,12 +2412,12 @@ func (diagram *Diagram) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsChecked"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsEditable_"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsInRenameMode"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ShowPrefix"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "DefaultBoxWidth"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "DefaultBoxHeigth"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsInRenameMode"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "Product_Shapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ProductsWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsPBSNodeExpanded"))
@@ -2425,6 +2455,7 @@ func (note *Note) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Tasks"))
 		initializerStatements.WriteString(note.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(note.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(note.GongMarshallField(stage, "IsInRenameMode"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -2493,6 +2524,7 @@ func (product *Product) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		pointersInitializesStatements.WriteString(product.GongMarshallField(stage, "SubProducts"))
 		initializerStatements.WriteString(product.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(product.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(product.GongMarshallField(stage, "IsInRenameMode"))
 		initializerStatements.WriteString(product.GongMarshallField(stage, "IsProducersNodeExpanded"))
 		initializerStatements.WriteString(product.GongMarshallField(stage, "IsConsumersNodeExpanded"))
 	}
@@ -2547,6 +2579,7 @@ func (project *Project) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		pointersInitializesStatements.WriteString(project.GongMarshallField(stage, "Diagrams"))
 		initializerStatements.WriteString(project.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(project.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(project.GongMarshallField(stage, "IsInRenameMode"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -2563,6 +2596,7 @@ func (resource *Resource) GongMarshallAllFields(stage *Stage) (initRes string, p
 		pointersInitializesStatements.WriteString(resource.GongMarshallField(stage, "SubResources"))
 		initializerStatements.WriteString(resource.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(resource.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(resource.GongMarshallField(stage, "IsInRenameMode"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -2643,6 +2677,7 @@ func (task *Task) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "SubTasks"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(task.GongMarshallField(stage, "IsInRenameMode"))
 		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "Inputs"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "IsInputsNodeExpanded"))
 		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "Outputs"))

@@ -10,7 +10,10 @@ import (
 
 func (stager *Stager) treeRBSinDiagram(diagram *Diagram, resource *Resource, parentNode *tree.Node) {
 	resourceNode := &tree.Node{
-		Name:       resource.ComputedPrefix + " " + resource.Name,
+		Name:         resource.Name,
+		IsWithPrefix: true,
+		Prefix:       resource.ComputedPrefix,
+
 		IsExpanded: slices.Index(diagram.ResourcesWhoseNodeIsExpanded, resource) != -1,
 
 		HasCheckboxButton:  true,
@@ -21,8 +24,42 @@ func (stager *Stager) treeRBSinDiagram(diagram *Diagram, resource *Resource, par
 		ToolTipText:     "Add resource to diagram",
 
 		IsNodeClickable: true,
+
+		IsInEditMode: resource.IsInRenameMode,
 	}
 	parentNode.Children = append(parentNode.Children, resourceNode)
+
+	if !resource.IsInRenameMode {
+		resourceNode.Buttons = append(resourceNode.Buttons,
+			&tree.Button{
+				Name: resource.GetName() + " " + string(buttons.BUTTON_edit_note),
+				Icon: string(buttons.BUTTON_edit_note),
+				Impl: &tree.FunctionalButtonProxy{
+					OnUpdated: func(stage *tree.Stage, button, updatedButton *tree.Button) {
+						resource.IsInRenameMode = true
+						stager.stage.Commit()
+					},
+				},
+				HasToolTip:      true,
+				ToolTipText:     "Rename the resource",
+				ToolTipPosition: tree.Above,
+			})
+	} else {
+		resourceNode.Buttons = append(resourceNode.Buttons,
+			&tree.Button{
+				Name: resource.GetName() + " " + string(buttons.BUTTON_edit_off),
+				Icon: string(buttons.BUTTON_edit_off),
+				Impl: &tree.FunctionalButtonProxy{
+					OnUpdated: func(stage *tree.Stage, button, updatedButton *tree.Button) {
+						resource.IsInRenameMode = false
+						stager.stage.Commit()
+					},
+				},
+				HasToolTip:      true,
+				ToolTipText:     "Cancel renaming",
+				ToolTipPosition: tree.Above,
+			})
+	}
 
 	addAddItemButton(stager, &diagram.ResourcesWhoseNodeIsExpanded, resource, nil, resourceNode, &resource.SubResources, diagram, &diagram.Resource_Shapes, &diagram.ResourceComposition_Shapes)
 

@@ -72,7 +72,7 @@ func (stager *Stager) enforceHierarchy() (needCommit bool) {
 				// remove nil resource
 				*resources = slices.Delete(*resources, i, i+1)
 				stager.probeForm.AddNotification(time.Now(),
-					fmt.Sprintf("Nil resource found in the hierarchy, removing it"))
+					"Nil resource found in the hierarchy, removing it")
 				needCommit = true
 			} else if _, ok := visitedResources[resource]; ok {
 				// already present in the hierarchy, remove it
