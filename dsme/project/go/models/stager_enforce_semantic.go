@@ -53,9 +53,7 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 
 	// Semantic for shapes relation to concrete objects
 	{
-		needCommit = stager.enforceProductCompositionShapes() || needCommit
-		needCommit = stager.enforceTaskCompositionShapes() || needCommit
-		needCommit = stager.enforceTaskInputOutputShapes() || needCommit
+		needCommit = stager.enforceVisibility() || needCommit
 		needCommit = stager.enforceNoteRelatedShapes() || needCommit
 
 		needCommit = stager.enforceRelationDuplicates() || needCommit
