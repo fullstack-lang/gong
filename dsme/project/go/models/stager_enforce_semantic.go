@@ -59,33 +59,11 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 		needCommit = stager.enforceRelationDuplicates() || needCommit
 		needCommit = stager.enforceNodeShapeDuplicates() || needCommit
 		needCommit = stager.enforceShapeOrphans() || needCommit
+		needCommit = stager.enforceShapesAbstractConsistency(stage, needCommit) || needCommit
 	}
 
 	needCommit = stager.enforceTaskInputOutputProjectConsistency() || needCommit
 	needCommit = stager.enforceDuplicateRemove() || needCommit
-
-	for _, instance := range stage.GetInstances() {
-		if shape, ok := instance.(ConcreteType); ok {
-			if shape.GetAbstractElement() == nil {
-				shape.UnstageVoid(stage)
-				needCommit = true
-			}
-			continue
-		}
-		if associationShape, ok := instance.(AssociationConcreteType); ok {
-			if associationShape.GetAbstractStartElement() == nil {
-				associationShape.UnstageVoid(stage)
-				needCommit = true
-				continue
-			}
-			if associationShape.GetAbstractEndElement() == nil {
-				associationShape.UnstageVoid(stage)
-				needCommit = true
-				continue
-			}
-		}
-
-	}
 
 	// computes fields that are not persisted
 	stager.enforceProducersConsumers()
@@ -101,16 +79,19 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 		stager.probeForm.AddNotification(time.Now(), "Stage was modified to enforce semantic, please check the diagram for details")
 		stager.probeForm.CommitNotificationTable()
 
-		var selectedDiagram *Diagram
-		for _, diagram := range GetGongstrucsSorted[*Diagram](stage) {
-			if diagram.IsEditable() {
-				selectedDiagram = diagram
-				break
+		{
+			// for debug purpose, to check that the stage is not dirty after the commit
+			var selectedDiagram *Diagram
+			for _, diagram := range GetGongstrucsSorted[*Diagram](stage) {
+				if diagram.IsEditable() {
+					selectedDiagram = diagram
+					break
+				}
 			}
-		}
-		if selectedDiagram != nil {
-			TaskOutputShapes := selectedDiagram.TaskOutputShapes
-			_ = TaskOutputShapes
+			if selectedDiagram != nil {
+				TaskOutputShapes := selectedDiagram.TaskOutputShapes
+				_ = TaskOutputShapes
+			}
 		}
 	}
 
