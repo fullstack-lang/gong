@@ -22,37 +22,16 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 	addAddItemButton(stager, &diagram.TasksWhoseNodeIsExpanded, task, nil, taskNode, &task.SubTasks, diagram, &diagram.Task_Shapes, &diagram.TaskComposition_Shapes)
 
 	// if task has a parent task, add a button to show/hide the link to the parent
-	if parentTask := task.parentTask; parentTask != nil {
-		if _, ok := diagram.map_Task_TaskShape[parentTask]; ok {
-			if _, ok := diagram.map_Task_TaskShape[task]; ok {
-
-				showHideCompositionButton := &tree.Button{
-					Name:            task.GetName() + " add parent relation",
-					HasToolTip:      true,
-					ToolTipPosition: tree.Right,
-				}
-
-				if compositionShape, ok := diagram.map_Task_TaskCompositionShape[task]; !ok {
-					showHideCompositionButton.Icon = string(buttons.BUTTON_visibility)
-					showHideCompositionButton.ToolTipText = "Show link from \"" + parentTask.Name +
-						"\" to \"" + task.Name + "\""
-
-					showHideCompositionButton.Impl = &tree.FunctionalButtonProxy{
-						OnUpdated: onAddAssociationShape(stager, parentTask, task, &diagram.TaskComposition_Shapes),
-					}
-				} else {
-					showHideCompositionButton.Icon = string(buttons.BUTTON_visibility_off)
-					showHideCompositionButton.ToolTipText = "Hide link from \"" + parentTask.Name +
-						"\" to \"" + task.Name + "\""
-
-					showHideCompositionButton.Impl = &tree.FunctionalButtonProxy{
-						OnUpdated: onRemoveAssociationShape(stager, compositionShape, &diagram.TaskComposition_Shapes),
-					}
-				}
-				taskNode.Buttons = append(taskNode.Buttons, showHideCompositionButton)
-			}
-		}
-	}
+	addShowHideCompositionButton(
+		stager,
+		diagram,
+		task,
+		task.parentTask,
+		taskNode,
+		diagram.map_Task_TaskShape,
+		diagram.map_Task_TaskCompositionShape,
+		&diagram.TaskComposition_Shapes,
+	)
 
 	for _, task := range task.SubTasks {
 		stager.treeWBSinDiagram(diagram, task, taskNode)
