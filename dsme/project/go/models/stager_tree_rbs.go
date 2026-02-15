@@ -21,38 +21,16 @@ func (stager *Stager) treeRBSinDiagram(diagram *Diagram, resource *Resource, par
 	addAddItemButton(stager, &diagram.ResourcesWhoseNodeIsExpanded, resource, nil, resourceNode, &resource.SubResources, diagram, &diagram.Resource_Shapes, &diagram.ResourceComposition_Shapes)
 
 	// if resource has a parent resource, add a button to show/hide the link to the parent
-	if parentResource := resource.parentResource; parentResource != nil {
-		if _, ok := diagram.map_Resource_ResourceShape[parentResource]; ok {
-			if _, ok := diagram.map_Resource_ResourceShape[resource]; ok {
-
-				showHideCompositionButton := &tree.Button{
-					Name: GetGongstructNameFromPointer(resource) + " " + string(buttons.BUTTON_add),
-
-					HasToolTip:      true,
-					ToolTipPosition: tree.Right,
-				}
-
-				if compositionShape, ok := diagram.map_Resource_ResourceCompositionShape[resource]; !ok {
-					showHideCompositionButton.Icon = string(buttons.BUTTON_visibility)
-					showHideCompositionButton.ToolTipText = "Show link from \"" + parentResource.Name +
-						"\" to \"" + resource.Name + "\""
-
-					showHideCompositionButton.Impl = &tree.FunctionalButtonProxy{
-						OnUpdated: onAddAssociationShape(stager, parentResource, resource, &diagram.ResourceComposition_Shapes),
-					}
-				} else {
-					showHideCompositionButton.Icon = string(buttons.BUTTON_visibility_off)
-					showHideCompositionButton.ToolTipText = "Hide link from \"" + parentResource.Name +
-						"\" to \"" + resource.Name + "\""
-
-					showHideCompositionButton.Impl = &tree.FunctionalButtonProxy{
-						OnUpdated: onRemoveAssociationShape(stager, compositionShape, &diagram.ResourceComposition_Shapes),
-					}
-				}
-				resourceNode.Buttons = append(resourceNode.Buttons, showHideCompositionButton)
-			}
-		}
-	}
+	addShowHideCompositionButton(
+		stager,
+		diagram,
+		resource,
+		resource.parentResource,
+		resourceNode,
+		diagram.map_Resource_ResourceShape,
+		diagram.map_Resource_ResourceCompositionShape,
+		&diagram.ResourceComposition_Shapes,
+	)
 
 	for _, subResource := range resource.SubResources {
 		stager.treeRBSinDiagram(diagram, subResource, resourceNode)

@@ -64,7 +64,7 @@ func _(stage *models.Stage) {
 	__Task__00000000_ := (&models.Task{Name: `T1`}).Stage(stage)
 	__Task__00000001_ := (&models.Task{Name: `T1.1`}).Stage(stage)
 
-	__TaskCompositionShape__00000000_ := (&models.TaskCompositionShape{Name: `T1 to NewTask`}).Stage(stage)
+	__TaskCompositionShape__00000000_ := (&models.TaskCompositionShape{Name: `T1 to T1.1`}).Stage(stage)
 
 	__TaskInputShape__00000000_ := (&models.TaskInputShape{Name: `T1.1 to P1.2`}).Stage(stage)
 
@@ -262,7 +262,7 @@ func _(stage *models.Stage) {
 	__Task__00000001_.IsWithCompletion = true
 	__Task__00000001_.Completion = models.PERCENT_050
 
-	__TaskCompositionShape__00000000_.Name = `T1 to NewTask`
+	__TaskCompositionShape__00000000_.Name = `T1 to T1.1`
 	__TaskCompositionShape__00000000_.StartRatio = 0.500000
 	__TaskCompositionShape__00000000_.EndRatio = 0.500000
 	__TaskCompositionShape__00000000_.StartOrientation = models.ORIENTATION_VERTICAL
@@ -278,10 +278,10 @@ func _(stage *models.Stage) {
 
 	__TaskOutputShape__00000000_.Name = `T1.1 to P1.1`
 	__TaskOutputShape__00000000_.StartRatio = 0.500000
-	__TaskOutputShape__00000000_.EndRatio = 0.405192
+	__TaskOutputShape__00000000_.EndRatio = 0.500000
 	__TaskOutputShape__00000000_.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__TaskOutputShape__00000000_.EndOrientation = models.ORIENTATION_VERTICAL
-	__TaskOutputShape__00000000_.CornerOffsetRatio = -0.577653
+	__TaskOutputShape__00000000_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__TaskOutputShape__00000000_.CornerOffsetRatio = 1.680000
 
 	__TaskShape__00000000_.Name = `NewTask-Default Diagram`
 	__TaskShape__00000000_.IsExpanded = false
