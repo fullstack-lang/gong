@@ -34,9 +34,12 @@ func (stager *Stager) svg() {
 	diagram.map_Product_Rect = make(map[*Product]*svg.Rect)
 	diagram.map_Task_Rect = make(map[*Task]*svg.Rect)
 	diagram.map_Note_Rect = make(map[*Note]*svg.Rect)
+	diagram.map_Resource_Rect = make(map[*Resource]*svg.Rect)
+
 	diagram.map_SvgRect_ProductShape = make(map[*svg.Rect]*ProductShape)
 	diagram.map_SvgRect_TaskShape = make(map[*svg.Rect]*TaskShape)
 	diagram.map_SvgRect_NoteShape = make(map[*svg.Rect]*NoteShape)
+	diagram.map_SvgRect_ResourceShape = make(map[*svg.Rect]*ResourceShape)
 
 	// to implement association between abstract elements by mouse drag
 	svgImpl := &svgProxy{
@@ -274,6 +277,83 @@ func (stager *Stager) svg() {
 		link.StartAnchorType = svg.ANCHOR_CENTER
 		link.EndAnchorType = svg.ANCHOR_CENTER
 		link.HasEndArrow = false
+	}
+
+	for _, resourceShape := range diagram.Resource_Shapes {
+		rect := svgRect(
+			stager,
+			diagram,
+			resourceShape,
+			layer)
+		diagram.map_Resource_Rect[resourceShape.Resource] = rect
+		diagram.map_SvgRect_ResourceShape[rect] = resourceShape
+		{
+			rectAnchoredPath := new(svg.RectAnchoredPath)
+			rect.IsScalingProportionally = false
+			rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, rectAnchoredPath)
+
+			rectAnchoredPath.Definition = "M 30, 11 a 10, 10 0 1, 1 -20, 0 a 10, 10 0 1, 1 20, 0 M 1, 49 h 38 v -9 c 0 -6.6 -5.4 -12 -12 -12 H 13 c -6.6 0 -12 5.4 -12 12 z"
+
+			rectAnchoredPath.Name = "Person"
+
+			rectAnchoredPath.Stroke = svg.Lightgray.ToString()
+			rectAnchoredPath.StrokeWidth = 4
+			rectAnchoredPath.StrokeOpacity = 1
+
+			rectAnchoredPath.FillOpacity = 0.0
+
+			distanceFromBorder := 10.0
+			iconWidth := 40.0
+
+			rectAnchoredPath.X_Offset = distanceFromBorder
+			rectAnchoredPath.Y_Offset = distanceFromBorder
+
+			rectAnchoredPath.RectAnchorType = svg.RECT_TOP_LEFT
+
+			// shift the text on the right
+			title := rect.RectAnchoredTexts[0]
+			if rect.Width > (distanceFromBorder + iconWidth) {
+				title.Content = strutils.WrapString(title.Content, int((rect.Width-(distanceFromBorder+iconWidth))/root.NbPixPerCharacter))
+			}
+			title.X_Offset = (distanceFromBorder + iconWidth) / 2.0
+
+		}
+	}
+
+	for _, resourceCompositionShape := range diagram.ResourceComposition_Shapes {
+		subResource := resourceCompositionShape.Resource
+		parentResource := subResource.parentResource
+		if subResource == nil || parentResource == nil {
+			log.Panic("There should be a subResource and a parentResource")
+		}
+		startRect := diagram.map_Resource_Rect[parentResource]
+		endRect := diagram.map_Resource_Rect[subResource]
+		svgAssociationLink(
+			stager,
+			startRect, endRect,
+			resourceCompositionShape,
+			parentResource,
+			layer,
+			false,
+		)
+	}
+
+	for _, resourceTaskShape := range diagram.ResourceTaskShapes {
+		resource := resourceTaskShape.Resource
+		task := resourceTaskShape.Task
+		if resource == nil || task == nil {
+			log.Panic("There should be a resource and a task")
+		}
+		startRect := diagram.map_Resource_Rect[resource]
+		endRect := diagram.map_Task_Rect[task]
+		svgAssociationLink(
+			stager,
+			startRect, endRect,
+			resourceTaskShape,
+			resource,
+			layer,
+			true,
+		)
 	}
 
 	svg.StageBranch(svgStage, svgObject)

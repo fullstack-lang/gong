@@ -125,10 +125,13 @@ another line-NewDiagram`}).Stage(stage)
 	__Project__00000002_ := (&models.Project{Name: `gong : persist stage.go as an history of commits  #934`}).Stage(stage)
 
 	__Resource__00000000_ := (&models.Resource{Name: `T`}).Stage(stage)
+	__Resource__00000001_ := (&models.Resource{Name: `NewResource`}).Stage(stage)
 
 	__ResourceShape__00000000_ := (&models.ResourceShape{Name: `NewResource-Work diagram x`}).Stage(stage)
 	__ResourceShape__00000001_ := (&models.ResourceShape{Name: `T-Work diagram x`}).Stage(stage)
 	__ResourceShape__00000002_ := (&models.ResourceShape{Name: `T-Work diagram x`}).Stage(stage)
+	__ResourceShape__00000003_ := (&models.ResourceShape{Name: `T-Work diagram x`}).Stage(stage)
+	__ResourceShape__00000004_ := (&models.ResourceShape{Name: `NewResource-Work diagram x`}).Stage(stage)
 
 	__Root__00000000_ := (&models.Root{Name: `Root`}).Stage(stage)
 
@@ -200,7 +203,7 @@ another line-NewDiagram`}).Stage(stage)
 	__Diagram__00000061_.ComputedPrefix = ``
 	__Diagram__00000061_.IsPBSNodeExpanded = true
 	__Diagram__00000061_.IsWBSNodeExpanded = true
-	__Diagram__00000061_.IsNotesNodeExpanded = false
+	__Diagram__00000061_.IsNotesNodeExpanded = true
 	__Diagram__00000061_.IsResourcesNodeExpanded = true
 
 	__Note__00000000_.Name = `This is an example to explain a particular product
@@ -209,18 +212,23 @@ This has lot of lines of explaining
 
 another line`
 	__Note__00000000_.IsExpanded = false
+	__Note__00000000_.ComputedPrefix = `1`
 
 	__Note__00000001_.Name = `Second Note`
 	__Note__00000001_.IsExpanded = false
+	__Note__00000001_.ComputedPrefix = `2`
 
 	__Note__00000002_.Name = `The algo uses the stage.reference to computes all new/deleted/modified instances of the stage`
 	__Note__00000002_.IsExpanded = false
+	__Note__00000002_.ComputedPrefix = `1`
 
 	__Note__00000003_.Name = `The probe Notfication Table Allows the verification of commit diff`
 	__Note__00000003_.IsExpanded = false
+	__Note__00000003_.ComputedPrefix = `2`
 
 	__Note__00000004_.Name = `https://github.com/fullstack-lang/gong/issues/998`
 	__Note__00000004_.IsExpanded = false
+	__Note__00000004_.ComputedPrefix = `3`
 
 	__NoteProductShape__00000001_.Name = `The probe Notfication Table Allows the verification of commit diff to Probe display the marshalled commit`
 	__NoteProductShape__00000001_.StartRatio = 0.500000
@@ -746,13 +754,18 @@ another line-NewDiagram`
 	__Project__00000001_.ComputedPrefix = ``
 
 	__Project__00000002_.Name = `gong : persist stage.go as an history of commits  #934`
-	__Project__00000002_.IsExpanded = true
+	__Project__00000002_.IsExpanded = false
 	__Project__00000002_.ComputedPrefix = ``
 
 	__Resource__00000000_.Name = `T`
 	__Resource__00000000_.Description = ``
 	__Resource__00000000_.IsExpanded = false
-	__Resource__00000000_.ComputedPrefix = ``
+	__Resource__00000000_.ComputedPrefix = `1`
+
+	__Resource__00000001_.Name = `NewResource`
+	__Resource__00000001_.Description = ``
+	__Resource__00000001_.IsExpanded = false
+	__Resource__00000001_.ComputedPrefix = `2`
 
 	__ResourceShape__00000000_.Name = `NewResource-Work diagram x`
 	__ResourceShape__00000000_.IsExpanded = false
@@ -774,6 +787,20 @@ another line-NewDiagram`
 	__ResourceShape__00000002_.Y = 182.001251
 	__ResourceShape__00000002_.Width = 250.000000
 	__ResourceShape__00000002_.Height = 100.000000
+
+	__ResourceShape__00000003_.Name = `T-Work diagram x`
+	__ResourceShape__00000003_.IsExpanded = false
+	__ResourceShape__00000003_.X = 118.393086
+	__ResourceShape__00000003_.Y = 141.518392
+	__ResourceShape__00000003_.Width = 250.000000
+	__ResourceShape__00000003_.Height = 100.000000
+
+	__ResourceShape__00000004_.Name = `NewResource-Work diagram x`
+	__ResourceShape__00000004_.IsExpanded = false
+	__ResourceShape__00000004_.X = 157.220401
+	__ResourceShape__00000004_.Y = 183.322406
+	__ResourceShape__00000004_.Width = 250.000000
+	__ResourceShape__00000004_.Height = 100.000000
 
 	__Root__00000000_.Name = `Root`
 	__Root__00000000_.NbPixPerCharacter = 8.000000
@@ -1024,6 +1051,8 @@ another line-NewDiagram`
 	__Diagram__00000061_.Resource_Shapes = append(__Diagram__00000061_.Resource_Shapes, __ResourceShape__00000000_)
 	__Diagram__00000061_.Resource_Shapes = append(__Diagram__00000061_.Resource_Shapes, __ResourceShape__00000001_)
 	__Diagram__00000061_.Resource_Shapes = append(__Diagram__00000061_.Resource_Shapes, __ResourceShape__00000002_)
+	__Diagram__00000061_.Resource_Shapes = append(__Diagram__00000061_.Resource_Shapes, __ResourceShape__00000003_)
+	__Diagram__00000061_.Resource_Shapes = append(__Diagram__00000061_.Resource_Shapes, __ResourceShape__00000004_)
 	__Note__00000002_.Tasks = append(__Note__00000002_.Tasks, __Task__00000007_)
 	__Note__00000003_.Products = append(__Note__00000003_.Products, __Product__00000035_)
 	__Note__00000003_.Products = append(__Note__00000003_.Products, __Product__00000025_)
@@ -1118,14 +1147,17 @@ another line-NewDiagram`
 	__Project__00000002_.RootTasks = append(__Project__00000002_.RootTasks, __Task__00000012_)
 	__Project__00000002_.RootTasks = append(__Project__00000002_.RootTasks, __Task__00000009_)
 	__Project__00000002_.RootTasks = append(__Project__00000002_.RootTasks, __Task__00000013_)
+	__Project__00000002_.RootResources = append(__Project__00000002_.RootResources, __Resource__00000000_)
+	__Project__00000002_.RootResources = append(__Project__00000002_.RootResources, __Resource__00000001_)
 	__Project__00000002_.Notes = append(__Project__00000002_.Notes, __Note__00000002_)
 	__Project__00000002_.Notes = append(__Project__00000002_.Notes, __Note__00000003_)
 	__Project__00000002_.Notes = append(__Project__00000002_.Notes, __Note__00000004_)
-	__Project__00000002_.Resources = append(__Project__00000002_.Resources, __Resource__00000000_)
 	__Project__00000002_.Diagrams = append(__Project__00000002_.Diagrams, __Diagram__00000061_)
 	__ResourceShape__00000000_.Resource = __Resource__00000000_
 	__ResourceShape__00000001_.Resource = __Resource__00000000_
 	__ResourceShape__00000002_.Resource = __Resource__00000000_
+	__ResourceShape__00000003_.Resource = __Resource__00000000_
+	__ResourceShape__00000004_.Resource = __Resource__00000001_
 	__Root__00000000_.Projects = append(__Root__00000000_.Projects, __Project__00000000_)
 	__Root__00000000_.Projects = append(__Root__00000000_.Projects, __Project__00000001_)
 	__Root__00000000_.Projects = append(__Root__00000000_.Projects, __Project__00000002_)

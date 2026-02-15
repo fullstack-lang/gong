@@ -50,6 +50,8 @@ func (diagram *Diagram) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &diagram.NoteTaskShapes) || modified
 	modified = GongCleanSlice(stage, &diagram.Resource_Shapes) || modified
 	modified = GongCleanSlice(stage, &diagram.ResourcesWhoseNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &diagram.ResourceComposition_Shapes) || modified
+	modified = GongCleanSlice(stage, &diagram.ResourceTaskShapes) || modified
 	// insertion point per field
 	return
 }
@@ -118,8 +120,8 @@ func (project *Project) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = GongCleanSlice(stage, &project.RootProducts) || modified
 	modified = GongCleanSlice(stage, &project.RootTasks) || modified
+	modified = GongCleanSlice(stage, &project.RootResources) || modified
 	modified = GongCleanSlice(stage, &project.Notes) || modified
-	modified = GongCleanSlice(stage, &project.Resources) || modified
 	modified = GongCleanSlice(stage, &project.Diagrams) || modified
 	// insertion point per field
 	return
@@ -129,7 +131,16 @@ func (project *Project) GongClean(stage *Stage) (modified bool) {
 func (resource *Resource) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = GongCleanSlice(stage, &resource.Tasks) || modified
+	modified = GongCleanSlice(stage, &resource.SubResources) || modified
 	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by ResourceCompositionShape
+func (resourcecompositionshape *ResourceCompositionShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = GongCleanPointer(stage, &resourcecompositionshape.Resource) || modified
 	return
 }
 

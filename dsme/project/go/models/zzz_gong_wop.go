@@ -62,12 +62,15 @@ type Note_WOP struct {
 	Name string
 
 	IsExpanded bool
+
+	ComputedPrefix string
 }
 
 func (from *Note) CopyBasicFields(to *Note) {
 	// insertion point
 	to.Name = from.Name
 	to.IsExpanded = from.IsExpanded
+	to.ComputedPrefix = from.ComputedPrefix
 }
 
 type NoteProductShape_WOP struct {
@@ -261,6 +264,32 @@ func (from *Resource) CopyBasicFields(to *Resource) {
 	to.Description = from.Description
 	to.IsExpanded = from.IsExpanded
 	to.ComputedPrefix = from.ComputedPrefix
+}
+
+type ResourceCompositionShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	StartRatio float64
+
+	EndRatio float64
+
+	StartOrientation OrientationType
+
+	EndOrientation OrientationType
+
+	CornerOffsetRatio float64
+}
+
+func (from *ResourceCompositionShape) CopyBasicFields(to *ResourceCompositionShape) {
+	// insertion point
+	to.Name = from.Name
+	to.StartRatio = from.StartRatio
+	to.EndRatio = from.EndRatio
+	to.StartOrientation = from.StartOrientation
+	to.EndOrientation = from.EndOrientation
+	to.CornerOffsetRatio = from.CornerOffsetRatio
 }
 
 type ResourceShape_WOP struct {

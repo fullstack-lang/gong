@@ -132,6 +132,7 @@ func NewLevel1StackDelta(
 	models.SetOrchestratorOnAfterUpdate[models.ProductShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Project](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Resource](stage)
+	models.SetOrchestratorOnAfterUpdate[models.ResourceCompositionShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.ResourceShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.ResourceTaskShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Root](stage)

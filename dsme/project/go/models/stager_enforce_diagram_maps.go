@@ -66,5 +66,25 @@ func (stager *Stager) enforceDiagramMaps() {
 			}
 		}
 
+		diagram.map_Resource_ResourceShape = make(map[*Resource]*ResourceShape)
+		for _, shape := range diagram.Resource_Shapes {
+			if shape.Resource != nil {
+				diagram.map_Resource_ResourceShape[shape.Resource] = shape
+			}
+		}
+
+		diagram.map_Resource_ResourceCompositionShape = make(map[*Resource]*ResourceCompositionShape)
+		for _, shape := range diagram.ResourceComposition_Shapes {
+			if shape.Resource != nil {
+				diagram.map_Resource_ResourceCompositionShape[shape.Resource] = shape
+			}
+		}
+
+		diagram.map_Resource_ResourceTaskShape = make(map[resourceTaskKey]*ResourceTaskShape)
+		for _, shape := range diagram.ResourceTaskShapes {
+			if shape.Resource != nil && shape.Task != nil {
+				diagram.map_Resource_ResourceTaskShape[resourceTaskKey{Resource: shape.Resource, Task: shape.Task}] = shape
+			}
+		}
 	}
 }
