@@ -10,6 +10,9 @@ package models
 type Node struct {
 	Name string
 
+	IsWithPrefix bool
+	Prefix       string
+
 	FontStyle FontStyleEnum
 
 	// Impl is the pointer to the implementation of the node in the models of interest

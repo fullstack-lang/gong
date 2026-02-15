@@ -165,6 +165,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(node.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "IsWithPrefix"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "Prefix"))
 		initializerStatements.WriteString(node.GongMarshallField(stage, "FontStyle"))
 		initializerStatements.WriteString(node.GongMarshallField(stage, "BackgroundColor"))
 		initializerStatements.WriteString(node.GongMarshallField(stage, "IsExpanded"))
@@ -403,6 +405,16 @@ func (node *Node) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(node.Name))
+	case "IsWithPrefix":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsWithPrefix")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.IsWithPrefix))
+	case "Prefix":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Prefix")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(node.Prefix))
 	case "FontStyle":
 		if node.FontStyle.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -659,6 +671,8 @@ func (node *Node) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(node.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "IsWithPrefix"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "Prefix"))
 		initializerStatements.WriteString(node.GongMarshallField(stage, "FontStyle"))
 		initializerStatements.WriteString(node.GongMarshallField(stage, "BackgroundColor"))
 		initializerStatements.WriteString(node.GongMarshallField(stage, "IsExpanded"))

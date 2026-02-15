@@ -13,6 +13,8 @@ export class NodeAPI {
 
 	// insertion point for basic fields declarations
 	Name: string = ""
+	IsWithPrefix: boolean = false
+	Prefix: string = ""
 	FontStyle: string = ""
 	BackgroundColor: string = ""
 	IsExpanded: boolean = false
