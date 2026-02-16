@@ -44,7 +44,7 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 		}
 	}
 
-	needCommit = stager.enforceObjectValues() || needCommit
+	needCommit = stager.enforceDefaultValues() || needCommit
 	needCommit = stager.enforceDAG() || needCommit
 	needCommit = stager.enforceHierarchy() || needCommit
 	needCommit = stager.enforceUniquenessInProjects() || needCommit
