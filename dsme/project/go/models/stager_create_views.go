@@ -144,7 +144,37 @@ func createViews(stager *Stager, stage *Stage) {
 	})
 
 	split.StageBranch(stager.splitStage, &split.View{
-		Name: "Tree Product Probe",
+		Name: "Load / Download / Buttons",
+		RootAsSplitAreas: []*split.AsSplitArea{
+			{
+				Name:             "Load  Buttons Download",
+				ShowNameInHeader: false,
+				Size:             35,
+				AsSplit: &split.AsSplit{
+					Name:      "as split",
+					Direction: split.Horizontal,
+					AsSplitAreas: []*split.AsSplitArea{
+						{
+							Size: 50,
+							Load: &split.Load{
+								StackName: stager.loadStage.GetName(),
+							},
+						},
+						{
+							Size: 50,
+							Button: &split.Button{
+								StackName: stager.buttonStage.GetName(),
+							},
+						},
+					},
+				},
+			},
+		},
+	})
+
+	split.StageBranch(stager.splitStage, &split.View{
+		Name:            "Tree Product Probe",
+		IsSecondatyView: true,
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
 				Split: &split.Split{
@@ -155,7 +185,8 @@ func createViews(stager *Stager, stage *Stage) {
 	})
 
 	split.StageBranch(stager.splitStage, &split.View{
-		Name: "Svg Probe",
+		Name:            "Svg Probe",
+		IsSecondatyView: true,
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
 				Split: &split.Split{
