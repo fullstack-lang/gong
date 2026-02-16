@@ -5,10 +5,11 @@ import (
 	"time"
 )
 
-func (stager *Stager) enforceObjectValues() (needCommit bool) {
+// enforceDefaultValues enforce defaut values when there are not suitable
+func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 	const (
 		defaultBoxWidth  = 250.0
-		defaultBoxHeigth = 100.0
+		defaultBoxHeigth = 70.0
 	)
 
 	root := stager.root
