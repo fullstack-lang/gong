@@ -49,6 +49,18 @@ func (stager *Stager) button() {
 		group1.Buttons = append(group1.Buttons, buttonExportRenderingCong)
 
 	}
+	{
+		buttonKill := button.NewButton(
+			&StopButtonProxy{
+				stager: stager,
+			},
+			"Stop for maintenance",
+			string(buttons.BUTTON_stop_circle),
+			"Stop for maintenance",
+		)
+
+		group1.Buttons = append(group1.Buttons, buttonKill)
+	}
 
 	button.StageBranch(buttonStage, layout)
 
@@ -132,4 +144,17 @@ func (proxy *downloadButtonProxy) OnAfterUpdateButton() {
 
 	time.Sleep(1 * time.Second) // Sleep to ensure the client has time to start the download before we delete the file.
 	stager.load()
+}
+
+type StopButtonProxy struct {
+	stager *Stager
+}
+
+func (e *StopButtonProxy) GetButtonsStage() *button.Stage {
+	return e.stager.buttonStage
+}
+
+func (proxy *StopButtonProxy) OnAfterUpdateButton() {
+	log.Println("Arret demandé de l'application")
+	os.Exit(0)
 }
