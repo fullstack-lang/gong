@@ -14,6 +14,12 @@ import (
 
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 	svg_stack "github.com/fullstack-lang/gong/lib/svg/go/stack"
+
+	load "github.com/fullstack-lang/gong/lib/load/go/models"
+	load_stack "github.com/fullstack-lang/gong/lib/load/go/stack"
+
+	button "github.com/fullstack-lang/gong/lib/button/go/models"
+	button_stack "github.com/fullstack-lang/gong/lib/button/go/stack"
 )
 
 type Stager struct {
@@ -23,9 +29,11 @@ type Stager struct {
 
 	root *Root
 
-	treeStage *tree.Stage
-
-	svgStage *svg.Stage
+	treeStage   *tree.Stage
+	svgStage    *svg.Stage
+	loadStage   *load.Stage
+	fileName    string // fileName is used to store the name of the file to load or save
+	buttonStage *button.Stage
 
 	productToProject map[*Product]*Project
 	taskToProject    map[*Task]*Project
@@ -48,6 +56,8 @@ func NewStager(
 	stager.splitStage = split_stack.NewStack(r, "", "", "", "", false, false).Stage
 	stager.treeStage = tree_stack.NewStack(r, "", "", "", "", true, true).Stage
 	stager.svgStage = svg_stack.NewStack(r, "", "", "", "", true, true).Stage
+	stager.loadStage = load_stack.NewStack(r, "", "", "", "", true, true).Stage
+	stager.buttonStage = button_stack.NewStack(r, "", "", "", "", true, true).Stage
 
 	createViews(stager, stage)
 
