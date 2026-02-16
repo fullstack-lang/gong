@@ -28,7 +28,7 @@ func (stager *Stager) load() {
 	)
 
 	message := &load.Message{
-		Name: "Drop your .reqif or .reqifz file here or ",
+		Name: "Drop your <project>.go file here or ",
 	}
 
 	message.Stage(stager.loadStage)
@@ -41,8 +41,7 @@ type loadProxy struct {
 }
 
 func (proxy *loadProxy) OnFileUpload(uploadedFile *load.FileToUpload) error {
-	fileName := uploadedFile.GetName()
-	_ = fileName
+	proxy.stager.fileName = uploadedFile.GetName()
 
 	decodedBytes, err := base64.StdEncoding.DecodeString(uploadedFile.Base64EncodedContent)
 	if err != nil {
