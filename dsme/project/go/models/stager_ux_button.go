@@ -42,9 +42,9 @@ func (stager *Stager) button() {
 			&downloadButtonProxy{
 				stager: stager,
 			},
-			"Export Rendering Configuration",
+			"Export project file",
 			string(buttons.BUTTON_fact_check),
-			"Export Rendering Configuration",
+			"Export project file",
 		)
 		group1.Buttons = append(group1.Buttons, buttonExportRenderingCong)
 
