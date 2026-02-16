@@ -21,4 +21,7 @@ func (c *BeforeCommitImplementation) BeforeCommit(stage *Stage) {
 
 	c.stager.tree()
 	c.stager.svg()
+	c.stager.button()
+	c.stager.load()
+
 }
