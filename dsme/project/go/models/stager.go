@@ -32,6 +32,7 @@ type Stager struct {
 	treeStage   *tree.Stage
 	svgStage    *svg.Stage
 	loadStage   *load.Stage
+	fileName    string // fileName is used to store the name of the file to load or save
 	buttonStage *button.Stage
 
 	productToProject map[*Product]*Project
