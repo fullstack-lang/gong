@@ -60,7 +60,7 @@ func _(stage *models.Stage) {
 	__Resource__00000002_.ComputedPrefix = `1`
 	__Resource__00000002_.IsInRenameMode = false
 
-	__ResourceShape__00000002_.Name = `NewResource-Default Diagram`
+	__ResourceShape__00000002_.Name = `D1-R1.2`
 	__ResourceShape__00000002_.IsExpanded = false
 	__ResourceShape__00000002_.X = 158.862056
 	__ResourceShape__00000002_.Y = 703.845003
