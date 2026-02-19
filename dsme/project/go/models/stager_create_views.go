@@ -98,6 +98,17 @@ func createViews(stager *Stager, stage *Stage) {
 	})
 
 	split.StageBranch(stager.splitStage, &split.View{
+		Name: "Probe",
+		RootAsSplitAreas: []*split.AsSplitArea{
+			{
+				Split: &split.Split{
+					StackName: stager.stage.GetProbeSplitStageName(),
+				},
+			},
+		},
+	})
+
+	split.StageBranch(stager.splitStage, &split.View{
 		Name:      "All",
 		Direction: split.Horizontal,
 		RootAsSplitAreas: []*split.AsSplitArea{
