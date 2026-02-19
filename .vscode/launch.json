@@ -773,7 +773,7 @@
                 // "--debouncedMarshall=true"
             ]
         },
-                {
+        {
             "name": "gong generate test3 --debouncedMarshall=true",
             "type": "go",
             "request": "launch",
@@ -820,7 +820,7 @@
                 "-marshallOnCommit=data/stage-large.go"
             ]
         },
-        {            
+        {
             "name": "test3, debug commits navigation",
             "type": "go",
             "request": "launch",
@@ -831,7 +831,7 @@
                 "^TestCommitNavigation$"
             ]
         },
-        {            
+        {
             "name": "test3, debug basic commits navigation",
             "type": "go",
             "request": "launch",
@@ -863,7 +863,8 @@
             "program": "${workspaceFolder}/dsme/project/go/cmd/project",
             "args": [
                 "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage.go"
+                "-marshallOnCommit=data/stage.go",
+                "embeddedDiagrams=false",
             ]
         },
         {
@@ -874,7 +875,8 @@
             "program": "${workspaceFolder}/dsme/project/go/cmd/project",
             "args": [
                 "-unmarshallFromCode=data/simple.go",
-                "-marshallOnCommit=data/simple.go"
+                "-marshallOnCommit=data/simple.go",
+                "embeddedDiagrams=false",
             ]
         },
         {
@@ -885,6 +887,7 @@
             "program": "${workspaceFolder}/dsme/project/go/cmd/project",
             "args": [
                 "-unmarshallFromCode=data/simple.go",
+                "embeddedDiagrams=false",
             ]
         },
         {
@@ -894,6 +897,7 @@
             "mode": "auto",
             "program": "${workspaceFolder}/dsme/project/go/cmd/project",
             "args": [
+                "embeddedDiagrams=false"
             ]
         },
         {
@@ -905,7 +909,8 @@
             "args": [
                 "-unmarshallFromCode=data/stage.go",
                 "-marshallOnCommit=data/stage.go",
-                "-port=8090"
+                "-port=8090",
+                "embeddedDiagrams=false",
             ]
         },
         {
@@ -954,7 +959,6 @@
                 "-marshallOnCommit=data/influence.go"
             ]
         },
-       
         {
             "name": "Debug TestStageCount",
             "type": "go",

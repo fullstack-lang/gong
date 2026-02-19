@@ -124,15 +124,6 @@ another line-NewDiagram`}).Stage(stage)
 	__Project__00000001_ := (&models.Project{Name: `DSME Docx`}).Stage(stage)
 	__Project__00000002_ := (&models.Project{Name: `gong : persist stage.go as an history of commits  #934`}).Stage(stage)
 
-	__Resource__00000000_ := (&models.Resource{Name: `T`}).Stage(stage)
-	__Resource__00000001_ := (&models.Resource{Name: `NewResource`}).Stage(stage)
-
-	__ResourceShape__00000000_ := (&models.ResourceShape{Name: `NewResource-Work diagram x`}).Stage(stage)
-	__ResourceShape__00000001_ := (&models.ResourceShape{Name: `T-Work diagram x`}).Stage(stage)
-	__ResourceShape__00000002_ := (&models.ResourceShape{Name: `T-Work diagram x`}).Stage(stage)
-	__ResourceShape__00000003_ := (&models.ResourceShape{Name: `T-Work diagram x`}).Stage(stage)
-	__ResourceShape__00000004_ := (&models.ResourceShape{Name: `NewResource-Work diagram x`}).Stage(stage)
-
 	__Root__00000000_ := (&models.Root{Name: `Root`}).Stage(stage)
 
 	__Task__00000003_ := (&models.Task{Name: `Task 1`}).Stage(stage)
@@ -167,12 +158,12 @@ another line-NewDiagram`}).Stage(stage)
 	__Diagram__00000042_.Name = `NewDiagram`
 	__Diagram__00000042_.IsChecked = false
 	__Diagram__00000042_.IsEditable_ = true
-	__Diagram__00000042_.IsInRenameMode = false
 	__Diagram__00000042_.ShowPrefix = true
 	__Diagram__00000042_.DefaultBoxWidth = 150.000000
 	__Diagram__00000042_.DefaultBoxHeigth = 70.000000
 	__Diagram__00000042_.IsExpanded = false
 	__Diagram__00000042_.ComputedPrefix = ``
+	__Diagram__00000042_.IsInRenameMode = false
 	__Diagram__00000042_.IsPBSNodeExpanded = true
 	__Diagram__00000042_.IsWBSNodeExpanded = true
 	__Diagram__00000042_.IsNotesNodeExpanded = false
@@ -181,12 +172,12 @@ another line-NewDiagram`}).Stage(stage)
 	__Diagram__00000057_.Name = `NewDiagram`
 	__Diagram__00000057_.IsChecked = false
 	__Diagram__00000057_.IsEditable_ = true
-	__Diagram__00000057_.IsInRenameMode = false
 	__Diagram__00000057_.ShowPrefix = false
 	__Diagram__00000057_.DefaultBoxWidth = 150.000000
 	__Diagram__00000057_.DefaultBoxHeigth = 70.000000
 	__Diagram__00000057_.IsExpanded = false
 	__Diagram__00000057_.ComputedPrefix = ``
+	__Diagram__00000057_.IsInRenameMode = false
 	__Diagram__00000057_.IsPBSNodeExpanded = true
 	__Diagram__00000057_.IsWBSNodeExpanded = false
 	__Diagram__00000057_.IsNotesNodeExpanded = false
@@ -195,12 +186,12 @@ another line-NewDiagram`}).Stage(stage)
 	__Diagram__00000061_.Name = `Work diagram x`
 	__Diagram__00000061_.IsChecked = true
 	__Diagram__00000061_.IsEditable_ = true
-	__Diagram__00000061_.IsInRenameMode = false
 	__Diagram__00000061_.ShowPrefix = true
 	__Diagram__00000061_.DefaultBoxWidth = 250.000000
 	__Diagram__00000061_.DefaultBoxHeigth = 100.000000
 	__Diagram__00000061_.IsExpanded = true
 	__Diagram__00000061_.ComputedPrefix = ``
+	__Diagram__00000061_.IsInRenameMode = false
 	__Diagram__00000061_.IsPBSNodeExpanded = true
 	__Diagram__00000061_.IsWBSNodeExpanded = true
 	__Diagram__00000061_.IsNotesNodeExpanded = true
@@ -213,22 +204,27 @@ This has lot of lines of explaining
 another line`
 	__Note__00000000_.IsExpanded = false
 	__Note__00000000_.ComputedPrefix = `1`
+	__Note__00000000_.IsInRenameMode = false
 
 	__Note__00000001_.Name = `Second Note`
 	__Note__00000001_.IsExpanded = false
 	__Note__00000001_.ComputedPrefix = `2`
+	__Note__00000001_.IsInRenameMode = false
 
 	__Note__00000002_.Name = `The algo uses the stage.reference to computes all new/deleted/modified instances of the stage`
 	__Note__00000002_.IsExpanded = false
 	__Note__00000002_.ComputedPrefix = `1`
+	__Note__00000002_.IsInRenameMode = false
 
 	__Note__00000003_.Name = `The probe Notfication Table Allows the verification of commit diff`
 	__Note__00000003_.IsExpanded = false
 	__Note__00000003_.ComputedPrefix = `2`
+	__Note__00000003_.IsInRenameMode = false
 
 	__Note__00000004_.Name = `https://github.com/fullstack-lang/gong/issues/998`
 	__Note__00000004_.IsExpanded = false
 	__Note__00000004_.ComputedPrefix = `3`
+	__Note__00000004_.IsInRenameMode = false
 
 	__NoteProductShape__00000001_.Name = `The probe Notfication Table Allows the verification of commit diff to Probe display the marshalled commit`
 	__NoteProductShape__00000001_.StartRatio = 0.500000
@@ -294,6 +290,7 @@ another line-NewDiagram`
 	__Product__00000011_.Description = ``
 	__Product__00000011_.IsExpanded = true
 	__Product__00000011_.ComputedPrefix = `1`
+	__Product__00000011_.IsInRenameMode = false
 	__Product__00000011_.IsProducersNodeExpanded = false
 	__Product__00000011_.IsConsumersNodeExpanded = false
 
@@ -301,6 +298,7 @@ another line-NewDiagram`
 	__Product__00000013_.Description = ``
 	__Product__00000013_.IsExpanded = false
 	__Product__00000013_.ComputedPrefix = `1.1`
+	__Product__00000013_.IsInRenameMode = false
 	__Product__00000013_.IsProducersNodeExpanded = false
 	__Product__00000013_.IsConsumersNodeExpanded = false
 
@@ -308,6 +306,7 @@ another line-NewDiagram`
 	__Product__00000014_.Description = ``
 	__Product__00000014_.IsExpanded = true
 	__Product__00000014_.ComputedPrefix = `1.2`
+	__Product__00000014_.IsInRenameMode = false
 	__Product__00000014_.IsProducersNodeExpanded = false
 	__Product__00000014_.IsConsumersNodeExpanded = false
 
@@ -315,6 +314,7 @@ another line-NewDiagram`
 	__Product__00000015_.Description = ``
 	__Product__00000015_.IsExpanded = true
 	__Product__00000015_.ComputedPrefix = `2`
+	__Product__00000015_.IsInRenameMode = false
 	__Product__00000015_.IsProducersNodeExpanded = false
 	__Product__00000015_.IsConsumersNodeExpanded = false
 
@@ -322,6 +322,7 @@ another line-NewDiagram`
 	__Product__00000016_.Description = ``
 	__Product__00000016_.IsExpanded = false
 	__Product__00000016_.ComputedPrefix = `1.2.1`
+	__Product__00000016_.IsInRenameMode = false
 	__Product__00000016_.IsProducersNodeExpanded = false
 	__Product__00000016_.IsConsumersNodeExpanded = false
 
@@ -329,6 +330,7 @@ another line-NewDiagram`
 	__Product__00000017_.Description = ``
 	__Product__00000017_.IsExpanded = false
 	__Product__00000017_.ComputedPrefix = `2.1`
+	__Product__00000017_.IsInRenameMode = false
 	__Product__00000017_.IsProducersNodeExpanded = false
 	__Product__00000017_.IsConsumersNodeExpanded = false
 
@@ -336,6 +338,7 @@ another line-NewDiagram`
 	__Product__00000018_.Description = ``
 	__Product__00000018_.IsExpanded = false
 	__Product__00000018_.ComputedPrefix = `2.2`
+	__Product__00000018_.IsInRenameMode = false
 	__Product__00000018_.IsProducersNodeExpanded = false
 	__Product__00000018_.IsConsumersNodeExpanded = false
 
@@ -343,6 +346,7 @@ another line-NewDiagram`
 	__Product__00000021_.Description = ``
 	__Product__00000021_.IsExpanded = false
 	__Product__00000021_.ComputedPrefix = `1.3`
+	__Product__00000021_.IsInRenameMode = false
 	__Product__00000021_.IsProducersNodeExpanded = false
 	__Product__00000021_.IsConsumersNodeExpanded = false
 
@@ -350,6 +354,7 @@ another line-NewDiagram`
 	__Product__00000022_.Description = ``
 	__Product__00000022_.IsExpanded = false
 	__Product__00000022_.ComputedPrefix = `1`
+	__Product__00000022_.IsInRenameMode = false
 	__Product__00000022_.IsProducersNodeExpanded = false
 	__Product__00000022_.IsConsumersNodeExpanded = false
 
@@ -357,6 +362,7 @@ another line-NewDiagram`
 	__Product__00000025_.Description = ``
 	__Product__00000025_.IsExpanded = false
 	__Product__00000025_.ComputedPrefix = `2.1`
+	__Product__00000025_.IsInRenameMode = false
 	__Product__00000025_.IsProducersNodeExpanded = false
 	__Product__00000025_.IsConsumersNodeExpanded = false
 
@@ -364,6 +370,7 @@ another line-NewDiagram`
 	__Product__00000026_.Description = ``
 	__Product__00000026_.IsExpanded = false
 	__Product__00000026_.ComputedPrefix = `1.1`
+	__Product__00000026_.IsInRenameMode = false
 	__Product__00000026_.IsProducersNodeExpanded = false
 	__Product__00000026_.IsConsumersNodeExpanded = false
 
@@ -371,6 +378,7 @@ another line-NewDiagram`
 	__Product__00000027_.Description = ``
 	__Product__00000027_.IsExpanded = false
 	__Product__00000027_.ComputedPrefix = `1.5`
+	__Product__00000027_.IsInRenameMode = false
 	__Product__00000027_.IsProducersNodeExpanded = false
 	__Product__00000027_.IsConsumersNodeExpanded = false
 
@@ -378,6 +386,7 @@ another line-NewDiagram`
 	__Product__00000028_.Description = ``
 	__Product__00000028_.IsExpanded = false
 	__Product__00000028_.ComputedPrefix = `1.6`
+	__Product__00000028_.IsInRenameMode = false
 	__Product__00000028_.IsProducersNodeExpanded = false
 	__Product__00000028_.IsConsumersNodeExpanded = false
 
@@ -385,6 +394,7 @@ another line-NewDiagram`
 	__Product__00000029_.Description = ``
 	__Product__00000029_.IsExpanded = false
 	__Product__00000029_.ComputedPrefix = `2.4`
+	__Product__00000029_.IsInRenameMode = false
 	__Product__00000029_.IsProducersNodeExpanded = false
 	__Product__00000029_.IsConsumersNodeExpanded = false
 
@@ -392,6 +402,7 @@ another line-NewDiagram`
 	__Product__00000030_.Description = ``
 	__Product__00000030_.IsExpanded = false
 	__Product__00000030_.ComputedPrefix = `2.5`
+	__Product__00000030_.IsInRenameMode = false
 	__Product__00000030_.IsProducersNodeExpanded = false
 	__Product__00000030_.IsConsumersNodeExpanded = false
 
@@ -399,6 +410,7 @@ another line-NewDiagram`
 	__Product__00000031_.Description = ``
 	__Product__00000031_.IsExpanded = true
 	__Product__00000031_.ComputedPrefix = `2`
+	__Product__00000031_.IsInRenameMode = false
 	__Product__00000031_.IsProducersNodeExpanded = false
 	__Product__00000031_.IsConsumersNodeExpanded = false
 
@@ -406,6 +418,7 @@ another line-NewDiagram`
 	__Product__00000033_.Description = ``
 	__Product__00000033_.IsExpanded = false
 	__Product__00000033_.ComputedPrefix = `1.4`
+	__Product__00000033_.IsInRenameMode = false
 	__Product__00000033_.IsProducersNodeExpanded = false
 	__Product__00000033_.IsConsumersNodeExpanded = false
 
@@ -413,6 +426,7 @@ another line-NewDiagram`
 	__Product__00000034_.Description = ``
 	__Product__00000034_.IsExpanded = false
 	__Product__00000034_.ComputedPrefix = `2.6`
+	__Product__00000034_.IsInRenameMode = false
 	__Product__00000034_.IsProducersNodeExpanded = false
 	__Product__00000034_.IsConsumersNodeExpanded = false
 
@@ -420,6 +434,7 @@ another line-NewDiagram`
 	__Product__00000035_.Description = ``
 	__Product__00000035_.IsExpanded = false
 	__Product__00000035_.ComputedPrefix = `2.2`
+	__Product__00000035_.IsInRenameMode = false
 	__Product__00000035_.IsProducersNodeExpanded = false
 	__Product__00000035_.IsConsumersNodeExpanded = false
 
@@ -427,6 +442,7 @@ another line-NewDiagram`
 	__Product__00000036_.Description = ``
 	__Product__00000036_.IsExpanded = false
 	__Product__00000036_.ComputedPrefix = `2.3`
+	__Product__00000036_.IsInRenameMode = false
 	__Product__00000036_.IsProducersNodeExpanded = false
 	__Product__00000036_.IsConsumersNodeExpanded = false
 
@@ -434,6 +450,7 @@ another line-NewDiagram`
 	__Product__00000037_.Description = ``
 	__Product__00000037_.IsExpanded = false
 	__Product__00000037_.ComputedPrefix = `1.2`
+	__Product__00000037_.IsInRenameMode = false
 	__Product__00000037_.IsProducersNodeExpanded = false
 	__Product__00000037_.IsConsumersNodeExpanded = false
 
@@ -441,6 +458,7 @@ another line-NewDiagram`
 	__Product__00000038_.Description = ``
 	__Product__00000038_.IsExpanded = true
 	__Product__00000038_.ComputedPrefix = `1`
+	__Product__00000038_.IsInRenameMode = false
 	__Product__00000038_.IsProducersNodeExpanded = false
 	__Product__00000038_.IsConsumersNodeExpanded = false
 
@@ -448,6 +466,7 @@ another line-NewDiagram`
 	__Product__00000039_.Description = ``
 	__Product__00000039_.IsExpanded = false
 	__Product__00000039_.ComputedPrefix = `1.1`
+	__Product__00000039_.IsInRenameMode = false
 	__Product__00000039_.IsProducersNodeExpanded = false
 	__Product__00000039_.IsConsumersNodeExpanded = false
 
@@ -455,6 +474,7 @@ another line-NewDiagram`
 	__Product__00000040_.Description = ``
 	__Product__00000040_.IsExpanded = false
 	__Product__00000040_.ComputedPrefix = `1.2`
+	__Product__00000040_.IsInRenameMode = false
 	__Product__00000040_.IsProducersNodeExpanded = false
 	__Product__00000040_.IsConsumersNodeExpanded = false
 
@@ -462,6 +482,7 @@ another line-NewDiagram`
 	__Product__00000041_.Description = ``
 	__Product__00000041_.IsExpanded = false
 	__Product__00000041_.ComputedPrefix = `1.3`
+	__Product__00000041_.IsInRenameMode = false
 	__Product__00000041_.IsProducersNodeExpanded = false
 	__Product__00000041_.IsConsumersNodeExpanded = false
 
@@ -469,6 +490,7 @@ another line-NewDiagram`
 	__Product__00000042_.Description = ``
 	__Product__00000042_.IsExpanded = false
 	__Product__00000042_.ComputedPrefix = `2`
+	__Product__00000042_.IsInRenameMode = false
 	__Product__00000042_.IsProducersNodeExpanded = false
 	__Product__00000042_.IsConsumersNodeExpanded = false
 
@@ -748,59 +770,17 @@ another line-NewDiagram`
 	__Project__00000000_.Name = `Project Editor`
 	__Project__00000000_.IsExpanded = false
 	__Project__00000000_.ComputedPrefix = ``
+	__Project__00000000_.IsInRenameMode = false
 
 	__Project__00000001_.Name = `DSME Docx`
 	__Project__00000001_.IsExpanded = false
 	__Project__00000001_.ComputedPrefix = ``
+	__Project__00000001_.IsInRenameMode = false
 
 	__Project__00000002_.Name = `gong : persist stage.go as an history of commits  #934`
-	__Project__00000002_.IsExpanded = false
+	__Project__00000002_.IsExpanded = true
 	__Project__00000002_.ComputedPrefix = ``
-
-	__Resource__00000000_.Name = `T`
-	__Resource__00000000_.Description = ``
-	__Resource__00000000_.IsExpanded = false
-	__Resource__00000000_.ComputedPrefix = `1`
-
-	__Resource__00000001_.Name = `NewResource`
-	__Resource__00000001_.Description = ``
-	__Resource__00000001_.IsExpanded = false
-	__Resource__00000001_.ComputedPrefix = `2`
-
-	__ResourceShape__00000000_.Name = `NewResource-Work diagram x`
-	__ResourceShape__00000000_.IsExpanded = false
-	__ResourceShape__00000000_.X = 197.905888
-	__ResourceShape__00000000_.Y = 164.497153
-	__ResourceShape__00000000_.Width = 250.000000
-	__ResourceShape__00000000_.Height = 100.000000
-
-	__ResourceShape__00000001_.Name = `T-Work diagram x`
-	__ResourceShape__00000001_.IsExpanded = false
-	__ResourceShape__00000001_.X = 186.392291
-	__ResourceShape__00000001_.Y = 108.018591
-	__ResourceShape__00000001_.Width = 250.000000
-	__ResourceShape__00000001_.Height = 100.000000
-
-	__ResourceShape__00000002_.Name = `T-Work diagram x`
-	__ResourceShape__00000002_.IsExpanded = false
-	__ResourceShape__00000002_.X = 126.560696
-	__ResourceShape__00000002_.Y = 182.001251
-	__ResourceShape__00000002_.Width = 250.000000
-	__ResourceShape__00000002_.Height = 100.000000
-
-	__ResourceShape__00000003_.Name = `T-Work diagram x`
-	__ResourceShape__00000003_.IsExpanded = false
-	__ResourceShape__00000003_.X = 118.393086
-	__ResourceShape__00000003_.Y = 141.518392
-	__ResourceShape__00000003_.Width = 250.000000
-	__ResourceShape__00000003_.Height = 100.000000
-
-	__ResourceShape__00000004_.Name = `NewResource-Work diagram x`
-	__ResourceShape__00000004_.IsExpanded = false
-	__ResourceShape__00000004_.X = 157.220401
-	__ResourceShape__00000004_.Y = 183.322406
-	__ResourceShape__00000004_.Width = 250.000000
-	__ResourceShape__00000004_.Height = 100.000000
+	__Project__00000002_.IsInRenameMode = false
 
 	__Root__00000000_.Name = `Root`
 	__Root__00000000_.NbPixPerCharacter = 8.000000
@@ -809,6 +789,7 @@ another line-NewDiagram`
 	__Task__00000003_.Description = ``
 	__Task__00000003_.IsExpanded = true
 	__Task__00000003_.ComputedPrefix = `1`
+	__Task__00000003_.IsInRenameMode = false
 	__Task__00000003_.IsInputsNodeExpanded = true
 	__Task__00000003_.IsOutputsNodeExpanded = true
 	__Task__00000003_.IsWithCompletion = false
@@ -818,6 +799,7 @@ another line-NewDiagram`
 	__Task__00000007_.Description = ``
 	__Task__00000007_.IsExpanded = false
 	__Task__00000007_.ComputedPrefix = `2`
+	__Task__00000007_.IsInRenameMode = false
 	__Task__00000007_.IsInputsNodeExpanded = false
 	__Task__00000007_.IsOutputsNodeExpanded = false
 	__Task__00000007_.IsWithCompletion = true
@@ -827,6 +809,7 @@ another line-NewDiagram`
 	__Task__00000008_.Description = ``
 	__Task__00000008_.IsExpanded = false
 	__Task__00000008_.ComputedPrefix = `1`
+	__Task__00000008_.IsInRenameMode = false
 	__Task__00000008_.IsInputsNodeExpanded = false
 	__Task__00000008_.IsOutputsNodeExpanded = false
 	__Task__00000008_.IsWithCompletion = true
@@ -836,6 +819,7 @@ another line-NewDiagram`
 	__Task__00000009_.Description = ``
 	__Task__00000009_.IsExpanded = false
 	__Task__00000009_.ComputedPrefix = `6`
+	__Task__00000009_.IsInRenameMode = false
 	__Task__00000009_.IsInputsNodeExpanded = false
 	__Task__00000009_.IsOutputsNodeExpanded = false
 	__Task__00000009_.IsWithCompletion = true
@@ -845,6 +829,7 @@ another line-NewDiagram`
 	__Task__00000010_.Description = ``
 	__Task__00000010_.IsExpanded = false
 	__Task__00000010_.ComputedPrefix = `3`
+	__Task__00000010_.IsInRenameMode = false
 	__Task__00000010_.IsInputsNodeExpanded = false
 	__Task__00000010_.IsOutputsNodeExpanded = false
 	__Task__00000010_.IsWithCompletion = true
@@ -854,6 +839,7 @@ another line-NewDiagram`
 	__Task__00000011_.Description = ``
 	__Task__00000011_.IsExpanded = false
 	__Task__00000011_.ComputedPrefix = `4`
+	__Task__00000011_.IsInRenameMode = false
 	__Task__00000011_.IsInputsNodeExpanded = false
 	__Task__00000011_.IsOutputsNodeExpanded = false
 	__Task__00000011_.IsWithCompletion = true
@@ -863,6 +849,7 @@ another line-NewDiagram`
 	__Task__00000012_.Description = ``
 	__Task__00000012_.IsExpanded = false
 	__Task__00000012_.ComputedPrefix = `5`
+	__Task__00000012_.IsInRenameMode = false
 	__Task__00000012_.IsInputsNodeExpanded = false
 	__Task__00000012_.IsOutputsNodeExpanded = false
 	__Task__00000012_.IsWithCompletion = true
@@ -872,6 +859,7 @@ another line-NewDiagram`
 	__Task__00000013_.Description = ``
 	__Task__00000013_.IsExpanded = false
 	__Task__00000013_.ComputedPrefix = `7`
+	__Task__00000013_.IsInRenameMode = false
 	__Task__00000013_.IsInputsNodeExpanded = false
 	__Task__00000013_.IsOutputsNodeExpanded = false
 	__Task__00000013_.IsWithCompletion = true
@@ -1048,11 +1036,6 @@ another line-NewDiagram`
 	__Diagram__00000061_.NoteProductShapes = append(__Diagram__00000061_.NoteProductShapes, __NoteProductShape__00000002_)
 	__Diagram__00000061_.NoteTaskShapes = append(__Diagram__00000061_.NoteTaskShapes, __NoteTaskShape__00000001_)
 	__Diagram__00000061_.NoteTaskShapes = append(__Diagram__00000061_.NoteTaskShapes, __NoteTaskShape__00000003_)
-	__Diagram__00000061_.Resource_Shapes = append(__Diagram__00000061_.Resource_Shapes, __ResourceShape__00000000_)
-	__Diagram__00000061_.Resource_Shapes = append(__Diagram__00000061_.Resource_Shapes, __ResourceShape__00000001_)
-	__Diagram__00000061_.Resource_Shapes = append(__Diagram__00000061_.Resource_Shapes, __ResourceShape__00000002_)
-	__Diagram__00000061_.Resource_Shapes = append(__Diagram__00000061_.Resource_Shapes, __ResourceShape__00000003_)
-	__Diagram__00000061_.Resource_Shapes = append(__Diagram__00000061_.Resource_Shapes, __ResourceShape__00000004_)
 	__Note__00000002_.Tasks = append(__Note__00000002_.Tasks, __Task__00000007_)
 	__Note__00000003_.Products = append(__Note__00000003_.Products, __Product__00000035_)
 	__Note__00000003_.Products = append(__Note__00000003_.Products, __Product__00000025_)
@@ -1147,17 +1130,10 @@ another line-NewDiagram`
 	__Project__00000002_.RootTasks = append(__Project__00000002_.RootTasks, __Task__00000012_)
 	__Project__00000002_.RootTasks = append(__Project__00000002_.RootTasks, __Task__00000009_)
 	__Project__00000002_.RootTasks = append(__Project__00000002_.RootTasks, __Task__00000013_)
-	__Project__00000002_.RootResources = append(__Project__00000002_.RootResources, __Resource__00000000_)
-	__Project__00000002_.RootResources = append(__Project__00000002_.RootResources, __Resource__00000001_)
 	__Project__00000002_.Notes = append(__Project__00000002_.Notes, __Note__00000002_)
 	__Project__00000002_.Notes = append(__Project__00000002_.Notes, __Note__00000003_)
 	__Project__00000002_.Notes = append(__Project__00000002_.Notes, __Note__00000004_)
 	__Project__00000002_.Diagrams = append(__Project__00000002_.Diagrams, __Diagram__00000061_)
-	__ResourceShape__00000000_.Resource = __Resource__00000000_
-	__ResourceShape__00000001_.Resource = __Resource__00000000_
-	__ResourceShape__00000002_.Resource = __Resource__00000000_
-	__ResourceShape__00000003_.Resource = __Resource__00000000_
-	__ResourceShape__00000004_.Resource = __Resource__00000001_
 	__Root__00000000_.Projects = append(__Root__00000000_.Projects, __Project__00000000_)
 	__Root__00000000_.Projects = append(__Root__00000000_.Projects, __Project__00000001_)
 	__Root__00000000_.Projects = append(__Root__00000000_.Projects, __Project__00000002_)
