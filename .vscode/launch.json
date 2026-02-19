@@ -891,6 +891,17 @@
             ]
         },
         {
+            "name": "project: go run project -unmarshallFromCode=data/simple_issue1114.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsme/project/go/cmd/project",
+            "args": [
+                "-unmarshallFromCode=data/simple_issue1114.go",
+                "embeddedDiagrams=false",
+            ]
+        },
+        {
             "name": "project: go run project",
             "type": "go",
             "request": "launch",
