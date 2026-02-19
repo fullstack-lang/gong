@@ -89,7 +89,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.IsPBSNodeExpanded = false
 	__Diagram__00000000_.IsWBSNodeExpanded = false
 	__Diagram__00000000_.IsNotesNodeExpanded = false
-	__Diagram__00000000_.IsResourcesNodeExpanded = false
+	__Diagram__00000000_.IsResourcesNodeExpanded = true
 
 	__Note__00000000_.Name = `N1`
 	__Note__00000000_.IsExpanded = false
