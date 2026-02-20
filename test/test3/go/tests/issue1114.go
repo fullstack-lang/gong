@@ -1,6 +1,7 @@
 package tests
 
 import (
+	"slices"
 	"time"
 
 	"github.com/fullstack-lang/gong/test/test3/go/models"
@@ -43,6 +44,8 @@ func _(stage *models.Stage) {
 	__A__00000000_.Bs = append(__A__00000000_.Bs, __B__00000000_)
 	stage.Commit()
 
+	__A__00000000_.B = nil
+	__A__00000000_.Bs = slices.Delete(__A__00000000_.Bs, 0, 1)
 	__A__00000000_.Unstage(stage)
 	__B__00000000_.Unstage(stage)
 	stage.Commit()
