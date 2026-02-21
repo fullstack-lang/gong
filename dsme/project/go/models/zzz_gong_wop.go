@@ -401,6 +401,10 @@ type Task_WOP struct {
 
 	Name string
 
+	Start time.Time
+
+	End time.Time
+
 	Description string
 
 	IsExpanded bool
@@ -421,6 +425,8 @@ type Task_WOP struct {
 func (from *Task) CopyBasicFields(to *Task) {
 	// insertion point
 	to.Name = from.Name
+	to.Start = from.Start
+	to.End = from.End
 	to.Description = from.Description
 	to.IsExpanded = from.IsExpanded
 	to.ComputedPrefix = from.ComputedPrefix

@@ -3124,6 +3124,12 @@ func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 	if task.Name != taskOther.Name {
 		diffs = append(diffs, task.GongMarshallField(stage, "Name"))
 	}
+	if task.Start != taskOther.Start {
+		diffs = append(diffs, task.GongMarshallField(stage, "Start"))
+	}
+	if task.End != taskOther.End {
+		diffs = append(diffs, task.GongMarshallField(stage, "End"))
+	}
 	if task.Description != taskOther.Description {
 		diffs = append(diffs, task.GongMarshallField(stage, "Description"))
 	}

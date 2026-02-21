@@ -47,6 +47,7 @@ func addAddItemButton[
 		OnUpdated: func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
 			newItem := PT(new(T))
 			newItem.SetName("New" + GetGongstructNameFromPointer(newItem))
+			newItem.SetName("") // easier to rename an item when its name is empty
 			newItem.StageVoid(stager.stage)
 			*items = append(*items, newItem)
 			stager.stage.ComputeReverseMaps() // this is important, otherwise, the form is not correctly initialized
