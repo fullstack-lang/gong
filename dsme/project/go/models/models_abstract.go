@@ -1,5 +1,7 @@
 package models
 
+import "time"
+
 // singloton
 type Root struct {
 	Name string
@@ -77,6 +79,9 @@ func (r *AbstractTypeFields) SetComputedPrefixInt(p []int) {
 
 type Task struct {
 	Name string
+
+	Start time.Time
+	End   time.Time
 
 	//gong:text width:300 height:300
 	Description string
