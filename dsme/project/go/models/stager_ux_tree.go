@@ -205,148 +205,8 @@ func (stager *Stager) tree() {
 				stager.treeWBSinDiagram(diagram, task, wbsNode)
 			}
 
-			notesNode := &tree.Node{
-				Name:            "Notes",
-				FontStyle:       tree.ITALIC,
-				IsExpanded:      diagram.IsNotesNodeExpanded,
-				IsNodeClickable: true,
-			}
-			diagramNode.Children = append(diagramNode.Children, notesNode)
-			notesNode.Impl = &tree.FunctionalNodeProxy{
-				OnUpdate: stager.OnUpdateExpansion(&diagram.IsNotesNodeExpanded),
-			}
-
-			addAddItemButton(stager, nil, nil, &diagram.IsNotesNodeExpanded, notesNode, &project.Notes, diagram, &diagram.Note_Shapes, &diagram.NoteProductShapes)
-
-			for _, note := range project.Notes {
-				noteNode := addNodeToTree(
-					stager,
-					diagram,
-					notesNode,
-					note,
-					&diagram.NotesWhoseNodeIsExpanded,
-					&diagram.Note_Shapes,
-					&diagram.map_Note_NoteShape,
-				)
-
-				// allow display of associations note to products
-				for _, product := range note.Products {
-					nodeProduct := &tree.Node{
-						Name:            product.Name,
-						IsNodeClickable: true,
-					}
-					noteNode.Children = append(noteNode.Children, nodeProduct)
-
-					showHideRelationButton := &tree.Button{
-						Name: GetGongstructNameFromPointer(product) + "- showHideRelationButton" + note.Name + " - " + product.Name,
-
-						HasToolTip:      true,
-						ToolTipPosition: tree.Right,
-					}
-					nodeProduct.Buttons = append(nodeProduct.Buttons, showHideRelationButton)
-
-					if _, ok := diagram.map_Product_ProductShape[product]; ok {
-						if _, ok := diagram.map_Note_NoteShape[note]; ok {
-
-							noteProductShape, ok := diagram.map_Note_NoteProductShape[noteProductKey{Note: note, Product: product}]
-							nodeProduct.IsChecked = ok
-
-							if ok {
-								showHideRelationButton.Icon = string(buttons.BUTTON_visibility_off)
-								showHideRelationButton.ToolTipText = "Hide link from note \"" + note.Name +
-									"\" to product \"" + product.Name + "\""
-								// what to do when the product node is clicked
-								showHideRelationButton.Impl = &tree.FunctionalButtonProxy{
-									OnUpdated: onRemoveAssociationShape(stager, noteProductShape, &diagram.NoteProductShapes),
-								}
-							} else {
-								showHideRelationButton.Icon = string(buttons.BUTTON_visibility)
-								showHideRelationButton.ToolTipText = "Show link from note \"" + note.Name +
-									"\" to product \"" + product.Name + "\""
-								showHideRelationButton.Impl = &tree.FunctionalButtonProxy{
-									OnUpdated: onAddAssociationShape(stager, note, product, &diagram.NoteProductShapes),
-								}
-							}
-						}
-					}
-				}
-
-				for _, task := range note.Tasks {
-					nodeTask := &tree.Node{
-						Name:            task.Name,
-						IsNodeClickable: true,
-					}
-					noteNode.Children = append(noteNode.Children, nodeTask)
-					showHideRelationButton := &tree.Button{
-						Name:            GetGongstructNameFromPointer(task),
-						HasToolTip:      true,
-						ToolTipPosition: tree.Right,
-					}
-					nodeTask.Buttons = append(nodeTask.Buttons, showHideRelationButton)
-					if _, ok := diagram.map_Task_TaskShape[task]; ok {
-						if _, ok := diagram.map_Note_NoteShape[note]; ok {
-							noteTaskShape, ok := diagram.map_Note_NoteTaskShape[noteTaskKey{Note: note, Task: task}]
-							nodeTask.IsChecked = ok
-
-							if ok {
-								showHideRelationButton.Icon = string(buttons.BUTTON_visibility_off)
-								showHideRelationButton.ToolTipText = "Hide link from note \"" + note.Name +
-									"\" to task \"" + task.Name + "\""
-								// what to do when the product node is clicked
-								showHideRelationButton.Impl = &tree.FunctionalButtonProxy{
-									OnUpdated: onRemoveAssociationShape(stager, noteTaskShape, &diagram.NoteTaskShapes),
-								}
-							} else {
-								showHideRelationButton.Icon = string(buttons.BUTTON_visibility)
-								showHideRelationButton.ToolTipText = "Show link from note \"" + note.Name +
-									"\" to task \"" + task.Name + "\""
-								showHideRelationButton.Impl = &tree.FunctionalButtonProxy{
-									OnUpdated: onAddAssociationShape(stager, note, task, &diagram.NoteTaskShapes),
-								}
-							}
-						}
-					}
-				}
-
-				for _, resource := range note.Resources {
-					nodeResource := &tree.Node{
-						Name:            resource.Name,
-						IsNodeClickable: true,
-					}
-					noteNode.Children = append(noteNode.Children, nodeResource)
-					showHideRelationButton := &tree.Button{
-						Name:            GetGongstructNameFromPointer(resource),
-						HasToolTip:      true,
-						ToolTipPosition: tree.Right,
-					}
-					nodeResource.Buttons = append(nodeResource.Buttons, showHideRelationButton)
-					if _, ok := diagram.map_Resource_ResourceShape[resource]; ok {
-						if _, ok := diagram.map_Note_NoteShape[note]; ok {
-							noteResourceShape, ok := diagram.map_Note_NoteResourceShape[noteResourceKey{Note: note, Resource: resource}]
-							nodeResource.IsChecked = ok
-							if ok {
-								showHideRelationButton.Icon = string(buttons.BUTTON_visibility_off)
-								showHideRelationButton.ToolTipText = "Hide link from note \"" + note.Name +
-									"\" to resource \"" + resource.Name + "\""
-								// what to do when the product node is clicked
-								showHideRelationButton.Impl = &tree.FunctionalButtonProxy{
-									OnUpdated: onRemoveAssociationShape(stager, noteResourceShape, &diagram.NoteResourceShapes),
-								}
-							} else {
-								showHideRelationButton.Icon = string(buttons.BUTTON_visibility)
-								showHideRelationButton.ToolTipText = "Show link from note \"" + note.Name +
-									"\" to resource \"" + resource.Name + "\""
-								showHideRelationButton.Impl = &tree.FunctionalButtonProxy{
-									OnUpdated: onAddAssociationShape(stager, note, resource, &diagram.NoteResourceShapes),
-								}
-							}
-						}
-					}
-				}
-			}
-
 			resourcesNode := &tree.Node{
-				Name:            "Resources",
+				Name:            "RBS",
 				FontStyle:       tree.ITALIC,
 				IsExpanded:      diagram.IsResourcesNodeExpanded,
 				IsNodeClickable: true,
@@ -362,6 +222,147 @@ func (stager *Stager) tree() {
 				stager.treeRBSinDiagram(diagram, resource, resourcesNode)
 			}
 
+			{
+				notesNode := &tree.Node{
+					Name:            "Notes",
+					FontStyle:       tree.ITALIC,
+					IsExpanded:      diagram.IsNotesNodeExpanded,
+					IsNodeClickable: true,
+				}
+				diagramNode.Children = append(diagramNode.Children, notesNode)
+				notesNode.Impl = &tree.FunctionalNodeProxy{
+					OnUpdate: stager.OnUpdateExpansion(&diagram.IsNotesNodeExpanded),
+				}
+
+				addAddItemButton(stager, nil, nil, &diagram.IsNotesNodeExpanded, notesNode, &project.Notes, diagram, &diagram.Note_Shapes, &diagram.NoteProductShapes)
+
+				for _, note := range project.Notes {
+					noteNode := addNodeToTree(
+						stager,
+						diagram,
+						notesNode,
+						note,
+						&diagram.NotesWhoseNodeIsExpanded,
+						&diagram.Note_Shapes,
+						&diagram.map_Note_NoteShape,
+					)
+
+					// allow display of associations note to products
+					for _, product := range note.Products {
+						nodeProduct := &tree.Node{
+							Name:            product.Name,
+							IsNodeClickable: true,
+						}
+						noteNode.Children = append(noteNode.Children, nodeProduct)
+
+						showHideRelationButton := &tree.Button{
+							Name: GetGongstructNameFromPointer(product) + "- showHideRelationButton" + note.Name + " - " + product.Name,
+
+							HasToolTip:      true,
+							ToolTipPosition: tree.Right,
+						}
+						nodeProduct.Buttons = append(nodeProduct.Buttons, showHideRelationButton)
+
+						if _, ok := diagram.map_Product_ProductShape[product]; ok {
+							if _, ok := diagram.map_Note_NoteShape[note]; ok {
+
+								noteProductShape, ok := diagram.map_Note_NoteProductShape[noteProductKey{Note: note, Product: product}]
+								nodeProduct.IsChecked = ok
+
+								if ok {
+									showHideRelationButton.Icon = string(buttons.BUTTON_visibility_off)
+									showHideRelationButton.ToolTipText = "Hide link from note \"" + note.Name +
+										"\" to product \"" + product.Name + "\""
+									// what to do when the product node is clicked
+									showHideRelationButton.Impl = &tree.FunctionalButtonProxy{
+										OnUpdated: onRemoveAssociationShape(stager, noteProductShape, &diagram.NoteProductShapes),
+									}
+								} else {
+									showHideRelationButton.Icon = string(buttons.BUTTON_visibility)
+									showHideRelationButton.ToolTipText = "Show link from note \"" + note.Name +
+										"\" to product \"" + product.Name + "\""
+									showHideRelationButton.Impl = &tree.FunctionalButtonProxy{
+										OnUpdated: onAddAssociationShape(stager, note, product, &diagram.NoteProductShapes),
+									}
+								}
+							}
+						}
+					}
+
+					for _, task := range note.Tasks {
+						nodeTask := &tree.Node{
+							Name:            task.Name,
+							IsNodeClickable: true,
+						}
+						noteNode.Children = append(noteNode.Children, nodeTask)
+						showHideRelationButton := &tree.Button{
+							Name:            GetGongstructNameFromPointer(task),
+							HasToolTip:      true,
+							ToolTipPosition: tree.Right,
+						}
+						nodeTask.Buttons = append(nodeTask.Buttons, showHideRelationButton)
+						if _, ok := diagram.map_Task_TaskShape[task]; ok {
+							if _, ok := diagram.map_Note_NoteShape[note]; ok {
+								noteTaskShape, ok := diagram.map_Note_NoteTaskShape[noteTaskKey{Note: note, Task: task}]
+								nodeTask.IsChecked = ok
+
+								if ok {
+									showHideRelationButton.Icon = string(buttons.BUTTON_visibility_off)
+									showHideRelationButton.ToolTipText = "Hide link from note \"" + note.Name +
+										"\" to task \"" + task.Name + "\""
+									// what to do when the product node is clicked
+									showHideRelationButton.Impl = &tree.FunctionalButtonProxy{
+										OnUpdated: onRemoveAssociationShape(stager, noteTaskShape, &diagram.NoteTaskShapes),
+									}
+								} else {
+									showHideRelationButton.Icon = string(buttons.BUTTON_visibility)
+									showHideRelationButton.ToolTipText = "Show link from note \"" + note.Name +
+										"\" to task \"" + task.Name + "\""
+									showHideRelationButton.Impl = &tree.FunctionalButtonProxy{
+										OnUpdated: onAddAssociationShape(stager, note, task, &diagram.NoteTaskShapes),
+									}
+								}
+							}
+						}
+					}
+
+					for _, resource := range note.Resources {
+						nodeResource := &tree.Node{
+							Name:            resource.Name,
+							IsNodeClickable: true,
+						}
+						noteNode.Children = append(noteNode.Children, nodeResource)
+						showHideRelationButton := &tree.Button{
+							Name:            GetGongstructNameFromPointer(resource),
+							HasToolTip:      true,
+							ToolTipPosition: tree.Right,
+						}
+						nodeResource.Buttons = append(nodeResource.Buttons, showHideRelationButton)
+						if _, ok := diagram.map_Resource_ResourceShape[resource]; ok {
+							if _, ok := diagram.map_Note_NoteShape[note]; ok {
+								noteResourceShape, ok := diagram.map_Note_NoteResourceShape[noteResourceKey{Note: note, Resource: resource}]
+								nodeResource.IsChecked = ok
+								if ok {
+									showHideRelationButton.Icon = string(buttons.BUTTON_visibility_off)
+									showHideRelationButton.ToolTipText = "Hide link from note \"" + note.Name +
+										"\" to resource \"" + resource.Name + "\""
+									// what to do when the product node is clicked
+									showHideRelationButton.Impl = &tree.FunctionalButtonProxy{
+										OnUpdated: onRemoveAssociationShape(stager, noteResourceShape, &diagram.NoteResourceShapes),
+									}
+								} else {
+									showHideRelationButton.Icon = string(buttons.BUTTON_visibility)
+									showHideRelationButton.ToolTipText = "Show link from note \"" + note.Name +
+										"\" to resource \"" + resource.Name + "\""
+									showHideRelationButton.Impl = &tree.FunctionalButtonProxy{
+										OnUpdated: onAddAssociationShape(stager, note, resource, &diagram.NoteResourceShapes),
+									}
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 
 	}
