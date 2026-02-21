@@ -22,6 +22,7 @@ type ProbeIF interface {
 	SetMaxElementsNbPerGongStructNode(nb int)
 	GetMaxElementsNbPerGongStructNode() int
 	AddCommitNavigationNode(appendChildrenNodeFunc func(GongNodeIF))
+	SetCommitMode(bool)
 }
 
 type GongNodeIF interface {
