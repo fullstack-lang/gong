@@ -83,7 +83,7 @@ func svgRect[CT interface {
 		}
 
 		if rect.Width > 0 {
-			content = strutils.WrapString(content, int(rect.Width/root.NbPixPerCharacter))
+			content = strutils.WrapStringPreservingNewlines(content, int(rect.Width/root.NbPixPerCharacter))
 		}
 		title.Content = content
 		title.Stroke = svg.Black.ToString()

@@ -34,7 +34,9 @@ func _(stage *models.Stage) {
 	__Note__00000000_ := (&models.Note{Name: `CFT ended in march 2025`}).Stage(stage)
 	__Note__00000001_ := (&models.Note{Name: `A thorough review of the STAR report is advised (p14)
 `}).Stage(stage)
-	__Note__00000002_ := (&models.Note{Name: `NASA utilized a firm fixed price contracting type for CCtCap. This was a significant shift from the cost-plus contracting for traditional NASA builds of developmental vehicles. These shifts signified that CCP was not only positioned to be an innovative, first-of-its kind program for NASA, but how it interacted with new and traditional space flight industry providers was setup to be significantly distinct and different.  `}).Stage(stage)
+	__Note__00000002_ := (&models.Note{Name: `NASA utilized a firm fixed price contracting type for CCtCap. 
+
+This was a significant shift from the cost-plus contracting for traditional NASA builds of developmental vehicles. These shifts signified that CCP was not only positioned to be an innovative, first-of-its kind program for NASA, but how it interacted with new and traditional space flight industry providers was setup to be significantly distinct and different.  `}).Stage(stage)
 	__Note__00000003_ := (&models.Note{Name: `The CCP 1100 series of requirements were deliberately written at a higher-level, leaving room for provider innovation but there was also room for incorrect/inadequate interpretation by the providers. `}).Stage(stage)
 	__Note__00000004_ := (&models.Note{Name: `The Commercial Provider focused on meeting contractual requirement language resulting in insufficient demonstration across the components/system and ground/flight. `}).Stage(stage)
 	__Note__00000005_ := (&models.Note{Name: `Suppliers’ build quality/variability issues can be hard to exonerate for service modules, which is hardware that is disposed of during re-entry. `}).Stage(stage)
@@ -278,12 +280,12 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__Diagram__00000001_.IsResourcesNodeExpanded = false
 
 	__Diagram__00000002_.Name = `PBS`
-	__Diagram__00000002_.IsChecked = false
+	__Diagram__00000002_.IsChecked = true
 	__Diagram__00000002_.IsEditable_ = true
 	__Diagram__00000002_.ShowPrefix = true
 	__Diagram__00000002_.DefaultBoxWidth = 250.000000
 	__Diagram__00000002_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000002_.IsExpanded = false
+	__Diagram__00000002_.IsExpanded = true
 	__Diagram__00000002_.ComputedPrefix = ``
 	__Diagram__00000002_.IsInRenameMode = false
 	__Diagram__00000002_.IsPBSNodeExpanded = true
@@ -320,7 +322,7 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__Diagram__00000004_.IsResourcesNodeExpanded = false
 
 	__Diagram__00000005_.Name = `PIT Report`
-	__Diagram__00000005_.IsChecked = true
+	__Diagram__00000005_.IsChecked = false
 	__Diagram__00000005_.IsEditable_ = true
 	__Diagram__00000005_.ShowPrefix = false
 	__Diagram__00000005_.DefaultBoxWidth = 250.000000
@@ -358,7 +360,9 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__Note__00000001_.ComputedPrefix = `2`
 	__Note__00000001_.IsInRenameMode = false
 
-	__Note__00000002_.Name = `NASA utilized a firm fixed price contracting type for CCtCap. This was a significant shift from the cost-plus contracting for traditional NASA builds of developmental vehicles. These shifts signified that CCP was not only positioned to be an innovative, first-of-its kind program for NASA, but how it interacted with new and traditional space flight industry providers was setup to be significantly distinct and different.  `
+	__Note__00000002_.Name = `NASA utilized a firm fixed price contracting type for CCtCap. 
+
+This was a significant shift from the cost-plus contracting for traditional NASA builds of developmental vehicles. These shifts signified that CCP was not only positioned to be an innovative, first-of-its kind program for NASA, but how it interacted with new and traditional space flight industry providers was setup to be significantly distinct and different.  `
 	__Note__00000002_.IsExpanded = false
 	__Note__00000002_.ComputedPrefix = `3`
 	__Note__00000002_.IsInRenameMode = false

@@ -137,7 +137,7 @@ func (stager *Stager) svg() {
 			// shift the text on the right
 			title := rect.RectAnchoredTexts[0]
 			if rect.Width > (distanceFromBorder + iconWidth) {
-				title.Content = strutils.WrapString(title.Content, int((rect.Width-(distanceFromBorder+iconWidth))/root.NbPixPerCharacter))
+				title.Content = strutils.WrapStringPreservingNewlines(title.Content, int((rect.Width-(distanceFromBorder+iconWidth))/root.NbPixPerCharacter))
 			}
 			title.X_Offset = (distanceFromBorder + iconWidth) / 2.0
 		}
@@ -313,7 +313,7 @@ func (stager *Stager) svg() {
 			// shift the text on the right
 			title := rect.RectAnchoredTexts[0]
 			if rect.Width > (distanceFromBorder + iconWidth) {
-				title.Content = strutils.WrapString(title.Content, int((rect.Width-(distanceFromBorder+iconWidth))/root.NbPixPerCharacter))
+				title.Content = strutils.WrapStringPreservingNewlines(title.Content, int((rect.Width-(distanceFromBorder+iconWidth))/root.NbPixPerCharacter))
 			}
 			title.X_Offset = (distanceFromBorder + iconWidth) / 2.0
 
