@@ -835,9 +835,6 @@ func (stage *Stage) Commit() {
 	if stage.IsInDeltaMode() {
 		stage.ComputeForwardAndBackwardCommits()
 		stage.ComputeReferenceAndOrders()
-		if stage.GetProbeIF() != nil {
-			stage.GetProbeIF().Refresh()
-		}
 	}
 }
 
