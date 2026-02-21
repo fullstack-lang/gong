@@ -101,7 +101,9 @@ func addAddItemButton[
 				}
 			}
 
+			stager.probeForm.SetCommitMode(false)
 			stager.probeForm.FillUpFormFromGongstruct(newItem, GetPointerToGongstructName[PT]())
+			stager.probeForm.SetCommitMode(true)
 
 			// add the parent item to the list of items whose node is expanded
 			if parentItemsWhoseNodeIsExpanded != nil && parentItem != nil &&
@@ -211,7 +213,6 @@ func addAssociationShapeToDiagram[
 
 	compositionShape := newConcreteAssociation(start, end, shapes)
 	compositionShape.StageVoid(stager.stage)
-	stager.stage.Commit()
 }
 
 func newConcreteAssociation[

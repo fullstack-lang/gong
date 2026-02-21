@@ -2,6 +2,8 @@
 package probe
 
 import (
+	"log"
+
 	form "github.com/fullstack-lang/gong/lib/table/go/models"
 
 	"github.com/fullstack-lang/gong/dsme/project/go/models"
@@ -14,6 +16,8 @@ func FillUpForm(
 	formGroup *form.FormGroup,
 	probe *Probe,
 ) {
+
+	log.Println("probe/FillUpForm")
 
 	switch instanceWithInferedType := any(instance).(type) {
 	// insertion point
