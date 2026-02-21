@@ -44,7 +44,7 @@ func _(stage *models.Stage) {
 
 	__Project__00000000_ := (&models.Project{Name: `Startliner Mishape Report`}).Stage(stage)
 
-	__Resource__00000000_ := (&models.Resource{Name: `PITProgram Investigation Team (PIT)``}).Stage(stage)
+	__Resource__00000000_ := (&models.Resource{Name: `PITProgram Investigation Team (PIT)`}).Stage(stage)
 	__Resource__00000001_ := (&models.Resource{Name: `Barry "Butch" Wilmore`}).Stage(stage)
 	__Resource__00000002_ := (&models.Resource{Name: `Sunita "Suni" Williams`}).Stage(stage)
 
@@ -52,7 +52,7 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000001_ := (&models.ResourceShape{Name: `-Default Diagram`}).Stage(stage)
 	__ResourceShape__00000002_ := (&models.ResourceShape{Name: `-Default Diagram`}).Stage(stage)
 
-	__ResourceTaskShape__00000000_ := (&models.ResourceTaskShape{Name: `PITProgram Investigation Team (PIT)` to Mishap investigation`}).Stage(stage)
+	__ResourceTaskShape__00000000_ := (&models.ResourceTaskShape{Name: `PITProgram Investigation Team (PIT) to Mishap investigation`}).Stage(stage)
 
 	__Root__00000000_ := (&models.Root{Name: `Root`}).Stage(stage)
 
@@ -192,7 +192,7 @@ func _(stage *models.Stage) {
 	__Project__00000000_.ComputedPrefix = ``
 	__Project__00000000_.IsInRenameMode = false
 
-	__Resource__00000000_.Name = `PITProgram Investigation Team (PIT)``
+	__Resource__00000000_.Name = `PITProgram Investigation Team (PIT)`
 	__Resource__00000000_.Description = ``
 	__Resource__00000000_.IsExpanded = false
 	__Resource__00000000_.ComputedPrefix = `1`
@@ -231,7 +231,7 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000002_.Width = 250.000000
 	__ResourceShape__00000002_.Height = 70.000000
 
-	__ResourceTaskShape__00000000_.Name = `PITProgram Investigation Team (PIT)` to Mishap investigation`
+	__ResourceTaskShape__00000000_.Name = `PITProgram Investigation Team (PIT) to Mishap investigation`
 	__ResourceTaskShape__00000000_.StartRatio = 0.500000
 	__ResourceTaskShape__00000000_.EndRatio = 0.500000
 	__ResourceTaskShape__00000000_.StartOrientation = models.ORIENTATION_VERTICAL
