@@ -3889,6 +3889,10 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(task_.Name), formDiv)
+		case "Start":
+			FormDivBasicFieldToField(&(task_.Start), formDiv)
+		case "End":
+			FormDivBasicFieldToField(&(task_.End), formDiv)
 		case "Description":
 			FormDivBasicFieldToField(&(task_.Description), formDiv)
 		case "SubTasks":

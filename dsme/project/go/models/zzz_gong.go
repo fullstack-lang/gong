@@ -1765,6 +1765,9 @@ func (stage *Stage) Commit() {
 	if stage.IsInDeltaMode() {
 		stage.ComputeForwardAndBackwardCommits()
 		stage.ComputeReferenceAndOrders()
+		if stage.GetProbeIF() != nil {
+			stage.GetProbeIF().Refresh()
+		}
 	}
 }
 
@@ -6085,6 +6088,14 @@ func (task *Task) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
+			Name:               "Start",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "End",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
 			Name:               "Description",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
@@ -7140,6 +7151,10 @@ func (task *Task) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	// string value of fields
 	case "Name":
 		res.valueString = task.Name
+	case "Start":
+		res.valueString = task.Start.String()
+	case "End":
+		res.valueString = task.End.String()
 	case "Description":
 		res.valueString = task.Description
 	case "SubTasks":
