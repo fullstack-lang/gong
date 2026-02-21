@@ -423,9 +423,7 @@ func addNodeToTree[
 	shapesMap *map[AT]CT,
 ) *tree.Node {
 	node := &tree.Node{
-		Name:         element.GetName(),
-		IsWithPrefix: true,
-		Prefix:       element.GetComputedPrefix(),
+		Name: element.GetName(),
 
 		IsExpanded: slices.Index(*elementsWhoseNodeIsExpanded, element) != -1,
 
@@ -439,6 +437,10 @@ func addNodeToTree[
 		IsNodeClickable: true,
 
 		IsInEditMode: element.GetIsInRenameMode(),
+	}
+	if diagram.ShowPrefix {
+		node.IsWithPrefix = true
+		node.Prefix = element.GetComputedPrefix()
 	}
 	parentNode.Children = append(parentNode.Children, node)
 
