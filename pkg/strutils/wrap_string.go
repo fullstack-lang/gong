@@ -49,3 +49,25 @@ func WrapString(s string, cutoff int) string {
 
 	return b.String()
 }
+
+// WrapStringPreservingNewlines wraps a string at a specified character limit,
+// but preserves existing newlines in the input string.
+// It splits the input string by newlines, and then wraps each line individually.
+func WrapStringPreservingNewlines(s string, cutoff int) string {
+	if cutoff <= 0 {
+		return s
+	}
+
+	lines := strings.Split(s, "\n")
+	var b strings.Builder
+	b.Grow(len(s))
+
+	for i, line := range lines {
+		if i > 0 {
+			b.WriteRune('\n')
+		}
+		b.WriteString(WrapString(line, cutoff))
+	}
+
+	return b.String()
+}
