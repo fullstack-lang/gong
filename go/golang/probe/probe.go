@@ -48,6 +48,18 @@ type Probe struct {
 
 	// to limit the  number of elements per gong struct node in the tree
 	maxElementsNbPerGongStructNode int
+
+	// commit mode is used to control if the commit button is enabled or not.
+	// It is set to false when the probe is in a state where the commit is not possible (for example when the stage is dirty and the commit would fail)
+	commitMode bool
+}
+
+func (probe *Probe) SetCommitMode(commitMode bool) {
+	probe.commitMode = commitMode
+}
+
+func (probe *Probe) GetCommitMode() bool {
+	return probe.commitMode
 }
 
 func (probe *Probe) SetMaxElementsNbPerGongStructNode(nb int) {
@@ -97,6 +109,7 @@ func NewProbe(
 		notificationTableStage:         notificationTableStage,
 		splitStage:                     splitStage,
 		maxElementsNbPerGongStructNode: 10,
+		commitMode:                     true,
 	}
 
 	// prepare the receiving AsSplitArea
