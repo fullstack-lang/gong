@@ -94,5 +94,8 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongta
 	default:
 		_ = instancesTyped
 	}
-	formStage.Commit()
+
+	if probe.GetCommitMode() {
+		formStage.Commit()
+	}
 }

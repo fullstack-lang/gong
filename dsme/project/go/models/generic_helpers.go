@@ -101,9 +101,9 @@ func addAddItemButton[
 				}
 			}
 
-			stager.probeForm.SetCommitMode(false)
+			// stager.probeForm.SetCommitMode(false), no need yet
 			stager.probeForm.FillUpFormFromGongstruct(newItem, GetPointerToGongstructName[PT]())
-			stager.probeForm.SetCommitMode(true)
+			// stager.probeForm.SetCommitMode(true)
 
 			// add the parent item to the list of items whose node is expanded
 			if parentItemsWhoseNodeIsExpanded != nil && parentItem != nil &&
