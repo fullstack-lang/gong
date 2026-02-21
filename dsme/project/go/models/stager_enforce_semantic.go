@@ -36,7 +36,6 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 		stager.enforceProducersConsumers()
 		stager.enforceDiagramMaps()
 
-		stager.stage.CommitWithSuspendedCallbacks()
 		stager.probeForm.CommitNotificationTable()
 
 		{
