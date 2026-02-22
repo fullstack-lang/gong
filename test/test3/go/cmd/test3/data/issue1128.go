@@ -23,17 +23,17 @@ func _(stage *models.Stage) {
 
 	// insertion point for declaration of instances to stage
 
-	__A__00000000_ := (&models.A{Name: `A0`}).Stage(stage)
+	__A__00000000_ := (&models.A{Name: "A0 ``\"\"\"`\"`"}).Stage(stage)
 
 	// insertion point for initialization of values
 
-	__A__00000000_.Name = `A0`
+	__A__00000000_.Name = "A0 ``\"\"\"`\"`"
 	__A__00000000_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__A__00000000_.FloatValue = 0.000000
 	__A__00000000_.IntValue = 0
 	__A__00000000_.Duration = 0
 	__A__00000000_.EnumString = ""
-	__A__00000000_.EnumInt = models.EnumTypeInt_Value1
+	__A__00000000_.EnumInt = models.EnumTypeInt_Value2
 
 	// insertion point for setup of pointers
 	__A__00000000_.B = nil
