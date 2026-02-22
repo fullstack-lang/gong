@@ -213,6 +213,8 @@ func addAssociationShapeToDiagram[
 
 	compositionShape := newConcreteAssociation(start, end, shapes)
 	compositionShape.StageVoid(stager.stage)
+
+	stager.stage.Commit()
 }
 
 func newConcreteAssociation[
