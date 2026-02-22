@@ -237,7 +237,7 @@ func ({{structname}} *{{Structname}}) GongMarshallIdentifier(stage *Stage) (decl
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", {{structname}}.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "{{Structname}}")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", {{structname}}.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", {{structname}}.Name))
 	return
 }
 `,
