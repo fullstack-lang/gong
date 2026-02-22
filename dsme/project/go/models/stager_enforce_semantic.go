@@ -106,6 +106,7 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		needCommit = stager.enforceNodeShapeDuplicates() || needCommit
 		needCommit = stager.enforceShapeOrphans() || needCommit
 		needCommit = stager.enforceShapesAbstractConsistency(stage, needCommit) || needCommit
+		needCommit = stager.enforceDiagramSize() || needCommit
 	}
 
 	needCommit = stager.enforceTaskInputOutputProjectConsistency() || needCommit

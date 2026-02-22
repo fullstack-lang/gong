@@ -2010,6 +2010,12 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 	if diagram.DefaultBoxHeigth != diagramOther.DefaultBoxHeigth {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "DefaultBoxHeigth"))
 	}
+	if diagram.Width != diagramOther.Width {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "Width"))
+	}
+	if diagram.Height != diagramOther.Height {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "Height"))
+	}
 	if diagram.IsExpanded != diagramOther.IsExpanded {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "IsExpanded"))
 	}

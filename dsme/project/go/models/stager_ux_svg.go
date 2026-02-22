@@ -31,6 +31,11 @@ func (stager *Stager) svg() {
 
 	svgObject := (&svg.SVG{Name: `SVG`})
 
+	svgObject.OverrideWidth = true
+	svgObject.OverriddenWidth = diagram.Width
+	svgObject.OverrideHeight = true
+	svgObject.OverriddenHeight = diagram.Height
+
 	diagram.map_Product_Rect = make(map[*Product]*svg.Rect)
 	diagram.map_Task_Rect = make(map[*Task]*svg.Rect)
 	diagram.map_Note_Rect = make(map[*Note]*svg.Rect)
