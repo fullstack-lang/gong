@@ -113,8 +113,6 @@ func addAddItemButton[
 			if isNodeExpanded != nil {
 				*isNodeExpanded = true
 			}
-
-			stager.stage.Commit()
 		},
 	}
 }
