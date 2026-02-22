@@ -66,6 +66,61 @@ Whaou.`}).Stage(stage)
 It should have been done before ?!
 
  In addition to demonstrating transient degradation during high heating, the test program demonstrated an unrecoverable cumulative degradation that was potentially indicative of the observed performance of CFT. `}).Stage(stage)
+	__Note__00000020_ := (&models.Note{Name: `B1.3.3.1.1.1 Heat identifies that excessive heating could cause the poppet to extrude, reducing flow. Poppet extrusion was observed in the post-test tear down of the WSTF (White Sands Test Facility) thruster unit.
+
+The initial heating was caused by the internal doghouse temperatures (addressed in C4.1 Thermal) and the follow-on heating induced by B1.3.3.1.4.2 RCS Thermal Soakback. This caused excessive temperatures beyond the capability of the thruster softgoods, causing the Teflon poppet to extrude. The evidence supports this being a contributor to the thruster fail-offs.`}).Stage(stage)
+	__Note__00000021_ := (&models.Note{Name: `B1.3.3.1.4.2 RCS Thermal Soakback identifies the possibility that structure of the RCS thruster
+retains heat, and the heat is unable to be dissipated from the firings of the thrusters, causing the
+propellants to heat rapidly. `}).Stage(stage)
+	__Note__00000022_ := (&models.Note{Name: `Intermediate Cause 5: Inadequate Thruster Thermal Models
+
+In May 2019, the PCB accepted the “SM doghouse thermal model (PROP-06) not in critical model
+Database” risk, which was generated in 2017. As identified by Passive Thermal Control System
+(PTCS), “there was a gap in Boeing thermal modeling. Specifically, the internal componentry within
+each of the doghouses isn’t modeled in THERM-16. This area is modeled by Aerojet-Rocketdyne (AR)
+per contract with Boeing PROP. The contract only furnishes the results and not the model that
+produces the results. a.) AR model needs to undergoes accreditation. There is no NASA insight into
+the validity of the results and therefore verification effort is compromised.”
+
+The Therm-11a model did not incorporate OMAC firings, or initial heating that could occur from the
+doghouse environment, which is critical given that the aft thrusters have the longest feed line in
+comparison to every other thruster.
+
+There was no thermal model available to adequately understand the full impacts of the thermal
+environment upon the RCS thrusters, specifically the aft thrusters with the longest feed line tube,
+and very close proximity to the OMAC thrusters`}).Stage(stage)
+	__Note__00000023_ := (&models.Note{Name: `Intermediate Cause 6: Insufficient Thruster Qualification
+
+SM RCS Thruster Qualification did not cover the flight envelope for temperature and duty cycle (TLYF).`}).Stage(stage)
+	__Note__00000024_ := (&models.Note{Name: `Multiple groups, prior to CTF, discussed the lack of mission representative operational duty cycle testing for SM RCS engines.. This concern is one that has been tracked since prior to OFT1 and is specifically reviewed in this intermediate cause because it is widely accepted that operational duty cycle is a primary driver of hardware temperature. NASA Engineering and the CCP Spacecraft Office have consistently identified this qualification gap and recommended additional testing, however it was not incorporated into the pursued plans for risk assessments between flights.
+
+OFT1: The SM RCS Qual Gaps risk was accepted in September 2019 (PCB-19-383), Boeing
+RCS/OMAC (Engine) Qual Issues for OFT.
+
+CFT: The qualification gap risk was addressed in April 2023
+
+. The program directive issued at that time resolved to accept
+the qualification gap for duty cycles for CFT only. This acceptance was encompassed within the
+previously approved elevated 2x5 risk level from PCB-23-053, which was documented during the
+IFA closure for OFT-2 related to valve/injector assembly temperature measurements exceeding
+qualification limits. These temperature exceedances were categorized as an Unexplained Anomaly
+(UA).
+Starliner Qualification Risk History
+OFT-1 (Orbital Flight Test 1)
+The Service Module (SM) RCS Qual Gaps risk was formally accepted in September 2019 (PCB-19-383) regarding Boeing RCS/OMAC (Engine) qualification issues for the flight.
+
+OFT-2 (Orbital Flight Test 2)
+During PCB-20-404, addressing the SM RCS Jet Failure, the program decided to use the SM RCS "as is." It was noted that the OFT Mission Elapsed Time (MET) anomaly actually demonstrated the robustness of the RCS thruster design despite long durations of excessive usage. While design modifications were evaluated for the leading theory behind the B2R3 failure, the CCP SDRT report highlighted this as a missed opportunity to further investigate SM RCS thruster failure modes. This is discussed further in later sections regarding organizational factors and anomaly resolution.
+
+CFT (Crew Flight Test)
+The qualification gap risk was addressed in April 2023 during PCB-23-100 (CFT: Starliner Prop, OMAC/RCS Hot-Fire Qual Gaps). The program directive resolved to accept the qualification gap for duty cycles for the CFT only. This acceptance was encompassed within a previously approved elevated 2x5 risk level (PCB-23-053), documented during the In-Flight Anomaly (IFA) closure for OFT-2.
+
+The OFT-2 IFA related to valve/injector assembly temperature measurements exceeding qualification limits, which were categorized as an Unexplained Anomaly (UA). The directive acknowledged that these exceedances were attributed to specific operational duty cycles. Consequently, the thermal risk was accepted as a 2x5 risk for potential jet failure. Despite this, engineering teams and the Engineering Review Board (ERB-23-0045-R2) emphasized the importance of testing SM RCS thrusters using flight-like duty cycles.`}).Stage(stage)
+	__Note__00000025_ := (&models.Note{Name: `Organizational Factor 1: Insufficient Anomaly Resolution Process Multiple RCS thruster failures occurred on OFT 1 and OFT 2. While fault trees were developed, due diligence to reach direct and root cause was not performed and adequate block closure rationale was often incomplete.
+
+Note : Anomaly Reports (AR) were closed.
+
+Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads to Flawed Flight Rationale. The thermal risk for Starliner’s SM RCS thrusters was mischaracterized due to reliance on simple models and inadequate qualification testing that failed to replicate mission-representative conditions. Despite clear evidence of thermal soakback and temperature exceedances, risk acceptance proceeded without resolving key environment and duty cycle concerns.`}).Stage(stage)
 
 	__NoteProductShape__00000000_ := (&models.NoteProductShape{Name: `A thorough review of the STAR report is advised to  Starliner Tests and Anomalies Review (STAR) Investigation Report`}).Stage(stage)
 	__NoteProductShape__00000001_ := (&models.NoteProductShape{Name: `NASA utilized a firm fixed price contracting type for CCtCap. This was a significant shift from the cost-plus contracting for traditional NASA builds of developmental vehicles. These shifts signified that CCP was not only positioned to be an innovative, first-of-its kind program for NASA, but how it interacted with new and traditional space flight industry providers was setup to be significantly distinct and different.   to Commercial Crew Transportation Capability (CCtCap).`}).Stage(stage)
@@ -91,6 +146,23 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__NoteProductShape__00000019_ := (&models.NoteProductShape{Name: `At the conclusion of the hotfire, when thruster is demonstrated, a jet is reenabled with jet-fail FDIR inhibited. Through this sequence, four of five jets were recovered. Spacecraft 6DOF control was reestablished in all axes. The spacecraft was moded back to auto and the rendezvous/dock was completed.  While the flight rules allow an SM RCS thruster to be used with jet-fail off FDIR inhibited, doing so removes a hazard control to 4.5.2   Description of Events and Timeline `}).Stage(stage)
 	__NoteProductShape__00000020_ := (&models.NoteProductShape{Name: `Many thruster pulses are less  FDIR in the  The FMCs see chamber pressure over a data bus from the  but the chamber pressure is only sent to the ground with a sample rate for recording every  limiting insight into thruster performance. This does not meet Nyquist Criterion for capturing the chamber pressure signal. As a result, aliasing effects may occur for pulses shorter than  where high-frequency components of the pressure signal are misrepresented or lost, further complicating accurate reconstruction of thruster behavior.   to 4.5.2   Description of Events and Timeline `}).Stage(stage)
 	__NoteProductShape__00000021_ := (&models.NoteProductShape{Name: ` degraded performance was still observed. This testing demonstrated the issue was not purely transient. to 4.5.4   Starliner Engine Testing at White Sands Test Facility (WSTF) during CFT`}).Stage(stage)
+	__NoteProductShape__00000022_ := (&models.NoteProductShape{Name: `B1.3.3.1.1.1 Heat identifies that excessive heating could cause the poppet to extrude, reducing flow. Poppet extrusion was observed in the post-test tear down of the WSTF (White Sands Test Facility) thruster unit.
+
+The initial heating was caused by the internal doghouse temperatures (addressed in C4.1 Thermal) and the follow-on heating induced by B1.3.3.1.4.2 RCS Thermal Soakback. This caused excessive temperatures beyond the capability of the thruster softgoods, causing the Teflon poppet to extrude. The evidence supports this being a contributor to the thruster fail-offs. to 4.5.5 Fault Tree`}).Stage(stage)
+	__NoteProductShape__00000023_ := (&models.NoteProductShape{Name: `B1.3.3.1.4.2 RCS Thermal Soakback identifies the possibility that structure of the RCS thruster
+retains heat, and the heat is unable to be dissipated from the firings of the thrusters, causing the
+propellants to heat rapidly.  to 4.5.5 Fault Tree`}).Stage(stage)
+	__NoteProductShape__00000024_ := (&models.NoteProductShape{Name: `In May 2019, the PCB accepted the “SM doghouse thermal model (PROP-06) not in critical model
+Database” risk, which was generated in 2017. As identified by Passive Thermal Control System
+(PTCS), “there was a gap in Boeing thermal modeling. Specifically, the internal componentry within
+each of the doghouses isn’t modeled in THERM-16. This area is modeled by Aerojet-Rocketdyne (AR)
+per contract with Boeing PROP. The contract only furnishes the results and not the model that
+produces the results. a.) AR model needs to undergoes accreditation. There is no NASA insight into
+the validity of the results and therefore verification effort is compromised.” to Intermediate Cause 5: Inadequate Thruster Thermal Models Inadequate thermal modelling caused insufficient scrutiny for the thermal environment, leading to excessive heating from RCS thermal soakback and integrated heating from OMACs.`}).Stage(stage)
+	__NoteProductShape__00000025_ := (&models.NoteProductShape{Name: `Intermediate Cause 6: Insufficient Thruster Qualification
+
+SM RCS Thruster Qualification did not cover the flight envelope for temperature and duty cycle (TLYF). to Intermediate Cause 5: Inadequate Thruster Thermal Models Inadequate thermal modelling caused insufficient scrutiny for the thermal environment, leading to excessive heating from RCS thermal soakback and integrated heating from OMACs.`}).Stage(stage)
+	__NoteProductShape__00000026_ := (&models.NoteProductShape{Name: `Multiple groups, prior to CTF, discussed the lack of mission representative operational duty cycle testing for SM RCS engines.. This concern is one that has been tracked since prior to OFT1 and is specifically reviewed in this intermediate cause because it is widely accepted that operational duty cycle is a primary driver of hardware temperature. NASA Engineering and the CCP Spacecraft Office have consistently identified this qualification gap and recommended additional testing, however it was not incorporated into the pursued plans for risk assessments between flights. to Intermediate Cause 5: Inadequate Thruster Thermal Models Inadequate thermal modelling caused insufficient scrutiny for the thermal environment, leading to excessive heating from RCS thermal soakback and integrated heating from OMACs.`}).Stage(stage)
 
 	__NoteShape__00000000_ := (&models.NoteShape{Name: `-Default Diagram`}).Stage(stage)
 	__NoteShape__00000001_ := (&models.NoteShape{Name: `-PIT focus`}).Stage(stage)
@@ -112,6 +184,12 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__NoteShape__00000017_ := (&models.NoteShape{Name: `-WBS`}).Stage(stage)
 	__NoteShape__00000018_ := (&models.NoteShape{Name: `-PIT Report`}).Stage(stage)
 	__NoteShape__00000019_ := (&models.NoteShape{Name: `-PIT Report`}).Stage(stage)
+	__NoteShape__00000020_ := (&models.NoteShape{Name: `-PIT Report`}).Stage(stage)
+	__NoteShape__00000021_ := (&models.NoteShape{Name: `-PIT Report`}).Stage(stage)
+	__NoteShape__00000022_ := (&models.NoteShape{Name: `-PIT Report`}).Stage(stage)
+	__NoteShape__00000023_ := (&models.NoteShape{Name: `-PIT Report`}).Stage(stage)
+	__NoteShape__00000024_ := (&models.NoteShape{Name: `-PIT Report`}).Stage(stage)
+	__NoteShape__00000025_ := (&models.NoteShape{Name: `-PIT Report`}).Stage(stage)
 
 	__NoteTaskShape__00000000_ := (&models.NoteTaskShape{Name: `CFT ended in march 2025 to Starliner Crewed Flight Test (CFT)`}).Stage(stage)
 	__NoteTaskShape__00000001_ := (&models.NoteTaskShape{Name: ` S2A2 failed at 9050 m (GMT 14:00) and B1A3 failed at 526m (GMT 14:57). to ISS Approach`}).Stage(stage)
@@ -158,6 +236,10 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__Product__00000040_ := (&models.Product{Name: `B1A3 Thruster failure`}).Stage(stage)
 	__Product__00000041_ := (&models.Product{Name: `4.5.4   Starliner Engine Testing at White Sands Test Facility (WSTF) during CFT`}).Stage(stage)
 	__Product__00000042_ := (&models.Product{Name: `4.5.5 Fault Tree`}).Stage(stage)
+	__Product__00000043_ := (&models.Product{Name: `4.5.6 Most Probable Proximate Cause`}).Stage(stage)
+	__Product__00000044_ := (&models.Product{Name: `Intermediate Cause 5: Inadequate Thruster Thermal Models Inadequate thermal modelling caused insufficient scrutiny for the thermal environment, leading to excessive heating from RCS thermal soakback and integrated heating from OMACs.`}).Stage(stage)
+	__Product__00000045_ := (&models.Product{Name: `4.6 Analysis: Helium Leak`}).Stage(stage)
+	__Product__00000046_ := (&models.Product{Name: `4.6.1 Description of the system`}).Stage(stage)
 
 	__ProductCompositionShape__00000000_ := (&models.ProductCompositionShape{Name: `Reports to `}).Stage(stage)
 	__ProductCompositionShape__00000001_ := (&models.ProductCompositionShape{Name: `Reports to `}).Stage(stage)
@@ -197,6 +279,10 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__ProductCompositionShape__00000037_ := (&models.ProductCompositionShape{Name: `4.5   Analysis: Loss of 6DOF Control - SM RCS Jet Failures to `}).Stage(stage)
 	__ProductCompositionShape__00000038_ := (&models.ProductCompositionShape{Name: `4.5   Analysis: Loss of 6DOF Control - SM RCS Jet Failures to `}).Stage(stage)
 	__ProductCompositionShape__00000039_ := (&models.ProductCompositionShape{Name: `4.5   Analysis: Loss of 6DOF Control - SM RCS Jet Failures to `}).Stage(stage)
+	__ProductCompositionShape__00000040_ := (&models.ProductCompositionShape{Name: `4.5   Analysis: Loss of 6DOF Control - SM RCS Jet Failures to `}).Stage(stage)
+	__ProductCompositionShape__00000041_ := (&models.ProductCompositionShape{Name: `4.5.6 Most Probable Proximate Cause to `}).Stage(stage)
+	__ProductCompositionShape__00000042_ := (&models.ProductCompositionShape{Name: `4.5   Analysis: Loss of 6DOF Control - SM RCS Jet Failures to `}).Stage(stage)
+	__ProductCompositionShape__00000043_ := (&models.ProductCompositionShape{Name: `4.6 Analysis: Helium Leak to `}).Stage(stage)
 
 	__ProductShape__00000002_ := (&models.ProductShape{Name: `Dragon-PBS`}).Stage(stage)
 	__ProductShape__00000003_ := (&models.ProductShape{Name: `Starliner-PBS`}).Stage(stage)
@@ -244,6 +330,10 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__ProductShape__00000046_ := (&models.ProductShape{Name: `-PIT Report`}).Stage(stage)
 	__ProductShape__00000047_ := (&models.ProductShape{Name: `-PIT Report`}).Stage(stage)
 	__ProductShape__00000048_ := (&models.ProductShape{Name: `-PIT Report`}).Stage(stage)
+	__ProductShape__00000049_ := (&models.ProductShape{Name: `-PIT Report`}).Stage(stage)
+	__ProductShape__00000050_ := (&models.ProductShape{Name: `-PIT Report`}).Stage(stage)
+	__ProductShape__00000051_ := (&models.ProductShape{Name: `-PIT Report`}).Stage(stage)
+	__ProductShape__00000052_ := (&models.ProductShape{Name: `-PIT Report`}).Stage(stage)
 
 	__Project__00000000_ := (&models.Project{Name: `Startliner Mishape Report`}).Stage(stage)
 
@@ -332,8 +422,8 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__Diagram__00000000_.ShowPrefix = false
 	__Diagram__00000000_.DefaultBoxWidth = 250.000000
 	__Diagram__00000000_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000000_.Width = 15555.187127
-	__Diagram__00000000_.Height = 16317.751617
+	__Diagram__00000000_.Width = 25155.187127
+	__Diagram__00000000_.Height = 25917.751617
 	__Diagram__00000000_.IsExpanded = false
 	__Diagram__00000000_.ComputedPrefix = ``
 	__Diagram__00000000_.IsInRenameMode = false
@@ -348,8 +438,8 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__Diagram__00000001_.ShowPrefix = true
 	__Diagram__00000001_.DefaultBoxWidth = 250.000000
 	__Diagram__00000001_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000001_.Width = 16095.617766
-	__Diagram__00000001_.Height = 15956.674065
+	__Diagram__00000001_.Width = 25695.617766
+	__Diagram__00000001_.Height = 25556.674065
 	__Diagram__00000001_.IsExpanded = false
 	__Diagram__00000001_.ComputedPrefix = ``
 	__Diagram__00000001_.IsInRenameMode = false
@@ -364,8 +454,8 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__Diagram__00000002_.ShowPrefix = true
 	__Diagram__00000002_.DefaultBoxWidth = 250.000000
 	__Diagram__00000002_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000002_.Width = 16591.980809
-	__Diagram__00000002_.Height = 16121.961381
+	__Diagram__00000002_.Width = 26191.980809
+	__Diagram__00000002_.Height = 25721.961381
 	__Diagram__00000002_.IsExpanded = false
 	__Diagram__00000002_.ComputedPrefix = ``
 	__Diagram__00000002_.IsInRenameMode = false
@@ -380,8 +470,8 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__Diagram__00000003_.ShowPrefix = false
 	__Diagram__00000003_.DefaultBoxWidth = 250.000000
 	__Diagram__00000003_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000003_.Width = 16285.651635
-	__Diagram__00000003_.Height = 16299.201740
+	__Diagram__00000003_.Width = 25885.651635
+	__Diagram__00000003_.Height = 25899.201740
 	__Diagram__00000003_.IsExpanded = false
 	__Diagram__00000003_.ComputedPrefix = ``
 	__Diagram__00000003_.IsInRenameMode = false
@@ -396,8 +486,8 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__Diagram__00000004_.ShowPrefix = false
 	__Diagram__00000004_.DefaultBoxWidth = 250.000000
 	__Diagram__00000004_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000004_.Width = 16362.017987
-	__Diagram__00000004_.Height = 15558.658205
+	__Diagram__00000004_.Width = 25962.017987
+	__Diagram__00000004_.Height = 25158.658205
 	__Diagram__00000004_.IsExpanded = false
 	__Diagram__00000004_.ComputedPrefix = ``
 	__Diagram__00000004_.IsInRenameMode = false
@@ -412,8 +502,8 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__Diagram__00000005_.ShowPrefix = false
 	__Diagram__00000005_.DefaultBoxWidth = 250.000000
 	__Diagram__00000005_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000005_.Width = 16785.901110
-	__Diagram__00000005_.Height = 16748.855478
+	__Diagram__00000005_.Width = 26385.901110
+	__Diagram__00000005_.Height = 26348.855478
 	__Diagram__00000005_.IsExpanded = true
 	__Diagram__00000005_.ComputedPrefix = ``
 	__Diagram__00000005_.IsInRenameMode = false
@@ -428,8 +518,8 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__Diagram__00000006_.ShowPrefix = false
 	__Diagram__00000006_.DefaultBoxWidth = 250.000000
 	__Diagram__00000006_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000006_.Width = 16669.153628
-	__Diagram__00000006_.Height = 16377.529266
+	__Diagram__00000006_.Width = 26269.153628
+	__Diagram__00000006_.Height = 25977.529266
 	__Diagram__00000006_.IsExpanded = false
 	__Diagram__00000006_.ComputedPrefix = ``
 	__Diagram__00000006_.IsInRenameMode = false
@@ -552,6 +642,85 @@ It should have been done before ?!
 	__Note__00000019_.IsExpanded = false
 	__Note__00000019_.ComputedPrefix = `20`
 	__Note__00000019_.IsInRenameMode = false
+
+	__Note__00000020_.Name = `B1.3.3.1.1.1 Heat identifies that excessive heating could cause the poppet to extrude, reducing flow. Poppet extrusion was observed in the post-test tear down of the WSTF (White Sands Test Facility) thruster unit.
+
+The initial heating was caused by the internal doghouse temperatures (addressed in C4.1 Thermal) and the follow-on heating induced by B1.3.3.1.4.2 RCS Thermal Soakback. This caused excessive temperatures beyond the capability of the thruster softgoods, causing the Teflon poppet to extrude. The evidence supports this being a contributor to the thruster fail-offs.`
+	__Note__00000020_.IsExpanded = false
+	__Note__00000020_.ComputedPrefix = `21`
+	__Note__00000020_.IsInRenameMode = false
+
+	__Note__00000021_.Name = `B1.3.3.1.4.2 RCS Thermal Soakback identifies the possibility that structure of the RCS thruster
+retains heat, and the heat is unable to be dissipated from the firings of the thrusters, causing the
+propellants to heat rapidly. `
+	__Note__00000021_.IsExpanded = false
+	__Note__00000021_.ComputedPrefix = `22`
+	__Note__00000021_.IsInRenameMode = false
+
+	__Note__00000022_.Name = `Intermediate Cause 5: Inadequate Thruster Thermal Models
+
+In May 2019, the PCB accepted the “SM doghouse thermal model (PROP-06) not in critical model
+Database” risk, which was generated in 2017. As identified by Passive Thermal Control System
+(PTCS), “there was a gap in Boeing thermal modeling. Specifically, the internal componentry within
+each of the doghouses isn’t modeled in THERM-16. This area is modeled by Aerojet-Rocketdyne (AR)
+per contract with Boeing PROP. The contract only furnishes the results and not the model that
+produces the results. a.) AR model needs to undergoes accreditation. There is no NASA insight into
+the validity of the results and therefore verification effort is compromised.”
+
+The Therm-11a model did not incorporate OMAC firings, or initial heating that could occur from the
+doghouse environment, which is critical given that the aft thrusters have the longest feed line in
+comparison to every other thruster.
+
+There was no thermal model available to adequately understand the full impacts of the thermal
+environment upon the RCS thrusters, specifically the aft thrusters with the longest feed line tube,
+and very close proximity to the OMAC thrusters`
+	__Note__00000022_.IsExpanded = false
+	__Note__00000022_.ComputedPrefix = `23`
+	__Note__00000022_.IsInRenameMode = false
+
+	__Note__00000023_.Name = `Intermediate Cause 6: Insufficient Thruster Qualification
+
+SM RCS Thruster Qualification did not cover the flight envelope for temperature and duty cycle (TLYF).`
+	__Note__00000023_.IsExpanded = false
+	__Note__00000023_.ComputedPrefix = `24`
+	__Note__00000023_.IsInRenameMode = false
+
+	__Note__00000024_.Name = `Multiple groups, prior to CTF, discussed the lack of mission representative operational duty cycle testing for SM RCS engines.. This concern is one that has been tracked since prior to OFT1 and is specifically reviewed in this intermediate cause because it is widely accepted that operational duty cycle is a primary driver of hardware temperature. NASA Engineering and the CCP Spacecraft Office have consistently identified this qualification gap and recommended additional testing, however it was not incorporated into the pursued plans for risk assessments between flights.
+
+OFT1: The SM RCS Qual Gaps risk was accepted in September 2019 (PCB-19-383), Boeing
+RCS/OMAC (Engine) Qual Issues for OFT.
+
+CFT: The qualification gap risk was addressed in April 2023
+
+. The program directive issued at that time resolved to accept
+the qualification gap for duty cycles for CFT only. This acceptance was encompassed within the
+previously approved elevated 2x5 risk level from PCB-23-053, which was documented during the
+IFA closure for OFT-2 related to valve/injector assembly temperature measurements exceeding
+qualification limits. These temperature exceedances were categorized as an Unexplained Anomaly
+(UA).
+Starliner Qualification Risk History
+OFT-1 (Orbital Flight Test 1)
+The Service Module (SM) RCS Qual Gaps risk was formally accepted in September 2019 (PCB-19-383) regarding Boeing RCS/OMAC (Engine) qualification issues for the flight.
+
+OFT-2 (Orbital Flight Test 2)
+During PCB-20-404, addressing the SM RCS Jet Failure, the program decided to use the SM RCS "as is." It was noted that the OFT Mission Elapsed Time (MET) anomaly actually demonstrated the robustness of the RCS thruster design despite long durations of excessive usage. While design modifications were evaluated for the leading theory behind the B2R3 failure, the CCP SDRT report highlighted this as a missed opportunity to further investigate SM RCS thruster failure modes. This is discussed further in later sections regarding organizational factors and anomaly resolution.
+
+CFT (Crew Flight Test)
+The qualification gap risk was addressed in April 2023 during PCB-23-100 (CFT: Starliner Prop, OMAC/RCS Hot-Fire Qual Gaps). The program directive resolved to accept the qualification gap for duty cycles for the CFT only. This acceptance was encompassed within a previously approved elevated 2x5 risk level (PCB-23-053), documented during the In-Flight Anomaly (IFA) closure for OFT-2.
+
+The OFT-2 IFA related to valve/injector assembly temperature measurements exceeding qualification limits, which were categorized as an Unexplained Anomaly (UA). The directive acknowledged that these exceedances were attributed to specific operational duty cycles. Consequently, the thermal risk was accepted as a 2x5 risk for potential jet failure. Despite this, engineering teams and the Engineering Review Board (ERB-23-0045-R2) emphasized the importance of testing SM RCS thrusters using flight-like duty cycles.`
+	__Note__00000024_.IsExpanded = false
+	__Note__00000024_.ComputedPrefix = `25`
+	__Note__00000024_.IsInRenameMode = false
+
+	__Note__00000025_.Name = `Organizational Factor 1: Insufficient Anomaly Resolution Process Multiple RCS thruster failures occurred on OFT 1 and OFT 2. While fault trees were developed, due diligence to reach direct and root cause was not performed and adequate block closure rationale was often incomplete.
+
+Note : Anomaly Reports (AR) were closed.
+
+Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads to Flawed Flight Rationale. The thermal risk for Starliner’s SM RCS thrusters was mischaracterized due to reliance on simple models and inadequate qualification testing that failed to replicate mission-representative conditions. Despite clear evidence of thermal soakback and temperature exceedances, risk acceptance proceeded without resolving key environment and duty cycle concerns.`
+	__Note__00000025_.IsExpanded = false
+	__Note__00000025_.ComputedPrefix = `26`
+	__Note__00000025_.IsInRenameMode = false
 
 	__NoteProductShape__00000000_.Name = `A thorough review of the STAR report is advised to  Starliner Tests and Anomalies Review (STAR) Investigation Report`
 	__NoteProductShape__00000000_.StartRatio = 0.500000
@@ -709,6 +878,53 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__NoteProductShape__00000021_.EndOrientation = models.ORIENTATION_VERTICAL
 	__NoteProductShape__00000021_.CornerOffsetRatio = 1.680000
 
+	__NoteProductShape__00000022_.Name = `B1.3.3.1.1.1 Heat identifies that excessive heating could cause the poppet to extrude, reducing flow. Poppet extrusion was observed in the post-test tear down of the WSTF (White Sands Test Facility) thruster unit.
+
+The initial heating was caused by the internal doghouse temperatures (addressed in C4.1 Thermal) and the follow-on heating induced by B1.3.3.1.4.2 RCS Thermal Soakback. This caused excessive temperatures beyond the capability of the thruster softgoods, causing the Teflon poppet to extrude. The evidence supports this being a contributor to the thruster fail-offs. to 4.5.5 Fault Tree`
+	__NoteProductShape__00000022_.StartRatio = 0.500000
+	__NoteProductShape__00000022_.EndRatio = 0.500000
+	__NoteProductShape__00000022_.StartOrientation = models.ORIENTATION_VERTICAL
+	__NoteProductShape__00000022_.EndOrientation = models.ORIENTATION_VERTICAL
+	__NoteProductShape__00000022_.CornerOffsetRatio = 1.680000
+
+	__NoteProductShape__00000023_.Name = `B1.3.3.1.4.2 RCS Thermal Soakback identifies the possibility that structure of the RCS thruster
+retains heat, and the heat is unable to be dissipated from the firings of the thrusters, causing the
+propellants to heat rapidly.  to 4.5.5 Fault Tree`
+	__NoteProductShape__00000023_.StartRatio = 0.500000
+	__NoteProductShape__00000023_.EndRatio = 0.500000
+	__NoteProductShape__00000023_.StartOrientation = models.ORIENTATION_VERTICAL
+	__NoteProductShape__00000023_.EndOrientation = models.ORIENTATION_VERTICAL
+	__NoteProductShape__00000023_.CornerOffsetRatio = 1.680000
+
+	__NoteProductShape__00000024_.Name = `In May 2019, the PCB accepted the “SM doghouse thermal model (PROP-06) not in critical model
+Database” risk, which was generated in 2017. As identified by Passive Thermal Control System
+(PTCS), “there was a gap in Boeing thermal modeling. Specifically, the internal componentry within
+each of the doghouses isn’t modeled in THERM-16. This area is modeled by Aerojet-Rocketdyne (AR)
+per contract with Boeing PROP. The contract only furnishes the results and not the model that
+produces the results. a.) AR model needs to undergoes accreditation. There is no NASA insight into
+the validity of the results and therefore verification effort is compromised.” to Intermediate Cause 5: Inadequate Thruster Thermal Models Inadequate thermal modelling caused insufficient scrutiny for the thermal environment, leading to excessive heating from RCS thermal soakback and integrated heating from OMACs.`
+	__NoteProductShape__00000024_.StartRatio = 0.500000
+	__NoteProductShape__00000024_.EndRatio = 0.500000
+	__NoteProductShape__00000024_.StartOrientation = models.ORIENTATION_VERTICAL
+	__NoteProductShape__00000024_.EndOrientation = models.ORIENTATION_VERTICAL
+	__NoteProductShape__00000024_.CornerOffsetRatio = 1.680000
+
+	__NoteProductShape__00000025_.Name = `Intermediate Cause 6: Insufficient Thruster Qualification
+
+SM RCS Thruster Qualification did not cover the flight envelope for temperature and duty cycle (TLYF). to Intermediate Cause 5: Inadequate Thruster Thermal Models Inadequate thermal modelling caused insufficient scrutiny for the thermal environment, leading to excessive heating from RCS thermal soakback and integrated heating from OMACs.`
+	__NoteProductShape__00000025_.StartRatio = 0.500000
+	__NoteProductShape__00000025_.EndRatio = 0.500000
+	__NoteProductShape__00000025_.StartOrientation = models.ORIENTATION_VERTICAL
+	__NoteProductShape__00000025_.EndOrientation = models.ORIENTATION_VERTICAL
+	__NoteProductShape__00000025_.CornerOffsetRatio = 1.680000
+
+	__NoteProductShape__00000026_.Name = `Multiple groups, prior to CTF, discussed the lack of mission representative operational duty cycle testing for SM RCS engines.. This concern is one that has been tracked since prior to OFT1 and is specifically reviewed in this intermediate cause because it is widely accepted that operational duty cycle is a primary driver of hardware temperature. NASA Engineering and the CCP Spacecraft Office have consistently identified this qualification gap and recommended additional testing, however it was not incorporated into the pursued plans for risk assessments between flights. to Intermediate Cause 5: Inadequate Thruster Thermal Models Inadequate thermal modelling caused insufficient scrutiny for the thermal environment, leading to excessive heating from RCS thermal soakback and integrated heating from OMACs.`
+	__NoteProductShape__00000026_.StartRatio = 0.500000
+	__NoteProductShape__00000026_.EndRatio = 0.500000
+	__NoteProductShape__00000026_.StartOrientation = models.ORIENTATION_VERTICAL
+	__NoteProductShape__00000026_.EndOrientation = models.ORIENTATION_VERTICAL
+	__NoteProductShape__00000026_.CornerOffsetRatio = 1.680000
+
 	__NoteShape__00000000_.Name = `-Default Diagram`
 	__NoteShape__00000000_.IsExpanded = false
 	__NoteShape__00000000_.X = 92.441418
@@ -837,17 +1053,59 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 
 	__NoteShape__00000018_.Name = `-PIT Report`
 	__NoteShape__00000018_.IsExpanded = false
-	__NoteShape__00000018_.X = 848.803011
-	__NoteShape__00000018_.Y = 1350.804082
+	__NoteShape__00000018_.X = 753.803011
+	__NoteShape__00000018_.Y = 1447.804082
 	__NoteShape__00000018_.Width = 250.000000
 	__NoteShape__00000018_.Height = 333.000000
 
 	__NoteShape__00000019_.Name = `-PIT Report`
 	__NoteShape__00000019_.IsExpanded = false
-	__NoteShape__00000019_.X = 1154.260622
-	__NoteShape__00000019_.Y = 1386.529677
+	__NoteShape__00000019_.X = 1024.260622
+	__NoteShape__00000019_.Y = 1594.529677
 	__NoteShape__00000019_.Width = 250.000000
 	__NoteShape__00000019_.Height = 280.000000
+
+	__NoteShape__00000020_.Name = `-PIT Report`
+	__NoteShape__00000020_.IsExpanded = false
+	__NoteShape__00000020_.X = 1325.045052
+	__NoteShape__00000020_.Y = 1477.461652
+	__NoteShape__00000020_.Width = 250.000000
+	__NoteShape__00000020_.Height = 383.000000
+
+	__NoteShape__00000021_.Name = `-PIT Report`
+	__NoteShape__00000021_.IsExpanded = false
+	__NoteShape__00000021_.X = 1009.364672
+	__NoteShape__00000021_.Y = 1927.551182
+	__NoteShape__00000021_.Width = 250.000000
+	__NoteShape__00000021_.Height = 188.000000
+
+	__NoteShape__00000022_.Name = `-PIT Report`
+	__NoteShape__00000022_.IsExpanded = false
+	__NoteShape__00000022_.X = 409.341567
+	__NoteShape__00000022_.Y = 1822.743943
+	__NoteShape__00000022_.Width = 551.000000
+	__NoteShape__00000022_.Height = 496.000000
+
+	__NoteShape__00000023_.Name = `-PIT Report`
+	__NoteShape__00000023_.IsExpanded = false
+	__NoteShape__00000023_.X = 258.414750
+	__NoteShape__00000023_.Y = 2019.668077
+	__NoteShape__00000023_.Width = 250.000000
+	__NoteShape__00000023_.Height = 172.000000
+
+	__NoteShape__00000024_.Name = `-PIT Report`
+	__NoteShape__00000024_.IsExpanded = false
+	__NoteShape__00000024_.X = 177.291855
+	__NoteShape__00000024_.Y = 2342.855372
+	__NoteShape__00000024_.Width = 1451.000000
+	__NoteShape__00000024_.Height = 594.000000
+
+	__NoteShape__00000025_.Name = `-PIT Report`
+	__NoteShape__00000025_.IsExpanded = false
+	__NoteShape__00000025_.X = 916.887483
+	__NoteShape__00000025_.Y = 2959.225340
+	__NoteShape__00000025_.Width = 723.000000
+	__NoteShape__00000025_.Height = 289.000000
 
 	__NoteTaskShape__00000000_.Name = `CFT ended in march 2025 to Starliner Crewed Flight Test (CFT)`
 	__NoteTaskShape__00000000_.StartRatio = 0.500000
@@ -1199,6 +1457,38 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__Product__00000042_.IsProducersNodeExpanded = false
 	__Product__00000042_.IsConsumersNodeExpanded = false
 
+	__Product__00000043_.Name = `4.5.6 Most Probable Proximate Cause`
+	__Product__00000043_.Description = ``
+	__Product__00000043_.IsExpanded = false
+	__Product__00000043_.ComputedPrefix = `2.2.3.5.6`
+	__Product__00000043_.IsInRenameMode = false
+	__Product__00000043_.IsProducersNodeExpanded = false
+	__Product__00000043_.IsConsumersNodeExpanded = false
+
+	__Product__00000044_.Name = `Intermediate Cause 5: Inadequate Thruster Thermal Models Inadequate thermal modelling caused insufficient scrutiny for the thermal environment, leading to excessive heating from RCS thermal soakback and integrated heating from OMACs.`
+	__Product__00000044_.Description = ``
+	__Product__00000044_.IsExpanded = false
+	__Product__00000044_.ComputedPrefix = `2.2.3.5.6.1`
+	__Product__00000044_.IsInRenameMode = false
+	__Product__00000044_.IsProducersNodeExpanded = false
+	__Product__00000044_.IsConsumersNodeExpanded = false
+
+	__Product__00000045_.Name = `4.6 Analysis: Helium Leak`
+	__Product__00000045_.Description = ``
+	__Product__00000045_.IsExpanded = false
+	__Product__00000045_.ComputedPrefix = `2.2.3.5.7`
+	__Product__00000045_.IsInRenameMode = false
+	__Product__00000045_.IsProducersNodeExpanded = false
+	__Product__00000045_.IsConsumersNodeExpanded = false
+
+	__Product__00000046_.Name = `4.6.1 Description of the system`
+	__Product__00000046_.Description = ``
+	__Product__00000046_.IsExpanded = false
+	__Product__00000046_.ComputedPrefix = ``
+	__Product__00000046_.IsInRenameMode = false
+	__Product__00000046_.IsProducersNodeExpanded = false
+	__Product__00000046_.IsConsumersNodeExpanded = false
+
 	__ProductCompositionShape__00000000_.Name = `Reports to `
 	__ProductCompositionShape__00000000_.StartRatio = 0.500000
 	__ProductCompositionShape__00000000_.EndRatio = 0.500000
@@ -1465,6 +1755,34 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__ProductCompositionShape__00000039_.EndOrientation = models.ORIENTATION_VERTICAL
 	__ProductCompositionShape__00000039_.CornerOffsetRatio = 1.680000
 
+	__ProductCompositionShape__00000040_.Name = `4.5   Analysis: Loss of 6DOF Control - SM RCS Jet Failures to `
+	__ProductCompositionShape__00000040_.StartRatio = 0.914445
+	__ProductCompositionShape__00000040_.EndRatio = 0.471588
+	__ProductCompositionShape__00000040_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__ProductCompositionShape__00000040_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ProductCompositionShape__00000040_.CornerOffsetRatio = -0.139307
+
+	__ProductCompositionShape__00000041_.Name = `4.5.6 Most Probable Proximate Cause to `
+	__ProductCompositionShape__00000041_.StartRatio = 0.500000
+	__ProductCompositionShape__00000041_.EndRatio = 0.500000
+	__ProductCompositionShape__00000041_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000041_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000041_.CornerOffsetRatio = 1.680000
+
+	__ProductCompositionShape__00000042_.Name = `4.5   Analysis: Loss of 6DOF Control - SM RCS Jet Failures to `
+	__ProductCompositionShape__00000042_.StartRatio = 0.828731
+	__ProductCompositionShape__00000042_.EndRatio = 0.385874
+	__ProductCompositionShape__00000042_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__ProductCompositionShape__00000042_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ProductCompositionShape__00000042_.CornerOffsetRatio = -0.165041
+
+	__ProductCompositionShape__00000043_.Name = `4.6 Analysis: Helium Leak to `
+	__ProductCompositionShape__00000043_.StartRatio = 0.500000
+	__ProductCompositionShape__00000043_.EndRatio = 0.500000
+	__ProductCompositionShape__00000043_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000043_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000043_.CornerOffsetRatio = 1.680000
+
 	__ProductShape__00000002_.Name = `Dragon-PBS`
 	__ProductShape__00000002_.IsExpanded = false
 	__ProductShape__00000002_.X = 248.020302
@@ -1537,8 +1855,8 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 
 	__ProductShape__00000012_.Name = `Program Investigation Team (PIT) Report-PIT Report`
 	__ProductShape__00000012_.IsExpanded = false
-	__ProductShape__00000012_.X = 34.516205
-	__ProductShape__00000012_.Y = 127.119696
+	__ProductShape__00000012_.X = 80.516205
+	__ProductShape__00000012_.Y = 109.119696
 	__ProductShape__00000012_.Width = 250.000000
 	__ProductShape__00000012_.Height = 70.000000
 
@@ -1786,6 +2104,34 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__ProductShape__00000048_.Y = 1236.119696
 	__ProductShape__00000048_.Width = 250.000000
 	__ProductShape__00000048_.Height = 70.000000
+
+	__ProductShape__00000049_.Name = `-PIT Report`
+	__ProductShape__00000049_.IsExpanded = false
+	__ProductShape__00000049_.X = 86.516205
+	__ProductShape__00000049_.Y = 1636.119696
+	__ProductShape__00000049_.Width = 250.000000
+	__ProductShape__00000049_.Height = 70.000000
+
+	__ProductShape__00000050_.Name = `-PIT Report`
+	__ProductShape__00000050_.IsExpanded = false
+	__ProductShape__00000050_.X = 86.516205
+	__ProductShape__00000050_.Y = 1776.119696
+	__ProductShape__00000050_.Width = 250.000000
+	__ProductShape__00000050_.Height = 196.000000
+
+	__ProductShape__00000051_.Name = `-PIT Report`
+	__ProductShape__00000051_.IsExpanded = false
+	__ProductShape__00000051_.X = 99.516205
+	__ProductShape__00000051_.Y = 2954.119696
+	__ProductShape__00000051_.Width = 250.000000
+	__ProductShape__00000051_.Height = 70.000000
+
+	__ProductShape__00000052_.Name = `-PIT Report`
+	__ProductShape__00000052_.IsExpanded = false
+	__ProductShape__00000052_.X = 99.516205
+	__ProductShape__00000052_.Y = 3094.119696
+	__ProductShape__00000052_.Width = 250.000000
+	__ProductShape__00000052_.Height = 70.000000
 
 	__Project__00000000_.Name = `Startliner Mishape Report`
 	__Project__00000000_.IsExpanded = true
@@ -2404,6 +2750,10 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__Diagram__00000005_.Product_Shapes = append(__Diagram__00000005_.Product_Shapes, __ProductShape__00000046_)
 	__Diagram__00000005_.Product_Shapes = append(__Diagram__00000005_.Product_Shapes, __ProductShape__00000047_)
 	__Diagram__00000005_.Product_Shapes = append(__Diagram__00000005_.Product_Shapes, __ProductShape__00000048_)
+	__Diagram__00000005_.Product_Shapes = append(__Diagram__00000005_.Product_Shapes, __ProductShape__00000049_)
+	__Diagram__00000005_.Product_Shapes = append(__Diagram__00000005_.Product_Shapes, __ProductShape__00000050_)
+	__Diagram__00000005_.Product_Shapes = append(__Diagram__00000005_.Product_Shapes, __ProductShape__00000051_)
+	__Diagram__00000005_.Product_Shapes = append(__Diagram__00000005_.Product_Shapes, __ProductShape__00000052_)
 	__Diagram__00000005_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000005_.ProductsWhoseNodeIsExpanded, __Product__00000003_)
 	__Diagram__00000005_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000005_.ProductsWhoseNodeIsExpanded, __Product__00000006_)
 	__Diagram__00000005_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000005_.ProductsWhoseNodeIsExpanded, __Product__00000017_)
@@ -2411,6 +2761,7 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__Diagram__00000005_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000005_.ProductsWhoseNodeIsExpanded, __Product__00000029_)
 	__Diagram__00000005_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000005_.ProductsWhoseNodeIsExpanded, __Product__00000005_)
 	__Diagram__00000005_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000005_.ProductsWhoseNodeIsExpanded, __Product__00000035_)
+	__Diagram__00000005_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000005_.ProductsWhoseNodeIsExpanded, __Product__00000045_)
 	__Diagram__00000005_.ProductComposition_Shapes = append(__Diagram__00000005_.ProductComposition_Shapes, __ProductCompositionShape__00000006_)
 	__Diagram__00000005_.ProductComposition_Shapes = append(__Diagram__00000005_.ProductComposition_Shapes, __ProductCompositionShape__00000013_)
 	__Diagram__00000005_.ProductComposition_Shapes = append(__Diagram__00000005_.ProductComposition_Shapes, __ProductCompositionShape__00000014_)
@@ -2429,6 +2780,10 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__Diagram__00000005_.ProductComposition_Shapes = append(__Diagram__00000005_.ProductComposition_Shapes, __ProductCompositionShape__00000037_)
 	__Diagram__00000005_.ProductComposition_Shapes = append(__Diagram__00000005_.ProductComposition_Shapes, __ProductCompositionShape__00000038_)
 	__Diagram__00000005_.ProductComposition_Shapes = append(__Diagram__00000005_.ProductComposition_Shapes, __ProductCompositionShape__00000039_)
+	__Diagram__00000005_.ProductComposition_Shapes = append(__Diagram__00000005_.ProductComposition_Shapes, __ProductCompositionShape__00000040_)
+	__Diagram__00000005_.ProductComposition_Shapes = append(__Diagram__00000005_.ProductComposition_Shapes, __ProductCompositionShape__00000041_)
+	__Diagram__00000005_.ProductComposition_Shapes = append(__Diagram__00000005_.ProductComposition_Shapes, __ProductCompositionShape__00000042_)
+	__Diagram__00000005_.ProductComposition_Shapes = append(__Diagram__00000005_.ProductComposition_Shapes, __ProductCompositionShape__00000043_)
 	__Diagram__00000005_.Note_Shapes = append(__Diagram__00000005_.Note_Shapes, __NoteShape__00000003_)
 	__Diagram__00000005_.Note_Shapes = append(__Diagram__00000005_.Note_Shapes, __NoteShape__00000004_)
 	__Diagram__00000005_.Note_Shapes = append(__Diagram__00000005_.Note_Shapes, __NoteShape__00000013_)
@@ -2437,6 +2792,12 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__Diagram__00000005_.Note_Shapes = append(__Diagram__00000005_.Note_Shapes, __NoteShape__00000016_)
 	__Diagram__00000005_.Note_Shapes = append(__Diagram__00000005_.Note_Shapes, __NoteShape__00000018_)
 	__Diagram__00000005_.Note_Shapes = append(__Diagram__00000005_.Note_Shapes, __NoteShape__00000019_)
+	__Diagram__00000005_.Note_Shapes = append(__Diagram__00000005_.Note_Shapes, __NoteShape__00000020_)
+	__Diagram__00000005_.Note_Shapes = append(__Diagram__00000005_.Note_Shapes, __NoteShape__00000021_)
+	__Diagram__00000005_.Note_Shapes = append(__Diagram__00000005_.Note_Shapes, __NoteShape__00000022_)
+	__Diagram__00000005_.Note_Shapes = append(__Diagram__00000005_.Note_Shapes, __NoteShape__00000023_)
+	__Diagram__00000005_.Note_Shapes = append(__Diagram__00000005_.Note_Shapes, __NoteShape__00000024_)
+	__Diagram__00000005_.Note_Shapes = append(__Diagram__00000005_.Note_Shapes, __NoteShape__00000025_)
 	__Diagram__00000005_.NoteProductShapes = append(__Diagram__00000005_.NoteProductShapes, __NoteProductShape__00000002_)
 	__Diagram__00000005_.NoteProductShapes = append(__Diagram__00000005_.NoteProductShapes, __NoteProductShape__00000003_)
 	__Diagram__00000005_.NoteProductShapes = append(__Diagram__00000005_.NoteProductShapes, __NoteProductShape__00000016_)
@@ -2445,6 +2806,11 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__Diagram__00000005_.NoteProductShapes = append(__Diagram__00000005_.NoteProductShapes, __NoteProductShape__00000019_)
 	__Diagram__00000005_.NoteProductShapes = append(__Diagram__00000005_.NoteProductShapes, __NoteProductShape__00000020_)
 	__Diagram__00000005_.NoteProductShapes = append(__Diagram__00000005_.NoteProductShapes, __NoteProductShape__00000021_)
+	__Diagram__00000005_.NoteProductShapes = append(__Diagram__00000005_.NoteProductShapes, __NoteProductShape__00000022_)
+	__Diagram__00000005_.NoteProductShapes = append(__Diagram__00000005_.NoteProductShapes, __NoteProductShape__00000023_)
+	__Diagram__00000005_.NoteProductShapes = append(__Diagram__00000005_.NoteProductShapes, __NoteProductShape__00000024_)
+	__Diagram__00000005_.NoteProductShapes = append(__Diagram__00000005_.NoteProductShapes, __NoteProductShape__00000025_)
+	__Diagram__00000005_.NoteProductShapes = append(__Diagram__00000005_.NoteProductShapes, __NoteProductShape__00000026_)
 	__Diagram__00000006_.Product_Shapes = append(__Diagram__00000006_.Product_Shapes, __ProductShape__00000015_)
 	__Diagram__00000006_.Product_Shapes = append(__Diagram__00000006_.Product_Shapes, __ProductShape__00000016_)
 	__Diagram__00000006_.Product_Shapes = append(__Diagram__00000006_.Product_Shapes, __ProductShape__00000017_)
@@ -2525,6 +2891,11 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__Note__00000017_.Tasks = append(__Note__00000017_.Tasks, __Task__00000007_)
 	__Note__00000018_.Products = append(__Note__00000018_.Products, __Product__00000039_)
 	__Note__00000019_.Products = append(__Note__00000019_.Products, __Product__00000041_)
+	__Note__00000020_.Products = append(__Note__00000020_.Products, __Product__00000042_)
+	__Note__00000021_.Products = append(__Note__00000021_.Products, __Product__00000042_)
+	__Note__00000022_.Products = append(__Note__00000022_.Products, __Product__00000044_)
+	__Note__00000023_.Products = append(__Note__00000023_.Products, __Product__00000044_)
+	__Note__00000024_.Products = append(__Note__00000024_.Products, __Product__00000044_)
 	__NoteProductShape__00000000_.Note = __Note__00000001_
 	__NoteProductShape__00000000_.Product = __Product__00000004_
 	__NoteProductShape__00000001_.Note = __Note__00000002_
@@ -2569,6 +2940,16 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__NoteProductShape__00000020_.Product = __Product__00000039_
 	__NoteProductShape__00000021_.Note = __Note__00000019_
 	__NoteProductShape__00000021_.Product = __Product__00000041_
+	__NoteProductShape__00000022_.Note = __Note__00000020_
+	__NoteProductShape__00000022_.Product = __Product__00000042_
+	__NoteProductShape__00000023_.Note = __Note__00000021_
+	__NoteProductShape__00000023_.Product = __Product__00000042_
+	__NoteProductShape__00000024_.Note = __Note__00000022_
+	__NoteProductShape__00000024_.Product = __Product__00000044_
+	__NoteProductShape__00000025_.Note = __Note__00000023_
+	__NoteProductShape__00000025_.Product = __Product__00000044_
+	__NoteProductShape__00000026_.Note = __Note__00000024_
+	__NoteProductShape__00000026_.Product = __Product__00000044_
 	__NoteShape__00000000_.Note = __Note__00000000_
 	__NoteShape__00000001_.Note = __Note__00000001_
 	__NoteShape__00000002_.Note = __Note__00000002_
@@ -2589,6 +2970,12 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__NoteShape__00000017_.Note = __Note__00000017_
 	__NoteShape__00000018_.Note = __Note__00000018_
 	__NoteShape__00000019_.Note = __Note__00000019_
+	__NoteShape__00000020_.Note = __Note__00000020_
+	__NoteShape__00000021_.Note = __Note__00000021_
+	__NoteShape__00000022_.Note = __Note__00000022_
+	__NoteShape__00000023_.Note = __Note__00000023_
+	__NoteShape__00000024_.Note = __Note__00000024_
+	__NoteShape__00000025_.Note = __Note__00000025_
 	__NoteTaskShape__00000000_.Note = __Note__00000000_
 	__NoteTaskShape__00000000_.Task = __Task__00000000_
 	__NoteTaskShape__00000001_.Note = __Note__00000017_
@@ -2633,6 +3020,10 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__Product__00000035_.SubProducts = append(__Product__00000035_.SubProducts, __Product__00000040_)
 	__Product__00000035_.SubProducts = append(__Product__00000035_.SubProducts, __Product__00000041_)
 	__Product__00000035_.SubProducts = append(__Product__00000035_.SubProducts, __Product__00000042_)
+	__Product__00000035_.SubProducts = append(__Product__00000035_.SubProducts, __Product__00000043_)
+	__Product__00000035_.SubProducts = append(__Product__00000035_.SubProducts, __Product__00000045_)
+	__Product__00000043_.SubProducts = append(__Product__00000043_.SubProducts, __Product__00000044_)
+	__Product__00000045_.SubProducts = append(__Product__00000045_.SubProducts, __Product__00000046_)
 	__ProductCompositionShape__00000000_.Product = __Product__00000004_
 	__ProductCompositionShape__00000001_.Product = __Product__00000005_
 	__ProductCompositionShape__00000002_.Product = __Product__00000002_
@@ -2671,6 +3062,10 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__ProductCompositionShape__00000037_.Product = __Product__00000040_
 	__ProductCompositionShape__00000038_.Product = __Product__00000041_
 	__ProductCompositionShape__00000039_.Product = __Product__00000042_
+	__ProductCompositionShape__00000040_.Product = __Product__00000043_
+	__ProductCompositionShape__00000041_.Product = __Product__00000044_
+	__ProductCompositionShape__00000042_.Product = __Product__00000045_
+	__ProductCompositionShape__00000043_.Product = __Product__00000046_
 	__ProductShape__00000002_.Product = __Product__00000001_
 	__ProductShape__00000003_.Product = __Product__00000002_
 	__ProductShape__00000004_.Product = __Product__00000003_
@@ -2717,6 +3112,10 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__ProductShape__00000046_.Product = __Product__00000040_
 	__ProductShape__00000047_.Product = __Product__00000041_
 	__ProductShape__00000048_.Product = __Product__00000042_
+	__ProductShape__00000049_.Product = __Product__00000043_
+	__ProductShape__00000050_.Product = __Product__00000044_
+	__ProductShape__00000051_.Product = __Product__00000045_
+	__ProductShape__00000052_.Product = __Product__00000046_
 	__Project__00000000_.RootProducts = append(__Project__00000000_.RootProducts, __Product__00000007_)
 	__Project__00000000_.RootProducts = append(__Project__00000000_.RootProducts, __Product__00000003_)
 	__Project__00000000_.RootTasks = append(__Project__00000000_.RootTasks, __Task__00000001_)
@@ -2744,6 +3143,12 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__Project__00000000_.Notes = append(__Project__00000000_.Notes, __Note__00000017_)
 	__Project__00000000_.Notes = append(__Project__00000000_.Notes, __Note__00000018_)
 	__Project__00000000_.Notes = append(__Project__00000000_.Notes, __Note__00000019_)
+	__Project__00000000_.Notes = append(__Project__00000000_.Notes, __Note__00000020_)
+	__Project__00000000_.Notes = append(__Project__00000000_.Notes, __Note__00000021_)
+	__Project__00000000_.Notes = append(__Project__00000000_.Notes, __Note__00000022_)
+	__Project__00000000_.Notes = append(__Project__00000000_.Notes, __Note__00000023_)
+	__Project__00000000_.Notes = append(__Project__00000000_.Notes, __Note__00000024_)
+	__Project__00000000_.Notes = append(__Project__00000000_.Notes, __Note__00000025_)
 	__Project__00000000_.Diagrams = append(__Project__00000000_.Diagrams, __Diagram__00000000_)
 	__Project__00000000_.Diagrams = append(__Project__00000000_.Diagrams, __Diagram__00000001_)
 	__Project__00000000_.Diagrams = append(__Project__00000000_.Diagrams, __Diagram__00000002_)
