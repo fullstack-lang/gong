@@ -42,11 +42,7 @@ func _(stage *models.Stage) {
 }` + "`" + `
 
 const GongIdentifiersDecls = ` + "`" + `
-	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: ` +
-	"`" + " + \"" + "`" + `"` + ` + ` + "`" +
-	`{{GeneratedFieldNameValue}}` +
-	"`" + " + \"" + "`" + `"` + ` + ` + "`" +
-	`}).Stage(stage)` + "`" + `
+	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: {{GeneratedFieldNameValue}}}).Stage(stage)` + "`" + `
 
 const GongUnstageStmt = ` + "`" + `
 	{{Identifier}}.Unstage(stage)` + "`" + `
@@ -57,9 +53,7 @@ const IdentifiersDeclsWithoutNameInit = ` + "`" + `
 	{{Identifier}} := (&models.{{GeneratedStructName}}{}).Stage(stage)` + "`" + ` /* */
 
 const StringInitStatement = ` + "`" + `
-	{{Identifier}}.{{GeneratedFieldName}} = ` +
-	"`" + " + \"" + "`" + `"` + ` + ` + "`" +
-	`{{GeneratedFieldNameValue}}` + "`" + ` + "` + "`" + `"` + `
+	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}` + "`" + `
 
 const MetaFieldStructInitStatement = ` + "`" + `
 	{{Identifier}}.{{GeneratedFieldName}} = ` + "`" + ` + ` + "`" +

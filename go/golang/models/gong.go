@@ -270,7 +270,7 @@ func ({{structname}} *{{Structname}}) SetName(name string) {
 		decl = GongIdentifiersDecls
 		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
 		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "{{Structname}}")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", {{structname}}.Name)
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%%q", {{structname}}.Name))
 		identifiersDecl += decl
 
 		// Initialisation of values{{ValuesInitialization}}
