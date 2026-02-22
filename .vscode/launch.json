@@ -809,7 +809,7 @@
                 "-marshallOnCommit=data/issue1061_out.go"
             ]
         },
-                {
+        {
             "name": "go run test3 -unmarshallFromCode=data/issue1114.go -marshallOnCommit=data/issue1114.go",
             "type": "go",
             "request": "launch",
@@ -818,6 +818,17 @@
             "args": [
                 "-unmarshallFromCode=data/issue1114.go",
                 "-marshallOnCommit=data/issue1114.go"
+            ]
+        },
+        {
+            "name": "go run test3 -unmarshallFromCode=data/issue1128.go -marshallOnCommit=data/issue1128.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/test/test3/go/cmd/test3",
+            "args": [
+                "-unmarshallFromCode=data/issue1128.go",
+                "-marshallOnCommit=data/issue1128.go"
             ]
         },
         {
