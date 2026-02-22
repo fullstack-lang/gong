@@ -55,6 +55,17 @@ Boeing thermal model did not include the effects of jet firings before CFT. `}).
 
 This complicates efforts to understand what went wrong with SM RCS jets when data suggests that pulse length is correlated to observed soakback temperatures.  `}).Stage(stage)
 	__Note__00000016_ := (&models.Note{Name: `Many thruster pulses are less  FDIR in the  The FMCs see chamber pressure over a data bus from the  but the chamber pressure is only sent to the ground with a sample rate for recording every  limiting insight into thruster performance. This does not meet Nyquist Criterion for capturing the chamber pressure signal. As a result, aliasing effects may occur for pulses shorter than  where high-frequency components of the pressure signal are misrepresented or lost, further complicating accurate reconstruction of thruster behavior.  `}).Stage(stage)
+	__Note__00000017_ := (&models.Note{Name: ` S2A2 failed at 9050 m (GMT 14:00) and B1A3 failed at 526m (GMT 14:57).`}).Stage(stage)
+	__Note__00000018_ := (&models.Note{Name: `At the conclusion of the hotfire, when thruster is demonstrated, a jet is reenabled with jet-fail FDIR inhibited. Through this sequence, four of five jets were recovered. Spacecraft 6DOF control was reestablished in all axes. T
+
+he spacecraft was moded back to auto and the rendezvous/dock was completed.  While the flight rules allow an SM RCS thruster to be used with jet-fail off FDIR inhibited, doing so removes a hazard control.
+
+Whaou.`}).Stage(stage)
+	__Note__00000019_ := (&models.Note{Name: ` degraded performance was still observed. This testing demonstrated the issue was not purely transient.
+
+It should have been done before ?!
+
+ In addition to demonstrating transient degradation during high heating, the test program demonstrated an unrecoverable cumulative degradation that was potentially indicative of the observed performance of CFT. `}).Stage(stage)
 
 	__NoteProductShape__00000000_ := (&models.NoteProductShape{Name: `A thorough review of the STAR report is advised to  Starliner Tests and Anomalies Review (STAR) Investigation Report`}).Stage(stage)
 	__NoteProductShape__00000001_ := (&models.NoteProductShape{Name: `NASA utilized a firm fixed price contracting type for CCtCap. This was a significant shift from the cost-plus contracting for traditional NASA builds of developmental vehicles. These shifts signified that CCP was not only positioned to be an innovative, first-of-its kind program for NASA, but how it interacted with new and traditional space flight industry providers was setup to be significantly distinct and different.   to Commercial Crew Transportation Capability (CCtCap).`}).Stage(stage)
@@ -77,6 +88,9 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__NoteProductShape__00000016_ := (&models.NoteProductShape{Name: `The leading theory for the proximate cause of the CM RCS failure during the CFT is the formulation of carbazic acid, which corrodes stainless steel. The reaction between carbazic acid and stainless steel creates corrosion particulates in the thruster propellant valve, preventing it from opening.  to 4.4   Analysis: CM RCS Jet Failure`}).Stage(stage)
 	__NoteProductShape__00000017_ := (&models.NoteProductShape{Name: `Thruster health is monitored via chamber pressure and Fuel/Oxydizer injector temperatures to 4.4   Analysis: CM RCS Jet Failure`}).Stage(stage)
 	__NoteProductShape__00000018_ := (&models.NoteProductShape{Name: `Commanded pulse lengths are neither recorded nor downlinked near real time with telemetry to 4.5.1 Description of the system`}).Stage(stage)
+	__NoteProductShape__00000019_ := (&models.NoteProductShape{Name: `At the conclusion of the hotfire, when thruster is demonstrated, a jet is reenabled with jet-fail FDIR inhibited. Through this sequence, four of five jets were recovered. Spacecraft 6DOF control was reestablished in all axes. The spacecraft was moded back to auto and the rendezvous/dock was completed.  While the flight rules allow an SM RCS thruster to be used with jet-fail off FDIR inhibited, doing so removes a hazard control to 4.5.2   Description of Events and Timeline `}).Stage(stage)
+	__NoteProductShape__00000020_ := (&models.NoteProductShape{Name: `Many thruster pulses are less  FDIR in the  The FMCs see chamber pressure over a data bus from the  but the chamber pressure is only sent to the ground with a sample rate for recording every  limiting insight into thruster performance. This does not meet Nyquist Criterion for capturing the chamber pressure signal. As a result, aliasing effects may occur for pulses shorter than  where high-frequency components of the pressure signal are misrepresented or lost, further complicating accurate reconstruction of thruster behavior.   to 4.5.2   Description of Events and Timeline `}).Stage(stage)
+	__NoteProductShape__00000021_ := (&models.NoteProductShape{Name: ` degraded performance was still observed. This testing demonstrated the issue was not purely transient. to 4.5.4   Starliner Engine Testing at White Sands Test Facility (WSTF) during CFT`}).Stage(stage)
 
 	__NoteShape__00000000_ := (&models.NoteShape{Name: `-Default Diagram`}).Stage(stage)
 	__NoteShape__00000001_ := (&models.NoteShape{Name: `-PIT focus`}).Stage(stage)
@@ -95,8 +109,12 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__NoteShape__00000014_ := (&models.NoteShape{Name: `-PIT Report`}).Stage(stage)
 	__NoteShape__00000015_ := (&models.NoteShape{Name: `-PIT Report`}).Stage(stage)
 	__NoteShape__00000016_ := (&models.NoteShape{Name: `-PIT Report`}).Stage(stage)
+	__NoteShape__00000017_ := (&models.NoteShape{Name: `-WBS`}).Stage(stage)
+	__NoteShape__00000018_ := (&models.NoteShape{Name: `-PIT Report`}).Stage(stage)
+	__NoteShape__00000019_ := (&models.NoteShape{Name: `-PIT Report`}).Stage(stage)
 
 	__NoteTaskShape__00000000_ := (&models.NoteTaskShape{Name: `CFT ended in march 2025 to Starliner Crewed Flight Test (CFT)`}).Stage(stage)
+	__NoteTaskShape__00000001_ := (&models.NoteTaskShape{Name: ` S2A2 failed at 9050 m (GMT 14:00) and B1A3 failed at 526m (GMT 14:57). to ISS Approach`}).Stage(stage)
 
 	__Product__00000001_ := (&models.Product{Name: `Dragon`}).Stage(stage)
 	__Product__00000002_ := (&models.Product{Name: `CST-100 Starliner`}).Stage(stage)
@@ -136,6 +154,10 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__Product__00000036_ := (&models.Product{Name: `4.5.1 Description of the system`}).Stage(stage)
 	__Product__00000037_ := (&models.Product{Name: ``}).Stage(stage)
 	__Product__00000038_ := (&models.Product{Name: `Inertial Measurement Unit (IMU) `}).Stage(stage)
+	__Product__00000039_ := (&models.Product{Name: `4.5.2   Description of Events and Timeline `}).Stage(stage)
+	__Product__00000040_ := (&models.Product{Name: `B1A3 Thruster failure`}).Stage(stage)
+	__Product__00000041_ := (&models.Product{Name: `4.5.4   Starliner Engine Testing at White Sands Test Facility (WSTF) during CFT`}).Stage(stage)
+	__Product__00000042_ := (&models.Product{Name: `4.5.5 Fault Tree`}).Stage(stage)
 
 	__ProductCompositionShape__00000000_ := (&models.ProductCompositionShape{Name: `Reports to `}).Stage(stage)
 	__ProductCompositionShape__00000001_ := (&models.ProductCompositionShape{Name: `Reports to `}).Stage(stage)
@@ -171,6 +193,10 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__ProductCompositionShape__00000033_ := (&models.ProductCompositionShape{Name: `4     Technical Root Cause Analysis (RCA) and Findings to `}).Stage(stage)
 	__ProductCompositionShape__00000034_ := (&models.ProductCompositionShape{Name: `Guidance, Navigation, and Control (GNC) to `}).Stage(stage)
 	__ProductCompositionShape__00000035_ := (&models.ProductCompositionShape{Name: `CST-100 Starliner to Orbital Maneuvering and Attitude Control (OMAC), 30 000 lbf`}).Stage(stage)
+	__ProductCompositionShape__00000036_ := (&models.ProductCompositionShape{Name: `4.5   Analysis: Loss of 6DOF Control - SM RCS Jet Failures to `}).Stage(stage)
+	__ProductCompositionShape__00000037_ := (&models.ProductCompositionShape{Name: `4.5   Analysis: Loss of 6DOF Control - SM RCS Jet Failures to `}).Stage(stage)
+	__ProductCompositionShape__00000038_ := (&models.ProductCompositionShape{Name: `4.5   Analysis: Loss of 6DOF Control - SM RCS Jet Failures to `}).Stage(stage)
+	__ProductCompositionShape__00000039_ := (&models.ProductCompositionShape{Name: `4.5   Analysis: Loss of 6DOF Control - SM RCS Jet Failures to `}).Stage(stage)
 
 	__ProductShape__00000002_ := (&models.ProductShape{Name: `Dragon-PBS`}).Stage(stage)
 	__ProductShape__00000003_ := (&models.ProductShape{Name: `Starliner-PBS`}).Stage(stage)
@@ -214,6 +240,10 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__ProductShape__00000042_ := (&models.ProductShape{Name: `-PIT Report`}).Stage(stage)
 	__ProductShape__00000043_ := (&models.ProductShape{Name: `-RCS PBS`}).Stage(stage)
 	__ProductShape__00000044_ := (&models.ProductShape{Name: `Orbital Maneuvering and Attitude Control (OMAC), 30 000 lbf-RCS PBS`}).Stage(stage)
+	__ProductShape__00000045_ := (&models.ProductShape{Name: `-PIT Report`}).Stage(stage)
+	__ProductShape__00000046_ := (&models.ProductShape{Name: `-PIT Report`}).Stage(stage)
+	__ProductShape__00000047_ := (&models.ProductShape{Name: `-PIT Report`}).Stage(stage)
+	__ProductShape__00000048_ := (&models.ProductShape{Name: `-PIT Report`}).Stage(stage)
 
 	__Project__00000000_ := (&models.Project{Name: `Startliner Mishape Report`}).Stage(stage)
 
@@ -227,6 +257,7 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__Resource__00000007_ := (&models.Resource{Name: ``}).Stage(stage)
 	__Resource__00000008_ := (&models.Resource{Name: ``}).Stage(stage)
 	__Resource__00000009_ := (&models.Resource{Name: ` Starliner Tests and Anomalies Review (STAR) Investigation Team`}).Stage(stage)
+	__Resource__00000010_ := (&models.Resource{Name: `Flight Control Team (FCT)`}).Stage(stage)
 
 	__ResourceCompositionShape__00000000_ := (&models.ResourceCompositionShape{Name: `NASA to `}).Stage(stage)
 	__ResourceCompositionShape__00000001_ := (&models.ResourceCompositionShape{Name: `Crew Commercial Program (CPP) to `}).Stage(stage)
@@ -236,6 +267,7 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__ResourceCompositionShape__00000005_ := (&models.ResourceCompositionShape{Name: `Boeing to `}).Stage(stage)
 	__ResourceCompositionShape__00000006_ := (&models.ResourceCompositionShape{Name: `NASA to `}).Stage(stage)
 	__ResourceCompositionShape__00000007_ := (&models.ResourceCompositionShape{Name: `Crew Commercial Program (CPP) to `}).Stage(stage)
+	__ResourceCompositionShape__00000008_ := (&models.ResourceCompositionShape{Name: `Crew Commercial Program (CPP) to `}).Stage(stage)
 
 	__ResourceShape__00000000_ := (&models.ResourceShape{Name: `-Default Diagram`}).Stage(stage)
 	__ResourceShape__00000001_ := (&models.ResourceShape{Name: `-Default Diagram`}).Stage(stage)
@@ -252,6 +284,7 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__ResourceShape__00000012_ := (&models.ResourceShape{Name: `-RBS`}).Stage(stage)
 	__ResourceShape__00000013_ := (&models.ResourceShape{Name: `Program Investigation Team (PIT)-PBS`}).Stage(stage)
 	__ResourceShape__00000014_ := (&models.ResourceShape{Name: `Program Investigation Team (PIT)-PIT focus`}).Stage(stage)
+	__ResourceShape__00000015_ := (&models.ResourceShape{Name: `-RBS`}).Stage(stage)
 
 	__ResourceTaskShape__00000000_ := (&models.ResourceTaskShape{Name: `PITProgram Investigation Team (PIT) to Mishap investigation`}).Stage(stage)
 
@@ -264,12 +297,14 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__Task__00000004_ := (&models.Task{Name: `Program Investigation Team (PIT) Report`}).Stage(stage)
 	__Task__00000005_ := (&models.Task{Name: `Orbital Flight Test-1 (OFT-1)`}).Stage(stage)
 	__Task__00000006_ := (&models.Task{Name: `Orbital Flight Test-2 (OFT-2)`}).Stage(stage)
+	__Task__00000007_ := (&models.Task{Name: `ISS Approach`}).Stage(stage)
 
 	__TaskCompositionShape__00000000_ := (&models.TaskCompositionShape{Name: `Commercial Crew Program (CCP), to Starliner Crewed Flight Test (CFT)`}).Stage(stage)
 	__TaskCompositionShape__00000001_ := (&models.TaskCompositionShape{Name: `Commercial Crew Program (CCP), to Starliner Crewed Flight Test (CFT)`}).Stage(stage)
 	__TaskCompositionShape__00000002_ := (&models.TaskCompositionShape{Name: `Mishap investigations to `}).Stage(stage)
 	__TaskCompositionShape__00000003_ := (&models.TaskCompositionShape{Name: `Commercial Crew Program (CCP), to `}).Stage(stage)
 	__TaskCompositionShape__00000004_ := (&models.TaskCompositionShape{Name: `Commercial Crew Program (CCP), to `}).Stage(stage)
+	__TaskCompositionShape__00000005_ := (&models.TaskCompositionShape{Name: `Starliner Crewed Flight Test (CFT) to `}).Stage(stage)
 
 	__TaskInputShape__00000000_ := (&models.TaskInputShape{Name: `Program Investigation Team (PIT) Report to  Starliner Tests and Anomalies Review (STAR) Investigation Report`}).Stage(stage)
 
@@ -287,6 +322,7 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__TaskShape__00000009_ := (&models.TaskShape{Name: `Program Investigation Team (PIT) Report-PIT focus`}).Stage(stage)
 	__TaskShape__00000010_ := (&models.TaskShape{Name: `-WBS`}).Stage(stage)
 	__TaskShape__00000011_ := (&models.TaskShape{Name: `-WBS`}).Stage(stage)
+	__TaskShape__00000012_ := (&models.TaskShape{Name: `-WBS`}).Stage(stage)
 
 	// insertion point for initialization of values
 
@@ -296,8 +332,8 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__Diagram__00000000_.ShowPrefix = false
 	__Diagram__00000000_.DefaultBoxWidth = 250.000000
 	__Diagram__00000000_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000000_.Width = 8255.187127
-	__Diagram__00000000_.Height = 9017.751617
+	__Diagram__00000000_.Width = 15555.187127
+	__Diagram__00000000_.Height = 16317.751617
 	__Diagram__00000000_.IsExpanded = false
 	__Diagram__00000000_.ComputedPrefix = ``
 	__Diagram__00000000_.IsInRenameMode = false
@@ -312,14 +348,14 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__Diagram__00000001_.ShowPrefix = true
 	__Diagram__00000001_.DefaultBoxWidth = 250.000000
 	__Diagram__00000001_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000001_.Width = 8795.617766
-	__Diagram__00000001_.Height = 8656.674065
+	__Diagram__00000001_.Width = 16095.617766
+	__Diagram__00000001_.Height = 15956.674065
 	__Diagram__00000001_.IsExpanded = false
 	__Diagram__00000001_.ComputedPrefix = ``
 	__Diagram__00000001_.IsInRenameMode = false
 	__Diagram__00000001_.IsPBSNodeExpanded = false
-	__Diagram__00000001_.IsWBSNodeExpanded = true
-	__Diagram__00000001_.IsNotesNodeExpanded = false
+	__Diagram__00000001_.IsWBSNodeExpanded = false
+	__Diagram__00000001_.IsNotesNodeExpanded = true
 	__Diagram__00000001_.IsResourcesNodeExpanded = false
 
 	__Diagram__00000002_.Name = `PBS`
@@ -328,8 +364,8 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__Diagram__00000002_.ShowPrefix = true
 	__Diagram__00000002_.DefaultBoxWidth = 250.000000
 	__Diagram__00000002_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000002_.Width = 9291.980809
-	__Diagram__00000002_.Height = 8821.961381
+	__Diagram__00000002_.Width = 16591.980809
+	__Diagram__00000002_.Height = 16121.961381
 	__Diagram__00000002_.IsExpanded = false
 	__Diagram__00000002_.ComputedPrefix = ``
 	__Diagram__00000002_.IsInRenameMode = false
@@ -344,8 +380,8 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__Diagram__00000003_.ShowPrefix = false
 	__Diagram__00000003_.DefaultBoxWidth = 250.000000
 	__Diagram__00000003_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000003_.Width = 8985.651635
-	__Diagram__00000003_.Height = 8999.201740
+	__Diagram__00000003_.Width = 16285.651635
+	__Diagram__00000003_.Height = 16299.201740
 	__Diagram__00000003_.IsExpanded = false
 	__Diagram__00000003_.ComputedPrefix = ``
 	__Diagram__00000003_.IsInRenameMode = false
@@ -360,8 +396,8 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__Diagram__00000004_.ShowPrefix = false
 	__Diagram__00000004_.DefaultBoxWidth = 250.000000
 	__Diagram__00000004_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000004_.Width = 9062.017987
-	__Diagram__00000004_.Height = 8258.658205
+	__Diagram__00000004_.Width = 16362.017987
+	__Diagram__00000004_.Height = 15558.658205
 	__Diagram__00000004_.IsExpanded = false
 	__Diagram__00000004_.ComputedPrefix = ``
 	__Diagram__00000004_.IsInRenameMode = false
@@ -376,9 +412,9 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__Diagram__00000005_.ShowPrefix = false
 	__Diagram__00000005_.DefaultBoxWidth = 250.000000
 	__Diagram__00000005_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000005_.Width = 9485.901110
-	__Diagram__00000005_.Height = 9448.855478
-	__Diagram__00000005_.IsExpanded = false
+	__Diagram__00000005_.Width = 16785.901110
+	__Diagram__00000005_.Height = 16748.855478
+	__Diagram__00000005_.IsExpanded = true
 	__Diagram__00000005_.ComputedPrefix = ``
 	__Diagram__00000005_.IsInRenameMode = false
 	__Diagram__00000005_.IsPBSNodeExpanded = true
@@ -392,9 +428,9 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__Diagram__00000006_.ShowPrefix = false
 	__Diagram__00000006_.DefaultBoxWidth = 250.000000
 	__Diagram__00000006_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000006_.Width = 9369.153628
-	__Diagram__00000006_.Height = 9077.529266
-	__Diagram__00000006_.IsExpanded = true
+	__Diagram__00000006_.Width = 16669.153628
+	__Diagram__00000006_.Height = 16377.529266
+	__Diagram__00000006_.IsExpanded = false
 	__Diagram__00000006_.ComputedPrefix = ``
 	__Diagram__00000006_.IsInRenameMode = false
 	__Diagram__00000006_.IsPBSNodeExpanded = true
@@ -493,6 +529,29 @@ This complicates efforts to understand what went wrong with SM RCS jets when dat
 	__Note__00000016_.IsExpanded = false
 	__Note__00000016_.ComputedPrefix = `17`
 	__Note__00000016_.IsInRenameMode = false
+
+	__Note__00000017_.Name = ` S2A2 failed at 9050 m (GMT 14:00) and B1A3 failed at 526m (GMT 14:57).`
+	__Note__00000017_.IsExpanded = false
+	__Note__00000017_.ComputedPrefix = `18`
+	__Note__00000017_.IsInRenameMode = false
+
+	__Note__00000018_.Name = `At the conclusion of the hotfire, when thruster is demonstrated, a jet is reenabled with jet-fail FDIR inhibited. Through this sequence, four of five jets were recovered. Spacecraft 6DOF control was reestablished in all axes. T
+
+he spacecraft was moded back to auto and the rendezvous/dock was completed.  While the flight rules allow an SM RCS thruster to be used with jet-fail off FDIR inhibited, doing so removes a hazard control.
+
+Whaou.`
+	__Note__00000018_.IsExpanded = false
+	__Note__00000018_.ComputedPrefix = `19`
+	__Note__00000018_.IsInRenameMode = false
+
+	__Note__00000019_.Name = ` degraded performance was still observed. This testing demonstrated the issue was not purely transient.
+
+It should have been done before ?!
+
+ In addition to demonstrating transient degradation during high heating, the test program demonstrated an unrecoverable cumulative degradation that was potentially indicative of the observed performance of CFT. `
+	__Note__00000019_.IsExpanded = false
+	__Note__00000019_.ComputedPrefix = `20`
+	__Note__00000019_.IsInRenameMode = false
 
 	__NoteProductShape__00000000_.Name = `A thorough review of the STAR report is advised to  Starliner Tests and Anomalies Review (STAR) Investigation Report`
 	__NoteProductShape__00000000_.StartRatio = 0.500000
@@ -629,6 +688,27 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__NoteProductShape__00000018_.EndOrientation = models.ORIENTATION_VERTICAL
 	__NoteProductShape__00000018_.CornerOffsetRatio = 1.680000
 
+	__NoteProductShape__00000019_.Name = `At the conclusion of the hotfire, when thruster is demonstrated, a jet is reenabled with jet-fail FDIR inhibited. Through this sequence, four of five jets were recovered. Spacecraft 6DOF control was reestablished in all axes. The spacecraft was moded back to auto and the rendezvous/dock was completed.  While the flight rules allow an SM RCS thruster to be used with jet-fail off FDIR inhibited, doing so removes a hazard control to 4.5.2   Description of Events and Timeline `
+	__NoteProductShape__00000019_.StartRatio = 0.500000
+	__NoteProductShape__00000019_.EndRatio = 0.500000
+	__NoteProductShape__00000019_.StartOrientation = models.ORIENTATION_VERTICAL
+	__NoteProductShape__00000019_.EndOrientation = models.ORIENTATION_VERTICAL
+	__NoteProductShape__00000019_.CornerOffsetRatio = 1.680000
+
+	__NoteProductShape__00000020_.Name = `Many thruster pulses are less  FDIR in the  The FMCs see chamber pressure over a data bus from the  but the chamber pressure is only sent to the ground with a sample rate for recording every  limiting insight into thruster performance. This does not meet Nyquist Criterion for capturing the chamber pressure signal. As a result, aliasing effects may occur for pulses shorter than  where high-frequency components of the pressure signal are misrepresented or lost, further complicating accurate reconstruction of thruster behavior.   to 4.5.2   Description of Events and Timeline `
+	__NoteProductShape__00000020_.StartRatio = 0.500000
+	__NoteProductShape__00000020_.EndRatio = 0.500000
+	__NoteProductShape__00000020_.StartOrientation = models.ORIENTATION_VERTICAL
+	__NoteProductShape__00000020_.EndOrientation = models.ORIENTATION_VERTICAL
+	__NoteProductShape__00000020_.CornerOffsetRatio = 1.680000
+
+	__NoteProductShape__00000021_.Name = ` degraded performance was still observed. This testing demonstrated the issue was not purely transient. to 4.5.4   Starliner Engine Testing at White Sands Test Facility (WSTF) during CFT`
+	__NoteProductShape__00000021_.StartRatio = 0.500000
+	__NoteProductShape__00000021_.EndRatio = 0.500000
+	__NoteProductShape__00000021_.StartOrientation = models.ORIENTATION_VERTICAL
+	__NoteProductShape__00000021_.EndOrientation = models.ORIENTATION_VERTICAL
+	__NoteProductShape__00000021_.CornerOffsetRatio = 1.680000
+
 	__NoteShape__00000000_.Name = `-Default Diagram`
 	__NoteShape__00000000_.IsExpanded = false
 	__NoteShape__00000000_.X = 92.441418
@@ -743,10 +823,31 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 
 	__NoteShape__00000016_.Name = `-PIT Report`
 	__NoteShape__00000016_.IsExpanded = false
-	__NoteShape__00000016_.X = 438.148282
-	__NoteShape__00000016_.Y = 1379.634730
+	__NoteShape__00000016_.X = 425.148282
+	__NoteShape__00000016_.Y = 1430.634730
 	__NoteShape__00000016_.Width = 314.000000
 	__NoteShape__00000016_.Height = 278.000000
+
+	__NoteShape__00000017_.Name = `-WBS`
+	__NoteShape__00000017_.IsExpanded = false
+	__NoteShape__00000017_.X = 591.638035
+	__NoteShape__00000017_.Y = 652.450426
+	__NoteShape__00000017_.Width = 292.000000
+	__NoteShape__00000017_.Height = 70.000000
+
+	__NoteShape__00000018_.Name = `-PIT Report`
+	__NoteShape__00000018_.IsExpanded = false
+	__NoteShape__00000018_.X = 848.803011
+	__NoteShape__00000018_.Y = 1350.804082
+	__NoteShape__00000018_.Width = 250.000000
+	__NoteShape__00000018_.Height = 333.000000
+
+	__NoteShape__00000019_.Name = `-PIT Report`
+	__NoteShape__00000019_.IsExpanded = false
+	__NoteShape__00000019_.X = 1154.260622
+	__NoteShape__00000019_.Y = 1386.529677
+	__NoteShape__00000019_.Width = 250.000000
+	__NoteShape__00000019_.Height = 280.000000
 
 	__NoteTaskShape__00000000_.Name = `CFT ended in march 2025 to Starliner Crewed Flight Test (CFT)`
 	__NoteTaskShape__00000000_.StartRatio = 0.500000
@@ -754,6 +855,13 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__NoteTaskShape__00000000_.StartOrientation = models.ORIENTATION_VERTICAL
 	__NoteTaskShape__00000000_.EndOrientation = models.ORIENTATION_VERTICAL
 	__NoteTaskShape__00000000_.CornerOffsetRatio = 1.680000
+
+	__NoteTaskShape__00000001_.Name = ` S2A2 failed at 9050 m (GMT 14:00) and B1A3 failed at 526m (GMT 14:57). to ISS Approach`
+	__NoteTaskShape__00000001_.StartRatio = 0.500000
+	__NoteTaskShape__00000001_.EndRatio = 0.500000
+	__NoteTaskShape__00000001_.StartOrientation = models.ORIENTATION_VERTICAL
+	__NoteTaskShape__00000001_.EndOrientation = models.ORIENTATION_VERTICAL
+	__NoteTaskShape__00000001_.CornerOffsetRatio = 1.680000
 
 	__Product__00000001_.Name = `Dragon`
 	__Product__00000001_.Description = ``
@@ -1059,6 +1167,38 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__Product__00000038_.IsProducersNodeExpanded = false
 	__Product__00000038_.IsConsumersNodeExpanded = false
 
+	__Product__00000039_.Name = `4.5.2   Description of Events and Timeline `
+	__Product__00000039_.Description = ``
+	__Product__00000039_.IsExpanded = false
+	__Product__00000039_.ComputedPrefix = `2.2.3.5.2`
+	__Product__00000039_.IsInRenameMode = false
+	__Product__00000039_.IsProducersNodeExpanded = false
+	__Product__00000039_.IsConsumersNodeExpanded = false
+
+	__Product__00000040_.Name = `B1A3 Thruster failure`
+	__Product__00000040_.Description = ``
+	__Product__00000040_.IsExpanded = false
+	__Product__00000040_.ComputedPrefix = `2.2.3.5.3`
+	__Product__00000040_.IsInRenameMode = false
+	__Product__00000040_.IsProducersNodeExpanded = false
+	__Product__00000040_.IsConsumersNodeExpanded = false
+
+	__Product__00000041_.Name = `4.5.4   Starliner Engine Testing at White Sands Test Facility (WSTF) during CFT`
+	__Product__00000041_.Description = ``
+	__Product__00000041_.IsExpanded = false
+	__Product__00000041_.ComputedPrefix = `2.2.3.5.4`
+	__Product__00000041_.IsInRenameMode = false
+	__Product__00000041_.IsProducersNodeExpanded = false
+	__Product__00000041_.IsConsumersNodeExpanded = false
+
+	__Product__00000042_.Name = `4.5.5 Fault Tree`
+	__Product__00000042_.Description = ``
+	__Product__00000042_.IsExpanded = false
+	__Product__00000042_.ComputedPrefix = `2.2.3.5.5`
+	__Product__00000042_.IsInRenameMode = false
+	__Product__00000042_.IsProducersNodeExpanded = false
+	__Product__00000042_.IsConsumersNodeExpanded = false
+
 	__ProductCompositionShape__00000000_.Name = `Reports to `
 	__ProductCompositionShape__00000000_.StartRatio = 0.500000
 	__ProductCompositionShape__00000000_.EndRatio = 0.500000
@@ -1296,6 +1436,34 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__ProductCompositionShape__00000035_.StartOrientation = models.ORIENTATION_VERTICAL
 	__ProductCompositionShape__00000035_.EndOrientation = models.ORIENTATION_VERTICAL
 	__ProductCompositionShape__00000035_.CornerOffsetRatio = 1.680000
+
+	__ProductCompositionShape__00000036_.Name = `4.5   Analysis: Loss of 6DOF Control - SM RCS Jet Failures to `
+	__ProductCompositionShape__00000036_.StartRatio = 0.500000
+	__ProductCompositionShape__00000036_.EndRatio = 0.500000
+	__ProductCompositionShape__00000036_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000036_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000036_.CornerOffsetRatio = 1.680000
+
+	__ProductCompositionShape__00000037_.Name = `4.5   Analysis: Loss of 6DOF Control - SM RCS Jet Failures to `
+	__ProductCompositionShape__00000037_.StartRatio = 0.500000
+	__ProductCompositionShape__00000037_.EndRatio = 0.500000
+	__ProductCompositionShape__00000037_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000037_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000037_.CornerOffsetRatio = 1.680000
+
+	__ProductCompositionShape__00000038_.Name = `4.5   Analysis: Loss of 6DOF Control - SM RCS Jet Failures to `
+	__ProductCompositionShape__00000038_.StartRatio = 0.500000
+	__ProductCompositionShape__00000038_.EndRatio = 0.500000
+	__ProductCompositionShape__00000038_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000038_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000038_.CornerOffsetRatio = 1.680000
+
+	__ProductCompositionShape__00000039_.Name = `4.5   Analysis: Loss of 6DOF Control - SM RCS Jet Failures to `
+	__ProductCompositionShape__00000039_.StartRatio = 0.500000
+	__ProductCompositionShape__00000039_.EndRatio = 0.500000
+	__ProductCompositionShape__00000039_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000039_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000039_.CornerOffsetRatio = 1.680000
 
 	__ProductShape__00000002_.Name = `Dragon-PBS`
 	__ProductShape__00000002_.IsExpanded = false
@@ -1591,6 +1759,34 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__ProductShape__00000044_.Width = 250.000000
 	__ProductShape__00000044_.Height = 70.000000
 
+	__ProductShape__00000045_.Name = `-PIT Report`
+	__ProductShape__00000045_.IsExpanded = false
+	__ProductShape__00000045_.X = 386.516205
+	__ProductShape__00000045_.Y = 1236.119696
+	__ProductShape__00000045_.Width = 250.000000
+	__ProductShape__00000045_.Height = 70.000000
+
+	__ProductShape__00000046_.Name = `-PIT Report`
+	__ProductShape__00000046_.IsExpanded = false
+	__ProductShape__00000046_.X = 686.516205
+	__ProductShape__00000046_.Y = 1236.119696
+	__ProductShape__00000046_.Width = 250.000000
+	__ProductShape__00000046_.Height = 70.000000
+
+	__ProductShape__00000047_.Name = `-PIT Report`
+	__ProductShape__00000047_.IsExpanded = false
+	__ProductShape__00000047_.X = 986.516205
+	__ProductShape__00000047_.Y = 1236.119696
+	__ProductShape__00000047_.Width = 250.000000
+	__ProductShape__00000047_.Height = 70.000000
+
+	__ProductShape__00000048_.Name = `-PIT Report`
+	__ProductShape__00000048_.IsExpanded = false
+	__ProductShape__00000048_.X = 1286.516205
+	__ProductShape__00000048_.Y = 1236.119696
+	__ProductShape__00000048_.Width = 250.000000
+	__ProductShape__00000048_.Height = 70.000000
+
 	__Project__00000000_.Name = `Startliner Mishape Report`
 	__Project__00000000_.IsExpanded = true
 	__Project__00000000_.ComputedPrefix = ``
@@ -1656,6 +1852,12 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__Resource__00000009_.ComputedPrefix = `1.1.2`
 	__Resource__00000009_.IsInRenameMode = false
 
+	__Resource__00000010_.Name = `Flight Control Team (FCT)`
+	__Resource__00000010_.Description = ``
+	__Resource__00000010_.IsExpanded = false
+	__Resource__00000010_.ComputedPrefix = `1.1.3`
+	__Resource__00000010_.IsInRenameMode = false
+
 	__ResourceCompositionShape__00000000_.Name = `NASA to `
 	__ResourceCompositionShape__00000000_.StartRatio = 0.500000
 	__ResourceCompositionShape__00000000_.EndRatio = 0.500000
@@ -1711,6 +1913,13 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__ResourceCompositionShape__00000007_.StartOrientation = models.ORIENTATION_VERTICAL
 	__ResourceCompositionShape__00000007_.EndOrientation = models.ORIENTATION_VERTICAL
 	__ResourceCompositionShape__00000007_.CornerOffsetRatio = 1.680000
+
+	__ResourceCompositionShape__00000008_.Name = `Crew Commercial Program (CPP) to `
+	__ResourceCompositionShape__00000008_.StartRatio = 0.500000
+	__ResourceCompositionShape__00000008_.EndRatio = 0.500000
+	__ResourceCompositionShape__00000008_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000008_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000008_.CornerOffsetRatio = 1.680000
 
 	__ResourceShape__00000000_.Name = `-Default Diagram`
 	__ResourceShape__00000000_.IsExpanded = false
@@ -1800,7 +2009,7 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__ResourceShape__00000012_.IsExpanded = false
 	__ResourceShape__00000012_.X = 437.737820
 	__ResourceShape__00000012_.Y = 440.124371
-	__ResourceShape__00000012_.Width = 250.000000
+	__ResourceShape__00000012_.Width = 413.000000
 	__ResourceShape__00000012_.Height = 70.000000
 
 	__ResourceShape__00000013_.Name = `Program Investigation Team (PIT)-PBS`
@@ -1816,6 +2025,13 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__ResourceShape__00000014_.Y = 288.658205
 	__ResourceShape__00000014_.Width = 250.000000
 	__ResourceShape__00000014_.Height = 70.000000
+
+	__ResourceShape__00000015_.Name = `-RBS`
+	__ResourceShape__00000015_.IsExpanded = false
+	__ResourceShape__00000015_.X = 883.737820
+	__ResourceShape__00000015_.Y = 438.124371
+	__ResourceShape__00000015_.Width = 250.000000
+	__ResourceShape__00000015_.Height = 70.000000
 
 	__ResourceTaskShape__00000000_.Name = `PITProgram Investigation Team (PIT) to Mishap investigation`
 	__ResourceTaskShape__00000000_.StartRatio = 0.500000
@@ -1911,6 +2127,18 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__Task__00000006_.IsWithCompletion = false
 	__Task__00000006_.Completion = ""
 
+	__Task__00000007_.Name = `ISS Approach`
+	__Task__00000007_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2024-06-05 00:00:00 +0000 UTC")
+	__Task__00000007_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2024-06-05 00:00:00 +0000 UTC")
+	__Task__00000007_.Description = ``
+	__Task__00000007_.IsExpanded = false
+	__Task__00000007_.ComputedPrefix = `2.3.1`
+	__Task__00000007_.IsInRenameMode = false
+	__Task__00000007_.IsInputsNodeExpanded = false
+	__Task__00000007_.IsOutputsNodeExpanded = false
+	__Task__00000007_.IsWithCompletion = false
+	__Task__00000007_.Completion = ""
+
 	__TaskCompositionShape__00000000_.Name = `Commercial Crew Program (CCP), to Starliner Crewed Flight Test (CFT)`
 	__TaskCompositionShape__00000000_.StartRatio = 0.500000
 	__TaskCompositionShape__00000000_.EndRatio = 0.500000
@@ -1945,6 +2173,13 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__TaskCompositionShape__00000004_.StartOrientation = models.ORIENTATION_VERTICAL
 	__TaskCompositionShape__00000004_.EndOrientation = models.ORIENTATION_VERTICAL
 	__TaskCompositionShape__00000004_.CornerOffsetRatio = 1.680000
+
+	__TaskCompositionShape__00000005_.Name = `Starliner Crewed Flight Test (CFT) to `
+	__TaskCompositionShape__00000005_.StartRatio = 0.500000
+	__TaskCompositionShape__00000005_.EndRatio = 0.500000
+	__TaskCompositionShape__00000005_.StartOrientation = models.ORIENTATION_VERTICAL
+	__TaskCompositionShape__00000005_.EndOrientation = models.ORIENTATION_VERTICAL
+	__TaskCompositionShape__00000005_.CornerOffsetRatio = 1.680000
 
 	__TaskInputShape__00000000_.Name = `Program Investigation Team (PIT) Report to  Starliner Tests and Anomalies Review (STAR) Investigation Report`
 	__TaskInputShape__00000000_.StartRatio = 0.278248
@@ -2044,6 +2279,13 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__TaskShape__00000011_.Width = 250.000000
 	__TaskShape__00000011_.Height = 70.000000
 
+	__TaskShape__00000012_.Name = `-WBS`
+	__TaskShape__00000012_.IsExpanded = false
+	__TaskShape__00000012_.X = 645.617766
+	__TaskShape__00000012_.Y = 500.295606
+	__TaskShape__00000012_.Width = 250.000000
+	__TaskShape__00000012_.Height = 70.000000
+
 	// insertion point for setup of pointers
 	__Diagram__00000000_.Task_Shapes = append(__Diagram__00000000_.Task_Shapes, __TaskShape__00000000_)
 	__Diagram__00000000_.Task_Shapes = append(__Diagram__00000000_.Task_Shapes, __TaskShape__00000001_)
@@ -2064,12 +2306,17 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__Diagram__00000001_.Task_Shapes = append(__Diagram__00000001_.Task_Shapes, __TaskShape__00000008_)
 	__Diagram__00000001_.Task_Shapes = append(__Diagram__00000001_.Task_Shapes, __TaskShape__00000010_)
 	__Diagram__00000001_.Task_Shapes = append(__Diagram__00000001_.Task_Shapes, __TaskShape__00000011_)
+	__Diagram__00000001_.Task_Shapes = append(__Diagram__00000001_.Task_Shapes, __TaskShape__00000012_)
 	__Diagram__00000001_.TasksWhoseNodeIsExpanded = append(__Diagram__00000001_.TasksWhoseNodeIsExpanded, __Task__00000002_)
 	__Diagram__00000001_.TasksWhoseNodeIsExpanded = append(__Diagram__00000001_.TasksWhoseNodeIsExpanded, __Task__00000001_)
+	__Diagram__00000001_.TasksWhoseNodeIsExpanded = append(__Diagram__00000001_.TasksWhoseNodeIsExpanded, __Task__00000000_)
 	__Diagram__00000001_.TaskComposition_Shapes = append(__Diagram__00000001_.TaskComposition_Shapes, __TaskCompositionShape__00000001_)
 	__Diagram__00000001_.TaskComposition_Shapes = append(__Diagram__00000001_.TaskComposition_Shapes, __TaskCompositionShape__00000002_)
 	__Diagram__00000001_.TaskComposition_Shapes = append(__Diagram__00000001_.TaskComposition_Shapes, __TaskCompositionShape__00000003_)
 	__Diagram__00000001_.TaskComposition_Shapes = append(__Diagram__00000001_.TaskComposition_Shapes, __TaskCompositionShape__00000004_)
+	__Diagram__00000001_.TaskComposition_Shapes = append(__Diagram__00000001_.TaskComposition_Shapes, __TaskCompositionShape__00000005_)
+	__Diagram__00000001_.Note_Shapes = append(__Diagram__00000001_.Note_Shapes, __NoteShape__00000017_)
+	__Diagram__00000001_.NoteTaskShapes = append(__Diagram__00000001_.NoteTaskShapes, __NoteTaskShape__00000001_)
 	__Diagram__00000001_.ResourcesWhoseNodeIsExpanded = append(__Diagram__00000001_.ResourcesWhoseNodeIsExpanded, __Resource__00000003_)
 	__Diagram__00000002_.Product_Shapes = append(__Diagram__00000002_.Product_Shapes, __ProductShape__00000002_)
 	__Diagram__00000002_.Product_Shapes = append(__Diagram__00000002_.Product_Shapes, __ProductShape__00000003_)
@@ -2108,6 +2355,7 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__Diagram__00000003_.Resource_Shapes = append(__Diagram__00000003_.Resource_Shapes, __ResourceShape__00000010_)
 	__Diagram__00000003_.Resource_Shapes = append(__Diagram__00000003_.Resource_Shapes, __ResourceShape__00000011_)
 	__Diagram__00000003_.Resource_Shapes = append(__Diagram__00000003_.Resource_Shapes, __ResourceShape__00000012_)
+	__Diagram__00000003_.Resource_Shapes = append(__Diagram__00000003_.Resource_Shapes, __ResourceShape__00000015_)
 	__Diagram__00000003_.ResourcesWhoseNodeIsExpanded = append(__Diagram__00000003_.ResourcesWhoseNodeIsExpanded, __Resource__00000000_)
 	__Diagram__00000003_.ResourcesWhoseNodeIsExpanded = append(__Diagram__00000003_.ResourcesWhoseNodeIsExpanded, __Resource__00000003_)
 	__Diagram__00000003_.ResourcesWhoseNodeIsExpanded = append(__Diagram__00000003_.ResourcesWhoseNodeIsExpanded, __Resource__00000004_)
@@ -2120,6 +2368,7 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__Diagram__00000003_.ResourceComposition_Shapes = append(__Diagram__00000003_.ResourceComposition_Shapes, __ResourceCompositionShape__00000005_)
 	__Diagram__00000003_.ResourceComposition_Shapes = append(__Diagram__00000003_.ResourceComposition_Shapes, __ResourceCompositionShape__00000006_)
 	__Diagram__00000003_.ResourceComposition_Shapes = append(__Diagram__00000003_.ResourceComposition_Shapes, __ResourceCompositionShape__00000007_)
+	__Diagram__00000003_.ResourceComposition_Shapes = append(__Diagram__00000003_.ResourceComposition_Shapes, __ResourceCompositionShape__00000008_)
 	__Diagram__00000004_.Product_Shapes = append(__Diagram__00000004_.Product_Shapes, __ProductShape__00000007_)
 	__Diagram__00000004_.Product_Shapes = append(__Diagram__00000004_.Product_Shapes, __ProductShape__00000008_)
 	__Diagram__00000004_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000004_.ProductsWhoseNodeIsExpanded, __Product__00000003_)
@@ -2151,6 +2400,10 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__Diagram__00000005_.Product_Shapes = append(__Diagram__00000005_.Product_Shapes, __ProductShape__00000040_)
 	__Diagram__00000005_.Product_Shapes = append(__Diagram__00000005_.Product_Shapes, __ProductShape__00000041_)
 	__Diagram__00000005_.Product_Shapes = append(__Diagram__00000005_.Product_Shapes, __ProductShape__00000042_)
+	__Diagram__00000005_.Product_Shapes = append(__Diagram__00000005_.Product_Shapes, __ProductShape__00000045_)
+	__Diagram__00000005_.Product_Shapes = append(__Diagram__00000005_.Product_Shapes, __ProductShape__00000046_)
+	__Diagram__00000005_.Product_Shapes = append(__Diagram__00000005_.Product_Shapes, __ProductShape__00000047_)
+	__Diagram__00000005_.Product_Shapes = append(__Diagram__00000005_.Product_Shapes, __ProductShape__00000048_)
 	__Diagram__00000005_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000005_.ProductsWhoseNodeIsExpanded, __Product__00000003_)
 	__Diagram__00000005_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000005_.ProductsWhoseNodeIsExpanded, __Product__00000006_)
 	__Diagram__00000005_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000005_.ProductsWhoseNodeIsExpanded, __Product__00000017_)
@@ -2172,17 +2425,26 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__Diagram__00000005_.ProductComposition_Shapes = append(__Diagram__00000005_.ProductComposition_Shapes, __ProductCompositionShape__00000031_)
 	__Diagram__00000005_.ProductComposition_Shapes = append(__Diagram__00000005_.ProductComposition_Shapes, __ProductCompositionShape__00000032_)
 	__Diagram__00000005_.ProductComposition_Shapes = append(__Diagram__00000005_.ProductComposition_Shapes, __ProductCompositionShape__00000033_)
+	__Diagram__00000005_.ProductComposition_Shapes = append(__Diagram__00000005_.ProductComposition_Shapes, __ProductCompositionShape__00000036_)
+	__Diagram__00000005_.ProductComposition_Shapes = append(__Diagram__00000005_.ProductComposition_Shapes, __ProductCompositionShape__00000037_)
+	__Diagram__00000005_.ProductComposition_Shapes = append(__Diagram__00000005_.ProductComposition_Shapes, __ProductCompositionShape__00000038_)
+	__Diagram__00000005_.ProductComposition_Shapes = append(__Diagram__00000005_.ProductComposition_Shapes, __ProductCompositionShape__00000039_)
 	__Diagram__00000005_.Note_Shapes = append(__Diagram__00000005_.Note_Shapes, __NoteShape__00000003_)
 	__Diagram__00000005_.Note_Shapes = append(__Diagram__00000005_.Note_Shapes, __NoteShape__00000004_)
 	__Diagram__00000005_.Note_Shapes = append(__Diagram__00000005_.Note_Shapes, __NoteShape__00000013_)
 	__Diagram__00000005_.Note_Shapes = append(__Diagram__00000005_.Note_Shapes, __NoteShape__00000014_)
 	__Diagram__00000005_.Note_Shapes = append(__Diagram__00000005_.Note_Shapes, __NoteShape__00000015_)
 	__Diagram__00000005_.Note_Shapes = append(__Diagram__00000005_.Note_Shapes, __NoteShape__00000016_)
+	__Diagram__00000005_.Note_Shapes = append(__Diagram__00000005_.Note_Shapes, __NoteShape__00000018_)
+	__Diagram__00000005_.Note_Shapes = append(__Diagram__00000005_.Note_Shapes, __NoteShape__00000019_)
 	__Diagram__00000005_.NoteProductShapes = append(__Diagram__00000005_.NoteProductShapes, __NoteProductShape__00000002_)
 	__Diagram__00000005_.NoteProductShapes = append(__Diagram__00000005_.NoteProductShapes, __NoteProductShape__00000003_)
 	__Diagram__00000005_.NoteProductShapes = append(__Diagram__00000005_.NoteProductShapes, __NoteProductShape__00000016_)
 	__Diagram__00000005_.NoteProductShapes = append(__Diagram__00000005_.NoteProductShapes, __NoteProductShape__00000017_)
 	__Diagram__00000005_.NoteProductShapes = append(__Diagram__00000005_.NoteProductShapes, __NoteProductShape__00000018_)
+	__Diagram__00000005_.NoteProductShapes = append(__Diagram__00000005_.NoteProductShapes, __NoteProductShape__00000019_)
+	__Diagram__00000005_.NoteProductShapes = append(__Diagram__00000005_.NoteProductShapes, __NoteProductShape__00000020_)
+	__Diagram__00000005_.NoteProductShapes = append(__Diagram__00000005_.NoteProductShapes, __NoteProductShape__00000021_)
 	__Diagram__00000006_.Product_Shapes = append(__Diagram__00000006_.Product_Shapes, __ProductShape__00000015_)
 	__Diagram__00000006_.Product_Shapes = append(__Diagram__00000006_.Product_Shapes, __ProductShape__00000016_)
 	__Diagram__00000006_.Product_Shapes = append(__Diagram__00000006_.Product_Shapes, __ProductShape__00000017_)
@@ -2259,6 +2521,10 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__Note__00000013_.Products = append(__Note__00000013_.Products, __Product__00000034_)
 	__Note__00000014_.Products = append(__Note__00000014_.Products, __Product__00000034_)
 	__Note__00000015_.Products = append(__Note__00000015_.Products, __Product__00000036_)
+	__Note__00000016_.Products = append(__Note__00000016_.Products, __Product__00000039_)
+	__Note__00000017_.Tasks = append(__Note__00000017_.Tasks, __Task__00000007_)
+	__Note__00000018_.Products = append(__Note__00000018_.Products, __Product__00000039_)
+	__Note__00000019_.Products = append(__Note__00000019_.Products, __Product__00000041_)
 	__NoteProductShape__00000000_.Note = __Note__00000001_
 	__NoteProductShape__00000000_.Product = __Product__00000004_
 	__NoteProductShape__00000001_.Note = __Note__00000002_
@@ -2297,6 +2563,12 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__NoteProductShape__00000017_.Product = __Product__00000034_
 	__NoteProductShape__00000018_.Note = __Note__00000015_
 	__NoteProductShape__00000018_.Product = __Product__00000036_
+	__NoteProductShape__00000019_.Note = __Note__00000018_
+	__NoteProductShape__00000019_.Product = __Product__00000039_
+	__NoteProductShape__00000020_.Note = __Note__00000016_
+	__NoteProductShape__00000020_.Product = __Product__00000039_
+	__NoteProductShape__00000021_.Note = __Note__00000019_
+	__NoteProductShape__00000021_.Product = __Product__00000041_
 	__NoteShape__00000000_.Note = __Note__00000000_
 	__NoteShape__00000001_.Note = __Note__00000001_
 	__NoteShape__00000002_.Note = __Note__00000002_
@@ -2314,8 +2586,13 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__NoteShape__00000014_.Note = __Note__00000014_
 	__NoteShape__00000015_.Note = __Note__00000015_
 	__NoteShape__00000016_.Note = __Note__00000016_
+	__NoteShape__00000017_.Note = __Note__00000017_
+	__NoteShape__00000018_.Note = __Note__00000018_
+	__NoteShape__00000019_.Note = __Note__00000019_
 	__NoteTaskShape__00000000_.Note = __Note__00000000_
 	__NoteTaskShape__00000000_.Task = __Task__00000000_
+	__NoteTaskShape__00000001_.Note = __Note__00000017_
+	__NoteTaskShape__00000001_.Task = __Task__00000007_
 	__Product__00000002_.SubProducts = append(__Product__00000002_.SubProducts, __Product__00000011_)
 	__Product__00000002_.SubProducts = append(__Product__00000002_.SubProducts, __Product__00000014_)
 	__Product__00000002_.SubProducts = append(__Product__00000002_.SubProducts, __Product__00000019_)
@@ -2352,6 +2629,10 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__Product__00000029_.SubProducts = append(__Product__00000029_.SubProducts, __Product__00000037_)
 	__Product__00000033_.SubProducts = append(__Product__00000033_.SubProducts, __Product__00000038_)
 	__Product__00000035_.SubProducts = append(__Product__00000035_.SubProducts, __Product__00000036_)
+	__Product__00000035_.SubProducts = append(__Product__00000035_.SubProducts, __Product__00000039_)
+	__Product__00000035_.SubProducts = append(__Product__00000035_.SubProducts, __Product__00000040_)
+	__Product__00000035_.SubProducts = append(__Product__00000035_.SubProducts, __Product__00000041_)
+	__Product__00000035_.SubProducts = append(__Product__00000035_.SubProducts, __Product__00000042_)
 	__ProductCompositionShape__00000000_.Product = __Product__00000004_
 	__ProductCompositionShape__00000001_.Product = __Product__00000005_
 	__ProductCompositionShape__00000002_.Product = __Product__00000002_
@@ -2386,6 +2667,10 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__ProductCompositionShape__00000033_.Product = __Product__00000037_
 	__ProductCompositionShape__00000034_.Product = __Product__00000038_
 	__ProductCompositionShape__00000035_.Product = __Product__00000021_
+	__ProductCompositionShape__00000036_.Product = __Product__00000039_
+	__ProductCompositionShape__00000037_.Product = __Product__00000040_
+	__ProductCompositionShape__00000038_.Product = __Product__00000041_
+	__ProductCompositionShape__00000039_.Product = __Product__00000042_
 	__ProductShape__00000002_.Product = __Product__00000001_
 	__ProductShape__00000003_.Product = __Product__00000002_
 	__ProductShape__00000004_.Product = __Product__00000003_
@@ -2428,6 +2713,10 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__ProductShape__00000042_.Product = __Product__00000037_
 	__ProductShape__00000043_.Product = __Product__00000038_
 	__ProductShape__00000044_.Product = __Product__00000021_
+	__ProductShape__00000045_.Product = __Product__00000039_
+	__ProductShape__00000046_.Product = __Product__00000040_
+	__ProductShape__00000047_.Product = __Product__00000041_
+	__ProductShape__00000048_.Product = __Product__00000042_
 	__Project__00000000_.RootProducts = append(__Project__00000000_.RootProducts, __Product__00000007_)
 	__Project__00000000_.RootProducts = append(__Project__00000000_.RootProducts, __Product__00000003_)
 	__Project__00000000_.RootTasks = append(__Project__00000000_.RootTasks, __Task__00000001_)
@@ -2452,6 +2741,9 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__Project__00000000_.Notes = append(__Project__00000000_.Notes, __Note__00000014_)
 	__Project__00000000_.Notes = append(__Project__00000000_.Notes, __Note__00000015_)
 	__Project__00000000_.Notes = append(__Project__00000000_.Notes, __Note__00000016_)
+	__Project__00000000_.Notes = append(__Project__00000000_.Notes, __Note__00000017_)
+	__Project__00000000_.Notes = append(__Project__00000000_.Notes, __Note__00000018_)
+	__Project__00000000_.Notes = append(__Project__00000000_.Notes, __Note__00000019_)
 	__Project__00000000_.Diagrams = append(__Project__00000000_.Diagrams, __Diagram__00000000_)
 	__Project__00000000_.Diagrams = append(__Project__00000000_.Diagrams, __Diagram__00000001_)
 	__Project__00000000_.Diagrams = append(__Project__00000000_.Diagrams, __Diagram__00000002_)
@@ -2465,6 +2757,7 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__Resource__00000003_.SubResources = append(__Resource__00000003_.SubResources, __Resource__00000008_)
 	__Resource__00000004_.SubResources = append(__Resource__00000004_.SubResources, __Resource__00000005_)
 	__Resource__00000004_.SubResources = append(__Resource__00000004_.SubResources, __Resource__00000009_)
+	__Resource__00000004_.SubResources = append(__Resource__00000004_.SubResources, __Resource__00000010_)
 	__Resource__00000005_.SubResources = append(__Resource__00000005_.SubResources, __Resource__00000001_)
 	__Resource__00000005_.SubResources = append(__Resource__00000005_.SubResources, __Resource__00000002_)
 	__Resource__00000006_.SubResources = append(__Resource__00000006_.SubResources, __Resource__00000007_)
@@ -2476,6 +2769,7 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__ResourceCompositionShape__00000005_.Resource = __Resource__00000007_
 	__ResourceCompositionShape__00000006_.Resource = __Resource__00000008_
 	__ResourceCompositionShape__00000007_.Resource = __Resource__00000009_
+	__ResourceCompositionShape__00000008_.Resource = __Resource__00000010_
 	__ResourceShape__00000000_.Resource = __Resource__00000000_
 	__ResourceShape__00000001_.Resource = __Resource__00000001_
 	__ResourceShape__00000002_.Resource = __Resource__00000002_
@@ -2491,9 +2785,11 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__ResourceShape__00000012_.Resource = __Resource__00000009_
 	__ResourceShape__00000013_.Resource = __Resource__00000000_
 	__ResourceShape__00000014_.Resource = __Resource__00000000_
+	__ResourceShape__00000015_.Resource = __Resource__00000010_
 	__ResourceTaskShape__00000000_.Resource = __Resource__00000000_
 	__ResourceTaskShape__00000000_.Task = __Task__00000001_
 	__Root__00000000_.Projects = append(__Root__00000000_.Projects, __Project__00000000_)
+	__Task__00000000_.SubTasks = append(__Task__00000000_.SubTasks, __Task__00000007_)
 	__Task__00000001_.SubTasks = append(__Task__00000001_.SubTasks, __Task__00000004_)
 	__Task__00000002_.SubTasks = append(__Task__00000002_.SubTasks, __Task__00000005_)
 	__Task__00000002_.SubTasks = append(__Task__00000002_.SubTasks, __Task__00000006_)
@@ -2505,6 +2801,7 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__TaskCompositionShape__00000002_.Task = __Task__00000004_
 	__TaskCompositionShape__00000003_.Task = __Task__00000005_
 	__TaskCompositionShape__00000004_.Task = __Task__00000006_
+	__TaskCompositionShape__00000005_.Task = __Task__00000007_
 	__TaskInputShape__00000000_.Product = __Product__00000004_
 	__TaskInputShape__00000000_.Task = __Task__00000004_
 	__TaskOutputShape__00000000_.Task = __Task__00000004_
@@ -2521,4 +2818,5 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__TaskShape__00000009_.Task = __Task__00000004_
 	__TaskShape__00000010_.Task = __Task__00000005_
 	__TaskShape__00000011_.Task = __Task__00000006_
+	__TaskShape__00000012_.Task = __Task__00000007_
 }
