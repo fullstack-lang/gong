@@ -76,6 +76,10 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(diagram_.DefaultBoxWidth), formDiv)
 		case "DefaultBoxHeigth":
 			FormDivBasicFieldToField(&(diagram_.DefaultBoxHeigth), formDiv)
+		case "Width":
+			FormDivBasicFieldToField(&(diagram_.Width), formDiv)
+		case "Height":
+			FormDivBasicFieldToField(&(diagram_.Height), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(diagram_.IsExpanded), formDiv)
 		case "ComputedPrefix":

@@ -14,6 +14,9 @@ type Diagram struct {
 	DefaultBoxWidth  float64
 	DefaultBoxHeigth float64
 
+	Width  float64
+	Height float64
+
 	AbstractTypeFields
 
 	Product_Shapes              []*ProductShape

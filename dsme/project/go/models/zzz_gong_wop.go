@@ -24,6 +24,10 @@ type Diagram_WOP struct {
 
 	DefaultBoxHeigth float64
 
+	Width float64
+
+	Height float64
+
 	IsExpanded bool
 
 	ComputedPrefix string
@@ -47,6 +51,8 @@ func (from *Diagram) CopyBasicFields(to *Diagram) {
 	to.ShowPrefix = from.ShowPrefix
 	to.DefaultBoxWidth = from.DefaultBoxWidth
 	to.DefaultBoxHeigth = from.DefaultBoxHeigth
+	to.Width = from.Width
+	to.Height = from.Height
 	to.IsExpanded = from.IsExpanded
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsInRenameMode = from.IsInRenameMode
