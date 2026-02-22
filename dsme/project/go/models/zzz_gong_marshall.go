@@ -138,6 +138,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ShowPrefix"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "DefaultBoxWidth"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "DefaultBoxHeigth"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Height"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsInRenameMode"))
@@ -1034,6 +1036,16 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DefaultBoxHeigth")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.DefaultBoxHeigth))
+	case "Width":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Width")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.Width))
+	case "Height":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Height")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.Height))
 	case "IsExpanded":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
@@ -2572,6 +2584,8 @@ func (diagram *Diagram) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ShowPrefix"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "DefaultBoxWidth"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "DefaultBoxHeigth"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Height"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsInRenameMode"))

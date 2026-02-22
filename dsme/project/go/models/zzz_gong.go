@@ -5424,6 +5424,14 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
+			Name:               "Width",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "Height",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
 			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
@@ -6374,6 +6382,14 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	case "DefaultBoxHeigth":
 		res.valueString = fmt.Sprintf("%f", diagram.DefaultBoxHeigth)
 		res.valueFloat = diagram.DefaultBoxHeigth
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Width":
+		res.valueString = fmt.Sprintf("%f", diagram.Width)
+		res.valueFloat = diagram.Width
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Height":
+		res.valueString = fmt.Sprintf("%f", diagram.Height)
+		res.valueFloat = diagram.Height
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "IsExpanded":
 		res.valueString = fmt.Sprintf("%t", diagram.IsExpanded)
@@ -7380,6 +7396,10 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 		diagram.DefaultBoxWidth = value.GetValueFloat()
 	case "DefaultBoxHeigth":
 		diagram.DefaultBoxHeigth = value.GetValueFloat()
+	case "Width":
+		diagram.Width = value.GetValueFloat()
+	case "Height":
+		diagram.Height = value.GetValueFloat()
 	case "IsExpanded":
 		diagram.IsExpanded = value.GetValueBool()
 	case "ComputedPrefix":
