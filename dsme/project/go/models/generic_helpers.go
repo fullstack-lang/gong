@@ -80,6 +80,19 @@ func addAddItemButton[
 				newProject.Diagrams = append(newProject.Diagrams, newDiagram)
 			}
 
+			// stager.probeForm.SetCommitMode(false), no need yet
+			stager.probeForm.FillUpFormFromGongstruct(newItem, GetPointerToGongstructName[PT]())
+			// stager.probeForm.SetCommitMode(true)
+
+			// add the parent item to the list of items whose node is expanded
+			if parentItemsWhoseNodeIsExpanded != nil && parentItem != nil &&
+				!slices.Contains(*parentItemsWhoseNodeIsExpanded, parentItem) {
+				*parentItemsWhoseNodeIsExpanded = append(*parentItemsWhoseNodeIsExpanded, parentItem)
+			}
+			if isNodeExpanded != nil {
+				*isNodeExpanded = true
+			}
+
 			if receivingDiagram != nil && shapes != nil {
 				newShape := newShapeToDiagram(newItem, receivingDiagram, shapes, stager.stage)
 
@@ -100,19 +113,7 @@ func addAddItemButton[
 					newShape.SetY(parentShape.GetY() + parentShape.GetHeight()*2.0)
 				}
 			}
-
-			// stager.probeForm.SetCommitMode(false), no need yet
-			stager.probeForm.FillUpFormFromGongstruct(newItem, GetPointerToGongstructName[PT]())
-			// stager.probeForm.SetCommitMode(true)
-
-			// add the parent item to the list of items whose node is expanded
-			if parentItemsWhoseNodeIsExpanded != nil && parentItem != nil &&
-				!slices.Contains(*parentItemsWhoseNodeIsExpanded, parentItem) {
-				*parentItemsWhoseNodeIsExpanded = append(*parentItemsWhoseNodeIsExpanded, parentItem)
-			}
-			if isNodeExpanded != nil {
-				*isNodeExpanded = true
-			}
+			stager.stage.Commit()
 		},
 	}
 }
@@ -164,7 +165,7 @@ func addShowHideCompositionButton[
 					"\" to \"" + element.GetName() + "\""
 
 				showHideCompositionButton.Impl = &tree.FunctionalButtonProxy{
-					OnUpdated: onAddAssociationShape(stager, parentElement, element, compositionShapes),
+					OnUpdated: onAddAssociationShapeWithCommit(stager, parentElement, element, compositionShapes),
 				}
 			} else {
 				showHideCompositionButton.Icon = string(buttons.BUTTON_visibility_off)
@@ -172,7 +173,7 @@ func addShowHideCompositionButton[
 					"\" to \"" + element.GetName() + "\""
 
 				showHideCompositionButton.Impl = &tree.FunctionalButtonProxy{
-					OnUpdated: onRemoveAssociationShape(stager, compositionShape, compositionShapes),
+					OnUpdated: onRemoveAssociationShapeWithCommit(stager, compositionShape, compositionShapes),
 				}
 			}
 			node.Buttons = append(node.Buttons, showHideCompositionButton)
@@ -197,6 +198,24 @@ func onAddAssociationShape[
 	}
 }
 
+func onAddAssociationShapeWithCommit[
+	ATstart AbstractType,
+	ATend AbstractType,
+	ACT interface {
+		*ACT_
+		LinkShapeInterface
+		AssociationConcreteType
+	},
+	ACT_ Gongstruct,
+](
+	stager *Stager, start ATstart, end ATend, shapes *[]ACT) func(
+	stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
+	return func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
+		addAssociationShapeToDiagram(stager, start, end, shapes)
+		stager.stage.Commit()
+	}
+}
+
 func addAssociationShapeToDiagram[
 	ATstart AbstractType,
 	ATend AbstractType,
@@ -211,8 +230,6 @@ func addAssociationShapeToDiagram[
 
 	compositionShape := newConcreteAssociation(start, end, shapes)
 	compositionShape.StageVoid(stager.stage)
-
-	stager.stage.Commit()
 }
 
 func newConcreteAssociation[
@@ -251,6 +268,21 @@ func newConcreteAssociation[
 }
 
 func onRemoveAssociationShape[
+	ACT interface {
+		*ACT_
+		LinkShapeInterface
+		AssociationConcreteType
+	},
+	ACT_ Gongstruct](stager *Stager, compositionShape ACT, shapes *[]ACT) func(
+	stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
+	return func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
+		compositionShape.UnstageVoid(stager.stage)
+		idx := slices.Index(*shapes, compositionShape)
+		*shapes = slices.Delete(*shapes, idx, idx+1)
+	}
+}
+
+func onRemoveAssociationShapeWithCommit[
 	ACT interface {
 		*ACT_
 		LinkShapeInterface

@@ -296,8 +296,8 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__Diagram__00000000_.ShowPrefix = false
 	__Diagram__00000000_.DefaultBoxWidth = 250.000000
 	__Diagram__00000000_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000000_.Width = 6055.187127
-	__Diagram__00000000_.Height = 6817.751617
+	__Diagram__00000000_.Width = 8255.187127
+	__Diagram__00000000_.Height = 9017.751617
 	__Diagram__00000000_.IsExpanded = false
 	__Diagram__00000000_.ComputedPrefix = ``
 	__Diagram__00000000_.IsInRenameMode = false
@@ -312,8 +312,8 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__Diagram__00000001_.ShowPrefix = true
 	__Diagram__00000001_.DefaultBoxWidth = 250.000000
 	__Diagram__00000001_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000001_.Width = 6595.617766
-	__Diagram__00000001_.Height = 6456.674065
+	__Diagram__00000001_.Width = 8795.617766
+	__Diagram__00000001_.Height = 8656.674065
 	__Diagram__00000001_.IsExpanded = false
 	__Diagram__00000001_.ComputedPrefix = ``
 	__Diagram__00000001_.IsInRenameMode = false
@@ -328,8 +328,8 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__Diagram__00000002_.ShowPrefix = true
 	__Diagram__00000002_.DefaultBoxWidth = 250.000000
 	__Diagram__00000002_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000002_.Width = 7091.980809
-	__Diagram__00000002_.Height = 6621.961381
+	__Diagram__00000002_.Width = 9291.980809
+	__Diagram__00000002_.Height = 8821.961381
 	__Diagram__00000002_.IsExpanded = false
 	__Diagram__00000002_.ComputedPrefix = ``
 	__Diagram__00000002_.IsInRenameMode = false
@@ -344,8 +344,8 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__Diagram__00000003_.ShowPrefix = false
 	__Diagram__00000003_.DefaultBoxWidth = 250.000000
 	__Diagram__00000003_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000003_.Width = 6785.651635
-	__Diagram__00000003_.Height = 6799.201740
+	__Diagram__00000003_.Width = 8985.651635
+	__Diagram__00000003_.Height = 8999.201740
 	__Diagram__00000003_.IsExpanded = false
 	__Diagram__00000003_.ComputedPrefix = ``
 	__Diagram__00000003_.IsInRenameMode = false
@@ -360,8 +360,8 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__Diagram__00000004_.ShowPrefix = false
 	__Diagram__00000004_.DefaultBoxWidth = 250.000000
 	__Diagram__00000004_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000004_.Width = 6862.017987
-	__Diagram__00000004_.Height = 6058.658205
+	__Diagram__00000004_.Width = 9062.017987
+	__Diagram__00000004_.Height = 8258.658205
 	__Diagram__00000004_.IsExpanded = false
 	__Diagram__00000004_.ComputedPrefix = ``
 	__Diagram__00000004_.IsInRenameMode = false
@@ -371,13 +371,13 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__Diagram__00000004_.IsResourcesNodeExpanded = false
 
 	__Diagram__00000005_.Name = `PIT Report`
-	__Diagram__00000005_.IsChecked = false
+	__Diagram__00000005_.IsChecked = true
 	__Diagram__00000005_.IsEditable_ = true
 	__Diagram__00000005_.ShowPrefix = false
 	__Diagram__00000005_.DefaultBoxWidth = 250.000000
 	__Diagram__00000005_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000005_.Width = 7285.901110
-	__Diagram__00000005_.Height = 7248.855478
+	__Diagram__00000005_.Width = 9485.901110
+	__Diagram__00000005_.Height = 9448.855478
 	__Diagram__00000005_.IsExpanded = false
 	__Diagram__00000005_.ComputedPrefix = ``
 	__Diagram__00000005_.IsInRenameMode = false
@@ -387,13 +387,13 @@ Boeing thermal model did not include the effects of jet firings before CFT.  to 
 	__Diagram__00000005_.IsResourcesNodeExpanded = false
 
 	__Diagram__00000006_.Name = `RCS PBS`
-	__Diagram__00000006_.IsChecked = true
+	__Diagram__00000006_.IsChecked = false
 	__Diagram__00000006_.IsEditable_ = true
-	__Diagram__00000006_.ShowPrefix = true
+	__Diagram__00000006_.ShowPrefix = false
 	__Diagram__00000006_.DefaultBoxWidth = 250.000000
 	__Diagram__00000006_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000006_.Width = 7169.153628
-	__Diagram__00000006_.Height = 6877.529266
+	__Diagram__00000006_.Width = 9369.153628
+	__Diagram__00000006_.Height = 9077.529266
 	__Diagram__00000006_.IsExpanded = true
 	__Diagram__00000006_.ComputedPrefix = ``
 	__Diagram__00000006_.IsInRenameMode = false
