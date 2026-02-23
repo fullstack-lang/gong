@@ -40,7 +40,7 @@ func _(stage *models.Stage) {
 }`
 
 const GongIdentifiersDecls = `
-	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: ` + "`" + `{{GeneratedFieldNameValue}}` + "`" + `}).Stage(stage)`
+	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: {{GeneratedFieldNameValue}}}).Stage(stage)`
 
 const GongUnstageStmt = `
 	{{Identifier}}.Unstage(stage)`
@@ -51,7 +51,7 @@ const IdentifiersDeclsWithoutNameInit = `
 	{{Identifier}} := (&models.{{GeneratedStructName}}{}).Stage(stage)` /* */
 
 const StringInitStatement = `
-	{{Identifier}}.{{GeneratedFieldName}} = ` + "`" + `{{GeneratedFieldNameValue}}` + "`"
+	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`
 
 const MetaFieldStructInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = ` + `{{GeneratedFieldNameValue}}`
@@ -288,12 +288,12 @@ func (chapter *Chapter) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", chapter.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(chapter.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(chapter.Name)))
 	case "MardownContent":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", chapter.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "MardownContent")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(chapter.MardownContent))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(chapter.MardownContent)))
 
 	case "Pages":
 		var sb strings.Builder
@@ -318,32 +318,32 @@ func (content *Content) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", content.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(content.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(content.Name)))
 	case "MardownContent":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", content.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "MardownContent")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(content.MardownContent))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(content.MardownContent)))
 	case "ContentPath":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", content.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ContentPath")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(content.ContentPath))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(content.ContentPath)))
 	case "OutputPath":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", content.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "OutputPath")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(content.OutputPath))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(content.OutputPath)))
 	case "LayoutPath":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", content.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutPath")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(content.LayoutPath))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(content.LayoutPath)))
 	case "StaticPath":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", content.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StaticPath")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(content.StaticPath))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(content.StaticPath)))
 	case "IsBespokeLogoFileName":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", content.GongGetIdentifier(stage))
@@ -353,7 +353,7 @@ func (content *Content) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", content.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "BespokeLogoFileName")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(content.BespokeLogoFileName))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(content.BespokeLogoFileName)))
 	case "IsBespokePageTileLogoFileName":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", content.GongGetIdentifier(stage))
@@ -363,7 +363,7 @@ func (content *Content) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", content.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "BespokePageTileLogoFileName")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(content.BespokePageTileLogoFileName))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(content.BespokePageTileLogoFileName)))
 	case "Target":
 		if content.Target.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -381,7 +381,7 @@ func (content *Content) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", content.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "VersionInfo")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(content.VersionInfo))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(content.VersionInfo)))
 
 	case "Chapters":
 		var sb strings.Builder
@@ -406,12 +406,12 @@ func (page *Page) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", page.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(page.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(page.Name)))
 	case "MardownContent":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", page.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "MardownContent")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(page.MardownContent))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(page.MardownContent)))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Page", fieldName)

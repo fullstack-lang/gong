@@ -1108,7 +1108,7 @@ func (gongbasicfield *GongBasicField) GongMarshallIdentifier(stage *Stage) (decl
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongbasicfield.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GongBasicField")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", gongbasicfield.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", gongbasicfield.Name))
 	return
 }
 
@@ -1116,7 +1116,7 @@ func (gongenum *GongEnum) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongenum.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GongEnum")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", gongenum.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", gongenum.Name))
 	return
 }
 
@@ -1124,7 +1124,7 @@ func (gongenumvalue *GongEnumValue) GongMarshallIdentifier(stage *Stage) (decl s
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongenumvalue.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GongEnumValue")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", gongenumvalue.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", gongenumvalue.Name))
 	return
 }
 
@@ -1132,7 +1132,7 @@ func (gonglink *GongLink) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", gonglink.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GongLink")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", gonglink.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", gonglink.Name))
 	return
 }
 
@@ -1140,7 +1140,7 @@ func (gongnote *GongNote) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongnote.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GongNote")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", gongnote.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", gongnote.Name))
 	return
 }
 
@@ -1148,7 +1148,7 @@ func (gongstruct *GongStruct) GongMarshallIdentifier(stage *Stage) (decl string)
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongstruct.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GongStruct")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", gongstruct.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", gongstruct.Name))
 	return
 }
 
@@ -1156,7 +1156,7 @@ func (gongtimefield *GongTimeField) GongMarshallIdentifier(stage *Stage) (decl s
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongtimefield.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GongTimeField")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", gongtimefield.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", gongtimefield.Name))
 	return
 }
 
@@ -1164,7 +1164,7 @@ func (metareference *MetaReference) GongMarshallIdentifier(stage *Stage) (decl s
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", metareference.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "MetaReference")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", metareference.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", metareference.Name))
 	return
 }
 
@@ -1172,7 +1172,7 @@ func (modelpkg *ModelPkg) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", modelpkg.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ModelPkg")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", modelpkg.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", modelpkg.Name))
 	return
 }
 
@@ -1180,7 +1180,7 @@ func (pointertogongstructfield *PointerToGongStructField) GongMarshallIdentifier
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", pointertogongstructfield.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "PointerToGongStructField")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", pointertogongstructfield.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", pointertogongstructfield.Name))
 	return
 }
 
@@ -1188,7 +1188,7 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongMars
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", sliceofpointertogongstructfield.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "SliceOfPointerToGongStructField")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", sliceofpointertogongstructfield.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", sliceofpointertogongstructfield.Name))
 	return
 }
 

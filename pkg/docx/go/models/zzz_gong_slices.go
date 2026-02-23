@@ -1562,7 +1562,7 @@ func (body *Body) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", body.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Body")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", body.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", body.Name))
 	return
 }
 
@@ -1570,7 +1570,7 @@ func (document *Document) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", document.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Document")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", document.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", document.Name))
 	return
 }
 
@@ -1578,7 +1578,7 @@ func (docx *Docx) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", docx.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Docx")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", docx.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", docx.Name))
 	return
 }
 
@@ -1586,7 +1586,7 @@ func (file *File) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", file.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "File")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", file.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", file.Name))
 	return
 }
 
@@ -1594,7 +1594,7 @@ func (node *Node) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", node.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Node")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", node.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", node.Name))
 	return
 }
 
@@ -1602,7 +1602,7 @@ func (paragraph *Paragraph) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", paragraph.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Paragraph")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", paragraph.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", paragraph.Name))
 	return
 }
 
@@ -1610,7 +1610,7 @@ func (paragraphproperties *ParagraphProperties) GongMarshallIdentifier(stage *St
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", paragraphproperties.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ParagraphProperties")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", paragraphproperties.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", paragraphproperties.Name))
 	return
 }
 
@@ -1618,7 +1618,7 @@ func (paragraphstyle *ParagraphStyle) GongMarshallIdentifier(stage *Stage) (decl
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", paragraphstyle.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ParagraphStyle")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", paragraphstyle.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", paragraphstyle.Name))
 	return
 }
 
@@ -1626,7 +1626,7 @@ func (rune *Rune) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", rune.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Rune")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", rune.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", rune.Name))
 	return
 }
 
@@ -1634,7 +1634,7 @@ func (runeproperties *RuneProperties) GongMarshallIdentifier(stage *Stage) (decl
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", runeproperties.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "RuneProperties")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", runeproperties.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", runeproperties.Name))
 	return
 }
 
@@ -1642,7 +1642,7 @@ func (table *Table) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", table.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Table")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", table.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", table.Name))
 	return
 }
 
@@ -1650,7 +1650,7 @@ func (tablecolumn *TableColumn) GongMarshallIdentifier(stage *Stage) (decl strin
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", tablecolumn.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TableColumn")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", tablecolumn.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", tablecolumn.Name))
 	return
 }
 
@@ -1658,7 +1658,7 @@ func (tableproperties *TableProperties) GongMarshallIdentifier(stage *Stage) (de
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", tableproperties.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TableProperties")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", tableproperties.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", tableproperties.Name))
 	return
 }
 
@@ -1666,7 +1666,7 @@ func (tablerow *TableRow) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", tablerow.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TableRow")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", tablerow.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", tablerow.Name))
 	return
 }
 
@@ -1674,7 +1674,7 @@ func (tablestyle *TableStyle) GongMarshallIdentifier(stage *Stage) (decl string)
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", tablestyle.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TableStyle")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", tablestyle.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", tablestyle.Name))
 	return
 }
 
@@ -1682,7 +1682,7 @@ func (text *Text) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", text.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Text")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", text.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", text.Name))
 	return
 }
 

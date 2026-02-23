@@ -205,7 +205,11 @@ func ParseAstFileFromAst(stage *Stage, inFile *ast.File, fset *token.FileSet, pr
 
 func GongExtractString(expr ast.Expr) string {
 	if bl, ok := expr.(*ast.BasicLit); ok {
-		return strings.Trim(bl.Value, "\"`")
+		// strconv.Unquote handles both "" and `` strings,
+		// and correctly processes escape sequences.
+		if unquoted, err := strconv.Unquote(bl.Value); err == nil {
+			return unquoted
+		}
 	}
 	return ""
 }
