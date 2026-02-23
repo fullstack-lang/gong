@@ -40,7 +40,7 @@ func _(stage *models.Stage) {
 }`
 
 const GongIdentifiersDecls = `
-	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: ` + "`" + `{{GeneratedFieldNameValue}}` + "`" + `}).Stage(stage)`
+	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: {{GeneratedFieldNameValue}}}).Stage(stage)`
 
 const GongUnstageStmt = `
 	{{Identifier}}.Unstage(stage)`
@@ -51,7 +51,7 @@ const IdentifiersDeclsWithoutNameInit = `
 	{{Identifier}} := (&models.{{GeneratedStructName}}{}).Stage(stage)` /* */
 
 const StringInitStatement = `
-	{{Identifier}}.{{GeneratedFieldName}} = ` + "`" + `{{GeneratedFieldNameValue}}` + "`"
+	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`
 
 const MetaFieldStructInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = ` + `{{GeneratedFieldNameValue}}`
@@ -70,6 +70,24 @@ const SliceOfPointersFieldInitStatement = `
 
 const TimeInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}}, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "{{GeneratedFieldNameValue}}")`
+
+// ToRawStringLiteral formats a string into safe Go source code,
+// using backticks to preserve newlines and readability.
+func ToRawStringLiteral(s string) string {
+	// Step 1: Replace every backtick with a closing backtick,
+	// a double-quoted backtick, and an opening backtick.
+	escaped := strings.ReplaceAll(s, "`", "` + \"`\" + `")
+
+	// Step 2: Wrap the entire resulting string in backticks.
+	result := "`" + escaped + "`"
+
+	// Step 3: Clean up any empty raw strings (``) at the boundaries
+	// just in case your original string started or ended with a backtick.
+	result = strings.ReplaceAll(result, "`` + ", "")
+	result = strings.ReplaceAll(result, " + ``", "")
+
+	return result
+}
 
 // Marshall marshall the stage content into the file as an instanciation into a stage
 func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName string) {
@@ -596,22 +614,22 @@ func (gongbasicfield *GongBasicField) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gongbasicfield.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(gongbasicfield.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(gongbasicfield.Name))
 	case "BasicKindName":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gongbasicfield.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "BasicKindName")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(gongbasicfield.BasicKindName))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(gongbasicfield.BasicKindName))
 	case "DeclaredType":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gongbasicfield.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DeclaredType")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(gongbasicfield.DeclaredType))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(gongbasicfield.DeclaredType))
 	case "CompositeStructName":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gongbasicfield.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CompositeStructName")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(gongbasicfield.CompositeStructName))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(gongbasicfield.CompositeStructName))
 	case "Index":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gongbasicfield.GongGetIdentifier(stage))
@@ -669,7 +687,7 @@ func (gongenum *GongEnum) GongMarshallField(stage *Stage, fieldName string) (res
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gongenum.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(gongenum.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(gongenum.Name))
 	case "Type":
 		if gongenum.Type.ToCodeString() != "" {
 			res = NumberInitStatement
@@ -707,12 +725,12 @@ func (gongenumvalue *GongEnumValue) GongMarshallField(stage *Stage, fieldName st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gongenumvalue.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(gongenumvalue.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(gongenumvalue.Name))
 	case "Value":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gongenumvalue.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Value")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(gongenumvalue.Value))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(gongenumvalue.Value))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct GongEnumValue", fieldName)
@@ -727,17 +745,17 @@ func (gonglink *GongLink) GongMarshallField(stage *Stage, fieldName string) (res
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gonglink.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(gonglink.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(gonglink.Name))
 	case "Recv":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gonglink.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Recv")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(gonglink.Recv))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(gonglink.Recv))
 	case "ImportPath":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gonglink.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ImportPath")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(gonglink.ImportPath))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(gonglink.ImportPath))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct GongLink", fieldName)
@@ -752,17 +770,17 @@ func (gongnote *GongNote) GongMarshallField(stage *Stage, fieldName string) (res
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gongnote.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(gongnote.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(gongnote.Name))
 	case "Body":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gongnote.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Body")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(gongnote.Body))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(gongnote.Body))
 	case "BodyHTML":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gongnote.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "BodyHTML")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(gongnote.BodyHTML))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(gongnote.BodyHTML))
 
 	case "Links":
 		var sb strings.Builder
@@ -787,7 +805,7 @@ func (gongstruct *GongStruct) GongMarshallField(stage *Stage, fieldName string) 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gongstruct.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(gongstruct.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(gongstruct.Name))
 	case "HasOnAfterUpdateSignature":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gongstruct.GongGetIdentifier(stage))
@@ -852,7 +870,7 @@ func (gongtimefield *GongTimeField) GongMarshallField(stage *Stage, fieldName st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gongtimefield.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(gongtimefield.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(gongtimefield.Name))
 	case "Index":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gongtimefield.GongGetIdentifier(stage))
@@ -862,12 +880,12 @@ func (gongtimefield *GongTimeField) GongMarshallField(stage *Stage, fieldName st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gongtimefield.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CompositeStructName")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(gongtimefield.CompositeStructName))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(gongtimefield.CompositeStructName))
 	case "BespokeTimeFormat":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gongtimefield.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "BespokeTimeFormat")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(gongtimefield.BespokeTimeFormat))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(gongtimefield.BespokeTimeFormat))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct GongTimeField", fieldName)
@@ -882,7 +900,7 @@ func (metareference *MetaReference) GongMarshallField(stage *Stage, fieldName st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", metareference.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(metareference.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(metareference.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct MetaReference", fieldName)
@@ -897,92 +915,92 @@ func (modelpkg *ModelPkg) GongMarshallField(stage *Stage, fieldName string) (res
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", modelpkg.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(modelpkg.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(modelpkg.Name))
 	case "PkgPath":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", modelpkg.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "PkgPath")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(modelpkg.PkgPath))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(modelpkg.PkgPath))
 	case "PathToGoSubDirectory":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", modelpkg.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "PathToGoSubDirectory")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(modelpkg.PathToGoSubDirectory))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(modelpkg.PathToGoSubDirectory))
 	case "OrmPkgGenPath":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", modelpkg.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "OrmPkgGenPath")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(modelpkg.OrmPkgGenPath))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(modelpkg.OrmPkgGenPath))
 	case "DbOrmPkgGenPath":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", modelpkg.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DbOrmPkgGenPath")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(modelpkg.DbOrmPkgGenPath))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(modelpkg.DbOrmPkgGenPath))
 	case "DbLiteOrmPkgGenPath":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", modelpkg.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DbLiteOrmPkgGenPath")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(modelpkg.DbLiteOrmPkgGenPath))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(modelpkg.DbLiteOrmPkgGenPath))
 	case "DbPkgGenPath":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", modelpkg.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DbPkgGenPath")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(modelpkg.DbPkgGenPath))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(modelpkg.DbPkgGenPath))
 	case "ControllersPkgGenPath":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", modelpkg.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ControllersPkgGenPath")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(modelpkg.ControllersPkgGenPath))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(modelpkg.ControllersPkgGenPath))
 	case "FullstackPkgGenPath":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", modelpkg.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FullstackPkgGenPath")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(modelpkg.FullstackPkgGenPath))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(modelpkg.FullstackPkgGenPath))
 	case "StackPkgGenPath":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", modelpkg.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StackPkgGenPath")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(modelpkg.StackPkgGenPath))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(modelpkg.StackPkgGenPath))
 	case "Level1StackPkgGenPath":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", modelpkg.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Level1StackPkgGenPath")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(modelpkg.Level1StackPkgGenPath))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(modelpkg.Level1StackPkgGenPath))
 	case "StaticPkgGenPath":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", modelpkg.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StaticPkgGenPath")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(modelpkg.StaticPkgGenPath))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(modelpkg.StaticPkgGenPath))
 	case "ProbePkgGenPath":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", modelpkg.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ProbePkgGenPath")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(modelpkg.ProbePkgGenPath))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(modelpkg.ProbePkgGenPath))
 	case "NgWorkspacePath":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", modelpkg.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "NgWorkspacePath")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(modelpkg.NgWorkspacePath))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(modelpkg.NgWorkspacePath))
 	case "NgWorkspaceName":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", modelpkg.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "NgWorkspaceName")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(modelpkg.NgWorkspaceName))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(modelpkg.NgWorkspaceName))
 	case "NgDataLibrarySourceCodeDirectory":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", modelpkg.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "NgDataLibrarySourceCodeDirectory")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(modelpkg.NgDataLibrarySourceCodeDirectory))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(modelpkg.NgDataLibrarySourceCodeDirectory))
 	case "NgSpecificLibrarySourceCodeDirectory":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", modelpkg.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "NgSpecificLibrarySourceCodeDirectory")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(modelpkg.NgSpecificLibrarySourceCodeDirectory))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(modelpkg.NgSpecificLibrarySourceCodeDirectory))
 	case "MaterialLibDatamodelTargetPath":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", modelpkg.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "MaterialLibDatamodelTargetPath")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(modelpkg.MaterialLibDatamodelTargetPath))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(modelpkg.MaterialLibDatamodelTargetPath))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct ModelPkg", fieldName)
@@ -997,7 +1015,7 @@ func (pointertogongstructfield *PointerToGongStructField) GongMarshallField(stag
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", pointertogongstructfield.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(pointertogongstructfield.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(pointertogongstructfield.Name))
 	case "Index":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", pointertogongstructfield.GongGetIdentifier(stage))
@@ -1007,7 +1025,7 @@ func (pointertogongstructfield *PointerToGongStructField) GongMarshallField(stag
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", pointertogongstructfield.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CompositeStructName")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(pointertogongstructfield.CompositeStructName))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(pointertogongstructfield.CompositeStructName))
 	case "IsType":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", pointertogongstructfield.GongGetIdentifier(stage))
@@ -1040,7 +1058,7 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongMars
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", sliceofpointertogongstructfield.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(sliceofpointertogongstructfield.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(sliceofpointertogongstructfield.Name))
 	case "Index":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", sliceofpointertogongstructfield.GongGetIdentifier(stage))
@@ -1050,7 +1068,7 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongMars
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", sliceofpointertogongstructfield.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CompositeStructName")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(sliceofpointertogongstructfield.CompositeStructName))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(sliceofpointertogongstructfield.CompositeStructName))
 
 	case "GongStruct":
 		if sliceofpointertogongstructfield.GongStruct != nil {

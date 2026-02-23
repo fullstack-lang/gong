@@ -40,7 +40,7 @@ func _(stage *models.Stage) {
 }`
 
 const GongIdentifiersDecls = `
-	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: ` + "`" + `{{GeneratedFieldNameValue}}` + "`" + `}).Stage(stage)`
+	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: {{GeneratedFieldNameValue}}}).Stage(stage)`
 
 const GongUnstageStmt = `
 	{{Identifier}}.Unstage(stage)`
@@ -51,7 +51,7 @@ const IdentifiersDeclsWithoutNameInit = `
 	{{Identifier}} := (&models.{{GeneratedStructName}}{}).Stage(stage)` /* */
 
 const StringInitStatement = `
-	{{Identifier}}.{{GeneratedFieldName}} = ` + "`" + `{{GeneratedFieldNameValue}}` + "`"
+	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`
 
 const MetaFieldStructInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = ` + `{{GeneratedFieldNameValue}}`
@@ -70,6 +70,24 @@ const SliceOfPointersFieldInitStatement = `
 
 const TimeInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}}, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "{{GeneratedFieldNameValue}}")`
+
+// ToRawStringLiteral formats a string into safe Go source code,
+// using backticks to preserve newlines and readability.
+func ToRawStringLiteral(s string) string {
+	// Step 1: Replace every backtick with a closing backtick,
+	// a double-quoted backtick, and an opening backtick.
+	escaped := strings.ReplaceAll(s, "`", "` + \"`\" + `")
+
+	// Step 2: Wrap the entire resulting string in backticks.
+	result := "`" + escaped + "`"
+
+	// Step 3: Clean up any empty raw strings (``) at the boundaries
+	// just in case your original string started or ended with a backtick.
+	result = strings.ReplaceAll(result, "`` + ", "")
+	result = strings.ReplaceAll(result, " + ``", "")
+
+	return result
+}
 
 // Marshall marshall the stage content into the file as an instanciation into a stage
 func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName string) {
@@ -1170,37 +1188,37 @@ func (animate *Animate) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", animate.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(animate.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(animate.Name))
 	case "AttributeName":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", animate.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "AttributeName")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(animate.AttributeName))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(animate.AttributeName))
 	case "Values":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", animate.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Values")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(animate.Values))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(animate.Values))
 	case "From":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", animate.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "From")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(animate.From))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(animate.From))
 	case "To":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", animate.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "To")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(animate.To))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(animate.To))
 	case "Dur":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", animate.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Dur")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(animate.Dur))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(animate.Dur))
 	case "RepeatCount":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", animate.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RepeatCount")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(animate.RepeatCount))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(animate.RepeatCount))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Animate", fieldName)
@@ -1215,7 +1233,7 @@ func (circle *Circle) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", circle.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(circle.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(circle.Name))
 	case "CX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", circle.GongGetIdentifier(stage))
@@ -1235,7 +1253,7 @@ func (circle *Circle) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", circle.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(circle.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(circle.Color))
 	case "FillOpacity":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", circle.GongGetIdentifier(stage))
@@ -1245,7 +1263,7 @@ func (circle *Circle) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", circle.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Stroke")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(circle.Stroke))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(circle.Stroke))
 	case "StrokeOpacity":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", circle.GongGetIdentifier(stage))
@@ -1260,17 +1278,17 @@ func (circle *Circle) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", circle.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StrokeDashArray")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(circle.StrokeDashArray))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(circle.StrokeDashArray))
 	case "StrokeDashArrayWhenSelected":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", circle.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StrokeDashArrayWhenSelected")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(circle.StrokeDashArrayWhenSelected))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(circle.StrokeDashArrayWhenSelected))
 	case "Transform":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", circle.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Transform")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(circle.Transform))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(circle.Transform))
 
 	case "Animations":
 		var sb strings.Builder
@@ -1295,7 +1313,7 @@ func (condition *Condition) GongMarshallField(stage *Stage, fieldName string) (r
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", condition.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(condition.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(condition.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Condition", fieldName)
@@ -1310,7 +1328,7 @@ func (controlpoint *ControlPoint) GongMarshallField(stage *Stage, fieldName stri
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", controlpoint.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(controlpoint.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(controlpoint.Name))
 	case "X_Relative":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", controlpoint.GongGetIdentifier(stage))
@@ -1348,7 +1366,7 @@ func (ellipse *Ellipse) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", ellipse.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(ellipse.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(ellipse.Name))
 	case "CX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", ellipse.GongGetIdentifier(stage))
@@ -1373,7 +1391,7 @@ func (ellipse *Ellipse) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", ellipse.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(ellipse.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(ellipse.Color))
 	case "FillOpacity":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", ellipse.GongGetIdentifier(stage))
@@ -1383,7 +1401,7 @@ func (ellipse *Ellipse) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", ellipse.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Stroke")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(ellipse.Stroke))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(ellipse.Stroke))
 	case "StrokeOpacity":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", ellipse.GongGetIdentifier(stage))
@@ -1398,17 +1416,17 @@ func (ellipse *Ellipse) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", ellipse.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StrokeDashArray")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(ellipse.StrokeDashArray))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(ellipse.StrokeDashArray))
 	case "StrokeDashArrayWhenSelected":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", ellipse.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StrokeDashArrayWhenSelected")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(ellipse.StrokeDashArrayWhenSelected))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(ellipse.StrokeDashArrayWhenSelected))
 	case "Transform":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", ellipse.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Transform")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(ellipse.Transform))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(ellipse.Transform))
 
 	case "Animates":
 		var sb strings.Builder
@@ -1433,7 +1451,7 @@ func (layer *Layer) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", layer.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(layer.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(layer.Name))
 
 	case "Rects":
 		var sb strings.Builder
@@ -1548,7 +1566,7 @@ func (line *Line) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", line.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(line.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(line.Name))
 	case "X1":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", line.GongGetIdentifier(stage))
@@ -1573,7 +1591,7 @@ func (line *Line) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", line.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(line.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(line.Color))
 	case "FillOpacity":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", line.GongGetIdentifier(stage))
@@ -1583,7 +1601,7 @@ func (line *Line) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", line.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Stroke")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(line.Stroke))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(line.Stroke))
 	case "StrokeOpacity":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", line.GongGetIdentifier(stage))
@@ -1598,17 +1616,17 @@ func (line *Line) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", line.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StrokeDashArray")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(line.StrokeDashArray))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(line.StrokeDashArray))
 	case "StrokeDashArrayWhenSelected":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", line.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StrokeDashArrayWhenSelected")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(line.StrokeDashArrayWhenSelected))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(line.StrokeDashArrayWhenSelected))
 	case "Transform":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", line.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Transform")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(line.Transform))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(line.Transform))
 	case "MouseClickX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", line.GongGetIdentifier(stage))
@@ -1643,7 +1661,7 @@ func (link *Link) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", link.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(link.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(link.Name))
 	case "Type":
 		if link.Type.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -1768,7 +1786,7 @@ func (link *Link) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", link.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(link.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(link.Color))
 	case "FillOpacity":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", link.GongGetIdentifier(stage))
@@ -1778,7 +1796,7 @@ func (link *Link) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", link.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Stroke")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(link.Stroke))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(link.Stroke))
 	case "StrokeOpacity":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", link.GongGetIdentifier(stage))
@@ -1793,17 +1811,17 @@ func (link *Link) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", link.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StrokeDashArray")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(link.StrokeDashArray))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(link.StrokeDashArray))
 	case "StrokeDashArrayWhenSelected":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", link.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StrokeDashArrayWhenSelected")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(link.StrokeDashArrayWhenSelected))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(link.StrokeDashArrayWhenSelected))
 	case "Transform":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", link.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Transform")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(link.Transform))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(link.Transform))
 	case "MouseX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", link.GongGetIdentifier(stage))
@@ -1897,12 +1915,12 @@ func (linkanchoredtext *LinkAnchoredText) GongMarshallField(stage *Stage, fieldN
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", linkanchoredtext.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(linkanchoredtext.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(linkanchoredtext.Name))
 	case "Content":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", linkanchoredtext.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Content")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(linkanchoredtext.Content))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(linkanchoredtext.Content))
 	case "AutomaticLayout":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", linkanchoredtext.GongGetIdentifier(stage))
@@ -1935,27 +1953,27 @@ func (linkanchoredtext *LinkAnchoredText) GongMarshallField(stage *Stage, fieldN
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", linkanchoredtext.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FontWeight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(linkanchoredtext.FontWeight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(linkanchoredtext.FontWeight))
 	case "FontSize":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", linkanchoredtext.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FontSize")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(linkanchoredtext.FontSize))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(linkanchoredtext.FontSize))
 	case "FontStyle":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", linkanchoredtext.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FontStyle")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(linkanchoredtext.FontStyle))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(linkanchoredtext.FontStyle))
 	case "LetterSpacing":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", linkanchoredtext.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LetterSpacing")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(linkanchoredtext.LetterSpacing))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(linkanchoredtext.LetterSpacing))
 	case "FontFamily":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", linkanchoredtext.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FontFamily")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(linkanchoredtext.FontFamily))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(linkanchoredtext.FontFamily))
 	case "WhiteSpace":
 		if linkanchoredtext.WhiteSpace.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -1973,7 +1991,7 @@ func (linkanchoredtext *LinkAnchoredText) GongMarshallField(stage *Stage, fieldN
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", linkanchoredtext.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(linkanchoredtext.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(linkanchoredtext.Color))
 	case "FillOpacity":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", linkanchoredtext.GongGetIdentifier(stage))
@@ -1983,7 +2001,7 @@ func (linkanchoredtext *LinkAnchoredText) GongMarshallField(stage *Stage, fieldN
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", linkanchoredtext.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Stroke")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(linkanchoredtext.Stroke))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(linkanchoredtext.Stroke))
 	case "StrokeOpacity":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", linkanchoredtext.GongGetIdentifier(stage))
@@ -1998,17 +2016,17 @@ func (linkanchoredtext *LinkAnchoredText) GongMarshallField(stage *Stage, fieldN
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", linkanchoredtext.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StrokeDashArray")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(linkanchoredtext.StrokeDashArray))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(linkanchoredtext.StrokeDashArray))
 	case "StrokeDashArrayWhenSelected":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", linkanchoredtext.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StrokeDashArrayWhenSelected")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(linkanchoredtext.StrokeDashArrayWhenSelected))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(linkanchoredtext.StrokeDashArrayWhenSelected))
 	case "Transform":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", linkanchoredtext.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Transform")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(linkanchoredtext.Transform))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(linkanchoredtext.Transform))
 
 	case "Animates":
 		var sb strings.Builder
@@ -2033,17 +2051,17 @@ func (path *Path) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", path.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(path.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(path.Name))
 	case "Definition":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", path.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Definition")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(path.Definition))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(path.Definition))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", path.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(path.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(path.Color))
 	case "FillOpacity":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", path.GongGetIdentifier(stage))
@@ -2053,7 +2071,7 @@ func (path *Path) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", path.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Stroke")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(path.Stroke))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(path.Stroke))
 	case "StrokeOpacity":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", path.GongGetIdentifier(stage))
@@ -2068,17 +2086,17 @@ func (path *Path) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", path.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StrokeDashArray")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(path.StrokeDashArray))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(path.StrokeDashArray))
 	case "StrokeDashArrayWhenSelected":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", path.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StrokeDashArrayWhenSelected")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(path.StrokeDashArrayWhenSelected))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(path.StrokeDashArrayWhenSelected))
 	case "Transform":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", path.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Transform")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(path.Transform))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(path.Transform))
 
 	case "Animates":
 		var sb strings.Builder
@@ -2103,7 +2121,7 @@ func (point *Point) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", point.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(point.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(point.Name))
 	case "X":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", point.GongGetIdentifier(stage))
@@ -2128,17 +2146,17 @@ func (polygone *Polygone) GongMarshallField(stage *Stage, fieldName string) (res
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", polygone.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(polygone.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(polygone.Name))
 	case "Points":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", polygone.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Points")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(polygone.Points))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(polygone.Points))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", polygone.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(polygone.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(polygone.Color))
 	case "FillOpacity":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", polygone.GongGetIdentifier(stage))
@@ -2148,7 +2166,7 @@ func (polygone *Polygone) GongMarshallField(stage *Stage, fieldName string) (res
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", polygone.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Stroke")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(polygone.Stroke))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(polygone.Stroke))
 	case "StrokeOpacity":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", polygone.GongGetIdentifier(stage))
@@ -2163,17 +2181,17 @@ func (polygone *Polygone) GongMarshallField(stage *Stage, fieldName string) (res
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", polygone.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StrokeDashArray")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(polygone.StrokeDashArray))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(polygone.StrokeDashArray))
 	case "StrokeDashArrayWhenSelected":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", polygone.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StrokeDashArrayWhenSelected")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(polygone.StrokeDashArrayWhenSelected))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(polygone.StrokeDashArrayWhenSelected))
 	case "Transform":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", polygone.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Transform")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(polygone.Transform))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(polygone.Transform))
 
 	case "Animates":
 		var sb strings.Builder
@@ -2198,17 +2216,17 @@ func (polyline *Polyline) GongMarshallField(stage *Stage, fieldName string) (res
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", polyline.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(polyline.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(polyline.Name))
 	case "Points":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", polyline.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Points")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(polyline.Points))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(polyline.Points))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", polyline.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(polyline.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(polyline.Color))
 	case "FillOpacity":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", polyline.GongGetIdentifier(stage))
@@ -2218,7 +2236,7 @@ func (polyline *Polyline) GongMarshallField(stage *Stage, fieldName string) (res
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", polyline.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Stroke")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(polyline.Stroke))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(polyline.Stroke))
 	case "StrokeOpacity":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", polyline.GongGetIdentifier(stage))
@@ -2233,17 +2251,17 @@ func (polyline *Polyline) GongMarshallField(stage *Stage, fieldName string) (res
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", polyline.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StrokeDashArray")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(polyline.StrokeDashArray))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(polyline.StrokeDashArray))
 	case "StrokeDashArrayWhenSelected":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", polyline.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StrokeDashArrayWhenSelected")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(polyline.StrokeDashArrayWhenSelected))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(polyline.StrokeDashArrayWhenSelected))
 	case "Transform":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", polyline.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Transform")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(polyline.Transform))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(polyline.Transform))
 
 	case "Animates":
 		var sb strings.Builder
@@ -2268,7 +2286,7 @@ func (rect *Rect) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rect.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(rect.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rect.Name))
 	case "X":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rect.GongGetIdentifier(stage))
@@ -2298,7 +2316,7 @@ func (rect *Rect) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rect.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(rect.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rect.Color))
 	case "FillOpacity":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rect.GongGetIdentifier(stage))
@@ -2308,7 +2326,7 @@ func (rect *Rect) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rect.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Stroke")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(rect.Stroke))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rect.Stroke))
 	case "StrokeOpacity":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rect.GongGetIdentifier(stage))
@@ -2323,17 +2341,17 @@ func (rect *Rect) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rect.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StrokeDashArray")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(rect.StrokeDashArray))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rect.StrokeDashArray))
 	case "StrokeDashArrayWhenSelected":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rect.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StrokeDashArrayWhenSelected")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(rect.StrokeDashArrayWhenSelected))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rect.StrokeDashArrayWhenSelected))
 	case "Transform":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rect.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Transform")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(rect.Transform))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rect.Transform))
 	case "IsSelectable":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rect.GongGetIdentifier(stage))
@@ -2408,12 +2426,12 @@ func (rect *Rect) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rect.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ColorWhenHovered")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(rect.ColorWhenHovered))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rect.ColorWhenHovered))
 	case "OriginalColor":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rect.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "OriginalColor")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(rect.OriginalColor))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rect.OriginalColor))
 	case "FillOpacityWhenHovered":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rect.GongGetIdentifier(stage))
@@ -2433,7 +2451,7 @@ func (rect *Rect) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rect.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ToolTipText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(rect.ToolTipText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rect.ToolTipText))
 	case "ToolTipPosition":
 		if rect.ToolTipPosition.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -2544,12 +2562,12 @@ func (rectanchoredpath *RectAnchoredPath) GongMarshallField(stage *Stage, fieldN
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredpath.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(rectanchoredpath.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rectanchoredpath.Name))
 	case "Definition":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredpath.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Definition")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(rectanchoredpath.Definition))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rectanchoredpath.Definition))
 	case "X_Offset":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredpath.GongGetIdentifier(stage))
@@ -2587,7 +2605,7 @@ func (rectanchoredpath *RectAnchoredPath) GongMarshallField(stage *Stage, fieldN
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredpath.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(rectanchoredpath.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rectanchoredpath.Color))
 	case "FillOpacity":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredpath.GongGetIdentifier(stage))
@@ -2597,7 +2615,7 @@ func (rectanchoredpath *RectAnchoredPath) GongMarshallField(stage *Stage, fieldN
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredpath.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Stroke")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(rectanchoredpath.Stroke))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rectanchoredpath.Stroke))
 	case "StrokeOpacity":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredpath.GongGetIdentifier(stage))
@@ -2612,17 +2630,17 @@ func (rectanchoredpath *RectAnchoredPath) GongMarshallField(stage *Stage, fieldN
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredpath.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StrokeDashArray")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(rectanchoredpath.StrokeDashArray))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rectanchoredpath.StrokeDashArray))
 	case "StrokeDashArrayWhenSelected":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredpath.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StrokeDashArrayWhenSelected")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(rectanchoredpath.StrokeDashArrayWhenSelected))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rectanchoredpath.StrokeDashArrayWhenSelected))
 	case "Transform":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredpath.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Transform")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(rectanchoredpath.Transform))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rectanchoredpath.Transform))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct RectAnchoredPath", fieldName)
@@ -2637,7 +2655,7 @@ func (rectanchoredrect *RectAnchoredRect) GongMarshallField(stage *Stage, fieldN
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredrect.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(rectanchoredrect.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rectanchoredrect.Name))
 	case "X":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredrect.GongGetIdentifier(stage))
@@ -2705,12 +2723,12 @@ func (rectanchoredrect *RectAnchoredRect) GongMarshallField(stage *Stage, fieldN
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredrect.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ToolTipText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(rectanchoredrect.ToolTipText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rectanchoredrect.ToolTipText))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredrect.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(rectanchoredrect.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rectanchoredrect.Color))
 	case "FillOpacity":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredrect.GongGetIdentifier(stage))
@@ -2720,7 +2738,7 @@ func (rectanchoredrect *RectAnchoredRect) GongMarshallField(stage *Stage, fieldN
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredrect.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Stroke")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(rectanchoredrect.Stroke))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rectanchoredrect.Stroke))
 	case "StrokeOpacity":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredrect.GongGetIdentifier(stage))
@@ -2735,17 +2753,17 @@ func (rectanchoredrect *RectAnchoredRect) GongMarshallField(stage *Stage, fieldN
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredrect.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StrokeDashArray")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(rectanchoredrect.StrokeDashArray))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rectanchoredrect.StrokeDashArray))
 	case "StrokeDashArrayWhenSelected":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredrect.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StrokeDashArrayWhenSelected")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(rectanchoredrect.StrokeDashArrayWhenSelected))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rectanchoredrect.StrokeDashArrayWhenSelected))
 	case "Transform":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredrect.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Transform")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(rectanchoredrect.Transform))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rectanchoredrect.Transform))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct RectAnchoredRect", fieldName)
@@ -2760,37 +2778,37 @@ func (rectanchoredtext *RectAnchoredText) GongMarshallField(stage *Stage, fieldN
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredtext.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(rectanchoredtext.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rectanchoredtext.Name))
 	case "Content":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredtext.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Content")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(rectanchoredtext.Content))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rectanchoredtext.Content))
 	case "FontWeight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredtext.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FontWeight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(rectanchoredtext.FontWeight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rectanchoredtext.FontWeight))
 	case "FontSize":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredtext.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FontSize")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(rectanchoredtext.FontSize))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rectanchoredtext.FontSize))
 	case "FontStyle":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredtext.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FontStyle")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(rectanchoredtext.FontStyle))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rectanchoredtext.FontStyle))
 	case "LetterSpacing":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredtext.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LetterSpacing")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(rectanchoredtext.LetterSpacing))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rectanchoredtext.LetterSpacing))
 	case "FontFamily":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredtext.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FontFamily")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(rectanchoredtext.FontFamily))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rectanchoredtext.FontFamily))
 	case "WhiteSpace":
 		if rectanchoredtext.WhiteSpace.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -2870,7 +2888,7 @@ func (rectanchoredtext *RectAnchoredText) GongMarshallField(stage *Stage, fieldN
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredtext.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(rectanchoredtext.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rectanchoredtext.Color))
 	case "FillOpacity":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredtext.GongGetIdentifier(stage))
@@ -2880,7 +2898,7 @@ func (rectanchoredtext *RectAnchoredText) GongMarshallField(stage *Stage, fieldN
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredtext.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Stroke")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(rectanchoredtext.Stroke))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rectanchoredtext.Stroke))
 	case "StrokeOpacity":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredtext.GongGetIdentifier(stage))
@@ -2895,17 +2913,17 @@ func (rectanchoredtext *RectAnchoredText) GongMarshallField(stage *Stage, fieldN
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredtext.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StrokeDashArray")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(rectanchoredtext.StrokeDashArray))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rectanchoredtext.StrokeDashArray))
 	case "StrokeDashArrayWhenSelected":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredtext.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StrokeDashArrayWhenSelected")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(rectanchoredtext.StrokeDashArrayWhenSelected))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rectanchoredtext.StrokeDashArrayWhenSelected))
 	case "Transform":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredtext.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Transform")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(rectanchoredtext.Transform))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rectanchoredtext.Transform))
 
 	case "Animates":
 		var sb strings.Builder
@@ -2930,7 +2948,7 @@ func (rectlinklink *RectLinkLink) GongMarshallField(stage *Stage, fieldName stri
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rectlinklink.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(rectlinklink.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rectlinklink.Name))
 	case "TargetAnchorPosition":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rectlinklink.GongGetIdentifier(stage))
@@ -2940,7 +2958,7 @@ func (rectlinklink *RectLinkLink) GongMarshallField(stage *Stage, fieldName stri
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rectlinklink.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(rectlinklink.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rectlinklink.Color))
 	case "FillOpacity":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rectlinklink.GongGetIdentifier(stage))
@@ -2950,7 +2968,7 @@ func (rectlinklink *RectLinkLink) GongMarshallField(stage *Stage, fieldName stri
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rectlinklink.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Stroke")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(rectlinklink.Stroke))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rectlinklink.Stroke))
 	case "StrokeOpacity":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rectlinklink.GongGetIdentifier(stage))
@@ -2965,17 +2983,17 @@ func (rectlinklink *RectLinkLink) GongMarshallField(stage *Stage, fieldName stri
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rectlinklink.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StrokeDashArray")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(rectlinklink.StrokeDashArray))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rectlinklink.StrokeDashArray))
 	case "StrokeDashArrayWhenSelected":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rectlinklink.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StrokeDashArrayWhenSelected")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(rectlinklink.StrokeDashArrayWhenSelected))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rectlinklink.StrokeDashArrayWhenSelected))
 	case "Transform":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rectlinklink.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Transform")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(rectlinklink.Transform))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rectlinklink.Transform))
 
 	case "Start":
 		if rectlinklink.Start != nil {
@@ -3016,7 +3034,7 @@ func (svg *SVG) GongMarshallField(stage *Stage, fieldName string) (res string) {
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", svg.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(svg.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(svg.Name))
 	case "DrawingState":
 		if svg.DrawingState.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -3049,7 +3067,7 @@ func (svg *SVG) GongMarshallField(stage *Stage, fieldName string) (res string) {
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", svg.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DefaultDirectoryForGeneratedImages")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(svg.DefaultDirectoryForGeneratedImages))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(svg.DefaultDirectoryForGeneratedImages))
 	case "IsControlBannerHidden":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", svg.GongGetIdentifier(stage))
@@ -3125,12 +3143,12 @@ func (svgtext *SvgText) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", svgtext.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(svgtext.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(svgtext.Name))
 	case "Text":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", svgtext.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Text")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(svgtext.Text))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(svgtext.Text))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct SvgText", fieldName)
@@ -3145,7 +3163,7 @@ func (text *Text) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(text.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(text.Name))
 	case "X":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", text.GongGetIdentifier(stage))
@@ -3160,12 +3178,12 @@ func (text *Text) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Content")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(text.Content))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(text.Content))
 	case "Color":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(text.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(text.Color))
 	case "FillOpacity":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", text.GongGetIdentifier(stage))
@@ -3175,7 +3193,7 @@ func (text *Text) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Stroke")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(text.Stroke))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(text.Stroke))
 	case "StrokeOpacity":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", text.GongGetIdentifier(stage))
@@ -3190,42 +3208,42 @@ func (text *Text) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StrokeDashArray")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(text.StrokeDashArray))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(text.StrokeDashArray))
 	case "StrokeDashArrayWhenSelected":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StrokeDashArrayWhenSelected")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(text.StrokeDashArrayWhenSelected))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(text.StrokeDashArrayWhenSelected))
 	case "Transform":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Transform")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(text.Transform))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(text.Transform))
 	case "FontWeight":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FontWeight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(text.FontWeight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(text.FontWeight))
 	case "FontSize":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FontSize")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(text.FontSize))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(text.FontSize))
 	case "FontStyle":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FontStyle")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(text.FontStyle))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(text.FontStyle))
 	case "LetterSpacing":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LetterSpacing")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(text.LetterSpacing))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(text.LetterSpacing))
 	case "FontFamily":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FontFamily")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(text.FontFamily))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(text.FontFamily))
 	case "WhiteSpace":
 		if text.WhiteSpace.ToCodeString() != "" {
 			res = StringEnumInitStatement

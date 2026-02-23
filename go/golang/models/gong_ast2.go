@@ -220,9 +220,29 @@ func ParseAstFileFromAst(stage *Stage, inFile *ast.File, fset *token.FileSet, pr
 // --- Generic Helpers for Unmarshallers ---
 
 func GongExtractString(expr ast.Expr) string {
-	if bl, ok := expr.(*ast.BasicLit); ok {
-		return strings.Trim(bl.Value, "\"` + "`" + `")
+	switch e := expr.(type) {
+
+	// Case 1: It's a standard string literal
+	case *ast.BasicLit:
+		if e.Kind == token.STRING {
+			if unquoted, err := strconv.Unquote(e.Value); err == nil {
+				return unquoted
+			}
+		}
+
+	// Case 2: It's a concatenated string
+	case *ast.BinaryExpr:
+		// We only care if they are being added together
+		if e.Op == token.ADD {
+			// Recursively extract the left and right sides
+			left := GongExtractString(e.X)
+			right := GongExtractString(e.Y)
+
+			// Join them back together
+			return left + right
+		}
 	}
+
 	return ""
 }
 

@@ -471,7 +471,7 @@ func (button *Button) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", button.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Button")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", button.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(button.Name))
 	return
 }
 
@@ -479,7 +479,7 @@ func (node *Node) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", node.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Node")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", node.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(node.Name))
 	return
 }
 
@@ -487,7 +487,7 @@ func (svgicon *SVGIcon) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", svgicon.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "SVGIcon")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", svgicon.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(svgicon.Name))
 	return
 }
 
@@ -495,7 +495,7 @@ func (tree *Tree) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", tree.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Tree")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", tree.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tree.Name))
 	return
 }
 

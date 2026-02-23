@@ -566,7 +566,7 @@ func (displayselection *DisplaySelection) GongMarshallIdentifier(stage *Stage) (
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", displayselection.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "DisplaySelection")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", displayselection.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(displayselection.Name))
 	return
 }
 
@@ -574,7 +574,7 @@ func (xlcell *XLCell) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", xlcell.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "XLCell")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", xlcell.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(xlcell.Name))
 	return
 }
 
@@ -582,7 +582,7 @@ func (xlfile *XLFile) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", xlfile.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "XLFile")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", xlfile.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(xlfile.Name))
 	return
 }
 
@@ -590,7 +590,7 @@ func (xlrow *XLRow) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", xlrow.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "XLRow")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", xlrow.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(xlrow.Name))
 	return
 }
 
@@ -598,7 +598,7 @@ func (xlsheet *XLSheet) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", xlsheet.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "XLSheet")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", xlsheet.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(xlsheet.Name))
 	return
 }
 

@@ -40,7 +40,7 @@ func _(stage *models.Stage) {
 }`
 
 const GongIdentifiersDecls = `
-	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: ` + "`" + `{{GeneratedFieldNameValue}}` + "`" + `}).Stage(stage)`
+	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: {{GeneratedFieldNameValue}}}).Stage(stage)`
 
 const GongUnstageStmt = `
 	{{Identifier}}.Unstage(stage)`
@@ -51,7 +51,7 @@ const IdentifiersDeclsWithoutNameInit = `
 	{{Identifier}} := (&models.{{GeneratedStructName}}{}).Stage(stage)` /* */
 
 const StringInitStatement = `
-	{{Identifier}}.{{GeneratedFieldName}} = ` + "`" + `{{GeneratedFieldNameValue}}` + "`"
+	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`
 
 const MetaFieldStructInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = ` + `{{GeneratedFieldNameValue}}`
@@ -70,6 +70,24 @@ const SliceOfPointersFieldInitStatement = `
 
 const TimeInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}}, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "{{GeneratedFieldNameValue}}")`
+
+// ToRawStringLiteral formats a string into safe Go source code,
+// using backticks to preserve newlines and readability.
+func ToRawStringLiteral(s string) string {
+	// Step 1: Replace every backtick with a closing backtick,
+	// a double-quoted backtick, and an opening backtick.
+	escaped := strings.ReplaceAll(s, "`", "` + \"`\" + `")
+
+	// Step 2: Wrap the entire resulting string in backticks.
+	result := "`" + escaped + "`"
+
+	// Step 3: Clean up any empty raw strings (``) at the boundaries
+	// just in case your original string started or ended with a backtick.
+	result = strings.ReplaceAll(result, "`` + ", "")
+	result = strings.ReplaceAll(result, " + ``", "")
+
+	return result
+}
 
 // Marshall marshall the stage content into the file as an instanciation into a stage
 func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName string) {
@@ -219,7 +237,7 @@ func (cursor *Cursor) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", cursor.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(cursor.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(cursor.Name))
 	case "StartX":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", cursor.GongGetIdentifier(stage))
@@ -249,7 +267,7 @@ func (cursor *Cursor) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", cursor.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(cursor.Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(cursor.Color))
 	case "FillOpacity":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", cursor.GongGetIdentifier(stage))
@@ -259,7 +277,7 @@ func (cursor *Cursor) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", cursor.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Stroke")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(cursor.Stroke))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(cursor.Stroke))
 	case "StrokeOpacity":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", cursor.GongGetIdentifier(stage))
@@ -274,17 +292,17 @@ func (cursor *Cursor) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", cursor.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StrokeDashArray")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(cursor.StrokeDashArray))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(cursor.StrokeDashArray))
 	case "StrokeDashArrayWhenSelected":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", cursor.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StrokeDashArrayWhenSelected")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(cursor.StrokeDashArrayWhenSelected))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(cursor.StrokeDashArrayWhenSelected))
 	case "Transform":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", cursor.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Transform")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(cursor.Transform))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(cursor.Transform))
 	case "IsPlaying":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", cursor.GongGetIdentifier(stage))

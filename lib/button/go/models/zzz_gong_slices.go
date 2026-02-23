@@ -566,7 +566,7 @@ func (button *Button) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", button.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Button")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", button.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(button.Name))
 	return
 }
 
@@ -574,7 +574,7 @@ func (buttontoggle *ButtonToggle) GongMarshallIdentifier(stage *Stage) (decl str
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", buttontoggle.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ButtonToggle")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", buttontoggle.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(buttontoggle.Name))
 	return
 }
 
@@ -582,7 +582,7 @@ func (group *Group) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", group.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Group")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", group.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(group.Name))
 	return
 }
 
@@ -590,7 +590,7 @@ func (grouptoogle *GroupToogle) GongMarshallIdentifier(stage *Stage) (decl strin
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", grouptoogle.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GroupToogle")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", grouptoogle.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(grouptoogle.Name))
 	return
 }
 
@@ -598,7 +598,7 @@ func (layout *Layout) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", layout.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Layout")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", layout.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(layout.Name))
 	return
 }
 

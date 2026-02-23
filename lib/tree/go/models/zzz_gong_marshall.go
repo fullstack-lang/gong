@@ -40,7 +40,7 @@ func _(stage *models.Stage) {
 }`
 
 const GongIdentifiersDecls = `
-	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: ` + "`" + `{{GeneratedFieldNameValue}}` + "`" + `}).Stage(stage)`
+	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: {{GeneratedFieldNameValue}}}).Stage(stage)`
 
 const GongUnstageStmt = `
 	{{Identifier}}.Unstage(stage)`
@@ -51,7 +51,7 @@ const IdentifiersDeclsWithoutNameInit = `
 	{{Identifier}} := (&models.{{GeneratedStructName}}{}).Stage(stage)` /* */
 
 const StringInitStatement = `
-	{{Identifier}}.{{GeneratedFieldName}} = ` + "`" + `{{GeneratedFieldNameValue}}` + "`"
+	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`
 
 const MetaFieldStructInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = ` + `{{GeneratedFieldNameValue}}`
@@ -70,6 +70,24 @@ const SliceOfPointersFieldInitStatement = `
 
 const TimeInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}}, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "{{GeneratedFieldNameValue}}")`
+
+// ToRawStringLiteral formats a string into safe Go source code,
+// using backticks to preserve newlines and readability.
+func ToRawStringLiteral(s string) string {
+	// Step 1: Replace every backtick with a closing backtick,
+	// a double-quoted backtick, and an opening backtick.
+	escaped := strings.ReplaceAll(s, "`", "` + \"`\" + `")
+
+	// Step 2: Wrap the entire resulting string in backticks.
+	result := "`" + escaped + "`"
+
+	// Step 3: Clean up any empty raw strings (``) at the boundaries
+	// just in case your original string started or ended with a backtick.
+	result = strings.ReplaceAll(result, "`` + ", "")
+	result = strings.ReplaceAll(result, " + ``", "")
+
+	return result
+}
 
 // Marshall marshall the stage content into the file as an instanciation into a stage
 func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName string) {
@@ -343,12 +361,12 @@ func (button *Button) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", button.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(button.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(button.Name))
 	case "Icon":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", button.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Icon")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(button.Icon))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(button.Icon))
 	case "IsDisabled":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", button.GongGetIdentifier(stage))
@@ -363,7 +381,7 @@ func (button *Button) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", button.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ToolTipText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(button.ToolTipText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(button.ToolTipText))
 	case "ToolTipPosition":
 		if button.ToolTipPosition.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -404,7 +422,7 @@ func (node *Node) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(node.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(node.Name))
 	case "IsWithPrefix":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
@@ -414,7 +432,7 @@ func (node *Node) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Prefix")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(node.Prefix))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(node.Prefix))
 	case "FontStyle":
 		if node.FontStyle.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -432,7 +450,7 @@ func (node *Node) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "BackgroundColor")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(node.BackgroundColor))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(node.BackgroundColor))
 	case "IsExpanded":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
@@ -462,7 +480,7 @@ func (node *Node) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CheckboxToolTipText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(node.CheckboxToolTipText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(node.CheckboxToolTipText))
 	case "CheckboxToolTipPosition":
 		if node.CheckboxToolTipPosition.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -500,7 +518,7 @@ func (node *Node) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SecondCheckboxToolTipText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(node.SecondCheckboxToolTipText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(node.SecondCheckboxToolTipText))
 	case "SecondCheckboxToolTipPosition":
 		if node.SecondCheckboxToolTipPosition.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -518,7 +536,7 @@ func (node *Node) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TextAfterSecondCheckbox")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(node.TextAfterSecondCheckbox))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(node.TextAfterSecondCheckbox))
 	case "HasToolTip":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
@@ -528,7 +546,7 @@ func (node *Node) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ToolTipText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(node.ToolTipText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(node.ToolTipText))
 	case "ToolTipPosition":
 		if node.ToolTipPosition.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -561,7 +579,7 @@ func (node *Node) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "PreceedingIcon")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(node.PreceedingIcon))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(node.PreceedingIcon))
 
 	case "PreceedingSVGIcon":
 		if node.PreceedingSVGIcon != nil {
@@ -609,12 +627,12 @@ func (svgicon *SVGIcon) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", svgicon.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(svgicon.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(svgicon.Name))
 	case "SVG":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", svgicon.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SVG")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(svgicon.SVG))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(svgicon.SVG))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct SVGIcon", fieldName)
@@ -629,7 +647,7 @@ func (tree *Tree) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tree.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(tree.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tree.Name))
 
 	case "RootNodes":
 		var sb strings.Builder
