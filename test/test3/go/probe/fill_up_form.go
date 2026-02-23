@@ -20,7 +20,7 @@ func FillUpForm(
 	case *models.A:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			true, true, 600, true, 300)
 		BasicFieldtoForm("Date", instanceWithInferedType.Date, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("FloatValue", instanceWithInferedType.FloatValue, instanceWithInferedType, probe.formStage, formGroup,
