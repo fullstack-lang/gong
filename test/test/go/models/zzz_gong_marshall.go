@@ -40,7 +40,7 @@ func _(stage *models.Stage) {
 }`
 
 const GongIdentifiersDecls = `
-	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: ` + "`" + `{{GeneratedFieldNameValue}}` + "`" + `}).Stage(stage)`
+	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: {{GeneratedFieldNameValue}}}).Stage(stage)`
 
 const GongUnstageStmt = `
 	{{Identifier}}.Unstage(stage)`
@@ -51,7 +51,7 @@ const IdentifiersDeclsWithoutNameInit = `
 	{{Identifier}} := (&models.{{GeneratedStructName}}{}).Stage(stage)` /* */
 
 const StringInitStatement = `
-	{{Identifier}}.{{GeneratedFieldName}} = ` + "`" + `{{GeneratedFieldNameValue}}` + "`"
+	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`
 
 const MetaFieldStructInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = ` + `{{GeneratedFieldNameValue}}`
@@ -452,7 +452,7 @@ func (astruct *Astruct) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", astruct.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(astruct.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(astruct.Name)))
 	case "Field":
 		if str, ok := astruct.Field.(string); ok {
 			res = MetaFieldStructInitStatement
@@ -531,7 +531,7 @@ func (astruct *Astruct) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", astruct.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CName")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(astruct.CName))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(astruct.CName)))
 	case "CFloatfield":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", astruct.GongGetIdentifier(stage))
@@ -561,12 +561,12 @@ func (astruct *Astruct) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", astruct.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TextFieldBespokeSize")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(astruct.TextFieldBespokeSize))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(astruct.TextFieldBespokeSize)))
 	case "TextArea":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", astruct.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TextArea")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(astruct.TextArea))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(astruct.TextArea)))
 
 	case "Associationtob":
 		if astruct.Associationtob != nil {
@@ -758,7 +758,7 @@ func (astructbstruct2use *AstructBstruct2Use) GongMarshallField(stage *Stage, fi
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", astructbstruct2use.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(astructbstruct2use.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(astructbstruct2use.Name)))
 
 	case "Bstrcut2":
 		if astructbstruct2use.Bstrcut2 != nil {
@@ -786,7 +786,7 @@ func (astructbstructuse *AstructBstructUse) GongMarshallField(stage *Stage, fiel
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", astructbstructuse.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(astructbstructuse.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(astructbstructuse.Name)))
 
 	case "Bstruct2":
 		if astructbstructuse.Bstruct2 != nil {
@@ -814,7 +814,7 @@ func (bstruct *Bstruct) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bstruct.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(bstruct.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(bstruct.Name)))
 	case "Floatfield":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", bstruct.GongGetIdentifier(stage))
@@ -844,7 +844,7 @@ func (dstruct *Dstruct) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dstruct.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(dstruct.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(dstruct.Name)))
 
 	case "Anarrayofb":
 		var sb strings.Builder
@@ -892,7 +892,7 @@ func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GongMa
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", f0123456789012345678901234567890.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(f0123456789012345678901234567890.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(f0123456789012345678901234567890.Name)))
 	case "Date":
 		res = TimeInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", f0123456789012345678901234567890.GongGetIdentifier(stage))
@@ -912,7 +912,7 @@ func (gstruct *Gstruct) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gstruct.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(gstruct.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(gstruct.Name)))
 	case "Floatfield":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gstruct.GongGetIdentifier(stage))

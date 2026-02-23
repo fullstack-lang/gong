@@ -40,7 +40,7 @@ func _(stage *models.Stage) {
 }`
 
 const GongIdentifiersDecls = `
-	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: ` + "`" + `{{GeneratedFieldNameValue}}` + "`" + `}).Stage(stage)`
+	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: {{GeneratedFieldNameValue}}}).Stage(stage)`
 
 const GongUnstageStmt = `
 	{{Identifier}}.Unstage(stage)`
@@ -51,7 +51,7 @@ const IdentifiersDeclsWithoutNameInit = `
 	{{Identifier}} := (&models.{{GeneratedStructName}}{}).Stage(stage)` /* */
 
 const StringInitStatement = `
-	{{Identifier}}.{{GeneratedFieldName}} = ` + "`" + `{{GeneratedFieldNameValue}}` + "`"
+	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`
 
 const MetaFieldStructInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = ` + `{{GeneratedFieldNameValue}}`
@@ -863,7 +863,7 @@ func (assplit *AsSplit) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", assplit.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(assplit.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(assplit.Name)))
 	case "Direction":
 		if assplit.Direction.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -901,7 +901,7 @@ func (assplitarea *AsSplitArea) GongMarshallField(stage *Stage, fieldName string
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", assplitarea.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(assplitarea.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(assplitarea.Name)))
 	case "ShowNameInHeader":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", assplitarea.GongGetIdentifier(stage))
@@ -926,7 +926,7 @@ func (assplitarea *AsSplitArea) GongMarshallField(stage *Stage, fieldName string
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", assplitarea.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DivStyle")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(assplitarea.DivStyle))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(assplitarea.DivStyle)))
 
 	case "AsSplit":
 		if assplitarea.AsSplit != nil {
@@ -1110,12 +1110,12 @@ func (button *Button) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", button.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(button.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(button.Name)))
 	case "StackName":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", button.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StackName")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(button.StackName))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(button.StackName)))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Button", fieldName)
@@ -1130,17 +1130,17 @@ func (cursor *Cursor) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", cursor.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(cursor.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(cursor.Name)))
 	case "StackName":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", cursor.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StackName")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(cursor.StackName))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(cursor.StackName)))
 	case "Style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", cursor.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(cursor.Style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(cursor.Style)))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Cursor", fieldName)
@@ -1155,12 +1155,12 @@ func (favicon *FavIcon) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", favicon.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(favicon.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(favicon.Name)))
 	case "SVG":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", favicon.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SVG")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(favicon.SVG))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(favicon.SVG)))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct FavIcon", fieldName)
@@ -1175,12 +1175,12 @@ func (form *Form) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", form.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(form.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(form.Name)))
 	case "StackName":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", form.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StackName")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(form.StackName))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(form.StackName)))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Form", fieldName)
@@ -1195,12 +1195,12 @@ func (load *Load) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", load.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(load.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(load.Name)))
 	case "StackName":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", load.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StackName")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(load.StackName))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(load.StackName)))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Load", fieldName)
@@ -1215,7 +1215,7 @@ func (logoontheleft *LogoOnTheLeft) GongMarshallField(stage *Stage, fieldName st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", logoontheleft.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(logoontheleft.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(logoontheleft.Name)))
 	case "Width":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", logoontheleft.GongGetIdentifier(stage))
@@ -1230,7 +1230,7 @@ func (logoontheleft *LogoOnTheLeft) GongMarshallField(stage *Stage, fieldName st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", logoontheleft.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SVG")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(logoontheleft.SVG))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(logoontheleft.SVG)))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct LogoOnTheLeft", fieldName)
@@ -1245,7 +1245,7 @@ func (logoontheright *LogoOnTheRight) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", logoontheright.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(logoontheright.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(logoontheright.Name)))
 	case "Width":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", logoontheright.GongGetIdentifier(stage))
@@ -1260,7 +1260,7 @@ func (logoontheright *LogoOnTheRight) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", logoontheright.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SVG")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(logoontheright.SVG))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(logoontheright.SVG)))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct LogoOnTheRight", fieldName)
@@ -1275,12 +1275,12 @@ func (markdown *Markdown) GongMarshallField(stage *Stage, fieldName string) (res
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", markdown.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(markdown.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(markdown.Name)))
 	case "StackName":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", markdown.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StackName")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(markdown.StackName))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(markdown.StackName)))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Markdown", fieldName)
@@ -1295,12 +1295,12 @@ func (slider *Slider) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", slider.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(slider.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(slider.Name)))
 	case "StackName":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", slider.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StackName")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(slider.StackName))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(slider.StackName)))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Slider", fieldName)
@@ -1315,12 +1315,12 @@ func (split *Split) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", split.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(split.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(split.Name)))
 	case "StackName":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", split.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StackName")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(split.StackName))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(split.StackName)))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Split", fieldName)
@@ -1335,17 +1335,17 @@ func (svg *Svg) GongMarshallField(stage *Stage, fieldName string) (res string) {
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", svg.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(svg.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(svg.Name)))
 	case "StackName":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", svg.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StackName")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(svg.StackName))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(svg.StackName)))
 	case "Style":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", svg.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Style")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(svg.Style))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(svg.Style)))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Svg", fieldName)
@@ -1360,12 +1360,12 @@ func (table *Table) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", table.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(table.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(table.Name)))
 	case "StackName":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", table.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StackName")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(table.StackName))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(table.StackName)))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Table", fieldName)
@@ -1380,7 +1380,7 @@ func (title *Title) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", title.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(title.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(title.Name)))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Title", fieldName)
@@ -1395,12 +1395,12 @@ func (tone *Tone) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tone.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(tone.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(tone.Name)))
 	case "StackName":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tone.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StackName")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(tone.StackName))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(tone.StackName)))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Tone", fieldName)
@@ -1415,12 +1415,12 @@ func (tree *Tree) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tree.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(tree.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(tree.Name)))
 	case "StackName":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tree.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StackName")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(tree.StackName))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(tree.StackName)))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Tree", fieldName)
@@ -1435,7 +1435,7 @@ func (view *View) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", view.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(view.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(view.Name)))
 	case "ShowViewName":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", view.GongGetIdentifier(stage))
@@ -1488,12 +1488,12 @@ func (xlsx *Xlsx) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", xlsx.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(xlsx.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(xlsx.Name)))
 	case "StackName":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", xlsx.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StackName")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(xlsx.StackName))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(xlsx.StackName)))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Xlsx", fieldName)
