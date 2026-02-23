@@ -40,7 +40,7 @@ func _(stage *models.Stage) {
 }`
 
 const GongIdentifiersDecls = `
-	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: ` + "`" + `{{GeneratedFieldNameValue}}` + "`" + `}).Stage(stage)`
+	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: {{GeneratedFieldNameValue}}}).Stage(stage)`
 
 const GongUnstageStmt = `
 	{{Identifier}}.Unstage(stage)`
@@ -51,7 +51,7 @@ const IdentifiersDeclsWithoutNameInit = `
 	{{Identifier}} := (&models.{{GeneratedStructName}}{}).Stage(stage)` /* */
 
 const StringInitStatement = `
-	{{Identifier}}.{{GeneratedFieldName}} = ` + "`" + `{{GeneratedFieldNameValue}}` + "`"
+	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`
 
 const MetaFieldStructInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = ` + `{{GeneratedFieldNameValue}}`
@@ -547,7 +547,7 @@ func (attributeshape *AttributeShape) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attributeshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(attributeshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(attributeshape.Name)))
 	case "IdentifierMeta":
 		if str, ok := attributeshape.IdentifierMeta.(string); ok {
 			res = MetaFieldStructInitStatement
@@ -559,17 +559,17 @@ func (attributeshape *AttributeShape) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attributeshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FieldTypeAsString")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(attributeshape.FieldTypeAsString))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(attributeshape.FieldTypeAsString)))
 	case "Structname":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attributeshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Structname")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(attributeshape.Structname))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(attributeshape.Structname)))
 	case "Fieldtypename":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", attributeshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Fieldtypename")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(attributeshape.Fieldtypename))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(attributeshape.Fieldtypename)))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct AttributeShape", fieldName)
@@ -584,12 +584,12 @@ func (classdiagram *Classdiagram) GongMarshallField(stage *Stage, fieldName stri
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", classdiagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(classdiagram.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(classdiagram.Name)))
 	case "Description":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", classdiagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Description")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(classdiagram.Description))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(classdiagram.Description)))
 	case "IsIncludedInStaticWebSite":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", classdiagram.GongGetIdentifier(stage))
@@ -629,7 +629,7 @@ func (classdiagram *Classdiagram) GongMarshallField(stage *Stage, fieldName stri
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", classdiagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "NodeGongStructNodeExpansion")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(classdiagram.NodeGongStructNodeExpansion))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(classdiagram.NodeGongStructNodeExpansion)))
 	case "NodeGongEnumsIsExpanded":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", classdiagram.GongGetIdentifier(stage))
@@ -639,7 +639,7 @@ func (classdiagram *Classdiagram) GongMarshallField(stage *Stage, fieldName stri
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", classdiagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "NodeGongEnumNodeExpansion")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(classdiagram.NodeGongEnumNodeExpansion))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(classdiagram.NodeGongEnumNodeExpansion)))
 	case "NodeGongNotesIsExpanded":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", classdiagram.GongGetIdentifier(stage))
@@ -649,7 +649,7 @@ func (classdiagram *Classdiagram) GongMarshallField(stage *Stage, fieldName stri
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", classdiagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "NodeGongNoteNodeExpansion")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(classdiagram.NodeGongNoteNodeExpansion))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(classdiagram.NodeGongNoteNodeExpansion)))
 
 	case "GongStructShapes":
 		var sb strings.Builder
@@ -694,22 +694,22 @@ func (diagrampackage *DiagramPackage) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagrampackage.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(diagrampackage.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(diagrampackage.Name)))
 	case "Path":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagrampackage.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Path")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(diagrampackage.Path))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(diagrampackage.Path)))
 	case "GongModelPath":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagrampackage.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "GongModelPath")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(diagrampackage.GongModelPath))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(diagrampackage.GongModelPath)))
 	case "AbsolutePathToDiagramPackage":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagrampackage.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "AbsolutePathToDiagramPackage")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(diagrampackage.AbsolutePathToDiagramPackage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(diagrampackage.AbsolutePathToDiagramPackage)))
 
 	case "Classdiagrams":
 		var sb strings.Builder
@@ -747,7 +747,7 @@ func (gongenumshape *GongEnumShape) GongMarshallField(stage *Stage, fieldName st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gongenumshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(gongenumshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(gongenumshape.Name)))
 	case "X":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gongenumshape.GongGetIdentifier(stage))
@@ -804,7 +804,7 @@ func (gongenumvalueshape *GongEnumValueShape) GongMarshallField(stage *Stage, fi
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gongenumvalueshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(gongenumvalueshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(gongenumvalueshape.Name)))
 	case "IdentifierMeta":
 		if str, ok := gongenumvalueshape.IdentifierMeta.(string); ok {
 			res = MetaFieldStructInitStatement
@@ -826,12 +826,12 @@ func (gongnotelinkshape *GongNoteLinkShape) GongMarshallField(stage *Stage, fiel
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gongnotelinkshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(gongnotelinkshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(gongnotelinkshape.Name)))
 	case "Identifier":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gongnotelinkshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Identifier")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(gongnotelinkshape.Identifier))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(gongnotelinkshape.Identifier)))
 	case "Type":
 		if gongnotelinkshape.Type.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -859,22 +859,22 @@ func (gongnoteshape *GongNoteShape) GongMarshallField(stage *Stage, fieldName st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gongnoteshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(gongnoteshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(gongnoteshape.Name)))
 	case "Identifier":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gongnoteshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Identifier")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(gongnoteshape.Identifier))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(gongnoteshape.Identifier)))
 	case "Body":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gongnoteshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Body")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(gongnoteshape.Body))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(gongnoteshape.Body)))
 	case "BodyHTML":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gongnoteshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "BodyHTML")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(gongnoteshape.BodyHTML))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(gongnoteshape.BodyHTML)))
 	case "X":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gongnoteshape.GongGetIdentifier(stage))
@@ -929,7 +929,7 @@ func (gongstructshape *GongStructShape) GongMarshallField(stage *Stage, fieldNam
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gongstructshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(gongstructshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(gongstructshape.Name)))
 	case "X":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gongstructshape.GongGetIdentifier(stage))
@@ -996,7 +996,7 @@ func (linkshape *LinkShape) GongMarshallField(stage *Stage, fieldName string) (r
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", linkshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(linkshape.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(linkshape.Name)))
 	case "IdentifierMeta":
 		if str, ok := linkshape.IdentifierMeta.(string); ok {
 			res = MetaFieldStructInitStatement

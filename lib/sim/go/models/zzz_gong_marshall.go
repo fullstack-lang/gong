@@ -40,7 +40,7 @@ func _(stage *models.Stage) {
 }`
 
 const GongIdentifiersDecls = `
-	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: ` + "`" + `{{GeneratedFieldNameValue}}` + "`" + `}).Stage(stage)`
+	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: {{GeneratedFieldNameValue}}}).Stage(stage)`
 
 const GongUnstageStmt = `
 	{{Identifier}}.Unstage(stage)`
@@ -51,7 +51,7 @@ const IdentifiersDeclsWithoutNameInit = `
 	{{Identifier}} := (&models.{{GeneratedStructName}}{}).Stage(stage)` /* */
 
 const StringInitStatement = `
-	{{Identifier}}.{{GeneratedFieldName}} = ` + "`" + `{{GeneratedFieldNameValue}}` + "`"
+	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`
 
 const MetaFieldStructInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = ` + `{{GeneratedFieldNameValue}}`
@@ -394,7 +394,7 @@ func (command *Command) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", command.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(command.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(command.Name)))
 	case "Command":
 		if command.Command.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -412,7 +412,7 @@ func (command *Command) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", command.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CommandDate")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(command.CommandDate))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(command.CommandDate)))
 
 	case "Engine":
 		if command.Engine != nil {
@@ -440,12 +440,12 @@ func (dummyagent *DummyAgent) GongMarshallField(stage *Stage, fieldName string) 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dummyagent.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TechName")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(dummyagent.TechName))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(dummyagent.TechName)))
 	case "Name":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dummyagent.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(dummyagent.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(dummyagent.Name)))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct DummyAgent", fieldName)
@@ -460,22 +460,22 @@ func (engine *Engine) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", engine.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(engine.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(engine.Name)))
 	case "EndTime":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", engine.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndTime")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(engine.EndTime))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(engine.EndTime)))
 	case "CurrentTime":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", engine.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CurrentTime")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(engine.CurrentTime))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(engine.CurrentTime)))
 	case "DisplayFormat":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", engine.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DisplayFormat")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(engine.DisplayFormat))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(engine.DisplayFormat)))
 	case "SecondsSinceStart":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", engine.GongGetIdentifier(stage))
@@ -531,7 +531,7 @@ func (event *Event) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", event.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(event.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(event.Name)))
 	case "Duration":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", event.GongGetIdentifier(stage))
@@ -551,7 +551,7 @@ func (status *Status) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", status.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(status.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(status.Name)))
 	case "CurrentCommand":
 		if status.CurrentCommand.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -569,7 +569,7 @@ func (status *Status) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", status.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CompletionDate")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(status.CompletionDate))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(status.CompletionDate)))
 	case "CurrentSpeedCommand":
 		if status.CurrentSpeedCommand.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -587,7 +587,7 @@ func (status *Status) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", status.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SpeedCommandCompletionDate")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(status.SpeedCommandCompletionDate))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(status.SpeedCommandCompletionDate)))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Status", fieldName)
@@ -602,7 +602,7 @@ func (updatestate *UpdateState) GongMarshallField(stage *Stage, fieldName string
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", updatestate.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(updatestate.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(updatestate.Name)))
 	case "Duration":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", updatestate.GongGetIdentifier(stage))
