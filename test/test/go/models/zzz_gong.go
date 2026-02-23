@@ -2450,7 +2450,7 @@ func (astruct *Astruct) GongGetFieldHeaders() (res []GongFieldHeader) {
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "Field",
@@ -2481,31 +2481,30 @@ func (astruct *Astruct) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:               "Booleanfield",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:               "Aenum",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			Name:                 "Aenum",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "AEnumType",
 		},
 		{
-			Name:               "Aenum_2",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			Name:                 "Aenum_2",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "AEnumType",
 		},
 		{
-			Name:               "Benum",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
-		},
-		{
-			Name:               "CEnum",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			Name:                 "Benum",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "BEnumType",
 		},
 		{
 			Name:               "CName",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "CFloatfield",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:                 "Bstruct",
@@ -2544,19 +2543,19 @@ func (astruct *Astruct) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:               "Floatfield",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "Intfield",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeInt,
 		},
 		{
 			Name:               "Anotherbooleanfield",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "Duration1",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeIntDuration,
 		},
 		{
 			Name:                 "Anarrayofa",
@@ -2585,11 +2584,11 @@ func (astruct *Astruct) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:               "TextFieldBespokeSize",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "TextArea",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 	}
 	return
@@ -2600,7 +2599,7 @@ func (astructbstruct2use *AstructBstruct2Use) GongGetFieldHeaders() (res []GongF
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:                 "Bstrcut2",
@@ -2616,7 +2615,7 @@ func (astructbstructuse *AstructBstructUse) GongGetFieldHeaders() (res []GongFie
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:                 "Bstruct2",
@@ -2632,19 +2631,19 @@ func (bstruct *Bstruct) GongGetFieldHeaders() (res []GongFieldHeader) {
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "Floatfield",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "Floatfield2",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "Intfield",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeInt,
 		},
 	}
 	return
@@ -2655,7 +2654,7 @@ func (dstruct *Dstruct) GongGetFieldHeaders() (res []GongFieldHeader) {
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:                 "Anarrayofb",
@@ -2681,7 +2680,7 @@ func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GongGe
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "Date",
@@ -2696,19 +2695,19 @@ func (gstruct *Gstruct) GongGetFieldHeaders() (res []GongFieldHeader) {
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "Floatfield",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "Floatfield2",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "Intfield",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeInt,
 		},
 	}
 	return
@@ -2724,6 +2723,7 @@ type GongFieldValueType string
 
 const (
 	GongFieldValueTypeInt             GongFieldValueType = "GongFieldValueTypeInt"
+	GongFieldValueTypeIntDuration     GongFieldValueType = "GongFieldValueTypeIntDuration"
 	GongFieldValueTypeFloat           GongFieldValueType = "GongFieldValueTypeFloat"
 	GongFieldValueTypeBool            GongFieldValueType = "GongFieldValueTypeBool"
 	GongFieldValueTypeString          GongFieldValueType = "GongFieldValueTypeString"
