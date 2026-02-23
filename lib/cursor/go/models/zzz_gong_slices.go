@@ -186,7 +186,7 @@ func (cursor *Cursor) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", cursor.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Cursor")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", cursor.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(cursor.Name))
 	return
 }
 

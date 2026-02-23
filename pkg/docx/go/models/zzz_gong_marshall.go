@@ -71,6 +71,24 @@ const SliceOfPointersFieldInitStatement = `
 const TimeInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}}, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "{{GeneratedFieldNameValue}}")`
 
+// ToRawStringLiteral formats a string into safe Go source code,
+// using backticks to preserve newlines and readability.
+func ToRawStringLiteral(s string) string {
+	// Step 1: Replace every backtick with a closing backtick,
+	// a double-quoted backtick, and an opening backtick.
+	escaped := strings.ReplaceAll(s, "`", "` + \"`\" + `")
+
+	// Step 2: Wrap the entire resulting string in backticks.
+	result := "`" + escaped + "`"
+
+	// Step 3: Clean up any empty raw strings (``) at the boundaries
+	// just in case your original string started or ended with a backtick.
+	result = strings.ReplaceAll(result, "`` + ", "")
+	result = strings.ReplaceAll(result, " + ``", "")
+
+	return result
+}
+
 // Marshall marshall the stage content into the file as an instanciation into a stage
 func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName string) {
 
@@ -769,7 +787,7 @@ func (body *Body) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", body.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(body.Name)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(body.Name))
 
 	case "Paragraphs":
 		var sb strings.Builder
@@ -817,7 +835,7 @@ func (document *Document) GongMarshallField(stage *Stage, fieldName string) (res
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", document.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(document.Name)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(document.Name))
 
 	case "File":
 		if document.File != nil {
@@ -871,7 +889,7 @@ func (docx *Docx) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", docx.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(docx.Name)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(docx.Name))
 
 	case "Files":
 		var sb strings.Builder
@@ -909,7 +927,7 @@ func (file *File) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", file.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(file.Name)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(file.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct File", fieldName)
@@ -924,7 +942,7 @@ func (node *Node) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(node.Name)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(node.Name))
 
 	case "Nodes":
 		var sb strings.Builder
@@ -949,17 +967,17 @@ func (paragraph *Paragraph) GongMarshallField(stage *Stage, fieldName string) (r
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", paragraph.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(paragraph.Name)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(paragraph.Name))
 	case "Content":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", paragraph.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Content")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(paragraph.Content)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(paragraph.Content))
 	case "CollatedText":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", paragraph.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CollatedText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(paragraph.CollatedText)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(paragraph.CollatedText))
 
 	case "Node":
 		if paragraph.Node != nil {
@@ -1062,12 +1080,12 @@ func (paragraphproperties *ParagraphProperties) GongMarshallField(stage *Stage, 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", paragraphproperties.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(paragraphproperties.Name)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(paragraphproperties.Name))
 	case "Content":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", paragraphproperties.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Content")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(paragraphproperties.Content)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(paragraphproperties.Content))
 
 	case "ParagraphStyle":
 		if paragraphproperties.ParagraphStyle != nil {
@@ -1108,17 +1126,17 @@ func (paragraphstyle *ParagraphStyle) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", paragraphstyle.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(paragraphstyle.Name)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(paragraphstyle.Name))
 	case "Content":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", paragraphstyle.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Content")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(paragraphstyle.Content)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(paragraphstyle.Content))
 	case "ValAttr":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", paragraphstyle.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ValAttr")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(paragraphstyle.ValAttr)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(paragraphstyle.ValAttr))
 
 	case "Node":
 		if paragraphstyle.Node != nil {
@@ -1146,12 +1164,12 @@ func (rune *Rune) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rune.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(rune.Name)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rune.Name))
 	case "Content":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", rune.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Content")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(rune.Content)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rune.Content))
 
 	case "Node":
 		if rune.Node != nil {
@@ -1218,7 +1236,7 @@ func (runeproperties *RuneProperties) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", runeproperties.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(runeproperties.Name)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(runeproperties.Name))
 	case "IsBold":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", runeproperties.GongGetIdentifier(stage))
@@ -1238,7 +1256,7 @@ func (runeproperties *RuneProperties) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", runeproperties.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Content")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(runeproperties.Content)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(runeproperties.Content))
 
 	case "Node":
 		if runeproperties.Node != nil {
@@ -1266,12 +1284,12 @@ func (table *Table) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", table.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(table.Name)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(table.Name))
 	case "Content":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", table.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Content")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(table.Content)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(table.Content))
 
 	case "Node":
 		if table.Node != nil {
@@ -1322,12 +1340,12 @@ func (tablecolumn *TableColumn) GongMarshallField(stage *Stage, fieldName string
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tablecolumn.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(tablecolumn.Name)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tablecolumn.Name))
 	case "Content":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tablecolumn.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Content")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(tablecolumn.Content)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tablecolumn.Content))
 
 	case "Node":
 		if tablecolumn.Node != nil {
@@ -1365,12 +1383,12 @@ func (tableproperties *TableProperties) GongMarshallField(stage *Stage, fieldNam
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tableproperties.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(tableproperties.Name)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tableproperties.Name))
 	case "Content":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tableproperties.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Content")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(tableproperties.Content)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tableproperties.Content))
 
 	case "Node":
 		if tableproperties.Node != nil {
@@ -1411,12 +1429,12 @@ func (tablerow *TableRow) GongMarshallField(stage *Stage, fieldName string) (res
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tablerow.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(tablerow.Name)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tablerow.Name))
 	case "Content":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tablerow.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Content")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(tablerow.Content)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tablerow.Content))
 
 	case "Node":
 		if tablerow.Node != nil {
@@ -1454,17 +1472,17 @@ func (tablestyle *TableStyle) GongMarshallField(stage *Stage, fieldName string) 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tablestyle.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(tablestyle.Name)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tablestyle.Name))
 	case "Content":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tablestyle.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Content")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(tablestyle.Content)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tablestyle.Content))
 	case "Val":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", tablestyle.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Val")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(tablestyle.Val)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tablestyle.Val))
 
 	case "Node":
 		if tablestyle.Node != nil {
@@ -1492,12 +1510,12 @@ func (text *Text) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(text.Name)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(text.Name))
 	case "Content":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", text.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Content")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(text.Content)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(text.Content))
 	case "PreserveWhiteSpace":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", text.GongGetIdentifier(stage))

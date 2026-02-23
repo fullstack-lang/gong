@@ -71,6 +71,24 @@ const SliceOfPointersFieldInitStatement = `
 const TimeInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}}, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "{{GeneratedFieldNameValue}}")`
 
+// ToRawStringLiteral formats a string into safe Go source code,
+// using backticks to preserve newlines and readability.
+func ToRawStringLiteral(s string) string {
+	// Step 1: Replace every backtick with a closing backtick,
+	// a double-quoted backtick, and an opening backtick.
+	escaped := strings.ReplaceAll(s, "`", "` + \"`\" + `")
+
+	// Step 2: Wrap the entire resulting string in backticks.
+	result := "`" + escaped + "`"
+
+	// Step 3: Clean up any empty raw strings (``) at the boundaries
+	// just in case your original string started or ended with a backtick.
+	result = strings.ReplaceAll(result, "`` + ", "")
+	result = strings.ReplaceAll(result, " + ``", "")
+
+	return result
+}
+
 // Marshall marshall the stage content into the file as an instanciation into a stage
 func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName string) {
 
@@ -1010,7 +1028,7 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(diagram.Name)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(diagram.Name))
 	case "IsChecked":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
@@ -1055,7 +1073,7 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(diagram.ComputedPrefix)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(diagram.ComputedPrefix))
 	case "IsInRenameMode":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
@@ -1285,7 +1303,7 @@ func (note *Note) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", note.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(note.Name)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(note.Name))
 	case "IsExpanded":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", note.GongGetIdentifier(stage))
@@ -1295,7 +1313,7 @@ func (note *Note) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", note.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(note.ComputedPrefix)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(note.ComputedPrefix))
 	case "IsInRenameMode":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", note.GongGetIdentifier(stage))
@@ -1345,7 +1363,7 @@ func (noteproductshape *NoteProductShape) GongMarshallField(stage *Stage, fieldN
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", noteproductshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(noteproductshape.Name)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(noteproductshape.Name))
 	case "StartRatio":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", noteproductshape.GongGetIdentifier(stage))
@@ -1427,7 +1445,7 @@ func (noteresourceshape *NoteResourceShape) GongMarshallField(stage *Stage, fiel
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", noteresourceshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(noteresourceshape.Name)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(noteresourceshape.Name))
 	case "StartRatio":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", noteresourceshape.GongGetIdentifier(stage))
@@ -1509,7 +1527,7 @@ func (noteshape *NoteShape) GongMarshallField(stage *Stage, fieldName string) (r
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", noteshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(noteshape.Name)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(noteshape.Name))
 	case "IsExpanded":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", noteshape.GongGetIdentifier(stage))
@@ -1562,7 +1580,7 @@ func (notetaskshape *NoteTaskShape) GongMarshallField(stage *Stage, fieldName st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", notetaskshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(notetaskshape.Name)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(notetaskshape.Name))
 	case "StartRatio":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", notetaskshape.GongGetIdentifier(stage))
@@ -1644,12 +1662,12 @@ func (product *Product) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", product.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(product.Name)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(product.Name))
 	case "Description":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", product.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Description")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(product.Description)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(product.Description))
 	case "IsExpanded":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", product.GongGetIdentifier(stage))
@@ -1659,7 +1677,7 @@ func (product *Product) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", product.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(product.ComputedPrefix)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(product.ComputedPrefix))
 	case "IsInRenameMode":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", product.GongGetIdentifier(stage))
@@ -1699,7 +1717,7 @@ func (productcompositionshape *ProductCompositionShape) GongMarshallField(stage 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", productcompositionshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(productcompositionshape.Name)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(productcompositionshape.Name))
 	case "StartRatio":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", productcompositionshape.GongGetIdentifier(stage))
@@ -1768,7 +1786,7 @@ func (productshape *ProductShape) GongMarshallField(stage *Stage, fieldName stri
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", productshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(productshape.Name)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(productshape.Name))
 	case "IsExpanded":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", productshape.GongGetIdentifier(stage))
@@ -1821,7 +1839,7 @@ func (project *Project) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", project.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(project.Name)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(project.Name))
 	case "IsExpanded":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", project.GongGetIdentifier(stage))
@@ -1831,7 +1849,7 @@ func (project *Project) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", project.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(project.ComputedPrefix)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(project.ComputedPrefix))
 	case "IsInRenameMode":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", project.GongGetIdentifier(stage))
@@ -1901,12 +1919,12 @@ func (resource *Resource) GongMarshallField(stage *Stage, fieldName string) (res
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", resource.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(resource.Name)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(resource.Name))
 	case "Description":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", resource.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Description")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(resource.Description)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(resource.Description))
 	case "IsExpanded":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", resource.GongGetIdentifier(stage))
@@ -1916,7 +1934,7 @@ func (resource *Resource) GongMarshallField(stage *Stage, fieldName string) (res
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", resource.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(resource.ComputedPrefix)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(resource.ComputedPrefix))
 	case "IsInRenameMode":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", resource.GongGetIdentifier(stage))
@@ -1956,7 +1974,7 @@ func (resourcecompositionshape *ResourceCompositionShape) GongMarshallField(stag
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", resourcecompositionshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(resourcecompositionshape.Name)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(resourcecompositionshape.Name))
 	case "StartRatio":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", resourcecompositionshape.GongGetIdentifier(stage))
@@ -2025,7 +2043,7 @@ func (resourceshape *ResourceShape) GongMarshallField(stage *Stage, fieldName st
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", resourceshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(resourceshape.Name)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(resourceshape.Name))
 	case "IsExpanded":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", resourceshape.GongGetIdentifier(stage))
@@ -2078,7 +2096,7 @@ func (resourcetaskshape *ResourceTaskShape) GongMarshallField(stage *Stage, fiel
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", resourcetaskshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(resourcetaskshape.Name)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(resourcetaskshape.Name))
 	case "StartRatio":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", resourcetaskshape.GongGetIdentifier(stage))
@@ -2160,7 +2178,7 @@ func (root *Root) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", root.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(root.Name)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(root.Name))
 	case "NbPixPerCharacter":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", root.GongGetIdentifier(stage))
@@ -2190,7 +2208,7 @@ func (task *Task) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(task.Name)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(task.Name))
 	case "Start":
 		res = TimeInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
@@ -2205,7 +2223,7 @@ func (task *Task) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Description")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(task.Description)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(task.Description))
 	case "IsExpanded":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
@@ -2215,7 +2233,7 @@ func (task *Task) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(task.ComputedPrefix)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(task.ComputedPrefix))
 	case "IsInRenameMode":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
@@ -2293,7 +2311,7 @@ func (taskcompositionshape *TaskCompositionShape) GongMarshallField(stage *Stage
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", taskcompositionshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(taskcompositionshape.Name)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(taskcompositionshape.Name))
 	case "StartRatio":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", taskcompositionshape.GongGetIdentifier(stage))
@@ -2362,7 +2380,7 @@ func (taskinputshape *TaskInputShape) GongMarshallField(stage *Stage, fieldName 
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", taskinputshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(taskinputshape.Name)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(taskinputshape.Name))
 	case "StartRatio":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", taskinputshape.GongGetIdentifier(stage))
@@ -2444,7 +2462,7 @@ func (taskoutputshape *TaskOutputShape) GongMarshallField(stage *Stage, fieldNam
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", taskoutputshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(taskoutputshape.Name)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(taskoutputshape.Name))
 	case "StartRatio":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", taskoutputshape.GongGetIdentifier(stage))
@@ -2526,7 +2544,7 @@ func (taskshape *TaskShape) GongMarshallField(stage *Stage, fieldName string) (r
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", taskshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", string(taskshape.Name)))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(taskshape.Name))
 	case "IsExpanded":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", taskshape.GongGetIdentifier(stage))

@@ -946,7 +946,7 @@ func (attributeshape *AttributeShape) GongMarshallIdentifier(stage *Stage) (decl
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", attributeshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "AttributeShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", attributeshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attributeshape.Name))
 	return
 }
 
@@ -954,7 +954,7 @@ func (classdiagram *Classdiagram) GongMarshallIdentifier(stage *Stage) (decl str
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", classdiagram.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Classdiagram")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", classdiagram.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(classdiagram.Name))
 	return
 }
 
@@ -962,7 +962,7 @@ func (diagrampackage *DiagramPackage) GongMarshallIdentifier(stage *Stage) (decl
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", diagrampackage.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "DiagramPackage")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", diagrampackage.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(diagrampackage.Name))
 	return
 }
 
@@ -970,7 +970,7 @@ func (gongenumshape *GongEnumShape) GongMarshallIdentifier(stage *Stage) (decl s
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongenumshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GongEnumShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", gongenumshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(gongenumshape.Name))
 	return
 }
 
@@ -978,7 +978,7 @@ func (gongenumvalueshape *GongEnumValueShape) GongMarshallIdentifier(stage *Stag
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongenumvalueshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GongEnumValueShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", gongenumvalueshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(gongenumvalueshape.Name))
 	return
 }
 
@@ -986,7 +986,7 @@ func (gongnotelinkshape *GongNoteLinkShape) GongMarshallIdentifier(stage *Stage)
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongnotelinkshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GongNoteLinkShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", gongnotelinkshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(gongnotelinkshape.Name))
 	return
 }
 
@@ -994,7 +994,7 @@ func (gongnoteshape *GongNoteShape) GongMarshallIdentifier(stage *Stage) (decl s
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongnoteshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GongNoteShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", gongnoteshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(gongnoteshape.Name))
 	return
 }
 
@@ -1002,7 +1002,7 @@ func (gongstructshape *GongStructShape) GongMarshallIdentifier(stage *Stage) (de
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongstructshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GongStructShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", gongstructshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(gongstructshape.Name))
 	return
 }
 
@@ -1010,7 +1010,7 @@ func (linkshape *LinkShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", linkshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "LinkShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%q", linkshape.Name))
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(linkshape.Name))
 	return
 }
 
