@@ -2171,7 +2171,7 @@ func (cell *Cell) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", cell.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Cell")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", cell.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(cell.Name))
 	return
 }
 
@@ -2179,7 +2179,7 @@ func (cellboolean *CellBoolean) GongMarshallIdentifier(stage *Stage) (decl strin
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", cellboolean.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "CellBoolean")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", cellboolean.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(cellboolean.Name))
 	return
 }
 
@@ -2187,7 +2187,7 @@ func (cellfloat64 *CellFloat64) GongMarshallIdentifier(stage *Stage) (decl strin
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", cellfloat64.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "CellFloat64")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", cellfloat64.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(cellfloat64.Name))
 	return
 }
 
@@ -2195,7 +2195,7 @@ func (cellicon *CellIcon) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", cellicon.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "CellIcon")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", cellicon.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(cellicon.Name))
 	return
 }
 
@@ -2203,7 +2203,7 @@ func (cellint *CellInt) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", cellint.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "CellInt")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", cellint.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(cellint.Name))
 	return
 }
 
@@ -2211,7 +2211,7 @@ func (cellstring *CellString) GongMarshallIdentifier(stage *Stage) (decl string)
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", cellstring.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "CellString")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", cellstring.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(cellstring.Name))
 	return
 }
 
@@ -2219,7 +2219,7 @@ func (checkbox *CheckBox) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", checkbox.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "CheckBox")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", checkbox.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(checkbox.Name))
 	return
 }
 
@@ -2227,7 +2227,7 @@ func (displayedcolumn *DisplayedColumn) GongMarshallIdentifier(stage *Stage) (de
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", displayedcolumn.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "DisplayedColumn")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", displayedcolumn.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(displayedcolumn.Name))
 	return
 }
 
@@ -2235,7 +2235,7 @@ func (formdiv *FormDiv) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", formdiv.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FormDiv")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", formdiv.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formdiv.Name))
 	return
 }
 
@@ -2243,7 +2243,7 @@ func (formeditassocbutton *FormEditAssocButton) GongMarshallIdentifier(stage *St
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", formeditassocbutton.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FormEditAssocButton")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", formeditassocbutton.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formeditassocbutton.Name))
 	return
 }
 
@@ -2251,7 +2251,7 @@ func (formfield *FormField) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", formfield.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FormField")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", formfield.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formfield.Name))
 	return
 }
 
@@ -2259,7 +2259,7 @@ func (formfielddate *FormFieldDate) GongMarshallIdentifier(stage *Stage) (decl s
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", formfielddate.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FormFieldDate")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", formfielddate.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formfielddate.Name))
 	return
 }
 
@@ -2267,7 +2267,7 @@ func (formfielddatetime *FormFieldDateTime) GongMarshallIdentifier(stage *Stage)
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", formfielddatetime.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FormFieldDateTime")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", formfielddatetime.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formfielddatetime.Name))
 	return
 }
 
@@ -2275,7 +2275,7 @@ func (formfieldfloat64 *FormFieldFloat64) GongMarshallIdentifier(stage *Stage) (
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", formfieldfloat64.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FormFieldFloat64")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", formfieldfloat64.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formfieldfloat64.Name))
 	return
 }
 
@@ -2283,7 +2283,7 @@ func (formfieldint *FormFieldInt) GongMarshallIdentifier(stage *Stage) (decl str
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", formfieldint.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FormFieldInt")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", formfieldint.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formfieldint.Name))
 	return
 }
 
@@ -2291,7 +2291,7 @@ func (formfieldselect *FormFieldSelect) GongMarshallIdentifier(stage *Stage) (de
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", formfieldselect.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FormFieldSelect")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", formfieldselect.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formfieldselect.Name))
 	return
 }
 
@@ -2299,7 +2299,7 @@ func (formfieldstring *FormFieldString) GongMarshallIdentifier(stage *Stage) (de
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", formfieldstring.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FormFieldString")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", formfieldstring.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formfieldstring.Name))
 	return
 }
 
@@ -2307,7 +2307,7 @@ func (formfieldtime *FormFieldTime) GongMarshallIdentifier(stage *Stage) (decl s
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", formfieldtime.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FormFieldTime")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", formfieldtime.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formfieldtime.Name))
 	return
 }
 
@@ -2315,7 +2315,7 @@ func (formgroup *FormGroup) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", formgroup.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FormGroup")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", formgroup.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formgroup.Name))
 	return
 }
 
@@ -2323,7 +2323,7 @@ func (formsortassocbutton *FormSortAssocButton) GongMarshallIdentifier(stage *St
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", formsortassocbutton.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FormSortAssocButton")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", formsortassocbutton.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formsortassocbutton.Name))
 	return
 }
 
@@ -2331,7 +2331,7 @@ func (option *Option) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", option.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Option")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", option.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(option.Name))
 	return
 }
 
@@ -2339,7 +2339,7 @@ func (row *Row) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", row.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Row")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", row.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(row.Name))
 	return
 }
 
@@ -2347,7 +2347,7 @@ func (table *Table) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", table.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Table")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", table.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(table.Name))
 	return
 }
 

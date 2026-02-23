@@ -17,6 +17,8 @@ const (
 )
 
 type A struct {
+
+	//gong:text gong:width 600 gong:height 300
 	Name       string
 	Date       time.Time
 	FloatValue float64

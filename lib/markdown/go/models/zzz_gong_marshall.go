@@ -40,7 +40,7 @@ func _(stage *models.Stage) {
 }`
 
 const GongIdentifiersDecls = `
-	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: ` + "`" + `{{GeneratedFieldNameValue}}` + "`" + `}).Stage(stage)`
+	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: {{GeneratedFieldNameValue}}}).Stage(stage)`
 
 const GongUnstageStmt = `
 	{{Identifier}}.Unstage(stage)`
@@ -51,7 +51,7 @@ const IdentifiersDeclsWithoutNameInit = `
 	{{Identifier}} := (&models.{{GeneratedStructName}}{}).Stage(stage)` /* */
 
 const StringInitStatement = `
-	{{Identifier}}.{{GeneratedFieldName}} = ` + "`" + `{{GeneratedFieldNameValue}}` + "`"
+	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`
 
 const MetaFieldStructInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = ` + `{{GeneratedFieldNameValue}}`
@@ -70,6 +70,24 @@ const SliceOfPointersFieldInitStatement = `
 
 const TimeInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}}, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "{{GeneratedFieldNameValue}}")`
+
+// ToRawStringLiteral formats a string into safe Go source code,
+// using backticks to preserve newlines and readability.
+func ToRawStringLiteral(s string) string {
+	// Step 1: Replace every backtick with a closing backtick,
+	// a double-quoted backtick, and an opening backtick.
+	escaped := strings.ReplaceAll(s, "`", "` + \"`\" + `")
+
+	// Step 2: Wrap the entire resulting string in backticks.
+	result := "`" + escaped + "`"
+
+	// Step 3: Clean up any empty raw strings (``) at the boundaries
+	// just in case your original string started or ended with a backtick.
+	result = strings.ReplaceAll(result, "`` + ", "")
+	result = strings.ReplaceAll(result, " + ``", "")
+
+	return result
+}
 
 // Marshall marshall the stage content into the file as an instanciation into a stage
 func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName string) {
@@ -311,12 +329,12 @@ func (content *Content) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", content.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(content.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(content.Name))
 	case "Content":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", content.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Content")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(content.Content))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(content.Content))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Content", fieldName)
@@ -331,12 +349,12 @@ func (jpgimage *JpgImage) GongMarshallField(stage *Stage, fieldName string) (res
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", jpgimage.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(jpgimage.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(jpgimage.Name))
 	case "Base64Content":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", jpgimage.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Base64Content")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(jpgimage.Base64Content))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(jpgimage.Base64Content))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct JpgImage", fieldName)
@@ -351,12 +369,12 @@ func (pngimage *PngImage) GongMarshallField(stage *Stage, fieldName string) (res
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", pngimage.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(pngimage.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(pngimage.Name))
 	case "Base64Content":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", pngimage.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Base64Content")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(pngimage.Base64Content))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(pngimage.Base64Content))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct PngImage", fieldName)
@@ -371,12 +389,12 @@ func (svgimage *SvgImage) GongMarshallField(stage *Stage, fieldName string) (res
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", svgimage.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(svgimage.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(svgimage.Name))
 	case "Content":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", svgimage.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Content")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(svgimage.Content))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(svgimage.Content))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct SvgImage", fieldName)

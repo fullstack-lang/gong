@@ -40,7 +40,7 @@ func _(stage *models.Stage) {
 }`
 
 const GongIdentifiersDecls = `
-	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: ` + "`" + `{{GeneratedFieldNameValue}}` + "`" + `}).Stage(stage)`
+	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: {{GeneratedFieldNameValue}}}).Stage(stage)`
 
 const GongUnstageStmt = `
 	{{Identifier}}.Unstage(stage)`
@@ -51,7 +51,7 @@ const IdentifiersDeclsWithoutNameInit = `
 	{{Identifier}} := (&models.{{GeneratedStructName}}{}).Stage(stage)` /* */
 
 const StringInitStatement = `
-	{{Identifier}}.{{GeneratedFieldName}} = ` + "`" + `{{GeneratedFieldNameValue}}` + "`"
+	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`
 
 const MetaFieldStructInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = ` + `{{GeneratedFieldNameValue}}`
@@ -70,6 +70,24 @@ const SliceOfPointersFieldInitStatement = `
 
 const TimeInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}}, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "{{GeneratedFieldNameValue}}")`
+
+// ToRawStringLiteral formats a string into safe Go source code,
+// using backticks to preserve newlines and readability.
+func ToRawStringLiteral(s string) string {
+	// Step 1: Replace every backtick with a closing backtick,
+	// a double-quoted backtick, and an opening backtick.
+	escaped := strings.ReplaceAll(s, "`", "` + \"`\" + `")
+
+	// Step 2: Wrap the entire resulting string in backticks.
+	result := "`" + escaped + "`"
+
+	// Step 3: Clean up any empty raw strings (``) at the boundaries
+	// just in case your original string started or ended with a backtick.
+	result = strings.ReplaceAll(result, "`` + ", "")
+	result = strings.ReplaceAll(result, " + ``", "")
+
+	return result
+}
 
 // Marshall marshall the stage content into the file as an instanciation into a stage
 func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName string) {
@@ -324,7 +342,7 @@ func (checkbox *Checkbox) GongMarshallField(stage *Stage, fieldName string) (res
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", checkbox.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(checkbox.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(checkbox.Name))
 	case "ValueBool":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", checkbox.GongGetIdentifier(stage))
@@ -334,12 +352,12 @@ func (checkbox *Checkbox) GongMarshallField(stage *Stage, fieldName string) (res
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", checkbox.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LabelForTrue")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(checkbox.LabelForTrue))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(checkbox.LabelForTrue))
 	case "LabelForFalse":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", checkbox.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LabelForFalse")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(checkbox.LabelForFalse))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(checkbox.LabelForFalse))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Checkbox", fieldName)
@@ -354,7 +372,7 @@ func (group *Group) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", group.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(group.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(group.Name))
 	case "Percentage":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", group.GongGetIdentifier(stage))
@@ -394,7 +412,7 @@ func (layout *Layout) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", layout.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(layout.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(layout.Name))
 
 	case "Groups":
 		var sb strings.Builder
@@ -419,7 +437,7 @@ func (slider *Slider) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", slider.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(slider.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(slider.Name))
 	case "IsFloat64":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", slider.GongGetIdentifier(stage))

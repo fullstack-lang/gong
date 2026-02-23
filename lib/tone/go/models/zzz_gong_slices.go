@@ -369,7 +369,7 @@ func (freqency *Freqency) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", freqency.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Freqency")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", freqency.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(freqency.Name))
 	return
 }
 
@@ -377,7 +377,7 @@ func (note *Note) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", note.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Note")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", note.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(note.Name))
 	return
 }
 
@@ -385,7 +385,7 @@ func (player *Player) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", player.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Player")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", player.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(player.Name))
 	return
 }
 
