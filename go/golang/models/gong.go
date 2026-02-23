@@ -399,6 +399,13 @@ const (
 	GongFileFieldSubTmplStringFieldName GongFilePerStructSubTemplateId = iota
 	GongFileFieldSubTmplReverseField
 
+	GongFileFieldSubTmplStringHeaderFieldBool
+	GongFileFieldSubTmplStringHeaderFieldInt
+	GongFileFieldSubTmplStringHeaderFieldIntDuration
+	GongFileFieldSubTmplStringHeaderFieldEnumString
+	GongFileFieldSubTmplStringHeaderFieldEnumInt
+	GongFileFieldSubTmplStringHeaderFieldFloat64
+	GongFileFieldSubTmplStringHeaderFieldString
 	GongFileFieldSubTmplStringHeaderBasicKindField
 	GongFileFieldSubTmplStringHeaderPointerField
 	GongFileFieldSubTmplStringHeaderSliceOfPointersField
@@ -446,7 +453,37 @@ map[GongFilePerStructSubTemplateId]string{
 		rf.GongstructName = "{{AssocStructName}}"
 		rf.Fieldname = "{{FieldName}}"
 		res = append(res, rf)`,
-
+	GongFileFieldSubTmplStringHeaderFieldInt: `
+		{
+			Name:               "{{FieldName}}",
+			GongFieldValueType: GongFieldValueTypeInt,
+		},`,
+	GongFileFieldSubTmplStringHeaderFieldIntDuration: `
+		{
+			Name:               "{{FieldName}}",
+			GongFieldValueType: GongFieldValueTypeIntDuration,
+		},`,
+	GongFileFieldSubTmplStringHeaderFieldBool: `
+		{
+			Name:               "{{FieldName}}",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},`,
+	GongFileFieldSubTmplStringHeaderFieldFloat64: `
+		{
+			Name:               "{{FieldName}}",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},`,
+	GongFileFieldSubTmplStringHeaderFieldString: `
+		{
+			Name:               "{{FieldName}}",
+			GongFieldValueType: GongFieldValueTypeString,
+		},`,
+	GongFileFieldSubTmplStringHeaderFieldEnumString: `
+		{
+			Name:               "{{FieldName}}",
+			GongFieldValueType: GongFieldValueTypeString,
+			TargetGongstructName: "{{AssocStructName}}",
+		},`,
 	GongFileFieldSubTmplStringHeaderBasicKindField: `
 		{
 			Name:               "{{FieldName}}",
@@ -737,6 +774,9 @@ func CodeGeneratorModelGong(
 							fieldSetValues += models.Replace1(
 								GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplSetBasicString],
 								"{{FieldName}}", field.Name)
+							fieldHeaders += models.Replace1(
+								GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringHeaderFieldString],
+								"{{FieldName}}", field.GetName())
 						} else {
 							fieldStringValues += models.Replace1(
 								GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringValueBasicFieldEnumString],
@@ -744,6 +784,11 @@ func CodeGeneratorModelGong(
 							fieldSetValues += models.Replace1(
 								GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplSetEnumString],
 								"{{FieldName}}", field.Name)
+							fieldHeaders += models.Replace2(
+								GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringHeaderFieldEnumString],
+								"{{AssocStructName}}", field.GongEnum.GetName(),
+								"{{FieldName}}", field.GetName(),
+							)
 						}
 					case types.Bool:
 						fieldStringValues += models.Replace1(
@@ -752,6 +797,9 @@ func CodeGeneratorModelGong(
 						fieldSetValues += models.Replace1(
 							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplSetBasicBool],
 							"{{FieldName}}", field.Name)
+						fieldHeaders += models.Replace1(
+							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringHeaderFieldBool],
+							"{{FieldName}}", field.GetName())
 					case types.Float64:
 						fieldStringValues += models.Replace1(
 							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringValueBasicFieldFloat64],
@@ -759,11 +807,17 @@ func CodeGeneratorModelGong(
 						fieldSetValues += models.Replace1(
 							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplSetBasicFloat],
 							"{{FieldName}}", field.Name)
+						fieldHeaders += models.Replace1(
+							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringHeaderFieldFloat64],
+							"{{FieldName}}", field.GetName())
 					case types.Int, types.Int64:
 						if field.DeclaredType == "time.Duration" {
 							fieldStringValues += models.Replace1(
 								GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringValueBasicFieldIntDuration],
 								"{{FieldName}}", field.Name)
+							fieldHeaders += models.Replace1(
+								GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringHeaderFieldIntDuration],
+								"{{FieldName}}", field.GetName())
 							break
 						}
 						if field.GongEnum == nil {
@@ -773,6 +827,9 @@ func CodeGeneratorModelGong(
 							fieldSetValues += models.Replace1(
 								GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplSetBasicInt],
 								"{{FieldName}}", field.Name)
+							fieldHeaders += models.Replace1(
+								GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringHeaderFieldInt],
+								"{{FieldName}}", field.GetName())
 							break
 						}
 						fieldStringValues += models.Replace1(
@@ -782,10 +839,11 @@ func CodeGeneratorModelGong(
 							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplSetEnumInt],
 							"{{FieldName}}", field.Name)
 					default:
+						fieldHeaders += models.Replace1(
+							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringHeaderBasicKindField],
+							"{{FieldName}}", field.GetName())
 					}
-					fieldHeaders += models.Replace1(
-						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringHeaderBasicKindField],
-						"{{FieldName}}", field.GetName())
+
 				case *models.GongTimeField:
 					if field.BespokeTimeFormat == "" {
 						fieldStringValues += models.Replace1(
