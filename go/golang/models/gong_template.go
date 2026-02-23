@@ -818,6 +818,7 @@ type GongFieldValueType string
 
 const (
 	GongFieldValueTypeInt             GongFieldValueType = "GongFieldValueTypeInt"
+	GongFieldValueTypeIntDuration     GongFieldValueType = "GongFieldValueTypeIntDuration"
 	GongFieldValueTypeFloat           GongFieldValueType = "GongFieldValueTypeFloat"
 	GongFieldValueTypeBool            GongFieldValueType = "GongFieldValueTypeBool"
 	GongFieldValueTypeString          GongFieldValueType = "GongFieldValueTypeString"
