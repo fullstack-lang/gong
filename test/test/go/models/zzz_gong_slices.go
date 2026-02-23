@@ -770,7 +770,7 @@ func (astruct *Astruct) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", astruct.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Astruct")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", astruct.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(astruct.Name))
 	return
 }
 
@@ -778,7 +778,7 @@ func (astructbstruct2use *AstructBstruct2Use) GongMarshallIdentifier(stage *Stag
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", astructbstruct2use.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "AstructBstruct2Use")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", astructbstruct2use.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(astructbstruct2use.Name))
 	return
 }
 
@@ -786,7 +786,7 @@ func (astructbstructuse *AstructBstructUse) GongMarshallIdentifier(stage *Stage)
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", astructbstructuse.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "AstructBstructUse")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", astructbstructuse.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(astructbstructuse.Name))
 	return
 }
 
@@ -794,7 +794,7 @@ func (bstruct *Bstruct) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", bstruct.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Bstruct")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", bstruct.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(bstruct.Name))
 	return
 }
 
@@ -802,7 +802,7 @@ func (dstruct *Dstruct) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", dstruct.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Dstruct")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", dstruct.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dstruct.Name))
 	return
 }
 
@@ -810,7 +810,7 @@ func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GongMa
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", f0123456789012345678901234567890.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "F0123456789012345678901234567890")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", f0123456789012345678901234567890.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(f0123456789012345678901234567890.Name))
 	return
 }
 
@@ -818,7 +818,7 @@ func (gstruct *Gstruct) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = IdentifiersDeclsWithoutNameInit
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", gstruct.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Gstruct")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", gstruct.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(gstruct.Name))
 	return
 }
 

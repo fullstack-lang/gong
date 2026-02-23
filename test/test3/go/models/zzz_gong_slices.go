@@ -281,7 +281,7 @@ func (a *A) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", a.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "A")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", a.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a.Name))
 	return
 }
 
@@ -289,7 +289,7 @@ func (b *B) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", b.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "B")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", b.Name)
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(b.Name))
 	return
 }
 

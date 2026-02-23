@@ -165,7 +165,7 @@ map[GongMarshallFilePerStructSubTemplateId]string{
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", {{structname}}.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "{{FieldName}}")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string({{structname}}.{{FieldName}}))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral({{structname}}.{{FieldName}}))
 `,
 	GongMarshallFileFieldSubTmplSetBasicFieldMeta: `
 		if str, ok := {{structname}}.{{FieldName}}.(string); ok {
