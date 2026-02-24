@@ -106,9 +106,9 @@ type Stage struct {
 
 	// insertion point for definition of arrays registering instances
 	As                map[*A]struct{}
-	As_reference      map[*A]*A   // enable navigation from instances to reference
-	As_referenceOrder map[*A]uint // diff Unstage needs the reference order
-	As_instance       map[*A]*A   // enable navigation from reference to instances
+	As_reference      map[*A]*A
+	As_referenceOrder map[*A]uint
+	As_instance       map[*A]*A
 	As_mapString      map[string]*A
 
 	// insertion point for slice of pointers maps
@@ -121,8 +121,8 @@ type Stage struct {
 
 	Bs                map[*B]struct{}
 	Bs_reference      map[*B]*B
-	Bs_referenceOrder map[*B]uint // diff Unstage needs the reference order
-	Bs_instance       map[*B]*B   // enable navigation from reference to instances
+	Bs_referenceOrder map[*B]uint
+	Bs_instance       map[*B]*B
 	Bs_mapString      map[string]*B
 
 	// insertion point for slice of pointers maps
