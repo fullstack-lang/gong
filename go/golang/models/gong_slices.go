@@ -90,7 +90,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 // ComputeReferenceAndOrders will creates a deep copy of each of the staged elements
 func (stage *Stage) ComputeReferenceAndOrders() {
-	// insertion point per named struct{{` + string(rune(GongSliceGongComputeReference)) + `}}
+	// insertion point per named struct{{` + string(rune(GongSliceGongComputeReferencePass1)) + `}}
+	// insertion point per named struct{{` + string(rune(GongSliceGongComputeReferencePass2)) + `}}
 	stage.recomputeOrders()
 }
 
@@ -121,7 +122,8 @@ const (
 	GongSliceGetInstances
 	GongSliceGongCopy
 	GongSliceGongComputeDifference
-	GongSliceGongComputeReference
+	GongSliceGongComputeReferencePass1
+	GongSliceGongComputeReferencePass2
 	GongSliceGongGetOrder
 	GongSliceGongGetIdentifier
 	GongSliceMarshallDeclaration
@@ -170,6 +172,7 @@ func ({{structname}} *{{Structname}}) GongCopy() GongstructIF {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.{{Structname}}Map_Staged_Order[ref] = stage.{{Structname}}Map_Staged_Order[{{structname}}]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := {{structname}}.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, {{structname}})
 			delete(stage.{{Structname}}Map_Staged_Order, ref)
@@ -189,9 +192,10 @@ func ({{structname}} *{{Structname}}) GongCopy() GongstructIF {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.{{Structname}}s_reference {
+	for _, ref := range stage.{{Structname}}s_reference {
 		if _, ok := stage.{{Structname}}s[ref]; !ok {
 			{{structname}}s_deletedInstances = append({{structname}}s_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -202,12 +206,22 @@ func ({{structname}} *{{Structname}}) GongCopy() GongstructIF {
 	lenNewInstances += len({{structname}}s_newInstances)
 	lenDeletedInstances += len({{structname}}s_deletedInstances)`,
 
-	GongSliceGongComputeReference: `
+	GongSliceGongComputeReferencePass1: `
 	stage.{{Structname}}s_reference = make(map[*{{Structname}}]*{{Structname}})
 	stage.{{Structname}}s_referenceOrder = make(map[*{{Structname}}]uint) // diff Unstage needs the reference order
+	stage.{{Structname}}s_instance = make(map[*{{Structname}}]*{{Structname}})
 	for instance := range stage.{{Structname}}s {
-		stage.{{Structname}}s_reference[instance] = instance.GongCopy().(*{{Structname}})
+		_copy := instance.GongCopy().(*{{Structname}})
+		stage.{{Structname}}s_reference[instance] = _copy
+		stage.{{Structname}}s_instance[_copy] = instance
 		stage.{{Structname}}s_referenceOrder[instance] = instance.GongGetOrder(stage)
+	}
+`,
+
+	GongSliceGongComputeReferencePass2: `
+	for instance := range stage.{{Structname}}s {
+		reference := stage.{{Structname}}s_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 `,
 
