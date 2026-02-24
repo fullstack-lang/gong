@@ -232,6 +232,44 @@ func (stage *Stage) UnstageBranchB(b *B) {
 
 }
 
+// GongReconstructPointersReferences reconstructs the pointers and slice of pointers of a reference
+// with reference objects
+// It is used when computing the reference of the stage
+func (reference *A) GongReconstructPointersFromReferences(stage *Stage, instance *A) {
+	if instance.B != nil {
+		reference.B = stage.Bs_reference[instance.B]
+	}
+	reference.Bs = reference.Bs[:0]
+	for _, _b := range instance.Bs {
+		reference.Bs = append(reference.Bs, stage.Bs_reference[_b])
+	}
+}
+
+// GongReconstructPointersFromInstances reconstructs A pointers and slice of pointers of a reference
+// with instance objects
+// It is used when computing the diff between reference and staged instances
+func (reference *A) GongReconstructPointersFromInstances(stage *Stage) {
+	if _reference := reference.B; _reference != nil {
+		reference.B = nil
+		if _instance, ok := stage.Bs_instance[_reference]; ok {
+			reference.B = _instance
+		}
+	}
+	var _Bs []*B
+	for _, _reference := range reference.Bs {
+		if _instance, ok := stage.Bs_instance[_reference]; ok {
+			_Bs = append(_Bs, stage.Bs_reference[_instance])
+		}
+	}
+	reference.Bs = _Bs
+}
+
+func (reference *B) GongReconstructPointersFromReferences(stage *Stage, instance *B) {
+}
+
+func (reference *B) GongReconstructPointersFromInstances(stage *Stage) {
+}
+
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
