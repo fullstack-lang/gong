@@ -148,6 +148,47 @@ func Replace11(template, match1, replace1, match2, replace2, match3, replace3, /
 	return res
 }
 
+func Replace12(template, match1, replace1, match2, replace2, match3, replace3, //
+	match4, replace4, match5, replace5, match6, replace6, match7, replace7, match8, replace8, match9, replace9,
+	match10, replace10, match11, replace11, match12, replace12 string) string {
+	res := ""
+	res = strings.ReplaceAll(template, match1, replace1)
+	res = strings.ReplaceAll(res, match2, replace2)
+	res = strings.ReplaceAll(res, match3, replace3)
+	res = strings.ReplaceAll(res, match4, replace4)
+	res = strings.ReplaceAll(res, match5, replace5)
+	res = strings.ReplaceAll(res, match6, replace6)
+	res = strings.ReplaceAll(res, match7, replace7)
+	res = strings.ReplaceAll(res, match8, replace8)
+	res = strings.ReplaceAll(res, match9, replace9)
+	res = strings.ReplaceAll(res, match10, replace10)
+	res = strings.ReplaceAll(res, match11, replace11)
+	res = strings.ReplaceAll(res, match12, replace12)
+
+	return res
+}
+
+func Replace13(template, match1, replace1, match2, replace2, match3, replace3, //
+	match4, replace4, match5, replace5, match6, replace6, match7, replace7, match8, replace8, match9, replace9,
+	match10, replace10, match11, replace11, match12, replace12, match13, replace13 string) string {
+	res := ""
+	res = strings.ReplaceAll(template, match1, replace1)
+	res = strings.ReplaceAll(res, match2, replace2)
+	res = strings.ReplaceAll(res, match3, replace3)
+	res = strings.ReplaceAll(res, match4, replace4)
+	res = strings.ReplaceAll(res, match5, replace5)
+	res = strings.ReplaceAll(res, match6, replace6)
+	res = strings.ReplaceAll(res, match7, replace7)
+	res = strings.ReplaceAll(res, match8, replace8)
+	res = strings.ReplaceAll(res, match9, replace9)
+	res = strings.ReplaceAll(res, match10, replace10)
+	res = strings.ReplaceAll(res, match11, replace11)
+	res = strings.ReplaceAll(res, match12, replace12)
+	res = strings.ReplaceAll(res, match13, replace13)
+
+	return res
+}
+
 // func makeFirstLowerCase(s string) string {
 
 // 	if len(s) < 2 {

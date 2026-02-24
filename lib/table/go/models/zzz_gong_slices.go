@@ -237,118 +237,141 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 // insertion point per named struct
 func (cell *Cell) GongCopy() GongstructIF {
-	newInstance := *cell
-	return &newInstance
+	newInstance := new(Cell)
+	cell.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (cellboolean *CellBoolean) GongCopy() GongstructIF {
-	newInstance := *cellboolean
-	return &newInstance
+	newInstance := new(CellBoolean)
+	cellboolean.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (cellfloat64 *CellFloat64) GongCopy() GongstructIF {
-	newInstance := *cellfloat64
-	return &newInstance
+	newInstance := new(CellFloat64)
+	cellfloat64.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (cellicon *CellIcon) GongCopy() GongstructIF {
-	newInstance := *cellicon
-	return &newInstance
+	newInstance := new(CellIcon)
+	cellicon.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (cellint *CellInt) GongCopy() GongstructIF {
-	newInstance := *cellint
-	return &newInstance
+	newInstance := new(CellInt)
+	cellint.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (cellstring *CellString) GongCopy() GongstructIF {
-	newInstance := *cellstring
-	return &newInstance
+	newInstance := new(CellString)
+	cellstring.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (checkbox *CheckBox) GongCopy() GongstructIF {
-	newInstance := *checkbox
-	return &newInstance
+	newInstance := new(CheckBox)
+	checkbox.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (displayedcolumn *DisplayedColumn) GongCopy() GongstructIF {
-	newInstance := *displayedcolumn
-	return &newInstance
+	newInstance := new(DisplayedColumn)
+	displayedcolumn.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (formdiv *FormDiv) GongCopy() GongstructIF {
-	newInstance := *formdiv
-	return &newInstance
+	newInstance := new(FormDiv)
+	formdiv.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (formeditassocbutton *FormEditAssocButton) GongCopy() GongstructIF {
-	newInstance := *formeditassocbutton
-	return &newInstance
+	newInstance := new(FormEditAssocButton)
+	formeditassocbutton.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (formfield *FormField) GongCopy() GongstructIF {
-	newInstance := *formfield
-	return &newInstance
+	newInstance := new(FormField)
+	formfield.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (formfielddate *FormFieldDate) GongCopy() GongstructIF {
-	newInstance := *formfielddate
-	return &newInstance
+	newInstance := new(FormFieldDate)
+	formfielddate.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (formfielddatetime *FormFieldDateTime) GongCopy() GongstructIF {
-	newInstance := *formfielddatetime
-	return &newInstance
+	newInstance := new(FormFieldDateTime)
+	formfielddatetime.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (formfieldfloat64 *FormFieldFloat64) GongCopy() GongstructIF {
-	newInstance := *formfieldfloat64
-	return &newInstance
+	newInstance := new(FormFieldFloat64)
+	formfieldfloat64.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (formfieldint *FormFieldInt) GongCopy() GongstructIF {
-	newInstance := *formfieldint
-	return &newInstance
+	newInstance := new(FormFieldInt)
+	formfieldint.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (formfieldselect *FormFieldSelect) GongCopy() GongstructIF {
-	newInstance := *formfieldselect
-	return &newInstance
+	newInstance := new(FormFieldSelect)
+	formfieldselect.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (formfieldstring *FormFieldString) GongCopy() GongstructIF {
-	newInstance := *formfieldstring
-	return &newInstance
+	newInstance := new(FormFieldString)
+	formfieldstring.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (formfieldtime *FormFieldTime) GongCopy() GongstructIF {
-	newInstance := *formfieldtime
-	return &newInstance
+	newInstance := new(FormFieldTime)
+	formfieldtime.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (formgroup *FormGroup) GongCopy() GongstructIF {
-	newInstance := *formgroup
-	return &newInstance
+	newInstance := new(FormGroup)
+	formgroup.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (formsortassocbutton *FormSortAssocButton) GongCopy() GongstructIF {
-	newInstance := *formsortassocbutton
-	return &newInstance
+	newInstance := new(FormSortAssocButton)
+	formsortassocbutton.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (option *Option) GongCopy() GongstructIF {
-	newInstance := *option
-	return &newInstance
+	newInstance := new(Option)
+	option.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (row *Row) GongCopy() GongstructIF {
-	newInstance := *row
-	return &newInstance
+	newInstance := new(Row)
+	row.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (table *Table) GongCopy() GongstructIF {
-	newInstance := *table
-	return &newInstance
+	newInstance := new(Table)
+	table.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (stage *Stage) ComputeForwardAndBackwardCommits() {

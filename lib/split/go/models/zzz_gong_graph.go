@@ -1573,6 +1573,413 @@ func (stage *Stage) UnstageBranchXlsx(xlsx *Xlsx) {
 
 }
 
+// insertion point for pointer reconstruction from references
+func (reference *AsSplit) GongReconstructPointersFromReferences(stage *Stage, instance *AsSplit) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.AsSplitAreas = reference.AsSplitAreas[:0]
+	for _, _b := range instance.AsSplitAreas {
+		reference.AsSplitAreas = append(reference.AsSplitAreas, stage.AsSplitAreas_reference[_b])
+	}
+
+	return
+}
+
+func (reference *AsSplitArea) GongReconstructPointersFromReferences(stage *Stage, instance *AsSplitArea) () {
+	// insertion point for pointers field
+	if instance.AsSplit != nil {
+		reference.AsSplit = stage.AsSplits_reference[instance.AsSplit]
+	}
+	if instance.Button != nil {
+		reference.Button = stage.Buttons_reference[instance.Button]
+	}
+	if instance.Cursor != nil {
+		reference.Cursor = stage.Cursors_reference[instance.Cursor]
+	}
+	if instance.Form != nil {
+		reference.Form = stage.Forms_reference[instance.Form]
+	}
+	if instance.Load != nil {
+		reference.Load = stage.Loads_reference[instance.Load]
+	}
+	if instance.Markdown != nil {
+		reference.Markdown = stage.Markdowns_reference[instance.Markdown]
+	}
+	if instance.Slider != nil {
+		reference.Slider = stage.Sliders_reference[instance.Slider]
+	}
+	if instance.Split != nil {
+		reference.Split = stage.Splits_reference[instance.Split]
+	}
+	if instance.Svg != nil {
+		reference.Svg = stage.Svgs_reference[instance.Svg]
+	}
+	if instance.Table != nil {
+		reference.Table = stage.Tables_reference[instance.Table]
+	}
+	if instance.Tone != nil {
+		reference.Tone = stage.Tones_reference[instance.Tone]
+	}
+	if instance.Tree != nil {
+		reference.Tree = stage.Trees_reference[instance.Tree]
+	}
+	if instance.Xlsx != nil {
+		reference.Xlsx = stage.Xlsxs_reference[instance.Xlsx]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *Button) GongReconstructPointersFromReferences(stage *Stage, instance *Button) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *Cursor) GongReconstructPointersFromReferences(stage *Stage, instance *Cursor) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *FavIcon) GongReconstructPointersFromReferences(stage *Stage, instance *FavIcon) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *Form) GongReconstructPointersFromReferences(stage *Stage, instance *Form) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *Load) GongReconstructPointersFromReferences(stage *Stage, instance *Load) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *LogoOnTheLeft) GongReconstructPointersFromReferences(stage *Stage, instance *LogoOnTheLeft) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *LogoOnTheRight) GongReconstructPointersFromReferences(stage *Stage, instance *LogoOnTheRight) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *Markdown) GongReconstructPointersFromReferences(stage *Stage, instance *Markdown) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *Slider) GongReconstructPointersFromReferences(stage *Stage, instance *Slider) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *Split) GongReconstructPointersFromReferences(stage *Stage, instance *Split) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *Svg) GongReconstructPointersFromReferences(stage *Stage, instance *Svg) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *Table) GongReconstructPointersFromReferences(stage *Stage, instance *Table) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *Title) GongReconstructPointersFromReferences(stage *Stage, instance *Title) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *Tone) GongReconstructPointersFromReferences(stage *Stage, instance *Tone) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *Tree) GongReconstructPointersFromReferences(stage *Stage, instance *Tree) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *View) GongReconstructPointersFromReferences(stage *Stage, instance *View) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.RootAsSplitAreas = reference.RootAsSplitAreas[:0]
+	for _, _b := range instance.RootAsSplitAreas {
+		reference.RootAsSplitAreas = append(reference.RootAsSplitAreas, stage.AsSplitAreas_reference[_b])
+	}
+
+	return
+}
+
+func (reference *Xlsx) GongReconstructPointersFromReferences(stage *Stage, instance *Xlsx) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+// insertion point for pointer reconstruction from instances
+func (reference *AsSplit) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _AsSplitAreas []*AsSplitArea
+	for _, _reference := range reference.AsSplitAreas {
+		if _instance, ok := stage.AsSplitAreas_instance[_reference]; ok {
+			_AsSplitAreas = append(_AsSplitAreas, stage.AsSplitAreas_reference[_instance])
+		}
+	}
+	reference.AsSplitAreas = _AsSplitAreas
+
+	return
+}
+
+func (reference *AsSplitArea) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.AsSplit; _reference != nil {
+		reference.AsSplit = nil
+		if _instance, ok := stage.AsSplits_instance[_reference]; ok {
+			reference.AsSplit = _instance
+		}
+	}
+	if _reference := reference.Button; _reference != nil {
+		reference.Button = nil
+		if _instance, ok := stage.Buttons_instance[_reference]; ok {
+			reference.Button = _instance
+		}
+	}
+	if _reference := reference.Cursor; _reference != nil {
+		reference.Cursor = nil
+		if _instance, ok := stage.Cursors_instance[_reference]; ok {
+			reference.Cursor = _instance
+		}
+	}
+	if _reference := reference.Form; _reference != nil {
+		reference.Form = nil
+		if _instance, ok := stage.Forms_instance[_reference]; ok {
+			reference.Form = _instance
+		}
+	}
+	if _reference := reference.Load; _reference != nil {
+		reference.Load = nil
+		if _instance, ok := stage.Loads_instance[_reference]; ok {
+			reference.Load = _instance
+		}
+	}
+	if _reference := reference.Markdown; _reference != nil {
+		reference.Markdown = nil
+		if _instance, ok := stage.Markdowns_instance[_reference]; ok {
+			reference.Markdown = _instance
+		}
+	}
+	if _reference := reference.Slider; _reference != nil {
+		reference.Slider = nil
+		if _instance, ok := stage.Sliders_instance[_reference]; ok {
+			reference.Slider = _instance
+		}
+	}
+	if _reference := reference.Split; _reference != nil {
+		reference.Split = nil
+		if _instance, ok := stage.Splits_instance[_reference]; ok {
+			reference.Split = _instance
+		}
+	}
+	if _reference := reference.Svg; _reference != nil {
+		reference.Svg = nil
+		if _instance, ok := stage.Svgs_instance[_reference]; ok {
+			reference.Svg = _instance
+		}
+	}
+	if _reference := reference.Table; _reference != nil {
+		reference.Table = nil
+		if _instance, ok := stage.Tables_instance[_reference]; ok {
+			reference.Table = _instance
+		}
+	}
+	if _reference := reference.Tone; _reference != nil {
+		reference.Tone = nil
+		if _instance, ok := stage.Tones_instance[_reference]; ok {
+			reference.Tone = _instance
+		}
+	}
+	if _reference := reference.Tree; _reference != nil {
+		reference.Tree = nil
+		if _instance, ok := stage.Trees_instance[_reference]; ok {
+			reference.Tree = _instance
+		}
+	}
+	if _reference := reference.Xlsx; _reference != nil {
+		reference.Xlsx = nil
+		if _instance, ok := stage.Xlsxs_instance[_reference]; ok {
+			reference.Xlsx = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *Button) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *Cursor) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *FavIcon) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *Form) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *Load) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *LogoOnTheLeft) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *LogoOnTheRight) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *Markdown) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *Slider) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *Split) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *Svg) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *Table) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *Title) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *Tone) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *Tree) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *View) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _RootAsSplitAreas []*AsSplitArea
+	for _, _reference := range reference.RootAsSplitAreas {
+		if _instance, ok := stage.AsSplitAreas_instance[_reference]; ok {
+			_RootAsSplitAreas = append(_RootAsSplitAreas, stage.AsSplitAreas_reference[_instance])
+		}
+	}
+	reference.RootAsSplitAreas = _RootAsSplitAreas
+
+	return
+}
+
+func (reference *Xlsx) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings

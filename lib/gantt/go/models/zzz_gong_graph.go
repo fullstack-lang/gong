@@ -664,6 +664,210 @@ func (stage *Stage) UnstageBranchMilestone(milestone *Milestone) {
 
 }
 
+// insertion point for pointer reconstruction from references
+func (reference *Arrow) GongReconstructPointersFromReferences(stage *Stage, instance *Arrow) () {
+	// insertion point for pointers field
+	if instance.From != nil {
+		reference.From = stage.Bars_reference[instance.From]
+	}
+	if instance.To != nil {
+		reference.To = stage.Bars_reference[instance.To]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *Bar) GongReconstructPointersFromReferences(stage *Stage, instance *Bar) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *Gantt) GongReconstructPointersFromReferences(stage *Stage, instance *Gantt) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.Lanes = reference.Lanes[:0]
+	for _, _b := range instance.Lanes {
+		reference.Lanes = append(reference.Lanes, stage.Lanes_reference[_b])
+	}
+	reference.Milestones = reference.Milestones[:0]
+	for _, _b := range instance.Milestones {
+		reference.Milestones = append(reference.Milestones, stage.Milestones_reference[_b])
+	}
+	reference.Groups = reference.Groups[:0]
+	for _, _b := range instance.Groups {
+		reference.Groups = append(reference.Groups, stage.Groups_reference[_b])
+	}
+	reference.Arrows = reference.Arrows[:0]
+	for _, _b := range instance.Arrows {
+		reference.Arrows = append(reference.Arrows, stage.Arrows_reference[_b])
+	}
+
+	return
+}
+
+func (reference *Group) GongReconstructPointersFromReferences(stage *Stage, instance *Group) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.GroupLanes = reference.GroupLanes[:0]
+	for _, _b := range instance.GroupLanes {
+		reference.GroupLanes = append(reference.GroupLanes, stage.Lanes_reference[_b])
+	}
+
+	return
+}
+
+func (reference *Lane) GongReconstructPointersFromReferences(stage *Stage, instance *Lane) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.Bars = reference.Bars[:0]
+	for _, _b := range instance.Bars {
+		reference.Bars = append(reference.Bars, stage.Bars_reference[_b])
+	}
+
+	return
+}
+
+func (reference *LaneUse) GongReconstructPointersFromReferences(stage *Stage, instance *LaneUse) () {
+	// insertion point for pointers field
+	if instance.Lane != nil {
+		reference.Lane = stage.Lanes_reference[instance.Lane]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *Milestone) GongReconstructPointersFromReferences(stage *Stage, instance *Milestone) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.LanesToDisplay = reference.LanesToDisplay[:0]
+	for _, _b := range instance.LanesToDisplay {
+		reference.LanesToDisplay = append(reference.LanesToDisplay, stage.Lanes_reference[_b])
+	}
+
+	return
+}
+
+// insertion point for pointer reconstruction from instances
+func (reference *Arrow) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.From; _reference != nil {
+		reference.From = nil
+		if _instance, ok := stage.Bars_instance[_reference]; ok {
+			reference.From = _instance
+		}
+	}
+	if _reference := reference.To; _reference != nil {
+		reference.To = nil
+		if _instance, ok := stage.Bars_instance[_reference]; ok {
+			reference.To = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *Bar) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *Gantt) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _Lanes []*Lane
+	for _, _reference := range reference.Lanes {
+		if _instance, ok := stage.Lanes_instance[_reference]; ok {
+			_Lanes = append(_Lanes, stage.Lanes_reference[_instance])
+		}
+	}
+	reference.Lanes = _Lanes
+	var _Milestones []*Milestone
+	for _, _reference := range reference.Milestones {
+		if _instance, ok := stage.Milestones_instance[_reference]; ok {
+			_Milestones = append(_Milestones, stage.Milestones_reference[_instance])
+		}
+	}
+	reference.Milestones = _Milestones
+	var _Groups []*Group
+	for _, _reference := range reference.Groups {
+		if _instance, ok := stage.Groups_instance[_reference]; ok {
+			_Groups = append(_Groups, stage.Groups_reference[_instance])
+		}
+	}
+	reference.Groups = _Groups
+	var _Arrows []*Arrow
+	for _, _reference := range reference.Arrows {
+		if _instance, ok := stage.Arrows_instance[_reference]; ok {
+			_Arrows = append(_Arrows, stage.Arrows_reference[_instance])
+		}
+	}
+	reference.Arrows = _Arrows
+
+	return
+}
+
+func (reference *Group) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _GroupLanes []*Lane
+	for _, _reference := range reference.GroupLanes {
+		if _instance, ok := stage.Lanes_instance[_reference]; ok {
+			_GroupLanes = append(_GroupLanes, stage.Lanes_reference[_instance])
+		}
+	}
+	reference.GroupLanes = _GroupLanes
+
+	return
+}
+
+func (reference *Lane) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _Bars []*Bar
+	for _, _reference := range reference.Bars {
+		if _instance, ok := stage.Bars_instance[_reference]; ok {
+			_Bars = append(_Bars, stage.Bars_reference[_instance])
+		}
+	}
+	reference.Bars = _Bars
+
+	return
+}
+
+func (reference *LaneUse) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.Lane; _reference != nil {
+		reference.Lane = nil
+		if _instance, ok := stage.Lanes_instance[_reference]; ok {
+			reference.Lane = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *Milestone) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _LanesToDisplay []*Lane
+	for _, _reference := range reference.LanesToDisplay {
+		if _instance, ok := stage.Lanes_instance[_reference]; ok {
+			_LanesToDisplay = append(_LanesToDisplay, stage.Lanes_reference[_instance])
+		}
+	}
+	reference.LanesToDisplay = _LanesToDisplay
+
+	return
+}
+
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings

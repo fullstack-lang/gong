@@ -107,7 +107,8 @@ type Stage struct {
 	// insertion point for definition of arrays registering instances
 	AsSplits                map[*AsSplit]struct{}
 	AsSplits_reference      map[*AsSplit]*AsSplit
-	AsSplits_referenceOrder map[*AsSplit]uint // diff Unstage needs the reference order
+	AsSplits_referenceOrder map[*AsSplit]uint
+	AsSplits_instance       map[*AsSplit]*AsSplit
 	AsSplits_mapString      map[string]*AsSplit
 
 	// insertion point for slice of pointers maps
@@ -120,7 +121,8 @@ type Stage struct {
 
 	AsSplitAreas                map[*AsSplitArea]struct{}
 	AsSplitAreas_reference      map[*AsSplitArea]*AsSplitArea
-	AsSplitAreas_referenceOrder map[*AsSplitArea]uint // diff Unstage needs the reference order
+	AsSplitAreas_referenceOrder map[*AsSplitArea]uint
+	AsSplitAreas_instance       map[*AsSplitArea]*AsSplitArea
 	AsSplitAreas_mapString      map[string]*AsSplitArea
 
 	// insertion point for slice of pointers maps
@@ -131,7 +133,8 @@ type Stage struct {
 
 	Buttons                map[*Button]struct{}
 	Buttons_reference      map[*Button]*Button
-	Buttons_referenceOrder map[*Button]uint // diff Unstage needs the reference order
+	Buttons_referenceOrder map[*Button]uint
+	Buttons_instance       map[*Button]*Button
 	Buttons_mapString      map[string]*Button
 
 	// insertion point for slice of pointers maps
@@ -142,7 +145,8 @@ type Stage struct {
 
 	Cursors                map[*Cursor]struct{}
 	Cursors_reference      map[*Cursor]*Cursor
-	Cursors_referenceOrder map[*Cursor]uint // diff Unstage needs the reference order
+	Cursors_referenceOrder map[*Cursor]uint
+	Cursors_instance       map[*Cursor]*Cursor
 	Cursors_mapString      map[string]*Cursor
 
 	// insertion point for slice of pointers maps
@@ -153,7 +157,8 @@ type Stage struct {
 
 	FavIcons                map[*FavIcon]struct{}
 	FavIcons_reference      map[*FavIcon]*FavIcon
-	FavIcons_referenceOrder map[*FavIcon]uint // diff Unstage needs the reference order
+	FavIcons_referenceOrder map[*FavIcon]uint
+	FavIcons_instance       map[*FavIcon]*FavIcon
 	FavIcons_mapString      map[string]*FavIcon
 
 	// insertion point for slice of pointers maps
@@ -164,7 +169,8 @@ type Stage struct {
 
 	Forms                map[*Form]struct{}
 	Forms_reference      map[*Form]*Form
-	Forms_referenceOrder map[*Form]uint // diff Unstage needs the reference order
+	Forms_referenceOrder map[*Form]uint
+	Forms_instance       map[*Form]*Form
 	Forms_mapString      map[string]*Form
 
 	// insertion point for slice of pointers maps
@@ -175,7 +181,8 @@ type Stage struct {
 
 	Loads                map[*Load]struct{}
 	Loads_reference      map[*Load]*Load
-	Loads_referenceOrder map[*Load]uint // diff Unstage needs the reference order
+	Loads_referenceOrder map[*Load]uint
+	Loads_instance       map[*Load]*Load
 	Loads_mapString      map[string]*Load
 
 	// insertion point for slice of pointers maps
@@ -186,7 +193,8 @@ type Stage struct {
 
 	LogoOnTheLefts                map[*LogoOnTheLeft]struct{}
 	LogoOnTheLefts_reference      map[*LogoOnTheLeft]*LogoOnTheLeft
-	LogoOnTheLefts_referenceOrder map[*LogoOnTheLeft]uint // diff Unstage needs the reference order
+	LogoOnTheLefts_referenceOrder map[*LogoOnTheLeft]uint
+	LogoOnTheLefts_instance       map[*LogoOnTheLeft]*LogoOnTheLeft
 	LogoOnTheLefts_mapString      map[string]*LogoOnTheLeft
 
 	// insertion point for slice of pointers maps
@@ -197,7 +205,8 @@ type Stage struct {
 
 	LogoOnTheRights                map[*LogoOnTheRight]struct{}
 	LogoOnTheRights_reference      map[*LogoOnTheRight]*LogoOnTheRight
-	LogoOnTheRights_referenceOrder map[*LogoOnTheRight]uint // diff Unstage needs the reference order
+	LogoOnTheRights_referenceOrder map[*LogoOnTheRight]uint
+	LogoOnTheRights_instance       map[*LogoOnTheRight]*LogoOnTheRight
 	LogoOnTheRights_mapString      map[string]*LogoOnTheRight
 
 	// insertion point for slice of pointers maps
@@ -208,7 +217,8 @@ type Stage struct {
 
 	Markdowns                map[*Markdown]struct{}
 	Markdowns_reference      map[*Markdown]*Markdown
-	Markdowns_referenceOrder map[*Markdown]uint // diff Unstage needs the reference order
+	Markdowns_referenceOrder map[*Markdown]uint
+	Markdowns_instance       map[*Markdown]*Markdown
 	Markdowns_mapString      map[string]*Markdown
 
 	// insertion point for slice of pointers maps
@@ -219,7 +229,8 @@ type Stage struct {
 
 	Sliders                map[*Slider]struct{}
 	Sliders_reference      map[*Slider]*Slider
-	Sliders_referenceOrder map[*Slider]uint // diff Unstage needs the reference order
+	Sliders_referenceOrder map[*Slider]uint
+	Sliders_instance       map[*Slider]*Slider
 	Sliders_mapString      map[string]*Slider
 
 	// insertion point for slice of pointers maps
@@ -230,7 +241,8 @@ type Stage struct {
 
 	Splits                map[*Split]struct{}
 	Splits_reference      map[*Split]*Split
-	Splits_referenceOrder map[*Split]uint // diff Unstage needs the reference order
+	Splits_referenceOrder map[*Split]uint
+	Splits_instance       map[*Split]*Split
 	Splits_mapString      map[string]*Split
 
 	// insertion point for slice of pointers maps
@@ -241,7 +253,8 @@ type Stage struct {
 
 	Svgs                map[*Svg]struct{}
 	Svgs_reference      map[*Svg]*Svg
-	Svgs_referenceOrder map[*Svg]uint // diff Unstage needs the reference order
+	Svgs_referenceOrder map[*Svg]uint
+	Svgs_instance       map[*Svg]*Svg
 	Svgs_mapString      map[string]*Svg
 
 	// insertion point for slice of pointers maps
@@ -252,7 +265,8 @@ type Stage struct {
 
 	Tables                map[*Table]struct{}
 	Tables_reference      map[*Table]*Table
-	Tables_referenceOrder map[*Table]uint // diff Unstage needs the reference order
+	Tables_referenceOrder map[*Table]uint
+	Tables_instance       map[*Table]*Table
 	Tables_mapString      map[string]*Table
 
 	// insertion point for slice of pointers maps
@@ -263,7 +277,8 @@ type Stage struct {
 
 	Titles                map[*Title]struct{}
 	Titles_reference      map[*Title]*Title
-	Titles_referenceOrder map[*Title]uint // diff Unstage needs the reference order
+	Titles_referenceOrder map[*Title]uint
+	Titles_instance       map[*Title]*Title
 	Titles_mapString      map[string]*Title
 
 	// insertion point for slice of pointers maps
@@ -274,7 +289,8 @@ type Stage struct {
 
 	Tones                map[*Tone]struct{}
 	Tones_reference      map[*Tone]*Tone
-	Tones_referenceOrder map[*Tone]uint // diff Unstage needs the reference order
+	Tones_referenceOrder map[*Tone]uint
+	Tones_instance       map[*Tone]*Tone
 	Tones_mapString      map[string]*Tone
 
 	// insertion point for slice of pointers maps
@@ -285,7 +301,8 @@ type Stage struct {
 
 	Trees                map[*Tree]struct{}
 	Trees_reference      map[*Tree]*Tree
-	Trees_referenceOrder map[*Tree]uint // diff Unstage needs the reference order
+	Trees_referenceOrder map[*Tree]uint
+	Trees_instance       map[*Tree]*Tree
 	Trees_mapString      map[string]*Tree
 
 	// insertion point for slice of pointers maps
@@ -296,7 +313,8 @@ type Stage struct {
 
 	Views                map[*View]struct{}
 	Views_reference      map[*View]*View
-	Views_referenceOrder map[*View]uint // diff Unstage needs the reference order
+	Views_referenceOrder map[*View]uint
+	Views_instance       map[*View]*View
 	Views_mapString      map[string]*View
 
 	// insertion point for slice of pointers maps
@@ -309,7 +327,8 @@ type Stage struct {
 
 	Xlsxs                map[*Xlsx]struct{}
 	Xlsxs_reference      map[*Xlsx]*Xlsx
-	Xlsxs_referenceOrder map[*Xlsx]uint // diff Unstage needs the reference order
+	Xlsxs_referenceOrder map[*Xlsx]uint
+	Xlsxs_instance       map[*Xlsx]*Xlsx
 	Xlsxs_mapString      map[string]*Xlsx
 
 	// insertion point for slice of pointers maps
@@ -4624,9 +4643,9 @@ func (assplit *AsSplit) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Direction",
-			GongFieldValueType: GongFieldValueTypeString,
-			TargetGongstructName: "Direction",
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
 		},
 		{
 			Name:                 "AsSplitAreas",
@@ -4999,9 +5018,9 @@ func (view *View) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:               "Direction",
-			GongFieldValueType: GongFieldValueTypeString,
-			TargetGongstructName: "Direction",
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
 		},
 		{
 			Name:               "IsSecondatyView",

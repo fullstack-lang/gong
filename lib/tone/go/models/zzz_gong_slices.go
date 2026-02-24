@@ -55,18 +55,21 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 // insertion point per named struct
 func (freqency *Freqency) GongCopy() GongstructIF {
-	newInstance := *freqency
-	return &newInstance
+	newInstance := new(Freqency)
+	freqency.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (note *Note) GongCopy() GongstructIF {
-	newInstance := *note
-	return &newInstance
+	newInstance := new(Note)
+	note.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (player *Player) GongCopy() GongstructIF {
-	newInstance := *player
-	return &newInstance
+	newInstance := new(Player)
+	player.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (stage *Stage) ComputeForwardAndBackwardCommits() {

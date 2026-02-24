@@ -799,6 +799,231 @@ func (stage *Stage) UnstageBranchLinkShape(linkshape *LinkShape) {
 
 }
 
+// insertion point for pointer reconstruction from references
+func (reference *AttributeShape) GongReconstructPointersFromReferences(stage *Stage, instance *AttributeShape) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *Classdiagram) GongReconstructPointersFromReferences(stage *Stage, instance *Classdiagram) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.GongStructShapes = reference.GongStructShapes[:0]
+	for _, _b := range instance.GongStructShapes {
+		reference.GongStructShapes = append(reference.GongStructShapes, stage.GongStructShapes_reference[_b])
+	}
+	reference.GongEnumShapes = reference.GongEnumShapes[:0]
+	for _, _b := range instance.GongEnumShapes {
+		reference.GongEnumShapes = append(reference.GongEnumShapes, stage.GongEnumShapes_reference[_b])
+	}
+	reference.GongNoteShapes = reference.GongNoteShapes[:0]
+	for _, _b := range instance.GongNoteShapes {
+		reference.GongNoteShapes = append(reference.GongNoteShapes, stage.GongNoteShapes_reference[_b])
+	}
+
+	return
+}
+
+func (reference *DiagramPackage) GongReconstructPointersFromReferences(stage *Stage, instance *DiagramPackage) () {
+	// insertion point for pointers field
+	if instance.SelectedClassdiagram != nil {
+		reference.SelectedClassdiagram = stage.Classdiagrams_reference[instance.SelectedClassdiagram]
+	}
+	// insertion point for slice of pointers field
+	reference.Classdiagrams = reference.Classdiagrams[:0]
+	for _, _b := range instance.Classdiagrams {
+		reference.Classdiagrams = append(reference.Classdiagrams, stage.Classdiagrams_reference[_b])
+	}
+
+	return
+}
+
+func (reference *GongEnumShape) GongReconstructPointersFromReferences(stage *Stage, instance *GongEnumShape) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.GongEnumValueShapes = reference.GongEnumValueShapes[:0]
+	for _, _b := range instance.GongEnumValueShapes {
+		reference.GongEnumValueShapes = append(reference.GongEnumValueShapes, stage.GongEnumValueShapes_reference[_b])
+	}
+
+	return
+}
+
+func (reference *GongEnumValueShape) GongReconstructPointersFromReferences(stage *Stage, instance *GongEnumValueShape) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *GongNoteLinkShape) GongReconstructPointersFromReferences(stage *Stage, instance *GongNoteLinkShape) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *GongNoteShape) GongReconstructPointersFromReferences(stage *Stage, instance *GongNoteShape) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.GongNoteLinkShapes = reference.GongNoteLinkShapes[:0]
+	for _, _b := range instance.GongNoteLinkShapes {
+		reference.GongNoteLinkShapes = append(reference.GongNoteLinkShapes, stage.GongNoteLinkShapes_reference[_b])
+	}
+
+	return
+}
+
+func (reference *GongStructShape) GongReconstructPointersFromReferences(stage *Stage, instance *GongStructShape) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.AttributeShapes = reference.AttributeShapes[:0]
+	for _, _b := range instance.AttributeShapes {
+		reference.AttributeShapes = append(reference.AttributeShapes, stage.AttributeShapes_reference[_b])
+	}
+	reference.LinkShapes = reference.LinkShapes[:0]
+	for _, _b := range instance.LinkShapes {
+		reference.LinkShapes = append(reference.LinkShapes, stage.LinkShapes_reference[_b])
+	}
+
+	return
+}
+
+func (reference *LinkShape) GongReconstructPointersFromReferences(stage *Stage, instance *LinkShape) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+// insertion point for pointer reconstruction from instances
+func (reference *AttributeShape) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *Classdiagram) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _GongStructShapes []*GongStructShape
+	for _, _reference := range reference.GongStructShapes {
+		if _instance, ok := stage.GongStructShapes_instance[_reference]; ok {
+			_GongStructShapes = append(_GongStructShapes, stage.GongStructShapes_reference[_instance])
+		}
+	}
+	reference.GongStructShapes = _GongStructShapes
+	var _GongEnumShapes []*GongEnumShape
+	for _, _reference := range reference.GongEnumShapes {
+		if _instance, ok := stage.GongEnumShapes_instance[_reference]; ok {
+			_GongEnumShapes = append(_GongEnumShapes, stage.GongEnumShapes_reference[_instance])
+		}
+	}
+	reference.GongEnumShapes = _GongEnumShapes
+	var _GongNoteShapes []*GongNoteShape
+	for _, _reference := range reference.GongNoteShapes {
+		if _instance, ok := stage.GongNoteShapes_instance[_reference]; ok {
+			_GongNoteShapes = append(_GongNoteShapes, stage.GongNoteShapes_reference[_instance])
+		}
+	}
+	reference.GongNoteShapes = _GongNoteShapes
+
+	return
+}
+
+func (reference *DiagramPackage) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.SelectedClassdiagram; _reference != nil {
+		reference.SelectedClassdiagram = nil
+		if _instance, ok := stage.Classdiagrams_instance[_reference]; ok {
+			reference.SelectedClassdiagram = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+	var _Classdiagrams []*Classdiagram
+	for _, _reference := range reference.Classdiagrams {
+		if _instance, ok := stage.Classdiagrams_instance[_reference]; ok {
+			_Classdiagrams = append(_Classdiagrams, stage.Classdiagrams_reference[_instance])
+		}
+	}
+	reference.Classdiagrams = _Classdiagrams
+
+	return
+}
+
+func (reference *GongEnumShape) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _GongEnumValueShapes []*GongEnumValueShape
+	for _, _reference := range reference.GongEnumValueShapes {
+		if _instance, ok := stage.GongEnumValueShapes_instance[_reference]; ok {
+			_GongEnumValueShapes = append(_GongEnumValueShapes, stage.GongEnumValueShapes_reference[_instance])
+		}
+	}
+	reference.GongEnumValueShapes = _GongEnumValueShapes
+
+	return
+}
+
+func (reference *GongEnumValueShape) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *GongNoteLinkShape) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *GongNoteShape) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _GongNoteLinkShapes []*GongNoteLinkShape
+	for _, _reference := range reference.GongNoteLinkShapes {
+		if _instance, ok := stage.GongNoteLinkShapes_instance[_reference]; ok {
+			_GongNoteLinkShapes = append(_GongNoteLinkShapes, stage.GongNoteLinkShapes_reference[_instance])
+		}
+	}
+	reference.GongNoteLinkShapes = _GongNoteLinkShapes
+
+	return
+}
+
+func (reference *GongStructShape) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _AttributeShapes []*AttributeShape
+	for _, _reference := range reference.AttributeShapes {
+		if _instance, ok := stage.AttributeShapes_instance[_reference]; ok {
+			_AttributeShapes = append(_AttributeShapes, stage.AttributeShapes_reference[_instance])
+		}
+	}
+	reference.AttributeShapes = _AttributeShapes
+	var _LinkShapes []*LinkShape
+	for _, _reference := range reference.LinkShapes {
+		if _instance, ok := stage.LinkShapes_instance[_reference]; ok {
+			_LinkShapes = append(_LinkShapes, stage.LinkShapes_reference[_instance])
+		}
+	}
+	reference.LinkShapes = _LinkShapes
+
+	return
+}
+
+func (reference *LinkShape) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings

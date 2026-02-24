@@ -34,8 +34,9 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 // insertion point per named struct
 func (cursor *Cursor) GongCopy() GongstructIF {
-	newInstance := *cursor
-	return &newInstance
+	newInstance := new(Cursor)
+	cursor.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (stage *Stage) ComputeForwardAndBackwardCommits() {

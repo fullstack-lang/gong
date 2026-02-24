@@ -107,7 +107,8 @@ type Stage struct {
 	// insertion point for definition of arrays registering instances
 	AttributeShapes                map[*AttributeShape]struct{}
 	AttributeShapes_reference      map[*AttributeShape]*AttributeShape
-	AttributeShapes_referenceOrder map[*AttributeShape]uint // diff Unstage needs the reference order
+	AttributeShapes_referenceOrder map[*AttributeShape]uint
+	AttributeShapes_instance       map[*AttributeShape]*AttributeShape
 	AttributeShapes_mapString      map[string]*AttributeShape
 
 	// insertion point for slice of pointers maps
@@ -118,7 +119,8 @@ type Stage struct {
 
 	Classdiagrams                map[*Classdiagram]struct{}
 	Classdiagrams_reference      map[*Classdiagram]*Classdiagram
-	Classdiagrams_referenceOrder map[*Classdiagram]uint // diff Unstage needs the reference order
+	Classdiagrams_referenceOrder map[*Classdiagram]uint
+	Classdiagrams_instance       map[*Classdiagram]*Classdiagram
 	Classdiagrams_mapString      map[string]*Classdiagram
 
 	// insertion point for slice of pointers maps
@@ -135,7 +137,8 @@ type Stage struct {
 
 	DiagramPackages                map[*DiagramPackage]struct{}
 	DiagramPackages_reference      map[*DiagramPackage]*DiagramPackage
-	DiagramPackages_referenceOrder map[*DiagramPackage]uint // diff Unstage needs the reference order
+	DiagramPackages_referenceOrder map[*DiagramPackage]uint
+	DiagramPackages_instance       map[*DiagramPackage]*DiagramPackage
 	DiagramPackages_mapString      map[string]*DiagramPackage
 
 	// insertion point for slice of pointers maps
@@ -148,7 +151,8 @@ type Stage struct {
 
 	GongEnumShapes                map[*GongEnumShape]struct{}
 	GongEnumShapes_reference      map[*GongEnumShape]*GongEnumShape
-	GongEnumShapes_referenceOrder map[*GongEnumShape]uint // diff Unstage needs the reference order
+	GongEnumShapes_referenceOrder map[*GongEnumShape]uint
+	GongEnumShapes_instance       map[*GongEnumShape]*GongEnumShape
 	GongEnumShapes_mapString      map[string]*GongEnumShape
 
 	// insertion point for slice of pointers maps
@@ -161,7 +165,8 @@ type Stage struct {
 
 	GongEnumValueShapes                map[*GongEnumValueShape]struct{}
 	GongEnumValueShapes_reference      map[*GongEnumValueShape]*GongEnumValueShape
-	GongEnumValueShapes_referenceOrder map[*GongEnumValueShape]uint // diff Unstage needs the reference order
+	GongEnumValueShapes_referenceOrder map[*GongEnumValueShape]uint
+	GongEnumValueShapes_instance       map[*GongEnumValueShape]*GongEnumValueShape
 	GongEnumValueShapes_mapString      map[string]*GongEnumValueShape
 
 	// insertion point for slice of pointers maps
@@ -172,7 +177,8 @@ type Stage struct {
 
 	GongNoteLinkShapes                map[*GongNoteLinkShape]struct{}
 	GongNoteLinkShapes_reference      map[*GongNoteLinkShape]*GongNoteLinkShape
-	GongNoteLinkShapes_referenceOrder map[*GongNoteLinkShape]uint // diff Unstage needs the reference order
+	GongNoteLinkShapes_referenceOrder map[*GongNoteLinkShape]uint
+	GongNoteLinkShapes_instance       map[*GongNoteLinkShape]*GongNoteLinkShape
 	GongNoteLinkShapes_mapString      map[string]*GongNoteLinkShape
 
 	// insertion point for slice of pointers maps
@@ -183,7 +189,8 @@ type Stage struct {
 
 	GongNoteShapes                map[*GongNoteShape]struct{}
 	GongNoteShapes_reference      map[*GongNoteShape]*GongNoteShape
-	GongNoteShapes_referenceOrder map[*GongNoteShape]uint // diff Unstage needs the reference order
+	GongNoteShapes_referenceOrder map[*GongNoteShape]uint
+	GongNoteShapes_instance       map[*GongNoteShape]*GongNoteShape
 	GongNoteShapes_mapString      map[string]*GongNoteShape
 
 	// insertion point for slice of pointers maps
@@ -196,7 +203,8 @@ type Stage struct {
 
 	GongStructShapes                map[*GongStructShape]struct{}
 	GongStructShapes_reference      map[*GongStructShape]*GongStructShape
-	GongStructShapes_referenceOrder map[*GongStructShape]uint // diff Unstage needs the reference order
+	GongStructShapes_referenceOrder map[*GongStructShape]uint
+	GongStructShapes_instance       map[*GongStructShape]*GongStructShape
 	GongStructShapes_mapString      map[string]*GongStructShape
 
 	// insertion point for slice of pointers maps
@@ -211,7 +219,8 @@ type Stage struct {
 
 	LinkShapes                map[*LinkShape]struct{}
 	LinkShapes_reference      map[*LinkShape]*LinkShape
-	LinkShapes_referenceOrder map[*LinkShape]uint // diff Unstage needs the reference order
+	LinkShapes_referenceOrder map[*LinkShape]uint
+	LinkShapes_instance       map[*LinkShape]*LinkShape
 	LinkShapes_mapString      map[string]*LinkShape
 
 	// insertion point for slice of pointers maps
@@ -2823,9 +2832,9 @@ func (gongnotelinkshape *GongNoteLinkShape) GongGetFieldHeaders() (res []GongFie
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Type",
-			GongFieldValueType: GongFieldValueTypeString,
-			TargetGongstructName: "NoteShapeLinkType",
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
 		},
 	}
 	return
@@ -2952,9 +2961,9 @@ func (linkshape *LinkShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:               "TargetMultiplicity",
-			GongFieldValueType: GongFieldValueTypeString,
-			TargetGongstructName: "MultiplicityType",
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
 		},
 		{
 			Name:               "TargetMultiplicityOffsetX",
@@ -2965,9 +2974,9 @@ func (linkshape *LinkShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:               "SourceMultiplicity",
-			GongFieldValueType: GongFieldValueTypeString,
-			TargetGongstructName: "MultiplicityType",
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
 		},
 		{
 			Name:               "SourceMultiplicityOffsetX",
@@ -2986,18 +2995,18 @@ func (linkshape *LinkShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:               "StartOrientation",
-			GongFieldValueType: GongFieldValueTypeString,
-			TargetGongstructName: "OrientationType",
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
 		},
 		{
 			Name:               "StartRatio",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:               "EndOrientation",
-			GongFieldValueType: GongFieldValueTypeString,
-			TargetGongstructName: "OrientationType",
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
 		},
 		{
 			Name:               "EndRatio",
