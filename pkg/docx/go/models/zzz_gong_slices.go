@@ -195,83 +195,99 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 // insertion point per named struct
 func (body *Body) GongCopy() GongstructIF {
-	newInstance := *body
-	return &newInstance
+	newInstance := new(Body)
+	body.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (document *Document) GongCopy() GongstructIF {
-	newInstance := *document
-	return &newInstance
+	newInstance := new(Document)
+	document.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (docx *Docx) GongCopy() GongstructIF {
-	newInstance := *docx
-	return &newInstance
+	newInstance := new(Docx)
+	docx.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (file *File) GongCopy() GongstructIF {
-	newInstance := *file
-	return &newInstance
+	newInstance := new(File)
+	file.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (node *Node) GongCopy() GongstructIF {
-	newInstance := *node
-	return &newInstance
+	newInstance := new(Node)
+	node.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (paragraph *Paragraph) GongCopy() GongstructIF {
-	newInstance := *paragraph
-	return &newInstance
+	newInstance := new(Paragraph)
+	paragraph.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (paragraphproperties *ParagraphProperties) GongCopy() GongstructIF {
-	newInstance := *paragraphproperties
-	return &newInstance
+	newInstance := new(ParagraphProperties)
+	paragraphproperties.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (paragraphstyle *ParagraphStyle) GongCopy() GongstructIF {
-	newInstance := *paragraphstyle
-	return &newInstance
+	newInstance := new(ParagraphStyle)
+	paragraphstyle.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (rune *Rune) GongCopy() GongstructIF {
-	newInstance := *rune
-	return &newInstance
+	newInstance := new(Rune)
+	rune.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (runeproperties *RuneProperties) GongCopy() GongstructIF {
-	newInstance := *runeproperties
-	return &newInstance
+	newInstance := new(RuneProperties)
+	runeproperties.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (table *Table) GongCopy() GongstructIF {
-	newInstance := *table
-	return &newInstance
+	newInstance := new(Table)
+	table.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (tablecolumn *TableColumn) GongCopy() GongstructIF {
-	newInstance := *tablecolumn
-	return &newInstance
+	newInstance := new(TableColumn)
+	tablecolumn.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (tableproperties *TableProperties) GongCopy() GongstructIF {
-	newInstance := *tableproperties
-	return &newInstance
+	newInstance := new(TableProperties)
+	tableproperties.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (tablerow *TableRow) GongCopy() GongstructIF {
-	newInstance := *tablerow
-	return &newInstance
+	newInstance := new(TableRow)
+	tablerow.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (tablestyle *TableStyle) GongCopy() GongstructIF {
-	newInstance := *tablestyle
-	return &newInstance
+	newInstance := new(TableStyle)
+	tablestyle.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (text *Text) GongCopy() GongstructIF {
-	newInstance := *text
-	return &newInstance
+	newInstance := new(Text)
+	text.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (stage *Stage) ComputeForwardAndBackwardCommits() {

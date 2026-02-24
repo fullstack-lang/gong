@@ -1006,6 +1006,316 @@ func (stage *Stage) UnstageBranchInfluenceShape(influenceshape *InfluenceShape) 
 
 }
 
+// insertion point for pointer reconstruction from references
+func (reference *Category1) GongReconstructPointersFromReferences(stage *Stage, instance *Category1) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *Category1Shape) GongReconstructPointersFromReferences(stage *Stage, instance *Category1Shape) () {
+	// insertion point for pointers field
+	if instance.Category1 != nil {
+		reference.Category1 = stage.Category1s_reference[instance.Category1]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *Category2) GongReconstructPointersFromReferences(stage *Stage, instance *Category2) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *Category2Shape) GongReconstructPointersFromReferences(stage *Stage, instance *Category2Shape) () {
+	// insertion point for pointers field
+	if instance.Category2 != nil {
+		reference.Category2 = stage.Category2s_reference[instance.Category2]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *Category3) GongReconstructPointersFromReferences(stage *Stage, instance *Category3) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *Category3Shape) GongReconstructPointersFromReferences(stage *Stage, instance *Category3Shape) () {
+	// insertion point for pointers field
+	if instance.Category3 != nil {
+		reference.Category3 = stage.Category3s_reference[instance.Category3]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *ControlPointShape) GongReconstructPointersFromReferences(stage *Stage, instance *ControlPointShape) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *Desk) GongReconstructPointersFromReferences(stage *Stage, instance *Desk) () {
+	// insertion point for pointers field
+	if instance.SelectedDiagram != nil {
+		reference.SelectedDiagram = stage.Diagrams_reference[instance.SelectedDiagram]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *Diagram) GongReconstructPointersFromReferences(stage *Stage, instance *Diagram) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.Category1Shapes = reference.Category1Shapes[:0]
+	for _, _b := range instance.Category1Shapes {
+		reference.Category1Shapes = append(reference.Category1Shapes, stage.Category1Shapes_reference[_b])
+	}
+	reference.Category2Shapes = reference.Category2Shapes[:0]
+	for _, _b := range instance.Category2Shapes {
+		reference.Category2Shapes = append(reference.Category2Shapes, stage.Category2Shapes_reference[_b])
+	}
+	reference.Category3Shapes = reference.Category3Shapes[:0]
+	for _, _b := range instance.Category3Shapes {
+		reference.Category3Shapes = append(reference.Category3Shapes, stage.Category3Shapes_reference[_b])
+	}
+	reference.InfluenceShapes = reference.InfluenceShapes[:0]
+	for _, _b := range instance.InfluenceShapes {
+		reference.InfluenceShapes = append(reference.InfluenceShapes, stage.InfluenceShapes_reference[_b])
+	}
+
+	return
+}
+
+func (reference *Influence) GongReconstructPointersFromReferences(stage *Stage, instance *Influence) () {
+	// insertion point for pointers field
+	if instance.SourceCategory1 != nil {
+		reference.SourceCategory1 = stage.Category1s_reference[instance.SourceCategory1]
+	}
+	if instance.SourceCategory2 != nil {
+		reference.SourceCategory2 = stage.Category3s_reference[instance.SourceCategory2]
+	}
+	if instance.SourceCategory3 != nil {
+		reference.SourceCategory3 = stage.Category2s_reference[instance.SourceCategory3]
+	}
+	if instance.TargetCategory1 != nil {
+		reference.TargetCategory1 = stage.Category1s_reference[instance.TargetCategory1]
+	}
+	if instance.TargetCategory2 != nil {
+		reference.TargetCategory2 = stage.Category3s_reference[instance.TargetCategory2]
+	}
+	if instance.TargetCategory3 != nil {
+		reference.TargetCategory3 = stage.Category2s_reference[instance.TargetCategory3]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *InfluenceShape) GongReconstructPointersFromReferences(stage *Stage, instance *InfluenceShape) () {
+	// insertion point for pointers field
+	if instance.Influence != nil {
+		reference.Influence = stage.Influences_reference[instance.Influence]
+	}
+	// insertion point for slice of pointers field
+	reference.ControlPointShapes = reference.ControlPointShapes[:0]
+	for _, _b := range instance.ControlPointShapes {
+		reference.ControlPointShapes = append(reference.ControlPointShapes, stage.ControlPointShapes_reference[_b])
+	}
+
+	return
+}
+
+// insertion point for pointer reconstruction from instances
+func (reference *Category1) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *Category1Shape) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.Category1; _reference != nil {
+		reference.Category1 = nil
+		if _instance, ok := stage.Category1s_instance[_reference]; ok {
+			reference.Category1 = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *Category2) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *Category2Shape) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.Category2; _reference != nil {
+		reference.Category2 = nil
+		if _instance, ok := stage.Category2s_instance[_reference]; ok {
+			reference.Category2 = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *Category3) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *Category3Shape) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.Category3; _reference != nil {
+		reference.Category3 = nil
+		if _instance, ok := stage.Category3s_instance[_reference]; ok {
+			reference.Category3 = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *ControlPointShape) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *Desk) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.SelectedDiagram; _reference != nil {
+		reference.SelectedDiagram = nil
+		if _instance, ok := stage.Diagrams_instance[_reference]; ok {
+			reference.SelectedDiagram = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *Diagram) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _Category1Shapes []*Category1Shape
+	for _, _reference := range reference.Category1Shapes {
+		if _instance, ok := stage.Category1Shapes_instance[_reference]; ok {
+			_Category1Shapes = append(_Category1Shapes, stage.Category1Shapes_reference[_instance])
+		}
+	}
+	reference.Category1Shapes = _Category1Shapes
+	var _Category2Shapes []*Category2Shape
+	for _, _reference := range reference.Category2Shapes {
+		if _instance, ok := stage.Category2Shapes_instance[_reference]; ok {
+			_Category2Shapes = append(_Category2Shapes, stage.Category2Shapes_reference[_instance])
+		}
+	}
+	reference.Category2Shapes = _Category2Shapes
+	var _Category3Shapes []*Category3Shape
+	for _, _reference := range reference.Category3Shapes {
+		if _instance, ok := stage.Category3Shapes_instance[_reference]; ok {
+			_Category3Shapes = append(_Category3Shapes, stage.Category3Shapes_reference[_instance])
+		}
+	}
+	reference.Category3Shapes = _Category3Shapes
+	var _InfluenceShapes []*InfluenceShape
+	for _, _reference := range reference.InfluenceShapes {
+		if _instance, ok := stage.InfluenceShapes_instance[_reference]; ok {
+			_InfluenceShapes = append(_InfluenceShapes, stage.InfluenceShapes_reference[_instance])
+		}
+	}
+	reference.InfluenceShapes = _InfluenceShapes
+
+	return
+}
+
+func (reference *Influence) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.SourceCategory1; _reference != nil {
+		reference.SourceCategory1 = nil
+		if _instance, ok := stage.Category1s_instance[_reference]; ok {
+			reference.SourceCategory1 = _instance
+		}
+	}
+	if _reference := reference.SourceCategory2; _reference != nil {
+		reference.SourceCategory2 = nil
+		if _instance, ok := stage.Category3s_instance[_reference]; ok {
+			reference.SourceCategory2 = _instance
+		}
+	}
+	if _reference := reference.SourceCategory3; _reference != nil {
+		reference.SourceCategory3 = nil
+		if _instance, ok := stage.Category2s_instance[_reference]; ok {
+			reference.SourceCategory3 = _instance
+		}
+	}
+	if _reference := reference.TargetCategory1; _reference != nil {
+		reference.TargetCategory1 = nil
+		if _instance, ok := stage.Category1s_instance[_reference]; ok {
+			reference.TargetCategory1 = _instance
+		}
+	}
+	if _reference := reference.TargetCategory2; _reference != nil {
+		reference.TargetCategory2 = nil
+		if _instance, ok := stage.Category3s_instance[_reference]; ok {
+			reference.TargetCategory2 = _instance
+		}
+	}
+	if _reference := reference.TargetCategory3; _reference != nil {
+		reference.TargetCategory3 = nil
+		if _instance, ok := stage.Category2s_instance[_reference]; ok {
+			reference.TargetCategory3 = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *InfluenceShape) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.Influence; _reference != nil {
+		reference.Influence = nil
+		if _instance, ok := stage.Influences_instance[_reference]; ok {
+			reference.Influence = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+	var _ControlPointShapes []*ControlPointShape
+	for _, _reference := range reference.ControlPointShapes {
+		if _instance, ok := stage.ControlPointShapes_instance[_reference]; ok {
+			_ControlPointShapes = append(_ControlPointShapes, stage.ControlPointShapes_reference[_instance])
+		}
+	}
+	reference.ControlPointShapes = _ControlPointShapes
+
+	return
+}
+
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings

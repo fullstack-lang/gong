@@ -754,6 +754,302 @@ func (stage *Stage) UnstageBranchGstruct(gstruct *Gstruct) {
 
 }
 
+// insertion point for pointer reconstruction from references
+func (reference *Astruct) GongReconstructPointersFromReferences(stage *Stage, instance *Astruct) () {
+	// insertion point for pointers field
+	if instance.Associationtob != nil {
+		reference.Associationtob = stage.Bstructs_reference[instance.Associationtob]
+	}
+	if instance.Anotherassociationtob_2 != nil {
+		reference.Anotherassociationtob_2 = stage.Bstructs_reference[instance.Anotherassociationtob_2]
+	}
+	if instance.Bstruct != nil {
+		reference.Bstruct = stage.Bstructs_reference[instance.Bstruct]
+	}
+	if instance.Bstruct2 != nil {
+		reference.Bstruct2 = stage.Bstructs_reference[instance.Bstruct2]
+	}
+	if instance.Dstruct != nil {
+		reference.Dstruct = stage.Dstructs_reference[instance.Dstruct]
+	}
+	if instance.Dstruct2 != nil {
+		reference.Dstruct2 = stage.Dstructs_reference[instance.Dstruct2]
+	}
+	if instance.Dstruct3 != nil {
+		reference.Dstruct3 = stage.Dstructs_reference[instance.Dstruct3]
+	}
+	if instance.Dstruct4 != nil {
+		reference.Dstruct4 = stage.Dstructs_reference[instance.Dstruct4]
+	}
+	if instance.AnAstruct != nil {
+		reference.AnAstruct = stage.Astructs_reference[instance.AnAstruct]
+	}
+	// insertion point for slice of pointers field
+	reference.Anarrayofb = reference.Anarrayofb[:0]
+	for _, _b := range instance.Anarrayofb {
+		reference.Anarrayofb = append(reference.Anarrayofb, stage.Bstructs_reference[_b])
+	}
+	reference.Dstruct4s = reference.Dstruct4s[:0]
+	for _, _b := range instance.Dstruct4s {
+		reference.Dstruct4s = append(reference.Dstruct4s, stage.Dstructs_reference[_b])
+	}
+	reference.Anarrayofa = reference.Anarrayofa[:0]
+	for _, _b := range instance.Anarrayofa {
+		reference.Anarrayofa = append(reference.Anarrayofa, stage.Astructs_reference[_b])
+	}
+	reference.Anotherarrayofb = reference.Anotherarrayofb[:0]
+	for _, _b := range instance.Anotherarrayofb {
+		reference.Anotherarrayofb = append(reference.Anotherarrayofb, stage.Bstructs_reference[_b])
+	}
+	reference.AnarrayofbUse = reference.AnarrayofbUse[:0]
+	for _, _b := range instance.AnarrayofbUse {
+		reference.AnarrayofbUse = append(reference.AnarrayofbUse, stage.AstructBstructUses_reference[_b])
+	}
+	reference.Anarrayofb2Use = reference.Anarrayofb2Use[:0]
+	for _, _b := range instance.Anarrayofb2Use {
+		reference.Anarrayofb2Use = append(reference.Anarrayofb2Use, stage.AstructBstruct2Uses_reference[_b])
+	}
+
+	return
+}
+
+func (reference *AstructBstruct2Use) GongReconstructPointersFromReferences(stage *Stage, instance *AstructBstruct2Use) () {
+	// insertion point for pointers field
+	if instance.Bstrcut2 != nil {
+		reference.Bstrcut2 = stage.Bstructs_reference[instance.Bstrcut2]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *AstructBstructUse) GongReconstructPointersFromReferences(stage *Stage, instance *AstructBstructUse) () {
+	// insertion point for pointers field
+	if instance.Bstruct2 != nil {
+		reference.Bstruct2 = stage.Bstructs_reference[instance.Bstruct2]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *Bstruct) GongReconstructPointersFromReferences(stage *Stage, instance *Bstruct) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *Dstruct) GongReconstructPointersFromReferences(stage *Stage, instance *Dstruct) () {
+	// insertion point for pointers field
+	if instance.Gstruct != nil {
+		reference.Gstruct = stage.Gstructs_reference[instance.Gstruct]
+	}
+	// insertion point for slice of pointers field
+	reference.Anarrayofb = reference.Anarrayofb[:0]
+	for _, _b := range instance.Anarrayofb {
+		reference.Anarrayofb = append(reference.Anarrayofb, stage.Bstructs_reference[_b])
+	}
+	reference.Gstructs = reference.Gstructs[:0]
+	for _, _b := range instance.Gstructs {
+		reference.Gstructs = append(reference.Gstructs, stage.Gstructs_reference[_b])
+	}
+
+	return
+}
+
+func (reference *F0123456789012345678901234567890) GongReconstructPointersFromReferences(stage *Stage, instance *F0123456789012345678901234567890) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *Gstruct) GongReconstructPointersFromReferences(stage *Stage, instance *Gstruct) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+// insertion point for pointer reconstruction from instances
+func (reference *Astruct) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.Associationtob; _reference != nil {
+		reference.Associationtob = nil
+		if _instance, ok := stage.Bstructs_instance[_reference]; ok {
+			reference.Associationtob = _instance
+		}
+	}
+	if _reference := reference.Anotherassociationtob_2; _reference != nil {
+		reference.Anotherassociationtob_2 = nil
+		if _instance, ok := stage.Bstructs_instance[_reference]; ok {
+			reference.Anotherassociationtob_2 = _instance
+		}
+	}
+	if _reference := reference.Bstruct; _reference != nil {
+		reference.Bstruct = nil
+		if _instance, ok := stage.Bstructs_instance[_reference]; ok {
+			reference.Bstruct = _instance
+		}
+	}
+	if _reference := reference.Bstruct2; _reference != nil {
+		reference.Bstruct2 = nil
+		if _instance, ok := stage.Bstructs_instance[_reference]; ok {
+			reference.Bstruct2 = _instance
+		}
+	}
+	if _reference := reference.Dstruct; _reference != nil {
+		reference.Dstruct = nil
+		if _instance, ok := stage.Dstructs_instance[_reference]; ok {
+			reference.Dstruct = _instance
+		}
+	}
+	if _reference := reference.Dstruct2; _reference != nil {
+		reference.Dstruct2 = nil
+		if _instance, ok := stage.Dstructs_instance[_reference]; ok {
+			reference.Dstruct2 = _instance
+		}
+	}
+	if _reference := reference.Dstruct3; _reference != nil {
+		reference.Dstruct3 = nil
+		if _instance, ok := stage.Dstructs_instance[_reference]; ok {
+			reference.Dstruct3 = _instance
+		}
+	}
+	if _reference := reference.Dstruct4; _reference != nil {
+		reference.Dstruct4 = nil
+		if _instance, ok := stage.Dstructs_instance[_reference]; ok {
+			reference.Dstruct4 = _instance
+		}
+	}
+	if _reference := reference.AnAstruct; _reference != nil {
+		reference.AnAstruct = nil
+		if _instance, ok := stage.Astructs_instance[_reference]; ok {
+			reference.AnAstruct = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+	var _Anarrayofb []*Bstruct
+	for _, _reference := range reference.Anarrayofb {
+		if _instance, ok := stage.Bstructs_instance[_reference]; ok {
+			_Anarrayofb = append(_Anarrayofb, stage.Bstructs_reference[_instance])
+		}
+	}
+	reference.Anarrayofb = _Anarrayofb
+	var _Dstruct4s []*Dstruct
+	for _, _reference := range reference.Dstruct4s {
+		if _instance, ok := stage.Dstructs_instance[_reference]; ok {
+			_Dstruct4s = append(_Dstruct4s, stage.Dstructs_reference[_instance])
+		}
+	}
+	reference.Dstruct4s = _Dstruct4s
+	var _Anarrayofa []*Astruct
+	for _, _reference := range reference.Anarrayofa {
+		if _instance, ok := stage.Astructs_instance[_reference]; ok {
+			_Anarrayofa = append(_Anarrayofa, stage.Astructs_reference[_instance])
+		}
+	}
+	reference.Anarrayofa = _Anarrayofa
+	var _Anotherarrayofb []*Bstruct
+	for _, _reference := range reference.Anotherarrayofb {
+		if _instance, ok := stage.Bstructs_instance[_reference]; ok {
+			_Anotherarrayofb = append(_Anotherarrayofb, stage.Bstructs_reference[_instance])
+		}
+	}
+	reference.Anotherarrayofb = _Anotherarrayofb
+	var _AnarrayofbUse []*AstructBstructUse
+	for _, _reference := range reference.AnarrayofbUse {
+		if _instance, ok := stage.AstructBstructUses_instance[_reference]; ok {
+			_AnarrayofbUse = append(_AnarrayofbUse, stage.AstructBstructUses_reference[_instance])
+		}
+	}
+	reference.AnarrayofbUse = _AnarrayofbUse
+	var _Anarrayofb2Use []*AstructBstruct2Use
+	for _, _reference := range reference.Anarrayofb2Use {
+		if _instance, ok := stage.AstructBstruct2Uses_instance[_reference]; ok {
+			_Anarrayofb2Use = append(_Anarrayofb2Use, stage.AstructBstruct2Uses_reference[_instance])
+		}
+	}
+	reference.Anarrayofb2Use = _Anarrayofb2Use
+
+	return
+}
+
+func (reference *AstructBstruct2Use) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.Bstrcut2; _reference != nil {
+		reference.Bstrcut2 = nil
+		if _instance, ok := stage.Bstructs_instance[_reference]; ok {
+			reference.Bstrcut2 = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *AstructBstructUse) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.Bstruct2; _reference != nil {
+		reference.Bstruct2 = nil
+		if _instance, ok := stage.Bstructs_instance[_reference]; ok {
+			reference.Bstruct2 = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *Bstruct) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *Dstruct) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.Gstruct; _reference != nil {
+		reference.Gstruct = nil
+		if _instance, ok := stage.Gstructs_instance[_reference]; ok {
+			reference.Gstruct = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+	var _Anarrayofb []*Bstruct
+	for _, _reference := range reference.Anarrayofb {
+		if _instance, ok := stage.Bstructs_instance[_reference]; ok {
+			_Anarrayofb = append(_Anarrayofb, stage.Bstructs_reference[_instance])
+		}
+	}
+	reference.Anarrayofb = _Anarrayofb
+	var _Gstructs []*Gstruct
+	for _, _reference := range reference.Gstructs {
+		if _instance, ok := stage.Gstructs_instance[_reference]; ok {
+			_Gstructs = append(_Gstructs, stage.Gstructs_reference[_instance])
+		}
+	}
+	reference.Gstructs = _Gstructs
+
+	return
+}
+
+func (reference *F0123456789012345678901234567890) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *Gstruct) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings

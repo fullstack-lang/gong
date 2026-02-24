@@ -174,98 +174,117 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 // insertion point per named struct
 func (assplit *AsSplit) GongCopy() GongstructIF {
-	newInstance := *assplit
-	return &newInstance
+	newInstance := new(AsSplit)
+	assplit.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (assplitarea *AsSplitArea) GongCopy() GongstructIF {
-	newInstance := *assplitarea
-	return &newInstance
+	newInstance := new(AsSplitArea)
+	assplitarea.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (button *Button) GongCopy() GongstructIF {
-	newInstance := *button
-	return &newInstance
+	newInstance := new(Button)
+	button.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (cursor *Cursor) GongCopy() GongstructIF {
-	newInstance := *cursor
-	return &newInstance
+	newInstance := new(Cursor)
+	cursor.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (favicon *FavIcon) GongCopy() GongstructIF {
-	newInstance := *favicon
-	return &newInstance
+	newInstance := new(FavIcon)
+	favicon.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (form *Form) GongCopy() GongstructIF {
-	newInstance := *form
-	return &newInstance
+	newInstance := new(Form)
+	form.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (load *Load) GongCopy() GongstructIF {
-	newInstance := *load
-	return &newInstance
+	newInstance := new(Load)
+	load.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (logoontheleft *LogoOnTheLeft) GongCopy() GongstructIF {
-	newInstance := *logoontheleft
-	return &newInstance
+	newInstance := new(LogoOnTheLeft)
+	logoontheleft.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (logoontheright *LogoOnTheRight) GongCopy() GongstructIF {
-	newInstance := *logoontheright
-	return &newInstance
+	newInstance := new(LogoOnTheRight)
+	logoontheright.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (markdown *Markdown) GongCopy() GongstructIF {
-	newInstance := *markdown
-	return &newInstance
+	newInstance := new(Markdown)
+	markdown.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (slider *Slider) GongCopy() GongstructIF {
-	newInstance := *slider
-	return &newInstance
+	newInstance := new(Slider)
+	slider.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (split *Split) GongCopy() GongstructIF {
-	newInstance := *split
-	return &newInstance
+	newInstance := new(Split)
+	split.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (svg *Svg) GongCopy() GongstructIF {
-	newInstance := *svg
-	return &newInstance
+	newInstance := new(Svg)
+	svg.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (table *Table) GongCopy() GongstructIF {
-	newInstance := *table
-	return &newInstance
+	newInstance := new(Table)
+	table.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (title *Title) GongCopy() GongstructIF {
-	newInstance := *title
-	return &newInstance
+	newInstance := new(Title)
+	title.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (tone *Tone) GongCopy() GongstructIF {
-	newInstance := *tone
-	return &newInstance
+	newInstance := new(Tone)
+	tone.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (tree *Tree) GongCopy() GongstructIF {
-	newInstance := *tree
-	return &newInstance
+	newInstance := new(Tree)
+	tree.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (view *View) GongCopy() GongstructIF {
-	newInstance := *view
-	return &newInstance
+	newInstance := new(View)
+	view.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (xlsx *Xlsx) GongCopy() GongstructIF {
-	newInstance := *xlsx
-	return &newInstance
+	newInstance := new(Xlsx)
+	xlsx.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (stage *Stage) ComputeForwardAndBackwardCommits() {

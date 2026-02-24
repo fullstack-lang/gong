@@ -385,6 +385,97 @@ func (stage *Stage) UnstageBranchSlider(slider *Slider) {
 
 }
 
+// insertion point for pointer reconstruction from references
+func (reference *Checkbox) GongReconstructPointersFromReferences(stage *Stage, instance *Checkbox) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *Group) GongReconstructPointersFromReferences(stage *Stage, instance *Group) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.Sliders = reference.Sliders[:0]
+	for _, _b := range instance.Sliders {
+		reference.Sliders = append(reference.Sliders, stage.Sliders_reference[_b])
+	}
+	reference.Checkboxes = reference.Checkboxes[:0]
+	for _, _b := range instance.Checkboxes {
+		reference.Checkboxes = append(reference.Checkboxes, stage.Checkboxs_reference[_b])
+	}
+
+	return
+}
+
+func (reference *Layout) GongReconstructPointersFromReferences(stage *Stage, instance *Layout) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.Groups = reference.Groups[:0]
+	for _, _b := range instance.Groups {
+		reference.Groups = append(reference.Groups, stage.Groups_reference[_b])
+	}
+
+	return
+}
+
+func (reference *Slider) GongReconstructPointersFromReferences(stage *Stage, instance *Slider) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+// insertion point for pointer reconstruction from instances
+func (reference *Checkbox) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *Group) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _Sliders []*Slider
+	for _, _reference := range reference.Sliders {
+		if _instance, ok := stage.Sliders_instance[_reference]; ok {
+			_Sliders = append(_Sliders, stage.Sliders_reference[_instance])
+		}
+	}
+	reference.Sliders = _Sliders
+	var _Checkboxes []*Checkbox
+	for _, _reference := range reference.Checkboxes {
+		if _instance, ok := stage.Checkboxs_instance[_reference]; ok {
+			_Checkboxes = append(_Checkboxes, stage.Checkboxs_reference[_instance])
+		}
+	}
+	reference.Checkboxes = _Checkboxes
+
+	return
+}
+
+func (reference *Layout) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _Groups []*Group
+	for _, _reference := range reference.Groups {
+		if _instance, ok := stage.Groups_instance[_reference]; ok {
+			_Groups = append(_Groups, stage.Groups_reference[_instance])
+		}
+	}
+	reference.Groups = _Groups
+
+	return
+}
+
+func (reference *Slider) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings

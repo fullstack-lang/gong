@@ -132,38 +132,45 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 // insertion point per named struct
 func (astruct *Astruct) GongCopy() GongstructIF {
-	newInstance := *astruct
-	return &newInstance
+	newInstance := new(Astruct)
+	astruct.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (astructbstruct2use *AstructBstruct2Use) GongCopy() GongstructIF {
-	newInstance := *astructbstruct2use
-	return &newInstance
+	newInstance := new(AstructBstruct2Use)
+	astructbstruct2use.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (astructbstructuse *AstructBstructUse) GongCopy() GongstructIF {
-	newInstance := *astructbstructuse
-	return &newInstance
+	newInstance := new(AstructBstructUse)
+	astructbstructuse.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (bstruct *Bstruct) GongCopy() GongstructIF {
-	newInstance := *bstruct
-	return &newInstance
+	newInstance := new(Bstruct)
+	bstruct.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (dstruct *Dstruct) GongCopy() GongstructIF {
-	newInstance := *dstruct
-	return &newInstance
+	newInstance := new(Dstruct)
+	dstruct.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GongCopy() GongstructIF {
-	newInstance := *f0123456789012345678901234567890
-	return &newInstance
+	newInstance := new(F0123456789012345678901234567890)
+	f0123456789012345678901234567890.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (gstruct *Gstruct) GongCopy() GongstructIF {
-	newInstance := *gstruct
-	return &newInstance
+	newInstance := new(Gstruct)
+	gstruct.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (stage *Stage) ComputeForwardAndBackwardCommits() {

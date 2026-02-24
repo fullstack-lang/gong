@@ -76,23 +76,27 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 // insertion point per named struct
 func (button *Button) GongCopy() GongstructIF {
-	newInstance := *button
-	return &newInstance
+	newInstance := new(Button)
+	button.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (node *Node) GongCopy() GongstructIF {
-	newInstance := *node
-	return &newInstance
+	newInstance := new(Node)
+	node.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (svgicon *SVGIcon) GongCopy() GongstructIF {
-	newInstance := *svgicon
-	return &newInstance
+	newInstance := new(SVGIcon)
+	svgicon.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (tree *Tree) GongCopy() GongstructIF {
-	newInstance := *tree
-	return &newInstance
+	newInstance := new(Tree)
+	tree.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (stage *Stage) ComputeForwardAndBackwardCommits() {

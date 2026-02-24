@@ -146,8 +146,9 @@ map[GongSliceGongstructInsertionId]string{
 `,
 	GongSliceGongCopy: `
 func ({{structname}} *{{Structname}}) GongCopy() GongstructIF {
-	newInstance := *{{structname}}
-	return &newInstance
+	newInstance := new({{Structname}})
+	{{structname}}.CopyBasicFields(newInstance)
+	return newInstance
 }
 `,
 	GongSliceGongComputeDifference: `

@@ -107,7 +107,8 @@ type Stage struct {
 	// insertion point for definition of arrays registering instances
 	Buttons                map[*Button]struct{}
 	Buttons_reference      map[*Button]*Button
-	Buttons_referenceOrder map[*Button]uint // diff Unstage needs the reference order
+	Buttons_referenceOrder map[*Button]uint
+	Buttons_instance       map[*Button]*Button
 	Buttons_mapString      map[string]*Button
 
 	// insertion point for slice of pointers maps
@@ -118,7 +119,8 @@ type Stage struct {
 
 	Nodes                map[*Node]struct{}
 	Nodes_reference      map[*Node]*Node
-	Nodes_referenceOrder map[*Node]uint // diff Unstage needs the reference order
+	Nodes_referenceOrder map[*Node]uint
+	Nodes_instance       map[*Node]*Node
 	Nodes_mapString      map[string]*Node
 
 	// insertion point for slice of pointers maps
@@ -133,7 +135,8 @@ type Stage struct {
 
 	SVGIcons                map[*SVGIcon]struct{}
 	SVGIcons_reference      map[*SVGIcon]*SVGIcon
-	SVGIcons_referenceOrder map[*SVGIcon]uint // diff Unstage needs the reference order
+	SVGIcons_referenceOrder map[*SVGIcon]uint
+	SVGIcons_instance       map[*SVGIcon]*SVGIcon
 	SVGIcons_mapString      map[string]*SVGIcon
 
 	// insertion point for slice of pointers maps
@@ -144,7 +147,8 @@ type Stage struct {
 
 	Trees                map[*Tree]struct{}
 	Trees_reference      map[*Tree]*Tree
-	Trees_referenceOrder map[*Tree]uint // diff Unstage needs the reference order
+	Trees_referenceOrder map[*Tree]uint
+	Trees_instance       map[*Tree]*Tree
 	Trees_mapString      map[string]*Tree
 
 	// insertion point for slice of pointers maps
@@ -1661,9 +1665,9 @@ func (button *Button) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "ToolTipPosition",
-			GongFieldValueType: GongFieldValueTypeString,
-			TargetGongstructName: "ToolTipPositionEnum",
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
 		},
 	}
 	return
@@ -1685,9 +1689,9 @@ func (node *Node) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "FontStyle",
-			GongFieldValueType: GongFieldValueTypeString,
-			TargetGongstructName: "FontStyleEnum",
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
 		},
 		{
 			Name:               "BackgroundColor",
@@ -1718,9 +1722,9 @@ func (node *Node) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "CheckboxToolTipPosition",
-			GongFieldValueType: GongFieldValueTypeString,
-			TargetGongstructName: "ToolTipPositionEnum",
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
 		},
 		{
 			Name:               "HasSecondCheckboxButton",
@@ -1743,9 +1747,9 @@ func (node *Node) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "SecondCheckboxToolTipPosition",
-			GongFieldValueType: GongFieldValueTypeString,
-			TargetGongstructName: "ToolTipPositionEnum",
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
 		},
 		{
 			Name:               "TextAfterSecondCheckbox",
@@ -1760,9 +1764,9 @@ func (node *Node) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "ToolTipPosition",
-			GongFieldValueType: GongFieldValueTypeString,
-			TargetGongstructName: "ToolTipPositionEnum",
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
 		},
 		{
 			Name:               "IsInEditMode",
