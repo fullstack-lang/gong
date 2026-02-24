@@ -323,6 +323,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.AsSplitMap_Staged_Order[ref] = stage.AsSplitMap_Staged_Order[assplit]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := assplit.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, assplit)
 			delete(stage.AsSplitMap_Staged_Order, ref)
@@ -342,9 +343,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.AsSplits_reference {
+	for _, ref := range stage.AsSplits_reference {
 		if _, ok := stage.AsSplits[ref]; !ok {
 			assplits_deletedInstances = append(assplits_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -372,6 +374,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.AsSplitAreaMap_Staged_Order[ref] = stage.AsSplitAreaMap_Staged_Order[assplitarea]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := assplitarea.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, assplitarea)
 			delete(stage.AsSplitAreaMap_Staged_Order, ref)
@@ -391,9 +394,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.AsSplitAreas_reference {
+	for _, ref := range stage.AsSplitAreas_reference {
 		if _, ok := stage.AsSplitAreas[ref]; !ok {
 			assplitareas_deletedInstances = append(assplitareas_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -421,6 +425,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.ButtonMap_Staged_Order[ref] = stage.ButtonMap_Staged_Order[button]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := button.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, button)
 			delete(stage.ButtonMap_Staged_Order, ref)
@@ -440,9 +445,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.Buttons_reference {
+	for _, ref := range stage.Buttons_reference {
 		if _, ok := stage.Buttons[ref]; !ok {
 			buttons_deletedInstances = append(buttons_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -470,6 +476,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.CursorMap_Staged_Order[ref] = stage.CursorMap_Staged_Order[cursor]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := cursor.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, cursor)
 			delete(stage.CursorMap_Staged_Order, ref)
@@ -489,9 +496,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.Cursors_reference {
+	for _, ref := range stage.Cursors_reference {
 		if _, ok := stage.Cursors[ref]; !ok {
 			cursors_deletedInstances = append(cursors_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -519,6 +527,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.FavIconMap_Staged_Order[ref] = stage.FavIconMap_Staged_Order[favicon]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := favicon.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, favicon)
 			delete(stage.FavIconMap_Staged_Order, ref)
@@ -538,9 +547,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.FavIcons_reference {
+	for _, ref := range stage.FavIcons_reference {
 		if _, ok := stage.FavIcons[ref]; !ok {
 			favicons_deletedInstances = append(favicons_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -568,6 +578,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.FormMap_Staged_Order[ref] = stage.FormMap_Staged_Order[form]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := form.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, form)
 			delete(stage.FormMap_Staged_Order, ref)
@@ -587,9 +598,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.Forms_reference {
+	for _, ref := range stage.Forms_reference {
 		if _, ok := stage.Forms[ref]; !ok {
 			forms_deletedInstances = append(forms_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -617,6 +629,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.LoadMap_Staged_Order[ref] = stage.LoadMap_Staged_Order[load]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := load.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, load)
 			delete(stage.LoadMap_Staged_Order, ref)
@@ -636,9 +649,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.Loads_reference {
+	for _, ref := range stage.Loads_reference {
 		if _, ok := stage.Loads[ref]; !ok {
 			loads_deletedInstances = append(loads_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -666,6 +680,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.LogoOnTheLeftMap_Staged_Order[ref] = stage.LogoOnTheLeftMap_Staged_Order[logoontheleft]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := logoontheleft.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, logoontheleft)
 			delete(stage.LogoOnTheLeftMap_Staged_Order, ref)
@@ -685,9 +700,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.LogoOnTheLefts_reference {
+	for _, ref := range stage.LogoOnTheLefts_reference {
 		if _, ok := stage.LogoOnTheLefts[ref]; !ok {
 			logoonthelefts_deletedInstances = append(logoonthelefts_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -715,6 +731,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.LogoOnTheRightMap_Staged_Order[ref] = stage.LogoOnTheRightMap_Staged_Order[logoontheright]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := logoontheright.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, logoontheright)
 			delete(stage.LogoOnTheRightMap_Staged_Order, ref)
@@ -734,9 +751,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.LogoOnTheRights_reference {
+	for _, ref := range stage.LogoOnTheRights_reference {
 		if _, ok := stage.LogoOnTheRights[ref]; !ok {
 			logoontherights_deletedInstances = append(logoontherights_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -764,6 +782,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.MarkdownMap_Staged_Order[ref] = stage.MarkdownMap_Staged_Order[markdown]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := markdown.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, markdown)
 			delete(stage.MarkdownMap_Staged_Order, ref)
@@ -783,9 +802,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.Markdowns_reference {
+	for _, ref := range stage.Markdowns_reference {
 		if _, ok := stage.Markdowns[ref]; !ok {
 			markdowns_deletedInstances = append(markdowns_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -813,6 +833,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.SliderMap_Staged_Order[ref] = stage.SliderMap_Staged_Order[slider]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := slider.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, slider)
 			delete(stage.SliderMap_Staged_Order, ref)
@@ -832,9 +853,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.Sliders_reference {
+	for _, ref := range stage.Sliders_reference {
 		if _, ok := stage.Sliders[ref]; !ok {
 			sliders_deletedInstances = append(sliders_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -862,6 +884,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.SplitMap_Staged_Order[ref] = stage.SplitMap_Staged_Order[split]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := split.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, split)
 			delete(stage.SplitMap_Staged_Order, ref)
@@ -881,9 +904,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.Splits_reference {
+	for _, ref := range stage.Splits_reference {
 		if _, ok := stage.Splits[ref]; !ok {
 			splits_deletedInstances = append(splits_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -911,6 +935,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.SvgMap_Staged_Order[ref] = stage.SvgMap_Staged_Order[svg]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := svg.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, svg)
 			delete(stage.SvgMap_Staged_Order, ref)
@@ -930,9 +955,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.Svgs_reference {
+	for _, ref := range stage.Svgs_reference {
 		if _, ok := stage.Svgs[ref]; !ok {
 			svgs_deletedInstances = append(svgs_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -960,6 +986,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.TableMap_Staged_Order[ref] = stage.TableMap_Staged_Order[table]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := table.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, table)
 			delete(stage.TableMap_Staged_Order, ref)
@@ -979,9 +1006,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.Tables_reference {
+	for _, ref := range stage.Tables_reference {
 		if _, ok := stage.Tables[ref]; !ok {
 			tables_deletedInstances = append(tables_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -1009,6 +1037,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.TitleMap_Staged_Order[ref] = stage.TitleMap_Staged_Order[title]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := title.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, title)
 			delete(stage.TitleMap_Staged_Order, ref)
@@ -1028,9 +1057,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.Titles_reference {
+	for _, ref := range stage.Titles_reference {
 		if _, ok := stage.Titles[ref]; !ok {
 			titles_deletedInstances = append(titles_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -1058,6 +1088,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.ToneMap_Staged_Order[ref] = stage.ToneMap_Staged_Order[tone]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := tone.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, tone)
 			delete(stage.ToneMap_Staged_Order, ref)
@@ -1077,9 +1108,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.Tones_reference {
+	for _, ref := range stage.Tones_reference {
 		if _, ok := stage.Tones[ref]; !ok {
 			tones_deletedInstances = append(tones_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -1107,6 +1139,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.TreeMap_Staged_Order[ref] = stage.TreeMap_Staged_Order[tree]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := tree.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, tree)
 			delete(stage.TreeMap_Staged_Order, ref)
@@ -1126,9 +1159,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.Trees_reference {
+	for _, ref := range stage.Trees_reference {
 		if _, ok := stage.Trees[ref]; !ok {
 			trees_deletedInstances = append(trees_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -1156,6 +1190,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.ViewMap_Staged_Order[ref] = stage.ViewMap_Staged_Order[view]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := view.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, view)
 			delete(stage.ViewMap_Staged_Order, ref)
@@ -1175,9 +1210,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.Views_reference {
+	for _, ref := range stage.Views_reference {
 		if _, ok := stage.Views[ref]; !ok {
 			views_deletedInstances = append(views_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -1205,6 +1241,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.XlsxMap_Staged_Order[ref] = stage.XlsxMap_Staged_Order[xlsx]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := xlsx.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, xlsx)
 			delete(stage.XlsxMap_Staged_Order, ref)
@@ -1224,9 +1261,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.Xlsxs_reference {
+	for _, ref := range stage.Xlsxs_reference {
 		if _, ok := stage.Xlsxs[ref]; !ok {
 			xlsxs_deletedInstances = append(xlsxs_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -1270,135 +1308,288 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 	// insertion point per named struct
 	stage.AsSplits_reference = make(map[*AsSplit]*AsSplit)
 	stage.AsSplits_referenceOrder = make(map[*AsSplit]uint) // diff Unstage needs the reference order
+	stage.AsSplits_instance = make(map[*AsSplit]*AsSplit)
 	for instance := range stage.AsSplits {
-		stage.AsSplits_reference[instance] = instance.GongCopy().(*AsSplit)
+		_copy := instance.GongCopy().(*AsSplit)
+		stage.AsSplits_reference[instance] = _copy
+		stage.AsSplits_instance[_copy] = instance
 		stage.AsSplits_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.AsSplitAreas_reference = make(map[*AsSplitArea]*AsSplitArea)
 	stage.AsSplitAreas_referenceOrder = make(map[*AsSplitArea]uint) // diff Unstage needs the reference order
+	stage.AsSplitAreas_instance = make(map[*AsSplitArea]*AsSplitArea)
 	for instance := range stage.AsSplitAreas {
-		stage.AsSplitAreas_reference[instance] = instance.GongCopy().(*AsSplitArea)
+		_copy := instance.GongCopy().(*AsSplitArea)
+		stage.AsSplitAreas_reference[instance] = _copy
+		stage.AsSplitAreas_instance[_copy] = instance
 		stage.AsSplitAreas_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Buttons_reference = make(map[*Button]*Button)
 	stage.Buttons_referenceOrder = make(map[*Button]uint) // diff Unstage needs the reference order
+	stage.Buttons_instance = make(map[*Button]*Button)
 	for instance := range stage.Buttons {
-		stage.Buttons_reference[instance] = instance.GongCopy().(*Button)
+		_copy := instance.GongCopy().(*Button)
+		stage.Buttons_reference[instance] = _copy
+		stage.Buttons_instance[_copy] = instance
 		stage.Buttons_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Cursors_reference = make(map[*Cursor]*Cursor)
 	stage.Cursors_referenceOrder = make(map[*Cursor]uint) // diff Unstage needs the reference order
+	stage.Cursors_instance = make(map[*Cursor]*Cursor)
 	for instance := range stage.Cursors {
-		stage.Cursors_reference[instance] = instance.GongCopy().(*Cursor)
+		_copy := instance.GongCopy().(*Cursor)
+		stage.Cursors_reference[instance] = _copy
+		stage.Cursors_instance[_copy] = instance
 		stage.Cursors_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.FavIcons_reference = make(map[*FavIcon]*FavIcon)
 	stage.FavIcons_referenceOrder = make(map[*FavIcon]uint) // diff Unstage needs the reference order
+	stage.FavIcons_instance = make(map[*FavIcon]*FavIcon)
 	for instance := range stage.FavIcons {
-		stage.FavIcons_reference[instance] = instance.GongCopy().(*FavIcon)
+		_copy := instance.GongCopy().(*FavIcon)
+		stage.FavIcons_reference[instance] = _copy
+		stage.FavIcons_instance[_copy] = instance
 		stage.FavIcons_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Forms_reference = make(map[*Form]*Form)
 	stage.Forms_referenceOrder = make(map[*Form]uint) // diff Unstage needs the reference order
+	stage.Forms_instance = make(map[*Form]*Form)
 	for instance := range stage.Forms {
-		stage.Forms_reference[instance] = instance.GongCopy().(*Form)
+		_copy := instance.GongCopy().(*Form)
+		stage.Forms_reference[instance] = _copy
+		stage.Forms_instance[_copy] = instance
 		stage.Forms_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Loads_reference = make(map[*Load]*Load)
 	stage.Loads_referenceOrder = make(map[*Load]uint) // diff Unstage needs the reference order
+	stage.Loads_instance = make(map[*Load]*Load)
 	for instance := range stage.Loads {
-		stage.Loads_reference[instance] = instance.GongCopy().(*Load)
+		_copy := instance.GongCopy().(*Load)
+		stage.Loads_reference[instance] = _copy
+		stage.Loads_instance[_copy] = instance
 		stage.Loads_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.LogoOnTheLefts_reference = make(map[*LogoOnTheLeft]*LogoOnTheLeft)
 	stage.LogoOnTheLefts_referenceOrder = make(map[*LogoOnTheLeft]uint) // diff Unstage needs the reference order
+	stage.LogoOnTheLefts_instance = make(map[*LogoOnTheLeft]*LogoOnTheLeft)
 	for instance := range stage.LogoOnTheLefts {
-		stage.LogoOnTheLefts_reference[instance] = instance.GongCopy().(*LogoOnTheLeft)
+		_copy := instance.GongCopy().(*LogoOnTheLeft)
+		stage.LogoOnTheLefts_reference[instance] = _copy
+		stage.LogoOnTheLefts_instance[_copy] = instance
 		stage.LogoOnTheLefts_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.LogoOnTheRights_reference = make(map[*LogoOnTheRight]*LogoOnTheRight)
 	stage.LogoOnTheRights_referenceOrder = make(map[*LogoOnTheRight]uint) // diff Unstage needs the reference order
+	stage.LogoOnTheRights_instance = make(map[*LogoOnTheRight]*LogoOnTheRight)
 	for instance := range stage.LogoOnTheRights {
-		stage.LogoOnTheRights_reference[instance] = instance.GongCopy().(*LogoOnTheRight)
+		_copy := instance.GongCopy().(*LogoOnTheRight)
+		stage.LogoOnTheRights_reference[instance] = _copy
+		stage.LogoOnTheRights_instance[_copy] = instance
 		stage.LogoOnTheRights_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Markdowns_reference = make(map[*Markdown]*Markdown)
 	stage.Markdowns_referenceOrder = make(map[*Markdown]uint) // diff Unstage needs the reference order
+	stage.Markdowns_instance = make(map[*Markdown]*Markdown)
 	for instance := range stage.Markdowns {
-		stage.Markdowns_reference[instance] = instance.GongCopy().(*Markdown)
+		_copy := instance.GongCopy().(*Markdown)
+		stage.Markdowns_reference[instance] = _copy
+		stage.Markdowns_instance[_copy] = instance
 		stage.Markdowns_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Sliders_reference = make(map[*Slider]*Slider)
 	stage.Sliders_referenceOrder = make(map[*Slider]uint) // diff Unstage needs the reference order
+	stage.Sliders_instance = make(map[*Slider]*Slider)
 	for instance := range stage.Sliders {
-		stage.Sliders_reference[instance] = instance.GongCopy().(*Slider)
+		_copy := instance.GongCopy().(*Slider)
+		stage.Sliders_reference[instance] = _copy
+		stage.Sliders_instance[_copy] = instance
 		stage.Sliders_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Splits_reference = make(map[*Split]*Split)
 	stage.Splits_referenceOrder = make(map[*Split]uint) // diff Unstage needs the reference order
+	stage.Splits_instance = make(map[*Split]*Split)
 	for instance := range stage.Splits {
-		stage.Splits_reference[instance] = instance.GongCopy().(*Split)
+		_copy := instance.GongCopy().(*Split)
+		stage.Splits_reference[instance] = _copy
+		stage.Splits_instance[_copy] = instance
 		stage.Splits_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Svgs_reference = make(map[*Svg]*Svg)
 	stage.Svgs_referenceOrder = make(map[*Svg]uint) // diff Unstage needs the reference order
+	stage.Svgs_instance = make(map[*Svg]*Svg)
 	for instance := range stage.Svgs {
-		stage.Svgs_reference[instance] = instance.GongCopy().(*Svg)
+		_copy := instance.GongCopy().(*Svg)
+		stage.Svgs_reference[instance] = _copy
+		stage.Svgs_instance[_copy] = instance
 		stage.Svgs_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Tables_reference = make(map[*Table]*Table)
 	stage.Tables_referenceOrder = make(map[*Table]uint) // diff Unstage needs the reference order
+	stage.Tables_instance = make(map[*Table]*Table)
 	for instance := range stage.Tables {
-		stage.Tables_reference[instance] = instance.GongCopy().(*Table)
+		_copy := instance.GongCopy().(*Table)
+		stage.Tables_reference[instance] = _copy
+		stage.Tables_instance[_copy] = instance
 		stage.Tables_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Titles_reference = make(map[*Title]*Title)
 	stage.Titles_referenceOrder = make(map[*Title]uint) // diff Unstage needs the reference order
+	stage.Titles_instance = make(map[*Title]*Title)
 	for instance := range stage.Titles {
-		stage.Titles_reference[instance] = instance.GongCopy().(*Title)
+		_copy := instance.GongCopy().(*Title)
+		stage.Titles_reference[instance] = _copy
+		stage.Titles_instance[_copy] = instance
 		stage.Titles_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Tones_reference = make(map[*Tone]*Tone)
 	stage.Tones_referenceOrder = make(map[*Tone]uint) // diff Unstage needs the reference order
+	stage.Tones_instance = make(map[*Tone]*Tone)
 	for instance := range stage.Tones {
-		stage.Tones_reference[instance] = instance.GongCopy().(*Tone)
+		_copy := instance.GongCopy().(*Tone)
+		stage.Tones_reference[instance] = _copy
+		stage.Tones_instance[_copy] = instance
 		stage.Tones_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Trees_reference = make(map[*Tree]*Tree)
 	stage.Trees_referenceOrder = make(map[*Tree]uint) // diff Unstage needs the reference order
+	stage.Trees_instance = make(map[*Tree]*Tree)
 	for instance := range stage.Trees {
-		stage.Trees_reference[instance] = instance.GongCopy().(*Tree)
+		_copy := instance.GongCopy().(*Tree)
+		stage.Trees_reference[instance] = _copy
+		stage.Trees_instance[_copy] = instance
 		stage.Trees_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Views_reference = make(map[*View]*View)
 	stage.Views_referenceOrder = make(map[*View]uint) // diff Unstage needs the reference order
+	stage.Views_instance = make(map[*View]*View)
 	for instance := range stage.Views {
-		stage.Views_reference[instance] = instance.GongCopy().(*View)
+		_copy := instance.GongCopy().(*View)
+		stage.Views_reference[instance] = _copy
+		stage.Views_instance[_copy] = instance
 		stage.Views_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Xlsxs_reference = make(map[*Xlsx]*Xlsx)
 	stage.Xlsxs_referenceOrder = make(map[*Xlsx]uint) // diff Unstage needs the reference order
+	stage.Xlsxs_instance = make(map[*Xlsx]*Xlsx)
 	for instance := range stage.Xlsxs {
-		stage.Xlsxs_reference[instance] = instance.GongCopy().(*Xlsx)
+		_copy := instance.GongCopy().(*Xlsx)
+		stage.Xlsxs_reference[instance] = _copy
+		stage.Xlsxs_instance[_copy] = instance
 		stage.Xlsxs_referenceOrder[instance] = instance.GongGetOrder(stage)
+	}
+
+	// insertion point per named struct
+	for instance := range stage.AsSplits {
+		reference := stage.AsSplits_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.AsSplitAreas {
+		reference := stage.AsSplitAreas_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.Buttons {
+		reference := stage.Buttons_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.Cursors {
+		reference := stage.Cursors_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.FavIcons {
+		reference := stage.FavIcons_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.Forms {
+		reference := stage.Forms_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.Loads {
+		reference := stage.Loads_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.LogoOnTheLefts {
+		reference := stage.LogoOnTheLefts_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.LogoOnTheRights {
+		reference := stage.LogoOnTheRights_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.Markdowns {
+		reference := stage.Markdowns_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.Sliders {
+		reference := stage.Sliders_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.Splits {
+		reference := stage.Splits_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.Svgs {
+		reference := stage.Svgs_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.Tables {
+		reference := stage.Tables_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.Titles {
+		reference := stage.Titles_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.Tones {
+		reference := stage.Tones_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.Trees {
+		reference := stage.Trees_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.Views {
+		reference := stage.Views_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.Xlsxs {
+		reference := stage.Xlsxs_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
 	stage.recomputeOrders()

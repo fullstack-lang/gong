@@ -101,6 +101,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.FileToDownloadMap_Staged_Order[ref] = stage.FileToDownloadMap_Staged_Order[filetodownload]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := filetodownload.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, filetodownload)
 			delete(stage.FileToDownloadMap_Staged_Order, ref)
@@ -120,9 +121,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.FileToDownloads_reference {
+	for _, ref := range stage.FileToDownloads_reference {
 		if _, ok := stage.FileToDownloads[ref]; !ok {
 			filetodownloads_deletedInstances = append(filetodownloads_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -150,6 +152,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.FileToUploadMap_Staged_Order[ref] = stage.FileToUploadMap_Staged_Order[filetoupload]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := filetoupload.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, filetoupload)
 			delete(stage.FileToUploadMap_Staged_Order, ref)
@@ -169,9 +172,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.FileToUploads_reference {
+	for _, ref := range stage.FileToUploads_reference {
 		if _, ok := stage.FileToUploads[ref]; !ok {
 			filetouploads_deletedInstances = append(filetouploads_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -199,6 +203,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.MessageMap_Staged_Order[ref] = stage.MessageMap_Staged_Order[message]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := message.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, message)
 			delete(stage.MessageMap_Staged_Order, ref)
@@ -218,9 +223,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.Messages_reference {
+	for _, ref := range stage.Messages_reference {
 		if _, ok := stage.Messages[ref]; !ok {
 			messages_deletedInstances = append(messages_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -264,23 +270,48 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 	// insertion point per named struct
 	stage.FileToDownloads_reference = make(map[*FileToDownload]*FileToDownload)
 	stage.FileToDownloads_referenceOrder = make(map[*FileToDownload]uint) // diff Unstage needs the reference order
+	stage.FileToDownloads_instance = make(map[*FileToDownload]*FileToDownload)
 	for instance := range stage.FileToDownloads {
-		stage.FileToDownloads_reference[instance] = instance.GongCopy().(*FileToDownload)
+		_copy := instance.GongCopy().(*FileToDownload)
+		stage.FileToDownloads_reference[instance] = _copy
+		stage.FileToDownloads_instance[_copy] = instance
 		stage.FileToDownloads_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.FileToUploads_reference = make(map[*FileToUpload]*FileToUpload)
 	stage.FileToUploads_referenceOrder = make(map[*FileToUpload]uint) // diff Unstage needs the reference order
+	stage.FileToUploads_instance = make(map[*FileToUpload]*FileToUpload)
 	for instance := range stage.FileToUploads {
-		stage.FileToUploads_reference[instance] = instance.GongCopy().(*FileToUpload)
+		_copy := instance.GongCopy().(*FileToUpload)
+		stage.FileToUploads_reference[instance] = _copy
+		stage.FileToUploads_instance[_copy] = instance
 		stage.FileToUploads_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Messages_reference = make(map[*Message]*Message)
 	stage.Messages_referenceOrder = make(map[*Message]uint) // diff Unstage needs the reference order
+	stage.Messages_instance = make(map[*Message]*Message)
 	for instance := range stage.Messages {
-		stage.Messages_reference[instance] = instance.GongCopy().(*Message)
+		_copy := instance.GongCopy().(*Message)
+		stage.Messages_reference[instance] = _copy
+		stage.Messages_instance[_copy] = instance
 		stage.Messages_referenceOrder[instance] = instance.GongGetOrder(stage)
+	}
+
+	// insertion point per named struct
+	for instance := range stage.FileToDownloads {
+		reference := stage.FileToDownloads_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.FileToUploads {
+		reference := stage.FileToUploads_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.Messages {
+		reference := stage.Messages_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
 	stage.recomputeOrders()
