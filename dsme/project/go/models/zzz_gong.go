@@ -5401,47 +5401,47 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "IsChecked",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "IsEditable_",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "ShowPrefix",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "DefaultBoxWidth",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "DefaultBoxHeigth",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "Width",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "Height",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "IsExpanded",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "ComputedPrefix",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "IsInRenameMode",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:                 "Product_Shapes",
@@ -5455,7 +5455,7 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:               "IsPBSNodeExpanded",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:                 "ProductComposition_Shapes",
@@ -5464,7 +5464,7 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:               "IsWBSNodeExpanded",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:                 "Task_Shapes",
@@ -5513,7 +5513,7 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:               "IsNotesNodeExpanded",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:                 "NoteProductShapes",
@@ -5542,7 +5542,7 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:               "IsResourcesNodeExpanded",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:                 "ResourceComposition_Shapes",
@@ -5563,7 +5563,7 @@ func (note *Note) GongGetFieldHeaders() (res []GongFieldHeader) {
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:                 "Products",
@@ -5582,15 +5582,15 @@ func (note *Note) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:               "IsExpanded",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "ComputedPrefix",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "IsInRenameMode",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 	}
 	return
@@ -5601,7 +5601,7 @@ func (noteproductshape *NoteProductShape) GongGetFieldHeaders() (res []GongField
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:                 "Note",
@@ -5615,23 +5615,25 @@ func (noteproductshape *NoteProductShape) GongGetFieldHeaders() (res []GongField
 		},
 		{
 			Name:               "StartRatio",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "EndRatio",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "StartOrientation",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
+			TargetGongstructName: "OrientationType",
 		},
 		{
 			Name:               "EndOrientation",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
+			TargetGongstructName: "OrientationType",
 		},
 		{
 			Name:               "CornerOffsetRatio",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 	}
 	return
@@ -5642,7 +5644,7 @@ func (noteresourceshape *NoteResourceShape) GongGetFieldHeaders() (res []GongFie
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:                 "Note",
@@ -5656,23 +5658,25 @@ func (noteresourceshape *NoteResourceShape) GongGetFieldHeaders() (res []GongFie
 		},
 		{
 			Name:               "StartRatio",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "EndRatio",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "StartOrientation",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
+			TargetGongstructName: "OrientationType",
 		},
 		{
 			Name:               "EndOrientation",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
+			TargetGongstructName: "OrientationType",
 		},
 		{
 			Name:               "CornerOffsetRatio",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 	}
 	return
@@ -5683,7 +5687,7 @@ func (noteshape *NoteShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:                 "Note",
@@ -5692,23 +5696,23 @@ func (noteshape *NoteShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:               "IsExpanded",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "X",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "Y",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "Width",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "Height",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 	}
 	return
@@ -5719,7 +5723,7 @@ func (notetaskshape *NoteTaskShape) GongGetFieldHeaders() (res []GongFieldHeader
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:                 "Note",
@@ -5733,23 +5737,25 @@ func (notetaskshape *NoteTaskShape) GongGetFieldHeaders() (res []GongFieldHeader
 		},
 		{
 			Name:               "StartRatio",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "EndRatio",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "StartOrientation",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
+			TargetGongstructName: "OrientationType",
 		},
 		{
 			Name:               "EndOrientation",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
+			TargetGongstructName: "OrientationType",
 		},
 		{
 			Name:               "CornerOffsetRatio",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 	}
 	return
@@ -5760,11 +5766,11 @@ func (product *Product) GongGetFieldHeaders() (res []GongFieldHeader) {
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "Description",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:                 "SubProducts",
@@ -5773,23 +5779,23 @@ func (product *Product) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:               "IsExpanded",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "ComputedPrefix",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "IsInRenameMode",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "IsProducersNodeExpanded",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "IsConsumersNodeExpanded",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 	}
 	return
@@ -5800,7 +5806,7 @@ func (productcompositionshape *ProductCompositionShape) GongGetFieldHeaders() (r
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:                 "Product",
@@ -5809,23 +5815,25 @@ func (productcompositionshape *ProductCompositionShape) GongGetFieldHeaders() (r
 		},
 		{
 			Name:               "StartRatio",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "EndRatio",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "StartOrientation",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
+			TargetGongstructName: "OrientationType",
 		},
 		{
 			Name:               "EndOrientation",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
+			TargetGongstructName: "OrientationType",
 		},
 		{
 			Name:               "CornerOffsetRatio",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 	}
 	return
@@ -5836,7 +5844,7 @@ func (productshape *ProductShape) GongGetFieldHeaders() (res []GongFieldHeader) 
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:                 "Product",
@@ -5845,23 +5853,23 @@ func (productshape *ProductShape) GongGetFieldHeaders() (res []GongFieldHeader) 
 		},
 		{
 			Name:               "IsExpanded",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "X",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "Y",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "Width",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "Height",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 	}
 	return
@@ -5872,7 +5880,7 @@ func (project *Project) GongGetFieldHeaders() (res []GongFieldHeader) {
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:                 "RootProducts",
@@ -5901,15 +5909,15 @@ func (project *Project) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:               "IsExpanded",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "ComputedPrefix",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "IsInRenameMode",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 	}
 	return
@@ -5920,11 +5928,11 @@ func (resource *Resource) GongGetFieldHeaders() (res []GongFieldHeader) {
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "Description",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:                 "Tasks",
@@ -5938,15 +5946,15 @@ func (resource *Resource) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:               "IsExpanded",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "ComputedPrefix",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "IsInRenameMode",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 	}
 	return
@@ -5957,7 +5965,7 @@ func (resourcecompositionshape *ResourceCompositionShape) GongGetFieldHeaders() 
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:                 "Resource",
@@ -5966,23 +5974,25 @@ func (resourcecompositionshape *ResourceCompositionShape) GongGetFieldHeaders() 
 		},
 		{
 			Name:               "StartRatio",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "EndRatio",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "StartOrientation",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
+			TargetGongstructName: "OrientationType",
 		},
 		{
 			Name:               "EndOrientation",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
+			TargetGongstructName: "OrientationType",
 		},
 		{
 			Name:               "CornerOffsetRatio",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 	}
 	return
@@ -5993,7 +6003,7 @@ func (resourceshape *ResourceShape) GongGetFieldHeaders() (res []GongFieldHeader
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:                 "Resource",
@@ -6002,23 +6012,23 @@ func (resourceshape *ResourceShape) GongGetFieldHeaders() (res []GongFieldHeader
 		},
 		{
 			Name:               "IsExpanded",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "X",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "Y",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "Width",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "Height",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 	}
 	return
@@ -6029,7 +6039,7 @@ func (resourcetaskshape *ResourceTaskShape) GongGetFieldHeaders() (res []GongFie
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:                 "Resource",
@@ -6043,23 +6053,25 @@ func (resourcetaskshape *ResourceTaskShape) GongGetFieldHeaders() (res []GongFie
 		},
 		{
 			Name:               "StartRatio",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "EndRatio",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "StartOrientation",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
+			TargetGongstructName: "OrientationType",
 		},
 		{
 			Name:               "EndOrientation",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
+			TargetGongstructName: "OrientationType",
 		},
 		{
 			Name:               "CornerOffsetRatio",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 	}
 	return
@@ -6070,7 +6082,7 @@ func (root *Root) GongGetFieldHeaders() (res []GongFieldHeader) {
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:                 "Projects",
@@ -6079,7 +6091,7 @@ func (root *Root) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:               "NbPixPerCharacter",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 	}
 	return
@@ -6090,7 +6102,7 @@ func (task *Task) GongGetFieldHeaders() (res []GongFieldHeader) {
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "Start",
@@ -6102,7 +6114,7 @@ func (task *Task) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:               "Description",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:                 "SubTasks",
@@ -6111,15 +6123,15 @@ func (task *Task) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:               "IsExpanded",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "ComputedPrefix",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "IsInRenameMode",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:                 "Inputs",
@@ -6128,7 +6140,7 @@ func (task *Task) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:               "IsInputsNodeExpanded",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:                 "Outputs",
@@ -6137,15 +6149,16 @@ func (task *Task) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:               "IsOutputsNodeExpanded",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "IsWithCompletion",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "Completion",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
+			TargetGongstructName: "CompletionEnum",
 		},
 	}
 	return
@@ -6156,7 +6169,7 @@ func (taskcompositionshape *TaskCompositionShape) GongGetFieldHeaders() (res []G
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:                 "Task",
@@ -6165,23 +6178,25 @@ func (taskcompositionshape *TaskCompositionShape) GongGetFieldHeaders() (res []G
 		},
 		{
 			Name:               "StartRatio",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "EndRatio",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "StartOrientation",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
+			TargetGongstructName: "OrientationType",
 		},
 		{
 			Name:               "EndOrientation",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
+			TargetGongstructName: "OrientationType",
 		},
 		{
 			Name:               "CornerOffsetRatio",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 	}
 	return
@@ -6192,7 +6207,7 @@ func (taskinputshape *TaskInputShape) GongGetFieldHeaders() (res []GongFieldHead
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:                 "Product",
@@ -6206,23 +6221,25 @@ func (taskinputshape *TaskInputShape) GongGetFieldHeaders() (res []GongFieldHead
 		},
 		{
 			Name:               "StartRatio",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "EndRatio",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "StartOrientation",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
+			TargetGongstructName: "OrientationType",
 		},
 		{
 			Name:               "EndOrientation",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
+			TargetGongstructName: "OrientationType",
 		},
 		{
 			Name:               "CornerOffsetRatio",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 	}
 	return
@@ -6233,7 +6250,7 @@ func (taskoutputshape *TaskOutputShape) GongGetFieldHeaders() (res []GongFieldHe
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:                 "Task",
@@ -6247,23 +6264,25 @@ func (taskoutputshape *TaskOutputShape) GongGetFieldHeaders() (res []GongFieldHe
 		},
 		{
 			Name:               "StartRatio",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "EndRatio",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "StartOrientation",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
+			TargetGongstructName: "OrientationType",
 		},
 		{
 			Name:               "EndOrientation",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
+			TargetGongstructName: "OrientationType",
 		},
 		{
 			Name:               "CornerOffsetRatio",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 	}
 	return
@@ -6274,7 +6293,7 @@ func (taskshape *TaskShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:                 "Task",
@@ -6283,23 +6302,23 @@ func (taskshape *TaskShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:               "IsExpanded",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "X",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "Y",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "Width",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "Height",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 	}
 	return
@@ -6315,6 +6334,7 @@ type GongFieldValueType string
 
 const (
 	GongFieldValueTypeInt             GongFieldValueType = "GongFieldValueTypeInt"
+	GongFieldValueTypeIntDuration     GongFieldValueType = "GongFieldValueTypeIntDuration"
 	GongFieldValueTypeFloat           GongFieldValueType = "GongFieldValueTypeFloat"
 	GongFieldValueTypeBool            GongFieldValueType = "GongFieldValueTypeBool"
 	GongFieldValueTypeString          GongFieldValueType = "GongFieldValueTypeString"

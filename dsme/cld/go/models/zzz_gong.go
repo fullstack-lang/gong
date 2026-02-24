@@ -3140,7 +3140,7 @@ func (category1 *Category1) GongGetFieldHeaders() (res []GongFieldHeader) {
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 	}
 	return
@@ -3151,7 +3151,7 @@ func (category1shape *Category1Shape) GongGetFieldHeaders() (res []GongFieldHead
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:                 "Category1",
@@ -3160,19 +3160,19 @@ func (category1shape *Category1Shape) GongGetFieldHeaders() (res []GongFieldHead
 		},
 		{
 			Name:               "X",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "Y",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "Width",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "Height",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 	}
 	return
@@ -3183,7 +3183,7 @@ func (category2 *Category2) GongGetFieldHeaders() (res []GongFieldHeader) {
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 	}
 	return
@@ -3194,7 +3194,7 @@ func (category2shape *Category2Shape) GongGetFieldHeaders() (res []GongFieldHead
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:                 "Category2",
@@ -3203,19 +3203,19 @@ func (category2shape *Category2Shape) GongGetFieldHeaders() (res []GongFieldHead
 		},
 		{
 			Name:               "X",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "Y",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "Width",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "Height",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 	}
 	return
@@ -3226,7 +3226,7 @@ func (category3 *Category3) GongGetFieldHeaders() (res []GongFieldHeader) {
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 	}
 	return
@@ -3237,7 +3237,7 @@ func (category3shape *Category3Shape) GongGetFieldHeaders() (res []GongFieldHead
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:                 "Category3",
@@ -3246,19 +3246,19 @@ func (category3shape *Category3Shape) GongGetFieldHeaders() (res []GongFieldHead
 		},
 		{
 			Name:               "X",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "Y",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "Width",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "Height",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 	}
 	return
@@ -3269,19 +3269,19 @@ func (controlpointshape *ControlPointShape) GongGetFieldHeaders() (res []GongFie
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "X_Relative",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "Y_Relative",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "IsStartShapeTheClosestShape",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 	}
 	return
@@ -3292,7 +3292,7 @@ func (desk *Desk) GongGetFieldHeaders() (res []GongFieldHeader) {
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:                 "SelectedDiagram",
@@ -3308,7 +3308,7 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:                 "Category1Shapes",
@@ -3332,199 +3332,207 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:               "IsEditable",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "IsNodeExpanded",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "IsCategory1NodeExpanded",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "IsCategory2NodeExpanded",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "IsCategory3NodeExpanded",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "IsInfluenceCategoryNodeExpanded",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "IsCategory1Shown",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "IsCategory2Shown",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "IsCategory3Shown",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "IsInfluenceCategoryShown",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "XMargin",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "YMargin",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "Height",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "Width",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "NbPixPerCharacter",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "RedColorCode",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "BackgroundGreyColorCode",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "GrayColorCode",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "Category1RectAnchorType",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
+			TargetGongstructName: "RectAnchorType",
 		},
 		{
 			Name:               "Category1TextAnchorType",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
+			TargetGongstructName: "TextAnchorType",
 		},
 		{
 			Name:               "Category1DominantBaselineType",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
+			TargetGongstructName: "DominantBaselineType",
 		},
 		{
 			Name:               "Category1FontSize",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "Category1FontWeigth",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "Category1FontFamily",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "Category1LetterSpacing",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "Category2TypeFontSize",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "Category2TypeFontWeigth",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "Category2TypeFontFamily",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "Category2TypeLetterSpacing",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "Category2TypeRectAnchorType",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
+			TargetGongstructName: "RectAnchorType",
 		},
 		{
 			Name:               "Category2DominantBaselineType",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
+			TargetGongstructName: "DominantBaselineType",
 		},
 		{
 			Name:               "Category2StrokeWidth",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "Category3RectAnchorType",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
+			TargetGongstructName: "RectAnchorType",
 		},
 		{
 			Name:               "Category3TextAnchorType",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
+			TargetGongstructName: "TextAnchorType",
 		},
 		{
 			Name:               "Category3DominantBaselineType",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
+			TargetGongstructName: "DominantBaselineType",
 		},
 		{
 			Name:               "Category3FontSize",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "Category3FontWeigth",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "Category3FontFamily",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "Category3LetterSpacing",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "InfluenceStrokeWidth",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "InfluenceArrowSize",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "InfluenceArrowStartOffset",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "InfluenceArrowEndOffset",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "InfluenceCornerRadius",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "InfluenceFontSize",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "InfluenceFontWeigth",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "InfluenceFontFamily",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "InfluenceLetterSpacing",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "InfluenceDashedLinePattern",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 	}
 	return
@@ -3535,7 +3543,7 @@ func (influence *Influence) GongGetFieldHeaders() (res []GongFieldHeader) {
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:                 "SourceCategory1",
@@ -3569,11 +3577,11 @@ func (influence *Influence) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:               "IsHypothtical",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "TextAtEndOfArrow",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 	}
 	return
@@ -3584,7 +3592,7 @@ func (influenceshape *InfluenceShape) GongGetFieldHeaders() (res []GongFieldHead
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:                 "Influence",
@@ -3610,6 +3618,7 @@ type GongFieldValueType string
 
 const (
 	GongFieldValueTypeInt             GongFieldValueType = "GongFieldValueTypeInt"
+	GongFieldValueTypeIntDuration     GongFieldValueType = "GongFieldValueTypeIntDuration"
 	GongFieldValueTypeFloat           GongFieldValueType = "GongFieldValueTypeFloat"
 	GongFieldValueTypeBool            GongFieldValueType = "GongFieldValueTypeBool"
 	GongFieldValueTypeString          GongFieldValueType = "GongFieldValueTypeString"

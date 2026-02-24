@@ -1945,15 +1945,16 @@ func (command *Command) GongGetFieldHeaders() (res []GongFieldHeader) {
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "Command",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
+			TargetGongstructName: "CommandType",
 		},
 		{
 			Name:               "CommandDate",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:                 "Engine",
@@ -1969,11 +1970,11 @@ func (dummyagent *DummyAgent) GongGetFieldHeaders() (res []GongFieldHeader) {
 	res = []GongFieldHeader{
 		{
 			Name:               "TechName",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 	}
 	return
@@ -1984,39 +1985,41 @@ func (engine *Engine) GongGetFieldHeaders() (res []GongFieldHeader) {
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "EndTime",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "CurrentTime",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "DisplayFormat",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "SecondsSinceStart",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "Fired",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeInt,
 		},
 		{
 			Name:               "ControlMode",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
+			TargetGongstructName: "ControlMode",
 		},
 		{
 			Name:               "State",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
+			TargetGongstructName: "EngineState",
 		},
 		{
 			Name:               "Speed",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 	}
 	return
@@ -2027,11 +2030,11 @@ func (event *Event) GongGetFieldHeaders() (res []GongFieldHeader) {
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "Duration",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeIntDuration,
 		},
 	}
 	return
@@ -2042,23 +2045,25 @@ func (status *Status) GongGetFieldHeaders() (res []GongFieldHeader) {
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "CurrentCommand",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
+			TargetGongstructName: "CommandType",
 		},
 		{
 			Name:               "CompletionDate",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "CurrentSpeedCommand",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
+			TargetGongstructName: "SpeedCommandType",
 		},
 		{
 			Name:               "SpeedCommandCompletionDate",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 	}
 	return
@@ -2069,15 +2074,15 @@ func (updatestate *UpdateState) GongGetFieldHeaders() (res []GongFieldHeader) {
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "Duration",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeIntDuration,
 		},
 		{
 			Name:               "Period",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeIntDuration,
 		},
 	}
 	return
@@ -2093,6 +2098,7 @@ type GongFieldValueType string
 
 const (
 	GongFieldValueTypeInt             GongFieldValueType = "GongFieldValueTypeInt"
+	GongFieldValueTypeIntDuration     GongFieldValueType = "GongFieldValueTypeIntDuration"
 	GongFieldValueTypeFloat           GongFieldValueType = "GongFieldValueTypeFloat"
 	GongFieldValueTypeBool            GongFieldValueType = "GongFieldValueTypeBool"
 	GongFieldValueTypeString          GongFieldValueType = "GongFieldValueTypeString"
