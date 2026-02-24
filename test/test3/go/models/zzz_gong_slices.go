@@ -231,10 +231,10 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.Bs_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
+	// insertion point per named struct
 	for instance := range stage.As {
 		reference := stage.As_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
-		_ = reference
 	}
 
 	for instance := range stage.Bs {
