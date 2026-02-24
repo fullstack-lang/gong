@@ -146,48 +146,57 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 // insertion point per named struct
 func (attributeshape *AttributeShape) GongCopy() GongstructIF {
-	newInstance := *attributeshape
-	return &newInstance
+	newInstance := new(AttributeShape)
+	attributeshape.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (classdiagram *Classdiagram) GongCopy() GongstructIF {
-	newInstance := *classdiagram
-	return &newInstance
+	newInstance := new(Classdiagram)
+	classdiagram.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (diagrampackage *DiagramPackage) GongCopy() GongstructIF {
-	newInstance := *diagrampackage
-	return &newInstance
+	newInstance := new(DiagramPackage)
+	diagrampackage.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (gongenumshape *GongEnumShape) GongCopy() GongstructIF {
-	newInstance := *gongenumshape
-	return &newInstance
+	newInstance := new(GongEnumShape)
+	gongenumshape.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (gongenumvalueshape *GongEnumValueShape) GongCopy() GongstructIF {
-	newInstance := *gongenumvalueshape
-	return &newInstance
+	newInstance := new(GongEnumValueShape)
+	gongenumvalueshape.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (gongnotelinkshape *GongNoteLinkShape) GongCopy() GongstructIF {
-	newInstance := *gongnotelinkshape
-	return &newInstance
+	newInstance := new(GongNoteLinkShape)
+	gongnotelinkshape.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (gongnoteshape *GongNoteShape) GongCopy() GongstructIF {
-	newInstance := *gongnoteshape
-	return &newInstance
+	newInstance := new(GongNoteShape)
+	gongnoteshape.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (gongstructshape *GongStructShape) GongCopy() GongstructIF {
-	newInstance := *gongstructshape
-	return &newInstance
+	newInstance := new(GongStructShape)
+	gongstructshape.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (linkshape *LinkShape) GongCopy() GongstructIF {
-	newInstance := *linkshape
-	return &newInstance
+	newInstance := new(LinkShape)
+	linkshape.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (stage *Stage) ComputeForwardAndBackwardCommits() {

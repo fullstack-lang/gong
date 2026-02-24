@@ -1987,6 +1987,833 @@ func (stage *Stage) UnstageBranchTaskShape(taskshape *TaskShape) {
 
 }
 
+// insertion point for pointer reconstruction from references
+func (reference *Diagram) GongReconstructPointersFromReferences(stage *Stage, instance *Diagram) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.Product_Shapes = reference.Product_Shapes[:0]
+	for _, _b := range instance.Product_Shapes {
+		reference.Product_Shapes = append(reference.Product_Shapes, stage.ProductShapes_reference[_b])
+	}
+	reference.ProductsWhoseNodeIsExpanded = reference.ProductsWhoseNodeIsExpanded[:0]
+	for _, _b := range instance.ProductsWhoseNodeIsExpanded {
+		reference.ProductsWhoseNodeIsExpanded = append(reference.ProductsWhoseNodeIsExpanded, stage.Products_reference[_b])
+	}
+	reference.ProductComposition_Shapes = reference.ProductComposition_Shapes[:0]
+	for _, _b := range instance.ProductComposition_Shapes {
+		reference.ProductComposition_Shapes = append(reference.ProductComposition_Shapes, stage.ProductCompositionShapes_reference[_b])
+	}
+	reference.Task_Shapes = reference.Task_Shapes[:0]
+	for _, _b := range instance.Task_Shapes {
+		reference.Task_Shapes = append(reference.Task_Shapes, stage.TaskShapes_reference[_b])
+	}
+	reference.TasksWhoseNodeIsExpanded = reference.TasksWhoseNodeIsExpanded[:0]
+	for _, _b := range instance.TasksWhoseNodeIsExpanded {
+		reference.TasksWhoseNodeIsExpanded = append(reference.TasksWhoseNodeIsExpanded, stage.Tasks_reference[_b])
+	}
+	reference.TasksWhoseInputNodeIsExpanded = reference.TasksWhoseInputNodeIsExpanded[:0]
+	for _, _b := range instance.TasksWhoseInputNodeIsExpanded {
+		reference.TasksWhoseInputNodeIsExpanded = append(reference.TasksWhoseInputNodeIsExpanded, stage.Tasks_reference[_b])
+	}
+	reference.TasksWhoseOutputNodeIsExpanded = reference.TasksWhoseOutputNodeIsExpanded[:0]
+	for _, _b := range instance.TasksWhoseOutputNodeIsExpanded {
+		reference.TasksWhoseOutputNodeIsExpanded = append(reference.TasksWhoseOutputNodeIsExpanded, stage.Tasks_reference[_b])
+	}
+	reference.TaskComposition_Shapes = reference.TaskComposition_Shapes[:0]
+	for _, _b := range instance.TaskComposition_Shapes {
+		reference.TaskComposition_Shapes = append(reference.TaskComposition_Shapes, stage.TaskCompositionShapes_reference[_b])
+	}
+	reference.TaskInputShapes = reference.TaskInputShapes[:0]
+	for _, _b := range instance.TaskInputShapes {
+		reference.TaskInputShapes = append(reference.TaskInputShapes, stage.TaskInputShapes_reference[_b])
+	}
+	reference.TaskOutputShapes = reference.TaskOutputShapes[:0]
+	for _, _b := range instance.TaskOutputShapes {
+		reference.TaskOutputShapes = append(reference.TaskOutputShapes, stage.TaskOutputShapes_reference[_b])
+	}
+	reference.Note_Shapes = reference.Note_Shapes[:0]
+	for _, _b := range instance.Note_Shapes {
+		reference.Note_Shapes = append(reference.Note_Shapes, stage.NoteShapes_reference[_b])
+	}
+	reference.NotesWhoseNodeIsExpanded = reference.NotesWhoseNodeIsExpanded[:0]
+	for _, _b := range instance.NotesWhoseNodeIsExpanded {
+		reference.NotesWhoseNodeIsExpanded = append(reference.NotesWhoseNodeIsExpanded, stage.Notes_reference[_b])
+	}
+	reference.NoteProductShapes = reference.NoteProductShapes[:0]
+	for _, _b := range instance.NoteProductShapes {
+		reference.NoteProductShapes = append(reference.NoteProductShapes, stage.NoteProductShapes_reference[_b])
+	}
+	reference.NoteTaskShapes = reference.NoteTaskShapes[:0]
+	for _, _b := range instance.NoteTaskShapes {
+		reference.NoteTaskShapes = append(reference.NoteTaskShapes, stage.NoteTaskShapes_reference[_b])
+	}
+	reference.NoteResourceShapes = reference.NoteResourceShapes[:0]
+	for _, _b := range instance.NoteResourceShapes {
+		reference.NoteResourceShapes = append(reference.NoteResourceShapes, stage.NoteResourceShapes_reference[_b])
+	}
+	reference.Resource_Shapes = reference.Resource_Shapes[:0]
+	for _, _b := range instance.Resource_Shapes {
+		reference.Resource_Shapes = append(reference.Resource_Shapes, stage.ResourceShapes_reference[_b])
+	}
+	reference.ResourcesWhoseNodeIsExpanded = reference.ResourcesWhoseNodeIsExpanded[:0]
+	for _, _b := range instance.ResourcesWhoseNodeIsExpanded {
+		reference.ResourcesWhoseNodeIsExpanded = append(reference.ResourcesWhoseNodeIsExpanded, stage.Resources_reference[_b])
+	}
+	reference.ResourceComposition_Shapes = reference.ResourceComposition_Shapes[:0]
+	for _, _b := range instance.ResourceComposition_Shapes {
+		reference.ResourceComposition_Shapes = append(reference.ResourceComposition_Shapes, stage.ResourceCompositionShapes_reference[_b])
+	}
+	reference.ResourceTaskShapes = reference.ResourceTaskShapes[:0]
+	for _, _b := range instance.ResourceTaskShapes {
+		reference.ResourceTaskShapes = append(reference.ResourceTaskShapes, stage.ResourceTaskShapes_reference[_b])
+	}
+
+	return
+}
+
+func (reference *Note) GongReconstructPointersFromReferences(stage *Stage, instance *Note) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.Products = reference.Products[:0]
+	for _, _b := range instance.Products {
+		reference.Products = append(reference.Products, stage.Products_reference[_b])
+	}
+	reference.Tasks = reference.Tasks[:0]
+	for _, _b := range instance.Tasks {
+		reference.Tasks = append(reference.Tasks, stage.Tasks_reference[_b])
+	}
+	reference.Resources = reference.Resources[:0]
+	for _, _b := range instance.Resources {
+		reference.Resources = append(reference.Resources, stage.Resources_reference[_b])
+	}
+
+	return
+}
+
+func (reference *NoteProductShape) GongReconstructPointersFromReferences(stage *Stage, instance *NoteProductShape) () {
+	// insertion point for pointers field
+	if instance.Note != nil {
+		reference.Note = stage.Notes_reference[instance.Note]
+	}
+	if instance.Product != nil {
+		reference.Product = stage.Products_reference[instance.Product]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *NoteResourceShape) GongReconstructPointersFromReferences(stage *Stage, instance *NoteResourceShape) () {
+	// insertion point for pointers field
+	if instance.Note != nil {
+		reference.Note = stage.Notes_reference[instance.Note]
+	}
+	if instance.Resource != nil {
+		reference.Resource = stage.Resources_reference[instance.Resource]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *NoteShape) GongReconstructPointersFromReferences(stage *Stage, instance *NoteShape) () {
+	// insertion point for pointers field
+	if instance.Note != nil {
+		reference.Note = stage.Notes_reference[instance.Note]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *NoteTaskShape) GongReconstructPointersFromReferences(stage *Stage, instance *NoteTaskShape) () {
+	// insertion point for pointers field
+	if instance.Note != nil {
+		reference.Note = stage.Notes_reference[instance.Note]
+	}
+	if instance.Task != nil {
+		reference.Task = stage.Tasks_reference[instance.Task]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *Product) GongReconstructPointersFromReferences(stage *Stage, instance *Product) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.SubProducts = reference.SubProducts[:0]
+	for _, _b := range instance.SubProducts {
+		reference.SubProducts = append(reference.SubProducts, stage.Products_reference[_b])
+	}
+
+	return
+}
+
+func (reference *ProductCompositionShape) GongReconstructPointersFromReferences(stage *Stage, instance *ProductCompositionShape) () {
+	// insertion point for pointers field
+	if instance.Product != nil {
+		reference.Product = stage.Products_reference[instance.Product]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *ProductShape) GongReconstructPointersFromReferences(stage *Stage, instance *ProductShape) () {
+	// insertion point for pointers field
+	if instance.Product != nil {
+		reference.Product = stage.Products_reference[instance.Product]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *Project) GongReconstructPointersFromReferences(stage *Stage, instance *Project) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.RootProducts = reference.RootProducts[:0]
+	for _, _b := range instance.RootProducts {
+		reference.RootProducts = append(reference.RootProducts, stage.Products_reference[_b])
+	}
+	reference.RootTasks = reference.RootTasks[:0]
+	for _, _b := range instance.RootTasks {
+		reference.RootTasks = append(reference.RootTasks, stage.Tasks_reference[_b])
+	}
+	reference.RootResources = reference.RootResources[:0]
+	for _, _b := range instance.RootResources {
+		reference.RootResources = append(reference.RootResources, stage.Resources_reference[_b])
+	}
+	reference.Notes = reference.Notes[:0]
+	for _, _b := range instance.Notes {
+		reference.Notes = append(reference.Notes, stage.Notes_reference[_b])
+	}
+	reference.Diagrams = reference.Diagrams[:0]
+	for _, _b := range instance.Diagrams {
+		reference.Diagrams = append(reference.Diagrams, stage.Diagrams_reference[_b])
+	}
+
+	return
+}
+
+func (reference *Resource) GongReconstructPointersFromReferences(stage *Stage, instance *Resource) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.Tasks = reference.Tasks[:0]
+	for _, _b := range instance.Tasks {
+		reference.Tasks = append(reference.Tasks, stage.Tasks_reference[_b])
+	}
+	reference.SubResources = reference.SubResources[:0]
+	for _, _b := range instance.SubResources {
+		reference.SubResources = append(reference.SubResources, stage.Resources_reference[_b])
+	}
+
+	return
+}
+
+func (reference *ResourceCompositionShape) GongReconstructPointersFromReferences(stage *Stage, instance *ResourceCompositionShape) () {
+	// insertion point for pointers field
+	if instance.Resource != nil {
+		reference.Resource = stage.Resources_reference[instance.Resource]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *ResourceShape) GongReconstructPointersFromReferences(stage *Stage, instance *ResourceShape) () {
+	// insertion point for pointers field
+	if instance.Resource != nil {
+		reference.Resource = stage.Resources_reference[instance.Resource]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *ResourceTaskShape) GongReconstructPointersFromReferences(stage *Stage, instance *ResourceTaskShape) () {
+	// insertion point for pointers field
+	if instance.Resource != nil {
+		reference.Resource = stage.Resources_reference[instance.Resource]
+	}
+	if instance.Task != nil {
+		reference.Task = stage.Tasks_reference[instance.Task]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *Root) GongReconstructPointersFromReferences(stage *Stage, instance *Root) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.Projects = reference.Projects[:0]
+	for _, _b := range instance.Projects {
+		reference.Projects = append(reference.Projects, stage.Projects_reference[_b])
+	}
+
+	return
+}
+
+func (reference *Task) GongReconstructPointersFromReferences(stage *Stage, instance *Task) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.SubTasks = reference.SubTasks[:0]
+	for _, _b := range instance.SubTasks {
+		reference.SubTasks = append(reference.SubTasks, stage.Tasks_reference[_b])
+	}
+	reference.Inputs = reference.Inputs[:0]
+	for _, _b := range instance.Inputs {
+		reference.Inputs = append(reference.Inputs, stage.Products_reference[_b])
+	}
+	reference.Outputs = reference.Outputs[:0]
+	for _, _b := range instance.Outputs {
+		reference.Outputs = append(reference.Outputs, stage.Products_reference[_b])
+	}
+
+	return
+}
+
+func (reference *TaskCompositionShape) GongReconstructPointersFromReferences(stage *Stage, instance *TaskCompositionShape) () {
+	// insertion point for pointers field
+	if instance.Task != nil {
+		reference.Task = stage.Tasks_reference[instance.Task]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *TaskInputShape) GongReconstructPointersFromReferences(stage *Stage, instance *TaskInputShape) () {
+	// insertion point for pointers field
+	if instance.Product != nil {
+		reference.Product = stage.Products_reference[instance.Product]
+	}
+	if instance.Task != nil {
+		reference.Task = stage.Tasks_reference[instance.Task]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *TaskOutputShape) GongReconstructPointersFromReferences(stage *Stage, instance *TaskOutputShape) () {
+	// insertion point for pointers field
+	if instance.Task != nil {
+		reference.Task = stage.Tasks_reference[instance.Task]
+	}
+	if instance.Product != nil {
+		reference.Product = stage.Products_reference[instance.Product]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *TaskShape) GongReconstructPointersFromReferences(stage *Stage, instance *TaskShape) () {
+	// insertion point for pointers field
+	if instance.Task != nil {
+		reference.Task = stage.Tasks_reference[instance.Task]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+// insertion point for pointer reconstruction from instances
+func (reference *Diagram) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _Product_Shapes []*ProductShape
+	for _, _reference := range reference.Product_Shapes {
+		if _instance, ok := stage.ProductShapes_instance[_reference]; ok {
+			_Product_Shapes = append(_Product_Shapes, stage.ProductShapes_reference[_instance])
+		}
+	}
+	reference.Product_Shapes = _Product_Shapes
+	var _ProductsWhoseNodeIsExpanded []*Product
+	for _, _reference := range reference.ProductsWhoseNodeIsExpanded {
+		if _instance, ok := stage.Products_instance[_reference]; ok {
+			_ProductsWhoseNodeIsExpanded = append(_ProductsWhoseNodeIsExpanded, stage.Products_reference[_instance])
+		}
+	}
+	reference.ProductsWhoseNodeIsExpanded = _ProductsWhoseNodeIsExpanded
+	var _ProductComposition_Shapes []*ProductCompositionShape
+	for _, _reference := range reference.ProductComposition_Shapes {
+		if _instance, ok := stage.ProductCompositionShapes_instance[_reference]; ok {
+			_ProductComposition_Shapes = append(_ProductComposition_Shapes, stage.ProductCompositionShapes_reference[_instance])
+		}
+	}
+	reference.ProductComposition_Shapes = _ProductComposition_Shapes
+	var _Task_Shapes []*TaskShape
+	for _, _reference := range reference.Task_Shapes {
+		if _instance, ok := stage.TaskShapes_instance[_reference]; ok {
+			_Task_Shapes = append(_Task_Shapes, stage.TaskShapes_reference[_instance])
+		}
+	}
+	reference.Task_Shapes = _Task_Shapes
+	var _TasksWhoseNodeIsExpanded []*Task
+	for _, _reference := range reference.TasksWhoseNodeIsExpanded {
+		if _instance, ok := stage.Tasks_instance[_reference]; ok {
+			_TasksWhoseNodeIsExpanded = append(_TasksWhoseNodeIsExpanded, stage.Tasks_reference[_instance])
+		}
+	}
+	reference.TasksWhoseNodeIsExpanded = _TasksWhoseNodeIsExpanded
+	var _TasksWhoseInputNodeIsExpanded []*Task
+	for _, _reference := range reference.TasksWhoseInputNodeIsExpanded {
+		if _instance, ok := stage.Tasks_instance[_reference]; ok {
+			_TasksWhoseInputNodeIsExpanded = append(_TasksWhoseInputNodeIsExpanded, stage.Tasks_reference[_instance])
+		}
+	}
+	reference.TasksWhoseInputNodeIsExpanded = _TasksWhoseInputNodeIsExpanded
+	var _TasksWhoseOutputNodeIsExpanded []*Task
+	for _, _reference := range reference.TasksWhoseOutputNodeIsExpanded {
+		if _instance, ok := stage.Tasks_instance[_reference]; ok {
+			_TasksWhoseOutputNodeIsExpanded = append(_TasksWhoseOutputNodeIsExpanded, stage.Tasks_reference[_instance])
+		}
+	}
+	reference.TasksWhoseOutputNodeIsExpanded = _TasksWhoseOutputNodeIsExpanded
+	var _TaskComposition_Shapes []*TaskCompositionShape
+	for _, _reference := range reference.TaskComposition_Shapes {
+		if _instance, ok := stage.TaskCompositionShapes_instance[_reference]; ok {
+			_TaskComposition_Shapes = append(_TaskComposition_Shapes, stage.TaskCompositionShapes_reference[_instance])
+		}
+	}
+	reference.TaskComposition_Shapes = _TaskComposition_Shapes
+	var _TaskInputShapes []*TaskInputShape
+	for _, _reference := range reference.TaskInputShapes {
+		if _instance, ok := stage.TaskInputShapes_instance[_reference]; ok {
+			_TaskInputShapes = append(_TaskInputShapes, stage.TaskInputShapes_reference[_instance])
+		}
+	}
+	reference.TaskInputShapes = _TaskInputShapes
+	var _TaskOutputShapes []*TaskOutputShape
+	for _, _reference := range reference.TaskOutputShapes {
+		if _instance, ok := stage.TaskOutputShapes_instance[_reference]; ok {
+			_TaskOutputShapes = append(_TaskOutputShapes, stage.TaskOutputShapes_reference[_instance])
+		}
+	}
+	reference.TaskOutputShapes = _TaskOutputShapes
+	var _Note_Shapes []*NoteShape
+	for _, _reference := range reference.Note_Shapes {
+		if _instance, ok := stage.NoteShapes_instance[_reference]; ok {
+			_Note_Shapes = append(_Note_Shapes, stage.NoteShapes_reference[_instance])
+		}
+	}
+	reference.Note_Shapes = _Note_Shapes
+	var _NotesWhoseNodeIsExpanded []*Note
+	for _, _reference := range reference.NotesWhoseNodeIsExpanded {
+		if _instance, ok := stage.Notes_instance[_reference]; ok {
+			_NotesWhoseNodeIsExpanded = append(_NotesWhoseNodeIsExpanded, stage.Notes_reference[_instance])
+		}
+	}
+	reference.NotesWhoseNodeIsExpanded = _NotesWhoseNodeIsExpanded
+	var _NoteProductShapes []*NoteProductShape
+	for _, _reference := range reference.NoteProductShapes {
+		if _instance, ok := stage.NoteProductShapes_instance[_reference]; ok {
+			_NoteProductShapes = append(_NoteProductShapes, stage.NoteProductShapes_reference[_instance])
+		}
+	}
+	reference.NoteProductShapes = _NoteProductShapes
+	var _NoteTaskShapes []*NoteTaskShape
+	for _, _reference := range reference.NoteTaskShapes {
+		if _instance, ok := stage.NoteTaskShapes_instance[_reference]; ok {
+			_NoteTaskShapes = append(_NoteTaskShapes, stage.NoteTaskShapes_reference[_instance])
+		}
+	}
+	reference.NoteTaskShapes = _NoteTaskShapes
+	var _NoteResourceShapes []*NoteResourceShape
+	for _, _reference := range reference.NoteResourceShapes {
+		if _instance, ok := stage.NoteResourceShapes_instance[_reference]; ok {
+			_NoteResourceShapes = append(_NoteResourceShapes, stage.NoteResourceShapes_reference[_instance])
+		}
+	}
+	reference.NoteResourceShapes = _NoteResourceShapes
+	var _Resource_Shapes []*ResourceShape
+	for _, _reference := range reference.Resource_Shapes {
+		if _instance, ok := stage.ResourceShapes_instance[_reference]; ok {
+			_Resource_Shapes = append(_Resource_Shapes, stage.ResourceShapes_reference[_instance])
+		}
+	}
+	reference.Resource_Shapes = _Resource_Shapes
+	var _ResourcesWhoseNodeIsExpanded []*Resource
+	for _, _reference := range reference.ResourcesWhoseNodeIsExpanded {
+		if _instance, ok := stage.Resources_instance[_reference]; ok {
+			_ResourcesWhoseNodeIsExpanded = append(_ResourcesWhoseNodeIsExpanded, stage.Resources_reference[_instance])
+		}
+	}
+	reference.ResourcesWhoseNodeIsExpanded = _ResourcesWhoseNodeIsExpanded
+	var _ResourceComposition_Shapes []*ResourceCompositionShape
+	for _, _reference := range reference.ResourceComposition_Shapes {
+		if _instance, ok := stage.ResourceCompositionShapes_instance[_reference]; ok {
+			_ResourceComposition_Shapes = append(_ResourceComposition_Shapes, stage.ResourceCompositionShapes_reference[_instance])
+		}
+	}
+	reference.ResourceComposition_Shapes = _ResourceComposition_Shapes
+	var _ResourceTaskShapes []*ResourceTaskShape
+	for _, _reference := range reference.ResourceTaskShapes {
+		if _instance, ok := stage.ResourceTaskShapes_instance[_reference]; ok {
+			_ResourceTaskShapes = append(_ResourceTaskShapes, stage.ResourceTaskShapes_reference[_instance])
+		}
+	}
+	reference.ResourceTaskShapes = _ResourceTaskShapes
+
+	return
+}
+
+func (reference *Note) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _Products []*Product
+	for _, _reference := range reference.Products {
+		if _instance, ok := stage.Products_instance[_reference]; ok {
+			_Products = append(_Products, stage.Products_reference[_instance])
+		}
+	}
+	reference.Products = _Products
+	var _Tasks []*Task
+	for _, _reference := range reference.Tasks {
+		if _instance, ok := stage.Tasks_instance[_reference]; ok {
+			_Tasks = append(_Tasks, stage.Tasks_reference[_instance])
+		}
+	}
+	reference.Tasks = _Tasks
+	var _Resources []*Resource
+	for _, _reference := range reference.Resources {
+		if _instance, ok := stage.Resources_instance[_reference]; ok {
+			_Resources = append(_Resources, stage.Resources_reference[_instance])
+		}
+	}
+	reference.Resources = _Resources
+
+	return
+}
+
+func (reference *NoteProductShape) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.Note; _reference != nil {
+		reference.Note = nil
+		if _instance, ok := stage.Notes_instance[_reference]; ok {
+			reference.Note = _instance
+		}
+	}
+	if _reference := reference.Product; _reference != nil {
+		reference.Product = nil
+		if _instance, ok := stage.Products_instance[_reference]; ok {
+			reference.Product = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *NoteResourceShape) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.Note; _reference != nil {
+		reference.Note = nil
+		if _instance, ok := stage.Notes_instance[_reference]; ok {
+			reference.Note = _instance
+		}
+	}
+	if _reference := reference.Resource; _reference != nil {
+		reference.Resource = nil
+		if _instance, ok := stage.Resources_instance[_reference]; ok {
+			reference.Resource = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *NoteShape) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.Note; _reference != nil {
+		reference.Note = nil
+		if _instance, ok := stage.Notes_instance[_reference]; ok {
+			reference.Note = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *NoteTaskShape) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.Note; _reference != nil {
+		reference.Note = nil
+		if _instance, ok := stage.Notes_instance[_reference]; ok {
+			reference.Note = _instance
+		}
+	}
+	if _reference := reference.Task; _reference != nil {
+		reference.Task = nil
+		if _instance, ok := stage.Tasks_instance[_reference]; ok {
+			reference.Task = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *Product) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _SubProducts []*Product
+	for _, _reference := range reference.SubProducts {
+		if _instance, ok := stage.Products_instance[_reference]; ok {
+			_SubProducts = append(_SubProducts, stage.Products_reference[_instance])
+		}
+	}
+	reference.SubProducts = _SubProducts
+
+	return
+}
+
+func (reference *ProductCompositionShape) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.Product; _reference != nil {
+		reference.Product = nil
+		if _instance, ok := stage.Products_instance[_reference]; ok {
+			reference.Product = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *ProductShape) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.Product; _reference != nil {
+		reference.Product = nil
+		if _instance, ok := stage.Products_instance[_reference]; ok {
+			reference.Product = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *Project) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _RootProducts []*Product
+	for _, _reference := range reference.RootProducts {
+		if _instance, ok := stage.Products_instance[_reference]; ok {
+			_RootProducts = append(_RootProducts, stage.Products_reference[_instance])
+		}
+	}
+	reference.RootProducts = _RootProducts
+	var _RootTasks []*Task
+	for _, _reference := range reference.RootTasks {
+		if _instance, ok := stage.Tasks_instance[_reference]; ok {
+			_RootTasks = append(_RootTasks, stage.Tasks_reference[_instance])
+		}
+	}
+	reference.RootTasks = _RootTasks
+	var _RootResources []*Resource
+	for _, _reference := range reference.RootResources {
+		if _instance, ok := stage.Resources_instance[_reference]; ok {
+			_RootResources = append(_RootResources, stage.Resources_reference[_instance])
+		}
+	}
+	reference.RootResources = _RootResources
+	var _Notes []*Note
+	for _, _reference := range reference.Notes {
+		if _instance, ok := stage.Notes_instance[_reference]; ok {
+			_Notes = append(_Notes, stage.Notes_reference[_instance])
+		}
+	}
+	reference.Notes = _Notes
+	var _Diagrams []*Diagram
+	for _, _reference := range reference.Diagrams {
+		if _instance, ok := stage.Diagrams_instance[_reference]; ok {
+			_Diagrams = append(_Diagrams, stage.Diagrams_reference[_instance])
+		}
+	}
+	reference.Diagrams = _Diagrams
+
+	return
+}
+
+func (reference *Resource) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _Tasks []*Task
+	for _, _reference := range reference.Tasks {
+		if _instance, ok := stage.Tasks_instance[_reference]; ok {
+			_Tasks = append(_Tasks, stage.Tasks_reference[_instance])
+		}
+	}
+	reference.Tasks = _Tasks
+	var _SubResources []*Resource
+	for _, _reference := range reference.SubResources {
+		if _instance, ok := stage.Resources_instance[_reference]; ok {
+			_SubResources = append(_SubResources, stage.Resources_reference[_instance])
+		}
+	}
+	reference.SubResources = _SubResources
+
+	return
+}
+
+func (reference *ResourceCompositionShape) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.Resource; _reference != nil {
+		reference.Resource = nil
+		if _instance, ok := stage.Resources_instance[_reference]; ok {
+			reference.Resource = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *ResourceShape) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.Resource; _reference != nil {
+		reference.Resource = nil
+		if _instance, ok := stage.Resources_instance[_reference]; ok {
+			reference.Resource = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *ResourceTaskShape) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.Resource; _reference != nil {
+		reference.Resource = nil
+		if _instance, ok := stage.Resources_instance[_reference]; ok {
+			reference.Resource = _instance
+		}
+	}
+	if _reference := reference.Task; _reference != nil {
+		reference.Task = nil
+		if _instance, ok := stage.Tasks_instance[_reference]; ok {
+			reference.Task = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *Root) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _Projects []*Project
+	for _, _reference := range reference.Projects {
+		if _instance, ok := stage.Projects_instance[_reference]; ok {
+			_Projects = append(_Projects, stage.Projects_reference[_instance])
+		}
+	}
+	reference.Projects = _Projects
+
+	return
+}
+
+func (reference *Task) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _SubTasks []*Task
+	for _, _reference := range reference.SubTasks {
+		if _instance, ok := stage.Tasks_instance[_reference]; ok {
+			_SubTasks = append(_SubTasks, stage.Tasks_reference[_instance])
+		}
+	}
+	reference.SubTasks = _SubTasks
+	var _Inputs []*Product
+	for _, _reference := range reference.Inputs {
+		if _instance, ok := stage.Products_instance[_reference]; ok {
+			_Inputs = append(_Inputs, stage.Products_reference[_instance])
+		}
+	}
+	reference.Inputs = _Inputs
+	var _Outputs []*Product
+	for _, _reference := range reference.Outputs {
+		if _instance, ok := stage.Products_instance[_reference]; ok {
+			_Outputs = append(_Outputs, stage.Products_reference[_instance])
+		}
+	}
+	reference.Outputs = _Outputs
+
+	return
+}
+
+func (reference *TaskCompositionShape) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.Task; _reference != nil {
+		reference.Task = nil
+		if _instance, ok := stage.Tasks_instance[_reference]; ok {
+			reference.Task = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *TaskInputShape) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.Product; _reference != nil {
+		reference.Product = nil
+		if _instance, ok := stage.Products_instance[_reference]; ok {
+			reference.Product = _instance
+		}
+	}
+	if _reference := reference.Task; _reference != nil {
+		reference.Task = nil
+		if _instance, ok := stage.Tasks_instance[_reference]; ok {
+			reference.Task = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *TaskOutputShape) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.Task; _reference != nil {
+		reference.Task = nil
+		if _instance, ok := stage.Tasks_instance[_reference]; ok {
+			reference.Task = _instance
+		}
+	}
+	if _reference := reference.Product; _reference != nil {
+		reference.Product = nil
+		if _instance, ok := stage.Products_instance[_reference]; ok {
+			reference.Product = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *TaskShape) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.Task; _reference != nil {
+		reference.Task = nil
+		if _instance, ok := stage.Tasks_instance[_reference]; ok {
+			reference.Task = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings

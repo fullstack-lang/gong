@@ -90,28 +90,33 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 // insertion point per named struct
 func (displayselection *DisplaySelection) GongCopy() GongstructIF {
-	newInstance := *displayselection
-	return &newInstance
+	newInstance := new(DisplaySelection)
+	displayselection.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (xlcell *XLCell) GongCopy() GongstructIF {
-	newInstance := *xlcell
-	return &newInstance
+	newInstance := new(XLCell)
+	xlcell.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (xlfile *XLFile) GongCopy() GongstructIF {
-	newInstance := *xlfile
-	return &newInstance
+	newInstance := new(XLFile)
+	xlfile.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (xlrow *XLRow) GongCopy() GongstructIF {
-	newInstance := *xlrow
-	return &newInstance
+	newInstance := new(XLRow)
+	xlrow.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (xlsheet *XLSheet) GongCopy() GongstructIF {
-	newInstance := *xlsheet
-	return &newInstance
+	newInstance := new(XLSheet)
+	xlsheet.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (stage *Stage) ComputeForwardAndBackwardCommits() {

@@ -125,38 +125,45 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 // insertion point per named struct
 func (arrow *Arrow) GongCopy() GongstructIF {
-	newInstance := *arrow
-	return &newInstance
+	newInstance := new(Arrow)
+	arrow.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (bar *Bar) GongCopy() GongstructIF {
-	newInstance := *bar
-	return &newInstance
+	newInstance := new(Bar)
+	bar.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (gantt *Gantt) GongCopy() GongstructIF {
-	newInstance := *gantt
-	return &newInstance
+	newInstance := new(Gantt)
+	gantt.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (group *Group) GongCopy() GongstructIF {
-	newInstance := *group
-	return &newInstance
+	newInstance := new(Group)
+	group.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (lane *Lane) GongCopy() GongstructIF {
-	newInstance := *lane
-	return &newInstance
+	newInstance := new(Lane)
+	lane.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (laneuse *LaneUse) GongCopy() GongstructIF {
-	newInstance := *laneuse
-	return &newInstance
+	newInstance := new(LaneUse)
+	laneuse.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (milestone *Milestone) GongCopy() GongstructIF {
-	newInstance := *milestone
-	return &newInstance
+	newInstance := new(Milestone)
+	milestone.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (stage *Stage) ComputeForwardAndBackwardCommits() {

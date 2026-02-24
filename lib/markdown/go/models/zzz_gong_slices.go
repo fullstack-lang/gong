@@ -55,23 +55,27 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 // insertion point per named struct
 func (content *Content) GongCopy() GongstructIF {
-	newInstance := *content
-	return &newInstance
+	newInstance := new(Content)
+	content.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (jpgimage *JpgImage) GongCopy() GongstructIF {
-	newInstance := *jpgimage
-	return &newInstance
+	newInstance := new(JpgImage)
+	jpgimage.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (pngimage *PngImage) GongCopy() GongstructIF {
-	newInstance := *pngimage
-	return &newInstance
+	newInstance := new(PngImage)
+	pngimage.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (svgimage *SvgImage) GongCopy() GongstructIF {
-	newInstance := *svgimage
-	return &newInstance
+	newInstance := new(SvgImage)
+	svgimage.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (stage *Stage) ComputeForwardAndBackwardCommits() {

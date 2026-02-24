@@ -146,58 +146,69 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 // insertion point per named struct
 func (gongbasicfield *GongBasicField) GongCopy() GongstructIF {
-	newInstance := *gongbasicfield
-	return &newInstance
+	newInstance := new(GongBasicField)
+	gongbasicfield.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (gongenum *GongEnum) GongCopy() GongstructIF {
-	newInstance := *gongenum
-	return &newInstance
+	newInstance := new(GongEnum)
+	gongenum.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (gongenumvalue *GongEnumValue) GongCopy() GongstructIF {
-	newInstance := *gongenumvalue
-	return &newInstance
+	newInstance := new(GongEnumValue)
+	gongenumvalue.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (gonglink *GongLink) GongCopy() GongstructIF {
-	newInstance := *gonglink
-	return &newInstance
+	newInstance := new(GongLink)
+	gonglink.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (gongnote *GongNote) GongCopy() GongstructIF {
-	newInstance := *gongnote
-	return &newInstance
+	newInstance := new(GongNote)
+	gongnote.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (gongstruct *GongStruct) GongCopy() GongstructIF {
-	newInstance := *gongstruct
-	return &newInstance
+	newInstance := new(GongStruct)
+	gongstruct.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (gongtimefield *GongTimeField) GongCopy() GongstructIF {
-	newInstance := *gongtimefield
-	return &newInstance
+	newInstance := new(GongTimeField)
+	gongtimefield.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (metareference *MetaReference) GongCopy() GongstructIF {
-	newInstance := *metareference
-	return &newInstance
+	newInstance := new(MetaReference)
+	metareference.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (modelpkg *ModelPkg) GongCopy() GongstructIF {
-	newInstance := *modelpkg
-	return &newInstance
+	newInstance := new(ModelPkg)
+	modelpkg.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (pointertogongstructfield *PointerToGongStructField) GongCopy() GongstructIF {
-	newInstance := *pointertogongstructfield
-	return &newInstance
+	newInstance := new(PointerToGongStructField)
+	pointertogongstructfield.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongCopy() GongstructIF {
-	newInstance := *sliceofpointertogongstructfield
-	return &newInstance
+	newInstance := new(SliceOfPointerToGongStructField)
+	sliceofpointertogongstructfield.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (stage *Stage) ComputeForwardAndBackwardCommits() {

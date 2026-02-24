@@ -107,7 +107,8 @@ type Stage struct {
 	// insertion point for definition of arrays registering instances
 	Freqencys                map[*Freqency]struct{}
 	Freqencys_reference      map[*Freqency]*Freqency
-	Freqencys_referenceOrder map[*Freqency]uint // diff Unstage needs the reference order
+	Freqencys_referenceOrder map[*Freqency]uint
+	Freqencys_instance       map[*Freqency]*Freqency
 	Freqencys_mapString      map[string]*Freqency
 
 	// insertion point for slice of pointers maps
@@ -118,7 +119,8 @@ type Stage struct {
 
 	Notes                map[*Note]struct{}
 	Notes_reference      map[*Note]*Note
-	Notes_referenceOrder map[*Note]uint // diff Unstage needs the reference order
+	Notes_referenceOrder map[*Note]uint
+	Notes_instance       map[*Note]*Note
 	Notes_mapString      map[string]*Note
 
 	// insertion point for slice of pointers maps
@@ -131,7 +133,8 @@ type Stage struct {
 
 	Players                map[*Player]struct{}
 	Players_reference      map[*Player]*Player
-	Players_referenceOrder map[*Player]uint // diff Unstage needs the reference order
+	Players_referenceOrder map[*Player]uint
+	Players_instance       map[*Player]*Player
 	Players_mapString      map[string]*Player
 
 	// insertion point for slice of pointers maps
@@ -1429,9 +1432,9 @@ func (player *Player) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Status",
-			GongFieldValueType: GongFieldValueTypeString,
-			TargetGongstructName: "Status",
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
 		},
 	}
 	return

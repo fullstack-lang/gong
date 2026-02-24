@@ -304,6 +304,72 @@ func (stage *Stage) UnstageBranchPage(page *Page) {
 
 }
 
+// insertion point for pointer reconstruction from references
+func (reference *Chapter) GongReconstructPointersFromReferences(stage *Stage, instance *Chapter) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.Pages = reference.Pages[:0]
+	for _, _b := range instance.Pages {
+		reference.Pages = append(reference.Pages, stage.Pages_reference[_b])
+	}
+
+	return
+}
+
+func (reference *Content) GongReconstructPointersFromReferences(stage *Stage, instance *Content) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.Chapters = reference.Chapters[:0]
+	for _, _b := range instance.Chapters {
+		reference.Chapters = append(reference.Chapters, stage.Chapters_reference[_b])
+	}
+
+	return
+}
+
+func (reference *Page) GongReconstructPointersFromReferences(stage *Stage, instance *Page) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+// insertion point for pointer reconstruction from instances
+func (reference *Chapter) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _Pages []*Page
+	for _, _reference := range reference.Pages {
+		if _instance, ok := stage.Pages_instance[_reference]; ok {
+			_Pages = append(_Pages, stage.Pages_reference[_instance])
+		}
+	}
+	reference.Pages = _Pages
+
+	return
+}
+
+func (reference *Content) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _Chapters []*Chapter
+	for _, _reference := range reference.Chapters {
+		if _instance, ok := stage.Chapters_instance[_reference]; ok {
+			_Chapters = append(_Chapters, stage.Chapters_reference[_instance])
+		}
+	}
+	reference.Chapters = _Chapters
+
+	return
+}
+
+func (reference *Page) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings

@@ -295,6 +295,61 @@ func (stage *Stage) UnstageBranchPlayer(player *Player) {
 
 }
 
+// insertion point for pointer reconstruction from references
+func (reference *Freqency) GongReconstructPointersFromReferences(stage *Stage, instance *Freqency) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *Note) GongReconstructPointersFromReferences(stage *Stage, instance *Note) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.Frequencies = reference.Frequencies[:0]
+	for _, _b := range instance.Frequencies {
+		reference.Frequencies = append(reference.Frequencies, stage.Freqencys_reference[_b])
+	}
+
+	return
+}
+
+func (reference *Player) GongReconstructPointersFromReferences(stage *Stage, instance *Player) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+// insertion point for pointer reconstruction from instances
+func (reference *Freqency) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *Note) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _Frequencies []*Freqency
+	for _, _reference := range reference.Frequencies {
+		if _instance, ok := stage.Freqencys_instance[_reference]; ok {
+			_Frequencies = append(_Frequencies, stage.Freqencys_reference[_instance])
+		}
+	}
+	reference.Frequencies = _Frequencies
+
+	return
+}
+
+func (reference *Player) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings

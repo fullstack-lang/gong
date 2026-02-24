@@ -107,7 +107,8 @@ type Stage struct {
 	// insertion point for definition of arrays registering instances
 	Checkboxs                map[*Checkbox]struct{}
 	Checkboxs_reference      map[*Checkbox]*Checkbox
-	Checkboxs_referenceOrder map[*Checkbox]uint // diff Unstage needs the reference order
+	Checkboxs_referenceOrder map[*Checkbox]uint
+	Checkboxs_instance       map[*Checkbox]*Checkbox
 	Checkboxs_mapString      map[string]*Checkbox
 
 	// insertion point for slice of pointers maps
@@ -118,7 +119,8 @@ type Stage struct {
 
 	Groups                map[*Group]struct{}
 	Groups_reference      map[*Group]*Group
-	Groups_referenceOrder map[*Group]uint // diff Unstage needs the reference order
+	Groups_referenceOrder map[*Group]uint
+	Groups_instance       map[*Group]*Group
 	Groups_mapString      map[string]*Group
 
 	// insertion point for slice of pointers maps
@@ -133,7 +135,8 @@ type Stage struct {
 
 	Layouts                map[*Layout]struct{}
 	Layouts_reference      map[*Layout]*Layout
-	Layouts_referenceOrder map[*Layout]uint // diff Unstage needs the reference order
+	Layouts_referenceOrder map[*Layout]uint
+	Layouts_instance       map[*Layout]*Layout
 	Layouts_mapString      map[string]*Layout
 
 	// insertion point for slice of pointers maps
@@ -146,7 +149,8 @@ type Stage struct {
 
 	Sliders                map[*Slider]struct{}
 	Sliders_reference      map[*Slider]*Slider
-	Sliders_referenceOrder map[*Slider]uint // diff Unstage needs the reference order
+	Sliders_referenceOrder map[*Slider]uint
+	Sliders_instance       map[*Slider]*Slider
 	Sliders_mapString      map[string]*Slider
 
 	// insertion point for slice of pointers maps

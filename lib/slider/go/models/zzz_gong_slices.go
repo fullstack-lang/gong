@@ -76,23 +76,27 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 // insertion point per named struct
 func (checkbox *Checkbox) GongCopy() GongstructIF {
-	newInstance := *checkbox
-	return &newInstance
+	newInstance := new(Checkbox)
+	checkbox.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (group *Group) GongCopy() GongstructIF {
-	newInstance := *group
-	return &newInstance
+	newInstance := new(Group)
+	group.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (layout *Layout) GongCopy() GongstructIF {
-	newInstance := *layout
-	return &newInstance
+	newInstance := new(Layout)
+	layout.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (slider *Slider) GongCopy() GongstructIF {
-	newInstance := *slider
-	return &newInstance
+	newInstance := new(Slider)
+	slider.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (stage *Stage) ComputeForwardAndBackwardCommits() {

@@ -62,18 +62,21 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 // insertion point per named struct
 func (chapter *Chapter) GongCopy() GongstructIF {
-	newInstance := *chapter
-	return &newInstance
+	newInstance := new(Chapter)
+	chapter.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (content *Content) GongCopy() GongstructIF {
-	newInstance := *content
-	return &newInstance
+	newInstance := new(Content)
+	content.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (page *Page) GongCopy() GongstructIF {
-	newInstance := *page
-	return &newInstance
+	newInstance := new(Page)
+	page.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (stage *Stage) ComputeForwardAndBackwardCommits() {

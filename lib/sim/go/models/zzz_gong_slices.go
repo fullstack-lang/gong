@@ -69,33 +69,39 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 // insertion point per named struct
 func (command *Command) GongCopy() GongstructIF {
-	newInstance := *command
-	return &newInstance
+	newInstance := new(Command)
+	command.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (dummyagent *DummyAgent) GongCopy() GongstructIF {
-	newInstance := *dummyagent
-	return &newInstance
+	newInstance := new(DummyAgent)
+	dummyagent.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (engine *Engine) GongCopy() GongstructIF {
-	newInstance := *engine
-	return &newInstance
+	newInstance := new(Engine)
+	engine.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (event *Event) GongCopy() GongstructIF {
-	newInstance := *event
-	return &newInstance
+	newInstance := new(Event)
+	event.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (status *Status) GongCopy() GongstructIF {
-	newInstance := *status
-	return &newInstance
+	newInstance := new(Status)
+	status.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (updatestate *UpdateState) GongCopy() GongstructIF {
-	newInstance := *updatestate
-	return &newInstance
+	newInstance := new(UpdateState)
+	updatestate.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (stage *Stage) ComputeForwardAndBackwardCommits() {

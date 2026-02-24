@@ -405,103 +405,123 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 // insertion point per named struct
 func (diagram *Diagram) GongCopy() GongstructIF {
-	newInstance := *diagram
-	return &newInstance
+	newInstance := new(Diagram)
+	diagram.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (note *Note) GongCopy() GongstructIF {
-	newInstance := *note
-	return &newInstance
+	newInstance := new(Note)
+	note.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (noteproductshape *NoteProductShape) GongCopy() GongstructIF {
-	newInstance := *noteproductshape
-	return &newInstance
+	newInstance := new(NoteProductShape)
+	noteproductshape.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (noteresourceshape *NoteResourceShape) GongCopy() GongstructIF {
-	newInstance := *noteresourceshape
-	return &newInstance
+	newInstance := new(NoteResourceShape)
+	noteresourceshape.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (noteshape *NoteShape) GongCopy() GongstructIF {
-	newInstance := *noteshape
-	return &newInstance
+	newInstance := new(NoteShape)
+	noteshape.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (notetaskshape *NoteTaskShape) GongCopy() GongstructIF {
-	newInstance := *notetaskshape
-	return &newInstance
+	newInstance := new(NoteTaskShape)
+	notetaskshape.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (product *Product) GongCopy() GongstructIF {
-	newInstance := *product
-	return &newInstance
+	newInstance := new(Product)
+	product.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (productcompositionshape *ProductCompositionShape) GongCopy() GongstructIF {
-	newInstance := *productcompositionshape
-	return &newInstance
+	newInstance := new(ProductCompositionShape)
+	productcompositionshape.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (productshape *ProductShape) GongCopy() GongstructIF {
-	newInstance := *productshape
-	return &newInstance
+	newInstance := new(ProductShape)
+	productshape.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (project *Project) GongCopy() GongstructIF {
-	newInstance := *project
-	return &newInstance
+	newInstance := new(Project)
+	project.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (resource *Resource) GongCopy() GongstructIF {
-	newInstance := *resource
-	return &newInstance
+	newInstance := new(Resource)
+	resource.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (resourcecompositionshape *ResourceCompositionShape) GongCopy() GongstructIF {
-	newInstance := *resourcecompositionshape
-	return &newInstance
+	newInstance := new(ResourceCompositionShape)
+	resourcecompositionshape.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (resourceshape *ResourceShape) GongCopy() GongstructIF {
-	newInstance := *resourceshape
-	return &newInstance
+	newInstance := new(ResourceShape)
+	resourceshape.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (resourcetaskshape *ResourceTaskShape) GongCopy() GongstructIF {
-	newInstance := *resourcetaskshape
-	return &newInstance
+	newInstance := new(ResourceTaskShape)
+	resourcetaskshape.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (root *Root) GongCopy() GongstructIF {
-	newInstance := *root
-	return &newInstance
+	newInstance := new(Root)
+	root.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (task *Task) GongCopy() GongstructIF {
-	newInstance := *task
-	return &newInstance
+	newInstance := new(Task)
+	task.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (taskcompositionshape *TaskCompositionShape) GongCopy() GongstructIF {
-	newInstance := *taskcompositionshape
-	return &newInstance
+	newInstance := new(TaskCompositionShape)
+	taskcompositionshape.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (taskinputshape *TaskInputShape) GongCopy() GongstructIF {
-	newInstance := *taskinputshape
-	return &newInstance
+	newInstance := new(TaskInputShape)
+	taskinputshape.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (taskoutputshape *TaskOutputShape) GongCopy() GongstructIF {
-	newInstance := *taskoutputshape
-	return &newInstance
+	newInstance := new(TaskOutputShape)
+	taskoutputshape.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (taskshape *TaskShape) GongCopy() GongstructIF {
-	newInstance := *taskshape
-	return &newInstance
+	newInstance := new(TaskShape)
+	taskshape.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (stage *Stage) ComputeForwardAndBackwardCommits() {

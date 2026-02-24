@@ -90,28 +90,33 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 // insertion point per named struct
 func (button *Button) GongCopy() GongstructIF {
-	newInstance := *button
-	return &newInstance
+	newInstance := new(Button)
+	button.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (buttontoggle *ButtonToggle) GongCopy() GongstructIF {
-	newInstance := *buttontoggle
-	return &newInstance
+	newInstance := new(ButtonToggle)
+	buttontoggle.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (group *Group) GongCopy() GongstructIF {
-	newInstance := *group
-	return &newInstance
+	newInstance := new(Group)
+	group.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (grouptoogle *GroupToogle) GongCopy() GongstructIF {
-	newInstance := *grouptoogle
-	return &newInstance
+	newInstance := new(GroupToogle)
+	grouptoogle.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (layout *Layout) GongCopy() GongstructIF {
-	newInstance := *layout
-	return &newInstance
+	newInstance := new(Layout)
+	layout.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (stage *Stage) ComputeForwardAndBackwardCommits() {

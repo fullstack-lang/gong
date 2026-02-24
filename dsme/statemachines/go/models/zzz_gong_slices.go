@@ -230,78 +230,93 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 // insertion point per named struct
 func (action *Action) GongCopy() GongstructIF {
-	newInstance := *action
-	return &newInstance
+	newInstance := new(Action)
+	action.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (activities *Activities) GongCopy() GongstructIF {
-	newInstance := *activities
-	return &newInstance
+	newInstance := new(Activities)
+	activities.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (architecture *Architecture) GongCopy() GongstructIF {
-	newInstance := *architecture
-	return &newInstance
+	newInstance := new(Architecture)
+	architecture.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (diagram *Diagram) GongCopy() GongstructIF {
-	newInstance := *diagram
-	return &newInstance
+	newInstance := new(Diagram)
+	diagram.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (guard *Guard) GongCopy() GongstructIF {
-	newInstance := *guard
-	return &newInstance
+	newInstance := new(Guard)
+	guard.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (kill *Kill) GongCopy() GongstructIF {
-	newInstance := *kill
-	return &newInstance
+	newInstance := new(Kill)
+	kill.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (message *Message) GongCopy() GongstructIF {
-	newInstance := *message
-	return &newInstance
+	newInstance := new(Message)
+	message.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (messagetype *MessageType) GongCopy() GongstructIF {
-	newInstance := *messagetype
-	return &newInstance
+	newInstance := new(MessageType)
+	messagetype.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (object *Object) GongCopy() GongstructIF {
-	newInstance := *object
-	return &newInstance
+	newInstance := new(Object)
+	object.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (role *Role) GongCopy() GongstructIF {
-	newInstance := *role
-	return &newInstance
+	newInstance := new(Role)
+	role.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (state *State) GongCopy() GongstructIF {
-	newInstance := *state
-	return &newInstance
+	newInstance := new(State)
+	state.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (statemachine *StateMachine) GongCopy() GongstructIF {
-	newInstance := *statemachine
-	return &newInstance
+	newInstance := new(StateMachine)
+	statemachine.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (stateshape *StateShape) GongCopy() GongstructIF {
-	newInstance := *stateshape
-	return &newInstance
+	newInstance := new(StateShape)
+	stateshape.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (transition *Transition) GongCopy() GongstructIF {
-	newInstance := *transition
-	return &newInstance
+	newInstance := new(Transition)
+	transition.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (transition_shape *Transition_Shape) GongCopy() GongstructIF {
-	newInstance := *transition_shape
-	return &newInstance
+	newInstance := new(Transition_Shape)
+	transition_shape.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (stage *Stage) ComputeForwardAndBackwardCommits() {
