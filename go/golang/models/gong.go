@@ -223,7 +223,8 @@ func ({{structname}} *{{Structname}}) SetName(name string) {
 	ModelGongStructInsertionArrayDefintion: `
 	{{Structname}}s                map[*{{Structname}}]struct{}
 	{{Structname}}s_reference      map[*{{Structname}}]*{{Structname}}
-	{{Structname}}s_referenceOrder map[*{{Structname}}]uint // diff Unstage needs the reference order
+	{{Structname}}s_referenceOrder map[*{{Structname}}]uint
+	{{Structname}}s_instance       map[*{{Structname}}]*{{Structname}}
 	{{Structname}}s_mapString      map[string]*{{Structname}}
 
 	// insertion point for slice of pointers maps{{SliceOfPointersReverseMaps}}
@@ -480,9 +481,9 @@ map[GongFilePerStructSubTemplateId]string{
 		},`,
 	GongFileFieldSubTmplStringHeaderFieldEnumString: `
 		{
-			Name:               "{{FieldName}}",
-			GongFieldValueType: GongFieldValueTypeString,
-			TargetGongstructName: "{{AssocStructName}}",
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
 		},`,
 	GongFileFieldSubTmplStringHeaderBasicKindField: `
 		{
