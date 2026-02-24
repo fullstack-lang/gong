@@ -114,6 +114,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.ContentMap_Staged_Order[ref] = stage.ContentMap_Staged_Order[content]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := content.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, content)
 			delete(stage.ContentMap_Staged_Order, ref)
@@ -133,9 +134,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.Contents_reference {
+	for _, ref := range stage.Contents_reference {
 		if _, ok := stage.Contents[ref]; !ok {
 			contents_deletedInstances = append(contents_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -163,6 +165,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.JpgImageMap_Staged_Order[ref] = stage.JpgImageMap_Staged_Order[jpgimage]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := jpgimage.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, jpgimage)
 			delete(stage.JpgImageMap_Staged_Order, ref)
@@ -182,9 +185,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.JpgImages_reference {
+	for _, ref := range stage.JpgImages_reference {
 		if _, ok := stage.JpgImages[ref]; !ok {
 			jpgimages_deletedInstances = append(jpgimages_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -212,6 +216,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.PngImageMap_Staged_Order[ref] = stage.PngImageMap_Staged_Order[pngimage]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := pngimage.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, pngimage)
 			delete(stage.PngImageMap_Staged_Order, ref)
@@ -231,9 +236,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.PngImages_reference {
+	for _, ref := range stage.PngImages_reference {
 		if _, ok := stage.PngImages[ref]; !ok {
 			pngimages_deletedInstances = append(pngimages_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -261,6 +267,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.SvgImageMap_Staged_Order[ref] = stage.SvgImageMap_Staged_Order[svgimage]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := svgimage.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, svgimage)
 			delete(stage.SvgImageMap_Staged_Order, ref)
@@ -280,9 +287,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.SvgImages_reference {
+	for _, ref := range stage.SvgImages_reference {
 		if _, ok := stage.SvgImages[ref]; !ok {
 			svgimages_deletedInstances = append(svgimages_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -326,30 +334,63 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 	// insertion point per named struct
 	stage.Contents_reference = make(map[*Content]*Content)
 	stage.Contents_referenceOrder = make(map[*Content]uint) // diff Unstage needs the reference order
+	stage.Contents_instance = make(map[*Content]*Content)
 	for instance := range stage.Contents {
-		stage.Contents_reference[instance] = instance.GongCopy().(*Content)
+		_copy := instance.GongCopy().(*Content)
+		stage.Contents_reference[instance] = _copy
+		stage.Contents_instance[_copy] = instance
 		stage.Contents_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.JpgImages_reference = make(map[*JpgImage]*JpgImage)
 	stage.JpgImages_referenceOrder = make(map[*JpgImage]uint) // diff Unstage needs the reference order
+	stage.JpgImages_instance = make(map[*JpgImage]*JpgImage)
 	for instance := range stage.JpgImages {
-		stage.JpgImages_reference[instance] = instance.GongCopy().(*JpgImage)
+		_copy := instance.GongCopy().(*JpgImage)
+		stage.JpgImages_reference[instance] = _copy
+		stage.JpgImages_instance[_copy] = instance
 		stage.JpgImages_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.PngImages_reference = make(map[*PngImage]*PngImage)
 	stage.PngImages_referenceOrder = make(map[*PngImage]uint) // diff Unstage needs the reference order
+	stage.PngImages_instance = make(map[*PngImage]*PngImage)
 	for instance := range stage.PngImages {
-		stage.PngImages_reference[instance] = instance.GongCopy().(*PngImage)
+		_copy := instance.GongCopy().(*PngImage)
+		stage.PngImages_reference[instance] = _copy
+		stage.PngImages_instance[_copy] = instance
 		stage.PngImages_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.SvgImages_reference = make(map[*SvgImage]*SvgImage)
 	stage.SvgImages_referenceOrder = make(map[*SvgImage]uint) // diff Unstage needs the reference order
+	stage.SvgImages_instance = make(map[*SvgImage]*SvgImage)
 	for instance := range stage.SvgImages {
-		stage.SvgImages_reference[instance] = instance.GongCopy().(*SvgImage)
+		_copy := instance.GongCopy().(*SvgImage)
+		stage.SvgImages_reference[instance] = _copy
+		stage.SvgImages_instance[_copy] = instance
 		stage.SvgImages_referenceOrder[instance] = instance.GongGetOrder(stage)
+	}
+
+	// insertion point per named struct
+	for instance := range stage.Contents {
+		reference := stage.Contents_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.JpgImages {
+		reference := stage.JpgImages_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.PngImages {
+		reference := stage.PngImages_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.SvgImages {
+		reference := stage.SvgImages_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
 	stage.recomputeOrders()

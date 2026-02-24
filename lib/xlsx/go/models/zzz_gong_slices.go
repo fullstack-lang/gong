@@ -155,6 +155,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.DisplaySelectionMap_Staged_Order[ref] = stage.DisplaySelectionMap_Staged_Order[displayselection]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := displayselection.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, displayselection)
 			delete(stage.DisplaySelectionMap_Staged_Order, ref)
@@ -174,9 +175,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.DisplaySelections_reference {
+	for _, ref := range stage.DisplaySelections_reference {
 		if _, ok := stage.DisplaySelections[ref]; !ok {
 			displayselections_deletedInstances = append(displayselections_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -204,6 +206,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.XLCellMap_Staged_Order[ref] = stage.XLCellMap_Staged_Order[xlcell]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := xlcell.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, xlcell)
 			delete(stage.XLCellMap_Staged_Order, ref)
@@ -223,9 +226,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.XLCells_reference {
+	for _, ref := range stage.XLCells_reference {
 		if _, ok := stage.XLCells[ref]; !ok {
 			xlcells_deletedInstances = append(xlcells_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -253,6 +257,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.XLFileMap_Staged_Order[ref] = stage.XLFileMap_Staged_Order[xlfile]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := xlfile.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, xlfile)
 			delete(stage.XLFileMap_Staged_Order, ref)
@@ -272,9 +277,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.XLFiles_reference {
+	for _, ref := range stage.XLFiles_reference {
 		if _, ok := stage.XLFiles[ref]; !ok {
 			xlfiles_deletedInstances = append(xlfiles_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -302,6 +308,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.XLRowMap_Staged_Order[ref] = stage.XLRowMap_Staged_Order[xlrow]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := xlrow.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, xlrow)
 			delete(stage.XLRowMap_Staged_Order, ref)
@@ -321,9 +328,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.XLRows_reference {
+	for _, ref := range stage.XLRows_reference {
 		if _, ok := stage.XLRows[ref]; !ok {
 			xlrows_deletedInstances = append(xlrows_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -351,6 +359,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.XLSheetMap_Staged_Order[ref] = stage.XLSheetMap_Staged_Order[xlsheet]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := xlsheet.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, xlsheet)
 			delete(stage.XLSheetMap_Staged_Order, ref)
@@ -370,9 +379,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.XLSheets_reference {
+	for _, ref := range stage.XLSheets_reference {
 		if _, ok := stage.XLSheets[ref]; !ok {
 			xlsheets_deletedInstances = append(xlsheets_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -416,37 +426,78 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 	// insertion point per named struct
 	stage.DisplaySelections_reference = make(map[*DisplaySelection]*DisplaySelection)
 	stage.DisplaySelections_referenceOrder = make(map[*DisplaySelection]uint) // diff Unstage needs the reference order
+	stage.DisplaySelections_instance = make(map[*DisplaySelection]*DisplaySelection)
 	for instance := range stage.DisplaySelections {
-		stage.DisplaySelections_reference[instance] = instance.GongCopy().(*DisplaySelection)
+		_copy := instance.GongCopy().(*DisplaySelection)
+		stage.DisplaySelections_reference[instance] = _copy
+		stage.DisplaySelections_instance[_copy] = instance
 		stage.DisplaySelections_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.XLCells_reference = make(map[*XLCell]*XLCell)
 	stage.XLCells_referenceOrder = make(map[*XLCell]uint) // diff Unstage needs the reference order
+	stage.XLCells_instance = make(map[*XLCell]*XLCell)
 	for instance := range stage.XLCells {
-		stage.XLCells_reference[instance] = instance.GongCopy().(*XLCell)
+		_copy := instance.GongCopy().(*XLCell)
+		stage.XLCells_reference[instance] = _copy
+		stage.XLCells_instance[_copy] = instance
 		stage.XLCells_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.XLFiles_reference = make(map[*XLFile]*XLFile)
 	stage.XLFiles_referenceOrder = make(map[*XLFile]uint) // diff Unstage needs the reference order
+	stage.XLFiles_instance = make(map[*XLFile]*XLFile)
 	for instance := range stage.XLFiles {
-		stage.XLFiles_reference[instance] = instance.GongCopy().(*XLFile)
+		_copy := instance.GongCopy().(*XLFile)
+		stage.XLFiles_reference[instance] = _copy
+		stage.XLFiles_instance[_copy] = instance
 		stage.XLFiles_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.XLRows_reference = make(map[*XLRow]*XLRow)
 	stage.XLRows_referenceOrder = make(map[*XLRow]uint) // diff Unstage needs the reference order
+	stage.XLRows_instance = make(map[*XLRow]*XLRow)
 	for instance := range stage.XLRows {
-		stage.XLRows_reference[instance] = instance.GongCopy().(*XLRow)
+		_copy := instance.GongCopy().(*XLRow)
+		stage.XLRows_reference[instance] = _copy
+		stage.XLRows_instance[_copy] = instance
 		stage.XLRows_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.XLSheets_reference = make(map[*XLSheet]*XLSheet)
 	stage.XLSheets_referenceOrder = make(map[*XLSheet]uint) // diff Unstage needs the reference order
+	stage.XLSheets_instance = make(map[*XLSheet]*XLSheet)
 	for instance := range stage.XLSheets {
-		stage.XLSheets_reference[instance] = instance.GongCopy().(*XLSheet)
+		_copy := instance.GongCopy().(*XLSheet)
+		stage.XLSheets_reference[instance] = _copy
+		stage.XLSheets_instance[_copy] = instance
 		stage.XLSheets_referenceOrder[instance] = instance.GongGetOrder(stage)
+	}
+
+	// insertion point per named struct
+	for instance := range stage.DisplaySelections {
+		reference := stage.DisplaySelections_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.XLCells {
+		reference := stage.XLCells_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.XLFiles {
+		reference := stage.XLFiles_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.XLRows {
+		reference := stage.XLRows_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.XLSheets {
+		reference := stage.XLSheets_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
 	stage.recomputeOrders()
