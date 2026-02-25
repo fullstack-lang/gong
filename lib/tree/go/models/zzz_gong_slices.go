@@ -156,7 +156,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.Buttons_reference {
-		if _, ok := stage.Buttons[ref]; !ok {
+		instance := stage.Buttons_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.Buttons[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			buttons_deletedInstances = append(buttons_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -207,7 +208,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.Nodes_reference {
-		if _, ok := stage.Nodes[ref]; !ok {
+		instance := stage.Nodes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.Nodes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			nodes_deletedInstances = append(nodes_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -258,7 +260,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.SVGIcons_reference {
-		if _, ok := stage.SVGIcons[ref]; !ok {
+		instance := stage.SVGIcons_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.SVGIcons[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			svgicons_deletedInstances = append(svgicons_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -309,7 +312,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.Trees_reference {
-		if _, ok := stage.Trees[ref]; !ok {
+		instance := stage.Trees_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.Trees[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			trees_deletedInstances = append(trees_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
