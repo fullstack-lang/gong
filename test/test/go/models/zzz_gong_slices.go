@@ -594,7 +594,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Astruct)
 		stage.Astructs_reference[instance] = _copy
 		stage.Astructs_instance[_copy] = instance
-		stage.Astructs_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Astructs_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.AstructBstruct2Uses_reference = make(map[*AstructBstruct2Use]*AstructBstruct2Use)
@@ -604,7 +604,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*AstructBstruct2Use)
 		stage.AstructBstruct2Uses_reference[instance] = _copy
 		stage.AstructBstruct2Uses_instance[_copy] = instance
-		stage.AstructBstruct2Uses_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.AstructBstruct2Uses_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.AstructBstructUses_reference = make(map[*AstructBstructUse]*AstructBstructUse)
@@ -614,7 +614,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*AstructBstructUse)
 		stage.AstructBstructUses_reference[instance] = _copy
 		stage.AstructBstructUses_instance[_copy] = instance
-		stage.AstructBstructUses_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.AstructBstructUses_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Bstructs_reference = make(map[*Bstruct]*Bstruct)
@@ -624,7 +624,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Bstruct)
 		stage.Bstructs_reference[instance] = _copy
 		stage.Bstructs_instance[_copy] = instance
-		stage.Bstructs_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Bstructs_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Dstructs_reference = make(map[*Dstruct]*Dstruct)
@@ -634,7 +634,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Dstruct)
 		stage.Dstructs_reference[instance] = _copy
 		stage.Dstructs_instance[_copy] = instance
-		stage.Dstructs_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Dstructs_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.F0123456789012345678901234567890s_reference = make(map[*F0123456789012345678901234567890]*F0123456789012345678901234567890)
@@ -644,7 +644,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*F0123456789012345678901234567890)
 		stage.F0123456789012345678901234567890s_reference[instance] = _copy
 		stage.F0123456789012345678901234567890s_instance[_copy] = instance
-		stage.F0123456789012345678901234567890s_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.F0123456789012345678901234567890s_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Gstructs_reference = make(map[*Gstruct]*Gstruct)
@@ -654,7 +654,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Gstruct)
 		stage.Gstructs_reference[instance] = _copy
 		stage.Gstructs_instance[_copy] = instance
-		stage.Gstructs_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Gstructs_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	// insertion point per named struct

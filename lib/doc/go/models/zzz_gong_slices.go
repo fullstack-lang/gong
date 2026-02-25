@@ -724,7 +724,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*AttributeShape)
 		stage.AttributeShapes_reference[instance] = _copy
 		stage.AttributeShapes_instance[_copy] = instance
-		stage.AttributeShapes_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.AttributeShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Classdiagrams_reference = make(map[*Classdiagram]*Classdiagram)
@@ -734,7 +734,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Classdiagram)
 		stage.Classdiagrams_reference[instance] = _copy
 		stage.Classdiagrams_instance[_copy] = instance
-		stage.Classdiagrams_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Classdiagrams_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.DiagramPackages_reference = make(map[*DiagramPackage]*DiagramPackage)
@@ -744,7 +744,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*DiagramPackage)
 		stage.DiagramPackages_reference[instance] = _copy
 		stage.DiagramPackages_instance[_copy] = instance
-		stage.DiagramPackages_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.DiagramPackages_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.GongEnumShapes_reference = make(map[*GongEnumShape]*GongEnumShape)
@@ -754,7 +754,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*GongEnumShape)
 		stage.GongEnumShapes_reference[instance] = _copy
 		stage.GongEnumShapes_instance[_copy] = instance
-		stage.GongEnumShapes_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.GongEnumShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.GongEnumValueShapes_reference = make(map[*GongEnumValueShape]*GongEnumValueShape)
@@ -764,7 +764,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*GongEnumValueShape)
 		stage.GongEnumValueShapes_reference[instance] = _copy
 		stage.GongEnumValueShapes_instance[_copy] = instance
-		stage.GongEnumValueShapes_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.GongEnumValueShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.GongNoteLinkShapes_reference = make(map[*GongNoteLinkShape]*GongNoteLinkShape)
@@ -774,7 +774,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*GongNoteLinkShape)
 		stage.GongNoteLinkShapes_reference[instance] = _copy
 		stage.GongNoteLinkShapes_instance[_copy] = instance
-		stage.GongNoteLinkShapes_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.GongNoteLinkShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.GongNoteShapes_reference = make(map[*GongNoteShape]*GongNoteShape)
@@ -784,7 +784,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*GongNoteShape)
 		stage.GongNoteShapes_reference[instance] = _copy
 		stage.GongNoteShapes_instance[_copy] = instance
-		stage.GongNoteShapes_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.GongNoteShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.GongStructShapes_reference = make(map[*GongStructShape]*GongStructShape)
@@ -794,7 +794,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*GongStructShape)
 		stage.GongStructShapes_reference[instance] = _copy
 		stage.GongStructShapes_instance[_copy] = instance
-		stage.GongStructShapes_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.GongStructShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.LinkShapes_reference = make(map[*LinkShape]*LinkShape)
@@ -804,7 +804,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*LinkShape)
 		stage.LinkShapes_reference[instance] = _copy
 		stage.LinkShapes_instance[_copy] = instance
-		stage.LinkShapes_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.LinkShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	// insertion point per named struct

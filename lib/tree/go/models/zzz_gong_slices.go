@@ -364,7 +364,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Button)
 		stage.Buttons_reference[instance] = _copy
 		stage.Buttons_instance[_copy] = instance
-		stage.Buttons_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Buttons_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Nodes_reference = make(map[*Node]*Node)
@@ -374,7 +374,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Node)
 		stage.Nodes_reference[instance] = _copy
 		stage.Nodes_instance[_copy] = instance
-		stage.Nodes_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Nodes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.SVGIcons_reference = make(map[*SVGIcon]*SVGIcon)
@@ -384,7 +384,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*SVGIcon)
 		stage.SVGIcons_reference[instance] = _copy
 		stage.SVGIcons_instance[_copy] = instance
-		stage.SVGIcons_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.SVGIcons_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Trees_reference = make(map[*Tree]*Tree)
@@ -394,7 +394,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Tree)
 		stage.Trees_reference[instance] = _copy
 		stage.Trees_instance[_copy] = instance
-		stage.Trees_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Trees_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	// insertion point per named struct

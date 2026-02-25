@@ -840,7 +840,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*GongBasicField)
 		stage.GongBasicFields_reference[instance] = _copy
 		stage.GongBasicFields_instance[_copy] = instance
-		stage.GongBasicFields_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.GongBasicFields_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.GongEnums_reference = make(map[*GongEnum]*GongEnum)
@@ -850,7 +850,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*GongEnum)
 		stage.GongEnums_reference[instance] = _copy
 		stage.GongEnums_instance[_copy] = instance
-		stage.GongEnums_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.GongEnums_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.GongEnumValues_reference = make(map[*GongEnumValue]*GongEnumValue)
@@ -860,7 +860,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*GongEnumValue)
 		stage.GongEnumValues_reference[instance] = _copy
 		stage.GongEnumValues_instance[_copy] = instance
-		stage.GongEnumValues_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.GongEnumValues_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.GongLinks_reference = make(map[*GongLink]*GongLink)
@@ -870,7 +870,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*GongLink)
 		stage.GongLinks_reference[instance] = _copy
 		stage.GongLinks_instance[_copy] = instance
-		stage.GongLinks_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.GongLinks_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.GongNotes_reference = make(map[*GongNote]*GongNote)
@@ -880,7 +880,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*GongNote)
 		stage.GongNotes_reference[instance] = _copy
 		stage.GongNotes_instance[_copy] = instance
-		stage.GongNotes_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.GongNotes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.GongStructs_reference = make(map[*GongStruct]*GongStruct)
@@ -890,7 +890,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*GongStruct)
 		stage.GongStructs_reference[instance] = _copy
 		stage.GongStructs_instance[_copy] = instance
-		stage.GongStructs_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.GongStructs_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.GongTimeFields_reference = make(map[*GongTimeField]*GongTimeField)
@@ -900,7 +900,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*GongTimeField)
 		stage.GongTimeFields_reference[instance] = _copy
 		stage.GongTimeFields_instance[_copy] = instance
-		stage.GongTimeFields_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.GongTimeFields_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.MetaReferences_reference = make(map[*MetaReference]*MetaReference)
@@ -910,7 +910,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*MetaReference)
 		stage.MetaReferences_reference[instance] = _copy
 		stage.MetaReferences_instance[_copy] = instance
-		stage.MetaReferences_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.MetaReferences_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.ModelPkgs_reference = make(map[*ModelPkg]*ModelPkg)
@@ -920,7 +920,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*ModelPkg)
 		stage.ModelPkgs_reference[instance] = _copy
 		stage.ModelPkgs_instance[_copy] = instance
-		stage.ModelPkgs_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.ModelPkgs_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.PointerToGongStructFields_reference = make(map[*PointerToGongStructField]*PointerToGongStructField)
@@ -930,7 +930,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*PointerToGongStructField)
 		stage.PointerToGongStructFields_reference[instance] = _copy
 		stage.PointerToGongStructFields_instance[_copy] = instance
-		stage.PointerToGongStructFields_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.PointerToGongStructFields_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.SliceOfPointerToGongStructFields_reference = make(map[*SliceOfPointerToGongStructField]*SliceOfPointerToGongStructField)
@@ -940,7 +940,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*SliceOfPointerToGongStructField)
 		stage.SliceOfPointerToGongStructFields_reference[instance] = _copy
 		stage.SliceOfPointerToGongStructFields_instance[_copy] = instance
-		stage.SliceOfPointerToGongStructFields_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.SliceOfPointerToGongStructFields_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	// insertion point per named struct

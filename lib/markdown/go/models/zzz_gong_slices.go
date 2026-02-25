@@ -343,7 +343,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Content)
 		stage.Contents_reference[instance] = _copy
 		stage.Contents_instance[_copy] = instance
-		stage.Contents_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Contents_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.JpgImages_reference = make(map[*JpgImage]*JpgImage)
@@ -353,7 +353,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*JpgImage)
 		stage.JpgImages_reference[instance] = _copy
 		stage.JpgImages_instance[_copy] = instance
-		stage.JpgImages_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.JpgImages_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.PngImages_reference = make(map[*PngImage]*PngImage)
@@ -363,7 +363,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*PngImage)
 		stage.PngImages_reference[instance] = _copy
 		stage.PngImages_instance[_copy] = instance
-		stage.PngImages_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.PngImages_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.SvgImages_reference = make(map[*SvgImage]*SvgImage)
@@ -373,7 +373,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*SvgImage)
 		stage.SvgImages_reference[instance] = _copy
 		stage.SvgImages_instance[_copy] = instance
-		stage.SvgImages_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.SvgImages_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	// insertion point per named struct

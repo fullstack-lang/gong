@@ -587,7 +587,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Arrow)
 		stage.Arrows_reference[instance] = _copy
 		stage.Arrows_instance[_copy] = instance
-		stage.Arrows_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Arrows_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Bars_reference = make(map[*Bar]*Bar)
@@ -597,7 +597,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Bar)
 		stage.Bars_reference[instance] = _copy
 		stage.Bars_instance[_copy] = instance
-		stage.Bars_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Bars_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Gantts_reference = make(map[*Gantt]*Gantt)
@@ -607,7 +607,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Gantt)
 		stage.Gantts_reference[instance] = _copy
 		stage.Gantts_instance[_copy] = instance
-		stage.Gantts_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Gantts_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Groups_reference = make(map[*Group]*Group)
@@ -617,7 +617,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Group)
 		stage.Groups_reference[instance] = _copy
 		stage.Groups_instance[_copy] = instance
-		stage.Groups_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Groups_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Lanes_reference = make(map[*Lane]*Lane)
@@ -627,7 +627,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Lane)
 		stage.Lanes_reference[instance] = _copy
 		stage.Lanes_instance[_copy] = instance
-		stage.Lanes_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Lanes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.LaneUses_reference = make(map[*LaneUse]*LaneUse)
@@ -637,7 +637,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*LaneUse)
 		stage.LaneUses_reference[instance] = _copy
 		stage.LaneUses_instance[_copy] = instance
-		stage.LaneUses_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.LaneUses_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Milestones_reference = make(map[*Milestone]*Milestone)
@@ -647,7 +647,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Milestone)
 		stage.Milestones_reference[instance] = _copy
 		stage.Milestones_instance[_copy] = instance
-		stage.Milestones_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Milestones_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	// insertion point per named struct

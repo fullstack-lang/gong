@@ -364,7 +364,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Checkbox)
 		stage.Checkboxs_reference[instance] = _copy
 		stage.Checkboxs_instance[_copy] = instance
-		stage.Checkboxs_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Checkboxs_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Groups_reference = make(map[*Group]*Group)
@@ -374,7 +374,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Group)
 		stage.Groups_reference[instance] = _copy
 		stage.Groups_instance[_copy] = instance
-		stage.Groups_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Groups_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Layouts_reference = make(map[*Layout]*Layout)
@@ -384,7 +384,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Layout)
 		stage.Layouts_reference[instance] = _copy
 		stage.Layouts_instance[_copy] = instance
-		stage.Layouts_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Layouts_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Sliders_reference = make(map[*Slider]*Slider)
@@ -394,7 +394,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Slider)
 		stage.Sliders_reference[instance] = _copy
 		stage.Sliders_instance[_copy] = instance
-		stage.Sliders_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Sliders_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	// insertion point per named struct

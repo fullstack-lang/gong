@@ -220,7 +220,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*A)
 		stage.As_reference[instance] = _copy
 		stage.As_instance[_copy] = instance
-		stage.As_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.As_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Bs_reference = make(map[*B]*B)
@@ -230,7 +230,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*B)
 		stage.Bs_reference[instance] = _copy
 		stage.Bs_instance[_copy] = instance
-		stage.Bs_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Bs_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	// insertion point per named struct

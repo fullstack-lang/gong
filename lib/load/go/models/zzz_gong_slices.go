@@ -278,7 +278,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*FileToDownload)
 		stage.FileToDownloads_reference[instance] = _copy
 		stage.FileToDownloads_instance[_copy] = instance
-		stage.FileToDownloads_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.FileToDownloads_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.FileToUploads_reference = make(map[*FileToUpload]*FileToUpload)
@@ -288,7 +288,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*FileToUpload)
 		stage.FileToUploads_reference[instance] = _copy
 		stage.FileToUploads_instance[_copy] = instance
-		stage.FileToUploads_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.FileToUploads_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Messages_reference = make(map[*Message]*Message)
@@ -298,7 +298,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Message)
 		stage.Messages_reference[instance] = _copy
 		stage.Messages_instance[_copy] = instance
-		stage.Messages_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Messages_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	// insertion point per named struct
