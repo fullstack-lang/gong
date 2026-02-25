@@ -139,7 +139,6 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 		instance := stage.Chapters_instance[ref]    // get the instance corresponding to the reference
 		if _, ok := stage.Chapters[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			chapters_deletedInstances = append(chapters_deletedInstances, ref)
-			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -191,7 +190,6 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 		instance := stage.Contents_instance[ref]    // get the instance corresponding to the reference
 		if _, ok := stage.Contents[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			contents_deletedInstances = append(contents_deletedInstances, ref)
-			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -243,7 +241,6 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 		instance := stage.Pages_instance[ref]    // get the instance corresponding to the reference
 		if _, ok := stage.Pages[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			pages_deletedInstances = append(pages_deletedInstances, ref)
-			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)

@@ -99,7 +99,6 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 		instance := stage.Cursors_instance[ref]    // get the instance corresponding to the reference
 		if _, ok := stage.Cursors[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			cursors_deletedInstances = append(cursors_deletedInstances, ref)
-			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
