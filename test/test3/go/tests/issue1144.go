@@ -22,13 +22,18 @@ var _ map[string]any = map[string]any{
 func _(stage *models.Stage) {
 
 	__A__00000000_ := (&models.A{Name: `A0`}).Stage(stage)
+	__A__00000001_ := (&models.A{Name: `A1`}).Stage(stage)
 	__B__00000000_ := (&models.B{Name: `B0`}).Stage(stage)
 
 	__A__00000000_.Name = `A0`
+	__A__00000001_.Name = `A1`
 	__B__00000000_.Name = `B0`
 
 	__A__00000000_.B = __B__00000000_
 	__A__00000000_.Bs = append(__A__00000000_.Bs, __B__00000000_)
+
+	__A__00000001_.B = __B__00000000_
+	__A__00000001_.Bs = append(__A__00000001_.Bs, __B__00000000_)
 
 	stage.Commit()
 

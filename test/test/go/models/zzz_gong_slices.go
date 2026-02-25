@@ -230,7 +230,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.Astructs_reference {
-		if _, ok := stage.Astructs[ref]; !ok {
+		instance := stage.Astructs_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.Astructs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			astructs_deletedInstances = append(astructs_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -281,7 +282,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.AstructBstruct2Uses_reference {
-		if _, ok := stage.AstructBstruct2Uses[ref]; !ok {
+		instance := stage.AstructBstruct2Uses_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.AstructBstruct2Uses[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			astructbstruct2uses_deletedInstances = append(astructbstruct2uses_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -332,7 +334,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.AstructBstructUses_reference {
-		if _, ok := stage.AstructBstructUses[ref]; !ok {
+		instance := stage.AstructBstructUses_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.AstructBstructUses[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			astructbstructuses_deletedInstances = append(astructbstructuses_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -383,7 +386,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.Bstructs_reference {
-		if _, ok := stage.Bstructs[ref]; !ok {
+		instance := stage.Bstructs_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.Bstructs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			bstructs_deletedInstances = append(bstructs_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -434,7 +438,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.Dstructs_reference {
-		if _, ok := stage.Dstructs[ref]; !ok {
+		instance := stage.Dstructs_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.Dstructs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			dstructs_deletedInstances = append(dstructs_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -485,7 +490,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.F0123456789012345678901234567890s_reference {
-		if _, ok := stage.F0123456789012345678901234567890s[ref]; !ok {
+		instance := stage.F0123456789012345678901234567890s_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.F0123456789012345678901234567890s[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			f0123456789012345678901234567890s_deletedInstances = append(f0123456789012345678901234567890s_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -536,7 +542,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.Gstructs_reference {
-		if _, ok := stage.Gstructs[ref]; !ok {
+		instance := stage.Gstructs_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.Gstructs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			gstructs_deletedInstances = append(gstructs_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))

@@ -431,7 +431,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.Cells_reference {
-		if _, ok := stage.Cells[ref]; !ok {
+		instance := stage.Cells_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.Cells[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			cells_deletedInstances = append(cells_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -482,7 +483,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.CellBooleans_reference {
-		if _, ok := stage.CellBooleans[ref]; !ok {
+		instance := stage.CellBooleans_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.CellBooleans[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			cellbooleans_deletedInstances = append(cellbooleans_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -533,7 +535,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.CellFloat64s_reference {
-		if _, ok := stage.CellFloat64s[ref]; !ok {
+		instance := stage.CellFloat64s_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.CellFloat64s[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			cellfloat64s_deletedInstances = append(cellfloat64s_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -584,7 +587,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.CellIcons_reference {
-		if _, ok := stage.CellIcons[ref]; !ok {
+		instance := stage.CellIcons_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.CellIcons[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			cellicons_deletedInstances = append(cellicons_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -635,7 +639,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.CellInts_reference {
-		if _, ok := stage.CellInts[ref]; !ok {
+		instance := stage.CellInts_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.CellInts[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			cellints_deletedInstances = append(cellints_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -686,7 +691,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.CellStrings_reference {
-		if _, ok := stage.CellStrings[ref]; !ok {
+		instance := stage.CellStrings_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.CellStrings[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			cellstrings_deletedInstances = append(cellstrings_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -737,7 +743,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.CheckBoxs_reference {
-		if _, ok := stage.CheckBoxs[ref]; !ok {
+		instance := stage.CheckBoxs_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.CheckBoxs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			checkboxs_deletedInstances = append(checkboxs_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -788,7 +795,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.DisplayedColumns_reference {
-		if _, ok := stage.DisplayedColumns[ref]; !ok {
+		instance := stage.DisplayedColumns_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.DisplayedColumns[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			displayedcolumns_deletedInstances = append(displayedcolumns_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -839,7 +847,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.FormDivs_reference {
-		if _, ok := stage.FormDivs[ref]; !ok {
+		instance := stage.FormDivs_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.FormDivs[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			formdivs_deletedInstances = append(formdivs_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -890,7 +899,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.FormEditAssocButtons_reference {
-		if _, ok := stage.FormEditAssocButtons[ref]; !ok {
+		instance := stage.FormEditAssocButtons_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.FormEditAssocButtons[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			formeditassocbuttons_deletedInstances = append(formeditassocbuttons_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -941,7 +951,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.FormFields_reference {
-		if _, ok := stage.FormFields[ref]; !ok {
+		instance := stage.FormFields_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.FormFields[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			formfields_deletedInstances = append(formfields_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -992,7 +1003,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.FormFieldDates_reference {
-		if _, ok := stage.FormFieldDates[ref]; !ok {
+		instance := stage.FormFieldDates_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.FormFieldDates[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			formfielddates_deletedInstances = append(formfielddates_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -1043,7 +1055,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.FormFieldDateTimes_reference {
-		if _, ok := stage.FormFieldDateTimes[ref]; !ok {
+		instance := stage.FormFieldDateTimes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.FormFieldDateTimes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			formfielddatetimes_deletedInstances = append(formfielddatetimes_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -1094,7 +1107,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.FormFieldFloat64s_reference {
-		if _, ok := stage.FormFieldFloat64s[ref]; !ok {
+		instance := stage.FormFieldFloat64s_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.FormFieldFloat64s[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			formfieldfloat64s_deletedInstances = append(formfieldfloat64s_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -1145,7 +1159,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.FormFieldInts_reference {
-		if _, ok := stage.FormFieldInts[ref]; !ok {
+		instance := stage.FormFieldInts_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.FormFieldInts[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			formfieldints_deletedInstances = append(formfieldints_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -1196,7 +1211,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.FormFieldSelects_reference {
-		if _, ok := stage.FormFieldSelects[ref]; !ok {
+		instance := stage.FormFieldSelects_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.FormFieldSelects[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			formfieldselects_deletedInstances = append(formfieldselects_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -1247,7 +1263,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.FormFieldStrings_reference {
-		if _, ok := stage.FormFieldStrings[ref]; !ok {
+		instance := stage.FormFieldStrings_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.FormFieldStrings[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			formfieldstrings_deletedInstances = append(formfieldstrings_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -1298,7 +1315,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.FormFieldTimes_reference {
-		if _, ok := stage.FormFieldTimes[ref]; !ok {
+		instance := stage.FormFieldTimes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.FormFieldTimes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			formfieldtimes_deletedInstances = append(formfieldtimes_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -1349,7 +1367,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.FormGroups_reference {
-		if _, ok := stage.FormGroups[ref]; !ok {
+		instance := stage.FormGroups_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.FormGroups[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			formgroups_deletedInstances = append(formgroups_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -1400,7 +1419,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.FormSortAssocButtons_reference {
-		if _, ok := stage.FormSortAssocButtons[ref]; !ok {
+		instance := stage.FormSortAssocButtons_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.FormSortAssocButtons[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			formsortassocbuttons_deletedInstances = append(formsortassocbuttons_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -1451,7 +1471,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.Options_reference {
-		if _, ok := stage.Options[ref]; !ok {
+		instance := stage.Options_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.Options[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			options_deletedInstances = append(options_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -1502,7 +1523,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.Rows_reference {
-		if _, ok := stage.Rows[ref]; !ok {
+		instance := stage.Rows_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.Rows[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			rows_deletedInstances = append(rows_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -1553,7 +1575,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.Tables_reference {
-		if _, ok := stage.Tables[ref]; !ok {
+		instance := stage.Tables_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.Tables[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			tables_deletedInstances = append(tables_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))

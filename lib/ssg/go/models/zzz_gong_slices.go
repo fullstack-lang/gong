@@ -136,7 +136,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.Chapters_reference {
-		if _, ok := stage.Chapters[ref]; !ok {
+		instance := stage.Chapters_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.Chapters[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			chapters_deletedInstances = append(chapters_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -187,7 +188,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.Contents_reference {
-		if _, ok := stage.Contents[ref]; !ok {
+		instance := stage.Contents_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.Contents[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			contents_deletedInstances = append(contents_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -238,7 +240,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.Pages_reference {
-		if _, ok := stage.Pages[ref]; !ok {
+		instance := stage.Pages_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.Pages[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			pages_deletedInstances = append(pages_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
