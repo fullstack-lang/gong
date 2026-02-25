@@ -436,7 +436,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Button)
 		stage.Buttons_reference[instance] = _copy
 		stage.Buttons_instance[_copy] = instance
-		stage.Buttons_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Buttons_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.ButtonToggles_reference = make(map[*ButtonToggle]*ButtonToggle)
@@ -446,7 +446,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*ButtonToggle)
 		stage.ButtonToggles_reference[instance] = _copy
 		stage.ButtonToggles_instance[_copy] = instance
-		stage.ButtonToggles_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.ButtonToggles_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Groups_reference = make(map[*Group]*Group)
@@ -456,7 +456,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Group)
 		stage.Groups_reference[instance] = _copy
 		stage.Groups_instance[_copy] = instance
-		stage.Groups_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Groups_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.GroupToogles_reference = make(map[*GroupToogle]*GroupToogle)
@@ -466,7 +466,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*GroupToogle)
 		stage.GroupToogles_reference[instance] = _copy
 		stage.GroupToogles_instance[_copy] = instance
-		stage.GroupToogles_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.GroupToogles_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Layouts_reference = make(map[*Layout]*Layout)
@@ -476,7 +476,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Layout)
 		stage.Layouts_reference[instance] = _copy
 		stage.Layouts_instance[_copy] = instance
-		stage.Layouts_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Layouts_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	// insertion point per named struct

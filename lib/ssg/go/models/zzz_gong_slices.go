@@ -292,7 +292,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Chapter)
 		stage.Chapters_reference[instance] = _copy
 		stage.Chapters_instance[_copy] = instance
-		stage.Chapters_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Chapters_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Contents_reference = make(map[*Content]*Content)
@@ -302,7 +302,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Content)
 		stage.Contents_reference[instance] = _copy
 		stage.Contents_instance[_copy] = instance
-		stage.Contents_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Contents_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Pages_reference = make(map[*Page]*Page)
@@ -312,7 +312,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Page)
 		stage.Pages_reference[instance] = _copy
 		stage.Pages_instance[_copy] = instance
-		stage.Pages_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Pages_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	// insertion point per named struct

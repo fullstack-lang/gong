@@ -436,7 +436,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*DisplaySelection)
 		stage.DisplaySelections_reference[instance] = _copy
 		stage.DisplaySelections_instance[_copy] = instance
-		stage.DisplaySelections_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.DisplaySelections_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.XLCells_reference = make(map[*XLCell]*XLCell)
@@ -446,7 +446,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*XLCell)
 		stage.XLCells_reference[instance] = _copy
 		stage.XLCells_instance[_copy] = instance
-		stage.XLCells_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.XLCells_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.XLFiles_reference = make(map[*XLFile]*XLFile)
@@ -456,7 +456,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*XLFile)
 		stage.XLFiles_reference[instance] = _copy
 		stage.XLFiles_instance[_copy] = instance
-		stage.XLFiles_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.XLFiles_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.XLRows_reference = make(map[*XLRow]*XLRow)
@@ -466,7 +466,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*XLRow)
 		stage.XLRows_reference[instance] = _copy
 		stage.XLRows_instance[_copy] = instance
-		stage.XLRows_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.XLRows_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.XLSheets_reference = make(map[*XLSheet]*XLSheet)
@@ -476,7 +476,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*XLSheet)
 		stage.XLSheets_reference[instance] = _copy
 		stage.XLSheets_instance[_copy] = instance
-		stage.XLSheets_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.XLSheets_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	// insertion point per named struct

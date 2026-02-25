@@ -473,7 +473,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Command)
 		stage.Commands_reference[instance] = _copy
 		stage.Commands_instance[_copy] = instance
-		stage.Commands_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Commands_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.DummyAgents_reference = make(map[*DummyAgent]*DummyAgent)
@@ -483,7 +483,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*DummyAgent)
 		stage.DummyAgents_reference[instance] = _copy
 		stage.DummyAgents_instance[_copy] = instance
-		stage.DummyAgents_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.DummyAgents_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Engines_reference = make(map[*Engine]*Engine)
@@ -493,7 +493,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Engine)
 		stage.Engines_reference[instance] = _copy
 		stage.Engines_instance[_copy] = instance
-		stage.Engines_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Engines_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Events_reference = make(map[*Event]*Event)
@@ -503,7 +503,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Event)
 		stage.Events_reference[instance] = _copy
 		stage.Events_instance[_copy] = instance
-		stage.Events_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Events_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Statuss_reference = make(map[*Status]*Status)
@@ -513,7 +513,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Status)
 		stage.Statuss_reference[instance] = _copy
 		stage.Statuss_instance[_copy] = instance
-		stage.Statuss_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Statuss_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.UpdateStates_reference = make(map[*UpdateState]*UpdateState)
@@ -523,7 +523,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*UpdateState)
 		stage.UpdateStates_reference[instance] = _copy
 		stage.UpdateStates_instance[_copy] = instance
-		stage.UpdateStates_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.UpdateStates_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	// insertion point per named struct

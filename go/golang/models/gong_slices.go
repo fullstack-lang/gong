@@ -215,7 +215,7 @@ func ({{structname}} *{{Structname}}) GongCopy() GongstructIF {
 		_copy := instance.GongCopy().(*{{Structname}})
 		stage.{{Structname}}s_reference[instance] = _copy
 		stage.{{Structname}}s_instance[_copy] = instance
-		stage.{{Structname}}s_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.{{Structname}}s_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 `,
 
