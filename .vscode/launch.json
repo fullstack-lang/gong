@@ -843,7 +843,7 @@
             ]
         },
         {
-            "name": "test3, debug commits navigation - issue 1114",
+            "name": "test3, debug commits navigation - issue 1144",
             "type": "go",
             "request": "launch",
             "mode": "test",
