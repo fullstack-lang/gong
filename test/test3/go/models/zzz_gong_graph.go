@@ -232,6 +232,56 @@ func (stage *Stage) UnstageBranchB(b *B) {
 
 }
 
+// insertion point for pointer reconstruction from references
+func (reference *A) GongReconstructPointersFromReferences(stage *Stage, instance *A) () {
+	// insertion point for pointers field
+	if instance.B != nil {
+		reference.B = stage.Bs_reference[instance.B]
+	}
+	// insertion point for slice of pointers field
+	reference.Bs = reference.Bs[:0]
+	for _, _b := range instance.Bs {
+		reference.Bs = append(reference.Bs, stage.Bs_reference[_b])
+	}
+
+	return
+}
+
+func (reference *B) GongReconstructPointersFromReferences(stage *Stage, instance *B) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+// insertion point for pointer reconstruction from instances
+func (reference *A) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.B; _reference != nil {
+		reference.B = nil
+		if _instance, ok := stage.Bs_instance[_reference]; ok {
+			reference.B = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+	var _Bs []*B
+	for _, _reference := range reference.Bs {
+		if _instance, ok := stage.Bs_instance[_reference]; ok {
+			_Bs = append(_Bs, stage.Bs_reference[_instance])
+		}
+	}
+	reference.Bs = _Bs
+
+	return
+}
+
+func (reference *B) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings

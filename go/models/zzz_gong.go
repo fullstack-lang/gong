@@ -107,7 +107,8 @@ type Stage struct {
 	// insertion point for definition of arrays registering instances
 	GongBasicFields                map[*GongBasicField]struct{}
 	GongBasicFields_reference      map[*GongBasicField]*GongBasicField
-	GongBasicFields_referenceOrder map[*GongBasicField]uint // diff Unstage needs the reference order
+	GongBasicFields_referenceOrder map[*GongBasicField]uint
+	GongBasicFields_instance       map[*GongBasicField]*GongBasicField
 	GongBasicFields_mapString      map[string]*GongBasicField
 
 	// insertion point for slice of pointers maps
@@ -118,7 +119,8 @@ type Stage struct {
 
 	GongEnums                map[*GongEnum]struct{}
 	GongEnums_reference      map[*GongEnum]*GongEnum
-	GongEnums_referenceOrder map[*GongEnum]uint // diff Unstage needs the reference order
+	GongEnums_referenceOrder map[*GongEnum]uint
+	GongEnums_instance       map[*GongEnum]*GongEnum
 	GongEnums_mapString      map[string]*GongEnum
 
 	// insertion point for slice of pointers maps
@@ -131,7 +133,8 @@ type Stage struct {
 
 	GongEnumValues                map[*GongEnumValue]struct{}
 	GongEnumValues_reference      map[*GongEnumValue]*GongEnumValue
-	GongEnumValues_referenceOrder map[*GongEnumValue]uint // diff Unstage needs the reference order
+	GongEnumValues_referenceOrder map[*GongEnumValue]uint
+	GongEnumValues_instance       map[*GongEnumValue]*GongEnumValue
 	GongEnumValues_mapString      map[string]*GongEnumValue
 
 	// insertion point for slice of pointers maps
@@ -142,7 +145,8 @@ type Stage struct {
 
 	GongLinks                map[*GongLink]struct{}
 	GongLinks_reference      map[*GongLink]*GongLink
-	GongLinks_referenceOrder map[*GongLink]uint // diff Unstage needs the reference order
+	GongLinks_referenceOrder map[*GongLink]uint
+	GongLinks_instance       map[*GongLink]*GongLink
 	GongLinks_mapString      map[string]*GongLink
 
 	// insertion point for slice of pointers maps
@@ -153,7 +157,8 @@ type Stage struct {
 
 	GongNotes                map[*GongNote]struct{}
 	GongNotes_reference      map[*GongNote]*GongNote
-	GongNotes_referenceOrder map[*GongNote]uint // diff Unstage needs the reference order
+	GongNotes_referenceOrder map[*GongNote]uint
+	GongNotes_instance       map[*GongNote]*GongNote
 	GongNotes_mapString      map[string]*GongNote
 
 	// insertion point for slice of pointers maps
@@ -166,7 +171,8 @@ type Stage struct {
 
 	GongStructs                map[*GongStruct]struct{}
 	GongStructs_reference      map[*GongStruct]*GongStruct
-	GongStructs_referenceOrder map[*GongStruct]uint // diff Unstage needs the reference order
+	GongStructs_referenceOrder map[*GongStruct]uint
+	GongStructs_instance       map[*GongStruct]*GongStruct
 	GongStructs_mapString      map[string]*GongStruct
 
 	// insertion point for slice of pointers maps
@@ -185,7 +191,8 @@ type Stage struct {
 
 	GongTimeFields                map[*GongTimeField]struct{}
 	GongTimeFields_reference      map[*GongTimeField]*GongTimeField
-	GongTimeFields_referenceOrder map[*GongTimeField]uint // diff Unstage needs the reference order
+	GongTimeFields_referenceOrder map[*GongTimeField]uint
+	GongTimeFields_instance       map[*GongTimeField]*GongTimeField
 	GongTimeFields_mapString      map[string]*GongTimeField
 
 	// insertion point for slice of pointers maps
@@ -196,7 +203,8 @@ type Stage struct {
 
 	MetaReferences                map[*MetaReference]struct{}
 	MetaReferences_reference      map[*MetaReference]*MetaReference
-	MetaReferences_referenceOrder map[*MetaReference]uint // diff Unstage needs the reference order
+	MetaReferences_referenceOrder map[*MetaReference]uint
+	MetaReferences_instance       map[*MetaReference]*MetaReference
 	MetaReferences_mapString      map[string]*MetaReference
 
 	// insertion point for slice of pointers maps
@@ -207,7 +215,8 @@ type Stage struct {
 
 	ModelPkgs                map[*ModelPkg]struct{}
 	ModelPkgs_reference      map[*ModelPkg]*ModelPkg
-	ModelPkgs_referenceOrder map[*ModelPkg]uint // diff Unstage needs the reference order
+	ModelPkgs_referenceOrder map[*ModelPkg]uint
+	ModelPkgs_instance       map[*ModelPkg]*ModelPkg
 	ModelPkgs_mapString      map[string]*ModelPkg
 
 	// insertion point for slice of pointers maps
@@ -218,7 +227,8 @@ type Stage struct {
 
 	PointerToGongStructFields                map[*PointerToGongStructField]struct{}
 	PointerToGongStructFields_reference      map[*PointerToGongStructField]*PointerToGongStructField
-	PointerToGongStructFields_referenceOrder map[*PointerToGongStructField]uint // diff Unstage needs the reference order
+	PointerToGongStructFields_referenceOrder map[*PointerToGongStructField]uint
+	PointerToGongStructFields_instance       map[*PointerToGongStructField]*PointerToGongStructField
 	PointerToGongStructFields_mapString      map[string]*PointerToGongStructField
 
 	// insertion point for slice of pointers maps
@@ -229,7 +239,8 @@ type Stage struct {
 
 	SliceOfPointerToGongStructFields                map[*SliceOfPointerToGongStructField]struct{}
 	SliceOfPointerToGongStructFields_reference      map[*SliceOfPointerToGongStructField]*SliceOfPointerToGongStructField
-	SliceOfPointerToGongStructFields_referenceOrder map[*SliceOfPointerToGongStructField]uint // diff Unstage needs the reference order
+	SliceOfPointerToGongStructFields_referenceOrder map[*SliceOfPointerToGongStructField]uint
+	SliceOfPointerToGongStructFields_instance       map[*SliceOfPointerToGongStructField]*SliceOfPointerToGongStructField
 	SliceOfPointerToGongStructFields_mapString      map[string]*SliceOfPointerToGongStructField
 
 	// insertion point for slice of pointers maps

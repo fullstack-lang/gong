@@ -405,103 +405,123 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 // insertion point per named struct
 func (diagram *Diagram) GongCopy() GongstructIF {
-	newInstance := *diagram
-	return &newInstance
+	newInstance := new(Diagram)
+	diagram.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (note *Note) GongCopy() GongstructIF {
-	newInstance := *note
-	return &newInstance
+	newInstance := new(Note)
+	note.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (noteproductshape *NoteProductShape) GongCopy() GongstructIF {
-	newInstance := *noteproductshape
-	return &newInstance
+	newInstance := new(NoteProductShape)
+	noteproductshape.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (noteresourceshape *NoteResourceShape) GongCopy() GongstructIF {
-	newInstance := *noteresourceshape
-	return &newInstance
+	newInstance := new(NoteResourceShape)
+	noteresourceshape.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (noteshape *NoteShape) GongCopy() GongstructIF {
-	newInstance := *noteshape
-	return &newInstance
+	newInstance := new(NoteShape)
+	noteshape.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (notetaskshape *NoteTaskShape) GongCopy() GongstructIF {
-	newInstance := *notetaskshape
-	return &newInstance
+	newInstance := new(NoteTaskShape)
+	notetaskshape.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (product *Product) GongCopy() GongstructIF {
-	newInstance := *product
-	return &newInstance
+	newInstance := new(Product)
+	product.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (productcompositionshape *ProductCompositionShape) GongCopy() GongstructIF {
-	newInstance := *productcompositionshape
-	return &newInstance
+	newInstance := new(ProductCompositionShape)
+	productcompositionshape.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (productshape *ProductShape) GongCopy() GongstructIF {
-	newInstance := *productshape
-	return &newInstance
+	newInstance := new(ProductShape)
+	productshape.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (project *Project) GongCopy() GongstructIF {
-	newInstance := *project
-	return &newInstance
+	newInstance := new(Project)
+	project.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (resource *Resource) GongCopy() GongstructIF {
-	newInstance := *resource
-	return &newInstance
+	newInstance := new(Resource)
+	resource.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (resourcecompositionshape *ResourceCompositionShape) GongCopy() GongstructIF {
-	newInstance := *resourcecompositionshape
-	return &newInstance
+	newInstance := new(ResourceCompositionShape)
+	resourcecompositionshape.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (resourceshape *ResourceShape) GongCopy() GongstructIF {
-	newInstance := *resourceshape
-	return &newInstance
+	newInstance := new(ResourceShape)
+	resourceshape.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (resourcetaskshape *ResourceTaskShape) GongCopy() GongstructIF {
-	newInstance := *resourcetaskshape
-	return &newInstance
+	newInstance := new(ResourceTaskShape)
+	resourcetaskshape.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (root *Root) GongCopy() GongstructIF {
-	newInstance := *root
-	return &newInstance
+	newInstance := new(Root)
+	root.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (task *Task) GongCopy() GongstructIF {
-	newInstance := *task
-	return &newInstance
+	newInstance := new(Task)
+	task.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (taskcompositionshape *TaskCompositionShape) GongCopy() GongstructIF {
-	newInstance := *taskcompositionshape
-	return &newInstance
+	newInstance := new(TaskCompositionShape)
+	taskcompositionshape.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (taskinputshape *TaskInputShape) GongCopy() GongstructIF {
-	newInstance := *taskinputshape
-	return &newInstance
+	newInstance := new(TaskInputShape)
+	taskinputshape.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (taskoutputshape *TaskOutputShape) GongCopy() GongstructIF {
-	newInstance := *taskoutputshape
-	return &newInstance
+	newInstance := new(TaskOutputShape)
+	taskoutputshape.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (taskshape *TaskShape) GongCopy() GongstructIF {
-	newInstance := *taskshape
-	return &newInstance
+	newInstance := new(TaskShape)
+	taskshape.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (stage *Stage) ComputeForwardAndBackwardCommits() {
@@ -540,6 +560,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.DiagramMap_Staged_Order[ref] = stage.DiagramMap_Staged_Order[diagram]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := diagram.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, diagram)
 			delete(stage.DiagramMap_Staged_Order, ref)
@@ -559,9 +580,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.Diagrams_reference {
+	for _, ref := range stage.Diagrams_reference {
 		if _, ok := stage.Diagrams[ref]; !ok {
 			diagrams_deletedInstances = append(diagrams_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -589,6 +611,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.NoteMap_Staged_Order[ref] = stage.NoteMap_Staged_Order[note]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := note.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, note)
 			delete(stage.NoteMap_Staged_Order, ref)
@@ -608,9 +631,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.Notes_reference {
+	for _, ref := range stage.Notes_reference {
 		if _, ok := stage.Notes[ref]; !ok {
 			notes_deletedInstances = append(notes_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -638,6 +662,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.NoteProductShapeMap_Staged_Order[ref] = stage.NoteProductShapeMap_Staged_Order[noteproductshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := noteproductshape.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, noteproductshape)
 			delete(stage.NoteProductShapeMap_Staged_Order, ref)
@@ -657,9 +682,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.NoteProductShapes_reference {
+	for _, ref := range stage.NoteProductShapes_reference {
 		if _, ok := stage.NoteProductShapes[ref]; !ok {
 			noteproductshapes_deletedInstances = append(noteproductshapes_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -687,6 +713,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.NoteResourceShapeMap_Staged_Order[ref] = stage.NoteResourceShapeMap_Staged_Order[noteresourceshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := noteresourceshape.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, noteresourceshape)
 			delete(stage.NoteResourceShapeMap_Staged_Order, ref)
@@ -706,9 +733,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.NoteResourceShapes_reference {
+	for _, ref := range stage.NoteResourceShapes_reference {
 		if _, ok := stage.NoteResourceShapes[ref]; !ok {
 			noteresourceshapes_deletedInstances = append(noteresourceshapes_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -736,6 +764,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.NoteShapeMap_Staged_Order[ref] = stage.NoteShapeMap_Staged_Order[noteshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := noteshape.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, noteshape)
 			delete(stage.NoteShapeMap_Staged_Order, ref)
@@ -755,9 +784,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.NoteShapes_reference {
+	for _, ref := range stage.NoteShapes_reference {
 		if _, ok := stage.NoteShapes[ref]; !ok {
 			noteshapes_deletedInstances = append(noteshapes_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -785,6 +815,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.NoteTaskShapeMap_Staged_Order[ref] = stage.NoteTaskShapeMap_Staged_Order[notetaskshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := notetaskshape.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, notetaskshape)
 			delete(stage.NoteTaskShapeMap_Staged_Order, ref)
@@ -804,9 +835,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.NoteTaskShapes_reference {
+	for _, ref := range stage.NoteTaskShapes_reference {
 		if _, ok := stage.NoteTaskShapes[ref]; !ok {
 			notetaskshapes_deletedInstances = append(notetaskshapes_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -834,6 +866,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.ProductMap_Staged_Order[ref] = stage.ProductMap_Staged_Order[product]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := product.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, product)
 			delete(stage.ProductMap_Staged_Order, ref)
@@ -853,9 +886,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.Products_reference {
+	for _, ref := range stage.Products_reference {
 		if _, ok := stage.Products[ref]; !ok {
 			products_deletedInstances = append(products_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -883,6 +917,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.ProductCompositionShapeMap_Staged_Order[ref] = stage.ProductCompositionShapeMap_Staged_Order[productcompositionshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := productcompositionshape.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, productcompositionshape)
 			delete(stage.ProductCompositionShapeMap_Staged_Order, ref)
@@ -902,9 +937,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.ProductCompositionShapes_reference {
+	for _, ref := range stage.ProductCompositionShapes_reference {
 		if _, ok := stage.ProductCompositionShapes[ref]; !ok {
 			productcompositionshapes_deletedInstances = append(productcompositionshapes_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -932,6 +968,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.ProductShapeMap_Staged_Order[ref] = stage.ProductShapeMap_Staged_Order[productshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := productshape.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, productshape)
 			delete(stage.ProductShapeMap_Staged_Order, ref)
@@ -951,9 +988,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.ProductShapes_reference {
+	for _, ref := range stage.ProductShapes_reference {
 		if _, ok := stage.ProductShapes[ref]; !ok {
 			productshapes_deletedInstances = append(productshapes_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -981,6 +1019,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.ProjectMap_Staged_Order[ref] = stage.ProjectMap_Staged_Order[project]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := project.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, project)
 			delete(stage.ProjectMap_Staged_Order, ref)
@@ -1000,9 +1039,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.Projects_reference {
+	for _, ref := range stage.Projects_reference {
 		if _, ok := stage.Projects[ref]; !ok {
 			projects_deletedInstances = append(projects_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -1030,6 +1070,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.ResourceMap_Staged_Order[ref] = stage.ResourceMap_Staged_Order[resource]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := resource.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, resource)
 			delete(stage.ResourceMap_Staged_Order, ref)
@@ -1049,9 +1090,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.Resources_reference {
+	for _, ref := range stage.Resources_reference {
 		if _, ok := stage.Resources[ref]; !ok {
 			resources_deletedInstances = append(resources_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -1079,6 +1121,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.ResourceCompositionShapeMap_Staged_Order[ref] = stage.ResourceCompositionShapeMap_Staged_Order[resourcecompositionshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := resourcecompositionshape.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, resourcecompositionshape)
 			delete(stage.ResourceCompositionShapeMap_Staged_Order, ref)
@@ -1098,9 +1141,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.ResourceCompositionShapes_reference {
+	for _, ref := range stage.ResourceCompositionShapes_reference {
 		if _, ok := stage.ResourceCompositionShapes[ref]; !ok {
 			resourcecompositionshapes_deletedInstances = append(resourcecompositionshapes_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -1128,6 +1172,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.ResourceShapeMap_Staged_Order[ref] = stage.ResourceShapeMap_Staged_Order[resourceshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := resourceshape.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, resourceshape)
 			delete(stage.ResourceShapeMap_Staged_Order, ref)
@@ -1147,9 +1192,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.ResourceShapes_reference {
+	for _, ref := range stage.ResourceShapes_reference {
 		if _, ok := stage.ResourceShapes[ref]; !ok {
 			resourceshapes_deletedInstances = append(resourceshapes_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -1177,6 +1223,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.ResourceTaskShapeMap_Staged_Order[ref] = stage.ResourceTaskShapeMap_Staged_Order[resourcetaskshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := resourcetaskshape.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, resourcetaskshape)
 			delete(stage.ResourceTaskShapeMap_Staged_Order, ref)
@@ -1196,9 +1243,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.ResourceTaskShapes_reference {
+	for _, ref := range stage.ResourceTaskShapes_reference {
 		if _, ok := stage.ResourceTaskShapes[ref]; !ok {
 			resourcetaskshapes_deletedInstances = append(resourcetaskshapes_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -1226,6 +1274,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.RootMap_Staged_Order[ref] = stage.RootMap_Staged_Order[root]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := root.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, root)
 			delete(stage.RootMap_Staged_Order, ref)
@@ -1245,9 +1294,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.Roots_reference {
+	for _, ref := range stage.Roots_reference {
 		if _, ok := stage.Roots[ref]; !ok {
 			roots_deletedInstances = append(roots_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -1275,6 +1325,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.TaskMap_Staged_Order[ref] = stage.TaskMap_Staged_Order[task]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := task.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, task)
 			delete(stage.TaskMap_Staged_Order, ref)
@@ -1294,9 +1345,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.Tasks_reference {
+	for _, ref := range stage.Tasks_reference {
 		if _, ok := stage.Tasks[ref]; !ok {
 			tasks_deletedInstances = append(tasks_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -1324,6 +1376,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.TaskCompositionShapeMap_Staged_Order[ref] = stage.TaskCompositionShapeMap_Staged_Order[taskcompositionshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := taskcompositionshape.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, taskcompositionshape)
 			delete(stage.TaskCompositionShapeMap_Staged_Order, ref)
@@ -1343,9 +1396,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.TaskCompositionShapes_reference {
+	for _, ref := range stage.TaskCompositionShapes_reference {
 		if _, ok := stage.TaskCompositionShapes[ref]; !ok {
 			taskcompositionshapes_deletedInstances = append(taskcompositionshapes_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -1373,6 +1427,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.TaskInputShapeMap_Staged_Order[ref] = stage.TaskInputShapeMap_Staged_Order[taskinputshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := taskinputshape.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, taskinputshape)
 			delete(stage.TaskInputShapeMap_Staged_Order, ref)
@@ -1392,9 +1447,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.TaskInputShapes_reference {
+	for _, ref := range stage.TaskInputShapes_reference {
 		if _, ok := stage.TaskInputShapes[ref]; !ok {
 			taskinputshapes_deletedInstances = append(taskinputshapes_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -1422,6 +1478,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.TaskOutputShapeMap_Staged_Order[ref] = stage.TaskOutputShapeMap_Staged_Order[taskoutputshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := taskoutputshape.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, taskoutputshape)
 			delete(stage.TaskOutputShapeMap_Staged_Order, ref)
@@ -1441,9 +1498,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.TaskOutputShapes_reference {
+	for _, ref := range stage.TaskOutputShapes_reference {
 		if _, ok := stage.TaskOutputShapes[ref]; !ok {
 			taskoutputshapes_deletedInstances = append(taskoutputshapes_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -1471,6 +1529,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.TaskShapeMap_Staged_Order[ref] = stage.TaskShapeMap_Staged_Order[taskshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := taskshape.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, taskshape)
 			delete(stage.TaskShapeMap_Staged_Order, ref)
@@ -1490,9 +1549,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.TaskShapes_reference {
+	for _, ref := range stage.TaskShapes_reference {
 		if _, ok := stage.TaskShapes[ref]; !ok {
 			taskshapes_deletedInstances = append(taskshapes_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -1536,142 +1596,303 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 	// insertion point per named struct
 	stage.Diagrams_reference = make(map[*Diagram]*Diagram)
 	stage.Diagrams_referenceOrder = make(map[*Diagram]uint) // diff Unstage needs the reference order
+	stage.Diagrams_instance = make(map[*Diagram]*Diagram)
 	for instance := range stage.Diagrams {
-		stage.Diagrams_reference[instance] = instance.GongCopy().(*Diagram)
+		_copy := instance.GongCopy().(*Diagram)
+		stage.Diagrams_reference[instance] = _copy
+		stage.Diagrams_instance[_copy] = instance
 		stage.Diagrams_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Notes_reference = make(map[*Note]*Note)
 	stage.Notes_referenceOrder = make(map[*Note]uint) // diff Unstage needs the reference order
+	stage.Notes_instance = make(map[*Note]*Note)
 	for instance := range stage.Notes {
-		stage.Notes_reference[instance] = instance.GongCopy().(*Note)
+		_copy := instance.GongCopy().(*Note)
+		stage.Notes_reference[instance] = _copy
+		stage.Notes_instance[_copy] = instance
 		stage.Notes_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.NoteProductShapes_reference = make(map[*NoteProductShape]*NoteProductShape)
 	stage.NoteProductShapes_referenceOrder = make(map[*NoteProductShape]uint) // diff Unstage needs the reference order
+	stage.NoteProductShapes_instance = make(map[*NoteProductShape]*NoteProductShape)
 	for instance := range stage.NoteProductShapes {
-		stage.NoteProductShapes_reference[instance] = instance.GongCopy().(*NoteProductShape)
+		_copy := instance.GongCopy().(*NoteProductShape)
+		stage.NoteProductShapes_reference[instance] = _copy
+		stage.NoteProductShapes_instance[_copy] = instance
 		stage.NoteProductShapes_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.NoteResourceShapes_reference = make(map[*NoteResourceShape]*NoteResourceShape)
 	stage.NoteResourceShapes_referenceOrder = make(map[*NoteResourceShape]uint) // diff Unstage needs the reference order
+	stage.NoteResourceShapes_instance = make(map[*NoteResourceShape]*NoteResourceShape)
 	for instance := range stage.NoteResourceShapes {
-		stage.NoteResourceShapes_reference[instance] = instance.GongCopy().(*NoteResourceShape)
+		_copy := instance.GongCopy().(*NoteResourceShape)
+		stage.NoteResourceShapes_reference[instance] = _copy
+		stage.NoteResourceShapes_instance[_copy] = instance
 		stage.NoteResourceShapes_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.NoteShapes_reference = make(map[*NoteShape]*NoteShape)
 	stage.NoteShapes_referenceOrder = make(map[*NoteShape]uint) // diff Unstage needs the reference order
+	stage.NoteShapes_instance = make(map[*NoteShape]*NoteShape)
 	for instance := range stage.NoteShapes {
-		stage.NoteShapes_reference[instance] = instance.GongCopy().(*NoteShape)
+		_copy := instance.GongCopy().(*NoteShape)
+		stage.NoteShapes_reference[instance] = _copy
+		stage.NoteShapes_instance[_copy] = instance
 		stage.NoteShapes_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.NoteTaskShapes_reference = make(map[*NoteTaskShape]*NoteTaskShape)
 	stage.NoteTaskShapes_referenceOrder = make(map[*NoteTaskShape]uint) // diff Unstage needs the reference order
+	stage.NoteTaskShapes_instance = make(map[*NoteTaskShape]*NoteTaskShape)
 	for instance := range stage.NoteTaskShapes {
-		stage.NoteTaskShapes_reference[instance] = instance.GongCopy().(*NoteTaskShape)
+		_copy := instance.GongCopy().(*NoteTaskShape)
+		stage.NoteTaskShapes_reference[instance] = _copy
+		stage.NoteTaskShapes_instance[_copy] = instance
 		stage.NoteTaskShapes_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Products_reference = make(map[*Product]*Product)
 	stage.Products_referenceOrder = make(map[*Product]uint) // diff Unstage needs the reference order
+	stage.Products_instance = make(map[*Product]*Product)
 	for instance := range stage.Products {
-		stage.Products_reference[instance] = instance.GongCopy().(*Product)
+		_copy := instance.GongCopy().(*Product)
+		stage.Products_reference[instance] = _copy
+		stage.Products_instance[_copy] = instance
 		stage.Products_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.ProductCompositionShapes_reference = make(map[*ProductCompositionShape]*ProductCompositionShape)
 	stage.ProductCompositionShapes_referenceOrder = make(map[*ProductCompositionShape]uint) // diff Unstage needs the reference order
+	stage.ProductCompositionShapes_instance = make(map[*ProductCompositionShape]*ProductCompositionShape)
 	for instance := range stage.ProductCompositionShapes {
-		stage.ProductCompositionShapes_reference[instance] = instance.GongCopy().(*ProductCompositionShape)
+		_copy := instance.GongCopy().(*ProductCompositionShape)
+		stage.ProductCompositionShapes_reference[instance] = _copy
+		stage.ProductCompositionShapes_instance[_copy] = instance
 		stage.ProductCompositionShapes_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.ProductShapes_reference = make(map[*ProductShape]*ProductShape)
 	stage.ProductShapes_referenceOrder = make(map[*ProductShape]uint) // diff Unstage needs the reference order
+	stage.ProductShapes_instance = make(map[*ProductShape]*ProductShape)
 	for instance := range stage.ProductShapes {
-		stage.ProductShapes_reference[instance] = instance.GongCopy().(*ProductShape)
+		_copy := instance.GongCopy().(*ProductShape)
+		stage.ProductShapes_reference[instance] = _copy
+		stage.ProductShapes_instance[_copy] = instance
 		stage.ProductShapes_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Projects_reference = make(map[*Project]*Project)
 	stage.Projects_referenceOrder = make(map[*Project]uint) // diff Unstage needs the reference order
+	stage.Projects_instance = make(map[*Project]*Project)
 	for instance := range stage.Projects {
-		stage.Projects_reference[instance] = instance.GongCopy().(*Project)
+		_copy := instance.GongCopy().(*Project)
+		stage.Projects_reference[instance] = _copy
+		stage.Projects_instance[_copy] = instance
 		stage.Projects_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Resources_reference = make(map[*Resource]*Resource)
 	stage.Resources_referenceOrder = make(map[*Resource]uint) // diff Unstage needs the reference order
+	stage.Resources_instance = make(map[*Resource]*Resource)
 	for instance := range stage.Resources {
-		stage.Resources_reference[instance] = instance.GongCopy().(*Resource)
+		_copy := instance.GongCopy().(*Resource)
+		stage.Resources_reference[instance] = _copy
+		stage.Resources_instance[_copy] = instance
 		stage.Resources_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.ResourceCompositionShapes_reference = make(map[*ResourceCompositionShape]*ResourceCompositionShape)
 	stage.ResourceCompositionShapes_referenceOrder = make(map[*ResourceCompositionShape]uint) // diff Unstage needs the reference order
+	stage.ResourceCompositionShapes_instance = make(map[*ResourceCompositionShape]*ResourceCompositionShape)
 	for instance := range stage.ResourceCompositionShapes {
-		stage.ResourceCompositionShapes_reference[instance] = instance.GongCopy().(*ResourceCompositionShape)
+		_copy := instance.GongCopy().(*ResourceCompositionShape)
+		stage.ResourceCompositionShapes_reference[instance] = _copy
+		stage.ResourceCompositionShapes_instance[_copy] = instance
 		stage.ResourceCompositionShapes_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.ResourceShapes_reference = make(map[*ResourceShape]*ResourceShape)
 	stage.ResourceShapes_referenceOrder = make(map[*ResourceShape]uint) // diff Unstage needs the reference order
+	stage.ResourceShapes_instance = make(map[*ResourceShape]*ResourceShape)
 	for instance := range stage.ResourceShapes {
-		stage.ResourceShapes_reference[instance] = instance.GongCopy().(*ResourceShape)
+		_copy := instance.GongCopy().(*ResourceShape)
+		stage.ResourceShapes_reference[instance] = _copy
+		stage.ResourceShapes_instance[_copy] = instance
 		stage.ResourceShapes_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.ResourceTaskShapes_reference = make(map[*ResourceTaskShape]*ResourceTaskShape)
 	stage.ResourceTaskShapes_referenceOrder = make(map[*ResourceTaskShape]uint) // diff Unstage needs the reference order
+	stage.ResourceTaskShapes_instance = make(map[*ResourceTaskShape]*ResourceTaskShape)
 	for instance := range stage.ResourceTaskShapes {
-		stage.ResourceTaskShapes_reference[instance] = instance.GongCopy().(*ResourceTaskShape)
+		_copy := instance.GongCopy().(*ResourceTaskShape)
+		stage.ResourceTaskShapes_reference[instance] = _copy
+		stage.ResourceTaskShapes_instance[_copy] = instance
 		stage.ResourceTaskShapes_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Roots_reference = make(map[*Root]*Root)
 	stage.Roots_referenceOrder = make(map[*Root]uint) // diff Unstage needs the reference order
+	stage.Roots_instance = make(map[*Root]*Root)
 	for instance := range stage.Roots {
-		stage.Roots_reference[instance] = instance.GongCopy().(*Root)
+		_copy := instance.GongCopy().(*Root)
+		stage.Roots_reference[instance] = _copy
+		stage.Roots_instance[_copy] = instance
 		stage.Roots_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Tasks_reference = make(map[*Task]*Task)
 	stage.Tasks_referenceOrder = make(map[*Task]uint) // diff Unstage needs the reference order
+	stage.Tasks_instance = make(map[*Task]*Task)
 	for instance := range stage.Tasks {
-		stage.Tasks_reference[instance] = instance.GongCopy().(*Task)
+		_copy := instance.GongCopy().(*Task)
+		stage.Tasks_reference[instance] = _copy
+		stage.Tasks_instance[_copy] = instance
 		stage.Tasks_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.TaskCompositionShapes_reference = make(map[*TaskCompositionShape]*TaskCompositionShape)
 	stage.TaskCompositionShapes_referenceOrder = make(map[*TaskCompositionShape]uint) // diff Unstage needs the reference order
+	stage.TaskCompositionShapes_instance = make(map[*TaskCompositionShape]*TaskCompositionShape)
 	for instance := range stage.TaskCompositionShapes {
-		stage.TaskCompositionShapes_reference[instance] = instance.GongCopy().(*TaskCompositionShape)
+		_copy := instance.GongCopy().(*TaskCompositionShape)
+		stage.TaskCompositionShapes_reference[instance] = _copy
+		stage.TaskCompositionShapes_instance[_copy] = instance
 		stage.TaskCompositionShapes_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.TaskInputShapes_reference = make(map[*TaskInputShape]*TaskInputShape)
 	stage.TaskInputShapes_referenceOrder = make(map[*TaskInputShape]uint) // diff Unstage needs the reference order
+	stage.TaskInputShapes_instance = make(map[*TaskInputShape]*TaskInputShape)
 	for instance := range stage.TaskInputShapes {
-		stage.TaskInputShapes_reference[instance] = instance.GongCopy().(*TaskInputShape)
+		_copy := instance.GongCopy().(*TaskInputShape)
+		stage.TaskInputShapes_reference[instance] = _copy
+		stage.TaskInputShapes_instance[_copy] = instance
 		stage.TaskInputShapes_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.TaskOutputShapes_reference = make(map[*TaskOutputShape]*TaskOutputShape)
 	stage.TaskOutputShapes_referenceOrder = make(map[*TaskOutputShape]uint) // diff Unstage needs the reference order
+	stage.TaskOutputShapes_instance = make(map[*TaskOutputShape]*TaskOutputShape)
 	for instance := range stage.TaskOutputShapes {
-		stage.TaskOutputShapes_reference[instance] = instance.GongCopy().(*TaskOutputShape)
+		_copy := instance.GongCopy().(*TaskOutputShape)
+		stage.TaskOutputShapes_reference[instance] = _copy
+		stage.TaskOutputShapes_instance[_copy] = instance
 		stage.TaskOutputShapes_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.TaskShapes_reference = make(map[*TaskShape]*TaskShape)
 	stage.TaskShapes_referenceOrder = make(map[*TaskShape]uint) // diff Unstage needs the reference order
+	stage.TaskShapes_instance = make(map[*TaskShape]*TaskShape)
 	for instance := range stage.TaskShapes {
-		stage.TaskShapes_reference[instance] = instance.GongCopy().(*TaskShape)
+		_copy := instance.GongCopy().(*TaskShape)
+		stage.TaskShapes_reference[instance] = _copy
+		stage.TaskShapes_instance[_copy] = instance
 		stage.TaskShapes_referenceOrder[instance] = instance.GongGetOrder(stage)
+	}
+
+	// insertion point per named struct
+	for instance := range stage.Diagrams {
+		reference := stage.Diagrams_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.Notes {
+		reference := stage.Notes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.NoteProductShapes {
+		reference := stage.NoteProductShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.NoteResourceShapes {
+		reference := stage.NoteResourceShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.NoteShapes {
+		reference := stage.NoteShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.NoteTaskShapes {
+		reference := stage.NoteTaskShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.Products {
+		reference := stage.Products_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.ProductCompositionShapes {
+		reference := stage.ProductCompositionShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.ProductShapes {
+		reference := stage.ProductShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.Projects {
+		reference := stage.Projects_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.Resources {
+		reference := stage.Resources_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.ResourceCompositionShapes {
+		reference := stage.ResourceCompositionShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.ResourceShapes {
+		reference := stage.ResourceShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.ResourceTaskShapes {
+		reference := stage.ResourceTaskShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.Roots {
+		reference := stage.Roots_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.Tasks {
+		reference := stage.Tasks_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.TaskCompositionShapes {
+		reference := stage.TaskCompositionShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.TaskInputShapes {
+		reference := stage.TaskInputShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.TaskOutputShapes {
+		reference := stage.TaskOutputShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.TaskShapes {
+		reference := stage.TaskShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
 	stage.recomputeOrders()

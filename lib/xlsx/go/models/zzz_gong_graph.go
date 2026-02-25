@@ -484,6 +484,140 @@ func (stage *Stage) UnstageBranchXLSheet(xlsheet *XLSheet) {
 
 }
 
+// insertion point for pointer reconstruction from references
+func (reference *DisplaySelection) GongReconstructPointersFromReferences(stage *Stage, instance *DisplaySelection) () {
+	// insertion point for pointers field
+	if instance.XLFile != nil {
+		reference.XLFile = stage.XLFiles_reference[instance.XLFile]
+	}
+	if instance.XLSheet != nil {
+		reference.XLSheet = stage.XLSheets_reference[instance.XLSheet]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *XLCell) GongReconstructPointersFromReferences(stage *Stage, instance *XLCell) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *XLFile) GongReconstructPointersFromReferences(stage *Stage, instance *XLFile) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.Sheets = reference.Sheets[:0]
+	for _, _b := range instance.Sheets {
+		reference.Sheets = append(reference.Sheets, stage.XLSheets_reference[_b])
+	}
+
+	return
+}
+
+func (reference *XLRow) GongReconstructPointersFromReferences(stage *Stage, instance *XLRow) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.Cells = reference.Cells[:0]
+	for _, _b := range instance.Cells {
+		reference.Cells = append(reference.Cells, stage.XLCells_reference[_b])
+	}
+
+	return
+}
+
+func (reference *XLSheet) GongReconstructPointersFromReferences(stage *Stage, instance *XLSheet) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.Rows = reference.Rows[:0]
+	for _, _b := range instance.Rows {
+		reference.Rows = append(reference.Rows, stage.XLRows_reference[_b])
+	}
+	reference.SheetCells = reference.SheetCells[:0]
+	for _, _b := range instance.SheetCells {
+		reference.SheetCells = append(reference.SheetCells, stage.XLCells_reference[_b])
+	}
+
+	return
+}
+
+// insertion point for pointer reconstruction from instances
+func (reference *DisplaySelection) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.XLFile; _reference != nil {
+		reference.XLFile = nil
+		if _instance, ok := stage.XLFiles_instance[_reference]; ok {
+			reference.XLFile = _instance
+		}
+	}
+	if _reference := reference.XLSheet; _reference != nil {
+		reference.XLSheet = nil
+		if _instance, ok := stage.XLSheets_instance[_reference]; ok {
+			reference.XLSheet = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *XLCell) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *XLFile) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _Sheets []*XLSheet
+	for _, _reference := range reference.Sheets {
+		if _instance, ok := stage.XLSheets_instance[_reference]; ok {
+			_Sheets = append(_Sheets, stage.XLSheets_reference[_instance])
+		}
+	}
+	reference.Sheets = _Sheets
+
+	return
+}
+
+func (reference *XLRow) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _Cells []*XLCell
+	for _, _reference := range reference.Cells {
+		if _instance, ok := stage.XLCells_instance[_reference]; ok {
+			_Cells = append(_Cells, stage.XLCells_reference[_instance])
+		}
+	}
+	reference.Cells = _Cells
+
+	return
+}
+
+func (reference *XLSheet) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _Rows []*XLRow
+	for _, _reference := range reference.Rows {
+		if _instance, ok := stage.XLRows_instance[_reference]; ok {
+			_Rows = append(_Rows, stage.XLRows_reference[_instance])
+		}
+	}
+	reference.Rows = _Rows
+	var _SheetCells []*XLCell
+	for _, _reference := range reference.SheetCells {
+		if _instance, ok := stage.XLCells_instance[_reference]; ok {
+			_SheetCells = append(_SheetCells, stage.XLCells_reference[_instance])
+		}
+	}
+	reference.SheetCells = _SheetCells
+
+	return
+}
+
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings

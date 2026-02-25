@@ -76,23 +76,27 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 // insertion point per named struct
 func (button *Button) GongCopy() GongstructIF {
-	newInstance := *button
-	return &newInstance
+	newInstance := new(Button)
+	button.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (node *Node) GongCopy() GongstructIF {
-	newInstance := *node
-	return &newInstance
+	newInstance := new(Node)
+	node.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (svgicon *SVGIcon) GongCopy() GongstructIF {
-	newInstance := *svgicon
-	return &newInstance
+	newInstance := new(SVGIcon)
+	svgicon.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (tree *Tree) GongCopy() GongstructIF {
-	newInstance := *tree
-	return &newInstance
+	newInstance := new(Tree)
+	tree.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (stage *Stage) ComputeForwardAndBackwardCommits() {
@@ -131,6 +135,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.ButtonMap_Staged_Order[ref] = stage.ButtonMap_Staged_Order[button]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := button.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, button)
 			delete(stage.ButtonMap_Staged_Order, ref)
@@ -150,9 +155,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.Buttons_reference {
+	for _, ref := range stage.Buttons_reference {
 		if _, ok := stage.Buttons[ref]; !ok {
 			buttons_deletedInstances = append(buttons_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -180,6 +186,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.NodeMap_Staged_Order[ref] = stage.NodeMap_Staged_Order[node]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := node.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, node)
 			delete(stage.NodeMap_Staged_Order, ref)
@@ -199,9 +206,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.Nodes_reference {
+	for _, ref := range stage.Nodes_reference {
 		if _, ok := stage.Nodes[ref]; !ok {
 			nodes_deletedInstances = append(nodes_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -229,6 +237,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.SVGIconMap_Staged_Order[ref] = stage.SVGIconMap_Staged_Order[svgicon]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := svgicon.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, svgicon)
 			delete(stage.SVGIconMap_Staged_Order, ref)
@@ -248,9 +257,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.SVGIcons_reference {
+	for _, ref := range stage.SVGIcons_reference {
 		if _, ok := stage.SVGIcons[ref]; !ok {
 			svgicons_deletedInstances = append(svgicons_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -278,6 +288,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.TreeMap_Staged_Order[ref] = stage.TreeMap_Staged_Order[tree]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := tree.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, tree)
 			delete(stage.TreeMap_Staged_Order, ref)
@@ -297,9 +308,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.Trees_reference {
+	for _, ref := range stage.Trees_reference {
 		if _, ok := stage.Trees[ref]; !ok {
 			trees_deletedInstances = append(trees_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -343,30 +355,63 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 	// insertion point per named struct
 	stage.Buttons_reference = make(map[*Button]*Button)
 	stage.Buttons_referenceOrder = make(map[*Button]uint) // diff Unstage needs the reference order
+	stage.Buttons_instance = make(map[*Button]*Button)
 	for instance := range stage.Buttons {
-		stage.Buttons_reference[instance] = instance.GongCopy().(*Button)
+		_copy := instance.GongCopy().(*Button)
+		stage.Buttons_reference[instance] = _copy
+		stage.Buttons_instance[_copy] = instance
 		stage.Buttons_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Nodes_reference = make(map[*Node]*Node)
 	stage.Nodes_referenceOrder = make(map[*Node]uint) // diff Unstage needs the reference order
+	stage.Nodes_instance = make(map[*Node]*Node)
 	for instance := range stage.Nodes {
-		stage.Nodes_reference[instance] = instance.GongCopy().(*Node)
+		_copy := instance.GongCopy().(*Node)
+		stage.Nodes_reference[instance] = _copy
+		stage.Nodes_instance[_copy] = instance
 		stage.Nodes_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.SVGIcons_reference = make(map[*SVGIcon]*SVGIcon)
 	stage.SVGIcons_referenceOrder = make(map[*SVGIcon]uint) // diff Unstage needs the reference order
+	stage.SVGIcons_instance = make(map[*SVGIcon]*SVGIcon)
 	for instance := range stage.SVGIcons {
-		stage.SVGIcons_reference[instance] = instance.GongCopy().(*SVGIcon)
+		_copy := instance.GongCopy().(*SVGIcon)
+		stage.SVGIcons_reference[instance] = _copy
+		stage.SVGIcons_instance[_copy] = instance
 		stage.SVGIcons_referenceOrder[instance] = instance.GongGetOrder(stage)
 	}
 
 	stage.Trees_reference = make(map[*Tree]*Tree)
 	stage.Trees_referenceOrder = make(map[*Tree]uint) // diff Unstage needs the reference order
+	stage.Trees_instance = make(map[*Tree]*Tree)
 	for instance := range stage.Trees {
-		stage.Trees_reference[instance] = instance.GongCopy().(*Tree)
+		_copy := instance.GongCopy().(*Tree)
+		stage.Trees_reference[instance] = _copy
+		stage.Trees_instance[_copy] = instance
 		stage.Trees_referenceOrder[instance] = instance.GongGetOrder(stage)
+	}
+
+	// insertion point per named struct
+	for instance := range stage.Buttons {
+		reference := stage.Buttons_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.Nodes {
+		reference := stage.Nodes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.SVGIcons {
+		reference := stage.SVGIcons_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.Trees {
+		reference := stage.Trees_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
 	stage.recomputeOrders()

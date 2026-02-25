@@ -107,7 +107,8 @@ type Stage struct {
 	// insertion point for definition of arrays registering instances
 	DisplaySelections                map[*DisplaySelection]struct{}
 	DisplaySelections_reference      map[*DisplaySelection]*DisplaySelection
-	DisplaySelections_referenceOrder map[*DisplaySelection]uint // diff Unstage needs the reference order
+	DisplaySelections_referenceOrder map[*DisplaySelection]uint
+	DisplaySelections_instance       map[*DisplaySelection]*DisplaySelection
 	DisplaySelections_mapString      map[string]*DisplaySelection
 
 	// insertion point for slice of pointers maps
@@ -118,7 +119,8 @@ type Stage struct {
 
 	XLCells                map[*XLCell]struct{}
 	XLCells_reference      map[*XLCell]*XLCell
-	XLCells_referenceOrder map[*XLCell]uint // diff Unstage needs the reference order
+	XLCells_referenceOrder map[*XLCell]uint
+	XLCells_instance       map[*XLCell]*XLCell
 	XLCells_mapString      map[string]*XLCell
 
 	// insertion point for slice of pointers maps
@@ -129,7 +131,8 @@ type Stage struct {
 
 	XLFiles                map[*XLFile]struct{}
 	XLFiles_reference      map[*XLFile]*XLFile
-	XLFiles_referenceOrder map[*XLFile]uint // diff Unstage needs the reference order
+	XLFiles_referenceOrder map[*XLFile]uint
+	XLFiles_instance       map[*XLFile]*XLFile
 	XLFiles_mapString      map[string]*XLFile
 
 	// insertion point for slice of pointers maps
@@ -142,7 +145,8 @@ type Stage struct {
 
 	XLRows                map[*XLRow]struct{}
 	XLRows_reference      map[*XLRow]*XLRow
-	XLRows_referenceOrder map[*XLRow]uint // diff Unstage needs the reference order
+	XLRows_referenceOrder map[*XLRow]uint
+	XLRows_instance       map[*XLRow]*XLRow
 	XLRows_mapString      map[string]*XLRow
 
 	// insertion point for slice of pointers maps
@@ -155,7 +159,8 @@ type Stage struct {
 
 	XLSheets                map[*XLSheet]struct{}
 	XLSheets_reference      map[*XLSheet]*XLSheet
-	XLSheets_referenceOrder map[*XLSheet]uint // diff Unstage needs the reference order
+	XLSheets_referenceOrder map[*XLSheet]uint
+	XLSheets_instance       map[*XLSheet]*XLSheet
 	XLSheets_mapString      map[string]*XLSheet
 
 	// insertion point for slice of pointers maps

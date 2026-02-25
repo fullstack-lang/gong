@@ -107,7 +107,8 @@ type Stage struct {
 	// insertion point for definition of arrays registering instances
 	Astructs                map[*Astruct]struct{}
 	Astructs_reference      map[*Astruct]*Astruct
-	Astructs_referenceOrder map[*Astruct]uint // diff Unstage needs the reference order
+	Astructs_referenceOrder map[*Astruct]uint
+	Astructs_instance       map[*Astruct]*Astruct
 	Astructs_mapString      map[string]*Astruct
 
 	// insertion point for slice of pointers maps
@@ -130,7 +131,8 @@ type Stage struct {
 
 	AstructBstruct2Uses                map[*AstructBstruct2Use]struct{}
 	AstructBstruct2Uses_reference      map[*AstructBstruct2Use]*AstructBstruct2Use
-	AstructBstruct2Uses_referenceOrder map[*AstructBstruct2Use]uint // diff Unstage needs the reference order
+	AstructBstruct2Uses_referenceOrder map[*AstructBstruct2Use]uint
+	AstructBstruct2Uses_instance       map[*AstructBstruct2Use]*AstructBstruct2Use
 	AstructBstruct2Uses_mapString      map[string]*AstructBstruct2Use
 
 	// insertion point for slice of pointers maps
@@ -141,7 +143,8 @@ type Stage struct {
 
 	AstructBstructUses                map[*AstructBstructUse]struct{}
 	AstructBstructUses_reference      map[*AstructBstructUse]*AstructBstructUse
-	AstructBstructUses_referenceOrder map[*AstructBstructUse]uint // diff Unstage needs the reference order
+	AstructBstructUses_referenceOrder map[*AstructBstructUse]uint
+	AstructBstructUses_instance       map[*AstructBstructUse]*AstructBstructUse
 	AstructBstructUses_mapString      map[string]*AstructBstructUse
 
 	// insertion point for slice of pointers maps
@@ -152,7 +155,8 @@ type Stage struct {
 
 	Bstructs                map[*Bstruct]struct{}
 	Bstructs_reference      map[*Bstruct]*Bstruct
-	Bstructs_referenceOrder map[*Bstruct]uint // diff Unstage needs the reference order
+	Bstructs_referenceOrder map[*Bstruct]uint
+	Bstructs_instance       map[*Bstruct]*Bstruct
 	Bstructs_mapString      map[string]*Bstruct
 
 	// insertion point for slice of pointers maps
@@ -163,7 +167,8 @@ type Stage struct {
 
 	Dstructs                map[*Dstruct]struct{}
 	Dstructs_reference      map[*Dstruct]*Dstruct
-	Dstructs_referenceOrder map[*Dstruct]uint // diff Unstage needs the reference order
+	Dstructs_referenceOrder map[*Dstruct]uint
+	Dstructs_instance       map[*Dstruct]*Dstruct
 	Dstructs_mapString      map[string]*Dstruct
 
 	// insertion point for slice of pointers maps
@@ -178,7 +183,8 @@ type Stage struct {
 
 	F0123456789012345678901234567890s                map[*F0123456789012345678901234567890]struct{}
 	F0123456789012345678901234567890s_reference      map[*F0123456789012345678901234567890]*F0123456789012345678901234567890
-	F0123456789012345678901234567890s_referenceOrder map[*F0123456789012345678901234567890]uint // diff Unstage needs the reference order
+	F0123456789012345678901234567890s_referenceOrder map[*F0123456789012345678901234567890]uint
+	F0123456789012345678901234567890s_instance       map[*F0123456789012345678901234567890]*F0123456789012345678901234567890
 	F0123456789012345678901234567890s_mapString      map[string]*F0123456789012345678901234567890
 
 	// insertion point for slice of pointers maps
@@ -189,7 +195,8 @@ type Stage struct {
 
 	Gstructs                map[*Gstruct]struct{}
 	Gstructs_reference      map[*Gstruct]*Gstruct
-	Gstructs_referenceOrder map[*Gstruct]uint // diff Unstage needs the reference order
+	Gstructs_referenceOrder map[*Gstruct]uint
+	Gstructs_instance       map[*Gstruct]*Gstruct
 	Gstructs_mapString      map[string]*Gstruct
 
 	// insertion point for slice of pointers maps
@@ -2484,19 +2491,19 @@ func (astruct *Astruct) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:               "Aenum",
-			GongFieldValueType: GongFieldValueTypeString,
-			TargetGongstructName: "AEnumType",
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
 		},
 		{
-			Name:               "Aenum_2",
-			GongFieldValueType: GongFieldValueTypeString,
-			TargetGongstructName: "AEnumType",
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
 		},
 		{
-			Name:               "Benum",
-			GongFieldValueType: GongFieldValueTypeString,
-			TargetGongstructName: "BEnumType",
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
 		},
 		{
 			Name:               "CName",

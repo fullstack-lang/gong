@@ -107,7 +107,8 @@ type Stage struct {
 	// insertion point for definition of arrays registering instances
 	Chapters                map[*Chapter]struct{}
 	Chapters_reference      map[*Chapter]*Chapter
-	Chapters_referenceOrder map[*Chapter]uint // diff Unstage needs the reference order
+	Chapters_referenceOrder map[*Chapter]uint
+	Chapters_instance       map[*Chapter]*Chapter
 	Chapters_mapString      map[string]*Chapter
 
 	// insertion point for slice of pointers maps
@@ -120,7 +121,8 @@ type Stage struct {
 
 	Contents                map[*Content]struct{}
 	Contents_reference      map[*Content]*Content
-	Contents_referenceOrder map[*Content]uint // diff Unstage needs the reference order
+	Contents_referenceOrder map[*Content]uint
+	Contents_instance       map[*Content]*Content
 	Contents_mapString      map[string]*Content
 
 	// insertion point for slice of pointers maps
@@ -133,7 +135,8 @@ type Stage struct {
 
 	Pages                map[*Page]struct{}
 	Pages_reference      map[*Page]*Page
-	Pages_referenceOrder map[*Page]uint // diff Unstage needs the reference order
+	Pages_referenceOrder map[*Page]uint
+	Pages_instance       map[*Page]*Page
 	Pages_mapString      map[string]*Page
 
 	// insertion point for slice of pointers maps
@@ -1457,9 +1460,9 @@ func (content *Content) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Target",
-			GongFieldValueType: GongFieldValueTypeString,
-			TargetGongstructName: "Target",
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
 		},
 		{
 			Name:                 "Chapters",

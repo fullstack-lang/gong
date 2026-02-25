@@ -107,7 +107,8 @@ type Stage struct {
 	// insertion point for definition of arrays registering instances
 	Buttons                map[*Button]struct{}
 	Buttons_reference      map[*Button]*Button
-	Buttons_referenceOrder map[*Button]uint // diff Unstage needs the reference order
+	Buttons_referenceOrder map[*Button]uint
+	Buttons_instance       map[*Button]*Button
 	Buttons_mapString      map[string]*Button
 
 	// insertion point for slice of pointers maps
@@ -118,7 +119,8 @@ type Stage struct {
 
 	ButtonToggles                map[*ButtonToggle]struct{}
 	ButtonToggles_reference      map[*ButtonToggle]*ButtonToggle
-	ButtonToggles_referenceOrder map[*ButtonToggle]uint // diff Unstage needs the reference order
+	ButtonToggles_referenceOrder map[*ButtonToggle]uint
+	ButtonToggles_instance       map[*ButtonToggle]*ButtonToggle
 	ButtonToggles_mapString      map[string]*ButtonToggle
 
 	// insertion point for slice of pointers maps
@@ -129,7 +131,8 @@ type Stage struct {
 
 	Groups                map[*Group]struct{}
 	Groups_reference      map[*Group]*Group
-	Groups_referenceOrder map[*Group]uint // diff Unstage needs the reference order
+	Groups_referenceOrder map[*Group]uint
+	Groups_instance       map[*Group]*Group
 	Groups_mapString      map[string]*Group
 
 	// insertion point for slice of pointers maps
@@ -142,7 +145,8 @@ type Stage struct {
 
 	GroupToogles                map[*GroupToogle]struct{}
 	GroupToogles_reference      map[*GroupToogle]*GroupToogle
-	GroupToogles_referenceOrder map[*GroupToogle]uint // diff Unstage needs the reference order
+	GroupToogles_referenceOrder map[*GroupToogle]uint
+	GroupToogles_instance       map[*GroupToogle]*GroupToogle
 	GroupToogles_mapString      map[string]*GroupToogle
 
 	// insertion point for slice of pointers maps
@@ -155,7 +159,8 @@ type Stage struct {
 
 	Layouts                map[*Layout]struct{}
 	Layouts_reference      map[*Layout]*Layout
-	Layouts_referenceOrder map[*Layout]uint // diff Unstage needs the reference order
+	Layouts_referenceOrder map[*Layout]uint
+	Layouts_instance       map[*Layout]*Layout
 	Layouts_mapString      map[string]*Layout
 
 	// insertion point for slice of pointers maps
@@ -1815,19 +1820,19 @@ func (button *Button) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:               "Color",
-			GongFieldValueType: GongFieldValueTypeString,
-			TargetGongstructName: "MatButtonPaletteType",
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
 		},
 		{
-			Name:               "MatButtonType",
-			GongFieldValueType: GongFieldValueTypeString,
-			TargetGongstructName: "MatButtonType",
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
 		},
 		{
-			Name:               "MatButtonAppearance",
-			GongFieldValueType: GongFieldValueTypeString,
-			TargetGongstructName: "MatButtonAppearance",
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
 		},
 	}
 	return

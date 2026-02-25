@@ -107,7 +107,8 @@ type Stage struct {
 	// insertion point for definition of arrays registering instances
 	Arrows                map[*Arrow]struct{}
 	Arrows_reference      map[*Arrow]*Arrow
-	Arrows_referenceOrder map[*Arrow]uint // diff Unstage needs the reference order
+	Arrows_referenceOrder map[*Arrow]uint
+	Arrows_instance       map[*Arrow]*Arrow
 	Arrows_mapString      map[string]*Arrow
 
 	// insertion point for slice of pointers maps
@@ -118,7 +119,8 @@ type Stage struct {
 
 	Bars                map[*Bar]struct{}
 	Bars_reference      map[*Bar]*Bar
-	Bars_referenceOrder map[*Bar]uint // diff Unstage needs the reference order
+	Bars_referenceOrder map[*Bar]uint
+	Bars_instance       map[*Bar]*Bar
 	Bars_mapString      map[string]*Bar
 
 	// insertion point for slice of pointers maps
@@ -129,7 +131,8 @@ type Stage struct {
 
 	Gantts                map[*Gantt]struct{}
 	Gantts_reference      map[*Gantt]*Gantt
-	Gantts_referenceOrder map[*Gantt]uint // diff Unstage needs the reference order
+	Gantts_referenceOrder map[*Gantt]uint
+	Gantts_instance       map[*Gantt]*Gantt
 	Gantts_mapString      map[string]*Gantt
 
 	// insertion point for slice of pointers maps
@@ -148,7 +151,8 @@ type Stage struct {
 
 	Groups                map[*Group]struct{}
 	Groups_reference      map[*Group]*Group
-	Groups_referenceOrder map[*Group]uint // diff Unstage needs the reference order
+	Groups_referenceOrder map[*Group]uint
+	Groups_instance       map[*Group]*Group
 	Groups_mapString      map[string]*Group
 
 	// insertion point for slice of pointers maps
@@ -161,7 +165,8 @@ type Stage struct {
 
 	Lanes                map[*Lane]struct{}
 	Lanes_reference      map[*Lane]*Lane
-	Lanes_referenceOrder map[*Lane]uint // diff Unstage needs the reference order
+	Lanes_referenceOrder map[*Lane]uint
+	Lanes_instance       map[*Lane]*Lane
 	Lanes_mapString      map[string]*Lane
 
 	// insertion point for slice of pointers maps
@@ -174,7 +179,8 @@ type Stage struct {
 
 	LaneUses                map[*LaneUse]struct{}
 	LaneUses_reference      map[*LaneUse]*LaneUse
-	LaneUses_referenceOrder map[*LaneUse]uint // diff Unstage needs the reference order
+	LaneUses_referenceOrder map[*LaneUse]uint
+	LaneUses_instance       map[*LaneUse]*LaneUse
 	LaneUses_mapString      map[string]*LaneUse
 
 	// insertion point for slice of pointers maps
@@ -185,7 +191,8 @@ type Stage struct {
 
 	Milestones                map[*Milestone]struct{}
 	Milestones_reference      map[*Milestone]*Milestone
-	Milestones_referenceOrder map[*Milestone]uint // diff Unstage needs the reference order
+	Milestones_referenceOrder map[*Milestone]uint
+	Milestones_instance       map[*Milestone]*Milestone
 	Milestones_mapString      map[string]*Milestone
 
 	// insertion point for slice of pointers maps

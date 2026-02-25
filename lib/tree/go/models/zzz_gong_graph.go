@@ -403,6 +403,115 @@ func (stage *Stage) UnstageBranchTree(tree *Tree) {
 
 }
 
+// insertion point for pointer reconstruction from references
+func (reference *Button) GongReconstructPointersFromReferences(stage *Stage, instance *Button) () {
+	// insertion point for pointers field
+	if instance.SVGIcon != nil {
+		reference.SVGIcon = stage.SVGIcons_reference[instance.SVGIcon]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *Node) GongReconstructPointersFromReferences(stage *Stage, instance *Node) () {
+	// insertion point for pointers field
+	if instance.PreceedingSVGIcon != nil {
+		reference.PreceedingSVGIcon = stage.SVGIcons_reference[instance.PreceedingSVGIcon]
+	}
+	// insertion point for slice of pointers field
+	reference.Children = reference.Children[:0]
+	for _, _b := range instance.Children {
+		reference.Children = append(reference.Children, stage.Nodes_reference[_b])
+	}
+	reference.Buttons = reference.Buttons[:0]
+	for _, _b := range instance.Buttons {
+		reference.Buttons = append(reference.Buttons, stage.Buttons_reference[_b])
+	}
+
+	return
+}
+
+func (reference *SVGIcon) GongReconstructPointersFromReferences(stage *Stage, instance *SVGIcon) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *Tree) GongReconstructPointersFromReferences(stage *Stage, instance *Tree) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.RootNodes = reference.RootNodes[:0]
+	for _, _b := range instance.RootNodes {
+		reference.RootNodes = append(reference.RootNodes, stage.Nodes_reference[_b])
+	}
+
+	return
+}
+
+// insertion point for pointer reconstruction from instances
+func (reference *Button) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.SVGIcon; _reference != nil {
+		reference.SVGIcon = nil
+		if _instance, ok := stage.SVGIcons_instance[_reference]; ok {
+			reference.SVGIcon = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *Node) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.PreceedingSVGIcon; _reference != nil {
+		reference.PreceedingSVGIcon = nil
+		if _instance, ok := stage.SVGIcons_instance[_reference]; ok {
+			reference.PreceedingSVGIcon = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+	var _Children []*Node
+	for _, _reference := range reference.Children {
+		if _instance, ok := stage.Nodes_instance[_reference]; ok {
+			_Children = append(_Children, stage.Nodes_reference[_instance])
+		}
+	}
+	reference.Children = _Children
+	var _Buttons []*Button
+	for _, _reference := range reference.Buttons {
+		if _instance, ok := stage.Buttons_instance[_reference]; ok {
+			_Buttons = append(_Buttons, stage.Buttons_reference[_instance])
+		}
+	}
+	reference.Buttons = _Buttons
+
+	return
+}
+
+func (reference *SVGIcon) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *Tree) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _RootNodes []*Node
+	for _, _reference := range reference.RootNodes {
+		if _instance, ok := stage.Nodes_instance[_reference]; ok {
+			_RootNodes = append(_RootNodes, stage.Nodes_reference[_instance])
+		}
+	}
+	reference.RootNodes = _RootNodes
+
+	return
+}
+
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings

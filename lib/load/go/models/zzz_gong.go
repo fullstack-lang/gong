@@ -107,7 +107,8 @@ type Stage struct {
 	// insertion point for definition of arrays registering instances
 	FileToDownloads                map[*FileToDownload]struct{}
 	FileToDownloads_reference      map[*FileToDownload]*FileToDownload
-	FileToDownloads_referenceOrder map[*FileToDownload]uint // diff Unstage needs the reference order
+	FileToDownloads_referenceOrder map[*FileToDownload]uint
+	FileToDownloads_instance       map[*FileToDownload]*FileToDownload
 	FileToDownloads_mapString      map[string]*FileToDownload
 
 	// insertion point for slice of pointers maps
@@ -118,7 +119,8 @@ type Stage struct {
 
 	FileToUploads                map[*FileToUpload]struct{}
 	FileToUploads_reference      map[*FileToUpload]*FileToUpload
-	FileToUploads_referenceOrder map[*FileToUpload]uint // diff Unstage needs the reference order
+	FileToUploads_referenceOrder map[*FileToUpload]uint
+	FileToUploads_instance       map[*FileToUpload]*FileToUpload
 	FileToUploads_mapString      map[string]*FileToUpload
 
 	// insertion point for slice of pointers maps
@@ -129,7 +131,8 @@ type Stage struct {
 
 	Messages                map[*Message]struct{}
 	Messages_reference      map[*Message]*Message
-	Messages_referenceOrder map[*Message]uint // diff Unstage needs the reference order
+	Messages_referenceOrder map[*Message]uint
+	Messages_instance       map[*Message]*Message
 	Messages_mapString      map[string]*Message
 
 	// insertion point for slice of pointers maps

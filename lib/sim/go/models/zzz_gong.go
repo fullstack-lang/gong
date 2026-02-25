@@ -107,7 +107,8 @@ type Stage struct {
 	// insertion point for definition of arrays registering instances
 	Commands                map[*Command]struct{}
 	Commands_reference      map[*Command]*Command
-	Commands_referenceOrder map[*Command]uint // diff Unstage needs the reference order
+	Commands_referenceOrder map[*Command]uint
+	Commands_instance       map[*Command]*Command
 	Commands_mapString      map[string]*Command
 
 	// insertion point for slice of pointers maps
@@ -118,7 +119,8 @@ type Stage struct {
 
 	DummyAgents                map[*DummyAgent]struct{}
 	DummyAgents_reference      map[*DummyAgent]*DummyAgent
-	DummyAgents_referenceOrder map[*DummyAgent]uint // diff Unstage needs the reference order
+	DummyAgents_referenceOrder map[*DummyAgent]uint
+	DummyAgents_instance       map[*DummyAgent]*DummyAgent
 	DummyAgents_mapString      map[string]*DummyAgent
 
 	// insertion point for slice of pointers maps
@@ -129,7 +131,8 @@ type Stage struct {
 
 	Engines                map[*Engine]struct{}
 	Engines_reference      map[*Engine]*Engine
-	Engines_referenceOrder map[*Engine]uint // diff Unstage needs the reference order
+	Engines_referenceOrder map[*Engine]uint
+	Engines_instance       map[*Engine]*Engine
 	Engines_mapString      map[string]*Engine
 
 	// insertion point for slice of pointers maps
@@ -140,7 +143,8 @@ type Stage struct {
 
 	Events                map[*Event]struct{}
 	Events_reference      map[*Event]*Event
-	Events_referenceOrder map[*Event]uint // diff Unstage needs the reference order
+	Events_referenceOrder map[*Event]uint
+	Events_instance       map[*Event]*Event
 	Events_mapString      map[string]*Event
 
 	// insertion point for slice of pointers maps
@@ -151,7 +155,8 @@ type Stage struct {
 
 	Statuss                map[*Status]struct{}
 	Statuss_reference      map[*Status]*Status
-	Statuss_referenceOrder map[*Status]uint // diff Unstage needs the reference order
+	Statuss_referenceOrder map[*Status]uint
+	Statuss_instance       map[*Status]*Status
 	Statuss_mapString      map[string]*Status
 
 	// insertion point for slice of pointers maps
@@ -162,7 +167,8 @@ type Stage struct {
 
 	UpdateStates                map[*UpdateState]struct{}
 	UpdateStates_reference      map[*UpdateState]*UpdateState
-	UpdateStates_referenceOrder map[*UpdateState]uint // diff Unstage needs the reference order
+	UpdateStates_referenceOrder map[*UpdateState]uint
+	UpdateStates_instance       map[*UpdateState]*UpdateState
 	UpdateStates_mapString      map[string]*UpdateState
 
 	// insertion point for slice of pointers maps
@@ -1948,9 +1954,9 @@ func (command *Command) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Command",
-			GongFieldValueType: GongFieldValueTypeString,
-			TargetGongstructName: "CommandType",
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
 		},
 		{
 			Name:               "CommandDate",
@@ -2008,14 +2014,14 @@ func (engine *Engine) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeInt,
 		},
 		{
-			Name:               "ControlMode",
-			GongFieldValueType: GongFieldValueTypeString,
-			TargetGongstructName: "ControlMode",
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
 		},
 		{
-			Name:               "State",
-			GongFieldValueType: GongFieldValueTypeString,
-			TargetGongstructName: "EngineState",
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
 		},
 		{
 			Name:               "Speed",
@@ -2048,18 +2054,18 @@ func (status *Status) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "CurrentCommand",
-			GongFieldValueType: GongFieldValueTypeString,
-			TargetGongstructName: "CommandType",
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
 		},
 		{
 			Name:               "CompletionDate",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "CurrentSpeedCommand",
-			GongFieldValueType: GongFieldValueTypeString,
-			TargetGongstructName: "SpeedCommandType",
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
 		},
 		{
 			Name:               "SpeedCommandCompletionDate",

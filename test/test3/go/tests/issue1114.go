@@ -22,8 +22,6 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	// insertion point for declaration of instances to stage
-	stage.Commit()
 	__A__00000000_ := (&models.A{Name: `A0`}).Stage(stage)
 	__B__00000000_ := (&models.B{Name: `B0`}).Stage(stage)
 
