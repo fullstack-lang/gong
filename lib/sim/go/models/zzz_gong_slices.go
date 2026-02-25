@@ -164,7 +164,6 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 		instance := stage.Commands_instance[ref]    // get the instance corresponding to the reference
 		if _, ok := stage.Commands[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			commands_deletedInstances = append(commands_deletedInstances, ref)
-			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -216,7 +215,6 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 		instance := stage.DummyAgents_instance[ref]    // get the instance corresponding to the reference
 		if _, ok := stage.DummyAgents[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			dummyagents_deletedInstances = append(dummyagents_deletedInstances, ref)
-			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -268,7 +266,6 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 		instance := stage.Engines_instance[ref]    // get the instance corresponding to the reference
 		if _, ok := stage.Engines[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			engines_deletedInstances = append(engines_deletedInstances, ref)
-			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -320,7 +317,6 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 		instance := stage.Events_instance[ref]    // get the instance corresponding to the reference
 		if _, ok := stage.Events[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			events_deletedInstances = append(events_deletedInstances, ref)
-			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -372,7 +368,6 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 		instance := stage.Statuss_instance[ref]    // get the instance corresponding to the reference
 		if _, ok := stage.Statuss[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			statuss_deletedInstances = append(statuss_deletedInstances, ref)
-			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -424,7 +419,6 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 		instance := stage.UpdateStates_instance[ref]    // get the instance corresponding to the reference
 		if _, ok := stage.UpdateStates[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			updatestates_deletedInstances = append(updatestates_deletedInstances, ref)
-			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
