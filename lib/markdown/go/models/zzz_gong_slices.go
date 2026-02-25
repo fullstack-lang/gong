@@ -135,7 +135,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.Contents_reference {
-		if _, ok := stage.Contents[ref]; !ok {
+		instance := stage.Contents_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.Contents[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			contents_deletedInstances = append(contents_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -186,7 +187,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.JpgImages_reference {
-		if _, ok := stage.JpgImages[ref]; !ok {
+		instance := stage.JpgImages_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.JpgImages[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			jpgimages_deletedInstances = append(jpgimages_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -237,7 +239,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.PngImages_reference {
-		if _, ok := stage.PngImages[ref]; !ok {
+		instance := stage.PngImages_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.PngImages[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			pngimages_deletedInstances = append(pngimages_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -288,7 +291,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.SvgImages_reference {
-		if _, ok := stage.SvgImages[ref]; !ok {
+		instance := stage.SvgImages_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.SvgImages[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			svgimages_deletedInstances = append(svgimages_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))

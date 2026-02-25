@@ -256,7 +256,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.AttributeShapes_reference {
-		if _, ok := stage.AttributeShapes[ref]; !ok {
+		instance := stage.AttributeShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.AttributeShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			attributeshapes_deletedInstances = append(attributeshapes_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -307,7 +308,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.Classdiagrams_reference {
-		if _, ok := stage.Classdiagrams[ref]; !ok {
+		instance := stage.Classdiagrams_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.Classdiagrams[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			classdiagrams_deletedInstances = append(classdiagrams_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -358,7 +360,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.DiagramPackages_reference {
-		if _, ok := stage.DiagramPackages[ref]; !ok {
+		instance := stage.DiagramPackages_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.DiagramPackages[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			diagrampackages_deletedInstances = append(diagrampackages_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -409,7 +412,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.GongEnumShapes_reference {
-		if _, ok := stage.GongEnumShapes[ref]; !ok {
+		instance := stage.GongEnumShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.GongEnumShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			gongenumshapes_deletedInstances = append(gongenumshapes_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -460,7 +464,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.GongEnumValueShapes_reference {
-		if _, ok := stage.GongEnumValueShapes[ref]; !ok {
+		instance := stage.GongEnumValueShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.GongEnumValueShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			gongenumvalueshapes_deletedInstances = append(gongenumvalueshapes_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -511,7 +516,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.GongNoteLinkShapes_reference {
-		if _, ok := stage.GongNoteLinkShapes[ref]; !ok {
+		instance := stage.GongNoteLinkShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.GongNoteLinkShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			gongnotelinkshapes_deletedInstances = append(gongnotelinkshapes_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -562,7 +568,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.GongNoteShapes_reference {
-		if _, ok := stage.GongNoteShapes[ref]; !ok {
+		instance := stage.GongNoteShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.GongNoteShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			gongnoteshapes_deletedInstances = append(gongnoteshapes_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -613,7 +620,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.GongStructShapes_reference {
-		if _, ok := stage.GongStructShapes[ref]; !ok {
+		instance := stage.GongStructShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.GongStructShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			gongstructshapes_deletedInstances = append(gongstructshapes_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -664,7 +672,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.LinkShapes_reference {
-		if _, ok := stage.LinkShapes[ref]; !ok {
+		instance := stage.LinkShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.LinkShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			linkshapes_deletedInstances = append(linkshapes_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
