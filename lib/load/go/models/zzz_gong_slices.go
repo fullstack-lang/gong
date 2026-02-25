@@ -122,7 +122,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.FileToDownloads_reference {
-		if _, ok := stage.FileToDownloads[ref]; !ok {
+		instance := stage.FileToDownloads_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.FileToDownloads[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			filetodownloads_deletedInstances = append(filetodownloads_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -173,7 +174,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.FileToUploads_reference {
-		if _, ok := stage.FileToUploads[ref]; !ok {
+		instance := stage.FileToUploads_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.FileToUploads[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			filetouploads_deletedInstances = append(filetouploads_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -224,7 +226,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.Messages_reference {
-		if _, ok := stage.Messages[ref]; !ok {
+		instance := stage.Messages_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.Messages[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			messages_deletedInstances = append(messages_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))

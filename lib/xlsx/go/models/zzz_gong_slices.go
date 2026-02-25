@@ -176,7 +176,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.DisplaySelections_reference {
-		if _, ok := stage.DisplaySelections[ref]; !ok {
+		instance := stage.DisplaySelections_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.DisplaySelections[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			displayselections_deletedInstances = append(displayselections_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -227,7 +228,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.XLCells_reference {
-		if _, ok := stage.XLCells[ref]; !ok {
+		instance := stage.XLCells_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.XLCells[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			xlcells_deletedInstances = append(xlcells_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -278,7 +280,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.XLFiles_reference {
-		if _, ok := stage.XLFiles[ref]; !ok {
+		instance := stage.XLFiles_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.XLFiles[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			xlfiles_deletedInstances = append(xlfiles_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -329,7 +332,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.XLRows_reference {
-		if _, ok := stage.XLRows[ref]; !ok {
+		instance := stage.XLRows_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.XLRows[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			xlrows_deletedInstances = append(xlrows_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
@@ -380,7 +384,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	// parse all reference instances and check if they are still staged
 	for _, ref := range stage.XLSheets_reference {
-		if _, ok := stage.XLSheets[ref]; !ok {
+		instance := stage.XLSheets_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.XLSheets[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
 			xlsheets_deletedInstances = append(xlsheets_deletedInstances, ref)
 			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
