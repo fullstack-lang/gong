@@ -148,7 +148,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Cursor)
 		stage.Cursors_reference[instance] = _copy
 		stage.Cursors_instance[_copy] = instance
-		stage.Cursors_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Cursors_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	// insertion point per named struct

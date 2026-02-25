@@ -1179,7 +1179,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Body)
 		stage.Bodys_reference[instance] = _copy
 		stage.Bodys_instance[_copy] = instance
-		stage.Bodys_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Bodys_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Documents_reference = make(map[*Document]*Document)
@@ -1189,7 +1189,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Document)
 		stage.Documents_reference[instance] = _copy
 		stage.Documents_instance[_copy] = instance
-		stage.Documents_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Documents_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Docxs_reference = make(map[*Docx]*Docx)
@@ -1199,7 +1199,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Docx)
 		stage.Docxs_reference[instance] = _copy
 		stage.Docxs_instance[_copy] = instance
-		stage.Docxs_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Docxs_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Files_reference = make(map[*File]*File)
@@ -1209,7 +1209,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*File)
 		stage.Files_reference[instance] = _copy
 		stage.Files_instance[_copy] = instance
-		stage.Files_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Files_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Nodes_reference = make(map[*Node]*Node)
@@ -1219,7 +1219,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Node)
 		stage.Nodes_reference[instance] = _copy
 		stage.Nodes_instance[_copy] = instance
-		stage.Nodes_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Nodes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Paragraphs_reference = make(map[*Paragraph]*Paragraph)
@@ -1229,7 +1229,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Paragraph)
 		stage.Paragraphs_reference[instance] = _copy
 		stage.Paragraphs_instance[_copy] = instance
-		stage.Paragraphs_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Paragraphs_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.ParagraphPropertiess_reference = make(map[*ParagraphProperties]*ParagraphProperties)
@@ -1239,7 +1239,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*ParagraphProperties)
 		stage.ParagraphPropertiess_reference[instance] = _copy
 		stage.ParagraphPropertiess_instance[_copy] = instance
-		stage.ParagraphPropertiess_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.ParagraphPropertiess_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.ParagraphStyles_reference = make(map[*ParagraphStyle]*ParagraphStyle)
@@ -1249,7 +1249,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*ParagraphStyle)
 		stage.ParagraphStyles_reference[instance] = _copy
 		stage.ParagraphStyles_instance[_copy] = instance
-		stage.ParagraphStyles_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.ParagraphStyles_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Runes_reference = make(map[*Rune]*Rune)
@@ -1259,7 +1259,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Rune)
 		stage.Runes_reference[instance] = _copy
 		stage.Runes_instance[_copy] = instance
-		stage.Runes_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Runes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.RunePropertiess_reference = make(map[*RuneProperties]*RuneProperties)
@@ -1269,7 +1269,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*RuneProperties)
 		stage.RunePropertiess_reference[instance] = _copy
 		stage.RunePropertiess_instance[_copy] = instance
-		stage.RunePropertiess_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.RunePropertiess_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Tables_reference = make(map[*Table]*Table)
@@ -1279,7 +1279,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Table)
 		stage.Tables_reference[instance] = _copy
 		stage.Tables_instance[_copy] = instance
-		stage.Tables_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Tables_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.TableColumns_reference = make(map[*TableColumn]*TableColumn)
@@ -1289,7 +1289,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*TableColumn)
 		stage.TableColumns_reference[instance] = _copy
 		stage.TableColumns_instance[_copy] = instance
-		stage.TableColumns_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.TableColumns_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.TablePropertiess_reference = make(map[*TableProperties]*TableProperties)
@@ -1299,7 +1299,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*TableProperties)
 		stage.TablePropertiess_reference[instance] = _copy
 		stage.TablePropertiess_instance[_copy] = instance
-		stage.TablePropertiess_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.TablePropertiess_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.TableRows_reference = make(map[*TableRow]*TableRow)
@@ -1309,7 +1309,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*TableRow)
 		stage.TableRows_reference[instance] = _copy
 		stage.TableRows_instance[_copy] = instance
-		stage.TableRows_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.TableRows_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.TableStyles_reference = make(map[*TableStyle]*TableStyle)
@@ -1319,7 +1319,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*TableStyle)
 		stage.TableStyles_reference[instance] = _copy
 		stage.TableStyles_instance[_copy] = instance
-		stage.TableStyles_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.TableStyles_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Texts_reference = make(map[*Text]*Text)
@@ -1329,7 +1329,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Text)
 		stage.Texts_reference[instance] = _copy
 		stage.Texts_instance[_copy] = instance
-		stage.Texts_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Texts_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	// insertion point per named struct

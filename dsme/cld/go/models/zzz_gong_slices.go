@@ -833,7 +833,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Category1)
 		stage.Category1s_reference[instance] = _copy
 		stage.Category1s_instance[_copy] = instance
-		stage.Category1s_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Category1s_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Category1Shapes_reference = make(map[*Category1Shape]*Category1Shape)
@@ -843,7 +843,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Category1Shape)
 		stage.Category1Shapes_reference[instance] = _copy
 		stage.Category1Shapes_instance[_copy] = instance
-		stage.Category1Shapes_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Category1Shapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Category2s_reference = make(map[*Category2]*Category2)
@@ -853,7 +853,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Category2)
 		stage.Category2s_reference[instance] = _copy
 		stage.Category2s_instance[_copy] = instance
-		stage.Category2s_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Category2s_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Category2Shapes_reference = make(map[*Category2Shape]*Category2Shape)
@@ -863,7 +863,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Category2Shape)
 		stage.Category2Shapes_reference[instance] = _copy
 		stage.Category2Shapes_instance[_copy] = instance
-		stage.Category2Shapes_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Category2Shapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Category3s_reference = make(map[*Category3]*Category3)
@@ -873,7 +873,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Category3)
 		stage.Category3s_reference[instance] = _copy
 		stage.Category3s_instance[_copy] = instance
-		stage.Category3s_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Category3s_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Category3Shapes_reference = make(map[*Category3Shape]*Category3Shape)
@@ -883,7 +883,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Category3Shape)
 		stage.Category3Shapes_reference[instance] = _copy
 		stage.Category3Shapes_instance[_copy] = instance
-		stage.Category3Shapes_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Category3Shapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.ControlPointShapes_reference = make(map[*ControlPointShape]*ControlPointShape)
@@ -893,7 +893,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*ControlPointShape)
 		stage.ControlPointShapes_reference[instance] = _copy
 		stage.ControlPointShapes_instance[_copy] = instance
-		stage.ControlPointShapes_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.ControlPointShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Desks_reference = make(map[*Desk]*Desk)
@@ -903,7 +903,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Desk)
 		stage.Desks_reference[instance] = _copy
 		stage.Desks_instance[_copy] = instance
-		stage.Desks_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Desks_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Diagrams_reference = make(map[*Diagram]*Diagram)
@@ -913,7 +913,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Diagram)
 		stage.Diagrams_reference[instance] = _copy
 		stage.Diagrams_instance[_copy] = instance
-		stage.Diagrams_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Diagrams_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Influences_reference = make(map[*Influence]*Influence)
@@ -923,7 +923,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Influence)
 		stage.Influences_reference[instance] = _copy
 		stage.Influences_instance[_copy] = instance
-		stage.Influences_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Influences_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.InfluenceShapes_reference = make(map[*InfluenceShape]*InfluenceShape)
@@ -933,7 +933,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*InfluenceShape)
 		stage.InfluenceShapes_reference[instance] = _copy
 		stage.InfluenceShapes_instance[_copy] = instance
-		stage.InfluenceShapes_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.InfluenceShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	// insertion point per named struct

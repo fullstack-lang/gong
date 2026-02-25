@@ -1651,7 +1651,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Animate)
 		stage.Animates_reference[instance] = _copy
 		stage.Animates_instance[_copy] = instance
-		stage.Animates_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Animates_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Circles_reference = make(map[*Circle]*Circle)
@@ -1661,7 +1661,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Circle)
 		stage.Circles_reference[instance] = _copy
 		stage.Circles_instance[_copy] = instance
-		stage.Circles_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Circles_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Conditions_reference = make(map[*Condition]*Condition)
@@ -1671,7 +1671,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Condition)
 		stage.Conditions_reference[instance] = _copy
 		stage.Conditions_instance[_copy] = instance
-		stage.Conditions_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Conditions_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.ControlPoints_reference = make(map[*ControlPoint]*ControlPoint)
@@ -1681,7 +1681,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*ControlPoint)
 		stage.ControlPoints_reference[instance] = _copy
 		stage.ControlPoints_instance[_copy] = instance
-		stage.ControlPoints_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.ControlPoints_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Ellipses_reference = make(map[*Ellipse]*Ellipse)
@@ -1691,7 +1691,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Ellipse)
 		stage.Ellipses_reference[instance] = _copy
 		stage.Ellipses_instance[_copy] = instance
-		stage.Ellipses_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Ellipses_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Layers_reference = make(map[*Layer]*Layer)
@@ -1701,7 +1701,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Layer)
 		stage.Layers_reference[instance] = _copy
 		stage.Layers_instance[_copy] = instance
-		stage.Layers_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Layers_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Lines_reference = make(map[*Line]*Line)
@@ -1711,7 +1711,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Line)
 		stage.Lines_reference[instance] = _copy
 		stage.Lines_instance[_copy] = instance
-		stage.Lines_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Lines_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Links_reference = make(map[*Link]*Link)
@@ -1721,7 +1721,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Link)
 		stage.Links_reference[instance] = _copy
 		stage.Links_instance[_copy] = instance
-		stage.Links_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Links_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.LinkAnchoredTexts_reference = make(map[*LinkAnchoredText]*LinkAnchoredText)
@@ -1731,7 +1731,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*LinkAnchoredText)
 		stage.LinkAnchoredTexts_reference[instance] = _copy
 		stage.LinkAnchoredTexts_instance[_copy] = instance
-		stage.LinkAnchoredTexts_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.LinkAnchoredTexts_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Paths_reference = make(map[*Path]*Path)
@@ -1741,7 +1741,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Path)
 		stage.Paths_reference[instance] = _copy
 		stage.Paths_instance[_copy] = instance
-		stage.Paths_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Paths_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Points_reference = make(map[*Point]*Point)
@@ -1751,7 +1751,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Point)
 		stage.Points_reference[instance] = _copy
 		stage.Points_instance[_copy] = instance
-		stage.Points_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Points_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Polygones_reference = make(map[*Polygone]*Polygone)
@@ -1761,7 +1761,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Polygone)
 		stage.Polygones_reference[instance] = _copy
 		stage.Polygones_instance[_copy] = instance
-		stage.Polygones_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Polygones_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Polylines_reference = make(map[*Polyline]*Polyline)
@@ -1771,7 +1771,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Polyline)
 		stage.Polylines_reference[instance] = _copy
 		stage.Polylines_instance[_copy] = instance
-		stage.Polylines_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Polylines_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Rects_reference = make(map[*Rect]*Rect)
@@ -1781,7 +1781,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Rect)
 		stage.Rects_reference[instance] = _copy
 		stage.Rects_instance[_copy] = instance
-		stage.Rects_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Rects_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.RectAnchoredPaths_reference = make(map[*RectAnchoredPath]*RectAnchoredPath)
@@ -1791,7 +1791,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*RectAnchoredPath)
 		stage.RectAnchoredPaths_reference[instance] = _copy
 		stage.RectAnchoredPaths_instance[_copy] = instance
-		stage.RectAnchoredPaths_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.RectAnchoredPaths_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.RectAnchoredRects_reference = make(map[*RectAnchoredRect]*RectAnchoredRect)
@@ -1801,7 +1801,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*RectAnchoredRect)
 		stage.RectAnchoredRects_reference[instance] = _copy
 		stage.RectAnchoredRects_instance[_copy] = instance
-		stage.RectAnchoredRects_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.RectAnchoredRects_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.RectAnchoredTexts_reference = make(map[*RectAnchoredText]*RectAnchoredText)
@@ -1811,7 +1811,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*RectAnchoredText)
 		stage.RectAnchoredTexts_reference[instance] = _copy
 		stage.RectAnchoredTexts_instance[_copy] = instance
-		stage.RectAnchoredTexts_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.RectAnchoredTexts_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.RectLinkLinks_reference = make(map[*RectLinkLink]*RectLinkLink)
@@ -1821,7 +1821,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*RectLinkLink)
 		stage.RectLinkLinks_reference[instance] = _copy
 		stage.RectLinkLinks_instance[_copy] = instance
-		stage.RectLinkLinks_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.RectLinkLinks_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.SVGs_reference = make(map[*SVG]*SVG)
@@ -1831,7 +1831,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*SVG)
 		stage.SVGs_reference[instance] = _copy
 		stage.SVGs_instance[_copy] = instance
-		stage.SVGs_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.SVGs_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.SvgTexts_reference = make(map[*SvgText]*SvgText)
@@ -1841,7 +1841,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*SvgText)
 		stage.SvgTexts_reference[instance] = _copy
 		stage.SvgTexts_instance[_copy] = instance
-		stage.SvgTexts_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.SvgTexts_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Texts_reference = make(map[*Text]*Text)
@@ -1851,7 +1851,7 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		_copy := instance.GongCopy().(*Text)
 		stage.Texts_reference[instance] = _copy
 		stage.Texts_instance[_copy] = instance
-		stage.Texts_referenceOrder[instance] = instance.GongGetOrder(stage)
+		stage.Texts_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	// insertion point per named struct
