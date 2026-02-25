@@ -943,6 +943,255 @@ func (stage *Stage) UnstageBranchSliceOfPointerToGongStructField(sliceofpointert
 
 }
 
+// insertion point for pointer reconstruction from references
+func (reference *GongBasicField) GongReconstructPointersFromReferences(stage *Stage, instance *GongBasicField) () {
+	// insertion point for pointers field
+	if instance.GongEnum != nil {
+		reference.GongEnum = stage.GongEnums_reference[instance.GongEnum]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *GongEnum) GongReconstructPointersFromReferences(stage *Stage, instance *GongEnum) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.GongEnumValues = reference.GongEnumValues[:0]
+	for _, _b := range instance.GongEnumValues {
+		reference.GongEnumValues = append(reference.GongEnumValues, stage.GongEnumValues_reference[_b])
+	}
+
+	return
+}
+
+func (reference *GongEnumValue) GongReconstructPointersFromReferences(stage *Stage, instance *GongEnumValue) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *GongLink) GongReconstructPointersFromReferences(stage *Stage, instance *GongLink) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *GongNote) GongReconstructPointersFromReferences(stage *Stage, instance *GongNote) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.Links = reference.Links[:0]
+	for _, _b := range instance.Links {
+		reference.Links = append(reference.Links, stage.GongLinks_reference[_b])
+	}
+
+	return
+}
+
+func (reference *GongStruct) GongReconstructPointersFromReferences(stage *Stage, instance *GongStruct) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.GongBasicFields = reference.GongBasicFields[:0]
+	for _, _b := range instance.GongBasicFields {
+		reference.GongBasicFields = append(reference.GongBasicFields, stage.GongBasicFields_reference[_b])
+	}
+	reference.GongTimeFields = reference.GongTimeFields[:0]
+	for _, _b := range instance.GongTimeFields {
+		reference.GongTimeFields = append(reference.GongTimeFields, stage.GongTimeFields_reference[_b])
+	}
+	reference.PointerToGongStructFields = reference.PointerToGongStructFields[:0]
+	for _, _b := range instance.PointerToGongStructFields {
+		reference.PointerToGongStructFields = append(reference.PointerToGongStructFields, stage.PointerToGongStructFields_reference[_b])
+	}
+	reference.SliceOfPointerToGongStructFields = reference.SliceOfPointerToGongStructFields[:0]
+	for _, _b := range instance.SliceOfPointerToGongStructFields {
+		reference.SliceOfPointerToGongStructFields = append(reference.SliceOfPointerToGongStructFields, stage.SliceOfPointerToGongStructFields_reference[_b])
+	}
+
+	return
+}
+
+func (reference *GongTimeField) GongReconstructPointersFromReferences(stage *Stage, instance *GongTimeField) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *MetaReference) GongReconstructPointersFromReferences(stage *Stage, instance *MetaReference) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *ModelPkg) GongReconstructPointersFromReferences(stage *Stage, instance *ModelPkg) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *PointerToGongStructField) GongReconstructPointersFromReferences(stage *Stage, instance *PointerToGongStructField) () {
+	// insertion point for pointers field
+	if instance.GongStruct != nil {
+		reference.GongStruct = stage.GongStructs_reference[instance.GongStruct]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *SliceOfPointerToGongStructField) GongReconstructPointersFromReferences(stage *Stage, instance *SliceOfPointerToGongStructField) () {
+	// insertion point for pointers field
+	if instance.GongStruct != nil {
+		reference.GongStruct = stage.GongStructs_reference[instance.GongStruct]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+// insertion point for pointer reconstruction from instances
+func (reference *GongBasicField) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.GongEnum; _reference != nil {
+		reference.GongEnum = nil
+		if _instance, ok := stage.GongEnums_instance[_reference]; ok {
+			reference.GongEnum = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *GongEnum) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _GongEnumValues []*GongEnumValue
+	for _, _reference := range reference.GongEnumValues {
+		if _instance, ok := stage.GongEnumValues_instance[_reference]; ok {
+			_GongEnumValues = append(_GongEnumValues, stage.GongEnumValues_reference[_instance])
+		}
+	}
+	reference.GongEnumValues = _GongEnumValues
+
+	return
+}
+
+func (reference *GongEnumValue) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *GongLink) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *GongNote) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _Links []*GongLink
+	for _, _reference := range reference.Links {
+		if _instance, ok := stage.GongLinks_instance[_reference]; ok {
+			_Links = append(_Links, stage.GongLinks_reference[_instance])
+		}
+	}
+	reference.Links = _Links
+
+	return
+}
+
+func (reference *GongStruct) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _GongBasicFields []*GongBasicField
+	for _, _reference := range reference.GongBasicFields {
+		if _instance, ok := stage.GongBasicFields_instance[_reference]; ok {
+			_GongBasicFields = append(_GongBasicFields, stage.GongBasicFields_reference[_instance])
+		}
+	}
+	reference.GongBasicFields = _GongBasicFields
+	var _GongTimeFields []*GongTimeField
+	for _, _reference := range reference.GongTimeFields {
+		if _instance, ok := stage.GongTimeFields_instance[_reference]; ok {
+			_GongTimeFields = append(_GongTimeFields, stage.GongTimeFields_reference[_instance])
+		}
+	}
+	reference.GongTimeFields = _GongTimeFields
+	var _PointerToGongStructFields []*PointerToGongStructField
+	for _, _reference := range reference.PointerToGongStructFields {
+		if _instance, ok := stage.PointerToGongStructFields_instance[_reference]; ok {
+			_PointerToGongStructFields = append(_PointerToGongStructFields, stage.PointerToGongStructFields_reference[_instance])
+		}
+	}
+	reference.PointerToGongStructFields = _PointerToGongStructFields
+	var _SliceOfPointerToGongStructFields []*SliceOfPointerToGongStructField
+	for _, _reference := range reference.SliceOfPointerToGongStructFields {
+		if _instance, ok := stage.SliceOfPointerToGongStructFields_instance[_reference]; ok {
+			_SliceOfPointerToGongStructFields = append(_SliceOfPointerToGongStructFields, stage.SliceOfPointerToGongStructFields_reference[_instance])
+		}
+	}
+	reference.SliceOfPointerToGongStructFields = _SliceOfPointerToGongStructFields
+
+	return
+}
+
+func (reference *GongTimeField) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *MetaReference) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *ModelPkg) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *PointerToGongStructField) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.GongStruct; _reference != nil {
+		reference.GongStruct = nil
+		if _instance, ok := stage.GongStructs_instance[_reference]; ok {
+			reference.GongStruct = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *SliceOfPointerToGongStructField) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.GongStruct; _reference != nil {
+		reference.GongStruct = nil
+		if _instance, ok := stage.GongStructs_instance[_reference]; ok {
+			reference.GongStruct = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings

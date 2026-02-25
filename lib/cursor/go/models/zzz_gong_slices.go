@@ -34,8 +34,9 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 // insertion point per named struct
 func (cursor *Cursor) GongCopy() GongstructIF {
-	newInstance := *cursor
-	return &newInstance
+	newInstance := new(Cursor)
+	cursor.CopyBasicFields(newInstance)
+	return newInstance
 }
 
 func (stage *Stage) ComputeForwardAndBackwardCommits() {
@@ -74,6 +75,7 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
 			stage.CursorMap_Staged_Order[ref] = stage.CursorMap_Staged_Order[cursor]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := cursor.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, cursor)
 			delete(stage.CursorMap_Staged_Order, ref)
@@ -93,9 +95,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for ref := range stage.Cursors_reference {
+	for _, ref := range stage.Cursors_reference {
 		if _, ok := stage.Cursors[ref]; !ok {
 			cursors_deletedInstances = append(cursors_deletedInstances, ref)
+			ref.GongReconstructPointersFromInstances(stage)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -139,9 +142,18 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 	// insertion point per named struct
 	stage.Cursors_reference = make(map[*Cursor]*Cursor)
 	stage.Cursors_referenceOrder = make(map[*Cursor]uint) // diff Unstage needs the reference order
+	stage.Cursors_instance = make(map[*Cursor]*Cursor)
 	for instance := range stage.Cursors {
-		stage.Cursors_reference[instance] = instance.GongCopy().(*Cursor)
+		_copy := instance.GongCopy().(*Cursor)
+		stage.Cursors_reference[instance] = _copy
+		stage.Cursors_instance[_copy] = instance
 		stage.Cursors_referenceOrder[instance] = instance.GongGetOrder(stage)
+	}
+
+	// insertion point per named struct
+	for instance := range stage.Cursors {
+		reference := stage.Cursors_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
 	stage.recomputeOrders()

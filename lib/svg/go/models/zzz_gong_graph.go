@@ -1906,6 +1906,684 @@ func (stage *Stage) UnstageBranchText(text *Text) {
 
 }
 
+// insertion point for pointer reconstruction from references
+func (reference *Animate) GongReconstructPointersFromReferences(stage *Stage, instance *Animate) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *Circle) GongReconstructPointersFromReferences(stage *Stage, instance *Circle) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.Animations = reference.Animations[:0]
+	for _, _b := range instance.Animations {
+		reference.Animations = append(reference.Animations, stage.Animates_reference[_b])
+	}
+
+	return
+}
+
+func (reference *Condition) GongReconstructPointersFromReferences(stage *Stage, instance *Condition) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *ControlPoint) GongReconstructPointersFromReferences(stage *Stage, instance *ControlPoint) () {
+	// insertion point for pointers field
+	if instance.ClosestRect != nil {
+		reference.ClosestRect = stage.Rects_reference[instance.ClosestRect]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *Ellipse) GongReconstructPointersFromReferences(stage *Stage, instance *Ellipse) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.Animates = reference.Animates[:0]
+	for _, _b := range instance.Animates {
+		reference.Animates = append(reference.Animates, stage.Animates_reference[_b])
+	}
+
+	return
+}
+
+func (reference *Layer) GongReconstructPointersFromReferences(stage *Stage, instance *Layer) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.Rects = reference.Rects[:0]
+	for _, _b := range instance.Rects {
+		reference.Rects = append(reference.Rects, stage.Rects_reference[_b])
+	}
+	reference.Texts = reference.Texts[:0]
+	for _, _b := range instance.Texts {
+		reference.Texts = append(reference.Texts, stage.Texts_reference[_b])
+	}
+	reference.Circles = reference.Circles[:0]
+	for _, _b := range instance.Circles {
+		reference.Circles = append(reference.Circles, stage.Circles_reference[_b])
+	}
+	reference.Lines = reference.Lines[:0]
+	for _, _b := range instance.Lines {
+		reference.Lines = append(reference.Lines, stage.Lines_reference[_b])
+	}
+	reference.Ellipses = reference.Ellipses[:0]
+	for _, _b := range instance.Ellipses {
+		reference.Ellipses = append(reference.Ellipses, stage.Ellipses_reference[_b])
+	}
+	reference.Polylines = reference.Polylines[:0]
+	for _, _b := range instance.Polylines {
+		reference.Polylines = append(reference.Polylines, stage.Polylines_reference[_b])
+	}
+	reference.Polygones = reference.Polygones[:0]
+	for _, _b := range instance.Polygones {
+		reference.Polygones = append(reference.Polygones, stage.Polygones_reference[_b])
+	}
+	reference.Paths = reference.Paths[:0]
+	for _, _b := range instance.Paths {
+		reference.Paths = append(reference.Paths, stage.Paths_reference[_b])
+	}
+	reference.Links = reference.Links[:0]
+	for _, _b := range instance.Links {
+		reference.Links = append(reference.Links, stage.Links_reference[_b])
+	}
+	reference.RectLinkLinks = reference.RectLinkLinks[:0]
+	for _, _b := range instance.RectLinkLinks {
+		reference.RectLinkLinks = append(reference.RectLinkLinks, stage.RectLinkLinks_reference[_b])
+	}
+
+	return
+}
+
+func (reference *Line) GongReconstructPointersFromReferences(stage *Stage, instance *Line) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.Animates = reference.Animates[:0]
+	for _, _b := range instance.Animates {
+		reference.Animates = append(reference.Animates, stage.Animates_reference[_b])
+	}
+
+	return
+}
+
+func (reference *Link) GongReconstructPointersFromReferences(stage *Stage, instance *Link) () {
+	// insertion point for pointers field
+	if instance.Start != nil {
+		reference.Start = stage.Rects_reference[instance.Start]
+	}
+	if instance.End != nil {
+		reference.End = stage.Rects_reference[instance.End]
+	}
+	// insertion point for slice of pointers field
+	reference.TextAtArrowStart = reference.TextAtArrowStart[:0]
+	for _, _b := range instance.TextAtArrowStart {
+		reference.TextAtArrowStart = append(reference.TextAtArrowStart, stage.LinkAnchoredTexts_reference[_b])
+	}
+	reference.TextAtArrowEnd = reference.TextAtArrowEnd[:0]
+	for _, _b := range instance.TextAtArrowEnd {
+		reference.TextAtArrowEnd = append(reference.TextAtArrowEnd, stage.LinkAnchoredTexts_reference[_b])
+	}
+	reference.ControlPoints = reference.ControlPoints[:0]
+	for _, _b := range instance.ControlPoints {
+		reference.ControlPoints = append(reference.ControlPoints, stage.ControlPoints_reference[_b])
+	}
+
+	return
+}
+
+func (reference *LinkAnchoredText) GongReconstructPointersFromReferences(stage *Stage, instance *LinkAnchoredText) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.Animates = reference.Animates[:0]
+	for _, _b := range instance.Animates {
+		reference.Animates = append(reference.Animates, stage.Animates_reference[_b])
+	}
+
+	return
+}
+
+func (reference *Path) GongReconstructPointersFromReferences(stage *Stage, instance *Path) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.Animates = reference.Animates[:0]
+	for _, _b := range instance.Animates {
+		reference.Animates = append(reference.Animates, stage.Animates_reference[_b])
+	}
+
+	return
+}
+
+func (reference *Point) GongReconstructPointersFromReferences(stage *Stage, instance *Point) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *Polygone) GongReconstructPointersFromReferences(stage *Stage, instance *Polygone) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.Animates = reference.Animates[:0]
+	for _, _b := range instance.Animates {
+		reference.Animates = append(reference.Animates, stage.Animates_reference[_b])
+	}
+
+	return
+}
+
+func (reference *Polyline) GongReconstructPointersFromReferences(stage *Stage, instance *Polyline) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.Animates = reference.Animates[:0]
+	for _, _b := range instance.Animates {
+		reference.Animates = append(reference.Animates, stage.Animates_reference[_b])
+	}
+
+	return
+}
+
+func (reference *Rect) GongReconstructPointersFromReferences(stage *Stage, instance *Rect) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.HoveringTrigger = reference.HoveringTrigger[:0]
+	for _, _b := range instance.HoveringTrigger {
+		reference.HoveringTrigger = append(reference.HoveringTrigger, stage.Conditions_reference[_b])
+	}
+	reference.DisplayConditions = reference.DisplayConditions[:0]
+	for _, _b := range instance.DisplayConditions {
+		reference.DisplayConditions = append(reference.DisplayConditions, stage.Conditions_reference[_b])
+	}
+	reference.Animations = reference.Animations[:0]
+	for _, _b := range instance.Animations {
+		reference.Animations = append(reference.Animations, stage.Animates_reference[_b])
+	}
+	reference.RectAnchoredTexts = reference.RectAnchoredTexts[:0]
+	for _, _b := range instance.RectAnchoredTexts {
+		reference.RectAnchoredTexts = append(reference.RectAnchoredTexts, stage.RectAnchoredTexts_reference[_b])
+	}
+	reference.RectAnchoredRects = reference.RectAnchoredRects[:0]
+	for _, _b := range instance.RectAnchoredRects {
+		reference.RectAnchoredRects = append(reference.RectAnchoredRects, stage.RectAnchoredRects_reference[_b])
+	}
+	reference.RectAnchoredPaths = reference.RectAnchoredPaths[:0]
+	for _, _b := range instance.RectAnchoredPaths {
+		reference.RectAnchoredPaths = append(reference.RectAnchoredPaths, stage.RectAnchoredPaths_reference[_b])
+	}
+
+	return
+}
+
+func (reference *RectAnchoredPath) GongReconstructPointersFromReferences(stage *Stage, instance *RectAnchoredPath) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *RectAnchoredRect) GongReconstructPointersFromReferences(stage *Stage, instance *RectAnchoredRect) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *RectAnchoredText) GongReconstructPointersFromReferences(stage *Stage, instance *RectAnchoredText) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.Animates = reference.Animates[:0]
+	for _, _b := range instance.Animates {
+		reference.Animates = append(reference.Animates, stage.Animates_reference[_b])
+	}
+
+	return
+}
+
+func (reference *RectLinkLink) GongReconstructPointersFromReferences(stage *Stage, instance *RectLinkLink) () {
+	// insertion point for pointers field
+	if instance.Start != nil {
+		reference.Start = stage.Rects_reference[instance.Start]
+	}
+	if instance.End != nil {
+		reference.End = stage.Links_reference[instance.End]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *SVG) GongReconstructPointersFromReferences(stage *Stage, instance *SVG) () {
+	// insertion point for pointers field
+	if instance.StartRect != nil {
+		reference.StartRect = stage.Rects_reference[instance.StartRect]
+	}
+	if instance.EndRect != nil {
+		reference.EndRect = stage.Rects_reference[instance.EndRect]
+	}
+	// insertion point for slice of pointers field
+	reference.Layers = reference.Layers[:0]
+	for _, _b := range instance.Layers {
+		reference.Layers = append(reference.Layers, stage.Layers_reference[_b])
+	}
+
+	return
+}
+
+func (reference *SvgText) GongReconstructPointersFromReferences(stage *Stage, instance *SvgText) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *Text) GongReconstructPointersFromReferences(stage *Stage, instance *Text) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.Animates = reference.Animates[:0]
+	for _, _b := range instance.Animates {
+		reference.Animates = append(reference.Animates, stage.Animates_reference[_b])
+	}
+
+	return
+}
+
+// insertion point for pointer reconstruction from instances
+func (reference *Animate) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *Circle) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _Animations []*Animate
+	for _, _reference := range reference.Animations {
+		if _instance, ok := stage.Animates_instance[_reference]; ok {
+			_Animations = append(_Animations, stage.Animates_reference[_instance])
+		}
+	}
+	reference.Animations = _Animations
+
+	return
+}
+
+func (reference *Condition) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *ControlPoint) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.ClosestRect; _reference != nil {
+		reference.ClosestRect = nil
+		if _instance, ok := stage.Rects_instance[_reference]; ok {
+			reference.ClosestRect = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *Ellipse) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _Animates []*Animate
+	for _, _reference := range reference.Animates {
+		if _instance, ok := stage.Animates_instance[_reference]; ok {
+			_Animates = append(_Animates, stage.Animates_reference[_instance])
+		}
+	}
+	reference.Animates = _Animates
+
+	return
+}
+
+func (reference *Layer) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _Rects []*Rect
+	for _, _reference := range reference.Rects {
+		if _instance, ok := stage.Rects_instance[_reference]; ok {
+			_Rects = append(_Rects, stage.Rects_reference[_instance])
+		}
+	}
+	reference.Rects = _Rects
+	var _Texts []*Text
+	for _, _reference := range reference.Texts {
+		if _instance, ok := stage.Texts_instance[_reference]; ok {
+			_Texts = append(_Texts, stage.Texts_reference[_instance])
+		}
+	}
+	reference.Texts = _Texts
+	var _Circles []*Circle
+	for _, _reference := range reference.Circles {
+		if _instance, ok := stage.Circles_instance[_reference]; ok {
+			_Circles = append(_Circles, stage.Circles_reference[_instance])
+		}
+	}
+	reference.Circles = _Circles
+	var _Lines []*Line
+	for _, _reference := range reference.Lines {
+		if _instance, ok := stage.Lines_instance[_reference]; ok {
+			_Lines = append(_Lines, stage.Lines_reference[_instance])
+		}
+	}
+	reference.Lines = _Lines
+	var _Ellipses []*Ellipse
+	for _, _reference := range reference.Ellipses {
+		if _instance, ok := stage.Ellipses_instance[_reference]; ok {
+			_Ellipses = append(_Ellipses, stage.Ellipses_reference[_instance])
+		}
+	}
+	reference.Ellipses = _Ellipses
+	var _Polylines []*Polyline
+	for _, _reference := range reference.Polylines {
+		if _instance, ok := stage.Polylines_instance[_reference]; ok {
+			_Polylines = append(_Polylines, stage.Polylines_reference[_instance])
+		}
+	}
+	reference.Polylines = _Polylines
+	var _Polygones []*Polygone
+	for _, _reference := range reference.Polygones {
+		if _instance, ok := stage.Polygones_instance[_reference]; ok {
+			_Polygones = append(_Polygones, stage.Polygones_reference[_instance])
+		}
+	}
+	reference.Polygones = _Polygones
+	var _Paths []*Path
+	for _, _reference := range reference.Paths {
+		if _instance, ok := stage.Paths_instance[_reference]; ok {
+			_Paths = append(_Paths, stage.Paths_reference[_instance])
+		}
+	}
+	reference.Paths = _Paths
+	var _Links []*Link
+	for _, _reference := range reference.Links {
+		if _instance, ok := stage.Links_instance[_reference]; ok {
+			_Links = append(_Links, stage.Links_reference[_instance])
+		}
+	}
+	reference.Links = _Links
+	var _RectLinkLinks []*RectLinkLink
+	for _, _reference := range reference.RectLinkLinks {
+		if _instance, ok := stage.RectLinkLinks_instance[_reference]; ok {
+			_RectLinkLinks = append(_RectLinkLinks, stage.RectLinkLinks_reference[_instance])
+		}
+	}
+	reference.RectLinkLinks = _RectLinkLinks
+
+	return
+}
+
+func (reference *Line) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _Animates []*Animate
+	for _, _reference := range reference.Animates {
+		if _instance, ok := stage.Animates_instance[_reference]; ok {
+			_Animates = append(_Animates, stage.Animates_reference[_instance])
+		}
+	}
+	reference.Animates = _Animates
+
+	return
+}
+
+func (reference *Link) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.Start; _reference != nil {
+		reference.Start = nil
+		if _instance, ok := stage.Rects_instance[_reference]; ok {
+			reference.Start = _instance
+		}
+	}
+	if _reference := reference.End; _reference != nil {
+		reference.End = nil
+		if _instance, ok := stage.Rects_instance[_reference]; ok {
+			reference.End = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+	var _TextAtArrowStart []*LinkAnchoredText
+	for _, _reference := range reference.TextAtArrowStart {
+		if _instance, ok := stage.LinkAnchoredTexts_instance[_reference]; ok {
+			_TextAtArrowStart = append(_TextAtArrowStart, stage.LinkAnchoredTexts_reference[_instance])
+		}
+	}
+	reference.TextAtArrowStart = _TextAtArrowStart
+	var _TextAtArrowEnd []*LinkAnchoredText
+	for _, _reference := range reference.TextAtArrowEnd {
+		if _instance, ok := stage.LinkAnchoredTexts_instance[_reference]; ok {
+			_TextAtArrowEnd = append(_TextAtArrowEnd, stage.LinkAnchoredTexts_reference[_instance])
+		}
+	}
+	reference.TextAtArrowEnd = _TextAtArrowEnd
+	var _ControlPoints []*ControlPoint
+	for _, _reference := range reference.ControlPoints {
+		if _instance, ok := stage.ControlPoints_instance[_reference]; ok {
+			_ControlPoints = append(_ControlPoints, stage.ControlPoints_reference[_instance])
+		}
+	}
+	reference.ControlPoints = _ControlPoints
+
+	return
+}
+
+func (reference *LinkAnchoredText) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _Animates []*Animate
+	for _, _reference := range reference.Animates {
+		if _instance, ok := stage.Animates_instance[_reference]; ok {
+			_Animates = append(_Animates, stage.Animates_reference[_instance])
+		}
+	}
+	reference.Animates = _Animates
+
+	return
+}
+
+func (reference *Path) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _Animates []*Animate
+	for _, _reference := range reference.Animates {
+		if _instance, ok := stage.Animates_instance[_reference]; ok {
+			_Animates = append(_Animates, stage.Animates_reference[_instance])
+		}
+	}
+	reference.Animates = _Animates
+
+	return
+}
+
+func (reference *Point) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *Polygone) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _Animates []*Animate
+	for _, _reference := range reference.Animates {
+		if _instance, ok := stage.Animates_instance[_reference]; ok {
+			_Animates = append(_Animates, stage.Animates_reference[_instance])
+		}
+	}
+	reference.Animates = _Animates
+
+	return
+}
+
+func (reference *Polyline) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _Animates []*Animate
+	for _, _reference := range reference.Animates {
+		if _instance, ok := stage.Animates_instance[_reference]; ok {
+			_Animates = append(_Animates, stage.Animates_reference[_instance])
+		}
+	}
+	reference.Animates = _Animates
+
+	return
+}
+
+func (reference *Rect) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _HoveringTrigger []*Condition
+	for _, _reference := range reference.HoveringTrigger {
+		if _instance, ok := stage.Conditions_instance[_reference]; ok {
+			_HoveringTrigger = append(_HoveringTrigger, stage.Conditions_reference[_instance])
+		}
+	}
+	reference.HoveringTrigger = _HoveringTrigger
+	var _DisplayConditions []*Condition
+	for _, _reference := range reference.DisplayConditions {
+		if _instance, ok := stage.Conditions_instance[_reference]; ok {
+			_DisplayConditions = append(_DisplayConditions, stage.Conditions_reference[_instance])
+		}
+	}
+	reference.DisplayConditions = _DisplayConditions
+	var _Animations []*Animate
+	for _, _reference := range reference.Animations {
+		if _instance, ok := stage.Animates_instance[_reference]; ok {
+			_Animations = append(_Animations, stage.Animates_reference[_instance])
+		}
+	}
+	reference.Animations = _Animations
+	var _RectAnchoredTexts []*RectAnchoredText
+	for _, _reference := range reference.RectAnchoredTexts {
+		if _instance, ok := stage.RectAnchoredTexts_instance[_reference]; ok {
+			_RectAnchoredTexts = append(_RectAnchoredTexts, stage.RectAnchoredTexts_reference[_instance])
+		}
+	}
+	reference.RectAnchoredTexts = _RectAnchoredTexts
+	var _RectAnchoredRects []*RectAnchoredRect
+	for _, _reference := range reference.RectAnchoredRects {
+		if _instance, ok := stage.RectAnchoredRects_instance[_reference]; ok {
+			_RectAnchoredRects = append(_RectAnchoredRects, stage.RectAnchoredRects_reference[_instance])
+		}
+	}
+	reference.RectAnchoredRects = _RectAnchoredRects
+	var _RectAnchoredPaths []*RectAnchoredPath
+	for _, _reference := range reference.RectAnchoredPaths {
+		if _instance, ok := stage.RectAnchoredPaths_instance[_reference]; ok {
+			_RectAnchoredPaths = append(_RectAnchoredPaths, stage.RectAnchoredPaths_reference[_instance])
+		}
+	}
+	reference.RectAnchoredPaths = _RectAnchoredPaths
+
+	return
+}
+
+func (reference *RectAnchoredPath) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *RectAnchoredRect) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *RectAnchoredText) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _Animates []*Animate
+	for _, _reference := range reference.Animates {
+		if _instance, ok := stage.Animates_instance[_reference]; ok {
+			_Animates = append(_Animates, stage.Animates_reference[_instance])
+		}
+	}
+	reference.Animates = _Animates
+
+	return
+}
+
+func (reference *RectLinkLink) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.Start; _reference != nil {
+		reference.Start = nil
+		if _instance, ok := stage.Rects_instance[_reference]; ok {
+			reference.Start = _instance
+		}
+	}
+	if _reference := reference.End; _reference != nil {
+		reference.End = nil
+		if _instance, ok := stage.Links_instance[_reference]; ok {
+			reference.End = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *SVG) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.StartRect; _reference != nil {
+		reference.StartRect = nil
+		if _instance, ok := stage.Rects_instance[_reference]; ok {
+			reference.StartRect = _instance
+		}
+	}
+	if _reference := reference.EndRect; _reference != nil {
+		reference.EndRect = nil
+		if _instance, ok := stage.Rects_instance[_reference]; ok {
+			reference.EndRect = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+	var _Layers []*Layer
+	for _, _reference := range reference.Layers {
+		if _instance, ok := stage.Layers_instance[_reference]; ok {
+			_Layers = append(_Layers, stage.Layers_reference[_instance])
+		}
+	}
+	reference.Layers = _Layers
+
+	return
+}
+
+func (reference *SvgText) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *Text) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _Animates []*Animate
+	for _, _reference := range reference.Animates {
+		if _instance, ok := stage.Animates_instance[_reference]; ok {
+			_Animates = append(_Animates, stage.Animates_reference[_instance])
+		}
+	}
+	reference.Animates = _Animates
+
+	return
+}
+
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings

@@ -142,6 +142,22 @@ func (stage *Stage) UnstageBranchCursor(cursor *Cursor) {
 
 }
 
+// insertion point for pointer reconstruction from references
+func (reference *Cursor) GongReconstructPointersFromReferences(stage *Stage, instance *Cursor) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+// insertion point for pointer reconstruction from instances
+func (reference *Cursor) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings

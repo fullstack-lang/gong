@@ -107,7 +107,8 @@ type Stage struct {
 	// insertion point for definition of arrays registering instances
 	Diagrams                map[*Diagram]struct{}
 	Diagrams_reference      map[*Diagram]*Diagram
-	Diagrams_referenceOrder map[*Diagram]uint // diff Unstage needs the reference order
+	Diagrams_referenceOrder map[*Diagram]uint
+	Diagrams_instance       map[*Diagram]*Diagram
 	Diagrams_mapString      map[string]*Diagram
 
 	// insertion point for slice of pointers maps
@@ -156,7 +157,8 @@ type Stage struct {
 
 	Notes                map[*Note]struct{}
 	Notes_reference      map[*Note]*Note
-	Notes_referenceOrder map[*Note]uint // diff Unstage needs the reference order
+	Notes_referenceOrder map[*Note]uint
+	Notes_instance       map[*Note]*Note
 	Notes_mapString      map[string]*Note
 
 	// insertion point for slice of pointers maps
@@ -173,7 +175,8 @@ type Stage struct {
 
 	NoteProductShapes                map[*NoteProductShape]struct{}
 	NoteProductShapes_reference      map[*NoteProductShape]*NoteProductShape
-	NoteProductShapes_referenceOrder map[*NoteProductShape]uint // diff Unstage needs the reference order
+	NoteProductShapes_referenceOrder map[*NoteProductShape]uint
+	NoteProductShapes_instance       map[*NoteProductShape]*NoteProductShape
 	NoteProductShapes_mapString      map[string]*NoteProductShape
 
 	// insertion point for slice of pointers maps
@@ -184,7 +187,8 @@ type Stage struct {
 
 	NoteResourceShapes                map[*NoteResourceShape]struct{}
 	NoteResourceShapes_reference      map[*NoteResourceShape]*NoteResourceShape
-	NoteResourceShapes_referenceOrder map[*NoteResourceShape]uint // diff Unstage needs the reference order
+	NoteResourceShapes_referenceOrder map[*NoteResourceShape]uint
+	NoteResourceShapes_instance       map[*NoteResourceShape]*NoteResourceShape
 	NoteResourceShapes_mapString      map[string]*NoteResourceShape
 
 	// insertion point for slice of pointers maps
@@ -195,7 +199,8 @@ type Stage struct {
 
 	NoteShapes                map[*NoteShape]struct{}
 	NoteShapes_reference      map[*NoteShape]*NoteShape
-	NoteShapes_referenceOrder map[*NoteShape]uint // diff Unstage needs the reference order
+	NoteShapes_referenceOrder map[*NoteShape]uint
+	NoteShapes_instance       map[*NoteShape]*NoteShape
 	NoteShapes_mapString      map[string]*NoteShape
 
 	// insertion point for slice of pointers maps
@@ -206,7 +211,8 @@ type Stage struct {
 
 	NoteTaskShapes                map[*NoteTaskShape]struct{}
 	NoteTaskShapes_reference      map[*NoteTaskShape]*NoteTaskShape
-	NoteTaskShapes_referenceOrder map[*NoteTaskShape]uint // diff Unstage needs the reference order
+	NoteTaskShapes_referenceOrder map[*NoteTaskShape]uint
+	NoteTaskShapes_instance       map[*NoteTaskShape]*NoteTaskShape
 	NoteTaskShapes_mapString      map[string]*NoteTaskShape
 
 	// insertion point for slice of pointers maps
@@ -217,7 +223,8 @@ type Stage struct {
 
 	Products                map[*Product]struct{}
 	Products_reference      map[*Product]*Product
-	Products_referenceOrder map[*Product]uint // diff Unstage needs the reference order
+	Products_referenceOrder map[*Product]uint
+	Products_instance       map[*Product]*Product
 	Products_mapString      map[string]*Product
 
 	// insertion point for slice of pointers maps
@@ -230,7 +237,8 @@ type Stage struct {
 
 	ProductCompositionShapes                map[*ProductCompositionShape]struct{}
 	ProductCompositionShapes_reference      map[*ProductCompositionShape]*ProductCompositionShape
-	ProductCompositionShapes_referenceOrder map[*ProductCompositionShape]uint // diff Unstage needs the reference order
+	ProductCompositionShapes_referenceOrder map[*ProductCompositionShape]uint
+	ProductCompositionShapes_instance       map[*ProductCompositionShape]*ProductCompositionShape
 	ProductCompositionShapes_mapString      map[string]*ProductCompositionShape
 
 	// insertion point for slice of pointers maps
@@ -241,7 +249,8 @@ type Stage struct {
 
 	ProductShapes                map[*ProductShape]struct{}
 	ProductShapes_reference      map[*ProductShape]*ProductShape
-	ProductShapes_referenceOrder map[*ProductShape]uint // diff Unstage needs the reference order
+	ProductShapes_referenceOrder map[*ProductShape]uint
+	ProductShapes_instance       map[*ProductShape]*ProductShape
 	ProductShapes_mapString      map[string]*ProductShape
 
 	// insertion point for slice of pointers maps
@@ -252,7 +261,8 @@ type Stage struct {
 
 	Projects                map[*Project]struct{}
 	Projects_reference      map[*Project]*Project
-	Projects_referenceOrder map[*Project]uint // diff Unstage needs the reference order
+	Projects_referenceOrder map[*Project]uint
+	Projects_instance       map[*Project]*Project
 	Projects_mapString      map[string]*Project
 
 	// insertion point for slice of pointers maps
@@ -273,7 +283,8 @@ type Stage struct {
 
 	Resources                map[*Resource]struct{}
 	Resources_reference      map[*Resource]*Resource
-	Resources_referenceOrder map[*Resource]uint // diff Unstage needs the reference order
+	Resources_referenceOrder map[*Resource]uint
+	Resources_instance       map[*Resource]*Resource
 	Resources_mapString      map[string]*Resource
 
 	// insertion point for slice of pointers maps
@@ -288,7 +299,8 @@ type Stage struct {
 
 	ResourceCompositionShapes                map[*ResourceCompositionShape]struct{}
 	ResourceCompositionShapes_reference      map[*ResourceCompositionShape]*ResourceCompositionShape
-	ResourceCompositionShapes_referenceOrder map[*ResourceCompositionShape]uint // diff Unstage needs the reference order
+	ResourceCompositionShapes_referenceOrder map[*ResourceCompositionShape]uint
+	ResourceCompositionShapes_instance       map[*ResourceCompositionShape]*ResourceCompositionShape
 	ResourceCompositionShapes_mapString      map[string]*ResourceCompositionShape
 
 	// insertion point for slice of pointers maps
@@ -299,7 +311,8 @@ type Stage struct {
 
 	ResourceShapes                map[*ResourceShape]struct{}
 	ResourceShapes_reference      map[*ResourceShape]*ResourceShape
-	ResourceShapes_referenceOrder map[*ResourceShape]uint // diff Unstage needs the reference order
+	ResourceShapes_referenceOrder map[*ResourceShape]uint
+	ResourceShapes_instance       map[*ResourceShape]*ResourceShape
 	ResourceShapes_mapString      map[string]*ResourceShape
 
 	// insertion point for slice of pointers maps
@@ -310,7 +323,8 @@ type Stage struct {
 
 	ResourceTaskShapes                map[*ResourceTaskShape]struct{}
 	ResourceTaskShapes_reference      map[*ResourceTaskShape]*ResourceTaskShape
-	ResourceTaskShapes_referenceOrder map[*ResourceTaskShape]uint // diff Unstage needs the reference order
+	ResourceTaskShapes_referenceOrder map[*ResourceTaskShape]uint
+	ResourceTaskShapes_instance       map[*ResourceTaskShape]*ResourceTaskShape
 	ResourceTaskShapes_mapString      map[string]*ResourceTaskShape
 
 	// insertion point for slice of pointers maps
@@ -321,7 +335,8 @@ type Stage struct {
 
 	Roots                map[*Root]struct{}
 	Roots_reference      map[*Root]*Root
-	Roots_referenceOrder map[*Root]uint // diff Unstage needs the reference order
+	Roots_referenceOrder map[*Root]uint
+	Roots_instance       map[*Root]*Root
 	Roots_mapString      map[string]*Root
 
 	// insertion point for slice of pointers maps
@@ -334,7 +349,8 @@ type Stage struct {
 
 	Tasks                map[*Task]struct{}
 	Tasks_reference      map[*Task]*Task
-	Tasks_referenceOrder map[*Task]uint // diff Unstage needs the reference order
+	Tasks_referenceOrder map[*Task]uint
+	Tasks_instance       map[*Task]*Task
 	Tasks_mapString      map[string]*Task
 
 	// insertion point for slice of pointers maps
@@ -351,7 +367,8 @@ type Stage struct {
 
 	TaskCompositionShapes                map[*TaskCompositionShape]struct{}
 	TaskCompositionShapes_reference      map[*TaskCompositionShape]*TaskCompositionShape
-	TaskCompositionShapes_referenceOrder map[*TaskCompositionShape]uint // diff Unstage needs the reference order
+	TaskCompositionShapes_referenceOrder map[*TaskCompositionShape]uint
+	TaskCompositionShapes_instance       map[*TaskCompositionShape]*TaskCompositionShape
 	TaskCompositionShapes_mapString      map[string]*TaskCompositionShape
 
 	// insertion point for slice of pointers maps
@@ -362,7 +379,8 @@ type Stage struct {
 
 	TaskInputShapes                map[*TaskInputShape]struct{}
 	TaskInputShapes_reference      map[*TaskInputShape]*TaskInputShape
-	TaskInputShapes_referenceOrder map[*TaskInputShape]uint // diff Unstage needs the reference order
+	TaskInputShapes_referenceOrder map[*TaskInputShape]uint
+	TaskInputShapes_instance       map[*TaskInputShape]*TaskInputShape
 	TaskInputShapes_mapString      map[string]*TaskInputShape
 
 	// insertion point for slice of pointers maps
@@ -373,7 +391,8 @@ type Stage struct {
 
 	TaskOutputShapes                map[*TaskOutputShape]struct{}
 	TaskOutputShapes_reference      map[*TaskOutputShape]*TaskOutputShape
-	TaskOutputShapes_referenceOrder map[*TaskOutputShape]uint // diff Unstage needs the reference order
+	TaskOutputShapes_referenceOrder map[*TaskOutputShape]uint
+	TaskOutputShapes_instance       map[*TaskOutputShape]*TaskOutputShape
 	TaskOutputShapes_mapString      map[string]*TaskOutputShape
 
 	// insertion point for slice of pointers maps
@@ -384,7 +403,8 @@ type Stage struct {
 
 	TaskShapes                map[*TaskShape]struct{}
 	TaskShapes_reference      map[*TaskShape]*TaskShape
-	TaskShapes_referenceOrder map[*TaskShape]uint // diff Unstage needs the reference order
+	TaskShapes_referenceOrder map[*TaskShape]uint
+	TaskShapes_instance       map[*TaskShape]*TaskShape
 	TaskShapes_mapString      map[string]*TaskShape
 
 	// insertion point for slice of pointers maps
@@ -5622,14 +5642,14 @@ func (noteproductshape *NoteProductShape) GongGetFieldHeaders() (res []GongField
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:               "StartOrientation",
-			GongFieldValueType: GongFieldValueTypeString,
-			TargetGongstructName: "OrientationType",
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
 		},
 		{
-			Name:               "EndOrientation",
-			GongFieldValueType: GongFieldValueTypeString,
-			TargetGongstructName: "OrientationType",
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
 		},
 		{
 			Name:               "CornerOffsetRatio",
@@ -5665,14 +5685,14 @@ func (noteresourceshape *NoteResourceShape) GongGetFieldHeaders() (res []GongFie
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:               "StartOrientation",
-			GongFieldValueType: GongFieldValueTypeString,
-			TargetGongstructName: "OrientationType",
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
 		},
 		{
-			Name:               "EndOrientation",
-			GongFieldValueType: GongFieldValueTypeString,
-			TargetGongstructName: "OrientationType",
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
 		},
 		{
 			Name:               "CornerOffsetRatio",
@@ -5744,14 +5764,14 @@ func (notetaskshape *NoteTaskShape) GongGetFieldHeaders() (res []GongFieldHeader
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:               "StartOrientation",
-			GongFieldValueType: GongFieldValueTypeString,
-			TargetGongstructName: "OrientationType",
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
 		},
 		{
-			Name:               "EndOrientation",
-			GongFieldValueType: GongFieldValueTypeString,
-			TargetGongstructName: "OrientationType",
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
 		},
 		{
 			Name:               "CornerOffsetRatio",
@@ -5822,14 +5842,14 @@ func (productcompositionshape *ProductCompositionShape) GongGetFieldHeaders() (r
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:               "StartOrientation",
-			GongFieldValueType: GongFieldValueTypeString,
-			TargetGongstructName: "OrientationType",
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
 		},
 		{
-			Name:               "EndOrientation",
-			GongFieldValueType: GongFieldValueTypeString,
-			TargetGongstructName: "OrientationType",
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
 		},
 		{
 			Name:               "CornerOffsetRatio",
@@ -5981,14 +6001,14 @@ func (resourcecompositionshape *ResourceCompositionShape) GongGetFieldHeaders() 
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:               "StartOrientation",
-			GongFieldValueType: GongFieldValueTypeString,
-			TargetGongstructName: "OrientationType",
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
 		},
 		{
-			Name:               "EndOrientation",
-			GongFieldValueType: GongFieldValueTypeString,
-			TargetGongstructName: "OrientationType",
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
 		},
 		{
 			Name:               "CornerOffsetRatio",
@@ -6060,14 +6080,14 @@ func (resourcetaskshape *ResourceTaskShape) GongGetFieldHeaders() (res []GongFie
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:               "StartOrientation",
-			GongFieldValueType: GongFieldValueTypeString,
-			TargetGongstructName: "OrientationType",
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
 		},
 		{
-			Name:               "EndOrientation",
-			GongFieldValueType: GongFieldValueTypeString,
-			TargetGongstructName: "OrientationType",
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
 		},
 		{
 			Name:               "CornerOffsetRatio",
@@ -6156,9 +6176,9 @@ func (task *Task) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:               "Completion",
-			GongFieldValueType: GongFieldValueTypeString,
-			TargetGongstructName: "CompletionEnum",
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
 		},
 	}
 	return
@@ -6185,14 +6205,14 @@ func (taskcompositionshape *TaskCompositionShape) GongGetFieldHeaders() (res []G
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:               "StartOrientation",
-			GongFieldValueType: GongFieldValueTypeString,
-			TargetGongstructName: "OrientationType",
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
 		},
 		{
-			Name:               "EndOrientation",
-			GongFieldValueType: GongFieldValueTypeString,
-			TargetGongstructName: "OrientationType",
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
 		},
 		{
 			Name:               "CornerOffsetRatio",
@@ -6228,14 +6248,14 @@ func (taskinputshape *TaskInputShape) GongGetFieldHeaders() (res []GongFieldHead
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:               "StartOrientation",
-			GongFieldValueType: GongFieldValueTypeString,
-			TargetGongstructName: "OrientationType",
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
 		},
 		{
-			Name:               "EndOrientation",
-			GongFieldValueType: GongFieldValueTypeString,
-			TargetGongstructName: "OrientationType",
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
 		},
 		{
 			Name:               "CornerOffsetRatio",
@@ -6271,14 +6291,14 @@ func (taskoutputshape *TaskOutputShape) GongGetFieldHeaders() (res []GongFieldHe
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:               "StartOrientation",
-			GongFieldValueType: GongFieldValueTypeString,
-			TargetGongstructName: "OrientationType",
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
 		},
 		{
-			Name:               "EndOrientation",
-			GongFieldValueType: GongFieldValueTypeString,
-			TargetGongstructName: "OrientationType",
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
 		},
 		{
 			Name:               "CornerOffsetRatio",
