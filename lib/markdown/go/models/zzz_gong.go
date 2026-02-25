@@ -107,7 +107,8 @@ type Stage struct {
 	// insertion point for definition of arrays registering instances
 	Contents                map[*Content]struct{}
 	Contents_reference      map[*Content]*Content
-	Contents_referenceOrder map[*Content]uint // diff Unstage needs the reference order
+	Contents_referenceOrder map[*Content]uint
+	Contents_instance       map[*Content]*Content
 	Contents_mapString      map[string]*Content
 
 	// insertion point for slice of pointers maps
@@ -118,7 +119,8 @@ type Stage struct {
 
 	JpgImages                map[*JpgImage]struct{}
 	JpgImages_reference      map[*JpgImage]*JpgImage
-	JpgImages_referenceOrder map[*JpgImage]uint // diff Unstage needs the reference order
+	JpgImages_referenceOrder map[*JpgImage]uint
+	JpgImages_instance       map[*JpgImage]*JpgImage
 	JpgImages_mapString      map[string]*JpgImage
 
 	// insertion point for slice of pointers maps
@@ -129,7 +131,8 @@ type Stage struct {
 
 	PngImages                map[*PngImage]struct{}
 	PngImages_reference      map[*PngImage]*PngImage
-	PngImages_referenceOrder map[*PngImage]uint // diff Unstage needs the reference order
+	PngImages_referenceOrder map[*PngImage]uint
+	PngImages_instance       map[*PngImage]*PngImage
 	PngImages_mapString      map[string]*PngImage
 
 	// insertion point for slice of pointers maps
@@ -140,7 +143,8 @@ type Stage struct {
 
 	SvgImages                map[*SvgImage]struct{}
 	SvgImages_reference      map[*SvgImage]*SvgImage
-	SvgImages_referenceOrder map[*SvgImage]uint // diff Unstage needs the reference order
+	SvgImages_referenceOrder map[*SvgImage]uint
+	SvgImages_instance       map[*SvgImage]*SvgImage
 	SvgImages_mapString      map[string]*SvgImage
 
 	// insertion point for slice of pointers maps

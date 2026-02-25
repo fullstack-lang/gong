@@ -107,7 +107,8 @@ type Stage struct {
 	// insertion point for definition of arrays registering instances
 	Cursors                map[*Cursor]struct{}
 	Cursors_reference      map[*Cursor]*Cursor
-	Cursors_referenceOrder map[*Cursor]uint // diff Unstage needs the reference order
+	Cursors_referenceOrder map[*Cursor]uint
+	Cursors_instance       map[*Cursor]*Cursor
 	Cursors_mapString      map[string]*Cursor
 
 	// insertion point for slice of pointers maps

@@ -85,6 +85,8 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 }
 
 // insertion point for unstage branch per struct{{` + string(rune(ModelGongGraphStructInsertionUnstageBranchPerStruct)) + `}}
+// insertion point for pointer reconstruction from references{{` + string(rune(ModelGongGraphReconstructPointersFromReferences)) + `}}
+// insertion point for pointer reconstruction from instances{{` + string(rune(ModelGongGraphReconstructPointersFromInstances)) + `}}
 // insertion point for diff per struct{{` + string(rune(ModelGongGraphDiff)) + `}}
 // Diff returns the sequence of operations to transform oldSlice into newSlice.
 // It requires type T to be comparable (e.g., pointers, ints, strings).
@@ -178,6 +180,8 @@ const (
 	ModelGongGraphStructInsertionUnstageBranch
 	ModelGongGraphStructInsertionUnstageBranchPerStruct
 	ModelGongGraphDiff
+	ModelGongGraphReconstructPointersFromInstances
+	ModelGongGraphReconstructPointersFromReferences
 	ModelGongGraphStructInsertionsNb
 )
 
@@ -261,6 +265,22 @@ func (stage *Stage) UnstageBranch{{Structname}}({{structname}} *{{Structname}}) 
 
 }
 `,
+	ModelGongGraphReconstructPointersFromReferences: `
+func (reference *{{Structname}}) GongReconstructPointersFromReferences(stage *Stage, instance *{{Structname}}) () {
+	// insertion point for pointers field{{FieldReconstructPointersFromReferences}}
+	// insertion point for slice of pointers field{{FieldReconstructSliceOfPointersFromReferences}}
+
+	return
+}
+`,
+	ModelGongGraphReconstructPointersFromInstances: `
+func (reference *{{Structname}}) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field{{FieldReconstructPointersFromInstances}}
+	// insertion point for slice of pointers fields{{FieldReconstructSliceOfPointersFromInstances}}
+
+	return
+}
+`,
 	ModelGongGraphDiff: `
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
@@ -283,8 +303,15 @@ const (
 	GongGraphFileFieldSubTmplUnstagePointerField
 	GongGraphFileFieldSubTmplUnstageSliceOfPointersField
 	GongGraphBasicFieldDiff
+
 	GongGraphPointerFieldDiff
 	GongGraphSliceOfPointerFieldDiff
+
+	GongGraphPointerFieldReconstructPointersFromReferences
+	GongGraphPointerFieldReconstructPointersFromInstances
+
+	GongGraphSliceOfPointersFieldReconstructPointersFromReferences
+	GongGraphSliceOfPointersFieldReconstructPointersFromInstances
 )
 
 var GongGraphFileFieldFieldSubTemplateCode map[GongGraphFilePerStructSubTemplateId]string = // declaration of the sub templates
@@ -352,6 +379,31 @@ map[GongGraphFilePerStructSubTemplateId]string{
 		ops := Diff(stage, {{structname}}, {{structname}}Other, "{{FieldName}}", {{structname}}Other.{{FieldName}}, {{structname}}.{{FieldName}})
 		diffs = append(diffs, ops)
 	}`,
+
+	GongGraphPointerFieldReconstructPointersFromReferences: `
+	if instance.{{FieldName}} != nil {
+		reference.{{FieldName}} = stage.{{AssocStructName}}s_reference[instance.{{FieldName}}]
+	}`,
+	GongGraphPointerFieldReconstructPointersFromInstances: `
+	if _reference := reference.{{FieldName}}; _reference != nil {
+		reference.{{FieldName}} = nil
+		if _instance, ok := stage.{{AssocStructName}}s_instance[_reference]; ok {
+			reference.{{FieldName}} = _instance
+		}
+	}`,
+	GongGraphSliceOfPointersFieldReconstructPointersFromReferences: `
+	reference.{{FieldName}} = reference.{{FieldName}}[:0]
+	for _, _b := range instance.{{FieldName}} {
+		reference.{{FieldName}} = append(reference.{{FieldName}}, stage.{{AssocStructName}}s_reference[_b])
+	}`,
+	GongGraphSliceOfPointersFieldReconstructPointersFromInstances: `
+	var _{{FieldName}} []*{{AssocStructName}}
+	for _, _reference := range reference.{{FieldName}} {
+		if _instance, ok := stage.{{AssocStructName}}s_instance[_reference]; ok {
+			_{{FieldName}} = append(_{{FieldName}}, stage.{{AssocStructName}}s_reference[_instance])
+		}
+	}
+	reference.{{FieldName}} = _{{FieldName}}`,
 }
 
 func CodeGeneratorModelGongGraph(
@@ -391,6 +443,10 @@ func CodeGeneratorModelGongGraph(
 			pointerUnstagingCode := ""
 			sliceOfPointerUnstagingCode := ""
 			fieldDiff := ""
+			fieldReconstructPointersFromReferences := ""
+			fieldReconstructPointersFromInstances := ""
+			fieldReconstructSliceOfPointersFromReferences := ""
+			fieldReconstructSliceOfPointersFromInstances := ""
 
 			for _, field := range gongStruct.Fields {
 
@@ -425,6 +481,14 @@ func CodeGeneratorModelGongGraph(
 						GongGraphFileFieldFieldSubTemplateCode[GongGraphPointerFieldDiff],
 						"{{FieldName}}", field.Name,
 						"{{AssocStructName}}", field.GongStruct.Name)
+					fieldReconstructPointersFromReferences += models.Replace2(
+						GongGraphFileFieldFieldSubTemplateCode[GongGraphPointerFieldReconstructPointersFromReferences],
+						"{{FieldName}}", field.Name,
+						"{{AssocStructName}}", field.GongStruct.Name)
+					fieldReconstructPointersFromInstances += models.Replace2(
+						GongGraphFileFieldFieldSubTemplateCode[GongGraphPointerFieldReconstructPointersFromInstances],
+						"{{FieldName}}", field.Name,
+						"{{AssocStructName}}", field.GongStruct.Name)
 
 				case *models.SliceOfPointerToGongStructField:
 					sliceOfPointerStagingCode += models.Replace3(
@@ -444,6 +508,14 @@ func CodeGeneratorModelGongGraph(
 						"{{assocstructname}}", strings.ToLower(field.GongStruct.Name))
 					fieldDiff += models.Replace2(
 						GongGraphFileFieldFieldSubTemplateCode[GongGraphSliceOfPointerFieldDiff],
+						"{{FieldName}}", field.Name,
+						"{{AssocStructName}}", field.GongStruct.Name)
+					fieldReconstructSliceOfPointersFromReferences += models.Replace2(
+						GongGraphFileFieldFieldSubTemplateCode[GongGraphSliceOfPointersFieldReconstructPointersFromReferences],
+						"{{FieldName}}", field.Name,
+						"{{AssocStructName}}", field.GongStruct.Name)
+					fieldReconstructSliceOfPointersFromInstances += models.Replace2(
+						GongGraphFileFieldFieldSubTemplateCode[GongGraphSliceOfPointersFieldReconstructPointersFromInstances],
 						"{{FieldName}}", field.Name,
 						"{{AssocStructName}}", field.GongStruct.Name)
 				default:
@@ -480,7 +552,7 @@ func CodeGeneratorModelGongGraph(
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name)
 
-			generatedCodeFromSubTemplate := models.Replace9(ModelGongGraphStructSubTemplateCode[subStructTemplate],
+			generatedCodeFromSubTemplate := models.Replace13(ModelGongGraphStructSubTemplateCode[subStructTemplate],
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name,
 				"{{StagingPointers}}", pointerStagingCode,
@@ -490,6 +562,10 @@ func CodeGeneratorModelGongGraph(
 				"{{UnstagingPointers}}", pointerUnstagingCode,
 				"{{UnstagingSliceOfPointers}}", sliceOfPointerUnstagingCode,
 				"{{FieldDiff}}", fieldDiff,
+				"{{FieldReconstructPointersFromReferences}}", fieldReconstructPointersFromReferences,
+				"{{FieldReconstructPointersFromInstances}}", fieldReconstructPointersFromInstances,
+				"{{FieldReconstructSliceOfPointersFromReferences}}", fieldReconstructSliceOfPointersFromReferences,
+				"{{FieldReconstructSliceOfPointersFromInstances}}", fieldReconstructSliceOfPointersFromInstances,
 			)
 
 			subStructCodes[subStructTemplate] += generatedCodeFromSubTemplate

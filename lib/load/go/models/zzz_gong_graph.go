@@ -286,6 +286,50 @@ func (stage *Stage) UnstageBranchMessage(message *Message) {
 
 }
 
+// insertion point for pointer reconstruction from references
+func (reference *FileToDownload) GongReconstructPointersFromReferences(stage *Stage, instance *FileToDownload) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *FileToUpload) GongReconstructPointersFromReferences(stage *Stage, instance *FileToUpload) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *Message) GongReconstructPointersFromReferences(stage *Stage, instance *Message) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+// insertion point for pointer reconstruction from instances
+func (reference *FileToDownload) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *FileToUpload) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *Message) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings

@@ -466,6 +466,122 @@ func (stage *Stage) UnstageBranchLayout(layout *Layout) {
 
 }
 
+// insertion point for pointer reconstruction from references
+func (reference *Button) GongReconstructPointersFromReferences(stage *Stage, instance *Button) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *ButtonToggle) GongReconstructPointersFromReferences(stage *Stage, instance *ButtonToggle) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *Group) GongReconstructPointersFromReferences(stage *Stage, instance *Group) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.Buttons = reference.Buttons[:0]
+	for _, _b := range instance.Buttons {
+		reference.Buttons = append(reference.Buttons, stage.Buttons_reference[_b])
+	}
+
+	return
+}
+
+func (reference *GroupToogle) GongReconstructPointersFromReferences(stage *Stage, instance *GroupToogle) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.ButtonToggles = reference.ButtonToggles[:0]
+	for _, _b := range instance.ButtonToggles {
+		reference.ButtonToggles = append(reference.ButtonToggles, stage.ButtonToggles_reference[_b])
+	}
+
+	return
+}
+
+func (reference *Layout) GongReconstructPointersFromReferences(stage *Stage, instance *Layout) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.Groups = reference.Groups[:0]
+	for _, _b := range instance.Groups {
+		reference.Groups = append(reference.Groups, stage.Groups_reference[_b])
+	}
+	reference.GroupToogles = reference.GroupToogles[:0]
+	for _, _b := range instance.GroupToogles {
+		reference.GroupToogles = append(reference.GroupToogles, stage.GroupToogles_reference[_b])
+	}
+
+	return
+}
+
+// insertion point for pointer reconstruction from instances
+func (reference *Button) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *ButtonToggle) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *Group) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _Buttons []*Button
+	for _, _reference := range reference.Buttons {
+		if _instance, ok := stage.Buttons_instance[_reference]; ok {
+			_Buttons = append(_Buttons, stage.Buttons_reference[_instance])
+		}
+	}
+	reference.Buttons = _Buttons
+
+	return
+}
+
+func (reference *GroupToogle) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _ButtonToggles []*ButtonToggle
+	for _, _reference := range reference.ButtonToggles {
+		if _instance, ok := stage.ButtonToggles_instance[_reference]; ok {
+			_ButtonToggles = append(_ButtonToggles, stage.ButtonToggles_reference[_instance])
+		}
+	}
+	reference.ButtonToggles = _ButtonToggles
+
+	return
+}
+
+func (reference *Layout) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _Groups []*Group
+	for _, _reference := range reference.Groups {
+		if _instance, ok := stage.Groups_instance[_reference]; ok {
+			_Groups = append(_Groups, stage.Groups_reference[_instance])
+		}
+	}
+	reference.Groups = _Groups
+	var _GroupToogles []*GroupToogle
+	for _, _reference := range reference.GroupToogles {
+		if _instance, ok := stage.GroupToogles_instance[_reference]; ok {
+			_GroupToogles = append(_GroupToogles, stage.GroupToogles_reference[_instance])
+		}
+	}
+	reference.GroupToogles = _GroupToogles
+
+	return
+}
+
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings

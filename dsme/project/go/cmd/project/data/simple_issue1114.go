@@ -1,7 +1,6 @@
 package main
 
 import (
-	"slices"
 	"time"
 
 	"github.com/fullstack-lang/gong/dsme/project/go/models"
@@ -79,12 +78,5 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000002_.Resource = __Resource__00000002_
 
 	__Root__00000000_.Projects = append(__Root__00000000_.Projects, __Project__00000000_)
-	stage.Commit()
-
-	__Diagram__00000000_.Resource_Shapes = slices.Delete(__Diagram__00000000_.Resource_Shapes, 0, 1)
-	// NewProject
-	__Project__00000000_.RootResources = slices.Delete(__Project__00000000_.RootResources, 0, 1)
-	__ResourceShape__00000002_.Unstage(stage)
-	__Resource__00000002_.Unstage(stage)
 	stage.Commit()
 }
