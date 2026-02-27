@@ -24,7 +24,6 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 	// if task has a parent task, add a button to show/hide the link to the parent
 	addShowHideCompositionButton(
 		stager,
-		diagram,
 		task,
 		task.parentTask,
 		taskNode,
