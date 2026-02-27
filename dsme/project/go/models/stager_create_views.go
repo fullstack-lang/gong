@@ -5,8 +5,9 @@ import split "github.com/fullstack-lang/gong/lib/split/go/models"
 func createViews(stager *Stager, stage *Stage) {
 
 	split.StageBranch(stager.splitStage, &split.View{
-		Name:      "Edit PBS/WBS",
-		Direction: split.Horizontal,
+		Name:           "Edit PBS/WBS",
+		Direction:      split.Horizontal,
+		IsSelectedView: true,
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
 				Name:             "Sidebar with both trees",
@@ -51,9 +52,8 @@ func createViews(stager *Stager, stage *Stage) {
 	})
 
 	split.StageBranch(stager.splitStage, &split.View{
-		Name:           "Edit PBS/WBS",
-		Direction:      split.Horizontal,
-		IsSelectedView: true,
+		Name:      "Edit PBS/WBS",
+		Direction: split.Horizontal,
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
 				Name:             "Sidebar with both trees",
