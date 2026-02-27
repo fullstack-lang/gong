@@ -784,28 +784,28 @@ func (reference *Gantt) GongReconstructPointersFromInstances(stage *Stage) () {
 	var _Lanes []*Lane
 	for _, _reference := range reference.Lanes {
 		if _instance, ok := stage.Lanes_instance[_reference]; ok {
-			_Lanes = append(_Lanes, stage.Lanes_reference[_instance])
+			_Lanes = append(_Lanes, _instance)
 		}
 	}
 	reference.Lanes = _Lanes
 	var _Milestones []*Milestone
 	for _, _reference := range reference.Milestones {
 		if _instance, ok := stage.Milestones_instance[_reference]; ok {
-			_Milestones = append(_Milestones, stage.Milestones_reference[_instance])
+			_Milestones = append(_Milestones, _instance)
 		}
 	}
 	reference.Milestones = _Milestones
 	var _Groups []*Group
 	for _, _reference := range reference.Groups {
 		if _instance, ok := stage.Groups_instance[_reference]; ok {
-			_Groups = append(_Groups, stage.Groups_reference[_instance])
+			_Groups = append(_Groups, _instance)
 		}
 	}
 	reference.Groups = _Groups
 	var _Arrows []*Arrow
 	for _, _reference := range reference.Arrows {
 		if _instance, ok := stage.Arrows_instance[_reference]; ok {
-			_Arrows = append(_Arrows, stage.Arrows_reference[_instance])
+			_Arrows = append(_Arrows, _instance)
 		}
 	}
 	reference.Arrows = _Arrows
@@ -819,7 +819,7 @@ func (reference *Group) GongReconstructPointersFromInstances(stage *Stage) () {
 	var _GroupLanes []*Lane
 	for _, _reference := range reference.GroupLanes {
 		if _instance, ok := stage.Lanes_instance[_reference]; ok {
-			_GroupLanes = append(_GroupLanes, stage.Lanes_reference[_instance])
+			_GroupLanes = append(_GroupLanes, _instance)
 		}
 	}
 	reference.GroupLanes = _GroupLanes
@@ -833,7 +833,7 @@ func (reference *Lane) GongReconstructPointersFromInstances(stage *Stage) () {
 	var _Bars []*Bar
 	for _, _reference := range reference.Bars {
 		if _instance, ok := stage.Bars_instance[_reference]; ok {
-			_Bars = append(_Bars, stage.Bars_reference[_instance])
+			_Bars = append(_Bars, _instance)
 		}
 	}
 	reference.Bars = _Bars
@@ -860,7 +860,7 @@ func (reference *Milestone) GongReconstructPointersFromInstances(stage *Stage) (
 	var _LanesToDisplay []*Lane
 	for _, _reference := range reference.LanesToDisplay {
 		if _instance, ok := stage.Lanes_instance[_reference]; ok {
-			_LanesToDisplay = append(_LanesToDisplay, stage.Lanes_reference[_instance])
+			_LanesToDisplay = append(_LanesToDisplay, _instance)
 		}
 	}
 	reference.LanesToDisplay = _LanesToDisplay

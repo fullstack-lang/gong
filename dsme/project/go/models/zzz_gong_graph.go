@@ -2328,133 +2328,133 @@ func (reference *Diagram) GongReconstructPointersFromInstances(stage *Stage) () 
 	var _Product_Shapes []*ProductShape
 	for _, _reference := range reference.Product_Shapes {
 		if _instance, ok := stage.ProductShapes_instance[_reference]; ok {
-			_Product_Shapes = append(_Product_Shapes, stage.ProductShapes_reference[_instance])
+			_Product_Shapes = append(_Product_Shapes, _instance)
 		}
 	}
 	reference.Product_Shapes = _Product_Shapes
 	var _ProductsWhoseNodeIsExpanded []*Product
 	for _, _reference := range reference.ProductsWhoseNodeIsExpanded {
 		if _instance, ok := stage.Products_instance[_reference]; ok {
-			_ProductsWhoseNodeIsExpanded = append(_ProductsWhoseNodeIsExpanded, stage.Products_reference[_instance])
+			_ProductsWhoseNodeIsExpanded = append(_ProductsWhoseNodeIsExpanded, _instance)
 		}
 	}
 	reference.ProductsWhoseNodeIsExpanded = _ProductsWhoseNodeIsExpanded
 	var _ProductComposition_Shapes []*ProductCompositionShape
 	for _, _reference := range reference.ProductComposition_Shapes {
 		if _instance, ok := stage.ProductCompositionShapes_instance[_reference]; ok {
-			_ProductComposition_Shapes = append(_ProductComposition_Shapes, stage.ProductCompositionShapes_reference[_instance])
+			_ProductComposition_Shapes = append(_ProductComposition_Shapes, _instance)
 		}
 	}
 	reference.ProductComposition_Shapes = _ProductComposition_Shapes
 	var _Task_Shapes []*TaskShape
 	for _, _reference := range reference.Task_Shapes {
 		if _instance, ok := stage.TaskShapes_instance[_reference]; ok {
-			_Task_Shapes = append(_Task_Shapes, stage.TaskShapes_reference[_instance])
+			_Task_Shapes = append(_Task_Shapes, _instance)
 		}
 	}
 	reference.Task_Shapes = _Task_Shapes
 	var _TasksWhoseNodeIsExpanded []*Task
 	for _, _reference := range reference.TasksWhoseNodeIsExpanded {
 		if _instance, ok := stage.Tasks_instance[_reference]; ok {
-			_TasksWhoseNodeIsExpanded = append(_TasksWhoseNodeIsExpanded, stage.Tasks_reference[_instance])
+			_TasksWhoseNodeIsExpanded = append(_TasksWhoseNodeIsExpanded, _instance)
 		}
 	}
 	reference.TasksWhoseNodeIsExpanded = _TasksWhoseNodeIsExpanded
 	var _TasksWhoseInputNodeIsExpanded []*Task
 	for _, _reference := range reference.TasksWhoseInputNodeIsExpanded {
 		if _instance, ok := stage.Tasks_instance[_reference]; ok {
-			_TasksWhoseInputNodeIsExpanded = append(_TasksWhoseInputNodeIsExpanded, stage.Tasks_reference[_instance])
+			_TasksWhoseInputNodeIsExpanded = append(_TasksWhoseInputNodeIsExpanded, _instance)
 		}
 	}
 	reference.TasksWhoseInputNodeIsExpanded = _TasksWhoseInputNodeIsExpanded
 	var _TasksWhoseOutputNodeIsExpanded []*Task
 	for _, _reference := range reference.TasksWhoseOutputNodeIsExpanded {
 		if _instance, ok := stage.Tasks_instance[_reference]; ok {
-			_TasksWhoseOutputNodeIsExpanded = append(_TasksWhoseOutputNodeIsExpanded, stage.Tasks_reference[_instance])
+			_TasksWhoseOutputNodeIsExpanded = append(_TasksWhoseOutputNodeIsExpanded, _instance)
 		}
 	}
 	reference.TasksWhoseOutputNodeIsExpanded = _TasksWhoseOutputNodeIsExpanded
 	var _TaskComposition_Shapes []*TaskCompositionShape
 	for _, _reference := range reference.TaskComposition_Shapes {
 		if _instance, ok := stage.TaskCompositionShapes_instance[_reference]; ok {
-			_TaskComposition_Shapes = append(_TaskComposition_Shapes, stage.TaskCompositionShapes_reference[_instance])
+			_TaskComposition_Shapes = append(_TaskComposition_Shapes, _instance)
 		}
 	}
 	reference.TaskComposition_Shapes = _TaskComposition_Shapes
 	var _TaskInputShapes []*TaskInputShape
 	for _, _reference := range reference.TaskInputShapes {
 		if _instance, ok := stage.TaskInputShapes_instance[_reference]; ok {
-			_TaskInputShapes = append(_TaskInputShapes, stage.TaskInputShapes_reference[_instance])
+			_TaskInputShapes = append(_TaskInputShapes, _instance)
 		}
 	}
 	reference.TaskInputShapes = _TaskInputShapes
 	var _TaskOutputShapes []*TaskOutputShape
 	for _, _reference := range reference.TaskOutputShapes {
 		if _instance, ok := stage.TaskOutputShapes_instance[_reference]; ok {
-			_TaskOutputShapes = append(_TaskOutputShapes, stage.TaskOutputShapes_reference[_instance])
+			_TaskOutputShapes = append(_TaskOutputShapes, _instance)
 		}
 	}
 	reference.TaskOutputShapes = _TaskOutputShapes
 	var _Note_Shapes []*NoteShape
 	for _, _reference := range reference.Note_Shapes {
 		if _instance, ok := stage.NoteShapes_instance[_reference]; ok {
-			_Note_Shapes = append(_Note_Shapes, stage.NoteShapes_reference[_instance])
+			_Note_Shapes = append(_Note_Shapes, _instance)
 		}
 	}
 	reference.Note_Shapes = _Note_Shapes
 	var _NotesWhoseNodeIsExpanded []*Note
 	for _, _reference := range reference.NotesWhoseNodeIsExpanded {
 		if _instance, ok := stage.Notes_instance[_reference]; ok {
-			_NotesWhoseNodeIsExpanded = append(_NotesWhoseNodeIsExpanded, stage.Notes_reference[_instance])
+			_NotesWhoseNodeIsExpanded = append(_NotesWhoseNodeIsExpanded, _instance)
 		}
 	}
 	reference.NotesWhoseNodeIsExpanded = _NotesWhoseNodeIsExpanded
 	var _NoteProductShapes []*NoteProductShape
 	for _, _reference := range reference.NoteProductShapes {
 		if _instance, ok := stage.NoteProductShapes_instance[_reference]; ok {
-			_NoteProductShapes = append(_NoteProductShapes, stage.NoteProductShapes_reference[_instance])
+			_NoteProductShapes = append(_NoteProductShapes, _instance)
 		}
 	}
 	reference.NoteProductShapes = _NoteProductShapes
 	var _NoteTaskShapes []*NoteTaskShape
 	for _, _reference := range reference.NoteTaskShapes {
 		if _instance, ok := stage.NoteTaskShapes_instance[_reference]; ok {
-			_NoteTaskShapes = append(_NoteTaskShapes, stage.NoteTaskShapes_reference[_instance])
+			_NoteTaskShapes = append(_NoteTaskShapes, _instance)
 		}
 	}
 	reference.NoteTaskShapes = _NoteTaskShapes
 	var _NoteResourceShapes []*NoteResourceShape
 	for _, _reference := range reference.NoteResourceShapes {
 		if _instance, ok := stage.NoteResourceShapes_instance[_reference]; ok {
-			_NoteResourceShapes = append(_NoteResourceShapes, stage.NoteResourceShapes_reference[_instance])
+			_NoteResourceShapes = append(_NoteResourceShapes, _instance)
 		}
 	}
 	reference.NoteResourceShapes = _NoteResourceShapes
 	var _Resource_Shapes []*ResourceShape
 	for _, _reference := range reference.Resource_Shapes {
 		if _instance, ok := stage.ResourceShapes_instance[_reference]; ok {
-			_Resource_Shapes = append(_Resource_Shapes, stage.ResourceShapes_reference[_instance])
+			_Resource_Shapes = append(_Resource_Shapes, _instance)
 		}
 	}
 	reference.Resource_Shapes = _Resource_Shapes
 	var _ResourcesWhoseNodeIsExpanded []*Resource
 	for _, _reference := range reference.ResourcesWhoseNodeIsExpanded {
 		if _instance, ok := stage.Resources_instance[_reference]; ok {
-			_ResourcesWhoseNodeIsExpanded = append(_ResourcesWhoseNodeIsExpanded, stage.Resources_reference[_instance])
+			_ResourcesWhoseNodeIsExpanded = append(_ResourcesWhoseNodeIsExpanded, _instance)
 		}
 	}
 	reference.ResourcesWhoseNodeIsExpanded = _ResourcesWhoseNodeIsExpanded
 	var _ResourceComposition_Shapes []*ResourceCompositionShape
 	for _, _reference := range reference.ResourceComposition_Shapes {
 		if _instance, ok := stage.ResourceCompositionShapes_instance[_reference]; ok {
-			_ResourceComposition_Shapes = append(_ResourceComposition_Shapes, stage.ResourceCompositionShapes_reference[_instance])
+			_ResourceComposition_Shapes = append(_ResourceComposition_Shapes, _instance)
 		}
 	}
 	reference.ResourceComposition_Shapes = _ResourceComposition_Shapes
 	var _ResourceTaskShapes []*ResourceTaskShape
 	for _, _reference := range reference.ResourceTaskShapes {
 		if _instance, ok := stage.ResourceTaskShapes_instance[_reference]; ok {
-			_ResourceTaskShapes = append(_ResourceTaskShapes, stage.ResourceTaskShapes_reference[_instance])
+			_ResourceTaskShapes = append(_ResourceTaskShapes, _instance)
 		}
 	}
 	reference.ResourceTaskShapes = _ResourceTaskShapes
@@ -2468,21 +2468,21 @@ func (reference *Note) GongReconstructPointersFromInstances(stage *Stage) () {
 	var _Products []*Product
 	for _, _reference := range reference.Products {
 		if _instance, ok := stage.Products_instance[_reference]; ok {
-			_Products = append(_Products, stage.Products_reference[_instance])
+			_Products = append(_Products, _instance)
 		}
 	}
 	reference.Products = _Products
 	var _Tasks []*Task
 	for _, _reference := range reference.Tasks {
 		if _instance, ok := stage.Tasks_instance[_reference]; ok {
-			_Tasks = append(_Tasks, stage.Tasks_reference[_instance])
+			_Tasks = append(_Tasks, _instance)
 		}
 	}
 	reference.Tasks = _Tasks
 	var _Resources []*Resource
 	for _, _reference := range reference.Resources {
 		if _instance, ok := stage.Resources_instance[_reference]; ok {
-			_Resources = append(_Resources, stage.Resources_reference[_instance])
+			_Resources = append(_Resources, _instance)
 		}
 	}
 	reference.Resources = _Resources
@@ -2566,7 +2566,7 @@ func (reference *Product) GongReconstructPointersFromInstances(stage *Stage) () 
 	var _SubProducts []*Product
 	for _, _reference := range reference.SubProducts {
 		if _instance, ok := stage.Products_instance[_reference]; ok {
-			_SubProducts = append(_SubProducts, stage.Products_reference[_instance])
+			_SubProducts = append(_SubProducts, _instance)
 		}
 	}
 	reference.SubProducts = _SubProducts
@@ -2606,35 +2606,35 @@ func (reference *Project) GongReconstructPointersFromInstances(stage *Stage) () 
 	var _RootProducts []*Product
 	for _, _reference := range reference.RootProducts {
 		if _instance, ok := stage.Products_instance[_reference]; ok {
-			_RootProducts = append(_RootProducts, stage.Products_reference[_instance])
+			_RootProducts = append(_RootProducts, _instance)
 		}
 	}
 	reference.RootProducts = _RootProducts
 	var _RootTasks []*Task
 	for _, _reference := range reference.RootTasks {
 		if _instance, ok := stage.Tasks_instance[_reference]; ok {
-			_RootTasks = append(_RootTasks, stage.Tasks_reference[_instance])
+			_RootTasks = append(_RootTasks, _instance)
 		}
 	}
 	reference.RootTasks = _RootTasks
 	var _RootResources []*Resource
 	for _, _reference := range reference.RootResources {
 		if _instance, ok := stage.Resources_instance[_reference]; ok {
-			_RootResources = append(_RootResources, stage.Resources_reference[_instance])
+			_RootResources = append(_RootResources, _instance)
 		}
 	}
 	reference.RootResources = _RootResources
 	var _Notes []*Note
 	for _, _reference := range reference.Notes {
 		if _instance, ok := stage.Notes_instance[_reference]; ok {
-			_Notes = append(_Notes, stage.Notes_reference[_instance])
+			_Notes = append(_Notes, _instance)
 		}
 	}
 	reference.Notes = _Notes
 	var _Diagrams []*Diagram
 	for _, _reference := range reference.Diagrams {
 		if _instance, ok := stage.Diagrams_instance[_reference]; ok {
-			_Diagrams = append(_Diagrams, stage.Diagrams_reference[_instance])
+			_Diagrams = append(_Diagrams, _instance)
 		}
 	}
 	reference.Diagrams = _Diagrams
@@ -2648,14 +2648,14 @@ func (reference *Resource) GongReconstructPointersFromInstances(stage *Stage) ()
 	var _Tasks []*Task
 	for _, _reference := range reference.Tasks {
 		if _instance, ok := stage.Tasks_instance[_reference]; ok {
-			_Tasks = append(_Tasks, stage.Tasks_reference[_instance])
+			_Tasks = append(_Tasks, _instance)
 		}
 	}
 	reference.Tasks = _Tasks
 	var _SubResources []*Resource
 	for _, _reference := range reference.SubResources {
 		if _instance, ok := stage.Resources_instance[_reference]; ok {
-			_SubResources = append(_SubResources, stage.Resources_reference[_instance])
+			_SubResources = append(_SubResources, _instance)
 		}
 	}
 	reference.SubResources = _SubResources
@@ -2714,7 +2714,7 @@ func (reference *Root) GongReconstructPointersFromInstances(stage *Stage) () {
 	var _Projects []*Project
 	for _, _reference := range reference.Projects {
 		if _instance, ok := stage.Projects_instance[_reference]; ok {
-			_Projects = append(_Projects, stage.Projects_reference[_instance])
+			_Projects = append(_Projects, _instance)
 		}
 	}
 	reference.Projects = _Projects
@@ -2728,21 +2728,21 @@ func (reference *Task) GongReconstructPointersFromInstances(stage *Stage) () {
 	var _SubTasks []*Task
 	for _, _reference := range reference.SubTasks {
 		if _instance, ok := stage.Tasks_instance[_reference]; ok {
-			_SubTasks = append(_SubTasks, stage.Tasks_reference[_instance])
+			_SubTasks = append(_SubTasks, _instance)
 		}
 	}
 	reference.SubTasks = _SubTasks
 	var _Inputs []*Product
 	for _, _reference := range reference.Inputs {
 		if _instance, ok := stage.Products_instance[_reference]; ok {
-			_Inputs = append(_Inputs, stage.Products_reference[_instance])
+			_Inputs = append(_Inputs, _instance)
 		}
 	}
 	reference.Inputs = _Inputs
 	var _Outputs []*Product
 	for _, _reference := range reference.Outputs {
 		if _instance, ok := stage.Products_instance[_reference]; ok {
-			_Outputs = append(_Outputs, stage.Products_reference[_instance])
+			_Outputs = append(_Outputs, _instance)
 		}
 	}
 	reference.Outputs = _Outputs

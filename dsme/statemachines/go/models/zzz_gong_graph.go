@@ -1603,14 +1603,14 @@ func (reference *Architecture) GongReconstructPointersFromInstances(stage *Stage
 	var _StateMachines []*StateMachine
 	for _, _reference := range reference.StateMachines {
 		if _instance, ok := stage.StateMachines_instance[_reference]; ok {
-			_StateMachines = append(_StateMachines, stage.StateMachines_reference[_instance])
+			_StateMachines = append(_StateMachines, _instance)
 		}
 	}
 	reference.StateMachines = _StateMachines
 	var _Roles []*Role
 	for _, _reference := range reference.Roles {
 		if _instance, ok := stage.Roles_instance[_reference]; ok {
-			_Roles = append(_Roles, stage.Roles_reference[_instance])
+			_Roles = append(_Roles, _instance)
 		}
 	}
 	reference.Roles = _Roles
@@ -1624,14 +1624,14 @@ func (reference *Diagram) GongReconstructPointersFromInstances(stage *Stage) () 
 	var _State_Shapes []*StateShape
 	for _, _reference := range reference.State_Shapes {
 		if _instance, ok := stage.StateShapes_instance[_reference]; ok {
-			_State_Shapes = append(_State_Shapes, stage.StateShapes_reference[_instance])
+			_State_Shapes = append(_State_Shapes, _instance)
 		}
 	}
 	reference.State_Shapes = _State_Shapes
 	var _Transition_Shapes []*Transition_Shape
 	for _, _reference := range reference.Transition_Shapes {
 		if _instance, ok := stage.Transition_Shapes_instance[_reference]; ok {
-			_Transition_Shapes = append(_Transition_Shapes, stage.Transition_Shapes_reference[_instance])
+			_Transition_Shapes = append(_Transition_Shapes, _instance)
 		}
 	}
 	reference.Transition_Shapes = _Transition_Shapes
@@ -1691,7 +1691,7 @@ func (reference *Object) GongReconstructPointersFromInstances(stage *Stage) () {
 	var _Messages []*Message
 	for _, _reference := range reference.Messages {
 		if _instance, ok := stage.Messages_instance[_reference]; ok {
-			_Messages = append(_Messages, stage.Messages_reference[_instance])
+			_Messages = append(_Messages, _instance)
 		}
 	}
 	reference.Messages = _Messages
@@ -1705,7 +1705,7 @@ func (reference *Role) GongReconstructPointersFromInstances(stage *Stage) () {
 	var _RolesWithSamePermissions []*Role
 	for _, _reference := range reference.RolesWithSamePermissions {
 		if _instance, ok := stage.Roles_instance[_reference]; ok {
-			_RolesWithSamePermissions = append(_RolesWithSamePermissions, stage.Roles_reference[_instance])
+			_RolesWithSamePermissions = append(_RolesWithSamePermissions, _instance)
 		}
 	}
 	reference.RolesWithSamePermissions = _RolesWithSamePermissions
@@ -1737,21 +1737,21 @@ func (reference *State) GongReconstructPointersFromInstances(stage *Stage) () {
 	var _SubStates []*State
 	for _, _reference := range reference.SubStates {
 		if _instance, ok := stage.States_instance[_reference]; ok {
-			_SubStates = append(_SubStates, stage.States_reference[_instance])
+			_SubStates = append(_SubStates, _instance)
 		}
 	}
 	reference.SubStates = _SubStates
 	var _Diagrams []*Diagram
 	for _, _reference := range reference.Diagrams {
 		if _instance, ok := stage.Diagrams_instance[_reference]; ok {
-			_Diagrams = append(_Diagrams, stage.Diagrams_reference[_instance])
+			_Diagrams = append(_Diagrams, _instance)
 		}
 	}
 	reference.Diagrams = _Diagrams
 	var _Activities []*Activities
 	for _, _reference := range reference.Activities {
 		if _instance, ok := stage.Activitiess_instance[_reference]; ok {
-			_Activities = append(_Activities, stage.Activitiess_reference[_instance])
+			_Activities = append(_Activities, _instance)
 		}
 	}
 	reference.Activities = _Activities
@@ -1771,14 +1771,14 @@ func (reference *StateMachine) GongReconstructPointersFromInstances(stage *Stage
 	var _States []*State
 	for _, _reference := range reference.States {
 		if _instance, ok := stage.States_instance[_reference]; ok {
-			_States = append(_States, stage.States_reference[_instance])
+			_States = append(_States, _instance)
 		}
 	}
 	reference.States = _States
 	var _Diagrams []*Diagram
 	for _, _reference := range reference.Diagrams {
 		if _instance, ok := stage.Diagrams_instance[_reference]; ok {
-			_Diagrams = append(_Diagrams, stage.Diagrams_reference[_instance])
+			_Diagrams = append(_Diagrams, _instance)
 		}
 	}
 	reference.Diagrams = _Diagrams
@@ -1823,21 +1823,21 @@ func (reference *Transition) GongReconstructPointersFromInstances(stage *Stage) 
 	var _RolesWithPermissions []*Role
 	for _, _reference := range reference.RolesWithPermissions {
 		if _instance, ok := stage.Roles_instance[_reference]; ok {
-			_RolesWithPermissions = append(_RolesWithPermissions, stage.Roles_reference[_instance])
+			_RolesWithPermissions = append(_RolesWithPermissions, _instance)
 		}
 	}
 	reference.RolesWithPermissions = _RolesWithPermissions
 	var _GeneratedMessages []*MessageType
 	for _, _reference := range reference.GeneratedMessages {
 		if _instance, ok := stage.MessageTypes_instance[_reference]; ok {
-			_GeneratedMessages = append(_GeneratedMessages, stage.MessageTypes_reference[_instance])
+			_GeneratedMessages = append(_GeneratedMessages, _instance)
 		}
 	}
 	reference.GeneratedMessages = _GeneratedMessages
 	var _Diagrams []*Diagram
 	for _, _reference := range reference.Diagrams {
 		if _instance, ok := stage.Diagrams_instance[_reference]; ok {
-			_Diagrams = append(_Diagrams, stage.Diagrams_reference[_instance])
+			_Diagrams = append(_Diagrams, _instance)
 		}
 	}
 	reference.Diagrams = _Diagrams

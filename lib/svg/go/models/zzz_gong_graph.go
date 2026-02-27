@@ -2205,7 +2205,7 @@ func (reference *Circle) GongReconstructPointersFromInstances(stage *Stage) () {
 	var _Animations []*Animate
 	for _, _reference := range reference.Animations {
 		if _instance, ok := stage.Animates_instance[_reference]; ok {
-			_Animations = append(_Animations, stage.Animates_reference[_instance])
+			_Animations = append(_Animations, _instance)
 		}
 	}
 	reference.Animations = _Animations
@@ -2239,7 +2239,7 @@ func (reference *Ellipse) GongReconstructPointersFromInstances(stage *Stage) () 
 	var _Animates []*Animate
 	for _, _reference := range reference.Animates {
 		if _instance, ok := stage.Animates_instance[_reference]; ok {
-			_Animates = append(_Animates, stage.Animates_reference[_instance])
+			_Animates = append(_Animates, _instance)
 		}
 	}
 	reference.Animates = _Animates
@@ -2253,70 +2253,70 @@ func (reference *Layer) GongReconstructPointersFromInstances(stage *Stage) () {
 	var _Rects []*Rect
 	for _, _reference := range reference.Rects {
 		if _instance, ok := stage.Rects_instance[_reference]; ok {
-			_Rects = append(_Rects, stage.Rects_reference[_instance])
+			_Rects = append(_Rects, _instance)
 		}
 	}
 	reference.Rects = _Rects
 	var _Texts []*Text
 	for _, _reference := range reference.Texts {
 		if _instance, ok := stage.Texts_instance[_reference]; ok {
-			_Texts = append(_Texts, stage.Texts_reference[_instance])
+			_Texts = append(_Texts, _instance)
 		}
 	}
 	reference.Texts = _Texts
 	var _Circles []*Circle
 	for _, _reference := range reference.Circles {
 		if _instance, ok := stage.Circles_instance[_reference]; ok {
-			_Circles = append(_Circles, stage.Circles_reference[_instance])
+			_Circles = append(_Circles, _instance)
 		}
 	}
 	reference.Circles = _Circles
 	var _Lines []*Line
 	for _, _reference := range reference.Lines {
 		if _instance, ok := stage.Lines_instance[_reference]; ok {
-			_Lines = append(_Lines, stage.Lines_reference[_instance])
+			_Lines = append(_Lines, _instance)
 		}
 	}
 	reference.Lines = _Lines
 	var _Ellipses []*Ellipse
 	for _, _reference := range reference.Ellipses {
 		if _instance, ok := stage.Ellipses_instance[_reference]; ok {
-			_Ellipses = append(_Ellipses, stage.Ellipses_reference[_instance])
+			_Ellipses = append(_Ellipses, _instance)
 		}
 	}
 	reference.Ellipses = _Ellipses
 	var _Polylines []*Polyline
 	for _, _reference := range reference.Polylines {
 		if _instance, ok := stage.Polylines_instance[_reference]; ok {
-			_Polylines = append(_Polylines, stage.Polylines_reference[_instance])
+			_Polylines = append(_Polylines, _instance)
 		}
 	}
 	reference.Polylines = _Polylines
 	var _Polygones []*Polygone
 	for _, _reference := range reference.Polygones {
 		if _instance, ok := stage.Polygones_instance[_reference]; ok {
-			_Polygones = append(_Polygones, stage.Polygones_reference[_instance])
+			_Polygones = append(_Polygones, _instance)
 		}
 	}
 	reference.Polygones = _Polygones
 	var _Paths []*Path
 	for _, _reference := range reference.Paths {
 		if _instance, ok := stage.Paths_instance[_reference]; ok {
-			_Paths = append(_Paths, stage.Paths_reference[_instance])
+			_Paths = append(_Paths, _instance)
 		}
 	}
 	reference.Paths = _Paths
 	var _Links []*Link
 	for _, _reference := range reference.Links {
 		if _instance, ok := stage.Links_instance[_reference]; ok {
-			_Links = append(_Links, stage.Links_reference[_instance])
+			_Links = append(_Links, _instance)
 		}
 	}
 	reference.Links = _Links
 	var _RectLinkLinks []*RectLinkLink
 	for _, _reference := range reference.RectLinkLinks {
 		if _instance, ok := stage.RectLinkLinks_instance[_reference]; ok {
-			_RectLinkLinks = append(_RectLinkLinks, stage.RectLinkLinks_reference[_instance])
+			_RectLinkLinks = append(_RectLinkLinks, _instance)
 		}
 	}
 	reference.RectLinkLinks = _RectLinkLinks
@@ -2330,7 +2330,7 @@ func (reference *Line) GongReconstructPointersFromInstances(stage *Stage) () {
 	var _Animates []*Animate
 	for _, _reference := range reference.Animates {
 		if _instance, ok := stage.Animates_instance[_reference]; ok {
-			_Animates = append(_Animates, stage.Animates_reference[_instance])
+			_Animates = append(_Animates, _instance)
 		}
 	}
 	reference.Animates = _Animates
@@ -2356,21 +2356,21 @@ func (reference *Link) GongReconstructPointersFromInstances(stage *Stage) () {
 	var _TextAtArrowStart []*LinkAnchoredText
 	for _, _reference := range reference.TextAtArrowStart {
 		if _instance, ok := stage.LinkAnchoredTexts_instance[_reference]; ok {
-			_TextAtArrowStart = append(_TextAtArrowStart, stage.LinkAnchoredTexts_reference[_instance])
+			_TextAtArrowStart = append(_TextAtArrowStart, _instance)
 		}
 	}
 	reference.TextAtArrowStart = _TextAtArrowStart
 	var _TextAtArrowEnd []*LinkAnchoredText
 	for _, _reference := range reference.TextAtArrowEnd {
 		if _instance, ok := stage.LinkAnchoredTexts_instance[_reference]; ok {
-			_TextAtArrowEnd = append(_TextAtArrowEnd, stage.LinkAnchoredTexts_reference[_instance])
+			_TextAtArrowEnd = append(_TextAtArrowEnd, _instance)
 		}
 	}
 	reference.TextAtArrowEnd = _TextAtArrowEnd
 	var _ControlPoints []*ControlPoint
 	for _, _reference := range reference.ControlPoints {
 		if _instance, ok := stage.ControlPoints_instance[_reference]; ok {
-			_ControlPoints = append(_ControlPoints, stage.ControlPoints_reference[_instance])
+			_ControlPoints = append(_ControlPoints, _instance)
 		}
 	}
 	reference.ControlPoints = _ControlPoints
@@ -2384,7 +2384,7 @@ func (reference *LinkAnchoredText) GongReconstructPointersFromInstances(stage *S
 	var _Animates []*Animate
 	for _, _reference := range reference.Animates {
 		if _instance, ok := stage.Animates_instance[_reference]; ok {
-			_Animates = append(_Animates, stage.Animates_reference[_instance])
+			_Animates = append(_Animates, _instance)
 		}
 	}
 	reference.Animates = _Animates
@@ -2398,7 +2398,7 @@ func (reference *Path) GongReconstructPointersFromInstances(stage *Stage) () {
 	var _Animates []*Animate
 	for _, _reference := range reference.Animates {
 		if _instance, ok := stage.Animates_instance[_reference]; ok {
-			_Animates = append(_Animates, stage.Animates_reference[_instance])
+			_Animates = append(_Animates, _instance)
 		}
 	}
 	reference.Animates = _Animates
@@ -2419,7 +2419,7 @@ func (reference *Polygone) GongReconstructPointersFromInstances(stage *Stage) ()
 	var _Animates []*Animate
 	for _, _reference := range reference.Animates {
 		if _instance, ok := stage.Animates_instance[_reference]; ok {
-			_Animates = append(_Animates, stage.Animates_reference[_instance])
+			_Animates = append(_Animates, _instance)
 		}
 	}
 	reference.Animates = _Animates
@@ -2433,7 +2433,7 @@ func (reference *Polyline) GongReconstructPointersFromInstances(stage *Stage) ()
 	var _Animates []*Animate
 	for _, _reference := range reference.Animates {
 		if _instance, ok := stage.Animates_instance[_reference]; ok {
-			_Animates = append(_Animates, stage.Animates_reference[_instance])
+			_Animates = append(_Animates, _instance)
 		}
 	}
 	reference.Animates = _Animates
@@ -2447,42 +2447,42 @@ func (reference *Rect) GongReconstructPointersFromInstances(stage *Stage) () {
 	var _HoveringTrigger []*Condition
 	for _, _reference := range reference.HoveringTrigger {
 		if _instance, ok := stage.Conditions_instance[_reference]; ok {
-			_HoveringTrigger = append(_HoveringTrigger, stage.Conditions_reference[_instance])
+			_HoveringTrigger = append(_HoveringTrigger, _instance)
 		}
 	}
 	reference.HoveringTrigger = _HoveringTrigger
 	var _DisplayConditions []*Condition
 	for _, _reference := range reference.DisplayConditions {
 		if _instance, ok := stage.Conditions_instance[_reference]; ok {
-			_DisplayConditions = append(_DisplayConditions, stage.Conditions_reference[_instance])
+			_DisplayConditions = append(_DisplayConditions, _instance)
 		}
 	}
 	reference.DisplayConditions = _DisplayConditions
 	var _Animations []*Animate
 	for _, _reference := range reference.Animations {
 		if _instance, ok := stage.Animates_instance[_reference]; ok {
-			_Animations = append(_Animations, stage.Animates_reference[_instance])
+			_Animations = append(_Animations, _instance)
 		}
 	}
 	reference.Animations = _Animations
 	var _RectAnchoredTexts []*RectAnchoredText
 	for _, _reference := range reference.RectAnchoredTexts {
 		if _instance, ok := stage.RectAnchoredTexts_instance[_reference]; ok {
-			_RectAnchoredTexts = append(_RectAnchoredTexts, stage.RectAnchoredTexts_reference[_instance])
+			_RectAnchoredTexts = append(_RectAnchoredTexts, _instance)
 		}
 	}
 	reference.RectAnchoredTexts = _RectAnchoredTexts
 	var _RectAnchoredRects []*RectAnchoredRect
 	for _, _reference := range reference.RectAnchoredRects {
 		if _instance, ok := stage.RectAnchoredRects_instance[_reference]; ok {
-			_RectAnchoredRects = append(_RectAnchoredRects, stage.RectAnchoredRects_reference[_instance])
+			_RectAnchoredRects = append(_RectAnchoredRects, _instance)
 		}
 	}
 	reference.RectAnchoredRects = _RectAnchoredRects
 	var _RectAnchoredPaths []*RectAnchoredPath
 	for _, _reference := range reference.RectAnchoredPaths {
 		if _instance, ok := stage.RectAnchoredPaths_instance[_reference]; ok {
-			_RectAnchoredPaths = append(_RectAnchoredPaths, stage.RectAnchoredPaths_reference[_instance])
+			_RectAnchoredPaths = append(_RectAnchoredPaths, _instance)
 		}
 	}
 	reference.RectAnchoredPaths = _RectAnchoredPaths
@@ -2510,7 +2510,7 @@ func (reference *RectAnchoredText) GongReconstructPointersFromInstances(stage *S
 	var _Animates []*Animate
 	for _, _reference := range reference.Animates {
 		if _instance, ok := stage.Animates_instance[_reference]; ok {
-			_Animates = append(_Animates, stage.Animates_reference[_instance])
+			_Animates = append(_Animates, _instance)
 		}
 	}
 	reference.Animates = _Animates
@@ -2555,7 +2555,7 @@ func (reference *SVG) GongReconstructPointersFromInstances(stage *Stage) () {
 	var _Layers []*Layer
 	for _, _reference := range reference.Layers {
 		if _instance, ok := stage.Layers_instance[_reference]; ok {
-			_Layers = append(_Layers, stage.Layers_reference[_instance])
+			_Layers = append(_Layers, _instance)
 		}
 	}
 	reference.Layers = _Layers
@@ -2576,7 +2576,7 @@ func (reference *Text) GongReconstructPointersFromInstances(stage *Stage) () {
 	var _Animates []*Animate
 	for _, _reference := range reference.Animates {
 		if _instance, ok := stage.Animates_instance[_reference]; ok {
-			_Animates = append(_Animates, stage.Animates_reference[_instance])
+			_Animates = append(_Animates, _instance)
 		}
 	}
 	reference.Animates = _Animates

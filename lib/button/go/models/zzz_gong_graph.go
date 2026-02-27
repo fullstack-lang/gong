@@ -539,7 +539,7 @@ func (reference *Group) GongReconstructPointersFromInstances(stage *Stage) () {
 	var _Buttons []*Button
 	for _, _reference := range reference.Buttons {
 		if _instance, ok := stage.Buttons_instance[_reference]; ok {
-			_Buttons = append(_Buttons, stage.Buttons_reference[_instance])
+			_Buttons = append(_Buttons, _instance)
 		}
 	}
 	reference.Buttons = _Buttons
@@ -553,7 +553,7 @@ func (reference *GroupToogle) GongReconstructPointersFromInstances(stage *Stage)
 	var _ButtonToggles []*ButtonToggle
 	for _, _reference := range reference.ButtonToggles {
 		if _instance, ok := stage.ButtonToggles_instance[_reference]; ok {
-			_ButtonToggles = append(_ButtonToggles, stage.ButtonToggles_reference[_instance])
+			_ButtonToggles = append(_ButtonToggles, _instance)
 		}
 	}
 	reference.ButtonToggles = _ButtonToggles
@@ -567,14 +567,14 @@ func (reference *Layout) GongReconstructPointersFromInstances(stage *Stage) () {
 	var _Groups []*Group
 	for _, _reference := range reference.Groups {
 		if _instance, ok := stage.Groups_instance[_reference]; ok {
-			_Groups = append(_Groups, stage.Groups_reference[_instance])
+			_Groups = append(_Groups, _instance)
 		}
 	}
 	reference.Groups = _Groups
 	var _GroupToogles []*GroupToogle
 	for _, _reference := range reference.GroupToogles {
 		if _instance, ok := stage.GroupToogles_instance[_reference]; ok {
-			_GroupToogles = append(_GroupToogles, stage.GroupToogles_reference[_instance])
+			_GroupToogles = append(_GroupToogles, _instance)
 		}
 	}
 	reference.GroupToogles = _GroupToogles

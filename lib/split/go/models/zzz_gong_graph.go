@@ -1761,7 +1761,7 @@ func (reference *AsSplit) GongReconstructPointersFromInstances(stage *Stage) () 
 	var _AsSplitAreas []*AsSplitArea
 	for _, _reference := range reference.AsSplitAreas {
 		if _instance, ok := stage.AsSplitAreas_instance[_reference]; ok {
-			_AsSplitAreas = append(_AsSplitAreas, stage.AsSplitAreas_reference[_instance])
+			_AsSplitAreas = append(_AsSplitAreas, _instance)
 		}
 	}
 	reference.AsSplitAreas = _AsSplitAreas
@@ -1965,7 +1965,7 @@ func (reference *View) GongReconstructPointersFromInstances(stage *Stage) () {
 	var _RootAsSplitAreas []*AsSplitArea
 	for _, _reference := range reference.RootAsSplitAreas {
 		if _instance, ok := stage.AsSplitAreas_instance[_reference]; ok {
-			_RootAsSplitAreas = append(_RootAsSplitAreas, stage.AsSplitAreas_reference[_instance])
+			_RootAsSplitAreas = append(_RootAsSplitAreas, _instance)
 		}
 	}
 	reference.RootAsSplitAreas = _RootAsSplitAreas

@@ -341,7 +341,7 @@ func (reference *Chapter) GongReconstructPointersFromInstances(stage *Stage) () 
 	var _Pages []*Page
 	for _, _reference := range reference.Pages {
 		if _instance, ok := stage.Pages_instance[_reference]; ok {
-			_Pages = append(_Pages, stage.Pages_reference[_instance])
+			_Pages = append(_Pages, _instance)
 		}
 	}
 	reference.Pages = _Pages
@@ -355,7 +355,7 @@ func (reference *Content) GongReconstructPointersFromInstances(stage *Stage) () 
 	var _Chapters []*Chapter
 	for _, _reference := range reference.Chapters {
 		if _instance, ok := stage.Chapters_instance[_reference]; ok {
-			_Chapters = append(_Chapters, stage.Chapters_reference[_instance])
+			_Chapters = append(_Chapters, _instance)
 		}
 	}
 	reference.Chapters = _Chapters
