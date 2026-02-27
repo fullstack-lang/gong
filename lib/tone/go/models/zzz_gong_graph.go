@@ -335,7 +335,7 @@ func (reference *Note) GongReconstructPointersFromInstances(stage *Stage) () {
 	var _Frequencies []*Freqency
 	for _, _reference := range reference.Frequencies {
 		if _instance, ok := stage.Freqencys_instance[_reference]; ok {
-			_Frequencies = append(_Frequencies, stage.Freqencys_reference[_instance])
+			_Frequencies = append(_Frequencies, _instance)
 		}
 	}
 	reference.Frequencies = _Frequencies

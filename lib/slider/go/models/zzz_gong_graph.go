@@ -440,14 +440,14 @@ func (reference *Group) GongReconstructPointersFromInstances(stage *Stage) () {
 	var _Sliders []*Slider
 	for _, _reference := range reference.Sliders {
 		if _instance, ok := stage.Sliders_instance[_reference]; ok {
-			_Sliders = append(_Sliders, stage.Sliders_reference[_instance])
+			_Sliders = append(_Sliders, _instance)
 		}
 	}
 	reference.Sliders = _Sliders
 	var _Checkboxes []*Checkbox
 	for _, _reference := range reference.Checkboxes {
 		if _instance, ok := stage.Checkboxs_instance[_reference]; ok {
-			_Checkboxes = append(_Checkboxes, stage.Checkboxs_reference[_instance])
+			_Checkboxes = append(_Checkboxes, _instance)
 		}
 	}
 	reference.Checkboxes = _Checkboxes
@@ -461,7 +461,7 @@ func (reference *Layout) GongReconstructPointersFromInstances(stage *Stage) () {
 	var _Groups []*Group
 	for _, _reference := range reference.Groups {
 		if _instance, ok := stage.Groups_instance[_reference]; ok {
-			_Groups = append(_Groups, stage.Groups_reference[_instance])
+			_Groups = append(_Groups, _instance)
 		}
 	}
 	reference.Groups = _Groups

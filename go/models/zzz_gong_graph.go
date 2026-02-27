@@ -1074,7 +1074,7 @@ func (reference *GongEnum) GongReconstructPointersFromInstances(stage *Stage) ()
 	var _GongEnumValues []*GongEnumValue
 	for _, _reference := range reference.GongEnumValues {
 		if _instance, ok := stage.GongEnumValues_instance[_reference]; ok {
-			_GongEnumValues = append(_GongEnumValues, stage.GongEnumValues_reference[_instance])
+			_GongEnumValues = append(_GongEnumValues, _instance)
 		}
 	}
 	reference.GongEnumValues = _GongEnumValues
@@ -1102,7 +1102,7 @@ func (reference *GongNote) GongReconstructPointersFromInstances(stage *Stage) ()
 	var _Links []*GongLink
 	for _, _reference := range reference.Links {
 		if _instance, ok := stage.GongLinks_instance[_reference]; ok {
-			_Links = append(_Links, stage.GongLinks_reference[_instance])
+			_Links = append(_Links, _instance)
 		}
 	}
 	reference.Links = _Links
@@ -1116,28 +1116,28 @@ func (reference *GongStruct) GongReconstructPointersFromInstances(stage *Stage) 
 	var _GongBasicFields []*GongBasicField
 	for _, _reference := range reference.GongBasicFields {
 		if _instance, ok := stage.GongBasicFields_instance[_reference]; ok {
-			_GongBasicFields = append(_GongBasicFields, stage.GongBasicFields_reference[_instance])
+			_GongBasicFields = append(_GongBasicFields, _instance)
 		}
 	}
 	reference.GongBasicFields = _GongBasicFields
 	var _GongTimeFields []*GongTimeField
 	for _, _reference := range reference.GongTimeFields {
 		if _instance, ok := stage.GongTimeFields_instance[_reference]; ok {
-			_GongTimeFields = append(_GongTimeFields, stage.GongTimeFields_reference[_instance])
+			_GongTimeFields = append(_GongTimeFields, _instance)
 		}
 	}
 	reference.GongTimeFields = _GongTimeFields
 	var _PointerToGongStructFields []*PointerToGongStructField
 	for _, _reference := range reference.PointerToGongStructFields {
 		if _instance, ok := stage.PointerToGongStructFields_instance[_reference]; ok {
-			_PointerToGongStructFields = append(_PointerToGongStructFields, stage.PointerToGongStructFields_reference[_instance])
+			_PointerToGongStructFields = append(_PointerToGongStructFields, _instance)
 		}
 	}
 	reference.PointerToGongStructFields = _PointerToGongStructFields
 	var _SliceOfPointerToGongStructFields []*SliceOfPointerToGongStructField
 	for _, _reference := range reference.SliceOfPointerToGongStructFields {
 		if _instance, ok := stage.SliceOfPointerToGongStructFields_instance[_reference]; ok {
-			_SliceOfPointerToGongStructFields = append(_SliceOfPointerToGongStructFields, stage.SliceOfPointerToGongStructFields_reference[_instance])
+			_SliceOfPointerToGongStructFields = append(_SliceOfPointerToGongStructFields, _instance)
 		}
 	}
 	reference.SliceOfPointerToGongStructFields = _SliceOfPointerToGongStructFields

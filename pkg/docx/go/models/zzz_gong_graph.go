@@ -1788,14 +1788,14 @@ func (reference *Body) GongReconstructPointersFromInstances(stage *Stage) () {
 	var _Paragraphs []*Paragraph
 	for _, _reference := range reference.Paragraphs {
 		if _instance, ok := stage.Paragraphs_instance[_reference]; ok {
-			_Paragraphs = append(_Paragraphs, stage.Paragraphs_reference[_instance])
+			_Paragraphs = append(_Paragraphs, _instance)
 		}
 	}
 	reference.Paragraphs = _Paragraphs
 	var _Tables []*Table
 	for _, _reference := range reference.Tables {
 		if _instance, ok := stage.Tables_instance[_reference]; ok {
-			_Tables = append(_Tables, stage.Tables_reference[_instance])
+			_Tables = append(_Tables, _instance)
 		}
 	}
 	reference.Tables = _Tables
@@ -1840,7 +1840,7 @@ func (reference *Docx) GongReconstructPointersFromInstances(stage *Stage) () {
 	var _Files []*File
 	for _, _reference := range reference.Files {
 		if _instance, ok := stage.Files_instance[_reference]; ok {
-			_Files = append(_Files, stage.Files_reference[_instance])
+			_Files = append(_Files, _instance)
 		}
 	}
 	reference.Files = _Files
@@ -1861,7 +1861,7 @@ func (reference *Node) GongReconstructPointersFromInstances(stage *Stage) () {
 	var _Nodes []*Node
 	for _, _reference := range reference.Nodes {
 		if _instance, ok := stage.Nodes_instance[_reference]; ok {
-			_Nodes = append(_Nodes, stage.Nodes_reference[_instance])
+			_Nodes = append(_Nodes, _instance)
 		}
 	}
 	reference.Nodes = _Nodes
@@ -1911,7 +1911,7 @@ func (reference *Paragraph) GongReconstructPointersFromInstances(stage *Stage) (
 	var _Runes []*Rune
 	for _, _reference := range reference.Runes {
 		if _instance, ok := stage.Runes_instance[_reference]; ok {
-			_Runes = append(_Runes, stage.Runes_reference[_instance])
+			_Runes = append(_Runes, _instance)
 		}
 	}
 	reference.Runes = _Runes
@@ -2013,7 +2013,7 @@ func (reference *Table) GongReconstructPointersFromInstances(stage *Stage) () {
 	var _TableRows []*TableRow
 	for _, _reference := range reference.TableRows {
 		if _instance, ok := stage.TableRows_instance[_reference]; ok {
-			_TableRows = append(_TableRows, stage.TableRows_reference[_instance])
+			_TableRows = append(_TableRows, _instance)
 		}
 	}
 	reference.TableRows = _TableRows
@@ -2033,7 +2033,7 @@ func (reference *TableColumn) GongReconstructPointersFromInstances(stage *Stage)
 	var _Paragraphs []*Paragraph
 	for _, _reference := range reference.Paragraphs {
 		if _instance, ok := stage.Paragraphs_instance[_reference]; ok {
-			_Paragraphs = append(_Paragraphs, stage.Paragraphs_reference[_instance])
+			_Paragraphs = append(_Paragraphs, _instance)
 		}
 	}
 	reference.Paragraphs = _Paragraphs
@@ -2072,7 +2072,7 @@ func (reference *TableRow) GongReconstructPointersFromInstances(stage *Stage) ()
 	var _TableColumns []*TableColumn
 	for _, _reference := range reference.TableColumns {
 		if _instance, ok := stage.TableColumns_instance[_reference]; ok {
-			_TableColumns = append(_TableColumns, stage.TableColumns_reference[_instance])
+			_TableColumns = append(_TableColumns, _instance)
 		}
 	}
 	reference.TableColumns = _TableColumns

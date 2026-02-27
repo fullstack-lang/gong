@@ -1224,28 +1224,28 @@ func (reference *Diagram) GongReconstructPointersFromInstances(stage *Stage) () 
 	var _Category1Shapes []*Category1Shape
 	for _, _reference := range reference.Category1Shapes {
 		if _instance, ok := stage.Category1Shapes_instance[_reference]; ok {
-			_Category1Shapes = append(_Category1Shapes, stage.Category1Shapes_reference[_instance])
+			_Category1Shapes = append(_Category1Shapes, _instance)
 		}
 	}
 	reference.Category1Shapes = _Category1Shapes
 	var _Category2Shapes []*Category2Shape
 	for _, _reference := range reference.Category2Shapes {
 		if _instance, ok := stage.Category2Shapes_instance[_reference]; ok {
-			_Category2Shapes = append(_Category2Shapes, stage.Category2Shapes_reference[_instance])
+			_Category2Shapes = append(_Category2Shapes, _instance)
 		}
 	}
 	reference.Category2Shapes = _Category2Shapes
 	var _Category3Shapes []*Category3Shape
 	for _, _reference := range reference.Category3Shapes {
 		if _instance, ok := stage.Category3Shapes_instance[_reference]; ok {
-			_Category3Shapes = append(_Category3Shapes, stage.Category3Shapes_reference[_instance])
+			_Category3Shapes = append(_Category3Shapes, _instance)
 		}
 	}
 	reference.Category3Shapes = _Category3Shapes
 	var _InfluenceShapes []*InfluenceShape
 	for _, _reference := range reference.InfluenceShapes {
 		if _instance, ok := stage.InfluenceShapes_instance[_reference]; ok {
-			_InfluenceShapes = append(_InfluenceShapes, stage.InfluenceShapes_reference[_instance])
+			_InfluenceShapes = append(_InfluenceShapes, _instance)
 		}
 	}
 	reference.InfluenceShapes = _InfluenceShapes
@@ -1308,7 +1308,7 @@ func (reference *InfluenceShape) GongReconstructPointersFromInstances(stage *Sta
 	var _ControlPointShapes []*ControlPointShape
 	for _, _reference := range reference.ControlPointShapes {
 		if _instance, ok := stage.ControlPointShapes_instance[_reference]; ok {
-			_ControlPointShapes = append(_ControlPointShapes, stage.ControlPointShapes_reference[_instance])
+			_ControlPointShapes = append(_ControlPointShapes, _instance)
 		}
 	}
 	reference.ControlPointShapes = _ControlPointShapes

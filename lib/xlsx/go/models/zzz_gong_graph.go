@@ -575,7 +575,7 @@ func (reference *XLFile) GongReconstructPointersFromInstances(stage *Stage) () {
 	var _Sheets []*XLSheet
 	for _, _reference := range reference.Sheets {
 		if _instance, ok := stage.XLSheets_instance[_reference]; ok {
-			_Sheets = append(_Sheets, stage.XLSheets_reference[_instance])
+			_Sheets = append(_Sheets, _instance)
 		}
 	}
 	reference.Sheets = _Sheets
@@ -589,7 +589,7 @@ func (reference *XLRow) GongReconstructPointersFromInstances(stage *Stage) () {
 	var _Cells []*XLCell
 	for _, _reference := range reference.Cells {
 		if _instance, ok := stage.XLCells_instance[_reference]; ok {
-			_Cells = append(_Cells, stage.XLCells_reference[_instance])
+			_Cells = append(_Cells, _instance)
 		}
 	}
 	reference.Cells = _Cells
@@ -603,14 +603,14 @@ func (reference *XLSheet) GongReconstructPointersFromInstances(stage *Stage) () 
 	var _Rows []*XLRow
 	for _, _reference := range reference.Rows {
 		if _instance, ok := stage.XLRows_instance[_reference]; ok {
-			_Rows = append(_Rows, stage.XLRows_reference[_instance])
+			_Rows = append(_Rows, _instance)
 		}
 	}
 	reference.Rows = _Rows
 	var _SheetCells []*XLCell
 	for _, _reference := range reference.SheetCells {
 		if _instance, ok := stage.XLCells_instance[_reference]; ok {
-			_SheetCells = append(_SheetCells, stage.XLCells_reference[_instance])
+			_SheetCells = append(_SheetCells, _instance)
 		}
 	}
 	reference.SheetCells = _SheetCells
