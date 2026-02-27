@@ -16,7 +16,7 @@ func TestCommitNavigation(t *testing.T) {
 	// setup
 	// - model level1 stack with its probe
 	// - unmarshall/marshall go file with stage data
-	stack := level1stack.NewLevel1StackDelta("test3", "issue1144.go", "", true, true, true)
+	stack := level1stack.NewLevel1StackDelta("test3", "issue1148.go", "", true, true, true)
 	stage := stack.Stage
 	stack.Probe.Refresh()
 
