@@ -30,7 +30,7 @@ func _(stage *models.Stage) {
 
 	__Resource__00000003_ := (&models.Resource{Name: `R3`}).Stage(stage)
 
-	__ResourceShape__00000003_ := (&models.ResourceShape{Name: `R3-D1`}).Stage(stage)
+	__ResourceShape__00000003_ := (&models.ResourceShape{Name: `R3-D5`}).Stage(stage)
 
 	__Root__00000004_ := (&models.Root{Name: `Root 4`}).Stage(stage)
 
@@ -63,7 +63,7 @@ func _(stage *models.Stage) {
 	__Resource__00000003_.ComputedPrefix = `1`
 	__Resource__00000003_.IsInRenameMode = false
 
-	__ResourceShape__00000003_.Name = `R3-D1`
+	__ResourceShape__00000003_.Name = `R3-D5`
 	__ResourceShape__00000003_.IsExpanded = false
 	__ResourceShape__00000003_.X = 152.659628
 	__ResourceShape__00000003_.Y = 184.647694
