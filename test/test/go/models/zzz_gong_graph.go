@@ -933,42 +933,42 @@ func (reference *Astruct) GongReconstructPointersFromInstances(stage *Stage) () 
 	var _Anarrayofb []*Bstruct
 	for _, _reference := range reference.Anarrayofb {
 		if _instance, ok := stage.Bstructs_instance[_reference]; ok {
-			_Anarrayofb = append(_Anarrayofb, stage.Bstructs_reference[_instance])
+			_Anarrayofb = append(_Anarrayofb, _instance)
 		}
 	}
 	reference.Anarrayofb = _Anarrayofb
 	var _Dstruct4s []*Dstruct
 	for _, _reference := range reference.Dstruct4s {
 		if _instance, ok := stage.Dstructs_instance[_reference]; ok {
-			_Dstruct4s = append(_Dstruct4s, stage.Dstructs_reference[_instance])
+			_Dstruct4s = append(_Dstruct4s, _instance)
 		}
 	}
 	reference.Dstruct4s = _Dstruct4s
 	var _Anarrayofa []*Astruct
 	for _, _reference := range reference.Anarrayofa {
 		if _instance, ok := stage.Astructs_instance[_reference]; ok {
-			_Anarrayofa = append(_Anarrayofa, stage.Astructs_reference[_instance])
+			_Anarrayofa = append(_Anarrayofa, _instance)
 		}
 	}
 	reference.Anarrayofa = _Anarrayofa
 	var _Anotherarrayofb []*Bstruct
 	for _, _reference := range reference.Anotherarrayofb {
 		if _instance, ok := stage.Bstructs_instance[_reference]; ok {
-			_Anotherarrayofb = append(_Anotherarrayofb, stage.Bstructs_reference[_instance])
+			_Anotherarrayofb = append(_Anotherarrayofb, _instance)
 		}
 	}
 	reference.Anotherarrayofb = _Anotherarrayofb
 	var _AnarrayofbUse []*AstructBstructUse
 	for _, _reference := range reference.AnarrayofbUse {
 		if _instance, ok := stage.AstructBstructUses_instance[_reference]; ok {
-			_AnarrayofbUse = append(_AnarrayofbUse, stage.AstructBstructUses_reference[_instance])
+			_AnarrayofbUse = append(_AnarrayofbUse, _instance)
 		}
 	}
 	reference.AnarrayofbUse = _AnarrayofbUse
 	var _Anarrayofb2Use []*AstructBstruct2Use
 	for _, _reference := range reference.Anarrayofb2Use {
 		if _instance, ok := stage.AstructBstruct2Uses_instance[_reference]; ok {
-			_Anarrayofb2Use = append(_Anarrayofb2Use, stage.AstructBstruct2Uses_reference[_instance])
+			_Anarrayofb2Use = append(_Anarrayofb2Use, _instance)
 		}
 	}
 	reference.Anarrayofb2Use = _Anarrayofb2Use
@@ -1021,14 +1021,14 @@ func (reference *Dstruct) GongReconstructPointersFromInstances(stage *Stage) () 
 	var _Anarrayofb []*Bstruct
 	for _, _reference := range reference.Anarrayofb {
 		if _instance, ok := stage.Bstructs_instance[_reference]; ok {
-			_Anarrayofb = append(_Anarrayofb, stage.Bstructs_reference[_instance])
+			_Anarrayofb = append(_Anarrayofb, _instance)
 		}
 	}
 	reference.Anarrayofb = _Anarrayofb
 	var _Gstructs []*Gstruct
 	for _, _reference := range reference.Gstructs {
 		if _instance, ok := stage.Gstructs_instance[_reference]; ok {
-			_Gstructs = append(_Gstructs, stage.Gstructs_reference[_instance])
+			_Gstructs = append(_Gstructs, _instance)
 		}
 	}
 	reference.Gstructs = _Gstructs

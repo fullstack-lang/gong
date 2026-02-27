@@ -400,7 +400,7 @@ map[GongGraphFilePerStructSubTemplateId]string{
 	var _{{FieldName}} []*{{AssocStructName}}
 	for _, _reference := range reference.{{FieldName}} {
 		if _instance, ok := stage.{{AssocStructName}}s_instance[_reference]; ok {
-			_{{FieldName}} = append(_{{FieldName}}, stage.{{AssocStructName}}s_reference[_instance])
+			_{{FieldName}} = append(_{{FieldName}}, _instance)
 		}
 	}
 	reference.{{FieldName}} = _{{FieldName}}`,

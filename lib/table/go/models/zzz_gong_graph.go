@@ -2276,14 +2276,14 @@ func (reference *FormDiv) GongReconstructPointersFromInstances(stage *Stage) () 
 	var _FormFields []*FormField
 	for _, _reference := range reference.FormFields {
 		if _instance, ok := stage.FormFields_instance[_reference]; ok {
-			_FormFields = append(_FormFields, stage.FormFields_reference[_instance])
+			_FormFields = append(_FormFields, _instance)
 		}
 	}
 	reference.FormFields = _FormFields
 	var _CheckBoxs []*CheckBox
 	for _, _reference := range reference.CheckBoxs {
 		if _instance, ok := stage.CheckBoxs_instance[_reference]; ok {
-			_CheckBoxs = append(_CheckBoxs, stage.CheckBoxs_reference[_instance])
+			_CheckBoxs = append(_CheckBoxs, _instance)
 		}
 	}
 	reference.CheckBoxs = _CheckBoxs
@@ -2387,7 +2387,7 @@ func (reference *FormFieldSelect) GongReconstructPointersFromInstances(stage *St
 	var _Options []*Option
 	for _, _reference := range reference.Options {
 		if _instance, ok := stage.Options_instance[_reference]; ok {
-			_Options = append(_Options, stage.Options_reference[_instance])
+			_Options = append(_Options, _instance)
 		}
 	}
 	reference.Options = _Options
@@ -2415,7 +2415,7 @@ func (reference *FormGroup) GongReconstructPointersFromInstances(stage *Stage) (
 	var _FormDivs []*FormDiv
 	for _, _reference := range reference.FormDivs {
 		if _instance, ok := stage.FormDivs_instance[_reference]; ok {
-			_FormDivs = append(_FormDivs, stage.FormDivs_reference[_instance])
+			_FormDivs = append(_FormDivs, _instance)
 		}
 	}
 	reference.FormDivs = _FormDivs
@@ -2449,7 +2449,7 @@ func (reference *Row) GongReconstructPointersFromInstances(stage *Stage) () {
 	var _Cells []*Cell
 	for _, _reference := range reference.Cells {
 		if _instance, ok := stage.Cells_instance[_reference]; ok {
-			_Cells = append(_Cells, stage.Cells_reference[_instance])
+			_Cells = append(_Cells, _instance)
 		}
 	}
 	reference.Cells = _Cells
@@ -2463,14 +2463,14 @@ func (reference *Table) GongReconstructPointersFromInstances(stage *Stage) () {
 	var _DisplayedColumns []*DisplayedColumn
 	for _, _reference := range reference.DisplayedColumns {
 		if _instance, ok := stage.DisplayedColumns_instance[_reference]; ok {
-			_DisplayedColumns = append(_DisplayedColumns, stage.DisplayedColumns_reference[_instance])
+			_DisplayedColumns = append(_DisplayedColumns, _instance)
 		}
 	}
 	reference.DisplayedColumns = _DisplayedColumns
 	var _Rows []*Row
 	for _, _reference := range reference.Rows {
 		if _instance, ok := stage.Rows_instance[_reference]; ok {
-			_Rows = append(_Rows, stage.Rows_reference[_instance])
+			_Rows = append(_Rows, _instance)
 		}
 	}
 	reference.Rows = _Rows

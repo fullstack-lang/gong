@@ -15,7 +15,9 @@ func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice *[]T) (modified b
 		}
 	}
 	modified = len(cleanedSlice) != len(*slice)
-	*slice = cleanedSlice
+	if modified {
+		*slice = cleanedSlice
+	}
 	return
 }
 

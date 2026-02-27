@@ -476,14 +476,14 @@ func (reference *Node) GongReconstructPointersFromInstances(stage *Stage) () {
 	var _Children []*Node
 	for _, _reference := range reference.Children {
 		if _instance, ok := stage.Nodes_instance[_reference]; ok {
-			_Children = append(_Children, stage.Nodes_reference[_instance])
+			_Children = append(_Children, _instance)
 		}
 	}
 	reference.Children = _Children
 	var _Buttons []*Button
 	for _, _reference := range reference.Buttons {
 		if _instance, ok := stage.Buttons_instance[_reference]; ok {
-			_Buttons = append(_Buttons, stage.Buttons_reference[_instance])
+			_Buttons = append(_Buttons, _instance)
 		}
 	}
 	reference.Buttons = _Buttons
@@ -504,7 +504,7 @@ func (reference *Tree) GongReconstructPointersFromInstances(stage *Stage) () {
 	var _RootNodes []*Node
 	for _, _reference := range reference.RootNodes {
 		if _instance, ok := stage.Nodes_instance[_reference]; ok {
-			_RootNodes = append(_RootNodes, stage.Nodes_reference[_instance])
+			_RootNodes = append(_RootNodes, _instance)
 		}
 	}
 	reference.RootNodes = _RootNodes

@@ -912,21 +912,21 @@ func (reference *Classdiagram) GongReconstructPointersFromInstances(stage *Stage
 	var _GongStructShapes []*GongStructShape
 	for _, _reference := range reference.GongStructShapes {
 		if _instance, ok := stage.GongStructShapes_instance[_reference]; ok {
-			_GongStructShapes = append(_GongStructShapes, stage.GongStructShapes_reference[_instance])
+			_GongStructShapes = append(_GongStructShapes, _instance)
 		}
 	}
 	reference.GongStructShapes = _GongStructShapes
 	var _GongEnumShapes []*GongEnumShape
 	for _, _reference := range reference.GongEnumShapes {
 		if _instance, ok := stage.GongEnumShapes_instance[_reference]; ok {
-			_GongEnumShapes = append(_GongEnumShapes, stage.GongEnumShapes_reference[_instance])
+			_GongEnumShapes = append(_GongEnumShapes, _instance)
 		}
 	}
 	reference.GongEnumShapes = _GongEnumShapes
 	var _GongNoteShapes []*GongNoteShape
 	for _, _reference := range reference.GongNoteShapes {
 		if _instance, ok := stage.GongNoteShapes_instance[_reference]; ok {
-			_GongNoteShapes = append(_GongNoteShapes, stage.GongNoteShapes_reference[_instance])
+			_GongNoteShapes = append(_GongNoteShapes, _instance)
 		}
 	}
 	reference.GongNoteShapes = _GongNoteShapes
@@ -946,7 +946,7 @@ func (reference *DiagramPackage) GongReconstructPointersFromInstances(stage *Sta
 	var _Classdiagrams []*Classdiagram
 	for _, _reference := range reference.Classdiagrams {
 		if _instance, ok := stage.Classdiagrams_instance[_reference]; ok {
-			_Classdiagrams = append(_Classdiagrams, stage.Classdiagrams_reference[_instance])
+			_Classdiagrams = append(_Classdiagrams, _instance)
 		}
 	}
 	reference.Classdiagrams = _Classdiagrams
@@ -960,7 +960,7 @@ func (reference *GongEnumShape) GongReconstructPointersFromInstances(stage *Stag
 	var _GongEnumValueShapes []*GongEnumValueShape
 	for _, _reference := range reference.GongEnumValueShapes {
 		if _instance, ok := stage.GongEnumValueShapes_instance[_reference]; ok {
-			_GongEnumValueShapes = append(_GongEnumValueShapes, stage.GongEnumValueShapes_reference[_instance])
+			_GongEnumValueShapes = append(_GongEnumValueShapes, _instance)
 		}
 	}
 	reference.GongEnumValueShapes = _GongEnumValueShapes
@@ -988,7 +988,7 @@ func (reference *GongNoteShape) GongReconstructPointersFromInstances(stage *Stag
 	var _GongNoteLinkShapes []*GongNoteLinkShape
 	for _, _reference := range reference.GongNoteLinkShapes {
 		if _instance, ok := stage.GongNoteLinkShapes_instance[_reference]; ok {
-			_GongNoteLinkShapes = append(_GongNoteLinkShapes, stage.GongNoteLinkShapes_reference[_instance])
+			_GongNoteLinkShapes = append(_GongNoteLinkShapes, _instance)
 		}
 	}
 	reference.GongNoteLinkShapes = _GongNoteLinkShapes
@@ -1002,14 +1002,14 @@ func (reference *GongStructShape) GongReconstructPointersFromInstances(stage *St
 	var _AttributeShapes []*AttributeShape
 	for _, _reference := range reference.AttributeShapes {
 		if _instance, ok := stage.AttributeShapes_instance[_reference]; ok {
-			_AttributeShapes = append(_AttributeShapes, stage.AttributeShapes_reference[_instance])
+			_AttributeShapes = append(_AttributeShapes, _instance)
 		}
 	}
 	reference.AttributeShapes = _AttributeShapes
 	var _LinkShapes []*LinkShape
 	for _, _reference := range reference.LinkShapes {
 		if _instance, ok := stage.LinkShapes_instance[_reference]; ok {
-			_LinkShapes = append(_LinkShapes, stage.LinkShapes_reference[_instance])
+			_LinkShapes = append(_LinkShapes, _instance)
 		}
 	}
 	reference.LinkShapes = _LinkShapes

@@ -267,7 +267,7 @@ func (reference *A) GongReconstructPointersFromInstances(stage *Stage) () {
 	var _Bs []*B
 	for _, _reference := range reference.Bs {
 		if _instance, ok := stage.Bs_instance[_reference]; ok {
-			_Bs = append(_Bs, stage.Bs_reference[_instance])
+			_Bs = append(_Bs, _instance)
 		}
 	}
 	reference.Bs = _Bs
