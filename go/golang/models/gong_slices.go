@@ -18,6 +18,7 @@ package models
 
 import (
 	"fmt"
+	"log"
 	"sort"
 	"strings"
 	"time"
@@ -230,7 +231,14 @@ func ({{structname}} *{{Structname}}) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.{{Structname}}Map_Staged_Order[{{structname}}]; ok {
 		return order
 	}
-	return stage.{{Structname}}s_referenceOrder[{{structname}}]
+	if order, ok := stage.{{Structname}}s_referenceOrder[{{structname}}]; ok {
+		return order
+	} else {
+		log.Println("instance %p of type {{Structname}} was not staged and does not have a reference order", {{structname}})
+		return 0
+	}
+
+	return 0
 }
 
 func ({{structname}} *{{Structname}}) GongGetReferenceOrder(stage *Stage) uint {
