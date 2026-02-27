@@ -138,7 +138,6 @@ func addShowHideCompositionButton[
 	ACT_ Gongstruct,
 ](
 	stager *Stager,
-	diagram *Diagram,
 	element PT,
 	parentElement PT,
 	node *tree.Node,

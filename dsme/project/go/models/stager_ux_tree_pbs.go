@@ -20,7 +20,6 @@ func (stager *Stager) treePBSRecusriveInDiagram(diagram *Diagram, product *Produ
 	// if product has a parent product, add a button to show/hide the link to the parent
 	addShowHideCompositionButton(
 		stager,
-		diagram,
 		product,
 		product.parentProduct,
 		productNode,
