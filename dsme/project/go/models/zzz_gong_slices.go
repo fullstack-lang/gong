@@ -1913,11 +1913,9 @@ func (diagram *Diagram) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.Diagrams_referenceOrder[diagram]; ok {
 		return order
 	} else {
-		log.Println("instance %p of type Diagram was not staged and does not have a reference order", diagram)
+		log.Printf("instance %p of type Diagram was not staged and does not have a reference order", diagram)
 		return 0
 	}
-
-	return 0
 }
 
 func (diagram *Diagram) GongGetReferenceOrder(stage *Stage) uint {
@@ -1931,11 +1929,9 @@ func (note *Note) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.Notes_referenceOrder[note]; ok {
 		return order
 	} else {
-		log.Println("instance %p of type Note was not staged and does not have a reference order", note)
+		log.Printf("instance %p of type Note was not staged and does not have a reference order", note)
 		return 0
 	}
-
-	return 0
 }
 
 func (note *Note) GongGetReferenceOrder(stage *Stage) uint {
@@ -1949,11 +1945,9 @@ func (noteproductshape *NoteProductShape) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.NoteProductShapes_referenceOrder[noteproductshape]; ok {
 		return order
 	} else {
-		log.Println("instance %p of type NoteProductShape was not staged and does not have a reference order", noteproductshape)
+		log.Printf("instance %p of type NoteProductShape was not staged and does not have a reference order", noteproductshape)
 		return 0
 	}
-
-	return 0
 }
 
 func (noteproductshape *NoteProductShape) GongGetReferenceOrder(stage *Stage) uint {
@@ -1967,11 +1961,9 @@ func (noteresourceshape *NoteResourceShape) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.NoteResourceShapes_referenceOrder[noteresourceshape]; ok {
 		return order
 	} else {
-		log.Println("instance %p of type NoteResourceShape was not staged and does not have a reference order", noteresourceshape)
+		log.Printf("instance %p of type NoteResourceShape was not staged and does not have a reference order", noteresourceshape)
 		return 0
 	}
-
-	return 0
 }
 
 func (noteresourceshape *NoteResourceShape) GongGetReferenceOrder(stage *Stage) uint {
@@ -1985,11 +1977,9 @@ func (noteshape *NoteShape) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.NoteShapes_referenceOrder[noteshape]; ok {
 		return order
 	} else {
-		log.Println("instance %p of type NoteShape was not staged and does not have a reference order", noteshape)
+		log.Printf("instance %p of type NoteShape was not staged and does not have a reference order", noteshape)
 		return 0
 	}
-
-	return 0
 }
 
 func (noteshape *NoteShape) GongGetReferenceOrder(stage *Stage) uint {
@@ -2003,11 +1993,9 @@ func (notetaskshape *NoteTaskShape) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.NoteTaskShapes_referenceOrder[notetaskshape]; ok {
 		return order
 	} else {
-		log.Println("instance %p of type NoteTaskShape was not staged and does not have a reference order", notetaskshape)
+		log.Printf("instance %p of type NoteTaskShape was not staged and does not have a reference order", notetaskshape)
 		return 0
 	}
-
-	return 0
 }
 
 func (notetaskshape *NoteTaskShape) GongGetReferenceOrder(stage *Stage) uint {
@@ -2021,11 +2009,9 @@ func (product *Product) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.Products_referenceOrder[product]; ok {
 		return order
 	} else {
-		log.Println("instance %p of type Product was not staged and does not have a reference order", product)
+		log.Printf("instance %p of type Product was not staged and does not have a reference order", product)
 		return 0
 	}
-
-	return 0
 }
 
 func (product *Product) GongGetReferenceOrder(stage *Stage) uint {
@@ -2039,11 +2025,9 @@ func (productcompositionshape *ProductCompositionShape) GongGetOrder(stage *Stag
 	if order, ok := stage.ProductCompositionShapes_referenceOrder[productcompositionshape]; ok {
 		return order
 	} else {
-		log.Println("instance %p of type ProductCompositionShape was not staged and does not have a reference order", productcompositionshape)
+		log.Printf("instance %p of type ProductCompositionShape was not staged and does not have a reference order", productcompositionshape)
 		return 0
 	}
-
-	return 0
 }
 
 func (productcompositionshape *ProductCompositionShape) GongGetReferenceOrder(stage *Stage) uint {
@@ -2057,11 +2041,9 @@ func (productshape *ProductShape) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.ProductShapes_referenceOrder[productshape]; ok {
 		return order
 	} else {
-		log.Println("instance %p of type ProductShape was not staged and does not have a reference order", productshape)
+		log.Printf("instance %p of type ProductShape was not staged and does not have a reference order", productshape)
 		return 0
 	}
-
-	return 0
 }
 
 func (productshape *ProductShape) GongGetReferenceOrder(stage *Stage) uint {
@@ -2075,11 +2057,9 @@ func (project *Project) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.Projects_referenceOrder[project]; ok {
 		return order
 	} else {
-		log.Println("instance %p of type Project was not staged and does not have a reference order", project)
+		log.Printf("instance %p of type Project was not staged and does not have a reference order", project)
 		return 0
 	}
-
-	return 0
 }
 
 func (project *Project) GongGetReferenceOrder(stage *Stage) uint {
@@ -2093,11 +2073,9 @@ func (resource *Resource) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.Resources_referenceOrder[resource]; ok {
 		return order
 	} else {
-		log.Println("instance %p of type Resource was not staged and does not have a reference order", resource)
+		log.Printf("instance %p of type Resource was not staged and does not have a reference order", resource)
 		return 0
 	}
-
-	return 0
 }
 
 func (resource *Resource) GongGetReferenceOrder(stage *Stage) uint {
@@ -2111,11 +2089,9 @@ func (resourcecompositionshape *ResourceCompositionShape) GongGetOrder(stage *St
 	if order, ok := stage.ResourceCompositionShapes_referenceOrder[resourcecompositionshape]; ok {
 		return order
 	} else {
-		log.Println("instance %p of type ResourceCompositionShape was not staged and does not have a reference order", resourcecompositionshape)
+		log.Printf("instance %p of type ResourceCompositionShape was not staged and does not have a reference order", resourcecompositionshape)
 		return 0
 	}
-
-	return 0
 }
 
 func (resourcecompositionshape *ResourceCompositionShape) GongGetReferenceOrder(stage *Stage) uint {
@@ -2129,11 +2105,9 @@ func (resourceshape *ResourceShape) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.ResourceShapes_referenceOrder[resourceshape]; ok {
 		return order
 	} else {
-		log.Println("instance %p of type ResourceShape was not staged and does not have a reference order", resourceshape)
+		log.Printf("instance %p of type ResourceShape was not staged and does not have a reference order", resourceshape)
 		return 0
 	}
-
-	return 0
 }
 
 func (resourceshape *ResourceShape) GongGetReferenceOrder(stage *Stage) uint {
@@ -2147,11 +2121,9 @@ func (resourcetaskshape *ResourceTaskShape) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.ResourceTaskShapes_referenceOrder[resourcetaskshape]; ok {
 		return order
 	} else {
-		log.Println("instance %p of type ResourceTaskShape was not staged and does not have a reference order", resourcetaskshape)
+		log.Printf("instance %p of type ResourceTaskShape was not staged and does not have a reference order", resourcetaskshape)
 		return 0
 	}
-
-	return 0
 }
 
 func (resourcetaskshape *ResourceTaskShape) GongGetReferenceOrder(stage *Stage) uint {
@@ -2165,11 +2137,9 @@ func (root *Root) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.Roots_referenceOrder[root]; ok {
 		return order
 	} else {
-		log.Println("instance %p of type Root was not staged and does not have a reference order", root)
+		log.Printf("instance %p of type Root was not staged and does not have a reference order", root)
 		return 0
 	}
-
-	return 0
 }
 
 func (root *Root) GongGetReferenceOrder(stage *Stage) uint {
@@ -2183,11 +2153,9 @@ func (task *Task) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.Tasks_referenceOrder[task]; ok {
 		return order
 	} else {
-		log.Println("instance %p of type Task was not staged and does not have a reference order", task)
+		log.Printf("instance %p of type Task was not staged and does not have a reference order", task)
 		return 0
 	}
-
-	return 0
 }
 
 func (task *Task) GongGetReferenceOrder(stage *Stage) uint {
@@ -2201,11 +2169,9 @@ func (taskcompositionshape *TaskCompositionShape) GongGetOrder(stage *Stage) uin
 	if order, ok := stage.TaskCompositionShapes_referenceOrder[taskcompositionshape]; ok {
 		return order
 	} else {
-		log.Println("instance %p of type TaskCompositionShape was not staged and does not have a reference order", taskcompositionshape)
+		log.Printf("instance %p of type TaskCompositionShape was not staged and does not have a reference order", taskcompositionshape)
 		return 0
 	}
-
-	return 0
 }
 
 func (taskcompositionshape *TaskCompositionShape) GongGetReferenceOrder(stage *Stage) uint {
@@ -2219,11 +2185,9 @@ func (taskinputshape *TaskInputShape) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.TaskInputShapes_referenceOrder[taskinputshape]; ok {
 		return order
 	} else {
-		log.Println("instance %p of type TaskInputShape was not staged and does not have a reference order", taskinputshape)
+		log.Printf("instance %p of type TaskInputShape was not staged and does not have a reference order", taskinputshape)
 		return 0
 	}
-
-	return 0
 }
 
 func (taskinputshape *TaskInputShape) GongGetReferenceOrder(stage *Stage) uint {
@@ -2237,11 +2201,9 @@ func (taskoutputshape *TaskOutputShape) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.TaskOutputShapes_referenceOrder[taskoutputshape]; ok {
 		return order
 	} else {
-		log.Println("instance %p of type TaskOutputShape was not staged and does not have a reference order", taskoutputshape)
+		log.Printf("instance %p of type TaskOutputShape was not staged and does not have a reference order", taskoutputshape)
 		return 0
 	}
-
-	return 0
 }
 
 func (taskoutputshape *TaskOutputShape) GongGetReferenceOrder(stage *Stage) uint {
@@ -2255,11 +2217,9 @@ func (taskshape *TaskShape) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.TaskShapes_referenceOrder[taskshape]; ok {
 		return order
 	} else {
-		log.Println("instance %p of type TaskShape was not staged and does not have a reference order", taskshape)
+		log.Printf("instance %p of type TaskShape was not staged and does not have a reference order", taskshape)
 		return 0
 	}
-
-	return 0
 }
 
 func (taskshape *TaskShape) GongGetReferenceOrder(stage *Stage) uint {

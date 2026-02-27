@@ -234,11 +234,9 @@ func ({{structname}} *{{Structname}}) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.{{Structname}}s_referenceOrder[{{structname}}]; ok {
 		return order
 	} else {
-		log.Println("instance %p of type {{Structname}} was not staged and does not have a reference order", {{structname}})
+		log.Printf("instance %p of type {{Structname}} was not staged and does not have a reference order", {{structname}})
 		return 0
 	}
-
-	return 0
 }
 
 func ({{structname}} *{{Structname}}) GongGetReferenceOrder(stage *Stage) uint {
