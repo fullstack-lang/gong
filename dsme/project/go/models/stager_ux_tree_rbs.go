@@ -23,7 +23,6 @@ func (stager *Stager) treeRBSinDiagram(diagram *Diagram, resource *Resource, par
 	// if resource has a parent resource, add a button to show/hide the link to the parent
 	addShowHideCompositionButton(
 		stager,
-		diagram,
 		resource,
 		resource.parentResource,
 		resourceNode,
