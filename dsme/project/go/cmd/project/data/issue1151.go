@@ -26,8 +26,10 @@ func _(stage *models.Stage) {
 	__Diagram__00000005_ := (&models.Diagram{Name: `D5`}).Stage(stage)
 
 	__Product__00000000_ := (&models.Product{Name: `P1`}).Stage(stage)
+	__Product__00000001_ := (&models.Product{Name: `P2`}).Stage(stage)
 
 	__ProductShape__00000000_ := (&models.ProductShape{Name: `-D5`}).Stage(stage)
+	__ProductShape__00000001_ := (&models.ProductShape{Name: `-D5`}).Stage(stage)
 
 	__Project__00000001_ := (&models.Project{Name: `P1`}).Stage(stage)
 
@@ -58,6 +60,7 @@ func _(stage *models.Stage) {
 	__Task__00000000_ := (&models.Task{Name: `T1`}).Stage(stage)
 
 	__TaskOutputShape__00000000_ := (&models.TaskOutputShape{Name: `T1 to P1`}).Stage(stage)
+	__TaskOutputShape__00000001_ := (&models.TaskOutputShape{Name: `T1 to P2`}).Stage(stage)
 
 	__TaskShape__00000000_ := (&models.TaskShape{Name: `T1-D5`}).Stage(stage)
 
@@ -69,8 +72,8 @@ func _(stage *models.Stage) {
 	__Diagram__00000005_.ShowPrefix = true
 	__Diagram__00000005_.DefaultBoxWidth = 250.000000
 	__Diagram__00000005_.DefaultBoxHeigth = 100.000000
-	__Diagram__00000005_.Width = 7708.862056
-	__Diagram__00000005_.Height = 8076.845003
+	__Diagram__00000005_.Width = 8808.862056
+	__Diagram__00000005_.Height = 9176.845003
 	__Diagram__00000005_.IsExpanded = true
 	__Diagram__00000005_.ComputedPrefix = ``
 	__Diagram__00000005_.IsInRenameMode = false
@@ -87,12 +90,27 @@ func _(stage *models.Stage) {
 	__Product__00000000_.IsProducersNodeExpanded = false
 	__Product__00000000_.IsConsumersNodeExpanded = false
 
+	__Product__00000001_.Name = `P2`
+	__Product__00000001_.Description = ``
+	__Product__00000001_.IsExpanded = false
+	__Product__00000001_.ComputedPrefix = `2`
+	__Product__00000001_.IsInRenameMode = false
+	__Product__00000001_.IsProducersNodeExpanded = false
+	__Product__00000001_.IsConsumersNodeExpanded = false
+
 	__ProductShape__00000000_.Name = `-D5`
 	__ProductShape__00000000_.IsExpanded = false
 	__ProductShape__00000000_.X = 1075.448177
 	__ProductShape__00000000_.Y = 111.024928
 	__ProductShape__00000000_.Width = 250.000000
 	__ProductShape__00000000_.Height = 100.000000
+
+	__ProductShape__00000001_.Name = `-D5`
+	__ProductShape__00000001_.IsExpanded = false
+	__ProductShape__00000001_.X = 1042.825277
+	__ProductShape__00000001_.Y = 854.272898
+	__ProductShape__00000001_.Width = 250.000000
+	__ProductShape__00000001_.Height = 100.000000
 
 	__Project__00000001_.Name = `P1`
 	__Project__00000001_.IsExpanded = true
@@ -241,17 +259,26 @@ func _(stage *models.Stage) {
 	__TaskOutputShape__00000000_.EndOrientation = models.ORIENTATION_HORIZONTAL
 	__TaskOutputShape__00000000_.CornerOffsetRatio = -0.039867
 
+	__TaskOutputShape__00000001_.Name = `T1 to P2`
+	__TaskOutputShape__00000001_.StartRatio = 0.293465
+	__TaskOutputShape__00000001_.EndRatio = 0.500000
+	__TaskOutputShape__00000001_.StartOrientation = models.ORIENTATION_VERTICAL
+	__TaskOutputShape__00000001_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__TaskOutputShape__00000001_.CornerOffsetRatio = 1.130133
+
 	__TaskShape__00000000_.Name = `T1-D5`
 	__TaskShape__00000000_.IsExpanded = false
-	__TaskShape__00000000_.X = 854.731320
-	__TaskShape__00000000_.Y = 350.992601
+	__TaskShape__00000000_.X = 853.731320
+	__TaskShape__00000000_.Y = 353.992601
 	__TaskShape__00000000_.Width = 250.000000
 	__TaskShape__00000000_.Height = 100.000000
 
 	// insertion point for setup of pointers
 	__Diagram__00000005_.Product_Shapes = append(__Diagram__00000005_.Product_Shapes, __ProductShape__00000000_)
+	__Diagram__00000005_.Product_Shapes = append(__Diagram__00000005_.Product_Shapes, __ProductShape__00000001_)
 	__Diagram__00000005_.Task_Shapes = append(__Diagram__00000005_.Task_Shapes, __TaskShape__00000000_)
 	__Diagram__00000005_.TaskOutputShapes = append(__Diagram__00000005_.TaskOutputShapes, __TaskOutputShape__00000000_)
+	__Diagram__00000005_.TaskOutputShapes = append(__Diagram__00000005_.TaskOutputShapes, __TaskOutputShape__00000001_)
 	__Diagram__00000005_.Resource_Shapes = append(__Diagram__00000005_.Resource_Shapes, __ResourceShape__00000003_)
 	__Diagram__00000005_.Resource_Shapes = append(__Diagram__00000005_.Resource_Shapes, __ResourceShape__00000005_)
 	__Diagram__00000005_.Resource_Shapes = append(__Diagram__00000005_.Resource_Shapes, __ResourceShape__00000006_)
@@ -267,7 +294,9 @@ func _(stage *models.Stage) {
 	__Diagram__00000005_.ResourceTaskShapes = append(__Diagram__00000005_.ResourceTaskShapes, __ResourceTaskShape__00000001_)
 	__Diagram__00000005_.ResourceTaskShapes = append(__Diagram__00000005_.ResourceTaskShapes, __ResourceTaskShape__00000002_)
 	__ProductShape__00000000_.Product = __Product__00000000_
+	__ProductShape__00000001_.Product = __Product__00000001_
 	__Project__00000001_.RootProducts = append(__Project__00000001_.RootProducts, __Product__00000000_)
+	__Project__00000001_.RootProducts = append(__Project__00000001_.RootProducts, __Product__00000001_)
 	__Project__00000001_.RootTasks = append(__Project__00000001_.RootTasks, __Task__00000000_)
 	__Project__00000001_.RootResources = append(__Project__00000001_.RootResources, __Resource__00000003_)
 	__Project__00000001_.RootResources = append(__Project__00000001_.RootResources, __Resource__00000004_)
@@ -296,7 +325,10 @@ func _(stage *models.Stage) {
 	__ResourceTaskShape__00000002_.Task = __Task__00000000_
 	__Root__00000004_.Projects = append(__Root__00000004_.Projects, __Project__00000001_)
 	__Task__00000000_.Outputs = append(__Task__00000000_.Outputs, __Product__00000000_)
+	__Task__00000000_.Outputs = append(__Task__00000000_.Outputs, __Product__00000001_)
 	__TaskOutputShape__00000000_.Task = __Task__00000000_
 	__TaskOutputShape__00000000_.Product = __Product__00000000_
+	__TaskOutputShape__00000001_.Task = __Task__00000000_
+	__TaskOutputShape__00000001_.Product = __Product__00000001_
 	__TaskShape__00000000_.Task = __Task__00000000_
 }
