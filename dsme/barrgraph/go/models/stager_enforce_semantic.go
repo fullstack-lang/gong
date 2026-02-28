@@ -20,6 +20,7 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 	}
 
 	if needCommit {
+		stage.CommitWithSuspendedCallbacks()
 		stager.probeForm.CommitNotificationTable()
 	}
 
@@ -150,10 +151,6 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 			influenceShape.Name = influenceShape.Influence.Name
 			needCommit = true
 		}
-	}
-
-	if needCommit {
-		stager.stage.CommitWithSuspendedCallbacks()
 	}
 
 	return needCommit
