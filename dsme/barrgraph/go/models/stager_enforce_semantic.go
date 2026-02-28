@@ -8,57 +8,8 @@ func (stager *Stager) enforceSemantic() {
 	needCommit := false
 
 	// check that there is a Desk
-	if len(GetGongstrucsSorted[*Desk](stager.stage)) == 0 {
-		(&Desk{Name: "Desk"}).Stage(stager.stage)
-		needCommit = true
-	}
-
-	stager.desk = GetGongstrucsSorted[*Desk](stager.stage)[0]
-
-	// at least one diagram is welcome to ease the end user experience
-	if len(GetGongstrucsSorted[*Diagram](stager.stage)) == 0 {
-		diagram := (&Diagram{
-			Name: "Default",
-		}).Stage(stager.stage)
-		stager.desk.SelectedDiagram = diagram
-		needCommit = true
-	}
-
-	for _, diagram := range GetGongstrucsSorted[*Diagram](stager.stage) {
-		if diagram.AlignDatesToFiveYears() {
-			needCommit = true
-		}
-
-		if diagram.EndDate.Before(diagram.StartDate) {
-			diagram.EndDate = diagram.StartDate
-			needCommit = true
-		}
-
-		if diagram.MovementRectAnchorType == "" {
-			diagram.MovementRectAnchorType = RECT_RIGHT
-			needCommit = true
-		}
-		if diagram.MovementTextAnchorType == "" {
-			diagram.MovementTextAnchorType = TEXT_ANCHOR_END
-			needCommit = true
-		}
-		if diagram.MovementDateRectAnchorType == "" {
-			diagram.MovementDateRectAnchorType = RECT_BOTTOM_LEFT
-			needCommit = true
-		}
-		if diagram.MovementDateTextAnchorType == "" {
-			diagram.MovementDateTextAnchorType = TEXT_ANCHOR_START
-			needCommit = true
-		}
-		if diagram.MovementPlacesRectAnchorType == "" {
-			diagram.MovementPlacesRectAnchorType = RECT_BOTTOM_RIGHT
-			needCommit = true
-		}
-		if diagram.MovementPlacesTextAnchorType == "" {
-			diagram.MovementPlacesTextAnchorType = TEXT_ANCHOR_END
-			needCommit = true
-		}
-	}
+	needCommit = stager.enforce_semantic_singlotons() || needCommit
+	needCommit = stager.enforce_semantic_diagrams() || needCommit
 
 	for _, movement := range GetGongstrucsSorted[*Movement](stager.stage) {
 		//  movement cannot be minor AND major
