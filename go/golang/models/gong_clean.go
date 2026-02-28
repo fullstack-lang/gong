@@ -39,12 +39,17 @@ func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice *[]T) (modified b
 // GongCleanPointer sets the pointer to nil if the referenced element is not staged.
 // T must be a pointer to a struct that implements PointerToGongstruct.
 func GongCleanPointer[T PointerToGongstruct](stage *Stage, element *T) (modified bool) {
-	if !IsStagedPointerToGongstruct(stage, *element) {
-		var zero T
-		*element = zero
-		return true
+	var zero T
+	if *element == zero {
+		return
 	}
-	return false
+
+	if !IsStagedPointerToGongstruct(stage, *element) {
+		*element = zero
+		modified = true
+		return
+	}
+	return
 }
 
 // insertion point per named struct{{` + string(rune(GongCleanRangeElements)) + `}}
@@ -85,7 +90,6 @@ const (
 
 var GongCleanFileFieldFieldSubTemplateCode map[GongCleanSubTemplateId]string = // declaration of the sub templates
 map[GongCleanSubTemplateId]string{
-
 	GongCleanSubTmplCleanPointer: `
 	modified = GongCleanPointer(stage, &{{structname}}.{{FieldName}}) || modified`,
 	GongCleanSubTmplCleanOfSlicePointers: `
@@ -96,8 +100,8 @@ func CodeGeneratorModelGongClean(
 	modelPkg *models.ModelPkg,
 	pkgName string,
 	pkgPath string,
-	pkgGoPath string) {
-
+	pkgGoPath string,
+) {
 	// this code is not robust to empty models
 	// map[Gongstruct]any cannot compile
 	if len(modelPkg.GongStructs) == 0 {
@@ -212,5 +216,4 @@ func CodeGeneratorModelGongClean(
 	}
 	defer file.Close()
 	fmt.Fprint(file, codeGO)
-
 }
