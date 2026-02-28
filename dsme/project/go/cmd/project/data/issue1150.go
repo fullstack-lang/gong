@@ -75,6 +75,7 @@ func _(stage *models.Stage) {
 	__Root__00000004_.Projects = append(__Root__00000004_.Projects, __Project__00000001_)
 	__Project__00000001_.RootResources = append(__Project__00000001_.RootResources, __Resource__00000003_)
 	__Project__00000001_.Diagrams = append(__Project__00000001_.Diagrams, __Diagram__00000005_)
+	__ResourceShape__00000003_.Resource = __Resource__00000003_
 	__Diagram__00000005_.Resource_Shapes = append(__Diagram__00000005_.Resource_Shapes, __ResourceShape__00000003_)
 
 	stage.Commit()
