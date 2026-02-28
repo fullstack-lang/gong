@@ -205,6 +205,15 @@ func ParseAstFileFromAst(stage *Stage, inFile *ast.File, fset *token.FileSet, pr
 								if stage.OnInitCommitFromBackCallback != nil {
 									stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
 								}
+								// 1. Run all Before Commit hooks
+								for _, hook := range stage.beforeCommitHooks {
+									hook(stage)
+								}
+
+								// 2. Run all After Commit hooks
+								for _, hook := range stage.afterCommitHooks {
+									hook(stage)
+								}
 							}
 						}
 					}

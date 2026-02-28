@@ -133,7 +133,7 @@ func ({{structname}} *{{Structname}}) GongGetGongstructName() string {
 func ({{structname}} *{{Structname}}) Stage(stage *Stage) *{{Structname}} {
 	if _, ok := stage.{{Structname}}s[{{structname}}]; !ok {
 		stage.{{Structname}}s[{{structname}}] = struct{}{}
-		stage.{{Structname}}Map_Staged_Order[{{structname}}] = stage.{{Structname}}Order
+		stage.{{Structname}}_stagedOrder[{{structname}}] = stage.{{Structname}}Order
 		stage.{{Structname}}Order++
 	}
 	stage.{{Structname}}s_mapString[{{structname}}.Name] = {{structname}}
@@ -153,7 +153,7 @@ func ({{structname}} *{{Structname}}) StagePreserveOrder(stage *Stage, order uin
 		if order > stage.{{Structname}}Order {
 			stage.{{Structname}}Order = order
 		}
-		stage.{{Structname}}Map_Staged_Order[{{structname}}] = order
+		stage.{{Structname}}_stagedOrder[{{structname}}] = order
 		stage.{{Structname}}Order++
 	}
 	stage.{{Structname}}s_mapString[{{structname}}.Name] = {{structname}}
@@ -162,7 +162,8 @@ func ({{structname}} *{{Structname}}) StagePreserveOrder(stage *Stage, order uin
 // Unstage removes {{structname}} off the model stage
 func ({{structname}} *{{Structname}}) Unstage(stage *Stage) *{{Structname}} {
 	delete(stage.{{Structname}}s, {{structname}})
-	delete(stage.{{Structname}}Map_Staged_Order, {{structname}})
+	// issue1150
+	// delete(stage.{{Structname}}_stagedOrder, {{structname}})
 	delete(stage.{{Structname}}s_mapString, {{structname}}.Name)
 
 	return {{structname}}
@@ -171,7 +172,8 @@ func ({{structname}} *{{Structname}}) Unstage(stage *Stage) *{{Structname}} {
 // UnstageVoid removes {{structname}} off the model stage
 func ({{structname}} *{{Structname}}) UnstageVoid(stage *Stage) {
 	delete(stage.{{Structname}}s, {{structname}})
-	delete(stage.{{Structname}}Map_Staged_Order, {{structname}})
+	// issue1150
+	// delete(stage.{{Structname}}_stagedOrder, {{structname}})
 	delete(stage.{{Structname}}s_mapString, {{structname}}.Name)
 }
 
@@ -222,11 +224,13 @@ func ({{structname}} *{{Structname}}) SetName(name string) {
 
 	ModelGongStructInsertionArrayDefintion: `
 	{{Structname}}s                map[*{{Structname}}]struct{}
-	{{Structname}}s_reference      map[*{{Structname}}]*{{Structname}}
-	{{Structname}}s_referenceOrder map[*{{Structname}}]uint
 	{{Structname}}s_instance       map[*{{Structname}}]*{{Structname}}
 	{{Structname}}s_mapString      map[string]*{{Structname}}
-
+	{{Structname}}Order            uint
+	{{Structname}}_stagedOrder     map[*{{Structname}}]uint
+	{{Structname}}s_reference      map[*{{Structname}}]*{{Structname}}
+	{{Structname}}s_referenceOrder map[*{{Structname}}]uint
+	
 	// insertion point for slice of pointers maps{{SliceOfPointersReverseMaps}}
 	OnAfter{{Structname}}CreateCallback OnAfterCreateInterface[{{Structname}}]
 	OnAfter{{Structname}}UpdateCallback OnAfterUpdateInterface[{{Structname}}]
@@ -242,7 +246,7 @@ func ({{structname}} *{{Structname}}) SetName(name string) {
 	ModelGongStructInsertionArrayReset: `
 	stage.{{Structname}}s = make(map[*{{Structname}}]struct{})
 	stage.{{Structname}}s_mapString = make(map[string]*{{Structname}})
-	stage.{{Structname}}Map_Staged_Order = make(map[*{{Structname}}]uint)
+	stage.{{Structname}}_stagedOrder = make(map[*{{Structname}}]uint)
 	stage.{{Structname}}Order = 0
 `,
 
@@ -337,16 +341,14 @@ func ({{structname}} *{{Structname}}) SetName(name string) {
 		}).(*Type)`,
 
 	ModelGongOrderFields: `
-	{{Structname}}Order            uint
-	{{Structname}}Map_Staged_Order map[*{{Structname}}]uint
 `,
 
 	ModelGongOrderMapsInit: `
-		{{Structname}}Map_Staged_Order: make(map[*{{Structname}}]uint),
+		{{Structname}}_stagedOrder: make(map[*{{Structname}}]uint),
 `,
 	ModelGongOrderSwitchGet: `
 	case *{{Structname}}:
-		return stage.{{Structname}}Map_Staged_Order[instance]`,
+		return stage.{{Structname}}_stagedOrder[instance]`,
 
 	ModelGongNamedStructsUnmarshallers: `
 			"{{Structname}}": &{{Structname}}Unmarshaller{},
@@ -356,11 +358,11 @@ func ({{structname}} *{{Structname}}) SetName(name string) {
 			{name: "{{Structname}}"},`,
 	ModelGongNamedStructsInstancesNames: `
 	case "{{Structname}}":
-		res = GetNamedStructInstances(stage.{{Structname}}s, stage.{{Structname}}Map_Staged_Order)`,
+		res = GetNamedStructInstances(stage.{{Structname}}s, stage.{{Structname}}_stagedOrder)`,
 
 	ModelGongNamedStructSortedOrderInstances: `
 	case *{{Structname}}:
-		tmp := GetStructInstancesByOrder(stage.{{Structname}}s, stage.{{Structname}}Map_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.{{Structname}}s, stage.{{Structname}}_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -377,7 +379,7 @@ func ({{structname}} *{{Structname}}) SetName(name string) {
 	ModelGongStructResetHard: `
 	var max{{Structname}}Order uint
 	var found{{Structname}} bool
-	for _, order := range stage.{{Structname}}Map_Staged_Order {
+	for _, order := range stage.{{Structname}}_stagedOrder {
 		if !found{{Structname}} || order > max{{Structname}}Order {
 			max{{Structname}}Order = order
 			found{{Structname}} = true
@@ -619,7 +621,7 @@ map[GongFilePerStructSubTemplateId]string{
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			{{structname}}.{{FieldName}} = nil
 			for __instance__ := range stage.{{AssocStructName}}s {
-				if stage.{{AssocStructName}}Map_Staged_Order[__instance__] == uint(id) {
+				if stage.{{AssocStructName}}_stagedOrder[__instance__] == uint(id) {
 					{{structname}}.{{FieldName}} = __instance__
 					break
 				}
@@ -633,7 +635,7 @@ map[GongFilePerStructSubTemplateId]string{
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.{{AssocStructName}}s {
-					if stage.{{AssocStructName}}Map_Staged_Order[__instance__] == uint(id) {
+					if stage.{{AssocStructName}}_stagedOrder[__instance__] == uint(id) {
 						{{structname}}.{{FieldName}} = append({{structname}}.{{FieldName}}, __instance__)
 						break
 					}
