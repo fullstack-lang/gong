@@ -60,8 +60,20 @@ func NewStager(
 
 	stager.createViews()
 
-	stage.OnInitCommitFromBackCallback = &BeforeCommitImplementation{stager: stager}
-	stage.Commit()
+	beforeCommit := func(stage *Stage) {
+		stager.enforceSemantic()
+	}
+	afterCommit := func(stage *Stage) {
+		stager.tree()
+		stager.svg()
+		stager.button()
+		stager.load()
+	}
+
+	stager.stage.RegisterBeforeCommit(beforeCommit)
+	stager.stage.RegisterAfterCommit(afterCommit)
+	beforeCommit(stager.stage)
+	afterCommit(stager.stage)
 
 	return
 }
@@ -73,14 +85,4 @@ func (stager *Stager) GetAsSplitArea() (asSplitArea *split.AsSplitArea) {
 
 func (stager *Stager) GetGongtreeStage() *tree.Stage {
 	return stager.treeStage
-}
-
-type BeforeCommitImplementation struct {
-	stager *Stager
-}
-
-func (c *BeforeCommitImplementation) BeforeCommit(stage *Stage) {
-	c.stager.enforceSemantic()
-	c.stager.svg()
-	c.stager.tree()
 }

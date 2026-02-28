@@ -30,9 +30,9 @@ func (stager *Stager) button() {
 			&ResetReqifButtonProxy{
 				stager: stager,
 			},
-			"Reset project file",
+			"Reset barr graph file",
 			string(buttons.BUTTON_reset_tv),
-			"Reset project file",
+			"Reset barr graph file",
 		)
 
 		group1.Buttons = append(group1.Buttons, buttonExportModifiedReqif)
@@ -42,9 +42,9 @@ func (stager *Stager) button() {
 			&downloadButtonProxy{
 				stager: stager,
 			},
-			"Export project file",
+			"Export barr graph file",
 			string(buttons.BUTTON_fact_check),
-			"Export project file",
+			"Export barr graph file",
 		)
 		group1.Buttons = append(group1.Buttons, buttonExportRenderingCong)
 
@@ -78,7 +78,6 @@ func (proxy *ResetReqifButtonProxy) GetButtonsStage() *button.Stage {
 
 // OnAfterUpdateButton implements models.Target.
 func (proxy *ResetReqifButtonProxy) OnAfterUpdateButton() {
-
 	proxy.stager.stage.Reset()
 	proxy.stager.stage.Commit()
 }
@@ -105,7 +104,7 @@ func (proxy *downloadButtonProxy) OnAfterUpdateButton() {
 	fileToDownload := new(load.FileToDownload).Stage(loadStage)
 
 	if stager.fileName == "" {
-		stager.fileName = "project.go"
+		stager.fileName = "barr graph.go"
 	}
 
 	fileToDownload.Name = stager.fileName
@@ -121,7 +120,7 @@ func (proxy *downloadButtonProxy) OnAfterUpdateButton() {
 	defer os.Remove(tempFile.Name())
 
 	// 3. Marshall the data into the temporary file.
-	stage.Marshall(tempFile, "github.com/fullstack-lang/gong/dsme/project/go/models", "main")
+	stage.Marshall(tempFile, "github.com/fullstack-lang/gong/dsme/barrgraph/go/models", "main")
 
 	// 4. Read the content back from the file.
 	// os.ReadFile needs a file path, so we use the name.

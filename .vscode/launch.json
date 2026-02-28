@@ -1028,6 +1028,17 @@
             ]
         },
         {
+            "name": "go run barrgraph -unmarshallFromCode=data/modernism.go -marshallOnCommit=data/modernism.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsme/barrgraph/go/cmd/barrgraph",
+            "args": [
+                "-unmarshallFromCode=data/modernism.go",
+                "-marshallOnCommit=data/modernism.go"
+            ]
+        },
+        {
             "name": "go run barrgraph",
             "type": "go",
             "request": "launch",
