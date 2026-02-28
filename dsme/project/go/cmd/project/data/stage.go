@@ -137,7 +137,6 @@ another line-NewDiagram`}).Stage(stage)
 	__Task__00000010_ := (&models.Task{Name: `Display the the commit diff in the probe as marshalled go statements #1038 `}).Stage(stage)
 	__Task__00000011_ := (&models.Task{Name: `Put the commit forward text in one notification #1044`}).Stage(stage)
 	__Task__00000012_ := (&models.Task{Name: `Compute diff in slices with minimal edit distance #1045`}).Stage(stage)
-	__Task__00000013_ := (&models.Task{Name: `refactor AST generation`}).Stage(stage)
 
 	__TaskInputShape__00000001_ := (&models.TaskInputShape{Name: `code GongDiff to Probe Notification Table`}).Stage(stage)
 	__TaskInputShape__00000002_ := (&models.TaskInputShape{Name: `Compute all Instance Diff to Probe Notification Table`}).Stage(stage)
@@ -155,7 +154,6 @@ another line-NewDiagram`}).Stage(stage)
 	__TaskShape__00000022_ := (&models.TaskShape{Name: `Unstage Method Marshalling-Work diagram x`}).Stage(stage)
 	__TaskShape__00000023_ := (&models.TaskShape{Name: `NewTask-Work diagram x`}).Stage(stage)
 	__TaskShape__00000024_ := (&models.TaskShape{Name: `Compute diff in slices with minimal edit distance #1045-Work diagram x`}).Stage(stage)
-	__TaskShape__00000025_ := (&models.TaskShape{Name: `refactor AST generation-Work diagram x`}).Stage(stage)
 
 	// insertion point for initialization of values
 
@@ -165,8 +163,8 @@ another line-NewDiagram`}).Stage(stage)
 	__Diagram__00000042_.ShowPrefix = true
 	__Diagram__00000042_.DefaultBoxWidth = 150.000000
 	__Diagram__00000042_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000042_.Width = 2035.000000
-	__Diagram__00000042_.Height = 1560.000000
+	__Diagram__00000042_.Width = 2535.000000
+	__Diagram__00000042_.Height = 2060.000000
 	__Diagram__00000042_.IsExpanded = false
 	__Diagram__00000042_.ComputedPrefix = ``
 	__Diagram__00000042_.IsInRenameMode = false
@@ -181,8 +179,8 @@ another line-NewDiagram`}).Stage(stage)
 	__Diagram__00000057_.ShowPrefix = false
 	__Diagram__00000057_.DefaultBoxWidth = 150.000000
 	__Diagram__00000057_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000057_.Width = 2015.108494
-	__Diagram__00000057_.Height = 1434.407017
+	__Diagram__00000057_.Width = 2515.108494
+	__Diagram__00000057_.Height = 1934.407017
 	__Diagram__00000057_.IsExpanded = false
 	__Diagram__00000057_.ComputedPrefix = ``
 	__Diagram__00000057_.IsInRenameMode = false
@@ -197,8 +195,8 @@ another line-NewDiagram`}).Stage(stage)
 	__Diagram__00000061_.ShowPrefix = true
 	__Diagram__00000061_.DefaultBoxWidth = 250.000000
 	__Diagram__00000061_.DefaultBoxHeigth = 100.000000
-	__Diagram__00000061_.Width = 2784.716678
-	__Diagram__00000061_.Height = 2530.109182
+	__Diagram__00000061_.Width = 3284.716678
+	__Diagram__00000061_.Height = 3030.109182
 	__Diagram__00000061_.IsExpanded = true
 	__Diagram__00000061_.ComputedPrefix = ``
 	__Diagram__00000061_.IsInRenameMode = false
@@ -892,18 +890,6 @@ another line-NewDiagram`
 	__Task__00000012_.IsWithCompletion = true
 	__Task__00000012_.Completion = models.PERCENT_100
 
-	__Task__00000013_.Name = `refactor AST generation`
-	__Task__00000013_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
-	__Task__00000013_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
-	__Task__00000013_.Description = ``
-	__Task__00000013_.IsExpanded = false
-	__Task__00000013_.ComputedPrefix = `7`
-	__Task__00000013_.IsInRenameMode = false
-	__Task__00000013_.IsInputsNodeExpanded = false
-	__Task__00000013_.IsOutputsNodeExpanded = false
-	__Task__00000013_.IsWithCompletion = true
-	__Task__00000013_.Completion = models.PERCENT_100
-
 	__TaskInputShape__00000001_.Name = `code GongDiff to Probe Notification Table`
 	__TaskInputShape__00000001_.StartRatio = 0.664301
 	__TaskInputShape__00000001_.EndRatio = 0.500000
@@ -1002,13 +988,6 @@ another line-NewDiagram`
 	__TaskShape__00000024_.Width = 250.000000
 	__TaskShape__00000024_.Height = 100.000000
 
-	__TaskShape__00000025_.Name = `refactor AST generation-Work diagram x`
-	__TaskShape__00000025_.IsExpanded = false
-	__TaskShape__00000025_.X = 594.989280
-	__TaskShape__00000025_.Y = 753.694736
-	__TaskShape__00000025_.Width = 250.000000
-	__TaskShape__00000025_.Height = 100.000000
-
 	// insertion point for setup of pointers
 	__Diagram__00000042_.Product_Shapes = append(__Diagram__00000042_.Product_Shapes, __ProductShape__00000330_)
 	__Diagram__00000042_.Product_Shapes = append(__Diagram__00000042_.Product_Shapes, __ProductShape__00000331_)
@@ -1057,7 +1036,6 @@ another line-NewDiagram`
 	__Diagram__00000061_.Task_Shapes = append(__Diagram__00000061_.Task_Shapes, __TaskShape__00000022_)
 	__Diagram__00000061_.Task_Shapes = append(__Diagram__00000061_.Task_Shapes, __TaskShape__00000023_)
 	__Diagram__00000061_.Task_Shapes = append(__Diagram__00000061_.Task_Shapes, __TaskShape__00000024_)
-	__Diagram__00000061_.Task_Shapes = append(__Diagram__00000061_.Task_Shapes, __TaskShape__00000025_)
 	__Diagram__00000061_.TasksWhoseOutputNodeIsExpanded = append(__Diagram__00000061_.TasksWhoseOutputNodeIsExpanded, __Task__00000007_)
 	__Diagram__00000061_.TasksWhoseOutputNodeIsExpanded = append(__Diagram__00000061_.TasksWhoseOutputNodeIsExpanded, __Task__00000010_)
 	__Diagram__00000061_.TaskInputShapes = append(__Diagram__00000061_.TaskInputShapes, __TaskInputShape__00000001_)
@@ -1169,7 +1147,6 @@ another line-NewDiagram`
 	__Project__00000002_.RootTasks = append(__Project__00000002_.RootTasks, __Task__00000011_)
 	__Project__00000002_.RootTasks = append(__Project__00000002_.RootTasks, __Task__00000012_)
 	__Project__00000002_.RootTasks = append(__Project__00000002_.RootTasks, __Task__00000009_)
-	__Project__00000002_.RootTasks = append(__Project__00000002_.RootTasks, __Task__00000013_)
 	__Project__00000002_.RootResources = append(__Project__00000002_.RootResources, __Resource__00000000_)
 	__Project__00000002_.Notes = append(__Project__00000002_.Notes, __Note__00000002_)
 	__Project__00000002_.Notes = append(__Project__00000002_.Notes, __Note__00000003_)
@@ -1211,5 +1188,4 @@ another line-NewDiagram`
 	__TaskShape__00000022_.Task = __Task__00000010_
 	__TaskShape__00000023_.Task = __Task__00000011_
 	__TaskShape__00000024_.Task = __Task__00000012_
-	__TaskShape__00000025_.Task = __Task__00000013_
 }
