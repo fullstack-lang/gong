@@ -24,12 +24,17 @@ func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice *[]T) (modified b
 // GongCleanPointer sets the pointer to nil if the referenced element is not staged.
 // T must be a pointer to a struct that implements PointerToGongstruct.
 func GongCleanPointer[T PointerToGongstruct](stage *Stage, element *T) (modified bool) {
-	if !IsStagedPointerToGongstruct(stage, *element) {
-		var zero T
-		*element = zero
-		return true
+	var zero T
+	if *element == zero {
+		return
 	}
-	return false
+
+	if !IsStagedPointerToGongstruct(stage, *element) {
+		*element = zero
+		modified = true
+		return
+	}
+	return
 }
 
 // insertion point per named struct

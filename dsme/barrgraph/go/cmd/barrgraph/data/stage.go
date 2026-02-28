@@ -605,8 +605,8 @@ func _(stage *models.Stage) {
 	__ControlPointShape__00000040_.IsStartShapeTheClosestShape = false
 
 	__ControlPointShape__00000041_.Name = `Control Point Shape in Japanese prints to Fauvism 1`
-	__ControlPointShape__00000041_.X_Relative = 0.669412
-	__ControlPointShape__00000041_.Y_Relative = 4.857656
+	__ControlPointShape__00000041_.X_Relative = 0.686218
+	__ControlPointShape__00000041_.Y_Relative = 5.905247
 	__ControlPointShape__00000041_.IsStartShapeTheClosestShape = true
 
 	__ControlPointShape__00000042_.Name = `Control Point Shape in Japanese prints to Fauvism 2`
