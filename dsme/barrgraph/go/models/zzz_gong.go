@@ -105,89 +105,61 @@ type Stage struct {
 	isInDeltaMode bool
 
 	// insertion point for definition of arrays registering instances
-	Category1s                map[*Category1]struct{}
-	Category1s_instance       map[*Category1]*Category1
-	Category1s_mapString      map[string]*Category1
-	Category1Order            uint
-	Category1_stagedOrder     map[*Category1]uint
-	Category1s_reference      map[*Category1]*Category1
-	Category1s_referenceOrder map[*Category1]uint
+	ArtefactTypes                map[*ArtefactType]struct{}
+	ArtefactTypes_instance       map[*ArtefactType]*ArtefactType
+	ArtefactTypes_mapString      map[string]*ArtefactType
+	ArtefactTypeOrder            uint
+	ArtefactType_stagedOrder     map[*ArtefactType]uint
+	ArtefactTypes_reference      map[*ArtefactType]*ArtefactType
+	ArtefactTypes_referenceOrder map[*ArtefactType]uint
 	
 	// insertion point for slice of pointers maps
-	OnAfterCategory1CreateCallback OnAfterCreateInterface[Category1]
-	OnAfterCategory1UpdateCallback OnAfterUpdateInterface[Category1]
-	OnAfterCategory1DeleteCallback OnAfterDeleteInterface[Category1]
-	OnAfterCategory1ReadCallback   OnAfterReadInterface[Category1]
+	OnAfterArtefactTypeCreateCallback OnAfterCreateInterface[ArtefactType]
+	OnAfterArtefactTypeUpdateCallback OnAfterUpdateInterface[ArtefactType]
+	OnAfterArtefactTypeDeleteCallback OnAfterDeleteInterface[ArtefactType]
+	OnAfterArtefactTypeReadCallback   OnAfterReadInterface[ArtefactType]
 
-	Category1Shapes                map[*Category1Shape]struct{}
-	Category1Shapes_instance       map[*Category1Shape]*Category1Shape
-	Category1Shapes_mapString      map[string]*Category1Shape
-	Category1ShapeOrder            uint
-	Category1Shape_stagedOrder     map[*Category1Shape]uint
-	Category1Shapes_reference      map[*Category1Shape]*Category1Shape
-	Category1Shapes_referenceOrder map[*Category1Shape]uint
+	ArtefactTypeShapes                map[*ArtefactTypeShape]struct{}
+	ArtefactTypeShapes_instance       map[*ArtefactTypeShape]*ArtefactTypeShape
+	ArtefactTypeShapes_mapString      map[string]*ArtefactTypeShape
+	ArtefactTypeShapeOrder            uint
+	ArtefactTypeShape_stagedOrder     map[*ArtefactTypeShape]uint
+	ArtefactTypeShapes_reference      map[*ArtefactTypeShape]*ArtefactTypeShape
+	ArtefactTypeShapes_referenceOrder map[*ArtefactTypeShape]uint
 	
 	// insertion point for slice of pointers maps
-	OnAfterCategory1ShapeCreateCallback OnAfterCreateInterface[Category1Shape]
-	OnAfterCategory1ShapeUpdateCallback OnAfterUpdateInterface[Category1Shape]
-	OnAfterCategory1ShapeDeleteCallback OnAfterDeleteInterface[Category1Shape]
-	OnAfterCategory1ShapeReadCallback   OnAfterReadInterface[Category1Shape]
+	OnAfterArtefactTypeShapeCreateCallback OnAfterCreateInterface[ArtefactTypeShape]
+	OnAfterArtefactTypeShapeUpdateCallback OnAfterUpdateInterface[ArtefactTypeShape]
+	OnAfterArtefactTypeShapeDeleteCallback OnAfterDeleteInterface[ArtefactTypeShape]
+	OnAfterArtefactTypeShapeReadCallback   OnAfterReadInterface[ArtefactTypeShape]
 
-	Category2s                map[*Category2]struct{}
-	Category2s_instance       map[*Category2]*Category2
-	Category2s_mapString      map[string]*Category2
-	Category2Order            uint
-	Category2_stagedOrder     map[*Category2]uint
-	Category2s_reference      map[*Category2]*Category2
-	Category2s_referenceOrder map[*Category2]uint
+	Artists                map[*Artist]struct{}
+	Artists_instance       map[*Artist]*Artist
+	Artists_mapString      map[string]*Artist
+	ArtistOrder            uint
+	Artist_stagedOrder     map[*Artist]uint
+	Artists_reference      map[*Artist]*Artist
+	Artists_referenceOrder map[*Artist]uint
 	
 	// insertion point for slice of pointers maps
-	OnAfterCategory2CreateCallback OnAfterCreateInterface[Category2]
-	OnAfterCategory2UpdateCallback OnAfterUpdateInterface[Category2]
-	OnAfterCategory2DeleteCallback OnAfterDeleteInterface[Category2]
-	OnAfterCategory2ReadCallback   OnAfterReadInterface[Category2]
+	OnAfterArtistCreateCallback OnAfterCreateInterface[Artist]
+	OnAfterArtistUpdateCallback OnAfterUpdateInterface[Artist]
+	OnAfterArtistDeleteCallback OnAfterDeleteInterface[Artist]
+	OnAfterArtistReadCallback   OnAfterReadInterface[Artist]
 
-	Category2Shapes                map[*Category2Shape]struct{}
-	Category2Shapes_instance       map[*Category2Shape]*Category2Shape
-	Category2Shapes_mapString      map[string]*Category2Shape
-	Category2ShapeOrder            uint
-	Category2Shape_stagedOrder     map[*Category2Shape]uint
-	Category2Shapes_reference      map[*Category2Shape]*Category2Shape
-	Category2Shapes_referenceOrder map[*Category2Shape]uint
+	ArtistShapes                map[*ArtistShape]struct{}
+	ArtistShapes_instance       map[*ArtistShape]*ArtistShape
+	ArtistShapes_mapString      map[string]*ArtistShape
+	ArtistShapeOrder            uint
+	ArtistShape_stagedOrder     map[*ArtistShape]uint
+	ArtistShapes_reference      map[*ArtistShape]*ArtistShape
+	ArtistShapes_referenceOrder map[*ArtistShape]uint
 	
 	// insertion point for slice of pointers maps
-	OnAfterCategory2ShapeCreateCallback OnAfterCreateInterface[Category2Shape]
-	OnAfterCategory2ShapeUpdateCallback OnAfterUpdateInterface[Category2Shape]
-	OnAfterCategory2ShapeDeleteCallback OnAfterDeleteInterface[Category2Shape]
-	OnAfterCategory2ShapeReadCallback   OnAfterReadInterface[Category2Shape]
-
-	Category3s                map[*Category3]struct{}
-	Category3s_instance       map[*Category3]*Category3
-	Category3s_mapString      map[string]*Category3
-	Category3Order            uint
-	Category3_stagedOrder     map[*Category3]uint
-	Category3s_reference      map[*Category3]*Category3
-	Category3s_referenceOrder map[*Category3]uint
-	
-	// insertion point for slice of pointers maps
-	OnAfterCategory3CreateCallback OnAfterCreateInterface[Category3]
-	OnAfterCategory3UpdateCallback OnAfterUpdateInterface[Category3]
-	OnAfterCategory3DeleteCallback OnAfterDeleteInterface[Category3]
-	OnAfterCategory3ReadCallback   OnAfterReadInterface[Category3]
-
-	Category3Shapes                map[*Category3Shape]struct{}
-	Category3Shapes_instance       map[*Category3Shape]*Category3Shape
-	Category3Shapes_mapString      map[string]*Category3Shape
-	Category3ShapeOrder            uint
-	Category3Shape_stagedOrder     map[*Category3Shape]uint
-	Category3Shapes_reference      map[*Category3Shape]*Category3Shape
-	Category3Shapes_referenceOrder map[*Category3Shape]uint
-	
-	// insertion point for slice of pointers maps
-	OnAfterCategory3ShapeCreateCallback OnAfterCreateInterface[Category3Shape]
-	OnAfterCategory3ShapeUpdateCallback OnAfterUpdateInterface[Category3Shape]
-	OnAfterCategory3ShapeDeleteCallback OnAfterDeleteInterface[Category3Shape]
-	OnAfterCategory3ShapeReadCallback   OnAfterReadInterface[Category3Shape]
+	OnAfterArtistShapeCreateCallback OnAfterCreateInterface[ArtistShape]
+	OnAfterArtistShapeUpdateCallback OnAfterUpdateInterface[ArtistShape]
+	OnAfterArtistShapeDeleteCallback OnAfterDeleteInterface[ArtistShape]
+	OnAfterArtistShapeReadCallback   OnAfterReadInterface[ArtistShape]
 
 	ControlPointShapes                map[*ControlPointShape]struct{}
 	ControlPointShapes_instance       map[*ControlPointShape]*ControlPointShape
@@ -226,11 +198,11 @@ type Stage struct {
 	Diagrams_referenceOrder map[*Diagram]uint
 	
 	// insertion point for slice of pointers maps
-	Diagram_Category1Shapes_reverseMap map[*Category1Shape]*Diagram
+	Diagram_MovementShapes_reverseMap map[*MovementShape]*Diagram
 
-	Diagram_Category2Shapes_reverseMap map[*Category2Shape]*Diagram
+	Diagram_ArtefactTypeShapes_reverseMap map[*ArtefactTypeShape]*Diagram
 
-	Diagram_Category3Shapes_reverseMap map[*Category3Shape]*Diagram
+	Diagram_ArtistShapes_reverseMap map[*ArtistShape]*Diagram
 
 	Diagram_InfluenceShapes_reverseMap map[*InfluenceShape]*Diagram
 
@@ -269,6 +241,50 @@ type Stage struct {
 	OnAfterInfluenceShapeDeleteCallback OnAfterDeleteInterface[InfluenceShape]
 	OnAfterInfluenceShapeReadCallback   OnAfterReadInterface[InfluenceShape]
 
+	Movements                map[*Movement]struct{}
+	Movements_instance       map[*Movement]*Movement
+	Movements_mapString      map[string]*Movement
+	MovementOrder            uint
+	Movement_stagedOrder     map[*Movement]uint
+	Movements_reference      map[*Movement]*Movement
+	Movements_referenceOrder map[*Movement]uint
+	
+	// insertion point for slice of pointers maps
+	Movement_Places_reverseMap map[*Place]*Movement
+
+	OnAfterMovementCreateCallback OnAfterCreateInterface[Movement]
+	OnAfterMovementUpdateCallback OnAfterUpdateInterface[Movement]
+	OnAfterMovementDeleteCallback OnAfterDeleteInterface[Movement]
+	OnAfterMovementReadCallback   OnAfterReadInterface[Movement]
+
+	MovementShapes                map[*MovementShape]struct{}
+	MovementShapes_instance       map[*MovementShape]*MovementShape
+	MovementShapes_mapString      map[string]*MovementShape
+	MovementShapeOrder            uint
+	MovementShape_stagedOrder     map[*MovementShape]uint
+	MovementShapes_reference      map[*MovementShape]*MovementShape
+	MovementShapes_referenceOrder map[*MovementShape]uint
+	
+	// insertion point for slice of pointers maps
+	OnAfterMovementShapeCreateCallback OnAfterCreateInterface[MovementShape]
+	OnAfterMovementShapeUpdateCallback OnAfterUpdateInterface[MovementShape]
+	OnAfterMovementShapeDeleteCallback OnAfterDeleteInterface[MovementShape]
+	OnAfterMovementShapeReadCallback   OnAfterReadInterface[MovementShape]
+
+	Places                map[*Place]struct{}
+	Places_instance       map[*Place]*Place
+	Places_mapString      map[string]*Place
+	PlaceOrder            uint
+	Place_stagedOrder     map[*Place]uint
+	Places_reference      map[*Place]*Place
+	Places_referenceOrder map[*Place]uint
+	
+	// insertion point for slice of pointers maps
+	OnAfterPlaceCreateCallback OnAfterCreateInterface[Place]
+	OnAfterPlaceUpdateCallback OnAfterUpdateInterface[Place]
+	OnAfterPlaceDeleteCallback OnAfterDeleteInterface[Place]
+	OnAfterPlaceReadCallback   OnAfterReadInterface[Place]
+
 	AllModelsStructCreateCallback AllModelsStructCreateInterface
 
 	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
@@ -299,6 +315,7 @@ type Stage struct {
 	// store the stage order of each instance in order to
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
+
 
 
 
@@ -507,88 +524,60 @@ func (stage *Stage) Orphans() {
 // insertion point for max order recomputation
 func (stage *Stage) recomputeOrders() {
 	// insertion point for max order recomputation
-	var maxCategory1Order uint
-	var foundCategory1 bool
-	for _, order := range stage.Category1_stagedOrder {
-		if !foundCategory1 || order > maxCategory1Order {
-			maxCategory1Order = order
-			foundCategory1 = true
+	var maxArtefactTypeOrder uint
+	var foundArtefactType bool
+	for _, order := range stage.ArtefactType_stagedOrder {
+		if !foundArtefactType || order > maxArtefactTypeOrder {
+			maxArtefactTypeOrder = order
+			foundArtefactType = true
 		}
 	}
-	if foundCategory1 {
-		stage.Category1Order = maxCategory1Order + 1
+	if foundArtefactType {
+		stage.ArtefactTypeOrder = maxArtefactTypeOrder + 1
 	} else {
-		stage.Category1Order = 0
+		stage.ArtefactTypeOrder = 0
 	}
 
-	var maxCategory1ShapeOrder uint
-	var foundCategory1Shape bool
-	for _, order := range stage.Category1Shape_stagedOrder {
-		if !foundCategory1Shape || order > maxCategory1ShapeOrder {
-			maxCategory1ShapeOrder = order
-			foundCategory1Shape = true
+	var maxArtefactTypeShapeOrder uint
+	var foundArtefactTypeShape bool
+	for _, order := range stage.ArtefactTypeShape_stagedOrder {
+		if !foundArtefactTypeShape || order > maxArtefactTypeShapeOrder {
+			maxArtefactTypeShapeOrder = order
+			foundArtefactTypeShape = true
 		}
 	}
-	if foundCategory1Shape {
-		stage.Category1ShapeOrder = maxCategory1ShapeOrder + 1
+	if foundArtefactTypeShape {
+		stage.ArtefactTypeShapeOrder = maxArtefactTypeShapeOrder + 1
 	} else {
-		stage.Category1ShapeOrder = 0
+		stage.ArtefactTypeShapeOrder = 0
 	}
 
-	var maxCategory2Order uint
-	var foundCategory2 bool
-	for _, order := range stage.Category2_stagedOrder {
-		if !foundCategory2 || order > maxCategory2Order {
-			maxCategory2Order = order
-			foundCategory2 = true
+	var maxArtistOrder uint
+	var foundArtist bool
+	for _, order := range stage.Artist_stagedOrder {
+		if !foundArtist || order > maxArtistOrder {
+			maxArtistOrder = order
+			foundArtist = true
 		}
 	}
-	if foundCategory2 {
-		stage.Category2Order = maxCategory2Order + 1
+	if foundArtist {
+		stage.ArtistOrder = maxArtistOrder + 1
 	} else {
-		stage.Category2Order = 0
+		stage.ArtistOrder = 0
 	}
 
-	var maxCategory2ShapeOrder uint
-	var foundCategory2Shape bool
-	for _, order := range stage.Category2Shape_stagedOrder {
-		if !foundCategory2Shape || order > maxCategory2ShapeOrder {
-			maxCategory2ShapeOrder = order
-			foundCategory2Shape = true
+	var maxArtistShapeOrder uint
+	var foundArtistShape bool
+	for _, order := range stage.ArtistShape_stagedOrder {
+		if !foundArtistShape || order > maxArtistShapeOrder {
+			maxArtistShapeOrder = order
+			foundArtistShape = true
 		}
 	}
-	if foundCategory2Shape {
-		stage.Category2ShapeOrder = maxCategory2ShapeOrder + 1
+	if foundArtistShape {
+		stage.ArtistShapeOrder = maxArtistShapeOrder + 1
 	} else {
-		stage.Category2ShapeOrder = 0
-	}
-
-	var maxCategory3Order uint
-	var foundCategory3 bool
-	for _, order := range stage.Category3_stagedOrder {
-		if !foundCategory3 || order > maxCategory3Order {
-			maxCategory3Order = order
-			foundCategory3 = true
-		}
-	}
-	if foundCategory3 {
-		stage.Category3Order = maxCategory3Order + 1
-	} else {
-		stage.Category3Order = 0
-	}
-
-	var maxCategory3ShapeOrder uint
-	var foundCategory3Shape bool
-	for _, order := range stage.Category3Shape_stagedOrder {
-		if !foundCategory3Shape || order > maxCategory3ShapeOrder {
-			maxCategory3ShapeOrder = order
-			foundCategory3Shape = true
-		}
-	}
-	if foundCategory3Shape {
-		stage.Category3ShapeOrder = maxCategory3ShapeOrder + 1
-	} else {
-		stage.Category3ShapeOrder = 0
+		stage.ArtistShapeOrder = 0
 	}
 
 	var maxControlPointShapeOrder uint
@@ -661,6 +650,48 @@ func (stage *Stage) recomputeOrders() {
 		stage.InfluenceShapeOrder = 0
 	}
 
+	var maxMovementOrder uint
+	var foundMovement bool
+	for _, order := range stage.Movement_stagedOrder {
+		if !foundMovement || order > maxMovementOrder {
+			maxMovementOrder = order
+			foundMovement = true
+		}
+	}
+	if foundMovement {
+		stage.MovementOrder = maxMovementOrder + 1
+	} else {
+		stage.MovementOrder = 0
+	}
+
+	var maxMovementShapeOrder uint
+	var foundMovementShape bool
+	for _, order := range stage.MovementShape_stagedOrder {
+		if !foundMovementShape || order > maxMovementShapeOrder {
+			maxMovementShapeOrder = order
+			foundMovementShape = true
+		}
+	}
+	if foundMovementShape {
+		stage.MovementShapeOrder = maxMovementShapeOrder + 1
+	} else {
+		stage.MovementShapeOrder = 0
+	}
+
+	var maxPlaceOrder uint
+	var foundPlace bool
+	for _, order := range stage.Place_stagedOrder {
+		if !foundPlace || order > maxPlaceOrder {
+			maxPlaceOrder = order
+			foundPlace = true
+		}
+	}
+	if foundPlace {
+		stage.PlaceOrder = maxPlaceOrder + 1
+	} else {
+		stage.PlaceOrder = 0
+	}
+
 	// end of insertion point for max order recomputation
 }
 
@@ -720,8 +751,8 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 	var t T
 	switch any(t).(type) {
 	// insertion point for case
-	case *Category1:
-		tmp := GetStructInstancesByOrder(stage.Category1s, stage.Category1_stagedOrder)
+	case *ArtefactType:
+		tmp := GetStructInstancesByOrder(stage.ArtefactTypes, stage.ArtefactType_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -730,12 +761,12 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		for _, v := range tmp {
 			// Assert that the element 'v' can be treated as type 'T'.
 			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Category1 implements.
+			// is an interface that *ArtefactType implements.
 			res = append(res, any(v).(T))
 		}
 		return res
-	case *Category1Shape:
-		tmp := GetStructInstancesByOrder(stage.Category1Shapes, stage.Category1Shape_stagedOrder)
+	case *ArtefactTypeShape:
+		tmp := GetStructInstancesByOrder(stage.ArtefactTypeShapes, stage.ArtefactTypeShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -744,12 +775,12 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		for _, v := range tmp {
 			// Assert that the element 'v' can be treated as type 'T'.
 			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Category1Shape implements.
+			// is an interface that *ArtefactTypeShape implements.
 			res = append(res, any(v).(T))
 		}
 		return res
-	case *Category2:
-		tmp := GetStructInstancesByOrder(stage.Category2s, stage.Category2_stagedOrder)
+	case *Artist:
+		tmp := GetStructInstancesByOrder(stage.Artists, stage.Artist_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -758,12 +789,12 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		for _, v := range tmp {
 			// Assert that the element 'v' can be treated as type 'T'.
 			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Category2 implements.
+			// is an interface that *Artist implements.
 			res = append(res, any(v).(T))
 		}
 		return res
-	case *Category2Shape:
-		tmp := GetStructInstancesByOrder(stage.Category2Shapes, stage.Category2Shape_stagedOrder)
+	case *ArtistShape:
+		tmp := GetStructInstancesByOrder(stage.ArtistShapes, stage.ArtistShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -772,35 +803,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		for _, v := range tmp {
 			// Assert that the element 'v' can be treated as type 'T'.
 			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Category2Shape implements.
-			res = append(res, any(v).(T))
-		}
-		return res
-	case *Category3:
-		tmp := GetStructInstancesByOrder(stage.Category3s, stage.Category3_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Category3 implements.
-			res = append(res, any(v).(T))
-		}
-		return res
-	case *Category3Shape:
-		tmp := GetStructInstancesByOrder(stage.Category3Shapes, stage.Category3Shape_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Category3Shape implements.
+			// is an interface that *ArtistShape implements.
 			res = append(res, any(v).(T))
 		}
 		return res
@@ -874,6 +877,48 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *Movement:
+		tmp := GetStructInstancesByOrder(stage.Movements, stage.Movement_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *Movement implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *MovementShape:
+		tmp := GetStructInstancesByOrder(stage.MovementShapes, stage.MovementShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *MovementShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *Place:
+		tmp := GetStructInstancesByOrder(stage.Places, stage.Place_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *Place implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 
 	}
 	return
@@ -903,18 +948,14 @@ func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order 
 func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
 	switch namedStructName {
 	// insertion point for case
-	case "Category1":
-		res = GetNamedStructInstances(stage.Category1s, stage.Category1_stagedOrder)
-	case "Category1Shape":
-		res = GetNamedStructInstances(stage.Category1Shapes, stage.Category1Shape_stagedOrder)
-	case "Category2":
-		res = GetNamedStructInstances(stage.Category2s, stage.Category2_stagedOrder)
-	case "Category2Shape":
-		res = GetNamedStructInstances(stage.Category2Shapes, stage.Category2Shape_stagedOrder)
-	case "Category3":
-		res = GetNamedStructInstances(stage.Category3s, stage.Category3_stagedOrder)
-	case "Category3Shape":
-		res = GetNamedStructInstances(stage.Category3Shapes, stage.Category3Shape_stagedOrder)
+	case "ArtefactType":
+		res = GetNamedStructInstances(stage.ArtefactTypes, stage.ArtefactType_stagedOrder)
+	case "ArtefactTypeShape":
+		res = GetNamedStructInstances(stage.ArtefactTypeShapes, stage.ArtefactTypeShape_stagedOrder)
+	case "Artist":
+		res = GetNamedStructInstances(stage.Artists, stage.Artist_stagedOrder)
+	case "ArtistShape":
+		res = GetNamedStructInstances(stage.ArtistShapes, stage.ArtistShape_stagedOrder)
 	case "ControlPointShape":
 		res = GetNamedStructInstances(stage.ControlPointShapes, stage.ControlPointShape_stagedOrder)
 	case "Desk":
@@ -925,6 +966,12 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.Influences, stage.Influence_stagedOrder)
 	case "InfluenceShape":
 		res = GetNamedStructInstances(stage.InfluenceShapes, stage.InfluenceShape_stagedOrder)
+	case "Movement":
+		res = GetNamedStructInstances(stage.Movements, stage.Movement_stagedOrder)
+	case "MovementShape":
+		res = GetNamedStructInstances(stage.MovementShapes, stage.MovementShape_stagedOrder)
+	case "Place":
+		res = GetNamedStructInstances(stage.Places, stage.Place_stagedOrder)
 	}
 
 	return
@@ -994,18 +1041,14 @@ type BackRepoInterface interface {
 	BackupXL(stage *Stage, dirPath string)
 	RestoreXL(stage *Stage, dirPath string)
 	// insertion point for Commit and Checkout signatures
-	CommitCategory1(category1 *Category1)
-	CheckoutCategory1(category1 *Category1)
-	CommitCategory1Shape(category1shape *Category1Shape)
-	CheckoutCategory1Shape(category1shape *Category1Shape)
-	CommitCategory2(category2 *Category2)
-	CheckoutCategory2(category2 *Category2)
-	CommitCategory2Shape(category2shape *Category2Shape)
-	CheckoutCategory2Shape(category2shape *Category2Shape)
-	CommitCategory3(category3 *Category3)
-	CheckoutCategory3(category3 *Category3)
-	CommitCategory3Shape(category3shape *Category3Shape)
-	CheckoutCategory3Shape(category3shape *Category3Shape)
+	CommitArtefactType(artefacttype *ArtefactType)
+	CheckoutArtefactType(artefacttype *ArtefactType)
+	CommitArtefactTypeShape(artefacttypeshape *ArtefactTypeShape)
+	CheckoutArtefactTypeShape(artefacttypeshape *ArtefactTypeShape)
+	CommitArtist(artist *Artist)
+	CheckoutArtist(artist *Artist)
+	CommitArtistShape(artistshape *ArtistShape)
+	CheckoutArtistShape(artistshape *ArtistShape)
 	CommitControlPointShape(controlpointshape *ControlPointShape)
 	CheckoutControlPointShape(controlpointshape *ControlPointShape)
 	CommitDesk(desk *Desk)
@@ -1016,29 +1059,29 @@ type BackRepoInterface interface {
 	CheckoutInfluence(influence *Influence)
 	CommitInfluenceShape(influenceshape *InfluenceShape)
 	CheckoutInfluenceShape(influenceshape *InfluenceShape)
+	CommitMovement(movement *Movement)
+	CheckoutMovement(movement *Movement)
+	CommitMovementShape(movementshape *MovementShape)
+	CheckoutMovementShape(movementshape *MovementShape)
+	CommitPlace(place *Place)
+	CheckoutPlace(place *Place)
 	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
 
 func NewStage(name string) (stage *Stage) {
 	stage = &Stage{ // insertion point for array initiatialisation
-		Category1s:           make(map[*Category1]struct{}),
-		Category1s_mapString: make(map[string]*Category1),
+		ArtefactTypes:           make(map[*ArtefactType]struct{}),
+		ArtefactTypes_mapString: make(map[string]*ArtefactType),
 
-		Category1Shapes:           make(map[*Category1Shape]struct{}),
-		Category1Shapes_mapString: make(map[string]*Category1Shape),
+		ArtefactTypeShapes:           make(map[*ArtefactTypeShape]struct{}),
+		ArtefactTypeShapes_mapString: make(map[string]*ArtefactTypeShape),
 
-		Category2s:           make(map[*Category2]struct{}),
-		Category2s_mapString: make(map[string]*Category2),
+		Artists:           make(map[*Artist]struct{}),
+		Artists_mapString: make(map[string]*Artist),
 
-		Category2Shapes:           make(map[*Category2Shape]struct{}),
-		Category2Shapes_mapString: make(map[string]*Category2Shape),
-
-		Category3s:           make(map[*Category3]struct{}),
-		Category3s_mapString: make(map[string]*Category3),
-
-		Category3Shapes:           make(map[*Category3Shape]struct{}),
-		Category3Shapes_mapString: make(map[string]*Category3Shape),
+		ArtistShapes:           make(map[*ArtistShape]struct{}),
+		ArtistShapes_mapString: make(map[string]*ArtistShape),
 
 		ControlPointShapes:           make(map[*ControlPointShape]struct{}),
 		ControlPointShapes_mapString: make(map[string]*ControlPointShape),
@@ -1055,6 +1098,15 @@ func NewStage(name string) (stage *Stage) {
 		InfluenceShapes:           make(map[*InfluenceShape]struct{}),
 		InfluenceShapes_mapString: make(map[string]*InfluenceShape),
 
+		Movements:           make(map[*Movement]struct{}),
+		Movements_mapString: make(map[string]*Movement),
+
+		MovementShapes:           make(map[*MovementShape]struct{}),
+		MovementShapes_mapString: make(map[string]*MovementShape),
+
+		Places:           make(map[*Place]struct{}),
+		Places_mapString: make(map[string]*Place),
+
 		// end of insertion point
 		Map_GongStructName_InstancesNb: make(map[string]int),
 
@@ -1065,17 +1117,13 @@ func NewStage(name string) (stage *Stage) {
 		// the to be removed stops here
 
 		// insertion point for order map initialisations
-		Category1_stagedOrder: make(map[*Category1]uint),
+		ArtefactType_stagedOrder: make(map[*ArtefactType]uint),
 
-		Category1Shape_stagedOrder: make(map[*Category1Shape]uint),
+		ArtefactTypeShape_stagedOrder: make(map[*ArtefactTypeShape]uint),
 
-		Category2_stagedOrder: make(map[*Category2]uint),
+		Artist_stagedOrder: make(map[*Artist]uint),
 
-		Category2Shape_stagedOrder: make(map[*Category2Shape]uint),
-
-		Category3_stagedOrder: make(map[*Category3]uint),
-
-		Category3Shape_stagedOrder: make(map[*Category3Shape]uint),
+		ArtistShape_stagedOrder: make(map[*ArtistShape]uint),
 
 		ControlPointShape_stagedOrder: make(map[*ControlPointShape]uint),
 
@@ -1087,19 +1135,21 @@ func NewStage(name string) (stage *Stage) {
 
 		InfluenceShape_stagedOrder: make(map[*InfluenceShape]uint),
 
+		Movement_stagedOrder: make(map[*Movement]uint),
+
+		MovementShape_stagedOrder: make(map[*MovementShape]uint),
+
+		Place_stagedOrder: make(map[*Place]uint),
+
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
-			"Category1": &Category1Unmarshaller{},
+			"ArtefactType": &ArtefactTypeUnmarshaller{},
 
-			"Category1Shape": &Category1ShapeUnmarshaller{},
+			"ArtefactTypeShape": &ArtefactTypeShapeUnmarshaller{},
 
-			"Category2": &Category2Unmarshaller{},
+			"Artist": &ArtistUnmarshaller{},
 
-			"Category2Shape": &Category2ShapeUnmarshaller{},
-
-			"Category3": &Category3Unmarshaller{},
-
-			"Category3Shape": &Category3ShapeUnmarshaller{},
+			"ArtistShape": &ArtistShapeUnmarshaller{},
 
 			"ControlPointShape": &ControlPointShapeUnmarshaller{},
 
@@ -1111,21 +1161,28 @@ func NewStage(name string) (stage *Stage) {
 
 			"InfluenceShape": &InfluenceShapeUnmarshaller{},
 
+			"Movement": &MovementUnmarshaller{},
+
+			"MovementShape": &MovementShapeUnmarshaller{},
+
+			"Place": &PlaceUnmarshaller{},
+
 			// end of insertion point
 		},
 
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
-			{name: "Category1"},
-			{name: "Category1Shape"},
-			{name: "Category2"},
-			{name: "Category2Shape"},
-			{name: "Category3"},
-			{name: "Category3Shape"},
+			{name: "ArtefactType"},
+			{name: "ArtefactTypeShape"},
+			{name: "Artist"},
+			{name: "ArtistShape"},
 			{name: "ControlPointShape"},
 			{name: "Desk"},
 			{name: "Diagram"},
 			{name: "Influence"},
 			{name: "InfluenceShape"},
+			{name: "Movement"},
+			{name: "MovementShape"},
+			{name: "Place"},
 		}, // end of insertion point
 
 		navigationMode: GongNavigationModeNormal,
@@ -1137,18 +1194,14 @@ func NewStage(name string) (stage *Stage) {
 func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
-	case *Category1:
-		return stage.Category1_stagedOrder[instance]
-	case *Category1Shape:
-		return stage.Category1Shape_stagedOrder[instance]
-	case *Category2:
-		return stage.Category2_stagedOrder[instance]
-	case *Category2Shape:
-		return stage.Category2Shape_stagedOrder[instance]
-	case *Category3:
-		return stage.Category3_stagedOrder[instance]
-	case *Category3Shape:
-		return stage.Category3Shape_stagedOrder[instance]
+	case *ArtefactType:
+		return stage.ArtefactType_stagedOrder[instance]
+	case *ArtefactTypeShape:
+		return stage.ArtefactTypeShape_stagedOrder[instance]
+	case *Artist:
+		return stage.Artist_stagedOrder[instance]
+	case *ArtistShape:
+		return stage.ArtistShape_stagedOrder[instance]
 	case *ControlPointShape:
 		return stage.ControlPointShape_stagedOrder[instance]
 	case *Desk:
@@ -1159,6 +1212,12 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.Influence_stagedOrder[instance]
 	case *InfluenceShape:
 		return stage.InfluenceShape_stagedOrder[instance]
+	case *Movement:
+		return stage.Movement_stagedOrder[instance]
+	case *MovementShape:
+		return stage.MovementShape_stagedOrder[instance]
+	case *Place:
+		return stage.Place_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -1167,18 +1226,14 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) uint {
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
-	case *Category1:
-		return stage.Category1_stagedOrder[instance]
-	case *Category1Shape:
-		return stage.Category1Shape_stagedOrder[instance]
-	case *Category2:
-		return stage.Category2_stagedOrder[instance]
-	case *Category2Shape:
-		return stage.Category2Shape_stagedOrder[instance]
-	case *Category3:
-		return stage.Category3_stagedOrder[instance]
-	case *Category3Shape:
-		return stage.Category3Shape_stagedOrder[instance]
+	case *ArtefactType:
+		return stage.ArtefactType_stagedOrder[instance]
+	case *ArtefactTypeShape:
+		return stage.ArtefactTypeShape_stagedOrder[instance]
+	case *Artist:
+		return stage.Artist_stagedOrder[instance]
+	case *ArtistShape:
+		return stage.ArtistShape_stagedOrder[instance]
 	case *ControlPointShape:
 		return stage.ControlPointShape_stagedOrder[instance]
 	case *Desk:
@@ -1189,6 +1244,12 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.Influence_stagedOrder[instance]
 	case *InfluenceShape:
 		return stage.InfluenceShape_stagedOrder[instance]
+	case *Movement:
+		return stage.Movement_stagedOrder[instance]
+	case *MovementShape:
+		return stage.MovementShape_stagedOrder[instance]
+	case *Place:
+		return stage.Place_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -1251,17 +1312,18 @@ func (stage *Stage) Commit() {
 
 func (stage *Stage) ComputeInstancesNb() {
 	// insertion point for computing the map of number of instances per gongstruct
-	stage.Map_GongStructName_InstancesNb["Category1"] = len(stage.Category1s)
-	stage.Map_GongStructName_InstancesNb["Category1Shape"] = len(stage.Category1Shapes)
-	stage.Map_GongStructName_InstancesNb["Category2"] = len(stage.Category2s)
-	stage.Map_GongStructName_InstancesNb["Category2Shape"] = len(stage.Category2Shapes)
-	stage.Map_GongStructName_InstancesNb["Category3"] = len(stage.Category3s)
-	stage.Map_GongStructName_InstancesNb["Category3Shape"] = len(stage.Category3Shapes)
+	stage.Map_GongStructName_InstancesNb["ArtefactType"] = len(stage.ArtefactTypes)
+	stage.Map_GongStructName_InstancesNb["ArtefactTypeShape"] = len(stage.ArtefactTypeShapes)
+	stage.Map_GongStructName_InstancesNb["Artist"] = len(stage.Artists)
+	stage.Map_GongStructName_InstancesNb["ArtistShape"] = len(stage.ArtistShapes)
 	stage.Map_GongStructName_InstancesNb["ControlPointShape"] = len(stage.ControlPointShapes)
 	stage.Map_GongStructName_InstancesNb["Desk"] = len(stage.Desks)
 	stage.Map_GongStructName_InstancesNb["Diagram"] = len(stage.Diagrams)
 	stage.Map_GongStructName_InstancesNb["Influence"] = len(stage.Influences)
 	stage.Map_GongStructName_InstancesNb["InfluenceShape"] = len(stage.InfluenceShapes)
+	stage.Map_GongStructName_InstancesNb["Movement"] = len(stage.Movements)
+	stage.Map_GongStructName_InstancesNb["MovementShape"] = len(stage.MovementShapes)
+	stage.Map_GongStructName_InstancesNb["Place"] = len(stage.Places)
 }
 
 func (stage *Stage) Checkout() {
@@ -1302,520 +1364,348 @@ func (stage *Stage) RestoreXL(dirPath string) {
 }
 
 // insertion point for cumulative sub template with model space calls
-// Stage puts category1 to the model stage
-func (category1 *Category1) Stage(stage *Stage) *Category1 {
-	if _, ok := stage.Category1s[category1]; !ok {
-		stage.Category1s[category1] = struct{}{}
-		stage.Category1_stagedOrder[category1] = stage.Category1Order
-		stage.Category1Order++
+// Stage puts artefacttype to the model stage
+func (artefacttype *ArtefactType) Stage(stage *Stage) *ArtefactType {
+	if _, ok := stage.ArtefactTypes[artefacttype]; !ok {
+		stage.ArtefactTypes[artefacttype] = struct{}{}
+		stage.ArtefactType_stagedOrder[artefacttype] = stage.ArtefactTypeOrder
+		stage.ArtefactTypeOrder++
 	}
-	stage.Category1s_mapString[category1.Name] = category1
+	stage.ArtefactTypes_mapString[artefacttype.Name] = artefacttype
 
-	return category1
+	return artefacttype
 }
 
-// StagePreserveOrder puts category1 to the model stage, and if the astrtuct
+// StagePreserveOrder puts artefacttype to the model stage, and if the astrtuct
 // was not staged before:
 //
-// - force the order if the order is equal or greater than the stage.Category1Order
-// - update stage.Category1Order accordingly
-func (category1 *Category1) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Category1s[category1]; !ok {
-		stage.Category1s[category1] = struct{}{}
+// - force the order if the order is equal or greater than the stage.ArtefactTypeOrder
+// - update stage.ArtefactTypeOrder accordingly
+func (artefacttype *ArtefactType) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.ArtefactTypes[artefacttype]; !ok {
+		stage.ArtefactTypes[artefacttype] = struct{}{}
 
-		if order > stage.Category1Order {
-			stage.Category1Order = order
+		if order > stage.ArtefactTypeOrder {
+			stage.ArtefactTypeOrder = order
 		}
-		stage.Category1_stagedOrder[category1] = order
-		stage.Category1Order++
+		stage.ArtefactType_stagedOrder[artefacttype] = order
+		stage.ArtefactTypeOrder++
 	}
-	stage.Category1s_mapString[category1.Name] = category1
+	stage.ArtefactTypes_mapString[artefacttype.Name] = artefacttype
 }
 
-// Unstage removes category1 off the model stage
-func (category1 *Category1) Unstage(stage *Stage) *Category1 {
-	delete(stage.Category1s, category1)
+// Unstage removes artefacttype off the model stage
+func (artefacttype *ArtefactType) Unstage(stage *Stage) *ArtefactType {
+	delete(stage.ArtefactTypes, artefacttype)
 	// issue1150
-	// delete(stage.Category1_stagedOrder, category1)
-	delete(stage.Category1s_mapString, category1.Name)
+	// delete(stage.ArtefactType_stagedOrder, artefacttype)
+	delete(stage.ArtefactTypes_mapString, artefacttype.Name)
 
-	return category1
+	return artefacttype
 }
 
-// UnstageVoid removes category1 off the model stage
-func (category1 *Category1) UnstageVoid(stage *Stage) {
-	delete(stage.Category1s, category1)
+// UnstageVoid removes artefacttype off the model stage
+func (artefacttype *ArtefactType) UnstageVoid(stage *Stage) {
+	delete(stage.ArtefactTypes, artefacttype)
 	// issue1150
-	// delete(stage.Category1_stagedOrder, category1)
-	delete(stage.Category1s_mapString, category1.Name)
+	// delete(stage.ArtefactType_stagedOrder, artefacttype)
+	delete(stage.ArtefactTypes_mapString, artefacttype.Name)
 }
 
-// commit category1 to the back repo (if it is already staged)
-func (category1 *Category1) Commit(stage *Stage) *Category1 {
-	if _, ok := stage.Category1s[category1]; ok {
+// commit artefacttype to the back repo (if it is already staged)
+func (artefacttype *ArtefactType) Commit(stage *Stage) *ArtefactType {
+	if _, ok := stage.ArtefactTypes[artefacttype]; ok {
 		if stage.BackRepo != nil {
-			stage.BackRepo.CommitCategory1(category1)
+			stage.BackRepo.CommitArtefactType(artefacttype)
 		}
 	}
-	return category1
+	return artefacttype
 }
 
-func (category1 *Category1) CommitVoid(stage *Stage) {
-	category1.Commit(stage)
+func (artefacttype *ArtefactType) CommitVoid(stage *Stage) {
+	artefacttype.Commit(stage)
 }
 
-func (category1 *Category1) StageVoid(stage *Stage) {
-	category1.Stage(stage)
+func (artefacttype *ArtefactType) StageVoid(stage *Stage) {
+	artefacttype.Stage(stage)
 }
 
-// Checkout category1 to the back repo (if it is already staged)
-func (category1 *Category1) Checkout(stage *Stage) *Category1 {
-	if _, ok := stage.Category1s[category1]; ok {
+// Checkout artefacttype to the back repo (if it is already staged)
+func (artefacttype *ArtefactType) Checkout(stage *Stage) *ArtefactType {
+	if _, ok := stage.ArtefactTypes[artefacttype]; ok {
 		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutCategory1(category1)
+			stage.BackRepo.CheckoutArtefactType(artefacttype)
 		}
 	}
-	return category1
+	return artefacttype
 }
 
 // for satisfaction of GongStruct interface
-func (category1 *Category1) GetName() (res string) {
-	return category1.Name
+func (artefacttype *ArtefactType) GetName() (res string) {
+	return artefacttype.Name
 }
 
 // for satisfaction of GongStruct interface
-func (category1 *Category1) SetName(name string) {
-	category1.Name = name
+func (artefacttype *ArtefactType) SetName(name string) {
+	artefacttype.Name = name
 }
 
-// Stage puts category1shape to the model stage
-func (category1shape *Category1Shape) Stage(stage *Stage) *Category1Shape {
-	if _, ok := stage.Category1Shapes[category1shape]; !ok {
-		stage.Category1Shapes[category1shape] = struct{}{}
-		stage.Category1Shape_stagedOrder[category1shape] = stage.Category1ShapeOrder
-		stage.Category1ShapeOrder++
+// Stage puts artefacttypeshape to the model stage
+func (artefacttypeshape *ArtefactTypeShape) Stage(stage *Stage) *ArtefactTypeShape {
+	if _, ok := stage.ArtefactTypeShapes[artefacttypeshape]; !ok {
+		stage.ArtefactTypeShapes[artefacttypeshape] = struct{}{}
+		stage.ArtefactTypeShape_stagedOrder[artefacttypeshape] = stage.ArtefactTypeShapeOrder
+		stage.ArtefactTypeShapeOrder++
 	}
-	stage.Category1Shapes_mapString[category1shape.Name] = category1shape
+	stage.ArtefactTypeShapes_mapString[artefacttypeshape.Name] = artefacttypeshape
 
-	return category1shape
+	return artefacttypeshape
 }
 
-// StagePreserveOrder puts category1shape to the model stage, and if the astrtuct
+// StagePreserveOrder puts artefacttypeshape to the model stage, and if the astrtuct
 // was not staged before:
 //
-// - force the order if the order is equal or greater than the stage.Category1ShapeOrder
-// - update stage.Category1ShapeOrder accordingly
-func (category1shape *Category1Shape) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Category1Shapes[category1shape]; !ok {
-		stage.Category1Shapes[category1shape] = struct{}{}
+// - force the order if the order is equal or greater than the stage.ArtefactTypeShapeOrder
+// - update stage.ArtefactTypeShapeOrder accordingly
+func (artefacttypeshape *ArtefactTypeShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.ArtefactTypeShapes[artefacttypeshape]; !ok {
+		stage.ArtefactTypeShapes[artefacttypeshape] = struct{}{}
 
-		if order > stage.Category1ShapeOrder {
-			stage.Category1ShapeOrder = order
+		if order > stage.ArtefactTypeShapeOrder {
+			stage.ArtefactTypeShapeOrder = order
 		}
-		stage.Category1Shape_stagedOrder[category1shape] = order
-		stage.Category1ShapeOrder++
+		stage.ArtefactTypeShape_stagedOrder[artefacttypeshape] = order
+		stage.ArtefactTypeShapeOrder++
 	}
-	stage.Category1Shapes_mapString[category1shape.Name] = category1shape
+	stage.ArtefactTypeShapes_mapString[artefacttypeshape.Name] = artefacttypeshape
 }
 
-// Unstage removes category1shape off the model stage
-func (category1shape *Category1Shape) Unstage(stage *Stage) *Category1Shape {
-	delete(stage.Category1Shapes, category1shape)
+// Unstage removes artefacttypeshape off the model stage
+func (artefacttypeshape *ArtefactTypeShape) Unstage(stage *Stage) *ArtefactTypeShape {
+	delete(stage.ArtefactTypeShapes, artefacttypeshape)
 	// issue1150
-	// delete(stage.Category1Shape_stagedOrder, category1shape)
-	delete(stage.Category1Shapes_mapString, category1shape.Name)
+	// delete(stage.ArtefactTypeShape_stagedOrder, artefacttypeshape)
+	delete(stage.ArtefactTypeShapes_mapString, artefacttypeshape.Name)
 
-	return category1shape
+	return artefacttypeshape
 }
 
-// UnstageVoid removes category1shape off the model stage
-func (category1shape *Category1Shape) UnstageVoid(stage *Stage) {
-	delete(stage.Category1Shapes, category1shape)
+// UnstageVoid removes artefacttypeshape off the model stage
+func (artefacttypeshape *ArtefactTypeShape) UnstageVoid(stage *Stage) {
+	delete(stage.ArtefactTypeShapes, artefacttypeshape)
 	// issue1150
-	// delete(stage.Category1Shape_stagedOrder, category1shape)
-	delete(stage.Category1Shapes_mapString, category1shape.Name)
+	// delete(stage.ArtefactTypeShape_stagedOrder, artefacttypeshape)
+	delete(stage.ArtefactTypeShapes_mapString, artefacttypeshape.Name)
 }
 
-// commit category1shape to the back repo (if it is already staged)
-func (category1shape *Category1Shape) Commit(stage *Stage) *Category1Shape {
-	if _, ok := stage.Category1Shapes[category1shape]; ok {
+// commit artefacttypeshape to the back repo (if it is already staged)
+func (artefacttypeshape *ArtefactTypeShape) Commit(stage *Stage) *ArtefactTypeShape {
+	if _, ok := stage.ArtefactTypeShapes[artefacttypeshape]; ok {
 		if stage.BackRepo != nil {
-			stage.BackRepo.CommitCategory1Shape(category1shape)
+			stage.BackRepo.CommitArtefactTypeShape(artefacttypeshape)
 		}
 	}
-	return category1shape
+	return artefacttypeshape
 }
 
-func (category1shape *Category1Shape) CommitVoid(stage *Stage) {
-	category1shape.Commit(stage)
+func (artefacttypeshape *ArtefactTypeShape) CommitVoid(stage *Stage) {
+	artefacttypeshape.Commit(stage)
 }
 
-func (category1shape *Category1Shape) StageVoid(stage *Stage) {
-	category1shape.Stage(stage)
+func (artefacttypeshape *ArtefactTypeShape) StageVoid(stage *Stage) {
+	artefacttypeshape.Stage(stage)
 }
 
-// Checkout category1shape to the back repo (if it is already staged)
-func (category1shape *Category1Shape) Checkout(stage *Stage) *Category1Shape {
-	if _, ok := stage.Category1Shapes[category1shape]; ok {
+// Checkout artefacttypeshape to the back repo (if it is already staged)
+func (artefacttypeshape *ArtefactTypeShape) Checkout(stage *Stage) *ArtefactTypeShape {
+	if _, ok := stage.ArtefactTypeShapes[artefacttypeshape]; ok {
 		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutCategory1Shape(category1shape)
+			stage.BackRepo.CheckoutArtefactTypeShape(artefacttypeshape)
 		}
 	}
-	return category1shape
+	return artefacttypeshape
 }
 
 // for satisfaction of GongStruct interface
-func (category1shape *Category1Shape) GetName() (res string) {
-	return category1shape.Name
+func (artefacttypeshape *ArtefactTypeShape) GetName() (res string) {
+	return artefacttypeshape.Name
 }
 
 // for satisfaction of GongStruct interface
-func (category1shape *Category1Shape) SetName(name string) {
-	category1shape.Name = name
+func (artefacttypeshape *ArtefactTypeShape) SetName(name string) {
+	artefacttypeshape.Name = name
 }
 
-// Stage puts category2 to the model stage
-func (category2 *Category2) Stage(stage *Stage) *Category2 {
-	if _, ok := stage.Category2s[category2]; !ok {
-		stage.Category2s[category2] = struct{}{}
-		stage.Category2_stagedOrder[category2] = stage.Category2Order
-		stage.Category2Order++
+// Stage puts artist to the model stage
+func (artist *Artist) Stage(stage *Stage) *Artist {
+	if _, ok := stage.Artists[artist]; !ok {
+		stage.Artists[artist] = struct{}{}
+		stage.Artist_stagedOrder[artist] = stage.ArtistOrder
+		stage.ArtistOrder++
 	}
-	stage.Category2s_mapString[category2.Name] = category2
+	stage.Artists_mapString[artist.Name] = artist
 
-	return category2
+	return artist
 }
 
-// StagePreserveOrder puts category2 to the model stage, and if the astrtuct
+// StagePreserveOrder puts artist to the model stage, and if the astrtuct
 // was not staged before:
 //
-// - force the order if the order is equal or greater than the stage.Category2Order
-// - update stage.Category2Order accordingly
-func (category2 *Category2) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Category2s[category2]; !ok {
-		stage.Category2s[category2] = struct{}{}
+// - force the order if the order is equal or greater than the stage.ArtistOrder
+// - update stage.ArtistOrder accordingly
+func (artist *Artist) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.Artists[artist]; !ok {
+		stage.Artists[artist] = struct{}{}
 
-		if order > stage.Category2Order {
-			stage.Category2Order = order
+		if order > stage.ArtistOrder {
+			stage.ArtistOrder = order
 		}
-		stage.Category2_stagedOrder[category2] = order
-		stage.Category2Order++
+		stage.Artist_stagedOrder[artist] = order
+		stage.ArtistOrder++
 	}
-	stage.Category2s_mapString[category2.Name] = category2
+	stage.Artists_mapString[artist.Name] = artist
 }
 
-// Unstage removes category2 off the model stage
-func (category2 *Category2) Unstage(stage *Stage) *Category2 {
-	delete(stage.Category2s, category2)
+// Unstage removes artist off the model stage
+func (artist *Artist) Unstage(stage *Stage) *Artist {
+	delete(stage.Artists, artist)
 	// issue1150
-	// delete(stage.Category2_stagedOrder, category2)
-	delete(stage.Category2s_mapString, category2.Name)
+	// delete(stage.Artist_stagedOrder, artist)
+	delete(stage.Artists_mapString, artist.Name)
 
-	return category2
+	return artist
 }
 
-// UnstageVoid removes category2 off the model stage
-func (category2 *Category2) UnstageVoid(stage *Stage) {
-	delete(stage.Category2s, category2)
+// UnstageVoid removes artist off the model stage
+func (artist *Artist) UnstageVoid(stage *Stage) {
+	delete(stage.Artists, artist)
 	// issue1150
-	// delete(stage.Category2_stagedOrder, category2)
-	delete(stage.Category2s_mapString, category2.Name)
+	// delete(stage.Artist_stagedOrder, artist)
+	delete(stage.Artists_mapString, artist.Name)
 }
 
-// commit category2 to the back repo (if it is already staged)
-func (category2 *Category2) Commit(stage *Stage) *Category2 {
-	if _, ok := stage.Category2s[category2]; ok {
+// commit artist to the back repo (if it is already staged)
+func (artist *Artist) Commit(stage *Stage) *Artist {
+	if _, ok := stage.Artists[artist]; ok {
 		if stage.BackRepo != nil {
-			stage.BackRepo.CommitCategory2(category2)
+			stage.BackRepo.CommitArtist(artist)
 		}
 	}
-	return category2
+	return artist
 }
 
-func (category2 *Category2) CommitVoid(stage *Stage) {
-	category2.Commit(stage)
+func (artist *Artist) CommitVoid(stage *Stage) {
+	artist.Commit(stage)
 }
 
-func (category2 *Category2) StageVoid(stage *Stage) {
-	category2.Stage(stage)
+func (artist *Artist) StageVoid(stage *Stage) {
+	artist.Stage(stage)
 }
 
-// Checkout category2 to the back repo (if it is already staged)
-func (category2 *Category2) Checkout(stage *Stage) *Category2 {
-	if _, ok := stage.Category2s[category2]; ok {
+// Checkout artist to the back repo (if it is already staged)
+func (artist *Artist) Checkout(stage *Stage) *Artist {
+	if _, ok := stage.Artists[artist]; ok {
 		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutCategory2(category2)
+			stage.BackRepo.CheckoutArtist(artist)
 		}
 	}
-	return category2
+	return artist
 }
 
 // for satisfaction of GongStruct interface
-func (category2 *Category2) GetName() (res string) {
-	return category2.Name
+func (artist *Artist) GetName() (res string) {
+	return artist.Name
 }
 
 // for satisfaction of GongStruct interface
-func (category2 *Category2) SetName(name string) {
-	category2.Name = name
+func (artist *Artist) SetName(name string) {
+	artist.Name = name
 }
 
-// Stage puts category2shape to the model stage
-func (category2shape *Category2Shape) Stage(stage *Stage) *Category2Shape {
-	if _, ok := stage.Category2Shapes[category2shape]; !ok {
-		stage.Category2Shapes[category2shape] = struct{}{}
-		stage.Category2Shape_stagedOrder[category2shape] = stage.Category2ShapeOrder
-		stage.Category2ShapeOrder++
+// Stage puts artistshape to the model stage
+func (artistshape *ArtistShape) Stage(stage *Stage) *ArtistShape {
+	if _, ok := stage.ArtistShapes[artistshape]; !ok {
+		stage.ArtistShapes[artistshape] = struct{}{}
+		stage.ArtistShape_stagedOrder[artistshape] = stage.ArtistShapeOrder
+		stage.ArtistShapeOrder++
 	}
-	stage.Category2Shapes_mapString[category2shape.Name] = category2shape
+	stage.ArtistShapes_mapString[artistshape.Name] = artistshape
 
-	return category2shape
+	return artistshape
 }
 
-// StagePreserveOrder puts category2shape to the model stage, and if the astrtuct
+// StagePreserveOrder puts artistshape to the model stage, and if the astrtuct
 // was not staged before:
 //
-// - force the order if the order is equal or greater than the stage.Category2ShapeOrder
-// - update stage.Category2ShapeOrder accordingly
-func (category2shape *Category2Shape) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Category2Shapes[category2shape]; !ok {
-		stage.Category2Shapes[category2shape] = struct{}{}
+// - force the order if the order is equal or greater than the stage.ArtistShapeOrder
+// - update stage.ArtistShapeOrder accordingly
+func (artistshape *ArtistShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.ArtistShapes[artistshape]; !ok {
+		stage.ArtistShapes[artistshape] = struct{}{}
 
-		if order > stage.Category2ShapeOrder {
-			stage.Category2ShapeOrder = order
+		if order > stage.ArtistShapeOrder {
+			stage.ArtistShapeOrder = order
 		}
-		stage.Category2Shape_stagedOrder[category2shape] = order
-		stage.Category2ShapeOrder++
+		stage.ArtistShape_stagedOrder[artistshape] = order
+		stage.ArtistShapeOrder++
 	}
-	stage.Category2Shapes_mapString[category2shape.Name] = category2shape
+	stage.ArtistShapes_mapString[artistshape.Name] = artistshape
 }
 
-// Unstage removes category2shape off the model stage
-func (category2shape *Category2Shape) Unstage(stage *Stage) *Category2Shape {
-	delete(stage.Category2Shapes, category2shape)
+// Unstage removes artistshape off the model stage
+func (artistshape *ArtistShape) Unstage(stage *Stage) *ArtistShape {
+	delete(stage.ArtistShapes, artistshape)
 	// issue1150
-	// delete(stage.Category2Shape_stagedOrder, category2shape)
-	delete(stage.Category2Shapes_mapString, category2shape.Name)
+	// delete(stage.ArtistShape_stagedOrder, artistshape)
+	delete(stage.ArtistShapes_mapString, artistshape.Name)
 
-	return category2shape
+	return artistshape
 }
 
-// UnstageVoid removes category2shape off the model stage
-func (category2shape *Category2Shape) UnstageVoid(stage *Stage) {
-	delete(stage.Category2Shapes, category2shape)
+// UnstageVoid removes artistshape off the model stage
+func (artistshape *ArtistShape) UnstageVoid(stage *Stage) {
+	delete(stage.ArtistShapes, artistshape)
 	// issue1150
-	// delete(stage.Category2Shape_stagedOrder, category2shape)
-	delete(stage.Category2Shapes_mapString, category2shape.Name)
+	// delete(stage.ArtistShape_stagedOrder, artistshape)
+	delete(stage.ArtistShapes_mapString, artistshape.Name)
 }
 
-// commit category2shape to the back repo (if it is already staged)
-func (category2shape *Category2Shape) Commit(stage *Stage) *Category2Shape {
-	if _, ok := stage.Category2Shapes[category2shape]; ok {
+// commit artistshape to the back repo (if it is already staged)
+func (artistshape *ArtistShape) Commit(stage *Stage) *ArtistShape {
+	if _, ok := stage.ArtistShapes[artistshape]; ok {
 		if stage.BackRepo != nil {
-			stage.BackRepo.CommitCategory2Shape(category2shape)
+			stage.BackRepo.CommitArtistShape(artistshape)
 		}
 	}
-	return category2shape
+	return artistshape
 }
 
-func (category2shape *Category2Shape) CommitVoid(stage *Stage) {
-	category2shape.Commit(stage)
+func (artistshape *ArtistShape) CommitVoid(stage *Stage) {
+	artistshape.Commit(stage)
 }
 
-func (category2shape *Category2Shape) StageVoid(stage *Stage) {
-	category2shape.Stage(stage)
+func (artistshape *ArtistShape) StageVoid(stage *Stage) {
+	artistshape.Stage(stage)
 }
 
-// Checkout category2shape to the back repo (if it is already staged)
-func (category2shape *Category2Shape) Checkout(stage *Stage) *Category2Shape {
-	if _, ok := stage.Category2Shapes[category2shape]; ok {
+// Checkout artistshape to the back repo (if it is already staged)
+func (artistshape *ArtistShape) Checkout(stage *Stage) *ArtistShape {
+	if _, ok := stage.ArtistShapes[artistshape]; ok {
 		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutCategory2Shape(category2shape)
+			stage.BackRepo.CheckoutArtistShape(artistshape)
 		}
 	}
-	return category2shape
+	return artistshape
 }
 
 // for satisfaction of GongStruct interface
-func (category2shape *Category2Shape) GetName() (res string) {
-	return category2shape.Name
+func (artistshape *ArtistShape) GetName() (res string) {
+	return artistshape.Name
 }
 
 // for satisfaction of GongStruct interface
-func (category2shape *Category2Shape) SetName(name string) {
-	category2shape.Name = name
-}
-
-// Stage puts category3 to the model stage
-func (category3 *Category3) Stage(stage *Stage) *Category3 {
-	if _, ok := stage.Category3s[category3]; !ok {
-		stage.Category3s[category3] = struct{}{}
-		stage.Category3_stagedOrder[category3] = stage.Category3Order
-		stage.Category3Order++
-	}
-	stage.Category3s_mapString[category3.Name] = category3
-
-	return category3
-}
-
-// StagePreserveOrder puts category3 to the model stage, and if the astrtuct
-// was not staged before:
-//
-// - force the order if the order is equal or greater than the stage.Category3Order
-// - update stage.Category3Order accordingly
-func (category3 *Category3) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Category3s[category3]; !ok {
-		stage.Category3s[category3] = struct{}{}
-
-		if order > stage.Category3Order {
-			stage.Category3Order = order
-		}
-		stage.Category3_stagedOrder[category3] = order
-		stage.Category3Order++
-	}
-	stage.Category3s_mapString[category3.Name] = category3
-}
-
-// Unstage removes category3 off the model stage
-func (category3 *Category3) Unstage(stage *Stage) *Category3 {
-	delete(stage.Category3s, category3)
-	// issue1150
-	// delete(stage.Category3_stagedOrder, category3)
-	delete(stage.Category3s_mapString, category3.Name)
-
-	return category3
-}
-
-// UnstageVoid removes category3 off the model stage
-func (category3 *Category3) UnstageVoid(stage *Stage) {
-	delete(stage.Category3s, category3)
-	// issue1150
-	// delete(stage.Category3_stagedOrder, category3)
-	delete(stage.Category3s_mapString, category3.Name)
-}
-
-// commit category3 to the back repo (if it is already staged)
-func (category3 *Category3) Commit(stage *Stage) *Category3 {
-	if _, ok := stage.Category3s[category3]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitCategory3(category3)
-		}
-	}
-	return category3
-}
-
-func (category3 *Category3) CommitVoid(stage *Stage) {
-	category3.Commit(stage)
-}
-
-func (category3 *Category3) StageVoid(stage *Stage) {
-	category3.Stage(stage)
-}
-
-// Checkout category3 to the back repo (if it is already staged)
-func (category3 *Category3) Checkout(stage *Stage) *Category3 {
-	if _, ok := stage.Category3s[category3]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutCategory3(category3)
-		}
-	}
-	return category3
-}
-
-// for satisfaction of GongStruct interface
-func (category3 *Category3) GetName() (res string) {
-	return category3.Name
-}
-
-// for satisfaction of GongStruct interface
-func (category3 *Category3) SetName(name string) {
-	category3.Name = name
-}
-
-// Stage puts category3shape to the model stage
-func (category3shape *Category3Shape) Stage(stage *Stage) *Category3Shape {
-	if _, ok := stage.Category3Shapes[category3shape]; !ok {
-		stage.Category3Shapes[category3shape] = struct{}{}
-		stage.Category3Shape_stagedOrder[category3shape] = stage.Category3ShapeOrder
-		stage.Category3ShapeOrder++
-	}
-	stage.Category3Shapes_mapString[category3shape.Name] = category3shape
-
-	return category3shape
-}
-
-// StagePreserveOrder puts category3shape to the model stage, and if the astrtuct
-// was not staged before:
-//
-// - force the order if the order is equal or greater than the stage.Category3ShapeOrder
-// - update stage.Category3ShapeOrder accordingly
-func (category3shape *Category3Shape) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Category3Shapes[category3shape]; !ok {
-		stage.Category3Shapes[category3shape] = struct{}{}
-
-		if order > stage.Category3ShapeOrder {
-			stage.Category3ShapeOrder = order
-		}
-		stage.Category3Shape_stagedOrder[category3shape] = order
-		stage.Category3ShapeOrder++
-	}
-	stage.Category3Shapes_mapString[category3shape.Name] = category3shape
-}
-
-// Unstage removes category3shape off the model stage
-func (category3shape *Category3Shape) Unstage(stage *Stage) *Category3Shape {
-	delete(stage.Category3Shapes, category3shape)
-	// issue1150
-	// delete(stage.Category3Shape_stagedOrder, category3shape)
-	delete(stage.Category3Shapes_mapString, category3shape.Name)
-
-	return category3shape
-}
-
-// UnstageVoid removes category3shape off the model stage
-func (category3shape *Category3Shape) UnstageVoid(stage *Stage) {
-	delete(stage.Category3Shapes, category3shape)
-	// issue1150
-	// delete(stage.Category3Shape_stagedOrder, category3shape)
-	delete(stage.Category3Shapes_mapString, category3shape.Name)
-}
-
-// commit category3shape to the back repo (if it is already staged)
-func (category3shape *Category3Shape) Commit(stage *Stage) *Category3Shape {
-	if _, ok := stage.Category3Shapes[category3shape]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitCategory3Shape(category3shape)
-		}
-	}
-	return category3shape
-}
-
-func (category3shape *Category3Shape) CommitVoid(stage *Stage) {
-	category3shape.Commit(stage)
-}
-
-func (category3shape *Category3Shape) StageVoid(stage *Stage) {
-	category3shape.Stage(stage)
-}
-
-// Checkout category3shape to the back repo (if it is already staged)
-func (category3shape *Category3Shape) Checkout(stage *Stage) *Category3Shape {
-	if _, ok := stage.Category3Shapes[category3shape]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutCategory3Shape(category3shape)
-		}
-	}
-	return category3shape
-}
-
-// for satisfaction of GongStruct interface
-func (category3shape *Category3Shape) GetName() (res string) {
-	return category3shape.Name
-}
-
-// for satisfaction of GongStruct interface
-func (category3shape *Category3Shape) SetName(name string) {
-	category3shape.Name = name
+func (artistshape *ArtistShape) SetName(name string) {
+	artistshape.Name = name
 }
 
 // Stage puts controlpointshape to the model stage
@@ -2248,65 +2138,315 @@ func (influenceshape *InfluenceShape) SetName(name string) {
 	influenceshape.Name = name
 }
 
+// Stage puts movement to the model stage
+func (movement *Movement) Stage(stage *Stage) *Movement {
+	if _, ok := stage.Movements[movement]; !ok {
+		stage.Movements[movement] = struct{}{}
+		stage.Movement_stagedOrder[movement] = stage.MovementOrder
+		stage.MovementOrder++
+	}
+	stage.Movements_mapString[movement.Name] = movement
+
+	return movement
+}
+
+// StagePreserveOrder puts movement to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.MovementOrder
+// - update stage.MovementOrder accordingly
+func (movement *Movement) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.Movements[movement]; !ok {
+		stage.Movements[movement] = struct{}{}
+
+		if order > stage.MovementOrder {
+			stage.MovementOrder = order
+		}
+		stage.Movement_stagedOrder[movement] = order
+		stage.MovementOrder++
+	}
+	stage.Movements_mapString[movement.Name] = movement
+}
+
+// Unstage removes movement off the model stage
+func (movement *Movement) Unstage(stage *Stage) *Movement {
+	delete(stage.Movements, movement)
+	// issue1150
+	// delete(stage.Movement_stagedOrder, movement)
+	delete(stage.Movements_mapString, movement.Name)
+
+	return movement
+}
+
+// UnstageVoid removes movement off the model stage
+func (movement *Movement) UnstageVoid(stage *Stage) {
+	delete(stage.Movements, movement)
+	// issue1150
+	// delete(stage.Movement_stagedOrder, movement)
+	delete(stage.Movements_mapString, movement.Name)
+}
+
+// commit movement to the back repo (if it is already staged)
+func (movement *Movement) Commit(stage *Stage) *Movement {
+	if _, ok := stage.Movements[movement]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitMovement(movement)
+		}
+	}
+	return movement
+}
+
+func (movement *Movement) CommitVoid(stage *Stage) {
+	movement.Commit(stage)
+}
+
+func (movement *Movement) StageVoid(stage *Stage) {
+	movement.Stage(stage)
+}
+
+// Checkout movement to the back repo (if it is already staged)
+func (movement *Movement) Checkout(stage *Stage) *Movement {
+	if _, ok := stage.Movements[movement]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutMovement(movement)
+		}
+	}
+	return movement
+}
+
+// for satisfaction of GongStruct interface
+func (movement *Movement) GetName() (res string) {
+	return movement.Name
+}
+
+// for satisfaction of GongStruct interface
+func (movement *Movement) SetName(name string) {
+	movement.Name = name
+}
+
+// Stage puts movementshape to the model stage
+func (movementshape *MovementShape) Stage(stage *Stage) *MovementShape {
+	if _, ok := stage.MovementShapes[movementshape]; !ok {
+		stage.MovementShapes[movementshape] = struct{}{}
+		stage.MovementShape_stagedOrder[movementshape] = stage.MovementShapeOrder
+		stage.MovementShapeOrder++
+	}
+	stage.MovementShapes_mapString[movementshape.Name] = movementshape
+
+	return movementshape
+}
+
+// StagePreserveOrder puts movementshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.MovementShapeOrder
+// - update stage.MovementShapeOrder accordingly
+func (movementshape *MovementShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.MovementShapes[movementshape]; !ok {
+		stage.MovementShapes[movementshape] = struct{}{}
+
+		if order > stage.MovementShapeOrder {
+			stage.MovementShapeOrder = order
+		}
+		stage.MovementShape_stagedOrder[movementshape] = order
+		stage.MovementShapeOrder++
+	}
+	stage.MovementShapes_mapString[movementshape.Name] = movementshape
+}
+
+// Unstage removes movementshape off the model stage
+func (movementshape *MovementShape) Unstage(stage *Stage) *MovementShape {
+	delete(stage.MovementShapes, movementshape)
+	// issue1150
+	// delete(stage.MovementShape_stagedOrder, movementshape)
+	delete(stage.MovementShapes_mapString, movementshape.Name)
+
+	return movementshape
+}
+
+// UnstageVoid removes movementshape off the model stage
+func (movementshape *MovementShape) UnstageVoid(stage *Stage) {
+	delete(stage.MovementShapes, movementshape)
+	// issue1150
+	// delete(stage.MovementShape_stagedOrder, movementshape)
+	delete(stage.MovementShapes_mapString, movementshape.Name)
+}
+
+// commit movementshape to the back repo (if it is already staged)
+func (movementshape *MovementShape) Commit(stage *Stage) *MovementShape {
+	if _, ok := stage.MovementShapes[movementshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitMovementShape(movementshape)
+		}
+	}
+	return movementshape
+}
+
+func (movementshape *MovementShape) CommitVoid(stage *Stage) {
+	movementshape.Commit(stage)
+}
+
+func (movementshape *MovementShape) StageVoid(stage *Stage) {
+	movementshape.Stage(stage)
+}
+
+// Checkout movementshape to the back repo (if it is already staged)
+func (movementshape *MovementShape) Checkout(stage *Stage) *MovementShape {
+	if _, ok := stage.MovementShapes[movementshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutMovementShape(movementshape)
+		}
+	}
+	return movementshape
+}
+
+// for satisfaction of GongStruct interface
+func (movementshape *MovementShape) GetName() (res string) {
+	return movementshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (movementshape *MovementShape) SetName(name string) {
+	movementshape.Name = name
+}
+
+// Stage puts place to the model stage
+func (place *Place) Stage(stage *Stage) *Place {
+	if _, ok := stage.Places[place]; !ok {
+		stage.Places[place] = struct{}{}
+		stage.Place_stagedOrder[place] = stage.PlaceOrder
+		stage.PlaceOrder++
+	}
+	stage.Places_mapString[place.Name] = place
+
+	return place
+}
+
+// StagePreserveOrder puts place to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.PlaceOrder
+// - update stage.PlaceOrder accordingly
+func (place *Place) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.Places[place]; !ok {
+		stage.Places[place] = struct{}{}
+
+		if order > stage.PlaceOrder {
+			stage.PlaceOrder = order
+		}
+		stage.Place_stagedOrder[place] = order
+		stage.PlaceOrder++
+	}
+	stage.Places_mapString[place.Name] = place
+}
+
+// Unstage removes place off the model stage
+func (place *Place) Unstage(stage *Stage) *Place {
+	delete(stage.Places, place)
+	// issue1150
+	// delete(stage.Place_stagedOrder, place)
+	delete(stage.Places_mapString, place.Name)
+
+	return place
+}
+
+// UnstageVoid removes place off the model stage
+func (place *Place) UnstageVoid(stage *Stage) {
+	delete(stage.Places, place)
+	// issue1150
+	// delete(stage.Place_stagedOrder, place)
+	delete(stage.Places_mapString, place.Name)
+}
+
+// commit place to the back repo (if it is already staged)
+func (place *Place) Commit(stage *Stage) *Place {
+	if _, ok := stage.Places[place]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitPlace(place)
+		}
+	}
+	return place
+}
+
+func (place *Place) CommitVoid(stage *Stage) {
+	place.Commit(stage)
+}
+
+func (place *Place) StageVoid(stage *Stage) {
+	place.Stage(stage)
+}
+
+// Checkout place to the back repo (if it is already staged)
+func (place *Place) Checkout(stage *Stage) *Place {
+	if _, ok := stage.Places[place]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutPlace(place)
+		}
+	}
+	return place
+}
+
+// for satisfaction of GongStruct interface
+func (place *Place) GetName() (res string) {
+	return place.Name
+}
+
+// for satisfaction of GongStruct interface
+func (place *Place) SetName(name string) {
+	place.Name = name
+}
+
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
-	CreateORMCategory1(Category1 *Category1)
-	CreateORMCategory1Shape(Category1Shape *Category1Shape)
-	CreateORMCategory2(Category2 *Category2)
-	CreateORMCategory2Shape(Category2Shape *Category2Shape)
-	CreateORMCategory3(Category3 *Category3)
-	CreateORMCategory3Shape(Category3Shape *Category3Shape)
+	CreateORMArtefactType(ArtefactType *ArtefactType)
+	CreateORMArtefactTypeShape(ArtefactTypeShape *ArtefactTypeShape)
+	CreateORMArtist(Artist *Artist)
+	CreateORMArtistShape(ArtistShape *ArtistShape)
 	CreateORMControlPointShape(ControlPointShape *ControlPointShape)
 	CreateORMDesk(Desk *Desk)
 	CreateORMDiagram(Diagram *Diagram)
 	CreateORMInfluence(Influence *Influence)
 	CreateORMInfluenceShape(InfluenceShape *InfluenceShape)
+	CreateORMMovement(Movement *Movement)
+	CreateORMMovementShape(MovementShape *MovementShape)
+	CreateORMPlace(Place *Place)
 }
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
-	DeleteORMCategory1(Category1 *Category1)
-	DeleteORMCategory1Shape(Category1Shape *Category1Shape)
-	DeleteORMCategory2(Category2 *Category2)
-	DeleteORMCategory2Shape(Category2Shape *Category2Shape)
-	DeleteORMCategory3(Category3 *Category3)
-	DeleteORMCategory3Shape(Category3Shape *Category3Shape)
+	DeleteORMArtefactType(ArtefactType *ArtefactType)
+	DeleteORMArtefactTypeShape(ArtefactTypeShape *ArtefactTypeShape)
+	DeleteORMArtist(Artist *Artist)
+	DeleteORMArtistShape(ArtistShape *ArtistShape)
 	DeleteORMControlPointShape(ControlPointShape *ControlPointShape)
 	DeleteORMDesk(Desk *Desk)
 	DeleteORMDiagram(Diagram *Diagram)
 	DeleteORMInfluence(Influence *Influence)
 	DeleteORMInfluenceShape(InfluenceShape *InfluenceShape)
+	DeleteORMMovement(Movement *Movement)
+	DeleteORMMovementShape(MovementShape *MovementShape)
+	DeleteORMPlace(Place *Place)
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
-	stage.Category1s = make(map[*Category1]struct{})
-	stage.Category1s_mapString = make(map[string]*Category1)
-	stage.Category1_stagedOrder = make(map[*Category1]uint)
-	stage.Category1Order = 0
+	stage.ArtefactTypes = make(map[*ArtefactType]struct{})
+	stage.ArtefactTypes_mapString = make(map[string]*ArtefactType)
+	stage.ArtefactType_stagedOrder = make(map[*ArtefactType]uint)
+	stage.ArtefactTypeOrder = 0
 
-	stage.Category1Shapes = make(map[*Category1Shape]struct{})
-	stage.Category1Shapes_mapString = make(map[string]*Category1Shape)
-	stage.Category1Shape_stagedOrder = make(map[*Category1Shape]uint)
-	stage.Category1ShapeOrder = 0
+	stage.ArtefactTypeShapes = make(map[*ArtefactTypeShape]struct{})
+	stage.ArtefactTypeShapes_mapString = make(map[string]*ArtefactTypeShape)
+	stage.ArtefactTypeShape_stagedOrder = make(map[*ArtefactTypeShape]uint)
+	stage.ArtefactTypeShapeOrder = 0
 
-	stage.Category2s = make(map[*Category2]struct{})
-	stage.Category2s_mapString = make(map[string]*Category2)
-	stage.Category2_stagedOrder = make(map[*Category2]uint)
-	stage.Category2Order = 0
+	stage.Artists = make(map[*Artist]struct{})
+	stage.Artists_mapString = make(map[string]*Artist)
+	stage.Artist_stagedOrder = make(map[*Artist]uint)
+	stage.ArtistOrder = 0
 
-	stage.Category2Shapes = make(map[*Category2Shape]struct{})
-	stage.Category2Shapes_mapString = make(map[string]*Category2Shape)
-	stage.Category2Shape_stagedOrder = make(map[*Category2Shape]uint)
-	stage.Category2ShapeOrder = 0
-
-	stage.Category3s = make(map[*Category3]struct{})
-	stage.Category3s_mapString = make(map[string]*Category3)
-	stage.Category3_stagedOrder = make(map[*Category3]uint)
-	stage.Category3Order = 0
-
-	stage.Category3Shapes = make(map[*Category3Shape]struct{})
-	stage.Category3Shapes_mapString = make(map[string]*Category3Shape)
-	stage.Category3Shape_stagedOrder = make(map[*Category3Shape]uint)
-	stage.Category3ShapeOrder = 0
+	stage.ArtistShapes = make(map[*ArtistShape]struct{})
+	stage.ArtistShapes_mapString = make(map[string]*ArtistShape)
+	stage.ArtistShape_stagedOrder = make(map[*ArtistShape]uint)
+	stage.ArtistShapeOrder = 0
 
 	stage.ControlPointShapes = make(map[*ControlPointShape]struct{})
 	stage.ControlPointShapes_mapString = make(map[string]*ControlPointShape)
@@ -2333,6 +2473,21 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.InfluenceShape_stagedOrder = make(map[*InfluenceShape]uint)
 	stage.InfluenceShapeOrder = 0
 
+	stage.Movements = make(map[*Movement]struct{})
+	stage.Movements_mapString = make(map[string]*Movement)
+	stage.Movement_stagedOrder = make(map[*Movement]uint)
+	stage.MovementOrder = 0
+
+	stage.MovementShapes = make(map[*MovementShape]struct{})
+	stage.MovementShapes_mapString = make(map[string]*MovementShape)
+	stage.MovementShape_stagedOrder = make(map[*MovementShape]uint)
+	stage.MovementShapeOrder = 0
+
+	stage.Places = make(map[*Place]struct{})
+	stage.Places_mapString = make(map[string]*Place)
+	stage.Place_stagedOrder = make(map[*Place]uint)
+	stage.PlaceOrder = 0
+
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
 	}
@@ -2342,23 +2497,17 @@ func (stage *Stage) Reset() { // insertion point for array reset
 }
 
 func (stage *Stage) Nil() { // insertion point for array nil
-	stage.Category1s = nil
-	stage.Category1s_mapString = nil
+	stage.ArtefactTypes = nil
+	stage.ArtefactTypes_mapString = nil
 
-	stage.Category1Shapes = nil
-	stage.Category1Shapes_mapString = nil
+	stage.ArtefactTypeShapes = nil
+	stage.ArtefactTypeShapes_mapString = nil
 
-	stage.Category2s = nil
-	stage.Category2s_mapString = nil
+	stage.Artists = nil
+	stage.Artists_mapString = nil
 
-	stage.Category2Shapes = nil
-	stage.Category2Shapes_mapString = nil
-
-	stage.Category3s = nil
-	stage.Category3s_mapString = nil
-
-	stage.Category3Shapes = nil
-	stage.Category3Shapes_mapString = nil
+	stage.ArtistShapes = nil
+	stage.ArtistShapes_mapString = nil
 
 	stage.ControlPointShapes = nil
 	stage.ControlPointShapes_mapString = nil
@@ -2375,32 +2524,33 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.InfluenceShapes = nil
 	stage.InfluenceShapes_mapString = nil
 
+	stage.Movements = nil
+	stage.Movements_mapString = nil
+
+	stage.MovementShapes = nil
+	stage.MovementShapes_mapString = nil
+
+	stage.Places = nil
+	stage.Places_mapString = nil
+
 	// end of insertion point for array nil
 }
 
 func (stage *Stage) Unstage() { // insertion point for array nil
-	for category1 := range stage.Category1s {
-		category1.Unstage(stage)
+	for artefacttype := range stage.ArtefactTypes {
+		artefacttype.Unstage(stage)
 	}
 
-	for category1shape := range stage.Category1Shapes {
-		category1shape.Unstage(stage)
+	for artefacttypeshape := range stage.ArtefactTypeShapes {
+		artefacttypeshape.Unstage(stage)
 	}
 
-	for category2 := range stage.Category2s {
-		category2.Unstage(stage)
+	for artist := range stage.Artists {
+		artist.Unstage(stage)
 	}
 
-	for category2shape := range stage.Category2Shapes {
-		category2shape.Unstage(stage)
-	}
-
-	for category3 := range stage.Category3s {
-		category3.Unstage(stage)
-	}
-
-	for category3shape := range stage.Category3Shapes {
-		category3shape.Unstage(stage)
+	for artistshape := range stage.ArtistShapes {
+		artistshape.Unstage(stage)
 	}
 
 	for controlpointshape := range stage.ControlPointShapes {
@@ -2421,6 +2571,18 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for influenceshape := range stage.InfluenceShapes {
 		influenceshape.Unstage(stage)
+	}
+
+	for movement := range stage.Movements {
+		movement.Unstage(stage)
+	}
+
+	for movementshape := range stage.MovementShapes {
+		movementshape.Unstage(stage)
+	}
+
+	for place := range stage.Places {
+		place.Unstage(stage)
 	}
 
 	// end of insertion point for array nil
@@ -2498,18 +2660,14 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
-	case map[*Category1]any:
-		return any(&stage.Category1s).(*Type)
-	case map[*Category1Shape]any:
-		return any(&stage.Category1Shapes).(*Type)
-	case map[*Category2]any:
-		return any(&stage.Category2s).(*Type)
-	case map[*Category2Shape]any:
-		return any(&stage.Category2Shapes).(*Type)
-	case map[*Category3]any:
-		return any(&stage.Category3s).(*Type)
-	case map[*Category3Shape]any:
-		return any(&stage.Category3Shapes).(*Type)
+	case map[*ArtefactType]any:
+		return any(&stage.ArtefactTypes).(*Type)
+	case map[*ArtefactTypeShape]any:
+		return any(&stage.ArtefactTypeShapes).(*Type)
+	case map[*Artist]any:
+		return any(&stage.Artists).(*Type)
+	case map[*ArtistShape]any:
+		return any(&stage.ArtistShapes).(*Type)
 	case map[*ControlPointShape]any:
 		return any(&stage.ControlPointShapes).(*Type)
 	case map[*Desk]any:
@@ -2520,6 +2678,12 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.Influences).(*Type)
 	case map[*InfluenceShape]any:
 		return any(&stage.InfluenceShapes).(*Type)
+	case map[*Movement]any:
+		return any(&stage.Movements).(*Type)
+	case map[*MovementShape]any:
+		return any(&stage.MovementShapes).(*Type)
+	case map[*Place]any:
+		return any(&stage.Places).(*Type)
 	default:
 		return nil
 	}
@@ -2532,18 +2696,14 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
-	case *Category1:
-		return any(stage.Category1s_mapString).(map[string]Type)
-	case *Category1Shape:
-		return any(stage.Category1Shapes_mapString).(map[string]Type)
-	case *Category2:
-		return any(stage.Category2s_mapString).(map[string]Type)
-	case *Category2Shape:
-		return any(stage.Category2Shapes_mapString).(map[string]Type)
-	case *Category3:
-		return any(stage.Category3s_mapString).(map[string]Type)
-	case *Category3Shape:
-		return any(stage.Category3Shapes_mapString).(map[string]Type)
+	case *ArtefactType:
+		return any(stage.ArtefactTypes_mapString).(map[string]Type)
+	case *ArtefactTypeShape:
+		return any(stage.ArtefactTypeShapes_mapString).(map[string]Type)
+	case *Artist:
+		return any(stage.Artists_mapString).(map[string]Type)
+	case *ArtistShape:
+		return any(stage.ArtistShapes_mapString).(map[string]Type)
 	case *ControlPointShape:
 		return any(stage.ControlPointShapes_mapString).(map[string]Type)
 	case *Desk:
@@ -2554,6 +2714,12 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.Influences_mapString).(map[string]Type)
 	case *InfluenceShape:
 		return any(stage.InfluenceShapes_mapString).(map[string]Type)
+	case *Movement:
+		return any(stage.Movements_mapString).(map[string]Type)
+	case *MovementShape:
+		return any(stage.MovementShapes_mapString).(map[string]Type)
+	case *Place:
+		return any(stage.Places_mapString).(map[string]Type)
 	default:
 		return nil
 	}
@@ -2566,18 +2732,14 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
-	case Category1:
-		return any(&stage.Category1s).(*map[*Type]struct{})
-	case Category1Shape:
-		return any(&stage.Category1Shapes).(*map[*Type]struct{})
-	case Category2:
-		return any(&stage.Category2s).(*map[*Type]struct{})
-	case Category2Shape:
-		return any(&stage.Category2Shapes).(*map[*Type]struct{})
-	case Category3:
-		return any(&stage.Category3s).(*map[*Type]struct{})
-	case Category3Shape:
-		return any(&stage.Category3Shapes).(*map[*Type]struct{})
+	case ArtefactType:
+		return any(&stage.ArtefactTypes).(*map[*Type]struct{})
+	case ArtefactTypeShape:
+		return any(&stage.ArtefactTypeShapes).(*map[*Type]struct{})
+	case Artist:
+		return any(&stage.Artists).(*map[*Type]struct{})
+	case ArtistShape:
+		return any(&stage.ArtistShapes).(*map[*Type]struct{})
 	case ControlPointShape:
 		return any(&stage.ControlPointShapes).(*map[*Type]struct{})
 	case Desk:
@@ -2588,6 +2750,12 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.Influences).(*map[*Type]struct{})
 	case InfluenceShape:
 		return any(&stage.InfluenceShapes).(*map[*Type]struct{})
+	case Movement:
+		return any(&stage.Movements).(*map[*Type]struct{})
+	case MovementShape:
+		return any(&stage.MovementShapes).(*map[*Type]struct{})
+	case Place:
+		return any(&stage.Places).(*map[*Type]struct{})
 	default:
 		return nil
 	}
@@ -2600,18 +2768,14 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
-	case *Category1:
-		return any(&stage.Category1s).(*map[Type]struct{})
-	case *Category1Shape:
-		return any(&stage.Category1Shapes).(*map[Type]struct{})
-	case *Category2:
-		return any(&stage.Category2s).(*map[Type]struct{})
-	case *Category2Shape:
-		return any(&stage.Category2Shapes).(*map[Type]struct{})
-	case *Category3:
-		return any(&stage.Category3s).(*map[Type]struct{})
-	case *Category3Shape:
-		return any(&stage.Category3Shapes).(*map[Type]struct{})
+	case *ArtefactType:
+		return any(&stage.ArtefactTypes).(*map[Type]struct{})
+	case *ArtefactTypeShape:
+		return any(&stage.ArtefactTypeShapes).(*map[Type]struct{})
+	case *Artist:
+		return any(&stage.Artists).(*map[Type]struct{})
+	case *ArtistShape:
+		return any(&stage.ArtistShapes).(*map[Type]struct{})
 	case *ControlPointShape:
 		return any(&stage.ControlPointShapes).(*map[Type]struct{})
 	case *Desk:
@@ -2622,6 +2786,12 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.Influences).(*map[Type]struct{})
 	case *InfluenceShape:
 		return any(&stage.InfluenceShapes).(*map[Type]struct{})
+	case *Movement:
+		return any(&stage.Movements).(*map[Type]struct{})
+	case *MovementShape:
+		return any(&stage.MovementShapes).(*map[Type]struct{})
+	case *Place:
+		return any(&stage.Places).(*map[Type]struct{})
 	default:
 		return nil
 	}
@@ -2634,18 +2804,14 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
-	case Category1:
-		return any(&stage.Category1s_mapString).(*map[string]*Type)
-	case Category1Shape:
-		return any(&stage.Category1Shapes_mapString).(*map[string]*Type)
-	case Category2:
-		return any(&stage.Category2s_mapString).(*map[string]*Type)
-	case Category2Shape:
-		return any(&stage.Category2Shapes_mapString).(*map[string]*Type)
-	case Category3:
-		return any(&stage.Category3s_mapString).(*map[string]*Type)
-	case Category3Shape:
-		return any(&stage.Category3Shapes_mapString).(*map[string]*Type)
+	case ArtefactType:
+		return any(&stage.ArtefactTypes_mapString).(*map[string]*Type)
+	case ArtefactTypeShape:
+		return any(&stage.ArtefactTypeShapes_mapString).(*map[string]*Type)
+	case Artist:
+		return any(&stage.Artists_mapString).(*map[string]*Type)
+	case ArtistShape:
+		return any(&stage.ArtistShapes_mapString).(*map[string]*Type)
 	case ControlPointShape:
 		return any(&stage.ControlPointShapes_mapString).(*map[string]*Type)
 	case Desk:
@@ -2656,6 +2822,12 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.Influences_mapString).(*map[string]*Type)
 	case InfluenceShape:
 		return any(&stage.InfluenceShapes_mapString).(*map[string]*Type)
+	case Movement:
+		return any(&stage.Movements_mapString).(*map[string]*Type)
+	case MovementShape:
+		return any(&stage.MovementShapes_mapString).(*map[string]*Type)
+	case Place:
+		return any(&stage.Places_mapString).(*map[string]*Type)
 	default:
 		return nil
 	}
@@ -2670,35 +2842,27 @@ func GetAssociationName[Type Gongstruct]() *Type {
 
 	switch any(ret).(type) {
 	// insertion point for instance with special fields
-	case Category1:
-		return any(&Category1{
+	case ArtefactType:
+		return any(&ArtefactType{
 			// Initialisation of associations
 		}).(*Type)
-	case Category1Shape:
-		return any(&Category1Shape{
+	case ArtefactTypeShape:
+		return any(&ArtefactTypeShape{
 			// Initialisation of associations
-			// field is initialized with an instance of Category1 with the name of the field
-			Category1: &Category1{Name: "Category1"},
+			// field is initialized with an instance of ArtefactType with the name of the field
+			ArtefactType: &ArtefactType{Name: "ArtefactType"},
 		}).(*Type)
-	case Category2:
-		return any(&Category2{
+	case Artist:
+		return any(&Artist{
 			// Initialisation of associations
+			// field is initialized with an instance of Place with the name of the field
+			Place: &Place{Name: "Place"},
 		}).(*Type)
-	case Category2Shape:
-		return any(&Category2Shape{
+	case ArtistShape:
+		return any(&ArtistShape{
 			// Initialisation of associations
-			// field is initialized with an instance of Category2 with the name of the field
-			Category2: &Category2{Name: "Category2"},
-		}).(*Type)
-	case Category3:
-		return any(&Category3{
-			// Initialisation of associations
-		}).(*Type)
-	case Category3Shape:
-		return any(&Category3Shape{
-			// Initialisation of associations
-			// field is initialized with an instance of Category3 with the name of the field
-			Category3: &Category3{Name: "Category3"},
+			// field is initialized with an instance of Artist with the name of the field
+			Artist: &Artist{Name: "Artist"},
 		}).(*Type)
 	case ControlPointShape:
 		return any(&ControlPointShape{
@@ -2713,30 +2877,30 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case Diagram:
 		return any(&Diagram{
 			// Initialisation of associations
-			// field is initialized with an instance of Category1Shape with the name of the field
-			Category1Shapes: []*Category1Shape{{Name: "Category1Shapes"}},
-			// field is initialized with an instance of Category2Shape with the name of the field
-			Category2Shapes: []*Category2Shape{{Name: "Category2Shapes"}},
-			// field is initialized with an instance of Category3Shape with the name of the field
-			Category3Shapes: []*Category3Shape{{Name: "Category3Shapes"}},
+			// field is initialized with an instance of MovementShape with the name of the field
+			MovementShapes: []*MovementShape{{Name: "MovementShapes"}},
+			// field is initialized with an instance of ArtefactTypeShape with the name of the field
+			ArtefactTypeShapes: []*ArtefactTypeShape{{Name: "ArtefactTypeShapes"}},
+			// field is initialized with an instance of ArtistShape with the name of the field
+			ArtistShapes: []*ArtistShape{{Name: "ArtistShapes"}},
 			// field is initialized with an instance of InfluenceShape with the name of the field
 			InfluenceShapes: []*InfluenceShape{{Name: "InfluenceShapes"}},
 		}).(*Type)
 	case Influence:
 		return any(&Influence{
 			// Initialisation of associations
-			// field is initialized with an instance of Category1 with the name of the field
-			SourceCategory1: &Category1{Name: "SourceCategory1"},
-			// field is initialized with an instance of Category3 with the name of the field
-			SourceCategory2: &Category3{Name: "SourceCategory2"},
-			// field is initialized with an instance of Category2 with the name of the field
-			SourceCategory3: &Category2{Name: "SourceCategory3"},
-			// field is initialized with an instance of Category1 with the name of the field
-			TargetCategory1: &Category1{Name: "TargetCategory1"},
-			// field is initialized with an instance of Category3 with the name of the field
-			TargetCategory2: &Category3{Name: "TargetCategory2"},
-			// field is initialized with an instance of Category2 with the name of the field
-			TargetCategory3: &Category2{Name: "TargetCategory3"},
+			// field is initialized with an instance of Movement with the name of the field
+			SourceMovement: &Movement{Name: "SourceMovement"},
+			// field is initialized with an instance of ArtefactType with the name of the field
+			SourceArtefactType: &ArtefactType{Name: "SourceArtefactType"},
+			// field is initialized with an instance of Artist with the name of the field
+			SourceArtist: &Artist{Name: "SourceArtist"},
+			// field is initialized with an instance of Movement with the name of the field
+			TargetMovement: &Movement{Name: "TargetMovement"},
+			// field is initialized with an instance of ArtefactType with the name of the field
+			TargetArtefactType: &ArtefactType{Name: "TargetArtefactType"},
+			// field is initialized with an instance of Artist with the name of the field
+			TargetArtist: &Artist{Name: "TargetArtist"},
 		}).(*Type)
 	case InfluenceShape:
 		return any(&InfluenceShape{
@@ -2745,6 +2909,22 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Influence: &Influence{Name: "Influence"},
 			// field is initialized with an instance of ControlPointShape with the name of the field
 			ControlPointShapes: []*ControlPointShape{{Name: "ControlPointShapes"}},
+		}).(*Type)
+	case Movement:
+		return any(&Movement{
+			// Initialisation of associations
+			// field is initialized with an instance of Place with the name of the field
+			Places: []*Place{{Name: "Places"}},
+		}).(*Type)
+	case MovementShape:
+		return any(&MovementShape{
+			// Initialisation of associations
+			// field is initialized with an instance of Movement with the name of the field
+			Movement: &Movement{Name: "Movement"},
+		}).(*Type)
+	case Place:
+		return any(&Place{
+			// Initialisation of associations
 		}).(*Type)
 	default:
 		return nil
@@ -2763,83 +2943,73 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 
 	switch any(ret).(type) {
 	// insertion point of functions that provide maps for reverse associations
-	// reverse maps of direct associations of Category1
-	case Category1:
+	// reverse maps of direct associations of ArtefactType
+	case ArtefactType:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
-	// reverse maps of direct associations of Category1Shape
-	case Category1Shape:
+	// reverse maps of direct associations of ArtefactTypeShape
+	case ArtefactTypeShape:
 		switch fieldname {
 		// insertion point for per direct association field
-		case "Category1":
-			res := make(map[*Category1][]*Category1Shape)
-			for category1shape := range stage.Category1Shapes {
-				if category1shape.Category1 != nil {
-					category1_ := category1shape.Category1
-					var category1shapes []*Category1Shape
-					_, ok := res[category1_]
+		case "ArtefactType":
+			res := make(map[*ArtefactType][]*ArtefactTypeShape)
+			for artefacttypeshape := range stage.ArtefactTypeShapes {
+				if artefacttypeshape.ArtefactType != nil {
+					artefacttype_ := artefacttypeshape.ArtefactType
+					var artefacttypeshapes []*ArtefactTypeShape
+					_, ok := res[artefacttype_]
 					if ok {
-						category1shapes = res[category1_]
+						artefacttypeshapes = res[artefacttype_]
 					} else {
-						category1shapes = make([]*Category1Shape, 0)
+						artefacttypeshapes = make([]*ArtefactTypeShape, 0)
 					}
-					category1shapes = append(category1shapes, category1shape)
-					res[category1_] = category1shapes
+					artefacttypeshapes = append(artefacttypeshapes, artefacttypeshape)
+					res[artefacttype_] = artefacttypeshapes
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		}
-	// reverse maps of direct associations of Category2
-	case Category2:
+	// reverse maps of direct associations of Artist
+	case Artist:
 		switch fieldname {
 		// insertion point for per direct association field
-		}
-	// reverse maps of direct associations of Category2Shape
-	case Category2Shape:
-		switch fieldname {
-		// insertion point for per direct association field
-		case "Category2":
-			res := make(map[*Category2][]*Category2Shape)
-			for category2shape := range stage.Category2Shapes {
-				if category2shape.Category2 != nil {
-					category2_ := category2shape.Category2
-					var category2shapes []*Category2Shape
-					_, ok := res[category2_]
+		case "Place":
+			res := make(map[*Place][]*Artist)
+			for artist := range stage.Artists {
+				if artist.Place != nil {
+					place_ := artist.Place
+					var artists []*Artist
+					_, ok := res[place_]
 					if ok {
-						category2shapes = res[category2_]
+						artists = res[place_]
 					} else {
-						category2shapes = make([]*Category2Shape, 0)
+						artists = make([]*Artist, 0)
 					}
-					category2shapes = append(category2shapes, category2shape)
-					res[category2_] = category2shapes
+					artists = append(artists, artist)
+					res[place_] = artists
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		}
-	// reverse maps of direct associations of Category3
-	case Category3:
+	// reverse maps of direct associations of ArtistShape
+	case ArtistShape:
 		switch fieldname {
 		// insertion point for per direct association field
-		}
-	// reverse maps of direct associations of Category3Shape
-	case Category3Shape:
-		switch fieldname {
-		// insertion point for per direct association field
-		case "Category3":
-			res := make(map[*Category3][]*Category3Shape)
-			for category3shape := range stage.Category3Shapes {
-				if category3shape.Category3 != nil {
-					category3_ := category3shape.Category3
-					var category3shapes []*Category3Shape
-					_, ok := res[category3_]
+		case "Artist":
+			res := make(map[*Artist][]*ArtistShape)
+			for artistshape := range stage.ArtistShapes {
+				if artistshape.Artist != nil {
+					artist_ := artistshape.Artist
+					var artistshapes []*ArtistShape
+					_, ok := res[artist_]
 					if ok {
-						category3shapes = res[category3_]
+						artistshapes = res[artist_]
 					} else {
-						category3shapes = make([]*Category3Shape, 0)
+						artistshapes = make([]*ArtistShape, 0)
 					}
-					category3shapes = append(category3shapes, category3shape)
-					res[category3_] = category3shapes
+					artistshapes = append(artistshapes, artistshape)
+					res[artist_] = artistshapes
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -2880,105 +3050,105 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	case Influence:
 		switch fieldname {
 		// insertion point for per direct association field
-		case "SourceCategory1":
-			res := make(map[*Category1][]*Influence)
+		case "SourceMovement":
+			res := make(map[*Movement][]*Influence)
 			for influence := range stage.Influences {
-				if influence.SourceCategory1 != nil {
-					category1_ := influence.SourceCategory1
+				if influence.SourceMovement != nil {
+					movement_ := influence.SourceMovement
 					var influences []*Influence
-					_, ok := res[category1_]
+					_, ok := res[movement_]
 					if ok {
-						influences = res[category1_]
+						influences = res[movement_]
 					} else {
 						influences = make([]*Influence, 0)
 					}
 					influences = append(influences, influence)
-					res[category1_] = influences
+					res[movement_] = influences
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "SourceCategory2":
-			res := make(map[*Category3][]*Influence)
+		case "SourceArtefactType":
+			res := make(map[*ArtefactType][]*Influence)
 			for influence := range stage.Influences {
-				if influence.SourceCategory2 != nil {
-					category3_ := influence.SourceCategory2
+				if influence.SourceArtefactType != nil {
+					artefacttype_ := influence.SourceArtefactType
 					var influences []*Influence
-					_, ok := res[category3_]
+					_, ok := res[artefacttype_]
 					if ok {
-						influences = res[category3_]
+						influences = res[artefacttype_]
 					} else {
 						influences = make([]*Influence, 0)
 					}
 					influences = append(influences, influence)
-					res[category3_] = influences
+					res[artefacttype_] = influences
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "SourceCategory3":
-			res := make(map[*Category2][]*Influence)
+		case "SourceArtist":
+			res := make(map[*Artist][]*Influence)
 			for influence := range stage.Influences {
-				if influence.SourceCategory3 != nil {
-					category2_ := influence.SourceCategory3
+				if influence.SourceArtist != nil {
+					artist_ := influence.SourceArtist
 					var influences []*Influence
-					_, ok := res[category2_]
+					_, ok := res[artist_]
 					if ok {
-						influences = res[category2_]
+						influences = res[artist_]
 					} else {
 						influences = make([]*Influence, 0)
 					}
 					influences = append(influences, influence)
-					res[category2_] = influences
+					res[artist_] = influences
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "TargetCategory1":
-			res := make(map[*Category1][]*Influence)
+		case "TargetMovement":
+			res := make(map[*Movement][]*Influence)
 			for influence := range stage.Influences {
-				if influence.TargetCategory1 != nil {
-					category1_ := influence.TargetCategory1
+				if influence.TargetMovement != nil {
+					movement_ := influence.TargetMovement
 					var influences []*Influence
-					_, ok := res[category1_]
+					_, ok := res[movement_]
 					if ok {
-						influences = res[category1_]
+						influences = res[movement_]
 					} else {
 						influences = make([]*Influence, 0)
 					}
 					influences = append(influences, influence)
-					res[category1_] = influences
+					res[movement_] = influences
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "TargetCategory2":
-			res := make(map[*Category3][]*Influence)
+		case "TargetArtefactType":
+			res := make(map[*ArtefactType][]*Influence)
 			for influence := range stage.Influences {
-				if influence.TargetCategory2 != nil {
-					category3_ := influence.TargetCategory2
+				if influence.TargetArtefactType != nil {
+					artefacttype_ := influence.TargetArtefactType
 					var influences []*Influence
-					_, ok := res[category3_]
+					_, ok := res[artefacttype_]
 					if ok {
-						influences = res[category3_]
+						influences = res[artefacttype_]
 					} else {
 						influences = make([]*Influence, 0)
 					}
 					influences = append(influences, influence)
-					res[category3_] = influences
+					res[artefacttype_] = influences
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "TargetCategory3":
-			res := make(map[*Category2][]*Influence)
+		case "TargetArtist":
+			res := make(map[*Artist][]*Influence)
 			for influence := range stage.Influences {
-				if influence.TargetCategory3 != nil {
-					category2_ := influence.TargetCategory3
+				if influence.TargetArtist != nil {
+					artist_ := influence.TargetArtist
 					var influences []*Influence
-					_, ok := res[category2_]
+					_, ok := res[artist_]
 					if ok {
-						influences = res[category2_]
+						influences = res[artist_]
 					} else {
 						influences = make([]*Influence, 0)
 					}
 					influences = append(influences, influence)
-					res[category2_] = influences
+					res[artist_] = influences
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -3005,6 +3175,38 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 			}
 			return any(res).(map[*End][]*Start)
 		}
+	// reverse maps of direct associations of Movement
+	case Movement:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of MovementShape
+	case MovementShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Movement":
+			res := make(map[*Movement][]*MovementShape)
+			for movementshape := range stage.MovementShapes {
+				if movementshape.Movement != nil {
+					movement_ := movementshape.Movement
+					var movementshapes []*MovementShape
+					_, ok := res[movement_]
+					if ok {
+						movementshapes = res[movement_]
+					} else {
+						movementshapes = make([]*MovementShape, 0)
+					}
+					movementshapes = append(movementshapes, movementshape)
+					res[movement_] = movementshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of Place
+	case Place:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	}
 	return nil
 }
@@ -3020,33 +3222,23 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 
 	switch any(ret).(type) {
 	// insertion point of functions that provide maps for reverse associations
-	// reverse maps of direct associations of Category1
-	case Category1:
+	// reverse maps of direct associations of ArtefactType
+	case ArtefactType:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
-	// reverse maps of direct associations of Category1Shape
-	case Category1Shape:
+	// reverse maps of direct associations of ArtefactTypeShape
+	case ArtefactTypeShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
-	// reverse maps of direct associations of Category2
-	case Category2:
+	// reverse maps of direct associations of Artist
+	case Artist:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
-	// reverse maps of direct associations of Category2Shape
-	case Category2Shape:
-		switch fieldname {
-		// insertion point for per direct association field
-		}
-	// reverse maps of direct associations of Category3
-	case Category3:
-		switch fieldname {
-		// insertion point for per direct association field
-		}
-	// reverse maps of direct associations of Category3Shape
-	case Category3Shape:
+	// reverse maps of direct associations of ArtistShape
+	case ArtistShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -3064,27 +3256,27 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	case Diagram:
 		switch fieldname {
 		// insertion point for per direct association field
-		case "Category1Shapes":
-			res := make(map[*Category1Shape][]*Diagram)
+		case "MovementShapes":
+			res := make(map[*MovementShape][]*Diagram)
 			for diagram := range stage.Diagrams {
-				for _, category1shape_ := range diagram.Category1Shapes {
-					res[category1shape_] = append(res[category1shape_], diagram)
+				for _, movementshape_ := range diagram.MovementShapes {
+					res[movementshape_] = append(res[movementshape_], diagram)
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "Category2Shapes":
-			res := make(map[*Category2Shape][]*Diagram)
+		case "ArtefactTypeShapes":
+			res := make(map[*ArtefactTypeShape][]*Diagram)
 			for diagram := range stage.Diagrams {
-				for _, category2shape_ := range diagram.Category2Shapes {
-					res[category2shape_] = append(res[category2shape_], diagram)
+				for _, artefacttypeshape_ := range diagram.ArtefactTypeShapes {
+					res[artefacttypeshape_] = append(res[artefacttypeshape_], diagram)
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "Category3Shapes":
-			res := make(map[*Category3Shape][]*Diagram)
+		case "ArtistShapes":
+			res := make(map[*ArtistShape][]*Diagram)
 			for diagram := range stage.Diagrams {
-				for _, category3shape_ := range diagram.Category3Shapes {
-					res[category3shape_] = append(res[category3shape_], diagram)
+				for _, artistshape_ := range diagram.ArtistShapes {
+					res[artistshape_] = append(res[artistshape_], diagram)
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -3115,6 +3307,29 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			}
 			return any(res).(map[*End][]*Start)
 		}
+	// reverse maps of direct associations of Movement
+	case Movement:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Places":
+			res := make(map[*Place][]*Movement)
+			for movement := range stage.Movements {
+				for _, place_ := range movement.Places {
+					res[place_] = append(res[place_], movement)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of MovementShape
+	case MovementShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of Place
+	case Place:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	}
 	return nil
 }
@@ -3126,18 +3341,14 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
-	case *Category1:
-		res = "Category1"
-	case *Category1Shape:
-		res = "Category1Shape"
-	case *Category2:
-		res = "Category2"
-	case *Category2Shape:
-		res = "Category2Shape"
-	case *Category3:
-		res = "Category3"
-	case *Category3Shape:
-		res = "Category3Shape"
+	case *ArtefactType:
+		res = "ArtefactType"
+	case *ArtefactTypeShape:
+		res = "ArtefactTypeShape"
+	case *Artist:
+		res = "Artist"
+	case *ArtistShape:
+		res = "ArtistShape"
 	case *ControlPointShape:
 		res = "ControlPointShape"
 	case *Desk:
@@ -3148,6 +3359,12 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "Influence"
 	case *InfluenceShape:
 		res = "InfluenceShape"
+	case *Movement:
+		res = "Movement"
+	case *MovementShape:
+		res = "MovementShape"
+	case *Place:
+		res = "Place"
 	}
 	return res
 }
@@ -3165,32 +3382,23 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	switch any(ret).(type) {
 
 	// insertion point for generic get gongstruct name
-	case *Category1:
+	case *ArtefactType:
 		var rf ReverseField
 		_ = rf
-	case *Category1Shape:
+	case *ArtefactTypeShape:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "Diagram"
-		rf.Fieldname = "Category1Shapes"
+		rf.Fieldname = "ArtefactTypeShapes"
 		res = append(res, rf)
-	case *Category2:
+	case *Artist:
 		var rf ReverseField
 		_ = rf
-	case *Category2Shape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Diagram"
-		rf.Fieldname = "Category2Shapes"
-		res = append(res, rf)
-	case *Category3:
-		var rf ReverseField
-		_ = rf
-	case *Category3Shape:
+	case *ArtistShape:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "Diagram"
-		rf.Fieldname = "Category3Shapes"
+		rf.Fieldname = "ArtistShapes"
 		res = append(res, rf)
 	case *ControlPointShape:
 		var rf ReverseField
@@ -3213,12 +3421,27 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.GongstructName = "Diagram"
 		rf.Fieldname = "InfluenceShapes"
 		res = append(res, rf)
+	case *Movement:
+		var rf ReverseField
+		_ = rf
+	case *MovementShape:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Diagram"
+		rf.Fieldname = "MovementShapes"
+		res = append(res, rf)
+	case *Place:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Movement"
+		rf.Fieldname = "Places"
+		res = append(res, rf)
 	}
 	return
 }
 
 // insertion point for get fields header method
-func (category1 *Category1) GongGetFieldHeaders() (res []GongFieldHeader) {
+func (artefacttype *ArtefactType) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
 		{
@@ -3229,7 +3452,7 @@ func (category1 *Category1) GongGetFieldHeaders() (res []GongFieldHeader) {
 	return
 }
 
-func (category1shape *Category1Shape) GongGetFieldHeaders() (res []GongFieldHeader) {
+func (artefacttypeshape *ArtefactTypeShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
 		{
@@ -3237,9 +3460,9 @@ func (category1shape *Category1Shape) GongGetFieldHeaders() (res []GongFieldHead
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "Category1",
+			Name:                 "ArtefactType",
 			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "Category1",
+			TargetGongstructName: "ArtefactType",
 		},
 		{
 			Name:               "X",
@@ -3261,18 +3484,7 @@ func (category1shape *Category1Shape) GongGetFieldHeaders() (res []GongFieldHead
 	return
 }
 
-func (category2 *Category2) GongGetFieldHeaders() (res []GongFieldHeader) {
-	// insertion point for list of field headers
-	res = []GongFieldHeader{
-		{
-			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-	}
-	return
-}
-
-func (category2shape *Category2Shape) GongGetFieldHeaders() (res []GongFieldHeader) {
+func (artist *Artist) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
 		{
@@ -3280,42 +3492,23 @@ func (category2shape *Category2Shape) GongGetFieldHeaders() (res []GongFieldHead
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "Category2",
+			Name:               "IsDead",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "DateOfDeath",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:                 "Place",
 			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "Category2",
-		},
-		{
-			Name:               "X",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "Y",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "Width",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "Height",
-			GongFieldValueType: GongFieldValueTypeFloat,
+			TargetGongstructName: "Place",
 		},
 	}
 	return
 }
 
-func (category3 *Category3) GongGetFieldHeaders() (res []GongFieldHeader) {
-	// insertion point for list of field headers
-	res = []GongFieldHeader{
-		{
-			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-	}
-	return
-}
-
-func (category3shape *Category3Shape) GongGetFieldHeaders() (res []GongFieldHeader) {
+func (artistshape *ArtistShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
 		{
@@ -3323,9 +3516,9 @@ func (category3shape *Category3Shape) GongGetFieldHeaders() (res []GongFieldHead
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "Category3",
+			Name:                 "Artist",
 			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "Category3",
+			TargetGongstructName: "Artist",
 		},
 		{
 			Name:               "X",
@@ -3394,19 +3587,19 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "Category1Shapes",
+			Name:                 "MovementShapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Category1Shape",
+			TargetGongstructName: "MovementShape",
 		},
 		{
-			Name:                 "Category2Shapes",
+			Name:                 "ArtefactTypeShapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Category2Shape",
+			TargetGongstructName: "ArtefactTypeShape",
 		},
 		{
-			Name:                 "Category3Shapes",
+			Name:                 "ArtistShapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Category3Shape",
+			TargetGongstructName: "ArtistShape",
 		},
 		{
 			Name:                 "InfluenceShapes",
@@ -3422,15 +3615,15 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:               "IsCategory1NodeExpanded",
+			Name:               "IsMovementCategoryNodeExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:               "IsCategory2NodeExpanded",
+			Name:               "IsArtefactTypeCategoryNodeExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:               "IsCategory3NodeExpanded",
+			Name:               "IsArtistCategoryNodeExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
@@ -3438,20 +3631,28 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:               "IsCategory1Shown",
+			Name:               "IsMovementCategoryShown",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:               "IsCategory2Shown",
+			Name:               "IsArtefactTypeCategoryShown",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:               "IsCategory3Shown",
+			Name:               "IsArtistCategoryShown",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "IsInfluenceCategoryShown",
 			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "StartDate",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "EndDate",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
 			Name:               "XMargin",
@@ -3466,11 +3667,7 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:               "Width",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "NbPixPerCharacter",
+			Name:               "NextVerticalDateXMargin",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
@@ -3486,6 +3683,81 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:               "BottomBoxYOffset",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "BottomBoxWidth",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "BottomBoxHeigth",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "BottomBoxFontSize",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "BottomBoxFontWeigth",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "BottomBoxFontFamily",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "BottomBoxLetterSpacing",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "BottomBoxLetterColorCode",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
+		},
+		{
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
+		},
+		{
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
+		},
+		{
+			Name:               "MovementFontSize",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "MajorMovementFontSize",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "MinorMovementFontSize",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "MovementFontWeigth",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "MovementFontFamily",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "MovementLetterSpacing",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "AbstractMovementFontSize",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
 			Name:                 "EnumString",
 			GongFieldValueType:   GongFieldValueTypeString,
 			TargetGongstructName: "EnumTypeString",
@@ -3501,36 +3773,9 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "EnumTypeString",
 		},
 		{
-			Name:               "Category1FontSize",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "Category1FontWeigth",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "Category1FontFamily",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "Category1LetterSpacing",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "Category2TypeFontSize",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "Category2TypeFontWeigth",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "Category2TypeFontFamily",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "Category2TypeLetterSpacing",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
 		},
 		{
 			Name:                 "EnumString",
@@ -3543,7 +3788,27 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "EnumTypeString",
 		},
 		{
-			Name:               "Category2StrokeWidth",
+			Name:               "MovementDateAndPlacesFontSize",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "MovementDateAndPlacesFontWeigth",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "MovementDateAndPlacesFontFamily",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "MovementDateAndPlacesLetterSpacing",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "MovementBelowArcY_Offset",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "MovementBelowArcY_OffsetPerPlace",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
@@ -3562,24 +3827,119 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "EnumTypeString",
 		},
 		{
-			Name:               "Category3FontSize",
+			Name:               "ArtefactTypeFontSize",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Category3FontWeigth",
+			Name:               "ArtefactTypeFontWeigth",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Category3FontFamily",
+			Name:               "ArtefactTypeFontFamily",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "Category3LetterSpacing",
+			Name:               "ArtefactTypeLetterSpacing",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "InfluenceStrokeWidth",
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
+		},
+		{
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
+		},
+		{
+			Name:               "ArtefactTypeStrokeWidth",
 			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
+		},
+		{
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
+		},
+		{
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
+		},
+		{
+			Name:               "ArtistFontSize",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "MajorArtistFontSize",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "MinorArtistFontSize",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "ArtistFontWeigth",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "ArtistFontFamily",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "ArtistLetterSpacing",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
+		},
+		{
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
+		},
+		{
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
+		},
+		{
+			Name:               "ArtistDateAndPlacesFontSize",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "ArtistDateAndPlacesFontWeigth",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "ArtistDateAndPlacesFontFamily",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "ArtistDateAndPlacesLetterSpacing",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
+		},
+		{
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
+		},
+		{
+			Name:                 "EnumString",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "EnumTypeString",
 		},
 		{
 			Name:               "InfluenceArrowSize",
@@ -3598,22 +3958,6 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:               "InfluenceFontSize",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "InfluenceFontWeigth",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "InfluenceFontFamily",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "InfluenceLetterSpacing",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
 			Name:               "InfluenceDashedLinePattern",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
@@ -3629,42 +3973,38 @@ func (influence *Influence) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "SourceCategory1",
+			Name:                 "SourceMovement",
 			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "Category1",
+			TargetGongstructName: "Movement",
 		},
 		{
-			Name:                 "SourceCategory2",
+			Name:                 "SourceArtefactType",
 			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "Category3",
+			TargetGongstructName: "ArtefactType",
 		},
 		{
-			Name:                 "SourceCategory3",
+			Name:                 "SourceArtist",
 			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "Category2",
+			TargetGongstructName: "Artist",
 		},
 		{
-			Name:                 "TargetCategory1",
+			Name:                 "TargetMovement",
 			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "Category1",
+			TargetGongstructName: "Movement",
 		},
 		{
-			Name:                 "TargetCategory2",
+			Name:                 "TargetArtefactType",
 			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "Category3",
+			TargetGongstructName: "ArtefactType",
 		},
 		{
-			Name:                 "TargetCategory3",
+			Name:                 "TargetArtist",
 			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "Category2",
+			TargetGongstructName: "Artist",
 		},
 		{
 			Name:               "IsHypothtical",
 			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "TextAtEndOfArrow",
-			GongFieldValueType: GongFieldValueTypeString,
 		},
 	}
 	return
@@ -3686,6 +4026,93 @@ func (influenceshape *InfluenceShape) GongGetFieldHeaders() (res []GongFieldHead
 			Name:                 "ControlPointShapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "ControlPointShape",
+		},
+	}
+	return
+}
+
+func (movement *Movement) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "Date",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:                 "Places",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Place",
+		},
+		{
+			Name:               "IsAbstract",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsModern",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsMajor",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsMinor",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "AdditionnalName",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "HideDate",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+	}
+	return
+}
+
+func (movementshape *MovementShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Movement",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Movement",
+		},
+		{
+			Name:               "X",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Y",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Width",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Height",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+	}
+	return
+}
+
+func (place *Place) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 	}
 	return
@@ -3745,121 +4172,93 @@ func (gongValueField *GongFieldValue) GetValueBool() bool {
 }
 
 // insertion point for generic get gongstruct field value
-func (category1 *Category1) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+func (artefacttype *ArtefactType) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
 	case "Name":
-		res.valueString = category1.Name
+		res.valueString = artefacttype.Name
 	}
 	return
 }
 
-func (category1shape *Category1Shape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+func (artefacttypeshape *ArtefactTypeShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
 	case "Name":
-		res.valueString = category1shape.Name
-	case "Category1":
+		res.valueString = artefacttypeshape.Name
+	case "ArtefactType":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if category1shape.Category1 != nil {
-			res.valueString = category1shape.Category1.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, category1shape.Category1))
+		if artefacttypeshape.ArtefactType != nil {
+			res.valueString = artefacttypeshape.ArtefactType.Name
+			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, artefacttypeshape.ArtefactType))
 		}
 	case "X":
-		res.valueString = fmt.Sprintf("%f", category1shape.X)
-		res.valueFloat = category1shape.X
+		res.valueString = fmt.Sprintf("%f", artefacttypeshape.X)
+		res.valueFloat = artefacttypeshape.X
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "Y":
-		res.valueString = fmt.Sprintf("%f", category1shape.Y)
-		res.valueFloat = category1shape.Y
+		res.valueString = fmt.Sprintf("%f", artefacttypeshape.Y)
+		res.valueFloat = artefacttypeshape.Y
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "Width":
-		res.valueString = fmt.Sprintf("%f", category1shape.Width)
-		res.valueFloat = category1shape.Width
+		res.valueString = fmt.Sprintf("%f", artefacttypeshape.Width)
+		res.valueFloat = artefacttypeshape.Width
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "Height":
-		res.valueString = fmt.Sprintf("%f", category1shape.Height)
-		res.valueFloat = category1shape.Height
+		res.valueString = fmt.Sprintf("%f", artefacttypeshape.Height)
+		res.valueFloat = artefacttypeshape.Height
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	}
 	return
 }
 
-func (category2 *Category2) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+func (artist *Artist) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
 	case "Name":
-		res.valueString = category2.Name
+		res.valueString = artist.Name
+	case "IsDead":
+		res.valueString = fmt.Sprintf("%t", artist.IsDead)
+		res.valueBool = artist.IsDead
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "DateOfDeath":
+		res.valueString = artist.DateOfDeath.String()
+	case "Place":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if artist.Place != nil {
+			res.valueString = artist.Place.Name
+			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, artist.Place))
+		}
 	}
 	return
 }
 
-func (category2shape *Category2Shape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+func (artistshape *ArtistShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
 	case "Name":
-		res.valueString = category2shape.Name
-	case "Category2":
+		res.valueString = artistshape.Name
+	case "Artist":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if category2shape.Category2 != nil {
-			res.valueString = category2shape.Category2.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, category2shape.Category2))
+		if artistshape.Artist != nil {
+			res.valueString = artistshape.Artist.Name
+			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, artistshape.Artist))
 		}
 	case "X":
-		res.valueString = fmt.Sprintf("%f", category2shape.X)
-		res.valueFloat = category2shape.X
+		res.valueString = fmt.Sprintf("%f", artistshape.X)
+		res.valueFloat = artistshape.X
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "Y":
-		res.valueString = fmt.Sprintf("%f", category2shape.Y)
-		res.valueFloat = category2shape.Y
+		res.valueString = fmt.Sprintf("%f", artistshape.Y)
+		res.valueFloat = artistshape.Y
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "Width":
-		res.valueString = fmt.Sprintf("%f", category2shape.Width)
-		res.valueFloat = category2shape.Width
+		res.valueString = fmt.Sprintf("%f", artistshape.Width)
+		res.valueFloat = artistshape.Width
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "Height":
-		res.valueString = fmt.Sprintf("%f", category2shape.Height)
-		res.valueFloat = category2shape.Height
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	}
-	return
-}
-
-func (category3 *Category3) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
-	switch fieldName {
-	// string value of fields
-	case "Name":
-		res.valueString = category3.Name
-	}
-	return
-}
-
-func (category3shape *Category3Shape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
-	switch fieldName {
-	// string value of fields
-	case "Name":
-		res.valueString = category3shape.Name
-	case "Category3":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if category3shape.Category3 != nil {
-			res.valueString = category3shape.Category3.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, category3shape.Category3))
-		}
-	case "X":
-		res.valueString = fmt.Sprintf("%f", category3shape.X)
-		res.valueFloat = category3shape.X
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "Y":
-		res.valueString = fmt.Sprintf("%f", category3shape.Y)
-		res.valueFloat = category3shape.Y
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "Width":
-		res.valueString = fmt.Sprintf("%f", category3shape.Width)
-		res.valueFloat = category3shape.Width
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "Height":
-		res.valueString = fmt.Sprintf("%f", category3shape.Height)
-		res.valueFloat = category3shape.Height
+		res.valueString = fmt.Sprintf("%f", artistshape.Height)
+		res.valueFloat = artistshape.Height
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	}
 	return
@@ -3906,9 +4305,9 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	// string value of fields
 	case "Name":
 		res.valueString = diagram.Name
-	case "Category1Shapes":
+	case "MovementShapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagram.Category1Shapes {
+		for idx, __instance__ := range diagram.MovementShapes {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -3916,9 +4315,9 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.valueString += __instance__.Name
 			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 		}
-	case "Category2Shapes":
+	case "ArtefactTypeShapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagram.Category2Shapes {
+		for idx, __instance__ := range diagram.ArtefactTypeShapes {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -3926,9 +4325,9 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.valueString += __instance__.Name
 			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 		}
-	case "Category3Shapes":
+	case "ArtistShapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagram.Category3Shapes {
+		for idx, __instance__ := range diagram.ArtistShapes {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -3954,38 +4353,42 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%t", diagram.IsNodeExpanded)
 		res.valueBool = diagram.IsNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsCategory1NodeExpanded":
-		res.valueString = fmt.Sprintf("%t", diagram.IsCategory1NodeExpanded)
-		res.valueBool = diagram.IsCategory1NodeExpanded
+	case "IsMovementCategoryNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", diagram.IsMovementCategoryNodeExpanded)
+		res.valueBool = diagram.IsMovementCategoryNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsCategory2NodeExpanded":
-		res.valueString = fmt.Sprintf("%t", diagram.IsCategory2NodeExpanded)
-		res.valueBool = diagram.IsCategory2NodeExpanded
+	case "IsArtefactTypeCategoryNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", diagram.IsArtefactTypeCategoryNodeExpanded)
+		res.valueBool = diagram.IsArtefactTypeCategoryNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsCategory3NodeExpanded":
-		res.valueString = fmt.Sprintf("%t", diagram.IsCategory3NodeExpanded)
-		res.valueBool = diagram.IsCategory3NodeExpanded
+	case "IsArtistCategoryNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", diagram.IsArtistCategoryNodeExpanded)
+		res.valueBool = diagram.IsArtistCategoryNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsInfluenceCategoryNodeExpanded":
 		res.valueString = fmt.Sprintf("%t", diagram.IsInfluenceCategoryNodeExpanded)
 		res.valueBool = diagram.IsInfluenceCategoryNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsCategory1Shown":
-		res.valueString = fmt.Sprintf("%t", diagram.IsCategory1Shown)
-		res.valueBool = diagram.IsCategory1Shown
+	case "IsMovementCategoryShown":
+		res.valueString = fmt.Sprintf("%t", diagram.IsMovementCategoryShown)
+		res.valueBool = diagram.IsMovementCategoryShown
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsCategory2Shown":
-		res.valueString = fmt.Sprintf("%t", diagram.IsCategory2Shown)
-		res.valueBool = diagram.IsCategory2Shown
+	case "IsArtefactTypeCategoryShown":
+		res.valueString = fmt.Sprintf("%t", diagram.IsArtefactTypeCategoryShown)
+		res.valueBool = diagram.IsArtefactTypeCategoryShown
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsCategory3Shown":
-		res.valueString = fmt.Sprintf("%t", diagram.IsCategory3Shown)
-		res.valueBool = diagram.IsCategory3Shown
+	case "IsArtistCategoryShown":
+		res.valueString = fmt.Sprintf("%t", diagram.IsArtistCategoryShown)
+		res.valueBool = diagram.IsArtistCategoryShown
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsInfluenceCategoryShown":
 		res.valueString = fmt.Sprintf("%t", diagram.IsInfluenceCategoryShown)
 		res.valueBool = diagram.IsInfluenceCategoryShown
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "StartDate":
+		res.valueString = diagram.StartDate.String()
+	case "EndDate":
+		res.valueString = diagram.EndDate.String()
 	case "XMargin":
 		res.valueString = fmt.Sprintf("%f", diagram.XMargin)
 		res.valueFloat = diagram.XMargin
@@ -3998,13 +4401,9 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%f", diagram.Height)
 		res.valueFloat = diagram.Height
 		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "Width":
-		res.valueString = fmt.Sprintf("%f", diagram.Width)
-		res.valueFloat = diagram.Width
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "NbPixPerCharacter":
-		res.valueString = fmt.Sprintf("%f", diagram.NbPixPerCharacter)
-		res.valueFloat = diagram.NbPixPerCharacter
+	case "NextVerticalDateXMargin":
+		res.valueString = fmt.Sprintf("%f", diagram.NextVerticalDateXMargin)
+		res.valueFloat = diagram.NextVerticalDateXMargin
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "RedColorCode":
 		res.valueString = diagram.RedColorCode
@@ -4012,62 +4411,159 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = diagram.BackgroundGreyColorCode
 	case "GrayColorCode":
 		res.valueString = diagram.GrayColorCode
-	case "Category1RectAnchorType":
-		enum := diagram.Category1RectAnchorType
-		res.valueString = enum.ToCodeString()
-	case "Category1TextAnchorType":
-		enum := diagram.Category1TextAnchorType
-		res.valueString = enum.ToCodeString()
-	case "Category1DominantBaselineType":
-		enum := diagram.Category1DominantBaselineType
-		res.valueString = enum.ToCodeString()
-	case "Category1FontSize":
-		res.valueString = diagram.Category1FontSize
-	case "Category1FontWeigth":
-		res.valueString = diagram.Category1FontWeigth
-	case "Category1FontFamily":
-		res.valueString = diagram.Category1FontFamily
-	case "Category1LetterSpacing":
-		res.valueString = diagram.Category1LetterSpacing
-	case "Category2TypeFontSize":
-		res.valueString = diagram.Category2TypeFontSize
-	case "Category2TypeFontWeigth":
-		res.valueString = diagram.Category2TypeFontWeigth
-	case "Category2TypeFontFamily":
-		res.valueString = diagram.Category2TypeFontFamily
-	case "Category2TypeLetterSpacing":
-		res.valueString = diagram.Category2TypeLetterSpacing
-	case "Category2TypeRectAnchorType":
-		enum := diagram.Category2TypeRectAnchorType
-		res.valueString = enum.ToCodeString()
-	case "Category2DominantBaselineType":
-		enum := diagram.Category2DominantBaselineType
-		res.valueString = enum.ToCodeString()
-	case "Category2StrokeWidth":
-		res.valueString = fmt.Sprintf("%f", diagram.Category2StrokeWidth)
-		res.valueFloat = diagram.Category2StrokeWidth
+	case "BottomBoxYOffset":
+		res.valueString = fmt.Sprintf("%f", diagram.BottomBoxYOffset)
+		res.valueFloat = diagram.BottomBoxYOffset
 		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "Category3RectAnchorType":
-		enum := diagram.Category3RectAnchorType
-		res.valueString = enum.ToCodeString()
-	case "Category3TextAnchorType":
-		enum := diagram.Category3TextAnchorType
-		res.valueString = enum.ToCodeString()
-	case "Category3DominantBaselineType":
-		enum := diagram.Category3DominantBaselineType
-		res.valueString = enum.ToCodeString()
-	case "Category3FontSize":
-		res.valueString = diagram.Category3FontSize
-	case "Category3FontWeigth":
-		res.valueString = diagram.Category3FontWeigth
-	case "Category3FontFamily":
-		res.valueString = diagram.Category3FontFamily
-	case "Category3LetterSpacing":
-		res.valueString = diagram.Category3LetterSpacing
-	case "InfluenceStrokeWidth":
-		res.valueString = fmt.Sprintf("%f", diagram.InfluenceStrokeWidth)
-		res.valueFloat = diagram.InfluenceStrokeWidth
+	case "BottomBoxWidth":
+		res.valueString = fmt.Sprintf("%f", diagram.BottomBoxWidth)
+		res.valueFloat = diagram.BottomBoxWidth
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "BottomBoxHeigth":
+		res.valueString = fmt.Sprintf("%f", diagram.BottomBoxHeigth)
+		res.valueFloat = diagram.BottomBoxHeigth
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "BottomBoxFontSize":
+		res.valueString = diagram.BottomBoxFontSize
+	case "BottomBoxFontWeigth":
+		res.valueString = diagram.BottomBoxFontWeigth
+	case "BottomBoxFontFamily":
+		res.valueString = diagram.BottomBoxFontFamily
+	case "BottomBoxLetterSpacing":
+		res.valueString = diagram.BottomBoxLetterSpacing
+	case "BottomBoxLetterColorCode":
+		res.valueString = diagram.BottomBoxLetterColorCode
+	case "MovementRectAnchorType":
+		enum := diagram.MovementRectAnchorType
+		res.valueString = enum.ToCodeString()
+	case "MovementTextAnchorType":
+		enum := diagram.MovementTextAnchorType
+		res.valueString = enum.ToCodeString()
+	case "MovementDominantBaselineType":
+		enum := diagram.MovementDominantBaselineType
+		res.valueString = enum.ToCodeString()
+	case "MovementFontSize":
+		res.valueString = diagram.MovementFontSize
+	case "MajorMovementFontSize":
+		res.valueString = diagram.MajorMovementFontSize
+	case "MinorMovementFontSize":
+		res.valueString = diagram.MinorMovementFontSize
+	case "MovementFontWeigth":
+		res.valueString = diagram.MovementFontWeigth
+	case "MovementFontFamily":
+		res.valueString = diagram.MovementFontFamily
+	case "MovementLetterSpacing":
+		res.valueString = diagram.MovementLetterSpacing
+	case "AbstractMovementFontSize":
+		res.valueString = diagram.AbstractMovementFontSize
+	case "AbstractMovementRectAnchorType":
+		enum := diagram.AbstractMovementRectAnchorType
+		res.valueString = enum.ToCodeString()
+	case "AbstractMovementTextAnchorType":
+		enum := diagram.AbstractMovementTextAnchorType
+		res.valueString = enum.ToCodeString()
+	case "AbstractDominantBaselineType":
+		enum := diagram.AbstractDominantBaselineType
+		res.valueString = enum.ToCodeString()
+	case "MovementDateRectAnchorType":
+		enum := diagram.MovementDateRectAnchorType
+		res.valueString = enum.ToCodeString()
+	case "MovementDateTextAnchorType":
+		enum := diagram.MovementDateTextAnchorType
+		res.valueString = enum.ToCodeString()
+	case "MovementDateTextDominantBaselineType":
+		enum := diagram.MovementDateTextDominantBaselineType
+		res.valueString = enum.ToCodeString()
+	case "MovementDateAndPlacesFontSize":
+		res.valueString = diagram.MovementDateAndPlacesFontSize
+	case "MovementDateAndPlacesFontWeigth":
+		res.valueString = diagram.MovementDateAndPlacesFontWeigth
+	case "MovementDateAndPlacesFontFamily":
+		res.valueString = diagram.MovementDateAndPlacesFontFamily
+	case "MovementDateAndPlacesLetterSpacing":
+		res.valueString = diagram.MovementDateAndPlacesLetterSpacing
+	case "MovementBelowArcY_Offset":
+		res.valueString = fmt.Sprintf("%f", diagram.MovementBelowArcY_Offset)
+		res.valueFloat = diagram.MovementBelowArcY_Offset
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "MovementBelowArcY_OffsetPerPlace":
+		res.valueString = fmt.Sprintf("%f", diagram.MovementBelowArcY_OffsetPerPlace)
+		res.valueFloat = diagram.MovementBelowArcY_OffsetPerPlace
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "MovementPlacesRectAnchorType":
+		enum := diagram.MovementPlacesRectAnchorType
+		res.valueString = enum.ToCodeString()
+	case "MovementPlacesTextAnchorType":
+		enum := diagram.MovementPlacesTextAnchorType
+		res.valueString = enum.ToCodeString()
+	case "MovementPlacesDominantBaselineType":
+		enum := diagram.MovementPlacesDominantBaselineType
+		res.valueString = enum.ToCodeString()
+	case "ArtefactTypeFontSize":
+		res.valueString = diagram.ArtefactTypeFontSize
+	case "ArtefactTypeFontWeigth":
+		res.valueString = diagram.ArtefactTypeFontWeigth
+	case "ArtefactTypeFontFamily":
+		res.valueString = diagram.ArtefactTypeFontFamily
+	case "ArtefactTypeLetterSpacing":
+		res.valueString = diagram.ArtefactTypeLetterSpacing
+	case "ArtefactTypeRectAnchorType":
+		enum := diagram.ArtefactTypeRectAnchorType
+		res.valueString = enum.ToCodeString()
+	case "ArtefactDominantBaselineType":
+		enum := diagram.ArtefactDominantBaselineType
+		res.valueString = enum.ToCodeString()
+	case "ArtefactTypeStrokeWidth":
+		res.valueString = fmt.Sprintf("%f", diagram.ArtefactTypeStrokeWidth)
+		res.valueFloat = diagram.ArtefactTypeStrokeWidth
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "ArtistRectAnchorType":
+		enum := diagram.ArtistRectAnchorType
+		res.valueString = enum.ToCodeString()
+	case "ArtistTextAnchorType":
+		enum := diagram.ArtistTextAnchorType
+		res.valueString = enum.ToCodeString()
+	case "ArtistDominantBaselineType":
+		enum := diagram.ArtistDominantBaselineType
+		res.valueString = enum.ToCodeString()
+	case "ArtistFontSize":
+		res.valueString = diagram.ArtistFontSize
+	case "MajorArtistFontSize":
+		res.valueString = diagram.MajorArtistFontSize
+	case "MinorArtistFontSize":
+		res.valueString = diagram.MinorArtistFontSize
+	case "ArtistFontWeigth":
+		res.valueString = diagram.ArtistFontWeigth
+	case "ArtistFontFamily":
+		res.valueString = diagram.ArtistFontFamily
+	case "ArtistLetterSpacing":
+		res.valueString = diagram.ArtistLetterSpacing
+	case "ArtistDateRectAnchorType":
+		enum := diagram.ArtistDateRectAnchorType
+		res.valueString = enum.ToCodeString()
+	case "ArtistDateTextAnchorType":
+		enum := diagram.ArtistDateTextAnchorType
+		res.valueString = enum.ToCodeString()
+	case "ArtistDateDominantBaselineType":
+		enum := diagram.ArtistDateDominantBaselineType
+		res.valueString = enum.ToCodeString()
+	case "ArtistDateAndPlacesFontSize":
+		res.valueString = diagram.ArtistDateAndPlacesFontSize
+	case "ArtistDateAndPlacesFontWeigth":
+		res.valueString = diagram.ArtistDateAndPlacesFontWeigth
+	case "ArtistDateAndPlacesFontFamily":
+		res.valueString = diagram.ArtistDateAndPlacesFontFamily
+	case "ArtistDateAndPlacesLetterSpacing":
+		res.valueString = diagram.ArtistDateAndPlacesLetterSpacing
+	case "ArtistPlacesRectAnchorType":
+		enum := diagram.ArtistPlacesRectAnchorType
+		res.valueString = enum.ToCodeString()
+	case "ArtistPlacesTextAnchorType":
+		enum := diagram.ArtistPlacesTextAnchorType
+		res.valueString = enum.ToCodeString()
+	case "ArtistPlacesDominantBaselineType":
+		enum := diagram.ArtistPlacesDominantBaselineType
+		res.valueString = enum.ToCodeString()
 	case "InfluenceArrowSize":
 		res.valueString = fmt.Sprintf("%f", diagram.InfluenceArrowSize)
 		res.valueFloat = diagram.InfluenceArrowSize
@@ -4084,14 +4580,6 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%f", diagram.InfluenceCornerRadius)
 		res.valueFloat = diagram.InfluenceCornerRadius
 		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "InfluenceFontSize":
-		res.valueString = diagram.InfluenceFontSize
-	case "InfluenceFontWeigth":
-		res.valueString = diagram.InfluenceFontWeigth
-	case "InfluenceFontFamily":
-		res.valueString = diagram.InfluenceFontFamily
-	case "InfluenceLetterSpacing":
-		res.valueString = diagram.InfluenceLetterSpacing
 	case "InfluenceDashedLinePattern":
 		res.valueString = diagram.InfluenceDashedLinePattern
 	}
@@ -4103,48 +4591,46 @@ func (influence *Influence) GongGetFieldValue(fieldName string, stage *Stage) (r
 	// string value of fields
 	case "Name":
 		res.valueString = influence.Name
-	case "SourceCategory1":
+	case "SourceMovement":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if influence.SourceCategory1 != nil {
-			res.valueString = influence.SourceCategory1.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, influence.SourceCategory1))
+		if influence.SourceMovement != nil {
+			res.valueString = influence.SourceMovement.Name
+			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, influence.SourceMovement))
 		}
-	case "SourceCategory2":
+	case "SourceArtefactType":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if influence.SourceCategory2 != nil {
-			res.valueString = influence.SourceCategory2.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, influence.SourceCategory2))
+		if influence.SourceArtefactType != nil {
+			res.valueString = influence.SourceArtefactType.Name
+			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, influence.SourceArtefactType))
 		}
-	case "SourceCategory3":
+	case "SourceArtist":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if influence.SourceCategory3 != nil {
-			res.valueString = influence.SourceCategory3.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, influence.SourceCategory3))
+		if influence.SourceArtist != nil {
+			res.valueString = influence.SourceArtist.Name
+			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, influence.SourceArtist))
 		}
-	case "TargetCategory1":
+	case "TargetMovement":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if influence.TargetCategory1 != nil {
-			res.valueString = influence.TargetCategory1.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, influence.TargetCategory1))
+		if influence.TargetMovement != nil {
+			res.valueString = influence.TargetMovement.Name
+			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, influence.TargetMovement))
 		}
-	case "TargetCategory2":
+	case "TargetArtefactType":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if influence.TargetCategory2 != nil {
-			res.valueString = influence.TargetCategory2.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, influence.TargetCategory2))
+		if influence.TargetArtefactType != nil {
+			res.valueString = influence.TargetArtefactType.Name
+			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, influence.TargetArtefactType))
 		}
-	case "TargetCategory3":
+	case "TargetArtist":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if influence.TargetCategory3 != nil {
-			res.valueString = influence.TargetCategory3.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, influence.TargetCategory3))
+		if influence.TargetArtist != nil {
+			res.valueString = influence.TargetArtist.Name
+			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, influence.TargetArtist))
 		}
 	case "IsHypothtical":
 		res.valueString = fmt.Sprintf("%t", influence.IsHypothtical)
 		res.valueBool = influence.IsHypothtical
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "TextAtEndOfArrow":
-		res.valueString = influence.TextAtEndOfArrow
 	}
 	return
 }
@@ -4174,129 +4660,184 @@ func (influenceshape *InfluenceShape) GongGetFieldValue(fieldName string, stage 
 	return
 }
 
+func (movement *Movement) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = movement.Name
+	case "Date":
+		res.valueString = movement.Date.String()
+	case "Places":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range movement.Places {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
+	case "IsAbstract":
+		res.valueString = fmt.Sprintf("%t", movement.IsAbstract)
+		res.valueBool = movement.IsAbstract
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsModern":
+		res.valueString = fmt.Sprintf("%t", movement.IsModern)
+		res.valueBool = movement.IsModern
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsMajor":
+		res.valueString = fmt.Sprintf("%t", movement.IsMajor)
+		res.valueBool = movement.IsMajor
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsMinor":
+		res.valueString = fmt.Sprintf("%t", movement.IsMinor)
+		res.valueBool = movement.IsMinor
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "AdditionnalName":
+		res.valueString = movement.AdditionnalName
+	case "HideDate":
+		res.valueString = fmt.Sprintf("%t", movement.HideDate)
+		res.valueBool = movement.HideDate
+		res.GongFieldValueType = GongFieldValueTypeBool
+	}
+	return
+}
+
+func (movementshape *MovementShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = movementshape.Name
+	case "Movement":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if movementshape.Movement != nil {
+			res.valueString = movementshape.Movement.Name
+			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, movementshape.Movement))
+		}
+	case "X":
+		res.valueString = fmt.Sprintf("%f", movementshape.X)
+		res.valueFloat = movementshape.X
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Y":
+		res.valueString = fmt.Sprintf("%f", movementshape.Y)
+		res.valueFloat = movementshape.Y
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Width":
+		res.valueString = fmt.Sprintf("%f", movementshape.Width)
+		res.valueFloat = movementshape.Width
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Height":
+		res.valueString = fmt.Sprintf("%f", movementshape.Height)
+		res.valueFloat = movementshape.Height
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	}
+	return
+}
+
+func (place *Place) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = place.Name
+	}
+	return
+}
+
 func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, stage *Stage) (res GongFieldValue) {
 	res = instance.GongGetFieldValue(fieldName, stage)
 	return
 }
 
 // insertion point for generic set gongstruct field value
-func (category1 *Category1) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+func (artefacttype *ArtefactType) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
 	case "Name":
-		category1.Name = value.GetValueString()
+		artefacttype.Name = value.GetValueString()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
 	return nil
 }
 
-func (category1shape *Category1Shape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+func (artefacttypeshape *ArtefactTypeShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
 	case "Name":
-		category1shape.Name = value.GetValueString()
-	case "Category1":
+		artefacttypeshape.Name = value.GetValueString()
+	case "ArtefactType":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			category1shape.Category1 = nil
-			for __instance__ := range stage.Category1s {
-				if stage.Category1_stagedOrder[__instance__] == uint(id) {
-					category1shape.Category1 = __instance__
+			artefacttypeshape.ArtefactType = nil
+			for __instance__ := range stage.ArtefactTypes {
+				if stage.ArtefactType_stagedOrder[__instance__] == uint(id) {
+					artefacttypeshape.ArtefactType = __instance__
 					break
 				}
 			}
 		}
 	case "X":
-		category1shape.X = value.GetValueFloat()
+		artefacttypeshape.X = value.GetValueFloat()
 	case "Y":
-		category1shape.Y = value.GetValueFloat()
+		artefacttypeshape.Y = value.GetValueFloat()
 	case "Width":
-		category1shape.Width = value.GetValueFloat()
+		artefacttypeshape.Width = value.GetValueFloat()
 	case "Height":
-		category1shape.Height = value.GetValueFloat()
+		artefacttypeshape.Height = value.GetValueFloat()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
 	return nil
 }
 
-func (category2 *Category2) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+func (artist *Artist) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
 	case "Name":
-		category2.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (category2shape *Category2Shape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		category2shape.Name = value.GetValueString()
-	case "Category2":
+		artist.Name = value.GetValueString()
+	case "IsDead":
+		artist.IsDead = value.GetValueBool()
+	case "Place":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			category2shape.Category2 = nil
-			for __instance__ := range stage.Category2s {
-				if stage.Category2_stagedOrder[__instance__] == uint(id) {
-					category2shape.Category2 = __instance__
+			artist.Place = nil
+			for __instance__ := range stage.Places {
+				if stage.Place_stagedOrder[__instance__] == uint(id) {
+					artist.Place = __instance__
+					break
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (artistshape *ArtistShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		artistshape.Name = value.GetValueString()
+	case "Artist":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			artistshape.Artist = nil
+			for __instance__ := range stage.Artists {
+				if stage.Artist_stagedOrder[__instance__] == uint(id) {
+					artistshape.Artist = __instance__
 					break
 				}
 			}
 		}
 	case "X":
-		category2shape.X = value.GetValueFloat()
+		artistshape.X = value.GetValueFloat()
 	case "Y":
-		category2shape.Y = value.GetValueFloat()
+		artistshape.Y = value.GetValueFloat()
 	case "Width":
-		category2shape.Width = value.GetValueFloat()
+		artistshape.Width = value.GetValueFloat()
 	case "Height":
-		category2shape.Height = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (category3 *Category3) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		category3.Name = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (category3shape *Category3Shape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		category3shape.Name = value.GetValueString()
-	case "Category3":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			category3shape.Category3 = nil
-			for __instance__ := range stage.Category3s {
-				if stage.Category3_stagedOrder[__instance__] == uint(id) {
-					category3shape.Category3 = __instance__
-					break
-				}
-			}
-		}
-	case "X":
-		category3shape.X = value.GetValueFloat()
-	case "Y":
-		category3shape.Y = value.GetValueFloat()
-	case "Width":
-		category3shape.Width = value.GetValueFloat()
-	case "Height":
-		category3shape.Height = value.GetValueFloat()
+		artistshape.Height = value.GetValueFloat()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -4347,43 +4888,43 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 	// insertion point for per field code
 	case "Name":
 		diagram.Name = value.GetValueString()
-	case "Category1Shapes":
-		diagram.Category1Shapes = make([]*Category1Shape, 0)
+	case "MovementShapes":
+		diagram.MovementShapes = make([]*MovementShape, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Category1Shapes {
-					if stage.Category1Shape_stagedOrder[__instance__] == uint(id) {
-						diagram.Category1Shapes = append(diagram.Category1Shapes, __instance__)
+				for __instance__ := range stage.MovementShapes {
+					if stage.MovementShape_stagedOrder[__instance__] == uint(id) {
+						diagram.MovementShapes = append(diagram.MovementShapes, __instance__)
 						break
 					}
 				}
 			}
 		}
-	case "Category2Shapes":
-		diagram.Category2Shapes = make([]*Category2Shape, 0)
+	case "ArtefactTypeShapes":
+		diagram.ArtefactTypeShapes = make([]*ArtefactTypeShape, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Category2Shapes {
-					if stage.Category2Shape_stagedOrder[__instance__] == uint(id) {
-						diagram.Category2Shapes = append(diagram.Category2Shapes, __instance__)
+				for __instance__ := range stage.ArtefactTypeShapes {
+					if stage.ArtefactTypeShape_stagedOrder[__instance__] == uint(id) {
+						diagram.ArtefactTypeShapes = append(diagram.ArtefactTypeShapes, __instance__)
 						break
 					}
 				}
 			}
 		}
-	case "Category3Shapes":
-		diagram.Category3Shapes = make([]*Category3Shape, 0)
+	case "ArtistShapes":
+		diagram.ArtistShapes = make([]*ArtistShape, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Category3Shapes {
-					if stage.Category3Shape_stagedOrder[__instance__] == uint(id) {
-						diagram.Category3Shapes = append(diagram.Category3Shapes, __instance__)
+				for __instance__ := range stage.ArtistShapes {
+					if stage.ArtistShape_stagedOrder[__instance__] == uint(id) {
+						diagram.ArtistShapes = append(diagram.ArtistShapes, __instance__)
 						break
 					}
 				}
@@ -4407,20 +4948,20 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 		diagram.IsEditable = value.GetValueBool()
 	case "IsNodeExpanded":
 		diagram.IsNodeExpanded = value.GetValueBool()
-	case "IsCategory1NodeExpanded":
-		diagram.IsCategory1NodeExpanded = value.GetValueBool()
-	case "IsCategory2NodeExpanded":
-		diagram.IsCategory2NodeExpanded = value.GetValueBool()
-	case "IsCategory3NodeExpanded":
-		diagram.IsCategory3NodeExpanded = value.GetValueBool()
+	case "IsMovementCategoryNodeExpanded":
+		diagram.IsMovementCategoryNodeExpanded = value.GetValueBool()
+	case "IsArtefactTypeCategoryNodeExpanded":
+		diagram.IsArtefactTypeCategoryNodeExpanded = value.GetValueBool()
+	case "IsArtistCategoryNodeExpanded":
+		diagram.IsArtistCategoryNodeExpanded = value.GetValueBool()
 	case "IsInfluenceCategoryNodeExpanded":
 		diagram.IsInfluenceCategoryNodeExpanded = value.GetValueBool()
-	case "IsCategory1Shown":
-		diagram.IsCategory1Shown = value.GetValueBool()
-	case "IsCategory2Shown":
-		diagram.IsCategory2Shown = value.GetValueBool()
-	case "IsCategory3Shown":
-		diagram.IsCategory3Shown = value.GetValueBool()
+	case "IsMovementCategoryShown":
+		diagram.IsMovementCategoryShown = value.GetValueBool()
+	case "IsArtefactTypeCategoryShown":
+		diagram.IsArtefactTypeCategoryShown = value.GetValueBool()
+	case "IsArtistCategoryShown":
+		diagram.IsArtistCategoryShown = value.GetValueBool()
 	case "IsInfluenceCategoryShown":
 		diagram.IsInfluenceCategoryShown = value.GetValueBool()
 	case "XMargin":
@@ -4429,60 +4970,132 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 		diagram.YMargin = value.GetValueFloat()
 	case "Height":
 		diagram.Height = value.GetValueFloat()
-	case "Width":
-		diagram.Width = value.GetValueFloat()
-	case "NbPixPerCharacter":
-		diagram.NbPixPerCharacter = value.GetValueFloat()
+	case "NextVerticalDateXMargin":
+		diagram.NextVerticalDateXMargin = value.GetValueFloat()
 	case "RedColorCode":
 		diagram.RedColorCode = value.GetValueString()
 	case "BackgroundGreyColorCode":
 		diagram.BackgroundGreyColorCode = value.GetValueString()
 	case "GrayColorCode":
 		diagram.GrayColorCode = value.GetValueString()
-	case "Category1RectAnchorType":
-		diagram.Category1RectAnchorType.FromCodeString(value.GetValueString())
-	case "Category1TextAnchorType":
-		diagram.Category1TextAnchorType.FromCodeString(value.GetValueString())
-	case "Category1DominantBaselineType":
-		diagram.Category1DominantBaselineType.FromCodeString(value.GetValueString())
-	case "Category1FontSize":
-		diagram.Category1FontSize = value.GetValueString()
-	case "Category1FontWeigth":
-		diagram.Category1FontWeigth = value.GetValueString()
-	case "Category1FontFamily":
-		diagram.Category1FontFamily = value.GetValueString()
-	case "Category1LetterSpacing":
-		diagram.Category1LetterSpacing = value.GetValueString()
-	case "Category2TypeFontSize":
-		diagram.Category2TypeFontSize = value.GetValueString()
-	case "Category2TypeFontWeigth":
-		diagram.Category2TypeFontWeigth = value.GetValueString()
-	case "Category2TypeFontFamily":
-		diagram.Category2TypeFontFamily = value.GetValueString()
-	case "Category2TypeLetterSpacing":
-		diagram.Category2TypeLetterSpacing = value.GetValueString()
-	case "Category2TypeRectAnchorType":
-		diagram.Category2TypeRectAnchorType.FromCodeString(value.GetValueString())
-	case "Category2DominantBaselineType":
-		diagram.Category2DominantBaselineType.FromCodeString(value.GetValueString())
-	case "Category2StrokeWidth":
-		diagram.Category2StrokeWidth = value.GetValueFloat()
-	case "Category3RectAnchorType":
-		diagram.Category3RectAnchorType.FromCodeString(value.GetValueString())
-	case "Category3TextAnchorType":
-		diagram.Category3TextAnchorType.FromCodeString(value.GetValueString())
-	case "Category3DominantBaselineType":
-		diagram.Category3DominantBaselineType.FromCodeString(value.GetValueString())
-	case "Category3FontSize":
-		diagram.Category3FontSize = value.GetValueString()
-	case "Category3FontWeigth":
-		diagram.Category3FontWeigth = value.GetValueString()
-	case "Category3FontFamily":
-		diagram.Category3FontFamily = value.GetValueString()
-	case "Category3LetterSpacing":
-		diagram.Category3LetterSpacing = value.GetValueString()
-	case "InfluenceStrokeWidth":
-		diagram.InfluenceStrokeWidth = value.GetValueFloat()
+	case "BottomBoxYOffset":
+		diagram.BottomBoxYOffset = value.GetValueFloat()
+	case "BottomBoxWidth":
+		diagram.BottomBoxWidth = value.GetValueFloat()
+	case "BottomBoxHeigth":
+		diagram.BottomBoxHeigth = value.GetValueFloat()
+	case "BottomBoxFontSize":
+		diagram.BottomBoxFontSize = value.GetValueString()
+	case "BottomBoxFontWeigth":
+		diagram.BottomBoxFontWeigth = value.GetValueString()
+	case "BottomBoxFontFamily":
+		diagram.BottomBoxFontFamily = value.GetValueString()
+	case "BottomBoxLetterSpacing":
+		diagram.BottomBoxLetterSpacing = value.GetValueString()
+	case "BottomBoxLetterColorCode":
+		diagram.BottomBoxLetterColorCode = value.GetValueString()
+	case "MovementRectAnchorType":
+		diagram.MovementRectAnchorType.FromCodeString(value.GetValueString())
+	case "MovementTextAnchorType":
+		diagram.MovementTextAnchorType.FromCodeString(value.GetValueString())
+	case "MovementDominantBaselineType":
+		diagram.MovementDominantBaselineType.FromCodeString(value.GetValueString())
+	case "MovementFontSize":
+		diagram.MovementFontSize = value.GetValueString()
+	case "MajorMovementFontSize":
+		diagram.MajorMovementFontSize = value.GetValueString()
+	case "MinorMovementFontSize":
+		diagram.MinorMovementFontSize = value.GetValueString()
+	case "MovementFontWeigth":
+		diagram.MovementFontWeigth = value.GetValueString()
+	case "MovementFontFamily":
+		diagram.MovementFontFamily = value.GetValueString()
+	case "MovementLetterSpacing":
+		diagram.MovementLetterSpacing = value.GetValueString()
+	case "AbstractMovementFontSize":
+		diagram.AbstractMovementFontSize = value.GetValueString()
+	case "AbstractMovementRectAnchorType":
+		diagram.AbstractMovementRectAnchorType.FromCodeString(value.GetValueString())
+	case "AbstractMovementTextAnchorType":
+		diagram.AbstractMovementTextAnchorType.FromCodeString(value.GetValueString())
+	case "AbstractDominantBaselineType":
+		diagram.AbstractDominantBaselineType.FromCodeString(value.GetValueString())
+	case "MovementDateRectAnchorType":
+		diagram.MovementDateRectAnchorType.FromCodeString(value.GetValueString())
+	case "MovementDateTextAnchorType":
+		diagram.MovementDateTextAnchorType.FromCodeString(value.GetValueString())
+	case "MovementDateTextDominantBaselineType":
+		diagram.MovementDateTextDominantBaselineType.FromCodeString(value.GetValueString())
+	case "MovementDateAndPlacesFontSize":
+		diagram.MovementDateAndPlacesFontSize = value.GetValueString()
+	case "MovementDateAndPlacesFontWeigth":
+		diagram.MovementDateAndPlacesFontWeigth = value.GetValueString()
+	case "MovementDateAndPlacesFontFamily":
+		diagram.MovementDateAndPlacesFontFamily = value.GetValueString()
+	case "MovementDateAndPlacesLetterSpacing":
+		diagram.MovementDateAndPlacesLetterSpacing = value.GetValueString()
+	case "MovementBelowArcY_Offset":
+		diagram.MovementBelowArcY_Offset = value.GetValueFloat()
+	case "MovementBelowArcY_OffsetPerPlace":
+		diagram.MovementBelowArcY_OffsetPerPlace = value.GetValueFloat()
+	case "MovementPlacesRectAnchorType":
+		diagram.MovementPlacesRectAnchorType.FromCodeString(value.GetValueString())
+	case "MovementPlacesTextAnchorType":
+		diagram.MovementPlacesTextAnchorType.FromCodeString(value.GetValueString())
+	case "MovementPlacesDominantBaselineType":
+		diagram.MovementPlacesDominantBaselineType.FromCodeString(value.GetValueString())
+	case "ArtefactTypeFontSize":
+		diagram.ArtefactTypeFontSize = value.GetValueString()
+	case "ArtefactTypeFontWeigth":
+		diagram.ArtefactTypeFontWeigth = value.GetValueString()
+	case "ArtefactTypeFontFamily":
+		diagram.ArtefactTypeFontFamily = value.GetValueString()
+	case "ArtefactTypeLetterSpacing":
+		diagram.ArtefactTypeLetterSpacing = value.GetValueString()
+	case "ArtefactTypeRectAnchorType":
+		diagram.ArtefactTypeRectAnchorType.FromCodeString(value.GetValueString())
+	case "ArtefactDominantBaselineType":
+		diagram.ArtefactDominantBaselineType.FromCodeString(value.GetValueString())
+	case "ArtefactTypeStrokeWidth":
+		diagram.ArtefactTypeStrokeWidth = value.GetValueFloat()
+	case "ArtistRectAnchorType":
+		diagram.ArtistRectAnchorType.FromCodeString(value.GetValueString())
+	case "ArtistTextAnchorType":
+		diagram.ArtistTextAnchorType.FromCodeString(value.GetValueString())
+	case "ArtistDominantBaselineType":
+		diagram.ArtistDominantBaselineType.FromCodeString(value.GetValueString())
+	case "ArtistFontSize":
+		diagram.ArtistFontSize = value.GetValueString()
+	case "MajorArtistFontSize":
+		diagram.MajorArtistFontSize = value.GetValueString()
+	case "MinorArtistFontSize":
+		diagram.MinorArtistFontSize = value.GetValueString()
+	case "ArtistFontWeigth":
+		diagram.ArtistFontWeigth = value.GetValueString()
+	case "ArtistFontFamily":
+		diagram.ArtistFontFamily = value.GetValueString()
+	case "ArtistLetterSpacing":
+		diagram.ArtistLetterSpacing = value.GetValueString()
+	case "ArtistDateRectAnchorType":
+		diagram.ArtistDateRectAnchorType.FromCodeString(value.GetValueString())
+	case "ArtistDateTextAnchorType":
+		diagram.ArtistDateTextAnchorType.FromCodeString(value.GetValueString())
+	case "ArtistDateDominantBaselineType":
+		diagram.ArtistDateDominantBaselineType.FromCodeString(value.GetValueString())
+	case "ArtistDateAndPlacesFontSize":
+		diagram.ArtistDateAndPlacesFontSize = value.GetValueString()
+	case "ArtistDateAndPlacesFontWeigth":
+		diagram.ArtistDateAndPlacesFontWeigth = value.GetValueString()
+	case "ArtistDateAndPlacesFontFamily":
+		diagram.ArtistDateAndPlacesFontFamily = value.GetValueString()
+	case "ArtistDateAndPlacesLetterSpacing":
+		diagram.ArtistDateAndPlacesLetterSpacing = value.GetValueString()
+	case "ArtistPlacesRectAnchorType":
+		diagram.ArtistPlacesRectAnchorType.FromCodeString(value.GetValueString())
+	case "ArtistPlacesTextAnchorType":
+		diagram.ArtistPlacesTextAnchorType.FromCodeString(value.GetValueString())
+	case "ArtistPlacesDominantBaselineType":
+		diagram.ArtistPlacesDominantBaselineType.FromCodeString(value.GetValueString())
 	case "InfluenceArrowSize":
 		diagram.InfluenceArrowSize = value.GetValueFloat()
 	case "InfluenceArrowStartOffset":
@@ -4491,14 +5104,6 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 		diagram.InfluenceArrowEndOffset = value.GetValueFloat()
 	case "InfluenceCornerRadius":
 		diagram.InfluenceCornerRadius = value.GetValueFloat()
-	case "InfluenceFontSize":
-		diagram.InfluenceFontSize = value.GetValueString()
-	case "InfluenceFontWeigth":
-		diagram.InfluenceFontWeigth = value.GetValueString()
-	case "InfluenceFontFamily":
-		diagram.InfluenceFontFamily = value.GetValueString()
-	case "InfluenceLetterSpacing":
-		diagram.InfluenceLetterSpacing = value.GetValueString()
 	case "InfluenceDashedLinePattern":
 		diagram.InfluenceDashedLinePattern = value.GetValueString()
 	default:
@@ -4512,76 +5117,74 @@ func (influence *Influence) GongSetFieldValue(fieldName string, value GongFieldV
 	// insertion point for per field code
 	case "Name":
 		influence.Name = value.GetValueString()
-	case "SourceCategory1":
+	case "SourceMovement":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			influence.SourceCategory1 = nil
-			for __instance__ := range stage.Category1s {
-				if stage.Category1_stagedOrder[__instance__] == uint(id) {
-					influence.SourceCategory1 = __instance__
+			influence.SourceMovement = nil
+			for __instance__ := range stage.Movements {
+				if stage.Movement_stagedOrder[__instance__] == uint(id) {
+					influence.SourceMovement = __instance__
 					break
 				}
 			}
 		}
-	case "SourceCategory2":
+	case "SourceArtefactType":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			influence.SourceCategory2 = nil
-			for __instance__ := range stage.Category3s {
-				if stage.Category3_stagedOrder[__instance__] == uint(id) {
-					influence.SourceCategory2 = __instance__
+			influence.SourceArtefactType = nil
+			for __instance__ := range stage.ArtefactTypes {
+				if stage.ArtefactType_stagedOrder[__instance__] == uint(id) {
+					influence.SourceArtefactType = __instance__
 					break
 				}
 			}
 		}
-	case "SourceCategory3":
+	case "SourceArtist":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			influence.SourceCategory3 = nil
-			for __instance__ := range stage.Category2s {
-				if stage.Category2_stagedOrder[__instance__] == uint(id) {
-					influence.SourceCategory3 = __instance__
+			influence.SourceArtist = nil
+			for __instance__ := range stage.Artists {
+				if stage.Artist_stagedOrder[__instance__] == uint(id) {
+					influence.SourceArtist = __instance__
 					break
 				}
 			}
 		}
-	case "TargetCategory1":
+	case "TargetMovement":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			influence.TargetCategory1 = nil
-			for __instance__ := range stage.Category1s {
-				if stage.Category1_stagedOrder[__instance__] == uint(id) {
-					influence.TargetCategory1 = __instance__
+			influence.TargetMovement = nil
+			for __instance__ := range stage.Movements {
+				if stage.Movement_stagedOrder[__instance__] == uint(id) {
+					influence.TargetMovement = __instance__
 					break
 				}
 			}
 		}
-	case "TargetCategory2":
+	case "TargetArtefactType":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			influence.TargetCategory2 = nil
-			for __instance__ := range stage.Category3s {
-				if stage.Category3_stagedOrder[__instance__] == uint(id) {
-					influence.TargetCategory2 = __instance__
+			influence.TargetArtefactType = nil
+			for __instance__ := range stage.ArtefactTypes {
+				if stage.ArtefactType_stagedOrder[__instance__] == uint(id) {
+					influence.TargetArtefactType = __instance__
 					break
 				}
 			}
 		}
-	case "TargetCategory3":
+	case "TargetArtist":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			influence.TargetCategory3 = nil
-			for __instance__ := range stage.Category2s {
-				if stage.Category2_stagedOrder[__instance__] == uint(id) {
-					influence.TargetCategory3 = __instance__
+			influence.TargetArtist = nil
+			for __instance__ := range stage.Artists {
+				if stage.Artist_stagedOrder[__instance__] == uint(id) {
+					influence.TargetArtist = __instance__
 					break
 				}
 			}
 		}
 	case "IsHypothtical":
 		influence.IsHypothtical = value.GetValueBool()
-	case "TextAtEndOfArrow":
-		influence.TextAtEndOfArrow = value.GetValueString()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -4624,33 +5227,103 @@ func (influenceshape *InfluenceShape) GongSetFieldValue(fieldName string, value 
 	return nil
 }
 
+func (movement *Movement) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		movement.Name = value.GetValueString()
+	case "Places":
+		movement.Places = make([]*Place, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Places {
+					if stage.Place_stagedOrder[__instance__] == uint(id) {
+						movement.Places = append(movement.Places, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "IsAbstract":
+		movement.IsAbstract = value.GetValueBool()
+	case "IsModern":
+		movement.IsModern = value.GetValueBool()
+	case "IsMajor":
+		movement.IsMajor = value.GetValueBool()
+	case "IsMinor":
+		movement.IsMinor = value.GetValueBool()
+	case "AdditionnalName":
+		movement.AdditionnalName = value.GetValueString()
+	case "HideDate":
+		movement.HideDate = value.GetValueBool()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (movementshape *MovementShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		movementshape.Name = value.GetValueString()
+	case "Movement":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			movementshape.Movement = nil
+			for __instance__ := range stage.Movements {
+				if stage.Movement_stagedOrder[__instance__] == uint(id) {
+					movementshape.Movement = __instance__
+					break
+				}
+			}
+		}
+	case "X":
+		movementshape.X = value.GetValueFloat()
+	case "Y":
+		movementshape.Y = value.GetValueFloat()
+	case "Width":
+		movementshape.Width = value.GetValueFloat()
+	case "Height":
+		movementshape.Height = value.GetValueFloat()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (place *Place) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		place.Name = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
 	return instance.GongSetFieldValue(fieldName, value, stage)
 }
 
 // insertion point for generic get gongstruct name
-func (category1 *Category1) GongGetGongstructName() string {
-	return "Category1"
+func (artefacttype *ArtefactType) GongGetGongstructName() string {
+	return "ArtefactType"
 }
 
-func (category1shape *Category1Shape) GongGetGongstructName() string {
-	return "Category1Shape"
+func (artefacttypeshape *ArtefactTypeShape) GongGetGongstructName() string {
+	return "ArtefactTypeShape"
 }
 
-func (category2 *Category2) GongGetGongstructName() string {
-	return "Category2"
+func (artist *Artist) GongGetGongstructName() string {
+	return "Artist"
 }
 
-func (category2shape *Category2Shape) GongGetGongstructName() string {
-	return "Category2Shape"
-}
-
-func (category3 *Category3) GongGetGongstructName() string {
-	return "Category3"
-}
-
-func (category3shape *Category3Shape) GongGetGongstructName() string {
-	return "Category3Shape"
+func (artistshape *ArtistShape) GongGetGongstructName() string {
+	return "ArtistShape"
 }
 
 func (controlpointshape *ControlPointShape) GongGetGongstructName() string {
@@ -4673,6 +5346,18 @@ func (influenceshape *InfluenceShape) GongGetGongstructName() string {
 	return "InfluenceShape"
 }
 
+func (movement *Movement) GongGetGongstructName() string {
+	return "Movement"
+}
+
+func (movementshape *MovementShape) GongGetGongstructName() string {
+	return "MovementShape"
+}
+
+func (place *Place) GongGetGongstructName() string {
+	return "Place"
+}
+
 func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 	res = instance.GongGetGongstructName()
 	return
@@ -4680,34 +5365,24 @@ func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 
 func (stage *Stage) ResetMapStrings() {
 	// insertion point for generic get gongstruct name
-	stage.Category1s_mapString = make(map[string]*Category1)
-	for category1 := range stage.Category1s {
-		stage.Category1s_mapString[category1.Name] = category1
+	stage.ArtefactTypes_mapString = make(map[string]*ArtefactType)
+	for artefacttype := range stage.ArtefactTypes {
+		stage.ArtefactTypes_mapString[artefacttype.Name] = artefacttype
 	}
 
-	stage.Category1Shapes_mapString = make(map[string]*Category1Shape)
-	for category1shape := range stage.Category1Shapes {
-		stage.Category1Shapes_mapString[category1shape.Name] = category1shape
+	stage.ArtefactTypeShapes_mapString = make(map[string]*ArtefactTypeShape)
+	for artefacttypeshape := range stage.ArtefactTypeShapes {
+		stage.ArtefactTypeShapes_mapString[artefacttypeshape.Name] = artefacttypeshape
 	}
 
-	stage.Category2s_mapString = make(map[string]*Category2)
-	for category2 := range stage.Category2s {
-		stage.Category2s_mapString[category2.Name] = category2
+	stage.Artists_mapString = make(map[string]*Artist)
+	for artist := range stage.Artists {
+		stage.Artists_mapString[artist.Name] = artist
 	}
 
-	stage.Category2Shapes_mapString = make(map[string]*Category2Shape)
-	for category2shape := range stage.Category2Shapes {
-		stage.Category2Shapes_mapString[category2shape.Name] = category2shape
-	}
-
-	stage.Category3s_mapString = make(map[string]*Category3)
-	for category3 := range stage.Category3s {
-		stage.Category3s_mapString[category3.Name] = category3
-	}
-
-	stage.Category3Shapes_mapString = make(map[string]*Category3Shape)
-	for category3shape := range stage.Category3Shapes {
-		stage.Category3Shapes_mapString[category3shape.Name] = category3shape
+	stage.ArtistShapes_mapString = make(map[string]*ArtistShape)
+	for artistshape := range stage.ArtistShapes {
+		stage.ArtistShapes_mapString[artistshape.Name] = artistshape
 	}
 
 	stage.ControlPointShapes_mapString = make(map[string]*ControlPointShape)
@@ -4733,6 +5408,21 @@ func (stage *Stage) ResetMapStrings() {
 	stage.InfluenceShapes_mapString = make(map[string]*InfluenceShape)
 	for influenceshape := range stage.InfluenceShapes {
 		stage.InfluenceShapes_mapString[influenceshape.Name] = influenceshape
+	}
+
+	stage.Movements_mapString = make(map[string]*Movement)
+	for movement := range stage.Movements {
+		stage.Movements_mapString[movement.Name] = movement
+	}
+
+	stage.MovementShapes_mapString = make(map[string]*MovementShape)
+	for movementshape := range stage.MovementShapes {
+		stage.MovementShapes_mapString[movementshape.Name] = movementshape
+	}
+
+	stage.Places_mapString = make(map[string]*Place)
+	for place := range stage.Places {
+		stage.Places_mapString[place.Name] = place
 	}
 
 	// end of insertion point for generic get gongstruct name

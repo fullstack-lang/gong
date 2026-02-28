@@ -9,18 +9,18 @@ var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
 var _ = __GONG_time_The_fool_doth_think_he_is_wise__
 
 // insertion point
-type Category1_WOP struct {
+type ArtefactType_WOP struct {
 	// insertion point
 
 	Name string
 }
 
-func (from *Category1) CopyBasicFields(to *Category1) {
+func (from *ArtefactType) CopyBasicFields(to *ArtefactType) {
 	// insertion point
 	to.Name = from.Name
 }
 
-type Category1Shape_WOP struct {
+type ArtefactTypeShape_WOP struct {
 	// insertion point
 
 	Name string
@@ -34,7 +34,7 @@ type Category1Shape_WOP struct {
 	Height float64
 }
 
-func (from *Category1Shape) CopyBasicFields(to *Category1Shape) {
+func (from *ArtefactTypeShape) CopyBasicFields(to *ArtefactTypeShape) {
 	// insertion point
 	to.Name = from.Name
 	to.X = from.X
@@ -43,18 +43,24 @@ func (from *Category1Shape) CopyBasicFields(to *Category1Shape) {
 	to.Height = from.Height
 }
 
-type Category2_WOP struct {
+type Artist_WOP struct {
 	// insertion point
 
 	Name string
+
+	IsDead bool
+
+	DateOfDeath time.Time
 }
 
-func (from *Category2) CopyBasicFields(to *Category2) {
+func (from *Artist) CopyBasicFields(to *Artist) {
 	// insertion point
 	to.Name = from.Name
+	to.IsDead = from.IsDead
+	to.DateOfDeath = from.DateOfDeath
 }
 
-type Category2Shape_WOP struct {
+type ArtistShape_WOP struct {
 	// insertion point
 
 	Name string
@@ -68,41 +74,7 @@ type Category2Shape_WOP struct {
 	Height float64
 }
 
-func (from *Category2Shape) CopyBasicFields(to *Category2Shape) {
-	// insertion point
-	to.Name = from.Name
-	to.X = from.X
-	to.Y = from.Y
-	to.Width = from.Width
-	to.Height = from.Height
-}
-
-type Category3_WOP struct {
-	// insertion point
-
-	Name string
-}
-
-func (from *Category3) CopyBasicFields(to *Category3) {
-	// insertion point
-	to.Name = from.Name
-}
-
-type Category3Shape_WOP struct {
-	// insertion point
-
-	Name string
-
-	X float64
-
-	Y float64
-
-	Width float64
-
-	Height float64
-}
-
-func (from *Category3Shape) CopyBasicFields(to *Category3Shape) {
+func (from *ArtistShape) CopyBasicFields(to *ArtistShape) {
 	// insertion point
 	to.Name = from.Name
 	to.X = from.X
@@ -151,21 +123,25 @@ type Diagram_WOP struct {
 
 	IsNodeExpanded bool
 
-	IsCategory1NodeExpanded bool
+	IsMovementCategoryNodeExpanded bool
 
-	IsCategory2NodeExpanded bool
+	IsArtefactTypeCategoryNodeExpanded bool
 
-	IsCategory3NodeExpanded bool
+	IsArtistCategoryNodeExpanded bool
 
 	IsInfluenceCategoryNodeExpanded bool
 
-	IsCategory1Shown bool
+	IsMovementCategoryShown bool
 
-	IsCategory2Shown bool
+	IsArtefactTypeCategoryShown bool
 
-	IsCategory3Shown bool
+	IsArtistCategoryShown bool
 
 	IsInfluenceCategoryShown bool
+
+	StartDate time.Time
+
+	EndDate time.Time
 
 	XMargin float64
 
@@ -173,9 +149,7 @@ type Diagram_WOP struct {
 
 	Height float64
 
-	Width float64
-
-	NbPixPerCharacter float64
+	NextVerticalDateXMargin float64
 
 	RedColorCode string
 
@@ -183,49 +157,123 @@ type Diagram_WOP struct {
 
 	GrayColorCode string
 
-	Category1RectAnchorType RectAnchorType
+	BottomBoxYOffset float64
 
-	Category1TextAnchorType TextAnchorType
+	BottomBoxWidth float64
 
-	Category1DominantBaselineType DominantBaselineType
+	BottomBoxHeigth float64
 
-	Category1FontSize string
+	BottomBoxFontSize string
 
-	Category1FontWeigth string
+	BottomBoxFontWeigth string
 
-	Category1FontFamily string
+	BottomBoxFontFamily string
 
-	Category1LetterSpacing string
+	BottomBoxLetterSpacing string
 
-	Category2TypeFontSize string
+	BottomBoxLetterColorCode string
 
-	Category2TypeFontWeigth string
+	MovementRectAnchorType RectAnchorType
 
-	Category2TypeFontFamily string
+	MovementTextAnchorType TextAnchorType
 
-	Category2TypeLetterSpacing string
+	MovementDominantBaselineType DominantBaselineType
 
-	Category2TypeRectAnchorType RectAnchorType
+	MovementFontSize string
 
-	Category2DominantBaselineType DominantBaselineType
+	MajorMovementFontSize string
 
-	Category2StrokeWidth float64
+	MinorMovementFontSize string
 
-	Category3RectAnchorType RectAnchorType
+	MovementFontWeigth string
 
-	Category3TextAnchorType TextAnchorType
+	MovementFontFamily string
 
-	Category3DominantBaselineType DominantBaselineType
+	MovementLetterSpacing string
 
-	Category3FontSize string
+	AbstractMovementFontSize string
 
-	Category3FontWeigth string
+	AbstractMovementRectAnchorType RectAnchorType
 
-	Category3FontFamily string
+	AbstractMovementTextAnchorType TextAnchorType
 
-	Category3LetterSpacing string
+	AbstractDominantBaselineType DominantBaselineType
 
-	InfluenceStrokeWidth float64
+	MovementDateRectAnchorType RectAnchorType
+
+	MovementDateTextAnchorType TextAnchorType
+
+	MovementDateTextDominantBaselineType DominantBaselineType
+
+	MovementDateAndPlacesFontSize string
+
+	MovementDateAndPlacesFontWeigth string
+
+	MovementDateAndPlacesFontFamily string
+
+	MovementDateAndPlacesLetterSpacing string
+
+	MovementBelowArcY_Offset float64
+
+	MovementBelowArcY_OffsetPerPlace float64
+
+	MovementPlacesRectAnchorType RectAnchorType
+
+	MovementPlacesTextAnchorType TextAnchorType
+
+	MovementPlacesDominantBaselineType DominantBaselineType
+
+	ArtefactTypeFontSize string
+
+	ArtefactTypeFontWeigth string
+
+	ArtefactTypeFontFamily string
+
+	ArtefactTypeLetterSpacing string
+
+	ArtefactTypeRectAnchorType RectAnchorType
+
+	ArtefactDominantBaselineType DominantBaselineType
+
+	ArtefactTypeStrokeWidth float64
+
+	ArtistRectAnchorType RectAnchorType
+
+	ArtistTextAnchorType TextAnchorType
+
+	ArtistDominantBaselineType DominantBaselineType
+
+	ArtistFontSize string
+
+	MajorArtistFontSize string
+
+	MinorArtistFontSize string
+
+	ArtistFontWeigth string
+
+	ArtistFontFamily string
+
+	ArtistLetterSpacing string
+
+	ArtistDateRectAnchorType RectAnchorType
+
+	ArtistDateTextAnchorType TextAnchorType
+
+	ArtistDateDominantBaselineType DominantBaselineType
+
+	ArtistDateAndPlacesFontSize string
+
+	ArtistDateAndPlacesFontWeigth string
+
+	ArtistDateAndPlacesFontFamily string
+
+	ArtistDateAndPlacesLetterSpacing string
+
+	ArtistPlacesRectAnchorType RectAnchorType
+
+	ArtistPlacesTextAnchorType TextAnchorType
+
+	ArtistPlacesDominantBaselineType DominantBaselineType
 
 	InfluenceArrowSize float64
 
@@ -235,14 +283,6 @@ type Diagram_WOP struct {
 
 	InfluenceCornerRadius float64
 
-	InfluenceFontSize string
-
-	InfluenceFontWeigth string
-
-	InfluenceFontFamily string
-
-	InfluenceLetterSpacing string
-
 	InfluenceDashedLinePattern string
 }
 
@@ -251,52 +291,86 @@ func (from *Diagram) CopyBasicFields(to *Diagram) {
 	to.Name = from.Name
 	to.IsEditable = from.IsEditable
 	to.IsNodeExpanded = from.IsNodeExpanded
-	to.IsCategory1NodeExpanded = from.IsCategory1NodeExpanded
-	to.IsCategory2NodeExpanded = from.IsCategory2NodeExpanded
-	to.IsCategory3NodeExpanded = from.IsCategory3NodeExpanded
+	to.IsMovementCategoryNodeExpanded = from.IsMovementCategoryNodeExpanded
+	to.IsArtefactTypeCategoryNodeExpanded = from.IsArtefactTypeCategoryNodeExpanded
+	to.IsArtistCategoryNodeExpanded = from.IsArtistCategoryNodeExpanded
 	to.IsInfluenceCategoryNodeExpanded = from.IsInfluenceCategoryNodeExpanded
-	to.IsCategory1Shown = from.IsCategory1Shown
-	to.IsCategory2Shown = from.IsCategory2Shown
-	to.IsCategory3Shown = from.IsCategory3Shown
+	to.IsMovementCategoryShown = from.IsMovementCategoryShown
+	to.IsArtefactTypeCategoryShown = from.IsArtefactTypeCategoryShown
+	to.IsArtistCategoryShown = from.IsArtistCategoryShown
 	to.IsInfluenceCategoryShown = from.IsInfluenceCategoryShown
+	to.StartDate = from.StartDate
+	to.EndDate = from.EndDate
 	to.XMargin = from.XMargin
 	to.YMargin = from.YMargin
 	to.Height = from.Height
-	to.Width = from.Width
-	to.NbPixPerCharacter = from.NbPixPerCharacter
+	to.NextVerticalDateXMargin = from.NextVerticalDateXMargin
 	to.RedColorCode = from.RedColorCode
 	to.BackgroundGreyColorCode = from.BackgroundGreyColorCode
 	to.GrayColorCode = from.GrayColorCode
-	to.Category1RectAnchorType = from.Category1RectAnchorType
-	to.Category1TextAnchorType = from.Category1TextAnchorType
-	to.Category1DominantBaselineType = from.Category1DominantBaselineType
-	to.Category1FontSize = from.Category1FontSize
-	to.Category1FontWeigth = from.Category1FontWeigth
-	to.Category1FontFamily = from.Category1FontFamily
-	to.Category1LetterSpacing = from.Category1LetterSpacing
-	to.Category2TypeFontSize = from.Category2TypeFontSize
-	to.Category2TypeFontWeigth = from.Category2TypeFontWeigth
-	to.Category2TypeFontFamily = from.Category2TypeFontFamily
-	to.Category2TypeLetterSpacing = from.Category2TypeLetterSpacing
-	to.Category2TypeRectAnchorType = from.Category2TypeRectAnchorType
-	to.Category2DominantBaselineType = from.Category2DominantBaselineType
-	to.Category2StrokeWidth = from.Category2StrokeWidth
-	to.Category3RectAnchorType = from.Category3RectAnchorType
-	to.Category3TextAnchorType = from.Category3TextAnchorType
-	to.Category3DominantBaselineType = from.Category3DominantBaselineType
-	to.Category3FontSize = from.Category3FontSize
-	to.Category3FontWeigth = from.Category3FontWeigth
-	to.Category3FontFamily = from.Category3FontFamily
-	to.Category3LetterSpacing = from.Category3LetterSpacing
-	to.InfluenceStrokeWidth = from.InfluenceStrokeWidth
+	to.BottomBoxYOffset = from.BottomBoxYOffset
+	to.BottomBoxWidth = from.BottomBoxWidth
+	to.BottomBoxHeigth = from.BottomBoxHeigth
+	to.BottomBoxFontSize = from.BottomBoxFontSize
+	to.BottomBoxFontWeigth = from.BottomBoxFontWeigth
+	to.BottomBoxFontFamily = from.BottomBoxFontFamily
+	to.BottomBoxLetterSpacing = from.BottomBoxLetterSpacing
+	to.BottomBoxLetterColorCode = from.BottomBoxLetterColorCode
+	to.MovementRectAnchorType = from.MovementRectAnchorType
+	to.MovementTextAnchorType = from.MovementTextAnchorType
+	to.MovementDominantBaselineType = from.MovementDominantBaselineType
+	to.MovementFontSize = from.MovementFontSize
+	to.MajorMovementFontSize = from.MajorMovementFontSize
+	to.MinorMovementFontSize = from.MinorMovementFontSize
+	to.MovementFontWeigth = from.MovementFontWeigth
+	to.MovementFontFamily = from.MovementFontFamily
+	to.MovementLetterSpacing = from.MovementLetterSpacing
+	to.AbstractMovementFontSize = from.AbstractMovementFontSize
+	to.AbstractMovementRectAnchorType = from.AbstractMovementRectAnchorType
+	to.AbstractMovementTextAnchorType = from.AbstractMovementTextAnchorType
+	to.AbstractDominantBaselineType = from.AbstractDominantBaselineType
+	to.MovementDateRectAnchorType = from.MovementDateRectAnchorType
+	to.MovementDateTextAnchorType = from.MovementDateTextAnchorType
+	to.MovementDateTextDominantBaselineType = from.MovementDateTextDominantBaselineType
+	to.MovementDateAndPlacesFontSize = from.MovementDateAndPlacesFontSize
+	to.MovementDateAndPlacesFontWeigth = from.MovementDateAndPlacesFontWeigth
+	to.MovementDateAndPlacesFontFamily = from.MovementDateAndPlacesFontFamily
+	to.MovementDateAndPlacesLetterSpacing = from.MovementDateAndPlacesLetterSpacing
+	to.MovementBelowArcY_Offset = from.MovementBelowArcY_Offset
+	to.MovementBelowArcY_OffsetPerPlace = from.MovementBelowArcY_OffsetPerPlace
+	to.MovementPlacesRectAnchorType = from.MovementPlacesRectAnchorType
+	to.MovementPlacesTextAnchorType = from.MovementPlacesTextAnchorType
+	to.MovementPlacesDominantBaselineType = from.MovementPlacesDominantBaselineType
+	to.ArtefactTypeFontSize = from.ArtefactTypeFontSize
+	to.ArtefactTypeFontWeigth = from.ArtefactTypeFontWeigth
+	to.ArtefactTypeFontFamily = from.ArtefactTypeFontFamily
+	to.ArtefactTypeLetterSpacing = from.ArtefactTypeLetterSpacing
+	to.ArtefactTypeRectAnchorType = from.ArtefactTypeRectAnchorType
+	to.ArtefactDominantBaselineType = from.ArtefactDominantBaselineType
+	to.ArtefactTypeStrokeWidth = from.ArtefactTypeStrokeWidth
+	to.ArtistRectAnchorType = from.ArtistRectAnchorType
+	to.ArtistTextAnchorType = from.ArtistTextAnchorType
+	to.ArtistDominantBaselineType = from.ArtistDominantBaselineType
+	to.ArtistFontSize = from.ArtistFontSize
+	to.MajorArtistFontSize = from.MajorArtistFontSize
+	to.MinorArtistFontSize = from.MinorArtistFontSize
+	to.ArtistFontWeigth = from.ArtistFontWeigth
+	to.ArtistFontFamily = from.ArtistFontFamily
+	to.ArtistLetterSpacing = from.ArtistLetterSpacing
+	to.ArtistDateRectAnchorType = from.ArtistDateRectAnchorType
+	to.ArtistDateTextAnchorType = from.ArtistDateTextAnchorType
+	to.ArtistDateDominantBaselineType = from.ArtistDateDominantBaselineType
+	to.ArtistDateAndPlacesFontSize = from.ArtistDateAndPlacesFontSize
+	to.ArtistDateAndPlacesFontWeigth = from.ArtistDateAndPlacesFontWeigth
+	to.ArtistDateAndPlacesFontFamily = from.ArtistDateAndPlacesFontFamily
+	to.ArtistDateAndPlacesLetterSpacing = from.ArtistDateAndPlacesLetterSpacing
+	to.ArtistPlacesRectAnchorType = from.ArtistPlacesRectAnchorType
+	to.ArtistPlacesTextAnchorType = from.ArtistPlacesTextAnchorType
+	to.ArtistPlacesDominantBaselineType = from.ArtistPlacesDominantBaselineType
 	to.InfluenceArrowSize = from.InfluenceArrowSize
 	to.InfluenceArrowStartOffset = from.InfluenceArrowStartOffset
 	to.InfluenceArrowEndOffset = from.InfluenceArrowEndOffset
 	to.InfluenceCornerRadius = from.InfluenceCornerRadius
-	to.InfluenceFontSize = from.InfluenceFontSize
-	to.InfluenceFontWeigth = from.InfluenceFontWeigth
-	to.InfluenceFontFamily = from.InfluenceFontFamily
-	to.InfluenceLetterSpacing = from.InfluenceLetterSpacing
 	to.InfluenceDashedLinePattern = from.InfluenceDashedLinePattern
 }
 
@@ -306,15 +380,12 @@ type Influence_WOP struct {
 	Name string
 
 	IsHypothtical bool
-
-	TextAtEndOfArrow string
 }
 
 func (from *Influence) CopyBasicFields(to *Influence) {
 	// insertion point
 	to.Name = from.Name
 	to.IsHypothtical = from.IsHypothtical
-	to.TextAtEndOfArrow = from.TextAtEndOfArrow
 }
 
 type InfluenceShape_WOP struct {
@@ -324,6 +395,72 @@ type InfluenceShape_WOP struct {
 }
 
 func (from *InfluenceShape) CopyBasicFields(to *InfluenceShape) {
+	// insertion point
+	to.Name = from.Name
+}
+
+type Movement_WOP struct {
+	// insertion point
+
+	Name string
+
+	Date time.Time
+
+	IsAbstract bool
+
+	IsModern bool
+
+	IsMajor bool
+
+	IsMinor bool
+
+	AdditionnalName string
+
+	HideDate bool
+}
+
+func (from *Movement) CopyBasicFields(to *Movement) {
+	// insertion point
+	to.Name = from.Name
+	to.Date = from.Date
+	to.IsAbstract = from.IsAbstract
+	to.IsModern = from.IsModern
+	to.IsMajor = from.IsMajor
+	to.IsMinor = from.IsMinor
+	to.AdditionnalName = from.AdditionnalName
+	to.HideDate = from.HideDate
+}
+
+type MovementShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	X float64
+
+	Y float64
+
+	Width float64
+
+	Height float64
+}
+
+func (from *MovementShape) CopyBasicFields(to *MovementShape) {
+	// insertion point
+	to.Name = from.Name
+	to.X = from.X
+	to.Y = from.Y
+	to.Width = from.Width
+	to.Height = from.Height
+}
+
+type Place_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *Place) CopyBasicFields(to *Place) {
 	// insertion point
 	to.Name = from.Name
 }

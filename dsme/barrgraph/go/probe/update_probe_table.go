@@ -22,18 +22,14 @@ func updateCurrentProbeTable(probe *Probe) {
 	}
 	switch tableName {
 	// insertion point
-	case "Category1":
-		updateProbeTable[*models.Category1](probe)
-	case "Category1Shape":
-		updateProbeTable[*models.Category1Shape](probe)
-	case "Category2":
-		updateProbeTable[*models.Category2](probe)
-	case "Category2Shape":
-		updateProbeTable[*models.Category2Shape](probe)
-	case "Category3":
-		updateProbeTable[*models.Category3](probe)
-	case "Category3Shape":
-		updateProbeTable[*models.Category3Shape](probe)
+	case "ArtefactType":
+		updateProbeTable[*models.ArtefactType](probe)
+	case "ArtefactTypeShape":
+		updateProbeTable[*models.ArtefactTypeShape](probe)
+	case "Artist":
+		updateProbeTable[*models.Artist](probe)
+	case "ArtistShape":
+		updateProbeTable[*models.ArtistShape](probe)
 	case "ControlPointShape":
 		updateProbeTable[*models.ControlPointShape](probe)
 	case "Desk":
@@ -44,6 +40,12 @@ func updateCurrentProbeTable(probe *Probe) {
 		updateProbeTable[*models.Influence](probe)
 	case "InfluenceShape":
 		updateProbeTable[*models.InfluenceShape](probe)
+	case "Movement":
+		updateProbeTable[*models.Movement](probe)
+	case "MovementShape":
+		updateProbeTable[*models.MovementShape](probe)
+	case "Place":
+		updateProbeTable[*models.Place](probe)
 	}
 }
 

@@ -23,6 +23,8 @@ type Stager struct {
 	svgStage  *svg.Stage
 	treeStage *tree.Stage
 
+	probeForm ProbeIF
+
 	desk *Desk
 }
 
@@ -31,13 +33,16 @@ func NewStager(
 	stage *Stage,
 	probeForm ProbeIF,
 ) (stager *Stager) {
+
 	stager = new(Stager)
+	stager.probeForm = probeForm
 
 	// the root split name is "" by convention. Is is the same for all gong applications
 	// that do not develop their specific angular component
 	stager.splitStage = split_stack.NewStack(r, "", "", "", "", false, false).Stage
 
 	stager.stage = stage
+	stage.SetDeltaMode(true)
 
 	stager.svgStage = svg_stack.NewStack(r, stage.GetName(), "", "", "", true, true).Stage
 	stager.treeStage = tree_stack.NewStack(r, stage.GetName(), "", "", "", true, true).Stage
