@@ -460,10 +460,10 @@
       ]
     },
     {
-      "label": "01 - gong generate cld",
+      "label": "01 - gong generate barrgraph",
       "type": "shell",
       "options": {
-        "cwd": "${workspaceFolder}/dsme/cld/go/models"
+        "cwd": "${workspaceFolder}/dsme/barrgraph/go/models"
       },
       "command": "gong",
       "group": "build",
