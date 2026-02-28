@@ -59,13 +59,12 @@ func NewStager(
 	stager.loadStage = load_stack.NewStack(r, "", "", "", "", true, true).Stage
 	stager.buttonStage = button_stack.NewStack(r, "", "", "", "", true, true).Stage
 
-	createViews(stager, stage)
+	stager.createViews(stage)
 
 	// Setup your before commit sequence
 
 	beforeCommit := func(stage *Stage) {
 		stager.enforceSemantic()
-
 	}
 	afterCommit := func(stage *Stage) {
 		stager.tree()

@@ -2,8 +2,7 @@ package models
 
 import split "github.com/fullstack-lang/gong/lib/split/go/models"
 
-func createViews(stager *Stager, stage *Stage) {
-
+func (stager *Stager) createViews(stage *Stage) {
 	split.StageBranch(stager.splitStage, &split.View{
 		Name:           "Edit PBS/WBS",
 		Direction:      split.Horizontal,
