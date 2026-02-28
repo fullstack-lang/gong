@@ -213,9 +213,9 @@ func (backRepoEllipse *BackRepoEllipseStruct) CommitPhaseOne(stage *models.Stage
 		ellipses = append(ellipses, ellipse)
 	}
 
-	// Sort by the order stored in Map_Staged_Order.
+	// Sort by the order stored in _stagedOrder.
 	sort.Slice(ellipses, func(i, j int) bool {
-		return stage.EllipseMap_Staged_Order[ellipses[i]] < stage.EllipseMap_Staged_Order[ellipses[j]]
+		return stage.Ellipse_stagedOrder[ellipses[i]] < stage.Ellipse_stagedOrder[ellipses[j]]
 	})
 
 	for _, ellipse := range ellipses {

@@ -312,9 +312,9 @@ func (backRepoNode *BackRepoNodeStruct) CommitPhaseOne(stage *models.Stage) (Err
 		nodes = append(nodes, node)
 	}
 
-	// Sort by the order stored in Map_Staged_Order.
+	// Sort by the order stored in _stagedOrder.
 	sort.Slice(nodes, func(i, j int) bool {
-		return stage.NodeMap_Staged_Order[nodes[i]] < stage.NodeMap_Staged_Order[nodes[j]]
+		return stage.Node_stagedOrder[nodes[i]] < stage.Node_stagedOrder[nodes[j]]
 	})
 
 	for _, node := range nodes {

@@ -138,9 +138,9 @@ func (backRepoDisplayedColumn *BackRepoDisplayedColumnStruct) CommitPhaseOne(sta
 		displayedcolumns = append(displayedcolumns, displayedcolumn)
 	}
 
-	// Sort by the order stored in Map_Staged_Order.
+	// Sort by the order stored in _stagedOrder.
 	sort.Slice(displayedcolumns, func(i, j int) bool {
-		return stage.DisplayedColumnMap_Staged_Order[displayedcolumns[i]] < stage.DisplayedColumnMap_Staged_Order[displayedcolumns[j]]
+		return stage.DisplayedColumn_stagedOrder[displayedcolumns[i]] < stage.DisplayedColumn_stagedOrder[displayedcolumns[j]]
 	})
 
 	for _, displayedcolumn := range displayedcolumns {

@@ -144,9 +144,9 @@ func (backRepoSvgText *BackRepoSvgTextStruct) CommitPhaseOne(stage *models.Stage
 		svgtexts = append(svgtexts, svgtext)
 	}
 
-	// Sort by the order stored in Map_Staged_Order.
+	// Sort by the order stored in _stagedOrder.
 	sort.Slice(svgtexts, func(i, j int) bool {
-		return stage.SvgTextMap_Staged_Order[svgtexts[i]] < stage.SvgTextMap_Staged_Order[svgtexts[j]]
+		return stage.SvgText_stagedOrder[svgtexts[i]] < stage.SvgText_stagedOrder[svgtexts[j]]
 	})
 
 	for _, svgtext := range svgtexts {

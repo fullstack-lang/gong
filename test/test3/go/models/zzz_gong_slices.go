@@ -3,6 +3,7 @@ package models
 
 import (
 	"fmt"
+	"log"
 	"sort"
 	"strings"
 	"time"
@@ -88,17 +89,17 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			if stage.As_referenceOrder == nil {
 				stage.As_referenceOrder = make(map[*A]uint)
 			}
-			stage.As_referenceOrder[a] = stage.AMap_Staged_Order[a]
+			stage.As_referenceOrder[a] = stage.A_stagedOrder[a]
 			newInstancesReverseSlice = append(newInstancesReverseSlice, a.GongMarshallUnstaging(stage))
-			delete(stage.As_referenceOrder, a)
+			// delete(stage.As_referenceOrder, a)
 			fieldInitializers, pointersInitializations := a.GongMarshallAllFields(stage)
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
-			stage.AMap_Staged_Order[ref] = stage.AMap_Staged_Order[a]
+			stage.A_stagedOrder[ref] = stage.A_stagedOrder[a]
 			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := a.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, a)
-			delete(stage.AMap_Staged_Order, ref)
+			// delete(stage.A_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
 				fieldsEdit += fmt.Sprintf("\n\t// %s", a.GetName())
@@ -139,17 +140,17 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			if stage.Bs_referenceOrder == nil {
 				stage.Bs_referenceOrder = make(map[*B]uint)
 			}
-			stage.Bs_referenceOrder[b] = stage.BMap_Staged_Order[b]
+			stage.Bs_referenceOrder[b] = stage.B_stagedOrder[b]
 			newInstancesReverseSlice = append(newInstancesReverseSlice, b.GongMarshallUnstaging(stage))
-			delete(stage.Bs_referenceOrder, b)
+			// delete(stage.Bs_referenceOrder, b)
 			fieldInitializers, pointersInitializations := b.GongMarshallAllFields(stage)
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
-			stage.BMap_Staged_Order[ref] = stage.BMap_Staged_Order[b]
+			stage.B_stagedOrder[ref] = stage.B_stagedOrder[b]
 			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := b.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, b)
-			delete(stage.BMap_Staged_Order, ref)
+			// delete(stage.B_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
 				fieldsEdit += fmt.Sprintf("\n\t// %s", b.GetName())
@@ -253,25 +254,27 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 // to avoid unnecessary re-renderings
 // insertion point per named struct
 func (a *A) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.AMap_Staged_Order[a]; ok {
+	if order, ok := stage.A_stagedOrder[a]; ok {
 		return order
 	}
-	return stage.As_referenceOrder[a]
-}
-
-func (a *A) GongGetReferenceOrder(stage *Stage) uint {
-	return stage.As_referenceOrder[a]
+	if order, ok := stage.As_referenceOrder[a]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type A was not staged and does not have a reference order", a)
+		return 0
+	}
 }
 
 func (b *B) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.BMap_Staged_Order[b]; ok {
+	if order, ok := stage.B_stagedOrder[b]; ok {
 		return order
 	}
-	return stage.Bs_referenceOrder[b]
-}
-
-func (b *B) GongGetReferenceOrder(stage *Stage) uint {
-	return stage.Bs_referenceOrder[b]
+	if order, ok := stage.Bs_referenceOrder[b]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type B was not staged and does not have a reference order", b)
+		return 0
+	}
 }
 
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
@@ -285,7 +288,7 @@ func (a *A) GongGetIdentifier(stage *Stage) string {
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (a *A) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", a.GongGetGongstructName(), a.GongGetReferenceOrder(stage))
+	return fmt.Sprintf("__%s__%08d_", a.GongGetGongstructName(), a.GongGetOrder(stage))
 }
 
 func (b *B) GongGetIdentifier(stage *Stage) string {
@@ -294,7 +297,7 @@ func (b *B) GongGetIdentifier(stage *Stage) string {
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (b *B) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", b.GongGetGongstructName(), b.GongGetReferenceOrder(stage))
+	return fmt.Sprintf("__%s__%08d_", b.GongGetGongstructName(), b.GongGetOrder(stage))
 }
 
 // MarshallIdentifier returns the code to instantiate the instance

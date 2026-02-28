@@ -134,8 +134,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(cursorOrdered[:], func(i, j int) bool {
 		cursori := cursorOrdered[i]
 		cursorj := cursorOrdered[j]
-		cursori_order, oki := stage.CursorMap_Staged_Order[cursori]
-		cursorj_order, okj := stage.CursorMap_Staged_Order[cursorj]
+		cursori_order, oki := stage.Cursor_stagedOrder[cursori]
+		cursorj_order, okj := stage.Cursor_stagedOrder[cursorj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}

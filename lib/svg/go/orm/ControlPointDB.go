@@ -154,9 +154,9 @@ func (backRepoControlPoint *BackRepoControlPointStruct) CommitPhaseOne(stage *mo
 		controlpoints = append(controlpoints, controlpoint)
 	}
 
-	// Sort by the order stored in Map_Staged_Order.
+	// Sort by the order stored in _stagedOrder.
 	sort.Slice(controlpoints, func(i, j int) bool {
-		return stage.ControlPointMap_Staged_Order[controlpoints[i]] < stage.ControlPointMap_Staged_Order[controlpoints[j]]
+		return stage.ControlPoint_stagedOrder[controlpoints[i]] < stage.ControlPoint_stagedOrder[controlpoints[j]]
 	})
 
 	for _, controlpoint := range controlpoints {

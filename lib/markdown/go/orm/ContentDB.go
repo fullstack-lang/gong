@@ -144,9 +144,9 @@ func (backRepoContent *BackRepoContentStruct) CommitPhaseOne(stage *models.Stage
 		contents = append(contents, content)
 	}
 
-	// Sort by the order stored in Map_Staged_Order.
+	// Sort by the order stored in _stagedOrder.
 	sort.Slice(contents, func(i, j int) bool {
-		return stage.ContentMap_Staged_Order[contents[i]] < stage.ContentMap_Staged_Order[contents[j]]
+		return stage.Content_stagedOrder[contents[i]] < stage.Content_stagedOrder[contents[j]]
 	})
 
 	for _, content := range contents {

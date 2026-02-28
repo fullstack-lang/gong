@@ -212,9 +212,9 @@ func (backRepoTable *BackRepoTableStruct) CommitPhaseOne(stage *models.Stage) (E
 		tables = append(tables, table)
 	}
 
-	// Sort by the order stored in Map_Staged_Order.
+	// Sort by the order stored in _stagedOrder.
 	sort.Slice(tables, func(i, j int) bool {
-		return stage.TableMap_Staged_Order[tables[i]] < stage.TableMap_Staged_Order[tables[j]]
+		return stage.Table_stagedOrder[tables[i]] < stage.Table_stagedOrder[tables[j]]
 	})
 
 	for _, table := range tables {

@@ -134,8 +134,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(assplitOrdered[:], func(i, j int) bool {
 		asspliti := assplitOrdered[i]
 		assplitj := assplitOrdered[j]
-		asspliti_order, oki := stage.AsSplitMap_Staged_Order[asspliti]
-		assplitj_order, okj := stage.AsSplitMap_Staged_Order[assplitj]
+		asspliti_order, oki := stage.AsSplit_stagedOrder[asspliti]
+		assplitj_order, okj := stage.AsSplit_stagedOrder[assplitj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -162,8 +162,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(assplitareaOrdered[:], func(i, j int) bool {
 		assplitareai := assplitareaOrdered[i]
 		assplitareaj := assplitareaOrdered[j]
-		assplitareai_order, oki := stage.AsSplitAreaMap_Staged_Order[assplitareai]
-		assplitareaj_order, okj := stage.AsSplitAreaMap_Staged_Order[assplitareaj]
+		assplitareai_order, oki := stage.AsSplitArea_stagedOrder[assplitareai]
+		assplitareaj_order, okj := stage.AsSplitArea_stagedOrder[assplitareaj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -206,8 +206,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(buttonOrdered[:], func(i, j int) bool {
 		buttoni := buttonOrdered[i]
 		buttonj := buttonOrdered[j]
-		buttoni_order, oki := stage.ButtonMap_Staged_Order[buttoni]
-		buttonj_order, okj := stage.ButtonMap_Staged_Order[buttonj]
+		buttoni_order, oki := stage.Button_stagedOrder[buttoni]
+		buttonj_order, okj := stage.Button_stagedOrder[buttonj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -233,8 +233,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(cursorOrdered[:], func(i, j int) bool {
 		cursori := cursorOrdered[i]
 		cursorj := cursorOrdered[j]
-		cursori_order, oki := stage.CursorMap_Staged_Order[cursori]
-		cursorj_order, okj := stage.CursorMap_Staged_Order[cursorj]
+		cursori_order, oki := stage.Cursor_stagedOrder[cursori]
+		cursorj_order, okj := stage.Cursor_stagedOrder[cursorj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -261,8 +261,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(faviconOrdered[:], func(i, j int) bool {
 		faviconi := faviconOrdered[i]
 		faviconj := faviconOrdered[j]
-		faviconi_order, oki := stage.FavIconMap_Staged_Order[faviconi]
-		faviconj_order, okj := stage.FavIconMap_Staged_Order[faviconj]
+		faviconi_order, oki := stage.FavIcon_stagedOrder[faviconi]
+		faviconj_order, okj := stage.FavIcon_stagedOrder[faviconj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -288,8 +288,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(formOrdered[:], func(i, j int) bool {
 		formi := formOrdered[i]
 		formj := formOrdered[j]
-		formi_order, oki := stage.FormMap_Staged_Order[formi]
-		formj_order, okj := stage.FormMap_Staged_Order[formj]
+		formi_order, oki := stage.Form_stagedOrder[formi]
+		formj_order, okj := stage.Form_stagedOrder[formj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -315,8 +315,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(loadOrdered[:], func(i, j int) bool {
 		loadi := loadOrdered[i]
 		loadj := loadOrdered[j]
-		loadi_order, oki := stage.LoadMap_Staged_Order[loadi]
-		loadj_order, okj := stage.LoadMap_Staged_Order[loadj]
+		loadi_order, oki := stage.Load_stagedOrder[loadi]
+		loadj_order, okj := stage.Load_stagedOrder[loadj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -342,8 +342,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(logoontheleftOrdered[:], func(i, j int) bool {
 		logoonthelefti := logoontheleftOrdered[i]
 		logoontheleftj := logoontheleftOrdered[j]
-		logoonthelefti_order, oki := stage.LogoOnTheLeftMap_Staged_Order[logoonthelefti]
-		logoontheleftj_order, okj := stage.LogoOnTheLeftMap_Staged_Order[logoontheleftj]
+		logoonthelefti_order, oki := stage.LogoOnTheLeft_stagedOrder[logoonthelefti]
+		logoontheleftj_order, okj := stage.LogoOnTheLeft_stagedOrder[logoontheleftj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -371,8 +371,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(logoontherightOrdered[:], func(i, j int) bool {
 		logoontherighti := logoontherightOrdered[i]
 		logoontherightj := logoontherightOrdered[j]
-		logoontherighti_order, oki := stage.LogoOnTheRightMap_Staged_Order[logoontherighti]
-		logoontherightj_order, okj := stage.LogoOnTheRightMap_Staged_Order[logoontherightj]
+		logoontherighti_order, oki := stage.LogoOnTheRight_stagedOrder[logoontherighti]
+		logoontherightj_order, okj := stage.LogoOnTheRight_stagedOrder[logoontherightj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -400,8 +400,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(markdownOrdered[:], func(i, j int) bool {
 		markdowni := markdownOrdered[i]
 		markdownj := markdownOrdered[j]
-		markdowni_order, oki := stage.MarkdownMap_Staged_Order[markdowni]
-		markdownj_order, okj := stage.MarkdownMap_Staged_Order[markdownj]
+		markdowni_order, oki := stage.Markdown_stagedOrder[markdowni]
+		markdownj_order, okj := stage.Markdown_stagedOrder[markdownj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -427,8 +427,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(sliderOrdered[:], func(i, j int) bool {
 		slideri := sliderOrdered[i]
 		sliderj := sliderOrdered[j]
-		slideri_order, oki := stage.SliderMap_Staged_Order[slideri]
-		sliderj_order, okj := stage.SliderMap_Staged_Order[sliderj]
+		slideri_order, oki := stage.Slider_stagedOrder[slideri]
+		sliderj_order, okj := stage.Slider_stagedOrder[sliderj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -454,8 +454,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(splitOrdered[:], func(i, j int) bool {
 		spliti := splitOrdered[i]
 		splitj := splitOrdered[j]
-		spliti_order, oki := stage.SplitMap_Staged_Order[spliti]
-		splitj_order, okj := stage.SplitMap_Staged_Order[splitj]
+		spliti_order, oki := stage.Split_stagedOrder[spliti]
+		splitj_order, okj := stage.Split_stagedOrder[splitj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -481,8 +481,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(svgOrdered[:], func(i, j int) bool {
 		svgi := svgOrdered[i]
 		svgj := svgOrdered[j]
-		svgi_order, oki := stage.SvgMap_Staged_Order[svgi]
-		svgj_order, okj := stage.SvgMap_Staged_Order[svgj]
+		svgi_order, oki := stage.Svg_stagedOrder[svgi]
+		svgj_order, okj := stage.Svg_stagedOrder[svgj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -509,8 +509,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(tableOrdered[:], func(i, j int) bool {
 		tablei := tableOrdered[i]
 		tablej := tableOrdered[j]
-		tablei_order, oki := stage.TableMap_Staged_Order[tablei]
-		tablej_order, okj := stage.TableMap_Staged_Order[tablej]
+		tablei_order, oki := stage.Table_stagedOrder[tablei]
+		tablej_order, okj := stage.Table_stagedOrder[tablej]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -536,8 +536,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(titleOrdered[:], func(i, j int) bool {
 		titlei := titleOrdered[i]
 		titlej := titleOrdered[j]
-		titlei_order, oki := stage.TitleMap_Staged_Order[titlei]
-		titlej_order, okj := stage.TitleMap_Staged_Order[titlej]
+		titlei_order, oki := stage.Title_stagedOrder[titlei]
+		titlej_order, okj := stage.Title_stagedOrder[titlej]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -562,8 +562,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(toneOrdered[:], func(i, j int) bool {
 		tonei := toneOrdered[i]
 		tonej := toneOrdered[j]
-		tonei_order, oki := stage.ToneMap_Staged_Order[tonei]
-		tonej_order, okj := stage.ToneMap_Staged_Order[tonej]
+		tonei_order, oki := stage.Tone_stagedOrder[tonei]
+		tonej_order, okj := stage.Tone_stagedOrder[tonej]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -589,8 +589,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(treeOrdered[:], func(i, j int) bool {
 		treei := treeOrdered[i]
 		treej := treeOrdered[j]
-		treei_order, oki := stage.TreeMap_Staged_Order[treei]
-		treej_order, okj := stage.TreeMap_Staged_Order[treej]
+		treei_order, oki := stage.Tree_stagedOrder[treei]
+		treej_order, okj := stage.Tree_stagedOrder[treej]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -616,8 +616,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(viewOrdered[:], func(i, j int) bool {
 		viewi := viewOrdered[i]
 		viewj := viewOrdered[j]
-		viewi_order, oki := stage.ViewMap_Staged_Order[viewi]
-		viewj_order, okj := stage.ViewMap_Staged_Order[viewj]
+		viewi_order, oki := stage.View_stagedOrder[viewi]
+		viewj_order, okj := stage.View_stagedOrder[viewj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -647,8 +647,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(xlsxOrdered[:], func(i, j int) bool {
 		xlsxi := xlsxOrdered[i]
 		xlsxj := xlsxOrdered[j]
-		xlsxi_order, oki := stage.XlsxMap_Staged_Order[xlsxi]
-		xlsxj_order, okj := stage.XlsxMap_Staged_Order[xlsxj]
+		xlsxi_order, oki := stage.Xlsx_stagedOrder[xlsxi]
+		xlsxj_order, okj := stage.Xlsx_stagedOrder[xlsxj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}

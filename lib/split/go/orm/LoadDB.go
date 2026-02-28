@@ -144,9 +144,9 @@ func (backRepoLoad *BackRepoLoadStruct) CommitPhaseOne(stage *models.Stage) (Err
 		loads = append(loads, load)
 	}
 
-	// Sort by the order stored in Map_Staged_Order.
+	// Sort by the order stored in _stagedOrder.
 	sort.Slice(loads, func(i, j int) bool {
-		return stage.LoadMap_Staged_Order[loads[i]] < stage.LoadMap_Staged_Order[loads[j]]
+		return stage.Load_stagedOrder[loads[i]] < stage.Load_stagedOrder[loads[j]]
 	})
 
 	for _, load := range loads {

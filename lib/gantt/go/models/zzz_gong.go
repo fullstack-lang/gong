@@ -106,11 +106,13 @@ type Stage struct {
 
 	// insertion point for definition of arrays registering instances
 	Arrows                map[*Arrow]struct{}
-	Arrows_reference      map[*Arrow]*Arrow
-	Arrows_referenceOrder map[*Arrow]uint
 	Arrows_instance       map[*Arrow]*Arrow
 	Arrows_mapString      map[string]*Arrow
-
+	ArrowOrder            uint
+	Arrow_stagedOrder     map[*Arrow]uint
+	Arrows_reference      map[*Arrow]*Arrow
+	Arrows_referenceOrder map[*Arrow]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterArrowCreateCallback OnAfterCreateInterface[Arrow]
 	OnAfterArrowUpdateCallback OnAfterUpdateInterface[Arrow]
@@ -118,11 +120,13 @@ type Stage struct {
 	OnAfterArrowReadCallback   OnAfterReadInterface[Arrow]
 
 	Bars                map[*Bar]struct{}
-	Bars_reference      map[*Bar]*Bar
-	Bars_referenceOrder map[*Bar]uint
 	Bars_instance       map[*Bar]*Bar
 	Bars_mapString      map[string]*Bar
-
+	BarOrder            uint
+	Bar_stagedOrder     map[*Bar]uint
+	Bars_reference      map[*Bar]*Bar
+	Bars_referenceOrder map[*Bar]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterBarCreateCallback OnAfterCreateInterface[Bar]
 	OnAfterBarUpdateCallback OnAfterUpdateInterface[Bar]
@@ -130,11 +134,13 @@ type Stage struct {
 	OnAfterBarReadCallback   OnAfterReadInterface[Bar]
 
 	Gantts                map[*Gantt]struct{}
-	Gantts_reference      map[*Gantt]*Gantt
-	Gantts_referenceOrder map[*Gantt]uint
 	Gantts_instance       map[*Gantt]*Gantt
 	Gantts_mapString      map[string]*Gantt
-
+	GanttOrder            uint
+	Gantt_stagedOrder     map[*Gantt]uint
+	Gantts_reference      map[*Gantt]*Gantt
+	Gantts_referenceOrder map[*Gantt]uint
+	
 	// insertion point for slice of pointers maps
 	Gantt_Lanes_reverseMap map[*Lane]*Gantt
 
@@ -150,11 +156,13 @@ type Stage struct {
 	OnAfterGanttReadCallback   OnAfterReadInterface[Gantt]
 
 	Groups                map[*Group]struct{}
-	Groups_reference      map[*Group]*Group
-	Groups_referenceOrder map[*Group]uint
 	Groups_instance       map[*Group]*Group
 	Groups_mapString      map[string]*Group
-
+	GroupOrder            uint
+	Group_stagedOrder     map[*Group]uint
+	Groups_reference      map[*Group]*Group
+	Groups_referenceOrder map[*Group]uint
+	
 	// insertion point for slice of pointers maps
 	Group_GroupLanes_reverseMap map[*Lane]*Group
 
@@ -164,11 +172,13 @@ type Stage struct {
 	OnAfterGroupReadCallback   OnAfterReadInterface[Group]
 
 	Lanes                map[*Lane]struct{}
-	Lanes_reference      map[*Lane]*Lane
-	Lanes_referenceOrder map[*Lane]uint
 	Lanes_instance       map[*Lane]*Lane
 	Lanes_mapString      map[string]*Lane
-
+	LaneOrder            uint
+	Lane_stagedOrder     map[*Lane]uint
+	Lanes_reference      map[*Lane]*Lane
+	Lanes_referenceOrder map[*Lane]uint
+	
 	// insertion point for slice of pointers maps
 	Lane_Bars_reverseMap map[*Bar]*Lane
 
@@ -178,11 +188,13 @@ type Stage struct {
 	OnAfterLaneReadCallback   OnAfterReadInterface[Lane]
 
 	LaneUses                map[*LaneUse]struct{}
-	LaneUses_reference      map[*LaneUse]*LaneUse
-	LaneUses_referenceOrder map[*LaneUse]uint
 	LaneUses_instance       map[*LaneUse]*LaneUse
 	LaneUses_mapString      map[string]*LaneUse
-
+	LaneUseOrder            uint
+	LaneUse_stagedOrder     map[*LaneUse]uint
+	LaneUses_reference      map[*LaneUse]*LaneUse
+	LaneUses_referenceOrder map[*LaneUse]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterLaneUseCreateCallback OnAfterCreateInterface[LaneUse]
 	OnAfterLaneUseUpdateCallback OnAfterUpdateInterface[LaneUse]
@@ -190,11 +202,13 @@ type Stage struct {
 	OnAfterLaneUseReadCallback   OnAfterReadInterface[LaneUse]
 
 	Milestones                map[*Milestone]struct{}
-	Milestones_reference      map[*Milestone]*Milestone
-	Milestones_referenceOrder map[*Milestone]uint
 	Milestones_instance       map[*Milestone]*Milestone
 	Milestones_mapString      map[string]*Milestone
-
+	MilestoneOrder            uint
+	Milestone_stagedOrder     map[*Milestone]uint
+	Milestones_reference      map[*Milestone]*Milestone
+	Milestones_referenceOrder map[*Milestone]uint
+	
 	// insertion point for slice of pointers maps
 	Milestone_LanesToDisplay_reverseMap map[*Lane]*Milestone
 
@@ -214,6 +228,10 @@ type Stage struct {
 	OnInitCommitFromFrontCallback OnInitCommitInterface
 	OnInitCommitFromBackCallback  OnInitCommitInterface
 
+	// Private slices to hold the registered hooks
+	beforeCommitHooks []func(stage *Stage)
+	afterCommitHooks  []func(stage *Stage)
+
 	// store the number of instance per gongstruct
 	Map_GongStructName_InstancesNb map[string]int
 
@@ -229,26 +247,12 @@ type Stage struct {
 	// store the stage order of each instance in order to
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
-	ArrowOrder            uint
-	ArrowMap_Staged_Order map[*Arrow]uint
 
-	BarOrder            uint
-	BarMap_Staged_Order map[*Bar]uint
 
-	GanttOrder            uint
-	GanttMap_Staged_Order map[*Gantt]uint
 
-	GroupOrder            uint
-	GroupMap_Staged_Order map[*Group]uint
 
-	LaneOrder            uint
-	LaneMap_Staged_Order map[*Lane]uint
 
-	LaneUseOrder            uint
-	LaneUseMap_Staged_Order map[*LaneUse]uint
 
-	MilestoneOrder            uint
-	MilestoneMap_Staged_Order map[*Milestone]uint
 
 	// end of insertion point
 
@@ -270,6 +274,16 @@ type Stage struct {
 	commitsBehind  int // the number of commits the stage is behind the front of the history
 
 	lock sync.RWMutex
+}
+
+// RegisterBeforeCommit adds a hook that runs before the commit happens
+func (s *Stage) RegisterBeforeCommit(hook func(stage *Stage)) {
+	s.beforeCommitHooks = append(s.beforeCommitHooks, hook)
+}
+
+// RegisterAfterCommit adds a hook that runs after the commit succeeds
+func (s *Stage) RegisterAfterCommit(hook func(stage *Stage)) {
+	s.afterCommitHooks = append(s.afterCommitHooks, hook)
 }
 
 type gongStageNavigationMode string
@@ -393,6 +407,16 @@ func (stage *Stage) ResetHard() {
 	if stage.OnInitCommitFromBackCallback != nil {
 		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
 	}
+
+	// 1. Run all Before Commit hooks
+	for _, hook := range stage.beforeCommitHooks {
+		hook(stage)
+	}
+
+	// 2. Run all After Commit hooks
+	for _, hook := range stage.afterCommitHooks {
+		hook(stage)
+	}
 }
 
 // Orphans removes all commits
@@ -409,6 +433,16 @@ func (stage *Stage) Orphans() {
 	if stage.OnInitCommitFromBackCallback != nil {
 		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
 	}
+
+	// 1. Run all Before Commit hooks
+	for _, hook := range stage.beforeCommitHooks {
+		hook(stage)
+	}
+
+	// 2. Run all After Commit hooks
+	for _, hook := range stage.afterCommitHooks {
+		hook(stage)
+	}
 }
 
 // recomputeOrders recomputes the next order for each struct
@@ -419,7 +453,7 @@ func (stage *Stage) recomputeOrders() {
 	// insertion point for max order recomputation
 	var maxArrowOrder uint
 	var foundArrow bool
-	for _, order := range stage.ArrowMap_Staged_Order {
+	for _, order := range stage.Arrow_stagedOrder {
 		if !foundArrow || order > maxArrowOrder {
 			maxArrowOrder = order
 			foundArrow = true
@@ -433,7 +467,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxBarOrder uint
 	var foundBar bool
-	for _, order := range stage.BarMap_Staged_Order {
+	for _, order := range stage.Bar_stagedOrder {
 		if !foundBar || order > maxBarOrder {
 			maxBarOrder = order
 			foundBar = true
@@ -447,7 +481,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxGanttOrder uint
 	var foundGantt bool
-	for _, order := range stage.GanttMap_Staged_Order {
+	for _, order := range stage.Gantt_stagedOrder {
 		if !foundGantt || order > maxGanttOrder {
 			maxGanttOrder = order
 			foundGantt = true
@@ -461,7 +495,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxGroupOrder uint
 	var foundGroup bool
-	for _, order := range stage.GroupMap_Staged_Order {
+	for _, order := range stage.Group_stagedOrder {
 		if !foundGroup || order > maxGroupOrder {
 			maxGroupOrder = order
 			foundGroup = true
@@ -475,7 +509,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxLaneOrder uint
 	var foundLane bool
-	for _, order := range stage.LaneMap_Staged_Order {
+	for _, order := range stage.Lane_stagedOrder {
 		if !foundLane || order > maxLaneOrder {
 			maxLaneOrder = order
 			foundLane = true
@@ -489,7 +523,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxLaneUseOrder uint
 	var foundLaneUse bool
-	for _, order := range stage.LaneUseMap_Staged_Order {
+	for _, order := range stage.LaneUse_stagedOrder {
 		if !foundLaneUse || order > maxLaneUseOrder {
 			maxLaneUseOrder = order
 			foundLaneUse = true
@@ -503,7 +537,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxMilestoneOrder uint
 	var foundMilestone bool
-	for _, order := range stage.MilestoneMap_Staged_Order {
+	for _, order := range stage.Milestone_stagedOrder {
 		if !foundMilestone || order > maxMilestoneOrder {
 			maxMilestoneOrder = order
 			foundMilestone = true
@@ -575,7 +609,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 	switch any(t).(type) {
 	// insertion point for case
 	case *Arrow:
-		tmp := GetStructInstancesByOrder(stage.Arrows, stage.ArrowMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Arrows, stage.Arrow_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -589,7 +623,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Bar:
-		tmp := GetStructInstancesByOrder(stage.Bars, stage.BarMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Bars, stage.Bar_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -603,7 +637,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Gantt:
-		tmp := GetStructInstancesByOrder(stage.Gantts, stage.GanttMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Gantts, stage.Gantt_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -617,7 +651,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Group:
-		tmp := GetStructInstancesByOrder(stage.Groups, stage.GroupMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Groups, stage.Group_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -631,7 +665,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Lane:
-		tmp := GetStructInstancesByOrder(stage.Lanes, stage.LaneMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Lanes, stage.Lane_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -645,7 +679,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *LaneUse:
-		tmp := GetStructInstancesByOrder(stage.LaneUses, stage.LaneUseMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.LaneUses, stage.LaneUse_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -659,7 +693,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Milestone:
-		tmp := GetStructInstancesByOrder(stage.Milestones, stage.MilestoneMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Milestones, stage.Milestone_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -702,19 +736,19 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 	switch namedStructName {
 	// insertion point for case
 	case "Arrow":
-		res = GetNamedStructInstances(stage.Arrows, stage.ArrowMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Arrows, stage.Arrow_stagedOrder)
 	case "Bar":
-		res = GetNamedStructInstances(stage.Bars, stage.BarMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Bars, stage.Bar_stagedOrder)
 	case "Gantt":
-		res = GetNamedStructInstances(stage.Gantts, stage.GanttMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Gantts, stage.Gantt_stagedOrder)
 	case "Group":
-		res = GetNamedStructInstances(stage.Groups, stage.GroupMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Groups, stage.Group_stagedOrder)
 	case "Lane":
-		res = GetNamedStructInstances(stage.Lanes, stage.LaneMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Lanes, stage.Lane_stagedOrder)
 	case "LaneUse":
-		res = GetNamedStructInstances(stage.LaneUses, stage.LaneUseMap_Staged_Order)
+		res = GetNamedStructInstances(stage.LaneUses, stage.LaneUse_stagedOrder)
 	case "Milestone":
-		res = GetNamedStructInstances(stage.Milestones, stage.MilestoneMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Milestones, stage.Milestone_stagedOrder)
 	}
 
 	return
@@ -835,19 +869,19 @@ func NewStage(name string) (stage *Stage) {
 		// the to be removed stops here
 
 		// insertion point for order map initialisations
-		ArrowMap_Staged_Order: make(map[*Arrow]uint),
+		Arrow_stagedOrder: make(map[*Arrow]uint),
 
-		BarMap_Staged_Order: make(map[*Bar]uint),
+		Bar_stagedOrder: make(map[*Bar]uint),
 
-		GanttMap_Staged_Order: make(map[*Gantt]uint),
+		Gantt_stagedOrder: make(map[*Gantt]uint),
 
-		GroupMap_Staged_Order: make(map[*Group]uint),
+		Group_stagedOrder: make(map[*Group]uint),
 
-		LaneMap_Staged_Order: make(map[*Lane]uint),
+		Lane_stagedOrder: make(map[*Lane]uint),
 
-		LaneUseMap_Staged_Order: make(map[*LaneUse]uint),
+		LaneUse_stagedOrder: make(map[*LaneUse]uint),
 
-		MilestoneMap_Staged_Order: make(map[*Milestone]uint),
+		Milestone_stagedOrder: make(map[*Milestone]uint),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
@@ -888,19 +922,19 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
 	case *Arrow:
-		return stage.ArrowMap_Staged_Order[instance]
+		return stage.Arrow_stagedOrder[instance]
 	case *Bar:
-		return stage.BarMap_Staged_Order[instance]
+		return stage.Bar_stagedOrder[instance]
 	case *Gantt:
-		return stage.GanttMap_Staged_Order[instance]
+		return stage.Gantt_stagedOrder[instance]
 	case *Group:
-		return stage.GroupMap_Staged_Order[instance]
+		return stage.Group_stagedOrder[instance]
 	case *Lane:
-		return stage.LaneMap_Staged_Order[instance]
+		return stage.Lane_stagedOrder[instance]
 	case *LaneUse:
-		return stage.LaneUseMap_Staged_Order[instance]
+		return stage.LaneUse_stagedOrder[instance]
 	case *Milestone:
-		return stage.MilestoneMap_Staged_Order[instance]
+		return stage.Milestone_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -910,19 +944,19 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
 	case *Arrow:
-		return stage.ArrowMap_Staged_Order[instance]
+		return stage.Arrow_stagedOrder[instance]
 	case *Bar:
-		return stage.BarMap_Staged_Order[instance]
+		return stage.Bar_stagedOrder[instance]
 	case *Gantt:
-		return stage.GanttMap_Staged_Order[instance]
+		return stage.Gantt_stagedOrder[instance]
 	case *Group:
-		return stage.GroupMap_Staged_Order[instance]
+		return stage.Group_stagedOrder[instance]
 	case *Lane:
-		return stage.LaneMap_Staged_Order[instance]
+		return stage.Lane_stagedOrder[instance]
 	case *LaneUse:
-		return stage.LaneUseMap_Staged_Order[instance]
+		return stage.LaneUse_stagedOrder[instance]
 	case *Milestone:
-		return stage.MilestoneMap_Staged_Order[instance]
+		return stage.Milestone_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -935,8 +969,14 @@ func (stage *Stage) GetName() string {
 func (stage *Stage) CommitWithSuspendedCallbacks() {
 	tmp := stage.OnInitCommitFromBackCallback
 	stage.OnInitCommitFromBackCallback = nil
+	tmp2 := stage.beforeCommitHooks
+	stage.beforeCommitHooks = nil
+	tmp3 := stage.afterCommitHooks
+	stage.afterCommitHooks = nil
 	stage.Commit()
 	stage.OnInitCommitFromBackCallback = tmp
+	stage.beforeCommitHooks = tmp2
+	stage.afterCommitHooks = tmp3
 }
 
 func (stage *Stage) Commit() {
@@ -947,6 +987,11 @@ func (stage *Stage) Commit() {
 	}
 	if stage.OnInitCommitFromBackCallback != nil {
 		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
+	}
+
+	// 1. Run all Before Commit hooks
+	for _, hook := range stage.beforeCommitHooks {
+		hook(stage)
 	}
 
 	if stage.BackRepo != nil {
@@ -964,6 +1009,11 @@ func (stage *Stage) Commit() {
 	if stage.IsInDeltaMode() {
 		stage.ComputeForwardAndBackwardCommits()
 		stage.ComputeReferenceAndOrders()
+	}
+
+	// 2. Run all After Commit hooks
+	for _, hook := range stage.afterCommitHooks {
+		hook(stage)
 	}
 }
 
@@ -1020,7 +1070,7 @@ func (stage *Stage) RestoreXL(dirPath string) {
 func (arrow *Arrow) Stage(stage *Stage) *Arrow {
 	if _, ok := stage.Arrows[arrow]; !ok {
 		stage.Arrows[arrow] = struct{}{}
-		stage.ArrowMap_Staged_Order[arrow] = stage.ArrowOrder
+		stage.Arrow_stagedOrder[arrow] = stage.ArrowOrder
 		stage.ArrowOrder++
 	}
 	stage.Arrows_mapString[arrow.Name] = arrow
@@ -1040,7 +1090,7 @@ func (arrow *Arrow) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.ArrowOrder {
 			stage.ArrowOrder = order
 		}
-		stage.ArrowMap_Staged_Order[arrow] = order
+		stage.Arrow_stagedOrder[arrow] = order
 		stage.ArrowOrder++
 	}
 	stage.Arrows_mapString[arrow.Name] = arrow
@@ -1049,7 +1099,8 @@ func (arrow *Arrow) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes arrow off the model stage
 func (arrow *Arrow) Unstage(stage *Stage) *Arrow {
 	delete(stage.Arrows, arrow)
-	delete(stage.ArrowMap_Staged_Order, arrow)
+	// issue1150
+	// delete(stage.Arrow_stagedOrder, arrow)
 	delete(stage.Arrows_mapString, arrow.Name)
 
 	return arrow
@@ -1058,7 +1109,8 @@ func (arrow *Arrow) Unstage(stage *Stage) *Arrow {
 // UnstageVoid removes arrow off the model stage
 func (arrow *Arrow) UnstageVoid(stage *Stage) {
 	delete(stage.Arrows, arrow)
-	delete(stage.ArrowMap_Staged_Order, arrow)
+	// issue1150
+	// delete(stage.Arrow_stagedOrder, arrow)
 	delete(stage.Arrows_mapString, arrow.Name)
 }
 
@@ -1104,7 +1156,7 @@ func (arrow *Arrow) SetName(name string) {
 func (bar *Bar) Stage(stage *Stage) *Bar {
 	if _, ok := stage.Bars[bar]; !ok {
 		stage.Bars[bar] = struct{}{}
-		stage.BarMap_Staged_Order[bar] = stage.BarOrder
+		stage.Bar_stagedOrder[bar] = stage.BarOrder
 		stage.BarOrder++
 	}
 	stage.Bars_mapString[bar.Name] = bar
@@ -1124,7 +1176,7 @@ func (bar *Bar) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.BarOrder {
 			stage.BarOrder = order
 		}
-		stage.BarMap_Staged_Order[bar] = order
+		stage.Bar_stagedOrder[bar] = order
 		stage.BarOrder++
 	}
 	stage.Bars_mapString[bar.Name] = bar
@@ -1133,7 +1185,8 @@ func (bar *Bar) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes bar off the model stage
 func (bar *Bar) Unstage(stage *Stage) *Bar {
 	delete(stage.Bars, bar)
-	delete(stage.BarMap_Staged_Order, bar)
+	// issue1150
+	// delete(stage.Bar_stagedOrder, bar)
 	delete(stage.Bars_mapString, bar.Name)
 
 	return bar
@@ -1142,7 +1195,8 @@ func (bar *Bar) Unstage(stage *Stage) *Bar {
 // UnstageVoid removes bar off the model stage
 func (bar *Bar) UnstageVoid(stage *Stage) {
 	delete(stage.Bars, bar)
-	delete(stage.BarMap_Staged_Order, bar)
+	// issue1150
+	// delete(stage.Bar_stagedOrder, bar)
 	delete(stage.Bars_mapString, bar.Name)
 }
 
@@ -1188,7 +1242,7 @@ func (bar *Bar) SetName(name string) {
 func (gantt *Gantt) Stage(stage *Stage) *Gantt {
 	if _, ok := stage.Gantts[gantt]; !ok {
 		stage.Gantts[gantt] = struct{}{}
-		stage.GanttMap_Staged_Order[gantt] = stage.GanttOrder
+		stage.Gantt_stagedOrder[gantt] = stage.GanttOrder
 		stage.GanttOrder++
 	}
 	stage.Gantts_mapString[gantt.Name] = gantt
@@ -1208,7 +1262,7 @@ func (gantt *Gantt) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.GanttOrder {
 			stage.GanttOrder = order
 		}
-		stage.GanttMap_Staged_Order[gantt] = order
+		stage.Gantt_stagedOrder[gantt] = order
 		stage.GanttOrder++
 	}
 	stage.Gantts_mapString[gantt.Name] = gantt
@@ -1217,7 +1271,8 @@ func (gantt *Gantt) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes gantt off the model stage
 func (gantt *Gantt) Unstage(stage *Stage) *Gantt {
 	delete(stage.Gantts, gantt)
-	delete(stage.GanttMap_Staged_Order, gantt)
+	// issue1150
+	// delete(stage.Gantt_stagedOrder, gantt)
 	delete(stage.Gantts_mapString, gantt.Name)
 
 	return gantt
@@ -1226,7 +1281,8 @@ func (gantt *Gantt) Unstage(stage *Stage) *Gantt {
 // UnstageVoid removes gantt off the model stage
 func (gantt *Gantt) UnstageVoid(stage *Stage) {
 	delete(stage.Gantts, gantt)
-	delete(stage.GanttMap_Staged_Order, gantt)
+	// issue1150
+	// delete(stage.Gantt_stagedOrder, gantt)
 	delete(stage.Gantts_mapString, gantt.Name)
 }
 
@@ -1272,7 +1328,7 @@ func (gantt *Gantt) SetName(name string) {
 func (group *Group) Stage(stage *Stage) *Group {
 	if _, ok := stage.Groups[group]; !ok {
 		stage.Groups[group] = struct{}{}
-		stage.GroupMap_Staged_Order[group] = stage.GroupOrder
+		stage.Group_stagedOrder[group] = stage.GroupOrder
 		stage.GroupOrder++
 	}
 	stage.Groups_mapString[group.Name] = group
@@ -1292,7 +1348,7 @@ func (group *Group) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.GroupOrder {
 			stage.GroupOrder = order
 		}
-		stage.GroupMap_Staged_Order[group] = order
+		stage.Group_stagedOrder[group] = order
 		stage.GroupOrder++
 	}
 	stage.Groups_mapString[group.Name] = group
@@ -1301,7 +1357,8 @@ func (group *Group) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes group off the model stage
 func (group *Group) Unstage(stage *Stage) *Group {
 	delete(stage.Groups, group)
-	delete(stage.GroupMap_Staged_Order, group)
+	// issue1150
+	// delete(stage.Group_stagedOrder, group)
 	delete(stage.Groups_mapString, group.Name)
 
 	return group
@@ -1310,7 +1367,8 @@ func (group *Group) Unstage(stage *Stage) *Group {
 // UnstageVoid removes group off the model stage
 func (group *Group) UnstageVoid(stage *Stage) {
 	delete(stage.Groups, group)
-	delete(stage.GroupMap_Staged_Order, group)
+	// issue1150
+	// delete(stage.Group_stagedOrder, group)
 	delete(stage.Groups_mapString, group.Name)
 }
 
@@ -1356,7 +1414,7 @@ func (group *Group) SetName(name string) {
 func (lane *Lane) Stage(stage *Stage) *Lane {
 	if _, ok := stage.Lanes[lane]; !ok {
 		stage.Lanes[lane] = struct{}{}
-		stage.LaneMap_Staged_Order[lane] = stage.LaneOrder
+		stage.Lane_stagedOrder[lane] = stage.LaneOrder
 		stage.LaneOrder++
 	}
 	stage.Lanes_mapString[lane.Name] = lane
@@ -1376,7 +1434,7 @@ func (lane *Lane) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.LaneOrder {
 			stage.LaneOrder = order
 		}
-		stage.LaneMap_Staged_Order[lane] = order
+		stage.Lane_stagedOrder[lane] = order
 		stage.LaneOrder++
 	}
 	stage.Lanes_mapString[lane.Name] = lane
@@ -1385,7 +1443,8 @@ func (lane *Lane) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes lane off the model stage
 func (lane *Lane) Unstage(stage *Stage) *Lane {
 	delete(stage.Lanes, lane)
-	delete(stage.LaneMap_Staged_Order, lane)
+	// issue1150
+	// delete(stage.Lane_stagedOrder, lane)
 	delete(stage.Lanes_mapString, lane.Name)
 
 	return lane
@@ -1394,7 +1453,8 @@ func (lane *Lane) Unstage(stage *Stage) *Lane {
 // UnstageVoid removes lane off the model stage
 func (lane *Lane) UnstageVoid(stage *Stage) {
 	delete(stage.Lanes, lane)
-	delete(stage.LaneMap_Staged_Order, lane)
+	// issue1150
+	// delete(stage.Lane_stagedOrder, lane)
 	delete(stage.Lanes_mapString, lane.Name)
 }
 
@@ -1440,7 +1500,7 @@ func (lane *Lane) SetName(name string) {
 func (laneuse *LaneUse) Stage(stage *Stage) *LaneUse {
 	if _, ok := stage.LaneUses[laneuse]; !ok {
 		stage.LaneUses[laneuse] = struct{}{}
-		stage.LaneUseMap_Staged_Order[laneuse] = stage.LaneUseOrder
+		stage.LaneUse_stagedOrder[laneuse] = stage.LaneUseOrder
 		stage.LaneUseOrder++
 	}
 	stage.LaneUses_mapString[laneuse.Name] = laneuse
@@ -1460,7 +1520,7 @@ func (laneuse *LaneUse) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.LaneUseOrder {
 			stage.LaneUseOrder = order
 		}
-		stage.LaneUseMap_Staged_Order[laneuse] = order
+		stage.LaneUse_stagedOrder[laneuse] = order
 		stage.LaneUseOrder++
 	}
 	stage.LaneUses_mapString[laneuse.Name] = laneuse
@@ -1469,7 +1529,8 @@ func (laneuse *LaneUse) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes laneuse off the model stage
 func (laneuse *LaneUse) Unstage(stage *Stage) *LaneUse {
 	delete(stage.LaneUses, laneuse)
-	delete(stage.LaneUseMap_Staged_Order, laneuse)
+	// issue1150
+	// delete(stage.LaneUse_stagedOrder, laneuse)
 	delete(stage.LaneUses_mapString, laneuse.Name)
 
 	return laneuse
@@ -1478,7 +1539,8 @@ func (laneuse *LaneUse) Unstage(stage *Stage) *LaneUse {
 // UnstageVoid removes laneuse off the model stage
 func (laneuse *LaneUse) UnstageVoid(stage *Stage) {
 	delete(stage.LaneUses, laneuse)
-	delete(stage.LaneUseMap_Staged_Order, laneuse)
+	// issue1150
+	// delete(stage.LaneUse_stagedOrder, laneuse)
 	delete(stage.LaneUses_mapString, laneuse.Name)
 }
 
@@ -1524,7 +1586,7 @@ func (laneuse *LaneUse) SetName(name string) {
 func (milestone *Milestone) Stage(stage *Stage) *Milestone {
 	if _, ok := stage.Milestones[milestone]; !ok {
 		stage.Milestones[milestone] = struct{}{}
-		stage.MilestoneMap_Staged_Order[milestone] = stage.MilestoneOrder
+		stage.Milestone_stagedOrder[milestone] = stage.MilestoneOrder
 		stage.MilestoneOrder++
 	}
 	stage.Milestones_mapString[milestone.Name] = milestone
@@ -1544,7 +1606,7 @@ func (milestone *Milestone) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.MilestoneOrder {
 			stage.MilestoneOrder = order
 		}
-		stage.MilestoneMap_Staged_Order[milestone] = order
+		stage.Milestone_stagedOrder[milestone] = order
 		stage.MilestoneOrder++
 	}
 	stage.Milestones_mapString[milestone.Name] = milestone
@@ -1553,7 +1615,8 @@ func (milestone *Milestone) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes milestone off the model stage
 func (milestone *Milestone) Unstage(stage *Stage) *Milestone {
 	delete(stage.Milestones, milestone)
-	delete(stage.MilestoneMap_Staged_Order, milestone)
+	// issue1150
+	// delete(stage.Milestone_stagedOrder, milestone)
 	delete(stage.Milestones_mapString, milestone.Name)
 
 	return milestone
@@ -1562,7 +1625,8 @@ func (milestone *Milestone) Unstage(stage *Stage) *Milestone {
 // UnstageVoid removes milestone off the model stage
 func (milestone *Milestone) UnstageVoid(stage *Stage) {
 	delete(stage.Milestones, milestone)
-	delete(stage.MilestoneMap_Staged_Order, milestone)
+	// issue1150
+	// delete(stage.Milestone_stagedOrder, milestone)
 	delete(stage.Milestones_mapString, milestone.Name)
 }
 
@@ -1628,37 +1692,37 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Arrows = make(map[*Arrow]struct{})
 	stage.Arrows_mapString = make(map[string]*Arrow)
-	stage.ArrowMap_Staged_Order = make(map[*Arrow]uint)
+	stage.Arrow_stagedOrder = make(map[*Arrow]uint)
 	stage.ArrowOrder = 0
 
 	stage.Bars = make(map[*Bar]struct{})
 	stage.Bars_mapString = make(map[string]*Bar)
-	stage.BarMap_Staged_Order = make(map[*Bar]uint)
+	stage.Bar_stagedOrder = make(map[*Bar]uint)
 	stage.BarOrder = 0
 
 	stage.Gantts = make(map[*Gantt]struct{})
 	stage.Gantts_mapString = make(map[string]*Gantt)
-	stage.GanttMap_Staged_Order = make(map[*Gantt]uint)
+	stage.Gantt_stagedOrder = make(map[*Gantt]uint)
 	stage.GanttOrder = 0
 
 	stage.Groups = make(map[*Group]struct{})
 	stage.Groups_mapString = make(map[string]*Group)
-	stage.GroupMap_Staged_Order = make(map[*Group]uint)
+	stage.Group_stagedOrder = make(map[*Group]uint)
 	stage.GroupOrder = 0
 
 	stage.Lanes = make(map[*Lane]struct{})
 	stage.Lanes_mapString = make(map[string]*Lane)
-	stage.LaneMap_Staged_Order = make(map[*Lane]uint)
+	stage.Lane_stagedOrder = make(map[*Lane]uint)
 	stage.LaneOrder = 0
 
 	stage.LaneUses = make(map[*LaneUse]struct{})
 	stage.LaneUses_mapString = make(map[string]*LaneUse)
-	stage.LaneUseMap_Staged_Order = make(map[*LaneUse]uint)
+	stage.LaneUse_stagedOrder = make(map[*LaneUse]uint)
 	stage.LaneUseOrder = 0
 
 	stage.Milestones = make(map[*Milestone]struct{})
 	stage.Milestones_mapString = make(map[string]*Milestone)
-	stage.MilestoneMap_Staged_Order = make(map[*Milestone]uint)
+	stage.Milestone_stagedOrder = make(map[*Milestone]uint)
 	stage.MilestoneOrder = 0
 
 	if stage.GetProbeIF() != nil {
@@ -2962,7 +3026,7 @@ func (arrow *Arrow) GongSetFieldValue(fieldName string, value GongFieldValue, st
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			arrow.From = nil
 			for __instance__ := range stage.Bars {
-				if stage.BarMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Bar_stagedOrder[__instance__] == uint(id) {
 					arrow.From = __instance__
 					break
 				}
@@ -2973,7 +3037,7 @@ func (arrow *Arrow) GongSetFieldValue(fieldName string, value GongFieldValue, st
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			arrow.To = nil
 			for __instance__ := range stage.Bars {
-				if stage.BarMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Bar_stagedOrder[__instance__] == uint(id) {
 					arrow.To = __instance__
 					break
 				}
@@ -3060,7 +3124,7 @@ func (gantt *Gantt) GongSetFieldValue(fieldName string, value GongFieldValue, st
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Lanes {
-					if stage.LaneMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Lane_stagedOrder[__instance__] == uint(id) {
 						gantt.Lanes = append(gantt.Lanes, __instance__)
 						break
 					}
@@ -3074,7 +3138,7 @@ func (gantt *Gantt) GongSetFieldValue(fieldName string, value GongFieldValue, st
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Milestones {
-					if stage.MilestoneMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Milestone_stagedOrder[__instance__] == uint(id) {
 						gantt.Milestones = append(gantt.Milestones, __instance__)
 						break
 					}
@@ -3088,7 +3152,7 @@ func (gantt *Gantt) GongSetFieldValue(fieldName string, value GongFieldValue, st
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Groups {
-					if stage.GroupMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Group_stagedOrder[__instance__] == uint(id) {
 						gantt.Groups = append(gantt.Groups, __instance__)
 						break
 					}
@@ -3102,7 +3166,7 @@ func (gantt *Gantt) GongSetFieldValue(fieldName string, value GongFieldValue, st
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Arrows {
-					if stage.ArrowMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Arrow_stagedOrder[__instance__] == uint(id) {
 						gantt.Arrows = append(gantt.Arrows, __instance__)
 						break
 					}
@@ -3127,7 +3191,7 @@ func (group *Group) GongSetFieldValue(fieldName string, value GongFieldValue, st
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Lanes {
-					if stage.LaneMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Lane_stagedOrder[__instance__] == uint(id) {
 						group.GroupLanes = append(group.GroupLanes, __instance__)
 						break
 					}
@@ -3154,7 +3218,7 @@ func (lane *Lane) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Bars {
-					if stage.BarMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Bar_stagedOrder[__instance__] == uint(id) {
 						lane.Bars = append(lane.Bars, __instance__)
 						break
 					}
@@ -3177,7 +3241,7 @@ func (laneuse *LaneUse) GongSetFieldValue(fieldName string, value GongFieldValue
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			laneuse.Lane = nil
 			for __instance__ := range stage.Lanes {
-				if stage.LaneMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Lane_stagedOrder[__instance__] == uint(id) {
 					laneuse.Lane = __instance__
 					break
 				}
@@ -3203,7 +3267,7 @@ func (milestone *Milestone) GongSetFieldValue(fieldName string, value GongFieldV
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Lanes {
-					if stage.LaneMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Lane_stagedOrder[__instance__] == uint(id) {
 						milestone.LanesToDisplay = append(milestone.LanesToDisplay, __instance__)
 						break
 					}

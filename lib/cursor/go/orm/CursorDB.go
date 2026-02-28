@@ -223,9 +223,9 @@ func (backRepoCursor *BackRepoCursorStruct) CommitPhaseOne(stage *models.Stage) 
 		cursors = append(cursors, cursor)
 	}
 
-	// Sort by the order stored in Map_Staged_Order.
+	// Sort by the order stored in _stagedOrder.
 	sort.Slice(cursors, func(i, j int) bool {
-		return stage.CursorMap_Staged_Order[cursors[i]] < stage.CursorMap_Staged_Order[cursors[j]]
+		return stage.Cursor_stagedOrder[cursors[i]] < stage.Cursor_stagedOrder[cursors[j]]
 	})
 
 	for _, cursor := range cursors {

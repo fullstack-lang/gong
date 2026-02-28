@@ -134,8 +134,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(gongbasicfieldOrdered[:], func(i, j int) bool {
 		gongbasicfieldi := gongbasicfieldOrdered[i]
 		gongbasicfieldj := gongbasicfieldOrdered[j]
-		gongbasicfieldi_order, oki := stage.GongBasicFieldMap_Staged_Order[gongbasicfieldi]
-		gongbasicfieldj_order, okj := stage.GongBasicFieldMap_Staged_Order[gongbasicfieldj]
+		gongbasicfieldi_order, oki := stage.GongBasicField_stagedOrder[gongbasicfieldi]
+		gongbasicfieldj_order, okj := stage.GongBasicField_stagedOrder[gongbasicfieldj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -170,8 +170,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(gongenumOrdered[:], func(i, j int) bool {
 		gongenumi := gongenumOrdered[i]
 		gongenumj := gongenumOrdered[j]
-		gongenumi_order, oki := stage.GongEnumMap_Staged_Order[gongenumi]
-		gongenumj_order, okj := stage.GongEnumMap_Staged_Order[gongenumj]
+		gongenumi_order, oki := stage.GongEnum_stagedOrder[gongenumi]
+		gongenumj_order, okj := stage.GongEnum_stagedOrder[gongenumj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -198,8 +198,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(gongenumvalueOrdered[:], func(i, j int) bool {
 		gongenumvaluei := gongenumvalueOrdered[i]
 		gongenumvaluej := gongenumvalueOrdered[j]
-		gongenumvaluei_order, oki := stage.GongEnumValueMap_Staged_Order[gongenumvaluei]
-		gongenumvaluej_order, okj := stage.GongEnumValueMap_Staged_Order[gongenumvaluej]
+		gongenumvaluei_order, oki := stage.GongEnumValue_stagedOrder[gongenumvaluei]
+		gongenumvaluej_order, okj := stage.GongEnumValue_stagedOrder[gongenumvaluej]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -225,8 +225,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(gonglinkOrdered[:], func(i, j int) bool {
 		gonglinki := gonglinkOrdered[i]
 		gonglinkj := gonglinkOrdered[j]
-		gonglinki_order, oki := stage.GongLinkMap_Staged_Order[gonglinki]
-		gonglinkj_order, okj := stage.GongLinkMap_Staged_Order[gonglinkj]
+		gonglinki_order, oki := stage.GongLink_stagedOrder[gonglinki]
+		gonglinkj_order, okj := stage.GongLink_stagedOrder[gonglinkj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -253,8 +253,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(gongnoteOrdered[:], func(i, j int) bool {
 		gongnotei := gongnoteOrdered[i]
 		gongnotej := gongnoteOrdered[j]
-		gongnotei_order, oki := stage.GongNoteMap_Staged_Order[gongnotei]
-		gongnotej_order, okj := stage.GongNoteMap_Staged_Order[gongnotej]
+		gongnotei_order, oki := stage.GongNote_stagedOrder[gongnotei]
+		gongnotej_order, okj := stage.GongNote_stagedOrder[gongnotej]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -282,8 +282,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(gongstructOrdered[:], func(i, j int) bool {
 		gongstructi := gongstructOrdered[i]
 		gongstructj := gongstructOrdered[j]
-		gongstructi_order, oki := stage.GongStructMap_Staged_Order[gongstructi]
-		gongstructj_order, okj := stage.GongStructMap_Staged_Order[gongstructj]
+		gongstructi_order, oki := stage.GongStruct_stagedOrder[gongstructi]
+		gongstructj_order, okj := stage.GongStruct_stagedOrder[gongstructj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -314,8 +314,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(gongtimefieldOrdered[:], func(i, j int) bool {
 		gongtimefieldi := gongtimefieldOrdered[i]
 		gongtimefieldj := gongtimefieldOrdered[j]
-		gongtimefieldi_order, oki := stage.GongTimeFieldMap_Staged_Order[gongtimefieldi]
-		gongtimefieldj_order, okj := stage.GongTimeFieldMap_Staged_Order[gongtimefieldj]
+		gongtimefieldi_order, oki := stage.GongTimeField_stagedOrder[gongtimefieldi]
+		gongtimefieldj_order, okj := stage.GongTimeField_stagedOrder[gongtimefieldj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -343,8 +343,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(metareferenceOrdered[:], func(i, j int) bool {
 		metareferencei := metareferenceOrdered[i]
 		metareferencej := metareferenceOrdered[j]
-		metareferencei_order, oki := stage.MetaReferenceMap_Staged_Order[metareferencei]
-		metareferencej_order, okj := stage.MetaReferenceMap_Staged_Order[metareferencej]
+		metareferencei_order, oki := stage.MetaReference_stagedOrder[metareferencei]
+		metareferencej_order, okj := stage.MetaReference_stagedOrder[metareferencej]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -369,8 +369,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(modelpkgOrdered[:], func(i, j int) bool {
 		modelpkgi := modelpkgOrdered[i]
 		modelpkgj := modelpkgOrdered[j]
-		modelpkgi_order, oki := stage.ModelPkgMap_Staged_Order[modelpkgi]
-		modelpkgj_order, okj := stage.ModelPkgMap_Staged_Order[modelpkgj]
+		modelpkgi_order, oki := stage.ModelPkg_stagedOrder[modelpkgi]
+		modelpkgj_order, okj := stage.ModelPkg_stagedOrder[modelpkgj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -412,8 +412,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(pointertogongstructfieldOrdered[:], func(i, j int) bool {
 		pointertogongstructfieldi := pointertogongstructfieldOrdered[i]
 		pointertogongstructfieldj := pointertogongstructfieldOrdered[j]
-		pointertogongstructfieldi_order, oki := stage.PointerToGongStructFieldMap_Staged_Order[pointertogongstructfieldi]
-		pointertogongstructfieldj_order, okj := stage.PointerToGongStructFieldMap_Staged_Order[pointertogongstructfieldj]
+		pointertogongstructfieldi_order, oki := stage.PointerToGongStructField_stagedOrder[pointertogongstructfieldi]
+		pointertogongstructfieldj_order, okj := stage.PointerToGongStructField_stagedOrder[pointertogongstructfieldj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -442,8 +442,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(sliceofpointertogongstructfieldOrdered[:], func(i, j int) bool {
 		sliceofpointertogongstructfieldi := sliceofpointertogongstructfieldOrdered[i]
 		sliceofpointertogongstructfieldj := sliceofpointertogongstructfieldOrdered[j]
-		sliceofpointertogongstructfieldi_order, oki := stage.SliceOfPointerToGongStructFieldMap_Staged_Order[sliceofpointertogongstructfieldi]
-		sliceofpointertogongstructfieldj_order, okj := stage.SliceOfPointerToGongStructFieldMap_Staged_Order[sliceofpointertogongstructfieldj]
+		sliceofpointertogongstructfieldi_order, oki := stage.SliceOfPointerToGongStructField_stagedOrder[sliceofpointertogongstructfieldi]
+		sliceofpointertogongstructfieldj_order, okj := stage.SliceOfPointerToGongStructField_stagedOrder[sliceofpointertogongstructfieldj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
