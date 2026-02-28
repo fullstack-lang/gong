@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"slices"
 	"time"
 )
@@ -12,46 +13,23 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 	// this is the Clean that delete them from slices and pointers that reference
 	// them. If the checkout is not performed, the stage might be dirty
 	// with slices of pointer or pointer to unstaged instance
-	needCommit = stager.enforceSemanticOnePass(needCommit, stage)
+	pass := 0
+	for {
+		if stager.enforceSemanticOnePass(false, stage) {
+			needCommit = true
+			stager.probeForm.AddNotification(time.Now(), fmt.Sprint("Stage was modified to enforce semantic, pass ", pass))
+			pass++
+		} else {
+			break
+		}
+	}
 
 	// computes fields that are not persisted
 	stager.enforceProducersConsumers()
 	stager.enforceDiagramMaps()
 
 	if needCommit {
-		stager.probeForm.AddNotification(time.Now(), "Stage was modified to enforce semantic")
-
-		needCommit = false
-		needCommit = stager.enforceSemanticOnePass(needCommit, stage)
-		if needCommit {
-			stager.probeForm.AddNotification(time.Now(), "Stage was modified to enforce semantic after second pass")
-		}
-
-		needCommit = false
-		needCommit = stager.enforceSemanticOnePass(needCommit, stage)
-		if needCommit {
-			stager.probeForm.AddNotification(time.Now(), "Stage was modified to enforce semantic after third pass")
-		}
-
-		stager.enforceProducersConsumers()
-		stager.enforceDiagramMaps()
-
 		stager.probeForm.CommitNotificationTable()
-
-		{
-			// for debug purpose, to check that the stage is not dirty after the commit
-			var selectedDiagram *Diagram
-			for _, diagram := range GetGongstrucsSorted[*Diagram](stage) {
-				if diagram.IsEditable() {
-					selectedDiagram = diagram
-					break
-				}
-			}
-			if selectedDiagram != nil {
-				TaskOutputShapes := selectedDiagram.TaskOutputShapes
-				_ = TaskOutputShapes
-			}
-		}
 	}
 
 	return
