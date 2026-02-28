@@ -19,7 +19,7 @@ Alfred H. Barr Jr., the first director of the Museum of Modern Art (MoMA), famou
 
 The application is built around a domain-specific model that captures the relationships between art movements.
 
-![Abstract Syntax](images/barr's%20absract%20syntax.png)
+![Abstract Syntax](images/barr%20absract%20syntax.png)
 *The abstract syntax defining ArtMovements and their Influences.*
 
 The model consists of:
@@ -46,8 +46,10 @@ Below are examples of the tool in use, including the original inspiration and th
 ## Installation
 
 ```bash
-go run github.com/fullstack-lang/gong/dsme/go/cmd/barrgraph
+go run github.com/fullstack-lang/gong/dsme/barrgraph/go/cmd/barrgraph@latest
 ```
+
+then open a browser on http://localhost:8080/.
 
 ## License
 
