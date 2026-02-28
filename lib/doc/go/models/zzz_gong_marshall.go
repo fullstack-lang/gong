@@ -134,8 +134,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(attributeshapeOrdered[:], func(i, j int) bool {
 		attributeshapei := attributeshapeOrdered[i]
 		attributeshapej := attributeshapeOrdered[j]
-		attributeshapei_order, oki := stage.AttributeShapeMap_Staged_Order[attributeshapei]
-		attributeshapej_order, okj := stage.AttributeShapeMap_Staged_Order[attributeshapej]
+		attributeshapei_order, oki := stage.AttributeShape_stagedOrder[attributeshapei]
+		attributeshapej_order, okj := stage.AttributeShape_stagedOrder[attributeshapej]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -164,8 +164,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(classdiagramOrdered[:], func(i, j int) bool {
 		classdiagrami := classdiagramOrdered[i]
 		classdiagramj := classdiagramOrdered[j]
-		classdiagrami_order, oki := stage.ClassdiagramMap_Staged_Order[classdiagrami]
-		classdiagramj_order, okj := stage.ClassdiagramMap_Staged_Order[classdiagramj]
+		classdiagrami_order, oki := stage.Classdiagram_stagedOrder[classdiagrami]
+		classdiagramj_order, okj := stage.Classdiagram_stagedOrder[classdiagramj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -206,8 +206,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(diagrampackageOrdered[:], func(i, j int) bool {
 		diagrampackagei := diagrampackageOrdered[i]
 		diagrampackagej := diagrampackageOrdered[j]
-		diagrampackagei_order, oki := stage.DiagramPackageMap_Staged_Order[diagrampackagei]
-		diagrampackagej_order, okj := stage.DiagramPackageMap_Staged_Order[diagrampackagej]
+		diagrampackagei_order, oki := stage.DiagramPackage_stagedOrder[diagrampackagei]
+		diagrampackagej_order, okj := stage.DiagramPackage_stagedOrder[diagrampackagej]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -237,8 +237,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(gongenumshapeOrdered[:], func(i, j int) bool {
 		gongenumshapei := gongenumshapeOrdered[i]
 		gongenumshapej := gongenumshapeOrdered[j]
-		gongenumshapei_order, oki := stage.GongEnumShapeMap_Staged_Order[gongenumshapei]
-		gongenumshapej_order, okj := stage.GongEnumShapeMap_Staged_Order[gongenumshapej]
+		gongenumshapei_order, oki := stage.GongEnumShape_stagedOrder[gongenumshapei]
+		gongenumshapej_order, okj := stage.GongEnumShape_stagedOrder[gongenumshapej]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -270,8 +270,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(gongenumvalueshapeOrdered[:], func(i, j int) bool {
 		gongenumvalueshapei := gongenumvalueshapeOrdered[i]
 		gongenumvalueshapej := gongenumvalueshapeOrdered[j]
-		gongenumvalueshapei_order, oki := stage.GongEnumValueShapeMap_Staged_Order[gongenumvalueshapei]
-		gongenumvalueshapej_order, okj := stage.GongEnumValueShapeMap_Staged_Order[gongenumvalueshapej]
+		gongenumvalueshapei_order, oki := stage.GongEnumValueShape_stagedOrder[gongenumvalueshapei]
+		gongenumvalueshapej_order, okj := stage.GongEnumValueShape_stagedOrder[gongenumvalueshapej]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -297,8 +297,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(gongnotelinkshapeOrdered[:], func(i, j int) bool {
 		gongnotelinkshapei := gongnotelinkshapeOrdered[i]
 		gongnotelinkshapej := gongnotelinkshapeOrdered[j]
-		gongnotelinkshapei_order, oki := stage.GongNoteLinkShapeMap_Staged_Order[gongnotelinkshapei]
-		gongnotelinkshapej_order, okj := stage.GongNoteLinkShapeMap_Staged_Order[gongnotelinkshapej]
+		gongnotelinkshapei_order, oki := stage.GongNoteLinkShape_stagedOrder[gongnotelinkshapei]
+		gongnotelinkshapej_order, okj := stage.GongNoteLinkShape_stagedOrder[gongnotelinkshapej]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -325,8 +325,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(gongnoteshapeOrdered[:], func(i, j int) bool {
 		gongnoteshapei := gongnoteshapeOrdered[i]
 		gongnoteshapej := gongnoteshapeOrdered[j]
-		gongnoteshapei_order, oki := stage.GongNoteShapeMap_Staged_Order[gongnoteshapei]
-		gongnoteshapej_order, okj := stage.GongNoteShapeMap_Staged_Order[gongnoteshapej]
+		gongnoteshapei_order, oki := stage.GongNoteShape_stagedOrder[gongnoteshapei]
+		gongnoteshapej_order, okj := stage.GongNoteShape_stagedOrder[gongnoteshapej]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -361,8 +361,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(gongstructshapeOrdered[:], func(i, j int) bool {
 		gongstructshapei := gongstructshapeOrdered[i]
 		gongstructshapej := gongstructshapeOrdered[j]
-		gongstructshapei_order, oki := stage.GongStructShapeMap_Staged_Order[gongstructshapei]
-		gongstructshapej_order, okj := stage.GongStructShapeMap_Staged_Order[gongstructshapej]
+		gongstructshapei_order, oki := stage.GongStructShape_stagedOrder[gongstructshapei]
+		gongstructshapej_order, okj := stage.GongStructShape_stagedOrder[gongstructshapej]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -395,8 +395,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(linkshapeOrdered[:], func(i, j int) bool {
 		linkshapei := linkshapeOrdered[i]
 		linkshapej := linkshapeOrdered[j]
-		linkshapei_order, oki := stage.LinkShapeMap_Staged_Order[linkshapei]
-		linkshapej_order, okj := stage.LinkShapeMap_Staged_Order[linkshapej]
+		linkshapei_order, oki := stage.LinkShape_stagedOrder[linkshapei]
+		linkshapej_order, okj := stage.LinkShape_stagedOrder[linkshapej]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}

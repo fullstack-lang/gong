@@ -106,11 +106,13 @@ type Stage struct {
 
 	// insertion point for definition of arrays registering instances
 	Cursors                map[*Cursor]struct{}
-	Cursors_reference      map[*Cursor]*Cursor
-	Cursors_referenceOrder map[*Cursor]uint
 	Cursors_instance       map[*Cursor]*Cursor
 	Cursors_mapString      map[string]*Cursor
-
+	CursorOrder            uint
+	Cursor_stagedOrder     map[*Cursor]uint
+	Cursors_reference      map[*Cursor]*Cursor
+	Cursors_referenceOrder map[*Cursor]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterCursorCreateCallback OnAfterCreateInterface[Cursor]
 	OnAfterCursorUpdateCallback OnAfterUpdateInterface[Cursor]
@@ -128,6 +130,10 @@ type Stage struct {
 	OnInitCommitFromFrontCallback OnInitCommitInterface
 	OnInitCommitFromBackCallback  OnInitCommitInterface
 
+	// Private slices to hold the registered hooks
+	beforeCommitHooks []func(stage *Stage)
+	afterCommitHooks  []func(stage *Stage)
+
 	// store the number of instance per gongstruct
 	Map_GongStructName_InstancesNb map[string]int
 
@@ -143,8 +149,6 @@ type Stage struct {
 	// store the stage order of each instance in order to
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
-	CursorOrder            uint
-	CursorMap_Staged_Order map[*Cursor]uint
 
 	// end of insertion point
 
@@ -166,6 +170,16 @@ type Stage struct {
 	commitsBehind  int // the number of commits the stage is behind the front of the history
 
 	lock sync.RWMutex
+}
+
+// RegisterBeforeCommit adds a hook that runs before the commit happens
+func (s *Stage) RegisterBeforeCommit(hook func(stage *Stage)) {
+	s.beforeCommitHooks = append(s.beforeCommitHooks, hook)
+}
+
+// RegisterAfterCommit adds a hook that runs after the commit succeeds
+func (s *Stage) RegisterAfterCommit(hook func(stage *Stage)) {
+	s.afterCommitHooks = append(s.afterCommitHooks, hook)
 }
 
 type gongStageNavigationMode string
@@ -289,6 +303,16 @@ func (stage *Stage) ResetHard() {
 	if stage.OnInitCommitFromBackCallback != nil {
 		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
 	}
+
+	// 1. Run all Before Commit hooks
+	for _, hook := range stage.beforeCommitHooks {
+		hook(stage)
+	}
+
+	// 2. Run all After Commit hooks
+	for _, hook := range stage.afterCommitHooks {
+		hook(stage)
+	}
 }
 
 // Orphans removes all commits
@@ -305,6 +329,16 @@ func (stage *Stage) Orphans() {
 	if stage.OnInitCommitFromBackCallback != nil {
 		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
 	}
+
+	// 1. Run all Before Commit hooks
+	for _, hook := range stage.beforeCommitHooks {
+		hook(stage)
+	}
+
+	// 2. Run all After Commit hooks
+	for _, hook := range stage.afterCommitHooks {
+		hook(stage)
+	}
 }
 
 // recomputeOrders recomputes the next order for each struct
@@ -315,7 +349,7 @@ func (stage *Stage) recomputeOrders() {
 	// insertion point for max order recomputation
 	var maxCursorOrder uint
 	var foundCursor bool
-	for _, order := range stage.CursorMap_Staged_Order {
+	for _, order := range stage.Cursor_stagedOrder {
 		if !foundCursor || order > maxCursorOrder {
 			maxCursorOrder = order
 			foundCursor = true
@@ -387,7 +421,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 	switch any(t).(type) {
 	// insertion point for case
 	case *Cursor:
-		tmp := GetStructInstancesByOrder(stage.Cursors, stage.CursorMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Cursors, stage.Cursor_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -430,7 +464,7 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 	switch namedStructName {
 	// insertion point for case
 	case "Cursor":
-		res = GetNamedStructInstances(stage.Cursors, stage.CursorMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Cursors, stage.Cursor_stagedOrder)
 	}
 
 	return
@@ -521,7 +555,7 @@ func NewStage(name string) (stage *Stage) {
 		// the to be removed stops here
 
 		// insertion point for order map initialisations
-		CursorMap_Staged_Order: make(map[*Cursor]uint),
+		Cursor_stagedOrder: make(map[*Cursor]uint),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
@@ -544,7 +578,7 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
 	case *Cursor:
-		return stage.CursorMap_Staged_Order[instance]
+		return stage.Cursor_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -554,7 +588,7 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
 	case *Cursor:
-		return stage.CursorMap_Staged_Order[instance]
+		return stage.Cursor_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -567,8 +601,14 @@ func (stage *Stage) GetName() string {
 func (stage *Stage) CommitWithSuspendedCallbacks() {
 	tmp := stage.OnInitCommitFromBackCallback
 	stage.OnInitCommitFromBackCallback = nil
+	tmp2 := stage.beforeCommitHooks
+	stage.beforeCommitHooks = nil
+	tmp3 := stage.afterCommitHooks
+	stage.afterCommitHooks = nil
 	stage.Commit()
 	stage.OnInitCommitFromBackCallback = tmp
+	stage.beforeCommitHooks = tmp2
+	stage.afterCommitHooks = tmp3
 }
 
 func (stage *Stage) Commit() {
@@ -579,6 +619,11 @@ func (stage *Stage) Commit() {
 	}
 	if stage.OnInitCommitFromBackCallback != nil {
 		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
+	}
+
+	// 1. Run all Before Commit hooks
+	for _, hook := range stage.beforeCommitHooks {
+		hook(stage)
 	}
 
 	if stage.BackRepo != nil {
@@ -596,6 +641,11 @@ func (stage *Stage) Commit() {
 	if stage.IsInDeltaMode() {
 		stage.ComputeForwardAndBackwardCommits()
 		stage.ComputeReferenceAndOrders()
+	}
+
+	// 2. Run all After Commit hooks
+	for _, hook := range stage.afterCommitHooks {
+		hook(stage)
 	}
 }
 
@@ -646,7 +696,7 @@ func (stage *Stage) RestoreXL(dirPath string) {
 func (cursor *Cursor) Stage(stage *Stage) *Cursor {
 	if _, ok := stage.Cursors[cursor]; !ok {
 		stage.Cursors[cursor] = struct{}{}
-		stage.CursorMap_Staged_Order[cursor] = stage.CursorOrder
+		stage.Cursor_stagedOrder[cursor] = stage.CursorOrder
 		stage.CursorOrder++
 	}
 	stage.Cursors_mapString[cursor.Name] = cursor
@@ -666,7 +716,7 @@ func (cursor *Cursor) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.CursorOrder {
 			stage.CursorOrder = order
 		}
-		stage.CursorMap_Staged_Order[cursor] = order
+		stage.Cursor_stagedOrder[cursor] = order
 		stage.CursorOrder++
 	}
 	stage.Cursors_mapString[cursor.Name] = cursor
@@ -675,7 +725,8 @@ func (cursor *Cursor) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes cursor off the model stage
 func (cursor *Cursor) Unstage(stage *Stage) *Cursor {
 	delete(stage.Cursors, cursor)
-	delete(stage.CursorMap_Staged_Order, cursor)
+	// issue1150
+	// delete(stage.Cursor_stagedOrder, cursor)
 	delete(stage.Cursors_mapString, cursor.Name)
 
 	return cursor
@@ -684,7 +735,8 @@ func (cursor *Cursor) Unstage(stage *Stage) *Cursor {
 // UnstageVoid removes cursor off the model stage
 func (cursor *Cursor) UnstageVoid(stage *Stage) {
 	delete(stage.Cursors, cursor)
-	delete(stage.CursorMap_Staged_Order, cursor)
+	// issue1150
+	// delete(stage.Cursor_stagedOrder, cursor)
 	delete(stage.Cursors_mapString, cursor.Name)
 }
 
@@ -738,7 +790,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Cursors = make(map[*Cursor]struct{})
 	stage.Cursors_mapString = make(map[string]*Cursor)
-	stage.CursorMap_Staged_Order = make(map[*Cursor]uint)
+	stage.Cursor_stagedOrder = make(map[*Cursor]uint)
 	stage.CursorOrder = 0
 
 	if stage.GetProbeIF() != nil {

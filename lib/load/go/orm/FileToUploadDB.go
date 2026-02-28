@@ -144,9 +144,9 @@ func (backRepoFileToUpload *BackRepoFileToUploadStruct) CommitPhaseOne(stage *mo
 		filetouploads = append(filetouploads, filetoupload)
 	}
 
-	// Sort by the order stored in Map_Staged_Order.
+	// Sort by the order stored in _stagedOrder.
 	sort.Slice(filetouploads, func(i, j int) bool {
-		return stage.FileToUploadMap_Staged_Order[filetouploads[i]] < stage.FileToUploadMap_Staged_Order[filetouploads[j]]
+		return stage.FileToUpload_stagedOrder[filetouploads[i]] < stage.FileToUpload_stagedOrder[filetouploads[j]]
 	})
 
 	for _, filetoupload := range filetouploads {

@@ -3,6 +3,7 @@ package models
 
 import (
 	"fmt"
+	"log"
 	"sort"
 	"strings"
 	"time"
@@ -107,17 +108,17 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			if stage.Contents_referenceOrder == nil {
 				stage.Contents_referenceOrder = make(map[*Content]uint)
 			}
-			stage.Contents_referenceOrder[content] = stage.ContentMap_Staged_Order[content]
+			stage.Contents_referenceOrder[content] = stage.Content_stagedOrder[content]
 			newInstancesReverseSlice = append(newInstancesReverseSlice, content.GongMarshallUnstaging(stage))
-			delete(stage.Contents_referenceOrder, content)
+			// delete(stage.Contents_referenceOrder, content)
 			fieldInitializers, pointersInitializations := content.GongMarshallAllFields(stage)
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
-			stage.ContentMap_Staged_Order[ref] = stage.ContentMap_Staged_Order[content]
+			stage.Content_stagedOrder[ref] = stage.Content_stagedOrder[content]
 			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := content.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, content)
-			delete(stage.ContentMap_Staged_Order, ref)
+			// delete(stage.Content_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
 				fieldsEdit += fmt.Sprintf("\n\t// %s", content.GetName())
@@ -158,17 +159,17 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			if stage.JpgImages_referenceOrder == nil {
 				stage.JpgImages_referenceOrder = make(map[*JpgImage]uint)
 			}
-			stage.JpgImages_referenceOrder[jpgimage] = stage.JpgImageMap_Staged_Order[jpgimage]
+			stage.JpgImages_referenceOrder[jpgimage] = stage.JpgImage_stagedOrder[jpgimage]
 			newInstancesReverseSlice = append(newInstancesReverseSlice, jpgimage.GongMarshallUnstaging(stage))
-			delete(stage.JpgImages_referenceOrder, jpgimage)
+			// delete(stage.JpgImages_referenceOrder, jpgimage)
 			fieldInitializers, pointersInitializations := jpgimage.GongMarshallAllFields(stage)
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
-			stage.JpgImageMap_Staged_Order[ref] = stage.JpgImageMap_Staged_Order[jpgimage]
+			stage.JpgImage_stagedOrder[ref] = stage.JpgImage_stagedOrder[jpgimage]
 			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := jpgimage.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, jpgimage)
-			delete(stage.JpgImageMap_Staged_Order, ref)
+			// delete(stage.JpgImage_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
 				fieldsEdit += fmt.Sprintf("\n\t// %s", jpgimage.GetName())
@@ -209,17 +210,17 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			if stage.PngImages_referenceOrder == nil {
 				stage.PngImages_referenceOrder = make(map[*PngImage]uint)
 			}
-			stage.PngImages_referenceOrder[pngimage] = stage.PngImageMap_Staged_Order[pngimage]
+			stage.PngImages_referenceOrder[pngimage] = stage.PngImage_stagedOrder[pngimage]
 			newInstancesReverseSlice = append(newInstancesReverseSlice, pngimage.GongMarshallUnstaging(stage))
-			delete(stage.PngImages_referenceOrder, pngimage)
+			// delete(stage.PngImages_referenceOrder, pngimage)
 			fieldInitializers, pointersInitializations := pngimage.GongMarshallAllFields(stage)
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
-			stage.PngImageMap_Staged_Order[ref] = stage.PngImageMap_Staged_Order[pngimage]
+			stage.PngImage_stagedOrder[ref] = stage.PngImage_stagedOrder[pngimage]
 			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := pngimage.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, pngimage)
-			delete(stage.PngImageMap_Staged_Order, ref)
+			// delete(stage.PngImage_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
 				fieldsEdit += fmt.Sprintf("\n\t// %s", pngimage.GetName())
@@ -260,17 +261,17 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			if stage.SvgImages_referenceOrder == nil {
 				stage.SvgImages_referenceOrder = make(map[*SvgImage]uint)
 			}
-			stage.SvgImages_referenceOrder[svgimage] = stage.SvgImageMap_Staged_Order[svgimage]
+			stage.SvgImages_referenceOrder[svgimage] = stage.SvgImage_stagedOrder[svgimage]
 			newInstancesReverseSlice = append(newInstancesReverseSlice, svgimage.GongMarshallUnstaging(stage))
-			delete(stage.SvgImages_referenceOrder, svgimage)
+			// delete(stage.SvgImages_referenceOrder, svgimage)
 			fieldInitializers, pointersInitializations := svgimage.GongMarshallAllFields(stage)
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
-			stage.SvgImageMap_Staged_Order[ref] = stage.SvgImageMap_Staged_Order[svgimage]
+			stage.SvgImage_stagedOrder[ref] = stage.SvgImage_stagedOrder[svgimage]
 			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := svgimage.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, svgimage)
-			delete(stage.SvgImageMap_Staged_Order, ref)
+			// delete(stage.SvgImage_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
 				fieldsEdit += fmt.Sprintf("\n\t// %s", svgimage.GetName())
@@ -404,47 +405,51 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 // to avoid unnecessary re-renderings
 // insertion point per named struct
 func (content *Content) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.ContentMap_Staged_Order[content]; ok {
+	if order, ok := stage.Content_stagedOrder[content]; ok {
 		return order
 	}
-	return stage.Contents_referenceOrder[content]
-}
-
-func (content *Content) GongGetReferenceOrder(stage *Stage) uint {
-	return stage.Contents_referenceOrder[content]
+	if order, ok := stage.Contents_referenceOrder[content]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type Content was not staged and does not have a reference order", content)
+		return 0
+	}
 }
 
 func (jpgimage *JpgImage) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.JpgImageMap_Staged_Order[jpgimage]; ok {
+	if order, ok := stage.JpgImage_stagedOrder[jpgimage]; ok {
 		return order
 	}
-	return stage.JpgImages_referenceOrder[jpgimage]
-}
-
-func (jpgimage *JpgImage) GongGetReferenceOrder(stage *Stage) uint {
-	return stage.JpgImages_referenceOrder[jpgimage]
+	if order, ok := stage.JpgImages_referenceOrder[jpgimage]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type JpgImage was not staged and does not have a reference order", jpgimage)
+		return 0
+	}
 }
 
 func (pngimage *PngImage) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.PngImageMap_Staged_Order[pngimage]; ok {
+	if order, ok := stage.PngImage_stagedOrder[pngimage]; ok {
 		return order
 	}
-	return stage.PngImages_referenceOrder[pngimage]
-}
-
-func (pngimage *PngImage) GongGetReferenceOrder(stage *Stage) uint {
-	return stage.PngImages_referenceOrder[pngimage]
+	if order, ok := stage.PngImages_referenceOrder[pngimage]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type PngImage was not staged and does not have a reference order", pngimage)
+		return 0
+	}
 }
 
 func (svgimage *SvgImage) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.SvgImageMap_Staged_Order[svgimage]; ok {
+	if order, ok := stage.SvgImage_stagedOrder[svgimage]; ok {
 		return order
 	}
-	return stage.SvgImages_referenceOrder[svgimage]
-}
-
-func (svgimage *SvgImage) GongGetReferenceOrder(stage *Stage) uint {
-	return stage.SvgImages_referenceOrder[svgimage]
+	if order, ok := stage.SvgImages_referenceOrder[svgimage]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type SvgImage was not staged and does not have a reference order", svgimage)
+		return 0
+	}
 }
 
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
@@ -458,7 +463,7 @@ func (content *Content) GongGetIdentifier(stage *Stage) string {
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (content *Content) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", content.GongGetGongstructName(), content.GongGetReferenceOrder(stage))
+	return fmt.Sprintf("__%s__%08d_", content.GongGetGongstructName(), content.GongGetOrder(stage))
 }
 
 func (jpgimage *JpgImage) GongGetIdentifier(stage *Stage) string {
@@ -467,7 +472,7 @@ func (jpgimage *JpgImage) GongGetIdentifier(stage *Stage) string {
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (jpgimage *JpgImage) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", jpgimage.GongGetGongstructName(), jpgimage.GongGetReferenceOrder(stage))
+	return fmt.Sprintf("__%s__%08d_", jpgimage.GongGetGongstructName(), jpgimage.GongGetOrder(stage))
 }
 
 func (pngimage *PngImage) GongGetIdentifier(stage *Stage) string {
@@ -476,7 +481,7 @@ func (pngimage *PngImage) GongGetIdentifier(stage *Stage) string {
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (pngimage *PngImage) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", pngimage.GongGetGongstructName(), pngimage.GongGetReferenceOrder(stage))
+	return fmt.Sprintf("__%s__%08d_", pngimage.GongGetGongstructName(), pngimage.GongGetOrder(stage))
 }
 
 func (svgimage *SvgImage) GongGetIdentifier(stage *Stage) string {
@@ -485,7 +490,7 @@ func (svgimage *SvgImage) GongGetIdentifier(stage *Stage) string {
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (svgimage *SvgImage) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", svgimage.GongGetGongstructName(), svgimage.GongGetReferenceOrder(stage))
+	return fmt.Sprintf("__%s__%08d_", svgimage.GongGetGongstructName(), svgimage.GongGetOrder(stage))
 }
 
 // MarshallIdentifier returns the code to instantiate the instance

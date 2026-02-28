@@ -106,11 +106,13 @@ type Stage struct {
 
 	// insertion point for definition of arrays registering instances
 	FileToDownloads                map[*FileToDownload]struct{}
-	FileToDownloads_reference      map[*FileToDownload]*FileToDownload
-	FileToDownloads_referenceOrder map[*FileToDownload]uint
 	FileToDownloads_instance       map[*FileToDownload]*FileToDownload
 	FileToDownloads_mapString      map[string]*FileToDownload
-
+	FileToDownloadOrder            uint
+	FileToDownload_stagedOrder     map[*FileToDownload]uint
+	FileToDownloads_reference      map[*FileToDownload]*FileToDownload
+	FileToDownloads_referenceOrder map[*FileToDownload]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterFileToDownloadCreateCallback OnAfterCreateInterface[FileToDownload]
 	OnAfterFileToDownloadUpdateCallback OnAfterUpdateInterface[FileToDownload]
@@ -118,11 +120,13 @@ type Stage struct {
 	OnAfterFileToDownloadReadCallback   OnAfterReadInterface[FileToDownload]
 
 	FileToUploads                map[*FileToUpload]struct{}
-	FileToUploads_reference      map[*FileToUpload]*FileToUpload
-	FileToUploads_referenceOrder map[*FileToUpload]uint
 	FileToUploads_instance       map[*FileToUpload]*FileToUpload
 	FileToUploads_mapString      map[string]*FileToUpload
-
+	FileToUploadOrder            uint
+	FileToUpload_stagedOrder     map[*FileToUpload]uint
+	FileToUploads_reference      map[*FileToUpload]*FileToUpload
+	FileToUploads_referenceOrder map[*FileToUpload]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterFileToUploadCreateCallback OnAfterCreateInterface[FileToUpload]
 	OnAfterFileToUploadUpdateCallback OnAfterUpdateInterface[FileToUpload]
@@ -130,11 +134,13 @@ type Stage struct {
 	OnAfterFileToUploadReadCallback   OnAfterReadInterface[FileToUpload]
 
 	Messages                map[*Message]struct{}
-	Messages_reference      map[*Message]*Message
-	Messages_referenceOrder map[*Message]uint
 	Messages_instance       map[*Message]*Message
 	Messages_mapString      map[string]*Message
-
+	MessageOrder            uint
+	Message_stagedOrder     map[*Message]uint
+	Messages_reference      map[*Message]*Message
+	Messages_referenceOrder map[*Message]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterMessageCreateCallback OnAfterCreateInterface[Message]
 	OnAfterMessageUpdateCallback OnAfterUpdateInterface[Message]
@@ -152,6 +158,10 @@ type Stage struct {
 	OnInitCommitFromFrontCallback OnInitCommitInterface
 	OnInitCommitFromBackCallback  OnInitCommitInterface
 
+	// Private slices to hold the registered hooks
+	beforeCommitHooks []func(stage *Stage)
+	afterCommitHooks  []func(stage *Stage)
+
 	// store the number of instance per gongstruct
 	Map_GongStructName_InstancesNb map[string]int
 
@@ -167,14 +177,8 @@ type Stage struct {
 	// store the stage order of each instance in order to
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
-	FileToDownloadOrder            uint
-	FileToDownloadMap_Staged_Order map[*FileToDownload]uint
 
-	FileToUploadOrder            uint
-	FileToUploadMap_Staged_Order map[*FileToUpload]uint
 
-	MessageOrder            uint
-	MessageMap_Staged_Order map[*Message]uint
 
 	// end of insertion point
 
@@ -196,6 +200,16 @@ type Stage struct {
 	commitsBehind  int // the number of commits the stage is behind the front of the history
 
 	lock sync.RWMutex
+}
+
+// RegisterBeforeCommit adds a hook that runs before the commit happens
+func (s *Stage) RegisterBeforeCommit(hook func(stage *Stage)) {
+	s.beforeCommitHooks = append(s.beforeCommitHooks, hook)
+}
+
+// RegisterAfterCommit adds a hook that runs after the commit succeeds
+func (s *Stage) RegisterAfterCommit(hook func(stage *Stage)) {
+	s.afterCommitHooks = append(s.afterCommitHooks, hook)
 }
 
 type gongStageNavigationMode string
@@ -319,6 +333,16 @@ func (stage *Stage) ResetHard() {
 	if stage.OnInitCommitFromBackCallback != nil {
 		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
 	}
+
+	// 1. Run all Before Commit hooks
+	for _, hook := range stage.beforeCommitHooks {
+		hook(stage)
+	}
+
+	// 2. Run all After Commit hooks
+	for _, hook := range stage.afterCommitHooks {
+		hook(stage)
+	}
 }
 
 // Orphans removes all commits
@@ -335,6 +359,16 @@ func (stage *Stage) Orphans() {
 	if stage.OnInitCommitFromBackCallback != nil {
 		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
 	}
+
+	// 1. Run all Before Commit hooks
+	for _, hook := range stage.beforeCommitHooks {
+		hook(stage)
+	}
+
+	// 2. Run all After Commit hooks
+	for _, hook := range stage.afterCommitHooks {
+		hook(stage)
+	}
 }
 
 // recomputeOrders recomputes the next order for each struct
@@ -345,7 +379,7 @@ func (stage *Stage) recomputeOrders() {
 	// insertion point for max order recomputation
 	var maxFileToDownloadOrder uint
 	var foundFileToDownload bool
-	for _, order := range stage.FileToDownloadMap_Staged_Order {
+	for _, order := range stage.FileToDownload_stagedOrder {
 		if !foundFileToDownload || order > maxFileToDownloadOrder {
 			maxFileToDownloadOrder = order
 			foundFileToDownload = true
@@ -359,7 +393,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxFileToUploadOrder uint
 	var foundFileToUpload bool
-	for _, order := range stage.FileToUploadMap_Staged_Order {
+	for _, order := range stage.FileToUpload_stagedOrder {
 		if !foundFileToUpload || order > maxFileToUploadOrder {
 			maxFileToUploadOrder = order
 			foundFileToUpload = true
@@ -373,7 +407,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxMessageOrder uint
 	var foundMessage bool
-	for _, order := range stage.MessageMap_Staged_Order {
+	for _, order := range stage.Message_stagedOrder {
 		if !foundMessage || order > maxMessageOrder {
 			maxMessageOrder = order
 			foundMessage = true
@@ -445,7 +479,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 	switch any(t).(type) {
 	// insertion point for case
 	case *FileToDownload:
-		tmp := GetStructInstancesByOrder(stage.FileToDownloads, stage.FileToDownloadMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.FileToDownloads, stage.FileToDownload_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -459,7 +493,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *FileToUpload:
-		tmp := GetStructInstancesByOrder(stage.FileToUploads, stage.FileToUploadMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.FileToUploads, stage.FileToUpload_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -473,7 +507,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Message:
-		tmp := GetStructInstancesByOrder(stage.Messages, stage.MessageMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Messages, stage.Message_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -516,11 +550,11 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 	switch namedStructName {
 	// insertion point for case
 	case "FileToDownload":
-		res = GetNamedStructInstances(stage.FileToDownloads, stage.FileToDownloadMap_Staged_Order)
+		res = GetNamedStructInstances(stage.FileToDownloads, stage.FileToDownload_stagedOrder)
 	case "FileToUpload":
-		res = GetNamedStructInstances(stage.FileToUploads, stage.FileToUploadMap_Staged_Order)
+		res = GetNamedStructInstances(stage.FileToUploads, stage.FileToUpload_stagedOrder)
 	case "Message":
-		res = GetNamedStructInstances(stage.Messages, stage.MessageMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Messages, stage.Message_stagedOrder)
 	}
 
 	return
@@ -621,11 +655,11 @@ func NewStage(name string) (stage *Stage) {
 		// the to be removed stops here
 
 		// insertion point for order map initialisations
-		FileToDownloadMap_Staged_Order: make(map[*FileToDownload]uint),
+		FileToDownload_stagedOrder: make(map[*FileToDownload]uint),
 
-		FileToUploadMap_Staged_Order: make(map[*FileToUpload]uint),
+		FileToUpload_stagedOrder: make(map[*FileToUpload]uint),
 
-		MessageMap_Staged_Order: make(map[*Message]uint),
+		Message_stagedOrder: make(map[*Message]uint),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
@@ -654,11 +688,11 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
 	case *FileToDownload:
-		return stage.FileToDownloadMap_Staged_Order[instance]
+		return stage.FileToDownload_stagedOrder[instance]
 	case *FileToUpload:
-		return stage.FileToUploadMap_Staged_Order[instance]
+		return stage.FileToUpload_stagedOrder[instance]
 	case *Message:
-		return stage.MessageMap_Staged_Order[instance]
+		return stage.Message_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -668,11 +702,11 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
 	case *FileToDownload:
-		return stage.FileToDownloadMap_Staged_Order[instance]
+		return stage.FileToDownload_stagedOrder[instance]
 	case *FileToUpload:
-		return stage.FileToUploadMap_Staged_Order[instance]
+		return stage.FileToUpload_stagedOrder[instance]
 	case *Message:
-		return stage.MessageMap_Staged_Order[instance]
+		return stage.Message_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -685,8 +719,14 @@ func (stage *Stage) GetName() string {
 func (stage *Stage) CommitWithSuspendedCallbacks() {
 	tmp := stage.OnInitCommitFromBackCallback
 	stage.OnInitCommitFromBackCallback = nil
+	tmp2 := stage.beforeCommitHooks
+	stage.beforeCommitHooks = nil
+	tmp3 := stage.afterCommitHooks
+	stage.afterCommitHooks = nil
 	stage.Commit()
 	stage.OnInitCommitFromBackCallback = tmp
+	stage.beforeCommitHooks = tmp2
+	stage.afterCommitHooks = tmp3
 }
 
 func (stage *Stage) Commit() {
@@ -697,6 +737,11 @@ func (stage *Stage) Commit() {
 	}
 	if stage.OnInitCommitFromBackCallback != nil {
 		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
+	}
+
+	// 1. Run all Before Commit hooks
+	for _, hook := range stage.beforeCommitHooks {
+		hook(stage)
 	}
 
 	if stage.BackRepo != nil {
@@ -714,6 +759,11 @@ func (stage *Stage) Commit() {
 	if stage.IsInDeltaMode() {
 		stage.ComputeForwardAndBackwardCommits()
 		stage.ComputeReferenceAndOrders()
+	}
+
+	// 2. Run all After Commit hooks
+	for _, hook := range stage.afterCommitHooks {
+		hook(stage)
 	}
 }
 
@@ -766,7 +816,7 @@ func (stage *Stage) RestoreXL(dirPath string) {
 func (filetodownload *FileToDownload) Stage(stage *Stage) *FileToDownload {
 	if _, ok := stage.FileToDownloads[filetodownload]; !ok {
 		stage.FileToDownloads[filetodownload] = struct{}{}
-		stage.FileToDownloadMap_Staged_Order[filetodownload] = stage.FileToDownloadOrder
+		stage.FileToDownload_stagedOrder[filetodownload] = stage.FileToDownloadOrder
 		stage.FileToDownloadOrder++
 	}
 	stage.FileToDownloads_mapString[filetodownload.Name] = filetodownload
@@ -786,7 +836,7 @@ func (filetodownload *FileToDownload) StagePreserveOrder(stage *Stage, order uin
 		if order > stage.FileToDownloadOrder {
 			stage.FileToDownloadOrder = order
 		}
-		stage.FileToDownloadMap_Staged_Order[filetodownload] = order
+		stage.FileToDownload_stagedOrder[filetodownload] = order
 		stage.FileToDownloadOrder++
 	}
 	stage.FileToDownloads_mapString[filetodownload.Name] = filetodownload
@@ -795,7 +845,8 @@ func (filetodownload *FileToDownload) StagePreserveOrder(stage *Stage, order uin
 // Unstage removes filetodownload off the model stage
 func (filetodownload *FileToDownload) Unstage(stage *Stage) *FileToDownload {
 	delete(stage.FileToDownloads, filetodownload)
-	delete(stage.FileToDownloadMap_Staged_Order, filetodownload)
+	// issue1150
+	// delete(stage.FileToDownload_stagedOrder, filetodownload)
 	delete(stage.FileToDownloads_mapString, filetodownload.Name)
 
 	return filetodownload
@@ -804,7 +855,8 @@ func (filetodownload *FileToDownload) Unstage(stage *Stage) *FileToDownload {
 // UnstageVoid removes filetodownload off the model stage
 func (filetodownload *FileToDownload) UnstageVoid(stage *Stage) {
 	delete(stage.FileToDownloads, filetodownload)
-	delete(stage.FileToDownloadMap_Staged_Order, filetodownload)
+	// issue1150
+	// delete(stage.FileToDownload_stagedOrder, filetodownload)
 	delete(stage.FileToDownloads_mapString, filetodownload.Name)
 }
 
@@ -850,7 +902,7 @@ func (filetodownload *FileToDownload) SetName(name string) {
 func (filetoupload *FileToUpload) Stage(stage *Stage) *FileToUpload {
 	if _, ok := stage.FileToUploads[filetoupload]; !ok {
 		stage.FileToUploads[filetoupload] = struct{}{}
-		stage.FileToUploadMap_Staged_Order[filetoupload] = stage.FileToUploadOrder
+		stage.FileToUpload_stagedOrder[filetoupload] = stage.FileToUploadOrder
 		stage.FileToUploadOrder++
 	}
 	stage.FileToUploads_mapString[filetoupload.Name] = filetoupload
@@ -870,7 +922,7 @@ func (filetoupload *FileToUpload) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.FileToUploadOrder {
 			stage.FileToUploadOrder = order
 		}
-		stage.FileToUploadMap_Staged_Order[filetoupload] = order
+		stage.FileToUpload_stagedOrder[filetoupload] = order
 		stage.FileToUploadOrder++
 	}
 	stage.FileToUploads_mapString[filetoupload.Name] = filetoupload
@@ -879,7 +931,8 @@ func (filetoupload *FileToUpload) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes filetoupload off the model stage
 func (filetoupload *FileToUpload) Unstage(stage *Stage) *FileToUpload {
 	delete(stage.FileToUploads, filetoupload)
-	delete(stage.FileToUploadMap_Staged_Order, filetoupload)
+	// issue1150
+	// delete(stage.FileToUpload_stagedOrder, filetoupload)
 	delete(stage.FileToUploads_mapString, filetoupload.Name)
 
 	return filetoupload
@@ -888,7 +941,8 @@ func (filetoupload *FileToUpload) Unstage(stage *Stage) *FileToUpload {
 // UnstageVoid removes filetoupload off the model stage
 func (filetoupload *FileToUpload) UnstageVoid(stage *Stage) {
 	delete(stage.FileToUploads, filetoupload)
-	delete(stage.FileToUploadMap_Staged_Order, filetoupload)
+	// issue1150
+	// delete(stage.FileToUpload_stagedOrder, filetoupload)
 	delete(stage.FileToUploads_mapString, filetoupload.Name)
 }
 
@@ -934,7 +988,7 @@ func (filetoupload *FileToUpload) SetName(name string) {
 func (message *Message) Stage(stage *Stage) *Message {
 	if _, ok := stage.Messages[message]; !ok {
 		stage.Messages[message] = struct{}{}
-		stage.MessageMap_Staged_Order[message] = stage.MessageOrder
+		stage.Message_stagedOrder[message] = stage.MessageOrder
 		stage.MessageOrder++
 	}
 	stage.Messages_mapString[message.Name] = message
@@ -954,7 +1008,7 @@ func (message *Message) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.MessageOrder {
 			stage.MessageOrder = order
 		}
-		stage.MessageMap_Staged_Order[message] = order
+		stage.Message_stagedOrder[message] = order
 		stage.MessageOrder++
 	}
 	stage.Messages_mapString[message.Name] = message
@@ -963,7 +1017,8 @@ func (message *Message) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes message off the model stage
 func (message *Message) Unstage(stage *Stage) *Message {
 	delete(stage.Messages, message)
-	delete(stage.MessageMap_Staged_Order, message)
+	// issue1150
+	// delete(stage.Message_stagedOrder, message)
 	delete(stage.Messages_mapString, message.Name)
 
 	return message
@@ -972,7 +1027,8 @@ func (message *Message) Unstage(stage *Stage) *Message {
 // UnstageVoid removes message off the model stage
 func (message *Message) UnstageVoid(stage *Stage) {
 	delete(stage.Messages, message)
-	delete(stage.MessageMap_Staged_Order, message)
+	// issue1150
+	// delete(stage.Message_stagedOrder, message)
 	delete(stage.Messages_mapString, message.Name)
 }
 
@@ -1030,17 +1086,17 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 func (stage *Stage) Reset() { // insertion point for array reset
 	stage.FileToDownloads = make(map[*FileToDownload]struct{})
 	stage.FileToDownloads_mapString = make(map[string]*FileToDownload)
-	stage.FileToDownloadMap_Staged_Order = make(map[*FileToDownload]uint)
+	stage.FileToDownload_stagedOrder = make(map[*FileToDownload]uint)
 	stage.FileToDownloadOrder = 0
 
 	stage.FileToUploads = make(map[*FileToUpload]struct{})
 	stage.FileToUploads_mapString = make(map[string]*FileToUpload)
-	stage.FileToUploadMap_Staged_Order = make(map[*FileToUpload]uint)
+	stage.FileToUpload_stagedOrder = make(map[*FileToUpload]uint)
 	stage.FileToUploadOrder = 0
 
 	stage.Messages = make(map[*Message]struct{})
 	stage.Messages_mapString = make(map[string]*Message)
-	stage.MessageMap_Staged_Order = make(map[*Message]uint)
+	stage.Message_stagedOrder = make(map[*Message]uint)
 	stage.MessageOrder = 0
 
 	if stage.GetProbeIF() != nil {

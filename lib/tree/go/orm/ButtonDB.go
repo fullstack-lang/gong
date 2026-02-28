@@ -174,9 +174,9 @@ func (backRepoButton *BackRepoButtonStruct) CommitPhaseOne(stage *models.Stage) 
 		buttons = append(buttons, button)
 	}
 
-	// Sort by the order stored in Map_Staged_Order.
+	// Sort by the order stored in _stagedOrder.
 	sort.Slice(buttons, func(i, j int) bool {
-		return stage.ButtonMap_Staged_Order[buttons[i]] < stage.ButtonMap_Staged_Order[buttons[j]]
+		return stage.Button_stagedOrder[buttons[i]] < stage.Button_stagedOrder[buttons[j]]
 	})
 
 	for _, button := range buttons {

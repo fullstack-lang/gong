@@ -195,9 +195,9 @@ func (backRepoPolyline *BackRepoPolylineStruct) CommitPhaseOne(stage *models.Sta
 		polylines = append(polylines, polyline)
 	}
 
-	// Sort by the order stored in Map_Staged_Order.
+	// Sort by the order stored in _stagedOrder.
 	sort.Slice(polylines, func(i, j int) bool {
-		return stage.PolylineMap_Staged_Order[polylines[i]] < stage.PolylineMap_Staged_Order[polylines[j]]
+		return stage.Polyline_stagedOrder[polylines[i]] < stage.Polyline_stagedOrder[polylines[j]]
 	})
 
 	for _, polyline := range polylines {

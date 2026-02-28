@@ -170,9 +170,9 @@ func (backRepoFormFieldFloat64 *BackRepoFormFieldFloat64Struct) CommitPhaseOne(s
 		formfieldfloat64s = append(formfieldfloat64s, formfieldfloat64)
 	}
 
-	// Sort by the order stored in Map_Staged_Order.
+	// Sort by the order stored in _stagedOrder.
 	sort.Slice(formfieldfloat64s, func(i, j int) bool {
-		return stage.FormFieldFloat64Map_Staged_Order[formfieldfloat64s[i]] < stage.FormFieldFloat64Map_Staged_Order[formfieldfloat64s[j]]
+		return stage.FormFieldFloat64_stagedOrder[formfieldfloat64s[i]] < stage.FormFieldFloat64_stagedOrder[formfieldfloat64s[j]]
 	})
 
 	for _, formfieldfloat64 := range formfieldfloat64s {

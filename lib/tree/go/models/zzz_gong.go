@@ -106,11 +106,13 @@ type Stage struct {
 
 	// insertion point for definition of arrays registering instances
 	Buttons                map[*Button]struct{}
-	Buttons_reference      map[*Button]*Button
-	Buttons_referenceOrder map[*Button]uint
 	Buttons_instance       map[*Button]*Button
 	Buttons_mapString      map[string]*Button
-
+	ButtonOrder            uint
+	Button_stagedOrder     map[*Button]uint
+	Buttons_reference      map[*Button]*Button
+	Buttons_referenceOrder map[*Button]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterButtonCreateCallback OnAfterCreateInterface[Button]
 	OnAfterButtonUpdateCallback OnAfterUpdateInterface[Button]
@@ -118,11 +120,13 @@ type Stage struct {
 	OnAfterButtonReadCallback   OnAfterReadInterface[Button]
 
 	Nodes                map[*Node]struct{}
-	Nodes_reference      map[*Node]*Node
-	Nodes_referenceOrder map[*Node]uint
 	Nodes_instance       map[*Node]*Node
 	Nodes_mapString      map[string]*Node
-
+	NodeOrder            uint
+	Node_stagedOrder     map[*Node]uint
+	Nodes_reference      map[*Node]*Node
+	Nodes_referenceOrder map[*Node]uint
+	
 	// insertion point for slice of pointers maps
 	Node_Children_reverseMap map[*Node]*Node
 
@@ -134,11 +138,13 @@ type Stage struct {
 	OnAfterNodeReadCallback   OnAfterReadInterface[Node]
 
 	SVGIcons                map[*SVGIcon]struct{}
-	SVGIcons_reference      map[*SVGIcon]*SVGIcon
-	SVGIcons_referenceOrder map[*SVGIcon]uint
 	SVGIcons_instance       map[*SVGIcon]*SVGIcon
 	SVGIcons_mapString      map[string]*SVGIcon
-
+	SVGIconOrder            uint
+	SVGIcon_stagedOrder     map[*SVGIcon]uint
+	SVGIcons_reference      map[*SVGIcon]*SVGIcon
+	SVGIcons_referenceOrder map[*SVGIcon]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterSVGIconCreateCallback OnAfterCreateInterface[SVGIcon]
 	OnAfterSVGIconUpdateCallback OnAfterUpdateInterface[SVGIcon]
@@ -146,11 +152,13 @@ type Stage struct {
 	OnAfterSVGIconReadCallback   OnAfterReadInterface[SVGIcon]
 
 	Trees                map[*Tree]struct{}
-	Trees_reference      map[*Tree]*Tree
-	Trees_referenceOrder map[*Tree]uint
 	Trees_instance       map[*Tree]*Tree
 	Trees_mapString      map[string]*Tree
-
+	TreeOrder            uint
+	Tree_stagedOrder     map[*Tree]uint
+	Trees_reference      map[*Tree]*Tree
+	Trees_referenceOrder map[*Tree]uint
+	
 	// insertion point for slice of pointers maps
 	Tree_RootNodes_reverseMap map[*Node]*Tree
 
@@ -170,6 +178,10 @@ type Stage struct {
 	OnInitCommitFromFrontCallback OnInitCommitInterface
 	OnInitCommitFromBackCallback  OnInitCommitInterface
 
+	// Private slices to hold the registered hooks
+	beforeCommitHooks []func(stage *Stage)
+	afterCommitHooks  []func(stage *Stage)
+
 	// store the number of instance per gongstruct
 	Map_GongStructName_InstancesNb map[string]int
 
@@ -185,17 +197,9 @@ type Stage struct {
 	// store the stage order of each instance in order to
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
-	ButtonOrder            uint
-	ButtonMap_Staged_Order map[*Button]uint
 
-	NodeOrder            uint
-	NodeMap_Staged_Order map[*Node]uint
 
-	SVGIconOrder            uint
-	SVGIconMap_Staged_Order map[*SVGIcon]uint
 
-	TreeOrder            uint
-	TreeMap_Staged_Order map[*Tree]uint
 
 	// end of insertion point
 
@@ -217,6 +221,16 @@ type Stage struct {
 	commitsBehind  int // the number of commits the stage is behind the front of the history
 
 	lock sync.RWMutex
+}
+
+// RegisterBeforeCommit adds a hook that runs before the commit happens
+func (s *Stage) RegisterBeforeCommit(hook func(stage *Stage)) {
+	s.beforeCommitHooks = append(s.beforeCommitHooks, hook)
+}
+
+// RegisterAfterCommit adds a hook that runs after the commit succeeds
+func (s *Stage) RegisterAfterCommit(hook func(stage *Stage)) {
+	s.afterCommitHooks = append(s.afterCommitHooks, hook)
 }
 
 type gongStageNavigationMode string
@@ -340,6 +354,16 @@ func (stage *Stage) ResetHard() {
 	if stage.OnInitCommitFromBackCallback != nil {
 		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
 	}
+
+	// 1. Run all Before Commit hooks
+	for _, hook := range stage.beforeCommitHooks {
+		hook(stage)
+	}
+
+	// 2. Run all After Commit hooks
+	for _, hook := range stage.afterCommitHooks {
+		hook(stage)
+	}
 }
 
 // Orphans removes all commits
@@ -356,6 +380,16 @@ func (stage *Stage) Orphans() {
 	if stage.OnInitCommitFromBackCallback != nil {
 		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
 	}
+
+	// 1. Run all Before Commit hooks
+	for _, hook := range stage.beforeCommitHooks {
+		hook(stage)
+	}
+
+	// 2. Run all After Commit hooks
+	for _, hook := range stage.afterCommitHooks {
+		hook(stage)
+	}
 }
 
 // recomputeOrders recomputes the next order for each struct
@@ -366,7 +400,7 @@ func (stage *Stage) recomputeOrders() {
 	// insertion point for max order recomputation
 	var maxButtonOrder uint
 	var foundButton bool
-	for _, order := range stage.ButtonMap_Staged_Order {
+	for _, order := range stage.Button_stagedOrder {
 		if !foundButton || order > maxButtonOrder {
 			maxButtonOrder = order
 			foundButton = true
@@ -380,7 +414,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxNodeOrder uint
 	var foundNode bool
-	for _, order := range stage.NodeMap_Staged_Order {
+	for _, order := range stage.Node_stagedOrder {
 		if !foundNode || order > maxNodeOrder {
 			maxNodeOrder = order
 			foundNode = true
@@ -394,7 +428,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxSVGIconOrder uint
 	var foundSVGIcon bool
-	for _, order := range stage.SVGIconMap_Staged_Order {
+	for _, order := range stage.SVGIcon_stagedOrder {
 		if !foundSVGIcon || order > maxSVGIconOrder {
 			maxSVGIconOrder = order
 			foundSVGIcon = true
@@ -408,7 +442,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxTreeOrder uint
 	var foundTree bool
-	for _, order := range stage.TreeMap_Staged_Order {
+	for _, order := range stage.Tree_stagedOrder {
 		if !foundTree || order > maxTreeOrder {
 			maxTreeOrder = order
 			foundTree = true
@@ -480,7 +514,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 	switch any(t).(type) {
 	// insertion point for case
 	case *Button:
-		tmp := GetStructInstancesByOrder(stage.Buttons, stage.ButtonMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Buttons, stage.Button_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -494,7 +528,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Node:
-		tmp := GetStructInstancesByOrder(stage.Nodes, stage.NodeMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Nodes, stage.Node_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -508,7 +542,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *SVGIcon:
-		tmp := GetStructInstancesByOrder(stage.SVGIcons, stage.SVGIconMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.SVGIcons, stage.SVGIcon_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -522,7 +556,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Tree:
-		tmp := GetStructInstancesByOrder(stage.Trees, stage.TreeMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Trees, stage.Tree_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -565,13 +599,13 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 	switch namedStructName {
 	// insertion point for case
 	case "Button":
-		res = GetNamedStructInstances(stage.Buttons, stage.ButtonMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Buttons, stage.Button_stagedOrder)
 	case "Node":
-		res = GetNamedStructInstances(stage.Nodes, stage.NodeMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Nodes, stage.Node_stagedOrder)
 	case "SVGIcon":
-		res = GetNamedStructInstances(stage.SVGIcons, stage.SVGIconMap_Staged_Order)
+		res = GetNamedStructInstances(stage.SVGIcons, stage.SVGIcon_stagedOrder)
 	case "Tree":
-		res = GetNamedStructInstances(stage.Trees, stage.TreeMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Trees, stage.Tree_stagedOrder)
 	}
 
 	return
@@ -677,13 +711,13 @@ func NewStage(name string) (stage *Stage) {
 		// the to be removed stops here
 
 		// insertion point for order map initialisations
-		ButtonMap_Staged_Order: make(map[*Button]uint),
+		Button_stagedOrder: make(map[*Button]uint),
 
-		NodeMap_Staged_Order: make(map[*Node]uint),
+		Node_stagedOrder: make(map[*Node]uint),
 
-		SVGIconMap_Staged_Order: make(map[*SVGIcon]uint),
+		SVGIcon_stagedOrder: make(map[*SVGIcon]uint),
 
-		TreeMap_Staged_Order: make(map[*Tree]uint),
+		Tree_stagedOrder: make(map[*Tree]uint),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
@@ -715,13 +749,13 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
 	case *Button:
-		return stage.ButtonMap_Staged_Order[instance]
+		return stage.Button_stagedOrder[instance]
 	case *Node:
-		return stage.NodeMap_Staged_Order[instance]
+		return stage.Node_stagedOrder[instance]
 	case *SVGIcon:
-		return stage.SVGIconMap_Staged_Order[instance]
+		return stage.SVGIcon_stagedOrder[instance]
 	case *Tree:
-		return stage.TreeMap_Staged_Order[instance]
+		return stage.Tree_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -731,13 +765,13 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
 	case *Button:
-		return stage.ButtonMap_Staged_Order[instance]
+		return stage.Button_stagedOrder[instance]
 	case *Node:
-		return stage.NodeMap_Staged_Order[instance]
+		return stage.Node_stagedOrder[instance]
 	case *SVGIcon:
-		return stage.SVGIconMap_Staged_Order[instance]
+		return stage.SVGIcon_stagedOrder[instance]
 	case *Tree:
-		return stage.TreeMap_Staged_Order[instance]
+		return stage.Tree_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -750,8 +784,14 @@ func (stage *Stage) GetName() string {
 func (stage *Stage) CommitWithSuspendedCallbacks() {
 	tmp := stage.OnInitCommitFromBackCallback
 	stage.OnInitCommitFromBackCallback = nil
+	tmp2 := stage.beforeCommitHooks
+	stage.beforeCommitHooks = nil
+	tmp3 := stage.afterCommitHooks
+	stage.afterCommitHooks = nil
 	stage.Commit()
 	stage.OnInitCommitFromBackCallback = tmp
+	stage.beforeCommitHooks = tmp2
+	stage.afterCommitHooks = tmp3
 }
 
 func (stage *Stage) Commit() {
@@ -762,6 +802,11 @@ func (stage *Stage) Commit() {
 	}
 	if stage.OnInitCommitFromBackCallback != nil {
 		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
+	}
+
+	// 1. Run all Before Commit hooks
+	for _, hook := range stage.beforeCommitHooks {
+		hook(stage)
 	}
 
 	if stage.BackRepo != nil {
@@ -779,6 +824,11 @@ func (stage *Stage) Commit() {
 	if stage.IsInDeltaMode() {
 		stage.ComputeForwardAndBackwardCommits()
 		stage.ComputeReferenceAndOrders()
+	}
+
+	// 2. Run all After Commit hooks
+	for _, hook := range stage.afterCommitHooks {
+		hook(stage)
 	}
 }
 
@@ -832,7 +882,7 @@ func (stage *Stage) RestoreXL(dirPath string) {
 func (button *Button) Stage(stage *Stage) *Button {
 	if _, ok := stage.Buttons[button]; !ok {
 		stage.Buttons[button] = struct{}{}
-		stage.ButtonMap_Staged_Order[button] = stage.ButtonOrder
+		stage.Button_stagedOrder[button] = stage.ButtonOrder
 		stage.ButtonOrder++
 	}
 	stage.Buttons_mapString[button.Name] = button
@@ -852,7 +902,7 @@ func (button *Button) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.ButtonOrder {
 			stage.ButtonOrder = order
 		}
-		stage.ButtonMap_Staged_Order[button] = order
+		stage.Button_stagedOrder[button] = order
 		stage.ButtonOrder++
 	}
 	stage.Buttons_mapString[button.Name] = button
@@ -861,7 +911,8 @@ func (button *Button) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes button off the model stage
 func (button *Button) Unstage(stage *Stage) *Button {
 	delete(stage.Buttons, button)
-	delete(stage.ButtonMap_Staged_Order, button)
+	// issue1150
+	// delete(stage.Button_stagedOrder, button)
 	delete(stage.Buttons_mapString, button.Name)
 
 	return button
@@ -870,7 +921,8 @@ func (button *Button) Unstage(stage *Stage) *Button {
 // UnstageVoid removes button off the model stage
 func (button *Button) UnstageVoid(stage *Stage) {
 	delete(stage.Buttons, button)
-	delete(stage.ButtonMap_Staged_Order, button)
+	// issue1150
+	// delete(stage.Button_stagedOrder, button)
 	delete(stage.Buttons_mapString, button.Name)
 }
 
@@ -916,7 +968,7 @@ func (button *Button) SetName(name string) {
 func (node *Node) Stage(stage *Stage) *Node {
 	if _, ok := stage.Nodes[node]; !ok {
 		stage.Nodes[node] = struct{}{}
-		stage.NodeMap_Staged_Order[node] = stage.NodeOrder
+		stage.Node_stagedOrder[node] = stage.NodeOrder
 		stage.NodeOrder++
 	}
 	stage.Nodes_mapString[node.Name] = node
@@ -936,7 +988,7 @@ func (node *Node) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.NodeOrder {
 			stage.NodeOrder = order
 		}
-		stage.NodeMap_Staged_Order[node] = order
+		stage.Node_stagedOrder[node] = order
 		stage.NodeOrder++
 	}
 	stage.Nodes_mapString[node.Name] = node
@@ -945,7 +997,8 @@ func (node *Node) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes node off the model stage
 func (node *Node) Unstage(stage *Stage) *Node {
 	delete(stage.Nodes, node)
-	delete(stage.NodeMap_Staged_Order, node)
+	// issue1150
+	// delete(stage.Node_stagedOrder, node)
 	delete(stage.Nodes_mapString, node.Name)
 
 	return node
@@ -954,7 +1007,8 @@ func (node *Node) Unstage(stage *Stage) *Node {
 // UnstageVoid removes node off the model stage
 func (node *Node) UnstageVoid(stage *Stage) {
 	delete(stage.Nodes, node)
-	delete(stage.NodeMap_Staged_Order, node)
+	// issue1150
+	// delete(stage.Node_stagedOrder, node)
 	delete(stage.Nodes_mapString, node.Name)
 }
 
@@ -1000,7 +1054,7 @@ func (node *Node) SetName(name string) {
 func (svgicon *SVGIcon) Stage(stage *Stage) *SVGIcon {
 	if _, ok := stage.SVGIcons[svgicon]; !ok {
 		stage.SVGIcons[svgicon] = struct{}{}
-		stage.SVGIconMap_Staged_Order[svgicon] = stage.SVGIconOrder
+		stage.SVGIcon_stagedOrder[svgicon] = stage.SVGIconOrder
 		stage.SVGIconOrder++
 	}
 	stage.SVGIcons_mapString[svgicon.Name] = svgicon
@@ -1020,7 +1074,7 @@ func (svgicon *SVGIcon) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.SVGIconOrder {
 			stage.SVGIconOrder = order
 		}
-		stage.SVGIconMap_Staged_Order[svgicon] = order
+		stage.SVGIcon_stagedOrder[svgicon] = order
 		stage.SVGIconOrder++
 	}
 	stage.SVGIcons_mapString[svgicon.Name] = svgicon
@@ -1029,7 +1083,8 @@ func (svgicon *SVGIcon) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes svgicon off the model stage
 func (svgicon *SVGIcon) Unstage(stage *Stage) *SVGIcon {
 	delete(stage.SVGIcons, svgicon)
-	delete(stage.SVGIconMap_Staged_Order, svgicon)
+	// issue1150
+	// delete(stage.SVGIcon_stagedOrder, svgicon)
 	delete(stage.SVGIcons_mapString, svgicon.Name)
 
 	return svgicon
@@ -1038,7 +1093,8 @@ func (svgicon *SVGIcon) Unstage(stage *Stage) *SVGIcon {
 // UnstageVoid removes svgicon off the model stage
 func (svgicon *SVGIcon) UnstageVoid(stage *Stage) {
 	delete(stage.SVGIcons, svgicon)
-	delete(stage.SVGIconMap_Staged_Order, svgicon)
+	// issue1150
+	// delete(stage.SVGIcon_stagedOrder, svgicon)
 	delete(stage.SVGIcons_mapString, svgicon.Name)
 }
 
@@ -1084,7 +1140,7 @@ func (svgicon *SVGIcon) SetName(name string) {
 func (tree *Tree) Stage(stage *Stage) *Tree {
 	if _, ok := stage.Trees[tree]; !ok {
 		stage.Trees[tree] = struct{}{}
-		stage.TreeMap_Staged_Order[tree] = stage.TreeOrder
+		stage.Tree_stagedOrder[tree] = stage.TreeOrder
 		stage.TreeOrder++
 	}
 	stage.Trees_mapString[tree.Name] = tree
@@ -1104,7 +1160,7 @@ func (tree *Tree) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.TreeOrder {
 			stage.TreeOrder = order
 		}
-		stage.TreeMap_Staged_Order[tree] = order
+		stage.Tree_stagedOrder[tree] = order
 		stage.TreeOrder++
 	}
 	stage.Trees_mapString[tree.Name] = tree
@@ -1113,7 +1169,8 @@ func (tree *Tree) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes tree off the model stage
 func (tree *Tree) Unstage(stage *Stage) *Tree {
 	delete(stage.Trees, tree)
-	delete(stage.TreeMap_Staged_Order, tree)
+	// issue1150
+	// delete(stage.Tree_stagedOrder, tree)
 	delete(stage.Trees_mapString, tree.Name)
 
 	return tree
@@ -1122,7 +1179,8 @@ func (tree *Tree) Unstage(stage *Stage) *Tree {
 // UnstageVoid removes tree off the model stage
 func (tree *Tree) UnstageVoid(stage *Stage) {
 	delete(stage.Trees, tree)
-	delete(stage.TreeMap_Staged_Order, tree)
+	// issue1150
+	// delete(stage.Tree_stagedOrder, tree)
 	delete(stage.Trees_mapString, tree.Name)
 }
 
@@ -1182,22 +1240,22 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Buttons = make(map[*Button]struct{})
 	stage.Buttons_mapString = make(map[string]*Button)
-	stage.ButtonMap_Staged_Order = make(map[*Button]uint)
+	stage.Button_stagedOrder = make(map[*Button]uint)
 	stage.ButtonOrder = 0
 
 	stage.Nodes = make(map[*Node]struct{})
 	stage.Nodes_mapString = make(map[string]*Node)
-	stage.NodeMap_Staged_Order = make(map[*Node]uint)
+	stage.Node_stagedOrder = make(map[*Node]uint)
 	stage.NodeOrder = 0
 
 	stage.SVGIcons = make(map[*SVGIcon]struct{})
 	stage.SVGIcons_mapString = make(map[string]*SVGIcon)
-	stage.SVGIconMap_Staged_Order = make(map[*SVGIcon]uint)
+	stage.SVGIcon_stagedOrder = make(map[*SVGIcon]uint)
 	stage.SVGIconOrder = 0
 
 	stage.Trees = make(map[*Tree]struct{})
 	stage.Trees_mapString = make(map[string]*Tree)
-	stage.TreeMap_Staged_Order = make(map[*Tree]uint)
+	stage.Tree_stagedOrder = make(map[*Tree]uint)
 	stage.TreeOrder = 0
 
 	if stage.GetProbeIF() != nil {
@@ -2083,7 +2141,7 @@ func (button *Button) GongSetFieldValue(fieldName string, value GongFieldValue, 
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			button.SVGIcon = nil
 			for __instance__ := range stage.SVGIcons {
-				if stage.SVGIconMap_Staged_Order[__instance__] == uint(id) {
+				if stage.SVGIcon_stagedOrder[__instance__] == uint(id) {
 					button.SVGIcon = __instance__
 					break
 				}
@@ -2163,7 +2221,7 @@ func (node *Node) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			node.PreceedingSVGIcon = nil
 			for __instance__ := range stage.SVGIcons {
-				if stage.SVGIconMap_Staged_Order[__instance__] == uint(id) {
+				if stage.SVGIcon_stagedOrder[__instance__] == uint(id) {
 					node.PreceedingSVGIcon = __instance__
 					break
 				}
@@ -2176,7 +2234,7 @@ func (node *Node) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Nodes {
-					if stage.NodeMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Node_stagedOrder[__instance__] == uint(id) {
 						node.Children = append(node.Children, __instance__)
 						break
 					}
@@ -2190,7 +2248,7 @@ func (node *Node) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Buttons {
-					if stage.ButtonMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Button_stagedOrder[__instance__] == uint(id) {
 						node.Buttons = append(node.Buttons, __instance__)
 						break
 					}
@@ -2228,7 +2286,7 @@ func (tree *Tree) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Nodes {
-					if stage.NodeMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Node_stagedOrder[__instance__] == uint(id) {
 						tree.RootNodes = append(tree.RootNodes, __instance__)
 						break
 					}

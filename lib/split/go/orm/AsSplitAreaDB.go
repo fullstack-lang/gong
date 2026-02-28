@@ -223,9 +223,9 @@ func (backRepoAsSplitArea *BackRepoAsSplitAreaStruct) CommitPhaseOne(stage *mode
 		assplitareas = append(assplitareas, assplitarea)
 	}
 
-	// Sort by the order stored in Map_Staged_Order.
+	// Sort by the order stored in _stagedOrder.
 	sort.Slice(assplitareas, func(i, j int) bool {
-		return stage.AsSplitAreaMap_Staged_Order[assplitareas[i]] < stage.AsSplitAreaMap_Staged_Order[assplitareas[j]]
+		return stage.AsSplitArea_stagedOrder[assplitareas[i]] < stage.AsSplitArea_stagedOrder[assplitareas[j]]
 	})
 
 	for _, assplitarea := range assplitareas {

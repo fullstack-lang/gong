@@ -320,9 +320,9 @@ func (backRepoLink *BackRepoLinkStruct) CommitPhaseOne(stage *models.Stage) (Err
 		links = append(links, link)
 	}
 
-	// Sort by the order stored in Map_Staged_Order.
+	// Sort by the order stored in _stagedOrder.
 	sort.Slice(links, func(i, j int) bool {
-		return stage.LinkMap_Staged_Order[links[i]] < stage.LinkMap_Staged_Order[links[j]]
+		return stage.Link_stagedOrder[links[i]] < stage.Link_stagedOrder[links[j]]
 	})
 
 	for _, link := range links {
