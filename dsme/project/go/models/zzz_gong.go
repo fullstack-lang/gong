@@ -106,10 +106,12 @@ type Stage struct {
 
 	// insertion point for definition of arrays registering instances
 	Diagrams                map[*Diagram]struct{}
-	Diagrams_reference      map[*Diagram]*Diagram
-	Diagrams_referenceOrder map[*Diagram]uint
 	Diagrams_instance       map[*Diagram]*Diagram
 	Diagrams_mapString      map[string]*Diagram
+	DiagramOrder            uint
+	Diagram_stagedOrder     map[*Diagram]uint
+	Diagrams_reference      map[*Diagram]*Diagram
+	Diagrams_referenceOrder map[*Diagram]uint
 
 	// insertion point for slice of pointers maps
 	Diagram_Product_Shapes_reverseMap map[*ProductShape]*Diagram
@@ -156,10 +158,12 @@ type Stage struct {
 	OnAfterDiagramReadCallback   OnAfterReadInterface[Diagram]
 
 	Notes                map[*Note]struct{}
-	Notes_reference      map[*Note]*Note
-	Notes_referenceOrder map[*Note]uint
 	Notes_instance       map[*Note]*Note
 	Notes_mapString      map[string]*Note
+	NoteOrder            uint
+	Note_stagedOrder     map[*Note]uint
+	Notes_reference      map[*Note]*Note
+	Notes_referenceOrder map[*Note]uint
 
 	// insertion point for slice of pointers maps
 	Note_Products_reverseMap map[*Product]*Note
@@ -174,10 +178,12 @@ type Stage struct {
 	OnAfterNoteReadCallback   OnAfterReadInterface[Note]
 
 	NoteProductShapes                map[*NoteProductShape]struct{}
-	NoteProductShapes_reference      map[*NoteProductShape]*NoteProductShape
-	NoteProductShapes_referenceOrder map[*NoteProductShape]uint
 	NoteProductShapes_instance       map[*NoteProductShape]*NoteProductShape
 	NoteProductShapes_mapString      map[string]*NoteProductShape
+	NoteProductShapeOrder            uint
+	NoteProductShape_stagedOrder     map[*NoteProductShape]uint
+	NoteProductShapes_reference      map[*NoteProductShape]*NoteProductShape
+	NoteProductShapes_referenceOrder map[*NoteProductShape]uint
 
 	// insertion point for slice of pointers maps
 	OnAfterNoteProductShapeCreateCallback OnAfterCreateInterface[NoteProductShape]
@@ -186,10 +192,12 @@ type Stage struct {
 	OnAfterNoteProductShapeReadCallback   OnAfterReadInterface[NoteProductShape]
 
 	NoteResourceShapes                map[*NoteResourceShape]struct{}
-	NoteResourceShapes_reference      map[*NoteResourceShape]*NoteResourceShape
-	NoteResourceShapes_referenceOrder map[*NoteResourceShape]uint
 	NoteResourceShapes_instance       map[*NoteResourceShape]*NoteResourceShape
 	NoteResourceShapes_mapString      map[string]*NoteResourceShape
+	NoteResourceShapeOrder            uint
+	NoteResourceShape_stagedOrder     map[*NoteResourceShape]uint
+	NoteResourceShapes_reference      map[*NoteResourceShape]*NoteResourceShape
+	NoteResourceShapes_referenceOrder map[*NoteResourceShape]uint
 
 	// insertion point for slice of pointers maps
 	OnAfterNoteResourceShapeCreateCallback OnAfterCreateInterface[NoteResourceShape]
@@ -198,10 +206,12 @@ type Stage struct {
 	OnAfterNoteResourceShapeReadCallback   OnAfterReadInterface[NoteResourceShape]
 
 	NoteShapes                map[*NoteShape]struct{}
-	NoteShapes_reference      map[*NoteShape]*NoteShape
-	NoteShapes_referenceOrder map[*NoteShape]uint
 	NoteShapes_instance       map[*NoteShape]*NoteShape
 	NoteShapes_mapString      map[string]*NoteShape
+	NoteShapeOrder            uint
+	NoteShape_stagedOrder     map[*NoteShape]uint
+	NoteShapes_reference      map[*NoteShape]*NoteShape
+	NoteShapes_referenceOrder map[*NoteShape]uint
 
 	// insertion point for slice of pointers maps
 	OnAfterNoteShapeCreateCallback OnAfterCreateInterface[NoteShape]
@@ -210,10 +220,12 @@ type Stage struct {
 	OnAfterNoteShapeReadCallback   OnAfterReadInterface[NoteShape]
 
 	NoteTaskShapes                map[*NoteTaskShape]struct{}
-	NoteTaskShapes_reference      map[*NoteTaskShape]*NoteTaskShape
-	NoteTaskShapes_referenceOrder map[*NoteTaskShape]uint
 	NoteTaskShapes_instance       map[*NoteTaskShape]*NoteTaskShape
 	NoteTaskShapes_mapString      map[string]*NoteTaskShape
+	NoteTaskShapeOrder            uint
+	NoteTaskShape_stagedOrder     map[*NoteTaskShape]uint
+	NoteTaskShapes_reference      map[*NoteTaskShape]*NoteTaskShape
+	NoteTaskShapes_referenceOrder map[*NoteTaskShape]uint
 
 	// insertion point for slice of pointers maps
 	OnAfterNoteTaskShapeCreateCallback OnAfterCreateInterface[NoteTaskShape]
@@ -222,10 +234,12 @@ type Stage struct {
 	OnAfterNoteTaskShapeReadCallback   OnAfterReadInterface[NoteTaskShape]
 
 	Products                map[*Product]struct{}
-	Products_reference      map[*Product]*Product
-	Products_referenceOrder map[*Product]uint
 	Products_instance       map[*Product]*Product
 	Products_mapString      map[string]*Product
+	ProductOrder            uint
+	Product_stagedOrder     map[*Product]uint
+	Products_reference      map[*Product]*Product
+	Products_referenceOrder map[*Product]uint
 
 	// insertion point for slice of pointers maps
 	Product_SubProducts_reverseMap map[*Product]*Product
@@ -236,10 +250,12 @@ type Stage struct {
 	OnAfterProductReadCallback   OnAfterReadInterface[Product]
 
 	ProductCompositionShapes                map[*ProductCompositionShape]struct{}
-	ProductCompositionShapes_reference      map[*ProductCompositionShape]*ProductCompositionShape
-	ProductCompositionShapes_referenceOrder map[*ProductCompositionShape]uint
 	ProductCompositionShapes_instance       map[*ProductCompositionShape]*ProductCompositionShape
 	ProductCompositionShapes_mapString      map[string]*ProductCompositionShape
+	ProductCompositionShapeOrder            uint
+	ProductCompositionShape_stagedOrder     map[*ProductCompositionShape]uint
+	ProductCompositionShapes_reference      map[*ProductCompositionShape]*ProductCompositionShape
+	ProductCompositionShapes_referenceOrder map[*ProductCompositionShape]uint
 
 	// insertion point for slice of pointers maps
 	OnAfterProductCompositionShapeCreateCallback OnAfterCreateInterface[ProductCompositionShape]
@@ -248,10 +264,12 @@ type Stage struct {
 	OnAfterProductCompositionShapeReadCallback   OnAfterReadInterface[ProductCompositionShape]
 
 	ProductShapes                map[*ProductShape]struct{}
-	ProductShapes_reference      map[*ProductShape]*ProductShape
-	ProductShapes_referenceOrder map[*ProductShape]uint
 	ProductShapes_instance       map[*ProductShape]*ProductShape
 	ProductShapes_mapString      map[string]*ProductShape
+	ProductShapeOrder            uint
+	ProductShape_stagedOrder     map[*ProductShape]uint
+	ProductShapes_reference      map[*ProductShape]*ProductShape
+	ProductShapes_referenceOrder map[*ProductShape]uint
 
 	// insertion point for slice of pointers maps
 	OnAfterProductShapeCreateCallback OnAfterCreateInterface[ProductShape]
@@ -260,10 +278,12 @@ type Stage struct {
 	OnAfterProductShapeReadCallback   OnAfterReadInterface[ProductShape]
 
 	Projects                map[*Project]struct{}
-	Projects_reference      map[*Project]*Project
-	Projects_referenceOrder map[*Project]uint
 	Projects_instance       map[*Project]*Project
 	Projects_mapString      map[string]*Project
+	ProjectOrder            uint
+	Project_stagedOrder     map[*Project]uint
+	Projects_reference      map[*Project]*Project
+	Projects_referenceOrder map[*Project]uint
 
 	// insertion point for slice of pointers maps
 	Project_RootProducts_reverseMap map[*Product]*Project
@@ -282,10 +302,12 @@ type Stage struct {
 	OnAfterProjectReadCallback   OnAfterReadInterface[Project]
 
 	Resources                map[*Resource]struct{}
-	Resources_reference      map[*Resource]*Resource
-	Resources_referenceOrder map[*Resource]uint
 	Resources_instance       map[*Resource]*Resource
 	Resources_mapString      map[string]*Resource
+	ResourceOrder            uint
+	Resource_stagedOrder     map[*Resource]uint
+	Resources_reference      map[*Resource]*Resource
+	Resources_referenceOrder map[*Resource]uint
 
 	// insertion point for slice of pointers maps
 	Resource_Tasks_reverseMap map[*Task]*Resource
@@ -298,10 +320,12 @@ type Stage struct {
 	OnAfterResourceReadCallback   OnAfterReadInterface[Resource]
 
 	ResourceCompositionShapes                map[*ResourceCompositionShape]struct{}
-	ResourceCompositionShapes_reference      map[*ResourceCompositionShape]*ResourceCompositionShape
-	ResourceCompositionShapes_referenceOrder map[*ResourceCompositionShape]uint
 	ResourceCompositionShapes_instance       map[*ResourceCompositionShape]*ResourceCompositionShape
 	ResourceCompositionShapes_mapString      map[string]*ResourceCompositionShape
+	ResourceCompositionShapeOrder            uint
+	ResourceCompositionShape_stagedOrder     map[*ResourceCompositionShape]uint
+	ResourceCompositionShapes_reference      map[*ResourceCompositionShape]*ResourceCompositionShape
+	ResourceCompositionShapes_referenceOrder map[*ResourceCompositionShape]uint
 
 	// insertion point for slice of pointers maps
 	OnAfterResourceCompositionShapeCreateCallback OnAfterCreateInterface[ResourceCompositionShape]
@@ -310,10 +334,12 @@ type Stage struct {
 	OnAfterResourceCompositionShapeReadCallback   OnAfterReadInterface[ResourceCompositionShape]
 
 	ResourceShapes                map[*ResourceShape]struct{}
-	ResourceShapes_reference      map[*ResourceShape]*ResourceShape
-	ResourceShapes_referenceOrder map[*ResourceShape]uint
 	ResourceShapes_instance       map[*ResourceShape]*ResourceShape
 	ResourceShapes_mapString      map[string]*ResourceShape
+	ResourceShapeOrder            uint
+	ResourceShape_stagedOrder     map[*ResourceShape]uint
+	ResourceShapes_reference      map[*ResourceShape]*ResourceShape
+	ResourceShapes_referenceOrder map[*ResourceShape]uint
 
 	// insertion point for slice of pointers maps
 	OnAfterResourceShapeCreateCallback OnAfterCreateInterface[ResourceShape]
@@ -322,10 +348,12 @@ type Stage struct {
 	OnAfterResourceShapeReadCallback   OnAfterReadInterface[ResourceShape]
 
 	ResourceTaskShapes                map[*ResourceTaskShape]struct{}
-	ResourceTaskShapes_reference      map[*ResourceTaskShape]*ResourceTaskShape
-	ResourceTaskShapes_referenceOrder map[*ResourceTaskShape]uint
 	ResourceTaskShapes_instance       map[*ResourceTaskShape]*ResourceTaskShape
 	ResourceTaskShapes_mapString      map[string]*ResourceTaskShape
+	ResourceTaskShapeOrder            uint
+	ResourceTaskShape_stagedOrder     map[*ResourceTaskShape]uint
+	ResourceTaskShapes_reference      map[*ResourceTaskShape]*ResourceTaskShape
+	ResourceTaskShapes_referenceOrder map[*ResourceTaskShape]uint
 
 	// insertion point for slice of pointers maps
 	OnAfterResourceTaskShapeCreateCallback OnAfterCreateInterface[ResourceTaskShape]
@@ -334,10 +362,12 @@ type Stage struct {
 	OnAfterResourceTaskShapeReadCallback   OnAfterReadInterface[ResourceTaskShape]
 
 	Roots                map[*Root]struct{}
-	Roots_reference      map[*Root]*Root
-	Roots_referenceOrder map[*Root]uint
 	Roots_instance       map[*Root]*Root
 	Roots_mapString      map[string]*Root
+	RootOrder            uint
+	Root_stagedOrder     map[*Root]uint
+	Roots_reference      map[*Root]*Root
+	Roots_referenceOrder map[*Root]uint
 
 	// insertion point for slice of pointers maps
 	Root_Projects_reverseMap map[*Project]*Root
@@ -348,10 +378,12 @@ type Stage struct {
 	OnAfterRootReadCallback   OnAfterReadInterface[Root]
 
 	Tasks                map[*Task]struct{}
-	Tasks_reference      map[*Task]*Task
-	Tasks_referenceOrder map[*Task]uint
 	Tasks_instance       map[*Task]*Task
 	Tasks_mapString      map[string]*Task
+	TaskOrder            uint
+	Task_stagedOrder     map[*Task]uint
+	Tasks_reference      map[*Task]*Task
+	Tasks_referenceOrder map[*Task]uint
 
 	// insertion point for slice of pointers maps
 	Task_SubTasks_reverseMap map[*Task]*Task
@@ -366,10 +398,12 @@ type Stage struct {
 	OnAfterTaskReadCallback   OnAfterReadInterface[Task]
 
 	TaskCompositionShapes                map[*TaskCompositionShape]struct{}
-	TaskCompositionShapes_reference      map[*TaskCompositionShape]*TaskCompositionShape
-	TaskCompositionShapes_referenceOrder map[*TaskCompositionShape]uint
 	TaskCompositionShapes_instance       map[*TaskCompositionShape]*TaskCompositionShape
 	TaskCompositionShapes_mapString      map[string]*TaskCompositionShape
+	TaskCompositionShapeOrder            uint
+	TaskCompositionShape_stagedOrder     map[*TaskCompositionShape]uint
+	TaskCompositionShapes_reference      map[*TaskCompositionShape]*TaskCompositionShape
+	TaskCompositionShapes_referenceOrder map[*TaskCompositionShape]uint
 
 	// insertion point for slice of pointers maps
 	OnAfterTaskCompositionShapeCreateCallback OnAfterCreateInterface[TaskCompositionShape]
@@ -378,10 +412,12 @@ type Stage struct {
 	OnAfterTaskCompositionShapeReadCallback   OnAfterReadInterface[TaskCompositionShape]
 
 	TaskInputShapes                map[*TaskInputShape]struct{}
-	TaskInputShapes_reference      map[*TaskInputShape]*TaskInputShape
-	TaskInputShapes_referenceOrder map[*TaskInputShape]uint
 	TaskInputShapes_instance       map[*TaskInputShape]*TaskInputShape
 	TaskInputShapes_mapString      map[string]*TaskInputShape
+	TaskInputShapeOrder            uint
+	TaskInputShape_stagedOrder     map[*TaskInputShape]uint
+	TaskInputShapes_reference      map[*TaskInputShape]*TaskInputShape
+	TaskInputShapes_referenceOrder map[*TaskInputShape]uint
 
 	// insertion point for slice of pointers maps
 	OnAfterTaskInputShapeCreateCallback OnAfterCreateInterface[TaskInputShape]
@@ -390,10 +426,12 @@ type Stage struct {
 	OnAfterTaskInputShapeReadCallback   OnAfterReadInterface[TaskInputShape]
 
 	TaskOutputShapes                map[*TaskOutputShape]struct{}
-	TaskOutputShapes_reference      map[*TaskOutputShape]*TaskOutputShape
-	TaskOutputShapes_referenceOrder map[*TaskOutputShape]uint
 	TaskOutputShapes_instance       map[*TaskOutputShape]*TaskOutputShape
 	TaskOutputShapes_mapString      map[string]*TaskOutputShape
+	TaskOutputShapeOrder            uint
+	TaskOutputShape_stagedOrder     map[*TaskOutputShape]uint
+	TaskOutputShapes_reference      map[*TaskOutputShape]*TaskOutputShape
+	TaskOutputShapes_referenceOrder map[*TaskOutputShape]uint
 
 	// insertion point for slice of pointers maps
 	OnAfterTaskOutputShapeCreateCallback OnAfterCreateInterface[TaskOutputShape]
@@ -402,10 +440,12 @@ type Stage struct {
 	OnAfterTaskOutputShapeReadCallback   OnAfterReadInterface[TaskOutputShape]
 
 	TaskShapes                map[*TaskShape]struct{}
-	TaskShapes_reference      map[*TaskShape]*TaskShape
-	TaskShapes_referenceOrder map[*TaskShape]uint
 	TaskShapes_instance       map[*TaskShape]*TaskShape
 	TaskShapes_mapString      map[string]*TaskShape
+	TaskShapeOrder            uint
+	TaskShape_stagedOrder     map[*TaskShape]uint
+	TaskShapes_reference      map[*TaskShape]*TaskShape
+	TaskShapes_referenceOrder map[*TaskShape]uint
 
 	// insertion point for slice of pointers maps
 	OnAfterTaskShapeCreateCallback OnAfterCreateInterface[TaskShape]
@@ -443,65 +483,6 @@ type Stage struct {
 	// store the stage order of each instance in order to
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
-	DiagramOrder            uint
-	DiagramMap_Staged_Order map[*Diagram]uint
-
-	NoteOrder            uint
-	NoteMap_Staged_Order map[*Note]uint
-
-	NoteProductShapeOrder            uint
-	NoteProductShapeMap_Staged_Order map[*NoteProductShape]uint
-
-	NoteResourceShapeOrder            uint
-	NoteResourceShapeMap_Staged_Order map[*NoteResourceShape]uint
-
-	NoteShapeOrder            uint
-	NoteShapeMap_Staged_Order map[*NoteShape]uint
-
-	NoteTaskShapeOrder            uint
-	NoteTaskShapeMap_Staged_Order map[*NoteTaskShape]uint
-
-	ProductOrder            uint
-	ProductMap_Staged_Order map[*Product]uint
-
-	ProductCompositionShapeOrder            uint
-	ProductCompositionShapeMap_Staged_Order map[*ProductCompositionShape]uint
-
-	ProductShapeOrder            uint
-	ProductShapeMap_Staged_Order map[*ProductShape]uint
-
-	ProjectOrder            uint
-	ProjectMap_Staged_Order map[*Project]uint
-
-	ResourceOrder            uint
-	ResourceMap_Staged_Order map[*Resource]uint
-
-	ResourceCompositionShapeOrder            uint
-	ResourceCompositionShapeMap_Staged_Order map[*ResourceCompositionShape]uint
-
-	ResourceShapeOrder            uint
-	ResourceShapeMap_Staged_Order map[*ResourceShape]uint
-
-	ResourceTaskShapeOrder            uint
-	ResourceTaskShapeMap_Staged_Order map[*ResourceTaskShape]uint
-
-	RootOrder            uint
-	RootMap_Staged_Order map[*Root]uint
-
-	TaskOrder            uint
-	TaskMap_Staged_Order map[*Task]uint
-
-	TaskCompositionShapeOrder            uint
-	TaskCompositionShapeMap_Staged_Order map[*TaskCompositionShape]uint
-
-	TaskInputShapeOrder            uint
-	TaskInputShapeMap_Staged_Order map[*TaskInputShape]uint
-
-	TaskOutputShapeOrder            uint
-	TaskOutputShapeMap_Staged_Order map[*TaskOutputShape]uint
-
-	TaskShapeOrder            uint
-	TaskShapeMap_Staged_Order map[*TaskShape]uint
 
 	// end of insertion point
 
@@ -702,7 +683,7 @@ func (stage *Stage) recomputeOrders() {
 	// insertion point for max order recomputation
 	var maxDiagramOrder uint
 	var foundDiagram bool
-	for _, order := range stage.DiagramMap_Staged_Order {
+	for _, order := range stage.Diagram_stagedOrder {
 		if !foundDiagram || order > maxDiagramOrder {
 			maxDiagramOrder = order
 			foundDiagram = true
@@ -716,7 +697,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxNoteOrder uint
 	var foundNote bool
-	for _, order := range stage.NoteMap_Staged_Order {
+	for _, order := range stage.Note_stagedOrder {
 		if !foundNote || order > maxNoteOrder {
 			maxNoteOrder = order
 			foundNote = true
@@ -730,7 +711,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxNoteProductShapeOrder uint
 	var foundNoteProductShape bool
-	for _, order := range stage.NoteProductShapeMap_Staged_Order {
+	for _, order := range stage.NoteProductShape_stagedOrder {
 		if !foundNoteProductShape || order > maxNoteProductShapeOrder {
 			maxNoteProductShapeOrder = order
 			foundNoteProductShape = true
@@ -744,7 +725,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxNoteResourceShapeOrder uint
 	var foundNoteResourceShape bool
-	for _, order := range stage.NoteResourceShapeMap_Staged_Order {
+	for _, order := range stage.NoteResourceShape_stagedOrder {
 		if !foundNoteResourceShape || order > maxNoteResourceShapeOrder {
 			maxNoteResourceShapeOrder = order
 			foundNoteResourceShape = true
@@ -758,7 +739,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxNoteShapeOrder uint
 	var foundNoteShape bool
-	for _, order := range stage.NoteShapeMap_Staged_Order {
+	for _, order := range stage.NoteShape_stagedOrder {
 		if !foundNoteShape || order > maxNoteShapeOrder {
 			maxNoteShapeOrder = order
 			foundNoteShape = true
@@ -772,7 +753,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxNoteTaskShapeOrder uint
 	var foundNoteTaskShape bool
-	for _, order := range stage.NoteTaskShapeMap_Staged_Order {
+	for _, order := range stage.NoteTaskShape_stagedOrder {
 		if !foundNoteTaskShape || order > maxNoteTaskShapeOrder {
 			maxNoteTaskShapeOrder = order
 			foundNoteTaskShape = true
@@ -786,7 +767,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxProductOrder uint
 	var foundProduct bool
-	for _, order := range stage.ProductMap_Staged_Order {
+	for _, order := range stage.Product_stagedOrder {
 		if !foundProduct || order > maxProductOrder {
 			maxProductOrder = order
 			foundProduct = true
@@ -800,7 +781,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxProductCompositionShapeOrder uint
 	var foundProductCompositionShape bool
-	for _, order := range stage.ProductCompositionShapeMap_Staged_Order {
+	for _, order := range stage.ProductCompositionShape_stagedOrder {
 		if !foundProductCompositionShape || order > maxProductCompositionShapeOrder {
 			maxProductCompositionShapeOrder = order
 			foundProductCompositionShape = true
@@ -814,7 +795,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxProductShapeOrder uint
 	var foundProductShape bool
-	for _, order := range stage.ProductShapeMap_Staged_Order {
+	for _, order := range stage.ProductShape_stagedOrder {
 		if !foundProductShape || order > maxProductShapeOrder {
 			maxProductShapeOrder = order
 			foundProductShape = true
@@ -828,7 +809,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxProjectOrder uint
 	var foundProject bool
-	for _, order := range stage.ProjectMap_Staged_Order {
+	for _, order := range stage.Project_stagedOrder {
 		if !foundProject || order > maxProjectOrder {
 			maxProjectOrder = order
 			foundProject = true
@@ -842,7 +823,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxResourceOrder uint
 	var foundResource bool
-	for _, order := range stage.ResourceMap_Staged_Order {
+	for _, order := range stage.Resource_stagedOrder {
 		if !foundResource || order > maxResourceOrder {
 			maxResourceOrder = order
 			foundResource = true
@@ -856,7 +837,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxResourceCompositionShapeOrder uint
 	var foundResourceCompositionShape bool
-	for _, order := range stage.ResourceCompositionShapeMap_Staged_Order {
+	for _, order := range stage.ResourceCompositionShape_stagedOrder {
 		if !foundResourceCompositionShape || order > maxResourceCompositionShapeOrder {
 			maxResourceCompositionShapeOrder = order
 			foundResourceCompositionShape = true
@@ -870,7 +851,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxResourceShapeOrder uint
 	var foundResourceShape bool
-	for _, order := range stage.ResourceShapeMap_Staged_Order {
+	for _, order := range stage.ResourceShape_stagedOrder {
 		if !foundResourceShape || order > maxResourceShapeOrder {
 			maxResourceShapeOrder = order
 			foundResourceShape = true
@@ -884,7 +865,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxResourceTaskShapeOrder uint
 	var foundResourceTaskShape bool
-	for _, order := range stage.ResourceTaskShapeMap_Staged_Order {
+	for _, order := range stage.ResourceTaskShape_stagedOrder {
 		if !foundResourceTaskShape || order > maxResourceTaskShapeOrder {
 			maxResourceTaskShapeOrder = order
 			foundResourceTaskShape = true
@@ -898,7 +879,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxRootOrder uint
 	var foundRoot bool
-	for _, order := range stage.RootMap_Staged_Order {
+	for _, order := range stage.Root_stagedOrder {
 		if !foundRoot || order > maxRootOrder {
 			maxRootOrder = order
 			foundRoot = true
@@ -912,7 +893,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxTaskOrder uint
 	var foundTask bool
-	for _, order := range stage.TaskMap_Staged_Order {
+	for _, order := range stage.Task_stagedOrder {
 		if !foundTask || order > maxTaskOrder {
 			maxTaskOrder = order
 			foundTask = true
@@ -926,7 +907,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxTaskCompositionShapeOrder uint
 	var foundTaskCompositionShape bool
-	for _, order := range stage.TaskCompositionShapeMap_Staged_Order {
+	for _, order := range stage.TaskCompositionShape_stagedOrder {
 		if !foundTaskCompositionShape || order > maxTaskCompositionShapeOrder {
 			maxTaskCompositionShapeOrder = order
 			foundTaskCompositionShape = true
@@ -940,7 +921,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxTaskInputShapeOrder uint
 	var foundTaskInputShape bool
-	for _, order := range stage.TaskInputShapeMap_Staged_Order {
+	for _, order := range stage.TaskInputShape_stagedOrder {
 		if !foundTaskInputShape || order > maxTaskInputShapeOrder {
 			maxTaskInputShapeOrder = order
 			foundTaskInputShape = true
@@ -954,7 +935,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxTaskOutputShapeOrder uint
 	var foundTaskOutputShape bool
-	for _, order := range stage.TaskOutputShapeMap_Staged_Order {
+	for _, order := range stage.TaskOutputShape_stagedOrder {
 		if !foundTaskOutputShape || order > maxTaskOutputShapeOrder {
 			maxTaskOutputShapeOrder = order
 			foundTaskOutputShape = true
@@ -968,7 +949,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxTaskShapeOrder uint
 	var foundTaskShape bool
-	for _, order := range stage.TaskShapeMap_Staged_Order {
+	for _, order := range stage.TaskShape_stagedOrder {
 		if !foundTaskShape || order > maxTaskShapeOrder {
 			maxTaskShapeOrder = order
 			foundTaskShape = true
@@ -1040,7 +1021,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 	switch any(t).(type) {
 	// insertion point for case
 	case *Diagram:
-		tmp := GetStructInstancesByOrder(stage.Diagrams, stage.DiagramMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Diagrams, stage.Diagram_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1054,7 +1035,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Note:
-		tmp := GetStructInstancesByOrder(stage.Notes, stage.NoteMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Notes, stage.Note_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1068,7 +1049,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *NoteProductShape:
-		tmp := GetStructInstancesByOrder(stage.NoteProductShapes, stage.NoteProductShapeMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.NoteProductShapes, stage.NoteProductShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1082,7 +1063,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *NoteResourceShape:
-		tmp := GetStructInstancesByOrder(stage.NoteResourceShapes, stage.NoteResourceShapeMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.NoteResourceShapes, stage.NoteResourceShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1096,7 +1077,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *NoteShape:
-		tmp := GetStructInstancesByOrder(stage.NoteShapes, stage.NoteShapeMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.NoteShapes, stage.NoteShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1110,7 +1091,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *NoteTaskShape:
-		tmp := GetStructInstancesByOrder(stage.NoteTaskShapes, stage.NoteTaskShapeMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.NoteTaskShapes, stage.NoteTaskShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1124,7 +1105,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Product:
-		tmp := GetStructInstancesByOrder(stage.Products, stage.ProductMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Products, stage.Product_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1138,7 +1119,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *ProductCompositionShape:
-		tmp := GetStructInstancesByOrder(stage.ProductCompositionShapes, stage.ProductCompositionShapeMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.ProductCompositionShapes, stage.ProductCompositionShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1152,7 +1133,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *ProductShape:
-		tmp := GetStructInstancesByOrder(stage.ProductShapes, stage.ProductShapeMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.ProductShapes, stage.ProductShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1166,7 +1147,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Project:
-		tmp := GetStructInstancesByOrder(stage.Projects, stage.ProjectMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Projects, stage.Project_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1180,7 +1161,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Resource:
-		tmp := GetStructInstancesByOrder(stage.Resources, stage.ResourceMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Resources, stage.Resource_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1194,7 +1175,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *ResourceCompositionShape:
-		tmp := GetStructInstancesByOrder(stage.ResourceCompositionShapes, stage.ResourceCompositionShapeMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.ResourceCompositionShapes, stage.ResourceCompositionShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1208,7 +1189,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *ResourceShape:
-		tmp := GetStructInstancesByOrder(stage.ResourceShapes, stage.ResourceShapeMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.ResourceShapes, stage.ResourceShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1222,7 +1203,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *ResourceTaskShape:
-		tmp := GetStructInstancesByOrder(stage.ResourceTaskShapes, stage.ResourceTaskShapeMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.ResourceTaskShapes, stage.ResourceTaskShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1236,7 +1217,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Root:
-		tmp := GetStructInstancesByOrder(stage.Roots, stage.RootMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Roots, stage.Root_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1250,7 +1231,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Task:
-		tmp := GetStructInstancesByOrder(stage.Tasks, stage.TaskMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Tasks, stage.Task_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1264,7 +1245,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *TaskCompositionShape:
-		tmp := GetStructInstancesByOrder(stage.TaskCompositionShapes, stage.TaskCompositionShapeMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.TaskCompositionShapes, stage.TaskCompositionShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1278,7 +1259,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *TaskInputShape:
-		tmp := GetStructInstancesByOrder(stage.TaskInputShapes, stage.TaskInputShapeMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.TaskInputShapes, stage.TaskInputShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1292,7 +1273,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *TaskOutputShape:
-		tmp := GetStructInstancesByOrder(stage.TaskOutputShapes, stage.TaskOutputShapeMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.TaskOutputShapes, stage.TaskOutputShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1306,7 +1287,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *TaskShape:
-		tmp := GetStructInstancesByOrder(stage.TaskShapes, stage.TaskShapeMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.TaskShapes, stage.TaskShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1349,45 +1330,45 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 	switch namedStructName {
 	// insertion point for case
 	case "Diagram":
-		res = GetNamedStructInstances(stage.Diagrams, stage.DiagramMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Diagrams, stage.Diagram_stagedOrder)
 	case "Note":
-		res = GetNamedStructInstances(stage.Notes, stage.NoteMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Notes, stage.Note_stagedOrder)
 	case "NoteProductShape":
-		res = GetNamedStructInstances(stage.NoteProductShapes, stage.NoteProductShapeMap_Staged_Order)
+		res = GetNamedStructInstances(stage.NoteProductShapes, stage.NoteProductShape_stagedOrder)
 	case "NoteResourceShape":
-		res = GetNamedStructInstances(stage.NoteResourceShapes, stage.NoteResourceShapeMap_Staged_Order)
+		res = GetNamedStructInstances(stage.NoteResourceShapes, stage.NoteResourceShape_stagedOrder)
 	case "NoteShape":
-		res = GetNamedStructInstances(stage.NoteShapes, stage.NoteShapeMap_Staged_Order)
+		res = GetNamedStructInstances(stage.NoteShapes, stage.NoteShape_stagedOrder)
 	case "NoteTaskShape":
-		res = GetNamedStructInstances(stage.NoteTaskShapes, stage.NoteTaskShapeMap_Staged_Order)
+		res = GetNamedStructInstances(stage.NoteTaskShapes, stage.NoteTaskShape_stagedOrder)
 	case "Product":
-		res = GetNamedStructInstances(stage.Products, stage.ProductMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Products, stage.Product_stagedOrder)
 	case "ProductCompositionShape":
-		res = GetNamedStructInstances(stage.ProductCompositionShapes, stage.ProductCompositionShapeMap_Staged_Order)
+		res = GetNamedStructInstances(stage.ProductCompositionShapes, stage.ProductCompositionShape_stagedOrder)
 	case "ProductShape":
-		res = GetNamedStructInstances(stage.ProductShapes, stage.ProductShapeMap_Staged_Order)
+		res = GetNamedStructInstances(stage.ProductShapes, stage.ProductShape_stagedOrder)
 	case "Project":
-		res = GetNamedStructInstances(stage.Projects, stage.ProjectMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Projects, stage.Project_stagedOrder)
 	case "Resource":
-		res = GetNamedStructInstances(stage.Resources, stage.ResourceMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Resources, stage.Resource_stagedOrder)
 	case "ResourceCompositionShape":
-		res = GetNamedStructInstances(stage.ResourceCompositionShapes, stage.ResourceCompositionShapeMap_Staged_Order)
+		res = GetNamedStructInstances(stage.ResourceCompositionShapes, stage.ResourceCompositionShape_stagedOrder)
 	case "ResourceShape":
-		res = GetNamedStructInstances(stage.ResourceShapes, stage.ResourceShapeMap_Staged_Order)
+		res = GetNamedStructInstances(stage.ResourceShapes, stage.ResourceShape_stagedOrder)
 	case "ResourceTaskShape":
-		res = GetNamedStructInstances(stage.ResourceTaskShapes, stage.ResourceTaskShapeMap_Staged_Order)
+		res = GetNamedStructInstances(stage.ResourceTaskShapes, stage.ResourceTaskShape_stagedOrder)
 	case "Root":
-		res = GetNamedStructInstances(stage.Roots, stage.RootMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Roots, stage.Root_stagedOrder)
 	case "Task":
-		res = GetNamedStructInstances(stage.Tasks, stage.TaskMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Tasks, stage.Task_stagedOrder)
 	case "TaskCompositionShape":
-		res = GetNamedStructInstances(stage.TaskCompositionShapes, stage.TaskCompositionShapeMap_Staged_Order)
+		res = GetNamedStructInstances(stage.TaskCompositionShapes, stage.TaskCompositionShape_stagedOrder)
 	case "TaskInputShape":
-		res = GetNamedStructInstances(stage.TaskInputShapes, stage.TaskInputShapeMap_Staged_Order)
+		res = GetNamedStructInstances(stage.TaskInputShapes, stage.TaskInputShape_stagedOrder)
 	case "TaskOutputShape":
-		res = GetNamedStructInstances(stage.TaskOutputShapes, stage.TaskOutputShapeMap_Staged_Order)
+		res = GetNamedStructInstances(stage.TaskOutputShapes, stage.TaskOutputShape_stagedOrder)
 	case "TaskShape":
-		res = GetNamedStructInstances(stage.TaskShapes, stage.TaskShapeMap_Staged_Order)
+		res = GetNamedStructInstances(stage.TaskShapes, stage.TaskShape_stagedOrder)
 	}
 
 	return
@@ -1573,45 +1554,45 @@ func NewStage(name string) (stage *Stage) {
 		// the to be removed stops here
 
 		// insertion point for order map initialisations
-		DiagramMap_Staged_Order: make(map[*Diagram]uint),
+		Diagram_stagedOrder: make(map[*Diagram]uint),
 
-		NoteMap_Staged_Order: make(map[*Note]uint),
+		Note_stagedOrder: make(map[*Note]uint),
 
-		NoteProductShapeMap_Staged_Order: make(map[*NoteProductShape]uint),
+		NoteProductShape_stagedOrder: make(map[*NoteProductShape]uint),
 
-		NoteResourceShapeMap_Staged_Order: make(map[*NoteResourceShape]uint),
+		NoteResourceShape_stagedOrder: make(map[*NoteResourceShape]uint),
 
-		NoteShapeMap_Staged_Order: make(map[*NoteShape]uint),
+		NoteShape_stagedOrder: make(map[*NoteShape]uint),
 
-		NoteTaskShapeMap_Staged_Order: make(map[*NoteTaskShape]uint),
+		NoteTaskShape_stagedOrder: make(map[*NoteTaskShape]uint),
 
-		ProductMap_Staged_Order: make(map[*Product]uint),
+		Product_stagedOrder: make(map[*Product]uint),
 
-		ProductCompositionShapeMap_Staged_Order: make(map[*ProductCompositionShape]uint),
+		ProductCompositionShape_stagedOrder: make(map[*ProductCompositionShape]uint),
 
-		ProductShapeMap_Staged_Order: make(map[*ProductShape]uint),
+		ProductShape_stagedOrder: make(map[*ProductShape]uint),
 
-		ProjectMap_Staged_Order: make(map[*Project]uint),
+		Project_stagedOrder: make(map[*Project]uint),
 
-		ResourceMap_Staged_Order: make(map[*Resource]uint),
+		Resource_stagedOrder: make(map[*Resource]uint),
 
-		ResourceCompositionShapeMap_Staged_Order: make(map[*ResourceCompositionShape]uint),
+		ResourceCompositionShape_stagedOrder: make(map[*ResourceCompositionShape]uint),
 
-		ResourceShapeMap_Staged_Order: make(map[*ResourceShape]uint),
+		ResourceShape_stagedOrder: make(map[*ResourceShape]uint),
 
-		ResourceTaskShapeMap_Staged_Order: make(map[*ResourceTaskShape]uint),
+		ResourceTaskShape_stagedOrder: make(map[*ResourceTaskShape]uint),
 
-		RootMap_Staged_Order: make(map[*Root]uint),
+		Root_stagedOrder: make(map[*Root]uint),
 
-		TaskMap_Staged_Order: make(map[*Task]uint),
+		Task_stagedOrder: make(map[*Task]uint),
 
-		TaskCompositionShapeMap_Staged_Order: make(map[*TaskCompositionShape]uint),
+		TaskCompositionShape_stagedOrder: make(map[*TaskCompositionShape]uint),
 
-		TaskInputShapeMap_Staged_Order: make(map[*TaskInputShape]uint),
+		TaskInputShape_stagedOrder: make(map[*TaskInputShape]uint),
 
-		TaskOutputShapeMap_Staged_Order: make(map[*TaskOutputShape]uint),
+		TaskOutputShape_stagedOrder: make(map[*TaskOutputShape]uint),
 
-		TaskShapeMap_Staged_Order: make(map[*TaskShape]uint),
+		TaskShape_stagedOrder: make(map[*TaskShape]uint),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
@@ -1691,45 +1672,45 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
 	case *Diagram:
-		return stage.DiagramMap_Staged_Order[instance]
+		return stage.Diagram_stagedOrder[instance]
 	case *Note:
-		return stage.NoteMap_Staged_Order[instance]
+		return stage.Note_stagedOrder[instance]
 	case *NoteProductShape:
-		return stage.NoteProductShapeMap_Staged_Order[instance]
+		return stage.NoteProductShape_stagedOrder[instance]
 	case *NoteResourceShape:
-		return stage.NoteResourceShapeMap_Staged_Order[instance]
+		return stage.NoteResourceShape_stagedOrder[instance]
 	case *NoteShape:
-		return stage.NoteShapeMap_Staged_Order[instance]
+		return stage.NoteShape_stagedOrder[instance]
 	case *NoteTaskShape:
-		return stage.NoteTaskShapeMap_Staged_Order[instance]
+		return stage.NoteTaskShape_stagedOrder[instance]
 	case *Product:
-		return stage.ProductMap_Staged_Order[instance]
+		return stage.Product_stagedOrder[instance]
 	case *ProductCompositionShape:
-		return stage.ProductCompositionShapeMap_Staged_Order[instance]
+		return stage.ProductCompositionShape_stagedOrder[instance]
 	case *ProductShape:
-		return stage.ProductShapeMap_Staged_Order[instance]
+		return stage.ProductShape_stagedOrder[instance]
 	case *Project:
-		return stage.ProjectMap_Staged_Order[instance]
+		return stage.Project_stagedOrder[instance]
 	case *Resource:
-		return stage.ResourceMap_Staged_Order[instance]
+		return stage.Resource_stagedOrder[instance]
 	case *ResourceCompositionShape:
-		return stage.ResourceCompositionShapeMap_Staged_Order[instance]
+		return stage.ResourceCompositionShape_stagedOrder[instance]
 	case *ResourceShape:
-		return stage.ResourceShapeMap_Staged_Order[instance]
+		return stage.ResourceShape_stagedOrder[instance]
 	case *ResourceTaskShape:
-		return stage.ResourceTaskShapeMap_Staged_Order[instance]
+		return stage.ResourceTaskShape_stagedOrder[instance]
 	case *Root:
-		return stage.RootMap_Staged_Order[instance]
+		return stage.Root_stagedOrder[instance]
 	case *Task:
-		return stage.TaskMap_Staged_Order[instance]
+		return stage.Task_stagedOrder[instance]
 	case *TaskCompositionShape:
-		return stage.TaskCompositionShapeMap_Staged_Order[instance]
+		return stage.TaskCompositionShape_stagedOrder[instance]
 	case *TaskInputShape:
-		return stage.TaskInputShapeMap_Staged_Order[instance]
+		return stage.TaskInputShape_stagedOrder[instance]
 	case *TaskOutputShape:
-		return stage.TaskOutputShapeMap_Staged_Order[instance]
+		return stage.TaskOutputShape_stagedOrder[instance]
 	case *TaskShape:
-		return stage.TaskShapeMap_Staged_Order[instance]
+		return stage.TaskShape_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -1739,45 +1720,45 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
 	case *Diagram:
-		return stage.DiagramMap_Staged_Order[instance]
+		return stage.Diagram_stagedOrder[instance]
 	case *Note:
-		return stage.NoteMap_Staged_Order[instance]
+		return stage.Note_stagedOrder[instance]
 	case *NoteProductShape:
-		return stage.NoteProductShapeMap_Staged_Order[instance]
+		return stage.NoteProductShape_stagedOrder[instance]
 	case *NoteResourceShape:
-		return stage.NoteResourceShapeMap_Staged_Order[instance]
+		return stage.NoteResourceShape_stagedOrder[instance]
 	case *NoteShape:
-		return stage.NoteShapeMap_Staged_Order[instance]
+		return stage.NoteShape_stagedOrder[instance]
 	case *NoteTaskShape:
-		return stage.NoteTaskShapeMap_Staged_Order[instance]
+		return stage.NoteTaskShape_stagedOrder[instance]
 	case *Product:
-		return stage.ProductMap_Staged_Order[instance]
+		return stage.Product_stagedOrder[instance]
 	case *ProductCompositionShape:
-		return stage.ProductCompositionShapeMap_Staged_Order[instance]
+		return stage.ProductCompositionShape_stagedOrder[instance]
 	case *ProductShape:
-		return stage.ProductShapeMap_Staged_Order[instance]
+		return stage.ProductShape_stagedOrder[instance]
 	case *Project:
-		return stage.ProjectMap_Staged_Order[instance]
+		return stage.Project_stagedOrder[instance]
 	case *Resource:
-		return stage.ResourceMap_Staged_Order[instance]
+		return stage.Resource_stagedOrder[instance]
 	case *ResourceCompositionShape:
-		return stage.ResourceCompositionShapeMap_Staged_Order[instance]
+		return stage.ResourceCompositionShape_stagedOrder[instance]
 	case *ResourceShape:
-		return stage.ResourceShapeMap_Staged_Order[instance]
+		return stage.ResourceShape_stagedOrder[instance]
 	case *ResourceTaskShape:
-		return stage.ResourceTaskShapeMap_Staged_Order[instance]
+		return stage.ResourceTaskShape_stagedOrder[instance]
 	case *Root:
-		return stage.RootMap_Staged_Order[instance]
+		return stage.Root_stagedOrder[instance]
 	case *Task:
-		return stage.TaskMap_Staged_Order[instance]
+		return stage.Task_stagedOrder[instance]
 	case *TaskCompositionShape:
-		return stage.TaskCompositionShapeMap_Staged_Order[instance]
+		return stage.TaskCompositionShape_stagedOrder[instance]
 	case *TaskInputShape:
-		return stage.TaskInputShapeMap_Staged_Order[instance]
+		return stage.TaskInputShape_stagedOrder[instance]
 	case *TaskOutputShape:
-		return stage.TaskOutputShapeMap_Staged_Order[instance]
+		return stage.TaskOutputShape_stagedOrder[instance]
 	case *TaskShape:
-		return stage.TaskShapeMap_Staged_Order[instance]
+		return stage.TaskShape_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -1898,7 +1879,7 @@ func (stage *Stage) RestoreXL(dirPath string) {
 func (diagram *Diagram) Stage(stage *Stage) *Diagram {
 	if _, ok := stage.Diagrams[diagram]; !ok {
 		stage.Diagrams[diagram] = struct{}{}
-		stage.DiagramMap_Staged_Order[diagram] = stage.DiagramOrder
+		stage.Diagram_stagedOrder[diagram] = stage.DiagramOrder
 		stage.DiagramOrder++
 	}
 	stage.Diagrams_mapString[diagram.Name] = diagram
@@ -1918,7 +1899,7 @@ func (diagram *Diagram) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.DiagramOrder {
 			stage.DiagramOrder = order
 		}
-		stage.DiagramMap_Staged_Order[diagram] = order
+		stage.Diagram_stagedOrder[diagram] = order
 		stage.DiagramOrder++
 	}
 	stage.Diagrams_mapString[diagram.Name] = diagram
@@ -1927,7 +1908,7 @@ func (diagram *Diagram) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes diagram off the model stage
 func (diagram *Diagram) Unstage(stage *Stage) *Diagram {
 	delete(stage.Diagrams, diagram)
-	delete(stage.DiagramMap_Staged_Order, diagram)
+	delete(stage.Diagram_stagedOrder, diagram)
 	delete(stage.Diagrams_mapString, diagram.Name)
 
 	return diagram
@@ -1936,7 +1917,7 @@ func (diagram *Diagram) Unstage(stage *Stage) *Diagram {
 // UnstageVoid removes diagram off the model stage
 func (diagram *Diagram) UnstageVoid(stage *Stage) {
 	delete(stage.Diagrams, diagram)
-	delete(stage.DiagramMap_Staged_Order, diagram)
+	delete(stage.Diagram_stagedOrder, diagram)
 	delete(stage.Diagrams_mapString, diagram.Name)
 }
 
@@ -1982,7 +1963,7 @@ func (diagram *Diagram) SetName(name string) {
 func (note *Note) Stage(stage *Stage) *Note {
 	if _, ok := stage.Notes[note]; !ok {
 		stage.Notes[note] = struct{}{}
-		stage.NoteMap_Staged_Order[note] = stage.NoteOrder
+		stage.Note_stagedOrder[note] = stage.NoteOrder
 		stage.NoteOrder++
 	}
 	stage.Notes_mapString[note.Name] = note
@@ -2002,7 +1983,7 @@ func (note *Note) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.NoteOrder {
 			stage.NoteOrder = order
 		}
-		stage.NoteMap_Staged_Order[note] = order
+		stage.Note_stagedOrder[note] = order
 		stage.NoteOrder++
 	}
 	stage.Notes_mapString[note.Name] = note
@@ -2011,7 +1992,7 @@ func (note *Note) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes note off the model stage
 func (note *Note) Unstage(stage *Stage) *Note {
 	delete(stage.Notes, note)
-	delete(stage.NoteMap_Staged_Order, note)
+	delete(stage.Note_stagedOrder, note)
 	delete(stage.Notes_mapString, note.Name)
 
 	return note
@@ -2020,7 +2001,7 @@ func (note *Note) Unstage(stage *Stage) *Note {
 // UnstageVoid removes note off the model stage
 func (note *Note) UnstageVoid(stage *Stage) {
 	delete(stage.Notes, note)
-	delete(stage.NoteMap_Staged_Order, note)
+	delete(stage.Note_stagedOrder, note)
 	delete(stage.Notes_mapString, note.Name)
 }
 
@@ -2066,7 +2047,7 @@ func (note *Note) SetName(name string) {
 func (noteproductshape *NoteProductShape) Stage(stage *Stage) *NoteProductShape {
 	if _, ok := stage.NoteProductShapes[noteproductshape]; !ok {
 		stage.NoteProductShapes[noteproductshape] = struct{}{}
-		stage.NoteProductShapeMap_Staged_Order[noteproductshape] = stage.NoteProductShapeOrder
+		stage.NoteProductShape_stagedOrder[noteproductshape] = stage.NoteProductShapeOrder
 		stage.NoteProductShapeOrder++
 	}
 	stage.NoteProductShapes_mapString[noteproductshape.Name] = noteproductshape
@@ -2086,7 +2067,7 @@ func (noteproductshape *NoteProductShape) StagePreserveOrder(stage *Stage, order
 		if order > stage.NoteProductShapeOrder {
 			stage.NoteProductShapeOrder = order
 		}
-		stage.NoteProductShapeMap_Staged_Order[noteproductshape] = order
+		stage.NoteProductShape_stagedOrder[noteproductshape] = order
 		stage.NoteProductShapeOrder++
 	}
 	stage.NoteProductShapes_mapString[noteproductshape.Name] = noteproductshape
@@ -2095,7 +2076,7 @@ func (noteproductshape *NoteProductShape) StagePreserveOrder(stage *Stage, order
 // Unstage removes noteproductshape off the model stage
 func (noteproductshape *NoteProductShape) Unstage(stage *Stage) *NoteProductShape {
 	delete(stage.NoteProductShapes, noteproductshape)
-	delete(stage.NoteProductShapeMap_Staged_Order, noteproductshape)
+	delete(stage.NoteProductShape_stagedOrder, noteproductshape)
 	delete(stage.NoteProductShapes_mapString, noteproductshape.Name)
 
 	return noteproductshape
@@ -2104,7 +2085,7 @@ func (noteproductshape *NoteProductShape) Unstage(stage *Stage) *NoteProductShap
 // UnstageVoid removes noteproductshape off the model stage
 func (noteproductshape *NoteProductShape) UnstageVoid(stage *Stage) {
 	delete(stage.NoteProductShapes, noteproductshape)
-	delete(stage.NoteProductShapeMap_Staged_Order, noteproductshape)
+	delete(stage.NoteProductShape_stagedOrder, noteproductshape)
 	delete(stage.NoteProductShapes_mapString, noteproductshape.Name)
 }
 
@@ -2150,7 +2131,7 @@ func (noteproductshape *NoteProductShape) SetName(name string) {
 func (noteresourceshape *NoteResourceShape) Stage(stage *Stage) *NoteResourceShape {
 	if _, ok := stage.NoteResourceShapes[noteresourceshape]; !ok {
 		stage.NoteResourceShapes[noteresourceshape] = struct{}{}
-		stage.NoteResourceShapeMap_Staged_Order[noteresourceshape] = stage.NoteResourceShapeOrder
+		stage.NoteResourceShape_stagedOrder[noteresourceshape] = stage.NoteResourceShapeOrder
 		stage.NoteResourceShapeOrder++
 	}
 	stage.NoteResourceShapes_mapString[noteresourceshape.Name] = noteresourceshape
@@ -2170,7 +2151,7 @@ func (noteresourceshape *NoteResourceShape) StagePreserveOrder(stage *Stage, ord
 		if order > stage.NoteResourceShapeOrder {
 			stage.NoteResourceShapeOrder = order
 		}
-		stage.NoteResourceShapeMap_Staged_Order[noteresourceshape] = order
+		stage.NoteResourceShape_stagedOrder[noteresourceshape] = order
 		stage.NoteResourceShapeOrder++
 	}
 	stage.NoteResourceShapes_mapString[noteresourceshape.Name] = noteresourceshape
@@ -2179,7 +2160,7 @@ func (noteresourceshape *NoteResourceShape) StagePreserveOrder(stage *Stage, ord
 // Unstage removes noteresourceshape off the model stage
 func (noteresourceshape *NoteResourceShape) Unstage(stage *Stage) *NoteResourceShape {
 	delete(stage.NoteResourceShapes, noteresourceshape)
-	delete(stage.NoteResourceShapeMap_Staged_Order, noteresourceshape)
+	delete(stage.NoteResourceShape_stagedOrder, noteresourceshape)
 	delete(stage.NoteResourceShapes_mapString, noteresourceshape.Name)
 
 	return noteresourceshape
@@ -2188,7 +2169,7 @@ func (noteresourceshape *NoteResourceShape) Unstage(stage *Stage) *NoteResourceS
 // UnstageVoid removes noteresourceshape off the model stage
 func (noteresourceshape *NoteResourceShape) UnstageVoid(stage *Stage) {
 	delete(stage.NoteResourceShapes, noteresourceshape)
-	delete(stage.NoteResourceShapeMap_Staged_Order, noteresourceshape)
+	delete(stage.NoteResourceShape_stagedOrder, noteresourceshape)
 	delete(stage.NoteResourceShapes_mapString, noteresourceshape.Name)
 }
 
@@ -2234,7 +2215,7 @@ func (noteresourceshape *NoteResourceShape) SetName(name string) {
 func (noteshape *NoteShape) Stage(stage *Stage) *NoteShape {
 	if _, ok := stage.NoteShapes[noteshape]; !ok {
 		stage.NoteShapes[noteshape] = struct{}{}
-		stage.NoteShapeMap_Staged_Order[noteshape] = stage.NoteShapeOrder
+		stage.NoteShape_stagedOrder[noteshape] = stage.NoteShapeOrder
 		stage.NoteShapeOrder++
 	}
 	stage.NoteShapes_mapString[noteshape.Name] = noteshape
@@ -2254,7 +2235,7 @@ func (noteshape *NoteShape) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.NoteShapeOrder {
 			stage.NoteShapeOrder = order
 		}
-		stage.NoteShapeMap_Staged_Order[noteshape] = order
+		stage.NoteShape_stagedOrder[noteshape] = order
 		stage.NoteShapeOrder++
 	}
 	stage.NoteShapes_mapString[noteshape.Name] = noteshape
@@ -2263,7 +2244,7 @@ func (noteshape *NoteShape) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes noteshape off the model stage
 func (noteshape *NoteShape) Unstage(stage *Stage) *NoteShape {
 	delete(stage.NoteShapes, noteshape)
-	delete(stage.NoteShapeMap_Staged_Order, noteshape)
+	delete(stage.NoteShape_stagedOrder, noteshape)
 	delete(stage.NoteShapes_mapString, noteshape.Name)
 
 	return noteshape
@@ -2272,7 +2253,7 @@ func (noteshape *NoteShape) Unstage(stage *Stage) *NoteShape {
 // UnstageVoid removes noteshape off the model stage
 func (noteshape *NoteShape) UnstageVoid(stage *Stage) {
 	delete(stage.NoteShapes, noteshape)
-	delete(stage.NoteShapeMap_Staged_Order, noteshape)
+	delete(stage.NoteShape_stagedOrder, noteshape)
 	delete(stage.NoteShapes_mapString, noteshape.Name)
 }
 
@@ -2318,7 +2299,7 @@ func (noteshape *NoteShape) SetName(name string) {
 func (notetaskshape *NoteTaskShape) Stage(stage *Stage) *NoteTaskShape {
 	if _, ok := stage.NoteTaskShapes[notetaskshape]; !ok {
 		stage.NoteTaskShapes[notetaskshape] = struct{}{}
-		stage.NoteTaskShapeMap_Staged_Order[notetaskshape] = stage.NoteTaskShapeOrder
+		stage.NoteTaskShape_stagedOrder[notetaskshape] = stage.NoteTaskShapeOrder
 		stage.NoteTaskShapeOrder++
 	}
 	stage.NoteTaskShapes_mapString[notetaskshape.Name] = notetaskshape
@@ -2338,7 +2319,7 @@ func (notetaskshape *NoteTaskShape) StagePreserveOrder(stage *Stage, order uint)
 		if order > stage.NoteTaskShapeOrder {
 			stage.NoteTaskShapeOrder = order
 		}
-		stage.NoteTaskShapeMap_Staged_Order[notetaskshape] = order
+		stage.NoteTaskShape_stagedOrder[notetaskshape] = order
 		stage.NoteTaskShapeOrder++
 	}
 	stage.NoteTaskShapes_mapString[notetaskshape.Name] = notetaskshape
@@ -2347,7 +2328,7 @@ func (notetaskshape *NoteTaskShape) StagePreserveOrder(stage *Stage, order uint)
 // Unstage removes notetaskshape off the model stage
 func (notetaskshape *NoteTaskShape) Unstage(stage *Stage) *NoteTaskShape {
 	delete(stage.NoteTaskShapes, notetaskshape)
-	delete(stage.NoteTaskShapeMap_Staged_Order, notetaskshape)
+	delete(stage.NoteTaskShape_stagedOrder, notetaskshape)
 	delete(stage.NoteTaskShapes_mapString, notetaskshape.Name)
 
 	return notetaskshape
@@ -2356,7 +2337,7 @@ func (notetaskshape *NoteTaskShape) Unstage(stage *Stage) *NoteTaskShape {
 // UnstageVoid removes notetaskshape off the model stage
 func (notetaskshape *NoteTaskShape) UnstageVoid(stage *Stage) {
 	delete(stage.NoteTaskShapes, notetaskshape)
-	delete(stage.NoteTaskShapeMap_Staged_Order, notetaskshape)
+	delete(stage.NoteTaskShape_stagedOrder, notetaskshape)
 	delete(stage.NoteTaskShapes_mapString, notetaskshape.Name)
 }
 
@@ -2402,7 +2383,7 @@ func (notetaskshape *NoteTaskShape) SetName(name string) {
 func (product *Product) Stage(stage *Stage) *Product {
 	if _, ok := stage.Products[product]; !ok {
 		stage.Products[product] = struct{}{}
-		stage.ProductMap_Staged_Order[product] = stage.ProductOrder
+		stage.Product_stagedOrder[product] = stage.ProductOrder
 		stage.ProductOrder++
 	}
 	stage.Products_mapString[product.Name] = product
@@ -2422,7 +2403,7 @@ func (product *Product) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.ProductOrder {
 			stage.ProductOrder = order
 		}
-		stage.ProductMap_Staged_Order[product] = order
+		stage.Product_stagedOrder[product] = order
 		stage.ProductOrder++
 	}
 	stage.Products_mapString[product.Name] = product
@@ -2431,7 +2412,7 @@ func (product *Product) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes product off the model stage
 func (product *Product) Unstage(stage *Stage) *Product {
 	delete(stage.Products, product)
-	delete(stage.ProductMap_Staged_Order, product)
+	delete(stage.Product_stagedOrder, product)
 	delete(stage.Products_mapString, product.Name)
 
 	return product
@@ -2440,7 +2421,7 @@ func (product *Product) Unstage(stage *Stage) *Product {
 // UnstageVoid removes product off the model stage
 func (product *Product) UnstageVoid(stage *Stage) {
 	delete(stage.Products, product)
-	delete(stage.ProductMap_Staged_Order, product)
+	delete(stage.Product_stagedOrder, product)
 	delete(stage.Products_mapString, product.Name)
 }
 
@@ -2486,7 +2467,7 @@ func (product *Product) SetName(name string) {
 func (productcompositionshape *ProductCompositionShape) Stage(stage *Stage) *ProductCompositionShape {
 	if _, ok := stage.ProductCompositionShapes[productcompositionshape]; !ok {
 		stage.ProductCompositionShapes[productcompositionshape] = struct{}{}
-		stage.ProductCompositionShapeMap_Staged_Order[productcompositionshape] = stage.ProductCompositionShapeOrder
+		stage.ProductCompositionShape_stagedOrder[productcompositionshape] = stage.ProductCompositionShapeOrder
 		stage.ProductCompositionShapeOrder++
 	}
 	stage.ProductCompositionShapes_mapString[productcompositionshape.Name] = productcompositionshape
@@ -2506,7 +2487,7 @@ func (productcompositionshape *ProductCompositionShape) StagePreserveOrder(stage
 		if order > stage.ProductCompositionShapeOrder {
 			stage.ProductCompositionShapeOrder = order
 		}
-		stage.ProductCompositionShapeMap_Staged_Order[productcompositionshape] = order
+		stage.ProductCompositionShape_stagedOrder[productcompositionshape] = order
 		stage.ProductCompositionShapeOrder++
 	}
 	stage.ProductCompositionShapes_mapString[productcompositionshape.Name] = productcompositionshape
@@ -2515,7 +2496,7 @@ func (productcompositionshape *ProductCompositionShape) StagePreserveOrder(stage
 // Unstage removes productcompositionshape off the model stage
 func (productcompositionshape *ProductCompositionShape) Unstage(stage *Stage) *ProductCompositionShape {
 	delete(stage.ProductCompositionShapes, productcompositionshape)
-	delete(stage.ProductCompositionShapeMap_Staged_Order, productcompositionshape)
+	delete(stage.ProductCompositionShape_stagedOrder, productcompositionshape)
 	delete(stage.ProductCompositionShapes_mapString, productcompositionshape.Name)
 
 	return productcompositionshape
@@ -2524,7 +2505,7 @@ func (productcompositionshape *ProductCompositionShape) Unstage(stage *Stage) *P
 // UnstageVoid removes productcompositionshape off the model stage
 func (productcompositionshape *ProductCompositionShape) UnstageVoid(stage *Stage) {
 	delete(stage.ProductCompositionShapes, productcompositionshape)
-	delete(stage.ProductCompositionShapeMap_Staged_Order, productcompositionshape)
+	delete(stage.ProductCompositionShape_stagedOrder, productcompositionshape)
 	delete(stage.ProductCompositionShapes_mapString, productcompositionshape.Name)
 }
 
@@ -2570,7 +2551,7 @@ func (productcompositionshape *ProductCompositionShape) SetName(name string) {
 func (productshape *ProductShape) Stage(stage *Stage) *ProductShape {
 	if _, ok := stage.ProductShapes[productshape]; !ok {
 		stage.ProductShapes[productshape] = struct{}{}
-		stage.ProductShapeMap_Staged_Order[productshape] = stage.ProductShapeOrder
+		stage.ProductShape_stagedOrder[productshape] = stage.ProductShapeOrder
 		stage.ProductShapeOrder++
 	}
 	stage.ProductShapes_mapString[productshape.Name] = productshape
@@ -2590,7 +2571,7 @@ func (productshape *ProductShape) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.ProductShapeOrder {
 			stage.ProductShapeOrder = order
 		}
-		stage.ProductShapeMap_Staged_Order[productshape] = order
+		stage.ProductShape_stagedOrder[productshape] = order
 		stage.ProductShapeOrder++
 	}
 	stage.ProductShapes_mapString[productshape.Name] = productshape
@@ -2599,7 +2580,7 @@ func (productshape *ProductShape) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes productshape off the model stage
 func (productshape *ProductShape) Unstage(stage *Stage) *ProductShape {
 	delete(stage.ProductShapes, productshape)
-	delete(stage.ProductShapeMap_Staged_Order, productshape)
+	delete(stage.ProductShape_stagedOrder, productshape)
 	delete(stage.ProductShapes_mapString, productshape.Name)
 
 	return productshape
@@ -2608,7 +2589,7 @@ func (productshape *ProductShape) Unstage(stage *Stage) *ProductShape {
 // UnstageVoid removes productshape off the model stage
 func (productshape *ProductShape) UnstageVoid(stage *Stage) {
 	delete(stage.ProductShapes, productshape)
-	delete(stage.ProductShapeMap_Staged_Order, productshape)
+	delete(stage.ProductShape_stagedOrder, productshape)
 	delete(stage.ProductShapes_mapString, productshape.Name)
 }
 
@@ -2654,7 +2635,7 @@ func (productshape *ProductShape) SetName(name string) {
 func (project *Project) Stage(stage *Stage) *Project {
 	if _, ok := stage.Projects[project]; !ok {
 		stage.Projects[project] = struct{}{}
-		stage.ProjectMap_Staged_Order[project] = stage.ProjectOrder
+		stage.Project_stagedOrder[project] = stage.ProjectOrder
 		stage.ProjectOrder++
 	}
 	stage.Projects_mapString[project.Name] = project
@@ -2674,7 +2655,7 @@ func (project *Project) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.ProjectOrder {
 			stage.ProjectOrder = order
 		}
-		stage.ProjectMap_Staged_Order[project] = order
+		stage.Project_stagedOrder[project] = order
 		stage.ProjectOrder++
 	}
 	stage.Projects_mapString[project.Name] = project
@@ -2683,7 +2664,7 @@ func (project *Project) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes project off the model stage
 func (project *Project) Unstage(stage *Stage) *Project {
 	delete(stage.Projects, project)
-	delete(stage.ProjectMap_Staged_Order, project)
+	delete(stage.Project_stagedOrder, project)
 	delete(stage.Projects_mapString, project.Name)
 
 	return project
@@ -2692,7 +2673,7 @@ func (project *Project) Unstage(stage *Stage) *Project {
 // UnstageVoid removes project off the model stage
 func (project *Project) UnstageVoid(stage *Stage) {
 	delete(stage.Projects, project)
-	delete(stage.ProjectMap_Staged_Order, project)
+	delete(stage.Project_stagedOrder, project)
 	delete(stage.Projects_mapString, project.Name)
 }
 
@@ -2738,7 +2719,7 @@ func (project *Project) SetName(name string) {
 func (resource *Resource) Stage(stage *Stage) *Resource {
 	if _, ok := stage.Resources[resource]; !ok {
 		stage.Resources[resource] = struct{}{}
-		stage.ResourceMap_Staged_Order[resource] = stage.ResourceOrder
+		stage.Resource_stagedOrder[resource] = stage.ResourceOrder
 		stage.ResourceOrder++
 	}
 	stage.Resources_mapString[resource.Name] = resource
@@ -2758,7 +2739,7 @@ func (resource *Resource) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.ResourceOrder {
 			stage.ResourceOrder = order
 		}
-		stage.ResourceMap_Staged_Order[resource] = order
+		stage.Resource_stagedOrder[resource] = order
 		stage.ResourceOrder++
 	}
 	stage.Resources_mapString[resource.Name] = resource
@@ -2767,7 +2748,7 @@ func (resource *Resource) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes resource off the model stage
 func (resource *Resource) Unstage(stage *Stage) *Resource {
 	delete(stage.Resources, resource)
-	delete(stage.ResourceMap_Staged_Order, resource)
+	delete(stage.Resource_stagedOrder, resource)
 	delete(stage.Resources_mapString, resource.Name)
 
 	return resource
@@ -2776,7 +2757,7 @@ func (resource *Resource) Unstage(stage *Stage) *Resource {
 // UnstageVoid removes resource off the model stage
 func (resource *Resource) UnstageVoid(stage *Stage) {
 	delete(stage.Resources, resource)
-	delete(stage.ResourceMap_Staged_Order, resource)
+	delete(stage.Resource_stagedOrder, resource)
 	delete(stage.Resources_mapString, resource.Name)
 }
 
@@ -2822,7 +2803,7 @@ func (resource *Resource) SetName(name string) {
 func (resourcecompositionshape *ResourceCompositionShape) Stage(stage *Stage) *ResourceCompositionShape {
 	if _, ok := stage.ResourceCompositionShapes[resourcecompositionshape]; !ok {
 		stage.ResourceCompositionShapes[resourcecompositionshape] = struct{}{}
-		stage.ResourceCompositionShapeMap_Staged_Order[resourcecompositionshape] = stage.ResourceCompositionShapeOrder
+		stage.ResourceCompositionShape_stagedOrder[resourcecompositionshape] = stage.ResourceCompositionShapeOrder
 		stage.ResourceCompositionShapeOrder++
 	}
 	stage.ResourceCompositionShapes_mapString[resourcecompositionshape.Name] = resourcecompositionshape
@@ -2842,7 +2823,7 @@ func (resourcecompositionshape *ResourceCompositionShape) StagePreserveOrder(sta
 		if order > stage.ResourceCompositionShapeOrder {
 			stage.ResourceCompositionShapeOrder = order
 		}
-		stage.ResourceCompositionShapeMap_Staged_Order[resourcecompositionshape] = order
+		stage.ResourceCompositionShape_stagedOrder[resourcecompositionshape] = order
 		stage.ResourceCompositionShapeOrder++
 	}
 	stage.ResourceCompositionShapes_mapString[resourcecompositionshape.Name] = resourcecompositionshape
@@ -2851,7 +2832,7 @@ func (resourcecompositionshape *ResourceCompositionShape) StagePreserveOrder(sta
 // Unstage removes resourcecompositionshape off the model stage
 func (resourcecompositionshape *ResourceCompositionShape) Unstage(stage *Stage) *ResourceCompositionShape {
 	delete(stage.ResourceCompositionShapes, resourcecompositionshape)
-	delete(stage.ResourceCompositionShapeMap_Staged_Order, resourcecompositionshape)
+	delete(stage.ResourceCompositionShape_stagedOrder, resourcecompositionshape)
 	delete(stage.ResourceCompositionShapes_mapString, resourcecompositionshape.Name)
 
 	return resourcecompositionshape
@@ -2860,7 +2841,7 @@ func (resourcecompositionshape *ResourceCompositionShape) Unstage(stage *Stage) 
 // UnstageVoid removes resourcecompositionshape off the model stage
 func (resourcecompositionshape *ResourceCompositionShape) UnstageVoid(stage *Stage) {
 	delete(stage.ResourceCompositionShapes, resourcecompositionshape)
-	delete(stage.ResourceCompositionShapeMap_Staged_Order, resourcecompositionshape)
+	delete(stage.ResourceCompositionShape_stagedOrder, resourcecompositionshape)
 	delete(stage.ResourceCompositionShapes_mapString, resourcecompositionshape.Name)
 }
 
@@ -2906,7 +2887,7 @@ func (resourcecompositionshape *ResourceCompositionShape) SetName(name string) {
 func (resourceshape *ResourceShape) Stage(stage *Stage) *ResourceShape {
 	if _, ok := stage.ResourceShapes[resourceshape]; !ok {
 		stage.ResourceShapes[resourceshape] = struct{}{}
-		stage.ResourceShapeMap_Staged_Order[resourceshape] = stage.ResourceShapeOrder
+		stage.ResourceShape_stagedOrder[resourceshape] = stage.ResourceShapeOrder
 		stage.ResourceShapeOrder++
 	}
 	stage.ResourceShapes_mapString[resourceshape.Name] = resourceshape
@@ -2926,7 +2907,7 @@ func (resourceshape *ResourceShape) StagePreserveOrder(stage *Stage, order uint)
 		if order > stage.ResourceShapeOrder {
 			stage.ResourceShapeOrder = order
 		}
-		stage.ResourceShapeMap_Staged_Order[resourceshape] = order
+		stage.ResourceShape_stagedOrder[resourceshape] = order
 		stage.ResourceShapeOrder++
 	}
 	stage.ResourceShapes_mapString[resourceshape.Name] = resourceshape
@@ -2935,7 +2916,8 @@ func (resourceshape *ResourceShape) StagePreserveOrder(stage *Stage, order uint)
 // Unstage removes resourceshape off the model stage
 func (resourceshape *ResourceShape) Unstage(stage *Stage) *ResourceShape {
 	delete(stage.ResourceShapes, resourceshape)
-	delete(stage.ResourceShapeMap_Staged_Order, resourceshape)
+	// issue1150
+	// delete(stage.ResourceShape_stagedOrder, resourceshape)
 	delete(stage.ResourceShapes_mapString, resourceshape.Name)
 
 	return resourceshape
@@ -2944,7 +2926,8 @@ func (resourceshape *ResourceShape) Unstage(stage *Stage) *ResourceShape {
 // UnstageVoid removes resourceshape off the model stage
 func (resourceshape *ResourceShape) UnstageVoid(stage *Stage) {
 	delete(stage.ResourceShapes, resourceshape)
-	delete(stage.ResourceShapeMap_Staged_Order, resourceshape)
+	// issue1150
+	// delete(stage.ResourceShape_stagedOrder, resourceshape)
 	delete(stage.ResourceShapes_mapString, resourceshape.Name)
 }
 
@@ -2990,7 +2973,7 @@ func (resourceshape *ResourceShape) SetName(name string) {
 func (resourcetaskshape *ResourceTaskShape) Stage(stage *Stage) *ResourceTaskShape {
 	if _, ok := stage.ResourceTaskShapes[resourcetaskshape]; !ok {
 		stage.ResourceTaskShapes[resourcetaskshape] = struct{}{}
-		stage.ResourceTaskShapeMap_Staged_Order[resourcetaskshape] = stage.ResourceTaskShapeOrder
+		stage.ResourceTaskShape_stagedOrder[resourcetaskshape] = stage.ResourceTaskShapeOrder
 		stage.ResourceTaskShapeOrder++
 	}
 	stage.ResourceTaskShapes_mapString[resourcetaskshape.Name] = resourcetaskshape
@@ -3010,7 +2993,7 @@ func (resourcetaskshape *ResourceTaskShape) StagePreserveOrder(stage *Stage, ord
 		if order > stage.ResourceTaskShapeOrder {
 			stage.ResourceTaskShapeOrder = order
 		}
-		stage.ResourceTaskShapeMap_Staged_Order[resourcetaskshape] = order
+		stage.ResourceTaskShape_stagedOrder[resourcetaskshape] = order
 		stage.ResourceTaskShapeOrder++
 	}
 	stage.ResourceTaskShapes_mapString[resourcetaskshape.Name] = resourcetaskshape
@@ -3019,7 +3002,7 @@ func (resourcetaskshape *ResourceTaskShape) StagePreserveOrder(stage *Stage, ord
 // Unstage removes resourcetaskshape off the model stage
 func (resourcetaskshape *ResourceTaskShape) Unstage(stage *Stage) *ResourceTaskShape {
 	delete(stage.ResourceTaskShapes, resourcetaskshape)
-	delete(stage.ResourceTaskShapeMap_Staged_Order, resourcetaskshape)
+	delete(stage.ResourceTaskShape_stagedOrder, resourcetaskshape)
 	delete(stage.ResourceTaskShapes_mapString, resourcetaskshape.Name)
 
 	return resourcetaskshape
@@ -3028,7 +3011,7 @@ func (resourcetaskshape *ResourceTaskShape) Unstage(stage *Stage) *ResourceTaskS
 // UnstageVoid removes resourcetaskshape off the model stage
 func (resourcetaskshape *ResourceTaskShape) UnstageVoid(stage *Stage) {
 	delete(stage.ResourceTaskShapes, resourcetaskshape)
-	delete(stage.ResourceTaskShapeMap_Staged_Order, resourcetaskshape)
+	delete(stage.ResourceTaskShape_stagedOrder, resourcetaskshape)
 	delete(stage.ResourceTaskShapes_mapString, resourcetaskshape.Name)
 }
 
@@ -3074,7 +3057,7 @@ func (resourcetaskshape *ResourceTaskShape) SetName(name string) {
 func (root *Root) Stage(stage *Stage) *Root {
 	if _, ok := stage.Roots[root]; !ok {
 		stage.Roots[root] = struct{}{}
-		stage.RootMap_Staged_Order[root] = stage.RootOrder
+		stage.Root_stagedOrder[root] = stage.RootOrder
 		stage.RootOrder++
 	}
 	stage.Roots_mapString[root.Name] = root
@@ -3094,7 +3077,7 @@ func (root *Root) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.RootOrder {
 			stage.RootOrder = order
 		}
-		stage.RootMap_Staged_Order[root] = order
+		stage.Root_stagedOrder[root] = order
 		stage.RootOrder++
 	}
 	stage.Roots_mapString[root.Name] = root
@@ -3103,7 +3086,7 @@ func (root *Root) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes root off the model stage
 func (root *Root) Unstage(stage *Stage) *Root {
 	delete(stage.Roots, root)
-	delete(stage.RootMap_Staged_Order, root)
+	delete(stage.Root_stagedOrder, root)
 	delete(stage.Roots_mapString, root.Name)
 
 	return root
@@ -3112,7 +3095,7 @@ func (root *Root) Unstage(stage *Stage) *Root {
 // UnstageVoid removes root off the model stage
 func (root *Root) UnstageVoid(stage *Stage) {
 	delete(stage.Roots, root)
-	delete(stage.RootMap_Staged_Order, root)
+	delete(stage.Root_stagedOrder, root)
 	delete(stage.Roots_mapString, root.Name)
 }
 
@@ -3158,7 +3141,7 @@ func (root *Root) SetName(name string) {
 func (task *Task) Stage(stage *Stage) *Task {
 	if _, ok := stage.Tasks[task]; !ok {
 		stage.Tasks[task] = struct{}{}
-		stage.TaskMap_Staged_Order[task] = stage.TaskOrder
+		stage.Task_stagedOrder[task] = stage.TaskOrder
 		stage.TaskOrder++
 	}
 	stage.Tasks_mapString[task.Name] = task
@@ -3178,7 +3161,7 @@ func (task *Task) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.TaskOrder {
 			stage.TaskOrder = order
 		}
-		stage.TaskMap_Staged_Order[task] = order
+		stage.Task_stagedOrder[task] = order
 		stage.TaskOrder++
 	}
 	stage.Tasks_mapString[task.Name] = task
@@ -3187,7 +3170,7 @@ func (task *Task) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes task off the model stage
 func (task *Task) Unstage(stage *Stage) *Task {
 	delete(stage.Tasks, task)
-	delete(stage.TaskMap_Staged_Order, task)
+	delete(stage.Task_stagedOrder, task)
 	delete(stage.Tasks_mapString, task.Name)
 
 	return task
@@ -3196,7 +3179,7 @@ func (task *Task) Unstage(stage *Stage) *Task {
 // UnstageVoid removes task off the model stage
 func (task *Task) UnstageVoid(stage *Stage) {
 	delete(stage.Tasks, task)
-	delete(stage.TaskMap_Staged_Order, task)
+	delete(stage.Task_stagedOrder, task)
 	delete(stage.Tasks_mapString, task.Name)
 }
 
@@ -3242,7 +3225,7 @@ func (task *Task) SetName(name string) {
 func (taskcompositionshape *TaskCompositionShape) Stage(stage *Stage) *TaskCompositionShape {
 	if _, ok := stage.TaskCompositionShapes[taskcompositionshape]; !ok {
 		stage.TaskCompositionShapes[taskcompositionshape] = struct{}{}
-		stage.TaskCompositionShapeMap_Staged_Order[taskcompositionshape] = stage.TaskCompositionShapeOrder
+		stage.TaskCompositionShape_stagedOrder[taskcompositionshape] = stage.TaskCompositionShapeOrder
 		stage.TaskCompositionShapeOrder++
 	}
 	stage.TaskCompositionShapes_mapString[taskcompositionshape.Name] = taskcompositionshape
@@ -3262,7 +3245,7 @@ func (taskcompositionshape *TaskCompositionShape) StagePreserveOrder(stage *Stag
 		if order > stage.TaskCompositionShapeOrder {
 			stage.TaskCompositionShapeOrder = order
 		}
-		stage.TaskCompositionShapeMap_Staged_Order[taskcompositionshape] = order
+		stage.TaskCompositionShape_stagedOrder[taskcompositionshape] = order
 		stage.TaskCompositionShapeOrder++
 	}
 	stage.TaskCompositionShapes_mapString[taskcompositionshape.Name] = taskcompositionshape
@@ -3271,7 +3254,7 @@ func (taskcompositionshape *TaskCompositionShape) StagePreserveOrder(stage *Stag
 // Unstage removes taskcompositionshape off the model stage
 func (taskcompositionshape *TaskCompositionShape) Unstage(stage *Stage) *TaskCompositionShape {
 	delete(stage.TaskCompositionShapes, taskcompositionshape)
-	delete(stage.TaskCompositionShapeMap_Staged_Order, taskcompositionshape)
+	delete(stage.TaskCompositionShape_stagedOrder, taskcompositionshape)
 	delete(stage.TaskCompositionShapes_mapString, taskcompositionshape.Name)
 
 	return taskcompositionshape
@@ -3280,7 +3263,7 @@ func (taskcompositionshape *TaskCompositionShape) Unstage(stage *Stage) *TaskCom
 // UnstageVoid removes taskcompositionshape off the model stage
 func (taskcompositionshape *TaskCompositionShape) UnstageVoid(stage *Stage) {
 	delete(stage.TaskCompositionShapes, taskcompositionshape)
-	delete(stage.TaskCompositionShapeMap_Staged_Order, taskcompositionshape)
+	delete(stage.TaskCompositionShape_stagedOrder, taskcompositionshape)
 	delete(stage.TaskCompositionShapes_mapString, taskcompositionshape.Name)
 }
 
@@ -3326,7 +3309,7 @@ func (taskcompositionshape *TaskCompositionShape) SetName(name string) {
 func (taskinputshape *TaskInputShape) Stage(stage *Stage) *TaskInputShape {
 	if _, ok := stage.TaskInputShapes[taskinputshape]; !ok {
 		stage.TaskInputShapes[taskinputshape] = struct{}{}
-		stage.TaskInputShapeMap_Staged_Order[taskinputshape] = stage.TaskInputShapeOrder
+		stage.TaskInputShape_stagedOrder[taskinputshape] = stage.TaskInputShapeOrder
 		stage.TaskInputShapeOrder++
 	}
 	stage.TaskInputShapes_mapString[taskinputshape.Name] = taskinputshape
@@ -3346,7 +3329,7 @@ func (taskinputshape *TaskInputShape) StagePreserveOrder(stage *Stage, order uin
 		if order > stage.TaskInputShapeOrder {
 			stage.TaskInputShapeOrder = order
 		}
-		stage.TaskInputShapeMap_Staged_Order[taskinputshape] = order
+		stage.TaskInputShape_stagedOrder[taskinputshape] = order
 		stage.TaskInputShapeOrder++
 	}
 	stage.TaskInputShapes_mapString[taskinputshape.Name] = taskinputshape
@@ -3355,7 +3338,7 @@ func (taskinputshape *TaskInputShape) StagePreserveOrder(stage *Stage, order uin
 // Unstage removes taskinputshape off the model stage
 func (taskinputshape *TaskInputShape) Unstage(stage *Stage) *TaskInputShape {
 	delete(stage.TaskInputShapes, taskinputshape)
-	delete(stage.TaskInputShapeMap_Staged_Order, taskinputshape)
+	delete(stage.TaskInputShape_stagedOrder, taskinputshape)
 	delete(stage.TaskInputShapes_mapString, taskinputshape.Name)
 
 	return taskinputshape
@@ -3364,7 +3347,7 @@ func (taskinputshape *TaskInputShape) Unstage(stage *Stage) *TaskInputShape {
 // UnstageVoid removes taskinputshape off the model stage
 func (taskinputshape *TaskInputShape) UnstageVoid(stage *Stage) {
 	delete(stage.TaskInputShapes, taskinputshape)
-	delete(stage.TaskInputShapeMap_Staged_Order, taskinputshape)
+	delete(stage.TaskInputShape_stagedOrder, taskinputshape)
 	delete(stage.TaskInputShapes_mapString, taskinputshape.Name)
 }
 
@@ -3410,7 +3393,7 @@ func (taskinputshape *TaskInputShape) SetName(name string) {
 func (taskoutputshape *TaskOutputShape) Stage(stage *Stage) *TaskOutputShape {
 	if _, ok := stage.TaskOutputShapes[taskoutputshape]; !ok {
 		stage.TaskOutputShapes[taskoutputshape] = struct{}{}
-		stage.TaskOutputShapeMap_Staged_Order[taskoutputshape] = stage.TaskOutputShapeOrder
+		stage.TaskOutputShape_stagedOrder[taskoutputshape] = stage.TaskOutputShapeOrder
 		stage.TaskOutputShapeOrder++
 	}
 	stage.TaskOutputShapes_mapString[taskoutputshape.Name] = taskoutputshape
@@ -3430,7 +3413,7 @@ func (taskoutputshape *TaskOutputShape) StagePreserveOrder(stage *Stage, order u
 		if order > stage.TaskOutputShapeOrder {
 			stage.TaskOutputShapeOrder = order
 		}
-		stage.TaskOutputShapeMap_Staged_Order[taskoutputshape] = order
+		stage.TaskOutputShape_stagedOrder[taskoutputshape] = order
 		stage.TaskOutputShapeOrder++
 	}
 	stage.TaskOutputShapes_mapString[taskoutputshape.Name] = taskoutputshape
@@ -3439,7 +3422,7 @@ func (taskoutputshape *TaskOutputShape) StagePreserveOrder(stage *Stage, order u
 // Unstage removes taskoutputshape off the model stage
 func (taskoutputshape *TaskOutputShape) Unstage(stage *Stage) *TaskOutputShape {
 	delete(stage.TaskOutputShapes, taskoutputshape)
-	delete(stage.TaskOutputShapeMap_Staged_Order, taskoutputshape)
+	delete(stage.TaskOutputShape_stagedOrder, taskoutputshape)
 	delete(stage.TaskOutputShapes_mapString, taskoutputshape.Name)
 
 	return taskoutputshape
@@ -3448,7 +3431,7 @@ func (taskoutputshape *TaskOutputShape) Unstage(stage *Stage) *TaskOutputShape {
 // UnstageVoid removes taskoutputshape off the model stage
 func (taskoutputshape *TaskOutputShape) UnstageVoid(stage *Stage) {
 	delete(stage.TaskOutputShapes, taskoutputshape)
-	delete(stage.TaskOutputShapeMap_Staged_Order, taskoutputshape)
+	delete(stage.TaskOutputShape_stagedOrder, taskoutputshape)
 	delete(stage.TaskOutputShapes_mapString, taskoutputshape.Name)
 }
 
@@ -3494,7 +3477,7 @@ func (taskoutputshape *TaskOutputShape) SetName(name string) {
 func (taskshape *TaskShape) Stage(stage *Stage) *TaskShape {
 	if _, ok := stage.TaskShapes[taskshape]; !ok {
 		stage.TaskShapes[taskshape] = struct{}{}
-		stage.TaskShapeMap_Staged_Order[taskshape] = stage.TaskShapeOrder
+		stage.TaskShape_stagedOrder[taskshape] = stage.TaskShapeOrder
 		stage.TaskShapeOrder++
 	}
 	stage.TaskShapes_mapString[taskshape.Name] = taskshape
@@ -3514,7 +3497,7 @@ func (taskshape *TaskShape) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.TaskShapeOrder {
 			stage.TaskShapeOrder = order
 		}
-		stage.TaskShapeMap_Staged_Order[taskshape] = order
+		stage.TaskShape_stagedOrder[taskshape] = order
 		stage.TaskShapeOrder++
 	}
 	stage.TaskShapes_mapString[taskshape.Name] = taskshape
@@ -3523,7 +3506,7 @@ func (taskshape *TaskShape) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes taskshape off the model stage
 func (taskshape *TaskShape) Unstage(stage *Stage) *TaskShape {
 	delete(stage.TaskShapes, taskshape)
-	delete(stage.TaskShapeMap_Staged_Order, taskshape)
+	delete(stage.TaskShape_stagedOrder, taskshape)
 	delete(stage.TaskShapes_mapString, taskshape.Name)
 
 	return taskshape
@@ -3532,7 +3515,7 @@ func (taskshape *TaskShape) Unstage(stage *Stage) *TaskShape {
 // UnstageVoid removes taskshape off the model stage
 func (taskshape *TaskShape) UnstageVoid(stage *Stage) {
 	delete(stage.TaskShapes, taskshape)
-	delete(stage.TaskShapeMap_Staged_Order, taskshape)
+	delete(stage.TaskShape_stagedOrder, taskshape)
 	delete(stage.TaskShapes_mapString, taskshape.Name)
 }
 
@@ -3624,102 +3607,102 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Diagrams = make(map[*Diagram]struct{})
 	stage.Diagrams_mapString = make(map[string]*Diagram)
-	stage.DiagramMap_Staged_Order = make(map[*Diagram]uint)
+	stage.Diagram_stagedOrder = make(map[*Diagram]uint)
 	stage.DiagramOrder = 0
 
 	stage.Notes = make(map[*Note]struct{})
 	stage.Notes_mapString = make(map[string]*Note)
-	stage.NoteMap_Staged_Order = make(map[*Note]uint)
+	stage.Note_stagedOrder = make(map[*Note]uint)
 	stage.NoteOrder = 0
 
 	stage.NoteProductShapes = make(map[*NoteProductShape]struct{})
 	stage.NoteProductShapes_mapString = make(map[string]*NoteProductShape)
-	stage.NoteProductShapeMap_Staged_Order = make(map[*NoteProductShape]uint)
+	stage.NoteProductShape_stagedOrder = make(map[*NoteProductShape]uint)
 	stage.NoteProductShapeOrder = 0
 
 	stage.NoteResourceShapes = make(map[*NoteResourceShape]struct{})
 	stage.NoteResourceShapes_mapString = make(map[string]*NoteResourceShape)
-	stage.NoteResourceShapeMap_Staged_Order = make(map[*NoteResourceShape]uint)
+	stage.NoteResourceShape_stagedOrder = make(map[*NoteResourceShape]uint)
 	stage.NoteResourceShapeOrder = 0
 
 	stage.NoteShapes = make(map[*NoteShape]struct{})
 	stage.NoteShapes_mapString = make(map[string]*NoteShape)
-	stage.NoteShapeMap_Staged_Order = make(map[*NoteShape]uint)
+	stage.NoteShape_stagedOrder = make(map[*NoteShape]uint)
 	stage.NoteShapeOrder = 0
 
 	stage.NoteTaskShapes = make(map[*NoteTaskShape]struct{})
 	stage.NoteTaskShapes_mapString = make(map[string]*NoteTaskShape)
-	stage.NoteTaskShapeMap_Staged_Order = make(map[*NoteTaskShape]uint)
+	stage.NoteTaskShape_stagedOrder = make(map[*NoteTaskShape]uint)
 	stage.NoteTaskShapeOrder = 0
 
 	stage.Products = make(map[*Product]struct{})
 	stage.Products_mapString = make(map[string]*Product)
-	stage.ProductMap_Staged_Order = make(map[*Product]uint)
+	stage.Product_stagedOrder = make(map[*Product]uint)
 	stage.ProductOrder = 0
 
 	stage.ProductCompositionShapes = make(map[*ProductCompositionShape]struct{})
 	stage.ProductCompositionShapes_mapString = make(map[string]*ProductCompositionShape)
-	stage.ProductCompositionShapeMap_Staged_Order = make(map[*ProductCompositionShape]uint)
+	stage.ProductCompositionShape_stagedOrder = make(map[*ProductCompositionShape]uint)
 	stage.ProductCompositionShapeOrder = 0
 
 	stage.ProductShapes = make(map[*ProductShape]struct{})
 	stage.ProductShapes_mapString = make(map[string]*ProductShape)
-	stage.ProductShapeMap_Staged_Order = make(map[*ProductShape]uint)
+	stage.ProductShape_stagedOrder = make(map[*ProductShape]uint)
 	stage.ProductShapeOrder = 0
 
 	stage.Projects = make(map[*Project]struct{})
 	stage.Projects_mapString = make(map[string]*Project)
-	stage.ProjectMap_Staged_Order = make(map[*Project]uint)
+	stage.Project_stagedOrder = make(map[*Project]uint)
 	stage.ProjectOrder = 0
 
 	stage.Resources = make(map[*Resource]struct{})
 	stage.Resources_mapString = make(map[string]*Resource)
-	stage.ResourceMap_Staged_Order = make(map[*Resource]uint)
+	stage.Resource_stagedOrder = make(map[*Resource]uint)
 	stage.ResourceOrder = 0
 
 	stage.ResourceCompositionShapes = make(map[*ResourceCompositionShape]struct{})
 	stage.ResourceCompositionShapes_mapString = make(map[string]*ResourceCompositionShape)
-	stage.ResourceCompositionShapeMap_Staged_Order = make(map[*ResourceCompositionShape]uint)
+	stage.ResourceCompositionShape_stagedOrder = make(map[*ResourceCompositionShape]uint)
 	stage.ResourceCompositionShapeOrder = 0
 
 	stage.ResourceShapes = make(map[*ResourceShape]struct{})
 	stage.ResourceShapes_mapString = make(map[string]*ResourceShape)
-	stage.ResourceShapeMap_Staged_Order = make(map[*ResourceShape]uint)
+	stage.ResourceShape_stagedOrder = make(map[*ResourceShape]uint)
 	stage.ResourceShapeOrder = 0
 
 	stage.ResourceTaskShapes = make(map[*ResourceTaskShape]struct{})
 	stage.ResourceTaskShapes_mapString = make(map[string]*ResourceTaskShape)
-	stage.ResourceTaskShapeMap_Staged_Order = make(map[*ResourceTaskShape]uint)
+	stage.ResourceTaskShape_stagedOrder = make(map[*ResourceTaskShape]uint)
 	stage.ResourceTaskShapeOrder = 0
 
 	stage.Roots = make(map[*Root]struct{})
 	stage.Roots_mapString = make(map[string]*Root)
-	stage.RootMap_Staged_Order = make(map[*Root]uint)
+	stage.Root_stagedOrder = make(map[*Root]uint)
 	stage.RootOrder = 0
 
 	stage.Tasks = make(map[*Task]struct{})
 	stage.Tasks_mapString = make(map[string]*Task)
-	stage.TaskMap_Staged_Order = make(map[*Task]uint)
+	stage.Task_stagedOrder = make(map[*Task]uint)
 	stage.TaskOrder = 0
 
 	stage.TaskCompositionShapes = make(map[*TaskCompositionShape]struct{})
 	stage.TaskCompositionShapes_mapString = make(map[string]*TaskCompositionShape)
-	stage.TaskCompositionShapeMap_Staged_Order = make(map[*TaskCompositionShape]uint)
+	stage.TaskCompositionShape_stagedOrder = make(map[*TaskCompositionShape]uint)
 	stage.TaskCompositionShapeOrder = 0
 
 	stage.TaskInputShapes = make(map[*TaskInputShape]struct{})
 	stage.TaskInputShapes_mapString = make(map[string]*TaskInputShape)
-	stage.TaskInputShapeMap_Staged_Order = make(map[*TaskInputShape]uint)
+	stage.TaskInputShape_stagedOrder = make(map[*TaskInputShape]uint)
 	stage.TaskInputShapeOrder = 0
 
 	stage.TaskOutputShapes = make(map[*TaskOutputShape]struct{})
 	stage.TaskOutputShapes_mapString = make(map[string]*TaskOutputShape)
-	stage.TaskOutputShapeMap_Staged_Order = make(map[*TaskOutputShape]uint)
+	stage.TaskOutputShape_stagedOrder = make(map[*TaskOutputShape]uint)
 	stage.TaskOutputShapeOrder = 0
 
 	stage.TaskShapes = make(map[*TaskShape]struct{})
 	stage.TaskShapes_mapString = make(map[string]*TaskShape)
-	stage.TaskShapeMap_Staged_Order = make(map[*TaskShape]uint)
+	stage.TaskShape_stagedOrder = make(map[*TaskShape]uint)
 	stage.TaskShapeOrder = 0
 
 	if stage.GetProbeIF() != nil {
@@ -7497,7 +7480,7 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.ProductShapes {
-					if stage.ProductShapeMap_Staged_Order[__instance__] == uint(id) {
+					if stage.ProductShape_stagedOrder[__instance__] == uint(id) {
 						diagram.Product_Shapes = append(diagram.Product_Shapes, __instance__)
 						break
 					}
@@ -7511,7 +7494,7 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Products {
-					if stage.ProductMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Product_stagedOrder[__instance__] == uint(id) {
 						diagram.ProductsWhoseNodeIsExpanded = append(diagram.ProductsWhoseNodeIsExpanded, __instance__)
 						break
 					}
@@ -7527,7 +7510,7 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.ProductCompositionShapes {
-					if stage.ProductCompositionShapeMap_Staged_Order[__instance__] == uint(id) {
+					if stage.ProductCompositionShape_stagedOrder[__instance__] == uint(id) {
 						diagram.ProductComposition_Shapes = append(diagram.ProductComposition_Shapes, __instance__)
 						break
 					}
@@ -7543,7 +7526,7 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.TaskShapes {
-					if stage.TaskShapeMap_Staged_Order[__instance__] == uint(id) {
+					if stage.TaskShape_stagedOrder[__instance__] == uint(id) {
 						diagram.Task_Shapes = append(diagram.Task_Shapes, __instance__)
 						break
 					}
@@ -7557,7 +7540,7 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Tasks {
-					if stage.TaskMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Task_stagedOrder[__instance__] == uint(id) {
 						diagram.TasksWhoseNodeIsExpanded = append(diagram.TasksWhoseNodeIsExpanded, __instance__)
 						break
 					}
@@ -7571,7 +7554,7 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Tasks {
-					if stage.TaskMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Task_stagedOrder[__instance__] == uint(id) {
 						diagram.TasksWhoseInputNodeIsExpanded = append(diagram.TasksWhoseInputNodeIsExpanded, __instance__)
 						break
 					}
@@ -7585,7 +7568,7 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Tasks {
-					if stage.TaskMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Task_stagedOrder[__instance__] == uint(id) {
 						diagram.TasksWhoseOutputNodeIsExpanded = append(diagram.TasksWhoseOutputNodeIsExpanded, __instance__)
 						break
 					}
@@ -7599,7 +7582,7 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.TaskCompositionShapes {
-					if stage.TaskCompositionShapeMap_Staged_Order[__instance__] == uint(id) {
+					if stage.TaskCompositionShape_stagedOrder[__instance__] == uint(id) {
 						diagram.TaskComposition_Shapes = append(diagram.TaskComposition_Shapes, __instance__)
 						break
 					}
@@ -7613,7 +7596,7 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.TaskInputShapes {
-					if stage.TaskInputShapeMap_Staged_Order[__instance__] == uint(id) {
+					if stage.TaskInputShape_stagedOrder[__instance__] == uint(id) {
 						diagram.TaskInputShapes = append(diagram.TaskInputShapes, __instance__)
 						break
 					}
@@ -7627,7 +7610,7 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.TaskOutputShapes {
-					if stage.TaskOutputShapeMap_Staged_Order[__instance__] == uint(id) {
+					if stage.TaskOutputShape_stagedOrder[__instance__] == uint(id) {
 						diagram.TaskOutputShapes = append(diagram.TaskOutputShapes, __instance__)
 						break
 					}
@@ -7641,7 +7624,7 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.NoteShapes {
-					if stage.NoteShapeMap_Staged_Order[__instance__] == uint(id) {
+					if stage.NoteShape_stagedOrder[__instance__] == uint(id) {
 						diagram.Note_Shapes = append(diagram.Note_Shapes, __instance__)
 						break
 					}
@@ -7655,7 +7638,7 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Notes {
-					if stage.NoteMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Note_stagedOrder[__instance__] == uint(id) {
 						diagram.NotesWhoseNodeIsExpanded = append(diagram.NotesWhoseNodeIsExpanded, __instance__)
 						break
 					}
@@ -7671,7 +7654,7 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.NoteProductShapes {
-					if stage.NoteProductShapeMap_Staged_Order[__instance__] == uint(id) {
+					if stage.NoteProductShape_stagedOrder[__instance__] == uint(id) {
 						diagram.NoteProductShapes = append(diagram.NoteProductShapes, __instance__)
 						break
 					}
@@ -7685,7 +7668,7 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.NoteTaskShapes {
-					if stage.NoteTaskShapeMap_Staged_Order[__instance__] == uint(id) {
+					if stage.NoteTaskShape_stagedOrder[__instance__] == uint(id) {
 						diagram.NoteTaskShapes = append(diagram.NoteTaskShapes, __instance__)
 						break
 					}
@@ -7699,7 +7682,7 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.NoteResourceShapes {
-					if stage.NoteResourceShapeMap_Staged_Order[__instance__] == uint(id) {
+					if stage.NoteResourceShape_stagedOrder[__instance__] == uint(id) {
 						diagram.NoteResourceShapes = append(diagram.NoteResourceShapes, __instance__)
 						break
 					}
@@ -7713,7 +7696,7 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.ResourceShapes {
-					if stage.ResourceShapeMap_Staged_Order[__instance__] == uint(id) {
+					if stage.ResourceShape_stagedOrder[__instance__] == uint(id) {
 						diagram.Resource_Shapes = append(diagram.Resource_Shapes, __instance__)
 						break
 					}
@@ -7727,7 +7710,7 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Resources {
-					if stage.ResourceMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Resource_stagedOrder[__instance__] == uint(id) {
 						diagram.ResourcesWhoseNodeIsExpanded = append(diagram.ResourcesWhoseNodeIsExpanded, __instance__)
 						break
 					}
@@ -7743,7 +7726,7 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.ResourceCompositionShapes {
-					if stage.ResourceCompositionShapeMap_Staged_Order[__instance__] == uint(id) {
+					if stage.ResourceCompositionShape_stagedOrder[__instance__] == uint(id) {
 						diagram.ResourceComposition_Shapes = append(diagram.ResourceComposition_Shapes, __instance__)
 						break
 					}
@@ -7757,7 +7740,7 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.ResourceTaskShapes {
-					if stage.ResourceTaskShapeMap_Staged_Order[__instance__] == uint(id) {
+					if stage.ResourceTaskShape_stagedOrder[__instance__] == uint(id) {
 						diagram.ResourceTaskShapes = append(diagram.ResourceTaskShapes, __instance__)
 						break
 					}
@@ -7782,7 +7765,7 @@ func (note *Note) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Products {
-					if stage.ProductMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Product_stagedOrder[__instance__] == uint(id) {
 						note.Products = append(note.Products, __instance__)
 						break
 					}
@@ -7796,7 +7779,7 @@ func (note *Note) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Tasks {
-					if stage.TaskMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Task_stagedOrder[__instance__] == uint(id) {
 						note.Tasks = append(note.Tasks, __instance__)
 						break
 					}
@@ -7810,7 +7793,7 @@ func (note *Note) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Resources {
-					if stage.ResourceMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Resource_stagedOrder[__instance__] == uint(id) {
 						note.Resources = append(note.Resources, __instance__)
 						break
 					}
@@ -7839,7 +7822,7 @@ func (noteproductshape *NoteProductShape) GongSetFieldValue(fieldName string, va
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			noteproductshape.Note = nil
 			for __instance__ := range stage.Notes {
-				if stage.NoteMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Note_stagedOrder[__instance__] == uint(id) {
 					noteproductshape.Note = __instance__
 					break
 				}
@@ -7850,7 +7833,7 @@ func (noteproductshape *NoteProductShape) GongSetFieldValue(fieldName string, va
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			noteproductshape.Product = nil
 			for __instance__ := range stage.Products {
-				if stage.ProductMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Product_stagedOrder[__instance__] == uint(id) {
 					noteproductshape.Product = __instance__
 					break
 				}
@@ -7882,7 +7865,7 @@ func (noteresourceshape *NoteResourceShape) GongSetFieldValue(fieldName string, 
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			noteresourceshape.Note = nil
 			for __instance__ := range stage.Notes {
-				if stage.NoteMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Note_stagedOrder[__instance__] == uint(id) {
 					noteresourceshape.Note = __instance__
 					break
 				}
@@ -7893,7 +7876,7 @@ func (noteresourceshape *NoteResourceShape) GongSetFieldValue(fieldName string, 
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			noteresourceshape.Resource = nil
 			for __instance__ := range stage.Resources {
-				if stage.ResourceMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Resource_stagedOrder[__instance__] == uint(id) {
 					noteresourceshape.Resource = __instance__
 					break
 				}
@@ -7925,7 +7908,7 @@ func (noteshape *NoteShape) GongSetFieldValue(fieldName string, value GongFieldV
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			noteshape.Note = nil
 			for __instance__ := range stage.Notes {
-				if stage.NoteMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Note_stagedOrder[__instance__] == uint(id) {
 					noteshape.Note = __instance__
 					break
 				}
@@ -7957,7 +7940,7 @@ func (notetaskshape *NoteTaskShape) GongSetFieldValue(fieldName string, value Go
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			notetaskshape.Note = nil
 			for __instance__ := range stage.Notes {
-				if stage.NoteMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Note_stagedOrder[__instance__] == uint(id) {
 					notetaskshape.Note = __instance__
 					break
 				}
@@ -7968,7 +7951,7 @@ func (notetaskshape *NoteTaskShape) GongSetFieldValue(fieldName string, value Go
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			notetaskshape.Task = nil
 			for __instance__ := range stage.Tasks {
-				if stage.TaskMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Task_stagedOrder[__instance__] == uint(id) {
 					notetaskshape.Task = __instance__
 					break
 				}
@@ -8004,7 +7987,7 @@ func (product *Product) GongSetFieldValue(fieldName string, value GongFieldValue
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Products {
-					if stage.ProductMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Product_stagedOrder[__instance__] == uint(id) {
 						product.SubProducts = append(product.SubProducts, __instance__)
 						break
 					}
@@ -8037,7 +8020,7 @@ func (productcompositionshape *ProductCompositionShape) GongSetFieldValue(fieldN
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			productcompositionshape.Product = nil
 			for __instance__ := range stage.Products {
-				if stage.ProductMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Product_stagedOrder[__instance__] == uint(id) {
 					productcompositionshape.Product = __instance__
 					break
 				}
@@ -8069,7 +8052,7 @@ func (productshape *ProductShape) GongSetFieldValue(fieldName string, value Gong
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			productshape.Product = nil
 			for __instance__ := range stage.Products {
-				if stage.ProductMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Product_stagedOrder[__instance__] == uint(id) {
 					productshape.Product = __instance__
 					break
 				}
@@ -8103,7 +8086,7 @@ func (project *Project) GongSetFieldValue(fieldName string, value GongFieldValue
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Products {
-					if stage.ProductMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Product_stagedOrder[__instance__] == uint(id) {
 						project.RootProducts = append(project.RootProducts, __instance__)
 						break
 					}
@@ -8117,7 +8100,7 @@ func (project *Project) GongSetFieldValue(fieldName string, value GongFieldValue
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Tasks {
-					if stage.TaskMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Task_stagedOrder[__instance__] == uint(id) {
 						project.RootTasks = append(project.RootTasks, __instance__)
 						break
 					}
@@ -8131,7 +8114,7 @@ func (project *Project) GongSetFieldValue(fieldName string, value GongFieldValue
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Resources {
-					if stage.ResourceMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Resource_stagedOrder[__instance__] == uint(id) {
 						project.RootResources = append(project.RootResources, __instance__)
 						break
 					}
@@ -8145,7 +8128,7 @@ func (project *Project) GongSetFieldValue(fieldName string, value GongFieldValue
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Notes {
-					if stage.NoteMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Note_stagedOrder[__instance__] == uint(id) {
 						project.Notes = append(project.Notes, __instance__)
 						break
 					}
@@ -8159,7 +8142,7 @@ func (project *Project) GongSetFieldValue(fieldName string, value GongFieldValue
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Diagrams {
-					if stage.DiagramMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Diagram_stagedOrder[__instance__] == uint(id) {
 						project.Diagrams = append(project.Diagrams, __instance__)
 						break
 					}
@@ -8192,7 +8175,7 @@ func (resource *Resource) GongSetFieldValue(fieldName string, value GongFieldVal
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Tasks {
-					if stage.TaskMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Task_stagedOrder[__instance__] == uint(id) {
 						resource.Tasks = append(resource.Tasks, __instance__)
 						break
 					}
@@ -8206,7 +8189,7 @@ func (resource *Resource) GongSetFieldValue(fieldName string, value GongFieldVal
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Resources {
-					if stage.ResourceMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Resource_stagedOrder[__instance__] == uint(id) {
 						resource.SubResources = append(resource.SubResources, __instance__)
 						break
 					}
@@ -8235,7 +8218,7 @@ func (resourcecompositionshape *ResourceCompositionShape) GongSetFieldValue(fiel
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			resourcecompositionshape.Resource = nil
 			for __instance__ := range stage.Resources {
-				if stage.ResourceMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Resource_stagedOrder[__instance__] == uint(id) {
 					resourcecompositionshape.Resource = __instance__
 					break
 				}
@@ -8267,7 +8250,7 @@ func (resourceshape *ResourceShape) GongSetFieldValue(fieldName string, value Go
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			resourceshape.Resource = nil
 			for __instance__ := range stage.Resources {
-				if stage.ResourceMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Resource_stagedOrder[__instance__] == uint(id) {
 					resourceshape.Resource = __instance__
 					break
 				}
@@ -8299,7 +8282,7 @@ func (resourcetaskshape *ResourceTaskShape) GongSetFieldValue(fieldName string, 
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			resourcetaskshape.Resource = nil
 			for __instance__ := range stage.Resources {
-				if stage.ResourceMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Resource_stagedOrder[__instance__] == uint(id) {
 					resourcetaskshape.Resource = __instance__
 					break
 				}
@@ -8310,7 +8293,7 @@ func (resourcetaskshape *ResourceTaskShape) GongSetFieldValue(fieldName string, 
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			resourcetaskshape.Task = nil
 			for __instance__ := range stage.Tasks {
-				if stage.TaskMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Task_stagedOrder[__instance__] == uint(id) {
 					resourcetaskshape.Task = __instance__
 					break
 				}
@@ -8344,7 +8327,7 @@ func (root *Root) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Projects {
-					if stage.ProjectMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Project_stagedOrder[__instance__] == uint(id) {
 						root.Projects = append(root.Projects, __instance__)
 						break
 					}
@@ -8373,7 +8356,7 @@ func (task *Task) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Tasks {
-					if stage.TaskMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Task_stagedOrder[__instance__] == uint(id) {
 						task.SubTasks = append(task.SubTasks, __instance__)
 						break
 					}
@@ -8393,7 +8376,7 @@ func (task *Task) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Products {
-					if stage.ProductMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Product_stagedOrder[__instance__] == uint(id) {
 						task.Inputs = append(task.Inputs, __instance__)
 						break
 					}
@@ -8409,7 +8392,7 @@ func (task *Task) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Products {
-					if stage.ProductMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Product_stagedOrder[__instance__] == uint(id) {
 						task.Outputs = append(task.Outputs, __instance__)
 						break
 					}
@@ -8438,7 +8421,7 @@ func (taskcompositionshape *TaskCompositionShape) GongSetFieldValue(fieldName st
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			taskcompositionshape.Task = nil
 			for __instance__ := range stage.Tasks {
-				if stage.TaskMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Task_stagedOrder[__instance__] == uint(id) {
 					taskcompositionshape.Task = __instance__
 					break
 				}
@@ -8470,7 +8453,7 @@ func (taskinputshape *TaskInputShape) GongSetFieldValue(fieldName string, value 
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			taskinputshape.Product = nil
 			for __instance__ := range stage.Products {
-				if stage.ProductMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Product_stagedOrder[__instance__] == uint(id) {
 					taskinputshape.Product = __instance__
 					break
 				}
@@ -8481,7 +8464,7 @@ func (taskinputshape *TaskInputShape) GongSetFieldValue(fieldName string, value 
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			taskinputshape.Task = nil
 			for __instance__ := range stage.Tasks {
-				if stage.TaskMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Task_stagedOrder[__instance__] == uint(id) {
 					taskinputshape.Task = __instance__
 					break
 				}
@@ -8513,7 +8496,7 @@ func (taskoutputshape *TaskOutputShape) GongSetFieldValue(fieldName string, valu
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			taskoutputshape.Task = nil
 			for __instance__ := range stage.Tasks {
-				if stage.TaskMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Task_stagedOrder[__instance__] == uint(id) {
 					taskoutputshape.Task = __instance__
 					break
 				}
@@ -8524,7 +8507,7 @@ func (taskoutputshape *TaskOutputShape) GongSetFieldValue(fieldName string, valu
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			taskoutputshape.Product = nil
 			for __instance__ := range stage.Products {
-				if stage.ProductMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Product_stagedOrder[__instance__] == uint(id) {
 					taskoutputshape.Product = __instance__
 					break
 				}
@@ -8556,7 +8539,7 @@ func (taskshape *TaskShape) GongSetFieldValue(fieldName string, value GongFieldV
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			taskshape.Task = nil
 			for __instance__ := range stage.Tasks {
-				if stage.TaskMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Task_stagedOrder[__instance__] == uint(id) {
 					taskshape.Task = __instance__
 					break
 				}
