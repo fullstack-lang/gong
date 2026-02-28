@@ -302,7 +302,7 @@ func _(stage *models.Stage) {
 	__Classdiagram__00000000_.IsIncludedInStaticWebSite = true
 	__Classdiagram__00000000_.ShowNbInstances = true
 	__Classdiagram__00000000_.ShowMultiplicity = false
-	__Classdiagram__00000000_.ShowLinkNames = false
+	__Classdiagram__00000000_.ShowLinkNames = true
 	__Classdiagram__00000000_.IsInRenameMode = false
 	__Classdiagram__00000000_.IsExpanded = false
 	__Classdiagram__00000000_.NodeGongStructsIsExpanded = false
