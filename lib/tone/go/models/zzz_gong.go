@@ -106,11 +106,13 @@ type Stage struct {
 
 	// insertion point for definition of arrays registering instances
 	Freqencys                map[*Freqency]struct{}
-	Freqencys_reference      map[*Freqency]*Freqency
-	Freqencys_referenceOrder map[*Freqency]uint
 	Freqencys_instance       map[*Freqency]*Freqency
 	Freqencys_mapString      map[string]*Freqency
-
+	FreqencyOrder            uint
+	Freqency_stagedOrder     map[*Freqency]uint
+	Freqencys_reference      map[*Freqency]*Freqency
+	Freqencys_referenceOrder map[*Freqency]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterFreqencyCreateCallback OnAfterCreateInterface[Freqency]
 	OnAfterFreqencyUpdateCallback OnAfterUpdateInterface[Freqency]
@@ -118,11 +120,13 @@ type Stage struct {
 	OnAfterFreqencyReadCallback   OnAfterReadInterface[Freqency]
 
 	Notes                map[*Note]struct{}
-	Notes_reference      map[*Note]*Note
-	Notes_referenceOrder map[*Note]uint
 	Notes_instance       map[*Note]*Note
 	Notes_mapString      map[string]*Note
-
+	NoteOrder            uint
+	Note_stagedOrder     map[*Note]uint
+	Notes_reference      map[*Note]*Note
+	Notes_referenceOrder map[*Note]uint
+	
 	// insertion point for slice of pointers maps
 	Note_Frequencies_reverseMap map[*Freqency]*Note
 
@@ -132,11 +136,13 @@ type Stage struct {
 	OnAfterNoteReadCallback   OnAfterReadInterface[Note]
 
 	Players                map[*Player]struct{}
-	Players_reference      map[*Player]*Player
-	Players_referenceOrder map[*Player]uint
 	Players_instance       map[*Player]*Player
 	Players_mapString      map[string]*Player
-
+	PlayerOrder            uint
+	Player_stagedOrder     map[*Player]uint
+	Players_reference      map[*Player]*Player
+	Players_referenceOrder map[*Player]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterPlayerCreateCallback OnAfterCreateInterface[Player]
 	OnAfterPlayerUpdateCallback OnAfterUpdateInterface[Player]
@@ -154,6 +160,10 @@ type Stage struct {
 	OnInitCommitFromFrontCallback OnInitCommitInterface
 	OnInitCommitFromBackCallback  OnInitCommitInterface
 
+	// Private slices to hold the registered hooks
+	beforeCommitHooks []func(stage *Stage)
+	afterCommitHooks  []func(stage *Stage)
+
 	// store the number of instance per gongstruct
 	Map_GongStructName_InstancesNb map[string]int
 
@@ -169,14 +179,8 @@ type Stage struct {
 	// store the stage order of each instance in order to
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
-	FreqencyOrder            uint
-	FreqencyMap_Staged_Order map[*Freqency]uint
 
-	NoteOrder            uint
-	NoteMap_Staged_Order map[*Note]uint
 
-	PlayerOrder            uint
-	PlayerMap_Staged_Order map[*Player]uint
 
 	// end of insertion point
 
@@ -198,6 +202,16 @@ type Stage struct {
 	commitsBehind  int // the number of commits the stage is behind the front of the history
 
 	lock sync.RWMutex
+}
+
+// RegisterBeforeCommit adds a hook that runs before the commit happens
+func (s *Stage) RegisterBeforeCommit(hook func(stage *Stage)) {
+	s.beforeCommitHooks = append(s.beforeCommitHooks, hook)
+}
+
+// RegisterAfterCommit adds a hook that runs after the commit succeeds
+func (s *Stage) RegisterAfterCommit(hook func(stage *Stage)) {
+	s.afterCommitHooks = append(s.afterCommitHooks, hook)
 }
 
 type gongStageNavigationMode string
@@ -321,6 +335,16 @@ func (stage *Stage) ResetHard() {
 	if stage.OnInitCommitFromBackCallback != nil {
 		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
 	}
+
+	// 1. Run all Before Commit hooks
+	for _, hook := range stage.beforeCommitHooks {
+		hook(stage)
+	}
+
+	// 2. Run all After Commit hooks
+	for _, hook := range stage.afterCommitHooks {
+		hook(stage)
+	}
 }
 
 // Orphans removes all commits
@@ -337,6 +361,16 @@ func (stage *Stage) Orphans() {
 	if stage.OnInitCommitFromBackCallback != nil {
 		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
 	}
+
+	// 1. Run all Before Commit hooks
+	for _, hook := range stage.beforeCommitHooks {
+		hook(stage)
+	}
+
+	// 2. Run all After Commit hooks
+	for _, hook := range stage.afterCommitHooks {
+		hook(stage)
+	}
 }
 
 // recomputeOrders recomputes the next order for each struct
@@ -347,7 +381,7 @@ func (stage *Stage) recomputeOrders() {
 	// insertion point for max order recomputation
 	var maxFreqencyOrder uint
 	var foundFreqency bool
-	for _, order := range stage.FreqencyMap_Staged_Order {
+	for _, order := range stage.Freqency_stagedOrder {
 		if !foundFreqency || order > maxFreqencyOrder {
 			maxFreqencyOrder = order
 			foundFreqency = true
@@ -361,7 +395,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxNoteOrder uint
 	var foundNote bool
-	for _, order := range stage.NoteMap_Staged_Order {
+	for _, order := range stage.Note_stagedOrder {
 		if !foundNote || order > maxNoteOrder {
 			maxNoteOrder = order
 			foundNote = true
@@ -375,7 +409,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxPlayerOrder uint
 	var foundPlayer bool
-	for _, order := range stage.PlayerMap_Staged_Order {
+	for _, order := range stage.Player_stagedOrder {
 		if !foundPlayer || order > maxPlayerOrder {
 			maxPlayerOrder = order
 			foundPlayer = true
@@ -447,7 +481,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 	switch any(t).(type) {
 	// insertion point for case
 	case *Freqency:
-		tmp := GetStructInstancesByOrder(stage.Freqencys, stage.FreqencyMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Freqencys, stage.Freqency_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -461,7 +495,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Note:
-		tmp := GetStructInstancesByOrder(stage.Notes, stage.NoteMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Notes, stage.Note_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -475,7 +509,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Player:
-		tmp := GetStructInstancesByOrder(stage.Players, stage.PlayerMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Players, stage.Player_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -518,11 +552,11 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 	switch namedStructName {
 	// insertion point for case
 	case "Freqency":
-		res = GetNamedStructInstances(stage.Freqencys, stage.FreqencyMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Freqencys, stage.Freqency_stagedOrder)
 	case "Note":
-		res = GetNamedStructInstances(stage.Notes, stage.NoteMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Notes, stage.Note_stagedOrder)
 	case "Player":
-		res = GetNamedStructInstances(stage.Players, stage.PlayerMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Players, stage.Player_stagedOrder)
 	}
 
 	return
@@ -623,11 +657,11 @@ func NewStage(name string) (stage *Stage) {
 		// the to be removed stops here
 
 		// insertion point for order map initialisations
-		FreqencyMap_Staged_Order: make(map[*Freqency]uint),
+		Freqency_stagedOrder: make(map[*Freqency]uint),
 
-		NoteMap_Staged_Order: make(map[*Note]uint),
+		Note_stagedOrder: make(map[*Note]uint),
 
-		PlayerMap_Staged_Order: make(map[*Player]uint),
+		Player_stagedOrder: make(map[*Player]uint),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
@@ -656,11 +690,11 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
 	case *Freqency:
-		return stage.FreqencyMap_Staged_Order[instance]
+		return stage.Freqency_stagedOrder[instance]
 	case *Note:
-		return stage.NoteMap_Staged_Order[instance]
+		return stage.Note_stagedOrder[instance]
 	case *Player:
-		return stage.PlayerMap_Staged_Order[instance]
+		return stage.Player_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -670,11 +704,11 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
 	case *Freqency:
-		return stage.FreqencyMap_Staged_Order[instance]
+		return stage.Freqency_stagedOrder[instance]
 	case *Note:
-		return stage.NoteMap_Staged_Order[instance]
+		return stage.Note_stagedOrder[instance]
 	case *Player:
-		return stage.PlayerMap_Staged_Order[instance]
+		return stage.Player_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -687,8 +721,14 @@ func (stage *Stage) GetName() string {
 func (stage *Stage) CommitWithSuspendedCallbacks() {
 	tmp := stage.OnInitCommitFromBackCallback
 	stage.OnInitCommitFromBackCallback = nil
+	tmp2 := stage.beforeCommitHooks
+	stage.beforeCommitHooks = nil
+	tmp3 := stage.afterCommitHooks
+	stage.afterCommitHooks = nil
 	stage.Commit()
 	stage.OnInitCommitFromBackCallback = tmp
+	stage.beforeCommitHooks = tmp2
+	stage.afterCommitHooks = tmp3
 }
 
 func (stage *Stage) Commit() {
@@ -699,6 +739,11 @@ func (stage *Stage) Commit() {
 	}
 	if stage.OnInitCommitFromBackCallback != nil {
 		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
+	}
+
+	// 1. Run all Before Commit hooks
+	for _, hook := range stage.beforeCommitHooks {
+		hook(stage)
 	}
 
 	if stage.BackRepo != nil {
@@ -716,6 +761,11 @@ func (stage *Stage) Commit() {
 	if stage.IsInDeltaMode() {
 		stage.ComputeForwardAndBackwardCommits()
 		stage.ComputeReferenceAndOrders()
+	}
+
+	// 2. Run all After Commit hooks
+	for _, hook := range stage.afterCommitHooks {
+		hook(stage)
 	}
 }
 
@@ -768,7 +818,7 @@ func (stage *Stage) RestoreXL(dirPath string) {
 func (freqency *Freqency) Stage(stage *Stage) *Freqency {
 	if _, ok := stage.Freqencys[freqency]; !ok {
 		stage.Freqencys[freqency] = struct{}{}
-		stage.FreqencyMap_Staged_Order[freqency] = stage.FreqencyOrder
+		stage.Freqency_stagedOrder[freqency] = stage.FreqencyOrder
 		stage.FreqencyOrder++
 	}
 	stage.Freqencys_mapString[freqency.Name] = freqency
@@ -788,7 +838,7 @@ func (freqency *Freqency) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.FreqencyOrder {
 			stage.FreqencyOrder = order
 		}
-		stage.FreqencyMap_Staged_Order[freqency] = order
+		stage.Freqency_stagedOrder[freqency] = order
 		stage.FreqencyOrder++
 	}
 	stage.Freqencys_mapString[freqency.Name] = freqency
@@ -797,7 +847,8 @@ func (freqency *Freqency) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes freqency off the model stage
 func (freqency *Freqency) Unstage(stage *Stage) *Freqency {
 	delete(stage.Freqencys, freqency)
-	delete(stage.FreqencyMap_Staged_Order, freqency)
+	// issue1150
+	// delete(stage.Freqency_stagedOrder, freqency)
 	delete(stage.Freqencys_mapString, freqency.Name)
 
 	return freqency
@@ -806,7 +857,8 @@ func (freqency *Freqency) Unstage(stage *Stage) *Freqency {
 // UnstageVoid removes freqency off the model stage
 func (freqency *Freqency) UnstageVoid(stage *Stage) {
 	delete(stage.Freqencys, freqency)
-	delete(stage.FreqencyMap_Staged_Order, freqency)
+	// issue1150
+	// delete(stage.Freqency_stagedOrder, freqency)
 	delete(stage.Freqencys_mapString, freqency.Name)
 }
 
@@ -852,7 +904,7 @@ func (freqency *Freqency) SetName(name string) {
 func (note *Note) Stage(stage *Stage) *Note {
 	if _, ok := stage.Notes[note]; !ok {
 		stage.Notes[note] = struct{}{}
-		stage.NoteMap_Staged_Order[note] = stage.NoteOrder
+		stage.Note_stagedOrder[note] = stage.NoteOrder
 		stage.NoteOrder++
 	}
 	stage.Notes_mapString[note.Name] = note
@@ -872,7 +924,7 @@ func (note *Note) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.NoteOrder {
 			stage.NoteOrder = order
 		}
-		stage.NoteMap_Staged_Order[note] = order
+		stage.Note_stagedOrder[note] = order
 		stage.NoteOrder++
 	}
 	stage.Notes_mapString[note.Name] = note
@@ -881,7 +933,8 @@ func (note *Note) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes note off the model stage
 func (note *Note) Unstage(stage *Stage) *Note {
 	delete(stage.Notes, note)
-	delete(stage.NoteMap_Staged_Order, note)
+	// issue1150
+	// delete(stage.Note_stagedOrder, note)
 	delete(stage.Notes_mapString, note.Name)
 
 	return note
@@ -890,7 +943,8 @@ func (note *Note) Unstage(stage *Stage) *Note {
 // UnstageVoid removes note off the model stage
 func (note *Note) UnstageVoid(stage *Stage) {
 	delete(stage.Notes, note)
-	delete(stage.NoteMap_Staged_Order, note)
+	// issue1150
+	// delete(stage.Note_stagedOrder, note)
 	delete(stage.Notes_mapString, note.Name)
 }
 
@@ -936,7 +990,7 @@ func (note *Note) SetName(name string) {
 func (player *Player) Stage(stage *Stage) *Player {
 	if _, ok := stage.Players[player]; !ok {
 		stage.Players[player] = struct{}{}
-		stage.PlayerMap_Staged_Order[player] = stage.PlayerOrder
+		stage.Player_stagedOrder[player] = stage.PlayerOrder
 		stage.PlayerOrder++
 	}
 	stage.Players_mapString[player.Name] = player
@@ -956,7 +1010,7 @@ func (player *Player) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.PlayerOrder {
 			stage.PlayerOrder = order
 		}
-		stage.PlayerMap_Staged_Order[player] = order
+		stage.Player_stagedOrder[player] = order
 		stage.PlayerOrder++
 	}
 	stage.Players_mapString[player.Name] = player
@@ -965,7 +1019,8 @@ func (player *Player) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes player off the model stage
 func (player *Player) Unstage(stage *Stage) *Player {
 	delete(stage.Players, player)
-	delete(stage.PlayerMap_Staged_Order, player)
+	// issue1150
+	// delete(stage.Player_stagedOrder, player)
 	delete(stage.Players_mapString, player.Name)
 
 	return player
@@ -974,7 +1029,8 @@ func (player *Player) Unstage(stage *Stage) *Player {
 // UnstageVoid removes player off the model stage
 func (player *Player) UnstageVoid(stage *Stage) {
 	delete(stage.Players, player)
-	delete(stage.PlayerMap_Staged_Order, player)
+	// issue1150
+	// delete(stage.Player_stagedOrder, player)
 	delete(stage.Players_mapString, player.Name)
 }
 
@@ -1032,17 +1088,17 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Freqencys = make(map[*Freqency]struct{})
 	stage.Freqencys_mapString = make(map[string]*Freqency)
-	stage.FreqencyMap_Staged_Order = make(map[*Freqency]uint)
+	stage.Freqency_stagedOrder = make(map[*Freqency]uint)
 	stage.FreqencyOrder = 0
 
 	stage.Notes = make(map[*Note]struct{})
 	stage.Notes_mapString = make(map[string]*Note)
-	stage.NoteMap_Staged_Order = make(map[*Note]uint)
+	stage.Note_stagedOrder = make(map[*Note]uint)
 	stage.NoteOrder = 0
 
 	stage.Players = make(map[*Player]struct{})
 	stage.Players_mapString = make(map[string]*Player)
-	stage.PlayerMap_Staged_Order = make(map[*Player]uint)
+	stage.Player_stagedOrder = make(map[*Player]uint)
 	stage.PlayerOrder = 0
 
 	if stage.GetProbeIF() != nil {
@@ -1577,7 +1633,7 @@ func (note *Note) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Freqencys {
-					if stage.FreqencyMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Freqency_stagedOrder[__instance__] == uint(id) {
 						note.Frequencies = append(note.Frequencies, __instance__)
 						break
 					}

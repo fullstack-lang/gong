@@ -164,9 +164,9 @@ func (backRepoButtonToggle *BackRepoButtonToggleStruct) CommitPhaseOne(stage *mo
 		buttontoggles = append(buttontoggles, buttontoggle)
 	}
 
-	// Sort by the order stored in Map_Staged_Order.
+	// Sort by the order stored in _stagedOrder.
 	sort.Slice(buttontoggles, func(i, j int) bool {
-		return stage.ButtonToggleMap_Staged_Order[buttontoggles[i]] < stage.ButtonToggleMap_Staged_Order[buttontoggles[j]]
+		return stage.ButtonToggle_stagedOrder[buttontoggles[i]] < stage.ButtonToggle_stagedOrder[buttontoggles[j]]
 	})
 
 	for _, buttontoggle := range buttontoggles {

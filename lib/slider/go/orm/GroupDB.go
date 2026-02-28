@@ -150,9 +150,9 @@ func (backRepoGroup *BackRepoGroupStruct) CommitPhaseOne(stage *models.Stage) (E
 		groups = append(groups, group)
 	}
 
-	// Sort by the order stored in Map_Staged_Order.
+	// Sort by the order stored in _stagedOrder.
 	sort.Slice(groups, func(i, j int) bool {
-		return stage.GroupMap_Staged_Order[groups[i]] < stage.GroupMap_Staged_Order[groups[j]]
+		return stage.Group_stagedOrder[groups[i]] < stage.Group_stagedOrder[groups[j]]
 	})
 
 	for _, group := range groups {

@@ -145,9 +145,9 @@ func (backRepoCheckBox *BackRepoCheckBoxStruct) CommitPhaseOne(stage *models.Sta
 		checkboxs = append(checkboxs, checkbox)
 	}
 
-	// Sort by the order stored in Map_Staged_Order.
+	// Sort by the order stored in _stagedOrder.
 	sort.Slice(checkboxs, func(i, j int) bool {
-		return stage.CheckBoxMap_Staged_Order[checkboxs[i]] < stage.CheckBoxMap_Staged_Order[checkboxs[j]]
+		return stage.CheckBox_stagedOrder[checkboxs[i]] < stage.CheckBox_stagedOrder[checkboxs[j]]
 	})
 
 	for _, checkbox := range checkboxs {

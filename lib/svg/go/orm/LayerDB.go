@@ -168,9 +168,9 @@ func (backRepoLayer *BackRepoLayerStruct) CommitPhaseOne(stage *models.Stage) (E
 		layers = append(layers, layer)
 	}
 
-	// Sort by the order stored in Map_Staged_Order.
+	// Sort by the order stored in _stagedOrder.
 	sort.Slice(layers, func(i, j int) bool {
-		return stage.LayerMap_Staged_Order[layers[i]] < stage.LayerMap_Staged_Order[layers[j]]
+		return stage.Layer_stagedOrder[layers[i]] < stage.Layer_stagedOrder[layers[j]]
 	})
 
 	for _, layer := range layers {

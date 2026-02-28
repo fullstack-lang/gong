@@ -144,9 +144,9 @@ func (backRepoCellInt *BackRepoCellIntStruct) CommitPhaseOne(stage *models.Stage
 		cellints = append(cellints, cellint)
 	}
 
-	// Sort by the order stored in Map_Staged_Order.
+	// Sort by the order stored in _stagedOrder.
 	sort.Slice(cellints, func(i, j int) bool {
-		return stage.CellIntMap_Staged_Order[cellints[i]] < stage.CellIntMap_Staged_Order[cellints[j]]
+		return stage.CellInt_stagedOrder[cellints[i]] < stage.CellInt_stagedOrder[cellints[j]]
 	})
 
 	for _, cellint := range cellints {

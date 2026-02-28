@@ -134,8 +134,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(freqencyOrdered[:], func(i, j int) bool {
 		freqencyi := freqencyOrdered[i]
 		freqencyj := freqencyOrdered[j]
-		freqencyi_order, oki := stage.FreqencyMap_Staged_Order[freqencyi]
-		freqencyj_order, okj := stage.FreqencyMap_Staged_Order[freqencyj]
+		freqencyi_order, oki := stage.Freqency_stagedOrder[freqencyi]
+		freqencyj_order, okj := stage.Freqency_stagedOrder[freqencyj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -160,8 +160,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(noteOrdered[:], func(i, j int) bool {
 		notei := noteOrdered[i]
 		notej := noteOrdered[j]
-		notei_order, oki := stage.NoteMap_Staged_Order[notei]
-		notej_order, okj := stage.NoteMap_Staged_Order[notej]
+		notei_order, oki := stage.Note_stagedOrder[notei]
+		notej_order, okj := stage.Note_stagedOrder[notej]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -191,8 +191,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(playerOrdered[:], func(i, j int) bool {
 		playeri := playerOrdered[i]
 		playerj := playerOrdered[j]
-		playeri_order, oki := stage.PlayerMap_Staged_Order[playeri]
-		playerj_order, okj := stage.PlayerMap_Staged_Order[playerj]
+		playeri_order, oki := stage.Player_stagedOrder[playeri]
+		playerj_order, okj := stage.Player_stagedOrder[playerj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}

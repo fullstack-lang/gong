@@ -145,9 +145,9 @@ func (backRepoCellBoolean *BackRepoCellBooleanStruct) CommitPhaseOne(stage *mode
 		cellbooleans = append(cellbooleans, cellboolean)
 	}
 
-	// Sort by the order stored in Map_Staged_Order.
+	// Sort by the order stored in _stagedOrder.
 	sort.Slice(cellbooleans, func(i, j int) bool {
-		return stage.CellBooleanMap_Staged_Order[cellbooleans[i]] < stage.CellBooleanMap_Staged_Order[cellbooleans[j]]
+		return stage.CellBoolean_stagedOrder[cellbooleans[i]] < stage.CellBoolean_stagedOrder[cellbooleans[j]]
 	})
 
 	for _, cellboolean := range cellbooleans {

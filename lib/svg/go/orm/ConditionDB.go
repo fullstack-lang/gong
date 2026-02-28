@@ -138,9 +138,9 @@ func (backRepoCondition *BackRepoConditionStruct) CommitPhaseOne(stage *models.S
 		conditions = append(conditions, condition)
 	}
 
-	// Sort by the order stored in Map_Staged_Order.
+	// Sort by the order stored in _stagedOrder.
 	sort.Slice(conditions, func(i, j int) bool {
-		return stage.ConditionMap_Staged_Order[conditions[i]] < stage.ConditionMap_Staged_Order[conditions[j]]
+		return stage.Condition_stagedOrder[conditions[i]] < stage.Condition_stagedOrder[conditions[j]]
 	})
 
 	for _, condition := range conditions {

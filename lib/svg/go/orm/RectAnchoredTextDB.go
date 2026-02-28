@@ -267,9 +267,9 @@ func (backRepoRectAnchoredText *BackRepoRectAnchoredTextStruct) CommitPhaseOne(s
 		rectanchoredtexts = append(rectanchoredtexts, rectanchoredtext)
 	}
 
-	// Sort by the order stored in Map_Staged_Order.
+	// Sort by the order stored in _stagedOrder.
 	sort.Slice(rectanchoredtexts, func(i, j int) bool {
-		return stage.RectAnchoredTextMap_Staged_Order[rectanchoredtexts[i]] < stage.RectAnchoredTextMap_Staged_Order[rectanchoredtexts[j]]
+		return stage.RectAnchoredText_stagedOrder[rectanchoredtexts[i]] < stage.RectAnchoredText_stagedOrder[rectanchoredtexts[j]]
 	})
 
 	for _, rectanchoredtext := range rectanchoredtexts {

@@ -134,8 +134,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(buttonOrdered[:], func(i, j int) bool {
 		buttoni := buttonOrdered[i]
 		buttonj := buttonOrdered[j]
-		buttoni_order, oki := stage.ButtonMap_Staged_Order[buttoni]
-		buttonj_order, okj := stage.ButtonMap_Staged_Order[buttonj]
+		buttoni_order, oki := stage.Button_stagedOrder[buttoni]
+		buttonj_order, okj := stage.Button_stagedOrder[buttonj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -166,8 +166,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(buttontoggleOrdered[:], func(i, j int) bool {
 		buttontogglei := buttontoggleOrdered[i]
 		buttontogglej := buttontoggleOrdered[j]
-		buttontogglei_order, oki := stage.ButtonToggleMap_Staged_Order[buttontogglei]
-		buttontogglej_order, okj := stage.ButtonToggleMap_Staged_Order[buttontogglej]
+		buttontogglei_order, oki := stage.ButtonToggle_stagedOrder[buttontogglei]
+		buttontogglej_order, okj := stage.ButtonToggle_stagedOrder[buttontogglej]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -196,8 +196,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(groupOrdered[:], func(i, j int) bool {
 		groupi := groupOrdered[i]
 		groupj := groupOrdered[j]
-		groupi_order, oki := stage.GroupMap_Staged_Order[groupi]
-		groupj_order, okj := stage.GroupMap_Staged_Order[groupj]
+		groupi_order, oki := stage.Group_stagedOrder[groupi]
+		groupj_order, okj := stage.Group_stagedOrder[groupj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -225,8 +225,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(grouptoogleOrdered[:], func(i, j int) bool {
 		grouptooglei := grouptoogleOrdered[i]
 		grouptooglej := grouptoogleOrdered[j]
-		grouptooglei_order, oki := stage.GroupToogleMap_Staged_Order[grouptooglei]
-		grouptooglej_order, okj := stage.GroupToogleMap_Staged_Order[grouptooglej]
+		grouptooglei_order, oki := stage.GroupToogle_stagedOrder[grouptooglei]
+		grouptooglej_order, okj := stage.GroupToogle_stagedOrder[grouptooglej]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -254,8 +254,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(layoutOrdered[:], func(i, j int) bool {
 		layouti := layoutOrdered[i]
 		layoutj := layoutOrdered[j]
-		layouti_order, oki := stage.LayoutMap_Staged_Order[layouti]
-		layoutj_order, okj := stage.LayoutMap_Staged_Order[layoutj]
+		layouti_order, oki := stage.Layout_stagedOrder[layouti]
+		layoutj_order, okj := stage.Layout_stagedOrder[layoutj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}

@@ -144,9 +144,9 @@ func (backRepoTone *BackRepoToneStruct) CommitPhaseOne(stage *models.Stage) (Err
 		tones = append(tones, tone)
 	}
 
-	// Sort by the order stored in Map_Staged_Order.
+	// Sort by the order stored in _stagedOrder.
 	sort.Slice(tones, func(i, j int) bool {
-		return stage.ToneMap_Staged_Order[tones[i]] < stage.ToneMap_Staged_Order[tones[j]]
+		return stage.Tone_stagedOrder[tones[i]] < stage.Tone_stagedOrder[tones[j]]
 	})
 
 	for _, tone := range tones {
