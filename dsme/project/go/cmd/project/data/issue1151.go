@@ -30,9 +30,9 @@ func _(stage *models.Stage) {
 	__Resource__00000003_ := (&models.Resource{Name: `R3`}).Stage(stage)
 	__Resource__00000004_ := (&models.Resource{Name: `R4`}).Stage(stage)
 	__Resource__00000005_ := (&models.Resource{Name: `R5`}).Stage(stage)
-	__Resource__00000006_ := (&models.Resource{Name: ``}).Stage(stage)
-	__Resource__00000007_ := (&models.Resource{Name: ``}).Stage(stage)
-	__Resource__00000008_ := (&models.Resource{Name: ``}).Stage(stage)
+	__Resource__00000006_ := (&models.Resource{Name: `R4.1`}).Stage(stage)
+	__Resource__00000007_ := (&models.Resource{Name: `R4.2`}).Stage(stage)
+	__Resource__00000008_ := (&models.Resource{Name: `R4.1.1`}).Stage(stage)
 
 	__ResourceCompositionShape__00000000_ := (&models.ResourceCompositionShape{Name: `R4 to `}).Stage(stage)
 	__ResourceCompositionShape__00000001_ := (&models.ResourceCompositionShape{Name: `R4 to `}).Stage(stage)
@@ -44,6 +44,9 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000007_ := (&models.ResourceShape{Name: `-D5`}).Stage(stage)
 	__ResourceShape__00000008_ := (&models.ResourceShape{Name: `-D5`}).Stage(stage)
 	__ResourceShape__00000009_ := (&models.ResourceShape{Name: `-D5`}).Stage(stage)
+
+	__ResourceTaskShape__00000000_ := (&models.ResourceTaskShape{Name: ` to T1`}).Stage(stage)
+	__ResourceTaskShape__00000001_ := (&models.ResourceTaskShape{Name: `R4 to T1`}).Stage(stage)
 
 	__Root__00000004_ := (&models.Root{Name: `Root 4`}).Stage(stage)
 
@@ -59,8 +62,8 @@ func _(stage *models.Stage) {
 	__Diagram__00000005_.ShowPrefix = true
 	__Diagram__00000005_.DefaultBoxWidth = 250.000000
 	__Diagram__00000005_.DefaultBoxHeigth = 100.000000
-	__Diagram__00000005_.Width = 4208.862056
-	__Diagram__00000005_.Height = 4576.845003
+	__Diagram__00000005_.Width = 5508.862056
+	__Diagram__00000005_.Height = 5876.845003
 	__Diagram__00000005_.IsExpanded = true
 	__Diagram__00000005_.ComputedPrefix = ``
 	__Diagram__00000005_.IsInRenameMode = false
@@ -92,19 +95,19 @@ func _(stage *models.Stage) {
 	__Resource__00000005_.ComputedPrefix = `3`
 	__Resource__00000005_.IsInRenameMode = false
 
-	__Resource__00000006_.Name = ``
+	__Resource__00000006_.Name = `R4.1`
 	__Resource__00000006_.Description = ``
 	__Resource__00000006_.IsExpanded = false
 	__Resource__00000006_.ComputedPrefix = `2.1`
 	__Resource__00000006_.IsInRenameMode = false
 
-	__Resource__00000007_.Name = ``
+	__Resource__00000007_.Name = `R4.2`
 	__Resource__00000007_.Description = ``
 	__Resource__00000007_.IsExpanded = false
 	__Resource__00000007_.ComputedPrefix = `2.2`
 	__Resource__00000007_.IsInRenameMode = false
 
-	__Resource__00000008_.Name = ``
+	__Resource__00000008_.Name = `R4.1.1`
 	__Resource__00000008_.Description = ``
 	__Resource__00000008_.IsExpanded = false
 	__Resource__00000008_.ComputedPrefix = `2.1.1`
@@ -147,8 +150,8 @@ func _(stage *models.Stage) {
 
 	__ResourceShape__00000006_.Name = `R4-D5`
 	__ResourceShape__00000006_.IsExpanded = false
-	__ResourceShape__00000006_.X = 162.940130
-	__ResourceShape__00000006_.Y = 190.780748
+	__ResourceShape__00000006_.X = 521.940130
+	__ResourceShape__00000006_.Y = 91.780748
 	__ResourceShape__00000006_.Width = 250.000000
 	__ResourceShape__00000006_.Height = 100.000000
 
@@ -173,6 +176,20 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000009_.Width = 250.000000
 	__ResourceShape__00000009_.Height = 100.000000
 
+	__ResourceTaskShape__00000000_.Name = ` to T1`
+	__ResourceTaskShape__00000000_.StartRatio = 0.500000
+	__ResourceTaskShape__00000000_.EndRatio = 0.500000
+	__ResourceTaskShape__00000000_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceTaskShape__00000000_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ResourceTaskShape__00000000_.CornerOffsetRatio = 1.680000
+
+	__ResourceTaskShape__00000001_.Name = `R4 to T1`
+	__ResourceTaskShape__00000001_.StartRatio = 0.352251
+	__ResourceTaskShape__00000001_.EndRatio = 0.500000
+	__ResourceTaskShape__00000001_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__ResourceTaskShape__00000001_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ResourceTaskShape__00000001_.CornerOffsetRatio = 1.036630
+
 	__Root__00000004_.Name = `Root 4`
 	__Root__00000004_.NbPixPerCharacter = 8.000000
 
@@ -182,7 +199,7 @@ func _(stage *models.Stage) {
 	__Task__00000000_.Description = ``
 	__Task__00000000_.IsExpanded = false
 	__Task__00000000_.ComputedPrefix = `1`
-	__Task__00000000_.IsInRenameMode = true
+	__Task__00000000_.IsInRenameMode = false
 	__Task__00000000_.IsInputsNodeExpanded = false
 	__Task__00000000_.IsOutputsNodeExpanded = false
 	__Task__00000000_.IsWithCompletion = false
@@ -190,8 +207,8 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000000_.Name = `T1-D5`
 	__TaskShape__00000000_.IsExpanded = false
-	__TaskShape__00000000_.X = 114.731320
-	__TaskShape__00000000_.Y = 114.992601
+	__TaskShape__00000000_.X = 960.731320
+	__TaskShape__00000000_.Y = 240.992601
 	__TaskShape__00000000_.Width = 250.000000
 	__TaskShape__00000000_.Height = 100.000000
 
@@ -208,14 +225,18 @@ func _(stage *models.Stage) {
 	__Diagram__00000005_.ResourceComposition_Shapes = append(__Diagram__00000005_.ResourceComposition_Shapes, __ResourceCompositionShape__00000000_)
 	__Diagram__00000005_.ResourceComposition_Shapes = append(__Diagram__00000005_.ResourceComposition_Shapes, __ResourceCompositionShape__00000001_)
 	__Diagram__00000005_.ResourceComposition_Shapes = append(__Diagram__00000005_.ResourceComposition_Shapes, __ResourceCompositionShape__00000002_)
+	__Diagram__00000005_.ResourceTaskShapes = append(__Diagram__00000005_.ResourceTaskShapes, __ResourceTaskShape__00000000_)
+	__Diagram__00000005_.ResourceTaskShapes = append(__Diagram__00000005_.ResourceTaskShapes, __ResourceTaskShape__00000001_)
 	__Project__00000001_.RootTasks = append(__Project__00000001_.RootTasks, __Task__00000000_)
 	__Project__00000001_.RootResources = append(__Project__00000001_.RootResources, __Resource__00000003_)
 	__Project__00000001_.RootResources = append(__Project__00000001_.RootResources, __Resource__00000004_)
 	__Project__00000001_.RootResources = append(__Project__00000001_.RootResources, __Resource__00000005_)
 	__Project__00000001_.Diagrams = append(__Project__00000001_.Diagrams, __Diagram__00000005_)
+	__Resource__00000004_.Tasks = append(__Resource__00000004_.Tasks, __Task__00000000_)
 	__Resource__00000004_.SubResources = append(__Resource__00000004_.SubResources, __Resource__00000006_)
 	__Resource__00000004_.SubResources = append(__Resource__00000004_.SubResources, __Resource__00000007_)
 	__Resource__00000006_.SubResources = append(__Resource__00000006_.SubResources, __Resource__00000008_)
+	__Resource__00000007_.Tasks = append(__Resource__00000007_.Tasks, __Task__00000000_)
 	__ResourceCompositionShape__00000000_.Resource = __Resource__00000006_
 	__ResourceCompositionShape__00000001_.Resource = __Resource__00000007_
 	__ResourceCompositionShape__00000002_.Resource = __Resource__00000008_
@@ -225,6 +246,10 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000007_.Resource = __Resource__00000006_
 	__ResourceShape__00000008_.Resource = __Resource__00000007_
 	__ResourceShape__00000009_.Resource = __Resource__00000008_
+	__ResourceTaskShape__00000000_.Resource = __Resource__00000007_
+	__ResourceTaskShape__00000000_.Task = __Task__00000000_
+	__ResourceTaskShape__00000001_.Resource = __Resource__00000004_
+	__ResourceTaskShape__00000001_.Task = __Task__00000000_
 	__Root__00000004_.Projects = append(__Root__00000004_.Projects, __Project__00000001_)
 	__TaskShape__00000000_.Task = __Task__00000000_
 }
