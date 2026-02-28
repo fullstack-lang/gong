@@ -359,7 +359,7 @@ func GongExtractExpr(expr ast.Expr) any {
 func GongUnmarshallSliceOfPointers[T PointerToGongstruct](
 	slice *[]T,
 	valueExpr ast.Expr,
-	identifierMap map[string]GongstructIF) {
+	identifierMap map[string]GongstructIF) (err error) {
 
 	if call, ok := valueExpr.(*ast.CallExpr); ok {
 		funcName := ""
@@ -378,9 +378,17 @@ func GongUnmarshallSliceOfPointers[T PointerToGongstruct](
 			if funcName == "Delete" && len(call.Args) == 3 {
 				start := GongExtractInt(call.Args[1])
 				end := GongExtractInt(call.Args[2])
+				if end > len(*slice) {
+					// Handle error: log warning, resize slice, or return error
+					// For example:
+					return fmt.Errorf("index out of bounds: %d for len %d", end, len(*slice))
+				}
 				*slice = slices.Delete(*slice, start, end)
 			} else if funcName == "Insert" && len(call.Args) == 3 {
 				index := GongExtractInt(call.Args[1])
+				if index > len(*slice) {
+					return fmt.Errorf("index out of bounds: %d for len %d", index, len(*slice))
+				}
 				if ident, ok := call.Args[2].(*ast.Ident); ok {
 					if val, ok := identifierMap[ident.Name]; ok {
 						*slice = slices.Insert(*slice, index, val.(T))
@@ -401,6 +409,7 @@ func GongUnmarshallSliceOfPointers[T PointerToGongstruct](
 			}
 		}
 	}
+	return nil
 }
 
 // GongUnmarshallPointer handles assignment of a single pointer field

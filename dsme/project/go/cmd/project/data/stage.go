@@ -165,8 +165,8 @@ another line-NewDiagram`}).Stage(stage)
 	__Diagram__00000042_.ShowPrefix = true
 	__Diagram__00000042_.DefaultBoxWidth = 150.000000
 	__Diagram__00000042_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000042_.Width = 1635.000000
-	__Diagram__00000042_.Height = 1160.000000
+	__Diagram__00000042_.Width = 2035.000000
+	__Diagram__00000042_.Height = 1560.000000
 	__Diagram__00000042_.IsExpanded = false
 	__Diagram__00000042_.ComputedPrefix = ``
 	__Diagram__00000042_.IsInRenameMode = false
@@ -181,8 +181,8 @@ another line-NewDiagram`}).Stage(stage)
 	__Diagram__00000057_.ShowPrefix = false
 	__Diagram__00000057_.DefaultBoxWidth = 150.000000
 	__Diagram__00000057_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000057_.Width = 1615.108494
-	__Diagram__00000057_.Height = 1034.407017
+	__Diagram__00000057_.Width = 2015.108494
+	__Diagram__00000057_.Height = 1434.407017
 	__Diagram__00000057_.IsExpanded = false
 	__Diagram__00000057_.ComputedPrefix = ``
 	__Diagram__00000057_.IsInRenameMode = false
@@ -197,8 +197,8 @@ another line-NewDiagram`}).Stage(stage)
 	__Diagram__00000061_.ShowPrefix = true
 	__Diagram__00000061_.DefaultBoxWidth = 250.000000
 	__Diagram__00000061_.DefaultBoxHeigth = 100.000000
-	__Diagram__00000061_.Width = 2384.716678
-	__Diagram__00000061_.Height = 2130.109182
+	__Diagram__00000061_.Width = 2784.716678
+	__Diagram__00000061_.Height = 2530.109182
 	__Diagram__00000061_.IsExpanded = true
 	__Diagram__00000061_.ComputedPrefix = ``
 	__Diagram__00000061_.IsInRenameMode = false
