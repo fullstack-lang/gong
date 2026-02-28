@@ -106,11 +106,13 @@ type Stage struct {
 
 	// insertion point for definition of arrays registering instances
 	Contents                map[*Content]struct{}
-	Contents_reference      map[*Content]*Content
-	Contents_referenceOrder map[*Content]uint
 	Contents_instance       map[*Content]*Content
 	Contents_mapString      map[string]*Content
-
+	ContentOrder            uint
+	Content_stagedOrder     map[*Content]uint
+	Contents_reference      map[*Content]*Content
+	Contents_referenceOrder map[*Content]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterContentCreateCallback OnAfterCreateInterface[Content]
 	OnAfterContentUpdateCallback OnAfterUpdateInterface[Content]
@@ -118,11 +120,13 @@ type Stage struct {
 	OnAfterContentReadCallback   OnAfterReadInterface[Content]
 
 	JpgImages                map[*JpgImage]struct{}
-	JpgImages_reference      map[*JpgImage]*JpgImage
-	JpgImages_referenceOrder map[*JpgImage]uint
 	JpgImages_instance       map[*JpgImage]*JpgImage
 	JpgImages_mapString      map[string]*JpgImage
-
+	JpgImageOrder            uint
+	JpgImage_stagedOrder     map[*JpgImage]uint
+	JpgImages_reference      map[*JpgImage]*JpgImage
+	JpgImages_referenceOrder map[*JpgImage]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterJpgImageCreateCallback OnAfterCreateInterface[JpgImage]
 	OnAfterJpgImageUpdateCallback OnAfterUpdateInterface[JpgImage]
@@ -130,11 +134,13 @@ type Stage struct {
 	OnAfterJpgImageReadCallback   OnAfterReadInterface[JpgImage]
 
 	PngImages                map[*PngImage]struct{}
-	PngImages_reference      map[*PngImage]*PngImage
-	PngImages_referenceOrder map[*PngImage]uint
 	PngImages_instance       map[*PngImage]*PngImage
 	PngImages_mapString      map[string]*PngImage
-
+	PngImageOrder            uint
+	PngImage_stagedOrder     map[*PngImage]uint
+	PngImages_reference      map[*PngImage]*PngImage
+	PngImages_referenceOrder map[*PngImage]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterPngImageCreateCallback OnAfterCreateInterface[PngImage]
 	OnAfterPngImageUpdateCallback OnAfterUpdateInterface[PngImage]
@@ -142,11 +148,13 @@ type Stage struct {
 	OnAfterPngImageReadCallback   OnAfterReadInterface[PngImage]
 
 	SvgImages                map[*SvgImage]struct{}
-	SvgImages_reference      map[*SvgImage]*SvgImage
-	SvgImages_referenceOrder map[*SvgImage]uint
 	SvgImages_instance       map[*SvgImage]*SvgImage
 	SvgImages_mapString      map[string]*SvgImage
-
+	SvgImageOrder            uint
+	SvgImage_stagedOrder     map[*SvgImage]uint
+	SvgImages_reference      map[*SvgImage]*SvgImage
+	SvgImages_referenceOrder map[*SvgImage]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterSvgImageCreateCallback OnAfterCreateInterface[SvgImage]
 	OnAfterSvgImageUpdateCallback OnAfterUpdateInterface[SvgImage]
@@ -164,6 +172,10 @@ type Stage struct {
 	OnInitCommitFromFrontCallback OnInitCommitInterface
 	OnInitCommitFromBackCallback  OnInitCommitInterface
 
+	// Private slices to hold the registered hooks
+	beforeCommitHooks []func(stage *Stage)
+	afterCommitHooks  []func(stage *Stage)
+
 	// store the number of instance per gongstruct
 	Map_GongStructName_InstancesNb map[string]int
 
@@ -179,17 +191,9 @@ type Stage struct {
 	// store the stage order of each instance in order to
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
-	ContentOrder            uint
-	ContentMap_Staged_Order map[*Content]uint
 
-	JpgImageOrder            uint
-	JpgImageMap_Staged_Order map[*JpgImage]uint
 
-	PngImageOrder            uint
-	PngImageMap_Staged_Order map[*PngImage]uint
 
-	SvgImageOrder            uint
-	SvgImageMap_Staged_Order map[*SvgImage]uint
 
 	// end of insertion point
 
@@ -211,6 +215,16 @@ type Stage struct {
 	commitsBehind  int // the number of commits the stage is behind the front of the history
 
 	lock sync.RWMutex
+}
+
+// RegisterBeforeCommit adds a hook that runs before the commit happens
+func (s *Stage) RegisterBeforeCommit(hook func(stage *Stage)) {
+	s.beforeCommitHooks = append(s.beforeCommitHooks, hook)
+}
+
+// RegisterAfterCommit adds a hook that runs after the commit succeeds
+func (s *Stage) RegisterAfterCommit(hook func(stage *Stage)) {
+	s.afterCommitHooks = append(s.afterCommitHooks, hook)
 }
 
 type gongStageNavigationMode string
@@ -334,6 +348,16 @@ func (stage *Stage) ResetHard() {
 	if stage.OnInitCommitFromBackCallback != nil {
 		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
 	}
+
+	// 1. Run all Before Commit hooks
+	for _, hook := range stage.beforeCommitHooks {
+		hook(stage)
+	}
+
+	// 2. Run all After Commit hooks
+	for _, hook := range stage.afterCommitHooks {
+		hook(stage)
+	}
 }
 
 // Orphans removes all commits
@@ -350,6 +374,16 @@ func (stage *Stage) Orphans() {
 	if stage.OnInitCommitFromBackCallback != nil {
 		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
 	}
+
+	// 1. Run all Before Commit hooks
+	for _, hook := range stage.beforeCommitHooks {
+		hook(stage)
+	}
+
+	// 2. Run all After Commit hooks
+	for _, hook := range stage.afterCommitHooks {
+		hook(stage)
+	}
 }
 
 // recomputeOrders recomputes the next order for each struct
@@ -360,7 +394,7 @@ func (stage *Stage) recomputeOrders() {
 	// insertion point for max order recomputation
 	var maxContentOrder uint
 	var foundContent bool
-	for _, order := range stage.ContentMap_Staged_Order {
+	for _, order := range stage.Content_stagedOrder {
 		if !foundContent || order > maxContentOrder {
 			maxContentOrder = order
 			foundContent = true
@@ -374,7 +408,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxJpgImageOrder uint
 	var foundJpgImage bool
-	for _, order := range stage.JpgImageMap_Staged_Order {
+	for _, order := range stage.JpgImage_stagedOrder {
 		if !foundJpgImage || order > maxJpgImageOrder {
 			maxJpgImageOrder = order
 			foundJpgImage = true
@@ -388,7 +422,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxPngImageOrder uint
 	var foundPngImage bool
-	for _, order := range stage.PngImageMap_Staged_Order {
+	for _, order := range stage.PngImage_stagedOrder {
 		if !foundPngImage || order > maxPngImageOrder {
 			maxPngImageOrder = order
 			foundPngImage = true
@@ -402,7 +436,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxSvgImageOrder uint
 	var foundSvgImage bool
-	for _, order := range stage.SvgImageMap_Staged_Order {
+	for _, order := range stage.SvgImage_stagedOrder {
 		if !foundSvgImage || order > maxSvgImageOrder {
 			maxSvgImageOrder = order
 			foundSvgImage = true
@@ -474,7 +508,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 	switch any(t).(type) {
 	// insertion point for case
 	case *Content:
-		tmp := GetStructInstancesByOrder(stage.Contents, stage.ContentMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Contents, stage.Content_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -488,7 +522,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *JpgImage:
-		tmp := GetStructInstancesByOrder(stage.JpgImages, stage.JpgImageMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.JpgImages, stage.JpgImage_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -502,7 +536,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *PngImage:
-		tmp := GetStructInstancesByOrder(stage.PngImages, stage.PngImageMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.PngImages, stage.PngImage_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -516,7 +550,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *SvgImage:
-		tmp := GetStructInstancesByOrder(stage.SvgImages, stage.SvgImageMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.SvgImages, stage.SvgImage_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -559,13 +593,13 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 	switch namedStructName {
 	// insertion point for case
 	case "Content":
-		res = GetNamedStructInstances(stage.Contents, stage.ContentMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Contents, stage.Content_stagedOrder)
 	case "JpgImage":
-		res = GetNamedStructInstances(stage.JpgImages, stage.JpgImageMap_Staged_Order)
+		res = GetNamedStructInstances(stage.JpgImages, stage.JpgImage_stagedOrder)
 	case "PngImage":
-		res = GetNamedStructInstances(stage.PngImages, stage.PngImageMap_Staged_Order)
+		res = GetNamedStructInstances(stage.PngImages, stage.PngImage_stagedOrder)
 	case "SvgImage":
-		res = GetNamedStructInstances(stage.SvgImages, stage.SvgImageMap_Staged_Order)
+		res = GetNamedStructInstances(stage.SvgImages, stage.SvgImage_stagedOrder)
 	}
 
 	return
@@ -671,13 +705,13 @@ func NewStage(name string) (stage *Stage) {
 		// the to be removed stops here
 
 		// insertion point for order map initialisations
-		ContentMap_Staged_Order: make(map[*Content]uint),
+		Content_stagedOrder: make(map[*Content]uint),
 
-		JpgImageMap_Staged_Order: make(map[*JpgImage]uint),
+		JpgImage_stagedOrder: make(map[*JpgImage]uint),
 
-		PngImageMap_Staged_Order: make(map[*PngImage]uint),
+		PngImage_stagedOrder: make(map[*PngImage]uint),
 
-		SvgImageMap_Staged_Order: make(map[*SvgImage]uint),
+		SvgImage_stagedOrder: make(map[*SvgImage]uint),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
@@ -709,13 +743,13 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
 	case *Content:
-		return stage.ContentMap_Staged_Order[instance]
+		return stage.Content_stagedOrder[instance]
 	case *JpgImage:
-		return stage.JpgImageMap_Staged_Order[instance]
+		return stage.JpgImage_stagedOrder[instance]
 	case *PngImage:
-		return stage.PngImageMap_Staged_Order[instance]
+		return stage.PngImage_stagedOrder[instance]
 	case *SvgImage:
-		return stage.SvgImageMap_Staged_Order[instance]
+		return stage.SvgImage_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -725,13 +759,13 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
 	case *Content:
-		return stage.ContentMap_Staged_Order[instance]
+		return stage.Content_stagedOrder[instance]
 	case *JpgImage:
-		return stage.JpgImageMap_Staged_Order[instance]
+		return stage.JpgImage_stagedOrder[instance]
 	case *PngImage:
-		return stage.PngImageMap_Staged_Order[instance]
+		return stage.PngImage_stagedOrder[instance]
 	case *SvgImage:
-		return stage.SvgImageMap_Staged_Order[instance]
+		return stage.SvgImage_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -744,8 +778,14 @@ func (stage *Stage) GetName() string {
 func (stage *Stage) CommitWithSuspendedCallbacks() {
 	tmp := stage.OnInitCommitFromBackCallback
 	stage.OnInitCommitFromBackCallback = nil
+	tmp2 := stage.beforeCommitHooks
+	stage.beforeCommitHooks = nil
+	tmp3 := stage.afterCommitHooks
+	stage.afterCommitHooks = nil
 	stage.Commit()
 	stage.OnInitCommitFromBackCallback = tmp
+	stage.beforeCommitHooks = tmp2
+	stage.afterCommitHooks = tmp3
 }
 
 func (stage *Stage) Commit() {
@@ -756,6 +796,11 @@ func (stage *Stage) Commit() {
 	}
 	if stage.OnInitCommitFromBackCallback != nil {
 		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
+	}
+
+	// 1. Run all Before Commit hooks
+	for _, hook := range stage.beforeCommitHooks {
+		hook(stage)
 	}
 
 	if stage.BackRepo != nil {
@@ -773,6 +818,11 @@ func (stage *Stage) Commit() {
 	if stage.IsInDeltaMode() {
 		stage.ComputeForwardAndBackwardCommits()
 		stage.ComputeReferenceAndOrders()
+	}
+
+	// 2. Run all After Commit hooks
+	for _, hook := range stage.afterCommitHooks {
+		hook(stage)
 	}
 }
 
@@ -826,7 +876,7 @@ func (stage *Stage) RestoreXL(dirPath string) {
 func (content *Content) Stage(stage *Stage) *Content {
 	if _, ok := stage.Contents[content]; !ok {
 		stage.Contents[content] = struct{}{}
-		stage.ContentMap_Staged_Order[content] = stage.ContentOrder
+		stage.Content_stagedOrder[content] = stage.ContentOrder
 		stage.ContentOrder++
 	}
 	stage.Contents_mapString[content.Name] = content
@@ -846,7 +896,7 @@ func (content *Content) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.ContentOrder {
 			stage.ContentOrder = order
 		}
-		stage.ContentMap_Staged_Order[content] = order
+		stage.Content_stagedOrder[content] = order
 		stage.ContentOrder++
 	}
 	stage.Contents_mapString[content.Name] = content
@@ -855,7 +905,8 @@ func (content *Content) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes content off the model stage
 func (content *Content) Unstage(stage *Stage) *Content {
 	delete(stage.Contents, content)
-	delete(stage.ContentMap_Staged_Order, content)
+	// issue1150
+	// delete(stage.Content_stagedOrder, content)
 	delete(stage.Contents_mapString, content.Name)
 
 	return content
@@ -864,7 +915,8 @@ func (content *Content) Unstage(stage *Stage) *Content {
 // UnstageVoid removes content off the model stage
 func (content *Content) UnstageVoid(stage *Stage) {
 	delete(stage.Contents, content)
-	delete(stage.ContentMap_Staged_Order, content)
+	// issue1150
+	// delete(stage.Content_stagedOrder, content)
 	delete(stage.Contents_mapString, content.Name)
 }
 
@@ -910,7 +962,7 @@ func (content *Content) SetName(name string) {
 func (jpgimage *JpgImage) Stage(stage *Stage) *JpgImage {
 	if _, ok := stage.JpgImages[jpgimage]; !ok {
 		stage.JpgImages[jpgimage] = struct{}{}
-		stage.JpgImageMap_Staged_Order[jpgimage] = stage.JpgImageOrder
+		stage.JpgImage_stagedOrder[jpgimage] = stage.JpgImageOrder
 		stage.JpgImageOrder++
 	}
 	stage.JpgImages_mapString[jpgimage.Name] = jpgimage
@@ -930,7 +982,7 @@ func (jpgimage *JpgImage) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.JpgImageOrder {
 			stage.JpgImageOrder = order
 		}
-		stage.JpgImageMap_Staged_Order[jpgimage] = order
+		stage.JpgImage_stagedOrder[jpgimage] = order
 		stage.JpgImageOrder++
 	}
 	stage.JpgImages_mapString[jpgimage.Name] = jpgimage
@@ -939,7 +991,8 @@ func (jpgimage *JpgImage) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes jpgimage off the model stage
 func (jpgimage *JpgImage) Unstage(stage *Stage) *JpgImage {
 	delete(stage.JpgImages, jpgimage)
-	delete(stage.JpgImageMap_Staged_Order, jpgimage)
+	// issue1150
+	// delete(stage.JpgImage_stagedOrder, jpgimage)
 	delete(stage.JpgImages_mapString, jpgimage.Name)
 
 	return jpgimage
@@ -948,7 +1001,8 @@ func (jpgimage *JpgImage) Unstage(stage *Stage) *JpgImage {
 // UnstageVoid removes jpgimage off the model stage
 func (jpgimage *JpgImage) UnstageVoid(stage *Stage) {
 	delete(stage.JpgImages, jpgimage)
-	delete(stage.JpgImageMap_Staged_Order, jpgimage)
+	// issue1150
+	// delete(stage.JpgImage_stagedOrder, jpgimage)
 	delete(stage.JpgImages_mapString, jpgimage.Name)
 }
 
@@ -994,7 +1048,7 @@ func (jpgimage *JpgImage) SetName(name string) {
 func (pngimage *PngImage) Stage(stage *Stage) *PngImage {
 	if _, ok := stage.PngImages[pngimage]; !ok {
 		stage.PngImages[pngimage] = struct{}{}
-		stage.PngImageMap_Staged_Order[pngimage] = stage.PngImageOrder
+		stage.PngImage_stagedOrder[pngimage] = stage.PngImageOrder
 		stage.PngImageOrder++
 	}
 	stage.PngImages_mapString[pngimage.Name] = pngimage
@@ -1014,7 +1068,7 @@ func (pngimage *PngImage) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.PngImageOrder {
 			stage.PngImageOrder = order
 		}
-		stage.PngImageMap_Staged_Order[pngimage] = order
+		stage.PngImage_stagedOrder[pngimage] = order
 		stage.PngImageOrder++
 	}
 	stage.PngImages_mapString[pngimage.Name] = pngimage
@@ -1023,7 +1077,8 @@ func (pngimage *PngImage) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes pngimage off the model stage
 func (pngimage *PngImage) Unstage(stage *Stage) *PngImage {
 	delete(stage.PngImages, pngimage)
-	delete(stage.PngImageMap_Staged_Order, pngimage)
+	// issue1150
+	// delete(stage.PngImage_stagedOrder, pngimage)
 	delete(stage.PngImages_mapString, pngimage.Name)
 
 	return pngimage
@@ -1032,7 +1087,8 @@ func (pngimage *PngImage) Unstage(stage *Stage) *PngImage {
 // UnstageVoid removes pngimage off the model stage
 func (pngimage *PngImage) UnstageVoid(stage *Stage) {
 	delete(stage.PngImages, pngimage)
-	delete(stage.PngImageMap_Staged_Order, pngimage)
+	// issue1150
+	// delete(stage.PngImage_stagedOrder, pngimage)
 	delete(stage.PngImages_mapString, pngimage.Name)
 }
 
@@ -1078,7 +1134,7 @@ func (pngimage *PngImage) SetName(name string) {
 func (svgimage *SvgImage) Stage(stage *Stage) *SvgImage {
 	if _, ok := stage.SvgImages[svgimage]; !ok {
 		stage.SvgImages[svgimage] = struct{}{}
-		stage.SvgImageMap_Staged_Order[svgimage] = stage.SvgImageOrder
+		stage.SvgImage_stagedOrder[svgimage] = stage.SvgImageOrder
 		stage.SvgImageOrder++
 	}
 	stage.SvgImages_mapString[svgimage.Name] = svgimage
@@ -1098,7 +1154,7 @@ func (svgimage *SvgImage) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.SvgImageOrder {
 			stage.SvgImageOrder = order
 		}
-		stage.SvgImageMap_Staged_Order[svgimage] = order
+		stage.SvgImage_stagedOrder[svgimage] = order
 		stage.SvgImageOrder++
 	}
 	stage.SvgImages_mapString[svgimage.Name] = svgimage
@@ -1107,7 +1163,8 @@ func (svgimage *SvgImage) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes svgimage off the model stage
 func (svgimage *SvgImage) Unstage(stage *Stage) *SvgImage {
 	delete(stage.SvgImages, svgimage)
-	delete(stage.SvgImageMap_Staged_Order, svgimage)
+	// issue1150
+	// delete(stage.SvgImage_stagedOrder, svgimage)
 	delete(stage.SvgImages_mapString, svgimage.Name)
 
 	return svgimage
@@ -1116,7 +1173,8 @@ func (svgimage *SvgImage) Unstage(stage *Stage) *SvgImage {
 // UnstageVoid removes svgimage off the model stage
 func (svgimage *SvgImage) UnstageVoid(stage *Stage) {
 	delete(stage.SvgImages, svgimage)
-	delete(stage.SvgImageMap_Staged_Order, svgimage)
+	// issue1150
+	// delete(stage.SvgImage_stagedOrder, svgimage)
 	delete(stage.SvgImages_mapString, svgimage.Name)
 }
 
@@ -1176,22 +1234,22 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Contents = make(map[*Content]struct{})
 	stage.Contents_mapString = make(map[string]*Content)
-	stage.ContentMap_Staged_Order = make(map[*Content]uint)
+	stage.Content_stagedOrder = make(map[*Content]uint)
 	stage.ContentOrder = 0
 
 	stage.JpgImages = make(map[*JpgImage]struct{})
 	stage.JpgImages_mapString = make(map[string]*JpgImage)
-	stage.JpgImageMap_Staged_Order = make(map[*JpgImage]uint)
+	stage.JpgImage_stagedOrder = make(map[*JpgImage]uint)
 	stage.JpgImageOrder = 0
 
 	stage.PngImages = make(map[*PngImage]struct{})
 	stage.PngImages_mapString = make(map[string]*PngImage)
-	stage.PngImageMap_Staged_Order = make(map[*PngImage]uint)
+	stage.PngImage_stagedOrder = make(map[*PngImage]uint)
 	stage.PngImageOrder = 0
 
 	stage.SvgImages = make(map[*SvgImage]struct{})
 	stage.SvgImages_mapString = make(map[string]*SvgImage)
-	stage.SvgImageMap_Staged_Order = make(map[*SvgImage]uint)
+	stage.SvgImage_stagedOrder = make(map[*SvgImage]uint)
 	stage.SvgImageOrder = 0
 
 	if stage.GetProbeIF() != nil {

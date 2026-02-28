@@ -106,11 +106,13 @@ type Stage struct {
 
 	// insertion point for definition of arrays registering instances
 	Category1s                map[*Category1]struct{}
-	Category1s_reference      map[*Category1]*Category1
-	Category1s_referenceOrder map[*Category1]uint
 	Category1s_instance       map[*Category1]*Category1
 	Category1s_mapString      map[string]*Category1
-
+	Category1Order            uint
+	Category1_stagedOrder     map[*Category1]uint
+	Category1s_reference      map[*Category1]*Category1
+	Category1s_referenceOrder map[*Category1]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterCategory1CreateCallback OnAfterCreateInterface[Category1]
 	OnAfterCategory1UpdateCallback OnAfterUpdateInterface[Category1]
@@ -118,11 +120,13 @@ type Stage struct {
 	OnAfterCategory1ReadCallback   OnAfterReadInterface[Category1]
 
 	Category1Shapes                map[*Category1Shape]struct{}
-	Category1Shapes_reference      map[*Category1Shape]*Category1Shape
-	Category1Shapes_referenceOrder map[*Category1Shape]uint
 	Category1Shapes_instance       map[*Category1Shape]*Category1Shape
 	Category1Shapes_mapString      map[string]*Category1Shape
-
+	Category1ShapeOrder            uint
+	Category1Shape_stagedOrder     map[*Category1Shape]uint
+	Category1Shapes_reference      map[*Category1Shape]*Category1Shape
+	Category1Shapes_referenceOrder map[*Category1Shape]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterCategory1ShapeCreateCallback OnAfterCreateInterface[Category1Shape]
 	OnAfterCategory1ShapeUpdateCallback OnAfterUpdateInterface[Category1Shape]
@@ -130,11 +134,13 @@ type Stage struct {
 	OnAfterCategory1ShapeReadCallback   OnAfterReadInterface[Category1Shape]
 
 	Category2s                map[*Category2]struct{}
-	Category2s_reference      map[*Category2]*Category2
-	Category2s_referenceOrder map[*Category2]uint
 	Category2s_instance       map[*Category2]*Category2
 	Category2s_mapString      map[string]*Category2
-
+	Category2Order            uint
+	Category2_stagedOrder     map[*Category2]uint
+	Category2s_reference      map[*Category2]*Category2
+	Category2s_referenceOrder map[*Category2]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterCategory2CreateCallback OnAfterCreateInterface[Category2]
 	OnAfterCategory2UpdateCallback OnAfterUpdateInterface[Category2]
@@ -142,11 +148,13 @@ type Stage struct {
 	OnAfterCategory2ReadCallback   OnAfterReadInterface[Category2]
 
 	Category2Shapes                map[*Category2Shape]struct{}
-	Category2Shapes_reference      map[*Category2Shape]*Category2Shape
-	Category2Shapes_referenceOrder map[*Category2Shape]uint
 	Category2Shapes_instance       map[*Category2Shape]*Category2Shape
 	Category2Shapes_mapString      map[string]*Category2Shape
-
+	Category2ShapeOrder            uint
+	Category2Shape_stagedOrder     map[*Category2Shape]uint
+	Category2Shapes_reference      map[*Category2Shape]*Category2Shape
+	Category2Shapes_referenceOrder map[*Category2Shape]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterCategory2ShapeCreateCallback OnAfterCreateInterface[Category2Shape]
 	OnAfterCategory2ShapeUpdateCallback OnAfterUpdateInterface[Category2Shape]
@@ -154,11 +162,13 @@ type Stage struct {
 	OnAfterCategory2ShapeReadCallback   OnAfterReadInterface[Category2Shape]
 
 	Category3s                map[*Category3]struct{}
-	Category3s_reference      map[*Category3]*Category3
-	Category3s_referenceOrder map[*Category3]uint
 	Category3s_instance       map[*Category3]*Category3
 	Category3s_mapString      map[string]*Category3
-
+	Category3Order            uint
+	Category3_stagedOrder     map[*Category3]uint
+	Category3s_reference      map[*Category3]*Category3
+	Category3s_referenceOrder map[*Category3]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterCategory3CreateCallback OnAfterCreateInterface[Category3]
 	OnAfterCategory3UpdateCallback OnAfterUpdateInterface[Category3]
@@ -166,11 +176,13 @@ type Stage struct {
 	OnAfterCategory3ReadCallback   OnAfterReadInterface[Category3]
 
 	Category3Shapes                map[*Category3Shape]struct{}
-	Category3Shapes_reference      map[*Category3Shape]*Category3Shape
-	Category3Shapes_referenceOrder map[*Category3Shape]uint
 	Category3Shapes_instance       map[*Category3Shape]*Category3Shape
 	Category3Shapes_mapString      map[string]*Category3Shape
-
+	Category3ShapeOrder            uint
+	Category3Shape_stagedOrder     map[*Category3Shape]uint
+	Category3Shapes_reference      map[*Category3Shape]*Category3Shape
+	Category3Shapes_referenceOrder map[*Category3Shape]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterCategory3ShapeCreateCallback OnAfterCreateInterface[Category3Shape]
 	OnAfterCategory3ShapeUpdateCallback OnAfterUpdateInterface[Category3Shape]
@@ -178,11 +190,13 @@ type Stage struct {
 	OnAfterCategory3ShapeReadCallback   OnAfterReadInterface[Category3Shape]
 
 	ControlPointShapes                map[*ControlPointShape]struct{}
-	ControlPointShapes_reference      map[*ControlPointShape]*ControlPointShape
-	ControlPointShapes_referenceOrder map[*ControlPointShape]uint
 	ControlPointShapes_instance       map[*ControlPointShape]*ControlPointShape
 	ControlPointShapes_mapString      map[string]*ControlPointShape
-
+	ControlPointShapeOrder            uint
+	ControlPointShape_stagedOrder     map[*ControlPointShape]uint
+	ControlPointShapes_reference      map[*ControlPointShape]*ControlPointShape
+	ControlPointShapes_referenceOrder map[*ControlPointShape]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterControlPointShapeCreateCallback OnAfterCreateInterface[ControlPointShape]
 	OnAfterControlPointShapeUpdateCallback OnAfterUpdateInterface[ControlPointShape]
@@ -190,11 +204,13 @@ type Stage struct {
 	OnAfterControlPointShapeReadCallback   OnAfterReadInterface[ControlPointShape]
 
 	Desks                map[*Desk]struct{}
-	Desks_reference      map[*Desk]*Desk
-	Desks_referenceOrder map[*Desk]uint
 	Desks_instance       map[*Desk]*Desk
 	Desks_mapString      map[string]*Desk
-
+	DeskOrder            uint
+	Desk_stagedOrder     map[*Desk]uint
+	Desks_reference      map[*Desk]*Desk
+	Desks_referenceOrder map[*Desk]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterDeskCreateCallback OnAfterCreateInterface[Desk]
 	OnAfterDeskUpdateCallback OnAfterUpdateInterface[Desk]
@@ -202,11 +218,13 @@ type Stage struct {
 	OnAfterDeskReadCallback   OnAfterReadInterface[Desk]
 
 	Diagrams                map[*Diagram]struct{}
-	Diagrams_reference      map[*Diagram]*Diagram
-	Diagrams_referenceOrder map[*Diagram]uint
 	Diagrams_instance       map[*Diagram]*Diagram
 	Diagrams_mapString      map[string]*Diagram
-
+	DiagramOrder            uint
+	Diagram_stagedOrder     map[*Diagram]uint
+	Diagrams_reference      map[*Diagram]*Diagram
+	Diagrams_referenceOrder map[*Diagram]uint
+	
 	// insertion point for slice of pointers maps
 	Diagram_Category1Shapes_reverseMap map[*Category1Shape]*Diagram
 
@@ -222,11 +240,13 @@ type Stage struct {
 	OnAfterDiagramReadCallback   OnAfterReadInterface[Diagram]
 
 	Influences                map[*Influence]struct{}
-	Influences_reference      map[*Influence]*Influence
-	Influences_referenceOrder map[*Influence]uint
 	Influences_instance       map[*Influence]*Influence
 	Influences_mapString      map[string]*Influence
-
+	InfluenceOrder            uint
+	Influence_stagedOrder     map[*Influence]uint
+	Influences_reference      map[*Influence]*Influence
+	Influences_referenceOrder map[*Influence]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterInfluenceCreateCallback OnAfterCreateInterface[Influence]
 	OnAfterInfluenceUpdateCallback OnAfterUpdateInterface[Influence]
@@ -234,11 +254,13 @@ type Stage struct {
 	OnAfterInfluenceReadCallback   OnAfterReadInterface[Influence]
 
 	InfluenceShapes                map[*InfluenceShape]struct{}
-	InfluenceShapes_reference      map[*InfluenceShape]*InfluenceShape
-	InfluenceShapes_referenceOrder map[*InfluenceShape]uint
 	InfluenceShapes_instance       map[*InfluenceShape]*InfluenceShape
 	InfluenceShapes_mapString      map[string]*InfluenceShape
-
+	InfluenceShapeOrder            uint
+	InfluenceShape_stagedOrder     map[*InfluenceShape]uint
+	InfluenceShapes_reference      map[*InfluenceShape]*InfluenceShape
+	InfluenceShapes_referenceOrder map[*InfluenceShape]uint
+	
 	// insertion point for slice of pointers maps
 	InfluenceShape_ControlPointShapes_reverseMap map[*ControlPointShape]*InfluenceShape
 
@@ -258,6 +280,10 @@ type Stage struct {
 	OnInitCommitFromFrontCallback OnInitCommitInterface
 	OnInitCommitFromBackCallback  OnInitCommitInterface
 
+	// Private slices to hold the registered hooks
+	beforeCommitHooks []func(stage *Stage)
+	afterCommitHooks  []func(stage *Stage)
+
 	// store the number of instance per gongstruct
 	Map_GongStructName_InstancesNb map[string]int
 
@@ -273,38 +299,16 @@ type Stage struct {
 	// store the stage order of each instance in order to
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
-	Category1Order            uint
-	Category1Map_Staged_Order map[*Category1]uint
 
-	Category1ShapeOrder            uint
-	Category1ShapeMap_Staged_Order map[*Category1Shape]uint
 
-	Category2Order            uint
-	Category2Map_Staged_Order map[*Category2]uint
 
-	Category2ShapeOrder            uint
-	Category2ShapeMap_Staged_Order map[*Category2Shape]uint
 
-	Category3Order            uint
-	Category3Map_Staged_Order map[*Category3]uint
 
-	Category3ShapeOrder            uint
-	Category3ShapeMap_Staged_Order map[*Category3Shape]uint
 
-	ControlPointShapeOrder            uint
-	ControlPointShapeMap_Staged_Order map[*ControlPointShape]uint
 
-	DeskOrder            uint
-	DeskMap_Staged_Order map[*Desk]uint
 
-	DiagramOrder            uint
-	DiagramMap_Staged_Order map[*Diagram]uint
 
-	InfluenceOrder            uint
-	InfluenceMap_Staged_Order map[*Influence]uint
 
-	InfluenceShapeOrder            uint
-	InfluenceShapeMap_Staged_Order map[*InfluenceShape]uint
 
 	// end of insertion point
 
@@ -326,6 +330,16 @@ type Stage struct {
 	commitsBehind  int // the number of commits the stage is behind the front of the history
 
 	lock sync.RWMutex
+}
+
+// RegisterBeforeCommit adds a hook that runs before the commit happens
+func (s *Stage) RegisterBeforeCommit(hook func(stage *Stage)) {
+	s.beforeCommitHooks = append(s.beforeCommitHooks, hook)
+}
+
+// RegisterAfterCommit adds a hook that runs after the commit succeeds
+func (s *Stage) RegisterAfterCommit(hook func(stage *Stage)) {
+	s.afterCommitHooks = append(s.afterCommitHooks, hook)
 }
 
 type gongStageNavigationMode string
@@ -449,6 +463,16 @@ func (stage *Stage) ResetHard() {
 	if stage.OnInitCommitFromBackCallback != nil {
 		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
 	}
+
+	// 1. Run all Before Commit hooks
+	for _, hook := range stage.beforeCommitHooks {
+		hook(stage)
+	}
+
+	// 2. Run all After Commit hooks
+	for _, hook := range stage.afterCommitHooks {
+		hook(stage)
+	}
 }
 
 // Orphans removes all commits
@@ -465,6 +489,16 @@ func (stage *Stage) Orphans() {
 	if stage.OnInitCommitFromBackCallback != nil {
 		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
 	}
+
+	// 1. Run all Before Commit hooks
+	for _, hook := range stage.beforeCommitHooks {
+		hook(stage)
+	}
+
+	// 2. Run all After Commit hooks
+	for _, hook := range stage.afterCommitHooks {
+		hook(stage)
+	}
 }
 
 // recomputeOrders recomputes the next order for each struct
@@ -475,7 +509,7 @@ func (stage *Stage) recomputeOrders() {
 	// insertion point for max order recomputation
 	var maxCategory1Order uint
 	var foundCategory1 bool
-	for _, order := range stage.Category1Map_Staged_Order {
+	for _, order := range stage.Category1_stagedOrder {
 		if !foundCategory1 || order > maxCategory1Order {
 			maxCategory1Order = order
 			foundCategory1 = true
@@ -489,7 +523,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxCategory1ShapeOrder uint
 	var foundCategory1Shape bool
-	for _, order := range stage.Category1ShapeMap_Staged_Order {
+	for _, order := range stage.Category1Shape_stagedOrder {
 		if !foundCategory1Shape || order > maxCategory1ShapeOrder {
 			maxCategory1ShapeOrder = order
 			foundCategory1Shape = true
@@ -503,7 +537,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxCategory2Order uint
 	var foundCategory2 bool
-	for _, order := range stage.Category2Map_Staged_Order {
+	for _, order := range stage.Category2_stagedOrder {
 		if !foundCategory2 || order > maxCategory2Order {
 			maxCategory2Order = order
 			foundCategory2 = true
@@ -517,7 +551,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxCategory2ShapeOrder uint
 	var foundCategory2Shape bool
-	for _, order := range stage.Category2ShapeMap_Staged_Order {
+	for _, order := range stage.Category2Shape_stagedOrder {
 		if !foundCategory2Shape || order > maxCategory2ShapeOrder {
 			maxCategory2ShapeOrder = order
 			foundCategory2Shape = true
@@ -531,7 +565,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxCategory3Order uint
 	var foundCategory3 bool
-	for _, order := range stage.Category3Map_Staged_Order {
+	for _, order := range stage.Category3_stagedOrder {
 		if !foundCategory3 || order > maxCategory3Order {
 			maxCategory3Order = order
 			foundCategory3 = true
@@ -545,7 +579,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxCategory3ShapeOrder uint
 	var foundCategory3Shape bool
-	for _, order := range stage.Category3ShapeMap_Staged_Order {
+	for _, order := range stage.Category3Shape_stagedOrder {
 		if !foundCategory3Shape || order > maxCategory3ShapeOrder {
 			maxCategory3ShapeOrder = order
 			foundCategory3Shape = true
@@ -559,7 +593,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxControlPointShapeOrder uint
 	var foundControlPointShape bool
-	for _, order := range stage.ControlPointShapeMap_Staged_Order {
+	for _, order := range stage.ControlPointShape_stagedOrder {
 		if !foundControlPointShape || order > maxControlPointShapeOrder {
 			maxControlPointShapeOrder = order
 			foundControlPointShape = true
@@ -573,7 +607,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxDeskOrder uint
 	var foundDesk bool
-	for _, order := range stage.DeskMap_Staged_Order {
+	for _, order := range stage.Desk_stagedOrder {
 		if !foundDesk || order > maxDeskOrder {
 			maxDeskOrder = order
 			foundDesk = true
@@ -587,7 +621,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxDiagramOrder uint
 	var foundDiagram bool
-	for _, order := range stage.DiagramMap_Staged_Order {
+	for _, order := range stage.Diagram_stagedOrder {
 		if !foundDiagram || order > maxDiagramOrder {
 			maxDiagramOrder = order
 			foundDiagram = true
@@ -601,7 +635,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxInfluenceOrder uint
 	var foundInfluence bool
-	for _, order := range stage.InfluenceMap_Staged_Order {
+	for _, order := range stage.Influence_stagedOrder {
 		if !foundInfluence || order > maxInfluenceOrder {
 			maxInfluenceOrder = order
 			foundInfluence = true
@@ -615,7 +649,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxInfluenceShapeOrder uint
 	var foundInfluenceShape bool
-	for _, order := range stage.InfluenceShapeMap_Staged_Order {
+	for _, order := range stage.InfluenceShape_stagedOrder {
 		if !foundInfluenceShape || order > maxInfluenceShapeOrder {
 			maxInfluenceShapeOrder = order
 			foundInfluenceShape = true
@@ -687,7 +721,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 	switch any(t).(type) {
 	// insertion point for case
 	case *Category1:
-		tmp := GetStructInstancesByOrder(stage.Category1s, stage.Category1Map_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Category1s, stage.Category1_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -701,7 +735,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Category1Shape:
-		tmp := GetStructInstancesByOrder(stage.Category1Shapes, stage.Category1ShapeMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Category1Shapes, stage.Category1Shape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -715,7 +749,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Category2:
-		tmp := GetStructInstancesByOrder(stage.Category2s, stage.Category2Map_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Category2s, stage.Category2_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -729,7 +763,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Category2Shape:
-		tmp := GetStructInstancesByOrder(stage.Category2Shapes, stage.Category2ShapeMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Category2Shapes, stage.Category2Shape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -743,7 +777,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Category3:
-		tmp := GetStructInstancesByOrder(stage.Category3s, stage.Category3Map_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Category3s, stage.Category3_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -757,7 +791,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Category3Shape:
-		tmp := GetStructInstancesByOrder(stage.Category3Shapes, stage.Category3ShapeMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Category3Shapes, stage.Category3Shape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -771,7 +805,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *ControlPointShape:
-		tmp := GetStructInstancesByOrder(stage.ControlPointShapes, stage.ControlPointShapeMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.ControlPointShapes, stage.ControlPointShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -785,7 +819,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Desk:
-		tmp := GetStructInstancesByOrder(stage.Desks, stage.DeskMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Desks, stage.Desk_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -799,7 +833,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Diagram:
-		tmp := GetStructInstancesByOrder(stage.Diagrams, stage.DiagramMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Diagrams, stage.Diagram_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -813,7 +847,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Influence:
-		tmp := GetStructInstancesByOrder(stage.Influences, stage.InfluenceMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Influences, stage.Influence_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -827,7 +861,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *InfluenceShape:
-		tmp := GetStructInstancesByOrder(stage.InfluenceShapes, stage.InfluenceShapeMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.InfluenceShapes, stage.InfluenceShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -870,27 +904,27 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 	switch namedStructName {
 	// insertion point for case
 	case "Category1":
-		res = GetNamedStructInstances(stage.Category1s, stage.Category1Map_Staged_Order)
+		res = GetNamedStructInstances(stage.Category1s, stage.Category1_stagedOrder)
 	case "Category1Shape":
-		res = GetNamedStructInstances(stage.Category1Shapes, stage.Category1ShapeMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Category1Shapes, stage.Category1Shape_stagedOrder)
 	case "Category2":
-		res = GetNamedStructInstances(stage.Category2s, stage.Category2Map_Staged_Order)
+		res = GetNamedStructInstances(stage.Category2s, stage.Category2_stagedOrder)
 	case "Category2Shape":
-		res = GetNamedStructInstances(stage.Category2Shapes, stage.Category2ShapeMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Category2Shapes, stage.Category2Shape_stagedOrder)
 	case "Category3":
-		res = GetNamedStructInstances(stage.Category3s, stage.Category3Map_Staged_Order)
+		res = GetNamedStructInstances(stage.Category3s, stage.Category3_stagedOrder)
 	case "Category3Shape":
-		res = GetNamedStructInstances(stage.Category3Shapes, stage.Category3ShapeMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Category3Shapes, stage.Category3Shape_stagedOrder)
 	case "ControlPointShape":
-		res = GetNamedStructInstances(stage.ControlPointShapes, stage.ControlPointShapeMap_Staged_Order)
+		res = GetNamedStructInstances(stage.ControlPointShapes, stage.ControlPointShape_stagedOrder)
 	case "Desk":
-		res = GetNamedStructInstances(stage.Desks, stage.DeskMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Desks, stage.Desk_stagedOrder)
 	case "Diagram":
-		res = GetNamedStructInstances(stage.Diagrams, stage.DiagramMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Diagrams, stage.Diagram_stagedOrder)
 	case "Influence":
-		res = GetNamedStructInstances(stage.Influences, stage.InfluenceMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Influences, stage.Influence_stagedOrder)
 	case "InfluenceShape":
-		res = GetNamedStructInstances(stage.InfluenceShapes, stage.InfluenceShapeMap_Staged_Order)
+		res = GetNamedStructInstances(stage.InfluenceShapes, stage.InfluenceShape_stagedOrder)
 	}
 
 	return
@@ -1031,27 +1065,27 @@ func NewStage(name string) (stage *Stage) {
 		// the to be removed stops here
 
 		// insertion point for order map initialisations
-		Category1Map_Staged_Order: make(map[*Category1]uint),
+		Category1_stagedOrder: make(map[*Category1]uint),
 
-		Category1ShapeMap_Staged_Order: make(map[*Category1Shape]uint),
+		Category1Shape_stagedOrder: make(map[*Category1Shape]uint),
 
-		Category2Map_Staged_Order: make(map[*Category2]uint),
+		Category2_stagedOrder: make(map[*Category2]uint),
 
-		Category2ShapeMap_Staged_Order: make(map[*Category2Shape]uint),
+		Category2Shape_stagedOrder: make(map[*Category2Shape]uint),
 
-		Category3Map_Staged_Order: make(map[*Category3]uint),
+		Category3_stagedOrder: make(map[*Category3]uint),
 
-		Category3ShapeMap_Staged_Order: make(map[*Category3Shape]uint),
+		Category3Shape_stagedOrder: make(map[*Category3Shape]uint),
 
-		ControlPointShapeMap_Staged_Order: make(map[*ControlPointShape]uint),
+		ControlPointShape_stagedOrder: make(map[*ControlPointShape]uint),
 
-		DeskMap_Staged_Order: make(map[*Desk]uint),
+		Desk_stagedOrder: make(map[*Desk]uint),
 
-		DiagramMap_Staged_Order: make(map[*Diagram]uint),
+		Diagram_stagedOrder: make(map[*Diagram]uint),
 
-		InfluenceMap_Staged_Order: make(map[*Influence]uint),
+		Influence_stagedOrder: make(map[*Influence]uint),
 
-		InfluenceShapeMap_Staged_Order: make(map[*InfluenceShape]uint),
+		InfluenceShape_stagedOrder: make(map[*InfluenceShape]uint),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
@@ -1104,27 +1138,27 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
 	case *Category1:
-		return stage.Category1Map_Staged_Order[instance]
+		return stage.Category1_stagedOrder[instance]
 	case *Category1Shape:
-		return stage.Category1ShapeMap_Staged_Order[instance]
+		return stage.Category1Shape_stagedOrder[instance]
 	case *Category2:
-		return stage.Category2Map_Staged_Order[instance]
+		return stage.Category2_stagedOrder[instance]
 	case *Category2Shape:
-		return stage.Category2ShapeMap_Staged_Order[instance]
+		return stage.Category2Shape_stagedOrder[instance]
 	case *Category3:
-		return stage.Category3Map_Staged_Order[instance]
+		return stage.Category3_stagedOrder[instance]
 	case *Category3Shape:
-		return stage.Category3ShapeMap_Staged_Order[instance]
+		return stage.Category3Shape_stagedOrder[instance]
 	case *ControlPointShape:
-		return stage.ControlPointShapeMap_Staged_Order[instance]
+		return stage.ControlPointShape_stagedOrder[instance]
 	case *Desk:
-		return stage.DeskMap_Staged_Order[instance]
+		return stage.Desk_stagedOrder[instance]
 	case *Diagram:
-		return stage.DiagramMap_Staged_Order[instance]
+		return stage.Diagram_stagedOrder[instance]
 	case *Influence:
-		return stage.InfluenceMap_Staged_Order[instance]
+		return stage.Influence_stagedOrder[instance]
 	case *InfluenceShape:
-		return stage.InfluenceShapeMap_Staged_Order[instance]
+		return stage.InfluenceShape_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -1134,27 +1168,27 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
 	case *Category1:
-		return stage.Category1Map_Staged_Order[instance]
+		return stage.Category1_stagedOrder[instance]
 	case *Category1Shape:
-		return stage.Category1ShapeMap_Staged_Order[instance]
+		return stage.Category1Shape_stagedOrder[instance]
 	case *Category2:
-		return stage.Category2Map_Staged_Order[instance]
+		return stage.Category2_stagedOrder[instance]
 	case *Category2Shape:
-		return stage.Category2ShapeMap_Staged_Order[instance]
+		return stage.Category2Shape_stagedOrder[instance]
 	case *Category3:
-		return stage.Category3Map_Staged_Order[instance]
+		return stage.Category3_stagedOrder[instance]
 	case *Category3Shape:
-		return stage.Category3ShapeMap_Staged_Order[instance]
+		return stage.Category3Shape_stagedOrder[instance]
 	case *ControlPointShape:
-		return stage.ControlPointShapeMap_Staged_Order[instance]
+		return stage.ControlPointShape_stagedOrder[instance]
 	case *Desk:
-		return stage.DeskMap_Staged_Order[instance]
+		return stage.Desk_stagedOrder[instance]
 	case *Diagram:
-		return stage.DiagramMap_Staged_Order[instance]
+		return stage.Diagram_stagedOrder[instance]
 	case *Influence:
-		return stage.InfluenceMap_Staged_Order[instance]
+		return stage.Influence_stagedOrder[instance]
 	case *InfluenceShape:
-		return stage.InfluenceShapeMap_Staged_Order[instance]
+		return stage.InfluenceShape_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -1167,8 +1201,14 @@ func (stage *Stage) GetName() string {
 func (stage *Stage) CommitWithSuspendedCallbacks() {
 	tmp := stage.OnInitCommitFromBackCallback
 	stage.OnInitCommitFromBackCallback = nil
+	tmp2 := stage.beforeCommitHooks
+	stage.beforeCommitHooks = nil
+	tmp3 := stage.afterCommitHooks
+	stage.afterCommitHooks = nil
 	stage.Commit()
 	stage.OnInitCommitFromBackCallback = tmp
+	stage.beforeCommitHooks = tmp2
+	stage.afterCommitHooks = tmp3
 }
 
 func (stage *Stage) Commit() {
@@ -1179,6 +1219,11 @@ func (stage *Stage) Commit() {
 	}
 	if stage.OnInitCommitFromBackCallback != nil {
 		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
+	}
+
+	// 1. Run all Before Commit hooks
+	for _, hook := range stage.beforeCommitHooks {
+		hook(stage)
 	}
 
 	if stage.BackRepo != nil {
@@ -1196,6 +1241,11 @@ func (stage *Stage) Commit() {
 	if stage.IsInDeltaMode() {
 		stage.ComputeForwardAndBackwardCommits()
 		stage.ComputeReferenceAndOrders()
+	}
+
+	// 2. Run all After Commit hooks
+	for _, hook := range stage.afterCommitHooks {
+		hook(stage)
 	}
 }
 
@@ -1256,7 +1306,7 @@ func (stage *Stage) RestoreXL(dirPath string) {
 func (category1 *Category1) Stage(stage *Stage) *Category1 {
 	if _, ok := stage.Category1s[category1]; !ok {
 		stage.Category1s[category1] = struct{}{}
-		stage.Category1Map_Staged_Order[category1] = stage.Category1Order
+		stage.Category1_stagedOrder[category1] = stage.Category1Order
 		stage.Category1Order++
 	}
 	stage.Category1s_mapString[category1.Name] = category1
@@ -1276,7 +1326,7 @@ func (category1 *Category1) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.Category1Order {
 			stage.Category1Order = order
 		}
-		stage.Category1Map_Staged_Order[category1] = order
+		stage.Category1_stagedOrder[category1] = order
 		stage.Category1Order++
 	}
 	stage.Category1s_mapString[category1.Name] = category1
@@ -1285,7 +1335,8 @@ func (category1 *Category1) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes category1 off the model stage
 func (category1 *Category1) Unstage(stage *Stage) *Category1 {
 	delete(stage.Category1s, category1)
-	delete(stage.Category1Map_Staged_Order, category1)
+	// issue1150
+	// delete(stage.Category1_stagedOrder, category1)
 	delete(stage.Category1s_mapString, category1.Name)
 
 	return category1
@@ -1294,7 +1345,8 @@ func (category1 *Category1) Unstage(stage *Stage) *Category1 {
 // UnstageVoid removes category1 off the model stage
 func (category1 *Category1) UnstageVoid(stage *Stage) {
 	delete(stage.Category1s, category1)
-	delete(stage.Category1Map_Staged_Order, category1)
+	// issue1150
+	// delete(stage.Category1_stagedOrder, category1)
 	delete(stage.Category1s_mapString, category1.Name)
 }
 
@@ -1340,7 +1392,7 @@ func (category1 *Category1) SetName(name string) {
 func (category1shape *Category1Shape) Stage(stage *Stage) *Category1Shape {
 	if _, ok := stage.Category1Shapes[category1shape]; !ok {
 		stage.Category1Shapes[category1shape] = struct{}{}
-		stage.Category1ShapeMap_Staged_Order[category1shape] = stage.Category1ShapeOrder
+		stage.Category1Shape_stagedOrder[category1shape] = stage.Category1ShapeOrder
 		stage.Category1ShapeOrder++
 	}
 	stage.Category1Shapes_mapString[category1shape.Name] = category1shape
@@ -1360,7 +1412,7 @@ func (category1shape *Category1Shape) StagePreserveOrder(stage *Stage, order uin
 		if order > stage.Category1ShapeOrder {
 			stage.Category1ShapeOrder = order
 		}
-		stage.Category1ShapeMap_Staged_Order[category1shape] = order
+		stage.Category1Shape_stagedOrder[category1shape] = order
 		stage.Category1ShapeOrder++
 	}
 	stage.Category1Shapes_mapString[category1shape.Name] = category1shape
@@ -1369,7 +1421,8 @@ func (category1shape *Category1Shape) StagePreserveOrder(stage *Stage, order uin
 // Unstage removes category1shape off the model stage
 func (category1shape *Category1Shape) Unstage(stage *Stage) *Category1Shape {
 	delete(stage.Category1Shapes, category1shape)
-	delete(stage.Category1ShapeMap_Staged_Order, category1shape)
+	// issue1150
+	// delete(stage.Category1Shape_stagedOrder, category1shape)
 	delete(stage.Category1Shapes_mapString, category1shape.Name)
 
 	return category1shape
@@ -1378,7 +1431,8 @@ func (category1shape *Category1Shape) Unstage(stage *Stage) *Category1Shape {
 // UnstageVoid removes category1shape off the model stage
 func (category1shape *Category1Shape) UnstageVoid(stage *Stage) {
 	delete(stage.Category1Shapes, category1shape)
-	delete(stage.Category1ShapeMap_Staged_Order, category1shape)
+	// issue1150
+	// delete(stage.Category1Shape_stagedOrder, category1shape)
 	delete(stage.Category1Shapes_mapString, category1shape.Name)
 }
 
@@ -1424,7 +1478,7 @@ func (category1shape *Category1Shape) SetName(name string) {
 func (category2 *Category2) Stage(stage *Stage) *Category2 {
 	if _, ok := stage.Category2s[category2]; !ok {
 		stage.Category2s[category2] = struct{}{}
-		stage.Category2Map_Staged_Order[category2] = stage.Category2Order
+		stage.Category2_stagedOrder[category2] = stage.Category2Order
 		stage.Category2Order++
 	}
 	stage.Category2s_mapString[category2.Name] = category2
@@ -1444,7 +1498,7 @@ func (category2 *Category2) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.Category2Order {
 			stage.Category2Order = order
 		}
-		stage.Category2Map_Staged_Order[category2] = order
+		stage.Category2_stagedOrder[category2] = order
 		stage.Category2Order++
 	}
 	stage.Category2s_mapString[category2.Name] = category2
@@ -1453,7 +1507,8 @@ func (category2 *Category2) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes category2 off the model stage
 func (category2 *Category2) Unstage(stage *Stage) *Category2 {
 	delete(stage.Category2s, category2)
-	delete(stage.Category2Map_Staged_Order, category2)
+	// issue1150
+	// delete(stage.Category2_stagedOrder, category2)
 	delete(stage.Category2s_mapString, category2.Name)
 
 	return category2
@@ -1462,7 +1517,8 @@ func (category2 *Category2) Unstage(stage *Stage) *Category2 {
 // UnstageVoid removes category2 off the model stage
 func (category2 *Category2) UnstageVoid(stage *Stage) {
 	delete(stage.Category2s, category2)
-	delete(stage.Category2Map_Staged_Order, category2)
+	// issue1150
+	// delete(stage.Category2_stagedOrder, category2)
 	delete(stage.Category2s_mapString, category2.Name)
 }
 
@@ -1508,7 +1564,7 @@ func (category2 *Category2) SetName(name string) {
 func (category2shape *Category2Shape) Stage(stage *Stage) *Category2Shape {
 	if _, ok := stage.Category2Shapes[category2shape]; !ok {
 		stage.Category2Shapes[category2shape] = struct{}{}
-		stage.Category2ShapeMap_Staged_Order[category2shape] = stage.Category2ShapeOrder
+		stage.Category2Shape_stagedOrder[category2shape] = stage.Category2ShapeOrder
 		stage.Category2ShapeOrder++
 	}
 	stage.Category2Shapes_mapString[category2shape.Name] = category2shape
@@ -1528,7 +1584,7 @@ func (category2shape *Category2Shape) StagePreserveOrder(stage *Stage, order uin
 		if order > stage.Category2ShapeOrder {
 			stage.Category2ShapeOrder = order
 		}
-		stage.Category2ShapeMap_Staged_Order[category2shape] = order
+		stage.Category2Shape_stagedOrder[category2shape] = order
 		stage.Category2ShapeOrder++
 	}
 	stage.Category2Shapes_mapString[category2shape.Name] = category2shape
@@ -1537,7 +1593,8 @@ func (category2shape *Category2Shape) StagePreserveOrder(stage *Stage, order uin
 // Unstage removes category2shape off the model stage
 func (category2shape *Category2Shape) Unstage(stage *Stage) *Category2Shape {
 	delete(stage.Category2Shapes, category2shape)
-	delete(stage.Category2ShapeMap_Staged_Order, category2shape)
+	// issue1150
+	// delete(stage.Category2Shape_stagedOrder, category2shape)
 	delete(stage.Category2Shapes_mapString, category2shape.Name)
 
 	return category2shape
@@ -1546,7 +1603,8 @@ func (category2shape *Category2Shape) Unstage(stage *Stage) *Category2Shape {
 // UnstageVoid removes category2shape off the model stage
 func (category2shape *Category2Shape) UnstageVoid(stage *Stage) {
 	delete(stage.Category2Shapes, category2shape)
-	delete(stage.Category2ShapeMap_Staged_Order, category2shape)
+	// issue1150
+	// delete(stage.Category2Shape_stagedOrder, category2shape)
 	delete(stage.Category2Shapes_mapString, category2shape.Name)
 }
 
@@ -1592,7 +1650,7 @@ func (category2shape *Category2Shape) SetName(name string) {
 func (category3 *Category3) Stage(stage *Stage) *Category3 {
 	if _, ok := stage.Category3s[category3]; !ok {
 		stage.Category3s[category3] = struct{}{}
-		stage.Category3Map_Staged_Order[category3] = stage.Category3Order
+		stage.Category3_stagedOrder[category3] = stage.Category3Order
 		stage.Category3Order++
 	}
 	stage.Category3s_mapString[category3.Name] = category3
@@ -1612,7 +1670,7 @@ func (category3 *Category3) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.Category3Order {
 			stage.Category3Order = order
 		}
-		stage.Category3Map_Staged_Order[category3] = order
+		stage.Category3_stagedOrder[category3] = order
 		stage.Category3Order++
 	}
 	stage.Category3s_mapString[category3.Name] = category3
@@ -1621,7 +1679,8 @@ func (category3 *Category3) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes category3 off the model stage
 func (category3 *Category3) Unstage(stage *Stage) *Category3 {
 	delete(stage.Category3s, category3)
-	delete(stage.Category3Map_Staged_Order, category3)
+	// issue1150
+	// delete(stage.Category3_stagedOrder, category3)
 	delete(stage.Category3s_mapString, category3.Name)
 
 	return category3
@@ -1630,7 +1689,8 @@ func (category3 *Category3) Unstage(stage *Stage) *Category3 {
 // UnstageVoid removes category3 off the model stage
 func (category3 *Category3) UnstageVoid(stage *Stage) {
 	delete(stage.Category3s, category3)
-	delete(stage.Category3Map_Staged_Order, category3)
+	// issue1150
+	// delete(stage.Category3_stagedOrder, category3)
 	delete(stage.Category3s_mapString, category3.Name)
 }
 
@@ -1676,7 +1736,7 @@ func (category3 *Category3) SetName(name string) {
 func (category3shape *Category3Shape) Stage(stage *Stage) *Category3Shape {
 	if _, ok := stage.Category3Shapes[category3shape]; !ok {
 		stage.Category3Shapes[category3shape] = struct{}{}
-		stage.Category3ShapeMap_Staged_Order[category3shape] = stage.Category3ShapeOrder
+		stage.Category3Shape_stagedOrder[category3shape] = stage.Category3ShapeOrder
 		stage.Category3ShapeOrder++
 	}
 	stage.Category3Shapes_mapString[category3shape.Name] = category3shape
@@ -1696,7 +1756,7 @@ func (category3shape *Category3Shape) StagePreserveOrder(stage *Stage, order uin
 		if order > stage.Category3ShapeOrder {
 			stage.Category3ShapeOrder = order
 		}
-		stage.Category3ShapeMap_Staged_Order[category3shape] = order
+		stage.Category3Shape_stagedOrder[category3shape] = order
 		stage.Category3ShapeOrder++
 	}
 	stage.Category3Shapes_mapString[category3shape.Name] = category3shape
@@ -1705,7 +1765,8 @@ func (category3shape *Category3Shape) StagePreserveOrder(stage *Stage, order uin
 // Unstage removes category3shape off the model stage
 func (category3shape *Category3Shape) Unstage(stage *Stage) *Category3Shape {
 	delete(stage.Category3Shapes, category3shape)
-	delete(stage.Category3ShapeMap_Staged_Order, category3shape)
+	// issue1150
+	// delete(stage.Category3Shape_stagedOrder, category3shape)
 	delete(stage.Category3Shapes_mapString, category3shape.Name)
 
 	return category3shape
@@ -1714,7 +1775,8 @@ func (category3shape *Category3Shape) Unstage(stage *Stage) *Category3Shape {
 // UnstageVoid removes category3shape off the model stage
 func (category3shape *Category3Shape) UnstageVoid(stage *Stage) {
 	delete(stage.Category3Shapes, category3shape)
-	delete(stage.Category3ShapeMap_Staged_Order, category3shape)
+	// issue1150
+	// delete(stage.Category3Shape_stagedOrder, category3shape)
 	delete(stage.Category3Shapes_mapString, category3shape.Name)
 }
 
@@ -1760,7 +1822,7 @@ func (category3shape *Category3Shape) SetName(name string) {
 func (controlpointshape *ControlPointShape) Stage(stage *Stage) *ControlPointShape {
 	if _, ok := stage.ControlPointShapes[controlpointshape]; !ok {
 		stage.ControlPointShapes[controlpointshape] = struct{}{}
-		stage.ControlPointShapeMap_Staged_Order[controlpointshape] = stage.ControlPointShapeOrder
+		stage.ControlPointShape_stagedOrder[controlpointshape] = stage.ControlPointShapeOrder
 		stage.ControlPointShapeOrder++
 	}
 	stage.ControlPointShapes_mapString[controlpointshape.Name] = controlpointshape
@@ -1780,7 +1842,7 @@ func (controlpointshape *ControlPointShape) StagePreserveOrder(stage *Stage, ord
 		if order > stage.ControlPointShapeOrder {
 			stage.ControlPointShapeOrder = order
 		}
-		stage.ControlPointShapeMap_Staged_Order[controlpointshape] = order
+		stage.ControlPointShape_stagedOrder[controlpointshape] = order
 		stage.ControlPointShapeOrder++
 	}
 	stage.ControlPointShapes_mapString[controlpointshape.Name] = controlpointshape
@@ -1789,7 +1851,8 @@ func (controlpointshape *ControlPointShape) StagePreserveOrder(stage *Stage, ord
 // Unstage removes controlpointshape off the model stage
 func (controlpointshape *ControlPointShape) Unstage(stage *Stage) *ControlPointShape {
 	delete(stage.ControlPointShapes, controlpointshape)
-	delete(stage.ControlPointShapeMap_Staged_Order, controlpointshape)
+	// issue1150
+	// delete(stage.ControlPointShape_stagedOrder, controlpointshape)
 	delete(stage.ControlPointShapes_mapString, controlpointshape.Name)
 
 	return controlpointshape
@@ -1798,7 +1861,8 @@ func (controlpointshape *ControlPointShape) Unstage(stage *Stage) *ControlPointS
 // UnstageVoid removes controlpointshape off the model stage
 func (controlpointshape *ControlPointShape) UnstageVoid(stage *Stage) {
 	delete(stage.ControlPointShapes, controlpointshape)
-	delete(stage.ControlPointShapeMap_Staged_Order, controlpointshape)
+	// issue1150
+	// delete(stage.ControlPointShape_stagedOrder, controlpointshape)
 	delete(stage.ControlPointShapes_mapString, controlpointshape.Name)
 }
 
@@ -1844,7 +1908,7 @@ func (controlpointshape *ControlPointShape) SetName(name string) {
 func (desk *Desk) Stage(stage *Stage) *Desk {
 	if _, ok := stage.Desks[desk]; !ok {
 		stage.Desks[desk] = struct{}{}
-		stage.DeskMap_Staged_Order[desk] = stage.DeskOrder
+		stage.Desk_stagedOrder[desk] = stage.DeskOrder
 		stage.DeskOrder++
 	}
 	stage.Desks_mapString[desk.Name] = desk
@@ -1864,7 +1928,7 @@ func (desk *Desk) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.DeskOrder {
 			stage.DeskOrder = order
 		}
-		stage.DeskMap_Staged_Order[desk] = order
+		stage.Desk_stagedOrder[desk] = order
 		stage.DeskOrder++
 	}
 	stage.Desks_mapString[desk.Name] = desk
@@ -1873,7 +1937,8 @@ func (desk *Desk) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes desk off the model stage
 func (desk *Desk) Unstage(stage *Stage) *Desk {
 	delete(stage.Desks, desk)
-	delete(stage.DeskMap_Staged_Order, desk)
+	// issue1150
+	// delete(stage.Desk_stagedOrder, desk)
 	delete(stage.Desks_mapString, desk.Name)
 
 	return desk
@@ -1882,7 +1947,8 @@ func (desk *Desk) Unstage(stage *Stage) *Desk {
 // UnstageVoid removes desk off the model stage
 func (desk *Desk) UnstageVoid(stage *Stage) {
 	delete(stage.Desks, desk)
-	delete(stage.DeskMap_Staged_Order, desk)
+	// issue1150
+	// delete(stage.Desk_stagedOrder, desk)
 	delete(stage.Desks_mapString, desk.Name)
 }
 
@@ -1928,7 +1994,7 @@ func (desk *Desk) SetName(name string) {
 func (diagram *Diagram) Stage(stage *Stage) *Diagram {
 	if _, ok := stage.Diagrams[diagram]; !ok {
 		stage.Diagrams[diagram] = struct{}{}
-		stage.DiagramMap_Staged_Order[diagram] = stage.DiagramOrder
+		stage.Diagram_stagedOrder[diagram] = stage.DiagramOrder
 		stage.DiagramOrder++
 	}
 	stage.Diagrams_mapString[diagram.Name] = diagram
@@ -1948,7 +2014,7 @@ func (diagram *Diagram) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.DiagramOrder {
 			stage.DiagramOrder = order
 		}
-		stage.DiagramMap_Staged_Order[diagram] = order
+		stage.Diagram_stagedOrder[diagram] = order
 		stage.DiagramOrder++
 	}
 	stage.Diagrams_mapString[diagram.Name] = diagram
@@ -1957,7 +2023,8 @@ func (diagram *Diagram) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes diagram off the model stage
 func (diagram *Diagram) Unstage(stage *Stage) *Diagram {
 	delete(stage.Diagrams, diagram)
-	delete(stage.DiagramMap_Staged_Order, diagram)
+	// issue1150
+	// delete(stage.Diagram_stagedOrder, diagram)
 	delete(stage.Diagrams_mapString, diagram.Name)
 
 	return diagram
@@ -1966,7 +2033,8 @@ func (diagram *Diagram) Unstage(stage *Stage) *Diagram {
 // UnstageVoid removes diagram off the model stage
 func (diagram *Diagram) UnstageVoid(stage *Stage) {
 	delete(stage.Diagrams, diagram)
-	delete(stage.DiagramMap_Staged_Order, diagram)
+	// issue1150
+	// delete(stage.Diagram_stagedOrder, diagram)
 	delete(stage.Diagrams_mapString, diagram.Name)
 }
 
@@ -2012,7 +2080,7 @@ func (diagram *Diagram) SetName(name string) {
 func (influence *Influence) Stage(stage *Stage) *Influence {
 	if _, ok := stage.Influences[influence]; !ok {
 		stage.Influences[influence] = struct{}{}
-		stage.InfluenceMap_Staged_Order[influence] = stage.InfluenceOrder
+		stage.Influence_stagedOrder[influence] = stage.InfluenceOrder
 		stage.InfluenceOrder++
 	}
 	stage.Influences_mapString[influence.Name] = influence
@@ -2032,7 +2100,7 @@ func (influence *Influence) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.InfluenceOrder {
 			stage.InfluenceOrder = order
 		}
-		stage.InfluenceMap_Staged_Order[influence] = order
+		stage.Influence_stagedOrder[influence] = order
 		stage.InfluenceOrder++
 	}
 	stage.Influences_mapString[influence.Name] = influence
@@ -2041,7 +2109,8 @@ func (influence *Influence) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes influence off the model stage
 func (influence *Influence) Unstage(stage *Stage) *Influence {
 	delete(stage.Influences, influence)
-	delete(stage.InfluenceMap_Staged_Order, influence)
+	// issue1150
+	// delete(stage.Influence_stagedOrder, influence)
 	delete(stage.Influences_mapString, influence.Name)
 
 	return influence
@@ -2050,7 +2119,8 @@ func (influence *Influence) Unstage(stage *Stage) *Influence {
 // UnstageVoid removes influence off the model stage
 func (influence *Influence) UnstageVoid(stage *Stage) {
 	delete(stage.Influences, influence)
-	delete(stage.InfluenceMap_Staged_Order, influence)
+	// issue1150
+	// delete(stage.Influence_stagedOrder, influence)
 	delete(stage.Influences_mapString, influence.Name)
 }
 
@@ -2096,7 +2166,7 @@ func (influence *Influence) SetName(name string) {
 func (influenceshape *InfluenceShape) Stage(stage *Stage) *InfluenceShape {
 	if _, ok := stage.InfluenceShapes[influenceshape]; !ok {
 		stage.InfluenceShapes[influenceshape] = struct{}{}
-		stage.InfluenceShapeMap_Staged_Order[influenceshape] = stage.InfluenceShapeOrder
+		stage.InfluenceShape_stagedOrder[influenceshape] = stage.InfluenceShapeOrder
 		stage.InfluenceShapeOrder++
 	}
 	stage.InfluenceShapes_mapString[influenceshape.Name] = influenceshape
@@ -2116,7 +2186,7 @@ func (influenceshape *InfluenceShape) StagePreserveOrder(stage *Stage, order uin
 		if order > stage.InfluenceShapeOrder {
 			stage.InfluenceShapeOrder = order
 		}
-		stage.InfluenceShapeMap_Staged_Order[influenceshape] = order
+		stage.InfluenceShape_stagedOrder[influenceshape] = order
 		stage.InfluenceShapeOrder++
 	}
 	stage.InfluenceShapes_mapString[influenceshape.Name] = influenceshape
@@ -2125,7 +2195,8 @@ func (influenceshape *InfluenceShape) StagePreserveOrder(stage *Stage, order uin
 // Unstage removes influenceshape off the model stage
 func (influenceshape *InfluenceShape) Unstage(stage *Stage) *InfluenceShape {
 	delete(stage.InfluenceShapes, influenceshape)
-	delete(stage.InfluenceShapeMap_Staged_Order, influenceshape)
+	// issue1150
+	// delete(stage.InfluenceShape_stagedOrder, influenceshape)
 	delete(stage.InfluenceShapes_mapString, influenceshape.Name)
 
 	return influenceshape
@@ -2134,7 +2205,8 @@ func (influenceshape *InfluenceShape) Unstage(stage *Stage) *InfluenceShape {
 // UnstageVoid removes influenceshape off the model stage
 func (influenceshape *InfluenceShape) UnstageVoid(stage *Stage) {
 	delete(stage.InfluenceShapes, influenceshape)
-	delete(stage.InfluenceShapeMap_Staged_Order, influenceshape)
+	// issue1150
+	// delete(stage.InfluenceShape_stagedOrder, influenceshape)
 	delete(stage.InfluenceShapes_mapString, influenceshape.Name)
 }
 
@@ -2208,57 +2280,57 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Category1s = make(map[*Category1]struct{})
 	stage.Category1s_mapString = make(map[string]*Category1)
-	stage.Category1Map_Staged_Order = make(map[*Category1]uint)
+	stage.Category1_stagedOrder = make(map[*Category1]uint)
 	stage.Category1Order = 0
 
 	stage.Category1Shapes = make(map[*Category1Shape]struct{})
 	stage.Category1Shapes_mapString = make(map[string]*Category1Shape)
-	stage.Category1ShapeMap_Staged_Order = make(map[*Category1Shape]uint)
+	stage.Category1Shape_stagedOrder = make(map[*Category1Shape]uint)
 	stage.Category1ShapeOrder = 0
 
 	stage.Category2s = make(map[*Category2]struct{})
 	stage.Category2s_mapString = make(map[string]*Category2)
-	stage.Category2Map_Staged_Order = make(map[*Category2]uint)
+	stage.Category2_stagedOrder = make(map[*Category2]uint)
 	stage.Category2Order = 0
 
 	stage.Category2Shapes = make(map[*Category2Shape]struct{})
 	stage.Category2Shapes_mapString = make(map[string]*Category2Shape)
-	stage.Category2ShapeMap_Staged_Order = make(map[*Category2Shape]uint)
+	stage.Category2Shape_stagedOrder = make(map[*Category2Shape]uint)
 	stage.Category2ShapeOrder = 0
 
 	stage.Category3s = make(map[*Category3]struct{})
 	stage.Category3s_mapString = make(map[string]*Category3)
-	stage.Category3Map_Staged_Order = make(map[*Category3]uint)
+	stage.Category3_stagedOrder = make(map[*Category3]uint)
 	stage.Category3Order = 0
 
 	stage.Category3Shapes = make(map[*Category3Shape]struct{})
 	stage.Category3Shapes_mapString = make(map[string]*Category3Shape)
-	stage.Category3ShapeMap_Staged_Order = make(map[*Category3Shape]uint)
+	stage.Category3Shape_stagedOrder = make(map[*Category3Shape]uint)
 	stage.Category3ShapeOrder = 0
 
 	stage.ControlPointShapes = make(map[*ControlPointShape]struct{})
 	stage.ControlPointShapes_mapString = make(map[string]*ControlPointShape)
-	stage.ControlPointShapeMap_Staged_Order = make(map[*ControlPointShape]uint)
+	stage.ControlPointShape_stagedOrder = make(map[*ControlPointShape]uint)
 	stage.ControlPointShapeOrder = 0
 
 	stage.Desks = make(map[*Desk]struct{})
 	stage.Desks_mapString = make(map[string]*Desk)
-	stage.DeskMap_Staged_Order = make(map[*Desk]uint)
+	stage.Desk_stagedOrder = make(map[*Desk]uint)
 	stage.DeskOrder = 0
 
 	stage.Diagrams = make(map[*Diagram]struct{})
 	stage.Diagrams_mapString = make(map[string]*Diagram)
-	stage.DiagramMap_Staged_Order = make(map[*Diagram]uint)
+	stage.Diagram_stagedOrder = make(map[*Diagram]uint)
 	stage.DiagramOrder = 0
 
 	stage.Influences = make(map[*Influence]struct{})
 	stage.Influences_mapString = make(map[string]*Influence)
-	stage.InfluenceMap_Staged_Order = make(map[*Influence]uint)
+	stage.Influence_stagedOrder = make(map[*Influence]uint)
 	stage.InfluenceOrder = 0
 
 	stage.InfluenceShapes = make(map[*InfluenceShape]struct{})
 	stage.InfluenceShapes_mapString = make(map[string]*InfluenceShape)
-	stage.InfluenceShapeMap_Staged_Order = make(map[*InfluenceShape]uint)
+	stage.InfluenceShape_stagedOrder = make(map[*InfluenceShape]uint)
 	stage.InfluenceShapeOrder = 0
 
 	if stage.GetProbeIF() != nil {
@@ -4129,7 +4201,7 @@ func (category1shape *Category1Shape) GongSetFieldValue(fieldName string, value 
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			category1shape.Category1 = nil
 			for __instance__ := range stage.Category1s {
-				if stage.Category1Map_Staged_Order[__instance__] == uint(id) {
+				if stage.Category1_stagedOrder[__instance__] == uint(id) {
 					category1shape.Category1 = __instance__
 					break
 				}
@@ -4170,7 +4242,7 @@ func (category2shape *Category2Shape) GongSetFieldValue(fieldName string, value 
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			category2shape.Category2 = nil
 			for __instance__ := range stage.Category2s {
-				if stage.Category2Map_Staged_Order[__instance__] == uint(id) {
+				if stage.Category2_stagedOrder[__instance__] == uint(id) {
 					category2shape.Category2 = __instance__
 					break
 				}
@@ -4211,7 +4283,7 @@ func (category3shape *Category3Shape) GongSetFieldValue(fieldName string, value 
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			category3shape.Category3 = nil
 			for __instance__ := range stage.Category3s {
-				if stage.Category3Map_Staged_Order[__instance__] == uint(id) {
+				if stage.Category3_stagedOrder[__instance__] == uint(id) {
 					category3shape.Category3 = __instance__
 					break
 				}
@@ -4258,7 +4330,7 @@ func (desk *Desk) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			desk.SelectedDiagram = nil
 			for __instance__ := range stage.Diagrams {
-				if stage.DiagramMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Diagram_stagedOrder[__instance__] == uint(id) {
 					desk.SelectedDiagram = __instance__
 					break
 				}
@@ -4282,7 +4354,7 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Category1Shapes {
-					if stage.Category1ShapeMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Category1Shape_stagedOrder[__instance__] == uint(id) {
 						diagram.Category1Shapes = append(diagram.Category1Shapes, __instance__)
 						break
 					}
@@ -4296,7 +4368,7 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Category2Shapes {
-					if stage.Category2ShapeMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Category2Shape_stagedOrder[__instance__] == uint(id) {
 						diagram.Category2Shapes = append(diagram.Category2Shapes, __instance__)
 						break
 					}
@@ -4310,7 +4382,7 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Category3Shapes {
-					if stage.Category3ShapeMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Category3Shape_stagedOrder[__instance__] == uint(id) {
 						diagram.Category3Shapes = append(diagram.Category3Shapes, __instance__)
 						break
 					}
@@ -4324,7 +4396,7 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.InfluenceShapes {
-					if stage.InfluenceShapeMap_Staged_Order[__instance__] == uint(id) {
+					if stage.InfluenceShape_stagedOrder[__instance__] == uint(id) {
 						diagram.InfluenceShapes = append(diagram.InfluenceShapes, __instance__)
 						break
 					}
@@ -4445,7 +4517,7 @@ func (influence *Influence) GongSetFieldValue(fieldName string, value GongFieldV
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			influence.SourceCategory1 = nil
 			for __instance__ := range stage.Category1s {
-				if stage.Category1Map_Staged_Order[__instance__] == uint(id) {
+				if stage.Category1_stagedOrder[__instance__] == uint(id) {
 					influence.SourceCategory1 = __instance__
 					break
 				}
@@ -4456,7 +4528,7 @@ func (influence *Influence) GongSetFieldValue(fieldName string, value GongFieldV
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			influence.SourceCategory2 = nil
 			for __instance__ := range stage.Category3s {
-				if stage.Category3Map_Staged_Order[__instance__] == uint(id) {
+				if stage.Category3_stagedOrder[__instance__] == uint(id) {
 					influence.SourceCategory2 = __instance__
 					break
 				}
@@ -4467,7 +4539,7 @@ func (influence *Influence) GongSetFieldValue(fieldName string, value GongFieldV
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			influence.SourceCategory3 = nil
 			for __instance__ := range stage.Category2s {
-				if stage.Category2Map_Staged_Order[__instance__] == uint(id) {
+				if stage.Category2_stagedOrder[__instance__] == uint(id) {
 					influence.SourceCategory3 = __instance__
 					break
 				}
@@ -4478,7 +4550,7 @@ func (influence *Influence) GongSetFieldValue(fieldName string, value GongFieldV
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			influence.TargetCategory1 = nil
 			for __instance__ := range stage.Category1s {
-				if stage.Category1Map_Staged_Order[__instance__] == uint(id) {
+				if stage.Category1_stagedOrder[__instance__] == uint(id) {
 					influence.TargetCategory1 = __instance__
 					break
 				}
@@ -4489,7 +4561,7 @@ func (influence *Influence) GongSetFieldValue(fieldName string, value GongFieldV
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			influence.TargetCategory2 = nil
 			for __instance__ := range stage.Category3s {
-				if stage.Category3Map_Staged_Order[__instance__] == uint(id) {
+				if stage.Category3_stagedOrder[__instance__] == uint(id) {
 					influence.TargetCategory2 = __instance__
 					break
 				}
@@ -4500,7 +4572,7 @@ func (influence *Influence) GongSetFieldValue(fieldName string, value GongFieldV
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			influence.TargetCategory3 = nil
 			for __instance__ := range stage.Category2s {
-				if stage.Category2Map_Staged_Order[__instance__] == uint(id) {
+				if stage.Category2_stagedOrder[__instance__] == uint(id) {
 					influence.TargetCategory3 = __instance__
 					break
 				}
@@ -4526,7 +4598,7 @@ func (influenceshape *InfluenceShape) GongSetFieldValue(fieldName string, value 
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			influenceshape.Influence = nil
 			for __instance__ := range stage.Influences {
-				if stage.InfluenceMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Influence_stagedOrder[__instance__] == uint(id) {
 					influenceshape.Influence = __instance__
 					break
 				}
@@ -4539,7 +4611,7 @@ func (influenceshape *InfluenceShape) GongSetFieldValue(fieldName string, value 
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.ControlPointShapes {
-					if stage.ControlPointShapeMap_Staged_Order[__instance__] == uint(id) {
+					if stage.ControlPointShape_stagedOrder[__instance__] == uint(id) {
 						influenceshape.ControlPointShapes = append(influenceshape.ControlPointShapes, __instance__)
 						break
 					}

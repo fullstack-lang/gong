@@ -142,9 +142,9 @@ func (backRepoAstructBstructUse *BackRepoAstructBstructUseStruct) CommitPhaseOne
 		astructbstructuses = append(astructbstructuses, astructbstructuse)
 	}
 
-	// Sort by the order stored in Map_Staged_Order.
+	// Sort by the order stored in _stagedOrder.
 	sort.Slice(astructbstructuses, func(i, j int) bool {
-		return stage.AstructBstructUseMap_Staged_Order[astructbstructuses[i]] < stage.AstructBstructUseMap_Staged_Order[astructbstructuses[j]]
+		return stage.AstructBstructUse_stagedOrder[astructbstructuses[i]] < stage.AstructBstructUse_stagedOrder[astructbstructuses[j]]
 	})
 
 	for _, astructbstructuse := range astructbstructuses {

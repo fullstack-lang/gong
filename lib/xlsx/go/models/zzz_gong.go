@@ -106,11 +106,13 @@ type Stage struct {
 
 	// insertion point for definition of arrays registering instances
 	DisplaySelections                map[*DisplaySelection]struct{}
-	DisplaySelections_reference      map[*DisplaySelection]*DisplaySelection
-	DisplaySelections_referenceOrder map[*DisplaySelection]uint
 	DisplaySelections_instance       map[*DisplaySelection]*DisplaySelection
 	DisplaySelections_mapString      map[string]*DisplaySelection
-
+	DisplaySelectionOrder            uint
+	DisplaySelection_stagedOrder     map[*DisplaySelection]uint
+	DisplaySelections_reference      map[*DisplaySelection]*DisplaySelection
+	DisplaySelections_referenceOrder map[*DisplaySelection]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterDisplaySelectionCreateCallback OnAfterCreateInterface[DisplaySelection]
 	OnAfterDisplaySelectionUpdateCallback OnAfterUpdateInterface[DisplaySelection]
@@ -118,11 +120,13 @@ type Stage struct {
 	OnAfterDisplaySelectionReadCallback   OnAfterReadInterface[DisplaySelection]
 
 	XLCells                map[*XLCell]struct{}
-	XLCells_reference      map[*XLCell]*XLCell
-	XLCells_referenceOrder map[*XLCell]uint
 	XLCells_instance       map[*XLCell]*XLCell
 	XLCells_mapString      map[string]*XLCell
-
+	XLCellOrder            uint
+	XLCell_stagedOrder     map[*XLCell]uint
+	XLCells_reference      map[*XLCell]*XLCell
+	XLCells_referenceOrder map[*XLCell]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterXLCellCreateCallback OnAfterCreateInterface[XLCell]
 	OnAfterXLCellUpdateCallback OnAfterUpdateInterface[XLCell]
@@ -130,11 +134,13 @@ type Stage struct {
 	OnAfterXLCellReadCallback   OnAfterReadInterface[XLCell]
 
 	XLFiles                map[*XLFile]struct{}
-	XLFiles_reference      map[*XLFile]*XLFile
-	XLFiles_referenceOrder map[*XLFile]uint
 	XLFiles_instance       map[*XLFile]*XLFile
 	XLFiles_mapString      map[string]*XLFile
-
+	XLFileOrder            uint
+	XLFile_stagedOrder     map[*XLFile]uint
+	XLFiles_reference      map[*XLFile]*XLFile
+	XLFiles_referenceOrder map[*XLFile]uint
+	
 	// insertion point for slice of pointers maps
 	XLFile_Sheets_reverseMap map[*XLSheet]*XLFile
 
@@ -144,11 +150,13 @@ type Stage struct {
 	OnAfterXLFileReadCallback   OnAfterReadInterface[XLFile]
 
 	XLRows                map[*XLRow]struct{}
-	XLRows_reference      map[*XLRow]*XLRow
-	XLRows_referenceOrder map[*XLRow]uint
 	XLRows_instance       map[*XLRow]*XLRow
 	XLRows_mapString      map[string]*XLRow
-
+	XLRowOrder            uint
+	XLRow_stagedOrder     map[*XLRow]uint
+	XLRows_reference      map[*XLRow]*XLRow
+	XLRows_referenceOrder map[*XLRow]uint
+	
 	// insertion point for slice of pointers maps
 	XLRow_Cells_reverseMap map[*XLCell]*XLRow
 
@@ -158,11 +166,13 @@ type Stage struct {
 	OnAfterXLRowReadCallback   OnAfterReadInterface[XLRow]
 
 	XLSheets                map[*XLSheet]struct{}
-	XLSheets_reference      map[*XLSheet]*XLSheet
-	XLSheets_referenceOrder map[*XLSheet]uint
 	XLSheets_instance       map[*XLSheet]*XLSheet
 	XLSheets_mapString      map[string]*XLSheet
-
+	XLSheetOrder            uint
+	XLSheet_stagedOrder     map[*XLSheet]uint
+	XLSheets_reference      map[*XLSheet]*XLSheet
+	XLSheets_referenceOrder map[*XLSheet]uint
+	
 	// insertion point for slice of pointers maps
 	XLSheet_Rows_reverseMap map[*XLRow]*XLSheet
 
@@ -184,6 +194,10 @@ type Stage struct {
 	OnInitCommitFromFrontCallback OnInitCommitInterface
 	OnInitCommitFromBackCallback  OnInitCommitInterface
 
+	// Private slices to hold the registered hooks
+	beforeCommitHooks []func(stage *Stage)
+	afterCommitHooks  []func(stage *Stage)
+
 	// store the number of instance per gongstruct
 	Map_GongStructName_InstancesNb map[string]int
 
@@ -199,20 +213,10 @@ type Stage struct {
 	// store the stage order of each instance in order to
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
-	DisplaySelectionOrder            uint
-	DisplaySelectionMap_Staged_Order map[*DisplaySelection]uint
 
-	XLCellOrder            uint
-	XLCellMap_Staged_Order map[*XLCell]uint
 
-	XLFileOrder            uint
-	XLFileMap_Staged_Order map[*XLFile]uint
 
-	XLRowOrder            uint
-	XLRowMap_Staged_Order map[*XLRow]uint
 
-	XLSheetOrder            uint
-	XLSheetMap_Staged_Order map[*XLSheet]uint
 
 	// end of insertion point
 
@@ -234,6 +238,16 @@ type Stage struct {
 	commitsBehind  int // the number of commits the stage is behind the front of the history
 
 	lock sync.RWMutex
+}
+
+// RegisterBeforeCommit adds a hook that runs before the commit happens
+func (s *Stage) RegisterBeforeCommit(hook func(stage *Stage)) {
+	s.beforeCommitHooks = append(s.beforeCommitHooks, hook)
+}
+
+// RegisterAfterCommit adds a hook that runs after the commit succeeds
+func (s *Stage) RegisterAfterCommit(hook func(stage *Stage)) {
+	s.afterCommitHooks = append(s.afterCommitHooks, hook)
 }
 
 type gongStageNavigationMode string
@@ -357,6 +371,16 @@ func (stage *Stage) ResetHard() {
 	if stage.OnInitCommitFromBackCallback != nil {
 		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
 	}
+
+	// 1. Run all Before Commit hooks
+	for _, hook := range stage.beforeCommitHooks {
+		hook(stage)
+	}
+
+	// 2. Run all After Commit hooks
+	for _, hook := range stage.afterCommitHooks {
+		hook(stage)
+	}
 }
 
 // Orphans removes all commits
@@ -373,6 +397,16 @@ func (stage *Stage) Orphans() {
 	if stage.OnInitCommitFromBackCallback != nil {
 		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
 	}
+
+	// 1. Run all Before Commit hooks
+	for _, hook := range stage.beforeCommitHooks {
+		hook(stage)
+	}
+
+	// 2. Run all After Commit hooks
+	for _, hook := range stage.afterCommitHooks {
+		hook(stage)
+	}
 }
 
 // recomputeOrders recomputes the next order for each struct
@@ -383,7 +417,7 @@ func (stage *Stage) recomputeOrders() {
 	// insertion point for max order recomputation
 	var maxDisplaySelectionOrder uint
 	var foundDisplaySelection bool
-	for _, order := range stage.DisplaySelectionMap_Staged_Order {
+	for _, order := range stage.DisplaySelection_stagedOrder {
 		if !foundDisplaySelection || order > maxDisplaySelectionOrder {
 			maxDisplaySelectionOrder = order
 			foundDisplaySelection = true
@@ -397,7 +431,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxXLCellOrder uint
 	var foundXLCell bool
-	for _, order := range stage.XLCellMap_Staged_Order {
+	for _, order := range stage.XLCell_stagedOrder {
 		if !foundXLCell || order > maxXLCellOrder {
 			maxXLCellOrder = order
 			foundXLCell = true
@@ -411,7 +445,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxXLFileOrder uint
 	var foundXLFile bool
-	for _, order := range stage.XLFileMap_Staged_Order {
+	for _, order := range stage.XLFile_stagedOrder {
 		if !foundXLFile || order > maxXLFileOrder {
 			maxXLFileOrder = order
 			foundXLFile = true
@@ -425,7 +459,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxXLRowOrder uint
 	var foundXLRow bool
-	for _, order := range stage.XLRowMap_Staged_Order {
+	for _, order := range stage.XLRow_stagedOrder {
 		if !foundXLRow || order > maxXLRowOrder {
 			maxXLRowOrder = order
 			foundXLRow = true
@@ -439,7 +473,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxXLSheetOrder uint
 	var foundXLSheet bool
-	for _, order := range stage.XLSheetMap_Staged_Order {
+	for _, order := range stage.XLSheet_stagedOrder {
 		if !foundXLSheet || order > maxXLSheetOrder {
 			maxXLSheetOrder = order
 			foundXLSheet = true
@@ -511,7 +545,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 	switch any(t).(type) {
 	// insertion point for case
 	case *DisplaySelection:
-		tmp := GetStructInstancesByOrder(stage.DisplaySelections, stage.DisplaySelectionMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.DisplaySelections, stage.DisplaySelection_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -525,7 +559,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *XLCell:
-		tmp := GetStructInstancesByOrder(stage.XLCells, stage.XLCellMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.XLCells, stage.XLCell_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -539,7 +573,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *XLFile:
-		tmp := GetStructInstancesByOrder(stage.XLFiles, stage.XLFileMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.XLFiles, stage.XLFile_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -553,7 +587,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *XLRow:
-		tmp := GetStructInstancesByOrder(stage.XLRows, stage.XLRowMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.XLRows, stage.XLRow_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -567,7 +601,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *XLSheet:
-		tmp := GetStructInstancesByOrder(stage.XLSheets, stage.XLSheetMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.XLSheets, stage.XLSheet_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -610,15 +644,15 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 	switch namedStructName {
 	// insertion point for case
 	case "DisplaySelection":
-		res = GetNamedStructInstances(stage.DisplaySelections, stage.DisplaySelectionMap_Staged_Order)
+		res = GetNamedStructInstances(stage.DisplaySelections, stage.DisplaySelection_stagedOrder)
 	case "XLCell":
-		res = GetNamedStructInstances(stage.XLCells, stage.XLCellMap_Staged_Order)
+		res = GetNamedStructInstances(stage.XLCells, stage.XLCell_stagedOrder)
 	case "XLFile":
-		res = GetNamedStructInstances(stage.XLFiles, stage.XLFileMap_Staged_Order)
+		res = GetNamedStructInstances(stage.XLFiles, stage.XLFile_stagedOrder)
 	case "XLRow":
-		res = GetNamedStructInstances(stage.XLRows, stage.XLRowMap_Staged_Order)
+		res = GetNamedStructInstances(stage.XLRows, stage.XLRow_stagedOrder)
 	case "XLSheet":
-		res = GetNamedStructInstances(stage.XLSheets, stage.XLSheetMap_Staged_Order)
+		res = GetNamedStructInstances(stage.XLSheets, stage.XLSheet_stagedOrder)
 	}
 
 	return
@@ -729,15 +763,15 @@ func NewStage(name string) (stage *Stage) {
 		// the to be removed stops here
 
 		// insertion point for order map initialisations
-		DisplaySelectionMap_Staged_Order: make(map[*DisplaySelection]uint),
+		DisplaySelection_stagedOrder: make(map[*DisplaySelection]uint),
 
-		XLCellMap_Staged_Order: make(map[*XLCell]uint),
+		XLCell_stagedOrder: make(map[*XLCell]uint),
 
-		XLFileMap_Staged_Order: make(map[*XLFile]uint),
+		XLFile_stagedOrder: make(map[*XLFile]uint),
 
-		XLRowMap_Staged_Order: make(map[*XLRow]uint),
+		XLRow_stagedOrder: make(map[*XLRow]uint),
 
-		XLSheetMap_Staged_Order: make(map[*XLSheet]uint),
+		XLSheet_stagedOrder: make(map[*XLSheet]uint),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
@@ -772,15 +806,15 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
 	case *DisplaySelection:
-		return stage.DisplaySelectionMap_Staged_Order[instance]
+		return stage.DisplaySelection_stagedOrder[instance]
 	case *XLCell:
-		return stage.XLCellMap_Staged_Order[instance]
+		return stage.XLCell_stagedOrder[instance]
 	case *XLFile:
-		return stage.XLFileMap_Staged_Order[instance]
+		return stage.XLFile_stagedOrder[instance]
 	case *XLRow:
-		return stage.XLRowMap_Staged_Order[instance]
+		return stage.XLRow_stagedOrder[instance]
 	case *XLSheet:
-		return stage.XLSheetMap_Staged_Order[instance]
+		return stage.XLSheet_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -790,15 +824,15 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
 	case *DisplaySelection:
-		return stage.DisplaySelectionMap_Staged_Order[instance]
+		return stage.DisplaySelection_stagedOrder[instance]
 	case *XLCell:
-		return stage.XLCellMap_Staged_Order[instance]
+		return stage.XLCell_stagedOrder[instance]
 	case *XLFile:
-		return stage.XLFileMap_Staged_Order[instance]
+		return stage.XLFile_stagedOrder[instance]
 	case *XLRow:
-		return stage.XLRowMap_Staged_Order[instance]
+		return stage.XLRow_stagedOrder[instance]
 	case *XLSheet:
-		return stage.XLSheetMap_Staged_Order[instance]
+		return stage.XLSheet_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -811,8 +845,14 @@ func (stage *Stage) GetName() string {
 func (stage *Stage) CommitWithSuspendedCallbacks() {
 	tmp := stage.OnInitCommitFromBackCallback
 	stage.OnInitCommitFromBackCallback = nil
+	tmp2 := stage.beforeCommitHooks
+	stage.beforeCommitHooks = nil
+	tmp3 := stage.afterCommitHooks
+	stage.afterCommitHooks = nil
 	stage.Commit()
 	stage.OnInitCommitFromBackCallback = tmp
+	stage.beforeCommitHooks = tmp2
+	stage.afterCommitHooks = tmp3
 }
 
 func (stage *Stage) Commit() {
@@ -823,6 +863,11 @@ func (stage *Stage) Commit() {
 	}
 	if stage.OnInitCommitFromBackCallback != nil {
 		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
+	}
+
+	// 1. Run all Before Commit hooks
+	for _, hook := range stage.beforeCommitHooks {
+		hook(stage)
 	}
 
 	if stage.BackRepo != nil {
@@ -840,6 +885,11 @@ func (stage *Stage) Commit() {
 	if stage.IsInDeltaMode() {
 		stage.ComputeForwardAndBackwardCommits()
 		stage.ComputeReferenceAndOrders()
+	}
+
+	// 2. Run all After Commit hooks
+	for _, hook := range stage.afterCommitHooks {
+		hook(stage)
 	}
 }
 
@@ -894,7 +944,7 @@ func (stage *Stage) RestoreXL(dirPath string) {
 func (displayselection *DisplaySelection) Stage(stage *Stage) *DisplaySelection {
 	if _, ok := stage.DisplaySelections[displayselection]; !ok {
 		stage.DisplaySelections[displayselection] = struct{}{}
-		stage.DisplaySelectionMap_Staged_Order[displayselection] = stage.DisplaySelectionOrder
+		stage.DisplaySelection_stagedOrder[displayselection] = stage.DisplaySelectionOrder
 		stage.DisplaySelectionOrder++
 	}
 	stage.DisplaySelections_mapString[displayselection.Name] = displayselection
@@ -914,7 +964,7 @@ func (displayselection *DisplaySelection) StagePreserveOrder(stage *Stage, order
 		if order > stage.DisplaySelectionOrder {
 			stage.DisplaySelectionOrder = order
 		}
-		stage.DisplaySelectionMap_Staged_Order[displayselection] = order
+		stage.DisplaySelection_stagedOrder[displayselection] = order
 		stage.DisplaySelectionOrder++
 	}
 	stage.DisplaySelections_mapString[displayselection.Name] = displayselection
@@ -923,7 +973,8 @@ func (displayselection *DisplaySelection) StagePreserveOrder(stage *Stage, order
 // Unstage removes displayselection off the model stage
 func (displayselection *DisplaySelection) Unstage(stage *Stage) *DisplaySelection {
 	delete(stage.DisplaySelections, displayselection)
-	delete(stage.DisplaySelectionMap_Staged_Order, displayselection)
+	// issue1150
+	// delete(stage.DisplaySelection_stagedOrder, displayselection)
 	delete(stage.DisplaySelections_mapString, displayselection.Name)
 
 	return displayselection
@@ -932,7 +983,8 @@ func (displayselection *DisplaySelection) Unstage(stage *Stage) *DisplaySelectio
 // UnstageVoid removes displayselection off the model stage
 func (displayselection *DisplaySelection) UnstageVoid(stage *Stage) {
 	delete(stage.DisplaySelections, displayselection)
-	delete(stage.DisplaySelectionMap_Staged_Order, displayselection)
+	// issue1150
+	// delete(stage.DisplaySelection_stagedOrder, displayselection)
 	delete(stage.DisplaySelections_mapString, displayselection.Name)
 }
 
@@ -978,7 +1030,7 @@ func (displayselection *DisplaySelection) SetName(name string) {
 func (xlcell *XLCell) Stage(stage *Stage) *XLCell {
 	if _, ok := stage.XLCells[xlcell]; !ok {
 		stage.XLCells[xlcell] = struct{}{}
-		stage.XLCellMap_Staged_Order[xlcell] = stage.XLCellOrder
+		stage.XLCell_stagedOrder[xlcell] = stage.XLCellOrder
 		stage.XLCellOrder++
 	}
 	stage.XLCells_mapString[xlcell.Name] = xlcell
@@ -998,7 +1050,7 @@ func (xlcell *XLCell) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.XLCellOrder {
 			stage.XLCellOrder = order
 		}
-		stage.XLCellMap_Staged_Order[xlcell] = order
+		stage.XLCell_stagedOrder[xlcell] = order
 		stage.XLCellOrder++
 	}
 	stage.XLCells_mapString[xlcell.Name] = xlcell
@@ -1007,7 +1059,8 @@ func (xlcell *XLCell) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes xlcell off the model stage
 func (xlcell *XLCell) Unstage(stage *Stage) *XLCell {
 	delete(stage.XLCells, xlcell)
-	delete(stage.XLCellMap_Staged_Order, xlcell)
+	// issue1150
+	// delete(stage.XLCell_stagedOrder, xlcell)
 	delete(stage.XLCells_mapString, xlcell.Name)
 
 	return xlcell
@@ -1016,7 +1069,8 @@ func (xlcell *XLCell) Unstage(stage *Stage) *XLCell {
 // UnstageVoid removes xlcell off the model stage
 func (xlcell *XLCell) UnstageVoid(stage *Stage) {
 	delete(stage.XLCells, xlcell)
-	delete(stage.XLCellMap_Staged_Order, xlcell)
+	// issue1150
+	// delete(stage.XLCell_stagedOrder, xlcell)
 	delete(stage.XLCells_mapString, xlcell.Name)
 }
 
@@ -1062,7 +1116,7 @@ func (xlcell *XLCell) SetName(name string) {
 func (xlfile *XLFile) Stage(stage *Stage) *XLFile {
 	if _, ok := stage.XLFiles[xlfile]; !ok {
 		stage.XLFiles[xlfile] = struct{}{}
-		stage.XLFileMap_Staged_Order[xlfile] = stage.XLFileOrder
+		stage.XLFile_stagedOrder[xlfile] = stage.XLFileOrder
 		stage.XLFileOrder++
 	}
 	stage.XLFiles_mapString[xlfile.Name] = xlfile
@@ -1082,7 +1136,7 @@ func (xlfile *XLFile) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.XLFileOrder {
 			stage.XLFileOrder = order
 		}
-		stage.XLFileMap_Staged_Order[xlfile] = order
+		stage.XLFile_stagedOrder[xlfile] = order
 		stage.XLFileOrder++
 	}
 	stage.XLFiles_mapString[xlfile.Name] = xlfile
@@ -1091,7 +1145,8 @@ func (xlfile *XLFile) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes xlfile off the model stage
 func (xlfile *XLFile) Unstage(stage *Stage) *XLFile {
 	delete(stage.XLFiles, xlfile)
-	delete(stage.XLFileMap_Staged_Order, xlfile)
+	// issue1150
+	// delete(stage.XLFile_stagedOrder, xlfile)
 	delete(stage.XLFiles_mapString, xlfile.Name)
 
 	return xlfile
@@ -1100,7 +1155,8 @@ func (xlfile *XLFile) Unstage(stage *Stage) *XLFile {
 // UnstageVoid removes xlfile off the model stage
 func (xlfile *XLFile) UnstageVoid(stage *Stage) {
 	delete(stage.XLFiles, xlfile)
-	delete(stage.XLFileMap_Staged_Order, xlfile)
+	// issue1150
+	// delete(stage.XLFile_stagedOrder, xlfile)
 	delete(stage.XLFiles_mapString, xlfile.Name)
 }
 
@@ -1146,7 +1202,7 @@ func (xlfile *XLFile) SetName(name string) {
 func (xlrow *XLRow) Stage(stage *Stage) *XLRow {
 	if _, ok := stage.XLRows[xlrow]; !ok {
 		stage.XLRows[xlrow] = struct{}{}
-		stage.XLRowMap_Staged_Order[xlrow] = stage.XLRowOrder
+		stage.XLRow_stagedOrder[xlrow] = stage.XLRowOrder
 		stage.XLRowOrder++
 	}
 	stage.XLRows_mapString[xlrow.Name] = xlrow
@@ -1166,7 +1222,7 @@ func (xlrow *XLRow) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.XLRowOrder {
 			stage.XLRowOrder = order
 		}
-		stage.XLRowMap_Staged_Order[xlrow] = order
+		stage.XLRow_stagedOrder[xlrow] = order
 		stage.XLRowOrder++
 	}
 	stage.XLRows_mapString[xlrow.Name] = xlrow
@@ -1175,7 +1231,8 @@ func (xlrow *XLRow) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes xlrow off the model stage
 func (xlrow *XLRow) Unstage(stage *Stage) *XLRow {
 	delete(stage.XLRows, xlrow)
-	delete(stage.XLRowMap_Staged_Order, xlrow)
+	// issue1150
+	// delete(stage.XLRow_stagedOrder, xlrow)
 	delete(stage.XLRows_mapString, xlrow.Name)
 
 	return xlrow
@@ -1184,7 +1241,8 @@ func (xlrow *XLRow) Unstage(stage *Stage) *XLRow {
 // UnstageVoid removes xlrow off the model stage
 func (xlrow *XLRow) UnstageVoid(stage *Stage) {
 	delete(stage.XLRows, xlrow)
-	delete(stage.XLRowMap_Staged_Order, xlrow)
+	// issue1150
+	// delete(stage.XLRow_stagedOrder, xlrow)
 	delete(stage.XLRows_mapString, xlrow.Name)
 }
 
@@ -1230,7 +1288,7 @@ func (xlrow *XLRow) SetName(name string) {
 func (xlsheet *XLSheet) Stage(stage *Stage) *XLSheet {
 	if _, ok := stage.XLSheets[xlsheet]; !ok {
 		stage.XLSheets[xlsheet] = struct{}{}
-		stage.XLSheetMap_Staged_Order[xlsheet] = stage.XLSheetOrder
+		stage.XLSheet_stagedOrder[xlsheet] = stage.XLSheetOrder
 		stage.XLSheetOrder++
 	}
 	stage.XLSheets_mapString[xlsheet.Name] = xlsheet
@@ -1250,7 +1308,7 @@ func (xlsheet *XLSheet) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.XLSheetOrder {
 			stage.XLSheetOrder = order
 		}
-		stage.XLSheetMap_Staged_Order[xlsheet] = order
+		stage.XLSheet_stagedOrder[xlsheet] = order
 		stage.XLSheetOrder++
 	}
 	stage.XLSheets_mapString[xlsheet.Name] = xlsheet
@@ -1259,7 +1317,8 @@ func (xlsheet *XLSheet) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes xlsheet off the model stage
 func (xlsheet *XLSheet) Unstage(stage *Stage) *XLSheet {
 	delete(stage.XLSheets, xlsheet)
-	delete(stage.XLSheetMap_Staged_Order, xlsheet)
+	// issue1150
+	// delete(stage.XLSheet_stagedOrder, xlsheet)
 	delete(stage.XLSheets_mapString, xlsheet.Name)
 
 	return xlsheet
@@ -1268,7 +1327,8 @@ func (xlsheet *XLSheet) Unstage(stage *Stage) *XLSheet {
 // UnstageVoid removes xlsheet off the model stage
 func (xlsheet *XLSheet) UnstageVoid(stage *Stage) {
 	delete(stage.XLSheets, xlsheet)
-	delete(stage.XLSheetMap_Staged_Order, xlsheet)
+	// issue1150
+	// delete(stage.XLSheet_stagedOrder, xlsheet)
 	delete(stage.XLSheets_mapString, xlsheet.Name)
 }
 
@@ -1330,27 +1390,27 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 func (stage *Stage) Reset() { // insertion point for array reset
 	stage.DisplaySelections = make(map[*DisplaySelection]struct{})
 	stage.DisplaySelections_mapString = make(map[string]*DisplaySelection)
-	stage.DisplaySelectionMap_Staged_Order = make(map[*DisplaySelection]uint)
+	stage.DisplaySelection_stagedOrder = make(map[*DisplaySelection]uint)
 	stage.DisplaySelectionOrder = 0
 
 	stage.XLCells = make(map[*XLCell]struct{})
 	stage.XLCells_mapString = make(map[string]*XLCell)
-	stage.XLCellMap_Staged_Order = make(map[*XLCell]uint)
+	stage.XLCell_stagedOrder = make(map[*XLCell]uint)
 	stage.XLCellOrder = 0
 
 	stage.XLFiles = make(map[*XLFile]struct{})
 	stage.XLFiles_mapString = make(map[string]*XLFile)
-	stage.XLFileMap_Staged_Order = make(map[*XLFile]uint)
+	stage.XLFile_stagedOrder = make(map[*XLFile]uint)
 	stage.XLFileOrder = 0
 
 	stage.XLRows = make(map[*XLRow]struct{})
 	stage.XLRows_mapString = make(map[string]*XLRow)
-	stage.XLRowMap_Staged_Order = make(map[*XLRow]uint)
+	stage.XLRow_stagedOrder = make(map[*XLRow]uint)
 	stage.XLRowOrder = 0
 
 	stage.XLSheets = make(map[*XLSheet]struct{})
 	stage.XLSheets_mapString = make(map[string]*XLSheet)
-	stage.XLSheetMap_Staged_Order = make(map[*XLSheet]uint)
+	stage.XLSheet_stagedOrder = make(map[*XLSheet]uint)
 	stage.XLSheetOrder = 0
 
 	if stage.GetProbeIF() != nil {
@@ -2146,7 +2206,7 @@ func (displayselection *DisplaySelection) GongSetFieldValue(fieldName string, va
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			displayselection.XLFile = nil
 			for __instance__ := range stage.XLFiles {
-				if stage.XLFileMap_Staged_Order[__instance__] == uint(id) {
+				if stage.XLFile_stagedOrder[__instance__] == uint(id) {
 					displayselection.XLFile = __instance__
 					break
 				}
@@ -2157,7 +2217,7 @@ func (displayselection *DisplaySelection) GongSetFieldValue(fieldName string, va
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			displayselection.XLSheet = nil
 			for __instance__ := range stage.XLSheets {
-				if stage.XLSheetMap_Staged_Order[__instance__] == uint(id) {
+				if stage.XLSheet_stagedOrder[__instance__] == uint(id) {
 					displayselection.XLSheet = __instance__
 					break
 				}
@@ -2198,7 +2258,7 @@ func (xlfile *XLFile) GongSetFieldValue(fieldName string, value GongFieldValue, 
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.XLSheets {
-					if stage.XLSheetMap_Staged_Order[__instance__] == uint(id) {
+					if stage.XLSheet_stagedOrder[__instance__] == uint(id) {
 						xlfile.Sheets = append(xlfile.Sheets, __instance__)
 						break
 					}
@@ -2225,7 +2285,7 @@ func (xlrow *XLRow) GongSetFieldValue(fieldName string, value GongFieldValue, st
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.XLCells {
-					if stage.XLCellMap_Staged_Order[__instance__] == uint(id) {
+					if stage.XLCell_stagedOrder[__instance__] == uint(id) {
 						xlrow.Cells = append(xlrow.Cells, __instance__)
 						break
 					}
@@ -2256,7 +2316,7 @@ func (xlsheet *XLSheet) GongSetFieldValue(fieldName string, value GongFieldValue
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.XLRows {
-					if stage.XLRowMap_Staged_Order[__instance__] == uint(id) {
+					if stage.XLRow_stagedOrder[__instance__] == uint(id) {
 						xlsheet.Rows = append(xlsheet.Rows, __instance__)
 						break
 					}
@@ -2270,7 +2330,7 @@ func (xlsheet *XLSheet) GongSetFieldValue(fieldName string, value GongFieldValue
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.XLCells {
-					if stage.XLCellMap_Staged_Order[__instance__] == uint(id) {
+					if stage.XLCell_stagedOrder[__instance__] == uint(id) {
 						xlsheet.SheetCells = append(xlsheet.SheetCells, __instance__)
 						break
 					}

@@ -138,9 +138,9 @@ func (backRepoOption *BackRepoOptionStruct) CommitPhaseOne(stage *models.Stage) 
 		options = append(options, option)
 	}
 
-	// Sort by the order stored in Map_Staged_Order.
+	// Sort by the order stored in _stagedOrder.
 	sort.Slice(options, func(i, j int) bool {
-		return stage.OptionMap_Staged_Order[options[i]] < stage.OptionMap_Staged_Order[options[j]]
+		return stage.Option_stagedOrder[options[i]] < stage.Option_stagedOrder[options[j]]
 	})
 
 	for _, option := range options {

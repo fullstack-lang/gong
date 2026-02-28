@@ -134,8 +134,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(contentOrdered[:], func(i, j int) bool {
 		contenti := contentOrdered[i]
 		contentj := contentOrdered[j]
-		contenti_order, oki := stage.ContentMap_Staged_Order[contenti]
-		contentj_order, okj := stage.ContentMap_Staged_Order[contentj]
+		contenti_order, oki := stage.Content_stagedOrder[contenti]
+		contentj_order, okj := stage.Content_stagedOrder[contentj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -161,8 +161,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(jpgimageOrdered[:], func(i, j int) bool {
 		jpgimagei := jpgimageOrdered[i]
 		jpgimagej := jpgimageOrdered[j]
-		jpgimagei_order, oki := stage.JpgImageMap_Staged_Order[jpgimagei]
-		jpgimagej_order, okj := stage.JpgImageMap_Staged_Order[jpgimagej]
+		jpgimagei_order, oki := stage.JpgImage_stagedOrder[jpgimagei]
+		jpgimagej_order, okj := stage.JpgImage_stagedOrder[jpgimagej]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -188,8 +188,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(pngimageOrdered[:], func(i, j int) bool {
 		pngimagei := pngimageOrdered[i]
 		pngimagej := pngimageOrdered[j]
-		pngimagei_order, oki := stage.PngImageMap_Staged_Order[pngimagei]
-		pngimagej_order, okj := stage.PngImageMap_Staged_Order[pngimagej]
+		pngimagei_order, oki := stage.PngImage_stagedOrder[pngimagei]
+		pngimagej_order, okj := stage.PngImage_stagedOrder[pngimagej]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -215,8 +215,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(svgimageOrdered[:], func(i, j int) bool {
 		svgimagei := svgimageOrdered[i]
 		svgimagej := svgimageOrdered[j]
-		svgimagei_order, oki := stage.SvgImageMap_Staged_Order[svgimagei]
-		svgimagej_order, okj := stage.SvgImageMap_Staged_Order[svgimagej]
+		svgimagei_order, oki := stage.SvgImage_stagedOrder[svgimagei]
+		svgimagej_order, okj := stage.SvgImage_stagedOrder[svgimagej]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}

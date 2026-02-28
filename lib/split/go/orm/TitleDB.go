@@ -138,9 +138,9 @@ func (backRepoTitle *BackRepoTitleStruct) CommitPhaseOne(stage *models.Stage) (E
 		titles = append(titles, title)
 	}
 
-	// Sort by the order stored in Map_Staged_Order.
+	// Sort by the order stored in _stagedOrder.
 	sort.Slice(titles, func(i, j int) bool {
-		return stage.TitleMap_Staged_Order[titles[i]] < stage.TitleMap_Staged_Order[titles[j]]
+		return stage.Title_stagedOrder[titles[i]] < stage.Title_stagedOrder[titles[j]]
 	})
 
 	for _, title := range titles {

@@ -134,8 +134,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(filetodownloadOrdered[:], func(i, j int) bool {
 		filetodownloadi := filetodownloadOrdered[i]
 		filetodownloadj := filetodownloadOrdered[j]
-		filetodownloadi_order, oki := stage.FileToDownloadMap_Staged_Order[filetodownloadi]
-		filetodownloadj_order, okj := stage.FileToDownloadMap_Staged_Order[filetodownloadj]
+		filetodownloadi_order, oki := stage.FileToDownload_stagedOrder[filetodownloadi]
+		filetodownloadj_order, okj := stage.FileToDownload_stagedOrder[filetodownloadj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -161,8 +161,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(filetouploadOrdered[:], func(i, j int) bool {
 		filetouploadi := filetouploadOrdered[i]
 		filetouploadj := filetouploadOrdered[j]
-		filetouploadi_order, oki := stage.FileToUploadMap_Staged_Order[filetouploadi]
-		filetouploadj_order, okj := stage.FileToUploadMap_Staged_Order[filetouploadj]
+		filetouploadi_order, oki := stage.FileToUpload_stagedOrder[filetouploadi]
+		filetouploadj_order, okj := stage.FileToUpload_stagedOrder[filetouploadj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -188,8 +188,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(messageOrdered[:], func(i, j int) bool {
 		messagei := messageOrdered[i]
 		messagej := messageOrdered[j]
-		messagei_order, oki := stage.MessageMap_Staged_Order[messagei]
-		messagej_order, okj := stage.MessageMap_Staged_Order[messagej]
+		messagei_order, oki := stage.Message_stagedOrder[messagei]
+		messagej_order, okj := stage.Message_stagedOrder[messagej]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}

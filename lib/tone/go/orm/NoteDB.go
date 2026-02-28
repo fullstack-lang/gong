@@ -165,9 +165,9 @@ func (backRepoNote *BackRepoNoteStruct) CommitPhaseOne(stage *models.Stage) (Err
 		notes = append(notes, note)
 	}
 
-	// Sort by the order stored in Map_Staged_Order.
+	// Sort by the order stored in _stagedOrder.
 	sort.Slice(notes, func(i, j int) bool {
-		return stage.NoteMap_Staged_Order[notes[i]] < stage.NoteMap_Staged_Order[notes[j]]
+		return stage.Note_stagedOrder[notes[i]] < stage.Note_stagedOrder[notes[j]]
 	})
 
 	for _, note := range notes {

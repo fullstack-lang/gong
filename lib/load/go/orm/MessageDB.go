@@ -138,9 +138,9 @@ func (backRepoMessage *BackRepoMessageStruct) CommitPhaseOne(stage *models.Stage
 		messages = append(messages, message)
 	}
 
-	// Sort by the order stored in Map_Staged_Order.
+	// Sort by the order stored in _stagedOrder.
 	sort.Slice(messages, func(i, j int) bool {
-		return stage.MessageMap_Staged_Order[messages[i]] < stage.MessageMap_Staged_Order[messages[j]]
+		return stage.Message_stagedOrder[messages[i]] < stage.Message_stagedOrder[messages[j]]
 	})
 
 	for _, message := range messages {

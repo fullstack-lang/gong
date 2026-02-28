@@ -106,11 +106,13 @@ type Stage struct {
 
 	// insertion point for definition of arrays registering instances
 	AttributeShapes                map[*AttributeShape]struct{}
-	AttributeShapes_reference      map[*AttributeShape]*AttributeShape
-	AttributeShapes_referenceOrder map[*AttributeShape]uint
 	AttributeShapes_instance       map[*AttributeShape]*AttributeShape
 	AttributeShapes_mapString      map[string]*AttributeShape
-
+	AttributeShapeOrder            uint
+	AttributeShape_stagedOrder     map[*AttributeShape]uint
+	AttributeShapes_reference      map[*AttributeShape]*AttributeShape
+	AttributeShapes_referenceOrder map[*AttributeShape]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterAttributeShapeCreateCallback OnAfterCreateInterface[AttributeShape]
 	OnAfterAttributeShapeUpdateCallback OnAfterUpdateInterface[AttributeShape]
@@ -118,11 +120,13 @@ type Stage struct {
 	OnAfterAttributeShapeReadCallback   OnAfterReadInterface[AttributeShape]
 
 	Classdiagrams                map[*Classdiagram]struct{}
-	Classdiagrams_reference      map[*Classdiagram]*Classdiagram
-	Classdiagrams_referenceOrder map[*Classdiagram]uint
 	Classdiagrams_instance       map[*Classdiagram]*Classdiagram
 	Classdiagrams_mapString      map[string]*Classdiagram
-
+	ClassdiagramOrder            uint
+	Classdiagram_stagedOrder     map[*Classdiagram]uint
+	Classdiagrams_reference      map[*Classdiagram]*Classdiagram
+	Classdiagrams_referenceOrder map[*Classdiagram]uint
+	
 	// insertion point for slice of pointers maps
 	Classdiagram_GongStructShapes_reverseMap map[*GongStructShape]*Classdiagram
 
@@ -136,11 +140,13 @@ type Stage struct {
 	OnAfterClassdiagramReadCallback   OnAfterReadInterface[Classdiagram]
 
 	DiagramPackages                map[*DiagramPackage]struct{}
-	DiagramPackages_reference      map[*DiagramPackage]*DiagramPackage
-	DiagramPackages_referenceOrder map[*DiagramPackage]uint
 	DiagramPackages_instance       map[*DiagramPackage]*DiagramPackage
 	DiagramPackages_mapString      map[string]*DiagramPackage
-
+	DiagramPackageOrder            uint
+	DiagramPackage_stagedOrder     map[*DiagramPackage]uint
+	DiagramPackages_reference      map[*DiagramPackage]*DiagramPackage
+	DiagramPackages_referenceOrder map[*DiagramPackage]uint
+	
 	// insertion point for slice of pointers maps
 	DiagramPackage_Classdiagrams_reverseMap map[*Classdiagram]*DiagramPackage
 
@@ -150,11 +156,13 @@ type Stage struct {
 	OnAfterDiagramPackageReadCallback   OnAfterReadInterface[DiagramPackage]
 
 	GongEnumShapes                map[*GongEnumShape]struct{}
-	GongEnumShapes_reference      map[*GongEnumShape]*GongEnumShape
-	GongEnumShapes_referenceOrder map[*GongEnumShape]uint
 	GongEnumShapes_instance       map[*GongEnumShape]*GongEnumShape
 	GongEnumShapes_mapString      map[string]*GongEnumShape
-
+	GongEnumShapeOrder            uint
+	GongEnumShape_stagedOrder     map[*GongEnumShape]uint
+	GongEnumShapes_reference      map[*GongEnumShape]*GongEnumShape
+	GongEnumShapes_referenceOrder map[*GongEnumShape]uint
+	
 	// insertion point for slice of pointers maps
 	GongEnumShape_GongEnumValueShapes_reverseMap map[*GongEnumValueShape]*GongEnumShape
 
@@ -164,11 +172,13 @@ type Stage struct {
 	OnAfterGongEnumShapeReadCallback   OnAfterReadInterface[GongEnumShape]
 
 	GongEnumValueShapes                map[*GongEnumValueShape]struct{}
-	GongEnumValueShapes_reference      map[*GongEnumValueShape]*GongEnumValueShape
-	GongEnumValueShapes_referenceOrder map[*GongEnumValueShape]uint
 	GongEnumValueShapes_instance       map[*GongEnumValueShape]*GongEnumValueShape
 	GongEnumValueShapes_mapString      map[string]*GongEnumValueShape
-
+	GongEnumValueShapeOrder            uint
+	GongEnumValueShape_stagedOrder     map[*GongEnumValueShape]uint
+	GongEnumValueShapes_reference      map[*GongEnumValueShape]*GongEnumValueShape
+	GongEnumValueShapes_referenceOrder map[*GongEnumValueShape]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterGongEnumValueShapeCreateCallback OnAfterCreateInterface[GongEnumValueShape]
 	OnAfterGongEnumValueShapeUpdateCallback OnAfterUpdateInterface[GongEnumValueShape]
@@ -176,11 +186,13 @@ type Stage struct {
 	OnAfterGongEnumValueShapeReadCallback   OnAfterReadInterface[GongEnumValueShape]
 
 	GongNoteLinkShapes                map[*GongNoteLinkShape]struct{}
-	GongNoteLinkShapes_reference      map[*GongNoteLinkShape]*GongNoteLinkShape
-	GongNoteLinkShapes_referenceOrder map[*GongNoteLinkShape]uint
 	GongNoteLinkShapes_instance       map[*GongNoteLinkShape]*GongNoteLinkShape
 	GongNoteLinkShapes_mapString      map[string]*GongNoteLinkShape
-
+	GongNoteLinkShapeOrder            uint
+	GongNoteLinkShape_stagedOrder     map[*GongNoteLinkShape]uint
+	GongNoteLinkShapes_reference      map[*GongNoteLinkShape]*GongNoteLinkShape
+	GongNoteLinkShapes_referenceOrder map[*GongNoteLinkShape]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterGongNoteLinkShapeCreateCallback OnAfterCreateInterface[GongNoteLinkShape]
 	OnAfterGongNoteLinkShapeUpdateCallback OnAfterUpdateInterface[GongNoteLinkShape]
@@ -188,11 +200,13 @@ type Stage struct {
 	OnAfterGongNoteLinkShapeReadCallback   OnAfterReadInterface[GongNoteLinkShape]
 
 	GongNoteShapes                map[*GongNoteShape]struct{}
-	GongNoteShapes_reference      map[*GongNoteShape]*GongNoteShape
-	GongNoteShapes_referenceOrder map[*GongNoteShape]uint
 	GongNoteShapes_instance       map[*GongNoteShape]*GongNoteShape
 	GongNoteShapes_mapString      map[string]*GongNoteShape
-
+	GongNoteShapeOrder            uint
+	GongNoteShape_stagedOrder     map[*GongNoteShape]uint
+	GongNoteShapes_reference      map[*GongNoteShape]*GongNoteShape
+	GongNoteShapes_referenceOrder map[*GongNoteShape]uint
+	
 	// insertion point for slice of pointers maps
 	GongNoteShape_GongNoteLinkShapes_reverseMap map[*GongNoteLinkShape]*GongNoteShape
 
@@ -202,11 +216,13 @@ type Stage struct {
 	OnAfterGongNoteShapeReadCallback   OnAfterReadInterface[GongNoteShape]
 
 	GongStructShapes                map[*GongStructShape]struct{}
-	GongStructShapes_reference      map[*GongStructShape]*GongStructShape
-	GongStructShapes_referenceOrder map[*GongStructShape]uint
 	GongStructShapes_instance       map[*GongStructShape]*GongStructShape
 	GongStructShapes_mapString      map[string]*GongStructShape
-
+	GongStructShapeOrder            uint
+	GongStructShape_stagedOrder     map[*GongStructShape]uint
+	GongStructShapes_reference      map[*GongStructShape]*GongStructShape
+	GongStructShapes_referenceOrder map[*GongStructShape]uint
+	
 	// insertion point for slice of pointers maps
 	GongStructShape_AttributeShapes_reverseMap map[*AttributeShape]*GongStructShape
 
@@ -218,11 +234,13 @@ type Stage struct {
 	OnAfterGongStructShapeReadCallback   OnAfterReadInterface[GongStructShape]
 
 	LinkShapes                map[*LinkShape]struct{}
-	LinkShapes_reference      map[*LinkShape]*LinkShape
-	LinkShapes_referenceOrder map[*LinkShape]uint
 	LinkShapes_instance       map[*LinkShape]*LinkShape
 	LinkShapes_mapString      map[string]*LinkShape
-
+	LinkShapeOrder            uint
+	LinkShape_stagedOrder     map[*LinkShape]uint
+	LinkShapes_reference      map[*LinkShape]*LinkShape
+	LinkShapes_referenceOrder map[*LinkShape]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterLinkShapeCreateCallback OnAfterCreateInterface[LinkShape]
 	OnAfterLinkShapeUpdateCallback OnAfterUpdateInterface[LinkShape]
@@ -240,6 +258,10 @@ type Stage struct {
 	OnInitCommitFromFrontCallback OnInitCommitInterface
 	OnInitCommitFromBackCallback  OnInitCommitInterface
 
+	// Private slices to hold the registered hooks
+	beforeCommitHooks []func(stage *Stage)
+	afterCommitHooks  []func(stage *Stage)
+
 	// store the number of instance per gongstruct
 	Map_GongStructName_InstancesNb map[string]int
 
@@ -255,32 +277,14 @@ type Stage struct {
 	// store the stage order of each instance in order to
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
-	AttributeShapeOrder            uint
-	AttributeShapeMap_Staged_Order map[*AttributeShape]uint
 
-	ClassdiagramOrder            uint
-	ClassdiagramMap_Staged_Order map[*Classdiagram]uint
 
-	DiagramPackageOrder            uint
-	DiagramPackageMap_Staged_Order map[*DiagramPackage]uint
 
-	GongEnumShapeOrder            uint
-	GongEnumShapeMap_Staged_Order map[*GongEnumShape]uint
 
-	GongEnumValueShapeOrder            uint
-	GongEnumValueShapeMap_Staged_Order map[*GongEnumValueShape]uint
 
-	GongNoteLinkShapeOrder            uint
-	GongNoteLinkShapeMap_Staged_Order map[*GongNoteLinkShape]uint
 
-	GongNoteShapeOrder            uint
-	GongNoteShapeMap_Staged_Order map[*GongNoteShape]uint
 
-	GongStructShapeOrder            uint
-	GongStructShapeMap_Staged_Order map[*GongStructShape]uint
 
-	LinkShapeOrder            uint
-	LinkShapeMap_Staged_Order map[*LinkShape]uint
 
 	// end of insertion point
 
@@ -302,6 +306,16 @@ type Stage struct {
 	commitsBehind  int // the number of commits the stage is behind the front of the history
 
 	lock sync.RWMutex
+}
+
+// RegisterBeforeCommit adds a hook that runs before the commit happens
+func (s *Stage) RegisterBeforeCommit(hook func(stage *Stage)) {
+	s.beforeCommitHooks = append(s.beforeCommitHooks, hook)
+}
+
+// RegisterAfterCommit adds a hook that runs after the commit succeeds
+func (s *Stage) RegisterAfterCommit(hook func(stage *Stage)) {
+	s.afterCommitHooks = append(s.afterCommitHooks, hook)
 }
 
 type gongStageNavigationMode string
@@ -425,6 +439,16 @@ func (stage *Stage) ResetHard() {
 	if stage.OnInitCommitFromBackCallback != nil {
 		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
 	}
+
+	// 1. Run all Before Commit hooks
+	for _, hook := range stage.beforeCommitHooks {
+		hook(stage)
+	}
+
+	// 2. Run all After Commit hooks
+	for _, hook := range stage.afterCommitHooks {
+		hook(stage)
+	}
 }
 
 // Orphans removes all commits
@@ -441,6 +465,16 @@ func (stage *Stage) Orphans() {
 	if stage.OnInitCommitFromBackCallback != nil {
 		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
 	}
+
+	// 1. Run all Before Commit hooks
+	for _, hook := range stage.beforeCommitHooks {
+		hook(stage)
+	}
+
+	// 2. Run all After Commit hooks
+	for _, hook := range stage.afterCommitHooks {
+		hook(stage)
+	}
 }
 
 // recomputeOrders recomputes the next order for each struct
@@ -451,7 +485,7 @@ func (stage *Stage) recomputeOrders() {
 	// insertion point for max order recomputation
 	var maxAttributeShapeOrder uint
 	var foundAttributeShape bool
-	for _, order := range stage.AttributeShapeMap_Staged_Order {
+	for _, order := range stage.AttributeShape_stagedOrder {
 		if !foundAttributeShape || order > maxAttributeShapeOrder {
 			maxAttributeShapeOrder = order
 			foundAttributeShape = true
@@ -465,7 +499,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxClassdiagramOrder uint
 	var foundClassdiagram bool
-	for _, order := range stage.ClassdiagramMap_Staged_Order {
+	for _, order := range stage.Classdiagram_stagedOrder {
 		if !foundClassdiagram || order > maxClassdiagramOrder {
 			maxClassdiagramOrder = order
 			foundClassdiagram = true
@@ -479,7 +513,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxDiagramPackageOrder uint
 	var foundDiagramPackage bool
-	for _, order := range stage.DiagramPackageMap_Staged_Order {
+	for _, order := range stage.DiagramPackage_stagedOrder {
 		if !foundDiagramPackage || order > maxDiagramPackageOrder {
 			maxDiagramPackageOrder = order
 			foundDiagramPackage = true
@@ -493,7 +527,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxGongEnumShapeOrder uint
 	var foundGongEnumShape bool
-	for _, order := range stage.GongEnumShapeMap_Staged_Order {
+	for _, order := range stage.GongEnumShape_stagedOrder {
 		if !foundGongEnumShape || order > maxGongEnumShapeOrder {
 			maxGongEnumShapeOrder = order
 			foundGongEnumShape = true
@@ -507,7 +541,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxGongEnumValueShapeOrder uint
 	var foundGongEnumValueShape bool
-	for _, order := range stage.GongEnumValueShapeMap_Staged_Order {
+	for _, order := range stage.GongEnumValueShape_stagedOrder {
 		if !foundGongEnumValueShape || order > maxGongEnumValueShapeOrder {
 			maxGongEnumValueShapeOrder = order
 			foundGongEnumValueShape = true
@@ -521,7 +555,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxGongNoteLinkShapeOrder uint
 	var foundGongNoteLinkShape bool
-	for _, order := range stage.GongNoteLinkShapeMap_Staged_Order {
+	for _, order := range stage.GongNoteLinkShape_stagedOrder {
 		if !foundGongNoteLinkShape || order > maxGongNoteLinkShapeOrder {
 			maxGongNoteLinkShapeOrder = order
 			foundGongNoteLinkShape = true
@@ -535,7 +569,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxGongNoteShapeOrder uint
 	var foundGongNoteShape bool
-	for _, order := range stage.GongNoteShapeMap_Staged_Order {
+	for _, order := range stage.GongNoteShape_stagedOrder {
 		if !foundGongNoteShape || order > maxGongNoteShapeOrder {
 			maxGongNoteShapeOrder = order
 			foundGongNoteShape = true
@@ -549,7 +583,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxGongStructShapeOrder uint
 	var foundGongStructShape bool
-	for _, order := range stage.GongStructShapeMap_Staged_Order {
+	for _, order := range stage.GongStructShape_stagedOrder {
 		if !foundGongStructShape || order > maxGongStructShapeOrder {
 			maxGongStructShapeOrder = order
 			foundGongStructShape = true
@@ -563,7 +597,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxLinkShapeOrder uint
 	var foundLinkShape bool
-	for _, order := range stage.LinkShapeMap_Staged_Order {
+	for _, order := range stage.LinkShape_stagedOrder {
 		if !foundLinkShape || order > maxLinkShapeOrder {
 			maxLinkShapeOrder = order
 			foundLinkShape = true
@@ -635,7 +669,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 	switch any(t).(type) {
 	// insertion point for case
 	case *AttributeShape:
-		tmp := GetStructInstancesByOrder(stage.AttributeShapes, stage.AttributeShapeMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.AttributeShapes, stage.AttributeShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -649,7 +683,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Classdiagram:
-		tmp := GetStructInstancesByOrder(stage.Classdiagrams, stage.ClassdiagramMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Classdiagrams, stage.Classdiagram_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -663,7 +697,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *DiagramPackage:
-		tmp := GetStructInstancesByOrder(stage.DiagramPackages, stage.DiagramPackageMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.DiagramPackages, stage.DiagramPackage_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -677,7 +711,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *GongEnumShape:
-		tmp := GetStructInstancesByOrder(stage.GongEnumShapes, stage.GongEnumShapeMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.GongEnumShapes, stage.GongEnumShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -691,7 +725,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *GongEnumValueShape:
-		tmp := GetStructInstancesByOrder(stage.GongEnumValueShapes, stage.GongEnumValueShapeMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.GongEnumValueShapes, stage.GongEnumValueShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -705,7 +739,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *GongNoteLinkShape:
-		tmp := GetStructInstancesByOrder(stage.GongNoteLinkShapes, stage.GongNoteLinkShapeMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.GongNoteLinkShapes, stage.GongNoteLinkShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -719,7 +753,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *GongNoteShape:
-		tmp := GetStructInstancesByOrder(stage.GongNoteShapes, stage.GongNoteShapeMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.GongNoteShapes, stage.GongNoteShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -733,7 +767,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *GongStructShape:
-		tmp := GetStructInstancesByOrder(stage.GongStructShapes, stage.GongStructShapeMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.GongStructShapes, stage.GongStructShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -747,7 +781,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *LinkShape:
-		tmp := GetStructInstancesByOrder(stage.LinkShapes, stage.LinkShapeMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.LinkShapes, stage.LinkShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -790,23 +824,23 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 	switch namedStructName {
 	// insertion point for case
 	case "AttributeShape":
-		res = GetNamedStructInstances(stage.AttributeShapes, stage.AttributeShapeMap_Staged_Order)
+		res = GetNamedStructInstances(stage.AttributeShapes, stage.AttributeShape_stagedOrder)
 	case "Classdiagram":
-		res = GetNamedStructInstances(stage.Classdiagrams, stage.ClassdiagramMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Classdiagrams, stage.Classdiagram_stagedOrder)
 	case "DiagramPackage":
-		res = GetNamedStructInstances(stage.DiagramPackages, stage.DiagramPackageMap_Staged_Order)
+		res = GetNamedStructInstances(stage.DiagramPackages, stage.DiagramPackage_stagedOrder)
 	case "GongEnumShape":
-		res = GetNamedStructInstances(stage.GongEnumShapes, stage.GongEnumShapeMap_Staged_Order)
+		res = GetNamedStructInstances(stage.GongEnumShapes, stage.GongEnumShape_stagedOrder)
 	case "GongEnumValueShape":
-		res = GetNamedStructInstances(stage.GongEnumValueShapes, stage.GongEnumValueShapeMap_Staged_Order)
+		res = GetNamedStructInstances(stage.GongEnumValueShapes, stage.GongEnumValueShape_stagedOrder)
 	case "GongNoteLinkShape":
-		res = GetNamedStructInstances(stage.GongNoteLinkShapes, stage.GongNoteLinkShapeMap_Staged_Order)
+		res = GetNamedStructInstances(stage.GongNoteLinkShapes, stage.GongNoteLinkShape_stagedOrder)
 	case "GongNoteShape":
-		res = GetNamedStructInstances(stage.GongNoteShapes, stage.GongNoteShapeMap_Staged_Order)
+		res = GetNamedStructInstances(stage.GongNoteShapes, stage.GongNoteShape_stagedOrder)
 	case "GongStructShape":
-		res = GetNamedStructInstances(stage.GongStructShapes, stage.GongStructShapeMap_Staged_Order)
+		res = GetNamedStructInstances(stage.GongStructShapes, stage.GongStructShape_stagedOrder)
 	case "LinkShape":
-		res = GetNamedStructInstances(stage.LinkShapes, stage.LinkShapeMap_Staged_Order)
+		res = GetNamedStructInstances(stage.LinkShapes, stage.LinkShape_stagedOrder)
 	}
 
 	return
@@ -937,23 +971,23 @@ func NewStage(name string) (stage *Stage) {
 		// the to be removed stops here
 
 		// insertion point for order map initialisations
-		AttributeShapeMap_Staged_Order: make(map[*AttributeShape]uint),
+		AttributeShape_stagedOrder: make(map[*AttributeShape]uint),
 
-		ClassdiagramMap_Staged_Order: make(map[*Classdiagram]uint),
+		Classdiagram_stagedOrder: make(map[*Classdiagram]uint),
 
-		DiagramPackageMap_Staged_Order: make(map[*DiagramPackage]uint),
+		DiagramPackage_stagedOrder: make(map[*DiagramPackage]uint),
 
-		GongEnumShapeMap_Staged_Order: make(map[*GongEnumShape]uint),
+		GongEnumShape_stagedOrder: make(map[*GongEnumShape]uint),
 
-		GongEnumValueShapeMap_Staged_Order: make(map[*GongEnumValueShape]uint),
+		GongEnumValueShape_stagedOrder: make(map[*GongEnumValueShape]uint),
 
-		GongNoteLinkShapeMap_Staged_Order: make(map[*GongNoteLinkShape]uint),
+		GongNoteLinkShape_stagedOrder: make(map[*GongNoteLinkShape]uint),
 
-		GongNoteShapeMap_Staged_Order: make(map[*GongNoteShape]uint),
+		GongNoteShape_stagedOrder: make(map[*GongNoteShape]uint),
 
-		GongStructShapeMap_Staged_Order: make(map[*GongStructShape]uint),
+		GongStructShape_stagedOrder: make(map[*GongStructShape]uint),
 
-		LinkShapeMap_Staged_Order: make(map[*LinkShape]uint),
+		LinkShape_stagedOrder: make(map[*LinkShape]uint),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
@@ -1000,23 +1034,23 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
 	case *AttributeShape:
-		return stage.AttributeShapeMap_Staged_Order[instance]
+		return stage.AttributeShape_stagedOrder[instance]
 	case *Classdiagram:
-		return stage.ClassdiagramMap_Staged_Order[instance]
+		return stage.Classdiagram_stagedOrder[instance]
 	case *DiagramPackage:
-		return stage.DiagramPackageMap_Staged_Order[instance]
+		return stage.DiagramPackage_stagedOrder[instance]
 	case *GongEnumShape:
-		return stage.GongEnumShapeMap_Staged_Order[instance]
+		return stage.GongEnumShape_stagedOrder[instance]
 	case *GongEnumValueShape:
-		return stage.GongEnumValueShapeMap_Staged_Order[instance]
+		return stage.GongEnumValueShape_stagedOrder[instance]
 	case *GongNoteLinkShape:
-		return stage.GongNoteLinkShapeMap_Staged_Order[instance]
+		return stage.GongNoteLinkShape_stagedOrder[instance]
 	case *GongNoteShape:
-		return stage.GongNoteShapeMap_Staged_Order[instance]
+		return stage.GongNoteShape_stagedOrder[instance]
 	case *GongStructShape:
-		return stage.GongStructShapeMap_Staged_Order[instance]
+		return stage.GongStructShape_stagedOrder[instance]
 	case *LinkShape:
-		return stage.LinkShapeMap_Staged_Order[instance]
+		return stage.LinkShape_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -1026,23 +1060,23 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
 	case *AttributeShape:
-		return stage.AttributeShapeMap_Staged_Order[instance]
+		return stage.AttributeShape_stagedOrder[instance]
 	case *Classdiagram:
-		return stage.ClassdiagramMap_Staged_Order[instance]
+		return stage.Classdiagram_stagedOrder[instance]
 	case *DiagramPackage:
-		return stage.DiagramPackageMap_Staged_Order[instance]
+		return stage.DiagramPackage_stagedOrder[instance]
 	case *GongEnumShape:
-		return stage.GongEnumShapeMap_Staged_Order[instance]
+		return stage.GongEnumShape_stagedOrder[instance]
 	case *GongEnumValueShape:
-		return stage.GongEnumValueShapeMap_Staged_Order[instance]
+		return stage.GongEnumValueShape_stagedOrder[instance]
 	case *GongNoteLinkShape:
-		return stage.GongNoteLinkShapeMap_Staged_Order[instance]
+		return stage.GongNoteLinkShape_stagedOrder[instance]
 	case *GongNoteShape:
-		return stage.GongNoteShapeMap_Staged_Order[instance]
+		return stage.GongNoteShape_stagedOrder[instance]
 	case *GongStructShape:
-		return stage.GongStructShapeMap_Staged_Order[instance]
+		return stage.GongStructShape_stagedOrder[instance]
 	case *LinkShape:
-		return stage.LinkShapeMap_Staged_Order[instance]
+		return stage.LinkShape_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -1055,8 +1089,14 @@ func (stage *Stage) GetName() string {
 func (stage *Stage) CommitWithSuspendedCallbacks() {
 	tmp := stage.OnInitCommitFromBackCallback
 	stage.OnInitCommitFromBackCallback = nil
+	tmp2 := stage.beforeCommitHooks
+	stage.beforeCommitHooks = nil
+	tmp3 := stage.afterCommitHooks
+	stage.afterCommitHooks = nil
 	stage.Commit()
 	stage.OnInitCommitFromBackCallback = tmp
+	stage.beforeCommitHooks = tmp2
+	stage.afterCommitHooks = tmp3
 }
 
 func (stage *Stage) Commit() {
@@ -1067,6 +1107,11 @@ func (stage *Stage) Commit() {
 	}
 	if stage.OnInitCommitFromBackCallback != nil {
 		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
+	}
+
+	// 1. Run all Before Commit hooks
+	for _, hook := range stage.beforeCommitHooks {
+		hook(stage)
 	}
 
 	if stage.BackRepo != nil {
@@ -1084,6 +1129,11 @@ func (stage *Stage) Commit() {
 	if stage.IsInDeltaMode() {
 		stage.ComputeForwardAndBackwardCommits()
 		stage.ComputeReferenceAndOrders()
+	}
+
+	// 2. Run all After Commit hooks
+	for _, hook := range stage.afterCommitHooks {
+		hook(stage)
 	}
 }
 
@@ -1142,7 +1192,7 @@ func (stage *Stage) RestoreXL(dirPath string) {
 func (attributeshape *AttributeShape) Stage(stage *Stage) *AttributeShape {
 	if _, ok := stage.AttributeShapes[attributeshape]; !ok {
 		stage.AttributeShapes[attributeshape] = struct{}{}
-		stage.AttributeShapeMap_Staged_Order[attributeshape] = stage.AttributeShapeOrder
+		stage.AttributeShape_stagedOrder[attributeshape] = stage.AttributeShapeOrder
 		stage.AttributeShapeOrder++
 	}
 	stage.AttributeShapes_mapString[attributeshape.Name] = attributeshape
@@ -1162,7 +1212,7 @@ func (attributeshape *AttributeShape) StagePreserveOrder(stage *Stage, order uin
 		if order > stage.AttributeShapeOrder {
 			stage.AttributeShapeOrder = order
 		}
-		stage.AttributeShapeMap_Staged_Order[attributeshape] = order
+		stage.AttributeShape_stagedOrder[attributeshape] = order
 		stage.AttributeShapeOrder++
 	}
 	stage.AttributeShapes_mapString[attributeshape.Name] = attributeshape
@@ -1171,7 +1221,8 @@ func (attributeshape *AttributeShape) StagePreserveOrder(stage *Stage, order uin
 // Unstage removes attributeshape off the model stage
 func (attributeshape *AttributeShape) Unstage(stage *Stage) *AttributeShape {
 	delete(stage.AttributeShapes, attributeshape)
-	delete(stage.AttributeShapeMap_Staged_Order, attributeshape)
+	// issue1150
+	// delete(stage.AttributeShape_stagedOrder, attributeshape)
 	delete(stage.AttributeShapes_mapString, attributeshape.Name)
 
 	return attributeshape
@@ -1180,7 +1231,8 @@ func (attributeshape *AttributeShape) Unstage(stage *Stage) *AttributeShape {
 // UnstageVoid removes attributeshape off the model stage
 func (attributeshape *AttributeShape) UnstageVoid(stage *Stage) {
 	delete(stage.AttributeShapes, attributeshape)
-	delete(stage.AttributeShapeMap_Staged_Order, attributeshape)
+	// issue1150
+	// delete(stage.AttributeShape_stagedOrder, attributeshape)
 	delete(stage.AttributeShapes_mapString, attributeshape.Name)
 }
 
@@ -1226,7 +1278,7 @@ func (attributeshape *AttributeShape) SetName(name string) {
 func (classdiagram *Classdiagram) Stage(stage *Stage) *Classdiagram {
 	if _, ok := stage.Classdiagrams[classdiagram]; !ok {
 		stage.Classdiagrams[classdiagram] = struct{}{}
-		stage.ClassdiagramMap_Staged_Order[classdiagram] = stage.ClassdiagramOrder
+		stage.Classdiagram_stagedOrder[classdiagram] = stage.ClassdiagramOrder
 		stage.ClassdiagramOrder++
 	}
 	stage.Classdiagrams_mapString[classdiagram.Name] = classdiagram
@@ -1246,7 +1298,7 @@ func (classdiagram *Classdiagram) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.ClassdiagramOrder {
 			stage.ClassdiagramOrder = order
 		}
-		stage.ClassdiagramMap_Staged_Order[classdiagram] = order
+		stage.Classdiagram_stagedOrder[classdiagram] = order
 		stage.ClassdiagramOrder++
 	}
 	stage.Classdiagrams_mapString[classdiagram.Name] = classdiagram
@@ -1255,7 +1307,8 @@ func (classdiagram *Classdiagram) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes classdiagram off the model stage
 func (classdiagram *Classdiagram) Unstage(stage *Stage) *Classdiagram {
 	delete(stage.Classdiagrams, classdiagram)
-	delete(stage.ClassdiagramMap_Staged_Order, classdiagram)
+	// issue1150
+	// delete(stage.Classdiagram_stagedOrder, classdiagram)
 	delete(stage.Classdiagrams_mapString, classdiagram.Name)
 
 	return classdiagram
@@ -1264,7 +1317,8 @@ func (classdiagram *Classdiagram) Unstage(stage *Stage) *Classdiagram {
 // UnstageVoid removes classdiagram off the model stage
 func (classdiagram *Classdiagram) UnstageVoid(stage *Stage) {
 	delete(stage.Classdiagrams, classdiagram)
-	delete(stage.ClassdiagramMap_Staged_Order, classdiagram)
+	// issue1150
+	// delete(stage.Classdiagram_stagedOrder, classdiagram)
 	delete(stage.Classdiagrams_mapString, classdiagram.Name)
 }
 
@@ -1310,7 +1364,7 @@ func (classdiagram *Classdiagram) SetName(name string) {
 func (diagrampackage *DiagramPackage) Stage(stage *Stage) *DiagramPackage {
 	if _, ok := stage.DiagramPackages[diagrampackage]; !ok {
 		stage.DiagramPackages[diagrampackage] = struct{}{}
-		stage.DiagramPackageMap_Staged_Order[diagrampackage] = stage.DiagramPackageOrder
+		stage.DiagramPackage_stagedOrder[diagrampackage] = stage.DiagramPackageOrder
 		stage.DiagramPackageOrder++
 	}
 	stage.DiagramPackages_mapString[diagrampackage.Name] = diagrampackage
@@ -1330,7 +1384,7 @@ func (diagrampackage *DiagramPackage) StagePreserveOrder(stage *Stage, order uin
 		if order > stage.DiagramPackageOrder {
 			stage.DiagramPackageOrder = order
 		}
-		stage.DiagramPackageMap_Staged_Order[diagrampackage] = order
+		stage.DiagramPackage_stagedOrder[diagrampackage] = order
 		stage.DiagramPackageOrder++
 	}
 	stage.DiagramPackages_mapString[diagrampackage.Name] = diagrampackage
@@ -1339,7 +1393,8 @@ func (diagrampackage *DiagramPackage) StagePreserveOrder(stage *Stage, order uin
 // Unstage removes diagrampackage off the model stage
 func (diagrampackage *DiagramPackage) Unstage(stage *Stage) *DiagramPackage {
 	delete(stage.DiagramPackages, diagrampackage)
-	delete(stage.DiagramPackageMap_Staged_Order, diagrampackage)
+	// issue1150
+	// delete(stage.DiagramPackage_stagedOrder, diagrampackage)
 	delete(stage.DiagramPackages_mapString, diagrampackage.Name)
 
 	return diagrampackage
@@ -1348,7 +1403,8 @@ func (diagrampackage *DiagramPackage) Unstage(stage *Stage) *DiagramPackage {
 // UnstageVoid removes diagrampackage off the model stage
 func (diagrampackage *DiagramPackage) UnstageVoid(stage *Stage) {
 	delete(stage.DiagramPackages, diagrampackage)
-	delete(stage.DiagramPackageMap_Staged_Order, diagrampackage)
+	// issue1150
+	// delete(stage.DiagramPackage_stagedOrder, diagrampackage)
 	delete(stage.DiagramPackages_mapString, diagrampackage.Name)
 }
 
@@ -1394,7 +1450,7 @@ func (diagrampackage *DiagramPackage) SetName(name string) {
 func (gongenumshape *GongEnumShape) Stage(stage *Stage) *GongEnumShape {
 	if _, ok := stage.GongEnumShapes[gongenumshape]; !ok {
 		stage.GongEnumShapes[gongenumshape] = struct{}{}
-		stage.GongEnumShapeMap_Staged_Order[gongenumshape] = stage.GongEnumShapeOrder
+		stage.GongEnumShape_stagedOrder[gongenumshape] = stage.GongEnumShapeOrder
 		stage.GongEnumShapeOrder++
 	}
 	stage.GongEnumShapes_mapString[gongenumshape.Name] = gongenumshape
@@ -1414,7 +1470,7 @@ func (gongenumshape *GongEnumShape) StagePreserveOrder(stage *Stage, order uint)
 		if order > stage.GongEnumShapeOrder {
 			stage.GongEnumShapeOrder = order
 		}
-		stage.GongEnumShapeMap_Staged_Order[gongenumshape] = order
+		stage.GongEnumShape_stagedOrder[gongenumshape] = order
 		stage.GongEnumShapeOrder++
 	}
 	stage.GongEnumShapes_mapString[gongenumshape.Name] = gongenumshape
@@ -1423,7 +1479,8 @@ func (gongenumshape *GongEnumShape) StagePreserveOrder(stage *Stage, order uint)
 // Unstage removes gongenumshape off the model stage
 func (gongenumshape *GongEnumShape) Unstage(stage *Stage) *GongEnumShape {
 	delete(stage.GongEnumShapes, gongenumshape)
-	delete(stage.GongEnumShapeMap_Staged_Order, gongenumshape)
+	// issue1150
+	// delete(stage.GongEnumShape_stagedOrder, gongenumshape)
 	delete(stage.GongEnumShapes_mapString, gongenumshape.Name)
 
 	return gongenumshape
@@ -1432,7 +1489,8 @@ func (gongenumshape *GongEnumShape) Unstage(stage *Stage) *GongEnumShape {
 // UnstageVoid removes gongenumshape off the model stage
 func (gongenumshape *GongEnumShape) UnstageVoid(stage *Stage) {
 	delete(stage.GongEnumShapes, gongenumshape)
-	delete(stage.GongEnumShapeMap_Staged_Order, gongenumshape)
+	// issue1150
+	// delete(stage.GongEnumShape_stagedOrder, gongenumshape)
 	delete(stage.GongEnumShapes_mapString, gongenumshape.Name)
 }
 
@@ -1478,7 +1536,7 @@ func (gongenumshape *GongEnumShape) SetName(name string) {
 func (gongenumvalueshape *GongEnumValueShape) Stage(stage *Stage) *GongEnumValueShape {
 	if _, ok := stage.GongEnumValueShapes[gongenumvalueshape]; !ok {
 		stage.GongEnumValueShapes[gongenumvalueshape] = struct{}{}
-		stage.GongEnumValueShapeMap_Staged_Order[gongenumvalueshape] = stage.GongEnumValueShapeOrder
+		stage.GongEnumValueShape_stagedOrder[gongenumvalueshape] = stage.GongEnumValueShapeOrder
 		stage.GongEnumValueShapeOrder++
 	}
 	stage.GongEnumValueShapes_mapString[gongenumvalueshape.Name] = gongenumvalueshape
@@ -1498,7 +1556,7 @@ func (gongenumvalueshape *GongEnumValueShape) StagePreserveOrder(stage *Stage, o
 		if order > stage.GongEnumValueShapeOrder {
 			stage.GongEnumValueShapeOrder = order
 		}
-		stage.GongEnumValueShapeMap_Staged_Order[gongenumvalueshape] = order
+		stage.GongEnumValueShape_stagedOrder[gongenumvalueshape] = order
 		stage.GongEnumValueShapeOrder++
 	}
 	stage.GongEnumValueShapes_mapString[gongenumvalueshape.Name] = gongenumvalueshape
@@ -1507,7 +1565,8 @@ func (gongenumvalueshape *GongEnumValueShape) StagePreserveOrder(stage *Stage, o
 // Unstage removes gongenumvalueshape off the model stage
 func (gongenumvalueshape *GongEnumValueShape) Unstage(stage *Stage) *GongEnumValueShape {
 	delete(stage.GongEnumValueShapes, gongenumvalueshape)
-	delete(stage.GongEnumValueShapeMap_Staged_Order, gongenumvalueshape)
+	// issue1150
+	// delete(stage.GongEnumValueShape_stagedOrder, gongenumvalueshape)
 	delete(stage.GongEnumValueShapes_mapString, gongenumvalueshape.Name)
 
 	return gongenumvalueshape
@@ -1516,7 +1575,8 @@ func (gongenumvalueshape *GongEnumValueShape) Unstage(stage *Stage) *GongEnumVal
 // UnstageVoid removes gongenumvalueshape off the model stage
 func (gongenumvalueshape *GongEnumValueShape) UnstageVoid(stage *Stage) {
 	delete(stage.GongEnumValueShapes, gongenumvalueshape)
-	delete(stage.GongEnumValueShapeMap_Staged_Order, gongenumvalueshape)
+	// issue1150
+	// delete(stage.GongEnumValueShape_stagedOrder, gongenumvalueshape)
 	delete(stage.GongEnumValueShapes_mapString, gongenumvalueshape.Name)
 }
 
@@ -1562,7 +1622,7 @@ func (gongenumvalueshape *GongEnumValueShape) SetName(name string) {
 func (gongnotelinkshape *GongNoteLinkShape) Stage(stage *Stage) *GongNoteLinkShape {
 	if _, ok := stage.GongNoteLinkShapes[gongnotelinkshape]; !ok {
 		stage.GongNoteLinkShapes[gongnotelinkshape] = struct{}{}
-		stage.GongNoteLinkShapeMap_Staged_Order[gongnotelinkshape] = stage.GongNoteLinkShapeOrder
+		stage.GongNoteLinkShape_stagedOrder[gongnotelinkshape] = stage.GongNoteLinkShapeOrder
 		stage.GongNoteLinkShapeOrder++
 	}
 	stage.GongNoteLinkShapes_mapString[gongnotelinkshape.Name] = gongnotelinkshape
@@ -1582,7 +1642,7 @@ func (gongnotelinkshape *GongNoteLinkShape) StagePreserveOrder(stage *Stage, ord
 		if order > stage.GongNoteLinkShapeOrder {
 			stage.GongNoteLinkShapeOrder = order
 		}
-		stage.GongNoteLinkShapeMap_Staged_Order[gongnotelinkshape] = order
+		stage.GongNoteLinkShape_stagedOrder[gongnotelinkshape] = order
 		stage.GongNoteLinkShapeOrder++
 	}
 	stage.GongNoteLinkShapes_mapString[gongnotelinkshape.Name] = gongnotelinkshape
@@ -1591,7 +1651,8 @@ func (gongnotelinkshape *GongNoteLinkShape) StagePreserveOrder(stage *Stage, ord
 // Unstage removes gongnotelinkshape off the model stage
 func (gongnotelinkshape *GongNoteLinkShape) Unstage(stage *Stage) *GongNoteLinkShape {
 	delete(stage.GongNoteLinkShapes, gongnotelinkshape)
-	delete(stage.GongNoteLinkShapeMap_Staged_Order, gongnotelinkshape)
+	// issue1150
+	// delete(stage.GongNoteLinkShape_stagedOrder, gongnotelinkshape)
 	delete(stage.GongNoteLinkShapes_mapString, gongnotelinkshape.Name)
 
 	return gongnotelinkshape
@@ -1600,7 +1661,8 @@ func (gongnotelinkshape *GongNoteLinkShape) Unstage(stage *Stage) *GongNoteLinkS
 // UnstageVoid removes gongnotelinkshape off the model stage
 func (gongnotelinkshape *GongNoteLinkShape) UnstageVoid(stage *Stage) {
 	delete(stage.GongNoteLinkShapes, gongnotelinkshape)
-	delete(stage.GongNoteLinkShapeMap_Staged_Order, gongnotelinkshape)
+	// issue1150
+	// delete(stage.GongNoteLinkShape_stagedOrder, gongnotelinkshape)
 	delete(stage.GongNoteLinkShapes_mapString, gongnotelinkshape.Name)
 }
 
@@ -1646,7 +1708,7 @@ func (gongnotelinkshape *GongNoteLinkShape) SetName(name string) {
 func (gongnoteshape *GongNoteShape) Stage(stage *Stage) *GongNoteShape {
 	if _, ok := stage.GongNoteShapes[gongnoteshape]; !ok {
 		stage.GongNoteShapes[gongnoteshape] = struct{}{}
-		stage.GongNoteShapeMap_Staged_Order[gongnoteshape] = stage.GongNoteShapeOrder
+		stage.GongNoteShape_stagedOrder[gongnoteshape] = stage.GongNoteShapeOrder
 		stage.GongNoteShapeOrder++
 	}
 	stage.GongNoteShapes_mapString[gongnoteshape.Name] = gongnoteshape
@@ -1666,7 +1728,7 @@ func (gongnoteshape *GongNoteShape) StagePreserveOrder(stage *Stage, order uint)
 		if order > stage.GongNoteShapeOrder {
 			stage.GongNoteShapeOrder = order
 		}
-		stage.GongNoteShapeMap_Staged_Order[gongnoteshape] = order
+		stage.GongNoteShape_stagedOrder[gongnoteshape] = order
 		stage.GongNoteShapeOrder++
 	}
 	stage.GongNoteShapes_mapString[gongnoteshape.Name] = gongnoteshape
@@ -1675,7 +1737,8 @@ func (gongnoteshape *GongNoteShape) StagePreserveOrder(stage *Stage, order uint)
 // Unstage removes gongnoteshape off the model stage
 func (gongnoteshape *GongNoteShape) Unstage(stage *Stage) *GongNoteShape {
 	delete(stage.GongNoteShapes, gongnoteshape)
-	delete(stage.GongNoteShapeMap_Staged_Order, gongnoteshape)
+	// issue1150
+	// delete(stage.GongNoteShape_stagedOrder, gongnoteshape)
 	delete(stage.GongNoteShapes_mapString, gongnoteshape.Name)
 
 	return gongnoteshape
@@ -1684,7 +1747,8 @@ func (gongnoteshape *GongNoteShape) Unstage(stage *Stage) *GongNoteShape {
 // UnstageVoid removes gongnoteshape off the model stage
 func (gongnoteshape *GongNoteShape) UnstageVoid(stage *Stage) {
 	delete(stage.GongNoteShapes, gongnoteshape)
-	delete(stage.GongNoteShapeMap_Staged_Order, gongnoteshape)
+	// issue1150
+	// delete(stage.GongNoteShape_stagedOrder, gongnoteshape)
 	delete(stage.GongNoteShapes_mapString, gongnoteshape.Name)
 }
 
@@ -1730,7 +1794,7 @@ func (gongnoteshape *GongNoteShape) SetName(name string) {
 func (gongstructshape *GongStructShape) Stage(stage *Stage) *GongStructShape {
 	if _, ok := stage.GongStructShapes[gongstructshape]; !ok {
 		stage.GongStructShapes[gongstructshape] = struct{}{}
-		stage.GongStructShapeMap_Staged_Order[gongstructshape] = stage.GongStructShapeOrder
+		stage.GongStructShape_stagedOrder[gongstructshape] = stage.GongStructShapeOrder
 		stage.GongStructShapeOrder++
 	}
 	stage.GongStructShapes_mapString[gongstructshape.Name] = gongstructshape
@@ -1750,7 +1814,7 @@ func (gongstructshape *GongStructShape) StagePreserveOrder(stage *Stage, order u
 		if order > stage.GongStructShapeOrder {
 			stage.GongStructShapeOrder = order
 		}
-		stage.GongStructShapeMap_Staged_Order[gongstructshape] = order
+		stage.GongStructShape_stagedOrder[gongstructshape] = order
 		stage.GongStructShapeOrder++
 	}
 	stage.GongStructShapes_mapString[gongstructshape.Name] = gongstructshape
@@ -1759,7 +1823,8 @@ func (gongstructshape *GongStructShape) StagePreserveOrder(stage *Stage, order u
 // Unstage removes gongstructshape off the model stage
 func (gongstructshape *GongStructShape) Unstage(stage *Stage) *GongStructShape {
 	delete(stage.GongStructShapes, gongstructshape)
-	delete(stage.GongStructShapeMap_Staged_Order, gongstructshape)
+	// issue1150
+	// delete(stage.GongStructShape_stagedOrder, gongstructshape)
 	delete(stage.GongStructShapes_mapString, gongstructshape.Name)
 
 	return gongstructshape
@@ -1768,7 +1833,8 @@ func (gongstructshape *GongStructShape) Unstage(stage *Stage) *GongStructShape {
 // UnstageVoid removes gongstructshape off the model stage
 func (gongstructshape *GongStructShape) UnstageVoid(stage *Stage) {
 	delete(stage.GongStructShapes, gongstructshape)
-	delete(stage.GongStructShapeMap_Staged_Order, gongstructshape)
+	// issue1150
+	// delete(stage.GongStructShape_stagedOrder, gongstructshape)
 	delete(stage.GongStructShapes_mapString, gongstructshape.Name)
 }
 
@@ -1814,7 +1880,7 @@ func (gongstructshape *GongStructShape) SetName(name string) {
 func (linkshape *LinkShape) Stage(stage *Stage) *LinkShape {
 	if _, ok := stage.LinkShapes[linkshape]; !ok {
 		stage.LinkShapes[linkshape] = struct{}{}
-		stage.LinkShapeMap_Staged_Order[linkshape] = stage.LinkShapeOrder
+		stage.LinkShape_stagedOrder[linkshape] = stage.LinkShapeOrder
 		stage.LinkShapeOrder++
 	}
 	stage.LinkShapes_mapString[linkshape.Name] = linkshape
@@ -1834,7 +1900,7 @@ func (linkshape *LinkShape) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.LinkShapeOrder {
 			stage.LinkShapeOrder = order
 		}
-		stage.LinkShapeMap_Staged_Order[linkshape] = order
+		stage.LinkShape_stagedOrder[linkshape] = order
 		stage.LinkShapeOrder++
 	}
 	stage.LinkShapes_mapString[linkshape.Name] = linkshape
@@ -1843,7 +1909,8 @@ func (linkshape *LinkShape) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes linkshape off the model stage
 func (linkshape *LinkShape) Unstage(stage *Stage) *LinkShape {
 	delete(stage.LinkShapes, linkshape)
-	delete(stage.LinkShapeMap_Staged_Order, linkshape)
+	// issue1150
+	// delete(stage.LinkShape_stagedOrder, linkshape)
 	delete(stage.LinkShapes_mapString, linkshape.Name)
 
 	return linkshape
@@ -1852,7 +1919,8 @@ func (linkshape *LinkShape) Unstage(stage *Stage) *LinkShape {
 // UnstageVoid removes linkshape off the model stage
 func (linkshape *LinkShape) UnstageVoid(stage *Stage) {
 	delete(stage.LinkShapes, linkshape)
-	delete(stage.LinkShapeMap_Staged_Order, linkshape)
+	// issue1150
+	// delete(stage.LinkShape_stagedOrder, linkshape)
 	delete(stage.LinkShapes_mapString, linkshape.Name)
 }
 
@@ -1922,47 +1990,47 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 func (stage *Stage) Reset() { // insertion point for array reset
 	stage.AttributeShapes = make(map[*AttributeShape]struct{})
 	stage.AttributeShapes_mapString = make(map[string]*AttributeShape)
-	stage.AttributeShapeMap_Staged_Order = make(map[*AttributeShape]uint)
+	stage.AttributeShape_stagedOrder = make(map[*AttributeShape]uint)
 	stage.AttributeShapeOrder = 0
 
 	stage.Classdiagrams = make(map[*Classdiagram]struct{})
 	stage.Classdiagrams_mapString = make(map[string]*Classdiagram)
-	stage.ClassdiagramMap_Staged_Order = make(map[*Classdiagram]uint)
+	stage.Classdiagram_stagedOrder = make(map[*Classdiagram]uint)
 	stage.ClassdiagramOrder = 0
 
 	stage.DiagramPackages = make(map[*DiagramPackage]struct{})
 	stage.DiagramPackages_mapString = make(map[string]*DiagramPackage)
-	stage.DiagramPackageMap_Staged_Order = make(map[*DiagramPackage]uint)
+	stage.DiagramPackage_stagedOrder = make(map[*DiagramPackage]uint)
 	stage.DiagramPackageOrder = 0
 
 	stage.GongEnumShapes = make(map[*GongEnumShape]struct{})
 	stage.GongEnumShapes_mapString = make(map[string]*GongEnumShape)
-	stage.GongEnumShapeMap_Staged_Order = make(map[*GongEnumShape]uint)
+	stage.GongEnumShape_stagedOrder = make(map[*GongEnumShape]uint)
 	stage.GongEnumShapeOrder = 0
 
 	stage.GongEnumValueShapes = make(map[*GongEnumValueShape]struct{})
 	stage.GongEnumValueShapes_mapString = make(map[string]*GongEnumValueShape)
-	stage.GongEnumValueShapeMap_Staged_Order = make(map[*GongEnumValueShape]uint)
+	stage.GongEnumValueShape_stagedOrder = make(map[*GongEnumValueShape]uint)
 	stage.GongEnumValueShapeOrder = 0
 
 	stage.GongNoteLinkShapes = make(map[*GongNoteLinkShape]struct{})
 	stage.GongNoteLinkShapes_mapString = make(map[string]*GongNoteLinkShape)
-	stage.GongNoteLinkShapeMap_Staged_Order = make(map[*GongNoteLinkShape]uint)
+	stage.GongNoteLinkShape_stagedOrder = make(map[*GongNoteLinkShape]uint)
 	stage.GongNoteLinkShapeOrder = 0
 
 	stage.GongNoteShapes = make(map[*GongNoteShape]struct{})
 	stage.GongNoteShapes_mapString = make(map[string]*GongNoteShape)
-	stage.GongNoteShapeMap_Staged_Order = make(map[*GongNoteShape]uint)
+	stage.GongNoteShape_stagedOrder = make(map[*GongNoteShape]uint)
 	stage.GongNoteShapeOrder = 0
 
 	stage.GongStructShapes = make(map[*GongStructShape]struct{})
 	stage.GongStructShapes_mapString = make(map[string]*GongStructShape)
-	stage.GongStructShapeMap_Staged_Order = make(map[*GongStructShape]uint)
+	stage.GongStructShape_stagedOrder = make(map[*GongStructShape]uint)
 	stage.GongStructShapeOrder = 0
 
 	stage.LinkShapes = make(map[*LinkShape]struct{})
 	stage.LinkShapes_mapString = make(map[string]*LinkShape)
-	stage.LinkShapeMap_Staged_Order = make(map[*LinkShape]uint)
+	stage.LinkShape_stagedOrder = make(map[*LinkShape]uint)
 	stage.LinkShapeOrder = 0
 
 	if stage.GetProbeIF() != nil {
@@ -3467,7 +3535,7 @@ func (classdiagram *Classdiagram) GongSetFieldValue(fieldName string, value Gong
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.GongStructShapes {
-					if stage.GongStructShapeMap_Staged_Order[__instance__] == uint(id) {
+					if stage.GongStructShape_stagedOrder[__instance__] == uint(id) {
 						classdiagram.GongStructShapes = append(classdiagram.GongStructShapes, __instance__)
 						break
 					}
@@ -3481,7 +3549,7 @@ func (classdiagram *Classdiagram) GongSetFieldValue(fieldName string, value Gong
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.GongEnumShapes {
-					if stage.GongEnumShapeMap_Staged_Order[__instance__] == uint(id) {
+					if stage.GongEnumShape_stagedOrder[__instance__] == uint(id) {
 						classdiagram.GongEnumShapes = append(classdiagram.GongEnumShapes, __instance__)
 						break
 					}
@@ -3495,7 +3563,7 @@ func (classdiagram *Classdiagram) GongSetFieldValue(fieldName string, value Gong
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.GongNoteShapes {
-					if stage.GongNoteShapeMap_Staged_Order[__instance__] == uint(id) {
+					if stage.GongNoteShape_stagedOrder[__instance__] == uint(id) {
 						classdiagram.GongNoteShapes = append(classdiagram.GongNoteShapes, __instance__)
 						break
 					}
@@ -3546,7 +3614,7 @@ func (diagrampackage *DiagramPackage) GongSetFieldValue(fieldName string, value 
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Classdiagrams {
-					if stage.ClassdiagramMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Classdiagram_stagedOrder[__instance__] == uint(id) {
 						diagrampackage.Classdiagrams = append(diagrampackage.Classdiagrams, __instance__)
 						break
 					}
@@ -3558,7 +3626,7 @@ func (diagrampackage *DiagramPackage) GongSetFieldValue(fieldName string, value 
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			diagrampackage.SelectedClassdiagram = nil
 			for __instance__ := range stage.Classdiagrams {
-				if stage.ClassdiagramMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Classdiagram_stagedOrder[__instance__] == uint(id) {
 					diagrampackage.SelectedClassdiagram = __instance__
 					break
 				}
@@ -3588,7 +3656,7 @@ func (gongenumshape *GongEnumShape) GongSetFieldValue(fieldName string, value Go
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.GongEnumValueShapes {
-					if stage.GongEnumValueShapeMap_Staged_Order[__instance__] == uint(id) {
+					if stage.GongEnumValueShape_stagedOrder[__instance__] == uint(id) {
 						gongenumshape.GongEnumValueShapes = append(gongenumshape.GongEnumValueShapes, __instance__)
 						break
 					}
@@ -3661,7 +3729,7 @@ func (gongnoteshape *GongNoteShape) GongSetFieldValue(fieldName string, value Go
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.GongNoteLinkShapes {
-					if stage.GongNoteLinkShapeMap_Staged_Order[__instance__] == uint(id) {
+					if stage.GongNoteLinkShape_stagedOrder[__instance__] == uint(id) {
 						gongnoteshape.GongNoteLinkShapes = append(gongnoteshape.GongNoteLinkShapes, __instance__)
 						break
 					}
@@ -3692,7 +3760,7 @@ func (gongstructshape *GongStructShape) GongSetFieldValue(fieldName string, valu
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.AttributeShapes {
-					if stage.AttributeShapeMap_Staged_Order[__instance__] == uint(id) {
+					if stage.AttributeShape_stagedOrder[__instance__] == uint(id) {
 						gongstructshape.AttributeShapes = append(gongstructshape.AttributeShapes, __instance__)
 						break
 					}
@@ -3706,7 +3774,7 @@ func (gongstructshape *GongStructShape) GongSetFieldValue(fieldName string, valu
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.LinkShapes {
-					if stage.LinkShapeMap_Staged_Order[__instance__] == uint(id) {
+					if stage.LinkShape_stagedOrder[__instance__] == uint(id) {
 						gongstructshape.LinkShapes = append(gongstructshape.LinkShapes, __instance__)
 						break
 					}

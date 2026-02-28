@@ -243,9 +243,9 @@ func (backRepoText *BackRepoTextStruct) CommitPhaseOne(stage *models.Stage) (Err
 		texts = append(texts, text)
 	}
 
-	// Sort by the order stored in Map_Staged_Order.
+	// Sort by the order stored in _stagedOrder.
 	sort.Slice(texts, func(i, j int) bool {
-		return stage.TextMap_Staged_Order[texts[i]] < stage.TextMap_Staged_Order[texts[j]]
+		return stage.Text_stagedOrder[texts[i]] < stage.Text_stagedOrder[texts[j]]
 	})
 
 	for _, text := range texts {

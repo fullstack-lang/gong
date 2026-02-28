@@ -144,9 +144,9 @@ func (backRepoSvgImage *BackRepoSvgImageStruct) CommitPhaseOne(stage *models.Sta
 		svgimages = append(svgimages, svgimage)
 	}
 
-	// Sort by the order stored in Map_Staged_Order.
+	// Sort by the order stored in _stagedOrder.
 	sort.Slice(svgimages, func(i, j int) bool {
-		return stage.SvgImageMap_Staged_Order[svgimages[i]] < stage.SvgImageMap_Staged_Order[svgimages[j]]
+		return stage.SvgImage_stagedOrder[svgimages[i]] < stage.SvgImage_stagedOrder[svgimages[j]]
 	})
 
 	for _, svgimage := range svgimages {
