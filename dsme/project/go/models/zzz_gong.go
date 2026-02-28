@@ -112,7 +112,7 @@ type Stage struct {
 	Diagram_stagedOrder     map[*Diagram]uint
 	Diagrams_reference      map[*Diagram]*Diagram
 	Diagrams_referenceOrder map[*Diagram]uint
-
+	
 	// insertion point for slice of pointers maps
 	Diagram_Product_Shapes_reverseMap map[*ProductShape]*Diagram
 
@@ -164,7 +164,7 @@ type Stage struct {
 	Note_stagedOrder     map[*Note]uint
 	Notes_reference      map[*Note]*Note
 	Notes_referenceOrder map[*Note]uint
-
+	
 	// insertion point for slice of pointers maps
 	Note_Products_reverseMap map[*Product]*Note
 
@@ -184,7 +184,7 @@ type Stage struct {
 	NoteProductShape_stagedOrder     map[*NoteProductShape]uint
 	NoteProductShapes_reference      map[*NoteProductShape]*NoteProductShape
 	NoteProductShapes_referenceOrder map[*NoteProductShape]uint
-
+	
 	// insertion point for slice of pointers maps
 	OnAfterNoteProductShapeCreateCallback OnAfterCreateInterface[NoteProductShape]
 	OnAfterNoteProductShapeUpdateCallback OnAfterUpdateInterface[NoteProductShape]
@@ -198,7 +198,7 @@ type Stage struct {
 	NoteResourceShape_stagedOrder     map[*NoteResourceShape]uint
 	NoteResourceShapes_reference      map[*NoteResourceShape]*NoteResourceShape
 	NoteResourceShapes_referenceOrder map[*NoteResourceShape]uint
-
+	
 	// insertion point for slice of pointers maps
 	OnAfterNoteResourceShapeCreateCallback OnAfterCreateInterface[NoteResourceShape]
 	OnAfterNoteResourceShapeUpdateCallback OnAfterUpdateInterface[NoteResourceShape]
@@ -212,7 +212,7 @@ type Stage struct {
 	NoteShape_stagedOrder     map[*NoteShape]uint
 	NoteShapes_reference      map[*NoteShape]*NoteShape
 	NoteShapes_referenceOrder map[*NoteShape]uint
-
+	
 	// insertion point for slice of pointers maps
 	OnAfterNoteShapeCreateCallback OnAfterCreateInterface[NoteShape]
 	OnAfterNoteShapeUpdateCallback OnAfterUpdateInterface[NoteShape]
@@ -226,7 +226,7 @@ type Stage struct {
 	NoteTaskShape_stagedOrder     map[*NoteTaskShape]uint
 	NoteTaskShapes_reference      map[*NoteTaskShape]*NoteTaskShape
 	NoteTaskShapes_referenceOrder map[*NoteTaskShape]uint
-
+	
 	// insertion point for slice of pointers maps
 	OnAfterNoteTaskShapeCreateCallback OnAfterCreateInterface[NoteTaskShape]
 	OnAfterNoteTaskShapeUpdateCallback OnAfterUpdateInterface[NoteTaskShape]
@@ -240,7 +240,7 @@ type Stage struct {
 	Product_stagedOrder     map[*Product]uint
 	Products_reference      map[*Product]*Product
 	Products_referenceOrder map[*Product]uint
-
+	
 	// insertion point for slice of pointers maps
 	Product_SubProducts_reverseMap map[*Product]*Product
 
@@ -256,7 +256,7 @@ type Stage struct {
 	ProductCompositionShape_stagedOrder     map[*ProductCompositionShape]uint
 	ProductCompositionShapes_reference      map[*ProductCompositionShape]*ProductCompositionShape
 	ProductCompositionShapes_referenceOrder map[*ProductCompositionShape]uint
-
+	
 	// insertion point for slice of pointers maps
 	OnAfterProductCompositionShapeCreateCallback OnAfterCreateInterface[ProductCompositionShape]
 	OnAfterProductCompositionShapeUpdateCallback OnAfterUpdateInterface[ProductCompositionShape]
@@ -270,7 +270,7 @@ type Stage struct {
 	ProductShape_stagedOrder     map[*ProductShape]uint
 	ProductShapes_reference      map[*ProductShape]*ProductShape
 	ProductShapes_referenceOrder map[*ProductShape]uint
-
+	
 	// insertion point for slice of pointers maps
 	OnAfterProductShapeCreateCallback OnAfterCreateInterface[ProductShape]
 	OnAfterProductShapeUpdateCallback OnAfterUpdateInterface[ProductShape]
@@ -284,7 +284,7 @@ type Stage struct {
 	Project_stagedOrder     map[*Project]uint
 	Projects_reference      map[*Project]*Project
 	Projects_referenceOrder map[*Project]uint
-
+	
 	// insertion point for slice of pointers maps
 	Project_RootProducts_reverseMap map[*Product]*Project
 
@@ -308,7 +308,7 @@ type Stage struct {
 	Resource_stagedOrder     map[*Resource]uint
 	Resources_reference      map[*Resource]*Resource
 	Resources_referenceOrder map[*Resource]uint
-
+	
 	// insertion point for slice of pointers maps
 	Resource_Tasks_reverseMap map[*Task]*Resource
 
@@ -326,7 +326,7 @@ type Stage struct {
 	ResourceCompositionShape_stagedOrder     map[*ResourceCompositionShape]uint
 	ResourceCompositionShapes_reference      map[*ResourceCompositionShape]*ResourceCompositionShape
 	ResourceCompositionShapes_referenceOrder map[*ResourceCompositionShape]uint
-
+	
 	// insertion point for slice of pointers maps
 	OnAfterResourceCompositionShapeCreateCallback OnAfterCreateInterface[ResourceCompositionShape]
 	OnAfterResourceCompositionShapeUpdateCallback OnAfterUpdateInterface[ResourceCompositionShape]
@@ -340,7 +340,7 @@ type Stage struct {
 	ResourceShape_stagedOrder     map[*ResourceShape]uint
 	ResourceShapes_reference      map[*ResourceShape]*ResourceShape
 	ResourceShapes_referenceOrder map[*ResourceShape]uint
-
+	
 	// insertion point for slice of pointers maps
 	OnAfterResourceShapeCreateCallback OnAfterCreateInterface[ResourceShape]
 	OnAfterResourceShapeUpdateCallback OnAfterUpdateInterface[ResourceShape]
@@ -354,7 +354,7 @@ type Stage struct {
 	ResourceTaskShape_stagedOrder     map[*ResourceTaskShape]uint
 	ResourceTaskShapes_reference      map[*ResourceTaskShape]*ResourceTaskShape
 	ResourceTaskShapes_referenceOrder map[*ResourceTaskShape]uint
-
+	
 	// insertion point for slice of pointers maps
 	OnAfterResourceTaskShapeCreateCallback OnAfterCreateInterface[ResourceTaskShape]
 	OnAfterResourceTaskShapeUpdateCallback OnAfterUpdateInterface[ResourceTaskShape]
@@ -368,7 +368,7 @@ type Stage struct {
 	Root_stagedOrder     map[*Root]uint
 	Roots_reference      map[*Root]*Root
 	Roots_referenceOrder map[*Root]uint
-
+	
 	// insertion point for slice of pointers maps
 	Root_Projects_reverseMap map[*Project]*Root
 
@@ -384,7 +384,7 @@ type Stage struct {
 	Task_stagedOrder     map[*Task]uint
 	Tasks_reference      map[*Task]*Task
 	Tasks_referenceOrder map[*Task]uint
-
+	
 	// insertion point for slice of pointers maps
 	Task_SubTasks_reverseMap map[*Task]*Task
 
@@ -404,7 +404,7 @@ type Stage struct {
 	TaskCompositionShape_stagedOrder     map[*TaskCompositionShape]uint
 	TaskCompositionShapes_reference      map[*TaskCompositionShape]*TaskCompositionShape
 	TaskCompositionShapes_referenceOrder map[*TaskCompositionShape]uint
-
+	
 	// insertion point for slice of pointers maps
 	OnAfterTaskCompositionShapeCreateCallback OnAfterCreateInterface[TaskCompositionShape]
 	OnAfterTaskCompositionShapeUpdateCallback OnAfterUpdateInterface[TaskCompositionShape]
@@ -418,7 +418,7 @@ type Stage struct {
 	TaskInputShape_stagedOrder     map[*TaskInputShape]uint
 	TaskInputShapes_reference      map[*TaskInputShape]*TaskInputShape
 	TaskInputShapes_referenceOrder map[*TaskInputShape]uint
-
+	
 	// insertion point for slice of pointers maps
 	OnAfterTaskInputShapeCreateCallback OnAfterCreateInterface[TaskInputShape]
 	OnAfterTaskInputShapeUpdateCallback OnAfterUpdateInterface[TaskInputShape]
@@ -432,7 +432,7 @@ type Stage struct {
 	TaskOutputShape_stagedOrder     map[*TaskOutputShape]uint
 	TaskOutputShapes_reference      map[*TaskOutputShape]*TaskOutputShape
 	TaskOutputShapes_referenceOrder map[*TaskOutputShape]uint
-
+	
 	// insertion point for slice of pointers maps
 	OnAfterTaskOutputShapeCreateCallback OnAfterCreateInterface[TaskOutputShape]
 	OnAfterTaskOutputShapeUpdateCallback OnAfterUpdateInterface[TaskOutputShape]
@@ -446,7 +446,7 @@ type Stage struct {
 	TaskShape_stagedOrder     map[*TaskShape]uint
 	TaskShapes_reference      map[*TaskShape]*TaskShape
 	TaskShapes_referenceOrder map[*TaskShape]uint
-
+	
 	// insertion point for slice of pointers maps
 	OnAfterTaskShapeCreateCallback OnAfterCreateInterface[TaskShape]
 	OnAfterTaskShapeUpdateCallback OnAfterUpdateInterface[TaskShape]
@@ -483,6 +483,25 @@ type Stage struct {
 	// store the stage order of each instance in order to
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	// end of insertion point
 
@@ -1908,7 +1927,8 @@ func (diagram *Diagram) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes diagram off the model stage
 func (diagram *Diagram) Unstage(stage *Stage) *Diagram {
 	delete(stage.Diagrams, diagram)
-	delete(stage.Diagram_stagedOrder, diagram)
+	// issue1150
+	// delete(stage.Diagram_stagedOrder, diagram)
 	delete(stage.Diagrams_mapString, diagram.Name)
 
 	return diagram
@@ -1917,7 +1937,8 @@ func (diagram *Diagram) Unstage(stage *Stage) *Diagram {
 // UnstageVoid removes diagram off the model stage
 func (diagram *Diagram) UnstageVoid(stage *Stage) {
 	delete(stage.Diagrams, diagram)
-	delete(stage.Diagram_stagedOrder, diagram)
+	// issue1150
+	// delete(stage.Diagram_stagedOrder, diagram)
 	delete(stage.Diagrams_mapString, diagram.Name)
 }
 
@@ -1992,7 +2013,8 @@ func (note *Note) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes note off the model stage
 func (note *Note) Unstage(stage *Stage) *Note {
 	delete(stage.Notes, note)
-	delete(stage.Note_stagedOrder, note)
+	// issue1150
+	// delete(stage.Note_stagedOrder, note)
 	delete(stage.Notes_mapString, note.Name)
 
 	return note
@@ -2001,7 +2023,8 @@ func (note *Note) Unstage(stage *Stage) *Note {
 // UnstageVoid removes note off the model stage
 func (note *Note) UnstageVoid(stage *Stage) {
 	delete(stage.Notes, note)
-	delete(stage.Note_stagedOrder, note)
+	// issue1150
+	// delete(stage.Note_stagedOrder, note)
 	delete(stage.Notes_mapString, note.Name)
 }
 
@@ -2076,7 +2099,8 @@ func (noteproductshape *NoteProductShape) StagePreserveOrder(stage *Stage, order
 // Unstage removes noteproductshape off the model stage
 func (noteproductshape *NoteProductShape) Unstage(stage *Stage) *NoteProductShape {
 	delete(stage.NoteProductShapes, noteproductshape)
-	delete(stage.NoteProductShape_stagedOrder, noteproductshape)
+	// issue1150
+	// delete(stage.NoteProductShape_stagedOrder, noteproductshape)
 	delete(stage.NoteProductShapes_mapString, noteproductshape.Name)
 
 	return noteproductshape
@@ -2085,7 +2109,8 @@ func (noteproductshape *NoteProductShape) Unstage(stage *Stage) *NoteProductShap
 // UnstageVoid removes noteproductshape off the model stage
 func (noteproductshape *NoteProductShape) UnstageVoid(stage *Stage) {
 	delete(stage.NoteProductShapes, noteproductshape)
-	delete(stage.NoteProductShape_stagedOrder, noteproductshape)
+	// issue1150
+	// delete(stage.NoteProductShape_stagedOrder, noteproductshape)
 	delete(stage.NoteProductShapes_mapString, noteproductshape.Name)
 }
 
@@ -2160,7 +2185,8 @@ func (noteresourceshape *NoteResourceShape) StagePreserveOrder(stage *Stage, ord
 // Unstage removes noteresourceshape off the model stage
 func (noteresourceshape *NoteResourceShape) Unstage(stage *Stage) *NoteResourceShape {
 	delete(stage.NoteResourceShapes, noteresourceshape)
-	delete(stage.NoteResourceShape_stagedOrder, noteresourceshape)
+	// issue1150
+	// delete(stage.NoteResourceShape_stagedOrder, noteresourceshape)
 	delete(stage.NoteResourceShapes_mapString, noteresourceshape.Name)
 
 	return noteresourceshape
@@ -2169,7 +2195,8 @@ func (noteresourceshape *NoteResourceShape) Unstage(stage *Stage) *NoteResourceS
 // UnstageVoid removes noteresourceshape off the model stage
 func (noteresourceshape *NoteResourceShape) UnstageVoid(stage *Stage) {
 	delete(stage.NoteResourceShapes, noteresourceshape)
-	delete(stage.NoteResourceShape_stagedOrder, noteresourceshape)
+	// issue1150
+	// delete(stage.NoteResourceShape_stagedOrder, noteresourceshape)
 	delete(stage.NoteResourceShapes_mapString, noteresourceshape.Name)
 }
 
@@ -2244,7 +2271,8 @@ func (noteshape *NoteShape) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes noteshape off the model stage
 func (noteshape *NoteShape) Unstage(stage *Stage) *NoteShape {
 	delete(stage.NoteShapes, noteshape)
-	delete(stage.NoteShape_stagedOrder, noteshape)
+	// issue1150
+	// delete(stage.NoteShape_stagedOrder, noteshape)
 	delete(stage.NoteShapes_mapString, noteshape.Name)
 
 	return noteshape
@@ -2253,7 +2281,8 @@ func (noteshape *NoteShape) Unstage(stage *Stage) *NoteShape {
 // UnstageVoid removes noteshape off the model stage
 func (noteshape *NoteShape) UnstageVoid(stage *Stage) {
 	delete(stage.NoteShapes, noteshape)
-	delete(stage.NoteShape_stagedOrder, noteshape)
+	// issue1150
+	// delete(stage.NoteShape_stagedOrder, noteshape)
 	delete(stage.NoteShapes_mapString, noteshape.Name)
 }
 
@@ -2328,7 +2357,8 @@ func (notetaskshape *NoteTaskShape) StagePreserveOrder(stage *Stage, order uint)
 // Unstage removes notetaskshape off the model stage
 func (notetaskshape *NoteTaskShape) Unstage(stage *Stage) *NoteTaskShape {
 	delete(stage.NoteTaskShapes, notetaskshape)
-	delete(stage.NoteTaskShape_stagedOrder, notetaskshape)
+	// issue1150
+	// delete(stage.NoteTaskShape_stagedOrder, notetaskshape)
 	delete(stage.NoteTaskShapes_mapString, notetaskshape.Name)
 
 	return notetaskshape
@@ -2337,7 +2367,8 @@ func (notetaskshape *NoteTaskShape) Unstage(stage *Stage) *NoteTaskShape {
 // UnstageVoid removes notetaskshape off the model stage
 func (notetaskshape *NoteTaskShape) UnstageVoid(stage *Stage) {
 	delete(stage.NoteTaskShapes, notetaskshape)
-	delete(stage.NoteTaskShape_stagedOrder, notetaskshape)
+	// issue1150
+	// delete(stage.NoteTaskShape_stagedOrder, notetaskshape)
 	delete(stage.NoteTaskShapes_mapString, notetaskshape.Name)
 }
 
@@ -2412,7 +2443,8 @@ func (product *Product) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes product off the model stage
 func (product *Product) Unstage(stage *Stage) *Product {
 	delete(stage.Products, product)
-	delete(stage.Product_stagedOrder, product)
+	// issue1150
+	// delete(stage.Product_stagedOrder, product)
 	delete(stage.Products_mapString, product.Name)
 
 	return product
@@ -2421,7 +2453,8 @@ func (product *Product) Unstage(stage *Stage) *Product {
 // UnstageVoid removes product off the model stage
 func (product *Product) UnstageVoid(stage *Stage) {
 	delete(stage.Products, product)
-	delete(stage.Product_stagedOrder, product)
+	// issue1150
+	// delete(stage.Product_stagedOrder, product)
 	delete(stage.Products_mapString, product.Name)
 }
 
@@ -2496,7 +2529,8 @@ func (productcompositionshape *ProductCompositionShape) StagePreserveOrder(stage
 // Unstage removes productcompositionshape off the model stage
 func (productcompositionshape *ProductCompositionShape) Unstage(stage *Stage) *ProductCompositionShape {
 	delete(stage.ProductCompositionShapes, productcompositionshape)
-	delete(stage.ProductCompositionShape_stagedOrder, productcompositionshape)
+	// issue1150
+	// delete(stage.ProductCompositionShape_stagedOrder, productcompositionshape)
 	delete(stage.ProductCompositionShapes_mapString, productcompositionshape.Name)
 
 	return productcompositionshape
@@ -2505,7 +2539,8 @@ func (productcompositionshape *ProductCompositionShape) Unstage(stage *Stage) *P
 // UnstageVoid removes productcompositionshape off the model stage
 func (productcompositionshape *ProductCompositionShape) UnstageVoid(stage *Stage) {
 	delete(stage.ProductCompositionShapes, productcompositionshape)
-	delete(stage.ProductCompositionShape_stagedOrder, productcompositionshape)
+	// issue1150
+	// delete(stage.ProductCompositionShape_stagedOrder, productcompositionshape)
 	delete(stage.ProductCompositionShapes_mapString, productcompositionshape.Name)
 }
 
@@ -2580,7 +2615,8 @@ func (productshape *ProductShape) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes productshape off the model stage
 func (productshape *ProductShape) Unstage(stage *Stage) *ProductShape {
 	delete(stage.ProductShapes, productshape)
-	delete(stage.ProductShape_stagedOrder, productshape)
+	// issue1150
+	// delete(stage.ProductShape_stagedOrder, productshape)
 	delete(stage.ProductShapes_mapString, productshape.Name)
 
 	return productshape
@@ -2589,7 +2625,8 @@ func (productshape *ProductShape) Unstage(stage *Stage) *ProductShape {
 // UnstageVoid removes productshape off the model stage
 func (productshape *ProductShape) UnstageVoid(stage *Stage) {
 	delete(stage.ProductShapes, productshape)
-	delete(stage.ProductShape_stagedOrder, productshape)
+	// issue1150
+	// delete(stage.ProductShape_stagedOrder, productshape)
 	delete(stage.ProductShapes_mapString, productshape.Name)
 }
 
@@ -2664,7 +2701,8 @@ func (project *Project) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes project off the model stage
 func (project *Project) Unstage(stage *Stage) *Project {
 	delete(stage.Projects, project)
-	delete(stage.Project_stagedOrder, project)
+	// issue1150
+	// delete(stage.Project_stagedOrder, project)
 	delete(stage.Projects_mapString, project.Name)
 
 	return project
@@ -2673,7 +2711,8 @@ func (project *Project) Unstage(stage *Stage) *Project {
 // UnstageVoid removes project off the model stage
 func (project *Project) UnstageVoid(stage *Stage) {
 	delete(stage.Projects, project)
-	delete(stage.Project_stagedOrder, project)
+	// issue1150
+	// delete(stage.Project_stagedOrder, project)
 	delete(stage.Projects_mapString, project.Name)
 }
 
@@ -2748,7 +2787,8 @@ func (resource *Resource) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes resource off the model stage
 func (resource *Resource) Unstage(stage *Stage) *Resource {
 	delete(stage.Resources, resource)
-	delete(stage.Resource_stagedOrder, resource)
+	// issue1150
+	// delete(stage.Resource_stagedOrder, resource)
 	delete(stage.Resources_mapString, resource.Name)
 
 	return resource
@@ -2757,7 +2797,8 @@ func (resource *Resource) Unstage(stage *Stage) *Resource {
 // UnstageVoid removes resource off the model stage
 func (resource *Resource) UnstageVoid(stage *Stage) {
 	delete(stage.Resources, resource)
-	delete(stage.Resource_stagedOrder, resource)
+	// issue1150
+	// delete(stage.Resource_stagedOrder, resource)
 	delete(stage.Resources_mapString, resource.Name)
 }
 
@@ -2832,7 +2873,8 @@ func (resourcecompositionshape *ResourceCompositionShape) StagePreserveOrder(sta
 // Unstage removes resourcecompositionshape off the model stage
 func (resourcecompositionshape *ResourceCompositionShape) Unstage(stage *Stage) *ResourceCompositionShape {
 	delete(stage.ResourceCompositionShapes, resourcecompositionshape)
-	delete(stage.ResourceCompositionShape_stagedOrder, resourcecompositionshape)
+	// issue1150
+	// delete(stage.ResourceCompositionShape_stagedOrder, resourcecompositionshape)
 	delete(stage.ResourceCompositionShapes_mapString, resourcecompositionshape.Name)
 
 	return resourcecompositionshape
@@ -2841,7 +2883,8 @@ func (resourcecompositionshape *ResourceCompositionShape) Unstage(stage *Stage) 
 // UnstageVoid removes resourcecompositionshape off the model stage
 func (resourcecompositionshape *ResourceCompositionShape) UnstageVoid(stage *Stage) {
 	delete(stage.ResourceCompositionShapes, resourcecompositionshape)
-	delete(stage.ResourceCompositionShape_stagedOrder, resourcecompositionshape)
+	// issue1150
+	// delete(stage.ResourceCompositionShape_stagedOrder, resourcecompositionshape)
 	delete(stage.ResourceCompositionShapes_mapString, resourcecompositionshape.Name)
 }
 
@@ -3002,7 +3045,8 @@ func (resourcetaskshape *ResourceTaskShape) StagePreserveOrder(stage *Stage, ord
 // Unstage removes resourcetaskshape off the model stage
 func (resourcetaskshape *ResourceTaskShape) Unstage(stage *Stage) *ResourceTaskShape {
 	delete(stage.ResourceTaskShapes, resourcetaskshape)
-	delete(stage.ResourceTaskShape_stagedOrder, resourcetaskshape)
+	// issue1150
+	// delete(stage.ResourceTaskShape_stagedOrder, resourcetaskshape)
 	delete(stage.ResourceTaskShapes_mapString, resourcetaskshape.Name)
 
 	return resourcetaskshape
@@ -3011,7 +3055,8 @@ func (resourcetaskshape *ResourceTaskShape) Unstage(stage *Stage) *ResourceTaskS
 // UnstageVoid removes resourcetaskshape off the model stage
 func (resourcetaskshape *ResourceTaskShape) UnstageVoid(stage *Stage) {
 	delete(stage.ResourceTaskShapes, resourcetaskshape)
-	delete(stage.ResourceTaskShape_stagedOrder, resourcetaskshape)
+	// issue1150
+	// delete(stage.ResourceTaskShape_stagedOrder, resourcetaskshape)
 	delete(stage.ResourceTaskShapes_mapString, resourcetaskshape.Name)
 }
 
@@ -3086,7 +3131,8 @@ func (root *Root) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes root off the model stage
 func (root *Root) Unstage(stage *Stage) *Root {
 	delete(stage.Roots, root)
-	delete(stage.Root_stagedOrder, root)
+	// issue1150
+	// delete(stage.Root_stagedOrder, root)
 	delete(stage.Roots_mapString, root.Name)
 
 	return root
@@ -3095,7 +3141,8 @@ func (root *Root) Unstage(stage *Stage) *Root {
 // UnstageVoid removes root off the model stage
 func (root *Root) UnstageVoid(stage *Stage) {
 	delete(stage.Roots, root)
-	delete(stage.Root_stagedOrder, root)
+	// issue1150
+	// delete(stage.Root_stagedOrder, root)
 	delete(stage.Roots_mapString, root.Name)
 }
 
@@ -3170,7 +3217,8 @@ func (task *Task) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes task off the model stage
 func (task *Task) Unstage(stage *Stage) *Task {
 	delete(stage.Tasks, task)
-	delete(stage.Task_stagedOrder, task)
+	// issue1150
+	// delete(stage.Task_stagedOrder, task)
 	delete(stage.Tasks_mapString, task.Name)
 
 	return task
@@ -3179,7 +3227,8 @@ func (task *Task) Unstage(stage *Stage) *Task {
 // UnstageVoid removes task off the model stage
 func (task *Task) UnstageVoid(stage *Stage) {
 	delete(stage.Tasks, task)
-	delete(stage.Task_stagedOrder, task)
+	// issue1150
+	// delete(stage.Task_stagedOrder, task)
 	delete(stage.Tasks_mapString, task.Name)
 }
 
@@ -3254,7 +3303,8 @@ func (taskcompositionshape *TaskCompositionShape) StagePreserveOrder(stage *Stag
 // Unstage removes taskcompositionshape off the model stage
 func (taskcompositionshape *TaskCompositionShape) Unstage(stage *Stage) *TaskCompositionShape {
 	delete(stage.TaskCompositionShapes, taskcompositionshape)
-	delete(stage.TaskCompositionShape_stagedOrder, taskcompositionshape)
+	// issue1150
+	// delete(stage.TaskCompositionShape_stagedOrder, taskcompositionshape)
 	delete(stage.TaskCompositionShapes_mapString, taskcompositionshape.Name)
 
 	return taskcompositionshape
@@ -3263,7 +3313,8 @@ func (taskcompositionshape *TaskCompositionShape) Unstage(stage *Stage) *TaskCom
 // UnstageVoid removes taskcompositionshape off the model stage
 func (taskcompositionshape *TaskCompositionShape) UnstageVoid(stage *Stage) {
 	delete(stage.TaskCompositionShapes, taskcompositionshape)
-	delete(stage.TaskCompositionShape_stagedOrder, taskcompositionshape)
+	// issue1150
+	// delete(stage.TaskCompositionShape_stagedOrder, taskcompositionshape)
 	delete(stage.TaskCompositionShapes_mapString, taskcompositionshape.Name)
 }
 
@@ -3338,7 +3389,8 @@ func (taskinputshape *TaskInputShape) StagePreserveOrder(stage *Stage, order uin
 // Unstage removes taskinputshape off the model stage
 func (taskinputshape *TaskInputShape) Unstage(stage *Stage) *TaskInputShape {
 	delete(stage.TaskInputShapes, taskinputshape)
-	delete(stage.TaskInputShape_stagedOrder, taskinputshape)
+	// issue1150
+	// delete(stage.TaskInputShape_stagedOrder, taskinputshape)
 	delete(stage.TaskInputShapes_mapString, taskinputshape.Name)
 
 	return taskinputshape
@@ -3347,7 +3399,8 @@ func (taskinputshape *TaskInputShape) Unstage(stage *Stage) *TaskInputShape {
 // UnstageVoid removes taskinputshape off the model stage
 func (taskinputshape *TaskInputShape) UnstageVoid(stage *Stage) {
 	delete(stage.TaskInputShapes, taskinputshape)
-	delete(stage.TaskInputShape_stagedOrder, taskinputshape)
+	// issue1150
+	// delete(stage.TaskInputShape_stagedOrder, taskinputshape)
 	delete(stage.TaskInputShapes_mapString, taskinputshape.Name)
 }
 
@@ -3422,7 +3475,8 @@ func (taskoutputshape *TaskOutputShape) StagePreserveOrder(stage *Stage, order u
 // Unstage removes taskoutputshape off the model stage
 func (taskoutputshape *TaskOutputShape) Unstage(stage *Stage) *TaskOutputShape {
 	delete(stage.TaskOutputShapes, taskoutputshape)
-	delete(stage.TaskOutputShape_stagedOrder, taskoutputshape)
+	// issue1150
+	// delete(stage.TaskOutputShape_stagedOrder, taskoutputshape)
 	delete(stage.TaskOutputShapes_mapString, taskoutputshape.Name)
 
 	return taskoutputshape
@@ -3431,7 +3485,8 @@ func (taskoutputshape *TaskOutputShape) Unstage(stage *Stage) *TaskOutputShape {
 // UnstageVoid removes taskoutputshape off the model stage
 func (taskoutputshape *TaskOutputShape) UnstageVoid(stage *Stage) {
 	delete(stage.TaskOutputShapes, taskoutputshape)
-	delete(stage.TaskOutputShape_stagedOrder, taskoutputshape)
+	// issue1150
+	// delete(stage.TaskOutputShape_stagedOrder, taskoutputshape)
 	delete(stage.TaskOutputShapes_mapString, taskoutputshape.Name)
 }
 
@@ -3506,7 +3561,8 @@ func (taskshape *TaskShape) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes taskshape off the model stage
 func (taskshape *TaskShape) Unstage(stage *Stage) *TaskShape {
 	delete(stage.TaskShapes, taskshape)
-	delete(stage.TaskShape_stagedOrder, taskshape)
+	// issue1150
+	// delete(stage.TaskShape_stagedOrder, taskshape)
 	delete(stage.TaskShapes_mapString, taskshape.Name)
 
 	return taskshape
@@ -3515,7 +3571,8 @@ func (taskshape *TaskShape) Unstage(stage *Stage) *TaskShape {
 // UnstageVoid removes taskshape off the model stage
 func (taskshape *TaskShape) UnstageVoid(stage *Stage) {
 	delete(stage.TaskShapes, taskshape)
-	delete(stage.TaskShape_stagedOrder, taskshape)
+	// issue1150
+	// delete(stage.TaskShape_stagedOrder, taskshape)
 	delete(stage.TaskShapes_mapString, taskshape.Name)
 }
 
