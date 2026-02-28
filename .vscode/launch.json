@@ -1028,14 +1028,12 @@
             ]
         },
         {
-            "name": "go run barrgraph -unmarshallFromCode=data/influence.go -marshallOnCommit=data/influence.go",
+            "name": "go run barrgraph",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/dsme/barrgraph/go/cmd/barrgraph",
             "args": [
-                "-unmarshallFromCode=data/influence.go",
-                "-marshallOnCommit=data/influence.go"
             ]
         },
         {

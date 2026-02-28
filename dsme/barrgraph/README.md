@@ -46,9 +46,7 @@ Below are examples of the tool in use, including the original inspiration and th
 ## Installation
 
 ```bash
-git clone https://github.com/fullstack-lang/barrgraph
-cd barrgraph
-go run main.go
+go run github.com/fullstack-lang/gong/dsme/go/cmd/barrgraph
 ```
 
 ## License
