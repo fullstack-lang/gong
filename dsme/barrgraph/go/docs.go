@@ -1,9 +1,9 @@
-// Package cld cld backend API
+// Package barrgraph barrgraph backend API
 //
-// cld exposes types of a package.
+// barrgraph exposes types of a package.
 //
 //	Schemes: http
-//	BasePath: /api/github.com/fullstack-lang/gong/dsme/cld/go/v1
+//	BasePath: /api/github.com/fullstack-lang/gong/dsme/barrgraph/go/v1
 //	Version: 0.1
 //	Host: localhost:8080
 //
@@ -22,4 +22,4 @@
 //	type: basic
 //
 // swagger:meta
-package cld
+package barrgraph

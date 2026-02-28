@@ -5,8 +5,8 @@ import (
 	"log"
 	"strconv"
 
-	"github.com/fullstack-lang/gong/dsme/cld/go/level1stack"
-	"github.com/fullstack-lang/gong/dsme/cld/go/models"
+	"github.com/fullstack-lang/gong/dsme/barrgraph/go/level1stack"
+	"github.com/fullstack-lang/gong/dsme/barrgraph/go/models"
 )
 
 var (
@@ -20,7 +20,7 @@ var (
 
 func main() {
 
-	log.SetPrefix("cld: ")
+	log.SetPrefix("barrgraph: ")
 	log.SetFlags(log.Lmicroseconds)
 
 	// parse program arguments
@@ -29,8 +29,8 @@ func main() {
 	// setup
 	// - model level1 stack with its probe
 	// - unmarshall/marshall go file with stage data
-	stack := level1stack.NewLevel1Stack("cld", *unmarshallFromCode, *marshallOnCommit, true, *embeddedDiagrams)
-
+	stack := level1stack.NewLevel1Stack("barrgraph", *unmarshallFromCode, *marshallOnCommit, true, *embeddedDiagrams)
+	
 	// refresh the probe, therefore we can see what has been unmarshalled
 	stack.Probe.Refresh()
 

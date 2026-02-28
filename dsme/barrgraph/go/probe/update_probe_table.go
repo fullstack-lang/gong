@@ -9,7 +9,7 @@ import (
 
 	"github.com/fullstack-lang/maticons/maticons"
 
-	"github.com/fullstack-lang/gong/dsme/cld/go/models"
+	"github.com/fullstack-lang/gong/dsme/barrgraph/go/models"
 )
 
 const TableName = "Table"

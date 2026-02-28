@@ -1,4 +1,4 @@
-package cld
+package barrgraph
 
 import "embed"
 

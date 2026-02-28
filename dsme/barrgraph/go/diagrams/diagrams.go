@@ -5,7 +5,7 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/doc/go/models"
 	// injection point for ident package import declaration
-	ref_models "github.com/fullstack-lang/gong/dsme/cld/go/models"
+	ref_models "github.com/fullstack-lang/gong/dsme/barrgraph/go/models"
 )
 
 // generated in order to avoid error in the package import
@@ -1162,7 +1162,7 @@ func _(stage *models.Stage) {
 	__DiagramPackage__00000000_.Classdiagrams = append(__DiagramPackage__00000000_.Classdiagrams, __Classdiagram__00000001_)
 	__DiagramPackage__00000000_.Classdiagrams = append(__DiagramPackage__00000000_.Classdiagrams, __Classdiagram__00000002_)
 	__DiagramPackage__00000000_.Classdiagrams = append(__DiagramPackage__00000000_.Classdiagrams, __Classdiagram__00000003_)
-	__DiagramPackage__00000000_.SelectedClassdiagram = __Classdiagram__00000001_
+	__DiagramPackage__00000000_.SelectedClassdiagram = __Classdiagram__00000002_
 	__GongStructShape__00000001_.AttributeShapes = append(__GongStructShape__00000001_.AttributeShapes, __AttributeShape__00000000_)
 	__GongStructShape__00000001_.LinkShapes = append(__GongStructShape__00000001_.LinkShapes, __LinkShape__00000000_)
 	__GongStructShape__00000001_.LinkShapes = append(__GongStructShape__00000001_.LinkShapes, __LinkShape__00000001_)
