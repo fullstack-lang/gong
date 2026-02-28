@@ -1,11 +1,41 @@
 package models
 
-func (stager *Stager) enforceSemantic() {
+import (
+	"fmt"
+	"time"
+)
+
+func (stager *Stager) enforceSemantic() (needCommit bool) {
+	stage := stager.stage
+
+	pass := 0
+	for {
+		if stager.enforceSemanticOnePass(false, stage) {
+			needCommit = true
+			stager.probeForm.AddNotification(time.Now(), fmt.Sprint("Stage was modified to enforce semantic, pass ", pass))
+			pass++
+		} else {
+			break
+		}
+	}
+
+	if needCommit {
+		stager.probeForm.CommitNotificationTable()
+	}
+
+	return
+}
+
+func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool {
+	needCommit = stage.Clean() || needCommit
+	if needCommit {
+		stager.probeForm.AddNotification(time.Now(), "Stage clean generated a modification")
+	}
+
 	// VERY important because the probe only unstages objects
 	// the stage might be dirty
 	// with slices of pointer or pointer to unstaged instance
 	stager.stage.Clean()
-	needCommit := false
 
 	// check that there is a Desk
 	needCommit = stager.enforce_semantic_singlotons() || needCommit
@@ -124,6 +154,7 @@ func (stager *Stager) enforceSemantic() {
 
 	if needCommit {
 		stager.stage.CommitWithSuspendedCallbacks()
-		stager.stage.Checkout()
 	}
+
+	return needCommit
 }
