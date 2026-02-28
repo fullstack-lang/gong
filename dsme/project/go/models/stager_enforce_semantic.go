@@ -59,6 +59,9 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 
 func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool {
 	needCommit = stage.Clean() || needCommit
+	if needCommit {
+		stager.probeForm.AddNotification(time.Now(), "Stage clean generated a modification")
+	}
 
 	// Ensures that there is one and only one root
 	// prune the other
