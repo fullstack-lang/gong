@@ -168,7 +168,7 @@ func ({{structname}} *{{Structname}}) GongCopy() GongstructIF {
 			}
 			stage.{{Structname}}s_referenceOrder[{{structname}}] = stage.{{Structname}}_stagedOrder[{{structname}}]
 			newInstancesReverseSlice = append(newInstancesReverseSlice, {{structname}}.GongMarshallUnstaging(stage))
-			delete(stage.{{Structname}}s_referenceOrder, {{structname}})
+			// delete(stage.{{Structname}}s_referenceOrder, {{structname}})
 			fieldInitializers, pointersInitializations := {{structname}}.GongMarshallAllFields(stage)
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
@@ -176,7 +176,7 @@ func ({{structname}} *{{Structname}}) GongCopy() GongstructIF {
 			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := {{structname}}.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, {{structname}})
-			delete(stage.{{Structname}}_stagedOrder, ref)
+			// delete(stage.{{Structname}}_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
 				fieldsEdit += fmt.Sprintf("\n\t// %s", {{structname}}.GetName())
