@@ -42,8 +42,8 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.IsArtefactTypeCategoryShown = false
 	__Diagram__00000000_.IsArtistCategoryShown = false
 	__Diagram__00000000_.IsInfluenceCategoryShown = false
-	__Diagram__00000000_.StartDate, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
-	__Diagram__00000000_.EndDate, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Diagram__00000000_.StartDate, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1900-01-01 00:00:00 +0000 UTC")
+	__Diagram__00000000_.EndDate, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1970-01-01 00:00:00 +0000 UTC")
 	__Diagram__00000000_.XMargin = 0.000000
 	__Diagram__00000000_.YMargin = 0.000000
 	__Diagram__00000000_.Height = 0.000000
