@@ -183,9 +183,9 @@ func (backRepoFormEditAssocButton *BackRepoFormEditAssocButtonStruct) CommitPhas
 		formeditassocbuttons = append(formeditassocbuttons, formeditassocbutton)
 	}
 
-	// Sort by the order stored in Map_Staged_Order.
+	// Sort by the order stored in _stagedOrder.
 	sort.Slice(formeditassocbuttons, func(i, j int) bool {
-		return stage.FormEditAssocButtonMap_Staged_Order[formeditassocbuttons[i]] < stage.FormEditAssocButtonMap_Staged_Order[formeditassocbuttons[j]]
+		return stage.FormEditAssocButton_stagedOrder[formeditassocbuttons[i]] < stage.FormEditAssocButton_stagedOrder[formeditassocbuttons[j]]
 	})
 
 	for _, formeditassocbutton := range formeditassocbuttons {

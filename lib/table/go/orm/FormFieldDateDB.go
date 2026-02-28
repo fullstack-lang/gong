@@ -144,9 +144,9 @@ func (backRepoFormFieldDate *BackRepoFormFieldDateStruct) CommitPhaseOne(stage *
 		formfielddates = append(formfielddates, formfielddate)
 	}
 
-	// Sort by the order stored in Map_Staged_Order.
+	// Sort by the order stored in _stagedOrder.
 	sort.Slice(formfielddates, func(i, j int) bool {
-		return stage.FormFieldDateMap_Staged_Order[formfielddates[i]] < stage.FormFieldDateMap_Staged_Order[formfielddates[j]]
+		return stage.FormFieldDate_stagedOrder[formfielddates[i]] < stage.FormFieldDate_stagedOrder[formfielddates[j]]
 	})
 
 	for _, formfielddate := range formfielddates {

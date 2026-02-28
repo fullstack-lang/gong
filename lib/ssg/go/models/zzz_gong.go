@@ -106,11 +106,13 @@ type Stage struct {
 
 	// insertion point for definition of arrays registering instances
 	Chapters                map[*Chapter]struct{}
-	Chapters_reference      map[*Chapter]*Chapter
-	Chapters_referenceOrder map[*Chapter]uint
 	Chapters_instance       map[*Chapter]*Chapter
 	Chapters_mapString      map[string]*Chapter
-
+	ChapterOrder            uint
+	Chapter_stagedOrder     map[*Chapter]uint
+	Chapters_reference      map[*Chapter]*Chapter
+	Chapters_referenceOrder map[*Chapter]uint
+	
 	// insertion point for slice of pointers maps
 	Chapter_Pages_reverseMap map[*Page]*Chapter
 
@@ -120,11 +122,13 @@ type Stage struct {
 	OnAfterChapterReadCallback   OnAfterReadInterface[Chapter]
 
 	Contents                map[*Content]struct{}
-	Contents_reference      map[*Content]*Content
-	Contents_referenceOrder map[*Content]uint
 	Contents_instance       map[*Content]*Content
 	Contents_mapString      map[string]*Content
-
+	ContentOrder            uint
+	Content_stagedOrder     map[*Content]uint
+	Contents_reference      map[*Content]*Content
+	Contents_referenceOrder map[*Content]uint
+	
 	// insertion point for slice of pointers maps
 	Content_Chapters_reverseMap map[*Chapter]*Content
 
@@ -134,11 +138,13 @@ type Stage struct {
 	OnAfterContentReadCallback   OnAfterReadInterface[Content]
 
 	Pages                map[*Page]struct{}
-	Pages_reference      map[*Page]*Page
-	Pages_referenceOrder map[*Page]uint
 	Pages_instance       map[*Page]*Page
 	Pages_mapString      map[string]*Page
-
+	PageOrder            uint
+	Page_stagedOrder     map[*Page]uint
+	Pages_reference      map[*Page]*Page
+	Pages_referenceOrder map[*Page]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterPageCreateCallback OnAfterCreateInterface[Page]
 	OnAfterPageUpdateCallback OnAfterUpdateInterface[Page]
@@ -156,6 +162,10 @@ type Stage struct {
 	OnInitCommitFromFrontCallback OnInitCommitInterface
 	OnInitCommitFromBackCallback  OnInitCommitInterface
 
+	// Private slices to hold the registered hooks
+	beforeCommitHooks []func(stage *Stage)
+	afterCommitHooks  []func(stage *Stage)
+
 	// store the number of instance per gongstruct
 	Map_GongStructName_InstancesNb map[string]int
 
@@ -171,14 +181,8 @@ type Stage struct {
 	// store the stage order of each instance in order to
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
-	ChapterOrder            uint
-	ChapterMap_Staged_Order map[*Chapter]uint
 
-	ContentOrder            uint
-	ContentMap_Staged_Order map[*Content]uint
 
-	PageOrder            uint
-	PageMap_Staged_Order map[*Page]uint
 
 	// end of insertion point
 
@@ -200,6 +204,16 @@ type Stage struct {
 	commitsBehind  int // the number of commits the stage is behind the front of the history
 
 	lock sync.RWMutex
+}
+
+// RegisterBeforeCommit adds a hook that runs before the commit happens
+func (s *Stage) RegisterBeforeCommit(hook func(stage *Stage)) {
+	s.beforeCommitHooks = append(s.beforeCommitHooks, hook)
+}
+
+// RegisterAfterCommit adds a hook that runs after the commit succeeds
+func (s *Stage) RegisterAfterCommit(hook func(stage *Stage)) {
+	s.afterCommitHooks = append(s.afterCommitHooks, hook)
 }
 
 type gongStageNavigationMode string
@@ -323,6 +337,16 @@ func (stage *Stage) ResetHard() {
 	if stage.OnInitCommitFromBackCallback != nil {
 		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
 	}
+
+	// 1. Run all Before Commit hooks
+	for _, hook := range stage.beforeCommitHooks {
+		hook(stage)
+	}
+
+	// 2. Run all After Commit hooks
+	for _, hook := range stage.afterCommitHooks {
+		hook(stage)
+	}
 }
 
 // Orphans removes all commits
@@ -339,6 +363,16 @@ func (stage *Stage) Orphans() {
 	if stage.OnInitCommitFromBackCallback != nil {
 		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
 	}
+
+	// 1. Run all Before Commit hooks
+	for _, hook := range stage.beforeCommitHooks {
+		hook(stage)
+	}
+
+	// 2. Run all After Commit hooks
+	for _, hook := range stage.afterCommitHooks {
+		hook(stage)
+	}
 }
 
 // recomputeOrders recomputes the next order for each struct
@@ -349,7 +383,7 @@ func (stage *Stage) recomputeOrders() {
 	// insertion point for max order recomputation
 	var maxChapterOrder uint
 	var foundChapter bool
-	for _, order := range stage.ChapterMap_Staged_Order {
+	for _, order := range stage.Chapter_stagedOrder {
 		if !foundChapter || order > maxChapterOrder {
 			maxChapterOrder = order
 			foundChapter = true
@@ -363,7 +397,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxContentOrder uint
 	var foundContent bool
-	for _, order := range stage.ContentMap_Staged_Order {
+	for _, order := range stage.Content_stagedOrder {
 		if !foundContent || order > maxContentOrder {
 			maxContentOrder = order
 			foundContent = true
@@ -377,7 +411,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxPageOrder uint
 	var foundPage bool
-	for _, order := range stage.PageMap_Staged_Order {
+	for _, order := range stage.Page_stagedOrder {
 		if !foundPage || order > maxPageOrder {
 			maxPageOrder = order
 			foundPage = true
@@ -449,7 +483,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 	switch any(t).(type) {
 	// insertion point for case
 	case *Chapter:
-		tmp := GetStructInstancesByOrder(stage.Chapters, stage.ChapterMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Chapters, stage.Chapter_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -463,7 +497,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Content:
-		tmp := GetStructInstancesByOrder(stage.Contents, stage.ContentMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Contents, stage.Content_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -477,7 +511,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Page:
-		tmp := GetStructInstancesByOrder(stage.Pages, stage.PageMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Pages, stage.Page_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -520,11 +554,11 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 	switch namedStructName {
 	// insertion point for case
 	case "Chapter":
-		res = GetNamedStructInstances(stage.Chapters, stage.ChapterMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Chapters, stage.Chapter_stagedOrder)
 	case "Content":
-		res = GetNamedStructInstances(stage.Contents, stage.ContentMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Contents, stage.Content_stagedOrder)
 	case "Page":
-		res = GetNamedStructInstances(stage.Pages, stage.PageMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Pages, stage.Page_stagedOrder)
 	}
 
 	return
@@ -625,11 +659,11 @@ func NewStage(name string) (stage *Stage) {
 		// the to be removed stops here
 
 		// insertion point for order map initialisations
-		ChapterMap_Staged_Order: make(map[*Chapter]uint),
+		Chapter_stagedOrder: make(map[*Chapter]uint),
 
-		ContentMap_Staged_Order: make(map[*Content]uint),
+		Content_stagedOrder: make(map[*Content]uint),
 
-		PageMap_Staged_Order: make(map[*Page]uint),
+		Page_stagedOrder: make(map[*Page]uint),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
@@ -658,11 +692,11 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
 	case *Chapter:
-		return stage.ChapterMap_Staged_Order[instance]
+		return stage.Chapter_stagedOrder[instance]
 	case *Content:
-		return stage.ContentMap_Staged_Order[instance]
+		return stage.Content_stagedOrder[instance]
 	case *Page:
-		return stage.PageMap_Staged_Order[instance]
+		return stage.Page_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -672,11 +706,11 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
 	case *Chapter:
-		return stage.ChapterMap_Staged_Order[instance]
+		return stage.Chapter_stagedOrder[instance]
 	case *Content:
-		return stage.ContentMap_Staged_Order[instance]
+		return stage.Content_stagedOrder[instance]
 	case *Page:
-		return stage.PageMap_Staged_Order[instance]
+		return stage.Page_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -689,8 +723,14 @@ func (stage *Stage) GetName() string {
 func (stage *Stage) CommitWithSuspendedCallbacks() {
 	tmp := stage.OnInitCommitFromBackCallback
 	stage.OnInitCommitFromBackCallback = nil
+	tmp2 := stage.beforeCommitHooks
+	stage.beforeCommitHooks = nil
+	tmp3 := stage.afterCommitHooks
+	stage.afterCommitHooks = nil
 	stage.Commit()
 	stage.OnInitCommitFromBackCallback = tmp
+	stage.beforeCommitHooks = tmp2
+	stage.afterCommitHooks = tmp3
 }
 
 func (stage *Stage) Commit() {
@@ -701,6 +741,11 @@ func (stage *Stage) Commit() {
 	}
 	if stage.OnInitCommitFromBackCallback != nil {
 		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
+	}
+
+	// 1. Run all Before Commit hooks
+	for _, hook := range stage.beforeCommitHooks {
+		hook(stage)
 	}
 
 	if stage.BackRepo != nil {
@@ -718,6 +763,11 @@ func (stage *Stage) Commit() {
 	if stage.IsInDeltaMode() {
 		stage.ComputeForwardAndBackwardCommits()
 		stage.ComputeReferenceAndOrders()
+	}
+
+	// 2. Run all After Commit hooks
+	for _, hook := range stage.afterCommitHooks {
+		hook(stage)
 	}
 }
 
@@ -770,7 +820,7 @@ func (stage *Stage) RestoreXL(dirPath string) {
 func (chapter *Chapter) Stage(stage *Stage) *Chapter {
 	if _, ok := stage.Chapters[chapter]; !ok {
 		stage.Chapters[chapter] = struct{}{}
-		stage.ChapterMap_Staged_Order[chapter] = stage.ChapterOrder
+		stage.Chapter_stagedOrder[chapter] = stage.ChapterOrder
 		stage.ChapterOrder++
 	}
 	stage.Chapters_mapString[chapter.Name] = chapter
@@ -790,7 +840,7 @@ func (chapter *Chapter) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.ChapterOrder {
 			stage.ChapterOrder = order
 		}
-		stage.ChapterMap_Staged_Order[chapter] = order
+		stage.Chapter_stagedOrder[chapter] = order
 		stage.ChapterOrder++
 	}
 	stage.Chapters_mapString[chapter.Name] = chapter
@@ -799,7 +849,8 @@ func (chapter *Chapter) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes chapter off the model stage
 func (chapter *Chapter) Unstage(stage *Stage) *Chapter {
 	delete(stage.Chapters, chapter)
-	delete(stage.ChapterMap_Staged_Order, chapter)
+	// issue1150
+	// delete(stage.Chapter_stagedOrder, chapter)
 	delete(stage.Chapters_mapString, chapter.Name)
 
 	return chapter
@@ -808,7 +859,8 @@ func (chapter *Chapter) Unstage(stage *Stage) *Chapter {
 // UnstageVoid removes chapter off the model stage
 func (chapter *Chapter) UnstageVoid(stage *Stage) {
 	delete(stage.Chapters, chapter)
-	delete(stage.ChapterMap_Staged_Order, chapter)
+	// issue1150
+	// delete(stage.Chapter_stagedOrder, chapter)
 	delete(stage.Chapters_mapString, chapter.Name)
 }
 
@@ -854,7 +906,7 @@ func (chapter *Chapter) SetName(name string) {
 func (content *Content) Stage(stage *Stage) *Content {
 	if _, ok := stage.Contents[content]; !ok {
 		stage.Contents[content] = struct{}{}
-		stage.ContentMap_Staged_Order[content] = stage.ContentOrder
+		stage.Content_stagedOrder[content] = stage.ContentOrder
 		stage.ContentOrder++
 	}
 	stage.Contents_mapString[content.Name] = content
@@ -874,7 +926,7 @@ func (content *Content) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.ContentOrder {
 			stage.ContentOrder = order
 		}
-		stage.ContentMap_Staged_Order[content] = order
+		stage.Content_stagedOrder[content] = order
 		stage.ContentOrder++
 	}
 	stage.Contents_mapString[content.Name] = content
@@ -883,7 +935,8 @@ func (content *Content) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes content off the model stage
 func (content *Content) Unstage(stage *Stage) *Content {
 	delete(stage.Contents, content)
-	delete(stage.ContentMap_Staged_Order, content)
+	// issue1150
+	// delete(stage.Content_stagedOrder, content)
 	delete(stage.Contents_mapString, content.Name)
 
 	return content
@@ -892,7 +945,8 @@ func (content *Content) Unstage(stage *Stage) *Content {
 // UnstageVoid removes content off the model stage
 func (content *Content) UnstageVoid(stage *Stage) {
 	delete(stage.Contents, content)
-	delete(stage.ContentMap_Staged_Order, content)
+	// issue1150
+	// delete(stage.Content_stagedOrder, content)
 	delete(stage.Contents_mapString, content.Name)
 }
 
@@ -938,7 +992,7 @@ func (content *Content) SetName(name string) {
 func (page *Page) Stage(stage *Stage) *Page {
 	if _, ok := stage.Pages[page]; !ok {
 		stage.Pages[page] = struct{}{}
-		stage.PageMap_Staged_Order[page] = stage.PageOrder
+		stage.Page_stagedOrder[page] = stage.PageOrder
 		stage.PageOrder++
 	}
 	stage.Pages_mapString[page.Name] = page
@@ -958,7 +1012,7 @@ func (page *Page) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.PageOrder {
 			stage.PageOrder = order
 		}
-		stage.PageMap_Staged_Order[page] = order
+		stage.Page_stagedOrder[page] = order
 		stage.PageOrder++
 	}
 	stage.Pages_mapString[page.Name] = page
@@ -967,7 +1021,8 @@ func (page *Page) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes page off the model stage
 func (page *Page) Unstage(stage *Stage) *Page {
 	delete(stage.Pages, page)
-	delete(stage.PageMap_Staged_Order, page)
+	// issue1150
+	// delete(stage.Page_stagedOrder, page)
 	delete(stage.Pages_mapString, page.Name)
 
 	return page
@@ -976,7 +1031,8 @@ func (page *Page) Unstage(stage *Stage) *Page {
 // UnstageVoid removes page off the model stage
 func (page *Page) UnstageVoid(stage *Stage) {
 	delete(stage.Pages, page)
-	delete(stage.PageMap_Staged_Order, page)
+	// issue1150
+	// delete(stage.Page_stagedOrder, page)
 	delete(stage.Pages_mapString, page.Name)
 }
 
@@ -1034,17 +1090,17 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Chapters = make(map[*Chapter]struct{})
 	stage.Chapters_mapString = make(map[string]*Chapter)
-	stage.ChapterMap_Staged_Order = make(map[*Chapter]uint)
+	stage.Chapter_stagedOrder = make(map[*Chapter]uint)
 	stage.ChapterOrder = 0
 
 	stage.Contents = make(map[*Content]struct{})
 	stage.Contents_mapString = make(map[string]*Content)
-	stage.ContentMap_Staged_Order = make(map[*Content]uint)
+	stage.Content_stagedOrder = make(map[*Content]uint)
 	stage.ContentOrder = 0
 
 	stage.Pages = make(map[*Page]struct{})
 	stage.Pages_mapString = make(map[string]*Page)
-	stage.PageMap_Staged_Order = make(map[*Page]uint)
+	stage.Page_stagedOrder = make(map[*Page]uint)
 	stage.PageOrder = 0
 
 	if stage.GetProbeIF() != nil {
@@ -1644,7 +1700,7 @@ func (chapter *Chapter) GongSetFieldValue(fieldName string, value GongFieldValue
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Pages {
-					if stage.PageMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Page_stagedOrder[__instance__] == uint(id) {
 						chapter.Pages = append(chapter.Pages, __instance__)
 						break
 					}
@@ -1689,7 +1745,7 @@ func (content *Content) GongSetFieldValue(fieldName string, value GongFieldValue
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Chapters {
-					if stage.ChapterMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Chapter_stagedOrder[__instance__] == uint(id) {
 						content.Chapters = append(content.Chapters, __instance__)
 						break
 					}

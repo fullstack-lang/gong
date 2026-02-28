@@ -134,8 +134,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(displayselectionOrdered[:], func(i, j int) bool {
 		displayselectioni := displayselectionOrdered[i]
 		displayselectionj := displayselectionOrdered[j]
-		displayselectioni_order, oki := stage.DisplaySelectionMap_Staged_Order[displayselectioni]
-		displayselectionj_order, okj := stage.DisplaySelectionMap_Staged_Order[displayselectionj]
+		displayselectioni_order, oki := stage.DisplaySelection_stagedOrder[displayselectioni]
+		displayselectionj_order, okj := stage.DisplaySelection_stagedOrder[displayselectionj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -162,8 +162,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(xlcellOrdered[:], func(i, j int) bool {
 		xlcelli := xlcellOrdered[i]
 		xlcellj := xlcellOrdered[j]
-		xlcelli_order, oki := stage.XLCellMap_Staged_Order[xlcelli]
-		xlcellj_order, okj := stage.XLCellMap_Staged_Order[xlcellj]
+		xlcelli_order, oki := stage.XLCell_stagedOrder[xlcelli]
+		xlcellj_order, okj := stage.XLCell_stagedOrder[xlcellj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -190,8 +190,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(xlfileOrdered[:], func(i, j int) bool {
 		xlfilei := xlfileOrdered[i]
 		xlfilej := xlfileOrdered[j]
-		xlfilei_order, oki := stage.XLFileMap_Staged_Order[xlfilei]
-		xlfilej_order, okj := stage.XLFileMap_Staged_Order[xlfilej]
+		xlfilei_order, oki := stage.XLFile_stagedOrder[xlfilei]
+		xlfilej_order, okj := stage.XLFile_stagedOrder[xlfilej]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -218,8 +218,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(xlrowOrdered[:], func(i, j int) bool {
 		xlrowi := xlrowOrdered[i]
 		xlrowj := xlrowOrdered[j]
-		xlrowi_order, oki := stage.XLRowMap_Staged_Order[xlrowi]
-		xlrowj_order, okj := stage.XLRowMap_Staged_Order[xlrowj]
+		xlrowi_order, oki := stage.XLRow_stagedOrder[xlrowi]
+		xlrowj_order, okj := stage.XLRow_stagedOrder[xlrowj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -246,8 +246,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(xlsheetOrdered[:], func(i, j int) bool {
 		xlsheeti := xlsheetOrdered[i]
 		xlsheetj := xlsheetOrdered[j]
-		xlsheeti_order, oki := stage.XLSheetMap_Staged_Order[xlsheeti]
-		xlsheetj_order, okj := stage.XLSheetMap_Staged_Order[xlsheetj]
+		xlsheeti_order, oki := stage.XLSheet_stagedOrder[xlsheeti]
+		xlsheetj_order, okj := stage.XLSheet_stagedOrder[xlsheetj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}

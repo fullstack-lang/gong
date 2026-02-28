@@ -106,11 +106,13 @@ type Stage struct {
 
 	// insertion point for definition of arrays registering instances
 	Astructs                map[*Astruct]struct{}
-	Astructs_reference      map[*Astruct]*Astruct
-	Astructs_referenceOrder map[*Astruct]uint
 	Astructs_instance       map[*Astruct]*Astruct
 	Astructs_mapString      map[string]*Astruct
-
+	AstructOrder            uint
+	Astruct_stagedOrder     map[*Astruct]uint
+	Astructs_reference      map[*Astruct]*Astruct
+	Astructs_referenceOrder map[*Astruct]uint
+	
 	// insertion point for slice of pointers maps
 	Astruct_Anarrayofb_reverseMap map[*Bstruct]*Astruct
 
@@ -130,11 +132,13 @@ type Stage struct {
 	OnAfterAstructReadCallback   OnAfterReadInterface[Astruct]
 
 	AstructBstruct2Uses                map[*AstructBstruct2Use]struct{}
-	AstructBstruct2Uses_reference      map[*AstructBstruct2Use]*AstructBstruct2Use
-	AstructBstruct2Uses_referenceOrder map[*AstructBstruct2Use]uint
 	AstructBstruct2Uses_instance       map[*AstructBstruct2Use]*AstructBstruct2Use
 	AstructBstruct2Uses_mapString      map[string]*AstructBstruct2Use
-
+	AstructBstruct2UseOrder            uint
+	AstructBstruct2Use_stagedOrder     map[*AstructBstruct2Use]uint
+	AstructBstruct2Uses_reference      map[*AstructBstruct2Use]*AstructBstruct2Use
+	AstructBstruct2Uses_referenceOrder map[*AstructBstruct2Use]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterAstructBstruct2UseCreateCallback OnAfterCreateInterface[AstructBstruct2Use]
 	OnAfterAstructBstruct2UseUpdateCallback OnAfterUpdateInterface[AstructBstruct2Use]
@@ -142,11 +146,13 @@ type Stage struct {
 	OnAfterAstructBstruct2UseReadCallback   OnAfterReadInterface[AstructBstruct2Use]
 
 	AstructBstructUses                map[*AstructBstructUse]struct{}
-	AstructBstructUses_reference      map[*AstructBstructUse]*AstructBstructUse
-	AstructBstructUses_referenceOrder map[*AstructBstructUse]uint
 	AstructBstructUses_instance       map[*AstructBstructUse]*AstructBstructUse
 	AstructBstructUses_mapString      map[string]*AstructBstructUse
-
+	AstructBstructUseOrder            uint
+	AstructBstructUse_stagedOrder     map[*AstructBstructUse]uint
+	AstructBstructUses_reference      map[*AstructBstructUse]*AstructBstructUse
+	AstructBstructUses_referenceOrder map[*AstructBstructUse]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterAstructBstructUseCreateCallback OnAfterCreateInterface[AstructBstructUse]
 	OnAfterAstructBstructUseUpdateCallback OnAfterUpdateInterface[AstructBstructUse]
@@ -154,11 +160,13 @@ type Stage struct {
 	OnAfterAstructBstructUseReadCallback   OnAfterReadInterface[AstructBstructUse]
 
 	Bstructs                map[*Bstruct]struct{}
-	Bstructs_reference      map[*Bstruct]*Bstruct
-	Bstructs_referenceOrder map[*Bstruct]uint
 	Bstructs_instance       map[*Bstruct]*Bstruct
 	Bstructs_mapString      map[string]*Bstruct
-
+	BstructOrder            uint
+	Bstruct_stagedOrder     map[*Bstruct]uint
+	Bstructs_reference      map[*Bstruct]*Bstruct
+	Bstructs_referenceOrder map[*Bstruct]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterBstructCreateCallback OnAfterCreateInterface[Bstruct]
 	OnAfterBstructUpdateCallback OnAfterUpdateInterface[Bstruct]
@@ -166,11 +174,13 @@ type Stage struct {
 	OnAfterBstructReadCallback   OnAfterReadInterface[Bstruct]
 
 	Dstructs                map[*Dstruct]struct{}
-	Dstructs_reference      map[*Dstruct]*Dstruct
-	Dstructs_referenceOrder map[*Dstruct]uint
 	Dstructs_instance       map[*Dstruct]*Dstruct
 	Dstructs_mapString      map[string]*Dstruct
-
+	DstructOrder            uint
+	Dstruct_stagedOrder     map[*Dstruct]uint
+	Dstructs_reference      map[*Dstruct]*Dstruct
+	Dstructs_referenceOrder map[*Dstruct]uint
+	
 	// insertion point for slice of pointers maps
 	Dstruct_Anarrayofb_reverseMap map[*Bstruct]*Dstruct
 
@@ -182,11 +192,13 @@ type Stage struct {
 	OnAfterDstructReadCallback   OnAfterReadInterface[Dstruct]
 
 	F0123456789012345678901234567890s                map[*F0123456789012345678901234567890]struct{}
-	F0123456789012345678901234567890s_reference      map[*F0123456789012345678901234567890]*F0123456789012345678901234567890
-	F0123456789012345678901234567890s_referenceOrder map[*F0123456789012345678901234567890]uint
 	F0123456789012345678901234567890s_instance       map[*F0123456789012345678901234567890]*F0123456789012345678901234567890
 	F0123456789012345678901234567890s_mapString      map[string]*F0123456789012345678901234567890
-
+	F0123456789012345678901234567890Order            uint
+	F0123456789012345678901234567890_stagedOrder     map[*F0123456789012345678901234567890]uint
+	F0123456789012345678901234567890s_reference      map[*F0123456789012345678901234567890]*F0123456789012345678901234567890
+	F0123456789012345678901234567890s_referenceOrder map[*F0123456789012345678901234567890]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterF0123456789012345678901234567890CreateCallback OnAfterCreateInterface[F0123456789012345678901234567890]
 	OnAfterF0123456789012345678901234567890UpdateCallback OnAfterUpdateInterface[F0123456789012345678901234567890]
@@ -194,11 +206,13 @@ type Stage struct {
 	OnAfterF0123456789012345678901234567890ReadCallback   OnAfterReadInterface[F0123456789012345678901234567890]
 
 	Gstructs                map[*Gstruct]struct{}
-	Gstructs_reference      map[*Gstruct]*Gstruct
-	Gstructs_referenceOrder map[*Gstruct]uint
 	Gstructs_instance       map[*Gstruct]*Gstruct
 	Gstructs_mapString      map[string]*Gstruct
-
+	GstructOrder            uint
+	Gstruct_stagedOrder     map[*Gstruct]uint
+	Gstructs_reference      map[*Gstruct]*Gstruct
+	Gstructs_referenceOrder map[*Gstruct]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterGstructCreateCallback OnAfterCreateInterface[Gstruct]
 	OnAfterGstructUpdateCallback OnAfterUpdateInterface[Gstruct]
@@ -216,6 +230,10 @@ type Stage struct {
 	OnInitCommitFromFrontCallback OnInitCommitInterface
 	OnInitCommitFromBackCallback  OnInitCommitInterface
 
+	// Private slices to hold the registered hooks
+	beforeCommitHooks []func(stage *Stage)
+	afterCommitHooks  []func(stage *Stage)
+
 	// store the number of instance per gongstruct
 	Map_GongStructName_InstancesNb map[string]int
 
@@ -231,26 +249,12 @@ type Stage struct {
 	// store the stage order of each instance in order to
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
-	AstructOrder            uint
-	AstructMap_Staged_Order map[*Astruct]uint
 
-	AstructBstruct2UseOrder            uint
-	AstructBstruct2UseMap_Staged_Order map[*AstructBstruct2Use]uint
 
-	AstructBstructUseOrder            uint
-	AstructBstructUseMap_Staged_Order map[*AstructBstructUse]uint
 
-	BstructOrder            uint
-	BstructMap_Staged_Order map[*Bstruct]uint
 
-	DstructOrder            uint
-	DstructMap_Staged_Order map[*Dstruct]uint
 
-	F0123456789012345678901234567890Order            uint
-	F0123456789012345678901234567890Map_Staged_Order map[*F0123456789012345678901234567890]uint
 
-	GstructOrder            uint
-	GstructMap_Staged_Order map[*Gstruct]uint
 
 	// end of insertion point
 
@@ -272,6 +276,16 @@ type Stage struct {
 	commitsBehind  int // the number of commits the stage is behind the front of the history
 
 	lock sync.RWMutex
+}
+
+// RegisterBeforeCommit adds a hook that runs before the commit happens
+func (s *Stage) RegisterBeforeCommit(hook func(stage *Stage)) {
+	s.beforeCommitHooks = append(s.beforeCommitHooks, hook)
+}
+
+// RegisterAfterCommit adds a hook that runs after the commit succeeds
+func (s *Stage) RegisterAfterCommit(hook func(stage *Stage)) {
+	s.afterCommitHooks = append(s.afterCommitHooks, hook)
 }
 
 type gongStageNavigationMode string
@@ -395,6 +409,16 @@ func (stage *Stage) ResetHard() {
 	if stage.OnInitCommitFromBackCallback != nil {
 		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
 	}
+
+	// 1. Run all Before Commit hooks
+	for _, hook := range stage.beforeCommitHooks {
+		hook(stage)
+	}
+
+	// 2. Run all After Commit hooks
+	for _, hook := range stage.afterCommitHooks {
+		hook(stage)
+	}
 }
 
 // Orphans removes all commits
@@ -411,6 +435,16 @@ func (stage *Stage) Orphans() {
 	if stage.OnInitCommitFromBackCallback != nil {
 		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
 	}
+
+	// 1. Run all Before Commit hooks
+	for _, hook := range stage.beforeCommitHooks {
+		hook(stage)
+	}
+
+	// 2. Run all After Commit hooks
+	for _, hook := range stage.afterCommitHooks {
+		hook(stage)
+	}
 }
 
 // recomputeOrders recomputes the next order for each struct
@@ -421,7 +455,7 @@ func (stage *Stage) recomputeOrders() {
 	// insertion point for max order recomputation
 	var maxAstructOrder uint
 	var foundAstruct bool
-	for _, order := range stage.AstructMap_Staged_Order {
+	for _, order := range stage.Astruct_stagedOrder {
 		if !foundAstruct || order > maxAstructOrder {
 			maxAstructOrder = order
 			foundAstruct = true
@@ -435,7 +469,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxAstructBstruct2UseOrder uint
 	var foundAstructBstruct2Use bool
-	for _, order := range stage.AstructBstruct2UseMap_Staged_Order {
+	for _, order := range stage.AstructBstruct2Use_stagedOrder {
 		if !foundAstructBstruct2Use || order > maxAstructBstruct2UseOrder {
 			maxAstructBstruct2UseOrder = order
 			foundAstructBstruct2Use = true
@@ -449,7 +483,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxAstructBstructUseOrder uint
 	var foundAstructBstructUse bool
-	for _, order := range stage.AstructBstructUseMap_Staged_Order {
+	for _, order := range stage.AstructBstructUse_stagedOrder {
 		if !foundAstructBstructUse || order > maxAstructBstructUseOrder {
 			maxAstructBstructUseOrder = order
 			foundAstructBstructUse = true
@@ -463,7 +497,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxBstructOrder uint
 	var foundBstruct bool
-	for _, order := range stage.BstructMap_Staged_Order {
+	for _, order := range stage.Bstruct_stagedOrder {
 		if !foundBstruct || order > maxBstructOrder {
 			maxBstructOrder = order
 			foundBstruct = true
@@ -477,7 +511,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxDstructOrder uint
 	var foundDstruct bool
-	for _, order := range stage.DstructMap_Staged_Order {
+	for _, order := range stage.Dstruct_stagedOrder {
 		if !foundDstruct || order > maxDstructOrder {
 			maxDstructOrder = order
 			foundDstruct = true
@@ -491,7 +525,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxF0123456789012345678901234567890Order uint
 	var foundF0123456789012345678901234567890 bool
-	for _, order := range stage.F0123456789012345678901234567890Map_Staged_Order {
+	for _, order := range stage.F0123456789012345678901234567890_stagedOrder {
 		if !foundF0123456789012345678901234567890 || order > maxF0123456789012345678901234567890Order {
 			maxF0123456789012345678901234567890Order = order
 			foundF0123456789012345678901234567890 = true
@@ -505,7 +539,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxGstructOrder uint
 	var foundGstruct bool
-	for _, order := range stage.GstructMap_Staged_Order {
+	for _, order := range stage.Gstruct_stagedOrder {
 		if !foundGstruct || order > maxGstructOrder {
 			maxGstructOrder = order
 			foundGstruct = true
@@ -577,7 +611,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 	switch any(t).(type) {
 	// insertion point for case
 	case *Astruct:
-		tmp := GetStructInstancesByOrder(stage.Astructs, stage.AstructMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Astructs, stage.Astruct_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -591,7 +625,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *AstructBstruct2Use:
-		tmp := GetStructInstancesByOrder(stage.AstructBstruct2Uses, stage.AstructBstruct2UseMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.AstructBstruct2Uses, stage.AstructBstruct2Use_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -605,7 +639,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *AstructBstructUse:
-		tmp := GetStructInstancesByOrder(stage.AstructBstructUses, stage.AstructBstructUseMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.AstructBstructUses, stage.AstructBstructUse_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -619,7 +653,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Bstruct:
-		tmp := GetStructInstancesByOrder(stage.Bstructs, stage.BstructMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Bstructs, stage.Bstruct_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -633,7 +667,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Dstruct:
-		tmp := GetStructInstancesByOrder(stage.Dstructs, stage.DstructMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Dstructs, stage.Dstruct_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -647,7 +681,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *F0123456789012345678901234567890:
-		tmp := GetStructInstancesByOrder(stage.F0123456789012345678901234567890s, stage.F0123456789012345678901234567890Map_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.F0123456789012345678901234567890s, stage.F0123456789012345678901234567890_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -661,7 +695,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Gstruct:
-		tmp := GetStructInstancesByOrder(stage.Gstructs, stage.GstructMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Gstructs, stage.Gstruct_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -704,19 +738,19 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 	switch namedStructName {
 	// insertion point for case
 	case "Astruct":
-		res = GetNamedStructInstances(stage.Astructs, stage.AstructMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Astructs, stage.Astruct_stagedOrder)
 	case "AstructBstruct2Use":
-		res = GetNamedStructInstances(stage.AstructBstruct2Uses, stage.AstructBstruct2UseMap_Staged_Order)
+		res = GetNamedStructInstances(stage.AstructBstruct2Uses, stage.AstructBstruct2Use_stagedOrder)
 	case "AstructBstructUse":
-		res = GetNamedStructInstances(stage.AstructBstructUses, stage.AstructBstructUseMap_Staged_Order)
+		res = GetNamedStructInstances(stage.AstructBstructUses, stage.AstructBstructUse_stagedOrder)
 	case "Bstruct":
-		res = GetNamedStructInstances(stage.Bstructs, stage.BstructMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Bstructs, stage.Bstruct_stagedOrder)
 	case "Dstruct":
-		res = GetNamedStructInstances(stage.Dstructs, stage.DstructMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Dstructs, stage.Dstruct_stagedOrder)
 	case "F0123456789012345678901234567890":
-		res = GetNamedStructInstances(stage.F0123456789012345678901234567890s, stage.F0123456789012345678901234567890Map_Staged_Order)
+		res = GetNamedStructInstances(stage.F0123456789012345678901234567890s, stage.F0123456789012345678901234567890_stagedOrder)
 	case "Gstruct":
-		res = GetNamedStructInstances(stage.Gstructs, stage.GstructMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Gstructs, stage.Gstruct_stagedOrder)
 	}
 
 	return
@@ -837,19 +871,19 @@ func NewStage(name string) (stage *Stage) {
 		// the to be removed stops here
 
 		// insertion point for order map initialisations
-		AstructMap_Staged_Order: make(map[*Astruct]uint),
+		Astruct_stagedOrder: make(map[*Astruct]uint),
 
-		AstructBstruct2UseMap_Staged_Order: make(map[*AstructBstruct2Use]uint),
+		AstructBstruct2Use_stagedOrder: make(map[*AstructBstruct2Use]uint),
 
-		AstructBstructUseMap_Staged_Order: make(map[*AstructBstructUse]uint),
+		AstructBstructUse_stagedOrder: make(map[*AstructBstructUse]uint),
 
-		BstructMap_Staged_Order: make(map[*Bstruct]uint),
+		Bstruct_stagedOrder: make(map[*Bstruct]uint),
 
-		DstructMap_Staged_Order: make(map[*Dstruct]uint),
+		Dstruct_stagedOrder: make(map[*Dstruct]uint),
 
-		F0123456789012345678901234567890Map_Staged_Order: make(map[*F0123456789012345678901234567890]uint),
+		F0123456789012345678901234567890_stagedOrder: make(map[*F0123456789012345678901234567890]uint),
 
-		GstructMap_Staged_Order: make(map[*Gstruct]uint),
+		Gstruct_stagedOrder: make(map[*Gstruct]uint),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
@@ -890,19 +924,19 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
 	case *Astruct:
-		return stage.AstructMap_Staged_Order[instance]
+		return stage.Astruct_stagedOrder[instance]
 	case *AstructBstruct2Use:
-		return stage.AstructBstruct2UseMap_Staged_Order[instance]
+		return stage.AstructBstruct2Use_stagedOrder[instance]
 	case *AstructBstructUse:
-		return stage.AstructBstructUseMap_Staged_Order[instance]
+		return stage.AstructBstructUse_stagedOrder[instance]
 	case *Bstruct:
-		return stage.BstructMap_Staged_Order[instance]
+		return stage.Bstruct_stagedOrder[instance]
 	case *Dstruct:
-		return stage.DstructMap_Staged_Order[instance]
+		return stage.Dstruct_stagedOrder[instance]
 	case *F0123456789012345678901234567890:
-		return stage.F0123456789012345678901234567890Map_Staged_Order[instance]
+		return stage.F0123456789012345678901234567890_stagedOrder[instance]
 	case *Gstruct:
-		return stage.GstructMap_Staged_Order[instance]
+		return stage.Gstruct_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -912,19 +946,19 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
 	case *Astruct:
-		return stage.AstructMap_Staged_Order[instance]
+		return stage.Astruct_stagedOrder[instance]
 	case *AstructBstruct2Use:
-		return stage.AstructBstruct2UseMap_Staged_Order[instance]
+		return stage.AstructBstruct2Use_stagedOrder[instance]
 	case *AstructBstructUse:
-		return stage.AstructBstructUseMap_Staged_Order[instance]
+		return stage.AstructBstructUse_stagedOrder[instance]
 	case *Bstruct:
-		return stage.BstructMap_Staged_Order[instance]
+		return stage.Bstruct_stagedOrder[instance]
 	case *Dstruct:
-		return stage.DstructMap_Staged_Order[instance]
+		return stage.Dstruct_stagedOrder[instance]
 	case *F0123456789012345678901234567890:
-		return stage.F0123456789012345678901234567890Map_Staged_Order[instance]
+		return stage.F0123456789012345678901234567890_stagedOrder[instance]
 	case *Gstruct:
-		return stage.GstructMap_Staged_Order[instance]
+		return stage.Gstruct_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -937,8 +971,14 @@ func (stage *Stage) GetName() string {
 func (stage *Stage) CommitWithSuspendedCallbacks() {
 	tmp := stage.OnInitCommitFromBackCallback
 	stage.OnInitCommitFromBackCallback = nil
+	tmp2 := stage.beforeCommitHooks
+	stage.beforeCommitHooks = nil
+	tmp3 := stage.afterCommitHooks
+	stage.afterCommitHooks = nil
 	stage.Commit()
 	stage.OnInitCommitFromBackCallback = tmp
+	stage.beforeCommitHooks = tmp2
+	stage.afterCommitHooks = tmp3
 }
 
 func (stage *Stage) Commit() {
@@ -949,6 +989,11 @@ func (stage *Stage) Commit() {
 	}
 	if stage.OnInitCommitFromBackCallback != nil {
 		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
+	}
+
+	// 1. Run all Before Commit hooks
+	for _, hook := range stage.beforeCommitHooks {
+		hook(stage)
 	}
 
 	if stage.BackRepo != nil {
@@ -966,6 +1011,11 @@ func (stage *Stage) Commit() {
 	if stage.IsInDeltaMode() {
 		stage.ComputeForwardAndBackwardCommits()
 		stage.ComputeReferenceAndOrders()
+	}
+
+	// 2. Run all After Commit hooks
+	for _, hook := range stage.afterCommitHooks {
+		hook(stage)
 	}
 }
 
@@ -1022,7 +1072,7 @@ func (stage *Stage) RestoreXL(dirPath string) {
 func (astruct *Astruct) Stage(stage *Stage) *Astruct {
 	if _, ok := stage.Astructs[astruct]; !ok {
 		stage.Astructs[astruct] = struct{}{}
-		stage.AstructMap_Staged_Order[astruct] = stage.AstructOrder
+		stage.Astruct_stagedOrder[astruct] = stage.AstructOrder
 		stage.AstructOrder++
 	}
 	stage.Astructs_mapString[astruct.Name] = astruct
@@ -1042,7 +1092,7 @@ func (astruct *Astruct) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.AstructOrder {
 			stage.AstructOrder = order
 		}
-		stage.AstructMap_Staged_Order[astruct] = order
+		stage.Astruct_stagedOrder[astruct] = order
 		stage.AstructOrder++
 	}
 	stage.Astructs_mapString[astruct.Name] = astruct
@@ -1051,7 +1101,8 @@ func (astruct *Astruct) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes astruct off the model stage
 func (astruct *Astruct) Unstage(stage *Stage) *Astruct {
 	delete(stage.Astructs, astruct)
-	delete(stage.AstructMap_Staged_Order, astruct)
+	// issue1150
+	// delete(stage.Astruct_stagedOrder, astruct)
 	delete(stage.Astructs_mapString, astruct.Name)
 
 	return astruct
@@ -1060,7 +1111,8 @@ func (astruct *Astruct) Unstage(stage *Stage) *Astruct {
 // UnstageVoid removes astruct off the model stage
 func (astruct *Astruct) UnstageVoid(stage *Stage) {
 	delete(stage.Astructs, astruct)
-	delete(stage.AstructMap_Staged_Order, astruct)
+	// issue1150
+	// delete(stage.Astruct_stagedOrder, astruct)
 	delete(stage.Astructs_mapString, astruct.Name)
 }
 
@@ -1106,7 +1158,7 @@ func (astruct *Astruct) SetName(name string) {
 func (astructbstruct2use *AstructBstruct2Use) Stage(stage *Stage) *AstructBstruct2Use {
 	if _, ok := stage.AstructBstruct2Uses[astructbstruct2use]; !ok {
 		stage.AstructBstruct2Uses[astructbstruct2use] = struct{}{}
-		stage.AstructBstruct2UseMap_Staged_Order[astructbstruct2use] = stage.AstructBstruct2UseOrder
+		stage.AstructBstruct2Use_stagedOrder[astructbstruct2use] = stage.AstructBstruct2UseOrder
 		stage.AstructBstruct2UseOrder++
 	}
 	stage.AstructBstruct2Uses_mapString[astructbstruct2use.Name] = astructbstruct2use
@@ -1126,7 +1178,7 @@ func (astructbstruct2use *AstructBstruct2Use) StagePreserveOrder(stage *Stage, o
 		if order > stage.AstructBstruct2UseOrder {
 			stage.AstructBstruct2UseOrder = order
 		}
-		stage.AstructBstruct2UseMap_Staged_Order[astructbstruct2use] = order
+		stage.AstructBstruct2Use_stagedOrder[astructbstruct2use] = order
 		stage.AstructBstruct2UseOrder++
 	}
 	stage.AstructBstruct2Uses_mapString[astructbstruct2use.Name] = astructbstruct2use
@@ -1135,7 +1187,8 @@ func (astructbstruct2use *AstructBstruct2Use) StagePreserveOrder(stage *Stage, o
 // Unstage removes astructbstruct2use off the model stage
 func (astructbstruct2use *AstructBstruct2Use) Unstage(stage *Stage) *AstructBstruct2Use {
 	delete(stage.AstructBstruct2Uses, astructbstruct2use)
-	delete(stage.AstructBstruct2UseMap_Staged_Order, astructbstruct2use)
+	// issue1150
+	// delete(stage.AstructBstruct2Use_stagedOrder, astructbstruct2use)
 	delete(stage.AstructBstruct2Uses_mapString, astructbstruct2use.Name)
 
 	return astructbstruct2use
@@ -1144,7 +1197,8 @@ func (astructbstruct2use *AstructBstruct2Use) Unstage(stage *Stage) *AstructBstr
 // UnstageVoid removes astructbstruct2use off the model stage
 func (astructbstruct2use *AstructBstruct2Use) UnstageVoid(stage *Stage) {
 	delete(stage.AstructBstruct2Uses, astructbstruct2use)
-	delete(stage.AstructBstruct2UseMap_Staged_Order, astructbstruct2use)
+	// issue1150
+	// delete(stage.AstructBstruct2Use_stagedOrder, astructbstruct2use)
 	delete(stage.AstructBstruct2Uses_mapString, astructbstruct2use.Name)
 }
 
@@ -1190,7 +1244,7 @@ func (astructbstruct2use *AstructBstruct2Use) SetName(name string) {
 func (astructbstructuse *AstructBstructUse) Stage(stage *Stage) *AstructBstructUse {
 	if _, ok := stage.AstructBstructUses[astructbstructuse]; !ok {
 		stage.AstructBstructUses[astructbstructuse] = struct{}{}
-		stage.AstructBstructUseMap_Staged_Order[astructbstructuse] = stage.AstructBstructUseOrder
+		stage.AstructBstructUse_stagedOrder[astructbstructuse] = stage.AstructBstructUseOrder
 		stage.AstructBstructUseOrder++
 	}
 	stage.AstructBstructUses_mapString[astructbstructuse.Name] = astructbstructuse
@@ -1210,7 +1264,7 @@ func (astructbstructuse *AstructBstructUse) StagePreserveOrder(stage *Stage, ord
 		if order > stage.AstructBstructUseOrder {
 			stage.AstructBstructUseOrder = order
 		}
-		stage.AstructBstructUseMap_Staged_Order[astructbstructuse] = order
+		stage.AstructBstructUse_stagedOrder[astructbstructuse] = order
 		stage.AstructBstructUseOrder++
 	}
 	stage.AstructBstructUses_mapString[astructbstructuse.Name] = astructbstructuse
@@ -1219,7 +1273,8 @@ func (astructbstructuse *AstructBstructUse) StagePreserveOrder(stage *Stage, ord
 // Unstage removes astructbstructuse off the model stage
 func (astructbstructuse *AstructBstructUse) Unstage(stage *Stage) *AstructBstructUse {
 	delete(stage.AstructBstructUses, astructbstructuse)
-	delete(stage.AstructBstructUseMap_Staged_Order, astructbstructuse)
+	// issue1150
+	// delete(stage.AstructBstructUse_stagedOrder, astructbstructuse)
 	delete(stage.AstructBstructUses_mapString, astructbstructuse.Name)
 
 	return astructbstructuse
@@ -1228,7 +1283,8 @@ func (astructbstructuse *AstructBstructUse) Unstage(stage *Stage) *AstructBstruc
 // UnstageVoid removes astructbstructuse off the model stage
 func (astructbstructuse *AstructBstructUse) UnstageVoid(stage *Stage) {
 	delete(stage.AstructBstructUses, astructbstructuse)
-	delete(stage.AstructBstructUseMap_Staged_Order, astructbstructuse)
+	// issue1150
+	// delete(stage.AstructBstructUse_stagedOrder, astructbstructuse)
 	delete(stage.AstructBstructUses_mapString, astructbstructuse.Name)
 }
 
@@ -1274,7 +1330,7 @@ func (astructbstructuse *AstructBstructUse) SetName(name string) {
 func (bstruct *Bstruct) Stage(stage *Stage) *Bstruct {
 	if _, ok := stage.Bstructs[bstruct]; !ok {
 		stage.Bstructs[bstruct] = struct{}{}
-		stage.BstructMap_Staged_Order[bstruct] = stage.BstructOrder
+		stage.Bstruct_stagedOrder[bstruct] = stage.BstructOrder
 		stage.BstructOrder++
 	}
 	stage.Bstructs_mapString[bstruct.Name] = bstruct
@@ -1294,7 +1350,7 @@ func (bstruct *Bstruct) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.BstructOrder {
 			stage.BstructOrder = order
 		}
-		stage.BstructMap_Staged_Order[bstruct] = order
+		stage.Bstruct_stagedOrder[bstruct] = order
 		stage.BstructOrder++
 	}
 	stage.Bstructs_mapString[bstruct.Name] = bstruct
@@ -1303,7 +1359,8 @@ func (bstruct *Bstruct) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes bstruct off the model stage
 func (bstruct *Bstruct) Unstage(stage *Stage) *Bstruct {
 	delete(stage.Bstructs, bstruct)
-	delete(stage.BstructMap_Staged_Order, bstruct)
+	// issue1150
+	// delete(stage.Bstruct_stagedOrder, bstruct)
 	delete(stage.Bstructs_mapString, bstruct.Name)
 
 	return bstruct
@@ -1312,7 +1369,8 @@ func (bstruct *Bstruct) Unstage(stage *Stage) *Bstruct {
 // UnstageVoid removes bstruct off the model stage
 func (bstruct *Bstruct) UnstageVoid(stage *Stage) {
 	delete(stage.Bstructs, bstruct)
-	delete(stage.BstructMap_Staged_Order, bstruct)
+	// issue1150
+	// delete(stage.Bstruct_stagedOrder, bstruct)
 	delete(stage.Bstructs_mapString, bstruct.Name)
 }
 
@@ -1358,7 +1416,7 @@ func (bstruct *Bstruct) SetName(name string) {
 func (dstruct *Dstruct) Stage(stage *Stage) *Dstruct {
 	if _, ok := stage.Dstructs[dstruct]; !ok {
 		stage.Dstructs[dstruct] = struct{}{}
-		stage.DstructMap_Staged_Order[dstruct] = stage.DstructOrder
+		stage.Dstruct_stagedOrder[dstruct] = stage.DstructOrder
 		stage.DstructOrder++
 	}
 	stage.Dstructs_mapString[dstruct.Name] = dstruct
@@ -1378,7 +1436,7 @@ func (dstruct *Dstruct) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.DstructOrder {
 			stage.DstructOrder = order
 		}
-		stage.DstructMap_Staged_Order[dstruct] = order
+		stage.Dstruct_stagedOrder[dstruct] = order
 		stage.DstructOrder++
 	}
 	stage.Dstructs_mapString[dstruct.Name] = dstruct
@@ -1387,7 +1445,8 @@ func (dstruct *Dstruct) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes dstruct off the model stage
 func (dstruct *Dstruct) Unstage(stage *Stage) *Dstruct {
 	delete(stage.Dstructs, dstruct)
-	delete(stage.DstructMap_Staged_Order, dstruct)
+	// issue1150
+	// delete(stage.Dstruct_stagedOrder, dstruct)
 	delete(stage.Dstructs_mapString, dstruct.Name)
 
 	return dstruct
@@ -1396,7 +1455,8 @@ func (dstruct *Dstruct) Unstage(stage *Stage) *Dstruct {
 // UnstageVoid removes dstruct off the model stage
 func (dstruct *Dstruct) UnstageVoid(stage *Stage) {
 	delete(stage.Dstructs, dstruct)
-	delete(stage.DstructMap_Staged_Order, dstruct)
+	// issue1150
+	// delete(stage.Dstruct_stagedOrder, dstruct)
 	delete(stage.Dstructs_mapString, dstruct.Name)
 }
 
@@ -1442,7 +1502,7 @@ func (dstruct *Dstruct) SetName(name string) {
 func (f0123456789012345678901234567890 *F0123456789012345678901234567890) Stage(stage *Stage) *F0123456789012345678901234567890 {
 	if _, ok := stage.F0123456789012345678901234567890s[f0123456789012345678901234567890]; !ok {
 		stage.F0123456789012345678901234567890s[f0123456789012345678901234567890] = struct{}{}
-		stage.F0123456789012345678901234567890Map_Staged_Order[f0123456789012345678901234567890] = stage.F0123456789012345678901234567890Order
+		stage.F0123456789012345678901234567890_stagedOrder[f0123456789012345678901234567890] = stage.F0123456789012345678901234567890Order
 		stage.F0123456789012345678901234567890Order++
 	}
 	stage.F0123456789012345678901234567890s_mapString[f0123456789012345678901234567890.Name] = f0123456789012345678901234567890
@@ -1462,7 +1522,7 @@ func (f0123456789012345678901234567890 *F0123456789012345678901234567890) StageP
 		if order > stage.F0123456789012345678901234567890Order {
 			stage.F0123456789012345678901234567890Order = order
 		}
-		stage.F0123456789012345678901234567890Map_Staged_Order[f0123456789012345678901234567890] = order
+		stage.F0123456789012345678901234567890_stagedOrder[f0123456789012345678901234567890] = order
 		stage.F0123456789012345678901234567890Order++
 	}
 	stage.F0123456789012345678901234567890s_mapString[f0123456789012345678901234567890.Name] = f0123456789012345678901234567890
@@ -1471,7 +1531,8 @@ func (f0123456789012345678901234567890 *F0123456789012345678901234567890) StageP
 // Unstage removes f0123456789012345678901234567890 off the model stage
 func (f0123456789012345678901234567890 *F0123456789012345678901234567890) Unstage(stage *Stage) *F0123456789012345678901234567890 {
 	delete(stage.F0123456789012345678901234567890s, f0123456789012345678901234567890)
-	delete(stage.F0123456789012345678901234567890Map_Staged_Order, f0123456789012345678901234567890)
+	// issue1150
+	// delete(stage.F0123456789012345678901234567890_stagedOrder, f0123456789012345678901234567890)
 	delete(stage.F0123456789012345678901234567890s_mapString, f0123456789012345678901234567890.Name)
 
 	return f0123456789012345678901234567890
@@ -1480,7 +1541,8 @@ func (f0123456789012345678901234567890 *F0123456789012345678901234567890) Unstag
 // UnstageVoid removes f0123456789012345678901234567890 off the model stage
 func (f0123456789012345678901234567890 *F0123456789012345678901234567890) UnstageVoid(stage *Stage) {
 	delete(stage.F0123456789012345678901234567890s, f0123456789012345678901234567890)
-	delete(stage.F0123456789012345678901234567890Map_Staged_Order, f0123456789012345678901234567890)
+	// issue1150
+	// delete(stage.F0123456789012345678901234567890_stagedOrder, f0123456789012345678901234567890)
 	delete(stage.F0123456789012345678901234567890s_mapString, f0123456789012345678901234567890.Name)
 }
 
@@ -1526,7 +1588,7 @@ func (f0123456789012345678901234567890 *F0123456789012345678901234567890) SetNam
 func (gstruct *Gstruct) Stage(stage *Stage) *Gstruct {
 	if _, ok := stage.Gstructs[gstruct]; !ok {
 		stage.Gstructs[gstruct] = struct{}{}
-		stage.GstructMap_Staged_Order[gstruct] = stage.GstructOrder
+		stage.Gstruct_stagedOrder[gstruct] = stage.GstructOrder
 		stage.GstructOrder++
 	}
 	stage.Gstructs_mapString[gstruct.Name] = gstruct
@@ -1546,7 +1608,7 @@ func (gstruct *Gstruct) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.GstructOrder {
 			stage.GstructOrder = order
 		}
-		stage.GstructMap_Staged_Order[gstruct] = order
+		stage.Gstruct_stagedOrder[gstruct] = order
 		stage.GstructOrder++
 	}
 	stage.Gstructs_mapString[gstruct.Name] = gstruct
@@ -1555,7 +1617,8 @@ func (gstruct *Gstruct) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes gstruct off the model stage
 func (gstruct *Gstruct) Unstage(stage *Stage) *Gstruct {
 	delete(stage.Gstructs, gstruct)
-	delete(stage.GstructMap_Staged_Order, gstruct)
+	// issue1150
+	// delete(stage.Gstruct_stagedOrder, gstruct)
 	delete(stage.Gstructs_mapString, gstruct.Name)
 
 	return gstruct
@@ -1564,7 +1627,8 @@ func (gstruct *Gstruct) Unstage(stage *Stage) *Gstruct {
 // UnstageVoid removes gstruct off the model stage
 func (gstruct *Gstruct) UnstageVoid(stage *Stage) {
 	delete(stage.Gstructs, gstruct)
-	delete(stage.GstructMap_Staged_Order, gstruct)
+	// issue1150
+	// delete(stage.Gstruct_stagedOrder, gstruct)
 	delete(stage.Gstructs_mapString, gstruct.Name)
 }
 
@@ -1630,37 +1694,37 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Astructs = make(map[*Astruct]struct{})
 	stage.Astructs_mapString = make(map[string]*Astruct)
-	stage.AstructMap_Staged_Order = make(map[*Astruct]uint)
+	stage.Astruct_stagedOrder = make(map[*Astruct]uint)
 	stage.AstructOrder = 0
 
 	stage.AstructBstruct2Uses = make(map[*AstructBstruct2Use]struct{})
 	stage.AstructBstruct2Uses_mapString = make(map[string]*AstructBstruct2Use)
-	stage.AstructBstruct2UseMap_Staged_Order = make(map[*AstructBstruct2Use]uint)
+	stage.AstructBstruct2Use_stagedOrder = make(map[*AstructBstruct2Use]uint)
 	stage.AstructBstruct2UseOrder = 0
 
 	stage.AstructBstructUses = make(map[*AstructBstructUse]struct{})
 	stage.AstructBstructUses_mapString = make(map[string]*AstructBstructUse)
-	stage.AstructBstructUseMap_Staged_Order = make(map[*AstructBstructUse]uint)
+	stage.AstructBstructUse_stagedOrder = make(map[*AstructBstructUse]uint)
 	stage.AstructBstructUseOrder = 0
 
 	stage.Bstructs = make(map[*Bstruct]struct{})
 	stage.Bstructs_mapString = make(map[string]*Bstruct)
-	stage.BstructMap_Staged_Order = make(map[*Bstruct]uint)
+	stage.Bstruct_stagedOrder = make(map[*Bstruct]uint)
 	stage.BstructOrder = 0
 
 	stage.Dstructs = make(map[*Dstruct]struct{})
 	stage.Dstructs_mapString = make(map[string]*Dstruct)
-	stage.DstructMap_Staged_Order = make(map[*Dstruct]uint)
+	stage.Dstruct_stagedOrder = make(map[*Dstruct]uint)
 	stage.DstructOrder = 0
 
 	stage.F0123456789012345678901234567890s = make(map[*F0123456789012345678901234567890]struct{})
 	stage.F0123456789012345678901234567890s_mapString = make(map[string]*F0123456789012345678901234567890)
-	stage.F0123456789012345678901234567890Map_Staged_Order = make(map[*F0123456789012345678901234567890]uint)
+	stage.F0123456789012345678901234567890_stagedOrder = make(map[*F0123456789012345678901234567890]uint)
 	stage.F0123456789012345678901234567890Order = 0
 
 	stage.Gstructs = make(map[*Gstruct]struct{})
 	stage.Gstructs_mapString = make(map[string]*Gstruct)
-	stage.GstructMap_Staged_Order = make(map[*Gstruct]uint)
+	stage.Gstruct_stagedOrder = make(map[*Gstruct]uint)
 	stage.GstructOrder = 0
 
 	if stage.GetProbeIF() != nil {
@@ -3114,7 +3178,7 @@ func (astruct *Astruct) GongSetFieldValue(fieldName string, value GongFieldValue
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			astruct.Associationtob = nil
 			for __instance__ := range stage.Bstructs {
-				if stage.BstructMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Bstruct_stagedOrder[__instance__] == uint(id) {
 					astruct.Associationtob = __instance__
 					break
 				}
@@ -3127,7 +3191,7 @@ func (astruct *Astruct) GongSetFieldValue(fieldName string, value GongFieldValue
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Bstructs {
-					if stage.BstructMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Bstruct_stagedOrder[__instance__] == uint(id) {
 						astruct.Anarrayofb = append(astruct.Anarrayofb, __instance__)
 						break
 					}
@@ -3139,7 +3203,7 @@ func (astruct *Astruct) GongSetFieldValue(fieldName string, value GongFieldValue
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			astruct.Anotherassociationtob_2 = nil
 			for __instance__ := range stage.Bstructs {
-				if stage.BstructMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Bstruct_stagedOrder[__instance__] == uint(id) {
 					astruct.Anotherassociationtob_2 = __instance__
 					break
 				}
@@ -3164,7 +3228,7 @@ func (astruct *Astruct) GongSetFieldValue(fieldName string, value GongFieldValue
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			astruct.Bstruct = nil
 			for __instance__ := range stage.Bstructs {
-				if stage.BstructMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Bstruct_stagedOrder[__instance__] == uint(id) {
 					astruct.Bstruct = __instance__
 					break
 				}
@@ -3175,7 +3239,7 @@ func (astruct *Astruct) GongSetFieldValue(fieldName string, value GongFieldValue
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			astruct.Bstruct2 = nil
 			for __instance__ := range stage.Bstructs {
-				if stage.BstructMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Bstruct_stagedOrder[__instance__] == uint(id) {
 					astruct.Bstruct2 = __instance__
 					break
 				}
@@ -3186,7 +3250,7 @@ func (astruct *Astruct) GongSetFieldValue(fieldName string, value GongFieldValue
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			astruct.Dstruct = nil
 			for __instance__ := range stage.Dstructs {
-				if stage.DstructMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Dstruct_stagedOrder[__instance__] == uint(id) {
 					astruct.Dstruct = __instance__
 					break
 				}
@@ -3197,7 +3261,7 @@ func (astruct *Astruct) GongSetFieldValue(fieldName string, value GongFieldValue
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			astruct.Dstruct2 = nil
 			for __instance__ := range stage.Dstructs {
-				if stage.DstructMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Dstruct_stagedOrder[__instance__] == uint(id) {
 					astruct.Dstruct2 = __instance__
 					break
 				}
@@ -3208,7 +3272,7 @@ func (astruct *Astruct) GongSetFieldValue(fieldName string, value GongFieldValue
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			astruct.Dstruct3 = nil
 			for __instance__ := range stage.Dstructs {
-				if stage.DstructMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Dstruct_stagedOrder[__instance__] == uint(id) {
 					astruct.Dstruct3 = __instance__
 					break
 				}
@@ -3219,7 +3283,7 @@ func (astruct *Astruct) GongSetFieldValue(fieldName string, value GongFieldValue
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			astruct.Dstruct4 = nil
 			for __instance__ := range stage.Dstructs {
-				if stage.DstructMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Dstruct_stagedOrder[__instance__] == uint(id) {
 					astruct.Dstruct4 = __instance__
 					break
 				}
@@ -3232,7 +3296,7 @@ func (astruct *Astruct) GongSetFieldValue(fieldName string, value GongFieldValue
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Dstructs {
-					if stage.DstructMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Dstruct_stagedOrder[__instance__] == uint(id) {
 						astruct.Dstruct4s = append(astruct.Dstruct4s, __instance__)
 						break
 					}
@@ -3252,7 +3316,7 @@ func (astruct *Astruct) GongSetFieldValue(fieldName string, value GongFieldValue
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Astructs {
-					if stage.AstructMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Astruct_stagedOrder[__instance__] == uint(id) {
 						astruct.Anarrayofa = append(astruct.Anarrayofa, __instance__)
 						break
 					}
@@ -3266,7 +3330,7 @@ func (astruct *Astruct) GongSetFieldValue(fieldName string, value GongFieldValue
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Bstructs {
-					if stage.BstructMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Bstruct_stagedOrder[__instance__] == uint(id) {
 						astruct.Anotherarrayofb = append(astruct.Anotherarrayofb, __instance__)
 						break
 					}
@@ -3280,7 +3344,7 @@ func (astruct *Astruct) GongSetFieldValue(fieldName string, value GongFieldValue
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.AstructBstructUses {
-					if stage.AstructBstructUseMap_Staged_Order[__instance__] == uint(id) {
+					if stage.AstructBstructUse_stagedOrder[__instance__] == uint(id) {
 						astruct.AnarrayofbUse = append(astruct.AnarrayofbUse, __instance__)
 						break
 					}
@@ -3294,7 +3358,7 @@ func (astruct *Astruct) GongSetFieldValue(fieldName string, value GongFieldValue
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.AstructBstruct2Uses {
-					if stage.AstructBstruct2UseMap_Staged_Order[__instance__] == uint(id) {
+					if stage.AstructBstruct2Use_stagedOrder[__instance__] == uint(id) {
 						astruct.Anarrayofb2Use = append(astruct.Anarrayofb2Use, __instance__)
 						break
 					}
@@ -3306,7 +3370,7 @@ func (astruct *Astruct) GongSetFieldValue(fieldName string, value GongFieldValue
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			astruct.AnAstruct = nil
 			for __instance__ := range stage.Astructs {
-				if stage.AstructMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Astruct_stagedOrder[__instance__] == uint(id) {
 					astruct.AnAstruct = __instance__
 					break
 				}
@@ -3332,7 +3396,7 @@ func (astructbstruct2use *AstructBstruct2Use) GongSetFieldValue(fieldName string
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			astructbstruct2use.Bstrcut2 = nil
 			for __instance__ := range stage.Bstructs {
-				if stage.BstructMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Bstruct_stagedOrder[__instance__] == uint(id) {
 					astructbstruct2use.Bstrcut2 = __instance__
 					break
 				}
@@ -3354,7 +3418,7 @@ func (astructbstructuse *AstructBstructUse) GongSetFieldValue(fieldName string, 
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			astructbstructuse.Bstruct2 = nil
 			for __instance__ := range stage.Bstructs {
-				if stage.BstructMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Bstruct_stagedOrder[__instance__] == uint(id) {
 					astructbstructuse.Bstruct2 = __instance__
 					break
 				}
@@ -3395,7 +3459,7 @@ func (dstruct *Dstruct) GongSetFieldValue(fieldName string, value GongFieldValue
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Bstructs {
-					if stage.BstructMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Bstruct_stagedOrder[__instance__] == uint(id) {
 						dstruct.Anarrayofb = append(dstruct.Anarrayofb, __instance__)
 						break
 					}
@@ -3407,7 +3471,7 @@ func (dstruct *Dstruct) GongSetFieldValue(fieldName string, value GongFieldValue
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			dstruct.Gstruct = nil
 			for __instance__ := range stage.Gstructs {
-				if stage.GstructMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Gstruct_stagedOrder[__instance__] == uint(id) {
 					dstruct.Gstruct = __instance__
 					break
 				}
@@ -3420,7 +3484,7 @@ func (dstruct *Dstruct) GongSetFieldValue(fieldName string, value GongFieldValue
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Gstructs {
-					if stage.GstructMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Gstruct_stagedOrder[__instance__] == uint(id) {
 						dstruct.Gstructs = append(dstruct.Gstructs, __instance__)
 						break
 					}

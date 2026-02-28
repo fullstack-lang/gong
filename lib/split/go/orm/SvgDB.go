@@ -150,9 +150,9 @@ func (backRepoSvg *BackRepoSvgStruct) CommitPhaseOne(stage *models.Stage) (Error
 		svgs = append(svgs, svg)
 	}
 
-	// Sort by the order stored in Map_Staged_Order.
+	// Sort by the order stored in _stagedOrder.
 	sort.Slice(svgs, func(i, j int) bool {
-		return stage.SvgMap_Staged_Order[svgs[i]] < stage.SvgMap_Staged_Order[svgs[j]]
+		return stage.Svg_stagedOrder[svgs[i]] < stage.Svg_stagedOrder[svgs[j]]
 	})
 
 	for _, svg := range svgs {

@@ -3,6 +3,7 @@ package models
 
 import (
 	"fmt"
+	"log"
 	"sort"
 	"strings"
 	"time"
@@ -233,17 +234,17 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			if stage.Category1s_referenceOrder == nil {
 				stage.Category1s_referenceOrder = make(map[*Category1]uint)
 			}
-			stage.Category1s_referenceOrder[category1] = stage.Category1Map_Staged_Order[category1]
+			stage.Category1s_referenceOrder[category1] = stage.Category1_stagedOrder[category1]
 			newInstancesReverseSlice = append(newInstancesReverseSlice, category1.GongMarshallUnstaging(stage))
-			delete(stage.Category1s_referenceOrder, category1)
+			// delete(stage.Category1s_referenceOrder, category1)
 			fieldInitializers, pointersInitializations := category1.GongMarshallAllFields(stage)
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
-			stage.Category1Map_Staged_Order[ref] = stage.Category1Map_Staged_Order[category1]
+			stage.Category1_stagedOrder[ref] = stage.Category1_stagedOrder[category1]
 			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := category1.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, category1)
-			delete(stage.Category1Map_Staged_Order, ref)
+			// delete(stage.Category1_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
 				fieldsEdit += fmt.Sprintf("\n\t// %s", category1.GetName())
@@ -284,17 +285,17 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			if stage.Category1Shapes_referenceOrder == nil {
 				stage.Category1Shapes_referenceOrder = make(map[*Category1Shape]uint)
 			}
-			stage.Category1Shapes_referenceOrder[category1shape] = stage.Category1ShapeMap_Staged_Order[category1shape]
+			stage.Category1Shapes_referenceOrder[category1shape] = stage.Category1Shape_stagedOrder[category1shape]
 			newInstancesReverseSlice = append(newInstancesReverseSlice, category1shape.GongMarshallUnstaging(stage))
-			delete(stage.Category1Shapes_referenceOrder, category1shape)
+			// delete(stage.Category1Shapes_referenceOrder, category1shape)
 			fieldInitializers, pointersInitializations := category1shape.GongMarshallAllFields(stage)
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
-			stage.Category1ShapeMap_Staged_Order[ref] = stage.Category1ShapeMap_Staged_Order[category1shape]
+			stage.Category1Shape_stagedOrder[ref] = stage.Category1Shape_stagedOrder[category1shape]
 			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := category1shape.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, category1shape)
-			delete(stage.Category1ShapeMap_Staged_Order, ref)
+			// delete(stage.Category1Shape_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
 				fieldsEdit += fmt.Sprintf("\n\t// %s", category1shape.GetName())
@@ -335,17 +336,17 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			if stage.Category2s_referenceOrder == nil {
 				stage.Category2s_referenceOrder = make(map[*Category2]uint)
 			}
-			stage.Category2s_referenceOrder[category2] = stage.Category2Map_Staged_Order[category2]
+			stage.Category2s_referenceOrder[category2] = stage.Category2_stagedOrder[category2]
 			newInstancesReverseSlice = append(newInstancesReverseSlice, category2.GongMarshallUnstaging(stage))
-			delete(stage.Category2s_referenceOrder, category2)
+			// delete(stage.Category2s_referenceOrder, category2)
 			fieldInitializers, pointersInitializations := category2.GongMarshallAllFields(stage)
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
-			stage.Category2Map_Staged_Order[ref] = stage.Category2Map_Staged_Order[category2]
+			stage.Category2_stagedOrder[ref] = stage.Category2_stagedOrder[category2]
 			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := category2.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, category2)
-			delete(stage.Category2Map_Staged_Order, ref)
+			// delete(stage.Category2_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
 				fieldsEdit += fmt.Sprintf("\n\t// %s", category2.GetName())
@@ -386,17 +387,17 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			if stage.Category2Shapes_referenceOrder == nil {
 				stage.Category2Shapes_referenceOrder = make(map[*Category2Shape]uint)
 			}
-			stage.Category2Shapes_referenceOrder[category2shape] = stage.Category2ShapeMap_Staged_Order[category2shape]
+			stage.Category2Shapes_referenceOrder[category2shape] = stage.Category2Shape_stagedOrder[category2shape]
 			newInstancesReverseSlice = append(newInstancesReverseSlice, category2shape.GongMarshallUnstaging(stage))
-			delete(stage.Category2Shapes_referenceOrder, category2shape)
+			// delete(stage.Category2Shapes_referenceOrder, category2shape)
 			fieldInitializers, pointersInitializations := category2shape.GongMarshallAllFields(stage)
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
-			stage.Category2ShapeMap_Staged_Order[ref] = stage.Category2ShapeMap_Staged_Order[category2shape]
+			stage.Category2Shape_stagedOrder[ref] = stage.Category2Shape_stagedOrder[category2shape]
 			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := category2shape.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, category2shape)
-			delete(stage.Category2ShapeMap_Staged_Order, ref)
+			// delete(stage.Category2Shape_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
 				fieldsEdit += fmt.Sprintf("\n\t// %s", category2shape.GetName())
@@ -437,17 +438,17 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			if stage.Category3s_referenceOrder == nil {
 				stage.Category3s_referenceOrder = make(map[*Category3]uint)
 			}
-			stage.Category3s_referenceOrder[category3] = stage.Category3Map_Staged_Order[category3]
+			stage.Category3s_referenceOrder[category3] = stage.Category3_stagedOrder[category3]
 			newInstancesReverseSlice = append(newInstancesReverseSlice, category3.GongMarshallUnstaging(stage))
-			delete(stage.Category3s_referenceOrder, category3)
+			// delete(stage.Category3s_referenceOrder, category3)
 			fieldInitializers, pointersInitializations := category3.GongMarshallAllFields(stage)
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
-			stage.Category3Map_Staged_Order[ref] = stage.Category3Map_Staged_Order[category3]
+			stage.Category3_stagedOrder[ref] = stage.Category3_stagedOrder[category3]
 			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := category3.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, category3)
-			delete(stage.Category3Map_Staged_Order, ref)
+			// delete(stage.Category3_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
 				fieldsEdit += fmt.Sprintf("\n\t// %s", category3.GetName())
@@ -488,17 +489,17 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			if stage.Category3Shapes_referenceOrder == nil {
 				stage.Category3Shapes_referenceOrder = make(map[*Category3Shape]uint)
 			}
-			stage.Category3Shapes_referenceOrder[category3shape] = stage.Category3ShapeMap_Staged_Order[category3shape]
+			stage.Category3Shapes_referenceOrder[category3shape] = stage.Category3Shape_stagedOrder[category3shape]
 			newInstancesReverseSlice = append(newInstancesReverseSlice, category3shape.GongMarshallUnstaging(stage))
-			delete(stage.Category3Shapes_referenceOrder, category3shape)
+			// delete(stage.Category3Shapes_referenceOrder, category3shape)
 			fieldInitializers, pointersInitializations := category3shape.GongMarshallAllFields(stage)
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
-			stage.Category3ShapeMap_Staged_Order[ref] = stage.Category3ShapeMap_Staged_Order[category3shape]
+			stage.Category3Shape_stagedOrder[ref] = stage.Category3Shape_stagedOrder[category3shape]
 			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := category3shape.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, category3shape)
-			delete(stage.Category3ShapeMap_Staged_Order, ref)
+			// delete(stage.Category3Shape_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
 				fieldsEdit += fmt.Sprintf("\n\t// %s", category3shape.GetName())
@@ -539,17 +540,17 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			if stage.ControlPointShapes_referenceOrder == nil {
 				stage.ControlPointShapes_referenceOrder = make(map[*ControlPointShape]uint)
 			}
-			stage.ControlPointShapes_referenceOrder[controlpointshape] = stage.ControlPointShapeMap_Staged_Order[controlpointshape]
+			stage.ControlPointShapes_referenceOrder[controlpointshape] = stage.ControlPointShape_stagedOrder[controlpointshape]
 			newInstancesReverseSlice = append(newInstancesReverseSlice, controlpointshape.GongMarshallUnstaging(stage))
-			delete(stage.ControlPointShapes_referenceOrder, controlpointshape)
+			// delete(stage.ControlPointShapes_referenceOrder, controlpointshape)
 			fieldInitializers, pointersInitializations := controlpointshape.GongMarshallAllFields(stage)
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
-			stage.ControlPointShapeMap_Staged_Order[ref] = stage.ControlPointShapeMap_Staged_Order[controlpointshape]
+			stage.ControlPointShape_stagedOrder[ref] = stage.ControlPointShape_stagedOrder[controlpointshape]
 			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := controlpointshape.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, controlpointshape)
-			delete(stage.ControlPointShapeMap_Staged_Order, ref)
+			// delete(stage.ControlPointShape_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
 				fieldsEdit += fmt.Sprintf("\n\t// %s", controlpointshape.GetName())
@@ -590,17 +591,17 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			if stage.Desks_referenceOrder == nil {
 				stage.Desks_referenceOrder = make(map[*Desk]uint)
 			}
-			stage.Desks_referenceOrder[desk] = stage.DeskMap_Staged_Order[desk]
+			stage.Desks_referenceOrder[desk] = stage.Desk_stagedOrder[desk]
 			newInstancesReverseSlice = append(newInstancesReverseSlice, desk.GongMarshallUnstaging(stage))
-			delete(stage.Desks_referenceOrder, desk)
+			// delete(stage.Desks_referenceOrder, desk)
 			fieldInitializers, pointersInitializations := desk.GongMarshallAllFields(stage)
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
-			stage.DeskMap_Staged_Order[ref] = stage.DeskMap_Staged_Order[desk]
+			stage.Desk_stagedOrder[ref] = stage.Desk_stagedOrder[desk]
 			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := desk.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, desk)
-			delete(stage.DeskMap_Staged_Order, ref)
+			// delete(stage.Desk_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
 				fieldsEdit += fmt.Sprintf("\n\t// %s", desk.GetName())
@@ -641,17 +642,17 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			if stage.Diagrams_referenceOrder == nil {
 				stage.Diagrams_referenceOrder = make(map[*Diagram]uint)
 			}
-			stage.Diagrams_referenceOrder[diagram] = stage.DiagramMap_Staged_Order[diagram]
+			stage.Diagrams_referenceOrder[diagram] = stage.Diagram_stagedOrder[diagram]
 			newInstancesReverseSlice = append(newInstancesReverseSlice, diagram.GongMarshallUnstaging(stage))
-			delete(stage.Diagrams_referenceOrder, diagram)
+			// delete(stage.Diagrams_referenceOrder, diagram)
 			fieldInitializers, pointersInitializations := diagram.GongMarshallAllFields(stage)
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
-			stage.DiagramMap_Staged_Order[ref] = stage.DiagramMap_Staged_Order[diagram]
+			stage.Diagram_stagedOrder[ref] = stage.Diagram_stagedOrder[diagram]
 			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := diagram.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, diagram)
-			delete(stage.DiagramMap_Staged_Order, ref)
+			// delete(stage.Diagram_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
 				fieldsEdit += fmt.Sprintf("\n\t// %s", diagram.GetName())
@@ -692,17 +693,17 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			if stage.Influences_referenceOrder == nil {
 				stage.Influences_referenceOrder = make(map[*Influence]uint)
 			}
-			stage.Influences_referenceOrder[influence] = stage.InfluenceMap_Staged_Order[influence]
+			stage.Influences_referenceOrder[influence] = stage.Influence_stagedOrder[influence]
 			newInstancesReverseSlice = append(newInstancesReverseSlice, influence.GongMarshallUnstaging(stage))
-			delete(stage.Influences_referenceOrder, influence)
+			// delete(stage.Influences_referenceOrder, influence)
 			fieldInitializers, pointersInitializations := influence.GongMarshallAllFields(stage)
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
-			stage.InfluenceMap_Staged_Order[ref] = stage.InfluenceMap_Staged_Order[influence]
+			stage.Influence_stagedOrder[ref] = stage.Influence_stagedOrder[influence]
 			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := influence.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, influence)
-			delete(stage.InfluenceMap_Staged_Order, ref)
+			// delete(stage.Influence_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
 				fieldsEdit += fmt.Sprintf("\n\t// %s", influence.GetName())
@@ -743,17 +744,17 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			if stage.InfluenceShapes_referenceOrder == nil {
 				stage.InfluenceShapes_referenceOrder = make(map[*InfluenceShape]uint)
 			}
-			stage.InfluenceShapes_referenceOrder[influenceshape] = stage.InfluenceShapeMap_Staged_Order[influenceshape]
+			stage.InfluenceShapes_referenceOrder[influenceshape] = stage.InfluenceShape_stagedOrder[influenceshape]
 			newInstancesReverseSlice = append(newInstancesReverseSlice, influenceshape.GongMarshallUnstaging(stage))
-			delete(stage.InfluenceShapes_referenceOrder, influenceshape)
+			// delete(stage.InfluenceShapes_referenceOrder, influenceshape)
 			fieldInitializers, pointersInitializations := influenceshape.GongMarshallAllFields(stage)
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
-			stage.InfluenceShapeMap_Staged_Order[ref] = stage.InfluenceShapeMap_Staged_Order[influenceshape]
+			stage.InfluenceShape_stagedOrder[ref] = stage.InfluenceShape_stagedOrder[influenceshape]
 			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := influenceshape.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, influenceshape)
-			delete(stage.InfluenceShapeMap_Staged_Order, ref)
+			// delete(stage.InfluenceShape_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
 				fieldsEdit += fmt.Sprintf("\n\t// %s", influenceshape.GetName())
@@ -992,124 +993,135 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 // to avoid unnecessary re-renderings
 // insertion point per named struct
 func (category1 *Category1) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.Category1Map_Staged_Order[category1]; ok {
+	if order, ok := stage.Category1_stagedOrder[category1]; ok {
 		return order
 	}
-	return stage.Category1s_referenceOrder[category1]
-}
-
-func (category1 *Category1) GongGetReferenceOrder(stage *Stage) uint {
-	return stage.Category1s_referenceOrder[category1]
+	if order, ok := stage.Category1s_referenceOrder[category1]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type Category1 was not staged and does not have a reference order", category1)
+		return 0
+	}
 }
 
 func (category1shape *Category1Shape) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.Category1ShapeMap_Staged_Order[category1shape]; ok {
+	if order, ok := stage.Category1Shape_stagedOrder[category1shape]; ok {
 		return order
 	}
-	return stage.Category1Shapes_referenceOrder[category1shape]
-}
-
-func (category1shape *Category1Shape) GongGetReferenceOrder(stage *Stage) uint {
-	return stage.Category1Shapes_referenceOrder[category1shape]
+	if order, ok := stage.Category1Shapes_referenceOrder[category1shape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type Category1Shape was not staged and does not have a reference order", category1shape)
+		return 0
+	}
 }
 
 func (category2 *Category2) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.Category2Map_Staged_Order[category2]; ok {
+	if order, ok := stage.Category2_stagedOrder[category2]; ok {
 		return order
 	}
-	return stage.Category2s_referenceOrder[category2]
-}
-
-func (category2 *Category2) GongGetReferenceOrder(stage *Stage) uint {
-	return stage.Category2s_referenceOrder[category2]
+	if order, ok := stage.Category2s_referenceOrder[category2]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type Category2 was not staged and does not have a reference order", category2)
+		return 0
+	}
 }
 
 func (category2shape *Category2Shape) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.Category2ShapeMap_Staged_Order[category2shape]; ok {
+	if order, ok := stage.Category2Shape_stagedOrder[category2shape]; ok {
 		return order
 	}
-	return stage.Category2Shapes_referenceOrder[category2shape]
-}
-
-func (category2shape *Category2Shape) GongGetReferenceOrder(stage *Stage) uint {
-	return stage.Category2Shapes_referenceOrder[category2shape]
+	if order, ok := stage.Category2Shapes_referenceOrder[category2shape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type Category2Shape was not staged and does not have a reference order", category2shape)
+		return 0
+	}
 }
 
 func (category3 *Category3) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.Category3Map_Staged_Order[category3]; ok {
+	if order, ok := stage.Category3_stagedOrder[category3]; ok {
 		return order
 	}
-	return stage.Category3s_referenceOrder[category3]
-}
-
-func (category3 *Category3) GongGetReferenceOrder(stage *Stage) uint {
-	return stage.Category3s_referenceOrder[category3]
+	if order, ok := stage.Category3s_referenceOrder[category3]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type Category3 was not staged and does not have a reference order", category3)
+		return 0
+	}
 }
 
 func (category3shape *Category3Shape) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.Category3ShapeMap_Staged_Order[category3shape]; ok {
+	if order, ok := stage.Category3Shape_stagedOrder[category3shape]; ok {
 		return order
 	}
-	return stage.Category3Shapes_referenceOrder[category3shape]
-}
-
-func (category3shape *Category3Shape) GongGetReferenceOrder(stage *Stage) uint {
-	return stage.Category3Shapes_referenceOrder[category3shape]
+	if order, ok := stage.Category3Shapes_referenceOrder[category3shape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type Category3Shape was not staged and does not have a reference order", category3shape)
+		return 0
+	}
 }
 
 func (controlpointshape *ControlPointShape) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.ControlPointShapeMap_Staged_Order[controlpointshape]; ok {
+	if order, ok := stage.ControlPointShape_stagedOrder[controlpointshape]; ok {
 		return order
 	}
-	return stage.ControlPointShapes_referenceOrder[controlpointshape]
-}
-
-func (controlpointshape *ControlPointShape) GongGetReferenceOrder(stage *Stage) uint {
-	return stage.ControlPointShapes_referenceOrder[controlpointshape]
+	if order, ok := stage.ControlPointShapes_referenceOrder[controlpointshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type ControlPointShape was not staged and does not have a reference order", controlpointshape)
+		return 0
+	}
 }
 
 func (desk *Desk) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.DeskMap_Staged_Order[desk]; ok {
+	if order, ok := stage.Desk_stagedOrder[desk]; ok {
 		return order
 	}
-	return stage.Desks_referenceOrder[desk]
-}
-
-func (desk *Desk) GongGetReferenceOrder(stage *Stage) uint {
-	return stage.Desks_referenceOrder[desk]
+	if order, ok := stage.Desks_referenceOrder[desk]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type Desk was not staged and does not have a reference order", desk)
+		return 0
+	}
 }
 
 func (diagram *Diagram) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.DiagramMap_Staged_Order[diagram]; ok {
+	if order, ok := stage.Diagram_stagedOrder[diagram]; ok {
 		return order
 	}
-	return stage.Diagrams_referenceOrder[diagram]
-}
-
-func (diagram *Diagram) GongGetReferenceOrder(stage *Stage) uint {
-	return stage.Diagrams_referenceOrder[diagram]
+	if order, ok := stage.Diagrams_referenceOrder[diagram]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type Diagram was not staged and does not have a reference order", diagram)
+		return 0
+	}
 }
 
 func (influence *Influence) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.InfluenceMap_Staged_Order[influence]; ok {
+	if order, ok := stage.Influence_stagedOrder[influence]; ok {
 		return order
 	}
-	return stage.Influences_referenceOrder[influence]
-}
-
-func (influence *Influence) GongGetReferenceOrder(stage *Stage) uint {
-	return stage.Influences_referenceOrder[influence]
+	if order, ok := stage.Influences_referenceOrder[influence]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type Influence was not staged and does not have a reference order", influence)
+		return 0
+	}
 }
 
 func (influenceshape *InfluenceShape) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.InfluenceShapeMap_Staged_Order[influenceshape]; ok {
+	if order, ok := stage.InfluenceShape_stagedOrder[influenceshape]; ok {
 		return order
 	}
-	return stage.InfluenceShapes_referenceOrder[influenceshape]
-}
-
-func (influenceshape *InfluenceShape) GongGetReferenceOrder(stage *Stage) uint {
-	return stage.InfluenceShapes_referenceOrder[influenceshape]
+	if order, ok := stage.InfluenceShapes_referenceOrder[influenceshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type InfluenceShape was not staged and does not have a reference order", influenceshape)
+		return 0
+	}
 }
 
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
@@ -1123,7 +1135,7 @@ func (category1 *Category1) GongGetIdentifier(stage *Stage) string {
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (category1 *Category1) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", category1.GongGetGongstructName(), category1.GongGetReferenceOrder(stage))
+	return fmt.Sprintf("__%s__%08d_", category1.GongGetGongstructName(), category1.GongGetOrder(stage))
 }
 
 func (category1shape *Category1Shape) GongGetIdentifier(stage *Stage) string {
@@ -1132,7 +1144,7 @@ func (category1shape *Category1Shape) GongGetIdentifier(stage *Stage) string {
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (category1shape *Category1Shape) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", category1shape.GongGetGongstructName(), category1shape.GongGetReferenceOrder(stage))
+	return fmt.Sprintf("__%s__%08d_", category1shape.GongGetGongstructName(), category1shape.GongGetOrder(stage))
 }
 
 func (category2 *Category2) GongGetIdentifier(stage *Stage) string {
@@ -1141,7 +1153,7 @@ func (category2 *Category2) GongGetIdentifier(stage *Stage) string {
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (category2 *Category2) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", category2.GongGetGongstructName(), category2.GongGetReferenceOrder(stage))
+	return fmt.Sprintf("__%s__%08d_", category2.GongGetGongstructName(), category2.GongGetOrder(stage))
 }
 
 func (category2shape *Category2Shape) GongGetIdentifier(stage *Stage) string {
@@ -1150,7 +1162,7 @@ func (category2shape *Category2Shape) GongGetIdentifier(stage *Stage) string {
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (category2shape *Category2Shape) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", category2shape.GongGetGongstructName(), category2shape.GongGetReferenceOrder(stage))
+	return fmt.Sprintf("__%s__%08d_", category2shape.GongGetGongstructName(), category2shape.GongGetOrder(stage))
 }
 
 func (category3 *Category3) GongGetIdentifier(stage *Stage) string {
@@ -1159,7 +1171,7 @@ func (category3 *Category3) GongGetIdentifier(stage *Stage) string {
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (category3 *Category3) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", category3.GongGetGongstructName(), category3.GongGetReferenceOrder(stage))
+	return fmt.Sprintf("__%s__%08d_", category3.GongGetGongstructName(), category3.GongGetOrder(stage))
 }
 
 func (category3shape *Category3Shape) GongGetIdentifier(stage *Stage) string {
@@ -1168,7 +1180,7 @@ func (category3shape *Category3Shape) GongGetIdentifier(stage *Stage) string {
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (category3shape *Category3Shape) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", category3shape.GongGetGongstructName(), category3shape.GongGetReferenceOrder(stage))
+	return fmt.Sprintf("__%s__%08d_", category3shape.GongGetGongstructName(), category3shape.GongGetOrder(stage))
 }
 
 func (controlpointshape *ControlPointShape) GongGetIdentifier(stage *Stage) string {
@@ -1177,7 +1189,7 @@ func (controlpointshape *ControlPointShape) GongGetIdentifier(stage *Stage) stri
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (controlpointshape *ControlPointShape) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", controlpointshape.GongGetGongstructName(), controlpointshape.GongGetReferenceOrder(stage))
+	return fmt.Sprintf("__%s__%08d_", controlpointshape.GongGetGongstructName(), controlpointshape.GongGetOrder(stage))
 }
 
 func (desk *Desk) GongGetIdentifier(stage *Stage) string {
@@ -1186,7 +1198,7 @@ func (desk *Desk) GongGetIdentifier(stage *Stage) string {
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (desk *Desk) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", desk.GongGetGongstructName(), desk.GongGetReferenceOrder(stage))
+	return fmt.Sprintf("__%s__%08d_", desk.GongGetGongstructName(), desk.GongGetOrder(stage))
 }
 
 func (diagram *Diagram) GongGetIdentifier(stage *Stage) string {
@@ -1195,7 +1207,7 @@ func (diagram *Diagram) GongGetIdentifier(stage *Stage) string {
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (diagram *Diagram) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", diagram.GongGetGongstructName(), diagram.GongGetReferenceOrder(stage))
+	return fmt.Sprintf("__%s__%08d_", diagram.GongGetGongstructName(), diagram.GongGetOrder(stage))
 }
 
 func (influence *Influence) GongGetIdentifier(stage *Stage) string {
@@ -1204,7 +1216,7 @@ func (influence *Influence) GongGetIdentifier(stage *Stage) string {
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (influence *Influence) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", influence.GongGetGongstructName(), influence.GongGetReferenceOrder(stage))
+	return fmt.Sprintf("__%s__%08d_", influence.GongGetGongstructName(), influence.GongGetOrder(stage))
 }
 
 func (influenceshape *InfluenceShape) GongGetIdentifier(stage *Stage) string {
@@ -1213,7 +1225,7 @@ func (influenceshape *InfluenceShape) GongGetIdentifier(stage *Stage) string {
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (influenceshape *InfluenceShape) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", influenceshape.GongGetGongstructName(), influenceshape.GongGetReferenceOrder(stage))
+	return fmt.Sprintf("__%s__%08d_", influenceshape.GongGetGongstructName(), influenceshape.GongGetOrder(stage))
 }
 
 // MarshallIdentifier returns the code to instantiate the instance

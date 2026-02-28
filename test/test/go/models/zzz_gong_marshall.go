@@ -134,8 +134,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(astructOrdered[:], func(i, j int) bool {
 		astructi := astructOrdered[i]
 		astructj := astructOrdered[j]
-		astructi_order, oki := stage.AstructMap_Staged_Order[astructi]
-		astructj_order, okj := stage.AstructMap_Staged_Order[astructj]
+		astructi_order, oki := stage.Astruct_stagedOrder[astructi]
+		astructj_order, okj := stage.Astruct_stagedOrder[astructj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -191,8 +191,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(astructbstruct2useOrdered[:], func(i, j int) bool {
 		astructbstruct2usei := astructbstruct2useOrdered[i]
 		astructbstruct2usej := astructbstruct2useOrdered[j]
-		astructbstruct2usei_order, oki := stage.AstructBstruct2UseMap_Staged_Order[astructbstruct2usei]
-		astructbstruct2usej_order, okj := stage.AstructBstruct2UseMap_Staged_Order[astructbstruct2usej]
+		astructbstruct2usei_order, oki := stage.AstructBstruct2Use_stagedOrder[astructbstruct2usei]
+		astructbstruct2usej_order, okj := stage.AstructBstruct2Use_stagedOrder[astructbstruct2usej]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -218,8 +218,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(astructbstructuseOrdered[:], func(i, j int) bool {
 		astructbstructusei := astructbstructuseOrdered[i]
 		astructbstructusej := astructbstructuseOrdered[j]
-		astructbstructusei_order, oki := stage.AstructBstructUseMap_Staged_Order[astructbstructusei]
-		astructbstructusej_order, okj := stage.AstructBstructUseMap_Staged_Order[astructbstructusej]
+		astructbstructusei_order, oki := stage.AstructBstructUse_stagedOrder[astructbstructusei]
+		astructbstructusej_order, okj := stage.AstructBstructUse_stagedOrder[astructbstructusej]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -245,8 +245,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(bstructOrdered[:], func(i, j int) bool {
 		bstructi := bstructOrdered[i]
 		bstructj := bstructOrdered[j]
-		bstructi_order, oki := stage.BstructMap_Staged_Order[bstructi]
-		bstructj_order, okj := stage.BstructMap_Staged_Order[bstructj]
+		bstructi_order, oki := stage.Bstruct_stagedOrder[bstructi]
+		bstructj_order, okj := stage.Bstruct_stagedOrder[bstructj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -274,8 +274,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(dstructOrdered[:], func(i, j int) bool {
 		dstructi := dstructOrdered[i]
 		dstructj := dstructOrdered[j]
-		dstructi_order, oki := stage.DstructMap_Staged_Order[dstructi]
-		dstructj_order, okj := stage.DstructMap_Staged_Order[dstructj]
+		dstructi_order, oki := stage.Dstruct_stagedOrder[dstructi]
+		dstructj_order, okj := stage.Dstruct_stagedOrder[dstructj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -303,8 +303,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(f0123456789012345678901234567890Ordered[:], func(i, j int) bool {
 		f0123456789012345678901234567890i := f0123456789012345678901234567890Ordered[i]
 		f0123456789012345678901234567890j := f0123456789012345678901234567890Ordered[j]
-		f0123456789012345678901234567890i_order, oki := stage.F0123456789012345678901234567890Map_Staged_Order[f0123456789012345678901234567890i]
-		f0123456789012345678901234567890j_order, okj := stage.F0123456789012345678901234567890Map_Staged_Order[f0123456789012345678901234567890j]
+		f0123456789012345678901234567890i_order, oki := stage.F0123456789012345678901234567890_stagedOrder[f0123456789012345678901234567890i]
+		f0123456789012345678901234567890j_order, okj := stage.F0123456789012345678901234567890_stagedOrder[f0123456789012345678901234567890j]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -330,8 +330,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(gstructOrdered[:], func(i, j int) bool {
 		gstructi := gstructOrdered[i]
 		gstructj := gstructOrdered[j]
-		gstructi_order, oki := stage.GstructMap_Staged_Order[gstructi]
-		gstructj_order, okj := stage.GstructMap_Staged_Order[gstructj]
+		gstructi_order, oki := stage.Gstruct_stagedOrder[gstructi]
+		gstructj_order, okj := stage.Gstruct_stagedOrder[gstructj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}

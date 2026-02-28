@@ -162,9 +162,9 @@ func (backRepoStatus *BackRepoStatusStruct) CommitPhaseOne(stage *models.Stage) 
 		statuss = append(statuss, status)
 	}
 
-	// Sort by the order stored in Map_Staged_Order.
+	// Sort by the order stored in _stagedOrder.
 	sort.Slice(statuss, func(i, j int) bool {
-		return stage.StatusMap_Staged_Order[statuss[i]] < stage.StatusMap_Staged_Order[statuss[j]]
+		return stage.Status_stagedOrder[statuss[i]] < stage.Status_stagedOrder[statuss[j]]
 	})
 
 	for _, status := range statuss {

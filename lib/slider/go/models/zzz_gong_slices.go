@@ -3,6 +3,7 @@ package models
 
 import (
 	"fmt"
+	"log"
 	"sort"
 	"strings"
 	"time"
@@ -128,17 +129,17 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			if stage.Checkboxs_referenceOrder == nil {
 				stage.Checkboxs_referenceOrder = make(map[*Checkbox]uint)
 			}
-			stage.Checkboxs_referenceOrder[checkbox] = stage.CheckboxMap_Staged_Order[checkbox]
+			stage.Checkboxs_referenceOrder[checkbox] = stage.Checkbox_stagedOrder[checkbox]
 			newInstancesReverseSlice = append(newInstancesReverseSlice, checkbox.GongMarshallUnstaging(stage))
-			delete(stage.Checkboxs_referenceOrder, checkbox)
+			// delete(stage.Checkboxs_referenceOrder, checkbox)
 			fieldInitializers, pointersInitializations := checkbox.GongMarshallAllFields(stage)
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
-			stage.CheckboxMap_Staged_Order[ref] = stage.CheckboxMap_Staged_Order[checkbox]
+			stage.Checkbox_stagedOrder[ref] = stage.Checkbox_stagedOrder[checkbox]
 			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := checkbox.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, checkbox)
-			delete(stage.CheckboxMap_Staged_Order, ref)
+			// delete(stage.Checkbox_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
 				fieldsEdit += fmt.Sprintf("\n\t// %s", checkbox.GetName())
@@ -179,17 +180,17 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			if stage.Groups_referenceOrder == nil {
 				stage.Groups_referenceOrder = make(map[*Group]uint)
 			}
-			stage.Groups_referenceOrder[group] = stage.GroupMap_Staged_Order[group]
+			stage.Groups_referenceOrder[group] = stage.Group_stagedOrder[group]
 			newInstancesReverseSlice = append(newInstancesReverseSlice, group.GongMarshallUnstaging(stage))
-			delete(stage.Groups_referenceOrder, group)
+			// delete(stage.Groups_referenceOrder, group)
 			fieldInitializers, pointersInitializations := group.GongMarshallAllFields(stage)
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
-			stage.GroupMap_Staged_Order[ref] = stage.GroupMap_Staged_Order[group]
+			stage.Group_stagedOrder[ref] = stage.Group_stagedOrder[group]
 			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := group.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, group)
-			delete(stage.GroupMap_Staged_Order, ref)
+			// delete(stage.Group_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
 				fieldsEdit += fmt.Sprintf("\n\t// %s", group.GetName())
@@ -230,17 +231,17 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			if stage.Layouts_referenceOrder == nil {
 				stage.Layouts_referenceOrder = make(map[*Layout]uint)
 			}
-			stage.Layouts_referenceOrder[layout] = stage.LayoutMap_Staged_Order[layout]
+			stage.Layouts_referenceOrder[layout] = stage.Layout_stagedOrder[layout]
 			newInstancesReverseSlice = append(newInstancesReverseSlice, layout.GongMarshallUnstaging(stage))
-			delete(stage.Layouts_referenceOrder, layout)
+			// delete(stage.Layouts_referenceOrder, layout)
 			fieldInitializers, pointersInitializations := layout.GongMarshallAllFields(stage)
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
-			stage.LayoutMap_Staged_Order[ref] = stage.LayoutMap_Staged_Order[layout]
+			stage.Layout_stagedOrder[ref] = stage.Layout_stagedOrder[layout]
 			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := layout.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, layout)
-			delete(stage.LayoutMap_Staged_Order, ref)
+			// delete(stage.Layout_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
 				fieldsEdit += fmt.Sprintf("\n\t// %s", layout.GetName())
@@ -281,17 +282,17 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			if stage.Sliders_referenceOrder == nil {
 				stage.Sliders_referenceOrder = make(map[*Slider]uint)
 			}
-			stage.Sliders_referenceOrder[slider] = stage.SliderMap_Staged_Order[slider]
+			stage.Sliders_referenceOrder[slider] = stage.Slider_stagedOrder[slider]
 			newInstancesReverseSlice = append(newInstancesReverseSlice, slider.GongMarshallUnstaging(stage))
-			delete(stage.Sliders_referenceOrder, slider)
+			// delete(stage.Sliders_referenceOrder, slider)
 			fieldInitializers, pointersInitializations := slider.GongMarshallAllFields(stage)
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
-			stage.SliderMap_Staged_Order[ref] = stage.SliderMap_Staged_Order[slider]
+			stage.Slider_stagedOrder[ref] = stage.Slider_stagedOrder[slider]
 			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := slider.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, slider)
-			delete(stage.SliderMap_Staged_Order, ref)
+			// delete(stage.Slider_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
 				fieldsEdit += fmt.Sprintf("\n\t// %s", slider.GetName())
@@ -425,47 +426,51 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 // to avoid unnecessary re-renderings
 // insertion point per named struct
 func (checkbox *Checkbox) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.CheckboxMap_Staged_Order[checkbox]; ok {
+	if order, ok := stage.Checkbox_stagedOrder[checkbox]; ok {
 		return order
 	}
-	return stage.Checkboxs_referenceOrder[checkbox]
-}
-
-func (checkbox *Checkbox) GongGetReferenceOrder(stage *Stage) uint {
-	return stage.Checkboxs_referenceOrder[checkbox]
+	if order, ok := stage.Checkboxs_referenceOrder[checkbox]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type Checkbox was not staged and does not have a reference order", checkbox)
+		return 0
+	}
 }
 
 func (group *Group) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.GroupMap_Staged_Order[group]; ok {
+	if order, ok := stage.Group_stagedOrder[group]; ok {
 		return order
 	}
-	return stage.Groups_referenceOrder[group]
-}
-
-func (group *Group) GongGetReferenceOrder(stage *Stage) uint {
-	return stage.Groups_referenceOrder[group]
+	if order, ok := stage.Groups_referenceOrder[group]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type Group was not staged and does not have a reference order", group)
+		return 0
+	}
 }
 
 func (layout *Layout) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.LayoutMap_Staged_Order[layout]; ok {
+	if order, ok := stage.Layout_stagedOrder[layout]; ok {
 		return order
 	}
-	return stage.Layouts_referenceOrder[layout]
-}
-
-func (layout *Layout) GongGetReferenceOrder(stage *Stage) uint {
-	return stage.Layouts_referenceOrder[layout]
+	if order, ok := stage.Layouts_referenceOrder[layout]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type Layout was not staged and does not have a reference order", layout)
+		return 0
+	}
 }
 
 func (slider *Slider) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.SliderMap_Staged_Order[slider]; ok {
+	if order, ok := stage.Slider_stagedOrder[slider]; ok {
 		return order
 	}
-	return stage.Sliders_referenceOrder[slider]
-}
-
-func (slider *Slider) GongGetReferenceOrder(stage *Stage) uint {
-	return stage.Sliders_referenceOrder[slider]
+	if order, ok := stage.Sliders_referenceOrder[slider]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type Slider was not staged and does not have a reference order", slider)
+		return 0
+	}
 }
 
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
@@ -479,7 +484,7 @@ func (checkbox *Checkbox) GongGetIdentifier(stage *Stage) string {
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (checkbox *Checkbox) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", checkbox.GongGetGongstructName(), checkbox.GongGetReferenceOrder(stage))
+	return fmt.Sprintf("__%s__%08d_", checkbox.GongGetGongstructName(), checkbox.GongGetOrder(stage))
 }
 
 func (group *Group) GongGetIdentifier(stage *Stage) string {
@@ -488,7 +493,7 @@ func (group *Group) GongGetIdentifier(stage *Stage) string {
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (group *Group) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", group.GongGetGongstructName(), group.GongGetReferenceOrder(stage))
+	return fmt.Sprintf("__%s__%08d_", group.GongGetGongstructName(), group.GongGetOrder(stage))
 }
 
 func (layout *Layout) GongGetIdentifier(stage *Stage) string {
@@ -497,7 +502,7 @@ func (layout *Layout) GongGetIdentifier(stage *Stage) string {
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (layout *Layout) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", layout.GongGetGongstructName(), layout.GongGetReferenceOrder(stage))
+	return fmt.Sprintf("__%s__%08d_", layout.GongGetGongstructName(), layout.GongGetOrder(stage))
 }
 
 func (slider *Slider) GongGetIdentifier(stage *Stage) string {
@@ -506,7 +511,7 @@ func (slider *Slider) GongGetIdentifier(stage *Stage) string {
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (slider *Slider) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", slider.GongGetGongstructName(), slider.GongGetReferenceOrder(stage))
+	return fmt.Sprintf("__%s__%08d_", slider.GongGetGongstructName(), slider.GongGetOrder(stage))
 }
 
 // MarshallIdentifier returns the code to instantiate the instance
