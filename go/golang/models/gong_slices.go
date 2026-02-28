@@ -238,10 +238,6 @@ func ({{structname}} *{{Structname}}) GongGetOrder(stage *Stage) uint {
 		return 0
 	}
 }
-
-func ({{structname}} *{{Structname}}) GongGetReferenceOrder(stage *Stage) uint {
-	return stage.{{Structname}}s_referenceOrder[{{structname}}]
-}
 `,
 	GongSliceGongGetIdentifier: `
 func ({{structname}} *{{Structname}}) GongGetIdentifier(stage *Stage) string {
@@ -250,7 +246,7 @@ func ({{structname}} *{{Structname}}) GongGetIdentifier(stage *Stage) string {
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func ({{structname}} *{{Structname}}) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", {{structname}}.GongGetGongstructName(), {{structname}}.GongGetReferenceOrder(stage))
+	return fmt.Sprintf("__%s__%08d_", {{structname}}.GongGetGongstructName(), {{structname}}.GongGetOrder(stage))
 }
 `,
 	GongSliceMarshallDeclaration: `
