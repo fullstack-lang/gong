@@ -1918,10 +1918,6 @@ func (diagram *Diagram) GongGetOrder(stage *Stage) uint {
 	}
 }
 
-func (diagram *Diagram) GongGetReferenceOrder(stage *Stage) uint {
-	return stage.Diagrams_referenceOrder[diagram]
-}
-
 func (note *Note) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.Note_stagedOrder[note]; ok {
 		return order
@@ -1932,10 +1928,6 @@ func (note *Note) GongGetOrder(stage *Stage) uint {
 		log.Printf("instance %p of type Note was not staged and does not have a reference order", note)
 		return 0
 	}
-}
-
-func (note *Note) GongGetReferenceOrder(stage *Stage) uint {
-	return stage.Notes_referenceOrder[note]
 }
 
 func (noteproductshape *NoteProductShape) GongGetOrder(stage *Stage) uint {
@@ -1950,10 +1942,6 @@ func (noteproductshape *NoteProductShape) GongGetOrder(stage *Stage) uint {
 	}
 }
 
-func (noteproductshape *NoteProductShape) GongGetReferenceOrder(stage *Stage) uint {
-	return stage.NoteProductShapes_referenceOrder[noteproductshape]
-}
-
 func (noteresourceshape *NoteResourceShape) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.NoteResourceShape_stagedOrder[noteresourceshape]; ok {
 		return order
@@ -1964,10 +1952,6 @@ func (noteresourceshape *NoteResourceShape) GongGetOrder(stage *Stage) uint {
 		log.Printf("instance %p of type NoteResourceShape was not staged and does not have a reference order", noteresourceshape)
 		return 0
 	}
-}
-
-func (noteresourceshape *NoteResourceShape) GongGetReferenceOrder(stage *Stage) uint {
-	return stage.NoteResourceShapes_referenceOrder[noteresourceshape]
 }
 
 func (noteshape *NoteShape) GongGetOrder(stage *Stage) uint {
@@ -1982,10 +1966,6 @@ func (noteshape *NoteShape) GongGetOrder(stage *Stage) uint {
 	}
 }
 
-func (noteshape *NoteShape) GongGetReferenceOrder(stage *Stage) uint {
-	return stage.NoteShapes_referenceOrder[noteshape]
-}
-
 func (notetaskshape *NoteTaskShape) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.NoteTaskShape_stagedOrder[notetaskshape]; ok {
 		return order
@@ -1996,10 +1976,6 @@ func (notetaskshape *NoteTaskShape) GongGetOrder(stage *Stage) uint {
 		log.Printf("instance %p of type NoteTaskShape was not staged and does not have a reference order", notetaskshape)
 		return 0
 	}
-}
-
-func (notetaskshape *NoteTaskShape) GongGetReferenceOrder(stage *Stage) uint {
-	return stage.NoteTaskShapes_referenceOrder[notetaskshape]
 }
 
 func (product *Product) GongGetOrder(stage *Stage) uint {
@@ -2014,10 +1990,6 @@ func (product *Product) GongGetOrder(stage *Stage) uint {
 	}
 }
 
-func (product *Product) GongGetReferenceOrder(stage *Stage) uint {
-	return stage.Products_referenceOrder[product]
-}
-
 func (productcompositionshape *ProductCompositionShape) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.ProductCompositionShape_stagedOrder[productcompositionshape]; ok {
 		return order
@@ -2028,10 +2000,6 @@ func (productcompositionshape *ProductCompositionShape) GongGetOrder(stage *Stag
 		log.Printf("instance %p of type ProductCompositionShape was not staged and does not have a reference order", productcompositionshape)
 		return 0
 	}
-}
-
-func (productcompositionshape *ProductCompositionShape) GongGetReferenceOrder(stage *Stage) uint {
-	return stage.ProductCompositionShapes_referenceOrder[productcompositionshape]
 }
 
 func (productshape *ProductShape) GongGetOrder(stage *Stage) uint {
@@ -2046,10 +2014,6 @@ func (productshape *ProductShape) GongGetOrder(stage *Stage) uint {
 	}
 }
 
-func (productshape *ProductShape) GongGetReferenceOrder(stage *Stage) uint {
-	return stage.ProductShapes_referenceOrder[productshape]
-}
-
 func (project *Project) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.Project_stagedOrder[project]; ok {
 		return order
@@ -2060,10 +2024,6 @@ func (project *Project) GongGetOrder(stage *Stage) uint {
 		log.Printf("instance %p of type Project was not staged and does not have a reference order", project)
 		return 0
 	}
-}
-
-func (project *Project) GongGetReferenceOrder(stage *Stage) uint {
-	return stage.Projects_referenceOrder[project]
 }
 
 func (resource *Resource) GongGetOrder(stage *Stage) uint {
@@ -2078,10 +2038,6 @@ func (resource *Resource) GongGetOrder(stage *Stage) uint {
 	}
 }
 
-func (resource *Resource) GongGetReferenceOrder(stage *Stage) uint {
-	return stage.Resources_referenceOrder[resource]
-}
-
 func (resourcecompositionshape *ResourceCompositionShape) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.ResourceCompositionShape_stagedOrder[resourcecompositionshape]; ok {
 		return order
@@ -2092,10 +2048,6 @@ func (resourcecompositionshape *ResourceCompositionShape) GongGetOrder(stage *St
 		log.Printf("instance %p of type ResourceCompositionShape was not staged and does not have a reference order", resourcecompositionshape)
 		return 0
 	}
-}
-
-func (resourcecompositionshape *ResourceCompositionShape) GongGetReferenceOrder(stage *Stage) uint {
-	return stage.ResourceCompositionShapes_referenceOrder[resourcecompositionshape]
 }
 
 func (resourceshape *ResourceShape) GongGetOrder(stage *Stage) uint {
@@ -2110,10 +2062,6 @@ func (resourceshape *ResourceShape) GongGetOrder(stage *Stage) uint {
 	}
 }
 
-func (resourceshape *ResourceShape) GongGetReferenceOrder(stage *Stage) uint {
-	return stage.ResourceShapes_referenceOrder[resourceshape]
-}
-
 func (resourcetaskshape *ResourceTaskShape) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.ResourceTaskShape_stagedOrder[resourcetaskshape]; ok {
 		return order
@@ -2124,10 +2072,6 @@ func (resourcetaskshape *ResourceTaskShape) GongGetOrder(stage *Stage) uint {
 		log.Printf("instance %p of type ResourceTaskShape was not staged and does not have a reference order", resourcetaskshape)
 		return 0
 	}
-}
-
-func (resourcetaskshape *ResourceTaskShape) GongGetReferenceOrder(stage *Stage) uint {
-	return stage.ResourceTaskShapes_referenceOrder[resourcetaskshape]
 }
 
 func (root *Root) GongGetOrder(stage *Stage) uint {
@@ -2142,10 +2086,6 @@ func (root *Root) GongGetOrder(stage *Stage) uint {
 	}
 }
 
-func (root *Root) GongGetReferenceOrder(stage *Stage) uint {
-	return stage.Roots_referenceOrder[root]
-}
-
 func (task *Task) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.Task_stagedOrder[task]; ok {
 		return order
@@ -2156,10 +2096,6 @@ func (task *Task) GongGetOrder(stage *Stage) uint {
 		log.Printf("instance %p of type Task was not staged and does not have a reference order", task)
 		return 0
 	}
-}
-
-func (task *Task) GongGetReferenceOrder(stage *Stage) uint {
-	return stage.Tasks_referenceOrder[task]
 }
 
 func (taskcompositionshape *TaskCompositionShape) GongGetOrder(stage *Stage) uint {
@@ -2174,10 +2110,6 @@ func (taskcompositionshape *TaskCompositionShape) GongGetOrder(stage *Stage) uin
 	}
 }
 
-func (taskcompositionshape *TaskCompositionShape) GongGetReferenceOrder(stage *Stage) uint {
-	return stage.TaskCompositionShapes_referenceOrder[taskcompositionshape]
-}
-
 func (taskinputshape *TaskInputShape) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.TaskInputShape_stagedOrder[taskinputshape]; ok {
 		return order
@@ -2188,10 +2120,6 @@ func (taskinputshape *TaskInputShape) GongGetOrder(stage *Stage) uint {
 		log.Printf("instance %p of type TaskInputShape was not staged and does not have a reference order", taskinputshape)
 		return 0
 	}
-}
-
-func (taskinputshape *TaskInputShape) GongGetReferenceOrder(stage *Stage) uint {
-	return stage.TaskInputShapes_referenceOrder[taskinputshape]
 }
 
 func (taskoutputshape *TaskOutputShape) GongGetOrder(stage *Stage) uint {
@@ -2206,10 +2134,6 @@ func (taskoutputshape *TaskOutputShape) GongGetOrder(stage *Stage) uint {
 	}
 }
 
-func (taskoutputshape *TaskOutputShape) GongGetReferenceOrder(stage *Stage) uint {
-	return stage.TaskOutputShapes_referenceOrder[taskoutputshape]
-}
-
 func (taskshape *TaskShape) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.TaskShape_stagedOrder[taskshape]; ok {
 		return order
@@ -2220,10 +2144,6 @@ func (taskshape *TaskShape) GongGetOrder(stage *Stage) uint {
 		log.Printf("instance %p of type TaskShape was not staged and does not have a reference order", taskshape)
 		return 0
 	}
-}
-
-func (taskshape *TaskShape) GongGetReferenceOrder(stage *Stage) uint {
-	return stage.TaskShapes_referenceOrder[taskshape]
 }
 
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
@@ -2237,7 +2157,7 @@ func (diagram *Diagram) GongGetIdentifier(stage *Stage) string {
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (diagram *Diagram) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", diagram.GongGetGongstructName(), diagram.GongGetReferenceOrder(stage))
+	return fmt.Sprintf("__%s__%08d_", diagram.GongGetGongstructName(), diagram.GongGetOrder(stage))
 }
 
 func (note *Note) GongGetIdentifier(stage *Stage) string {
@@ -2246,7 +2166,7 @@ func (note *Note) GongGetIdentifier(stage *Stage) string {
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (note *Note) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", note.GongGetGongstructName(), note.GongGetReferenceOrder(stage))
+	return fmt.Sprintf("__%s__%08d_", note.GongGetGongstructName(), note.GongGetOrder(stage))
 }
 
 func (noteproductshape *NoteProductShape) GongGetIdentifier(stage *Stage) string {
@@ -2255,7 +2175,7 @@ func (noteproductshape *NoteProductShape) GongGetIdentifier(stage *Stage) string
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (noteproductshape *NoteProductShape) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", noteproductshape.GongGetGongstructName(), noteproductshape.GongGetReferenceOrder(stage))
+	return fmt.Sprintf("__%s__%08d_", noteproductshape.GongGetGongstructName(), noteproductshape.GongGetOrder(stage))
 }
 
 func (noteresourceshape *NoteResourceShape) GongGetIdentifier(stage *Stage) string {
@@ -2264,7 +2184,7 @@ func (noteresourceshape *NoteResourceShape) GongGetIdentifier(stage *Stage) stri
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (noteresourceshape *NoteResourceShape) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", noteresourceshape.GongGetGongstructName(), noteresourceshape.GongGetReferenceOrder(stage))
+	return fmt.Sprintf("__%s__%08d_", noteresourceshape.GongGetGongstructName(), noteresourceshape.GongGetOrder(stage))
 }
 
 func (noteshape *NoteShape) GongGetIdentifier(stage *Stage) string {
@@ -2273,7 +2193,7 @@ func (noteshape *NoteShape) GongGetIdentifier(stage *Stage) string {
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (noteshape *NoteShape) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", noteshape.GongGetGongstructName(), noteshape.GongGetReferenceOrder(stage))
+	return fmt.Sprintf("__%s__%08d_", noteshape.GongGetGongstructName(), noteshape.GongGetOrder(stage))
 }
 
 func (notetaskshape *NoteTaskShape) GongGetIdentifier(stage *Stage) string {
@@ -2282,7 +2202,7 @@ func (notetaskshape *NoteTaskShape) GongGetIdentifier(stage *Stage) string {
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (notetaskshape *NoteTaskShape) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", notetaskshape.GongGetGongstructName(), notetaskshape.GongGetReferenceOrder(stage))
+	return fmt.Sprintf("__%s__%08d_", notetaskshape.GongGetGongstructName(), notetaskshape.GongGetOrder(stage))
 }
 
 func (product *Product) GongGetIdentifier(stage *Stage) string {
@@ -2291,7 +2211,7 @@ func (product *Product) GongGetIdentifier(stage *Stage) string {
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (product *Product) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", product.GongGetGongstructName(), product.GongGetReferenceOrder(stage))
+	return fmt.Sprintf("__%s__%08d_", product.GongGetGongstructName(), product.GongGetOrder(stage))
 }
 
 func (productcompositionshape *ProductCompositionShape) GongGetIdentifier(stage *Stage) string {
@@ -2300,7 +2220,7 @@ func (productcompositionshape *ProductCompositionShape) GongGetIdentifier(stage 
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (productcompositionshape *ProductCompositionShape) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", productcompositionshape.GongGetGongstructName(), productcompositionshape.GongGetReferenceOrder(stage))
+	return fmt.Sprintf("__%s__%08d_", productcompositionshape.GongGetGongstructName(), productcompositionshape.GongGetOrder(stage))
 }
 
 func (productshape *ProductShape) GongGetIdentifier(stage *Stage) string {
@@ -2309,7 +2229,7 @@ func (productshape *ProductShape) GongGetIdentifier(stage *Stage) string {
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (productshape *ProductShape) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", productshape.GongGetGongstructName(), productshape.GongGetReferenceOrder(stage))
+	return fmt.Sprintf("__%s__%08d_", productshape.GongGetGongstructName(), productshape.GongGetOrder(stage))
 }
 
 func (project *Project) GongGetIdentifier(stage *Stage) string {
@@ -2318,7 +2238,7 @@ func (project *Project) GongGetIdentifier(stage *Stage) string {
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (project *Project) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", project.GongGetGongstructName(), project.GongGetReferenceOrder(stage))
+	return fmt.Sprintf("__%s__%08d_", project.GongGetGongstructName(), project.GongGetOrder(stage))
 }
 
 func (resource *Resource) GongGetIdentifier(stage *Stage) string {
@@ -2327,7 +2247,7 @@ func (resource *Resource) GongGetIdentifier(stage *Stage) string {
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (resource *Resource) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", resource.GongGetGongstructName(), resource.GongGetReferenceOrder(stage))
+	return fmt.Sprintf("__%s__%08d_", resource.GongGetGongstructName(), resource.GongGetOrder(stage))
 }
 
 func (resourcecompositionshape *ResourceCompositionShape) GongGetIdentifier(stage *Stage) string {
@@ -2336,7 +2256,7 @@ func (resourcecompositionshape *ResourceCompositionShape) GongGetIdentifier(stag
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (resourcecompositionshape *ResourceCompositionShape) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", resourcecompositionshape.GongGetGongstructName(), resourcecompositionshape.GongGetReferenceOrder(stage))
+	return fmt.Sprintf("__%s__%08d_", resourcecompositionshape.GongGetGongstructName(), resourcecompositionshape.GongGetOrder(stage))
 }
 
 func (resourceshape *ResourceShape) GongGetIdentifier(stage *Stage) string {
@@ -2345,7 +2265,7 @@ func (resourceshape *ResourceShape) GongGetIdentifier(stage *Stage) string {
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (resourceshape *ResourceShape) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", resourceshape.GongGetGongstructName(), resourceshape.GongGetReferenceOrder(stage))
+	return fmt.Sprintf("__%s__%08d_", resourceshape.GongGetGongstructName(), resourceshape.GongGetOrder(stage))
 }
 
 func (resourcetaskshape *ResourceTaskShape) GongGetIdentifier(stage *Stage) string {
@@ -2354,7 +2274,7 @@ func (resourcetaskshape *ResourceTaskShape) GongGetIdentifier(stage *Stage) stri
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (resourcetaskshape *ResourceTaskShape) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", resourcetaskshape.GongGetGongstructName(), resourcetaskshape.GongGetReferenceOrder(stage))
+	return fmt.Sprintf("__%s__%08d_", resourcetaskshape.GongGetGongstructName(), resourcetaskshape.GongGetOrder(stage))
 }
 
 func (root *Root) GongGetIdentifier(stage *Stage) string {
@@ -2363,7 +2283,7 @@ func (root *Root) GongGetIdentifier(stage *Stage) string {
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (root *Root) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", root.GongGetGongstructName(), root.GongGetReferenceOrder(stage))
+	return fmt.Sprintf("__%s__%08d_", root.GongGetGongstructName(), root.GongGetOrder(stage))
 }
 
 func (task *Task) GongGetIdentifier(stage *Stage) string {
@@ -2372,7 +2292,7 @@ func (task *Task) GongGetIdentifier(stage *Stage) string {
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (task *Task) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", task.GongGetGongstructName(), task.GongGetReferenceOrder(stage))
+	return fmt.Sprintf("__%s__%08d_", task.GongGetGongstructName(), task.GongGetOrder(stage))
 }
 
 func (taskcompositionshape *TaskCompositionShape) GongGetIdentifier(stage *Stage) string {
@@ -2381,7 +2301,7 @@ func (taskcompositionshape *TaskCompositionShape) GongGetIdentifier(stage *Stage
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (taskcompositionshape *TaskCompositionShape) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", taskcompositionshape.GongGetGongstructName(), taskcompositionshape.GongGetReferenceOrder(stage))
+	return fmt.Sprintf("__%s__%08d_", taskcompositionshape.GongGetGongstructName(), taskcompositionshape.GongGetOrder(stage))
 }
 
 func (taskinputshape *TaskInputShape) GongGetIdentifier(stage *Stage) string {
@@ -2390,7 +2310,7 @@ func (taskinputshape *TaskInputShape) GongGetIdentifier(stage *Stage) string {
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (taskinputshape *TaskInputShape) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", taskinputshape.GongGetGongstructName(), taskinputshape.GongGetReferenceOrder(stage))
+	return fmt.Sprintf("__%s__%08d_", taskinputshape.GongGetGongstructName(), taskinputshape.GongGetOrder(stage))
 }
 
 func (taskoutputshape *TaskOutputShape) GongGetIdentifier(stage *Stage) string {
@@ -2399,7 +2319,7 @@ func (taskoutputshape *TaskOutputShape) GongGetIdentifier(stage *Stage) string {
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (taskoutputshape *TaskOutputShape) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", taskoutputshape.GongGetGongstructName(), taskoutputshape.GongGetReferenceOrder(stage))
+	return fmt.Sprintf("__%s__%08d_", taskoutputshape.GongGetGongstructName(), taskoutputshape.GongGetOrder(stage))
 }
 
 func (taskshape *TaskShape) GongGetIdentifier(stage *Stage) string {
@@ -2408,7 +2328,7 @@ func (taskshape *TaskShape) GongGetIdentifier(stage *Stage) string {
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (taskshape *TaskShape) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", taskshape.GongGetGongstructName(), taskshape.GongGetReferenceOrder(stage))
+	return fmt.Sprintf("__%s__%08d_", taskshape.GongGetGongstructName(), taskshape.GongGetOrder(stage))
 }
 
 // MarshallIdentifier returns the code to instantiate the instance
