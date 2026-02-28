@@ -1,7 +1,6 @@
 package main
 
 import (
-	"slices"
 	"time"
 
 	"github.com/fullstack-lang/gong/dsme/project/go/models"
@@ -72,10 +71,15 @@ func _(stage *models.Stage) {
 
 	__Root__00000004_.Name = `Root 4`
 	__Root__00000004_.NbPixPerCharacter = 8.000000
-	__Diagram__00000005_.Resource_Shapes = slices.Insert(__Diagram__00000005_.Resource_Shapes, 0, __ResourceShape__00000003_)
+
+	__Root__00000004_.Projects = append(__Root__00000004_.Projects, __Project__00000001_)
+	__Project__00000001_.RootResources = append(__Project__00000001_.RootResources, __Resource__00000003_)
+	__Project__00000001_.Diagrams = append(__Project__00000001_.Diagrams, __Diagram__00000005_)
+	__Diagram__00000005_.Resource_Shapes = append(__Diagram__00000005_.Resource_Shapes, __ResourceShape__00000003_)
+
 	stage.Commit()
 
-	__Diagram__00000005_.Resource_Shapes = slices.Delete(__Diagram__00000005_.Resource_Shapes, 0, 1)
-	__ResourceShape__00000003_.Unstage(stage)
-	stage.Commit()
+	// __Diagram__00000005_.Resource_Shapes = slices.Delete(__Diagram__00000005_.Resource_Shapes, 0, 1)
+	// __ResourceShape__00000003_.Unstage(stage)
+	// stage.Commit()
 }
