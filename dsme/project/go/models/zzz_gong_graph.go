@@ -1,10 +1,7 @@
 // generated code - do not edit
 package models
 
-import (
-	"fmt"
-	"log"
-)
+import "fmt"
 
 func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) (ok bool) {
 
@@ -1991,7 +1988,7 @@ func (stage *Stage) UnstageBranchTaskShape(taskshape *TaskShape) {
 }
 
 // insertion point for pointer reconstruction from references
-func (reference *Diagram) GongReconstructPointersFromReferences(stage *Stage, instance *Diagram) {
+func (reference *Diagram) GongReconstructPointersFromReferences(stage *Stage, instance *Diagram) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	reference.Product_Shapes = reference.Product_Shapes[:0]
@@ -2074,7 +2071,7 @@ func (reference *Diagram) GongReconstructPointersFromReferences(stage *Stage, in
 	return
 }
 
-func (reference *Note) GongReconstructPointersFromReferences(stage *Stage, instance *Note) {
+func (reference *Note) GongReconstructPointersFromReferences(stage *Stage, instance *Note) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	reference.Products = reference.Products[:0]
@@ -2093,7 +2090,7 @@ func (reference *Note) GongReconstructPointersFromReferences(stage *Stage, insta
 	return
 }
 
-func (reference *NoteProductShape) GongReconstructPointersFromReferences(stage *Stage, instance *NoteProductShape) {
+func (reference *NoteProductShape) GongReconstructPointersFromReferences(stage *Stage, instance *NoteProductShape) () {
 	// insertion point for pointers field
 	if instance.Note != nil {
 		reference.Note = stage.Notes_reference[instance.Note]
@@ -2106,7 +2103,7 @@ func (reference *NoteProductShape) GongReconstructPointersFromReferences(stage *
 	return
 }
 
-func (reference *NoteResourceShape) GongReconstructPointersFromReferences(stage *Stage, instance *NoteResourceShape) {
+func (reference *NoteResourceShape) GongReconstructPointersFromReferences(stage *Stage, instance *NoteResourceShape) () {
 	// insertion point for pointers field
 	if instance.Note != nil {
 		reference.Note = stage.Notes_reference[instance.Note]
@@ -2119,7 +2116,7 @@ func (reference *NoteResourceShape) GongReconstructPointersFromReferences(stage 
 	return
 }
 
-func (reference *NoteShape) GongReconstructPointersFromReferences(stage *Stage, instance *NoteShape) {
+func (reference *NoteShape) GongReconstructPointersFromReferences(stage *Stage, instance *NoteShape) () {
 	// insertion point for pointers field
 	if instance.Note != nil {
 		reference.Note = stage.Notes_reference[instance.Note]
@@ -2129,7 +2126,7 @@ func (reference *NoteShape) GongReconstructPointersFromReferences(stage *Stage, 
 	return
 }
 
-func (reference *NoteTaskShape) GongReconstructPointersFromReferences(stage *Stage, instance *NoteTaskShape) {
+func (reference *NoteTaskShape) GongReconstructPointersFromReferences(stage *Stage, instance *NoteTaskShape) () {
 	// insertion point for pointers field
 	if instance.Note != nil {
 		reference.Note = stage.Notes_reference[instance.Note]
@@ -2142,7 +2139,7 @@ func (reference *NoteTaskShape) GongReconstructPointersFromReferences(stage *Sta
 	return
 }
 
-func (reference *Product) GongReconstructPointersFromReferences(stage *Stage, instance *Product) {
+func (reference *Product) GongReconstructPointersFromReferences(stage *Stage, instance *Product) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	reference.SubProducts = reference.SubProducts[:0]
@@ -2153,7 +2150,7 @@ func (reference *Product) GongReconstructPointersFromReferences(stage *Stage, in
 	return
 }
 
-func (reference *ProductCompositionShape) GongReconstructPointersFromReferences(stage *Stage, instance *ProductCompositionShape) {
+func (reference *ProductCompositionShape) GongReconstructPointersFromReferences(stage *Stage, instance *ProductCompositionShape) () {
 	// insertion point for pointers field
 	if instance.Product != nil {
 		reference.Product = stage.Products_reference[instance.Product]
@@ -2163,7 +2160,7 @@ func (reference *ProductCompositionShape) GongReconstructPointersFromReferences(
 	return
 }
 
-func (reference *ProductShape) GongReconstructPointersFromReferences(stage *Stage, instance *ProductShape) {
+func (reference *ProductShape) GongReconstructPointersFromReferences(stage *Stage, instance *ProductShape) () {
 	// insertion point for pointers field
 	if instance.Product != nil {
 		reference.Product = stage.Products_reference[instance.Product]
@@ -2173,7 +2170,7 @@ func (reference *ProductShape) GongReconstructPointersFromReferences(stage *Stag
 	return
 }
 
-func (reference *Project) GongReconstructPointersFromReferences(stage *Stage, instance *Project) {
+func (reference *Project) GongReconstructPointersFromReferences(stage *Stage, instance *Project) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	reference.RootProducts = reference.RootProducts[:0]
@@ -2200,7 +2197,7 @@ func (reference *Project) GongReconstructPointersFromReferences(stage *Stage, in
 	return
 }
 
-func (reference *Resource) GongReconstructPointersFromReferences(stage *Stage, instance *Resource) {
+func (reference *Resource) GongReconstructPointersFromReferences(stage *Stage, instance *Resource) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	reference.Tasks = reference.Tasks[:0]
@@ -2215,7 +2212,7 @@ func (reference *Resource) GongReconstructPointersFromReferences(stage *Stage, i
 	return
 }
 
-func (reference *ResourceCompositionShape) GongReconstructPointersFromReferences(stage *Stage, instance *ResourceCompositionShape) {
+func (reference *ResourceCompositionShape) GongReconstructPointersFromReferences(stage *Stage, instance *ResourceCompositionShape) () {
 	// insertion point for pointers field
 	if instance.Resource != nil {
 		reference.Resource = stage.Resources_reference[instance.Resource]
@@ -2225,7 +2222,7 @@ func (reference *ResourceCompositionShape) GongReconstructPointersFromReferences
 	return
 }
 
-func (reference *ResourceShape) GongReconstructPointersFromReferences(stage *Stage, instance *ResourceShape) {
+func (reference *ResourceShape) GongReconstructPointersFromReferences(stage *Stage, instance *ResourceShape) () {
 	// insertion point for pointers field
 	if instance.Resource != nil {
 		reference.Resource = stage.Resources_reference[instance.Resource]
@@ -2235,7 +2232,7 @@ func (reference *ResourceShape) GongReconstructPointersFromReferences(stage *Sta
 	return
 }
 
-func (reference *ResourceTaskShape) GongReconstructPointersFromReferences(stage *Stage, instance *ResourceTaskShape) {
+func (reference *ResourceTaskShape) GongReconstructPointersFromReferences(stage *Stage, instance *ResourceTaskShape) () {
 	// insertion point for pointers field
 	if instance.Resource != nil {
 		reference.Resource = stage.Resources_reference[instance.Resource]
@@ -2248,7 +2245,7 @@ func (reference *ResourceTaskShape) GongReconstructPointersFromReferences(stage 
 	return
 }
 
-func (reference *Root) GongReconstructPointersFromReferences(stage *Stage, instance *Root) {
+func (reference *Root) GongReconstructPointersFromReferences(stage *Stage, instance *Root) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	reference.Projects = reference.Projects[:0]
@@ -2259,7 +2256,7 @@ func (reference *Root) GongReconstructPointersFromReferences(stage *Stage, insta
 	return
 }
 
-func (reference *Task) GongReconstructPointersFromReferences(stage *Stage, instance *Task) {
+func (reference *Task) GongReconstructPointersFromReferences(stage *Stage, instance *Task) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	reference.SubTasks = reference.SubTasks[:0]
@@ -2278,7 +2275,7 @@ func (reference *Task) GongReconstructPointersFromReferences(stage *Stage, insta
 	return
 }
 
-func (reference *TaskCompositionShape) GongReconstructPointersFromReferences(stage *Stage, instance *TaskCompositionShape) {
+func (reference *TaskCompositionShape) GongReconstructPointersFromReferences(stage *Stage, instance *TaskCompositionShape) () {
 	// insertion point for pointers field
 	if instance.Task != nil {
 		reference.Task = stage.Tasks_reference[instance.Task]
@@ -2288,7 +2285,7 @@ func (reference *TaskCompositionShape) GongReconstructPointersFromReferences(sta
 	return
 }
 
-func (reference *TaskInputShape) GongReconstructPointersFromReferences(stage *Stage, instance *TaskInputShape) {
+func (reference *TaskInputShape) GongReconstructPointersFromReferences(stage *Stage, instance *TaskInputShape) () {
 	// insertion point for pointers field
 	if instance.Product != nil {
 		reference.Product = stage.Products_reference[instance.Product]
@@ -2301,7 +2298,7 @@ func (reference *TaskInputShape) GongReconstructPointersFromReferences(stage *St
 	return
 }
 
-func (reference *TaskOutputShape) GongReconstructPointersFromReferences(stage *Stage, instance *TaskOutputShape) {
+func (reference *TaskOutputShape) GongReconstructPointersFromReferences(stage *Stage, instance *TaskOutputShape) () {
 	// insertion point for pointers field
 	if instance.Task != nil {
 		reference.Task = stage.Tasks_reference[instance.Task]
@@ -2314,7 +2311,7 @@ func (reference *TaskOutputShape) GongReconstructPointersFromReferences(stage *S
 	return
 }
 
-func (reference *TaskShape) GongReconstructPointersFromReferences(stage *Stage, instance *TaskShape) {
+func (reference *TaskShape) GongReconstructPointersFromReferences(stage *Stage, instance *TaskShape) () {
 	// insertion point for pointers field
 	if instance.Task != nil {
 		reference.Task = stage.Tasks_reference[instance.Task]
@@ -2325,7 +2322,7 @@ func (reference *TaskShape) GongReconstructPointersFromReferences(stage *Stage, 
 }
 
 // insertion point for pointer reconstruction from instances
-func (reference *Diagram) GongReconstructPointersFromInstances(stage *Stage) {
+func (reference *Diagram) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	var _Product_Shapes []*ProductShape
@@ -2465,7 +2462,7 @@ func (reference *Diagram) GongReconstructPointersFromInstances(stage *Stage) {
 	return
 }
 
-func (reference *Note) GongReconstructPointersFromInstances(stage *Stage) {
+func (reference *Note) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	var _Products []*Product
@@ -2493,7 +2490,7 @@ func (reference *Note) GongReconstructPointersFromInstances(stage *Stage) {
 	return
 }
 
-func (reference *NoteProductShape) GongReconstructPointersFromInstances(stage *Stage) {
+func (reference *NoteProductShape) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
 	if _reference := reference.Note; _reference != nil {
 		reference.Note = nil
@@ -2512,7 +2509,7 @@ func (reference *NoteProductShape) GongReconstructPointersFromInstances(stage *S
 	return
 }
 
-func (reference *NoteResourceShape) GongReconstructPointersFromInstances(stage *Stage) {
+func (reference *NoteResourceShape) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
 	if _reference := reference.Note; _reference != nil {
 		reference.Note = nil
@@ -2531,7 +2528,7 @@ func (reference *NoteResourceShape) GongReconstructPointersFromInstances(stage *
 	return
 }
 
-func (reference *NoteShape) GongReconstructPointersFromInstances(stage *Stage) {
+func (reference *NoteShape) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
 	if _reference := reference.Note; _reference != nil {
 		reference.Note = nil
@@ -2544,7 +2541,7 @@ func (reference *NoteShape) GongReconstructPointersFromInstances(stage *Stage) {
 	return
 }
 
-func (reference *NoteTaskShape) GongReconstructPointersFromInstances(stage *Stage) {
+func (reference *NoteTaskShape) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
 	if _reference := reference.Note; _reference != nil {
 		reference.Note = nil
@@ -2563,7 +2560,7 @@ func (reference *NoteTaskShape) GongReconstructPointersFromInstances(stage *Stag
 	return
 }
 
-func (reference *Product) GongReconstructPointersFromInstances(stage *Stage) {
+func (reference *Product) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	var _SubProducts []*Product
@@ -2577,7 +2574,7 @@ func (reference *Product) GongReconstructPointersFromInstances(stage *Stage) {
 	return
 }
 
-func (reference *ProductCompositionShape) GongReconstructPointersFromInstances(stage *Stage) {
+func (reference *ProductCompositionShape) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
 	if _reference := reference.Product; _reference != nil {
 		reference.Product = nil
@@ -2590,7 +2587,7 @@ func (reference *ProductCompositionShape) GongReconstructPointersFromInstances(s
 	return
 }
 
-func (reference *ProductShape) GongReconstructPointersFromInstances(stage *Stage) {
+func (reference *ProductShape) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
 	if _reference := reference.Product; _reference != nil {
 		reference.Product = nil
@@ -2603,7 +2600,7 @@ func (reference *ProductShape) GongReconstructPointersFromInstances(stage *Stage
 	return
 }
 
-func (reference *Project) GongReconstructPointersFromInstances(stage *Stage) {
+func (reference *Project) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	var _RootProducts []*Product
@@ -2645,7 +2642,7 @@ func (reference *Project) GongReconstructPointersFromInstances(stage *Stage) {
 	return
 }
 
-func (reference *Resource) GongReconstructPointersFromInstances(stage *Stage) {
+func (reference *Resource) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	var _Tasks []*Task
@@ -2666,7 +2663,7 @@ func (reference *Resource) GongReconstructPointersFromInstances(stage *Stage) {
 	return
 }
 
-func (reference *ResourceCompositionShape) GongReconstructPointersFromInstances(stage *Stage) {
+func (reference *ResourceCompositionShape) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
 	if _reference := reference.Resource; _reference != nil {
 		reference.Resource = nil
@@ -2679,7 +2676,7 @@ func (reference *ResourceCompositionShape) GongReconstructPointersFromInstances(
 	return
 }
 
-func (reference *ResourceShape) GongReconstructPointersFromInstances(stage *Stage) {
+func (reference *ResourceShape) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
 	if _reference := reference.Resource; _reference != nil {
 		reference.Resource = nil
@@ -2692,7 +2689,7 @@ func (reference *ResourceShape) GongReconstructPointersFromInstances(stage *Stag
 	return
 }
 
-func (reference *ResourceTaskShape) GongReconstructPointersFromInstances(stage *Stage) {
+func (reference *ResourceTaskShape) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
 	if _reference := reference.Resource; _reference != nil {
 		reference.Resource = nil
@@ -2711,7 +2708,7 @@ func (reference *ResourceTaskShape) GongReconstructPointersFromInstances(stage *
 	return
 }
 
-func (reference *Root) GongReconstructPointersFromInstances(stage *Stage) {
+func (reference *Root) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	var _Projects []*Project
@@ -2725,7 +2722,7 @@ func (reference *Root) GongReconstructPointersFromInstances(stage *Stage) {
 	return
 }
 
-func (reference *Task) GongReconstructPointersFromInstances(stage *Stage) {
+func (reference *Task) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	var _SubTasks []*Task
@@ -2753,7 +2750,7 @@ func (reference *Task) GongReconstructPointersFromInstances(stage *Stage) {
 	return
 }
 
-func (reference *TaskCompositionShape) GongReconstructPointersFromInstances(stage *Stage) {
+func (reference *TaskCompositionShape) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
 	if _reference := reference.Task; _reference != nil {
 		reference.Task = nil
@@ -2766,7 +2763,7 @@ func (reference *TaskCompositionShape) GongReconstructPointersFromInstances(stag
 	return
 }
 
-func (reference *TaskInputShape) GongReconstructPointersFromInstances(stage *Stage) {
+func (reference *TaskInputShape) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
 	if _reference := reference.Product; _reference != nil {
 		reference.Product = nil
@@ -2785,7 +2782,7 @@ func (reference *TaskInputShape) GongReconstructPointersFromInstances(stage *Sta
 	return
 }
 
-func (reference *TaskOutputShape) GongReconstructPointersFromInstances(stage *Stage) {
+func (reference *TaskOutputShape) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
 	if _reference := reference.Task; _reference != nil {
 		reference.Task = nil
@@ -2804,7 +2801,7 @@ func (reference *TaskOutputShape) GongReconstructPointersFromInstances(stage *St
 	return
 }
 
-func (reference *TaskShape) GongReconstructPointersFromInstances(stage *Stage) {
+func (reference *TaskShape) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
 	if _reference := reference.Task; _reference != nil {
 		reference.Task = nil
@@ -3197,14 +3194,6 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if Resource_ShapesDifferent {
-		log.Printf("diagram & %p", diagram)
-		if len(diagram.Resource_Shapes) > 0 {
-			log.Printf("diagram.Resource_Shapes[0] & %p", diagram.Resource_Shapes[0])
-		}
-		log.Printf("diagramOther & %p", diagramOther)
-		if len(diagramOther.Resource_Shapes) > 0 {
-			log.Printf("diagramOther.Resource_Shapes[0] & %p", diagramOther.Resource_Shapes[0])
-		}
 		ops := Diff(stage, diagram, diagramOther, "Resource_Shapes", diagramOther.Resource_Shapes, diagram.Resource_Shapes)
 		diffs = append(diffs, ops)
 	}

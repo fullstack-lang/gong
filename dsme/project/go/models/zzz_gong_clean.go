@@ -230,7 +230,6 @@ func (taskshape *TaskShape) GongClean(stage *Stage) (modified bool) {
 func (stage *Stage) Clean() (modified bool) {
 	for _, instance := range stage.GetInstances() {
 		modified = instance.GongClean(stage) || modified
-		_ = modified
 	}
 	return
 }

@@ -80,7 +80,6 @@ func _(stage *models.Stage) {
 
 	stage.Commit()
 
-	// __Diagram__00000005_.Resource_Shapes = slices.Delete(__Diagram__00000005_.Resource_Shapes, 0, 1)
-	// __ResourceShape__00000003_.Unstage(stage)
+	// __Resource__00000003_.Unstage(stage)
 	// stage.Commit()
 }
