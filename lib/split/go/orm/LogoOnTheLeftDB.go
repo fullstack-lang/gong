@@ -156,9 +156,9 @@ func (backRepoLogoOnTheLeft *BackRepoLogoOnTheLeftStruct) CommitPhaseOne(stage *
 		logoonthelefts = append(logoonthelefts, logoontheleft)
 	}
 
-	// Sort by the order stored in Map_Staged_Order.
+	// Sort by the order stored in _stagedOrder.
 	sort.Slice(logoonthelefts, func(i, j int) bool {
-		return stage.LogoOnTheLeftMap_Staged_Order[logoonthelefts[i]] < stage.LogoOnTheLeftMap_Staged_Order[logoonthelefts[j]]
+		return stage.LogoOnTheLeft_stagedOrder[logoonthelefts[i]] < stage.LogoOnTheLeft_stagedOrder[logoonthelefts[j]]
 	})
 
 	for _, logoontheleft := range logoonthelefts {

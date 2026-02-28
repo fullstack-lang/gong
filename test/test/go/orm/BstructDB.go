@@ -156,9 +156,9 @@ func (backRepoBstruct *BackRepoBstructStruct) CommitPhaseOne(stage *models.Stage
 		bstructs = append(bstructs, bstruct)
 	}
 
-	// Sort by the order stored in Map_Staged_Order.
+	// Sort by the order stored in _stagedOrder.
 	sort.Slice(bstructs, func(i, j int) bool {
-		return stage.BstructMap_Staged_Order[bstructs[i]] < stage.BstructMap_Staged_Order[bstructs[j]]
+		return stage.Bstruct_stagedOrder[bstructs[i]] < stage.Bstruct_stagedOrder[bstructs[j]]
 	})
 
 	for _, bstruct := range bstructs {

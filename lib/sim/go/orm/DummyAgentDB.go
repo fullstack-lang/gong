@@ -144,9 +144,9 @@ func (backRepoDummyAgent *BackRepoDummyAgentStruct) CommitPhaseOne(stage *models
 		dummyagents = append(dummyagents, dummyagent)
 	}
 
-	// Sort by the order stored in Map_Staged_Order.
+	// Sort by the order stored in _stagedOrder.
 	sort.Slice(dummyagents, func(i, j int) bool {
-		return stage.DummyAgentMap_Staged_Order[dummyagents[i]] < stage.DummyAgentMap_Staged_Order[dummyagents[j]]
+		return stage.DummyAgent_stagedOrder[dummyagents[i]] < stage.DummyAgent_stagedOrder[dummyagents[j]]
 	})
 
 	for _, dummyagent := range dummyagents {

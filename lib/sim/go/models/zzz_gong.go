@@ -106,11 +106,13 @@ type Stage struct {
 
 	// insertion point for definition of arrays registering instances
 	Commands                map[*Command]struct{}
-	Commands_reference      map[*Command]*Command
-	Commands_referenceOrder map[*Command]uint
 	Commands_instance       map[*Command]*Command
 	Commands_mapString      map[string]*Command
-
+	CommandOrder            uint
+	Command_stagedOrder     map[*Command]uint
+	Commands_reference      map[*Command]*Command
+	Commands_referenceOrder map[*Command]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterCommandCreateCallback OnAfterCreateInterface[Command]
 	OnAfterCommandUpdateCallback OnAfterUpdateInterface[Command]
@@ -118,11 +120,13 @@ type Stage struct {
 	OnAfterCommandReadCallback   OnAfterReadInterface[Command]
 
 	DummyAgents                map[*DummyAgent]struct{}
-	DummyAgents_reference      map[*DummyAgent]*DummyAgent
-	DummyAgents_referenceOrder map[*DummyAgent]uint
 	DummyAgents_instance       map[*DummyAgent]*DummyAgent
 	DummyAgents_mapString      map[string]*DummyAgent
-
+	DummyAgentOrder            uint
+	DummyAgent_stagedOrder     map[*DummyAgent]uint
+	DummyAgents_reference      map[*DummyAgent]*DummyAgent
+	DummyAgents_referenceOrder map[*DummyAgent]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterDummyAgentCreateCallback OnAfterCreateInterface[DummyAgent]
 	OnAfterDummyAgentUpdateCallback OnAfterUpdateInterface[DummyAgent]
@@ -130,11 +134,13 @@ type Stage struct {
 	OnAfterDummyAgentReadCallback   OnAfterReadInterface[DummyAgent]
 
 	Engines                map[*Engine]struct{}
-	Engines_reference      map[*Engine]*Engine
-	Engines_referenceOrder map[*Engine]uint
 	Engines_instance       map[*Engine]*Engine
 	Engines_mapString      map[string]*Engine
-
+	EngineOrder            uint
+	Engine_stagedOrder     map[*Engine]uint
+	Engines_reference      map[*Engine]*Engine
+	Engines_referenceOrder map[*Engine]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterEngineCreateCallback OnAfterCreateInterface[Engine]
 	OnAfterEngineUpdateCallback OnAfterUpdateInterface[Engine]
@@ -142,11 +148,13 @@ type Stage struct {
 	OnAfterEngineReadCallback   OnAfterReadInterface[Engine]
 
 	Events                map[*Event]struct{}
-	Events_reference      map[*Event]*Event
-	Events_referenceOrder map[*Event]uint
 	Events_instance       map[*Event]*Event
 	Events_mapString      map[string]*Event
-
+	EventOrder            uint
+	Event_stagedOrder     map[*Event]uint
+	Events_reference      map[*Event]*Event
+	Events_referenceOrder map[*Event]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterEventCreateCallback OnAfterCreateInterface[Event]
 	OnAfterEventUpdateCallback OnAfterUpdateInterface[Event]
@@ -154,11 +162,13 @@ type Stage struct {
 	OnAfterEventReadCallback   OnAfterReadInterface[Event]
 
 	Statuss                map[*Status]struct{}
-	Statuss_reference      map[*Status]*Status
-	Statuss_referenceOrder map[*Status]uint
 	Statuss_instance       map[*Status]*Status
 	Statuss_mapString      map[string]*Status
-
+	StatusOrder            uint
+	Status_stagedOrder     map[*Status]uint
+	Statuss_reference      map[*Status]*Status
+	Statuss_referenceOrder map[*Status]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterStatusCreateCallback OnAfterCreateInterface[Status]
 	OnAfterStatusUpdateCallback OnAfterUpdateInterface[Status]
@@ -166,11 +176,13 @@ type Stage struct {
 	OnAfterStatusReadCallback   OnAfterReadInterface[Status]
 
 	UpdateStates                map[*UpdateState]struct{}
-	UpdateStates_reference      map[*UpdateState]*UpdateState
-	UpdateStates_referenceOrder map[*UpdateState]uint
 	UpdateStates_instance       map[*UpdateState]*UpdateState
 	UpdateStates_mapString      map[string]*UpdateState
-
+	UpdateStateOrder            uint
+	UpdateState_stagedOrder     map[*UpdateState]uint
+	UpdateStates_reference      map[*UpdateState]*UpdateState
+	UpdateStates_referenceOrder map[*UpdateState]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterUpdateStateCreateCallback OnAfterCreateInterface[UpdateState]
 	OnAfterUpdateStateUpdateCallback OnAfterUpdateInterface[UpdateState]
@@ -188,6 +200,10 @@ type Stage struct {
 	OnInitCommitFromFrontCallback OnInitCommitInterface
 	OnInitCommitFromBackCallback  OnInitCommitInterface
 
+	// Private slices to hold the registered hooks
+	beforeCommitHooks []func(stage *Stage)
+	afterCommitHooks  []func(stage *Stage)
+
 	// store the number of instance per gongstruct
 	Map_GongStructName_InstancesNb map[string]int
 
@@ -203,23 +219,11 @@ type Stage struct {
 	// store the stage order of each instance in order to
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
-	CommandOrder            uint
-	CommandMap_Staged_Order map[*Command]uint
 
-	DummyAgentOrder            uint
-	DummyAgentMap_Staged_Order map[*DummyAgent]uint
 
-	EngineOrder            uint
-	EngineMap_Staged_Order map[*Engine]uint
 
-	EventOrder            uint
-	EventMap_Staged_Order map[*Event]uint
 
-	StatusOrder            uint
-	StatusMap_Staged_Order map[*Status]uint
 
-	UpdateStateOrder            uint
-	UpdateStateMap_Staged_Order map[*UpdateState]uint
 
 	// end of insertion point
 
@@ -241,6 +245,16 @@ type Stage struct {
 	commitsBehind  int // the number of commits the stage is behind the front of the history
 
 	lock sync.RWMutex
+}
+
+// RegisterBeforeCommit adds a hook that runs before the commit happens
+func (s *Stage) RegisterBeforeCommit(hook func(stage *Stage)) {
+	s.beforeCommitHooks = append(s.beforeCommitHooks, hook)
+}
+
+// RegisterAfterCommit adds a hook that runs after the commit succeeds
+func (s *Stage) RegisterAfterCommit(hook func(stage *Stage)) {
+	s.afterCommitHooks = append(s.afterCommitHooks, hook)
 }
 
 type gongStageNavigationMode string
@@ -364,6 +378,16 @@ func (stage *Stage) ResetHard() {
 	if stage.OnInitCommitFromBackCallback != nil {
 		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
 	}
+
+	// 1. Run all Before Commit hooks
+	for _, hook := range stage.beforeCommitHooks {
+		hook(stage)
+	}
+
+	// 2. Run all After Commit hooks
+	for _, hook := range stage.afterCommitHooks {
+		hook(stage)
+	}
 }
 
 // Orphans removes all commits
@@ -380,6 +404,16 @@ func (stage *Stage) Orphans() {
 	if stage.OnInitCommitFromBackCallback != nil {
 		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
 	}
+
+	// 1. Run all Before Commit hooks
+	for _, hook := range stage.beforeCommitHooks {
+		hook(stage)
+	}
+
+	// 2. Run all After Commit hooks
+	for _, hook := range stage.afterCommitHooks {
+		hook(stage)
+	}
 }
 
 // recomputeOrders recomputes the next order for each struct
@@ -390,7 +424,7 @@ func (stage *Stage) recomputeOrders() {
 	// insertion point for max order recomputation
 	var maxCommandOrder uint
 	var foundCommand bool
-	for _, order := range stage.CommandMap_Staged_Order {
+	for _, order := range stage.Command_stagedOrder {
 		if !foundCommand || order > maxCommandOrder {
 			maxCommandOrder = order
 			foundCommand = true
@@ -404,7 +438,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxDummyAgentOrder uint
 	var foundDummyAgent bool
-	for _, order := range stage.DummyAgentMap_Staged_Order {
+	for _, order := range stage.DummyAgent_stagedOrder {
 		if !foundDummyAgent || order > maxDummyAgentOrder {
 			maxDummyAgentOrder = order
 			foundDummyAgent = true
@@ -418,7 +452,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxEngineOrder uint
 	var foundEngine bool
-	for _, order := range stage.EngineMap_Staged_Order {
+	for _, order := range stage.Engine_stagedOrder {
 		if !foundEngine || order > maxEngineOrder {
 			maxEngineOrder = order
 			foundEngine = true
@@ -432,7 +466,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxEventOrder uint
 	var foundEvent bool
-	for _, order := range stage.EventMap_Staged_Order {
+	for _, order := range stage.Event_stagedOrder {
 		if !foundEvent || order > maxEventOrder {
 			maxEventOrder = order
 			foundEvent = true
@@ -446,7 +480,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxStatusOrder uint
 	var foundStatus bool
-	for _, order := range stage.StatusMap_Staged_Order {
+	for _, order := range stage.Status_stagedOrder {
 		if !foundStatus || order > maxStatusOrder {
 			maxStatusOrder = order
 			foundStatus = true
@@ -460,7 +494,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxUpdateStateOrder uint
 	var foundUpdateState bool
-	for _, order := range stage.UpdateStateMap_Staged_Order {
+	for _, order := range stage.UpdateState_stagedOrder {
 		if !foundUpdateState || order > maxUpdateStateOrder {
 			maxUpdateStateOrder = order
 			foundUpdateState = true
@@ -532,7 +566,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 	switch any(t).(type) {
 	// insertion point for case
 	case *Command:
-		tmp := GetStructInstancesByOrder(stage.Commands, stage.CommandMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Commands, stage.Command_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -546,7 +580,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *DummyAgent:
-		tmp := GetStructInstancesByOrder(stage.DummyAgents, stage.DummyAgentMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.DummyAgents, stage.DummyAgent_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -560,7 +594,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Engine:
-		tmp := GetStructInstancesByOrder(stage.Engines, stage.EngineMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Engines, stage.Engine_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -574,7 +608,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Event:
-		tmp := GetStructInstancesByOrder(stage.Events, stage.EventMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Events, stage.Event_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -588,7 +622,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Status:
-		tmp := GetStructInstancesByOrder(stage.Statuss, stage.StatusMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Statuss, stage.Status_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -602,7 +636,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *UpdateState:
-		tmp := GetStructInstancesByOrder(stage.UpdateStates, stage.UpdateStateMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.UpdateStates, stage.UpdateState_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -645,17 +679,17 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 	switch namedStructName {
 	// insertion point for case
 	case "Command":
-		res = GetNamedStructInstances(stage.Commands, stage.CommandMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Commands, stage.Command_stagedOrder)
 	case "DummyAgent":
-		res = GetNamedStructInstances(stage.DummyAgents, stage.DummyAgentMap_Staged_Order)
+		res = GetNamedStructInstances(stage.DummyAgents, stage.DummyAgent_stagedOrder)
 	case "Engine":
-		res = GetNamedStructInstances(stage.Engines, stage.EngineMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Engines, stage.Engine_stagedOrder)
 	case "Event":
-		res = GetNamedStructInstances(stage.Events, stage.EventMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Events, stage.Event_stagedOrder)
 	case "Status":
-		res = GetNamedStructInstances(stage.Statuss, stage.StatusMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Statuss, stage.Status_stagedOrder)
 	case "UpdateState":
-		res = GetNamedStructInstances(stage.UpdateStates, stage.UpdateStateMap_Staged_Order)
+		res = GetNamedStructInstances(stage.UpdateStates, stage.UpdateState_stagedOrder)
 	}
 
 	return
@@ -771,17 +805,17 @@ func NewStage(name string) (stage *Stage) {
 		// the to be removed stops here
 
 		// insertion point for order map initialisations
-		CommandMap_Staged_Order: make(map[*Command]uint),
+		Command_stagedOrder: make(map[*Command]uint),
 
-		DummyAgentMap_Staged_Order: make(map[*DummyAgent]uint),
+		DummyAgent_stagedOrder: make(map[*DummyAgent]uint),
 
-		EngineMap_Staged_Order: make(map[*Engine]uint),
+		Engine_stagedOrder: make(map[*Engine]uint),
 
-		EventMap_Staged_Order: make(map[*Event]uint),
+		Event_stagedOrder: make(map[*Event]uint),
 
-		StatusMap_Staged_Order: make(map[*Status]uint),
+		Status_stagedOrder: make(map[*Status]uint),
 
-		UpdateStateMap_Staged_Order: make(map[*UpdateState]uint),
+		UpdateState_stagedOrder: make(map[*UpdateState]uint),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
@@ -819,17 +853,17 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
 	case *Command:
-		return stage.CommandMap_Staged_Order[instance]
+		return stage.Command_stagedOrder[instance]
 	case *DummyAgent:
-		return stage.DummyAgentMap_Staged_Order[instance]
+		return stage.DummyAgent_stagedOrder[instance]
 	case *Engine:
-		return stage.EngineMap_Staged_Order[instance]
+		return stage.Engine_stagedOrder[instance]
 	case *Event:
-		return stage.EventMap_Staged_Order[instance]
+		return stage.Event_stagedOrder[instance]
 	case *Status:
-		return stage.StatusMap_Staged_Order[instance]
+		return stage.Status_stagedOrder[instance]
 	case *UpdateState:
-		return stage.UpdateStateMap_Staged_Order[instance]
+		return stage.UpdateState_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -839,17 +873,17 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
 	case *Command:
-		return stage.CommandMap_Staged_Order[instance]
+		return stage.Command_stagedOrder[instance]
 	case *DummyAgent:
-		return stage.DummyAgentMap_Staged_Order[instance]
+		return stage.DummyAgent_stagedOrder[instance]
 	case *Engine:
-		return stage.EngineMap_Staged_Order[instance]
+		return stage.Engine_stagedOrder[instance]
 	case *Event:
-		return stage.EventMap_Staged_Order[instance]
+		return stage.Event_stagedOrder[instance]
 	case *Status:
-		return stage.StatusMap_Staged_Order[instance]
+		return stage.Status_stagedOrder[instance]
 	case *UpdateState:
-		return stage.UpdateStateMap_Staged_Order[instance]
+		return stage.UpdateState_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -862,8 +896,14 @@ func (stage *Stage) GetName() string {
 func (stage *Stage) CommitWithSuspendedCallbacks() {
 	tmp := stage.OnInitCommitFromBackCallback
 	stage.OnInitCommitFromBackCallback = nil
+	tmp2 := stage.beforeCommitHooks
+	stage.beforeCommitHooks = nil
+	tmp3 := stage.afterCommitHooks
+	stage.afterCommitHooks = nil
 	stage.Commit()
 	stage.OnInitCommitFromBackCallback = tmp
+	stage.beforeCommitHooks = tmp2
+	stage.afterCommitHooks = tmp3
 }
 
 func (stage *Stage) Commit() {
@@ -874,6 +914,11 @@ func (stage *Stage) Commit() {
 	}
 	if stage.OnInitCommitFromBackCallback != nil {
 		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
+	}
+
+	// 1. Run all Before Commit hooks
+	for _, hook := range stage.beforeCommitHooks {
+		hook(stage)
 	}
 
 	if stage.BackRepo != nil {
@@ -891,6 +936,11 @@ func (stage *Stage) Commit() {
 	if stage.IsInDeltaMode() {
 		stage.ComputeForwardAndBackwardCommits()
 		stage.ComputeReferenceAndOrders()
+	}
+
+	// 2. Run all After Commit hooks
+	for _, hook := range stage.afterCommitHooks {
+		hook(stage)
 	}
 }
 
@@ -946,7 +996,7 @@ func (stage *Stage) RestoreXL(dirPath string) {
 func (command *Command) Stage(stage *Stage) *Command {
 	if _, ok := stage.Commands[command]; !ok {
 		stage.Commands[command] = struct{}{}
-		stage.CommandMap_Staged_Order[command] = stage.CommandOrder
+		stage.Command_stagedOrder[command] = stage.CommandOrder
 		stage.CommandOrder++
 	}
 	stage.Commands_mapString[command.Name] = command
@@ -966,7 +1016,7 @@ func (command *Command) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.CommandOrder {
 			stage.CommandOrder = order
 		}
-		stage.CommandMap_Staged_Order[command] = order
+		stage.Command_stagedOrder[command] = order
 		stage.CommandOrder++
 	}
 	stage.Commands_mapString[command.Name] = command
@@ -975,7 +1025,8 @@ func (command *Command) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes command off the model stage
 func (command *Command) Unstage(stage *Stage) *Command {
 	delete(stage.Commands, command)
-	delete(stage.CommandMap_Staged_Order, command)
+	// issue1150
+	// delete(stage.Command_stagedOrder, command)
 	delete(stage.Commands_mapString, command.Name)
 
 	return command
@@ -984,7 +1035,8 @@ func (command *Command) Unstage(stage *Stage) *Command {
 // UnstageVoid removes command off the model stage
 func (command *Command) UnstageVoid(stage *Stage) {
 	delete(stage.Commands, command)
-	delete(stage.CommandMap_Staged_Order, command)
+	// issue1150
+	// delete(stage.Command_stagedOrder, command)
 	delete(stage.Commands_mapString, command.Name)
 }
 
@@ -1030,7 +1082,7 @@ func (command *Command) SetName(name string) {
 func (dummyagent *DummyAgent) Stage(stage *Stage) *DummyAgent {
 	if _, ok := stage.DummyAgents[dummyagent]; !ok {
 		stage.DummyAgents[dummyagent] = struct{}{}
-		stage.DummyAgentMap_Staged_Order[dummyagent] = stage.DummyAgentOrder
+		stage.DummyAgent_stagedOrder[dummyagent] = stage.DummyAgentOrder
 		stage.DummyAgentOrder++
 	}
 	stage.DummyAgents_mapString[dummyagent.Name] = dummyagent
@@ -1050,7 +1102,7 @@ func (dummyagent *DummyAgent) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.DummyAgentOrder {
 			stage.DummyAgentOrder = order
 		}
-		stage.DummyAgentMap_Staged_Order[dummyagent] = order
+		stage.DummyAgent_stagedOrder[dummyagent] = order
 		stage.DummyAgentOrder++
 	}
 	stage.DummyAgents_mapString[dummyagent.Name] = dummyagent
@@ -1059,7 +1111,8 @@ func (dummyagent *DummyAgent) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes dummyagent off the model stage
 func (dummyagent *DummyAgent) Unstage(stage *Stage) *DummyAgent {
 	delete(stage.DummyAgents, dummyagent)
-	delete(stage.DummyAgentMap_Staged_Order, dummyagent)
+	// issue1150
+	// delete(stage.DummyAgent_stagedOrder, dummyagent)
 	delete(stage.DummyAgents_mapString, dummyagent.Name)
 
 	return dummyagent
@@ -1068,7 +1121,8 @@ func (dummyagent *DummyAgent) Unstage(stage *Stage) *DummyAgent {
 // UnstageVoid removes dummyagent off the model stage
 func (dummyagent *DummyAgent) UnstageVoid(stage *Stage) {
 	delete(stage.DummyAgents, dummyagent)
-	delete(stage.DummyAgentMap_Staged_Order, dummyagent)
+	// issue1150
+	// delete(stage.DummyAgent_stagedOrder, dummyagent)
 	delete(stage.DummyAgents_mapString, dummyagent.Name)
 }
 
@@ -1114,7 +1168,7 @@ func (dummyagent *DummyAgent) SetName(name string) {
 func (engine *Engine) Stage(stage *Stage) *Engine {
 	if _, ok := stage.Engines[engine]; !ok {
 		stage.Engines[engine] = struct{}{}
-		stage.EngineMap_Staged_Order[engine] = stage.EngineOrder
+		stage.Engine_stagedOrder[engine] = stage.EngineOrder
 		stage.EngineOrder++
 	}
 	stage.Engines_mapString[engine.Name] = engine
@@ -1134,7 +1188,7 @@ func (engine *Engine) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.EngineOrder {
 			stage.EngineOrder = order
 		}
-		stage.EngineMap_Staged_Order[engine] = order
+		stage.Engine_stagedOrder[engine] = order
 		stage.EngineOrder++
 	}
 	stage.Engines_mapString[engine.Name] = engine
@@ -1143,7 +1197,8 @@ func (engine *Engine) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes engine off the model stage
 func (engine *Engine) Unstage(stage *Stage) *Engine {
 	delete(stage.Engines, engine)
-	delete(stage.EngineMap_Staged_Order, engine)
+	// issue1150
+	// delete(stage.Engine_stagedOrder, engine)
 	delete(stage.Engines_mapString, engine.Name)
 
 	return engine
@@ -1152,7 +1207,8 @@ func (engine *Engine) Unstage(stage *Stage) *Engine {
 // UnstageVoid removes engine off the model stage
 func (engine *Engine) UnstageVoid(stage *Stage) {
 	delete(stage.Engines, engine)
-	delete(stage.EngineMap_Staged_Order, engine)
+	// issue1150
+	// delete(stage.Engine_stagedOrder, engine)
 	delete(stage.Engines_mapString, engine.Name)
 }
 
@@ -1198,7 +1254,7 @@ func (engine *Engine) SetName(name string) {
 func (event *Event) Stage(stage *Stage) *Event {
 	if _, ok := stage.Events[event]; !ok {
 		stage.Events[event] = struct{}{}
-		stage.EventMap_Staged_Order[event] = stage.EventOrder
+		stage.Event_stagedOrder[event] = stage.EventOrder
 		stage.EventOrder++
 	}
 	stage.Events_mapString[event.Name] = event
@@ -1218,7 +1274,7 @@ func (event *Event) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.EventOrder {
 			stage.EventOrder = order
 		}
-		stage.EventMap_Staged_Order[event] = order
+		stage.Event_stagedOrder[event] = order
 		stage.EventOrder++
 	}
 	stage.Events_mapString[event.Name] = event
@@ -1227,7 +1283,8 @@ func (event *Event) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes event off the model stage
 func (event *Event) Unstage(stage *Stage) *Event {
 	delete(stage.Events, event)
-	delete(stage.EventMap_Staged_Order, event)
+	// issue1150
+	// delete(stage.Event_stagedOrder, event)
 	delete(stage.Events_mapString, event.Name)
 
 	return event
@@ -1236,7 +1293,8 @@ func (event *Event) Unstage(stage *Stage) *Event {
 // UnstageVoid removes event off the model stage
 func (event *Event) UnstageVoid(stage *Stage) {
 	delete(stage.Events, event)
-	delete(stage.EventMap_Staged_Order, event)
+	// issue1150
+	// delete(stage.Event_stagedOrder, event)
 	delete(stage.Events_mapString, event.Name)
 }
 
@@ -1282,7 +1340,7 @@ func (event *Event) SetName(name string) {
 func (status *Status) Stage(stage *Stage) *Status {
 	if _, ok := stage.Statuss[status]; !ok {
 		stage.Statuss[status] = struct{}{}
-		stage.StatusMap_Staged_Order[status] = stage.StatusOrder
+		stage.Status_stagedOrder[status] = stage.StatusOrder
 		stage.StatusOrder++
 	}
 	stage.Statuss_mapString[status.Name] = status
@@ -1302,7 +1360,7 @@ func (status *Status) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.StatusOrder {
 			stage.StatusOrder = order
 		}
-		stage.StatusMap_Staged_Order[status] = order
+		stage.Status_stagedOrder[status] = order
 		stage.StatusOrder++
 	}
 	stage.Statuss_mapString[status.Name] = status
@@ -1311,7 +1369,8 @@ func (status *Status) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes status off the model stage
 func (status *Status) Unstage(stage *Stage) *Status {
 	delete(stage.Statuss, status)
-	delete(stage.StatusMap_Staged_Order, status)
+	// issue1150
+	// delete(stage.Status_stagedOrder, status)
 	delete(stage.Statuss_mapString, status.Name)
 
 	return status
@@ -1320,7 +1379,8 @@ func (status *Status) Unstage(stage *Stage) *Status {
 // UnstageVoid removes status off the model stage
 func (status *Status) UnstageVoid(stage *Stage) {
 	delete(stage.Statuss, status)
-	delete(stage.StatusMap_Staged_Order, status)
+	// issue1150
+	// delete(stage.Status_stagedOrder, status)
 	delete(stage.Statuss_mapString, status.Name)
 }
 
@@ -1366,7 +1426,7 @@ func (status *Status) SetName(name string) {
 func (updatestate *UpdateState) Stage(stage *Stage) *UpdateState {
 	if _, ok := stage.UpdateStates[updatestate]; !ok {
 		stage.UpdateStates[updatestate] = struct{}{}
-		stage.UpdateStateMap_Staged_Order[updatestate] = stage.UpdateStateOrder
+		stage.UpdateState_stagedOrder[updatestate] = stage.UpdateStateOrder
 		stage.UpdateStateOrder++
 	}
 	stage.UpdateStates_mapString[updatestate.Name] = updatestate
@@ -1386,7 +1446,7 @@ func (updatestate *UpdateState) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.UpdateStateOrder {
 			stage.UpdateStateOrder = order
 		}
-		stage.UpdateStateMap_Staged_Order[updatestate] = order
+		stage.UpdateState_stagedOrder[updatestate] = order
 		stage.UpdateStateOrder++
 	}
 	stage.UpdateStates_mapString[updatestate.Name] = updatestate
@@ -1395,7 +1455,8 @@ func (updatestate *UpdateState) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes updatestate off the model stage
 func (updatestate *UpdateState) Unstage(stage *Stage) *UpdateState {
 	delete(stage.UpdateStates, updatestate)
-	delete(stage.UpdateStateMap_Staged_Order, updatestate)
+	// issue1150
+	// delete(stage.UpdateState_stagedOrder, updatestate)
 	delete(stage.UpdateStates_mapString, updatestate.Name)
 
 	return updatestate
@@ -1404,7 +1465,8 @@ func (updatestate *UpdateState) Unstage(stage *Stage) *UpdateState {
 // UnstageVoid removes updatestate off the model stage
 func (updatestate *UpdateState) UnstageVoid(stage *Stage) {
 	delete(stage.UpdateStates, updatestate)
-	delete(stage.UpdateStateMap_Staged_Order, updatestate)
+	// issue1150
+	// delete(stage.UpdateState_stagedOrder, updatestate)
 	delete(stage.UpdateStates_mapString, updatestate.Name)
 }
 
@@ -1468,32 +1530,32 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Commands = make(map[*Command]struct{})
 	stage.Commands_mapString = make(map[string]*Command)
-	stage.CommandMap_Staged_Order = make(map[*Command]uint)
+	stage.Command_stagedOrder = make(map[*Command]uint)
 	stage.CommandOrder = 0
 
 	stage.DummyAgents = make(map[*DummyAgent]struct{})
 	stage.DummyAgents_mapString = make(map[string]*DummyAgent)
-	stage.DummyAgentMap_Staged_Order = make(map[*DummyAgent]uint)
+	stage.DummyAgent_stagedOrder = make(map[*DummyAgent]uint)
 	stage.DummyAgentOrder = 0
 
 	stage.Engines = make(map[*Engine]struct{})
 	stage.Engines_mapString = make(map[string]*Engine)
-	stage.EngineMap_Staged_Order = make(map[*Engine]uint)
+	stage.Engine_stagedOrder = make(map[*Engine]uint)
 	stage.EngineOrder = 0
 
 	stage.Events = make(map[*Event]struct{})
 	stage.Events_mapString = make(map[string]*Event)
-	stage.EventMap_Staged_Order = make(map[*Event]uint)
+	stage.Event_stagedOrder = make(map[*Event]uint)
 	stage.EventOrder = 0
 
 	stage.Statuss = make(map[*Status]struct{})
 	stage.Statuss_mapString = make(map[string]*Status)
-	stage.StatusMap_Staged_Order = make(map[*Status]uint)
+	stage.Status_stagedOrder = make(map[*Status]uint)
 	stage.StatusOrder = 0
 
 	stage.UpdateStates = make(map[*UpdateState]struct{})
 	stage.UpdateStates_mapString = make(map[string]*UpdateState)
-	stage.UpdateStateMap_Staged_Order = make(map[*UpdateState]uint)
+	stage.UpdateState_stagedOrder = make(map[*UpdateState]uint)
 	stage.UpdateStateOrder = 0
 
 	if stage.GetProbeIF() != nil {
@@ -2392,7 +2454,7 @@ func (command *Command) GongSetFieldValue(fieldName string, value GongFieldValue
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			command.Engine = nil
 			for __instance__ := range stage.Engines {
-				if stage.EngineMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Engine_stagedOrder[__instance__] == uint(id) {
 					command.Engine = __instance__
 					break
 				}

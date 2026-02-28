@@ -154,9 +154,9 @@ func (backRepoGroupToogle *BackRepoGroupToogleStruct) CommitPhaseOne(stage *mode
 		grouptoogles = append(grouptoogles, grouptoogle)
 	}
 
-	// Sort by the order stored in Map_Staged_Order.
+	// Sort by the order stored in _stagedOrder.
 	sort.Slice(grouptoogles, func(i, j int) bool {
-		return stage.GroupToogleMap_Staged_Order[grouptoogles[i]] < stage.GroupToogleMap_Staged_Order[grouptoogles[j]]
+		return stage.GroupToogle_stagedOrder[grouptoogles[i]] < stage.GroupToogle_stagedOrder[grouptoogles[j]]
 	})
 
 	for _, grouptoogle := range grouptoogles {

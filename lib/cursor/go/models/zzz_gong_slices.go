@@ -3,6 +3,7 @@ package models
 
 import (
 	"fmt"
+	"log"
 	"sort"
 	"strings"
 	"time"
@@ -68,17 +69,17 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			if stage.Cursors_referenceOrder == nil {
 				stage.Cursors_referenceOrder = make(map[*Cursor]uint)
 			}
-			stage.Cursors_referenceOrder[cursor] = stage.CursorMap_Staged_Order[cursor]
+			stage.Cursors_referenceOrder[cursor] = stage.Cursor_stagedOrder[cursor]
 			newInstancesReverseSlice = append(newInstancesReverseSlice, cursor.GongMarshallUnstaging(stage))
-			delete(stage.Cursors_referenceOrder, cursor)
+			// delete(stage.Cursors_referenceOrder, cursor)
 			fieldInitializers, pointersInitializations := cursor.GongMarshallAllFields(stage)
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
-			stage.CursorMap_Staged_Order[ref] = stage.CursorMap_Staged_Order[cursor]
+			stage.Cursor_stagedOrder[ref] = stage.Cursor_stagedOrder[cursor]
 			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := cursor.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, cursor)
-			delete(stage.CursorMap_Staged_Order, ref)
+			// delete(stage.Cursor_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
 				fieldsEdit += fmt.Sprintf("\n\t// %s", cursor.GetName())
@@ -167,14 +168,15 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 // to avoid unnecessary re-renderings
 // insertion point per named struct
 func (cursor *Cursor) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.CursorMap_Staged_Order[cursor]; ok {
+	if order, ok := stage.Cursor_stagedOrder[cursor]; ok {
 		return order
 	}
-	return stage.Cursors_referenceOrder[cursor]
-}
-
-func (cursor *Cursor) GongGetReferenceOrder(stage *Stage) uint {
-	return stage.Cursors_referenceOrder[cursor]
+	if order, ok := stage.Cursors_referenceOrder[cursor]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type Cursor was not staged and does not have a reference order", cursor)
+		return 0
+	}
 }
 
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
@@ -188,7 +190,7 @@ func (cursor *Cursor) GongGetIdentifier(stage *Stage) string {
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (cursor *Cursor) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", cursor.GongGetGongstructName(), cursor.GongGetReferenceOrder(stage))
+	return fmt.Sprintf("__%s__%08d_", cursor.GongGetGongstructName(), cursor.GongGetOrder(stage))
 }
 
 // MarshallIdentifier returns the code to instantiate the instance

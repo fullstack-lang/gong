@@ -144,9 +144,9 @@ func (backRepoTree *BackRepoTreeStruct) CommitPhaseOne(stage *models.Stage) (Err
 		trees = append(trees, tree)
 	}
 
-	// Sort by the order stored in Map_Staged_Order.
+	// Sort by the order stored in _stagedOrder.
 	sort.Slice(trees, func(i, j int) bool {
-		return stage.TreeMap_Staged_Order[trees[i]] < stage.TreeMap_Staged_Order[trees[j]]
+		return stage.Tree_stagedOrder[trees[i]] < stage.Tree_stagedOrder[trees[j]]
 	})
 
 	for _, tree := range trees {

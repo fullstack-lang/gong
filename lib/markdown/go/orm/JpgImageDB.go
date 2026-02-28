@@ -144,9 +144,9 @@ func (backRepoJpgImage *BackRepoJpgImageStruct) CommitPhaseOne(stage *models.Sta
 		jpgimages = append(jpgimages, jpgimage)
 	}
 
-	// Sort by the order stored in Map_Staged_Order.
+	// Sort by the order stored in _stagedOrder.
 	sort.Slice(jpgimages, func(i, j int) bool {
-		return stage.JpgImageMap_Staged_Order[jpgimages[i]] < stage.JpgImageMap_Staged_Order[jpgimages[j]]
+		return stage.JpgImage_stagedOrder[jpgimages[i]] < stage.JpgImage_stagedOrder[jpgimages[j]]
 	})
 
 	for _, jpgimage := range jpgimages {

@@ -393,9 +393,9 @@ func (backRepoRect *BackRepoRectStruct) CommitPhaseOne(stage *models.Stage) (Err
 		rects = append(rects, rect)
 	}
 
-	// Sort by the order stored in Map_Staged_Order.
+	// Sort by the order stored in _stagedOrder.
 	sort.Slice(rects, func(i, j int) bool {
-		return stage.RectMap_Staged_Order[rects[i]] < stage.RectMap_Staged_Order[rects[j]]
+		return stage.Rect_stagedOrder[rects[i]] < stage.Rect_stagedOrder[rects[j]]
 	})
 
 	for _, rect := range rects {

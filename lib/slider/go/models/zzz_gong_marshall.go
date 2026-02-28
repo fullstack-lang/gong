@@ -134,8 +134,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(checkboxOrdered[:], func(i, j int) bool {
 		checkboxi := checkboxOrdered[i]
 		checkboxj := checkboxOrdered[j]
-		checkboxi_order, oki := stage.CheckboxMap_Staged_Order[checkboxi]
-		checkboxj_order, okj := stage.CheckboxMap_Staged_Order[checkboxj]
+		checkboxi_order, oki := stage.Checkbox_stagedOrder[checkboxi]
+		checkboxj_order, okj := stage.Checkbox_stagedOrder[checkboxj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -163,8 +163,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(groupOrdered[:], func(i, j int) bool {
 		groupi := groupOrdered[i]
 		groupj := groupOrdered[j]
-		groupi_order, oki := stage.GroupMap_Staged_Order[groupi]
-		groupj_order, okj := stage.GroupMap_Staged_Order[groupj]
+		groupi_order, oki := stage.Group_stagedOrder[groupi]
+		groupj_order, okj := stage.Group_stagedOrder[groupj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -192,8 +192,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(layoutOrdered[:], func(i, j int) bool {
 		layouti := layoutOrdered[i]
 		layoutj := layoutOrdered[j]
-		layouti_order, oki := stage.LayoutMap_Staged_Order[layouti]
-		layoutj_order, okj := stage.LayoutMap_Staged_Order[layoutj]
+		layouti_order, oki := stage.Layout_stagedOrder[layouti]
+		layoutj_order, okj := stage.Layout_stagedOrder[layoutj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -219,8 +219,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(sliderOrdered[:], func(i, j int) bool {
 		slideri := sliderOrdered[i]
 		sliderj := sliderOrdered[j]
-		slideri_order, oki := stage.SliderMap_Staged_Order[slideri]
-		sliderj_order, okj := stage.SliderMap_Staged_Order[sliderj]
+		slideri_order, oki := stage.Slider_stagedOrder[slideri]
+		sliderj_order, okj := stage.Slider_stagedOrder[sliderj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}

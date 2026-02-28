@@ -144,9 +144,9 @@ func (backRepoXlsx *BackRepoXlsxStruct) CommitPhaseOne(stage *models.Stage) (Err
 		xlsxs = append(xlsxs, xlsx)
 	}
 
-	// Sort by the order stored in Map_Staged_Order.
+	// Sort by the order stored in _stagedOrder.
 	sort.Slice(xlsxs, func(i, j int) bool {
-		return stage.XlsxMap_Staged_Order[xlsxs[i]] < stage.XlsxMap_Staged_Order[xlsxs[j]]
+		return stage.Xlsx_stagedOrder[xlsxs[i]] < stage.Xlsx_stagedOrder[xlsxs[j]]
 	})
 
 	for _, xlsx := range xlsxs {

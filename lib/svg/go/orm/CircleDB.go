@@ -207,9 +207,9 @@ func (backRepoCircle *BackRepoCircleStruct) CommitPhaseOne(stage *models.Stage) 
 		circles = append(circles, circle)
 	}
 
-	// Sort by the order stored in Map_Staged_Order.
+	// Sort by the order stored in _stagedOrder.
 	sort.Slice(circles, func(i, j int) bool {
-		return stage.CircleMap_Staged_Order[circles[i]] < stage.CircleMap_Staged_Order[circles[j]]
+		return stage.Circle_stagedOrder[circles[i]] < stage.Circle_stagedOrder[circles[j]]
 	})
 
 	for _, circle := range circles {

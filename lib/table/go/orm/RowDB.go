@@ -148,9 +148,9 @@ func (backRepoRow *BackRepoRowStruct) CommitPhaseOne(stage *models.Stage) (Error
 		rows = append(rows, row)
 	}
 
-	// Sort by the order stored in Map_Staged_Order.
+	// Sort by the order stored in _stagedOrder.
 	sort.Slice(rows, func(i, j int) bool {
-		return stage.RowMap_Staged_Order[rows[i]] < stage.RowMap_Staged_Order[rows[j]]
+		return stage.Row_stagedOrder[rows[i]] < stage.Row_stagedOrder[rows[j]]
 	})
 
 	for _, row := range rows {

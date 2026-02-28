@@ -106,11 +106,13 @@ type Stage struct {
 
 	// insertion point for definition of arrays registering instances
 	Animates                map[*Animate]struct{}
-	Animates_reference      map[*Animate]*Animate
-	Animates_referenceOrder map[*Animate]uint
 	Animates_instance       map[*Animate]*Animate
 	Animates_mapString      map[string]*Animate
-
+	AnimateOrder            uint
+	Animate_stagedOrder     map[*Animate]uint
+	Animates_reference      map[*Animate]*Animate
+	Animates_referenceOrder map[*Animate]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterAnimateCreateCallback OnAfterCreateInterface[Animate]
 	OnAfterAnimateUpdateCallback OnAfterUpdateInterface[Animate]
@@ -118,11 +120,13 @@ type Stage struct {
 	OnAfterAnimateReadCallback   OnAfterReadInterface[Animate]
 
 	Circles                map[*Circle]struct{}
-	Circles_reference      map[*Circle]*Circle
-	Circles_referenceOrder map[*Circle]uint
 	Circles_instance       map[*Circle]*Circle
 	Circles_mapString      map[string]*Circle
-
+	CircleOrder            uint
+	Circle_stagedOrder     map[*Circle]uint
+	Circles_reference      map[*Circle]*Circle
+	Circles_referenceOrder map[*Circle]uint
+	
 	// insertion point for slice of pointers maps
 	Circle_Animations_reverseMap map[*Animate]*Circle
 
@@ -132,11 +136,13 @@ type Stage struct {
 	OnAfterCircleReadCallback   OnAfterReadInterface[Circle]
 
 	Conditions                map[*Condition]struct{}
-	Conditions_reference      map[*Condition]*Condition
-	Conditions_referenceOrder map[*Condition]uint
 	Conditions_instance       map[*Condition]*Condition
 	Conditions_mapString      map[string]*Condition
-
+	ConditionOrder            uint
+	Condition_stagedOrder     map[*Condition]uint
+	Conditions_reference      map[*Condition]*Condition
+	Conditions_referenceOrder map[*Condition]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterConditionCreateCallback OnAfterCreateInterface[Condition]
 	OnAfterConditionUpdateCallback OnAfterUpdateInterface[Condition]
@@ -144,11 +150,13 @@ type Stage struct {
 	OnAfterConditionReadCallback   OnAfterReadInterface[Condition]
 
 	ControlPoints                map[*ControlPoint]struct{}
-	ControlPoints_reference      map[*ControlPoint]*ControlPoint
-	ControlPoints_referenceOrder map[*ControlPoint]uint
 	ControlPoints_instance       map[*ControlPoint]*ControlPoint
 	ControlPoints_mapString      map[string]*ControlPoint
-
+	ControlPointOrder            uint
+	ControlPoint_stagedOrder     map[*ControlPoint]uint
+	ControlPoints_reference      map[*ControlPoint]*ControlPoint
+	ControlPoints_referenceOrder map[*ControlPoint]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterControlPointCreateCallback OnAfterCreateInterface[ControlPoint]
 	OnAfterControlPointUpdateCallback OnAfterUpdateInterface[ControlPoint]
@@ -156,11 +164,13 @@ type Stage struct {
 	OnAfterControlPointReadCallback   OnAfterReadInterface[ControlPoint]
 
 	Ellipses                map[*Ellipse]struct{}
-	Ellipses_reference      map[*Ellipse]*Ellipse
-	Ellipses_referenceOrder map[*Ellipse]uint
 	Ellipses_instance       map[*Ellipse]*Ellipse
 	Ellipses_mapString      map[string]*Ellipse
-
+	EllipseOrder            uint
+	Ellipse_stagedOrder     map[*Ellipse]uint
+	Ellipses_reference      map[*Ellipse]*Ellipse
+	Ellipses_referenceOrder map[*Ellipse]uint
+	
 	// insertion point for slice of pointers maps
 	Ellipse_Animates_reverseMap map[*Animate]*Ellipse
 
@@ -170,11 +180,13 @@ type Stage struct {
 	OnAfterEllipseReadCallback   OnAfterReadInterface[Ellipse]
 
 	Layers                map[*Layer]struct{}
-	Layers_reference      map[*Layer]*Layer
-	Layers_referenceOrder map[*Layer]uint
 	Layers_instance       map[*Layer]*Layer
 	Layers_mapString      map[string]*Layer
-
+	LayerOrder            uint
+	Layer_stagedOrder     map[*Layer]uint
+	Layers_reference      map[*Layer]*Layer
+	Layers_referenceOrder map[*Layer]uint
+	
 	// insertion point for slice of pointers maps
 	Layer_Rects_reverseMap map[*Rect]*Layer
 
@@ -202,11 +214,13 @@ type Stage struct {
 	OnAfterLayerReadCallback   OnAfterReadInterface[Layer]
 
 	Lines                map[*Line]struct{}
-	Lines_reference      map[*Line]*Line
-	Lines_referenceOrder map[*Line]uint
 	Lines_instance       map[*Line]*Line
 	Lines_mapString      map[string]*Line
-
+	LineOrder            uint
+	Line_stagedOrder     map[*Line]uint
+	Lines_reference      map[*Line]*Line
+	Lines_referenceOrder map[*Line]uint
+	
 	// insertion point for slice of pointers maps
 	Line_Animates_reverseMap map[*Animate]*Line
 
@@ -216,11 +230,13 @@ type Stage struct {
 	OnAfterLineReadCallback   OnAfterReadInterface[Line]
 
 	Links                map[*Link]struct{}
-	Links_reference      map[*Link]*Link
-	Links_referenceOrder map[*Link]uint
 	Links_instance       map[*Link]*Link
 	Links_mapString      map[string]*Link
-
+	LinkOrder            uint
+	Link_stagedOrder     map[*Link]uint
+	Links_reference      map[*Link]*Link
+	Links_referenceOrder map[*Link]uint
+	
 	// insertion point for slice of pointers maps
 	Link_TextAtArrowStart_reverseMap map[*LinkAnchoredText]*Link
 
@@ -234,11 +250,13 @@ type Stage struct {
 	OnAfterLinkReadCallback   OnAfterReadInterface[Link]
 
 	LinkAnchoredTexts                map[*LinkAnchoredText]struct{}
-	LinkAnchoredTexts_reference      map[*LinkAnchoredText]*LinkAnchoredText
-	LinkAnchoredTexts_referenceOrder map[*LinkAnchoredText]uint
 	LinkAnchoredTexts_instance       map[*LinkAnchoredText]*LinkAnchoredText
 	LinkAnchoredTexts_mapString      map[string]*LinkAnchoredText
-
+	LinkAnchoredTextOrder            uint
+	LinkAnchoredText_stagedOrder     map[*LinkAnchoredText]uint
+	LinkAnchoredTexts_reference      map[*LinkAnchoredText]*LinkAnchoredText
+	LinkAnchoredTexts_referenceOrder map[*LinkAnchoredText]uint
+	
 	// insertion point for slice of pointers maps
 	LinkAnchoredText_Animates_reverseMap map[*Animate]*LinkAnchoredText
 
@@ -248,11 +266,13 @@ type Stage struct {
 	OnAfterLinkAnchoredTextReadCallback   OnAfterReadInterface[LinkAnchoredText]
 
 	Paths                map[*Path]struct{}
-	Paths_reference      map[*Path]*Path
-	Paths_referenceOrder map[*Path]uint
 	Paths_instance       map[*Path]*Path
 	Paths_mapString      map[string]*Path
-
+	PathOrder            uint
+	Path_stagedOrder     map[*Path]uint
+	Paths_reference      map[*Path]*Path
+	Paths_referenceOrder map[*Path]uint
+	
 	// insertion point for slice of pointers maps
 	Path_Animates_reverseMap map[*Animate]*Path
 
@@ -262,11 +282,13 @@ type Stage struct {
 	OnAfterPathReadCallback   OnAfterReadInterface[Path]
 
 	Points                map[*Point]struct{}
-	Points_reference      map[*Point]*Point
-	Points_referenceOrder map[*Point]uint
 	Points_instance       map[*Point]*Point
 	Points_mapString      map[string]*Point
-
+	PointOrder            uint
+	Point_stagedOrder     map[*Point]uint
+	Points_reference      map[*Point]*Point
+	Points_referenceOrder map[*Point]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterPointCreateCallback OnAfterCreateInterface[Point]
 	OnAfterPointUpdateCallback OnAfterUpdateInterface[Point]
@@ -274,11 +296,13 @@ type Stage struct {
 	OnAfterPointReadCallback   OnAfterReadInterface[Point]
 
 	Polygones                map[*Polygone]struct{}
-	Polygones_reference      map[*Polygone]*Polygone
-	Polygones_referenceOrder map[*Polygone]uint
 	Polygones_instance       map[*Polygone]*Polygone
 	Polygones_mapString      map[string]*Polygone
-
+	PolygoneOrder            uint
+	Polygone_stagedOrder     map[*Polygone]uint
+	Polygones_reference      map[*Polygone]*Polygone
+	Polygones_referenceOrder map[*Polygone]uint
+	
 	// insertion point for slice of pointers maps
 	Polygone_Animates_reverseMap map[*Animate]*Polygone
 
@@ -288,11 +312,13 @@ type Stage struct {
 	OnAfterPolygoneReadCallback   OnAfterReadInterface[Polygone]
 
 	Polylines                map[*Polyline]struct{}
-	Polylines_reference      map[*Polyline]*Polyline
-	Polylines_referenceOrder map[*Polyline]uint
 	Polylines_instance       map[*Polyline]*Polyline
 	Polylines_mapString      map[string]*Polyline
-
+	PolylineOrder            uint
+	Polyline_stagedOrder     map[*Polyline]uint
+	Polylines_reference      map[*Polyline]*Polyline
+	Polylines_referenceOrder map[*Polyline]uint
+	
 	// insertion point for slice of pointers maps
 	Polyline_Animates_reverseMap map[*Animate]*Polyline
 
@@ -302,11 +328,13 @@ type Stage struct {
 	OnAfterPolylineReadCallback   OnAfterReadInterface[Polyline]
 
 	Rects                map[*Rect]struct{}
-	Rects_reference      map[*Rect]*Rect
-	Rects_referenceOrder map[*Rect]uint
 	Rects_instance       map[*Rect]*Rect
 	Rects_mapString      map[string]*Rect
-
+	RectOrder            uint
+	Rect_stagedOrder     map[*Rect]uint
+	Rects_reference      map[*Rect]*Rect
+	Rects_referenceOrder map[*Rect]uint
+	
 	// insertion point for slice of pointers maps
 	Rect_HoveringTrigger_reverseMap map[*Condition]*Rect
 
@@ -326,11 +354,13 @@ type Stage struct {
 	OnAfterRectReadCallback   OnAfterReadInterface[Rect]
 
 	RectAnchoredPaths                map[*RectAnchoredPath]struct{}
-	RectAnchoredPaths_reference      map[*RectAnchoredPath]*RectAnchoredPath
-	RectAnchoredPaths_referenceOrder map[*RectAnchoredPath]uint
 	RectAnchoredPaths_instance       map[*RectAnchoredPath]*RectAnchoredPath
 	RectAnchoredPaths_mapString      map[string]*RectAnchoredPath
-
+	RectAnchoredPathOrder            uint
+	RectAnchoredPath_stagedOrder     map[*RectAnchoredPath]uint
+	RectAnchoredPaths_reference      map[*RectAnchoredPath]*RectAnchoredPath
+	RectAnchoredPaths_referenceOrder map[*RectAnchoredPath]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterRectAnchoredPathCreateCallback OnAfterCreateInterface[RectAnchoredPath]
 	OnAfterRectAnchoredPathUpdateCallback OnAfterUpdateInterface[RectAnchoredPath]
@@ -338,11 +368,13 @@ type Stage struct {
 	OnAfterRectAnchoredPathReadCallback   OnAfterReadInterface[RectAnchoredPath]
 
 	RectAnchoredRects                map[*RectAnchoredRect]struct{}
-	RectAnchoredRects_reference      map[*RectAnchoredRect]*RectAnchoredRect
-	RectAnchoredRects_referenceOrder map[*RectAnchoredRect]uint
 	RectAnchoredRects_instance       map[*RectAnchoredRect]*RectAnchoredRect
 	RectAnchoredRects_mapString      map[string]*RectAnchoredRect
-
+	RectAnchoredRectOrder            uint
+	RectAnchoredRect_stagedOrder     map[*RectAnchoredRect]uint
+	RectAnchoredRects_reference      map[*RectAnchoredRect]*RectAnchoredRect
+	RectAnchoredRects_referenceOrder map[*RectAnchoredRect]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterRectAnchoredRectCreateCallback OnAfterCreateInterface[RectAnchoredRect]
 	OnAfterRectAnchoredRectUpdateCallback OnAfterUpdateInterface[RectAnchoredRect]
@@ -350,11 +382,13 @@ type Stage struct {
 	OnAfterRectAnchoredRectReadCallback   OnAfterReadInterface[RectAnchoredRect]
 
 	RectAnchoredTexts                map[*RectAnchoredText]struct{}
-	RectAnchoredTexts_reference      map[*RectAnchoredText]*RectAnchoredText
-	RectAnchoredTexts_referenceOrder map[*RectAnchoredText]uint
 	RectAnchoredTexts_instance       map[*RectAnchoredText]*RectAnchoredText
 	RectAnchoredTexts_mapString      map[string]*RectAnchoredText
-
+	RectAnchoredTextOrder            uint
+	RectAnchoredText_stagedOrder     map[*RectAnchoredText]uint
+	RectAnchoredTexts_reference      map[*RectAnchoredText]*RectAnchoredText
+	RectAnchoredTexts_referenceOrder map[*RectAnchoredText]uint
+	
 	// insertion point for slice of pointers maps
 	RectAnchoredText_Animates_reverseMap map[*Animate]*RectAnchoredText
 
@@ -364,11 +398,13 @@ type Stage struct {
 	OnAfterRectAnchoredTextReadCallback   OnAfterReadInterface[RectAnchoredText]
 
 	RectLinkLinks                map[*RectLinkLink]struct{}
-	RectLinkLinks_reference      map[*RectLinkLink]*RectLinkLink
-	RectLinkLinks_referenceOrder map[*RectLinkLink]uint
 	RectLinkLinks_instance       map[*RectLinkLink]*RectLinkLink
 	RectLinkLinks_mapString      map[string]*RectLinkLink
-
+	RectLinkLinkOrder            uint
+	RectLinkLink_stagedOrder     map[*RectLinkLink]uint
+	RectLinkLinks_reference      map[*RectLinkLink]*RectLinkLink
+	RectLinkLinks_referenceOrder map[*RectLinkLink]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterRectLinkLinkCreateCallback OnAfterCreateInterface[RectLinkLink]
 	OnAfterRectLinkLinkUpdateCallback OnAfterUpdateInterface[RectLinkLink]
@@ -376,11 +412,13 @@ type Stage struct {
 	OnAfterRectLinkLinkReadCallback   OnAfterReadInterface[RectLinkLink]
 
 	SVGs                map[*SVG]struct{}
-	SVGs_reference      map[*SVG]*SVG
-	SVGs_referenceOrder map[*SVG]uint
 	SVGs_instance       map[*SVG]*SVG
 	SVGs_mapString      map[string]*SVG
-
+	SVGOrder            uint
+	SVG_stagedOrder     map[*SVG]uint
+	SVGs_reference      map[*SVG]*SVG
+	SVGs_referenceOrder map[*SVG]uint
+	
 	// insertion point for slice of pointers maps
 	SVG_Layers_reverseMap map[*Layer]*SVG
 
@@ -390,11 +428,13 @@ type Stage struct {
 	OnAfterSVGReadCallback   OnAfterReadInterface[SVG]
 
 	SvgTexts                map[*SvgText]struct{}
-	SvgTexts_reference      map[*SvgText]*SvgText
-	SvgTexts_referenceOrder map[*SvgText]uint
 	SvgTexts_instance       map[*SvgText]*SvgText
 	SvgTexts_mapString      map[string]*SvgText
-
+	SvgTextOrder            uint
+	SvgText_stagedOrder     map[*SvgText]uint
+	SvgTexts_reference      map[*SvgText]*SvgText
+	SvgTexts_referenceOrder map[*SvgText]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterSvgTextCreateCallback OnAfterCreateInterface[SvgText]
 	OnAfterSvgTextUpdateCallback OnAfterUpdateInterface[SvgText]
@@ -402,11 +442,13 @@ type Stage struct {
 	OnAfterSvgTextReadCallback   OnAfterReadInterface[SvgText]
 
 	Texts                map[*Text]struct{}
-	Texts_reference      map[*Text]*Text
-	Texts_referenceOrder map[*Text]uint
 	Texts_instance       map[*Text]*Text
 	Texts_mapString      map[string]*Text
-
+	TextOrder            uint
+	Text_stagedOrder     map[*Text]uint
+	Texts_reference      map[*Text]*Text
+	Texts_referenceOrder map[*Text]uint
+	
 	// insertion point for slice of pointers maps
 	Text_Animates_reverseMap map[*Animate]*Text
 
@@ -426,6 +468,10 @@ type Stage struct {
 	OnInitCommitFromFrontCallback OnInitCommitInterface
 	OnInitCommitFromBackCallback  OnInitCommitInterface
 
+	// Private slices to hold the registered hooks
+	beforeCommitHooks []func(stage *Stage)
+	afterCommitHooks  []func(stage *Stage)
+
 	// store the number of instance per gongstruct
 	Map_GongStructName_InstancesNb map[string]int
 
@@ -441,68 +487,26 @@ type Stage struct {
 	// store the stage order of each instance in order to
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
-	AnimateOrder            uint
-	AnimateMap_Staged_Order map[*Animate]uint
 
-	CircleOrder            uint
-	CircleMap_Staged_Order map[*Circle]uint
 
-	ConditionOrder            uint
-	ConditionMap_Staged_Order map[*Condition]uint
 
-	ControlPointOrder            uint
-	ControlPointMap_Staged_Order map[*ControlPoint]uint
 
-	EllipseOrder            uint
-	EllipseMap_Staged_Order map[*Ellipse]uint
 
-	LayerOrder            uint
-	LayerMap_Staged_Order map[*Layer]uint
 
-	LineOrder            uint
-	LineMap_Staged_Order map[*Line]uint
 
-	LinkOrder            uint
-	LinkMap_Staged_Order map[*Link]uint
 
-	LinkAnchoredTextOrder            uint
-	LinkAnchoredTextMap_Staged_Order map[*LinkAnchoredText]uint
 
-	PathOrder            uint
-	PathMap_Staged_Order map[*Path]uint
 
-	PointOrder            uint
-	PointMap_Staged_Order map[*Point]uint
 
-	PolygoneOrder            uint
-	PolygoneMap_Staged_Order map[*Polygone]uint
 
-	PolylineOrder            uint
-	PolylineMap_Staged_Order map[*Polyline]uint
 
-	RectOrder            uint
-	RectMap_Staged_Order map[*Rect]uint
 
-	RectAnchoredPathOrder            uint
-	RectAnchoredPathMap_Staged_Order map[*RectAnchoredPath]uint
 
-	RectAnchoredRectOrder            uint
-	RectAnchoredRectMap_Staged_Order map[*RectAnchoredRect]uint
 
-	RectAnchoredTextOrder            uint
-	RectAnchoredTextMap_Staged_Order map[*RectAnchoredText]uint
 
-	RectLinkLinkOrder            uint
-	RectLinkLinkMap_Staged_Order map[*RectLinkLink]uint
 
-	SVGOrder            uint
-	SVGMap_Staged_Order map[*SVG]uint
 
-	SvgTextOrder            uint
-	SvgTextMap_Staged_Order map[*SvgText]uint
 
-	TextOrder            uint
-	TextMap_Staged_Order map[*Text]uint
 
 	// end of insertion point
 
@@ -524,6 +528,16 @@ type Stage struct {
 	commitsBehind  int // the number of commits the stage is behind the front of the history
 
 	lock sync.RWMutex
+}
+
+// RegisterBeforeCommit adds a hook that runs before the commit happens
+func (s *Stage) RegisterBeforeCommit(hook func(stage *Stage)) {
+	s.beforeCommitHooks = append(s.beforeCommitHooks, hook)
+}
+
+// RegisterAfterCommit adds a hook that runs after the commit succeeds
+func (s *Stage) RegisterAfterCommit(hook func(stage *Stage)) {
+	s.afterCommitHooks = append(s.afterCommitHooks, hook)
 }
 
 type gongStageNavigationMode string
@@ -647,6 +661,16 @@ func (stage *Stage) ResetHard() {
 	if stage.OnInitCommitFromBackCallback != nil {
 		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
 	}
+
+	// 1. Run all Before Commit hooks
+	for _, hook := range stage.beforeCommitHooks {
+		hook(stage)
+	}
+
+	// 2. Run all After Commit hooks
+	for _, hook := range stage.afterCommitHooks {
+		hook(stage)
+	}
 }
 
 // Orphans removes all commits
@@ -663,6 +687,16 @@ func (stage *Stage) Orphans() {
 	if stage.OnInitCommitFromBackCallback != nil {
 		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
 	}
+
+	// 1. Run all Before Commit hooks
+	for _, hook := range stage.beforeCommitHooks {
+		hook(stage)
+	}
+
+	// 2. Run all After Commit hooks
+	for _, hook := range stage.afterCommitHooks {
+		hook(stage)
+	}
 }
 
 // recomputeOrders recomputes the next order for each struct
@@ -673,7 +707,7 @@ func (stage *Stage) recomputeOrders() {
 	// insertion point for max order recomputation
 	var maxAnimateOrder uint
 	var foundAnimate bool
-	for _, order := range stage.AnimateMap_Staged_Order {
+	for _, order := range stage.Animate_stagedOrder {
 		if !foundAnimate || order > maxAnimateOrder {
 			maxAnimateOrder = order
 			foundAnimate = true
@@ -687,7 +721,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxCircleOrder uint
 	var foundCircle bool
-	for _, order := range stage.CircleMap_Staged_Order {
+	for _, order := range stage.Circle_stagedOrder {
 		if !foundCircle || order > maxCircleOrder {
 			maxCircleOrder = order
 			foundCircle = true
@@ -701,7 +735,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxConditionOrder uint
 	var foundCondition bool
-	for _, order := range stage.ConditionMap_Staged_Order {
+	for _, order := range stage.Condition_stagedOrder {
 		if !foundCondition || order > maxConditionOrder {
 			maxConditionOrder = order
 			foundCondition = true
@@ -715,7 +749,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxControlPointOrder uint
 	var foundControlPoint bool
-	for _, order := range stage.ControlPointMap_Staged_Order {
+	for _, order := range stage.ControlPoint_stagedOrder {
 		if !foundControlPoint || order > maxControlPointOrder {
 			maxControlPointOrder = order
 			foundControlPoint = true
@@ -729,7 +763,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxEllipseOrder uint
 	var foundEllipse bool
-	for _, order := range stage.EllipseMap_Staged_Order {
+	for _, order := range stage.Ellipse_stagedOrder {
 		if !foundEllipse || order > maxEllipseOrder {
 			maxEllipseOrder = order
 			foundEllipse = true
@@ -743,7 +777,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxLayerOrder uint
 	var foundLayer bool
-	for _, order := range stage.LayerMap_Staged_Order {
+	for _, order := range stage.Layer_stagedOrder {
 		if !foundLayer || order > maxLayerOrder {
 			maxLayerOrder = order
 			foundLayer = true
@@ -757,7 +791,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxLineOrder uint
 	var foundLine bool
-	for _, order := range stage.LineMap_Staged_Order {
+	for _, order := range stage.Line_stagedOrder {
 		if !foundLine || order > maxLineOrder {
 			maxLineOrder = order
 			foundLine = true
@@ -771,7 +805,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxLinkOrder uint
 	var foundLink bool
-	for _, order := range stage.LinkMap_Staged_Order {
+	for _, order := range stage.Link_stagedOrder {
 		if !foundLink || order > maxLinkOrder {
 			maxLinkOrder = order
 			foundLink = true
@@ -785,7 +819,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxLinkAnchoredTextOrder uint
 	var foundLinkAnchoredText bool
-	for _, order := range stage.LinkAnchoredTextMap_Staged_Order {
+	for _, order := range stage.LinkAnchoredText_stagedOrder {
 		if !foundLinkAnchoredText || order > maxLinkAnchoredTextOrder {
 			maxLinkAnchoredTextOrder = order
 			foundLinkAnchoredText = true
@@ -799,7 +833,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxPathOrder uint
 	var foundPath bool
-	for _, order := range stage.PathMap_Staged_Order {
+	for _, order := range stage.Path_stagedOrder {
 		if !foundPath || order > maxPathOrder {
 			maxPathOrder = order
 			foundPath = true
@@ -813,7 +847,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxPointOrder uint
 	var foundPoint bool
-	for _, order := range stage.PointMap_Staged_Order {
+	for _, order := range stage.Point_stagedOrder {
 		if !foundPoint || order > maxPointOrder {
 			maxPointOrder = order
 			foundPoint = true
@@ -827,7 +861,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxPolygoneOrder uint
 	var foundPolygone bool
-	for _, order := range stage.PolygoneMap_Staged_Order {
+	for _, order := range stage.Polygone_stagedOrder {
 		if !foundPolygone || order > maxPolygoneOrder {
 			maxPolygoneOrder = order
 			foundPolygone = true
@@ -841,7 +875,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxPolylineOrder uint
 	var foundPolyline bool
-	for _, order := range stage.PolylineMap_Staged_Order {
+	for _, order := range stage.Polyline_stagedOrder {
 		if !foundPolyline || order > maxPolylineOrder {
 			maxPolylineOrder = order
 			foundPolyline = true
@@ -855,7 +889,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxRectOrder uint
 	var foundRect bool
-	for _, order := range stage.RectMap_Staged_Order {
+	for _, order := range stage.Rect_stagedOrder {
 		if !foundRect || order > maxRectOrder {
 			maxRectOrder = order
 			foundRect = true
@@ -869,7 +903,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxRectAnchoredPathOrder uint
 	var foundRectAnchoredPath bool
-	for _, order := range stage.RectAnchoredPathMap_Staged_Order {
+	for _, order := range stage.RectAnchoredPath_stagedOrder {
 		if !foundRectAnchoredPath || order > maxRectAnchoredPathOrder {
 			maxRectAnchoredPathOrder = order
 			foundRectAnchoredPath = true
@@ -883,7 +917,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxRectAnchoredRectOrder uint
 	var foundRectAnchoredRect bool
-	for _, order := range stage.RectAnchoredRectMap_Staged_Order {
+	for _, order := range stage.RectAnchoredRect_stagedOrder {
 		if !foundRectAnchoredRect || order > maxRectAnchoredRectOrder {
 			maxRectAnchoredRectOrder = order
 			foundRectAnchoredRect = true
@@ -897,7 +931,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxRectAnchoredTextOrder uint
 	var foundRectAnchoredText bool
-	for _, order := range stage.RectAnchoredTextMap_Staged_Order {
+	for _, order := range stage.RectAnchoredText_stagedOrder {
 		if !foundRectAnchoredText || order > maxRectAnchoredTextOrder {
 			maxRectAnchoredTextOrder = order
 			foundRectAnchoredText = true
@@ -911,7 +945,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxRectLinkLinkOrder uint
 	var foundRectLinkLink bool
-	for _, order := range stage.RectLinkLinkMap_Staged_Order {
+	for _, order := range stage.RectLinkLink_stagedOrder {
 		if !foundRectLinkLink || order > maxRectLinkLinkOrder {
 			maxRectLinkLinkOrder = order
 			foundRectLinkLink = true
@@ -925,7 +959,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxSVGOrder uint
 	var foundSVG bool
-	for _, order := range stage.SVGMap_Staged_Order {
+	for _, order := range stage.SVG_stagedOrder {
 		if !foundSVG || order > maxSVGOrder {
 			maxSVGOrder = order
 			foundSVG = true
@@ -939,7 +973,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxSvgTextOrder uint
 	var foundSvgText bool
-	for _, order := range stage.SvgTextMap_Staged_Order {
+	for _, order := range stage.SvgText_stagedOrder {
 		if !foundSvgText || order > maxSvgTextOrder {
 			maxSvgTextOrder = order
 			foundSvgText = true
@@ -953,7 +987,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxTextOrder uint
 	var foundText bool
-	for _, order := range stage.TextMap_Staged_Order {
+	for _, order := range stage.Text_stagedOrder {
 		if !foundText || order > maxTextOrder {
 			maxTextOrder = order
 			foundText = true
@@ -1025,7 +1059,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 	switch any(t).(type) {
 	// insertion point for case
 	case *Animate:
-		tmp := GetStructInstancesByOrder(stage.Animates, stage.AnimateMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Animates, stage.Animate_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1039,7 +1073,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Circle:
-		tmp := GetStructInstancesByOrder(stage.Circles, stage.CircleMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Circles, stage.Circle_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1053,7 +1087,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Condition:
-		tmp := GetStructInstancesByOrder(stage.Conditions, stage.ConditionMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Conditions, stage.Condition_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1067,7 +1101,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *ControlPoint:
-		tmp := GetStructInstancesByOrder(stage.ControlPoints, stage.ControlPointMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.ControlPoints, stage.ControlPoint_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1081,7 +1115,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Ellipse:
-		tmp := GetStructInstancesByOrder(stage.Ellipses, stage.EllipseMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Ellipses, stage.Ellipse_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1095,7 +1129,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Layer:
-		tmp := GetStructInstancesByOrder(stage.Layers, stage.LayerMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Layers, stage.Layer_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1109,7 +1143,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Line:
-		tmp := GetStructInstancesByOrder(stage.Lines, stage.LineMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Lines, stage.Line_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1123,7 +1157,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Link:
-		tmp := GetStructInstancesByOrder(stage.Links, stage.LinkMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Links, stage.Link_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1137,7 +1171,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *LinkAnchoredText:
-		tmp := GetStructInstancesByOrder(stage.LinkAnchoredTexts, stage.LinkAnchoredTextMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.LinkAnchoredTexts, stage.LinkAnchoredText_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1151,7 +1185,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Path:
-		tmp := GetStructInstancesByOrder(stage.Paths, stage.PathMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Paths, stage.Path_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1165,7 +1199,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Point:
-		tmp := GetStructInstancesByOrder(stage.Points, stage.PointMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Points, stage.Point_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1179,7 +1213,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Polygone:
-		tmp := GetStructInstancesByOrder(stage.Polygones, stage.PolygoneMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Polygones, stage.Polygone_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1193,7 +1227,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Polyline:
-		tmp := GetStructInstancesByOrder(stage.Polylines, stage.PolylineMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Polylines, stage.Polyline_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1207,7 +1241,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Rect:
-		tmp := GetStructInstancesByOrder(stage.Rects, stage.RectMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Rects, stage.Rect_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1221,7 +1255,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *RectAnchoredPath:
-		tmp := GetStructInstancesByOrder(stage.RectAnchoredPaths, stage.RectAnchoredPathMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.RectAnchoredPaths, stage.RectAnchoredPath_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1235,7 +1269,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *RectAnchoredRect:
-		tmp := GetStructInstancesByOrder(stage.RectAnchoredRects, stage.RectAnchoredRectMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.RectAnchoredRects, stage.RectAnchoredRect_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1249,7 +1283,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *RectAnchoredText:
-		tmp := GetStructInstancesByOrder(stage.RectAnchoredTexts, stage.RectAnchoredTextMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.RectAnchoredTexts, stage.RectAnchoredText_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1263,7 +1297,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *RectLinkLink:
-		tmp := GetStructInstancesByOrder(stage.RectLinkLinks, stage.RectLinkLinkMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.RectLinkLinks, stage.RectLinkLink_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1277,7 +1311,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *SVG:
-		tmp := GetStructInstancesByOrder(stage.SVGs, stage.SVGMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.SVGs, stage.SVG_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1291,7 +1325,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *SvgText:
-		tmp := GetStructInstancesByOrder(stage.SvgTexts, stage.SvgTextMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.SvgTexts, stage.SvgText_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1305,7 +1339,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Text:
-		tmp := GetStructInstancesByOrder(stage.Texts, stage.TextMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Texts, stage.Text_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1348,47 +1382,47 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 	switch namedStructName {
 	// insertion point for case
 	case "Animate":
-		res = GetNamedStructInstances(stage.Animates, stage.AnimateMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Animates, stage.Animate_stagedOrder)
 	case "Circle":
-		res = GetNamedStructInstances(stage.Circles, stage.CircleMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Circles, stage.Circle_stagedOrder)
 	case "Condition":
-		res = GetNamedStructInstances(stage.Conditions, stage.ConditionMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Conditions, stage.Condition_stagedOrder)
 	case "ControlPoint":
-		res = GetNamedStructInstances(stage.ControlPoints, stage.ControlPointMap_Staged_Order)
+		res = GetNamedStructInstances(stage.ControlPoints, stage.ControlPoint_stagedOrder)
 	case "Ellipse":
-		res = GetNamedStructInstances(stage.Ellipses, stage.EllipseMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Ellipses, stage.Ellipse_stagedOrder)
 	case "Layer":
-		res = GetNamedStructInstances(stage.Layers, stage.LayerMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Layers, stage.Layer_stagedOrder)
 	case "Line":
-		res = GetNamedStructInstances(stage.Lines, stage.LineMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Lines, stage.Line_stagedOrder)
 	case "Link":
-		res = GetNamedStructInstances(stage.Links, stage.LinkMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Links, stage.Link_stagedOrder)
 	case "LinkAnchoredText":
-		res = GetNamedStructInstances(stage.LinkAnchoredTexts, stage.LinkAnchoredTextMap_Staged_Order)
+		res = GetNamedStructInstances(stage.LinkAnchoredTexts, stage.LinkAnchoredText_stagedOrder)
 	case "Path":
-		res = GetNamedStructInstances(stage.Paths, stage.PathMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Paths, stage.Path_stagedOrder)
 	case "Point":
-		res = GetNamedStructInstances(stage.Points, stage.PointMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Points, stage.Point_stagedOrder)
 	case "Polygone":
-		res = GetNamedStructInstances(stage.Polygones, stage.PolygoneMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Polygones, stage.Polygone_stagedOrder)
 	case "Polyline":
-		res = GetNamedStructInstances(stage.Polylines, stage.PolylineMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Polylines, stage.Polyline_stagedOrder)
 	case "Rect":
-		res = GetNamedStructInstances(stage.Rects, stage.RectMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Rects, stage.Rect_stagedOrder)
 	case "RectAnchoredPath":
-		res = GetNamedStructInstances(stage.RectAnchoredPaths, stage.RectAnchoredPathMap_Staged_Order)
+		res = GetNamedStructInstances(stage.RectAnchoredPaths, stage.RectAnchoredPath_stagedOrder)
 	case "RectAnchoredRect":
-		res = GetNamedStructInstances(stage.RectAnchoredRects, stage.RectAnchoredRectMap_Staged_Order)
+		res = GetNamedStructInstances(stage.RectAnchoredRects, stage.RectAnchoredRect_stagedOrder)
 	case "RectAnchoredText":
-		res = GetNamedStructInstances(stage.RectAnchoredTexts, stage.RectAnchoredTextMap_Staged_Order)
+		res = GetNamedStructInstances(stage.RectAnchoredTexts, stage.RectAnchoredText_stagedOrder)
 	case "RectLinkLink":
-		res = GetNamedStructInstances(stage.RectLinkLinks, stage.RectLinkLinkMap_Staged_Order)
+		res = GetNamedStructInstances(stage.RectLinkLinks, stage.RectLinkLink_stagedOrder)
 	case "SVG":
-		res = GetNamedStructInstances(stage.SVGs, stage.SVGMap_Staged_Order)
+		res = GetNamedStructInstances(stage.SVGs, stage.SVG_stagedOrder)
 	case "SvgText":
-		res = GetNamedStructInstances(stage.SvgTexts, stage.SvgTextMap_Staged_Order)
+		res = GetNamedStructInstances(stage.SvgTexts, stage.SvgText_stagedOrder)
 	case "Text":
-		res = GetNamedStructInstances(stage.Texts, stage.TextMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Texts, stage.Text_stagedOrder)
 	}
 
 	return
@@ -1579,47 +1613,47 @@ func NewStage(name string) (stage *Stage) {
 		// the to be removed stops here
 
 		// insertion point for order map initialisations
-		AnimateMap_Staged_Order: make(map[*Animate]uint),
+		Animate_stagedOrder: make(map[*Animate]uint),
 
-		CircleMap_Staged_Order: make(map[*Circle]uint),
+		Circle_stagedOrder: make(map[*Circle]uint),
 
-		ConditionMap_Staged_Order: make(map[*Condition]uint),
+		Condition_stagedOrder: make(map[*Condition]uint),
 
-		ControlPointMap_Staged_Order: make(map[*ControlPoint]uint),
+		ControlPoint_stagedOrder: make(map[*ControlPoint]uint),
 
-		EllipseMap_Staged_Order: make(map[*Ellipse]uint),
+		Ellipse_stagedOrder: make(map[*Ellipse]uint),
 
-		LayerMap_Staged_Order: make(map[*Layer]uint),
+		Layer_stagedOrder: make(map[*Layer]uint),
 
-		LineMap_Staged_Order: make(map[*Line]uint),
+		Line_stagedOrder: make(map[*Line]uint),
 
-		LinkMap_Staged_Order: make(map[*Link]uint),
+		Link_stagedOrder: make(map[*Link]uint),
 
-		LinkAnchoredTextMap_Staged_Order: make(map[*LinkAnchoredText]uint),
+		LinkAnchoredText_stagedOrder: make(map[*LinkAnchoredText]uint),
 
-		PathMap_Staged_Order: make(map[*Path]uint),
+		Path_stagedOrder: make(map[*Path]uint),
 
-		PointMap_Staged_Order: make(map[*Point]uint),
+		Point_stagedOrder: make(map[*Point]uint),
 
-		PolygoneMap_Staged_Order: make(map[*Polygone]uint),
+		Polygone_stagedOrder: make(map[*Polygone]uint),
 
-		PolylineMap_Staged_Order: make(map[*Polyline]uint),
+		Polyline_stagedOrder: make(map[*Polyline]uint),
 
-		RectMap_Staged_Order: make(map[*Rect]uint),
+		Rect_stagedOrder: make(map[*Rect]uint),
 
-		RectAnchoredPathMap_Staged_Order: make(map[*RectAnchoredPath]uint),
+		RectAnchoredPath_stagedOrder: make(map[*RectAnchoredPath]uint),
 
-		RectAnchoredRectMap_Staged_Order: make(map[*RectAnchoredRect]uint),
+		RectAnchoredRect_stagedOrder: make(map[*RectAnchoredRect]uint),
 
-		RectAnchoredTextMap_Staged_Order: make(map[*RectAnchoredText]uint),
+		RectAnchoredText_stagedOrder: make(map[*RectAnchoredText]uint),
 
-		RectLinkLinkMap_Staged_Order: make(map[*RectLinkLink]uint),
+		RectLinkLink_stagedOrder: make(map[*RectLinkLink]uint),
 
-		SVGMap_Staged_Order: make(map[*SVG]uint),
+		SVG_stagedOrder: make(map[*SVG]uint),
 
-		SvgTextMap_Staged_Order: make(map[*SvgText]uint),
+		SvgText_stagedOrder: make(map[*SvgText]uint),
 
-		TextMap_Staged_Order: make(map[*Text]uint),
+		Text_stagedOrder: make(map[*Text]uint),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
@@ -1702,47 +1736,47 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
 	case *Animate:
-		return stage.AnimateMap_Staged_Order[instance]
+		return stage.Animate_stagedOrder[instance]
 	case *Circle:
-		return stage.CircleMap_Staged_Order[instance]
+		return stage.Circle_stagedOrder[instance]
 	case *Condition:
-		return stage.ConditionMap_Staged_Order[instance]
+		return stage.Condition_stagedOrder[instance]
 	case *ControlPoint:
-		return stage.ControlPointMap_Staged_Order[instance]
+		return stage.ControlPoint_stagedOrder[instance]
 	case *Ellipse:
-		return stage.EllipseMap_Staged_Order[instance]
+		return stage.Ellipse_stagedOrder[instance]
 	case *Layer:
-		return stage.LayerMap_Staged_Order[instance]
+		return stage.Layer_stagedOrder[instance]
 	case *Line:
-		return stage.LineMap_Staged_Order[instance]
+		return stage.Line_stagedOrder[instance]
 	case *Link:
-		return stage.LinkMap_Staged_Order[instance]
+		return stage.Link_stagedOrder[instance]
 	case *LinkAnchoredText:
-		return stage.LinkAnchoredTextMap_Staged_Order[instance]
+		return stage.LinkAnchoredText_stagedOrder[instance]
 	case *Path:
-		return stage.PathMap_Staged_Order[instance]
+		return stage.Path_stagedOrder[instance]
 	case *Point:
-		return stage.PointMap_Staged_Order[instance]
+		return stage.Point_stagedOrder[instance]
 	case *Polygone:
-		return stage.PolygoneMap_Staged_Order[instance]
+		return stage.Polygone_stagedOrder[instance]
 	case *Polyline:
-		return stage.PolylineMap_Staged_Order[instance]
+		return stage.Polyline_stagedOrder[instance]
 	case *Rect:
-		return stage.RectMap_Staged_Order[instance]
+		return stage.Rect_stagedOrder[instance]
 	case *RectAnchoredPath:
-		return stage.RectAnchoredPathMap_Staged_Order[instance]
+		return stage.RectAnchoredPath_stagedOrder[instance]
 	case *RectAnchoredRect:
-		return stage.RectAnchoredRectMap_Staged_Order[instance]
+		return stage.RectAnchoredRect_stagedOrder[instance]
 	case *RectAnchoredText:
-		return stage.RectAnchoredTextMap_Staged_Order[instance]
+		return stage.RectAnchoredText_stagedOrder[instance]
 	case *RectLinkLink:
-		return stage.RectLinkLinkMap_Staged_Order[instance]
+		return stage.RectLinkLink_stagedOrder[instance]
 	case *SVG:
-		return stage.SVGMap_Staged_Order[instance]
+		return stage.SVG_stagedOrder[instance]
 	case *SvgText:
-		return stage.SvgTextMap_Staged_Order[instance]
+		return stage.SvgText_stagedOrder[instance]
 	case *Text:
-		return stage.TextMap_Staged_Order[instance]
+		return stage.Text_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -1752,47 +1786,47 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
 	case *Animate:
-		return stage.AnimateMap_Staged_Order[instance]
+		return stage.Animate_stagedOrder[instance]
 	case *Circle:
-		return stage.CircleMap_Staged_Order[instance]
+		return stage.Circle_stagedOrder[instance]
 	case *Condition:
-		return stage.ConditionMap_Staged_Order[instance]
+		return stage.Condition_stagedOrder[instance]
 	case *ControlPoint:
-		return stage.ControlPointMap_Staged_Order[instance]
+		return stage.ControlPoint_stagedOrder[instance]
 	case *Ellipse:
-		return stage.EllipseMap_Staged_Order[instance]
+		return stage.Ellipse_stagedOrder[instance]
 	case *Layer:
-		return stage.LayerMap_Staged_Order[instance]
+		return stage.Layer_stagedOrder[instance]
 	case *Line:
-		return stage.LineMap_Staged_Order[instance]
+		return stage.Line_stagedOrder[instance]
 	case *Link:
-		return stage.LinkMap_Staged_Order[instance]
+		return stage.Link_stagedOrder[instance]
 	case *LinkAnchoredText:
-		return stage.LinkAnchoredTextMap_Staged_Order[instance]
+		return stage.LinkAnchoredText_stagedOrder[instance]
 	case *Path:
-		return stage.PathMap_Staged_Order[instance]
+		return stage.Path_stagedOrder[instance]
 	case *Point:
-		return stage.PointMap_Staged_Order[instance]
+		return stage.Point_stagedOrder[instance]
 	case *Polygone:
-		return stage.PolygoneMap_Staged_Order[instance]
+		return stage.Polygone_stagedOrder[instance]
 	case *Polyline:
-		return stage.PolylineMap_Staged_Order[instance]
+		return stage.Polyline_stagedOrder[instance]
 	case *Rect:
-		return stage.RectMap_Staged_Order[instance]
+		return stage.Rect_stagedOrder[instance]
 	case *RectAnchoredPath:
-		return stage.RectAnchoredPathMap_Staged_Order[instance]
+		return stage.RectAnchoredPath_stagedOrder[instance]
 	case *RectAnchoredRect:
-		return stage.RectAnchoredRectMap_Staged_Order[instance]
+		return stage.RectAnchoredRect_stagedOrder[instance]
 	case *RectAnchoredText:
-		return stage.RectAnchoredTextMap_Staged_Order[instance]
+		return stage.RectAnchoredText_stagedOrder[instance]
 	case *RectLinkLink:
-		return stage.RectLinkLinkMap_Staged_Order[instance]
+		return stage.RectLinkLink_stagedOrder[instance]
 	case *SVG:
-		return stage.SVGMap_Staged_Order[instance]
+		return stage.SVG_stagedOrder[instance]
 	case *SvgText:
-		return stage.SvgTextMap_Staged_Order[instance]
+		return stage.SvgText_stagedOrder[instance]
 	case *Text:
-		return stage.TextMap_Staged_Order[instance]
+		return stage.Text_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -1805,8 +1839,14 @@ func (stage *Stage) GetName() string {
 func (stage *Stage) CommitWithSuspendedCallbacks() {
 	tmp := stage.OnInitCommitFromBackCallback
 	stage.OnInitCommitFromBackCallback = nil
+	tmp2 := stage.beforeCommitHooks
+	stage.beforeCommitHooks = nil
+	tmp3 := stage.afterCommitHooks
+	stage.afterCommitHooks = nil
 	stage.Commit()
 	stage.OnInitCommitFromBackCallback = tmp
+	stage.beforeCommitHooks = tmp2
+	stage.afterCommitHooks = tmp3
 }
 
 func (stage *Stage) Commit() {
@@ -1817,6 +1857,11 @@ func (stage *Stage) Commit() {
 	}
 	if stage.OnInitCommitFromBackCallback != nil {
 		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
+	}
+
+	// 1. Run all Before Commit hooks
+	for _, hook := range stage.beforeCommitHooks {
+		hook(stage)
 	}
 
 	if stage.BackRepo != nil {
@@ -1834,6 +1879,11 @@ func (stage *Stage) Commit() {
 	if stage.IsInDeltaMode() {
 		stage.ComputeForwardAndBackwardCommits()
 		stage.ComputeReferenceAndOrders()
+	}
+
+	// 2. Run all After Commit hooks
+	for _, hook := range stage.afterCommitHooks {
+		hook(stage)
 	}
 }
 
@@ -1904,7 +1954,7 @@ func (stage *Stage) RestoreXL(dirPath string) {
 func (animate *Animate) Stage(stage *Stage) *Animate {
 	if _, ok := stage.Animates[animate]; !ok {
 		stage.Animates[animate] = struct{}{}
-		stage.AnimateMap_Staged_Order[animate] = stage.AnimateOrder
+		stage.Animate_stagedOrder[animate] = stage.AnimateOrder
 		stage.AnimateOrder++
 	}
 	stage.Animates_mapString[animate.Name] = animate
@@ -1924,7 +1974,7 @@ func (animate *Animate) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.AnimateOrder {
 			stage.AnimateOrder = order
 		}
-		stage.AnimateMap_Staged_Order[animate] = order
+		stage.Animate_stagedOrder[animate] = order
 		stage.AnimateOrder++
 	}
 	stage.Animates_mapString[animate.Name] = animate
@@ -1933,7 +1983,8 @@ func (animate *Animate) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes animate off the model stage
 func (animate *Animate) Unstage(stage *Stage) *Animate {
 	delete(stage.Animates, animate)
-	delete(stage.AnimateMap_Staged_Order, animate)
+	// issue1150
+	// delete(stage.Animate_stagedOrder, animate)
 	delete(stage.Animates_mapString, animate.Name)
 
 	return animate
@@ -1942,7 +1993,8 @@ func (animate *Animate) Unstage(stage *Stage) *Animate {
 // UnstageVoid removes animate off the model stage
 func (animate *Animate) UnstageVoid(stage *Stage) {
 	delete(stage.Animates, animate)
-	delete(stage.AnimateMap_Staged_Order, animate)
+	// issue1150
+	// delete(stage.Animate_stagedOrder, animate)
 	delete(stage.Animates_mapString, animate.Name)
 }
 
@@ -1988,7 +2040,7 @@ func (animate *Animate) SetName(name string) {
 func (circle *Circle) Stage(stage *Stage) *Circle {
 	if _, ok := stage.Circles[circle]; !ok {
 		stage.Circles[circle] = struct{}{}
-		stage.CircleMap_Staged_Order[circle] = stage.CircleOrder
+		stage.Circle_stagedOrder[circle] = stage.CircleOrder
 		stage.CircleOrder++
 	}
 	stage.Circles_mapString[circle.Name] = circle
@@ -2008,7 +2060,7 @@ func (circle *Circle) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.CircleOrder {
 			stage.CircleOrder = order
 		}
-		stage.CircleMap_Staged_Order[circle] = order
+		stage.Circle_stagedOrder[circle] = order
 		stage.CircleOrder++
 	}
 	stage.Circles_mapString[circle.Name] = circle
@@ -2017,7 +2069,8 @@ func (circle *Circle) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes circle off the model stage
 func (circle *Circle) Unstage(stage *Stage) *Circle {
 	delete(stage.Circles, circle)
-	delete(stage.CircleMap_Staged_Order, circle)
+	// issue1150
+	// delete(stage.Circle_stagedOrder, circle)
 	delete(stage.Circles_mapString, circle.Name)
 
 	return circle
@@ -2026,7 +2079,8 @@ func (circle *Circle) Unstage(stage *Stage) *Circle {
 // UnstageVoid removes circle off the model stage
 func (circle *Circle) UnstageVoid(stage *Stage) {
 	delete(stage.Circles, circle)
-	delete(stage.CircleMap_Staged_Order, circle)
+	// issue1150
+	// delete(stage.Circle_stagedOrder, circle)
 	delete(stage.Circles_mapString, circle.Name)
 }
 
@@ -2072,7 +2126,7 @@ func (circle *Circle) SetName(name string) {
 func (condition *Condition) Stage(stage *Stage) *Condition {
 	if _, ok := stage.Conditions[condition]; !ok {
 		stage.Conditions[condition] = struct{}{}
-		stage.ConditionMap_Staged_Order[condition] = stage.ConditionOrder
+		stage.Condition_stagedOrder[condition] = stage.ConditionOrder
 		stage.ConditionOrder++
 	}
 	stage.Conditions_mapString[condition.Name] = condition
@@ -2092,7 +2146,7 @@ func (condition *Condition) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.ConditionOrder {
 			stage.ConditionOrder = order
 		}
-		stage.ConditionMap_Staged_Order[condition] = order
+		stage.Condition_stagedOrder[condition] = order
 		stage.ConditionOrder++
 	}
 	stage.Conditions_mapString[condition.Name] = condition
@@ -2101,7 +2155,8 @@ func (condition *Condition) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes condition off the model stage
 func (condition *Condition) Unstage(stage *Stage) *Condition {
 	delete(stage.Conditions, condition)
-	delete(stage.ConditionMap_Staged_Order, condition)
+	// issue1150
+	// delete(stage.Condition_stagedOrder, condition)
 	delete(stage.Conditions_mapString, condition.Name)
 
 	return condition
@@ -2110,7 +2165,8 @@ func (condition *Condition) Unstage(stage *Stage) *Condition {
 // UnstageVoid removes condition off the model stage
 func (condition *Condition) UnstageVoid(stage *Stage) {
 	delete(stage.Conditions, condition)
-	delete(stage.ConditionMap_Staged_Order, condition)
+	// issue1150
+	// delete(stage.Condition_stagedOrder, condition)
 	delete(stage.Conditions_mapString, condition.Name)
 }
 
@@ -2156,7 +2212,7 @@ func (condition *Condition) SetName(name string) {
 func (controlpoint *ControlPoint) Stage(stage *Stage) *ControlPoint {
 	if _, ok := stage.ControlPoints[controlpoint]; !ok {
 		stage.ControlPoints[controlpoint] = struct{}{}
-		stage.ControlPointMap_Staged_Order[controlpoint] = stage.ControlPointOrder
+		stage.ControlPoint_stagedOrder[controlpoint] = stage.ControlPointOrder
 		stage.ControlPointOrder++
 	}
 	stage.ControlPoints_mapString[controlpoint.Name] = controlpoint
@@ -2176,7 +2232,7 @@ func (controlpoint *ControlPoint) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.ControlPointOrder {
 			stage.ControlPointOrder = order
 		}
-		stage.ControlPointMap_Staged_Order[controlpoint] = order
+		stage.ControlPoint_stagedOrder[controlpoint] = order
 		stage.ControlPointOrder++
 	}
 	stage.ControlPoints_mapString[controlpoint.Name] = controlpoint
@@ -2185,7 +2241,8 @@ func (controlpoint *ControlPoint) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes controlpoint off the model stage
 func (controlpoint *ControlPoint) Unstage(stage *Stage) *ControlPoint {
 	delete(stage.ControlPoints, controlpoint)
-	delete(stage.ControlPointMap_Staged_Order, controlpoint)
+	// issue1150
+	// delete(stage.ControlPoint_stagedOrder, controlpoint)
 	delete(stage.ControlPoints_mapString, controlpoint.Name)
 
 	return controlpoint
@@ -2194,7 +2251,8 @@ func (controlpoint *ControlPoint) Unstage(stage *Stage) *ControlPoint {
 // UnstageVoid removes controlpoint off the model stage
 func (controlpoint *ControlPoint) UnstageVoid(stage *Stage) {
 	delete(stage.ControlPoints, controlpoint)
-	delete(stage.ControlPointMap_Staged_Order, controlpoint)
+	// issue1150
+	// delete(stage.ControlPoint_stagedOrder, controlpoint)
 	delete(stage.ControlPoints_mapString, controlpoint.Name)
 }
 
@@ -2240,7 +2298,7 @@ func (controlpoint *ControlPoint) SetName(name string) {
 func (ellipse *Ellipse) Stage(stage *Stage) *Ellipse {
 	if _, ok := stage.Ellipses[ellipse]; !ok {
 		stage.Ellipses[ellipse] = struct{}{}
-		stage.EllipseMap_Staged_Order[ellipse] = stage.EllipseOrder
+		stage.Ellipse_stagedOrder[ellipse] = stage.EllipseOrder
 		stage.EllipseOrder++
 	}
 	stage.Ellipses_mapString[ellipse.Name] = ellipse
@@ -2260,7 +2318,7 @@ func (ellipse *Ellipse) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.EllipseOrder {
 			stage.EllipseOrder = order
 		}
-		stage.EllipseMap_Staged_Order[ellipse] = order
+		stage.Ellipse_stagedOrder[ellipse] = order
 		stage.EllipseOrder++
 	}
 	stage.Ellipses_mapString[ellipse.Name] = ellipse
@@ -2269,7 +2327,8 @@ func (ellipse *Ellipse) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes ellipse off the model stage
 func (ellipse *Ellipse) Unstage(stage *Stage) *Ellipse {
 	delete(stage.Ellipses, ellipse)
-	delete(stage.EllipseMap_Staged_Order, ellipse)
+	// issue1150
+	// delete(stage.Ellipse_stagedOrder, ellipse)
 	delete(stage.Ellipses_mapString, ellipse.Name)
 
 	return ellipse
@@ -2278,7 +2337,8 @@ func (ellipse *Ellipse) Unstage(stage *Stage) *Ellipse {
 // UnstageVoid removes ellipse off the model stage
 func (ellipse *Ellipse) UnstageVoid(stage *Stage) {
 	delete(stage.Ellipses, ellipse)
-	delete(stage.EllipseMap_Staged_Order, ellipse)
+	// issue1150
+	// delete(stage.Ellipse_stagedOrder, ellipse)
 	delete(stage.Ellipses_mapString, ellipse.Name)
 }
 
@@ -2324,7 +2384,7 @@ func (ellipse *Ellipse) SetName(name string) {
 func (layer *Layer) Stage(stage *Stage) *Layer {
 	if _, ok := stage.Layers[layer]; !ok {
 		stage.Layers[layer] = struct{}{}
-		stage.LayerMap_Staged_Order[layer] = stage.LayerOrder
+		stage.Layer_stagedOrder[layer] = stage.LayerOrder
 		stage.LayerOrder++
 	}
 	stage.Layers_mapString[layer.Name] = layer
@@ -2344,7 +2404,7 @@ func (layer *Layer) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.LayerOrder {
 			stage.LayerOrder = order
 		}
-		stage.LayerMap_Staged_Order[layer] = order
+		stage.Layer_stagedOrder[layer] = order
 		stage.LayerOrder++
 	}
 	stage.Layers_mapString[layer.Name] = layer
@@ -2353,7 +2413,8 @@ func (layer *Layer) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes layer off the model stage
 func (layer *Layer) Unstage(stage *Stage) *Layer {
 	delete(stage.Layers, layer)
-	delete(stage.LayerMap_Staged_Order, layer)
+	// issue1150
+	// delete(stage.Layer_stagedOrder, layer)
 	delete(stage.Layers_mapString, layer.Name)
 
 	return layer
@@ -2362,7 +2423,8 @@ func (layer *Layer) Unstage(stage *Stage) *Layer {
 // UnstageVoid removes layer off the model stage
 func (layer *Layer) UnstageVoid(stage *Stage) {
 	delete(stage.Layers, layer)
-	delete(stage.LayerMap_Staged_Order, layer)
+	// issue1150
+	// delete(stage.Layer_stagedOrder, layer)
 	delete(stage.Layers_mapString, layer.Name)
 }
 
@@ -2408,7 +2470,7 @@ func (layer *Layer) SetName(name string) {
 func (line *Line) Stage(stage *Stage) *Line {
 	if _, ok := stage.Lines[line]; !ok {
 		stage.Lines[line] = struct{}{}
-		stage.LineMap_Staged_Order[line] = stage.LineOrder
+		stage.Line_stagedOrder[line] = stage.LineOrder
 		stage.LineOrder++
 	}
 	stage.Lines_mapString[line.Name] = line
@@ -2428,7 +2490,7 @@ func (line *Line) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.LineOrder {
 			stage.LineOrder = order
 		}
-		stage.LineMap_Staged_Order[line] = order
+		stage.Line_stagedOrder[line] = order
 		stage.LineOrder++
 	}
 	stage.Lines_mapString[line.Name] = line
@@ -2437,7 +2499,8 @@ func (line *Line) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes line off the model stage
 func (line *Line) Unstage(stage *Stage) *Line {
 	delete(stage.Lines, line)
-	delete(stage.LineMap_Staged_Order, line)
+	// issue1150
+	// delete(stage.Line_stagedOrder, line)
 	delete(stage.Lines_mapString, line.Name)
 
 	return line
@@ -2446,7 +2509,8 @@ func (line *Line) Unstage(stage *Stage) *Line {
 // UnstageVoid removes line off the model stage
 func (line *Line) UnstageVoid(stage *Stage) {
 	delete(stage.Lines, line)
-	delete(stage.LineMap_Staged_Order, line)
+	// issue1150
+	// delete(stage.Line_stagedOrder, line)
 	delete(stage.Lines_mapString, line.Name)
 }
 
@@ -2492,7 +2556,7 @@ func (line *Line) SetName(name string) {
 func (link *Link) Stage(stage *Stage) *Link {
 	if _, ok := stage.Links[link]; !ok {
 		stage.Links[link] = struct{}{}
-		stage.LinkMap_Staged_Order[link] = stage.LinkOrder
+		stage.Link_stagedOrder[link] = stage.LinkOrder
 		stage.LinkOrder++
 	}
 	stage.Links_mapString[link.Name] = link
@@ -2512,7 +2576,7 @@ func (link *Link) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.LinkOrder {
 			stage.LinkOrder = order
 		}
-		stage.LinkMap_Staged_Order[link] = order
+		stage.Link_stagedOrder[link] = order
 		stage.LinkOrder++
 	}
 	stage.Links_mapString[link.Name] = link
@@ -2521,7 +2585,8 @@ func (link *Link) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes link off the model stage
 func (link *Link) Unstage(stage *Stage) *Link {
 	delete(stage.Links, link)
-	delete(stage.LinkMap_Staged_Order, link)
+	// issue1150
+	// delete(stage.Link_stagedOrder, link)
 	delete(stage.Links_mapString, link.Name)
 
 	return link
@@ -2530,7 +2595,8 @@ func (link *Link) Unstage(stage *Stage) *Link {
 // UnstageVoid removes link off the model stage
 func (link *Link) UnstageVoid(stage *Stage) {
 	delete(stage.Links, link)
-	delete(stage.LinkMap_Staged_Order, link)
+	// issue1150
+	// delete(stage.Link_stagedOrder, link)
 	delete(stage.Links_mapString, link.Name)
 }
 
@@ -2576,7 +2642,7 @@ func (link *Link) SetName(name string) {
 func (linkanchoredtext *LinkAnchoredText) Stage(stage *Stage) *LinkAnchoredText {
 	if _, ok := stage.LinkAnchoredTexts[linkanchoredtext]; !ok {
 		stage.LinkAnchoredTexts[linkanchoredtext] = struct{}{}
-		stage.LinkAnchoredTextMap_Staged_Order[linkanchoredtext] = stage.LinkAnchoredTextOrder
+		stage.LinkAnchoredText_stagedOrder[linkanchoredtext] = stage.LinkAnchoredTextOrder
 		stage.LinkAnchoredTextOrder++
 	}
 	stage.LinkAnchoredTexts_mapString[linkanchoredtext.Name] = linkanchoredtext
@@ -2596,7 +2662,7 @@ func (linkanchoredtext *LinkAnchoredText) StagePreserveOrder(stage *Stage, order
 		if order > stage.LinkAnchoredTextOrder {
 			stage.LinkAnchoredTextOrder = order
 		}
-		stage.LinkAnchoredTextMap_Staged_Order[linkanchoredtext] = order
+		stage.LinkAnchoredText_stagedOrder[linkanchoredtext] = order
 		stage.LinkAnchoredTextOrder++
 	}
 	stage.LinkAnchoredTexts_mapString[linkanchoredtext.Name] = linkanchoredtext
@@ -2605,7 +2671,8 @@ func (linkanchoredtext *LinkAnchoredText) StagePreserveOrder(stage *Stage, order
 // Unstage removes linkanchoredtext off the model stage
 func (linkanchoredtext *LinkAnchoredText) Unstage(stage *Stage) *LinkAnchoredText {
 	delete(stage.LinkAnchoredTexts, linkanchoredtext)
-	delete(stage.LinkAnchoredTextMap_Staged_Order, linkanchoredtext)
+	// issue1150
+	// delete(stage.LinkAnchoredText_stagedOrder, linkanchoredtext)
 	delete(stage.LinkAnchoredTexts_mapString, linkanchoredtext.Name)
 
 	return linkanchoredtext
@@ -2614,7 +2681,8 @@ func (linkanchoredtext *LinkAnchoredText) Unstage(stage *Stage) *LinkAnchoredTex
 // UnstageVoid removes linkanchoredtext off the model stage
 func (linkanchoredtext *LinkAnchoredText) UnstageVoid(stage *Stage) {
 	delete(stage.LinkAnchoredTexts, linkanchoredtext)
-	delete(stage.LinkAnchoredTextMap_Staged_Order, linkanchoredtext)
+	// issue1150
+	// delete(stage.LinkAnchoredText_stagedOrder, linkanchoredtext)
 	delete(stage.LinkAnchoredTexts_mapString, linkanchoredtext.Name)
 }
 
@@ -2660,7 +2728,7 @@ func (linkanchoredtext *LinkAnchoredText) SetName(name string) {
 func (path *Path) Stage(stage *Stage) *Path {
 	if _, ok := stage.Paths[path]; !ok {
 		stage.Paths[path] = struct{}{}
-		stage.PathMap_Staged_Order[path] = stage.PathOrder
+		stage.Path_stagedOrder[path] = stage.PathOrder
 		stage.PathOrder++
 	}
 	stage.Paths_mapString[path.Name] = path
@@ -2680,7 +2748,7 @@ func (path *Path) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.PathOrder {
 			stage.PathOrder = order
 		}
-		stage.PathMap_Staged_Order[path] = order
+		stage.Path_stagedOrder[path] = order
 		stage.PathOrder++
 	}
 	stage.Paths_mapString[path.Name] = path
@@ -2689,7 +2757,8 @@ func (path *Path) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes path off the model stage
 func (path *Path) Unstage(stage *Stage) *Path {
 	delete(stage.Paths, path)
-	delete(stage.PathMap_Staged_Order, path)
+	// issue1150
+	// delete(stage.Path_stagedOrder, path)
 	delete(stage.Paths_mapString, path.Name)
 
 	return path
@@ -2698,7 +2767,8 @@ func (path *Path) Unstage(stage *Stage) *Path {
 // UnstageVoid removes path off the model stage
 func (path *Path) UnstageVoid(stage *Stage) {
 	delete(stage.Paths, path)
-	delete(stage.PathMap_Staged_Order, path)
+	// issue1150
+	// delete(stage.Path_stagedOrder, path)
 	delete(stage.Paths_mapString, path.Name)
 }
 
@@ -2744,7 +2814,7 @@ func (path *Path) SetName(name string) {
 func (point *Point) Stage(stage *Stage) *Point {
 	if _, ok := stage.Points[point]; !ok {
 		stage.Points[point] = struct{}{}
-		stage.PointMap_Staged_Order[point] = stage.PointOrder
+		stage.Point_stagedOrder[point] = stage.PointOrder
 		stage.PointOrder++
 	}
 	stage.Points_mapString[point.Name] = point
@@ -2764,7 +2834,7 @@ func (point *Point) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.PointOrder {
 			stage.PointOrder = order
 		}
-		stage.PointMap_Staged_Order[point] = order
+		stage.Point_stagedOrder[point] = order
 		stage.PointOrder++
 	}
 	stage.Points_mapString[point.Name] = point
@@ -2773,7 +2843,8 @@ func (point *Point) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes point off the model stage
 func (point *Point) Unstage(stage *Stage) *Point {
 	delete(stage.Points, point)
-	delete(stage.PointMap_Staged_Order, point)
+	// issue1150
+	// delete(stage.Point_stagedOrder, point)
 	delete(stage.Points_mapString, point.Name)
 
 	return point
@@ -2782,7 +2853,8 @@ func (point *Point) Unstage(stage *Stage) *Point {
 // UnstageVoid removes point off the model stage
 func (point *Point) UnstageVoid(stage *Stage) {
 	delete(stage.Points, point)
-	delete(stage.PointMap_Staged_Order, point)
+	// issue1150
+	// delete(stage.Point_stagedOrder, point)
 	delete(stage.Points_mapString, point.Name)
 }
 
@@ -2828,7 +2900,7 @@ func (point *Point) SetName(name string) {
 func (polygone *Polygone) Stage(stage *Stage) *Polygone {
 	if _, ok := stage.Polygones[polygone]; !ok {
 		stage.Polygones[polygone] = struct{}{}
-		stage.PolygoneMap_Staged_Order[polygone] = stage.PolygoneOrder
+		stage.Polygone_stagedOrder[polygone] = stage.PolygoneOrder
 		stage.PolygoneOrder++
 	}
 	stage.Polygones_mapString[polygone.Name] = polygone
@@ -2848,7 +2920,7 @@ func (polygone *Polygone) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.PolygoneOrder {
 			stage.PolygoneOrder = order
 		}
-		stage.PolygoneMap_Staged_Order[polygone] = order
+		stage.Polygone_stagedOrder[polygone] = order
 		stage.PolygoneOrder++
 	}
 	stage.Polygones_mapString[polygone.Name] = polygone
@@ -2857,7 +2929,8 @@ func (polygone *Polygone) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes polygone off the model stage
 func (polygone *Polygone) Unstage(stage *Stage) *Polygone {
 	delete(stage.Polygones, polygone)
-	delete(stage.PolygoneMap_Staged_Order, polygone)
+	// issue1150
+	// delete(stage.Polygone_stagedOrder, polygone)
 	delete(stage.Polygones_mapString, polygone.Name)
 
 	return polygone
@@ -2866,7 +2939,8 @@ func (polygone *Polygone) Unstage(stage *Stage) *Polygone {
 // UnstageVoid removes polygone off the model stage
 func (polygone *Polygone) UnstageVoid(stage *Stage) {
 	delete(stage.Polygones, polygone)
-	delete(stage.PolygoneMap_Staged_Order, polygone)
+	// issue1150
+	// delete(stage.Polygone_stagedOrder, polygone)
 	delete(stage.Polygones_mapString, polygone.Name)
 }
 
@@ -2912,7 +2986,7 @@ func (polygone *Polygone) SetName(name string) {
 func (polyline *Polyline) Stage(stage *Stage) *Polyline {
 	if _, ok := stage.Polylines[polyline]; !ok {
 		stage.Polylines[polyline] = struct{}{}
-		stage.PolylineMap_Staged_Order[polyline] = stage.PolylineOrder
+		stage.Polyline_stagedOrder[polyline] = stage.PolylineOrder
 		stage.PolylineOrder++
 	}
 	stage.Polylines_mapString[polyline.Name] = polyline
@@ -2932,7 +3006,7 @@ func (polyline *Polyline) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.PolylineOrder {
 			stage.PolylineOrder = order
 		}
-		stage.PolylineMap_Staged_Order[polyline] = order
+		stage.Polyline_stagedOrder[polyline] = order
 		stage.PolylineOrder++
 	}
 	stage.Polylines_mapString[polyline.Name] = polyline
@@ -2941,7 +3015,8 @@ func (polyline *Polyline) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes polyline off the model stage
 func (polyline *Polyline) Unstage(stage *Stage) *Polyline {
 	delete(stage.Polylines, polyline)
-	delete(stage.PolylineMap_Staged_Order, polyline)
+	// issue1150
+	// delete(stage.Polyline_stagedOrder, polyline)
 	delete(stage.Polylines_mapString, polyline.Name)
 
 	return polyline
@@ -2950,7 +3025,8 @@ func (polyline *Polyline) Unstage(stage *Stage) *Polyline {
 // UnstageVoid removes polyline off the model stage
 func (polyline *Polyline) UnstageVoid(stage *Stage) {
 	delete(stage.Polylines, polyline)
-	delete(stage.PolylineMap_Staged_Order, polyline)
+	// issue1150
+	// delete(stage.Polyline_stagedOrder, polyline)
 	delete(stage.Polylines_mapString, polyline.Name)
 }
 
@@ -2996,7 +3072,7 @@ func (polyline *Polyline) SetName(name string) {
 func (rect *Rect) Stage(stage *Stage) *Rect {
 	if _, ok := stage.Rects[rect]; !ok {
 		stage.Rects[rect] = struct{}{}
-		stage.RectMap_Staged_Order[rect] = stage.RectOrder
+		stage.Rect_stagedOrder[rect] = stage.RectOrder
 		stage.RectOrder++
 	}
 	stage.Rects_mapString[rect.Name] = rect
@@ -3016,7 +3092,7 @@ func (rect *Rect) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.RectOrder {
 			stage.RectOrder = order
 		}
-		stage.RectMap_Staged_Order[rect] = order
+		stage.Rect_stagedOrder[rect] = order
 		stage.RectOrder++
 	}
 	stage.Rects_mapString[rect.Name] = rect
@@ -3025,7 +3101,8 @@ func (rect *Rect) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes rect off the model stage
 func (rect *Rect) Unstage(stage *Stage) *Rect {
 	delete(stage.Rects, rect)
-	delete(stage.RectMap_Staged_Order, rect)
+	// issue1150
+	// delete(stage.Rect_stagedOrder, rect)
 	delete(stage.Rects_mapString, rect.Name)
 
 	return rect
@@ -3034,7 +3111,8 @@ func (rect *Rect) Unstage(stage *Stage) *Rect {
 // UnstageVoid removes rect off the model stage
 func (rect *Rect) UnstageVoid(stage *Stage) {
 	delete(stage.Rects, rect)
-	delete(stage.RectMap_Staged_Order, rect)
+	// issue1150
+	// delete(stage.Rect_stagedOrder, rect)
 	delete(stage.Rects_mapString, rect.Name)
 }
 
@@ -3080,7 +3158,7 @@ func (rect *Rect) SetName(name string) {
 func (rectanchoredpath *RectAnchoredPath) Stage(stage *Stage) *RectAnchoredPath {
 	if _, ok := stage.RectAnchoredPaths[rectanchoredpath]; !ok {
 		stage.RectAnchoredPaths[rectanchoredpath] = struct{}{}
-		stage.RectAnchoredPathMap_Staged_Order[rectanchoredpath] = stage.RectAnchoredPathOrder
+		stage.RectAnchoredPath_stagedOrder[rectanchoredpath] = stage.RectAnchoredPathOrder
 		stage.RectAnchoredPathOrder++
 	}
 	stage.RectAnchoredPaths_mapString[rectanchoredpath.Name] = rectanchoredpath
@@ -3100,7 +3178,7 @@ func (rectanchoredpath *RectAnchoredPath) StagePreserveOrder(stage *Stage, order
 		if order > stage.RectAnchoredPathOrder {
 			stage.RectAnchoredPathOrder = order
 		}
-		stage.RectAnchoredPathMap_Staged_Order[rectanchoredpath] = order
+		stage.RectAnchoredPath_stagedOrder[rectanchoredpath] = order
 		stage.RectAnchoredPathOrder++
 	}
 	stage.RectAnchoredPaths_mapString[rectanchoredpath.Name] = rectanchoredpath
@@ -3109,7 +3187,8 @@ func (rectanchoredpath *RectAnchoredPath) StagePreserveOrder(stage *Stage, order
 // Unstage removes rectanchoredpath off the model stage
 func (rectanchoredpath *RectAnchoredPath) Unstage(stage *Stage) *RectAnchoredPath {
 	delete(stage.RectAnchoredPaths, rectanchoredpath)
-	delete(stage.RectAnchoredPathMap_Staged_Order, rectanchoredpath)
+	// issue1150
+	// delete(stage.RectAnchoredPath_stagedOrder, rectanchoredpath)
 	delete(stage.RectAnchoredPaths_mapString, rectanchoredpath.Name)
 
 	return rectanchoredpath
@@ -3118,7 +3197,8 @@ func (rectanchoredpath *RectAnchoredPath) Unstage(stage *Stage) *RectAnchoredPat
 // UnstageVoid removes rectanchoredpath off the model stage
 func (rectanchoredpath *RectAnchoredPath) UnstageVoid(stage *Stage) {
 	delete(stage.RectAnchoredPaths, rectanchoredpath)
-	delete(stage.RectAnchoredPathMap_Staged_Order, rectanchoredpath)
+	// issue1150
+	// delete(stage.RectAnchoredPath_stagedOrder, rectanchoredpath)
 	delete(stage.RectAnchoredPaths_mapString, rectanchoredpath.Name)
 }
 
@@ -3164,7 +3244,7 @@ func (rectanchoredpath *RectAnchoredPath) SetName(name string) {
 func (rectanchoredrect *RectAnchoredRect) Stage(stage *Stage) *RectAnchoredRect {
 	if _, ok := stage.RectAnchoredRects[rectanchoredrect]; !ok {
 		stage.RectAnchoredRects[rectanchoredrect] = struct{}{}
-		stage.RectAnchoredRectMap_Staged_Order[rectanchoredrect] = stage.RectAnchoredRectOrder
+		stage.RectAnchoredRect_stagedOrder[rectanchoredrect] = stage.RectAnchoredRectOrder
 		stage.RectAnchoredRectOrder++
 	}
 	stage.RectAnchoredRects_mapString[rectanchoredrect.Name] = rectanchoredrect
@@ -3184,7 +3264,7 @@ func (rectanchoredrect *RectAnchoredRect) StagePreserveOrder(stage *Stage, order
 		if order > stage.RectAnchoredRectOrder {
 			stage.RectAnchoredRectOrder = order
 		}
-		stage.RectAnchoredRectMap_Staged_Order[rectanchoredrect] = order
+		stage.RectAnchoredRect_stagedOrder[rectanchoredrect] = order
 		stage.RectAnchoredRectOrder++
 	}
 	stage.RectAnchoredRects_mapString[rectanchoredrect.Name] = rectanchoredrect
@@ -3193,7 +3273,8 @@ func (rectanchoredrect *RectAnchoredRect) StagePreserveOrder(stage *Stage, order
 // Unstage removes rectanchoredrect off the model stage
 func (rectanchoredrect *RectAnchoredRect) Unstage(stage *Stage) *RectAnchoredRect {
 	delete(stage.RectAnchoredRects, rectanchoredrect)
-	delete(stage.RectAnchoredRectMap_Staged_Order, rectanchoredrect)
+	// issue1150
+	// delete(stage.RectAnchoredRect_stagedOrder, rectanchoredrect)
 	delete(stage.RectAnchoredRects_mapString, rectanchoredrect.Name)
 
 	return rectanchoredrect
@@ -3202,7 +3283,8 @@ func (rectanchoredrect *RectAnchoredRect) Unstage(stage *Stage) *RectAnchoredRec
 // UnstageVoid removes rectanchoredrect off the model stage
 func (rectanchoredrect *RectAnchoredRect) UnstageVoid(stage *Stage) {
 	delete(stage.RectAnchoredRects, rectanchoredrect)
-	delete(stage.RectAnchoredRectMap_Staged_Order, rectanchoredrect)
+	// issue1150
+	// delete(stage.RectAnchoredRect_stagedOrder, rectanchoredrect)
 	delete(stage.RectAnchoredRects_mapString, rectanchoredrect.Name)
 }
 
@@ -3248,7 +3330,7 @@ func (rectanchoredrect *RectAnchoredRect) SetName(name string) {
 func (rectanchoredtext *RectAnchoredText) Stage(stage *Stage) *RectAnchoredText {
 	if _, ok := stage.RectAnchoredTexts[rectanchoredtext]; !ok {
 		stage.RectAnchoredTexts[rectanchoredtext] = struct{}{}
-		stage.RectAnchoredTextMap_Staged_Order[rectanchoredtext] = stage.RectAnchoredTextOrder
+		stage.RectAnchoredText_stagedOrder[rectanchoredtext] = stage.RectAnchoredTextOrder
 		stage.RectAnchoredTextOrder++
 	}
 	stage.RectAnchoredTexts_mapString[rectanchoredtext.Name] = rectanchoredtext
@@ -3268,7 +3350,7 @@ func (rectanchoredtext *RectAnchoredText) StagePreserveOrder(stage *Stage, order
 		if order > stage.RectAnchoredTextOrder {
 			stage.RectAnchoredTextOrder = order
 		}
-		stage.RectAnchoredTextMap_Staged_Order[rectanchoredtext] = order
+		stage.RectAnchoredText_stagedOrder[rectanchoredtext] = order
 		stage.RectAnchoredTextOrder++
 	}
 	stage.RectAnchoredTexts_mapString[rectanchoredtext.Name] = rectanchoredtext
@@ -3277,7 +3359,8 @@ func (rectanchoredtext *RectAnchoredText) StagePreserveOrder(stage *Stage, order
 // Unstage removes rectanchoredtext off the model stage
 func (rectanchoredtext *RectAnchoredText) Unstage(stage *Stage) *RectAnchoredText {
 	delete(stage.RectAnchoredTexts, rectanchoredtext)
-	delete(stage.RectAnchoredTextMap_Staged_Order, rectanchoredtext)
+	// issue1150
+	// delete(stage.RectAnchoredText_stagedOrder, rectanchoredtext)
 	delete(stage.RectAnchoredTexts_mapString, rectanchoredtext.Name)
 
 	return rectanchoredtext
@@ -3286,7 +3369,8 @@ func (rectanchoredtext *RectAnchoredText) Unstage(stage *Stage) *RectAnchoredTex
 // UnstageVoid removes rectanchoredtext off the model stage
 func (rectanchoredtext *RectAnchoredText) UnstageVoid(stage *Stage) {
 	delete(stage.RectAnchoredTexts, rectanchoredtext)
-	delete(stage.RectAnchoredTextMap_Staged_Order, rectanchoredtext)
+	// issue1150
+	// delete(stage.RectAnchoredText_stagedOrder, rectanchoredtext)
 	delete(stage.RectAnchoredTexts_mapString, rectanchoredtext.Name)
 }
 
@@ -3332,7 +3416,7 @@ func (rectanchoredtext *RectAnchoredText) SetName(name string) {
 func (rectlinklink *RectLinkLink) Stage(stage *Stage) *RectLinkLink {
 	if _, ok := stage.RectLinkLinks[rectlinklink]; !ok {
 		stage.RectLinkLinks[rectlinklink] = struct{}{}
-		stage.RectLinkLinkMap_Staged_Order[rectlinklink] = stage.RectLinkLinkOrder
+		stage.RectLinkLink_stagedOrder[rectlinklink] = stage.RectLinkLinkOrder
 		stage.RectLinkLinkOrder++
 	}
 	stage.RectLinkLinks_mapString[rectlinklink.Name] = rectlinklink
@@ -3352,7 +3436,7 @@ func (rectlinklink *RectLinkLink) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.RectLinkLinkOrder {
 			stage.RectLinkLinkOrder = order
 		}
-		stage.RectLinkLinkMap_Staged_Order[rectlinklink] = order
+		stage.RectLinkLink_stagedOrder[rectlinklink] = order
 		stage.RectLinkLinkOrder++
 	}
 	stage.RectLinkLinks_mapString[rectlinklink.Name] = rectlinklink
@@ -3361,7 +3445,8 @@ func (rectlinklink *RectLinkLink) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes rectlinklink off the model stage
 func (rectlinklink *RectLinkLink) Unstage(stage *Stage) *RectLinkLink {
 	delete(stage.RectLinkLinks, rectlinklink)
-	delete(stage.RectLinkLinkMap_Staged_Order, rectlinklink)
+	// issue1150
+	// delete(stage.RectLinkLink_stagedOrder, rectlinklink)
 	delete(stage.RectLinkLinks_mapString, rectlinklink.Name)
 
 	return rectlinklink
@@ -3370,7 +3455,8 @@ func (rectlinklink *RectLinkLink) Unstage(stage *Stage) *RectLinkLink {
 // UnstageVoid removes rectlinklink off the model stage
 func (rectlinklink *RectLinkLink) UnstageVoid(stage *Stage) {
 	delete(stage.RectLinkLinks, rectlinklink)
-	delete(stage.RectLinkLinkMap_Staged_Order, rectlinklink)
+	// issue1150
+	// delete(stage.RectLinkLink_stagedOrder, rectlinklink)
 	delete(stage.RectLinkLinks_mapString, rectlinklink.Name)
 }
 
@@ -3416,7 +3502,7 @@ func (rectlinklink *RectLinkLink) SetName(name string) {
 func (svg *SVG) Stage(stage *Stage) *SVG {
 	if _, ok := stage.SVGs[svg]; !ok {
 		stage.SVGs[svg] = struct{}{}
-		stage.SVGMap_Staged_Order[svg] = stage.SVGOrder
+		stage.SVG_stagedOrder[svg] = stage.SVGOrder
 		stage.SVGOrder++
 	}
 	stage.SVGs_mapString[svg.Name] = svg
@@ -3436,7 +3522,7 @@ func (svg *SVG) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.SVGOrder {
 			stage.SVGOrder = order
 		}
-		stage.SVGMap_Staged_Order[svg] = order
+		stage.SVG_stagedOrder[svg] = order
 		stage.SVGOrder++
 	}
 	stage.SVGs_mapString[svg.Name] = svg
@@ -3445,7 +3531,8 @@ func (svg *SVG) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes svg off the model stage
 func (svg *SVG) Unstage(stage *Stage) *SVG {
 	delete(stage.SVGs, svg)
-	delete(stage.SVGMap_Staged_Order, svg)
+	// issue1150
+	// delete(stage.SVG_stagedOrder, svg)
 	delete(stage.SVGs_mapString, svg.Name)
 
 	return svg
@@ -3454,7 +3541,8 @@ func (svg *SVG) Unstage(stage *Stage) *SVG {
 // UnstageVoid removes svg off the model stage
 func (svg *SVG) UnstageVoid(stage *Stage) {
 	delete(stage.SVGs, svg)
-	delete(stage.SVGMap_Staged_Order, svg)
+	// issue1150
+	// delete(stage.SVG_stagedOrder, svg)
 	delete(stage.SVGs_mapString, svg.Name)
 }
 
@@ -3500,7 +3588,7 @@ func (svg *SVG) SetName(name string) {
 func (svgtext *SvgText) Stage(stage *Stage) *SvgText {
 	if _, ok := stage.SvgTexts[svgtext]; !ok {
 		stage.SvgTexts[svgtext] = struct{}{}
-		stage.SvgTextMap_Staged_Order[svgtext] = stage.SvgTextOrder
+		stage.SvgText_stagedOrder[svgtext] = stage.SvgTextOrder
 		stage.SvgTextOrder++
 	}
 	stage.SvgTexts_mapString[svgtext.Name] = svgtext
@@ -3520,7 +3608,7 @@ func (svgtext *SvgText) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.SvgTextOrder {
 			stage.SvgTextOrder = order
 		}
-		stage.SvgTextMap_Staged_Order[svgtext] = order
+		stage.SvgText_stagedOrder[svgtext] = order
 		stage.SvgTextOrder++
 	}
 	stage.SvgTexts_mapString[svgtext.Name] = svgtext
@@ -3529,7 +3617,8 @@ func (svgtext *SvgText) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes svgtext off the model stage
 func (svgtext *SvgText) Unstage(stage *Stage) *SvgText {
 	delete(stage.SvgTexts, svgtext)
-	delete(stage.SvgTextMap_Staged_Order, svgtext)
+	// issue1150
+	// delete(stage.SvgText_stagedOrder, svgtext)
 	delete(stage.SvgTexts_mapString, svgtext.Name)
 
 	return svgtext
@@ -3538,7 +3627,8 @@ func (svgtext *SvgText) Unstage(stage *Stage) *SvgText {
 // UnstageVoid removes svgtext off the model stage
 func (svgtext *SvgText) UnstageVoid(stage *Stage) {
 	delete(stage.SvgTexts, svgtext)
-	delete(stage.SvgTextMap_Staged_Order, svgtext)
+	// issue1150
+	// delete(stage.SvgText_stagedOrder, svgtext)
 	delete(stage.SvgTexts_mapString, svgtext.Name)
 }
 
@@ -3584,7 +3674,7 @@ func (svgtext *SvgText) SetName(name string) {
 func (text *Text) Stage(stage *Stage) *Text {
 	if _, ok := stage.Texts[text]; !ok {
 		stage.Texts[text] = struct{}{}
-		stage.TextMap_Staged_Order[text] = stage.TextOrder
+		stage.Text_stagedOrder[text] = stage.TextOrder
 		stage.TextOrder++
 	}
 	stage.Texts_mapString[text.Name] = text
@@ -3604,7 +3694,7 @@ func (text *Text) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.TextOrder {
 			stage.TextOrder = order
 		}
-		stage.TextMap_Staged_Order[text] = order
+		stage.Text_stagedOrder[text] = order
 		stage.TextOrder++
 	}
 	stage.Texts_mapString[text.Name] = text
@@ -3613,7 +3703,8 @@ func (text *Text) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes text off the model stage
 func (text *Text) Unstage(stage *Stage) *Text {
 	delete(stage.Texts, text)
-	delete(stage.TextMap_Staged_Order, text)
+	// issue1150
+	// delete(stage.Text_stagedOrder, text)
 	delete(stage.Texts_mapString, text.Name)
 
 	return text
@@ -3622,7 +3713,8 @@ func (text *Text) Unstage(stage *Stage) *Text {
 // UnstageVoid removes text off the model stage
 func (text *Text) UnstageVoid(stage *Stage) {
 	delete(stage.Texts, text)
-	delete(stage.TextMap_Staged_Order, text)
+	// issue1150
+	// delete(stage.Text_stagedOrder, text)
 	delete(stage.Texts_mapString, text.Name)
 }
 
@@ -3716,107 +3808,107 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Animates = make(map[*Animate]struct{})
 	stage.Animates_mapString = make(map[string]*Animate)
-	stage.AnimateMap_Staged_Order = make(map[*Animate]uint)
+	stage.Animate_stagedOrder = make(map[*Animate]uint)
 	stage.AnimateOrder = 0
 
 	stage.Circles = make(map[*Circle]struct{})
 	stage.Circles_mapString = make(map[string]*Circle)
-	stage.CircleMap_Staged_Order = make(map[*Circle]uint)
+	stage.Circle_stagedOrder = make(map[*Circle]uint)
 	stage.CircleOrder = 0
 
 	stage.Conditions = make(map[*Condition]struct{})
 	stage.Conditions_mapString = make(map[string]*Condition)
-	stage.ConditionMap_Staged_Order = make(map[*Condition]uint)
+	stage.Condition_stagedOrder = make(map[*Condition]uint)
 	stage.ConditionOrder = 0
 
 	stage.ControlPoints = make(map[*ControlPoint]struct{})
 	stage.ControlPoints_mapString = make(map[string]*ControlPoint)
-	stage.ControlPointMap_Staged_Order = make(map[*ControlPoint]uint)
+	stage.ControlPoint_stagedOrder = make(map[*ControlPoint]uint)
 	stage.ControlPointOrder = 0
 
 	stage.Ellipses = make(map[*Ellipse]struct{})
 	stage.Ellipses_mapString = make(map[string]*Ellipse)
-	stage.EllipseMap_Staged_Order = make(map[*Ellipse]uint)
+	stage.Ellipse_stagedOrder = make(map[*Ellipse]uint)
 	stage.EllipseOrder = 0
 
 	stage.Layers = make(map[*Layer]struct{})
 	stage.Layers_mapString = make(map[string]*Layer)
-	stage.LayerMap_Staged_Order = make(map[*Layer]uint)
+	stage.Layer_stagedOrder = make(map[*Layer]uint)
 	stage.LayerOrder = 0
 
 	stage.Lines = make(map[*Line]struct{})
 	stage.Lines_mapString = make(map[string]*Line)
-	stage.LineMap_Staged_Order = make(map[*Line]uint)
+	stage.Line_stagedOrder = make(map[*Line]uint)
 	stage.LineOrder = 0
 
 	stage.Links = make(map[*Link]struct{})
 	stage.Links_mapString = make(map[string]*Link)
-	stage.LinkMap_Staged_Order = make(map[*Link]uint)
+	stage.Link_stagedOrder = make(map[*Link]uint)
 	stage.LinkOrder = 0
 
 	stage.LinkAnchoredTexts = make(map[*LinkAnchoredText]struct{})
 	stage.LinkAnchoredTexts_mapString = make(map[string]*LinkAnchoredText)
-	stage.LinkAnchoredTextMap_Staged_Order = make(map[*LinkAnchoredText]uint)
+	stage.LinkAnchoredText_stagedOrder = make(map[*LinkAnchoredText]uint)
 	stage.LinkAnchoredTextOrder = 0
 
 	stage.Paths = make(map[*Path]struct{})
 	stage.Paths_mapString = make(map[string]*Path)
-	stage.PathMap_Staged_Order = make(map[*Path]uint)
+	stage.Path_stagedOrder = make(map[*Path]uint)
 	stage.PathOrder = 0
 
 	stage.Points = make(map[*Point]struct{})
 	stage.Points_mapString = make(map[string]*Point)
-	stage.PointMap_Staged_Order = make(map[*Point]uint)
+	stage.Point_stagedOrder = make(map[*Point]uint)
 	stage.PointOrder = 0
 
 	stage.Polygones = make(map[*Polygone]struct{})
 	stage.Polygones_mapString = make(map[string]*Polygone)
-	stage.PolygoneMap_Staged_Order = make(map[*Polygone]uint)
+	stage.Polygone_stagedOrder = make(map[*Polygone]uint)
 	stage.PolygoneOrder = 0
 
 	stage.Polylines = make(map[*Polyline]struct{})
 	stage.Polylines_mapString = make(map[string]*Polyline)
-	stage.PolylineMap_Staged_Order = make(map[*Polyline]uint)
+	stage.Polyline_stagedOrder = make(map[*Polyline]uint)
 	stage.PolylineOrder = 0
 
 	stage.Rects = make(map[*Rect]struct{})
 	stage.Rects_mapString = make(map[string]*Rect)
-	stage.RectMap_Staged_Order = make(map[*Rect]uint)
+	stage.Rect_stagedOrder = make(map[*Rect]uint)
 	stage.RectOrder = 0
 
 	stage.RectAnchoredPaths = make(map[*RectAnchoredPath]struct{})
 	stage.RectAnchoredPaths_mapString = make(map[string]*RectAnchoredPath)
-	stage.RectAnchoredPathMap_Staged_Order = make(map[*RectAnchoredPath]uint)
+	stage.RectAnchoredPath_stagedOrder = make(map[*RectAnchoredPath]uint)
 	stage.RectAnchoredPathOrder = 0
 
 	stage.RectAnchoredRects = make(map[*RectAnchoredRect]struct{})
 	stage.RectAnchoredRects_mapString = make(map[string]*RectAnchoredRect)
-	stage.RectAnchoredRectMap_Staged_Order = make(map[*RectAnchoredRect]uint)
+	stage.RectAnchoredRect_stagedOrder = make(map[*RectAnchoredRect]uint)
 	stage.RectAnchoredRectOrder = 0
 
 	stage.RectAnchoredTexts = make(map[*RectAnchoredText]struct{})
 	stage.RectAnchoredTexts_mapString = make(map[string]*RectAnchoredText)
-	stage.RectAnchoredTextMap_Staged_Order = make(map[*RectAnchoredText]uint)
+	stage.RectAnchoredText_stagedOrder = make(map[*RectAnchoredText]uint)
 	stage.RectAnchoredTextOrder = 0
 
 	stage.RectLinkLinks = make(map[*RectLinkLink]struct{})
 	stage.RectLinkLinks_mapString = make(map[string]*RectLinkLink)
-	stage.RectLinkLinkMap_Staged_Order = make(map[*RectLinkLink]uint)
+	stage.RectLinkLink_stagedOrder = make(map[*RectLinkLink]uint)
 	stage.RectLinkLinkOrder = 0
 
 	stage.SVGs = make(map[*SVG]struct{})
 	stage.SVGs_mapString = make(map[string]*SVG)
-	stage.SVGMap_Staged_Order = make(map[*SVG]uint)
+	stage.SVG_stagedOrder = make(map[*SVG]uint)
 	stage.SVGOrder = 0
 
 	stage.SvgTexts = make(map[*SvgText]struct{})
 	stage.SvgTexts_mapString = make(map[string]*SvgText)
-	stage.SvgTextMap_Staged_Order = make(map[*SvgText]uint)
+	stage.SvgText_stagedOrder = make(map[*SvgText]uint)
 	stage.SvgTextOrder = 0
 
 	stage.Texts = make(map[*Text]struct{})
 	stage.Texts_mapString = make(map[string]*Text)
-	stage.TextMap_Staged_Order = make(map[*Text]uint)
+	stage.Text_stagedOrder = make(map[*Text]uint)
 	stage.TextOrder = 0
 
 	if stage.GetProbeIF() != nil {
@@ -8129,7 +8221,7 @@ func (circle *Circle) GongSetFieldValue(fieldName string, value GongFieldValue, 
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Animates {
-					if stage.AnimateMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Animate_stagedOrder[__instance__] == uint(id) {
 						circle.Animations = append(circle.Animations, __instance__)
 						break
 					}
@@ -8167,7 +8259,7 @@ func (controlpoint *ControlPoint) GongSetFieldValue(fieldName string, value Gong
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			controlpoint.ClosestRect = nil
 			for __instance__ := range stage.Rects {
-				if stage.RectMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Rect_stagedOrder[__instance__] == uint(id) {
 					controlpoint.ClosestRect = __instance__
 					break
 				}
@@ -8215,7 +8307,7 @@ func (ellipse *Ellipse) GongSetFieldValue(fieldName string, value GongFieldValue
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Animates {
-					if stage.AnimateMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Animate_stagedOrder[__instance__] == uint(id) {
 						ellipse.Animates = append(ellipse.Animates, __instance__)
 						break
 					}
@@ -8240,7 +8332,7 @@ func (layer *Layer) GongSetFieldValue(fieldName string, value GongFieldValue, st
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Rects {
-					if stage.RectMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Rect_stagedOrder[__instance__] == uint(id) {
 						layer.Rects = append(layer.Rects, __instance__)
 						break
 					}
@@ -8254,7 +8346,7 @@ func (layer *Layer) GongSetFieldValue(fieldName string, value GongFieldValue, st
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Texts {
-					if stage.TextMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Text_stagedOrder[__instance__] == uint(id) {
 						layer.Texts = append(layer.Texts, __instance__)
 						break
 					}
@@ -8268,7 +8360,7 @@ func (layer *Layer) GongSetFieldValue(fieldName string, value GongFieldValue, st
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Circles {
-					if stage.CircleMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Circle_stagedOrder[__instance__] == uint(id) {
 						layer.Circles = append(layer.Circles, __instance__)
 						break
 					}
@@ -8282,7 +8374,7 @@ func (layer *Layer) GongSetFieldValue(fieldName string, value GongFieldValue, st
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Lines {
-					if stage.LineMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Line_stagedOrder[__instance__] == uint(id) {
 						layer.Lines = append(layer.Lines, __instance__)
 						break
 					}
@@ -8296,7 +8388,7 @@ func (layer *Layer) GongSetFieldValue(fieldName string, value GongFieldValue, st
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Ellipses {
-					if stage.EllipseMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Ellipse_stagedOrder[__instance__] == uint(id) {
 						layer.Ellipses = append(layer.Ellipses, __instance__)
 						break
 					}
@@ -8310,7 +8402,7 @@ func (layer *Layer) GongSetFieldValue(fieldName string, value GongFieldValue, st
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Polylines {
-					if stage.PolylineMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Polyline_stagedOrder[__instance__] == uint(id) {
 						layer.Polylines = append(layer.Polylines, __instance__)
 						break
 					}
@@ -8324,7 +8416,7 @@ func (layer *Layer) GongSetFieldValue(fieldName string, value GongFieldValue, st
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Polygones {
-					if stage.PolygoneMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Polygone_stagedOrder[__instance__] == uint(id) {
 						layer.Polygones = append(layer.Polygones, __instance__)
 						break
 					}
@@ -8338,7 +8430,7 @@ func (layer *Layer) GongSetFieldValue(fieldName string, value GongFieldValue, st
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Paths {
-					if stage.PathMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Path_stagedOrder[__instance__] == uint(id) {
 						layer.Paths = append(layer.Paths, __instance__)
 						break
 					}
@@ -8352,7 +8444,7 @@ func (layer *Layer) GongSetFieldValue(fieldName string, value GongFieldValue, st
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Links {
-					if stage.LinkMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Link_stagedOrder[__instance__] == uint(id) {
 						layer.Links = append(layer.Links, __instance__)
 						break
 					}
@@ -8366,7 +8458,7 @@ func (layer *Layer) GongSetFieldValue(fieldName string, value GongFieldValue, st
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.RectLinkLinks {
-					if stage.RectLinkLinkMap_Staged_Order[__instance__] == uint(id) {
+					if stage.RectLinkLink_stagedOrder[__instance__] == uint(id) {
 						layer.RectLinkLinks = append(layer.RectLinkLinks, __instance__)
 						break
 					}
@@ -8415,7 +8507,7 @@ func (line *Line) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Animates {
-					if stage.AnimateMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Animate_stagedOrder[__instance__] == uint(id) {
 						line.Animates = append(line.Animates, __instance__)
 						break
 					}
@@ -8446,7 +8538,7 @@ func (link *Link) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			link.Start = nil
 			for __instance__ := range stage.Rects {
-				if stage.RectMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Rect_stagedOrder[__instance__] == uint(id) {
 					link.Start = __instance__
 					break
 				}
@@ -8459,7 +8551,7 @@ func (link *Link) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			link.End = nil
 			for __instance__ := range stage.Rects {
-				if stage.RectMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Rect_stagedOrder[__instance__] == uint(id) {
 					link.End = __instance__
 					break
 				}
@@ -8498,7 +8590,7 @@ func (link *Link) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.LinkAnchoredTexts {
-					if stage.LinkAnchoredTextMap_Staged_Order[__instance__] == uint(id) {
+					if stage.LinkAnchoredText_stagedOrder[__instance__] == uint(id) {
 						link.TextAtArrowStart = append(link.TextAtArrowStart, __instance__)
 						break
 					}
@@ -8512,7 +8604,7 @@ func (link *Link) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.LinkAnchoredTexts {
-					if stage.LinkAnchoredTextMap_Staged_Order[__instance__] == uint(id) {
+					if stage.LinkAnchoredText_stagedOrder[__instance__] == uint(id) {
 						link.TextAtArrowEnd = append(link.TextAtArrowEnd, __instance__)
 						break
 					}
@@ -8526,7 +8618,7 @@ func (link *Link) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.ControlPoints {
-					if stage.ControlPointMap_Staged_Order[__instance__] == uint(id) {
+					if stage.ControlPoint_stagedOrder[__instance__] == uint(id) {
 						link.ControlPoints = append(link.ControlPoints, __instance__)
 						break
 					}
@@ -8611,7 +8703,7 @@ func (linkanchoredtext *LinkAnchoredText) GongSetFieldValue(fieldName string, va
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Animates {
-					if stage.AnimateMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Animate_stagedOrder[__instance__] == uint(id) {
 						linkanchoredtext.Animates = append(linkanchoredtext.Animates, __instance__)
 						break
 					}
@@ -8654,7 +8746,7 @@ func (path *Path) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Animates {
-					if stage.AnimateMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Animate_stagedOrder[__instance__] == uint(id) {
 						path.Animates = append(path.Animates, __instance__)
 						break
 					}
@@ -8712,7 +8804,7 @@ func (polygone *Polygone) GongSetFieldValue(fieldName string, value GongFieldVal
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Animates {
-					if stage.AnimateMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Animate_stagedOrder[__instance__] == uint(id) {
 						polygone.Animates = append(polygone.Animates, __instance__)
 						break
 					}
@@ -8755,7 +8847,7 @@ func (polyline *Polyline) GongSetFieldValue(fieldName string, value GongFieldVal
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Animates {
-					if stage.AnimateMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Animate_stagedOrder[__instance__] == uint(id) {
 						polyline.Animates = append(polyline.Animates, __instance__)
 						break
 					}
@@ -8806,7 +8898,7 @@ func (rect *Rect) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Conditions {
-					if stage.ConditionMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Condition_stagedOrder[__instance__] == uint(id) {
 						rect.HoveringTrigger = append(rect.HoveringTrigger, __instance__)
 						break
 					}
@@ -8820,7 +8912,7 @@ func (rect *Rect) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Conditions {
-					if stage.ConditionMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Condition_stagedOrder[__instance__] == uint(id) {
 						rect.DisplayConditions = append(rect.DisplayConditions, __instance__)
 						break
 					}
@@ -8834,7 +8926,7 @@ func (rect *Rect) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Animates {
-					if stage.AnimateMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Animate_stagedOrder[__instance__] == uint(id) {
 						rect.Animations = append(rect.Animations, __instance__)
 						break
 					}
@@ -8874,7 +8966,7 @@ func (rect *Rect) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.RectAnchoredTexts {
-					if stage.RectAnchoredTextMap_Staged_Order[__instance__] == uint(id) {
+					if stage.RectAnchoredText_stagedOrder[__instance__] == uint(id) {
 						rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, __instance__)
 						break
 					}
@@ -8888,7 +8980,7 @@ func (rect *Rect) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.RectAnchoredRects {
-					if stage.RectAnchoredRectMap_Staged_Order[__instance__] == uint(id) {
+					if stage.RectAnchoredRect_stagedOrder[__instance__] == uint(id) {
 						rect.RectAnchoredRects = append(rect.RectAnchoredRects, __instance__)
 						break
 					}
@@ -8902,7 +8994,7 @@ func (rect *Rect) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.RectAnchoredPaths {
-					if stage.RectAnchoredPathMap_Staged_Order[__instance__] == uint(id) {
+					if stage.RectAnchoredPath_stagedOrder[__instance__] == uint(id) {
 						rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, __instance__)
 						break
 					}
@@ -9081,7 +9173,7 @@ func (rectanchoredtext *RectAnchoredText) GongSetFieldValue(fieldName string, va
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Animates {
-					if stage.AnimateMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Animate_stagedOrder[__instance__] == uint(id) {
 						rectanchoredtext.Animates = append(rectanchoredtext.Animates, __instance__)
 						break
 					}
@@ -9104,7 +9196,7 @@ func (rectlinklink *RectLinkLink) GongSetFieldValue(fieldName string, value Gong
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			rectlinklink.Start = nil
 			for __instance__ := range stage.Rects {
-				if stage.RectMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Rect_stagedOrder[__instance__] == uint(id) {
 					rectlinklink.Start = __instance__
 					break
 				}
@@ -9115,7 +9207,7 @@ func (rectlinklink *RectLinkLink) GongSetFieldValue(fieldName string, value Gong
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			rectlinklink.End = nil
 			for __instance__ := range stage.Links {
-				if stage.LinkMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Link_stagedOrder[__instance__] == uint(id) {
 					rectlinklink.End = __instance__
 					break
 				}
@@ -9157,7 +9249,7 @@ func (svg *SVG) GongSetFieldValue(fieldName string, value GongFieldValue, stage 
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Layers {
-					if stage.LayerMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Layer_stagedOrder[__instance__] == uint(id) {
 						svg.Layers = append(svg.Layers, __instance__)
 						break
 					}
@@ -9171,7 +9263,7 @@ func (svg *SVG) GongSetFieldValue(fieldName string, value GongFieldValue, stage 
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			svg.StartRect = nil
 			for __instance__ := range stage.Rects {
-				if stage.RectMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Rect_stagedOrder[__instance__] == uint(id) {
 					svg.StartRect = __instance__
 					break
 				}
@@ -9182,7 +9274,7 @@ func (svg *SVG) GongSetFieldValue(fieldName string, value GongFieldValue, stage 
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			svg.EndRect = nil
 			for __instance__ := range stage.Rects {
-				if stage.RectMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Rect_stagedOrder[__instance__] == uint(id) {
 					svg.EndRect = __instance__
 					break
 				}
@@ -9271,7 +9363,7 @@ func (text *Text) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Animates {
-					if stage.AnimateMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Animate_stagedOrder[__instance__] == uint(id) {
 						text.Animates = append(text.Animates, __instance__)
 						break
 					}

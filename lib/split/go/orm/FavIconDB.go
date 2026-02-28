@@ -144,9 +144,9 @@ func (backRepoFavIcon *BackRepoFavIconStruct) CommitPhaseOne(stage *models.Stage
 		favicons = append(favicons, favicon)
 	}
 
-	// Sort by the order stored in Map_Staged_Order.
+	// Sort by the order stored in _stagedOrder.
 	sort.Slice(favicons, func(i, j int) bool {
-		return stage.FavIconMap_Staged_Order[favicons[i]] < stage.FavIconMap_Staged_Order[favicons[j]]
+		return stage.FavIcon_stagedOrder[favicons[i]] < stage.FavIcon_stagedOrder[favicons[j]]
 	})
 
 	for _, favicon := range favicons {

@@ -144,9 +144,9 @@ func (backRepoMarkdown *BackRepoMarkdownStruct) CommitPhaseOne(stage *models.Sta
 		markdowns = append(markdowns, markdown)
 	}
 
-	// Sort by the order stored in Map_Staged_Order.
+	// Sort by the order stored in _stagedOrder.
 	sort.Slice(markdowns, func(i, j int) bool {
-		return stage.MarkdownMap_Staged_Order[markdowns[i]] < stage.MarkdownMap_Staged_Order[markdowns[j]]
+		return stage.Markdown_stagedOrder[markdowns[i]] < stage.Markdown_stagedOrder[markdowns[j]]
 	})
 
 	for _, markdown := range markdowns {

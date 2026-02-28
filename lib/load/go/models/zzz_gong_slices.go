@@ -3,6 +3,7 @@ package models
 
 import (
 	"fmt"
+	"log"
 	"sort"
 	"strings"
 	"time"
@@ -94,17 +95,17 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			if stage.FileToDownloads_referenceOrder == nil {
 				stage.FileToDownloads_referenceOrder = make(map[*FileToDownload]uint)
 			}
-			stage.FileToDownloads_referenceOrder[filetodownload] = stage.FileToDownloadMap_Staged_Order[filetodownload]
+			stage.FileToDownloads_referenceOrder[filetodownload] = stage.FileToDownload_stagedOrder[filetodownload]
 			newInstancesReverseSlice = append(newInstancesReverseSlice, filetodownload.GongMarshallUnstaging(stage))
-			delete(stage.FileToDownloads_referenceOrder, filetodownload)
+			// delete(stage.FileToDownloads_referenceOrder, filetodownload)
 			fieldInitializers, pointersInitializations := filetodownload.GongMarshallAllFields(stage)
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
-			stage.FileToDownloadMap_Staged_Order[ref] = stage.FileToDownloadMap_Staged_Order[filetodownload]
+			stage.FileToDownload_stagedOrder[ref] = stage.FileToDownload_stagedOrder[filetodownload]
 			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := filetodownload.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, filetodownload)
-			delete(stage.FileToDownloadMap_Staged_Order, ref)
+			// delete(stage.FileToDownload_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
 				fieldsEdit += fmt.Sprintf("\n\t// %s", filetodownload.GetName())
@@ -145,17 +146,17 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			if stage.FileToUploads_referenceOrder == nil {
 				stage.FileToUploads_referenceOrder = make(map[*FileToUpload]uint)
 			}
-			stage.FileToUploads_referenceOrder[filetoupload] = stage.FileToUploadMap_Staged_Order[filetoupload]
+			stage.FileToUploads_referenceOrder[filetoupload] = stage.FileToUpload_stagedOrder[filetoupload]
 			newInstancesReverseSlice = append(newInstancesReverseSlice, filetoupload.GongMarshallUnstaging(stage))
-			delete(stage.FileToUploads_referenceOrder, filetoupload)
+			// delete(stage.FileToUploads_referenceOrder, filetoupload)
 			fieldInitializers, pointersInitializations := filetoupload.GongMarshallAllFields(stage)
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
-			stage.FileToUploadMap_Staged_Order[ref] = stage.FileToUploadMap_Staged_Order[filetoupload]
+			stage.FileToUpload_stagedOrder[ref] = stage.FileToUpload_stagedOrder[filetoupload]
 			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := filetoupload.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, filetoupload)
-			delete(stage.FileToUploadMap_Staged_Order, ref)
+			// delete(stage.FileToUpload_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
 				fieldsEdit += fmt.Sprintf("\n\t// %s", filetoupload.GetName())
@@ -196,17 +197,17 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			if stage.Messages_referenceOrder == nil {
 				stage.Messages_referenceOrder = make(map[*Message]uint)
 			}
-			stage.Messages_referenceOrder[message] = stage.MessageMap_Staged_Order[message]
+			stage.Messages_referenceOrder[message] = stage.Message_stagedOrder[message]
 			newInstancesReverseSlice = append(newInstancesReverseSlice, message.GongMarshallUnstaging(stage))
-			delete(stage.Messages_referenceOrder, message)
+			// delete(stage.Messages_referenceOrder, message)
 			fieldInitializers, pointersInitializations := message.GongMarshallAllFields(stage)
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
-			stage.MessageMap_Staged_Order[ref] = stage.MessageMap_Staged_Order[message]
+			stage.Message_stagedOrder[ref] = stage.Message_stagedOrder[message]
 			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
 			diffs := message.GongDiff(stage, ref)
 			reverseDiffs := ref.GongDiff(stage, message)
-			delete(stage.MessageMap_Staged_Order, ref)
+			// delete(stage.Message_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
 				fieldsEdit += fmt.Sprintf("\n\t// %s", message.GetName())
@@ -325,36 +326,39 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 // to avoid unnecessary re-renderings
 // insertion point per named struct
 func (filetodownload *FileToDownload) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.FileToDownloadMap_Staged_Order[filetodownload]; ok {
+	if order, ok := stage.FileToDownload_stagedOrder[filetodownload]; ok {
 		return order
 	}
-	return stage.FileToDownloads_referenceOrder[filetodownload]
-}
-
-func (filetodownload *FileToDownload) GongGetReferenceOrder(stage *Stage) uint {
-	return stage.FileToDownloads_referenceOrder[filetodownload]
+	if order, ok := stage.FileToDownloads_referenceOrder[filetodownload]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type FileToDownload was not staged and does not have a reference order", filetodownload)
+		return 0
+	}
 }
 
 func (filetoupload *FileToUpload) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.FileToUploadMap_Staged_Order[filetoupload]; ok {
+	if order, ok := stage.FileToUpload_stagedOrder[filetoupload]; ok {
 		return order
 	}
-	return stage.FileToUploads_referenceOrder[filetoupload]
-}
-
-func (filetoupload *FileToUpload) GongGetReferenceOrder(stage *Stage) uint {
-	return stage.FileToUploads_referenceOrder[filetoupload]
+	if order, ok := stage.FileToUploads_referenceOrder[filetoupload]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type FileToUpload was not staged and does not have a reference order", filetoupload)
+		return 0
+	}
 }
 
 func (message *Message) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.MessageMap_Staged_Order[message]; ok {
+	if order, ok := stage.Message_stagedOrder[message]; ok {
 		return order
 	}
-	return stage.Messages_referenceOrder[message]
-}
-
-func (message *Message) GongGetReferenceOrder(stage *Stage) uint {
-	return stage.Messages_referenceOrder[message]
+	if order, ok := stage.Messages_referenceOrder[message]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type Message was not staged and does not have a reference order", message)
+		return 0
+	}
 }
 
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
@@ -368,7 +372,7 @@ func (filetodownload *FileToDownload) GongGetIdentifier(stage *Stage) string {
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (filetodownload *FileToDownload) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", filetodownload.GongGetGongstructName(), filetodownload.GongGetReferenceOrder(stage))
+	return fmt.Sprintf("__%s__%08d_", filetodownload.GongGetGongstructName(), filetodownload.GongGetOrder(stage))
 }
 
 func (filetoupload *FileToUpload) GongGetIdentifier(stage *Stage) string {
@@ -377,7 +381,7 @@ func (filetoupload *FileToUpload) GongGetIdentifier(stage *Stage) string {
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (filetoupload *FileToUpload) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", filetoupload.GongGetGongstructName(), filetoupload.GongGetReferenceOrder(stage))
+	return fmt.Sprintf("__%s__%08d_", filetoupload.GongGetGongstructName(), filetoupload.GongGetOrder(stage))
 }
 
 func (message *Message) GongGetIdentifier(stage *Stage) string {
@@ -386,7 +390,7 @@ func (message *Message) GongGetIdentifier(stage *Stage) string {
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (message *Message) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", message.GongGetGongstructName(), message.GongGetReferenceOrder(stage))
+	return fmt.Sprintf("__%s__%08d_", message.GongGetGongstructName(), message.GongGetOrder(stage))
 }
 
 // MarshallIdentifier returns the code to instantiate the instance

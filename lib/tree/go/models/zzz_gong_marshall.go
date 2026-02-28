@@ -134,8 +134,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(buttonOrdered[:], func(i, j int) bool {
 		buttoni := buttonOrdered[i]
 		buttonj := buttonOrdered[j]
-		buttoni_order, oki := stage.ButtonMap_Staged_Order[buttoni]
-		buttonj_order, okj := stage.ButtonMap_Staged_Order[buttonj]
+		buttoni_order, oki := stage.Button_stagedOrder[buttoni]
+		buttonj_order, okj := stage.Button_stagedOrder[buttonj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -166,8 +166,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(nodeOrdered[:], func(i, j int) bool {
 		nodei := nodeOrdered[i]
 		nodej := nodeOrdered[j]
-		nodei_order, oki := stage.NodeMap_Staged_Order[nodei]
-		nodej_order, okj := stage.NodeMap_Staged_Order[nodej]
+		nodei_order, oki := stage.Node_stagedOrder[nodei]
+		nodej_order, okj := stage.Node_stagedOrder[nodej]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -220,8 +220,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(svgiconOrdered[:], func(i, j int) bool {
 		svgiconi := svgiconOrdered[i]
 		svgiconj := svgiconOrdered[j]
-		svgiconi_order, oki := stage.SVGIconMap_Staged_Order[svgiconi]
-		svgiconj_order, okj := stage.SVGIconMap_Staged_Order[svgiconj]
+		svgiconi_order, oki := stage.SVGIcon_stagedOrder[svgiconi]
+		svgiconj_order, okj := stage.SVGIcon_stagedOrder[svgiconj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
@@ -247,8 +247,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	sort.Slice(treeOrdered[:], func(i, j int) bool {
 		treei := treeOrdered[i]
 		treej := treeOrdered[j]
-		treei_order, oki := stage.TreeMap_Staged_Order[treei]
-		treej_order, okj := stage.TreeMap_Staged_Order[treej]
+		treei_order, oki := stage.Tree_stagedOrder[treei]
+		treej_order, okj := stage.Tree_stagedOrder[treej]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}

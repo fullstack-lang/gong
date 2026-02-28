@@ -159,9 +159,9 @@ func (backRepoFormFieldSelect *BackRepoFormFieldSelectStruct) CommitPhaseOne(sta
 		formfieldselects = append(formfieldselects, formfieldselect)
 	}
 
-	// Sort by the order stored in Map_Staged_Order.
+	// Sort by the order stored in _stagedOrder.
 	sort.Slice(formfieldselects, func(i, j int) bool {
-		return stage.FormFieldSelectMap_Staged_Order[formfieldselects[i]] < stage.FormFieldSelectMap_Staged_Order[formfieldselects[j]]
+		return stage.FormFieldSelect_stagedOrder[formfieldselects[i]] < stage.FormFieldSelect_stagedOrder[formfieldselects[j]]
 	})
 
 	for _, formfieldselect := range formfieldselects {

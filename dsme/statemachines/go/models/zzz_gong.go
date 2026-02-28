@@ -106,11 +106,13 @@ type Stage struct {
 
 	// insertion point for definition of arrays registering instances
 	Actions                map[*Action]struct{}
-	Actions_reference      map[*Action]*Action
-	Actions_referenceOrder map[*Action]uint
 	Actions_instance       map[*Action]*Action
 	Actions_mapString      map[string]*Action
-
+	ActionOrder            uint
+	Action_stagedOrder     map[*Action]uint
+	Actions_reference      map[*Action]*Action
+	Actions_referenceOrder map[*Action]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterActionCreateCallback OnAfterCreateInterface[Action]
 	OnAfterActionUpdateCallback OnAfterUpdateInterface[Action]
@@ -118,11 +120,13 @@ type Stage struct {
 	OnAfterActionReadCallback   OnAfterReadInterface[Action]
 
 	Activitiess                map[*Activities]struct{}
-	Activitiess_reference      map[*Activities]*Activities
-	Activitiess_referenceOrder map[*Activities]uint
 	Activitiess_instance       map[*Activities]*Activities
 	Activitiess_mapString      map[string]*Activities
-
+	ActivitiesOrder            uint
+	Activities_stagedOrder     map[*Activities]uint
+	Activitiess_reference      map[*Activities]*Activities
+	Activitiess_referenceOrder map[*Activities]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterActivitiesCreateCallback OnAfterCreateInterface[Activities]
 	OnAfterActivitiesUpdateCallback OnAfterUpdateInterface[Activities]
@@ -130,11 +134,13 @@ type Stage struct {
 	OnAfterActivitiesReadCallback   OnAfterReadInterface[Activities]
 
 	Architectures                map[*Architecture]struct{}
-	Architectures_reference      map[*Architecture]*Architecture
-	Architectures_referenceOrder map[*Architecture]uint
 	Architectures_instance       map[*Architecture]*Architecture
 	Architectures_mapString      map[string]*Architecture
-
+	ArchitectureOrder            uint
+	Architecture_stagedOrder     map[*Architecture]uint
+	Architectures_reference      map[*Architecture]*Architecture
+	Architectures_referenceOrder map[*Architecture]uint
+	
 	// insertion point for slice of pointers maps
 	Architecture_StateMachines_reverseMap map[*StateMachine]*Architecture
 
@@ -146,11 +152,13 @@ type Stage struct {
 	OnAfterArchitectureReadCallback   OnAfterReadInterface[Architecture]
 
 	Diagrams                map[*Diagram]struct{}
-	Diagrams_reference      map[*Diagram]*Diagram
-	Diagrams_referenceOrder map[*Diagram]uint
 	Diagrams_instance       map[*Diagram]*Diagram
 	Diagrams_mapString      map[string]*Diagram
-
+	DiagramOrder            uint
+	Diagram_stagedOrder     map[*Diagram]uint
+	Diagrams_reference      map[*Diagram]*Diagram
+	Diagrams_referenceOrder map[*Diagram]uint
+	
 	// insertion point for slice of pointers maps
 	Diagram_State_Shapes_reverseMap map[*StateShape]*Diagram
 
@@ -162,11 +170,13 @@ type Stage struct {
 	OnAfterDiagramReadCallback   OnAfterReadInterface[Diagram]
 
 	Guards                map[*Guard]struct{}
-	Guards_reference      map[*Guard]*Guard
-	Guards_referenceOrder map[*Guard]uint
 	Guards_instance       map[*Guard]*Guard
 	Guards_mapString      map[string]*Guard
-
+	GuardOrder            uint
+	Guard_stagedOrder     map[*Guard]uint
+	Guards_reference      map[*Guard]*Guard
+	Guards_referenceOrder map[*Guard]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterGuardCreateCallback OnAfterCreateInterface[Guard]
 	OnAfterGuardUpdateCallback OnAfterUpdateInterface[Guard]
@@ -174,11 +184,13 @@ type Stage struct {
 	OnAfterGuardReadCallback   OnAfterReadInterface[Guard]
 
 	Kills                map[*Kill]struct{}
-	Kills_reference      map[*Kill]*Kill
-	Kills_referenceOrder map[*Kill]uint
 	Kills_instance       map[*Kill]*Kill
 	Kills_mapString      map[string]*Kill
-
+	KillOrder            uint
+	Kill_stagedOrder     map[*Kill]uint
+	Kills_reference      map[*Kill]*Kill
+	Kills_referenceOrder map[*Kill]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterKillCreateCallback OnAfterCreateInterface[Kill]
 	OnAfterKillUpdateCallback OnAfterUpdateInterface[Kill]
@@ -186,11 +198,13 @@ type Stage struct {
 	OnAfterKillReadCallback   OnAfterReadInterface[Kill]
 
 	Messages                map[*Message]struct{}
-	Messages_reference      map[*Message]*Message
-	Messages_referenceOrder map[*Message]uint
 	Messages_instance       map[*Message]*Message
 	Messages_mapString      map[string]*Message
-
+	MessageOrder            uint
+	Message_stagedOrder     map[*Message]uint
+	Messages_reference      map[*Message]*Message
+	Messages_referenceOrder map[*Message]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterMessageCreateCallback OnAfterCreateInterface[Message]
 	OnAfterMessageUpdateCallback OnAfterUpdateInterface[Message]
@@ -198,11 +212,13 @@ type Stage struct {
 	OnAfterMessageReadCallback   OnAfterReadInterface[Message]
 
 	MessageTypes                map[*MessageType]struct{}
-	MessageTypes_reference      map[*MessageType]*MessageType
-	MessageTypes_referenceOrder map[*MessageType]uint
 	MessageTypes_instance       map[*MessageType]*MessageType
 	MessageTypes_mapString      map[string]*MessageType
-
+	MessageTypeOrder            uint
+	MessageType_stagedOrder     map[*MessageType]uint
+	MessageTypes_reference      map[*MessageType]*MessageType
+	MessageTypes_referenceOrder map[*MessageType]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterMessageTypeCreateCallback OnAfterCreateInterface[MessageType]
 	OnAfterMessageTypeUpdateCallback OnAfterUpdateInterface[MessageType]
@@ -210,11 +226,13 @@ type Stage struct {
 	OnAfterMessageTypeReadCallback   OnAfterReadInterface[MessageType]
 
 	Objects                map[*Object]struct{}
-	Objects_reference      map[*Object]*Object
-	Objects_referenceOrder map[*Object]uint
 	Objects_instance       map[*Object]*Object
 	Objects_mapString      map[string]*Object
-
+	ObjectOrder            uint
+	Object_stagedOrder     map[*Object]uint
+	Objects_reference      map[*Object]*Object
+	Objects_referenceOrder map[*Object]uint
+	
 	// insertion point for slice of pointers maps
 	Object_Messages_reverseMap map[*Message]*Object
 
@@ -224,11 +242,13 @@ type Stage struct {
 	OnAfterObjectReadCallback   OnAfterReadInterface[Object]
 
 	Roles                map[*Role]struct{}
-	Roles_reference      map[*Role]*Role
-	Roles_referenceOrder map[*Role]uint
 	Roles_instance       map[*Role]*Role
 	Roles_mapString      map[string]*Role
-
+	RoleOrder            uint
+	Role_stagedOrder     map[*Role]uint
+	Roles_reference      map[*Role]*Role
+	Roles_referenceOrder map[*Role]uint
+	
 	// insertion point for slice of pointers maps
 	Role_RolesWithSamePermissions_reverseMap map[*Role]*Role
 
@@ -238,11 +258,13 @@ type Stage struct {
 	OnAfterRoleReadCallback   OnAfterReadInterface[Role]
 
 	States                map[*State]struct{}
-	States_reference      map[*State]*State
-	States_referenceOrder map[*State]uint
 	States_instance       map[*State]*State
 	States_mapString      map[string]*State
-
+	StateOrder            uint
+	State_stagedOrder     map[*State]uint
+	States_reference      map[*State]*State
+	States_referenceOrder map[*State]uint
+	
 	// insertion point for slice of pointers maps
 	State_SubStates_reverseMap map[*State]*State
 
@@ -256,11 +278,13 @@ type Stage struct {
 	OnAfterStateReadCallback   OnAfterReadInterface[State]
 
 	StateMachines                map[*StateMachine]struct{}
-	StateMachines_reference      map[*StateMachine]*StateMachine
-	StateMachines_referenceOrder map[*StateMachine]uint
 	StateMachines_instance       map[*StateMachine]*StateMachine
 	StateMachines_mapString      map[string]*StateMachine
-
+	StateMachineOrder            uint
+	StateMachine_stagedOrder     map[*StateMachine]uint
+	StateMachines_reference      map[*StateMachine]*StateMachine
+	StateMachines_referenceOrder map[*StateMachine]uint
+	
 	// insertion point for slice of pointers maps
 	StateMachine_States_reverseMap map[*State]*StateMachine
 
@@ -272,11 +296,13 @@ type Stage struct {
 	OnAfterStateMachineReadCallback   OnAfterReadInterface[StateMachine]
 
 	StateShapes                map[*StateShape]struct{}
-	StateShapes_reference      map[*StateShape]*StateShape
-	StateShapes_referenceOrder map[*StateShape]uint
 	StateShapes_instance       map[*StateShape]*StateShape
 	StateShapes_mapString      map[string]*StateShape
-
+	StateShapeOrder            uint
+	StateShape_stagedOrder     map[*StateShape]uint
+	StateShapes_reference      map[*StateShape]*StateShape
+	StateShapes_referenceOrder map[*StateShape]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterStateShapeCreateCallback OnAfterCreateInterface[StateShape]
 	OnAfterStateShapeUpdateCallback OnAfterUpdateInterface[StateShape]
@@ -284,11 +310,13 @@ type Stage struct {
 	OnAfterStateShapeReadCallback   OnAfterReadInterface[StateShape]
 
 	Transitions                map[*Transition]struct{}
-	Transitions_reference      map[*Transition]*Transition
-	Transitions_referenceOrder map[*Transition]uint
 	Transitions_instance       map[*Transition]*Transition
 	Transitions_mapString      map[string]*Transition
-
+	TransitionOrder            uint
+	Transition_stagedOrder     map[*Transition]uint
+	Transitions_reference      map[*Transition]*Transition
+	Transitions_referenceOrder map[*Transition]uint
+	
 	// insertion point for slice of pointers maps
 	Transition_RolesWithPermissions_reverseMap map[*Role]*Transition
 
@@ -302,11 +330,13 @@ type Stage struct {
 	OnAfterTransitionReadCallback   OnAfterReadInterface[Transition]
 
 	Transition_Shapes                map[*Transition_Shape]struct{}
-	Transition_Shapes_reference      map[*Transition_Shape]*Transition_Shape
-	Transition_Shapes_referenceOrder map[*Transition_Shape]uint
 	Transition_Shapes_instance       map[*Transition_Shape]*Transition_Shape
 	Transition_Shapes_mapString      map[string]*Transition_Shape
-
+	Transition_ShapeOrder            uint
+	Transition_Shape_stagedOrder     map[*Transition_Shape]uint
+	Transition_Shapes_reference      map[*Transition_Shape]*Transition_Shape
+	Transition_Shapes_referenceOrder map[*Transition_Shape]uint
+	
 	// insertion point for slice of pointers maps
 	OnAfterTransition_ShapeCreateCallback OnAfterCreateInterface[Transition_Shape]
 	OnAfterTransition_ShapeUpdateCallback OnAfterUpdateInterface[Transition_Shape]
@@ -324,6 +354,10 @@ type Stage struct {
 	OnInitCommitFromFrontCallback OnInitCommitInterface
 	OnInitCommitFromBackCallback  OnInitCommitInterface
 
+	// Private slices to hold the registered hooks
+	beforeCommitHooks []func(stage *Stage)
+	afterCommitHooks  []func(stage *Stage)
+
 	// store the number of instance per gongstruct
 	Map_GongStructName_InstancesNb map[string]int
 
@@ -339,50 +373,20 @@ type Stage struct {
 	// store the stage order of each instance in order to
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
-	ActionOrder            uint
-	ActionMap_Staged_Order map[*Action]uint
 
-	ActivitiesOrder            uint
-	ActivitiesMap_Staged_Order map[*Activities]uint
 
-	ArchitectureOrder            uint
-	ArchitectureMap_Staged_Order map[*Architecture]uint
 
-	DiagramOrder            uint
-	DiagramMap_Staged_Order map[*Diagram]uint
 
-	GuardOrder            uint
-	GuardMap_Staged_Order map[*Guard]uint
 
-	KillOrder            uint
-	KillMap_Staged_Order map[*Kill]uint
 
-	MessageOrder            uint
-	MessageMap_Staged_Order map[*Message]uint
 
-	MessageTypeOrder            uint
-	MessageTypeMap_Staged_Order map[*MessageType]uint
 
-	ObjectOrder            uint
-	ObjectMap_Staged_Order map[*Object]uint
 
-	RoleOrder            uint
-	RoleMap_Staged_Order map[*Role]uint
 
-	StateOrder            uint
-	StateMap_Staged_Order map[*State]uint
 
-	StateMachineOrder            uint
-	StateMachineMap_Staged_Order map[*StateMachine]uint
 
-	StateShapeOrder            uint
-	StateShapeMap_Staged_Order map[*StateShape]uint
 
-	TransitionOrder            uint
-	TransitionMap_Staged_Order map[*Transition]uint
 
-	Transition_ShapeOrder            uint
-	Transition_ShapeMap_Staged_Order map[*Transition_Shape]uint
 
 	// end of insertion point
 
@@ -404,6 +408,16 @@ type Stage struct {
 	commitsBehind  int // the number of commits the stage is behind the front of the history
 
 	lock sync.RWMutex
+}
+
+// RegisterBeforeCommit adds a hook that runs before the commit happens
+func (s *Stage) RegisterBeforeCommit(hook func(stage *Stage)) {
+	s.beforeCommitHooks = append(s.beforeCommitHooks, hook)
+}
+
+// RegisterAfterCommit adds a hook that runs after the commit succeeds
+func (s *Stage) RegisterAfterCommit(hook func(stage *Stage)) {
+	s.afterCommitHooks = append(s.afterCommitHooks, hook)
 }
 
 type gongStageNavigationMode string
@@ -527,6 +541,16 @@ func (stage *Stage) ResetHard() {
 	if stage.OnInitCommitFromBackCallback != nil {
 		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
 	}
+
+	// 1. Run all Before Commit hooks
+	for _, hook := range stage.beforeCommitHooks {
+		hook(stage)
+	}
+
+	// 2. Run all After Commit hooks
+	for _, hook := range stage.afterCommitHooks {
+		hook(stage)
+	}
 }
 
 // Orphans removes all commits
@@ -543,6 +567,16 @@ func (stage *Stage) Orphans() {
 	if stage.OnInitCommitFromBackCallback != nil {
 		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
 	}
+
+	// 1. Run all Before Commit hooks
+	for _, hook := range stage.beforeCommitHooks {
+		hook(stage)
+	}
+
+	// 2. Run all After Commit hooks
+	for _, hook := range stage.afterCommitHooks {
+		hook(stage)
+	}
 }
 
 // recomputeOrders recomputes the next order for each struct
@@ -553,7 +587,7 @@ func (stage *Stage) recomputeOrders() {
 	// insertion point for max order recomputation
 	var maxActionOrder uint
 	var foundAction bool
-	for _, order := range stage.ActionMap_Staged_Order {
+	for _, order := range stage.Action_stagedOrder {
 		if !foundAction || order > maxActionOrder {
 			maxActionOrder = order
 			foundAction = true
@@ -567,7 +601,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxActivitiesOrder uint
 	var foundActivities bool
-	for _, order := range stage.ActivitiesMap_Staged_Order {
+	for _, order := range stage.Activities_stagedOrder {
 		if !foundActivities || order > maxActivitiesOrder {
 			maxActivitiesOrder = order
 			foundActivities = true
@@ -581,7 +615,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxArchitectureOrder uint
 	var foundArchitecture bool
-	for _, order := range stage.ArchitectureMap_Staged_Order {
+	for _, order := range stage.Architecture_stagedOrder {
 		if !foundArchitecture || order > maxArchitectureOrder {
 			maxArchitectureOrder = order
 			foundArchitecture = true
@@ -595,7 +629,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxDiagramOrder uint
 	var foundDiagram bool
-	for _, order := range stage.DiagramMap_Staged_Order {
+	for _, order := range stage.Diagram_stagedOrder {
 		if !foundDiagram || order > maxDiagramOrder {
 			maxDiagramOrder = order
 			foundDiagram = true
@@ -609,7 +643,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxGuardOrder uint
 	var foundGuard bool
-	for _, order := range stage.GuardMap_Staged_Order {
+	for _, order := range stage.Guard_stagedOrder {
 		if !foundGuard || order > maxGuardOrder {
 			maxGuardOrder = order
 			foundGuard = true
@@ -623,7 +657,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxKillOrder uint
 	var foundKill bool
-	for _, order := range stage.KillMap_Staged_Order {
+	for _, order := range stage.Kill_stagedOrder {
 		if !foundKill || order > maxKillOrder {
 			maxKillOrder = order
 			foundKill = true
@@ -637,7 +671,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxMessageOrder uint
 	var foundMessage bool
-	for _, order := range stage.MessageMap_Staged_Order {
+	for _, order := range stage.Message_stagedOrder {
 		if !foundMessage || order > maxMessageOrder {
 			maxMessageOrder = order
 			foundMessage = true
@@ -651,7 +685,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxMessageTypeOrder uint
 	var foundMessageType bool
-	for _, order := range stage.MessageTypeMap_Staged_Order {
+	for _, order := range stage.MessageType_stagedOrder {
 		if !foundMessageType || order > maxMessageTypeOrder {
 			maxMessageTypeOrder = order
 			foundMessageType = true
@@ -665,7 +699,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxObjectOrder uint
 	var foundObject bool
-	for _, order := range stage.ObjectMap_Staged_Order {
+	for _, order := range stage.Object_stagedOrder {
 		if !foundObject || order > maxObjectOrder {
 			maxObjectOrder = order
 			foundObject = true
@@ -679,7 +713,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxRoleOrder uint
 	var foundRole bool
-	for _, order := range stage.RoleMap_Staged_Order {
+	for _, order := range stage.Role_stagedOrder {
 		if !foundRole || order > maxRoleOrder {
 			maxRoleOrder = order
 			foundRole = true
@@ -693,7 +727,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxStateOrder uint
 	var foundState bool
-	for _, order := range stage.StateMap_Staged_Order {
+	for _, order := range stage.State_stagedOrder {
 		if !foundState || order > maxStateOrder {
 			maxStateOrder = order
 			foundState = true
@@ -707,7 +741,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxStateMachineOrder uint
 	var foundStateMachine bool
-	for _, order := range stage.StateMachineMap_Staged_Order {
+	for _, order := range stage.StateMachine_stagedOrder {
 		if !foundStateMachine || order > maxStateMachineOrder {
 			maxStateMachineOrder = order
 			foundStateMachine = true
@@ -721,7 +755,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxStateShapeOrder uint
 	var foundStateShape bool
-	for _, order := range stage.StateShapeMap_Staged_Order {
+	for _, order := range stage.StateShape_stagedOrder {
 		if !foundStateShape || order > maxStateShapeOrder {
 			maxStateShapeOrder = order
 			foundStateShape = true
@@ -735,7 +769,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxTransitionOrder uint
 	var foundTransition bool
-	for _, order := range stage.TransitionMap_Staged_Order {
+	for _, order := range stage.Transition_stagedOrder {
 		if !foundTransition || order > maxTransitionOrder {
 			maxTransitionOrder = order
 			foundTransition = true
@@ -749,7 +783,7 @@ func (stage *Stage) recomputeOrders() {
 
 	var maxTransition_ShapeOrder uint
 	var foundTransition_Shape bool
-	for _, order := range stage.Transition_ShapeMap_Staged_Order {
+	for _, order := range stage.Transition_Shape_stagedOrder {
 		if !foundTransition_Shape || order > maxTransition_ShapeOrder {
 			maxTransition_ShapeOrder = order
 			foundTransition_Shape = true
@@ -821,7 +855,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 	switch any(t).(type) {
 	// insertion point for case
 	case *Action:
-		tmp := GetStructInstancesByOrder(stage.Actions, stage.ActionMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Actions, stage.Action_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -835,7 +869,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Activities:
-		tmp := GetStructInstancesByOrder(stage.Activitiess, stage.ActivitiesMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Activitiess, stage.Activities_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -849,7 +883,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Architecture:
-		tmp := GetStructInstancesByOrder(stage.Architectures, stage.ArchitectureMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Architectures, stage.Architecture_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -863,7 +897,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Diagram:
-		tmp := GetStructInstancesByOrder(stage.Diagrams, stage.DiagramMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Diagrams, stage.Diagram_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -877,7 +911,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Guard:
-		tmp := GetStructInstancesByOrder(stage.Guards, stage.GuardMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Guards, stage.Guard_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -891,7 +925,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Kill:
-		tmp := GetStructInstancesByOrder(stage.Kills, stage.KillMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Kills, stage.Kill_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -905,7 +939,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Message:
-		tmp := GetStructInstancesByOrder(stage.Messages, stage.MessageMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Messages, stage.Message_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -919,7 +953,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *MessageType:
-		tmp := GetStructInstancesByOrder(stage.MessageTypes, stage.MessageTypeMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.MessageTypes, stage.MessageType_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -933,7 +967,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Object:
-		tmp := GetStructInstancesByOrder(stage.Objects, stage.ObjectMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Objects, stage.Object_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -947,7 +981,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Role:
-		tmp := GetStructInstancesByOrder(stage.Roles, stage.RoleMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Roles, stage.Role_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -961,7 +995,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *State:
-		tmp := GetStructInstancesByOrder(stage.States, stage.StateMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.States, stage.State_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -975,7 +1009,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *StateMachine:
-		tmp := GetStructInstancesByOrder(stage.StateMachines, stage.StateMachineMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.StateMachines, stage.StateMachine_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -989,7 +1023,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *StateShape:
-		tmp := GetStructInstancesByOrder(stage.StateShapes, stage.StateShapeMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.StateShapes, stage.StateShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1003,7 +1037,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Transition:
-		tmp := GetStructInstancesByOrder(stage.Transitions, stage.TransitionMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Transitions, stage.Transition_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1017,7 +1051,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		}
 		return res
 	case *Transition_Shape:
-		tmp := GetStructInstancesByOrder(stage.Transition_Shapes, stage.Transition_ShapeMap_Staged_Order)
+		tmp := GetStructInstancesByOrder(stage.Transition_Shapes, stage.Transition_Shape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1060,35 +1094,35 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 	switch namedStructName {
 	// insertion point for case
 	case "Action":
-		res = GetNamedStructInstances(stage.Actions, stage.ActionMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Actions, stage.Action_stagedOrder)
 	case "Activities":
-		res = GetNamedStructInstances(stage.Activitiess, stage.ActivitiesMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Activitiess, stage.Activities_stagedOrder)
 	case "Architecture":
-		res = GetNamedStructInstances(stage.Architectures, stage.ArchitectureMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Architectures, stage.Architecture_stagedOrder)
 	case "Diagram":
-		res = GetNamedStructInstances(stage.Diagrams, stage.DiagramMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Diagrams, stage.Diagram_stagedOrder)
 	case "Guard":
-		res = GetNamedStructInstances(stage.Guards, stage.GuardMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Guards, stage.Guard_stagedOrder)
 	case "Kill":
-		res = GetNamedStructInstances(stage.Kills, stage.KillMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Kills, stage.Kill_stagedOrder)
 	case "Message":
-		res = GetNamedStructInstances(stage.Messages, stage.MessageMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Messages, stage.Message_stagedOrder)
 	case "MessageType":
-		res = GetNamedStructInstances(stage.MessageTypes, stage.MessageTypeMap_Staged_Order)
+		res = GetNamedStructInstances(stage.MessageTypes, stage.MessageType_stagedOrder)
 	case "Object":
-		res = GetNamedStructInstances(stage.Objects, stage.ObjectMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Objects, stage.Object_stagedOrder)
 	case "Role":
-		res = GetNamedStructInstances(stage.Roles, stage.RoleMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Roles, stage.Role_stagedOrder)
 	case "State":
-		res = GetNamedStructInstances(stage.States, stage.StateMap_Staged_Order)
+		res = GetNamedStructInstances(stage.States, stage.State_stagedOrder)
 	case "StateMachine":
-		res = GetNamedStructInstances(stage.StateMachines, stage.StateMachineMap_Staged_Order)
+		res = GetNamedStructInstances(stage.StateMachines, stage.StateMachine_stagedOrder)
 	case "StateShape":
-		res = GetNamedStructInstances(stage.StateShapes, stage.StateShapeMap_Staged_Order)
+		res = GetNamedStructInstances(stage.StateShapes, stage.StateShape_stagedOrder)
 	case "Transition":
-		res = GetNamedStructInstances(stage.Transitions, stage.TransitionMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Transitions, stage.Transition_stagedOrder)
 	case "Transition_Shape":
-		res = GetNamedStructInstances(stage.Transition_Shapes, stage.Transition_ShapeMap_Staged_Order)
+		res = GetNamedStructInstances(stage.Transition_Shapes, stage.Transition_Shape_stagedOrder)
 	}
 
 	return
@@ -1249,35 +1283,35 @@ func NewStage(name string) (stage *Stage) {
 		// the to be removed stops here
 
 		// insertion point for order map initialisations
-		ActionMap_Staged_Order: make(map[*Action]uint),
+		Action_stagedOrder: make(map[*Action]uint),
 
-		ActivitiesMap_Staged_Order: make(map[*Activities]uint),
+		Activities_stagedOrder: make(map[*Activities]uint),
 
-		ArchitectureMap_Staged_Order: make(map[*Architecture]uint),
+		Architecture_stagedOrder: make(map[*Architecture]uint),
 
-		DiagramMap_Staged_Order: make(map[*Diagram]uint),
+		Diagram_stagedOrder: make(map[*Diagram]uint),
 
-		GuardMap_Staged_Order: make(map[*Guard]uint),
+		Guard_stagedOrder: make(map[*Guard]uint),
 
-		KillMap_Staged_Order: make(map[*Kill]uint),
+		Kill_stagedOrder: make(map[*Kill]uint),
 
-		MessageMap_Staged_Order: make(map[*Message]uint),
+		Message_stagedOrder: make(map[*Message]uint),
 
-		MessageTypeMap_Staged_Order: make(map[*MessageType]uint),
+		MessageType_stagedOrder: make(map[*MessageType]uint),
 
-		ObjectMap_Staged_Order: make(map[*Object]uint),
+		Object_stagedOrder: make(map[*Object]uint),
 
-		RoleMap_Staged_Order: make(map[*Role]uint),
+		Role_stagedOrder: make(map[*Role]uint),
 
-		StateMap_Staged_Order: make(map[*State]uint),
+		State_stagedOrder: make(map[*State]uint),
 
-		StateMachineMap_Staged_Order: make(map[*StateMachine]uint),
+		StateMachine_stagedOrder: make(map[*StateMachine]uint),
 
-		StateShapeMap_Staged_Order: make(map[*StateShape]uint),
+		StateShape_stagedOrder: make(map[*StateShape]uint),
 
-		TransitionMap_Staged_Order: make(map[*Transition]uint),
+		Transition_stagedOrder: make(map[*Transition]uint),
 
-		Transition_ShapeMap_Staged_Order: make(map[*Transition_Shape]uint),
+		Transition_Shape_stagedOrder: make(map[*Transition_Shape]uint),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
@@ -1342,35 +1376,35 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
 	case *Action:
-		return stage.ActionMap_Staged_Order[instance]
+		return stage.Action_stagedOrder[instance]
 	case *Activities:
-		return stage.ActivitiesMap_Staged_Order[instance]
+		return stage.Activities_stagedOrder[instance]
 	case *Architecture:
-		return stage.ArchitectureMap_Staged_Order[instance]
+		return stage.Architecture_stagedOrder[instance]
 	case *Diagram:
-		return stage.DiagramMap_Staged_Order[instance]
+		return stage.Diagram_stagedOrder[instance]
 	case *Guard:
-		return stage.GuardMap_Staged_Order[instance]
+		return stage.Guard_stagedOrder[instance]
 	case *Kill:
-		return stage.KillMap_Staged_Order[instance]
+		return stage.Kill_stagedOrder[instance]
 	case *Message:
-		return stage.MessageMap_Staged_Order[instance]
+		return stage.Message_stagedOrder[instance]
 	case *MessageType:
-		return stage.MessageTypeMap_Staged_Order[instance]
+		return stage.MessageType_stagedOrder[instance]
 	case *Object:
-		return stage.ObjectMap_Staged_Order[instance]
+		return stage.Object_stagedOrder[instance]
 	case *Role:
-		return stage.RoleMap_Staged_Order[instance]
+		return stage.Role_stagedOrder[instance]
 	case *State:
-		return stage.StateMap_Staged_Order[instance]
+		return stage.State_stagedOrder[instance]
 	case *StateMachine:
-		return stage.StateMachineMap_Staged_Order[instance]
+		return stage.StateMachine_stagedOrder[instance]
 	case *StateShape:
-		return stage.StateShapeMap_Staged_Order[instance]
+		return stage.StateShape_stagedOrder[instance]
 	case *Transition:
-		return stage.TransitionMap_Staged_Order[instance]
+		return stage.Transition_stagedOrder[instance]
 	case *Transition_Shape:
-		return stage.Transition_ShapeMap_Staged_Order[instance]
+		return stage.Transition_Shape_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -1380,35 +1414,35 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
 	case *Action:
-		return stage.ActionMap_Staged_Order[instance]
+		return stage.Action_stagedOrder[instance]
 	case *Activities:
-		return stage.ActivitiesMap_Staged_Order[instance]
+		return stage.Activities_stagedOrder[instance]
 	case *Architecture:
-		return stage.ArchitectureMap_Staged_Order[instance]
+		return stage.Architecture_stagedOrder[instance]
 	case *Diagram:
-		return stage.DiagramMap_Staged_Order[instance]
+		return stage.Diagram_stagedOrder[instance]
 	case *Guard:
-		return stage.GuardMap_Staged_Order[instance]
+		return stage.Guard_stagedOrder[instance]
 	case *Kill:
-		return stage.KillMap_Staged_Order[instance]
+		return stage.Kill_stagedOrder[instance]
 	case *Message:
-		return stage.MessageMap_Staged_Order[instance]
+		return stage.Message_stagedOrder[instance]
 	case *MessageType:
-		return stage.MessageTypeMap_Staged_Order[instance]
+		return stage.MessageType_stagedOrder[instance]
 	case *Object:
-		return stage.ObjectMap_Staged_Order[instance]
+		return stage.Object_stagedOrder[instance]
 	case *Role:
-		return stage.RoleMap_Staged_Order[instance]
+		return stage.Role_stagedOrder[instance]
 	case *State:
-		return stage.StateMap_Staged_Order[instance]
+		return stage.State_stagedOrder[instance]
 	case *StateMachine:
-		return stage.StateMachineMap_Staged_Order[instance]
+		return stage.StateMachine_stagedOrder[instance]
 	case *StateShape:
-		return stage.StateShapeMap_Staged_Order[instance]
+		return stage.StateShape_stagedOrder[instance]
 	case *Transition:
-		return stage.TransitionMap_Staged_Order[instance]
+		return stage.Transition_stagedOrder[instance]
 	case *Transition_Shape:
-		return stage.Transition_ShapeMap_Staged_Order[instance]
+		return stage.Transition_Shape_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -1421,8 +1455,14 @@ func (stage *Stage) GetName() string {
 func (stage *Stage) CommitWithSuspendedCallbacks() {
 	tmp := stage.OnInitCommitFromBackCallback
 	stage.OnInitCommitFromBackCallback = nil
+	tmp2 := stage.beforeCommitHooks
+	stage.beforeCommitHooks = nil
+	tmp3 := stage.afterCommitHooks
+	stage.afterCommitHooks = nil
 	stage.Commit()
 	stage.OnInitCommitFromBackCallback = tmp
+	stage.beforeCommitHooks = tmp2
+	stage.afterCommitHooks = tmp3
 }
 
 func (stage *Stage) Commit() {
@@ -1433,6 +1473,11 @@ func (stage *Stage) Commit() {
 	}
 	if stage.OnInitCommitFromBackCallback != nil {
 		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
+	}
+
+	// 1. Run all Before Commit hooks
+	for _, hook := range stage.beforeCommitHooks {
+		hook(stage)
 	}
 
 	if stage.BackRepo != nil {
@@ -1450,6 +1495,11 @@ func (stage *Stage) Commit() {
 	if stage.IsInDeltaMode() {
 		stage.ComputeForwardAndBackwardCommits()
 		stage.ComputeReferenceAndOrders()
+	}
+
+	// 2. Run all After Commit hooks
+	for _, hook := range stage.afterCommitHooks {
+		hook(stage)
 	}
 }
 
@@ -1514,7 +1564,7 @@ func (stage *Stage) RestoreXL(dirPath string) {
 func (action *Action) Stage(stage *Stage) *Action {
 	if _, ok := stage.Actions[action]; !ok {
 		stage.Actions[action] = struct{}{}
-		stage.ActionMap_Staged_Order[action] = stage.ActionOrder
+		stage.Action_stagedOrder[action] = stage.ActionOrder
 		stage.ActionOrder++
 	}
 	stage.Actions_mapString[action.Name] = action
@@ -1534,7 +1584,7 @@ func (action *Action) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.ActionOrder {
 			stage.ActionOrder = order
 		}
-		stage.ActionMap_Staged_Order[action] = order
+		stage.Action_stagedOrder[action] = order
 		stage.ActionOrder++
 	}
 	stage.Actions_mapString[action.Name] = action
@@ -1543,7 +1593,8 @@ func (action *Action) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes action off the model stage
 func (action *Action) Unstage(stage *Stage) *Action {
 	delete(stage.Actions, action)
-	delete(stage.ActionMap_Staged_Order, action)
+	// issue1150
+	// delete(stage.Action_stagedOrder, action)
 	delete(stage.Actions_mapString, action.Name)
 
 	return action
@@ -1552,7 +1603,8 @@ func (action *Action) Unstage(stage *Stage) *Action {
 // UnstageVoid removes action off the model stage
 func (action *Action) UnstageVoid(stage *Stage) {
 	delete(stage.Actions, action)
-	delete(stage.ActionMap_Staged_Order, action)
+	// issue1150
+	// delete(stage.Action_stagedOrder, action)
 	delete(stage.Actions_mapString, action.Name)
 }
 
@@ -1598,7 +1650,7 @@ func (action *Action) SetName(name string) {
 func (activities *Activities) Stage(stage *Stage) *Activities {
 	if _, ok := stage.Activitiess[activities]; !ok {
 		stage.Activitiess[activities] = struct{}{}
-		stage.ActivitiesMap_Staged_Order[activities] = stage.ActivitiesOrder
+		stage.Activities_stagedOrder[activities] = stage.ActivitiesOrder
 		stage.ActivitiesOrder++
 	}
 	stage.Activitiess_mapString[activities.Name] = activities
@@ -1618,7 +1670,7 @@ func (activities *Activities) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.ActivitiesOrder {
 			stage.ActivitiesOrder = order
 		}
-		stage.ActivitiesMap_Staged_Order[activities] = order
+		stage.Activities_stagedOrder[activities] = order
 		stage.ActivitiesOrder++
 	}
 	stage.Activitiess_mapString[activities.Name] = activities
@@ -1627,7 +1679,8 @@ func (activities *Activities) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes activities off the model stage
 func (activities *Activities) Unstage(stage *Stage) *Activities {
 	delete(stage.Activitiess, activities)
-	delete(stage.ActivitiesMap_Staged_Order, activities)
+	// issue1150
+	// delete(stage.Activities_stagedOrder, activities)
 	delete(stage.Activitiess_mapString, activities.Name)
 
 	return activities
@@ -1636,7 +1689,8 @@ func (activities *Activities) Unstage(stage *Stage) *Activities {
 // UnstageVoid removes activities off the model stage
 func (activities *Activities) UnstageVoid(stage *Stage) {
 	delete(stage.Activitiess, activities)
-	delete(stage.ActivitiesMap_Staged_Order, activities)
+	// issue1150
+	// delete(stage.Activities_stagedOrder, activities)
 	delete(stage.Activitiess_mapString, activities.Name)
 }
 
@@ -1682,7 +1736,7 @@ func (activities *Activities) SetName(name string) {
 func (architecture *Architecture) Stage(stage *Stage) *Architecture {
 	if _, ok := stage.Architectures[architecture]; !ok {
 		stage.Architectures[architecture] = struct{}{}
-		stage.ArchitectureMap_Staged_Order[architecture] = stage.ArchitectureOrder
+		stage.Architecture_stagedOrder[architecture] = stage.ArchitectureOrder
 		stage.ArchitectureOrder++
 	}
 	stage.Architectures_mapString[architecture.Name] = architecture
@@ -1702,7 +1756,7 @@ func (architecture *Architecture) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.ArchitectureOrder {
 			stage.ArchitectureOrder = order
 		}
-		stage.ArchitectureMap_Staged_Order[architecture] = order
+		stage.Architecture_stagedOrder[architecture] = order
 		stage.ArchitectureOrder++
 	}
 	stage.Architectures_mapString[architecture.Name] = architecture
@@ -1711,7 +1765,8 @@ func (architecture *Architecture) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes architecture off the model stage
 func (architecture *Architecture) Unstage(stage *Stage) *Architecture {
 	delete(stage.Architectures, architecture)
-	delete(stage.ArchitectureMap_Staged_Order, architecture)
+	// issue1150
+	// delete(stage.Architecture_stagedOrder, architecture)
 	delete(stage.Architectures_mapString, architecture.Name)
 
 	return architecture
@@ -1720,7 +1775,8 @@ func (architecture *Architecture) Unstage(stage *Stage) *Architecture {
 // UnstageVoid removes architecture off the model stage
 func (architecture *Architecture) UnstageVoid(stage *Stage) {
 	delete(stage.Architectures, architecture)
-	delete(stage.ArchitectureMap_Staged_Order, architecture)
+	// issue1150
+	// delete(stage.Architecture_stagedOrder, architecture)
 	delete(stage.Architectures_mapString, architecture.Name)
 }
 
@@ -1766,7 +1822,7 @@ func (architecture *Architecture) SetName(name string) {
 func (diagram *Diagram) Stage(stage *Stage) *Diagram {
 	if _, ok := stage.Diagrams[diagram]; !ok {
 		stage.Diagrams[diagram] = struct{}{}
-		stage.DiagramMap_Staged_Order[diagram] = stage.DiagramOrder
+		stage.Diagram_stagedOrder[diagram] = stage.DiagramOrder
 		stage.DiagramOrder++
 	}
 	stage.Diagrams_mapString[diagram.Name] = diagram
@@ -1786,7 +1842,7 @@ func (diagram *Diagram) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.DiagramOrder {
 			stage.DiagramOrder = order
 		}
-		stage.DiagramMap_Staged_Order[diagram] = order
+		stage.Diagram_stagedOrder[diagram] = order
 		stage.DiagramOrder++
 	}
 	stage.Diagrams_mapString[diagram.Name] = diagram
@@ -1795,7 +1851,8 @@ func (diagram *Diagram) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes diagram off the model stage
 func (diagram *Diagram) Unstage(stage *Stage) *Diagram {
 	delete(stage.Diagrams, diagram)
-	delete(stage.DiagramMap_Staged_Order, diagram)
+	// issue1150
+	// delete(stage.Diagram_stagedOrder, diagram)
 	delete(stage.Diagrams_mapString, diagram.Name)
 
 	return diagram
@@ -1804,7 +1861,8 @@ func (diagram *Diagram) Unstage(stage *Stage) *Diagram {
 // UnstageVoid removes diagram off the model stage
 func (diagram *Diagram) UnstageVoid(stage *Stage) {
 	delete(stage.Diagrams, diagram)
-	delete(stage.DiagramMap_Staged_Order, diagram)
+	// issue1150
+	// delete(stage.Diagram_stagedOrder, diagram)
 	delete(stage.Diagrams_mapString, diagram.Name)
 }
 
@@ -1850,7 +1908,7 @@ func (diagram *Diagram) SetName(name string) {
 func (guard *Guard) Stage(stage *Stage) *Guard {
 	if _, ok := stage.Guards[guard]; !ok {
 		stage.Guards[guard] = struct{}{}
-		stage.GuardMap_Staged_Order[guard] = stage.GuardOrder
+		stage.Guard_stagedOrder[guard] = stage.GuardOrder
 		stage.GuardOrder++
 	}
 	stage.Guards_mapString[guard.Name] = guard
@@ -1870,7 +1928,7 @@ func (guard *Guard) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.GuardOrder {
 			stage.GuardOrder = order
 		}
-		stage.GuardMap_Staged_Order[guard] = order
+		stage.Guard_stagedOrder[guard] = order
 		stage.GuardOrder++
 	}
 	stage.Guards_mapString[guard.Name] = guard
@@ -1879,7 +1937,8 @@ func (guard *Guard) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes guard off the model stage
 func (guard *Guard) Unstage(stage *Stage) *Guard {
 	delete(stage.Guards, guard)
-	delete(stage.GuardMap_Staged_Order, guard)
+	// issue1150
+	// delete(stage.Guard_stagedOrder, guard)
 	delete(stage.Guards_mapString, guard.Name)
 
 	return guard
@@ -1888,7 +1947,8 @@ func (guard *Guard) Unstage(stage *Stage) *Guard {
 // UnstageVoid removes guard off the model stage
 func (guard *Guard) UnstageVoid(stage *Stage) {
 	delete(stage.Guards, guard)
-	delete(stage.GuardMap_Staged_Order, guard)
+	// issue1150
+	// delete(stage.Guard_stagedOrder, guard)
 	delete(stage.Guards_mapString, guard.Name)
 }
 
@@ -1934,7 +1994,7 @@ func (guard *Guard) SetName(name string) {
 func (kill *Kill) Stage(stage *Stage) *Kill {
 	if _, ok := stage.Kills[kill]; !ok {
 		stage.Kills[kill] = struct{}{}
-		stage.KillMap_Staged_Order[kill] = stage.KillOrder
+		stage.Kill_stagedOrder[kill] = stage.KillOrder
 		stage.KillOrder++
 	}
 	stage.Kills_mapString[kill.Name] = kill
@@ -1954,7 +2014,7 @@ func (kill *Kill) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.KillOrder {
 			stage.KillOrder = order
 		}
-		stage.KillMap_Staged_Order[kill] = order
+		stage.Kill_stagedOrder[kill] = order
 		stage.KillOrder++
 	}
 	stage.Kills_mapString[kill.Name] = kill
@@ -1963,7 +2023,8 @@ func (kill *Kill) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes kill off the model stage
 func (kill *Kill) Unstage(stage *Stage) *Kill {
 	delete(stage.Kills, kill)
-	delete(stage.KillMap_Staged_Order, kill)
+	// issue1150
+	// delete(stage.Kill_stagedOrder, kill)
 	delete(stage.Kills_mapString, kill.Name)
 
 	return kill
@@ -1972,7 +2033,8 @@ func (kill *Kill) Unstage(stage *Stage) *Kill {
 // UnstageVoid removes kill off the model stage
 func (kill *Kill) UnstageVoid(stage *Stage) {
 	delete(stage.Kills, kill)
-	delete(stage.KillMap_Staged_Order, kill)
+	// issue1150
+	// delete(stage.Kill_stagedOrder, kill)
 	delete(stage.Kills_mapString, kill.Name)
 }
 
@@ -2018,7 +2080,7 @@ func (kill *Kill) SetName(name string) {
 func (message *Message) Stage(stage *Stage) *Message {
 	if _, ok := stage.Messages[message]; !ok {
 		stage.Messages[message] = struct{}{}
-		stage.MessageMap_Staged_Order[message] = stage.MessageOrder
+		stage.Message_stagedOrder[message] = stage.MessageOrder
 		stage.MessageOrder++
 	}
 	stage.Messages_mapString[message.Name] = message
@@ -2038,7 +2100,7 @@ func (message *Message) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.MessageOrder {
 			stage.MessageOrder = order
 		}
-		stage.MessageMap_Staged_Order[message] = order
+		stage.Message_stagedOrder[message] = order
 		stage.MessageOrder++
 	}
 	stage.Messages_mapString[message.Name] = message
@@ -2047,7 +2109,8 @@ func (message *Message) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes message off the model stage
 func (message *Message) Unstage(stage *Stage) *Message {
 	delete(stage.Messages, message)
-	delete(stage.MessageMap_Staged_Order, message)
+	// issue1150
+	// delete(stage.Message_stagedOrder, message)
 	delete(stage.Messages_mapString, message.Name)
 
 	return message
@@ -2056,7 +2119,8 @@ func (message *Message) Unstage(stage *Stage) *Message {
 // UnstageVoid removes message off the model stage
 func (message *Message) UnstageVoid(stage *Stage) {
 	delete(stage.Messages, message)
-	delete(stage.MessageMap_Staged_Order, message)
+	// issue1150
+	// delete(stage.Message_stagedOrder, message)
 	delete(stage.Messages_mapString, message.Name)
 }
 
@@ -2102,7 +2166,7 @@ func (message *Message) SetName(name string) {
 func (messagetype *MessageType) Stage(stage *Stage) *MessageType {
 	if _, ok := stage.MessageTypes[messagetype]; !ok {
 		stage.MessageTypes[messagetype] = struct{}{}
-		stage.MessageTypeMap_Staged_Order[messagetype] = stage.MessageTypeOrder
+		stage.MessageType_stagedOrder[messagetype] = stage.MessageTypeOrder
 		stage.MessageTypeOrder++
 	}
 	stage.MessageTypes_mapString[messagetype.Name] = messagetype
@@ -2122,7 +2186,7 @@ func (messagetype *MessageType) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.MessageTypeOrder {
 			stage.MessageTypeOrder = order
 		}
-		stage.MessageTypeMap_Staged_Order[messagetype] = order
+		stage.MessageType_stagedOrder[messagetype] = order
 		stage.MessageTypeOrder++
 	}
 	stage.MessageTypes_mapString[messagetype.Name] = messagetype
@@ -2131,7 +2195,8 @@ func (messagetype *MessageType) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes messagetype off the model stage
 func (messagetype *MessageType) Unstage(stage *Stage) *MessageType {
 	delete(stage.MessageTypes, messagetype)
-	delete(stage.MessageTypeMap_Staged_Order, messagetype)
+	// issue1150
+	// delete(stage.MessageType_stagedOrder, messagetype)
 	delete(stage.MessageTypes_mapString, messagetype.Name)
 
 	return messagetype
@@ -2140,7 +2205,8 @@ func (messagetype *MessageType) Unstage(stage *Stage) *MessageType {
 // UnstageVoid removes messagetype off the model stage
 func (messagetype *MessageType) UnstageVoid(stage *Stage) {
 	delete(stage.MessageTypes, messagetype)
-	delete(stage.MessageTypeMap_Staged_Order, messagetype)
+	// issue1150
+	// delete(stage.MessageType_stagedOrder, messagetype)
 	delete(stage.MessageTypes_mapString, messagetype.Name)
 }
 
@@ -2186,7 +2252,7 @@ func (messagetype *MessageType) SetName(name string) {
 func (object *Object) Stage(stage *Stage) *Object {
 	if _, ok := stage.Objects[object]; !ok {
 		stage.Objects[object] = struct{}{}
-		stage.ObjectMap_Staged_Order[object] = stage.ObjectOrder
+		stage.Object_stagedOrder[object] = stage.ObjectOrder
 		stage.ObjectOrder++
 	}
 	stage.Objects_mapString[object.Name] = object
@@ -2206,7 +2272,7 @@ func (object *Object) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.ObjectOrder {
 			stage.ObjectOrder = order
 		}
-		stage.ObjectMap_Staged_Order[object] = order
+		stage.Object_stagedOrder[object] = order
 		stage.ObjectOrder++
 	}
 	stage.Objects_mapString[object.Name] = object
@@ -2215,7 +2281,8 @@ func (object *Object) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes object off the model stage
 func (object *Object) Unstage(stage *Stage) *Object {
 	delete(stage.Objects, object)
-	delete(stage.ObjectMap_Staged_Order, object)
+	// issue1150
+	// delete(stage.Object_stagedOrder, object)
 	delete(stage.Objects_mapString, object.Name)
 
 	return object
@@ -2224,7 +2291,8 @@ func (object *Object) Unstage(stage *Stage) *Object {
 // UnstageVoid removes object off the model stage
 func (object *Object) UnstageVoid(stage *Stage) {
 	delete(stage.Objects, object)
-	delete(stage.ObjectMap_Staged_Order, object)
+	// issue1150
+	// delete(stage.Object_stagedOrder, object)
 	delete(stage.Objects_mapString, object.Name)
 }
 
@@ -2270,7 +2338,7 @@ func (object *Object) SetName(name string) {
 func (role *Role) Stage(stage *Stage) *Role {
 	if _, ok := stage.Roles[role]; !ok {
 		stage.Roles[role] = struct{}{}
-		stage.RoleMap_Staged_Order[role] = stage.RoleOrder
+		stage.Role_stagedOrder[role] = stage.RoleOrder
 		stage.RoleOrder++
 	}
 	stage.Roles_mapString[role.Name] = role
@@ -2290,7 +2358,7 @@ func (role *Role) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.RoleOrder {
 			stage.RoleOrder = order
 		}
-		stage.RoleMap_Staged_Order[role] = order
+		stage.Role_stagedOrder[role] = order
 		stage.RoleOrder++
 	}
 	stage.Roles_mapString[role.Name] = role
@@ -2299,7 +2367,8 @@ func (role *Role) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes role off the model stage
 func (role *Role) Unstage(stage *Stage) *Role {
 	delete(stage.Roles, role)
-	delete(stage.RoleMap_Staged_Order, role)
+	// issue1150
+	// delete(stage.Role_stagedOrder, role)
 	delete(stage.Roles_mapString, role.Name)
 
 	return role
@@ -2308,7 +2377,8 @@ func (role *Role) Unstage(stage *Stage) *Role {
 // UnstageVoid removes role off the model stage
 func (role *Role) UnstageVoid(stage *Stage) {
 	delete(stage.Roles, role)
-	delete(stage.RoleMap_Staged_Order, role)
+	// issue1150
+	// delete(stage.Role_stagedOrder, role)
 	delete(stage.Roles_mapString, role.Name)
 }
 
@@ -2354,7 +2424,7 @@ func (role *Role) SetName(name string) {
 func (state *State) Stage(stage *Stage) *State {
 	if _, ok := stage.States[state]; !ok {
 		stage.States[state] = struct{}{}
-		stage.StateMap_Staged_Order[state] = stage.StateOrder
+		stage.State_stagedOrder[state] = stage.StateOrder
 		stage.StateOrder++
 	}
 	stage.States_mapString[state.Name] = state
@@ -2374,7 +2444,7 @@ func (state *State) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.StateOrder {
 			stage.StateOrder = order
 		}
-		stage.StateMap_Staged_Order[state] = order
+		stage.State_stagedOrder[state] = order
 		stage.StateOrder++
 	}
 	stage.States_mapString[state.Name] = state
@@ -2383,7 +2453,8 @@ func (state *State) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes state off the model stage
 func (state *State) Unstage(stage *Stage) *State {
 	delete(stage.States, state)
-	delete(stage.StateMap_Staged_Order, state)
+	// issue1150
+	// delete(stage.State_stagedOrder, state)
 	delete(stage.States_mapString, state.Name)
 
 	return state
@@ -2392,7 +2463,8 @@ func (state *State) Unstage(stage *Stage) *State {
 // UnstageVoid removes state off the model stage
 func (state *State) UnstageVoid(stage *Stage) {
 	delete(stage.States, state)
-	delete(stage.StateMap_Staged_Order, state)
+	// issue1150
+	// delete(stage.State_stagedOrder, state)
 	delete(stage.States_mapString, state.Name)
 }
 
@@ -2438,7 +2510,7 @@ func (state *State) SetName(name string) {
 func (statemachine *StateMachine) Stage(stage *Stage) *StateMachine {
 	if _, ok := stage.StateMachines[statemachine]; !ok {
 		stage.StateMachines[statemachine] = struct{}{}
-		stage.StateMachineMap_Staged_Order[statemachine] = stage.StateMachineOrder
+		stage.StateMachine_stagedOrder[statemachine] = stage.StateMachineOrder
 		stage.StateMachineOrder++
 	}
 	stage.StateMachines_mapString[statemachine.Name] = statemachine
@@ -2458,7 +2530,7 @@ func (statemachine *StateMachine) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.StateMachineOrder {
 			stage.StateMachineOrder = order
 		}
-		stage.StateMachineMap_Staged_Order[statemachine] = order
+		stage.StateMachine_stagedOrder[statemachine] = order
 		stage.StateMachineOrder++
 	}
 	stage.StateMachines_mapString[statemachine.Name] = statemachine
@@ -2467,7 +2539,8 @@ func (statemachine *StateMachine) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes statemachine off the model stage
 func (statemachine *StateMachine) Unstage(stage *Stage) *StateMachine {
 	delete(stage.StateMachines, statemachine)
-	delete(stage.StateMachineMap_Staged_Order, statemachine)
+	// issue1150
+	// delete(stage.StateMachine_stagedOrder, statemachine)
 	delete(stage.StateMachines_mapString, statemachine.Name)
 
 	return statemachine
@@ -2476,7 +2549,8 @@ func (statemachine *StateMachine) Unstage(stage *Stage) *StateMachine {
 // UnstageVoid removes statemachine off the model stage
 func (statemachine *StateMachine) UnstageVoid(stage *Stage) {
 	delete(stage.StateMachines, statemachine)
-	delete(stage.StateMachineMap_Staged_Order, statemachine)
+	// issue1150
+	// delete(stage.StateMachine_stagedOrder, statemachine)
 	delete(stage.StateMachines_mapString, statemachine.Name)
 }
 
@@ -2522,7 +2596,7 @@ func (statemachine *StateMachine) SetName(name string) {
 func (stateshape *StateShape) Stage(stage *Stage) *StateShape {
 	if _, ok := stage.StateShapes[stateshape]; !ok {
 		stage.StateShapes[stateshape] = struct{}{}
-		stage.StateShapeMap_Staged_Order[stateshape] = stage.StateShapeOrder
+		stage.StateShape_stagedOrder[stateshape] = stage.StateShapeOrder
 		stage.StateShapeOrder++
 	}
 	stage.StateShapes_mapString[stateshape.Name] = stateshape
@@ -2542,7 +2616,7 @@ func (stateshape *StateShape) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.StateShapeOrder {
 			stage.StateShapeOrder = order
 		}
-		stage.StateShapeMap_Staged_Order[stateshape] = order
+		stage.StateShape_stagedOrder[stateshape] = order
 		stage.StateShapeOrder++
 	}
 	stage.StateShapes_mapString[stateshape.Name] = stateshape
@@ -2551,7 +2625,8 @@ func (stateshape *StateShape) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes stateshape off the model stage
 func (stateshape *StateShape) Unstage(stage *Stage) *StateShape {
 	delete(stage.StateShapes, stateshape)
-	delete(stage.StateShapeMap_Staged_Order, stateshape)
+	// issue1150
+	// delete(stage.StateShape_stagedOrder, stateshape)
 	delete(stage.StateShapes_mapString, stateshape.Name)
 
 	return stateshape
@@ -2560,7 +2635,8 @@ func (stateshape *StateShape) Unstage(stage *Stage) *StateShape {
 // UnstageVoid removes stateshape off the model stage
 func (stateshape *StateShape) UnstageVoid(stage *Stage) {
 	delete(stage.StateShapes, stateshape)
-	delete(stage.StateShapeMap_Staged_Order, stateshape)
+	// issue1150
+	// delete(stage.StateShape_stagedOrder, stateshape)
 	delete(stage.StateShapes_mapString, stateshape.Name)
 }
 
@@ -2606,7 +2682,7 @@ func (stateshape *StateShape) SetName(name string) {
 func (transition *Transition) Stage(stage *Stage) *Transition {
 	if _, ok := stage.Transitions[transition]; !ok {
 		stage.Transitions[transition] = struct{}{}
-		stage.TransitionMap_Staged_Order[transition] = stage.TransitionOrder
+		stage.Transition_stagedOrder[transition] = stage.TransitionOrder
 		stage.TransitionOrder++
 	}
 	stage.Transitions_mapString[transition.Name] = transition
@@ -2626,7 +2702,7 @@ func (transition *Transition) StagePreserveOrder(stage *Stage, order uint) {
 		if order > stage.TransitionOrder {
 			stage.TransitionOrder = order
 		}
-		stage.TransitionMap_Staged_Order[transition] = order
+		stage.Transition_stagedOrder[transition] = order
 		stage.TransitionOrder++
 	}
 	stage.Transitions_mapString[transition.Name] = transition
@@ -2635,7 +2711,8 @@ func (transition *Transition) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes transition off the model stage
 func (transition *Transition) Unstage(stage *Stage) *Transition {
 	delete(stage.Transitions, transition)
-	delete(stage.TransitionMap_Staged_Order, transition)
+	// issue1150
+	// delete(stage.Transition_stagedOrder, transition)
 	delete(stage.Transitions_mapString, transition.Name)
 
 	return transition
@@ -2644,7 +2721,8 @@ func (transition *Transition) Unstage(stage *Stage) *Transition {
 // UnstageVoid removes transition off the model stage
 func (transition *Transition) UnstageVoid(stage *Stage) {
 	delete(stage.Transitions, transition)
-	delete(stage.TransitionMap_Staged_Order, transition)
+	// issue1150
+	// delete(stage.Transition_stagedOrder, transition)
 	delete(stage.Transitions_mapString, transition.Name)
 }
 
@@ -2690,7 +2768,7 @@ func (transition *Transition) SetName(name string) {
 func (transition_shape *Transition_Shape) Stage(stage *Stage) *Transition_Shape {
 	if _, ok := stage.Transition_Shapes[transition_shape]; !ok {
 		stage.Transition_Shapes[transition_shape] = struct{}{}
-		stage.Transition_ShapeMap_Staged_Order[transition_shape] = stage.Transition_ShapeOrder
+		stage.Transition_Shape_stagedOrder[transition_shape] = stage.Transition_ShapeOrder
 		stage.Transition_ShapeOrder++
 	}
 	stage.Transition_Shapes_mapString[transition_shape.Name] = transition_shape
@@ -2710,7 +2788,7 @@ func (transition_shape *Transition_Shape) StagePreserveOrder(stage *Stage, order
 		if order > stage.Transition_ShapeOrder {
 			stage.Transition_ShapeOrder = order
 		}
-		stage.Transition_ShapeMap_Staged_Order[transition_shape] = order
+		stage.Transition_Shape_stagedOrder[transition_shape] = order
 		stage.Transition_ShapeOrder++
 	}
 	stage.Transition_Shapes_mapString[transition_shape.Name] = transition_shape
@@ -2719,7 +2797,8 @@ func (transition_shape *Transition_Shape) StagePreserveOrder(stage *Stage, order
 // Unstage removes transition_shape off the model stage
 func (transition_shape *Transition_Shape) Unstage(stage *Stage) *Transition_Shape {
 	delete(stage.Transition_Shapes, transition_shape)
-	delete(stage.Transition_ShapeMap_Staged_Order, transition_shape)
+	// issue1150
+	// delete(stage.Transition_Shape_stagedOrder, transition_shape)
 	delete(stage.Transition_Shapes_mapString, transition_shape.Name)
 
 	return transition_shape
@@ -2728,7 +2807,8 @@ func (transition_shape *Transition_Shape) Unstage(stage *Stage) *Transition_Shap
 // UnstageVoid removes transition_shape off the model stage
 func (transition_shape *Transition_Shape) UnstageVoid(stage *Stage) {
 	delete(stage.Transition_Shapes, transition_shape)
-	delete(stage.Transition_ShapeMap_Staged_Order, transition_shape)
+	// issue1150
+	// delete(stage.Transition_Shape_stagedOrder, transition_shape)
 	delete(stage.Transition_Shapes_mapString, transition_shape.Name)
 }
 
@@ -2810,77 +2890,77 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Actions = make(map[*Action]struct{})
 	stage.Actions_mapString = make(map[string]*Action)
-	stage.ActionMap_Staged_Order = make(map[*Action]uint)
+	stage.Action_stagedOrder = make(map[*Action]uint)
 	stage.ActionOrder = 0
 
 	stage.Activitiess = make(map[*Activities]struct{})
 	stage.Activitiess_mapString = make(map[string]*Activities)
-	stage.ActivitiesMap_Staged_Order = make(map[*Activities]uint)
+	stage.Activities_stagedOrder = make(map[*Activities]uint)
 	stage.ActivitiesOrder = 0
 
 	stage.Architectures = make(map[*Architecture]struct{})
 	stage.Architectures_mapString = make(map[string]*Architecture)
-	stage.ArchitectureMap_Staged_Order = make(map[*Architecture]uint)
+	stage.Architecture_stagedOrder = make(map[*Architecture]uint)
 	stage.ArchitectureOrder = 0
 
 	stage.Diagrams = make(map[*Diagram]struct{})
 	stage.Diagrams_mapString = make(map[string]*Diagram)
-	stage.DiagramMap_Staged_Order = make(map[*Diagram]uint)
+	stage.Diagram_stagedOrder = make(map[*Diagram]uint)
 	stage.DiagramOrder = 0
 
 	stage.Guards = make(map[*Guard]struct{})
 	stage.Guards_mapString = make(map[string]*Guard)
-	stage.GuardMap_Staged_Order = make(map[*Guard]uint)
+	stage.Guard_stagedOrder = make(map[*Guard]uint)
 	stage.GuardOrder = 0
 
 	stage.Kills = make(map[*Kill]struct{})
 	stage.Kills_mapString = make(map[string]*Kill)
-	stage.KillMap_Staged_Order = make(map[*Kill]uint)
+	stage.Kill_stagedOrder = make(map[*Kill]uint)
 	stage.KillOrder = 0
 
 	stage.Messages = make(map[*Message]struct{})
 	stage.Messages_mapString = make(map[string]*Message)
-	stage.MessageMap_Staged_Order = make(map[*Message]uint)
+	stage.Message_stagedOrder = make(map[*Message]uint)
 	stage.MessageOrder = 0
 
 	stage.MessageTypes = make(map[*MessageType]struct{})
 	stage.MessageTypes_mapString = make(map[string]*MessageType)
-	stage.MessageTypeMap_Staged_Order = make(map[*MessageType]uint)
+	stage.MessageType_stagedOrder = make(map[*MessageType]uint)
 	stage.MessageTypeOrder = 0
 
 	stage.Objects = make(map[*Object]struct{})
 	stage.Objects_mapString = make(map[string]*Object)
-	stage.ObjectMap_Staged_Order = make(map[*Object]uint)
+	stage.Object_stagedOrder = make(map[*Object]uint)
 	stage.ObjectOrder = 0
 
 	stage.Roles = make(map[*Role]struct{})
 	stage.Roles_mapString = make(map[string]*Role)
-	stage.RoleMap_Staged_Order = make(map[*Role]uint)
+	stage.Role_stagedOrder = make(map[*Role]uint)
 	stage.RoleOrder = 0
 
 	stage.States = make(map[*State]struct{})
 	stage.States_mapString = make(map[string]*State)
-	stage.StateMap_Staged_Order = make(map[*State]uint)
+	stage.State_stagedOrder = make(map[*State]uint)
 	stage.StateOrder = 0
 
 	stage.StateMachines = make(map[*StateMachine]struct{})
 	stage.StateMachines_mapString = make(map[string]*StateMachine)
-	stage.StateMachineMap_Staged_Order = make(map[*StateMachine]uint)
+	stage.StateMachine_stagedOrder = make(map[*StateMachine]uint)
 	stage.StateMachineOrder = 0
 
 	stage.StateShapes = make(map[*StateShape]struct{})
 	stage.StateShapes_mapString = make(map[string]*StateShape)
-	stage.StateShapeMap_Staged_Order = make(map[*StateShape]uint)
+	stage.StateShape_stagedOrder = make(map[*StateShape]uint)
 	stage.StateShapeOrder = 0
 
 	stage.Transitions = make(map[*Transition]struct{})
 	stage.Transitions_mapString = make(map[string]*Transition)
-	stage.TransitionMap_Staged_Order = make(map[*Transition]uint)
+	stage.Transition_stagedOrder = make(map[*Transition]uint)
 	stage.TransitionOrder = 0
 
 	stage.Transition_Shapes = make(map[*Transition_Shape]struct{})
 	stage.Transition_Shapes_mapString = make(map[string]*Transition_Shape)
-	stage.Transition_ShapeMap_Staged_Order = make(map[*Transition_Shape]uint)
+	stage.Transition_Shape_stagedOrder = make(map[*Transition_Shape]uint)
 	stage.Transition_ShapeOrder = 0
 
 	if stage.GetProbeIF() != nil {
@@ -4998,7 +5078,7 @@ func (architecture *Architecture) GongSetFieldValue(fieldName string, value Gong
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.StateMachines {
-					if stage.StateMachineMap_Staged_Order[__instance__] == uint(id) {
+					if stage.StateMachine_stagedOrder[__instance__] == uint(id) {
 						architecture.StateMachines = append(architecture.StateMachines, __instance__)
 						break
 					}
@@ -5012,7 +5092,7 @@ func (architecture *Architecture) GongSetFieldValue(fieldName string, value Gong
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Roles {
-					if stage.RoleMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Role_stagedOrder[__instance__] == uint(id) {
 						architecture.Roles = append(architecture.Roles, __instance__)
 						break
 					}
@@ -5047,7 +5127,7 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.StateShapes {
-					if stage.StateShapeMap_Staged_Order[__instance__] == uint(id) {
+					if stage.StateShape_stagedOrder[__instance__] == uint(id) {
 						diagram.State_Shapes = append(diagram.State_Shapes, __instance__)
 						break
 					}
@@ -5061,7 +5141,7 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Transition_Shapes {
-					if stage.Transition_ShapeMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Transition_Shape_stagedOrder[__instance__] == uint(id) {
 						diagram.Transition_Shapes = append(diagram.Transition_Shapes, __instance__)
 						break
 					}
@@ -5108,7 +5188,7 @@ func (message *Message) GongSetFieldValue(fieldName string, value GongFieldValue
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			message.MessageType = nil
 			for __instance__ := range stage.MessageTypes {
-				if stage.MessageTypeMap_Staged_Order[__instance__] == uint(id) {
+				if stage.MessageType_stagedOrder[__instance__] == uint(id) {
 					message.MessageType = __instance__
 					break
 				}
@@ -5119,7 +5199,7 @@ func (message *Message) GongSetFieldValue(fieldName string, value GongFieldValue
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			message.OriginTransition = nil
 			for __instance__ := range stage.Transitions {
-				if stage.TransitionMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Transition_stagedOrder[__instance__] == uint(id) {
 					message.OriginTransition = __instance__
 					break
 				}
@@ -5154,7 +5234,7 @@ func (object *Object) GongSetFieldValue(fieldName string, value GongFieldValue, 
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			object.State = nil
 			for __instance__ := range stage.States {
-				if stage.StateMap_Staged_Order[__instance__] == uint(id) {
+				if stage.State_stagedOrder[__instance__] == uint(id) {
 					object.State = __instance__
 					break
 				}
@@ -5171,7 +5251,7 @@ func (object *Object) GongSetFieldValue(fieldName string, value GongFieldValue, 
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Messages {
-					if stage.MessageMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Message_stagedOrder[__instance__] == uint(id) {
 						object.Messages = append(object.Messages, __instance__)
 						break
 					}
@@ -5198,7 +5278,7 @@ func (role *Role) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Roles {
-					if stage.RoleMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Role_stagedOrder[__instance__] == uint(id) {
 						role.RolesWithSamePermissions = append(role.RolesWithSamePermissions, __instance__)
 						break
 					}
@@ -5221,7 +5301,7 @@ func (state *State) GongSetFieldValue(fieldName string, value GongFieldValue, st
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			state.Parent = nil
 			for __instance__ := range stage.States {
-				if stage.StateMap_Staged_Order[__instance__] == uint(id) {
+				if stage.State_stagedOrder[__instance__] == uint(id) {
 					state.Parent = __instance__
 					break
 				}
@@ -5240,7 +5320,7 @@ func (state *State) GongSetFieldValue(fieldName string, value GongFieldValue, st
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.States {
-					if stage.StateMap_Staged_Order[__instance__] == uint(id) {
+					if stage.State_stagedOrder[__instance__] == uint(id) {
 						state.SubStates = append(state.SubStates, __instance__)
 						break
 					}
@@ -5254,7 +5334,7 @@ func (state *State) GongSetFieldValue(fieldName string, value GongFieldValue, st
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Diagrams {
-					if stage.DiagramMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Diagram_stagedOrder[__instance__] == uint(id) {
 						state.Diagrams = append(state.Diagrams, __instance__)
 						break
 					}
@@ -5266,7 +5346,7 @@ func (state *State) GongSetFieldValue(fieldName string, value GongFieldValue, st
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			state.Entry = nil
 			for __instance__ := range stage.Actions {
-				if stage.ActionMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Action_stagedOrder[__instance__] == uint(id) {
 					state.Entry = __instance__
 					break
 				}
@@ -5279,7 +5359,7 @@ func (state *State) GongSetFieldValue(fieldName string, value GongFieldValue, st
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Activitiess {
-					if stage.ActivitiesMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Activities_stagedOrder[__instance__] == uint(id) {
 						state.Activities = append(state.Activities, __instance__)
 						break
 					}
@@ -5291,7 +5371,7 @@ func (state *State) GongSetFieldValue(fieldName string, value GongFieldValue, st
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			state.Exit = nil
 			for __instance__ := range stage.Actions {
-				if stage.ActionMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Action_stagedOrder[__instance__] == uint(id) {
 					state.Exit = __instance__
 					break
 				}
@@ -5317,7 +5397,7 @@ func (statemachine *StateMachine) GongSetFieldValue(fieldName string, value Gong
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.States {
-					if stage.StateMap_Staged_Order[__instance__] == uint(id) {
+					if stage.State_stagedOrder[__instance__] == uint(id) {
 						statemachine.States = append(statemachine.States, __instance__)
 						break
 					}
@@ -5331,7 +5411,7 @@ func (statemachine *StateMachine) GongSetFieldValue(fieldName string, value Gong
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Diagrams {
-					if stage.DiagramMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Diagram_stagedOrder[__instance__] == uint(id) {
 						statemachine.Diagrams = append(statemachine.Diagrams, __instance__)
 						break
 					}
@@ -5343,7 +5423,7 @@ func (statemachine *StateMachine) GongSetFieldValue(fieldName string, value Gong
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			statemachine.InitialState = nil
 			for __instance__ := range stage.States {
-				if stage.StateMap_Staged_Order[__instance__] == uint(id) {
+				if stage.State_stagedOrder[__instance__] == uint(id) {
 					statemachine.InitialState = __instance__
 					break
 				}
@@ -5365,7 +5445,7 @@ func (stateshape *StateShape) GongSetFieldValue(fieldName string, value GongFiel
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			stateshape.State = nil
 			for __instance__ := range stage.States {
-				if stage.StateMap_Staged_Order[__instance__] == uint(id) {
+				if stage.State_stagedOrder[__instance__] == uint(id) {
 					stateshape.State = __instance__
 					break
 				}
@@ -5397,7 +5477,7 @@ func (transition *Transition) GongSetFieldValue(fieldName string, value GongFiel
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			transition.Start = nil
 			for __instance__ := range stage.States {
-				if stage.StateMap_Staged_Order[__instance__] == uint(id) {
+				if stage.State_stagedOrder[__instance__] == uint(id) {
 					transition.Start = __instance__
 					break
 				}
@@ -5408,7 +5488,7 @@ func (transition *Transition) GongSetFieldValue(fieldName string, value GongFiel
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			transition.End = nil
 			for __instance__ := range stage.States {
-				if stage.StateMap_Staged_Order[__instance__] == uint(id) {
+				if stage.State_stagedOrder[__instance__] == uint(id) {
 					transition.End = __instance__
 					break
 				}
@@ -5421,7 +5501,7 @@ func (transition *Transition) GongSetFieldValue(fieldName string, value GongFiel
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Roles {
-					if stage.RoleMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Role_stagedOrder[__instance__] == uint(id) {
 						transition.RolesWithPermissions = append(transition.RolesWithPermissions, __instance__)
 						break
 					}
@@ -5435,7 +5515,7 @@ func (transition *Transition) GongSetFieldValue(fieldName string, value GongFiel
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.MessageTypes {
-					if stage.MessageTypeMap_Staged_Order[__instance__] == uint(id) {
+					if stage.MessageType_stagedOrder[__instance__] == uint(id) {
 						transition.GeneratedMessages = append(transition.GeneratedMessages, __instance__)
 						break
 					}
@@ -5447,7 +5527,7 @@ func (transition *Transition) GongSetFieldValue(fieldName string, value GongFiel
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			transition.Guard = nil
 			for __instance__ := range stage.Guards {
-				if stage.GuardMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Guard_stagedOrder[__instance__] == uint(id) {
 					transition.Guard = __instance__
 					break
 				}
@@ -5460,7 +5540,7 @@ func (transition *Transition) GongSetFieldValue(fieldName string, value GongFiel
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Diagrams {
-					if stage.DiagramMap_Staged_Order[__instance__] == uint(id) {
+					if stage.Diagram_stagedOrder[__instance__] == uint(id) {
 						transition.Diagrams = append(transition.Diagrams, __instance__)
 						break
 					}
@@ -5483,7 +5563,7 @@ func (transition_shape *Transition_Shape) GongSetFieldValue(fieldName string, va
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			transition_shape.Transition = nil
 			for __instance__ := range stage.Transitions {
-				if stage.TransitionMap_Staged_Order[__instance__] == uint(id) {
+				if stage.Transition_stagedOrder[__instance__] == uint(id) {
 					transition_shape.Transition = __instance__
 					break
 				}
