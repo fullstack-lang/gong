@@ -13,6 +13,12 @@ import (
 
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 	tree_stack "github.com/fullstack-lang/gong/lib/tree/go/stack"
+
+	load "github.com/fullstack-lang/gong/lib/load/go/models"
+	load_stack "github.com/fullstack-lang/gong/lib/load/go/stack"
+
+	button "github.com/fullstack-lang/gong/lib/button/go/models"
+	button_stack "github.com/fullstack-lang/gong/lib/button/go/stack"
 )
 
 type Stager struct {
@@ -22,6 +28,10 @@ type Stager struct {
 
 	svgStage  *svg.Stage
 	treeStage *tree.Stage
+
+	loadStage   *load.Stage
+	fileName    string // fileName is used to store the name of the file to load or save
+	buttonStage *button.Stage
 
 	probeForm ProbeIF
 
@@ -33,7 +43,6 @@ func NewStager(
 	stage *Stage,
 	probeForm ProbeIF,
 ) (stager *Stager) {
-
 	stager = new(Stager)
 	stager.probeForm = probeForm
 
@@ -46,62 +55,11 @@ func NewStager(
 
 	stager.svgStage = svg_stack.NewStack(r, stage.GetName(), "", "", "", true, true).Stage
 	stager.treeStage = tree_stack.NewStack(r, stage.GetName(), "", "", "", true, true).Stage
+	stager.loadStage = load_stack.NewStack(r, "", "", "", "", true, true).Stage
+	stager.buttonStage = button_stack.NewStack(r, "", "", "", "", true, true).Stage
 
-	split.StageBranch(stager.splitStage, &split.View{
-		Name: "tree & diagram",
+	stager.createViews()
 
-		RootAsSplitAreas: []*split.AsSplitArea{
-			{
-				AsSplit: &split.AsSplit{
-					Direction: split.Horizontal,
-					AsSplitAreas: []*split.AsSplitArea{
-						{
-							Size: 20,
-							Tree: (&split.Tree{
-								StackName: stager.treeStage.GetName(),
-							}),
-						},
-						{
-							Size: 40,
-							Svg: (&split.Svg{
-								StackName: stager.svgStage.GetName(),
-							}),
-						},
-						{
-							Size: 40,
-							Split: (&split.Split{
-								StackName: stager.stage.GetProbeSplitStageName(),
-							}),
-						},
-					},
-				},
-			},
-		},
-	})
-
-	split.StageBranch(stager.splitStage, &split.View{
-		Name: "probe",
-		RootAsSplitAreas: []*split.AsSplitArea{
-			(&split.AsSplitArea{
-				Split: (&split.Split{
-					StackName: stager.stage.GetProbeSplitStageName(),
-				}),
-			}),
-		},
-	})
-
-	split.StageBranch(stager.splitStage, &split.View{
-		Name: "svg probe",
-		RootAsSplitAreas: []*split.AsSplitArea{
-			(&split.AsSplitArea{
-				Split: (&split.Split{
-					StackName: stager.svgStage.GetProbeSplitStageName(),
-				}),
-			}),
-		},
-	})
-
-	stager.splitStage.Commit()
 	stage.OnInitCommitFromBackCallback = &BeforeCommitImplementation{stager: stager}
 	stage.Commit()
 
@@ -122,7 +80,7 @@ type BeforeCommitImplementation struct {
 }
 
 func (c *BeforeCommitImplementation) BeforeCommit(stage *Stage) {
-	c.stager.ComputeConsistency()
-	c.stager.SvgStageUpdate()
-	c.stager.TreeStageUpdate()
+	c.stager.enforceSemantic()
+	c.stager.svg()
+	c.stager.tree()
 }
