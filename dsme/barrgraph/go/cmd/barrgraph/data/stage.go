@@ -714,7 +714,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.Name = `Cubism   and   abstract   art`
 	__Diagram__00000000_.IsEditable = false
 	__Diagram__00000000_.IsNodeExpanded = true
-	__Diagram__00000000_.IsMovementCategoryNodeExpanded = false
+	__Diagram__00000000_.IsMovementCategoryNodeExpanded = true
 	__Diagram__00000000_.IsArtefactTypeCategoryNodeExpanded = false
 	__Diagram__00000000_.IsArtistCategoryNodeExpanded = false
 	__Diagram__00000000_.IsInfluenceCategoryNodeExpanded = false
