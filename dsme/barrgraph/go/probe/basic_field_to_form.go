@@ -7,7 +7,7 @@ import (
 
 	form "github.com/fullstack-lang/gong/lib/table/go/models"
 
-	"github.com/fullstack-lang/gong/dsme/cld/go/models"
+	"github.com/fullstack-lang/gong/dsme/barrgraph/go/models"
 )
 
 func BasicFieldtoForm[TF models.GongtructBasicField](

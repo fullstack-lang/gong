@@ -8,7 +8,7 @@ import (
 
 	table "github.com/fullstack-lang/gong/lib/table/go/models"
 
-	"github.com/fullstack-lang/gong/dsme/cld/go/models"
+	"github.com/fullstack-lang/gong/dsme/barrgraph/go/models"
 )
 
 // to avoid errors when time and slices packages are not used in the generated code

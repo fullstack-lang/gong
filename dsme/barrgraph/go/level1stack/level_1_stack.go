@@ -7,10 +7,10 @@ import (
 	"os"
 	"strings"
 
-	"github.com/fullstack-lang/gong/dsme/cld/go/models"
-	"github.com/fullstack-lang/gong/dsme/cld/go/probe"
+	"github.com/fullstack-lang/gong/dsme/barrgraph/go/models"
+	"github.com/fullstack-lang/gong/dsme/barrgraph/go/probe"
 
-	cld_go "github.com/fullstack-lang/gong/dsme/cld/go"
+	barrgraph_go "github.com/fullstack-lang/gong/dsme/barrgraph/go"
 
 	"github.com/gin-gonic/gin"
 
@@ -43,7 +43,7 @@ func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.Stage) {
 		packageName = "main"
 	}
 
-	stage.Marshall(file, "github.com/fullstack-lang/gong/dsme/cld/go/models", packageName)
+	stage.Marshall(file, "github.com/fullstack-lang/gong/dsme/barrgraph/go/models", packageName)
 }
 
 type Level1Stack struct {
@@ -87,8 +87,8 @@ func NewLevel1StackDelta(
 		// "go/diagrams/diagrams.go", the path is "../../diagrams/diagrams.go"
 		level1Stack.Probe = probe.NewProbe(
 			level1Stack.R,
-			cld_go.GoModelsDir,
-			cld_go.GoDiagramsDir,
+			barrgraph_go.GoModelsDir,
+			barrgraph_go.GoDiagramsDir,
 			embeddedDiagrams,
 			stage,
 		)

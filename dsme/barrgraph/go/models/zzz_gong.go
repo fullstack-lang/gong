@@ -14,7 +14,7 @@ import (
 	"sync"
 	"time"
 
-	cld_go "github.com/fullstack-lang/gong/dsme/cld/go"
+	barrgraph_go "github.com/fullstack-lang/gong/dsme/barrgraph/go"
 )
 
 // can be used for
@@ -939,7 +939,7 @@ func (namedStruct *NamedStruct) GetName() string {
 }
 
 func (stage *Stage) GetType() string {
-	return "github.com/fullstack-lang/gong/dsme/cld/go/models"
+	return "github.com/fullstack-lang/gong/dsme/barrgraph/go/models"
 }
 
 func (stage *Stage) GetMap_GongStructName_InstancesNb() map[string]int {
@@ -947,11 +947,11 @@ func (stage *Stage) GetMap_GongStructName_InstancesNb() map[string]int {
 }
 
 func (stage *Stage) GetModelsEmbededDir() embed.FS {
-	return cld_go.GoModelsDir
+	return barrgraph_go.GoModelsDir
 }
 
 func (stage *Stage) GetDigramsEmbededDir() embed.FS {
-	return cld_go.GoDiagramsDir
+	return barrgraph_go.GoDiagramsDir
 }
 
 type GONG__Identifier struct {

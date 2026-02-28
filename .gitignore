@@ -65,3 +65,4 @@ dsme/cld/go/cmd/cld/cld
 dsme/project/go/cmd/project/project
 
 pkg/docx/go/cmd/docx/docx
+dsme/barrgraph/go/cmd/barrgraph/barrgraph

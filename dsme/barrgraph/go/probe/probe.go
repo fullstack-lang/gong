@@ -19,9 +19,9 @@ import (
 	form "github.com/fullstack-lang/gong/lib/table/go/models"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 
-	"github.com/fullstack-lang/gong/dsme/cld/go/models"
+	"github.com/fullstack-lang/gong/dsme/barrgraph/go/models"
 
-	cld_go "github.com/fullstack-lang/gong/dsme/cld/go"
+	barrgraph_go "github.com/fullstack-lang/gong/dsme/barrgraph/go"
 )
 
 type Probe struct {
@@ -124,9 +124,9 @@ func NewProbe(
 		// this is the prefix of the names of the stages svg and tree that will be created
 		// by doc. Using a combination of the package name and the stage of interest name
 		// might prevent name collisions if more that one probe is being instancied
-		"github.com/fullstack-lang/gong/dsme/cld/go"+":"+stageOfInterest.GetName(),
-		cld_go.GoModelsDir,
-		cld_go.GoDiagramsDir,
+		"github.com/fullstack-lang/gong/dsme/barrgraph/go"+":"+stageOfInterest.GetName(),
+		barrgraph_go.GoModelsDir,
+		barrgraph_go.GoDiagramsDir,
 		probe.diagramEditor,
 		stageOfInterest.Map_GongStructName_InstancesNb,
 	)
