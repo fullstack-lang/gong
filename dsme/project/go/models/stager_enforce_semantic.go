@@ -9,10 +9,6 @@ import (
 func (stager *Stager) enforceSemantic() (needCommit bool) {
 	stage := stager.stage
 
-	// VERY important because the probe only unstages objects
-	// this is the Clean that delete them from slices and pointers that reference
-	// them. If the checkout is not performed, the stage might be dirty
-	// with slices of pointer or pointer to unstaged instance
 	pass := 0
 	for {
 		if stager.enforceSemanticOnePass(false, stage) {
@@ -36,6 +32,10 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 }
 
 func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool {
+	// VERY important because the probe only unstages objects
+	// this is the Clean that delete them from slices and pointers that reference
+	// them. If the checkout is not performed, the stage might be dirty
+	// with slices of pointer or pointer to unstaged instance
 	needCommit = stage.Clean() || needCommit
 	if needCommit {
 		stager.probeForm.AddNotification(time.Now(), "Stage clean generated a modification")
