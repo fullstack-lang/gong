@@ -19,72 +19,48 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongta
 
 	switch instancesTyped := any(instance).(type) {
 	// insertion point
-	case *models.Category1:
+	case *models.ArtefactType:
 		formGroup := (&gongtable.FormGroup{
 			Name:  formName,
-			Label: "Category1 Form",
+			Label: "ArtefactType Form",
 		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Category1FormCallback(
+		formGroup.OnSave = __gong__New__ArtefactTypeFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
-	case *models.Category1Shape:
+	case *models.ArtefactTypeShape:
 		formGroup := (&gongtable.FormGroup{
 			Name:  formName,
-			Label: "Category1Shape Form",
+			Label: "ArtefactTypeShape Form",
 		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Category1ShapeFormCallback(
+		formGroup.OnSave = __gong__New__ArtefactTypeShapeFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
-	case *models.Category2:
+	case *models.Artist:
 		formGroup := (&gongtable.FormGroup{
 			Name:  formName,
-			Label: "Category2 Form",
+			Label: "Artist Form",
 		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Category2FormCallback(
+		formGroup.OnSave = __gong__New__ArtistFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
-	case *models.Category2Shape:
+	case *models.ArtistShape:
 		formGroup := (&gongtable.FormGroup{
 			Name:  formName,
-			Label: "Category2Shape Form",
+			Label: "ArtistShape Form",
 		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Category2ShapeFormCallback(
-			instancesTyped,
-			probe,
-			formGroup,
-		)
-		formGroup.HasSuppressButton = true
-		FillUpForm(instancesTyped, formGroup, probe)
-	case *models.Category3:
-		formGroup := (&gongtable.FormGroup{
-			Name:  formName,
-			Label: "Category3 Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Category3FormCallback(
-			instancesTyped,
-			probe,
-			formGroup,
-		)
-		formGroup.HasSuppressButton = true
-		FillUpForm(instancesTyped, formGroup, probe)
-	case *models.Category3Shape:
-		formGroup := (&gongtable.FormGroup{
-			Name:  formName,
-			Label: "Category3Shape Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Category3ShapeFormCallback(
+		formGroup.OnSave = __gong__New__ArtistShapeFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,
@@ -145,6 +121,42 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongta
 			Label: "InfluenceShape Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__InfluenceShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.Movement:
+		formGroup := (&gongtable.FormGroup{
+			Name:  formName,
+			Label: "Movement Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__MovementFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.MovementShape:
+		formGroup := (&gongtable.FormGroup{
+			Name:  formName,
+			Label: "MovementShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__MovementShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.Place:
+		formGroup := (&gongtable.FormGroup{
+			Name:  formName,
+			Label: "Place Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__PlaceFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,

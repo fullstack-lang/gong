@@ -1,11 +1,14 @@
 package models
 
-type Category interface {
-	GongstructIF
-	IsCategory()
+type ArtElement interface {
+	IsArtElement()
+	GetName() string
 }
 
-// Desk is the singloton organizing the diagrams
+type Place struct {
+	Name string
+}
+
 type Desk struct {
 	Name            string
 	SelectedDiagram *Diagram

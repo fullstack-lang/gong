@@ -1,9 +1,5 @@
 package models
 
-import (
-	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
-)
-
 func (stager *Stager) ComputeConsistency() {
 
 	// VERY important because the probe only unstages objects
@@ -29,65 +25,54 @@ func (stager *Stager) ComputeConsistency() {
 	}
 
 	for _, diagram := range GetGongstrucsSorted[*Diagram](stager.stage) {
-
-		if diagram.NbPixPerCharacter == 0 {
-			diagram.NbPixPerCharacter = 8
+		if diagram.AlignDatesToFiveYears() {
 			needCommit = true
 		}
 
-		if diagram.Width == 0 {
-			diagram.Width = 800
-			needCommit = true
-		}
-		if diagram.Height == 0 {
-			diagram.Height = 2000
+		if diagram.EndDate.Before(diagram.StartDate) {
+			diagram.EndDate = diagram.StartDate
 			needCommit = true
 		}
 
-		if diagram.GrayColorCode == "" {
-			diagram.GrayColorCode = svg.Gray.ToString()
+		if diagram.MovementRectAnchorType == "" {
+			diagram.MovementRectAnchorType = RECT_RIGHT
 			needCommit = true
 		}
-		if diagram.RedColorCode == "" {
-			diagram.RedColorCode = svg.Salmon.ToString()
+		if diagram.MovementTextAnchorType == "" {
+			diagram.MovementTextAnchorType = TEXT_ANCHOR_END
 			needCommit = true
 		}
-		if diagram.BackgroundGreyColorCode == "" {
-			diagram.BackgroundGreyColorCode = svg.White.ToString()
+		if diagram.MovementDateRectAnchorType == "" {
+			diagram.MovementDateRectAnchorType = RECT_BOTTOM_LEFT
 			needCommit = true
 		}
-		if diagram.Category1RectAnchorType == "" {
-			diagram.Category1RectAnchorType = RECT_RIGHT
+		if diagram.MovementDateTextAnchorType == "" {
+			diagram.MovementDateTextAnchorType = TEXT_ANCHOR_START
 			needCommit = true
 		}
-		if diagram.Category1TextAnchorType == "" {
-			diagram.Category1TextAnchorType = TEXT_ANCHOR_END
+		if diagram.MovementPlacesRectAnchorType == "" {
+			diagram.MovementPlacesRectAnchorType = RECT_BOTTOM_RIGHT
 			needCommit = true
 		}
-
-		if diagram.InfluenceStrokeWidth == 0 {
-			diagram.InfluenceStrokeWidth = 1
-			needCommit = true
-		}
-		if diagram.InfluenceArrowSize == 0 {
-			diagram.InfluenceArrowSize = 10
-			needCommit = true
-		}
-		if diagram.InfluenceCornerRadius == 0 {
-			diagram.InfluenceCornerRadius = 8
+		if diagram.MovementPlacesTextAnchorType == "" {
+			diagram.MovementPlacesTextAnchorType = TEXT_ANCHOR_END
 			needCommit = true
 		}
 	}
 
-	for _, movement := range GetGongstrucsSorted[*Category1](stager.stage) {
-		_ = movement
+	for _, movement := range GetGongstrucsSorted[*Movement](stager.stage) {
+		//  movement cannot be minor AND major
+		if movement.IsMajor && movement.IsMinor {
+			movement.IsMinor = false
+			needCommit = true
+		}
 	}
 
 	// remove orphean movement shapes
 	{
-		rm := GetSliceOfPointersReverseMap[Diagram, Category1Shape](GetAssociationName[Diagram]().Category1Shapes[0].Name, stager.stage)
-		for _, shape := range GetGongstrucsSorted[*Category1Shape](stager.stage) {
-			if shape.GetCategory() == nil {
+		rm := GetSliceOfPointersReverseMap[Diagram, MovementShape](GetAssociationName[Diagram]().MovementShapes[0].Name, stager.stage)
+		for _, shape := range GetGongstrucsSorted[*MovementShape](stager.stage) {
+			if shape.GetArtElement() == nil {
 				shape.Unstage(stager.stage)
 				needCommit = true
 			}
@@ -98,9 +83,9 @@ func (stager *Stager) ComputeConsistency() {
 		}
 	}
 	{
-		rm := GetSliceOfPointersReverseMap[Diagram, Category2Shape](GetAssociationName[Diagram]().Category2Shapes[0].Name, stager.stage)
-		for _, shape := range GetGongstrucsSorted[*Category2Shape](stager.stage) {
-			if shape.GetCategory() == nil {
+		rm := GetSliceOfPointersReverseMap[Diagram, ArtistShape](GetAssociationName[Diagram]().ArtistShapes[0].Name, stager.stage)
+		for _, shape := range GetGongstrucsSorted[*ArtistShape](stager.stage) {
+			if shape.GetArtElement() == nil {
 				shape.Unstage(stager.stage)
 				needCommit = true
 			}
@@ -111,9 +96,9 @@ func (stager *Stager) ComputeConsistency() {
 		}
 	}
 	{
-		rm := GetSliceOfPointersReverseMap[Diagram, Category3Shape](GetAssociationName[Diagram]().Category3Shapes[0].Name, stager.stage)
-		for _, shape := range GetGongstrucsSorted[*Category3Shape](stager.stage) {
-			if shape.GetCategory() == nil {
+		rm := GetSliceOfPointersReverseMap[Diagram, ArtefactTypeShape](GetAssociationName[Diagram]().ArtefactTypeShapes[0].Name, stager.stage)
+		for _, shape := range GetGongstrucsSorted[*ArtefactTypeShape](stager.stage) {
+			if shape.GetArtElement() == nil {
 				shape.Unstage(stager.stage)
 				needCommit = true
 			}
@@ -126,7 +111,7 @@ func (stager *Stager) ComputeConsistency() {
 	{
 		rm := GetSliceOfPointersReverseMap[Diagram, InfluenceShape](GetAssociationName[Diagram]().InfluenceShapes[0].Name, stager.stage)
 		for _, shape := range GetGongstrucsSorted[*InfluenceShape](stager.stage) {
-			if shape.GetCategory() == nil {
+			if shape.GetArtElement() == nil {
 				shape.Unstage(stager.stage)
 				needCommit = true
 			}
@@ -148,24 +133,24 @@ func (stager *Stager) ComputeConsistency() {
 	}
 
 	for _, influence := range GetGongstrucsSorted[*Influence](stager.stage) {
-		if influence.SourceCategory1 != nil {
-			influence.source = influence.SourceCategory1
+		if influence.SourceMovement != nil {
+			influence.source = influence.SourceMovement
 		}
-		if influence.SourceCategory2 != nil {
-			influence.source = influence.SourceCategory2
+		if influence.SourceArtefactType != nil {
+			influence.source = influence.SourceArtefactType
 		}
-		if influence.SourceCategory3 != nil {
-			influence.source = influence.SourceCategory3
+		if influence.SourceArtist != nil {
+			influence.source = influence.SourceArtist
 		}
 
-		if influence.TargetCategory1 != nil {
-			influence.target = influence.TargetCategory1
+		if influence.TargetMovement != nil {
+			influence.target = influence.TargetMovement
 		}
-		if influence.TargetCategory2 != nil {
-			influence.target = influence.TargetCategory2
+		if influence.TargetArtefactType != nil {
+			influence.target = influence.TargetArtefactType
 		}
-		if influence.TargetCategory3 != nil {
-			influence.target = influence.TargetCategory3
+		if influence.TargetArtist != nil {
+			influence.target = influence.TargetArtist
 		}
 
 		if influence.Name != influence.source.GetName()+" to "+influence.target.GetName() {
