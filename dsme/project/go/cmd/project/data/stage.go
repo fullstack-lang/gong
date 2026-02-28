@@ -124,6 +124,10 @@ another line-NewDiagram`}).Stage(stage)
 	__Project__00000001_ := (&models.Project{Name: `DSME Docx`}).Stage(stage)
 	__Project__00000002_ := (&models.Project{Name: `gong : persist stage.go as an history of commits  #934`}).Stage(stage)
 
+	__Resource__00000000_ := (&models.Resource{Name: `me`}).Stage(stage)
+
+	__ResourceShape__00000000_ := (&models.ResourceShape{Name: `-Work diagram x`}).Stage(stage)
+
 	__Root__00000000_ := (&models.Root{Name: `Root`}).Stage(stage)
 
 	__Task__00000003_ := (&models.Task{Name: `Task 1`}).Stage(stage)
@@ -161,6 +165,8 @@ another line-NewDiagram`}).Stage(stage)
 	__Diagram__00000042_.ShowPrefix = true
 	__Diagram__00000042_.DefaultBoxWidth = 150.000000
 	__Diagram__00000042_.DefaultBoxHeigth = 70.000000
+	__Diagram__00000042_.Width = 1635.000000
+	__Diagram__00000042_.Height = 1160.000000
 	__Diagram__00000042_.IsExpanded = false
 	__Diagram__00000042_.ComputedPrefix = ``
 	__Diagram__00000042_.IsInRenameMode = false
@@ -175,6 +181,8 @@ another line-NewDiagram`}).Stage(stage)
 	__Diagram__00000057_.ShowPrefix = false
 	__Diagram__00000057_.DefaultBoxWidth = 150.000000
 	__Diagram__00000057_.DefaultBoxHeigth = 70.000000
+	__Diagram__00000057_.Width = 1615.108494
+	__Diagram__00000057_.Height = 1034.407017
 	__Diagram__00000057_.IsExpanded = false
 	__Diagram__00000057_.ComputedPrefix = ``
 	__Diagram__00000057_.IsInRenameMode = false
@@ -189,6 +197,8 @@ another line-NewDiagram`}).Stage(stage)
 	__Diagram__00000061_.ShowPrefix = true
 	__Diagram__00000061_.DefaultBoxWidth = 250.000000
 	__Diagram__00000061_.DefaultBoxHeigth = 100.000000
+	__Diagram__00000061_.Width = 2384.716678
+	__Diagram__00000061_.Height = 2130.109182
 	__Diagram__00000061_.IsExpanded = true
 	__Diagram__00000061_.ComputedPrefix = ``
 	__Diagram__00000061_.IsInRenameMode = false
@@ -782,10 +792,25 @@ another line-NewDiagram`
 	__Project__00000002_.ComputedPrefix = ``
 	__Project__00000002_.IsInRenameMode = false
 
+	__Resource__00000000_.Name = `me`
+	__Resource__00000000_.Description = ``
+	__Resource__00000000_.IsExpanded = false
+	__Resource__00000000_.ComputedPrefix = `1`
+	__Resource__00000000_.IsInRenameMode = false
+
+	__ResourceShape__00000000_.Name = `-Work diagram x`
+	__ResourceShape__00000000_.IsExpanded = false
+	__ResourceShape__00000000_.X = 198.481899
+	__ResourceShape__00000000_.Y = 171.647371
+	__ResourceShape__00000000_.Width = 250.000000
+	__ResourceShape__00000000_.Height = 100.000000
+
 	__Root__00000000_.Name = `Root`
 	__Root__00000000_.NbPixPerCharacter = 8.000000
 
 	__Task__00000003_.Name = `Task 1`
+	__Task__00000003_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Task__00000003_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Task__00000003_.Description = ``
 	__Task__00000003_.IsExpanded = true
 	__Task__00000003_.ComputedPrefix = `1`
@@ -796,6 +821,8 @@ another line-NewDiagram`
 	__Task__00000003_.Completion = ""
 
 	__Task__00000007_.Name = `Compute all Instance Diff`
+	__Task__00000007_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Task__00000007_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Task__00000007_.Description = ``
 	__Task__00000007_.IsExpanded = false
 	__Task__00000007_.ComputedPrefix = `2`
@@ -806,6 +833,8 @@ another line-NewDiagram`
 	__Task__00000007_.Completion = models.PERCENT_100
 
 	__Task__00000008_.Name = `code GongDiff per instance`
+	__Task__00000008_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Task__00000008_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Task__00000008_.Description = ``
 	__Task__00000008_.IsExpanded = false
 	__Task__00000008_.ComputedPrefix = `1`
@@ -816,6 +845,8 @@ another line-NewDiagram`
 	__Task__00000008_.Completion = models.PERCENT_100
 
 	__Task__00000009_.Name = `Develop Probe Notifications`
+	__Task__00000009_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Task__00000009_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Task__00000009_.Description = ``
 	__Task__00000009_.IsExpanded = false
 	__Task__00000009_.ComputedPrefix = `6`
@@ -826,6 +857,8 @@ another line-NewDiagram`
 	__Task__00000009_.Completion = models.PERCENT_100
 
 	__Task__00000010_.Name = `Display the the commit diff in the probe as marshalled go statements #1038 `
+	__Task__00000010_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Task__00000010_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Task__00000010_.Description = ``
 	__Task__00000010_.IsExpanded = false
 	__Task__00000010_.ComputedPrefix = `3`
@@ -836,6 +869,8 @@ another line-NewDiagram`
 	__Task__00000010_.Completion = models.PERCENT_100
 
 	__Task__00000011_.Name = `Put the commit forward text in one notification #1044`
+	__Task__00000011_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Task__00000011_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Task__00000011_.Description = ``
 	__Task__00000011_.IsExpanded = false
 	__Task__00000011_.ComputedPrefix = `4`
@@ -846,6 +881,8 @@ another line-NewDiagram`
 	__Task__00000011_.Completion = models.PERCENT_100
 
 	__Task__00000012_.Name = `Compute diff in slices with minimal edit distance #1045`
+	__Task__00000012_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Task__00000012_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Task__00000012_.Description = ``
 	__Task__00000012_.IsExpanded = false
 	__Task__00000012_.ComputedPrefix = `5`
@@ -856,6 +893,8 @@ another line-NewDiagram`
 	__Task__00000012_.Completion = models.PERCENT_100
 
 	__Task__00000013_.Name = `refactor AST generation`
+	__Task__00000013_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Task__00000013_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Task__00000013_.Description = ``
 	__Task__00000013_.IsExpanded = false
 	__Task__00000013_.ComputedPrefix = `7`
@@ -1036,6 +1075,7 @@ another line-NewDiagram`
 	__Diagram__00000061_.NoteProductShapes = append(__Diagram__00000061_.NoteProductShapes, __NoteProductShape__00000002_)
 	__Diagram__00000061_.NoteTaskShapes = append(__Diagram__00000061_.NoteTaskShapes, __NoteTaskShape__00000001_)
 	__Diagram__00000061_.NoteTaskShapes = append(__Diagram__00000061_.NoteTaskShapes, __NoteTaskShape__00000003_)
+	__Diagram__00000061_.Resource_Shapes = append(__Diagram__00000061_.Resource_Shapes, __ResourceShape__00000000_)
 	__Note__00000002_.Tasks = append(__Note__00000002_.Tasks, __Task__00000007_)
 	__Note__00000003_.Products = append(__Note__00000003_.Products, __Product__00000035_)
 	__Note__00000003_.Products = append(__Note__00000003_.Products, __Product__00000025_)
@@ -1130,10 +1170,12 @@ another line-NewDiagram`
 	__Project__00000002_.RootTasks = append(__Project__00000002_.RootTasks, __Task__00000012_)
 	__Project__00000002_.RootTasks = append(__Project__00000002_.RootTasks, __Task__00000009_)
 	__Project__00000002_.RootTasks = append(__Project__00000002_.RootTasks, __Task__00000013_)
+	__Project__00000002_.RootResources = append(__Project__00000002_.RootResources, __Resource__00000000_)
 	__Project__00000002_.Notes = append(__Project__00000002_.Notes, __Note__00000002_)
 	__Project__00000002_.Notes = append(__Project__00000002_.Notes, __Note__00000003_)
 	__Project__00000002_.Notes = append(__Project__00000002_.Notes, __Note__00000004_)
 	__Project__00000002_.Diagrams = append(__Project__00000002_.Diagrams, __Diagram__00000061_)
+	__ResourceShape__00000000_.Resource = __Resource__00000000_
 	__Root__00000000_.Projects = append(__Root__00000000_.Projects, __Project__00000000_)
 	__Root__00000000_.Projects = append(__Root__00000000_.Projects, __Project__00000001_)
 	__Root__00000000_.Projects = append(__Root__00000000_.Projects, __Project__00000002_)

@@ -61,11 +61,23 @@ func NewStager(
 
 	createViews(stager, stage)
 
-	callbacks := &BeforeCommitImplementation{
-		stager: stager,
+	// Setup your before commit sequence
+
+	beforeCommit := func(stage *Stage) {
+		stager.enforceSemantic()
+
 	}
-	stager.stage.OnInitCommitFromBackCallback = callbacks
-	callbacks.BeforeCommit(stage)
+	afterCommit := func(stage *Stage) {
+		stager.tree()
+		stager.svg()
+		stager.button()
+		stager.load()
+	}
+
+	stager.stage.RegisterBeforeCommit(beforeCommit)
+	stager.stage.RegisterAfterCommit(afterCommit)
+	beforeCommit(stager.stage)
+	afterCommit(stager.stage)
 
 	return
 }
