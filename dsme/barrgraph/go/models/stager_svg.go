@@ -8,7 +8,7 @@ import (
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 )
 
-func (stager *Stager) SvgStageUpdate() {
+func (stager *Stager) svg() {
 	stager.svgStage.Reset()
 
 	log.Println("SVG update")
@@ -166,7 +166,8 @@ func (stager *Stager) SvgStageUpdate() {
 			},
 			RectAnchoredTexts: []*svg.RectAnchoredText{
 				titleRectAnchoredText,
-				placesRectAnchoredText},
+				placesRectAnchoredText,
+			},
 		}
 		map_ArtElement_Rect[movement] = rect
 
@@ -304,7 +305,8 @@ func (stager *Stager) SvgStageUpdate() {
 				StrokeWidth:   diagram.ArtefactTypeStrokeWidth,
 			},
 			RectAnchoredTexts: []*svg.RectAnchoredText{
-				titleRectAnchoredText},
+				titleRectAnchoredText,
+			},
 		}
 		map_ArtElement_Rect[artefactType] = rect
 
@@ -420,7 +422,8 @@ func (stager *Stager) SvgStageUpdate() {
 			},
 			RectAnchoredTexts: []*svg.RectAnchoredText{
 				titleRectAnchoredText,
-				placesRectAnchoredText},
+				placesRectAnchoredText,
+			},
 		}
 		map_ArtElement_Rect[artist] = rect
 

@@ -1,7 +1,6 @@
 package models
 
-func (stager *Stager) ComputeConsistency() {
-
+func (stager *Stager) enforceSemantic() {
 	// VERY important because the probe only unstages objects
 	// the stage might be dirty
 	// with slices of pointer or pointer to unstaged instance
@@ -19,7 +18,8 @@ func (stager *Stager) ComputeConsistency() {
 	// at least one diagram is welcome to ease the end user experience
 	if len(GetGongstrucsSorted[*Diagram](stager.stage)) == 0 {
 		diagram := (&Diagram{
-			Name: "Default"}).Stage(stager.stage)
+			Name: "Default",
+		}).Stage(stager.stage)
 		stager.desk.SelectedDiagram = diagram
 		needCommit = true
 	}

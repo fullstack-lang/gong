@@ -5,7 +5,7 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
-func (stager *Stager) TreeStageUpdate() {
+func (stager *Stager) tree() {
 	stager.treeStage.Reset()
 
 	tree_ := &tree.Tree{
@@ -260,7 +260,6 @@ type DiagramNodeProxy struct {
 
 // OnAfterUpdate implements models.NodeImplInterface.
 func (d *DiagramNodeProxy) OnAfterUpdate(stage *tree.Stage, stagedNode *tree.Node, frontNode *tree.Node) {
-
 	if frontNode.IsChecked && !stagedNode.IsChecked {
 		d.stager.desk.SelectedDiagram = d.Diagram
 	}
