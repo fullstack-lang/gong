@@ -17,16 +17,16 @@ func FillUpForm(
 
 	switch instanceWithInferedType := any(instance).(type) {
 	// insertion point
-	case *models.Category1:
+	case *models.ArtefactType:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 
-	case *models.Category1Shape:
+	case *models.ArtefactTypeShape:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		AssociationFieldToForm("Category1", instanceWithInferedType.Category1, formGroup, probe)
+		AssociationFieldToForm("ArtefactType", instanceWithInferedType.ArtefactType, formGroup, probe)
 		BasicFieldtoForm("X", instanceWithInferedType.X, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Y", instanceWithInferedType.Y, instanceWithInferedType, probe.formStage, formGroup,
@@ -39,35 +39,40 @@ func FillUpForm(
 			var rf models.ReverseField
 			_ = rf
 			rf.GongstructName = "Diagram"
-			rf.Fieldname = "Category1Shapes"
+			rf.Fieldname = "ArtefactTypeShapes"
 			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Diagram),
-					"Category1Shapes",
+					"ArtefactTypeShapes",
 					instanceWithInferedType,
 					formGroup,
 					probe)
 			} else {
 				AssociationReverseFieldToForm[*models.Diagram](
 					nil,
-					"Category1Shapes",
+					"ArtefactTypeShapes",
 					instanceWithInferedType,
 					formGroup,
 					probe)
 			}
 		}
 
-	case *models.Category2:
+	case *models.Artist:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		BasicFieldtoForm("IsDead", instanceWithInferedType.IsDead, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("DateOfDeath", instanceWithInferedType.DateOfDeath, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		AssociationFieldToForm("Place", instanceWithInferedType.Place, formGroup, probe)
 
-	case *models.Category2Shape:
+	case *models.ArtistShape:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		AssociationFieldToForm("Category2", instanceWithInferedType.Category2, formGroup, probe)
+		AssociationFieldToForm("Artist", instanceWithInferedType.Artist, formGroup, probe)
 		BasicFieldtoForm("X", instanceWithInferedType.X, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Y", instanceWithInferedType.Y, instanceWithInferedType, probe.formStage, formGroup,
@@ -80,60 +85,19 @@ func FillUpForm(
 			var rf models.ReverseField
 			_ = rf
 			rf.GongstructName = "Diagram"
-			rf.Fieldname = "Category2Shapes"
+			rf.Fieldname = "ArtistShapes"
 			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Diagram),
-					"Category2Shapes",
+					"ArtistShapes",
 					instanceWithInferedType,
 					formGroup,
 					probe)
 			} else {
 				AssociationReverseFieldToForm[*models.Diagram](
 					nil,
-					"Category2Shapes",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
-		}
-
-	case *models.Category3:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
-
-	case *models.Category3Shape:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
-		AssociationFieldToForm("Category3", instanceWithInferedType.Category3, formGroup, probe)
-		BasicFieldtoForm("X", instanceWithInferedType.X, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
-		BasicFieldtoForm("Y", instanceWithInferedType.Y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
-		BasicFieldtoForm("Width", instanceWithInferedType.Width, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
-		BasicFieldtoForm("Height", instanceWithInferedType.Height, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
-		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Diagram"
-			rf.Fieldname = "Category3Shapes"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Diagram),
-					"Category3Shapes",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Diagram](
-					nil,
-					"Category3Shapes",
+					"ArtistShapes",
 					instanceWithInferedType,
 					formGroup,
 					probe)
@@ -183,29 +147,33 @@ func FillUpForm(
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		AssociationSliceToForm("Category1Shapes", instanceWithInferedType, &instanceWithInferedType.Category1Shapes, formGroup, probe)
-		AssociationSliceToForm("Category2Shapes", instanceWithInferedType, &instanceWithInferedType.Category2Shapes, formGroup, probe)
-		AssociationSliceToForm("Category3Shapes", instanceWithInferedType, &instanceWithInferedType.Category3Shapes, formGroup, probe)
+		AssociationSliceToForm("MovementShapes", instanceWithInferedType, &instanceWithInferedType.MovementShapes, formGroup, probe)
+		AssociationSliceToForm("ArtefactTypeShapes", instanceWithInferedType, &instanceWithInferedType.ArtefactTypeShapes, formGroup, probe)
+		AssociationSliceToForm("ArtistShapes", instanceWithInferedType, &instanceWithInferedType.ArtistShapes, formGroup, probe)
 		AssociationSliceToForm("InfluenceShapes", instanceWithInferedType, &instanceWithInferedType.InfluenceShapes, formGroup, probe)
 		BasicFieldtoForm("IsEditable", instanceWithInferedType.IsEditable, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsNodeExpanded", instanceWithInferedType.IsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("IsCategory1NodeExpanded", instanceWithInferedType.IsCategory1NodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("IsMovementCategoryNodeExpanded", instanceWithInferedType.IsMovementCategoryNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("IsCategory2NodeExpanded", instanceWithInferedType.IsCategory2NodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("IsArtefactTypeCategoryNodeExpanded", instanceWithInferedType.IsArtefactTypeCategoryNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("IsCategory3NodeExpanded", instanceWithInferedType.IsCategory3NodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("IsArtistCategoryNodeExpanded", instanceWithInferedType.IsArtistCategoryNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsInfluenceCategoryNodeExpanded", instanceWithInferedType.IsInfluenceCategoryNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("IsCategory1Shown", instanceWithInferedType.IsCategory1Shown, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("IsMovementCategoryShown", instanceWithInferedType.IsMovementCategoryShown, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("IsCategory2Shown", instanceWithInferedType.IsCategory2Shown, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("IsArtefactTypeCategoryShown", instanceWithInferedType.IsArtefactTypeCategoryShown, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("IsCategory3Shown", instanceWithInferedType.IsCategory3Shown, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("IsArtistCategoryShown", instanceWithInferedType.IsArtistCategoryShown, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsInfluenceCategoryShown", instanceWithInferedType.IsInfluenceCategoryShown, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("StartDate", instanceWithInferedType.StartDate, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("EndDate", instanceWithInferedType.EndDate, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("XMargin", instanceWithInferedType.XMargin, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
@@ -213,9 +181,7 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Height", instanceWithInferedType.Height, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("Width", instanceWithInferedType.Width, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
-		BasicFieldtoForm("NbPixPerCharacter", instanceWithInferedType.NbPixPerCharacter, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("NextVerticalDateXMargin", instanceWithInferedType.NextVerticalDateXMargin, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("RedColorCode", instanceWithInferedType.RedColorCode, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
@@ -223,42 +189,101 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("GrayColorCode", instanceWithInferedType.GrayColorCode, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		EnumTypeStringToForm("Category1RectAnchorType", instanceWithInferedType.Category1RectAnchorType, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("Category1TextAnchorType", instanceWithInferedType.Category1TextAnchorType, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("Category1DominantBaselineType", instanceWithInferedType.Category1DominantBaselineType, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Category1FontSize", instanceWithInferedType.Category1FontSize, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("BottomBoxYOffset", instanceWithInferedType.BottomBoxYOffset, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("Category1FontWeigth", instanceWithInferedType.Category1FontWeigth, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("BottomBoxWidth", instanceWithInferedType.BottomBoxWidth, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("Category1FontFamily", instanceWithInferedType.Category1FontFamily, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("BottomBoxHeigth", instanceWithInferedType.BottomBoxHeigth, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("Category1LetterSpacing", instanceWithInferedType.Category1LetterSpacing, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("BottomBoxFontSize", instanceWithInferedType.BottomBoxFontSize, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("Category2TypeFontSize", instanceWithInferedType.Category2TypeFontSize, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("BottomBoxFontWeigth", instanceWithInferedType.BottomBoxFontWeigth, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("Category2TypeFontWeigth", instanceWithInferedType.Category2TypeFontWeigth, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("BottomBoxFontFamily", instanceWithInferedType.BottomBoxFontFamily, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("Category2TypeFontFamily", instanceWithInferedType.Category2TypeFontFamily, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("BottomBoxLetterSpacing", instanceWithInferedType.BottomBoxLetterSpacing, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("Category2TypeLetterSpacing", instanceWithInferedType.Category2TypeLetterSpacing, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("BottomBoxLetterColorCode", instanceWithInferedType.BottomBoxLetterColorCode, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		EnumTypeStringToForm("Category2TypeRectAnchorType", instanceWithInferedType.Category2TypeRectAnchorType, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("Category2DominantBaselineType", instanceWithInferedType.Category2DominantBaselineType, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Category2StrokeWidth", instanceWithInferedType.Category2StrokeWidth, instanceWithInferedType, probe.formStage, formGroup,
+		EnumTypeStringToForm("MovementRectAnchorType", instanceWithInferedType.MovementRectAnchorType, instanceWithInferedType, probe.formStage, formGroup)
+		EnumTypeStringToForm("MovementTextAnchorType", instanceWithInferedType.MovementTextAnchorType, instanceWithInferedType, probe.formStage, formGroup)
+		EnumTypeStringToForm("MovementDominantBaselineType", instanceWithInferedType.MovementDominantBaselineType, instanceWithInferedType, probe.formStage, formGroup)
+		BasicFieldtoForm("MovementFontSize", instanceWithInferedType.MovementFontSize, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		EnumTypeStringToForm("Category3RectAnchorType", instanceWithInferedType.Category3RectAnchorType, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("Category3TextAnchorType", instanceWithInferedType.Category3TextAnchorType, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("Category3DominantBaselineType", instanceWithInferedType.Category3DominantBaselineType, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("Category3FontSize", instanceWithInferedType.Category3FontSize, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("MajorMovementFontSize", instanceWithInferedType.MajorMovementFontSize, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("Category3FontWeigth", instanceWithInferedType.Category3FontWeigth, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("MinorMovementFontSize", instanceWithInferedType.MinorMovementFontSize, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("Category3FontFamily", instanceWithInferedType.Category3FontFamily, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("MovementFontWeigth", instanceWithInferedType.MovementFontWeigth, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("Category3LetterSpacing", instanceWithInferedType.Category3LetterSpacing, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("MovementFontFamily", instanceWithInferedType.MovementFontFamily, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("InfluenceStrokeWidth", instanceWithInferedType.InfluenceStrokeWidth, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("MovementLetterSpacing", instanceWithInferedType.MovementLetterSpacing, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		BasicFieldtoForm("AbstractMovementFontSize", instanceWithInferedType.AbstractMovementFontSize, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		EnumTypeStringToForm("AbstractMovementRectAnchorType", instanceWithInferedType.AbstractMovementRectAnchorType, instanceWithInferedType, probe.formStage, formGroup)
+		EnumTypeStringToForm("AbstractMovementTextAnchorType", instanceWithInferedType.AbstractMovementTextAnchorType, instanceWithInferedType, probe.formStage, formGroup)
+		EnumTypeStringToForm("AbstractDominantBaselineType", instanceWithInferedType.AbstractDominantBaselineType, instanceWithInferedType, probe.formStage, formGroup)
+		EnumTypeStringToForm("MovementDateRectAnchorType", instanceWithInferedType.MovementDateRectAnchorType, instanceWithInferedType, probe.formStage, formGroup)
+		EnumTypeStringToForm("MovementDateTextAnchorType", instanceWithInferedType.MovementDateTextAnchorType, instanceWithInferedType, probe.formStage, formGroup)
+		EnumTypeStringToForm("MovementDateTextDominantBaselineType", instanceWithInferedType.MovementDateTextDominantBaselineType, instanceWithInferedType, probe.formStage, formGroup)
+		BasicFieldtoForm("MovementDateAndPlacesFontSize", instanceWithInferedType.MovementDateAndPlacesFontSize, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("MovementDateAndPlacesFontWeigth", instanceWithInferedType.MovementDateAndPlacesFontWeigth, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("MovementDateAndPlacesFontFamily", instanceWithInferedType.MovementDateAndPlacesFontFamily, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("MovementDateAndPlacesLetterSpacing", instanceWithInferedType.MovementDateAndPlacesLetterSpacing, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("MovementBelowArcY_Offset", instanceWithInferedType.MovementBelowArcY_Offset, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("MovementBelowArcY_OffsetPerPlace", instanceWithInferedType.MovementBelowArcY_OffsetPerPlace, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		EnumTypeStringToForm("MovementPlacesRectAnchorType", instanceWithInferedType.MovementPlacesRectAnchorType, instanceWithInferedType, probe.formStage, formGroup)
+		EnumTypeStringToForm("MovementPlacesTextAnchorType", instanceWithInferedType.MovementPlacesTextAnchorType, instanceWithInferedType, probe.formStage, formGroup)
+		EnumTypeStringToForm("MovementPlacesDominantBaselineType", instanceWithInferedType.MovementPlacesDominantBaselineType, instanceWithInferedType, probe.formStage, formGroup)
+		BasicFieldtoForm("ArtefactTypeFontSize", instanceWithInferedType.ArtefactTypeFontSize, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("ArtefactTypeFontWeigth", instanceWithInferedType.ArtefactTypeFontWeigth, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("ArtefactTypeFontFamily", instanceWithInferedType.ArtefactTypeFontFamily, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("ArtefactTypeLetterSpacing", instanceWithInferedType.ArtefactTypeLetterSpacing, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		EnumTypeStringToForm("ArtefactTypeRectAnchorType", instanceWithInferedType.ArtefactTypeRectAnchorType, instanceWithInferedType, probe.formStage, formGroup)
+		EnumTypeStringToForm("ArtefactDominantBaselineType", instanceWithInferedType.ArtefactDominantBaselineType, instanceWithInferedType, probe.formStage, formGroup)
+		BasicFieldtoForm("ArtefactTypeStrokeWidth", instanceWithInferedType.ArtefactTypeStrokeWidth, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		EnumTypeStringToForm("ArtistRectAnchorType", instanceWithInferedType.ArtistRectAnchorType, instanceWithInferedType, probe.formStage, formGroup)
+		EnumTypeStringToForm("ArtistTextAnchorType", instanceWithInferedType.ArtistTextAnchorType, instanceWithInferedType, probe.formStage, formGroup)
+		EnumTypeStringToForm("ArtistDominantBaselineType", instanceWithInferedType.ArtistDominantBaselineType, instanceWithInferedType, probe.formStage, formGroup)
+		BasicFieldtoForm("ArtistFontSize", instanceWithInferedType.ArtistFontSize, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("MajorArtistFontSize", instanceWithInferedType.MajorArtistFontSize, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("MinorArtistFontSize", instanceWithInferedType.MinorArtistFontSize, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("ArtistFontWeigth", instanceWithInferedType.ArtistFontWeigth, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("ArtistFontFamily", instanceWithInferedType.ArtistFontFamily, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("ArtistLetterSpacing", instanceWithInferedType.ArtistLetterSpacing, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		EnumTypeStringToForm("ArtistDateRectAnchorType", instanceWithInferedType.ArtistDateRectAnchorType, instanceWithInferedType, probe.formStage, formGroup)
+		EnumTypeStringToForm("ArtistDateTextAnchorType", instanceWithInferedType.ArtistDateTextAnchorType, instanceWithInferedType, probe.formStage, formGroup)
+		EnumTypeStringToForm("ArtistDateDominantBaselineType", instanceWithInferedType.ArtistDateDominantBaselineType, instanceWithInferedType, probe.formStage, formGroup)
+		BasicFieldtoForm("ArtistDateAndPlacesFontSize", instanceWithInferedType.ArtistDateAndPlacesFontSize, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("ArtistDateAndPlacesFontWeigth", instanceWithInferedType.ArtistDateAndPlacesFontWeigth, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("ArtistDateAndPlacesFontFamily", instanceWithInferedType.ArtistDateAndPlacesFontFamily, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("ArtistDateAndPlacesLetterSpacing", instanceWithInferedType.ArtistDateAndPlacesLetterSpacing, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		EnumTypeStringToForm("ArtistPlacesRectAnchorType", instanceWithInferedType.ArtistPlacesRectAnchorType, instanceWithInferedType, probe.formStage, formGroup)
+		EnumTypeStringToForm("ArtistPlacesTextAnchorType", instanceWithInferedType.ArtistPlacesTextAnchorType, instanceWithInferedType, probe.formStage, formGroup)
+		EnumTypeStringToForm("ArtistPlacesDominantBaselineType", instanceWithInferedType.ArtistPlacesDominantBaselineType, instanceWithInferedType, probe.formStage, formGroup)
 		BasicFieldtoForm("InfluenceArrowSize", instanceWithInferedType.InfluenceArrowSize, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("InfluenceArrowStartOffset", instanceWithInferedType.InfluenceArrowStartOffset, instanceWithInferedType, probe.formStage, formGroup,
@@ -267,14 +292,6 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("InfluenceCornerRadius", instanceWithInferedType.InfluenceCornerRadius, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("InfluenceFontSize", instanceWithInferedType.InfluenceFontSize, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
-		BasicFieldtoForm("InfluenceFontWeigth", instanceWithInferedType.InfluenceFontWeigth, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
-		BasicFieldtoForm("InfluenceFontFamily", instanceWithInferedType.InfluenceFontFamily, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
-		BasicFieldtoForm("InfluenceLetterSpacing", instanceWithInferedType.InfluenceLetterSpacing, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
 		BasicFieldtoForm("InfluenceDashedLinePattern", instanceWithInferedType.InfluenceDashedLinePattern, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 
@@ -282,15 +299,13 @@ func FillUpForm(
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		AssociationFieldToForm("SourceCategory1", instanceWithInferedType.SourceCategory1, formGroup, probe)
-		AssociationFieldToForm("SourceCategory2", instanceWithInferedType.SourceCategory2, formGroup, probe)
-		AssociationFieldToForm("SourceCategory3", instanceWithInferedType.SourceCategory3, formGroup, probe)
-		AssociationFieldToForm("TargetCategory1", instanceWithInferedType.TargetCategory1, formGroup, probe)
-		AssociationFieldToForm("TargetCategory2", instanceWithInferedType.TargetCategory2, formGroup, probe)
-		AssociationFieldToForm("TargetCategory3", instanceWithInferedType.TargetCategory3, formGroup, probe)
+		AssociationFieldToForm("SourceMovement", instanceWithInferedType.SourceMovement, formGroup, probe)
+		AssociationFieldToForm("SourceArtefactType", instanceWithInferedType.SourceArtefactType, formGroup, probe)
+		AssociationFieldToForm("SourceArtist", instanceWithInferedType.SourceArtist, formGroup, probe)
+		AssociationFieldToForm("TargetMovement", instanceWithInferedType.TargetMovement, formGroup, probe)
+		AssociationFieldToForm("TargetArtefactType", instanceWithInferedType.TargetArtefactType, formGroup, probe)
+		AssociationFieldToForm("TargetArtist", instanceWithInferedType.TargetArtist, formGroup, probe)
 		BasicFieldtoForm("IsHypothtical", instanceWithInferedType.IsHypothtical, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
-		BasicFieldtoForm("TextAtEndOfArrow", instanceWithInferedType.TextAtEndOfArrow, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 
 	case *models.InfluenceShape:
@@ -316,6 +331,89 @@ func FillUpForm(
 				AssociationReverseFieldToForm[*models.Diagram](
 					nil,
 					"InfluenceShapes",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			}
+		}
+
+	case *models.Movement:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("Date", instanceWithInferedType.Date, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		AssociationSliceToForm("Places", instanceWithInferedType, &instanceWithInferedType.Places, formGroup, probe)
+		BasicFieldtoForm("IsAbstract", instanceWithInferedType.IsAbstract, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("IsModern", instanceWithInferedType.IsModern, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("IsMajor", instanceWithInferedType.IsMajor, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("IsMinor", instanceWithInferedType.IsMinor, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("AdditionnalName", instanceWithInferedType.AdditionnalName, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("HideDate", instanceWithInferedType.HideDate, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+
+	case *models.MovementShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		AssociationFieldToForm("Movement", instanceWithInferedType.Movement, formGroup, probe)
+		BasicFieldtoForm("X", instanceWithInferedType.X, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("Y", instanceWithInferedType.Y, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("Width", instanceWithInferedType.Width, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("Height", instanceWithInferedType.Height, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "Diagram"
+			rf.Fieldname = "MovementShapes"
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.Diagram),
+					"MovementShapes",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			} else {
+				AssociationReverseFieldToForm[*models.Diagram](
+					nil,
+					"MovementShapes",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			}
+		}
+
+	case *models.Place:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "Movement"
+			rf.Fieldname = "Places"
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.Movement),
+					"Places",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			} else {
+				AssociationReverseFieldToForm[*models.Movement](
+					nil,
+					"Places",
 					instanceWithInferedType,
 					formGroup,
 					probe)

@@ -9,27 +9,27 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
-// An Influence is between categories
+// An Influence is between one Artist/Movement/ArtefactType and another
 //
 // since gong does not yet support interface, one have to mutliply source/target types
 type Influence struct {
 	Name string
 
-	SourceCategory1 *Category1
-	SourceCategory2 *Category3
-	SourceCategory3 *Category2
+	SourceMovement     *Movement
+	SourceArtefactType *ArtefactType
+	SourceArtist       *Artist
 
-	source Category
+	source ArtElement
 
-	TargetCategory1 *Category1
-	TargetCategory2 *Category3
-	TargetCategory3 *Category2
+	TargetMovement     *Movement
+	TargetArtefactType *ArtefactType
+	TargetArtist       *Artist
 
-	target Category
+	target ArtElement
 
+	// hypothetical, some influences are with ashed lines
+	// For instance, Marchine Art to Brancusi (indeed)
 	IsHypothtical bool
-
-	TextAtEndOfArrow string
 }
 
 type InfluenceShape struct {
@@ -48,7 +48,7 @@ type ControlPointShape struct {
 	IsStartShapeTheClosestShape bool
 }
 
-func (shape *InfluenceShape) GetCategory() *Influence {
+func (shape *InfluenceShape) GetArtElement() *Influence {
 	return shape.Influence
 }
 

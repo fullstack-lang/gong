@@ -436,10 +436,10 @@ func GongUnmarshallEnum[T interface{ FromCodeString(string) error }](
 }
 
 // insertion point per named struct
-type Category1Unmarshaller struct{}
+type ArtefactTypeUnmarshaller struct{}
 
-func (u *Category1Unmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(Category1)
+func (u *ArtefactTypeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(ArtefactType)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
@@ -454,8 +454,8 @@ func (u *Category1Unmarshaller) Initialize(stage *Stage, identifier string, inst
 	return instance, nil
 }
 
-func (u *Category1Unmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*Category1)
+func (u *ArtefactTypeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*ArtefactType)
 	_ = instance
 	switch fieldName {
 	// insertion point per field
@@ -465,10 +465,10 @@ func (u *Category1Unmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 	return nil
 }
 
-type Category1ShapeUnmarshaller struct{}
+type ArtefactTypeShapeUnmarshaller struct{}
 
-func (u *Category1ShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(Category1Shape)
+func (u *ArtefactTypeShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(ArtefactTypeShape)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
@@ -483,15 +483,15 @@ func (u *Category1ShapeUnmarshaller) Initialize(stage *Stage, identifier string,
 	return instance, nil
 }
 
-func (u *Category1ShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*Category1Shape)
+func (u *ArtefactTypeShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*ArtefactTypeShape)
 	_ = instance
 	switch fieldName {
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Category1":
-		GongUnmarshallPointer(&instance.Category1, valueExpr, identifierMap)
+	case "ArtefactType":
+		GongUnmarshallPointer(&instance.ArtefactType, valueExpr, identifierMap)
 	case "X":
 		instance.X = GongExtractFloat(valueExpr)
 	case "Y":
@@ -504,10 +504,10 @@ func (u *Category1ShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructI
 	return nil
 }
 
-type Category2Unmarshaller struct{}
+type ArtistUnmarshaller struct{}
 
-func (u *Category2Unmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(Category2)
+func (u *ArtistUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(Artist)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
@@ -522,21 +522,33 @@ func (u *Category2Unmarshaller) Initialize(stage *Stage, identifier string, inst
 	return instance, nil
 }
 
-func (u *Category2Unmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*Category2)
+func (u *ArtistUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*Artist)
 	_ = instance
 	switch fieldName {
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
+	case "IsDead":
+		instance.IsDead = GongExtractBool(valueExpr)
+	case "DateOfDeath":
+		if call, ok := valueExpr.(*ast.CallExpr); ok {
+			if len(call.Args) == 2 {
+				if bl, ok := call.Args[1].(*ast.BasicLit); ok {
+					instance.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
+				}
+			}
+		}
+	case "Place":
+		GongUnmarshallPointer(&instance.Place, valueExpr, identifierMap)
 	}
 	return nil
 }
 
-type Category2ShapeUnmarshaller struct{}
+type ArtistShapeUnmarshaller struct{}
 
-func (u *Category2ShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(Category2Shape)
+func (u *ArtistShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(ArtistShape)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
@@ -551,83 +563,15 @@ func (u *Category2ShapeUnmarshaller) Initialize(stage *Stage, identifier string,
 	return instance, nil
 }
 
-func (u *Category2ShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*Category2Shape)
+func (u *ArtistShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*ArtistShape)
 	_ = instance
 	switch fieldName {
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Category2":
-		GongUnmarshallPointer(&instance.Category2, valueExpr, identifierMap)
-	case "X":
-		instance.X = GongExtractFloat(valueExpr)
-	case "Y":
-		instance.Y = GongExtractFloat(valueExpr)
-	case "Width":
-		instance.Width = GongExtractFloat(valueExpr)
-	case "Height":
-		instance.Height = GongExtractFloat(valueExpr)
-	}
-	return nil
-}
-
-type Category3Unmarshaller struct{}
-
-func (u *Category3Unmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(Category3)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
-}
-
-func (u *Category3Unmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*Category3)
-	_ = instance
-	switch fieldName {
-	// insertion point per field
-	case "Name":
-		instance.Name = GongExtractString(valueExpr)
-	}
-	return nil
-}
-
-type Category3ShapeUnmarshaller struct{}
-
-func (u *Category3ShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(Category3Shape)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
-}
-
-func (u *Category3ShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*Category3Shape)
-	_ = instance
-	switch fieldName {
-	// insertion point per field
-	case "Name":
-		instance.Name = GongExtractString(valueExpr)
-	case "Category3":
-		GongUnmarshallPointer(&instance.Category3, valueExpr, identifierMap)
+	case "Artist":
+		GongUnmarshallPointer(&instance.Artist, valueExpr, identifierMap)
 	case "X":
 		instance.X = GongExtractFloat(valueExpr)
 	case "Y":
@@ -731,94 +675,182 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Category1Shapes":
-		GongUnmarshallSliceOfPointers(&instance.Category1Shapes, valueExpr, identifierMap)
-	case "Category2Shapes":
-		GongUnmarshallSliceOfPointers(&instance.Category2Shapes, valueExpr, identifierMap)
-	case "Category3Shapes":
-		GongUnmarshallSliceOfPointers(&instance.Category3Shapes, valueExpr, identifierMap)
+	case "MovementShapes":
+		GongUnmarshallSliceOfPointers(&instance.MovementShapes, valueExpr, identifierMap)
+	case "ArtefactTypeShapes":
+		GongUnmarshallSliceOfPointers(&instance.ArtefactTypeShapes, valueExpr, identifierMap)
+	case "ArtistShapes":
+		GongUnmarshallSliceOfPointers(&instance.ArtistShapes, valueExpr, identifierMap)
 	case "InfluenceShapes":
 		GongUnmarshallSliceOfPointers(&instance.InfluenceShapes, valueExpr, identifierMap)
 	case "IsEditable":
 		instance.IsEditable = GongExtractBool(valueExpr)
 	case "IsNodeExpanded":
 		instance.IsNodeExpanded = GongExtractBool(valueExpr)
-	case "IsCategory1NodeExpanded":
-		instance.IsCategory1NodeExpanded = GongExtractBool(valueExpr)
-	case "IsCategory2NodeExpanded":
-		instance.IsCategory2NodeExpanded = GongExtractBool(valueExpr)
-	case "IsCategory3NodeExpanded":
-		instance.IsCategory3NodeExpanded = GongExtractBool(valueExpr)
+	case "IsMovementCategoryNodeExpanded":
+		instance.IsMovementCategoryNodeExpanded = GongExtractBool(valueExpr)
+	case "IsArtefactTypeCategoryNodeExpanded":
+		instance.IsArtefactTypeCategoryNodeExpanded = GongExtractBool(valueExpr)
+	case "IsArtistCategoryNodeExpanded":
+		instance.IsArtistCategoryNodeExpanded = GongExtractBool(valueExpr)
 	case "IsInfluenceCategoryNodeExpanded":
 		instance.IsInfluenceCategoryNodeExpanded = GongExtractBool(valueExpr)
-	case "IsCategory1Shown":
-		instance.IsCategory1Shown = GongExtractBool(valueExpr)
-	case "IsCategory2Shown":
-		instance.IsCategory2Shown = GongExtractBool(valueExpr)
-	case "IsCategory3Shown":
-		instance.IsCategory3Shown = GongExtractBool(valueExpr)
+	case "IsMovementCategoryShown":
+		instance.IsMovementCategoryShown = GongExtractBool(valueExpr)
+	case "IsArtefactTypeCategoryShown":
+		instance.IsArtefactTypeCategoryShown = GongExtractBool(valueExpr)
+	case "IsArtistCategoryShown":
+		instance.IsArtistCategoryShown = GongExtractBool(valueExpr)
 	case "IsInfluenceCategoryShown":
 		instance.IsInfluenceCategoryShown = GongExtractBool(valueExpr)
+	case "StartDate":
+		if call, ok := valueExpr.(*ast.CallExpr); ok {
+			if len(call.Args) == 2 {
+				if bl, ok := call.Args[1].(*ast.BasicLit); ok {
+					instance.StartDate, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
+				}
+			}
+		}
+	case "EndDate":
+		if call, ok := valueExpr.(*ast.CallExpr); ok {
+			if len(call.Args) == 2 {
+				if bl, ok := call.Args[1].(*ast.BasicLit); ok {
+					instance.EndDate, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
+				}
+			}
+		}
 	case "XMargin":
 		instance.XMargin = GongExtractFloat(valueExpr)
 	case "YMargin":
 		instance.YMargin = GongExtractFloat(valueExpr)
 	case "Height":
 		instance.Height = GongExtractFloat(valueExpr)
-	case "Width":
-		instance.Width = GongExtractFloat(valueExpr)
-	case "NbPixPerCharacter":
-		instance.NbPixPerCharacter = GongExtractFloat(valueExpr)
+	case "NextVerticalDateXMargin":
+		instance.NextVerticalDateXMargin = GongExtractFloat(valueExpr)
 	case "RedColorCode":
 		instance.RedColorCode = GongExtractString(valueExpr)
 	case "BackgroundGreyColorCode":
 		instance.BackgroundGreyColorCode = GongExtractString(valueExpr)
 	case "GrayColorCode":
 		instance.GrayColorCode = GongExtractString(valueExpr)
-	case "Category1RectAnchorType":
-		GongUnmarshallEnum(&instance.Category1RectAnchorType, valueExpr)
-	case "Category1TextAnchorType":
-		GongUnmarshallEnum(&instance.Category1TextAnchorType, valueExpr)
-	case "Category1DominantBaselineType":
-		GongUnmarshallEnum(&instance.Category1DominantBaselineType, valueExpr)
-	case "Category1FontSize":
-		instance.Category1FontSize = GongExtractString(valueExpr)
-	case "Category1FontWeigth":
-		instance.Category1FontWeigth = GongExtractString(valueExpr)
-	case "Category1FontFamily":
-		instance.Category1FontFamily = GongExtractString(valueExpr)
-	case "Category1LetterSpacing":
-		instance.Category1LetterSpacing = GongExtractString(valueExpr)
-	case "Category2TypeFontSize":
-		instance.Category2TypeFontSize = GongExtractString(valueExpr)
-	case "Category2TypeFontWeigth":
-		instance.Category2TypeFontWeigth = GongExtractString(valueExpr)
-	case "Category2TypeFontFamily":
-		instance.Category2TypeFontFamily = GongExtractString(valueExpr)
-	case "Category2TypeLetterSpacing":
-		instance.Category2TypeLetterSpacing = GongExtractString(valueExpr)
-	case "Category2TypeRectAnchorType":
-		GongUnmarshallEnum(&instance.Category2TypeRectAnchorType, valueExpr)
-	case "Category2DominantBaselineType":
-		GongUnmarshallEnum(&instance.Category2DominantBaselineType, valueExpr)
-	case "Category2StrokeWidth":
-		instance.Category2StrokeWidth = GongExtractFloat(valueExpr)
-	case "Category3RectAnchorType":
-		GongUnmarshallEnum(&instance.Category3RectAnchorType, valueExpr)
-	case "Category3TextAnchorType":
-		GongUnmarshallEnum(&instance.Category3TextAnchorType, valueExpr)
-	case "Category3DominantBaselineType":
-		GongUnmarshallEnum(&instance.Category3DominantBaselineType, valueExpr)
-	case "Category3FontSize":
-		instance.Category3FontSize = GongExtractString(valueExpr)
-	case "Category3FontWeigth":
-		instance.Category3FontWeigth = GongExtractString(valueExpr)
-	case "Category3FontFamily":
-		instance.Category3FontFamily = GongExtractString(valueExpr)
-	case "Category3LetterSpacing":
-		instance.Category3LetterSpacing = GongExtractString(valueExpr)
-	case "InfluenceStrokeWidth":
-		instance.InfluenceStrokeWidth = GongExtractFloat(valueExpr)
+	case "BottomBoxYOffset":
+		instance.BottomBoxYOffset = GongExtractFloat(valueExpr)
+	case "BottomBoxWidth":
+		instance.BottomBoxWidth = GongExtractFloat(valueExpr)
+	case "BottomBoxHeigth":
+		instance.BottomBoxHeigth = GongExtractFloat(valueExpr)
+	case "BottomBoxFontSize":
+		instance.BottomBoxFontSize = GongExtractString(valueExpr)
+	case "BottomBoxFontWeigth":
+		instance.BottomBoxFontWeigth = GongExtractString(valueExpr)
+	case "BottomBoxFontFamily":
+		instance.BottomBoxFontFamily = GongExtractString(valueExpr)
+	case "BottomBoxLetterSpacing":
+		instance.BottomBoxLetterSpacing = GongExtractString(valueExpr)
+	case "BottomBoxLetterColorCode":
+		instance.BottomBoxLetterColorCode = GongExtractString(valueExpr)
+	case "MovementRectAnchorType":
+		GongUnmarshallEnum(&instance.MovementRectAnchorType, valueExpr)
+	case "MovementTextAnchorType":
+		GongUnmarshallEnum(&instance.MovementTextAnchorType, valueExpr)
+	case "MovementDominantBaselineType":
+		GongUnmarshallEnum(&instance.MovementDominantBaselineType, valueExpr)
+	case "MovementFontSize":
+		instance.MovementFontSize = GongExtractString(valueExpr)
+	case "MajorMovementFontSize":
+		instance.MajorMovementFontSize = GongExtractString(valueExpr)
+	case "MinorMovementFontSize":
+		instance.MinorMovementFontSize = GongExtractString(valueExpr)
+	case "MovementFontWeigth":
+		instance.MovementFontWeigth = GongExtractString(valueExpr)
+	case "MovementFontFamily":
+		instance.MovementFontFamily = GongExtractString(valueExpr)
+	case "MovementLetterSpacing":
+		instance.MovementLetterSpacing = GongExtractString(valueExpr)
+	case "AbstractMovementFontSize":
+		instance.AbstractMovementFontSize = GongExtractString(valueExpr)
+	case "AbstractMovementRectAnchorType":
+		GongUnmarshallEnum(&instance.AbstractMovementRectAnchorType, valueExpr)
+	case "AbstractMovementTextAnchorType":
+		GongUnmarshallEnum(&instance.AbstractMovementTextAnchorType, valueExpr)
+	case "AbstractDominantBaselineType":
+		GongUnmarshallEnum(&instance.AbstractDominantBaselineType, valueExpr)
+	case "MovementDateRectAnchorType":
+		GongUnmarshallEnum(&instance.MovementDateRectAnchorType, valueExpr)
+	case "MovementDateTextAnchorType":
+		GongUnmarshallEnum(&instance.MovementDateTextAnchorType, valueExpr)
+	case "MovementDateTextDominantBaselineType":
+		GongUnmarshallEnum(&instance.MovementDateTextDominantBaselineType, valueExpr)
+	case "MovementDateAndPlacesFontSize":
+		instance.MovementDateAndPlacesFontSize = GongExtractString(valueExpr)
+	case "MovementDateAndPlacesFontWeigth":
+		instance.MovementDateAndPlacesFontWeigth = GongExtractString(valueExpr)
+	case "MovementDateAndPlacesFontFamily":
+		instance.MovementDateAndPlacesFontFamily = GongExtractString(valueExpr)
+	case "MovementDateAndPlacesLetterSpacing":
+		instance.MovementDateAndPlacesLetterSpacing = GongExtractString(valueExpr)
+	case "MovementBelowArcY_Offset":
+		instance.MovementBelowArcY_Offset = GongExtractFloat(valueExpr)
+	case "MovementBelowArcY_OffsetPerPlace":
+		instance.MovementBelowArcY_OffsetPerPlace = GongExtractFloat(valueExpr)
+	case "MovementPlacesRectAnchorType":
+		GongUnmarshallEnum(&instance.MovementPlacesRectAnchorType, valueExpr)
+	case "MovementPlacesTextAnchorType":
+		GongUnmarshallEnum(&instance.MovementPlacesTextAnchorType, valueExpr)
+	case "MovementPlacesDominantBaselineType":
+		GongUnmarshallEnum(&instance.MovementPlacesDominantBaselineType, valueExpr)
+	case "ArtefactTypeFontSize":
+		instance.ArtefactTypeFontSize = GongExtractString(valueExpr)
+	case "ArtefactTypeFontWeigth":
+		instance.ArtefactTypeFontWeigth = GongExtractString(valueExpr)
+	case "ArtefactTypeFontFamily":
+		instance.ArtefactTypeFontFamily = GongExtractString(valueExpr)
+	case "ArtefactTypeLetterSpacing":
+		instance.ArtefactTypeLetterSpacing = GongExtractString(valueExpr)
+	case "ArtefactTypeRectAnchorType":
+		GongUnmarshallEnum(&instance.ArtefactTypeRectAnchorType, valueExpr)
+	case "ArtefactDominantBaselineType":
+		GongUnmarshallEnum(&instance.ArtefactDominantBaselineType, valueExpr)
+	case "ArtefactTypeStrokeWidth":
+		instance.ArtefactTypeStrokeWidth = GongExtractFloat(valueExpr)
+	case "ArtistRectAnchorType":
+		GongUnmarshallEnum(&instance.ArtistRectAnchorType, valueExpr)
+	case "ArtistTextAnchorType":
+		GongUnmarshallEnum(&instance.ArtistTextAnchorType, valueExpr)
+	case "ArtistDominantBaselineType":
+		GongUnmarshallEnum(&instance.ArtistDominantBaselineType, valueExpr)
+	case "ArtistFontSize":
+		instance.ArtistFontSize = GongExtractString(valueExpr)
+	case "MajorArtistFontSize":
+		instance.MajorArtistFontSize = GongExtractString(valueExpr)
+	case "MinorArtistFontSize":
+		instance.MinorArtistFontSize = GongExtractString(valueExpr)
+	case "ArtistFontWeigth":
+		instance.ArtistFontWeigth = GongExtractString(valueExpr)
+	case "ArtistFontFamily":
+		instance.ArtistFontFamily = GongExtractString(valueExpr)
+	case "ArtistLetterSpacing":
+		instance.ArtistLetterSpacing = GongExtractString(valueExpr)
+	case "ArtistDateRectAnchorType":
+		GongUnmarshallEnum(&instance.ArtistDateRectAnchorType, valueExpr)
+	case "ArtistDateTextAnchorType":
+		GongUnmarshallEnum(&instance.ArtistDateTextAnchorType, valueExpr)
+	case "ArtistDateDominantBaselineType":
+		GongUnmarshallEnum(&instance.ArtistDateDominantBaselineType, valueExpr)
+	case "ArtistDateAndPlacesFontSize":
+		instance.ArtistDateAndPlacesFontSize = GongExtractString(valueExpr)
+	case "ArtistDateAndPlacesFontWeigth":
+		instance.ArtistDateAndPlacesFontWeigth = GongExtractString(valueExpr)
+	case "ArtistDateAndPlacesFontFamily":
+		instance.ArtistDateAndPlacesFontFamily = GongExtractString(valueExpr)
+	case "ArtistDateAndPlacesLetterSpacing":
+		instance.ArtistDateAndPlacesLetterSpacing = GongExtractString(valueExpr)
+	case "ArtistPlacesRectAnchorType":
+		GongUnmarshallEnum(&instance.ArtistPlacesRectAnchorType, valueExpr)
+	case "ArtistPlacesTextAnchorType":
+		GongUnmarshallEnum(&instance.ArtistPlacesTextAnchorType, valueExpr)
+	case "ArtistPlacesDominantBaselineType":
+		GongUnmarshallEnum(&instance.ArtistPlacesDominantBaselineType, valueExpr)
 	case "InfluenceArrowSize":
 		instance.InfluenceArrowSize = GongExtractFloat(valueExpr)
 	case "InfluenceArrowStartOffset":
@@ -827,14 +859,6 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.InfluenceArrowEndOffset = GongExtractFloat(valueExpr)
 	case "InfluenceCornerRadius":
 		instance.InfluenceCornerRadius = GongExtractFloat(valueExpr)
-	case "InfluenceFontSize":
-		instance.InfluenceFontSize = GongExtractString(valueExpr)
-	case "InfluenceFontWeigth":
-		instance.InfluenceFontWeigth = GongExtractString(valueExpr)
-	case "InfluenceFontFamily":
-		instance.InfluenceFontFamily = GongExtractString(valueExpr)
-	case "InfluenceLetterSpacing":
-		instance.InfluenceLetterSpacing = GongExtractString(valueExpr)
 	case "InfluenceDashedLinePattern":
 		instance.InfluenceDashedLinePattern = GongExtractString(valueExpr)
 	}
@@ -866,22 +890,20 @@ func (u *InfluenceUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "SourceCategory1":
-		GongUnmarshallPointer(&instance.SourceCategory1, valueExpr, identifierMap)
-	case "SourceCategory2":
-		GongUnmarshallPointer(&instance.SourceCategory2, valueExpr, identifierMap)
-	case "SourceCategory3":
-		GongUnmarshallPointer(&instance.SourceCategory3, valueExpr, identifierMap)
-	case "TargetCategory1":
-		GongUnmarshallPointer(&instance.TargetCategory1, valueExpr, identifierMap)
-	case "TargetCategory2":
-		GongUnmarshallPointer(&instance.TargetCategory2, valueExpr, identifierMap)
-	case "TargetCategory3":
-		GongUnmarshallPointer(&instance.TargetCategory3, valueExpr, identifierMap)
+	case "SourceMovement":
+		GongUnmarshallPointer(&instance.SourceMovement, valueExpr, identifierMap)
+	case "SourceArtefactType":
+		GongUnmarshallPointer(&instance.SourceArtefactType, valueExpr, identifierMap)
+	case "SourceArtist":
+		GongUnmarshallPointer(&instance.SourceArtist, valueExpr, identifierMap)
+	case "TargetMovement":
+		GongUnmarshallPointer(&instance.TargetMovement, valueExpr, identifierMap)
+	case "TargetArtefactType":
+		GongUnmarshallPointer(&instance.TargetArtefactType, valueExpr, identifierMap)
+	case "TargetArtist":
+		GongUnmarshallPointer(&instance.TargetArtist, valueExpr, identifierMap)
 	case "IsHypothtical":
 		instance.IsHypothtical = GongExtractBool(valueExpr)
-	case "TextAtEndOfArrow":
-		instance.TextAtEndOfArrow = GongExtractString(valueExpr)
 	}
 	return nil
 }
@@ -915,6 +937,125 @@ func (u *InfluenceShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructI
 		GongUnmarshallPointer(&instance.Influence, valueExpr, identifierMap)
 	case "ControlPointShapes":
 		GongUnmarshallSliceOfPointers(&instance.ControlPointShapes, valueExpr, identifierMap)
+	}
+	return nil
+}
+
+type MovementUnmarshaller struct{}
+
+func (u *MovementUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(Movement)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *MovementUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*Movement)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Date":
+		if call, ok := valueExpr.(*ast.CallExpr); ok {
+			if len(call.Args) == 2 {
+				if bl, ok := call.Args[1].(*ast.BasicLit); ok {
+					instance.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
+				}
+			}
+		}
+	case "Places":
+		GongUnmarshallSliceOfPointers(&instance.Places, valueExpr, identifierMap)
+	case "IsAbstract":
+		instance.IsAbstract = GongExtractBool(valueExpr)
+	case "IsModern":
+		instance.IsModern = GongExtractBool(valueExpr)
+	case "IsMajor":
+		instance.IsMajor = GongExtractBool(valueExpr)
+	case "IsMinor":
+		instance.IsMinor = GongExtractBool(valueExpr)
+	case "AdditionnalName":
+		instance.AdditionnalName = GongExtractString(valueExpr)
+	case "HideDate":
+		instance.HideDate = GongExtractBool(valueExpr)
+	}
+	return nil
+}
+
+type MovementShapeUnmarshaller struct{}
+
+func (u *MovementShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(MovementShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *MovementShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*MovementShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Movement":
+		GongUnmarshallPointer(&instance.Movement, valueExpr, identifierMap)
+	case "X":
+		instance.X = GongExtractFloat(valueExpr)
+	case "Y":
+		instance.Y = GongExtractFloat(valueExpr)
+	case "Width":
+		instance.Width = GongExtractFloat(valueExpr)
+	case "Height":
+		instance.Height = GongExtractFloat(valueExpr)
+	}
+	return nil
+}
+
+type PlaceUnmarshaller struct{}
+
+func (u *PlaceUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(Place)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *PlaceUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*Place)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
 	}
 	return nil
 }

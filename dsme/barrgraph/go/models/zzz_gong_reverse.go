@@ -2,7 +2,7 @@
 package models
 
 // insertion point
-func (inst *Category1) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *ArtefactType) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -11,15 +11,15 @@ func (inst *Category1) GongGetReverseFieldOwnerName(stage *Stage, reverseField *
 	return
 }
 
-func (inst *Category1Shape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *ArtefactTypeShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
 	case "Diagram":
 		switch reverseField.Fieldname {
-		case "Category1Shapes":
-			if _diagram, ok := stage.Diagram_Category1Shapes_reverseMap[inst]; ok {
+		case "ArtefactTypeShapes":
+			if _diagram, ok := stage.Diagram_ArtefactTypeShapes_reverseMap[inst]; ok {
 				res = _diagram.Name
 			}
 		}
@@ -27,7 +27,7 @@ func (inst *Category1Shape) GongGetReverseFieldOwnerName(stage *Stage, reverseFi
 	return
 }
 
-func (inst *Category2) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *Artist) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -36,40 +36,15 @@ func (inst *Category2) GongGetReverseFieldOwnerName(stage *Stage, reverseField *
 	return
 }
 
-func (inst *Category2Shape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *ArtistShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
 	case "Diagram":
 		switch reverseField.Fieldname {
-		case "Category2Shapes":
-			if _diagram, ok := stage.Diagram_Category2Shapes_reverseMap[inst]; ok {
-				res = _diagram.Name
-			}
-		}
-	}
-	return
-}
-
-func (inst *Category3) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
-
-	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
-	return
-}
-
-func (inst *Category3Shape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
-
-	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	case "Diagram":
-		switch reverseField.Fieldname {
-		case "Category3Shapes":
-			if _diagram, ok := stage.Diagram_Category3Shapes_reverseMap[inst]; ok {
+		case "ArtistShapes":
+			if _diagram, ok := stage.Diagram_ArtistShapes_reverseMap[inst]; ok {
 				res = _diagram.Name
 			}
 		}
@@ -136,8 +111,49 @@ func (inst *InfluenceShape) GongGetReverseFieldOwnerName(stage *Stage, reverseFi
 	return
 }
 
+func (inst *Movement) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
+func (inst *MovementShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "Diagram":
+		switch reverseField.Fieldname {
+		case "MovementShapes":
+			if _diagram, ok := stage.Diagram_MovementShapes_reverseMap[inst]; ok {
+				res = _diagram.Name
+			}
+		}
+	}
+	return
+}
+
+func (inst *Place) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "Movement":
+		switch reverseField.Fieldname {
+		case "Places":
+			if _movement, ok := stage.Movement_Places_reverseMap[inst]; ok {
+				res = _movement.Name
+			}
+		}
+	}
+	return
+}
+
 // insertion point
-func (inst *Category1) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *ArtefactType) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -146,21 +162,21 @@ func (inst *Category1) GongGetReverseFieldOwner(stage *Stage, reverseField *Reve
 	return res
 }
 
-func (inst *Category1Shape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *ArtefactTypeShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
 	case "Diagram":
 		switch reverseField.Fieldname {
-		case "Category1Shapes":
-			res = stage.Diagram_Category1Shapes_reverseMap[inst]
+		case "ArtefactTypeShapes":
+			res = stage.Diagram_ArtefactTypeShapes_reverseMap[inst]
 		}
 	}
 	return res
 }
 
-func (inst *Category2) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *Artist) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -169,38 +185,15 @@ func (inst *Category2) GongGetReverseFieldOwner(stage *Stage, reverseField *Reve
 	return res
 }
 
-func (inst *Category2Shape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *ArtistShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
 	case "Diagram":
 		switch reverseField.Fieldname {
-		case "Category2Shapes":
-			res = stage.Diagram_Category2Shapes_reverseMap[inst]
-		}
-	}
-	return res
-}
-
-func (inst *Category3) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
-
-	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
-	return res
-}
-
-func (inst *Category3Shape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
-
-	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	case "Diagram":
-		switch reverseField.Fieldname {
-		case "Category3Shapes":
-			res = stage.Diagram_Category3Shapes_reverseMap[inst]
+		case "ArtistShapes":
+			res = stage.Diagram_ArtistShapes_reverseMap[inst]
 		}
 	}
 	return res
@@ -256,6 +249,43 @@ func (inst *InfluenceShape) GongGetReverseFieldOwner(stage *Stage, reverseField 
 		switch reverseField.Fieldname {
 		case "InfluenceShapes":
 			res = stage.Diagram_InfluenceShapes_reverseMap[inst]
+		}
+	}
+	return res
+}
+
+func (inst *Movement) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+
+func (inst *MovementShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	case "Diagram":
+		switch reverseField.Fieldname {
+		case "MovementShapes":
+			res = stage.Diagram_MovementShapes_reverseMap[inst]
+		}
+	}
+	return res
+}
+
+func (inst *Place) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	case "Movement":
+		switch reverseField.Fieldname {
+		case "Places":
+			res = stage.Movement_Places_reverseMap[inst]
 		}
 	}
 	return res
