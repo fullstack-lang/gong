@@ -947,13 +947,13 @@
             ]
         },
         {
-            "name": "project: go run project -unmarshallFromCode=data/issue1150.go -marshallOnCommit=data/issue1151.go",
+            "name": "project: go run project -unmarshallFromCode=data/issue1151.go -marshallOnCommit=data/issue1151.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/dsme/project/go/cmd/project",
             "args": [
-                "-unmarshallFromCode=data/issue1150.go",
+                "-unmarshallFromCode=data/issue1151.go",
                 "-marshallOnCommit=data/issue1151.go",
                 "-embeddedDiagrams=false",
             ]

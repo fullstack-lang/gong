@@ -32,8 +32,8 @@ func _(stage *models.Stage) {
 	__Resource__00000005_ := (&models.Resource{Name: `R5`}).Stage(stage)
 
 	__ResourceShape__00000003_ := (&models.ResourceShape{Name: `R3-D5`}).Stage(stage)
-	__ResourceShape__00000004_ := (&models.ResourceShape{Name: `-D5`}).Stage(stage)
-	__ResourceShape__00000005_ := (&models.ResourceShape{Name: `-D5`}).Stage(stage)
+	__ResourceShape__00000005_ := (&models.ResourceShape{Name: `R5-D5`}).Stage(stage)
+	__ResourceShape__00000006_ := (&models.ResourceShape{Name: `R4-D5`}).Stage(stage)
 
 	__Root__00000004_ := (&models.Root{Name: `Root 4`}).Stage(stage)
 
@@ -45,8 +45,8 @@ func _(stage *models.Stage) {
 	__Diagram__00000005_.ShowPrefix = true
 	__Diagram__00000005_.DefaultBoxWidth = 250.000000
 	__Diagram__00000005_.DefaultBoxHeigth = 100.000000
-	__Diagram__00000005_.Width = 3008.862056
-	__Diagram__00000005_.Height = 3376.845003
+	__Diagram__00000005_.Width = 3308.862056
+	__Diagram__00000005_.Height = 3676.845003
 	__Diagram__00000005_.IsExpanded = true
 	__Diagram__00000005_.ComputedPrefix = ``
 	__Diagram__00000005_.IsInRenameMode = false
@@ -85,33 +85,33 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000003_.Width = 250.000000
 	__ResourceShape__00000003_.Height = 100.000000
 
-	__ResourceShape__00000004_.Name = `-D5`
-	__ResourceShape__00000004_.IsExpanded = false
-	__ResourceShape__00000004_.X = 133.871216
-	__ResourceShape__00000004_.Y = 148.417467
-	__ResourceShape__00000004_.Width = 250.000000
-	__ResourceShape__00000004_.Height = 100.000000
-
-	__ResourceShape__00000005_.Name = `-D5`
+	__ResourceShape__00000005_.Name = `R5-D5`
 	__ResourceShape__00000005_.IsExpanded = false
 	__ResourceShape__00000005_.X = 130.228419
 	__ResourceShape__00000005_.Y = 467.987657
 	__ResourceShape__00000005_.Width = 250.000000
 	__ResourceShape__00000005_.Height = 100.000000
 
+	__ResourceShape__00000006_.Name = `R4-D5`
+	__ResourceShape__00000006_.IsExpanded = false
+	__ResourceShape__00000006_.X = 162.940130
+	__ResourceShape__00000006_.Y = 190.780748
+	__ResourceShape__00000006_.Width = 250.000000
+	__ResourceShape__00000006_.Height = 100.000000
+
 	__Root__00000004_.Name = `Root 4`
 	__Root__00000004_.NbPixPerCharacter = 8.000000
 
 	// insertion point for setup of pointers
 	__Diagram__00000005_.Resource_Shapes = append(__Diagram__00000005_.Resource_Shapes, __ResourceShape__00000003_)
-	__Diagram__00000005_.Resource_Shapes = append(__Diagram__00000005_.Resource_Shapes, __ResourceShape__00000004_)
 	__Diagram__00000005_.Resource_Shapes = append(__Diagram__00000005_.Resource_Shapes, __ResourceShape__00000005_)
+	__Diagram__00000005_.Resource_Shapes = append(__Diagram__00000005_.Resource_Shapes, __ResourceShape__00000006_)
 	__Project__00000001_.RootResources = append(__Project__00000001_.RootResources, __Resource__00000003_)
 	__Project__00000001_.RootResources = append(__Project__00000001_.RootResources, __Resource__00000004_)
 	__Project__00000001_.RootResources = append(__Project__00000001_.RootResources, __Resource__00000005_)
 	__Project__00000001_.Diagrams = append(__Project__00000001_.Diagrams, __Diagram__00000005_)
 	__ResourceShape__00000003_.Resource = __Resource__00000003_
-	__ResourceShape__00000004_.Resource = __Resource__00000004_
 	__ResourceShape__00000005_.Resource = __Resource__00000005_
+	__ResourceShape__00000006_.Resource = __Resource__00000004_
 	__Root__00000004_.Projects = append(__Root__00000004_.Projects, __Project__00000001_)
 }
