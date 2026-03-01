@@ -6,6 +6,7 @@ import (
 	"go/parser"
 	"go/token"
 	"log"
+	"os"
 	"strconv"
 
 	"github.com/fullstack-lang/gong/dsme/barrgraph/go/level1stack"
@@ -65,6 +66,12 @@ func main() {
 		stack.Stage,
 		stack.Probe,
 	)
+
+	portStr := os.Getenv("PORT")
+	if portStr == "" {
+		portStr = strconv.Itoa(*port) // Fallback on flag
+	}
+	*port, _ = strconv.Atoi(portStr)
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(*port))
 	err := stack.R.Run(":" + strconv.Itoa(*port))
