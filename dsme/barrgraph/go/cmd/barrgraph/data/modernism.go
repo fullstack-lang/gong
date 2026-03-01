@@ -36,12 +36,16 @@ func _(stage *models.Stage) {
 	__Artist__00000002_ := (&models.Artist{Name: `Gropius`}).Stage(stage)
 	__Artist__00000003_ := (&models.Artist{Name: `Le Corbusier`}).Stage(stage)
 	__Artist__00000004_ := (&models.Artist{Name: `Aalto`}).Stage(stage)
+	__Artist__00000005_ := (&models.Artist{Name: `Charles & Ray Eames`}).Stage(stage)
+	__Artist__00000006_ := (&models.Artist{Name: `Eero Saarinen`}).Stage(stage)
 
 	__ArtistShape__00000000_ := (&models.ArtistShape{Name: ``}).Stage(stage)
 	__ArtistShape__00000001_ := (&models.ArtistShape{Name: ``}).Stage(stage)
 	__ArtistShape__00000002_ := (&models.ArtistShape{Name: ``}).Stage(stage)
 	__ArtistShape__00000003_ := (&models.ArtistShape{Name: ``}).Stage(stage)
 	__ArtistShape__00000004_ := (&models.ArtistShape{Name: ``}).Stage(stage)
+	__ArtistShape__00000005_ := (&models.ArtistShape{Name: ``}).Stage(stage)
+	__ArtistShape__00000006_ := (&models.ArtistShape{Name: ``}).Stage(stage)
 
 	__Desk__00000000_ := (&models.Desk{Name: `Desk`}).Stage(stage)
 
@@ -58,6 +62,10 @@ func _(stage *models.Stage) {
 	__Influence__00000008_ := (&models.Influence{Name: `NEW MATERIALS to ORGANIC DESIGN`}).Stage(stage)
 	__Influence__00000009_ := (&models.Influence{Name: `ORGANIC DESIGN to SCANDINAVIAN MODERN`}).Stage(stage)
 	__Influence__00000010_ := (&models.Influence{Name: `INTERNATIONAL STYLE to SCANDINAVIAN MODERN`}).Stage(stage)
+	__Influence__00000011_ := (&models.Influence{Name: `BAUHAUS to CRANBROOK ACADEMY`}).Stage(stage)
+	__Influence__00000012_ := (&models.Influence{Name: `CRANBROOK ACADEMY to AMERICAN MID-CENTURY`}).Stage(stage)
+	__Influence__00000013_ := (&models.Influence{Name: `ORGANIC DESIGN to AMERICAN MID-CENTURY`}).Stage(stage)
+	__Influence__00000014_ := (&models.Influence{Name: `INTERNATIONAL STYLE to AMERICAN MID-CENTURY`}).Stage(stage)
 
 	__InfluenceShape__00000000_ := (&models.InfluenceShape{Name: `CRAFTSMANSHIP to ARTS & CRAFTS`}).Stage(stage)
 	__InfluenceShape__00000001_ := (&models.InfluenceShape{Name: `ARTS & CRAFTS to WIENER WERKSTÄTTE`}).Stage(stage)
@@ -70,6 +78,10 @@ func _(stage *models.Stage) {
 	__InfluenceShape__00000008_ := (&models.InfluenceShape{Name: `NEW MATERIALS to ORGANIC DESIGN`}).Stage(stage)
 	__InfluenceShape__00000009_ := (&models.InfluenceShape{Name: `ORGANIC DESIGN to SCANDINAVIAN MODERN`}).Stage(stage)
 	__InfluenceShape__00000010_ := (&models.InfluenceShape{Name: `INTERNATIONAL STYLE to SCANDINAVIAN MODERN`}).Stage(stage)
+	__InfluenceShape__00000011_ := (&models.InfluenceShape{Name: `BAUHAUS to CRANBROOK ACADEMY`}).Stage(stage)
+	__InfluenceShape__00000012_ := (&models.InfluenceShape{Name: `CRANBROOK ACADEMY to AMERICAN MID-CENTURY`}).Stage(stage)
+	__InfluenceShape__00000013_ := (&models.InfluenceShape{Name: `ORGANIC DESIGN to AMERICAN MID-CENTURY`}).Stage(stage)
+	__InfluenceShape__00000014_ := (&models.InfluenceShape{Name: `INTERNATIONAL STYLE to AMERICAN MID-CENTURY`}).Stage(stage)
 
 	__Movement__00000000_ := (&models.Movement{Name: `ARTS & CRAFTS`}).Stage(stage)
 	__Movement__00000001_ := (&models.Movement{Name: `WIENER WERKSTÄTTE`}).Stage(stage)
@@ -80,6 +92,8 @@ func _(stage *models.Stage) {
 	__Movement__00000006_ := (&models.Movement{Name: `INTERNATIONAL STYLE`}).Stage(stage)
 	__Movement__00000007_ := (&models.Movement{Name: `ORGANIC DESIGN`}).Stage(stage)
 	__Movement__00000008_ := (&models.Movement{Name: `SCANDINAVIAN MODERN`}).Stage(stage)
+	__Movement__00000009_ := (&models.Movement{Name: `CRANBROOK ACADEMY`}).Stage(stage)
+	__Movement__00000010_ := (&models.Movement{Name: `AMERICAN MID-CENTURY`}).Stage(stage)
 
 	__MovementShape__00000000_ := (&models.MovementShape{Name: ``}).Stage(stage)
 	__MovementShape__00000001_ := (&models.MovementShape{Name: ``}).Stage(stage)
@@ -90,6 +104,8 @@ func _(stage *models.Stage) {
 	__MovementShape__00000006_ := (&models.MovementShape{Name: ``}).Stage(stage)
 	__MovementShape__00000007_ := (&models.MovementShape{Name: ``}).Stage(stage)
 	__MovementShape__00000008_ := (&models.MovementShape{Name: ``}).Stage(stage)
+	__MovementShape__00000009_ := (&models.MovementShape{Name: ``}).Stage(stage)
+	__MovementShape__00000010_ := (&models.MovementShape{Name: ``}).Stage(stage)
 
 	__Place__00000000_ := (&models.Place{Name: `London`}).Stage(stage)
 	__Place__00000001_ := (&models.Place{Name: `Vienna`}).Stage(stage)
@@ -100,6 +116,8 @@ func _(stage *models.Stage) {
 	__Place__00000006_ := (&models.Place{Name: `Paris`}).Stage(stage)
 	__Place__00000007_ := (&models.Place{Name: `Helsinki`}).Stage(stage)
 	__Place__00000008_ := (&models.Place{Name: `Copenhagen`}).Stage(stage)
+	__Place__00000009_ := (&models.Place{Name: `Bloomfield Hills`}).Stage(stage)
+	__Place__00000010_ := (&models.Place{Name: `California`}).Stage(stage)
 
 	// insertion point for initialization of values
 
@@ -147,6 +165,14 @@ func _(stage *models.Stage) {
 	__Artist__00000004_.IsDead = true
 	__Artist__00000004_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1976-01-01 00:00:00 +0000 UTC")
 
+	__Artist__00000005_.Name = `Charles & Ray Eames`
+	__Artist__00000005_.IsDead = true
+	__Artist__00000005_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1978-01-01 00:00:00 +0000 UTC")
+
+	__Artist__00000006_.Name = `Eero Saarinen`
+	__Artist__00000006_.IsDead = true
+	__Artist__00000006_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1961-01-01 00:00:00 +0000 UTC")
+
 	__ArtistShape__00000000_.Name = ``
 	__ArtistShape__00000000_.X = 250.000000
 	__ArtistShape__00000000_.Y = 100.000000
@@ -172,10 +198,22 @@ func _(stage *models.Stage) {
 	__ArtistShape__00000003_.Height = 30.000000
 
 	__ArtistShape__00000004_.Name = ``
-	__ArtistShape__00000004_.X = 115.000000
-	__ArtistShape__00000004_.Y = 370.000000
+	__ArtistShape__00000004_.X = 150.000000
+	__ArtistShape__00000004_.Y = 380.000000
 	__ArtistShape__00000004_.Width = 80.000000
 	__ArtistShape__00000004_.Height = 30.000000
+
+	__ArtistShape__00000005_.Name = ``
+	__ArtistShape__00000005_.X = 550.000000
+	__ArtistShape__00000005_.Y = 500.000000
+	__ArtistShape__00000005_.Width = 120.000000
+	__ArtistShape__00000005_.Height = 30.000000
+
+	__ArtistShape__00000006_.Name = ``
+	__ArtistShape__00000006_.X = 750.000000
+	__ArtistShape__00000006_.Y = 500.000000
+	__ArtistShape__00000006_.Width = 100.000000
+	__ArtistShape__00000006_.Height = 30.000000
 
 	__Desk__00000000_.Name = `Desk`
 
@@ -297,6 +335,18 @@ func _(stage *models.Stage) {
 	__Influence__00000010_.Name = `INTERNATIONAL STYLE to SCANDINAVIAN MODERN`
 	__Influence__00000010_.IsHypothtical = false
 
+	__Influence__00000011_.Name = `BAUHAUS to CRANBROOK ACADEMY`
+	__Influence__00000011_.IsHypothtical = false
+
+	__Influence__00000012_.Name = `CRANBROOK ACADEMY to AMERICAN MID-CENTURY`
+	__Influence__00000012_.IsHypothtical = false
+
+	__Influence__00000013_.Name = `ORGANIC DESIGN to AMERICAN MID-CENTURY`
+	__Influence__00000013_.IsHypothtical = false
+
+	__Influence__00000014_.Name = `INTERNATIONAL STYLE to AMERICAN MID-CENTURY`
+	__Influence__00000014_.IsHypothtical = false
+
 	__InfluenceShape__00000000_.Name = `CRAFTSMANSHIP to ARTS & CRAFTS`
 
 	__InfluenceShape__00000001_.Name = `ARTS & CRAFTS to WIENER WERKSTÄTTE`
@@ -318,6 +368,14 @@ func _(stage *models.Stage) {
 	__InfluenceShape__00000009_.Name = `ORGANIC DESIGN to SCANDINAVIAN MODERN`
 
 	__InfluenceShape__00000010_.Name = `INTERNATIONAL STYLE to SCANDINAVIAN MODERN`
+
+	__InfluenceShape__00000011_.Name = `BAUHAUS to CRANBROOK ACADEMY`
+
+	__InfluenceShape__00000012_.Name = `CRANBROOK ACADEMY to AMERICAN MID-CENTURY`
+
+	__InfluenceShape__00000013_.Name = `ORGANIC DESIGN to AMERICAN MID-CENTURY`
+
+	__InfluenceShape__00000014_.Name = `INTERNATIONAL STYLE to AMERICAN MID-CENTURY`
 
 	__Movement__00000000_.Name = `ARTS & CRAFTS`
 	__Movement__00000000_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1900-01-01 00:00:00 +0000 UTC")
@@ -400,6 +458,24 @@ func _(stage *models.Stage) {
 	__Movement__00000008_.AdditionnalName = ``
 	__Movement__00000008_.HideDate = false
 
+	__Movement__00000009_.Name = `CRANBROOK ACADEMY`
+	__Movement__00000009_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1932-01-01 00:00:00 +0000 UTC")
+	__Movement__00000009_.IsAbstract = false
+	__Movement__00000009_.IsModern = false
+	__Movement__00000009_.IsMajor = false
+	__Movement__00000009_.IsMinor = false
+	__Movement__00000009_.AdditionnalName = ``
+	__Movement__00000009_.HideDate = false
+
+	__Movement__00000010_.Name = `AMERICAN MID-CENTURY`
+	__Movement__00000010_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1945-01-01 00:00:00 +0000 UTC")
+	__Movement__00000010_.IsAbstract = false
+	__Movement__00000010_.IsModern = false
+	__Movement__00000010_.IsMajor = true
+	__Movement__00000010_.IsMinor = false
+	__Movement__00000010_.AdditionnalName = ``
+	__Movement__00000010_.HideDate = false
+
 	__MovementShape__00000000_.Name = ``
 	__MovementShape__00000000_.X = 100.000000
 	__MovementShape__00000000_.Y = 100.000000
@@ -419,8 +495,8 @@ func _(stage *models.Stage) {
 	__MovementShape__00000002_.Height = 30.000000
 
 	__MovementShape__00000003_.Name = ``
-	__MovementShape__00000003_.X = 589.000000
-	__MovementShape__00000003_.Y = 218.000015
+	__MovementShape__00000003_.X = 600.000000
+	__MovementShape__00000003_.Y = 250.000000
 	__MovementShape__00000003_.Width = 120.000000
 	__MovementShape__00000003_.Height = 30.000000
 
@@ -437,14 +513,14 @@ func _(stage *models.Stage) {
 	__MovementShape__00000005_.Height = 30.000000
 
 	__MovementShape__00000006_.Name = ``
-	__MovementShape__00000006_.X = 457.000000
-	__MovementShape__00000006_.Y = 367.000000
+	__MovementShape__00000006_.X = 450.000000
+	__MovementShape__00000006_.Y = 350.000000
 	__MovementShape__00000006_.Width = 150.000000
 	__MovementShape__00000006_.Height = 30.000000
 
 	__MovementShape__00000007_.Name = ``
-	__MovementShape__00000007_.X = 214.000000
-	__MovementShape__00000007_.Y = 417.000000
+	__MovementShape__00000007_.X = 200.000000
+	__MovementShape__00000007_.Y = 400.000000
 	__MovementShape__00000007_.Width = 120.000000
 	__MovementShape__00000007_.Height = 30.000000
 
@@ -453,6 +529,18 @@ func _(stage *models.Stage) {
 	__MovementShape__00000008_.Y = 600.000000
 	__MovementShape__00000008_.Width = 160.000000
 	__MovementShape__00000008_.Height = 30.000000
+
+	__MovementShape__00000009_.Name = ``
+	__MovementShape__00000009_.X = 600.000000
+	__MovementShape__00000009_.Y = 420.000000
+	__MovementShape__00000009_.Width = 140.000000
+	__MovementShape__00000009_.Height = 30.000000
+
+	__MovementShape__00000010_.Name = ``
+	__MovementShape__00000010_.X = 650.000000
+	__MovementShape__00000010_.Y = 550.000000
+	__MovementShape__00000010_.Width = 180.000000
+	__MovementShape__00000010_.Height = 30.000000
 
 	__Place__00000000_.Name = `London`
 
@@ -472,6 +560,10 @@ func _(stage *models.Stage) {
 
 	__Place__00000008_.Name = `Copenhagen`
 
+	__Place__00000009_.Name = `Bloomfield Hills`
+
+	__Place__00000010_.Name = `California`
+
 	// insertion point for setup of pointers
 	__ArtefactTypeShape__00000000_.ArtefactType = __ArtefactType__00000000_
 	__ArtefactTypeShape__00000001_.ArtefactType = __ArtefactType__00000001_
@@ -481,11 +573,15 @@ func _(stage *models.Stage) {
 	__Artist__00000002_.Place = __Place__00000003_
 	__Artist__00000003_.Place = __Place__00000006_
 	__Artist__00000004_.Place = __Place__00000007_
+	__Artist__00000005_.Place = __Place__00000010_
+	__Artist__00000006_.Place = __Place__00000009_
 	__ArtistShape__00000000_.Artist = __Artist__00000000_
 	__ArtistShape__00000001_.Artist = __Artist__00000001_
 	__ArtistShape__00000002_.Artist = __Artist__00000002_
 	__ArtistShape__00000003_.Artist = __Artist__00000003_
 	__ArtistShape__00000004_.Artist = __Artist__00000004_
+	__ArtistShape__00000005_.Artist = __Artist__00000005_
+	__ArtistShape__00000006_.Artist = __Artist__00000006_
 	__Desk__00000000_.SelectedDiagram = __Diagram__00000000_
 	__Diagram__00000000_.MovementShapes = append(__Diagram__00000000_.MovementShapes, __MovementShape__00000000_)
 	__Diagram__00000000_.MovementShapes = append(__Diagram__00000000_.MovementShapes, __MovementShape__00000001_)
@@ -496,6 +592,8 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.MovementShapes = append(__Diagram__00000000_.MovementShapes, __MovementShape__00000006_)
 	__Diagram__00000000_.MovementShapes = append(__Diagram__00000000_.MovementShapes, __MovementShape__00000007_)
 	__Diagram__00000000_.MovementShapes = append(__Diagram__00000000_.MovementShapes, __MovementShape__00000008_)
+	__Diagram__00000000_.MovementShapes = append(__Diagram__00000000_.MovementShapes, __MovementShape__00000009_)
+	__Diagram__00000000_.MovementShapes = append(__Diagram__00000000_.MovementShapes, __MovementShape__00000010_)
 	__Diagram__00000000_.ArtefactTypeShapes = append(__Diagram__00000000_.ArtefactTypeShapes, __ArtefactTypeShape__00000000_)
 	__Diagram__00000000_.ArtefactTypeShapes = append(__Diagram__00000000_.ArtefactTypeShapes, __ArtefactTypeShape__00000001_)
 	__Diagram__00000000_.ArtefactTypeShapes = append(__Diagram__00000000_.ArtefactTypeShapes, __ArtefactTypeShape__00000002_)
@@ -504,6 +602,8 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.ArtistShapes = append(__Diagram__00000000_.ArtistShapes, __ArtistShape__00000002_)
 	__Diagram__00000000_.ArtistShapes = append(__Diagram__00000000_.ArtistShapes, __ArtistShape__00000003_)
 	__Diagram__00000000_.ArtistShapes = append(__Diagram__00000000_.ArtistShapes, __ArtistShape__00000004_)
+	__Diagram__00000000_.ArtistShapes = append(__Diagram__00000000_.ArtistShapes, __ArtistShape__00000005_)
+	__Diagram__00000000_.ArtistShapes = append(__Diagram__00000000_.ArtistShapes, __ArtistShape__00000006_)
 	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __InfluenceShape__00000000_)
 	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __InfluenceShape__00000001_)
 	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __InfluenceShape__00000002_)
@@ -515,6 +615,10 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __InfluenceShape__00000008_)
 	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __InfluenceShape__00000009_)
 	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __InfluenceShape__00000010_)
+	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __InfluenceShape__00000011_)
+	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __InfluenceShape__00000012_)
+	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __InfluenceShape__00000013_)
+	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __InfluenceShape__00000014_)
 	__Influence__00000000_.SourceMovement = nil
 	__Influence__00000000_.SourceArtefactType = __ArtefactType__00000000_
 	__Influence__00000000_.SourceArtist = nil
@@ -581,6 +685,30 @@ func _(stage *models.Stage) {
 	__Influence__00000010_.TargetMovement = __Movement__00000008_
 	__Influence__00000010_.TargetArtefactType = nil
 	__Influence__00000010_.TargetArtist = nil
+	__Influence__00000011_.SourceMovement = __Movement__00000005_
+	__Influence__00000011_.SourceArtefactType = nil
+	__Influence__00000011_.SourceArtist = nil
+	__Influence__00000011_.TargetMovement = __Movement__00000009_
+	__Influence__00000011_.TargetArtefactType = nil
+	__Influence__00000011_.TargetArtist = nil
+	__Influence__00000012_.SourceMovement = __Movement__00000009_
+	__Influence__00000012_.SourceArtefactType = nil
+	__Influence__00000012_.SourceArtist = nil
+	__Influence__00000012_.TargetMovement = __Movement__00000010_
+	__Influence__00000012_.TargetArtefactType = nil
+	__Influence__00000012_.TargetArtist = nil
+	__Influence__00000013_.SourceMovement = __Movement__00000007_
+	__Influence__00000013_.SourceArtefactType = nil
+	__Influence__00000013_.SourceArtist = nil
+	__Influence__00000013_.TargetMovement = __Movement__00000010_
+	__Influence__00000013_.TargetArtefactType = nil
+	__Influence__00000013_.TargetArtist = nil
+	__Influence__00000014_.SourceMovement = __Movement__00000006_
+	__Influence__00000014_.SourceArtefactType = nil
+	__Influence__00000014_.SourceArtist = nil
+	__Influence__00000014_.TargetMovement = __Movement__00000010_
+	__Influence__00000014_.TargetArtefactType = nil
+	__Influence__00000014_.TargetArtist = nil
 	__InfluenceShape__00000000_.Influence = __Influence__00000000_
 	__InfluenceShape__00000001_.Influence = __Influence__00000001_
 	__InfluenceShape__00000002_.Influence = __Influence__00000002_
@@ -592,6 +720,10 @@ func _(stage *models.Stage) {
 	__InfluenceShape__00000008_.Influence = __Influence__00000008_
 	__InfluenceShape__00000009_.Influence = __Influence__00000009_
 	__InfluenceShape__00000010_.Influence = __Influence__00000010_
+	__InfluenceShape__00000011_.Influence = __Influence__00000011_
+	__InfluenceShape__00000012_.Influence = __Influence__00000012_
+	__InfluenceShape__00000013_.Influence = __Influence__00000013_
+	__InfluenceShape__00000014_.Influence = __Influence__00000014_
 	__Movement__00000000_.Places = append(__Movement__00000000_.Places, __Place__00000000_)
 	__Movement__00000001_.Places = append(__Movement__00000001_.Places, __Place__00000001_)
 	__Movement__00000002_.Places = append(__Movement__00000002_.Places, __Place__00000002_)
@@ -603,6 +735,8 @@ func _(stage *models.Stage) {
 	__Movement__00000007_.Places = append(__Movement__00000007_.Places, __Place__00000007_)
 	__Movement__00000008_.Places = append(__Movement__00000008_.Places, __Place__00000008_)
 	__Movement__00000008_.Places = append(__Movement__00000008_.Places, __Place__00000007_)
+	__Movement__00000009_.Places = append(__Movement__00000009_.Places, __Place__00000009_)
+	__Movement__00000010_.Places = append(__Movement__00000010_.Places, __Place__00000010_)
 	__MovementShape__00000000_.Movement = __Movement__00000000_
 	__MovementShape__00000001_.Movement = __Movement__00000001_
 	__MovementShape__00000002_.Movement = __Movement__00000002_
@@ -612,4 +746,6 @@ func _(stage *models.Stage) {
 	__MovementShape__00000006_.Movement = __Movement__00000006_
 	__MovementShape__00000007_.Movement = __Movement__00000007_
 	__MovementShape__00000008_.Movement = __Movement__00000008_
+	__MovementShape__00000009_.Movement = __Movement__00000009_
+	__MovementShape__00000010_.Movement = __Movement__00000010_
 }
