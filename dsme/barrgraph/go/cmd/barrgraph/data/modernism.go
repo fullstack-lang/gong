@@ -233,10 +233,12 @@ func _(stage *models.Stage) {
 	__Mov__Werkbund_.Places = append(__Mov__Werkbund_.Places, __Place__Munich_)
 	__Mov__Constructivism_.Places = append(__Mov__Constructivism_.Places, __Place__Moscow_)
 	__Mov__DeStijl_.Places = append(__Mov__DeStijl_.Places, __Place__London_)
-	__Mov__Bauhaus_.Places = append(__Mov__Bauhaus_.Places, __Place__Weimar_, __Place__Dessau_)
+	__Mov__Bauhaus_.Places = append(__Mov__Bauhaus_.Places, __Place__Weimar_)
+	__Mov__Bauhaus_.Places = append(__Mov__Bauhaus_.Places, __Place__Dessau_)
 	__Mov__IntStyle_.Places = append(__Mov__IntStyle_.Places, __Place__Paris_)
 	__Mov__Organic_.Places = append(__Mov__Organic_.Places, __Place__Helsinki_)
-	__Mov__Scandi_.Places = append(__Mov__Scandi_.Places, __Place__Copenhagen_, __Place__Helsinki_)
+	__Mov__Scandi_.Places = append(__Mov__Scandi_.Places, __Place__Copenhagen_)
+	__Mov__Scandi_.Places = append(__Mov__Scandi_.Places, __Place__Helsinki_)
 
 	__MShape__ArtsCrafts_.Movement = __Mov__ArtsCrafts_
 	__MShape__Wiener_.Movement = __Mov__Wiener_
@@ -283,8 +285,36 @@ func _(stage *models.Stage) {
 	__IShape__10_.Influence = __Inf__10_
 	__IShape__11_.Influence = __Inf__11_
 
-	__Diagram__00000000_.ArtefactTypeShapes = append(__Diagram__00000000_.ArtefactTypeShapes, __AShape__Craft_, __AShape__Industrial_, __AShape__Materials_)
-	__Diagram__00000000_.ArtistShapes = append(__Diagram__00000000_.ArtistShapes, __ArtShape__Mackintosh_, __ArtShape__Behrens_, __ArtShape__Gropius_, __ArtShape__Corbusier_, __ArtShape__Aalto_)
-	__Diagram__00000000_.MovementShapes = append(__Diagram__00000000_.MovementShapes, __MShape__ArtsCrafts_, __MShape__Wiener_, __MShape__Werkbund_, __MShape__Constructivism_, __MShape__DeStijl_, __MShape__Bauhaus_, __MShape__IntStyle_, __MShape__Organic_, __MShape__Scandi_)
-	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __IShape__01_, __IShape__02_, __IShape__03_, __IShape__04_, __IShape__05_, __IShape__06_, __IShape__07_, __IShape__08_, __IShape__09_, __IShape__10_, __IShape__11_)
+	// Unrolled Diagram Shape Appends
+	__Diagram__00000000_.ArtefactTypeShapes = append(__Diagram__00000000_.ArtefactTypeShapes, __AShape__Craft_)
+	__Diagram__00000000_.ArtefactTypeShapes = append(__Diagram__00000000_.ArtefactTypeShapes, __AShape__Industrial_)
+	__Diagram__00000000_.ArtefactTypeShapes = append(__Diagram__00000000_.ArtefactTypeShapes, __AShape__Materials_)
+
+	__Diagram__00000000_.ArtistShapes = append(__Diagram__00000000_.ArtistShapes, __ArtShape__Mackintosh_)
+	__Diagram__00000000_.ArtistShapes = append(__Diagram__00000000_.ArtistShapes, __ArtShape__Behrens_)
+	__Diagram__00000000_.ArtistShapes = append(__Diagram__00000000_.ArtistShapes, __ArtShape__Gropius_)
+	__Diagram__00000000_.ArtistShapes = append(__Diagram__00000000_.ArtistShapes, __ArtShape__Corbusier_)
+	__Diagram__00000000_.ArtistShapes = append(__Diagram__00000000_.ArtistShapes, __ArtShape__Aalto_)
+
+	__Diagram__00000000_.MovementShapes = append(__Diagram__00000000_.MovementShapes, __MShape__ArtsCrafts_)
+	__Diagram__00000000_.MovementShapes = append(__Diagram__00000000_.MovementShapes, __MShape__Wiener_)
+	__Diagram__00000000_.MovementShapes = append(__Diagram__00000000_.MovementShapes, __MShape__Werkbund_)
+	__Diagram__00000000_.MovementShapes = append(__Diagram__00000000_.MovementShapes, __MShape__Constructivism_)
+	__Diagram__00000000_.MovementShapes = append(__Diagram__00000000_.MovementShapes, __MShape__DeStijl_)
+	__Diagram__00000000_.MovementShapes = append(__Diagram__00000000_.MovementShapes, __MShape__Bauhaus_)
+	__Diagram__00000000_.MovementShapes = append(__Diagram__00000000_.MovementShapes, __MShape__IntStyle_)
+	__Diagram__00000000_.MovementShapes = append(__Diagram__00000000_.MovementShapes, __MShape__Organic_)
+	__Diagram__00000000_.MovementShapes = append(__Diagram__00000000_.MovementShapes, __MShape__Scandi_)
+
+	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __IShape__01_)
+	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __IShape__02_)
+	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __IShape__03_)
+	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __IShape__04_)
+	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __IShape__05_)
+	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __IShape__06_)
+	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __IShape__07_)
+	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __IShape__08_)
+	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __IShape__09_)
+	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __IShape__10_)
+	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __IShape__11_)
 }
