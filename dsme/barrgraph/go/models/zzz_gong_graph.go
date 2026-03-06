@@ -2044,8 +2044,11 @@ func (movement *Movement) GongDiff(stage *Stage, movementOther *Movement) (diffs
 		ops := Diff(stage, movement, movementOther, "Places", movementOther.Places, movement.Places)
 		diffs = append(diffs, ops)
 	}
-	if movement.IsAbstract != movementOther.IsAbstract {
-		diffs = append(diffs, movement.GongMarshallField(stage, "IsAbstract"))
+	if movement.HasTaxonomicFilter != movementOther.HasTaxonomicFilter {
+		diffs = append(diffs, movement.GongMarshallField(stage, "HasTaxonomicFilter"))
+	}
+	if movement.TaxonomicFilter != movementOther.TaxonomicFilter {
+		diffs = append(diffs, movement.GongMarshallField(stage, "TaxonomicFilter"))
 	}
 	if movement.IsFeatured != movementOther.IsFeatured {
 		diffs = append(diffs, movement.GongMarshallField(stage, "IsFeatured"))
