@@ -474,6 +474,24 @@
       ]
     },
     {
+      "label": "00 - go build barrgraph-linux-amd64",
+      "type": "shell",
+      "options": {
+        "cwd": "dsme/barrgraph/go/cmd/barrgraph",
+        "env": {
+          "GOOS": "linux",
+          "GOARCH": "amd64"
+        }
+      },
+      "command": "go",
+      "args": [
+        "build",
+        "-o",
+        "barrgraph-linux-amd64"
+      ],
+      "group": "build"
+    },
+    {
       "label": "01 - gong generate tone",
       "type": "shell",
       "options": {

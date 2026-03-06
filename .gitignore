@@ -66,3 +66,4 @@ dsme/project/go/cmd/project/project
 
 pkg/docx/go/cmd/docx/docx
 dsme/barrgraph/go/cmd/barrgraph/barrgraph
+dsme/barrgraph/go/cmd/barrgraph/barrgraph-linux-amd64
