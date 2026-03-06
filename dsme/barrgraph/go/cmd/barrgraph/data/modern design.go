@@ -204,9 +204,9 @@ func _(stage *models.Stage) {
 	__ArtistShape__00000002_.Height = 30.000000
 
 	__ArtistShape__00000003_.Name = ``
-	__ArtistShape__00000003_.X = 600.000000
+	__ArtistShape__00000003_.X = 605.000000
 	__ArtistShape__00000003_.Y = 320.000000
-	__ArtistShape__00000003_.Width = 80.000000
+	__ArtistShape__00000003_.Width = 75.000000
 	__ArtistShape__00000003_.Height = 30.000000
 
 	__ArtistShape__00000004_.Name = ``
@@ -615,8 +615,8 @@ func _(stage *models.Stage) {
 
 	__MovementShape__00000008_.Name = ``
 	__MovementShape__00000008_.X = 138.000000
-	__MovementShape__00000008_.Y = 690.999939
-	__MovementShape__00000008_.Width = 160.000000
+	__MovementShape__00000008_.Y = 689.999939
+	__MovementShape__00000008_.Width = 167.000000
 	__MovementShape__00000008_.Height = 50.000000
 
 	__MovementShape__00000009_.Name = ``
