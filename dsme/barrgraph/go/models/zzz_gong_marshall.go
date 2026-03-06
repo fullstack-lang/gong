@@ -501,7 +501,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(movement.GongMarshallField(stage, "Date"))
 		pointersInitializesStatements.WriteString(movement.GongMarshallField(stage, "Places"))
 		initializerStatements.WriteString(movement.GongMarshallField(stage, "IsAbstract"))
-		initializerStatements.WriteString(movement.GongMarshallField(stage, "IsModern"))
+		initializerStatements.WriteString(movement.GongMarshallField(stage, "IsFeatured"))
+		initializerStatements.WriteString(movement.GongMarshallField(stage, "FeaturePrefix"))
 		initializerStatements.WriteString(movement.GongMarshallField(stage, "IsMajor"))
 		initializerStatements.WriteString(movement.GongMarshallField(stage, "IsMinor"))
 		initializerStatements.WriteString(movement.GongMarshallField(stage, "AdditionnalName"))
@@ -1731,11 +1732,16 @@ func (movement *Movement) GongMarshallField(stage *Stage, fieldName string) (res
 		res = strings.ReplaceAll(res, "{{Identifier}}", movement.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsAbstract")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", movement.IsAbstract))
-	case "IsModern":
+	case "IsFeatured":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", movement.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsModern")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", movement.IsModern))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsFeatured")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", movement.IsFeatured))
+	case "FeaturePrefix":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", movement.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FeaturePrefix")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(movement.FeaturePrefix))
 	case "IsMajor":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", movement.GongGetIdentifier(stage))
@@ -2058,7 +2064,8 @@ func (movement *Movement) GongMarshallAllFields(stage *Stage) (initRes string, p
 		initializerStatements.WriteString(movement.GongMarshallField(stage, "Date"))
 		pointersInitializesStatements.WriteString(movement.GongMarshallField(stage, "Places"))
 		initializerStatements.WriteString(movement.GongMarshallField(stage, "IsAbstract"))
-		initializerStatements.WriteString(movement.GongMarshallField(stage, "IsModern"))
+		initializerStatements.WriteString(movement.GongMarshallField(stage, "IsFeatured"))
+		initializerStatements.WriteString(movement.GongMarshallField(stage, "FeaturePrefix"))
 		initializerStatements.WriteString(movement.GongMarshallField(stage, "IsMajor"))
 		initializerStatements.WriteString(movement.GongMarshallField(stage, "IsMinor"))
 		initializerStatements.WriteString(movement.GongMarshallField(stage, "AdditionnalName"))

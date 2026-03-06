@@ -978,8 +978,10 @@ func (u *MovementUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 		GongUnmarshallSliceOfPointers(&instance.Places, valueExpr, identifierMap)
 	case "IsAbstract":
 		instance.IsAbstract = GongExtractBool(valueExpr)
-	case "IsModern":
-		instance.IsModern = GongExtractBool(valueExpr)
+	case "IsFeatured":
+		instance.IsFeatured = GongExtractBool(valueExpr)
+	case "FeaturePrefix":
+		instance.FeaturePrefix = GongExtractString(valueExpr)
 	case "IsMajor":
 		instance.IsMajor = GongExtractBool(valueExpr)
 	case "IsMinor":

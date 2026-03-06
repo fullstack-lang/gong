@@ -1129,7 +1129,8 @@ func _(stage *models.Stage) {
 	__Movement__00000000_.Name = `Purism`
 	__Movement__00000000_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1918-01-01 00:00:00 +0000 UTC")
 	__Movement__00000000_.IsAbstract = false
-	__Movement__00000000_.IsModern = false
+	__Movement__00000000_.IsFeatured = false
+	__Movement__00000000_.FeaturePrefix = ``
 	__Movement__00000000_.IsMajor = false
 	__Movement__00000000_.IsMinor = false
 	__Movement__00000000_.AdditionnalName = ``
@@ -1138,7 +1139,8 @@ func _(stage *models.Stage) {
 	__Movement__00000001_.Name = `Synthetism`
 	__Movement__00000001_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1888-01-01 00:00:00 +0000 UTC")
 	__Movement__00000001_.IsAbstract = false
-	__Movement__00000001_.IsModern = false
+	__Movement__00000001_.IsFeatured = false
+	__Movement__00000001_.FeaturePrefix = ``
 	__Movement__00000001_.IsMajor = false
 	__Movement__00000001_.IsMinor = false
 	__Movement__00000001_.AdditionnalName = ``
@@ -1147,7 +1149,8 @@ func _(stage *models.Stage) {
 	__Movement__00000002_.Name = `Neo-Impressionism`
 	__Movement__00000002_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1886-01-01 00:00:00 +0000 UTC")
 	__Movement__00000002_.IsAbstract = false
-	__Movement__00000002_.IsModern = false
+	__Movement__00000002_.IsFeatured = false
+	__Movement__00000002_.FeaturePrefix = ``
 	__Movement__00000002_.IsMajor = false
 	__Movement__00000002_.IsMinor = false
 	__Movement__00000002_.AdditionnalName = ``
@@ -1156,7 +1159,8 @@ func _(stage *models.Stage) {
 	__Movement__00000003_.Name = `Fauvism`
 	__Movement__00000003_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1905-01-01 00:00:00 +0000 UTC")
 	__Movement__00000003_.IsAbstract = false
-	__Movement__00000003_.IsModern = false
+	__Movement__00000003_.IsFeatured = false
+	__Movement__00000003_.FeaturePrefix = ``
 	__Movement__00000003_.IsMajor = false
 	__Movement__00000003_.IsMinor = false
 	__Movement__00000003_.AdditionnalName = ``
@@ -1165,7 +1169,8 @@ func _(stage *models.Stage) {
 	__Movement__00000004_.Name = `Expressionism`
 	__Movement__00000004_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1911-01-01 00:00:00 +0000 UTC")
 	__Movement__00000004_.IsAbstract = true
-	__Movement__00000004_.IsModern = false
+	__Movement__00000004_.IsFeatured = false
+	__Movement__00000004_.FeaturePrefix = ``
 	__Movement__00000004_.IsMajor = false
 	__Movement__00000004_.IsMinor = false
 	__Movement__00000004_.AdditionnalName = ``
@@ -1174,7 +1179,8 @@ func _(stage *models.Stage) {
 	__Movement__00000005_.Name = `Futurism`
 	__Movement__00000005_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1910-01-01 00:00:00 +0000 UTC")
 	__Movement__00000005_.IsAbstract = false
-	__Movement__00000005_.IsModern = false
+	__Movement__00000005_.IsFeatured = false
+	__Movement__00000005_.FeaturePrefix = ``
 	__Movement__00000005_.IsMajor = false
 	__Movement__00000005_.IsMinor = false
 	__Movement__00000005_.AdditionnalName = ``
@@ -1183,7 +1189,8 @@ func _(stage *models.Stage) {
 	__Movement__00000006_.Name = `Orphism`
 	__Movement__00000006_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1912-01-01 00:00:00 +0000 UTC")
 	__Movement__00000006_.IsAbstract = false
-	__Movement__00000006_.IsModern = false
+	__Movement__00000006_.IsFeatured = false
+	__Movement__00000006_.FeaturePrefix = ``
 	__Movement__00000006_.IsMajor = false
 	__Movement__00000006_.IsMinor = true
 	__Movement__00000006_.AdditionnalName = ``
@@ -1192,7 +1199,8 @@ func _(stage *models.Stage) {
 	__Movement__00000007_.Name = `Cubism`
 	__Movement__00000007_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1906-01-01 00:00:00 +0000 UTC")
 	__Movement__00000007_.IsAbstract = false
-	__Movement__00000007_.IsModern = false
+	__Movement__00000007_.IsFeatured = false
+	__Movement__00000007_.FeaturePrefix = ``
 	__Movement__00000007_.IsMajor = true
 	__Movement__00000007_.IsMinor = false
 	__Movement__00000007_.AdditionnalName = ``
@@ -1201,7 +1209,8 @@ func _(stage *models.Stage) {
 	__Movement__00000008_.Name = `Suprematism`
 	__Movement__00000008_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1913-01-01 00:00:00 +0000 UTC")
 	__Movement__00000008_.IsAbstract = false
-	__Movement__00000008_.IsModern = false
+	__Movement__00000008_.IsFeatured = false
+	__Movement__00000008_.FeaturePrefix = ``
 	__Movement__00000008_.IsMajor = false
 	__Movement__00000008_.IsMinor = false
 	__Movement__00000008_.AdditionnalName = ``
@@ -1210,7 +1219,8 @@ func _(stage *models.Stage) {
 	__Movement__00000009_.Name = `Constructivism`
 	__Movement__00000009_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1914-01-01 00:00:00 +0000 UTC")
 	__Movement__00000009_.IsAbstract = false
-	__Movement__00000009_.IsModern = false
+	__Movement__00000009_.IsFeatured = false
+	__Movement__00000009_.FeaturePrefix = ``
 	__Movement__00000009_.IsMajor = false
 	__Movement__00000009_.IsMinor = false
 	__Movement__00000009_.AdditionnalName = ``
@@ -1219,7 +1229,8 @@ func _(stage *models.Stage) {
 	__Movement__00000010_.Name = `Dadaism`
 	__Movement__00000010_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1916-01-01 00:00:00 +0000 UTC")
 	__Movement__00000010_.IsAbstract = true
-	__Movement__00000010_.IsModern = false
+	__Movement__00000010_.IsFeatured = false
+	__Movement__00000010_.FeaturePrefix = ``
 	__Movement__00000010_.IsMajor = false
 	__Movement__00000010_.IsMinor = false
 	__Movement__00000010_.AdditionnalName = ``
@@ -1228,7 +1239,8 @@ func _(stage *models.Stage) {
 	__Movement__00000011_.Name = `De Stijl`
 	__Movement__00000011_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1916-01-01 00:00:00 +0000 UTC")
 	__Movement__00000011_.IsAbstract = false
-	__Movement__00000011_.IsModern = false
+	__Movement__00000011_.IsFeatured = false
+	__Movement__00000011_.FeaturePrefix = ``
 	__Movement__00000011_.IsMajor = false
 	__Movement__00000011_.IsMinor = false
 	__Movement__00000011_.AdditionnalName = `Neoplasticism`
@@ -1237,7 +1249,8 @@ func _(stage *models.Stage) {
 	__Movement__00000012_.Name = `Bauhaus`
 	__Movement__00000012_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1919-01-01 00:00:00 +0000 UTC")
 	__Movement__00000012_.IsAbstract = false
-	__Movement__00000012_.IsModern = false
+	__Movement__00000012_.IsFeatured = false
+	__Movement__00000012_.FeaturePrefix = ``
 	__Movement__00000012_.IsMajor = false
 	__Movement__00000012_.IsMinor = false
 	__Movement__00000012_.AdditionnalName = ``
@@ -1246,7 +1259,8 @@ func _(stage *models.Stage) {
 	__Movement__00000013_.Name = `Surrealism`
 	__Movement__00000013_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1924-01-01 00:00:00 +0000 UTC")
 	__Movement__00000013_.IsAbstract = true
-	__Movement__00000013_.IsModern = false
+	__Movement__00000013_.IsFeatured = false
+	__Movement__00000013_.FeaturePrefix = ``
 	__Movement__00000013_.IsMajor = false
 	__Movement__00000013_.IsMinor = false
 	__Movement__00000013_.AdditionnalName = ``
@@ -1255,7 +1269,8 @@ func _(stage *models.Stage) {
 	__Movement__00000014_.Name = `Non-Geometrical Abstract Art`
 	__Movement__00000014_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1935-01-01 00:00:00 +0000 UTC")
 	__Movement__00000014_.IsAbstract = false
-	__Movement__00000014_.IsModern = false
+	__Movement__00000014_.IsFeatured = false
+	__Movement__00000014_.FeaturePrefix = ``
 	__Movement__00000014_.IsMajor = false
 	__Movement__00000014_.IsMinor = false
 	__Movement__00000014_.AdditionnalName = ``
@@ -1264,7 +1279,8 @@ func _(stage *models.Stage) {
 	__Movement__00000015_.Name = `Geometrical Abstract Art`
 	__Movement__00000015_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1935-01-01 00:00:00 +0000 UTC")
 	__Movement__00000015_.IsAbstract = false
-	__Movement__00000015_.IsModern = false
+	__Movement__00000015_.IsFeatured = false
+	__Movement__00000015_.FeaturePrefix = ``
 	__Movement__00000015_.IsMajor = false
 	__Movement__00000015_.IsMinor = false
 	__Movement__00000015_.AdditionnalName = ``
@@ -1273,7 +1289,8 @@ func _(stage *models.Stage) {
 	__Movement__00000016_.Name = `Architecture`
 	__Movement__00000016_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Movement__00000016_.IsAbstract = false
-	__Movement__00000016_.IsModern = true
+	__Movement__00000016_.IsFeatured = true
+	__Movement__00000016_.FeaturePrefix = `Modern`
 	__Movement__00000016_.IsMajor = true
 	__Movement__00000016_.IsMinor = false
 	__Movement__00000016_.AdditionnalName = ``

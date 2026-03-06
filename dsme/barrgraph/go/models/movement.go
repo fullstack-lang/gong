@@ -18,7 +18,8 @@ type Movement struct {
 
 	// the "Modern" in "Modern Architecture" is rendered above.
 	// We surmise this is a Alfred Barr"s intentional caterogy choice
-	IsModern bool
+	IsFeatured    bool
+	FeaturePrefix string // the "Modern" in "Modern Architecture"
 
 	IsMajor bool // cubism
 	IsMinor bool // orphism
@@ -37,7 +38,6 @@ type Movement struct {
 }
 
 func (*Movement) IsArtElement() {
-
 }
 
 func (shape *MovementShape) GetArtElement() *Movement {
@@ -59,7 +59,6 @@ type MovementShapeProxy struct {
 }
 
 func (p *MovementShapeProxy) RectUpdated(updatedRect *svg.Rect) {
-
 	diff := p.shape.X != updatedRect.X ||
 		p.shape.Y != updatedRect.Y ||
 		p.shape.Width != updatedRect.Width ||
@@ -87,7 +86,6 @@ type MovementNodeProxy struct {
 
 // OnAfterUpdate implements models.NodeImplInterface.
 func (d *MovementNodeProxy) OnAfterUpdate(stage *tree.Stage, stagedNode *tree.Node, frontNode *tree.Node) {
-
 	if frontNode.IsChecked && !stagedNode.IsChecked {
 		movementShape := &MovementShape{
 			Movement: d.movement,
@@ -100,7 +98,6 @@ func (d *MovementNodeProxy) OnAfterUpdate(stage *tree.Stage, stagedNode *tree.No
 		d.diagram.MovementShapes = append(d.diagram.MovementShapes, movementShape)
 	}
 	if !frontNode.IsChecked && stagedNode.IsChecked {
-
 		for idx, shape := range d.diagram.MovementShapes {
 			if shape.Movement == d.movement {
 				d.diagram.MovementShapes = slices.Delete(d.diagram.MovementShapes, idx, idx+1)
