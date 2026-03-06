@@ -408,7 +408,9 @@ type Movement_WOP struct {
 
 	IsAbstract bool
 
-	IsModern bool
+	IsFeatured bool
+
+	FeaturePrefix string
 
 	IsMajor bool
 
@@ -424,7 +426,8 @@ func (from *Movement) CopyBasicFields(to *Movement) {
 	to.Name = from.Name
 	to.Date = from.Date
 	to.IsAbstract = from.IsAbstract
-	to.IsModern = from.IsModern
+	to.IsFeatured = from.IsFeatured
+	to.FeaturePrefix = from.FeaturePrefix
 	to.IsMajor = from.IsMajor
 	to.IsMinor = from.IsMinor
 	to.AdditionnalName = from.AdditionnalName

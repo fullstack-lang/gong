@@ -346,7 +346,9 @@ func FillUpForm(
 		AssociationSliceToForm("Places", instanceWithInferedType, &instanceWithInferedType.Places, formGroup, probe)
 		BasicFieldtoForm("IsAbstract", instanceWithInferedType.IsAbstract, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("IsModern", instanceWithInferedType.IsModern, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("IsFeatured", instanceWithInferedType.IsFeatured, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("FeaturePrefix", instanceWithInferedType.FeaturePrefix, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsMajor", instanceWithInferedType.IsMajor, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)

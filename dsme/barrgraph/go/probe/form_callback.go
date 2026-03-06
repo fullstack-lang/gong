@@ -1438,8 +1438,10 @@ func (movementFormCallback *MovementFormCallback) OnSave() {
 
 		case "IsAbstract":
 			FormDivBasicFieldToField(&(movement_.IsAbstract), formDiv)
-		case "IsModern":
-			FormDivBasicFieldToField(&(movement_.IsModern), formDiv)
+		case "IsFeatured":
+			FormDivBasicFieldToField(&(movement_.IsFeatured), formDiv)
+		case "FeaturePrefix":
+			FormDivBasicFieldToField(&(movement_.FeaturePrefix), formDiv)
 		case "IsMajor":
 			FormDivBasicFieldToField(&(movement_.IsMajor), formDiv)
 		case "IsMinor":
