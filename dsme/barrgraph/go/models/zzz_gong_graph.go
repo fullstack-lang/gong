@@ -2023,6 +2023,9 @@ func (movement *Movement) GongDiff(stage *Stage, movementOther *Movement) (diffs
 	if movement.Date != movementOther.Date {
 		diffs = append(diffs, movement.GongMarshallField(stage, "Date"))
 	}
+	if movement.HideDate != movementOther.HideDate {
+		diffs = append(diffs, movement.GongMarshallField(stage, "HideDate"))
+	}
 	PlacesDifferent := false
 	if len(movement.Places) != len(movementOther.Places) {
 		PlacesDifferent = true
@@ -2064,9 +2067,6 @@ func (movement *Movement) GongDiff(stage *Stage, movementOther *Movement) (diffs
 	}
 	if movement.AdditionnalName != movementOther.AdditionnalName {
 		diffs = append(diffs, movement.GongMarshallField(stage, "AdditionnalName"))
-	}
-	if movement.HideDate != movementOther.HideDate {
-		diffs = append(diffs, movement.GongMarshallField(stage, "HideDate"))
 	}
 
 	return

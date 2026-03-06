@@ -974,6 +974,8 @@ func (u *MovementUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 				}
 			}
 		}
+	case "HideDate":
+		instance.HideDate = GongExtractBool(valueExpr)
 	case "Places":
 		GongUnmarshallSliceOfPointers(&instance.Places, valueExpr, identifierMap)
 	case "HasTaxonomicFilter":
@@ -990,8 +992,6 @@ func (u *MovementUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 		instance.IsMinor = GongExtractBool(valueExpr)
 	case "AdditionnalName":
 		instance.AdditionnalName = GongExtractString(valueExpr)
-	case "HideDate":
-		instance.HideDate = GongExtractBool(valueExpr)
 	}
 	return nil
 }

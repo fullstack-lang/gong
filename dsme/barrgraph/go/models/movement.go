@@ -10,8 +10,13 @@ import (
 )
 
 type Movement struct {
-	Name   string
-	Date   time.Time
+	Name string
+
+	Date time.Time
+	// NON GEOMETRICAL and GEOMTRICAL ABSRTACT ART
+	// have no dates shown
+	HideDate bool
+
 	Places []*Place
 
 	// Barr’s primary intention with this chart was to map the genealogy specifically
@@ -39,10 +44,6 @@ type Movement struct {
 	// Name is "DE STILJ" and the AdditionnalName
 	// AdditionnalName is NEOPLATICISM
 	AdditionnalName string
-
-	// NON GEOMETRICAL and GEOMTRICAL ABSRTACT ART
-	// have no dates shown
-	HideDate bool
 }
 
 func (*Movement) IsArtElement() {

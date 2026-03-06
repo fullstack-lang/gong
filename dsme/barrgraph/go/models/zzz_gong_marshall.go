@@ -499,6 +499,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(movement.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(movement.GongMarshallField(stage, "Date"))
+		initializerStatements.WriteString(movement.GongMarshallField(stage, "HideDate"))
 		pointersInitializesStatements.WriteString(movement.GongMarshallField(stage, "Places"))
 		initializerStatements.WriteString(movement.GongMarshallField(stage, "HasTaxonomicFilter"))
 		initializerStatements.WriteString(movement.GongMarshallField(stage, "TaxonomicFilter"))
@@ -507,7 +508,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(movement.GongMarshallField(stage, "IsMajor"))
 		initializerStatements.WriteString(movement.GongMarshallField(stage, "IsMinor"))
 		initializerStatements.WriteString(movement.GongMarshallField(stage, "AdditionnalName"))
-		initializerStatements.WriteString(movement.GongMarshallField(stage, "HideDate"))
 	}
 
 	movementshapeOrdered := []*MovementShape{}
@@ -1728,6 +1728,11 @@ func (movement *Movement) GongMarshallField(stage *Stage, fieldName string) (res
 		res = strings.ReplaceAll(res, "{{Identifier}}", movement.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Date")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", movement.Date.String())
+	case "HideDate":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", movement.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "HideDate")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", movement.HideDate))
 	case "HasTaxonomicFilter":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", movement.GongGetIdentifier(stage))
@@ -1763,11 +1768,6 @@ func (movement *Movement) GongMarshallField(stage *Stage, fieldName string) (res
 		res = strings.ReplaceAll(res, "{{Identifier}}", movement.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "AdditionnalName")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(movement.AdditionnalName))
-	case "HideDate":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", movement.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "HideDate")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", movement.HideDate))
 
 	case "Places":
 		var sb strings.Builder
@@ -2068,6 +2068,7 @@ func (movement *Movement) GongMarshallAllFields(stage *Stage) (initRes string, p
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(movement.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(movement.GongMarshallField(stage, "Date"))
+		initializerStatements.WriteString(movement.GongMarshallField(stage, "HideDate"))
 		pointersInitializesStatements.WriteString(movement.GongMarshallField(stage, "Places"))
 		initializerStatements.WriteString(movement.GongMarshallField(stage, "HasTaxonomicFilter"))
 		initializerStatements.WriteString(movement.GongMarshallField(stage, "TaxonomicFilter"))
@@ -2076,7 +2077,6 @@ func (movement *Movement) GongMarshallAllFields(stage *Stage) (initRes string, p
 		initializerStatements.WriteString(movement.GongMarshallField(stage, "IsMajor"))
 		initializerStatements.WriteString(movement.GongMarshallField(stage, "IsMinor"))
 		initializerStatements.WriteString(movement.GongMarshallField(stage, "AdditionnalName"))
-		initializerStatements.WriteString(movement.GongMarshallField(stage, "HideDate"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

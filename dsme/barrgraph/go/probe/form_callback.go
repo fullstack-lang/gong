@@ -1405,6 +1405,8 @@ func (movementFormCallback *MovementFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(movement_.Name), formDiv)
 		case "Date":
 			FormDivBasicFieldToField(&(movement_.Date), formDiv)
+		case "HideDate":
+			FormDivBasicFieldToField(&(movement_.HideDate), formDiv)
 		case "Places":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Place](movementFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Place, 0)
@@ -1450,8 +1452,6 @@ func (movementFormCallback *MovementFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(movement_.IsMinor), formDiv)
 		case "AdditionnalName":
 			FormDivBasicFieldToField(&(movement_.AdditionnalName), formDiv)
-		case "HideDate":
-			FormDivBasicFieldToField(&(movement_.HideDate), formDiv)
 		}
 	}
 

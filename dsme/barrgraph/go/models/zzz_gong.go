@@ -4043,6 +4043,10 @@ func (movement *Movement) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
+			Name:               "HideDate",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:                 "Places",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Place",
@@ -4074,10 +4078,6 @@ func (movement *Movement) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "AdditionnalName",
 			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "HideDate",
-			GongFieldValueType: GongFieldValueTypeBool,
 		},
 	}
 	return
@@ -4675,6 +4675,10 @@ func (movement *Movement) GongGetFieldValue(fieldName string, stage *Stage) (res
 		res.valueString = movement.Name
 	case "Date":
 		res.valueString = movement.Date.String()
+	case "HideDate":
+		res.valueString = fmt.Sprintf("%t", movement.HideDate)
+		res.valueBool = movement.HideDate
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "Places":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range movement.Places {
@@ -4707,10 +4711,6 @@ func (movement *Movement) GongGetFieldValue(fieldName string, stage *Stage) (res
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "AdditionnalName":
 		res.valueString = movement.AdditionnalName
-	case "HideDate":
-		res.valueString = fmt.Sprintf("%t", movement.HideDate)
-		res.valueBool = movement.HideDate
-		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -5244,6 +5244,8 @@ func (movement *Movement) GongSetFieldValue(fieldName string, value GongFieldVal
 	// insertion point for per field code
 	case "Name":
 		movement.Name = value.GetValueString()
+	case "HideDate":
+		movement.HideDate = value.GetValueBool()
 	case "Places":
 		movement.Places = make([]*Place, 0)
 		ids := strings.Split(value.ids, ";")
@@ -5272,8 +5274,6 @@ func (movement *Movement) GongSetFieldValue(fieldName string, value GongFieldVal
 		movement.IsMinor = value.GetValueBool()
 	case "AdditionnalName":
 		movement.AdditionnalName = value.GetValueString()
-	case "HideDate":
-		movement.HideDate = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
