@@ -406,7 +406,9 @@ type Movement_WOP struct {
 
 	Date time.Time
 
-	IsAbstract bool
+	HasTaxonomicFilter bool
+
+	TaxonomicFilter string
 
 	IsFeatured bool
 
@@ -425,7 +427,8 @@ func (from *Movement) CopyBasicFields(to *Movement) {
 	// insertion point
 	to.Name = from.Name
 	to.Date = from.Date
-	to.IsAbstract = from.IsAbstract
+	to.HasTaxonomicFilter = from.HasTaxonomicFilter
+	to.TaxonomicFilter = from.TaxonomicFilter
 	to.IsFeatured = from.IsFeatured
 	to.FeaturePrefix = from.FeaturePrefix
 	to.IsMajor = from.IsMajor

@@ -500,7 +500,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(movement.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(movement.GongMarshallField(stage, "Date"))
 		pointersInitializesStatements.WriteString(movement.GongMarshallField(stage, "Places"))
-		initializerStatements.WriteString(movement.GongMarshallField(stage, "IsAbstract"))
+		initializerStatements.WriteString(movement.GongMarshallField(stage, "HasTaxonomicFilter"))
+		initializerStatements.WriteString(movement.GongMarshallField(stage, "TaxonomicFilter"))
 		initializerStatements.WriteString(movement.GongMarshallField(stage, "IsFeatured"))
 		initializerStatements.WriteString(movement.GongMarshallField(stage, "FeaturePrefix"))
 		initializerStatements.WriteString(movement.GongMarshallField(stage, "IsMajor"))
@@ -1727,11 +1728,16 @@ func (movement *Movement) GongMarshallField(stage *Stage, fieldName string) (res
 		res = strings.ReplaceAll(res, "{{Identifier}}", movement.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Date")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", movement.Date.String())
-	case "IsAbstract":
+	case "HasTaxonomicFilter":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", movement.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsAbstract")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", movement.IsAbstract))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "HasTaxonomicFilter")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", movement.HasTaxonomicFilter))
+	case "TaxonomicFilter":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", movement.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TaxonomicFilter")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(movement.TaxonomicFilter))
 	case "IsFeatured":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", movement.GongGetIdentifier(stage))
@@ -2063,7 +2069,8 @@ func (movement *Movement) GongMarshallAllFields(stage *Stage) (initRes string, p
 		initializerStatements.WriteString(movement.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(movement.GongMarshallField(stage, "Date"))
 		pointersInitializesStatements.WriteString(movement.GongMarshallField(stage, "Places"))
-		initializerStatements.WriteString(movement.GongMarshallField(stage, "IsAbstract"))
+		initializerStatements.WriteString(movement.GongMarshallField(stage, "HasTaxonomicFilter"))
+		initializerStatements.WriteString(movement.GongMarshallField(stage, "TaxonomicFilter"))
 		initializerStatements.WriteString(movement.GongMarshallField(stage, "IsFeatured"))
 		initializerStatements.WriteString(movement.GongMarshallField(stage, "FeaturePrefix"))
 		initializerStatements.WriteString(movement.GongMarshallField(stage, "IsMajor"))

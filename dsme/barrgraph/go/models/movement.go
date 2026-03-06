@@ -14,7 +14,15 @@ type Movement struct {
 	Date   time.Time
 	Places []*Place
 
-	IsAbstract bool // some mouvements are abstracts
+	// Barr’s primary intention with this chart was to map the genealogy specifically
+	// of non-representational (abstract) art. He wanted to show how European avant-garde
+	// movements evolved and influenced each other to ultimately arrive at pure abstraction.
+	//
+	// However, he ran into a historical problem: many of the most influential movements
+	// of the early 20th century were not strictly or entirely abstract. By adding the word
+	// "(ABSTRACT)" in parentheses, Barr was deliberately isolating a specific thread within those movements
+	HasTaxonomicFilter bool // some mouvements are abstracts
+	TaxonomicFilter    string
 
 	// the "Modern" in "Modern Architecture" is rendered above.
 	// We surmise this is a Alfred Barr"s intentional caterogy choice
