@@ -104,8 +104,8 @@ func (stager *Stager) svg() {
 			},
 		}
 
-		if movement.IsModern {
-			titleRectAnchoredText.Content = strings.ToUpper("modern") + "\n" + titleRectAnchoredText.Content
+		if movement.IsFeatured {
+			titleRectAnchoredText.Content = strings.ToUpper(movement.FeaturePrefix) + "\n" + titleRectAnchoredText.Content
 			titleRectAnchoredText.Y_Offset = -10
 			titleRectAnchoredText.X_Offset = -6
 		}
@@ -180,7 +180,7 @@ func (stager *Stager) svg() {
 		if !movement.HideDate {
 			rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, dateRectAnchoredText)
 		}
-		if movement.IsModern {
+		if movement.IsFeatured {
 			rect.Stroke = diagram.GrayColorCode
 			rect.StrokeOpacity = 1.0
 			rect.StrokeWidth = diagram.ArtefactTypeStrokeWidth
@@ -256,7 +256,7 @@ func (stager *Stager) svg() {
 		}
 		if diagram.IsInfluenceCategoryShown {
 			// some movements have no underlying arcs
-			if !movement.IsModern && len(movement.Places) > 0 {
+			if !movement.IsFeatured && len(movement.Places) > 0 {
 				arcLayer.Paths = append(arcLayer.Paths, path)
 			}
 		}
@@ -478,7 +478,7 @@ func (stager *Stager) svg() {
 			link.StartArrowOffset = 0.0
 		}
 
-		if influence.TargetMovement != nil && influence.TargetMovement.IsModern {
+		if influence.TargetMovement != nil && influence.TargetMovement.IsFeatured {
 			if influence.SourceArtefactType == nil {
 				link.EndArrowOffset = 0.0
 			} else {

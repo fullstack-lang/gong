@@ -2047,8 +2047,11 @@ func (movement *Movement) GongDiff(stage *Stage, movementOther *Movement) (diffs
 	if movement.IsAbstract != movementOther.IsAbstract {
 		diffs = append(diffs, movement.GongMarshallField(stage, "IsAbstract"))
 	}
-	if movement.IsModern != movementOther.IsModern {
-		diffs = append(diffs, movement.GongMarshallField(stage, "IsModern"))
+	if movement.IsFeatured != movementOther.IsFeatured {
+		diffs = append(diffs, movement.GongMarshallField(stage, "IsFeatured"))
+	}
+	if movement.FeaturePrefix != movementOther.FeaturePrefix {
+		diffs = append(diffs, movement.GongMarshallField(stage, "FeaturePrefix"))
 	}
 	if movement.IsMajor != movementOther.IsMajor {
 		diffs = append(diffs, movement.GongMarshallField(stage, "IsMajor"))

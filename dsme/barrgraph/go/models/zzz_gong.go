@@ -4052,8 +4052,12 @@ func (movement *Movement) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:               "IsModern",
+			Name:               "IsFeatured",
 			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "FeaturePrefix",
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "IsMajor",
@@ -4681,10 +4685,12 @@ func (movement *Movement) GongGetFieldValue(fieldName string, stage *Stage) (res
 		res.valueString = fmt.Sprintf("%t", movement.IsAbstract)
 		res.valueBool = movement.IsAbstract
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsModern":
-		res.valueString = fmt.Sprintf("%t", movement.IsModern)
-		res.valueBool = movement.IsModern
+	case "IsFeatured":
+		res.valueString = fmt.Sprintf("%t", movement.IsFeatured)
+		res.valueBool = movement.IsFeatured
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "FeaturePrefix":
+		res.valueString = movement.FeaturePrefix
 	case "IsMajor":
 		res.valueString = fmt.Sprintf("%t", movement.IsMajor)
 		res.valueBool = movement.IsMajor
@@ -5248,8 +5254,10 @@ func (movement *Movement) GongSetFieldValue(fieldName string, value GongFieldVal
 		}
 	case "IsAbstract":
 		movement.IsAbstract = value.GetValueBool()
-	case "IsModern":
-		movement.IsModern = value.GetValueBool()
+	case "IsFeatured":
+		movement.IsFeatured = value.GetValueBool()
+	case "FeaturePrefix":
+		movement.FeaturePrefix = value.GetValueString()
 	case "IsMajor":
 		movement.IsMajor = value.GetValueBool()
 	case "IsMinor":
