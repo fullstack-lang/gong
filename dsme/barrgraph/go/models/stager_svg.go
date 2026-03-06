@@ -250,9 +250,26 @@ func (stager *Stager) svg() {
 			},
 		}
 
-		rect.Impl = &MovementShapeProxy{
-			stager: stager,
-			shape:  movementShape,
+		rect.Impl = &svg.FunctionalSvgRectProxy{
+			OnUpdated: func(frontRect *svg.Rect) {
+				diff := movementShape.X != frontRect.X ||
+					movementShape.Y != frontRect.Y ||
+					movementShape.Width != frontRect.Width ||
+					movementShape.Height != frontRect.Height
+
+				// update the shape
+				movementShape.X = frontRect.X
+				movementShape.Y = frontRect.Y
+				movementShape.Width = frontRect.Width
+				movementShape.Height = frontRect.Height
+
+				if !diff {
+					stager.stage.probeIF.FillUpFormFromGongstruct(movementShape.Movement,
+						GetGongstructNameFromPointer(movementShape.Movement))
+				} else {
+					stager.stage.Commit()
+				}
+			},
 		}
 		if diagram.IsInfluenceCategoryShown {
 			// some movements have no underlying arcs
@@ -310,9 +327,26 @@ func (stager *Stager) svg() {
 		}
 		map_ArtElement_Rect[artefactType] = rect
 
-		rect.Impl = &ArtefactTypeShapeProxy{
-			stager: stager,
-			shape:  artefactTypeShape,
+		rect.Impl = &svg.FunctionalSvgRectProxy{
+			OnUpdated: func(frontRect *svg.Rect) {
+				diff := artefactTypeShape.X != frontRect.X ||
+					artefactTypeShape.Y != frontRect.Y ||
+					artefactTypeShape.Width != frontRect.Width ||
+					artefactTypeShape.Height != frontRect.Height
+
+				// update the shape
+				artefactTypeShape.X = frontRect.X
+				artefactTypeShape.Y = frontRect.Y
+				artefactTypeShape.Width = frontRect.Width
+				artefactTypeShape.Height = frontRect.Height
+
+				if !diff {
+					stager.stage.probeIF.FillUpFormFromGongstruct(artefactTypeShape.ArtefactType,
+						GetGongstructNameFromPointer(artefactTypeShape.ArtefactType))
+				} else {
+					stager.stage.Commit()
+				}
+			},
 		}
 		if diagram.IsArtefactTypeCategoryShown {
 			layer.Rects = append(layer.Rects, rect)
@@ -431,9 +465,26 @@ func (stager *Stager) svg() {
 			rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, dateRectAnchoredText)
 		}
 
-		rect.Impl = &ArtistShapeProxy{
-			stager: stager,
-			shape:  artistShape,
+		rect.Impl = &svg.FunctionalSvgRectProxy{
+			OnUpdated: func(frontRect *svg.Rect) {
+				diff := artistShape.X != frontRect.X ||
+					artistShape.Y != frontRect.Y ||
+					artistShape.Width != frontRect.Width ||
+					artistShape.Height != frontRect.Height
+
+				// update the shape
+				artistShape.X = frontRect.X
+				artistShape.Y = frontRect.Y
+				artistShape.Width = frontRect.Width
+				artistShape.Height = frontRect.Height
+
+				if !diff {
+					stager.stage.probeIF.FillUpFormFromGongstruct(artistShape.Artist,
+						GetGongstructNameFromPointer(artistShape.Artist))
+				} else {
+					stager.stage.Commit()
+				}
+			},
 		}
 
 		if diagram.IsInfluenceCategoryShown {

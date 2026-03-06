@@ -5,7 +5,6 @@ import (
 	"slices"
 	"time"
 
-	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
@@ -18,7 +17,6 @@ type Artist struct {
 }
 
 func (*Artist) IsArtElement() {
-
 }
 
 type ArtistShape struct {
@@ -34,32 +32,6 @@ func (shape *ArtistShape) GetArtElement() *Artist {
 	return shape.Artist
 }
 
-type ArtistShapeProxy struct {
-	shape  *ArtistShape
-	stager *Stager
-}
-
-func (p *ArtistShapeProxy) RectUpdated(updatedRect *svg.Rect) {
-
-	diff := p.shape.X != updatedRect.X ||
-		p.shape.Y != updatedRect.Y ||
-		p.shape.Width != updatedRect.Width ||
-		p.shape.Height != updatedRect.Height
-
-	// update the shape
-	p.shape.X = updatedRect.X
-	p.shape.Y = updatedRect.Y
-	p.shape.Width = updatedRect.Width
-	p.shape.Height = updatedRect.Height
-
-	if !diff {
-		p.stager.stage.CommitWithSuspendedCallbacks()
-	} else {
-		p.stager.stage.Commit()
-	}
-
-}
-
 type ArtistNodeProxy struct {
 	stager  *Stager
 	diagram *Diagram
@@ -69,7 +41,6 @@ type ArtistNodeProxy struct {
 
 // OnAfterUpdate implements models.NodeImplInterface.
 func (d *ArtistNodeProxy) OnAfterUpdate(stage *tree.Stage, stagedNode *tree.Node, frontNode *tree.Node) {
-
 	if frontNode.IsChecked && !stagedNode.IsChecked {
 		artistShape := &ArtistShape{
 			Artist: d.artist,
@@ -82,7 +53,6 @@ func (d *ArtistNodeProxy) OnAfterUpdate(stage *tree.Stage, stagedNode *tree.Node
 		d.diagram.ArtistShapes = append(d.diagram.ArtistShapes, artistShape)
 	}
 	if !frontNode.IsChecked && stagedNode.IsChecked {
-
 		for idx, shape := range d.diagram.ArtistShapes {
 			if shape.Artist == d.artist {
 				shape.Unstage(d.stager.stage)

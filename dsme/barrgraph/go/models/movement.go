@@ -5,7 +5,6 @@ import (
 	"slices"
 	"time"
 
-	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
@@ -60,30 +59,6 @@ type MovementShape struct {
 	X, Y float64
 
 	Width, Height float64
-}
-
-type MovementShapeProxy struct {
-	shape  *MovementShape
-	stager *Stager
-}
-
-func (p *MovementShapeProxy) RectUpdated(updatedRect *svg.Rect) {
-	diff := p.shape.X != updatedRect.X ||
-		p.shape.Y != updatedRect.Y ||
-		p.shape.Width != updatedRect.Width ||
-		p.shape.Height != updatedRect.Height
-
-	// update the shape
-	p.shape.X = updatedRect.X
-	p.shape.Y = updatedRect.Y
-	p.shape.Width = updatedRect.Width
-	p.shape.Height = updatedRect.Height
-
-	if !diff {
-		p.stager.stage.CommitWithSuspendedCallbacks()
-	} else {
-		p.stager.stage.Commit()
-	}
 }
 
 type MovementNodeProxy struct {
