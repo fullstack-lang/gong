@@ -4048,8 +4048,12 @@ func (movement *Movement) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Place",
 		},
 		{
-			Name:               "IsAbstract",
+			Name:               "HasTaxonomicFilter",
 			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "TaxonomicFilter",
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "IsFeatured",
@@ -4681,10 +4685,12 @@ func (movement *Movement) GongGetFieldValue(fieldName string, stage *Stage) (res
 			res.valueString += __instance__.Name
 			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 		}
-	case "IsAbstract":
-		res.valueString = fmt.Sprintf("%t", movement.IsAbstract)
-		res.valueBool = movement.IsAbstract
+	case "HasTaxonomicFilter":
+		res.valueString = fmt.Sprintf("%t", movement.HasTaxonomicFilter)
+		res.valueBool = movement.HasTaxonomicFilter
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "TaxonomicFilter":
+		res.valueString = movement.TaxonomicFilter
 	case "IsFeatured":
 		res.valueString = fmt.Sprintf("%t", movement.IsFeatured)
 		res.valueBool = movement.IsFeatured
@@ -5252,8 +5258,10 @@ func (movement *Movement) GongSetFieldValue(fieldName string, value GongFieldVal
 				}
 			}
 		}
-	case "IsAbstract":
-		movement.IsAbstract = value.GetValueBool()
+	case "HasTaxonomicFilter":
+		movement.HasTaxonomicFilter = value.GetValueBool()
+	case "TaxonomicFilter":
+		movement.TaxonomicFilter = value.GetValueString()
 	case "IsFeatured":
 		movement.IsFeatured = value.GetValueBool()
 	case "FeaturePrefix":

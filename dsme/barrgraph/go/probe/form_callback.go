@@ -1436,8 +1436,10 @@ func (movementFormCallback *MovementFormCallback) OnSave() {
 			}
 			movement_.Places = instanceSlice
 
-		case "IsAbstract":
-			FormDivBasicFieldToField(&(movement_.IsAbstract), formDiv)
+		case "HasTaxonomicFilter":
+			FormDivBasicFieldToField(&(movement_.HasTaxonomicFilter), formDiv)
+		case "TaxonomicFilter":
+			FormDivBasicFieldToField(&(movement_.TaxonomicFilter), formDiv)
 		case "IsFeatured":
 			FormDivBasicFieldToField(&(movement_.IsFeatured), formDiv)
 		case "FeaturePrefix":

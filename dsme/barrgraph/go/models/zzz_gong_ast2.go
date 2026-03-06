@@ -976,8 +976,10 @@ func (u *MovementUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 		}
 	case "Places":
 		GongUnmarshallSliceOfPointers(&instance.Places, valueExpr, identifierMap)
-	case "IsAbstract":
-		instance.IsAbstract = GongExtractBool(valueExpr)
+	case "HasTaxonomicFilter":
+		instance.HasTaxonomicFilter = GongExtractBool(valueExpr)
+	case "TaxonomicFilter":
+		instance.TaxonomicFilter = GongExtractString(valueExpr)
 	case "IsFeatured":
 		instance.IsFeatured = GongExtractBool(valueExpr)
 	case "FeaturePrefix":

@@ -445,7 +445,7 @@ func _(stage *models.Stage) {
 
 	__Movement__00000000_.Name = `ARTS & CRAFTS`
 	__Movement__00000000_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1900-01-01 00:00:00 +0000 UTC")
-	__Movement__00000000_.IsAbstract = false
+	__Movement__00000000_.HasTaxonomicFilter = false
 	__Movement__00000000_.IsFeatured = false
 	__Movement__00000000_.IsMajor = true
 	__Movement__00000000_.IsMinor = false
@@ -454,7 +454,7 @@ func _(stage *models.Stage) {
 
 	__Movement__00000001_.Name = `WIENER WERKSTÄTTE`
 	__Movement__00000001_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1903-01-01 00:00:00 +0000 UTC")
-	__Movement__00000001_.IsAbstract = false
+	__Movement__00000001_.HasTaxonomicFilter = false
 	__Movement__00000001_.IsFeatured = false
 	__Movement__00000001_.IsMajor = false
 	__Movement__00000001_.IsMinor = false
@@ -463,7 +463,7 @@ func _(stage *models.Stage) {
 
 	__Movement__00000002_.Name = `DEUTSCHER WERKBUND`
 	__Movement__00000002_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1907-01-01 00:00:00 +0000 UTC")
-	__Movement__00000002_.IsAbstract = false
+	__Movement__00000002_.HasTaxonomicFilter = false
 	__Movement__00000002_.IsFeatured = false
 	__Movement__00000002_.IsMajor = false
 	__Movement__00000002_.IsMinor = false
@@ -472,7 +472,7 @@ func _(stage *models.Stage) {
 
 	__Movement__00000003_.Name = `CONSTRUCTIVISM`
 	__Movement__00000003_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1915-01-01 00:00:00 +0000 UTC")
-	__Movement__00000003_.IsAbstract = false
+	__Movement__00000003_.HasTaxonomicFilter = false
 	__Movement__00000003_.IsFeatured = false
 	__Movement__00000003_.IsMajor = false
 	__Movement__00000003_.IsMinor = false
@@ -481,7 +481,7 @@ func _(stage *models.Stage) {
 
 	__Movement__00000004_.Name = `DE STIJL`
 	__Movement__00000004_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1917-01-01 00:00:00 +0000 UTC")
-	__Movement__00000004_.IsAbstract = false
+	__Movement__00000004_.HasTaxonomicFilter = false
 	__Movement__00000004_.IsFeatured = false
 	__Movement__00000004_.IsMajor = false
 	__Movement__00000004_.IsMinor = false
@@ -490,7 +490,7 @@ func _(stage *models.Stage) {
 
 	__Movement__00000005_.Name = `BAUHAUS`
 	__Movement__00000005_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1919-01-01 00:00:00 +0000 UTC")
-	__Movement__00000005_.IsAbstract = false
+	__Movement__00000005_.HasTaxonomicFilter = false
 	__Movement__00000005_.IsFeatured = false
 	__Movement__00000005_.IsMajor = true
 	__Movement__00000005_.IsMinor = false
@@ -499,7 +499,7 @@ func _(stage *models.Stage) {
 
 	__Movement__00000006_.Name = `INTERNATIONAL STYLE`
 	__Movement__00000006_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1925-01-01 00:00:00 +0000 UTC")
-	__Movement__00000006_.IsAbstract = false
+	__Movement__00000006_.HasTaxonomicFilter = false
 	__Movement__00000006_.IsFeatured = false
 	__Movement__00000006_.IsMajor = true
 	__Movement__00000006_.IsMinor = false
@@ -508,7 +508,7 @@ func _(stage *models.Stage) {
 
 	__Movement__00000007_.Name = `ORGANIC DESIGN`
 	__Movement__00000007_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1930-01-01 00:00:00 +0000 UTC")
-	__Movement__00000007_.IsAbstract = false
+	__Movement__00000007_.HasTaxonomicFilter = false
 	__Movement__00000007_.IsFeatured = false
 	__Movement__00000007_.IsMajor = false
 	__Movement__00000007_.IsMinor = false
@@ -517,7 +517,7 @@ func _(stage *models.Stage) {
 
 	__Movement__00000008_.Name = `SCANDINAVIAN MODERN`
 	__Movement__00000008_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1950-01-01 00:00:00 +0000 UTC")
-	__Movement__00000008_.IsAbstract = false
+	__Movement__00000008_.HasTaxonomicFilter = false
 	__Movement__00000008_.IsFeatured = false
 	__Movement__00000008_.IsMajor = true
 	__Movement__00000008_.IsMinor = false
@@ -526,7 +526,7 @@ func _(stage *models.Stage) {
 
 	__Movement__00000009_.Name = `CRANBROOK ACADEMY`
 	__Movement__00000009_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1932-01-01 00:00:00 +0000 UTC")
-	__Movement__00000009_.IsAbstract = false
+	__Movement__00000009_.HasTaxonomicFilter = false
 	__Movement__00000009_.IsFeatured = false
 	__Movement__00000009_.IsMajor = false
 	__Movement__00000009_.IsMinor = false
@@ -535,7 +535,7 @@ func _(stage *models.Stage) {
 
 	__Movement__00000010_.Name = `AMERICAN MID-CENTURY`
 	__Movement__00000010_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1945-01-01 00:00:00 +0000 UTC")
-	__Movement__00000010_.IsAbstract = false
+	__Movement__00000010_.HasTaxonomicFilter = false
 	__Movement__00000010_.IsFeatured = false
 	__Movement__00000010_.IsMajor = true
 	__Movement__00000010_.IsMinor = false

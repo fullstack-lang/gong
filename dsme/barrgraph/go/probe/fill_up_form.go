@@ -344,7 +344,9 @@ func FillUpForm(
 		BasicFieldtoForm("Date", instanceWithInferedType.Date, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		AssociationSliceToForm("Places", instanceWithInferedType, &instanceWithInferedType.Places, formGroup, probe)
-		BasicFieldtoForm("IsAbstract", instanceWithInferedType.IsAbstract, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("HasTaxonomicFilter", instanceWithInferedType.HasTaxonomicFilter, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("TaxonomicFilter", instanceWithInferedType.TaxonomicFilter, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsFeatured", instanceWithInferedType.IsFeatured, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)

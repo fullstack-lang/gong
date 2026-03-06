@@ -185,10 +185,10 @@ func (stager *Stager) svg() {
 			rect.StrokeOpacity = 1.0
 			rect.StrokeWidth = diagram.ArtefactTypeStrokeWidth
 		}
-		if movement.IsAbstract {
+		if movement.HasTaxonomicFilter {
 			abstractRectAnchoredText := &svg.RectAnchoredText{
 				Name:             movement.Name,
-				Content:          strings.ToUpper("(abstract)"),
+				Content:          strings.ToUpper("(" + movement.TaxonomicFilter + ")"),
 				RectAnchorType:   svg.RectAnchorType(diagram.AbstractMovementRectAnchorType),
 				TextAnchorType:   svg.TextAnchorType(diagram.AbstractMovementTextAnchorType),
 				DominantBaseline: svg.DominantBaselineType(diagram.AbstractDominantBaselineType),
@@ -491,7 +491,7 @@ func (stager *Stager) svg() {
 				int(diagram.MovementBelowArcY_OffsetPerPlace))
 		}
 
-		if influence.TargetMovement != nil && influence.TargetMovement.IsAbstract {
+		if influence.TargetMovement != nil && influence.TargetMovement.HasTaxonomicFilter {
 			link.EndArrowOffset *= 2.0
 		}
 
