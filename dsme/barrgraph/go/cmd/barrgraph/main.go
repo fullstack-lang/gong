@@ -22,7 +22,7 @@ var (
 	port = flag.Int("port", 8080, "port server")
 )
 
-//go:embed data/stage.go
+//go:embed "data/cubism and abstract art.go"
 var stageGo string
 
 func main() {
