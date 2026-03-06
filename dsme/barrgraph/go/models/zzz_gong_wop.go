@@ -406,6 +406,8 @@ type Movement_WOP struct {
 
 	Date time.Time
 
+	HideDate bool
+
 	HasTaxonomicFilter bool
 
 	TaxonomicFilter string
@@ -419,14 +421,13 @@ type Movement_WOP struct {
 	IsMinor bool
 
 	AdditionnalName string
-
-	HideDate bool
 }
 
 func (from *Movement) CopyBasicFields(to *Movement) {
 	// insertion point
 	to.Name = from.Name
 	to.Date = from.Date
+	to.HideDate = from.HideDate
 	to.HasTaxonomicFilter = from.HasTaxonomicFilter
 	to.TaxonomicFilter = from.TaxonomicFilter
 	to.IsFeatured = from.IsFeatured
@@ -434,7 +435,6 @@ func (from *Movement) CopyBasicFields(to *Movement) {
 	to.IsMajor = from.IsMajor
 	to.IsMinor = from.IsMinor
 	to.AdditionnalName = from.AdditionnalName
-	to.HideDate = from.HideDate
 }
 
 type MovementShape_WOP struct {

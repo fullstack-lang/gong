@@ -343,6 +343,8 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Date", instanceWithInferedType.Date, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		BasicFieldtoForm("HideDate", instanceWithInferedType.HideDate, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 		AssociationSliceToForm("Places", instanceWithInferedType, &instanceWithInferedType.Places, formGroup, probe)
 		BasicFieldtoForm("HasTaxonomicFilter", instanceWithInferedType.HasTaxonomicFilter, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
@@ -357,8 +359,6 @@ func FillUpForm(
 		BasicFieldtoForm("IsMinor", instanceWithInferedType.IsMinor, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("AdditionnalName", instanceWithInferedType.AdditionnalName, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
-		BasicFieldtoForm("HideDate", instanceWithInferedType.HideDate, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 
 	case *models.MovementShape:

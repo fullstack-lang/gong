@@ -20,6 +20,7 @@ var _ map[string]any = map[string]any{
 
 // function will stage objects
 func _(stage *models.Stage) {
+
 	// insertion point for declaration of instances to stage
 
 	__ArtefactType__00000000_ := (&models.ArtefactType{Name: `CRAFTSMANSHIP`}).Stage(stage)
@@ -71,8 +72,8 @@ func _(stage *models.Stage) {
 	__Influence__00000006_ := (&models.Influence{Name: `DE STIJL to BAUHAUS`}).Stage(stage)
 	__Influence__00000007_ := (&models.Influence{Name: `BAUHAUS to INTERNATIONAL STYLE`}).Stage(stage)
 	__Influence__00000008_ := (&models.Influence{Name: `NEW MATERIALS to ORGANIC DESIGN`}).Stage(stage)
-	__Influence__00000009_ := (&models.Influence{Name: `ORGANIC DESIGN to SCANDINAVIAN MODERN`}).Stage(stage)
-	__Influence__00000010_ := (&models.Influence{Name: `INTERNATIONAL STYLE to SCANDINAVIAN MODERN`}).Stage(stage)
+	__Influence__00000009_ := (&models.Influence{Name: `ORGANIC DESIGN to SCANDINAVIAN`}).Stage(stage)
+	__Influence__00000010_ := (&models.Influence{Name: `INTERNATIONAL STYLE to SCANDINAVIAN`}).Stage(stage)
 	__Influence__00000011_ := (&models.Influence{Name: `BAUHAUS to CRANBROOK ACADEMY`}).Stage(stage)
 	__Influence__00000012_ := (&models.Influence{Name: `CRANBROOK ACADEMY to AMERICAN MID-CENTURY`}).Stage(stage)
 	__Influence__00000013_ := (&models.Influence{Name: `ORGANIC DESIGN to AMERICAN MID-CENTURY`}).Stage(stage)
@@ -87,8 +88,8 @@ func _(stage *models.Stage) {
 	__InfluenceShape__00000006_ := (&models.InfluenceShape{Name: `DE STIJL to BAUHAUS`}).Stage(stage)
 	__InfluenceShape__00000007_ := (&models.InfluenceShape{Name: `BAUHAUS to INTERNATIONAL STYLE`}).Stage(stage)
 	__InfluenceShape__00000008_ := (&models.InfluenceShape{Name: `NEW MATERIALS to ORGANIC DESIGN`}).Stage(stage)
-	__InfluenceShape__00000009_ := (&models.InfluenceShape{Name: `ORGANIC DESIGN to SCANDINAVIAN MODERN`}).Stage(stage)
-	__InfluenceShape__00000010_ := (&models.InfluenceShape{Name: `INTERNATIONAL STYLE to SCANDINAVIAN MODERN`}).Stage(stage)
+	__InfluenceShape__00000009_ := (&models.InfluenceShape{Name: `ORGANIC DESIGN to SCANDINAVIAN`}).Stage(stage)
+	__InfluenceShape__00000010_ := (&models.InfluenceShape{Name: `INTERNATIONAL STYLE to SCANDINAVIAN`}).Stage(stage)
 	__InfluenceShape__00000011_ := (&models.InfluenceShape{Name: `BAUHAUS to CRANBROOK ACADEMY`}).Stage(stage)
 	__InfluenceShape__00000012_ := (&models.InfluenceShape{Name: `CRANBROOK ACADEMY to AMERICAN MID-CENTURY`}).Stage(stage)
 	__InfluenceShape__00000013_ := (&models.InfluenceShape{Name: `ORGANIC DESIGN to AMERICAN MID-CENTURY`}).Stage(stage)
@@ -102,7 +103,7 @@ func _(stage *models.Stage) {
 	__Movement__00000005_ := (&models.Movement{Name: `BAUHAUS`}).Stage(stage)
 	__Movement__00000006_ := (&models.Movement{Name: `INTERNATIONAL STYLE`}).Stage(stage)
 	__Movement__00000007_ := (&models.Movement{Name: `ORGANIC DESIGN`}).Stage(stage)
-	__Movement__00000008_ := (&models.Movement{Name: `SCANDINAVIAN MODERN`}).Stage(stage)
+	__Movement__00000008_ := (&models.Movement{Name: `SCANDINAVIAN`}).Stage(stage)
 	__Movement__00000009_ := (&models.Movement{Name: `CRANBROOK ACADEMY`}).Stage(stage)
 	__Movement__00000010_ := (&models.Movement{Name: `AMERICAN MID-CENTURY`}).Stage(stage)
 
@@ -395,10 +396,10 @@ func _(stage *models.Stage) {
 	__Influence__00000008_.Name = `NEW MATERIALS to ORGANIC DESIGN`
 	__Influence__00000008_.IsHypothtical = false
 
-	__Influence__00000009_.Name = `ORGANIC DESIGN to SCANDINAVIAN MODERN`
+	__Influence__00000009_.Name = `ORGANIC DESIGN to SCANDINAVIAN`
 	__Influence__00000009_.IsHypothtical = false
 
-	__Influence__00000010_.Name = `INTERNATIONAL STYLE to SCANDINAVIAN MODERN`
+	__Influence__00000010_.Name = `INTERNATIONAL STYLE to SCANDINAVIAN`
 	__Influence__00000010_.IsHypothtical = false
 
 	__Influence__00000011_.Name = `BAUHAUS to CRANBROOK ACADEMY`
@@ -431,9 +432,9 @@ func _(stage *models.Stage) {
 
 	__InfluenceShape__00000008_.Name = `NEW MATERIALS to ORGANIC DESIGN`
 
-	__InfluenceShape__00000009_.Name = `ORGANIC DESIGN to SCANDINAVIAN MODERN`
+	__InfluenceShape__00000009_.Name = `ORGANIC DESIGN to SCANDINAVIAN`
 
-	__InfluenceShape__00000010_.Name = `INTERNATIONAL STYLE to SCANDINAVIAN MODERN`
+	__InfluenceShape__00000010_.Name = `INTERNATIONAL STYLE to SCANDINAVIAN`
 
 	__InfluenceShape__00000011_.Name = `BAUHAUS to CRANBROOK ACADEMY`
 
@@ -445,102 +446,124 @@ func _(stage *models.Stage) {
 
 	__Movement__00000000_.Name = `ARTS & CRAFTS`
 	__Movement__00000000_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1900-01-01 00:00:00 +0000 UTC")
+	__Movement__00000000_.HideDate = false
 	__Movement__00000000_.HasTaxonomicFilter = false
+	__Movement__00000000_.TaxonomicFilter = ``
 	__Movement__00000000_.IsFeatured = false
+	__Movement__00000000_.FeaturePrefix = ``
 	__Movement__00000000_.IsMajor = true
 	__Movement__00000000_.IsMinor = false
 	__Movement__00000000_.AdditionnalName = ``
-	__Movement__00000000_.HideDate = false
 
 	__Movement__00000001_.Name = `WIENER WERKSTÄTTE`
 	__Movement__00000001_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1903-01-01 00:00:00 +0000 UTC")
+	__Movement__00000001_.HideDate = false
 	__Movement__00000001_.HasTaxonomicFilter = false
+	__Movement__00000001_.TaxonomicFilter = ``
 	__Movement__00000001_.IsFeatured = false
+	__Movement__00000001_.FeaturePrefix = ``
 	__Movement__00000001_.IsMajor = false
 	__Movement__00000001_.IsMinor = false
 	__Movement__00000001_.AdditionnalName = ``
-	__Movement__00000001_.HideDate = false
 
 	__Movement__00000002_.Name = `DEUTSCHER WERKBUND`
 	__Movement__00000002_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1907-01-01 00:00:00 +0000 UTC")
+	__Movement__00000002_.HideDate = false
 	__Movement__00000002_.HasTaxonomicFilter = false
+	__Movement__00000002_.TaxonomicFilter = ``
 	__Movement__00000002_.IsFeatured = false
+	__Movement__00000002_.FeaturePrefix = ``
 	__Movement__00000002_.IsMajor = false
 	__Movement__00000002_.IsMinor = false
 	__Movement__00000002_.AdditionnalName = ``
-	__Movement__00000002_.HideDate = false
 
 	__Movement__00000003_.Name = `CONSTRUCTIVISM`
 	__Movement__00000003_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1915-01-01 00:00:00 +0000 UTC")
+	__Movement__00000003_.HideDate = false
 	__Movement__00000003_.HasTaxonomicFilter = false
+	__Movement__00000003_.TaxonomicFilter = ``
 	__Movement__00000003_.IsFeatured = false
+	__Movement__00000003_.FeaturePrefix = ``
 	__Movement__00000003_.IsMajor = false
 	__Movement__00000003_.IsMinor = false
 	__Movement__00000003_.AdditionnalName = ``
-	__Movement__00000003_.HideDate = false
 
 	__Movement__00000004_.Name = `DE STIJL`
 	__Movement__00000004_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1917-01-01 00:00:00 +0000 UTC")
+	__Movement__00000004_.HideDate = false
 	__Movement__00000004_.HasTaxonomicFilter = false
+	__Movement__00000004_.TaxonomicFilter = ``
 	__Movement__00000004_.IsFeatured = false
+	__Movement__00000004_.FeaturePrefix = ``
 	__Movement__00000004_.IsMajor = false
 	__Movement__00000004_.IsMinor = false
 	__Movement__00000004_.AdditionnalName = ``
-	__Movement__00000004_.HideDate = false
 
 	__Movement__00000005_.Name = `BAUHAUS`
 	__Movement__00000005_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1919-01-01 00:00:00 +0000 UTC")
+	__Movement__00000005_.HideDate = false
 	__Movement__00000005_.HasTaxonomicFilter = false
+	__Movement__00000005_.TaxonomicFilter = ``
 	__Movement__00000005_.IsFeatured = false
+	__Movement__00000005_.FeaturePrefix = ``
 	__Movement__00000005_.IsMajor = true
 	__Movement__00000005_.IsMinor = false
 	__Movement__00000005_.AdditionnalName = ``
-	__Movement__00000005_.HideDate = false
 
 	__Movement__00000006_.Name = `INTERNATIONAL STYLE`
 	__Movement__00000006_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1925-01-01 00:00:00 +0000 UTC")
+	__Movement__00000006_.HideDate = false
 	__Movement__00000006_.HasTaxonomicFilter = false
+	__Movement__00000006_.TaxonomicFilter = ``
 	__Movement__00000006_.IsFeatured = false
+	__Movement__00000006_.FeaturePrefix = ``
 	__Movement__00000006_.IsMajor = true
 	__Movement__00000006_.IsMinor = false
 	__Movement__00000006_.AdditionnalName = ``
-	__Movement__00000006_.HideDate = false
 
 	__Movement__00000007_.Name = `ORGANIC DESIGN`
 	__Movement__00000007_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1930-01-01 00:00:00 +0000 UTC")
+	__Movement__00000007_.HideDate = false
 	__Movement__00000007_.HasTaxonomicFilter = false
+	__Movement__00000007_.TaxonomicFilter = ``
 	__Movement__00000007_.IsFeatured = false
+	__Movement__00000007_.FeaturePrefix = ``
 	__Movement__00000007_.IsMajor = false
 	__Movement__00000007_.IsMinor = false
 	__Movement__00000007_.AdditionnalName = ``
-	__Movement__00000007_.HideDate = false
 
-	__Movement__00000008_.Name = `SCANDINAVIAN MODERN`
-	__Movement__00000008_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1950-01-01 00:00:00 +0000 UTC")
+	__Movement__00000008_.Name = `SCANDINAVIAN`
+	__Movement__00000008_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Movement__00000008_.HideDate = true
 	__Movement__00000008_.HasTaxonomicFilter = false
-	__Movement__00000008_.IsFeatured = false
+	__Movement__00000008_.TaxonomicFilter = ``
+	__Movement__00000008_.IsFeatured = true
+	__Movement__00000008_.FeaturePrefix = `modern`
 	__Movement__00000008_.IsMajor = true
 	__Movement__00000008_.IsMinor = false
 	__Movement__00000008_.AdditionnalName = ``
-	__Movement__00000008_.HideDate = false
 
 	__Movement__00000009_.Name = `CRANBROOK ACADEMY`
 	__Movement__00000009_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1932-01-01 00:00:00 +0000 UTC")
+	__Movement__00000009_.HideDate = false
 	__Movement__00000009_.HasTaxonomicFilter = false
+	__Movement__00000009_.TaxonomicFilter = ``
 	__Movement__00000009_.IsFeatured = false
+	__Movement__00000009_.FeaturePrefix = ``
 	__Movement__00000009_.IsMajor = false
 	__Movement__00000009_.IsMinor = false
 	__Movement__00000009_.AdditionnalName = ``
-	__Movement__00000009_.HideDate = false
 
 	__Movement__00000010_.Name = `AMERICAN MID-CENTURY`
 	__Movement__00000010_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1945-01-01 00:00:00 +0000 UTC")
+	__Movement__00000010_.HideDate = false
 	__Movement__00000010_.HasTaxonomicFilter = false
+	__Movement__00000010_.TaxonomicFilter = ``
 	__Movement__00000010_.IsFeatured = false
+	__Movement__00000010_.FeaturePrefix = ``
 	__Movement__00000010_.IsMajor = true
 	__Movement__00000010_.IsMinor = false
 	__Movement__00000010_.AdditionnalName = ``
-	__Movement__00000010_.HideDate = false
 
 	__MovementShape__00000000_.Name = ``
 	__MovementShape__00000000_.X = 100.000000
@@ -567,9 +590,9 @@ func _(stage *models.Stage) {
 	__MovementShape__00000003_.Height = 30.000000
 
 	__MovementShape__00000004_.Name = ``
-	__MovementShape__00000004_.X = 454.000031
+	__MovementShape__00000004_.X = 467.000031
 	__MovementShape__00000004_.Y = 295.000000
-	__MovementShape__00000004_.Width = 80.000000
+	__MovementShape__00000004_.Width = 67.000000
 	__MovementShape__00000004_.Height = 30.000000
 
 	__MovementShape__00000005_.Name = ``
@@ -591,10 +614,10 @@ func _(stage *models.Stage) {
 	__MovementShape__00000007_.Height = 30.000000
 
 	__MovementShape__00000008_.Name = ``
-	__MovementShape__00000008_.X = 131.000000
-	__MovementShape__00000008_.Y = 719.999939
-	__MovementShape__00000008_.Width = 230.000000
-	__MovementShape__00000008_.Height = 30.000000
+	__MovementShape__00000008_.X = 138.000000
+	__MovementShape__00000008_.Y = 690.999939
+	__MovementShape__00000008_.Width = 160.000000
+	__MovementShape__00000008_.Height = 50.000000
 
 	__MovementShape__00000009_.Name = ``
 	__MovementShape__00000009_.X = 530.000000
@@ -810,8 +833,6 @@ func _(stage *models.Stage) {
 	__Movement__00000005_.Places = append(__Movement__00000005_.Places, __Place__00000004_)
 	__Movement__00000006_.Places = append(__Movement__00000006_.Places, __Place__00000006_)
 	__Movement__00000007_.Places = append(__Movement__00000007_.Places, __Place__00000007_)
-	__Movement__00000008_.Places = append(__Movement__00000008_.Places, __Place__00000008_)
-	__Movement__00000008_.Places = append(__Movement__00000008_.Places, __Place__00000007_)
 	__Movement__00000009_.Places = append(__Movement__00000009_.Places, __Place__00000009_)
 	__Movement__00000010_.Places = append(__Movement__00000010_.Places, __Place__00000010_)
 	__MovementShape__00000000_.Movement = __Movement__00000000_
