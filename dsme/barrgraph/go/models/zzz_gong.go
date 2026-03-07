@@ -3655,6 +3655,10 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
+			Name:               "BetweenDatesInterval",
+			GongFieldValueType: GongFieldValueTypeIntDuration,
+		},
+		{
 			Name:               "XMargin",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
@@ -4397,6 +4401,47 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = diagram.StartDate.String()
 	case "EndDate":
 		res.valueString = diagram.EndDate.String()
+	case "BetweenDatesInterval":
+		if math.Abs(diagram.BetweenDatesInterval.Hours()) >= 24 {
+			days := __Gong__Abs(int(int(diagram.BetweenDatesInterval.Hours()) / 24))
+			months := int(days / 31)
+			days = days - months*31
+
+			remainingHours := int(diagram.BetweenDatesInterval.Hours()) % 24
+			remainingMinutes := int(diagram.BetweenDatesInterval.Minutes()) % 60
+			remainingSeconds := int(diagram.BetweenDatesInterval.Seconds()) % 60
+
+			if diagram.BetweenDatesInterval.Hours() < 0 {
+				res.valueString = "- "
+			}
+
+			if months > 0 {
+				if months > 1 {
+					res.valueString = res.valueString + fmt.Sprintf("%d months", months)
+				} else {
+					res.valueString = res.valueString + fmt.Sprintf("%d month", months)
+				}
+			}
+			if days > 0 {
+				if months != 0 {
+					res.valueString = res.valueString + ", "
+				}
+				if days > 1 {
+					res.valueString = res.valueString + fmt.Sprintf("%d days", days)
+				} else {
+					res.valueString = res.valueString + fmt.Sprintf("%d day", days)
+				}
+
+			}
+			if remainingHours != 0 || remainingMinutes != 0 || remainingSeconds != 0 {
+				if days != 0 || (days == 0 && months != 0) {
+					res.valueString = res.valueString + ", "
+				}
+				res.valueString = res.valueString + fmt.Sprintf("%d hours, %d minutes, %d seconds\n", remainingHours, remainingMinutes, remainingSeconds)
+			}
+		} else {
+			res.valueString = fmt.Sprintf("%s\n", diagram.BetweenDatesInterval.String())
+		}
 	case "XMargin":
 		res.valueString = fmt.Sprintf("%f", diagram.XMargin)
 		res.valueFloat = diagram.XMargin

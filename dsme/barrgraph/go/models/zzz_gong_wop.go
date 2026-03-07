@@ -143,6 +143,8 @@ type Diagram_WOP struct {
 
 	EndDate time.Time
 
+	BetweenDatesInterval time.Duration
+
 	XMargin float64
 
 	YMargin float64
@@ -301,6 +303,7 @@ func (from *Diagram) CopyBasicFields(to *Diagram) {
 	to.IsInfluenceCategoryShown = from.IsInfluenceCategoryShown
 	to.StartDate = from.StartDate
 	to.EndDate = from.EndDate
+	to.BetweenDatesInterval = from.BetweenDatesInterval
 	to.XMargin = from.XMargin
 	to.YMargin = from.YMargin
 	to.Height = from.Height

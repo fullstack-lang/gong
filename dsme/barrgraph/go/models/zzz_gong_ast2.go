@@ -719,6 +719,8 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 				}
 			}
 		}
+	case "BetweenDatesInterval":
+		instance.BetweenDatesInterval = time.Duration(GongExtractInt(valueExpr))
 	case "XMargin":
 		instance.XMargin = GongExtractFloat(valueExpr)
 	case "YMargin":

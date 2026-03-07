@@ -24,8 +24,9 @@ type Diagram struct {
 	IsArtistCategoryShown       bool
 	IsInfluenceCategoryShown    bool
 
-	StartDate time.Time
-	EndDate   time.Time
+	StartDate            time.Time
+	EndDate              time.Time
+	BetweenDatesInterval time.Duration
 
 	DiagramPresentation
 }
@@ -119,22 +120,27 @@ type DiagramPresentation struct {
 	InfluenceDashedLinePattern string
 }
 
-// AlignDatesToFiveYears updates the diagram's StartDate and EndDate
-// to align with 5-year intervals.
+// AlignDates updates the diagram's StartDate and EndDate
+// to align with BetweenDatesInterval intervals.
 //
 // It returns true if either StartDate or EndDate was changed,
 // and false if they were already aligned.
-func (d *Diagram) AlignDatesToFiveYears() bool {
+func (d *Diagram) AlignDates() bool {
 	var changed bool = false
 
 	// Store original values for comparison
 	originalStart := d.StartDate
 	originalEnd := d.EndDate
 
+	intervalYears := int(d.BetweenDatesInterval.Hours() / (24 * 365))
+	if intervalYears == 0 {
+		intervalYears = 5
+	}
+
 	// --- 1. Align StartDate (Round Down) ---
 	if !d.StartDate.IsZero() {
 		startYear := d.StartDate.Year()
-		alignedStartYear := startYear - (startYear % 5)
+		alignedStartYear := startYear - (startYear % intervalYears)
 
 		// Calculate the new potential date
 		newStartDate := time.Date(alignedStartYear, time.January, 1, 0, 0, 0, 0, d.StartDate.Location())
@@ -149,13 +155,13 @@ func (d *Diagram) AlignDatesToFiveYears() bool {
 	// --- 2. Align EndDate (Round Up) ---
 	if !d.EndDate.IsZero() {
 		endYear := d.EndDate.Year()
-		floorYear := endYear - (endYear % 5)
+		floorYear := endYear - (endYear % intervalYears)
 		floorDate := time.Date(floorYear, time.January, 1, 0, 0, 0, 0, d.EndDate.Location())
 
 		alignedEndYear := floorYear
 
 		if d.EndDate.After(floorDate) {
-			alignedEndYear += 5
+			alignedEndYear += intervalYears
 		}
 
 		// Calculate the new potential date
@@ -171,11 +177,11 @@ func (d *Diagram) AlignDatesToFiveYears() bool {
 	return changed
 }
 
-// GetFiveYearTicks generates a slice of time.Time, starting at StartDate,
-// incrementing by 5 years, and always including EndDate as the final value.
+// GetDateTicks generates a slice of time.Time, starting at StartDate,
+// incrementing by BetweenDatesInterval, and always including EndDate as the final value.
 //
-// The 5-year steps are relative to the StartDate, not the calendar.
-func (d *Diagram) GetFiveYearTicks() []time.Time {
+// The steps are relative to the StartDate, not the calendar.
+func (d *Diagram) GetDateTicks() []time.Time {
 	// --- 1. Handle edge cases ---
 	// If dates are invalid, end is before start, or start is zero, return empty slice.
 	if d.StartDate.IsZero() || d.EndDate.IsZero() || d.StartDate.After(d.EndDate) {
@@ -187,21 +193,26 @@ func (d *Diagram) GetFiveYearTicks() []time.Time {
 		return []time.Time{d.StartDate}
 	}
 
+	intervalYears := int(d.BetweenDatesInterval.Hours() / (24 * 365))
+	if intervalYears == 0 {
+		intervalYears = 5
+	}
+
 	// --- 2. Build the slice ---
 	ticks := []time.Time{}
 	currentDate := d.StartDate
 
-	// Loop, adding 5-year increments as long as we are *before* the end date.
+	// Loop, adding increments as long as we are *before* the end date.
 	for currentDate.Before(d.EndDate) {
 		ticks = append(ticks, currentDate)
-		currentDate = currentDate.AddDate(5, 0, 0)
+		currentDate = currentDate.AddDate(intervalYears, 0, 0)
 	}
 
 	// --- 3. Add the final EndDate ---
 	// This ensures the EndDate is always the last item,
 	// satisfying the "including start and end" requirement.
 	// This also correctly handles the case where EndDate
-	// was an exact 5-year multiple (the loop stops just before it).
+	// was an exact multiple (the loop stops just before it).
 	ticks = append(ticks, d.EndDate)
 
 	return ticks

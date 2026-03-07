@@ -36,7 +36,12 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 	// VERY important because the probe only unstages objects
 	// the stage might be dirty
 	// with slices of pointer or pointer to unstaged instance
-	stager.stage.Clean()
+	if stager.stage.Clean() {
+		needCommit = true
+		if stage.probeIF != nil {
+			stager.probeForm.AddNotification(time.Now(), "Stage clean generated a modification")
+		}
+	}
 
 	// check that there is a Desk
 	needCommit = stager.enforce_semantic_singlotons() || needCommit
@@ -47,6 +52,9 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		if movement.IsMajor && movement.IsMinor {
 			movement.IsMinor = false
 			needCommit = true
+			if stage.probeIF != nil {
+				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Movement %s cannot be both major and minor, setting IsMinor to false", movement.GetName()))
+			}
 		}
 	}
 
@@ -57,10 +65,16 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 			if shape.GetArtElement() == nil {
 				shape.Unstage(stager.stage)
 				needCommit = true
+				if stage.probeIF != nil {
+					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("MovementShape %s is orphan, unstaging it", shape.GetName()))
+				}
 			}
 			if _, ok := rm[shape]; !ok {
 				shape.Unstage(stager.stage)
 				needCommit = true
+				if stage.probeIF != nil {
+					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("MovementShape %s is orphan, unstaging it", shape.GetName()))
+				}
 			}
 		}
 	}
@@ -70,10 +84,16 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 			if shape.GetArtElement() == nil {
 				shape.Unstage(stager.stage)
 				needCommit = true
+				if stage.probeIF != nil {
+					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("ArtistShape %s is orphan, unstaging it", shape.GetName()))
+				}
 			}
 			if _, ok := rm[shape]; !ok {
 				shape.Unstage(stager.stage)
 				needCommit = true
+				if stage.probeIF != nil {
+					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("ArtistShape %s is orphan, unstaging it", shape.GetName()))
+				}
 			}
 		}
 	}
@@ -83,10 +103,16 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 			if shape.GetArtElement() == nil {
 				shape.Unstage(stager.stage)
 				needCommit = true
+				if stage.probeIF != nil {
+					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("ArtefactTypeShape %s is orphan, unstaging it", shape.GetName()))
+				}
 			}
 			if _, ok := rm[shape]; !ok {
 				shape.Unstage(stager.stage)
 				needCommit = true
+				if stage.probeIF != nil {
+					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("ArtefactTypeShape %s is orphan, unstaging it", shape.GetName()))
+				}
 			}
 		}
 	}
@@ -96,10 +122,16 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 			if shape.GetArtElement() == nil {
 				shape.Unstage(stager.stage)
 				needCommit = true
+				if stage.probeIF != nil {
+					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("InfluenceShape %s is orphan, unstaging it", shape.GetName()))
+				}
 			}
 			if _, ok := rm[shape]; !ok {
 				shape.Unstage(stager.stage)
 				needCommit = true
+				if stage.probeIF != nil {
+					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("InfluenceShape %s is orphan, unstaging it", shape.GetName()))
+				}
 			}
 		}
 	}
@@ -110,6 +142,9 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 			if _, ok := rm[shape]; !ok {
 				shape.Unstage(stager.stage)
 				needCommit = true
+				if stage.probeIF != nil {
+					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("ControlPointShape %s is orphan, unstaging it", shape.GetName()))
+				}
 			}
 		}
 	}
@@ -138,6 +173,9 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		if influence.Name != influence.source.GetName()+" to "+influence.target.GetName() {
 			influence.Name = influence.source.GetName() + " to " + influence.target.GetName()
 			needCommit = true
+			if stage.probeIF != nil {
+				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Influence %s has a name not consistent with its source and target, setting it to %s", influence.GetName(), influence.Name))
+			}
 		}
 	}
 
@@ -145,11 +183,18 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		if influenceShape.Influence == nil {
 			influenceShape.Unstage(stager.stage)
 			needCommit = true
+			if stage.probeIF != nil {
+				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("InfluenceShape %s has no influence, unstaging it", influenceShape.GetName()))
+			}
 			continue
 		}
 		if influenceShape.Name != influenceShape.Influence.Name {
 			influenceShape.Name = influenceShape.Influence.Name
 			needCommit = true
+			if stage.probeIF != nil {
+				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("InfluenceShape %s has a name not consistent with its influence, setting it to %s", influenceShape.GetName(), influenceShape.Name))
+			}
+			continue
 		}
 	}
 

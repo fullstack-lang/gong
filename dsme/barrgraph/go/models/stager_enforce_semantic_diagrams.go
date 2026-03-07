@@ -17,9 +17,14 @@ func (stager *Stager) enforce_semantic_diagrams() (needCommit bool) {
 			needCommit = true
 		}
 
+		if diagram.BetweenDatesInterval == 0 {
+			diagram.BetweenDatesInterval = 5 * 365 * 24 * time.Hour
+			needCommit = true
+		}
+
 		needCommit = enforceDiagramFields(diagram) || needCommit
 
-		if diagram.AlignDatesToFiveYears() {
+		if diagram.AlignDates() {
 			needCommit = true
 		}
 

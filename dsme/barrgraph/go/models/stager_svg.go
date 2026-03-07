@@ -30,7 +30,7 @@ func (stager *Stager) svg() {
 	arcLayer := &svg.Layer{Name: "Arc Layer"}
 	svg_.Layers = append(svg_.Layers, arcLayer)
 
-	years := diagram.GetFiveYearTicks()
+	years := diagram.GetDateTicks()
 	yStep := diagram.Height / (float64(len(years) + 1))
 	y := float64(len(years)-1)*yStep + diagram.BottomBoxYOffset
 
