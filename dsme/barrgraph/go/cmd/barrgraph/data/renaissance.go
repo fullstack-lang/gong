@@ -116,7 +116,9 @@ func _(stage *models.Stage) {
 	// insertion point for initialization of values
 
 	__ArtefactType__00000000_.Name = `Byzantine Art`
+
 	__ArtefactType__00000001_.Name = `Gothic Architecture`
+
 	__ArtefactType__00000002_.Name = `Classical Antiquity`
 
 	__ArtefactTypeShape__00000000_.Name = ``
@@ -238,64 +240,64 @@ func _(stage *models.Stage) {
 	__ArtistShape__00000009_.Height = 30.000000
 
 	__ControlPointShape__00000000_.Name = `Control Point Shape 0`
-	__ControlPointShape__00000000_.X_Relative = 0.5
-	__ControlPointShape__00000000_.Y_Relative = 0.5
+	__ControlPointShape__00000000_.X_Relative = 0.500000
+	__ControlPointShape__00000000_.Y_Relative = 0.500000
 	__ControlPointShape__00000000_.IsStartShapeTheClosestShape = true
 
 	__ControlPointShape__00000001_.Name = `Control Point Shape 1`
-	__ControlPointShape__00000001_.X_Relative = 0.5
-	__ControlPointShape__00000001_.Y_Relative = 0.5
+	__ControlPointShape__00000001_.X_Relative = 0.500000
+	__ControlPointShape__00000001_.Y_Relative = 0.500000
 	__ControlPointShape__00000001_.IsStartShapeTheClosestShape = true
 
 	__ControlPointShape__00000002_.Name = `Control Point Shape 2`
-	__ControlPointShape__00000002_.X_Relative = 0.5
-	__ControlPointShape__00000002_.Y_Relative = 0.5
+	__ControlPointShape__00000002_.X_Relative = 0.500000
+	__ControlPointShape__00000002_.Y_Relative = 0.500000
 	__ControlPointShape__00000002_.IsStartShapeTheClosestShape = true
 
 	__ControlPointShape__00000003_.Name = `Control Point Shape 3`
-	__ControlPointShape__00000003_.X_Relative = 0.5
-	__ControlPointShape__00000003_.Y_Relative = 0.5
+	__ControlPointShape__00000003_.X_Relative = 0.500000
+	__ControlPointShape__00000003_.Y_Relative = 0.500000
 	__ControlPointShape__00000003_.IsStartShapeTheClosestShape = true
 
 	__ControlPointShape__00000004_.Name = `Control Point Shape 4`
-	__ControlPointShape__00000004_.X_Relative = 0.5
-	__ControlPointShape__00000004_.Y_Relative = 0.5
+	__ControlPointShape__00000004_.X_Relative = 0.500000
+	__ControlPointShape__00000004_.Y_Relative = 0.500000
 	__ControlPointShape__00000004_.IsStartShapeTheClosestShape = true
 
 	__ControlPointShape__00000005_.Name = `Control Point Shape 5`
-	__ControlPointShape__00000005_.X_Relative = 0.5
-	__ControlPointShape__00000005_.Y_Relative = 0.5
+	__ControlPointShape__00000005_.X_Relative = 0.500000
+	__ControlPointShape__00000005_.Y_Relative = 0.500000
 	__ControlPointShape__00000005_.IsStartShapeTheClosestShape = true
 
 	__ControlPointShape__00000006_.Name = `Control Point Shape 6`
-	__ControlPointShape__00000006_.X_Relative = 0.5
-	__ControlPointShape__00000006_.Y_Relative = 0.5
+	__ControlPointShape__00000006_.X_Relative = 0.500000
+	__ControlPointShape__00000006_.Y_Relative = 0.500000
 	__ControlPointShape__00000006_.IsStartShapeTheClosestShape = true
 
 	__ControlPointShape__00000007_.Name = `Control Point Shape 7`
-	__ControlPointShape__00000007_.X_Relative = 0.5
-	__ControlPointShape__00000007_.Y_Relative = 0.5
+	__ControlPointShape__00000007_.X_Relative = 0.500000
+	__ControlPointShape__00000007_.Y_Relative = 0.500000
 	__ControlPointShape__00000007_.IsStartShapeTheClosestShape = true
 
 	__ControlPointShape__00000008_.Name = `Control Point Shape 8`
-	__ControlPointShape__00000008_.X_Relative = 0.5
-	__ControlPointShape__00000008_.Y_Relative = 0.5
+	__ControlPointShape__00000008_.X_Relative = 0.500000
+	__ControlPointShape__00000008_.Y_Relative = 0.500000
 	__ControlPointShape__00000008_.IsStartShapeTheClosestShape = true
 
 	__ControlPointShape__00000009_.Name = `Control Point Shape 9`
-	__ControlPointShape__00000009_.X_Relative = 0.5
-	__ControlPointShape__00000009_.Y_Relative = 0.5
+	__ControlPointShape__00000009_.X_Relative = 0.500000
+	__ControlPointShape__00000009_.Y_Relative = 0.500000
 	__ControlPointShape__00000009_.IsStartShapeTheClosestShape = true
 
 	__ControlPointShape__00000010_.Name = `Control Point Shape 10`
-	__ControlPointShape__00000010_.X_Relative = 0.5
-	__ControlPointShape__00000010_.Y_Relative = 0.5
+	__ControlPointShape__00000010_.X_Relative = 0.500000
+	__ControlPointShape__00000010_.Y_Relative = 0.500000
 	__ControlPointShape__00000010_.IsStartShapeTheClosestShape = true
 
 	__Desk__00000000_.Name = `Desk`
 
 	__Diagram__00000000_.Name = `Renaissance`
-	__Diagram__00000000_.IsEditable = true
+	__Diagram__00000000_.IsEditable = false
 	__Diagram__00000000_.IsNodeExpanded = true
 	__Diagram__00000000_.IsMovementCategoryNodeExpanded = true
 	__Diagram__00000000_.IsArtefactTypeCategoryNodeExpanded = true
@@ -307,6 +309,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.IsInfluenceCategoryShown = true
 	__Diagram__00000000_.StartDate, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1300-01-01 00:00:00 +0000 UTC")
 	__Diagram__00000000_.EndDate, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1550-01-01 00:00:00 +0000 UTC")
+	__Diagram__00000000_.BetweenDatesInterval = 157680000000000000
 	__Diagram__00000000_.XMargin = 20.000000
 	__Diagram__00000000_.YMargin = 40.000000
 	__Diagram__00000000_.Height = 900.000000
@@ -413,40 +416,92 @@ func _(stage *models.Stage) {
 	__Influence__00000010_.IsHypothtical = false
 
 	__InfluenceShape__00000000_.Name = `Byzantine Art to Proto-Renaissance`
+
 	__InfluenceShape__00000001_.Name = `Gothic Architecture to Proto-Renaissance`
+
 	__InfluenceShape__00000002_.Name = `Proto-Renaissance to Early Renaissance`
+
 	__InfluenceShape__00000003_.Name = `Classical Antiquity to Early Renaissance`
+
 	__InfluenceShape__00000004_.Name = `International Gothic to Early Netherlandish`
+
 	__InfluenceShape__00000005_.Name = `Early Renaissance to High Renaissance`
+
 	__InfluenceShape__00000006_.Name = `Early Netherlandish to Venetian Renaissance`
+
 	__InfluenceShape__00000007_.Name = `Early Renaissance to Venetian Renaissance`
+
 	__InfluenceShape__00000008_.Name = `Giotto to Masaccio`
+
 	__InfluenceShape__00000009_.Name = `Donatello to Michelangelo`
+
 	__InfluenceShape__00000010_.Name = `Leonardo da Vinci to Raphael`
 
 	__Movement__00000000_.Name = `Proto-Renaissance`
 	__Movement__00000000_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1300-01-01 00:00:00 +0000 UTC")
+	__Movement__00000000_.HideDate = false
+	__Movement__00000000_.HasTaxonomicFilter = false
+	__Movement__00000000_.TaxonomicFilter = ``
+	__Movement__00000000_.IsFeatured = false
+	__Movement__00000000_.FeaturePrefix = ``
 	__Movement__00000000_.IsMajor = true
+	__Movement__00000000_.IsMinor = false
+	__Movement__00000000_.AdditionnalName = ``
 
 	__Movement__00000001_.Name = `International Gothic`
 	__Movement__00000001_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1370-01-01 00:00:00 +0000 UTC")
+	__Movement__00000001_.HideDate = false
+	__Movement__00000001_.HasTaxonomicFilter = false
+	__Movement__00000001_.TaxonomicFilter = ``
+	__Movement__00000001_.IsFeatured = false
+	__Movement__00000001_.FeaturePrefix = ``
 	__Movement__00000001_.IsMajor = false
+	__Movement__00000001_.IsMinor = false
+	__Movement__00000001_.AdditionnalName = ``
 
 	__Movement__00000002_.Name = `Early Renaissance`
 	__Movement__00000002_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1420-01-01 00:00:00 +0000 UTC")
+	__Movement__00000002_.HideDate = false
+	__Movement__00000002_.HasTaxonomicFilter = false
+	__Movement__00000002_.TaxonomicFilter = ``
+	__Movement__00000002_.IsFeatured = false
+	__Movement__00000002_.FeaturePrefix = ``
 	__Movement__00000002_.IsMajor = true
+	__Movement__00000002_.IsMinor = false
+	__Movement__00000002_.AdditionnalName = ``
 
 	__Movement__00000003_.Name = `Early Netherlandish`
 	__Movement__00000003_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1420-01-01 00:00:00 +0000 UTC")
+	__Movement__00000003_.HideDate = false
+	__Movement__00000003_.HasTaxonomicFilter = false
+	__Movement__00000003_.TaxonomicFilter = ``
+	__Movement__00000003_.IsFeatured = false
+	__Movement__00000003_.FeaturePrefix = ``
 	__Movement__00000003_.IsMajor = true
+	__Movement__00000003_.IsMinor = false
+	__Movement__00000003_.AdditionnalName = ``
 
 	__Movement__00000004_.Name = `High Renaissance`
 	__Movement__00000004_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1490-01-01 00:00:00 +0000 UTC")
+	__Movement__00000004_.HideDate = false
+	__Movement__00000004_.HasTaxonomicFilter = false
+	__Movement__00000004_.TaxonomicFilter = ``
+	__Movement__00000004_.IsFeatured = false
+	__Movement__00000004_.FeaturePrefix = ``
 	__Movement__00000004_.IsMajor = true
+	__Movement__00000004_.IsMinor = false
+	__Movement__00000004_.AdditionnalName = ``
 
 	__Movement__00000005_.Name = `Venetian Renaissance`
 	__Movement__00000005_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1500-01-01 00:00:00 +0000 UTC")
+	__Movement__00000005_.HideDate = false
+	__Movement__00000005_.HasTaxonomicFilter = false
+	__Movement__00000005_.TaxonomicFilter = ``
+	__Movement__00000005_.IsFeatured = false
+	__Movement__00000005_.FeaturePrefix = ``
 	__Movement__00000005_.IsMajor = true
+	__Movement__00000005_.IsMinor = false
+	__Movement__00000005_.AdditionnalName = ``
 
 	__MovementShape__00000000_.Name = ``
 	__MovementShape__00000000_.X = 200.000000
@@ -455,9 +510,9 @@ func _(stage *models.Stage) {
 	__MovementShape__00000000_.Height = 35.000000
 
 	__MovementShape__00000001_.Name = ``
-	__MovementShape__00000001_.X = 600.000000
-	__MovementShape__00000001_.Y = 250.000000
-	__MovementShape__00000001_.Width = 120.000000
+	__MovementShape__00000001_.X = 520.000000
+	__MovementShape__00000001_.Y = 249.000000
+	__MovementShape__00000001_.Width = 174.000000
 	__MovementShape__00000001_.Height = 35.000000
 
 	__MovementShape__00000002_.Name = ``
@@ -467,9 +522,9 @@ func _(stage *models.Stage) {
 	__MovementShape__00000002_.Height = 35.000000
 
 	__MovementShape__00000003_.Name = ``
-	__MovementShape__00000003_.X = 700.000000
-	__MovementShape__00000003_.Y = 400.000000
-	__MovementShape__00000003_.Width = 120.000000
+	__MovementShape__00000003_.X = 504.000000
+	__MovementShape__00000003_.Y = 372.000000
+	__MovementShape__00000003_.Width = 207.000000
 	__MovementShape__00000003_.Height = 35.000000
 
 	__MovementShape__00000004_.Name = ``
@@ -485,16 +540,19 @@ func _(stage *models.Stage) {
 	__MovementShape__00000005_.Height = 35.000000
 
 	__Place__00000000_.Name = `Florence`
+
 	__Place__00000001_.Name = `Rome`
+
 	__Place__00000002_.Name = `Siena`
+
 	__Place__00000003_.Name = `Venice`
+
 	__Place__00000004_.Name = `Flanders`
 
 	// insertion point for setup of pointers
 	__ArtefactTypeShape__00000000_.ArtefactType = __ArtefactType__00000000_
 	__ArtefactTypeShape__00000001_.ArtefactType = __ArtefactType__00000001_
 	__ArtefactTypeShape__00000002_.ArtefactType = __ArtefactType__00000002_
-
 	__Artist__00000000_.Place = __Place__00000000_
 	__Artist__00000001_.Place = __Place__00000002_
 	__Artist__00000002_.Place = __Place__00000000_
@@ -505,7 +563,6 @@ func _(stage *models.Stage) {
 	__Artist__00000007_.Place = __Place__00000001_
 	__Artist__00000008_.Place = __Place__00000001_
 	__Artist__00000009_.Place = __Place__00000003_
-
 	__ArtistShape__00000000_.Artist = __Artist__00000000_
 	__ArtistShape__00000001_.Artist = __Artist__00000001_
 	__ArtistShape__00000002_.Artist = __Artist__00000002_
@@ -516,20 +573,16 @@ func _(stage *models.Stage) {
 	__ArtistShape__00000007_.Artist = __Artist__00000007_
 	__ArtistShape__00000008_.Artist = __Artist__00000008_
 	__ArtistShape__00000009_.Artist = __Artist__00000009_
-
 	__Desk__00000000_.SelectedDiagram = __Diagram__00000000_
-
 	__Diagram__00000000_.MovementShapes = append(__Diagram__00000000_.MovementShapes, __MovementShape__00000000_)
 	__Diagram__00000000_.MovementShapes = append(__Diagram__00000000_.MovementShapes, __MovementShape__00000001_)
 	__Diagram__00000000_.MovementShapes = append(__Diagram__00000000_.MovementShapes, __MovementShape__00000002_)
 	__Diagram__00000000_.MovementShapes = append(__Diagram__00000000_.MovementShapes, __MovementShape__00000003_)
 	__Diagram__00000000_.MovementShapes = append(__Diagram__00000000_.MovementShapes, __MovementShape__00000004_)
 	__Diagram__00000000_.MovementShapes = append(__Diagram__00000000_.MovementShapes, __MovementShape__00000005_)
-
 	__Diagram__00000000_.ArtefactTypeShapes = append(__Diagram__00000000_.ArtefactTypeShapes, __ArtefactTypeShape__00000000_)
 	__Diagram__00000000_.ArtefactTypeShapes = append(__Diagram__00000000_.ArtefactTypeShapes, __ArtefactTypeShape__00000001_)
 	__Diagram__00000000_.ArtefactTypeShapes = append(__Diagram__00000000_.ArtefactTypeShapes, __ArtefactTypeShape__00000002_)
-
 	__Diagram__00000000_.ArtistShapes = append(__Diagram__00000000_.ArtistShapes, __ArtistShape__00000000_)
 	__Diagram__00000000_.ArtistShapes = append(__Diagram__00000000_.ArtistShapes, __ArtistShape__00000001_)
 	__Diagram__00000000_.ArtistShapes = append(__Diagram__00000000_.ArtistShapes, __ArtistShape__00000002_)
@@ -540,7 +593,6 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.ArtistShapes = append(__Diagram__00000000_.ArtistShapes, __ArtistShape__00000007_)
 	__Diagram__00000000_.ArtistShapes = append(__Diagram__00000000_.ArtistShapes, __ArtistShape__00000008_)
 	__Diagram__00000000_.ArtistShapes = append(__Diagram__00000000_.ArtistShapes, __ArtistShape__00000009_)
-
 	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __InfluenceShape__00000000_)
 	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __InfluenceShape__00000001_)
 	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __InfluenceShape__00000002_)
@@ -552,88 +604,103 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __InfluenceShape__00000008_)
 	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __InfluenceShape__00000009_)
 	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __InfluenceShape__00000010_)
-
+	__Influence__00000000_.SourceMovement = nil
 	__Influence__00000000_.SourceArtefactType = __ArtefactType__00000000_
+	__Influence__00000000_.SourceArtist = nil
 	__Influence__00000000_.TargetMovement = __Movement__00000000_
-
+	__Influence__00000000_.TargetArtefactType = nil
+	__Influence__00000000_.TargetArtist = nil
+	__Influence__00000001_.SourceMovement = nil
 	__Influence__00000001_.SourceArtefactType = __ArtefactType__00000001_
+	__Influence__00000001_.SourceArtist = nil
 	__Influence__00000001_.TargetMovement = __Movement__00000000_
-
+	__Influence__00000001_.TargetArtefactType = nil
+	__Influence__00000001_.TargetArtist = nil
 	__Influence__00000002_.SourceMovement = __Movement__00000000_
+	__Influence__00000002_.SourceArtefactType = nil
+	__Influence__00000002_.SourceArtist = nil
 	__Influence__00000002_.TargetMovement = __Movement__00000002_
-
+	__Influence__00000002_.TargetArtefactType = nil
+	__Influence__00000002_.TargetArtist = nil
+	__Influence__00000003_.SourceMovement = nil
 	__Influence__00000003_.SourceArtefactType = __ArtefactType__00000002_
+	__Influence__00000003_.SourceArtist = nil
 	__Influence__00000003_.TargetMovement = __Movement__00000002_
-
+	__Influence__00000003_.TargetArtefactType = nil
+	__Influence__00000003_.TargetArtist = nil
 	__Influence__00000004_.SourceMovement = __Movement__00000001_
+	__Influence__00000004_.SourceArtefactType = nil
+	__Influence__00000004_.SourceArtist = nil
 	__Influence__00000004_.TargetMovement = __Movement__00000003_
-
+	__Influence__00000004_.TargetArtefactType = nil
+	__Influence__00000004_.TargetArtist = nil
 	__Influence__00000005_.SourceMovement = __Movement__00000002_
+	__Influence__00000005_.SourceArtefactType = nil
+	__Influence__00000005_.SourceArtist = nil
 	__Influence__00000005_.TargetMovement = __Movement__00000004_
-
+	__Influence__00000005_.TargetArtefactType = nil
+	__Influence__00000005_.TargetArtist = nil
 	__Influence__00000006_.SourceMovement = __Movement__00000003_
+	__Influence__00000006_.SourceArtefactType = nil
+	__Influence__00000006_.SourceArtist = nil
 	__Influence__00000006_.TargetMovement = __Movement__00000005_
-
+	__Influence__00000006_.TargetArtefactType = nil
+	__Influence__00000006_.TargetArtist = nil
 	__Influence__00000007_.SourceMovement = __Movement__00000002_
+	__Influence__00000007_.SourceArtefactType = nil
+	__Influence__00000007_.SourceArtist = nil
 	__Influence__00000007_.TargetMovement = __Movement__00000005_
-
+	__Influence__00000007_.TargetArtefactType = nil
+	__Influence__00000007_.TargetArtist = nil
+	__Influence__00000008_.SourceMovement = nil
+	__Influence__00000008_.SourceArtefactType = nil
 	__Influence__00000008_.SourceArtist = __Artist__00000000_
+	__Influence__00000008_.TargetMovement = nil
+	__Influence__00000008_.TargetArtefactType = nil
 	__Influence__00000008_.TargetArtist = __Artist__00000002_
-
+	__Influence__00000009_.SourceMovement = nil
+	__Influence__00000009_.SourceArtefactType = nil
 	__Influence__00000009_.SourceArtist = __Artist__00000003_
+	__Influence__00000009_.TargetMovement = nil
+	__Influence__00000009_.TargetArtefactType = nil
 	__Influence__00000009_.TargetArtist = __Artist__00000007_
-
+	__Influence__00000010_.SourceMovement = nil
+	__Influence__00000010_.SourceArtefactType = nil
 	__Influence__00000010_.SourceArtist = __Artist__00000006_
+	__Influence__00000010_.TargetMovement = nil
+	__Influence__00000010_.TargetArtefactType = nil
 	__Influence__00000010_.TargetArtist = __Artist__00000008_
-
 	__InfluenceShape__00000000_.Influence = __Influence__00000000_
 	__InfluenceShape__00000000_.ControlPointShapes = append(__InfluenceShape__00000000_.ControlPointShapes, __ControlPointShape__00000000_)
-
 	__InfluenceShape__00000001_.Influence = __Influence__00000001_
 	__InfluenceShape__00000001_.ControlPointShapes = append(__InfluenceShape__00000001_.ControlPointShapes, __ControlPointShape__00000001_)
-
 	__InfluenceShape__00000002_.Influence = __Influence__00000002_
 	__InfluenceShape__00000002_.ControlPointShapes = append(__InfluenceShape__00000002_.ControlPointShapes, __ControlPointShape__00000002_)
-
 	__InfluenceShape__00000003_.Influence = __Influence__00000003_
 	__InfluenceShape__00000003_.ControlPointShapes = append(__InfluenceShape__00000003_.ControlPointShapes, __ControlPointShape__00000003_)
-
 	__InfluenceShape__00000004_.Influence = __Influence__00000004_
 	__InfluenceShape__00000004_.ControlPointShapes = append(__InfluenceShape__00000004_.ControlPointShapes, __ControlPointShape__00000004_)
-
 	__InfluenceShape__00000005_.Influence = __Influence__00000005_
 	__InfluenceShape__00000005_.ControlPointShapes = append(__InfluenceShape__00000005_.ControlPointShapes, __ControlPointShape__00000005_)
-
 	__InfluenceShape__00000006_.Influence = __Influence__00000006_
 	__InfluenceShape__00000006_.ControlPointShapes = append(__InfluenceShape__00000006_.ControlPointShapes, __ControlPointShape__00000006_)
-
 	__InfluenceShape__00000007_.Influence = __Influence__00000007_
 	__InfluenceShape__00000007_.ControlPointShapes = append(__InfluenceShape__00000007_.ControlPointShapes, __ControlPointShape__00000007_)
-
 	__InfluenceShape__00000008_.Influence = __Influence__00000008_
 	__InfluenceShape__00000008_.ControlPointShapes = append(__InfluenceShape__00000008_.ControlPointShapes, __ControlPointShape__00000008_)
-
 	__InfluenceShape__00000009_.Influence = __Influence__00000009_
 	__InfluenceShape__00000009_.ControlPointShapes = append(__InfluenceShape__00000009_.ControlPointShapes, __ControlPointShape__00000009_)
-
 	__InfluenceShape__00000010_.Influence = __Influence__00000010_
 	__InfluenceShape__00000010_.ControlPointShapes = append(__InfluenceShape__00000010_.ControlPointShapes, __ControlPointShape__00000010_)
-
 	__Movement__00000000_.Places = append(__Movement__00000000_.Places, __Place__00000000_)
 	__Movement__00000000_.Places = append(__Movement__00000000_.Places, __Place__00000002_)
-
 	__Movement__00000001_.Places = append(__Movement__00000001_.Places, __Place__00000000_)
 	__Movement__00000001_.Places = append(__Movement__00000001_.Places, __Place__00000004_)
-
 	__Movement__00000002_.Places = append(__Movement__00000002_.Places, __Place__00000000_)
-
 	__Movement__00000003_.Places = append(__Movement__00000003_.Places, __Place__00000004_)
-
 	__Movement__00000004_.Places = append(__Movement__00000004_.Places, __Place__00000000_)
 	__Movement__00000004_.Places = append(__Movement__00000004_.Places, __Place__00000001_)
-
 	__Movement__00000005_.Places = append(__Movement__00000005_.Places, __Place__00000003_)
-
 	__MovementShape__00000000_.Movement = __Movement__00000000_
 	__MovementShape__00000001_.Movement = __Movement__00000001_
 	__MovementShape__00000002_.Movement = __Movement__00000002_
