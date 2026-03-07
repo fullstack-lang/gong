@@ -340,6 +340,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsInfluenceCategoryShown"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "StartDate"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "EndDate"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "BetweenDatesInterval"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "XMargin"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "YMargin"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Height"))
@@ -993,6 +994,11 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndDate")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", diagram.EndDate.String())
+	case "BetweenDatesInterval":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "BetweenDatesInterval")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", diagram.BetweenDatesInterval))
 	case "XMargin":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
@@ -1954,6 +1960,7 @@ func (diagram *Diagram) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsInfluenceCategoryShown"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "StartDate"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "EndDate"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "BetweenDatesInterval"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "XMargin"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "YMargin"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Height"))
