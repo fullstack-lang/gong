@@ -130,13 +130,13 @@ func _(stage *models.Stage) {
 	__ArtefactTypeShape__00000001_.Name = ``
 	__ArtefactTypeShape__00000001_.X = 300.000000
 	__ArtefactTypeShape__00000001_.Y = 50.000000
-	__ArtefactTypeShape__00000001_.Width = 120.000000
+	__ArtefactTypeShape__00000001_.Width = 148.000000
 	__ArtefactTypeShape__00000001_.Height = 25.000000
 
 	__ArtefactTypeShape__00000002_.Name = ``
 	__ArtefactTypeShape__00000002_.X = 500.000000
 	__ArtefactTypeShape__00000002_.Y = 50.000000
-	__ArtefactTypeShape__00000002_.Width = 120.000000
+	__ArtefactTypeShape__00000002_.Width = 145.000000
 	__ArtefactTypeShape__00000002_.Height = 25.000000
 
 	__Artist__00000000_.Name = `Giotto`
@@ -180,27 +180,27 @@ func _(stage *models.Stage) {
 	__Artist__00000009_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1576-01-01 00:00:00 +0000 UTC")
 
 	__ArtistShape__00000000_.Name = ``
-	__ArtistShape__00000000_.X = 150.000000
-	__ArtistShape__00000000_.Y = 200.000000
-	__ArtistShape__00000000_.Width = 60.000000
+	__ArtistShape__00000000_.X = 101.000000
+	__ArtistShape__00000000_.Y = 258.000000
+	__ArtistShape__00000000_.Width = 134.000000
 	__ArtistShape__00000000_.Height = 30.000000
 
 	__ArtistShape__00000001_.Name = ``
-	__ArtistShape__00000001_.X = 250.000000
-	__ArtistShape__00000001_.Y = 200.000000
+	__ArtistShape__00000001_.X = 307.000000
+	__ArtistShape__00000001_.Y = 212.000000
 	__ArtistShape__00000001_.Width = 60.000000
 	__ArtistShape__00000001_.Height = 30.000000
 
 	__ArtistShape__00000002_.Name = ``
-	__ArtistShape__00000002_.X = 250.000000
-	__ArtistShape__00000002_.Y = 450.000000
-	__ArtistShape__00000002_.Width = 60.000000
+	__ArtistShape__00000002_.X = 160.000000
+	__ArtistShape__00000002_.Y = 429.000000
+	__ArtistShape__00000002_.Width = 84.000000
 	__ArtistShape__00000002_.Height = 30.000000
 
 	__ArtistShape__00000003_.Name = ``
-	__ArtistShape__00000003_.X = 350.000000
-	__ArtistShape__00000003_.Y = 450.000000
-	__ArtistShape__00000003_.Width = 70.000000
+	__ArtistShape__00000003_.X = 320.000000
+	__ArtistShape__00000003_.Y = 471.000000
+	__ArtistShape__00000003_.Width = 91.000000
 	__ArtistShape__00000003_.Height = 30.000000
 
 	__ArtistShape__00000004_.Name = ``
@@ -210,8 +210,8 @@ func _(stage *models.Stage) {
 	__ArtistShape__00000004_.Height = 30.000000
 
 	__ArtistShape__00000005_.Name = ``
-	__ArtistShape__00000005_.X = 750.000000
-	__ArtistShape__00000005_.Y = 450.000000
+	__ArtistShape__00000005_.X = 621.000000
+	__ArtistShape__00000005_.Y = 455.000000
 	__ArtistShape__00000005_.Width = 90.000000
 	__ArtistShape__00000005_.Height = 30.000000
 
@@ -222,21 +222,21 @@ func _(stage *models.Stage) {
 	__ArtistShape__00000006_.Height = 30.000000
 
 	__ArtistShape__00000007_.Name = ``
-	__ArtistShape__00000007_.X = 350.000000
-	__ArtistShape__00000007_.Y = 750.000000
+	__ArtistShape__00000007_.X = 362.000000
+	__ArtistShape__00000007_.Y = 765.000000
 	__ArtistShape__00000007_.Width = 80.000000
 	__ArtistShape__00000007_.Height = 30.000000
 
 	__ArtistShape__00000008_.Name = ``
-	__ArtistShape__00000008_.X = 450.000000
-	__ArtistShape__00000008_.Y = 750.000000
-	__ArtistShape__00000008_.Width = 60.000000
+	__ArtistShape__00000008_.X = 462.000000
+	__ArtistShape__00000008_.Y = 744.000000
+	__ArtistShape__00000008_.Width = 95.000000
 	__ArtistShape__00000008_.Height = 30.000000
 
 	__ArtistShape__00000009_.Name = ``
-	__ArtistShape__00000009_.X = 650.000000
-	__ArtistShape__00000009_.Y = 750.000000
-	__ArtistShape__00000009_.Width = 60.000000
+	__ArtistShape__00000009_.X = 621.000000
+	__ArtistShape__00000009_.Y = 749.000000
+	__ArtistShape__00000009_.Width = 89.000000
 	__ArtistShape__00000009_.Height = 30.000000
 
 	__ControlPointShape__00000000_.Name = `Control Point Shape 0`
@@ -309,7 +309,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.IsInfluenceCategoryShown = true
 	__Diagram__00000000_.StartDate, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1300-01-01 00:00:00 +0000 UTC")
 	__Diagram__00000000_.EndDate, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1550-01-01 00:00:00 +0000 UTC")
-	__Diagram__00000000_.BetweenDatesInterval = 157680000000000000
+	__Diagram__00000000_.NbYearsForIntervals = 10
 	__Diagram__00000000_.XMargin = 20.000000
 	__Diagram__00000000_.YMargin = 40.000000
 	__Diagram__00000000_.Height = 900.000000
@@ -504,9 +504,9 @@ func _(stage *models.Stage) {
 	__Movement__00000005_.AdditionnalName = ``
 
 	__MovementShape__00000000_.Name = ``
-	__MovementShape__00000000_.X = 200.000000
-	__MovementShape__00000000_.Y = 150.000000
-	__MovementShape__00000000_.Width = 100.000000
+	__MovementShape__00000000_.X = 161.000000
+	__MovementShape__00000000_.Y = 140.000000
+	__MovementShape__00000000_.Width = 195.000000
 	__MovementShape__00000000_.Height = 35.000000
 
 	__MovementShape__00000001_.Name = ``
@@ -516,27 +516,27 @@ func _(stage *models.Stage) {
 	__MovementShape__00000001_.Height = 35.000000
 
 	__MovementShape__00000002_.Name = ``
-	__MovementShape__00000002_.X = 300.000000
-	__MovementShape__00000002_.Y = 400.000000
-	__MovementShape__00000002_.Width = 100.000000
+	__MovementShape__00000002_.X = 238.000000
+	__MovementShape__00000002_.Y = 373.000000
+	__MovementShape__00000002_.Width = 188.000000
 	__MovementShape__00000002_.Height = 35.000000
 
 	__MovementShape__00000003_.Name = ``
-	__MovementShape__00000003_.X = 504.000000
-	__MovementShape__00000003_.Y = 372.000000
+	__MovementShape__00000003_.X = 478.000000
+	__MovementShape__00000003_.Y = 368.000000
 	__MovementShape__00000003_.Width = 207.000000
 	__MovementShape__00000003_.Height = 35.000000
 
 	__MovementShape__00000004_.Name = ``
-	__MovementShape__00000004_.X = 350.000000
-	__MovementShape__00000004_.Y = 650.000000
-	__MovementShape__00000004_.Width = 100.000000
+	__MovementShape__00000004_.X = 167.000000
+	__MovementShape__00000004_.Y = 632.000000
+	__MovementShape__00000004_.Width = 186.000000
 	__MovementShape__00000004_.Height = 35.000000
 
 	__MovementShape__00000005_.Name = ``
-	__MovementShape__00000005_.X = 600.000000
-	__MovementShape__00000005_.Y = 700.000000
-	__MovementShape__00000005_.Width = 120.000000
+	__MovementShape__00000005_.X = 478.000000
+	__MovementShape__00000005_.Y = 656.000000
+	__MovementShape__00000005_.Width = 225.000000
 	__MovementShape__00000005_.Height = 35.000000
 
 	__Place__00000000_.Name = `Florence`

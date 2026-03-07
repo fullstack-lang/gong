@@ -1701,8 +1701,8 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 	if diagram.EndDate != diagramOther.EndDate {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "EndDate"))
 	}
-	if diagram.BetweenDatesInterval != diagramOther.BetweenDatesInterval {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "BetweenDatesInterval"))
+	if diagram.NbYearsForIntervals != diagramOther.NbYearsForIntervals {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "NbYearsForIntervals"))
 	}
 	if diagram.XMargin != diagramOther.XMargin {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "XMargin"))
