@@ -1,7 +1,4 @@
-Appended files:
-- stage.go
-- poster with barrgraph.png
-- modernism.go
+
 
 I want to do chronological flowcharts to map the genealogy and evolution of art movements, inspired by the methodology of **Alfred Barr**. His diagram for the 1936 exhibition *Cubism and Abstract Art* remains a canonical example of data visualization in art history.
 

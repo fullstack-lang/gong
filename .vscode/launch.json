@@ -1053,6 +1053,19 @@
                 "data/modern design.go"
             ]
         },
+                {
+            "name": "go run barrgraph renaissance",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsme/barrgraph/go/cmd/barrgraph",
+            "args": [
+                "-unmarshallFromCode",
+                "data/renaissance.go",
+                "-marshallOnCommit",
+                "data/renaissance.go"
+            ]
+        },
         {
             "name": "go run barrgraph",
             "type": "go",
