@@ -175,7 +175,7 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("EndDate", instanceWithInferedType.EndDate, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("BetweenDatesInterval", instanceWithInferedType.BetweenDatesInterval, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("NbYearsForIntervals", instanceWithInferedType.NbYearsForIntervals, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("XMargin", instanceWithInferedType.XMargin, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)

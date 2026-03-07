@@ -914,8 +914,8 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(diagram_.StartDate), formDiv)
 		case "EndDate":
 			FormDivBasicFieldToField(&(diagram_.EndDate), formDiv)
-		case "BetweenDatesInterval":
-			FormDivBasicFieldToField(&(diagram_.BetweenDatesInterval), formDiv)
+		case "NbYearsForIntervals":
+			FormDivBasicFieldToField(&(diagram_.NbYearsForIntervals), formDiv)
 		case "XMargin":
 			FormDivBasicFieldToField(&(diagram_.XMargin), formDiv)
 		case "YMargin":

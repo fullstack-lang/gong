@@ -24,9 +24,9 @@ type Diagram struct {
 	IsArtistCategoryShown       bool
 	IsInfluenceCategoryShown    bool
 
-	StartDate            time.Time
-	EndDate              time.Time
-	BetweenDatesInterval time.Duration
+	StartDate           time.Time
+	EndDate             time.Time
+	NbYearsForIntervals int
 
 	DiagramPresentation
 }
@@ -121,7 +121,7 @@ type DiagramPresentation struct {
 }
 
 // AlignDates updates the diagram's StartDate and EndDate
-// to align with BetweenDatesInterval intervals.
+// to align with NbYearsForIntervals intervals.
 //
 // It returns true if either StartDate or EndDate was changed,
 // and false if they were already aligned.
@@ -132,7 +132,7 @@ func (d *Diagram) AlignDates() bool {
 	originalStart := d.StartDate
 	originalEnd := d.EndDate
 
-	intervalYears := int(d.BetweenDatesInterval.Hours() / (24 * 365))
+	intervalYears := d.NbYearsForIntervals
 	if intervalYears == 0 {
 		intervalYears = 5
 	}
@@ -178,7 +178,7 @@ func (d *Diagram) AlignDates() bool {
 }
 
 // GetDateTicks generates a slice of time.Time, starting at StartDate,
-// incrementing by BetweenDatesInterval, and always including EndDate as the final value.
+// incrementing by NbYearsForIntervals, and always including EndDate as the final value.
 //
 // The steps are relative to the StartDate, not the calendar.
 func (d *Diagram) GetDateTicks() []time.Time {
@@ -193,7 +193,7 @@ func (d *Diagram) GetDateTicks() []time.Time {
 		return []time.Time{d.StartDate}
 	}
 
-	intervalYears := int(d.BetweenDatesInterval.Hours() / (24 * 365))
+	intervalYears := d.NbYearsForIntervals
 	if intervalYears == 0 {
 		intervalYears = 5
 	}
