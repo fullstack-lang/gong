@@ -314,6 +314,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "Y"))
 		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "Width"))
 		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "IsHidden"))
 	}
 
 	notetaskshapeOrdered := []*NoteTaskShape{}
@@ -444,6 +445,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(productshape.GongMarshallField(stage, "Y"))
 		initializerStatements.WriteString(productshape.GongMarshallField(stage, "Width"))
 		initializerStatements.WriteString(productshape.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(productshape.GongMarshallField(stage, "IsHidden"))
 	}
 
 	projectOrdered := []*Project{}
@@ -574,6 +576,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(resourceshape.GongMarshallField(stage, "Y"))
 		initializerStatements.WriteString(resourceshape.GongMarshallField(stage, "Width"))
 		initializerStatements.WriteString(resourceshape.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(resourceshape.GongMarshallField(stage, "IsHidden"))
 	}
 
 	resourcetaskshapeOrdered := []*ResourceTaskShape{}
@@ -804,6 +807,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "Y"))
 		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "Width"))
 		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "IsHidden"))
 	}
 
 	// insertion initialization of objects to stage
@@ -1553,6 +1557,11 @@ func (noteshape *NoteShape) GongMarshallField(stage *Stage, fieldName string) (r
 		res = strings.ReplaceAll(res, "{{Identifier}}", noteshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Height")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", noteshape.Height))
+	case "IsHidden":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", noteshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", noteshape.IsHidden))
 
 	case "Note":
 		if noteshape.Note != nil {
@@ -1812,6 +1821,11 @@ func (productshape *ProductShape) GongMarshallField(stage *Stage, fieldName stri
 		res = strings.ReplaceAll(res, "{{Identifier}}", productshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Height")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", productshape.Height))
+	case "IsHidden":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", productshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", productshape.IsHidden))
 
 	case "Product":
 		if productshape.Product != nil {
@@ -2069,6 +2083,11 @@ func (resourceshape *ResourceShape) GongMarshallField(stage *Stage, fieldName st
 		res = strings.ReplaceAll(res, "{{Identifier}}", resourceshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Height")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", resourceshape.Height))
+	case "IsHidden":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", resourceshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", resourceshape.IsHidden))
 
 	case "Resource":
 		if resourceshape.Resource != nil {
@@ -2570,6 +2589,11 @@ func (taskshape *TaskShape) GongMarshallField(stage *Stage, fieldName string) (r
 		res = strings.ReplaceAll(res, "{{Identifier}}", taskshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Height")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", taskshape.Height))
+	case "IsHidden":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", taskshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", taskshape.IsHidden))
 
 	case "Task":
 		if taskshape.Task != nil {
@@ -2700,6 +2724,7 @@ func (noteshape *NoteShape) GongMarshallAllFields(stage *Stage) (initRes string,
 		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "Y"))
 		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "Width"))
 		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "IsHidden"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -2770,6 +2795,7 @@ func (productshape *ProductShape) GongMarshallAllFields(stage *Stage) (initRes s
 		initializerStatements.WriteString(productshape.GongMarshallField(stage, "Y"))
 		initializerStatements.WriteString(productshape.GongMarshallField(stage, "Width"))
 		initializerStatements.WriteString(productshape.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(productshape.GongMarshallField(stage, "IsHidden"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -2840,6 +2866,7 @@ func (resourceshape *ResourceShape) GongMarshallAllFields(stage *Stage) (initRes
 		initializerStatements.WriteString(resourceshape.GongMarshallField(stage, "Y"))
 		initializerStatements.WriteString(resourceshape.GongMarshallField(stage, "Width"))
 		initializerStatements.WriteString(resourceshape.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(resourceshape.GongMarshallField(stage, "IsHidden"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -2965,6 +2992,7 @@ func (taskshape *TaskShape) GongMarshallAllFields(stage *Stage) (initRes string,
 		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "Y"))
 		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "Width"))
 		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "IsHidden"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

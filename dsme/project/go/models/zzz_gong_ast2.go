@@ -695,6 +695,8 @@ func (u *NoteShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 		instance.Width = GongExtractFloat(valueExpr)
 	case "Height":
 		instance.Height = GongExtractFloat(valueExpr)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
 	}
 	return nil
 }
@@ -863,6 +865,8 @@ func (u *ProductShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.Width = GongExtractFloat(valueExpr)
 	case "Height":
 		instance.Height = GongExtractFloat(valueExpr)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
 	}
 	return nil
 }
@@ -1031,6 +1035,8 @@ func (u *ResourceShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 		instance.Width = GongExtractFloat(valueExpr)
 	case "Height":
 		instance.Height = GongExtractFloat(valueExpr)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
 	}
 	return nil
 }
@@ -1342,6 +1348,8 @@ func (u *TaskShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 		instance.Width = GongExtractFloat(valueExpr)
 	case "Height":
 		instance.Height = GongExtractFloat(valueExpr)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
 	}
 	return nil
 }

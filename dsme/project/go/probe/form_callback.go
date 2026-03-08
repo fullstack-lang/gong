@@ -1464,6 +1464,8 @@ func (noteshapeFormCallback *NoteShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(noteshape_.Width), formDiv)
 		case "Height":
 			FormDivBasicFieldToField(&(noteshape_.Height), formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&(noteshape_.IsHidden), formDiv)
 		case "Diagram:Note_Shapes":
 			// WARNING : this form deals with the N-N association "Diagram.Note_Shapes []*NoteShape" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
@@ -2451,6 +2453,8 @@ func (productshapeFormCallback *ProductShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(productshape_.Width), formDiv)
 		case "Height":
 			FormDivBasicFieldToField(&(productshape_.Height), formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&(productshape_.IsHidden), formDiv)
 		case "Diagram:Product_Shapes":
 			// WARNING : this form deals with the N-N association "Diagram.Product_Shapes []*ProductShape" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
@@ -3480,6 +3484,8 @@ func (resourceshapeFormCallback *ResourceShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(resourceshape_.Width), formDiv)
 		case "Height":
 			FormDivBasicFieldToField(&(resourceshape_.Height), formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&(resourceshape_.IsHidden), formDiv)
 		case "Diagram:Resource_Shapes":
 			// WARNING : this form deals with the N-N association "Diagram.Resource_Shapes []*ResourceShape" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
@@ -5030,6 +5036,8 @@ func (taskshapeFormCallback *TaskShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(taskshape_.Width), formDiv)
 		case "Height":
 			FormDivBasicFieldToField(&(taskshape_.Height), formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&(taskshape_.IsHidden), formDiv)
 		case "Diagram:Task_Shapes":
 			// WARNING : this form deals with the N-N association "Diagram.Task_Shapes []*TaskShape" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)

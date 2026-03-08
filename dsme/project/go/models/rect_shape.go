@@ -3,6 +3,7 @@ package models
 type RectShape struct {
 	X, Y, Width, Height float64
 	receiver            GongstructIF // the pointer to the owning object
+	IsHidden            bool
 }
 
 func (s *RectShape) Stage(stage *Stage) {
