@@ -163,8 +163,8 @@ another line-NewDiagram`}).Stage(stage)
 	__Diagram__00000042_.ShowPrefix = true
 	__Diagram__00000042_.DefaultBoxWidth = 150.000000
 	__Diagram__00000042_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000042_.Width = 3935.000000
-	__Diagram__00000042_.Height = 3460.000000
+	__Diagram__00000042_.Width = 4135.000000
+	__Diagram__00000042_.Height = 3660.000000
 	__Diagram__00000042_.IsExpanded = false
 	__Diagram__00000042_.ComputedPrefix = ``
 	__Diagram__00000042_.IsInRenameMode = false
@@ -179,8 +179,8 @@ another line-NewDiagram`}).Stage(stage)
 	__Diagram__00000057_.ShowPrefix = false
 	__Diagram__00000057_.DefaultBoxWidth = 150.000000
 	__Diagram__00000057_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000057_.Width = 3915.108494
-	__Diagram__00000057_.Height = 3334.407017
+	__Diagram__00000057_.Width = 4115.108494
+	__Diagram__00000057_.Height = 3534.407017
 	__Diagram__00000057_.IsExpanded = false
 	__Diagram__00000057_.ComputedPrefix = ``
 	__Diagram__00000057_.IsInRenameMode = false
@@ -192,11 +192,11 @@ another line-NewDiagram`}).Stage(stage)
 	__Diagram__00000061_.Name = `Work diagram x`
 	__Diagram__00000061_.IsChecked = true
 	__Diagram__00000061_.IsEditable_ = true
-	__Diagram__00000061_.ShowPrefix = false
+	__Diagram__00000061_.ShowPrefix = true
 	__Diagram__00000061_.DefaultBoxWidth = 250.000000
 	__Diagram__00000061_.DefaultBoxHeigth = 100.000000
-	__Diagram__00000061_.Width = 4684.716678
-	__Diagram__00000061_.Height = 4430.109182
+	__Diagram__00000061_.Width = 4884.716678
+	__Diagram__00000061_.Height = 4630.109182
 	__Diagram__00000061_.IsExpanded = true
 	__Diagram__00000061_.ComputedPrefix = ``
 	__Diagram__00000061_.IsInRenameMode = false
@@ -812,7 +812,7 @@ another line-NewDiagram`
 	__Project__00000001_.IsInRenameMode = false
 
 	__Project__00000002_.Name = `gong : persist stage.go as an history of commits  #934`
-	__Project__00000002_.IsExpanded = false
+	__Project__00000002_.IsExpanded = true
 	__Project__00000002_.ComputedPrefix = ``
 	__Project__00000002_.IsInRenameMode = false
 
