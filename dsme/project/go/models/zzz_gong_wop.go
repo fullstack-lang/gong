@@ -148,6 +148,8 @@ type NoteShape_WOP struct {
 	Width float64
 
 	Height float64
+
+	IsHidden bool
 }
 
 func (from *NoteShape) CopyBasicFields(to *NoteShape) {
@@ -158,6 +160,7 @@ func (from *NoteShape) CopyBasicFields(to *NoteShape) {
 	to.Y = from.Y
 	to.Width = from.Width
 	to.Height = from.Height
+	to.IsHidden = from.IsHidden
 }
 
 type NoteTaskShape_WOP struct {
@@ -255,6 +258,8 @@ type ProductShape_WOP struct {
 	Width float64
 
 	Height float64
+
+	IsHidden bool
 }
 
 func (from *ProductShape) CopyBasicFields(to *ProductShape) {
@@ -265,6 +270,7 @@ func (from *ProductShape) CopyBasicFields(to *ProductShape) {
 	to.Y = from.Y
 	to.Width = from.Width
 	to.Height = from.Height
+	to.IsHidden = from.IsHidden
 }
 
 type Project_WOP struct {
@@ -350,6 +356,8 @@ type ResourceShape_WOP struct {
 	Width float64
 
 	Height float64
+
+	IsHidden bool
 }
 
 func (from *ResourceShape) CopyBasicFields(to *ResourceShape) {
@@ -360,6 +368,7 @@ func (from *ResourceShape) CopyBasicFields(to *ResourceShape) {
 	to.Y = from.Y
 	to.Width = from.Width
 	to.Height = from.Height
+	to.IsHidden = from.IsHidden
 }
 
 type ResourceTaskShape_WOP struct {
@@ -535,6 +544,8 @@ type TaskShape_WOP struct {
 	Width float64
 
 	Height float64
+
+	IsHidden bool
 }
 
 func (from *TaskShape) CopyBasicFields(to *TaskShape) {
@@ -545,5 +556,6 @@ func (from *TaskShape) CopyBasicFields(to *TaskShape) {
 	to.Y = from.Y
 	to.Width = from.Width
 	to.Height = from.Height
+	to.IsHidden = from.IsHidden
 }
 

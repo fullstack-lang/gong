@@ -3459,6 +3459,9 @@ func (noteshape *NoteShape) GongDiff(stage *Stage, noteshapeOther *NoteShape) (d
 	if noteshape.Height != noteshapeOther.Height {
 		diffs = append(diffs, noteshape.GongMarshallField(stage, "Height"))
 	}
+	if noteshape.IsHidden != noteshapeOther.IsHidden {
+		diffs = append(diffs, noteshape.GongMarshallField(stage, "IsHidden"))
+	}
 
 	return
 }
@@ -3614,6 +3617,9 @@ func (productshape *ProductShape) GongDiff(stage *Stage, productshapeOther *Prod
 	}
 	if productshape.Height != productshapeOther.Height {
 		diffs = append(diffs, productshape.GongMarshallField(stage, "Height"))
+	}
+	if productshape.IsHidden != productshapeOther.IsHidden {
+		diffs = append(diffs, productshape.GongMarshallField(stage, "IsHidden"))
 	}
 
 	return
@@ -3870,6 +3876,9 @@ func (resourceshape *ResourceShape) GongDiff(stage *Stage, resourceshapeOther *R
 	}
 	if resourceshape.Height != resourceshapeOther.Height {
 		diffs = append(diffs, resourceshape.GongMarshallField(stage, "Height"))
+	}
+	if resourceshape.IsHidden != resourceshapeOther.IsHidden {
+		diffs = append(diffs, resourceshape.GongMarshallField(stage, "IsHidden"))
 	}
 
 	return
@@ -4195,6 +4204,9 @@ func (taskshape *TaskShape) GongDiff(stage *Stage, taskshapeOther *TaskShape) (d
 	}
 	if taskshape.Height != taskshapeOther.Height {
 		diffs = append(diffs, taskshape.GongMarshallField(stage, "Height"))
+	}
+	if taskshape.IsHidden != taskshapeOther.IsHidden {
+		diffs = append(diffs, taskshape.GongMarshallField(stage, "IsHidden"))
 	}
 
 	return
