@@ -79,7 +79,13 @@ func _(stage *models.Stage) {
 	__ControlPointShape__00000009_ := (&models.ControlPointShape{Name: `Control Point Shape 9`}).Stage(stage)
 	__ControlPointShape__00000010_ := (&models.ControlPointShape{Name: `Control Point Shape 10`}).Stage(stage)
 	__ControlPointShape__00000011_ := (&models.ControlPointShape{Name: `Control Point Shape 11`}).Stage(stage)
-	__ControlPointShape__00000012_ := (&models.ControlPointShape{Name: `Control Point Shape 12`}).Stage(stage)
+	__ControlPointShape__00000013_ := (&models.ControlPointShape{Name: `Control Point Shape in Early Netherlandish to Venetian Renaissance 1`}).Stage(stage)
+	__ControlPointShape__00000014_ := (&models.ControlPointShape{Name: `Control Point Shape in Early Netherlandish to Venetian Renaissance 2`}).Stage(stage)
+	__ControlPointShape__00000015_ := (&models.ControlPointShape{Name: `Control Point Shape in Early Netherlandish to Venetian Renaissance 3`}).Stage(stage)
+	__ControlPointShape__00000016_ := (&models.ControlPointShape{Name: `Control Point Shape in Early Renaissance to Venetian Renaissance 1`}).Stage(stage)
+	__ControlPointShape__00000017_ := (&models.ControlPointShape{Name: `Control Point Shape in Donatello to Michelangelo 1`}).Stage(stage)
+	__ControlPointShape__00000018_ := (&models.ControlPointShape{Name: `Control Point Shape in Donatello to Michelangelo 2`}).Stage(stage)
+	__ControlPointShape__00000019_ := (&models.ControlPointShape{Name: `Control Point Shape in Donatello to Michelangelo 3`}).Stage(stage)
 
 	__Desk__00000000_ := (&models.Desk{Name: `Desk`}).Stage(stage)
 
@@ -157,26 +163,26 @@ func _(stage *models.Stage) {
 	__ArtefactTypeShape__00000000_.Height = 25.000000
 
 	__ArtefactTypeShape__00000001_.Name = ``
-	__ArtefactTypeShape__00000001_.X = 300.000000
+	__ArtefactTypeShape__00000001_.X = 303.000000
 	__ArtefactTypeShape__00000001_.Y = 50.000000
-	__ArtefactTypeShape__00000001_.Width = 120.000000
+	__ArtefactTypeShape__00000001_.Width = 159.000000
 	__ArtefactTypeShape__00000001_.Height = 25.000000
 
 	__ArtefactTypeShape__00000002_.Name = ``
-	__ArtefactTypeShape__00000002_.X = 500.000000
-	__ArtefactTypeShape__00000002_.Y = 50.000000
+	__ArtefactTypeShape__00000002_.X = 372.000000
+	__ArtefactTypeShape__00000002_.Y = 234.000000
 	__ArtefactTypeShape__00000002_.Width = 140.000000
 	__ArtefactTypeShape__00000002_.Height = 25.000000
 
 	__ArtefactTypeShape__00000003_.Name = ``
-	__ArtefactTypeShape__00000003_.X = 522.000000
-	__ArtefactTypeShape__00000003_.Y = 162.000000
-	__ArtefactTypeShape__00000003_.Width = 168.000000
+	__ArtefactTypeShape__00000003_.X = 504.000000
+	__ArtefactTypeShape__00000003_.Y = 97.000000
+	__ArtefactTypeShape__00000003_.Width = 189.000000
 	__ArtefactTypeShape__00000003_.Height = 25.000000
 
 	__ArtefactTypeShape__00000004_.Name = ``
-	__ArtefactTypeShape__00000004_.X = 900.000000
-	__ArtefactTypeShape__00000004_.Y = 50.000000
+	__ArtefactTypeShape__00000004_.X = 534.000000
+	__ArtefactTypeShape__00000004_.Y = 173.000000
 	__ArtefactTypeShape__00000004_.Width = 120.000000
 	__ArtefactTypeShape__00000004_.Height = 25.000000
 
@@ -241,57 +247,57 @@ func _(stage *models.Stage) {
 	__Artist__00000014_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1594-01-01 00:00:00 +0000 UTC")
 
 	__ArtistShape__00000000_.Name = ``
-	__ArtistShape__00000000_.X = 150.000000
-	__ArtistShape__00000000_.Y = 200.000000
-	__ArtistShape__00000000_.Width = 60.000000
+	__ArtistShape__00000000_.X = 108.000000
+	__ArtistShape__00000000_.Y = 219.000000
+	__ArtistShape__00000000_.Width = 95.000000
 	__ArtistShape__00000000_.Height = 30.000000
 
 	__ArtistShape__00000001_.Name = ``
-	__ArtistShape__00000001_.X = 250.000000
-	__ArtistShape__00000001_.Y = 200.000000
+	__ArtistShape__00000001_.X = 270.000000
+	__ArtistShape__00000001_.Y = 214.000000
 	__ArtistShape__00000001_.Width = 60.000000
 	__ArtistShape__00000001_.Height = 30.000000
 
 	__ArtistShape__00000002_.Name = ``
-	__ArtistShape__00000002_.X = 250.000000
-	__ArtistShape__00000002_.Y = 450.000000
-	__ArtistShape__00000002_.Width = 60.000000
+	__ArtistShape__00000002_.X = 145.000000
+	__ArtistShape__00000002_.Y = 455.000000
+	__ArtistShape__00000002_.Width = 86.000000
 	__ArtistShape__00000002_.Height = 30.000000
 
 	__ArtistShape__00000003_.Name = ``
-	__ArtistShape__00000003_.X = 350.000000
-	__ArtistShape__00000003_.Y = 450.000000
-	__ArtistShape__00000003_.Width = 70.000000
+	__ArtistShape__00000003_.X = 408.000000
+	__ArtistShape__00000003_.Y = 392.000000
+	__ArtistShape__00000003_.Width = 89.000000
 	__ArtistShape__00000003_.Height = 30.000000
 
 	__ArtistShape__00000004_.Name = ``
 	__ArtistShape__00000004_.X = 450.000000
 	__ArtistShape__00000004_.Y = 450.000000
-	__ArtistShape__00000004_.Width = 80.000000
+	__ArtistShape__00000004_.Width = 94.000000
 	__ArtistShape__00000004_.Height = 30.000000
 
 	__ArtistShape__00000005_.Name = ``
-	__ArtistShape__00000005_.X = 750.000000
-	__ArtistShape__00000005_.Y = 450.000000
+	__ArtistShape__00000005_.X = 618.000000
+	__ArtistShape__00000005_.Y = 454.000000
 	__ArtistShape__00000005_.Width = 90.000000
 	__ArtistShape__00000005_.Height = 30.000000
 
 	__ArtistShape__00000006_.Name = ``
-	__ArtistShape__00000006_.X = 194.000000
-	__ArtistShape__00000006_.Y = 707.000000
-	__ArtistShape__00000006_.Width = 100.000000
+	__ArtistShape__00000006_.X = 105.000000
+	__ArtistShape__00000006_.Y = 700.000000
+	__ArtistShape__00000006_.Width = 119.000000
 	__ArtistShape__00000006_.Height = 30.000000
 
 	__ArtistShape__00000007_.Name = ``
-	__ArtistShape__00000007_.X = 350.000000
-	__ArtistShape__00000007_.Y = 750.000000
+	__ArtistShape__00000007_.X = 406.000000
+	__ArtistShape__00000007_.Y = 711.000000
 	__ArtistShape__00000007_.Width = 80.000000
 	__ArtistShape__00000007_.Height = 30.000000
 
 	__ArtistShape__00000008_.Name = ``
-	__ArtistShape__00000008_.X = 466.000000
+	__ArtistShape__00000008_.X = 425.000000
 	__ArtistShape__00000008_.Y = 760.000000
-	__ArtistShape__00000008_.Width = 60.000000
+	__ArtistShape__00000008_.Width = 101.000000
 	__ArtistShape__00000008_.Height = 30.000000
 
 	__ArtistShape__00000009_.Name = ``
@@ -307,9 +313,9 @@ func _(stage *models.Stage) {
 	__ArtistShape__00000010_.Height = 30.000000
 
 	__ArtistShape__00000011_.Name = ``
-	__ArtistShape__00000011_.X = 350.000000
-	__ArtistShape__00000011_.Y = 550.000000
-	__ArtistShape__00000011_.Width = 100.000000
+	__ArtistShape__00000011_.X = 370.000000
+	__ArtistShape__00000011_.Y = 548.000000
+	__ArtistShape__00000011_.Width = 141.000000
 	__ArtistShape__00000011_.Height = 30.000000
 
 	__ArtistShape__00000012_.Name = ``
@@ -319,14 +325,14 @@ func _(stage *models.Stage) {
 	__ArtistShape__00000012_.Height = 30.000000
 
 	__ArtistShape__00000013_.Name = ``
-	__ArtistShape__00000013_.X = 650.000000
-	__ArtistShape__00000013_.Y = 650.000000
+	__ArtistShape__00000013_.X = 629.000000
+	__ArtistShape__00000013_.Y = 642.000000
 	__ArtistShape__00000013_.Width = 80.000000
 	__ArtistShape__00000013_.Height = 30.000000
 
 	__ArtistShape__00000014_.Name = ``
-	__ArtistShape__00000014_.X = 750.000000
-	__ArtistShape__00000014_.Y = 850.000000
+	__ArtistShape__00000014_.X = 578.000000
+	__ArtistShape__00000014_.Y = 815.000000
 	__ArtistShape__00000014_.Width = 80.000000
 	__ArtistShape__00000014_.Height = 30.000000
 
@@ -390,10 +396,40 @@ func _(stage *models.Stage) {
 	__ControlPointShape__00000011_.Y_Relative = 0.500000
 	__ControlPointShape__00000011_.IsStartShapeTheClosestShape = true
 
-	__ControlPointShape__00000012_.Name = `Control Point Shape 12`
-	__ControlPointShape__00000012_.X_Relative = 1.499999
-	__ControlPointShape__00000012_.Y_Relative = 1.385710
-	__ControlPointShape__00000012_.IsStartShapeTheClosestShape = true
+	__ControlPointShape__00000013_.Name = `Control Point Shape in Early Netherlandish to Venetian Renaissance 1`
+	__ControlPointShape__00000013_.X_Relative = 0.410175
+	__ControlPointShape__00000013_.Y_Relative = 4.285890
+	__ControlPointShape__00000013_.IsStartShapeTheClosestShape = true
+
+	__ControlPointShape__00000014_.Name = `Control Point Shape in Early Netherlandish to Venetian Renaissance 2`
+	__ControlPointShape__00000014_.X_Relative = 0.572871
+	__ControlPointShape__00000014_.Y_Relative = -4.114097
+	__ControlPointShape__00000014_.IsStartShapeTheClosestShape = false
+
+	__ControlPointShape__00000015_.Name = `Control Point Shape in Early Netherlandish to Venetian Renaissance 3`
+	__ControlPointShape__00000015_.X_Relative = 0.327182
+	__ControlPointShape__00000015_.Y_Relative = 0.685882
+	__ControlPointShape__00000015_.IsStartShapeTheClosestShape = false
+
+	__ControlPointShape__00000016_.Name = `Control Point Shape in Early Renaissance to Venetian Renaissance 1`
+	__ControlPointShape__00000016_.X_Relative = 0.228044
+	__ControlPointShape__00000016_.Y_Relative = 0.228741
+	__ControlPointShape__00000016_.IsStartShapeTheClosestShape = false
+
+	__ControlPointShape__00000017_.Name = `Control Point Shape in Donatello to Michelangelo 1`
+	__ControlPointShape__00000017_.X_Relative = 1.830404
+	__ControlPointShape__00000017_.Y_Relative = 2.733538
+	__ControlPointShape__00000017_.IsStartShapeTheClosestShape = true
+
+	__ControlPointShape__00000018_.Name = `Control Point Shape in Donatello to Michelangelo 2`
+	__ControlPointShape__00000018_.X_Relative = 0.785459
+	__ControlPointShape__00000018_.Y_Relative = 5.033492
+	__ControlPointShape__00000018_.IsStartShapeTheClosestShape = true
+
+	__ControlPointShape__00000019_.Name = `Control Point Shape in Donatello to Michelangelo 3`
+	__ControlPointShape__00000019_.X_Relative = 2.311321
+	__ControlPointShape__00000019_.Y_Relative = -3.766433
+	__ControlPointShape__00000019_.IsStartShapeTheClosestShape = false
 
 	__Desk__00000000_.Name = `Desk`
 
@@ -637,32 +673,32 @@ func _(stage *models.Stage) {
 	__Movement__00000007_.AdditionnalName = ``
 
 	__MovementShape__00000000_.Name = ``
-	__MovementShape__00000000_.X = 200.000000
-	__MovementShape__00000000_.Y = 150.000000
-	__MovementShape__00000000_.Width = 100.000000
+	__MovementShape__00000000_.X = 104.000000
+	__MovementShape__00000000_.Y = 136.000000
+	__MovementShape__00000000_.Width = 196.000000
 	__MovementShape__00000000_.Height = 35.000000
 
 	__MovementShape__00000001_.Name = ``
-	__MovementShape__00000001_.X = 553.000000
-	__MovementShape__00000001_.Y = 250.000000
+	__MovementShape__00000001_.X = 544.000000
+	__MovementShape__00000001_.Y = 257.000000
 	__MovementShape__00000001_.Width = 167.000000
 	__MovementShape__00000001_.Height = 28.000000
 
 	__MovementShape__00000002_.Name = ``
-	__MovementShape__00000002_.X = 300.000000
-	__MovementShape__00000002_.Y = 400.000000
-	__MovementShape__00000002_.Width = 100.000000
+	__MovementShape__00000002_.X = 208.000000
+	__MovementShape__00000002_.Y = 344.000000
+	__MovementShape__00000002_.Width = 184.000000
 	__MovementShape__00000002_.Height = 35.000000
 
 	__MovementShape__00000003_.Name = ``
-	__MovementShape__00000003_.X = 531.000000
-	__MovementShape__00000003_.Y = 397.000000
+	__MovementShape__00000003_.X = 499.000000
+	__MovementShape__00000003_.Y = 365.000000
 	__MovementShape__00000003_.Width = 207.000000
 	__MovementShape__00000003_.Height = 28.000000
 
 	__MovementShape__00000004_.Name = ``
-	__MovementShape__00000004_.X = 276.000000
-	__MovementShape__00000004_.Y = 650.000000
+	__MovementShape__00000004_.X = 254.000000
+	__MovementShape__00000004_.Y = 634.000000
 	__MovementShape__00000004_.Width = 174.000000
 	__MovementShape__00000004_.Height = 35.000000
 
@@ -673,14 +709,14 @@ func _(stage *models.Stage) {
 	__MovementShape__00000005_.Height = 35.000000
 
 	__MovementShape__00000006_.Name = ``
-	__MovementShape__00000006_.X = 400.000000
-	__MovementShape__00000006_.Y = 150.000000
-	__MovementShape__00000006_.Width = 100.000000
+	__MovementShape__00000006_.X = 394.000000
+	__MovementShape__00000006_.Y = 140.000000
+	__MovementShape__00000006_.Width = 86.000000
 	__MovementShape__00000006_.Height = 35.000000
 
 	__MovementShape__00000007_.Name = ``
-	__MovementShape__00000007_.X = 400.000000
-	__MovementShape__00000007_.Y = 800.000000
+	__MovementShape__00000007_.X = 232.000000
+	__MovementShape__00000007_.Y = 780.000000
 	__MovementShape__00000007_.Width = 100.000000
 	__MovementShape__00000007_.Height = 35.000000
 
@@ -866,18 +902,24 @@ func _(stage *models.Stage) {
 	__InfluenceShape__00000005_.ControlPointShapes = append(__InfluenceShape__00000005_.ControlPointShapes, __ControlPointShape__00000005_)
 	__InfluenceShape__00000006_.Influence = __Influence__00000006_
 	__InfluenceShape__00000006_.ControlPointShapes = append(__InfluenceShape__00000006_.ControlPointShapes, __ControlPointShape__00000006_)
+	__InfluenceShape__00000006_.ControlPointShapes = append(__InfluenceShape__00000006_.ControlPointShapes, __ControlPointShape__00000013_)
+	__InfluenceShape__00000006_.ControlPointShapes = append(__InfluenceShape__00000006_.ControlPointShapes, __ControlPointShape__00000014_)
+	__InfluenceShape__00000006_.ControlPointShapes = append(__InfluenceShape__00000006_.ControlPointShapes, __ControlPointShape__00000015_)
 	__InfluenceShape__00000007_.Influence = __Influence__00000007_
 	__InfluenceShape__00000007_.ControlPointShapes = append(__InfluenceShape__00000007_.ControlPointShapes, __ControlPointShape__00000007_)
+	__InfluenceShape__00000007_.ControlPointShapes = append(__InfluenceShape__00000007_.ControlPointShapes, __ControlPointShape__00000016_)
 	__InfluenceShape__00000008_.Influence = __Influence__00000008_
 	__InfluenceShape__00000008_.ControlPointShapes = append(__InfluenceShape__00000008_.ControlPointShapes, __ControlPointShape__00000008_)
 	__InfluenceShape__00000009_.Influence = __Influence__00000009_
 	__InfluenceShape__00000009_.ControlPointShapes = append(__InfluenceShape__00000009_.ControlPointShapes, __ControlPointShape__00000009_)
+	__InfluenceShape__00000009_.ControlPointShapes = append(__InfluenceShape__00000009_.ControlPointShapes, __ControlPointShape__00000017_)
+	__InfluenceShape__00000009_.ControlPointShapes = append(__InfluenceShape__00000009_.ControlPointShapes, __ControlPointShape__00000018_)
+	__InfluenceShape__00000009_.ControlPointShapes = append(__InfluenceShape__00000009_.ControlPointShapes, __ControlPointShape__00000019_)
 	__InfluenceShape__00000010_.Influence = __Influence__00000010_
 	__InfluenceShape__00000010_.ControlPointShapes = append(__InfluenceShape__00000010_.ControlPointShapes, __ControlPointShape__00000010_)
 	__InfluenceShape__00000011_.Influence = __Influence__00000011_
 	__InfluenceShape__00000011_.ControlPointShapes = append(__InfluenceShape__00000011_.ControlPointShapes, __ControlPointShape__00000011_)
 	__InfluenceShape__00000012_.Influence = __Influence__00000012_
-	__InfluenceShape__00000012_.ControlPointShapes = append(__InfluenceShape__00000012_.ControlPointShapes, __ControlPointShape__00000012_)
 	__Movement__00000000_.Places = append(__Movement__00000000_.Places, __Place__00000000_)
 	__Movement__00000000_.Places = append(__Movement__00000000_.Places, __Place__00000002_)
 	__Movement__00000001_.Places = append(__Movement__00000001_.Places, __Place__00000000_)
