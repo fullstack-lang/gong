@@ -26,6 +26,8 @@ type ArtefactTypeShape struct {
 	X, Y float64
 
 	Width, Height float64
+
+	IsHidden bool
 }
 
 type ArtefactTypeNodeProxy struct {

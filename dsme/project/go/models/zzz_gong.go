@@ -5824,6 +5824,10 @@ func (noteshape *NoteShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:               "Height",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
+		{
+			Name:               "IsHidden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
 	}
 	return
 }
@@ -5980,6 +5984,10 @@ func (productshape *ProductShape) GongGetFieldHeaders() (res []GongFieldHeader) 
 		{
 			Name:               "Height",
 			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "IsHidden",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 	}
 	return
@@ -6139,6 +6147,10 @@ func (resourceshape *ResourceShape) GongGetFieldHeaders() (res []GongFieldHeader
 		{
 			Name:               "Height",
 			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "IsHidden",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 	}
 	return
@@ -6429,6 +6441,10 @@ func (taskshape *TaskShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "Height",
 			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "IsHidden",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 	}
 	return
@@ -6899,6 +6915,10 @@ func (noteshape *NoteShape) GongGetFieldValue(fieldName string, stage *Stage) (r
 		res.valueString = fmt.Sprintf("%f", noteshape.Height)
 		res.valueFloat = noteshape.Height
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsHidden":
+		res.valueString = fmt.Sprintf("%t", noteshape.IsHidden)
+		res.valueBool = noteshape.IsHidden
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -7045,6 +7065,10 @@ func (productshape *ProductShape) GongGetFieldValue(fieldName string, stage *Sta
 		res.valueString = fmt.Sprintf("%f", productshape.Height)
 		res.valueFloat = productshape.Height
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsHidden":
+		res.valueString = fmt.Sprintf("%t", productshape.IsHidden)
+		res.valueBool = productshape.IsHidden
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -7223,6 +7247,10 @@ func (resourceshape *ResourceShape) GongGetFieldValue(fieldName string, stage *S
 		res.valueString = fmt.Sprintf("%f", resourceshape.Height)
 		res.valueFloat = resourceshape.Height
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsHidden":
+		res.valueString = fmt.Sprintf("%t", resourceshape.IsHidden)
+		res.valueBool = resourceshape.IsHidden
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -7501,6 +7529,10 @@ func (taskshape *TaskShape) GongGetFieldValue(fieldName string, stage *Stage) (r
 		res.valueString = fmt.Sprintf("%f", taskshape.Height)
 		res.valueFloat = taskshape.Height
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsHidden":
+		res.valueString = fmt.Sprintf("%t", taskshape.IsHidden)
+		res.valueBool = taskshape.IsHidden
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -7987,6 +8019,8 @@ func (noteshape *NoteShape) GongSetFieldValue(fieldName string, value GongFieldV
 		noteshape.Width = value.GetValueFloat()
 	case "Height":
 		noteshape.Height = value.GetValueFloat()
+	case "IsHidden":
+		noteshape.IsHidden = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -8131,6 +8165,8 @@ func (productshape *ProductShape) GongSetFieldValue(fieldName string, value Gong
 		productshape.Width = value.GetValueFloat()
 	case "Height":
 		productshape.Height = value.GetValueFloat()
+	case "IsHidden":
+		productshape.IsHidden = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -8329,6 +8365,8 @@ func (resourceshape *ResourceShape) GongSetFieldValue(fieldName string, value Go
 		resourceshape.Width = value.GetValueFloat()
 	case "Height":
 		resourceshape.Height = value.GetValueFloat()
+	case "IsHidden":
+		resourceshape.IsHidden = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -8618,6 +8656,8 @@ func (taskshape *TaskShape) GongSetFieldValue(fieldName string, value GongFieldV
 		taskshape.Width = value.GetValueFloat()
 	case "Height":
 		taskshape.Height = value.GetValueFloat()
+	case "IsHidden":
+		taskshape.IsHidden = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

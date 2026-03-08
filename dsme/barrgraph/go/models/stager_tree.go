@@ -76,9 +76,11 @@ func (stager *Stager) tree() {
 
 		for _, movement := range GetGongstrucsSorted[*Movement](stager.stage) {
 			isInDiagram := false
-			for _, shape := range diagram.MovementShapes {
-				if shape.Movement == movement {
+			var shape *MovementShape
+			for _, _shape := range diagram.MovementShapes {
+				if _shape.Movement == movement {
 					isInDiagram = true
+					shape = _shape
 					continue
 				}
 			}
@@ -95,6 +97,26 @@ func (stager *Stager) tree() {
 				stager:   stager,
 			}
 			movementCategoryNode.Children = append(movementCategoryNode.Children, movementNode)
+
+			movementNode.Buttons = []*tree.Button{
+				{
+					Name:            diagram.GetName(),
+					Icon:            string(buttons.BUTTON_visibility_off),
+					ToolTipText:     "Hide from diagram",
+					HasToolTip:      true,
+					ToolTipPosition: tree.Right,
+					Impl: &tree.FunctionalButtonProxy{
+						OnUpdated: func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
+							shape.IsHidden = !shape.IsHidden
+							stager.stage.Commit()
+						},
+					},
+				},
+			}
+			if shape.IsHidden {
+				movementNode.Buttons[0].Icon = string(buttons.BUTTON_visibility)
+				movementNode.Buttons[0].ToolTipText = "Show on diagram"
+			}
 		}
 
 		artefactTypeCategoryNode := &tree.Node{
@@ -124,10 +146,11 @@ func (stager *Stager) tree() {
 		for _, artefactType := range GetGongstrucsSorted[*ArtefactType](stager.stage) {
 
 			isInDiagram := false
-
-			for _, shape := range diagram.ArtefactTypeShapes {
-				if shape.ArtefactType == artefactType {
+			var shape *ArtefactTypeShape
+			for _, _shape := range diagram.ArtefactTypeShapes {
+				if _shape.ArtefactType == artefactType {
 					isInDiagram = true
+					shape = _shape
 					continue
 				}
 			}
@@ -144,6 +167,22 @@ func (stager *Stager) tree() {
 				stager:       stager,
 			}
 			artefactTypeCategoryNode.Children = append(artefactTypeCategoryNode.Children, artefactTypeNode)
+
+			artefactTypeNode.Buttons = []*tree.Button{
+				{
+					Name:            diagram.GetName(),
+					Icon:            string(buttons.BUTTON_visibility_off),
+					ToolTipText:     "Hide from diagram",
+					HasToolTip:      true,
+					ToolTipPosition: tree.Right,
+					Impl: &tree.FunctionalButtonProxy{
+						OnUpdated: func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
+							shape.IsHidden = !shape.IsHidden
+							stager.stage.Commit()
+						},
+					},
+				},
+			}
 		}
 
 		artistCategoryNode := &tree.Node{
@@ -175,9 +214,11 @@ func (stager *Stager) tree() {
 
 			isInDiagram := false
 
-			for _, shape := range diagram.ArtistShapes {
-				if shape.Artist == artist {
+			var shape *ArtistShape
+			for _, _shape := range diagram.ArtistShapes {
+				if _shape.Artist == artist {
 					isInDiagram = true
+					shape = _shape
 					continue
 				}
 			}
@@ -194,6 +235,26 @@ func (stager *Stager) tree() {
 				stager:  stager,
 			}
 			artistCategoryNode.Children = append(artistCategoryNode.Children, artistNode)
+
+			artistNode.Buttons = []*tree.Button{
+				{
+					Name:            diagram.GetName(),
+					Icon:            string(buttons.BUTTON_visibility_off),
+					ToolTipText:     "Hide from diagram",
+					HasToolTip:      true,
+					ToolTipPosition: tree.Right,
+					Impl: &tree.FunctionalButtonProxy{
+						OnUpdated: func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
+							shape.IsHidden = !shape.IsHidden
+							stager.stage.Commit()
+						},
+					},
+				},
+			}
+			if diagram.IsArtistCategoryShown {
+				artistNode.Buttons[0].Icon = string(buttons.BUTTON_visibility)
+				artistNode.Buttons[0].ToolTipText = "Show on diagram"
+			}
 		}
 
 		influenceCategoryNode := &tree.Node{
