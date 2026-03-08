@@ -59,6 +59,8 @@ type MovementShape struct {
 	X, Y float64
 
 	Width, Height float64
+
+	IsHidden bool
 }
 
 type MovementNodeProxy struct {

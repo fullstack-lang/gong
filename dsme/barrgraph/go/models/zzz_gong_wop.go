@@ -452,6 +452,8 @@ type MovementShape_WOP struct {
 	Width float64
 
 	Height float64
+
+	IsHidden bool
 }
 
 func (from *MovementShape) CopyBasicFields(to *MovementShape) {
@@ -461,6 +463,7 @@ func (from *MovementShape) CopyBasicFields(to *MovementShape) {
 	to.Y = from.Y
 	to.Width = from.Width
 	to.Height = from.Height
+	to.IsHidden = from.IsHidden
 }
 
 type Place_WOP struct {

@@ -2101,6 +2101,9 @@ func (movementshape *MovementShape) GongDiff(stage *Stage, movementshapeOther *M
 	if movementshape.Height != movementshapeOther.Height {
 		diffs = append(diffs, movementshape.GongMarshallField(stage, "Height"))
 	}
+	if movementshape.IsHidden != movementshapeOther.IsHidden {
+		diffs = append(diffs, movementshape.GongMarshallField(stage, "IsHidden"))
+	}
 
 	return
 }

@@ -1033,6 +1033,8 @@ func (u *MovementShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 		instance.Width = GongExtractFloat(valueExpr)
 	case "Height":
 		instance.Height = GongExtractFloat(valueExpr)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
 	}
 	return nil
 }

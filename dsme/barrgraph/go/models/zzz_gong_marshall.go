@@ -540,6 +540,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(movementshape.GongMarshallField(stage, "Y"))
 		initializerStatements.WriteString(movementshape.GongMarshallField(stage, "Width"))
 		initializerStatements.WriteString(movementshape.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(movementshape.GongMarshallField(stage, "IsHidden"))
 	}
 
 	placeOrdered := []*Place{}
@@ -1819,6 +1820,11 @@ func (movementshape *MovementShape) GongMarshallField(stage *Stage, fieldName st
 		res = strings.ReplaceAll(res, "{{Identifier}}", movementshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Height")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", movementshape.Height))
+	case "IsHidden":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", movementshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", movementshape.IsHidden))
 
 	case "Movement":
 		if movementshape.Movement != nil {
@@ -2100,6 +2106,7 @@ func (movementshape *MovementShape) GongMarshallAllFields(stage *Stage) (initRes
 		initializerStatements.WriteString(movementshape.GongMarshallField(stage, "Y"))
 		initializerStatements.WriteString(movementshape.GongMarshallField(stage, "Width"))
 		initializerStatements.WriteString(movementshape.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(movementshape.GongMarshallField(stage, "IsHidden"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

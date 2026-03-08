@@ -434,7 +434,7 @@ func _(stage *models.Stage) {
 	__Desk__00000000_.Name = `Desk`
 
 	__Diagram__00000000_.Name = `Renaissance`
-	__Diagram__00000000_.IsEditable = true
+	__Diagram__00000000_.IsEditable = false
 	__Diagram__00000000_.IsNodeExpanded = true
 	__Diagram__00000000_.IsMovementCategoryNodeExpanded = true
 	__Diagram__00000000_.IsArtefactTypeCategoryNodeExpanded = true
@@ -677,48 +677,56 @@ func _(stage *models.Stage) {
 	__MovementShape__00000000_.Y = 136.000000
 	__MovementShape__00000000_.Width = 196.000000
 	__MovementShape__00000000_.Height = 35.000000
+	__MovementShape__00000000_.IsHidden = false
 
 	__MovementShape__00000001_.Name = ``
 	__MovementShape__00000001_.X = 544.000000
 	__MovementShape__00000001_.Y = 257.000000
 	__MovementShape__00000001_.Width = 167.000000
 	__MovementShape__00000001_.Height = 28.000000
+	__MovementShape__00000001_.IsHidden = false
 
 	__MovementShape__00000002_.Name = ``
 	__MovementShape__00000002_.X = 208.000000
 	__MovementShape__00000002_.Y = 344.000000
 	__MovementShape__00000002_.Width = 184.000000
 	__MovementShape__00000002_.Height = 35.000000
+	__MovementShape__00000002_.IsHidden = false
 
 	__MovementShape__00000003_.Name = ``
 	__MovementShape__00000003_.X = 499.000000
 	__MovementShape__00000003_.Y = 365.000000
 	__MovementShape__00000003_.Width = 207.000000
 	__MovementShape__00000003_.Height = 28.000000
+	__MovementShape__00000003_.IsHidden = false
 
 	__MovementShape__00000004_.Name = ``
 	__MovementShape__00000004_.X = 254.000000
 	__MovementShape__00000004_.Y = 634.000000
 	__MovementShape__00000004_.Width = 174.000000
 	__MovementShape__00000004_.Height = 35.000000
+	__MovementShape__00000004_.IsHidden = false
 
 	__MovementShape__00000005_.Name = ``
 	__MovementShape__00000005_.X = 515.000000
 	__MovementShape__00000005_.Y = 699.000000
 	__MovementShape__00000005_.Width = 232.000000
 	__MovementShape__00000005_.Height = 35.000000
+	__MovementShape__00000005_.IsHidden = false
 
 	__MovementShape__00000006_.Name = ``
 	__MovementShape__00000006_.X = 394.000000
 	__MovementShape__00000006_.Y = 140.000000
 	__MovementShape__00000006_.Width = 86.000000
 	__MovementShape__00000006_.Height = 35.000000
+	__MovementShape__00000006_.IsHidden = false
 
 	__MovementShape__00000007_.Name = ``
 	__MovementShape__00000007_.X = 232.000000
 	__MovementShape__00000007_.Y = 780.000000
 	__MovementShape__00000007_.Width = 100.000000
 	__MovementShape__00000007_.Height = 35.000000
+	__MovementShape__00000007_.IsHidden = false
 
 	__Place__00000000_.Name = `Florence`
 

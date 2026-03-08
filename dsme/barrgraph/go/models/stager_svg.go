@@ -85,6 +85,11 @@ func (stager *Stager) svg() {
 	stager.addBottomRect(y, diagram, layer)
 
 	for _, movementShape := range diagram.MovementShapes {
+
+		if movementShape.IsHidden {
+			continue
+		}
+
 		movement := movementShape.Movement
 		titleRectAnchoredText := &svg.RectAnchoredText{
 			Name:             movement.Name,
@@ -507,9 +512,20 @@ func (stager *Stager) svg() {
 
 		link.Start = map_ArtElement_Rect[influence.source]
 
+		// might be hidden
+		if link.Start == nil {
+			continue
+		}
+
 		link.StartArrowOffset = diagram.InfluenceArrowStartOffset
 
 		link.End = map_ArtElement_Rect[influence.target]
+
+		// might be hidden
+		if link.End == nil {
+			continue
+		}
+
 		link.HasEndArrow = true
 		link.EndArrowSize = diagram.InfluenceArrowSize
 
