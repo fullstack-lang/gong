@@ -163,8 +163,8 @@ another line-NewDiagram`}).Stage(stage)
 	__Diagram__00000042_.ShowPrefix = true
 	__Diagram__00000042_.DefaultBoxWidth = 150.000000
 	__Diagram__00000042_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000042_.Width = 2935.000000
-	__Diagram__00000042_.Height = 2460.000000
+	__Diagram__00000042_.Width = 3935.000000
+	__Diagram__00000042_.Height = 3460.000000
 	__Diagram__00000042_.IsExpanded = false
 	__Diagram__00000042_.ComputedPrefix = ``
 	__Diagram__00000042_.IsInRenameMode = false
@@ -179,8 +179,8 @@ another line-NewDiagram`}).Stage(stage)
 	__Diagram__00000057_.ShowPrefix = false
 	__Diagram__00000057_.DefaultBoxWidth = 150.000000
 	__Diagram__00000057_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000057_.Width = 2915.108494
-	__Diagram__00000057_.Height = 2334.407017
+	__Diagram__00000057_.Width = 3915.108494
+	__Diagram__00000057_.Height = 3334.407017
 	__Diagram__00000057_.IsExpanded = false
 	__Diagram__00000057_.ComputedPrefix = ``
 	__Diagram__00000057_.IsInRenameMode = false
@@ -192,11 +192,11 @@ another line-NewDiagram`}).Stage(stage)
 	__Diagram__00000061_.Name = `Work diagram x`
 	__Diagram__00000061_.IsChecked = true
 	__Diagram__00000061_.IsEditable_ = true
-	__Diagram__00000061_.ShowPrefix = true
+	__Diagram__00000061_.ShowPrefix = false
 	__Diagram__00000061_.DefaultBoxWidth = 250.000000
 	__Diagram__00000061_.DefaultBoxHeigth = 100.000000
-	__Diagram__00000061_.Width = 3684.716678
-	__Diagram__00000061_.Height = 3430.109182
+	__Diagram__00000061_.Width = 4684.716678
+	__Diagram__00000061_.Height = 4430.109182
 	__Diagram__00000061_.IsExpanded = true
 	__Diagram__00000061_.ComputedPrefix = ``
 	__Diagram__00000061_.IsInRenameMode = false
@@ -258,6 +258,7 @@ another line-NewDiagram`
 	__NoteShape__00000000_.Y = 147.407017
 	__NoteShape__00000000_.Width = 394.000000
 	__NoteShape__00000000_.Height = 87.000000
+	__NoteShape__00000000_.IsHidden = false
 
 	__NoteShape__00000002_.Name = `NewNote-NewDiagram`
 	__NoteShape__00000002_.IsExpanded = false
@@ -265,6 +266,7 @@ another line-NewDiagram`
 	__NoteShape__00000002_.Y = 46.960749
 	__NoteShape__00000002_.Width = 250.000000
 	__NoteShape__00000002_.Height = 100.000000
+	__NoteShape__00000002_.IsHidden = false
 
 	__NoteShape__00000003_.Name = `NewNote-NewDiagram`
 	__NoteShape__00000003_.IsExpanded = false
@@ -272,6 +274,7 @@ another line-NewDiagram`
 	__NoteShape__00000003_.Y = 1156.370815
 	__NoteShape__00000003_.Width = 250.000000
 	__NoteShape__00000003_.Height = 85.000000
+	__NoteShape__00000003_.IsHidden = false
 
 	__NoteShape__00000004_.Name = `NewNote-NewDiagram`
 	__NoteShape__00000004_.IsExpanded = false
@@ -279,6 +282,7 @@ another line-NewDiagram`
 	__NoteShape__00000004_.Y = 106.901476
 	__NoteShape__00000004_.Width = 411.000000
 	__NoteShape__00000004_.Height = 53.000000
+	__NoteShape__00000004_.IsHidden = false
 
 	__NoteTaskShape__00000001_.Name = `The algo uses the stage.reference to computes all new/deleted/modified instances of the stage to Compute all Instance Diff`
 	__NoteTaskShape__00000001_.StartRatio = 0.500000
@@ -627,6 +631,7 @@ another line-NewDiagram`
 	__ProductShape__00000330_.Y = 10.000000
 	__ProductShape__00000330_.Width = 150.000000
 	__ProductShape__00000330_.Height = 70.000000
+	__ProductShape__00000330_.IsHidden = false
 
 	__ProductShape__00000331_.Name = `Product 1.1-NewDiagram`
 	__ProductShape__00000331_.IsExpanded = false
@@ -634,6 +639,7 @@ another line-NewDiagram`
 	__ProductShape__00000331_.Y = 150.000000
 	__ProductShape__00000331_.Width = 150.000000
 	__ProductShape__00000331_.Height = 70.000000
+	__ProductShape__00000331_.IsHidden = false
 
 	__ProductShape__00000332_.Name = `Product 1.2-NewDiagram`
 	__ProductShape__00000332_.IsExpanded = false
@@ -641,6 +647,7 @@ another line-NewDiagram`
 	__ProductShape__00000332_.Y = 150.000000
 	__ProductShape__00000332_.Width = 150.000000
 	__ProductShape__00000332_.Height = 70.000000
+	__ProductShape__00000332_.IsHidden = false
 
 	__ProductShape__00000333_.Name = `Product 1.2.1-NewDiagram`
 	__ProductShape__00000333_.IsExpanded = false
@@ -648,6 +655,7 @@ another line-NewDiagram`
 	__ProductShape__00000333_.Y = 290.000000
 	__ProductShape__00000333_.Width = 150.000000
 	__ProductShape__00000333_.Height = 70.000000
+	__ProductShape__00000333_.IsHidden = false
 
 	__ProductShape__00000334_.Name = `Product 2-NewDiagram`
 	__ProductShape__00000334_.IsExpanded = false
@@ -655,6 +663,7 @@ another line-NewDiagram`
 	__ProductShape__00000334_.Y = 10.000000
 	__ProductShape__00000334_.Width = 150.000000
 	__ProductShape__00000334_.Height = 70.000000
+	__ProductShape__00000334_.IsHidden = false
 
 	__ProductShape__00000335_.Name = `Product 2.1-NewDiagram`
 	__ProductShape__00000335_.IsExpanded = false
@@ -662,6 +671,7 @@ another line-NewDiagram`
 	__ProductShape__00000335_.Y = 150.000000
 	__ProductShape__00000335_.Width = 150.000000
 	__ProductShape__00000335_.Height = 70.000000
+	__ProductShape__00000335_.IsHidden = false
 
 	__ProductShape__00000336_.Name = `Product 2.2-NewDiagram`
 	__ProductShape__00000336_.IsExpanded = false
@@ -669,6 +679,7 @@ another line-NewDiagram`
 	__ProductShape__00000336_.Y = 150.000000
 	__ProductShape__00000336_.Width = 150.000000
 	__ProductShape__00000336_.Height = 70.000000
+	__ProductShape__00000336_.IsHidden = false
 
 	__ProductShape__00000466_.Name = `String of New+Stage/Updated/Unstage-NewDiagram`
 	__ProductShape__00000466_.IsExpanded = false
@@ -676,6 +687,7 @@ another line-NewDiagram`
 	__ProductShape__00000466_.Y = 599.413298
 	__ProductShape__00000466_.Width = 176.000000
 	__ProductShape__00000466_.Height = 78.000000
+	__ProductShape__00000466_.IsHidden = false
 
 	__ProductShape__00000467_.Name = `New Commit code-NewDiagram`
 	__ProductShape__00000467_.IsExpanded = false
@@ -683,6 +695,7 @@ another line-NewDiagram`
 	__ProductShape__00000467_.Y = 386.227692
 	__ProductShape__00000467_.Width = 154.000000
 	__ProductShape__00000467_.Height = 65.000000
+	__ProductShape__00000467_.IsHidden = false
 
 	__ProductShape__00000468_.Name = `NewProduct-NewDiagram`
 	__ProductShape__00000468_.IsExpanded = false
@@ -690,6 +703,7 @@ another line-NewDiagram`
 	__ProductShape__00000468_.Y = 955.727459
 	__ProductShape__00000468_.Width = 202.000000
 	__ProductShape__00000468_.Height = 52.000000
+	__ProductShape__00000468_.IsHidden = false
 
 	__ProductShape__00000469_.Name = `NewProduct-NewDiagram`
 	__ProductShape__00000469_.IsExpanded = false
@@ -697,6 +711,7 @@ another line-NewDiagram`
 	__ProductShape__00000469_.Y = 590.125900
 	__ProductShape__00000469_.Width = 155.000000
 	__ProductShape__00000469_.Height = 79.000000
+	__ProductShape__00000469_.IsHidden = false
 
 	__ProductShape__00000470_.Name = `NewProduct-NewDiagram`
 	__ProductShape__00000470_.IsExpanded = false
@@ -704,6 +719,7 @@ another line-NewDiagram`
 	__ProductShape__00000470_.Y = 602.974873
 	__ProductShape__00000470_.Width = 154.000000
 	__ProductShape__00000470_.Height = 75.000000
+	__ProductShape__00000470_.IsHidden = false
 
 	__ProductShape__00000471_.Name = `New Umarshall code-NewDiagram`
 	__ProductShape__00000471_.IsExpanded = false
@@ -711,6 +727,7 @@ another line-NewDiagram`
 	__ProductShape__00000471_.Y = 603.610369
 	__ProductShape__00000471_.Width = 134.000000
 	__ProductShape__00000471_.Height = 72.000000
+	__ProductShape__00000471_.IsHidden = false
 
 	__ProductShape__00000472_.Name = `NewProduct-NewDiagram`
 	__ProductShape__00000472_.IsExpanded = false
@@ -718,6 +735,7 @@ another line-NewDiagram`
 	__ProductShape__00000472_.Y = 962.377332
 	__ProductShape__00000472_.Width = 122.000000
 	__ProductShape__00000472_.Height = 55.000000
+	__ProductShape__00000472_.IsHidden = false
 
 	__ProductShape__00000473_.Name = `Probe Redo-NewDiagram`
 	__ProductShape__00000473_.IsExpanded = false
@@ -725,6 +743,7 @@ another line-NewDiagram`
 	__ProductShape__00000473_.Y = 959.390410
 	__ProductShape__00000473_.Width = 116.000000
 	__ProductShape__00000473_.Height = 63.000000
+	__ProductShape__00000473_.IsHidden = false
 
 	__ProductShape__00000475_.Name = `NewProduct-NewDiagram`
 	__ProductShape__00000475_.IsExpanded = false
@@ -732,6 +751,7 @@ another line-NewDiagram`
 	__ProductShape__00000475_.Y = 607.341831
 	__ProductShape__00000475_.Width = 141.000000
 	__ProductShape__00000475_.Height = 66.000000
+	__ProductShape__00000475_.IsHidden = false
 
 	__ProductShape__00000476_.Name = `Rebase Log Commits-NewDiagram`
 	__ProductShape__00000476_.IsExpanded = false
@@ -739,6 +759,7 @@ another line-NewDiagram`
 	__ProductShape__00000476_.Y = 962.230597
 	__ProductShape__00000476_.Width = 126.000000
 	__ProductShape__00000476_.Height = 65.000000
+	__ProductShape__00000476_.IsHidden = false
 
 	__ProductShape__00000477_.Name = `Probe display the marshalled commit-Work diagram x`
 	__ProductShape__00000477_.IsExpanded = false
@@ -746,6 +767,7 @@ another line-NewDiagram`
 	__ProductShape__00000477_.Y = 958.996299
 	__ProductShape__00000477_.Width = 250.000000
 	__ProductShape__00000477_.Height = 70.000000
+	__ProductShape__00000477_.IsHidden = false
 
 	__ProductShape__00000478_.Name = `Display the marshalled reverse commit-Work diagram x`
 	__ProductShape__00000478_.IsExpanded = false
@@ -753,6 +775,7 @@ another line-NewDiagram`
 	__ProductShape__00000478_.Y = 963.308469
 	__ProductShape__00000478_.Width = 250.000000
 	__ProductShape__00000478_.Height = 64.000000
+	__ProductShape__00000478_.IsHidden = false
 
 	__ProductShape__00000479_.Name = `Instance method for marshalling Unstage-Work diagram x`
 	__ProductShape__00000479_.IsExpanded = false
@@ -760,6 +783,7 @@ another line-NewDiagram`
 	__ProductShape__00000479_.Y = 600.302589
 	__ProductShape__00000479_.Width = 187.000000
 	__ProductShape__00000479_.Height = 75.000000
+	__ProductShape__00000479_.IsHidden = false
 
 	__ProductShape__00000480_.Name = `NewProduct-NewDiagram`
 	__ProductShape__00000480_.IsExpanded = false
@@ -767,6 +791,7 @@ another line-NewDiagram`
 	__ProductShape__00000480_.Y = 129.647586
 	__ProductShape__00000480_.Width = 150.000000
 	__ProductShape__00000480_.Height = 70.000000
+	__ProductShape__00000480_.IsHidden = false
 
 	__ProductShape__00000481_.Name = `New Probe-Work diagram x`
 	__ProductShape__00000481_.IsExpanded = false
@@ -774,6 +799,7 @@ another line-NewDiagram`
 	__ProductShape__00000481_.Y = 815.987810
 	__ProductShape__00000481_.Width = 250.000000
 	__ProductShape__00000481_.Height = 57.000000
+	__ProductShape__00000481_.IsHidden = false
 
 	__Project__00000000_.Name = `Project Editor`
 	__Project__00000000_.IsExpanded = false
@@ -786,7 +812,7 @@ another line-NewDiagram`
 	__Project__00000001_.IsInRenameMode = false
 
 	__Project__00000002_.Name = `gong : persist stage.go as an history of commits  #934`
-	__Project__00000002_.IsExpanded = true
+	__Project__00000002_.IsExpanded = false
 	__Project__00000002_.ComputedPrefix = ``
 	__Project__00000002_.IsInRenameMode = false
 
@@ -802,6 +828,7 @@ another line-NewDiagram`
 	__ResourceShape__00000000_.Y = 171.647371
 	__ResourceShape__00000000_.Width = 250.000000
 	__ResourceShape__00000000_.Height = 100.000000
+	__ResourceShape__00000000_.IsHidden = false
 
 	__Root__00000000_.Name = `Root`
 	__Root__00000000_.NbPixPerCharacter = 8.000000
@@ -952,6 +979,7 @@ another line-NewDiagram`
 	__TaskShape__00000019_.Y = 280.000000
 	__TaskShape__00000019_.Width = 178.000000
 	__TaskShape__00000019_.Height = 75.000000
+	__TaskShape__00000019_.IsHidden = false
 
 	__TaskShape__00000020_.Name = `NewTask-NewDiagram`
 	__TaskShape__00000020_.IsExpanded = false
@@ -959,6 +987,7 @@ another line-NewDiagram`
 	__TaskShape__00000020_.Y = 390.572924
 	__TaskShape__00000020_.Width = 195.000000
 	__TaskShape__00000020_.Height = 72.000000
+	__TaskShape__00000020_.IsHidden = false
 
 	__TaskShape__00000021_.Name = `NewTask-NewDiagram`
 	__TaskShape__00000021_.IsExpanded = false
@@ -966,6 +995,7 @@ another line-NewDiagram`
 	__TaskShape__00000021_.Y = 203.681593
 	__TaskShape__00000021_.Width = 217.000000
 	__TaskShape__00000021_.Height = 82.000000
+	__TaskShape__00000021_.IsHidden = false
 
 	__TaskShape__00000022_.Name = `Unstage Method Marshalling-Work diagram x`
 	__TaskShape__00000022_.IsExpanded = false
@@ -973,6 +1003,7 @@ another line-NewDiagram`
 	__TaskShape__00000022_.Y = 1187.641570
 	__TaskShape__00000022_.Width = 293.000000
 	__TaskShape__00000022_.Height = 130.000000
+	__TaskShape__00000022_.IsHidden = false
 
 	__TaskShape__00000023_.Name = `NewTask-Work diagram x`
 	__TaskShape__00000023_.IsExpanded = false
@@ -980,6 +1011,7 @@ another line-NewDiagram`
 	__TaskShape__00000023_.Y = 1229.997063
 	__TaskShape__00000023_.Width = 250.000000
 	__TaskShape__00000023_.Height = 100.000000
+	__TaskShape__00000023_.IsHidden = false
 
 	__TaskShape__00000024_.Name = `Compute diff in slices with minimal edit distance #1045-Work diagram x`
 	__TaskShape__00000024_.IsExpanded = false
@@ -987,6 +1019,7 @@ another line-NewDiagram`
 	__TaskShape__00000024_.Y = 1230.109182
 	__TaskShape__00000024_.Width = 250.000000
 	__TaskShape__00000024_.Height = 100.000000
+	__TaskShape__00000024_.IsHidden = false
 
 	// insertion point for setup of pointers
 	__Diagram__00000042_.Product_Shapes = append(__Diagram__00000042_.Product_Shapes, __ProductShape__00000330_)
