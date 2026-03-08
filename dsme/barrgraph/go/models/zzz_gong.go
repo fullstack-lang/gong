@@ -4115,6 +4115,10 @@ func (movementshape *MovementShape) GongGetFieldHeaders() (res []GongFieldHeader
 			Name:               "Height",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
+		{
+			Name:               "IsHidden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
 	}
 	return
 }
@@ -4750,6 +4754,10 @@ func (movementshape *MovementShape) GongGetFieldValue(fieldName string, stage *S
 		res.valueString = fmt.Sprintf("%f", movementshape.Height)
 		res.valueFloat = movementshape.Height
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsHidden":
+		res.valueString = fmt.Sprintf("%t", movementshape.IsHidden)
+		res.valueBool = movementshape.IsHidden
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -5314,6 +5322,8 @@ func (movementshape *MovementShape) GongSetFieldValue(fieldName string, value Go
 		movementshape.Width = value.GetValueFloat()
 	case "Height":
 		movementshape.Height = value.GetValueFloat()
+	case "IsHidden":
+		movementshape.IsHidden = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

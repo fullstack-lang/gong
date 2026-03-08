@@ -76,9 +76,11 @@ func (stager *Stager) tree() {
 
 		for _, movement := range GetGongstrucsSorted[*Movement](stager.stage) {
 			isInDiagram := false
-			for _, shape := range diagram.MovementShapes {
-				if shape.Movement == movement {
+			var shape *MovementShape
+			for _, _shape := range diagram.MovementShapes {
+				if _shape.Movement == movement {
 					isInDiagram = true
+					shape = _shape
 					continue
 				}
 			}
@@ -95,6 +97,26 @@ func (stager *Stager) tree() {
 				stager:   stager,
 			}
 			movementCategoryNode.Children = append(movementCategoryNode.Children, movementNode)
+
+			movementNode.Buttons = []*tree.Button{
+				{
+					Name:            diagram.GetName(),
+					Icon:            string(buttons.BUTTON_visibility_off),
+					ToolTipText:     "Hide from diagram",
+					HasToolTip:      true,
+					ToolTipPosition: tree.Right,
+					Impl: &tree.FunctionalButtonProxy{
+						OnUpdated: func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
+							shape.IsHidden = !shape.IsHidden
+							stager.stage.Commit()
+						},
+					},
+				},
+			}
+			if shape.IsHidden {
+				movementNode.Buttons[0].Icon = string(buttons.BUTTON_visibility)
+				movementNode.Buttons[0].ToolTipText = "Show on diagram"
+			}
 		}
 
 		artefactTypeCategoryNode := &tree.Node{
