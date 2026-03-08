@@ -3480,6 +3480,10 @@ func (artefacttypeshape *ArtefactTypeShape) GongGetFieldHeaders() (res []GongFie
 			Name:               "Height",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
+		{
+			Name:               "IsHidden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
 	}
 	return
 }
@@ -3535,6 +3539,10 @@ func (artistshape *ArtistShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "Height",
 			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "IsHidden",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 	}
 	return
@@ -4224,6 +4232,10 @@ func (artefacttypeshape *ArtefactTypeShape) GongGetFieldValue(fieldName string, 
 		res.valueString = fmt.Sprintf("%f", artefacttypeshape.Height)
 		res.valueFloat = artefacttypeshape.Height
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsHidden":
+		res.valueString = fmt.Sprintf("%t", artefacttypeshape.IsHidden)
+		res.valueBool = artefacttypeshape.IsHidden
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -4276,6 +4288,10 @@ func (artistshape *ArtistShape) GongGetFieldValue(fieldName string, stage *Stage
 		res.valueString = fmt.Sprintf("%f", artistshape.Height)
 		res.valueFloat = artistshape.Height
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsHidden":
+		res.valueString = fmt.Sprintf("%t", artistshape.IsHidden)
+		res.valueBool = artistshape.IsHidden
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -4812,6 +4828,8 @@ func (artefacttypeshape *ArtefactTypeShape) GongSetFieldValue(fieldName string, 
 		artefacttypeshape.Width = value.GetValueFloat()
 	case "Height":
 		artefacttypeshape.Height = value.GetValueFloat()
+	case "IsHidden":
+		artefacttypeshape.IsHidden = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -4866,6 +4884,8 @@ func (artistshape *ArtistShape) GongSetFieldValue(fieldName string, value GongFi
 		artistshape.Width = value.GetValueFloat()
 	case "Height":
 		artistshape.Height = value.GetValueFloat()
+	case "IsHidden":
+		artistshape.IsHidden = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
