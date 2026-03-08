@@ -86,6 +86,9 @@ func _(stage *models.Stage) {
 	__ControlPointShape__00000017_ := (&models.ControlPointShape{Name: `Control Point Shape in Donatello to Michelangelo 1`}).Stage(stage)
 	__ControlPointShape__00000018_ := (&models.ControlPointShape{Name: `Control Point Shape in Donatello to Michelangelo 2`}).Stage(stage)
 	__ControlPointShape__00000019_ := (&models.ControlPointShape{Name: `Control Point Shape in Donatello to Michelangelo 3`}).Stage(stage)
+	__ControlPointShape__00000021_ := (&models.ControlPointShape{Name: `Control Point Shape in Early Renaissance to High Renaissance 2`}).Stage(stage)
+	__ControlPointShape__00000022_ := (&models.ControlPointShape{Name: `Control Point Shape in Early Renaissance to High Renaissance 2`}).Stage(stage)
+	__ControlPointShape__00000023_ := (&models.ControlPointShape{Name: `Control Point Shape in Early Renaissance to High Renaissance 3`}).Stage(stage)
 
 	__Desk__00000000_ := (&models.Desk{Name: `Desk`}).Stage(stage)
 
@@ -161,30 +164,35 @@ func _(stage *models.Stage) {
 	__ArtefactTypeShape__00000000_.Y = 50.000000
 	__ArtefactTypeShape__00000000_.Width = 120.000000
 	__ArtefactTypeShape__00000000_.Height = 25.000000
+	__ArtefactTypeShape__00000000_.IsHidden = false
 
 	__ArtefactTypeShape__00000001_.Name = ``
 	__ArtefactTypeShape__00000001_.X = 303.000000
 	__ArtefactTypeShape__00000001_.Y = 50.000000
 	__ArtefactTypeShape__00000001_.Width = 159.000000
 	__ArtefactTypeShape__00000001_.Height = 25.000000
+	__ArtefactTypeShape__00000001_.IsHidden = false
 
 	__ArtefactTypeShape__00000002_.Name = ``
 	__ArtefactTypeShape__00000002_.X = 372.000000
 	__ArtefactTypeShape__00000002_.Y = 234.000000
 	__ArtefactTypeShape__00000002_.Width = 140.000000
 	__ArtefactTypeShape__00000002_.Height = 25.000000
+	__ArtefactTypeShape__00000002_.IsHidden = false
 
 	__ArtefactTypeShape__00000003_.Name = ``
 	__ArtefactTypeShape__00000003_.X = 504.000000
 	__ArtefactTypeShape__00000003_.Y = 97.000000
 	__ArtefactTypeShape__00000003_.Width = 189.000000
 	__ArtefactTypeShape__00000003_.Height = 25.000000
+	__ArtefactTypeShape__00000003_.IsHidden = false
 
 	__ArtefactTypeShape__00000004_.Name = ``
 	__ArtefactTypeShape__00000004_.X = 534.000000
 	__ArtefactTypeShape__00000004_.Y = 173.000000
 	__ArtefactTypeShape__00000004_.Width = 120.000000
 	__ArtefactTypeShape__00000004_.Height = 25.000000
+	__ArtefactTypeShape__00000004_.IsHidden = false
 
 	__Artist__00000000_.Name = `Giotto`
 	__Artist__00000000_.IsDead = true
@@ -251,90 +259,105 @@ func _(stage *models.Stage) {
 	__ArtistShape__00000000_.Y = 219.000000
 	__ArtistShape__00000000_.Width = 95.000000
 	__ArtistShape__00000000_.Height = 30.000000
+	__ArtistShape__00000000_.IsHidden = false
 
 	__ArtistShape__00000001_.Name = ``
 	__ArtistShape__00000001_.X = 270.000000
 	__ArtistShape__00000001_.Y = 214.000000
 	__ArtistShape__00000001_.Width = 60.000000
 	__ArtistShape__00000001_.Height = 30.000000
+	__ArtistShape__00000001_.IsHidden = false
 
 	__ArtistShape__00000002_.Name = ``
 	__ArtistShape__00000002_.X = 145.000000
 	__ArtistShape__00000002_.Y = 455.000000
 	__ArtistShape__00000002_.Width = 86.000000
 	__ArtistShape__00000002_.Height = 30.000000
+	__ArtistShape__00000002_.IsHidden = false
 
 	__ArtistShape__00000003_.Name = ``
 	__ArtistShape__00000003_.X = 408.000000
 	__ArtistShape__00000003_.Y = 392.000000
 	__ArtistShape__00000003_.Width = 89.000000
 	__ArtistShape__00000003_.Height = 30.000000
+	__ArtistShape__00000003_.IsHidden = false
 
 	__ArtistShape__00000004_.Name = ``
-	__ArtistShape__00000004_.X = 450.000000
-	__ArtistShape__00000004_.Y = 450.000000
+	__ArtistShape__00000004_.X = 419.000000
+	__ArtistShape__00000004_.Y = 460.000000
 	__ArtistShape__00000004_.Width = 94.000000
 	__ArtistShape__00000004_.Height = 30.000000
+	__ArtistShape__00000004_.IsHidden = false
 
 	__ArtistShape__00000005_.Name = ``
-	__ArtistShape__00000005_.X = 618.000000
-	__ArtistShape__00000005_.Y = 454.000000
+	__ArtistShape__00000005_.X = 613.000000
+	__ArtistShape__00000005_.Y = 463.000000
 	__ArtistShape__00000005_.Width = 90.000000
 	__ArtistShape__00000005_.Height = 30.000000
+	__ArtistShape__00000005_.IsHidden = false
 
 	__ArtistShape__00000006_.Name = ``
 	__ArtistShape__00000006_.X = 105.000000
 	__ArtistShape__00000006_.Y = 700.000000
 	__ArtistShape__00000006_.Width = 119.000000
 	__ArtistShape__00000006_.Height = 30.000000
+	__ArtistShape__00000006_.IsHidden = false
 
 	__ArtistShape__00000007_.Name = ``
 	__ArtistShape__00000007_.X = 406.000000
 	__ArtistShape__00000007_.Y = 711.000000
 	__ArtistShape__00000007_.Width = 80.000000
 	__ArtistShape__00000007_.Height = 30.000000
+	__ArtistShape__00000007_.IsHidden = false
 
 	__ArtistShape__00000008_.Name = ``
-	__ArtistShape__00000008_.X = 425.000000
-	__ArtistShape__00000008_.Y = 760.000000
-	__ArtistShape__00000008_.Width = 101.000000
+	__ArtistShape__00000008_.X = 420.000000
+	__ArtistShape__00000008_.Y = 765.000000
+	__ArtistShape__00000008_.Width = 88.000000
 	__ArtistShape__00000008_.Height = 30.000000
+	__ArtistShape__00000008_.IsHidden = false
 
 	__ArtistShape__00000009_.Name = ``
 	__ArtistShape__00000009_.X = 658.000000
 	__ArtistShape__00000009_.Y = 766.000000
 	__ArtistShape__00000009_.Width = 60.000000
 	__ArtistShape__00000009_.Height = 30.000000
+	__ArtistShape__00000009_.IsHidden = false
 
 	__ArtistShape__00000010_.Name = ``
-	__ArtistShape__00000010_.X = 200.000000
-	__ArtistShape__00000010_.Y = 550.000000
+	__ArtistShape__00000010_.X = 154.000000
+	__ArtistShape__00000010_.Y = 548.000000
 	__ArtistShape__00000010_.Width = 100.000000
 	__ArtistShape__00000010_.Height = 30.000000
+	__ArtistShape__00000010_.IsHidden = false
 
 	__ArtistShape__00000011_.Name = ``
-	__ArtistShape__00000011_.X = 370.000000
-	__ArtistShape__00000011_.Y = 548.000000
+	__ArtistShape__00000011_.X = 292.000000
+	__ArtistShape__00000011_.Y = 546.000000
 	__ArtistShape__00000011_.Width = 141.000000
 	__ArtistShape__00000011_.Height = 30.000000
+	__ArtistShape__00000011_.IsHidden = false
 
 	__ArtistShape__00000012_.Name = ``
-	__ArtistShape__00000012_.X = 525.000000
-	__ArtistShape__00000012_.Y = 530.000000
+	__ArtistShape__00000012_.X = 528.000000
+	__ArtistShape__00000012_.Y = 531.000000
 	__ArtistShape__00000012_.Width = 100.000000
 	__ArtistShape__00000012_.Height = 30.000000
+	__ArtistShape__00000012_.IsHidden = false
 
 	__ArtistShape__00000013_.Name = ``
 	__ArtistShape__00000013_.X = 629.000000
 	__ArtistShape__00000013_.Y = 642.000000
 	__ArtistShape__00000013_.Width = 80.000000
 	__ArtistShape__00000013_.Height = 30.000000
+	__ArtistShape__00000013_.IsHidden = false
 
 	__ArtistShape__00000014_.Name = ``
 	__ArtistShape__00000014_.X = 578.000000
 	__ArtistShape__00000014_.Y = 815.000000
 	__ArtistShape__00000014_.Width = 80.000000
 	__ArtistShape__00000014_.Height = 30.000000
+	__ArtistShape__00000014_.IsHidden = false
 
 	__ControlPointShape__00000000_.Name = `Control Point Shape 0`
 	__ControlPointShape__00000000_.X_Relative = 0.500000
@@ -417,8 +440,8 @@ func _(stage *models.Stage) {
 	__ControlPointShape__00000016_.IsStartShapeTheClosestShape = false
 
 	__ControlPointShape__00000017_.Name = `Control Point Shape in Donatello to Michelangelo 1`
-	__ControlPointShape__00000017_.X_Relative = 1.830404
-	__ControlPointShape__00000017_.Y_Relative = 2.733538
+	__ControlPointShape__00000017_.X_Relative = 1.605683
+	__ControlPointShape__00000017_.Y_Relative = 3.200194
 	__ControlPointShape__00000017_.IsStartShapeTheClosestShape = true
 
 	__ControlPointShape__00000018_.Name = `Control Point Shape in Donatello to Michelangelo 2`
@@ -427,9 +450,24 @@ func _(stage *models.Stage) {
 	__ControlPointShape__00000018_.IsStartShapeTheClosestShape = true
 
 	__ControlPointShape__00000019_.Name = `Control Point Shape in Donatello to Michelangelo 3`
-	__ControlPointShape__00000019_.X_Relative = 2.311321
-	__ControlPointShape__00000019_.Y_Relative = -3.766433
+	__ControlPointShape__00000019_.X_Relative = 1.773819
+	__ControlPointShape__00000019_.Y_Relative = -3.099756
 	__ControlPointShape__00000019_.IsStartShapeTheClosestShape = false
+
+	__ControlPointShape__00000021_.Name = `Control Point Shape in Early Renaissance to High Renaissance 2`
+	__ControlPointShape__00000021_.X_Relative = 0.120150
+	__ControlPointShape__00000021_.Y_Relative = -3.028398
+	__ControlPointShape__00000021_.IsStartShapeTheClosestShape = false
+
+	__ControlPointShape__00000022_.Name = `Control Point Shape in Early Renaissance to High Renaissance 2`
+	__ControlPointShape__00000022_.X_Relative = 0.114404
+	__ControlPointShape__00000022_.Y_Relative = -1.399818
+	__ControlPointShape__00000022_.IsStartShapeTheClosestShape = false
+
+	__ControlPointShape__00000023_.Name = `Control Point Shape in Early Renaissance to High Renaissance 3`
+	__ControlPointShape__00000023_.X_Relative = 0.275323
+	__ControlPointShape__00000023_.Y_Relative = 0.743023
+	__ControlPointShape__00000023_.IsStartShapeTheClosestShape = false
 
 	__Desk__00000000_.Name = `Desk`
 
@@ -908,6 +946,9 @@ func _(stage *models.Stage) {
 	__InfluenceShape__00000004_.ControlPointShapes = append(__InfluenceShape__00000004_.ControlPointShapes, __ControlPointShape__00000004_)
 	__InfluenceShape__00000005_.Influence = __Influence__00000005_
 	__InfluenceShape__00000005_.ControlPointShapes = append(__InfluenceShape__00000005_.ControlPointShapes, __ControlPointShape__00000005_)
+	__InfluenceShape__00000005_.ControlPointShapes = append(__InfluenceShape__00000005_.ControlPointShapes, __ControlPointShape__00000021_)
+	__InfluenceShape__00000005_.ControlPointShapes = append(__InfluenceShape__00000005_.ControlPointShapes, __ControlPointShape__00000022_)
+	__InfluenceShape__00000005_.ControlPointShapes = append(__InfluenceShape__00000005_.ControlPointShapes, __ControlPointShape__00000023_)
 	__InfluenceShape__00000006_.Influence = __Influence__00000006_
 	__InfluenceShape__00000006_.ControlPointShapes = append(__InfluenceShape__00000006_.ControlPointShapes, __ControlPointShape__00000006_)
 	__InfluenceShape__00000006_.ControlPointShapes = append(__InfluenceShape__00000006_.ControlPointShapes, __ControlPointShape__00000013_)

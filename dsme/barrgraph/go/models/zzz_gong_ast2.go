@@ -500,6 +500,8 @@ func (u *ArtefactTypeShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongstru
 		instance.Width = GongExtractFloat(valueExpr)
 	case "Height":
 		instance.Height = GongExtractFloat(valueExpr)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
 	}
 	return nil
 }
@@ -580,6 +582,8 @@ func (u *ArtistShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 		instance.Width = GongExtractFloat(valueExpr)
 	case "Height":
 		instance.Height = GongExtractFloat(valueExpr)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
 	}
 	return nil
 }

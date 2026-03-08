@@ -182,6 +182,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(artefacttypeshape.GongMarshallField(stage, "Y"))
 		initializerStatements.WriteString(artefacttypeshape.GongMarshallField(stage, "Width"))
 		initializerStatements.WriteString(artefacttypeshape.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(artefacttypeshape.GongMarshallField(stage, "IsHidden"))
 	}
 
 	artistOrdered := []*Artist{}
@@ -242,6 +243,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(artistshape.GongMarshallField(stage, "Y"))
 		initializerStatements.WriteString(artistshape.GongMarshallField(stage, "Width"))
 		initializerStatements.WriteString(artistshape.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(artistshape.GongMarshallField(stage, "IsHidden"))
 	}
 
 	controlpointshapeOrdered := []*ControlPointShape{}
@@ -763,6 +765,11 @@ func (artefacttypeshape *ArtefactTypeShape) GongMarshallField(stage *Stage, fiel
 		res = strings.ReplaceAll(res, "{{Identifier}}", artefacttypeshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Height")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", artefacttypeshape.Height))
+	case "IsHidden":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", artefacttypeshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", artefacttypeshape.IsHidden))
 
 	case "ArtefactType":
 		if artefacttypeshape.ArtefactType != nil {
@@ -849,6 +856,11 @@ func (artistshape *ArtistShape) GongMarshallField(stage *Stage, fieldName string
 		res = strings.ReplaceAll(res, "{{Identifier}}", artistshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Height")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", artistshape.Height))
+	case "IsHidden":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", artistshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", artistshape.IsHidden))
 
 	case "Artist":
 		if artistshape.Artist != nil {
@@ -1883,6 +1895,7 @@ func (artefacttypeshape *ArtefactTypeShape) GongMarshallAllFields(stage *Stage) 
 		initializerStatements.WriteString(artefacttypeshape.GongMarshallField(stage, "Y"))
 		initializerStatements.WriteString(artefacttypeshape.GongMarshallField(stage, "Width"))
 		initializerStatements.WriteString(artefacttypeshape.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(artefacttypeshape.GongMarshallField(stage, "IsHidden"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -1913,6 +1926,7 @@ func (artistshape *ArtistShape) GongMarshallAllFields(stage *Stage) (initRes str
 		initializerStatements.WriteString(artistshape.GongMarshallField(stage, "Y"))
 		initializerStatements.WriteString(artistshape.GongMarshallField(stage, "Width"))
 		initializerStatements.WriteString(artistshape.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(artistshape.GongMarshallField(stage, "IsHidden"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

@@ -26,6 +26,8 @@ type ArtistShape struct {
 	X, Y float64
 
 	Width, Height float64
+
+	IsHidden bool
 }
 
 func (shape *ArtistShape) GetArtElement() *Artist {
