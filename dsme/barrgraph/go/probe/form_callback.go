@@ -154,6 +154,8 @@ func (artefacttypeshapeFormCallback *ArtefactTypeShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(artefacttypeshape_.Width), formDiv)
 		case "Height":
 			FormDivBasicFieldToField(&(artefacttypeshape_.Height), formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&(artefacttypeshape_.IsHidden), formDiv)
 		case "Diagram:ArtefactTypeShapes":
 			// WARNING : this form deals with the N-N association "Diagram.ArtefactTypeShapes []*ArtefactTypeShape" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
@@ -392,6 +394,8 @@ func (artistshapeFormCallback *ArtistShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(artistshape_.Width), formDiv)
 		case "Height":
 			FormDivBasicFieldToField(&(artistshape_.Height), formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&(artistshape_.IsHidden), formDiv)
 		case "Diagram:ArtistShapes":
 			// WARNING : this form deals with the N-N association "Diagram.ArtistShapes []*ArtistShape" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)

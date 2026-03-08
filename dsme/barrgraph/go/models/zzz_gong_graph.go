@@ -1478,6 +1478,9 @@ func (artefacttypeshape *ArtefactTypeShape) GongDiff(stage *Stage, artefacttypes
 	if artefacttypeshape.Height != artefacttypeshapeOther.Height {
 		diffs = append(diffs, artefacttypeshape.GongMarshallField(stage, "Height"))
 	}
+	if artefacttypeshape.IsHidden != artefacttypeshapeOther.IsHidden {
+		diffs = append(diffs, artefacttypeshape.GongMarshallField(stage, "IsHidden"))
+	}
 
 	return
 }
@@ -1531,6 +1534,9 @@ func (artistshape *ArtistShape) GongDiff(stage *Stage, artistshapeOther *ArtistS
 	}
 	if artistshape.Height != artistshapeOther.Height {
 		diffs = append(diffs, artistshape.GongMarshallField(stage, "Height"))
+	}
+	if artistshape.IsHidden != artistshapeOther.IsHidden {
+		diffs = append(diffs, artistshape.GongMarshallField(stage, "IsHidden"))
 	}
 
 	return

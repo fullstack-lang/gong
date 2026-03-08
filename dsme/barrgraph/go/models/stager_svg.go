@@ -288,6 +288,11 @@ func (stager *Stager) svg() {
 	}
 
 	for _, artefactTypeShape := range diagram.ArtefactTypeShapes {
+
+		if artefactTypeShape.IsHidden {
+			continue
+		}
+
 		artefactType := artefactTypeShape.ArtefactType
 		titleRectAnchoredText := &svg.RectAnchoredText{
 			Name:             artefactType.Name,
@@ -359,6 +364,11 @@ func (stager *Stager) svg() {
 	}
 
 	for _, artistShape := range diagram.ArtistShapes {
+
+		if artistShape.IsHidden {
+			continue
+		}
+
 		artist := artistShape.Artist
 		titleRectAnchoredText := &svg.RectAnchoredText{
 			Name:             artist.Name,
