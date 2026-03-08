@@ -144,18 +144,21 @@ func _(stage *models.Stage) {
 	__ArtefactTypeShape__00000000_.Y = 50.000000
 	__ArtefactTypeShape__00000000_.Width = 140.000000
 	__ArtefactTypeShape__00000000_.Height = 25.000000
+	__ArtefactTypeShape__00000000_.IsHidden = false
 
 	__ArtefactTypeShape__00000001_.Name = ``
 	__ArtefactTypeShape__00000001_.X = 520.000000
 	__ArtefactTypeShape__00000001_.Y = 60.000000
 	__ArtefactTypeShape__00000001_.Width = 180.000000
 	__ArtefactTypeShape__00000001_.Height = 25.000000
+	__ArtefactTypeShape__00000001_.IsHidden = false
 
 	__ArtefactTypeShape__00000002_.Name = ``
 	__ArtefactTypeShape__00000002_.X = 114.000000
 	__ArtefactTypeShape__00000002_.Y = 384.000000
 	__ArtefactTypeShape__00000002_.Width = 140.000000
 	__ArtefactTypeShape__00000002_.Height = 25.000000
+	__ArtefactTypeShape__00000002_.IsHidden = false
 
 	__Artist__00000000_.Name = `Mackintosh`
 	__Artist__00000000_.IsDead = true
@@ -190,42 +193,49 @@ func _(stage *models.Stage) {
 	__ArtistShape__00000000_.Y = 92.000000
 	__ArtistShape__00000000_.Width = 80.000000
 	__ArtistShape__00000000_.Height = 30.000000
+	__ArtistShape__00000000_.IsHidden = false
 
 	__ArtistShape__00000001_.Name = ``
 	__ArtistShape__00000001_.X = 573.000000
 	__ArtistShape__00000001_.Y = 139.000000
 	__ArtistShape__00000001_.Width = 80.000000
 	__ArtistShape__00000001_.Height = 30.000000
+	__ArtistShape__00000001_.IsHidden = false
 
 	__ArtistShape__00000002_.Name = ``
 	__ArtistShape__00000002_.X = 268.000000
 	__ArtistShape__00000002_.Y = 243.000000
 	__ArtistShape__00000002_.Width = 80.000000
 	__ArtistShape__00000002_.Height = 30.000000
+	__ArtistShape__00000002_.IsHidden = false
 
 	__ArtistShape__00000003_.Name = ``
 	__ArtistShape__00000003_.X = 605.000000
 	__ArtistShape__00000003_.Y = 320.000000
 	__ArtistShape__00000003_.Width = 75.000000
 	__ArtistShape__00000003_.Height = 30.000000
+	__ArtistShape__00000003_.IsHidden = false
 
 	__ArtistShape__00000004_.Name = ``
 	__ArtistShape__00000004_.X = 78.000000
 	__ArtistShape__00000004_.Y = 418.000000
 	__ArtistShape__00000004_.Width = 80.000000
 	__ArtistShape__00000004_.Height = 30.000000
+	__ArtistShape__00000004_.IsHidden = false
 
 	__ArtistShape__00000005_.Name = ``
 	__ArtistShape__00000005_.X = 467.000000
 	__ArtistShape__00000005_.Y = 565.000000
 	__ArtistShape__00000005_.Width = 120.000000
 	__ArtistShape__00000005_.Height = 30.000000
+	__ArtistShape__00000005_.IsHidden = false
 
 	__ArtistShape__00000006_.Name = ``
 	__ArtistShape__00000006_.X = 621.000000
 	__ArtistShape__00000006_.Y = 544.000000
 	__ArtistShape__00000006_.Width = 119.000000
 	__ArtistShape__00000006_.Height = 30.000000
+	__ArtistShape__00000006_.IsHidden = false
 
 	__ControlPointShape__00000000_.Name = `Control Point Shape in CRANBROOK ACADEMY to AMERICAN MID-CENTURY 0`
 	__ControlPointShape__00000000_.X_Relative = 0.744183
@@ -297,6 +307,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.IsInfluenceCategoryShown = true
 	__Diagram__00000000_.StartDate, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1900-01-01 00:00:00 +0000 UTC")
 	__Diagram__00000000_.EndDate, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1955-01-01 00:00:00 +0000 UTC")
+	__Diagram__00000000_.NbYearsForIntervals = 5
 	__Diagram__00000000_.XMargin = 20.000000
 	__Diagram__00000000_.YMargin = 40.000000
 	__Diagram__00000000_.Height = 900.000000
@@ -570,66 +581,77 @@ func _(stage *models.Stage) {
 	__MovementShape__00000000_.Y = 100.000000
 	__MovementShape__00000000_.Width = 130.000000
 	__MovementShape__00000000_.Height = 30.000000
+	__MovementShape__00000000_.IsHidden = false
 
 	__MovementShape__00000001_.Name = ``
 	__MovementShape__00000001_.X = 240.000000
 	__MovementShape__00000001_.Y = 167.000000
 	__MovementShape__00000001_.Width = 120.000000
 	__MovementShape__00000001_.Height = 30.000000
+	__MovementShape__00000001_.IsHidden = false
 
 	__MovementShape__00000002_.Name = ``
 	__MovementShape__00000002_.X = 422.000031
 	__MovementShape__00000002_.Y = 184.000000
 	__MovementShape__00000002_.Width = 165.000000
 	__MovementShape__00000002_.Height = 30.000000
+	__MovementShape__00000002_.IsHidden = false
 
 	__MovementShape__00000003_.Name = ``
 	__MovementShape__00000003_.X = 599.000000
 	__MovementShape__00000003_.Y = 242.000000
 	__MovementShape__00000003_.Width = 120.000000
 	__MovementShape__00000003_.Height = 30.000000
+	__MovementShape__00000003_.IsHidden = false
 
 	__MovementShape__00000004_.Name = ``
 	__MovementShape__00000004_.X = 467.000031
 	__MovementShape__00000004_.Y = 295.000000
 	__MovementShape__00000004_.Width = 67.000000
 	__MovementShape__00000004_.Height = 30.000000
+	__MovementShape__00000004_.IsHidden = false
 
 	__MovementShape__00000005_.Name = ``
 	__MovementShape__00000005_.X = 269.000000
 	__MovementShape__00000005_.Y = 299.000000
 	__MovementShape__00000005_.Width = 90.000000
 	__MovementShape__00000005_.Height = 30.000000
+	__MovementShape__00000005_.IsHidden = false
 
 	__MovementShape__00000006_.Name = ``
 	__MovementShape__00000006_.X = 275.000000
 	__MovementShape__00000006_.Y = 409.000000
 	__MovementShape__00000006_.Width = 200.000000
 	__MovementShape__00000006_.Height = 30.000000
+	__MovementShape__00000006_.IsHidden = false
 
 	__MovementShape__00000007_.Name = ``
 	__MovementShape__00000007_.X = 122.000000
 	__MovementShape__00000007_.Y = 510.000031
 	__MovementShape__00000007_.Width = 130.000000
 	__MovementShape__00000007_.Height = 30.000000
+	__MovementShape__00000007_.IsHidden = false
 
 	__MovementShape__00000008_.Name = ``
 	__MovementShape__00000008_.X = 138.000000
 	__MovementShape__00000008_.Y = 689.999939
 	__MovementShape__00000008_.Width = 167.000000
 	__MovementShape__00000008_.Height = 50.000000
+	__MovementShape__00000008_.IsHidden = false
 
 	__MovementShape__00000009_.Name = ``
 	__MovementShape__00000009_.X = 530.000000
 	__MovementShape__00000009_.Y = 395.000000
 	__MovementShape__00000009_.Width = 160.000000
 	__MovementShape__00000009_.Height = 30.000000
+	__MovementShape__00000009_.IsHidden = false
 
 	__MovementShape__00000010_.Name = ``
 	__MovementShape__00000010_.X = 451.000000
 	__MovementShape__00000010_.Y = 690.000000
 	__MovementShape__00000010_.Width = 220.000000
 	__MovementShape__00000010_.Height = 30.000000
+	__MovementShape__00000010_.IsHidden = false
 
 	__Place__00000000_.Name = `London`
 
