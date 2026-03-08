@@ -32,6 +32,8 @@ type ArtefactTypeShape_WOP struct {
 	Width float64
 
 	Height float64
+
+	IsHidden bool
 }
 
 func (from *ArtefactTypeShape) CopyBasicFields(to *ArtefactTypeShape) {
@@ -41,6 +43,7 @@ func (from *ArtefactTypeShape) CopyBasicFields(to *ArtefactTypeShape) {
 	to.Y = from.Y
 	to.Width = from.Width
 	to.Height = from.Height
+	to.IsHidden = from.IsHidden
 }
 
 type Artist_WOP struct {
@@ -72,6 +75,8 @@ type ArtistShape_WOP struct {
 	Width float64
 
 	Height float64
+
+	IsHidden bool
 }
 
 func (from *ArtistShape) CopyBasicFields(to *ArtistShape) {
@@ -81,6 +86,7 @@ func (from *ArtistShape) CopyBasicFields(to *ArtistShape) {
 	to.Y = from.Y
 	to.Width = from.Width
 	to.Height = from.Height
+	to.IsHidden = from.IsHidden
 }
 
 type ControlPointShape_WOP struct {
@@ -452,6 +458,8 @@ type MovementShape_WOP struct {
 	Width float64
 
 	Height float64
+
+	IsHidden bool
 }
 
 func (from *MovementShape) CopyBasicFields(to *MovementShape) {
@@ -461,6 +469,7 @@ func (from *MovementShape) CopyBasicFields(to *MovementShape) {
 	to.Y = from.Y
 	to.Width = from.Width
 	to.Height = from.Height
+	to.IsHidden = from.IsHidden
 }
 
 type Place_WOP struct {

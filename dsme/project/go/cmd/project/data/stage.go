@@ -138,8 +138,8 @@ another line-NewDiagram`}).Stage(stage)
 	__Task__00000011_ := (&models.Task{Name: `Put the commit forward text in one notification #1044`}).Stage(stage)
 	__Task__00000012_ := (&models.Task{Name: `Compute diff in slices with minimal edit distance #1045`}).Stage(stage)
 
-	__TaskInputShape__00000001_ := (&models.TaskInputShape{Name: `code GongDiff to Probe Notification Table`}).Stage(stage)
 	__TaskInputShape__00000002_ := (&models.TaskInputShape{Name: `Compute all Instance Diff to Probe Notification Table`}).Stage(stage)
+	__TaskInputShape__00000003_ := (&models.TaskInputShape{Name: `code GongDiff per instance to Probe Notification Table`}).Stage(stage)
 
 	__TaskOutputShape__00000063_ := (&models.TaskOutputShape{Name: `Compute Instance Diff to String of New+Stage/Updated/Unstage`}).Stage(stage)
 	__TaskOutputShape__00000064_ := (&models.TaskOutputShape{Name: `Develop Probe Notifications to Probe Notification Table`}).Stage(stage)
@@ -163,8 +163,8 @@ another line-NewDiagram`}).Stage(stage)
 	__Diagram__00000042_.ShowPrefix = true
 	__Diagram__00000042_.DefaultBoxWidth = 150.000000
 	__Diagram__00000042_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000042_.Width = 2535.000000
-	__Diagram__00000042_.Height = 2060.000000
+	__Diagram__00000042_.Width = 2935.000000
+	__Diagram__00000042_.Height = 2460.000000
 	__Diagram__00000042_.IsExpanded = false
 	__Diagram__00000042_.ComputedPrefix = ``
 	__Diagram__00000042_.IsInRenameMode = false
@@ -179,8 +179,8 @@ another line-NewDiagram`}).Stage(stage)
 	__Diagram__00000057_.ShowPrefix = false
 	__Diagram__00000057_.DefaultBoxWidth = 150.000000
 	__Diagram__00000057_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000057_.Width = 2515.108494
-	__Diagram__00000057_.Height = 1934.407017
+	__Diagram__00000057_.Width = 2915.108494
+	__Diagram__00000057_.Height = 2334.407017
 	__Diagram__00000057_.IsExpanded = false
 	__Diagram__00000057_.ComputedPrefix = ``
 	__Diagram__00000057_.IsInRenameMode = false
@@ -195,8 +195,8 @@ another line-NewDiagram`}).Stage(stage)
 	__Diagram__00000061_.ShowPrefix = true
 	__Diagram__00000061_.DefaultBoxWidth = 250.000000
 	__Diagram__00000061_.DefaultBoxHeigth = 100.000000
-	__Diagram__00000061_.Width = 3284.716678
-	__Diagram__00000061_.Height = 3030.109182
+	__Diagram__00000061_.Width = 3684.716678
+	__Diagram__00000061_.Height = 3430.109182
 	__Diagram__00000061_.IsExpanded = true
 	__Diagram__00000061_.ComputedPrefix = ``
 	__Diagram__00000061_.IsInRenameMode = false
@@ -890,19 +890,19 @@ another line-NewDiagram`
 	__Task__00000012_.IsWithCompletion = true
 	__Task__00000012_.Completion = models.PERCENT_100
 
-	__TaskInputShape__00000001_.Name = `code GongDiff to Probe Notification Table`
-	__TaskInputShape__00000001_.StartRatio = 0.664301
-	__TaskInputShape__00000001_.EndRatio = 0.500000
-	__TaskInputShape__00000001_.StartOrientation = models.ORIENTATION_VERTICAL
-	__TaskInputShape__00000001_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__TaskInputShape__00000001_.CornerOffsetRatio = -0.725415
-
 	__TaskInputShape__00000002_.Name = `Compute all Instance Diff to Probe Notification Table`
 	__TaskInputShape__00000002_.StartRatio = 0.392024
 	__TaskInputShape__00000002_.EndRatio = 0.440078
 	__TaskInputShape__00000002_.StartOrientation = models.ORIENTATION_VERTICAL
 	__TaskInputShape__00000002_.EndOrientation = models.ORIENTATION_HORIZONTAL
 	__TaskInputShape__00000002_.CornerOffsetRatio = -0.552338
+
+	__TaskInputShape__00000003_.Name = `code GongDiff per instance to Probe Notification Table`
+	__TaskInputShape__00000003_.StartRatio = 0.500000
+	__TaskInputShape__00000003_.EndRatio = 0.500000
+	__TaskInputShape__00000003_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__TaskInputShape__00000003_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__TaskInputShape__00000003_.CornerOffsetRatio = 1.680000
 
 	__TaskOutputShape__00000063_.Name = `Compute Instance Diff to String of New+Stage/Updated/Unstage`
 	__TaskOutputShape__00000063_.StartRatio = 0.500000
@@ -919,7 +919,7 @@ another line-NewDiagram`
 	__TaskOutputShape__00000064_.CornerOffsetRatio = 2.418918
 
 	__TaskOutputShape__00000065_.Name = `code GongDiff per instance to <instance>. GongDiff(another instance)`
-	__TaskOutputShape__00000065_.StartRatio = 0.414548
+	__TaskOutputShape__00000065_.StartRatio = 0.756013
 	__TaskOutputShape__00000065_.EndRatio = 0.296115
 	__TaskOutputShape__00000065_.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__TaskOutputShape__00000065_.EndOrientation = models.ORIENTATION_VERTICAL
@@ -1036,10 +1036,12 @@ another line-NewDiagram`
 	__Diagram__00000061_.Task_Shapes = append(__Diagram__00000061_.Task_Shapes, __TaskShape__00000022_)
 	__Diagram__00000061_.Task_Shapes = append(__Diagram__00000061_.Task_Shapes, __TaskShape__00000023_)
 	__Diagram__00000061_.Task_Shapes = append(__Diagram__00000061_.Task_Shapes, __TaskShape__00000024_)
+	__Diagram__00000061_.TasksWhoseNodeIsExpanded = append(__Diagram__00000061_.TasksWhoseNodeIsExpanded, __Task__00000008_)
+	__Diagram__00000061_.TasksWhoseInputNodeIsExpanded = append(__Diagram__00000061_.TasksWhoseInputNodeIsExpanded, __Task__00000008_)
 	__Diagram__00000061_.TasksWhoseOutputNodeIsExpanded = append(__Diagram__00000061_.TasksWhoseOutputNodeIsExpanded, __Task__00000007_)
 	__Diagram__00000061_.TasksWhoseOutputNodeIsExpanded = append(__Diagram__00000061_.TasksWhoseOutputNodeIsExpanded, __Task__00000010_)
-	__Diagram__00000061_.TaskInputShapes = append(__Diagram__00000061_.TaskInputShapes, __TaskInputShape__00000001_)
 	__Diagram__00000061_.TaskInputShapes = append(__Diagram__00000061_.TaskInputShapes, __TaskInputShape__00000002_)
+	__Diagram__00000061_.TaskInputShapes = append(__Diagram__00000061_.TaskInputShapes, __TaskInputShape__00000003_)
 	__Diagram__00000061_.TaskOutputShapes = append(__Diagram__00000061_.TaskOutputShapes, __TaskOutputShape__00000063_)
 	__Diagram__00000061_.TaskOutputShapes = append(__Diagram__00000061_.TaskOutputShapes, __TaskOutputShape__00000064_)
 	__Diagram__00000061_.TaskOutputShapes = append(__Diagram__00000061_.TaskOutputShapes, __TaskOutputShape__00000065_)
@@ -1166,10 +1168,10 @@ another line-NewDiagram`
 	__Task__00000010_.Outputs = append(__Task__00000010_.Outputs, __Product__00000035_)
 	__Task__00000011_.Outputs = append(__Task__00000011_.Outputs, __Product__00000035_)
 	__Task__00000012_.Outputs = append(__Task__00000012_.Outputs, __Product__00000035_)
-	__TaskInputShape__00000001_.Product = __Product__00000025_
-	__TaskInputShape__00000001_.Task = __Task__00000008_
 	__TaskInputShape__00000002_.Product = __Product__00000025_
 	__TaskInputShape__00000002_.Task = __Task__00000007_
+	__TaskInputShape__00000003_.Product = __Product__00000025_
+	__TaskInputShape__00000003_.Task = __Task__00000008_
 	__TaskOutputShape__00000063_.Task = __Task__00000007_
 	__TaskOutputShape__00000063_.Product = __Product__00000021_
 	__TaskOutputShape__00000064_.Task = __Task__00000009_
