@@ -1542,6 +1542,8 @@ func (movementshapeFormCallback *MovementShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(movementshape_.Width), formDiv)
 		case "Height":
 			FormDivBasicFieldToField(&(movementshape_.Height), formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&(movementshape_.IsHidden), formDiv)
 		case "Diagram:MovementShapes":
 			// WARNING : this form deals with the N-N association "Diagram.MovementShapes []*MovementShape" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
