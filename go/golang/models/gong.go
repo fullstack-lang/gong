@@ -404,6 +404,7 @@ const (
 
 	GongFileFieldSubTmplStringHeaderFieldBool
 	GongFileFieldSubTmplStringHeaderFieldInt
+	GongFileFieldSubTmplStringHeaderFieldDate
 	GongFileFieldSubTmplStringHeaderFieldIntDuration
 	GongFileFieldSubTmplStringHeaderFieldEnumString
 	GongFileFieldSubTmplStringHeaderFieldEnumInt
@@ -460,6 +461,11 @@ map[GongFilePerStructSubTemplateId]string{
 		{
 			Name:               "{{FieldName}}",
 			GongFieldValueType: GongFieldValueTypeInt,
+		},`,
+	GongFileFieldSubTmplStringHeaderFieldDate: `
+		{
+			Name:               "{{FieldName}}",
+			GongFieldValueType: GongFieldValueTypeDate,
 		},`,
 	GongFileFieldSubTmplStringHeaderFieldIntDuration: `
 		{
@@ -860,7 +866,7 @@ func CodeGeneratorModelGong(
 						)
 					}
 					fieldHeaders += models.Replace1(
-						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringHeaderBasicKindField],
+						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringHeaderFieldDate],
 						"{{FieldName}}", field.GetName())
 				case *models.PointerToGongStructField:
 					fieldStringValues += models.Replace1(
