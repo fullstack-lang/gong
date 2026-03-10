@@ -112,7 +112,7 @@ type Stage struct {
 	Astruct_stagedOrder     map[*Astruct]uint
 	Astructs_reference      map[*Astruct]*Astruct
 	Astructs_referenceOrder map[*Astruct]uint
-
+	
 	// insertion point for slice of pointers maps
 	Astruct_Anarrayofb_reverseMap map[*Bstruct]*Astruct
 
@@ -138,7 +138,7 @@ type Stage struct {
 	AstructBstruct2Use_stagedOrder     map[*AstructBstruct2Use]uint
 	AstructBstruct2Uses_reference      map[*AstructBstruct2Use]*AstructBstruct2Use
 	AstructBstruct2Uses_referenceOrder map[*AstructBstruct2Use]uint
-
+	
 	// insertion point for slice of pointers maps
 	OnAfterAstructBstruct2UseCreateCallback OnAfterCreateInterface[AstructBstruct2Use]
 	OnAfterAstructBstruct2UseUpdateCallback OnAfterUpdateInterface[AstructBstruct2Use]
@@ -152,7 +152,7 @@ type Stage struct {
 	AstructBstructUse_stagedOrder     map[*AstructBstructUse]uint
 	AstructBstructUses_reference      map[*AstructBstructUse]*AstructBstructUse
 	AstructBstructUses_referenceOrder map[*AstructBstructUse]uint
-
+	
 	// insertion point for slice of pointers maps
 	OnAfterAstructBstructUseCreateCallback OnAfterCreateInterface[AstructBstructUse]
 	OnAfterAstructBstructUseUpdateCallback OnAfterUpdateInterface[AstructBstructUse]
@@ -166,7 +166,7 @@ type Stage struct {
 	Bstruct_stagedOrder     map[*Bstruct]uint
 	Bstructs_reference      map[*Bstruct]*Bstruct
 	Bstructs_referenceOrder map[*Bstruct]uint
-
+	
 	// insertion point for slice of pointers maps
 	OnAfterBstructCreateCallback OnAfterCreateInterface[Bstruct]
 	OnAfterBstructUpdateCallback OnAfterUpdateInterface[Bstruct]
@@ -180,7 +180,7 @@ type Stage struct {
 	Dstruct_stagedOrder     map[*Dstruct]uint
 	Dstructs_reference      map[*Dstruct]*Dstruct
 	Dstructs_referenceOrder map[*Dstruct]uint
-
+	
 	// insertion point for slice of pointers maps
 	Dstruct_Anarrayofb_reverseMap map[*Bstruct]*Dstruct
 
@@ -198,7 +198,7 @@ type Stage struct {
 	F0123456789012345678901234567890_stagedOrder     map[*F0123456789012345678901234567890]uint
 	F0123456789012345678901234567890s_reference      map[*F0123456789012345678901234567890]*F0123456789012345678901234567890
 	F0123456789012345678901234567890s_referenceOrder map[*F0123456789012345678901234567890]uint
-
+	
 	// insertion point for slice of pointers maps
 	OnAfterF0123456789012345678901234567890CreateCallback OnAfterCreateInterface[F0123456789012345678901234567890]
 	OnAfterF0123456789012345678901234567890UpdateCallback OnAfterUpdateInterface[F0123456789012345678901234567890]
@@ -212,7 +212,7 @@ type Stage struct {
 	Gstruct_stagedOrder     map[*Gstruct]uint
 	Gstructs_reference      map[*Gstruct]*Gstruct
 	Gstructs_referenceOrder map[*Gstruct]uint
-
+	
 	// insertion point for slice of pointers maps
 	OnAfterGstructCreateCallback OnAfterCreateInterface[Gstruct]
 	OnAfterGstructUpdateCallback OnAfterUpdateInterface[Gstruct]
@@ -249,6 +249,12 @@ type Stage struct {
 	// store the stage order of each instance in order to
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
+
+
+
+
+
+
 
 	// end of insertion point
 

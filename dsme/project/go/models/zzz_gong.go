@@ -6228,11 +6228,11 @@ func (task *Task) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:               "Start",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeDate,
 		},
 		{
 			Name:               "End",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeDate,
 		},
 		{
 			Name:               "Description",
@@ -6464,6 +6464,7 @@ const (
 	GongFieldValueTypeFloat           GongFieldValueType = "GongFieldValueTypeFloat"
 	GongFieldValueTypeBool            GongFieldValueType = "GongFieldValueTypeBool"
 	GongFieldValueTypeString          GongFieldValueType = "GongFieldValueTypeString"
+	GongFieldValueTypeDate            GongFieldValueType = "GongFieldValueTypeDate"
 	GongFieldValueTypeBasicKind       GongFieldValueType = "GongFieldValueTypeBasicKind"
 	GongFieldValueTypePointer         GongFieldValueType = "GongFieldValueTypePointer"
 	GongFieldValueTypeSliceOfPointers GongFieldValueType = "GongFieldValueTypeSliceOfPointers"
