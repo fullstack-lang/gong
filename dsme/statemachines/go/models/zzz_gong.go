@@ -4306,7 +4306,7 @@ func (object *Object) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:               "DOF",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeDate,
 		},
 		{
 			Name:                 "Messages",
@@ -4549,6 +4549,7 @@ const (
 	GongFieldValueTypeFloat           GongFieldValueType = "GongFieldValueTypeFloat"
 	GongFieldValueTypeBool            GongFieldValueType = "GongFieldValueTypeBool"
 	GongFieldValueTypeString          GongFieldValueType = "GongFieldValueTypeString"
+	GongFieldValueTypeDate            GongFieldValueType = "GongFieldValueTypeDate"
 	GongFieldValueTypeBasicKind       GongFieldValueType = "GongFieldValueTypeBasicKind"
 	GongFieldValueTypePointer         GongFieldValueType = "GongFieldValueTypePointer"
 	GongFieldValueTypeSliceOfPointers GongFieldValueType = "GongFieldValueTypeSliceOfPointers"

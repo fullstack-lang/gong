@@ -3501,7 +3501,7 @@ func (artist *Artist) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:               "DateOfDeath",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeDate,
 		},
 		{
 			Name:                 "Place",
@@ -3656,11 +3656,11 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:               "StartDate",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeDate,
 		},
 		{
 			Name:               "EndDate",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeDate,
 		},
 		{
 			Name:               "NbYearsForIntervals",
@@ -4052,7 +4052,7 @@ func (movement *Movement) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:               "Date",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeDate,
 		},
 		{
 			Name:               "HideDate",
@@ -4156,6 +4156,7 @@ const (
 	GongFieldValueTypeFloat           GongFieldValueType = "GongFieldValueTypeFloat"
 	GongFieldValueTypeBool            GongFieldValueType = "GongFieldValueTypeBool"
 	GongFieldValueTypeString          GongFieldValueType = "GongFieldValueTypeString"
+	GongFieldValueTypeDate            GongFieldValueType = "GongFieldValueTypeDate"
 	GongFieldValueTypeBasicKind       GongFieldValueType = "GongFieldValueTypeBasicKind"
 	GongFieldValueTypePointer         GongFieldValueType = "GongFieldValueTypePointer"
 	GongFieldValueTypeSliceOfPointers GongFieldValueType = "GongFieldValueTypeSliceOfPointers"
