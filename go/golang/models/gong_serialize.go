@@ -232,6 +232,8 @@ func SerializeExcelizePointerToGongstruct2[Type PointerToGongstruct](stage *Stag
 						header += ":bool"
 					case GongFieldValueTypeString:
 						header += ":string"
+					case GongFieldValueTypeDate:
+						header += ":date"
 					default:
 						header += ":basicType"
 					}
