@@ -2378,11 +2378,11 @@ func (bar *Bar) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:               "Start",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeDate,
 		},
 		{
 			Name:               "End",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeDate,
 		},
 		{
 			Name:               "ComputedDuration",
@@ -2421,11 +2421,11 @@ func (gantt *Gantt) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:               "ComputedStart",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeDate,
 		},
 		{
 			Name:               "ComputedEnd",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeDate,
 		},
 		{
 			Name:               "ComputedDuration",
@@ -2437,11 +2437,11 @@ func (gantt *Gantt) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:               "ManualStart",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeDate,
 		},
 		{
 			Name:               "ManualEnd",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeDate,
 		},
 		{
 			Name:               "LaneHeight",
@@ -2600,7 +2600,7 @@ func (milestone *Milestone) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:               "Date",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeDate,
 		},
 		{
 			Name:               "DisplayVerticalBar",
@@ -2629,6 +2629,7 @@ const (
 	GongFieldValueTypeFloat           GongFieldValueType = "GongFieldValueTypeFloat"
 	GongFieldValueTypeBool            GongFieldValueType = "GongFieldValueTypeBool"
 	GongFieldValueTypeString          GongFieldValueType = "GongFieldValueTypeString"
+	GongFieldValueTypeDate            GongFieldValueType = "GongFieldValueTypeDate"
 	GongFieldValueTypeBasicKind       GongFieldValueType = "GongFieldValueTypeBasicKind"
 	GongFieldValueTypePointer         GongFieldValueType = "GongFieldValueTypePointer"
 	GongFieldValueTypeSliceOfPointers GongFieldValueType = "GongFieldValueTypeSliceOfPointers"

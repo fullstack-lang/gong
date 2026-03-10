@@ -5910,7 +5910,7 @@ func (formfielddate *FormFieldDate) GongGetFieldHeaders() (res []GongFieldHeader
 		},
 		{
 			Name:               "Value",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeDate,
 		},
 	}
 	return
@@ -5925,7 +5925,7 @@ func (formfielddatetime *FormFieldDateTime) GongGetFieldHeaders() (res []GongFie
 		},
 		{
 			Name:               "Value",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeDate,
 		},
 	}
 	return
@@ -6050,7 +6050,7 @@ func (formfieldtime *FormFieldTime) GongGetFieldHeaders() (res []GongFieldHeader
 		},
 		{
 			Name:               "Value",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeDate,
 		},
 		{
 			Name:               "Step",
@@ -6226,6 +6226,7 @@ const (
 	GongFieldValueTypeFloat           GongFieldValueType = "GongFieldValueTypeFloat"
 	GongFieldValueTypeBool            GongFieldValueType = "GongFieldValueTypeBool"
 	GongFieldValueTypeString          GongFieldValueType = "GongFieldValueTypeString"
+	GongFieldValueTypeDate            GongFieldValueType = "GongFieldValueTypeDate"
 	GongFieldValueTypeBasicKind       GongFieldValueType = "GongFieldValueTypeBasicKind"
 	GongFieldValueTypePointer         GongFieldValueType = "GongFieldValueTypePointer"
 	GongFieldValueTypeSliceOfPointers GongFieldValueType = "GongFieldValueTypeSliceOfPointers"
