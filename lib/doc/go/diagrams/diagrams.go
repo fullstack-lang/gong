@@ -4,16 +4,16 @@ import (
 	"time"
 
 	"github.com/fullstack-lang/gong/lib/doc/go/models"
-
+	// injection point for ident package import declaration
 	ref_models "github.com/fullstack-lang/gong/lib/doc/go/models"
-	// injection point for ident package import declaration{{ImportPackageDeclaration}}
 )
 
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
 var _ time.Time
 
-// _ point for meta package dummy declaration{{ImportPackageDummyDeclaration}}
+// _ point for meta package dummy declaration
+var _ ref_models.Stage
 
 // When parsed, those maps will help with the renaming process
 var _ map[string]any = map[string]any{
@@ -22,6 +22,7 @@ var _ map[string]any = map[string]any{
 
 // function will stage objects
 func _(stage *models.Stage) {
+
 	// insertion point for declaration of instances to stage
 
 	__Classdiagram__00000000_ := (&models.Classdiagram{Name: `Default`}).Stage(stage)
@@ -51,8 +52,8 @@ func _(stage *models.Stage) {
 	__Classdiagram__00000000_.ShowLinkNames = true
 	__Classdiagram__00000000_.IsInRenameMode = false
 	__Classdiagram__00000000_.IsExpanded = true
-	__Classdiagram__00000000_.NodeGongStructsIsExpanded = false
-	__Classdiagram__00000000_.NodeGongStructNodeExpansion = `[false,false,false,true,false,false,false,true]`
+	__Classdiagram__00000000_.NodeGongStructsIsExpanded = true
+	__Classdiagram__00000000_.NodeGongStructNodeExpansion = `[false,false,false,false,false,false,false,true]`
 	__Classdiagram__00000000_.NodeGongEnumsIsExpanded = false
 	__Classdiagram__00000000_.NodeGongEnumNodeExpansion = `[true]`
 	__Classdiagram__00000000_.NodeGongNotesIsExpanded = true
