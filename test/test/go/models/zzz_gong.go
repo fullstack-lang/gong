@@ -2749,7 +2749,7 @@ func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GongGe
 		},
 		{
 			Name:               "Date",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
+			GongFieldValueType: GongFieldValueTypeDate,
 		},
 	}
 	return
