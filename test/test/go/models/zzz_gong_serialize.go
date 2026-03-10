@@ -220,10 +220,29 @@ func SerializeExcelizePointerToGongstruct2[Type PointerToGongstruct](stage *Stag
 				f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(2*index+2)), line),
 					fieldHeader.Name+":"+fieldHeader.TargetGongstructName+":IDs")
 			default:
+				// if index is 0, this is the ID of the instance
 				if index == 0 {
 					f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(2*index+2)), line), fieldHeader.Name+":ID")
 				} else {
-					f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(2*index+2)), line), fieldHeader.Name+":noID")
+
+					// one have to put the type of the cell
+					header := fieldHeader.Name
+					switch fieldHeader.GongFieldValueType {
+					case GongFieldValueTypeInt:
+						header += ":int"
+					case GongFieldValueTypeIntDuration:
+						header += ":duration"
+					case GongFieldValueTypeFloat:
+						header += ":float"
+					case GongFieldValueTypeBool:
+						header += ":bool"
+					case GongFieldValueTypeString:
+						header += ":string"
+					default:
+						header += ":basicType"
+					}
+					header += ":noID"
+					f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(2*index+2)), line), header)
 				}
 			}
 		}
