@@ -101,16 +101,27 @@ func (stager *Stager) enforceSemanticShapeWithCorrectMEtaIDentifiers() (needComm
 		}
 	}
 
-	// for gongEnumShape := range *GetGongstructInstancesSetFromPointerType[*GongEnumShape](stager.stage) {
-	// 	gongEnumName := IdentifierMetaToGongEnumName(gongEnumShape.IdentifierMeta)
-	// 	_, ok := gongEnumSet[gongEnumName]
+	gongEnumSet := *gong.GetGongstructInstancesMap[gong.GongEnum](stager.gongStage)
+	for gongEnumShape := range *GetGongstructInstancesSetFromPointerType[*GongEnumShape](stager.stage) {
 
-	// 	if !ok {
-	// 		gongEnumShape.Unstage(stager.stage)
-	// 		needCommit = true
-	// 		continue
-	// 	}
-	// }
+		gongEnumName := GongEnumIdentifierMetaToGongEnumName(gongEnumShape.IdentifierMeta)
+		_, ok := gongEnumSet[gongEnumName]
+		if !ok {
+			gongEnumShape.Unstage(stager.stage)
+			needCommit = true
+		}
+	}
+
+	gongEnumValueSet := *gong.GetGongstructInstancesMap[gong.GongEnumValue](stager.gongStage)
+	for gongEnumValueShape := range *GetGongstructInstancesSetFromPointerType[*GongEnumValueShape](stager.stage) {
+
+		gongEnumValueName := GongEnumValueShapeIdentifierMetaToValueName(gongEnumValueShape.IdentifierMeta)
+		_, ok := gongEnumValueSet[gongEnumValueName]
+		if !ok {
+			gongEnumValueShape.Unstage(stager.stage)
+			needCommit = true
+		}
+	}
 
 	return
 }
