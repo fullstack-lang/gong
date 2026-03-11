@@ -27,21 +27,13 @@ func (proxy *GongStructNodeProxy) OnAfterUpdate(
 	if front.IsChecked && !staged.IsChecked {
 		diagramPackage := getTheDiagramPackage(proxy.stager.stage)
 		proxy.classDiagram.AddGongStructShape(proxy.stager.stage, diagramPackage, proxy.gongstruct.Name)
-
-		proxy.stager.tree()
-		proxy.stager.form()
-		proxy.stager.Svg()
-		proxy.stager.stage.Commit()
+		return
 	}
 
 	// the checked node is unchecked
 	if !front.IsChecked && staged.IsChecked {
 		proxy.classDiagram.RemoveGongStructShape(proxy.stager.stage, proxy.gongstruct.Name)
-
-		proxy.stager.tree()
-		proxy.stager.form()
-		proxy.stager.Svg()
-		proxy.stager.stage.Commit()
+		return
 	}
 
 	expansionToggled := false
