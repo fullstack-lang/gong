@@ -2,7 +2,6 @@ package models
 
 import (
 	"fmt"
-	"log"
 	"strings"
 
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
@@ -10,8 +9,6 @@ import (
 
 func (stager *Stager) svg() {
 	stager.svgStage.Reset()
-
-	log.Println("SVG update")
 
 	// creates a map of art history element
 	map_ArtElement_Rect := make(map[ArtElement]*svg.Rect)
