@@ -14,7 +14,7 @@ const SVGName string = `SVG`
 
 const ClassBoxStrokeWidth = 3
 
-func (stager *Stager) UpdateAndCommitSVGStage() {
+func (stager *Stager) Svg() {
 
 	stager.svgStage.Reset()
 	// log.Println("stager.GenerateSvg")

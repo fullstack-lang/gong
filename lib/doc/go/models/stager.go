@@ -158,9 +158,9 @@ func NewStager(
 
 	}
 
-	stager.UpdateAndCommitSVGStage()
-	stager.UpdateAndCommitTreeStage()
-	stager.UpdateAndCommitFormStage()
+	stager.Svg()
+	stager.tree()
+	stager.form()
 
 	return
 }
