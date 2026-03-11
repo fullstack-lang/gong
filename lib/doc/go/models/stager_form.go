@@ -4,7 +4,7 @@ import (
 	form "github.com/fullstack-lang/gong/lib/table/go/models"
 )
 
-func (stager *Stager) UpdateAndCommitFormStage() {
+func (stager *Stager) form() {
 
 	stager.formStage.Reset()
 

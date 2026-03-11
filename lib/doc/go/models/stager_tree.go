@@ -14,7 +14,7 @@ import (
 	"github.com/fullstack-lang/gong/lib/doc/go/models/nodestates"
 )
 
-func (stager *Stager) UpdateAndCommitTreeStage() {
+func (stager *Stager) tree() {
 
 	stager.treeStage.Reset()
 
@@ -91,10 +91,49 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 			nodeClassdiagram.SecondCheckboxToolTipText = "Add to documentation"
 		}
 
-		nodeClassdiagram.Impl = &ClassDiagramNodeProxy{
-			node:         nodeClassdiagram,
-			stager:       stager,
-			classDiagram: classDiagram,
+		nodeClassdiagram.Impl = &tree.FunctionalNodeProxy{
+			OnUpdate: func(stage *tree.Stage, staged, front *tree.Node) {
+				// intercept update to the node that are when the node is checked
+				if front.IsChecked && !staged.IsChecked {
+					// uncheck all other diagram
+					diagramPackage := getTheDiagramPackage(stager.stage)
+					diagramPackage.SelectedClassdiagram = classDiagram
+
+					stager.stage.Commit()
+				}
+
+				// the checked node is unchecked
+				if !front.IsChecked && staged.IsChecked {
+					diagramPackage := getTheDiagramPackage(stager.stage)
+					diagramPackage.SelectedClassdiagram = nil
+
+					stager.stage.Commit()
+				}
+
+				if front.IsExpanded && !staged.IsExpanded {
+					classDiagram.IsExpanded = true
+					stager.stage.Commit()
+				}
+				if !front.IsExpanded && staged.IsExpanded {
+					classDiagram.IsExpanded = false
+					stager.stage.Commit()
+				}
+
+				if front.Name != staged.Name {
+					classDiagram.Name = front.Name
+					classDiagram.IsInRenameMode = false
+
+					stager.stage.Commit()
+				}
+
+				// second checkbox
+				if front.IsSecondCheckboxChecked != staged.IsSecondCheckboxChecked {
+
+					staged.IsSecondCheckboxChecked = front.IsSecondCheckboxChecked
+					classDiagram.IsIncludedInStaticWebSite = front.IsSecondCheckboxChecked
+					stager.stage.Commit()
+				}
+			},
 		}
 
 		if !stager.embeddedDiagrams {
@@ -124,9 +163,17 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 		nodeGongStructs := &tree.Node{
 			Name:       fmt.Sprintf("Gongstructs (%d/%d)", nbGongstructsInDiagram, len(gongstructs)),
 			IsExpanded: classDiagram.NodeGongStructsIsExpanded, // This remains a boolean for the category node
-			Impl: &ClassDiagramGongStructsNodeProxy{
-				stager:       stager,
-				classDiagram: classDiagram,
+			Impl: &tree.FunctionalNodeProxy{
+				OnUpdate: func(stage *tree.Stage, staged, front *tree.Node) {
+					if front.IsExpanded && !staged.IsExpanded {
+						classDiagram.NodeGongStructsIsExpanded = true
+						stager.stage.Commit()
+					}
+					if !front.IsExpanded && staged.IsExpanded {
+						classDiagram.NodeGongStructsIsExpanded = false
+						stager.stage.Commit()
+					}
+				},
 			},
 		}
 		nodeClassdiagram.Children = append(nodeClassdiagram.Children, nodeGongStructs)
@@ -142,9 +189,17 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 		nodeGongEnums := &tree.Node{
 			Name:       fmt.Sprintf("Gongenums (%d/%d)", nbGongenumsInDiagram, len(gongenums)),
 			IsExpanded: classDiagram.NodeGongEnumsIsExpanded, // This remains a boolean for the category node
-			Impl: &ClassDiagramGongEnumsNodeProxy{
-				stager:       stager,
-				classDiagram: classDiagram,
+			Impl: &tree.FunctionalNodeProxy{
+				OnUpdate: func(stage *tree.Stage, staged, front *tree.Node) {
+					if front.IsExpanded && !staged.IsExpanded {
+						classDiagram.NodeGongEnumsIsExpanded = true
+						stager.stage.Commit()
+					}
+					if !front.IsExpanded && staged.IsExpanded {
+						classDiagram.NodeGongEnumsIsExpanded = false
+						stager.stage.Commit()
+					}
+				},
 			},
 		}
 		nodeClassdiagram.Children = append(nodeClassdiagram.Children, nodeGongEnums)
@@ -160,9 +215,17 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 		nodeGongNotes := &tree.Node{
 			Name:       fmt.Sprintf("Gongnotes (%d/%d)", nbGongnotesInDiagram, len(gongnotes)),
 			IsExpanded: classDiagram.NodeGongNotesIsExpanded, // This remains a boolean for the category node
-			Impl: &ClassDiagramGongNotesNodeProxy{
-				stager:       stager,
-				classDiagram: classDiagram,
+			Impl: &tree.FunctionalNodeProxy{
+				OnUpdate: func(stage *tree.Stage, staged, front *tree.Node) {
+					if front.IsExpanded && !staged.IsExpanded {
+						classDiagram.NodeGongNotesIsExpanded = true
+						stager.stage.Commit()
+					}
+					if !front.IsExpanded && staged.IsExpanded {
+						classDiagram.NodeGongNotesIsExpanded = false
+						stager.stage.Commit()
+					}
+				},
 			},
 		}
 		nodeClassdiagram.Children = append(nodeClassdiagram.Children, nodeGongNotes)
@@ -189,13 +252,43 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 				IsChecked:          isGongStructShapeInDiagram,
 				IsExpanded:         isExpanded,
 			}
-			nodeNamedStruct.Impl = &GongStructNodeProxy{
-				node:            nodeNamedStruct,
-				stager:          stager,
-				classDiagram:    classDiagram,
-				gongstruct:      gongStruct,
-				gongStructShape: gongStructShape,
-				rank:            idx,
+			nodeNamedStruct.Impl = &tree.FunctionalNodeProxy{
+				OnUpdate: func(stage *tree.Stage, staged, front *tree.Node) {
+
+					// intercept update to the node that are when the node is checked
+					if front.IsChecked && !staged.IsChecked {
+						diagramPackage := getTheDiagramPackage(stager.stage)
+						classDiagram.AddGongStructShape(stager.stage, diagramPackage, gongStruct.Name)
+						return
+					}
+
+					// the checked node is unchecked
+					if !front.IsChecked && staged.IsChecked {
+						classDiagram.RemoveGongStructShape(stager.stage, gongStruct.Name)
+						return
+					}
+
+					expansionToggled := false
+					currentExpansionStateInDiagram := classDiagram.NodeGongStructNodeExpansion
+
+					if front.IsExpanded && !staged.IsExpanded {
+						if nodestates.ToggleNodeExpanded(&currentExpansionStateInDiagram, idx) == nil {
+							classDiagram.NodeGongStructNodeExpansion = currentExpansionStateInDiagram
+							expansionToggled = true
+						}
+					}
+
+					if !front.IsExpanded && staged.IsExpanded {
+						if nodestates.ToggleNodeExpanded(&currentExpansionStateInDiagram, idx) == nil {
+							classDiagram.NodeGongStructNodeExpansion = currentExpansionStateInDiagram
+							expansionToggled = true
+						}
+					}
+
+					if expansionToggled {
+						stager.stage.Commit()
+					}
+				},
 			}
 			nodeGongStructs.Children = append(nodeGongStructs.Children, nodeNamedStruct)
 
@@ -217,14 +310,25 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 						IsCheckboxDisabled: !isGongStructShapeInDiagram || stager.embeddedDiagrams || !selected,
 					}
 
-					nodeField.Impl = &AttributeFieldNodeProxy{
-						node:            nodeNamedStruct, // Original code had nodeNamedStruct, implies parent
-						stager:          stager,
-						classDiagram:    classDiagram,
-						gongstruct:      gongStruct,
-						gongStructShape: gongStructShape,
-						field:           field,
-						attributeShape:  attributeShape,
+					nodeField.Impl = &tree.FunctionalNodeProxy{
+						OnUpdate: func(stage *tree.Stage, staged, front *tree.Node) {
+							// intercept update to the node that are when the node is checked
+							if front.IsChecked && !staged.IsChecked {
+								// uncheck all other diagram
+								classDiagram.AddAttributeFieldShape(
+									stager.stage,
+									stager.gongStage,
+									gongStruct,
+									field,
+									gongStructShape)
+								stager.stage.Commit()
+							}
+							// the checked node is unchecked
+							if !front.IsChecked && staged.IsChecked {
+								classDiagram.RemoveAttributeFieldShape(stager.stage, attributeShape, gongStructShape)
+								stager.stage.Commit()
+							}
+						},
 					}
 
 					nodeNamedStruct.Children = append(nodeNamedStruct.Children, nodeField)
@@ -257,14 +361,25 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 						IsCheckboxDisabled: !isGongStructShapeInDiagram || isTargetGongstructAbsent || stager.embeddedDiagrams || !selected,
 					}
 
-					nodeField.Impl = &LinkFieldNodeProxy{
-						node:            nodeNamedStruct, // Original code had nodeNamedStruct, implies parent
-						stager:          stager,
-						classDiagram:    classDiagram,
-						gongstruct:      gongStruct,
-						gongStructShape: gongStructShape,
-						field:           field,
-						linkShape:       linkShape,
+					nodeField.Impl = &tree.FunctionalNodeProxy{
+						OnUpdate: func(stage *tree.Stage, staged, front *tree.Node) {
+							// intercept update to the node that are when the node is checked
+							if front.IsChecked && !staged.IsChecked {
+								// uncheck all other diagram
+								classDiagram.AddLinkShape(
+									stager.stage,
+									stager.gongStage,
+									gongStruct,
+									field,
+									gongStructShape)
+								stager.stage.Commit()
+							}
+							// the checked node is unchecked
+							if !front.IsChecked && staged.IsChecked {
+								classDiagram.RemoveLinkFieldShape(stager.stage, linkShape, gongStructShape)
+								stager.stage.Commit()
+							}
+						},
 					}
 
 					nodeNamedStruct.Children = append(nodeNamedStruct.Children, nodeField)
@@ -296,13 +411,44 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 				IsExpanded:         isExpanded,
 				IsCheckboxDisabled: stager.embeddedDiagrams || !selected,
 			}
-			node.Impl = &GongEnumNodeProxy{
-				node:          node,
-				stager:        stager,
-				classDiagram:  classDiagram,
-				gongEnum:      gongEnum,
-				gongEnumShape: gongEnumShape,
-				rank:          idx,
+			node.Impl = &tree.FunctionalNodeProxy{
+				OnUpdate: func(stage *tree.Stage, staged, front *tree.Node) {
+
+					// intercept update to the node that are when the node is checked
+					if front.IsChecked && !staged.IsChecked {
+						diagramPackage := getTheDiagramPackage(stager.stage)
+						classDiagram.AddGongEnumShape(stager.stage, diagramPackage, gongEnum.Name)
+
+						stager.stage.Commit()
+					}
+
+					// the checked node is unchecked
+					if !front.IsChecked && staged.IsChecked {
+						classDiagram.RemoveGongEnumShape(stager.stage, gongEnum.Name)
+						stager.stage.Commit()
+					}
+
+					expansionToggled := false
+					currentExpansionStateInDiagram := classDiagram.NodeGongEnumNodeExpansion
+
+					if front.IsExpanded && !staged.IsExpanded {
+						if nodestates.ToggleNodeExpanded(&currentExpansionStateInDiagram, idx) == nil {
+							classDiagram.NodeGongEnumNodeExpansion = currentExpansionStateInDiagram
+							expansionToggled = true
+						}
+					}
+
+					if !front.IsExpanded && staged.IsExpanded {
+						if nodestates.ToggleNodeExpanded(&currentExpansionStateInDiagram, idx) == nil {
+							classDiagram.NodeGongEnumNodeExpansion = currentExpansionStateInDiagram
+							expansionToggled = true
+						}
+					}
+
+					if expansionToggled {
+						stager.stage.Commit()
+					}
+				},
 			}
 			nodeGongEnums.Children = append(nodeGongEnums.Children, node)
 
@@ -315,12 +461,27 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 					IsChecked:          isEnumValueInDiagram,
 					IsCheckboxDisabled: !isEnumInDiagram || stager.embeddedDiagrams || !selected,
 				}
-				nodeEnumValue.Impl = &GongEnumNodeValueProxy{
-					stager:        stager,
-					classDiagram:  classDiagram,
-					gongEnumShape: gongEnumShape,
-					gongEnum:      gongEnum,
-					gongEnumValue: gongEnumValue,
+				nodeEnumValue.Impl = &tree.FunctionalNodeProxy{
+					OnUpdate: func(stage *tree.Stage, staged, front *tree.Node) {
+						// intercept update to the node that are when the node is checked
+						if front.IsChecked && !staged.IsChecked {
+							classDiagram.AddGongEnumValueShapeToDiagram(
+								stager.stage,
+								gongEnumShape,
+								gongEnum,
+								gongEnumValue)
+							stager.stage.Commit()
+						}
+						// the checked node is unchecked
+						if !front.IsChecked && staged.IsChecked {
+							classDiagram.RemoveGongEnumValueShapeFromDiagram(
+								stager.stage,
+								gongEnumShape,
+								gongEnumValue,
+							)
+							stager.stage.Commit()
+						}
+					},
 				}
 				node.Children = append(node.Children, nodeEnumValue)
 			}
@@ -351,13 +512,46 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 				IsExpanded:         noteIsExpanded,
 				IsCheckboxDisabled: stager.embeddedDiagrams || !selected,
 			}
-			gongNoteNode.Impl = &GongNoteNodeProxy{
-				node:          gongNoteNode,
-				stager:        stager,
-				classDiagram:  classDiagram,
-				gongNote:      gongNote,
-				gongNoteShape: gongNoteShape,
-				rank:          idx,
+			gongNoteNode.Impl = &tree.FunctionalNodeProxy{
+				OnUpdate: func(stage *tree.Stage, staged, front *tree.Node) {
+
+					// intercept update to the node that are when the node is checked
+					if front.IsChecked && !staged.IsChecked {
+						diagramPackage := getTheDiagramPackage(stager.stage)
+						classDiagram.AddGongNoteShape(stager.stage, gongNote, diagramPackage, gongNote.Name)
+						stager.stage.Commit()
+					}
+
+					// the checked node is unchecked
+					if !front.IsChecked && staged.IsChecked {
+						classDiagram.RemoveGongNoteShape(stager.stage, gongNote.Name)
+						stager.stage.Commit()
+					}
+
+					// expansionToggled tracks if the user action was an expansion or collapse
+					expansionToggled := false
+					currentExpansionStateInDiagram := classDiagram.NodeGongNoteNodeExpansion // For readability
+
+					// User expanded the node
+					if front.IsExpanded && !staged.IsExpanded {
+						if nodestates.ToggleNodeExpanded(&currentExpansionStateInDiagram, idx) == nil {
+							classDiagram.NodeGongNoteNodeExpansion = currentExpansionStateInDiagram
+							expansionToggled = true
+						}
+					}
+
+					// User collapsed the node
+					if !front.IsExpanded && staged.IsExpanded {
+						if nodestates.ToggleNodeExpanded(&currentExpansionStateInDiagram, idx) == nil {
+							classDiagram.NodeGongNoteNodeExpansion = currentExpansionStateInDiagram
+							expansionToggled = true
+						}
+					}
+
+					if expansionToggled {
+						stager.stage.Commit() // Commit changes to the classDiagram model
+					}
+				},
 			}
 			nodeGongNotes.Children = append(nodeGongNotes.Children, gongNoteNode)
 
