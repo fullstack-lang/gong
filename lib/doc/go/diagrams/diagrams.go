@@ -55,6 +55,12 @@ func _(stage *models.Stage) {
 
 	__DiagramPackage__00000000_ := (&models.DiagramPackage{Name: `Diagram Package created the 2025-05-04T22:53:27Z`}).Stage(stage)
 
+	__GongEnumShape__00000000_ := (&models.GongEnumShape{Name: `Default-ButtonType`}).Stage(stage)
+
+	__GongEnumValueShape__00000000_ := (&models.GongEnumValueShape{Name: `DUPLICATE`}).Stage(stage)
+	__GongEnumValueShape__00000001_ := (&models.GongEnumValueShape{Name: `EDIT_CANCEL`}).Stage(stage)
+	__GongEnumValueShape__00000002_ := (&models.GongEnumValueShape{Name: `EDIT`}).Stage(stage)
+
 	__GongNoteShape__00000000_ := (&models.GongNoteShape{Name: `Default-NoteOnGongdoc`}).Stage(stage)
 
 	__GongStructShape__00000000_ := (&models.GongStructShape{Name: `Default-AttributeShape`}).Stage(stage)
@@ -219,10 +225,10 @@ func _(stage *models.Stage) {
 	__Classdiagram__00000000_.ShowLinkNames = true
 	__Classdiagram__00000000_.IsInRenameMode = false
 	__Classdiagram__00000000_.IsExpanded = true
-	__Classdiagram__00000000_.NodeGongStructsIsExpanded = true
+	__Classdiagram__00000000_.NodeGongStructsIsExpanded = false
 	__Classdiagram__00000000_.NodeGongStructNodeExpansion = `[false,true,false,false,false,false,false,true,true]`
-	__Classdiagram__00000000_.NodeGongEnumsIsExpanded = false
-	__Classdiagram__00000000_.NodeGongEnumNodeExpansion = `[true]`
+	__Classdiagram__00000000_.NodeGongEnumsIsExpanded = true
+	__Classdiagram__00000000_.NodeGongEnumNodeExpansion = `[false]`
 	__Classdiagram__00000000_.NodeGongNotesIsExpanded = false
 	__Classdiagram__00000000_.NodeGongNoteNodeExpansion = `[true]`
 
@@ -260,6 +266,23 @@ func _(stage *models.Stage) {
 	__DiagramPackage__00000000_.Path = ``
 	__DiagramPackage__00000000_.GongModelPath = ``
 	__DiagramPackage__00000000_.AbsolutePathToDiagramPackage = ``
+
+	__GongEnumShape__00000000_.Name = `Default-ButtonType`
+	__GongEnumShape__00000000_.X = 1198.000000
+	__GongEnumShape__00000000_.Y = 57.000000
+	__GongEnumShape__00000000_.IdentifierMeta = new(ref_models.ButtonType)
+	__GongEnumShape__00000000_.Width = 240.000000
+	__GongEnumShape__00000000_.Height = 123.000000
+	__GongEnumShape__00000000_.IsExpanded = false
+
+	__GongEnumValueShape__00000000_.Name = `DUPLICATE`
+	__GongEnumValueShape__00000000_.IdentifierMeta = ref_models.DUPLICATE
+
+	__GongEnumValueShape__00000001_.Name = `EDIT_CANCEL`
+	__GongEnumValueShape__00000001_.IdentifierMeta = ref_models.EDIT_CANCEL
+
+	__GongEnumValueShape__00000002_.Name = `EDIT`
+	__GongEnumValueShape__00000002_.IdentifierMeta = ref_models.EDIT
 
 	__GongNoteShape__00000000_.Name = `Default-NoteOnGongdoc`
 	__GongNoteShape__00000000_.Identifier = `ref_models.NoteOnGongdoc`
@@ -438,6 +461,7 @@ or to <a href="/models#OrientationType">models.OrientationType</a>
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000004_)
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000006_)
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000007_)
+	__Classdiagram__00000000_.GongEnumShapes = append(__Classdiagram__00000000_.GongEnumShapes, __GongEnumShape__00000000_)
 	__Classdiagram__00000000_.GongNoteShapes = append(__Classdiagram__00000000_.GongNoteShapes, __GongNoteShape__00000000_)
 	__Classdiagram__00000002_.GongStructShapes = append(__Classdiagram__00000002_.GongStructShapes, __GongStructShape__00000002_)
 	__Classdiagram__00000002_.GongStructShapes = append(__Classdiagram__00000002_.GongStructShapes, __GongStructShape__00000003_)
@@ -445,6 +469,9 @@ or to <a href="/models#OrientationType">models.OrientationType</a>
 	__DiagramPackage__00000000_.Classdiagrams = append(__DiagramPackage__00000000_.Classdiagrams, __Classdiagram__00000001_)
 	__DiagramPackage__00000000_.Classdiagrams = append(__DiagramPackage__00000000_.Classdiagrams, __Classdiagram__00000002_)
 	__DiagramPackage__00000000_.SelectedClassdiagram = __Classdiagram__00000000_
+	__GongEnumShape__00000000_.GongEnumValueShapes = append(__GongEnumShape__00000000_.GongEnumValueShapes, __GongEnumValueShape__00000000_)
+	__GongEnumShape__00000000_.GongEnumValueShapes = append(__GongEnumShape__00000000_.GongEnumValueShapes, __GongEnumValueShape__00000001_)
+	__GongEnumShape__00000000_.GongEnumValueShapes = append(__GongEnumShape__00000000_.GongEnumValueShapes, __GongEnumValueShape__00000002_)
 	__GongStructShape__00000000_.AttributeShapes = append(__GongStructShape__00000000_.AttributeShapes, __AttributeShape__00000019_)
 	__GongStructShape__00000000_.AttributeShapes = append(__GongStructShape__00000000_.AttributeShapes, __AttributeShape__00000020_)
 	__GongStructShape__00000000_.AttributeShapes = append(__GongStructShape__00000000_.AttributeShapes, __AttributeShape__00000021_)
