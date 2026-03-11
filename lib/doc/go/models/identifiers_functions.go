@@ -44,6 +44,22 @@ func IdentifierMetaToFieldName(fieldMetaIdentifier any) (fieldName string) {
 	return
 }
 
+// IdentifierMetaToFieldName take an ident in the forms
+// "ref_models.Foo{}.Name" and returns "Foo", "Name"
+func IdentifierMetaToStructAndFieldName(fieldMetaIdentifier any) (structname, fieldName string) {
+
+	var fieldMetaIdentifierString string
+	var ok bool
+	if fieldMetaIdentifierString, ok = fieldMetaIdentifier.(string); !ok {
+		return "", ""
+	}
+
+	fielddentifier := strings.ReplaceAll(fieldMetaIdentifierString, "{}", "")
+
+	structname, fieldName = IdentifierToReceiverAndFieldName(fielddentifier)
+	return
+}
+
 // IdentifierToFieldName take an ident in the forms
 // ref_models.Foo{}.Name and returns "Name"
 func GongEnumValueShapeIdentifierMetaToValueName(identifierMeta any) (valueName string) {
@@ -59,6 +75,8 @@ func GongEnumValueShapeIdentifierMetaToValueName(identifierMeta any) (valueName 
 	return
 }
 
+// IdentifierToReceiverAndFieldName take an ident in the forms
+// "ref_models.Foo.Name" and returns "Foo", "Name"
 func IdentifierToReceiverAndFieldName(fieldIdentifier string) (receiver, fieldName string) {
 
 	if !strings.Contains(fieldIdentifier, RefPackagePlusPeriod) {
