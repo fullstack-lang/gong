@@ -53,6 +53,6 @@ func (proxy *ButtonNewClassdiagramProxy) ButtonUpdated(
 
 	diagramPackage.Classdiagrams = append(diagramPackage.Classdiagrams, newClassdiagram)
 
-	stager.UpdateAndCommitTreeStage()
+	stager.tree()
 	stage.Commit()
 }

@@ -58,9 +58,9 @@ func (proxy *ClassDiagramButtonProxy) ButtonUpdated(
 		diagramPackage := getTheDiagramPackage(proxy.stager.stage)
 		diagramPackage.Classdiagrams = append(diagramPackage.Classdiagrams, duplicateDiagram)
 
-		proxy.stager.UpdateAndCommitTreeStage()
-		proxy.stager.UpdateAndCommitFormStage()
-		proxy.stager.UpdateAndCommitSVGStage()
+		proxy.stager.tree()
+		proxy.stager.form()
+		proxy.stager.Svg()
 		proxy.stager.stage.Commit()
 
 	// case EDIT_CANCEL:
@@ -86,28 +86,28 @@ func (proxy *ClassDiagramButtonProxy) ButtonUpdated(
 			diagramPackage.SelectedClassdiagram = nil
 		}
 
-		proxy.stager.UpdateAndCommitTreeStage()
-		proxy.stager.UpdateAndCommitFormStage()
-		proxy.stager.UpdateAndCommitSVGStage()
+		proxy.stager.tree()
+		proxy.stager.form()
+		proxy.stager.Svg()
 		proxy.stager.stage.Commit()
 
 	case RENAME:
 		proxy.classdiagram.IsInRenameMode = true
 
-		proxy.stager.UpdateAndCommitTreeStage()
+		proxy.stager.tree()
 		proxy.stager.stage.Commit()
 
 	case RENAME_CANCEL:
 		proxy.classdiagram.IsInRenameMode = false
 
-		proxy.stager.UpdateAndCommitTreeStage()
+		proxy.stager.tree()
 		proxy.stager.stage.Commit()
 
 	case SAVE:
 		proxy.classdiagram.IsInRenameMode = false
 		proxy.classdiagram.Name = front.GetName()
 
-		proxy.stager.UpdateAndCommitTreeStage()
+		proxy.stager.tree()
 		proxy.stager.stage.Commit()
 
 	}

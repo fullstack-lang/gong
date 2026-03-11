@@ -13,7 +13,7 @@ func (p *toggleButtonProxy) ButtonUpdated(
 
 	*p.toggleValue = !*p.toggleValue
 
-	p.stager.UpdateAndCommitSVGStage()
-	p.stager.UpdateAndCommitTreeStage()
+	p.stager.Svg()
+	p.stager.tree()
 	p.stager.stage.Commit()
 }

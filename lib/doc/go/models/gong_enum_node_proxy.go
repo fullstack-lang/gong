@@ -28,9 +28,9 @@ func (proxy *GongEnumNodeProxy) OnAfterUpdate(
 		diagramPackage := getTheDiagramPackage(proxy.stager.stage)
 		proxy.classDiagram.AddGongEnumShape(proxy.stager.stage, diagramPackage, proxy.gongEnum.Name)
 
-		proxy.stager.UpdateAndCommitTreeStage()
-		proxy.stager.UpdateAndCommitFormStage()
-		proxy.stager.UpdateAndCommitSVGStage()
+		proxy.stager.tree()
+		proxy.stager.form()
+		proxy.stager.Svg()
 		proxy.stager.stage.Commit()
 	}
 
@@ -38,9 +38,9 @@ func (proxy *GongEnumNodeProxy) OnAfterUpdate(
 	if !front.IsChecked && staged.IsChecked {
 		proxy.classDiagram.RemoveGongEnumShape(proxy.stager.stage, proxy.gongEnum.Name)
 
-		proxy.stager.UpdateAndCommitTreeStage()
-		proxy.stager.UpdateAndCommitFormStage()
-		proxy.stager.UpdateAndCommitSVGStage()
+		proxy.stager.tree()
+		proxy.stager.form()
+		proxy.stager.Svg()
 		proxy.stager.stage.Commit()
 	}
 

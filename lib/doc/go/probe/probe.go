@@ -201,7 +201,7 @@ func (probe *Probe) Refresh() {
 	updateAndCommitTree(probe)
 	updateCurrentProbeTable(probe)
 	probe.updateFillUpForm()
-	probe.docStager.UpdateAndCommitSVGStage()
+	probe.docStager.Svg()
 }
 
 const NbNotificationMax = 100

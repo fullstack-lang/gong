@@ -28,9 +28,9 @@ func (proxy *GongStructNodeProxy) OnAfterUpdate(
 		diagramPackage := getTheDiagramPackage(proxy.stager.stage)
 		proxy.classDiagram.AddGongStructShape(proxy.stager.stage, diagramPackage, proxy.gongstruct.Name)
 
-		proxy.stager.UpdateAndCommitTreeStage()
-		proxy.stager.UpdateAndCommitFormStage()
-		proxy.stager.UpdateAndCommitSVGStage()
+		proxy.stager.tree()
+		proxy.stager.form()
+		proxy.stager.Svg()
 		proxy.stager.stage.Commit()
 	}
 
@@ -38,9 +38,9 @@ func (proxy *GongStructNodeProxy) OnAfterUpdate(
 	if !front.IsChecked && staged.IsChecked {
 		proxy.classDiagram.RemoveGongStructShape(proxy.stager.stage, proxy.gongstruct.Name)
 
-		proxy.stager.UpdateAndCommitTreeStage()
-		proxy.stager.UpdateAndCommitFormStage()
-		proxy.stager.UpdateAndCommitSVGStage()
+		proxy.stager.tree()
+		proxy.stager.form()
+		proxy.stager.Svg()
 		proxy.stager.stage.Commit()
 	}
 
