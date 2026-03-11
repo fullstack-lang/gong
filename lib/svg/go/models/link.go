@@ -139,6 +139,20 @@ func (link *Link) generateSegments() []Segment {
 	return segments
 }
 
+type LinkImplProxy struct {
+	OnLinkUpdated func(updatedLink *Link)
+}
+
+func (linkImplProxy *LinkImplProxy) LinkUpdated(updatedLink *Link) {
+	if linkImplProxy.OnLinkUpdated != nil {
+		linkImplProxy.OnLinkUpdated(updatedLink)
+	}
+}
+
+func (linkImplProxy *LinkImplProxy) LinkUpdatedWithMouseEvent(updatedLink *Link, mouseEvent *Gong__MouseEvent) {
+	linkImplProxy.LinkUpdated(updatedLink)
+}
+
 func (link *Link) WriteSVGEndArrow(sb *strings.Builder, segment *Segment) {
 	const ratio = 0.707106781 / 2 // (1/sqrt(2)) / 2
 

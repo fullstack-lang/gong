@@ -65,54 +65,7 @@ func NewStager(
 
 	stager.map_GongStructName_InstancesNb = map_GongStructName_InstancesNb
 
-	// StageBranch will stage on the the first argument
-	// all instances related to the second argument
-	receivingAsSplitArea.AsSplit = &split.AsSplit{
-		Name:      "Root As Split for doc receiving area",
-		Direction: split.Horizontal,
-		AsSplitAreas: []*split.AsSplitArea{
-			{
-				Name:             "AsSplitArea 50% for Slit (Tree & Svg)",
-				ShowNameInHeader: false,
-				AsSplit: (&split.AsSplit{
-					Direction: split.Horizontal,
-					AsSplitAreas: []*split.AsSplitArea{
-						{
-							Size: 25,
-							AsSplit: &split.AsSplit{
-								Direction: split.Vertical,
-								AsSplitAreas: []*split.AsSplitArea{
-									{
-										Name:             "doc Tree",
-										ShowNameInHeader: false,
-										Size:             66,
-										Tree: &split.Tree{
-											StackName: stager.treeStage.GetName(),
-										},
-									},
-									{
-										Name: "temporary form stack",
-										Size: 34,
-										Form: &split.Form{
-											StackName: stager.formStage.GetName(),
-										},
-									},
-								},
-							},
-						},
-						{
-							Name:             "doc SVG",
-							ShowNameInHeader: false,
-							Size:             75,
-							Svg: &split.Svg{
-								StackName: stager.svgStage.GetName(),
-							},
-						},
-					},
-				}),
-			},
-		},
-	}
+	stager.createViews(receivingAsSplitArea)
 
 	// if no diagram package is present, creates one
 	diagramPackages := *GetGongstructInstancesSet[DiagramPackage](stage)
@@ -158,9 +111,19 @@ func NewStager(
 
 	}
 
-	stager.UpdateAndCommitSVGStage()
-	stager.UpdateAndCommitTreeStage()
-	stager.UpdateAndCommitFormStage()
+	beforeCommit := func(stage *Stage) {
+		stager.enforceSemantic()
+	}
+	afterCommit := func(stage *Stage) {
+		stager.tree()
+		stager.Svg()
+		stager.form()
+	}
+
+	stager.stage.RegisterBeforeCommit(beforeCommit)
+	stager.stage.RegisterAfterCommit(afterCommit)
+	beforeCommit(stager.stage)
+	afterCommit(stager.stage)
 
 	return
 }
