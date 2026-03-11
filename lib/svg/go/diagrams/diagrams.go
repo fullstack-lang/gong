@@ -55,18 +55,22 @@ func _(stage *models.Stage) {
 	__AttributeShape__00000027_ := (&models.AttributeShape{Name: `LinkAnchorType`}).Stage(stage)
 	__AttributeShape__00000028_ := (&models.AttributeShape{Name: `X_Offset`}).Stage(stage)
 	__AttributeShape__00000029_ := (&models.AttributeShape{Name: `Y_Offset`}).Stage(stage)
+	__AttributeShape__00000030_ := (&models.AttributeShape{Name: `Type`}).Stage(stage)
 
 	__Classdiagram__00000000_ := (&models.Classdiagram{Name: `Default`}).Stage(stage)
 
 	__DiagramPackage__00000000_ := (&models.DiagramPackage{Name: `Diagram Package created the 2026-01-31T17:53:12Z`}).Stage(stage)
 
 	__GongEnumShape__00000000_ := (&models.GongEnumShape{Name: `Default-AnchorType`}).Stage(stage)
+	__GongEnumShape__00000001_ := (&models.GongEnumShape{Name: `Default-LinkType`}).Stage(stage)
 
 	__GongEnumValueShape__00000000_ := (&models.GongEnumValueShape{Name: `ANCHOR_TOP`}).Stage(stage)
 	__GongEnumValueShape__00000004_ := (&models.GongEnumValueShape{Name: `ANCHOR_BOTTOM`}).Stage(stage)
 	__GongEnumValueShape__00000005_ := (&models.GongEnumValueShape{Name: `ANCHOR_LEFT`}).Stage(stage)
 	__GongEnumValueShape__00000006_ := (&models.GongEnumValueShape{Name: `ANCHOR_RIGHT`}).Stage(stage)
 	__GongEnumValueShape__00000007_ := (&models.GongEnumValueShape{Name: `ANCHOR_CENTER`}).Stage(stage)
+	__GongEnumValueShape__00000008_ := (&models.GongEnumValueShape{Name: `LINK_TYPE_LINE_WITH_CONTROL_POINTS`}).Stage(stage)
+	__GongEnumValueShape__00000009_ := (&models.GongEnumValueShape{Name: `LINK_TYPE_FLOATING_ORTHOGONAL`}).Stage(stage)
 
 	__GongStructShape__00000000_ := (&models.GongStructShape{Name: `Default-SVG`}).Stage(stage)
 	__GongStructShape__00000001_ := (&models.GongStructShape{Name: `Default-Layer`}).Stage(stage)
@@ -270,6 +274,12 @@ func _(stage *models.Stage) {
 	__AttributeShape__00000029_.Structname = `LinkAnchoredText`
 	__AttributeShape__00000029_.Fieldtypename = `float64`
 
+	__AttributeShape__00000030_.Name = `Type`
+	__AttributeShape__00000030_.IdentifierMeta = ref_models.Link{}.Type
+	__AttributeShape__00000030_.FieldTypeAsString = ``
+	__AttributeShape__00000030_.Structname = `Link`
+	__AttributeShape__00000030_.Fieldtypename = `LinkType`
+
 	__Classdiagram__00000000_.Name = `Default`
 	__Classdiagram__00000000_.Description = ``
 	__Classdiagram__00000000_.IsIncludedInStaticWebSite = false
@@ -280,8 +290,8 @@ func _(stage *models.Stage) {
 	__Classdiagram__00000000_.IsExpanded = true
 	__Classdiagram__00000000_.NodeGongStructsIsExpanded = true
 	__Classdiagram__00000000_.NodeGongStructNodeExpansion = `[false,false,false,false,false,false,false,true,true,false,false,false,false,false,false,false,false,false,false]`
-	__Classdiagram__00000000_.NodeGongEnumsIsExpanded = false
-	__Classdiagram__00000000_.NodeGongEnumNodeExpansion = `[true]`
+	__Classdiagram__00000000_.NodeGongEnumsIsExpanded = true
+	__Classdiagram__00000000_.NodeGongEnumNodeExpansion = `[true,false,false,false,false,true]`
 	__Classdiagram__00000000_.NodeGongNotesIsExpanded = false
 	__Classdiagram__00000000_.NodeGongNoteNodeExpansion = ``
 
@@ -298,6 +308,14 @@ func _(stage *models.Stage) {
 	__GongEnumShape__00000000_.Height = 163.000000
 	__GongEnumShape__00000000_.IsExpanded = false
 
+	__GongEnumShape__00000001_.Name = `Default-LinkType`
+	__GongEnumShape__00000001_.X = 1310.000000
+	__GongEnumShape__00000001_.Y = 208.000000
+	__GongEnumShape__00000001_.IdentifierMeta = new(ref_models.LinkType)
+	__GongEnumShape__00000001_.Width = 350.000000
+	__GongEnumShape__00000001_.Height = 103.000000
+	__GongEnumShape__00000001_.IsExpanded = false
+
 	__GongEnumValueShape__00000000_.Name = `ANCHOR_TOP`
 	__GongEnumValueShape__00000000_.IdentifierMeta = ref_models.ANCHOR_TOP
 
@@ -312,6 +330,12 @@ func _(stage *models.Stage) {
 
 	__GongEnumValueShape__00000007_.Name = `ANCHOR_CENTER`
 	__GongEnumValueShape__00000007_.IdentifierMeta = ref_models.ANCHOR_CENTER
+
+	__GongEnumValueShape__00000008_.Name = `LINK_TYPE_LINE_WITH_CONTROL_POINTS`
+	__GongEnumValueShape__00000008_.IdentifierMeta = ref_models.LINK_TYPE_LINE_WITH_CONTROL_POINTS
+
+	__GongEnumValueShape__00000009_.Name = `LINK_TYPE_FLOATING_ORTHOGONAL`
+	__GongEnumValueShape__00000009_.IdentifierMeta = ref_models.LINK_TYPE_FLOATING_ORTHOGONAL
 
 	__GongStructShape__00000000_.Name = `Default-SVG`
 	__GongStructShape__00000000_.X = 58.000000
@@ -330,8 +354,8 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000001_.IsSelected = false
 
 	__GongStructShape__00000006_.Name = `Default-Rect`
-	__GongStructShape__00000006_.X = 971.000000
-	__GongStructShape__00000006_.Y = 318.000000
+	__GongStructShape__00000006_.X = 980.000000
+	__GongStructShape__00000006_.Y = 358.000000
 	__GongStructShape__00000006_.IdentifierMeta = ref_models.Rect{}
 	__GongStructShape__00000006_.Width = 295.000000
 	__GongStructShape__00000006_.Height = 248.000000
@@ -342,28 +366,28 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000007_.Y = 46.000000
 	__GongStructShape__00000007_.IdentifierMeta = ref_models.Link{}
 	__GongStructShape__00000007_.Width = 287.000000
-	__GongStructShape__00000007_.Height = 243.000000
+	__GongStructShape__00000007_.Height = 263.000000
 	__GongStructShape__00000007_.IsSelected = false
 
 	__GongStructShape__00000008_.Name = `Default-RectAnchoredPath`
-	__GongStructShape__00000008_.X = 1483.000000
-	__GongStructShape__00000008_.Y = 507.000000
+	__GongStructShape__00000008_.X = 1492.000000
+	__GongStructShape__00000008_.Y = 547.000000
 	__GongStructShape__00000008_.IdentifierMeta = ref_models.RectAnchoredPath{}
 	__GongStructShape__00000008_.Width = 240.000000
 	__GongStructShape__00000008_.Height = 63.000000
 	__GongStructShape__00000008_.IsSelected = false
 
 	__GongStructShape__00000009_.Name = `Default-RectAnchoredRect`
-	__GongStructShape__00000009_.X = 1479.000000
-	__GongStructShape__00000009_.Y = 411.000000
+	__GongStructShape__00000009_.X = 1488.000000
+	__GongStructShape__00000009_.Y = 451.000000
 	__GongStructShape__00000009_.IdentifierMeta = ref_models.RectAnchoredRect{}
 	__GongStructShape__00000009_.Width = 240.000000
 	__GongStructShape__00000009_.Height = 63.000000
 	__GongStructShape__00000009_.IsSelected = false
 
 	__GongStructShape__00000010_.Name = `Default-RectAnchoredText`
-	__GongStructShape__00000010_.X = 1487.000000
-	__GongStructShape__00000010_.Y = 324.000000
+	__GongStructShape__00000010_.X = 1496.000000
+	__GongStructShape__00000010_.Y = 364.000000
 	__GongStructShape__00000010_.IdentifierMeta = ref_models.RectAnchoredText{}
 	__GongStructShape__00000010_.Width = 240.000000
 	__GongStructShape__00000010_.Height = 63.000000
@@ -577,6 +601,7 @@ func _(stage *models.Stage) {
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000010_)
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000011_)
 	__Classdiagram__00000000_.GongEnumShapes = append(__Classdiagram__00000000_.GongEnumShapes, __GongEnumShape__00000000_)
+	__Classdiagram__00000000_.GongEnumShapes = append(__Classdiagram__00000000_.GongEnumShapes, __GongEnumShape__00000001_)
 	__DiagramPackage__00000000_.Classdiagrams = append(__DiagramPackage__00000000_.Classdiagrams, __Classdiagram__00000000_)
 	__DiagramPackage__00000000_.SelectedClassdiagram = __Classdiagram__00000000_
 	__GongEnumShape__00000000_.GongEnumValueShapes = append(__GongEnumShape__00000000_.GongEnumValueShapes, __GongEnumValueShape__00000000_)
@@ -584,6 +609,8 @@ func _(stage *models.Stage) {
 	__GongEnumShape__00000000_.GongEnumValueShapes = append(__GongEnumShape__00000000_.GongEnumValueShapes, __GongEnumValueShape__00000005_)
 	__GongEnumShape__00000000_.GongEnumValueShapes = append(__GongEnumShape__00000000_.GongEnumValueShapes, __GongEnumValueShape__00000006_)
 	__GongEnumShape__00000000_.GongEnumValueShapes = append(__GongEnumShape__00000000_.GongEnumValueShapes, __GongEnumValueShape__00000007_)
+	__GongEnumShape__00000001_.GongEnumValueShapes = append(__GongEnumShape__00000001_.GongEnumValueShapes, __GongEnumValueShape__00000008_)
+	__GongEnumShape__00000001_.GongEnumValueShapes = append(__GongEnumShape__00000001_.GongEnumValueShapes, __GongEnumValueShape__00000009_)
 	__GongStructShape__00000000_.AttributeShapes = append(__GongStructShape__00000000_.AttributeShapes, __AttributeShape__00000000_)
 	__GongStructShape__00000000_.AttributeShapes = append(__GongStructShape__00000000_.AttributeShapes, __AttributeShape__00000001_)
 	__GongStructShape__00000000_.AttributeShapes = append(__GongStructShape__00000000_.AttributeShapes, __AttributeShape__00000002_)
@@ -606,6 +633,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000006_.LinkShapes = append(__GongStructShape__00000006_.LinkShapes, __LinkShape__00000003_)
 	__GongStructShape__00000006_.LinkShapes = append(__GongStructShape__00000006_.LinkShapes, __LinkShape__00000004_)
 	__GongStructShape__00000006_.LinkShapes = append(__GongStructShape__00000006_.LinkShapes, __LinkShape__00000005_)
+	__GongStructShape__00000007_.AttributeShapes = append(__GongStructShape__00000007_.AttributeShapes, __AttributeShape__00000030_)
 	__GongStructShape__00000007_.AttributeShapes = append(__GongStructShape__00000007_.AttributeShapes, __AttributeShape__00000016_)
 	__GongStructShape__00000007_.AttributeShapes = append(__GongStructShape__00000007_.AttributeShapes, __AttributeShape__00000017_)
 	__GongStructShape__00000007_.AttributeShapes = append(__GongStructShape__00000007_.AttributeShapes, __AttributeShape__00000018_)
