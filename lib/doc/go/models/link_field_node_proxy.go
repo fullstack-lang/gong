@@ -29,9 +29,9 @@ func (proxy *LinkFieldNodeProxy) OnAfterUpdate(
 			proxy.field,
 			proxy.gongStructShape)
 
-		proxy.stager.UpdateAndCommitTreeStage()
-		proxy.stager.UpdateAndCommitFormStage()
-		proxy.stager.UpdateAndCommitSVGStage()
+		proxy.stager.tree()
+		proxy.stager.form()
+		proxy.stager.Svg()
 
 		proxy.stager.stage.Commit()
 	}
@@ -40,9 +40,9 @@ func (proxy *LinkFieldNodeProxy) OnAfterUpdate(
 	if !front.IsChecked && staged.IsChecked {
 		proxy.classDiagram.RemoveLinkFieldShape(proxy.stager.stage, proxy.linkShape, proxy.gongStructShape)
 
-		proxy.stager.UpdateAndCommitTreeStage()
-		proxy.stager.UpdateAndCommitFormStage()
-		proxy.stager.UpdateAndCommitSVGStage()
+		proxy.stager.tree()
+		proxy.stager.form()
+		proxy.stager.Svg()
 
 		proxy.stager.stage.Commit()
 	}

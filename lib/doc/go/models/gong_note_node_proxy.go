@@ -28,9 +28,9 @@ func (proxy *GongNoteNodeProxy) OnAfterUpdate(
 		diagramPackage := getTheDiagramPackage(proxy.stager.stage)
 		proxy.classDiagram.AddGongNoteShape(proxy.stager.stage, proxy.gongNote, diagramPackage, proxy.gongNote.Name)
 
-		proxy.stager.UpdateAndCommitTreeStage()
-		proxy.stager.UpdateAndCommitFormStage()
-		proxy.stager.UpdateAndCommitSVGStage()
+		proxy.stager.tree()
+		proxy.stager.form()
+		proxy.stager.Svg()
 		proxy.stager.stage.Commit()
 	}
 
@@ -38,9 +38,9 @@ func (proxy *GongNoteNodeProxy) OnAfterUpdate(
 	if !front.IsChecked && staged.IsChecked {
 		proxy.classDiagram.RemoveGongNoteShape(proxy.stager.stage, proxy.gongNote.Name)
 
-		proxy.stager.UpdateAndCommitTreeStage()
-		proxy.stager.UpdateAndCommitFormStage()
-		proxy.stager.UpdateAndCommitSVGStage()
+		proxy.stager.tree()
+		proxy.stager.form()
+		proxy.stager.Svg()
 		proxy.stager.stage.Commit()
 	}
 

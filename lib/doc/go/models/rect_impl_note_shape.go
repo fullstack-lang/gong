@@ -44,7 +44,7 @@ func (p *RectImplNoteShape) RectUpdated(updatedRect *gongsvg_models.Rect) {
 		p.noteShape.Y = updatedRect.Y
 		// one need to recomputes the text within the note shape
 		p.stager.stage.CommitWithSuspendedCallbacks()
-		p.stager.UpdateAndCommitSVGStage()
+		p.stager.Svg()
 
 		return
 	}

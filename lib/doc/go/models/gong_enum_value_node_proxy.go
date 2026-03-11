@@ -25,9 +25,9 @@ func (proxy *GongEnumNodeValueProxy) OnAfterUpdate(
 			proxy.gongEnum,
 			proxy.gongEnumValue)
 
-		proxy.stager.UpdateAndCommitTreeStage()
-		proxy.stager.UpdateAndCommitFormStage()
-		proxy.stager.UpdateAndCommitSVGStage()
+		proxy.stager.tree()
+		proxy.stager.form()
+		proxy.stager.Svg()
 
 		proxy.stager.stage.Commit()
 	}
@@ -40,9 +40,9 @@ func (proxy *GongEnumNodeValueProxy) OnAfterUpdate(
 			proxy.gongEnumValue,
 		)
 
-		proxy.stager.UpdateAndCommitTreeStage()
-		proxy.stager.UpdateAndCommitFormStage()
-		proxy.stager.UpdateAndCommitSVGStage()
+		proxy.stager.tree()
+		proxy.stager.form()
+		proxy.stager.Svg()
 
 		proxy.stager.stage.Commit()
 	}

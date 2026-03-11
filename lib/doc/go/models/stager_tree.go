@@ -14,7 +14,7 @@ import (
 	"github.com/fullstack-lang/gong/lib/doc/go/models/nodestates"
 )
 
-func (stager *Stager) UpdateAndCommitTreeStage() {
+func (stager *Stager) tree() {
 
 	stager.treeStage.Reset()
 
