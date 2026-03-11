@@ -198,7 +198,17 @@ func (stager *Stager) Svg() {
 			link := new(svg_models.Link)
 			link.Name = startRect.Name + " - to - " + endRect.Name
 
-			link.Impl = NewLinkImplLink(linkShape, stager.stage)
+			link.Impl = &svg_models.LinkImplProxy{
+				OnLinkUpdated: func(updatedLink *svg_models.Link) {
+					linkShape.StartOrientation = OrientationType(updatedLink.StartOrientation)
+					linkShape.StartRatio = updatedLink.StartRatio
+					linkShape.EndOrientation = OrientationType(updatedLink.EndOrientation)
+					linkShape.EndRatio = updatedLink.EndRatio
+					linkShape.CornerOffsetRatio = updatedLink.CornerOffsetRatio
+
+					stager.stage.CommitWithSuspendedCallbacks()
+				},
+			}
 
 			linkLayer := new(svg_models.Layer)
 
