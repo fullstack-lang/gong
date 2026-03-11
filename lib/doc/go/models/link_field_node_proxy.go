@@ -29,20 +29,12 @@ func (proxy *LinkFieldNodeProxy) OnAfterUpdate(
 			proxy.field,
 			proxy.gongStructShape)
 
-		proxy.stager.tree()
-		proxy.stager.form()
-		proxy.stager.Svg()
-
 		proxy.stager.stage.Commit()
 	}
 
 	// the checked node is unchecked
 	if !front.IsChecked && staged.IsChecked {
 		proxy.classDiagram.RemoveLinkFieldShape(proxy.stager.stage, proxy.linkShape, proxy.gongStructShape)
-
-		proxy.stager.tree()
-		proxy.stager.form()
-		proxy.stager.Svg()
 
 		proxy.stager.stage.Commit()
 	}
