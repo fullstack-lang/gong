@@ -111,9 +111,19 @@ func NewStager(
 
 	}
 
-	stager.Svg()
-	stager.tree()
-	stager.form()
+	beforeCommit := func(stage *Stage) {
+		stager.enforceSemantic()
+	}
+	afterCommit := func(stage *Stage) {
+		stager.tree()
+		stager.Svg()
+		stager.form()
+	}
+
+	stager.stage.RegisterBeforeCommit(beforeCommit)
+	stager.stage.RegisterAfterCommit(afterCommit)
+	beforeCommit(stager.stage)
+	afterCommit(stager.stage)
 
 	return
 }

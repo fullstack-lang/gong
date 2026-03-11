@@ -15,6 +15,7 @@ import (
 )
 
 func (stager *Stager) tree() {
+	log.Println("dod.stager.tree()")
 
 	stager.treeStage.Reset()
 

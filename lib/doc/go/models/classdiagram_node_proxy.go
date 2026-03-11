@@ -19,10 +19,6 @@ func (proxy *ClassDiagramNodeProxy) OnAfterUpdate(
 		diagramPackage := getTheDiagramPackage(proxy.stager.stage)
 		diagramPackage.SelectedClassdiagram = proxy.classDiagram
 
-		proxy.stager.tree()
-		proxy.stager.form()
-		proxy.stager.Svg()
-
 		proxy.stager.stage.Commit()
 	}
 
@@ -30,10 +26,6 @@ func (proxy *ClassDiagramNodeProxy) OnAfterUpdate(
 	if !front.IsChecked && staged.IsChecked {
 		diagramPackage := getTheDiagramPackage(proxy.stager.stage)
 		diagramPackage.SelectedClassdiagram = nil
-
-		proxy.stager.tree()
-		proxy.stager.form()
-		proxy.stager.Svg()
 
 		proxy.stager.stage.Commit()
 	}
@@ -55,7 +47,6 @@ func (proxy *ClassDiagramNodeProxy) OnAfterUpdate(
 		proxy.classDiagram.Name = front.Name
 		proxy.classDiagram.IsInRenameMode = false
 
-		proxy.stager.tree()
 		proxy.stager.stage.Commit()
 	}
 
