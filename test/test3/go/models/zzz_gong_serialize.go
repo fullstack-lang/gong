@@ -6,9 +6,7 @@ import (
 	"crypto/sha256"
 	"encoding/binary"
 	"fmt"
-	"log"
 	"slices"
-	"unicode/utf8"
 
 	"github.com/xuri/excelize/v2"
 )
@@ -53,20 +51,34 @@ func SerializeStage2(stage *Stage, filename string, addIDs bool) {
 	sheetList := f.GetSheetList()
 
 	for _, sheet := range sheetList {
-		// Read all rows of the current sheet
-		rows, err := f.GetRows(sheet)
+		// Use a lazy iterator instead of loading all rows into memory
+		rows, err := f.Rows(sheet)
 		if err != nil {
-			fmt.Printf("failed to get rows for sheet %q: %v\n", sheet, err)
+			fmt.Printf("failed to get rows iterator for sheet %q: %v\n", sheet, err)
 			continue
 		}
 
-		// If there's no data at all, skip this sheet
-		if len(rows) == 0 {
+		// Check if there is at least one row, and move the iterator to it
+		if !rows.Next() {
+			rows.Close() // Always close iterators
 			continue
 		}
 
-		// The first row of the sheet
-		firstRow := rows[0]
+		// Read ONLY the first row
+		firstRow, err := rows.Columns()
+
+		// Close the iterator immediately since we don't need the rest of the sheet
+		rows.Close()
+
+		if err != nil {
+			fmt.Printf("failed to get columns for sheet %q: %v\n", sheet, err)
+			continue
+		}
+
+		// If the first row is completely empty, skip
+		if len(firstRow) == 0 {
+			continue
+		}
 
 		// Track the first and last “used” column in the first row,
 		// so we can later apply an AutoFilter from the first to last used col
@@ -277,25 +289,25 @@ func SerializeExcelizePointerToGongstruct2[Type PointerToGongstruct](stage *Stag
 		}
 	}
 
-	// Autofit all columns according to their text content
-	cols, err := f.GetCols(sheetName)
-	if err != nil {
-		log.Panicln("SerializeExcelize")
-	}
-	for idx, col := range cols {
-		largestWidth := 0
-		for _, rowCell := range col {
-			cellWidth := utf8.RuneCountInString(rowCell) + 2 // + 2 for margin
-			if cellWidth > largestWidth {
-				largestWidth = cellWidth
-			}
-		}
-		name, err := excelize.ColumnNumberToName(idx + 1)
-		if err != nil {
-			log.Panicln("SerializeExcelize")
-		}
-		f.SetColWidth(sheetName, name, name, float64(largestWidth))
-	}
+	// // Autofit all columns according to their text content
+	// cols, err := f.GetCols(sheetName)
+	// if err != nil {
+	// 	log.Panicln("SerializeExcelize")
+	// }
+	// for idx, col := range cols {
+	// 	largestWidth := 0
+	// 	for _, rowCell := range col {
+	// 		cellWidth := utf8.RuneCountInString(rowCell) + 2 // + 2 for margin
+	// 		if cellWidth > largestWidth {
+	// 			largestWidth = cellWidth
+	// 		}
+	// 	}
+	// 	name, err := excelize.ColumnNumberToName(idx + 1)
+	// 	if err != nil {
+	// 		log.Panicln("SerializeExcelize")
+	// 	}
+	// 	f.SetColWidth(sheetName, name, name, float64(largestWidth))
+	// }
 }
 
 func IntToLetters(number int32) (letters string) {
