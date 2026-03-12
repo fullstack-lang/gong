@@ -149,7 +149,6 @@ type Stage struct {
 	// store the stage order of each instance in order to
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
-
 	// end of insertion point
 
 	NamedStructs []*NamedStruct

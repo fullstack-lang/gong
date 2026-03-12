@@ -315,18 +315,6 @@ type Stage struct {
 	// store the stage order of each instance in order to
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
-
-
-
-
-
-
-
-
-
-
-
-
 	// end of insertion point
 
 	NamedStructs []*NamedStruct
@@ -4215,7 +4203,7 @@ func (artefacttypeshape *ArtefactTypeShape) GongGetFieldValue(fieldName string, 
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if artefacttypeshape.ArtefactType != nil {
 			res.valueString = artefacttypeshape.ArtefactType.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, artefacttypeshape.ArtefactType))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(artefacttypeshape.ArtefactType), uint64(GetOrderPointerGongstruct(stage, artefacttypeshape.ArtefactType)))
 		}
 	case "X":
 		res.valueString = fmt.Sprintf("%f", artefacttypeshape.X)
@@ -4256,7 +4244,7 @@ func (artist *Artist) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if artist.Place != nil {
 			res.valueString = artist.Place.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, artist.Place))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(artist.Place), uint64(GetOrderPointerGongstruct(stage, artist.Place)))
 		}
 	}
 	return
@@ -4271,7 +4259,7 @@ func (artistshape *ArtistShape) GongGetFieldValue(fieldName string, stage *Stage
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if artistshape.Artist != nil {
 			res.valueString = artistshape.Artist.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, artistshape.Artist))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(artistshape.Artist), uint64(GetOrderPointerGongstruct(stage, artistshape.Artist)))
 		}
 	case "X":
 		res.valueString = fmt.Sprintf("%f", artistshape.X)
@@ -4327,7 +4315,7 @@ func (desk *Desk) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if desk.SelectedDiagram != nil {
 			res.valueString = desk.SelectedDiagram.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, desk.SelectedDiagram))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(desk.SelectedDiagram), uint64(GetOrderPointerGongstruct(stage, desk.SelectedDiagram)))
 		}
 	}
 	return
@@ -4346,7 +4334,7 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "ArtefactTypeShapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -4356,7 +4344,7 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "ArtistShapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -4366,7 +4354,7 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "InfluenceShapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -4376,7 +4364,7 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "IsEditable":
 		res.valueString = fmt.Sprintf("%t", diagram.IsEditable)
@@ -4632,37 +4620,37 @@ func (influence *Influence) GongGetFieldValue(fieldName string, stage *Stage) (r
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if influence.SourceMovement != nil {
 			res.valueString = influence.SourceMovement.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, influence.SourceMovement))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(influence.SourceMovement), uint64(GetOrderPointerGongstruct(stage, influence.SourceMovement)))
 		}
 	case "SourceArtefactType":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if influence.SourceArtefactType != nil {
 			res.valueString = influence.SourceArtefactType.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, influence.SourceArtefactType))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(influence.SourceArtefactType), uint64(GetOrderPointerGongstruct(stage, influence.SourceArtefactType)))
 		}
 	case "SourceArtist":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if influence.SourceArtist != nil {
 			res.valueString = influence.SourceArtist.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, influence.SourceArtist))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(influence.SourceArtist), uint64(GetOrderPointerGongstruct(stage, influence.SourceArtist)))
 		}
 	case "TargetMovement":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if influence.TargetMovement != nil {
 			res.valueString = influence.TargetMovement.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, influence.TargetMovement))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(influence.TargetMovement), uint64(GetOrderPointerGongstruct(stage, influence.TargetMovement)))
 		}
 	case "TargetArtefactType":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if influence.TargetArtefactType != nil {
 			res.valueString = influence.TargetArtefactType.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, influence.TargetArtefactType))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(influence.TargetArtefactType), uint64(GetOrderPointerGongstruct(stage, influence.TargetArtefactType)))
 		}
 	case "TargetArtist":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if influence.TargetArtist != nil {
 			res.valueString = influence.TargetArtist.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, influence.TargetArtist))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(influence.TargetArtist), uint64(GetOrderPointerGongstruct(stage, influence.TargetArtist)))
 		}
 	case "IsHypothtical":
 		res.valueString = fmt.Sprintf("%t", influence.IsHypothtical)
@@ -4681,7 +4669,7 @@ func (influenceshape *InfluenceShape) GongGetFieldValue(fieldName string, stage 
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if influenceshape.Influence != nil {
 			res.valueString = influenceshape.Influence.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, influenceshape.Influence))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(influenceshape.Influence), uint64(GetOrderPointerGongstruct(stage, influenceshape.Influence)))
 		}
 	case "ControlPointShapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -4691,7 +4679,7 @@ func (influenceshape *InfluenceShape) GongGetFieldValue(fieldName string, stage 
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	}
 	return
@@ -4716,7 +4704,7 @@ func (movement *Movement) GongGetFieldValue(fieldName string, stage *Stage) (res
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "HasTaxonomicFilter":
 		res.valueString = fmt.Sprintf("%t", movement.HasTaxonomicFilter)
@@ -4753,7 +4741,7 @@ func (movementshape *MovementShape) GongGetFieldValue(fieldName string, stage *S
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if movementshape.Movement != nil {
 			res.valueString = movementshape.Movement.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, movementshape.Movement))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(movementshape.Movement), uint64(GetOrderPointerGongstruct(stage, movementshape.Movement)))
 		}
 	case "X":
 		res.valueString = fmt.Sprintf("%f", movementshape.X)

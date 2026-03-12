@@ -213,11 +213,6 @@ type Stage struct {
 	// store the stage order of each instance in order to
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
-
-
-
-
-
 	// end of insertion point
 
 	NamedStructs []*NamedStruct
@@ -2075,13 +2070,13 @@ func (displayselection *DisplaySelection) GongGetFieldValue(fieldName string, st
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if displayselection.XLFile != nil {
 			res.valueString = displayselection.XLFile.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, displayselection.XLFile))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(displayselection.XLFile), uint64(GetOrderPointerGongstruct(stage, displayselection.XLFile)))
 		}
 	case "XLSheet":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if displayselection.XLSheet != nil {
 			res.valueString = displayselection.XLSheet.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, displayselection.XLSheet))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(displayselection.XLSheet), uint64(GetOrderPointerGongstruct(stage, displayselection.XLSheet)))
 		}
 	}
 	return
@@ -2121,7 +2116,7 @@ func (xlfile *XLFile) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	}
 	return
@@ -2144,7 +2139,7 @@ func (xlrow *XLRow) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	}
 	return
@@ -2175,7 +2170,7 @@ func (xlsheet *XLSheet) GongGetFieldValue(fieldName string, stage *Stage) (res G
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "SheetCells":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -2185,7 +2180,7 @@ func (xlsheet *XLSheet) GongGetFieldValue(fieldName string, stage *Stage) (res G
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	}
 	return

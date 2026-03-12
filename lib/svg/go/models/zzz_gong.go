@@ -487,27 +487,6 @@ type Stage struct {
 	// store the stage order of each instance in order to
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	// end of insertion point
 
 	NamedStructs []*NamedStruct
@@ -6937,7 +6916,7 @@ func (circle *Circle) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	}
 	return
@@ -6969,7 +6948,7 @@ func (controlpoint *ControlPoint) GongGetFieldValue(fieldName string, stage *Sta
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if controlpoint.ClosestRect != nil {
 			res.valueString = controlpoint.ClosestRect.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, controlpoint.ClosestRect))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(controlpoint.ClosestRect), uint64(GetOrderPointerGongstruct(stage, controlpoint.ClosestRect)))
 		}
 	}
 	return
@@ -7026,7 +7005,7 @@ func (ellipse *Ellipse) GongGetFieldValue(fieldName string, stage *Stage) (res G
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	}
 	return
@@ -7045,7 +7024,7 @@ func (layer *Layer) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "Texts":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -7055,7 +7034,7 @@ func (layer *Layer) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "Circles":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -7065,7 +7044,7 @@ func (layer *Layer) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "Lines":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -7075,7 +7054,7 @@ func (layer *Layer) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "Ellipses":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -7085,7 +7064,7 @@ func (layer *Layer) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "Polylines":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -7095,7 +7074,7 @@ func (layer *Layer) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "Polygones":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -7105,7 +7084,7 @@ func (layer *Layer) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "Paths":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -7115,7 +7094,7 @@ func (layer *Layer) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "Links":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -7125,7 +7104,7 @@ func (layer *Layer) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "RectLinkLinks":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -7135,7 +7114,7 @@ func (layer *Layer) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	}
 	return
@@ -7192,7 +7171,7 @@ func (line *Line) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "MouseClickX":
 		res.valueString = fmt.Sprintf("%f", line.MouseClickX)
@@ -7222,7 +7201,7 @@ func (link *Link) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if link.Start != nil {
 			res.valueString = link.Start.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, link.Start))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(link.Start), uint64(GetOrderPointerGongstruct(stage, link.Start)))
 		}
 	case "StartAnchorType":
 		enum := link.StartAnchorType
@@ -7231,7 +7210,7 @@ func (link *Link) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if link.End != nil {
 			res.valueString = link.End.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, link.End))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(link.End), uint64(GetOrderPointerGongstruct(stage, link.End)))
 		}
 	case "EndAnchorType":
 		enum := link.EndAnchorType
@@ -7290,7 +7269,7 @@ func (link *Link) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "TextAtArrowEnd":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -7300,7 +7279,7 @@ func (link *Link) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "ControlPoints":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -7310,7 +7289,7 @@ func (link *Link) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "Color":
 		res.valueString = link.Color
@@ -7414,7 +7393,7 @@ func (linkanchoredtext *LinkAnchoredText) GongGetFieldValue(fieldName string, st
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	}
 	return
@@ -7457,7 +7436,7 @@ func (path *Path) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	}
 	return
@@ -7517,7 +7496,7 @@ func (polygone *Polygone) GongGetFieldValue(fieldName string, stage *Stage) (res
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	}
 	return
@@ -7560,7 +7539,7 @@ func (polyline *Polyline) GongGetFieldValue(fieldName string, stage *Stage) (res
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	}
 	return
@@ -7621,7 +7600,7 @@ func (rect *Rect) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "DisplayConditions":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -7631,7 +7610,7 @@ func (rect *Rect) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "Animations":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -7641,7 +7620,7 @@ func (rect *Rect) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "IsSelectable":
 		res.valueString = fmt.Sprintf("%t", rect.IsSelectable)
@@ -7703,7 +7682,7 @@ func (rect *Rect) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "RectAnchoredRects":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -7713,7 +7692,7 @@ func (rect *Rect) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "RectAnchoredPaths":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -7723,7 +7702,7 @@ func (rect *Rect) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "ChangeColorWhenHovered":
 		res.valueString = fmt.Sprintf("%t", rect.ChangeColorWhenHovered)
@@ -7963,7 +7942,7 @@ func (rectanchoredtext *RectAnchoredText) GongGetFieldValue(fieldName string, st
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	}
 	return
@@ -7978,13 +7957,13 @@ func (rectlinklink *RectLinkLink) GongGetFieldValue(fieldName string, stage *Sta
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if rectlinklink.Start != nil {
 			res.valueString = rectlinklink.Start.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, rectlinklink.Start))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(rectlinklink.Start), uint64(GetOrderPointerGongstruct(stage, rectlinklink.Start)))
 		}
 	case "End":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if rectlinklink.End != nil {
 			res.valueString = rectlinklink.End.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, rectlinklink.End))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(rectlinklink.End), uint64(GetOrderPointerGongstruct(stage, rectlinklink.End)))
 		}
 	case "TargetAnchorPosition":
 		res.valueString = fmt.Sprintf("%f", rectlinklink.TargetAnchorPosition)
@@ -8029,7 +8008,7 @@ func (svg *SVG) GongGetFieldValue(fieldName string, stage *Stage) (res GongField
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "DrawingState":
 		enum := svg.DrawingState
@@ -8038,13 +8017,13 @@ func (svg *SVG) GongGetFieldValue(fieldName string, stage *Stage) (res GongField
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if svg.StartRect != nil {
 			res.valueString = svg.StartRect.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, svg.StartRect))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(svg.StartRect), uint64(GetOrderPointerGongstruct(stage, svg.StartRect)))
 		}
 	case "EndRect":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if svg.EndRect != nil {
 			res.valueString = svg.EndRect.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, svg.EndRect))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(svg.EndRect), uint64(GetOrderPointerGongstruct(stage, svg.EndRect)))
 		}
 	case "IsEditable":
 		res.valueString = fmt.Sprintf("%t", svg.IsEditable)
@@ -8153,7 +8132,7 @@ func (text *Text) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	}
 	return

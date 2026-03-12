@@ -277,15 +277,6 @@ type Stage struct {
 	// store the stage order of each instance in order to
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
-
-
-
-
-
-
-
-
-
 	// end of insertion point
 
 	NamedStructs []*NamedStruct
@@ -3177,7 +3168,7 @@ func (classdiagram *Classdiagram) GongGetFieldValue(fieldName string, stage *Sta
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "GongEnumShapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -3187,7 +3178,7 @@ func (classdiagram *Classdiagram) GongGetFieldValue(fieldName string, stage *Sta
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "GongNoteShapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -3197,7 +3188,7 @@ func (classdiagram *Classdiagram) GongGetFieldValue(fieldName string, stage *Sta
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "ShowNbInstances":
 		res.valueString = fmt.Sprintf("%t", classdiagram.ShowNbInstances)
@@ -3258,13 +3249,13 @@ func (diagrampackage *DiagramPackage) GongGetFieldValue(fieldName string, stage 
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "SelectedClassdiagram":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if diagrampackage.SelectedClassdiagram != nil {
 			res.valueString = diagrampackage.SelectedClassdiagram.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, diagrampackage.SelectedClassdiagram))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(diagrampackage.SelectedClassdiagram), uint64(GetOrderPointerGongstruct(stage, diagrampackage.SelectedClassdiagram)))
 		}
 	case "AbsolutePathToDiagramPackage":
 		res.valueString = diagrampackage.AbsolutePathToDiagramPackage
@@ -3293,7 +3284,7 @@ func (gongenumshape *GongEnumShape) GongGetFieldValue(fieldName string, stage *S
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "Width":
 		res.valueString = fmt.Sprintf("%f", gongenumshape.Width)
@@ -3373,7 +3364,7 @@ func (gongnoteshape *GongNoteShape) GongGetFieldValue(fieldName string, stage *S
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "IsExpanded":
 		res.valueString = fmt.Sprintf("%t", gongnoteshape.IsExpanded)
@@ -3404,7 +3395,7 @@ func (gongstructshape *GongStructShape) GongGetFieldValue(fieldName string, stag
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "LinkShapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -3414,7 +3405,7 @@ func (gongstructshape *GongStructShape) GongGetFieldValue(fieldName string, stag
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "Width":
 		res.valueString = fmt.Sprintf("%f", gongstructshape.Width)
