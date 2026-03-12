@@ -405,25 +405,6 @@ type Stage struct {
 	// store the stage order of each instance in order to
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	// end of insertion point
 
 	NamedStructs []*NamedStruct
@@ -5204,7 +5185,7 @@ func (assplit *AsSplit) GongGetFieldValue(fieldName string, stage *Stage) (res G
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	}
 	return
@@ -5231,79 +5212,79 @@ func (assplitarea *AsSplitArea) GongGetFieldValue(fieldName string, stage *Stage
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if assplitarea.AsSplit != nil {
 			res.valueString = assplitarea.AsSplit.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, assplitarea.AsSplit))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(assplitarea.AsSplit), uint64(GetOrderPointerGongstruct(stage, assplitarea.AsSplit)))
 		}
 	case "Button":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if assplitarea.Button != nil {
 			res.valueString = assplitarea.Button.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, assplitarea.Button))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(assplitarea.Button), uint64(GetOrderPointerGongstruct(stage, assplitarea.Button)))
 		}
 	case "Cursor":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if assplitarea.Cursor != nil {
 			res.valueString = assplitarea.Cursor.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, assplitarea.Cursor))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(assplitarea.Cursor), uint64(GetOrderPointerGongstruct(stage, assplitarea.Cursor)))
 		}
 	case "Form":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if assplitarea.Form != nil {
 			res.valueString = assplitarea.Form.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, assplitarea.Form))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(assplitarea.Form), uint64(GetOrderPointerGongstruct(stage, assplitarea.Form)))
 		}
 	case "Load":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if assplitarea.Load != nil {
 			res.valueString = assplitarea.Load.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, assplitarea.Load))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(assplitarea.Load), uint64(GetOrderPointerGongstruct(stage, assplitarea.Load)))
 		}
 	case "Markdown":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if assplitarea.Markdown != nil {
 			res.valueString = assplitarea.Markdown.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, assplitarea.Markdown))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(assplitarea.Markdown), uint64(GetOrderPointerGongstruct(stage, assplitarea.Markdown)))
 		}
 	case "Slider":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if assplitarea.Slider != nil {
 			res.valueString = assplitarea.Slider.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, assplitarea.Slider))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(assplitarea.Slider), uint64(GetOrderPointerGongstruct(stage, assplitarea.Slider)))
 		}
 	case "Split":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if assplitarea.Split != nil {
 			res.valueString = assplitarea.Split.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, assplitarea.Split))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(assplitarea.Split), uint64(GetOrderPointerGongstruct(stage, assplitarea.Split)))
 		}
 	case "Svg":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if assplitarea.Svg != nil {
 			res.valueString = assplitarea.Svg.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, assplitarea.Svg))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(assplitarea.Svg), uint64(GetOrderPointerGongstruct(stage, assplitarea.Svg)))
 		}
 	case "Table":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if assplitarea.Table != nil {
 			res.valueString = assplitarea.Table.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, assplitarea.Table))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(assplitarea.Table), uint64(GetOrderPointerGongstruct(stage, assplitarea.Table)))
 		}
 	case "Tone":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if assplitarea.Tone != nil {
 			res.valueString = assplitarea.Tone.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, assplitarea.Tone))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(assplitarea.Tone), uint64(GetOrderPointerGongstruct(stage, assplitarea.Tone)))
 		}
 	case "Tree":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if assplitarea.Tree != nil {
 			res.valueString = assplitarea.Tree.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, assplitarea.Tree))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(assplitarea.Tree), uint64(GetOrderPointerGongstruct(stage, assplitarea.Tree)))
 		}
 	case "Xlsx":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if assplitarea.Xlsx != nil {
 			res.valueString = assplitarea.Xlsx.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, assplitarea.Xlsx))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(assplitarea.Xlsx), uint64(GetOrderPointerGongstruct(stage, assplitarea.Xlsx)))
 		}
 	case "HasDiv":
 		res.valueString = fmt.Sprintf("%t", assplitarea.HasDiv)
@@ -5515,7 +5496,7 @@ func (view *View) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "IsSelectedView":
 		res.valueString = fmt.Sprintf("%t", view.IsSelectedView)

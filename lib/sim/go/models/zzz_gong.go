@@ -219,12 +219,6 @@ type Stage struct {
 	// store the stage order of each instance in order to
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
-
-
-
-
-
-
 	// end of insertion point
 
 	NamedStructs []*NamedStruct
@@ -2225,7 +2219,7 @@ func (command *Command) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if command.Engine != nil {
 			res.valueString = command.Engine.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, command.Engine))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(command.Engine), uint64(GetOrderPointerGongstruct(stage, command.Engine)))
 		}
 	}
 	return

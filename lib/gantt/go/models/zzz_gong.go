@@ -247,13 +247,6 @@ type Stage struct {
 	// store the stage order of each instance in order to
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
-
-
-
-
-
-
-
 	// end of insertion point
 
 	NamedStructs []*NamedStruct
@@ -2679,13 +2672,13 @@ func (arrow *Arrow) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if arrow.From != nil {
 			res.valueString = arrow.From.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, arrow.From))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(arrow.From), uint64(GetOrderPointerGongstruct(stage, arrow.From)))
 		}
 	case "To":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if arrow.To != nil {
 			res.valueString = arrow.To.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, arrow.To))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(arrow.To), uint64(GetOrderPointerGongstruct(stage, arrow.To)))
 		}
 	case "OptionnalColor":
 		res.valueString = arrow.OptionnalColor
@@ -2893,7 +2886,7 @@ func (gantt *Gantt) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "Milestones":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -2903,7 +2896,7 @@ func (gantt *Gantt) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "Groups":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -2913,7 +2906,7 @@ func (gantt *Gantt) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "Arrows":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -2923,7 +2916,7 @@ func (gantt *Gantt) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	}
 	return
@@ -2942,7 +2935,7 @@ func (group *Group) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	}
 	return
@@ -2965,7 +2958,7 @@ func (lane *Lane) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	}
 	return
@@ -2980,7 +2973,7 @@ func (laneuse *LaneUse) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if laneuse.Lane != nil {
 			res.valueString = laneuse.Lane.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, laneuse.Lane))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(laneuse.Lane), uint64(GetOrderPointerGongstruct(stage, laneuse.Lane)))
 		}
 	}
 	return
@@ -3005,7 +2998,7 @@ func (milestone *Milestone) GongGetFieldValue(fieldName string, stage *Stage) (r
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	}
 	return

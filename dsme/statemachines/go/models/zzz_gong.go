@@ -373,21 +373,6 @@ type Stage struct {
 	// store the stage order of each instance in order to
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	// end of insertion point
 
 	NamedStructs []*NamedStruct
@@ -4627,7 +4612,7 @@ func (architecture *Architecture) GongGetFieldValue(fieldName string, stage *Sta
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "Roles":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -4637,7 +4622,7 @@ func (architecture *Architecture) GongGetFieldValue(fieldName string, stage *Sta
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "NbPixPerCharacter":
 		res.valueString = fmt.Sprintf("%f", architecture.NbPixPerCharacter)
@@ -4676,7 +4661,7 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "Transition_Shapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -4686,7 +4671,7 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	}
 	return
@@ -4723,13 +4708,13 @@ func (message *Message) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if message.MessageType != nil {
 			res.valueString = message.MessageType.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, message.MessageType))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(message.MessageType), uint64(GetOrderPointerGongstruct(stage, message.MessageType)))
 		}
 	case "OriginTransition":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if message.OriginTransition != nil {
 			res.valueString = message.OriginTransition.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, message.OriginTransition))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(message.OriginTransition), uint64(GetOrderPointerGongstruct(stage, message.OriginTransition)))
 		}
 	}
 	return
@@ -4755,7 +4740,7 @@ func (object *Object) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if object.State != nil {
 			res.valueString = object.State.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, object.State))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(object.State), uint64(GetOrderPointerGongstruct(stage, object.State)))
 		}
 	case "IsSelected":
 		res.valueString = fmt.Sprintf("%t", object.IsSelected)
@@ -4775,7 +4760,7 @@ func (object *Object) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	}
 	return
@@ -4796,7 +4781,7 @@ func (role *Role) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	}
 	return
@@ -4811,7 +4796,7 @@ func (state *State) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if state.Parent != nil {
 			res.valueString = state.Parent.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, state.Parent))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(state.Parent), uint64(GetOrderPointerGongstruct(stage, state.Parent)))
 		}
 	case "IsDecisionNode":
 		res.valueString = fmt.Sprintf("%t", state.IsDecisionNode)
@@ -4833,7 +4818,7 @@ func (state *State) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "Diagrams":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -4843,13 +4828,13 @@ func (state *State) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "Entry":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if state.Entry != nil {
 			res.valueString = state.Entry.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, state.Entry))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(state.Entry), uint64(GetOrderPointerGongstruct(stage, state.Entry)))
 		}
 	case "Activities":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -4859,13 +4844,13 @@ func (state *State) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "Exit":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if state.Exit != nil {
 			res.valueString = state.Exit.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, state.Exit))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(state.Exit), uint64(GetOrderPointerGongstruct(stage, state.Exit)))
 		}
 	}
 	return
@@ -4888,7 +4873,7 @@ func (statemachine *StateMachine) GongGetFieldValue(fieldName string, stage *Sta
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "Diagrams":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -4898,13 +4883,13 @@ func (statemachine *StateMachine) GongGetFieldValue(fieldName string, stage *Sta
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "InitialState":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if statemachine.InitialState != nil {
 			res.valueString = statemachine.InitialState.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, statemachine.InitialState))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(statemachine.InitialState), uint64(GetOrderPointerGongstruct(stage, statemachine.InitialState)))
 		}
 	}
 	return
@@ -4919,7 +4904,7 @@ func (stateshape *StateShape) GongGetFieldValue(fieldName string, stage *Stage) 
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if stateshape.State != nil {
 			res.valueString = stateshape.State.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, stateshape.State))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(stateshape.State), uint64(GetOrderPointerGongstruct(stage, stateshape.State)))
 		}
 	case "IsExpanded":
 		res.valueString = fmt.Sprintf("%t", stateshape.IsExpanded)
@@ -4954,13 +4939,13 @@ func (transition *Transition) GongGetFieldValue(fieldName string, stage *Stage) 
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if transition.Start != nil {
 			res.valueString = transition.Start.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, transition.Start))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(transition.Start), uint64(GetOrderPointerGongstruct(stage, transition.Start)))
 		}
 	case "End":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if transition.End != nil {
 			res.valueString = transition.End.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, transition.End))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(transition.End), uint64(GetOrderPointerGongstruct(stage, transition.End)))
 		}
 	case "RolesWithPermissions":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -4970,7 +4955,7 @@ func (transition *Transition) GongGetFieldValue(fieldName string, stage *Stage) 
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "GeneratedMessages":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -4980,13 +4965,13 @@ func (transition *Transition) GongGetFieldValue(fieldName string, stage *Stage) 
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "Guard":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if transition.Guard != nil {
 			res.valueString = transition.Guard.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, transition.Guard))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(transition.Guard), uint64(GetOrderPointerGongstruct(stage, transition.Guard)))
 		}
 	case "Diagrams":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -4996,7 +4981,7 @@ func (transition *Transition) GongGetFieldValue(fieldName string, stage *Stage) 
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	}
 	return
@@ -5011,7 +4996,7 @@ func (transition_shape *Transition_Shape) GongGetFieldValue(fieldName string, st
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if transition_shape.Transition != nil {
 			res.valueString = transition_shape.Transition.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, transition_shape.Transition))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(transition_shape.Transition), uint64(GetOrderPointerGongstruct(stage, transition_shape.Transition)))
 		}
 	case "StartRatio":
 		res.valueString = fmt.Sprintf("%f", transition_shape.StartRatio)
