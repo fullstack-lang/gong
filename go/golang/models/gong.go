@@ -340,8 +340,7 @@ func ({{structname}} *{{Structname}}) SetName(name string) {
 			// Initialisation of associations{{associationFieldInitialization}}
 		}).(*Type)`,
 
-	ModelGongOrderFields: `
-`,
+	ModelGongOrderFields: ``,
 
 	ModelGongOrderMapsInit: `
 		{{Structname}}_stagedOrder: make(map[*{{Structname}}]uint),
@@ -589,7 +588,7 @@ map[GongFilePerStructSubTemplateId]string{
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if {{structname}}.{{FieldName}} != nil {
 			res.valueString = {{structname}}.{{FieldName}}.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, {{structname}}.{{FieldName}}))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer({{structname}}.{{FieldName}}), uint64(GetOrderPointerGongstruct(stage, {{structname}}.{{FieldName}})))
 		}`,
 	GongFileFieldSubTmplStringValueSliceOfPointersField: `
 	case "{{FieldName}}":
@@ -600,7 +599,7 @@ map[GongFilePerStructSubTemplateId]string{
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}`,
 
 	GongFileFieldSubTmplSetBasicString: `

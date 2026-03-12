@@ -112,7 +112,7 @@ type Stage struct {
 	A_stagedOrder     map[*A]uint
 	As_reference      map[*A]*A
 	As_referenceOrder map[*A]uint
-
+	
 	// insertion point for slice of pointers maps
 	A_Bs_reverseMap map[*B]*A
 
@@ -128,7 +128,7 @@ type Stage struct {
 	B_stagedOrder     map[*B]uint
 	Bs_reference      map[*B]*B
 	Bs_referenceOrder map[*B]uint
-
+	
 	// insertion point for slice of pointers maps
 	OnAfterBCreateCallback OnAfterCreateInterface[B]
 	OnAfterBUpdateCallback OnAfterUpdateInterface[B]
@@ -165,7 +165,6 @@ type Stage struct {
 	// store the stage order of each instance in order to
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
-
 	// end of insertion point
 
 	NamedStructs []*NamedStruct
@@ -1440,7 +1439,7 @@ func (a *A) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValu
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if a.B != nil {
 			res.valueString = a.B.Name
-			res.ids = fmt.Sprintf("%d", GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(a.B), uint64(GetOrderPointerGongstruct(stage, a.B))))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(a.B), uint64(GetOrderPointerGongstruct(stage, a.B)))
 		}
 	case "Bs":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -1450,7 +1449,7 @@ func (a *A) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValu
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__))))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	}
 	return
