@@ -70,6 +70,7 @@ func onUpdateElementInDiagram[
 			element.SetName(frontNode.Name)
 			element.SetIsInRenameMode(false)
 			stager.stage.Commit()
+			stager.probeForm.FillUpFormFromGongstruct(element, GetPointerToGongstructName[AT]())
 			return
 		}
 
