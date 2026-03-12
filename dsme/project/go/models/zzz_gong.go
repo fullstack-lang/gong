@@ -483,26 +483,6 @@ type Stage struct {
 	// store the stage order of each instance in order to
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	// end of insertion point
 
 	NamedStructs []*NamedStruct
@@ -6556,7 +6536,7 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "ProductsWhoseNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -6566,7 +6546,7 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "IsPBSNodeExpanded":
 		res.valueString = fmt.Sprintf("%t", diagram.IsPBSNodeExpanded)
@@ -6580,7 +6560,7 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "IsWBSNodeExpanded":
 		res.valueString = fmt.Sprintf("%t", diagram.IsWBSNodeExpanded)
@@ -6594,7 +6574,7 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "TasksWhoseNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -6604,7 +6584,7 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "TasksWhoseInputNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -6614,7 +6594,7 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "TasksWhoseOutputNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -6624,7 +6604,7 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "TaskComposition_Shapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -6634,7 +6614,7 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "TaskInputShapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -6644,7 +6624,7 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "TaskOutputShapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -6654,7 +6634,7 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "Note_Shapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -6664,7 +6644,7 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "NotesWhoseNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -6674,7 +6654,7 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "IsNotesNodeExpanded":
 		res.valueString = fmt.Sprintf("%t", diagram.IsNotesNodeExpanded)
@@ -6688,7 +6668,7 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "NoteTaskShapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -6698,7 +6678,7 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "NoteResourceShapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -6708,7 +6688,7 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "Resource_Shapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -6718,7 +6698,7 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "ResourcesWhoseNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -6728,7 +6708,7 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "IsResourcesNodeExpanded":
 		res.valueString = fmt.Sprintf("%t", diagram.IsResourcesNodeExpanded)
@@ -6742,7 +6722,7 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "ResourceTaskShapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -6752,7 +6732,7 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	}
 	return
@@ -6771,7 +6751,7 @@ func (note *Note) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "Tasks":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -6781,7 +6761,7 @@ func (note *Note) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "Resources":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -6791,7 +6771,7 @@ func (note *Note) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "IsExpanded":
 		res.valueString = fmt.Sprintf("%t", note.IsExpanded)
@@ -6816,13 +6796,13 @@ func (noteproductshape *NoteProductShape) GongGetFieldValue(fieldName string, st
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if noteproductshape.Note != nil {
 			res.valueString = noteproductshape.Note.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, noteproductshape.Note))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(noteproductshape.Note), uint64(GetOrderPointerGongstruct(stage, noteproductshape.Note)))
 		}
 	case "Product":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if noteproductshape.Product != nil {
 			res.valueString = noteproductshape.Product.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, noteproductshape.Product))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(noteproductshape.Product), uint64(GetOrderPointerGongstruct(stage, noteproductshape.Product)))
 		}
 	case "StartRatio":
 		res.valueString = fmt.Sprintf("%f", noteproductshape.StartRatio)
@@ -6855,13 +6835,13 @@ func (noteresourceshape *NoteResourceShape) GongGetFieldValue(fieldName string, 
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if noteresourceshape.Note != nil {
 			res.valueString = noteresourceshape.Note.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, noteresourceshape.Note))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(noteresourceshape.Note), uint64(GetOrderPointerGongstruct(stage, noteresourceshape.Note)))
 		}
 	case "Resource":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if noteresourceshape.Resource != nil {
 			res.valueString = noteresourceshape.Resource.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, noteresourceshape.Resource))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(noteresourceshape.Resource), uint64(GetOrderPointerGongstruct(stage, noteresourceshape.Resource)))
 		}
 	case "StartRatio":
 		res.valueString = fmt.Sprintf("%f", noteresourceshape.StartRatio)
@@ -6894,7 +6874,7 @@ func (noteshape *NoteShape) GongGetFieldValue(fieldName string, stage *Stage) (r
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if noteshape.Note != nil {
 			res.valueString = noteshape.Note.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, noteshape.Note))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(noteshape.Note), uint64(GetOrderPointerGongstruct(stage, noteshape.Note)))
 		}
 	case "IsExpanded":
 		res.valueString = fmt.Sprintf("%t", noteshape.IsExpanded)
@@ -6933,13 +6913,13 @@ func (notetaskshape *NoteTaskShape) GongGetFieldValue(fieldName string, stage *S
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if notetaskshape.Note != nil {
 			res.valueString = notetaskshape.Note.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, notetaskshape.Note))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(notetaskshape.Note), uint64(GetOrderPointerGongstruct(stage, notetaskshape.Note)))
 		}
 	case "Task":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if notetaskshape.Task != nil {
 			res.valueString = notetaskshape.Task.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, notetaskshape.Task))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(notetaskshape.Task), uint64(GetOrderPointerGongstruct(stage, notetaskshape.Task)))
 		}
 	case "StartRatio":
 		res.valueString = fmt.Sprintf("%f", notetaskshape.StartRatio)
@@ -6978,7 +6958,7 @@ func (product *Product) GongGetFieldValue(fieldName string, stage *Stage) (res G
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "IsExpanded":
 		res.valueString = fmt.Sprintf("%t", product.IsExpanded)
@@ -7011,7 +6991,7 @@ func (productcompositionshape *ProductCompositionShape) GongGetFieldValue(fieldN
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if productcompositionshape.Product != nil {
 			res.valueString = productcompositionshape.Product.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, productcompositionshape.Product))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(productcompositionshape.Product), uint64(GetOrderPointerGongstruct(stage, productcompositionshape.Product)))
 		}
 	case "StartRatio":
 		res.valueString = fmt.Sprintf("%f", productcompositionshape.StartRatio)
@@ -7044,7 +7024,7 @@ func (productshape *ProductShape) GongGetFieldValue(fieldName string, stage *Sta
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if productshape.Product != nil {
 			res.valueString = productshape.Product.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, productshape.Product))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(productshape.Product), uint64(GetOrderPointerGongstruct(stage, productshape.Product)))
 		}
 	case "IsExpanded":
 		res.valueString = fmt.Sprintf("%t", productshape.IsExpanded)
@@ -7087,7 +7067,7 @@ func (project *Project) GongGetFieldValue(fieldName string, stage *Stage) (res G
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "RootTasks":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -7097,7 +7077,7 @@ func (project *Project) GongGetFieldValue(fieldName string, stage *Stage) (res G
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "RootResources":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -7107,7 +7087,7 @@ func (project *Project) GongGetFieldValue(fieldName string, stage *Stage) (res G
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "Notes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -7117,7 +7097,7 @@ func (project *Project) GongGetFieldValue(fieldName string, stage *Stage) (res G
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "Diagrams":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -7127,7 +7107,7 @@ func (project *Project) GongGetFieldValue(fieldName string, stage *Stage) (res G
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "IsExpanded":
 		res.valueString = fmt.Sprintf("%t", project.IsExpanded)
@@ -7158,7 +7138,7 @@ func (resource *Resource) GongGetFieldValue(fieldName string, stage *Stage) (res
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "SubResources":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -7168,7 +7148,7 @@ func (resource *Resource) GongGetFieldValue(fieldName string, stage *Stage) (res
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "IsExpanded":
 		res.valueString = fmt.Sprintf("%t", resource.IsExpanded)
@@ -7193,7 +7173,7 @@ func (resourcecompositionshape *ResourceCompositionShape) GongGetFieldValue(fiel
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if resourcecompositionshape.Resource != nil {
 			res.valueString = resourcecompositionshape.Resource.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, resourcecompositionshape.Resource))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(resourcecompositionshape.Resource), uint64(GetOrderPointerGongstruct(stage, resourcecompositionshape.Resource)))
 		}
 	case "StartRatio":
 		res.valueString = fmt.Sprintf("%f", resourcecompositionshape.StartRatio)
@@ -7226,7 +7206,7 @@ func (resourceshape *ResourceShape) GongGetFieldValue(fieldName string, stage *S
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if resourceshape.Resource != nil {
 			res.valueString = resourceshape.Resource.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, resourceshape.Resource))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(resourceshape.Resource), uint64(GetOrderPointerGongstruct(stage, resourceshape.Resource)))
 		}
 	case "IsExpanded":
 		res.valueString = fmt.Sprintf("%t", resourceshape.IsExpanded)
@@ -7265,13 +7245,13 @@ func (resourcetaskshape *ResourceTaskShape) GongGetFieldValue(fieldName string, 
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if resourcetaskshape.Resource != nil {
 			res.valueString = resourcetaskshape.Resource.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, resourcetaskshape.Resource))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(resourcetaskshape.Resource), uint64(GetOrderPointerGongstruct(stage, resourcetaskshape.Resource)))
 		}
 	case "Task":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if resourcetaskshape.Task != nil {
 			res.valueString = resourcetaskshape.Task.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, resourcetaskshape.Task))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(resourcetaskshape.Task), uint64(GetOrderPointerGongstruct(stage, resourcetaskshape.Task)))
 		}
 	case "StartRatio":
 		res.valueString = fmt.Sprintf("%f", resourcetaskshape.StartRatio)
@@ -7308,7 +7288,7 @@ func (root *Root) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "NbPixPerCharacter":
 		res.valueString = fmt.Sprintf("%f", root.NbPixPerCharacter)
@@ -7337,7 +7317,7 @@ func (task *Task) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "IsExpanded":
 		res.valueString = fmt.Sprintf("%t", task.IsExpanded)
@@ -7357,7 +7337,7 @@ func (task *Task) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "IsInputsNodeExpanded":
 		res.valueString = fmt.Sprintf("%t", task.IsInputsNodeExpanded)
@@ -7371,7 +7351,7 @@ func (task *Task) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "IsOutputsNodeExpanded":
 		res.valueString = fmt.Sprintf("%t", task.IsOutputsNodeExpanded)
@@ -7397,7 +7377,7 @@ func (taskcompositionshape *TaskCompositionShape) GongGetFieldValue(fieldName st
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if taskcompositionshape.Task != nil {
 			res.valueString = taskcompositionshape.Task.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, taskcompositionshape.Task))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(taskcompositionshape.Task), uint64(GetOrderPointerGongstruct(stage, taskcompositionshape.Task)))
 		}
 	case "StartRatio":
 		res.valueString = fmt.Sprintf("%f", taskcompositionshape.StartRatio)
@@ -7430,13 +7410,13 @@ func (taskinputshape *TaskInputShape) GongGetFieldValue(fieldName string, stage 
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if taskinputshape.Product != nil {
 			res.valueString = taskinputshape.Product.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, taskinputshape.Product))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(taskinputshape.Product), uint64(GetOrderPointerGongstruct(stage, taskinputshape.Product)))
 		}
 	case "Task":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if taskinputshape.Task != nil {
 			res.valueString = taskinputshape.Task.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, taskinputshape.Task))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(taskinputshape.Task), uint64(GetOrderPointerGongstruct(stage, taskinputshape.Task)))
 		}
 	case "StartRatio":
 		res.valueString = fmt.Sprintf("%f", taskinputshape.StartRatio)
@@ -7469,13 +7449,13 @@ func (taskoutputshape *TaskOutputShape) GongGetFieldValue(fieldName string, stag
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if taskoutputshape.Task != nil {
 			res.valueString = taskoutputshape.Task.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, taskoutputshape.Task))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(taskoutputshape.Task), uint64(GetOrderPointerGongstruct(stage, taskoutputshape.Task)))
 		}
 	case "Product":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if taskoutputshape.Product != nil {
 			res.valueString = taskoutputshape.Product.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, taskoutputshape.Product))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(taskoutputshape.Product), uint64(GetOrderPointerGongstruct(stage, taskoutputshape.Product)))
 		}
 	case "StartRatio":
 		res.valueString = fmt.Sprintf("%f", taskoutputshape.StartRatio)
@@ -7508,7 +7488,7 @@ func (taskshape *TaskShape) GongGetFieldValue(fieldName string, stage *Stage) (r
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if taskshape.Task != nil {
 			res.valueString = taskshape.Task.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, taskshape.Task))
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(taskshape.Task), uint64(GetOrderPointerGongstruct(stage, taskshape.Task)))
 		}
 	case "IsExpanded":
 		res.valueString = fmt.Sprintf("%t", taskshape.IsExpanded)

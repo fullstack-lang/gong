@@ -213,11 +213,6 @@ type Stage struct {
 	// store the stage order of each instance in order to
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
-
-
-
-
-
 	// end of insertion point
 
 	NamedStructs []*NamedStruct
@@ -2113,7 +2108,7 @@ func (group *Group) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "NbColumns":
 		res.valueString = fmt.Sprintf("%d", group.NbColumns)
@@ -2140,7 +2135,7 @@ func (grouptoogle *GroupToogle) GongGetFieldValue(fieldName string, stage *Stage
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "IsSingleSelector":
 		res.valueString = fmt.Sprintf("%t", grouptoogle.IsSingleSelector)
@@ -2163,7 +2158,7 @@ func (layout *Layout) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	case "GroupToogles":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -2173,7 +2168,7 @@ func (layout *Layout) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	}
 	return
