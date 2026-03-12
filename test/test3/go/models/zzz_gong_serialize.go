@@ -219,7 +219,7 @@ func SerializeExcelizePointerToGongstruct2[Type PointerToGongstruct](stage *Stag
 			default:
 				// if index is 0, this is the ID of the instance
 				if index == 0 {
-					f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(2*index+2)), line), fieldHeader.Name+":ID")
+					f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(2*index+2)), line), "ID")
 				} else {
 					// one have to put the type of the cell
 					header := fieldHeader.Name
