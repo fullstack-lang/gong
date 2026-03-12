@@ -460,6 +460,23 @@
       ]
     },
     {
+      "label": "04 - go run project on simple",
+      "type": "shell",
+      "options": {
+        "cwd": "./dsme/project/go/cmd/project"
+      },
+      "command": "go",
+      "args": [
+        "run",
+        ".",
+        "-unmarshallFromCode",
+        "data/simple.go",
+        "-marshallOnCommit",
+        "data/simple.go"
+      ],
+      "group": "build"
+    },
+    {
       "label": "01 - gong generate barrgraph",
       "type": "shell",
       "options": {

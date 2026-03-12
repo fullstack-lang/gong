@@ -1132,6 +1132,14 @@
             "sourceMaps": true,
         },
         {
+            "name": "Launch Edge (split) on 4200",
+            "request": "launch",
+            "type": "msedge",
+            "url": "http://localhost:4200",
+            "webRoot": "${workspaceFolder}/lib/split/ng-github.com-fullstack-lang-gong-lib-split",
+            "sourceMaps": true,
+        },
+        {
             "name": "Launch Chrome (table) on 4200",
             "request": "launch",
             "type": "chrome",

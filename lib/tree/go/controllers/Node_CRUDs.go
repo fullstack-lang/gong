@@ -257,6 +257,8 @@ func (controller *Controller) GetNode(c *gin.Context) {
 //	200: nodeDBResponse
 func (controller *Controller) UpdateNode(c *gin.Context) {
 
+	// log.Println("Update Node")
+
 	mutexNode.Lock()
 	defer mutexNode.Unlock()
 
