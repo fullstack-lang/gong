@@ -25,7 +25,7 @@ func _(stage *models.Stage) {
 
 	__Diagram__00000000_ := (&models.Diagram{Name: `D1`}).Stage(stage)
 
-	__Product__00000000_ := (&models.Product{Name: `P1`}).Stage(stage)
+	__Product__00000000_ := (&models.Product{Name: `P1.12`}).Stage(stage)
 
 	__ProductShape__00000000_ := (&models.ProductShape{Name: `-D1`}).Stage(stage)
 
@@ -39,7 +39,7 @@ func _(stage *models.Stage) {
 
 	__Root__00000000_ := (&models.Root{Name: `Root`}).Stage(stage)
 
-	__Task__00000000_ := (&models.Task{Name: `W1`}).Stage(stage)
+	__Task__00000000_ := (&models.Task{Name: `W1.1`}).Stage(stage)
 
 	__TaskOutputShape__00000000_ := (&models.TaskOutputShape{Name: `W1 to P1`}).Stage(stage)
 
@@ -53,8 +53,8 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.ShowPrefix = true
 	__Diagram__00000000_.DefaultBoxWidth = 250.000000
 	__Diagram__00000000_.DefaultBoxHeigth = 100.000000
-	__Diagram__00000000_.Width = 2408.862056
-	__Diagram__00000000_.Height = 2776.845003
+	__Diagram__00000000_.Width = 6108.862056
+	__Diagram__00000000_.Height = 6476.845003
 	__Diagram__00000000_.IsExpanded = true
 	__Diagram__00000000_.ComputedPrefix = ``
 	__Diagram__00000000_.IsInRenameMode = false
@@ -63,7 +63,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.IsNotesNodeExpanded = false
 	__Diagram__00000000_.IsResourcesNodeExpanded = true
 
-	__Product__00000000_.Name = `P1`
+	__Product__00000000_.Name = `P1.12`
 	__Product__00000000_.Description = ``
 	__Product__00000000_.IsExpanded = false
 	__Product__00000000_.ComputedPrefix = `1`
@@ -108,7 +108,7 @@ func _(stage *models.Stage) {
 	__Root__00000000_.Name = `Root`
 	__Root__00000000_.NbPixPerCharacter = 8.000000
 
-	__Task__00000000_.Name = `W1`
+	__Task__00000000_.Name = `W1.1`
 	__Task__00000000_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Task__00000000_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Task__00000000_.Description = ``
