@@ -442,7 +442,6 @@ func (probe *Probe) AddCommitNavigationNode(appendChildrenNodeFunc func(models.G
 		}
 	}
 
-
 	orphansButton := &tree.Button{
 		Name:            "OrphansButton",
 		Icon:            string(gongtree_buttons.BUTTON_playlist_remove),
