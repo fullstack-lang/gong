@@ -16,7 +16,11 @@ type Node struct {
 	FontStyle FontStyleEnum
 
 	// Impl is the pointer to the implementation of the node in the models of interest
+	// Deprecated, Uses OnUpdate instead
 	Impl NodeImplInterface
+
+	// OnUpdate is a callback called each time a node is modified from the front
+	OnUpdate func(stage *Stage, stagedNode, frontNode *Node)
 
 	// BackgroundColor, if zero value will have the color to default, therwise, the node
 	// will have this color
@@ -67,8 +71,10 @@ type Node struct {
 
 // OnAfterUpdate, notice that node == stagedNode
 func (node *Node) OnAfterUpdate(stage *Stage, _, frontNode *Node) {
-
 	if node.Impl != nil {
 		node.Impl.OnAfterUpdate(stage, node, frontNode)
+	}
+	if node.OnUpdate != nil {
+		node.OnUpdate(stage, node, frontNode)
 	}
 }
