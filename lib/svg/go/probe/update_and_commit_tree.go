@@ -46,26 +46,26 @@ func updateAndCommitTree(
 		HasToolTip:      true,
 		ToolTipText:     "Reset notification table",
 		ToolTipPosition: tree.Below,
+		OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+			probe.ResetNotifications()
+		},
 	}
 	topNode.Buttons = append(topNode.Buttons, notificationsResetButton)
-	notificationsResetButton.OnUpdate = func(_ *tree.Stage, _ *tree.Button) {
-		probe.ResetNotifications()
-	}
 	refreshButton := &tree.Button{
 		Name:            "RefreshButton" + " " + string(gongtree_buttons.BUTTON_refresh),
 		Icon:            string(gongtree_buttons.BUTTON_refresh),
 		HasToolTip:      true,
 		ToolTipText:     "Refresh probe",
 		ToolTipPosition: tree.Below,
+		OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+			probe.stageOfInterest.ComputeInstancesNb()
+			probe.docStager.SetMap_GongStructName_InstancesNb(
+				probe.stageOfInterest.Map_GongStructName_InstancesNb,
+			)
+			probe.Refresh()
+		},
 	}
 	topNode.Buttons = append(topNode.Buttons, refreshButton)
-	refreshButton.OnUpdate = func(_ *tree.Stage, _ *tree.Button) {
-		probe.stageOfInterest.ComputeInstancesNb()
-		probe.docStager.SetMap_GongStructName_InstancesNb(
-			probe.stageOfInterest.Map_GongStructName_InstancesNb,
-		)
-		probe.Refresh()
-	}
 
 	if stageOfInterest.IsInDeltaMode() {
 		probe.AddCommitNavigationNode(func(node models.GongNodeIF) {
@@ -113,10 +113,12 @@ func updateAndCommitTree(
 					break
 				}
 				count++
-				nodeInstance := &tree.Node{Name: _animate.GetName()}
-				nodeInstance.IsNodeClickable = true
-				nodeInstance.OnUpdate = func(_ *tree.Stage, _, _ *tree.Node) {
-					FillUpFormFromGongstruct(_animate, probe)
+				nodeInstance := &tree.Node{
+					Name: _animate.GetName(),
+					IsNodeClickable: true,
+					OnUpdate: func(_ *tree.Stage, _, _ *tree.Node) {
+						FillUpFormFromGongstruct(_animate, probe)
+					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
@@ -143,10 +145,12 @@ func updateAndCommitTree(
 					break
 				}
 				count++
-				nodeInstance := &tree.Node{Name: _circle.GetName()}
-				nodeInstance.IsNodeClickable = true
-				nodeInstance.OnUpdate = func(_ *tree.Stage, _, _ *tree.Node) {
-					FillUpFormFromGongstruct(_circle, probe)
+				nodeInstance := &tree.Node{
+					Name: _circle.GetName(),
+					IsNodeClickable: true,
+					OnUpdate: func(_ *tree.Stage, _, _ *tree.Node) {
+						FillUpFormFromGongstruct(_circle, probe)
+					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
@@ -173,10 +177,12 @@ func updateAndCommitTree(
 					break
 				}
 				count++
-				nodeInstance := &tree.Node{Name: _condition.GetName()}
-				nodeInstance.IsNodeClickable = true
-				nodeInstance.OnUpdate = func(_ *tree.Stage, _, _ *tree.Node) {
-					FillUpFormFromGongstruct(_condition, probe)
+				nodeInstance := &tree.Node{
+					Name: _condition.GetName(),
+					IsNodeClickable: true,
+					OnUpdate: func(_ *tree.Stage, _, _ *tree.Node) {
+						FillUpFormFromGongstruct(_condition, probe)
+					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
@@ -203,10 +209,12 @@ func updateAndCommitTree(
 					break
 				}
 				count++
-				nodeInstance := &tree.Node{Name: _controlpoint.GetName()}
-				nodeInstance.IsNodeClickable = true
-				nodeInstance.OnUpdate = func(_ *tree.Stage, _, _ *tree.Node) {
-					FillUpFormFromGongstruct(_controlpoint, probe)
+				nodeInstance := &tree.Node{
+					Name: _controlpoint.GetName(),
+					IsNodeClickable: true,
+					OnUpdate: func(_ *tree.Stage, _, _ *tree.Node) {
+						FillUpFormFromGongstruct(_controlpoint, probe)
+					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
@@ -233,10 +241,12 @@ func updateAndCommitTree(
 					break
 				}
 				count++
-				nodeInstance := &tree.Node{Name: _ellipse.GetName()}
-				nodeInstance.IsNodeClickable = true
-				nodeInstance.OnUpdate = func(_ *tree.Stage, _, _ *tree.Node) {
-					FillUpFormFromGongstruct(_ellipse, probe)
+				nodeInstance := &tree.Node{
+					Name: _ellipse.GetName(),
+					IsNodeClickable: true,
+					OnUpdate: func(_ *tree.Stage, _, _ *tree.Node) {
+						FillUpFormFromGongstruct(_ellipse, probe)
+					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
@@ -263,10 +273,12 @@ func updateAndCommitTree(
 					break
 				}
 				count++
-				nodeInstance := &tree.Node{Name: _layer.GetName()}
-				nodeInstance.IsNodeClickable = true
-				nodeInstance.OnUpdate = func(_ *tree.Stage, _, _ *tree.Node) {
-					FillUpFormFromGongstruct(_layer, probe)
+				nodeInstance := &tree.Node{
+					Name: _layer.GetName(),
+					IsNodeClickable: true,
+					OnUpdate: func(_ *tree.Stage, _, _ *tree.Node) {
+						FillUpFormFromGongstruct(_layer, probe)
+					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
@@ -293,10 +305,12 @@ func updateAndCommitTree(
 					break
 				}
 				count++
-				nodeInstance := &tree.Node{Name: _line.GetName()}
-				nodeInstance.IsNodeClickable = true
-				nodeInstance.OnUpdate = func(_ *tree.Stage, _, _ *tree.Node) {
-					FillUpFormFromGongstruct(_line, probe)
+				nodeInstance := &tree.Node{
+					Name: _line.GetName(),
+					IsNodeClickable: true,
+					OnUpdate: func(_ *tree.Stage, _, _ *tree.Node) {
+						FillUpFormFromGongstruct(_line, probe)
+					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
@@ -323,10 +337,12 @@ func updateAndCommitTree(
 					break
 				}
 				count++
-				nodeInstance := &tree.Node{Name: _link.GetName()}
-				nodeInstance.IsNodeClickable = true
-				nodeInstance.OnUpdate = func(_ *tree.Stage, _, _ *tree.Node) {
-					FillUpFormFromGongstruct(_link, probe)
+				nodeInstance := &tree.Node{
+					Name: _link.GetName(),
+					IsNodeClickable: true,
+					OnUpdate: func(_ *tree.Stage, _, _ *tree.Node) {
+						FillUpFormFromGongstruct(_link, probe)
+					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
@@ -353,10 +369,12 @@ func updateAndCommitTree(
 					break
 				}
 				count++
-				nodeInstance := &tree.Node{Name: _linkanchoredtext.GetName()}
-				nodeInstance.IsNodeClickable = true
-				nodeInstance.OnUpdate = func(_ *tree.Stage, _, _ *tree.Node) {
-					FillUpFormFromGongstruct(_linkanchoredtext, probe)
+				nodeInstance := &tree.Node{
+					Name: _linkanchoredtext.GetName(),
+					IsNodeClickable: true,
+					OnUpdate: func(_ *tree.Stage, _, _ *tree.Node) {
+						FillUpFormFromGongstruct(_linkanchoredtext, probe)
+					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
@@ -383,10 +401,12 @@ func updateAndCommitTree(
 					break
 				}
 				count++
-				nodeInstance := &tree.Node{Name: _path.GetName()}
-				nodeInstance.IsNodeClickable = true
-				nodeInstance.OnUpdate = func(_ *tree.Stage, _, _ *tree.Node) {
-					FillUpFormFromGongstruct(_path, probe)
+				nodeInstance := &tree.Node{
+					Name: _path.GetName(),
+					IsNodeClickable: true,
+					OnUpdate: func(_ *tree.Stage, _, _ *tree.Node) {
+						FillUpFormFromGongstruct(_path, probe)
+					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
@@ -413,10 +433,12 @@ func updateAndCommitTree(
 					break
 				}
 				count++
-				nodeInstance := &tree.Node{Name: _point.GetName()}
-				nodeInstance.IsNodeClickable = true
-				nodeInstance.OnUpdate = func(_ *tree.Stage, _, _ *tree.Node) {
-					FillUpFormFromGongstruct(_point, probe)
+				nodeInstance := &tree.Node{
+					Name: _point.GetName(),
+					IsNodeClickable: true,
+					OnUpdate: func(_ *tree.Stage, _, _ *tree.Node) {
+						FillUpFormFromGongstruct(_point, probe)
+					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
@@ -443,10 +465,12 @@ func updateAndCommitTree(
 					break
 				}
 				count++
-				nodeInstance := &tree.Node{Name: _polygone.GetName()}
-				nodeInstance.IsNodeClickable = true
-				nodeInstance.OnUpdate = func(_ *tree.Stage, _, _ *tree.Node) {
-					FillUpFormFromGongstruct(_polygone, probe)
+				nodeInstance := &tree.Node{
+					Name: _polygone.GetName(),
+					IsNodeClickable: true,
+					OnUpdate: func(_ *tree.Stage, _, _ *tree.Node) {
+						FillUpFormFromGongstruct(_polygone, probe)
+					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
@@ -473,10 +497,12 @@ func updateAndCommitTree(
 					break
 				}
 				count++
-				nodeInstance := &tree.Node{Name: _polyline.GetName()}
-				nodeInstance.IsNodeClickable = true
-				nodeInstance.OnUpdate = func(_ *tree.Stage, _, _ *tree.Node) {
-					FillUpFormFromGongstruct(_polyline, probe)
+				nodeInstance := &tree.Node{
+					Name: _polyline.GetName(),
+					IsNodeClickable: true,
+					OnUpdate: func(_ *tree.Stage, _, _ *tree.Node) {
+						FillUpFormFromGongstruct(_polyline, probe)
+					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
@@ -503,10 +529,12 @@ func updateAndCommitTree(
 					break
 				}
 				count++
-				nodeInstance := &tree.Node{Name: _rect.GetName()}
-				nodeInstance.IsNodeClickable = true
-				nodeInstance.OnUpdate = func(_ *tree.Stage, _, _ *tree.Node) {
-					FillUpFormFromGongstruct(_rect, probe)
+				nodeInstance := &tree.Node{
+					Name: _rect.GetName(),
+					IsNodeClickable: true,
+					OnUpdate: func(_ *tree.Stage, _, _ *tree.Node) {
+						FillUpFormFromGongstruct(_rect, probe)
+					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
@@ -533,10 +561,12 @@ func updateAndCommitTree(
 					break
 				}
 				count++
-				nodeInstance := &tree.Node{Name: _rectanchoredpath.GetName()}
-				nodeInstance.IsNodeClickable = true
-				nodeInstance.OnUpdate = func(_ *tree.Stage, _, _ *tree.Node) {
-					FillUpFormFromGongstruct(_rectanchoredpath, probe)
+				nodeInstance := &tree.Node{
+					Name: _rectanchoredpath.GetName(),
+					IsNodeClickable: true,
+					OnUpdate: func(_ *tree.Stage, _, _ *tree.Node) {
+						FillUpFormFromGongstruct(_rectanchoredpath, probe)
+					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
@@ -563,10 +593,12 @@ func updateAndCommitTree(
 					break
 				}
 				count++
-				nodeInstance := &tree.Node{Name: _rectanchoredrect.GetName()}
-				nodeInstance.IsNodeClickable = true
-				nodeInstance.OnUpdate = func(_ *tree.Stage, _, _ *tree.Node) {
-					FillUpFormFromGongstruct(_rectanchoredrect, probe)
+				nodeInstance := &tree.Node{
+					Name: _rectanchoredrect.GetName(),
+					IsNodeClickable: true,
+					OnUpdate: func(_ *tree.Stage, _, _ *tree.Node) {
+						FillUpFormFromGongstruct(_rectanchoredrect, probe)
+					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
@@ -593,10 +625,12 @@ func updateAndCommitTree(
 					break
 				}
 				count++
-				nodeInstance := &tree.Node{Name: _rectanchoredtext.GetName()}
-				nodeInstance.IsNodeClickable = true
-				nodeInstance.OnUpdate = func(_ *tree.Stage, _, _ *tree.Node) {
-					FillUpFormFromGongstruct(_rectanchoredtext, probe)
+				nodeInstance := &tree.Node{
+					Name: _rectanchoredtext.GetName(),
+					IsNodeClickable: true,
+					OnUpdate: func(_ *tree.Stage, _, _ *tree.Node) {
+						FillUpFormFromGongstruct(_rectanchoredtext, probe)
+					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
@@ -623,10 +657,12 @@ func updateAndCommitTree(
 					break
 				}
 				count++
-				nodeInstance := &tree.Node{Name: _rectlinklink.GetName()}
-				nodeInstance.IsNodeClickable = true
-				nodeInstance.OnUpdate = func(_ *tree.Stage, _, _ *tree.Node) {
-					FillUpFormFromGongstruct(_rectlinklink, probe)
+				nodeInstance := &tree.Node{
+					Name: _rectlinklink.GetName(),
+					IsNodeClickable: true,
+					OnUpdate: func(_ *tree.Stage, _, _ *tree.Node) {
+						FillUpFormFromGongstruct(_rectlinklink, probe)
+					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
@@ -653,10 +689,12 @@ func updateAndCommitTree(
 					break
 				}
 				count++
-				nodeInstance := &tree.Node{Name: _svg.GetName()}
-				nodeInstance.IsNodeClickable = true
-				nodeInstance.OnUpdate = func(_ *tree.Stage, _, _ *tree.Node) {
-					FillUpFormFromGongstruct(_svg, probe)
+				nodeInstance := &tree.Node{
+					Name: _svg.GetName(),
+					IsNodeClickable: true,
+					OnUpdate: func(_ *tree.Stage, _, _ *tree.Node) {
+						FillUpFormFromGongstruct(_svg, probe)
+					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
@@ -683,10 +721,12 @@ func updateAndCommitTree(
 					break
 				}
 				count++
-				nodeInstance := &tree.Node{Name: _svgtext.GetName()}
-				nodeInstance.IsNodeClickable = true
-				nodeInstance.OnUpdate = func(_ *tree.Stage, _, _ *tree.Node) {
-					FillUpFormFromGongstruct(_svgtext, probe)
+				nodeInstance := &tree.Node{
+					Name: _svgtext.GetName(),
+					IsNodeClickable: true,
+					OnUpdate: func(_ *tree.Stage, _, _ *tree.Node) {
+						FillUpFormFromGongstruct(_svgtext, probe)
+					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
@@ -713,10 +753,12 @@ func updateAndCommitTree(
 					break
 				}
 				count++
-				nodeInstance := &tree.Node{Name: _text.GetName()}
-				nodeInstance.IsNodeClickable = true
-				nodeInstance.OnUpdate = func(_ *tree.Stage, _, _ *tree.Node) {
-					FillUpFormFromGongstruct(_text, probe)
+				nodeInstance := &tree.Node{
+					Name: _text.GetName(),
+					IsNodeClickable: true,
+					OnUpdate: func(_ *tree.Stage, _, _ *tree.Node) {
+						FillUpFormFromGongstruct(_text, probe)
+					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
@@ -773,12 +815,7 @@ func (probe *Probe) AddCommitNavigationNode(appendChildrenNodeFunc func(models.G
 		ToolTipText: fmt.Sprintf("Go to previous commit (%d/%d)",
 			len(stageOfInterest.GetBackwardCommits()), stageOfInterest.GetCommitsBehind()),
 		ToolTipPosition: tree.Below,
-	}
-	deltaNode.Buttons = append(deltaNode.Buttons, backwardButton)
-	backwardButton.Impl = &tree.FunctionalButtonProxy{
-		OnUpdated: func(stage *tree.Stage,
-			stagedButton, frontButton *tree.Button,
-		) {
+		OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
 			err := stageOfInterest.ApplyBackwardCommit()
 			if err != nil {
 				panic(err)
@@ -786,6 +823,7 @@ func (probe *Probe) AddCommitNavigationNode(appendChildrenNodeFunc func(models.G
 			probe.Refresh()
 		},
 	}
+	deltaNode.Buttons = append(deltaNode.Buttons, backwardButton)
 
 	if stageOfInterest.GetCommitsBehind() == len(stageOfInterest.GetBackwardCommits()) {
 		backwardButton.IsDisabled = true
@@ -799,12 +837,7 @@ func (probe *Probe) AddCommitNavigationNode(appendChildrenNodeFunc func(models.G
 		ToolTipText: fmt.Sprintf("Go to next commit (%d/%d)",
 			len(stageOfInterest.GetBackwardCommits()), stageOfInterest.GetCommitsBehind()),
 		ToolTipPosition: tree.Below,
-	}
-	deltaNode.Buttons = append(deltaNode.Buttons, forwardButton)
-	forwardButton.Impl = &tree.FunctionalButtonProxy{
-		OnUpdated: func(stage *tree.Stage,
-			stagedButton, frontButton *tree.Button,
-		) {
+		OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
 			err := stageOfInterest.ApplyForwardCommit()
 			if err != nil {
 				panic(err)
@@ -812,6 +845,7 @@ func (probe *Probe) AddCommitNavigationNode(appendChildrenNodeFunc func(models.G
 			probe.Refresh()
 		},
 	}
+	deltaNode.Buttons = append(deltaNode.Buttons, forwardButton)
 
 	if stageOfInterest.GetCommitsBehind() == 0 {
 		forwardButton.IsDisabled = true
@@ -825,16 +859,12 @@ func (probe *Probe) AddCommitNavigationNode(appendChildrenNodeFunc func(models.G
 			HasToolTip:      true,
 			ToolTipText:     "Discard commits ahead (git reset --hard HEAD)",
 			ToolTipPosition: tree.Below,
-		}
-		deltaNode.Buttons = append(deltaNode.Buttons, discardButton)
-		discardButton.Impl = &tree.FunctionalButtonProxy{
-			OnUpdated: func(stage *tree.Stage,
-				stagedButton, frontButton *tree.Button,
-			) {
+			OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
 				stageOfInterest.ResetHard()
 				probe.Refresh()
 			},
 		}
+		deltaNode.Buttons = append(deltaNode.Buttons, discardButton)
 	}
 
 
@@ -844,20 +874,16 @@ func (probe *Probe) AddCommitNavigationNode(appendChildrenNodeFunc func(models.G
 		HasToolTip:      true,
 		ToolTipText:     "Discard all commits history (git orphan)",
 		ToolTipPosition: tree.Below,
+		OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+			stageOfInterest.Orphans()
+			probe.Refresh()
+		},
 	}
 	if len(stageOfInterest.GetBackwardCommits()) == 0 {
 		orphansButton.IsDisabled = true
 		orphansButton.ToolTipText = "No commits to orphan"
 	}
 	deltaNode.Buttons = append(deltaNode.Buttons, orphansButton)
-	orphansButton.Impl = &tree.FunctionalButtonProxy{
-		OnUpdated: func(stage *tree.Stage,
-			stagedButton, frontButton *tree.Button,
-		) {
-			stageOfInterest.Orphans()
-			probe.Refresh()
-		},
-	}
 
 	logCommitsButton := &tree.Button{
 		Name:            "LogCommitsButton",
@@ -865,16 +891,7 @@ func (probe *Probe) AddCommitNavigationNode(appendChildrenNodeFunc func(models.G
 		HasToolTip:      true,
 		ToolTipText:     "Log commits to notification table",
 		ToolTipPosition: tree.Below,
-	}
-	if len(stageOfInterest.GetBackwardCommits()) == 0 {
-		logCommitsButton.IsDisabled = true
-		logCommitsButton.ToolTipText = "No commits to log"
-	}
-	deltaNode.Buttons = append(deltaNode.Buttons, logCommitsButton)
-	logCommitsButton.Impl = &tree.FunctionalButtonProxy{
-		OnUpdated: func(stage *tree.Stage,
-			stagedButton, frontButton *tree.Button,
-		) {
+		OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
 			var mergedCommits string
 			for _, commit := range stageOfInterest.GetForwardCommits() {
 				mergedCommits += commit
@@ -898,6 +915,11 @@ func (probe *Probe) AddCommitNavigationNode(appendChildrenNodeFunc func(models.G
 			probe.CommitNotificationTable()
 		},
 	}
+	if len(stageOfInterest.GetBackwardCommits()) == 0 {
+		logCommitsButton.IsDisabled = true
+		logCommitsButton.ToolTipText = "No commits to log"
+	}
+	deltaNode.Buttons = append(deltaNode.Buttons, logCommitsButton)
 
 	appendChildrenNodeFunc(deltaNode)
 }

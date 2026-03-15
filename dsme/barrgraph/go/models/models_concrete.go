@@ -8,27 +8,20 @@ import (
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 )
 
-// An Influence is between one Artist/Movement/ArtefactType and another
-//
-// since gong does not yet support interface, one have to mutliply source/target types
-type Influence struct {
+func (shape *ArtefactTypeShape) GetArtElement() *ArtefactType {
+	return shape.ArtefactType
+}
+
+type ArtefactTypeShape struct {
 	Name string
 
-	SourceMovement     *Movement
-	SourceArtefactType *ArtefactType
-	SourceArtist       *Artist
+	ArtefactType *ArtefactType
 
-	source ArtElement
+	X, Y float64
 
-	TargetMovement     *Movement
-	TargetArtefactType *ArtefactType
-	TargetArtist       *Artist
+	Width, Height float64
 
-	target ArtElement
-
-	// hypothetical, some influences are with ashed lines
-	// For instance, Marchine Art to Brancusi (indeed)
-	IsHypothtical bool
+	IsHidden bool
 }
 
 type InfluenceShape struct {
