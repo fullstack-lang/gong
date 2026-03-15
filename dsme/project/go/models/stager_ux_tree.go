@@ -397,7 +397,7 @@ func (stager *Stager) OnUpdateDiagram(diagram *Diagram) func(stage *tree.Stage, 
 
 func OnCopyDiagram(stager *Stager, diagram *Diagram) func(
 	stage *tree.Stage, updatedButton *tree.Button) {
-	return func(stage *tree.Stage, updatedButton *tree.Button) {
+	return func(_ *tree.Stage, _ *tree.Button) {
 		newDiagram := new(Diagram)
 		newDiagram.Name = diagram.Name + " copy"
 		newDiagram.IsEditable_ = true
