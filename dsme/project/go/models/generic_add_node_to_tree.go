@@ -27,6 +27,7 @@ func addNodeToTree[
 	shapes *[]CT,
 	shapesMap *map[AT]CT,
 ) *tree.Node {
+	stage := stager.stage
 	node := &tree.Node{
 		Name: element.GetName(),
 
@@ -57,7 +58,7 @@ func addNodeToTree[
 				Impl: &tree.FunctionalButtonProxy{
 					OnUpdated: func(stage *tree.Stage, button, updatedButton *tree.Button) {
 						element.SetIsInRenameMode(true)
-						stager.stage.Commit()
+						stage.Commit()
 					},
 				},
 				HasToolTip:      true,
@@ -72,7 +73,7 @@ func addNodeToTree[
 				Impl: &tree.FunctionalButtonProxy{
 					OnUpdated: func(stage *tree.Stage, button, updatedButton *tree.Button) {
 						element.SetIsInRenameMode(false)
-						stager.stage.Commit()
+						stage.Commit()
 					},
 				},
 				HasToolTip:      true,
@@ -81,8 +82,25 @@ func addNodeToTree[
 			})
 	}
 
-	if _, ok := (*shapesMap)[element]; ok {
+	if shape, ok := (*shapesMap)[element]; ok {
 		node.IsChecked = true
+		node.Buttons = []*tree.Button{
+			{
+				Name:            diagram.GetName(),
+				Icon:            string(buttons.BUTTON_visibility_off),
+				ToolTipText:     "Hide from diagram",
+				HasToolTip:      true,
+				ToolTipPosition: tree.Right,
+				OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+					shape.SetIsHidden(!shape.GetIsHidden())
+					stage.Commit()
+				},
+			},
+		}
+		if shape.GetIsHidden() {
+			node.Buttons[0].Icon = string(buttons.BUTTON_visibility)
+			node.Buttons[0].ToolTipText = "Show on diagram"
+		}
 	}
 
 	// what to do when the node is clicked
