@@ -256,27 +256,27 @@ func (stager *Stager) tree() {
 		if diagram.IsArtistCategoryShown {
 			artistCategoryNode.Buttons[0].Icon = string(buttons.BUTTON_visibility_off)
 		}
-		for _, artist := range GetGongstrucsSorted[*Artist](stager.stage) {
+		for _, element := range GetGongstrucsSorted[*Artist](stager.stage) {
 
 			isInDiagram := false
 
 			var shape *ArtistShape
 			for _, _shape := range diagram.ArtistShapes {
-				if _shape.Artist == artist {
+				if _shape.Artist == element {
 					isInDiagram = true
 					shape = _shape
 					continue
 				}
 			}
 
-			artistNode := &tree.Node{
-				Name:              artist.Name,
+			node := &tree.Node{
+				Name:              element.Name,
 				HasCheckboxButton: true,
 				IsChecked:         isInDiagram,
 				OnUpdate: func(_ *tree.Stage, stagedNode, frontNode *tree.Node) {
 					if frontNode.IsChecked && !stagedNode.IsChecked {
 						artistShape := &ArtistShape{
-							Artist: artist,
+							Artist: element,
 							Width:  80,
 							Height: 30,
 							X:      float64(int(rand.Float32()*100) + 10),
@@ -287,7 +287,7 @@ func (stager *Stager) tree() {
 					}
 					if !frontNode.IsChecked && stagedNode.IsChecked {
 						for idx, shape := range diagram.ArtistShapes {
-							if shape.Artist == artist {
+							if shape.Artist == element {
 								shape.Unstage(stage)
 								diagram.ArtistShapes = slices.Delete(diagram.ArtistShapes, idx, idx+1)
 								continue
@@ -298,24 +298,57 @@ func (stager *Stager) tree() {
 					stage.Commit()
 				},
 			}
-			artistCategoryNode.Children = append(artistCategoryNode.Children, artistNode)
-
-			artistNode.Buttons = []*tree.Button{
-				{
-					Name:            diagram.GetName(),
-					Icon:            string(buttons.BUTTON_visibility_off),
-					ToolTipText:     "Hide from diagram",
-					HasToolTip:      true,
-					ToolTipPosition: tree.Right,
-					OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
-						shape.IsHidden = !shape.IsHidden
-						stage.Commit()
-					},
-				},
+			artistCategoryNode.Children = append(artistCategoryNode.Children, node)
+			if !element.GetIsInRenameMode() {
+				node.Buttons = append(node.Buttons,
+					&tree.Button{
+						Name: element.GetName() + " " + string(buttons.BUTTON_edit_note),
+						Icon: string(buttons.BUTTON_edit_note),
+						Impl: &tree.FunctionalButtonProxy{
+							OnUpdated: func(stage *tree.Stage, button, updatedButton *tree.Button) {
+								element.SetIsInRenameMode(true)
+								stager.stage.Commit()
+							},
+						},
+						HasToolTip:      true,
+						ToolTipText:     "Rename the " + GetGongstructNameFromPointer(element),
+						ToolTipPosition: tree.Above,
+					})
+			} else {
+				node.Buttons = append(node.Buttons,
+					&tree.Button{
+						Name: element.GetName() + " " + string(buttons.BUTTON_edit_off),
+						Icon: string(buttons.BUTTON_edit_off),
+						Impl: &tree.FunctionalButtonProxy{
+							OnUpdated: func(stage *tree.Stage, button, updatedButton *tree.Button) {
+								element.SetIsInRenameMode(false)
+								stager.stage.Commit()
+							},
+						},
+						HasToolTip:      true,
+						ToolTipText:     "Cancel renaming",
+						ToolTipPosition: tree.Above,
+					})
 			}
-			if diagram.IsArtistCategoryShown {
-				artistNode.Buttons[0].Icon = string(buttons.BUTTON_visibility)
-				artistNode.Buttons[0].ToolTipText = "Show on diagram"
+
+			if shape != nil {
+				node.Buttons = []*tree.Button{
+					{
+						Name:            diagram.GetName(),
+						Icon:            string(buttons.BUTTON_visibility_off),
+						ToolTipText:     "Hide from diagram",
+						HasToolTip:      true,
+						ToolTipPosition: tree.Right,
+						OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+							shape.IsHidden = !shape.IsHidden
+							stage.Commit()
+						},
+					},
+				}
+				if diagram.IsArtistCategoryShown {
+					node.Buttons[0].Icon = string(buttons.BUTTON_visibility)
+					node.Buttons[0].ToolTipText = "Show on diagram"
+				}
 			}
 		}
 
