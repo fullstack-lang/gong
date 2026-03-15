@@ -7,8 +7,8 @@ import (
 // onShowAllInDiagram resets the diagram, creates and add all all possible concrete instances to the diagram,
 // and organize them in a pseudo pert diagram
 func onShowAllInDiagram(stager *Stager, diagram *Diagram) func(
-	stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
-	return func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
+	stage *tree.Stage, updatedButton *tree.Button) {
+	return func(stage *tree.Stage, updatedButton *tree.Button) {
 		// 1. Reset the diagram: remove all shapes from the stage to start fresh
 		diagram.Product_Shapes = []*ProductShape{}
 		diagram.Task_Shapes = []*TaskShape{}

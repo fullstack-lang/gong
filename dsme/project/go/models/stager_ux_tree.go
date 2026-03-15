@@ -31,9 +31,7 @@ func (stager *Stager) tree() {
 			IsNodeClickable: true,
 		}
 		treeInstance.RootNodes = append(treeInstance.RootNodes, projectNode)
-		projectNode.Impl = &tree.FunctionalNodeProxy{
-			OnUpdate: stager.OnUpdateProject(project),
-		}
+		projectNode.OnUpdate = stager.OnUpdateProject(project)
 
 		addAddItemButton(stager, nil, nil, &project.IsExpanded, projectNode, &project.Diagrams, nil, &[]*ProductShape{}, &[]*ProductCompositionShape{})
 
@@ -57,11 +55,9 @@ func (stager *Stager) tree() {
 					&tree.Button{
 						Name: element.GetName() + " " + string(buttons.BUTTON_edit_note),
 						Icon: string(buttons.BUTTON_edit_note),
-						Impl: &tree.FunctionalButtonProxy{
-							OnUpdated: func(stage *tree.Stage, button, updatedButton *tree.Button) {
-								element.SetIsInRenameMode(true)
-								stager.stage.Commit()
-							},
+						OnUpdate: func(stage *tree.Stage, updatedButton *tree.Button) {
+							element.SetIsInRenameMode(true)
+							stager.stage.Commit()
 						},
 						HasToolTip:      true,
 						ToolTipText:     "Rename the " + GetGongstructNameFromPointer(element),
@@ -72,11 +68,9 @@ func (stager *Stager) tree() {
 					&tree.Button{
 						Name: element.GetName() + " " + string(buttons.BUTTON_edit_off),
 						Icon: string(buttons.BUTTON_edit_off),
-						Impl: &tree.FunctionalButtonProxy{
-							OnUpdated: func(stage *tree.Stage, button, updatedButton *tree.Button) {
-								element.SetIsInRenameMode(false)
-								stager.stage.Commit()
-							},
+						OnUpdate: func(stage *tree.Stage, updatedButton *tree.Button) {
+							element.SetIsInRenameMode(false)
+							stager.stage.Commit()
 						},
 						HasToolTip:      true,
 						ToolTipText:     "Cancel renaming",
@@ -84,9 +78,7 @@ func (stager *Stager) tree() {
 					})
 			}
 
-			diagramNode.Impl = &tree.FunctionalNodeProxy{
-				OnUpdate: stager.OnUpdateDiagram(diagram),
-			}
+			diagramNode.OnUpdate = stager.OnUpdateDiagram(diagram)
 
 			{
 				copyButton := &tree.Button{
@@ -95,9 +87,7 @@ func (stager *Stager) tree() {
 					HasToolTip:      true,
 					ToolTipPosition: tree.Above,
 					ToolTipText:     "Copy Diagram",
-					Impl: &tree.FunctionalButtonProxy{
-						OnUpdated: OnCopyDiagram(stager, diagram),
-					},
+					OnUpdate:        OnCopyDiagram(stager, diagram),
 				}
 				diagramNode.Buttons = append(diagramNode.Buttons, copyButton)
 			}
@@ -108,9 +98,7 @@ func (stager *Stager) tree() {
 					HasToolTip:      true,
 					ToolTipPosition: tree.Above,
 					ToolTipText:     "Show All Elements in the Diagram",
-					Impl: &tree.FunctionalButtonProxy{
-						OnUpdated: onShowAllInDiagram(stager, diagram),
-					},
+					OnUpdate:        onShowAllInDiagram(stager, diagram),
 				}
 				diagramNode.Buttons = append(diagramNode.Buttons, showAllButton)
 			}
@@ -121,9 +109,7 @@ func (stager *Stager) tree() {
 					HasToolTip:      true,
 					ToolTipPosition: tree.Above,
 					ToolTipText:     "Show Show As PBS Tree",
-					Impl: &tree.FunctionalButtonProxy{
-						OnUpdated: onLayoutPBS(stager, diagram),
-					},
+					OnUpdate:        onLayoutPBS(stager, diagram),
 				}
 				diagramNode.Buttons = append(diagramNode.Buttons, showAllButton)
 			}
@@ -134,9 +120,7 @@ func (stager *Stager) tree() {
 					HasToolTip:      true,
 					ToolTipPosition: tree.Above,
 					ToolTipText:     "Show Show As WBS Tree",
-					Impl: &tree.FunctionalButtonProxy{
-						OnUpdated: onLayoutWBS(stager, diagram),
-					},
+					OnUpdate:        onLayoutWBS(stager, diagram),
 				}
 				diagramNode.Buttons = append(diagramNode.Buttons, showAllButton)
 			}
@@ -147,11 +131,9 @@ func (stager *Stager) tree() {
 					HasToolTip:      true,
 					ToolTipPosition: tree.Above,
 
-					Impl: &tree.FunctionalButtonProxy{
-						OnUpdated: func(stage *tree.Stage, button, updatedButton *tree.Button) {
-							diagram.ShowPrefix = !diagram.ShowPrefix
-							stager.stage.Commit()
-						},
+					OnUpdate: func(stage *tree.Stage, updatedButton *tree.Button) {
+						diagram.ShowPrefix = !diagram.ShowPrefix
+						stager.stage.Commit()
 					},
 				}
 				if !diagram.ShowPrefix {
@@ -171,9 +153,7 @@ func (stager *Stager) tree() {
 				IsNodeClickable: true,
 			}
 			diagramNode.Children = append(diagramNode.Children, pbsNode)
-			pbsNode.Impl = &tree.FunctionalNodeProxy{
-				OnUpdate: stager.OnUpdateExpansion(&diagram.IsPBSNodeExpanded),
-			}
+			pbsNode.OnUpdate = stager.OnUpdateExpansion(&diagram.IsPBSNodeExpanded)
 
 			addAddItemButton(stager, nil, nil, &diagram.IsPBSNodeExpanded, pbsNode, &project.RootProducts, diagram, &diagram.Product_Shapes, &diagram.ProductComposition_Shapes)
 
@@ -195,9 +175,7 @@ func (stager *Stager) tree() {
 				IsNodeClickable: true,
 			}
 			diagramNode.Children = append(diagramNode.Children, wbsNode)
-			wbsNode.Impl = &tree.FunctionalNodeProxy{
-				OnUpdate: stager.OnUpdateExpansion(&diagram.IsWBSNodeExpanded),
-			}
+			wbsNode.OnUpdate = stager.OnUpdateExpansion(&diagram.IsWBSNodeExpanded)
 
 			addAddItemButton(stager, nil, nil, &diagram.IsWBSNodeExpanded, wbsNode, &project.RootTasks, diagram, &diagram.Task_Shapes, &diagram.TaskComposition_Shapes)
 
@@ -212,9 +190,7 @@ func (stager *Stager) tree() {
 				IsNodeClickable: true,
 			}
 			diagramNode.Children = append(diagramNode.Children, resourcesNode)
-			resourcesNode.Impl = &tree.FunctionalNodeProxy{
-				OnUpdate: stager.OnUpdateExpansion(&diagram.IsResourcesNodeExpanded),
-			}
+			resourcesNode.OnUpdate = stager.OnUpdateExpansion(&diagram.IsResourcesNodeExpanded)
 
 			addAddItemButton(stager, nil, nil, &diagram.IsResourcesNodeExpanded, resourcesNode, &project.RootResources, diagram, &diagram.Resource_Shapes, &diagram.ResourceTaskShapes)
 
@@ -230,9 +206,7 @@ func (stager *Stager) tree() {
 					IsNodeClickable: true,
 				}
 				diagramNode.Children = append(diagramNode.Children, notesNode)
-				notesNode.Impl = &tree.FunctionalNodeProxy{
-					OnUpdate: stager.OnUpdateExpansion(&diagram.IsNotesNodeExpanded),
-				}
+				notesNode.OnUpdate = stager.OnUpdateExpansion(&diagram.IsNotesNodeExpanded)
 
 				addAddItemButton(stager, nil, nil, &diagram.IsNotesNodeExpanded, notesNode, &project.Notes, diagram, &diagram.Note_Shapes, &diagram.NoteProductShapes)
 
@@ -274,16 +248,12 @@ func (stager *Stager) tree() {
 									showHideRelationButton.ToolTipText = "Hide link from note \"" + note.Name +
 										"\" to product \"" + product.Name + "\""
 									// what to do when the product node is clicked
-									showHideRelationButton.Impl = &tree.FunctionalButtonProxy{
-										OnUpdated: onRemoveAssociationShape(stager, noteProductShape, &diagram.NoteProductShapes),
-									}
+									showHideRelationButton.OnUpdate = onRemoveAssociationShape(stager, noteProductShape, &diagram.NoteProductShapes)
 								} else {
 									showHideRelationButton.Icon = string(buttons.BUTTON_visibility)
 									showHideRelationButton.ToolTipText = "Show link from note \"" + note.Name +
 										"\" to product \"" + product.Name + "\""
-									showHideRelationButton.Impl = &tree.FunctionalButtonProxy{
-										OnUpdated: onAddAssociationShape(stager, note, product, &diagram.NoteProductShapes),
-									}
+									showHideRelationButton.OnUpdate = onAddAssociationShape(stager, note, product, &diagram.NoteProductShapes)
 								}
 							}
 						}
@@ -311,16 +281,12 @@ func (stager *Stager) tree() {
 									showHideRelationButton.ToolTipText = "Hide link from note \"" + note.Name +
 										"\" to task \"" + task.Name + "\""
 									// what to do when the product node is clicked
-									showHideRelationButton.Impl = &tree.FunctionalButtonProxy{
-										OnUpdated: onRemoveAssociationShape(stager, noteTaskShape, &diagram.NoteTaskShapes),
-									}
+									showHideRelationButton.OnUpdate = onRemoveAssociationShape(stager, noteTaskShape, &diagram.NoteTaskShapes)
 								} else {
 									showHideRelationButton.Icon = string(buttons.BUTTON_visibility)
 									showHideRelationButton.ToolTipText = "Show link from note \"" + note.Name +
 										"\" to task \"" + task.Name + "\""
-									showHideRelationButton.Impl = &tree.FunctionalButtonProxy{
-										OnUpdated: onAddAssociationShape(stager, note, task, &diagram.NoteTaskShapes),
-									}
+									showHideRelationButton.OnUpdate = onAddAssociationShape(stager, note, task, &diagram.NoteTaskShapes)
 								}
 							}
 						}
@@ -347,16 +313,12 @@ func (stager *Stager) tree() {
 									showHideRelationButton.ToolTipText = "Hide link from note \"" + note.Name +
 										"\" to resource \"" + resource.Name + "\""
 									// what to do when the product node is clicked
-									showHideRelationButton.Impl = &tree.FunctionalButtonProxy{
-										OnUpdated: onRemoveAssociationShape(stager, noteResourceShape, &diagram.NoteResourceShapes),
-									}
+									showHideRelationButton.OnUpdate = onRemoveAssociationShape(stager, noteResourceShape, &diagram.NoteResourceShapes)
 								} else {
 									showHideRelationButton.Icon = string(buttons.BUTTON_visibility)
 									showHideRelationButton.ToolTipText = "Show link from note \"" + note.Name +
 										"\" to resource \"" + resource.Name + "\""
-									showHideRelationButton.Impl = &tree.FunctionalButtonProxy{
-										OnUpdated: onAddAssociationShape(stager, note, resource, &diagram.NoteResourceShapes),
-									}
+									showHideRelationButton.OnUpdate = onAddAssociationShape(stager, note, resource, &diagram.NoteResourceShapes)
 								}
 							}
 						}
@@ -434,8 +396,8 @@ func (stager *Stager) OnUpdateDiagram(diagram *Diagram) func(stage *tree.Stage, 
 }
 
 func OnCopyDiagram(stager *Stager, diagram *Diagram) func(
-	stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
-	return func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
+	stage *tree.Stage, updatedButton *tree.Button) {
+	return func(stage *tree.Stage, updatedButton *tree.Button) {
 		newDiagram := new(Diagram)
 		newDiagram.Name = diagram.Name + " copy"
 		newDiagram.IsEditable_ = true
