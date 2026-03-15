@@ -1448,6 +1448,9 @@ func (artefacttype *ArtefactType) GongDiff(stage *Stage, artefacttypeOther *Arte
 	if artefacttype.Name != artefacttypeOther.Name {
 		diffs = append(diffs, artefacttype.GongMarshallField(stage, "Name"))
 	}
+	if artefacttype.IsInRenameMode != artefacttypeOther.IsInRenameMode {
+		diffs = append(diffs, artefacttype.GongMarshallField(stage, "IsInRenameMode"))
+	}
 
 	return
 }
@@ -1491,6 +1494,9 @@ func (artist *Artist) GongDiff(stage *Stage, artistOther *Artist) (diffs []strin
 	// insertion point for field diffs
 	if artist.Name != artistOther.Name {
 		diffs = append(diffs, artist.GongMarshallField(stage, "Name"))
+	}
+	if artist.IsInRenameMode != artistOther.IsInRenameMode {
+		diffs = append(diffs, artist.GongMarshallField(stage, "IsInRenameMode"))
 	}
 	if artist.IsDead != artistOther.IsDead {
 		diffs = append(diffs, artist.GongMarshallField(stage, "IsDead"))
@@ -2028,6 +2034,9 @@ func (movement *Movement) GongDiff(stage *Stage, movementOther *Movement) (diffs
 	// insertion point for field diffs
 	if movement.Name != movementOther.Name {
 		diffs = append(diffs, movement.GongMarshallField(stage, "Name"))
+	}
+	if movement.IsInRenameMode != movementOther.IsInRenameMode {
+		diffs = append(diffs, movement.GongMarshallField(stage, "IsInRenameMode"))
 	}
 	if movement.Date != movementOther.Date {
 		diffs = append(diffs, movement.GongMarshallField(stage, "Date"))

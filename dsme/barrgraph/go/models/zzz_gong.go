@@ -3436,6 +3436,10 @@ func (artefacttype *ArtefactType) GongGetFieldHeaders() (res []GongFieldHeader) 
 			Name:               "Name",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
+		{
+			Name:               "IsInRenameMode",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
 	}
 	return
 }
@@ -3482,6 +3486,10 @@ func (artist *Artist) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "Name",
 			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsInRenameMode",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "IsDead",
@@ -4039,6 +4047,10 @@ func (movement *Movement) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:               "IsInRenameMode",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:               "Date",
 			GongFieldValueType: GongFieldValueTypeDate,
 		},
@@ -4190,6 +4202,10 @@ func (artefacttype *ArtefactType) GongGetFieldValue(fieldName string, stage *Sta
 	// string value of fields
 	case "Name":
 		res.valueString = artefacttype.Name
+	case "IsInRenameMode":
+		res.valueString = fmt.Sprintf("%t", artefacttype.IsInRenameMode)
+		res.valueBool = artefacttype.IsInRenameMode
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -4234,6 +4250,10 @@ func (artist *Artist) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 	// string value of fields
 	case "Name":
 		res.valueString = artist.Name
+	case "IsInRenameMode":
+		res.valueString = fmt.Sprintf("%t", artist.IsInRenameMode)
+		res.valueBool = artist.IsInRenameMode
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsDead":
 		res.valueString = fmt.Sprintf("%t", artist.IsDead)
 		res.valueBool = artist.IsDead
@@ -4690,6 +4710,10 @@ func (movement *Movement) GongGetFieldValue(fieldName string, stage *Stage) (res
 	// string value of fields
 	case "Name":
 		res.valueString = movement.Name
+	case "IsInRenameMode":
+		res.valueString = fmt.Sprintf("%t", movement.IsInRenameMode)
+		res.valueBool = movement.IsInRenameMode
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "Date":
 		res.valueString = movement.Date.String()
 	case "HideDate":
@@ -4787,6 +4811,8 @@ func (artefacttype *ArtefactType) GongSetFieldValue(fieldName string, value Gong
 	// insertion point for per field code
 	case "Name":
 		artefacttype.Name = value.GetValueString()
+	case "IsInRenameMode":
+		artefacttype.IsInRenameMode = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -4830,6 +4856,8 @@ func (artist *Artist) GongSetFieldValue(fieldName string, value GongFieldValue, 
 	// insertion point for per field code
 	case "Name":
 		artist.Name = value.GetValueString()
+	case "IsInRenameMode":
+		artist.IsInRenameMode = value.GetValueBool()
 	case "IsDead":
 		artist.IsDead = value.GetValueBool()
 	case "Place":
@@ -5271,6 +5299,8 @@ func (movement *Movement) GongSetFieldValue(fieldName string, value GongFieldVal
 	// insertion point for per field code
 	case "Name":
 		movement.Name = value.GetValueString()
+	case "IsInRenameMode":
+		movement.IsInRenameMode = value.GetValueBool()
 	case "HideDate":
 		movement.HideDate = value.GetValueBool()
 	case "Places":

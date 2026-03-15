@@ -461,6 +461,8 @@ func (u *ArtefactTypeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
+	case "IsInRenameMode":
+		instance.IsInRenameMode = GongExtractBool(valueExpr)
 	}
 	return nil
 }
@@ -531,6 +533,8 @@ func (u *ArtistUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, field
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
+	case "IsInRenameMode":
+		instance.IsInRenameMode = GongExtractBool(valueExpr)
 	case "IsDead":
 		instance.IsDead = GongExtractBool(valueExpr)
 	case "DateOfDeath":
@@ -972,6 +976,8 @@ func (u *MovementUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
+	case "IsInRenameMode":
+		instance.IsInRenameMode = GongExtractBool(valueExpr)
 	case "Date":
 		if call, ok := valueExpr.(*ast.CallExpr); ok {
 			if len(call.Args) == 2 {
