@@ -123,8 +123,9 @@ func updateAndCommitTree(
 				count++
 				nodeInstance := &tree.Node{Name: _cursor.GetName()}
 				nodeInstance.IsNodeClickable = true
-				nodeInstance.Impl = NewInstanceNodeCallback(_cursor, "Cursor", probe)
-
+				nodeInstance.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+					FillUpFormFromGongstruct(_cursor, probe)
+				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
 		}
@@ -157,37 +158,6 @@ func updateAndCommitTree(
 	tree.StageBranch(probe.treeStage, sidebar)
 
 	probe.treeStage.Commit()
-}
-
-type InstanceNodeCallback[T models.PointerToGongstruct] struct {
-	Instance       T
-	gongstructName string
-	probe          *Probe
-}
-
-func NewInstanceNodeCallback[T models.PointerToGongstruct](
-	instance T,
-	gongstructName string,
-	probe *Probe) (
-	instanceNodeCallback *InstanceNodeCallback[T],
-) {
-	instanceNodeCallback = new(InstanceNodeCallback[T])
-
-	instanceNodeCallback.probe = probe
-	instanceNodeCallback.gongstructName = gongstructName
-	instanceNodeCallback.Instance = instance
-
-	return
-}
-
-func (instanceNodeCallback *InstanceNodeCallback[T]) OnAfterUpdate(
-	gongtreeStage *tree.Stage,
-	stagedNode, frontNode *tree.Node,
-) {
-	FillUpFormFromGongstruct(
-		instanceNodeCallback.Instance,
-		instanceNodeCallback.probe,
-	)
 }
 
 func (probe *Probe) AddCommitNavigationNode(appendChildrenNodeFunc func(models.GongNodeIF)) {

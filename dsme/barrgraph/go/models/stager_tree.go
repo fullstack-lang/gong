@@ -74,15 +74,17 @@ func (stager *Stager) tree() {
 		}
 		diagramNode.Children = append(diagramNode.Children, movementCategoryNode)
 
+		map_Movement_MovementShape := make(map[*Movement]*MovementShape, 0)
+		for _, _shape := range diagram.MovementShapes {
+			map_Movement_MovementShape[_shape.Movement] = _shape
+		}
+
 		for _, movement := range GetGongstrucsSorted[*Movement](stager.stage) {
 			isInDiagram := false
 			var shape *MovementShape
-			for _, _shape := range diagram.MovementShapes {
-				if _shape.Movement == movement {
-					isInDiagram = true
-					shape = _shape
-					continue
-				}
+			shape = map_Movement_MovementShape[movement]
+			if shape != nil {
+				isInDiagram = true
 			}
 
 			movementNode := &tree.Node{
@@ -113,7 +115,7 @@ func (stager *Stager) tree() {
 					},
 				},
 			}
-			if shape.IsHidden {
+			if shape != nil && shape.IsHidden {
 				movementNode.Buttons[0].Icon = string(buttons.BUTTON_visibility)
 				movementNode.Buttons[0].ToolTipText = "Show on diagram"
 			}

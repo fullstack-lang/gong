@@ -123,8 +123,9 @@ func updateAndCommitTree(
 				count++
 				nodeInstance := &tree.Node{Name: _action.GetName()}
 				nodeInstance.IsNodeClickable = true
-				nodeInstance.Impl = NewInstanceNodeCallback(_action, "Action", probe)
-
+				nodeInstance.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+					FillUpFormFromGongstruct(_action, probe)
+				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
 		case "Activities":
@@ -139,8 +140,9 @@ func updateAndCommitTree(
 				count++
 				nodeInstance := &tree.Node{Name: _activities.GetName()}
 				nodeInstance.IsNodeClickable = true
-				nodeInstance.Impl = NewInstanceNodeCallback(_activities, "Activities", probe)
-
+				nodeInstance.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+					FillUpFormFromGongstruct(_activities, probe)
+				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
 		case "Architecture":
@@ -155,8 +157,9 @@ func updateAndCommitTree(
 				count++
 				nodeInstance := &tree.Node{Name: _architecture.GetName()}
 				nodeInstance.IsNodeClickable = true
-				nodeInstance.Impl = NewInstanceNodeCallback(_architecture, "Architecture", probe)
-
+				nodeInstance.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+					FillUpFormFromGongstruct(_architecture, probe)
+				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
 		case "Diagram":
@@ -171,8 +174,9 @@ func updateAndCommitTree(
 				count++
 				nodeInstance := &tree.Node{Name: _diagram.GetName()}
 				nodeInstance.IsNodeClickable = true
-				nodeInstance.Impl = NewInstanceNodeCallback(_diagram, "Diagram", probe)
-
+				nodeInstance.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+					FillUpFormFromGongstruct(_diagram, probe)
+				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
 		case "Guard":
@@ -187,8 +191,9 @@ func updateAndCommitTree(
 				count++
 				nodeInstance := &tree.Node{Name: _guard.GetName()}
 				nodeInstance.IsNodeClickable = true
-				nodeInstance.Impl = NewInstanceNodeCallback(_guard, "Guard", probe)
-
+				nodeInstance.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+					FillUpFormFromGongstruct(_guard, probe)
+				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
 		case "Kill":
@@ -203,8 +208,9 @@ func updateAndCommitTree(
 				count++
 				nodeInstance := &tree.Node{Name: _kill.GetName()}
 				nodeInstance.IsNodeClickable = true
-				nodeInstance.Impl = NewInstanceNodeCallback(_kill, "Kill", probe)
-
+				nodeInstance.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+					FillUpFormFromGongstruct(_kill, probe)
+				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
 		case "Message":
@@ -219,8 +225,9 @@ func updateAndCommitTree(
 				count++
 				nodeInstance := &tree.Node{Name: _message.GetName()}
 				nodeInstance.IsNodeClickable = true
-				nodeInstance.Impl = NewInstanceNodeCallback(_message, "Message", probe)
-
+				nodeInstance.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+					FillUpFormFromGongstruct(_message, probe)
+				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
 		case "MessageType":
@@ -235,8 +242,9 @@ func updateAndCommitTree(
 				count++
 				nodeInstance := &tree.Node{Name: _messagetype.GetName()}
 				nodeInstance.IsNodeClickable = true
-				nodeInstance.Impl = NewInstanceNodeCallback(_messagetype, "MessageType", probe)
-
+				nodeInstance.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+					FillUpFormFromGongstruct(_messagetype, probe)
+				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
 		case "Object":
@@ -251,8 +259,9 @@ func updateAndCommitTree(
 				count++
 				nodeInstance := &tree.Node{Name: _object.GetName()}
 				nodeInstance.IsNodeClickable = true
-				nodeInstance.Impl = NewInstanceNodeCallback(_object, "Object", probe)
-
+				nodeInstance.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+					FillUpFormFromGongstruct(_object, probe)
+				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
 		case "Role":
@@ -267,8 +276,9 @@ func updateAndCommitTree(
 				count++
 				nodeInstance := &tree.Node{Name: _role.GetName()}
 				nodeInstance.IsNodeClickable = true
-				nodeInstance.Impl = NewInstanceNodeCallback(_role, "Role", probe)
-
+				nodeInstance.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+					FillUpFormFromGongstruct(_role, probe)
+				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
 		case "State":
@@ -283,8 +293,9 @@ func updateAndCommitTree(
 				count++
 				nodeInstance := &tree.Node{Name: _state.GetName()}
 				nodeInstance.IsNodeClickable = true
-				nodeInstance.Impl = NewInstanceNodeCallback(_state, "State", probe)
-
+				nodeInstance.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+					FillUpFormFromGongstruct(_state, probe)
+				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
 		case "StateMachine":
@@ -299,8 +310,9 @@ func updateAndCommitTree(
 				count++
 				nodeInstance := &tree.Node{Name: _statemachine.GetName()}
 				nodeInstance.IsNodeClickable = true
-				nodeInstance.Impl = NewInstanceNodeCallback(_statemachine, "StateMachine", probe)
-
+				nodeInstance.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+					FillUpFormFromGongstruct(_statemachine, probe)
+				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
 		case "StateShape":
@@ -315,8 +327,9 @@ func updateAndCommitTree(
 				count++
 				nodeInstance := &tree.Node{Name: _stateshape.GetName()}
 				nodeInstance.IsNodeClickable = true
-				nodeInstance.Impl = NewInstanceNodeCallback(_stateshape, "StateShape", probe)
-
+				nodeInstance.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+					FillUpFormFromGongstruct(_stateshape, probe)
+				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
 		case "Transition":
@@ -331,8 +344,9 @@ func updateAndCommitTree(
 				count++
 				nodeInstance := &tree.Node{Name: _transition.GetName()}
 				nodeInstance.IsNodeClickable = true
-				nodeInstance.Impl = NewInstanceNodeCallback(_transition, "Transition", probe)
-
+				nodeInstance.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+					FillUpFormFromGongstruct(_transition, probe)
+				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
 		case "Transition_Shape":
@@ -347,8 +361,9 @@ func updateAndCommitTree(
 				count++
 				nodeInstance := &tree.Node{Name: _transition_shape.GetName()}
 				nodeInstance.IsNodeClickable = true
-				nodeInstance.Impl = NewInstanceNodeCallback(_transition_shape, "Transition_Shape", probe)
-
+				nodeInstance.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+					FillUpFormFromGongstruct(_transition_shape, probe)
+				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
 		}
@@ -381,37 +396,6 @@ func updateAndCommitTree(
 	tree.StageBranch(probe.treeStage, sidebar)
 
 	probe.treeStage.Commit()
-}
-
-type InstanceNodeCallback[T models.PointerToGongstruct] struct {
-	Instance       T
-	gongstructName string
-	probe          *Probe
-}
-
-func NewInstanceNodeCallback[T models.PointerToGongstruct](
-	instance T,
-	gongstructName string,
-	probe *Probe) (
-	instanceNodeCallback *InstanceNodeCallback[T],
-) {
-	instanceNodeCallback = new(InstanceNodeCallback[T])
-
-	instanceNodeCallback.probe = probe
-	instanceNodeCallback.gongstructName = gongstructName
-	instanceNodeCallback.Instance = instance
-
-	return
-}
-
-func (instanceNodeCallback *InstanceNodeCallback[T]) OnAfterUpdate(
-	gongtreeStage *tree.Stage,
-	stagedNode, frontNode *tree.Node,
-) {
-	FillUpFormFromGongstruct(
-		instanceNodeCallback.Instance,
-		instanceNodeCallback.probe,
-	)
 }
 
 func (probe *Probe) AddCommitNavigationNode(appendChildrenNodeFunc func(models.GongNodeIF)) {

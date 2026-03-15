@@ -123,8 +123,9 @@ func updateAndCommitTree(
 				count++
 				nodeInstance := &tree.Node{Name: _freqency.GetName()}
 				nodeInstance.IsNodeClickable = true
-				nodeInstance.Impl = NewInstanceNodeCallback(_freqency, "Freqency", probe)
-
+				nodeInstance.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+					FillUpFormFromGongstruct(_freqency, probe)
+				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
 		case "Note":
@@ -139,8 +140,9 @@ func updateAndCommitTree(
 				count++
 				nodeInstance := &tree.Node{Name: _note.GetName()}
 				nodeInstance.IsNodeClickable = true
-				nodeInstance.Impl = NewInstanceNodeCallback(_note, "Note", probe)
-
+				nodeInstance.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+					FillUpFormFromGongstruct(_note, probe)
+				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
 		case "Player":
@@ -155,8 +157,9 @@ func updateAndCommitTree(
 				count++
 				nodeInstance := &tree.Node{Name: _player.GetName()}
 				nodeInstance.IsNodeClickable = true
-				nodeInstance.Impl = NewInstanceNodeCallback(_player, "Player", probe)
-
+				nodeInstance.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+					FillUpFormFromGongstruct(_player, probe)
+				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
 		}
@@ -189,37 +192,6 @@ func updateAndCommitTree(
 	tree.StageBranch(probe.treeStage, sidebar)
 
 	probe.treeStage.Commit()
-}
-
-type InstanceNodeCallback[T models.PointerToGongstruct] struct {
-	Instance       T
-	gongstructName string
-	probe          *Probe
-}
-
-func NewInstanceNodeCallback[T models.PointerToGongstruct](
-	instance T,
-	gongstructName string,
-	probe *Probe) (
-	instanceNodeCallback *InstanceNodeCallback[T],
-) {
-	instanceNodeCallback = new(InstanceNodeCallback[T])
-
-	instanceNodeCallback.probe = probe
-	instanceNodeCallback.gongstructName = gongstructName
-	instanceNodeCallback.Instance = instance
-
-	return
-}
-
-func (instanceNodeCallback *InstanceNodeCallback[T]) OnAfterUpdate(
-	gongtreeStage *tree.Stage,
-	stagedNode, frontNode *tree.Node,
-) {
-	FillUpFormFromGongstruct(
-		instanceNodeCallback.Instance,
-		instanceNodeCallback.probe,
-	)
 }
 
 func (probe *Probe) AddCommitNavigationNode(appendChildrenNodeFunc func(models.GongNodeIF)) {
