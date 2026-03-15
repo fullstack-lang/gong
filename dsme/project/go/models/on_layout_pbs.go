@@ -12,8 +12,8 @@ var (
 // onLayoutPBS resets the diagram, creates and adds all possible product-related concrete instances to the diagram,
 // and organizes them in a breakdown structure
 func onLayoutPBS(stager *Stager, diagram *Diagram) func(
-	stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
-	return func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
+	stage *tree.Stage, updatedButton *tree.Button) {
+	return func(stage *tree.Stage, updatedButton *tree.Button) {
 		// 1. Reset the diagram: remove all shapes from the stage to start fresh
 		diagram.Product_Shapes = []*ProductShape{}
 		diagram.Task_Shapes = []*TaskShape{}

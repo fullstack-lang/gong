@@ -13,8 +13,8 @@ func onRemoveAssociationShape[
 		AssociationConcreteType
 	},
 	ACT_ Gongstruct](stager *Stager, compositionShape ACT, shapes *[]ACT) func(
-	stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
-	return func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
+	stage *tree.Stage, updatedButton *tree.Button) {
+	return func(stage *tree.Stage, updatedButton *tree.Button) {
 		compositionShape.UnstageVoid(stager.stage)
 		idx := slices.Index(*shapes, compositionShape)
 		*shapes = slices.Delete(*shapes, idx, idx+1)
