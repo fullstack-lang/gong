@@ -300,7 +300,7 @@ map[string]string{
 				count++
 				nodeInstance := &tree.Node{Name: _{{structname}}.GetName()}
 				nodeInstance.IsNodeClickable = true
-				nodeInstance.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+				nodeInstance.OnUpdate = func(_ *tree.Stage, _, _ *tree.Node) {
 					FillUpFormFromGongstruct(_{{structname}}, probe)
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)

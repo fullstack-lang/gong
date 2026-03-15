@@ -1,6 +1,9 @@
 package models
 
 import (
+	"math/rand/v2"
+	"slices"
+
 	"github.com/fullstack-lang/gong/lib/tree/go/buttons"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
@@ -60,24 +63,25 @@ func (stager *Stager) tree() {
 			Name:              "Movements",
 			HasCheckboxButton: false,
 			IsExpanded:        diagram.IsMovementCategoryNodeExpanded,
+			OnUpdate: func(_ *tree.Stage, stagedNode, frontNode *tree.Node) {
+				if frontNode.IsExpanded != stagedNode.IsExpanded {
+					diagram.IsMovementCategoryNodeExpanded = !diagram.IsMovementCategoryNodeExpanded
+					stage.Commit()
+				}
+			},
 		}
 		movementCategoryNode.Buttons = []*tree.Button{
 			{
 				Name: diagram.GetName(),
 				Icon: string(buttons.BUTTON_visibility),
-				Impl: &toggleButtonProxy{
-					stager:      stager,
-					toggleValue: &diagram.IsMovementCategoryShown,
+				OnUpdate: func(stage *tree.Stage, updatedButton *tree.Button) {
+					diagram.IsMovementCategoryShown = !diagram.IsMovementCategoryShown
+					stage.Commit()
 				},
 			},
 		}
 		if diagram.IsMovementCategoryShown {
 			movementCategoryNode.Buttons[0].Icon = string(buttons.BUTTON_visibility_off)
-		}
-		movementCategoryNode.Impl = &expandableNodeProxy{
-			node:           movementCategoryNode,
-			stager:         stager,
-			isNodeExpanded: &diagram.IsMovementCategoryNodeExpanded,
 		}
 		diagramNode.Children = append(diagramNode.Children, movementCategoryNode)
 
@@ -98,12 +102,29 @@ func (stager *Stager) tree() {
 				Name:              movement.Name,
 				HasCheckboxButton: true,
 				IsChecked:         isInDiagram,
-			}
-			movementNode.Impl = &MovementNodeProxy{
-				node:     movementNode,
-				diagram:  diagram,
-				movement: movement,
-				stager:   stager,
+				OnUpdate: func(_ *tree.Stage, stagedNode, frontNode *tree.Node) {
+					if frontNode.IsChecked && !stagedNode.IsChecked {
+						movementShape := &MovementShape{
+							Movement: movement,
+							Width:    240,
+							Height:   80,
+							X:        float64(int(rand.Float32()*100) + 10),
+							Y:        float64(int(rand.Float32()*100) + 10),
+						}
+						movementShape.Stage(stage)
+						diagram.MovementShapes = append(diagram.MovementShapes, movementShape)
+					}
+					if !frontNode.IsChecked && stagedNode.IsChecked {
+						for idx, shape := range diagram.MovementShapes {
+							if shape.Movement == movement {
+								diagram.MovementShapes = slices.Delete(diagram.MovementShapes, idx, idx+1)
+								continue
+							}
+						}
+					}
+
+					stage.Commit()
+				},
 			}
 			movementCategoryNode.Children = append(movementCategoryNode.Children, movementNode)
 
