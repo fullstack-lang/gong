@@ -135,11 +135,9 @@ func (stager *Stager) tree() {
 					ToolTipText:     "Hide from diagram",
 					HasToolTip:      true,
 					ToolTipPosition: tree.Right,
-					Impl: &tree.FunctionalButtonProxy{
-						OnUpdated: func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
-							shape.IsHidden = !shape.IsHidden
-							stager.stage.Commit()
-						},
+					OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+						shape.IsHidden = !shape.IsHidden
+						stage.Commit()
 					},
 				},
 			}
@@ -164,9 +162,9 @@ func (stager *Stager) tree() {
 			{
 				Name: diagram.GetName(),
 				Icon: string(buttons.BUTTON_visibility),
-				Impl: &toggleButtonProxy{
-					stager:      stager,
-					toggleValue: &diagram.IsArtefactTypeCategoryShown,
+				OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+					diagram.IsArtefactTypeCategoryShown = !diagram.IsArtefactTypeCategoryShown
+					stage.Commit()
 				},
 			},
 		}
@@ -208,7 +206,7 @@ func (stager *Stager) tree() {
 					Impl: &tree.FunctionalButtonProxy{
 						OnUpdated: func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
 							shape.IsHidden = !shape.IsHidden
-							stager.stage.Commit()
+							stage.Commit()
 						},
 					},
 				},
@@ -276,7 +274,7 @@ func (stager *Stager) tree() {
 					Impl: &tree.FunctionalButtonProxy{
 						OnUpdated: func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
 							shape.IsHidden = !shape.IsHidden
-							stager.stage.Commit()
+							stage.Commit()
 						},
 					},
 				},
