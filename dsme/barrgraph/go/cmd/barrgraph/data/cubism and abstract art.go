@@ -286,36 +286,42 @@ func _(stage *models.Stage) {
 	__ArtefactTypeShape__00000000_.Y = 37.000000
 	__ArtefactTypeShape__00000000_.Width = 119.000000
 	__ArtefactTypeShape__00000000_.Height = 21.000000
+	__ArtefactTypeShape__00000000_.IsHidden = false
 
 	__ArtefactTypeShape__00000001_.Name = ``
 	__ArtefactTypeShape__00000001_.X = 101.000000
 	__ArtefactTypeShape__00000001_.Y = 238.000000
 	__ArtefactTypeShape__00000001_.Width = 130.000000
 	__ArtefactTypeShape__00000001_.Height = 21.000000
+	__ArtefactTypeShape__00000001_.IsHidden = false
 
 	__ArtefactTypeShape__00000002_.Name = ``
 	__ArtefactTypeShape__00000002_.X = 405.000000
 	__ArtefactTypeShape__00000002_.Y = 319.333333
 	__ArtefactTypeShape__00000002_.Width = 139.000000
 	__ArtefactTypeShape__00000002_.Height = 21.000000
+	__ArtefactTypeShape__00000002_.IsHidden = false
 
 	__ArtefactTypeShape__00000003_.Name = ``
 	__ArtefactTypeShape__00000003_.X = 397.000000
 	__ArtefactTypeShape__00000003_.Y = 238.000000
 	__ArtefactTypeShape__00000003_.Width = 132.000000
 	__ArtefactTypeShape__00000003_.Height = 20.000000
+	__ArtefactTypeShape__00000003_.IsHidden = false
 
 	__ArtefactTypeShape__00000004_.Name = ``
 	__ArtefactTypeShape__00000004_.X = 120.857143
 	__ArtefactTypeShape__00000004_.Y = 72.285714
 	__ArtefactTypeShape__00000004_.Width = 150.000000
 	__ArtefactTypeShape__00000004_.Height = 25.000000
+	__ArtefactTypeShape__00000004_.IsHidden = false
 
 	__ArtefactTypeShape__00000005_.Name = ``
 	__ArtefactTypeShape__00000005_.X = 154.285714
 	__ArtefactTypeShape__00000005_.Y = 429.714286
 	__ArtefactTypeShape__00000005_.Width = 150.000000
 	__ArtefactTypeShape__00000005_.Height = 25.000000
+	__ArtefactTypeShape__00000005_.IsHidden = false
 
 	__Artist__00000000_.Name = `Van Gogh`
 	__Artist__00000000_.IsDead = true
@@ -350,54 +356,63 @@ func _(stage *models.Stage) {
 	__ArtistShape__00000000_.Y = 413.927203
 	__ArtistShape__00000000_.Width = 54.000000
 	__ArtistShape__00000000_.Height = 28.000000
+	__ArtistShape__00000000_.IsHidden = false
 
 	__ArtistShape__00000001_.Name = ``
 	__ArtistShape__00000001_.X = 445.888889
 	__ArtistShape__00000001_.Y = 26.333333
 	__ArtistShape__00000001_.Width = 84.000000
 	__ArtistShape__00000001_.Height = 33.000000
+	__ArtistShape__00000001_.IsHidden = false
 
 	__ArtistShape__00000002_.Name = ``
 	__ArtistShape__00000002_.X = 293.000000
 	__ArtistShape__00000002_.Y = 19.000000
 	__ArtistShape__00000002_.Width = 74.000000
 	__ArtistShape__00000002_.Height = 31.000000
+	__ArtistShape__00000002_.IsHidden = false
 
 	__ArtistShape__00000003_.Name = ``
 	__ArtistShape__00000003_.X = 57.000000
 	__ArtistShape__00000003_.Y = 116.000000
 	__ArtistShape__00000003_.Width = 73.000000
 	__ArtistShape__00000003_.Height = 30.000000
+	__ArtistShape__00000003_.IsHidden = false
 
 	__ArtistShape__00000004_.Name = ``
 	__ArtistShape__00000004_.X = 662.222222
 	__ArtistShape__00000004_.Y = 126.555556
 	__ArtistShape__00000004_.Width = 69.000000
 	__ArtistShape__00000004_.Height = 30.000000
+	__ArtistShape__00000004_.IsHidden = false
 
 	__ArtistShape__00000005_.Name = ``
 	__ArtistShape__00000005_.X = 655.000000
 	__ArtistShape__00000005_.Y = 17.000000
 	__ArtistShape__00000005_.Width = 47.000000
 	__ArtistShape__00000005_.Height = 30.000000
+	__ArtistShape__00000005_.IsHidden = false
 
 	__ArtistShape__00000006_.Name = ``
 	__ArtistShape__00000006_.X = 156.000000
 	__ArtistShape__00000006_.Y = 75.000000
 	__ArtistShape__00000006_.Width = 70.000000
 	__ArtistShape__00000006_.Height = 30.000000
+	__ArtistShape__00000006_.IsHidden = false
 
 	__ArtistShape__00000007_.Name = ``
 	__ArtistShape__00000007_.X = 154.714286
 	__ArtistShape__00000007_.Y = 270.571429
 	__ArtistShape__00000007_.Width = 68.000000
 	__ArtistShape__00000007_.Height = 30.000000
+	__ArtistShape__00000007_.IsHidden = false
 
 	__ArtistShape__00000008_.Name = ``
 	__ArtistShape__00000008_.X = 473.000000
 	__ArtistShape__00000008_.Y = 144.000000
 	__ArtistShape__00000008_.Width = 80.000000
 	__ArtistShape__00000008_.Height = 30.000000
+	__ArtistShape__00000008_.IsHidden = false
 
 	__ControlPointShape__00000000_.Name = `Control Point Shape in Japanese prints to Fauvism 0`
 	__ControlPointShape__00000000_.X_Relative = 0.162020
@@ -714,7 +729,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.Name = `Cubism   and   abstract   art`
 	__Diagram__00000000_.IsEditable = false
 	__Diagram__00000000_.IsNodeExpanded = true
-	__Diagram__00000000_.IsMovementCategoryNodeExpanded = false
+	__Diagram__00000000_.IsMovementCategoryNodeExpanded = true
 	__Diagram__00000000_.IsArtefactTypeCategoryNodeExpanded = false
 	__Diagram__00000000_.IsArtistCategoryNodeExpanded = false
 	__Diagram__00000000_.IsInfluenceCategoryNodeExpanded = false
@@ -724,6 +739,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.IsInfluenceCategoryShown = true
 	__Diagram__00000000_.StartDate, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1890-01-01 00:00:00 +0000 UTC")
 	__Diagram__00000000_.EndDate, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1935-01-01 00:00:00 +0000 UTC")
+	__Diagram__00000000_.NbYearsForIntervals = 5
 	__Diagram__00000000_.XMargin = 20.000000
 	__Diagram__00000000_.YMargin = 40.000000
 	__Diagram__00000000_.Height = 900.000000
@@ -809,6 +825,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000001_.IsInfluenceCategoryShown = true
 	__Diagram__00000001_.StartDate, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1905-01-01 00:00:00 +0000 UTC")
 	__Diagram__00000001_.EndDate, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1935-01-01 00:00:00 +0000 UTC")
+	__Diagram__00000001_.NbYearsForIntervals = 5
 	__Diagram__00000001_.XMargin = 20.000000
 	__Diagram__00000001_.YMargin = 40.000000
 	__Diagram__00000001_.Height = 900.000000
@@ -1128,6 +1145,7 @@ func _(stage *models.Stage) {
 
 	__Movement__00000000_.Name = `Purism`
 	__Movement__00000000_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1918-01-01 00:00:00 +0000 UTC")
+	__Movement__00000000_.HideDate = false
 	__Movement__00000000_.HasTaxonomicFilter = false
 	__Movement__00000000_.TaxonomicFilter = ``
 	__Movement__00000000_.IsFeatured = false
@@ -1135,10 +1153,10 @@ func _(stage *models.Stage) {
 	__Movement__00000000_.IsMajor = false
 	__Movement__00000000_.IsMinor = false
 	__Movement__00000000_.AdditionnalName = ``
-	__Movement__00000000_.HideDate = false
 
 	__Movement__00000001_.Name = `Synthetism`
 	__Movement__00000001_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1888-01-01 00:00:00 +0000 UTC")
+	__Movement__00000001_.HideDate = false
 	__Movement__00000001_.HasTaxonomicFilter = false
 	__Movement__00000001_.TaxonomicFilter = ``
 	__Movement__00000001_.IsFeatured = false
@@ -1146,10 +1164,10 @@ func _(stage *models.Stage) {
 	__Movement__00000001_.IsMajor = false
 	__Movement__00000001_.IsMinor = false
 	__Movement__00000001_.AdditionnalName = ``
-	__Movement__00000001_.HideDate = false
 
 	__Movement__00000002_.Name = `Neo-Impressionism`
 	__Movement__00000002_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1886-01-01 00:00:00 +0000 UTC")
+	__Movement__00000002_.HideDate = false
 	__Movement__00000002_.HasTaxonomicFilter = false
 	__Movement__00000002_.TaxonomicFilter = ``
 	__Movement__00000002_.IsFeatured = false
@@ -1157,10 +1175,10 @@ func _(stage *models.Stage) {
 	__Movement__00000002_.IsMajor = false
 	__Movement__00000002_.IsMinor = false
 	__Movement__00000002_.AdditionnalName = ``
-	__Movement__00000002_.HideDate = false
 
 	__Movement__00000003_.Name = `Fauvism`
 	__Movement__00000003_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1905-01-01 00:00:00 +0000 UTC")
+	__Movement__00000003_.HideDate = false
 	__Movement__00000003_.HasTaxonomicFilter = false
 	__Movement__00000003_.TaxonomicFilter = ``
 	__Movement__00000003_.IsFeatured = false
@@ -1168,10 +1186,10 @@ func _(stage *models.Stage) {
 	__Movement__00000003_.IsMajor = false
 	__Movement__00000003_.IsMinor = false
 	__Movement__00000003_.AdditionnalName = ``
-	__Movement__00000003_.HideDate = false
 
 	__Movement__00000004_.Name = `Expressionism`
 	__Movement__00000004_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1911-01-01 00:00:00 +0000 UTC")
+	__Movement__00000004_.HideDate = false
 	__Movement__00000004_.HasTaxonomicFilter = true
 	__Movement__00000004_.TaxonomicFilter = `abstract`
 	__Movement__00000004_.IsFeatured = false
@@ -1179,10 +1197,10 @@ func _(stage *models.Stage) {
 	__Movement__00000004_.IsMajor = false
 	__Movement__00000004_.IsMinor = false
 	__Movement__00000004_.AdditionnalName = ``
-	__Movement__00000004_.HideDate = false
 
 	__Movement__00000005_.Name = `Futurism`
 	__Movement__00000005_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1910-01-01 00:00:00 +0000 UTC")
+	__Movement__00000005_.HideDate = false
 	__Movement__00000005_.HasTaxonomicFilter = false
 	__Movement__00000005_.TaxonomicFilter = ``
 	__Movement__00000005_.IsFeatured = false
@@ -1190,10 +1208,10 @@ func _(stage *models.Stage) {
 	__Movement__00000005_.IsMajor = false
 	__Movement__00000005_.IsMinor = false
 	__Movement__00000005_.AdditionnalName = ``
-	__Movement__00000005_.HideDate = false
 
 	__Movement__00000006_.Name = `Orphism`
 	__Movement__00000006_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1912-01-01 00:00:00 +0000 UTC")
+	__Movement__00000006_.HideDate = false
 	__Movement__00000006_.HasTaxonomicFilter = false
 	__Movement__00000006_.TaxonomicFilter = ``
 	__Movement__00000006_.IsFeatured = false
@@ -1201,10 +1219,10 @@ func _(stage *models.Stage) {
 	__Movement__00000006_.IsMajor = false
 	__Movement__00000006_.IsMinor = true
 	__Movement__00000006_.AdditionnalName = ``
-	__Movement__00000006_.HideDate = false
 
 	__Movement__00000007_.Name = `Cubism`
 	__Movement__00000007_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1906-01-01 00:00:00 +0000 UTC")
+	__Movement__00000007_.HideDate = false
 	__Movement__00000007_.HasTaxonomicFilter = false
 	__Movement__00000007_.TaxonomicFilter = ``
 	__Movement__00000007_.IsFeatured = false
@@ -1212,10 +1230,10 @@ func _(stage *models.Stage) {
 	__Movement__00000007_.IsMajor = true
 	__Movement__00000007_.IsMinor = false
 	__Movement__00000007_.AdditionnalName = ``
-	__Movement__00000007_.HideDate = false
 
 	__Movement__00000008_.Name = `Suprematism`
 	__Movement__00000008_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1913-01-01 00:00:00 +0000 UTC")
+	__Movement__00000008_.HideDate = false
 	__Movement__00000008_.HasTaxonomicFilter = false
 	__Movement__00000008_.TaxonomicFilter = ``
 	__Movement__00000008_.IsFeatured = false
@@ -1223,10 +1241,10 @@ func _(stage *models.Stage) {
 	__Movement__00000008_.IsMajor = false
 	__Movement__00000008_.IsMinor = false
 	__Movement__00000008_.AdditionnalName = ``
-	__Movement__00000008_.HideDate = false
 
 	__Movement__00000009_.Name = `Constructivism`
 	__Movement__00000009_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1914-01-01 00:00:00 +0000 UTC")
+	__Movement__00000009_.HideDate = false
 	__Movement__00000009_.HasTaxonomicFilter = false
 	__Movement__00000009_.TaxonomicFilter = ``
 	__Movement__00000009_.IsFeatured = false
@@ -1234,10 +1252,10 @@ func _(stage *models.Stage) {
 	__Movement__00000009_.IsMajor = false
 	__Movement__00000009_.IsMinor = false
 	__Movement__00000009_.AdditionnalName = ``
-	__Movement__00000009_.HideDate = false
 
 	__Movement__00000010_.Name = `Dadaism`
 	__Movement__00000010_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1916-01-01 00:00:00 +0000 UTC")
+	__Movement__00000010_.HideDate = false
 	__Movement__00000010_.HasTaxonomicFilter = true
 	__Movement__00000010_.TaxonomicFilter = `abstract`
 	__Movement__00000010_.IsFeatured = false
@@ -1245,10 +1263,10 @@ func _(stage *models.Stage) {
 	__Movement__00000010_.IsMajor = false
 	__Movement__00000010_.IsMinor = false
 	__Movement__00000010_.AdditionnalName = ``
-	__Movement__00000010_.HideDate = false
 
 	__Movement__00000011_.Name = `De Stijl`
 	__Movement__00000011_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1916-01-01 00:00:00 +0000 UTC")
+	__Movement__00000011_.HideDate = false
 	__Movement__00000011_.HasTaxonomicFilter = false
 	__Movement__00000011_.TaxonomicFilter = ``
 	__Movement__00000011_.IsFeatured = false
@@ -1256,10 +1274,10 @@ func _(stage *models.Stage) {
 	__Movement__00000011_.IsMajor = false
 	__Movement__00000011_.IsMinor = false
 	__Movement__00000011_.AdditionnalName = `Neoplasticism`
-	__Movement__00000011_.HideDate = false
 
 	__Movement__00000012_.Name = `Bauhaus`
 	__Movement__00000012_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1919-01-01 00:00:00 +0000 UTC")
+	__Movement__00000012_.HideDate = false
 	__Movement__00000012_.HasTaxonomicFilter = false
 	__Movement__00000012_.TaxonomicFilter = ``
 	__Movement__00000012_.IsFeatured = false
@@ -1267,10 +1285,10 @@ func _(stage *models.Stage) {
 	__Movement__00000012_.IsMajor = false
 	__Movement__00000012_.IsMinor = false
 	__Movement__00000012_.AdditionnalName = ``
-	__Movement__00000012_.HideDate = false
 
 	__Movement__00000013_.Name = `Surrealism`
 	__Movement__00000013_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1924-01-01 00:00:00 +0000 UTC")
+	__Movement__00000013_.HideDate = false
 	__Movement__00000013_.HasTaxonomicFilter = true
 	__Movement__00000013_.TaxonomicFilter = `abstract`
 	__Movement__00000013_.IsFeatured = false
@@ -1278,10 +1296,10 @@ func _(stage *models.Stage) {
 	__Movement__00000013_.IsMajor = false
 	__Movement__00000013_.IsMinor = false
 	__Movement__00000013_.AdditionnalName = ``
-	__Movement__00000013_.HideDate = false
 
 	__Movement__00000014_.Name = `Non-Geometrical Abstract Art`
 	__Movement__00000014_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1935-01-01 00:00:00 +0000 UTC")
+	__Movement__00000014_.HideDate = true
 	__Movement__00000014_.HasTaxonomicFilter = false
 	__Movement__00000014_.TaxonomicFilter = ``
 	__Movement__00000014_.IsFeatured = false
@@ -1289,10 +1307,10 @@ func _(stage *models.Stage) {
 	__Movement__00000014_.IsMajor = false
 	__Movement__00000014_.IsMinor = false
 	__Movement__00000014_.AdditionnalName = ``
-	__Movement__00000014_.HideDate = true
 
 	__Movement__00000015_.Name = `Geometrical Abstract Art`
 	__Movement__00000015_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1935-01-01 00:00:00 +0000 UTC")
+	__Movement__00000015_.HideDate = true
 	__Movement__00000015_.HasTaxonomicFilter = false
 	__Movement__00000015_.TaxonomicFilter = ``
 	__Movement__00000015_.IsFeatured = false
@@ -1300,10 +1318,10 @@ func _(stage *models.Stage) {
 	__Movement__00000015_.IsMajor = false
 	__Movement__00000015_.IsMinor = false
 	__Movement__00000015_.AdditionnalName = ``
-	__Movement__00000015_.HideDate = true
 
 	__Movement__00000016_.Name = `Architecture`
 	__Movement__00000016_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Movement__00000016_.HideDate = true
 	__Movement__00000016_.HasTaxonomicFilter = false
 	__Movement__00000016_.TaxonomicFilter = ``
 	__Movement__00000016_.IsFeatured = true
@@ -1311,115 +1329,132 @@ func _(stage *models.Stage) {
 	__Movement__00000016_.IsMajor = true
 	__Movement__00000016_.IsMinor = false
 	__Movement__00000016_.AdditionnalName = ``
-	__Movement__00000016_.HideDate = true
 
 	__MovementShape__00000000_.Name = ``
 	__MovementShape__00000000_.X = 158.219546
 	__MovementShape__00000000_.Y = 442.062032
 	__MovementShape__00000000_.Width = 91.094118
 	__MovementShape__00000000_.Height = 44.724138
+	__MovementShape__00000000_.IsHidden = false
 
 	__MovementShape__00000001_.Name = ``
 	__MovementShape__00000001_.X = 89.500000
 	__MovementShape__00000001_.Y = 367.913793
 	__MovementShape__00000001_.Width = 112.500031
 	__MovementShape__00000001_.Height = 34.086207
+	__MovementShape__00000001_.IsHidden = false
 
 	__MovementShape__00000002_.Name = ``
 	__MovementShape__00000002_.X = 122.813468
 	__MovementShape__00000002_.Y = 590.434344
 	__MovementShape__00000002_.Width = 88.200000
 	__MovementShape__00000002_.Height = 36.200000
+	__MovementShape__00000002_.IsHidden = false
 
 	__MovementShape__00000003_.Name = ``
 	__MovementShape__00000003_.X = 270.420875
 	__MovementShape__00000003_.Y = 356.713805
 	__MovementShape__00000003_.Width = 69.333333
 	__MovementShape__00000003_.Height = 29.090909
+	__MovementShape__00000003_.IsHidden = false
 
 	__MovementShape__00000004_.Name = ``
 	__MovementShape__00000004_.X = 281.023424
 	__MovementShape__00000004_.Y = 241.051724
 	__MovementShape__00000004_.Width = 63.130750
 	__MovementShape__00000004_.Height = 41.908046
+	__MovementShape__00000004_.IsHidden = false
 
 	__MovementShape__00000005_.Name = ``
 	__MovementShape__00000005_.X = 84.385185
 	__MovementShape__00000005_.Y = 740.444444
 	__MovementShape__00000005_.Width = 240.000000
 	__MovementShape__00000005_.Height = 23.200000
+	__MovementShape__00000005_.IsHidden = false
 
 	__MovementShape__00000006_.Name = ``
 	__MovementShape__00000006_.X = 416.599327
 	__MovementShape__00000006_.Y = 449.518519
 	__MovementShape__00000006_.Width = 114.197980
 	__MovementShape__00000006_.Height = 50.340067
+	__MovementShape__00000006_.IsHidden = false
 
 	__MovementShape__00000007_.Name = ``
 	__MovementShape__00000007_.X = 553.786833
 	__MovementShape__00000007_.Y = 568.328805
 	__MovementShape__00000007_.Width = 71.909122
 	__MovementShape__00000007_.Height = 28.181818
+	__MovementShape__00000007_.IsHidden = false
 
 	__MovementShape__00000008_.Name = ``
 	__MovementShape__00000008_.X = 596.169697
 	__MovementShape__00000008_.Y = 426.400000
 	__MovementShape__00000008_.Width = 125.363636
 	__MovementShape__00000008_.Height = 40.000000
+	__MovementShape__00000008_.IsHidden = false
 
 	__MovementShape__00000009_.Name = ``
 	__MovementShape__00000009_.X = 493.727304
 	__MovementShape__00000009_.Y = 734.558923
 	__MovementShape__00000009_.Width = 208.181818
 	__MovementShape__00000009_.Height = 32.545455
+	__MovementShape__00000009_.IsHidden = false
 
 	__MovementShape__00000010_.Name = ``
 	__MovementShape__00000010_.X = 556.142096
 	__MovementShape__00000010_.Y = 55.409613
 	__MovementShape__00000010_.Width = 148.757576
 	__MovementShape__00000010_.Height = 34.090909
+	__MovementShape__00000010_.IsHidden = false
 
 	__MovementShape__00000011_.Name = ``
 	__MovementShape__00000011_.X = 438.554510
 	__MovementShape__00000011_.Y = 349.000000
 	__MovementShape__00000011_.Width = 42.564263
 	__MovementShape__00000011_.Height = 36.839827
+	__MovementShape__00000011_.IsHidden = false
 
 	__MovementShape__00000012_.Name = ``
 	__MovementShape__00000012_.X = 303.138046
 	__MovementShape__00000012_.Y = 482.222222
 	__MovementShape__00000012_.Width = 51.000031
 	__MovementShape__00000012_.Height = 32.000000
+	__MovementShape__00000012_.IsHidden = false
 
 	__MovementShape__00000013_.Name = ``
 	__MovementShape__00000013_.X = 579.787879
 	__MovementShape__00000013_.Y = 370.921212
 	__MovementShape__00000013_.Width = 99.090909
 	__MovementShape__00000013_.Height = 27.636364
+	__MovementShape__00000013_.IsHidden = false
 
 	__MovementShape__00000014_.Name = ``
 	__MovementShape__00000014_.X = 284.666681
 	__MovementShape__00000014_.Y = 54.200000
 	__MovementShape__00000014_.Width = 89.666667
 	__MovementShape__00000014_.Height = 31.000000
+	__MovementShape__00000014_.IsHidden = false
 
 	__MovementShape__00000015_.Name = ``
 	__MovementShape__00000015_.X = 612.064814
 	__MovementShape__00000015_.Y = 275.523148
 	__MovementShape__00000015_.Width = 75.000000
 	__MovementShape__00000015_.Height = 48.636364
+	__MovementShape__00000015_.IsHidden = false
 
 	__MovementShape__00000016_.Name = ``
 	__MovementShape__00000016_.X = 249.070707
 	__MovementShape__00000016_.Y = 600.747475
 	__MovementShape__00000016_.Width = 147.222222
 	__MovementShape__00000016_.Height = 49.555556
+	__MovementShape__00000016_.IsHidden = false
 
 	__MovementShape__00000017_.Name = ``
 	__MovementShape__00000017_.X = 478.428571
 	__MovementShape__00000017_.Y = 394.571429
 	__MovementShape__00000017_.Width = 97.000000
 	__MovementShape__00000017_.Height = 53.000000
+	__MovementShape__00000017_.IsHidden = false
 
 	__Place__00000000_.Name = `Paris`
 
