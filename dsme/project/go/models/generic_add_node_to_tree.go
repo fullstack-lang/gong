@@ -86,15 +86,13 @@ func addNodeToTree[
 	}
 
 	// what to do when the node is clicked
-	node.Impl = &tree.FunctionalNodeProxy{
-		OnUpdate: onUpdateElementInDiagram(
-			stager,
-			diagram,
-			element,
-			elementsWhoseNodeIsExpanded,
-			shapes,
-			shapesMap),
-	}
+	node.OnUpdate = onUpdateElementInDiagram(
+		stager,
+		diagram,
+		element,
+		elementsWhoseNodeIsExpanded,
+		shapes,
+		shapesMap)
 
 	return node
 }

@@ -50,6 +50,18 @@ func (s *RectShape) SetReceiver(receiver GongstructIF) {
 	s.receiver = receiver
 }
 
+func (s *RectShape) GetReceiver() GongstructIF {
+	return s.receiver
+}
+
+func (s *RectShape) SetIsHidden(isHidden bool) {
+	s.IsHidden = isHidden
+}
+
+func (s *RectShape) GetIsHidden() bool {
+	return s.IsHidden
+}
+
 type RectShapeInterface interface {
 	SetX(x float64)
 	SetY(x float64)
@@ -64,4 +76,8 @@ type RectShapeInterface interface {
 	StageVoid(stage *Stage)
 
 	SetReceiver(receiver GongstructIF)
+	GetReceiver() GongstructIF
+
+	SetIsHidden(isHidden bool)
+	GetIsHidden() bool
 }
