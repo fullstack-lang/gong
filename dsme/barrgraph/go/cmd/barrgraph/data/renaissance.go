@@ -51,6 +51,8 @@ func _(stage *models.Stage) {
 	__Artist__00000013_ := (&models.Artist{Name: `Giorgione`}).Stage(stage)
 	__Artist__00000014_ := (&models.Artist{Name: `Tintoretto`}).Stage(stage)
 	__Artist__00000015_ := (&models.Artist{Name: `Cimabue`}).Stage(stage)
+	__Artist__00000016_ := (&models.Artist{Name: `xxx`}).Stage(stage)
+	__Artist__00000017_ := (&models.Artist{Name: `ttt`}).Stage(stage)
 
 	__ArtistShape__00000000_ := (&models.ArtistShape{Name: ``}).Stage(stage)
 	__ArtistShape__00000001_ := (&models.ArtistShape{Name: ``}).Stage(stage)
@@ -153,14 +155,19 @@ func _(stage *models.Stage) {
 	// insertion point for initialization of values
 
 	__ArtefactType__00000000_.Name = `Byzantine Art`
+	__ArtefactType__00000000_.IsInRenameMode = false
 
 	__ArtefactType__00000001_.Name = `Gothic Architecture`
+	__ArtefactType__00000001_.IsInRenameMode = false
 
 	__ArtefactType__00000002_.Name = `Classical Antiquity`
+	__ArtefactType__00000002_.IsInRenameMode = false
 
 	__ArtefactType__00000003_.Name = `Illuminated Manuscripts`
+	__ArtefactType__00000003_.IsInRenameMode = false
 
 	__ArtefactType__00000004_.Name = `Fresco Painting`
+	__ArtefactType__00000004_.IsInRenameMode = false
 
 	__ArtefactTypeShape__00000000_.Name = ``
 	__ArtefactTypeShape__00000000_.X = 100.000000
@@ -198,68 +205,94 @@ func _(stage *models.Stage) {
 	__ArtefactTypeShape__00000004_.IsHidden = false
 
 	__Artist__00000000_.Name = `Giotto`
+	__Artist__00000000_.IsInRenameMode = false
 	__Artist__00000000_.IsDead = true
 	__Artist__00000000_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1337-01-01 00:00:00 +0000 UTC")
 
 	__Artist__00000001_.Name = `Duccio`
+	__Artist__00000001_.IsInRenameMode = false
 	__Artist__00000001_.IsDead = true
 	__Artist__00000001_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1319-01-01 00:00:00 +0000 UTC")
 
 	__Artist__00000002_.Name = `Masaccio`
+	__Artist__00000002_.IsInRenameMode = false
 	__Artist__00000002_.IsDead = true
 	__Artist__00000002_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1428-01-01 00:00:00 +0000 UTC")
 
 	__Artist__00000003_.Name = `Donatello`
+	__Artist__00000003_.IsInRenameMode = false
 	__Artist__00000003_.IsDead = true
 	__Artist__00000003_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1466-01-01 00:00:00 +0000 UTC")
 
 	__Artist__00000004_.Name = `Brunelleschi`
+	__Artist__00000004_.IsInRenameMode = false
 	__Artist__00000004_.IsDead = true
 	__Artist__00000004_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1446-01-01 00:00:00 +0000 UTC")
 
 	__Artist__00000005_.Name = `Jan van Eyck`
+	__Artist__00000005_.IsInRenameMode = false
 	__Artist__00000005_.IsDead = true
 	__Artist__00000005_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1441-01-01 00:00:00 +0000 UTC")
 
 	__Artist__00000006_.Name = `Leonardo da Vinci`
+	__Artist__00000006_.IsInRenameMode = false
 	__Artist__00000006_.IsDead = true
 	__Artist__00000006_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1519-01-01 00:00:00 +0000 UTC")
 
 	__Artist__00000007_.Name = `Michelangelo`
+	__Artist__00000007_.IsInRenameMode = false
 	__Artist__00000007_.IsDead = true
 	__Artist__00000007_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1564-01-01 00:00:00 +0000 UTC")
 
 	__Artist__00000008_.Name = `Raphael`
+	__Artist__00000008_.IsInRenameMode = false
 	__Artist__00000008_.IsDead = true
 	__Artist__00000008_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1520-01-01 00:00:00 +0000 UTC")
 
 	__Artist__00000009_.Name = `Titian`
+	__Artist__00000009_.IsInRenameMode = false
 	__Artist__00000009_.IsDead = true
 	__Artist__00000009_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1576-01-01 00:00:00 +0000 UTC")
 
 	__Artist__00000010_.Name = `Sandro Botticelli`
+	__Artist__00000010_.IsInRenameMode = false
 	__Artist__00000010_.IsDead = true
 	__Artist__00000010_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1510-01-01 00:00:00 +0000 UTC")
 
 	__Artist__00000011_.Name = `Piero della Francesca`
+	__Artist__00000011_.IsInRenameMode = false
 	__Artist__00000011_.IsDead = true
 	__Artist__00000011_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1492-01-01 00:00:00 +0000 UTC")
 
 	__Artist__00000012_.Name = `Albrecht Dürer`
+	__Artist__00000012_.IsInRenameMode = false
 	__Artist__00000012_.IsDead = true
 	__Artist__00000012_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1528-01-01 00:00:00 +0000 UTC")
 
 	__Artist__00000013_.Name = `Giorgione`
+	__Artist__00000013_.IsInRenameMode = false
 	__Artist__00000013_.IsDead = true
 	__Artist__00000013_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1510-01-01 00:00:00 +0000 UTC")
 
 	__Artist__00000014_.Name = `Tintoretto`
+	__Artist__00000014_.IsInRenameMode = false
 	__Artist__00000014_.IsDead = true
 	__Artist__00000014_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1594-01-01 00:00:00 +0000 UTC")
 
 	__Artist__00000015_.Name = `Cimabue`
+	__Artist__00000015_.IsInRenameMode = false
 	__Artist__00000015_.IsDead = true
 	__Artist__00000015_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1302-01-01 00:00:00 +0000 UTC")
+
+	__Artist__00000016_.Name = `xxx`
+	__Artist__00000016_.IsInRenameMode = false
+	__Artist__00000016_.IsDead = false
+	__Artist__00000016_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+
+	__Artist__00000017_.Name = `ttt`
+	__Artist__00000017_.IsInRenameMode = false
+	__Artist__00000017_.IsDead = false
+	__Artist__00000017_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 
 	__ArtistShape__00000000_.Name = ``
 	__ArtistShape__00000000_.X = 108.000000
@@ -637,6 +670,7 @@ func _(stage *models.Stage) {
 	__InfluenceShape__00000012_.Name = `High Renaissance to Mannerism`
 
 	__Movement__00000000_.Name = `Proto-Renaissance`
+	__Movement__00000000_.IsInRenameMode = false
 	__Movement__00000000_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1300-01-01 00:00:00 +0000 UTC")
 	__Movement__00000000_.HideDate = false
 	__Movement__00000000_.HasTaxonomicFilter = false
@@ -648,6 +682,7 @@ func _(stage *models.Stage) {
 	__Movement__00000000_.AdditionnalName = ``
 
 	__Movement__00000001_.Name = `International Gothic`
+	__Movement__00000001_.IsInRenameMode = false
 	__Movement__00000001_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1370-01-01 00:00:00 +0000 UTC")
 	__Movement__00000001_.HideDate = false
 	__Movement__00000001_.HasTaxonomicFilter = false
@@ -659,6 +694,7 @@ func _(stage *models.Stage) {
 	__Movement__00000001_.AdditionnalName = ``
 
 	__Movement__00000002_.Name = `Early Renaissance`
+	__Movement__00000002_.IsInRenameMode = false
 	__Movement__00000002_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1420-01-01 00:00:00 +0000 UTC")
 	__Movement__00000002_.HideDate = false
 	__Movement__00000002_.HasTaxonomicFilter = false
@@ -670,6 +706,7 @@ func _(stage *models.Stage) {
 	__Movement__00000002_.AdditionnalName = ``
 
 	__Movement__00000003_.Name = `Early Netherlandish`
+	__Movement__00000003_.IsInRenameMode = false
 	__Movement__00000003_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1420-01-01 00:00:00 +0000 UTC")
 	__Movement__00000003_.HideDate = false
 	__Movement__00000003_.HasTaxonomicFilter = false
@@ -681,6 +718,7 @@ func _(stage *models.Stage) {
 	__Movement__00000003_.AdditionnalName = ``
 
 	__Movement__00000004_.Name = `High Renaissance`
+	__Movement__00000004_.IsInRenameMode = false
 	__Movement__00000004_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1490-01-01 00:00:00 +0000 UTC")
 	__Movement__00000004_.HideDate = false
 	__Movement__00000004_.HasTaxonomicFilter = false
@@ -692,6 +730,7 @@ func _(stage *models.Stage) {
 	__Movement__00000004_.AdditionnalName = ``
 
 	__Movement__00000005_.Name = `Venetian Renaissance`
+	__Movement__00000005_.IsInRenameMode = false
 	__Movement__00000005_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1500-01-01 00:00:00 +0000 UTC")
 	__Movement__00000005_.HideDate = false
 	__Movement__00000005_.HasTaxonomicFilter = false
@@ -703,6 +742,7 @@ func _(stage *models.Stage) {
 	__Movement__00000005_.AdditionnalName = ``
 
 	__Movement__00000006_.Name = `Sienese School`
+	__Movement__00000006_.IsInRenameMode = false
 	__Movement__00000006_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1300-01-01 00:00:00 +0000 UTC")
 	__Movement__00000006_.HideDate = false
 	__Movement__00000006_.HasTaxonomicFilter = false
@@ -714,6 +754,7 @@ func _(stage *models.Stage) {
 	__Movement__00000006_.AdditionnalName = ``
 
 	__Movement__00000007_.Name = `Mannerism`
+	__Movement__00000007_.IsInRenameMode = false
 	__Movement__00000007_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1520-01-01 00:00:00 +0000 UTC")
 	__Movement__00000007_.HideDate = false
 	__Movement__00000007_.HasTaxonomicFilter = false
@@ -816,6 +857,8 @@ func _(stage *models.Stage) {
 	__Artist__00000013_.Place = __Place__00000003_
 	__Artist__00000014_.Place = __Place__00000003_
 	__Artist__00000015_.Place = __Place__00000006_
+	__Artist__00000016_.Place = nil
+	__Artist__00000017_.Place = nil
 	__ArtistShape__00000000_.Artist = __Artist__00000000_
 	__ArtistShape__00000001_.Artist = __Artist__00000001_
 	__ArtistShape__00000002_.Artist = __Artist__00000002_
