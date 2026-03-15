@@ -257,6 +257,7 @@ func _(stage *models.Stage) {
 	__MovementShape__00000015_ := (&models.MovementShape{Name: ``}).Stage(stage)
 	__MovementShape__00000016_ := (&models.MovementShape{Name: ``}).Stage(stage)
 	__MovementShape__00000017_ := (&models.MovementShape{Name: ``}).Stage(stage)
+	__MovementShape__00000019_ := (&models.MovementShape{Name: ``}).Stage(stage)
 
 	__Place__00000000_ := (&models.Place{Name: `Paris`}).Stage(stage)
 	__Place__00000001_ := (&models.Place{Name: `Pont-Aven`}).Stage(stage)
@@ -401,8 +402,8 @@ func _(stage *models.Stage) {
 	__ArtistShape__00000006_.IsHidden = false
 
 	__ArtistShape__00000007_.Name = ``
-	__ArtistShape__00000007_.X = 154.714286
-	__ArtistShape__00000007_.Y = 270.571429
+	__ArtistShape__00000007_.X = 242.714286
+	__ArtistShape__00000007_.Y = 273.571429
 	__ArtistShape__00000007_.Width = 68.000000
 	__ArtistShape__00000007_.Height = 30.000000
 	__ArtistShape__00000007_.IsHidden = false
@@ -729,7 +730,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.Name = `Cubism   and   abstract   art`
 	__Diagram__00000000_.IsEditable = false
 	__Diagram__00000000_.IsNodeExpanded = true
-	__Diagram__00000000_.IsMovementCategoryNodeExpanded = true
+	__Diagram__00000000_.IsMovementCategoryNodeExpanded = false
 	__Diagram__00000000_.IsArtefactTypeCategoryNodeExpanded = false
 	__Diagram__00000000_.IsArtistCategoryNodeExpanded = false
 	__Diagram__00000000_.IsInfluenceCategoryNodeExpanded = false
@@ -814,8 +815,8 @@ func _(stage *models.Stage) {
 
 	__Diagram__00000001_.Name = `Post Alfred`
 	__Diagram__00000001_.IsEditable = true
-	__Diagram__00000001_.IsNodeExpanded = false
-	__Diagram__00000001_.IsMovementCategoryNodeExpanded = false
+	__Diagram__00000001_.IsNodeExpanded = true
+	__Diagram__00000001_.IsMovementCategoryNodeExpanded = true
 	__Diagram__00000001_.IsArtefactTypeCategoryNodeExpanded = true
 	__Diagram__00000001_.IsArtistCategoryNodeExpanded = true
 	__Diagram__00000001_.IsInfluenceCategoryNodeExpanded = true
@@ -1456,6 +1457,13 @@ func _(stage *models.Stage) {
 	__MovementShape__00000017_.Height = 53.000000
 	__MovementShape__00000017_.IsHidden = false
 
+	__MovementShape__00000019_.Name = ``
+	__MovementShape__00000019_.X = 483.000000
+	__MovementShape__00000019_.Y = 259.000000
+	__MovementShape__00000019_.Width = 158.000000
+	__MovementShape__00000019_.Height = 80.000000
+	__MovementShape__00000019_.IsHidden = false
+
 	__Place__00000000_.Name = `Paris`
 
 	__Place__00000001_.Name = `Pont-Aven`
@@ -1582,6 +1590,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __InfluenceShape__00000047_)
 	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __InfluenceShape__00000048_)
 	__Diagram__00000001_.MovementShapes = append(__Diagram__00000001_.MovementShapes, __MovementShape__00000017_)
+	__Diagram__00000001_.MovementShapes = append(__Diagram__00000001_.MovementShapes, __MovementShape__00000019_)
 	__Diagram__00000001_.ArtefactTypeShapes = append(__Diagram__00000001_.ArtefactTypeShapes, __ArtefactTypeShape__00000004_)
 	__Diagram__00000001_.ArtefactTypeShapes = append(__Diagram__00000001_.ArtefactTypeShapes, __ArtefactTypeShape__00000005_)
 	__Diagram__00000001_.ArtistShapes = append(__Diagram__00000001_.ArtistShapes, __ArtistShape__00000007_)
@@ -2030,4 +2039,5 @@ func _(stage *models.Stage) {
 	__MovementShape__00000015_.Movement = __Movement__00000007_
 	__MovementShape__00000016_.Movement = __Movement__00000016_
 	__MovementShape__00000017_.Movement = __Movement__00000012_
+	__MovementShape__00000019_.Movement = __Movement__00000016_
 }
