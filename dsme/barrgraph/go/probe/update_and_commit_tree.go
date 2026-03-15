@@ -126,7 +126,6 @@ func updateAndCommitTree(
 				nodeInstance.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
 					FillUpFormFromGongstruct(_artefacttype, probe)
 				}
-
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
 		case "ArtefactTypeShape":
@@ -144,7 +143,6 @@ func updateAndCommitTree(
 				nodeInstance.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
 					FillUpFormFromGongstruct(_artefacttypeshape, probe)
 				}
-
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
 		case "Artist":
@@ -162,7 +160,6 @@ func updateAndCommitTree(
 				nodeInstance.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
 					FillUpFormFromGongstruct(_artist, probe)
 				}
-
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
 		case "ArtistShape":
@@ -180,7 +177,6 @@ func updateAndCommitTree(
 				nodeInstance.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
 					FillUpFormFromGongstruct(_artistshape, probe)
 				}
-
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
 		case "ControlPointShape":
@@ -198,7 +194,6 @@ func updateAndCommitTree(
 				nodeInstance.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
 					FillUpFormFromGongstruct(_controlpointshape, probe)
 				}
-
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
 		case "Desk":
@@ -216,7 +211,6 @@ func updateAndCommitTree(
 				nodeInstance.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
 					FillUpFormFromGongstruct(_desk, probe)
 				}
-
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
 		case "Diagram":
@@ -234,7 +228,6 @@ func updateAndCommitTree(
 				nodeInstance.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
 					FillUpFormFromGongstruct(_diagram, probe)
 				}
-
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
 		case "Influence":
@@ -252,7 +245,6 @@ func updateAndCommitTree(
 				nodeInstance.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
 					FillUpFormFromGongstruct(_influence, probe)
 				}
-
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
 		case "InfluenceShape":
@@ -270,7 +262,6 @@ func updateAndCommitTree(
 				nodeInstance.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
 					FillUpFormFromGongstruct(_influenceshape, probe)
 				}
-
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
 		case "Movement":
@@ -288,7 +279,6 @@ func updateAndCommitTree(
 				nodeInstance.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
 					FillUpFormFromGongstruct(_movement, probe)
 				}
-
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
 		case "MovementShape":
@@ -306,7 +296,6 @@ func updateAndCommitTree(
 				nodeInstance.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
 					FillUpFormFromGongstruct(_movementshape, probe)
 				}
-
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
 		case "Place":
@@ -324,15 +313,12 @@ func updateAndCommitTree(
 				nodeInstance.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
 					FillUpFormFromGongstruct(_place, probe)
 				}
-
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
 		}
 
 		nodeGongstruct.IsNodeClickable = true
-		nodeGongstruct.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
-			NewTreeNodeImplGongstruct(gongStruct, probe).OnAfterUpdate(stage, stagedNode, frontNode)
-		}
+		nodeGongstruct.Impl = NewTreeNodeImplGongstruct(gongStruct, probe)
 
 		// add add button
 		addButton := &tree.Button{
@@ -436,6 +422,7 @@ func (probe *Probe) AddCommitNavigationNode(appendChildrenNodeFunc func(models.G
 			},
 		}
 	}
+
 
 	orphansButton := &tree.Button{
 		Name:            "OrphansButton",
