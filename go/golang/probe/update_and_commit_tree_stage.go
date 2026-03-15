@@ -50,12 +50,8 @@ func updateAndCommitTree(
 		ToolTipPosition: tree.Below,
 	}
 	topNode.Buttons = append(topNode.Buttons, notificationsResetButton)
-	notificationsResetButton.Impl = &tree.FunctionalButtonProxy{
-		OnUpdated: func(stage *tree.Stage,
-			stagedButton, frontButton *tree.Button,
-		) {
-			probe.ResetNotifications()
-		},
+	notificationsResetButton.OnUpdate = func(_ *tree.Stage, _ *tree.Button) {
+		probe.ResetNotifications()
 	}
 	refreshButton := &tree.Button{
 		Name:            "RefreshButton" + " " + string(gongtree_buttons.BUTTON_refresh),
@@ -65,16 +61,12 @@ func updateAndCommitTree(
 		ToolTipPosition: tree.Below,
 	}
 	topNode.Buttons = append(topNode.Buttons, refreshButton)
-	refreshButton.Impl = &tree.FunctionalButtonProxy{
-		OnUpdated: func(stage *tree.Stage,
-			stagedButton, frontButton *tree.Button,
-		) {
-			probe.stageOfInterest.ComputeInstancesNb()
-			probe.docStager.SetMap_GongStructName_InstancesNb(
-				probe.stageOfInterest.Map_GongStructName_InstancesNb,
-			)
-			probe.Refresh()
-		},
+	refreshButton.OnUpdate = func(_ *tree.Stage, _ *tree.Button) {
+		probe.stageOfInterest.ComputeInstancesNb()
+		probe.docStager.SetMap_GongStructName_InstancesNb(
+			probe.stageOfInterest.Map_GongStructName_InstancesNb,
+		)
+		probe.Refresh()
 	}
 
 	if stageOfInterest.IsInDeltaMode() {

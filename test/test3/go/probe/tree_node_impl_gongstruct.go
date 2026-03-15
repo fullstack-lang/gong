@@ -17,7 +17,6 @@ func NewTreeNodeImplGongstruct(
 	gongStruct *gong_models.GongStruct,
 	probe *Probe,
 ) (nodeImplGongstruct *TreeNodeImplGongstruct) {
-
 	nodeImplGongstruct = new(TreeNodeImplGongstruct)
 	nodeImplGongstruct.gongStruct = gongStruct
 	nodeImplGongstruct.probe = probe
@@ -26,8 +25,8 @@ func NewTreeNodeImplGongstruct(
 
 func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 	gongtreeStage *gongtree_models.Stage,
-	stagedNode, frontNode *gongtree_models.Node) {
-
+	stagedNode, frontNode *gongtree_models.Node,
+) {
 	// setting the value of the staged node	to the new value
 	// otherwise, the expansion memory is lost
 	if stagedNode.IsExpanded != frontNode.IsExpanded {
@@ -37,12 +36,10 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 
 	// if node is unchecked
 	if stagedNode.IsChecked && !frontNode.IsChecked {
-
 	}
 
 	// if node is checked, add gongstructshape
 	if !stagedNode.IsChecked && frontNode.IsChecked {
-
 	}
 
 	// the node was selected. Therefore, one request the

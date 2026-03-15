@@ -7,7 +7,9 @@ type Button struct {
 	// SVG Icon, overides the angular materal icon
 	SVGIcon *SVGIcon
 
-	Impl ButtonImplInterface
+	// Deprecated
+	Impl     ButtonImplInterface
+	OnUpdate func(stage *Stage, updatedButton *Button)
 
 	IsDisabled bool
 
@@ -26,14 +28,15 @@ const (
 )
 
 type ButtonImplInterface interface {
-
 	// ButtonUpdated function is called each time a Button is modified
 	ButtonUpdated(tage *Stage, button, updatedButton *Button)
 }
 
 func (button *Button) OnAfterUpdate(stage *Stage, _, frontButton *Button) {
-
 	if button.Impl != nil {
 		button.Impl.ButtonUpdated(stage, button, frontButton)
+	}
+	if button.OnUpdate != nil {
+		button.OnUpdate(stage, frontButton)
 	}
 }
