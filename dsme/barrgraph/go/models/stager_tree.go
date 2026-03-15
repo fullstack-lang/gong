@@ -151,11 +151,12 @@ func (stager *Stager) tree() {
 			Name:              "ArtefactTypes",
 			HasCheckboxButton: false,
 			IsExpanded:        diagram.IsArtefactTypeCategoryNodeExpanded,
-		}
-		artefactTypeCategoryNode.Impl = &expandableNodeProxy{
-			isNodeExpanded: &diagram.IsArtefactTypeCategoryNodeExpanded,
-			node:           artefactTypeCategoryNode,
-			stager:         stager,
+			OnUpdate: func(_ *tree.Stage, stagedNode, frontNode *tree.Node) {
+				if frontNode.IsExpanded != stagedNode.IsExpanded {
+					diagram.IsArtefactTypeCategoryNodeExpanded = !diagram.IsArtefactTypeCategoryNodeExpanded
+					stage.Commit()
+				}
+			},
 		}
 		diagramNode.Children = append(diagramNode.Children, artefactTypeCategoryNode)
 		artefactTypeCategoryNode.Buttons = []*tree.Button{
@@ -187,12 +188,30 @@ func (stager *Stager) tree() {
 				Name:              artefactType.Name,
 				HasCheckboxButton: true,
 				IsChecked:         isInDiagram,
-			}
-			artefactTypeNode.Impl = &ArtefactTypeNodeProxy{
-				node:         artefactTypeNode,
-				diagram:      diagram,
-				artefactType: artefactType,
-				stager:       stager,
+				OnUpdate: func(_ *tree.Stage, stagedNode, frontNode *tree.Node) {
+					if frontNode.IsChecked && !stagedNode.IsChecked {
+						artefactTypeShape := &ArtefactTypeShape{
+							ArtefactType: artefactType,
+							Width:        150,
+							Height:       25,
+							X:            float64(int(rand.Float32()*100) + 10),
+							Y:            float64(int(rand.Float32()*100) + 10),
+						}
+						artefactTypeShape.Stage(stage)
+						diagram.ArtefactTypeShapes = append(diagram.ArtefactTypeShapes, artefactTypeShape)
+					}
+					if !frontNode.IsChecked && stagedNode.IsChecked {
+						for idx, shape := range diagram.ArtefactTypeShapes {
+							if shape.ArtefactType == artefactType {
+								shape.Unstage(stage)
+								diagram.ArtefactTypeShapes = slices.Delete(diagram.ArtefactTypeShapes, idx, idx+1)
+								continue
+							}
+						}
+					}
+
+					stage.Commit()
+				},
 			}
 			artefactTypeCategoryNode.Children = append(artefactTypeCategoryNode.Children, artefactTypeNode)
 
@@ -203,11 +222,9 @@ func (stager *Stager) tree() {
 					ToolTipText:     "Hide from diagram",
 					HasToolTip:      true,
 					ToolTipPosition: tree.Right,
-					Impl: &tree.FunctionalButtonProxy{
-						OnUpdated: func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
-							shape.IsHidden = !shape.IsHidden
-							stage.Commit()
-						},
+					OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+						shape.IsHidden = !shape.IsHidden
+						stage.Commit()
 					},
 				},
 			}
@@ -217,11 +234,12 @@ func (stager *Stager) tree() {
 			Name:              "Artists",
 			HasCheckboxButton: false,
 			IsExpanded:        diagram.IsArtistCategoryNodeExpanded,
-		}
-		artistCategoryNode.Impl = &expandableNodeProxy{
-			isNodeExpanded: &diagram.IsArtistCategoryNodeExpanded,
-			node:           artistCategoryNode,
-			stager:         stager,
+			OnUpdate: func(_ *tree.Stage, stagedNode, frontNode *tree.Node) {
+				if frontNode.IsExpanded != stagedNode.IsExpanded {
+					diagram.IsArtistCategoryNodeExpanded = !diagram.IsArtistCategoryNodeExpanded
+					stage.Commit()
+				}
+			},
 		}
 		diagramNode.Children = append(diagramNode.Children, artistCategoryNode)
 
@@ -255,12 +273,30 @@ func (stager *Stager) tree() {
 				Name:              artist.Name,
 				HasCheckboxButton: true,
 				IsChecked:         isInDiagram,
-			}
-			artistNode.Impl = &ArtistNodeProxy{
-				node:    artistNode,
-				diagram: diagram,
-				artist:  artist,
-				stager:  stager,
+				OnUpdate: func(_ *tree.Stage, stagedNode, frontNode *tree.Node) {
+					if frontNode.IsChecked && !stagedNode.IsChecked {
+						artistShape := &ArtistShape{
+							Artist: artist,
+							Width:  80,
+							Height: 30,
+							X:      float64(int(rand.Float32()*100) + 10),
+							Y:      float64(int(rand.Float32()*100) + 10),
+						}
+						artistShape.Stage(stage)
+						diagram.ArtistShapes = append(diagram.ArtistShapes, artistShape)
+					}
+					if !frontNode.IsChecked && stagedNode.IsChecked {
+						for idx, shape := range diagram.ArtistShapes {
+							if shape.Artist == artist {
+								shape.Unstage(stage)
+								diagram.ArtistShapes = slices.Delete(diagram.ArtistShapes, idx, idx+1)
+								continue
+							}
+						}
+					}
+
+					stage.Commit()
+				},
 			}
 			artistCategoryNode.Children = append(artistCategoryNode.Children, artistNode)
 
@@ -271,11 +307,9 @@ func (stager *Stager) tree() {
 					ToolTipText:     "Hide from diagram",
 					HasToolTip:      true,
 					ToolTipPosition: tree.Right,
-					Impl: &tree.FunctionalButtonProxy{
-						OnUpdated: func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
-							shape.IsHidden = !shape.IsHidden
-							stage.Commit()
-						},
+					OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+						shape.IsHidden = !shape.IsHidden
+						stage.Commit()
 					},
 				},
 			}
@@ -289,11 +323,12 @@ func (stager *Stager) tree() {
 			Name:              "Influences",
 			HasCheckboxButton: false,
 			IsExpanded:        diagram.IsInfluenceCategoryNodeExpanded,
-		}
-		influenceCategoryNode.Impl = &expandableNodeProxy{
-			isNodeExpanded: &diagram.IsInfluenceCategoryNodeExpanded,
-			node:           influenceCategoryNode,
-			stager:         stager,
+			OnUpdate: func(_ *tree.Stage, stagedNode, frontNode *tree.Node) {
+				if frontNode.IsExpanded != stagedNode.IsExpanded {
+					diagram.IsInfluenceCategoryNodeExpanded = !diagram.IsInfluenceCategoryNodeExpanded
+					stage.Commit()
+				}
+			},
 		}
 		diagramNode.Children = append(diagramNode.Children, influenceCategoryNode)
 
@@ -301,9 +336,9 @@ func (stager *Stager) tree() {
 			{
 				Name: diagram.GetName(),
 				Icon: string(buttons.BUTTON_visibility),
-				Impl: &toggleButtonProxy{
-					stager:      stager,
-					toggleValue: &diagram.IsInfluenceCategoryShown,
+				OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+					diagram.IsInfluenceCategoryShown = !diagram.IsInfluenceCategoryShown
+					stage.Commit()
 				},
 			},
 		}
@@ -325,12 +360,26 @@ func (stager *Stager) tree() {
 				Name:              influence.Name,
 				HasCheckboxButton: true,
 				IsChecked:         isInDiagram,
-			}
-			influenceNode.Impl = &InfluenceNodeProxy{
-				node:      influenceNode,
-				diagram:   diagram,
-				influence: influence,
-				stager:    stager,
+				OnUpdate: func(_ *tree.Stage, stagedNode, frontNode *tree.Node) {
+					if frontNode.IsChecked && !stagedNode.IsChecked {
+						influenceShape := &InfluenceShape{
+							Influence: influence,
+						}
+						influenceShape.Stage(stage)
+						diagram.InfluenceShapes = append(diagram.InfluenceShapes, influenceShape)
+					}
+					if !frontNode.IsChecked && stagedNode.IsChecked {
+						for idx, shape := range diagram.InfluenceShapes {
+							if shape.Influence == influence {
+								shape.Unstage(stage)
+								diagram.InfluenceShapes = slices.Delete(diagram.InfluenceShapes, idx, idx+1)
+								continue
+							}
+						}
+					}
+
+					stage.Commit()
+				},
 			}
 			influenceCategoryNode.Children = append(influenceCategoryNode.Children, influenceNode)
 		}
