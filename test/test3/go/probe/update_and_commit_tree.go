@@ -7,7 +7,6 @@ import (
 	"time"
 
 	gongtree_buttons "github.com/fullstack-lang/gong/lib/tree/go/buttons"
-	gongtree_models "github.com/fullstack-lang/gong/lib/tree/go/models"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 
 	gong_models "github.com/fullstack-lang/gong/go/models"
@@ -121,6 +120,19 @@ func updateAndCommitTree(
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
+			nodeGongstruct.OnUpdate = func(treeStagee *tree.Stage, stagedNode, frontNode *tree.Node) {
+				if stagedNode.IsExpanded != frontNode.IsExpanded {
+					stagedNode.IsExpanded = frontNode.IsExpanded
+					return
+				}
+				updateProbeTable[*models.A](probe)
+				// set color for node and reset all other nodes color
+				for node := range *tree.GetGongstructInstancesSet[tree.Node](treeStagee) {
+					node.BackgroundColor = ""
+				}
+				stagedNode.BackgroundColor = "lightgrey"
+				treeStagee.Commit()
+			}
 		case "B":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.B](probe.stageOfInterest)
@@ -145,7 +157,7 @@ func updateAndCommitTree(
 				}
 				updateProbeTable[*models.B](probe)
 				// set color for node and reset all other nodes color
-				for node := range *gongtree_models.GetGongstructInstancesSet[gongtree_models.Node](treeStagee) {
+				for node := range *tree.GetGongstructInstancesSet[tree.Node](treeStagee) {
 					node.BackgroundColor = ""
 				}
 				stagedNode.BackgroundColor = "lightgrey"
@@ -154,7 +166,6 @@ func updateAndCommitTree(
 		}
 
 		nodeGongstruct.IsNodeClickable = true
-		// nodeGongstruct.Impl = NewTreeNodeImplGongstruct(gongStruct, probe)
 
 		// add add button
 		addButton := &tree.Button{
@@ -258,6 +269,7 @@ func (probe *Probe) AddCommitNavigationNode(appendChildrenNodeFunc func(models.G
 			},
 		}
 	}
+
 
 	orphansButton := &tree.Button{
 		Name:            "OrphansButton",

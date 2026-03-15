@@ -30,7 +30,6 @@ func updateCurrentProbeTable(probe *Probe) {
 func updateProbeTable[T models.PointerToGongstruct](
 	probe *Probe,
 ) {
-
 	probe.tableStage.Reset()
 
 	table := new(gongtable.Table)
@@ -275,7 +274,6 @@ const (
 
 var UpdateProbeTableSubTemplateCode map[string]string = // new line
 map[string]string{
-
 	string(rune(UpdateProberTableCase)): `
 	case "{{Structname}}":
 		updateProbeTable[*models.{{Structname}}](probe)`,
