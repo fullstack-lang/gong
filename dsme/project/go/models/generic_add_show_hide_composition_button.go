@@ -50,17 +50,13 @@ func addShowHideCompositionButton[
 				showHideCompositionButton.ToolTipText = "Show link from \"" + parentElement.GetName() +
 					"\" to \"" + element.GetName() + "\""
 
-				showHideCompositionButton.Impl = &tree.FunctionalButtonProxy{
-					OnUpdated: onAddAssociationShapeWithCommit(stager, parentElement, element, compositionShapes),
-				}
+				showHideCompositionButton.OnUpdate = onAddAssociationShapeWithCommit(stager, parentElement, element, compositionShapes)
 			} else {
 				showHideCompositionButton.Icon = string(buttons.BUTTON_visibility_off)
 				showHideCompositionButton.ToolTipText = "Hide link from \"" + parentElement.GetName() +
 					"\" to \"" + element.GetName() + "\""
 
-				showHideCompositionButton.Impl = &tree.FunctionalButtonProxy{
-					OnUpdated: onRemoveAssociationShapeWithCommit(stager, compositionShape, compositionShapes),
-				}
+				showHideCompositionButton.OnUpdate = onRemoveAssociationShapeWithCommit(stager, compositionShape, compositionShapes)
 			}
 			node.Buttons = append(node.Buttons, showHideCompositionButton)
 		}

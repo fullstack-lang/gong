@@ -16,7 +16,7 @@ func onAddAssociationShapeWithCommit[
 ](
 	stager *Stager, start ATstart, end ATend, shapes *[]ACT) func(
 	stage *tree.Stage, updatedButton *tree.Button) {
-	return func(stage *tree.Stage, updatedButton *tree.Button) {
+	return func(_ *tree.Stage, _ *tree.Button) {
 		addAssociationShapeToDiagram(stager, start, end, shapes)
 		stager.stage.Commit()
 	}

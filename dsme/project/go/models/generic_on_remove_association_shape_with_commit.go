@@ -14,7 +14,7 @@ func onRemoveAssociationShapeWithCommit[
 	},
 	ACT_ Gongstruct](stager *Stager, compositionShape ACT, shapes *[]ACT) func(
 	stage *tree.Stage, updatedButton *tree.Button) {
-	return func(stage *tree.Stage, updatedButton *tree.Button) {
+	return func(_ *tree.Stage, _ *tree.Button) {
 		compositionShape.UnstageVoid(stager.stage)
 		idx := slices.Index(*shapes, compositionShape)
 		*shapes = slices.Delete(*shapes, idx, idx+1)
