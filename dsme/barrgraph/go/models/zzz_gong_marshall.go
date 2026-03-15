@@ -151,6 +151,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(artefacttype.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(artefacttype.GongMarshallField(stage, "IsInRenameMode"))
 	}
 
 	artefacttypeshapeOrdered := []*ArtefactTypeShape{}
@@ -209,6 +210,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(artist.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(artist.GongMarshallField(stage, "IsInRenameMode"))
 		initializerStatements.WriteString(artist.GongMarshallField(stage, "IsDead"))
 		initializerStatements.WriteString(artist.GongMarshallField(stage, "DateOfDeath"))
 		pointersInitializesStatements.WriteString(artist.GongMarshallField(stage, "Place"))
@@ -501,6 +503,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(movement.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(movement.GongMarshallField(stage, "IsInRenameMode"))
 		initializerStatements.WriteString(movement.GongMarshallField(stage, "Date"))
 		initializerStatements.WriteString(movement.GongMarshallField(stage, "HideDate"))
 		pointersInitializesStatements.WriteString(movement.GongMarshallField(stage, "Places"))
@@ -730,6 +733,11 @@ func (artefacttype *ArtefactType) GongMarshallField(stage *Stage, fieldName stri
 		res = strings.ReplaceAll(res, "{{Identifier}}", artefacttype.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(artefacttype.Name))
+	case "IsInRenameMode":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", artefacttype.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsInRenameMode")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", artefacttype.IsInRenameMode))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct ArtefactType", fieldName)
@@ -798,6 +806,11 @@ func (artist *Artist) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = strings.ReplaceAll(res, "{{Identifier}}", artist.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(artist.Name))
+	case "IsInRenameMode":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", artist.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsInRenameMode")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", artist.IsInRenameMode))
 	case "IsDead":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", artist.GongGetIdentifier(stage))
@@ -1742,6 +1755,11 @@ func (movement *Movement) GongMarshallField(stage *Stage, fieldName string) (res
 		res = strings.ReplaceAll(res, "{{Identifier}}", movement.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(movement.Name))
+	case "IsInRenameMode":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", movement.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsInRenameMode")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", movement.IsInRenameMode))
 	case "Date":
 		res = TimeInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", movement.GongGetIdentifier(stage))
@@ -1879,6 +1897,7 @@ func (artefacttype *ArtefactType) GongMarshallAllFields(stage *Stage) (initRes s
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(artefacttype.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(artefacttype.GongMarshallField(stage, "IsInRenameMode"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -1907,6 +1926,7 @@ func (artist *Artist) GongMarshallAllFields(stage *Stage) (initRes string, ptrRe
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(artist.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(artist.GongMarshallField(stage, "IsInRenameMode"))
 		initializerStatements.WriteString(artist.GongMarshallField(stage, "IsDead"))
 		initializerStatements.WriteString(artist.GongMarshallField(stage, "DateOfDeath"))
 		pointersInitializesStatements.WriteString(artist.GongMarshallField(stage, "Place"))
@@ -2094,6 +2114,7 @@ func (movement *Movement) GongMarshallAllFields(stage *Stage) (initRes string, p
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(movement.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(movement.GongMarshallField(stage, "IsInRenameMode"))
 		initializerStatements.WriteString(movement.GongMarshallField(stage, "Date"))
 		initializerStatements.WriteString(movement.GongMarshallField(stage, "HideDate"))
 		pointersInitializesStatements.WriteString(movement.GongMarshallField(stage, "Places"))

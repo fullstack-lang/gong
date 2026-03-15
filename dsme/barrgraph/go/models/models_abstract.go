@@ -1,11 +1,40 @@
 package models
 
-import (
-	"time"
-)
+import "time"
+
+type ArtElement interface {
+	IsArtElement()
+	GetName() string
+	GetIsInRenameMode() bool
+	SetIsInRenameMode(bool)
+}
+
+type AbstractTypeFields struct {
+	// nodes can be edited
+	IsInRenameMode bool
+}
+
+func (r *AbstractTypeFields) GetIsInRenameMode() bool {
+	return r.IsInRenameMode
+}
+
+func (r *AbstractTypeFields) SetIsInRenameMode(isInRenameMode bool) {
+	r.IsInRenameMode = isInRenameMode
+}
+
+type Place struct {
+	Name string
+}
+
+type Desk struct {
+	Name            string
+	SelectedDiagram *Diagram
+}
 
 type Movement struct {
 	Name string
+
+	AbstractTypeFields
 
 	Date time.Time
 	// NON GEOMETRICAL and GEOMTRICAL ABSRTACT ART
@@ -57,4 +86,64 @@ type MovementShape struct {
 	Width, Height float64
 
 	IsHidden bool
+}
+
+type Artist struct {
+	Name string
+
+	AbstractTypeFields
+
+	IsDead      bool
+	DateOfDeath time.Time
+	Place       *Place
+}
+
+func (*Artist) IsArtElement() {
+}
+
+type ArtistShape struct {
+	Name   string
+	Artist *Artist
+
+	X, Y float64
+
+	Width, Height float64
+
+	IsHidden bool
+}
+
+func (shape *ArtistShape) GetArtElement() *Artist {
+	return shape.Artist
+}
+
+type ArtefactType struct {
+	Name string
+
+	AbstractTypeFields
+}
+
+func (*ArtefactType) IsArtElement() {
+}
+
+// An Influence is between one Artist/Movement/ArtefactType and another
+//
+// since gong does not yet support interface, one have to mutliply source/target types
+type Influence struct {
+	Name string
+
+	SourceMovement     *Movement
+	SourceArtefactType *ArtefactType
+	SourceArtist       *Artist
+
+	source ArtElement
+
+	TargetMovement     *Movement
+	TargetArtefactType *ArtefactType
+	TargetArtist       *Artist
+
+	target ArtElement
+
+	// hypothetical, some influences are with ashed lines
+	// For instance, Marchine Art to Brancusi (indeed)
+	IsHypothtical bool
 }

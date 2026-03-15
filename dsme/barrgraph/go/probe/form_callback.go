@@ -66,6 +66,8 @@ func (artefacttypeFormCallback *ArtefactTypeFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(artefacttype_.Name), formDiv)
+		case "IsInRenameMode":
+			FormDivBasicFieldToField(&(artefacttype_.IsInRenameMode), formDiv)
 		}
 	}
 
@@ -300,6 +302,8 @@ func (artistFormCallback *ArtistFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(artist_.Name), formDiv)
+		case "IsInRenameMode":
+			FormDivBasicFieldToField(&(artist_.IsInRenameMode), formDiv)
 		case "IsDead":
 			FormDivBasicFieldToField(&(artist_.IsDead), formDiv)
 		case "DateOfDeath":
@@ -1409,6 +1413,8 @@ func (movementFormCallback *MovementFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(movement_.Name), formDiv)
+		case "IsInRenameMode":
+			FormDivBasicFieldToField(&(movement_.IsInRenameMode), formDiv)
 		case "Date":
 			FormDivBasicFieldToField(&(movement_.Date), formDiv)
 		case "HideDate":

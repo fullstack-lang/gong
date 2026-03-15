@@ -13,11 +13,14 @@ type ArtefactType_WOP struct {
 	// insertion point
 
 	Name string
+
+	IsInRenameMode bool
 }
 
 func (from *ArtefactType) CopyBasicFields(to *ArtefactType) {
 	// insertion point
 	to.Name = from.Name
+	to.IsInRenameMode = from.IsInRenameMode
 }
 
 type ArtefactTypeShape_WOP struct {
@@ -51,6 +54,8 @@ type Artist_WOP struct {
 
 	Name string
 
+	IsInRenameMode bool
+
 	IsDead bool
 
 	DateOfDeath time.Time
@@ -59,6 +64,7 @@ type Artist_WOP struct {
 func (from *Artist) CopyBasicFields(to *Artist) {
 	// insertion point
 	to.Name = from.Name
+	to.IsInRenameMode = from.IsInRenameMode
 	to.IsDead = from.IsDead
 	to.DateOfDeath = from.DateOfDeath
 }
@@ -413,6 +419,8 @@ type Movement_WOP struct {
 
 	Name string
 
+	IsInRenameMode bool
+
 	Date time.Time
 
 	HideDate bool
@@ -435,6 +443,7 @@ type Movement_WOP struct {
 func (from *Movement) CopyBasicFields(to *Movement) {
 	// insertion point
 	to.Name = from.Name
+	to.IsInRenameMode = from.IsInRenameMode
 	to.Date = from.Date
 	to.HideDate = from.HideDate
 	to.HasTaxonomicFilter = from.HasTaxonomicFilter
