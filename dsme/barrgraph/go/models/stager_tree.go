@@ -35,9 +35,9 @@ func (stager *Stager) tree() {
 			{
 				Name: diagram.GetName(),
 				Icon: string(buttons.BUTTON_edit),
-				Impl: &toggleButtonProxy{
-					stager:      stager,
-					toggleValue: &diagram.IsEditable,
+				OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+					diagram.IsEditable = !diagram.IsEditable
+					stage.Commit()
 				},
 			},
 		}
@@ -247,9 +247,9 @@ func (stager *Stager) tree() {
 			{
 				Name: diagram.GetName(),
 				Icon: string(buttons.BUTTON_visibility),
-				Impl: &toggleButtonProxy{
-					stager:      stager,
-					toggleValue: &diagram.IsArtistCategoryShown,
+				OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+					diagram.IsArtistCategoryShown = !diagram.IsArtistCategoryShown
+					stage.Commit()
 				},
 			},
 		}
