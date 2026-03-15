@@ -46,9 +46,7 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 		}
 		taskNode.Children = append(taskNode.Children, inputProductsNode)
 
-		inputProductsNode.Impl = &tree.FunctionalNodeProxy{
-			OnUpdate: onUpdateExpandableNode(stager, task, &diagram.TasksWhoseInputNodeIsExpanded),
-		}
+		inputProductsNode.OnUpdate = onUpdateExpandableNode(stager, task, &diagram.TasksWhoseInputNodeIsExpanded)
 
 		for _, product := range task.Inputs {
 			inputProductNode := &tree.Node{
@@ -79,17 +77,13 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 						showHideTaskInputButton.ToolTipText = "Hide link from \"" + task.Name +
 							"\" to \"" + product.Name + "\""
 
-						showHideTaskInputButton.Impl = &tree.FunctionalButtonProxy{
-							OnUpdated: onRemoveAssociationShapeWithCommit(stager, taskInputShape, &diagram.TaskInputShapes),
-						}
+						showHideTaskInputButton.OnUpdate = onRemoveAssociationShapeWithCommit(stager, taskInputShape, &diagram.TaskInputShapes)
 					} else {
 						showHideTaskInputButton.Icon = string(buttons.BUTTON_visibility)
 						showHideTaskInputButton.ToolTipText = "Show link from \"" + task.Name +
 							"\" to \"" + product.Name + "\""
 
-						showHideTaskInputButton.Impl = &tree.FunctionalButtonProxy{
-							OnUpdated: onAddAssociationShapeWithCommit(stager, task, product, &diagram.TaskInputShapes),
-						}
+						showHideTaskInputButton.OnUpdate = onAddAssociationShapeWithCommit(stager, task, product, &diagram.TaskInputShapes)
 					}
 				}
 			}
@@ -106,9 +100,7 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 		}
 		taskNode.Children = append(taskNode.Children, outputProductsNode)
 
-		outputProductsNode.Impl = &tree.FunctionalNodeProxy{
-			OnUpdate: onUpdateExpandableNode(stager, task, &diagram.TasksWhoseOutputNodeIsExpanded),
-		}
+		outputProductsNode.OnUpdate = onUpdateExpandableNode(stager, task, &diagram.TasksWhoseOutputNodeIsExpanded)
 
 		for _, product := range task.Outputs {
 			outputProductNode := &tree.Node{
@@ -139,17 +131,13 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 						showHideTaskOutputButton.ToolTipText = "Hide link from \"" + task.Name +
 							"\" to \"" + product.Name + "\""
 
-						showHideTaskOutputButton.Impl = &tree.FunctionalButtonProxy{
-							OnUpdated: onRemoveAssociationShapeWithCommit(stager, taskOutputShape, &diagram.TaskOutputShapes),
-						}
+						showHideTaskOutputButton.OnUpdate = onRemoveAssociationShapeWithCommit(stager, taskOutputShape, &diagram.TaskOutputShapes)
 					} else {
 						showHideTaskOutputButton.Icon = string(buttons.BUTTON_visibility)
 						showHideTaskOutputButton.ToolTipText = "Show link from \"" + task.Name +
 							"\" to \"" + product.Name + "\""
 
-						showHideTaskOutputButton.Impl = &tree.FunctionalButtonProxy{
-							OnUpdated: onAddAssociationShapeWithCommit(stager, task, product, &diagram.TaskOutputShapes),
-						}
+						showHideTaskOutputButton.OnUpdate = onAddAssociationShapeWithCommit(stager, task, product, &diagram.TaskOutputShapes)
 					}
 				}
 			}
