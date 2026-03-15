@@ -7,8 +7,8 @@ import (
 // onLayoutWBS resets the diagram, creates and adds all possible task-related concrete instances to the diagram,
 // and organizes them in a breakdown structure
 func onLayoutWBS(stager *Stager, diagram *Diagram) func(
-	stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
-	return func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
+	stage *tree.Stage, updatedButton *tree.Button) {
+	return func(stage *tree.Stage, updatedButton *tree.Button) {
 		// 1. Reset the diagram: remove all shapes from the stage to start fresh
 		diagram.Product_Shapes = []*ProductShape{}
 		diagram.Task_Shapes = []*TaskShape{}
