@@ -6,6 +6,7 @@ import (
 )
 
 func (stager *Stager) tree() {
+	stage := stager.stage
 	stager.treeStage.Reset()
 
 	tree_ := &tree.Tree{
@@ -43,10 +44,16 @@ func (stager *Stager) tree() {
 
 		tree_.RootNodes = append(tree_.RootNodes, diagramNode)
 
-		diagramNode.Impl = &DiagramNodeProxy{
-			stager:  stager,
-			Node:    diagramNode,
-			Diagram: diagram,
+		diagramNode.OnUpdate = func(_ *tree.Stage, stagedNode, frontNode *tree.Node) {
+			if frontNode.IsChecked && !stagedNode.IsChecked {
+				stager.desk.SelectedDiagram = diagram
+			}
+
+			if frontNode.IsExpanded != stagedNode.IsExpanded {
+				diagram.IsNodeExpanded = !diagram.IsNodeExpanded
+			}
+
+			stage.Commit()
 		}
 
 		movementCategoryNode := &tree.Node{
@@ -313,23 +320,4 @@ func (stager *Stager) tree() {
 	tree.StageBranch(stager.treeStage, tree_)
 
 	stager.treeStage.Commit()
-}
-
-type DiagramNodeProxy struct {
-	stager  *Stager
-	Diagram *Diagram
-	Node    *tree.Node
-}
-
-// OnAfterUpdate implements models.NodeImplInterface.
-func (d *DiagramNodeProxy) OnAfterUpdate(stage *tree.Stage, stagedNode *tree.Node, frontNode *tree.Node) {
-	if frontNode.IsChecked && !stagedNode.IsChecked {
-		d.stager.desk.SelectedDiagram = d.Diagram
-	}
-
-	if frontNode.IsExpanded != stagedNode.IsExpanded {
-		d.Diagram.IsNodeExpanded = !d.Diagram.IsNodeExpanded
-	}
-
-	d.stager.stage.Commit()
 }

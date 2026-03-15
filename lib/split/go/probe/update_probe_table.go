@@ -66,7 +66,6 @@ func updateCurrentProbeTable(probe *Probe) {
 func updateProbeTable[T models.PointerToGongstruct](
 	probe *Probe,
 ) {
-
 	probe.tableStage.Reset()
 
 	table := new(gongtable.Table)
