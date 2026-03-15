@@ -115,7 +115,7 @@ func updateAndCommitTree(
 				count++
 				nodeInstance := &tree.Node{Name: _checkbox.GetName()}
 				nodeInstance.IsNodeClickable = true
-				nodeInstance.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+				nodeInstance.OnUpdate = func(_ *tree.Stage, _, _ *tree.Node) {
 					FillUpFormFromGongstruct(_checkbox, probe)
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
@@ -145,7 +145,7 @@ func updateAndCommitTree(
 				count++
 				nodeInstance := &tree.Node{Name: _group.GetName()}
 				nodeInstance.IsNodeClickable = true
-				nodeInstance.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+				nodeInstance.OnUpdate = func(_ *tree.Stage, _, _ *tree.Node) {
 					FillUpFormFromGongstruct(_group, probe)
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
@@ -175,7 +175,7 @@ func updateAndCommitTree(
 				count++
 				nodeInstance := &tree.Node{Name: _layout.GetName()}
 				nodeInstance.IsNodeClickable = true
-				nodeInstance.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+				nodeInstance.OnUpdate = func(_ *tree.Stage, _, _ *tree.Node) {
 					FillUpFormFromGongstruct(_layout, probe)
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
@@ -205,7 +205,7 @@ func updateAndCommitTree(
 				count++
 				nodeInstance := &tree.Node{Name: _slider.GetName()}
 				nodeInstance.IsNodeClickable = true
-				nodeInstance.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+				nodeInstance.OnUpdate = func(_ *tree.Stage, _, _ *tree.Node) {
 					FillUpFormFromGongstruct(_slider, probe)
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)

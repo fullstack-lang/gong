@@ -115,7 +115,7 @@ func updateAndCommitTree(
 				count++
 				nodeInstance := &tree.Node{Name: _a.GetName()}
 				nodeInstance.IsNodeClickable = true
-				nodeInstance.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+				nodeInstance.OnUpdate = func(_ *tree.Stage, _, _ *tree.Node) {
 					FillUpFormFromGongstruct(_a, probe)
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
@@ -145,7 +145,7 @@ func updateAndCommitTree(
 				count++
 				nodeInstance := &tree.Node{Name: _b.GetName()}
 				nodeInstance.IsNodeClickable = true
-				nodeInstance.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+				nodeInstance.OnUpdate = func(_ *tree.Stage, _, _ *tree.Node) {
 					FillUpFormFromGongstruct(_b, probe)
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
