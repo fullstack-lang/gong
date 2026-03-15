@@ -60,6 +60,10 @@ func (stager *Stager) svg() {
 	svgObject.Layers = append(svgObject.Layers, layer)
 
 	for _, productShape := range diagram.Product_Shapes {
+		if productShape.IsHidden {
+			continue
+		}
+
 		rect := svgRect(
 			stager,
 			diagram,
@@ -82,6 +86,10 @@ func (stager *Stager) svg() {
 		startRect := diagram.map_Product_Rect[parentProduct]
 		endRect := diagram.map_Product_Rect[subProduct]
 
+		if startRect == nil || endRect == nil {
+			continue
+		}
+
 		svgAssociationLink(
 			stager,
 			startRect, endRect,
@@ -93,6 +101,10 @@ func (stager *Stager) svg() {
 	}
 
 	for _, taskShape := range diagram.Task_Shapes {
+		if taskShape.IsHidden {
+			continue
+		}
+
 		rect := svgRect(
 			stager,
 			diagram,
@@ -160,6 +172,10 @@ func (stager *Stager) svg() {
 		startRect := diagram.map_Task_Rect[parentTask]
 		endRect := diagram.map_Task_Rect[subTask]
 
+		if startRect == nil || endRect == nil {
+			continue
+		}
+
 		svgAssociationLink(
 			stager,
 			startRect, endRect,
@@ -179,6 +195,10 @@ func (stager *Stager) svg() {
 
 		startRect := diagram.map_Product_Rect[product]
 		endRect := diagram.map_Task_Rect[task]
+
+		if startRect == nil || endRect == nil {
+			continue
+		}
 
 		svgAssociationLink(
 			stager,
@@ -201,6 +221,10 @@ func (stager *Stager) svg() {
 		startRect := diagram.map_Task_Rect[task]
 		endRect := diagram.map_Product_Rect[product]
 
+		if startRect == nil || endRect == nil {
+			continue
+		}
+
 		svgAssociationLink(
 			stager,
 			startRect, endRect,
@@ -212,6 +236,10 @@ func (stager *Stager) svg() {
 	}
 
 	for _, noteShape := range diagram.Note_Shapes {
+		if noteShape.IsHidden {
+			continue
+		}
+
 		note := noteShape.Note
 
 		if note == nil {
@@ -250,6 +278,10 @@ func (stager *Stager) svg() {
 		startRect := diagram.map_Note_Rect[note]
 		endRect := diagram.map_Product_Rect[product]
 
+		if startRect == nil || endRect == nil {
+			continue
+		}
+
 		link := svgAssociationLink(
 			stager,
 			startRect, endRect,
@@ -270,6 +302,10 @@ func (stager *Stager) svg() {
 		startRect := diagram.map_Note_Rect[note]
 		endRect := diagram.map_Task_Rect[task]
 
+		if startRect == nil || endRect == nil {
+			continue
+		}
+
 		link := svgAssociationLink(
 			stager,
 			startRect, endRect,
@@ -285,6 +321,10 @@ func (stager *Stager) svg() {
 	}
 
 	for _, resourceShape := range diagram.Resource_Shapes {
+		if resourceShape.IsHidden {
+			continue
+		}
+
 		rect := svgRect(
 			stager,
 			diagram,
@@ -330,6 +370,9 @@ func (stager *Stager) svg() {
 		resource := noteResourceShape.Resource
 		startRect := diagram.map_Note_Rect[note]
 		endRect := diagram.map_Resource_Rect[resource]
+		if startRect == nil || endRect == nil {
+			continue
+		}
 		link := svgAssociationLink(
 			stager,
 			startRect, endRect,
@@ -352,6 +395,9 @@ func (stager *Stager) svg() {
 		}
 		startRect := diagram.map_Resource_Rect[parentResource]
 		endRect := diagram.map_Resource_Rect[subResource]
+		if startRect == nil || endRect == nil {
+			continue
+		}
 		svgAssociationLink(
 			stager,
 			startRect, endRect,
@@ -370,6 +416,9 @@ func (stager *Stager) svg() {
 		}
 		startRect := diagram.map_Resource_Rect[resource]
 		endRect := diagram.map_Task_Rect[task]
+		if startRect == nil || endRect == nil {
+			continue
+		}
 		svgAssociationLink(
 			stager,
 			startRect, endRect,

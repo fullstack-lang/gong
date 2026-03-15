@@ -66,8 +66,8 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.ShowPrefix = true
 	__Diagram__00000000_.DefaultBoxWidth = 250.000000
 	__Diagram__00000000_.DefaultBoxHeigth = 100.000000
-	__Diagram__00000000_.Width = 10208.862056
-	__Diagram__00000000_.Height = 10576.845003
+	__Diagram__00000000_.Width = 11508.862056
+	__Diagram__00000000_.Height = 11876.845003
 	__Diagram__00000000_.IsExpanded = true
 	__Diagram__00000000_.ComputedPrefix = ``
 	__Diagram__00000000_.IsInRenameMode = false
@@ -167,8 +167,8 @@ func _(stage *models.Stage) {
 
 	__ResourceShape__00000002_.Name = `D1-R1.2`
 	__ResourceShape__00000002_.IsExpanded = false
-	__ResourceShape__00000002_.X = 691.862056
-	__ResourceShape__00000002_.Y = 564.845003
+	__ResourceShape__00000002_.X = 494.862056
+	__ResourceShape__00000002_.Y = 780.845003
 	__ResourceShape__00000002_.Width = 250.000000
 	__ResourceShape__00000002_.Height = 73.000000
 	__ResourceShape__00000002_.IsHidden = false
