@@ -50,6 +50,7 @@ func _(stage *models.Stage) {
 	__Artist__00000012_ := (&models.Artist{Name: `Albrecht Dürer`}).Stage(stage)
 	__Artist__00000013_ := (&models.Artist{Name: `Giorgione`}).Stage(stage)
 	__Artist__00000014_ := (&models.Artist{Name: `Tintoretto`}).Stage(stage)
+	__Artist__00000015_ := (&models.Artist{Name: `Cimabue`}).Stage(stage)
 
 	__ArtistShape__00000000_ := (&models.ArtistShape{Name: ``}).Stage(stage)
 	__ArtistShape__00000001_ := (&models.ArtistShape{Name: ``}).Stage(stage)
@@ -66,6 +67,7 @@ func _(stage *models.Stage) {
 	__ArtistShape__00000012_ := (&models.ArtistShape{Name: ``}).Stage(stage)
 	__ArtistShape__00000013_ := (&models.ArtistShape{Name: ``}).Stage(stage)
 	__ArtistShape__00000014_ := (&models.ArtistShape{Name: ``}).Stage(stage)
+	__ArtistShape__00000015_ := (&models.ArtistShape{Name: ``}).Stage(stage)
 
 	__ControlPointShape__00000000_ := (&models.ControlPointShape{Name: `Control Point Shape 0`}).Stage(stage)
 	__ControlPointShape__00000001_ := (&models.ControlPointShape{Name: `Control Point Shape 1`}).Stage(stage)
@@ -146,6 +148,7 @@ func _(stage *models.Stage) {
 	__Place__00000003_ := (&models.Place{Name: `Venice`}).Stage(stage)
 	__Place__00000004_ := (&models.Place{Name: `Flanders`}).Stage(stage)
 	__Place__00000005_ := (&models.Place{Name: `Nuremberg`}).Stage(stage)
+	__Place__00000006_ := (&models.Place{Name: `Pisa`}).Stage(stage)
 
 	// insertion point for initialization of values
 
@@ -254,6 +257,10 @@ func _(stage *models.Stage) {
 	__Artist__00000014_.IsDead = true
 	__Artist__00000014_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1594-01-01 00:00:00 +0000 UTC")
 
+	__Artist__00000015_.Name = `Cimabue`
+	__Artist__00000015_.IsDead = true
+	__Artist__00000015_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1302-01-01 00:00:00 +0000 UTC")
+
 	__ArtistShape__00000000_.Name = ``
 	__ArtistShape__00000000_.X = 108.000000
 	__ArtistShape__00000000_.Y = 219.000000
@@ -358,6 +365,13 @@ func _(stage *models.Stage) {
 	__ArtistShape__00000014_.Width = 80.000000
 	__ArtistShape__00000014_.Height = 30.000000
 	__ArtistShape__00000014_.IsHidden = false
+
+	__ArtistShape__00000015_.Name = ``
+	__ArtistShape__00000015_.X = 399.000000
+	__ArtistShape__00000015_.Y = 80.000000
+	__ArtistShape__00000015_.Width = 80.000000
+	__ArtistShape__00000015_.Height = 30.000000
+	__ArtistShape__00000015_.IsHidden = false
 
 	__ControlPointShape__00000000_.Name = `Control Point Shape 0`
 	__ControlPointShape__00000000_.X_Relative = 0.500000
@@ -629,7 +643,7 @@ func _(stage *models.Stage) {
 	__Movement__00000000_.TaxonomicFilter = ``
 	__Movement__00000000_.IsFeatured = false
 	__Movement__00000000_.FeaturePrefix = ``
-	__Movement__00000000_.IsMajor = true
+	__Movement__00000000_.IsMajor = false
 	__Movement__00000000_.IsMinor = false
 	__Movement__00000000_.AdditionnalName = ``
 
@@ -711,9 +725,9 @@ func _(stage *models.Stage) {
 	__Movement__00000007_.AdditionnalName = ``
 
 	__MovementShape__00000000_.Name = ``
-	__MovementShape__00000000_.X = 104.000000
+	__MovementShape__00000000_.X = 149.000000
 	__MovementShape__00000000_.Y = 136.000000
-	__MovementShape__00000000_.Width = 196.000000
+	__MovementShape__00000000_.Width = 150.000000
 	__MovementShape__00000000_.Height = 35.000000
 	__MovementShape__00000000_.IsHidden = false
 
@@ -778,6 +792,8 @@ func _(stage *models.Stage) {
 
 	__Place__00000005_.Name = `Nuremberg`
 
+	__Place__00000006_.Name = `Pisa`
+
 	// insertion point for setup of pointers
 	__ArtefactTypeShape__00000000_.ArtefactType = __ArtefactType__00000000_
 	__ArtefactTypeShape__00000001_.ArtefactType = __ArtefactType__00000001_
@@ -799,6 +815,7 @@ func _(stage *models.Stage) {
 	__Artist__00000012_.Place = __Place__00000005_
 	__Artist__00000013_.Place = __Place__00000003_
 	__Artist__00000014_.Place = __Place__00000003_
+	__Artist__00000015_.Place = __Place__00000006_
 	__ArtistShape__00000000_.Artist = __Artist__00000000_
 	__ArtistShape__00000001_.Artist = __Artist__00000001_
 	__ArtistShape__00000002_.Artist = __Artist__00000002_
@@ -814,6 +831,7 @@ func _(stage *models.Stage) {
 	__ArtistShape__00000012_.Artist = __Artist__00000012_
 	__ArtistShape__00000013_.Artist = __Artist__00000013_
 	__ArtistShape__00000014_.Artist = __Artist__00000014_
+	__ArtistShape__00000015_.Artist = __Artist__00000015_
 	__Desk__00000000_.SelectedDiagram = __Diagram__00000000_
 	__Diagram__00000000_.MovementShapes = append(__Diagram__00000000_.MovementShapes, __MovementShape__00000000_)
 	__Diagram__00000000_.MovementShapes = append(__Diagram__00000000_.MovementShapes, __MovementShape__00000001_)
@@ -843,6 +861,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.ArtistShapes = append(__Diagram__00000000_.ArtistShapes, __ArtistShape__00000012_)
 	__Diagram__00000000_.ArtistShapes = append(__Diagram__00000000_.ArtistShapes, __ArtistShape__00000013_)
 	__Diagram__00000000_.ArtistShapes = append(__Diagram__00000000_.ArtistShapes, __ArtistShape__00000014_)
+	__Diagram__00000000_.ArtistShapes = append(__Diagram__00000000_.ArtistShapes, __ArtistShape__00000015_)
 	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __InfluenceShape__00000000_)
 	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __InfluenceShape__00000001_)
 	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __InfluenceShape__00000002_)

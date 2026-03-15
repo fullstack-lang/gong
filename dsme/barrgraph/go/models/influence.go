@@ -6,7 +6,6 @@ import (
 	"slices"
 
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
-	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
 // An Influence is between one Artist/Movement/ArtefactType and another
@@ -58,7 +57,6 @@ type InfluenceShapeProxy struct {
 }
 
 func (p *InfluenceShapeProxy) LinkUpdated(updatedLink *svg.Link) {
-
 	point := &svg.Point{
 		X: updatedLink.MouseX,
 		Y: updatedLink.MouseY,
@@ -89,7 +87,6 @@ type ControlPointShapeProxy struct {
 }
 
 func (p *ControlPointShapeProxy) ControlPointUpdated(controlPoint *svg.ControlPoint) {
-
 	if areClose(p.controlPointShape.X_Relative, controlPoint.X_Relative,
 		p.controlPointShape.Y_Relative, controlPoint.Y_Relative, threshold) {
 		idx := slices.Index(p.influenceShape.ControlPointShapes, p.controlPointShape)
@@ -122,37 +119,6 @@ func areClose(x1, x2, y1, y2, threshold float64) bool {
 }
 
 const threshold = 0.05
-
-type InfluenceNodeProxy struct {
-	stager    *Stager
-	diagram   *Diagram
-	influence *Influence
-	node      *tree.Node
-}
-
-// OnAfterUpdate implements models.NodeImplInterface.
-func (d *InfluenceNodeProxy) OnAfterUpdate(stage *tree.Stage, stagedNode *tree.Node, frontNode *tree.Node) {
-
-	if frontNode.IsChecked && !stagedNode.IsChecked {
-		influenceShape := &InfluenceShape{
-			Influence: d.influence,
-		}
-		influenceShape.Stage(d.stager.stage)
-		d.diagram.InfluenceShapes = append(d.diagram.InfluenceShapes, influenceShape)
-	}
-	if !frontNode.IsChecked && stagedNode.IsChecked {
-
-		for idx, shape := range d.diagram.InfluenceShapes {
-			if shape.Influence == d.influence {
-				shape.Unstage(d.stager.stage)
-				d.diagram.InfluenceShapes = slices.Delete(d.diagram.InfluenceShapes, idx, idx+1)
-				continue
-			}
-		}
-	}
-
-	d.stager.stage.Commit()
-}
 
 // PointToControlPoint converts a Point (absolute coords) to a ControlPoint (relative coords)
 // based on the provided Link.
