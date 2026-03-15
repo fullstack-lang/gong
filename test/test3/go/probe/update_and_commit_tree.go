@@ -7,6 +7,7 @@ import (
 	"time"
 
 	gongtree_buttons "github.com/fullstack-lang/gong/lib/tree/go/buttons"
+	gongtree_models "github.com/fullstack-lang/gong/lib/tree/go/models"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 
 	gong_models "github.com/fullstack-lang/gong/go/models"
@@ -48,12 +49,8 @@ func updateAndCommitTree(
 		ToolTipPosition: tree.Below,
 	}
 	topNode.Buttons = append(topNode.Buttons, notificationsResetButton)
-	notificationsResetButton.Impl = &tree.FunctionalButtonProxy{
-		OnUpdated: func(stage *tree.Stage,
-			stagedButton, frontButton *tree.Button,
-		) {
-			probe.ResetNotifications()
-		},
+	notificationsResetButton.OnUpdate = func(_ *tree.Stage, _ *tree.Button) {
+		probe.ResetNotifications()
 	}
 	refreshButton := &tree.Button{
 		Name:            "RefreshButton" + " " + string(gongtree_buttons.BUTTON_refresh),
@@ -63,16 +60,12 @@ func updateAndCommitTree(
 		ToolTipPosition: tree.Below,
 	}
 	topNode.Buttons = append(topNode.Buttons, refreshButton)
-	refreshButton.Impl = &tree.FunctionalButtonProxy{
-		OnUpdated: func(stage *tree.Stage,
-			stagedButton, frontButton *tree.Button,
-		) {
-			probe.stageOfInterest.ComputeInstancesNb()
-			probe.docStager.SetMap_GongStructName_InstancesNb(
-				probe.stageOfInterest.Map_GongStructName_InstancesNb,
-			)
-			probe.Refresh()
-		},
+	refreshButton.OnUpdate = func(_ *tree.Stage, _ *tree.Button) {
+		probe.stageOfInterest.ComputeInstancesNb()
+		probe.docStager.SetMap_GongStructName_InstancesNb(
+			probe.stageOfInterest.Map_GongStructName_InstancesNb,
+		)
+		probe.Refresh()
 	}
 
 	if stageOfInterest.IsInDeltaMode() {
@@ -145,10 +138,23 @@ func updateAndCommitTree(
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
+			nodeGongstruct.OnUpdate = func(treeStagee *tree.Stage, stagedNode, frontNode *tree.Node) {
+				if stagedNode.IsExpanded != frontNode.IsExpanded {
+					stagedNode.IsExpanded = frontNode.IsExpanded
+					return
+				}
+				updateProbeTable[*models.B](probe)
+				// set color for node and reset all other nodes color
+				for node := range *gongtree_models.GetGongstructInstancesSet[gongtree_models.Node](treeStagee) {
+					node.BackgroundColor = ""
+				}
+				stagedNode.BackgroundColor = "lightgrey"
+				treeStagee.Commit()
+			}
 		}
 
 		nodeGongstruct.IsNodeClickable = true
-		nodeGongstruct.Impl = NewTreeNodeImplGongstruct(gongStruct, probe)
+		// nodeGongstruct.Impl = NewTreeNodeImplGongstruct(gongStruct, probe)
 
 		// add add button
 		addButton := &tree.Button{
@@ -252,7 +258,6 @@ func (probe *Probe) AddCommitNavigationNode(appendChildrenNodeFunc func(models.G
 			},
 		}
 	}
-
 
 	orphansButton := &tree.Button{
 		Name:            "OrphansButton",
