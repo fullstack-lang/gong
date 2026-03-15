@@ -15,8 +15,8 @@ func onAddAssociationShapeWithCommit[
 	ACT_ Gongstruct,
 ](
 	stager *Stager, start ATstart, end ATend, shapes *[]ACT) func(
-	stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
-	return func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
+	stage *tree.Stage, updatedButton *tree.Button) {
+	return func(stage *tree.Stage, updatedButton *tree.Button) {
 		addAssociationShapeToDiagram(stager, start, end, shapes)
 		stager.stage.Commit()
 	}
