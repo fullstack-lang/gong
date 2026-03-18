@@ -8,6 +8,7 @@ import (
 
 type svgProxy struct {
 	stager  *Stager
+	svg_    *svg.SVG
 	diagram *Diagram
 }
 
@@ -16,9 +17,14 @@ func (p *svgProxy) SVGUpdated(updatedSVG *svg.SVG) {
 
 	diagram := p.diagram
 
-	if updatedSVG.DrawingState != svg.DRAWING_LINK {
+	if p.svg_.DrawingState == updatedSVG.DrawingState {
 		// in any cases, have the form editor set up with the instance
 		p.stager.probeForm.FillUpFormFromGongstruct(p.diagram, "Diagram")
+		return
+	}
+
+	// IMPORTANT : we are only interested when the updateSVG has finished drawing the connexion
+	if updatedSVG.DrawingState == svg.DRAWING_LINK {
 		return
 	}
 
@@ -181,9 +187,7 @@ func (p *svgProxy) SVGUpdated(updatedSVG *svg.SVG) {
 	}
 
 	// commit to encode the result, this will generate a new SVG generation
-	p.stager.enforceSemantic()
-	p.stager.stage.CommitWithSuspendedCallbacks()
-	p.stager.tree()
+	p.stager.stage.Commit()
 
 }
 

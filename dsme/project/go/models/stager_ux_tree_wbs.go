@@ -50,9 +50,11 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 
 		for _, product := range task.Inputs {
 			inputProductNode := &tree.Node{
-				Name:            product.GetName(),
-				IsExpanded:      true,
-				IsNodeClickable: true,
+				Name:                    product.GetName(),
+				IsExpanded:              true,
+				IsNodeClickable:         true,
+				CheckboxHasToolTip:      true,
+				CheckboxToolTipPosition: tree.Right,
 			}
 			inputProductsNode.Children = append(inputProductsNode.Children, inputProductNode)
 
@@ -70,6 +72,12 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 					taskInputShape, ok := diagram.map_Task_TaskInputShape[taskProductKey]
 					inputProductNode.IsChecked = ok
 
+					if ok {
+						inputProductNode.CheckboxToolTipText = "Uncheck to remove shape from diagram"
+					} else {
+						inputProductNode.CheckboxToolTipText = "Check to shape to diagram"
+					}
+
 					inputProductNode.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
 						if frontNode.IsChecked && !stagedNode.IsChecked {
 							stagedNode.IsChecked = true
@@ -80,10 +88,6 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 							stagedNode.IsChecked = false
 							if taskInputShape != nil {
 								taskInputShape.UnstageVoid(stager.stage)
-								idx := slices.Index(diagram.TaskInputShapes, taskInputShape)
-								if idx != -1 {
-									diagram.TaskInputShapes = slices.Delete(diagram.TaskInputShapes, idx, idx+1)
-								}
 							}
 							stager.stage.Commit()
 						}
@@ -107,9 +111,11 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 
 		for _, product := range task.Outputs {
 			outputProductNode := &tree.Node{
-				Name:            product.GetName(),
-				IsExpanded:      true,
-				IsNodeClickable: true,
+				Name:                    product.GetName(),
+				IsExpanded:              true,
+				IsNodeClickable:         true,
+				CheckboxHasToolTip:      true,
+				CheckboxToolTipPosition: tree.Right,
 			}
 			outputProductsNode.Children = append(outputProductsNode.Children, outputProductNode)
 
@@ -127,6 +133,12 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 					taskOutputShape, ok := diagram.map_Task_TaskOutputShape[taskProductKey]
 					outputProductNode.IsChecked = ok
 
+					if ok {
+						outputProductNode.CheckboxToolTipText = "Uncheck to remove shape from diagram"
+					} else {
+						outputProductNode.CheckboxToolTipText = "Check to shape to diagram"
+					}
+
 					outputProductNode.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
 						if frontNode.IsChecked && !stagedNode.IsChecked {
 							stagedNode.IsChecked = true
@@ -137,10 +149,6 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 							stagedNode.IsChecked = false
 							if taskOutputShape != nil {
 								taskOutputShape.UnstageVoid(stager.stage)
-								idx := slices.Index(diagram.TaskOutputShapes, taskOutputShape)
-								if idx != -1 {
-									diagram.TaskOutputShapes = slices.Delete(diagram.TaskOutputShapes, idx, idx+1)
-								}
 							}
 							stager.stage.Commit()
 						}
