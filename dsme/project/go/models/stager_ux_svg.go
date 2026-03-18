@@ -50,6 +50,7 @@ func (stager *Stager) svg() {
 	// to implement association between abstract elements by mouse drag
 	svgImpl := &svgProxy{
 		stager:  stager,
+		svg_:    svgObject,
 		diagram: diagram,
 	}
 	svgObject.Impl = svgImpl
