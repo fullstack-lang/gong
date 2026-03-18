@@ -25,10 +25,6 @@ func _(stage *models.Stage) {
 
 	__Diagram__00000000_ := (&models.Diagram{Name: `D1`}).Stage(stage)
 
-	__Note__00000000_ := (&models.Note{Name: ``}).Stage(stage)
-
-	__NoteShape__00000000_ := (&models.NoteShape{Name: `-D1`}).Stage(stage)
-
 	__Product__00000000_ := (&models.Product{Name: `P1`}).Stage(stage)
 	__Product__00000001_ := (&models.Product{Name: `P2`}).Stage(stage)
 
@@ -45,9 +41,9 @@ func _(stage *models.Stage) {
 
 	__TaskInputShape__00000001_ := (&models.TaskInputShape{Name: `W1.1 to P1`}).Stage(stage)
 
-	__TaskOutputShape__00000005_ := (&models.TaskOutputShape{Name: `W1.1 to P2`}).Stage(stage)
+	__TaskOutputShape__00000000_ := (&models.TaskOutputShape{Name: `W1.1 to P2`}).Stage(stage)
 
-	__TaskShape__00000000_ := (&models.TaskShape{Name: `-D1`}).Stage(stage)
+	__TaskShape__00000001_ := (&models.TaskShape{Name: `W1.1-D1`}).Stage(stage)
 
 	// insertion point for initialization of values
 
@@ -57,28 +53,15 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.ShowPrefix = true
 	__Diagram__00000000_.DefaultBoxWidth = 250.000000
 	__Diagram__00000000_.DefaultBoxHeigth = 100.000000
-	__Diagram__00000000_.Width = 17208.862056
-	__Diagram__00000000_.Height = 17576.845003
+	__Diagram__00000000_.Width = 19608.862056
+	__Diagram__00000000_.Height = 19976.845003
 	__Diagram__00000000_.IsExpanded = true
 	__Diagram__00000000_.ComputedPrefix = ``
 	__Diagram__00000000_.IsInRenameMode = false
-	__Diagram__00000000_.IsPBSNodeExpanded = true
+	__Diagram__00000000_.IsPBSNodeExpanded = false
 	__Diagram__00000000_.IsWBSNodeExpanded = true
 	__Diagram__00000000_.IsNotesNodeExpanded = true
 	__Diagram__00000000_.IsResourcesNodeExpanded = true
-
-	__Note__00000000_.Name = ``
-	__Note__00000000_.IsExpanded = false
-	__Note__00000000_.ComputedPrefix = ``
-	__Note__00000000_.IsInRenameMode = false
-
-	__NoteShape__00000000_.Name = `-D1`
-	__NoteShape__00000000_.IsExpanded = false
-	__NoteShape__00000000_.X = 179.514802
-	__NoteShape__00000000_.Y = 155.349003
-	__NoteShape__00000000_.Width = 250.000000
-	__NoteShape__00000000_.Height = 100.000000
-	__NoteShape__00000000_.IsHidden = false
 
 	__Product__00000000_.Name = `P1`
 	__Product__00000000_.Description = ``
@@ -143,50 +126,48 @@ func _(stage *models.Stage) {
 	__TaskInputShape__00000001_.EndRatio = 0.500000
 	__TaskInputShape__00000001_.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__TaskInputShape__00000001_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__TaskInputShape__00000001_.CornerOffsetRatio = 1.167222
+	__TaskInputShape__00000001_.CornerOffsetRatio = 1.680000
 
-	__TaskOutputShape__00000005_.Name = `W1.1 to P2`
-	__TaskOutputShape__00000005_.StartRatio = 0.500000
-	__TaskOutputShape__00000005_.EndRatio = 0.500000
-	__TaskOutputShape__00000005_.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__TaskOutputShape__00000005_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__TaskOutputShape__00000005_.CornerOffsetRatio = 1.407738
+	__TaskOutputShape__00000000_.Name = `W1.1 to P2`
+	__TaskOutputShape__00000000_.StartRatio = 0.500000
+	__TaskOutputShape__00000000_.EndRatio = 0.500000
+	__TaskOutputShape__00000000_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__TaskOutputShape__00000000_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__TaskOutputShape__00000000_.CornerOffsetRatio = 1.680000
 
-	__TaskShape__00000000_.Name = `-D1`
-	__TaskShape__00000000_.IsExpanded = false
-	__TaskShape__00000000_.X = 451.706056
-	__TaskShape__00000000_.Y = 359.368751
-	__TaskShape__00000000_.Width = 250.000000
-	__TaskShape__00000000_.Height = 100.000000
-	__TaskShape__00000000_.IsHidden = false
+	__TaskShape__00000001_.Name = `W1.1-D1`
+	__TaskShape__00000001_.IsExpanded = false
+	__TaskShape__00000001_.X = 489.739764
+	__TaskShape__00000001_.Y = 240.744058
+	__TaskShape__00000001_.Width = 250.000000
+	__TaskShape__00000001_.Height = 100.000000
+	__TaskShape__00000001_.IsHidden = false
 
 	// insertion point for setup of pointers
 	__Diagram__00000000_.Product_Shapes = append(__Diagram__00000000_.Product_Shapes, __ProductShape__00000000_)
 	__Diagram__00000000_.Product_Shapes = append(__Diagram__00000000_.Product_Shapes, __ProductShape__00000004_)
 	__Diagram__00000000_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000000_.ProductsWhoseNodeIsExpanded, __Product__00000001_)
-	__Diagram__00000000_.Task_Shapes = append(__Diagram__00000000_.Task_Shapes, __TaskShape__00000000_)
+	__Diagram__00000000_.Task_Shapes = append(__Diagram__00000000_.Task_Shapes, __TaskShape__00000001_)
 	__Diagram__00000000_.TasksWhoseNodeIsExpanded = append(__Diagram__00000000_.TasksWhoseNodeIsExpanded, __Task__00000000_)
+	__Diagram__00000000_.TasksWhoseInputNodeIsExpanded = append(__Diagram__00000000_.TasksWhoseInputNodeIsExpanded, __Task__00000000_)
 	__Diagram__00000000_.TasksWhoseOutputNodeIsExpanded = append(__Diagram__00000000_.TasksWhoseOutputNodeIsExpanded, __Task__00000000_)
 	__Diagram__00000000_.TaskInputShapes = append(__Diagram__00000000_.TaskInputShapes, __TaskInputShape__00000001_)
-	__Diagram__00000000_.TaskOutputShapes = append(__Diagram__00000000_.TaskOutputShapes, __TaskOutputShape__00000005_)
-	__Diagram__00000000_.Note_Shapes = append(__Diagram__00000000_.Note_Shapes, __NoteShape__00000000_)
+	__Diagram__00000000_.TaskOutputShapes = append(__Diagram__00000000_.TaskOutputShapes, __TaskOutputShape__00000000_)
 	__Diagram__00000000_.ResourcesWhoseNodeIsExpanded = append(__Diagram__00000000_.ResourcesWhoseNodeIsExpanded, __Resource__00000002_)
-	__NoteShape__00000000_.Note = __Note__00000000_
 	__ProductShape__00000000_.Product = __Product__00000000_
 	__ProductShape__00000004_.Product = __Product__00000001_
 	__Project__00000000_.RootProducts = append(__Project__00000000_.RootProducts, __Product__00000000_)
 	__Project__00000000_.RootProducts = append(__Project__00000000_.RootProducts, __Product__00000001_)
 	__Project__00000000_.RootTasks = append(__Project__00000000_.RootTasks, __Task__00000000_)
 	__Project__00000000_.RootResources = append(__Project__00000000_.RootResources, __Resource__00000002_)
-	__Project__00000000_.Notes = append(__Project__00000000_.Notes, __Note__00000000_)
 	__Project__00000000_.Diagrams = append(__Project__00000000_.Diagrams, __Diagram__00000000_)
 	__Resource__00000002_.Tasks = append(__Resource__00000002_.Tasks, __Task__00000000_)
 	__Root__00000000_.Projects = append(__Root__00000000_.Projects, __Project__00000000_)
-	__Task__00000000_.Outputs = append(__Task__00000000_.Outputs, __Product__00000000_)
+	__Task__00000000_.Inputs = append(__Task__00000000_.Inputs, __Product__00000000_)
 	__Task__00000000_.Outputs = append(__Task__00000000_.Outputs, __Product__00000001_)
 	__TaskInputShape__00000001_.Product = __Product__00000000_
 	__TaskInputShape__00000001_.Task = __Task__00000000_
-	__TaskOutputShape__00000005_.Task = __Task__00000000_
-	__TaskOutputShape__00000005_.Product = __Product__00000001_
-	__TaskShape__00000000_.Task = __Task__00000000_
+	__TaskOutputShape__00000000_.Task = __Task__00000000_
+	__TaskOutputShape__00000000_.Product = __Product__00000001_
+	__TaskShape__00000001_.Task = __Task__00000000_
 }

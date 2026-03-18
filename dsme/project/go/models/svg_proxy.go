@@ -181,7 +181,9 @@ func (p *svgProxy) SVGUpdated(updatedSVG *svg.SVG) {
 	}
 
 	// commit to encode the result, this will generate a new SVG generation
-	p.stager.stage.Commit()
+	p.stager.enforceSemantic()
+	p.stager.stage.CommitWithSuspendedCallbacks()
+	p.stager.tree()
 
 }
 
