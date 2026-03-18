@@ -88,6 +88,7 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		needCommit = stager.enforceShapeOrphans() || needCommit
 		needCommit = stager.enforceShapesAbstractConsistency(stage, needCommit) || needCommit
 		needCommit = stager.enforceDiagramSize() || needCommit
+		needCommit = stager.enforceAssociationShapeConsistency() || needCommit
 	}
 
 	needCommit = stager.enforceTaskInputOutputProjectConsistency() || needCommit
