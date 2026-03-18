@@ -31,8 +31,8 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 	skipSerialize bool,
 	skipStager bool,
 	level1 bool,
-	debouncedMarshall bool) {
-
+	debouncedMarshall bool,
+) {
 	// generate main.go if absent
 	{
 		// check existance of "main.go" file and generate a default "main.go" if absent
@@ -438,12 +438,6 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 		pkgPath,
 		modelPkg.PkgPath,
 	)
-
-	gong_models.SimpleCodeGenerator(
-		modelPkg,
-		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(pkgPath, "../probe/tree_node_impl_gongstruct.go"),
-		probe.TreeNodeImplGongstructFileTemplate, probe.TreeNodeImplGongstructSubTemplateCode)
 
 	gong_models.SimpleCodeGenerator(
 		modelPkg,
