@@ -38,7 +38,7 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 
 	if len(task.Inputs) > 0 {
 		inputProductsNode := &tree.Node{
-			Name:                 fmt.Sprintf("(%d)", len(task.Inputs)),
+			Name:                 fmt.Sprintf("In (%d)", len(task.Inputs)),
 			IsExpanded:           slices.Index(diagram.TasksWhoseInputNodeIsExpanded, task) != -1,
 			IsNodeClickable:      true,
 			IsWithPreceedingIcon: true,
@@ -46,9 +46,7 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 		}
 		taskNode.Children = append(taskNode.Children, inputProductsNode)
 
-		inputProductsNode.Impl = &tree.FunctionalNodeProxy{
-			OnUpdate: onUpdateExpandableNode(stager, task, &diagram.TasksWhoseInputNodeIsExpanded),
-		}
+		inputProductsNode.OnUpdate = onUpdateExpandableNode(stager, task, &diagram.TasksWhoseInputNodeIsExpanded)
 
 		for _, product := range task.Inputs {
 			inputProductNode := &tree.Node{
@@ -63,32 +61,31 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 			if _, ok := diagram.map_Product_ProductShape[product]; ok {
 				if _, ok := diagram.map_Task_TaskShape[task]; ok {
 
-					showHideTaskInputButton := &tree.Button{
-						Name:            task.GetName() + " add input relation from " + product.GetName(),
-						HasToolTip:      true,
-						ToolTipPosition: tree.Right,
-					}
-					inputProductNode.Buttons = append(inputProductNode.Buttons, showHideTaskInputButton)
+					inputProductNode.HasCheckboxButton = true
 
 					taskProductKey := taskProductKey{
 						Task:    task,
 						Product: product,
 					}
-					if taskInputShape, ok := diagram.map_Task_TaskInputShape[taskProductKey]; ok {
-						showHideTaskInputButton.Icon = string(buttons.BUTTON_visibility_off)
-						showHideTaskInputButton.ToolTipText = "Hide link from \"" + task.Name +
-							"\" to \"" + product.Name + "\""
+					taskInputShape, ok := diagram.map_Task_TaskInputShape[taskProductKey]
+					inputProductNode.IsChecked = ok
 
-						showHideTaskInputButton.Impl = &tree.FunctionalButtonProxy{
-							OnUpdated: onRemoveAssociationShapeWithCommit(stager, taskInputShape, &diagram.TaskInputShapes),
+					inputProductNode.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+						if frontNode.IsChecked && !stagedNode.IsChecked {
+							stagedNode.IsChecked = true
+							addAssociationShapeToDiagram(stager, task, product, &diagram.TaskInputShapes)
+							stager.stage.Commit()
 						}
-					} else {
-						showHideTaskInputButton.Icon = string(buttons.BUTTON_visibility)
-						showHideTaskInputButton.ToolTipText = "Show link from \"" + task.Name +
-							"\" to \"" + product.Name + "\""
-
-						showHideTaskInputButton.Impl = &tree.FunctionalButtonProxy{
-							OnUpdated: onAddAssociationShapeWithCommit(stager, task, product, &diagram.TaskInputShapes),
+						if !frontNode.IsChecked && stagedNode.IsChecked {
+							stagedNode.IsChecked = false
+							if taskInputShape != nil {
+								taskInputShape.UnstageVoid(stager.stage)
+								idx := slices.Index(diagram.TaskInputShapes, taskInputShape)
+								if idx != -1 {
+									diagram.TaskInputShapes = slices.Delete(diagram.TaskInputShapes, idx, idx+1)
+								}
+							}
+							stager.stage.Commit()
 						}
 					}
 				}
@@ -98,7 +95,7 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 	}
 	if len(task.Outputs) > 0 {
 		outputProductsNode := &tree.Node{
-			Name:                 fmt.Sprintf("(%d)", len(task.Outputs)),
+			Name:                 fmt.Sprintf("Out (%d)", len(task.Outputs)),
 			IsExpanded:           slices.Index(diagram.TasksWhoseOutputNodeIsExpanded, task) != -1,
 			IsNodeClickable:      true,
 			IsWithPreceedingIcon: true,
@@ -106,9 +103,7 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 		}
 		taskNode.Children = append(taskNode.Children, outputProductsNode)
 
-		outputProductsNode.Impl = &tree.FunctionalNodeProxy{
-			OnUpdate: onUpdateExpandableNode(stager, task, &diagram.TasksWhoseOutputNodeIsExpanded),
-		}
+		outputProductsNode.OnUpdate = onUpdateExpandableNode(stager, task, &diagram.TasksWhoseOutputNodeIsExpanded)
 
 		for _, product := range task.Outputs {
 			outputProductNode := &tree.Node{
@@ -123,32 +118,31 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 			if _, ok := diagram.map_Product_ProductShape[product]; ok {
 				if _, ok := diagram.map_Task_TaskShape[task]; ok {
 
-					showHideTaskOutputButton := &tree.Button{
-						Name:            task.GetName() + " add output relation from " + product.GetName(),
-						HasToolTip:      true,
-						ToolTipPosition: tree.Right,
-					}
-					outputProductNode.Buttons = append(outputProductNode.Buttons, showHideTaskOutputButton)
+					outputProductNode.HasCheckboxButton = true
 
 					taskProductKey := taskProductKey{
 						Task:    task,
 						Product: product,
 					}
-					if taskOutputShape, ok := diagram.map_Task_TaskOutputShape[taskProductKey]; ok {
-						showHideTaskOutputButton.Icon = string(buttons.BUTTON_visibility_off)
-						showHideTaskOutputButton.ToolTipText = "Hide link from \"" + task.Name +
-							"\" to \"" + product.Name + "\""
+					taskOutputShape, ok := diagram.map_Task_TaskOutputShape[taskProductKey]
+					outputProductNode.IsChecked = ok
 
-						showHideTaskOutputButton.Impl = &tree.FunctionalButtonProxy{
-							OnUpdated: onRemoveAssociationShapeWithCommit(stager, taskOutputShape, &diagram.TaskOutputShapes),
+					outputProductNode.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+						if frontNode.IsChecked && !stagedNode.IsChecked {
+							stagedNode.IsChecked = true
+							addAssociationShapeToDiagram(stager, task, product, &diagram.TaskOutputShapes)
+							stager.stage.Commit()
 						}
-					} else {
-						showHideTaskOutputButton.Icon = string(buttons.BUTTON_visibility)
-						showHideTaskOutputButton.ToolTipText = "Show link from \"" + task.Name +
-							"\" to \"" + product.Name + "\""
-
-						showHideTaskOutputButton.Impl = &tree.FunctionalButtonProxy{
-							OnUpdated: onAddAssociationShapeWithCommit(stager, task, product, &diagram.TaskOutputShapes),
+						if !frontNode.IsChecked && stagedNode.IsChecked {
+							stagedNode.IsChecked = false
+							if taskOutputShape != nil {
+								taskOutputShape.UnstageVoid(stager.stage)
+								idx := slices.Index(diagram.TaskOutputShapes, taskOutputShape)
+								if idx != -1 {
+									diagram.TaskOutputShapes = slices.Delete(diagram.TaskOutputShapes, idx, idx+1)
+								}
+							}
+							stager.stage.Commit()
 						}
 					}
 				}

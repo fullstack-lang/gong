@@ -65,16 +65,12 @@ func (stager *Stager) treeRBSinDiagram(diagram *Diagram, resource *Resource, par
 						showHideRelationButton.Icon = string(buttons.BUTTON_visibility_off)
 						showHideRelationButton.ToolTipText = "Hide link from \"" + resource.Name +
 							"\" to \"" + task.Name + "\""
-						showHideRelationButton.Impl = &tree.FunctionalButtonProxy{
-							OnUpdated: onRemoveAssociationShapeWithCommit(stager, shape, &diagram.ResourceTaskShapes),
-						}
+						showHideRelationButton.OnUpdate = onRemoveAssociationShapeWithCommit(stager, shape, &diagram.ResourceTaskShapes)
 					} else {
 						showHideRelationButton.Icon = string(buttons.BUTTON_visibility)
 						showHideRelationButton.ToolTipText = "Show link from \"" + resource.Name +
 							"\" to \"" + task.Name + "\""
-						showHideRelationButton.Impl = &tree.FunctionalButtonProxy{
-							OnUpdated: onAddAssociationShapeWithCommit(stager, resource, task, &diagram.ResourceTaskShapes),
-						}
+						showHideRelationButton.OnUpdate = onAddAssociationShapeWithCommit(stager, resource, task, &diagram.ResourceTaskShapes)
 					}
 				}
 			}

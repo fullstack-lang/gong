@@ -1,11 +1,15 @@
 package models
 
 import (
+	"math/rand/v2"
+	"slices"
+
 	"github.com/fullstack-lang/gong/lib/tree/go/buttons"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
 func (stager *Stager) tree() {
+	stage := stager.stage
 	stager.treeStage.Reset()
 
 	tree_ := &tree.Tree{
@@ -31,9 +35,9 @@ func (stager *Stager) tree() {
 			{
 				Name: diagram.GetName(),
 				Icon: string(buttons.BUTTON_edit),
-				Impl: &toggleButtonProxy{
-					stager:      stager,
-					toggleValue: &diagram.IsEditable,
+				OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+					diagram.IsEditable = !diagram.IsEditable
+					stage.Commit()
 				},
 			},
 		}
@@ -43,58 +47,84 @@ func (stager *Stager) tree() {
 
 		tree_.RootNodes = append(tree_.RootNodes, diagramNode)
 
-		diagramNode.Impl = &DiagramNodeProxy{
-			stager:  stager,
-			Node:    diagramNode,
-			Diagram: diagram,
+		diagramNode.OnUpdate = func(_ *tree.Stage, stagedNode, frontNode *tree.Node) {
+			if frontNode.IsChecked && !stagedNode.IsChecked {
+				stager.desk.SelectedDiagram = diagram
+			}
+
+			if frontNode.IsExpanded != stagedNode.IsExpanded {
+				diagram.IsNodeExpanded = !diagram.IsNodeExpanded
+			}
+
+			stage.Commit()
 		}
 
 		movementCategoryNode := &tree.Node{
 			Name:              "Movements",
 			HasCheckboxButton: false,
 			IsExpanded:        diagram.IsMovementCategoryNodeExpanded,
+			OnUpdate: func(_ *tree.Stage, stagedNode, frontNode *tree.Node) {
+				if frontNode.IsExpanded != stagedNode.IsExpanded {
+					diagram.IsMovementCategoryNodeExpanded = !diagram.IsMovementCategoryNodeExpanded
+					stage.Commit()
+				}
+			},
 		}
 		movementCategoryNode.Buttons = []*tree.Button{
 			{
 				Name: diagram.GetName(),
 				Icon: string(buttons.BUTTON_visibility),
-				Impl: &toggleButtonProxy{
-					stager:      stager,
-					toggleValue: &diagram.IsMovementCategoryShown,
+				OnUpdate: func(stage *tree.Stage, updatedButton *tree.Button) {
+					diagram.IsMovementCategoryShown = !diagram.IsMovementCategoryShown
+					stage.Commit()
 				},
 			},
 		}
 		if diagram.IsMovementCategoryShown {
 			movementCategoryNode.Buttons[0].Icon = string(buttons.BUTTON_visibility_off)
 		}
-		movementCategoryNode.Impl = &expandableNodeProxy{
-			node:           movementCategoryNode,
-			stager:         stager,
-			isNodeExpanded: &diagram.IsMovementCategoryNodeExpanded,
-		}
 		diagramNode.Children = append(diagramNode.Children, movementCategoryNode)
+
+		map_Movement_MovementShape := make(map[*Movement]*MovementShape, 0)
+		for _, _shape := range diagram.MovementShapes {
+			map_Movement_MovementShape[_shape.Movement] = _shape
+		}
 
 		for _, movement := range GetGongstrucsSorted[*Movement](stager.stage) {
 			isInDiagram := false
 			var shape *MovementShape
-			for _, _shape := range diagram.MovementShapes {
-				if _shape.Movement == movement {
-					isInDiagram = true
-					shape = _shape
-					continue
-				}
+			shape = map_Movement_MovementShape[movement]
+			if shape != nil {
+				isInDiagram = true
 			}
 
 			movementNode := &tree.Node{
 				Name:              movement.Name,
 				HasCheckboxButton: true,
 				IsChecked:         isInDiagram,
-			}
-			movementNode.Impl = &MovementNodeProxy{
-				node:     movementNode,
-				diagram:  diagram,
-				movement: movement,
-				stager:   stager,
+				OnUpdate: func(_ *tree.Stage, stagedNode, frontNode *tree.Node) {
+					if frontNode.IsChecked && !stagedNode.IsChecked {
+						movementShape := &MovementShape{
+							Movement: movement,
+							Width:    240,
+							Height:   80,
+							X:        float64(int(rand.Float32()*100) + 10),
+							Y:        float64(int(rand.Float32()*100) + 10),
+						}
+						movementShape.Stage(stage)
+						diagram.MovementShapes = append(diagram.MovementShapes, movementShape)
+					}
+					if !frontNode.IsChecked && stagedNode.IsChecked {
+						for idx, shape := range diagram.MovementShapes {
+							if shape.Movement == movement {
+								diagram.MovementShapes = slices.Delete(diagram.MovementShapes, idx, idx+1)
+								continue
+							}
+						}
+					}
+
+					stage.Commit()
+				},
 			}
 			movementCategoryNode.Children = append(movementCategoryNode.Children, movementNode)
 
@@ -105,15 +135,13 @@ func (stager *Stager) tree() {
 					ToolTipText:     "Hide from diagram",
 					HasToolTip:      true,
 					ToolTipPosition: tree.Right,
-					Impl: &tree.FunctionalButtonProxy{
-						OnUpdated: func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
-							shape.IsHidden = !shape.IsHidden
-							stager.stage.Commit()
-						},
+					OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+						shape.IsHidden = !shape.IsHidden
+						stage.Commit()
 					},
 				},
 			}
-			if shape.IsHidden {
+			if shape != nil && shape.IsHidden {
 				movementNode.Buttons[0].Icon = string(buttons.BUTTON_visibility)
 				movementNode.Buttons[0].ToolTipText = "Show on diagram"
 			}
@@ -123,20 +151,21 @@ func (stager *Stager) tree() {
 			Name:              "ArtefactTypes",
 			HasCheckboxButton: false,
 			IsExpanded:        diagram.IsArtefactTypeCategoryNodeExpanded,
-		}
-		artefactTypeCategoryNode.Impl = &expandableNodeProxy{
-			isNodeExpanded: &diagram.IsArtefactTypeCategoryNodeExpanded,
-			node:           artefactTypeCategoryNode,
-			stager:         stager,
+			OnUpdate: func(_ *tree.Stage, stagedNode, frontNode *tree.Node) {
+				if frontNode.IsExpanded != stagedNode.IsExpanded {
+					diagram.IsArtefactTypeCategoryNodeExpanded = !diagram.IsArtefactTypeCategoryNodeExpanded
+					stage.Commit()
+				}
+			},
 		}
 		diagramNode.Children = append(diagramNode.Children, artefactTypeCategoryNode)
 		artefactTypeCategoryNode.Buttons = []*tree.Button{
 			{
 				Name: diagram.GetName(),
 				Icon: string(buttons.BUTTON_visibility),
-				Impl: &toggleButtonProxy{
-					stager:      stager,
-					toggleValue: &diagram.IsArtefactTypeCategoryShown,
+				OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+					diagram.IsArtefactTypeCategoryShown = !diagram.IsArtefactTypeCategoryShown
+					stage.Commit()
 				},
 			},
 		}
@@ -159,12 +188,30 @@ func (stager *Stager) tree() {
 				Name:              artefactType.Name,
 				HasCheckboxButton: true,
 				IsChecked:         isInDiagram,
-			}
-			artefactTypeNode.Impl = &ArtefactTypeNodeProxy{
-				node:         artefactTypeNode,
-				diagram:      diagram,
-				artefactType: artefactType,
-				stager:       stager,
+				OnUpdate: func(_ *tree.Stage, stagedNode, frontNode *tree.Node) {
+					if frontNode.IsChecked && !stagedNode.IsChecked {
+						artefactTypeShape := &ArtefactTypeShape{
+							ArtefactType: artefactType,
+							Width:        150,
+							Height:       25,
+							X:            float64(int(rand.Float32()*100) + 10),
+							Y:            float64(int(rand.Float32()*100) + 10),
+						}
+						artefactTypeShape.Stage(stage)
+						diagram.ArtefactTypeShapes = append(diagram.ArtefactTypeShapes, artefactTypeShape)
+					}
+					if !frontNode.IsChecked && stagedNode.IsChecked {
+						for idx, shape := range diagram.ArtefactTypeShapes {
+							if shape.ArtefactType == artefactType {
+								shape.Unstage(stage)
+								diagram.ArtefactTypeShapes = slices.Delete(diagram.ArtefactTypeShapes, idx, idx+1)
+								continue
+							}
+						}
+					}
+
+					stage.Commit()
+				},
 			}
 			artefactTypeCategoryNode.Children = append(artefactTypeCategoryNode.Children, artefactTypeNode)
 
@@ -175,11 +222,9 @@ func (stager *Stager) tree() {
 					ToolTipText:     "Hide from diagram",
 					HasToolTip:      true,
 					ToolTipPosition: tree.Right,
-					Impl: &tree.FunctionalButtonProxy{
-						OnUpdated: func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
-							shape.IsHidden = !shape.IsHidden
-							stager.stage.Commit()
-						},
+					OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+						shape.IsHidden = !shape.IsHidden
+						stage.Commit()
 					},
 				},
 			}
@@ -189,11 +234,12 @@ func (stager *Stager) tree() {
 			Name:              "Artists",
 			HasCheckboxButton: false,
 			IsExpanded:        diagram.IsArtistCategoryNodeExpanded,
-		}
-		artistCategoryNode.Impl = &expandableNodeProxy{
-			isNodeExpanded: &diagram.IsArtistCategoryNodeExpanded,
-			node:           artistCategoryNode,
-			stager:         stager,
+			OnUpdate: func(_ *tree.Stage, stagedNode, frontNode *tree.Node) {
+				if frontNode.IsExpanded != stagedNode.IsExpanded {
+					diagram.IsArtistCategoryNodeExpanded = !diagram.IsArtistCategoryNodeExpanded
+					stage.Commit()
+				}
+			},
 		}
 		diagramNode.Children = append(diagramNode.Children, artistCategoryNode)
 
@@ -201,59 +247,108 @@ func (stager *Stager) tree() {
 			{
 				Name: diagram.GetName(),
 				Icon: string(buttons.BUTTON_visibility),
-				Impl: &toggleButtonProxy{
-					stager:      stager,
-					toggleValue: &diagram.IsArtistCategoryShown,
+				OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+					diagram.IsArtistCategoryShown = !diagram.IsArtistCategoryShown
+					stage.Commit()
 				},
 			},
 		}
 		if diagram.IsArtistCategoryShown {
 			artistCategoryNode.Buttons[0].Icon = string(buttons.BUTTON_visibility_off)
 		}
-		for _, artist := range GetGongstrucsSorted[*Artist](stager.stage) {
+		for _, element := range GetGongstrucsSorted[*Artist](stager.stage) {
 
 			isInDiagram := false
 
 			var shape *ArtistShape
 			for _, _shape := range diagram.ArtistShapes {
-				if _shape.Artist == artist {
+				if _shape.Artist == element {
 					isInDiagram = true
 					shape = _shape
 					continue
 				}
 			}
 
-			artistNode := &tree.Node{
-				Name:              artist.Name,
+			node := &tree.Node{
+				Name:              element.Name,
 				HasCheckboxButton: true,
 				IsChecked:         isInDiagram,
-			}
-			artistNode.Impl = &ArtistNodeProxy{
-				node:    artistNode,
-				diagram: diagram,
-				artist:  artist,
-				stager:  stager,
-			}
-			artistCategoryNode.Children = append(artistCategoryNode.Children, artistNode)
+				OnUpdate: func(_ *tree.Stage, stagedNode, frontNode *tree.Node) {
+					if frontNode.IsChecked && !stagedNode.IsChecked {
+						artistShape := &ArtistShape{
+							Artist: element,
+							Width:  80,
+							Height: 30,
+							X:      float64(int(rand.Float32()*100) + 10),
+							Y:      float64(int(rand.Float32()*100) + 10),
+						}
+						artistShape.Stage(stage)
+						diagram.ArtistShapes = append(diagram.ArtistShapes, artistShape)
+					}
+					if !frontNode.IsChecked && stagedNode.IsChecked {
+						for idx, shape := range diagram.ArtistShapes {
+							if shape.Artist == element {
+								shape.Unstage(stage)
+								diagram.ArtistShapes = slices.Delete(diagram.ArtistShapes, idx, idx+1)
+								continue
+							}
+						}
+					}
 
-			artistNode.Buttons = []*tree.Button{
-				{
-					Name:            diagram.GetName(),
-					Icon:            string(buttons.BUTTON_visibility_off),
-					ToolTipText:     "Hide from diagram",
-					HasToolTip:      true,
-					ToolTipPosition: tree.Right,
-					Impl: &tree.FunctionalButtonProxy{
-						OnUpdated: func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
-							shape.IsHidden = !shape.IsHidden
-							stager.stage.Commit()
-						},
-					},
+					stage.Commit()
 				},
 			}
-			if diagram.IsArtistCategoryShown {
-				artistNode.Buttons[0].Icon = string(buttons.BUTTON_visibility)
-				artistNode.Buttons[0].ToolTipText = "Show on diagram"
+			artistCategoryNode.Children = append(artistCategoryNode.Children, node)
+			if !element.GetIsInRenameMode() {
+				node.Buttons = append(node.Buttons,
+					&tree.Button{
+						Name: element.GetName() + " " + string(buttons.BUTTON_edit_note),
+						Icon: string(buttons.BUTTON_edit_note),
+						Impl: &tree.FunctionalButtonProxy{
+							OnUpdated: func(stage *tree.Stage, button, updatedButton *tree.Button) {
+								element.SetIsInRenameMode(true)
+								stager.stage.Commit()
+							},
+						},
+						HasToolTip:      true,
+						ToolTipText:     "Rename the " + GetGongstructNameFromPointer(element),
+						ToolTipPosition: tree.Above,
+					})
+			} else {
+				node.Buttons = append(node.Buttons,
+					&tree.Button{
+						Name: element.GetName() + " " + string(buttons.BUTTON_edit_off),
+						Icon: string(buttons.BUTTON_edit_off),
+						Impl: &tree.FunctionalButtonProxy{
+							OnUpdated: func(stage *tree.Stage, button, updatedButton *tree.Button) {
+								element.SetIsInRenameMode(false)
+								stager.stage.Commit()
+							},
+						},
+						HasToolTip:      true,
+						ToolTipText:     "Cancel renaming",
+						ToolTipPosition: tree.Above,
+					})
+			}
+
+			if shape != nil {
+				node.Buttons = []*tree.Button{
+					{
+						Name:            diagram.GetName(),
+						Icon:            string(buttons.BUTTON_visibility_off),
+						ToolTipText:     "Hide from diagram",
+						HasToolTip:      true,
+						ToolTipPosition: tree.Right,
+						OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+							shape.IsHidden = !shape.IsHidden
+							stage.Commit()
+						},
+					},
+				}
+				if diagram.IsArtistCategoryShown {
+					node.Buttons[0].Icon = string(buttons.BUTTON_visibility)
+					node.Buttons[0].ToolTipText = "Show on diagram"
+				}
 			}
 		}
 
@@ -261,11 +356,12 @@ func (stager *Stager) tree() {
 			Name:              "Influences",
 			HasCheckboxButton: false,
 			IsExpanded:        diagram.IsInfluenceCategoryNodeExpanded,
-		}
-		influenceCategoryNode.Impl = &expandableNodeProxy{
-			isNodeExpanded: &diagram.IsInfluenceCategoryNodeExpanded,
-			node:           influenceCategoryNode,
-			stager:         stager,
+			OnUpdate: func(_ *tree.Stage, stagedNode, frontNode *tree.Node) {
+				if frontNode.IsExpanded != stagedNode.IsExpanded {
+					diagram.IsInfluenceCategoryNodeExpanded = !diagram.IsInfluenceCategoryNodeExpanded
+					stage.Commit()
+				}
+			},
 		}
 		diagramNode.Children = append(diagramNode.Children, influenceCategoryNode)
 
@@ -273,9 +369,9 @@ func (stager *Stager) tree() {
 			{
 				Name: diagram.GetName(),
 				Icon: string(buttons.BUTTON_visibility),
-				Impl: &toggleButtonProxy{
-					stager:      stager,
-					toggleValue: &diagram.IsInfluenceCategoryShown,
+				OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+					diagram.IsInfluenceCategoryShown = !diagram.IsInfluenceCategoryShown
+					stage.Commit()
 				},
 			},
 		}
@@ -297,12 +393,26 @@ func (stager *Stager) tree() {
 				Name:              influence.Name,
 				HasCheckboxButton: true,
 				IsChecked:         isInDiagram,
-			}
-			influenceNode.Impl = &InfluenceNodeProxy{
-				node:      influenceNode,
-				diagram:   diagram,
-				influence: influence,
-				stager:    stager,
+				OnUpdate: func(_ *tree.Stage, stagedNode, frontNode *tree.Node) {
+					if frontNode.IsChecked && !stagedNode.IsChecked {
+						influenceShape := &InfluenceShape{
+							Influence: influence,
+						}
+						influenceShape.Stage(stage)
+						diagram.InfluenceShapes = append(diagram.InfluenceShapes, influenceShape)
+					}
+					if !frontNode.IsChecked && stagedNode.IsChecked {
+						for idx, shape := range diagram.InfluenceShapes {
+							if shape.Influence == influence {
+								shape.Unstage(stage)
+								diagram.InfluenceShapes = slices.Delete(diagram.InfluenceShapes, idx, idx+1)
+								continue
+							}
+						}
+					}
+
+					stage.Commit()
+				},
 			}
 			influenceCategoryNode.Children = append(influenceCategoryNode.Children, influenceNode)
 		}
@@ -311,23 +421,4 @@ func (stager *Stager) tree() {
 	tree.StageBranch(stager.treeStage, tree_)
 
 	stager.treeStage.Commit()
-}
-
-type DiagramNodeProxy struct {
-	stager  *Stager
-	Diagram *Diagram
-	Node    *tree.Node
-}
-
-// OnAfterUpdate implements models.NodeImplInterface.
-func (d *DiagramNodeProxy) OnAfterUpdate(stage *tree.Stage, stagedNode *tree.Node, frontNode *tree.Node) {
-	if frontNode.IsChecked && !stagedNode.IsChecked {
-		d.stager.desk.SelectedDiagram = d.Diagram
-	}
-
-	if frontNode.IsExpanded != stagedNode.IsExpanded {
-		d.Diagram.IsNodeExpanded = !d.Diagram.IsNodeExpanded
-	}
-
-	d.stager.stage.Commit()
 }

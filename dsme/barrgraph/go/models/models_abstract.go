@@ -1,15 +1,40 @@
 package models
 
-import (
-	"math/rand/v2"
-	"slices"
-	"time"
+import "time"
 
-	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
-)
+type ArtElement interface {
+	IsArtElement()
+	GetName() string
+	GetIsInRenameMode() bool
+	SetIsInRenameMode(bool)
+}
+
+type AbstractTypeFields struct {
+	// nodes can be edited
+	IsInRenameMode bool
+}
+
+func (r *AbstractTypeFields) GetIsInRenameMode() bool {
+	return r.IsInRenameMode
+}
+
+func (r *AbstractTypeFields) SetIsInRenameMode(isInRenameMode bool) {
+	r.IsInRenameMode = isInRenameMode
+}
+
+type Place struct {
+	Name string
+}
+
+type Desk struct {
+	Name            string
+	SelectedDiagram *Diagram
+}
 
 type Movement struct {
 	Name string
+
+	AbstractTypeFields
 
 	Date time.Time
 	// NON GEOMETRICAL and GEOMTRICAL ABSRTACT ART
@@ -63,34 +88,62 @@ type MovementShape struct {
 	IsHidden bool
 }
 
-type MovementNodeProxy struct {
-	stager   *Stager
-	diagram  *Diagram
-	movement *Movement
-	node     *tree.Node
+type Artist struct {
+	Name string
+
+	AbstractTypeFields
+
+	IsDead      bool
+	DateOfDeath time.Time
+	Place       *Place
 }
 
-// OnAfterUpdate implements models.NodeImplInterface.
-func (d *MovementNodeProxy) OnAfterUpdate(stage *tree.Stage, stagedNode *tree.Node, frontNode *tree.Node) {
-	if frontNode.IsChecked && !stagedNode.IsChecked {
-		movementShape := &MovementShape{
-			Movement: d.movement,
-			Width:    240,
-			Height:   80,
-			X:        float64(int(rand.Float32()*100) + 10),
-			Y:        float64(int(rand.Float32()*100) + 10),
-		}
-		movementShape.Stage(d.stager.stage)
-		d.diagram.MovementShapes = append(d.diagram.MovementShapes, movementShape)
-	}
-	if !frontNode.IsChecked && stagedNode.IsChecked {
-		for idx, shape := range d.diagram.MovementShapes {
-			if shape.Movement == d.movement {
-				d.diagram.MovementShapes = slices.Delete(d.diagram.MovementShapes, idx, idx+1)
-				continue
-			}
-		}
-	}
+func (*Artist) IsArtElement() {
+}
 
-	d.stager.stage.Commit()
+type ArtistShape struct {
+	Name   string
+	Artist *Artist
+
+	X, Y float64
+
+	Width, Height float64
+
+	IsHidden bool
+}
+
+func (shape *ArtistShape) GetArtElement() *Artist {
+	return shape.Artist
+}
+
+type ArtefactType struct {
+	Name string
+
+	AbstractTypeFields
+}
+
+func (*ArtefactType) IsArtElement() {
+}
+
+// An Influence is between one Artist/Movement/ArtefactType and another
+//
+// since gong does not yet support interface, one have to mutliply source/target types
+type Influence struct {
+	Name string
+
+	SourceMovement     *Movement
+	SourceArtefactType *ArtefactType
+	SourceArtist       *Artist
+
+	source ArtElement
+
+	TargetMovement     *Movement
+	TargetArtefactType *ArtefactType
+	TargetArtist       *Artist
+
+	target ArtElement
+
+	// hypothetical, some influences are with ashed lines
+	// For instance, Marchine Art to Brancusi (indeed)
+	IsHypothtical bool
 }
