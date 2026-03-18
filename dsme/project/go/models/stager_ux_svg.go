@@ -188,6 +188,9 @@ func (stager *Stager) svg() {
 	}
 
 	for _, taskInputShape := range diagram.TaskInputShapes {
+		if taskInputShape.GetIsHidden() {
+			continue
+		}
 		task := taskInputShape.Task
 		product := taskInputShape.Product
 
@@ -213,6 +216,9 @@ func (stager *Stager) svg() {
 	}
 
 	for _, taskOutputShape := range diagram.TaskOutputShapes {
+		if taskOutputShape.GetIsHidden() {
+			continue
+		}
 		task := taskOutputShape.Task
 		product := taskOutputShape.Product
 

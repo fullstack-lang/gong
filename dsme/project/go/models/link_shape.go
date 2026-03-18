@@ -16,6 +16,8 @@ type LinkShape struct {
 	EndOrientation   OrientationType
 
 	CornerOffsetRatio float64
+
+	IsHidden bool
 }
 
 // Setter functions for StateTransitionShape
@@ -59,6 +61,14 @@ func (s *LinkShape) GetCornerOffsetRatio() float64 {
 	return s.CornerOffsetRatio
 }
 
+func (s *LinkShape) SetIsHidden(isHidden bool) {
+	s.IsHidden = isHidden
+}
+
+func (s *LinkShape) GetIsHidden() bool {
+	return s.IsHidden
+}
+
 // Interface for StateTransitionShape
 type LinkShapeInterface interface {
 	SetStartRatio(ratio float64)
@@ -72,4 +82,7 @@ type LinkShapeInterface interface {
 	GetStartOrientation() OrientationType
 	GetEndOrientation() OrientationType
 	GetCornerOffsetRatio() float64
+
+	SetIsHidden(isHidden bool)
+	GetIsHidden() bool
 }

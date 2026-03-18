@@ -9,6 +9,8 @@ import (
 )
 
 func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode *tree.Node) {
+	stage := stager.stage
+
 	taskNode := addNodeToTree(
 		stager,
 		diagram,
@@ -86,11 +88,31 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 						}
 						if !frontNode.IsChecked && stagedNode.IsChecked {
 							stagedNode.IsChecked = false
-							if taskInputShape != nil {
-								taskInputShape.UnstageVoid(stager.stage)
-							}
+							taskInputShape.UnstageVoid(stager.stage)
 							stager.stage.Commit()
 						}
+					}
+
+					inputProductNode.Buttons = []*tree.Button{
+						{
+							Name:            diagram.GetName(),
+							Icon:            string(buttons.BUTTON_visibility_off),
+							ToolTipText:     "Hide link from diagram",
+							HasToolTip:      true,
+							ToolTipPosition: tree.Right,
+							OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+								taskInputShape.SetIsHidden(!taskInputShape.GetIsHidden())
+								stage.Commit()
+							},
+						},
+					}
+					if ok {
+						if taskInputShape.GetIsHidden() {
+							inputProductNode.Buttons[0].Icon = string(buttons.BUTTON_visibility)
+							inputProductNode.Buttons[0].ToolTipText = "Show link on diagram"
+						}
+					} else {
+						inputProductNode.Buttons[0].IsDisabled = true
 					}
 				}
 			}
@@ -147,11 +169,31 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 						}
 						if !frontNode.IsChecked && stagedNode.IsChecked {
 							stagedNode.IsChecked = false
-							if taskOutputShape != nil {
-								taskOutputShape.UnstageVoid(stager.stage)
-							}
+							taskOutputShape.UnstageVoid(stager.stage)
 							stager.stage.Commit()
 						}
+					}
+
+					outputProductNode.Buttons = []*tree.Button{
+						{
+							Name:            diagram.GetName(),
+							Icon:            string(buttons.BUTTON_visibility_off),
+							ToolTipText:     "Hide link from diagram",
+							HasToolTip:      true,
+							ToolTipPosition: tree.Right,
+							OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+								taskOutputShape.SetIsHidden(!taskOutputShape.GetIsHidden())
+								stage.Commit()
+							},
+						},
+					}
+					if ok {
+						if taskOutputShape.GetIsHidden() {
+							outputProductNode.Buttons[0].Icon = string(buttons.BUTTON_visibility)
+							outputProductNode.Buttons[0].ToolTipText = "Show link on diagram"
+						}
+					} else {
+						outputProductNode.Buttons[0].IsDisabled = true
 					}
 				}
 			}
