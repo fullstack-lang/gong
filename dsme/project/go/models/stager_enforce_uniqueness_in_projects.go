@@ -2,21 +2,21 @@ package models
 
 import "slices"
 
-// enforceUniquenessInProjects ensures that a Product or a Task is not referenced
-// by more than one Project.
+// enforceUniquenessInLibraries ensures that a Product or a Task is not referenced
+// by more than one Library.
 //
-// The rule is "First Come, First Served": the first Project (in the order of root.Projects)
-// that claims a Product/Task keeps it. Subsequent Projects lose the reference.
-func (stager *Stager) enforceUniquenessInProjects() (needCommit bool) {
+// The rule is "First Come, First Served": the first Library (in the order of root.Libraries)
+// that claims a Product/Task keeps it. Subsequent Libraries lose the reference.
+func (stager *Stager) enforceUniquenessInLibraries() (needCommit bool) {
 	root := stager.root
 
-	// map to remember which project has already claimed a product
-	stager.productToProject = make(map[*Product]*Library)
+	// map to remember which library has already claimed a product
+	stager.productToLibrary = make(map[*Product]*Library)
 
-	// map to remember which project has already claimed a task
-	stager.taskToProject = make(map[*Task]*Library)
+	// map to remember which library has already claimed a task
+	stager.taskToLibrary = make(map[*Task]*Library)
 
-	for _, project := range root.Libraries {
+	for _, library := range root.Libraries {
 
 		//
 		// Products
@@ -27,24 +27,24 @@ func (stager *Stager) enforceUniquenessInProjects() (needCommit bool) {
 			for i := len(*products) - 1; i >= 0; i-- {
 				product := (*products)[i]
 
-				if owner, ok := stager.productToProject[product]; ok {
-					if owner != project {
-						// The product is already owned by another project
-						// We remove the link from the current project
+				if owner, ok := stager.productToLibrary[product]; ok {
+					if owner != library {
+						// The product is already owned by another library
+						// We remove the link from the current library
 						*products = slices.Delete(*products, i, i+1)
 						needCommit = true
 					}
-					// If owner == project, it means the product is referenced twice
-					// within the same project. We do nothing here as this function
+					// If owner == library, it means the product is referenced twice
+					// within the same library. We do nothing here as this function
 					// only enforces uniqueness *across* projects.
 				} else {
-					stager.productToProject[product] = project
+					stager.productToLibrary[product] = library
 					verifyProductUniqueness(&product.SubProducts)
 				}
 			}
 		}
 
-		verifyProductUniqueness(&project.RootProducts)
+		verifyProductUniqueness(&library.RootProducts)
 
 		//
 		// Tasks
@@ -55,24 +55,24 @@ func (stager *Stager) enforceUniquenessInProjects() (needCommit bool) {
 			for i := len(*tasks) - 1; i >= 0; i-- {
 				task := (*tasks)[i]
 
-				if owner, ok := stager.taskToProject[task]; ok {
-					if owner != project {
-						// The task is already owned by another project
-						// We remove the link from the current project
+				if owner, ok := stager.taskToLibrary[task]; ok {
+					if owner != library {
+						// The task is already owned by another library
+						// We remove the link from the current library
 						*tasks = slices.Delete(*tasks, i, i+1)
 						needCommit = true
 					}
-					// If owner == project, it means the task is referenced twice
-					// within the same project. We do nothing here as this function
+					// If owner == library, it means the task is referenced twice
+					// within the same library. We do nothing here as this function
 					// only enforces uniqueness *across* projects.
 				} else {
-					stager.taskToProject[task] = project
+					stager.taskToLibrary[task] = library
 					verifyTaskUniqueness(&task.SubTasks)
 				}
 			}
 		}
 
-		verifyTaskUniqueness(&project.RootTasks)
+		verifyTaskUniqueness(&library.RootTasks)
 	}
 
 	return

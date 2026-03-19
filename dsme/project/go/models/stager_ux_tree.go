@@ -11,31 +11,31 @@ func (stager *Stager) tree() {
 
 	root := stager.root
 
-	treeInstance := &tree.Tree{Name: "Project Tree"}
+	treeInstance := &tree.Tree{Name: "Library Tree"}
 
-	allProjectsNode := &tree.Node{
-		Name:       "** Tree of Projects **",
+	allLibrariesNode := &tree.Node{
+		Name:       "** Tree of Libraries **",
 		IsExpanded: true,
 	}
 	stager.probeForm.AddCommitNavigationNode(func(gni GongNodeIF) {
 		treeInstance.RootNodes = append(treeInstance.RootNodes, gni.(*tree.Node))
 	})
-	treeInstance.RootNodes = append(treeInstance.RootNodes, allProjectsNode)
+	treeInstance.RootNodes = append(treeInstance.RootNodes, allLibrariesNode)
 
-	addAddItemButton(stager, nil, nil, nil, allProjectsNode, &root.Libraries, nil, &[]*ProductShape{}, &[]*ProductCompositionShape{})
+	addAddItemButton(stager, nil, nil, nil, allLibrariesNode, &root.Libraries, nil, &[]*ProductShape{}, &[]*ProductCompositionShape{})
 
-	for _, project := range root.Libraries {
-		projectNode := &tree.Node{
-			Name:            project.Name,
-			IsExpanded:      project.IsExpanded,
+	for _, library := range root.Libraries {
+		libraryNode := &tree.Node{
+			Name:            library.Name,
+			IsExpanded:      library.IsExpanded,
 			IsNodeClickable: true,
 		}
-		treeInstance.RootNodes = append(treeInstance.RootNodes, projectNode)
-		projectNode.OnUpdate = stager.OnUpdateProject(project)
+		treeInstance.RootNodes = append(treeInstance.RootNodes, libraryNode)
+		libraryNode.OnUpdate = stager.OnUpdateLibrary(library)
 
-		addAddItemButton(stager, nil, nil, &project.IsExpanded, projectNode, &project.Diagrams, nil, &[]*ProductShape{}, &[]*ProductCompositionShape{})
+		addAddItemButton(stager, nil, nil, &library.IsExpanded, libraryNode, &library.Diagrams, nil, &[]*ProductShape{}, &[]*ProductCompositionShape{})
 
-		for _, diagram := range project.Diagrams {
+		for _, diagram := range library.Diagrams {
 			diagramNode := &tree.Node{
 				Name:              diagram.Name,
 				IsExpanded:        diagram.IsExpanded,
@@ -45,7 +45,7 @@ func (stager *Stager) tree() {
 
 				IsInEditMode: diagram.IsInRenameMode,
 			}
-			projectNode.Children = append(projectNode.Children, diagramNode)
+			libraryNode.Children = append(libraryNode.Children, diagramNode)
 
 			element := diagram
 			node := diagramNode
@@ -155,9 +155,9 @@ func (stager *Stager) tree() {
 			diagramNode.Children = append(diagramNode.Children, pbsNode)
 			pbsNode.OnUpdate = stager.OnUpdateExpansion(&diagram.IsPBSNodeExpanded)
 
-			addAddItemButton(stager, nil, nil, &diagram.IsPBSNodeExpanded, pbsNode, &project.RootProducts, diagram, &diagram.Product_Shapes, &diagram.ProductComposition_Shapes)
+			addAddItemButton(stager, nil, nil, &diagram.IsPBSNodeExpanded, pbsNode, &library.RootProducts, diagram, &diagram.Product_Shapes, &diagram.ProductComposition_Shapes)
 
-			for _, product := range project.RootProducts {
+			for _, product := range library.RootProducts {
 				stager.treePBSRecusriveInDiagram(diagram, product, pbsNode)
 			}
 
@@ -177,9 +177,9 @@ func (stager *Stager) tree() {
 			diagramNode.Children = append(diagramNode.Children, wbsNode)
 			wbsNode.OnUpdate = stager.OnUpdateExpansion(&diagram.IsWBSNodeExpanded)
 
-			addAddItemButton(stager, nil, nil, &diagram.IsWBSNodeExpanded, wbsNode, &project.RootTasks, diagram, &diagram.Task_Shapes, &diagram.TaskComposition_Shapes)
+			addAddItemButton(stager, nil, nil, &diagram.IsWBSNodeExpanded, wbsNode, &library.RootTasks, diagram, &diagram.Task_Shapes, &diagram.TaskComposition_Shapes)
 
-			for _, task := range project.RootTasks {
+			for _, task := range library.RootTasks {
 				stager.treeWBSinDiagram(diagram, task, wbsNode)
 			}
 
@@ -192,9 +192,9 @@ func (stager *Stager) tree() {
 			diagramNode.Children = append(diagramNode.Children, resourcesNode)
 			resourcesNode.OnUpdate = stager.OnUpdateExpansion(&diagram.IsResourcesNodeExpanded)
 
-			addAddItemButton(stager, nil, nil, &diagram.IsResourcesNodeExpanded, resourcesNode, &project.RootResources, diagram, &diagram.Resource_Shapes, &diagram.ResourceTaskShapes)
+			addAddItemButton(stager, nil, nil, &diagram.IsResourcesNodeExpanded, resourcesNode, &library.RootResources, diagram, &diagram.Resource_Shapes, &diagram.ResourceTaskShapes)
 
-			for _, resource := range project.RootResources {
+			for _, resource := range library.RootResources {
 				stager.treeRBSinDiagram(diagram, resource, resourcesNode)
 			}
 
@@ -208,9 +208,9 @@ func (stager *Stager) tree() {
 				diagramNode.Children = append(diagramNode.Children, notesNode)
 				notesNode.OnUpdate = stager.OnUpdateExpansion(&diagram.IsNotesNodeExpanded)
 
-				addAddItemButton(stager, nil, nil, &diagram.IsNotesNodeExpanded, notesNode, &project.Notes, diagram, &diagram.Note_Shapes, &diagram.NoteProductShapes)
+				addAddItemButton(stager, nil, nil, &diagram.IsNotesNodeExpanded, notesNode, &library.Notes, diagram, &diagram.Note_Shapes, &diagram.NoteProductShapes)
 
-				for _, note := range project.Notes {
+				for _, note := range library.Notes {
 					noteNode := addNodeToTree(
 						stager,
 						diagram,
@@ -336,13 +336,13 @@ func (stager *Stager) tree() {
 
 // Helper callbacks
 
-func (stager *Stager) OnUpdateProject(project *Library) func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+func (stager *Stager) OnUpdateLibrary(library *Library) func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
 	return func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
 		if frontNode.IsExpanded != stagedNode.IsExpanded {
 			stagedNode.IsExpanded = frontNode.IsExpanded
-			project.IsExpanded = frontNode.IsExpanded
+			library.IsExpanded = frontNode.IsExpanded
 		} else {
-			stager.probeForm.FillUpFormFromGongstruct(project, GetPointerToGongstructName[*Library]())
+			stager.probeForm.FillUpFormFromGongstruct(library, GetPointerToGongstructName[*Library]())
 		}
 		stager.stage.Commit()
 	}
@@ -402,8 +402,8 @@ func OnCopyDiagram(stager *Stager, diagram *Diagram) func(
 		newDiagram.Name = diagram.Name + " copy"
 		newDiagram.IsEditable_ = true
 
-		project := stager.stage.Library_Diagrams_reverseMap[diagram]
-		Append(&project.Diagrams, newDiagram)
+		library := stager.stage.Library_Diagrams_reverseMap[diagram]
+		Append(&library.Diagrams, newDiagram)
 
 		for _, s := range diagram.Product_Shapes {
 			newShape := s.GongCopy().(*ProductShape)

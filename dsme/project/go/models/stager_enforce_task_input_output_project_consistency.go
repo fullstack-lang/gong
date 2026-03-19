@@ -1,25 +1,25 @@
 package models
 
-// enforceTaskInputOutputProjectConsistency ensures that the input and output
-// products of a task belong to the same project as the task itself.
-func (stager *Stager) enforceTaskInputOutputProjectConsistency() (needCommit bool) {
+// enforceTaskInputOutputLibraryConsistency ensures that the input and output
+// products of a task belong to the same library as the task itself.
+func (stager *Stager) enforceTaskInputOutputLibraryConsistency() (needCommit bool) {
 	stage := stager.stage
 
-	taskToProject := make(map[*Task]*Library)
-	productToProject := make(map[*Product]*Library)
+	taskToLibrary := make(map[*Task]*Library)
+	productToLibrary := make(map[*Product]*Library)
 
-	for project := range *GetGongstructInstancesSetFromPointerType[*Library](stage) {
-		for _, task := range project.RootTasks {
-			mapTaskToProject(task, project, taskToProject)
+	for library := range *GetGongstructInstancesSetFromPointerType[*Library](stage) {
+		for _, task := range library.RootTasks {
+			mapTaskToLibrary(task, library, taskToLibrary)
 		}
-		for _, product := range project.RootProducts {
-			mapProductToProject(product, project, productToProject)
+		for _, product := range library.RootProducts {
+			mapProductToLibrary(product, library, productToLibrary)
 		}
 	}
 
 	for task := range *GetGongstructInstancesSetFromPointerType[*Task](stage) {
 
-		project, ok := taskToProject[task]
+		library, ok := taskToLibrary[task]
 		if !ok {
 			continue
 		}
@@ -28,7 +28,7 @@ func (stager *Stager) enforceTaskInputOutputProjectConsistency() (needCommit boo
 		// filter in place
 		n := 0
 		for _, input := range task.Inputs {
-			if productToProject[input] == project {
+			if productToLibrary[input] == library {
 				task.Inputs[n] = input
 				n++
 			} else {
@@ -40,7 +40,7 @@ func (stager *Stager) enforceTaskInputOutputProjectConsistency() (needCommit boo
 		// check outputs
 		n = 0
 		for _, output := range task.Outputs {
-			if productToProject[output] == project {
+			if productToLibrary[output] == library {
 				task.Outputs[n] = output
 				n++
 			} else {
@@ -53,16 +53,16 @@ func (stager *Stager) enforceTaskInputOutputProjectConsistency() (needCommit boo
 	return
 }
 
-func mapTaskToProject(task *Task, project *Library, taskToProject map[*Task]*Library) {
-	taskToProject[task] = project
+func mapTaskToLibrary(task *Task, library *Library, taskToLibrary map[*Task]*Library) {
+	taskToLibrary[task] = library
 	for _, subTask := range task.SubTasks {
-		mapTaskToProject(subTask, project, taskToProject)
+		mapTaskToLibrary(subTask, library, taskToLibrary)
 	}
 }
 
-func mapProductToProject(product *Product, project *Library, productToProject map[*Product]*Library) {
-	productToProject[product] = project
+func mapProductToLibrary(product *Product, library *Library, productToLibrary map[*Product]*Library) {
+	productToLibrary[product] = library
 	for _, subProduct := range product.SubProducts {
-		mapProductToProject(subProduct, project, productToProject)
+		mapProductToLibrary(subProduct, library, productToLibrary)
 	}
 }

@@ -28,11 +28,11 @@ func (stager *Stager) enforceDuplicateRemove() (needCommit bool) {
 		needCommit = removeDuplicatesSlice(stager, &diagram.ResourceTaskShapes) || needCommit
 	}
 
-	for project := range *GetGongstructInstancesSetFromPointerType[*Library](stage) {
-		needCommit = removeDuplicatesSlice(stager, &project.RootProducts) || needCommit
-		needCommit = removeDuplicatesSlice(stager, &project.RootTasks) || needCommit
-		needCommit = removeDuplicatesSlice(stager, &project.RootResources) || needCommit
-		needCommit = removeDuplicatesSlice(stager, &project.Notes) || needCommit
+	for library := range *GetGongstructInstancesSetFromPointerType[*Library](stage) {
+		needCommit = removeDuplicatesSlice(stager, &library.RootProducts) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &library.RootTasks) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &library.RootResources) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &library.Notes) || needCommit
 	}
 
 	for product := range *GetGongstructInstancesSetFromPointerType[*Product](stage) {
