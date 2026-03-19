@@ -23,6 +23,8 @@ type Library struct {
 	Diagrams []*Diagram
 
 	AbstractTypeFields
+
+	objects []AbstractType
 }
 
 type AbstractType interface {
@@ -51,6 +53,8 @@ type AbstractTypeFields struct {
 
 	// nodes can be edited
 	IsInRenameMode bool
+
+	OwningLibrary *Library
 }
 
 // Note brings information to a diagram

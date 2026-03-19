@@ -86,6 +86,8 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(diagram_.ComputedPrefix), formDiv)
 		case "IsInRenameMode":
 			FormDivBasicFieldToField(&(diagram_.IsInRenameMode), formDiv)
+		case "OwningLibrary":
+			FormDivSelectFieldToField(&(diagram_.OwningLibrary), diagramFormCallback.probe.stageOfInterest, formDiv)
 		case "Product_Shapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ProductShape](diagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ProductShape, 0)
@@ -988,6 +990,8 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(library_.ComputedPrefix), formDiv)
 		case "IsInRenameMode":
 			FormDivBasicFieldToField(&(library_.IsInRenameMode), formDiv)
+		case "OwningLibrary":
+			FormDivSelectFieldToField(&(library_.OwningLibrary), libraryFormCallback.probe.stageOfInterest, formDiv)
 		case "Root:Libraries":
 			// WARNING : this form deals with the N-N association "Root.Libraries []*Library" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
@@ -1231,6 +1235,8 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(note_.ComputedPrefix), formDiv)
 		case "IsInRenameMode":
 			FormDivBasicFieldToField(&(note_.IsInRenameMode), formDiv)
+		case "OwningLibrary":
+			FormDivSelectFieldToField(&(note_.OwningLibrary), noteFormCallback.probe.stageOfInterest, formDiv)
 		case "Diagram:NotesWhoseNodeIsExpanded":
 			// WARNING : this form deals with the N-N association "Diagram.NotesWhoseNodeIsExpanded []*Note" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
@@ -2118,6 +2124,8 @@ func (productFormCallback *ProductFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(product_.ComputedPrefix), formDiv)
 		case "IsInRenameMode":
 			FormDivBasicFieldToField(&(product_.IsInRenameMode), formDiv)
+		case "OwningLibrary":
+			FormDivSelectFieldToField(&(product_.OwningLibrary), productFormCallback.probe.stageOfInterest, formDiv)
 		case "IsProducersNodeExpanded":
 			FormDivBasicFieldToField(&(product_.IsProducersNodeExpanded), formDiv)
 		case "IsConsumersNodeExpanded":
@@ -2982,6 +2990,8 @@ func (resourceFormCallback *ResourceFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(resource_.ComputedPrefix), formDiv)
 		case "IsInRenameMode":
 			FormDivBasicFieldToField(&(resource_.IsInRenameMode), formDiv)
+		case "OwningLibrary":
+			FormDivSelectFieldToField(&(resource_.OwningLibrary), resourceFormCallback.probe.stageOfInterest, formDiv)
 		case "Diagram:ResourcesWhoseNodeIsExpanded":
 			// WARNING : this form deals with the N-N association "Diagram.ResourcesWhoseNodeIsExpanded []*Resource" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
@@ -3954,6 +3964,8 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(task_.ComputedPrefix), formDiv)
 		case "IsInRenameMode":
 			FormDivBasicFieldToField(&(task_.IsInRenameMode), formDiv)
+		case "OwningLibrary":
+			FormDivSelectFieldToField(&(task_.OwningLibrary), taskFormCallback.probe.stageOfInterest, formDiv)
 		case "Inputs":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Product](taskFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Product, 0)

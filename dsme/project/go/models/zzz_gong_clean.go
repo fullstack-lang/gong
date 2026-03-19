@@ -61,6 +61,7 @@ func (diagram *Diagram) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &diagram.ResourceComposition_Shapes) || modified
 	modified = GongCleanSlice(stage, &diagram.ResourceTaskShapes) || modified
 	// insertion point per field
+	modified = GongCleanPointer(stage, &diagram.OwningLibrary) || modified
 	return
 }
 
@@ -73,6 +74,7 @@ func (library *Library) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &library.Notes) || modified
 	modified = GongCleanSlice(stage, &library.Diagrams) || modified
 	// insertion point per field
+	modified = GongCleanPointer(stage, &library.OwningLibrary) || modified
 	return
 }
 
@@ -83,6 +85,7 @@ func (note *Note) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &note.Tasks) || modified
 	modified = GongCleanSlice(stage, &note.Resources) || modified
 	// insertion point per field
+	modified = GongCleanPointer(stage, &note.OwningLibrary) || modified
 	return
 }
 
@@ -126,6 +129,7 @@ func (product *Product) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = GongCleanSlice(stage, &product.SubProducts) || modified
 	// insertion point per field
+	modified = GongCleanPointer(stage, &product.OwningLibrary) || modified
 	return
 }
 
@@ -151,6 +155,7 @@ func (resource *Resource) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &resource.Tasks) || modified
 	modified = GongCleanSlice(stage, &resource.SubResources) || modified
 	// insertion point per field
+	modified = GongCleanPointer(stage, &resource.OwningLibrary) || modified
 	return
 }
 
@@ -194,6 +199,7 @@ func (task *Task) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &task.Inputs) || modified
 	modified = GongCleanSlice(stage, &task.Outputs) || modified
 	// insertion point per field
+	modified = GongCleanPointer(stage, &task.OwningLibrary) || modified
 	return
 }
 
