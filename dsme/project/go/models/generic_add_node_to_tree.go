@@ -18,14 +18,23 @@ func addNodeToTree[
 		RectShapeInterface
 		ConcreteType
 	},
-	CT_ Gongstruct](
+	CT_ Gongstruct,
+	ACT interface {
+		*ACT_
+		LinkShapeInterface
+		AssociationConcreteType
+	},
+	ACT_ Gongstruct](
 	stager *Stager,
 	diagram *Diagram,
 	parentNode *tree.Node,
 	element AT,
+	parentElement AT,
 	elementsWhoseNodeIsExpanded *[]AT,
 	shapes *[]CT,
 	shapesMap *map[AT]CT,
+	map_Element_CompositionShape map[AT]ACT,
+	compositionShapes *[]ACT,
 ) *tree.Node {
 	stage := stager.stage
 	node := &tree.Node{
@@ -84,24 +93,34 @@ func addNodeToTree[
 
 	if shape, ok := (*shapesMap)[element]; ok {
 		node.IsChecked = true
-		node.Buttons = []*tree.Button{
-			{
-				Name:            diagram.GetName(),
-				Icon:            string(buttons.BUTTON_visibility_off),
-				ToolTipText:     "Hide from diagram",
-				HasToolTip:      true,
-				ToolTipPosition: tree.Right,
-				OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
-					shape.SetIsHidden(!shape.GetIsHidden())
-					stage.Commit()
-				},
+		visibilityButton := &tree.Button{
+			Name:            diagram.GetName(),
+			Icon:            string(buttons.BUTTON_visibility_off),
+			ToolTipText:     "Hide from diagram",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+				shape.SetIsHidden(!shape.GetIsHidden())
+				stage.Commit()
 			},
 		}
 		if shape.GetIsHidden() {
-			node.Buttons[0].Icon = string(buttons.BUTTON_visibility)
-			node.Buttons[0].ToolTipText = "Show on diagram"
+			visibilityButton.Icon = string(buttons.BUTTON_visibility)
+			visibilityButton.ToolTipText = "Show on diagram"
 		}
+		node.Buttons = append(node.Buttons, visibilityButton)
 	}
+
+	// if element has a parent element, add a button to show/hide the link to the parent
+	addShowHideCompositionButton(
+		stager,
+		element,
+		parentElement,
+		node,
+		*shapesMap,
+		map_Element_CompositionShape,
+		compositionShapes,
+	)
 
 	// what to do when the node is clicked
 	node.OnUpdate = onUpdateElementInDiagram(
