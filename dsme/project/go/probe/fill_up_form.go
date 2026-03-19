@@ -41,6 +41,7 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsInRenameMode", instanceWithInferedType.IsInRenameMode, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		AssociationFieldToForm("OwningLibrary", instanceWithInferedType.OwningLibrary, formGroup, probe)
 		AssociationSliceToForm("Product_Shapes", instanceWithInferedType, &instanceWithInferedType.Product_Shapes, formGroup, probe)
 		AssociationSliceToForm("ProductsWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.ProductsWhoseNodeIsExpanded, formGroup, probe)
 		BasicFieldtoForm("IsPBSNodeExpanded", instanceWithInferedType.IsPBSNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
@@ -106,6 +107,7 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsInRenameMode", instanceWithInferedType.IsInRenameMode, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		AssociationFieldToForm("OwningLibrary", instanceWithInferedType.OwningLibrary, formGroup, probe)
 		{
 			var rf models.ReverseField
 			_ = rf
@@ -142,6 +144,7 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsInRenameMode", instanceWithInferedType.IsInRenameMode, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		AssociationFieldToForm("OwningLibrary", instanceWithInferedType.OwningLibrary, formGroup, probe)
 		{
 			var rf models.ReverseField
 			_ = rf
@@ -357,6 +360,7 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsInRenameMode", instanceWithInferedType.IsInRenameMode, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		AssociationFieldToForm("OwningLibrary", instanceWithInferedType.OwningLibrary, formGroup, probe)
 		BasicFieldtoForm("IsProducersNodeExpanded", instanceWithInferedType.IsProducersNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsConsumersNodeExpanded", instanceWithInferedType.IsConsumersNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
@@ -586,6 +590,7 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsInRenameMode", instanceWithInferedType.IsInRenameMode, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		AssociationFieldToForm("OwningLibrary", instanceWithInferedType.OwningLibrary, formGroup, probe)
 		{
 			var rf models.ReverseField
 			_ = rf
@@ -817,6 +822,7 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsInRenameMode", instanceWithInferedType.IsInRenameMode, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		AssociationFieldToForm("OwningLibrary", instanceWithInferedType.OwningLibrary, formGroup, probe)
 		AssociationSliceToForm("Inputs", instanceWithInferedType, &instanceWithInferedType.Inputs, formGroup, probe)
 		BasicFieldtoForm("IsInputsNodeExpanded", instanceWithInferedType.IsInputsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)

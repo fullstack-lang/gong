@@ -4279,6 +4279,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			ResourceComposition_Shapes: []*ResourceCompositionShape{{Name: "ResourceComposition_Shapes"}},
 			// field is initialized with an instance of ResourceTaskShape with the name of the field
 			ResourceTaskShapes: []*ResourceTaskShape{{Name: "ResourceTaskShapes"}},
+			// field is initialized with AbstractTypeFields problem with composites
+
 		}).(*Type)
 	case Library:
 		return any(&Library{
@@ -4293,6 +4295,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Notes: []*Note{{Name: "Notes"}},
 			// field is initialized with an instance of Diagram with the name of the field
 			Diagrams: []*Diagram{{Name: "Diagrams"}},
+			// field is initialized with AbstractTypeFields problem with composites
+
 		}).(*Type)
 	case Note:
 		return any(&Note{
@@ -4303,6 +4307,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Tasks: []*Task{{Name: "Tasks"}},
 			// field is initialized with an instance of Resource with the name of the field
 			Resources: []*Resource{{Name: "Resources"}},
+			// field is initialized with AbstractTypeFields problem with composites
+
 		}).(*Type)
 	case NoteProductShape:
 		return any(&NoteProductShape{
@@ -4339,6 +4345,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of Product with the name of the field
 			SubProducts: []*Product{{Name: "SubProducts"}},
+			// field is initialized with AbstractTypeFields problem with composites
+
 		}).(*Type)
 	case ProductCompositionShape:
 		return any(&ProductCompositionShape{
@@ -4359,6 +4367,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Tasks: []*Task{{Name: "Tasks"}},
 			// field is initialized with an instance of Resource with the name of the field
 			SubResources: []*Resource{{Name: "SubResources"}},
+			// field is initialized with AbstractTypeFields problem with composites
+
 		}).(*Type)
 	case ResourceCompositionShape:
 		return any(&ResourceCompositionShape{
@@ -4395,6 +4405,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Inputs: []*Product{{Name: "Inputs"}},
 			// field is initialized with an instance of Product with the name of the field
 			Outputs: []*Product{{Name: "Outputs"}},
+			// field is initialized with AbstractTypeFields problem with composites
+
 		}).(*Type)
 	case TaskCompositionShape:
 		return any(&TaskCompositionShape{
@@ -4445,16 +4457,67 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	case Diagram:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "OwningLibrary":
+			res := make(map[*Library][]*Diagram)
+			for diagram := range stage.Diagrams {
+				if diagram.OwningLibrary != nil {
+					library_ := diagram.OwningLibrary
+					var diagrams []*Diagram
+					_, ok := res[library_]
+					if ok {
+						diagrams = res[library_]
+					} else {
+						diagrams = make([]*Diagram, 0)
+					}
+					diagrams = append(diagrams, diagram)
+					res[library_] = diagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Library
 	case Library:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "OwningLibrary":
+			res := make(map[*Library][]*Library)
+			for library := range stage.Librarys {
+				if library.OwningLibrary != nil {
+					library_ := library.OwningLibrary
+					var librarys []*Library
+					_, ok := res[library_]
+					if ok {
+						librarys = res[library_]
+					} else {
+						librarys = make([]*Library, 0)
+					}
+					librarys = append(librarys, library)
+					res[library_] = librarys
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Note
 	case Note:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "OwningLibrary":
+			res := make(map[*Library][]*Note)
+			for note := range stage.Notes {
+				if note.OwningLibrary != nil {
+					library_ := note.OwningLibrary
+					var notes []*Note
+					_, ok := res[library_]
+					if ok {
+						notes = res[library_]
+					} else {
+						notes = make([]*Note, 0)
+					}
+					notes = append(notes, note)
+					res[library_] = notes
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of NoteProductShape
 	case NoteProductShape:
@@ -4599,6 +4662,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	case Product:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "OwningLibrary":
+			res := make(map[*Library][]*Product)
+			for product := range stage.Products {
+				if product.OwningLibrary != nil {
+					library_ := product.OwningLibrary
+					var products []*Product
+					_, ok := res[library_]
+					if ok {
+						products = res[library_]
+					} else {
+						products = make([]*Product, 0)
+					}
+					products = append(products, product)
+					res[library_] = products
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of ProductCompositionShape
 	case ProductCompositionShape:
@@ -4648,6 +4728,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	case Resource:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "OwningLibrary":
+			res := make(map[*Library][]*Resource)
+			for resource := range stage.Resources {
+				if resource.OwningLibrary != nil {
+					library_ := resource.OwningLibrary
+					var resources []*Resource
+					_, ok := res[library_]
+					if ok {
+						resources = res[library_]
+					} else {
+						resources = make([]*Resource, 0)
+					}
+					resources = append(resources, resource)
+					res[library_] = resources
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of ResourceCompositionShape
 	case ResourceCompositionShape:
@@ -4741,6 +4838,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	case Task:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "OwningLibrary":
+			res := make(map[*Library][]*Task)
+			for task := range stage.Tasks {
+				if task.OwningLibrary != nil {
+					library_ := task.OwningLibrary
+					var tasks []*Task
+					_, ok := res[library_]
+					if ok {
+						tasks = res[library_]
+					} else {
+						tasks = make([]*Task, 0)
+					}
+					tasks = append(tasks, task)
+					res[library_] = tasks
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of TaskCompositionShape
 	case TaskCompositionShape:
@@ -5534,6 +5648,11 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
+			Name:                 "OwningLibrary",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Library",
+		},
+		{
 			Name:                 "Product_Shapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "ProductShape",
@@ -5692,6 +5811,11 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:               "IsInRenameMode",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
+		{
+			Name:                 "OwningLibrary",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Library",
+		},
 	}
 	return
 }
@@ -5729,6 +5853,11 @@ func (note *Note) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "IsInRenameMode",
 			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "OwningLibrary",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Library",
 		},
 	}
 	return
@@ -5944,6 +6073,11 @@ func (product *Product) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
+			Name:                 "OwningLibrary",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Library",
+		},
+		{
 			Name:               "IsProducersNodeExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -6069,6 +6203,11 @@ func (resource *Resource) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "IsInRenameMode",
 			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "OwningLibrary",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Library",
 		},
 	}
 	return
@@ -6258,6 +6397,11 @@ func (task *Task) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "IsInRenameMode",
 			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "OwningLibrary",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Library",
 		},
 		{
 			Name:                 "Inputs",
@@ -6564,6 +6708,12 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%t", diagram.IsInRenameMode)
 		res.valueBool = diagram.IsInRenameMode
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "OwningLibrary":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if diagram.OwningLibrary != nil {
+			res.valueString = diagram.OwningLibrary.Name
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(diagram.OwningLibrary), uint64(GetOrderPointerGongstruct(stage, diagram.OwningLibrary)))
+		}
 	case "Product_Shapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range diagram.Product_Shapes {
@@ -6839,6 +6989,12 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%t", library.IsInRenameMode)
 		res.valueBool = library.IsInRenameMode
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "OwningLibrary":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if library.OwningLibrary != nil {
+			res.valueString = library.OwningLibrary.Name
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(library.OwningLibrary), uint64(GetOrderPointerGongstruct(stage, library.OwningLibrary)))
+		}
 	}
 	return
 }
@@ -6888,6 +7044,12 @@ func (note *Note) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.valueString = fmt.Sprintf("%t", note.IsInRenameMode)
 		res.valueBool = note.IsInRenameMode
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "OwningLibrary":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if note.OwningLibrary != nil {
+			res.valueString = note.OwningLibrary.Name
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(note.OwningLibrary), uint64(GetOrderPointerGongstruct(stage, note.OwningLibrary)))
+		}
 	}
 	return
 }
@@ -7087,6 +7249,12 @@ func (product *Product) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%t", product.IsInRenameMode)
 		res.valueBool = product.IsInRenameMode
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "OwningLibrary":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if product.OwningLibrary != nil {
+			res.valueString = product.OwningLibrary.Name
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(product.OwningLibrary), uint64(GetOrderPointerGongstruct(stage, product.OwningLibrary)))
+		}
 	case "IsProducersNodeExpanded":
 		res.valueString = fmt.Sprintf("%t", product.IsProducersNodeExpanded)
 		res.valueBool = product.IsProducersNodeExpanded
@@ -7212,6 +7380,12 @@ func (resource *Resource) GongGetFieldValue(fieldName string, stage *Stage) (res
 		res.valueString = fmt.Sprintf("%t", resource.IsInRenameMode)
 		res.valueBool = resource.IsInRenameMode
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "OwningLibrary":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if resource.OwningLibrary != nil {
+			res.valueString = resource.OwningLibrary.Name
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(resource.OwningLibrary), uint64(GetOrderPointerGongstruct(stage, resource.OwningLibrary)))
+		}
 	}
 	return
 }
@@ -7389,6 +7563,12 @@ func (task *Task) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.valueString = fmt.Sprintf("%t", task.IsInRenameMode)
 		res.valueBool = task.IsInRenameMode
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "OwningLibrary":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if task.OwningLibrary != nil {
+			res.valueString = task.OwningLibrary.Name
+			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(task.OwningLibrary), uint64(GetOrderPointerGongstruct(stage, task.OwningLibrary)))
+		}
 	case "Inputs":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range task.Inputs {
@@ -7621,6 +7801,17 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 		diagram.ComputedPrefix = value.GetValueString()
 	case "IsInRenameMode":
 		diagram.IsInRenameMode = value.GetValueBool()
+	case "OwningLibrary":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			diagram.OwningLibrary = nil
+			for __instance__ := range stage.Librarys {
+				if stage.Library_stagedOrder[__instance__] == uint(id) {
+					diagram.OwningLibrary = __instance__
+					break
+				}
+			}
+		}
 	case "Product_Shapes":
 		diagram.Product_Shapes = make([]*ProductShape, 0)
 		ids := strings.Split(value.ids, ";")
@@ -7982,6 +8173,17 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 		library.ComputedPrefix = value.GetValueString()
 	case "IsInRenameMode":
 		library.IsInRenameMode = value.GetValueBool()
+	case "OwningLibrary":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			library.OwningLibrary = nil
+			for __instance__ := range stage.Librarys {
+				if stage.Library_stagedOrder[__instance__] == uint(id) {
+					library.OwningLibrary = __instance__
+					break
+				}
+			}
+		}
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -8041,6 +8243,17 @@ func (note *Note) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 		note.ComputedPrefix = value.GetValueString()
 	case "IsInRenameMode":
 		note.IsInRenameMode = value.GetValueBool()
+	case "OwningLibrary":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			note.OwningLibrary = nil
+			for __instance__ := range stage.Librarys {
+				if stage.Library_stagedOrder[__instance__] == uint(id) {
+					note.OwningLibrary = __instance__
+					break
+				}
+			}
+		}
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -8243,6 +8456,17 @@ func (product *Product) GongSetFieldValue(fieldName string, value GongFieldValue
 		product.ComputedPrefix = value.GetValueString()
 	case "IsInRenameMode":
 		product.IsInRenameMode = value.GetValueBool()
+	case "OwningLibrary":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			product.OwningLibrary = nil
+			for __instance__ := range stage.Librarys {
+				if stage.Library_stagedOrder[__instance__] == uint(id) {
+					product.OwningLibrary = __instance__
+					break
+				}
+			}
+		}
 	case "IsProducersNodeExpanded":
 		product.IsProducersNodeExpanded = value.GetValueBool()
 	case "IsConsumersNodeExpanded":
@@ -8362,6 +8586,17 @@ func (resource *Resource) GongSetFieldValue(fieldName string, value GongFieldVal
 		resource.ComputedPrefix = value.GetValueString()
 	case "IsInRenameMode":
 		resource.IsInRenameMode = value.GetValueBool()
+	case "OwningLibrary":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			resource.OwningLibrary = nil
+			for __instance__ := range stage.Librarys {
+				if stage.Library_stagedOrder[__instance__] == uint(id) {
+					resource.OwningLibrary = __instance__
+					break
+				}
+			}
+		}
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -8535,6 +8770,17 @@ func (task *Task) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 		task.ComputedPrefix = value.GetValueString()
 	case "IsInRenameMode":
 		task.IsInRenameMode = value.GetValueBool()
+	case "OwningLibrary":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			task.OwningLibrary = nil
+			for __instance__ := range stage.Librarys {
+				if stage.Library_stagedOrder[__instance__] == uint(id) {
+					task.OwningLibrary = __instance__
+					break
+				}
+			}
+		}
 	case "Inputs":
 		task.Inputs = make([]*Product, 0)
 		ids := strings.Split(value.ids, ";")

@@ -22,6 +22,7 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 
 	// computes fields that are not persisted
 	stager.enforceProducersConsumers()
+	stager.enforceLibrariesObject()
 	stager.enforceDiagramMaps()
 
 	if needCommit {
@@ -73,8 +74,6 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 
 	needCommit = stager.enforceDefaultValues() || needCommit
 	needCommit = stager.enforceDAG() || needCommit
-	needCommit = stager.enforceHierarchy() || needCommit
-	needCommit = stager.enforceUniquenessInLibraries() || needCommit
 	needCommit = stager.unstageAllOrphans() || needCommit
 	needCommit = stager.enforceComputedPrefix() || needCommit
 
