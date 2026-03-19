@@ -25,7 +25,7 @@ func _(stage *models.Stage) {
 
 	__Diagram__00000005_ := (&models.Diagram{Name: `D5`}).Stage(stage)
 
-	__Project__00000001_ := (&models.Library{Name: `P1`}).Stage(stage)
+	__Library__00000001_ := (&models.Library{Name: `P1`}).Stage(stage)
 
 	__Resource__00000003_ := (&models.Resource{Name: `R3`}).Stage(stage)
 
@@ -51,10 +51,10 @@ func _(stage *models.Stage) {
 	__Diagram__00000005_.IsNotesNodeExpanded = false
 	__Diagram__00000005_.IsResourcesNodeExpanded = true
 
-	__Project__00000001_.Name = `P1`
-	__Project__00000001_.IsExpanded = true
-	__Project__00000001_.ComputedPrefix = ``
-	__Project__00000001_.IsInRenameMode = false
+	__Library__00000001_.Name = `P1`
+	__Library__00000001_.IsExpanded = true
+	__Library__00000001_.ComputedPrefix = ``
+	__Library__00000001_.IsInRenameMode = false
 
 	__Resource__00000003_.Name = `R3`
 	__Resource__00000003_.Description = ``
@@ -72,9 +72,9 @@ func _(stage *models.Stage) {
 	__Root__00000004_.Name = `Root 4`
 	__Root__00000004_.NbPixPerCharacter = 8.000000
 
-	__Root__00000004_.Libraries = append(__Root__00000004_.Libraries, __Project__00000001_)
-	__Project__00000001_.RootResources = append(__Project__00000001_.RootResources, __Resource__00000003_)
-	__Project__00000001_.Diagrams = append(__Project__00000001_.Diagrams, __Diagram__00000005_)
+	__Root__00000004_.Libraries = append(__Root__00000004_.Libraries, __Library__00000001_)
+	__Library__00000001_.RootResources = append(__Library__00000001_.RootResources, __Resource__00000003_)
+	__Library__00000001_.Diagrams = append(__Library__00000001_.Diagrams, __Diagram__00000005_)
 	__ResourceShape__00000003_.Resource = __Resource__00000003_
 	__Diagram__00000005_.Resource_Shapes = append(__Diagram__00000005_.Resource_Shapes, __ResourceShape__00000003_)
 
