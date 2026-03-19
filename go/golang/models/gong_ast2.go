@@ -168,15 +168,10 @@ func ParseAstFileFromAst(stage *Stage, inFile *ast.File, fset *token.FileSet, pr
 				if selExpr, ok := node.Lhs[0].(*ast.SelectorExpr); ok {
 					if ident, ok := selExpr.X.(*ast.Ident); ok {
 						if instance, exists := identifierMap[ident.Name]; exists {
-							// Extract TypeName from identifier convention (e.g. __A__...)
-							// This avoids needing to store type info explicitly in the map
-							parts := strings.Split(ident.Name, "__")
-							if len(parts) >= 2 {
-								typeName := parts[1]
-								if unmarshaller, exists := stage.GongUnmarshallers[typeName]; exists {
-									// 3. Strategy Pattern: Delegate to Handler
-									unmarshaller.UnmarshallField(stage, instance, selExpr.Sel.Name, node.Rhs[0], identifierMap)
-								}
+							typeName := instance.GongGetGongstructName()
+							if unmarshaller, exists := stage.GongUnmarshallers[typeName]; exists {
+								// 3. Strategy Pattern: Delegate to Handler
+								unmarshaller.UnmarshallField(stage, instance, selExpr.Sel.Name, node.Rhs[0], identifierMap)
 							}
 						}
 					}
