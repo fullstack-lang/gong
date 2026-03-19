@@ -9,6 +9,12 @@ import (
 func (stager *Stager) enforceSemantic() (needCommit bool) {
 	stage := stager.stage
 
+	// computes fields that are not persisted
+	stager.enforceProducersConsumers()
+	stager.enforceLibrariesObject()
+	stager.enforceDiagramMaps()
+	stager.enforceParentAssociation()
+
 	pass := 0
 	for {
 		if stager.enforceSemanticOnePass(false, stage) {
