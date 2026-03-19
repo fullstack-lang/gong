@@ -18,13 +18,22 @@ func onUpdateElementInDiagram[
 		RectShapeInterface
 		ConcreteType
 	},
-	CT_ Gongstruct](
+	CT_ Gongstruct,
+	ACT interface {
+		*ACT_
+		LinkShapeInterface
+		AssociationConcreteType
+	},
+	ACT_ Gongstruct](
 	stager *Stager,
 	diagram *Diagram,
 	element AT,
+	parentElement AT,
 	elementsWhoseNodeIsExpanded *[]AT,
 	shapes *[]CT,
 	shapesMap map[AT]CT,
+	compositionShape ACT,
+	compositionShapes *[]ACT,
 ) func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
 	return func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
 		// find the shape (if any)
@@ -72,6 +81,17 @@ func onUpdateElementInDiagram[
 			stager.stage.Commit()
 			stager.probeForm.FillUpFormFromGongstruct(element, GetPointerToGongstructName[AT]())
 			return
+		}
+
+		if frontNode.IsSecondCheckboxChecked && !stagedNode.IsSecondCheckboxChecked {
+			compositionShape := newConcreteAssociation(parentElement, element, compositionShapes)
+			compositionShape.StageVoid(stager.stage)
+		}
+		if !frontNode.IsSecondCheckboxChecked && stagedNode.IsSecondCheckboxChecked {
+			compositionShape.UnstageVoid(stager.stage)
+			idx := slices.Index(*compositionShapes, compositionShape)
+			*compositionShapes = slices.Delete(*compositionShapes, idx, idx+1)
+			stager.stage.Commit()
 		}
 
 		stager.probeForm.FillUpFormFromGongstruct(element, GetPointerToGongstructName[AT]())

@@ -113,6 +113,8 @@ func addNodeToTree[
 
 	_, isParentInDiagram := shapesMap[parentElement]
 	_, isChildInDiagram := shapesMap[element]
+	var compositionShape ACT
+	compositionShape, _ = map_Element_CompositionShape[element]
 
 	if parentElement != nil && isParentInDiagram && isChildInDiagram {
 		node.HasSecondCheckboxButton = true
@@ -122,6 +124,7 @@ func addNodeToTree[
 		if _, ok := map_Element_CompositionShape[element]; ok {
 			node.CheckboxToolTipText = "Remove link shape \"" + parentElement.GetName() +
 				"\" to \"" + element.GetName() + "\" to diagram"
+			node.IsSecondCheckboxChecked = true
 		} else {
 			node.CheckboxToolTipText = "Add link shape \"" + parentElement.GetName() +
 				"\" to \"" + element.GetName() + "\" to diagram"
@@ -135,17 +138,18 @@ func addNodeToTree[
 			}
 
 			if compositionShape, ok := map_Element_CompositionShape[element]; !ok {
+				_ = compositionShape
 				showHideCompositionButton.Icon = string(buttons.BUTTON_visibility)
 				showHideCompositionButton.ToolTipText = "Show link from \"" + parentElement.GetName() +
 					"\" to \"" + element.GetName() + "\""
 
-				showHideCompositionButton.OnUpdate = onAddAssociationShapeWithCommit(stager, parentElement, element, compositionShapes)
+				// showHideCompositionButton.OnUpdate = onAddAssociationShapeWithCommit(stager, parentElement, element, compositionShapes)
 			} else {
 				showHideCompositionButton.Icon = string(buttons.BUTTON_visibility_off)
 				showHideCompositionButton.ToolTipText = "Hide link from \"" + parentElement.GetName() +
 					"\" to \"" + element.GetName() + "\""
 
-				showHideCompositionButton.OnUpdate = onRemoveAssociationShapeWithCommit(stager, compositionShape, compositionShapes)
+				// showHideCompositionButton.OnUpdate = onRemoveAssociationShapeWithCommit(stager, compositionShape, compositionShapes)
 			}
 			node.Buttons = append(node.Buttons, showHideCompositionButton)
 		}
@@ -156,9 +160,13 @@ func addNodeToTree[
 		stager,
 		diagram,
 		element,
+		parentElement,
 		elementsWhoseNodeIsExpanded,
 		shapes,
-		shapesMap)
+		shapesMap,
+		compositionShape,
+		compositionShapes,
+	)
 
 	return node
 }
