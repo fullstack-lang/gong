@@ -130,26 +130,26 @@ func addNodeToTree[
 				"\" to \"" + element.GetName() + "\" to diagram"
 		}
 
-		if false {
+		if compositionShape != nil {
 			showHideCompositionButton := &tree.Button{
 				Name:            GetGongstructNameFromPointer(element) + " " + string(buttons.BUTTON_add),
 				HasToolTip:      true,
 				ToolTipPosition: tree.Right,
+				OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+					compositionShape.SetIsHidden(!compositionShape.GetIsHidden())
+					stage.Commit()
+				},
 			}
 
-			if compositionShape, ok := map_Element_CompositionShape[element]; !ok {
+			if compositionShape.GetIsHidden() {
 				_ = compositionShape
 				showHideCompositionButton.Icon = string(buttons.BUTTON_visibility)
 				showHideCompositionButton.ToolTipText = "Show link from \"" + parentElement.GetName() +
 					"\" to \"" + element.GetName() + "\""
-
-				// showHideCompositionButton.OnUpdate = onAddAssociationShapeWithCommit(stager, parentElement, element, compositionShapes)
 			} else {
 				showHideCompositionButton.Icon = string(buttons.BUTTON_visibility_off)
 				showHideCompositionButton.ToolTipText = "Hide link from \"" + parentElement.GetName() +
 					"\" to \"" + element.GetName() + "\""
-
-				// showHideCompositionButton.OnUpdate = onRemoveAssociationShapeWithCommit(stager, compositionShape, compositionShapes)
 			}
 			node.Buttons = append(node.Buttons, showHideCompositionButton)
 		}
