@@ -99,7 +99,7 @@ func (stager *Stager) updateTreeDiagramStage() {
 						Name: diagram.GetName() + " " + string(buttons.BUTTON_edit_note),
 						Icon: string(buttons.BUTTON_edit_note),
 						Impl: &tree.FunctionalButtonProxy{
-							OnUpdated: func(stage *tree.Stage, button, updatedButton *tree.Button) {
+							OnUpdated: func(_ *tree.Stage, _, _ *tree.Button) {
 								diagram.IsInRenameMode = true
 								stager.stage.Commit()
 							},
@@ -114,7 +114,7 @@ func (stager *Stager) updateTreeDiagramStage() {
 						Name: diagram.GetName() + " " + string(buttons.BUTTON_edit_off),
 						Icon: string(buttons.BUTTON_edit_off),
 						Impl: &tree.FunctionalButtonProxy{
-							OnUpdated: func(stage *tree.Stage, button, updatedButton *tree.Button) {
+							OnUpdated: func(_ *tree.Stage, _, _ *tree.Button) {
 								diagram.IsInRenameMode = false
 								stager.stage.Commit()
 							},
