@@ -13,7 +13,7 @@ func (stager *Stager) treePBSRecusriveInDiagram(diagram *Diagram, product *Produ
 		product.parentProduct,
 		&diagram.ProductsWhoseNodeIsExpanded,
 		&diagram.Product_Shapes,
-		&diagram.map_Product_ProductShape,
+		diagram.map_Product_ProductShape,
 		diagram.map_Product_ProductCompositionShape,
 		&diagram.ProductComposition_Shapes,
 	)

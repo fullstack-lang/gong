@@ -222,7 +222,7 @@ func (stager *Stager) tree() {
 						(*Note)(nil),
 						&diagram.NotesWhoseNodeIsExpanded,
 						&diagram.Note_Shapes,
-						&diagram.map_Note_NoteShape,
+						diagram.map_Note_NoteShape,
 						dummyMap,
 						dummySlice,
 					)
