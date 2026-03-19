@@ -31,7 +31,7 @@ func _(stage *models.Stage) {
 	__ProductShape__00000007_ := (&models.ProductShape{Name: `-D5`}).Stage(stage)
 	__ProductShape__00000001_ := (&models.ProductShape{Name: `-D5`}).Stage(stage)
 
-	__Project__00000001_ := (&models.Project{Name: `P1`}).Stage(stage)
+	__Project__00000001_ := (&models.Library{Name: `P1`}).Stage(stage)
 
 	__Resource__00000003_ := (&models.Resource{Name: `R3`}).Stage(stage)
 	__Resource__00000004_ := (&models.Resource{Name: `R4`}).Stage(stage)
@@ -323,7 +323,7 @@ func _(stage *models.Stage) {
 	__ResourceTaskShape__00000001_.Task = __Task__00000004_
 	__ResourceTaskShape__00000002_.Resource = __Resource__00000006_
 	__ResourceTaskShape__00000002_.Task = __Task__00000004_
-	__Root__00000004_.Projects = append(__Root__00000004_.Projects, __Project__00000001_)
+	__Root__00000004_.Libraries = append(__Root__00000004_.Libraries, __Project__00000001_)
 	__Task__00000004_.Outputs = append(__Task__00000004_.Outputs, __Product__00000004_)
 	__Task__00000004_.Outputs = append(__Task__00000004_.Outputs, __Product__00000001_)
 	__TaskOutputShape__00000005_.Task = __Task__00000004_

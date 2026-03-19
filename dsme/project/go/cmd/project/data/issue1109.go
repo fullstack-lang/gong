@@ -31,7 +31,7 @@ func _(stage *models.Stage) {
 	__ProductShape__00000000_ := (&models.ProductShape{Name: `NewProduct-Default Diagram`}).Stage(stage)
 	__ProductShape__00000001_ := (&models.ProductShape{Name: `NewProduct-Default Diagram`}).Stage(stage)
 
-	__Project__00000000_ := (&models.Project{Name: `NewProject`}).Stage(stage)
+	__Project__00000000_ := (&models.Library{Name: `NewProject`}).Stage(stage)
 
 	__Root__00000000_ := (&models.Root{Name: `Root`}).Stage(stage)
 
@@ -127,7 +127,7 @@ func _(stage *models.Stage) {
 	__Project__00000000_.RootProducts = append(__Project__00000000_.RootProducts, __Product__00000001_)
 	__Project__00000000_.RootTasks = append(__Project__00000000_.RootTasks, __Task__00000000_)
 	__Project__00000000_.Diagrams = append(__Project__00000000_.Diagrams, __Diagram__00000000_)
-	__Root__00000000_.Projects = append(__Root__00000000_.Projects, __Project__00000000_)
+	__Root__00000000_.Libraries = append(__Root__00000000_.Libraries, __Project__00000000_)
 	__Task__00000000_.Outputs = append(__Task__00000000_.Outputs, __Product__00000000_)
 	__Task__00000000_.Outputs = append(__Task__00000000_.Outputs, __Product__00000001_)
 	__TaskOutputShape__00000000_.Task = __Task__00000000_

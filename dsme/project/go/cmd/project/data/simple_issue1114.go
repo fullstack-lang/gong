@@ -25,7 +25,7 @@ func _(stage *models.Stage) {
 
 	__Diagram__00000000_ := (&models.Diagram{Name: `D1`}).Stage(stage)
 
-	__Project__00000000_ := (&models.Project{Name: `NewProject`}).Stage(stage)
+	__Project__00000000_ := (&models.Library{Name: `NewProject`}).Stage(stage)
 
 	__Resource__00000002_ := (&models.Resource{Name: `R1.2`}).Stage(stage)
 
@@ -77,6 +77,6 @@ func _(stage *models.Stage) {
 
 	__ResourceShape__00000002_.Resource = __Resource__00000002_
 
-	__Root__00000000_.Projects = append(__Root__00000000_.Projects, __Project__00000000_)
+	__Root__00000000_.Libraries = append(__Root__00000000_.Libraries, __Project__00000000_)
 	stage.Commit()
 }

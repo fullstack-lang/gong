@@ -35,8 +35,8 @@ type Stager struct {
 	fileName    string // fileName is used to store the name of the file to load or save
 	buttonStage *button.Stage
 
-	productToProject map[*Product]*Project
-	taskToProject    map[*Task]*Project
+	productToProject map[*Product]*Library
+	taskToProject    map[*Task]*Library
 }
 
 func NewStager(

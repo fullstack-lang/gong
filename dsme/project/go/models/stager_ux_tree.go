@@ -22,9 +22,9 @@ func (stager *Stager) tree() {
 	})
 	treeInstance.RootNodes = append(treeInstance.RootNodes, allProjectsNode)
 
-	addAddItemButton(stager, nil, nil, nil, allProjectsNode, &root.Projects, nil, &[]*ProductShape{}, &[]*ProductCompositionShape{})
+	addAddItemButton(stager, nil, nil, nil, allProjectsNode, &root.Libraries, nil, &[]*ProductShape{}, &[]*ProductCompositionShape{})
 
-	for _, project := range root.Projects {
+	for _, project := range root.Libraries {
 		projectNode := &tree.Node{
 			Name:            project.Name,
 			IsExpanded:      project.IsExpanded,
@@ -336,13 +336,13 @@ func (stager *Stager) tree() {
 
 // Helper callbacks
 
-func (stager *Stager) OnUpdateProject(project *Project) func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+func (stager *Stager) OnUpdateProject(project *Library) func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
 	return func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
 		if frontNode.IsExpanded != stagedNode.IsExpanded {
 			stagedNode.IsExpanded = frontNode.IsExpanded
 			project.IsExpanded = frontNode.IsExpanded
 		} else {
-			stager.probeForm.FillUpFormFromGongstruct(project, GetPointerToGongstructName[*Project]())
+			stager.probeForm.FillUpFormFromGongstruct(project, GetPointerToGongstructName[*Library]())
 		}
 		stager.stage.Commit()
 	}
@@ -402,7 +402,7 @@ func OnCopyDiagram(stager *Stager, diagram *Diagram) func(
 		newDiagram.Name = diagram.Name + " copy"
 		newDiagram.IsEditable_ = true
 
-		project := stager.stage.Project_Diagrams_reverseMap[diagram]
+		project := stager.stage.Library_Diagrams_reverseMap[diagram]
 		Append(&project.Diagrams, newDiagram)
 
 		for _, s := range diagram.Product_Shapes {

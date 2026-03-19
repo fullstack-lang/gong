@@ -64,6 +64,18 @@ func (diagram *Diagram) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by Library
+func (library *Library) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = GongCleanSlice(stage, &library.RootProducts) || modified
+	modified = GongCleanSlice(stage, &library.RootTasks) || modified
+	modified = GongCleanSlice(stage, &library.RootResources) || modified
+	modified = GongCleanSlice(stage, &library.Notes) || modified
+	modified = GongCleanSlice(stage, &library.Diagrams) || modified
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by Note
 func (note *Note) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -133,18 +145,6 @@ func (productshape *ProductShape) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
-// Clean garbage collect unstaged instances that are referenced by Project
-func (project *Project) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	modified = GongCleanSlice(stage, &project.RootProducts) || modified
-	modified = GongCleanSlice(stage, &project.RootTasks) || modified
-	modified = GongCleanSlice(stage, &project.RootResources) || modified
-	modified = GongCleanSlice(stage, &project.Notes) || modified
-	modified = GongCleanSlice(stage, &project.Diagrams) || modified
-	// insertion point per field
-	return
-}
-
 // Clean garbage collect unstaged instances that are referenced by Resource
 func (resource *Resource) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -182,7 +182,7 @@ func (resourcetaskshape *ResourceTaskShape) GongClean(stage *Stage) (modified bo
 // Clean garbage collect unstaged instances that are referenced by Root
 func (root *Root) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &root.Projects) || modified
+	modified = GongCleanSlice(stage, &root.Libraries) || modified
 	// insertion point per field
 	return
 }

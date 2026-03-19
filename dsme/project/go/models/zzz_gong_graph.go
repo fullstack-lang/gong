@@ -10,6 +10,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *Diagram:
 		ok = stage.IsStagedDiagram(target)
 
+	case *Library:
+		ok = stage.IsStagedLibrary(target)
+
 	case *Note:
 		ok = stage.IsStagedNote(target)
 
@@ -33,9 +36,6 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 
 	case *ProductShape:
 		ok = stage.IsStagedProductShape(target)
-
-	case *Project:
-		ok = stage.IsStagedProject(target)
 
 	case *Resource:
 		ok = stage.IsStagedResource(target)
@@ -80,6 +80,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 	case *Diagram:
 		ok = stage.IsStagedDiagram(target)
 
+	case *Library:
+		ok = stage.IsStagedLibrary(target)
+
 	case *Note:
 		ok = stage.IsStagedNote(target)
 
@@ -103,9 +106,6 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *ProductShape:
 		ok = stage.IsStagedProductShape(target)
-
-	case *Project:
-		ok = stage.IsStagedProject(target)
 
 	case *Resource:
 		ok = stage.IsStagedResource(target)
@@ -147,6 +147,13 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 func (stage *Stage) IsStagedDiagram(diagram *Diagram) (ok bool) {
 
 	_, ok = stage.Diagrams[diagram]
+
+	return
+}
+
+func (stage *Stage) IsStagedLibrary(library *Library) (ok bool) {
+
+	_, ok = stage.Librarys[library]
 
 	return
 }
@@ -203,13 +210,6 @@ func (stage *Stage) IsStagedProductCompositionShape(productcompositionshape *Pro
 func (stage *Stage) IsStagedProductShape(productshape *ProductShape) (ok bool) {
 
 	_, ok = stage.ProductShapes[productshape]
-
-	return
-}
-
-func (stage *Stage) IsStagedProject(project *Project) (ok bool) {
-
-	_, ok = stage.Projects[project]
 
 	return
 }
@@ -295,6 +295,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Diagram:
 		stage.StageBranchDiagram(target)
 
+	case *Library:
+		stage.StageBranchLibrary(target)
+
 	case *Note:
 		stage.StageBranchNote(target)
 
@@ -318,9 +321,6 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *ProductShape:
 		stage.StageBranchProductShape(target)
-
-	case *Project:
-		stage.StageBranchProject(target)
 
 	case *Resource:
 		stage.StageBranchResource(target)
@@ -426,6 +426,36 @@ func (stage *Stage) StageBranchDiagram(diagram *Diagram) {
 	}
 	for _, _resourcetaskshape := range diagram.ResourceTaskShapes {
 		StageBranch(stage, _resourcetaskshape)
+	}
+
+}
+
+func (stage *Stage) StageBranchLibrary(library *Library) {
+
+	// check if instance is already staged
+	if IsStaged(stage, library) {
+		return
+	}
+
+	library.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _product := range library.RootProducts {
+		StageBranch(stage, _product)
+	}
+	for _, _task := range library.RootTasks {
+		StageBranch(stage, _task)
+	}
+	for _, _resource := range library.RootResources {
+		StageBranch(stage, _resource)
+	}
+	for _, _note := range library.Notes {
+		StageBranch(stage, _note)
+	}
+	for _, _diagram := range library.Diagrams {
+		StageBranch(stage, _diagram)
 	}
 
 }
@@ -589,36 +619,6 @@ func (stage *Stage) StageBranchProductShape(productshape *ProductShape) {
 
 }
 
-func (stage *Stage) StageBranchProject(project *Project) {
-
-	// check if instance is already staged
-	if IsStaged(stage, project) {
-		return
-	}
-
-	project.Stage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _product := range project.RootProducts {
-		StageBranch(stage, _product)
-	}
-	for _, _task := range project.RootTasks {
-		StageBranch(stage, _task)
-	}
-	for _, _resource := range project.RootResources {
-		StageBranch(stage, _resource)
-	}
-	for _, _note := range project.Notes {
-		StageBranch(stage, _note)
-	}
-	for _, _diagram := range project.Diagrams {
-		StageBranch(stage, _diagram)
-	}
-
-}
-
 func (stage *Stage) StageBranchResource(resource *Resource) {
 
 	// check if instance is already staged
@@ -709,8 +709,8 @@ func (stage *Stage) StageBranchRoot(root *Root) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _project := range root.Projects {
-		StageBranch(stage, _project)
+	for _, _library := range root.Libraries {
+		StageBranch(stage, _library)
 	}
 
 }
@@ -832,6 +832,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchDiagram(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *Library:
+		toT := CopyBranchLibrary(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *Note:
 		toT := CopyBranchNote(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -862,10 +866,6 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *ProductShape:
 		toT := CopyBranchProductShape(mapOrigCopy, fromT)
-		return any(toT).(*Type)
-
-	case *Project:
-		toT := CopyBranchProject(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Resource:
@@ -986,6 +986,40 @@ func CopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagramTo
 	}
 	for _, _resourcetaskshape := range diagramFrom.ResourceTaskShapes {
 		diagramTo.ResourceTaskShapes = append(diagramTo.ResourceTaskShapes, CopyBranchResourceTaskShape(mapOrigCopy, _resourcetaskshape))
+	}
+
+	return
+}
+
+func CopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo *Library) {
+
+	// libraryFrom has already been copied
+	if _libraryTo, ok := mapOrigCopy[libraryFrom]; ok {
+		libraryTo = _libraryTo.(*Library)
+		return
+	}
+
+	libraryTo = new(Library)
+	mapOrigCopy[libraryFrom] = libraryTo
+	libraryFrom.CopyBasicFields(libraryTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _product := range libraryFrom.RootProducts {
+		libraryTo.RootProducts = append(libraryTo.RootProducts, CopyBranchProduct(mapOrigCopy, _product))
+	}
+	for _, _task := range libraryFrom.RootTasks {
+		libraryTo.RootTasks = append(libraryTo.RootTasks, CopyBranchTask(mapOrigCopy, _task))
+	}
+	for _, _resource := range libraryFrom.RootResources {
+		libraryTo.RootResources = append(libraryTo.RootResources, CopyBranchResource(mapOrigCopy, _resource))
+	}
+	for _, _note := range libraryFrom.Notes {
+		libraryTo.Notes = append(libraryTo.Notes, CopyBranchNote(mapOrigCopy, _note))
+	}
+	for _, _diagram := range libraryFrom.Diagrams {
+		libraryTo.Diagrams = append(libraryTo.Diagrams, CopyBranchDiagram(mapOrigCopy, _diagram))
 	}
 
 	return
@@ -1182,40 +1216,6 @@ func CopyBranchProductShape(mapOrigCopy map[any]any, productshapeFrom *ProductSh
 	return
 }
 
-func CopyBranchProject(mapOrigCopy map[any]any, projectFrom *Project) (projectTo *Project) {
-
-	// projectFrom has already been copied
-	if _projectTo, ok := mapOrigCopy[projectFrom]; ok {
-		projectTo = _projectTo.(*Project)
-		return
-	}
-
-	projectTo = new(Project)
-	mapOrigCopy[projectFrom] = projectTo
-	projectFrom.CopyBasicFields(projectTo)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _product := range projectFrom.RootProducts {
-		projectTo.RootProducts = append(projectTo.RootProducts, CopyBranchProduct(mapOrigCopy, _product))
-	}
-	for _, _task := range projectFrom.RootTasks {
-		projectTo.RootTasks = append(projectTo.RootTasks, CopyBranchTask(mapOrigCopy, _task))
-	}
-	for _, _resource := range projectFrom.RootResources {
-		projectTo.RootResources = append(projectTo.RootResources, CopyBranchResource(mapOrigCopy, _resource))
-	}
-	for _, _note := range projectFrom.Notes {
-		projectTo.Notes = append(projectTo.Notes, CopyBranchNote(mapOrigCopy, _note))
-	}
-	for _, _diagram := range projectFrom.Diagrams {
-		projectTo.Diagrams = append(projectTo.Diagrams, CopyBranchDiagram(mapOrigCopy, _diagram))
-	}
-
-	return
-}
-
 func CopyBranchResource(mapOrigCopy map[any]any, resourceFrom *Resource) (resourceTo *Resource) {
 
 	// resourceFrom has already been copied
@@ -1325,8 +1325,8 @@ func CopyBranchRoot(mapOrigCopy map[any]any, rootFrom *Root) (rootTo *Root) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _project := range rootFrom.Projects {
-		rootTo.Projects = append(rootTo.Projects, CopyBranchProject(mapOrigCopy, _project))
+	for _, _library := range rootFrom.Libraries {
+		rootTo.Libraries = append(rootTo.Libraries, CopyBranchLibrary(mapOrigCopy, _library))
 	}
 
 	return
@@ -1465,6 +1465,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Diagram:
 		stage.UnstageBranchDiagram(target)
 
+	case *Library:
+		stage.UnstageBranchLibrary(target)
+
 	case *Note:
 		stage.UnstageBranchNote(target)
 
@@ -1488,9 +1491,6 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *ProductShape:
 		stage.UnstageBranchProductShape(target)
-
-	case *Project:
-		stage.UnstageBranchProject(target)
 
 	case *Resource:
 		stage.UnstageBranchResource(target)
@@ -1596,6 +1596,36 @@ func (stage *Stage) UnstageBranchDiagram(diagram *Diagram) {
 	}
 	for _, _resourcetaskshape := range diagram.ResourceTaskShapes {
 		UnstageBranch(stage, _resourcetaskshape)
+	}
+
+}
+
+func (stage *Stage) UnstageBranchLibrary(library *Library) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, library) {
+		return
+	}
+
+	library.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _product := range library.RootProducts {
+		UnstageBranch(stage, _product)
+	}
+	for _, _task := range library.RootTasks {
+		UnstageBranch(stage, _task)
+	}
+	for _, _resource := range library.RootResources {
+		UnstageBranch(stage, _resource)
+	}
+	for _, _note := range library.Notes {
+		UnstageBranch(stage, _note)
+	}
+	for _, _diagram := range library.Diagrams {
+		UnstageBranch(stage, _diagram)
 	}
 
 }
@@ -1759,36 +1789,6 @@ func (stage *Stage) UnstageBranchProductShape(productshape *ProductShape) {
 
 }
 
-func (stage *Stage) UnstageBranchProject(project *Project) {
-
-	// check if instance is already staged
-	if !IsStaged(stage, project) {
-		return
-	}
-
-	project.Unstage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _product := range project.RootProducts {
-		UnstageBranch(stage, _product)
-	}
-	for _, _task := range project.RootTasks {
-		UnstageBranch(stage, _task)
-	}
-	for _, _resource := range project.RootResources {
-		UnstageBranch(stage, _resource)
-	}
-	for _, _note := range project.Notes {
-		UnstageBranch(stage, _note)
-	}
-	for _, _diagram := range project.Diagrams {
-		UnstageBranch(stage, _diagram)
-	}
-
-}
-
 func (stage *Stage) UnstageBranchResource(resource *Resource) {
 
 	// check if instance is already staged
@@ -1879,8 +1879,8 @@ func (stage *Stage) UnstageBranchRoot(root *Root) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _project := range root.Projects {
-		UnstageBranch(stage, _project)
+	for _, _library := range root.Libraries {
+		UnstageBranch(stage, _library)
 	}
 
 }
@@ -2071,6 +2071,33 @@ func (reference *Diagram) GongReconstructPointersFromReferences(stage *Stage, in
 	return
 }
 
+func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, instance *Library) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.RootProducts = reference.RootProducts[:0]
+	for _, _b := range instance.RootProducts {
+		reference.RootProducts = append(reference.RootProducts, stage.Products_reference[_b])
+	}
+	reference.RootTasks = reference.RootTasks[:0]
+	for _, _b := range instance.RootTasks {
+		reference.RootTasks = append(reference.RootTasks, stage.Tasks_reference[_b])
+	}
+	reference.RootResources = reference.RootResources[:0]
+	for _, _b := range instance.RootResources {
+		reference.RootResources = append(reference.RootResources, stage.Resources_reference[_b])
+	}
+	reference.Notes = reference.Notes[:0]
+	for _, _b := range instance.Notes {
+		reference.Notes = append(reference.Notes, stage.Notes_reference[_b])
+	}
+	reference.Diagrams = reference.Diagrams[:0]
+	for _, _b := range instance.Diagrams {
+		reference.Diagrams = append(reference.Diagrams, stage.Diagrams_reference[_b])
+	}
+
+	return
+}
+
 func (reference *Note) GongReconstructPointersFromReferences(stage *Stage, instance *Note) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -2170,33 +2197,6 @@ func (reference *ProductShape) GongReconstructPointersFromReferences(stage *Stag
 	return
 }
 
-func (reference *Project) GongReconstructPointersFromReferences(stage *Stage, instance *Project) () {
-	// insertion point for pointers field
-	// insertion point for slice of pointers field
-	reference.RootProducts = reference.RootProducts[:0]
-	for _, _b := range instance.RootProducts {
-		reference.RootProducts = append(reference.RootProducts, stage.Products_reference[_b])
-	}
-	reference.RootTasks = reference.RootTasks[:0]
-	for _, _b := range instance.RootTasks {
-		reference.RootTasks = append(reference.RootTasks, stage.Tasks_reference[_b])
-	}
-	reference.RootResources = reference.RootResources[:0]
-	for _, _b := range instance.RootResources {
-		reference.RootResources = append(reference.RootResources, stage.Resources_reference[_b])
-	}
-	reference.Notes = reference.Notes[:0]
-	for _, _b := range instance.Notes {
-		reference.Notes = append(reference.Notes, stage.Notes_reference[_b])
-	}
-	reference.Diagrams = reference.Diagrams[:0]
-	for _, _b := range instance.Diagrams {
-		reference.Diagrams = append(reference.Diagrams, stage.Diagrams_reference[_b])
-	}
-
-	return
-}
-
 func (reference *Resource) GongReconstructPointersFromReferences(stage *Stage, instance *Resource) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -2248,9 +2248,9 @@ func (reference *ResourceTaskShape) GongReconstructPointersFromReferences(stage 
 func (reference *Root) GongReconstructPointersFromReferences(stage *Stage, instance *Root) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.Projects = reference.Projects[:0]
-	for _, _b := range instance.Projects {
-		reference.Projects = append(reference.Projects, stage.Projects_reference[_b])
+	reference.Libraries = reference.Libraries[:0]
+	for _, _b := range instance.Libraries {
+		reference.Libraries = append(reference.Libraries, stage.Librarys_reference[_b])
 	}
 
 	return
@@ -2462,6 +2462,48 @@ func (reference *Diagram) GongReconstructPointersFromInstances(stage *Stage) () 
 	return
 }
 
+func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _RootProducts []*Product
+	for _, _reference := range reference.RootProducts {
+		if _instance, ok := stage.Products_instance[_reference]; ok {
+			_RootProducts = append(_RootProducts, _instance)
+		}
+	}
+	reference.RootProducts = _RootProducts
+	var _RootTasks []*Task
+	for _, _reference := range reference.RootTasks {
+		if _instance, ok := stage.Tasks_instance[_reference]; ok {
+			_RootTasks = append(_RootTasks, _instance)
+		}
+	}
+	reference.RootTasks = _RootTasks
+	var _RootResources []*Resource
+	for _, _reference := range reference.RootResources {
+		if _instance, ok := stage.Resources_instance[_reference]; ok {
+			_RootResources = append(_RootResources, _instance)
+		}
+	}
+	reference.RootResources = _RootResources
+	var _Notes []*Note
+	for _, _reference := range reference.Notes {
+		if _instance, ok := stage.Notes_instance[_reference]; ok {
+			_Notes = append(_Notes, _instance)
+		}
+	}
+	reference.Notes = _Notes
+	var _Diagrams []*Diagram
+	for _, _reference := range reference.Diagrams {
+		if _instance, ok := stage.Diagrams_instance[_reference]; ok {
+			_Diagrams = append(_Diagrams, _instance)
+		}
+	}
+	reference.Diagrams = _Diagrams
+
+	return
+}
+
 func (reference *Note) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
@@ -2600,48 +2642,6 @@ func (reference *ProductShape) GongReconstructPointersFromInstances(stage *Stage
 	return
 }
 
-func (reference *Project) GongReconstructPointersFromInstances(stage *Stage) () {
-	// insertion point for pointers field
-	// insertion point for slice of pointers fields
-	var _RootProducts []*Product
-	for _, _reference := range reference.RootProducts {
-		if _instance, ok := stage.Products_instance[_reference]; ok {
-			_RootProducts = append(_RootProducts, _instance)
-		}
-	}
-	reference.RootProducts = _RootProducts
-	var _RootTasks []*Task
-	for _, _reference := range reference.RootTasks {
-		if _instance, ok := stage.Tasks_instance[_reference]; ok {
-			_RootTasks = append(_RootTasks, _instance)
-		}
-	}
-	reference.RootTasks = _RootTasks
-	var _RootResources []*Resource
-	for _, _reference := range reference.RootResources {
-		if _instance, ok := stage.Resources_instance[_reference]; ok {
-			_RootResources = append(_RootResources, _instance)
-		}
-	}
-	reference.RootResources = _RootResources
-	var _Notes []*Note
-	for _, _reference := range reference.Notes {
-		if _instance, ok := stage.Notes_instance[_reference]; ok {
-			_Notes = append(_Notes, _instance)
-		}
-	}
-	reference.Notes = _Notes
-	var _Diagrams []*Diagram
-	for _, _reference := range reference.Diagrams {
-		if _instance, ok := stage.Diagrams_instance[_reference]; ok {
-			_Diagrams = append(_Diagrams, _instance)
-		}
-	}
-	reference.Diagrams = _Diagrams
-
-	return
-}
-
 func (reference *Resource) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
@@ -2711,13 +2711,13 @@ func (reference *ResourceTaskShape) GongReconstructPointersFromInstances(stage *
 func (reference *Root) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _Projects []*Project
-	for _, _reference := range reference.Projects {
-		if _instance, ok := stage.Projects_instance[_reference]; ok {
-			_Projects = append(_Projects, _instance)
+	var _Libraries []*Library
+	for _, _reference := range reference.Libraries {
+		if _instance, ok := stage.Librarys_instance[_reference]; ok {
+			_Libraries = append(_Libraries, _instance)
 		}
 	}
-	reference.Projects = _Projects
+	reference.Libraries = _Libraries
 
 	return
 }
@@ -3269,6 +3269,131 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
+func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []string) {
+	// insertion point for field diffs
+	if library.Name != libraryOther.Name {
+		diffs = append(diffs, library.GongMarshallField(stage, "Name"))
+	}
+	RootProductsDifferent := false
+	if len(library.RootProducts) != len(libraryOther.RootProducts) {
+		RootProductsDifferent = true
+	} else {
+		for i := range library.RootProducts {
+			if (library.RootProducts[i] == nil) != (libraryOther.RootProducts[i] == nil) {
+				RootProductsDifferent = true
+				break
+			} else if library.RootProducts[i] != nil && libraryOther.RootProducts[i] != nil {
+				// this is a pointer comparaison
+				if library.RootProducts[i] != libraryOther.RootProducts[i] {
+					RootProductsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if RootProductsDifferent {
+		ops := Diff(stage, library, libraryOther, "RootProducts", libraryOther.RootProducts, library.RootProducts)
+		diffs = append(diffs, ops)
+	}
+	RootTasksDifferent := false
+	if len(library.RootTasks) != len(libraryOther.RootTasks) {
+		RootTasksDifferent = true
+	} else {
+		for i := range library.RootTasks {
+			if (library.RootTasks[i] == nil) != (libraryOther.RootTasks[i] == nil) {
+				RootTasksDifferent = true
+				break
+			} else if library.RootTasks[i] != nil && libraryOther.RootTasks[i] != nil {
+				// this is a pointer comparaison
+				if library.RootTasks[i] != libraryOther.RootTasks[i] {
+					RootTasksDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if RootTasksDifferent {
+		ops := Diff(stage, library, libraryOther, "RootTasks", libraryOther.RootTasks, library.RootTasks)
+		diffs = append(diffs, ops)
+	}
+	RootResourcesDifferent := false
+	if len(library.RootResources) != len(libraryOther.RootResources) {
+		RootResourcesDifferent = true
+	} else {
+		for i := range library.RootResources {
+			if (library.RootResources[i] == nil) != (libraryOther.RootResources[i] == nil) {
+				RootResourcesDifferent = true
+				break
+			} else if library.RootResources[i] != nil && libraryOther.RootResources[i] != nil {
+				// this is a pointer comparaison
+				if library.RootResources[i] != libraryOther.RootResources[i] {
+					RootResourcesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if RootResourcesDifferent {
+		ops := Diff(stage, library, libraryOther, "RootResources", libraryOther.RootResources, library.RootResources)
+		diffs = append(diffs, ops)
+	}
+	NotesDifferent := false
+	if len(library.Notes) != len(libraryOther.Notes) {
+		NotesDifferent = true
+	} else {
+		for i := range library.Notes {
+			if (library.Notes[i] == nil) != (libraryOther.Notes[i] == nil) {
+				NotesDifferent = true
+				break
+			} else if library.Notes[i] != nil && libraryOther.Notes[i] != nil {
+				// this is a pointer comparaison
+				if library.Notes[i] != libraryOther.Notes[i] {
+					NotesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if NotesDifferent {
+		ops := Diff(stage, library, libraryOther, "Notes", libraryOther.Notes, library.Notes)
+		diffs = append(diffs, ops)
+	}
+	DiagramsDifferent := false
+	if len(library.Diagrams) != len(libraryOther.Diagrams) {
+		DiagramsDifferent = true
+	} else {
+		for i := range library.Diagrams {
+			if (library.Diagrams[i] == nil) != (libraryOther.Diagrams[i] == nil) {
+				DiagramsDifferent = true
+				break
+			} else if library.Diagrams[i] != nil && libraryOther.Diagrams[i] != nil {
+				// this is a pointer comparaison
+				if library.Diagrams[i] != libraryOther.Diagrams[i] {
+					DiagramsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if DiagramsDifferent {
+		ops := Diff(stage, library, libraryOther, "Diagrams", libraryOther.Diagrams, library.Diagrams)
+		diffs = append(diffs, ops)
+	}
+	if library.IsExpanded != libraryOther.IsExpanded {
+		diffs = append(diffs, library.GongMarshallField(stage, "IsExpanded"))
+	}
+	if library.ComputedPrefix != libraryOther.ComputedPrefix {
+		diffs = append(diffs, library.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	if library.IsInRenameMode != libraryOther.IsInRenameMode {
+		diffs = append(diffs, library.GongMarshallField(stage, "IsInRenameMode"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
 func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 	// insertion point for field diffs
 	if note.Name != noteOther.Name {
@@ -3386,6 +3511,9 @@ func (noteproductshape *NoteProductShape) GongDiff(stage *Stage, noteproductshap
 	if noteproductshape.CornerOffsetRatio != noteproductshapeOther.CornerOffsetRatio {
 		diffs = append(diffs, noteproductshape.GongMarshallField(stage, "CornerOffsetRatio"))
 	}
+	if noteproductshape.IsHidden != noteproductshapeOther.IsHidden {
+		diffs = append(diffs, noteproductshape.GongMarshallField(stage, "IsHidden"))
+	}
 
 	return
 }
@@ -3425,6 +3553,9 @@ func (noteresourceshape *NoteResourceShape) GongDiff(stage *Stage, noteresources
 	}
 	if noteresourceshape.CornerOffsetRatio != noteresourceshapeOther.CornerOffsetRatio {
 		diffs = append(diffs, noteresourceshape.GongMarshallField(stage, "CornerOffsetRatio"))
+	}
+	if noteresourceshape.IsHidden != noteresourceshapeOther.IsHidden {
+		diffs = append(diffs, noteresourceshape.GongMarshallField(stage, "IsHidden"))
 	}
 
 	return
@@ -3501,6 +3632,9 @@ func (notetaskshape *NoteTaskShape) GongDiff(stage *Stage, notetaskshapeOther *N
 	}
 	if notetaskshape.CornerOffsetRatio != notetaskshapeOther.CornerOffsetRatio {
 		diffs = append(diffs, notetaskshape.GongMarshallField(stage, "CornerOffsetRatio"))
+	}
+	if notetaskshape.IsHidden != notetaskshapeOther.IsHidden {
+		diffs = append(diffs, notetaskshape.GongMarshallField(stage, "IsHidden"))
 	}
 
 	return
@@ -3585,6 +3719,9 @@ func (productcompositionshape *ProductCompositionShape) GongDiff(stage *Stage, p
 	if productcompositionshape.CornerOffsetRatio != productcompositionshapeOther.CornerOffsetRatio {
 		diffs = append(diffs, productcompositionshape.GongMarshallField(stage, "CornerOffsetRatio"))
 	}
+	if productcompositionshape.IsHidden != productcompositionshapeOther.IsHidden {
+		diffs = append(diffs, productcompositionshape.GongMarshallField(stage, "IsHidden"))
+	}
 
 	return
 }
@@ -3620,131 +3757,6 @@ func (productshape *ProductShape) GongDiff(stage *Stage, productshapeOther *Prod
 	}
 	if productshape.IsHidden != productshapeOther.IsHidden {
 		diffs = append(diffs, productshape.GongMarshallField(stage, "IsHidden"))
-	}
-
-	return
-}
-
-// GongDiff computes the diff between the instance and another instance of same gong struct type
-// and returns the list of differences as strings
-func (project *Project) GongDiff(stage *Stage, projectOther *Project) (diffs []string) {
-	// insertion point for field diffs
-	if project.Name != projectOther.Name {
-		diffs = append(diffs, project.GongMarshallField(stage, "Name"))
-	}
-	RootProductsDifferent := false
-	if len(project.RootProducts) != len(projectOther.RootProducts) {
-		RootProductsDifferent = true
-	} else {
-		for i := range project.RootProducts {
-			if (project.RootProducts[i] == nil) != (projectOther.RootProducts[i] == nil) {
-				RootProductsDifferent = true
-				break
-			} else if project.RootProducts[i] != nil && projectOther.RootProducts[i] != nil {
-				// this is a pointer comparaison
-				if project.RootProducts[i] != projectOther.RootProducts[i] {
-					RootProductsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if RootProductsDifferent {
-		ops := Diff(stage, project, projectOther, "RootProducts", projectOther.RootProducts, project.RootProducts)
-		diffs = append(diffs, ops)
-	}
-	RootTasksDifferent := false
-	if len(project.RootTasks) != len(projectOther.RootTasks) {
-		RootTasksDifferent = true
-	} else {
-		for i := range project.RootTasks {
-			if (project.RootTasks[i] == nil) != (projectOther.RootTasks[i] == nil) {
-				RootTasksDifferent = true
-				break
-			} else if project.RootTasks[i] != nil && projectOther.RootTasks[i] != nil {
-				// this is a pointer comparaison
-				if project.RootTasks[i] != projectOther.RootTasks[i] {
-					RootTasksDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if RootTasksDifferent {
-		ops := Diff(stage, project, projectOther, "RootTasks", projectOther.RootTasks, project.RootTasks)
-		diffs = append(diffs, ops)
-	}
-	RootResourcesDifferent := false
-	if len(project.RootResources) != len(projectOther.RootResources) {
-		RootResourcesDifferent = true
-	} else {
-		for i := range project.RootResources {
-			if (project.RootResources[i] == nil) != (projectOther.RootResources[i] == nil) {
-				RootResourcesDifferent = true
-				break
-			} else if project.RootResources[i] != nil && projectOther.RootResources[i] != nil {
-				// this is a pointer comparaison
-				if project.RootResources[i] != projectOther.RootResources[i] {
-					RootResourcesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if RootResourcesDifferent {
-		ops := Diff(stage, project, projectOther, "RootResources", projectOther.RootResources, project.RootResources)
-		diffs = append(diffs, ops)
-	}
-	NotesDifferent := false
-	if len(project.Notes) != len(projectOther.Notes) {
-		NotesDifferent = true
-	} else {
-		for i := range project.Notes {
-			if (project.Notes[i] == nil) != (projectOther.Notes[i] == nil) {
-				NotesDifferent = true
-				break
-			} else if project.Notes[i] != nil && projectOther.Notes[i] != nil {
-				// this is a pointer comparaison
-				if project.Notes[i] != projectOther.Notes[i] {
-					NotesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if NotesDifferent {
-		ops := Diff(stage, project, projectOther, "Notes", projectOther.Notes, project.Notes)
-		diffs = append(diffs, ops)
-	}
-	DiagramsDifferent := false
-	if len(project.Diagrams) != len(projectOther.Diagrams) {
-		DiagramsDifferent = true
-	} else {
-		for i := range project.Diagrams {
-			if (project.Diagrams[i] == nil) != (projectOther.Diagrams[i] == nil) {
-				DiagramsDifferent = true
-				break
-			} else if project.Diagrams[i] != nil && projectOther.Diagrams[i] != nil {
-				// this is a pointer comparaison
-				if project.Diagrams[i] != projectOther.Diagrams[i] {
-					DiagramsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if DiagramsDifferent {
-		ops := Diff(stage, project, projectOther, "Diagrams", projectOther.Diagrams, project.Diagrams)
-		diffs = append(diffs, ops)
-	}
-	if project.IsExpanded != projectOther.IsExpanded {
-		diffs = append(diffs, project.GongMarshallField(stage, "IsExpanded"))
-	}
-	if project.ComputedPrefix != projectOther.ComputedPrefix {
-		diffs = append(diffs, project.GongMarshallField(stage, "ComputedPrefix"))
-	}
-	if project.IsInRenameMode != projectOther.IsInRenameMode {
-		diffs = append(diffs, project.GongMarshallField(stage, "IsInRenameMode"))
 	}
 
 	return
@@ -3844,6 +3856,9 @@ func (resourcecompositionshape *ResourceCompositionShape) GongDiff(stage *Stage,
 	if resourcecompositionshape.CornerOffsetRatio != resourcecompositionshapeOther.CornerOffsetRatio {
 		diffs = append(diffs, resourcecompositionshape.GongMarshallField(stage, "CornerOffsetRatio"))
 	}
+	if resourcecompositionshape.IsHidden != resourcecompositionshapeOther.IsHidden {
+		diffs = append(diffs, resourcecompositionshape.GongMarshallField(stage, "IsHidden"))
+	}
 
 	return
 }
@@ -3920,6 +3935,9 @@ func (resourcetaskshape *ResourceTaskShape) GongDiff(stage *Stage, resourcetasks
 	if resourcetaskshape.CornerOffsetRatio != resourcetaskshapeOther.CornerOffsetRatio {
 		diffs = append(diffs, resourcetaskshape.GongMarshallField(stage, "CornerOffsetRatio"))
 	}
+	if resourcetaskshape.IsHidden != resourcetaskshapeOther.IsHidden {
+		diffs = append(diffs, resourcetaskshape.GongMarshallField(stage, "IsHidden"))
+	}
 
 	return
 }
@@ -3931,25 +3949,25 @@ func (root *Root) GongDiff(stage *Stage, rootOther *Root) (diffs []string) {
 	if root.Name != rootOther.Name {
 		diffs = append(diffs, root.GongMarshallField(stage, "Name"))
 	}
-	ProjectsDifferent := false
-	if len(root.Projects) != len(rootOther.Projects) {
-		ProjectsDifferent = true
+	LibrariesDifferent := false
+	if len(root.Libraries) != len(rootOther.Libraries) {
+		LibrariesDifferent = true
 	} else {
-		for i := range root.Projects {
-			if (root.Projects[i] == nil) != (rootOther.Projects[i] == nil) {
-				ProjectsDifferent = true
+		for i := range root.Libraries {
+			if (root.Libraries[i] == nil) != (rootOther.Libraries[i] == nil) {
+				LibrariesDifferent = true
 				break
-			} else if root.Projects[i] != nil && rootOther.Projects[i] != nil {
+			} else if root.Libraries[i] != nil && rootOther.Libraries[i] != nil {
 				// this is a pointer comparaison
-				if root.Projects[i] != rootOther.Projects[i] {
-					ProjectsDifferent = true
+				if root.Libraries[i] != rootOther.Libraries[i] {
+					LibrariesDifferent = true
 					break
 				}
 			}
 		}
 	}
-	if ProjectsDifferent {
-		ops := Diff(stage, root, rootOther, "Projects", rootOther.Projects, root.Projects)
+	if LibrariesDifferent {
+		ops := Diff(stage, root, rootOther, "Libraries", rootOther.Libraries, root.Libraries)
 		diffs = append(diffs, ops)
 	}
 	if root.NbPixPerCharacter != rootOther.NbPixPerCharacter {
@@ -4092,6 +4110,9 @@ func (taskcompositionshape *TaskCompositionShape) GongDiff(stage *Stage, taskcom
 	if taskcompositionshape.CornerOffsetRatio != taskcompositionshapeOther.CornerOffsetRatio {
 		diffs = append(diffs, taskcompositionshape.GongMarshallField(stage, "CornerOffsetRatio"))
 	}
+	if taskcompositionshape.IsHidden != taskcompositionshapeOther.IsHidden {
+		diffs = append(diffs, taskcompositionshape.GongMarshallField(stage, "IsHidden"))
+	}
 
 	return
 }
@@ -4132,6 +4153,9 @@ func (taskinputshape *TaskInputShape) GongDiff(stage *Stage, taskinputshapeOther
 	if taskinputshape.CornerOffsetRatio != taskinputshapeOther.CornerOffsetRatio {
 		diffs = append(diffs, taskinputshape.GongMarshallField(stage, "CornerOffsetRatio"))
 	}
+	if taskinputshape.IsHidden != taskinputshapeOther.IsHidden {
+		diffs = append(diffs, taskinputshape.GongMarshallField(stage, "IsHidden"))
+	}
 
 	return
 }
@@ -4171,6 +4195,9 @@ func (taskoutputshape *TaskOutputShape) GongDiff(stage *Stage, taskoutputshapeOt
 	}
 	if taskoutputshape.CornerOffsetRatio != taskoutputshapeOther.CornerOffsetRatio {
 		diffs = append(diffs, taskoutputshape.GongMarshallField(stage, "CornerOffsetRatio"))
+	}
+	if taskoutputshape.IsHidden != taskoutputshapeOther.IsHidden {
+		diffs = append(diffs, taskoutputshape.GongMarshallField(stage, "IsHidden"))
 	}
 
 	return
