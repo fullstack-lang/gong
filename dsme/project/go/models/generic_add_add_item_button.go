@@ -42,7 +42,7 @@ func addAddItemButton[
 	}
 	node.Buttons = append(node.Buttons, addButton)
 	addButton.Impl = &tree.FunctionalButtonProxy{
-		OnUpdated: func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
+		OnUpdated: func(_ *tree.Stage, _, _ *tree.Button) {
 			newItem := PT(new(T))
 			newItem.SetName("New" + GetGongstructNameFromPointer(newItem))
 			newItem.SetName("") // easier to rename an item when its name is empty
