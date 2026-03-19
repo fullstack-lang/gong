@@ -24,6 +24,7 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 	stager.enforceProducersConsumers()
 	stager.enforceLibrariesObject()
 	stager.enforceDiagramMaps()
+	stager.enforceParentAssociation()
 
 	if needCommit {
 		stager.probeForm.CommitNotificationTable()
@@ -73,7 +74,7 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 	}
 
 	needCommit = stager.enforceDefaultValues() || needCommit
-	needCommit = stager.enforceDAG() || needCommit
+	needCommit = stager.enforceTreesAndDAG() || needCommit
 	needCommit = stager.unstageAllOrphans() || needCommit
 	needCommit = stager.enforceComputedPrefix() || needCommit
 

@@ -5,44 +5,28 @@ package models
 func (stager *Stager) enforceLibrariesObject() {
 	stage := stager.stage
 
+	// fetch the first library as the default one
+	var defaultLibrary *Library
+	for library_ := range *GetGongstructInstancesSetFromPointerType[*Library](stage) {
+		defaultLibrary = library_
+		break
+	}
+	if defaultLibrary == nil {
+		return
+	}
+
 	// Clear the objects slice of all libraries
 	for _, library := range GetGongstrucsSorted[*Library](stage) {
 		library.objects = nil
 	}
 
-	for _, product := range GetGongstrucsSorted[*Product](stage) {
-		if product.OwningLibrary != nil {
-			product.OwningLibrary.objects = append(product.OwningLibrary.objects, product)
-		}
-	}
-
-	for _, task := range GetGongstrucsSorted[*Task](stage) {
-		if task.OwningLibrary != nil {
-			task.OwningLibrary.objects = append(task.OwningLibrary.objects, task)
-		}
-	}
-
-	for _, resource := range GetGongstrucsSorted[*Resource](stage) {
-		if resource.OwningLibrary != nil {
-			resource.OwningLibrary.objects = append(resource.OwningLibrary.objects, resource)
-		}
-	}
-
-	for _, note := range GetGongstrucsSorted[*Note](stage) {
-		if note.OwningLibrary != nil {
-			note.OwningLibrary.objects = append(note.OwningLibrary.objects, note)
-		}
-	}
-
-	for _, diagram := range GetGongstrucsSorted[*Diagram](stage) {
-		if diagram.OwningLibrary != nil {
-			diagram.OwningLibrary.objects = append(diagram.OwningLibrary.objects, diagram)
-		}
-	}
-
-	for _, lib := range GetGongstrucsSorted[*Library](stage) {
-		if lib.OwningLibrary != nil {
-			lib.OwningLibrary.objects = append(lib.OwningLibrary.objects, lib)
+	// redeem objects without owning libraries
+	for _, instance := range stage.GetInstances() {
+		if abstractObject, ok := instance.(AbstractType); ok {
+			if abstractObject.GetOwnlingLibrary() == nil {
+				abstractObject.SetOwningLibrary(defaultLibrary)
+			}
+			abstractObject.GetOwnlingLibrary().objects = append(abstractObject.GetOwnlingLibrary().objects, abstractObject)
 		}
 	}
 }
