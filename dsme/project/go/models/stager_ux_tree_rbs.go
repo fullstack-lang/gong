@@ -16,7 +16,7 @@ func (stager *Stager) treeRBSinDiagram(diagram *Diagram, resource *Resource, par
 		resource.parentResource,
 		&diagram.ResourcesWhoseNodeIsExpanded,
 		&diagram.Resource_Shapes,
-		&diagram.map_Resource_ResourceShape,
+		diagram.map_Resource_ResourceShape,
 		diagram.map_Resource_ResourceCompositionShape,
 		&diagram.ResourceComposition_Shapes,
 	)

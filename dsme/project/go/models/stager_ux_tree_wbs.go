@@ -35,7 +35,7 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 		task.parentTask,
 		&diagram.TasksWhoseNodeIsExpanded,
 		&diagram.Task_Shapes,
-		&diagram.map_Task_TaskShape,
+		diagram.map_Task_TaskShape,
 		diagram.map_Task_TaskCompositionShape,
 		&diagram.TaskComposition_Shapes,
 	)
