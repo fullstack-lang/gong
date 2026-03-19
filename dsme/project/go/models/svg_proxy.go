@@ -134,7 +134,8 @@ func (p *svgProxy) SVGUpdated(updatedSVG *svg.SVG) {
 		}
 
 		parentProduct.SubProducts = append(parentProduct.SubProducts, subProduct)
-		onAddAssociationShape(p.stager, parentProduct, subProduct, &diagram.ProductComposition_Shapes)
+		subProduct.parentProduct = parentProduct
+		addAssociationShapeToDiagram(p.stager, parentProduct, subProduct, &diagram.ProductComposition_Shapes)
 
 	case ASSOCIATION_TYPE_TASK_COMPOSITION:
 		subTask := targetAbstractElement.(*Task)
@@ -151,6 +152,7 @@ func (p *svgProxy) SVGUpdated(updatedSVG *svg.SVG) {
 			}
 		}
 
+		subTask.parentTask = parentTask
 		parentTask.SubTasks = append(parentTask.SubTasks, subTask)
 		addAssociationShapeToDiagram(p.stager, parentTask, subTask, &diagram.TaskComposition_Shapes)
 
@@ -204,6 +206,7 @@ func (p *svgProxy) SVGUpdated(updatedSVG *svg.SVG) {
 			}
 		}
 
+		subResource.parentResource = parentResource
 		parentResource.SubResources = append(parentResource.SubResources, subResource)
 		addAssociationShapeToDiagram(p.stager, parentResource, subResource, &diagram.ResourceComposition_Shapes)
 
