@@ -6,27 +6,69 @@ import (
 	"time"
 )
 
-// EnforceDAG
-// Check for cycles in the combined graph of Tasks and Products
-//
-// The edges are:
-// - Task -> SubTask
-// - Product -> SubProduct
-// - Task -> Product (OutputProducts)
-// - Product -> Task (InputProducts)
 func (stager *Stager) enforceDAG() (needCommit bool) {
 
-	// 1. Build a map of Product -> Tasks that consume it (InputProducts)
+	products := GetGongstrucsSorted[*Product](stager.stage)
+	resources := GetGongstrucsSorted[*Resource](stager.stage)
+	tasks := GetGongstrucsSorted[*Task](stager.stage)
+
+	// 1. Hierarchy DAG for Product
+	needCommit = EnforceDAG(
+		stager,
+		products,
+		func(p *Product) []*Product { return p.SubProducts },
+		func(parent, child *Product) {
+			for j, sub := range parent.SubProducts {
+				if sub == child {
+					parent.SubProducts = slices.Delete(parent.SubProducts, j, j+1)
+					break
+				}
+			}
+		},
+		func(p *Product) string { return "Product " + p.Name },
+	) || needCommit
+
+	// 2. Hierarchy DAG for Resource
+	needCommit = EnforceDAG(
+		stager,
+		resources,
+		func(r *Resource) []*Resource { return r.SubResources },
+		func(parent, child *Resource) {
+			for j, sub := range parent.SubResources {
+				if sub == child {
+					parent.SubResources = slices.Delete(parent.SubResources, j, j+1)
+					break
+				}
+			}
+		},
+		func(r *Resource) string { return "Resource " + r.Name },
+	) || needCommit
+
+	// 3. Hierarchy DAG for Task
+	needCommit = EnforceDAG(
+		stager,
+		tasks,
+		func(t *Task) []*Task { return t.SubTasks },
+		func(parent, child *Task) {
+			for j, sub := range parent.SubTasks {
+				if sub == child {
+					parent.SubTasks = slices.Delete(parent.SubTasks, j, j+1)
+					break
+				}
+			}
+		},
+		func(t *Task) string { return "Task " + t.Name },
+	) || needCommit
+
+	// 4. Dependency DAG for Tasks and Products (Inputs/Outputs)
+	// Build a map of Product -> Tasks that consume it (InputProducts)
 	// This allows us to traverse the "Product -> Task" edge efficiently
 	productConsumers := make(map[*Product][]*Task)
-	tasks := GetGongstrucsSorted[*Task](stager.stage)
 	for _, task := range tasks {
 		for _, inputProd := range task.Inputs {
 			productConsumers[inputProd] = append(productConsumers[inputProd], task)
 		}
 	}
-
-	products := GetGongstrucsSorted[*Product](stager.stage)
 
 	// Define a wrapper node for the mixed graph because EnforceDAG expects a single type T
 	type DAGNode struct {
@@ -43,7 +85,7 @@ func (stager *Stager) enforceDAG() (needCommit bool) {
 		allNodes = append(allNodes, DAGNode{Product: p})
 	}
 
-	// 2. Call the generic EnforceDAG on the unified graph
+	// Call the generic EnforceDAG on the dependency graph
 	needCommit = EnforceDAG(
 		stager,
 		allNodes,
@@ -52,19 +94,11 @@ func (stager *Stager) enforceDAG() (needCommit bool) {
 			children := []DAGNode{}
 
 			if n.Task != nil {
-				// Edge: Task -> SubTasks
-				for _, subTask := range n.Task.SubTasks {
-					children = append(children, DAGNode{Task: subTask})
-				}
 				// Edge: Task -> OutputProducts
 				for _, outProd := range n.Task.Outputs {
 					children = append(children, DAGNode{Product: outProd})
 				}
 			} else if n.Product != nil {
-				// Edge: Product -> SubProducts
-				for _, subProd := range n.Product.SubProducts {
-					children = append(children, DAGNode{Product: subProd})
-				}
 				// Edge: Product -> Consuming Tasks (InputProducts)
 				if consumers, ok := productConsumers[n.Product]; ok {
 					for _, consumerTask := range consumers {
@@ -76,33 +110,13 @@ func (stager *Stager) enforceDAG() (needCommit bool) {
 		},
 		// removeChild: Breaks the cycle by removing the specific edge
 		func(parent, child DAGNode) {
-			if parent.Task != nil && child.Task != nil {
-				// Break Task -> SubTask
-				p := parent.Task
-				c := child.Task
-				for j, sub := range p.SubTasks {
-					if sub == c {
-						p.SubTasks = slices.Delete(p.SubTasks, j, j+1)
-						break
-					}
-				}
-			} else if parent.Task != nil && child.Product != nil {
+			if parent.Task != nil && child.Product != nil {
 				// Break Task -> OutputProduct
 				p := parent.Task
 				c := child.Product
 				for j, out := range p.Outputs {
 					if out == c {
 						p.Outputs = slices.Delete(p.Outputs, j, j+1)
-						break
-					}
-				}
-			} else if parent.Product != nil && child.Product != nil {
-				// Break Product -> SubProduct
-				p := parent.Product
-				c := child.Product
-				for j, sub := range p.SubProducts {
-					if sub == c {
-						p.SubProducts = slices.Delete(p.SubProducts, j, j+1)
 						break
 					}
 				}
@@ -127,7 +141,7 @@ func (stager *Stager) enforceDAG() (needCommit bool) {
 			}
 			return ""
 		},
-	)
+	) || needCommit
 
 	return
 }
