@@ -115,27 +115,40 @@ func addNodeToTree[
 	_, isChildInDiagram := shapesMap[element]
 
 	if parentElement != nil && isParentInDiagram && isChildInDiagram {
+		node.HasSecondCheckboxButton = true
+		node.SecondCheckboxHasToolTip = true
+		node.SecondCheckboxToolTipPosition = tree.Right
 
-		showHideCompositionButton := &tree.Button{
-			Name:            GetGongstructNameFromPointer(element) + " " + string(buttons.BUTTON_add),
-			HasToolTip:      true,
-			ToolTipPosition: tree.Right,
-		}
-
-		if compositionShape, ok := map_Element_CompositionShape[element]; !ok {
-			showHideCompositionButton.Icon = string(buttons.BUTTON_visibility)
-			showHideCompositionButton.ToolTipText = "Show link from \"" + parentElement.GetName() +
-				"\" to \"" + element.GetName() + "\""
-
-			showHideCompositionButton.OnUpdate = onAddAssociationShapeWithCommit(stager, parentElement, element, compositionShapes)
+		if _, ok := map_Element_CompositionShape[element]; ok {
+			node.CheckboxToolTipText = "Remove link shape \"" + parentElement.GetName() +
+				"\" to \"" + element.GetName() + "\" to diagram"
 		} else {
-			showHideCompositionButton.Icon = string(buttons.BUTTON_visibility_off)
-			showHideCompositionButton.ToolTipText = "Hide link from \"" + parentElement.GetName() +
-				"\" to \"" + element.GetName() + "\""
-
-			showHideCompositionButton.OnUpdate = onRemoveAssociationShapeWithCommit(stager, compositionShape, compositionShapes)
+			node.CheckboxToolTipText = "Add link shape \"" + parentElement.GetName() +
+				"\" to \"" + element.GetName() + "\" to diagram"
 		}
-		node.Buttons = append(node.Buttons, showHideCompositionButton)
+
+		if false {
+			showHideCompositionButton := &tree.Button{
+				Name:            GetGongstructNameFromPointer(element) + " " + string(buttons.BUTTON_add),
+				HasToolTip:      true,
+				ToolTipPosition: tree.Right,
+			}
+
+			if compositionShape, ok := map_Element_CompositionShape[element]; !ok {
+				showHideCompositionButton.Icon = string(buttons.BUTTON_visibility)
+				showHideCompositionButton.ToolTipText = "Show link from \"" + parentElement.GetName() +
+					"\" to \"" + element.GetName() + "\""
+
+				showHideCompositionButton.OnUpdate = onAddAssociationShapeWithCommit(stager, parentElement, element, compositionShapes)
+			} else {
+				showHideCompositionButton.Icon = string(buttons.BUTTON_visibility_off)
+				showHideCompositionButton.ToolTipText = "Hide link from \"" + parentElement.GetName() +
+					"\" to \"" + element.GetName() + "\""
+
+				showHideCompositionButton.OnUpdate = onRemoveAssociationShapeWithCommit(stager, compositionShape, compositionShapes)
+			}
+			node.Buttons = append(node.Buttons, showHideCompositionButton)
+		}
 	}
 
 	// what to do when the node is clicked
