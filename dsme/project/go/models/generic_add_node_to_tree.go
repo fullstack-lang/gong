@@ -32,7 +32,7 @@ func addNodeToTree[
 	parentElement AT,
 	elementsWhoseNodeIsExpanded *[]AT,
 	shapes *[]CT,
-	shapesMap *map[AT]CT,
+	shapesMap map[AT]CT,
 	map_Element_CompositionShape map[AT]ACT,
 	compositionShapes *[]ACT,
 ) *tree.Node {
@@ -91,7 +91,7 @@ func addNodeToTree[
 			})
 	}
 
-	if shape, ok := (*shapesMap)[element]; ok {
+	if shape, ok := shapesMap[element]; ok {
 		node.IsChecked = true
 		visibilityButton := &tree.Button{
 			Name:            diagram.GetName(),
@@ -111,16 +111,32 @@ func addNodeToTree[
 		node.Buttons = append(node.Buttons, visibilityButton)
 	}
 
-	// if element has a parent element, add a button to show/hide the link to the parent
-	addShowHideCompositionButton(
-		stager,
-		element,
-		parentElement,
-		node,
-		*shapesMap,
-		map_Element_CompositionShape,
-		compositionShapes,
-	)
+	_, isParentInDiagram := shapesMap[parentElement]
+	_, isChildInDiagram := shapesMap[element]
+
+	if parentElement != nil && isParentInDiagram && isChildInDiagram {
+
+		showHideCompositionButton := &tree.Button{
+			Name:            GetGongstructNameFromPointer(element) + " " + string(buttons.BUTTON_add),
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+		}
+
+		if compositionShape, ok := map_Element_CompositionShape[element]; !ok {
+			showHideCompositionButton.Icon = string(buttons.BUTTON_visibility)
+			showHideCompositionButton.ToolTipText = "Show link from \"" + parentElement.GetName() +
+				"\" to \"" + element.GetName() + "\""
+
+			showHideCompositionButton.OnUpdate = onAddAssociationShapeWithCommit(stager, parentElement, element, compositionShapes)
+		} else {
+			showHideCompositionButton.Icon = string(buttons.BUTTON_visibility_off)
+			showHideCompositionButton.ToolTipText = "Hide link from \"" + parentElement.GetName() +
+				"\" to \"" + element.GetName() + "\""
+
+			showHideCompositionButton.OnUpdate = onRemoveAssociationShapeWithCommit(stager, compositionShape, compositionShapes)
+		}
+		node.Buttons = append(node.Buttons, showHideCompositionButton)
+	}
 
 	// what to do when the node is clicked
 	node.OnUpdate = onUpdateElementInDiagram(

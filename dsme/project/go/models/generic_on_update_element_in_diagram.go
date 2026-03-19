@@ -24,11 +24,11 @@ func onUpdateElementInDiagram[
 	element AT,
 	elementsWhoseNodeIsExpanded *[]AT,
 	shapes *[]CT,
-	shapesMap *map[AT]CT,
+	shapesMap map[AT]CT,
 ) func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
 	return func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
 		// find the shape (if any)
-		shape := (*shapesMap)[element]
+		shape := shapesMap[element]
 
 		if frontNode.IsChecked && !stagedNode.IsChecked {
 			stagedNode.IsChecked = frontNode.IsChecked
