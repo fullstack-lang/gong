@@ -88,10 +88,10 @@ func (stager *Stager) enforceHierarchy() (needCommit bool) {
 		}
 	}
 
-	for _, project := range root.Libraries {
-		verifyProductHierarchy(&project.RootProducts, nil)
-		verifyTaskHierarchy(&project.RootTasks, nil)
-		verifyResourceHierarchy(&project.RootResources, nil)
+	for _, library := range root.Libraries {
+		verifyProductHierarchy(&library.RootProducts, nil)
+		verifyTaskHierarchy(&library.RootTasks, nil)
+		verifyResourceHierarchy(&library.RootResources, nil)
 	}
 
 	return

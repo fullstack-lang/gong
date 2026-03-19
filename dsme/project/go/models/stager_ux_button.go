@@ -30,9 +30,9 @@ func (stager *Stager) button() {
 			&ResetReqifButtonProxy{
 				stager: stager,
 			},
-			"Reset project file",
+			"Reset library file",
 			string(buttons.BUTTON_reset_tv),
-			"Reset project file",
+			"Reset library file",
 		)
 
 		group1.Buttons = append(group1.Buttons, buttonExportModifiedReqif)
@@ -42,9 +42,9 @@ func (stager *Stager) button() {
 			&downloadButtonProxy{
 				stager: stager,
 			},
-			"Export project file",
+			"Export library file",
 			string(buttons.BUTTON_fact_check),
-			"Export project file",
+			"Export library file",
 		)
 		group1.Buttons = append(group1.Buttons, buttonExportRenderingCong)
 
@@ -105,7 +105,7 @@ func (proxy *downloadButtonProxy) OnAfterUpdateButton() {
 	fileToDownload := new(load.FileToDownload).Stage(loadStage)
 
 	if stager.fileName == "" {
-		stager.fileName = "project.go"
+		stager.fileName = "library.go"
 	}
 
 	fileToDownload.Name = stager.fileName
@@ -140,7 +140,7 @@ func (proxy *downloadButtonProxy) OnAfterUpdateButton() {
 
 	stager.loadStage.Commit()
 
-	log.Println("Finished exporting project file", tempFile.Name())
+	log.Println("Finished exporting library file", tempFile.Name())
 
 	time.Sleep(1 * time.Second) // Sleep to ensure the client has time to start the download before we delete the file.
 	stager.load()
