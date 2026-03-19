@@ -38,6 +38,8 @@ type AbstractType interface {
 	SetComputedPrefixInt([]int)
 	GetIsInRenameMode() bool
 	SetIsInRenameMode(bool)
+	GetOwnlingLibrary() *Library
+	SetOwningLibrary(*Library)
 }
 
 type AbstractTypeFields struct {
@@ -127,7 +129,7 @@ const (
 // [models.Product] and [models.Task] are in Product Breakdown Structure (PBS)
 // and Work Breakdown Structure (WBS)
 // PBS/WBS have 2 invariants that are enforced at each UX loop:
-// - They are Directed Acyclic Graph (DAG)
+// - They are Trees
 // - A [models.Product]/[models.Task] belongs to at most one PBS/WBS.
 // Those invariants allow prefix and parent to be computed at each UX loop
 const NoteSemantic = ""
@@ -200,6 +202,14 @@ func (r *AbstractTypeFields) GetIsInRenameMode() bool {
 
 func (r *AbstractTypeFields) SetIsInRenameMode(isInRenameMode bool) {
 	r.IsInRenameMode = isInRenameMode
+}
+
+func (r *AbstractTypeFields) GetOwnlingLibrary() *Library {
+	return r.OwningLibrary
+}
+
+func (r *AbstractTypeFields) SetOwningLibrary(library *Library) {
+	r.OwningLibrary = library
 }
 
 var (
