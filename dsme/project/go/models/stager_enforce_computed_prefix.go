@@ -11,7 +11,7 @@ import "fmt"
 func (stager *Stager) enforceComputedPrefix() (needCommit bool) {
 	root := stager.root
 
-	for _, project := range root.Projects {
+	for _, project := range root.Libraries {
 		needCommit = numberNodes(project.RootProducts, "", []int{}, func(p *Product) []*Product { return p.SubProducts }) || needCommit
 		needCommit = numberNodes(project.RootTasks, "", []int{}, func(t *Task) []*Task { return t.SubTasks }) || needCommit
 		needCommit = numberNodes(project.Notes, "", []int{}, func(n *Note) []*Note { return nil }) || needCommit
