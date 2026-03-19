@@ -32,23 +32,15 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 		diagram,
 		parentNode,
 		task,
+		task.parentTask,
 		&diagram.TasksWhoseNodeIsExpanded,
 		&diagram.Task_Shapes,
 		&diagram.map_Task_TaskShape,
-	)
-
-	addAddItemButton(stager, &diagram.TasksWhoseNodeIsExpanded, task, nil, taskNode, &task.SubTasks, diagram, &diagram.Task_Shapes, &diagram.TaskComposition_Shapes)
-
-	// if task has a parent task, add a button to show/hide the link to the parent
-	addShowHideCompositionButton(
-		stager,
-		task,
-		task.parentTask,
-		taskNode,
-		diagram.map_Task_TaskShape,
 		diagram.map_Task_TaskCompositionShape,
 		&diagram.TaskComposition_Shapes,
 	)
+
+	addAddItemButton(stager, &diagram.TasksWhoseNodeIsExpanded, task, nil, taskNode, &task.SubTasks, diagram, &diagram.Task_Shapes, &diagram.TaskComposition_Shapes)
 
 	for _, task := range task.SubTasks {
 		stager.treeWBSinDiagram(diagram, task, taskNode)

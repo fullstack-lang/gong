@@ -211,14 +211,20 @@ func (stager *Stager) tree() {
 				addAddItemButton(stager, nil, nil, &diagram.IsNotesNodeExpanded, notesNode, &library.Notes, diagram, &diagram.Note_Shapes, &diagram.NoteProductShapes)
 
 				for _, note := range library.Notes {
+					var dummyMap map[*Note]*NoteProductShape
+					var dummySlice *[]*NoteProductShape
+
 					noteNode := addNodeToTree(
 						stager,
 						diagram,
 						notesNode,
 						note,
+						(*Note)(nil),
 						&diagram.NotesWhoseNodeIsExpanded,
 						&diagram.Note_Shapes,
 						&diagram.map_Note_NoteShape,
+						dummyMap,
+						dummySlice,
 					)
 
 					// allow display of associations note to products
