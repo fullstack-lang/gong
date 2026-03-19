@@ -21,7 +21,7 @@ func onLayoutPBS(stager *Stager, diagram *Diagram) func(
 		// Note: Task and Note shapes are not considered in PBS layout
 
 		// 2. Identify Project
-		project := stager.stage.Project_Diagrams_reverseMap[diagram]
+		project := stager.stage.Library_Diagrams_reverseMap[diagram]
 
 		// layout is the function that
 		// - layout the product at startX and level

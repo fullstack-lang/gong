@@ -5,10 +5,10 @@ package models
 func (stager *Stager) enforceTaskInputOutputProjectConsistency() (needCommit bool) {
 	stage := stager.stage
 
-	taskToProject := make(map[*Task]*Project)
-	productToProject := make(map[*Product]*Project)
+	taskToProject := make(map[*Task]*Library)
+	productToProject := make(map[*Product]*Library)
 
-	for project := range stage.Projects {
+	for project := range *GetGongstructInstancesSetFromPointerType[*Library](stage) {
 		for _, task := range project.RootTasks {
 			mapTaskToProject(task, project, taskToProject)
 		}
@@ -17,7 +17,7 @@ func (stager *Stager) enforceTaskInputOutputProjectConsistency() (needCommit boo
 		}
 	}
 
-	for task := range stage.Tasks {
+	for task := range *GetGongstructInstancesSetFromPointerType[*Task](stage) {
 
 		project, ok := taskToProject[task]
 		if !ok {
@@ -53,14 +53,14 @@ func (stager *Stager) enforceTaskInputOutputProjectConsistency() (needCommit boo
 	return
 }
 
-func mapTaskToProject(task *Task, project *Project, taskToProject map[*Task]*Project) {
+func mapTaskToProject(task *Task, project *Library, taskToProject map[*Task]*Library) {
 	taskToProject[task] = project
 	for _, subTask := range task.SubTasks {
 		mapTaskToProject(subTask, project, taskToProject)
 	}
 }
 
-func mapProductToProject(product *Product, project *Project, productToProject map[*Product]*Project) {
+func mapProductToProject(product *Product, project *Library, productToProject map[*Product]*Library) {
 	productToProject[product] = project
 	for _, subProduct := range product.SubProducts {
 		mapProductToProject(subProduct, project, productToProject)

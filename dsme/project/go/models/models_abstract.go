@@ -6,12 +6,12 @@ import "time"
 type Root struct {
 	Name string
 
-	Projects []*Project
+	Libraries []*Library
 
 	NbPixPerCharacter float64
 }
 
-type Project struct {
+type Library struct {
 	Name string
 
 	RootProducts  []*Product
@@ -200,7 +200,7 @@ func (r *AbstractTypeFields) SetIsInRenameMode(isInRenameMode bool) {
 
 var (
 	_ AbstractType = (*Product)(nil)
-	_ AbstractType = (*Project)(nil)
+	_ AbstractType = (*Library)(nil)
 	_ AbstractType = (*Task)(nil)
 	_ AbstractType = (*Note)(nil)
 	_ AbstractType = (*Resource)(nil)

@@ -11,12 +11,12 @@ func (stager *Stager) enforceUniquenessInProjects() (needCommit bool) {
 	root := stager.root
 
 	// map to remember which project has already claimed a product
-	stager.productToProject = make(map[*Product]*Project)
+	stager.productToProject = make(map[*Product]*Library)
 
 	// map to remember which project has already claimed a task
-	stager.taskToProject = make(map[*Task]*Project)
+	stager.taskToProject = make(map[*Task]*Library)
 
-	for _, project := range root.Projects {
+	for _, project := range root.Libraries {
 
 		//
 		// Products

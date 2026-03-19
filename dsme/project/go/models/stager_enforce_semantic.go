@@ -64,9 +64,9 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 
 	// Enforce that all projects are appended to the [root]
 	// if one project is not appended, append it
-	for _, project := range GetGongstrucsSorted[*Project](stage) {
-		if slices.Index(root.Projects, project) == -1 {
-			root.Projects = append(root.Projects, project)
+	for _, project := range GetGongstrucsSorted[*Library](stage) {
+		if slices.Index(root.Libraries, project) == -1 {
+			root.Libraries = append(root.Libraries, project)
 			needCommit = true
 		}
 	}

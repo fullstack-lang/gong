@@ -62,6 +62,26 @@ func (from *Diagram) CopyBasicFields(to *Diagram) {
 	to.IsResourcesNodeExpanded = from.IsResourcesNodeExpanded
 }
 
+type Library_WOP struct {
+	// insertion point
+
+	Name string
+
+	IsExpanded bool
+
+	ComputedPrefix string
+
+	IsInRenameMode bool
+}
+
+func (from *Library) CopyBasicFields(to *Library) {
+	// insertion point
+	to.Name = from.Name
+	to.IsExpanded = from.IsExpanded
+	to.ComputedPrefix = from.ComputedPrefix
+	to.IsInRenameMode = from.IsInRenameMode
+}
+
 type Note_WOP struct {
 	// insertion point
 
@@ -96,6 +116,8 @@ type NoteProductShape_WOP struct {
 	EndOrientation OrientationType
 
 	CornerOffsetRatio float64
+
+	IsHidden bool
 }
 
 func (from *NoteProductShape) CopyBasicFields(to *NoteProductShape) {
@@ -106,6 +128,7 @@ func (from *NoteProductShape) CopyBasicFields(to *NoteProductShape) {
 	to.StartOrientation = from.StartOrientation
 	to.EndOrientation = from.EndOrientation
 	to.CornerOffsetRatio = from.CornerOffsetRatio
+	to.IsHidden = from.IsHidden
 }
 
 type NoteResourceShape_WOP struct {
@@ -122,6 +145,8 @@ type NoteResourceShape_WOP struct {
 	EndOrientation OrientationType
 
 	CornerOffsetRatio float64
+
+	IsHidden bool
 }
 
 func (from *NoteResourceShape) CopyBasicFields(to *NoteResourceShape) {
@@ -132,6 +157,7 @@ func (from *NoteResourceShape) CopyBasicFields(to *NoteResourceShape) {
 	to.StartOrientation = from.StartOrientation
 	to.EndOrientation = from.EndOrientation
 	to.CornerOffsetRatio = from.CornerOffsetRatio
+	to.IsHidden = from.IsHidden
 }
 
 type NoteShape_WOP struct {
@@ -177,6 +203,8 @@ type NoteTaskShape_WOP struct {
 	EndOrientation OrientationType
 
 	CornerOffsetRatio float64
+
+	IsHidden bool
 }
 
 func (from *NoteTaskShape) CopyBasicFields(to *NoteTaskShape) {
@@ -187,6 +215,7 @@ func (from *NoteTaskShape) CopyBasicFields(to *NoteTaskShape) {
 	to.StartOrientation = from.StartOrientation
 	to.EndOrientation = from.EndOrientation
 	to.CornerOffsetRatio = from.CornerOffsetRatio
+	to.IsHidden = from.IsHidden
 }
 
 type Product_WOP struct {
@@ -232,6 +261,8 @@ type ProductCompositionShape_WOP struct {
 	EndOrientation OrientationType
 
 	CornerOffsetRatio float64
+
+	IsHidden bool
 }
 
 func (from *ProductCompositionShape) CopyBasicFields(to *ProductCompositionShape) {
@@ -242,6 +273,7 @@ func (from *ProductCompositionShape) CopyBasicFields(to *ProductCompositionShape
 	to.StartOrientation = from.StartOrientation
 	to.EndOrientation = from.EndOrientation
 	to.CornerOffsetRatio = from.CornerOffsetRatio
+	to.IsHidden = from.IsHidden
 }
 
 type ProductShape_WOP struct {
@@ -271,26 +303,6 @@ func (from *ProductShape) CopyBasicFields(to *ProductShape) {
 	to.Width = from.Width
 	to.Height = from.Height
 	to.IsHidden = from.IsHidden
-}
-
-type Project_WOP struct {
-	// insertion point
-
-	Name string
-
-	IsExpanded bool
-
-	ComputedPrefix string
-
-	IsInRenameMode bool
-}
-
-func (from *Project) CopyBasicFields(to *Project) {
-	// insertion point
-	to.Name = from.Name
-	to.IsExpanded = from.IsExpanded
-	to.ComputedPrefix = from.ComputedPrefix
-	to.IsInRenameMode = from.IsInRenameMode
 }
 
 type Resource_WOP struct {
@@ -330,6 +342,8 @@ type ResourceCompositionShape_WOP struct {
 	EndOrientation OrientationType
 
 	CornerOffsetRatio float64
+
+	IsHidden bool
 }
 
 func (from *ResourceCompositionShape) CopyBasicFields(to *ResourceCompositionShape) {
@@ -340,6 +354,7 @@ func (from *ResourceCompositionShape) CopyBasicFields(to *ResourceCompositionSha
 	to.StartOrientation = from.StartOrientation
 	to.EndOrientation = from.EndOrientation
 	to.CornerOffsetRatio = from.CornerOffsetRatio
+	to.IsHidden = from.IsHidden
 }
 
 type ResourceShape_WOP struct {
@@ -385,6 +400,8 @@ type ResourceTaskShape_WOP struct {
 	EndOrientation OrientationType
 
 	CornerOffsetRatio float64
+
+	IsHidden bool
 }
 
 func (from *ResourceTaskShape) CopyBasicFields(to *ResourceTaskShape) {
@@ -395,6 +412,7 @@ func (from *ResourceTaskShape) CopyBasicFields(to *ResourceTaskShape) {
 	to.StartOrientation = from.StartOrientation
 	to.EndOrientation = from.EndOrientation
 	to.CornerOffsetRatio = from.CornerOffsetRatio
+	to.IsHidden = from.IsHidden
 }
 
 type Root_WOP struct {
@@ -466,6 +484,8 @@ type TaskCompositionShape_WOP struct {
 	EndOrientation OrientationType
 
 	CornerOffsetRatio float64
+
+	IsHidden bool
 }
 
 func (from *TaskCompositionShape) CopyBasicFields(to *TaskCompositionShape) {
@@ -476,6 +496,7 @@ func (from *TaskCompositionShape) CopyBasicFields(to *TaskCompositionShape) {
 	to.StartOrientation = from.StartOrientation
 	to.EndOrientation = from.EndOrientation
 	to.CornerOffsetRatio = from.CornerOffsetRatio
+	to.IsHidden = from.IsHidden
 }
 
 type TaskInputShape_WOP struct {
@@ -492,6 +513,8 @@ type TaskInputShape_WOP struct {
 	EndOrientation OrientationType
 
 	CornerOffsetRatio float64
+
+	IsHidden bool
 }
 
 func (from *TaskInputShape) CopyBasicFields(to *TaskInputShape) {
@@ -502,6 +525,7 @@ func (from *TaskInputShape) CopyBasicFields(to *TaskInputShape) {
 	to.StartOrientation = from.StartOrientation
 	to.EndOrientation = from.EndOrientation
 	to.CornerOffsetRatio = from.CornerOffsetRatio
+	to.IsHidden = from.IsHidden
 }
 
 type TaskOutputShape_WOP struct {
@@ -518,6 +542,8 @@ type TaskOutputShape_WOP struct {
 	EndOrientation OrientationType
 
 	CornerOffsetRatio float64
+
+	IsHidden bool
 }
 
 func (from *TaskOutputShape) CopyBasicFields(to *TaskOutputShape) {
@@ -528,6 +554,7 @@ func (from *TaskOutputShape) CopyBasicFields(to *TaskOutputShape) {
 	to.StartOrientation = from.StartOrientation
 	to.EndOrientation = from.EndOrientation
 	to.CornerOffsetRatio = from.CornerOffsetRatio
+	to.IsHidden = from.IsHidden
 }
 
 type TaskShape_WOP struct {
