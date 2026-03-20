@@ -135,6 +135,38 @@ func updateAndCommitTree(
 				stagedNode.BackgroundColor = "lightgrey"
 				treeStagee.Commit()
 			}
+		case "Library":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.Library](probe.stageOfInterest)
+			count := 0
+			for _library := range set {
+				if count >= probe.GetMaxElementsNbPerGongStructNode() {
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree.Node{Name: "..."})
+					break
+				}
+				count++
+				nodeInstance := &tree.Node{
+					Name: _library.GetName(),
+					IsNodeClickable: true,
+					OnUpdate: func(_ *tree.Stage, _, _ *tree.Node) {
+						FillUpFormFromGongstruct(_library, probe)
+					},
+				}
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
+			nodeGongstruct.OnUpdate = func(treeStagee *tree.Stage, stagedNode, frontNode *tree.Node) {
+				if stagedNode.IsExpanded != frontNode.IsExpanded {
+					stagedNode.IsExpanded = frontNode.IsExpanded
+					return
+				}
+				updateProbeTable[*models.Library](probe)
+				// set color for node and reset all other nodes color
+				for node := range *tree.GetGongstructInstancesSet[tree.Node](treeStagee) {
+					node.BackgroundColor = ""
+				}
+				stagedNode.BackgroundColor = "lightgrey"
+				treeStagee.Commit()
+			}
 		case "Note":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.Note](probe.stageOfInterest)
@@ -384,38 +416,6 @@ func updateAndCommitTree(
 					return
 				}
 				updateProbeTable[*models.ProductShape](probe)
-				// set color for node and reset all other nodes color
-				for node := range *tree.GetGongstructInstancesSet[tree.Node](treeStagee) {
-					node.BackgroundColor = ""
-				}
-				stagedNode.BackgroundColor = "lightgrey"
-				treeStagee.Commit()
-			}
-		case "Project":
-			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Project](probe.stageOfInterest)
-			count := 0
-			for _project := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree.Node{
-					Name: _project.GetName(),
-					IsNodeClickable: true,
-					OnUpdate: func(_ *tree.Stage, _, _ *tree.Node) {
-						FillUpFormFromGongstruct(_project, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnUpdate = func(treeStagee *tree.Stage, stagedNode, frontNode *tree.Node) {
-				if stagedNode.IsExpanded != frontNode.IsExpanded {
-					stagedNode.IsExpanded = frontNode.IsExpanded
-					return
-				}
-				updateProbeTable[*models.Project](probe)
 				// set color for node and reset all other nodes color
 				for node := range *tree.GetGongstructInstancesSet[tree.Node](treeStagee) {
 					node.BackgroundColor = ""

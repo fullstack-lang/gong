@@ -2,6 +2,7 @@ package models
 
 import (
 	"log"
+	"slices"
 
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 )
@@ -121,13 +122,37 @@ func (p *svgProxy) SVGUpdated(updatedSVG *svg.SVG) {
 		subProduct := targetAbstractElement.(*Product)
 		parentProduct := sourceAbstratctElement.(*Product)
 
+		if subProduct.parentProduct != nil {
+			oldParent := subProduct.parentProduct
+			if idx := slices.Index(oldParent.SubProducts, subProduct); idx != -1 {
+				oldParent.SubProducts = slices.Delete(oldParent.SubProducts, idx, idx+1)
+			}
+		} else {
+			if idx := slices.Index(subProduct.OwningLibrary.RootProducts, subProduct); idx != -1 {
+				subProduct.OwningLibrary.RootProducts = slices.Delete(subProduct.OwningLibrary.RootProducts, idx, idx+1)
+			}
+		}
+
 		parentProduct.SubProducts = append(parentProduct.SubProducts, subProduct)
-		onAddAssociationShape(p.stager, parentProduct, subProduct, &diagram.ProductComposition_Shapes)
+		subProduct.parentProduct = parentProduct
+		addAssociationShapeToDiagram(p.stager, parentProduct, subProduct, &diagram.ProductComposition_Shapes)
 
 	case ASSOCIATION_TYPE_TASK_COMPOSITION:
 		subTask := targetAbstractElement.(*Task)
 		parentTask := sourceAbstratctElement.(*Task)
 
+		if subTask.parentTask != nil {
+			oldParent := subTask.parentTask
+			if idx := slices.Index(oldParent.SubTasks, subTask); idx != -1 {
+				oldParent.SubTasks = slices.Delete(oldParent.SubTasks, idx, idx+1)
+			}
+		} else {
+			if idx := slices.Index(subTask.OwningLibrary.RootTasks, subTask); idx != -1 {
+				subTask.OwningLibrary.RootTasks = slices.Delete(subTask.OwningLibrary.RootTasks, idx, idx+1)
+			}
+		}
+
+		subTask.parentTask = parentTask
 		parentTask.SubTasks = append(parentTask.SubTasks, subTask)
 		addAssociationShapeToDiagram(p.stager, parentTask, subTask, &diagram.TaskComposition_Shapes)
 
@@ -170,6 +195,18 @@ func (p *svgProxy) SVGUpdated(updatedSVG *svg.SVG) {
 		subResource := targetAbstractElement.(*Resource)
 		parentResource := sourceAbstratctElement.(*Resource)
 
+		if subResource.parentResource != nil {
+			oldParent := subResource.parentResource
+			if idx := slices.Index(oldParent.SubResources, subResource); idx != -1 {
+				oldParent.SubResources = slices.Delete(oldParent.SubResources, idx, idx+1)
+			}
+		} else {
+			if idx := slices.Index(subResource.OwningLibrary.RootResources, subResource); idx != -1 {
+				subResource.OwningLibrary.RootResources = slices.Delete(subResource.OwningLibrary.RootResources, idx, idx+1)
+			}
+		}
+
+		subResource.parentResource = parentResource
 		parentResource.SubResources = append(parentResource.SubResources, subResource)
 		addAssociationShapeToDiagram(p.stager, parentResource, subResource, &diagram.ResourceComposition_Shapes)
 

@@ -13,23 +13,15 @@ func (stager *Stager) treeRBSinDiagram(diagram *Diagram, resource *Resource, par
 		diagram,
 		parentNode,
 		resource,
+		resource.parentResource,
 		&diagram.ResourcesWhoseNodeIsExpanded,
 		&diagram.Resource_Shapes,
-		&diagram.map_Resource_ResourceShape,
-	)
-
-	addAddItemButton(stager, &diagram.ResourcesWhoseNodeIsExpanded, resource, nil, resourceNode, &resource.SubResources, diagram, &diagram.Resource_Shapes, &diagram.ResourceComposition_Shapes)
-
-	// if resource has a parent resource, add a button to show/hide the link to the parent
-	addShowHideCompositionButton(
-		stager,
-		resource,
-		resource.parentResource,
-		resourceNode,
 		diagram.map_Resource_ResourceShape,
 		diagram.map_Resource_ResourceCompositionShape,
 		&diagram.ResourceComposition_Shapes,
 	)
+
+	addAddItemButton(stager, &diagram.ResourcesWhoseNodeIsExpanded, resource, nil, resourceNode, &resource.SubResources, diagram, &diagram.Resource_Shapes, &diagram.ResourceComposition_Shapes)
 
 	for _, subResource := range resource.SubResources {
 		stager.treeRBSinDiagram(diagram, subResource, resourceNode)

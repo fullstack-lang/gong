@@ -123,6 +123,7 @@ func NewLevel1StackDelta(
 	// add orchestration
 	// insertion point
 	models.SetOrchestratorOnAfterUpdate[models.Diagram](stage)
+	models.SetOrchestratorOnAfterUpdate[models.Library](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Note](stage)
 	models.SetOrchestratorOnAfterUpdate[models.NoteProductShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.NoteResourceShape](stage)
@@ -131,7 +132,6 @@ func NewLevel1StackDelta(
 	models.SetOrchestratorOnAfterUpdate[models.Product](stage)
 	models.SetOrchestratorOnAfterUpdate[models.ProductCompositionShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.ProductShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Project](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Resource](stage)
 	models.SetOrchestratorOnAfterUpdate[models.ResourceCompositionShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.ResourceShape](stage)
