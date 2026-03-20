@@ -28,7 +28,7 @@ func (stager *Stager) load() {
 	)
 
 	message := &load.Message{
-		Name: "Drop your <project>.go file here or ",
+		Name: "Drop your <library>.go file here or ",
 	}
 
 	message.Stage(stager.loadStage)

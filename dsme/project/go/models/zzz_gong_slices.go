@@ -154,6 +154,44 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
+	// Compute reverse map for named struct Library
+	// insertion point per field
+	stage.Library_RootProducts_reverseMap = make(map[*Product]*Library)
+	for library := range stage.Librarys {
+		_ = library
+		for _, _product := range library.RootProducts {
+			stage.Library_RootProducts_reverseMap[_product] = library
+		}
+	}
+	stage.Library_RootTasks_reverseMap = make(map[*Task]*Library)
+	for library := range stage.Librarys {
+		_ = library
+		for _, _task := range library.RootTasks {
+			stage.Library_RootTasks_reverseMap[_task] = library
+		}
+	}
+	stage.Library_RootResources_reverseMap = make(map[*Resource]*Library)
+	for library := range stage.Librarys {
+		_ = library
+		for _, _resource := range library.RootResources {
+			stage.Library_RootResources_reverseMap[_resource] = library
+		}
+	}
+	stage.Library_Notes_reverseMap = make(map[*Note]*Library)
+	for library := range stage.Librarys {
+		_ = library
+		for _, _note := range library.Notes {
+			stage.Library_Notes_reverseMap[_note] = library
+		}
+	}
+	stage.Library_Diagrams_reverseMap = make(map[*Diagram]*Library)
+	for library := range stage.Librarys {
+		_ = library
+		for _, _diagram := range library.Diagrams {
+			stage.Library_Diagrams_reverseMap[_diagram] = library
+		}
+	}
+
 	// Compute reverse map for named struct Note
 	// insertion point per field
 	stage.Note_Products_reverseMap = make(map[*Product]*Note)
@@ -206,44 +244,6 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct ProductShape
 	// insertion point per field
 
-	// Compute reverse map for named struct Project
-	// insertion point per field
-	stage.Project_RootProducts_reverseMap = make(map[*Product]*Project)
-	for project := range stage.Projects {
-		_ = project
-		for _, _product := range project.RootProducts {
-			stage.Project_RootProducts_reverseMap[_product] = project
-		}
-	}
-	stage.Project_RootTasks_reverseMap = make(map[*Task]*Project)
-	for project := range stage.Projects {
-		_ = project
-		for _, _task := range project.RootTasks {
-			stage.Project_RootTasks_reverseMap[_task] = project
-		}
-	}
-	stage.Project_RootResources_reverseMap = make(map[*Resource]*Project)
-	for project := range stage.Projects {
-		_ = project
-		for _, _resource := range project.RootResources {
-			stage.Project_RootResources_reverseMap[_resource] = project
-		}
-	}
-	stage.Project_Notes_reverseMap = make(map[*Note]*Project)
-	for project := range stage.Projects {
-		_ = project
-		for _, _note := range project.Notes {
-			stage.Project_Notes_reverseMap[_note] = project
-		}
-	}
-	stage.Project_Diagrams_reverseMap = make(map[*Diagram]*Project)
-	for project := range stage.Projects {
-		_ = project
-		for _, _diagram := range project.Diagrams {
-			stage.Project_Diagrams_reverseMap[_diagram] = project
-		}
-	}
-
 	// Compute reverse map for named struct Resource
 	// insertion point per field
 	stage.Resource_Tasks_reverseMap = make(map[*Task]*Resource)
@@ -272,11 +272,11 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Root
 	// insertion point per field
-	stage.Root_Projects_reverseMap = make(map[*Project]*Root)
+	stage.Root_Libraries_reverseMap = make(map[*Library]*Root)
 	for root := range stage.Roots {
 		_ = root
-		for _, _project := range root.Projects {
-			stage.Root_Projects_reverseMap[_project] = root
+		for _, _library := range root.Libraries {
+			stage.Root_Libraries_reverseMap[_library] = root
 		}
 	}
 
@@ -325,6 +325,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
+	for instance := range stage.Librarys {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.Notes {
 		res = append(res, instance)
 	}
@@ -354,10 +358,6 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.ProductShapes {
-		res = append(res, instance)
-	}
-
-	for instance := range stage.Projects {
 		res = append(res, instance)
 	}
 
@@ -411,6 +411,12 @@ func (diagram *Diagram) GongCopy() GongstructIF {
 	return newInstance
 }
 
+func (library *Library) GongCopy() GongstructIF {
+	newInstance := new(Library)
+	library.CopyBasicFields(newInstance)
+	return newInstance
+}
+
 func (note *Note) GongCopy() GongstructIF {
 	newInstance := new(Note)
 	note.CopyBasicFields(newInstance)
@@ -456,12 +462,6 @@ func (productcompositionshape *ProductCompositionShape) GongCopy() GongstructIF 
 func (productshape *ProductShape) GongCopy() GongstructIF {
 	newInstance := new(ProductShape)
 	productshape.CopyBasicFields(newInstance)
-	return newInstance
-}
-
-func (project *Project) GongCopy() GongstructIF {
-	newInstance := new(Project)
-	project.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -594,6 +594,57 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(diagrams_newInstances)
 	lenDeletedInstances += len(diagrams_deletedInstances)
+	var librarys_newInstances []*Library
+	var librarys_deletedInstances []*Library
+
+	// parse all staged instances and check if they have a reference
+	for library := range stage.Librarys {
+		if ref, ok := stage.Librarys_reference[library]; !ok {
+			librarys_newInstances = append(librarys_newInstances, library)
+			newInstancesSlice = append(newInstancesSlice, library.GongMarshallIdentifier(stage))
+			if stage.Librarys_referenceOrder == nil {
+				stage.Librarys_referenceOrder = make(map[*Library]uint)
+			}
+			stage.Librarys_referenceOrder[library] = stage.Library_stagedOrder[library]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, library.GongMarshallUnstaging(stage))
+			// delete(stage.Librarys_referenceOrder, library)
+			fieldInitializers, pointersInitializations := library.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.Library_stagedOrder[ref] = stage.Library_stagedOrder[library]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := library.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, library)
+			// delete(stage.Library_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				fieldsEdit += fmt.Sprintf("\n\t// %s", library.GetName())
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.Librarys_reference {
+		instance := stage.Librarys_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.Librarys[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			librarys_deletedInstances = append(librarys_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(librarys_newInstances)
+	lenDeletedInstances += len(librarys_deletedInstances)
 	var notes_newInstances []*Note
 	var notes_deletedInstances []*Note
 
@@ -1002,57 +1053,6 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(productshapes_newInstances)
 	lenDeletedInstances += len(productshapes_deletedInstances)
-	var projects_newInstances []*Project
-	var projects_deletedInstances []*Project
-
-	// parse all staged instances and check if they have a reference
-	for project := range stage.Projects {
-		if ref, ok := stage.Projects_reference[project]; !ok {
-			projects_newInstances = append(projects_newInstances, project)
-			newInstancesSlice = append(newInstancesSlice, project.GongMarshallIdentifier(stage))
-			if stage.Projects_referenceOrder == nil {
-				stage.Projects_referenceOrder = make(map[*Project]uint)
-			}
-			stage.Projects_referenceOrder[project] = stage.Project_stagedOrder[project]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, project.GongMarshallUnstaging(stage))
-			// delete(stage.Projects_referenceOrder, project)
-			fieldInitializers, pointersInitializations := project.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.Project_stagedOrder[ref] = stage.Project_stagedOrder[project]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := project.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, project)
-			// delete(stage.Project_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", project.GetName())
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.Projects_reference {
-		instance := stage.Projects_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.Projects[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			projects_deletedInstances = append(projects_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(projects_newInstances)
-	lenDeletedInstances += len(projects_deletedInstances)
 	var resources_newInstances []*Resource
 	var resources_deletedInstances []*Resource
 
@@ -1605,6 +1605,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.Diagrams_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.Librarys_reference = make(map[*Library]*Library)
+	stage.Librarys_referenceOrder = make(map[*Library]uint) // diff Unstage needs the reference order
+	stage.Librarys_instance = make(map[*Library]*Library)
+	for instance := range stage.Librarys {
+		_copy := instance.GongCopy().(*Library)
+		stage.Librarys_reference[instance] = _copy
+		stage.Librarys_instance[_copy] = instance
+		stage.Librarys_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.Notes_reference = make(map[*Note]*Note)
 	stage.Notes_referenceOrder = make(map[*Note]uint) // diff Unstage needs the reference order
 	stage.Notes_instance = make(map[*Note]*Note)
@@ -1683,16 +1693,6 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.ProductShapes_reference[instance] = _copy
 		stage.ProductShapes_instance[_copy] = instance
 		stage.ProductShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
-
-	stage.Projects_reference = make(map[*Project]*Project)
-	stage.Projects_referenceOrder = make(map[*Project]uint) // diff Unstage needs the reference order
-	stage.Projects_instance = make(map[*Project]*Project)
-	for instance := range stage.Projects {
-		_copy := instance.GongCopy().(*Project)
-		stage.Projects_reference[instance] = _copy
-		stage.Projects_instance[_copy] = instance
-		stage.Projects_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Resources_reference = make(map[*Resource]*Resource)
@@ -1801,6 +1801,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
+	for instance := range stage.Librarys {
+		reference := stage.Librarys_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
 	for instance := range stage.Notes {
 		reference := stage.Notes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
@@ -1838,11 +1843,6 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.ProductShapes {
 		reference := stage.ProductShapes_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
-
-	for instance := range stage.Projects {
-		reference := stage.Projects_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -1914,6 +1914,18 @@ func (diagram *Diagram) GongGetOrder(stage *Stage) uint {
 		return order
 	} else {
 		log.Printf("instance %p of type Diagram was not staged and does not have a reference order", diagram)
+		return 0
+	}
+}
+
+func (library *Library) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.Library_stagedOrder[library]; ok {
+		return order
+	}
+	if order, ok := stage.Librarys_referenceOrder[library]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type Library was not staged and does not have a reference order", library)
 		return 0
 	}
 }
@@ -2010,18 +2022,6 @@ func (productshape *ProductShape) GongGetOrder(stage *Stage) uint {
 		return order
 	} else {
 		log.Printf("instance %p of type ProductShape was not staged and does not have a reference order", productshape)
-		return 0
-	}
-}
-
-func (project *Project) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.Project_stagedOrder[project]; ok {
-		return order
-	}
-	if order, ok := stage.Projects_referenceOrder[project]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type Project was not staged and does not have a reference order", project)
 		return 0
 	}
 }
@@ -2160,6 +2160,15 @@ func (diagram *Diagram) GongGetReferenceIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", diagram.GongGetGongstructName(), diagram.GongGetOrder(stage))
 }
 
+func (library *Library) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", library.GongGetGongstructName(), library.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (library *Library) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", library.GongGetGongstructName(), library.GongGetOrder(stage))
+}
+
 func (note *Note) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", note.GongGetGongstructName(), note.GongGetOrder(stage))
 }
@@ -2230,15 +2239,6 @@ func (productshape *ProductShape) GongGetIdentifier(stage *Stage) string {
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (productshape *ProductShape) GongGetReferenceIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", productshape.GongGetGongstructName(), productshape.GongGetOrder(stage))
-}
-
-func (project *Project) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", project.GongGetGongstructName(), project.GongGetOrder(stage))
-}
-
-// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
-func (project *Project) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", project.GongGetGongstructName(), project.GongGetOrder(stage))
 }
 
 func (resource *Resource) GongGetIdentifier(stage *Stage) string {
@@ -2342,6 +2342,14 @@ func (diagram *Diagram) GongMarshallIdentifier(stage *Stage) (decl string) {
 	return
 }
 
+func (library *Library) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", library.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Library")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(library.Name))
+	return
+}
+
 func (note *Note) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", note.GongGetIdentifier(stage))
@@ -2403,14 +2411,6 @@ func (productshape *ProductShape) GongMarshallIdentifier(stage *Stage) (decl str
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", productshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ProductShape")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(productshape.Name))
-	return
-}
-
-func (project *Project) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", project.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Project")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(project.Name))
 	return
 }
 
@@ -2501,6 +2501,12 @@ func (diagram *Diagram) GongMarshallUnstaging(stage *Stage) (decl string) {
 	return
 }
 
+func (library *Library) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", library.GongGetReferenceIdentifier(stage))
+	return
+}
+
 func (note *Note) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", note.GongGetReferenceIdentifier(stage))
@@ -2546,12 +2552,6 @@ func (productcompositionshape *ProductCompositionShape) GongMarshallUnstaging(st
 func (productshape *ProductShape) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", productshape.GongGetReferenceIdentifier(stage))
-	return
-}
-
-func (project *Project) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", project.GongGetReferenceIdentifier(stage))
 	return
 }
 

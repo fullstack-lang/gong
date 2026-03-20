@@ -19,7 +19,7 @@ func onShowAllInDiagram(stager *Stager, diagram *Diagram) func(
 		// Rank 0 = Root. Rank N = Dependencies have Max(Rank) = N-1.
 		map_Node_Rank := make(map[any]int)
 
-		project := stager.stage.Project_Diagrams_reverseMap[diagram]
+		project := stager.stage.Library_Diagrams_reverseMap[diagram]
 
 		// collect all Products and Tasks that are reachable from the Project
 		products := collectProjectElements(project.RootProducts, func(p *Product) []*Product {

@@ -24,6 +24,8 @@ func updateCurrentProbeTable(probe *Probe) {
 	// insertion point
 	case "Diagram":
 		updateProbeTable[*models.Diagram](probe)
+	case "Library":
+		updateProbeTable[*models.Library](probe)
 	case "Note":
 		updateProbeTable[*models.Note](probe)
 	case "NoteProductShape":
@@ -40,8 +42,6 @@ func updateCurrentProbeTable(probe *Probe) {
 		updateProbeTable[*models.ProductCompositionShape](probe)
 	case "ProductShape":
 		updateProbeTable[*models.ProductShape](probe)
-	case "Project":
-		updateProbeTable[*models.Project](probe)
 	case "Resource":
 		updateProbeTable[*models.Resource](probe)
 	case "ResourceCompositionShape":

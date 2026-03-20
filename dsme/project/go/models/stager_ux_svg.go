@@ -77,6 +77,9 @@ func (stager *Stager) svg() {
 	}
 
 	for _, productCompositionShape := range diagram.ProductComposition_Shapes {
+		if productCompositionShape.GetIsHidden() {
+			continue
+		}
 		_ = productCompositionShape
 		subProduct := productCompositionShape.Product
 		parentProduct := subProduct.parentProduct
@@ -163,6 +166,9 @@ func (stager *Stager) svg() {
 	}
 
 	for _, taskCompositionShape := range diagram.TaskComposition_Shapes {
+		if taskCompositionShape.GetIsHidden() {
+			continue
+		}
 		_ = taskCompositionShape
 		subTask := taskCompositionShape.Task
 		parentTask := subTask.parentTask
@@ -396,6 +402,9 @@ func (stager *Stager) svg() {
 	}
 
 	for _, resourceCompositionShape := range diagram.ResourceComposition_Shapes {
+		if resourceCompositionShape.GetIsHidden() {
+			continue
+		}
 		subResource := resourceCompositionShape.Resource
 		parentResource := subResource.parentResource
 		if subResource == nil || parentResource == nil {

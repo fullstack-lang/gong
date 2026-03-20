@@ -31,7 +31,7 @@ func _(stage *models.Stage) {
 	__ProductShape__00000000_ := (&models.ProductShape{Name: `NewProduct-Default Diagram`}).Stage(stage)
 	__ProductShape__00000001_ := (&models.ProductShape{Name: `NewProduct-Default Diagram`}).Stage(stage)
 
-	__Project__00000000_ := (&models.Project{Name: `NewProject`}).Stage(stage)
+	__Library__00000000_ := (&models.Library{Name: `NewProject`}).Stage(stage)
 
 	__Root__00000000_ := (&models.Root{Name: `Root`}).Stage(stage)
 
@@ -84,9 +84,9 @@ func _(stage *models.Stage) {
 	__ProductShape__00000001_.Width = 250.000000
 	__ProductShape__00000001_.Height = 100.000000
 
-	__Project__00000000_.Name = `NewProject`
-	__Project__00000000_.IsExpanded = true
-	__Project__00000000_.ComputedPrefix = ``
+	__Library__00000000_.Name = `NewProject`
+	__Library__00000000_.IsExpanded = true
+	__Library__00000000_.ComputedPrefix = ``
 
 	__Root__00000000_.Name = `Root`
 	__Root__00000000_.NbPixPerCharacter = 8.000000
@@ -123,11 +123,11 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.TaskOutputShapes = append(__Diagram__00000000_.TaskOutputShapes, __TaskOutputShape__00000000_)
 	__ProductShape__00000000_.Product = __Product__00000000_
 	__ProductShape__00000001_.Product = __Product__00000001_
-	__Project__00000000_.RootProducts = append(__Project__00000000_.RootProducts, __Product__00000000_)
-	__Project__00000000_.RootProducts = append(__Project__00000000_.RootProducts, __Product__00000001_)
-	__Project__00000000_.RootTasks = append(__Project__00000000_.RootTasks, __Task__00000000_)
-	__Project__00000000_.Diagrams = append(__Project__00000000_.Diagrams, __Diagram__00000000_)
-	__Root__00000000_.Projects = append(__Root__00000000_.Projects, __Project__00000000_)
+	__Library__00000000_.RootProducts = append(__Library__00000000_.RootProducts, __Product__00000000_)
+	__Library__00000000_.RootProducts = append(__Library__00000000_.RootProducts, __Product__00000001_)
+	__Library__00000000_.RootTasks = append(__Library__00000000_.RootTasks, __Task__00000000_)
+	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000000_)
+	__Root__00000000_.Libraries = append(__Root__00000000_.Libraries, __Library__00000000_)
 	__Task__00000000_.Outputs = append(__Task__00000000_.Outputs, __Product__00000000_)
 	__Task__00000000_.Outputs = append(__Task__00000000_.Outputs, __Product__00000001_)
 	__TaskOutputShape__00000000_.Task = __Task__00000000_

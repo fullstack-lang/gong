@@ -22,7 +22,7 @@ func (stager *Stager) createViews(stage *Stage) {
 								Direction: split.Vertical,
 								AsSplitAreas: []*split.AsSplitArea{
 									{
-										Name:             "Projects",
+										Name:             "Libraries",
 										Size:             100,
 										ShowNameInHeader: false,
 										Tree: &split.Tree{
@@ -68,7 +68,7 @@ func (stager *Stager) createViews(stage *Stage) {
 								Direction: split.Vertical,
 								AsSplitAreas: []*split.AsSplitArea{
 									{
-										Name:             "Projects",
+										Name:             "Libraries",
 										Size:             100,
 										ShowNameInHeader: false,
 										Tree: &split.Tree{

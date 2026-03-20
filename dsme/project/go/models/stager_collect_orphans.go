@@ -5,8 +5,8 @@ func (stager *Stager) unstageAllOrphans() (needCommit bool) {
 		stager,
 		func() []*Product {
 			roots := make([]*Product, 0)
-			for _, project := range GetGongstrucsSorted[*Project](stager.stage) {
-				roots = append(roots, project.RootProducts...)
+			for _, library := range GetGongstrucsSorted[*Library](stager.stage) {
+				roots = append(roots, library.RootProducts...)
 			}
 			return roots
 		},
@@ -19,8 +19,8 @@ func (stager *Stager) unstageAllOrphans() (needCommit bool) {
 		stager,
 		func() []*Task {
 			roots := make([]*Task, 0)
-			for _, project := range GetGongstrucsSorted[*Project](stager.stage) {
-				roots = append(roots, project.RootTasks...)
+			for _, library := range GetGongstrucsSorted[*Library](stager.stage) {
+				roots = append(roots, library.RootTasks...)
 			}
 			return roots
 		},
@@ -33,8 +33,8 @@ func (stager *Stager) unstageAllOrphans() (needCommit bool) {
 		stager,
 		func() []*Note {
 			roots := make([]*Note, 0)
-			for _, project := range GetGongstrucsSorted[*Project](stager.stage) {
-				roots = append(roots, project.Notes...)
+			for _, library := range GetGongstrucsSorted[*Library](stager.stage) {
+				roots = append(roots, library.Notes...)
 			}
 			return roots
 		},
@@ -47,8 +47,8 @@ func (stager *Stager) unstageAllOrphans() (needCommit bool) {
 		stager,
 		func() []*Resource {
 			roots := make([]*Resource, 0)
-			for _, project := range GetGongstrucsSorted[*Project](stager.stage) {
-				roots = append(roots, project.RootResources...)
+			for _, library := range GetGongstrucsSorted[*Library](stager.stage) {
+				roots = append(roots, library.RootResources...)
 			}
 			return roots
 		},
@@ -61,8 +61,8 @@ func (stager *Stager) unstageAllOrphans() (needCommit bool) {
 		stager,
 		func() []*Diagram {
 			roots := make([]*Diagram, 0)
-			for _, project := range GetGongstrucsSorted[*Project](stager.stage) {
-				roots = append(roots, project.Diagrams...)
+			for _, library := range GetGongstrucsSorted[*Library](stager.stage) {
+				roots = append(roots, library.Diagrams...)
 			}
 			return roots
 		},
