@@ -10,6 +10,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterDiagramCreateCallback != nil {
 			stage.OnAfterDiagramCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *Library:
+		if stage.OnAfterLibraryCreateCallback != nil {
+			stage.OnAfterLibraryCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *Note:
 		if stage.OnAfterNoteCreateCallback != nil {
 			stage.OnAfterNoteCreateCallback.OnAfterCreate(stage, target)
@@ -41,10 +45,6 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	case *ProductShape:
 		if stage.OnAfterProductShapeCreateCallback != nil {
 			stage.OnAfterProductShapeCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *Project:
-		if stage.OnAfterProjectCreateCallback != nil {
-			stage.OnAfterProjectCreateCallback.OnAfterCreate(stage, target)
 		}
 	case *Resource:
 		if stage.OnAfterResourceCreateCallback != nil {
@@ -105,6 +105,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		if stage.OnAfterDiagramUpdateCallback != nil {
 			stage.OnAfterDiagramUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
+	case *Library:
+		newTarget := any(new).(*Library)
+		if stage.OnAfterLibraryUpdateCallback != nil {
+			stage.OnAfterLibraryUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
 	case *Note:
 		newTarget := any(new).(*Note)
 		if stage.OnAfterNoteUpdateCallback != nil {
@@ -144,11 +149,6 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*ProductShape)
 		if stage.OnAfterProductShapeUpdateCallback != nil {
 			stage.OnAfterProductShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *Project:
-		newTarget := any(new).(*Project)
-		if stage.OnAfterProjectUpdateCallback != nil {
-			stage.OnAfterProjectUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Resource:
 		newTarget := any(new).(*Resource)
@@ -215,6 +215,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*Diagram)
 			stage.OnAfterDiagramDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *Library:
+		if stage.OnAfterLibraryDeleteCallback != nil {
+			staged := any(staged).(*Library)
+			stage.OnAfterLibraryDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *Note:
 		if stage.OnAfterNoteDeleteCallback != nil {
 			staged := any(staged).(*Note)
@@ -254,11 +259,6 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 		if stage.OnAfterProductShapeDeleteCallback != nil {
 			staged := any(staged).(*ProductShape)
 			stage.OnAfterProductShapeDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *Project:
-		if stage.OnAfterProjectDeleteCallback != nil {
-			staged := any(staged).(*Project)
-			stage.OnAfterProjectDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	case *Resource:
 		if stage.OnAfterResourceDeleteCallback != nil {
@@ -324,6 +324,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterDiagramReadCallback != nil {
 			stage.OnAfterDiagramReadCallback.OnAfterRead(stage, target)
 		}
+	case *Library:
+		if stage.OnAfterLibraryReadCallback != nil {
+			stage.OnAfterLibraryReadCallback.OnAfterRead(stage, target)
+		}
 	case *Note:
 		if stage.OnAfterNoteReadCallback != nil {
 			stage.OnAfterNoteReadCallback.OnAfterRead(stage, target)
@@ -355,10 +359,6 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	case *ProductShape:
 		if stage.OnAfterProductShapeReadCallback != nil {
 			stage.OnAfterProductShapeReadCallback.OnAfterRead(stage, target)
-		}
-	case *Project:
-		if stage.OnAfterProjectReadCallback != nil {
-			stage.OnAfterProjectReadCallback.OnAfterRead(stage, target)
 		}
 	case *Resource:
 		if stage.OnAfterResourceReadCallback != nil {
@@ -413,6 +413,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	// insertion point
 	case *Diagram:
 		stage.OnAfterDiagramUpdateCallback = any(callback).(OnAfterUpdateInterface[Diagram])
+	case *Library:
+		stage.OnAfterLibraryUpdateCallback = any(callback).(OnAfterUpdateInterface[Library])
 	case *Note:
 		stage.OnAfterNoteUpdateCallback = any(callback).(OnAfterUpdateInterface[Note])
 	case *NoteProductShape:
@@ -429,8 +431,6 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterProductCompositionShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ProductCompositionShape])
 	case *ProductShape:
 		stage.OnAfterProductShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ProductShape])
-	case *Project:
-		stage.OnAfterProjectUpdateCallback = any(callback).(OnAfterUpdateInterface[Project])
 	case *Resource:
 		stage.OnAfterResourceUpdateCallback = any(callback).(OnAfterUpdateInterface[Resource])
 	case *ResourceCompositionShape:
@@ -460,6 +460,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		// insertion point
 	case *Diagram:
 		stage.OnAfterDiagramCreateCallback = any(callback).(OnAfterCreateInterface[Diagram])
+	case *Library:
+		stage.OnAfterLibraryCreateCallback = any(callback).(OnAfterCreateInterface[Library])
 	case *Note:
 		stage.OnAfterNoteCreateCallback = any(callback).(OnAfterCreateInterface[Note])
 	case *NoteProductShape:
@@ -476,8 +478,6 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterProductCompositionShapeCreateCallback = any(callback).(OnAfterCreateInterface[ProductCompositionShape])
 	case *ProductShape:
 		stage.OnAfterProductShapeCreateCallback = any(callback).(OnAfterCreateInterface[ProductShape])
-	case *Project:
-		stage.OnAfterProjectCreateCallback = any(callback).(OnAfterCreateInterface[Project])
 	case *Resource:
 		stage.OnAfterResourceCreateCallback = any(callback).(OnAfterCreateInterface[Resource])
 	case *ResourceCompositionShape:
@@ -507,6 +507,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		// insertion point
 	case *Diagram:
 		stage.OnAfterDiagramDeleteCallback = any(callback).(OnAfterDeleteInterface[Diagram])
+	case *Library:
+		stage.OnAfterLibraryDeleteCallback = any(callback).(OnAfterDeleteInterface[Library])
 	case *Note:
 		stage.OnAfterNoteDeleteCallback = any(callback).(OnAfterDeleteInterface[Note])
 	case *NoteProductShape:
@@ -523,8 +525,6 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterProductCompositionShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ProductCompositionShape])
 	case *ProductShape:
 		stage.OnAfterProductShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ProductShape])
-	case *Project:
-		stage.OnAfterProjectDeleteCallback = any(callback).(OnAfterDeleteInterface[Project])
 	case *Resource:
 		stage.OnAfterResourceDeleteCallback = any(callback).(OnAfterDeleteInterface[Resource])
 	case *ResourceCompositionShape:
@@ -554,6 +554,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		// insertion point
 	case *Diagram:
 		stage.OnAfterDiagramReadCallback = any(callback).(OnAfterReadInterface[Diagram])
+	case *Library:
+		stage.OnAfterLibraryReadCallback = any(callback).(OnAfterReadInterface[Library])
 	case *Note:
 		stage.OnAfterNoteReadCallback = any(callback).(OnAfterReadInterface[Note])
 	case *NoteProductShape:
@@ -570,8 +572,6 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterProductCompositionShapeReadCallback = any(callback).(OnAfterReadInterface[ProductCompositionShape])
 	case *ProductShape:
 		stage.OnAfterProductShapeReadCallback = any(callback).(OnAfterReadInterface[ProductShape])
-	case *Project:
-		stage.OnAfterProjectReadCallback = any(callback).(OnAfterReadInterface[Project])
 	case *Resource:
 		stage.OnAfterResourceReadCallback = any(callback).(OnAfterReadInterface[Resource])
 	case *ResourceCompositionShape:

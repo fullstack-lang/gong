@@ -120,9 +120,9 @@ another line-NewDiagram`}).Stage(stage)
 	__ProductShape__00000480_ := (&models.ProductShape{Name: `NewProduct-NewDiagram`}).Stage(stage)
 	__ProductShape__00000481_ := (&models.ProductShape{Name: `New Probe-Work diagram x`}).Stage(stage)
 
-	__Project__00000000_ := (&models.Project{Name: `Project Editor`}).Stage(stage)
-	__Project__00000001_ := (&models.Project{Name: `DSME Docx`}).Stage(stage)
-	__Project__00000002_ := (&models.Project{Name: `gong : persist stage.go as an history of commits  #934`}).Stage(stage)
+	__Project__00000000_ := (&models.Library{Name: `Project Editor`}).Stage(stage)
+	__Project__00000001_ := (&models.Library{Name: `DSME Docx`}).Stage(stage)
+	__Project__00000002_ := (&models.Library{Name: `gong : persist stage.go as an history of commits  #934`}).Stage(stage)
 
 	__Resource__00000000_ := (&models.Resource{Name: `me`}).Stage(stage)
 
@@ -1188,9 +1188,9 @@ another line-NewDiagram`
 	__Project__00000002_.Notes = append(__Project__00000002_.Notes, __Note__00000004_)
 	__Project__00000002_.Diagrams = append(__Project__00000002_.Diagrams, __Diagram__00000061_)
 	__ResourceShape__00000000_.Resource = __Resource__00000000_
-	__Root__00000000_.Projects = append(__Root__00000000_.Projects, __Project__00000000_)
-	__Root__00000000_.Projects = append(__Root__00000000_.Projects, __Project__00000001_)
-	__Root__00000000_.Projects = append(__Root__00000000_.Projects, __Project__00000002_)
+	__Root__00000000_.Libraries = append(__Root__00000000_.Libraries, __Project__00000000_)
+	__Root__00000000_.Libraries = append(__Root__00000000_.Libraries, __Project__00000001_)
+	__Root__00000000_.Libraries = append(__Root__00000000_.Libraries, __Project__00000002_)
 	__Task__00000007_.Inputs = append(__Task__00000007_.Inputs, __Product__00000025_)
 	__Task__00000007_.Inputs = append(__Task__00000007_.Inputs, __Product__00000026_)
 	__Task__00000007_.Outputs = append(__Task__00000007_.Outputs, __Product__00000021_)

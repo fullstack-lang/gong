@@ -25,13 +25,15 @@ func _(stage *models.Stage) {
 
 	__Diagram__00000000_ := (&models.Diagram{Name: `D1`}).Stage(stage)
 
+	__Library__00000000_ := (&models.Library{Name: `NewProject`}).Stage(stage)
+
 	__Product__00000000_ := (&models.Product{Name: `P1`}).Stage(stage)
 	__Product__00000001_ := (&models.Product{Name: `P2`}).Stage(stage)
 
+	__ProductCompositionShape__00000000_ := (&models.ProductCompositionShape{Name: `P1 to P2`}).Stage(stage)
+
 	__ProductShape__00000000_ := (&models.ProductShape{Name: `-D1`}).Stage(stage)
 	__ProductShape__00000004_ := (&models.ProductShape{Name: `P2-D1`}).Stage(stage)
-
-	__Project__00000000_ := (&models.Project{Name: `NewProject`}).Stage(stage)
 
 	__Resource__00000002_ := (&models.Resource{Name: `R1`}).Stage(stage)
 
@@ -53,15 +55,20 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.ShowPrefix = true
 	__Diagram__00000000_.DefaultBoxWidth = 250.000000
 	__Diagram__00000000_.DefaultBoxHeigth = 100.000000
-	__Diagram__00000000_.Width = 19608.862056
-	__Diagram__00000000_.Height = 19976.845003
+	__Diagram__00000000_.Width = 20008.862056
+	__Diagram__00000000_.Height = 20376.845003
 	__Diagram__00000000_.IsExpanded = true
 	__Diagram__00000000_.ComputedPrefix = ``
 	__Diagram__00000000_.IsInRenameMode = false
-	__Diagram__00000000_.IsPBSNodeExpanded = false
+	__Diagram__00000000_.IsPBSNodeExpanded = true
 	__Diagram__00000000_.IsWBSNodeExpanded = true
 	__Diagram__00000000_.IsNotesNodeExpanded = true
 	__Diagram__00000000_.IsResourcesNodeExpanded = true
+
+	__Library__00000000_.Name = `NewProject`
+	__Library__00000000_.IsExpanded = true
+	__Library__00000000_.ComputedPrefix = ``
+	__Library__00000000_.IsInRenameMode = false
 
 	__Product__00000000_.Name = `P1`
 	__Product__00000000_.Description = ``
@@ -74,10 +81,18 @@ func _(stage *models.Stage) {
 	__Product__00000001_.Name = `P2`
 	__Product__00000001_.Description = ``
 	__Product__00000001_.IsExpanded = false
-	__Product__00000001_.ComputedPrefix = `2`
+	__Product__00000001_.ComputedPrefix = `1.1`
 	__Product__00000001_.IsInRenameMode = false
 	__Product__00000001_.IsProducersNodeExpanded = false
 	__Product__00000001_.IsConsumersNodeExpanded = false
+
+	__ProductCompositionShape__00000000_.Name = `P1 to P2`
+	__ProductCompositionShape__00000000_.StartRatio = 0.500000
+	__ProductCompositionShape__00000000_.EndRatio = 0.500000
+	__ProductCompositionShape__00000000_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000000_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000000_.CornerOffsetRatio = 1.680000
+	__ProductCompositionShape__00000000_.IsHidden = false
 
 	__ProductShape__00000000_.Name = `-D1`
 	__ProductShape__00000000_.IsExpanded = false
@@ -94,11 +109,6 @@ func _(stage *models.Stage) {
 	__ProductShape__00000004_.Width = 250.000000
 	__ProductShape__00000004_.Height = 100.000000
 	__ProductShape__00000004_.IsHidden = false
-
-	__Project__00000000_.Name = `NewProject`
-	__Project__00000000_.IsExpanded = true
-	__Project__00000000_.ComputedPrefix = ``
-	__Project__00000000_.IsInRenameMode = false
 
 	__Resource__00000002_.Name = `R1`
 	__Resource__00000002_.Description = ``
@@ -127,6 +137,7 @@ func _(stage *models.Stage) {
 	__TaskInputShape__00000001_.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__TaskInputShape__00000001_.EndOrientation = models.ORIENTATION_HORIZONTAL
 	__TaskInputShape__00000001_.CornerOffsetRatio = 1.680000
+	__TaskInputShape__00000001_.IsHidden = false
 
 	__TaskOutputShape__00000000_.Name = `W1.1 to P2`
 	__TaskOutputShape__00000000_.StartRatio = 0.500000
@@ -134,6 +145,7 @@ func _(stage *models.Stage) {
 	__TaskOutputShape__00000000_.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__TaskOutputShape__00000000_.EndOrientation = models.ORIENTATION_HORIZONTAL
 	__TaskOutputShape__00000000_.CornerOffsetRatio = 1.680000
+	__TaskOutputShape__00000000_.IsHidden = false
 
 	__TaskShape__00000001_.Name = `W1.1-D1`
 	__TaskShape__00000001_.IsExpanded = false
@@ -144,9 +156,12 @@ func _(stage *models.Stage) {
 	__TaskShape__00000001_.IsHidden = false
 
 	// insertion point for setup of pointers
+	__Diagram__00000000_.OwningLibrary = __Library__00000000_
 	__Diagram__00000000_.Product_Shapes = append(__Diagram__00000000_.Product_Shapes, __ProductShape__00000000_)
 	__Diagram__00000000_.Product_Shapes = append(__Diagram__00000000_.Product_Shapes, __ProductShape__00000004_)
 	__Diagram__00000000_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000000_.ProductsWhoseNodeIsExpanded, __Product__00000001_)
+	__Diagram__00000000_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000000_.ProductsWhoseNodeIsExpanded, __Product__00000000_)
+	__Diagram__00000000_.ProductComposition_Shapes = append(__Diagram__00000000_.ProductComposition_Shapes, __ProductCompositionShape__00000000_)
 	__Diagram__00000000_.Task_Shapes = append(__Diagram__00000000_.Task_Shapes, __TaskShape__00000001_)
 	__Diagram__00000000_.TasksWhoseNodeIsExpanded = append(__Diagram__00000000_.TasksWhoseNodeIsExpanded, __Task__00000000_)
 	__Diagram__00000000_.TasksWhoseInputNodeIsExpanded = append(__Diagram__00000000_.TasksWhoseInputNodeIsExpanded, __Task__00000000_)
@@ -154,15 +169,21 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.TaskInputShapes = append(__Diagram__00000000_.TaskInputShapes, __TaskInputShape__00000001_)
 	__Diagram__00000000_.TaskOutputShapes = append(__Diagram__00000000_.TaskOutputShapes, __TaskOutputShape__00000000_)
 	__Diagram__00000000_.ResourcesWhoseNodeIsExpanded = append(__Diagram__00000000_.ResourcesWhoseNodeIsExpanded, __Resource__00000002_)
+	__Library__00000000_.RootProducts = append(__Library__00000000_.RootProducts, __Product__00000000_)
+	__Library__00000000_.RootTasks = append(__Library__00000000_.RootTasks, __Task__00000000_)
+	__Library__00000000_.RootResources = append(__Library__00000000_.RootResources, __Resource__00000002_)
+	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000000_)
+	__Library__00000000_.OwningLibrary = __Library__00000000_
+	__Product__00000000_.SubProducts = append(__Product__00000000_.SubProducts, __Product__00000001_)
+	__Product__00000000_.OwningLibrary = __Library__00000000_
+	__Product__00000001_.OwningLibrary = __Library__00000000_
+	__ProductCompositionShape__00000000_.Product = __Product__00000001_
 	__ProductShape__00000000_.Product = __Product__00000000_
 	__ProductShape__00000004_.Product = __Product__00000001_
-	__Project__00000000_.RootProducts = append(__Project__00000000_.RootProducts, __Product__00000000_)
-	__Project__00000000_.RootProducts = append(__Project__00000000_.RootProducts, __Product__00000001_)
-	__Project__00000000_.RootTasks = append(__Project__00000000_.RootTasks, __Task__00000000_)
-	__Project__00000000_.RootResources = append(__Project__00000000_.RootResources, __Resource__00000002_)
-	__Project__00000000_.Diagrams = append(__Project__00000000_.Diagrams, __Diagram__00000000_)
 	__Resource__00000002_.Tasks = append(__Resource__00000002_.Tasks, __Task__00000000_)
-	__Root__00000000_.Projects = append(__Root__00000000_.Projects, __Project__00000000_)
+	__Resource__00000002_.OwningLibrary = __Library__00000000_
+	__Root__00000000_.Libraries = append(__Root__00000000_.Libraries, __Library__00000000_)
+	__Task__00000000_.OwningLibrary = __Library__00000000_
 	__Task__00000000_.Inputs = append(__Task__00000000_.Inputs, __Product__00000000_)
 	__Task__00000000_.Outputs = append(__Task__00000000_.Outputs, __Product__00000001_)
 	__TaskInputShape__00000001_.Product = __Product__00000000_

@@ -335,7 +335,7 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__ProductShape__00000051_ := (&models.ProductShape{Name: `-PIT Report`}).Stage(stage)
 	__ProductShape__00000052_ := (&models.ProductShape{Name: `-PIT Report`}).Stage(stage)
 
-	__Project__00000000_ := (&models.Project{Name: `Startliner Mishape Report`}).Stage(stage)
+	__Project__00000000_ := (&models.Library{Name: `Startliner Mishape Report`}).Stage(stage)
 
 	__Resource__00000000_ := (&models.Resource{Name: `Program Investigation Team (PIT)`}).Stage(stage)
 	__Resource__00000001_ := (&models.Resource{Name: `Barry "Butch" Wilmore`}).Stage(stage)
@@ -3193,7 +3193,7 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__ResourceShape__00000015_.Resource = __Resource__00000010_
 	__ResourceTaskShape__00000000_.Resource = __Resource__00000000_
 	__ResourceTaskShape__00000000_.Task = __Task__00000001_
-	__Root__00000000_.Projects = append(__Root__00000000_.Projects, __Project__00000000_)
+	__Root__00000000_.Libraries = append(__Root__00000000_.Libraries, __Project__00000000_)
 	__Task__00000000_.SubTasks = append(__Task__00000000_.SubTasks, __Task__00000007_)
 	__Task__00000001_.SubTasks = append(__Task__00000001_.SubTasks, __Task__00000004_)
 	__Task__00000002_.SubTasks = append(__Task__00000002_.SubTasks, __Task__00000005_)

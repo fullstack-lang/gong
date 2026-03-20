@@ -305,7 +305,7 @@ func (stager *Stager) tree() {
 						Name: element.GetName() + " " + string(buttons.BUTTON_edit_note),
 						Icon: string(buttons.BUTTON_edit_note),
 						Impl: &tree.FunctionalButtonProxy{
-							OnUpdated: func(stage *tree.Stage, button, updatedButton *tree.Button) {
+							OnUpdated: func(_ *tree.Stage, _, _ *tree.Button) {
 								element.SetIsInRenameMode(true)
 								stager.stage.Commit()
 							},
@@ -320,7 +320,7 @@ func (stager *Stager) tree() {
 						Name: element.GetName() + " " + string(buttons.BUTTON_edit_off),
 						Icon: string(buttons.BUTTON_edit_off),
 						Impl: &tree.FunctionalButtonProxy{
-							OnUpdated: func(stage *tree.Stage, button, updatedButton *tree.Button) {
+							OnUpdated: func(_ *tree.Stage, _, _ *tree.Button) {
 								element.SetIsInRenameMode(false)
 								stager.stage.Commit()
 							},

@@ -81,7 +81,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000001_.Name = `Default-Project`
 	__GongStructShape__00000001_.X = 16.000000
 	__GongStructShape__00000001_.Y = 73.000000
-	__GongStructShape__00000001_.IdentifierMeta = ref_models.Project{}
+	__GongStructShape__00000001_.IdentifierMeta = ref_models.Library{}
 	__GongStructShape__00000001_.Width = 240.000000
 	__GongStructShape__00000001_.Height = 701.000000
 	__GongStructShape__00000001_.IsSelected = false
@@ -149,7 +149,7 @@ func _(stage *models.Stage) {
 	__LinkShape__00000001_.CornerOffsetRatio = 1.590112
 
 	__LinkShape__00000002_.Name = `RootProducts`
-	__LinkShape__00000002_.IdentifierMeta = ref_models.Project{}.RootProducts
+	__LinkShape__00000002_.IdentifierMeta = ref_models.Library{}.RootProducts
 	__LinkShape__00000002_.FieldTypeIdentifierMeta = ref_models.Product{}
 	__LinkShape__00000002_.FieldOffsetX = 0.000000
 	__LinkShape__00000002_.FieldOffsetY = 0.000000
@@ -168,7 +168,7 @@ func _(stage *models.Stage) {
 	__LinkShape__00000002_.CornerOffsetRatio = 1.380000
 
 	__LinkShape__00000003_.Name = `RootTasks`
-	__LinkShape__00000003_.IdentifierMeta = ref_models.Project{}.RootTasks
+	__LinkShape__00000003_.IdentifierMeta = ref_models.Library{}.RootTasks
 	__LinkShape__00000003_.FieldTypeIdentifierMeta = ref_models.Task{}
 	__LinkShape__00000003_.FieldOffsetX = 0.000000
 	__LinkShape__00000003_.FieldOffsetY = 0.000000
@@ -225,7 +225,7 @@ func _(stage *models.Stage) {
 	__LinkShape__00000005_.CornerOffsetRatio = -0.213035
 
 	__LinkShape__00000006_.Name = `Notes`
-	__LinkShape__00000006_.IdentifierMeta = ref_models.Project{}.Notes
+	__LinkShape__00000006_.IdentifierMeta = ref_models.Library{}.Notes
 	__LinkShape__00000006_.FieldTypeIdentifierMeta = ref_models.Note{}
 	__LinkShape__00000006_.FieldOffsetX = 0.000000
 	__LinkShape__00000006_.FieldOffsetY = 0.000000
@@ -282,7 +282,7 @@ func _(stage *models.Stage) {
 	__LinkShape__00000008_.CornerOffsetRatio = 1.724797
 
 	__LinkShape__00000009_.Name = `RootResources`
-	__LinkShape__00000009_.IdentifierMeta = ref_models.Project{}.RootResources
+	__LinkShape__00000009_.IdentifierMeta = ref_models.Library{}.RootResources
 	__LinkShape__00000009_.FieldTypeIdentifierMeta = ref_models.Resource{}
 	__LinkShape__00000009_.FieldOffsetX = 0.000000
 	__LinkShape__00000009_.FieldOffsetY = 0.000000

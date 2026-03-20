@@ -15,7 +15,7 @@ func onLayoutWBS(stager *Stager, diagram *Diagram) func(
 		diagram.Note_Shapes = []*NoteShape{}
 
 		// 2. Identify Project
-		project := stager.stage.Project_Diagrams_reverseMap[diagram]
+		project := stager.stage.Library_Diagrams_reverseMap[diagram]
 
 		// layout is the function that
 		// - layout the task at startX and level

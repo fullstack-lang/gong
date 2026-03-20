@@ -9,6 +9,12 @@ import (
 func (stager *Stager) enforceSemantic() (needCommit bool) {
 	stage := stager.stage
 
+	// computes fields that are not persisted
+	stager.enforceProducersConsumers()
+	stager.enforceLibrariesObject()
+	stager.enforceDiagramMaps()
+	stager.enforceParentAssociation()
+
 	pass := 0
 	for {
 		if stager.enforceSemanticOnePass(false, stage) {
@@ -22,7 +28,9 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 
 	// computes fields that are not persisted
 	stager.enforceProducersConsumers()
+	stager.enforceLibrariesObject()
 	stager.enforceDiagramMaps()
+	stager.enforceParentAssociation()
 
 	if needCommit {
 		stager.probeForm.CommitNotificationTable()
@@ -62,19 +70,17 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 
 	root := stager.root
 
-	// Enforce that all projects are appended to the [root]
-	// if one project is not appended, append it
-	for _, project := range GetGongstrucsSorted[*Project](stage) {
-		if slices.Index(root.Projects, project) == -1 {
-			root.Projects = append(root.Projects, project)
+	// Enforce that all libraries are appended to the [root]
+	// if one library is not appended, append it
+	for _, library := range GetGongstrucsSorted[*Library](stage) {
+		if slices.Index(root.Libraries, library) == -1 {
+			root.Libraries = append(root.Libraries, library)
 			needCommit = true
 		}
 	}
 
 	needCommit = stager.enforceDefaultValues() || needCommit
-	needCommit = stager.enforceDAG() || needCommit
-	needCommit = stager.enforceHierarchy() || needCommit
-	needCommit = stager.enforceUniquenessInProjects() || needCommit
+	needCommit = stager.enforceTreesAndDAG() || needCommit
 	needCommit = stager.unstageAllOrphans() || needCommit
 	needCommit = stager.enforceComputedPrefix() || needCommit
 
@@ -91,7 +97,7 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		needCommit = stager.enforceAssociationShapeConsistency() || needCommit
 	}
 
-	needCommit = stager.enforceTaskInputOutputProjectConsistency() || needCommit
+	needCommit = stager.enforceTaskInputOutputLibraryConsistency() || needCommit
 	needCommit = stager.enforceDuplicateRemove() || needCommit
 	return needCommit
 }

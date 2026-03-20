@@ -6,14 +6,14 @@ import (
 	"time"
 )
 
-func (stager *Stager) enforceDAG() (needCommit bool) {
+func (stager *Stager) enforceTreesAndDAG() (needCommit bool) {
 
 	products := GetGongstrucsSorted[*Product](stager.stage)
 	resources := GetGongstrucsSorted[*Resource](stager.stage)
 	tasks := GetGongstrucsSorted[*Task](stager.stage)
 
-	// 1. Hierarchy DAG for Product
-	needCommit = EnforceDAG(
+	// 1. Hierarchy Tree for Product
+	needCommit = EnforceTree(
 		stager,
 		products,
 		func(p *Product) []*Product { return p.SubProducts },
@@ -28,8 +28,8 @@ func (stager *Stager) enforceDAG() (needCommit bool) {
 		func(p *Product) string { return "Product " + p.Name },
 	) || needCommit
 
-	// 2. Hierarchy DAG for Resource
-	needCommit = EnforceDAG(
+	// 2. Hierarchy Tree for Resource
+	needCommit = EnforceTree(
 		stager,
 		resources,
 		func(r *Resource) []*Resource { return r.SubResources },
@@ -44,8 +44,8 @@ func (stager *Stager) enforceDAG() (needCommit bool) {
 		func(r *Resource) string { return "Resource " + r.Name },
 	) || needCommit
 
-	// 3. Hierarchy DAG for Task
-	needCommit = EnforceDAG(
+	// 3. Hierarchy Tree for Task
+	needCommit = EnforceTree(
 		stager,
 		tasks,
 		func(t *Task) []*Task { return t.SubTasks },
@@ -142,6 +142,41 @@ func (stager *Stager) enforceDAG() (needCommit bool) {
 			return ""
 		},
 	) || needCommit
+
+	return
+}
+
+// EnforceTree checks that the graph is a forest (a collection of trees).
+// It ensures that no node has more than one parent and that there are no cycles.
+func EnforceTree[T comparable](
+	stager *Stager,
+	nodes []T,
+	getChildren func(T) []T,
+	removeChild func(parent T, child T),
+	getName func(T) string,
+) (needCommit bool) {
+	// 1. Ensure no multiple parents
+	parentMap := make(map[T]T)
+	for _, node := range nodes {
+		children := getChildren(node)
+		childrenCopy := make([]T, len(children))
+		copy(childrenCopy, children)
+
+		for _, child := range childrenCopy {
+			if existingParent, ok := parentMap[child]; ok {
+				// Child already has a parent, remove from this node
+				removeChild(node, child)
+				stager.probeForm.AddNotification(time.Now(),
+					fmt.Sprintf("Node %s has multiple parents (including %s), breaking edge from %s", getName(child), getName(existingParent), getName(node)))
+				needCommit = true
+			} else {
+				parentMap[child] = node
+			}
+		}
+	}
+
+	// 2. Ensure no cycles
+	needCommit = EnforceDAG(stager, nodes, getChildren, removeChild, getName) || needCommit
 
 	return
 }
