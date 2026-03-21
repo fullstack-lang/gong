@@ -31,7 +31,7 @@ func _(stage *models.Stage) {
 	__ProductShape__00000000_ := (&models.ProductShape{Name: `NewProduct-Default Diagram`}).Stage(stage)
 	__ProductShape__00000001_ := (&models.ProductShape{Name: `NewProduct-Default Diagram`}).Stage(stage)
 
-	__Library__00000000_ := (&models.Library{Name: `NewProject`}).Stage(stage)
+	__Library__00000000_ := (&models.Library{Name: `Library 1`}).Stage(stage)
 
 	__Root__00000000_ := (&models.Root{Name: `Root`}).Stage(stage)
 
@@ -84,7 +84,7 @@ func _(stage *models.Stage) {
 	__ProductShape__00000001_.Width = 250.000000
 	__ProductShape__00000001_.Height = 100.000000
 
-	__Library__00000000_.Name = `NewProject`
+	__Library__00000000_.Name = `Library 1`
 	__Library__00000000_.IsExpanded = true
 	__Library__00000000_.ComputedPrefix = ``
 

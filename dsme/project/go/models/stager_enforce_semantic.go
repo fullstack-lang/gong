@@ -2,7 +2,6 @@ package models
 
 import (
 	"fmt"
-	"slices"
 	"time"
 )
 
@@ -36,6 +35,7 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 
 	if needCommit {
 		stager.probeForm.CommitNotificationTable()
+		stage.CommitWithSuspendedCallbacks()
 	}
 
 	return
@@ -51,10 +51,7 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		// them. If the checkout is not performed, the stage might be dirty
 		// with slices of pointer or pointer to unstaged instance
 		{"stage.Clean", func() bool { return stage.Clean() }},
-		{"enforceRoot", stager.enforceRoot},
-		// Enforce that all libraries are appended to the [root]
-		// if one library is not appended, append it
-		{"enforceLibrariesAppendedToRoot", stager.enforceLibrariesAppendedToRoot},
+		{"enforceRootSingloton", stager.enforceRootSingloton},
 		{"enforceOrphansAbstractElement", stager.enforceOrphansAbstractElement},
 		{"enforceDefaultValues", stager.enforceDefaultValues},
 		{"enforceTreesAndDAG", stager.enforceTreesAndDAG},
@@ -85,18 +82,7 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 	return needCommit
 }
 
-func (stager *Stager) enforceLibrariesAppendedToRoot() (needCommit bool) {
-	root := stager.root
-	for _, library := range GetGongstrucsSorted[*Library](stager.stage) {
-		if slices.Index(root.Libraries, library) == -1 {
-			root.Libraries = append(root.Libraries, library)
-			needCommit = true
-		}
-	}
-	return
-}
-
-func (stager *Stager) enforceRoot() (needCommit bool) {
+func (stager *Stager) enforceRootSingloton() (needCommit bool) {
 	stage := stager.stage
 	// Ensures that there is one and only one root
 	// prune the other
