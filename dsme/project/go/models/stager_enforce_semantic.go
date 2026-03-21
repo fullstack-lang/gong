@@ -67,6 +67,7 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		{"enforceTreesAndDAG", stager.enforceTreesAndDAG},
 		{"enforceTaskInputOutputLibraryConsistency", stager.enforceTaskInputOutputLibraryConsistency},
 		{"enforceDuplicateRemove", stager.enforceDuplicateRemove},
+		{"enforceLibraryHasAtLeastOneDiagram", stager.enforceLibraryHasAtLeastOneDiagram},
 
 		// concrete semantic check
 
