@@ -105,7 +105,7 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 			}
 		},
 		func(library *Library) []*Library {
-			return []*Library{}
+			return library.SubLibraries
 		},
 	)
 
