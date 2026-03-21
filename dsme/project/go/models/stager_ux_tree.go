@@ -87,7 +87,7 @@ func (stager *Stager) tree() {
 					HasToolTip:      true,
 					ToolTipPosition: tree.Above,
 					ToolTipText:     "Copy Diagram",
-					OnUpdate:        OnCopyDiagram(stager, diagram),
+					OnUpdate:        onCopyDiagram(stager, diagram),
 				}
 				diagramNode.Buttons = append(diagramNode.Buttons, copyButton)
 			}
@@ -401,7 +401,7 @@ func (stager *Stager) OnUpdateDiagram(diagram *Diagram) func(stage *tree.Stage, 
 	}
 }
 
-func OnCopyDiagram(stager *Stager, diagram *Diagram) func(
+func onCopyDiagram(stager *Stager, diagram *Diagram) func(
 	stage *tree.Stage, updatedButton *tree.Button) {
 	return func(_ *tree.Stage, _ *tree.Button) {
 		newDiagram := new(Diagram)

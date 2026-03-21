@@ -571,6 +571,8 @@ func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.IsInRenameMode = GongExtractBool(valueExpr)
 	case "OwningLibrary":
 		GongUnmarshallPointer(&instance.OwningLibrary, valueExpr, identifierMap)
+	case "SubLibraries":
+		GongUnmarshallSliceOfPointers(&instance.SubLibraries, valueExpr, identifierMap)
 	}
 	return nil
 }

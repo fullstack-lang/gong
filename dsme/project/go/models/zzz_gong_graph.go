@@ -463,6 +463,9 @@ func (stage *Stage) StageBranchLibrary(library *Library) {
 	for _, _diagram := range library.Diagrams {
 		StageBranch(stage, _diagram)
 	}
+	for _, _library := range library.SubLibraries {
+		StageBranch(stage, _library)
+	}
 
 }
 
@@ -1044,6 +1047,9 @@ func CopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo
 	}
 	for _, _diagram := range libraryFrom.Diagrams {
 		libraryTo.Diagrams = append(libraryTo.Diagrams, CopyBranchDiagram(mapOrigCopy, _diagram))
+	}
+	for _, _library := range libraryFrom.SubLibraries {
+		libraryTo.SubLibraries = append(libraryTo.SubLibraries, CopyBranchLibrary(mapOrigCopy, _library))
 	}
 
 	return
@@ -1669,6 +1675,9 @@ func (stage *Stage) UnstageBranchLibrary(library *Library) {
 	for _, _diagram := range library.Diagrams {
 		UnstageBranch(stage, _diagram)
 	}
+	for _, _library := range library.SubLibraries {
+		UnstageBranch(stage, _library)
+	}
 
 }
 
@@ -2154,6 +2163,10 @@ func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, in
 	for _, _b := range instance.Diagrams {
 		reference.Diagrams = append(reference.Diagrams, stage.Diagrams_reference[_b])
 	}
+	reference.SubLibraries = reference.SubLibraries[:0]
+	for _, _b := range instance.SubLibraries {
+		reference.SubLibraries = append(reference.SubLibraries, stage.Librarys_reference[_b])
+	}
 
 	return
 }
@@ -2584,6 +2597,13 @@ func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) () 
 		}
 	}
 	reference.Diagrams = _Diagrams
+	var _SubLibraries []*Library
+	for _, _reference := range reference.SubLibraries {
+		if _instance, ok := stage.Librarys_instance[_reference]; ok {
+			_SubLibraries = append(_SubLibraries, _instance)
+		}
+	}
+	reference.SubLibraries = _SubLibraries
 
 	return
 }
@@ -3509,6 +3529,27 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		if library.OwningLibrary != libraryOther.OwningLibrary {
 			diffs = append(diffs, library.GongMarshallField(stage, "OwningLibrary"))
 		}
+	}
+	SubLibrariesDifferent := false
+	if len(library.SubLibraries) != len(libraryOther.SubLibraries) {
+		SubLibrariesDifferent = true
+	} else {
+		for i := range library.SubLibraries {
+			if (library.SubLibraries[i] == nil) != (libraryOther.SubLibraries[i] == nil) {
+				SubLibrariesDifferent = true
+				break
+			} else if library.SubLibraries[i] != nil && libraryOther.SubLibraries[i] != nil {
+				// this is a pointer comparaison
+				if library.SubLibraries[i] != libraryOther.SubLibraries[i] {
+					SubLibrariesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if SubLibrariesDifferent {
+		ops := Diff(stage, library, libraryOther, "SubLibraries", libraryOther.SubLibraries, library.SubLibraries)
+		diffs = append(diffs, ops)
 	}
 
 	return
