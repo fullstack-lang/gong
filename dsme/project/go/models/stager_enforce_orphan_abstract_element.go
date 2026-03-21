@@ -35,8 +35,8 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 		func(task *Task) {
 			task.GetOwnlingLibrary().RootTasks = append(task.GetOwnlingLibrary().RootTasks, task)
 		},
-		func(product *Task) []*Task {
-			return product.SubTasks
+		func(task *Task) []*Task {
+			return task.SubTasks
 		},
 	)
 
@@ -49,10 +49,10 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 			}
 			return roots
 		},
-		func(product *Note) {
-			product.GetOwnlingLibrary().Notes = append(product.GetOwnlingLibrary().Notes, product)
+		func(note *Note) {
+			note.GetOwnlingLibrary().Notes = append(note.GetOwnlingLibrary().Notes, note)
 		},
-		func(product *Note) []*Note {
+		func(note *Note) []*Note {
 			return []*Note{}
 		},
 	)
@@ -69,8 +69,8 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 		func(resource *Resource) {
 			resource.GetOwnlingLibrary().RootResources = append(resource.GetOwnlingLibrary().RootResources, resource)
 		},
-		func(product *Resource) []*Resource {
-			return product.SubResources
+		func(resource *Resource) []*Resource {
+			return resource.SubResources
 		},
 	)
 
@@ -83,10 +83,10 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 			}
 			return roots
 		},
-		func(product *Diagram) {
-			product.GetOwnlingLibrary().Diagrams = append(product.GetOwnlingLibrary().Diagrams, product)
+		func(diagram *Diagram) {
+			diagram.GetOwnlingLibrary().Diagrams = append(diagram.GetOwnlingLibrary().Diagrams, diagram)
 		},
-		func(product *Diagram) []*Diagram {
+		func(diagram *Diagram) []*Diagram {
 			return []*Diagram{}
 		},
 	)
@@ -96,10 +96,10 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 		func() []*Library {
 			return stager.root.Libraries
 		},
-		func(product *Library) {
-			stager.root.Libraries = append(stager.root.Libraries, product)
+		func(library *Library) {
+			stager.root.Libraries = append(stager.root.Libraries, library)
 		},
-		func(product *Library) []*Library {
+		func(library *Library) []*Library {
 			return []*Library{}
 		},
 	)
