@@ -9,8 +9,6 @@ import (
 func (stager *Stager) enforceTreesAndDAG() (needCommit bool) {
 
 	products := GetGongstrucsSorted[*Product](stager.stage)
-	resources := GetGongstrucsSorted[*Resource](stager.stage)
-	tasks := GetGongstrucsSorted[*Task](stager.stage)
 
 	// 1. Hierarchy Tree for Product
 	needCommit = EnforceTree(
@@ -29,6 +27,7 @@ func (stager *Stager) enforceTreesAndDAG() (needCommit bool) {
 	) || needCommit
 
 	// 2. Hierarchy Tree for Resource
+	resources := GetGongstrucsSorted[*Resource](stager.stage)
 	needCommit = EnforceTree(
 		stager,
 		resources,
@@ -45,6 +44,7 @@ func (stager *Stager) enforceTreesAndDAG() (needCommit bool) {
 	) || needCommit
 
 	// 3. Hierarchy Tree for Task
+	tasks := GetGongstrucsSorted[*Task](stager.stage)
 	needCommit = EnforceTree(
 		stager,
 		tasks,
@@ -60,7 +60,24 @@ func (stager *Stager) enforceTreesAndDAG() (needCommit bool) {
 		func(t *Task) string { return "Task " + t.Name },
 	) || needCommit
 
-	// 4. Dependency DAG for Tasks and Products (Inputs/Outputs)
+	// 4. Hierarchy Tree for Library
+	libraries := GetGongstrucsSorted[*Library](stager.stage)
+	needCommit = EnforceTree(
+		stager,
+		libraries,
+		func(l *Library) []*Library { return l.SubLibraries },
+		func(parent, child *Library) {
+			for j, sub := range parent.SubLibraries {
+				if sub == child {
+					parent.SubLibraries = slices.Delete(parent.SubLibraries, j, j+1)
+					break
+				}
+			}
+		},
+		func(l *Library) string { return "Library " + l.Name },
+	) || needCommit
+
+	// 5. Dependency DAG for Tasks and Products (Inputs/Outputs)
 	// Build a map of Product -> Tasks that consume it (InputProducts)
 	// This allows us to traverse the "Product -> Task" edge efficiently
 	productConsumers := make(map[*Product][]*Task)
