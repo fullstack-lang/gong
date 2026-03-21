@@ -18,6 +18,7 @@ type Diagram struct {
 	Height float64
 
 	AbstractTypeFields
+	LibraryAbstractFields
 
 	Product_Shapes              []*ProductShape
 	map_Product_ProductShape    map[*Product]*ProductShape
@@ -82,28 +83,6 @@ type Diagram struct {
 
 func (d *Diagram) IsEditable() bool {
 	return d.IsEditable_
-}
-
-type ConcreteType interface {
-	GongstructIF
-	GetAbstractElement() AbstractType
-	SetAbstractElement(AbstractType)
-}
-
-type AssociationConcreteType interface {
-	GongstructIF
-	GetAbstractStartElement() AbstractType
-	SetAbstractStartElement(AbstractType)
-	GetAbstractEndElement() AbstractType
-	SetAbstractEndElement(AbstractType)
-}
-
-type AssociationConcreteType2[SourceAT AbstractType, TargetAT AbstractType] interface {
-	GongstructIF
-	GetAbstractStartElement() SourceAT
-	SetAbstractStartElement(SourceAT)
-	GetAbstractEndElement() TargetAT
-	SetAbstractEndElement(TargetAT)
 }
 
 // ProductShape
