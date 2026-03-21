@@ -55,6 +55,7 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		// Enforce that all libraries are appended to the [root]
 		// if one library is not appended, append it
 		{"enforceLibrariesAppendedToRoot", stager.enforceLibrariesAppendedToRoot},
+		{"enforceOrphansAbstractElement", stager.enforceOrphansAbstractElement},
 		{"enforceDefaultValues", stager.enforceDefaultValues},
 		{"enforceTreesAndDAG", stager.enforceTreesAndDAG},
 		{"enforceComputedPrefix", stager.enforceComputedPrefix},

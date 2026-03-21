@@ -112,7 +112,7 @@ type Stage struct {
 	Diagram_stagedOrder     map[*Diagram]uint
 	Diagrams_reference      map[*Diagram]*Diagram
 	Diagrams_referenceOrder map[*Diagram]uint
-	
+
 	// insertion point for slice of pointers maps
 	Diagram_Product_Shapes_reverseMap map[*ProductShape]*Diagram
 
@@ -164,7 +164,7 @@ type Stage struct {
 	Library_stagedOrder     map[*Library]uint
 	Librarys_reference      map[*Library]*Library
 	Librarys_referenceOrder map[*Library]uint
-	
+
 	// insertion point for slice of pointers maps
 	Library_RootProducts_reverseMap map[*Product]*Library
 
@@ -188,7 +188,7 @@ type Stage struct {
 	Note_stagedOrder     map[*Note]uint
 	Notes_reference      map[*Note]*Note
 	Notes_referenceOrder map[*Note]uint
-	
+
 	// insertion point for slice of pointers maps
 	Note_Products_reverseMap map[*Product]*Note
 
@@ -208,7 +208,7 @@ type Stage struct {
 	NoteProductShape_stagedOrder     map[*NoteProductShape]uint
 	NoteProductShapes_reference      map[*NoteProductShape]*NoteProductShape
 	NoteProductShapes_referenceOrder map[*NoteProductShape]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterNoteProductShapeCreateCallback OnAfterCreateInterface[NoteProductShape]
 	OnAfterNoteProductShapeUpdateCallback OnAfterUpdateInterface[NoteProductShape]
@@ -222,7 +222,7 @@ type Stage struct {
 	NoteResourceShape_stagedOrder     map[*NoteResourceShape]uint
 	NoteResourceShapes_reference      map[*NoteResourceShape]*NoteResourceShape
 	NoteResourceShapes_referenceOrder map[*NoteResourceShape]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterNoteResourceShapeCreateCallback OnAfterCreateInterface[NoteResourceShape]
 	OnAfterNoteResourceShapeUpdateCallback OnAfterUpdateInterface[NoteResourceShape]
@@ -236,7 +236,7 @@ type Stage struct {
 	NoteShape_stagedOrder     map[*NoteShape]uint
 	NoteShapes_reference      map[*NoteShape]*NoteShape
 	NoteShapes_referenceOrder map[*NoteShape]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterNoteShapeCreateCallback OnAfterCreateInterface[NoteShape]
 	OnAfterNoteShapeUpdateCallback OnAfterUpdateInterface[NoteShape]
@@ -250,7 +250,7 @@ type Stage struct {
 	NoteTaskShape_stagedOrder     map[*NoteTaskShape]uint
 	NoteTaskShapes_reference      map[*NoteTaskShape]*NoteTaskShape
 	NoteTaskShapes_referenceOrder map[*NoteTaskShape]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterNoteTaskShapeCreateCallback OnAfterCreateInterface[NoteTaskShape]
 	OnAfterNoteTaskShapeUpdateCallback OnAfterUpdateInterface[NoteTaskShape]
@@ -264,7 +264,7 @@ type Stage struct {
 	Product_stagedOrder     map[*Product]uint
 	Products_reference      map[*Product]*Product
 	Products_referenceOrder map[*Product]uint
-	
+
 	// insertion point for slice of pointers maps
 	Product_SubProducts_reverseMap map[*Product]*Product
 
@@ -280,7 +280,7 @@ type Stage struct {
 	ProductCompositionShape_stagedOrder     map[*ProductCompositionShape]uint
 	ProductCompositionShapes_reference      map[*ProductCompositionShape]*ProductCompositionShape
 	ProductCompositionShapes_referenceOrder map[*ProductCompositionShape]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterProductCompositionShapeCreateCallback OnAfterCreateInterface[ProductCompositionShape]
 	OnAfterProductCompositionShapeUpdateCallback OnAfterUpdateInterface[ProductCompositionShape]
@@ -294,7 +294,7 @@ type Stage struct {
 	ProductShape_stagedOrder     map[*ProductShape]uint
 	ProductShapes_reference      map[*ProductShape]*ProductShape
 	ProductShapes_referenceOrder map[*ProductShape]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterProductShapeCreateCallback OnAfterCreateInterface[ProductShape]
 	OnAfterProductShapeUpdateCallback OnAfterUpdateInterface[ProductShape]
@@ -308,7 +308,7 @@ type Stage struct {
 	Resource_stagedOrder     map[*Resource]uint
 	Resources_reference      map[*Resource]*Resource
 	Resources_referenceOrder map[*Resource]uint
-	
+
 	// insertion point for slice of pointers maps
 	Resource_Tasks_reverseMap map[*Task]*Resource
 
@@ -326,7 +326,7 @@ type Stage struct {
 	ResourceCompositionShape_stagedOrder     map[*ResourceCompositionShape]uint
 	ResourceCompositionShapes_reference      map[*ResourceCompositionShape]*ResourceCompositionShape
 	ResourceCompositionShapes_referenceOrder map[*ResourceCompositionShape]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterResourceCompositionShapeCreateCallback OnAfterCreateInterface[ResourceCompositionShape]
 	OnAfterResourceCompositionShapeUpdateCallback OnAfterUpdateInterface[ResourceCompositionShape]
@@ -340,7 +340,7 @@ type Stage struct {
 	ResourceShape_stagedOrder     map[*ResourceShape]uint
 	ResourceShapes_reference      map[*ResourceShape]*ResourceShape
 	ResourceShapes_referenceOrder map[*ResourceShape]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterResourceShapeCreateCallback OnAfterCreateInterface[ResourceShape]
 	OnAfterResourceShapeUpdateCallback OnAfterUpdateInterface[ResourceShape]
@@ -354,7 +354,7 @@ type Stage struct {
 	ResourceTaskShape_stagedOrder     map[*ResourceTaskShape]uint
 	ResourceTaskShapes_reference      map[*ResourceTaskShape]*ResourceTaskShape
 	ResourceTaskShapes_referenceOrder map[*ResourceTaskShape]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterResourceTaskShapeCreateCallback OnAfterCreateInterface[ResourceTaskShape]
 	OnAfterResourceTaskShapeUpdateCallback OnAfterUpdateInterface[ResourceTaskShape]
@@ -368,7 +368,7 @@ type Stage struct {
 	Root_stagedOrder     map[*Root]uint
 	Roots_reference      map[*Root]*Root
 	Roots_referenceOrder map[*Root]uint
-	
+
 	// insertion point for slice of pointers maps
 	Root_Libraries_reverseMap map[*Library]*Root
 
@@ -384,7 +384,7 @@ type Stage struct {
 	Task_stagedOrder     map[*Task]uint
 	Tasks_reference      map[*Task]*Task
 	Tasks_referenceOrder map[*Task]uint
-	
+
 	// insertion point for slice of pointers maps
 	Task_SubTasks_reverseMap map[*Task]*Task
 
@@ -404,7 +404,7 @@ type Stage struct {
 	TaskCompositionShape_stagedOrder     map[*TaskCompositionShape]uint
 	TaskCompositionShapes_reference      map[*TaskCompositionShape]*TaskCompositionShape
 	TaskCompositionShapes_referenceOrder map[*TaskCompositionShape]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterTaskCompositionShapeCreateCallback OnAfterCreateInterface[TaskCompositionShape]
 	OnAfterTaskCompositionShapeUpdateCallback OnAfterUpdateInterface[TaskCompositionShape]
@@ -418,7 +418,7 @@ type Stage struct {
 	TaskInputShape_stagedOrder     map[*TaskInputShape]uint
 	TaskInputShapes_reference      map[*TaskInputShape]*TaskInputShape
 	TaskInputShapes_referenceOrder map[*TaskInputShape]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterTaskInputShapeCreateCallback OnAfterCreateInterface[TaskInputShape]
 	OnAfterTaskInputShapeUpdateCallback OnAfterUpdateInterface[TaskInputShape]
@@ -432,7 +432,7 @@ type Stage struct {
 	TaskOutputShape_stagedOrder     map[*TaskOutputShape]uint
 	TaskOutputShapes_reference      map[*TaskOutputShape]*TaskOutputShape
 	TaskOutputShapes_referenceOrder map[*TaskOutputShape]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterTaskOutputShapeCreateCallback OnAfterCreateInterface[TaskOutputShape]
 	OnAfterTaskOutputShapeUpdateCallback OnAfterUpdateInterface[TaskOutputShape]
@@ -446,7 +446,7 @@ type Stage struct {
 	TaskShape_stagedOrder     map[*TaskShape]uint
 	TaskShapes_reference      map[*TaskShape]*TaskShape
 	TaskShapes_referenceOrder map[*TaskShape]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterTaskShapeCreateCallback OnAfterCreateInterface[TaskShape]
 	OnAfterTaskShapeUpdateCallback OnAfterUpdateInterface[TaskShape]
