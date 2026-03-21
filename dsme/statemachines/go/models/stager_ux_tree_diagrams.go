@@ -183,6 +183,24 @@ func (stager *Stager) updateTreeDiagramStage() {
 					proxy.stager = stager
 					proxy.stateShape = stateShape_
 
+					diagramStateNode.Buttons = append(diagramStateNode.Buttons,
+						&tree.Button{
+							Name:            "Show State Shape",
+							Icon:            string(buttons.BUTTON_visibility),
+							HasToolTip:      true,
+							ToolTipPosition: tree.Above,
+							ToolTipText:     "Show State Shape",
+							OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+								stateShape_.SetIsHidden(!stateShape_.GetIsHidden())
+								stager.stage.Commit()
+							},
+						},
+					)
+					if !stateShape_.GetIsHidden() {
+						diagramStateNode.Buttons[0].Icon = string(buttons.BUTTON_visibility_off)
+						diagramStateNode.Buttons[0].ToolTipText = "Hide State Shape"
+					}
+
 					// range over transitions that have the state as a source or target
 					// if the target is present, enable the check button
 					for _, transition_ := range transitionSlice {
