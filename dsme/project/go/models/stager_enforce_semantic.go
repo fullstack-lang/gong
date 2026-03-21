@@ -57,7 +57,6 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		{"enforceLibrariesAppendedToRoot", stager.enforceLibrariesAppendedToRoot},
 		{"enforceDefaultValues", stager.enforceDefaultValues},
 		{"enforceTreesAndDAG", stager.enforceTreesAndDAG},
-		{"unstageAllOrphans", stager.unstageAllOrphans},
 		{"enforceComputedPrefix", stager.enforceComputedPrefix},
 		// enforce visibility will unstage shapes that are not visible
 		// and indirectly shapes whose abstract element is not staged (because they are not visible)
