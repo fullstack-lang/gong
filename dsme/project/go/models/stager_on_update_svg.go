@@ -7,25 +7,19 @@ import (
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 )
 
-type svgProxy struct {
-	stager  *Stager
-	svg_    *svg.SVG
-	diagram *Diagram
-}
-
 // SVGUpdated implements SVGImplInterface.
-func (p *svgProxy) SVGUpdated(updatedSVG *svg.SVG) {
+func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
+	diagram := stager.diagram
+	svgObject := stager.svgObject
 
-	diagram := p.diagram
-
-	if p.svg_.DrawingState == updatedSVG.DrawingState {
+	if svgObject.DrawingState == frontSVG.DrawingState {
 		// in any cases, have the form editor set up with the instance
-		p.stager.probeForm.FillUpFormFromGongstruct(p.diagram, "Diagram")
+		stager.probeForm.FillUpFormFromGongstruct(diagram, "Diagram")
 		return
 	}
 
 	// IMPORTANT : we are only interested when the updateSVG has finished drawing the connexion
-	if updatedSVG.DrawingState == svg.DRAWING_LINK {
+	if frontSVG.DrawingState == svg.DRAWING_LINK {
 		return
 	}
 
@@ -47,8 +41,8 @@ func (p *svgProxy) SVGUpdated(updatedSVG *svg.SVG) {
 
 	var assocType associationType
 	var sourceAbstratctElement, targetAbstractElement AbstractType
-	startRect := updatedSVG.StartRect
-	endRect := updatedSVG.EndRect
+	startRect := frontSVG.StartRect
+	endRect := frontSVG.EndRect
 
 	// determine the association type from the source and target rects
 	if productShape, ok := diagram.map_SvgRect_ProductShape[startRect]; ok {
@@ -135,7 +129,7 @@ func (p *svgProxy) SVGUpdated(updatedSVG *svg.SVG) {
 
 		parentProduct.SubProducts = append(parentProduct.SubProducts, subProduct)
 		subProduct.parentProduct = parentProduct
-		addAssociationShapeToDiagram(p.stager, parentProduct, subProduct, &diagram.ProductComposition_Shapes)
+		addAssociationShapeToDiagram(stager, parentProduct, subProduct, &diagram.ProductComposition_Shapes)
 
 	case ASSOCIATION_TYPE_TASK_COMPOSITION:
 		subTask := targetAbstractElement.(*Task)
@@ -154,42 +148,42 @@ func (p *svgProxy) SVGUpdated(updatedSVG *svg.SVG) {
 
 		subTask.parentTask = parentTask
 		parentTask.SubTasks = append(parentTask.SubTasks, subTask)
-		addAssociationShapeToDiagram(p.stager, parentTask, subTask, &diagram.TaskComposition_Shapes)
+		addAssociationShapeToDiagram(stager, parentTask, subTask, &diagram.TaskComposition_Shapes)
 
 	case ASSOCIATION_TYPE_TASK_INPUT:
 		product := sourceAbstratctElement.(*Product)
 		task := targetAbstractElement.(*Task)
 
 		task.Inputs = append(task.Inputs, product)
-		addAssociationShapeToDiagram(p.stager, task, product, &diagram.TaskInputShapes)
+		addAssociationShapeToDiagram(stager, task, product, &diagram.TaskInputShapes)
 
 	case ASSOCIATION_TYPE_TASK_OUTPUT:
 		task := sourceAbstratctElement.(*Task)
 		product := targetAbstractElement.(*Product)
 
 		task.Outputs = append(task.Outputs, product)
-		addAssociationShapeToDiagram(p.stager, task, product, &diagram.TaskOutputShapes)
+		addAssociationShapeToDiagram(stager, task, product, &diagram.TaskOutputShapes)
 
 	case ASSOCIAITON_TYPE_NOTE_PRODUCT:
 		note := sourceAbstratctElement.(*Note)
 		product := targetAbstractElement.(*Product)
 
 		note.Products = append(note.Products, product)
-		addAssociationShapeToDiagram(p.stager, note, product, &diagram.NoteProductShapes)
+		addAssociationShapeToDiagram(stager, note, product, &diagram.NoteProductShapes)
 
 	case ASSOCIAITON_TYPE_NOTE_TASK:
 		note := sourceAbstratctElement.(*Note)
 		task := targetAbstractElement.(*Task)
 
 		note.Tasks = append(note.Tasks, task)
-		addAssociationShapeToDiagram(p.stager, note, task, &diagram.NoteTaskShapes)
+		addAssociationShapeToDiagram(stager, note, task, &diagram.NoteTaskShapes)
 
 	case ASSOCIAITON_TYPE_NOTE_RESOURCE:
 		note := sourceAbstratctElement.(*Note)
 		resource := targetAbstractElement.(*Resource)
 
 		note.Resources = append(note.Resources, resource)
-		addAssociationShapeToDiagram(p.stager, note, resource, &diagram.NoteResourceShapes)
+		addAssociationShapeToDiagram(stager, note, resource, &diagram.NoteResourceShapes)
 
 	case ASSOCATIONN_TYPE_RESOURCE_COMPOSITION:
 		subResource := targetAbstractElement.(*Resource)
@@ -208,14 +202,14 @@ func (p *svgProxy) SVGUpdated(updatedSVG *svg.SVG) {
 
 		subResource.parentResource = parentResource
 		parentResource.SubResources = append(parentResource.SubResources, subResource)
-		addAssociationShapeToDiagram(p.stager, parentResource, subResource, &diagram.ResourceComposition_Shapes)
+		addAssociationShapeToDiagram(stager, parentResource, subResource, &diagram.ResourceComposition_Shapes)
 
 	case ASSOCIATION_TYPE_RESOURCE_TASK:
 		resource := sourceAbstratctElement.(*Resource)
 		task := targetAbstractElement.(*Task)
 
 		resource.Tasks = append(resource.Tasks, task)
-		addAssociationShapeToDiagram(p.stager, resource, task, &diagram.ResourceTaskShapes)
+		addAssociationShapeToDiagram(stager, resource, task, &diagram.ResourceTaskShapes)
 	}
 
 	if assocType == "" {
@@ -224,12 +218,6 @@ func (p *svgProxy) SVGUpdated(updatedSVG *svg.SVG) {
 	}
 
 	// commit to encode the result, this will generate a new SVG generation
-	p.stager.stage.Commit()
-
-}
-
-func (p *svgProxy) OnAfterUpdate(stage *svg.Stage, stagedSVG, frontSVG *svg.SVG) {
-
-	// log.Println("SVG updated", stagedSVG.GetName())
+	stager.stage.Commit()
 
 }
