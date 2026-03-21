@@ -9,23 +9,8 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
-//go:embed visibility_off.svg
-var visibilityOffSVG string
-
 func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode *tree.Node) {
 	stage := stager.stage
-
-	svgIconLinkVisibilityOn := &tree.SVGIcon{
-		Name: "Show Visibility On",
-		SVG:  `<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M 40,-480 C 160,-220 800,-220 920,-480 C 800,-740 160,-740 40,-480 Z M 640,-480 C 640,-568.4 568.4,-640 480,-640 C 391.6,-640 320,-568.4 320,-480 C 320,-391.6 391.6,-320 480,-320 C 568.4,-320 640,-391.6 640,-480 Z M 354,-491.6 L 427.6,-430 A 40 40 0 0 0 479.2,-491.2 L 405.6,-552.8 A 40 40 0 0 0 354,-491.6 Z M 480.8,-468.8 L 554.4,-407.2 A 40 40 0 0 0 606,-468.4 L 532.4,-530 A 40 40 0 0 0 480.8,-468.8 Z" fill-rule="evenodd"/></svg>`,
-	}
-	_ = svgIconLinkVisibilityOn
-
-	svgIconLinkVisibilityOff := &tree.SVGIcon{
-		Name: "Show Visibility Off",
-		SVG:  visibilityOffSVG,
-	}
-	_ = svgIconLinkVisibilityOff
 
 	taskNode := addNodeToTree(
 		stager,

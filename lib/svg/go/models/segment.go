@@ -134,7 +134,6 @@ func generatePointPointSegment(start Point, end Point, orientation OrientationTy
 func generatePointRectSegment(
 	point Point,
 	rect *Rect,
-	link *Link,
 	direction OrientationType,
 	cornerRadius float64,
 	number int,
