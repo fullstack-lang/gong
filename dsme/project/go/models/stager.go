@@ -37,6 +37,9 @@ type Stager struct {
 
 	productToLibrary map[*Product]*Library
 	taskToLibrary    map[*Task]*Library
+
+	svgObject *svg.SVG
+	diagram   *Diagram
 }
 
 func NewStager(
