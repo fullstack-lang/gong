@@ -90,8 +90,6 @@ func (svg *SVG) OnAfterUpdate(stage *Stage, _, frontSVG *SVG) {
 			log.Println("SVG generation request failed", err.Error())
 		}
 	}
-
-	return
 }
 
 func closestMidpoints(r1, r2 *Rect) *Line {
