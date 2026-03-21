@@ -94,10 +94,11 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 	needCommit = needCommit || reattachToLibraryRoots(
 		stager,
 		func() []*Library {
-			return stager.root.Libraries
+			return stager.rootLibrary.SubLibraries
 		},
 		func(library *Library) {
-			stager.root.Libraries = append(stager.root.Libraries, library)
+			stager.rootLibrary.SubLibraries = append(stager.rootLibrary.SubLibraries, library)
+			library.SetOwningLibrary(stager.rootLibrary)
 		},
 		func(library *Library) []*Library {
 			return []*Library{}
@@ -142,6 +143,11 @@ func reattachToLibraryRoots[T interface {
 	// 2. Find all nodes and delete them
 	for _, object := range GetGongstrucsSorted[T](stager.stage) {
 		if _, ok := reachable[object]; !ok {
+			// attach to root, only if it is not the root library (which is the only one without an owning library)
+
+			if any(object) == any(stager.rootLibrary) {
+				continue
+			}
 			appendToRoot(object)
 			needCommit = true
 			stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Orphan %s %s, was reattached to the root of library %s",

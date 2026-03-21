@@ -9,7 +9,7 @@ import (
 func (stager *Stager) tree() {
 	stager.treeStage.Reset()
 
-	root := stager.root
+	rootLibrary := stager.rootLibrary
 
 	treeInstance := &tree.Tree{Name: "Library Tree"}
 
@@ -22,9 +22,9 @@ func (stager *Stager) tree() {
 	})
 	treeInstance.RootNodes = append(treeInstance.RootNodes, allLibrariesNode)
 
-	addAddItemButton(stager, nil, nil, nil, allLibrariesNode, &root.Libraries, nil, &[]*ProductShape{}, &[]*ProductCompositionShape{})
+	addAddItemButton(stager, nil, nil, nil, allLibrariesNode, &rootLibrary.SubLibraries, nil, &[]*ProductShape{}, &[]*ProductCompositionShape{})
 
-	for _, library := range root.Libraries {
+	for _, library := range rootLibrary.SubLibraries {
 		libraryNode := &tree.Node{
 			Name:            library.Name,
 			IsExpanded:      library.IsExpanded,

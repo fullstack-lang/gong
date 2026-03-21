@@ -77,6 +77,28 @@ func (stager *Stager) enforceTreesAndDAG() (needCommit bool) {
 		func(l *Library) string { return "Library " + l.Name },
 	) || needCommit
 
+	// remove libraries from root.Libraries if they are a sub-library of another library
+	isSubLibrary := make(map[*Library]bool)
+	for _, library := range libraries {
+		for _, sub := range library.SubLibraries {
+			isSubLibrary[sub] = true
+		}
+	}
+
+	var filteredRootLibraries []*Library
+	for _, lib := range stager.rootLibrary.SubLibraries {
+		if !isSubLibrary[lib] {
+			filteredRootLibraries = append(filteredRootLibraries, lib)
+		} else {
+			stager.probeForm.AddNotification(time.Now(),
+				fmt.Sprintf("Library %s is a sub-library, removing it from root.SubLibraries", lib.Name))
+			needCommit = true
+		}
+	}
+	if len(filteredRootLibraries) != len(stager.rootLibrary.SubLibraries) {
+		stager.rootLibrary.SubLibraries = filteredRootLibraries
+	}
+
 	// 5. Dependency DAG for Tasks and Products (Inputs/Outputs)
 	// Build a map of Product -> Tasks that consume it (InputProducts)
 	// This allows us to traverse the "Product -> Task" edge efficiently
