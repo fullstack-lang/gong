@@ -99,12 +99,6 @@ func (probe *Probe) updateFillUpForm() {
 			} else {
 				FillUpFormFromGongstruct(onSave.resourcetaskshape, probe)
 			}
-		case *RootFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Root", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.root, probe)
-			}
 		case *TaskFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "Task", true)
@@ -339,19 +333,6 @@ func FillUpFormFromGongstructName(
 		resourcetaskshape := new(models.ResourceTaskShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(resourcetaskshape, formGroup, probe)
-	case "Root":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Root Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__RootFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		root := new(models.Root)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(root, formGroup, probe)
 	case "Task":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

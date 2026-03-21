@@ -1,6 +1,9 @@
 package models
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 // enforceComputedPrefix checks that for every [models.Product] and [models.Task] present
 // in a DAG attached to the root, the [models.Product.ComputedPrefix]
@@ -9,46 +12,62 @@ import "fmt"
 //
 // if a ComputedPrefix has to be changed, returns true
 func (stager *Stager) enforceComputedPrefix() (needCommit bool) {
-	root := stager.root
 
-	for _, library := range root.Libraries {
-		needCommit = numberNodes(library.RootProducts, "", []int{}, func(p *Product) []*Product { return p.SubProducts }) || needCommit
-		needCommit = numberNodes(library.RootTasks, "", []int{}, func(t *Task) []*Task { return t.SubTasks }) || needCommit
-		needCommit = numberNodes(library.Notes, "", []int{}, func(n *Note) []*Note { return nil }) || needCommit
-		needCommit = numberNodes(library.RootResources, "", []int{}, func(r *Resource) []*Resource { return r.SubResources }) || needCommit
+	for library := range *GetGongstructInstancesSetFromPointerType[*Library](stager.stage) {
+		needCommit = numberNodes(stager, library.RootProducts, "", []int{}, func(p *Product) []*Product { return p.SubProducts }, make(map[*Product]bool)) || needCommit
+		needCommit = numberNodes(stager, library.RootTasks, "", []int{}, func(t *Task) []*Task { return t.SubTasks }, make(map[*Task]bool)) || needCommit
+		needCommit = numberNodes(stager, library.Notes, "", []int{}, func(n *Note) []*Note { return nil }, make(map[*Note]bool)) || needCommit
+		needCommit = numberNodes(stager, library.RootResources, "", []int{}, func(r *Resource) []*Resource { return r.SubResources }, make(map[*Resource]bool)) || needCommit
+		needCommit = numberNodes(stager, library.Diagrams, "", []int{}, func(d *Diagram) []*Diagram { return nil }, make(map[*Diagram]bool)) || needCommit
+		// needCommit = numberNodes(stager, library.SubLibraries, "", []int{}, func(l *Library) []*Library { return l.SubLibraries }, make(map[*Library]bool))
 	}
 
 	return
 }
 
-func numberNodes[T AbstractType](
+func numberNodes[T interface {
+	AbstractType
+	comparable
+}](
+	stager *Stager,
 	nodes []T,
 	stringPrefix string,
 	intPrefix []int,
 	getChildren func(T) []T,
+	visited map[T]bool,
 ) (needCommit bool) {
-	for i, node := range nodes {
+	index := 0
+	for _, node := range nodes {
+		if visited[node] {
+			continue
+		}
+		visited[node] = true
+
 		var nodePrefix string
 		if stringPrefix == "" {
-			nodePrefix = fmt.Sprintf("%d", i+1)
+			nodePrefix = fmt.Sprintf("%d", index+1)
 		} else {
-			nodePrefix = fmt.Sprintf("%s.%d", stringPrefix, i+1)
+			nodePrefix = fmt.Sprintf("%s.%d", stringPrefix, index+1)
 		}
 
 		// compute intPrefix
 		// we need a copy of the slice to avoid polluting the slice for other siblings
 		nodeIntPrefix := make([]int, len(intPrefix))
 		copy(nodeIntPrefix, intPrefix)
-		nodeIntPrefix = append(nodeIntPrefix, i)
+		nodeIntPrefix = append(nodeIntPrefix, index)
 
-		if node.GetComputedPrefix() != nodePrefix {
+		if oldComputedPrefix := node.GetComputedPrefix(); oldComputedPrefix != nodePrefix {
 			node.SetComputedPrefix(nodePrefix)
 			needCommit = true
+			if stager.probeForm != nil {
+				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("number node renamed prefix of object \"%s\" to \"%s\"",
+					oldComputedPrefix, node.GetComputedPrefix()))
+			}
 		}
 
 		node.SetComputedPrefixInt(nodeIntPrefix)
 
-		if numberNodes(getChildren(node), nodePrefix, nodeIntPrefix, getChildren) {
+		if numberNodes(stager, getChildren(node), nodePrefix, nodeIntPrefix, getChildren, visited) {
 			needCommit = true
 		}
 
@@ -65,6 +84,8 @@ func numberNodes[T AbstractType](
 			}
 			node.SetComputedWidth(width)
 		}
+
+		index++
 	}
 	return
 }

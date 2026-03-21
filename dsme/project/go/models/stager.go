@@ -27,7 +27,7 @@ type Stager struct {
 	splitStage *split.Stage
 	probeForm  ProbeIF
 
-	root *Root
+	rootLibrary *Library
 
 	treeStage   *tree.Stage
 	svgStage    *svg.Stage

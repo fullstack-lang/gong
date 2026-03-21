@@ -61,8 +61,8 @@ func addAddItemButton[
 			}
 
 			// if the created item is a project, add a diagram to it
-			if newProject, ok := any(newItem).(*Library); ok {
-				newProject.IsExpanded = true
+			if newLibrary, ok := any(newItem).(*Library); ok {
+				newLibrary.IsExpanded = true
 				for diagram_ := range *GetGongstructInstancesSet[Diagram](stager.stage) {
 					diagram_.IsChecked = false
 				}
@@ -75,7 +75,7 @@ func addAddItemButton[
 					},
 				}
 				newDiagram.StageVoid(stager.stage)
-				newProject.Diagrams = append(newProject.Diagrams, newDiagram)
+				newLibrary.Diagrams = append(newLibrary.Diagrams, newDiagram)
 			}
 
 			// stager.probeForm.SetCommitMode(false), no need yet
