@@ -208,7 +208,8 @@ func EnforceTree[T comparable](
 				// Child already has a parent, remove from this node
 				removeChild(node, child)
 				stager.probeForm.AddNotification(time.Now(),
-					fmt.Sprintf("Node %s has multiple parents (including %s), breaking edge from %s", getName(child), getName(existingParent), getName(node)))
+					fmt.Sprintf("Node \"%s\" has 2 parents ; \"%s\" and \"%s\". Link to the later is deleted",
+						getName(child), getName(existingParent), getName(node)))
 				needCommit = true
 			} else {
 				parentMap[child] = node
