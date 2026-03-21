@@ -122,8 +122,8 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 				oldParent.SubProducts = slices.Delete(oldParent.SubProducts, idx, idx+1)
 			}
 		} else {
-			if idx := slices.Index(subProduct.OwningLibrary.RootProducts, subProduct); idx != -1 {
-				subProduct.OwningLibrary.RootProducts = slices.Delete(subProduct.OwningLibrary.RootProducts, idx, idx+1)
+			if idx := slices.Index(subProduct.GetOwningLibrary().RootProducts, subProduct); idx != -1 {
+				subProduct.GetOwningLibrary().RootProducts = slices.Delete(subProduct.GetOwningLibrary().RootProducts, idx, idx+1)
 			}
 		}
 
@@ -141,8 +141,8 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 				oldParent.SubTasks = slices.Delete(oldParent.SubTasks, idx, idx+1)
 			}
 		} else {
-			if idx := slices.Index(subTask.OwningLibrary.RootTasks, subTask); idx != -1 {
-				subTask.OwningLibrary.RootTasks = slices.Delete(subTask.OwningLibrary.RootTasks, idx, idx+1)
+			if idx := slices.Index(subTask.GetOwningLibrary().RootTasks, subTask); idx != -1 {
+				subTask.GetOwningLibrary().RootTasks = slices.Delete(subTask.GetOwningLibrary().RootTasks, idx, idx+1)
 			}
 		}
 
@@ -195,8 +195,8 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 				oldParent.SubResources = slices.Delete(oldParent.SubResources, idx, idx+1)
 			}
 		} else {
-			if idx := slices.Index(subResource.OwningLibrary.RootResources, subResource); idx != -1 {
-				subResource.OwningLibrary.RootResources = slices.Delete(subResource.OwningLibrary.RootResources, idx, idx+1)
+			if idx := slices.Index(subResource.GetOwningLibrary().RootResources, subResource); idx != -1 {
+				subResource.GetOwningLibrary().RootResources = slices.Delete(subResource.GetOwningLibrary().RootResources, idx, idx+1)
 			}
 		}
 
@@ -219,5 +219,4 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 
 	// commit to encode the result, this will generate a new SVG generation
 	stager.stage.Commit()
-
 }

@@ -456,8 +456,6 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "OwningLibrary":
-		GongUnmarshallPointer(&instance.OwningLibrary, valueExpr, identifierMap)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsInRenameMode":
@@ -553,8 +551,6 @@ func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "OwningLibrary":
-		GongUnmarshallPointer(&instance.OwningLibrary, valueExpr, identifierMap)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsInRenameMode":
@@ -604,8 +600,6 @@ func (u *NoteUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "OwningLibrary":
-		GongUnmarshallPointer(&instance.OwningLibrary, valueExpr, identifierMap)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsInRenameMode":
@@ -825,8 +819,6 @@ func (u *ProductUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "OwningLibrary":
-		GongUnmarshallPointer(&instance.OwningLibrary, valueExpr, identifierMap)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsInRenameMode":
@@ -956,8 +948,6 @@ func (u *ResourceUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "OwningLibrary":
-		GongUnmarshallPointer(&instance.OwningLibrary, valueExpr, identifierMap)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsInRenameMode":
@@ -1130,8 +1120,6 @@ func (u *TaskUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "OwningLibrary":
-		GongUnmarshallPointer(&instance.OwningLibrary, valueExpr, identifierMap)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsInRenameMode":

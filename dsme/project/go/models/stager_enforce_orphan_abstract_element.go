@@ -16,7 +16,7 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 			return roots
 		},
 		func(product *Product) {
-			product.GetOwnlingLibrary().RootProducts = append(product.GetOwnlingLibrary().RootProducts, product)
+			product.GetOwningLibrary().RootProducts = append(product.GetOwningLibrary().RootProducts, product)
 		},
 		func(product *Product) []*Product {
 			return product.SubProducts
@@ -33,7 +33,7 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 			return roots
 		},
 		func(task *Task) {
-			task.GetOwnlingLibrary().RootTasks = append(task.GetOwnlingLibrary().RootTasks, task)
+			task.GetOwningLibrary().RootTasks = append(task.GetOwningLibrary().RootTasks, task)
 		},
 		func(task *Task) []*Task {
 			return task.SubTasks
@@ -50,7 +50,7 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 			return roots
 		},
 		func(note *Note) {
-			note.GetOwnlingLibrary().Notes = append(note.GetOwnlingLibrary().Notes, note)
+			note.GetOwningLibrary().Notes = append(note.GetOwningLibrary().Notes, note)
 		},
 		func(note *Note) []*Note {
 			return []*Note{}
@@ -67,7 +67,7 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 			return roots
 		},
 		func(resource *Resource) {
-			resource.GetOwnlingLibrary().RootResources = append(resource.GetOwnlingLibrary().RootResources, resource)
+			resource.GetOwningLibrary().RootResources = append(resource.GetOwningLibrary().RootResources, resource)
 		},
 		func(resource *Resource) []*Resource {
 			return resource.SubResources
@@ -84,7 +84,7 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 			return roots
 		},
 		func(diagram *Diagram) {
-			diagram.GetOwnlingLibrary().Diagrams = append(diagram.GetOwnlingLibrary().Diagrams, diagram)
+			diagram.GetOwningLibrary().Diagrams = append(diagram.GetOwningLibrary().Diagrams, diagram)
 		},
 		func(diagram *Diagram) []*Diagram {
 			return []*Diagram{}
@@ -97,8 +97,12 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 			return stager.rootLibrary.SubLibraries
 		},
 		func(library *Library) {
-			stager.rootLibrary.SubLibraries = append(stager.rootLibrary.SubLibraries, library)
-			library.SetOwningLibrary(stager.rootLibrary)
+			// attach to root, only if it is not the root library
+			// (which is the only one without an owning library)
+			if library != stager.rootLibrary {
+				stager.rootLibrary.SubLibraries = append(stager.rootLibrary.SubLibraries, library)
+				library.SetOwningLibrary(stager.rootLibrary)
+			}
 		},
 		func(library *Library) []*Library {
 			return []*Library{}
@@ -143,15 +147,12 @@ func reattachToLibraryRoots[T interface {
 	// 2. Find all nodes and delete them
 	for _, object := range GetGongstrucsSorted[T](stager.stage) {
 		if _, ok := reachable[object]; !ok {
-			// attach to root, only if it is not the root library (which is the only one without an owning library)
-
-			if any(object) == any(stager.rootLibrary) {
-				continue
+			if object != any(stager.rootLibrary) {
+				appendToRoot(object)
+				needCommit = true
+				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Orphan %s %s, was reattached to the root of library %s",
+					object.GongGetGongstructName(), object.GetName(), object.GetOwningLibrary().GetName()))
 			}
-			appendToRoot(object)
-			needCommit = true
-			stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Orphan %s %s, was reattached to the root of library %s",
-				object.GongGetGongstructName(), object.GetName(), object.GetOwnlingLibrary().GetName()))
 		}
 	}
 

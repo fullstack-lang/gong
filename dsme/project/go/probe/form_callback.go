@@ -66,8 +66,6 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(diagram_.Name), formDiv)
-		case "OwningLibrary":
-			FormDivSelectFieldToField(&(diagram_.OwningLibrary), diagramFormCallback.probe.stageOfInterest, formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(diagram_.ComputedPrefix), formDiv)
 		case "IsInRenameMode":
@@ -829,8 +827,6 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(library_.Name), formDiv)
-		case "OwningLibrary":
-			FormDivSelectFieldToField(&(library_.OwningLibrary), libraryFormCallback.probe.stageOfInterest, formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(library_.ComputedPrefix), formDiv)
 		case "IsInRenameMode":
@@ -1169,8 +1165,6 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(note_.Name), formDiv)
-		case "OwningLibrary":
-			FormDivSelectFieldToField(&(note_.OwningLibrary), noteFormCallback.probe.stageOfInterest, formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(note_.ComputedPrefix), formDiv)
 		case "IsInRenameMode":
@@ -2118,8 +2112,6 @@ func (productFormCallback *ProductFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(product_.Name), formDiv)
-		case "OwningLibrary":
-			FormDivSelectFieldToField(&(product_.OwningLibrary), productFormCallback.probe.stageOfInterest, formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(product_.ComputedPrefix), formDiv)
 		case "IsInRenameMode":
@@ -2953,8 +2945,6 @@ func (resourceFormCallback *ResourceFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(resource_.Name), formDiv)
-		case "OwningLibrary":
-			FormDivSelectFieldToField(&(resource_.OwningLibrary), resourceFormCallback.probe.stageOfInterest, formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(resource_.ComputedPrefix), formDiv)
 		case "IsInRenameMode":
@@ -3843,8 +3833,6 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(task_.Name), formDiv)
-		case "OwningLibrary":
-			FormDivSelectFieldToField(&(task_.OwningLibrary), taskFormCallback.probe.stageOfInterest, formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(task_.ComputedPrefix), formDiv)
 		case "IsInRenameMode":

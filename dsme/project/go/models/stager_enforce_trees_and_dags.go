@@ -7,7 +7,6 @@ import (
 )
 
 func (stager *Stager) enforceTreesAndDAG() (needCommit bool) {
-
 	products := GetGongstrucsSorted[*Product](stager.stage)
 
 	// 1. Hierarchy Tree for Product
@@ -80,6 +79,9 @@ func (stager *Stager) enforceTreesAndDAG() (needCommit bool) {
 	// remove libraries from root.Libraries if they are a sub-library of another library
 	isSubLibrary := make(map[*Library]bool)
 	for _, library := range libraries {
+		if library == stager.rootLibrary {
+			continue
+		}
 		for _, sub := range library.SubLibraries {
 			isSubLibrary[sub] = true
 		}
@@ -234,7 +236,6 @@ func EnforceDAG[T comparable](
 	removeChild func(parent T, child T),
 	getName func(T) string,
 ) (needCommit bool) {
-
 	// Sets for DFS cycle detection
 	whiteSet := make(map[T]struct{}) // Not visited
 	graySet := make(map[T]struct{})  // Visiting (current path)
