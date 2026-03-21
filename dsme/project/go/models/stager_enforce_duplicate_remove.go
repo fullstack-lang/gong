@@ -7,7 +7,7 @@ import "time"
 func (stager *Stager) enforceDuplicateRemove() (needCommit bool) {
 	stage := stager.stage
 
-	needCommit = removeDuplicatesSlice(stager, &stager.root.Libraries) || needCommit
+	needCommit = removeDuplicatesSlice(stager, &stager.rootLibrary.SubLibraries) || needCommit
 
 	for diagram := range *GetGongstructInstancesSetFromPointerType[*Diagram](stage) {
 		needCommit = removeDuplicatesSlice(stager, &diagram.Product_Shapes) || needCommit

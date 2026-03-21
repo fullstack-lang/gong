@@ -2,6 +2,7 @@ package models
 
 import (
 	"fmt"
+	"log"
 	"time"
 )
 
@@ -16,6 +17,13 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 
 	pass := 0
 	for {
+		if pass > 10 {
+			log.Println("enforceSemantic reached 10 passes. Breaking loop.")
+			if stager.probeForm != nil {
+				stager.probeForm.AddNotification(time.Now(), "Semantic enforcement reached maximum number of passes (10). Breaking loop.")
+			}
+			break
+		}
 		if stager.enforceSemanticOnePass(false, stage) {
 			needCommit = true
 			if stager.probeForm != nil {
@@ -46,27 +54,32 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		name string
 		fn   func() bool
 	}{
+		// abstract semantic check
+
 		// VERY important because the probe only unstages objects
 		// this is the Clean that delete them from slices and pointers that reference
 		// them. If the checkout is not performed, the stage might be dirty
 		// with slices of pointer or pointer to unstaged instance
 		{"stage.Clean", func() bool { return stage.Clean() }},
-		{"enforceRootSingloton", stager.enforceRootSingloton},
+		{"enforceRootSingloton", stager.enforceThereIsADefaultLibrary},
 		{"enforceOrphansAbstractElement", stager.enforceOrphansAbstractElement},
 		{"enforceDefaultValues", stager.enforceDefaultValues},
 		{"enforceTreesAndDAG", stager.enforceTreesAndDAG},
-		{"enforceComputedPrefix", stager.enforceComputedPrefix},
-		// enforce visibility will unstage shapes that are not visible
-		// and indirectly shapes whose abstract element is not staged (because they are not visible)
+		{"enforceTaskInputOutputLibraryConsistency", stager.enforceTaskInputOutputLibraryConsistency},
+		{"enforceDuplicateRemove", stager.enforceDuplicateRemove},
+
+		// concrete semantic check
+
 		{"enforceVisibility", stager.enforceVisibility},
 		{"enforceRelationDuplicates", stager.enforceRelationDuplicates},
 		{"enforceNodeShapeDuplicates", stager.enforceNodeShapeDuplicates},
 		{"enforceShapeOrphans", stager.enforceShapeOrphans},
-		{"enforceShapesAbstractConsistency", func() bool { return stager.enforceShapesAbstractConsistency(stage, false) }},
+		{"enforceShapesAbstractConsistency", stager.enforceShapesAbstractConsistency},
 		{"enforceDiagramSize", stager.enforceDiagramSize},
 		{"enforceAssociationShapeConsistency", stager.enforceAssociationShapeConsistency},
-		{"enforceTaskInputOutputLibraryConsistency", stager.enforceTaskInputOutputLibraryConsistency},
-		{"enforceDuplicateRemove", stager.enforceDuplicateRemove},
+
+		// to be performed at the end
+		{"enforceComputedPrefix", stager.enforceComputedPrefix},
 	}
 
 	for _, method := range methods {
@@ -82,24 +95,20 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 	return needCommit
 }
 
-func (stager *Stager) enforceRootSingloton() (needCommit bool) {
+func (stager *Stager) enforceThereIsADefaultLibrary() (needCommit bool) {
 	stage := stager.stage
-	// Ensures that there is one and only one root
-	// prune the other
-	// check that there is at least one root
-	// and that one can safely access stager.root
-	roots := GetGongstrucsSorted[*Root](stage)
-	if len(roots) == 0 {
-		stager.root = (&Root{Name: "Root"}).Stage(stage)
-		needCommit = true
-	} else {
-		stager.root = roots[0]
-		if len(roots) > 1 {
-			for _, root := range roots[1:] {
-				root.Unstage(stage)
-				needCommit = true
-			}
+	libraries := GetGongstrucsSorted[*Library](stage)
+	if len(libraries) == 0 {
+		stager.rootLibrary = (&Library{Name: "Root Library"}).Stage(stage)
+		if stager.probeForm != nil {
+			stager.probeForm.AddNotification(time.Now(),
+				"Created root library")
 		}
+		needCommit = true
 	}
+	if stager.rootLibrary == nil {
+		stager.rootLibrary = libraries[0]
+	}
+
 	return
 }

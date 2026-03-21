@@ -14,18 +14,18 @@ type AbstractType interface {
 }
 
 type AbstractTypeFields struct {
-	IsExpanded bool // to be made private once in production (no need to persist)
 
 	// ComputedPrefix is automaticaly computed by the semantic enforcing mechanism
 	ComputedPrefix string
 	computedPrefix []int
 
+	// nodes can be edited
+	IsInRenameMode bool
+	IsExpanded     bool // to be made private once in production (no need to persist)
+
 	// When the full PBS is displayed, the computedWidth is the number of node
 	// aligned below. A leaf node has a computedWidth of 1
 	computedWidth int
-
-	// nodes can be edited
-	IsInRenameMode bool
 }
 
 func (r *AbstractTypeFields) GetComputedWidth() int {
