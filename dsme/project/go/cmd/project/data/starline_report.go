@@ -20,7 +20,6 @@ var _ map[string]any = map[string]any{
 
 // function will stage objects
 func _(stage *models.Stage) {
-
 	// insertion point for declaration of instances to stage
 
 	__Diagram__00000000_ := (&models.Diagram{Name: `Default Diagram`}).Stage(stage)
@@ -378,7 +377,7 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 
 	__ResourceTaskShape__00000000_ := (&models.ResourceTaskShape{Name: `PITProgram Investigation Team (PIT) to Mishap investigation`}).Stage(stage)
 
-	__Root__00000000_ := (&models.Root{Name: `Root`}).Stage(stage)
+	__Root__00000000_ := (&models.Library{Name: `Root`}).Stage(stage)
 
 	__Task__00000000_ := (&models.Task{Name: `Starliner Crewed Flight Test (CFT)`}).Stage(stage)
 	__Task__00000001_ := (&models.Task{Name: `Mishap investigations`}).Stage(stage)
@@ -3193,7 +3192,7 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__ResourceShape__00000015_.Resource = __Resource__00000010_
 	__ResourceTaskShape__00000000_.Resource = __Resource__00000000_
 	__ResourceTaskShape__00000000_.Task = __Task__00000001_
-	__Root__00000000_.Libraries = append(__Root__00000000_.Libraries, __Project__00000000_)
+	__Root__00000000_.SubLibraries = append(__Root__00000000_.SubLibraries, __Project__00000000_)
 	__Task__00000000_.SubTasks = append(__Task__00000000_.SubTasks, __Task__00000007_)
 	__Task__00000001_.SubTasks = append(__Task__00000001_.SubTasks, __Task__00000004_)
 	__Task__00000002_.SubTasks = append(__Task__00000002_.SubTasks, __Task__00000005_)

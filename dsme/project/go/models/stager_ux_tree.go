@@ -1,6 +1,8 @@
 package models
 
 import (
+	"log"
+
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 
 	"github.com/fullstack-lang/gong/lib/tree/go/buttons"
@@ -13,26 +15,40 @@ func (stager *Stager) tree() {
 
 	treeInstance := &tree.Tree{Name: "Library Tree"}
 
-	allLibrariesNode := &tree.Node{
-		Name:       "** Tree of Libraries **",
-		IsExpanded: true,
-	}
 	stager.probeForm.AddCommitNavigationNode(func(gni GongNodeIF) {
 		treeInstance.RootNodes = append(treeInstance.RootNodes, gni.(*tree.Node))
 	})
-	treeInstance.RootNodes = append(treeInstance.RootNodes, allLibrariesNode)
 
-	addAddItemButton(stager, nil, nil, nil, allLibrariesNode, &rootLibrary.SubLibraries, nil, &[]*ProductShape{}, &[]*ProductCompositionShape{})
+	stager.treeLibrary(treeInstance, rootLibrary, nil)
 
-	for _, library := range rootLibrary.SubLibraries {
+	tree.StageBranch(stager.treeStage, treeInstance)
+
+	stager.treeStage.Commit()
+}
+
+func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, parentNode *tree.Node) {
+	var libraryNode *tree.Node
+
+	if parentNode == nil {
+		if library != stager.rootLibrary {
+			log.Panic("the only node without a parent")
+		}
+		libraryNode = &tree.Node{
+			Name:       "** Tree of Libraries **",
+			IsExpanded: true,
+		}
+		treeInstance.RootNodes = append(treeInstance.RootNodes, libraryNode)
+		addAddItemButton(stager, nil, nil, nil, libraryNode, &library.SubLibraries, nil, &[]*ProductShape{}, &[]*ProductCompositionShape{})
+	} else {
 		libraryNode := &tree.Node{
 			Name:            library.Name,
 			IsExpanded:      library.IsExpanded,
 			IsNodeClickable: true,
 		}
-		treeInstance.RootNodes = append(treeInstance.RootNodes, libraryNode)
+		parentNode.Children = append(parentNode.Children, libraryNode)
 		libraryNode.OnUpdate = stager.OnUpdateLibrary(library)
 
+		addAddItemButton(stager, nil, nil, &library.IsExpanded, libraryNode, &library.SubLibraries, nil, &[]*ProductShape{}, &[]*ProductCompositionShape{})
 		addAddItemButton(stager, nil, nil, &library.IsExpanded, libraryNode, &library.Diagrams, nil, &[]*ProductShape{}, &[]*ProductCompositionShape{})
 
 		for _, diagram := range library.Diagrams {
@@ -332,12 +348,11 @@ func (stager *Stager) tree() {
 				}
 			}
 		}
-
 	}
 
-	tree.StageBranch(stager.treeStage, treeInstance)
-
-	stager.treeStage.Commit()
+	for _, subLibrary := range library.SubLibraries {
+		stager.treeLibrary(treeInstance, subLibrary, libraryNode)
+	}
 }
 
 // Helper callbacks

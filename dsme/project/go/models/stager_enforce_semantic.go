@@ -8,10 +8,11 @@ import (
 
 func (stager *Stager) enforceSemantic() (needCommit bool) {
 	stage := stager.stage
+	needCommit = stager.enforceThereIsADefaultLibrary() || needCommit
 
 	// computes fields that are not persisted
 	stager.enforceProducersConsumers()
-	stager.enforceLibrariesObject()
+	stager.enforceOwningLibraryAndObjects()
 	stager.enforceDiagramMaps()
 	stager.enforceParentAssociation()
 
@@ -37,7 +38,7 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 
 	// computes fields that are not persisted
 	stager.enforceProducersConsumers()
-	stager.enforceLibrariesObject()
+	stager.enforceOwningLibraryAndObjects()
 	stager.enforceDiagramMaps()
 	stager.enforceParentAssociation()
 
@@ -61,7 +62,6 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		// them. If the checkout is not performed, the stage might be dirty
 		// with slices of pointer or pointer to unstaged instance
 		{"stage.Clean", func() bool { return stage.Clean() }},
-		{"enforceRootSingloton", stager.enforceThereIsADefaultLibrary},
 		{"enforceOrphansAbstractElement", stager.enforceOrphansAbstractElement},
 		{"enforceDefaultValues", stager.enforceDefaultValues},
 		{"enforceTreesAndDAG", stager.enforceTreesAndDAG},
@@ -97,7 +97,7 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 
 func (stager *Stager) enforceThereIsADefaultLibrary() (needCommit bool) {
 	stage := stager.stage
-	libraries := GetGongstrucsSorted[*Library](stage)
+	libraries := GetStructInstancesByOrderAuto[*Library](stage)
 	if len(libraries) == 0 {
 		stager.rootLibrary = (&Library{Name: "Root Library"}).Stage(stage)
 		if stager.probeForm != nil {
@@ -107,7 +107,7 @@ func (stager *Stager) enforceThereIsADefaultLibrary() (needCommit bool) {
 		needCommit = true
 	}
 	if stager.rootLibrary == nil {
-		stager.rootLibrary = libraries[0]
+		stager.rootLibrary = libraries[0] // The first library is the root library
 	}
 
 	return

@@ -28,20 +28,20 @@ type Library struct {
 }
 
 type LibraryAbstractFields struct {
-	OwningLibrary *Library
+	owningLibrary *Library
 }
 
 type LibraryOwnedType interface {
-	GetOwnlingLibrary() *Library
+	GetOwningLibrary() *Library
 	SetOwningLibrary(library *Library)
 }
 
-func (r *LibraryAbstractFields) GetOwnlingLibrary() *Library {
-	return r.OwningLibrary
+func (r *LibraryAbstractFields) GetOwningLibrary() *Library {
+	return r.owningLibrary
 }
 
 func (r *LibraryAbstractFields) SetOwningLibrary(library *Library) {
-	r.OwningLibrary = library
+	r.owningLibrary = library
 }
 
 type Diagram struct {
