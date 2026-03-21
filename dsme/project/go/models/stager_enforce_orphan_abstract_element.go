@@ -119,7 +119,7 @@ func reattachToLibraryRoots[T interface {
 }](
 	stager *Stager,
 	getRoots func() []T,
-	appendToRoot func(T),
+	attachDirectlyToLibraryRoot func(T),
 	getChildren func(T) []T,
 ) (needCommit bool) {
 	// 1. Find all reachable nodes
@@ -148,10 +148,10 @@ func reattachToLibraryRoots[T interface {
 	for _, object := range GetGongstrucsSorted[T](stager.stage) {
 		if _, ok := reachable[object]; !ok {
 			if object != any(stager.rootLibrary) {
-				appendToRoot(object)
+				attachDirectlyToLibraryRoot(object)
 				needCommit = true
-				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Orphan %s %s, was reattached to the root of library %s",
-					object.GongGetGongstructName(), object.GetName(), object.GetOwningLibrary().GetName()))
+				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Orphan \"%s\" of type \"%s\", was attached to library \"%s\"",
+					object.GetName(), object.GongGetGongstructName(), object.GetOwningLibrary().GetName()))
 			}
 		}
 	}

@@ -12,6 +12,7 @@ func (stager *Stager) tree() {
 	stager.treeStage.Reset()
 
 	rootLibrary := stager.rootLibrary
+	_ = rootLibrary
 
 	treeInstance := &tree.Tree{Name: "Library Tree"}
 
