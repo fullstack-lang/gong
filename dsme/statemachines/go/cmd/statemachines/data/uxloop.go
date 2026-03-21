@@ -134,7 +134,7 @@ func _(stage *models.Stage) {
 	__Object__00000000_.Name = `01/MI DOF/ 2026-03-22 DEP/ 032139`
 	__Object__00000000_.IsSelected = true
 	__Object__00000000_.Rank = 0
-	__Object__00000000_.DOF, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-22 03:21:39.315945 +0100 CET m=+86784.000204293")
+	__Object__00000000_.DOF, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 
 	__State__00000000_.Name = `Probe Form`
 	__State__00000000_.IsDecisionNode = false

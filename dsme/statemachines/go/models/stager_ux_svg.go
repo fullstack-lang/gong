@@ -57,6 +57,9 @@ func (stager *Stager) svg() {
 	}
 
 	for _, stateShape := range diagram.State_Shapes {
+		if stateShape.GetIsHidden() {
+			continue
+		}
 
 		if stateShape.State == nil {
 			continue
@@ -86,6 +89,10 @@ func (stager *Stager) svg() {
 
 		startRect := map_State_Rect[transition.Start]
 		endRect := map_State_Rect[transition.End]
+
+		if startRect == nil || endRect == nil {
+			continue
+		}
 
 		stager.svgGenerateLink(
 			startRect, endRect,
