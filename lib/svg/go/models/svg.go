@@ -33,7 +33,9 @@ type SVG struct {
 	IsSVGBackEndFileGenerated          bool
 	DefaultDirectoryForGeneratedImages string
 
-	Impl SVGImplInterface
+	// Deprecated
+	Impl     SVGImplInterface
+	OnUpdate func(frontSVG *SVG)
 
 	// IsControlBannerHidden control the appearance of the control banner on top of the svg
 	// it can be usefull if one does not need to control the zoom, shift x and shift y, ...
@@ -53,6 +55,10 @@ func (svg *SVG) OnAfterUpdate(stage *Stage, _, frontSVG *SVG) {
 
 	if svg.Impl != nil {
 		svg.Impl.SVGUpdated(frontSVG)
+	}
+
+	if svg.OnUpdate != nil {
+		svg.OnUpdate(frontSVG)
 	}
 
 	// below is an example of working interception
@@ -84,8 +90,6 @@ func (svg *SVG) OnAfterUpdate(stage *Stage, _, frontSVG *SVG) {
 			log.Println("SVG generation request failed", err.Error())
 		}
 	}
-
-	return
 }
 
 func closestMidpoints(r1, r2 *Rect) *Line {

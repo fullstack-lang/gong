@@ -134,7 +134,6 @@ func generatePointPointSegment(start Point, end Point, orientation OrientationTy
 func generatePointRectSegment(
 	point Point,
 	rect *Rect,
-	link *Link,
 	direction OrientationType,
 	cornerRadius float64,
 	number int,
@@ -165,17 +164,4 @@ func generatePointRectSegment(
 		segment = swapSegment(segment)
 	}
 	return segment
-}
-
-func getAnchorPoint(rect *Rect, _ AnchorType, orientation OrientationType, ratio float64) (x, y float64) {
-	if orientation == ORIENTATION_HORIZONTAL {
-		y = rect.Y + ratio*rect.Height
-		x = rect.X
-	} else if orientation == ORIENTATION_VERTICAL {
-		x = rect.X + ratio*rect.Width
-		y = rect.Y
-	} else {
-		x, y = rect.X+rect.Width/2, rect.Y+rect.Height/2
-	}
-	return
 }

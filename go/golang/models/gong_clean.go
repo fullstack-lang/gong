@@ -16,6 +16,8 @@ import (
 const GongCleanTemplate = `// generated code - do not edit
 package models
 
+import "time"
+
 // GongCleanSlice removes unstaged elements from a slice of pointers of type T.
 // T must be a pointer to a struct that implements PointerToGongstruct.
 func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice *[]T) (modified bool) {
@@ -57,6 +59,11 @@ func GongCleanPointer[T PointerToGongstruct](stage *Stage, element *T) (modified
 func (stage *Stage) Clean() (modified bool) {
 	for _, instance := range stage.GetInstances() {
 		modified = instance.GongClean(stage) || modified
+	}
+	if modified {
+		if stage.probeIF != nil {
+			stage.probeIF.AddNotification(time.Now(), "Stage clean generated a modification")
+		}
 	}
 	return
 }

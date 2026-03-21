@@ -53,11 +53,11 @@ func collectShapes[T comparable](shapes []T, reachable map[T]struct{}) {
 }
 
 func unstageUnreachableOrphans[T PointerToGongstruct](stager *Stager, reachable map[T]struct{}) (needCommit bool) {
-	for _, shape := range GetGongstrucsSorted[T](stager.stage) {
-		if _, ok := reachable[shape]; !ok {
-			shape.UnstageVoid(stager.stage)
+	for _, object := range GetGongstrucsSorted[T](stager.stage) {
+		if _, ok := reachable[object]; !ok {
+			object.UnstageVoid(stager.stage)
 			needCommit = true
-			stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaging orphan shape %s", shape.GetName()))
+			stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaging orphan object %s", object.GetName()))
 		}
 	}
 	return
