@@ -1,6 +1,9 @@
 package models
 
 import (
+	"log"
+	"slices"
+
 	"github.com/fullstack-lang/gong/lib/tree/go/buttons"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
@@ -166,22 +169,30 @@ func (stager *Stager) updateTreeDiagramStage() {
 				map_Transition__TransitionShape[transitionShape.Transition] = transitionShape
 			}
 
-			for _, state_ := range stateMachine.States {
+			for _, state := range stateMachine.States {
 				diagramStateNode := new(tree.Node)
-				diagramStateNode.Name = state_.Name
+				diagramStateNode.Name = state.Name
 				diagramStateNode.HasCheckboxButton = true
 				diagramStateNode.IsNodeClickable = true
 
 				var stateShape *StateShape
-				if stateShape_, ok := map_State__StateShape[state_]; ok {
+				var ok bool
+				if stateShape, ok = map_State__StateShape[state]; ok {
 					diagramStateNode.IsChecked = true
-					stateShape = stateShape_
-					diagramStateNode.IsExpanded = stateShape_.IsExpanded
+					diagramStateNode.IsExpanded = stateShape.IsExpanded
 
-					proxy := new(Diagram_Tree_StateShapeProxy)
-					diagramStateNode.Impl = proxy
-					proxy.stager = stager
-					proxy.stateShape = stateShape_
+					diagramStateNode.OnUpdate = func(_ *tree.Stage, stagedNode *tree.Node, frontNode *tree.Node) {
+						if frontNode.IsExpanded && !stagedNode.IsExpanded {
+							stagedNode.IsExpanded = frontNode.IsExpanded
+							stateShape.IsExpanded = true
+							stager.stage.Commit()
+						}
+						if !frontNode.IsExpanded && stagedNode.IsExpanded {
+							stagedNode.IsExpanded = frontNode.IsExpanded
+							stateShape.IsExpanded = false
+							stager.stage.Commit()
+						}
+					}
 
 					diagramStateNode.Buttons = append(diagramStateNode.Buttons,
 						&tree.Button{
@@ -191,12 +202,12 @@ func (stager *Stager) updateTreeDiagramStage() {
 							ToolTipPosition: tree.Above,
 							ToolTipText:     "Show State Shape",
 							OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
-								stateShape_.SetIsHidden(!stateShape_.GetIsHidden())
+								stateShape.SetIsHidden(!stateShape.GetIsHidden())
 								stager.stage.Commit()
 							},
 						},
 					)
-					if !stateShape_.GetIsHidden() {
+					if !stateShape.GetIsHidden() {
 						diagramStateNode.Buttons[0].Icon = string(buttons.BUTTON_visibility_off)
 						diagramStateNode.Buttons[0].ToolTipText = "Hide State Shape"
 					}
@@ -204,7 +215,7 @@ func (stager *Stager) updateTreeDiagramStage() {
 					// range over transitions that have the state as a source or target
 					// if the target is present, enable the check button
 					for _, transition_ := range transitionSlice {
-						if transition_.Start == state_ && transition_.End != nil {
+						if transition_.Start == state && transition_.End != nil {
 							transitionNode := new(tree.Node)
 							transitionNode.Name = transition_.Name + " --> " + transition_.End.Name
 							transitionNode.HasCheckboxButton = true
@@ -228,17 +239,64 @@ func (stager *Stager) updateTreeDiagramStage() {
 								transitionNode.IsCheckboxDisabled = true
 							}
 
+							transitionNode.Buttons = append(transitionNode.Buttons,
+								&tree.Button{
+									Name:            "Show Transition Shape",
+									Icon:            string(buttons.BUTTON_visibility),
+									HasToolTip:      true,
+									ToolTipPosition: tree.Above,
+									ToolTipText:     "Show Transition Shape",
+									OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+										transitionShape.SetIsHidden(!transitionShape.GetIsHidden())
+										stager.stage.Commit()
+									},
+								},
+							)
+							if !transitionShape.GetIsHidden() {
+								transitionNode.Buttons[0].Icon = string(buttons.BUTTON_visibility_off)
+								transitionNode.Buttons[0].ToolTipText = "Hide Transition Shape"
+							}
+
 							diagramStateNode.Children = append(diagramStateNode.Children, transitionNode)
 						}
 					}
 				}
 
-				p := new(DiagramTree_State_Proxy)
-				p.stager = stager
-				p.stateShape = stateShape
-				p.state = state_
-				p.diagram = diagram
-				diagramStateNode.Impl = p
+				diagramStateNode.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+					if frontNode.IsChecked && !stagedNode.IsChecked {
+
+						stagedNode.IsChecked = frontNode.IsChecked
+
+						// add the State_Shape
+						if stateShape != nil {
+							log.Fatalln("adding a shape to an already state shape")
+						}
+
+						newStateShapeToDiagram(state, diagram).Stage(stager.stage)
+
+						stager.stage.Commit()
+						return
+					}
+					if !frontNode.IsChecked && stagedNode.IsChecked {
+
+						stagedNode.IsChecked = frontNode.IsChecked
+
+						// one need to remove the State_Shape
+						if stateShape == nil {
+							log.Fatalln("remove a non existing shape to state")
+						}
+
+						stateShape.Unstage(stager.stage)
+
+						idx := slices.Index(diagram.State_Shapes, stateShape)
+						diagram.State_Shapes = slices.Delete(diagram.State_Shapes, idx, idx+1)
+
+						stager.stage.Commit()
+						return
+					}
+
+					stager.probeForm.FillUpFormFromGongstruct(state, "State")
+				}
 
 				diagramNode.Children = append(diagramNode.Children, diagramStateNode)
 			}
