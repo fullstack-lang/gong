@@ -81,6 +81,10 @@ func (stager *Stager) svg() {
 	}
 
 	for _, transtionShape := range diagram.Transition_Shapes {
+		if transtionShape.GetIsHidden() {
+			continue
+		}
+
 		transition := transtionShape.Transition
 
 		if transition == nil || transition.Start == nil || transition.End == nil {
