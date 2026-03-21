@@ -26,6 +26,8 @@ type Library struct {
 	LibraryAbstractFields
 
 	objects []AbstractType
+
+	SubLibraries []*Library
 }
 
 type LibraryAbstractFields struct {

@@ -1,7 +1,8 @@
 package models
 
-// enforceLibrariesObject recomputes the objects fields of all libraries
-// from the OwningLibrary field of the abstract types.
+// enforceLibrariesObject repopulates the "objects" collection field for each library
+// by gathering all abstract elements that declare it as their OwningLibrary.
+// It also assigns a default library to any abstract elements that are orphaned.
 func (stager *Stager) enforceLibrariesObject() {
 	stage := stager.stage
 

@@ -220,6 +220,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(library.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsInRenameMode"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "OwningLibrary"))
+		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "SubLibraries"))
 	}
 
 	noteOrdered := []*Note{}
@@ -1415,6 +1416,16 @@ func (library *Library) GongMarshallField(stage *Stage, fieldName string) (res s
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "OwningLibrary")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
+	case "SubLibraries":
+		var sb strings.Builder
+		for _, _library := range library.SubLibraries {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", library.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "SubLibraries")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _library.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Library", fieldName)
 	}
@@ -2813,6 +2824,7 @@ func (library *Library) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		initializerStatements.WriteString(library.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsInRenameMode"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "OwningLibrary"))
+		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "SubLibraries"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

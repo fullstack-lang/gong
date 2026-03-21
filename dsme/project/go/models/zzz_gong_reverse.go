@@ -23,6 +23,13 @@ func (inst *Library) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Re
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
+	case "Library":
+		switch reverseField.Fieldname {
+		case "SubLibraries":
+			if _library, ok := stage.Library_SubLibraries_reverseMap[inst]; ok {
+				res = _library.Name
+			}
+		}
 	case "Root":
 		switch reverseField.Fieldname {
 		case "Libraries":
@@ -431,6 +438,11 @@ func (inst *Library) GongGetReverseFieldOwner(stage *Stage, reverseField *Revers
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
+	case "Library":
+		switch reverseField.Fieldname {
+		case "SubLibraries":
+			res = stage.Library_SubLibraries_reverseMap[inst]
+		}
 	case "Root":
 		switch reverseField.Fieldname {
 		case "Libraries":

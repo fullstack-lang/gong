@@ -176,6 +176,8 @@ type Stage struct {
 
 	Library_Diagrams_reverseMap map[*Diagram]*Library
 
+	Library_SubLibraries_reverseMap map[*Library]*Library
+
 	OnAfterLibraryCreateCallback OnAfterCreateInterface[Library]
 	OnAfterLibraryUpdateCallback OnAfterUpdateInterface[Library]
 	OnAfterLibraryDeleteCallback OnAfterDeleteInterface[Library]
@@ -4295,6 +4297,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Notes: []*Note{{Name: "Notes"}},
 			// field is initialized with an instance of Diagram with the name of the field
 			Diagrams: []*Diagram{{Name: "Diagrams"}},
+			// field is initialized with an instance of Library with the name of the field
+			SubLibraries: []*Library{{Name: "SubLibraries"}},
 			// field is initialized with LibraryAbstractFields problem with composites
 
 		}).(*Type)
@@ -5194,6 +5198,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "SubLibraries":
+			res := make(map[*Library][]*Library)
+			for library := range stage.Librarys {
+				for _, library_ := range library.SubLibraries {
+					res[library_] = append(res[library_], library)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Note
 	case Note:
@@ -5442,6 +5454,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *Library:
 		var rf ReverseField
 		_ = rf
+		rf.GongstructName = "Library"
+		rf.Fieldname = "SubLibraries"
+		res = append(res, rf)
 		rf.GongstructName = "Root"
 		rf.Fieldname = "Libraries"
 		res = append(res, rf)
@@ -5814,6 +5829,11 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:                 "OwningLibrary",
 			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Library",
+		},
+		{
+			Name:                 "SubLibraries",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Library",
 		},
 	}
@@ -6994,6 +7014,16 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		if library.OwningLibrary != nil {
 			res.valueString = library.OwningLibrary.Name
 			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(library.OwningLibrary), uint64(GetOrderPointerGongstruct(stage, library.OwningLibrary)))
+		}
+	case "SubLibraries":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range library.SubLibraries {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
 	}
 	return
@@ -8181,6 +8211,20 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 				if stage.Library_stagedOrder[__instance__] == uint(id) {
 					library.OwningLibrary = __instance__
 					break
+				}
+			}
+		}
+	case "SubLibraries":
+		library.SubLibraries = make([]*Library, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Librarys {
+					if stage.Library_stagedOrder[__instance__] == uint(id) {
+						library.SubLibraries = append(library.SubLibraries, __instance__)
+						break
+					}
 				}
 			}
 		}
