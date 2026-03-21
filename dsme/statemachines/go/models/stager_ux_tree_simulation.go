@@ -8,22 +8,22 @@ import (
 	"github.com/fullstack-lang/gong/lib/tree/go/buttons"
 )
 
-func (stager *Stager) updateObjectTreeStage() {
+func (stager *Stager) treeObjectSimulation() {
 
-	stager.treeObjectsStage.Reset()
+	stager.treeObjectsSimulationStage.Reset()
 
-	treeInstance := new(tree.Tree).Stage(stager.treeObjectsStage)
+	treeInstance := new(tree.Tree).Stage(stager.treeObjectsSimulationStage)
 	treeInstance.Name = string(ObjectTreeName)
 
 	for _, stateMachine := range stager.architecture.StateMachines {
 
-		nodeForAddButton := new(tree.Node).Stage(stager.treeObjectsStage)
+		nodeForAddButton := new(tree.Node).Stage(stager.treeObjectsSimulationStage)
 		nodeForAddButton.Name = stateMachine.Name
 		treeInstance.RootNodes = append(treeInstance.RootNodes, nodeForAddButton)
 
 		addButton := (&tree.Button{
 			Name: "Object" + " " + string(buttons.BUTTON_add),
-			Icon: string(buttons.BUTTON_add)}).Stage(stager.treeObjectsStage)
+			Icon: string(buttons.BUTTON_add)}).Stage(stager.treeObjectsSimulationStage)
 		nodeForAddButton.Buttons = append(nodeForAddButton.Buttons, addButton)
 		addButton.Impl = &ObjectAddButtonProxy{
 			stager:       stager,
@@ -38,7 +38,7 @@ func (stager *Stager) updateObjectTreeStage() {
 			})
 
 		for _, object := range objects {
-			nodeObject := new(tree.Node).Stage(stager.treeObjectsStage)
+			nodeObject := new(tree.Node).Stage(stager.treeObjectsSimulationStage)
 			nodeObject.Name = object.Name
 			nodeObject.HasCheckboxButton = true
 			nodeObject.IsChecked = object.IsSelected
@@ -52,14 +52,14 @@ func (stager *Stager) updateObjectTreeStage() {
 
 			treeInstance.RootNodes = append(treeInstance.RootNodes, nodeObject)
 
-			nodeState := new(tree.Node).Stage(stager.treeObjectsStage)
+			nodeState := new(tree.Node).Stage(stager.treeObjectsSimulationStage)
 			nodeState.Name = "State: " + object.State.Name
 			nodeObject.Children = append(nodeObject.Children, nodeState)
 
 			// ajout d'un bouton delete
 			deleteButton := (&tree.Button{
 				Name: "State" + " " + string(buttons.BUTTON_delete),
-				Icon: string(buttons.BUTTON_delete)}).Stage(stager.treeObjectsStage)
+				Icon: string(buttons.BUTTON_delete)}).Stage(stager.treeObjectsSimulationStage)
 			nodeObject.Buttons = append(nodeObject.Buttons, deleteButton)
 			deleteButton.Impl = &ObjectDeleteButtonProxy{
 				stager: stager,
@@ -67,7 +67,7 @@ func (stager *Stager) updateObjectTreeStage() {
 			}
 
 			for _, message := range object.Messages {
-				nodeMessage := new(tree.Node).Stage(stager.treeObjectsStage)
+				nodeMessage := new(tree.Node).Stage(stager.treeObjectsSimulationStage)
 
 				nodeMessage.Name = message.Name
 				nodeMessage.HasCheckboxButton = false
@@ -78,5 +78,5 @@ func (stager *Stager) updateObjectTreeStage() {
 		}
 	}
 
-	stager.treeObjectsStage.Commit()
+	stager.treeObjectsSimulationStage.Commit()
 }
