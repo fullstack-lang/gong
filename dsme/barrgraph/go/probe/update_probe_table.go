@@ -4,6 +4,7 @@ package probe
 import (
 	"fmt"
 	"sort"
+	"time"
 
 	gongtable "github.com/fullstack-lang/gong/lib/table/go/models"
 
@@ -269,7 +270,7 @@ func (probe *Probe) UpdateAndCommitNotificationTable() {
 			cell := new(gongtable.Cell)
 			cellString := new(gongtable.CellString)
 			cell.CellString = cellString
-			cellString.Value = notification.Date.Format("2006-01-02 15:04:05")
+			cellString.Value = notification.Date.Format(time.StampMicro)
 			row.Cells = append(row.Cells, cell)
 		}
 

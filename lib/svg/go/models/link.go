@@ -88,16 +88,16 @@ func (link *Link) generateSegments() []Segment {
 		c1Y := startRect.Y + startRatio*startRect.Height
 		c1X := endRect.X + endRatio*endRect.Width
 		c1 := createPoint(c1X, c1Y)
-		s1 := generatePointRectSegment(c1, startRect, link, startDirection, cornerRadius, 0, true, StartSegment)
-		s2 := generatePointRectSegment(c1, endRect, link, endDirection, cornerRadius, 1, false, EndSegment)
+		s1 := generatePointRectSegment(c1, startRect, startDirection, cornerRadius, 0, true, StartSegment)
+		s2 := generatePointRectSegment(c1, endRect, endDirection, cornerRadius, 1, false, EndSegment)
 		segments = append(segments, s1, s2)
 
 	} else if startDirection == ORIENTATION_VERTICAL && endDirection == ORIENTATION_HORIZONTAL {
 		c1X := startRect.X + startRatio*startRect.Width
 		c1Y := endRect.Y + endRatio*endRect.Height
 		c1 := createPoint(c1X, c1Y)
-		s1 := generatePointRectSegment(c1, startRect, link, startDirection, cornerRadius, 0, true, StartSegment)
-		s2 := generatePointRectSegment(c1, endRect, link, endDirection, cornerRadius, 1, false, EndSegment)
+		s1 := generatePointRectSegment(c1, startRect, startDirection, cornerRadius, 0, true, StartSegment)
+		s2 := generatePointRectSegment(c1, endRect, endDirection, cornerRadius, 1, false, EndSegment)
 		segments = append(segments, s1, s2)
 
 	} else if startDirection == ORIENTATION_HORIZONTAL && endDirection == ORIENTATION_HORIZONTAL {
@@ -107,14 +107,14 @@ func (link *Link) generateSegments() []Segment {
 		c2X := c1X
 		c2Y := endRect.Y + endRatio*endRect.Height
 		c2 := createPoint(c2X, c2Y)
-		s1 := generatePointRectSegment(c1, startRect, link, startDirection, cornerRadius, 0, true, StartSegment)
+		s1 := generatePointRectSegment(c1, startRect, startDirection, cornerRadius, 0, true, StartSegment)
 		s2 := generatePointPointSegment(c1, c2, ORIENTATION_VERTICAL, cornerRadius, 1)
-		s3 := generatePointRectSegment(c2, endRect, link, endDirection, cornerRadius, 2, false, EndSegment)
+		s3 := generatePointRectSegment(c2, endRect, endDirection, cornerRadius, 2, false, EndSegment)
 		if math.Abs(c1Y-c2Y) <= 2*cornerRadius && cornerRadius > 0 {
 			c2a := createPoint(c2X, c1Y)
-			s1 = generatePointRectSegment(c1, startRect, link, startDirection, 0, 0, true, StartSegment)
+			s1 = generatePointRectSegment(c1, startRect, startDirection, 0, 0, true, StartSegment)
 			s2 = generatePointPointSegment(c1, c2a, ORIENTATION_HORIZONTAL, 0, 1)
-			s3 = generatePointRectSegment(c2a, endRect, link, endDirection, 0, 2, false, EndSegment)
+			s3 = generatePointRectSegment(c2a, endRect, endDirection, 0, 2, false, EndSegment)
 		}
 		segments = append(segments, s1, s2, s3)
 
@@ -125,14 +125,14 @@ func (link *Link) generateSegments() []Segment {
 		c2X := endRect.X + endRatio*endRect.Width
 		c2Y := c1Y
 		c2 := createPoint(c2X, c2Y)
-		s1 := generatePointRectSegment(c1, startRect, link, startDirection, cornerRadius, 0, true, StartSegment)
+		s1 := generatePointRectSegment(c1, startRect, startDirection, cornerRadius, 0, true, StartSegment)
 		s2 := generatePointPointSegment(c1, c2, ORIENTATION_HORIZONTAL, cornerRadius, 1)
-		s3 := generatePointRectSegment(c2, endRect, link, endDirection, cornerRadius, 2, false, EndSegment)
+		s3 := generatePointRectSegment(c2, endRect, endDirection, cornerRadius, 2, false, EndSegment)
 		if math.Abs(c1X-c2X) <= 2*cornerRadius && cornerRadius > 0 {
 			c2a := createPoint(c1X, c2Y)
-			s1 = generatePointRectSegment(c1, startRect, link, startDirection, 0, 0, true, StartSegment)
+			s1 = generatePointRectSegment(c1, startRect, startDirection, 0, 0, true, StartSegment)
 			s2 = generatePointPointSegment(c1, c2a, ORIENTATION_VERTICAL, 0, 1)
-			s3 = generatePointRectSegment(c2a, endRect, link, endDirection, 0, 2, false, EndSegment)
+			s3 = generatePointRectSegment(c2a, endRect, endDirection, 0, 2, false, EndSegment)
 		}
 		segments = append(segments, s1, s2, s3)
 	}
@@ -226,7 +226,8 @@ func (link *Link) WriteSVGArcPath(sb *strings.Builder, segment, nextSegment *Seg
 
 	sweepFlag := 0
 
-	if segment.Orientation == ORIENTATION_HORIZONTAL {
+	switch segment.Orientation {
+	case ORIENTATION_HORIZONTAL:
 		segmentDirection := 0
 		if segment.EndPoint.X > segment.StartPoint.X {
 			segmentDirection = 1
@@ -247,7 +248,7 @@ func (link *Link) WriteSVGArcPath(sb *strings.Builder, segment, nextSegment *Seg
 			sweepFlag = 0
 		}
 
-	} else if segment.Orientation == ORIENTATION_VERTICAL {
+	case ORIENTATION_VERTICAL:
 		segmentDirection := 0
 		if segment.EndPoint.Y > segment.StartPoint.Y {
 			segmentDirection = 1
