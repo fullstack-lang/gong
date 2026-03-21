@@ -30,12 +30,14 @@ func (stager *Stager) svg() {
 		return
 	}
 
-	svgObject := (&svg.SVG{Name: `SVG`})
+	stager.svgObject = (&svg.SVG{Name: `SVG`})
+	stager.diagram = diagram
+	stager.svgObject.OnUpdate = stager.onUpdateSVG
 
-	svgObject.OverrideWidth = true
-	svgObject.OverriddenWidth = diagram.Width
-	svgObject.OverrideHeight = true
-	svgObject.OverriddenHeight = diagram.Height
+	stager.svgObject.OverrideWidth = true
+	stager.svgObject.OverriddenWidth = diagram.Width
+	stager.svgObject.OverrideHeight = true
+	stager.svgObject.OverriddenHeight = diagram.Height
 
 	diagram.map_Product_Rect = make(map[*Product]*svg.Rect)
 	diagram.map_Task_Rect = make(map[*Task]*svg.Rect)
@@ -47,19 +49,19 @@ func (stager *Stager) svg() {
 	diagram.map_SvgRect_NoteShape = make(map[*svg.Rect]*NoteShape)
 	diagram.map_SvgRect_ResourceShape = make(map[*svg.Rect]*ResourceShape)
 
-	// to implement association between abstract elements by mouse drag
-	svgImpl := &svgProxy{
-		stager:  stager,
-		svg_:    svgObject,
-		diagram: diagram,
-	}
-	svgObject.Impl = svgImpl
+	// // to implement association between abstract elements by mouse drag
+	// svgImpl := &svgProxy{
+	// 	stager:  stager,
+	// 	svg_:    stager.svgObject,
+	// 	diagram: diagram,
+	// }
+	// stager.svgObject.Impl = svgImpl
 
-	svgObject.Name = diagram.Name
-	svgObject.IsEditable = diagram.IsEditable()
+	stager.svgObject.Name = diagram.Name
+	stager.svgObject.IsEditable = diagram.IsEditable()
 
 	layer := (&svg.Layer{Name: "Layer 1"})
-	svgObject.Layers = append(svgObject.Layers, layer)
+	stager.svgObject.Layers = append(stager.svgObject.Layers, layer)
 
 	for _, productShape := range diagram.Product_Shapes {
 		if productShape.IsHidden {
@@ -446,6 +448,6 @@ func (stager *Stager) svg() {
 		)
 	}
 
-	svg.StageBranch(svgStage, svgObject)
+	svg.StageBranch(svgStage, stager.svgObject)
 	stager.svgStage.Commit()
 }
