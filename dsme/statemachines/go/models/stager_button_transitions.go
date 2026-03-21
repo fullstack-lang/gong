@@ -58,7 +58,7 @@ func (stager *Stager) updateButtonsStage() {
 		if selectedObject.State != transition.Start {
 
 			var objectIsInASubState bool
-			if transition.Start.IsComposite() {
+			if transition.Start != nil && transition.Start.IsComposite() {
 				for _, subState := range transition.Start.SubStates {
 					if subState == selectedObject.State {
 						objectIsInASubState = true
