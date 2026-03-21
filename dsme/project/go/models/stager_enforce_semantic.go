@@ -100,7 +100,7 @@ func (stager *Stager) enforceThereIsADefaultLibrary() (needCommit bool) {
 	stage := stager.stage
 	libraries := GetStructInstancesByOrderAuto[*Library](stage)
 	if len(libraries) == 0 {
-		stager.rootLibrary = (&Library{Name: "Root Library"}).Stage(stage)
+		stager.rootLibrary = (&Library{Name: ""}).Stage(stage)
 		if stager.probeForm != nil {
 			stager.probeForm.AddNotification(time.Now(),
 				"Created root library")

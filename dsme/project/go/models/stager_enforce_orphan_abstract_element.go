@@ -148,10 +148,12 @@ func reattachToLibraryRoots[T interface {
 	for _, object := range GetGongstrucsSorted[T](stager.stage) {
 		if _, ok := reachable[object]; !ok {
 			if object != any(stager.rootLibrary) {
-				attachDirectlyToLibraryRoot(object)
+				object.UnstageVoid(stager.stage)
 				needCommit = true
-				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Orphan \"%s\" of type \"%s\", was attached to library \"%s\"",
-					object.GetName(), object.GongGetGongstructName(), object.GetOwningLibrary().GetName()))
+				stager.probeForm.AddNotification(time.Now(),
+					fmt.Sprintf("Orphan \"%s\" of type \"%s\" was deleted",
+						object.GetName(), object.GongGetGongstructName()),
+				)
 			}
 		}
 	}
