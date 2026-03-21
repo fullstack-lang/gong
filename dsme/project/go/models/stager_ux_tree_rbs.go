@@ -2,6 +2,7 @@ package models
 
 import (
 	"fmt"
+	"slices"
 
 	"github.com/fullstack-lang/gong/lib/tree/go/buttons"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
@@ -55,14 +56,22 @@ func (stager *Stager) treeRBSinDiagram(diagram *Diagram, resource *Resource, par
 					key := resourceTaskKey{Resource: resource, Task: task}
 					if shape, ok := diagram.map_Resource_ResourceTaskShape[key]; ok {
 						showHideRelationButton.Icon = string(buttons.BUTTON_visibility_off)
-						showHideRelationButton.ToolTipText = "Hide link from \"" + resource.Name +
+						showHideRelationButton.ToolTipText = "Remove link from \"" + resource.Name +
 							"\" to \"" + task.Name + "\""
-						showHideRelationButton.OnUpdate = onRemoveAssociationShapeWithCommit(stager, shape, &diagram.ResourceTaskShapes)
+						showHideRelationButton.OnUpdate = func(_ *tree.Stage, _ *tree.Button) {
+							shape.UnstageVoid(stager.stage)
+							idx := slices.Index(diagram.ResourceTaskShapes, shape)
+							diagram.ResourceTaskShapes = slices.Delete(diagram.ResourceTaskShapes, idx, idx+1)
+							stager.stage.Commit()
+						}
 					} else {
 						showHideRelationButton.Icon = string(buttons.BUTTON_visibility)
-						showHideRelationButton.ToolTipText = "Show link from \"" + resource.Name +
+						showHideRelationButton.ToolTipText = "Insert link from \"" + resource.Name +
 							"\" to \"" + task.Name + "\""
-						showHideRelationButton.OnUpdate = onAddAssociationShapeWithCommit(stager, resource, task, &diagram.ResourceTaskShapes)
+						showHideRelationButton.OnUpdate = func(_ *tree.Stage, _ *tree.Button) {
+							addAssociationShapeToDiagram(stager, resource, task, &diagram.ResourceTaskShapes)
+							stager.stage.Commit()
+						}
 					}
 				}
 			}
