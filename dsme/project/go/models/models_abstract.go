@@ -23,8 +23,26 @@ type Library struct {
 	Diagrams []*Diagram
 
 	AbstractTypeFields
+	LibraryAbstractFields
 
 	objects []AbstractType
+}
+
+type LibraryAbstractFields struct {
+	OwningLibrary *Library
+}
+
+type LibraryOwnedType interface {
+	GetOwnlingLibrary() *Library
+	SetOwningLibrary(library *Library)
+}
+
+func (r *LibraryAbstractFields) GetOwnlingLibrary() *Library {
+	return r.OwningLibrary
+}
+
+func (r *LibraryAbstractFields) SetOwningLibrary(library *Library) {
+	r.OwningLibrary = library
 }
 
 // Note brings information to a diagram
@@ -37,6 +55,7 @@ type Note struct {
 	Resources []*Resource
 
 	AbstractTypeFields
+	LibraryAbstractFields
 }
 
 type Task struct {
@@ -51,6 +70,7 @@ type Task struct {
 	SubTasks []*Task
 
 	AbstractTypeFields
+	LibraryAbstractFields
 
 	Inputs               []*Product
 	IsInputsNodeExpanded bool
@@ -99,6 +119,7 @@ type Product struct {
 	SubProducts []*Product
 
 	AbstractTypeFields
+	LibraryAbstractFields
 
 	// producers are computed from [models.Task.Outputs]
 	// this is a computed field, therefore, not exported
@@ -134,6 +155,7 @@ type Resource struct {
 	parentResource *Resource
 
 	AbstractTypeFields
+	LibraryAbstractFields
 }
 
 var (
