@@ -4,7 +4,7 @@ import (
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 )
 
-func (stager *Stager) updateSvgStage() {
+func (stager *Stager) svg() {
 	stager.svgStage.Reset()
 
 	map_State_Rect := make(map[*State]*svg.Rect)
@@ -57,6 +57,9 @@ func (stager *Stager) updateSvgStage() {
 	}
 
 	for _, stateShape := range diagram.State_Shapes {
+		if stateShape.GetIsHidden() {
+			continue
+		}
 
 		if stateShape.State == nil {
 			continue
@@ -78,6 +81,10 @@ func (stager *Stager) updateSvgStage() {
 	}
 
 	for _, transtionShape := range diagram.Transition_Shapes {
+		if transtionShape.GetIsHidden() {
+			continue
+		}
+
 		transition := transtionShape.Transition
 
 		if transition == nil || transition.Start == nil || transition.End == nil {
@@ -86,6 +93,10 @@ func (stager *Stager) updateSvgStage() {
 
 		startRect := map_State_Rect[transition.Start]
 		endRect := map_State_Rect[transition.End]
+
+		if startRect == nil || endRect == nil {
+			continue
+		}
 
 		stager.svgGenerateLink(
 			startRect, endRect,

@@ -22,7 +22,10 @@ func (stager *Stager) enforceLibrariesObject() {
 
 	// redeem objects without owning libraries
 	for _, instance := range stage.GetInstances() {
-		if abstractObject, ok := instance.(AbstractType); ok {
+		if abstractObject, ok := instance.(interface {
+			AbstractType
+			LibraryOwnedType
+		}); ok {
 			if abstractObject.GetOwnlingLibrary() == nil {
 				abstractObject.SetOwningLibrary(defaultLibrary)
 			}
