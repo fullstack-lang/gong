@@ -39,6 +39,8 @@ func _(stage *models.Stage) {
 	__Guard__00000002_ := (&models.Guard{Name: `a suppress action`}).Stage(stage)
 	__Guard__00000003_ := (&models.Guard{Name: `not a suppress action`}).Stage(stage)
 
+	__Object__00000000_ := (&models.Object{Name: `01/MI DOF/ 2026-03-22 DEP/ 032139`}).Stage(stage)
+
 	__State__00000000_ := (&models.State{Name: `Probe Form`}).Stage(stage)
 	__State__00000001_ := (&models.State{Name: `Probe Tree`}).Stage(stage)
 	__State__00000002_ := (&models.State{Name: `Probe Table`}).Stage(stage)
@@ -128,6 +130,11 @@ func _(stage *models.Stage) {
 	__Guard__00000002_.Name = `a suppress action`
 
 	__Guard__00000003_.Name = `not a suppress action`
+
+	__Object__00000000_.Name = `01/MI DOF/ 2026-03-22 DEP/ 032139`
+	__Object__00000000_.IsSelected = true
+	__Object__00000000_.Rank = 0
+	__Object__00000000_.DOF, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-03-22 03:21:39.315945 +0100 CET m=+86784.000204293")
 
 	__State__00000000_.Name = `Probe Form`
 	__State__00000000_.IsDecisionNode = false
@@ -223,14 +230,14 @@ func _(stage *models.Stage) {
 	__StateShape__00000003_.X = 333.000000
 	__StateShape__00000003_.Y = 402.999985
 	__StateShape__00000003_.Width = 200.000000
-	__StateShape__00000003_.Height = 125.000031
+	__StateShape__00000003_.Height = 104.000031
 
 	__StateShape__00000004_.Name = `Enforce Model Semantic`
 	__StateShape__00000004_.IsExpanded = false
 	__StateShape__00000004_.X = 332.000000
 	__StateShape__00000004_.Y = 629.000015
 	__StateShape__00000004_.Width = 646.000000
-	__StateShape__00000004_.Height = 121.000000
+	__StateShape__00000004_.Height = 82.000000
 
 	__StateShape__00000005_.Name = `Update Probe Form`
 	__StateShape__00000005_.IsExpanded = false
@@ -423,6 +430,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.Transition_Shapes = append(__Diagram__00000000_.Transition_Shapes, __Transition_Shape__00000009_)
 	__Diagram__00000000_.Transition_Shapes = append(__Diagram__00000000_.Transition_Shapes, __Transition_Shape__00000010_)
 	__Diagram__00000000_.Transition_Shapes = append(__Diagram__00000000_.Transition_Shapes, __Transition_Shape__00000011_)
+	__Object__00000000_.State = __State__00000008_
 	__State__00000000_.Parent = nil
 	__State__00000000_.Diagrams = append(__State__00000000_.Diagrams, __Diagram__00000000_)
 	__State__00000000_.Entry = nil
