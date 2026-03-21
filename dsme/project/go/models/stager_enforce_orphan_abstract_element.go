@@ -96,6 +96,7 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 
 func reattachToLibraryRoots[T interface {
 	AbstractType
+	LibraryOwnedType
 	comparable
 }](
 	stager *Stager,

@@ -18,6 +18,7 @@ type Diagram struct {
 	Height float64
 
 	AbstractTypeFields
+	LibraryAbstractFields
 
 	Product_Shapes              []*ProductShape
 	map_Product_ProductShape    map[*Product]*ProductShape
