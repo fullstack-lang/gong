@@ -25,7 +25,7 @@ func _(stage *models.Stage) {
 
 	__Diagram__00000000_ := (&models.Diagram{Name: `D1`}).Stage(stage)
 
-	__Library__00000000_ := (&models.Library{Name: `NewProject`}).Stage(stage)
+	__Library__00000000_ := (&models.Library{Name: `Library 1`}).Stage(stage)
 
 	__Product__00000000_ := (&models.Product{Name: `P1`}).Stage(stage)
 	__Product__00000001_ := (&models.Product{Name: `P2`}).Stage(stage)
@@ -65,7 +65,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.IsNotesNodeExpanded = true
 	__Diagram__00000000_.IsResourcesNodeExpanded = true
 
-	__Library__00000000_.Name = `NewProject`
+	__Library__00000000_.Name = `Library 1`
 	__Library__00000000_.IsExpanded = true
 	__Library__00000000_.ComputedPrefix = ``
 	__Library__00000000_.IsInRenameMode = false

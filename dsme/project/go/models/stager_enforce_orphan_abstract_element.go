@@ -91,6 +91,19 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 		},
 	)
 
+	needCommit = needCommit || reattachToLibraryRoots(
+		stager,
+		func() []*Library {
+			return stager.root.Libraries
+		},
+		func(product *Library) {
+			stager.root.Libraries = append(stager.root.Libraries, product)
+		},
+		func(product *Library) []*Library {
+			return []*Library{}
+		},
+	)
+
 	return
 }
 
