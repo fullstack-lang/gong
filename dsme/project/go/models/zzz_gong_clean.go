@@ -75,6 +75,7 @@ func (library *Library) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &library.RootResources) || modified
 	modified = GongCleanSlice(stage, &library.Notes) || modified
 	modified = GongCleanSlice(stage, &library.Diagrams) || modified
+	modified = GongCleanSlice(stage, &library.SubLibraries) || modified
 	// insertion point per field
 	modified = GongCleanPointer(stage, &library.OwningLibrary) || modified
 	return

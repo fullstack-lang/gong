@@ -992,6 +992,103 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(library_.IsInRenameMode), formDiv)
 		case "OwningLibrary":
 			FormDivSelectFieldToField(&(library_.OwningLibrary), libraryFormCallback.probe.stageOfInterest, formDiv)
+		case "SubLibraries":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Library](libraryFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Library, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Library)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					libraryFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Library](libraryFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			library_.SubLibraries = instanceSlice
+
+		case "Library:SubLibraries":
+			// WARNING : this form deals with the N-N association "Library.SubLibraries []*Library" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Library). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Library
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Library"
+				rf.Fieldname = "SubLibraries"
+				formerAssociationSource := library_.GongGetReverseFieldOwner(
+					libraryFormCallback.probe.stageOfInterest,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Library)
+					if !ok {
+						log.Fatalln("Source of Library.SubLibraries []*Library, is not an Library instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.SubLibraries, library_)
+					formerSource.SubLibraries = slices.Delete(formerSource.SubLibraries, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Library
+			for _library := range *models.GetGongstructInstancesSet[models.Library](libraryFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _library.GetName() == newSourceName.GetName() {
+					newSource = _library // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Library.SubLibraries []*Library, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.SubLibraries = append(newSource.SubLibraries, library_)
 		case "Root:Libraries":
 			// WARNING : this form deals with the N-N association "Root.Libraries []*Library" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
