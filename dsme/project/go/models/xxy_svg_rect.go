@@ -40,7 +40,7 @@ func svgRect[CT interface {
 	shape CT,
 	layer *svg.Layer,
 ) *svg.Rect {
-	root := stager.root
+	root := stager.rootLibrary
 
 	abstractElement := shape.GetAbstractElement()
 

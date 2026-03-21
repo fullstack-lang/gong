@@ -49,9 +49,6 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *ResourceTaskShape:
 		ok = stage.IsStagedResourceTaskShape(target)
 
-	case *Root:
-		ok = stage.IsStagedRoot(target)
-
 	case *Task:
 		ok = stage.IsStagedTask(target)
 
@@ -118,9 +115,6 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *ResourceTaskShape:
 		ok = stage.IsStagedResourceTaskShape(target)
-
-	case *Root:
-		ok = stage.IsStagedRoot(target)
 
 	case *Task:
 		ok = stage.IsStagedTask(target)
@@ -242,13 +236,6 @@ func (stage *Stage) IsStagedResourceTaskShape(resourcetaskshape *ResourceTaskSha
 	return
 }
 
-func (stage *Stage) IsStagedRoot(root *Root) (ok bool) {
-
-	_, ok = stage.Roots[root]
-
-	return
-}
-
 func (stage *Stage) IsStagedTask(task *Task) (ok bool) {
 
 	_, ok = stage.Tasks[task]
@@ -334,9 +321,6 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *ResourceTaskShape:
 		stage.StageBranchResourceTaskShape(target)
 
-	case *Root:
-		stage.StageBranchRoot(target)
-
 	case *Task:
 		stage.StageBranchTask(target)
 
@@ -368,9 +352,6 @@ func (stage *Stage) StageBranchDiagram(diagram *Diagram) {
 	diagram.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
-	if diagram.OwningLibrary != nil {
-		StageBranch(stage, diagram.OwningLibrary)
-	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _productshape := range diagram.Product_Shapes {
@@ -443,9 +424,6 @@ func (stage *Stage) StageBranchLibrary(library *Library) {
 	library.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
-	if library.OwningLibrary != nil {
-		StageBranch(stage, library.OwningLibrary)
-	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _product := range library.RootProducts {
@@ -463,6 +441,9 @@ func (stage *Stage) StageBranchLibrary(library *Library) {
 	for _, _diagram := range library.Diagrams {
 		StageBranch(stage, _diagram)
 	}
+	for _, _library := range library.SubLibraries {
+		StageBranch(stage, _library)
+	}
 
 }
 
@@ -476,9 +457,6 @@ func (stage *Stage) StageBranchNote(note *Note) {
 	note.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
-	if note.OwningLibrary != nil {
-		StageBranch(stage, note.OwningLibrary)
-	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _product := range note.Products {
@@ -584,9 +562,6 @@ func (stage *Stage) StageBranchProduct(product *Product) {
 	product.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
-	if product.OwningLibrary != nil {
-		StageBranch(stage, product.OwningLibrary)
-	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _product := range product.SubProducts {
@@ -641,9 +616,6 @@ func (stage *Stage) StageBranchResource(resource *Resource) {
 	resource.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
-	if resource.OwningLibrary != nil {
-		StageBranch(stage, resource.OwningLibrary)
-	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _task := range resource.Tasks {
@@ -712,24 +684,6 @@ func (stage *Stage) StageBranchResourceTaskShape(resourcetaskshape *ResourceTask
 
 }
 
-func (stage *Stage) StageBranchRoot(root *Root) {
-
-	// check if instance is already staged
-	if IsStaged(stage, root) {
-		return
-	}
-
-	root.Stage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _library := range root.Libraries {
-		StageBranch(stage, _library)
-	}
-
-}
-
 func (stage *Stage) StageBranchTask(task *Task) {
 
 	// check if instance is already staged
@@ -740,9 +694,6 @@ func (stage *Stage) StageBranchTask(task *Task) {
 	task.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
-	if task.OwningLibrary != nil {
-		StageBranch(stage, task.OwningLibrary)
-	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _task := range task.SubTasks {
@@ -902,10 +853,6 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchResourceTaskShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
-	case *Root:
-		toT := CopyBranchRoot(mapOrigCopy, fromT)
-		return any(toT).(*Type)
-
 	case *Task:
 		toT := CopyBranchTask(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -946,9 +893,6 @@ func CopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagramTo
 	diagramFrom.CopyBasicFields(diagramTo)
 
 	//insertion point for the staging of instances referenced by pointers
-	if diagramFrom.OwningLibrary != nil {
-		diagramTo.OwningLibrary = CopyBranchLibrary(mapOrigCopy, diagramFrom.OwningLibrary)
-	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _productshape := range diagramFrom.Product_Shapes {
@@ -1025,9 +969,6 @@ func CopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo
 	libraryFrom.CopyBasicFields(libraryTo)
 
 	//insertion point for the staging of instances referenced by pointers
-	if libraryFrom.OwningLibrary != nil {
-		libraryTo.OwningLibrary = CopyBranchLibrary(mapOrigCopy, libraryFrom.OwningLibrary)
-	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _product := range libraryFrom.RootProducts {
@@ -1044,6 +985,9 @@ func CopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo
 	}
 	for _, _diagram := range libraryFrom.Diagrams {
 		libraryTo.Diagrams = append(libraryTo.Diagrams, CopyBranchDiagram(mapOrigCopy, _diagram))
+	}
+	for _, _library := range libraryFrom.SubLibraries {
+		libraryTo.SubLibraries = append(libraryTo.SubLibraries, CopyBranchLibrary(mapOrigCopy, _library))
 	}
 
 	return
@@ -1062,9 +1006,6 @@ func CopyBranchNote(mapOrigCopy map[any]any, noteFrom *Note) (noteTo *Note) {
 	noteFrom.CopyBasicFields(noteTo)
 
 	//insertion point for the staging of instances referenced by pointers
-	if noteFrom.OwningLibrary != nil {
-		noteTo.OwningLibrary = CopyBranchLibrary(mapOrigCopy, noteFrom.OwningLibrary)
-	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _product := range noteFrom.Products {
@@ -1190,9 +1131,6 @@ func CopyBranchProduct(mapOrigCopy map[any]any, productFrom *Product) (productTo
 	productFrom.CopyBasicFields(productTo)
 
 	//insertion point for the staging of instances referenced by pointers
-	if productFrom.OwningLibrary != nil {
-		productTo.OwningLibrary = CopyBranchLibrary(mapOrigCopy, productFrom.OwningLibrary)
-	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _product := range productFrom.SubProducts {
@@ -1259,9 +1197,6 @@ func CopyBranchResource(mapOrigCopy map[any]any, resourceFrom *Resource) (resour
 	resourceFrom.CopyBasicFields(resourceTo)
 
 	//insertion point for the staging of instances referenced by pointers
-	if resourceFrom.OwningLibrary != nil {
-		resourceTo.OwningLibrary = CopyBranchLibrary(mapOrigCopy, resourceFrom.OwningLibrary)
-	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _task := range resourceFrom.Tasks {
@@ -1343,28 +1278,6 @@ func CopyBranchResourceTaskShape(mapOrigCopy map[any]any, resourcetaskshapeFrom 
 	return
 }
 
-func CopyBranchRoot(mapOrigCopy map[any]any, rootFrom *Root) (rootTo *Root) {
-
-	// rootFrom has already been copied
-	if _rootTo, ok := mapOrigCopy[rootFrom]; ok {
-		rootTo = _rootTo.(*Root)
-		return
-	}
-
-	rootTo = new(Root)
-	mapOrigCopy[rootFrom] = rootTo
-	rootFrom.CopyBasicFields(rootTo)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _library := range rootFrom.Libraries {
-		rootTo.Libraries = append(rootTo.Libraries, CopyBranchLibrary(mapOrigCopy, _library))
-	}
-
-	return
-}
-
 func CopyBranchTask(mapOrigCopy map[any]any, taskFrom *Task) (taskTo *Task) {
 
 	// taskFrom has already been copied
@@ -1378,9 +1291,6 @@ func CopyBranchTask(mapOrigCopy map[any]any, taskFrom *Task) (taskTo *Task) {
 	taskFrom.CopyBasicFields(taskTo)
 
 	//insertion point for the staging of instances referenced by pointers
-	if taskFrom.OwningLibrary != nil {
-		taskTo.OwningLibrary = CopyBranchLibrary(mapOrigCopy, taskFrom.OwningLibrary)
-	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _task := range taskFrom.SubTasks {
@@ -1540,9 +1450,6 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *ResourceTaskShape:
 		stage.UnstageBranchResourceTaskShape(target)
 
-	case *Root:
-		stage.UnstageBranchRoot(target)
-
 	case *Task:
 		stage.UnstageBranchTask(target)
 
@@ -1574,9 +1481,6 @@ func (stage *Stage) UnstageBranchDiagram(diagram *Diagram) {
 	diagram.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
-	if diagram.OwningLibrary != nil {
-		UnstageBranch(stage, diagram.OwningLibrary)
-	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _productshape := range diagram.Product_Shapes {
@@ -1649,9 +1553,6 @@ func (stage *Stage) UnstageBranchLibrary(library *Library) {
 	library.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
-	if library.OwningLibrary != nil {
-		UnstageBranch(stage, library.OwningLibrary)
-	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _product := range library.RootProducts {
@@ -1669,6 +1570,9 @@ func (stage *Stage) UnstageBranchLibrary(library *Library) {
 	for _, _diagram := range library.Diagrams {
 		UnstageBranch(stage, _diagram)
 	}
+	for _, _library := range library.SubLibraries {
+		UnstageBranch(stage, _library)
+	}
 
 }
 
@@ -1682,9 +1586,6 @@ func (stage *Stage) UnstageBranchNote(note *Note) {
 	note.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
-	if note.OwningLibrary != nil {
-		UnstageBranch(stage, note.OwningLibrary)
-	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _product := range note.Products {
@@ -1790,9 +1691,6 @@ func (stage *Stage) UnstageBranchProduct(product *Product) {
 	product.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
-	if product.OwningLibrary != nil {
-		UnstageBranch(stage, product.OwningLibrary)
-	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _product := range product.SubProducts {
@@ -1847,9 +1745,6 @@ func (stage *Stage) UnstageBranchResource(resource *Resource) {
 	resource.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
-	if resource.OwningLibrary != nil {
-		UnstageBranch(stage, resource.OwningLibrary)
-	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _task := range resource.Tasks {
@@ -1918,24 +1813,6 @@ func (stage *Stage) UnstageBranchResourceTaskShape(resourcetaskshape *ResourceTa
 
 }
 
-func (stage *Stage) UnstageBranchRoot(root *Root) {
-
-	// check if instance is already staged
-	if !IsStaged(stage, root) {
-		return
-	}
-
-	root.Unstage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _library := range root.Libraries {
-		UnstageBranch(stage, _library)
-	}
-
-}
-
 func (stage *Stage) UnstageBranchTask(task *Task) {
 
 	// check if instance is already staged
@@ -1946,9 +1823,6 @@ func (stage *Stage) UnstageBranchTask(task *Task) {
 	task.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
-	if task.OwningLibrary != nil {
-		UnstageBranch(stage, task.OwningLibrary)
-	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _task := range task.SubTasks {
@@ -2044,9 +1918,6 @@ func (stage *Stage) UnstageBranchTaskShape(taskshape *TaskShape) {
 // insertion point for pointer reconstruction from references
 func (reference *Diagram) GongReconstructPointersFromReferences(stage *Stage, instance *Diagram) () {
 	// insertion point for pointers field
-	if instance.OwningLibrary != nil {
-		reference.OwningLibrary = stage.Librarys_reference[instance.OwningLibrary]
-	}
 	// insertion point for slice of pointers field
 	reference.Product_Shapes = reference.Product_Shapes[:0]
 	for _, _b := range instance.Product_Shapes {
@@ -2130,9 +2001,6 @@ func (reference *Diagram) GongReconstructPointersFromReferences(stage *Stage, in
 
 func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, instance *Library) () {
 	// insertion point for pointers field
-	if instance.OwningLibrary != nil {
-		reference.OwningLibrary = stage.Librarys_reference[instance.OwningLibrary]
-	}
 	// insertion point for slice of pointers field
 	reference.RootProducts = reference.RootProducts[:0]
 	for _, _b := range instance.RootProducts {
@@ -2154,15 +2022,16 @@ func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, in
 	for _, _b := range instance.Diagrams {
 		reference.Diagrams = append(reference.Diagrams, stage.Diagrams_reference[_b])
 	}
+	reference.SubLibraries = reference.SubLibraries[:0]
+	for _, _b := range instance.SubLibraries {
+		reference.SubLibraries = append(reference.SubLibraries, stage.Librarys_reference[_b])
+	}
 
 	return
 }
 
 func (reference *Note) GongReconstructPointersFromReferences(stage *Stage, instance *Note) () {
 	// insertion point for pointers field
-	if instance.OwningLibrary != nil {
-		reference.OwningLibrary = stage.Librarys_reference[instance.OwningLibrary]
-	}
 	// insertion point for slice of pointers field
 	reference.Products = reference.Products[:0]
 	for _, _b := range instance.Products {
@@ -2231,9 +2100,6 @@ func (reference *NoteTaskShape) GongReconstructPointersFromReferences(stage *Sta
 
 func (reference *Product) GongReconstructPointersFromReferences(stage *Stage, instance *Product) () {
 	// insertion point for pointers field
-	if instance.OwningLibrary != nil {
-		reference.OwningLibrary = stage.Librarys_reference[instance.OwningLibrary]
-	}
 	// insertion point for slice of pointers field
 	reference.SubProducts = reference.SubProducts[:0]
 	for _, _b := range instance.SubProducts {
@@ -2265,9 +2131,6 @@ func (reference *ProductShape) GongReconstructPointersFromReferences(stage *Stag
 
 func (reference *Resource) GongReconstructPointersFromReferences(stage *Stage, instance *Resource) () {
 	// insertion point for pointers field
-	if instance.OwningLibrary != nil {
-		reference.OwningLibrary = stage.Librarys_reference[instance.OwningLibrary]
-	}
 	// insertion point for slice of pointers field
 	reference.Tasks = reference.Tasks[:0]
 	for _, _b := range instance.Tasks {
@@ -2314,22 +2177,8 @@ func (reference *ResourceTaskShape) GongReconstructPointersFromReferences(stage 
 	return
 }
 
-func (reference *Root) GongReconstructPointersFromReferences(stage *Stage, instance *Root) () {
-	// insertion point for pointers field
-	// insertion point for slice of pointers field
-	reference.Libraries = reference.Libraries[:0]
-	for _, _b := range instance.Libraries {
-		reference.Libraries = append(reference.Libraries, stage.Librarys_reference[_b])
-	}
-
-	return
-}
-
 func (reference *Task) GongReconstructPointersFromReferences(stage *Stage, instance *Task) () {
 	// insertion point for pointers field
-	if instance.OwningLibrary != nil {
-		reference.OwningLibrary = stage.Librarys_reference[instance.OwningLibrary]
-	}
 	// insertion point for slice of pointers field
 	reference.SubTasks = reference.SubTasks[:0]
 	for _, _b := range instance.SubTasks {
@@ -2396,12 +2245,6 @@ func (reference *TaskShape) GongReconstructPointersFromReferences(stage *Stage, 
 // insertion point for pointer reconstruction from instances
 func (reference *Diagram) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
-	if _reference := reference.OwningLibrary; _reference != nil {
-		reference.OwningLibrary = nil
-		if _instance, ok := stage.Librarys_instance[_reference]; ok {
-			reference.OwningLibrary = _instance
-		}
-	}
 	// insertion point for slice of pointers fields
 	var _Product_Shapes []*ProductShape
 	for _, _reference := range reference.Product_Shapes {
@@ -2542,12 +2385,6 @@ func (reference *Diagram) GongReconstructPointersFromInstances(stage *Stage) () 
 
 func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
-	if _reference := reference.OwningLibrary; _reference != nil {
-		reference.OwningLibrary = nil
-		if _instance, ok := stage.Librarys_instance[_reference]; ok {
-			reference.OwningLibrary = _instance
-		}
-	}
 	// insertion point for slice of pointers fields
 	var _RootProducts []*Product
 	for _, _reference := range reference.RootProducts {
@@ -2584,18 +2421,19 @@ func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) () 
 		}
 	}
 	reference.Diagrams = _Diagrams
+	var _SubLibraries []*Library
+	for _, _reference := range reference.SubLibraries {
+		if _instance, ok := stage.Librarys_instance[_reference]; ok {
+			_SubLibraries = append(_SubLibraries, _instance)
+		}
+	}
+	reference.SubLibraries = _SubLibraries
 
 	return
 }
 
 func (reference *Note) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
-	if _reference := reference.OwningLibrary; _reference != nil {
-		reference.OwningLibrary = nil
-		if _instance, ok := stage.Librarys_instance[_reference]; ok {
-			reference.OwningLibrary = _instance
-		}
-	}
 	// insertion point for slice of pointers fields
 	var _Products []*Product
 	for _, _reference := range reference.Products {
@@ -2694,12 +2532,6 @@ func (reference *NoteTaskShape) GongReconstructPointersFromInstances(stage *Stag
 
 func (reference *Product) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
-	if _reference := reference.OwningLibrary; _reference != nil {
-		reference.OwningLibrary = nil
-		if _instance, ok := stage.Librarys_instance[_reference]; ok {
-			reference.OwningLibrary = _instance
-		}
-	}
 	// insertion point for slice of pointers fields
 	var _SubProducts []*Product
 	for _, _reference := range reference.SubProducts {
@@ -2740,12 +2572,6 @@ func (reference *ProductShape) GongReconstructPointersFromInstances(stage *Stage
 
 func (reference *Resource) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
-	if _reference := reference.OwningLibrary; _reference != nil {
-		reference.OwningLibrary = nil
-		if _instance, ok := stage.Librarys_instance[_reference]; ok {
-			reference.OwningLibrary = _instance
-		}
-	}
 	// insertion point for slice of pointers fields
 	var _Tasks []*Task
 	for _, _reference := range reference.Tasks {
@@ -2810,28 +2636,8 @@ func (reference *ResourceTaskShape) GongReconstructPointersFromInstances(stage *
 	return
 }
 
-func (reference *Root) GongReconstructPointersFromInstances(stage *Stage) () {
-	// insertion point for pointers field
-	// insertion point for slice of pointers fields
-	var _Libraries []*Library
-	for _, _reference := range reference.Libraries {
-		if _instance, ok := stage.Librarys_instance[_reference]; ok {
-			_Libraries = append(_Libraries, _instance)
-		}
-	}
-	reference.Libraries = _Libraries
-
-	return
-}
-
 func (reference *Task) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
-	if _reference := reference.OwningLibrary; _reference != nil {
-		reference.OwningLibrary = nil
-		if _instance, ok := stage.Librarys_instance[_reference]; ok {
-			reference.OwningLibrary = _instance
-		}
-	}
 	// insertion point for slice of pointers fields
 	var _SubTasks []*Task
 	for _, _reference := range reference.SubTasks {
@@ -2930,6 +2736,15 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 	if diagram.Name != diagramOther.Name {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "Name"))
 	}
+	if diagram.ComputedPrefix != diagramOther.ComputedPrefix {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	if diagram.IsInRenameMode != diagramOther.IsInRenameMode {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "IsInRenameMode"))
+	}
+	if diagram.IsExpanded != diagramOther.IsExpanded {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "IsExpanded"))
+	}
 	if diagram.IsChecked != diagramOther.IsChecked {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "IsChecked"))
 	}
@@ -2950,22 +2765,6 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 	}
 	if diagram.Height != diagramOther.Height {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "Height"))
-	}
-	if diagram.IsExpanded != diagramOther.IsExpanded {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "IsExpanded"))
-	}
-	if diagram.ComputedPrefix != diagramOther.ComputedPrefix {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "ComputedPrefix"))
-	}
-	if diagram.IsInRenameMode != diagramOther.IsInRenameMode {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "IsInRenameMode"))
-	}
-	if (diagram.OwningLibrary == nil) != (diagramOther.OwningLibrary == nil) {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "OwningLibrary"))
-	} else if diagram.OwningLibrary != nil && diagramOther.OwningLibrary != nil {
-		if diagram.OwningLibrary != diagramOther.OwningLibrary {
-			diffs = append(diffs, diagram.GongMarshallField(stage, "OwningLibrary"))
-		}
 	}
 	Product_ShapesDifferent := false
 	if len(diagram.Product_Shapes) != len(diagramOther.Product_Shapes) {
@@ -3389,6 +3188,15 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 	if library.Name != libraryOther.Name {
 		diffs = append(diffs, library.GongMarshallField(stage, "Name"))
 	}
+	if library.ComputedPrefix != libraryOther.ComputedPrefix {
+		diffs = append(diffs, library.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	if library.IsInRenameMode != libraryOther.IsInRenameMode {
+		diffs = append(diffs, library.GongMarshallField(stage, "IsInRenameMode"))
+	}
+	if library.IsExpanded != libraryOther.IsExpanded {
+		diffs = append(diffs, library.GongMarshallField(stage, "IsExpanded"))
+	}
 	RootProductsDifferent := false
 	if len(library.RootProducts) != len(libraryOther.RootProducts) {
 		RootProductsDifferent = true
@@ -3494,21 +3302,29 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		ops := Diff(stage, library, libraryOther, "Diagrams", libraryOther.Diagrams, library.Diagrams)
 		diffs = append(diffs, ops)
 	}
-	if library.IsExpanded != libraryOther.IsExpanded {
-		diffs = append(diffs, library.GongMarshallField(stage, "IsExpanded"))
-	}
-	if library.ComputedPrefix != libraryOther.ComputedPrefix {
-		diffs = append(diffs, library.GongMarshallField(stage, "ComputedPrefix"))
-	}
-	if library.IsInRenameMode != libraryOther.IsInRenameMode {
-		diffs = append(diffs, library.GongMarshallField(stage, "IsInRenameMode"))
-	}
-	if (library.OwningLibrary == nil) != (libraryOther.OwningLibrary == nil) {
-		diffs = append(diffs, library.GongMarshallField(stage, "OwningLibrary"))
-	} else if library.OwningLibrary != nil && libraryOther.OwningLibrary != nil {
-		if library.OwningLibrary != libraryOther.OwningLibrary {
-			diffs = append(diffs, library.GongMarshallField(stage, "OwningLibrary"))
+	SubLibrariesDifferent := false
+	if len(library.SubLibraries) != len(libraryOther.SubLibraries) {
+		SubLibrariesDifferent = true
+	} else {
+		for i := range library.SubLibraries {
+			if (library.SubLibraries[i] == nil) != (libraryOther.SubLibraries[i] == nil) {
+				SubLibrariesDifferent = true
+				break
+			} else if library.SubLibraries[i] != nil && libraryOther.SubLibraries[i] != nil {
+				// this is a pointer comparaison
+				if library.SubLibraries[i] != libraryOther.SubLibraries[i] {
+					SubLibrariesDifferent = true
+					break
+				}
+			}
 		}
+	}
+	if SubLibrariesDifferent {
+		ops := Diff(stage, library, libraryOther, "SubLibraries", libraryOther.SubLibraries, library.SubLibraries)
+		diffs = append(diffs, ops)
+	}
+	if library.NbPixPerCharacter != libraryOther.NbPixPerCharacter {
+		diffs = append(diffs, library.GongMarshallField(stage, "NbPixPerCharacter"))
 	}
 
 	return
@@ -3520,6 +3336,15 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 	// insertion point for field diffs
 	if note.Name != noteOther.Name {
 		diffs = append(diffs, note.GongMarshallField(stage, "Name"))
+	}
+	if note.ComputedPrefix != noteOther.ComputedPrefix {
+		diffs = append(diffs, note.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	if note.IsInRenameMode != noteOther.IsInRenameMode {
+		diffs = append(diffs, note.GongMarshallField(stage, "IsInRenameMode"))
+	}
+	if note.IsExpanded != noteOther.IsExpanded {
+		diffs = append(diffs, note.GongMarshallField(stage, "IsExpanded"))
 	}
 	ProductsDifferent := false
 	if len(note.Products) != len(noteOther.Products) {
@@ -3583,22 +3408,6 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 	if ResourcesDifferent {
 		ops := Diff(stage, note, noteOther, "Resources", noteOther.Resources, note.Resources)
 		diffs = append(diffs, ops)
-	}
-	if note.IsExpanded != noteOther.IsExpanded {
-		diffs = append(diffs, note.GongMarshallField(stage, "IsExpanded"))
-	}
-	if note.ComputedPrefix != noteOther.ComputedPrefix {
-		diffs = append(diffs, note.GongMarshallField(stage, "ComputedPrefix"))
-	}
-	if note.IsInRenameMode != noteOther.IsInRenameMode {
-		diffs = append(diffs, note.GongMarshallField(stage, "IsInRenameMode"))
-	}
-	if (note.OwningLibrary == nil) != (noteOther.OwningLibrary == nil) {
-		diffs = append(diffs, note.GongMarshallField(stage, "OwningLibrary"))
-	} else if note.OwningLibrary != nil && noteOther.OwningLibrary != nil {
-		if note.OwningLibrary != noteOther.OwningLibrary {
-			diffs = append(diffs, note.GongMarshallField(stage, "OwningLibrary"))
-		}
 	}
 
 	return
@@ -3776,6 +3585,15 @@ func (product *Product) GongDiff(stage *Stage, productOther *Product) (diffs []s
 	if product.Name != productOther.Name {
 		diffs = append(diffs, product.GongMarshallField(stage, "Name"))
 	}
+	if product.ComputedPrefix != productOther.ComputedPrefix {
+		diffs = append(diffs, product.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	if product.IsInRenameMode != productOther.IsInRenameMode {
+		diffs = append(diffs, product.GongMarshallField(stage, "IsInRenameMode"))
+	}
+	if product.IsExpanded != productOther.IsExpanded {
+		diffs = append(diffs, product.GongMarshallField(stage, "IsExpanded"))
+	}
 	if product.Description != productOther.Description {
 		diffs = append(diffs, product.GongMarshallField(stage, "Description"))
 	}
@@ -3799,22 +3617,6 @@ func (product *Product) GongDiff(stage *Stage, productOther *Product) (diffs []s
 	if SubProductsDifferent {
 		ops := Diff(stage, product, productOther, "SubProducts", productOther.SubProducts, product.SubProducts)
 		diffs = append(diffs, ops)
-	}
-	if product.IsExpanded != productOther.IsExpanded {
-		diffs = append(diffs, product.GongMarshallField(stage, "IsExpanded"))
-	}
-	if product.ComputedPrefix != productOther.ComputedPrefix {
-		diffs = append(diffs, product.GongMarshallField(stage, "ComputedPrefix"))
-	}
-	if product.IsInRenameMode != productOther.IsInRenameMode {
-		diffs = append(diffs, product.GongMarshallField(stage, "IsInRenameMode"))
-	}
-	if (product.OwningLibrary == nil) != (productOther.OwningLibrary == nil) {
-		diffs = append(diffs, product.GongMarshallField(stage, "OwningLibrary"))
-	} else if product.OwningLibrary != nil && productOther.OwningLibrary != nil {
-		if product.OwningLibrary != productOther.OwningLibrary {
-			diffs = append(diffs, product.GongMarshallField(stage, "OwningLibrary"))
-		}
 	}
 	if product.IsProducersNodeExpanded != productOther.IsProducersNodeExpanded {
 		diffs = append(diffs, product.GongMarshallField(stage, "IsProducersNodeExpanded"))
@@ -3905,6 +3707,15 @@ func (resource *Resource) GongDiff(stage *Stage, resourceOther *Resource) (diffs
 	if resource.Name != resourceOther.Name {
 		diffs = append(diffs, resource.GongMarshallField(stage, "Name"))
 	}
+	if resource.ComputedPrefix != resourceOther.ComputedPrefix {
+		diffs = append(diffs, resource.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	if resource.IsInRenameMode != resourceOther.IsInRenameMode {
+		diffs = append(diffs, resource.GongMarshallField(stage, "IsInRenameMode"))
+	}
+	if resource.IsExpanded != resourceOther.IsExpanded {
+		diffs = append(diffs, resource.GongMarshallField(stage, "IsExpanded"))
+	}
 	if resource.Description != resourceOther.Description {
 		diffs = append(diffs, resource.GongMarshallField(stage, "Description"))
 	}
@@ -3949,22 +3760,6 @@ func (resource *Resource) GongDiff(stage *Stage, resourceOther *Resource) (diffs
 	if SubResourcesDifferent {
 		ops := Diff(stage, resource, resourceOther, "SubResources", resourceOther.SubResources, resource.SubResources)
 		diffs = append(diffs, ops)
-	}
-	if resource.IsExpanded != resourceOther.IsExpanded {
-		diffs = append(diffs, resource.GongMarshallField(stage, "IsExpanded"))
-	}
-	if resource.ComputedPrefix != resourceOther.ComputedPrefix {
-		diffs = append(diffs, resource.GongMarshallField(stage, "ComputedPrefix"))
-	}
-	if resource.IsInRenameMode != resourceOther.IsInRenameMode {
-		diffs = append(diffs, resource.GongMarshallField(stage, "IsInRenameMode"))
-	}
-	if (resource.OwningLibrary == nil) != (resourceOther.OwningLibrary == nil) {
-		diffs = append(diffs, resource.GongMarshallField(stage, "OwningLibrary"))
-	} else if resource.OwningLibrary != nil && resourceOther.OwningLibrary != nil {
-		if resource.OwningLibrary != resourceOther.OwningLibrary {
-			diffs = append(diffs, resource.GongMarshallField(stage, "OwningLibrary"))
-		}
 	}
 
 	return
@@ -4087,45 +3882,19 @@ func (resourcetaskshape *ResourceTaskShape) GongDiff(stage *Stage, resourcetasks
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (root *Root) GongDiff(stage *Stage, rootOther *Root) (diffs []string) {
-	// insertion point for field diffs
-	if root.Name != rootOther.Name {
-		diffs = append(diffs, root.GongMarshallField(stage, "Name"))
-	}
-	LibrariesDifferent := false
-	if len(root.Libraries) != len(rootOther.Libraries) {
-		LibrariesDifferent = true
-	} else {
-		for i := range root.Libraries {
-			if (root.Libraries[i] == nil) != (rootOther.Libraries[i] == nil) {
-				LibrariesDifferent = true
-				break
-			} else if root.Libraries[i] != nil && rootOther.Libraries[i] != nil {
-				// this is a pointer comparaison
-				if root.Libraries[i] != rootOther.Libraries[i] {
-					LibrariesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if LibrariesDifferent {
-		ops := Diff(stage, root, rootOther, "Libraries", rootOther.Libraries, root.Libraries)
-		diffs = append(diffs, ops)
-	}
-	if root.NbPixPerCharacter != rootOther.NbPixPerCharacter {
-		diffs = append(diffs, root.GongMarshallField(stage, "NbPixPerCharacter"))
-	}
-
-	return
-}
-
-// GongDiff computes the diff between the instance and another instance of same gong struct type
-// and returns the list of differences as strings
 func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 	// insertion point for field diffs
 	if task.Name != taskOther.Name {
 		diffs = append(diffs, task.GongMarshallField(stage, "Name"))
+	}
+	if task.ComputedPrefix != taskOther.ComputedPrefix {
+		diffs = append(diffs, task.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	if task.IsInRenameMode != taskOther.IsInRenameMode {
+		diffs = append(diffs, task.GongMarshallField(stage, "IsInRenameMode"))
+	}
+	if task.IsExpanded != taskOther.IsExpanded {
+		diffs = append(diffs, task.GongMarshallField(stage, "IsExpanded"))
 	}
 	if task.Start != taskOther.Start {
 		diffs = append(diffs, task.GongMarshallField(stage, "Start"))
@@ -4156,22 +3925,6 @@ func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 	if SubTasksDifferent {
 		ops := Diff(stage, task, taskOther, "SubTasks", taskOther.SubTasks, task.SubTasks)
 		diffs = append(diffs, ops)
-	}
-	if task.IsExpanded != taskOther.IsExpanded {
-		diffs = append(diffs, task.GongMarshallField(stage, "IsExpanded"))
-	}
-	if task.ComputedPrefix != taskOther.ComputedPrefix {
-		diffs = append(diffs, task.GongMarshallField(stage, "ComputedPrefix"))
-	}
-	if task.IsInRenameMode != taskOther.IsInRenameMode {
-		diffs = append(diffs, task.GongMarshallField(stage, "IsInRenameMode"))
-	}
-	if (task.OwningLibrary == nil) != (taskOther.OwningLibrary == nil) {
-		diffs = append(diffs, task.GongMarshallField(stage, "OwningLibrary"))
-	} else if task.OwningLibrary != nil && taskOther.OwningLibrary != nil {
-		if task.OwningLibrary != taskOther.OwningLibrary {
-			diffs = append(diffs, task.GongMarshallField(stage, "OwningLibrary"))
-		}
 	}
 	InputsDifferent := false
 	if len(task.Inputs) != len(taskOther.Inputs) {

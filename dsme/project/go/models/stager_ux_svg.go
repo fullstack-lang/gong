@@ -12,7 +12,7 @@ func (stager *Stager) svg() {
 	stager.svgStage.Reset()
 	stage := stager.stage
 	_ = stage
-	root := stager.root
+	root := stager.rootLibrary
 
 	svgStage := stager.svgStage
 

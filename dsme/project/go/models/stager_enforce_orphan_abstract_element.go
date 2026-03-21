@@ -16,7 +16,7 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 			return roots
 		},
 		func(product *Product) {
-			product.GetOwnlingLibrary().RootProducts = append(product.GetOwnlingLibrary().RootProducts, product)
+			product.GetOwningLibrary().RootProducts = append(product.GetOwningLibrary().RootProducts, product)
 		},
 		func(product *Product) []*Product {
 			return product.SubProducts
@@ -33,10 +33,10 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 			return roots
 		},
 		func(task *Task) {
-			task.GetOwnlingLibrary().RootTasks = append(task.GetOwnlingLibrary().RootTasks, task)
+			task.GetOwningLibrary().RootTasks = append(task.GetOwningLibrary().RootTasks, task)
 		},
-		func(product *Task) []*Task {
-			return product.SubTasks
+		func(task *Task) []*Task {
+			return task.SubTasks
 		},
 	)
 
@@ -49,10 +49,10 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 			}
 			return roots
 		},
-		func(product *Note) {
-			product.GetOwnlingLibrary().Notes = append(product.GetOwnlingLibrary().Notes, product)
+		func(note *Note) {
+			note.GetOwningLibrary().Notes = append(note.GetOwningLibrary().Notes, note)
 		},
-		func(product *Note) []*Note {
+		func(note *Note) []*Note {
 			return []*Note{}
 		},
 	)
@@ -67,10 +67,10 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 			return roots
 		},
 		func(resource *Resource) {
-			resource.GetOwnlingLibrary().RootResources = append(resource.GetOwnlingLibrary().RootResources, resource)
+			resource.GetOwningLibrary().RootResources = append(resource.GetOwningLibrary().RootResources, resource)
 		},
-		func(product *Resource) []*Resource {
-			return product.SubResources
+		func(resource *Resource) []*Resource {
+			return resource.SubResources
 		},
 	)
 
@@ -83,11 +83,29 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 			}
 			return roots
 		},
-		func(product *Diagram) {
-			product.GetOwnlingLibrary().Diagrams = append(product.GetOwnlingLibrary().Diagrams, product)
+		func(diagram *Diagram) {
+			diagram.GetOwningLibrary().Diagrams = append(diagram.GetOwningLibrary().Diagrams, diagram)
 		},
-		func(product *Diagram) []*Diagram {
+		func(diagram *Diagram) []*Diagram {
 			return []*Diagram{}
+		},
+	)
+
+	needCommit = needCommit || reattachToLibraryRoots(
+		stager,
+		func() []*Library {
+			return stager.rootLibrary.SubLibraries
+		},
+		func(library *Library) {
+			// attach to root, only if it is not the root library
+			// (which is the only one without an owning library)
+			if library != stager.rootLibrary {
+				stager.rootLibrary.SubLibraries = append(stager.rootLibrary.SubLibraries, library)
+				library.SetOwningLibrary(stager.rootLibrary)
+			}
+		},
+		func(library *Library) []*Library {
+			return library.SubLibraries
 		},
 	)
 
@@ -101,7 +119,7 @@ func reattachToLibraryRoots[T interface {
 }](
 	stager *Stager,
 	getRoots func() []T,
-	appendToRoot func(T),
+	attachDirectlyToLibraryRoot func(T),
 	getChildren func(T) []T,
 ) (needCommit bool) {
 	// 1. Find all reachable nodes
@@ -129,10 +147,14 @@ func reattachToLibraryRoots[T interface {
 	// 2. Find all nodes and delete them
 	for _, object := range GetGongstrucsSorted[T](stager.stage) {
 		if _, ok := reachable[object]; !ok {
-			appendToRoot(object)
-			needCommit = true
-			stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Orphan %s %s, was reattached to the root of library %s",
-				object.GongGetGongstructName(), object.GetName(), object.GetOwnlingLibrary().GetName()))
+			if object != any(stager.rootLibrary) {
+				object.UnstageVoid(stager.stage)
+				needCommit = true
+				stager.probeForm.AddNotification(time.Now(),
+					fmt.Sprintf("Orphan \"%s\" of type \"%s\" was deleted",
+						object.GetName(), object.GongGetGongstructName()),
+				)
+			}
 		}
 	}
 

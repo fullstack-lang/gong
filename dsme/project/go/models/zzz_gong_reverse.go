@@ -23,11 +23,11 @@ func (inst *Library) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Re
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
-	case "Root":
+	case "Library":
 		switch reverseField.Fieldname {
-		case "Libraries":
-			if _root, ok := stage.Root_Libraries_reverseMap[inst]; ok {
-				res = _root.Name
+		case "SubLibraries":
+			if _library, ok := stage.Library_SubLibraries_reverseMap[inst]; ok {
+				res = _library.Name
 			}
 		}
 	}
@@ -286,15 +286,6 @@ func (inst *ResourceTaskShape) GongGetReverseFieldOwnerName(stage *Stage, revers
 	return
 }
 
-func (inst *Root) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
-
-	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
-	return
-}
-
 func (inst *Task) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -431,10 +422,10 @@ func (inst *Library) GongGetReverseFieldOwner(stage *Stage, reverseField *Revers
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
-	case "Root":
+	case "Library":
 		switch reverseField.Fieldname {
-		case "Libraries":
-			res = stage.Root_Libraries_reverseMap[inst]
+		case "SubLibraries":
+			res = stage.Library_SubLibraries_reverseMap[inst]
 		}
 	}
 	return res
@@ -646,15 +637,6 @@ func (inst *ResourceTaskShape) GongGetReverseFieldOwner(stage *Stage, reverseFie
 		case "ResourceTaskShapes":
 			res = stage.Diagram_ResourceTaskShapes_reverseMap[inst]
 		}
-	}
-	return res
-}
-
-func (inst *Root) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
-
-	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
 	}
 	return res
 }

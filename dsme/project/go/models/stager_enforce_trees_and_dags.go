@@ -7,10 +7,7 @@ import (
 )
 
 func (stager *Stager) enforceTreesAndDAG() (needCommit bool) {
-
 	products := GetGongstrucsSorted[*Product](stager.stage)
-	resources := GetGongstrucsSorted[*Resource](stager.stage)
-	tasks := GetGongstrucsSorted[*Task](stager.stage)
 
 	// 1. Hierarchy Tree for Product
 	needCommit = EnforceTree(
@@ -29,6 +26,7 @@ func (stager *Stager) enforceTreesAndDAG() (needCommit bool) {
 	) || needCommit
 
 	// 2. Hierarchy Tree for Resource
+	resources := GetGongstrucsSorted[*Resource](stager.stage)
 	needCommit = EnforceTree(
 		stager,
 		resources,
@@ -45,6 +43,7 @@ func (stager *Stager) enforceTreesAndDAG() (needCommit bool) {
 	) || needCommit
 
 	// 3. Hierarchy Tree for Task
+	tasks := GetGongstrucsSorted[*Task](stager.stage)
 	needCommit = EnforceTree(
 		stager,
 		tasks,
@@ -60,7 +59,49 @@ func (stager *Stager) enforceTreesAndDAG() (needCommit bool) {
 		func(t *Task) string { return "Task " + t.Name },
 	) || needCommit
 
-	// 4. Dependency DAG for Tasks and Products (Inputs/Outputs)
+	// 4. Hierarchy Tree for Library
+	libraries := GetGongstrucsSorted[*Library](stager.stage)
+	needCommit = EnforceTree(
+		stager,
+		libraries,
+		func(l *Library) []*Library { return l.SubLibraries },
+		func(parent, child *Library) {
+			for j, sub := range parent.SubLibraries {
+				if sub == child {
+					parent.SubLibraries = slices.Delete(parent.SubLibraries, j, j+1)
+					break
+				}
+			}
+		},
+		func(l *Library) string { return "Library " + l.Name },
+	) || needCommit
+
+	// remove libraries from root.Libraries if they are a sub-library of another library
+	isSubLibrary := make(map[*Library]bool)
+	for _, library := range libraries {
+		if library == stager.rootLibrary {
+			continue
+		}
+		for _, sub := range library.SubLibraries {
+			isSubLibrary[sub] = true
+		}
+	}
+
+	var filteredRootLibraries []*Library
+	for _, lib := range stager.rootLibrary.SubLibraries {
+		if !isSubLibrary[lib] {
+			filteredRootLibraries = append(filteredRootLibraries, lib)
+		} else {
+			stager.probeForm.AddNotification(time.Now(),
+				fmt.Sprintf("Library %s is a sub-library, removing it from root.SubLibraries", lib.Name))
+			needCommit = true
+		}
+	}
+	if len(filteredRootLibraries) != len(stager.rootLibrary.SubLibraries) {
+		stager.rootLibrary.SubLibraries = filteredRootLibraries
+	}
+
+	// 5. Dependency DAG for Tasks and Products (Inputs/Outputs)
 	// Build a map of Product -> Tasks that consume it (InputProducts)
 	// This allows us to traverse the "Product -> Task" edge efficiently
 	productConsumers := make(map[*Product][]*Task)
@@ -167,7 +208,8 @@ func EnforceTree[T comparable](
 				// Child already has a parent, remove from this node
 				removeChild(node, child)
 				stager.probeForm.AddNotification(time.Now(),
-					fmt.Sprintf("Node %s has multiple parents (including %s), breaking edge from %s", getName(child), getName(existingParent), getName(node)))
+					fmt.Sprintf("Node \"%s\" has 2 parents ; \"%s\" and \"%s\". Link to the later is deleted",
+						getName(child), getName(existingParent), getName(node)))
 				needCommit = true
 			} else {
 				parentMap[child] = node
@@ -195,7 +237,6 @@ func EnforceDAG[T comparable](
 	removeChild func(parent T, child T),
 	getName func(T) string,
 ) (needCommit bool) {
-
 	// Sets for DFS cycle detection
 	whiteSet := make(map[T]struct{}) // Not visited
 	graySet := make(map[T]struct{})  // Visiting (current path)

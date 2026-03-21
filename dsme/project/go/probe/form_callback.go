@@ -66,6 +66,12 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(diagram_.Name), formDiv)
+		case "ComputedPrefix":
+			FormDivBasicFieldToField(&(diagram_.ComputedPrefix), formDiv)
+		case "IsInRenameMode":
+			FormDivBasicFieldToField(&(diagram_.IsInRenameMode), formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(diagram_.IsExpanded), formDiv)
 		case "IsChecked":
 			FormDivBasicFieldToField(&(diagram_.IsChecked), formDiv)
 		case "IsEditable_":
@@ -80,14 +86,6 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(diagram_.Width), formDiv)
 		case "Height":
 			FormDivBasicFieldToField(&(diagram_.Height), formDiv)
-		case "IsExpanded":
-			FormDivBasicFieldToField(&(diagram_.IsExpanded), formDiv)
-		case "ComputedPrefix":
-			FormDivBasicFieldToField(&(diagram_.ComputedPrefix), formDiv)
-		case "IsInRenameMode":
-			FormDivBasicFieldToField(&(diagram_.IsInRenameMode), formDiv)
-		case "OwningLibrary":
-			FormDivSelectFieldToField(&(diagram_.OwningLibrary), diagramFormCallback.probe.stageOfInterest, formDiv)
 		case "Product_Shapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ProductShape](diagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ProductShape, 0)
@@ -829,6 +827,12 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(library_.Name), formDiv)
+		case "ComputedPrefix":
+			FormDivBasicFieldToField(&(library_.ComputedPrefix), formDiv)
+		case "IsInRenameMode":
+			FormDivBasicFieldToField(&(library_.IsInRenameMode), formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(library_.IsExpanded), formDiv)
 		case "RootProducts":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Product](libraryFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Product, 0)
@@ -984,16 +988,41 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 			}
 			library_.Diagrams = instanceSlice
 
-		case "IsExpanded":
-			FormDivBasicFieldToField(&(library_.IsExpanded), formDiv)
-		case "ComputedPrefix":
-			FormDivBasicFieldToField(&(library_.ComputedPrefix), formDiv)
-		case "IsInRenameMode":
-			FormDivBasicFieldToField(&(library_.IsInRenameMode), formDiv)
-		case "OwningLibrary":
-			FormDivSelectFieldToField(&(library_.OwningLibrary), libraryFormCallback.probe.stageOfInterest, formDiv)
-		case "Root:Libraries":
-			// WARNING : this form deals with the N-N association "Root.Libraries []*Library" but
+		case "SubLibraries":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Library](libraryFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Library, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Library)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					libraryFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Library](libraryFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			library_.SubLibraries = instanceSlice
+
+		case "NbPixPerCharacter":
+			FormDivBasicFieldToField(&(library_.NbPixPerCharacter), formDiv)
+		case "Library:SubLibraries":
+			// WARNING : this form deals with the N-N association "Library.SubLibraries []*Library" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
 			//
 			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
@@ -1003,21 +1032,21 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 			//
 			// Therefore, the forms works only in ONE particular case:
 			// - there was no association to this target
-			var formerSource *models.Root
+			var formerSource *models.Library
 			{
 				var rf models.ReverseField
 				_ = rf
-				rf.GongstructName = "Root"
-				rf.Fieldname = "Libraries"
+				rf.GongstructName = "Library"
+				rf.Fieldname = "SubLibraries"
 				formerAssociationSource := library_.GongGetReverseFieldOwner(
 					libraryFormCallback.probe.stageOfInterest,
 					&rf)
 
 				var ok bool
 				if formerAssociationSource != nil {
-					formerSource, ok = formerAssociationSource.(*models.Root)
+					formerSource, ok = formerAssociationSource.(*models.Library)
 					if !ok {
-						log.Fatalln("Source of Root.Libraries []*Library, is not an Root instance")
+						log.Fatalln("Source of Library.SubLibraries []*Library, is not an Library instance")
 					}
 				}
 			}
@@ -1028,8 +1057,8 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 			if newSourceName == nil {
 				// That could mean we clear the assocation for all source instances
 				if formerSource != nil {
-					idx := slices.Index(formerSource.Libraries, library_)
-					formerSource.Libraries = slices.Delete(formerSource.Libraries, idx, idx+1)
+					idx := slices.Index(formerSource.SubLibraries, library_)
+					formerSource.SubLibraries = slices.Delete(formerSource.SubLibraries, idx, idx+1)
 				}
 				break // nothing else to do for this field
 			}
@@ -1042,22 +1071,22 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 			}
 
 			// (2) find the source
-			var newSource *models.Root
-			for _root := range *models.GetGongstructInstancesSet[models.Root](libraryFormCallback.probe.stageOfInterest) {
+			var newSource *models.Library
+			for _library := range *models.GetGongstructInstancesSet[models.Library](libraryFormCallback.probe.stageOfInterest) {
 
 				// the match is base on the name
-				if _root.GetName() == newSourceName.GetName() {
-					newSource = _root // we have a match
+				if _library.GetName() == newSourceName.GetName() {
+					newSource = _library // we have a match
 					break
 				}
 			}
 			if newSource == nil {
-				log.Println("Source of Root.Libraries []*Library, with name", newSourceName, ", does not exist")
+				log.Println("Source of Library.SubLibraries []*Library, with name", newSourceName, ", does not exist")
 				break
 			}
 
 			// (3) append the new value to the new source field
-			newSource.Libraries = append(newSource.Libraries, library_)
+			newSource.SubLibraries = append(newSource.SubLibraries, library_)
 		}
 	}
 
@@ -1136,6 +1165,12 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(note_.Name), formDiv)
+		case "ComputedPrefix":
+			FormDivBasicFieldToField(&(note_.ComputedPrefix), formDiv)
+		case "IsInRenameMode":
+			FormDivBasicFieldToField(&(note_.IsInRenameMode), formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(note_.IsExpanded), formDiv)
 		case "Products":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Product](noteFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Product, 0)
@@ -1229,14 +1264,6 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 			}
 			note_.Resources = instanceSlice
 
-		case "IsExpanded":
-			FormDivBasicFieldToField(&(note_.IsExpanded), formDiv)
-		case "ComputedPrefix":
-			FormDivBasicFieldToField(&(note_.ComputedPrefix), formDiv)
-		case "IsInRenameMode":
-			FormDivBasicFieldToField(&(note_.IsInRenameMode), formDiv)
-		case "OwningLibrary":
-			FormDivSelectFieldToField(&(note_.OwningLibrary), noteFormCallback.probe.stageOfInterest, formDiv)
 		case "Diagram:NotesWhoseNodeIsExpanded":
 			// WARNING : this form deals with the N-N association "Diagram.NotesWhoseNodeIsExpanded []*Note" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
@@ -2085,6 +2112,12 @@ func (productFormCallback *ProductFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(product_.Name), formDiv)
+		case "ComputedPrefix":
+			FormDivBasicFieldToField(&(product_.ComputedPrefix), formDiv)
+		case "IsInRenameMode":
+			FormDivBasicFieldToField(&(product_.IsInRenameMode), formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(product_.IsExpanded), formDiv)
 		case "Description":
 			FormDivBasicFieldToField(&(product_.Description), formDiv)
 		case "SubProducts":
@@ -2118,14 +2151,6 @@ func (productFormCallback *ProductFormCallback) OnSave() {
 			}
 			product_.SubProducts = instanceSlice
 
-		case "IsExpanded":
-			FormDivBasicFieldToField(&(product_.IsExpanded), formDiv)
-		case "ComputedPrefix":
-			FormDivBasicFieldToField(&(product_.ComputedPrefix), formDiv)
-		case "IsInRenameMode":
-			FormDivBasicFieldToField(&(product_.IsInRenameMode), formDiv)
-		case "OwningLibrary":
-			FormDivSelectFieldToField(&(product_.OwningLibrary), productFormCallback.probe.stageOfInterest, formDiv)
 		case "IsProducersNodeExpanded":
 			FormDivBasicFieldToField(&(product_.IsProducersNodeExpanded), formDiv)
 		case "IsConsumersNodeExpanded":
@@ -2920,6 +2945,12 @@ func (resourceFormCallback *ResourceFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(resource_.Name), formDiv)
+		case "ComputedPrefix":
+			FormDivBasicFieldToField(&(resource_.ComputedPrefix), formDiv)
+		case "IsInRenameMode":
+			FormDivBasicFieldToField(&(resource_.IsInRenameMode), formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(resource_.IsExpanded), formDiv)
 		case "Description":
 			FormDivBasicFieldToField(&(resource_.Description), formDiv)
 		case "Tasks":
@@ -2984,14 +3015,6 @@ func (resourceFormCallback *ResourceFormCallback) OnSave() {
 			}
 			resource_.SubResources = instanceSlice
 
-		case "IsExpanded":
-			FormDivBasicFieldToField(&(resource_.IsExpanded), formDiv)
-		case "ComputedPrefix":
-			FormDivBasicFieldToField(&(resource_.ComputedPrefix), formDiv)
-		case "IsInRenameMode":
-			FormDivBasicFieldToField(&(resource_.IsInRenameMode), formDiv)
-		case "OwningLibrary":
-			FormDivSelectFieldToField(&(resource_.OwningLibrary), resourceFormCallback.probe.stageOfInterest, formDiv)
 		case "Diagram:ResourcesWhoseNodeIsExpanded":
 			// WARNING : this form deals with the N-N association "Diagram.ResourcesWhoseNodeIsExpanded []*Resource" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
@@ -3763,117 +3786,6 @@ func (resourcetaskshapeFormCallback *ResourceTaskShapeFormCallback) OnSave() {
 
 	updateAndCommitTree(resourcetaskshapeFormCallback.probe)
 }
-func __gong__New__RootFormCallback(
-	root *models.Root,
-	probe *Probe,
-	formGroup *table.FormGroup,
-) (rootFormCallback *RootFormCallback) {
-	rootFormCallback = new(RootFormCallback)
-	rootFormCallback.probe = probe
-	rootFormCallback.root = root
-	rootFormCallback.formGroup = formGroup
-
-	rootFormCallback.CreationMode = (root == nil)
-
-	return
-}
-
-type RootFormCallback struct {
-	root *models.Root
-
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *table.FormGroup
-}
-
-func (rootFormCallback *RootFormCallback) OnSave() {
-	rootFormCallback.probe.stageOfInterest.Lock()
-	defer rootFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("RootFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	rootFormCallback.probe.formStage.Checkout()
-
-	if rootFormCallback.root == nil {
-		rootFormCallback.root = new(models.Root).Stage(rootFormCallback.probe.stageOfInterest)
-	}
-	root_ := rootFormCallback.root
-	_ = root_
-
-	for _, formDiv := range rootFormCallback.formGroup.FormDivs {
-		switch formDiv.Name {
-		// insertion point per field
-		case "Name":
-			FormDivBasicFieldToField(&(root_.Name), formDiv)
-		case "Libraries":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Library](rootFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.Library, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Library)
-
-			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					rootFormCallback.probe.stageOfInterest,
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Library](rootFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			root_.Libraries = instanceSlice
-
-		case "NbPixPerCharacter":
-			FormDivBasicFieldToField(&(root_.NbPixPerCharacter), formDiv)
-		}
-	}
-
-	// manage the suppress operation
-	if rootFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		root_.Unstage(rootFormCallback.probe.stageOfInterest)
-	}
-
-	rootFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.Root](
-		rootFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if rootFormCallback.CreationMode || rootFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		rootFormCallback.probe.formStage.Reset()
-		newFormGroup := (&table.FormGroup{
-			Name: FormName,
-		}).Stage(rootFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__RootFormCallback(
-			nil,
-			rootFormCallback.probe,
-			newFormGroup,
-		)
-		root := new(models.Root)
-		FillUpForm(root, newFormGroup, rootFormCallback.probe)
-		rootFormCallback.probe.formStage.Commit()
-	}
-
-	updateAndCommitTree(rootFormCallback.probe)
-}
 func __gong__New__TaskFormCallback(
 	task *models.Task,
 	probe *Probe,
@@ -3921,6 +3833,12 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(task_.Name), formDiv)
+		case "ComputedPrefix":
+			FormDivBasicFieldToField(&(task_.ComputedPrefix), formDiv)
+		case "IsInRenameMode":
+			FormDivBasicFieldToField(&(task_.IsInRenameMode), formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(task_.IsExpanded), formDiv)
 		case "Start":
 			FormDivBasicFieldToField(&(task_.Start), formDiv)
 		case "End":
@@ -3958,14 +3876,6 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 			}
 			task_.SubTasks = instanceSlice
 
-		case "IsExpanded":
-			FormDivBasicFieldToField(&(task_.IsExpanded), formDiv)
-		case "ComputedPrefix":
-			FormDivBasicFieldToField(&(task_.ComputedPrefix), formDiv)
-		case "IsInRenameMode":
-			FormDivBasicFieldToField(&(task_.IsInRenameMode), formDiv)
-		case "OwningLibrary":
-			FormDivSelectFieldToField(&(task_.OwningLibrary), taskFormCallback.probe.stageOfInterest, formDiv)
 		case "Inputs":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Product](taskFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Product, 0)

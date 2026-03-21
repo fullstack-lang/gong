@@ -14,6 +14,12 @@ type Diagram_WOP struct {
 
 	Name string
 
+	ComputedPrefix string
+
+	IsInRenameMode bool
+
+	IsExpanded bool
+
 	IsChecked bool
 
 	IsEditable_ bool
@@ -28,12 +34,6 @@ type Diagram_WOP struct {
 
 	Height float64
 
-	IsExpanded bool
-
-	ComputedPrefix string
-
-	IsInRenameMode bool
-
 	IsPBSNodeExpanded bool
 
 	IsWBSNodeExpanded bool
@@ -46,6 +46,9 @@ type Diagram_WOP struct {
 func (from *Diagram) CopyBasicFields(to *Diagram) {
 	// insertion point
 	to.Name = from.Name
+	to.ComputedPrefix = from.ComputedPrefix
+	to.IsInRenameMode = from.IsInRenameMode
+	to.IsExpanded = from.IsExpanded
 	to.IsChecked = from.IsChecked
 	to.IsEditable_ = from.IsEditable_
 	to.ShowPrefix = from.ShowPrefix
@@ -53,9 +56,6 @@ func (from *Diagram) CopyBasicFields(to *Diagram) {
 	to.DefaultBoxHeigth = from.DefaultBoxHeigth
 	to.Width = from.Width
 	to.Height = from.Height
-	to.IsExpanded = from.IsExpanded
-	to.ComputedPrefix = from.ComputedPrefix
-	to.IsInRenameMode = from.IsInRenameMode
 	to.IsPBSNodeExpanded = from.IsPBSNodeExpanded
 	to.IsWBSNodeExpanded = from.IsWBSNodeExpanded
 	to.IsNotesNodeExpanded = from.IsNotesNodeExpanded
@@ -67,19 +67,22 @@ type Library_WOP struct {
 
 	Name string
 
-	IsExpanded bool
-
 	ComputedPrefix string
 
 	IsInRenameMode bool
+
+	IsExpanded bool
+
+	NbPixPerCharacter float64
 }
 
 func (from *Library) CopyBasicFields(to *Library) {
 	// insertion point
 	to.Name = from.Name
-	to.IsExpanded = from.IsExpanded
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsInRenameMode = from.IsInRenameMode
+	to.IsExpanded = from.IsExpanded
+	to.NbPixPerCharacter = from.NbPixPerCharacter
 }
 
 type Note_WOP struct {
@@ -87,19 +90,19 @@ type Note_WOP struct {
 
 	Name string
 
-	IsExpanded bool
-
 	ComputedPrefix string
 
 	IsInRenameMode bool
+
+	IsExpanded bool
 }
 
 func (from *Note) CopyBasicFields(to *Note) {
 	// insertion point
 	to.Name = from.Name
-	to.IsExpanded = from.IsExpanded
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsInRenameMode = from.IsInRenameMode
+	to.IsExpanded = from.IsExpanded
 }
 
 type NoteProductShape_WOP struct {
@@ -223,13 +226,13 @@ type Product_WOP struct {
 
 	Name string
 
-	Description string
-
-	IsExpanded bool
-
 	ComputedPrefix string
 
 	IsInRenameMode bool
+
+	IsExpanded bool
+
+	Description string
 
 	IsProducersNodeExpanded bool
 
@@ -239,10 +242,10 @@ type Product_WOP struct {
 func (from *Product) CopyBasicFields(to *Product) {
 	// insertion point
 	to.Name = from.Name
-	to.Description = from.Description
-	to.IsExpanded = from.IsExpanded
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsInRenameMode = from.IsInRenameMode
+	to.IsExpanded = from.IsExpanded
+	to.Description = from.Description
 	to.IsProducersNodeExpanded = from.IsProducersNodeExpanded
 	to.IsConsumersNodeExpanded = from.IsConsumersNodeExpanded
 }
@@ -310,22 +313,22 @@ type Resource_WOP struct {
 
 	Name string
 
-	Description string
-
-	IsExpanded bool
-
 	ComputedPrefix string
 
 	IsInRenameMode bool
+
+	IsExpanded bool
+
+	Description string
 }
 
 func (from *Resource) CopyBasicFields(to *Resource) {
 	// insertion point
 	to.Name = from.Name
-	to.Description = from.Description
-	to.IsExpanded = from.IsExpanded
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsInRenameMode = from.IsInRenameMode
+	to.IsExpanded = from.IsExpanded
+	to.Description = from.Description
 }
 
 type ResourceCompositionShape_WOP struct {
@@ -415,36 +418,22 @@ func (from *ResourceTaskShape) CopyBasicFields(to *ResourceTaskShape) {
 	to.IsHidden = from.IsHidden
 }
 
-type Root_WOP struct {
-	// insertion point
-
-	Name string
-
-	NbPixPerCharacter float64
-}
-
-func (from *Root) CopyBasicFields(to *Root) {
-	// insertion point
-	to.Name = from.Name
-	to.NbPixPerCharacter = from.NbPixPerCharacter
-}
-
 type Task_WOP struct {
 	// insertion point
 
 	Name string
+
+	ComputedPrefix string
+
+	IsInRenameMode bool
+
+	IsExpanded bool
 
 	Start time.Time
 
 	End time.Time
 
 	Description string
-
-	IsExpanded bool
-
-	ComputedPrefix string
-
-	IsInRenameMode bool
 
 	IsInputsNodeExpanded bool
 
@@ -458,12 +447,12 @@ type Task_WOP struct {
 func (from *Task) CopyBasicFields(to *Task) {
 	// insertion point
 	to.Name = from.Name
+	to.ComputedPrefix = from.ComputedPrefix
+	to.IsInRenameMode = from.IsInRenameMode
+	to.IsExpanded = from.IsExpanded
 	to.Start = from.Start
 	to.End = from.End
 	to.Description = from.Description
-	to.IsExpanded = from.IsExpanded
-	to.ComputedPrefix = from.ComputedPrefix
-	to.IsInRenameMode = from.IsInRenameMode
 	to.IsInputsNodeExpanded = from.IsInputsNodeExpanded
 	to.IsOutputsNodeExpanded = from.IsOutputsNodeExpanded
 	to.IsWithCompletion = from.IsWithCompletion
