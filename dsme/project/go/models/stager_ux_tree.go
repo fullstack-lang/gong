@@ -30,8 +30,40 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 		Name:            library.Name,
 		IsExpanded:      library.IsExpanded,
 		IsNodeClickable: true,
+		IsInEditMode:    library.IsInRenameMode,
 	}
 	*parentNodes = append(*parentNodes, libraryNode)
+
+	if library != stager.rootLibrary {
+		if !library.GetIsInRenameMode() {
+			libraryNode.Buttons = append(libraryNode.Buttons,
+				&tree.Button{
+					Name: library.GetName() + " " + string(buttons.BUTTON_edit_note),
+					Icon: string(buttons.BUTTON_edit_note),
+					OnUpdate: func(stage *tree.Stage, updatedButton *tree.Button) {
+						library.SetIsInRenameMode(true)
+						stager.stage.Commit()
+					},
+					HasToolTip:      true,
+					ToolTipText:     "Rename the " + GetGongstructNameFromPointer(library),
+					ToolTipPosition: tree.Above,
+				})
+		} else {
+			libraryNode.Buttons = append(libraryNode.Buttons,
+				&tree.Button{
+					Name: library.GetName() + " " + string(buttons.BUTTON_edit_off),
+					Icon: string(buttons.BUTTON_edit_off),
+					OnUpdate: func(stage *tree.Stage, updatedButton *tree.Button) {
+						library.SetIsInRenameMode(false)
+						stager.stage.Commit()
+					},
+					HasToolTip:      true,
+					ToolTipText:     "Cancel renaming",
+					ToolTipPosition: tree.Above,
+				})
+		}
+	}
+
 	libraryNode.OnUpdate = stager.OnUpdateLibrary(library)
 
 	addAddItemButton(stager, nil, nil, &library.IsExpanded, libraryNode, &library.SubLibraries, nil, &[]*ProductShape{}, &[]*ProductCompositionShape{})
@@ -347,9 +379,16 @@ func (stager *Stager) OnUpdateLibrary(library *Library) func(stage *tree.Stage, 
 		if frontNode.IsExpanded != stagedNode.IsExpanded {
 			stagedNode.IsExpanded = frontNode.IsExpanded
 			library.IsExpanded = frontNode.IsExpanded
-		} else {
-			stager.probeForm.FillUpFormFromGongstruct(library, GetPointerToGongstructName[*Library]())
+			stager.stage.Commit()
+			return
 		}
+		if frontNode.Name != stagedNode.Name {
+			library.Name = frontNode.Name
+			library.IsInRenameMode = false
+			stager.stage.Commit()
+			return
+		}
+		stager.probeForm.FillUpFormFromGongstruct(library, GetPointerToGongstructName[*Library]())
 		stager.stage.Commit()
 	}
 }
