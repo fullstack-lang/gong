@@ -428,6 +428,9 @@ func (stager *Stager) svg() {
 	}
 
 	for _, resourceTaskShape := range diagram.ResourceTaskShapes {
+		if resourceTaskShape.GetIsHidden() {
+			continue
+		}
 		resource := resourceTaskShape.Resource
 		task := resourceTaskShape.Task
 		if resource == nil || task == nil {

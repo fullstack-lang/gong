@@ -6,9 +6,9 @@ type BeforeCommitImplementation struct {
 
 func (c *BeforeCommitImplementation) BeforeCommit(stage *Stage) {
 	c.stager.computeConsistency()
-	c.stager.updateObjectTreeStage()
+	c.stager.treeObjectSimulation()
 	c.stager.updateButtonsStage()
 	c.stager.updateExportXLButtonStage()
-	c.stager.updateSvgStage()
+	c.stager.svg()
 	c.stager.updateTreeDiagramStage()
 }

@@ -23,40 +23,26 @@ type Library struct {
 	Diagrams []*Diagram
 
 	AbstractTypeFields
+	LibraryAbstractFields
 
 	objects []AbstractType
 }
 
-type AbstractType interface {
-	GongstructIF
-	GetIsExpanded() bool
-	SetIsExpanded(bool)
-	GetComputedPrefix() string
-	SetComputedPrefix(string)
-	GetComputedWidth() int
-	SetComputedWidth(int)
-	SetComputedPrefixInt([]int)
-	GetIsInRenameMode() bool
-	SetIsInRenameMode(bool)
-	GetOwnlingLibrary() *Library
-	SetOwningLibrary(*Library)
+type LibraryAbstractFields struct {
+	OwningLibrary *Library
 }
 
-type AbstractTypeFields struct {
-	IsExpanded bool // to be made private once in production (no need to persist)
+type LibraryOwnedType interface {
+	GetOwnlingLibrary() *Library
+	SetOwningLibrary(library *Library)
+}
 
-	// ComputedPrefix is automaticaly computed by the semantic enforcing mechanism
-	ComputedPrefix string
-	computedPrefix []int
+func (r *LibraryAbstractFields) GetOwnlingLibrary() *Library {
+	return r.OwningLibrary
+}
 
-	// When the full PBS is displayed, the computedWidth is the number of node
-	// aligned below. A leaf node has a computedWidth of 1
-	computedWidth int
-
-	// nodes can be edited
-	IsInRenameMode bool
-
-	OwningLibrary *Library
+func (r *LibraryAbstractFields) SetOwningLibrary(library *Library) {
+	r.OwningLibrary = library
 }
 
 // Note brings information to a diagram
@@ -69,18 +55,7 @@ type Note struct {
 	Resources []*Resource
 
 	AbstractTypeFields
-}
-
-func (r *AbstractTypeFields) GetComputedWidth() int {
-	return r.computedWidth
-}
-
-func (r *AbstractTypeFields) SetComputedWidth(w int) {
-	r.computedWidth = w
-}
-
-func (r *AbstractTypeFields) SetComputedPrefixInt(p []int) {
-	r.computedPrefix = p
+	LibraryAbstractFields
 }
 
 type Task struct {
@@ -95,6 +70,7 @@ type Task struct {
 	SubTasks []*Task
 
 	AbstractTypeFields
+	LibraryAbstractFields
 
 	Inputs               []*Product
 	IsInputsNodeExpanded bool
@@ -143,6 +119,7 @@ type Product struct {
 	SubProducts []*Product
 
 	AbstractTypeFields
+	LibraryAbstractFields
 
 	// producers are computed from [models.Task.Outputs]
 	// this is a computed field, therefore, not exported
@@ -178,38 +155,7 @@ type Resource struct {
 	parentResource *Resource
 
 	AbstractTypeFields
-}
-
-func (r *AbstractTypeFields) GetIsExpanded() bool {
-	return r.IsExpanded
-}
-
-func (r *AbstractTypeFields) SetIsExpanded(isExpanded bool) {
-	r.IsExpanded = isExpanded
-}
-
-func (r *AbstractTypeFields) GetComputedPrefix() string {
-	return r.ComputedPrefix
-}
-
-func (r *AbstractTypeFields) SetComputedPrefix(ComputedPrefix string) {
-	r.ComputedPrefix = ComputedPrefix
-}
-
-func (r *AbstractTypeFields) GetIsInRenameMode() bool {
-	return r.IsInRenameMode
-}
-
-func (r *AbstractTypeFields) SetIsInRenameMode(isInRenameMode bool) {
-	r.IsInRenameMode = isInRenameMode
-}
-
-func (r *AbstractTypeFields) GetOwnlingLibrary() *Library {
-	return r.OwningLibrary
-}
-
-func (r *AbstractTypeFields) SetOwningLibrary(library *Library) {
-	r.OwningLibrary = library
+	LibraryAbstractFields
 }
 
 var (
