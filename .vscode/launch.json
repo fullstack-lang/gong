@@ -5,7 +5,7 @@
         // "gongc" configurations
         //
         {
-            "name": "gong generate /tmp/helloworld",
+            "name": "helloworld: gong generate /tmp/helloworld",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -16,7 +16,7 @@
             ]
         },
         {
-            "name": "gong generate /tmp/helloworld -level1",
+            "name": "helloworld: gong generate /tmp/helloworld -level1",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -28,7 +28,7 @@
             ]
         },
         {
-            "name": "gong generate doc -skipGoModCommands -skipNg",
+            "name": "doc: gong generate doc -skipGoModCommands -skipNg",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -41,7 +41,7 @@
             ]
         },
         {
-            "name": "gong generate docx -skipGoModCommands -skipNg",
+            "name": "docx: gong generate docx -skipGoModCommands -skipNg",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -54,7 +54,7 @@
             ]
         },
         {
-            "name": "gong generate gong -skipGoModCommands -level1",
+            "name": "gong: gong generate gong -skipGoModCommands -level1",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -67,7 +67,7 @@
             ]
         },
         {
-            "name": "gong generate split -skipGoModCommands -level1",
+            "name": "split: gong generate split -skipGoModCommands -level1",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -80,7 +80,7 @@
             ]
         },
         {
-            "name": "gong generate cursor --skipGoModCommands --skipNpmWorkspaces --skipGoModCommands",
+            "name": "cursor: gong generate cursor --skipGoModCommands --skipNpmWorkspaces --skipGoModCommands",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -94,7 +94,7 @@
             ]
         },
         {
-            "name": "gong generate gongreqif",
+            "name": "gongreqif: gong generate gongreqif",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -106,7 +106,7 @@
             ]
         },
         {
-            "name": "gong generate phyllotaxymusic",
+            "name": "phyllotaxymusic: gong generate phyllotaxymusic",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -118,7 +118,7 @@
             ]
         },
         {
-            "name": "gong generate gongxsd books",
+            "name": "books: gong generate gongxsd books",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -129,7 +129,7 @@
             ]
         },
         {
-            "name": "gong generate musicxml of gongxsd -skipGoModCommands -skipNpmInstall -compileForDebug",
+            "name": "musicxml: gong generate musicxml of gongxsd -skipGoModCommands -skipNpmInstall -compileForDebug",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -143,7 +143,7 @@
             ]
         },
         {
-            "name": "gong generate slider -skipGoModCommands -skipNpmInstall -skipNpmWorkspaces",
+            "name": "slider: gong generate slider -skipGoModCommands -skipNpmInstall -skipNpmWorkspaces",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -157,7 +157,7 @@
             ]
         },
         {
-            "name": "gong generate svg -skipGoModCommands -skipNg",
+            "name": "svg: gong generate svg -skipGoModCommands -skipNg",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -170,7 +170,7 @@
             ]
         },
         {
-            "name": "gong generate svg -skipGoModCommands -skipNpmInstall -skipNpmWorkspaces",
+            "name": "svg: gong generate svg -skipGoModCommands -skipNpmInstall -skipNpmWorkspaces",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -184,7 +184,7 @@
             ]
         },
         {
-            "name": "gong generate test -skipGoModCommands -skipNg -skipFlutter=false",
+            "name": "test: gong generate test -skipGoModCommands -skipNg -skipFlutter=false",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -198,7 +198,7 @@
             ]
         },
         {
-            "name": "gong generate test -skipGoModCommands -skipNg -skipNpmInstall -compileForDebug -debouncedMarshall w/o rm main.go",
+            "name": "test: gong generate test -skipGoModCommands -skipNg -skipNpmInstall -compileForDebug -debouncedMarshall w/o rm main.go",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -214,7 +214,7 @@
             ]
         },
         {
-            "name": "gong generate test -skipGoModCommands -skipNpmInstall  with rm main.go",
+            "name": "test: gong generate test -skipGoModCommands -skipNpmInstall  with rm main.go",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -228,7 +228,7 @@
             ]
         },
         {
-            "name": "gong generate test -skipGoModCommands -skipNpmInstall -skipNg with rm main.go",
+            "name": "test: gong generate test -skipGoModCommands -skipNpmInstall -skipNg with rm main.go",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -243,7 +243,7 @@
             ]
         },
         {
-            "name": "gong generate test -skipGoModCommands -skipNpmInstall -skipNg with rm main.go, from test",
+            "name": "test: gong generate test -skipGoModCommands -skipNpmInstall -skipNg with rm main.go, from test",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -259,7 +259,7 @@
             ]
         },
         {
-            "name": "gong generate test -skipGoModCommands -skipNpmInstall -skipNpmWorkspaces",
+            "name": "test: gong generate test -skipGoModCommands -skipNpmInstall -skipNpmWorkspaces",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -274,7 +274,7 @@
             ]
         },
         {
-            "name": "gong generate test -skipGoModCommands -skipNpmInstall without rm main.go",
+            "name": "test: gong generate test -skipGoModCommands -skipNpmInstall without rm main.go",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -287,7 +287,7 @@
             ]
         },
         {
-            "name": "gong generate test -skipGoModCommands -skipNpmWorkspaces",
+            "name": "test: gong generate test -skipGoModCommands -skipNpmWorkspaces",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -301,7 +301,7 @@
             ]
         },
         {
-            "name": "gong generate test -skipNg -skipGoModCommands -skipNpmWorkspaces",
+            "name": "test: gong generate test -skipNg -skipGoModCommands -skipNpmWorkspaces",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -316,7 +316,7 @@
             ]
         },
         {
-            "name": "gong generate test -skipNpmInstall -skipGoModCommands -skipNg",
+            "name": "test: gong generate test -skipNpmInstall -skipGoModCommands -skipNg",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -331,7 +331,7 @@
             ]
         },
         {
-            "name": "gong generate test2 -skipGoModCommands -skipNg",
+            "name": "test2: gong generate test2 -skipGoModCommands -skipNg",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -344,7 +344,7 @@
             ]
         },
         {
-            "name": "gong generate test2 -skipGoModCommands -skipNpmInstall",
+            "name": "test2: gong generate test2 -skipGoModCommands -skipNpmInstall",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -357,7 +357,7 @@
             ]
         },
         {
-            "name": "gong generate test2 -skipGoModCommands -skipNpmInstall -skipNg",
+            "name": "test2: gong generate test2 -skipGoModCommands -skipNpmInstall -skipNg",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -374,7 +374,7 @@
         // "go run" configurations
         //
         {
-            "name": "go run button",
+            "name": "button: go run button",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -385,7 +385,7 @@
             ]
         },
         {
-            "name": "go run cursor",
+            "name": "cursor: go run cursor",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -393,7 +393,7 @@
             "args": []
         },
         {
-            "name": "go run doc",
+            "name": "doc: go run doc",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -404,7 +404,7 @@
             ]
         },
         {
-            "name": "go run docx",
+            "name": "docx: go run docx",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -414,7 +414,7 @@
             ]
         },
         {
-            "name": "go run doc -embeddedDiagrams=true",
+            "name": "doc: go run doc -embeddedDiagrams=true",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -426,7 +426,7 @@
             ]
         },
         {
-            "name": "go run load",
+            "name": "load: go run load",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -437,7 +437,7 @@
             ]
         },
         {
-            "name": "go run markdown",
+            "name": "markdown: go run markdown",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -448,7 +448,7 @@
             ]
         },
         {
-            "name": "go run probe",
+            "name": "probe: go run probe",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -459,7 +459,7 @@
             ]
         },
         {
-            "name": "go run gantt",
+            "name": "gantt: go run gantt",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -470,7 +470,7 @@
             ]
         },
         {
-            "name": "go run split",
+            "name": "split: go run split",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -481,7 +481,7 @@
             ]
         },
         {
-            "name": "go run split issue564",
+            "name": "split: go run split issue564",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -494,7 +494,7 @@
             "buildFlags": "-race"
         },
         {
-            "name": "go run slider",
+            "name": "slider: go run slider",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -505,7 +505,7 @@
             ]
         },
         {
-            "name": "go run sim",
+            "name": "sim: go run sim",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -516,7 +516,7 @@
             ]
         },
         {
-            "name": "go run ssg",
+            "name": "ssg: go run ssg",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -527,7 +527,7 @@
             ]
         },
         {
-            "name": "go run svg",
+            "name": "svg: go run svg",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -538,7 +538,7 @@
             ]
         },
         {
-            "name": "go run svg -unmarshallFromCode=rectangle.go -marshallOnCommit=rectangle_out",
+            "name": "svg: go run svg -unmarshallFromCode=rectangle.go -marshallOnCommit=rectangle_out",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -549,7 +549,7 @@
             ]
         },
         {
-            "name": "go run svg -unmarshallFromCode=rectangle.go -marshallOnCommit=rectangle.go",
+            "name": "svg: go run svg -unmarshallFromCode=rectangle.go -marshallOnCommit=rectangle.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -560,7 +560,7 @@
             ]
         },
         {
-            "name": "go run svg -unmarshallFromCode=simple.go -marshallOnCommit=simple.go",
+            "name": "svg: go run svg -unmarshallFromCode=simple.go -marshallOnCommit=simple.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -571,7 +571,7 @@
             ]
         },
         {
-            "name": "go run svg -unmarshallFromCode=bezier.go -marshallOnCommit=bezier.go",
+            "name": "svg: go run svg -unmarshallFromCode=bezier.go -marshallOnCommit=bezier.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -582,7 +582,7 @@
             ]
         },
         {
-            "name": "go run svg -unmarshallFromCode=path.go -marshallOnCommit=path.go",
+            "name": "svg: go run svg -unmarshallFromCode=path.go -marshallOnCommit=path.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -593,7 +593,7 @@
             ]
         },
         {
-            "name": "go run svg -unmarshallFromCode=simple.go -marshallOnCommit=simple.go -port 8090",
+            "name": "svg: go run svg -unmarshallFromCode=simple.go -marshallOnCommit=simple.go -port 8090",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -606,7 +606,7 @@
             ]
         },
         {
-            "name": "go run table",
+            "name": "table: go run table",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -614,7 +614,7 @@
             "args": []
         },
         {
-            "name": "go run tone",
+            "name": "tone: go run tone",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -625,7 +625,7 @@
             ]
         },
         {
-            "name": "go run tree",
+            "name": "tree: go run tree",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -636,7 +636,7 @@
             ]
         },
         {
-            "name": "go run xlsx",
+            "name": "xlsx: go run xlsx",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -647,7 +647,7 @@
             ]
         },
         {
-            "name": "go run test -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage_out",
+            "name": "test: go run test -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage_out",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -658,7 +658,7 @@
             ]
         },
         {
-            "name": "go run test -unmarshallFromCode=data/stage.go -marshallOnCommit=stage -logFile=app.log",
+            "name": "test: go run test -unmarshallFromCode=data/stage.go -marshallOnCommit=stage -logFile=app.log",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -670,7 +670,7 @@
             ]
         },
         {
-            "name": "gong generate test -skipGoModCommands -skipNg -skipNpmInstall -compileForDebug w/o rm main.go",
+            "name": "test: gong generate test -skipGoModCommands -skipNg -skipNpmInstall -compileForDebug w/o rm main.go",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -685,7 +685,7 @@
             ]
         },
         {
-            "name": "go run test -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage",
+            "name": "test: go run test -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -696,7 +696,7 @@
             ]
         },
         {
-            "name": "go run test -port=8082 -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage_out ",
+            "name": "test: go run test -port=8082 -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage_out ",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -708,7 +708,7 @@
             ]
         },
         {
-            "name": "go run test -marshallOnCommit=stage",
+            "name": "test: go run test -marshallOnCommit=stage",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -718,7 +718,7 @@
             ]
         },
         {
-            "name": "go run test debug TestStageCount",
+            "name": "test: go run test debug TestStageCount",
             "type": "go",
             "request": "launch",
             "mode": "test",
@@ -729,7 +729,7 @@
             ]
         },
         {
-            "name": "go run test2 -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage_out",
+            "name": "test2: go run test2 -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage_out",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -740,7 +740,7 @@
             ]
         },
         {
-            "name": "go run test2 -unmarshallFromCode=data/stage2.go -marshallOnCommit=stage2",
+            "name": "test2: go run test2 -unmarshallFromCode=data/stage2.go -marshallOnCommit=stage2",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -751,7 +751,7 @@
             ]
         },
         {
-            "name": "go run test2 -unmarshallFromCode=data/stage2.go",
+            "name": "test2: go run test2 -unmarshallFromCode=data/stage2.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -761,7 +761,7 @@
             ]
         },
         {
-            "name": "go run test2 -testPackageHierarchy",
+            "name": "test2: go run test2 -testPackageHierarchy",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -771,7 +771,7 @@
             ]
         },
         {
-            "name": "gong generate test3",
+            "name": "test3: gong generate test3",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -785,7 +785,7 @@
             ]
         },
         {
-            "name": "gong generate test3 --debouncedMarshall=true",
+            "name": "test3: gong generate test3 --debouncedMarshall=true",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -799,7 +799,7 @@
             ]
         },
         {
-            "name": "go run test3 -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage.go",
+            "name": "test3: go run test3 -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -810,7 +810,7 @@
             ]
         },
         {
-            "name": "go run test3 -unmarshallFromCode=data/issue1061.go -marshallOnCommit=data/issue1061_out.go",
+            "name": "test3: go run test3 -unmarshallFromCode=data/issue1061.go -marshallOnCommit=data/issue1061_out.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -821,7 +821,7 @@
             ]
         },
         {
-            "name": "go run test3 -unmarshallFromCode=data/issue1128.go -marshallOnCommit=data/issue1128.go",
+            "name": "test3: go run test3 -unmarshallFromCode=data/issue1128.go -marshallOnCommit=data/issue1128.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -832,7 +832,7 @@
             ]
         },
         {
-            "name": "go run test3 -unmarshallFromCode=data/stage-large.go -marshallOnCommit=data/stage-large.go",
+            "name": "test3: go run test3 -unmarshallFromCode=data/stage-large.go -marshallOnCommit=data/stage-large.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -843,7 +843,7 @@
             ]
         },
         {
-            "name": "test3, debug commits navigation - issue 1148",
+            "name": "test3: debug commits navigation - issue 1148",
             "type": "go",
             "request": "launch",
             "mode": "test",
@@ -854,7 +854,7 @@
             ]
         },
         {
-            "name": "test3, debug basic commits navigation",
+            "name": "test3: debug basic commits navigation",
             "type": "go",
             "request": "launch",
             "mode": "test",
@@ -948,7 +948,7 @@
             ]
         },
         {
-            "name": "gong generate statemachines -level1",
+            "name": "statemachines: gong generate statemachines -level1",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -961,7 +961,7 @@
             ]
         },
         {
-            "name": "go run statemachines -unmarshallFromCode=data/uxloop.go -marshallOnCommit=data/uxloop.go",
+            "name": "statemachines: go run statemachines -unmarshallFromCode=data/uxloop.go -marshallOnCommit=data/uxloop.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -971,7 +971,18 @@
                 "-marshallOnCommit=data/uxloop.go"
             ]
         },
-                {
+        {
+            "name": "statemachines: go run statemachines -unmarshallFromCode=data/massive_probe_edit.go -marshallOnCommit=data/massive_probe_edit.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsme/statemachines/go/cmd/statemachines",
+            "args": [
+                "-unmarshallFromCode=data/massive_probe_edit.go",
+                "-marshallOnCommit=data/massive_probe_edit.go"
+            ]
+        },
+        {
             "name": "barrgraph: gong generate --level1",
             "type": "go",
             "request": "launch",
@@ -985,7 +996,7 @@
             ]
         },
         {
-            "name": "go run barrgraph cubism and abstract art",
+            "name": "barrgraph: go run barrgraph cubism and abstract art",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -996,7 +1007,7 @@
             ]
         },
         {
-            "name": "go run barrgraph modern design",
+            "name": "barrgraph: go run barrgraph modern design",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -1009,7 +1020,7 @@
             ]
         },
                 {
-            "name": "go run barrgraph renaissance",
+            "name": "barrgraph: go run barrgraph renaissance",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -1022,7 +1033,7 @@
             ]
         },
         {
-            "name": "go run barrgraph",
+            "name": "barrgraph: go run barrgraph",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -1031,7 +1042,7 @@
             ]
         },
         {
-            "name": "Launch Chrome (test) on 4200",
+            "name": "test: Launch Chrome (test) on 4200",
             "request": "launch",
             "type": "chrome",
             "url": "http://localhost:4200",
@@ -1039,7 +1050,7 @@
             "sourceMaps": true,
         },
         {
-            "name": "Launch Chrome (doc) on 4200",
+            "name": "doc: Launch Chrome (doc) on 4200",
             "request": "launch",
             "type": "chrome",
             "url": "http://localhost:4200",
@@ -1047,7 +1058,7 @@
             "sourceMaps": true,
         },
         {
-            "name": "Launch Chrome (load) on 4200",
+            "name": "load: Launch Chrome (load) on 4200",
             "request": "launch",
             "type": "chrome",
             "url": "http://localhost:4200",
@@ -1055,7 +1066,7 @@
             "sourceMaps": true,
         },
         {
-            "name": "Launch Chrome (markdown) on 4200",
+            "name": "markdown: Launch Chrome (markdown) on 4200",
             "request": "launch",
             "type": "chrome",
             "url": "http://localhost:4200",
@@ -1063,7 +1074,7 @@
             "sourceMaps": true,
         },
         {
-            "name": "Launch Chrome (split) on 4200",
+            "name": "split: Launch Chrome (split) on 4200",
             "request": "launch",
             "type": "chrome",
             "url": "http://localhost:4200",
@@ -1071,7 +1082,7 @@
             "sourceMaps": true,
         },
         {
-            "name": "Launch Chrome (svg) on 4200",
+            "name": "svg: Launch Chrome (svg) on 4200",
             "request": "launch",
             "type": "chrome",
             "url": "http://localhost:4200",
@@ -1079,7 +1090,7 @@
             "sourceMaps": true,
         },
         {
-            "name": "Launch Edge (svg) on 4200",
+            "name": "svg: Launch Edge (svg) on 4200",
             "request": "launch",
             "type": "msedge",
             "url": "http://localhost:4200",
@@ -1087,7 +1098,7 @@
             "sourceMaps": true,
         },
         {
-            "name": "Launch Edge (split) on 4200",
+            "name": "split: Launch Edge (split) on 4200",
             "request": "launch",
             "type": "msedge",
             "url": "http://localhost:4200",
@@ -1095,7 +1106,7 @@
             "sourceMaps": true,
         },
         {
-            "name": "Launch Chrome (table) on 4200",
+            "name": "table: Launch Chrome (table) on 4200",
             "request": "launch",
             "type": "chrome",
             "url": "http://localhost:4200",
@@ -1103,7 +1114,7 @@
             "sourceMaps": true,
         },
         {
-            "name": "Launch Chrome (tone) on 4200",
+            "name": "tone: Launch Chrome (tone) on 4200",
             "request": "launch",
             "type": "chrome",
             "url": "http://localhost:4200",
@@ -1111,7 +1122,7 @@
             "sourceMaps": true,
         },
         {
-            "name": "Launch Chrome (tree) on 4200",
+            "name": "tree: Launch Chrome (tree) on 4200",
             "request": "launch",
             "type": "chrome",
             "url": "http://localhost:4200",
