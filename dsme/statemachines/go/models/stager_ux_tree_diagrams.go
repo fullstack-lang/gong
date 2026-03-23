@@ -232,6 +232,11 @@ func (stager *Stager) updateTreeDiagramStage() {
 								transitionShape = transitionShape_
 								transitionNode.IsChecked = true
 							}
+
+							if transitionShape == nil {
+								continue
+							}
+
 							proxy.transitionShape = transitionShape
 
 							// disable if end is not present
