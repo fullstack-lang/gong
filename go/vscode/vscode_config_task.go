@@ -41,93 +41,17 @@ const VsCodeTasksConfig = `{
 		"problemMatcher": []
 	  },
 	  {
-		"label": "01 - gong generate {{pkgname}}",
+		"label": "01 - gong generate --level1",
 		"type": "shell",
 		"options": {
 		  "cwd": "${workspaceFolder}/go/models"
 		},
-		"command": "gong generate",
-		"group": "build",
-		"args": []
-	  },
-	  {
-		"label": "01 - gong generate {{pkgname}} --skipNg",
-		"type": "shell",
-		"options": {
-		  "cwd": "${workspaceFolder}/go/models"
-		},
-		"command": "gong generate",
+		"command": "gong",
 		"group": "build",
 		"args": [
-		  "--skipNg"
+			"generate",
+			"--level1",
 		]
-	  },
-	  {
-		"label": "01 - gong generate {{pkgname}} --skipGoModCommands",
-		"type": "shell",
-		"options": {
-		  "cwd": "${workspaceFolder}/go/models"
-		},
-		"command": "gong generate",
-		"group": "build",
-		"args": [
-			"--skipGoModCommands"
-		]
-	  },
-	  {
-		"label": "01 - gong generate {{pkgname}} --skipNg --skipGoModCommands",
-		"type": "shell",
-		"options": {
-		  "cwd": "${workspaceFolder}/go/models"
-		},
-		"command": "gong generate",
-		"group": "build",
-		"args": [
-		  "--skipNg",
-		  "--skipGoModCommands"
-		]
-	  },
-	  {
-		"label": "00 - update gong dependency",
-		"type": "shell",
-		"command": "go",
-		"args": [
-		  "get",
-		  "github.com/fullstack-lang/gong@main",
-		],
-		"group": "build"
-	  },
-	  {
-		"label": "00 - go mod tidy",
-		"type": "shell",
-		"command": "go",
-		"args": [
-		  "mod",
-		  "tidy"
-		],
-		"group": "build"
-	  },
-	  	  {
-		"label": "00 - go mod vendor",
-		"type": "shell",
-		"group": "build",
-		"command": "go",
-		"args": [
-		  "mod",
-		  "vendor"
-		],
-	  },
-	  {
-		"label": "00 - go build",
-		"type": "shell",
-		"options": {
-		  "cwd": "${workspaceFolder}/go/cmd/{{pkgname}}"
-		},
-		"command": "go",
-		"args": [
-		  "build"
-		],
-		"group": "build"
 	  },
    	  {
 		"label": "00 - go install",
