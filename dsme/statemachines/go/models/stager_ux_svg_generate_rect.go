@@ -377,13 +377,13 @@ func (p *ShapeRect_EtatProxy) RectUpdated(updatedRect *svg.Rect) {
 	if !diffSize && !diffPosition {
 		p.stager.stage.CommitWithSuspendedCallbacks()
 		p.stager.probeForm.FillUpFormFromGongstruct(p.state, "State")
-		p.stager.updateTreeDiagramStage()
+		p.stager.treeDiagrams()
 	}
 
 	if diffPosition {
 		// Issue #7, this will allow multiple rect to be moved together
 		p.stager.stage.CommitWithSuspendedCallbacks()
-		p.stager.updateTreeDiagramStage()
+		p.stager.treeDiagrams()
 	}
 
 	if diffSize {
