@@ -473,6 +473,37 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			}
 			diagram_.State_Shapes = instanceSlice
 
+		case "StatesWhoseNodeIsExpanded":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.State](diagramFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.State, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.State)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					diagramFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.State](diagramFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			diagram_.StatesWhoseNodeIsExpanded = instanceSlice
+
 		case "Transition_Shapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Transition_Shape](diagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Transition_Shape, 0)
@@ -1763,6 +1794,74 @@ func (stateFormCallback *StateFormCallback) OnSave() {
 
 		case "Exit":
 			FormDivSelectFieldToField(&(state_.Exit), stateFormCallback.probe.stageOfInterest, formDiv)
+		case "IsInRenameMode":
+			FormDivBasicFieldToField(&(state_.IsInRenameMode), formDiv)
+		case "Diagram:StatesWhoseNodeIsExpanded":
+			// WARNING : this form deals with the N-N association "Diagram.StatesWhoseNodeIsExpanded []*State" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of State). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Diagram
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Diagram"
+				rf.Fieldname = "StatesWhoseNodeIsExpanded"
+				formerAssociationSource := state_.GongGetReverseFieldOwner(
+					stateFormCallback.probe.stageOfInterest,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Diagram)
+					if !ok {
+						log.Fatalln("Source of Diagram.StatesWhoseNodeIsExpanded []*State, is not an Diagram instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.StatesWhoseNodeIsExpanded, state_)
+					formerSource.StatesWhoseNodeIsExpanded = slices.Delete(formerSource.StatesWhoseNodeIsExpanded, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Diagram
+			for _diagram := range *models.GetGongstructInstancesSet[models.Diagram](stateFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _diagram.GetName() == newSourceName.GetName() {
+					newSource = _diagram // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Diagram.StatesWhoseNodeIsExpanded []*State, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.StatesWhoseNodeIsExpanded = append(newSource.StatesWhoseNodeIsExpanded, state_)
 		case "State:SubStates":
 			// WARNING : this form deals with the N-N association "State.SubStates []*State" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
@@ -2185,8 +2284,6 @@ func (stateshapeFormCallback *StateShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(stateshape_.Name), formDiv)
 		case "State":
 			FormDivSelectFieldToField(&(stateshape_.State), stateshapeFormCallback.probe.stageOfInterest, formDiv)
-		case "IsExpanded":
-			FormDivBasicFieldToField(&(stateshape_.IsExpanded), formDiv)
 		case "X":
 			FormDivBasicFieldToField(&(stateshape_.X), formDiv)
 		case "Y":
@@ -2195,6 +2292,8 @@ func (stateshapeFormCallback *StateShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(stateshape_.Width), formDiv)
 		case "Height":
 			FormDivBasicFieldToField(&(stateshape_.Height), formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&(stateshape_.IsHidden), formDiv)
 		case "Diagram:State_Shapes":
 			// WARNING : this form deals with the N-N association "Diagram.State_Shapes []*StateShape" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
@@ -2438,6 +2537,8 @@ func (transitionFormCallback *TransitionFormCallback) OnSave() {
 			}
 			transition_.Diagrams = instanceSlice
 
+		case "IsInRenameMode":
+			FormDivBasicFieldToField(&(transition_.IsInRenameMode), formDiv)
 		}
 	}
 
@@ -2528,6 +2629,8 @@ func (transition_shapeFormCallback *Transition_ShapeFormCallback) OnSave() {
 			FormDivEnumStringFieldToField(&(transition_shape_.EndOrientation), formDiv)
 		case "CornerOffsetRatio":
 			FormDivBasicFieldToField(&(transition_shape_.CornerOffsetRatio), formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&(transition_shape_.IsHidden), formDiv)
 		case "Diagram:Transition_Shapes":
 			// WARNING : this form deals with the N-N association "Diagram.Transition_Shapes []*Transition_Shape" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)

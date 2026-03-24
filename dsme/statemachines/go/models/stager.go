@@ -87,11 +87,21 @@ func NewStager(
 
 	stager.create_views()
 
-	callbacks := &BeforeCommitImplementation{
-		stager: stager,
+	beforeCommit := func(stage *Stage) {
+		stager.enforce_semantic()
 	}
-	stager.stage.OnInitCommitFromBackCallback = callbacks
-	callbacks.BeforeCommit(stage)
+	afterCommit := func(stage *Stage) {
+		stager.treeSimulation()
+		stager.buttonSimulation()
+		stager.buttonsExportXL()
+		stager.svg()
+		stager.treeDiagrams()
+	}
+
+	stager.stage.RegisterBeforeCommit(beforeCommit)
+	stager.stage.RegisterAfterCommit(afterCommit)
+	beforeCommit(stager.stage)
+	afterCommit(stager.stage)
 
 	// hook the stage on a kill command
 	// 	curl --request POST \

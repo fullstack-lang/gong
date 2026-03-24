@@ -563,6 +563,8 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.IsInRenameMode = GongExtractBool(valueExpr)
 	case "State_Shapes":
 		GongUnmarshallSliceOfPointers(&instance.State_Shapes, valueExpr, identifierMap)
+	case "StatesWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.StatesWhoseNodeIsExpanded, valueExpr, identifierMap)
 	case "Transition_Shapes":
 		GongUnmarshallSliceOfPointers(&instance.Transition_Shapes, valueExpr, identifierMap)
 	}
@@ -814,6 +816,8 @@ func (u *StateUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		GongUnmarshallSliceOfPointers(&instance.Activities, valueExpr, identifierMap)
 	case "Exit":
 		GongUnmarshallPointer(&instance.Exit, valueExpr, identifierMap)
+	case "IsInRenameMode":
+		instance.IsInRenameMode = GongExtractBool(valueExpr)
 	}
 	return nil
 }
@@ -882,8 +886,6 @@ func (u *StateShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, f
 		instance.Name = GongExtractString(valueExpr)
 	case "State":
 		GongUnmarshallPointer(&instance.State, valueExpr, identifierMap)
-	case "IsExpanded":
-		instance.IsExpanded = GongExtractBool(valueExpr)
 	case "X":
 		instance.X = GongExtractFloat(valueExpr)
 	case "Y":
@@ -892,6 +894,8 @@ func (u *StateShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, f
 		instance.Width = GongExtractFloat(valueExpr)
 	case "Height":
 		instance.Height = GongExtractFloat(valueExpr)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
 	}
 	return nil
 }
@@ -933,6 +937,8 @@ func (u *TransitionUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, f
 		GongUnmarshallPointer(&instance.Guard, valueExpr, identifierMap)
 	case "Diagrams":
 		GongUnmarshallSliceOfPointers(&instance.Diagrams, valueExpr, identifierMap)
+	case "IsInRenameMode":
+		instance.IsInRenameMode = GongExtractBool(valueExpr)
 	}
 	return nil
 }
@@ -974,6 +980,8 @@ func (u *Transition_ShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 		GongUnmarshallEnum(&instance.EndOrientation, valueExpr)
 	case "CornerOffsetRatio":
 		instance.CornerOffsetRatio = GongExtractFloat(valueExpr)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
 	}
 	return nil
 }

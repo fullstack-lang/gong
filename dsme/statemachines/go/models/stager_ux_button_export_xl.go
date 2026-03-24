@@ -10,7 +10,7 @@ import (
 	buttons "github.com/fullstack-lang/gong/lib/tree/go/buttons"
 )
 
-func (stager *Stager) updateExportXLButtonStage() {
+func (stager *Stager) buttonsExportXL() {
 
 	stage := stager.buttonExportXLStage
 	stage.Reset()

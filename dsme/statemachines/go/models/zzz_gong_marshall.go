@@ -239,6 +239,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsEditable_"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsInRenameMode"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "State_Shapes"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "StatesWhoseNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "Transition_Shapes"))
 	}
 
@@ -442,6 +443,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "Entry"))
 		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "Activities"))
 		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "Exit"))
+		initializerStatements.WriteString(state.GongMarshallField(stage, "IsInRenameMode"))
 	}
 
 	statemachineOrdered := []*StateMachine{}
@@ -499,11 +501,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(stateshape.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(stateshape.GongMarshallField(stage, "State"))
-		initializerStatements.WriteString(stateshape.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(stateshape.GongMarshallField(stage, "X"))
 		initializerStatements.WriteString(stateshape.GongMarshallField(stage, "Y"))
 		initializerStatements.WriteString(stateshape.GongMarshallField(stage, "Width"))
 		initializerStatements.WriteString(stateshape.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(stateshape.GongMarshallField(stage, "IsHidden"))
 	}
 
 	transitionOrdered := []*Transition{}
@@ -536,6 +538,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(transition.GongMarshallField(stage, "GeneratedMessages"))
 		pointersInitializesStatements.WriteString(transition.GongMarshallField(stage, "Guard"))
 		pointersInitializesStatements.WriteString(transition.GongMarshallField(stage, "Diagrams"))
+		initializerStatements.WriteString(transition.GongMarshallField(stage, "IsInRenameMode"))
 	}
 
 	transition_shapeOrdered := []*Transition_Shape{}
@@ -568,6 +571,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(transition_shape.GongMarshallField(stage, "StartOrientation"))
 		initializerStatements.WriteString(transition_shape.GongMarshallField(stage, "EndOrientation"))
 		initializerStatements.WriteString(transition_shape.GongMarshallField(stage, "CornerOffsetRatio"))
+		initializerStatements.WriteString(transition_shape.GongMarshallField(stage, "IsHidden"))
 	}
 
 	// insertion initialization of objects to stage
@@ -880,6 +884,16 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
+	case "StatesWhoseNodeIsExpanded":
+		var sb strings.Builder
+		for _, _state := range diagram.StatesWhoseNodeIsExpanded {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "StatesWhoseNodeIsExpanded")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _state.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	case "Transition_Shapes":
 		var sb strings.Builder
 		for _, _transition_shape := range diagram.Transition_Shapes {
@@ -1098,6 +1112,11 @@ func (state *State) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = strings.ReplaceAll(res, "{{Identifier}}", state.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsEndState")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", state.IsEndState))
+	case "IsInRenameMode":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", state.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsInRenameMode")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", state.IsInRenameMode))
 
 	case "Parent":
 		if state.Parent != nil {
@@ -1235,11 +1254,6 @@ func (stateshape *StateShape) GongMarshallField(stage *Stage, fieldName string) 
 		res = strings.ReplaceAll(res, "{{Identifier}}", stateshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(stateshape.Name))
-	case "IsExpanded":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", stateshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", stateshape.IsExpanded))
 	case "X":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", stateshape.GongGetIdentifier(stage))
@@ -1260,6 +1274,11 @@ func (stateshape *StateShape) GongMarshallField(stage *Stage, fieldName string) 
 		res = strings.ReplaceAll(res, "{{Identifier}}", stateshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Height")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", stateshape.Height))
+	case "IsHidden":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", stateshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", stateshape.IsHidden))
 
 	case "State":
 		if stateshape.State != nil {
@@ -1288,6 +1307,11 @@ func (transition *Transition) GongMarshallField(stage *Stage, fieldName string) 
 		res = strings.ReplaceAll(res, "{{Identifier}}", transition.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(transition.Name))
+	case "IsInRenameMode":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", transition.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsInRenameMode")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", transition.IsInRenameMode))
 
 	case "Start":
 		if transition.Start != nil {
@@ -1413,6 +1437,11 @@ func (transition_shape *Transition_Shape) GongMarshallField(stage *Stage, fieldN
 		res = strings.ReplaceAll(res, "{{Identifier}}", transition_shape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CornerOffsetRatio")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", transition_shape.CornerOffsetRatio))
+	case "IsHidden":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", transition_shape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", transition_shape.IsHidden))
 
 	case "Transition":
 		if transition_shape.Transition != nil {
@@ -1483,6 +1512,7 @@ func (diagram *Diagram) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsEditable_"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsInRenameMode"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "State_Shapes"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "StatesWhoseNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "Transition_Shapes"))
 	}
 	initRes = initializerStatements.String()
@@ -1581,6 +1611,7 @@ func (state *State) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes 
 		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "Entry"))
 		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "Activities"))
 		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "Exit"))
+		initializerStatements.WriteString(state.GongMarshallField(stage, "IsInRenameMode"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -1608,11 +1639,11 @@ func (stateshape *StateShape) GongMarshallAllFields(stage *Stage) (initRes strin
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(stateshape.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(stateshape.GongMarshallField(stage, "State"))
-		initializerStatements.WriteString(stateshape.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(stateshape.GongMarshallField(stage, "X"))
 		initializerStatements.WriteString(stateshape.GongMarshallField(stage, "Y"))
 		initializerStatements.WriteString(stateshape.GongMarshallField(stage, "Width"))
 		initializerStatements.WriteString(stateshape.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(stateshape.GongMarshallField(stage, "IsHidden"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -1630,6 +1661,7 @@ func (transition *Transition) GongMarshallAllFields(stage *Stage) (initRes strin
 		pointersInitializesStatements.WriteString(transition.GongMarshallField(stage, "GeneratedMessages"))
 		pointersInitializesStatements.WriteString(transition.GongMarshallField(stage, "Guard"))
 		pointersInitializesStatements.WriteString(transition.GongMarshallField(stage, "Diagrams"))
+		initializerStatements.WriteString(transition.GongMarshallField(stage, "IsInRenameMode"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -1647,6 +1679,7 @@ func (transition_shape *Transition_Shape) GongMarshallAllFields(stage *Stage) (i
 		initializerStatements.WriteString(transition_shape.GongMarshallField(stage, "StartOrientation"))
 		initializerStatements.WriteString(transition_shape.GongMarshallField(stage, "EndOrientation"))
 		initializerStatements.WriteString(transition_shape.GongMarshallField(stage, "CornerOffsetRatio"))
+		initializerStatements.WriteString(transition_shape.GongMarshallField(stage, "IsHidden"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

@@ -162,6 +162,8 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	Diagram_State_Shapes_reverseMap map[*StateShape]*Diagram
 
+	Diagram_StatesWhoseNodeIsExpanded_reverseMap map[*State]*Diagram
+
 	Diagram_Transition_Shapes_reverseMap map[*Transition_Shape]*Diagram
 
 	OnAfterDiagramCreateCallback OnAfterCreateInterface[Diagram]
@@ -3374,6 +3376,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of StateShape with the name of the field
 			State_Shapes: []*StateShape{{Name: "State_Shapes"}},
+			// field is initialized with an instance of State with the name of the field
+			StatesWhoseNodeIsExpanded: []*State{{Name: "StatesWhoseNodeIsExpanded"}},
 			// field is initialized with an instance of Transition_Shape with the name of the field
 			Transition_Shapes: []*Transition_Shape{{Name: "Transition_Shapes"}},
 		}).(*Type)
@@ -3819,6 +3823,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "StatesWhoseNodeIsExpanded":
+			res := make(map[*State][]*Diagram)
+			for diagram := range stage.Diagrams {
+				for _, state_ := range diagram.StatesWhoseNodeIsExpanded {
+					res[state_] = append(res[state_], diagram)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "Transition_Shapes":
 			res := make(map[*Transition_Shape][]*Diagram)
 			for diagram := range stage.Diagrams {
@@ -4081,6 +4093,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *State:
 		var rf ReverseField
 		_ = rf
+		rf.GongstructName = "Diagram"
+		rf.Fieldname = "StatesWhoseNodeIsExpanded"
+		res = append(res, rf)
 		rf.GongstructName = "State"
 		rf.Fieldname = "SubStates"
 		res = append(res, rf)
@@ -4197,6 +4212,11 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "State_Shapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "StateShape",
+		},
+		{
+			Name:                 "StatesWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "State",
 		},
 		{
 			Name:                 "Transition_Shapes",
@@ -4371,6 +4391,10 @@ func (state *State) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Action",
 		},
+		{
+			Name:               "IsInRenameMode",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
 	}
 	return
 }
@@ -4418,10 +4442,6 @@ func (stateshape *StateShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "State",
 		},
 		{
-			Name:               "IsExpanded",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
 			Name:               "X",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
@@ -4436,6 +4456,10 @@ func (stateshape *StateShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "Height",
 			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "IsHidden",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 	}
 	return
@@ -4478,6 +4502,10 @@ func (transition *Transition) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Diagram",
 		},
+		{
+			Name:               "IsInRenameMode",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
 	}
 	return
 }
@@ -4515,6 +4543,10 @@ func (transition_shape *Transition_Shape) GongGetFieldHeaders() (res []GongField
 		{
 			Name:               "CornerOffsetRatio",
 			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "IsHidden",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 	}
 	return
@@ -4656,6 +4688,16 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	case "State_Shapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range diagram.State_Shapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+		}
+	case "StatesWhoseNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.StatesWhoseNodeIsExpanded {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -4852,6 +4894,10 @@ func (state *State) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 			res.valueString = state.Exit.Name
 			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(state.Exit), uint64(GetOrderPointerGongstruct(stage, state.Exit)))
 		}
+	case "IsInRenameMode":
+		res.valueString = fmt.Sprintf("%t", state.IsInRenameMode)
+		res.valueBool = state.IsInRenameMode
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -4906,10 +4952,6 @@ func (stateshape *StateShape) GongGetFieldValue(fieldName string, stage *Stage) 
 			res.valueString = stateshape.State.Name
 			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(stateshape.State), uint64(GetOrderPointerGongstruct(stage, stateshape.State)))
 		}
-	case "IsExpanded":
-		res.valueString = fmt.Sprintf("%t", stateshape.IsExpanded)
-		res.valueBool = stateshape.IsExpanded
-		res.GongFieldValueType = GongFieldValueTypeBool
 	case "X":
 		res.valueString = fmt.Sprintf("%f", stateshape.X)
 		res.valueFloat = stateshape.X
@@ -4926,6 +4968,10 @@ func (stateshape *StateShape) GongGetFieldValue(fieldName string, stage *Stage) 
 		res.valueString = fmt.Sprintf("%f", stateshape.Height)
 		res.valueFloat = stateshape.Height
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsHidden":
+		res.valueString = fmt.Sprintf("%t", stateshape.IsHidden)
+		res.valueBool = stateshape.IsHidden
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -4983,6 +5029,10 @@ func (transition *Transition) GongGetFieldValue(fieldName string, stage *Stage) 
 			res.valueString += __instance__.Name
 			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
+	case "IsInRenameMode":
+		res.valueString = fmt.Sprintf("%t", transition.IsInRenameMode)
+		res.valueBool = transition.IsInRenameMode
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -5016,6 +5066,10 @@ func (transition_shape *Transition_Shape) GongGetFieldValue(fieldName string, st
 		res.valueString = fmt.Sprintf("%f", transition_shape.CornerOffsetRatio)
 		res.valueFloat = transition_shape.CornerOffsetRatio
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsHidden":
+		res.valueString = fmt.Sprintf("%t", transition_shape.IsHidden)
+		res.valueBool = transition_shape.IsHidden
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -5115,6 +5169,20 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 				for __instance__ := range stage.StateShapes {
 					if stage.StateShape_stagedOrder[__instance__] == uint(id) {
 						diagram.State_Shapes = append(diagram.State_Shapes, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "StatesWhoseNodeIsExpanded":
+		diagram.StatesWhoseNodeIsExpanded = make([]*State, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.States {
+					if stage.State_stagedOrder[__instance__] == uint(id) {
+						diagram.StatesWhoseNodeIsExpanded = append(diagram.StatesWhoseNodeIsExpanded, __instance__)
 						break
 					}
 				}
@@ -5363,6 +5431,8 @@ func (state *State) GongSetFieldValue(fieldName string, value GongFieldValue, st
 				}
 			}
 		}
+	case "IsInRenameMode":
+		state.IsInRenameMode = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -5437,8 +5507,6 @@ func (stateshape *StateShape) GongSetFieldValue(fieldName string, value GongFiel
 				}
 			}
 		}
-	case "IsExpanded":
-		stateshape.IsExpanded = value.GetValueBool()
 	case "X":
 		stateshape.X = value.GetValueFloat()
 	case "Y":
@@ -5447,6 +5515,8 @@ func (stateshape *StateShape) GongSetFieldValue(fieldName string, value GongFiel
 		stateshape.Width = value.GetValueFloat()
 	case "Height":
 		stateshape.Height = value.GetValueFloat()
+	case "IsHidden":
+		stateshape.IsHidden = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -5533,6 +5603,8 @@ func (transition *Transition) GongSetFieldValue(fieldName string, value GongFiel
 				}
 			}
 		}
+	case "IsInRenameMode":
+		transition.IsInRenameMode = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -5565,6 +5637,8 @@ func (transition_shape *Transition_Shape) GongSetFieldValue(fieldName string, va
 		transition_shape.EndOrientation.FromCodeString(value.GetValueString())
 	case "CornerOffsetRatio":
 		transition_shape.CornerOffsetRatio = value.GetValueFloat()
+	case "IsHidden":
+		transition_shape.IsHidden = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
