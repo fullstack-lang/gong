@@ -56,7 +56,6 @@ func _(stage *models.Stage) {
 	__StateMachine__00000001_ := (&models.StateMachine{Name: `Traffic Light UK`}).Stage(stage)
 
 	__StateShape__00000000_ := (&models.StateShape{Name: `Red FR`}).Stage(stage)
-	__StateShape__00000001_ := (&models.StateShape{Name: `Initial State FR`}).Stage(stage)
 	__StateShape__00000002_ := (&models.StateShape{Name: `Green FR`}).Stage(stage)
 	__StateShape__00000003_ := (&models.StateShape{Name: `Yellow FR`}).Stage(stage)
 	__StateShape__00000004_ := (&models.StateShape{Name: `On FR`}).Stage(stage)
@@ -67,6 +66,7 @@ func _(stage *models.Stage) {
 	__StateShape__00000009_ := (&models.StateShape{Name: `Green UK`}).Stage(stage)
 	__StateShape__00000010_ := (&models.StateShape{Name: `On UK`}).Stage(stage)
 	__StateShape__00000011_ := (&models.StateShape{Name: `Off UK`}).Stage(stage)
+	__StateShape__00000012_ := (&models.StateShape{Name: `Initial State FR`}).Stage(stage)
 
 	__Transition__00000000_ := (&models.Transition{Name: `Initial State FR to Red FR`}).Stage(stage)
 	__Transition__00000001_ := (&models.Transition{Name: `Red FR to Green FR`}).Stage(stage)
@@ -100,13 +100,13 @@ func _(stage *models.Stage) {
 	__Architecture__00000000_.NbPixPerCharacter = 8.000000
 
 	__Diagram__00000000_.Name = `Traffic Light FR Diagram`
-	__Diagram__00000000_.IsChecked = false
+	__Diagram__00000000_.IsChecked = true
 	__Diagram__00000000_.IsExpanded = true
 	__Diagram__00000000_.IsEditable_ = true
 	__Diagram__00000000_.IsInRenameMode = false
 
 	__Diagram__00000001_.Name = `Traffic Light UK Diagram`
-	__Diagram__00000001_.IsChecked = true
+	__Diagram__00000001_.IsChecked = false
 	__Diagram__00000001_.IsExpanded = true
 	__Diagram__00000001_.IsEditable_ = true
 	__Diagram__00000001_.IsInRenameMode = false
@@ -221,13 +221,6 @@ func _(stage *models.Stage) {
 	__StateShape__00000000_.Height = 80.000000
 	__StateShape__00000000_.IsHidden = false
 
-	__StateShape__00000001_.Name = `Initial State FR`
-	__StateShape__00000001_.X = 297.000000
-	__StateShape__00000001_.Y = 55.000000
-	__StateShape__00000001_.Width = 148.000000
-	__StateShape__00000001_.Height = 20.000000
-	__StateShape__00000001_.IsHidden = false
-
 	__StateShape__00000002_.Name = `Green FR`
 	__StateShape__00000002_.X = 556.000000
 	__StateShape__00000002_.Y = 356.000000
@@ -297,6 +290,13 @@ func _(stage *models.Stage) {
 	__StateShape__00000011_.Width = 94.000000
 	__StateShape__00000011_.Height = 36.000000
 	__StateShape__00000011_.IsHidden = false
+
+	__StateShape__00000012_.Name = `Initial State FR`
+	__StateShape__00000012_.X = 100.000000
+	__StateShape__00000012_.Y = 100.000000
+	__StateShape__00000012_.Width = 200.000000
+	__StateShape__00000012_.Height = 80.000000
+	__StateShape__00000012_.IsHidden = false
 
 	__Transition__00000000_.Name = `Initial State FR to Red FR`
 	__Transition__00000000_.IsInRenameMode = false
@@ -437,10 +437,10 @@ func _(stage *models.Stage) {
 	__Architecture__00000000_.Roles = append(__Architecture__00000000_.Roles, __Role__00000001_)
 	__Diagram__00000000_.State_Shapes = append(__Diagram__00000000_.State_Shapes, __StateShape__00000004_)
 	__Diagram__00000000_.State_Shapes = append(__Diagram__00000000_.State_Shapes, __StateShape__00000000_)
-	__Diagram__00000000_.State_Shapes = append(__Diagram__00000000_.State_Shapes, __StateShape__00000001_)
 	__Diagram__00000000_.State_Shapes = append(__Diagram__00000000_.State_Shapes, __StateShape__00000002_)
 	__Diagram__00000000_.State_Shapes = append(__Diagram__00000000_.State_Shapes, __StateShape__00000003_)
 	__Diagram__00000000_.State_Shapes = append(__Diagram__00000000_.State_Shapes, __StateShape__00000005_)
+	__Diagram__00000000_.State_Shapes = append(__Diagram__00000000_.State_Shapes, __StateShape__00000012_)
 	__Diagram__00000000_.Transition_Shapes = append(__Diagram__00000000_.Transition_Shapes, __Transition_Shape__00000000_)
 	__Diagram__00000000_.Transition_Shapes = append(__Diagram__00000000_.Transition_Shapes, __Transition_Shape__00000001_)
 	__Diagram__00000000_.Transition_Shapes = append(__Diagram__00000000_.Transition_Shapes, __Transition_Shape__00000002_)
@@ -538,7 +538,6 @@ func _(stage *models.Stage) {
 	__StateMachine__00000001_.Diagrams = append(__StateMachine__00000001_.Diagrams, __Diagram__00000001_)
 	__StateMachine__00000001_.InitialState = __State__00000006_
 	__StateShape__00000000_.State = __State__00000001_
-	__StateShape__00000001_.State = __State__00000000_
 	__StateShape__00000002_.State = __State__00000002_
 	__StateShape__00000003_.State = __State__00000003_
 	__StateShape__00000004_.State = __State__00000004_
@@ -549,6 +548,7 @@ func _(stage *models.Stage) {
 	__StateShape__00000009_.State = __State__00000009_
 	__StateShape__00000010_.State = __State__00000010_
 	__StateShape__00000011_.State = __State__00000011_
+	__StateShape__00000012_.State = __State__00000000_
 	__Transition__00000000_.Start = __State__00000000_
 	__Transition__00000000_.End = __State__00000001_
 	__Transition__00000000_.RolesWithPermissions = append(__Transition__00000000_.RolesWithPermissions, __Role__00000000_)
