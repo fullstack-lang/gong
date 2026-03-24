@@ -17,6 +17,13 @@ type DiagramTree_Transition_Proxy struct {
 // OnAfterUpdate implements models.NodeImplInterface.
 func (proxy *DiagramTree_Transition_Proxy) OnAfterUpdate(stage *tree.Stage, stagedNode *tree.Node, frontNode *tree.Node) {
 
+	if frontNode.Name != stagedNode.Name {
+		proxy.transition.Name = frontNode.Name
+		proxy.transition.IsInRenameMode = false
+		proxy.stager.stage.Commit()
+		return
+	}
+
 	// checking the node of the Transition means we want to add a Transition_Shape to the diagram
 	if frontNode.IsChecked && !stagedNode.IsChecked {
 
@@ -47,6 +54,7 @@ func (proxy *DiagramTree_Transition_Proxy) OnAfterUpdate(stage *tree.Stage, stag
 		proxy.diagram.Transition_Shapes = append(proxy.diagram.Transition_Shapes, transitionShape)
 
 		proxy.stager.stage.Commit()
+		return
 	}
 	if !frontNode.IsChecked && stagedNode.IsChecked {
 
@@ -65,5 +73,8 @@ func (proxy *DiagramTree_Transition_Proxy) OnAfterUpdate(stage *tree.Stage, stag
 		proxy.diagram.Transition_Shapes = slices.Delete(proxy.diagram.Transition_Shapes, idx, idx+1)
 
 		proxy.stager.stage.Commit()
+		return
 	}
+
+	proxy.stager.probeForm.FillUpFormFromGongstruct(proxy.transition, "Transition")
 }

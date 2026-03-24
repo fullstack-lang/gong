@@ -50,6 +50,13 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Diagram_State_Shapes_reverseMap[_stateshape] = diagram
 		}
 	}
+	stage.Diagram_StatesWhoseNodeIsExpanded_reverseMap = make(map[*State]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _state := range diagram.StatesWhoseNodeIsExpanded {
+			stage.Diagram_StatesWhoseNodeIsExpanded_reverseMap[_state] = diagram
+		}
+	}
 	stage.Diagram_Transition_Shapes_reverseMap = make(map[*Transition_Shape]*Diagram)
 	for diagram := range stage.Diagrams {
 		_ = diagram
