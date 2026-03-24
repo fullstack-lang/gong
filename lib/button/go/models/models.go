@@ -29,7 +29,10 @@ type Button struct {
 
 	MatButtonAppearance MatButtonAppearance
 
+	// Deprecated
 	Proxy ButtonProxyInterface
+
+	OnUpdate func()
 }
 
 type GroupToogle struct {
@@ -105,6 +108,9 @@ func (button *Button) OnAfterUpdate(
 
 	if button.Proxy != nil {
 		button.Proxy.Updated()
+	}
+	if button.OnUpdate != nil {
+		button.OnUpdate()
 	}
 }
 

@@ -8,7 +8,7 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
-func (stager *Stager) updateTreeDiagramStage() {
+func (stager *Stager) treeDiagrams() {
 
 	treeStage := stager.treeDiagramStage
 
