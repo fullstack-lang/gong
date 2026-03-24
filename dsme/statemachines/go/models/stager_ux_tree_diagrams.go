@@ -174,42 +174,62 @@ func (stager *Stager) updateTreeDiagramStage() {
 				diagramStateNode.Name = state.Name
 				diagramStateNode.HasCheckboxButton = true
 				diagramStateNode.IsNodeClickable = true
+				diagramStateNode.IsInEditMode = state.IsInRenameMode
+				diagramStateNode.IsExpanded = slices.Index(diagram.StatesWhoseNodeIsExpanded, state) != -1
+
+				if !state.IsInRenameMode {
+					diagramStateNode.Buttons = append(diagramStateNode.Buttons,
+						&tree.Button{
+							Name: state.GetName() + " " + string(buttons.BUTTON_edit_note),
+							Icon: string(buttons.BUTTON_edit_note),
+							Impl: &tree.FunctionalButtonProxy{
+								OnUpdated: func(_ *tree.Stage, _, _ *tree.Button) {
+									state.IsInRenameMode = true
+									stager.stage.Commit()
+								},
+							},
+							HasToolTip:      true,
+							ToolTipText:     "Rename the state",
+							ToolTipPosition: tree.Above,
+						})
+				} else {
+					diagramStateNode.Buttons = append(diagramStateNode.Buttons,
+						&tree.Button{
+							Name: state.GetName() + " " + string(buttons.BUTTON_edit_off),
+							Icon: string(buttons.BUTTON_edit_off),
+							Impl: &tree.FunctionalButtonProxy{
+								OnUpdated: func(_ *tree.Stage, _, _ *tree.Button) {
+									state.IsInRenameMode = false
+									stager.stage.Commit()
+								},
+							},
+							HasToolTip:      true,
+							ToolTipText:     "Cancel renaming",
+							ToolTipPosition: tree.Above,
+						})
+				}
 
 				var stateShape *StateShape
 				var ok bool
 				if stateShape, ok = map_State__StateShape[state]; ok {
 					diagramStateNode.IsChecked = true
-					diagramStateNode.IsExpanded = stateShape.IsExpanded
 
-					diagramStateNode.OnUpdate = func(_ *tree.Stage, stagedNode *tree.Node, frontNode *tree.Node) {
-						if frontNode.IsExpanded && !stagedNode.IsExpanded {
-							stagedNode.IsExpanded = frontNode.IsExpanded
-							stateShape.IsExpanded = true
+					howHideButton := &tree.Button{
+						Name:            "Show State Shape",
+						Icon:            string(buttons.BUTTON_visibility),
+						HasToolTip:      true,
+						ToolTipPosition: tree.Above,
+						ToolTipText:     "Show State Shape",
+						OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+							stateShape.SetIsHidden(!stateShape.GetIsHidden())
 							stager.stage.Commit()
-						}
-						if !frontNode.IsExpanded && stagedNode.IsExpanded {
-							stagedNode.IsExpanded = frontNode.IsExpanded
-							stateShape.IsExpanded = false
-							stager.stage.Commit()
-						}
-					}
-
-					diagramStateNode.Buttons = append(diagramStateNode.Buttons,
-						&tree.Button{
-							Name:            "Show State Shape",
-							Icon:            string(buttons.BUTTON_visibility),
-							HasToolTip:      true,
-							ToolTipPosition: tree.Above,
-							ToolTipText:     "Show State Shape",
-							OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
-								stateShape.SetIsHidden(!stateShape.GetIsHidden())
-								stager.stage.Commit()
-							},
 						},
-					)
+					}
+					diagramStateNode.Buttons = append(diagramStateNode.Buttons, howHideButton)
+
 					if !stateShape.GetIsHidden() {
-						diagramStateNode.Buttons[0].Icon = string(buttons.BUTTON_visibility_off)
-						diagramStateNode.Buttons[0].ToolTipText = "Hide State Shape"
+						howHideButton.Icon = string(buttons.BUTTON_visibility_off)
+						howHideButton.ToolTipText = "Hide State Shape"
 					}
 
 					// range over transitions that have the state as a source or target
@@ -218,7 +238,46 @@ func (stager *Stager) updateTreeDiagramStage() {
 						if transition_.Start == state && transition_.End != nil {
 							transitionNode := new(tree.Node)
 							transitionNode.Name = transition_.Name + " --> " + transition_.End.Name
+
+							if transition_.IsInRenameMode {
+								transitionNode.Name = transition_.Name
+							}
+
 							transitionNode.HasCheckboxButton = true
+							transitionNode.IsNodeClickable = true
+							transitionNode.IsInEditMode = transition_.IsInRenameMode
+
+							if !transition_.IsInRenameMode {
+								transitionNode.Buttons = append(transitionNode.Buttons,
+									&tree.Button{
+										Name: transition_.GetName() + " " + string(buttons.BUTTON_edit_note),
+										Icon: string(buttons.BUTTON_edit_note),
+										Impl: &tree.FunctionalButtonProxy{
+											OnUpdated: func(_ *tree.Stage, _, _ *tree.Button) {
+												transition_.IsInRenameMode = true
+												stager.stage.Commit()
+											},
+										},
+										HasToolTip:      true,
+										ToolTipText:     "Rename the transition",
+										ToolTipPosition: tree.Above,
+									})
+							} else {
+								transitionNode.Buttons = append(transitionNode.Buttons,
+									&tree.Button{
+										Name: transition_.GetName() + " " + string(buttons.BUTTON_edit_off),
+										Icon: string(buttons.BUTTON_edit_off),
+										Impl: &tree.FunctionalButtonProxy{
+											OnUpdated: func(_ *tree.Stage, _, _ *tree.Button) {
+												transition_.IsInRenameMode = false
+												stager.stage.Commit()
+											},
+										},
+										HasToolTip:      true,
+										ToolTipText:     "Cancel renaming",
+										ToolTipPosition: tree.Above,
+									})
+							}
 
 							proxy := new(DiagramTree_Transition_Proxy)
 							proxy.diagram = diagram
@@ -244,22 +303,21 @@ func (stager *Stager) updateTreeDiagramStage() {
 								transitionNode.IsCheckboxDisabled = true
 							}
 
-							transitionNode.Buttons = append(transitionNode.Buttons,
-								&tree.Button{
-									Name:            "Show Transition Shape",
-									Icon:            string(buttons.BUTTON_visibility),
-									HasToolTip:      true,
-									ToolTipPosition: tree.Above,
-									ToolTipText:     "Show Transition Shape",
-									OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
-										transitionShape.SetIsHidden(!transitionShape.GetIsHidden())
-										stager.stage.Commit()
-									},
+							showHideButton := &tree.Button{
+								Name:            "Show Transition Shape",
+								Icon:            string(buttons.BUTTON_visibility),
+								HasToolTip:      true,
+								ToolTipPosition: tree.Above,
+								ToolTipText:     "Show Transition Shape",
+								OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+									transitionShape.SetIsHidden(!transitionShape.GetIsHidden())
+									stager.stage.Commit()
 								},
-							)
+							}
+							transitionNode.Buttons = append(transitionNode.Buttons, showHideButton)
 							if !transitionShape.GetIsHidden() {
-								transitionNode.Buttons[0].Icon = string(buttons.BUTTON_visibility_off)
-								transitionNode.Buttons[0].ToolTipText = "Hide Transition Shape"
+								showHideButton.Icon = string(buttons.BUTTON_visibility_off)
+								showHideButton.ToolTipText = "Hide Transition Shape"
 							}
 
 							diagramStateNode.Children = append(diagramStateNode.Children, transitionNode)
@@ -269,7 +327,6 @@ func (stager *Stager) updateTreeDiagramStage() {
 
 				diagramStateNode.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
 					if frontNode.IsChecked && !stagedNode.IsChecked {
-
 						stagedNode.IsChecked = frontNode.IsChecked
 
 						// add the State_Shape
@@ -278,12 +335,10 @@ func (stager *Stager) updateTreeDiagramStage() {
 						}
 
 						newStateShapeToDiagram(state, diagram).Stage(stager.stage)
-
 						stager.stage.Commit()
 						return
 					}
 					if !frontNode.IsChecked && stagedNode.IsChecked {
-
 						stagedNode.IsChecked = frontNode.IsChecked
 
 						// one need to remove the State_Shape
@@ -292,10 +347,31 @@ func (stager *Stager) updateTreeDiagramStage() {
 						}
 
 						stateShape.Unstage(stager.stage)
-
 						idx := slices.Index(diagram.State_Shapes, stateShape)
 						diagram.State_Shapes = slices.Delete(diagram.State_Shapes, idx, idx+1)
 
+						stager.stage.Commit()
+						return
+					}
+
+					if frontNode.Name != stagedNode.Name {
+						state.Name = frontNode.Name
+						state.IsInRenameMode = false
+						stager.stage.Commit()
+						return
+					}
+
+					if frontNode.IsExpanded != stagedNode.IsExpanded {
+						stagedNode.IsExpanded = frontNode.IsExpanded
+						if frontNode.IsExpanded {
+							if slices.Index(diagram.StatesWhoseNodeIsExpanded, state) == -1 {
+								diagram.StatesWhoseNodeIsExpanded = append(diagram.StatesWhoseNodeIsExpanded, state)
+							}
+						} else {
+							if idx := slices.Index(diagram.StatesWhoseNodeIsExpanded, state); idx != -1 {
+								diagram.StatesWhoseNodeIsExpanded = slices.Delete(diagram.StatesWhoseNodeIsExpanded, idx, idx+1)
+							}
+						}
 						stager.stage.Commit()
 						return
 					}
