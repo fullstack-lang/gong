@@ -2,7 +2,7 @@ package models
 
 import "log"
 
-func (stager *Stager) computeConsistency() {
+func (stager *Stager) enforce_semantic() {
 
 	// VERY important because the probe only unstages objects
 	// this is the Clean that delete them from slices and pointers that reference

@@ -55,8 +55,6 @@ type Object struct {
 
 	DOF time.Time
 
-	Proxy *Object_Tree_Proxy
-
 	Messages []*Message
 }
 
@@ -158,11 +156,6 @@ type Guard struct {
 	Name string
 }
 
-func (transition *Transition) OnAfterUpdate(stage *Stage, stagedTransition, frontTransition *Transition) {
-
-	transition.performTransition(stage)
-}
-
 func (transition *Transition) performTransition(stage *Stage) {
 
 	objectSet := *GetGongstructInstancesSet[Object](stage)
@@ -191,7 +184,7 @@ func (transition *Transition) performTransition(stage *Stage) {
 				message.IsSelected = true
 			}
 
-			object.Proxy.stager.stage.Commit()
+			stage.Commit()
 		}
 	}
 }

@@ -13,7 +13,7 @@ import (
 
 var objectNumber int
 
-func (stager *Stager) treeObjectSimulation() {
+func (stager *Stager) treeSimulation() {
 
 	stager.treeObjectsSimulationStage.Reset()
 
@@ -72,12 +72,25 @@ func (stager *Stager) treeObjectSimulation() {
 			nodeObject.HasCheckboxButton = true
 			nodeObject.IsChecked = object.IsSelected
 			nodeObject.IsExpanded = true
+			nodeObject.OnUpdate = func(_ *tree.Stage, stagedNode, frontNode *tree.Node) {
+				if frontNode.IsChecked && !stagedNode.IsChecked {
+					for object_ := range *GetGongstructInstancesSet[Object](stager.stage) {
+						object_.IsSelected = false
+					}
+					object.IsSelected = true
+					stagedNode.IsChecked = frontNode.IsChecked
+					stager.stage.Commit()
+				}
+				if !frontNode.IsChecked && stagedNode.IsChecked {
+					object.IsSelected = false
+					stagedNode.IsChecked = frontNode.IsChecked
 
-			p := new(Object_Tree_Proxy)
-			p.stager = stager
-			p.object = object
-			object.Proxy = p
-			nodeObject.Impl = p
+					for object_ := range *GetGongstructInstancesSet[Object](stager.stage) {
+						object_.IsSelected = false
+					}
+					stager.stage.Commit()
+				}
+			}
 
 			treeInstance.RootNodes = append(treeInstance.RootNodes, nodeObject)
 

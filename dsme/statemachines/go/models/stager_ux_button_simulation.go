@@ -5,7 +5,7 @@ import (
 	buttons "github.com/fullstack-lang/gong/lib/button/go/models"
 )
 
-func (stager *Stager) updateButtonsStage() {
+func (stager *Stager) buttonSimulation() {
 
 	stager.buttonTransitionsStage.Reset()
 
@@ -76,13 +76,14 @@ func (stager *Stager) updateButtonsStage() {
 		}
 
 		for _, role := range transition.RolesWithPermissions {
-			button := NewButtonTranstion(stager,
-				transition.Name,
-				"",
-				transition.Name,
-				transition,
-				stager.stage,
-			)
+			button := (&buttons.Button{
+				Name:  transition.Name,
+				Icon:  "",
+				Label: transition.Name,
+				OnUpdate: func() {
+					transition.performTransition(stager.stage)
+				},
+			}).Stage(stager.buttonTransitionsStage)
 
 			group, ok := map_Role_buttonGroup[role]
 			if !ok {
@@ -101,60 +102,4 @@ func (stager *Stager) updateButtonsStage() {
 	}
 
 	stager.buttonTransitionsStage.Commit()
-}
-
-// Generic button creation function
-func NewButtonTranstion(
-	target buttons.Target,
-	name string,
-	icon string,
-	label string,
-	transition *Transition,
-	stage *Stage,
-) *buttons.Button {
-	button := new(buttons.Button).Stage(target.GetButtonsStage())
-	button.Name = name
-	button.Icon = icon
-	button.Label = label
-
-	proxy := NewButtonTransitionProxy(
-		button,
-		target,
-		transition,
-		stage,
-	)
-
-	button.Proxy = proxy
-
-	return button
-}
-
-// NewButtonProxy creates a new proxy for a button
-func NewButtonTransitionProxy(
-	button *buttons.Button,
-	target buttons.Target,
-	transition *Transition,
-	stage *Stage,
-) *ButtonTransitionProxy {
-	proxy := new(ButtonTransitionProxy)
-	proxy.Button = button
-	proxy.Target = target
-	proxy.transition = transition
-	proxy.stage = stage
-
-	return proxy
-}
-
-// ButtonProxy is a generic proxy for both int and float64
-type ButtonTransitionProxy struct {
-	Button     *buttons.Button
-	Target     buttons.Target
-	transition *Transition
-	stage      *Stage
-}
-
-// Updated handles updating values when the button changes
-func (proxy *ButtonTransitionProxy) Updated() {
-
-	proxy.transition.performTransition(proxy.stage)
 }

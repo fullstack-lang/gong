@@ -28,13 +28,13 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_ := (&models.Diagram{Name: `Traffic Light FR Diagram`}).Stage(stage)
 	__Diagram__00000001_ := (&models.Diagram{Name: `Traffic Light UK Diagram`}).Stage(stage)
 
-	__Message__00000000_ := (&models.Message{Name: `08:38:29 Off UK to Red UK -> Repair Report`}).Stage(stage)
-	__Message__00000001_ := (&models.Message{Name: `03:20:11 Off UK to Red UK -> Repair Report`}).Stage(stage)
+	__Message__00000003_ := (&models.Message{Name: `03:37:16 Off UK to Red UK -> Repair Report`}).Stage(stage)
+	__Message__00000004_ := (&models.Message{Name: `03:48:43 Off UK to Red UK -> Repair Report`}).Stage(stage)
 
 	__MessageType__00000000_ := (&models.MessageType{Name: `Repair Report`}).Stage(stage)
 
-	__Object__00000000_ := (&models.Object{Name: `02/MI DOF/ 2025-11-26 DEP/ 083652`}).Stage(stage)
 	__Object__00000001_ := (&models.Object{Name: `01/MI DOF/ 2025-12-08 DEP/ 102802`}).Stage(stage)
+	__Object__00000003_ := (&models.Object{Name: `02/MI DOF/ 2026-03-25 DEP/ 033701`}).Stage(stage)
 
 	__Role__00000000_ := (&models.Role{Name: `Technician`}).Stage(stage)
 	__Role__00000001_ := (&models.Role{Name: `Timer`}).Stage(stage)
@@ -100,35 +100,35 @@ func _(stage *models.Stage) {
 	__Architecture__00000000_.NbPixPerCharacter = 8.000000
 
 	__Diagram__00000000_.Name = `Traffic Light FR Diagram`
-	__Diagram__00000000_.IsChecked = true
+	__Diagram__00000000_.IsChecked = false
 	__Diagram__00000000_.IsExpanded = true
 	__Diagram__00000000_.IsEditable_ = true
 	__Diagram__00000000_.IsInRenameMode = false
 
 	__Diagram__00000001_.Name = `Traffic Light UK Diagram`
-	__Diagram__00000001_.IsChecked = false
+	__Diagram__00000001_.IsChecked = true
 	__Diagram__00000001_.IsExpanded = true
 	__Diagram__00000001_.IsEditable_ = true
 	__Diagram__00000001_.IsInRenameMode = false
 
-	__Message__00000000_.Name = `08:38:29 Off UK to Red UK -> Repair Report`
-	__Message__00000000_.IsSelected = false
+	__Message__00000003_.Name = `03:37:16 Off UK to Red UK -> Repair Report`
+	__Message__00000003_.IsSelected = false
 
-	__Message__00000001_.Name = `03:20:11 Off UK to Red UK -> Repair Report`
-	__Message__00000001_.IsSelected = true
+	__Message__00000004_.Name = `03:48:43 Off UK to Red UK -> Repair Report`
+	__Message__00000004_.IsSelected = true
 
 	__MessageType__00000000_.Name = `Repair Report`
 	__MessageType__00000000_.Description = ``
 
-	__Object__00000000_.Name = `02/MI DOF/ 2025-11-26 DEP/ 083652`
-	__Object__00000000_.IsSelected = false
-	__Object__00000000_.Rank = 0
-	__Object__00000000_.DOF, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
-
 	__Object__00000001_.Name = `01/MI DOF/ 2025-12-08 DEP/ 102802`
-	__Object__00000001_.IsSelected = true
+	__Object__00000001_.IsSelected = false
 	__Object__00000001_.Rank = 0
 	__Object__00000001_.DOF, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+
+	__Object__00000003_.Name = `02/MI DOF/ 2026-03-25 DEP/ 033701`
+	__Object__00000003_.IsSelected = true
+	__Object__00000003_.Rank = 0
+	__Object__00000003_.DOF, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 
 	__Role__00000000_.Name = `Technician`
 	__Role__00000000_.Acronym = `Tech`
@@ -212,7 +212,7 @@ func _(stage *models.Stage) {
 	__StateMachine__00000000_.IsNodeExpanded = true
 
 	__StateMachine__00000001_.Name = `Traffic Light UK`
-	__StateMachine__00000001_.IsNodeExpanded = false
+	__StateMachine__00000001_.IsNodeExpanded = true
 
 	__StateShape__00000000_.Name = `Red FR`
 	__StateShape__00000000_.X = 578.000000
@@ -459,14 +459,14 @@ func _(stage *models.Stage) {
 	__Diagram__00000001_.Transition_Shapes = append(__Diagram__00000001_.Transition_Shapes, __Transition_Shape__00000009_)
 	__Diagram__00000001_.Transition_Shapes = append(__Diagram__00000001_.Transition_Shapes, __Transition_Shape__00000010_)
 	__Diagram__00000001_.Transition_Shapes = append(__Diagram__00000001_.Transition_Shapes, __Transition_Shape__00000011_)
-	__Message__00000000_.MessageType = __MessageType__00000000_
-	__Message__00000000_.OriginTransition = __Transition__00000010_
-	__Message__00000001_.MessageType = __MessageType__00000000_
-	__Message__00000001_.OriginTransition = __Transition__00000010_
-	__Object__00000000_.State = __State__00000007_
-	__Object__00000000_.Messages = append(__Object__00000000_.Messages, __Message__00000000_)
-	__Object__00000000_.Messages = append(__Object__00000000_.Messages, __Message__00000001_)
+	__Message__00000003_.MessageType = __MessageType__00000000_
+	__Message__00000003_.OriginTransition = __Transition__00000010_
+	__Message__00000004_.MessageType = __MessageType__00000000_
+	__Message__00000004_.OriginTransition = __Transition__00000010_
 	__Object__00000001_.State = __State__00000001_
+	__Object__00000003_.State = __State__00000007_
+	__Object__00000003_.Messages = append(__Object__00000003_.Messages, __Message__00000003_)
+	__Object__00000003_.Messages = append(__Object__00000003_.Messages, __Message__00000004_)
 	__State__00000000_.Parent = nil
 	__State__00000000_.Diagrams = append(__State__00000000_.Diagrams, __Diagram__00000000_)
 	__State__00000000_.Entry = nil
