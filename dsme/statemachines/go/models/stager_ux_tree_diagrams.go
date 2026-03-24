@@ -43,12 +43,17 @@ func (stager *Stager) treeDiagrams() {
 			HasToolTip:      true,
 			ToolTipPosition: tree.Above,
 			ToolTipText:     "Add a State Machine",
+			OnUpdate: func(stage *tree.Stage, updatedButton *tree.Button) {
+				s := stager.stage
+				newDiagram := (&StateMachine{
+					Name: "New StateMachine",
+				}).Stage(s)
+
+				stager.architecture.StateMachines = append(stager.architecture.StateMachines, newDiagram)
+				stager.stage.Commit()
+			},
 		}
 		architectureNode.Buttons = append(architectureNode.Buttons, addButton)
-		addButton.Impl = &ArchitectureAddDiagramButtonProxy{
-			stager:      stager,
-			architecure: stager.architecture,
-		}
 	}
 
 	for _, stateMachine := range stager.architecture.StateMachines {
