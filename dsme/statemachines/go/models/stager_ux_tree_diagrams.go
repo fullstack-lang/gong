@@ -29,9 +29,10 @@ func (stager *Stager) updateTreeDiagramStage() {
 		Name:            "State Machines",
 		FontStyle:       tree.ITALIC,
 		IsNodeClickable: true,
-		Impl: &diagramArchitectureNodeProxy{
-			stager:       stager,
-			architecture: stager.architecture,
+		OnUpdate: func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+			stager.probeForm.FillUpFormFromGongstruct(stager.architecture, "Architecture")
+
+			stager.stage.Commit()
 		},
 	}
 	treeInstance.RootNodes = append(treeInstance.RootNodes, architectureNode)
@@ -55,10 +56,15 @@ func (stager *Stager) updateTreeDiagramStage() {
 			Name:            stateMachine.Name,
 			IsExpanded:      stateMachine.IsNodeExpanded,
 			IsNodeClickable: true,
-			Impl: &diagramStateMachineNodeProxy{
-				stager:         stager,
-				stateMachine:   stateMachine,
-				isNodeExpanded: &stateMachine.IsNodeExpanded,
+			OnUpdate: func(_ *tree.Stage, stagedNode, frontNode *tree.Node) {
+				if frontNode.IsExpanded != stagedNode.IsExpanded {
+					stateMachine.IsNodeExpanded = !stateMachine.IsNodeExpanded
+					stager.stage.Commit()
+					return
+				}
+				stager.probeForm.FillUpFormFromGongstruct(stateMachine, stateMachine.GongGetGongstructName())
+
+				stager.stage.Commit()
 			},
 		}
 
@@ -71,12 +77,18 @@ func (stager *Stager) updateTreeDiagramStage() {
 				HasToolTip:      true,
 				ToolTipPosition: tree.Above,
 				ToolTipText:     "Add a Diagram to the state machine",
+				OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+					s := stager.stage
+					newDiagram := (&Diagram{
+						Name:        "New Diagram",
+						IsEditable_: true,
+					}).Stage(s)
+
+					stateMachine.Diagrams = append(stateMachine.Diagrams, newDiagram)
+					stager.stage.Commit()
+				},
 			}
 			stateMachineNode.Buttons = append(stateMachineNode.Buttons, addButton)
-			addButton.Impl = &StateMachineAddDiagramButtonProxy{
-				stager:       stager,
-				stateMachine: stateMachine,
-			}
 		}
 
 		for _, diagram := range stateMachine.Diagrams {
@@ -148,10 +160,16 @@ func (stager *Stager) updateTreeDiagramStage() {
 					HasToolTip:      true,
 					ToolTipPosition: tree.Above,
 					ToolTipText:     "Add a State to the State Machine and add it to the diagram",
-					Impl: &DiagramAddStateButtonProxy{
-						stager:       stager,
-						stateMachine: stateMachine,
-						diagram:      diagram,
+					OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+						s := stager.stage
+						newState := new(State).Stage(s)
+
+						newState.Name = "New State"
+						stateMachine.States = append(stateMachine.States, newState)
+
+						newStateShapeToDiagram(newState, diagram).Stage(stager.stage)
+
+						stager.stage.Commit()
 					},
 				}
 				diagramNode.Buttons = append(diagramNode.Buttons, addButton)
