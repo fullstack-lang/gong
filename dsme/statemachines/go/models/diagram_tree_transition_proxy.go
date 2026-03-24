@@ -7,6 +7,9 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
+func (stager *Stager) OnUpdate(_ *tree.Stage, stagedNode *tree.Node, frontNode *tree.Node) {
+}
+
 type DiagramTree_Transition_Proxy struct {
 	stager          *Stager
 	transitionShape *Transition_Shape
@@ -65,11 +68,11 @@ func (proxy *DiagramTree_Transition_Proxy) OnAfterUpdate(stage *tree.Stage, stag
 			log.Fatalln("remove a non existing shape to Transition")
 		}
 
-		rransitionShape := proxy.transitionShape
+		transitionShape := proxy.transitionShape
 		proxy.transitionShape = nil
-		rransitionShape.Unstage(proxy.stager.stage)
+		transitionShape.Unstage(proxy.stager.stage)
 
-		idx := slices.Index(proxy.diagram.Transition_Shapes, rransitionShape)
+		idx := slices.Index(proxy.diagram.Transition_Shapes, transitionShape)
 		proxy.diagram.Transition_Shapes = slices.Delete(proxy.diagram.Transition_Shapes, idx, idx+1)
 
 		proxy.stager.stage.Commit()
