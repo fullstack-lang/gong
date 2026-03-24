@@ -20,7 +20,9 @@ type Diagram struct {
 	IsEditable_    bool
 	IsInRenameMode bool
 
-	State_Shapes      []*StateShape
+	State_Shapes              []*StateShape
+	StatesWhoseNodeIsExpanded []*State
+
 	Transition_Shapes []*Transition_Shape
 }
 
@@ -52,8 +54,6 @@ type Object struct {
 	Rank       int
 
 	DOF time.Time
-
-	Proxy *Object_Tree_Proxy
 
 	Messages []*Message
 }
@@ -90,6 +90,9 @@ type State struct {
 	Entry      *Action
 	Activities []*Activities
 	Exit       *Action
+
+	// nodes can be edited
+	IsInRenameMode bool
 }
 
 func (state *State) IsComposite() bool {
@@ -145,15 +148,12 @@ type Transition struct {
 
 	// Diagram dans lequel la transition est présente
 	Diagrams []*Diagram
+
+	IsInRenameMode bool
 }
 
 type Guard struct {
 	Name string
-}
-
-func (transition *Transition) OnAfterUpdate(stage *Stage, stagedTransition, frontTransition *Transition) {
-
-	transition.performTransition(stage)
 }
 
 func (transition *Transition) performTransition(stage *Stage) {
@@ -184,7 +184,7 @@ func (transition *Transition) performTransition(stage *Stage) {
 				message.IsSelected = true
 			}
 
-			object.Proxy.stager.stage.Commit()
+			stage.Commit()
 		}
 	}
 }

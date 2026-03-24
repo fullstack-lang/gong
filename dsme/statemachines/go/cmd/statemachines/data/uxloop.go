@@ -140,184 +140,209 @@ func _(stage *models.Stage) {
 	__State__00000000_.IsDecisionNode = false
 	__State__00000000_.IsFictif = false
 	__State__00000000_.IsEndState = false
+	__State__00000000_.IsInRenameMode = false
 
 	__State__00000001_.Name = `Probe Tree`
 	__State__00000001_.IsDecisionNode = false
 	__State__00000001_.IsFictif = false
 	__State__00000001_.IsEndState = false
+	__State__00000001_.IsInRenameMode = false
 
 	__State__00000002_.Name = `Probe Table`
 	__State__00000002_.IsDecisionNode = false
 	__State__00000002_.IsFictif = false
 	__State__00000002_.IsEndState = false
+	__State__00000002_.IsInRenameMode = false
 
 	__State__00000003_.Name = `Form - Update Stage Of Interest`
 	__State__00000003_.IsDecisionNode = false
 	__State__00000003_.IsFictif = false
 	__State__00000003_.IsEndState = false
+	__State__00000003_.IsInRenameMode = false
 
 	__State__00000004_.Name = `Enforce Model Semantic`
 	__State__00000004_.IsDecisionNode = false
 	__State__00000004_.IsFictif = false
 	__State__00000004_.IsEndState = false
+	__State__00000004_.IsInRenameMode = false
 
 	__State__00000005_.Name = `Update Probe Form`
 	__State__00000005_.IsDecisionNode = false
 	__State__00000005_.IsFictif = false
 	__State__00000005_.IsEndState = false
+	__State__00000005_.IsInRenameMode = false
 
 	__State__00000006_.Name = `Update Probe Table`
 	__State__00000006_.IsDecisionNode = false
 	__State__00000006_.IsFictif = false
 	__State__00000006_.IsEndState = false
+	__State__00000006_.IsInRenameMode = false
 
 	__State__00000007_.Name = `Update Probe Tree`
 	__State__00000007_.IsDecisionNode = false
 	__State__00000007_.IsFictif = false
 	__State__00000007_.IsEndState = false
+	__State__00000007_.IsInRenameMode = false
 
 	__State__00000008_.Name = `Load Stage`
 	__State__00000008_.IsDecisionNode = false
 	__State__00000008_.IsFictif = false
 	__State__00000008_.IsEndState = false
+	__State__00000008_.IsInRenameMode = false
 
 	__State__00000009_.Name = `Persist Stage`
 	__State__00000009_.IsDecisionNode = false
 	__State__00000009_.IsFictif = false
 	__State__00000009_.IsEndState = false
+	__State__00000009_.IsInRenameMode = false
 
 	__State__00000010_.Name = `Update UX ?`
 	__State__00000010_.IsDecisionNode = true
 	__State__00000010_.IsFictif = true
 	__State__00000010_.IsEndState = false
+	__State__00000010_.IsInRenameMode = false
 
 	__State__00000011_.Name = `Update UX ?`
 	__State__00000011_.IsDecisionNode = true
 	__State__00000011_.IsFictif = false
 	__State__00000011_.IsEndState = false
+	__State__00000011_.IsInRenameMode = false
 
 	__State__00000012_.Name = `Clean Stage`
 	__State__00000012_.IsDecisionNode = false
 	__State__00000012_.IsFictif = false
 	__State__00000012_.IsEndState = false
+	__State__00000012_.IsInRenameMode = false
 
 	__StateMachine__00000000_.Name = `UX Loop`
 	__StateMachine__00000000_.IsNodeExpanded = true
 
 	__StateShape__00000000_.Name = `Probe Form`
-	__StateShape__00000000_.IsExpanded = false
 	__StateShape__00000000_.X = 166.000000
 	__StateShape__00000000_.Y = 165.000000
 	__StateShape__00000000_.Width = 221.000000
 	__StateShape__00000000_.Height = 80.000000
+	__StateShape__00000000_.IsHidden = false
 
 	__StateShape__00000001_.Name = `Probe Tree`
-	__StateShape__00000001_.IsExpanded = false
 	__StateShape__00000001_.X = 559.000000
 	__StateShape__00000001_.Y = 242.000000
 	__StateShape__00000001_.Width = 200.000000
 	__StateShape__00000001_.Height = 80.000000
+	__StateShape__00000001_.IsHidden = false
 
 	__StateShape__00000002_.Name = `Probe Table`
-	__StateShape__00000002_.IsExpanded = false
 	__StateShape__00000002_.X = 782.000000
 	__StateShape__00000002_.Y = 246.000000
 	__StateShape__00000002_.Width = 200.000000
 	__StateShape__00000002_.Height = 80.000000
+	__StateShape__00000002_.IsHidden = false
 
 	__StateShape__00000003_.Name = `Form - Update Stage Of Interest`
-	__StateShape__00000003_.IsExpanded = false
 	__StateShape__00000003_.X = 333.000000
 	__StateShape__00000003_.Y = 402.999985
 	__StateShape__00000003_.Width = 200.000000
 	__StateShape__00000003_.Height = 104.000031
+	__StateShape__00000003_.IsHidden = false
 
 	__StateShape__00000004_.Name = `Enforce Model Semantic`
-	__StateShape__00000004_.IsExpanded = false
 	__StateShape__00000004_.X = 332.000000
 	__StateShape__00000004_.Y = 629.000015
 	__StateShape__00000004_.Width = 646.000000
 	__StateShape__00000004_.Height = 82.000000
+	__StateShape__00000004_.IsHidden = false
 
 	__StateShape__00000005_.Name = `Update Probe Form`
-	__StateShape__00000005_.IsExpanded = false
 	__StateShape__00000005_.X = 329.000000
 	__StateShape__00000005_.Y = 1005.999954
 	__StateShape__00000005_.Width = 200.000000
 	__StateShape__00000005_.Height = 80.000000
+	__StateShape__00000005_.IsHidden = false
 
 	__StateShape__00000006_.Name = `Update Probe Table`
-	__StateShape__00000006_.IsExpanded = false
 	__StateShape__00000006_.X = 552.000000
 	__StateShape__00000006_.Y = 1003.999954
 	__StateShape__00000006_.Width = 200.000000
 	__StateShape__00000006_.Height = 80.000000
+	__StateShape__00000006_.IsHidden = false
 
 	__StateShape__00000007_.Name = `Update Probe Tree`
-	__StateShape__00000007_.IsExpanded = false
 	__StateShape__00000007_.X = 772.000000
 	__StateShape__00000007_.Y = 1003.999954
 	__StateShape__00000007_.Width = 200.000000
 	__StateShape__00000007_.Height = 80.000000
+	__StateShape__00000007_.IsHidden = false
 
 	__StateShape__00000008_.Name = `Load Stage`
-	__StateShape__00000008_.IsExpanded = false
 	__StateShape__00000008_.X = 14.000000
 	__StateShape__00000008_.Y = 549.999984
 	__StateShape__00000008_.Width = 107.000000
 	__StateShape__00000008_.Height = 20.000000
+	__StateShape__00000008_.IsHidden = false
 
 	__StateShape__00000009_.Name = `Persist Stage`
-	__StateShape__00000009_.IsExpanded = false
 	__StateShape__00000009_.X = 52.000000
 	__StateShape__00000009_.Y = 888.999954
 	__StateShape__00000009_.Width = 200.000000
 	__StateShape__00000009_.Height = 80.000000
+	__StateShape__00000009_.IsHidden = false
 
 	__StateShape__00000010_.Name = `Update UX ?`
-	__StateShape__00000010_.IsExpanded = false
 	__StateShape__00000010_.X = 539.000000
 	__StateShape__00000010_.Y = 826.999954
 	__StateShape__00000010_.Width = 153.000000
 	__StateShape__00000010_.Height = 50.000000
+	__StateShape__00000010_.IsHidden = false
 
 	__StateShape__00000011_.Name = `Update UX ?`
-	__StateShape__00000011_.IsExpanded = false
 	__StateShape__00000011_.X = 105.000000
 	__StateShape__00000011_.Y = 1156.000015
 	__StateShape__00000011_.Width = 120.000000
 	__StateShape__00000011_.Height = 50.000000
+	__StateShape__00000011_.IsHidden = false
 
 	__StateShape__00000012_.Name = `Clean Stage`
-	__StateShape__00000012_.IsExpanded = false
 	__StateShape__00000012_.X = 740.000000
 	__StateShape__00000012_.Y = 409.000000
 	__StateShape__00000012_.Width = 200.000000
 	__StateShape__00000012_.Height = 87.000000
+	__StateShape__00000012_.IsHidden = false
 
 	__Transition__00000000_.Name = `Submit`
+	__Transition__00000000_.IsInRenameMode = false
 
 	__Transition__00000001_.Name = ``
+	__Transition__00000001_.IsInRenameMode = false
 
 	__Transition__00000002_.Name = `/Model Updated`
+	__Transition__00000002_.IsInRenameMode = false
 
 	__Transition__00000003_.Name = ``
+	__Transition__00000003_.IsInRenameMode = false
 
 	__Transition__00000004_.Name = ``
+	__Transition__00000004_.IsInRenameMode = false
 
 	__Transition__00000005_.Name = `/Stage loaded`
+	__Transition__00000005_.IsInRenameMode = false
 
 	__Transition__00000006_.Name = `/Stage persisted`
+	__Transition__00000006_.IsInRenameMode = false
 
 	__Transition__00000007_.Name = `Yes`
+	__Transition__00000007_.IsInRenameMode = false
 
 	__Transition__00000008_.Name = `Yes`
+	__Transition__00000008_.IsInRenameMode = false
 
 	__Transition__00000009_.Name = `Form - Update Stage Of Interest to Clean Stage`
+	__Transition__00000009_.IsInRenameMode = false
 
 	__Transition__00000010_.Name = ``
+	__Transition__00000010_.IsInRenameMode = false
 
 	__Transition__00000011_.Name = `Stage Modified ? to Probe Form`
+	__Transition__00000011_.IsInRenameMode = false
 
 	__Transition_Shape__00000000_.Name = `UX 1 - Waiting for User Input to UX 1 - Update Stage`
 	__Transition_Shape__00000000_.StartRatio = 0.815760
@@ -325,6 +350,7 @@ func _(stage *models.Stage) {
 	__Transition_Shape__00000000_.StartOrientation = models.ORIENTATION_VERTICAL
 	__Transition_Shape__00000000_.EndOrientation = models.ORIENTATION_VERTICAL
 	__Transition_Shape__00000000_.CornerOffsetRatio = 2.175087
+	__Transition_Shape__00000000_.IsHidden = false
 
 	__Transition_Shape__00000001_.Name = `UX 1 - Update Stage to Enforce Model Semantic`
 	__Transition_Shape__00000001_.StartRatio = 0.540885
@@ -332,6 +358,7 @@ func _(stage *models.Stage) {
 	__Transition_Shape__00000001_.StartOrientation = models.ORIENTATION_VERTICAL
 	__Transition_Shape__00000001_.EndOrientation = models.ORIENTATION_VERTICAL
 	__Transition_Shape__00000001_.CornerOffsetRatio = 1.413333
+	__Transition_Shape__00000001_.IsHidden = false
 
 	__Transition_Shape__00000002_.Name = `Enforce Model Semantic to UX 1 - Update UX`
 	__Transition_Shape__00000002_.StartRatio = 0.512053
@@ -339,6 +366,7 @@ func _(stage *models.Stage) {
 	__Transition_Shape__00000002_.StartOrientation = models.ORIENTATION_VERTICAL
 	__Transition_Shape__00000002_.EndOrientation = models.ORIENTATION_VERTICAL
 	__Transition_Shape__00000002_.CornerOffsetRatio = 1.407713
+	__Transition_Shape__00000002_.IsHidden = false
 
 	__Transition_Shape__00000003_.Name = `Enforce Model Semantic to UX 2 - Update UX`
 	__Transition_Shape__00000003_.StartRatio = 0.821415
@@ -346,6 +374,7 @@ func _(stage *models.Stage) {
 	__Transition_Shape__00000003_.StartOrientation = models.ORIENTATION_VERTICAL
 	__Transition_Shape__00000003_.EndOrientation = models.ORIENTATION_VERTICAL
 	__Transition_Shape__00000003_.CornerOffsetRatio = 1.625087
+	__Transition_Shape__00000003_.IsHidden = false
 
 	__Transition_Shape__00000004_.Name = `Enforce Model Semantic to UX n - Update UX`
 	__Transition_Shape__00000004_.StartRatio = 0.830939
@@ -353,6 +382,7 @@ func _(stage *models.Stage) {
 	__Transition_Shape__00000004_.StartOrientation = models.ORIENTATION_VERTICAL
 	__Transition_Shape__00000004_.EndOrientation = models.ORIENTATION_VERTICAL
 	__Transition_Shape__00000004_.CornerOffsetRatio = 1.662587
+	__Transition_Shape__00000004_.IsHidden = false
 
 	__Transition_Shape__00000005_.Name = `Load Stage to Enforce Model Semantic`
 	__Transition_Shape__00000005_.StartRatio = 0.550349
@@ -360,6 +390,7 @@ func _(stage *models.Stage) {
 	__Transition_Shape__00000005_.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__Transition_Shape__00000005_.EndOrientation = models.ORIENTATION_HORIZONTAL
 	__Transition_Shape__00000005_.CornerOffsetRatio = 1.320401
+	__Transition_Shape__00000005_.IsHidden = false
 
 	__Transition_Shape__00000006_.Name = `Persist Stage to UX 1 - Update UX`
 	__Transition_Shape__00000006_.StartRatio = 0.741415
@@ -367,6 +398,7 @@ func _(stage *models.Stage) {
 	__Transition_Shape__00000006_.StartOrientation = models.ORIENTATION_VERTICAL
 	__Transition_Shape__00000006_.EndOrientation = models.ORIENTATION_VERTICAL
 	__Transition_Shape__00000006_.CornerOffsetRatio = 1.737587
+	__Transition_Shape__00000006_.IsHidden = false
 
 	__Transition_Shape__00000007_.Name = `Stage Modified ? to Persist Stage`
 	__Transition_Shape__00000007_.StartRatio = 0.831915
@@ -374,6 +406,7 @@ func _(stage *models.Stage) {
 	__Transition_Shape__00000007_.StartOrientation = models.ORIENTATION_VERTICAL
 	__Transition_Shape__00000007_.EndOrientation = models.ORIENTATION_HORIZONTAL
 	__Transition_Shape__00000007_.CornerOffsetRatio = 1.100139
+	__Transition_Shape__00000007_.IsHidden = false
 
 	__Transition_Shape__00000008_.Name = `Update UX ? to UX 1 - Update UX`
 	__Transition_Shape__00000008_.StartRatio = 0.475693
@@ -381,6 +414,7 @@ func _(stage *models.Stage) {
 	__Transition_Shape__00000008_.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__Transition_Shape__00000008_.EndOrientation = models.ORIENTATION_HORIZONTAL
 	__Transition_Shape__00000008_.CornerOffsetRatio = 1.560691
+	__Transition_Shape__00000008_.IsHidden = false
 
 	__Transition_Shape__00000009_.Name = `Form - Update Stage Of Interest to Clean Stage`
 	__Transition_Shape__00000009_.StartRatio = 0.500000
@@ -388,6 +422,7 @@ func _(stage *models.Stage) {
 	__Transition_Shape__00000009_.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__Transition_Shape__00000009_.EndOrientation = models.ORIENTATION_HORIZONTAL
 	__Transition_Shape__00000009_.CornerOffsetRatio = 1.200000
+	__Transition_Shape__00000009_.IsHidden = false
 
 	__Transition_Shape__00000010_.Name = `Clean Stage to Enforce Model Semantic`
 	__Transition_Shape__00000010_.StartRatio = 0.786415
@@ -395,6 +430,7 @@ func _(stage *models.Stage) {
 	__Transition_Shape__00000010_.StartOrientation = models.ORIENTATION_VERTICAL
 	__Transition_Shape__00000010_.EndOrientation = models.ORIENTATION_VERTICAL
 	__Transition_Shape__00000010_.CornerOffsetRatio = 1.950087
+	__Transition_Shape__00000010_.IsHidden = false
 
 	__Transition_Shape__00000011_.Name = `Stage Modified ? to Probe Form`
 	__Transition_Shape__00000011_.StartRatio = 0.500000
@@ -402,6 +438,7 @@ func _(stage *models.Stage) {
 	__Transition_Shape__00000011_.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__Transition_Shape__00000011_.EndOrientation = models.ORIENTATION_HORIZONTAL
 	__Transition_Shape__00000011_.CornerOffsetRatio = 3.046909
+	__Transition_Shape__00000011_.IsHidden = false
 
 	// insertion point for setup of pointers
 	__Architecture__00000000_.StateMachines = append(__Architecture__00000000_.StateMachines, __StateMachine__00000000_)

@@ -67,6 +67,7 @@ func (architecture *Architecture) GongClean(stage *Stage) (modified bool) {
 func (diagram *Diagram) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = GongCleanSlice(stage, &diagram.State_Shapes) || modified
+	modified = GongCleanSlice(stage, &diagram.StatesWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &diagram.Transition_Shapes) || modified
 	// insertion point per field
 	return

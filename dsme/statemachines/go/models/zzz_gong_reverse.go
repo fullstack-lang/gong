@@ -160,6 +160,13 @@ func (inst *State) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Reve
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
+	case "Diagram":
+		switch reverseField.Fieldname {
+		case "StatesWhoseNodeIsExpanded":
+			if _diagram, ok := stage.Diagram_StatesWhoseNodeIsExpanded_reverseMap[inst]; ok {
+				res = _diagram.Name
+			}
+		}
 	case "State":
 		switch reverseField.Fieldname {
 		case "SubStates":
@@ -376,6 +383,11 @@ func (inst *State) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseF
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
+	case "Diagram":
+		switch reverseField.Fieldname {
+		case "StatesWhoseNodeIsExpanded":
+			res = stage.Diagram_StatesWhoseNodeIsExpanded_reverseMap[inst]
+		}
 	case "State":
 		switch reverseField.Fieldname {
 		case "SubStates":
