@@ -25,13 +25,9 @@ func (stager *Stager) svg() {
 		stager.svgStage.Commit()
 		return
 	}
-
-	svgImpl := &svgProxy{
-		stager:                 stager,
-		diagram:                diagram,
-		map_SvgRect_StateShape: make(map[*svg.Rect]*StateShape),
-	}
-	svgObject.Impl = svgImpl
+	stager.currentDiagram = diagram
+	stager.map_SvgRect_StateShape = make(map[*svg.Rect]*StateShape)
+	svgObject.OnUpdate = stager.onUpdateSVG
 
 	svgObject.Name = diagram.Name
 	svgObject.IsEditable = diagram.IsEditable()
@@ -77,7 +73,7 @@ func (stager *Stager) svg() {
 			isSelected,
 			layer)
 		map_State_Rect[state] = rect
-		svgImpl.map_SvgRect_StateShape[rect] = stateShape
+		stager.map_SvgRect_StateShape[rect] = stateShape
 	}
 
 	for _, transtionShape := range diagram.Transition_Shapes {

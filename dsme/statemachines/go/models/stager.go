@@ -48,6 +48,9 @@ type Stager struct {
 	map_diagram_stateMachine map[*Diagram]*StateMachine
 
 	probeForm ProbeIF
+
+	currentDiagram         *Diagram
+	map_SvgRect_StateShape map[*svg.Rect]*StateShape
 }
 
 func (stager *Stager) GetStage() *Stage {
