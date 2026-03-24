@@ -344,6 +344,9 @@ func (stage *Stage) StageBranchDiagram(diagram *Diagram) {
 	for _, _stateshape := range diagram.State_Shapes {
 		StageBranch(stage, _stateshape)
 	}
+	for _, _state := range diagram.StatesWhoseNodeIsExpanded {
+		StageBranch(stage, _state)
+	}
 	for _, _transition_shape := range diagram.Transition_Shapes {
 		StageBranch(stage, _transition_shape)
 	}
@@ -739,6 +742,9 @@ func CopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagramTo
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _stateshape := range diagramFrom.State_Shapes {
 		diagramTo.State_Shapes = append(diagramTo.State_Shapes, CopyBranchStateShape(mapOrigCopy, _stateshape))
+	}
+	for _, _state := range diagramFrom.StatesWhoseNodeIsExpanded {
+		diagramTo.StatesWhoseNodeIsExpanded = append(diagramTo.StatesWhoseNodeIsExpanded, CopyBranchState(mapOrigCopy, _state))
 	}
 	for _, _transition_shape := range diagramFrom.Transition_Shapes {
 		diagramTo.Transition_Shapes = append(diagramTo.Transition_Shapes, CopyBranchTransition_Shape(mapOrigCopy, _transition_shape))
@@ -1147,6 +1153,9 @@ func (stage *Stage) UnstageBranchDiagram(diagram *Diagram) {
 	for _, _stateshape := range diagram.State_Shapes {
 		UnstageBranch(stage, _stateshape)
 	}
+	for _, _state := range diagram.StatesWhoseNodeIsExpanded {
+		UnstageBranch(stage, _state)
+	}
 	for _, _transition_shape := range diagram.Transition_Shapes {
 		UnstageBranch(stage, _transition_shape)
 	}
@@ -1421,6 +1430,10 @@ func (reference *Diagram) GongReconstructPointersFromReferences(stage *Stage, in
 	for _, _b := range instance.State_Shapes {
 		reference.State_Shapes = append(reference.State_Shapes, stage.StateShapes_reference[_b])
 	}
+	reference.StatesWhoseNodeIsExpanded = reference.StatesWhoseNodeIsExpanded[:0]
+	for _, _b := range instance.StatesWhoseNodeIsExpanded {
+		reference.StatesWhoseNodeIsExpanded = append(reference.StatesWhoseNodeIsExpanded, stage.States_reference[_b])
+	}
 	reference.Transition_Shapes = reference.Transition_Shapes[:0]
 	for _, _b := range instance.Transition_Shapes {
 		reference.Transition_Shapes = append(reference.Transition_Shapes, stage.Transition_Shapes_reference[_b])
@@ -1628,6 +1641,13 @@ func (reference *Diagram) GongReconstructPointersFromInstances(stage *Stage) () 
 		}
 	}
 	reference.State_Shapes = _State_Shapes
+	var _StatesWhoseNodeIsExpanded []*State
+	for _, _reference := range reference.StatesWhoseNodeIsExpanded {
+		if _instance, ok := stage.States_instance[_reference]; ok {
+			_StatesWhoseNodeIsExpanded = append(_StatesWhoseNodeIsExpanded, _instance)
+		}
+	}
+	reference.StatesWhoseNodeIsExpanded = _StatesWhoseNodeIsExpanded
 	var _Transition_Shapes []*Transition_Shape
 	for _, _reference := range reference.Transition_Shapes {
 		if _instance, ok := stage.Transition_Shapes_instance[_reference]; ok {
@@ -1983,6 +2003,27 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		ops := Diff(stage, diagram, diagramOther, "State_Shapes", diagramOther.State_Shapes, diagram.State_Shapes)
 		diffs = append(diffs, ops)
 	}
+	StatesWhoseNodeIsExpandedDifferent := false
+	if len(diagram.StatesWhoseNodeIsExpanded) != len(diagramOther.StatesWhoseNodeIsExpanded) {
+		StatesWhoseNodeIsExpandedDifferent = true
+	} else {
+		for i := range diagram.StatesWhoseNodeIsExpanded {
+			if (diagram.StatesWhoseNodeIsExpanded[i] == nil) != (diagramOther.StatesWhoseNodeIsExpanded[i] == nil) {
+				StatesWhoseNodeIsExpandedDifferent = true
+				break
+			} else if diagram.StatesWhoseNodeIsExpanded[i] != nil && diagramOther.StatesWhoseNodeIsExpanded[i] != nil {
+				// this is a pointer comparaison
+				if diagram.StatesWhoseNodeIsExpanded[i] != diagramOther.StatesWhoseNodeIsExpanded[i] {
+					StatesWhoseNodeIsExpandedDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if StatesWhoseNodeIsExpandedDifferent {
+		ops := Diff(stage, diagram, diagramOther, "StatesWhoseNodeIsExpanded", diagramOther.StatesWhoseNodeIsExpanded, diagram.StatesWhoseNodeIsExpanded)
+		diffs = append(diffs, ops)
+	}
 	Transition_ShapesDifferent := false
 	if len(diagram.Transition_Shapes) != len(diagramOther.Transition_Shapes) {
 		Transition_ShapesDifferent = true
@@ -2255,6 +2296,9 @@ func (state *State) GongDiff(stage *Stage, stateOther *State) (diffs []string) {
 			diffs = append(diffs, state.GongMarshallField(stage, "Exit"))
 		}
 	}
+	if state.IsInRenameMode != stateOther.IsInRenameMode {
+		diffs = append(diffs, state.GongMarshallField(stage, "IsInRenameMode"))
+	}
 
 	return
 }
@@ -2336,9 +2380,6 @@ func (stateshape *StateShape) GongDiff(stage *Stage, stateshapeOther *StateShape
 			diffs = append(diffs, stateshape.GongMarshallField(stage, "State"))
 		}
 	}
-	if stateshape.IsExpanded != stateshapeOther.IsExpanded {
-		diffs = append(diffs, stateshape.GongMarshallField(stage, "IsExpanded"))
-	}
 	if stateshape.X != stateshapeOther.X {
 		diffs = append(diffs, stateshape.GongMarshallField(stage, "X"))
 	}
@@ -2350,6 +2391,9 @@ func (stateshape *StateShape) GongDiff(stage *Stage, stateshapeOther *StateShape
 	}
 	if stateshape.Height != stateshapeOther.Height {
 		diffs = append(diffs, stateshape.GongMarshallField(stage, "Height"))
+	}
+	if stateshape.IsHidden != stateshapeOther.IsHidden {
+		diffs = append(diffs, stateshape.GongMarshallField(stage, "IsHidden"))
 	}
 
 	return
@@ -2446,6 +2490,9 @@ func (transition *Transition) GongDiff(stage *Stage, transitionOther *Transition
 		ops := Diff(stage, transition, transitionOther, "Diagrams", transitionOther.Diagrams, transition.Diagrams)
 		diffs = append(diffs, ops)
 	}
+	if transition.IsInRenameMode != transitionOther.IsInRenameMode {
+		diffs = append(diffs, transition.GongMarshallField(stage, "IsInRenameMode"))
+	}
 
 	return
 }
@@ -2478,6 +2525,9 @@ func (transition_shape *Transition_Shape) GongDiff(stage *Stage, transition_shap
 	}
 	if transition_shape.CornerOffsetRatio != transition_shapeOther.CornerOffsetRatio {
 		diffs = append(diffs, transition_shape.GongMarshallField(stage, "CornerOffsetRatio"))
+	}
+	if transition_shape.IsHidden != transition_shapeOther.IsHidden {
+		diffs = append(diffs, transition_shape.GongMarshallField(stage, "IsHidden"))
 	}
 
 	return

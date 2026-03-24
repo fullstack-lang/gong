@@ -168,6 +168,8 @@ type State_WOP struct {
 	IsFictif bool
 
 	IsEndState bool
+
+	IsInRenameMode bool
 }
 
 func (from *State) CopyBasicFields(to *State) {
@@ -176,6 +178,7 @@ func (from *State) CopyBasicFields(to *State) {
 	to.IsDecisionNode = from.IsDecisionNode
 	to.IsFictif = from.IsFictif
 	to.IsEndState = from.IsEndState
+	to.IsInRenameMode = from.IsInRenameMode
 }
 
 type StateMachine_WOP struct {
@@ -197,8 +200,6 @@ type StateShape_WOP struct {
 
 	Name string
 
-	IsExpanded bool
-
 	X float64
 
 	Y float64
@@ -206,27 +207,32 @@ type StateShape_WOP struct {
 	Width float64
 
 	Height float64
+
+	IsHidden bool
 }
 
 func (from *StateShape) CopyBasicFields(to *StateShape) {
 	// insertion point
 	to.Name = from.Name
-	to.IsExpanded = from.IsExpanded
 	to.X = from.X
 	to.Y = from.Y
 	to.Width = from.Width
 	to.Height = from.Height
+	to.IsHidden = from.IsHidden
 }
 
 type Transition_WOP struct {
 	// insertion point
 
 	Name string
+
+	IsInRenameMode bool
 }
 
 func (from *Transition) CopyBasicFields(to *Transition) {
 	// insertion point
 	to.Name = from.Name
+	to.IsInRenameMode = from.IsInRenameMode
 }
 
 type Transition_Shape_WOP struct {
@@ -243,6 +249,8 @@ type Transition_Shape_WOP struct {
 	EndOrientation OrientationType
 
 	CornerOffsetRatio float64
+
+	IsHidden bool
 }
 
 func (from *Transition_Shape) CopyBasicFields(to *Transition_Shape) {
@@ -253,5 +261,6 @@ func (from *Transition_Shape) CopyBasicFields(to *Transition_Shape) {
 	to.StartOrientation = from.StartOrientation
 	to.EndOrientation = from.EndOrientation
 	to.CornerOffsetRatio = from.CornerOffsetRatio
+	to.IsHidden = from.IsHidden
 }
 

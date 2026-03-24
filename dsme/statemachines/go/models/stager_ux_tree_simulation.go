@@ -1,14 +1,19 @@
 package models
 
 import (
+	"fmt"
+	"log"
 	"sort"
+	"time"
 
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 
 	"github.com/fullstack-lang/gong/lib/tree/go/buttons"
 )
 
-func (stager *Stager) treeObjectSimulation() {
+var objectNumber int
+
+func (stager *Stager) treeSimulation() {
 
 	stager.treeObjectsSimulationStage.Reset()
 
@@ -23,12 +28,36 @@ func (stager *Stager) treeObjectSimulation() {
 
 		addButton := (&tree.Button{
 			Name: "Object" + " " + string(buttons.BUTTON_add),
-			Icon: string(buttons.BUTTON_add)}).Stage(stager.treeObjectsSimulationStage)
+			Icon: string(buttons.BUTTON_add),
+			OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+				for object_ := range *GetGongstructInstancesSet[Object](stager.stage) {
+					object_.IsSelected = false
+				}
+
+				objectNumber++
+				if objectNumber == 13 {
+					objectNumber++
+				}
+				nbObject := fmt.Sprintf("%02d/MI", objectNumber)
+
+				if stateMachine.InitialState == nil {
+					log.Println("State Machine", stateMachine.Name, "has no Start State")
+					return
+				}
+
+				(&Object{
+					Name: nbObject +
+						" DOF/ " + time.Now().Add(time.Hour*24).Format("2006-01-02") +
+						" DEP/ " + time.Now().Add(time.Hour*24).Format("150405"),
+					DOF:        time.Now().Add(time.Hour * 24),
+					State:      stateMachine.InitialState,
+					IsSelected: true,
+				}).Stage(stager.stage)
+
+				stager.stage.Commit()
+			},
+		}).Stage(stager.treeObjectsSimulationStage)
 		nodeForAddButton.Buttons = append(nodeForAddButton.Buttons, addButton)
-		addButton.Impl = &ObjectAddButtonProxy{
-			stager:       stager,
-			stateMachine: stateMachine,
-		}
 
 		objects := stager.map_stateMachine_objects[stateMachine]
 
@@ -43,12 +72,25 @@ func (stager *Stager) treeObjectSimulation() {
 			nodeObject.HasCheckboxButton = true
 			nodeObject.IsChecked = object.IsSelected
 			nodeObject.IsExpanded = true
+			nodeObject.OnUpdate = func(_ *tree.Stage, stagedNode, frontNode *tree.Node) {
+				if frontNode.IsChecked && !stagedNode.IsChecked {
+					for object_ := range *GetGongstructInstancesSet[Object](stager.stage) {
+						object_.IsSelected = false
+					}
+					object.IsSelected = true
+					stagedNode.IsChecked = frontNode.IsChecked
+					stager.stage.Commit()
+				}
+				if !frontNode.IsChecked && stagedNode.IsChecked {
+					object.IsSelected = false
+					stagedNode.IsChecked = frontNode.IsChecked
 
-			p := new(Object_Tree_Proxy)
-			p.stager = stager
-			p.object = object
-			object.Proxy = p
-			nodeObject.Impl = p
+					for object_ := range *GetGongstructInstancesSet[Object](stager.stage) {
+						object_.IsSelected = false
+					}
+					stager.stage.Commit()
+				}
+			}
 
 			treeInstance.RootNodes = append(treeInstance.RootNodes, nodeObject)
 
@@ -59,12 +101,17 @@ func (stager *Stager) treeObjectSimulation() {
 			// ajout d'un bouton delete
 			deleteButton := (&tree.Button{
 				Name: "State" + " " + string(buttons.BUTTON_delete),
-				Icon: string(buttons.BUTTON_delete)}).Stage(stager.treeObjectsSimulationStage)
+				Icon: string(buttons.BUTTON_delete),
+				OnUpdate: func(stage *tree.Stage, updatedButton *tree.Button) {
+					object.Unstage(stager.stage)
+
+					for _, message := range object.Messages {
+						message.Unstage(stager.stage)
+					}
+					stager.stage.Commit()
+				},
+			}).Stage(stager.treeObjectsSimulationStage)
 			nodeObject.Buttons = append(nodeObject.Buttons, deleteButton)
-			deleteButton.Impl = &ObjectDeleteButtonProxy{
-				stager: stager,
-				object: object,
-			}
 
 			for _, message := range object.Messages {
 				nodeMessage := new(tree.Node).Stage(stager.treeObjectsSimulationStage)
