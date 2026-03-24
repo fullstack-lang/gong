@@ -30,6 +30,7 @@ func _(stage *models.Stage) {
 	__Architecture__00000000_ := (&models.Architecture{Name: `Architecture`}).Stage(stage)
 
 	__Diagram__00000000_ := (&models.Diagram{Name: `New Diagram`}).Stage(stage)
+	__Diagram__00000001_ := (&models.Diagram{Name: `New Diagram`}).Stage(stage)
 
 	__State__00000000_ := (&models.State{Name: `Single Item Selectiond`}).Stage(stage)
 	__State__00000001_ := (&models.State{Name: `Multi Item Selection`}).Stage(stage)
@@ -64,6 +65,12 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.IsExpanded = true
 	__Diagram__00000000_.IsEditable_ = true
 	__Diagram__00000000_.IsInRenameMode = false
+
+	__Diagram__00000001_.Name = `New Diagram`
+	__Diagram__00000001_.IsChecked = false
+	__Diagram__00000001_.IsExpanded = false
+	__Diagram__00000001_.IsEditable_ = true
+	__Diagram__00000001_.IsInRenameMode = false
 
 	__State__00000000_.Name = `Single Item Selectiond`
 	__State__00000000_.IsDecisionNode = false
@@ -138,6 +145,7 @@ func _(stage *models.Stage) {
 	__StateMachine__00000001_.States = append(__StateMachine__00000001_.States, __State__00000000_)
 	__StateMachine__00000001_.States = append(__StateMachine__00000001_.States, __State__00000001_)
 	__StateMachine__00000001_.Diagrams = append(__StateMachine__00000001_.Diagrams, __Diagram__00000000_)
+	__StateMachine__00000001_.Diagrams = append(__StateMachine__00000001_.Diagrams, __Diagram__00000001_)
 	__StateMachine__00000001_.InitialState = nil
 	__StateShape__00000000_.State = __State__00000000_
 	__StateShape__00000001_.State = __State__00000001_
