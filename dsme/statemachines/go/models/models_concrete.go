@@ -4,8 +4,6 @@ type StateShape struct {
 	Name  string
 	State *State
 
-	IsExpanded bool
-
 	RectShape
 }
 
