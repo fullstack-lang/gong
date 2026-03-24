@@ -25,7 +25,9 @@ func (stager *Stager) svg() {
 		stager.svgStage.Commit()
 		return
 	}
-	stager.currentDiagram = diagram
+	stager.diagram = diagram
+	stager.svgObject = svgObject
+
 	stager.map_SvgRect_StateShape = make(map[*svg.Rect]*StateShape)
 	svgObject.OnUpdate = stager.onUpdateSVG
 

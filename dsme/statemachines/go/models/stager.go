@@ -49,7 +49,8 @@ type Stager struct {
 
 	probeForm ProbeIF
 
-	currentDiagram         *Diagram
+	diagram                *Diagram
+	svgObject              *svg.SVG
 	map_SvgRect_StateShape map[*svg.Rect]*StateShape
 }
 
