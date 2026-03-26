@@ -445,6 +445,8 @@ func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order ma
 	return
 }
 
+// GetStructInstancesByOrderAuto returns a slice of generic pointers to gongstructs
+// ordered by their order in the stage.
 func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T) {
 	var t T
 	switch any(t).(type) {

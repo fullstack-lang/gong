@@ -130,7 +130,7 @@ func (aFormCallback *AFormCallback) OnSave() {
 		aFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(aFormCallback.probe)
+	aFormCallback.probe.ux_tree()
 }
 func __gong__New__BFormCallback(
 	b *models.B,
@@ -274,5 +274,5 @@ func (bFormCallback *BFormCallback) OnSave() {
 		bFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(bFormCallback.probe)
+	bFormCallback.probe.ux_tree()
 }

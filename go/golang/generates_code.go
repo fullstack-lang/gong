@@ -448,13 +448,13 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 	gong_models.SimpleCodeGenerator(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(pkgPath, "../probe/fill_up_form_from_gongstruct_name.go"),
+		modelPkg.PkgPath, filepath.Join(pkgPath, "../probe/probe_ux_form.go"),
 		probe.FillUpFormFromGongstructNameTemplate, probe.FillUpFormFromGongstructNameSubTemplateCode)
 
 	gong_models.SimpleCodeGenerator(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(pkgPath, "../probe/update_probe_table.go"),
+		modelPkg.PkgPath, filepath.Join(pkgPath, "../probe/probe_ux_table.go"),
 		probe.UpdateProbeTableTemplate, probe.UpdateProbeTableSubTemplateCode)
 
 	gong_models.VerySimpleCodeGenerator(
@@ -465,7 +465,7 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 	gong_models.SimpleCodeGenerator(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(pkgPath, "../probe/update_and_commit_tree.go"),
+		modelPkg.PkgPath, filepath.Join(pkgPath, "../probe/probe_ux_tree.go"),
 		probe.FillUpTree, probe.FillUpTreeSubTemplateCode)
 
 	gong_models.VerySimpleCodeGenerator(

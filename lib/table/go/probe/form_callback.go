@@ -171,7 +171,7 @@ func (cellFormCallback *CellFormCallback) OnSave() {
 		cellFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(cellFormCallback.probe)
+	cellFormCallback.probe.ux_tree()
 }
 func __gong__New__CellBooleanFormCallback(
 	cellboolean *models.CellBoolean,
@@ -251,7 +251,7 @@ func (cellbooleanFormCallback *CellBooleanFormCallback) OnSave() {
 		cellbooleanFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(cellbooleanFormCallback.probe)
+	cellbooleanFormCallback.probe.ux_tree()
 }
 func __gong__New__CellFloat64FormCallback(
 	cellfloat64 *models.CellFloat64,
@@ -331,7 +331,7 @@ func (cellfloat64FormCallback *CellFloat64FormCallback) OnSave() {
 		cellfloat64FormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(cellfloat64FormCallback.probe)
+	cellfloat64FormCallback.probe.ux_tree()
 }
 func __gong__New__CellIconFormCallback(
 	cellicon *models.CellIcon,
@@ -415,7 +415,7 @@ func (celliconFormCallback *CellIconFormCallback) OnSave() {
 		celliconFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(celliconFormCallback.probe)
+	celliconFormCallback.probe.ux_tree()
 }
 func __gong__New__CellIntFormCallback(
 	cellint *models.CellInt,
@@ -495,7 +495,7 @@ func (cellintFormCallback *CellIntFormCallback) OnSave() {
 		cellintFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(cellintFormCallback.probe)
+	cellintFormCallback.probe.ux_tree()
 }
 func __gong__New__CellStringFormCallback(
 	cellstring *models.CellString,
@@ -575,7 +575,7 @@ func (cellstringFormCallback *CellStringFormCallback) OnSave() {
 		cellstringFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(cellstringFormCallback.probe)
+	cellstringFormCallback.probe.ux_tree()
 }
 func __gong__New__CheckBoxFormCallback(
 	checkbox *models.CheckBox,
@@ -721,7 +721,7 @@ func (checkboxFormCallback *CheckBoxFormCallback) OnSave() {
 		checkboxFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(checkboxFormCallback.probe)
+	checkboxFormCallback.probe.ux_tree()
 }
 func __gong__New__DisplayedColumnFormCallback(
 	displayedcolumn *models.DisplayedColumn,
@@ -865,7 +865,7 @@ func (displayedcolumnFormCallback *DisplayedColumnFormCallback) OnSave() {
 		displayedcolumnFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(displayedcolumnFormCallback.probe)
+	displayedcolumnFormCallback.probe.ux_tree()
 }
 func __gong__New__FormDivFormCallback(
 	formdiv *models.FormDiv,
@@ -1075,7 +1075,7 @@ func (formdivFormCallback *FormDivFormCallback) OnSave() {
 		formdivFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(formdivFormCallback.probe)
+	formdivFormCallback.probe.ux_tree()
 }
 func __gong__New__FormEditAssocButtonFormCallback(
 	formeditassocbutton *models.FormEditAssocButton,
@@ -1167,7 +1167,7 @@ func (formeditassocbuttonFormCallback *FormEditAssocButtonFormCallback) OnSave()
 		formeditassocbuttonFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(formeditassocbuttonFormCallback.probe)
+	formeditassocbuttonFormCallback.probe.ux_tree()
 }
 func __gong__New__FormFieldFormCallback(
 	formfield *models.FormField,
@@ -1339,7 +1339,7 @@ func (formfieldFormCallback *FormFieldFormCallback) OnSave() {
 		formfieldFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(formfieldFormCallback.probe)
+	formfieldFormCallback.probe.ux_tree()
 }
 func __gong__New__FormFieldDateFormCallback(
 	formfielddate *models.FormFieldDate,
@@ -1419,7 +1419,7 @@ func (formfielddateFormCallback *FormFieldDateFormCallback) OnSave() {
 		formfielddateFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(formfielddateFormCallback.probe)
+	formfielddateFormCallback.probe.ux_tree()
 }
 func __gong__New__FormFieldDateTimeFormCallback(
 	formfielddatetime *models.FormFieldDateTime,
@@ -1499,7 +1499,7 @@ func (formfielddatetimeFormCallback *FormFieldDateTimeFormCallback) OnSave() {
 		formfielddatetimeFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(formfielddatetimeFormCallback.probe)
+	formfielddatetimeFormCallback.probe.ux_tree()
 }
 func __gong__New__FormFieldFloat64FormCallback(
 	formfieldfloat64 *models.FormFieldFloat64,
@@ -1587,7 +1587,7 @@ func (formfieldfloat64FormCallback *FormFieldFloat64FormCallback) OnSave() {
 		formfieldfloat64FormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(formfieldfloat64FormCallback.probe)
+	formfieldfloat64FormCallback.probe.ux_tree()
 }
 func __gong__New__FormFieldIntFormCallback(
 	formfieldint *models.FormFieldInt,
@@ -1675,7 +1675,7 @@ func (formfieldintFormCallback *FormFieldIntFormCallback) OnSave() {
 		formfieldintFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(formfieldintFormCallback.probe)
+	formfieldintFormCallback.probe.ux_tree()
 }
 func __gong__New__FormFieldSelectFormCallback(
 	formfieldselect *models.FormFieldSelect,
@@ -1790,7 +1790,7 @@ func (formfieldselectFormCallback *FormFieldSelectFormCallback) OnSave() {
 		formfieldselectFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(formfieldselectFormCallback.probe)
+	formfieldselectFormCallback.probe.ux_tree()
 }
 func __gong__New__FormFieldStringFormCallback(
 	formfieldstring *models.FormFieldString,
@@ -1872,7 +1872,7 @@ func (formfieldstringFormCallback *FormFieldStringFormCallback) OnSave() {
 		formfieldstringFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(formfieldstringFormCallback.probe)
+	formfieldstringFormCallback.probe.ux_tree()
 }
 func __gong__New__FormFieldTimeFormCallback(
 	formfieldtime *models.FormFieldTime,
@@ -1954,7 +1954,7 @@ func (formfieldtimeFormCallback *FormFieldTimeFormCallback) OnSave() {
 		formfieldtimeFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(formfieldtimeFormCallback.probe)
+	formfieldtimeFormCallback.probe.ux_tree()
 }
 func __gong__New__FormGroupFormCallback(
 	formgroup *models.FormGroup,
@@ -2069,7 +2069,7 @@ func (formgroupFormCallback *FormGroupFormCallback) OnSave() {
 		formgroupFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(formgroupFormCallback.probe)
+	formgroupFormCallback.probe.ux_tree()
 }
 func __gong__New__FormSortAssocButtonFormCallback(
 	formsortassocbutton *models.FormSortAssocButton,
@@ -2157,7 +2157,7 @@ func (formsortassocbuttonFormCallback *FormSortAssocButtonFormCallback) OnSave()
 		formsortassocbuttonFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(formsortassocbuttonFormCallback.probe)
+	formsortassocbuttonFormCallback.probe.ux_tree()
 }
 func __gong__New__OptionFormCallback(
 	option *models.Option,
@@ -2301,7 +2301,7 @@ func (optionFormCallback *OptionFormCallback) OnSave() {
 		optionFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(optionFormCallback.probe)
+	optionFormCallback.probe.ux_tree()
 }
 func __gong__New__RowFormCallback(
 	row *models.Row,
@@ -2478,7 +2478,7 @@ func (rowFormCallback *RowFormCallback) OnSave() {
 		rowFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(rowFormCallback.probe)
+	rowFormCallback.probe.ux_tree()
 }
 func __gong__New__TableFormCallback(
 	table *models.Table,
@@ -2638,5 +2638,5 @@ func (tableFormCallback *TableFormCallback) OnSave() {
 		tableFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(tableFormCallback.probe)
+	tableFormCallback.probe.ux_tree()
 }

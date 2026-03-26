@@ -173,7 +173,7 @@ func (buttonFormCallback *ButtonFormCallback) OnSave() {
 		buttonFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(buttonFormCallback.probe)
+	buttonFormCallback.probe.ux_tree()
 }
 func __gong__New__NodeFormCallback(
 	node *models.Node,
@@ -497,7 +497,7 @@ func (nodeFormCallback *NodeFormCallback) OnSave() {
 		nodeFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(nodeFormCallback.probe)
+	nodeFormCallback.probe.ux_tree()
 }
 func __gong__New__SVGIconFormCallback(
 	svgicon *models.SVGIcon,
@@ -577,7 +577,7 @@ func (svgiconFormCallback *SVGIconFormCallback) OnSave() {
 		svgiconFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(svgiconFormCallback.probe)
+	svgiconFormCallback.probe.ux_tree()
 }
 func __gong__New__TreeFormCallback(
 	tree *models.Tree,
@@ -686,5 +686,5 @@ func (treeFormCallback *TreeFormCallback) OnSave() {
 		treeFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(treeFormCallback.probe)
+	treeFormCallback.probe.ux_tree()
 }

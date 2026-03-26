@@ -1,0 +1,99 @@
+// generated code - do not edit
+package probe
+
+import (
+	form "github.com/fullstack-lang/gong/lib/table/go/models"
+
+	"github.com/fullstack-lang/gong/lib/load/go/models"
+)
+
+// ux_form updates the current form if there is one
+func (probe *Probe) ux_form() {
+	var formGroup *form.FormGroup
+	for fg := range probe.formStage.FormGroups {
+		formGroup = fg
+	}
+	if formGroup != nil {
+		switch onSave := formGroup.OnSave.(type) { // insertion point
+		case *FileToDownloadFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "FileToDownload", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.filetodownload, probe)
+			}
+		case *FileToUploadFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "FileToUpload", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.filetoupload, probe)
+			}
+		case *MessageFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Message", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.message, probe)
+			}
+		}
+	}
+}
+
+func FillUpFormFromGongstructName(
+	probe *Probe,
+	gongstructName string,
+	isNewInstance bool,
+) {
+	formStage := probe.formStage
+	formStage.Reset()
+
+	var prefix string
+
+	if isNewInstance {
+		prefix = ""
+	} else {
+		prefix = ""
+	}
+
+	switch gongstructName {
+	// insertion point
+	case "FileToDownload":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "FileToDownload Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__FileToDownloadFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		filetodownload := new(models.FileToDownload)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(filetodownload, formGroup, probe)
+	case "FileToUpload":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "FileToUpload Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__FileToUploadFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		filetoupload := new(models.FileToUpload)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(filetoupload, formGroup, probe)
+	case "Message":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "Message Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__MessageFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		message := new(models.Message)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(message, formGroup, probe)
+	}
+	formStage.Commit()
+}
