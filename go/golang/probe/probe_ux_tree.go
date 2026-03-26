@@ -16,9 +16,7 @@ import (
 	"{{PkgPathRoot}}/models"
 )
 
-func updateAndCommitTree(
-	probe *Probe,
-) {
+func (probe *Probe) updateAndCommitTree() {
 	// keep in memory which nodes have been unfolded / folded
 	expandedNodesSet := make(map[string]any, 0)
 	var _sidebar *tree_models.Tree
