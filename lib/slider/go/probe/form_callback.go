@@ -167,7 +167,7 @@ func (checkboxFormCallback *CheckboxFormCallback) OnSave() {
 		checkboxFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(checkboxFormCallback.probe)
+	checkboxFormCallback.probe.ux_tree()
 }
 func __gong__New__GroupFormCallback(
 	group *models.Group,
@@ -375,7 +375,7 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 		groupFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(groupFormCallback.probe)
+	groupFormCallback.probe.ux_tree()
 }
 func __gong__New__LayoutFormCallback(
 	layout *models.Layout,
@@ -484,7 +484,7 @@ func (layoutFormCallback *LayoutFormCallback) OnSave() {
 		layoutFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(layoutFormCallback.probe)
+	layoutFormCallback.probe.ux_tree()
 }
 func __gong__New__SliderFormCallback(
 	slider *models.Slider,
@@ -648,5 +648,5 @@ func (sliderFormCallback *SliderFormCallback) OnSave() {
 		sliderFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(sliderFormCallback.probe)
+	sliderFormCallback.probe.ux_tree()
 }

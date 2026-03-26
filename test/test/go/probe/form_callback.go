@@ -395,7 +395,7 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 		astructFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(astructFormCallback.probe)
+	astructFormCallback.probe.ux_tree()
 }
 func __gong__New__AstructBstruct2UseFormCallback(
 	astructbstruct2use *models.AstructBstruct2Use,
@@ -541,7 +541,7 @@ func (astructbstruct2useFormCallback *AstructBstruct2UseFormCallback) OnSave() {
 		astructbstruct2useFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(astructbstruct2useFormCallback.probe)
+	astructbstruct2useFormCallback.probe.ux_tree()
 }
 func __gong__New__AstructBstructUseFormCallback(
 	astructbstructuse *models.AstructBstructUse,
@@ -687,7 +687,7 @@ func (astructbstructuseFormCallback *AstructBstructUseFormCallback) OnSave() {
 		astructbstructuseFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(astructbstructuseFormCallback.probe)
+	astructbstructuseFormCallback.probe.ux_tree()
 }
 func __gong__New__BstructFormCallback(
 	bstruct *models.Bstruct,
@@ -969,7 +969,7 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 		bstructFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(bstructFormCallback.probe)
+	bstructFormCallback.probe.ux_tree()
 }
 func __gong__New__DstructFormCallback(
 	dstruct *models.Dstruct,
@@ -1177,7 +1177,7 @@ func (dstructFormCallback *DstructFormCallback) OnSave() {
 		dstructFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(dstructFormCallback.probe)
+	dstructFormCallback.probe.ux_tree()
 }
 func __gong__New__F0123456789012345678901234567890FormCallback(
 	f0123456789012345678901234567890 *models.F0123456789012345678901234567890,
@@ -1257,7 +1257,7 @@ func (f0123456789012345678901234567890FormCallback *F012345678901234567890123456
 		f0123456789012345678901234567890FormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(f0123456789012345678901234567890FormCallback.probe)
+	f0123456789012345678901234567890FormCallback.probe.ux_tree()
 }
 func __gong__New__GstructFormCallback(
 	gstruct *models.Gstruct,
@@ -1407,5 +1407,5 @@ func (gstructFormCallback *GstructFormCallback) OnSave() {
 		gstructFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(gstructFormCallback.probe)
+	gstructFormCallback.probe.ux_tree()
 }

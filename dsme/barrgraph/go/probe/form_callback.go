@@ -97,7 +97,7 @@ func (artefacttypeFormCallback *ArtefactTypeFormCallback) OnSave() {
 		artefacttypeFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(artefacttypeFormCallback.probe)
+	artefacttypeFormCallback.probe.ux_tree()
 }
 func __gong__New__ArtefactTypeShapeFormCallback(
 	artefacttypeshape *models.ArtefactTypeShape,
@@ -253,7 +253,7 @@ func (artefacttypeshapeFormCallback *ArtefactTypeShapeFormCallback) OnSave() {
 		artefacttypeshapeFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(artefacttypeshapeFormCallback.probe)
+	artefacttypeshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__ArtistFormCallback(
 	artist *models.Artist,
@@ -339,7 +339,7 @@ func (artistFormCallback *ArtistFormCallback) OnSave() {
 		artistFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(artistFormCallback.probe)
+	artistFormCallback.probe.ux_tree()
 }
 func __gong__New__ArtistShapeFormCallback(
 	artistshape *models.ArtistShape,
@@ -495,7 +495,7 @@ func (artistshapeFormCallback *ArtistShapeFormCallback) OnSave() {
 		artistshapeFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(artistshapeFormCallback.probe)
+	artistshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__ControlPointShapeFormCallback(
 	controlpointshape *models.ControlPointShape,
@@ -645,7 +645,7 @@ func (controlpointshapeFormCallback *ControlPointShapeFormCallback) OnSave() {
 		controlpointshapeFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(controlpointshapeFormCallback.probe)
+	controlpointshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__DeskFormCallback(
 	desk *models.Desk,
@@ -725,7 +725,7 @@ func (deskFormCallback *DeskFormCallback) OnSave() {
 		deskFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(deskFormCallback.probe)
+	deskFormCallback.probe.ux_tree()
 }
 func __gong__New__DiagramFormCallback(
 	diagram *models.Diagram,
@@ -1095,7 +1095,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 		diagramFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(diagramFormCallback.probe)
+	diagramFormCallback.probe.ux_tree()
 }
 func __gong__New__InfluenceFormCallback(
 	influence *models.Influence,
@@ -1187,7 +1187,7 @@ func (influenceFormCallback *InfluenceFormCallback) OnSave() {
 		influenceFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(influenceFormCallback.probe)
+	influenceFormCallback.probe.ux_tree()
 }
 func __gong__New__InfluenceShapeFormCallback(
 	influenceshape *models.InfluenceShape,
@@ -1364,7 +1364,7 @@ func (influenceshapeFormCallback *InfluenceShapeFormCallback) OnSave() {
 		influenceshapeFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(influenceshapeFormCallback.probe)
+	influenceshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__MovementFormCallback(
 	movement *models.Movement,
@@ -1493,7 +1493,7 @@ func (movementFormCallback *MovementFormCallback) OnSave() {
 		movementFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(movementFormCallback.probe)
+	movementFormCallback.probe.ux_tree()
 }
 func __gong__New__MovementShapeFormCallback(
 	movementshape *models.MovementShape,
@@ -1649,7 +1649,7 @@ func (movementshapeFormCallback *MovementShapeFormCallback) OnSave() {
 		movementshapeFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(movementshapeFormCallback.probe)
+	movementshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__PlaceFormCallback(
 	place *models.Place,
@@ -1793,5 +1793,5 @@ func (placeFormCallback *PlaceFormCallback) OnSave() {
 		placeFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(placeFormCallback.probe)
+	placeFormCallback.probe.ux_tree()
 }

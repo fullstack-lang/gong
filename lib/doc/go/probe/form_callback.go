@@ -167,7 +167,7 @@ func (attributeshapeFormCallback *AttributeShapeFormCallback) OnSave() {
 		attributeshapeFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(attributeshapeFormCallback.probe)
+	attributeshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__ClassdiagramFormCallback(
 	classdiagram *models.Classdiagram,
@@ -430,7 +430,7 @@ func (classdiagramFormCallback *ClassdiagramFormCallback) OnSave() {
 		classdiagramFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(classdiagramFormCallback.probe)
+	classdiagramFormCallback.probe.ux_tree()
 }
 func __gong__New__DiagramPackageFormCallback(
 	diagrampackage *models.DiagramPackage,
@@ -547,7 +547,7 @@ func (diagrampackageFormCallback *DiagramPackageFormCallback) OnSave() {
 		diagrampackageFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(diagrampackageFormCallback.probe)
+	diagrampackageFormCallback.probe.ux_tree()
 }
 func __gong__New__GongEnumShapeFormCallback(
 	gongenumshape *models.GongEnumShape,
@@ -732,7 +732,7 @@ func (gongenumshapeFormCallback *GongEnumShapeFormCallback) OnSave() {
 		gongenumshapeFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(gongenumshapeFormCallback.probe)
+	gongenumshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__GongEnumValueShapeFormCallback(
 	gongenumvalueshape *models.GongEnumValueShape,
@@ -876,7 +876,7 @@ func (gongenumvalueshapeFormCallback *GongEnumValueShapeFormCallback) OnSave() {
 		gongenumvalueshapeFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(gongenumvalueshapeFormCallback.probe)
+	gongenumvalueshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__GongNoteLinkShapeFormCallback(
 	gongnotelinkshape *models.GongNoteLinkShape,
@@ -1024,7 +1024,7 @@ func (gongnotelinkshapeFormCallback *GongNoteLinkShapeFormCallback) OnSave() {
 		gongnotelinkshapeFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(gongnotelinkshapeFormCallback.probe)
+	gongnotelinkshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__GongNoteShapeFormCallback(
 	gongnoteshape *models.GongNoteShape,
@@ -1217,7 +1217,7 @@ func (gongnoteshapeFormCallback *GongNoteShapeFormCallback) OnSave() {
 		gongnoteshapeFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(gongnoteshapeFormCallback.probe)
+	gongnoteshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__GongStructShapeFormCallback(
 	gongstructshape *models.GongStructShape,
@@ -1433,7 +1433,7 @@ func (gongstructshapeFormCallback *GongStructShapeFormCallback) OnSave() {
 		gongstructshapeFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(gongstructshapeFormCallback.probe)
+	gongstructshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__LinkShapeFormCallback(
 	linkshape *models.LinkShape,
@@ -1607,5 +1607,5 @@ func (linkshapeFormCallback *LinkShapeFormCallback) OnSave() {
 		linkshapeFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(linkshapeFormCallback.probe)
+	linkshapeFormCallback.probe.ux_tree()
 }

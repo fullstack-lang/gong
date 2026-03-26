@@ -128,7 +128,7 @@ func (assplitFormCallback *AsSplitFormCallback) OnSave() {
 		assplitFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(assplitFormCallback.probe)
+	assplitFormCallback.probe.ux_tree()
 }
 func __gong__New__AsSplitAreaFormCallback(
 	assplitarea *models.AsSplitArea,
@@ -374,7 +374,7 @@ func (assplitareaFormCallback *AsSplitAreaFormCallback) OnSave() {
 		assplitareaFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(assplitareaFormCallback.probe)
+	assplitareaFormCallback.probe.ux_tree()
 }
 func __gong__New__ButtonFormCallback(
 	button *models.Button,
@@ -454,7 +454,7 @@ func (buttonFormCallback *ButtonFormCallback) OnSave() {
 		buttonFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(buttonFormCallback.probe)
+	buttonFormCallback.probe.ux_tree()
 }
 func __gong__New__CursorFormCallback(
 	cursor *models.Cursor,
@@ -536,7 +536,7 @@ func (cursorFormCallback *CursorFormCallback) OnSave() {
 		cursorFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(cursorFormCallback.probe)
+	cursorFormCallback.probe.ux_tree()
 }
 func __gong__New__FavIconFormCallback(
 	favicon *models.FavIcon,
@@ -616,7 +616,7 @@ func (faviconFormCallback *FavIconFormCallback) OnSave() {
 		faviconFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(faviconFormCallback.probe)
+	faviconFormCallback.probe.ux_tree()
 }
 func __gong__New__FormFormCallback(
 	form *models.Form,
@@ -696,7 +696,7 @@ func (formFormCallback *FormFormCallback) OnSave() {
 		formFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(formFormCallback.probe)
+	formFormCallback.probe.ux_tree()
 }
 func __gong__New__LoadFormCallback(
 	load *models.Load,
@@ -776,7 +776,7 @@ func (loadFormCallback *LoadFormCallback) OnSave() {
 		loadFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(loadFormCallback.probe)
+	loadFormCallback.probe.ux_tree()
 }
 func __gong__New__LogoOnTheLeftFormCallback(
 	logoontheleft *models.LogoOnTheLeft,
@@ -860,7 +860,7 @@ func (logoontheleftFormCallback *LogoOnTheLeftFormCallback) OnSave() {
 		logoontheleftFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(logoontheleftFormCallback.probe)
+	logoontheleftFormCallback.probe.ux_tree()
 }
 func __gong__New__LogoOnTheRightFormCallback(
 	logoontheright *models.LogoOnTheRight,
@@ -944,7 +944,7 @@ func (logoontherightFormCallback *LogoOnTheRightFormCallback) OnSave() {
 		logoontherightFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(logoontherightFormCallback.probe)
+	logoontherightFormCallback.probe.ux_tree()
 }
 func __gong__New__MarkdownFormCallback(
 	markdown *models.Markdown,
@@ -1024,7 +1024,7 @@ func (markdownFormCallback *MarkdownFormCallback) OnSave() {
 		markdownFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(markdownFormCallback.probe)
+	markdownFormCallback.probe.ux_tree()
 }
 func __gong__New__SliderFormCallback(
 	slider *models.Slider,
@@ -1104,7 +1104,7 @@ func (sliderFormCallback *SliderFormCallback) OnSave() {
 		sliderFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(sliderFormCallback.probe)
+	sliderFormCallback.probe.ux_tree()
 }
 func __gong__New__SplitFormCallback(
 	split *models.Split,
@@ -1184,7 +1184,7 @@ func (splitFormCallback *SplitFormCallback) OnSave() {
 		splitFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(splitFormCallback.probe)
+	splitFormCallback.probe.ux_tree()
 }
 func __gong__New__SvgFormCallback(
 	svg *models.Svg,
@@ -1266,7 +1266,7 @@ func (svgFormCallback *SvgFormCallback) OnSave() {
 		svgFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(svgFormCallback.probe)
+	svgFormCallback.probe.ux_tree()
 }
 func __gong__New__TableFormCallback(
 	table *models.Table,
@@ -1346,7 +1346,7 @@ func (tableFormCallback *TableFormCallback) OnSave() {
 		tableFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(tableFormCallback.probe)
+	tableFormCallback.probe.ux_tree()
 }
 func __gong__New__TitleFormCallback(
 	title *models.Title,
@@ -1424,7 +1424,7 @@ func (titleFormCallback *TitleFormCallback) OnSave() {
 		titleFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(titleFormCallback.probe)
+	titleFormCallback.probe.ux_tree()
 }
 func __gong__New__ToneFormCallback(
 	tone *models.Tone,
@@ -1504,7 +1504,7 @@ func (toneFormCallback *ToneFormCallback) OnSave() {
 		toneFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(toneFormCallback.probe)
+	toneFormCallback.probe.ux_tree()
 }
 func __gong__New__TreeFormCallback(
 	tree *models.Tree,
@@ -1584,7 +1584,7 @@ func (treeFormCallback *TreeFormCallback) OnSave() {
 		treeFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(treeFormCallback.probe)
+	treeFormCallback.probe.ux_tree()
 }
 func __gong__New__ViewFormCallback(
 	view *models.View,
@@ -1701,7 +1701,7 @@ func (viewFormCallback *ViewFormCallback) OnSave() {
 		viewFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(viewFormCallback.probe)
+	viewFormCallback.probe.ux_tree()
 }
 func __gong__New__XlsxFormCallback(
 	xlsx *models.Xlsx,
@@ -1781,5 +1781,5 @@ func (xlsxFormCallback *XlsxFormCallback) OnSave() {
 		xlsxFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(xlsxFormCallback.probe)
+	xlsxFormCallback.probe.ux_tree()
 }

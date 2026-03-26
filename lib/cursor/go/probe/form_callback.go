@@ -123,5 +123,5 @@ func (cursorFormCallback *CursorFormCallback) OnSave() {
 		cursorFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(cursorFormCallback.probe)
+	cursorFormCallback.probe.ux_tree()
 }

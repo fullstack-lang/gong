@@ -173,7 +173,7 @@ func (buttonFormCallback *ButtonFormCallback) OnSave() {
 		buttonFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(buttonFormCallback.probe)
+	buttonFormCallback.probe.ux_tree()
 }
 func __gong__New__ButtonToggleFormCallback(
 	buttontoggle *models.ButtonToggle,
@@ -325,7 +325,7 @@ func (buttontoggleFormCallback *ButtonToggleFormCallback) OnSave() {
 		buttontoggleFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(buttontoggleFormCallback.probe)
+	buttontoggleFormCallback.probe.ux_tree()
 }
 func __gong__New__GroupFormCallback(
 	group *models.Group,
@@ -504,7 +504,7 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 		groupFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(groupFormCallback.probe)
+	groupFormCallback.probe.ux_tree()
 }
 func __gong__New__GroupToogleFormCallback(
 	grouptoogle *models.GroupToogle,
@@ -683,7 +683,7 @@ func (grouptoogleFormCallback *GroupToogleFormCallback) OnSave() {
 		grouptoogleFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(grouptoogleFormCallback.probe)
+	grouptoogleFormCallback.probe.ux_tree()
 }
 func __gong__New__LayoutFormCallback(
 	layout *models.Layout,
@@ -823,5 +823,5 @@ func (layoutFormCallback *LayoutFormCallback) OnSave() {
 		layoutFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(layoutFormCallback.probe)
+	layoutFormCallback.probe.ux_tree()
 }
