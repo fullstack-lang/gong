@@ -1,6 +1,4 @@
-package probe
-
-const UpdateProbeTableTemplate = `// generated code - do not edit
+// generated code - do not edit
 package probe
 
 import (
@@ -12,7 +10,7 @@ import (
 
 	"github.com/fullstack-lang/maticons/maticons"
 
-	"{{PkgPathRoot}}/models"
+	"github.com/fullstack-lang/gong/test/test3/go/models"
 )
 
 const TableName = "Table"
@@ -24,7 +22,11 @@ func (probe *Probe) ux_table() {
 		tableName = table.Name
 	}
 	switch tableName {
-	// insertion point{{` + string(rune(UpdateProberTableCase)) + `}}
+	// insertion point
+	case "A":
+		updateProbeTable[*models.A](probe)
+	case "B":
+		updateProbeTable[*models.B](probe)
 	}
 }
 
@@ -264,18 +266,4 @@ func (probe *Probe) UpdateAndCommitNotificationTable() {
 	gongtable.StageBranch(probe.notificationTableStage, table)
 
 	probe.notificationTableStage.Commit()
-}
-`
-
-type FillUpTableInsertionId int
-
-const (
-	UpdateProberTableCase FillUpTableInsertionId = iota
-)
-
-var UpdateProbeTableSubTemplateCode map[string]string = // new line
-map[string]string{
-	string(rune(UpdateProberTableCase)): `
-	case "{{Structname}}":
-		updateProbeTable[*models.{{Structname}}](probe)`,
 }
