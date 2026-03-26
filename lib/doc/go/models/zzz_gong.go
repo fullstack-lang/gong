@@ -33,15 +33,20 @@ var (
 )
 
 const (
-	ProbeTreeSidebarSuffix       = ":sidebar of the probe"
-	ProbeTableSuffix             = ":table of the probe"
-	ProbeNotificationTableSuffix = ":notification table of the probe"
-	ProbeFormSuffix              = ":form of the probe"
-	ProbeSplitSuffix             = ":probe of the probe"
+	ProbeTreeSidebarSuffix           = ":sidebar of the probe"
+	ProbeTreeNavigationSidebarSuffix = ":navigation sidebar of the probe"
+	ProbeTableSuffix                 = ":table of the probe"
+	ProbeNotificationTableSuffix     = ":notification table of the probe"
+	ProbeFormSuffix                  = ":form of the probe"
+	ProbeSplitSuffix                 = ":probe of the probe"
 )
 
 func (stage *Stage) GetProbeTreeSidebarStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeTreeSidebarSuffix
+}
+
+func (stage *Stage) GetProbeTreeNavigationSidebarStageName() string {
+	return stage.GetType() + ":" + stage.GetName() + ProbeTreeNavigationSidebarSuffix
 }
 
 func (stage *Stage) GetProbeFormStageName() string {
@@ -112,7 +117,7 @@ type Stage struct {
 	AttributeShape_stagedOrder     map[*AttributeShape]uint
 	AttributeShapes_reference      map[*AttributeShape]*AttributeShape
 	AttributeShapes_referenceOrder map[*AttributeShape]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterAttributeShapeCreateCallback OnAfterCreateInterface[AttributeShape]
 	OnAfterAttributeShapeUpdateCallback OnAfterUpdateInterface[AttributeShape]
@@ -126,7 +131,7 @@ type Stage struct {
 	Classdiagram_stagedOrder     map[*Classdiagram]uint
 	Classdiagrams_reference      map[*Classdiagram]*Classdiagram
 	Classdiagrams_referenceOrder map[*Classdiagram]uint
-	
+
 	// insertion point for slice of pointers maps
 	Classdiagram_GongStructShapes_reverseMap map[*GongStructShape]*Classdiagram
 
@@ -146,7 +151,7 @@ type Stage struct {
 	DiagramPackage_stagedOrder     map[*DiagramPackage]uint
 	DiagramPackages_reference      map[*DiagramPackage]*DiagramPackage
 	DiagramPackages_referenceOrder map[*DiagramPackage]uint
-	
+
 	// insertion point for slice of pointers maps
 	DiagramPackage_Classdiagrams_reverseMap map[*Classdiagram]*DiagramPackage
 
@@ -162,7 +167,7 @@ type Stage struct {
 	GongEnumShape_stagedOrder     map[*GongEnumShape]uint
 	GongEnumShapes_reference      map[*GongEnumShape]*GongEnumShape
 	GongEnumShapes_referenceOrder map[*GongEnumShape]uint
-	
+
 	// insertion point for slice of pointers maps
 	GongEnumShape_GongEnumValueShapes_reverseMap map[*GongEnumValueShape]*GongEnumShape
 
@@ -178,7 +183,7 @@ type Stage struct {
 	GongEnumValueShape_stagedOrder     map[*GongEnumValueShape]uint
 	GongEnumValueShapes_reference      map[*GongEnumValueShape]*GongEnumValueShape
 	GongEnumValueShapes_referenceOrder map[*GongEnumValueShape]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterGongEnumValueShapeCreateCallback OnAfterCreateInterface[GongEnumValueShape]
 	OnAfterGongEnumValueShapeUpdateCallback OnAfterUpdateInterface[GongEnumValueShape]
@@ -192,7 +197,7 @@ type Stage struct {
 	GongNoteLinkShape_stagedOrder     map[*GongNoteLinkShape]uint
 	GongNoteLinkShapes_reference      map[*GongNoteLinkShape]*GongNoteLinkShape
 	GongNoteLinkShapes_referenceOrder map[*GongNoteLinkShape]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterGongNoteLinkShapeCreateCallback OnAfterCreateInterface[GongNoteLinkShape]
 	OnAfterGongNoteLinkShapeUpdateCallback OnAfterUpdateInterface[GongNoteLinkShape]
@@ -206,7 +211,7 @@ type Stage struct {
 	GongNoteShape_stagedOrder     map[*GongNoteShape]uint
 	GongNoteShapes_reference      map[*GongNoteShape]*GongNoteShape
 	GongNoteShapes_referenceOrder map[*GongNoteShape]uint
-	
+
 	// insertion point for slice of pointers maps
 	GongNoteShape_GongNoteLinkShapes_reverseMap map[*GongNoteLinkShape]*GongNoteShape
 
@@ -222,7 +227,7 @@ type Stage struct {
 	GongStructShape_stagedOrder     map[*GongStructShape]uint
 	GongStructShapes_reference      map[*GongStructShape]*GongStructShape
 	GongStructShapes_referenceOrder map[*GongStructShape]uint
-	
+
 	// insertion point for slice of pointers maps
 	GongStructShape_AttributeShapes_reverseMap map[*AttributeShape]*GongStructShape
 
@@ -240,7 +245,7 @@ type Stage struct {
 	LinkShape_stagedOrder     map[*LinkShape]uint
 	LinkShapes_reference      map[*LinkShape]*LinkShape
 	LinkShapes_referenceOrder map[*LinkShape]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterLinkShapeCreateCallback OnAfterCreateInterface[LinkShape]
 	OnAfterLinkShapeUpdateCallback OnAfterUpdateInterface[LinkShape]
