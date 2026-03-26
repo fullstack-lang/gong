@@ -14,7 +14,7 @@ import (
 	"github.com/fullstack-lang/gong/test/test3/go/models"
 )
 
-func (probe *Probe) updateAndCommitTree() {
+func (probe *Probe) ux_tree() {
 	// keep in memory which nodes have been unfolded / folded
 	expandedNodesSet := make(map[string]any, 0)
 	var _sidebar *tree_models.Tree
