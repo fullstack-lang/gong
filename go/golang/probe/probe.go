@@ -194,13 +194,13 @@ func NewProbe(
 	})
 	probe.splitStage.Commit()
 
-	updateAndCommitTree(probe)
+	probe.updateAndCommitTree()
 
 	return
 }
 
 func (probe *Probe) Refresh() {
-	updateAndCommitTree(probe)
+	probe.updateAndCommitTree()
 	updateCurrentProbeTable(probe)
 	probe.updateFillUpForm()
 	probe.docStager.Svg()

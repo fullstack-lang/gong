@@ -121,7 +121,7 @@ func ({{structname}}FormCallback *{{Structname}}FormCallback) OnSave() {
 		{{structname}}FormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree({{structname}}FormCallback.probe)
+	{{structname}}FormCallback.probe.updateAndCommitTree()
 }`,
 }
 
