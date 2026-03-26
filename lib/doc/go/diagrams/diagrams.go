@@ -44,10 +44,6 @@ func _(stage *models.Stage) {
 	__AttributeShape__00000016_ := (&models.AttributeShape{Name: `TargetMultiplicityOffsetY`}).Stage(stage)
 	__AttributeShape__00000017_ := (&models.AttributeShape{Name: `SourceMultiplicity`}).Stage(stage)
 	__AttributeShape__00000018_ := (&models.AttributeShape{Name: `SourceMultiplicityOffsetX`}).Stage(stage)
-	__AttributeShape__00000019_ := (&models.AttributeShape{Name: `IdentifierMeta`}).Stage(stage)
-	__AttributeShape__00000020_ := (&models.AttributeShape{Name: `FieldTypeAsString`}).Stage(stage)
-	__AttributeShape__00000021_ := (&models.AttributeShape{Name: `Structname`}).Stage(stage)
-	__AttributeShape__00000022_ := (&models.AttributeShape{Name: `Fieldtypename`}).Stage(stage)
 	__AttributeShape__00000023_ := (&models.AttributeShape{Name: `Path`}).Stage(stage)
 	__AttributeShape__00000024_ := (&models.AttributeShape{Name: `GongModelPath`}).Stage(stage)
 
@@ -65,7 +61,6 @@ func _(stage *models.Stage) {
 
 	__GongNoteShape__00000000_ := (&models.GongNoteShape{Name: `Default-NoteOnGongdoc`}).Stage(stage)
 
-	__GongStructShape__00000000_ := (&models.GongStructShape{Name: `Default-AttributeShape`}).Stage(stage)
 	__GongStructShape__00000001_ := (&models.GongStructShape{Name: `Default-Classdiagram`}).Stage(stage)
 	__GongStructShape__00000002_ := (&models.GongStructShape{Name: `NoteShape-GongNoteShape`}).Stage(stage)
 	__GongStructShape__00000003_ := (&models.GongStructShape{Name: `NoteShape-GongNoteLinkShape`}).Stage(stage)
@@ -77,7 +72,6 @@ func _(stage *models.Stage) {
 
 	__LinkShape__00000000_ := (&models.LinkShape{Name: `GongNoteLinkShapes`}).Stage(stage)
 	__LinkShape__00000003_ := (&models.LinkShape{Name: `GongStructShapes`}).Stage(stage)
-	__LinkShape__00000004_ := (&models.LinkShape{Name: `AttributeShapes`}).Stage(stage)
 	__LinkShape__00000005_ := (&models.LinkShape{Name: `LinkShapes`}).Stage(stage)
 	__LinkShape__00000006_ := (&models.LinkShape{Name: `GongEnumShapes`}).Stage(stage)
 	__LinkShape__00000007_ := (&models.LinkShape{Name: `GongNoteShapes`}).Stage(stage)
@@ -199,30 +193,6 @@ func _(stage *models.Stage) {
 	__AttributeShape__00000018_.Structname = `LinkShape`
 	__AttributeShape__00000018_.Fieldtypename = `float64`
 
-	__AttributeShape__00000019_.Name = `IdentifierMeta`
-	__AttributeShape__00000019_.IdentifierMeta = ref_models.AttributeShape{}.IdentifierMeta
-	__AttributeShape__00000019_.FieldTypeAsString = ``
-	__AttributeShape__00000019_.Structname = `AttributeShape`
-	__AttributeShape__00000019_.Fieldtypename = `any`
-
-	__AttributeShape__00000020_.Name = `FieldTypeAsString`
-	__AttributeShape__00000020_.IdentifierMeta = ref_models.AttributeShape{}.FieldTypeAsString
-	__AttributeShape__00000020_.FieldTypeAsString = ``
-	__AttributeShape__00000020_.Structname = `AttributeShape`
-	__AttributeShape__00000020_.Fieldtypename = `string`
-
-	__AttributeShape__00000021_.Name = `Structname`
-	__AttributeShape__00000021_.IdentifierMeta = ref_models.AttributeShape{}.Structname
-	__AttributeShape__00000021_.FieldTypeAsString = ``
-	__AttributeShape__00000021_.Structname = `AttributeShape`
-	__AttributeShape__00000021_.Fieldtypename = `string`
-
-	__AttributeShape__00000022_.Name = `Fieldtypename`
-	__AttributeShape__00000022_.IdentifierMeta = ref_models.AttributeShape{}.Fieldtypename
-	__AttributeShape__00000022_.FieldTypeAsString = ``
-	__AttributeShape__00000022_.Structname = `AttributeShape`
-	__AttributeShape__00000022_.Fieldtypename = `string`
-
 	__AttributeShape__00000023_.Name = `Path`
 	__AttributeShape__00000023_.IdentifierMeta = ref_models.DiagramPackage{}.Path
 	__AttributeShape__00000023_.FieldTypeAsString = ``
@@ -321,14 +291,6 @@ or to <a href="/models#OrientationType">models.OrientationType</a>
 	__GongNoteShape__00000000_.Height = 110.000000
 	__GongNoteShape__00000000_.Matched = false
 	__GongNoteShape__00000000_.IsExpanded = false
-
-	__GongStructShape__00000000_.Name = `Default-AttributeShape`
-	__GongStructShape__00000000_.X = 1167.000000
-	__GongStructShape__00000000_.Y = 330.000000
-	__GongStructShape__00000000_.IdentifierMeta = ref_models.AttributeShape{}
-	__GongStructShape__00000000_.Width = 366.000000
-	__GongStructShape__00000000_.Height = 143.000000
-	__GongStructShape__00000000_.IsSelected = false
 
 	__GongStructShape__00000001_.Name = `Default-Classdiagram`
 	__GongStructShape__00000001_.X = 109.000000
@@ -432,25 +394,6 @@ or to <a href="/models#OrientationType">models.OrientationType</a>
 	__LinkShape__00000003_.EndRatio = 0.500000
 	__LinkShape__00000003_.CornerOffsetRatio = 1.212708
 
-	__LinkShape__00000004_.Name = `AttributeShapes`
-	__LinkShape__00000004_.IdentifierMeta = ref_models.GongStructShape{}.AttributeShapes
-	__LinkShape__00000004_.FieldTypeIdentifierMeta = ref_models.AttributeShape{}
-	__LinkShape__00000004_.FieldOffsetX = 0.000000
-	__LinkShape__00000004_.FieldOffsetY = 0.000000
-	__LinkShape__00000004_.TargetMultiplicity = models.MANY
-	__LinkShape__00000004_.TargetMultiplicityOffsetX = 0.000000
-	__LinkShape__00000004_.TargetMultiplicityOffsetY = 0.000000
-	__LinkShape__00000004_.SourceMultiplicity = models.MANY
-	__LinkShape__00000004_.SourceMultiplicityOffsetX = 0.000000
-	__LinkShape__00000004_.SourceMultiplicityOffsetY = 0.000000
-	__LinkShape__00000004_.X = 1158.000000
-	__LinkShape__00000004_.Y = 423.500000
-	__LinkShape__00000004_.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__LinkShape__00000004_.StartRatio = 0.316289
-	__LinkShape__00000004_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__LinkShape__00000004_.EndRatio = 0.500000
-	__LinkShape__00000004_.CornerOffsetRatio = 1.380000
-
 	__LinkShape__00000005_.Name = `LinkShapes`
 	__LinkShape__00000005_.IdentifierMeta = ref_models.GongStructShape{}.LinkShapes
 	__LinkShape__00000005_.FieldTypeIdentifierMeta = ref_models.LinkShape{}
@@ -528,7 +471,6 @@ or to <a href="/models#OrientationType">models.OrientationType</a>
 	__LinkShape__00000008_.CornerOffsetRatio = -0.451380
 
 	// insertion point for setup of pointers
-	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000000_)
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000001_)
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000004_)
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000006_)
@@ -546,10 +488,6 @@ or to <a href="/models#OrientationType">models.OrientationType</a>
 	__GongEnumShape__00000000_.GongEnumValueShapes = append(__GongEnumShape__00000000_.GongEnumValueShapes, __GongEnumValueShape__00000000_)
 	__GongEnumShape__00000000_.GongEnumValueShapes = append(__GongEnumShape__00000000_.GongEnumValueShapes, __GongEnumValueShape__00000001_)
 	__GongEnumShape__00000000_.GongEnumValueShapes = append(__GongEnumShape__00000000_.GongEnumValueShapes, __GongEnumValueShape__00000002_)
-	__GongStructShape__00000000_.AttributeShapes = append(__GongStructShape__00000000_.AttributeShapes, __AttributeShape__00000019_)
-	__GongStructShape__00000000_.AttributeShapes = append(__GongStructShape__00000000_.AttributeShapes, __AttributeShape__00000020_)
-	__GongStructShape__00000000_.AttributeShapes = append(__GongStructShape__00000000_.AttributeShapes, __AttributeShape__00000021_)
-	__GongStructShape__00000000_.AttributeShapes = append(__GongStructShape__00000000_.AttributeShapes, __AttributeShape__00000022_)
 	__GongStructShape__00000001_.AttributeShapes = append(__GongStructShape__00000001_.AttributeShapes, __AttributeShape__00000003_)
 	__GongStructShape__00000001_.AttributeShapes = append(__GongStructShape__00000001_.AttributeShapes, __AttributeShape__00000004_)
 	__GongStructShape__00000001_.LinkShapes = append(__GongStructShape__00000001_.LinkShapes, __LinkShape__00000003_)
@@ -564,7 +502,6 @@ or to <a href="/models#OrientationType">models.OrientationType</a>
 	__GongStructShape__00000006_.AttributeShapes = append(__GongStructShape__00000006_.AttributeShapes, __AttributeShape__00000007_)
 	__GongStructShape__00000006_.AttributeShapes = append(__GongStructShape__00000006_.AttributeShapes, __AttributeShape__00000009_)
 	__GongStructShape__00000006_.AttributeShapes = append(__GongStructShape__00000006_.AttributeShapes, __AttributeShape__00000008_)
-	__GongStructShape__00000006_.LinkShapes = append(__GongStructShape__00000006_.LinkShapes, __LinkShape__00000004_)
 	__GongStructShape__00000006_.LinkShapes = append(__GongStructShape__00000006_.LinkShapes, __LinkShape__00000005_)
 	__GongStructShape__00000007_.AttributeShapes = append(__GongStructShape__00000007_.AttributeShapes, __AttributeShape__00000010_)
 	__GongStructShape__00000007_.AttributeShapes = append(__GongStructShape__00000007_.AttributeShapes, __AttributeShape__00000011_)

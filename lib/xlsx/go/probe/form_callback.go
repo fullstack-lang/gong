@@ -99,7 +99,7 @@ func (displayselectionFormCallback *DisplaySelectionFormCallback) OnSave() {
 		displayselectionFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(displayselectionFormCallback.probe)
+	displayselectionFormCallback.probe.ux_tree()
 }
 func __gong__New__XLCellFormCallback(
 	xlcell *models.XLCell,
@@ -313,7 +313,7 @@ func (xlcellFormCallback *XLCellFormCallback) OnSave() {
 		xlcellFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(xlcellFormCallback.probe)
+	xlcellFormCallback.probe.ux_tree()
 }
 func __gong__New__XLFileFormCallback(
 	xlfile *models.XLFile,
@@ -424,7 +424,7 @@ func (xlfileFormCallback *XLFileFormCallback) OnSave() {
 		xlfileFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(xlfileFormCallback.probe)
+	xlfileFormCallback.probe.ux_tree()
 }
 func __gong__New__XLRowFormCallback(
 	xlrow *models.XLRow,
@@ -601,7 +601,7 @@ func (xlrowFormCallback *XLRowFormCallback) OnSave() {
 		xlrowFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(xlrowFormCallback.probe)
+	xlrowFormCallback.probe.ux_tree()
 }
 func __gong__New__XLSheetFormCallback(
 	xlsheet *models.XLSheet,
@@ -813,5 +813,5 @@ func (xlsheetFormCallback *XLSheetFormCallback) OnSave() {
 		xlsheetFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(xlsheetFormCallback.probe)
+	xlsheetFormCallback.probe.ux_tree()
 }

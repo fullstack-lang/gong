@@ -18,11 +18,12 @@ import (
 )
 
 type Stager struct {
-	stage     *Stage
-	treeStage *tree.Stage
-	svgStage  *svg.Stage
-	gongStage *gong.Stage
-	formStage *table.Stage
+	stage               *Stage
+	treeStage           *tree.Stage
+	svgStage            *svg.Stage
+	gongStage           *gong.Stage
+	formStage           *table.Stage
+	treeNavigationStage *tree.Stage
 
 	embeddedDiagrams bool
 
@@ -38,6 +39,10 @@ type Stager struct {
 	map_GongStructName_InstancesNb map[string]int
 }
 
+func (stager *Stager) navitationTree() {
+	log.Println("unimplemented")
+}
+
 func NewStager(
 	r *gin.Engine,
 	receivingAsSplitArea *split.AsSplitArea,
@@ -46,6 +51,7 @@ func NewStager(
 	svgStage *svg.Stage,
 	gongStage *gong.Stage,
 	formStage *table.Stage,
+	treeNavigationStage *tree.Stage,
 
 	embeddedDiagrams bool,
 
@@ -57,6 +63,7 @@ func NewStager(
 
 	stager.stage = stage
 	stager.treeStage = treeStage
+	stager.treeNavigationStage = treeNavigationStage
 	stager.svgStage = svgStage
 	stager.gongStage = gongStage
 	stager.formStage = formStage
@@ -116,6 +123,7 @@ func NewStager(
 	}
 	afterCommit := func(stage *Stage) {
 		stager.tree()
+		stager.navitationTree()
 		stager.Svg()
 		stager.form()
 	}
