@@ -128,7 +128,7 @@ func updateProbeTable[T models.PointerToGongstruct](
 				probe.stageOfInterest.Commit()
 
 				updateProbeTable[T](probe)
-				probe.updateAndCommitTree()
+				probe.ux_tree()
 			},
 		}
 		cell.CellIcon = cellIcon
