@@ -199,7 +199,7 @@ func NewProbe(
 
 func (probe *Probe) Refresh() {
 	probe.ux_tree()
-	updateCurrentProbeTable(probe)
+	probe.ux_table()
 	probe.updateFillUpForm()
 	probe.docStager.Svg()
 }
