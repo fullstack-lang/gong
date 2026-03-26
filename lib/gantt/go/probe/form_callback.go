@@ -169,7 +169,7 @@ func (arrowFormCallback *ArrowFormCallback) OnSave() {
 		arrowFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(arrowFormCallback.probe)
+	arrowFormCallback.probe.ux_tree()
 }
 func __gong__New__BarFormCallback(
 	bar *models.Bar,
@@ -329,7 +329,7 @@ func (barFormCallback *BarFormCallback) OnSave() {
 		barFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(barFormCallback.probe)
+	barFormCallback.probe.ux_tree()
 }
 func __gong__New__GanttFormCallback(
 	gantt *models.Gantt,
@@ -579,7 +579,7 @@ func (ganttFormCallback *GanttFormCallback) OnSave() {
 		ganttFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(ganttFormCallback.probe)
+	ganttFormCallback.probe.ux_tree()
 }
 func __gong__New__GroupFormCallback(
 	group *models.Group,
@@ -754,7 +754,7 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 		groupFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(groupFormCallback.probe)
+	groupFormCallback.probe.ux_tree()
 }
 func __gong__New__LaneFormCallback(
 	lane *models.Lane,
@@ -1063,7 +1063,7 @@ func (laneFormCallback *LaneFormCallback) OnSave() {
 		laneFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(laneFormCallback.probe)
+	laneFormCallback.probe.ux_tree()
 }
 func __gong__New__LaneUseFormCallback(
 	laneuse *models.LaneUse,
@@ -1143,7 +1143,7 @@ func (laneuseFormCallback *LaneUseFormCallback) OnSave() {
 		laneuseFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(laneuseFormCallback.probe)
+	laneuseFormCallback.probe.ux_tree()
 }
 func __gong__New__MilestoneFormCallback(
 	milestone *models.Milestone,
@@ -1322,5 +1322,5 @@ func (milestoneFormCallback *MilestoneFormCallback) OnSave() {
 		milestoneFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(milestoneFormCallback.probe)
+	milestoneFormCallback.probe.ux_tree()
 }

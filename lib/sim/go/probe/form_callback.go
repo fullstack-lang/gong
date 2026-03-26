@@ -101,7 +101,7 @@ func (commandFormCallback *CommandFormCallback) OnSave() {
 		commandFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(commandFormCallback.probe)
+	commandFormCallback.probe.ux_tree()
 }
 func __gong__New__DummyAgentFormCallback(
 	dummyagent *models.DummyAgent,
@@ -181,7 +181,7 @@ func (dummyagentFormCallback *DummyAgentFormCallback) OnSave() {
 		dummyagentFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(dummyagentFormCallback.probe)
+	dummyagentFormCallback.probe.ux_tree()
 }
 func __gong__New__EngineFormCallback(
 	engine *models.Engine,
@@ -275,7 +275,7 @@ func (engineFormCallback *EngineFormCallback) OnSave() {
 		engineFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(engineFormCallback.probe)
+	engineFormCallback.probe.ux_tree()
 }
 func __gong__New__EventFormCallback(
 	event *models.Event,
@@ -355,7 +355,7 @@ func (eventFormCallback *EventFormCallback) OnSave() {
 		eventFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(eventFormCallback.probe)
+	eventFormCallback.probe.ux_tree()
 }
 func __gong__New__StatusFormCallback(
 	status *models.Status,
@@ -441,7 +441,7 @@ func (statusFormCallback *StatusFormCallback) OnSave() {
 		statusFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(statusFormCallback.probe)
+	statusFormCallback.probe.ux_tree()
 }
 func __gong__New__UpdateStateFormCallback(
 	updatestate *models.UpdateState,
@@ -523,5 +523,5 @@ func (updatestateFormCallback *UpdateStateFormCallback) OnSave() {
 		updatestateFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(updatestateFormCallback.probe)
+	updatestateFormCallback.probe.ux_tree()
 }

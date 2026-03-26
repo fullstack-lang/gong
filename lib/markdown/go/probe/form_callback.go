@@ -97,7 +97,7 @@ func (contentFormCallback *ContentFormCallback) OnSave() {
 		contentFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(contentFormCallback.probe)
+	contentFormCallback.probe.ux_tree()
 }
 func __gong__New__JpgImageFormCallback(
 	jpgimage *models.JpgImage,
@@ -177,7 +177,7 @@ func (jpgimageFormCallback *JpgImageFormCallback) OnSave() {
 		jpgimageFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(jpgimageFormCallback.probe)
+	jpgimageFormCallback.probe.ux_tree()
 }
 func __gong__New__PngImageFormCallback(
 	pngimage *models.PngImage,
@@ -257,7 +257,7 @@ func (pngimageFormCallback *PngImageFormCallback) OnSave() {
 		pngimageFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(pngimageFormCallback.probe)
+	pngimageFormCallback.probe.ux_tree()
 }
 func __gong__New__SvgImageFormCallback(
 	svgimage *models.SvgImage,
@@ -337,5 +337,5 @@ func (svgimageFormCallback *SvgImageFormCallback) OnSave() {
 		svgimageFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(svgimageFormCallback.probe)
+	svgimageFormCallback.probe.ux_tree()
 }

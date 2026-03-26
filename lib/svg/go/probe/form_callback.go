@@ -767,7 +767,7 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 		animateFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(animateFormCallback.probe)
+	animateFormCallback.probe.ux_tree()
 }
 func __gong__New__CircleFormCallback(
 	circle *models.Circle,
@@ -964,7 +964,7 @@ func (circleFormCallback *CircleFormCallback) OnSave() {
 		circleFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(circleFormCallback.probe)
+	circleFormCallback.probe.ux_tree()
 }
 func __gong__New__ConditionFormCallback(
 	condition *models.Condition,
@@ -1174,7 +1174,7 @@ func (conditionFormCallback *ConditionFormCallback) OnSave() {
 		conditionFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(conditionFormCallback.probe)
+	conditionFormCallback.probe.ux_tree()
 }
 func __gong__New__ControlPointFormCallback(
 	controlpoint *models.ControlPoint,
@@ -1324,7 +1324,7 @@ func (controlpointFormCallback *ControlPointFormCallback) OnSave() {
 		controlpointFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(controlpointFormCallback.probe)
+	controlpointFormCallback.probe.ux_tree()
 }
 func __gong__New__EllipseFormCallback(
 	ellipse *models.Ellipse,
@@ -1523,7 +1523,7 @@ func (ellipseFormCallback *EllipseFormCallback) OnSave() {
 		ellipseFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(ellipseFormCallback.probe)
+	ellipseFormCallback.probe.ux_tree()
 }
 func __gong__New__LayerFormCallback(
 	layer *models.Layer,
@@ -1977,7 +1977,7 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 		layerFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(layerFormCallback.probe)
+	layerFormCallback.probe.ux_tree()
 }
 func __gong__New__LineFormCallback(
 	line *models.Line,
@@ -2180,7 +2180,7 @@ func (lineFormCallback *LineFormCallback) OnSave() {
 		lineFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(lineFormCallback.probe)
+	lineFormCallback.probe.ux_tree()
 }
 func __gong__New__LinkFormCallback(
 	link *models.Link,
@@ -2475,7 +2475,7 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 		linkFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(linkFormCallback.probe)
+	linkFormCallback.probe.ux_tree()
 }
 func __gong__New__LinkAnchoredTextFormCallback(
 	linkanchoredtext *models.LinkAnchoredText,
@@ -2754,7 +2754,7 @@ func (linkanchoredtextFormCallback *LinkAnchoredTextFormCallback) OnSave() {
 		linkanchoredtextFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(linkanchoredtextFormCallback.probe)
+	linkanchoredtextFormCallback.probe.ux_tree()
 }
 func __gong__New__PathFormCallback(
 	path *models.Path,
@@ -2947,7 +2947,7 @@ func (pathFormCallback *PathFormCallback) OnSave() {
 		pathFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(pathFormCallback.probe)
+	pathFormCallback.probe.ux_tree()
 }
 func __gong__New__PointFormCallback(
 	point *models.Point,
@@ -3029,7 +3029,7 @@ func (pointFormCallback *PointFormCallback) OnSave() {
 		pointFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(pointFormCallback.probe)
+	pointFormCallback.probe.ux_tree()
 }
 func __gong__New__PolygoneFormCallback(
 	polygone *models.Polygone,
@@ -3222,7 +3222,7 @@ func (polygoneFormCallback *PolygoneFormCallback) OnSave() {
 		polygoneFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(polygoneFormCallback.probe)
+	polygoneFormCallback.probe.ux_tree()
 }
 func __gong__New__PolylineFormCallback(
 	polyline *models.Polyline,
@@ -3415,7 +3415,7 @@ func (polylineFormCallback *PolylineFormCallback) OnSave() {
 		polylineFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(polylineFormCallback.probe)
+	polylineFormCallback.probe.ux_tree()
 }
 func __gong__New__RectFormCallback(
 	rect *models.Rect,
@@ -3819,7 +3819,7 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 		rectFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(rectFormCallback.probe)
+	rectFormCallback.probe.ux_tree()
 }
 func __gong__New__RectAnchoredPathFormCallback(
 	rectanchoredpath *models.RectAnchoredPath,
@@ -3991,7 +3991,7 @@ func (rectanchoredpathFormCallback *RectAnchoredPathFormCallback) OnSave() {
 		rectanchoredpathFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(rectanchoredpathFormCallback.probe)
+	rectanchoredpathFormCallback.probe.ux_tree()
 }
 func __gong__New__RectAnchoredRectFormCallback(
 	rectanchoredrect *models.RectAnchoredRect,
@@ -4175,7 +4175,7 @@ func (rectanchoredrectFormCallback *RectAnchoredRectFormCallback) OnSave() {
 		rectanchoredrectFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(rectanchoredrectFormCallback.probe)
+	rectanchoredrectFormCallback.probe.ux_tree()
 }
 func __gong__New__RectAnchoredTextFormCallback(
 	rectanchoredtext *models.RectAnchoredText,
@@ -4392,7 +4392,7 @@ func (rectanchoredtextFormCallback *RectAnchoredTextFormCallback) OnSave() {
 		rectanchoredtextFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(rectanchoredtextFormCallback.probe)
+	rectanchoredtextFormCallback.probe.ux_tree()
 }
 func __gong__New__RectLinkLinkFormCallback(
 	rectlinklink *models.RectLinkLink,
@@ -4558,7 +4558,7 @@ func (rectlinklinkFormCallback *RectLinkLinkFormCallback) OnSave() {
 		rectlinklinkFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(rectlinklinkFormCallback.probe)
+	rectlinklinkFormCallback.probe.ux_tree()
 }
 func __gong__New__SVGFormCallback(
 	svg *models.SVG,
@@ -4691,7 +4691,7 @@ func (svgFormCallback *SVGFormCallback) OnSave() {
 		svgFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(svgFormCallback.probe)
+	svgFormCallback.probe.ux_tree()
 }
 func __gong__New__SvgTextFormCallback(
 	svgtext *models.SvgText,
@@ -4771,7 +4771,7 @@ func (svgtextFormCallback *SvgTextFormCallback) OnSave() {
 		svgtextFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(svgtextFormCallback.probe)
+	svgtextFormCallback.probe.ux_tree()
 }
 func __gong__New__TextFormCallback(
 	text *models.Text,
@@ -4980,5 +4980,5 @@ func (textFormCallback *TextFormCallback) OnSave() {
 		textFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(textFormCallback.probe)
+	textFormCallback.probe.ux_tree()
 }
