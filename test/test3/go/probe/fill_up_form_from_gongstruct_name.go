@@ -7,8 +7,8 @@ import (
 	"github.com/fullstack-lang/gong/test/test3/go/models"
 )
 
-// updateFillUpForm updates the current form if there is one
-func (probe *Probe) updateFillUpForm() {
+// ux_form updates the current form if there is one
+func (probe *Probe) ux_form() {
 	var formGroup *form.FormGroup
 	for fg := range probe.formStage.FormGroups {
 		formGroup = fg

@@ -448,7 +448,7 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 	gong_models.SimpleCodeGenerator(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(pkgPath, "../probe/fill_up_form_from_gongstruct_name.go"),
+		modelPkg.PkgPath, filepath.Join(pkgPath, "../probe/probe_ux_form.go"),
 		probe.FillUpFormFromGongstructNameTemplate, probe.FillUpFormFromGongstructNameSubTemplateCode)
 
 	gong_models.SimpleCodeGenerator(
