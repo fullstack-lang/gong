@@ -16,7 +16,7 @@ import (
 const TableName = "Table"
 
 // update the current table if there is one
-func updateCurrentProbeTable(probe *Probe) {
+func (probe *Probe) ux_table() {
 	var tableName string
 	for table := range probe.tableStage.Tables {
 		tableName = table.Name
