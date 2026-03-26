@@ -59,6 +59,7 @@ func Prepare(
 	map_GongStructName_InstancesNb map[string]int,
 ) (stager *models.Stager) {
 	stage := models.NewStage(docStackName)
+	stage.SetDeltaMode(true)
 
 	stage.MetaPackageImportAlias = "ref_models"
 
@@ -93,6 +94,7 @@ func Prepare(
 	svgStage, _ := svg_fullstack.NewStackInstance(r, docStackName+":doc-svg", "", "", "")
 	gongStage := gong.NewStage(docStackName + ":doc-gong")
 	formStage, _ := table_fullstack.NewStackInstance(r, docStackName+":doc-diagramForm", "", "")
+	treeNavigationStage, _ := tree_fullstack.NewStackInstance(r, docStackName+":doc-sidebar-navigation", "", "")
 
 	// load the code of the model of interest into the gongStage
 	gong.LoadEmbedded(gongStage, goModelsDir)
@@ -105,6 +107,7 @@ func Prepare(
 		svgStage,
 		gongStage,
 		formStage,
+		treeNavigationStage,
 		embeddedDiagrams,
 		map_GongStructName_InstancesNb)
 }
