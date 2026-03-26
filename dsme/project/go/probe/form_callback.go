@@ -778,7 +778,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 		diagramFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(diagramFormCallback.probe)
+	diagramFormCallback.probe.ux_tree()
 }
 func __gong__New__LibraryFormCallback(
 	library *models.Library,
@@ -1116,7 +1116,7 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 		libraryFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(libraryFormCallback.probe)
+	libraryFormCallback.probe.ux_tree()
 }
 func __gong__New__NoteFormCallback(
 	note *models.Note,
@@ -1425,7 +1425,7 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 		noteFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(noteFormCallback.probe)
+	noteFormCallback.probe.ux_tree()
 }
 func __gong__New__NoteProductShapeFormCallback(
 	noteproductshape *models.NoteProductShape,
@@ -1585,7 +1585,7 @@ func (noteproductshapeFormCallback *NoteProductShapeFormCallback) OnSave() {
 		noteproductshapeFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(noteproductshapeFormCallback.probe)
+	noteproductshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__NoteResourceShapeFormCallback(
 	noteresourceshape *models.NoteResourceShape,
@@ -1745,7 +1745,7 @@ func (noteresourceshapeFormCallback *NoteResourceShapeFormCallback) OnSave() {
 		noteresourceshapeFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(noteresourceshapeFormCallback.probe)
+	noteresourceshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__NoteShapeFormCallback(
 	noteshape *models.NoteShape,
@@ -1903,7 +1903,7 @@ func (noteshapeFormCallback *NoteShapeFormCallback) OnSave() {
 		noteshapeFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(noteshapeFormCallback.probe)
+	noteshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__NoteTaskShapeFormCallback(
 	notetaskshape *models.NoteTaskShape,
@@ -2063,7 +2063,7 @@ func (notetaskshapeFormCallback *NoteTaskShapeFormCallback) OnSave() {
 		notetaskshapeFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(notetaskshapeFormCallback.probe)
+	notetaskshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__ProductFormCallback(
 	product *models.Product,
@@ -2580,7 +2580,7 @@ func (productFormCallback *ProductFormCallback) OnSave() {
 		productFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(productFormCallback.probe)
+	productFormCallback.probe.ux_tree()
 }
 func __gong__New__ProductCompositionShapeFormCallback(
 	productcompositionshape *models.ProductCompositionShape,
@@ -2738,7 +2738,7 @@ func (productcompositionshapeFormCallback *ProductCompositionShapeFormCallback) 
 		productcompositionshapeFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(productcompositionshapeFormCallback.probe)
+	productcompositionshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__ProductShapeFormCallback(
 	productshape *models.ProductShape,
@@ -2896,7 +2896,7 @@ func (productshapeFormCallback *ProductShapeFormCallback) OnSave() {
 		productshapeFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(productshapeFormCallback.probe)
+	productshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__ResourceFormCallback(
 	resource *models.Resource,
@@ -3308,7 +3308,7 @@ func (resourceFormCallback *ResourceFormCallback) OnSave() {
 		resourceFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(resourceFormCallback.probe)
+	resourceFormCallback.probe.ux_tree()
 }
 func __gong__New__ResourceCompositionShapeFormCallback(
 	resourcecompositionshape *models.ResourceCompositionShape,
@@ -3466,7 +3466,7 @@ func (resourcecompositionshapeFormCallback *ResourceCompositionShapeFormCallback
 		resourcecompositionshapeFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(resourcecompositionshapeFormCallback.probe)
+	resourcecompositionshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__ResourceShapeFormCallback(
 	resourceshape *models.ResourceShape,
@@ -3624,7 +3624,7 @@ func (resourceshapeFormCallback *ResourceShapeFormCallback) OnSave() {
 		resourceshapeFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(resourceshapeFormCallback.probe)
+	resourceshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__ResourceTaskShapeFormCallback(
 	resourcetaskshape *models.ResourceTaskShape,
@@ -3784,7 +3784,7 @@ func (resourcetaskshapeFormCallback *ResourceTaskShapeFormCallback) OnSave() {
 		resourcetaskshapeFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(resourcetaskshapeFormCallback.probe)
+	resourcetaskshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__TaskFormCallback(
 	task *models.Task,
@@ -4437,7 +4437,7 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 		taskFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(taskFormCallback.probe)
+	taskFormCallback.probe.ux_tree()
 }
 func __gong__New__TaskCompositionShapeFormCallback(
 	taskcompositionshape *models.TaskCompositionShape,
@@ -4595,7 +4595,7 @@ func (taskcompositionshapeFormCallback *TaskCompositionShapeFormCallback) OnSave
 		taskcompositionshapeFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(taskcompositionshapeFormCallback.probe)
+	taskcompositionshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__TaskInputShapeFormCallback(
 	taskinputshape *models.TaskInputShape,
@@ -4755,7 +4755,7 @@ func (taskinputshapeFormCallback *TaskInputShapeFormCallback) OnSave() {
 		taskinputshapeFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(taskinputshapeFormCallback.probe)
+	taskinputshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__TaskOutputShapeFormCallback(
 	taskoutputshape *models.TaskOutputShape,
@@ -4915,7 +4915,7 @@ func (taskoutputshapeFormCallback *TaskOutputShapeFormCallback) OnSave() {
 		taskoutputshapeFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(taskoutputshapeFormCallback.probe)
+	taskoutputshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__TaskShapeFormCallback(
 	taskshape *models.TaskShape,
@@ -5073,5 +5073,5 @@ func (taskshapeFormCallback *TaskShapeFormCallback) OnSave() {
 		taskshapeFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(taskshapeFormCallback.probe)
+	taskshapeFormCallback.probe.ux_tree()
 }

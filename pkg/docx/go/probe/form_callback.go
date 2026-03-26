@@ -159,7 +159,7 @@ func (bodyFormCallback *BodyFormCallback) OnSave() {
 		bodyFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(bodyFormCallback.probe)
+	bodyFormCallback.probe.ux_tree()
 }
 func __gong__New__DocumentFormCallback(
 	document *models.Document,
@@ -243,7 +243,7 @@ func (documentFormCallback *DocumentFormCallback) OnSave() {
 		documentFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(documentFormCallback.probe)
+	documentFormCallback.probe.ux_tree()
 }
 func __gong__New__DocxFormCallback(
 	docx *models.Docx,
@@ -354,7 +354,7 @@ func (docxFormCallback *DocxFormCallback) OnSave() {
 		docxFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(docxFormCallback.probe)
+	docxFormCallback.probe.ux_tree()
 }
 func __gong__New__FileFormCallback(
 	file *models.File,
@@ -498,7 +498,7 @@ func (fileFormCallback *FileFormCallback) OnSave() {
 		fileFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(fileFormCallback.probe)
+	fileFormCallback.probe.ux_tree()
 }
 func __gong__New__NodeFormCallback(
 	node *models.Node,
@@ -673,7 +673,7 @@ func (nodeFormCallback *NodeFormCallback) OnSave() {
 		nodeFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(nodeFormCallback.probe)
+	nodeFormCallback.probe.ux_tree()
 }
 func __gong__New__ParagraphFormCallback(
 	paragraph *models.Paragraph,
@@ -930,7 +930,7 @@ func (paragraphFormCallback *ParagraphFormCallback) OnSave() {
 		paragraphFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(paragraphFormCallback.probe)
+	paragraphFormCallback.probe.ux_tree()
 }
 func __gong__New__ParagraphPropertiesFormCallback(
 	paragraphproperties *models.ParagraphProperties,
@@ -1014,7 +1014,7 @@ func (paragraphpropertiesFormCallback *ParagraphPropertiesFormCallback) OnSave()
 		paragraphpropertiesFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(paragraphpropertiesFormCallback.probe)
+	paragraphpropertiesFormCallback.probe.ux_tree()
 }
 func __gong__New__ParagraphStyleFormCallback(
 	paragraphstyle *models.ParagraphStyle,
@@ -1098,7 +1098,7 @@ func (paragraphstyleFormCallback *ParagraphStyleFormCallback) OnSave() {
 		paragraphstyleFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(paragraphstyleFormCallback.probe)
+	paragraphstyleFormCallback.probe.ux_tree()
 }
 func __gong__New__RuneFormCallback(
 	rune *models.Rune,
@@ -1252,7 +1252,7 @@ func (runeFormCallback *RuneFormCallback) OnSave() {
 		runeFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(runeFormCallback.probe)
+	runeFormCallback.probe.ux_tree()
 }
 func __gong__New__RunePropertiesFormCallback(
 	runeproperties *models.RuneProperties,
@@ -1340,7 +1340,7 @@ func (runepropertiesFormCallback *RunePropertiesFormCallback) OnSave() {
 		runepropertiesFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(runepropertiesFormCallback.probe)
+	runepropertiesFormCallback.probe.ux_tree()
 }
 func __gong__New__TableFormCallback(
 	table *models.Table,
@@ -1521,7 +1521,7 @@ func (tableFormCallback *TableFormCallback) OnSave() {
 		tableFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(tableFormCallback.probe)
+	tableFormCallback.probe.ux_tree()
 }
 func __gong__New__TableColumnFormCallback(
 	tablecolumn *models.TableColumn,
@@ -1700,7 +1700,7 @@ func (tablecolumnFormCallback *TableColumnFormCallback) OnSave() {
 		tablecolumnFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(tablecolumnFormCallback.probe)
+	tablecolumnFormCallback.probe.ux_tree()
 }
 func __gong__New__TablePropertiesFormCallback(
 	tableproperties *models.TableProperties,
@@ -1784,7 +1784,7 @@ func (tablepropertiesFormCallback *TablePropertiesFormCallback) OnSave() {
 		tablepropertiesFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(tablepropertiesFormCallback.probe)
+	tablepropertiesFormCallback.probe.ux_tree()
 }
 func __gong__New__TableRowFormCallback(
 	tablerow *models.TableRow,
@@ -1963,7 +1963,7 @@ func (tablerowFormCallback *TableRowFormCallback) OnSave() {
 		tablerowFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(tablerowFormCallback.probe)
+	tablerowFormCallback.probe.ux_tree()
 }
 func __gong__New__TableStyleFormCallback(
 	tablestyle *models.TableStyle,
@@ -2047,7 +2047,7 @@ func (tablestyleFormCallback *TableStyleFormCallback) OnSave() {
 		tablestyleFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(tablestyleFormCallback.probe)
+	tablestyleFormCallback.probe.ux_tree()
 }
 func __gong__New__TextFormCallback(
 	text *models.Text,
@@ -2133,5 +2133,5 @@ func (textFormCallback *TextFormCallback) OnSave() {
 		textFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(textFormCallback.probe)
+	textFormCallback.probe.ux_tree()
 }

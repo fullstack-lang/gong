@@ -194,7 +194,7 @@ func (chapterFormCallback *ChapterFormCallback) OnSave() {
 		chapterFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(chapterFormCallback.probe)
+	chapterFormCallback.probe.ux_tree()
 }
 func __gong__New__ContentFormCallback(
 	content *models.Content,
@@ -325,7 +325,7 @@ func (contentFormCallback *ContentFormCallback) OnSave() {
 		contentFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(contentFormCallback.probe)
+	contentFormCallback.probe.ux_tree()
 }
 func __gong__New__PageFormCallback(
 	page *models.Page,
@@ -471,5 +471,5 @@ func (pageFormCallback *PageFormCallback) OnSave() {
 		pageFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(pageFormCallback.probe)
+	pageFormCallback.probe.ux_tree()
 }

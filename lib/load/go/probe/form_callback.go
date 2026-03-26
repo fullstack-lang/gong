@@ -97,7 +97,7 @@ func (filetodownloadFormCallback *FileToDownloadFormCallback) OnSave() {
 		filetodownloadFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(filetodownloadFormCallback.probe)
+	filetodownloadFormCallback.probe.ux_tree()
 }
 func __gong__New__FileToUploadFormCallback(
 	filetoupload *models.FileToUpload,
@@ -177,7 +177,7 @@ func (filetouploadFormCallback *FileToUploadFormCallback) OnSave() {
 		filetouploadFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(filetouploadFormCallback.probe)
+	filetouploadFormCallback.probe.ux_tree()
 }
 func __gong__New__MessageFormCallback(
 	message *models.Message,
@@ -255,5 +255,5 @@ func (messageFormCallback *MessageFormCallback) OnSave() {
 		messageFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(messageFormCallback.probe)
+	messageFormCallback.probe.ux_tree()
 }

@@ -161,7 +161,7 @@ func (freqencyFormCallback *FreqencyFormCallback) OnSave() {
 		freqencyFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(freqencyFormCallback.probe)
+	freqencyFormCallback.probe.ux_tree()
 }
 func __gong__New__NoteFormCallback(
 	note *models.Note,
@@ -278,7 +278,7 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 		noteFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(noteFormCallback.probe)
+	noteFormCallback.probe.ux_tree()
 }
 func __gong__New__PlayerFormCallback(
 	player *models.Player,
@@ -358,5 +358,5 @@ func (playerFormCallback *PlayerFormCallback) OnSave() {
 		playerFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(playerFormCallback.probe)
+	playerFormCallback.probe.ux_tree()
 }
