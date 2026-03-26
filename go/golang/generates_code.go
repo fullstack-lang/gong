@@ -454,7 +454,7 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 	gong_models.SimpleCodeGenerator(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(pkgPath, "../probe/update_probe_table.go"),
+		modelPkg.PkgPath, filepath.Join(pkgPath, "../probe/probe_ux_table.go"),
 		probe.UpdateProbeTableTemplate, probe.UpdateProbeTableSubTemplateCode)
 
 	gong_models.VerySimpleCodeGenerator(
