@@ -17,7 +17,7 @@ import (
 	doc "github.com/fullstack-lang/gong/lib/doc/go/models"
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
 	form "github.com/fullstack-lang/gong/lib/table/go/models"
-	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
+	tree_models "github.com/fullstack-lang/gong/lib/tree/go/models"
 
 	"github.com/fullstack-lang/gong/test/test3/go/models"
 
@@ -28,7 +28,7 @@ type Probe struct {
 	r                      *gin.Engine
 	stageOfInterest        *models.Stage
 	gongStage              *gong_models.Stage
-	treeStage              *tree.Stage
+	treeStage              *tree_models.Stage
 	formStage              *form.Stage
 	tableStage             *form.Stage
 	notificationTableStage *form.Stage
