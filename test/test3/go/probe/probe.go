@@ -142,8 +142,10 @@ func NewProbe(
 				Name: "sidebar",
 				Size: 20,
 				AsSplit: &split.AsSplit{
-					Direction:     split.Vertical,
-					IsSizeInPixel: true,
+					Direction:              split.Vertical,
+					IsSizeInPixel:          true,
+					IsWithCustomGutterSize: true,
+					GutterSize:             1,
 					AsSplitAreas: []*split.AsSplitArea{
 						{
 							Name: "sidebar tree",

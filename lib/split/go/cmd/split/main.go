@@ -261,8 +261,10 @@ func main() {
 	}).Stage(splitStage)
 
 	(&split.View{
-		Name:          "Slider 1",
-		IsSizeInPixel: true,
+		Name:                   "Slider 1",
+		IsSizeInPixel:          true,
+		IsWithCustomGutterSize: true,
+		GutterSize:             1,
 		RootAsSplitAreas: []*split.AsSplitArea{
 			(&split.AsSplitArea{
 				Size: 100,

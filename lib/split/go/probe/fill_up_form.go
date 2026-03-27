@@ -25,6 +25,10 @@ func FillUpForm(
 		AssociationSliceToForm("AsSplitAreas", instanceWithInferedType, &instanceWithInferedType.AsSplitAreas, formGroup, probe)
 		BasicFieldtoForm("IsSizeInPixel", instanceWithInferedType.IsSizeInPixel, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		BasicFieldtoForm("IsWithCustomGutterSize", instanceWithInferedType.IsWithCustomGutterSize, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("GutterSize", instanceWithInferedType.GutterSize, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 
 	case *models.AsSplitArea:
 		// insertion point
@@ -226,6 +230,10 @@ func FillUpForm(
 		BasicFieldtoForm("IsSecondatyView", instanceWithInferedType.IsSecondatyView, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsSizeInPixel", instanceWithInferedType.IsSizeInPixel, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("IsWithCustomGutterSize", instanceWithInferedType.IsWithCustomGutterSize, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("GutterSize", instanceWithInferedType.GutterSize, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 
 	case *models.Xlsx:

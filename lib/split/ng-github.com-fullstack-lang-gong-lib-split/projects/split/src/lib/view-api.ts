@@ -17,6 +17,8 @@ export class ViewAPI {
 	Direction: string = ""
 	IsSecondatyView: boolean = false
 	IsSizeInPixel: boolean = false
+	IsWithCustomGutterSize: boolean = false
+	GutterSize: number = 0
 
 	// insertion point for other decls
 
