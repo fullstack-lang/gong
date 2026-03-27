@@ -230,7 +230,7 @@ func ({{structname}} *{{Structname}}) SetName(name string) {
 	{{Structname}}_stagedOrder     map[*{{Structname}}]uint
 	{{Structname}}s_reference      map[*{{Structname}}]*{{Structname}}
 	{{Structname}}s_referenceOrder map[*{{Structname}}]uint
-	
+
 	// insertion point for slice of pointers maps{{SliceOfPointersReverseMaps}}
 	OnAfter{{Structname}}CreateCallback OnAfterCreateInterface[{{Structname}}]
 	OnAfter{{Structname}}UpdateCallback OnAfterUpdateInterface[{{Structname}}]
