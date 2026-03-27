@@ -2012,6 +2012,9 @@ func (assplit *AsSplit) GongDiff(stage *Stage, assplitOther *AsSplit) (diffs []s
 		ops := Diff(stage, assplit, assplitOther, "AsSplitAreas", assplitOther.AsSplitAreas, assplit.AsSplitAreas)
 		diffs = append(diffs, ops)
 	}
+	if assplit.IsSizeInPixel != assplitOther.IsSizeInPixel {
+		diffs = append(diffs, assplit.GongMarshallField(stage, "IsSizeInPixel"))
+	}
 
 	return
 }
@@ -2397,6 +2400,9 @@ func (view *View) GongDiff(stage *Stage, viewOther *View) (diffs []string) {
 	}
 	if view.IsSecondatyView != viewOther.IsSecondatyView {
 		diffs = append(diffs, view.GongMarshallField(stage, "IsSecondatyView"))
+	}
+	if view.IsSizeInPixel != viewOther.IsSizeInPixel {
+		diffs = append(diffs, view.GongMarshallField(stage, "IsSizeInPixel"))
 	}
 
 	return

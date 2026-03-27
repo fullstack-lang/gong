@@ -1726,9 +1726,9 @@ func (button *Button) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "ToolTipPosition",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "ToolTipPositionEnum",
 		},
 	}
 	return
@@ -1750,9 +1750,9 @@ func (node *Node) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "FontStyle",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "FontStyleEnum",
 		},
 		{
 			Name:               "BackgroundColor",
@@ -1783,9 +1783,9 @@ func (node *Node) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "CheckboxToolTipPosition",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "ToolTipPositionEnum",
 		},
 		{
 			Name:               "HasSecondCheckboxButton",
@@ -1808,9 +1808,9 @@ func (node *Node) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "SecondCheckboxToolTipPosition",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "ToolTipPositionEnum",
 		},
 		{
 			Name:               "TextAfterSecondCheckbox",
@@ -1825,9 +1825,9 @@ func (node *Node) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "ToolTipPosition",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "ToolTipPositionEnum",
 		},
 		{
 			Name:               "IsInEditMode",

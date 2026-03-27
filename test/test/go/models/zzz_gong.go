@@ -2555,19 +2555,24 @@ func (astruct *Astruct) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "Aenum",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "AEnumType",
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "Aenum_2",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "AEnumType",
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "Benum",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "BEnumType",
+		},
+		{
+			Name:                 "CEnum",
+			GongFieldValueType:   GongFieldValueTypeInt,
+			TargetGongstructName: "CEnumTypeInt",
 		},
 		{
 			Name:               "CName",
