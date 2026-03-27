@@ -93,6 +93,15 @@
       "group": "build"
     },
     {
+      "label": "00 & 01 - go install gong & run skipNg conditionally",
+      "dependsOn": [
+        "00 - go install gong",
+        "01 - Run gong skipNg conditionally (from script)"
+      ],
+      "dependsOrder": "sequence",
+      "group": "build"
+    },
+    {
       "label": "01 - Run gong conditionally (from script)",
       "type": "shell",
       "command": "./scripts/run_gong_conditionally.sh",
