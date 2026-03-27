@@ -1301,6 +1301,11 @@ func (a *A) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "EnumTypeString",
 		},
 		{
+			Name:                 "EnumInt",
+			GongFieldValueType:   GongFieldValueTypeInt,
+			TargetGongstructName: "EnumTypeInt",
+		},
+		{
 			Name:                 "B",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "B",
