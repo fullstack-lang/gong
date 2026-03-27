@@ -33,15 +33,20 @@ var (
 )
 
 const (
-	ProbeTreeSidebarSuffix       = ":sidebar of the probe"
-	ProbeTableSuffix             = ":table of the probe"
-	ProbeNotificationTableSuffix = ":notification table of the probe"
-	ProbeFormSuffix              = ":form of the probe"
-	ProbeSplitSuffix             = ":probe of the probe"
+	ProbeTreeSidebarSuffix           = ":sidebar of the probe"
+	ProbeNavigationTreeSidebarSuffix = ":sidebar of the probe, navigation"
+	ProbeTableSuffix                 = ":table of the probe"
+	ProbeNotificationTableSuffix     = ":notification table of the probe"
+	ProbeFormSuffix                  = ":form of the probe"
+	ProbeSplitSuffix                 = ":probe of the probe"
 )
 
 func (stage *Stage) GetProbeTreeSidebarStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeTreeSidebarSuffix
+}
+
+func (stage *Stage) GetProbeNavigationTreeSidebarStageName() string {
+	return stage.GetType() + ":" + stage.GetName() + ProbeNavigationTreeSidebarSuffix
 }
 
 func (stage *Stage) GetProbeFormStageName() string {
@@ -112,7 +117,7 @@ type Stage struct {
 	FileToDownload_stagedOrder     map[*FileToDownload]uint
 	FileToDownloads_reference      map[*FileToDownload]*FileToDownload
 	FileToDownloads_referenceOrder map[*FileToDownload]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterFileToDownloadCreateCallback OnAfterCreateInterface[FileToDownload]
 	OnAfterFileToDownloadUpdateCallback OnAfterUpdateInterface[FileToDownload]
@@ -126,7 +131,7 @@ type Stage struct {
 	FileToUpload_stagedOrder     map[*FileToUpload]uint
 	FileToUploads_reference      map[*FileToUpload]*FileToUpload
 	FileToUploads_referenceOrder map[*FileToUpload]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterFileToUploadCreateCallback OnAfterCreateInterface[FileToUpload]
 	OnAfterFileToUploadUpdateCallback OnAfterUpdateInterface[FileToUpload]
@@ -140,7 +145,7 @@ type Stage struct {
 	Message_stagedOrder     map[*Message]uint
 	Messages_reference      map[*Message]*Message
 	Messages_referenceOrder map[*Message]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterMessageCreateCallback OnAfterCreateInterface[Message]
 	OnAfterMessageUpdateCallback OnAfterUpdateInterface[Message]
