@@ -33,15 +33,20 @@ var (
 )
 
 const (
-	ProbeTreeSidebarSuffix       = ":sidebar of the probe"
-	ProbeTableSuffix             = ":table of the probe"
-	ProbeNotificationTableSuffix = ":notification table of the probe"
-	ProbeFormSuffix              = ":form of the probe"
-	ProbeSplitSuffix             = ":probe of the probe"
+	ProbeTreeSidebarSuffix           = ":sidebar of the probe"
+	ProbeNavigationTreeSidebarSuffix = ":sidebar of the probe, navigation"
+	ProbeTableSuffix                 = ":table of the probe"
+	ProbeNotificationTableSuffix     = ":notification table of the probe"
+	ProbeFormSuffix                  = ":form of the probe"
+	ProbeSplitSuffix                 = ":probe of the probe"
 )
 
 func (stage *Stage) GetProbeTreeSidebarStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeTreeSidebarSuffix
+}
+
+func (stage *Stage) GetProbeNavigationTreeSidebarStageName() string {
+	return stage.GetType() + ":" + stage.GetName() + ProbeNavigationTreeSidebarSuffix
 }
 
 func (stage *Stage) GetProbeFormStageName() string {
@@ -112,7 +117,7 @@ type Stage struct {
 	Chapter_stagedOrder     map[*Chapter]uint
 	Chapters_reference      map[*Chapter]*Chapter
 	Chapters_referenceOrder map[*Chapter]uint
-	
+
 	// insertion point for slice of pointers maps
 	Chapter_Pages_reverseMap map[*Page]*Chapter
 
@@ -128,7 +133,7 @@ type Stage struct {
 	Content_stagedOrder     map[*Content]uint
 	Contents_reference      map[*Content]*Content
 	Contents_referenceOrder map[*Content]uint
-	
+
 	// insertion point for slice of pointers maps
 	Content_Chapters_reverseMap map[*Chapter]*Content
 
@@ -144,7 +149,7 @@ type Stage struct {
 	Page_stagedOrder     map[*Page]uint
 	Pages_reference      map[*Page]*Page
 	Pages_referenceOrder map[*Page]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterPageCreateCallback OnAfterCreateInterface[Page]
 	OnAfterPageUpdateCallback OnAfterUpdateInterface[Page]

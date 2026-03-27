@@ -12,7 +12,7 @@ func (stager *Stager) navigationTree() {
 	stager.treeNavigationStage.Reset()
 
 	tree := &tree_models.Tree{
-		Name: stager.stage.GetProbeTreeNavigationSidebarStageName(),
+		Name: stager.stage.GetProbeNavigationTreeSidebarStageName(),
 	}
 
 	stageOfInterest := stager.stage

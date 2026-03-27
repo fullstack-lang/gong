@@ -33,15 +33,20 @@ var (
 )
 
 const (
-	ProbeTreeSidebarSuffix       = ":sidebar of the probe"
-	ProbeTableSuffix             = ":table of the probe"
-	ProbeNotificationTableSuffix = ":notification table of the probe"
-	ProbeFormSuffix              = ":form of the probe"
-	ProbeSplitSuffix             = ":probe of the probe"
+	ProbeTreeSidebarSuffix           = ":sidebar of the probe"
+	ProbeNavigationTreeSidebarSuffix = ":sidebar of the probe, navigation"
+	ProbeTableSuffix                 = ":table of the probe"
+	ProbeNotificationTableSuffix     = ":notification table of the probe"
+	ProbeFormSuffix                  = ":form of the probe"
+	ProbeSplitSuffix                 = ":probe of the probe"
 )
 
 func (stage *Stage) GetProbeTreeSidebarStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeTreeSidebarSuffix
+}
+
+func (stage *Stage) GetProbeNavigationTreeSidebarStageName() string {
+	return stage.GetType() + ":" + stage.GetName() + ProbeNavigationTreeSidebarSuffix
 }
 
 func (stage *Stage) GetProbeFormStageName() string {
@@ -112,7 +117,7 @@ type Stage struct {
 	Button_stagedOrder     map[*Button]uint
 	Buttons_reference      map[*Button]*Button
 	Buttons_referenceOrder map[*Button]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterButtonCreateCallback OnAfterCreateInterface[Button]
 	OnAfterButtonUpdateCallback OnAfterUpdateInterface[Button]
@@ -126,7 +131,7 @@ type Stage struct {
 	ButtonToggle_stagedOrder     map[*ButtonToggle]uint
 	ButtonToggles_reference      map[*ButtonToggle]*ButtonToggle
 	ButtonToggles_referenceOrder map[*ButtonToggle]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterButtonToggleCreateCallback OnAfterCreateInterface[ButtonToggle]
 	OnAfterButtonToggleUpdateCallback OnAfterUpdateInterface[ButtonToggle]
@@ -140,7 +145,7 @@ type Stage struct {
 	Group_stagedOrder     map[*Group]uint
 	Groups_reference      map[*Group]*Group
 	Groups_referenceOrder map[*Group]uint
-	
+
 	// insertion point for slice of pointers maps
 	Group_Buttons_reverseMap map[*Button]*Group
 
@@ -156,7 +161,7 @@ type Stage struct {
 	GroupToogle_stagedOrder     map[*GroupToogle]uint
 	GroupToogles_reference      map[*GroupToogle]*GroupToogle
 	GroupToogles_referenceOrder map[*GroupToogle]uint
-	
+
 	// insertion point for slice of pointers maps
 	GroupToogle_ButtonToggles_reverseMap map[*ButtonToggle]*GroupToogle
 
@@ -172,7 +177,7 @@ type Stage struct {
 	Layout_stagedOrder     map[*Layout]uint
 	Layouts_reference      map[*Layout]*Layout
 	Layouts_referenceOrder map[*Layout]uint
-	
+
 	// insertion point for slice of pointers maps
 	Layout_Groups_reverseMap map[*Group]*Layout
 
