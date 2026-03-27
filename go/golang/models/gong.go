@@ -488,9 +488,9 @@ map[GongFilePerStructSubTemplateId]string{
 		},`,
 	GongFileFieldSubTmplStringHeaderFieldEnumString: `
 		{
-			Name:                 "EnumString",
+			Name:                 "{{FieldName}}",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "{{AssocStructName}}",
 		},`,
 	GongFileFieldSubTmplStringHeaderBasicKindField: `
 		{
