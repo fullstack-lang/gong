@@ -99,6 +99,12 @@ func (assplitFormCallback *AsSplitFormCallback) OnSave() {
 			}
 			assplit_.AsSplitAreas = instanceSlice
 
+		case "IsSizeInPixel":
+			FormDivBasicFieldToField(&(assplit_.IsSizeInPixel), formDiv)
+		case "IsWithCustomGutterSize":
+			FormDivBasicFieldToField(&(assplit_.IsWithCustomGutterSize), formDiv)
+		case "GutterSize":
+			FormDivBasicFieldToField(&(assplit_.GutterSize), formDiv)
 		}
 	}
 
@@ -1672,6 +1678,12 @@ func (viewFormCallback *ViewFormCallback) OnSave() {
 			FormDivEnumStringFieldToField(&(view_.Direction), formDiv)
 		case "IsSecondatyView":
 			FormDivBasicFieldToField(&(view_.IsSecondatyView), formDiv)
+		case "IsSizeInPixel":
+			FormDivBasicFieldToField(&(view_.IsSizeInPixel), formDiv)
+		case "IsWithCustomGutterSize":
+			FormDivBasicFieldToField(&(view_.IsWithCustomGutterSize), formDiv)
+		case "GutterSize":
+			FormDivBasicFieldToField(&(view_.GutterSize), formDiv)
 		}
 	}
 

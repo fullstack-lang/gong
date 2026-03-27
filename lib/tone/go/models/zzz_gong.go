@@ -1492,9 +1492,9 @@ func (player *Player) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "Status",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "Status",
 		},
 	}
 	return

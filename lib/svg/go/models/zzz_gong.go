@@ -5709,9 +5709,9 @@ func (link *Link) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "Type",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "LinkType",
 		},
 		{
 			Name:               "IsBezierCurve",
@@ -5723,9 +5723,9 @@ func (link *Link) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Rect",
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "StartAnchorType",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "AnchorType",
 		},
 		{
 			Name:                 "End",
@@ -5733,23 +5733,23 @@ func (link *Link) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Rect",
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "EndAnchorType",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "AnchorType",
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "StartOrientation",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "OrientationType",
 		},
 		{
 			Name:               "StartRatio",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "EndOrientation",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "OrientationType",
 		},
 		{
 			Name:               "EndRatio",
@@ -5843,9 +5843,9 @@ func (link *Link) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "MouseEventKey",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "MouseEventKey",
 		},
 	}
 	return
@@ -5867,9 +5867,9 @@ func (linkanchoredtext *LinkAnchoredText) GongGetFieldHeaders() (res []GongField
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "LinkAnchorType",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "LinkAnchorType",
 		},
 		{
 			Name:               "X_Offset",
@@ -5900,9 +5900,9 @@ func (linkanchoredtext *LinkAnchoredText) GongGetFieldHeaders() (res []GongField
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "WhiteSpace",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "WhiteSpaceEnum",
 		},
 		{
 			Name:               "Color",
@@ -6290,9 +6290,9 @@ func (rect *Rect) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "ToolTipPosition",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "ToolTipPositionEnum",
 		},
 		{
 			Name:               "MouseX",
@@ -6303,9 +6303,9 @@ func (rect *Rect) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "MouseEventKey",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "MouseEventKey",
 		},
 	}
 	return
@@ -6331,9 +6331,9 @@ func (rectanchoredpath *RectAnchoredPath) GongGetFieldHeaders() (res []GongField
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "RectAnchorType",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "RectAnchorType",
 		},
 		{
 			Name:               "ScalePropotionnally",
@@ -6415,9 +6415,9 @@ func (rectanchoredrect *RectAnchoredRect) GongGetFieldHeaders() (res []GongField
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "RectAnchorType",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "RectAnchorType",
 		},
 		{
 			Name:               "WidthFollowRect",
@@ -6503,9 +6503,9 @@ func (rectanchoredtext *RectAnchoredText) GongGetFieldHeaders() (res []GongField
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "WhiteSpace",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "WhiteSpaceEnum",
 		},
 		{
 			Name:               "X_Offset",
@@ -6516,24 +6516,24 @@ func (rectanchoredtext *RectAnchoredText) GongGetFieldHeaders() (res []GongField
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "RectAnchorType",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "RectAnchorType",
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "TextAnchorType",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "TextAnchorType",
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "DominantBaseline",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "DominantBaselineType",
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "WritingMode",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "WritingMode",
 		},
 		{
 			Name:               "Color",
@@ -6646,9 +6646,9 @@ func (svg *SVG) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Layer",
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "DrawingState",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "DrawingState",
 		},
 		{
 			Name:                 "StartRect",
@@ -6787,9 +6787,9 @@ func (text *Text) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "WhiteSpace",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "WhiteSpaceEnum",
 		},
 		{
 			Name:                 "Animates",

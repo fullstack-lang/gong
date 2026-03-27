@@ -84,6 +84,17 @@ type ViewDB struct {
 	// provide the sql storage for the boolan
 	IsSecondatyView_Data sql.NullBool
 
+	// Declation for basic field viewDB.IsSizeInPixel
+	// provide the sql storage for the boolan
+	IsSizeInPixel_Data sql.NullBool
+
+	// Declation for basic field viewDB.IsWithCustomGutterSize
+	// provide the sql storage for the boolan
+	IsWithCustomGutterSize_Data sql.NullBool
+
+	// Declation for basic field viewDB.GutterSize
+	GutterSize_Data sql.NullFloat64
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	ViewPointersEncoding
@@ -115,6 +126,12 @@ type ViewWOP struct {
 	Direction models.Direction `xlsx:"4"`
 
 	IsSecondatyView bool `xlsx:"5"`
+
+	IsSizeInPixel bool `xlsx:"6"`
+
+	IsWithCustomGutterSize bool `xlsx:"7"`
+
+	GutterSize float64 `xlsx:"8"`
 	// insertion for WOP pointer fields
 }
 
@@ -126,6 +143,9 @@ var View_Fields = []string{
 	"IsSelectedView",
 	"Direction",
 	"IsSecondatyView",
+	"IsSizeInPixel",
+	"IsWithCustomGutterSize",
+	"GutterSize",
 }
 
 type BackRepoViewStruct struct {
@@ -442,6 +462,15 @@ func (viewDB *ViewDB) CopyBasicFieldsFromView(view *models.View) {
 
 	viewDB.IsSecondatyView_Data.Bool = view.IsSecondatyView
 	viewDB.IsSecondatyView_Data.Valid = true
+
+	viewDB.IsSizeInPixel_Data.Bool = view.IsSizeInPixel
+	viewDB.IsSizeInPixel_Data.Valid = true
+
+	viewDB.IsWithCustomGutterSize_Data.Bool = view.IsWithCustomGutterSize
+	viewDB.IsWithCustomGutterSize_Data.Valid = true
+
+	viewDB.GutterSize_Data.Float64 = view.GutterSize
+	viewDB.GutterSize_Data.Valid = true
 }
 
 // CopyBasicFieldsFromView_WOP
@@ -462,6 +491,15 @@ func (viewDB *ViewDB) CopyBasicFieldsFromView_WOP(view *models.View_WOP) {
 
 	viewDB.IsSecondatyView_Data.Bool = view.IsSecondatyView
 	viewDB.IsSecondatyView_Data.Valid = true
+
+	viewDB.IsSizeInPixel_Data.Bool = view.IsSizeInPixel
+	viewDB.IsSizeInPixel_Data.Valid = true
+
+	viewDB.IsWithCustomGutterSize_Data.Bool = view.IsWithCustomGutterSize
+	viewDB.IsWithCustomGutterSize_Data.Valid = true
+
+	viewDB.GutterSize_Data.Float64 = view.GutterSize
+	viewDB.GutterSize_Data.Valid = true
 }
 
 // CopyBasicFieldsFromViewWOP
@@ -482,6 +520,15 @@ func (viewDB *ViewDB) CopyBasicFieldsFromViewWOP(view *ViewWOP) {
 
 	viewDB.IsSecondatyView_Data.Bool = view.IsSecondatyView
 	viewDB.IsSecondatyView_Data.Valid = true
+
+	viewDB.IsSizeInPixel_Data.Bool = view.IsSizeInPixel
+	viewDB.IsSizeInPixel_Data.Valid = true
+
+	viewDB.IsWithCustomGutterSize_Data.Bool = view.IsWithCustomGutterSize
+	viewDB.IsWithCustomGutterSize_Data.Valid = true
+
+	viewDB.GutterSize_Data.Float64 = view.GutterSize
+	viewDB.GutterSize_Data.Valid = true
 }
 
 // CopyBasicFieldsToView
@@ -492,6 +539,9 @@ func (viewDB *ViewDB) CopyBasicFieldsToView(view *models.View) {
 	view.IsSelectedView = viewDB.IsSelectedView_Data.Bool
 	view.Direction.FromString(viewDB.Direction_Data.String)
 	view.IsSecondatyView = viewDB.IsSecondatyView_Data.Bool
+	view.IsSizeInPixel = viewDB.IsSizeInPixel_Data.Bool
+	view.IsWithCustomGutterSize = viewDB.IsWithCustomGutterSize_Data.Bool
+	view.GutterSize = viewDB.GutterSize_Data.Float64
 }
 
 // CopyBasicFieldsToView_WOP
@@ -502,6 +552,9 @@ func (viewDB *ViewDB) CopyBasicFieldsToView_WOP(view *models.View_WOP) {
 	view.IsSelectedView = viewDB.IsSelectedView_Data.Bool
 	view.Direction.FromString(viewDB.Direction_Data.String)
 	view.IsSecondatyView = viewDB.IsSecondatyView_Data.Bool
+	view.IsSizeInPixel = viewDB.IsSizeInPixel_Data.Bool
+	view.IsWithCustomGutterSize = viewDB.IsWithCustomGutterSize_Data.Bool
+	view.GutterSize = viewDB.GutterSize_Data.Float64
 }
 
 // CopyBasicFieldsToViewWOP
@@ -513,6 +566,9 @@ func (viewDB *ViewDB) CopyBasicFieldsToViewWOP(view *ViewWOP) {
 	view.IsSelectedView = viewDB.IsSelectedView_Data.Bool
 	view.Direction.FromString(viewDB.Direction_Data.String)
 	view.IsSecondatyView = viewDB.IsSecondatyView_Data.Bool
+	view.IsSizeInPixel = viewDB.IsSizeInPixel_Data.Bool
+	view.IsWithCustomGutterSize = viewDB.IsWithCustomGutterSize_Data.Bool
+	view.GutterSize = viewDB.GutterSize_Data.Float64
 }
 
 // Backup generates a json file from a slice of all ViewDB instances in the backrepo

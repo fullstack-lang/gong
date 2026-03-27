@@ -13,6 +13,9 @@ export class AsSplitAPI {
 	// insertion point for basic fields declarations
 	Name: string = ""
 	Direction: string = ""
+	IsSizeInPixel: boolean = false
+	IsWithCustomGutterSize: boolean = false
+	GutterSize: number = 0
 
 	// insertion point for other decls
 
