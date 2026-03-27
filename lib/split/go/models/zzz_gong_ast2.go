@@ -462,6 +462,10 @@ func (u *AsSplitUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		GongUnmarshallSliceOfPointers(&instance.AsSplitAreas, valueExpr, identifierMap)
 	case "IsSizeInPixel":
 		instance.IsSizeInPixel = GongExtractBool(valueExpr)
+	case "IsWithCustomGutterSize":
+		instance.IsWithCustomGutterSize = GongExtractBool(valueExpr)
+	case "GutterSize":
+		instance.GutterSize = GongExtractFloat(valueExpr)
 	}
 	return nil
 }
@@ -1043,6 +1047,10 @@ func (u *ViewUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.IsSecondatyView = GongExtractBool(valueExpr)
 	case "IsSizeInPixel":
 		instance.IsSizeInPixel = GongExtractBool(valueExpr)
+	case "IsWithCustomGutterSize":
+		instance.IsWithCustomGutterSize = GongExtractBool(valueExpr)
+	case "GutterSize":
+		instance.GutterSize = GongExtractFloat(valueExpr)
 	}
 	return nil
 }

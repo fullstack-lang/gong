@@ -154,6 +154,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(assplit.GongMarshallField(stage, "Direction"))
 		pointersInitializesStatements.WriteString(assplit.GongMarshallField(stage, "AsSplitAreas"))
 		initializerStatements.WriteString(assplit.GongMarshallField(stage, "IsSizeInPixel"))
+		initializerStatements.WriteString(assplit.GongMarshallField(stage, "IsWithCustomGutterSize"))
+		initializerStatements.WriteString(assplit.GongMarshallField(stage, "GutterSize"))
 	}
 
 	assplitareaOrdered := []*AsSplitArea{}
@@ -640,6 +642,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(view.GongMarshallField(stage, "Direction"))
 		initializerStatements.WriteString(view.GongMarshallField(stage, "IsSecondatyView"))
 		initializerStatements.WriteString(view.GongMarshallField(stage, "IsSizeInPixel"))
+		initializerStatements.WriteString(view.GongMarshallField(stage, "IsWithCustomGutterSize"))
+		initializerStatements.WriteString(view.GongMarshallField(stage, "GutterSize"))
 	}
 
 	xlsxOrdered := []*Xlsx{}
@@ -902,6 +906,16 @@ func (assplit *AsSplit) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{Identifier}}", assplit.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsSizeInPixel")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", assplit.IsSizeInPixel))
+	case "IsWithCustomGutterSize":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", assplit.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsWithCustomGutterSize")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", assplit.IsWithCustomGutterSize))
+	case "GutterSize":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", assplit.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "GutterSize")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", assplit.GutterSize))
 
 	case "AsSplitAreas":
 		var sb strings.Builder
@@ -1494,6 +1508,16 @@ func (view *View) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = strings.ReplaceAll(res, "{{Identifier}}", view.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsSizeInPixel")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", view.IsSizeInPixel))
+	case "IsWithCustomGutterSize":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", view.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsWithCustomGutterSize")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", view.IsWithCustomGutterSize))
+	case "GutterSize":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", view.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "GutterSize")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", view.GutterSize))
 
 	case "RootAsSplitAreas":
 		var sb strings.Builder
@@ -1541,6 +1565,8 @@ func (assplit *AsSplit) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		initializerStatements.WriteString(assplit.GongMarshallField(stage, "Direction"))
 		pointersInitializesStatements.WriteString(assplit.GongMarshallField(stage, "AsSplitAreas"))
 		initializerStatements.WriteString(assplit.GongMarshallField(stage, "IsSizeInPixel"))
+		initializerStatements.WriteString(assplit.GongMarshallField(stage, "IsWithCustomGutterSize"))
+		initializerStatements.WriteString(assplit.GongMarshallField(stage, "GutterSize"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -1772,6 +1798,8 @@ func (view *View) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		initializerStatements.WriteString(view.GongMarshallField(stage, "Direction"))
 		initializerStatements.WriteString(view.GongMarshallField(stage, "IsSecondatyView"))
 		initializerStatements.WriteString(view.GongMarshallField(stage, "IsSizeInPixel"))
+		initializerStatements.WriteString(view.GongMarshallField(stage, "IsWithCustomGutterSize"))
+		initializerStatements.WriteString(view.GongMarshallField(stage, "GutterSize"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

@@ -32,7 +32,9 @@ type View struct {
 	// will be displayed in a vertical manner, with the first element at the top and the last element at the bottom
 	IsSecondatyView bool
 
-	IsSizeInPixel bool
+	IsSizeInPixel          bool
+	IsWithCustomGutterSize bool
+	GutterSize             float64
 }
 
 type Direction string
@@ -50,6 +52,9 @@ type AsSplit struct {
 	AsSplitAreas []*AsSplitArea
 
 	IsSizeInPixel bool
+
+	IsWithCustomGutterSize bool
+	GutterSize             float64
 }
 
 type AsSplitArea struct {
