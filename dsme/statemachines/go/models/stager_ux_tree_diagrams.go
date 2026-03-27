@@ -315,10 +315,6 @@ func (stager *Stager) treeDiagrams() {
 								transitionNode.IsChecked = true
 							}
 
-							if transitionShape == nil {
-								continue
-							}
-
 							proxy.transitionShape = transitionShape
 
 							// disable if end is not present
@@ -333,12 +329,14 @@ func (stager *Stager) treeDiagrams() {
 								ToolTipPosition: tree.Above,
 								ToolTipText:     "Show Transition Shape",
 								OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
-									transitionShape.SetIsHidden(!transitionShape.GetIsHidden())
-									stager.stage.Commit()
+									if transitionShape != nil {
+										transitionShape.SetIsHidden(!transitionShape.GetIsHidden())
+										stager.stage.Commit()
+									}
 								},
 							}
 							transitionNode.Buttons = append(transitionNode.Buttons, showHideButton)
-							if !transitionShape.GetIsHidden() {
+							if transitionShape != nil && !transitionShape.GetIsHidden() {
 								showHideButton.Icon = string(buttons.BUTTON_visibility_off)
 								showHideButton.ToolTipText = "Hide Transition Shape"
 							}
