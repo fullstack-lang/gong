@@ -59,7 +59,6 @@ func Prepare(
 	map_GongStructName_InstancesNb map[string]int,
 ) (stager *models.Stager) {
 	stage := models.NewStage(docStackName)
-	stage.SetDeltaMode(true)
 
 	stage.MetaPackageImportAlias = "ref_models"
 
@@ -80,6 +79,11 @@ func Prepare(
 			packageName:      "diagrams", // necessity because the diagram file is in a diagrams package
 		}
 		stage.OnInitCommitCallback = BeforeCommitImplementation
+
+		// use delta mode
+		stage.SetDeltaMode(true)
+		stage.ComputeReferenceAndOrders() // from which the delta are computed
+
 	} else {
 		err := models.ParseAstEmbeddedFile(stage, goDiagramsDir, "diagrams/diagrams.go")
 
