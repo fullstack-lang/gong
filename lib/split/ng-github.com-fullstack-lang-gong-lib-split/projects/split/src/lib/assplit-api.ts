@@ -13,6 +13,7 @@ export class AsSplitAPI {
 	// insertion point for basic fields declarations
 	Name: string = ""
 	Direction: string = ""
+	IsSizeInPixel: boolean = false
 
 	// insertion point for other decls
 

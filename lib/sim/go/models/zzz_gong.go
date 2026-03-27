@@ -2017,9 +2017,9 @@ func (command *Command) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "Command",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "CommandType",
 		},
 		{
 			Name:               "CommandDate",
@@ -2077,14 +2077,14 @@ func (engine *Engine) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeInt,
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "ControlMode",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "ControlMode",
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "State",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "EngineState",
 		},
 		{
 			Name:               "Speed",
@@ -2117,18 +2117,18 @@ func (status *Status) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "CurrentCommand",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "CommandType",
 		},
 		{
 			Name:               "CompletionDate",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "CurrentSpeedCommand",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "SpeedCommandType",
 		},
 		{
 			Name:               "SpeedCommandCompletionDate",

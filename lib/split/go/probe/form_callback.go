@@ -99,6 +99,8 @@ func (assplitFormCallback *AsSplitFormCallback) OnSave() {
 			}
 			assplit_.AsSplitAreas = instanceSlice
 
+		case "IsSizeInPixel":
+			FormDivBasicFieldToField(&(assplit_.IsSizeInPixel), formDiv)
 		}
 	}
 
@@ -1672,6 +1674,8 @@ func (viewFormCallback *ViewFormCallback) OnSave() {
 			FormDivEnumStringFieldToField(&(view_.Direction), formDiv)
 		case "IsSecondatyView":
 			FormDivBasicFieldToField(&(view_.IsSecondatyView), formDiv)
+		case "IsSizeInPixel":
+			FormDivBasicFieldToField(&(view_.IsSizeInPixel), formDiv)
 		}
 	}
 

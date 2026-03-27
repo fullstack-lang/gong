@@ -4719,14 +4719,18 @@ func (assplit *AsSplit) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "Direction",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "Direction",
 		},
 		{
 			Name:                 "AsSplitAreas",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "AsSplitArea",
+		},
+		{
+			Name:               "IsSizeInPixel",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 	}
 	return
@@ -5094,12 +5098,16 @@ func (view *View) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "Direction",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "Direction",
 		},
 		{
 			Name:               "IsSecondatyView",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsSizeInPixel",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 	}
@@ -5194,6 +5202,10 @@ func (assplit *AsSplit) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.valueString += __instance__.Name
 			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
+	case "IsSizeInPixel":
+		res.valueString = fmt.Sprintf("%t", assplit.IsSizeInPixel)
+		res.valueBool = assplit.IsSizeInPixel
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -5516,6 +5528,10 @@ func (view *View) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.valueString = fmt.Sprintf("%t", view.IsSecondatyView)
 		res.valueBool = view.IsSecondatyView
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsSizeInPixel":
+		res.valueString = fmt.Sprintf("%t", view.IsSizeInPixel)
+		res.valueBool = view.IsSizeInPixel
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -5558,6 +5574,8 @@ func (assplit *AsSplit) GongSetFieldValue(fieldName string, value GongFieldValue
 				}
 			}
 		}
+	case "IsSizeInPixel":
+		assplit.IsSizeInPixel = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -5960,6 +5978,8 @@ func (view *View) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 		view.Direction.FromCodeString(value.GetValueString())
 	case "IsSecondatyView":
 		view.IsSecondatyView = value.GetValueBool()
+	case "IsSizeInPixel":
+		view.IsSizeInPixel = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

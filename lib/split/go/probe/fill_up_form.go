@@ -23,6 +23,8 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		EnumTypeStringToForm("Direction", instanceWithInferedType.Direction, instanceWithInferedType, probe.formStage, formGroup)
 		AssociationSliceToForm("AsSplitAreas", instanceWithInferedType, &instanceWithInferedType.AsSplitAreas, formGroup, probe)
+		BasicFieldtoForm("IsSizeInPixel", instanceWithInferedType.IsSizeInPixel, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 
 	case *models.AsSplitArea:
 		// insertion point
@@ -222,6 +224,8 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		EnumTypeStringToForm("Direction", instanceWithInferedType.Direction, instanceWithInferedType, probe.formStage, formGroup)
 		BasicFieldtoForm("IsSecondatyView", instanceWithInferedType.IsSecondatyView, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("IsSizeInPixel", instanceWithInferedType.IsSizeInPixel, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 
 	case *models.Xlsx:

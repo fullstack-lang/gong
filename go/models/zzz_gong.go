@@ -3137,6 +3137,11 @@ func (gongenum *GongEnum) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:                 "Type",
+			GongFieldValueType:   GongFieldValueTypeInt,
+			TargetGongstructName: "GongEnumType",
+		},
+		{
 			Name:                 "GongEnumValues",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "GongEnumValue",

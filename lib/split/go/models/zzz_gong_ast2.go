@@ -460,6 +460,8 @@ func (u *AsSplitUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		GongUnmarshallEnum(&instance.Direction, valueExpr)
 	case "AsSplitAreas":
 		GongUnmarshallSliceOfPointers(&instance.AsSplitAreas, valueExpr, identifierMap)
+	case "IsSizeInPixel":
+		instance.IsSizeInPixel = GongExtractBool(valueExpr)
 	}
 	return nil
 }
@@ -1039,6 +1041,8 @@ func (u *ViewUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		GongUnmarshallEnum(&instance.Direction, valueExpr)
 	case "IsSecondatyView":
 		instance.IsSecondatyView = GongExtractBool(valueExpr)
+	case "IsSizeInPixel":
+		instance.IsSizeInPixel = GongExtractBool(valueExpr)
 	}
 	return nil
 }

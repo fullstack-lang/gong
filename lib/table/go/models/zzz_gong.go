@@ -5818,9 +5818,9 @@ func (formfield *FormField) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "InputTypeEnum",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "InputTypeEnum",
 		},
 		{
 			Name:               "Label",

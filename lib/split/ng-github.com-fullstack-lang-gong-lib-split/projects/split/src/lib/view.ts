@@ -21,6 +21,7 @@ export class View {
 	IsSelectedView: boolean = false
 	Direction: string = ""
 	IsSecondatyView: boolean = false
+	IsSizeInPixel: boolean = false
 
 	// insertion point for pointers and slices of pointers declarations
 	RootAsSplitAreas: Array<AsSplitArea> = []
@@ -41,6 +42,7 @@ export function CopyViewToViewAPI(view: View, viewAPI: ViewAPI) {
 	viewAPI.IsSelectedView = view.IsSelectedView
 	viewAPI.Direction = view.Direction
 	viewAPI.IsSecondatyView = view.IsSecondatyView
+	viewAPI.IsSizeInPixel = view.IsSizeInPixel
 
 	// insertion point for pointer fields encoding
 
@@ -68,6 +70,7 @@ export function CopyViewAPIToView(viewAPI: ViewAPI, view: View, frontRepo: Front
 	view.IsSelectedView = viewAPI.IsSelectedView
 	view.Direction = viewAPI.Direction
 	view.IsSecondatyView = viewAPI.IsSecondatyView
+	view.IsSizeInPixel = viewAPI.IsSizeInPixel
 
 	// insertion point for pointer fields encoding
 

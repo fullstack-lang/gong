@@ -72,6 +72,10 @@ type AsSplitDB struct {
 	// Declation for basic field assplitDB.Direction
 	Direction_Data sql.NullString
 
+	// Declation for basic field assplitDB.IsSizeInPixel
+	// provide the sql storage for the boolan
+	IsSizeInPixel_Data sql.NullBool
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	AsSplitPointersEncoding
@@ -97,6 +101,8 @@ type AsSplitWOP struct {
 	Name string `xlsx:"1"`
 
 	Direction models.Direction `xlsx:"2"`
+
+	IsSizeInPixel bool `xlsx:"3"`
 	// insertion for WOP pointer fields
 }
 
@@ -105,6 +111,7 @@ var AsSplit_Fields = []string{
 	"ID",
 	"Name",
 	"Direction",
+	"IsSizeInPixel",
 }
 
 type BackRepoAsSplitStruct struct {
@@ -412,6 +419,9 @@ func (assplitDB *AsSplitDB) CopyBasicFieldsFromAsSplit(assplit *models.AsSplit) 
 
 	assplitDB.Direction_Data.String = assplit.Direction.ToString()
 	assplitDB.Direction_Data.Valid = true
+
+	assplitDB.IsSizeInPixel_Data.Bool = assplit.IsSizeInPixel
+	assplitDB.IsSizeInPixel_Data.Valid = true
 }
 
 // CopyBasicFieldsFromAsSplit_WOP
@@ -423,6 +433,9 @@ func (assplitDB *AsSplitDB) CopyBasicFieldsFromAsSplit_WOP(assplit *models.AsSpl
 
 	assplitDB.Direction_Data.String = assplit.Direction.ToString()
 	assplitDB.Direction_Data.Valid = true
+
+	assplitDB.IsSizeInPixel_Data.Bool = assplit.IsSizeInPixel
+	assplitDB.IsSizeInPixel_Data.Valid = true
 }
 
 // CopyBasicFieldsFromAsSplitWOP
@@ -434,6 +447,9 @@ func (assplitDB *AsSplitDB) CopyBasicFieldsFromAsSplitWOP(assplit *AsSplitWOP) {
 
 	assplitDB.Direction_Data.String = assplit.Direction.ToString()
 	assplitDB.Direction_Data.Valid = true
+
+	assplitDB.IsSizeInPixel_Data.Bool = assplit.IsSizeInPixel
+	assplitDB.IsSizeInPixel_Data.Valid = true
 }
 
 // CopyBasicFieldsToAsSplit
@@ -441,6 +457,7 @@ func (assplitDB *AsSplitDB) CopyBasicFieldsToAsSplit(assplit *models.AsSplit) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	assplit.Name = assplitDB.Name_Data.String
 	assplit.Direction.FromString(assplitDB.Direction_Data.String)
+	assplit.IsSizeInPixel = assplitDB.IsSizeInPixel_Data.Bool
 }
 
 // CopyBasicFieldsToAsSplit_WOP
@@ -448,6 +465,7 @@ func (assplitDB *AsSplitDB) CopyBasicFieldsToAsSplit_WOP(assplit *models.AsSplit
 	// insertion point for checkout of basic fields (back repo to stage)
 	assplit.Name = assplitDB.Name_Data.String
 	assplit.Direction.FromString(assplitDB.Direction_Data.String)
+	assplit.IsSizeInPixel = assplitDB.IsSizeInPixel_Data.Bool
 }
 
 // CopyBasicFieldsToAsSplitWOP
@@ -456,6 +474,7 @@ func (assplitDB *AsSplitDB) CopyBasicFieldsToAsSplitWOP(assplit *AsSplitWOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	assplit.Name = assplitDB.Name_Data.String
 	assplit.Direction.FromString(assplitDB.Direction_Data.String)
+	assplit.IsSizeInPixel = assplitDB.IsSizeInPixel_Data.Bool
 }
 
 // Backup generates a json file from a slice of all AsSplitDB instances in the backrepo
