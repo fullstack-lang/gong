@@ -142,19 +142,22 @@ func NewProbe(
 				Name: "sidebar",
 				Size: 20,
 				AsSplit: &split.AsSplit{
-					Direction: split.Vertical,
+					Direction:              split.Vertical,
+					IsSizeInPixel:          true,
+					IsWithCustomGutterSize: true,
+					GutterSize:             1,
 					AsSplitAreas: []*split.AsSplitArea{
 						{
 							Name: "sidebar tree",
-							Size: 10,
+							Size: 53, // to align on the top of the table
 							Tree: &split.Tree{
 								Name:      "Sidebar",
 								StackName: probe.treeNavigationStage.GetName(),
 							},
 						},
 						{
-							Name: "sidebar tree",
-							Size: 90,
+							Name:  "sidebar tree",
+							IsAny: true,
 							Tree: &split.Tree{
 								Name:      "Sidebar",
 								StackName: probe.treeStage.GetName(),
