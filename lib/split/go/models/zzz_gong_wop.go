@@ -15,12 +15,15 @@ type AsSplit_WOP struct {
 	Name string
 
 	Direction Direction
+
+	IsSizeInPixel bool
 }
 
 func (from *AsSplit) CopyBasicFields(to *AsSplit) {
 	// insertion point
 	to.Name = from.Name
 	to.Direction = from.Direction
+	to.IsSizeInPixel = from.IsSizeInPixel
 }
 
 type AsSplitArea_WOP struct {
@@ -286,6 +289,8 @@ type View_WOP struct {
 	Direction Direction
 
 	IsSecondatyView bool
+
+	IsSizeInPixel bool
 }
 
 func (from *View) CopyBasicFields(to *View) {
@@ -295,6 +300,7 @@ func (from *View) CopyBasicFields(to *View) {
 	to.IsSelectedView = from.IsSelectedView
 	to.Direction = from.Direction
 	to.IsSecondatyView = from.IsSecondatyView
+	to.IsSizeInPixel = from.IsSizeInPixel
 }
 
 type Xlsx_WOP struct {
