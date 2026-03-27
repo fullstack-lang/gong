@@ -33,15 +33,20 @@ var (
 )
 
 const (
-	ProbeTreeSidebarSuffix       = ":sidebar of the probe"
-	ProbeTableSuffix             = ":table of the probe"
-	ProbeNotificationTableSuffix = ":notification table of the probe"
-	ProbeFormSuffix              = ":form of the probe"
-	ProbeSplitSuffix             = ":probe of the probe"
+	ProbeTreeSidebarSuffix           = ":sidebar of the probe"
+	ProbeNavigationTreeSidebarSuffix = ":sidebar of the probe, navigation"
+	ProbeTableSuffix                 = ":table of the probe"
+	ProbeNotificationTableSuffix     = ":notification table of the probe"
+	ProbeFormSuffix                  = ":form of the probe"
+	ProbeSplitSuffix                 = ":probe of the probe"
 )
 
 func (stage *Stage) GetProbeTreeSidebarStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeTreeSidebarSuffix
+}
+
+func (stage *Stage) GetProbeNavigationTreeSidebarStageName() string {
+	return stage.GetType() + ":" + stage.GetName() + ProbeNavigationTreeSidebarSuffix
 }
 
 func (stage *Stage) GetProbeFormStageName() string {
@@ -112,7 +117,7 @@ type Stage struct {
 	DisplaySelection_stagedOrder     map[*DisplaySelection]uint
 	DisplaySelections_reference      map[*DisplaySelection]*DisplaySelection
 	DisplaySelections_referenceOrder map[*DisplaySelection]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterDisplaySelectionCreateCallback OnAfterCreateInterface[DisplaySelection]
 	OnAfterDisplaySelectionUpdateCallback OnAfterUpdateInterface[DisplaySelection]
@@ -126,7 +131,7 @@ type Stage struct {
 	XLCell_stagedOrder     map[*XLCell]uint
 	XLCells_reference      map[*XLCell]*XLCell
 	XLCells_referenceOrder map[*XLCell]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterXLCellCreateCallback OnAfterCreateInterface[XLCell]
 	OnAfterXLCellUpdateCallback OnAfterUpdateInterface[XLCell]
@@ -140,7 +145,7 @@ type Stage struct {
 	XLFile_stagedOrder     map[*XLFile]uint
 	XLFiles_reference      map[*XLFile]*XLFile
 	XLFiles_referenceOrder map[*XLFile]uint
-	
+
 	// insertion point for slice of pointers maps
 	XLFile_Sheets_reverseMap map[*XLSheet]*XLFile
 
@@ -156,7 +161,7 @@ type Stage struct {
 	XLRow_stagedOrder     map[*XLRow]uint
 	XLRows_reference      map[*XLRow]*XLRow
 	XLRows_referenceOrder map[*XLRow]uint
-	
+
 	// insertion point for slice of pointers maps
 	XLRow_Cells_reverseMap map[*XLCell]*XLRow
 
@@ -172,7 +177,7 @@ type Stage struct {
 	XLSheet_stagedOrder     map[*XLSheet]uint
 	XLSheets_reference      map[*XLSheet]*XLSheet
 	XLSheets_referenceOrder map[*XLSheet]uint
-	
+
 	// insertion point for slice of pointers maps
 	XLSheet_Rows_reverseMap map[*XLRow]*XLSheet
 

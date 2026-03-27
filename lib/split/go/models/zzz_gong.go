@@ -33,15 +33,20 @@ var (
 )
 
 const (
-	ProbeTreeSidebarSuffix       = ":sidebar of the probe"
-	ProbeTableSuffix             = ":table of the probe"
-	ProbeNotificationTableSuffix = ":notification table of the probe"
-	ProbeFormSuffix              = ":form of the probe"
-	ProbeSplitSuffix             = ":probe of the probe"
+	ProbeTreeSidebarSuffix           = ":sidebar of the probe"
+	ProbeNavigationTreeSidebarSuffix = ":sidebar of the probe, navigation"
+	ProbeTableSuffix                 = ":table of the probe"
+	ProbeNotificationTableSuffix     = ":notification table of the probe"
+	ProbeFormSuffix                  = ":form of the probe"
+	ProbeSplitSuffix                 = ":probe of the probe"
 )
 
 func (stage *Stage) GetProbeTreeSidebarStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeTreeSidebarSuffix
+}
+
+func (stage *Stage) GetProbeNavigationTreeSidebarStageName() string {
+	return stage.GetType() + ":" + stage.GetName() + ProbeNavigationTreeSidebarSuffix
 }
 
 func (stage *Stage) GetProbeFormStageName() string {
@@ -112,7 +117,7 @@ type Stage struct {
 	AsSplit_stagedOrder     map[*AsSplit]uint
 	AsSplits_reference      map[*AsSplit]*AsSplit
 	AsSplits_referenceOrder map[*AsSplit]uint
-	
+
 	// insertion point for slice of pointers maps
 	AsSplit_AsSplitAreas_reverseMap map[*AsSplitArea]*AsSplit
 
@@ -128,7 +133,7 @@ type Stage struct {
 	AsSplitArea_stagedOrder     map[*AsSplitArea]uint
 	AsSplitAreas_reference      map[*AsSplitArea]*AsSplitArea
 	AsSplitAreas_referenceOrder map[*AsSplitArea]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterAsSplitAreaCreateCallback OnAfterCreateInterface[AsSplitArea]
 	OnAfterAsSplitAreaUpdateCallback OnAfterUpdateInterface[AsSplitArea]
@@ -142,7 +147,7 @@ type Stage struct {
 	Button_stagedOrder     map[*Button]uint
 	Buttons_reference      map[*Button]*Button
 	Buttons_referenceOrder map[*Button]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterButtonCreateCallback OnAfterCreateInterface[Button]
 	OnAfterButtonUpdateCallback OnAfterUpdateInterface[Button]
@@ -156,7 +161,7 @@ type Stage struct {
 	Cursor_stagedOrder     map[*Cursor]uint
 	Cursors_reference      map[*Cursor]*Cursor
 	Cursors_referenceOrder map[*Cursor]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterCursorCreateCallback OnAfterCreateInterface[Cursor]
 	OnAfterCursorUpdateCallback OnAfterUpdateInterface[Cursor]
@@ -170,7 +175,7 @@ type Stage struct {
 	FavIcon_stagedOrder     map[*FavIcon]uint
 	FavIcons_reference      map[*FavIcon]*FavIcon
 	FavIcons_referenceOrder map[*FavIcon]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterFavIconCreateCallback OnAfterCreateInterface[FavIcon]
 	OnAfterFavIconUpdateCallback OnAfterUpdateInterface[FavIcon]
@@ -184,7 +189,7 @@ type Stage struct {
 	Form_stagedOrder     map[*Form]uint
 	Forms_reference      map[*Form]*Form
 	Forms_referenceOrder map[*Form]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterFormCreateCallback OnAfterCreateInterface[Form]
 	OnAfterFormUpdateCallback OnAfterUpdateInterface[Form]
@@ -198,7 +203,7 @@ type Stage struct {
 	Load_stagedOrder     map[*Load]uint
 	Loads_reference      map[*Load]*Load
 	Loads_referenceOrder map[*Load]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterLoadCreateCallback OnAfterCreateInterface[Load]
 	OnAfterLoadUpdateCallback OnAfterUpdateInterface[Load]
@@ -212,7 +217,7 @@ type Stage struct {
 	LogoOnTheLeft_stagedOrder     map[*LogoOnTheLeft]uint
 	LogoOnTheLefts_reference      map[*LogoOnTheLeft]*LogoOnTheLeft
 	LogoOnTheLefts_referenceOrder map[*LogoOnTheLeft]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterLogoOnTheLeftCreateCallback OnAfterCreateInterface[LogoOnTheLeft]
 	OnAfterLogoOnTheLeftUpdateCallback OnAfterUpdateInterface[LogoOnTheLeft]
@@ -226,7 +231,7 @@ type Stage struct {
 	LogoOnTheRight_stagedOrder     map[*LogoOnTheRight]uint
 	LogoOnTheRights_reference      map[*LogoOnTheRight]*LogoOnTheRight
 	LogoOnTheRights_referenceOrder map[*LogoOnTheRight]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterLogoOnTheRightCreateCallback OnAfterCreateInterface[LogoOnTheRight]
 	OnAfterLogoOnTheRightUpdateCallback OnAfterUpdateInterface[LogoOnTheRight]
@@ -240,7 +245,7 @@ type Stage struct {
 	Markdown_stagedOrder     map[*Markdown]uint
 	Markdowns_reference      map[*Markdown]*Markdown
 	Markdowns_referenceOrder map[*Markdown]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterMarkdownCreateCallback OnAfterCreateInterface[Markdown]
 	OnAfterMarkdownUpdateCallback OnAfterUpdateInterface[Markdown]
@@ -254,7 +259,7 @@ type Stage struct {
 	Slider_stagedOrder     map[*Slider]uint
 	Sliders_reference      map[*Slider]*Slider
 	Sliders_referenceOrder map[*Slider]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterSliderCreateCallback OnAfterCreateInterface[Slider]
 	OnAfterSliderUpdateCallback OnAfterUpdateInterface[Slider]
@@ -268,7 +273,7 @@ type Stage struct {
 	Split_stagedOrder     map[*Split]uint
 	Splits_reference      map[*Split]*Split
 	Splits_referenceOrder map[*Split]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterSplitCreateCallback OnAfterCreateInterface[Split]
 	OnAfterSplitUpdateCallback OnAfterUpdateInterface[Split]
@@ -282,7 +287,7 @@ type Stage struct {
 	Svg_stagedOrder     map[*Svg]uint
 	Svgs_reference      map[*Svg]*Svg
 	Svgs_referenceOrder map[*Svg]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterSvgCreateCallback OnAfterCreateInterface[Svg]
 	OnAfterSvgUpdateCallback OnAfterUpdateInterface[Svg]
@@ -296,7 +301,7 @@ type Stage struct {
 	Table_stagedOrder     map[*Table]uint
 	Tables_reference      map[*Table]*Table
 	Tables_referenceOrder map[*Table]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterTableCreateCallback OnAfterCreateInterface[Table]
 	OnAfterTableUpdateCallback OnAfterUpdateInterface[Table]
@@ -310,7 +315,7 @@ type Stage struct {
 	Title_stagedOrder     map[*Title]uint
 	Titles_reference      map[*Title]*Title
 	Titles_referenceOrder map[*Title]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterTitleCreateCallback OnAfterCreateInterface[Title]
 	OnAfterTitleUpdateCallback OnAfterUpdateInterface[Title]
@@ -324,7 +329,7 @@ type Stage struct {
 	Tone_stagedOrder     map[*Tone]uint
 	Tones_reference      map[*Tone]*Tone
 	Tones_referenceOrder map[*Tone]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterToneCreateCallback OnAfterCreateInterface[Tone]
 	OnAfterToneUpdateCallback OnAfterUpdateInterface[Tone]
@@ -338,7 +343,7 @@ type Stage struct {
 	Tree_stagedOrder     map[*Tree]uint
 	Trees_reference      map[*Tree]*Tree
 	Trees_referenceOrder map[*Tree]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterTreeCreateCallback OnAfterCreateInterface[Tree]
 	OnAfterTreeUpdateCallback OnAfterUpdateInterface[Tree]
@@ -352,7 +357,7 @@ type Stage struct {
 	View_stagedOrder     map[*View]uint
 	Views_reference      map[*View]*View
 	Views_referenceOrder map[*View]uint
-	
+
 	// insertion point for slice of pointers maps
 	View_RootAsSplitAreas_reverseMap map[*AsSplitArea]*View
 
@@ -368,7 +373,7 @@ type Stage struct {
 	Xlsx_stagedOrder     map[*Xlsx]uint
 	Xlsxs_reference      map[*Xlsx]*Xlsx
 	Xlsxs_referenceOrder map[*Xlsx]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterXlsxCreateCallback OnAfterCreateInterface[Xlsx]
 	OnAfterXlsxUpdateCallback OnAfterUpdateInterface[Xlsx]

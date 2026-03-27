@@ -33,15 +33,20 @@ var (
 )
 
 const (
-	ProbeTreeSidebarSuffix       = ":sidebar of the probe"
-	ProbeTableSuffix             = ":table of the probe"
-	ProbeNotificationTableSuffix = ":notification table of the probe"
-	ProbeFormSuffix              = ":form of the probe"
-	ProbeSplitSuffix             = ":probe of the probe"
+	ProbeTreeSidebarSuffix           = ":sidebar of the probe"
+	ProbeNavigationTreeSidebarSuffix = ":sidebar of the probe, navigation"
+	ProbeTableSuffix                 = ":table of the probe"
+	ProbeNotificationTableSuffix     = ":notification table of the probe"
+	ProbeFormSuffix                  = ":form of the probe"
+	ProbeSplitSuffix                 = ":probe of the probe"
 )
 
 func (stage *Stage) GetProbeTreeSidebarStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeTreeSidebarSuffix
+}
+
+func (stage *Stage) GetProbeNavigationTreeSidebarStageName() string {
+	return stage.GetType() + ":" + stage.GetName() + ProbeNavigationTreeSidebarSuffix
 }
 
 func (stage *Stage) GetProbeFormStageName() string {
@@ -112,7 +117,7 @@ type Stage struct {
 	Arrow_stagedOrder     map[*Arrow]uint
 	Arrows_reference      map[*Arrow]*Arrow
 	Arrows_referenceOrder map[*Arrow]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterArrowCreateCallback OnAfterCreateInterface[Arrow]
 	OnAfterArrowUpdateCallback OnAfterUpdateInterface[Arrow]
@@ -126,7 +131,7 @@ type Stage struct {
 	Bar_stagedOrder     map[*Bar]uint
 	Bars_reference      map[*Bar]*Bar
 	Bars_referenceOrder map[*Bar]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterBarCreateCallback OnAfterCreateInterface[Bar]
 	OnAfterBarUpdateCallback OnAfterUpdateInterface[Bar]
@@ -140,7 +145,7 @@ type Stage struct {
 	Gantt_stagedOrder     map[*Gantt]uint
 	Gantts_reference      map[*Gantt]*Gantt
 	Gantts_referenceOrder map[*Gantt]uint
-	
+
 	// insertion point for slice of pointers maps
 	Gantt_Lanes_reverseMap map[*Lane]*Gantt
 
@@ -162,7 +167,7 @@ type Stage struct {
 	Group_stagedOrder     map[*Group]uint
 	Groups_reference      map[*Group]*Group
 	Groups_referenceOrder map[*Group]uint
-	
+
 	// insertion point for slice of pointers maps
 	Group_GroupLanes_reverseMap map[*Lane]*Group
 
@@ -178,7 +183,7 @@ type Stage struct {
 	Lane_stagedOrder     map[*Lane]uint
 	Lanes_reference      map[*Lane]*Lane
 	Lanes_referenceOrder map[*Lane]uint
-	
+
 	// insertion point for slice of pointers maps
 	Lane_Bars_reverseMap map[*Bar]*Lane
 
@@ -194,7 +199,7 @@ type Stage struct {
 	LaneUse_stagedOrder     map[*LaneUse]uint
 	LaneUses_reference      map[*LaneUse]*LaneUse
 	LaneUses_referenceOrder map[*LaneUse]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterLaneUseCreateCallback OnAfterCreateInterface[LaneUse]
 	OnAfterLaneUseUpdateCallback OnAfterUpdateInterface[LaneUse]
@@ -208,7 +213,7 @@ type Stage struct {
 	Milestone_stagedOrder     map[*Milestone]uint
 	Milestones_reference      map[*Milestone]*Milestone
 	Milestones_referenceOrder map[*Milestone]uint
-	
+
 	// insertion point for slice of pointers maps
 	Milestone_LanesToDisplay_reverseMap map[*Lane]*Milestone
 

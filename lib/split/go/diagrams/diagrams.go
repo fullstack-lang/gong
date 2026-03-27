@@ -39,7 +39,6 @@ func _(stage *models.Stage) {
 	__AttributeShape__00000011_ := (&models.AttributeShape{Name: `IsAny`}).Stage(stage)
 	__AttributeShape__00000012_ := (&models.AttributeShape{Name: `HasDiv`}).Stage(stage)
 	__AttributeShape__00000013_ := (&models.AttributeShape{Name: `DivStyle`}).Stage(stage)
-	__AttributeShape__00000014_ := (&models.AttributeShape{Name: `NoName yet`}).Stage(stage)
 
 	__Classdiagram__00000000_ := (&models.Classdiagram{Name: `Default`}).Stage(stage)
 
@@ -83,7 +82,6 @@ func _(stage *models.Stage) {
 	__LinkShape__00000011_ := (&models.LinkShape{Name: `Tone`}).Stage(stage)
 	__LinkShape__00000012_ := (&models.LinkShape{Name: `Tree`}).Stage(stage)
 	__LinkShape__00000013_ := (&models.LinkShape{Name: `Xlsx`}).Stage(stage)
-	__LinkShape__00000014_ := (&models.LinkShape{Name: `NoName yet`}).Stage(stage)
 	__LinkShape__00000015_ := (&models.LinkShape{Name: `AsSplitAreas`}).Stage(stage)
 	__LinkShape__00000016_ := (&models.LinkShape{Name: `RootAsSplitAreas`}).Stage(stage)
 
@@ -172,11 +170,6 @@ func _(stage *models.Stage) {
 	__AttributeShape__00000013_.FieldTypeAsString = ``
 	__AttributeShape__00000013_.Structname = `AsSplitArea`
 	__AttributeShape__00000013_.Fieldtypename = `string`
-
-	__AttributeShape__00000014_.Name = `NoName yet`
-	__AttributeShape__00000014_.FieldTypeAsString = ``
-	__AttributeShape__00000014_.Structname = ``
-	__AttributeShape__00000014_.Fieldtypename = ``
 
 	__Classdiagram__00000000_.Name = `Default`
 	__Classdiagram__00000000_.Description = ``
@@ -610,23 +603,6 @@ func _(stage *models.Stage) {
 	__LinkShape__00000013_.EndOrientation = models.ORIENTATION_HORIZONTAL
 	__LinkShape__00000013_.EndRatio = 0.500000
 	__LinkShape__00000013_.CornerOffsetRatio = 1.382324
-
-	__LinkShape__00000014_.Name = `NoName yet`
-	__LinkShape__00000014_.FieldOffsetX = 0.000000
-	__LinkShape__00000014_.FieldOffsetY = 0.000000
-	__LinkShape__00000014_.TargetMultiplicity = ""
-	__LinkShape__00000014_.TargetMultiplicityOffsetX = 0.000000
-	__LinkShape__00000014_.TargetMultiplicityOffsetY = 0.000000
-	__LinkShape__00000014_.SourceMultiplicity = ""
-	__LinkShape__00000014_.SourceMultiplicityOffsetX = 0.000000
-	__LinkShape__00000014_.SourceMultiplicityOffsetY = 0.000000
-	__LinkShape__00000014_.X = 0.000000
-	__LinkShape__00000014_.Y = 0.000000
-	__LinkShape__00000014_.StartOrientation = ""
-	__LinkShape__00000014_.StartRatio = 0.000000
-	__LinkShape__00000014_.EndOrientation = ""
-	__LinkShape__00000014_.EndRatio = 0.000000
-	__LinkShape__00000014_.CornerOffsetRatio = 0.000000
 
 	__LinkShape__00000015_.Name = `AsSplitAreas`
 	__LinkShape__00000015_.IdentifierMeta = ref_models.AsSplit{}.AsSplitAreas

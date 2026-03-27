@@ -14,7 +14,29 @@ import (
 	"github.com/fullstack-lang/gong/lib/doc/go/models"
 )
 
+func (probe *Probe) ux_navigation_tree() {
+	stageOfInterest := probe.stageOfInterest
+	if !stageOfInterest.IsInDeltaMode() {
+		return
+	}
+	probe.treeNavigationStage.Reset()
+
+	sidebar := &tree_models.Tree{Name: "Sidebar"}
+
+	probe.AddCommitNavigationNode(func(node models.GongNodeIF) {
+		sidebar.RootNodes = append(sidebar.RootNodes, node.(*tree_models.Node))
+	})
+
+	tree_models.StageBranch(probe.treeNavigationStage, sidebar)
+
+	probe.treeNavigationStage.Commit()
+}
+
 func (probe *Probe) ux_tree() {
+	probe.ux_navigation_tree()
+	probe.treeStage.Reset()
+	stageOfInterest := probe.stageOfInterest
+
 	// keep in memory which nodes have been unfolded / folded
 	expandedNodesSet := make(map[string]any, 0)
 	var _sidebar *tree_models.Tree
@@ -28,10 +50,6 @@ func (probe *Probe) ux_tree() {
 			}
 		}
 	}
-
-	probe.treeStage.Reset()
-
-	stageOfInterest := probe.stageOfInterest
 
 	// create tree
 	sidebar := &tree_models.Tree{Name: "Sidebar"}
@@ -64,12 +82,6 @@ func (probe *Probe) ux_tree() {
 		},
 	}
 	topNode.Buttons = append(topNode.Buttons, refreshButton)
-
-	if stageOfInterest.IsInDeltaMode() {
-		probe.AddCommitNavigationNode(func(node models.GongNodeIF) {
-			sidebar.RootNodes = append(sidebar.RootNodes, node.(*tree_models.Node))
-		})
-	}
 
 	// collect all gong struct to construe the true
 	setOfGongStructs := *gong_models.GetGongstructInstancesSetFromPointerType[*gong_models.GongStruct](probe.gongStage)

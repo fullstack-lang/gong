@@ -33,15 +33,20 @@ var (
 )
 
 const (
-	ProbeTreeSidebarSuffix       = ":sidebar of the probe"
-	ProbeTableSuffix             = ":table of the probe"
-	ProbeNotificationTableSuffix = ":notification table of the probe"
-	ProbeFormSuffix              = ":form of the probe"
-	ProbeSplitSuffix             = ":probe of the probe"
+	ProbeTreeSidebarSuffix           = ":sidebar of the probe"
+	ProbeNavigationTreeSidebarSuffix = ":sidebar of the probe, navigation"
+	ProbeTableSuffix                 = ":table of the probe"
+	ProbeNotificationTableSuffix     = ":notification table of the probe"
+	ProbeFormSuffix                  = ":form of the probe"
+	ProbeSplitSuffix                 = ":probe of the probe"
 )
 
 func (stage *Stage) GetProbeTreeSidebarStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeTreeSidebarSuffix
+}
+
+func (stage *Stage) GetProbeNavigationTreeSidebarStageName() string {
+	return stage.GetType() + ":" + stage.GetName() + ProbeNavigationTreeSidebarSuffix
 }
 
 func (stage *Stage) GetProbeFormStageName() string {
@@ -112,7 +117,7 @@ type Stage struct {
 	Animate_stagedOrder     map[*Animate]uint
 	Animates_reference      map[*Animate]*Animate
 	Animates_referenceOrder map[*Animate]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterAnimateCreateCallback OnAfterCreateInterface[Animate]
 	OnAfterAnimateUpdateCallback OnAfterUpdateInterface[Animate]
@@ -126,7 +131,7 @@ type Stage struct {
 	Circle_stagedOrder     map[*Circle]uint
 	Circles_reference      map[*Circle]*Circle
 	Circles_referenceOrder map[*Circle]uint
-	
+
 	// insertion point for slice of pointers maps
 	Circle_Animations_reverseMap map[*Animate]*Circle
 
@@ -142,7 +147,7 @@ type Stage struct {
 	Condition_stagedOrder     map[*Condition]uint
 	Conditions_reference      map[*Condition]*Condition
 	Conditions_referenceOrder map[*Condition]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterConditionCreateCallback OnAfterCreateInterface[Condition]
 	OnAfterConditionUpdateCallback OnAfterUpdateInterface[Condition]
@@ -156,7 +161,7 @@ type Stage struct {
 	ControlPoint_stagedOrder     map[*ControlPoint]uint
 	ControlPoints_reference      map[*ControlPoint]*ControlPoint
 	ControlPoints_referenceOrder map[*ControlPoint]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterControlPointCreateCallback OnAfterCreateInterface[ControlPoint]
 	OnAfterControlPointUpdateCallback OnAfterUpdateInterface[ControlPoint]
@@ -170,7 +175,7 @@ type Stage struct {
 	Ellipse_stagedOrder     map[*Ellipse]uint
 	Ellipses_reference      map[*Ellipse]*Ellipse
 	Ellipses_referenceOrder map[*Ellipse]uint
-	
+
 	// insertion point for slice of pointers maps
 	Ellipse_Animates_reverseMap map[*Animate]*Ellipse
 
@@ -186,7 +191,7 @@ type Stage struct {
 	Layer_stagedOrder     map[*Layer]uint
 	Layers_reference      map[*Layer]*Layer
 	Layers_referenceOrder map[*Layer]uint
-	
+
 	// insertion point for slice of pointers maps
 	Layer_Rects_reverseMap map[*Rect]*Layer
 
@@ -220,7 +225,7 @@ type Stage struct {
 	Line_stagedOrder     map[*Line]uint
 	Lines_reference      map[*Line]*Line
 	Lines_referenceOrder map[*Line]uint
-	
+
 	// insertion point for slice of pointers maps
 	Line_Animates_reverseMap map[*Animate]*Line
 
@@ -236,7 +241,7 @@ type Stage struct {
 	Link_stagedOrder     map[*Link]uint
 	Links_reference      map[*Link]*Link
 	Links_referenceOrder map[*Link]uint
-	
+
 	// insertion point for slice of pointers maps
 	Link_TextAtArrowStart_reverseMap map[*LinkAnchoredText]*Link
 
@@ -256,7 +261,7 @@ type Stage struct {
 	LinkAnchoredText_stagedOrder     map[*LinkAnchoredText]uint
 	LinkAnchoredTexts_reference      map[*LinkAnchoredText]*LinkAnchoredText
 	LinkAnchoredTexts_referenceOrder map[*LinkAnchoredText]uint
-	
+
 	// insertion point for slice of pointers maps
 	LinkAnchoredText_Animates_reverseMap map[*Animate]*LinkAnchoredText
 
@@ -272,7 +277,7 @@ type Stage struct {
 	Path_stagedOrder     map[*Path]uint
 	Paths_reference      map[*Path]*Path
 	Paths_referenceOrder map[*Path]uint
-	
+
 	// insertion point for slice of pointers maps
 	Path_Animates_reverseMap map[*Animate]*Path
 
@@ -288,7 +293,7 @@ type Stage struct {
 	Point_stagedOrder     map[*Point]uint
 	Points_reference      map[*Point]*Point
 	Points_referenceOrder map[*Point]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterPointCreateCallback OnAfterCreateInterface[Point]
 	OnAfterPointUpdateCallback OnAfterUpdateInterface[Point]
@@ -302,7 +307,7 @@ type Stage struct {
 	Polygone_stagedOrder     map[*Polygone]uint
 	Polygones_reference      map[*Polygone]*Polygone
 	Polygones_referenceOrder map[*Polygone]uint
-	
+
 	// insertion point for slice of pointers maps
 	Polygone_Animates_reverseMap map[*Animate]*Polygone
 
@@ -318,7 +323,7 @@ type Stage struct {
 	Polyline_stagedOrder     map[*Polyline]uint
 	Polylines_reference      map[*Polyline]*Polyline
 	Polylines_referenceOrder map[*Polyline]uint
-	
+
 	// insertion point for slice of pointers maps
 	Polyline_Animates_reverseMap map[*Animate]*Polyline
 
@@ -334,7 +339,7 @@ type Stage struct {
 	Rect_stagedOrder     map[*Rect]uint
 	Rects_reference      map[*Rect]*Rect
 	Rects_referenceOrder map[*Rect]uint
-	
+
 	// insertion point for slice of pointers maps
 	Rect_HoveringTrigger_reverseMap map[*Condition]*Rect
 
@@ -360,7 +365,7 @@ type Stage struct {
 	RectAnchoredPath_stagedOrder     map[*RectAnchoredPath]uint
 	RectAnchoredPaths_reference      map[*RectAnchoredPath]*RectAnchoredPath
 	RectAnchoredPaths_referenceOrder map[*RectAnchoredPath]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterRectAnchoredPathCreateCallback OnAfterCreateInterface[RectAnchoredPath]
 	OnAfterRectAnchoredPathUpdateCallback OnAfterUpdateInterface[RectAnchoredPath]
@@ -374,7 +379,7 @@ type Stage struct {
 	RectAnchoredRect_stagedOrder     map[*RectAnchoredRect]uint
 	RectAnchoredRects_reference      map[*RectAnchoredRect]*RectAnchoredRect
 	RectAnchoredRects_referenceOrder map[*RectAnchoredRect]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterRectAnchoredRectCreateCallback OnAfterCreateInterface[RectAnchoredRect]
 	OnAfterRectAnchoredRectUpdateCallback OnAfterUpdateInterface[RectAnchoredRect]
@@ -388,7 +393,7 @@ type Stage struct {
 	RectAnchoredText_stagedOrder     map[*RectAnchoredText]uint
 	RectAnchoredTexts_reference      map[*RectAnchoredText]*RectAnchoredText
 	RectAnchoredTexts_referenceOrder map[*RectAnchoredText]uint
-	
+
 	// insertion point for slice of pointers maps
 	RectAnchoredText_Animates_reverseMap map[*Animate]*RectAnchoredText
 
@@ -404,7 +409,7 @@ type Stage struct {
 	RectLinkLink_stagedOrder     map[*RectLinkLink]uint
 	RectLinkLinks_reference      map[*RectLinkLink]*RectLinkLink
 	RectLinkLinks_referenceOrder map[*RectLinkLink]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterRectLinkLinkCreateCallback OnAfterCreateInterface[RectLinkLink]
 	OnAfterRectLinkLinkUpdateCallback OnAfterUpdateInterface[RectLinkLink]
@@ -418,7 +423,7 @@ type Stage struct {
 	SVG_stagedOrder     map[*SVG]uint
 	SVGs_reference      map[*SVG]*SVG
 	SVGs_referenceOrder map[*SVG]uint
-	
+
 	// insertion point for slice of pointers maps
 	SVG_Layers_reverseMap map[*Layer]*SVG
 
@@ -434,7 +439,7 @@ type Stage struct {
 	SvgText_stagedOrder     map[*SvgText]uint
 	SvgTexts_reference      map[*SvgText]*SvgText
 	SvgTexts_referenceOrder map[*SvgText]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterSvgTextCreateCallback OnAfterCreateInterface[SvgText]
 	OnAfterSvgTextUpdateCallback OnAfterUpdateInterface[SvgText]
@@ -448,7 +453,7 @@ type Stage struct {
 	Text_stagedOrder     map[*Text]uint
 	Texts_reference      map[*Text]*Text
 	Texts_referenceOrder map[*Text]uint
-	
+
 	// insertion point for slice of pointers maps
 	Text_Animates_reverseMap map[*Animate]*Text
 

@@ -33,15 +33,20 @@ var (
 )
 
 const (
-	ProbeTreeSidebarSuffix       = ":sidebar of the probe"
-	ProbeTableSuffix             = ":table of the probe"
-	ProbeNotificationTableSuffix = ":notification table of the probe"
-	ProbeFormSuffix              = ":form of the probe"
-	ProbeSplitSuffix             = ":probe of the probe"
+	ProbeTreeSidebarSuffix           = ":sidebar of the probe"
+	ProbeNavigationTreeSidebarSuffix = ":sidebar of the probe, navigation"
+	ProbeTableSuffix                 = ":table of the probe"
+	ProbeNotificationTableSuffix     = ":notification table of the probe"
+	ProbeFormSuffix                  = ":form of the probe"
+	ProbeSplitSuffix                 = ":probe of the probe"
 )
 
 func (stage *Stage) GetProbeTreeSidebarStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeTreeSidebarSuffix
+}
+
+func (stage *Stage) GetProbeNavigationTreeSidebarStageName() string {
+	return stage.GetType() + ":" + stage.GetName() + ProbeNavigationTreeSidebarSuffix
 }
 
 func (stage *Stage) GetProbeFormStageName() string {
@@ -112,7 +117,7 @@ type Stage struct {
 	Checkbox_stagedOrder     map[*Checkbox]uint
 	Checkboxs_reference      map[*Checkbox]*Checkbox
 	Checkboxs_referenceOrder map[*Checkbox]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterCheckboxCreateCallback OnAfterCreateInterface[Checkbox]
 	OnAfterCheckboxUpdateCallback OnAfterUpdateInterface[Checkbox]
@@ -126,7 +131,7 @@ type Stage struct {
 	Group_stagedOrder     map[*Group]uint
 	Groups_reference      map[*Group]*Group
 	Groups_referenceOrder map[*Group]uint
-	
+
 	// insertion point for slice of pointers maps
 	Group_Sliders_reverseMap map[*Slider]*Group
 
@@ -144,7 +149,7 @@ type Stage struct {
 	Layout_stagedOrder     map[*Layout]uint
 	Layouts_reference      map[*Layout]*Layout
 	Layouts_referenceOrder map[*Layout]uint
-	
+
 	// insertion point for slice of pointers maps
 	Layout_Groups_reverseMap map[*Group]*Layout
 
@@ -160,7 +165,7 @@ type Stage struct {
 	Slider_stagedOrder     map[*Slider]uint
 	Sliders_reference      map[*Slider]*Slider
 	Sliders_referenceOrder map[*Slider]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterSliderCreateCallback OnAfterCreateInterface[Slider]
 	OnAfterSliderUpdateCallback OnAfterUpdateInterface[Slider]
