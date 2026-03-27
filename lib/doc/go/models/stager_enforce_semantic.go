@@ -49,6 +49,7 @@ func (stager *Stager) enforceSemanticShapeWithCorrectMEtaIDentifiers() (needComm
 		_, ok := gongStructSet[gongStructName]
 
 		if !ok {
+			log.Println("doc removed shape", gongStructName)
 			gongStructShape.Unstage(stager.stage)
 			needCommit = true
 			continue
@@ -61,6 +62,7 @@ func (stager *Stager) enforceSemanticShapeWithCorrectMEtaIDentifiers() (needComm
 		_, ok := gongStructSet[structname]
 
 		if !ok {
+			log.Println("doc removed attribute shape", structname, fieldShapeName)
 			fieldShape.Unstage(stager.stage)
 			needCommit = true
 			continue
@@ -73,6 +75,7 @@ func (stager *Stager) enforceSemanticShapeWithCorrectMEtaIDentifiers() (needComm
 			}
 		}
 		if !fieldFound {
+			log.Println("doc removed attribute shape", structname, fieldShapeName)
 			fieldShape.Unstage(stager.stage)
 			needCommit = true
 		}
@@ -84,6 +87,7 @@ func (stager *Stager) enforceSemanticShapeWithCorrectMEtaIDentifiers() (needComm
 		_, ok := gongStructSet[structname]
 
 		if !ok {
+			log.Println("doc removed link shape", structname, fieldShapeName)
 			linkShape.Unstage(stager.stage)
 			needCommit = true
 			continue
@@ -96,6 +100,7 @@ func (stager *Stager) enforceSemanticShapeWithCorrectMEtaIDentifiers() (needComm
 			}
 		}
 		if !fieldFound {
+			log.Println("doc removed link shape", structname, fieldShapeName)
 			linkShape.Unstage(stager.stage)
 			needCommit = true
 		}
@@ -107,6 +112,7 @@ func (stager *Stager) enforceSemanticShapeWithCorrectMEtaIDentifiers() (needComm
 		gongEnumName := GongEnumIdentifierMetaToGongEnumName(gongEnumShape.IdentifierMeta)
 		_, ok := gongEnumSet[gongEnumName]
 		if !ok {
+			log.Println("doc removed enum shape", gongEnumName)
 			gongEnumShape.Unstage(stager.stage)
 			needCommit = true
 		}
@@ -118,6 +124,7 @@ func (stager *Stager) enforceSemanticShapeWithCorrectMEtaIDentifiers() (needComm
 		gongEnumValueName := GongEnumValueShapeIdentifierMetaToValueName(gongEnumValueShape.IdentifierMeta)
 		_, ok := gongEnumValueSet[gongEnumValueName]
 		if !ok {
+			log.Println("doc removed enum value shape", gongEnumValueName)
 			gongEnumValueShape.Unstage(stager.stage)
 			needCommit = true
 		}
