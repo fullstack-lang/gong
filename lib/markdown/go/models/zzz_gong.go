@@ -33,15 +33,20 @@ var (
 )
 
 const (
-	ProbeTreeSidebarSuffix       = ":sidebar of the probe"
-	ProbeTableSuffix             = ":table of the probe"
-	ProbeNotificationTableSuffix = ":notification table of the probe"
-	ProbeFormSuffix              = ":form of the probe"
-	ProbeSplitSuffix             = ":probe of the probe"
+	ProbeTreeSidebarSuffix           = ":sidebar of the probe"
+	ProbeNavigationTreeSidebarSuffix = ":sidebar of the probe, navigation"
+	ProbeTableSuffix                 = ":table of the probe"
+	ProbeNotificationTableSuffix     = ":notification table of the probe"
+	ProbeFormSuffix                  = ":form of the probe"
+	ProbeSplitSuffix                 = ":probe of the probe"
 )
 
 func (stage *Stage) GetProbeTreeSidebarStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeTreeSidebarSuffix
+}
+
+func (stage *Stage) GetProbeNavigationTreeSidebarStageName() string {
+	return stage.GetType() + ":" + stage.GetName() + ProbeNavigationTreeSidebarSuffix
 }
 
 func (stage *Stage) GetProbeFormStageName() string {
@@ -112,7 +117,7 @@ type Stage struct {
 	Content_stagedOrder     map[*Content]uint
 	Contents_reference      map[*Content]*Content
 	Contents_referenceOrder map[*Content]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterContentCreateCallback OnAfterCreateInterface[Content]
 	OnAfterContentUpdateCallback OnAfterUpdateInterface[Content]
@@ -126,7 +131,7 @@ type Stage struct {
 	JpgImage_stagedOrder     map[*JpgImage]uint
 	JpgImages_reference      map[*JpgImage]*JpgImage
 	JpgImages_referenceOrder map[*JpgImage]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterJpgImageCreateCallback OnAfterCreateInterface[JpgImage]
 	OnAfterJpgImageUpdateCallback OnAfterUpdateInterface[JpgImage]
@@ -140,7 +145,7 @@ type Stage struct {
 	PngImage_stagedOrder     map[*PngImage]uint
 	PngImages_reference      map[*PngImage]*PngImage
 	PngImages_referenceOrder map[*PngImage]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterPngImageCreateCallback OnAfterCreateInterface[PngImage]
 	OnAfterPngImageUpdateCallback OnAfterUpdateInterface[PngImage]
@@ -154,7 +159,7 @@ type Stage struct {
 	SvgImage_stagedOrder     map[*SvgImage]uint
 	SvgImages_reference      map[*SvgImage]*SvgImage
 	SvgImages_referenceOrder map[*SvgImage]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterSvgImageCreateCallback OnAfterCreateInterface[SvgImage]
 	OnAfterSvgImageUpdateCallback OnAfterUpdateInterface[SvgImage]

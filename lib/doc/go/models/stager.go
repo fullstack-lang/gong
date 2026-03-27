@@ -115,7 +115,9 @@ func NewStager(
 	}
 
 	beforeCommit := func(stage *Stage) {
-		stager.enforceSemantic()
+		if !embeddedDiagrams {
+			stager.enforceSemantic()
+		}
 	}
 	afterCommit := func(stage *Stage) {
 		stager.tree()

@@ -33,15 +33,20 @@ var (
 )
 
 const (
-	ProbeTreeSidebarSuffix       = ":sidebar of the probe"
-	ProbeTableSuffix             = ":table of the probe"
-	ProbeNotificationTableSuffix = ":notification table of the probe"
-	ProbeFormSuffix              = ":form of the probe"
-	ProbeSplitSuffix             = ":probe of the probe"
+	ProbeTreeSidebarSuffix           = ":sidebar of the probe"
+	ProbeNavigationTreeSidebarSuffix = ":sidebar of the probe, navigation"
+	ProbeTableSuffix                 = ":table of the probe"
+	ProbeNotificationTableSuffix     = ":notification table of the probe"
+	ProbeFormSuffix                  = ":form of the probe"
+	ProbeSplitSuffix                 = ":probe of the probe"
 )
 
 func (stage *Stage) GetProbeTreeSidebarStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeTreeSidebarSuffix
+}
+
+func (stage *Stage) GetProbeNavigationTreeSidebarStageName() string {
+	return stage.GetType() + ":" + stage.GetName() + ProbeNavigationTreeSidebarSuffix
 }
 
 func (stage *Stage) GetProbeFormStageName() string {
@@ -112,7 +117,7 @@ type Stage struct {
 	Freqency_stagedOrder     map[*Freqency]uint
 	Freqencys_reference      map[*Freqency]*Freqency
 	Freqencys_referenceOrder map[*Freqency]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterFreqencyCreateCallback OnAfterCreateInterface[Freqency]
 	OnAfterFreqencyUpdateCallback OnAfterUpdateInterface[Freqency]
@@ -126,7 +131,7 @@ type Stage struct {
 	Note_stagedOrder     map[*Note]uint
 	Notes_reference      map[*Note]*Note
 	Notes_referenceOrder map[*Note]uint
-	
+
 	// insertion point for slice of pointers maps
 	Note_Frequencies_reverseMap map[*Freqency]*Note
 
@@ -142,7 +147,7 @@ type Stage struct {
 	Player_stagedOrder     map[*Player]uint
 	Players_reference      map[*Player]*Player
 	Players_referenceOrder map[*Player]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterPlayerCreateCallback OnAfterCreateInterface[Player]
 	OnAfterPlayerUpdateCallback OnAfterUpdateInterface[Player]
