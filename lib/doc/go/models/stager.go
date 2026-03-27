@@ -39,10 +39,6 @@ type Stager struct {
 	map_GongStructName_InstancesNb map[string]int
 }
 
-func (stager *Stager) navitationTree() {
-	log.Println("unimplemented")
-}
-
 func NewStager(
 	r *gin.Engine,
 	receivingAsSplitArea *split.AsSplitArea,
@@ -123,7 +119,7 @@ func NewStager(
 	}
 	afterCommit := func(stage *Stage) {
 		stager.tree()
-		stager.navitationTree()
+		stager.navigationTree()
 		stager.Svg()
 		stager.form()
 	}
