@@ -21,6 +21,9 @@ func (stager *Stager) tree() {
 		Name: stager.stage.GetProbeTreeSidebarStageName(),
 	}
 
+	if !stager.embeddedDiagrams {
+	}
+
 	root := &tree.Node{
 		Name:       "Class Diagrams",
 		IsExpanded: true,
