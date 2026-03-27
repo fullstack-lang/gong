@@ -23,7 +23,7 @@ func _(stage *models.Stage) {
 
 	// insertion point for declaration of instances to stage
 
-	__A__00000000_ := (&models.A{Name: `A09xxx`}).Stage(stage)
+	__A__00000000_ := (&models.A{Name: `A09`}).Stage(stage)
 	__A__00000001_ := (&models.A{Name: `A6`}).Stage(stage)
 	__A__00000002_ := (&models.A{Name: `fff`}).Stage(stage)
 
@@ -58,7 +58,7 @@ func _(stage *models.Stage) {
 
 	// insertion point for initialization of values
 
-	__A__00000000_.Name = `A09xxx`
+	__A__00000000_.Name = `A09`
 	__A__00000000_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2022-01-01 00:00:00 +0000 UTC")
 	__A__00000000_.FloatValue = 14.500000
 	__A__00000000_.IntValue = 9
