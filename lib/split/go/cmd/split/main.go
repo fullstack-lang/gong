@@ -186,7 +186,7 @@ func main() {
 
 	{
 		cursorStackName := "cursor"
-		stackcursor := cursor_stack.NewStack(r, cursorStackName, "", "", "", *embeddedDiagrams, true)
+		stackcursor := cursor_stack.NewStack(r, cursorStackName, "", "", "", true, true)
 		cursorStage := stackcursor.Stage
 
 		cursor := (&cursor_models.Cursor{Name: "cursor"}).Stage(cursorStage)
@@ -205,7 +205,7 @@ func main() {
 		cursorStage.Commit()
 
 		svgStackName := "svg"
-		stacksvg := svg_stack.NewStack(r, svgStackName, "", "", "", *embeddedDiagrams, true)
+		stacksvg := svg_stack.NewStack(r, svgStackName, "", "", "", true, true)
 		svgStage := stacksvg.Stage
 
 		svg := (&svg_models.SVG{Name: "svg"}).Stage(svgStage)
