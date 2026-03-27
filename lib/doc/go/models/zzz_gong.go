@@ -2898,9 +2898,9 @@ func (gongnotelinkshape *GongNoteLinkShape) GongGetFieldHeaders() (res []GongFie
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "Type",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "NoteShapeLinkType",
 		},
 	}
 	return
@@ -3027,9 +3027,9 @@ func (linkshape *LinkShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "TargetMultiplicity",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "MultiplicityType",
 		},
 		{
 			Name:               "TargetMultiplicityOffsetX",
@@ -3040,9 +3040,9 @@ func (linkshape *LinkShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "SourceMultiplicity",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "MultiplicityType",
 		},
 		{
 			Name:               "SourceMultiplicityOffsetX",
@@ -3061,18 +3061,18 @@ func (linkshape *LinkShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "StartOrientation",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "OrientationType",
 		},
 		{
 			Name:               "StartRatio",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "EndOrientation",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "OrientationType",
 		},
 		{
 			Name:               "EndRatio",
