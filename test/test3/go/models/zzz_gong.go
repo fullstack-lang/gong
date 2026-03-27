@@ -33,15 +33,20 @@ var (
 )
 
 const (
-	ProbeTreeSidebarSuffix       = ":sidebar of the probe"
-	ProbeTableSuffix             = ":table of the probe"
-	ProbeNotificationTableSuffix = ":notification table of the probe"
-	ProbeFormSuffix              = ":form of the probe"
-	ProbeSplitSuffix             = ":probe of the probe"
+	ProbeTreeSidebarSuffix           = ":sidebar of the probe"
+	ProbeNavigationTreeSidebarSuffix = ":sidebar of the probe, navigation"
+	ProbeTableSuffix                 = ":table of the probe"
+	ProbeNotificationTableSuffix     = ":notification table of the probe"
+	ProbeFormSuffix                  = ":form of the probe"
+	ProbeSplitSuffix                 = ":probe of the probe"
 )
 
 func (stage *Stage) GetProbeTreeSidebarStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeTreeSidebarSuffix
+}
+
+func (stage *Stage) GetProbeNavigationTreeSidebarStageName() string {
+	return stage.GetType() + ":" + stage.GetName() + ProbeNavigationTreeSidebarSuffix
 }
 
 func (stage *Stage) GetProbeFormStageName() string {
@@ -112,7 +117,7 @@ type Stage struct {
 	A_stagedOrder     map[*A]uint
 	As_reference      map[*A]*A
 	As_referenceOrder map[*A]uint
-	
+
 	// insertion point for slice of pointers maps
 	A_Bs_reverseMap map[*B]*A
 
@@ -128,7 +133,7 @@ type Stage struct {
 	B_stagedOrder     map[*B]uint
 	Bs_reference      map[*B]*B
 	Bs_referenceOrder map[*B]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterBCreateCallback OnAfterCreateInterface[B]
 	OnAfterBUpdateCallback OnAfterUpdateInterface[B]
