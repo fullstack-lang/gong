@@ -14,6 +14,8 @@ export class AsSplitAPI {
 	Name: string = ""
 	Direction: string = ""
 	IsSizeInPixel: boolean = false
+	IsWithCustomGutterSize: boolean = false
+	GutterSize: number = 0
 
 	// insertion point for other decls
 

@@ -4732,6 +4732,14 @@ func (assplit *AsSplit) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:               "IsSizeInPixel",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
+		{
+			Name:               "IsWithCustomGutterSize",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "GutterSize",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
 	}
 	return
 }
@@ -5110,6 +5118,14 @@ func (view *View) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:               "IsSizeInPixel",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
+		{
+			Name:               "IsWithCustomGutterSize",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "GutterSize",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
 	}
 	return
 }
@@ -5206,6 +5222,14 @@ func (assplit *AsSplit) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%t", assplit.IsSizeInPixel)
 		res.valueBool = assplit.IsSizeInPixel
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsWithCustomGutterSize":
+		res.valueString = fmt.Sprintf("%t", assplit.IsWithCustomGutterSize)
+		res.valueBool = assplit.IsWithCustomGutterSize
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "GutterSize":
+		res.valueString = fmt.Sprintf("%f", assplit.GutterSize)
+		res.valueFloat = assplit.GutterSize
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	}
 	return
 }
@@ -5532,6 +5556,14 @@ func (view *View) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.valueString = fmt.Sprintf("%t", view.IsSizeInPixel)
 		res.valueBool = view.IsSizeInPixel
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsWithCustomGutterSize":
+		res.valueString = fmt.Sprintf("%t", view.IsWithCustomGutterSize)
+		res.valueBool = view.IsWithCustomGutterSize
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "GutterSize":
+		res.valueString = fmt.Sprintf("%f", view.GutterSize)
+		res.valueFloat = view.GutterSize
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	}
 	return
 }
@@ -5576,6 +5608,10 @@ func (assplit *AsSplit) GongSetFieldValue(fieldName string, value GongFieldValue
 		}
 	case "IsSizeInPixel":
 		assplit.IsSizeInPixel = value.GetValueBool()
+	case "IsWithCustomGutterSize":
+		assplit.IsWithCustomGutterSize = value.GetValueBool()
+	case "GutterSize":
+		assplit.GutterSize = value.GetValueFloat()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -5980,6 +6016,10 @@ func (view *View) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 		view.IsSecondatyView = value.GetValueBool()
 	case "IsSizeInPixel":
 		view.IsSizeInPixel = value.GetValueBool()
+	case "IsWithCustomGutterSize":
+		view.IsWithCustomGutterSize = value.GetValueBool()
+	case "GutterSize":
+		view.GutterSize = value.GetValueFloat()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

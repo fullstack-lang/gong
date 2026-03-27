@@ -101,6 +101,10 @@ func (assplitFormCallback *AsSplitFormCallback) OnSave() {
 
 		case "IsSizeInPixel":
 			FormDivBasicFieldToField(&(assplit_.IsSizeInPixel), formDiv)
+		case "IsWithCustomGutterSize":
+			FormDivBasicFieldToField(&(assplit_.IsWithCustomGutterSize), formDiv)
+		case "GutterSize":
+			FormDivBasicFieldToField(&(assplit_.GutterSize), formDiv)
 		}
 	}
 
@@ -1676,6 +1680,10 @@ func (viewFormCallback *ViewFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(view_.IsSecondatyView), formDiv)
 		case "IsSizeInPixel":
 			FormDivBasicFieldToField(&(view_.IsSizeInPixel), formDiv)
+		case "IsWithCustomGutterSize":
+			FormDivBasicFieldToField(&(view_.IsWithCustomGutterSize), formDiv)
+		case "GutterSize":
+			FormDivBasicFieldToField(&(view_.GutterSize), formDiv)
 		}
 	}
 

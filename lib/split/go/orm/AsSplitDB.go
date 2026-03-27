@@ -76,6 +76,13 @@ type AsSplitDB struct {
 	// provide the sql storage for the boolan
 	IsSizeInPixel_Data sql.NullBool
 
+	// Declation for basic field assplitDB.IsWithCustomGutterSize
+	// provide the sql storage for the boolan
+	IsWithCustomGutterSize_Data sql.NullBool
+
+	// Declation for basic field assplitDB.GutterSize
+	GutterSize_Data sql.NullFloat64
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	AsSplitPointersEncoding
@@ -103,6 +110,10 @@ type AsSplitWOP struct {
 	Direction models.Direction `xlsx:"2"`
 
 	IsSizeInPixel bool `xlsx:"3"`
+
+	IsWithCustomGutterSize bool `xlsx:"4"`
+
+	GutterSize float64 `xlsx:"5"`
 	// insertion for WOP pointer fields
 }
 
@@ -112,6 +123,8 @@ var AsSplit_Fields = []string{
 	"Name",
 	"Direction",
 	"IsSizeInPixel",
+	"IsWithCustomGutterSize",
+	"GutterSize",
 }
 
 type BackRepoAsSplitStruct struct {
@@ -422,6 +435,12 @@ func (assplitDB *AsSplitDB) CopyBasicFieldsFromAsSplit(assplit *models.AsSplit) 
 
 	assplitDB.IsSizeInPixel_Data.Bool = assplit.IsSizeInPixel
 	assplitDB.IsSizeInPixel_Data.Valid = true
+
+	assplitDB.IsWithCustomGutterSize_Data.Bool = assplit.IsWithCustomGutterSize
+	assplitDB.IsWithCustomGutterSize_Data.Valid = true
+
+	assplitDB.GutterSize_Data.Float64 = assplit.GutterSize
+	assplitDB.GutterSize_Data.Valid = true
 }
 
 // CopyBasicFieldsFromAsSplit_WOP
@@ -436,6 +455,12 @@ func (assplitDB *AsSplitDB) CopyBasicFieldsFromAsSplit_WOP(assplit *models.AsSpl
 
 	assplitDB.IsSizeInPixel_Data.Bool = assplit.IsSizeInPixel
 	assplitDB.IsSizeInPixel_Data.Valid = true
+
+	assplitDB.IsWithCustomGutterSize_Data.Bool = assplit.IsWithCustomGutterSize
+	assplitDB.IsWithCustomGutterSize_Data.Valid = true
+
+	assplitDB.GutterSize_Data.Float64 = assplit.GutterSize
+	assplitDB.GutterSize_Data.Valid = true
 }
 
 // CopyBasicFieldsFromAsSplitWOP
@@ -450,6 +475,12 @@ func (assplitDB *AsSplitDB) CopyBasicFieldsFromAsSplitWOP(assplit *AsSplitWOP) {
 
 	assplitDB.IsSizeInPixel_Data.Bool = assplit.IsSizeInPixel
 	assplitDB.IsSizeInPixel_Data.Valid = true
+
+	assplitDB.IsWithCustomGutterSize_Data.Bool = assplit.IsWithCustomGutterSize
+	assplitDB.IsWithCustomGutterSize_Data.Valid = true
+
+	assplitDB.GutterSize_Data.Float64 = assplit.GutterSize
+	assplitDB.GutterSize_Data.Valid = true
 }
 
 // CopyBasicFieldsToAsSplit
@@ -458,6 +489,8 @@ func (assplitDB *AsSplitDB) CopyBasicFieldsToAsSplit(assplit *models.AsSplit) {
 	assplit.Name = assplitDB.Name_Data.String
 	assplit.Direction.FromString(assplitDB.Direction_Data.String)
 	assplit.IsSizeInPixel = assplitDB.IsSizeInPixel_Data.Bool
+	assplit.IsWithCustomGutterSize = assplitDB.IsWithCustomGutterSize_Data.Bool
+	assplit.GutterSize = assplitDB.GutterSize_Data.Float64
 }
 
 // CopyBasicFieldsToAsSplit_WOP
@@ -466,6 +499,8 @@ func (assplitDB *AsSplitDB) CopyBasicFieldsToAsSplit_WOP(assplit *models.AsSplit
 	assplit.Name = assplitDB.Name_Data.String
 	assplit.Direction.FromString(assplitDB.Direction_Data.String)
 	assplit.IsSizeInPixel = assplitDB.IsSizeInPixel_Data.Bool
+	assplit.IsWithCustomGutterSize = assplitDB.IsWithCustomGutterSize_Data.Bool
+	assplit.GutterSize = assplitDB.GutterSize_Data.Float64
 }
 
 // CopyBasicFieldsToAsSplitWOP
@@ -475,6 +510,8 @@ func (assplitDB *AsSplitDB) CopyBasicFieldsToAsSplitWOP(assplit *AsSplitWOP) {
 	assplit.Name = assplitDB.Name_Data.String
 	assplit.Direction.FromString(assplitDB.Direction_Data.String)
 	assplit.IsSizeInPixel = assplitDB.IsSizeInPixel_Data.Bool
+	assplit.IsWithCustomGutterSize = assplitDB.IsWithCustomGutterSize_Data.Bool
+	assplit.GutterSize = assplitDB.GutterSize_Data.Float64
 }
 
 // Backup generates a json file from a slice of all AsSplitDB instances in the backrepo
