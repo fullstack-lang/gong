@@ -34,7 +34,7 @@ var (
 
 const (
 	ProbeTreeSidebarSuffix           = ":sidebar of the probe"
-	ProbeTreeNavigationSidebarSuffix = ":navigation sidebar of the probe"
+	ProbeNavigationTreeSidebarSuffix = ":sidebar of the probe, navigation"
 	ProbeTableSuffix                 = ":table of the probe"
 	ProbeNotificationTableSuffix     = ":notification table of the probe"
 	ProbeFormSuffix                  = ":form of the probe"
@@ -45,8 +45,8 @@ func (stage *Stage) GetProbeTreeSidebarStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeTreeSidebarSuffix
 }
 
-func (stage *Stage) GetProbeTreeNavigationSidebarStageName() string {
-	return stage.GetType() + ":" + stage.GetName() + ProbeTreeNavigationSidebarSuffix
+func (stage *Stage) GetProbeNavigationTreeSidebarStageName() string {
+	return stage.GetType() + ":" + stage.GetName() + ProbeNavigationTreeSidebarSuffix
 }
 
 func (stage *Stage) GetProbeFormStageName() string {

@@ -33,15 +33,20 @@ var (
 )
 
 const (
-	ProbeTreeSidebarSuffix       = ":sidebar of the probe"
-	ProbeTableSuffix             = ":table of the probe"
-	ProbeNotificationTableSuffix = ":notification table of the probe"
-	ProbeFormSuffix              = ":form of the probe"
-	ProbeSplitSuffix             = ":probe of the probe"
+	ProbeTreeSidebarSuffix           = ":sidebar of the probe"
+	ProbeNavigationTreeSidebarSuffix = ":sidebar of the probe, navigation"
+	ProbeTableSuffix                 = ":table of the probe"
+	ProbeNotificationTableSuffix     = ":notification table of the probe"
+	ProbeFormSuffix                  = ":form of the probe"
+	ProbeSplitSuffix                 = ":probe of the probe"
 )
 
 func (stage *Stage) GetProbeTreeSidebarStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeTreeSidebarSuffix
+}
+
+func (stage *Stage) GetProbeNavigationTreeSidebarStageName() string {
+	return stage.GetType() + ":" + stage.GetName() + ProbeNavigationTreeSidebarSuffix
 }
 
 func (stage *Stage) GetProbeFormStageName() string {
@@ -112,7 +117,7 @@ type Stage struct {
 	Body_stagedOrder     map[*Body]uint
 	Bodys_reference      map[*Body]*Body
 	Bodys_referenceOrder map[*Body]uint
-	
+
 	// insertion point for slice of pointers maps
 	Body_Paragraphs_reverseMap map[*Paragraph]*Body
 
@@ -130,7 +135,7 @@ type Stage struct {
 	Document_stagedOrder     map[*Document]uint
 	Documents_reference      map[*Document]*Document
 	Documents_referenceOrder map[*Document]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterDocumentCreateCallback OnAfterCreateInterface[Document]
 	OnAfterDocumentUpdateCallback OnAfterUpdateInterface[Document]
@@ -144,7 +149,7 @@ type Stage struct {
 	Docx_stagedOrder     map[*Docx]uint
 	Docxs_reference      map[*Docx]*Docx
 	Docxs_referenceOrder map[*Docx]uint
-	
+
 	// insertion point for slice of pointers maps
 	Docx_Files_reverseMap map[*File]*Docx
 
@@ -160,7 +165,7 @@ type Stage struct {
 	File_stagedOrder     map[*File]uint
 	Files_reference      map[*File]*File
 	Files_referenceOrder map[*File]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterFileCreateCallback OnAfterCreateInterface[File]
 	OnAfterFileUpdateCallback OnAfterUpdateInterface[File]
@@ -174,7 +179,7 @@ type Stage struct {
 	Node_stagedOrder     map[*Node]uint
 	Nodes_reference      map[*Node]*Node
 	Nodes_referenceOrder map[*Node]uint
-	
+
 	// insertion point for slice of pointers maps
 	Node_Nodes_reverseMap map[*Node]*Node
 
@@ -190,7 +195,7 @@ type Stage struct {
 	Paragraph_stagedOrder     map[*Paragraph]uint
 	Paragraphs_reference      map[*Paragraph]*Paragraph
 	Paragraphs_referenceOrder map[*Paragraph]uint
-	
+
 	// insertion point for slice of pointers maps
 	Paragraph_Runes_reverseMap map[*Rune]*Paragraph
 
@@ -206,7 +211,7 @@ type Stage struct {
 	ParagraphProperties_stagedOrder     map[*ParagraphProperties]uint
 	ParagraphPropertiess_reference      map[*ParagraphProperties]*ParagraphProperties
 	ParagraphPropertiess_referenceOrder map[*ParagraphProperties]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterParagraphPropertiesCreateCallback OnAfterCreateInterface[ParagraphProperties]
 	OnAfterParagraphPropertiesUpdateCallback OnAfterUpdateInterface[ParagraphProperties]
@@ -220,7 +225,7 @@ type Stage struct {
 	ParagraphStyle_stagedOrder     map[*ParagraphStyle]uint
 	ParagraphStyles_reference      map[*ParagraphStyle]*ParagraphStyle
 	ParagraphStyles_referenceOrder map[*ParagraphStyle]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterParagraphStyleCreateCallback OnAfterCreateInterface[ParagraphStyle]
 	OnAfterParagraphStyleUpdateCallback OnAfterUpdateInterface[ParagraphStyle]
@@ -234,7 +239,7 @@ type Stage struct {
 	Rune_stagedOrder     map[*Rune]uint
 	Runes_reference      map[*Rune]*Rune
 	Runes_referenceOrder map[*Rune]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterRuneCreateCallback OnAfterCreateInterface[Rune]
 	OnAfterRuneUpdateCallback OnAfterUpdateInterface[Rune]
@@ -248,7 +253,7 @@ type Stage struct {
 	RuneProperties_stagedOrder     map[*RuneProperties]uint
 	RunePropertiess_reference      map[*RuneProperties]*RuneProperties
 	RunePropertiess_referenceOrder map[*RuneProperties]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterRunePropertiesCreateCallback OnAfterCreateInterface[RuneProperties]
 	OnAfterRunePropertiesUpdateCallback OnAfterUpdateInterface[RuneProperties]
@@ -262,7 +267,7 @@ type Stage struct {
 	Table_stagedOrder     map[*Table]uint
 	Tables_reference      map[*Table]*Table
 	Tables_referenceOrder map[*Table]uint
-	
+
 	// insertion point for slice of pointers maps
 	Table_TableRows_reverseMap map[*TableRow]*Table
 
@@ -278,7 +283,7 @@ type Stage struct {
 	TableColumn_stagedOrder     map[*TableColumn]uint
 	TableColumns_reference      map[*TableColumn]*TableColumn
 	TableColumns_referenceOrder map[*TableColumn]uint
-	
+
 	// insertion point for slice of pointers maps
 	TableColumn_Paragraphs_reverseMap map[*Paragraph]*TableColumn
 
@@ -294,7 +299,7 @@ type Stage struct {
 	TableProperties_stagedOrder     map[*TableProperties]uint
 	TablePropertiess_reference      map[*TableProperties]*TableProperties
 	TablePropertiess_referenceOrder map[*TableProperties]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterTablePropertiesCreateCallback OnAfterCreateInterface[TableProperties]
 	OnAfterTablePropertiesUpdateCallback OnAfterUpdateInterface[TableProperties]
@@ -308,7 +313,7 @@ type Stage struct {
 	TableRow_stagedOrder     map[*TableRow]uint
 	TableRows_reference      map[*TableRow]*TableRow
 	TableRows_referenceOrder map[*TableRow]uint
-	
+
 	// insertion point for slice of pointers maps
 	TableRow_TableColumns_reverseMap map[*TableColumn]*TableRow
 
@@ -324,7 +329,7 @@ type Stage struct {
 	TableStyle_stagedOrder     map[*TableStyle]uint
 	TableStyles_reference      map[*TableStyle]*TableStyle
 	TableStyles_referenceOrder map[*TableStyle]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterTableStyleCreateCallback OnAfterCreateInterface[TableStyle]
 	OnAfterTableStyleUpdateCallback OnAfterUpdateInterface[TableStyle]
@@ -338,7 +343,7 @@ type Stage struct {
 	Text_stagedOrder     map[*Text]uint
 	Texts_reference      map[*Text]*Text
 	Texts_referenceOrder map[*Text]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterTextCreateCallback OnAfterCreateInterface[Text]
 	OnAfterTextUpdateCallback OnAfterUpdateInterface[Text]
