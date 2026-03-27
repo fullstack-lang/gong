@@ -2,6 +2,48 @@ package models
 
 import split "github.com/fullstack-lang/gong/lib/split/go/models"
 
+func (stager *Stager) sidebar() []*split.AsSplitArea {
+	if !stager.embeddedDiagrams {
+
+		return []*split.AsSplitArea{
+			{
+				Name:             "doc Tree",
+				ShowNameInHeader: false,
+				Size:             10,
+				Tree: &split.Tree{
+					StackName: stager.treeNavigationStage.GetName(),
+				},
+			},
+			{
+				Name:             "doc Tree",
+				ShowNameInHeader: false,
+				Size:             66,
+				Tree: &split.Tree{
+					StackName: stager.treeStage.GetName(),
+				},
+			},
+			{
+				Name: "temporary form stack",
+				Size: 24,
+				Form: &split.Form{
+					StackName: stager.formStage.GetName(),
+				},
+			},
+		}
+	} else {
+		return []*split.AsSplitArea{
+			{
+				Name:             "doc Tree",
+				ShowNameInHeader: false,
+				Size:             100,
+				Tree: &split.Tree{
+					StackName: stager.treeStage.GetName(),
+				},
+			},
+		}
+	}
+}
+
 func (stager *Stager) createViews(receivingAsSplitArea *split.AsSplitArea) {
 	receivingAsSplitArea.AsSplit = &split.AsSplit{
 		Name:      "Root As Split for doc receiving area",
@@ -16,32 +58,8 @@ func (stager *Stager) createViews(receivingAsSplitArea *split.AsSplitArea) {
 						{
 							Size: 25,
 							AsSplit: &split.AsSplit{
-								Direction: split.Vertical,
-								AsSplitAreas: []*split.AsSplitArea{
-									{
-										Name:             "doc Tree",
-										ShowNameInHeader: false,
-										Size:             10,
-										Tree: &split.Tree{
-											StackName: stager.treeNavigationStage.GetName(),
-										},
-									},
-									{
-										Name:             "doc Tree",
-										ShowNameInHeader: false,
-										Size:             66,
-										Tree: &split.Tree{
-											StackName: stager.treeStage.GetName(),
-										},
-									},
-									{
-										Name: "temporary form stack",
-										Size: 24,
-										Form: &split.Form{
-											StackName: stager.formStage.GetName(),
-										},
-									},
-								},
+								Direction:    split.Vertical,
+								AsSplitAreas: stager.sidebar(),
 							},
 						},
 						{
