@@ -492,6 +492,12 @@ map[GongFilePerStructSubTemplateId]string{
 			GongFieldValueType:   GongFieldValueTypeString,
 			TargetGongstructName: "{{AssocStructName}}",
 		},`,
+	GongFileFieldSubTmplStringHeaderFieldEnumInt: `
+		{
+			Name:                 "{{FieldName}}",
+			GongFieldValueType:   GongFieldValueTypeInt,
+			TargetGongstructName: "{{AssocStructName}}",
+		},`,
 	GongFileFieldSubTmplStringHeaderBasicKindField: `
 		{
 			Name:               "{{FieldName}}",
@@ -846,6 +852,11 @@ func CodeGeneratorModelGong(
 						fieldSetValues += models.Replace1(
 							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplSetEnumInt],
 							"{{FieldName}}", field.Name)
+						fieldHeaders += models.Replace2(
+							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringHeaderFieldEnumInt],
+							"{{AssocStructName}}", field.GongEnum.GetName(),
+							"{{FieldName}}", field.GetName(),
+						)
 					default:
 						fieldHeaders += models.Replace1(
 							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringHeaderBasicKindField],
