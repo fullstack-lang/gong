@@ -69,6 +69,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000007_ := (&models.GongStructShape{Name: `Default-LinkShape`}).Stage(stage)
 	__GongStructShape__00000008_ := (&models.GongStructShape{Name: `Default-GongNoteShape`}).Stage(stage)
 	__GongStructShape__00000010_ := (&models.GongStructShape{Name: `Default-DiagramPackage`}).Stage(stage)
+	__GongStructShape__00000011_ := (&models.GongStructShape{Name: `Default-AttributeShape`}).Stage(stage)
 
 	__LinkShape__00000000_ := (&models.LinkShape{Name: `GongNoteLinkShapes`}).Stage(stage)
 	__LinkShape__00000003_ := (&models.LinkShape{Name: `GongStructShapes`}).Stage(stage)
@@ -356,6 +357,14 @@ or to <a href="/models#OrientationType">models.OrientationType</a>
 	__GongStructShape__00000010_.Height = 103.000000
 	__GongStructShape__00000010_.IsSelected = false
 
+	__GongStructShape__00000011_.Name = `Default-AttributeShape`
+	__GongStructShape__00000011_.X = 41.000000
+	__GongStructShape__00000011_.Y = 12.000000
+	__GongStructShape__00000011_.IdentifierMeta = ref_models.AttributeShape{}
+	__GongStructShape__00000011_.Width = 240.000000
+	__GongStructShape__00000011_.Height = 63.000000
+	__GongStructShape__00000011_.IsSelected = false
+
 	__LinkShape__00000000_.Name = `GongNoteLinkShapes`
 	__LinkShape__00000000_.IdentifierMeta = ref_models.GongNoteShape{}.GongNoteLinkShapes
 	__LinkShape__00000000_.FieldTypeIdentifierMeta = ref_models.GongNoteLinkShape{}
@@ -477,6 +486,7 @@ or to <a href="/models#OrientationType">models.OrientationType</a>
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000007_)
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000008_)
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000010_)
+	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000011_)
 	__Classdiagram__00000000_.GongEnumShapes = append(__Classdiagram__00000000_.GongEnumShapes, __GongEnumShape__00000000_)
 	__Classdiagram__00000000_.GongNoteShapes = append(__Classdiagram__00000000_.GongNoteShapes, __GongNoteShape__00000000_)
 	__Classdiagram__00000002_.GongStructShapes = append(__Classdiagram__00000002_.GongStructShapes, __GongStructShape__00000002_)
