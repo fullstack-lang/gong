@@ -5588,14 +5588,14 @@ func (noteproductshape *NoteProductShape) GongGetFieldHeaders() (res []GongField
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "StartOrientation",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "OrientationType",
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "EndOrientation",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "OrientationType",
 		},
 		{
 			Name:               "CornerOffsetRatio",
@@ -5635,14 +5635,14 @@ func (noteresourceshape *NoteResourceShape) GongGetFieldHeaders() (res []GongFie
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "StartOrientation",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "OrientationType",
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "EndOrientation",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "OrientationType",
 		},
 		{
 			Name:               "CornerOffsetRatio",
@@ -5722,14 +5722,14 @@ func (notetaskshape *NoteTaskShape) GongGetFieldHeaders() (res []GongFieldHeader
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "StartOrientation",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "OrientationType",
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "EndOrientation",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "OrientationType",
 		},
 		{
 			Name:               "CornerOffsetRatio",
@@ -5804,14 +5804,14 @@ func (productcompositionshape *ProductCompositionShape) GongGetFieldHeaders() (r
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "StartOrientation",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "OrientationType",
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "EndOrientation",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "OrientationType",
 		},
 		{
 			Name:               "CornerOffsetRatio",
@@ -5923,14 +5923,14 @@ func (resourcecompositionshape *ResourceCompositionShape) GongGetFieldHeaders() 
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "StartOrientation",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "OrientationType",
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "EndOrientation",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "OrientationType",
 		},
 		{
 			Name:               "CornerOffsetRatio",
@@ -6010,14 +6010,14 @@ func (resourcetaskshape *ResourceTaskShape) GongGetFieldHeaders() (res []GongFie
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "StartOrientation",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "OrientationType",
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "EndOrientation",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "OrientationType",
 		},
 		{
 			Name:               "CornerOffsetRatio",
@@ -6090,9 +6090,9 @@ func (task *Task) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "Completion",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "CompletionEnum",
 		},
 	}
 	return
@@ -6119,14 +6119,14 @@ func (taskcompositionshape *TaskCompositionShape) GongGetFieldHeaders() (res []G
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "StartOrientation",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "OrientationType",
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "EndOrientation",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "OrientationType",
 		},
 		{
 			Name:               "CornerOffsetRatio",
@@ -6166,14 +6166,14 @@ func (taskinputshape *TaskInputShape) GongGetFieldHeaders() (res []GongFieldHead
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "StartOrientation",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "OrientationType",
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "EndOrientation",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "OrientationType",
 		},
 		{
 			Name:               "CornerOffsetRatio",
@@ -6213,14 +6213,14 @@ func (taskoutputshape *TaskOutputShape) GongGetFieldHeaders() (res []GongFieldHe
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "StartOrientation",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "OrientationType",
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "EndOrientation",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "OrientationType",
 		},
 		{
 			Name:               "CornerOffsetRatio",

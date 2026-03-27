@@ -2012,6 +2012,15 @@ func (assplit *AsSplit) GongDiff(stage *Stage, assplitOther *AsSplit) (diffs []s
 		ops := Diff(stage, assplit, assplitOther, "AsSplitAreas", assplitOther.AsSplitAreas, assplit.AsSplitAreas)
 		diffs = append(diffs, ops)
 	}
+	if assplit.IsSizeInPixel != assplitOther.IsSizeInPixel {
+		diffs = append(diffs, assplit.GongMarshallField(stage, "IsSizeInPixel"))
+	}
+	if assplit.IsWithCustomGutterSize != assplitOther.IsWithCustomGutterSize {
+		diffs = append(diffs, assplit.GongMarshallField(stage, "IsWithCustomGutterSize"))
+	}
+	if assplit.GutterSize != assplitOther.GutterSize {
+		diffs = append(diffs, assplit.GongMarshallField(stage, "GutterSize"))
+	}
 
 	return
 }
@@ -2397,6 +2406,15 @@ func (view *View) GongDiff(stage *Stage, viewOther *View) (diffs []string) {
 	}
 	if view.IsSecondatyView != viewOther.IsSecondatyView {
 		diffs = append(diffs, view.GongMarshallField(stage, "IsSecondatyView"))
+	}
+	if view.IsSizeInPixel != viewOther.IsSizeInPixel {
+		diffs = append(diffs, view.GongMarshallField(stage, "IsSizeInPixel"))
+	}
+	if view.IsWithCustomGutterSize != viewOther.IsWithCustomGutterSize {
+		diffs = append(diffs, view.GongMarshallField(stage, "IsWithCustomGutterSize"))
+	}
+	if view.GutterSize != viewOther.GutterSize {
+		diffs = append(diffs, view.GongMarshallField(stage, "GutterSize"))
 	}
 
 	return

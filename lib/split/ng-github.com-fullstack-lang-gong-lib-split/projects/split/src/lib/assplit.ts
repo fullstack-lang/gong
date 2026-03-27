@@ -18,6 +18,9 @@ export class AsSplit {
 	// insertion point for basic fields declarations
 	Name: string = ""
 	Direction: string = ""
+	IsSizeInPixel: boolean = false
+	IsWithCustomGutterSize: boolean = false
+	GutterSize: number = 0
 
 	// insertion point for pointers and slices of pointers declarations
 	AsSplitAreas: Array<AsSplitArea> = []
@@ -35,6 +38,9 @@ export function CopyAsSplitToAsSplitAPI(assplit: AsSplit, assplitAPI: AsSplitAPI
 	// insertion point for basic fields copy operations
 	assplitAPI.Name = assplit.Name
 	assplitAPI.Direction = assplit.Direction
+	assplitAPI.IsSizeInPixel = assplit.IsSizeInPixel
+	assplitAPI.IsWithCustomGutterSize = assplit.IsWithCustomGutterSize
+	assplitAPI.GutterSize = assplit.GutterSize
 
 	// insertion point for pointer fields encoding
 
@@ -59,6 +65,9 @@ export function CopyAsSplitAPIToAsSplit(assplitAPI: AsSplitAPI, assplit: AsSplit
 	// insertion point for basic fields copy operations
 	assplit.Name = assplitAPI.Name
 	assplit.Direction = assplitAPI.Direction
+	assplit.IsSizeInPixel = assplitAPI.IsSizeInPixel
+	assplit.IsWithCustomGutterSize = assplitAPI.IsWithCustomGutterSize
+	assplit.GutterSize = assplitAPI.GutterSize
 
 	// insertion point for pointer fields encoding
 

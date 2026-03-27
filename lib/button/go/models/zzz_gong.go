@@ -1882,19 +1882,19 @@ func (button *Button) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "Color",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "MatButtonPaletteType",
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "MatButtonType",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "MatButtonType",
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "MatButtonAppearance",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "MatButtonAppearance",
 		},
 	}
 	return

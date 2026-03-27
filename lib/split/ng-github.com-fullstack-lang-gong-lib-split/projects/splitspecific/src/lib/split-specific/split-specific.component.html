@@ -59,7 +59,7 @@
         </as-split-area>
     }
     <as-split-area [size]="$any('*')">
-        <as-split [direction]="asSplitDirection(view_.Direction)">
+        <as-split [direction]="asSplitDirection(view_.Direction)" [unit]="view_.IsSizeInPixel ? 'pixel' : 'percent'" [gutterSize]="view_.IsWithCustomGutterSize ? view_.GutterSize : null">
             @for (asSplitArea of view_.RootAsSplitAreas; track asSplitArea) {
             <as-split-area [size]="asSplitArea.IsAny ? $any('*') : asSplitArea.Size">
                 @if (asSplitArea.HasDiv) {
@@ -115,7 +115,7 @@
         <lib-tree-specific [Name]="area.Tree.StackName"></lib-tree-specific>
     }
     @if (area.AsSplit) {
-        <as-split [direction]="area.AsSplit.Direction">
+        <as-split [direction]="area.AsSplit.Direction" [unit]="area.AsSplit.IsSizeInPixel ? 'pixel' : 'percent'" [gutterSize]="area.AsSplit.IsWithCustomGutterSize ? area.AsSplit.GutterSize : null">
             @for (asSplitArea of area.AsSplit.AsSplitAreas; track asSplitArea) {
             <as-split-area [size]="asSplitArea.IsAny ? $any('*') : asSplitArea.Size">
                 @if (asSplitArea.HasDiv) {
