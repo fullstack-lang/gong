@@ -33,15 +33,20 @@ var (
 )
 
 const (
-	ProbeTreeSidebarSuffix       = ":sidebar of the probe"
-	ProbeTableSuffix             = ":table of the probe"
-	ProbeNotificationTableSuffix = ":notification table of the probe"
-	ProbeFormSuffix              = ":form of the probe"
-	ProbeSplitSuffix             = ":probe of the probe"
+	ProbeTreeSidebarSuffix           = ":sidebar of the probe"
+	ProbeNavigationTreeSidebarSuffix = ":sidebar of the probe, navigation"
+	ProbeTableSuffix                 = ":table of the probe"
+	ProbeNotificationTableSuffix     = ":notification table of the probe"
+	ProbeFormSuffix                  = ":form of the probe"
+	ProbeSplitSuffix                 = ":probe of the probe"
 )
 
 func (stage *Stage) GetProbeTreeSidebarStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeTreeSidebarSuffix
+}
+
+func (stage *Stage) GetProbeNavigationTreeSidebarStageName() string {
+	return stage.GetType() + ":" + stage.GetName() + ProbeNavigationTreeSidebarSuffix
 }
 
 func (stage *Stage) GetProbeFormStageName() string {
@@ -112,7 +117,7 @@ type Stage struct {
 	ArtefactType_stagedOrder     map[*ArtefactType]uint
 	ArtefactTypes_reference      map[*ArtefactType]*ArtefactType
 	ArtefactTypes_referenceOrder map[*ArtefactType]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterArtefactTypeCreateCallback OnAfterCreateInterface[ArtefactType]
 	OnAfterArtefactTypeUpdateCallback OnAfterUpdateInterface[ArtefactType]
@@ -126,7 +131,7 @@ type Stage struct {
 	ArtefactTypeShape_stagedOrder     map[*ArtefactTypeShape]uint
 	ArtefactTypeShapes_reference      map[*ArtefactTypeShape]*ArtefactTypeShape
 	ArtefactTypeShapes_referenceOrder map[*ArtefactTypeShape]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterArtefactTypeShapeCreateCallback OnAfterCreateInterface[ArtefactTypeShape]
 	OnAfterArtefactTypeShapeUpdateCallback OnAfterUpdateInterface[ArtefactTypeShape]
@@ -140,7 +145,7 @@ type Stage struct {
 	Artist_stagedOrder     map[*Artist]uint
 	Artists_reference      map[*Artist]*Artist
 	Artists_referenceOrder map[*Artist]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterArtistCreateCallback OnAfterCreateInterface[Artist]
 	OnAfterArtistUpdateCallback OnAfterUpdateInterface[Artist]
@@ -154,7 +159,7 @@ type Stage struct {
 	ArtistShape_stagedOrder     map[*ArtistShape]uint
 	ArtistShapes_reference      map[*ArtistShape]*ArtistShape
 	ArtistShapes_referenceOrder map[*ArtistShape]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterArtistShapeCreateCallback OnAfterCreateInterface[ArtistShape]
 	OnAfterArtistShapeUpdateCallback OnAfterUpdateInterface[ArtistShape]
@@ -168,7 +173,7 @@ type Stage struct {
 	ControlPointShape_stagedOrder     map[*ControlPointShape]uint
 	ControlPointShapes_reference      map[*ControlPointShape]*ControlPointShape
 	ControlPointShapes_referenceOrder map[*ControlPointShape]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterControlPointShapeCreateCallback OnAfterCreateInterface[ControlPointShape]
 	OnAfterControlPointShapeUpdateCallback OnAfterUpdateInterface[ControlPointShape]
@@ -182,7 +187,7 @@ type Stage struct {
 	Desk_stagedOrder     map[*Desk]uint
 	Desks_reference      map[*Desk]*Desk
 	Desks_referenceOrder map[*Desk]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterDeskCreateCallback OnAfterCreateInterface[Desk]
 	OnAfterDeskUpdateCallback OnAfterUpdateInterface[Desk]
@@ -196,7 +201,7 @@ type Stage struct {
 	Diagram_stagedOrder     map[*Diagram]uint
 	Diagrams_reference      map[*Diagram]*Diagram
 	Diagrams_referenceOrder map[*Diagram]uint
-	
+
 	// insertion point for slice of pointers maps
 	Diagram_MovementShapes_reverseMap map[*MovementShape]*Diagram
 
@@ -218,7 +223,7 @@ type Stage struct {
 	Influence_stagedOrder     map[*Influence]uint
 	Influences_reference      map[*Influence]*Influence
 	Influences_referenceOrder map[*Influence]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterInfluenceCreateCallback OnAfterCreateInterface[Influence]
 	OnAfterInfluenceUpdateCallback OnAfterUpdateInterface[Influence]
@@ -232,7 +237,7 @@ type Stage struct {
 	InfluenceShape_stagedOrder     map[*InfluenceShape]uint
 	InfluenceShapes_reference      map[*InfluenceShape]*InfluenceShape
 	InfluenceShapes_referenceOrder map[*InfluenceShape]uint
-	
+
 	// insertion point for slice of pointers maps
 	InfluenceShape_ControlPointShapes_reverseMap map[*ControlPointShape]*InfluenceShape
 
@@ -248,7 +253,7 @@ type Stage struct {
 	Movement_stagedOrder     map[*Movement]uint
 	Movements_reference      map[*Movement]*Movement
 	Movements_referenceOrder map[*Movement]uint
-	
+
 	// insertion point for slice of pointers maps
 	Movement_Places_reverseMap map[*Place]*Movement
 
@@ -264,7 +269,7 @@ type Stage struct {
 	MovementShape_stagedOrder     map[*MovementShape]uint
 	MovementShapes_reference      map[*MovementShape]*MovementShape
 	MovementShapes_referenceOrder map[*MovementShape]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterMovementShapeCreateCallback OnAfterCreateInterface[MovementShape]
 	OnAfterMovementShapeUpdateCallback OnAfterUpdateInterface[MovementShape]
@@ -278,7 +283,7 @@ type Stage struct {
 	Place_stagedOrder     map[*Place]uint
 	Places_reference      map[*Place]*Place
 	Places_referenceOrder map[*Place]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterPlaceCreateCallback OnAfterCreateInterface[Place]
 	OnAfterPlaceUpdateCallback OnAfterUpdateInterface[Place]

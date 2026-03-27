@@ -31,6 +31,7 @@ type Probe struct {
 	stageOfInterest        *models.Stage
 	gongStage              *gong_models.Stage
 	treeStage              *tree_models.Stage
+	treeNavigationStage    *tree_models.Stage
 	formStage              *form.Stage
 	tableStage             *form.Stage
 	notificationTableStage *form.Stage
@@ -87,6 +88,7 @@ func NewProbe(
 
 	// treeForSelectingDate that is on the sidebar
 	treeStage, _ := gongtree_fullstack.NewStackInstance(r, stageOfInterest.GetProbeTreeSidebarStageName())
+	treeNavigationStage, _ := gongtree_fullstack.NewStackInstance(r, stageOfInterest.GetProbeNavigationTreeSidebarStageName())
 
 	// stage for main table
 	tableStage, _ := gongtable_fullstack.NewStackInstance(r, stageOfInterest.GetProbeTableStageName())
@@ -104,6 +106,7 @@ func NewProbe(
 		stageOfInterest:                stageOfInterest,
 		gongStage:                      stage,
 		treeStage:                      treeStage,
+		treeNavigationStage:            treeNavigationStage,
 		formStage:                      formStage,
 		tableStage:                     tableStage,
 		notificationTableStage:         notificationTableStage,
@@ -138,13 +141,31 @@ func NewProbe(
 		Direction: split.Horizontal,
 		AsSplitAreas: []*split.AsSplitArea{
 			{
-				Name: "sidebar tree",
+				Name: "sidebar",
 				Size: 20,
-				Tree: &split.Tree{
-					Name:      "Sidebar",
-					StackName: probe.treeStage.GetName(),
+				AsSplit: &split.AsSplit{
+					Direction: split.Vertical,
+					AsSplitAreas: []*split.AsSplitArea{
+						{
+							Name: "sidebar tree",
+							Size: 10,
+							Tree: &split.Tree{
+								Name:      "Sidebar",
+								StackName: probe.treeNavigationStage.GetName(),
+							},
+						},
+						{
+							Name: "sidebar tree",
+							Size: 90,
+							Tree: &split.Tree{
+								Name:      "Sidebar",
+								StackName: probe.treeStage.GetName(),
+							},
+						},
+					},
 				},
 			},
+
 			{
 				Name: "both tables",
 				Size: 50,

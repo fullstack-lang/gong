@@ -33,15 +33,20 @@ var (
 )
 
 const (
-	ProbeTreeSidebarSuffix       = ":sidebar of the probe"
-	ProbeTableSuffix             = ":table of the probe"
-	ProbeNotificationTableSuffix = ":notification table of the probe"
-	ProbeFormSuffix              = ":form of the probe"
-	ProbeSplitSuffix             = ":probe of the probe"
+	ProbeTreeSidebarSuffix           = ":sidebar of the probe"
+	ProbeNavigationTreeSidebarSuffix = ":sidebar of the probe, navigation"
+	ProbeTableSuffix                 = ":table of the probe"
+	ProbeNotificationTableSuffix     = ":notification table of the probe"
+	ProbeFormSuffix                  = ":form of the probe"
+	ProbeSplitSuffix                 = ":probe of the probe"
 )
 
 func (stage *Stage) GetProbeTreeSidebarStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeTreeSidebarSuffix
+}
+
+func (stage *Stage) GetProbeNavigationTreeSidebarStageName() string {
+	return stage.GetType() + ":" + stage.GetName() + ProbeNavigationTreeSidebarSuffix
 }
 
 func (stage *Stage) GetProbeFormStageName() string {
@@ -112,7 +117,7 @@ type Stage struct {
 	Cell_stagedOrder     map[*Cell]uint
 	Cells_reference      map[*Cell]*Cell
 	Cells_referenceOrder map[*Cell]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterCellCreateCallback OnAfterCreateInterface[Cell]
 	OnAfterCellUpdateCallback OnAfterUpdateInterface[Cell]
@@ -126,7 +131,7 @@ type Stage struct {
 	CellBoolean_stagedOrder     map[*CellBoolean]uint
 	CellBooleans_reference      map[*CellBoolean]*CellBoolean
 	CellBooleans_referenceOrder map[*CellBoolean]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterCellBooleanCreateCallback OnAfterCreateInterface[CellBoolean]
 	OnAfterCellBooleanUpdateCallback OnAfterUpdateInterface[CellBoolean]
@@ -140,7 +145,7 @@ type Stage struct {
 	CellFloat64_stagedOrder     map[*CellFloat64]uint
 	CellFloat64s_reference      map[*CellFloat64]*CellFloat64
 	CellFloat64s_referenceOrder map[*CellFloat64]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterCellFloat64CreateCallback OnAfterCreateInterface[CellFloat64]
 	OnAfterCellFloat64UpdateCallback OnAfterUpdateInterface[CellFloat64]
@@ -154,7 +159,7 @@ type Stage struct {
 	CellIcon_stagedOrder     map[*CellIcon]uint
 	CellIcons_reference      map[*CellIcon]*CellIcon
 	CellIcons_referenceOrder map[*CellIcon]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterCellIconCreateCallback OnAfterCreateInterface[CellIcon]
 	OnAfterCellIconUpdateCallback OnAfterUpdateInterface[CellIcon]
@@ -168,7 +173,7 @@ type Stage struct {
 	CellInt_stagedOrder     map[*CellInt]uint
 	CellInts_reference      map[*CellInt]*CellInt
 	CellInts_referenceOrder map[*CellInt]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterCellIntCreateCallback OnAfterCreateInterface[CellInt]
 	OnAfterCellIntUpdateCallback OnAfterUpdateInterface[CellInt]
@@ -182,7 +187,7 @@ type Stage struct {
 	CellString_stagedOrder     map[*CellString]uint
 	CellStrings_reference      map[*CellString]*CellString
 	CellStrings_referenceOrder map[*CellString]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterCellStringCreateCallback OnAfterCreateInterface[CellString]
 	OnAfterCellStringUpdateCallback OnAfterUpdateInterface[CellString]
@@ -196,7 +201,7 @@ type Stage struct {
 	CheckBox_stagedOrder     map[*CheckBox]uint
 	CheckBoxs_reference      map[*CheckBox]*CheckBox
 	CheckBoxs_referenceOrder map[*CheckBox]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterCheckBoxCreateCallback OnAfterCreateInterface[CheckBox]
 	OnAfterCheckBoxUpdateCallback OnAfterUpdateInterface[CheckBox]
@@ -210,7 +215,7 @@ type Stage struct {
 	DisplayedColumn_stagedOrder     map[*DisplayedColumn]uint
 	DisplayedColumns_reference      map[*DisplayedColumn]*DisplayedColumn
 	DisplayedColumns_referenceOrder map[*DisplayedColumn]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterDisplayedColumnCreateCallback OnAfterCreateInterface[DisplayedColumn]
 	OnAfterDisplayedColumnUpdateCallback OnAfterUpdateInterface[DisplayedColumn]
@@ -224,7 +229,7 @@ type Stage struct {
 	FormDiv_stagedOrder     map[*FormDiv]uint
 	FormDivs_reference      map[*FormDiv]*FormDiv
 	FormDivs_referenceOrder map[*FormDiv]uint
-	
+
 	// insertion point for slice of pointers maps
 	FormDiv_FormFields_reverseMap map[*FormField]*FormDiv
 
@@ -242,7 +247,7 @@ type Stage struct {
 	FormEditAssocButton_stagedOrder     map[*FormEditAssocButton]uint
 	FormEditAssocButtons_reference      map[*FormEditAssocButton]*FormEditAssocButton
 	FormEditAssocButtons_referenceOrder map[*FormEditAssocButton]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterFormEditAssocButtonCreateCallback OnAfterCreateInterface[FormEditAssocButton]
 	OnAfterFormEditAssocButtonUpdateCallback OnAfterUpdateInterface[FormEditAssocButton]
@@ -256,7 +261,7 @@ type Stage struct {
 	FormField_stagedOrder     map[*FormField]uint
 	FormFields_reference      map[*FormField]*FormField
 	FormFields_referenceOrder map[*FormField]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterFormFieldCreateCallback OnAfterCreateInterface[FormField]
 	OnAfterFormFieldUpdateCallback OnAfterUpdateInterface[FormField]
@@ -270,7 +275,7 @@ type Stage struct {
 	FormFieldDate_stagedOrder     map[*FormFieldDate]uint
 	FormFieldDates_reference      map[*FormFieldDate]*FormFieldDate
 	FormFieldDates_referenceOrder map[*FormFieldDate]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterFormFieldDateCreateCallback OnAfterCreateInterface[FormFieldDate]
 	OnAfterFormFieldDateUpdateCallback OnAfterUpdateInterface[FormFieldDate]
@@ -284,7 +289,7 @@ type Stage struct {
 	FormFieldDateTime_stagedOrder     map[*FormFieldDateTime]uint
 	FormFieldDateTimes_reference      map[*FormFieldDateTime]*FormFieldDateTime
 	FormFieldDateTimes_referenceOrder map[*FormFieldDateTime]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterFormFieldDateTimeCreateCallback OnAfterCreateInterface[FormFieldDateTime]
 	OnAfterFormFieldDateTimeUpdateCallback OnAfterUpdateInterface[FormFieldDateTime]
@@ -298,7 +303,7 @@ type Stage struct {
 	FormFieldFloat64_stagedOrder     map[*FormFieldFloat64]uint
 	FormFieldFloat64s_reference      map[*FormFieldFloat64]*FormFieldFloat64
 	FormFieldFloat64s_referenceOrder map[*FormFieldFloat64]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterFormFieldFloat64CreateCallback OnAfterCreateInterface[FormFieldFloat64]
 	OnAfterFormFieldFloat64UpdateCallback OnAfterUpdateInterface[FormFieldFloat64]
@@ -312,7 +317,7 @@ type Stage struct {
 	FormFieldInt_stagedOrder     map[*FormFieldInt]uint
 	FormFieldInts_reference      map[*FormFieldInt]*FormFieldInt
 	FormFieldInts_referenceOrder map[*FormFieldInt]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterFormFieldIntCreateCallback OnAfterCreateInterface[FormFieldInt]
 	OnAfterFormFieldIntUpdateCallback OnAfterUpdateInterface[FormFieldInt]
@@ -326,7 +331,7 @@ type Stage struct {
 	FormFieldSelect_stagedOrder     map[*FormFieldSelect]uint
 	FormFieldSelects_reference      map[*FormFieldSelect]*FormFieldSelect
 	FormFieldSelects_referenceOrder map[*FormFieldSelect]uint
-	
+
 	// insertion point for slice of pointers maps
 	FormFieldSelect_Options_reverseMap map[*Option]*FormFieldSelect
 
@@ -342,7 +347,7 @@ type Stage struct {
 	FormFieldString_stagedOrder     map[*FormFieldString]uint
 	FormFieldStrings_reference      map[*FormFieldString]*FormFieldString
 	FormFieldStrings_referenceOrder map[*FormFieldString]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterFormFieldStringCreateCallback OnAfterCreateInterface[FormFieldString]
 	OnAfterFormFieldStringUpdateCallback OnAfterUpdateInterface[FormFieldString]
@@ -356,7 +361,7 @@ type Stage struct {
 	FormFieldTime_stagedOrder     map[*FormFieldTime]uint
 	FormFieldTimes_reference      map[*FormFieldTime]*FormFieldTime
 	FormFieldTimes_referenceOrder map[*FormFieldTime]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterFormFieldTimeCreateCallback OnAfterCreateInterface[FormFieldTime]
 	OnAfterFormFieldTimeUpdateCallback OnAfterUpdateInterface[FormFieldTime]
@@ -370,7 +375,7 @@ type Stage struct {
 	FormGroup_stagedOrder     map[*FormGroup]uint
 	FormGroups_reference      map[*FormGroup]*FormGroup
 	FormGroups_referenceOrder map[*FormGroup]uint
-	
+
 	// insertion point for slice of pointers maps
 	FormGroup_FormDivs_reverseMap map[*FormDiv]*FormGroup
 
@@ -386,7 +391,7 @@ type Stage struct {
 	FormSortAssocButton_stagedOrder     map[*FormSortAssocButton]uint
 	FormSortAssocButtons_reference      map[*FormSortAssocButton]*FormSortAssocButton
 	FormSortAssocButtons_referenceOrder map[*FormSortAssocButton]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterFormSortAssocButtonCreateCallback OnAfterCreateInterface[FormSortAssocButton]
 	OnAfterFormSortAssocButtonUpdateCallback OnAfterUpdateInterface[FormSortAssocButton]
@@ -400,7 +405,7 @@ type Stage struct {
 	Option_stagedOrder     map[*Option]uint
 	Options_reference      map[*Option]*Option
 	Options_referenceOrder map[*Option]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterOptionCreateCallback OnAfterCreateInterface[Option]
 	OnAfterOptionUpdateCallback OnAfterUpdateInterface[Option]
@@ -414,7 +419,7 @@ type Stage struct {
 	Row_stagedOrder     map[*Row]uint
 	Rows_reference      map[*Row]*Row
 	Rows_referenceOrder map[*Row]uint
-	
+
 	// insertion point for slice of pointers maps
 	Row_Cells_reverseMap map[*Cell]*Row
 
@@ -430,7 +435,7 @@ type Stage struct {
 	Table_stagedOrder     map[*Table]uint
 	Tables_reference      map[*Table]*Table
 	Tables_referenceOrder map[*Table]uint
-	
+
 	// insertion point for slice of pointers maps
 	Table_DisplayedColumns_reverseMap map[*DisplayedColumn]*Table
 

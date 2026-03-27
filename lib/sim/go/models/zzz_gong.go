@@ -33,15 +33,20 @@ var (
 )
 
 const (
-	ProbeTreeSidebarSuffix       = ":sidebar of the probe"
-	ProbeTableSuffix             = ":table of the probe"
-	ProbeNotificationTableSuffix = ":notification table of the probe"
-	ProbeFormSuffix              = ":form of the probe"
-	ProbeSplitSuffix             = ":probe of the probe"
+	ProbeTreeSidebarSuffix           = ":sidebar of the probe"
+	ProbeNavigationTreeSidebarSuffix = ":sidebar of the probe, navigation"
+	ProbeTableSuffix                 = ":table of the probe"
+	ProbeNotificationTableSuffix     = ":notification table of the probe"
+	ProbeFormSuffix                  = ":form of the probe"
+	ProbeSplitSuffix                 = ":probe of the probe"
 )
 
 func (stage *Stage) GetProbeTreeSidebarStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeTreeSidebarSuffix
+}
+
+func (stage *Stage) GetProbeNavigationTreeSidebarStageName() string {
+	return stage.GetType() + ":" + stage.GetName() + ProbeNavigationTreeSidebarSuffix
 }
 
 func (stage *Stage) GetProbeFormStageName() string {
@@ -112,7 +117,7 @@ type Stage struct {
 	Command_stagedOrder     map[*Command]uint
 	Commands_reference      map[*Command]*Command
 	Commands_referenceOrder map[*Command]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterCommandCreateCallback OnAfterCreateInterface[Command]
 	OnAfterCommandUpdateCallback OnAfterUpdateInterface[Command]
@@ -126,7 +131,7 @@ type Stage struct {
 	DummyAgent_stagedOrder     map[*DummyAgent]uint
 	DummyAgents_reference      map[*DummyAgent]*DummyAgent
 	DummyAgents_referenceOrder map[*DummyAgent]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterDummyAgentCreateCallback OnAfterCreateInterface[DummyAgent]
 	OnAfterDummyAgentUpdateCallback OnAfterUpdateInterface[DummyAgent]
@@ -140,7 +145,7 @@ type Stage struct {
 	Engine_stagedOrder     map[*Engine]uint
 	Engines_reference      map[*Engine]*Engine
 	Engines_referenceOrder map[*Engine]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterEngineCreateCallback OnAfterCreateInterface[Engine]
 	OnAfterEngineUpdateCallback OnAfterUpdateInterface[Engine]
@@ -154,7 +159,7 @@ type Stage struct {
 	Event_stagedOrder     map[*Event]uint
 	Events_reference      map[*Event]*Event
 	Events_referenceOrder map[*Event]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterEventCreateCallback OnAfterCreateInterface[Event]
 	OnAfterEventUpdateCallback OnAfterUpdateInterface[Event]
@@ -168,7 +173,7 @@ type Stage struct {
 	Status_stagedOrder     map[*Status]uint
 	Statuss_reference      map[*Status]*Status
 	Statuss_referenceOrder map[*Status]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterStatusCreateCallback OnAfterCreateInterface[Status]
 	OnAfterStatusUpdateCallback OnAfterUpdateInterface[Status]
@@ -182,7 +187,7 @@ type Stage struct {
 	UpdateState_stagedOrder     map[*UpdateState]uint
 	UpdateStates_reference      map[*UpdateState]*UpdateState
 	UpdateStates_referenceOrder map[*UpdateState]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterUpdateStateCreateCallback OnAfterCreateInterface[UpdateState]
 	OnAfterUpdateStateUpdateCallback OnAfterUpdateInterface[UpdateState]
