@@ -67,6 +67,7 @@ const (
 	ModelGongNamedStructSortedOrderInstances
 
 	ModelGongStructResetHard
+	ModelGongStructInsertionClearReferences
 
 	ModelGongStructInsertionsNb
 )
@@ -389,6 +390,11 @@ func ({{structname}} *{{Structname}}) SetName(name string) {
 	} else {
 		stage.{{Structname}}Order = 0
 	}
+`,
+	ModelGongStructInsertionClearReferences: `
+	stage.{{Structname}}s_reference = make(map[*{{Structname}}]*{{Structname}})
+	stage.{{Structname}}s_instance = make(map[*{{Structname}}]*{{Structname}})
+	stage.{{Structname}}s_referenceOrder = make(map[*{{Structname}}]uint)
 `,
 }
 

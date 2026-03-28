@@ -22,6 +22,24 @@ The project originated during the development of music generation software. Whil
 Consider the following mode code:
 
 ```go
+package models
+
+type Hello struct {
+	Name      string
+	HelloType HelloType
+}
+type HelloType string
+
+const (
+	Casual HelloType = "Casual"
+	Formal HelloType = "Formal"
+)
+
+type Country struct {
+  Name string
+  Hello *Hello
+  AlternateHellos []*Hello
+}
 ```
 
 and consider the following data code
