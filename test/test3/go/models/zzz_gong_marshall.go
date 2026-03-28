@@ -115,6 +115,16 @@ func (stage *Stage) MarshallFile(filename, modelsPackageName, packageName string
 
 		content := string(contentBytes)
 
+		if stage.isSquashing {
+			// we squash: we want to clear the current function body
+			// and let the append logic write the squashed commit
+			firstBrace := strings.Index(content, "func _(stage *models.Stage) {")
+			if firstBrace != -1 {
+				firstBrace += len("func _(stage *models.Stage) {")
+				content = content[:firstBrace] + "\n}"
+			}
+		}
+
 		if stage.isApplyingBackwardCommit {
 			// we are going backward, we need to remove the last forward commit from the file
 
@@ -136,12 +146,22 @@ func (stage *Stage) MarshallFile(filename, modelsPackageName, packageName string
 					log.Fatal(err.Error())
 				}
 			} else {
-				log.Printf("Could not find commit to remove in file %s", filename)
+				// The commit block was not found. This typically happens for the initial
+				// commit which is formatted differently (the lines after func _(stage *models.Stage) {).
+				// We rewrite the entire file with the current (rewound) stage state to safely remove it.
+				file, createErr := os.Create(filename)
+				if createErr != nil {
+					log.Fatal(createErr.Error())
+				}
+				defer file.Close()
+				stage.Marshall(file, modelsPackageName, packageName)
 			}
 			return // we are done for the backward case
 		}
 
-		if !stage.modified {
+		if stage.isApplyingForwardCommit {
+			// bypass the modified check
+		} else if !stage.modified {
 			return
 		}
 
@@ -149,7 +169,12 @@ func (stage *Stage) MarshallFile(filename, modelsPackageName, packageName string
 		if len(forwardCommits) == 0 {
 			return // nothing to do
 		}
-		forwardCommit := forwardCommits[len(forwardCommits)-1]
+
+		activeCommits := len(forwardCommits) - stage.GetCommitsBehind()
+		if activeCommits <= 0 {
+			return
+		}
+		forwardCommit := forwardCommits[activeCommits-1]
 
 		// append before the ending brace of the func
 		lastBrace := strings.LastIndex(content, "}")
