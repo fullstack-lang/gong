@@ -33,15 +33,30 @@ var (
 )
 
 const (
-	ProbeTreeSidebarSuffix       = ":sidebar of the probe"
-	ProbeTableSuffix             = ":table of the probe"
-	ProbeNotificationTableSuffix = ":notification table of the probe"
-	ProbeFormSuffix              = ":form of the probe"
-	ProbeSplitSuffix             = ":probe of the probe"
+	ProbeTreeSidebarSuffix           = ":sidebar of the probe"
+	ProbeNavigationTreeSidebarSuffix = ":sidebar of the probe, navigation"
+	ProbeTableSuffix                 = ":table of the probe"
+	ProbeNotificationTableSuffix     = ":notification table of the probe"
+	ProbeFormSuffix                  = ":form of the probe"
+	ProbeSplitSuffix                 = ":probe of the probe"
+)
+
+type GongMarshallingMode string
+
+const (
+	// the whole stage is generated at each marshall. This is the default
+	GongMarshallingNormal GongMarshallingMode = "GongMarshallingNormal"
+
+	// only the last commit is append to the marshall file
+	GongMarshallingAppendCommit GongMarshallingMode = "GongMarshallingAppendCommit"
 )
 
 func (stage *Stage) GetProbeTreeSidebarStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeTreeSidebarSuffix
+}
+
+func (stage *Stage) GetProbeNavigationTreeSidebarStageName() string {
+	return stage.GetType() + ":" + stage.GetName() + ProbeNavigationTreeSidebarSuffix
 }
 
 func (stage *Stage) GetProbeFormStageName() string {
@@ -104,6 +119,9 @@ type Stage struct {
 	// succesive commit
 	isInDeltaMode bool
 
+	// GongMarshallingMode set the marshalling mode
+	GongMarshallingMode GongMarshallingMode
+
 	// insertion point for definition of arrays registering instances
 	Actions                map[*Action]struct{}
 	Actions_instance       map[*Action]*Action
@@ -112,7 +130,7 @@ type Stage struct {
 	Action_stagedOrder     map[*Action]uint
 	Actions_reference      map[*Action]*Action
 	Actions_referenceOrder map[*Action]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterActionCreateCallback OnAfterCreateInterface[Action]
 	OnAfterActionUpdateCallback OnAfterUpdateInterface[Action]
@@ -126,7 +144,7 @@ type Stage struct {
 	Activities_stagedOrder     map[*Activities]uint
 	Activitiess_reference      map[*Activities]*Activities
 	Activitiess_referenceOrder map[*Activities]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterActivitiesCreateCallback OnAfterCreateInterface[Activities]
 	OnAfterActivitiesUpdateCallback OnAfterUpdateInterface[Activities]
@@ -140,7 +158,7 @@ type Stage struct {
 	Architecture_stagedOrder     map[*Architecture]uint
 	Architectures_reference      map[*Architecture]*Architecture
 	Architectures_referenceOrder map[*Architecture]uint
-	
+
 	// insertion point for slice of pointers maps
 	Architecture_StateMachines_reverseMap map[*StateMachine]*Architecture
 
@@ -158,7 +176,7 @@ type Stage struct {
 	Diagram_stagedOrder     map[*Diagram]uint
 	Diagrams_reference      map[*Diagram]*Diagram
 	Diagrams_referenceOrder map[*Diagram]uint
-	
+
 	// insertion point for slice of pointers maps
 	Diagram_State_Shapes_reverseMap map[*StateShape]*Diagram
 
@@ -178,7 +196,7 @@ type Stage struct {
 	Guard_stagedOrder     map[*Guard]uint
 	Guards_reference      map[*Guard]*Guard
 	Guards_referenceOrder map[*Guard]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterGuardCreateCallback OnAfterCreateInterface[Guard]
 	OnAfterGuardUpdateCallback OnAfterUpdateInterface[Guard]
@@ -192,7 +210,7 @@ type Stage struct {
 	Kill_stagedOrder     map[*Kill]uint
 	Kills_reference      map[*Kill]*Kill
 	Kills_referenceOrder map[*Kill]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterKillCreateCallback OnAfterCreateInterface[Kill]
 	OnAfterKillUpdateCallback OnAfterUpdateInterface[Kill]
@@ -206,7 +224,7 @@ type Stage struct {
 	Message_stagedOrder     map[*Message]uint
 	Messages_reference      map[*Message]*Message
 	Messages_referenceOrder map[*Message]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterMessageCreateCallback OnAfterCreateInterface[Message]
 	OnAfterMessageUpdateCallback OnAfterUpdateInterface[Message]
@@ -220,7 +238,7 @@ type Stage struct {
 	MessageType_stagedOrder     map[*MessageType]uint
 	MessageTypes_reference      map[*MessageType]*MessageType
 	MessageTypes_referenceOrder map[*MessageType]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterMessageTypeCreateCallback OnAfterCreateInterface[MessageType]
 	OnAfterMessageTypeUpdateCallback OnAfterUpdateInterface[MessageType]
@@ -234,7 +252,7 @@ type Stage struct {
 	Object_stagedOrder     map[*Object]uint
 	Objects_reference      map[*Object]*Object
 	Objects_referenceOrder map[*Object]uint
-	
+
 	// insertion point for slice of pointers maps
 	Object_Messages_reverseMap map[*Message]*Object
 
@@ -250,7 +268,7 @@ type Stage struct {
 	Role_stagedOrder     map[*Role]uint
 	Roles_reference      map[*Role]*Role
 	Roles_referenceOrder map[*Role]uint
-	
+
 	// insertion point for slice of pointers maps
 	Role_RolesWithSamePermissions_reverseMap map[*Role]*Role
 
@@ -266,7 +284,7 @@ type Stage struct {
 	State_stagedOrder     map[*State]uint
 	States_reference      map[*State]*State
 	States_referenceOrder map[*State]uint
-	
+
 	// insertion point for slice of pointers maps
 	State_SubStates_reverseMap map[*State]*State
 
@@ -286,7 +304,7 @@ type Stage struct {
 	StateMachine_stagedOrder     map[*StateMachine]uint
 	StateMachines_reference      map[*StateMachine]*StateMachine
 	StateMachines_referenceOrder map[*StateMachine]uint
-	
+
 	// insertion point for slice of pointers maps
 	StateMachine_States_reverseMap map[*State]*StateMachine
 
@@ -304,7 +322,7 @@ type Stage struct {
 	StateShape_stagedOrder     map[*StateShape]uint
 	StateShapes_reference      map[*StateShape]*StateShape
 	StateShapes_referenceOrder map[*StateShape]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterStateShapeCreateCallback OnAfterCreateInterface[StateShape]
 	OnAfterStateShapeUpdateCallback OnAfterUpdateInterface[StateShape]
@@ -318,7 +336,7 @@ type Stage struct {
 	Transition_stagedOrder     map[*Transition]uint
 	Transitions_reference      map[*Transition]*Transition
 	Transitions_referenceOrder map[*Transition]uint
-	
+
 	// insertion point for slice of pointers maps
 	Transition_RolesWithPermissions_reverseMap map[*Role]*Transition
 
@@ -338,7 +356,7 @@ type Stage struct {
 	Transition_Shape_stagedOrder     map[*Transition_Shape]uint
 	Transition_Shapes_reference      map[*Transition_Shape]*Transition_Shape
 	Transition_Shapes_referenceOrder map[*Transition_Shape]uint
-	
+
 	// insertion point for slice of pointers maps
 	OnAfterTransition_ShapeCreateCallback OnAfterCreateInterface[Transition_Shape]
 	OnAfterTransition_ShapeUpdateCallback OnAfterUpdateInterface[Transition_Shape]
@@ -394,7 +412,21 @@ type Stage struct {
 	navigationMode gongStageNavigationMode
 	commitsBehind  int // the number of commits the stage is behind the front of the history
 
+	isApplyingBackwardCommit bool
+	isApplyingForwardCommit  bool
+	isSquashing              bool
+
+	modified bool
+
 	lock sync.RWMutex
+}
+
+func (s *Stage) SetGongMarshallingMode(mode GongMarshallingMode) {
+	s.GongMarshallingMode = mode
+}
+
+func (s *Stage) GetGongMarshallingMode() GongMarshallingMode {
+	return s.GongMarshallingMode
 }
 
 // RegisterBeforeCommit adds a hook that runs before the commit happens
@@ -442,7 +474,9 @@ func (stage *Stage) ApplyBackwardCommit() error {
 	// therefore, it is important to stage.commitsBehind before because it is used in the
 	// UX
 	stage.commitsBehind++
+	stage.isApplyingBackwardCommit = true
 	err := GongParseAstString(stage, commitToApply, true)
+	stage.isApplyingBackwardCommit = false
 	if err != nil {
 		log.Println("error during ApplyBackwardCommit: ", err)
 		return err
@@ -480,7 +514,9 @@ func (stage *Stage) ApplyForwardCommit() error {
 	// therefore, it is important to stage.commitsBehind before because it is used in the
 	// UX
 	stage.commitsBehind--
+	stage.isApplyingForwardCommit = true
 	err := GongParseAstString(stage, commitToApply, true)
+	stage.isApplyingForwardCommit = false
 	if err != nil {
 		log.Println("error during ApplyForwardCommit: ", err)
 		return err
@@ -540,12 +576,76 @@ func (stage *Stage) ResetHard() {
 	}
 }
 
-// Orphans removes all commits
-func (stage *Stage) Orphans() {
+// Squash removes all commits and marshals the stage as a single commit
+func (stage *Stage) Squash() {
 	stage.forwardCommits = stage.forwardCommits[:0]
 	stage.backwardCommits = stage.backwardCommits[:0]
 	stage.commitsBehind = 0
 	stage.navigationMode = GongNavigationModeNormal
+
+	stage.modified = true
+	stage.isSquashing = true
+
+	// insertion point for clear references
+	stage.Actions_reference = make(map[*Action]*Action)
+	stage.Actions_instance = make(map[*Action]*Action)
+	stage.Actions_referenceOrder = make(map[*Action]uint)
+
+	stage.Activitiess_reference = make(map[*Activities]*Activities)
+	stage.Activitiess_instance = make(map[*Activities]*Activities)
+	stage.Activitiess_referenceOrder = make(map[*Activities]uint)
+
+	stage.Architectures_reference = make(map[*Architecture]*Architecture)
+	stage.Architectures_instance = make(map[*Architecture]*Architecture)
+	stage.Architectures_referenceOrder = make(map[*Architecture]uint)
+
+	stage.Diagrams_reference = make(map[*Diagram]*Diagram)
+	stage.Diagrams_instance = make(map[*Diagram]*Diagram)
+	stage.Diagrams_referenceOrder = make(map[*Diagram]uint)
+
+	stage.Guards_reference = make(map[*Guard]*Guard)
+	stage.Guards_instance = make(map[*Guard]*Guard)
+	stage.Guards_referenceOrder = make(map[*Guard]uint)
+
+	stage.Kills_reference = make(map[*Kill]*Kill)
+	stage.Kills_instance = make(map[*Kill]*Kill)
+	stage.Kills_referenceOrder = make(map[*Kill]uint)
+
+	stage.Messages_reference = make(map[*Message]*Message)
+	stage.Messages_instance = make(map[*Message]*Message)
+	stage.Messages_referenceOrder = make(map[*Message]uint)
+
+	stage.MessageTypes_reference = make(map[*MessageType]*MessageType)
+	stage.MessageTypes_instance = make(map[*MessageType]*MessageType)
+	stage.MessageTypes_referenceOrder = make(map[*MessageType]uint)
+
+	stage.Objects_reference = make(map[*Object]*Object)
+	stage.Objects_instance = make(map[*Object]*Object)
+	stage.Objects_referenceOrder = make(map[*Object]uint)
+
+	stage.Roles_reference = make(map[*Role]*Role)
+	stage.Roles_instance = make(map[*Role]*Role)
+	stage.Roles_referenceOrder = make(map[*Role]uint)
+
+	stage.States_reference = make(map[*State]*State)
+	stage.States_instance = make(map[*State]*State)
+	stage.States_referenceOrder = make(map[*State]uint)
+
+	stage.StateMachines_reference = make(map[*StateMachine]*StateMachine)
+	stage.StateMachines_instance = make(map[*StateMachine]*StateMachine)
+	stage.StateMachines_referenceOrder = make(map[*StateMachine]uint)
+
+	stage.StateShapes_reference = make(map[*StateShape]*StateShape)
+	stage.StateShapes_instance = make(map[*StateShape]*StateShape)
+	stage.StateShapes_referenceOrder = make(map[*StateShape]uint)
+
+	stage.Transitions_reference = make(map[*Transition]*Transition)
+	stage.Transitions_instance = make(map[*Transition]*Transition)
+	stage.Transitions_referenceOrder = make(map[*Transition]uint)
+
+	stage.Transition_Shapes_reference = make(map[*Transition_Shape]*Transition_Shape)
+	stage.Transition_Shapes_instance = make(map[*Transition_Shape]*Transition_Shape)
+	stage.Transition_Shapes_referenceOrder = make(map[*Transition_Shape]uint)
 
 	stage.ComputeInstancesNb()
 	if stage.OnInitCommitCallback != nil {
@@ -564,6 +664,8 @@ func (stage *Stage) Orphans() {
 	for _, hook := range stage.afterCommitHooks {
 		hook(stage)
 	}
+
+	stage.isSquashing = false
 }
 
 // recomputeOrders recomputes the next order for each struct
@@ -837,6 +939,8 @@ func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order ma
 	return
 }
 
+// GetStructInstancesByOrderAuto returns a slice of generic pointers to gongstructs
+// ordered by their order in the stage.
 func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T) {
 	var t T
 	switch any(t).(type) {
@@ -4136,9 +4240,9 @@ func (action *Action) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "Criticality",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "Criticality",
 		},
 	}
 	return
@@ -4152,9 +4256,9 @@ func (activities *Activities) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "Criticality",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "Criticality",
 		},
 	}
 	return
@@ -4531,14 +4635,14 @@ func (transition_shape *Transition_Shape) GongGetFieldHeaders() (res []GongField
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "StartOrientation",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "OrientationType",
 		},
 		{
-			Name:                 "EnumString",
+			Name:                 "EndOrientation",
 			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "EnumTypeString",
+			TargetGongstructName: "OrientationType",
 		},
 		{
 			Name:               "CornerOffsetRatio",

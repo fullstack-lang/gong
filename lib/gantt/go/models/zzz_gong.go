@@ -41,6 +41,16 @@ const (
 	ProbeSplitSuffix                 = ":probe of the probe"
 )
 
+type GongMarshallingMode string
+
+const (
+	// the whole stage is generated at each marshall. This is the default
+	GongMarshallingNormal GongMarshallingMode = "GongMarshallingNormal"
+
+	// only the last commit is append to the marshall file
+	GongMarshallingAppendCommit GongMarshallingMode = "GongMarshallingAppendCommit"
+)
+
 func (stage *Stage) GetProbeTreeSidebarStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeTreeSidebarSuffix
 }
@@ -108,6 +118,9 @@ type Stage struct {
 	// isInDeltaMode is true when the stage is used to compute difference between
 	// succesive commit
 	isInDeltaMode bool
+
+	// GongMarshallingMode set the marshalling mode
+	GongMarshallingMode GongMarshallingMode
 
 	// insertion point for definition of arrays registering instances
 	Arrows                map[*Arrow]struct{}
@@ -271,7 +284,21 @@ type Stage struct {
 	navigationMode gongStageNavigationMode
 	commitsBehind  int // the number of commits the stage is behind the front of the history
 
+	isApplyingBackwardCommit bool
+	isApplyingForwardCommit  bool
+	isSquashing              bool
+
+	modified bool
+
 	lock sync.RWMutex
+}
+
+func (s *Stage) SetGongMarshallingMode(mode GongMarshallingMode) {
+	s.GongMarshallingMode = mode
+}
+
+func (s *Stage) GetGongMarshallingMode() GongMarshallingMode {
+	return s.GongMarshallingMode
 }
 
 // RegisterBeforeCommit adds a hook that runs before the commit happens
@@ -319,7 +346,9 @@ func (stage *Stage) ApplyBackwardCommit() error {
 	// therefore, it is important to stage.commitsBehind before because it is used in the
 	// UX
 	stage.commitsBehind++
+	stage.isApplyingBackwardCommit = true
 	err := GongParseAstString(stage, commitToApply, true)
+	stage.isApplyingBackwardCommit = false
 	if err != nil {
 		log.Println("error during ApplyBackwardCommit: ", err)
 		return err
@@ -357,7 +386,9 @@ func (stage *Stage) ApplyForwardCommit() error {
 	// therefore, it is important to stage.commitsBehind before because it is used in the
 	// UX
 	stage.commitsBehind--
+	stage.isApplyingForwardCommit = true
 	err := GongParseAstString(stage, commitToApply, true)
+	stage.isApplyingForwardCommit = false
 	if err != nil {
 		log.Println("error during ApplyForwardCommit: ", err)
 		return err
@@ -417,12 +448,44 @@ func (stage *Stage) ResetHard() {
 	}
 }
 
-// Orphans removes all commits
-func (stage *Stage) Orphans() {
+// Squash removes all commits and marshals the stage as a single commit
+func (stage *Stage) Squash() {
 	stage.forwardCommits = stage.forwardCommits[:0]
 	stage.backwardCommits = stage.backwardCommits[:0]
 	stage.commitsBehind = 0
 	stage.navigationMode = GongNavigationModeNormal
+
+	stage.modified = true
+	stage.isSquashing = true
+
+	// insertion point for clear references
+	stage.Arrows_reference = make(map[*Arrow]*Arrow)
+	stage.Arrows_instance = make(map[*Arrow]*Arrow)
+	stage.Arrows_referenceOrder = make(map[*Arrow]uint)
+
+	stage.Bars_reference = make(map[*Bar]*Bar)
+	stage.Bars_instance = make(map[*Bar]*Bar)
+	stage.Bars_referenceOrder = make(map[*Bar]uint)
+
+	stage.Gantts_reference = make(map[*Gantt]*Gantt)
+	stage.Gantts_instance = make(map[*Gantt]*Gantt)
+	stage.Gantts_referenceOrder = make(map[*Gantt]uint)
+
+	stage.Groups_reference = make(map[*Group]*Group)
+	stage.Groups_instance = make(map[*Group]*Group)
+	stage.Groups_referenceOrder = make(map[*Group]uint)
+
+	stage.Lanes_reference = make(map[*Lane]*Lane)
+	stage.Lanes_instance = make(map[*Lane]*Lane)
+	stage.Lanes_referenceOrder = make(map[*Lane]uint)
+
+	stage.LaneUses_reference = make(map[*LaneUse]*LaneUse)
+	stage.LaneUses_instance = make(map[*LaneUse]*LaneUse)
+	stage.LaneUses_referenceOrder = make(map[*LaneUse]uint)
+
+	stage.Milestones_reference = make(map[*Milestone]*Milestone)
+	stage.Milestones_instance = make(map[*Milestone]*Milestone)
+	stage.Milestones_referenceOrder = make(map[*Milestone]uint)
 
 	stage.ComputeInstancesNb()
 	if stage.OnInitCommitCallback != nil {
@@ -441,6 +504,8 @@ func (stage *Stage) Orphans() {
 	for _, hook := range stage.afterCommitHooks {
 		hook(stage)
 	}
+
+	stage.isSquashing = false
 }
 
 // recomputeOrders recomputes the next order for each struct
