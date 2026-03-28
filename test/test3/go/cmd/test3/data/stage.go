@@ -157,31 +157,7 @@ func _(stage *models.Stage) {
 	__A__00000000_.Name = `A09ee`
 	stage.Commit()
 
-	// A09ee
-	__A__00000000_.Name = `A09ee`
-	stage.Commit()
-
-	// A09ee
-	__A__00000000_.Name = `A09ee`
-	stage.Commit()
-
-	// A09ee
-	__A__00000000_.Name = `A09ee`
-	stage.Commit()
-
-	// A09ee
-	__A__00000000_.Name = `A09ee`
-	stage.Commit()
-
-	// A09ee
-	__A__00000000_.Name = `A09ee`
-	stage.Commit()
-
-	// A09ee
-	__A__00000000_.Name = `A09ee`
-	stage.Commit()
-
-	// A09ee
-	__A__00000000_.Name = `A09ee`
+	// A09iii
+	__A__00000000_.Name = `A09iii`
 	stage.Commit()
 }
