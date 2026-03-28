@@ -49,9 +49,6 @@ const (
 
 	// only the last commit is append to the marshall file
 	GongMarshallingAppendCommit GongMarshallingMode = "GongMarshallingAppendCommit"
-
-	// like GongMarshallingAppendCommit except when ApplyBackward where the last commit is trimmed from the marshalled file
-	GongMarshallingAppendCommitAndTrimWhenBackward GongMarshallingMode = "GongMarshallingAppendCommitAndTrimWhenBackward"
 )
 
 func (stage *Stage) GetProbeTreeSidebarStageName() string {
