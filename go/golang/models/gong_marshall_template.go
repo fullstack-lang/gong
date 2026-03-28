@@ -92,6 +92,131 @@ func ToRawStringLiteral(s string) string {
 	return result
 }
 
+// MarshallFile marshall the stage content into a file as an instanciation into a stage
+// according to the marshalling policy of the stage.
+//
+// In GongMarshallingAppendCommit mode, it will append the last commit to the file.
+// In other modes, it will rewrite the entire file.
+func (stage *Stage) MarshallFile(filename, modelsPackageName, packageName string) {
+
+	if stage.GongMarshallingMode == GongMarshallingAppendCommit {
+		contentBytes, err := os.ReadFile(filename)
+
+		// if the file does not exist, marshall the full stage
+		if os.IsNotExist(err) {
+			file, createErr := os.Create(filename)
+			if createErr != nil {
+				log.Fatal(createErr.Error())
+			}
+			defer file.Close()
+			stage.Marshall(file, modelsPackageName, packageName)
+			return
+		}
+		if err != nil {
+			log.Fatal(err.Error())
+		}
+
+		content := string(contentBytes)
+
+		if stage.isSquashing {
+			// we squash: we want to clear the current function body
+			// and let the append logic write the squashed commit
+			firstBrace := strings.Index(content, "func _(stage *models.Stage) {")
+			if firstBrace != -1 {
+				firstBrace += len("func _(stage *models.Stage) {")
+				content = content[:firstBrace] + "\n}"
+			}
+		}
+
+		if stage.isApplyingBackwardCommit {
+			// we are going backward, we need to remove the last forward commit from the file
+
+			// because commitsBehind has been incremented before the call to this function
+			// the index of the commit to remove is len(forwardCommits) - commitsBehind
+			commitIndexToRemove := len(stage.forwardCommits) - stage.GetCommitsBehind()
+
+			if commitIndexToRemove < 0 || commitIndexToRemove >= len(stage.forwardCommits) {
+				return // Should not happen if history is consistent
+			}
+
+			commitToRemove := stage.forwardCommits[commitIndexToRemove]
+
+			lastIndex := strings.LastIndex(content, commitToRemove)
+			if lastIndex != -1 {
+				newContent := content[:lastIndex] + content[lastIndex+len(commitToRemove):]
+				err = os.WriteFile(filename, []byte(newContent), 0644)
+				if err != nil {
+					log.Fatal(err.Error())
+				}
+			} else {
+				// The commit block was not found. This typically happens for the initial
+				// commit which is formatted differently (the lines after func _(stage *models.Stage) {).
+				// We rewrite the entire file with the current (rewound) stage state to safely remove it.
+				file, createErr := os.Create(filename)
+				if createErr != nil {
+					log.Fatal(createErr.Error())
+				}
+				defer file.Close()
+				stage.Marshall(file, modelsPackageName, packageName)
+			}
+			return // we are done for the backward case
+		}
+
+		if stage.isApplyingForwardCommit {
+			// bypass the modified check
+		} else if !stage.modified {
+			return
+		}
+
+		forwardCommits := stage.GetForwardCommits()
+		if len(forwardCommits) == 0 {
+			return // nothing to do
+		}
+
+		activeCommits := len(forwardCommits) - stage.GetCommitsBehind()
+		if activeCommits <= 0 {
+			return
+		}
+		forwardCommit := forwardCommits[activeCommits-1]
+
+		// append before the ending brace of the func
+		lastBrace := strings.LastIndex(content, "}")
+		if lastBrace == -1 {
+			// if no brace, something is wrong with the file, so we rewrite it
+			file, createErr := os.Create(filename)
+			if createErr != nil {
+				log.Fatal(createErr.Error())
+			}
+			defer file.Close()
+			stage.Marshall(file, modelsPackageName, packageName)
+			return
+		}
+
+		contentBeforeBrace := content[:lastBrace]
+		// check if the file ends with stage.Commit() before the brace
+		if !strings.HasSuffix(strings.TrimSpace(contentBeforeBrace), "stage.Commit()") {
+			contentBeforeBrace = contentBeforeBrace + "\n\tstage.Commit()\n"
+		}
+
+		// insert the commit statements before the last brace
+		newContent := contentBeforeBrace + forwardCommit + "\n" + content[lastBrace:]
+
+		err = os.WriteFile(filename, []byte(newContent), 0644)
+		if err != nil {
+			log.Fatal(err.Error())
+		}
+
+	} else {
+		file, err := os.Create(filename)
+		if err != nil {
+			log.Fatal(err.Error())
+		}
+		defer file.Close()
+
+		stage.Marshall(file, modelsPackageName, packageName)
+	}
+}
+
 // Marshall marshall the stage content into the file as an instanciation into a stage
 func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName string) {
 

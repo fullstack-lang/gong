@@ -62,7 +62,6 @@ package level1stack
 import (
 	"fmt"
 	"log"
-	"os"
 	"strings"
 
 	"{{PkgPathRoot}}/models"
@@ -86,24 +85,23 @@ func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.Stage) {
 ` + stackInstanceTemplateEpilogue
 
 const stackInstanceTemplateEpilogue = `
+	if stage.GetGongMarshallingMode() == models.GongMarshallingAppendCommit {
+		stage.ComputeForwardAndBackwardCommits()
+		stage.ComputeReferenceAndOrders()
+	}
+
 	// the ".go" is not provided
 	filename := impl.marshallOnCommit
 	if !strings.HasSuffix(filename, ".go") {
 		filename = filename + ".go"
 	}
 
-	file, err := os.Create(fmt.Sprintf("./%s", filename))
-	if err != nil {
-		log.Fatal(err.Error())
-	}
-	defer file.Close()
-
 	packageName := impl.packageName
 	if packageName == "" {
 		packageName = "main"
 	}
 
-	stage.Marshall(file, "{{PkgPathRoot}}/models", packageName)
+	stage.MarshallFile(fmt.Sprintf("./%s", filename), "{{PkgPathRoot}}/models", packageName)
 }
 
 type Level1Stack struct {
