@@ -89,6 +89,72 @@ func ToRawStringLiteral(s string) string {
 	return result
 }
 
+// MarshallFile marshall the stage content into a file as an instanciation into a stage
+// according to the marshalling policy of the stage.
+//
+// In GongMarshallingAppendCommit mode, it will append the last commit to the file.
+// In other modes, it will rewrite the entire file.
+func (stage *Stage) MarshallFile(filename, modelsPackageName, packageName string) {
+
+	if stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
+
+		forwardCommits := stage.GetForwardCommits()
+		if len(forwardCommits) == 0 {
+			return // nothing to do
+		}
+		forwardCommit := forwardCommits[len(forwardCommits)-1]
+
+		// read the file
+		contentBytes, err := os.ReadFile(filename)
+
+		// if the file does not exist, marshall the full stage
+		if os.IsNotExist(err) {
+			file, createErr := os.Create(filename)
+			if createErr != nil {
+				log.Fatal(createErr.Error())
+			}
+			defer file.Close()
+			stage.Marshall(file, modelsPackageName, packageName)
+			return
+		}
+		if err != nil {
+			log.Fatal(err.Error())
+		}
+
+		content := string(contentBytes)
+
+		// append before the ending brace of the func
+		lastBrace := strings.LastIndex(content, "}")
+		if lastBrace == -1 {
+			// if no brace, something is wrong with the file, so we rewrite it
+			file, createErr := os.Create(filename)
+			if createErr != nil {
+				log.Fatal(createErr.Error())
+			}
+			defer file.Close()
+			stage.Marshall(file, modelsPackageName, packageName)
+			return
+		}
+
+		// insert the commit statements before the last brace
+		newContent := content[:lastBrace] + forwardCommit + "\n" + content[lastBrace:]
+
+		err = os.WriteFile(filename, []byte(newContent), 0644)
+		if err != nil {
+			log.Fatal(err.Error())
+		}
+
+	} else {
+		file, err := os.Create(filename)
+		if err != nil {
+			log.Fatal(err.Error())
+		}
+		defer file.Close()
+
+		stage.Marshall(file, modelsPackageName, packageName)
+	}
+}
+
 // Marshall marshall the stage content into the file as an instanciation into a stage
 func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName string) {
 
