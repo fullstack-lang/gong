@@ -152,16 +152,4 @@ func _(stage *models.Stage) {
 	__A__00000002_.Bs = append(__A__00000002_.Bs, __B__00000004_)
 
 	stage.Commit()
-
-	// A09xxx
-	__A__00000000_.Name = `A09xxx`
-	stage.Commit()
-
-	// A09xxx
-	__A__00000000_.Name = `A09xxx`
-	stage.Commit()
-
-	// A09xxx
-	__A__00000000_.Name = `A09xxx`
-	stage.Commit()
 }
