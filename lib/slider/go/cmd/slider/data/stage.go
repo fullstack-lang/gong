@@ -1,6 +1,7 @@
 package main
 
 import (
+	"slices"
 	"time"
 
 	"github.com/fullstack-lang/gong/lib/slider/go/models"
@@ -10,6 +11,7 @@ import (
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
 var _ time.Time
+var _ = slices.Index[[]int, int]
 
 // _ point for meta package dummy declaration{{ImportPackageDummyDeclaration}}
 
@@ -69,4 +71,3 @@ func _(stage *models.Stage) {
 	__Layout__000000_layout.Groups = append(__Layout__000000_layout.Groups, __Group__000000_group_1)
 	// setup of Slider instances pointers
 }
-

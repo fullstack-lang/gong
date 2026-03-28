@@ -1,6 +1,7 @@
 package main
 
 import (
+	"slices"
 	"time"
 
 	"github.com/fullstack-lang/gong/test/test3/go/models"
@@ -10,6 +11,7 @@ import (
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
 var _ time.Time
+var _ = slices.Index[[]int, int]
 
 // _ point for meta package dummy declaration{{ImportPackageDummyDeclaration}}
 
@@ -22,8 +24,6 @@ var _ map[string]any = map[string]any{
 func _(stage *models.Stage) {
 
 	stage.Commit()
-
-
 
 	__A__00000000_ := (&models.A{Name: `A09iii`}).Stage(stage)
 	__A__00000001_ := (&models.A{Name: `A6`}).Stage(stage)
