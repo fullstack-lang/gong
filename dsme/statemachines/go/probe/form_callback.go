@@ -97,7 +97,7 @@ func (actionFormCallback *ActionFormCallback) OnSave() {
 		actionFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(actionFormCallback.probe)
+	actionFormCallback.probe.ux_tree()
 }
 func __gong__New__ActivitiesFormCallback(
 	activities *models.Activities,
@@ -243,7 +243,7 @@ func (activitiesFormCallback *ActivitiesFormCallback) OnSave() {
 		activitiesFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(activitiesFormCallback.probe)
+	activitiesFormCallback.probe.ux_tree()
 }
 func __gong__New__ArchitectureFormCallback(
 	architecture *models.Architecture,
@@ -385,7 +385,7 @@ func (architectureFormCallback *ArchitectureFormCallback) OnSave() {
 		architectureFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(architectureFormCallback.probe)
+	architectureFormCallback.probe.ux_tree()
 }
 func __gong__New__DiagramFormCallback(
 	diagram *models.Diagram,
@@ -762,7 +762,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 		diagramFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(diagramFormCallback.probe)
+	diagramFormCallback.probe.ux_tree()
 }
 func __gong__New__GuardFormCallback(
 	guard *models.Guard,
@@ -840,7 +840,7 @@ func (guardFormCallback *GuardFormCallback) OnSave() {
 		guardFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(guardFormCallback.probe)
+	guardFormCallback.probe.ux_tree()
 }
 func __gong__New__KillFormCallback(
 	kill *models.Kill,
@@ -918,7 +918,7 @@ func (killFormCallback *KillFormCallback) OnSave() {
 		killFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(killFormCallback.probe)
+	killFormCallback.probe.ux_tree()
 }
 func __gong__New__MessageFormCallback(
 	message *models.Message,
@@ -1068,7 +1068,7 @@ func (messageFormCallback *MessageFormCallback) OnSave() {
 		messageFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(messageFormCallback.probe)
+	messageFormCallback.probe.ux_tree()
 }
 func __gong__New__MessageTypeFormCallback(
 	messagetype *models.MessageType,
@@ -1214,7 +1214,7 @@ func (messagetypeFormCallback *MessageTypeFormCallback) OnSave() {
 		messagetypeFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(messagetypeFormCallback.probe)
+	messagetypeFormCallback.probe.ux_tree()
 }
 func __gong__New__ObjectFormCallback(
 	object *models.Object,
@@ -1331,7 +1331,7 @@ func (objectFormCallback *ObjectFormCallback) OnSave() {
 		objectFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(objectFormCallback.probe)
+	objectFormCallback.probe.ux_tree()
 }
 func __gong__New__RoleFormCallback(
 	role *models.Role,
@@ -1640,7 +1640,7 @@ func (roleFormCallback *RoleFormCallback) OnSave() {
 		roleFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(roleFormCallback.probe)
+	roleFormCallback.probe.ux_tree()
 }
 func __gong__New__StateFormCallback(
 	state *models.State,
@@ -2023,7 +2023,7 @@ func (stateFormCallback *StateFormCallback) OnSave() {
 		stateFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(stateFormCallback.probe)
+	stateFormCallback.probe.ux_tree()
 }
 func __gong__New__StateMachineFormCallback(
 	statemachine *models.StateMachine,
@@ -2233,7 +2233,7 @@ func (statemachineFormCallback *StateMachineFormCallback) OnSave() {
 		statemachineFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(statemachineFormCallback.probe)
+	statemachineFormCallback.probe.ux_tree()
 }
 func __gong__New__StateShapeFormCallback(
 	stateshape *models.StateShape,
@@ -2389,7 +2389,7 @@ func (stateshapeFormCallback *StateShapeFormCallback) OnSave() {
 		stateshapeFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(stateshapeFormCallback.probe)
+	stateshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__TransitionFormCallback(
 	transition *models.Transition,
@@ -2568,7 +2568,7 @@ func (transitionFormCallback *TransitionFormCallback) OnSave() {
 		transitionFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(transitionFormCallback.probe)
+	transitionFormCallback.probe.ux_tree()
 }
 func __gong__New__Transition_ShapeFormCallback(
 	transition_shape *models.Transition_Shape,
@@ -2726,5 +2726,5 @@ func (transition_shapeFormCallback *Transition_ShapeFormCallback) OnSave() {
 		transition_shapeFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(transition_shapeFormCallback.probe)
+	transition_shapeFormCallback.probe.ux_tree()
 }

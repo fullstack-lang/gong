@@ -6,20 +6,40 @@ import (
 	"strings"
 	"time"
 
-	gongtree_buttons "github.com/fullstack-lang/gong/lib/tree/go/buttons"
-	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
+	tree_buttons "github.com/fullstack-lang/gong/lib/tree/go/buttons"
+	tree_models "github.com/fullstack-lang/gong/lib/tree/go/models"
 
 	gong_models "github.com/fullstack-lang/gong/go/models"
 
 	"github.com/fullstack-lang/gong/dsme/statemachines/go/models"
 )
 
-func updateAndCommitTree(
-	probe *Probe,
-) {
+func (probe *Probe) ux_navigation_tree() {
+	stageOfInterest := probe.stageOfInterest
+	if !stageOfInterest.IsInDeltaMode() {
+		return
+	}
+	probe.treeNavigationStage.Reset()
+
+	sidebar := &tree_models.Tree{Name: "Sidebar"}
+
+	probe.AddCommitNavigationNode(func(node models.GongNodeIF) {
+		sidebar.RootNodes = append(sidebar.RootNodes, node.(*tree_models.Node))
+	})
+
+	tree_models.StageBranch(probe.treeNavigationStage, sidebar)
+
+	probe.treeNavigationStage.Commit()
+}
+
+func (probe *Probe) ux_tree() {
+	probe.ux_navigation_tree()
+	probe.treeStage.Reset()
+	stageOfInterest := probe.stageOfInterest
+
 	// keep in memory which nodes have been unfolded / folded
 	expandedNodesSet := make(map[string]any, 0)
-	var _sidebar *tree.Tree
+	var _sidebar *tree_models.Tree
 	for __sidebar := range probe.treeStage.Trees {
 		_sidebar = __sidebar
 	}
@@ -31,33 +51,29 @@ func updateAndCommitTree(
 		}
 	}
 
-	probe.treeStage.Reset()
-
-	stageOfInterest := probe.stageOfInterest
-
 	// create tree
-	sidebar := &tree.Tree{Name: "Sidebar"}
-	topNode := &tree.Node{Name: fmt.Sprintf("%s", stageOfInterest.GetName())}
+	sidebar := &tree_models.Tree{Name: "Sidebar"}
+	topNode := &tree_models.Node{Name: fmt.Sprintf("%s", stageOfInterest.GetName())}
 	sidebar.RootNodes = append(sidebar.RootNodes, topNode)
 
-	notificationsResetButton := &tree.Button{
+	notificationsResetButton := &tree_models.Button{
 		Name:            "NotificationsResetButton",
-		Icon:            string(gongtree_buttons.BUTTON_playlist_remove),
+		Icon:            string(tree_buttons.BUTTON_playlist_remove),
 		HasToolTip:      true,
 		ToolTipText:     "Reset notification table",
-		ToolTipPosition: tree.Below,
-		OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+		ToolTipPosition: tree_models.Below,
+		OnUpdate: func(_ *tree_models.Stage, _ *tree_models.Button) {
 			probe.ResetNotifications()
 		},
 	}
 	topNode.Buttons = append(topNode.Buttons, notificationsResetButton)
-	refreshButton := &tree.Button{
-		Name:            "RefreshButton" + " " + string(gongtree_buttons.BUTTON_refresh),
-		Icon:            string(gongtree_buttons.BUTTON_refresh),
+	refreshButton := &tree_models.Button{
+		Name:            "RefreshButton" + " " + string(tree_buttons.BUTTON_refresh),
+		Icon:            string(tree_buttons.BUTTON_refresh),
 		HasToolTip:      true,
 		ToolTipText:     "Refresh probe",
-		ToolTipPosition: tree.Below,
-		OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+		ToolTipPosition: tree_models.Below,
+		OnUpdate: func(_ *tree_models.Stage, _ *tree_models.Button) {
 			probe.stageOfInterest.ComputeInstancesNb()
 			probe.docStager.SetMap_GongStructName_InstancesNb(
 				probe.stageOfInterest.Map_GongStructName_InstancesNb,
@@ -66,12 +82,6 @@ func updateAndCommitTree(
 		},
 	}
 	topNode.Buttons = append(topNode.Buttons, refreshButton)
-
-	if stageOfInterest.IsInDeltaMode() {
-		probe.AddCommitNavigationNode(func(node models.GongNodeIF) {
-			sidebar.RootNodes = append(sidebar.RootNodes, node.(*tree.Node))
-		})
-	}
 
 	// collect all gong struct to construe the true
 	setOfGongStructs := *gong_models.GetGongstructInstancesSetFromPointerType[*gong_models.GongStruct](probe.gongStage)
@@ -91,10 +101,10 @@ func updateAndCommitTree(
 		name := gongStruct.Name + " (" +
 			fmt.Sprintf("%d", probe.stageOfInterest.Map_GongStructName_InstancesNb[gongStruct.Name]) + ")"
 
-		nodeGongstruct := &tree.Node{Name: name}
+		nodeGongstruct := &tree_models.Node{Name: name}
 		nodeGongstruct.HasToolTip = true
 		nodeGongstruct.ToolTipText = "Display table of all " + name + " instances"
-		nodeGongstruct.ToolTipPosition = tree.Right
+		nodeGongstruct.ToolTipPosition = tree_models.Right
 
 		nodeGongstruct.IsExpanded = false
 		if _, ok := expandedNodesSet[strings.Fields(name)[0]]; ok {
@@ -109,27 +119,27 @@ func updateAndCommitTree(
 			count := 0
 			for _action := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree.Node{Name: "..."})
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
 					break
 				}
 				count++
-				nodeInstance := &tree.Node{
-					Name: _action.GetName(),
+				nodeInstance := &tree_models.Node{
+					Name:            _action.GetName(),
 					IsNodeClickable: true,
-					OnUpdate: func(_ *tree.Stage, _, _ *tree.Node) {
+					OnUpdate: func(_ *tree_models.Stage, _, _ *tree_models.Node) {
 						FillUpFormFromGongstruct(_action, probe)
 					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
-			nodeGongstruct.OnUpdate = func(treeStagee *tree.Stage, stagedNode, frontNode *tree.Node) {
+			nodeGongstruct.OnUpdate = func(treeStagee *tree_models.Stage, stagedNode, frontNode *tree_models.Node) {
 				if stagedNode.IsExpanded != frontNode.IsExpanded {
 					stagedNode.IsExpanded = frontNode.IsExpanded
 					return
 				}
 				updateProbeTable[*models.Action](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree.GetGongstructInstancesSet[tree.Node](treeStagee) {
+				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](treeStagee) {
 					node.BackgroundColor = ""
 				}
 				stagedNode.BackgroundColor = "lightgrey"
@@ -141,27 +151,27 @@ func updateAndCommitTree(
 			count := 0
 			for _activities := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree.Node{Name: "..."})
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
 					break
 				}
 				count++
-				nodeInstance := &tree.Node{
-					Name: _activities.GetName(),
+				nodeInstance := &tree_models.Node{
+					Name:            _activities.GetName(),
 					IsNodeClickable: true,
-					OnUpdate: func(_ *tree.Stage, _, _ *tree.Node) {
+					OnUpdate: func(_ *tree_models.Stage, _, _ *tree_models.Node) {
 						FillUpFormFromGongstruct(_activities, probe)
 					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
-			nodeGongstruct.OnUpdate = func(treeStagee *tree.Stage, stagedNode, frontNode *tree.Node) {
+			nodeGongstruct.OnUpdate = func(treeStagee *tree_models.Stage, stagedNode, frontNode *tree_models.Node) {
 				if stagedNode.IsExpanded != frontNode.IsExpanded {
 					stagedNode.IsExpanded = frontNode.IsExpanded
 					return
 				}
 				updateProbeTable[*models.Activities](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree.GetGongstructInstancesSet[tree.Node](treeStagee) {
+				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](treeStagee) {
 					node.BackgroundColor = ""
 				}
 				stagedNode.BackgroundColor = "lightgrey"
@@ -173,27 +183,27 @@ func updateAndCommitTree(
 			count := 0
 			for _architecture := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree.Node{Name: "..."})
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
 					break
 				}
 				count++
-				nodeInstance := &tree.Node{
-					Name: _architecture.GetName(),
+				nodeInstance := &tree_models.Node{
+					Name:            _architecture.GetName(),
 					IsNodeClickable: true,
-					OnUpdate: func(_ *tree.Stage, _, _ *tree.Node) {
+					OnUpdate: func(_ *tree_models.Stage, _, _ *tree_models.Node) {
 						FillUpFormFromGongstruct(_architecture, probe)
 					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
-			nodeGongstruct.OnUpdate = func(treeStagee *tree.Stage, stagedNode, frontNode *tree.Node) {
+			nodeGongstruct.OnUpdate = func(treeStagee *tree_models.Stage, stagedNode, frontNode *tree_models.Node) {
 				if stagedNode.IsExpanded != frontNode.IsExpanded {
 					stagedNode.IsExpanded = frontNode.IsExpanded
 					return
 				}
 				updateProbeTable[*models.Architecture](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree.GetGongstructInstancesSet[tree.Node](treeStagee) {
+				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](treeStagee) {
 					node.BackgroundColor = ""
 				}
 				stagedNode.BackgroundColor = "lightgrey"
@@ -205,27 +215,27 @@ func updateAndCommitTree(
 			count := 0
 			for _diagram := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree.Node{Name: "..."})
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
 					break
 				}
 				count++
-				nodeInstance := &tree.Node{
-					Name: _diagram.GetName(),
+				nodeInstance := &tree_models.Node{
+					Name:            _diagram.GetName(),
 					IsNodeClickable: true,
-					OnUpdate: func(_ *tree.Stage, _, _ *tree.Node) {
+					OnUpdate: func(_ *tree_models.Stage, _, _ *tree_models.Node) {
 						FillUpFormFromGongstruct(_diagram, probe)
 					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
-			nodeGongstruct.OnUpdate = func(treeStagee *tree.Stage, stagedNode, frontNode *tree.Node) {
+			nodeGongstruct.OnUpdate = func(treeStagee *tree_models.Stage, stagedNode, frontNode *tree_models.Node) {
 				if stagedNode.IsExpanded != frontNode.IsExpanded {
 					stagedNode.IsExpanded = frontNode.IsExpanded
 					return
 				}
 				updateProbeTable[*models.Diagram](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree.GetGongstructInstancesSet[tree.Node](treeStagee) {
+				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](treeStagee) {
 					node.BackgroundColor = ""
 				}
 				stagedNode.BackgroundColor = "lightgrey"
@@ -237,27 +247,27 @@ func updateAndCommitTree(
 			count := 0
 			for _guard := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree.Node{Name: "..."})
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
 					break
 				}
 				count++
-				nodeInstance := &tree.Node{
-					Name: _guard.GetName(),
+				nodeInstance := &tree_models.Node{
+					Name:            _guard.GetName(),
 					IsNodeClickable: true,
-					OnUpdate: func(_ *tree.Stage, _, _ *tree.Node) {
+					OnUpdate: func(_ *tree_models.Stage, _, _ *tree_models.Node) {
 						FillUpFormFromGongstruct(_guard, probe)
 					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
-			nodeGongstruct.OnUpdate = func(treeStagee *tree.Stage, stagedNode, frontNode *tree.Node) {
+			nodeGongstruct.OnUpdate = func(treeStagee *tree_models.Stage, stagedNode, frontNode *tree_models.Node) {
 				if stagedNode.IsExpanded != frontNode.IsExpanded {
 					stagedNode.IsExpanded = frontNode.IsExpanded
 					return
 				}
 				updateProbeTable[*models.Guard](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree.GetGongstructInstancesSet[tree.Node](treeStagee) {
+				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](treeStagee) {
 					node.BackgroundColor = ""
 				}
 				stagedNode.BackgroundColor = "lightgrey"
@@ -269,27 +279,27 @@ func updateAndCommitTree(
 			count := 0
 			for _kill := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree.Node{Name: "..."})
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
 					break
 				}
 				count++
-				nodeInstance := &tree.Node{
-					Name: _kill.GetName(),
+				nodeInstance := &tree_models.Node{
+					Name:            _kill.GetName(),
 					IsNodeClickable: true,
-					OnUpdate: func(_ *tree.Stage, _, _ *tree.Node) {
+					OnUpdate: func(_ *tree_models.Stage, _, _ *tree_models.Node) {
 						FillUpFormFromGongstruct(_kill, probe)
 					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
-			nodeGongstruct.OnUpdate = func(treeStagee *tree.Stage, stagedNode, frontNode *tree.Node) {
+			nodeGongstruct.OnUpdate = func(treeStagee *tree_models.Stage, stagedNode, frontNode *tree_models.Node) {
 				if stagedNode.IsExpanded != frontNode.IsExpanded {
 					stagedNode.IsExpanded = frontNode.IsExpanded
 					return
 				}
 				updateProbeTable[*models.Kill](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree.GetGongstructInstancesSet[tree.Node](treeStagee) {
+				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](treeStagee) {
 					node.BackgroundColor = ""
 				}
 				stagedNode.BackgroundColor = "lightgrey"
@@ -301,27 +311,27 @@ func updateAndCommitTree(
 			count := 0
 			for _message := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree.Node{Name: "..."})
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
 					break
 				}
 				count++
-				nodeInstance := &tree.Node{
-					Name: _message.GetName(),
+				nodeInstance := &tree_models.Node{
+					Name:            _message.GetName(),
 					IsNodeClickable: true,
-					OnUpdate: func(_ *tree.Stage, _, _ *tree.Node) {
+					OnUpdate: func(_ *tree_models.Stage, _, _ *tree_models.Node) {
 						FillUpFormFromGongstruct(_message, probe)
 					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
-			nodeGongstruct.OnUpdate = func(treeStagee *tree.Stage, stagedNode, frontNode *tree.Node) {
+			nodeGongstruct.OnUpdate = func(treeStagee *tree_models.Stage, stagedNode, frontNode *tree_models.Node) {
 				if stagedNode.IsExpanded != frontNode.IsExpanded {
 					stagedNode.IsExpanded = frontNode.IsExpanded
 					return
 				}
 				updateProbeTable[*models.Message](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree.GetGongstructInstancesSet[tree.Node](treeStagee) {
+				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](treeStagee) {
 					node.BackgroundColor = ""
 				}
 				stagedNode.BackgroundColor = "lightgrey"
@@ -333,27 +343,27 @@ func updateAndCommitTree(
 			count := 0
 			for _messagetype := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree.Node{Name: "..."})
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
 					break
 				}
 				count++
-				nodeInstance := &tree.Node{
-					Name: _messagetype.GetName(),
+				nodeInstance := &tree_models.Node{
+					Name:            _messagetype.GetName(),
 					IsNodeClickable: true,
-					OnUpdate: func(_ *tree.Stage, _, _ *tree.Node) {
+					OnUpdate: func(_ *tree_models.Stage, _, _ *tree_models.Node) {
 						FillUpFormFromGongstruct(_messagetype, probe)
 					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
-			nodeGongstruct.OnUpdate = func(treeStagee *tree.Stage, stagedNode, frontNode *tree.Node) {
+			nodeGongstruct.OnUpdate = func(treeStagee *tree_models.Stage, stagedNode, frontNode *tree_models.Node) {
 				if stagedNode.IsExpanded != frontNode.IsExpanded {
 					stagedNode.IsExpanded = frontNode.IsExpanded
 					return
 				}
 				updateProbeTable[*models.MessageType](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree.GetGongstructInstancesSet[tree.Node](treeStagee) {
+				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](treeStagee) {
 					node.BackgroundColor = ""
 				}
 				stagedNode.BackgroundColor = "lightgrey"
@@ -365,27 +375,27 @@ func updateAndCommitTree(
 			count := 0
 			for _object := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree.Node{Name: "..."})
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
 					break
 				}
 				count++
-				nodeInstance := &tree.Node{
-					Name: _object.GetName(),
+				nodeInstance := &tree_models.Node{
+					Name:            _object.GetName(),
 					IsNodeClickable: true,
-					OnUpdate: func(_ *tree.Stage, _, _ *tree.Node) {
+					OnUpdate: func(_ *tree_models.Stage, _, _ *tree_models.Node) {
 						FillUpFormFromGongstruct(_object, probe)
 					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
-			nodeGongstruct.OnUpdate = func(treeStagee *tree.Stage, stagedNode, frontNode *tree.Node) {
+			nodeGongstruct.OnUpdate = func(treeStagee *tree_models.Stage, stagedNode, frontNode *tree_models.Node) {
 				if stagedNode.IsExpanded != frontNode.IsExpanded {
 					stagedNode.IsExpanded = frontNode.IsExpanded
 					return
 				}
 				updateProbeTable[*models.Object](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree.GetGongstructInstancesSet[tree.Node](treeStagee) {
+				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](treeStagee) {
 					node.BackgroundColor = ""
 				}
 				stagedNode.BackgroundColor = "lightgrey"
@@ -397,27 +407,27 @@ func updateAndCommitTree(
 			count := 0
 			for _role := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree.Node{Name: "..."})
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
 					break
 				}
 				count++
-				nodeInstance := &tree.Node{
-					Name: _role.GetName(),
+				nodeInstance := &tree_models.Node{
+					Name:            _role.GetName(),
 					IsNodeClickable: true,
-					OnUpdate: func(_ *tree.Stage, _, _ *tree.Node) {
+					OnUpdate: func(_ *tree_models.Stage, _, _ *tree_models.Node) {
 						FillUpFormFromGongstruct(_role, probe)
 					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
-			nodeGongstruct.OnUpdate = func(treeStagee *tree.Stage, stagedNode, frontNode *tree.Node) {
+			nodeGongstruct.OnUpdate = func(treeStagee *tree_models.Stage, stagedNode, frontNode *tree_models.Node) {
 				if stagedNode.IsExpanded != frontNode.IsExpanded {
 					stagedNode.IsExpanded = frontNode.IsExpanded
 					return
 				}
 				updateProbeTable[*models.Role](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree.GetGongstructInstancesSet[tree.Node](treeStagee) {
+				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](treeStagee) {
 					node.BackgroundColor = ""
 				}
 				stagedNode.BackgroundColor = "lightgrey"
@@ -429,27 +439,27 @@ func updateAndCommitTree(
 			count := 0
 			for _state := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree.Node{Name: "..."})
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
 					break
 				}
 				count++
-				nodeInstance := &tree.Node{
-					Name: _state.GetName(),
+				nodeInstance := &tree_models.Node{
+					Name:            _state.GetName(),
 					IsNodeClickable: true,
-					OnUpdate: func(_ *tree.Stage, _, _ *tree.Node) {
+					OnUpdate: func(_ *tree_models.Stage, _, _ *tree_models.Node) {
 						FillUpFormFromGongstruct(_state, probe)
 					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
-			nodeGongstruct.OnUpdate = func(treeStagee *tree.Stage, stagedNode, frontNode *tree.Node) {
+			nodeGongstruct.OnUpdate = func(treeStagee *tree_models.Stage, stagedNode, frontNode *tree_models.Node) {
 				if stagedNode.IsExpanded != frontNode.IsExpanded {
 					stagedNode.IsExpanded = frontNode.IsExpanded
 					return
 				}
 				updateProbeTable[*models.State](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree.GetGongstructInstancesSet[tree.Node](treeStagee) {
+				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](treeStagee) {
 					node.BackgroundColor = ""
 				}
 				stagedNode.BackgroundColor = "lightgrey"
@@ -461,27 +471,27 @@ func updateAndCommitTree(
 			count := 0
 			for _statemachine := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree.Node{Name: "..."})
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
 					break
 				}
 				count++
-				nodeInstance := &tree.Node{
-					Name: _statemachine.GetName(),
+				nodeInstance := &tree_models.Node{
+					Name:            _statemachine.GetName(),
 					IsNodeClickable: true,
-					OnUpdate: func(_ *tree.Stage, _, _ *tree.Node) {
+					OnUpdate: func(_ *tree_models.Stage, _, _ *tree_models.Node) {
 						FillUpFormFromGongstruct(_statemachine, probe)
 					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
-			nodeGongstruct.OnUpdate = func(treeStagee *tree.Stage, stagedNode, frontNode *tree.Node) {
+			nodeGongstruct.OnUpdate = func(treeStagee *tree_models.Stage, stagedNode, frontNode *tree_models.Node) {
 				if stagedNode.IsExpanded != frontNode.IsExpanded {
 					stagedNode.IsExpanded = frontNode.IsExpanded
 					return
 				}
 				updateProbeTable[*models.StateMachine](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree.GetGongstructInstancesSet[tree.Node](treeStagee) {
+				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](treeStagee) {
 					node.BackgroundColor = ""
 				}
 				stagedNode.BackgroundColor = "lightgrey"
@@ -493,27 +503,27 @@ func updateAndCommitTree(
 			count := 0
 			for _stateshape := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree.Node{Name: "..."})
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
 					break
 				}
 				count++
-				nodeInstance := &tree.Node{
-					Name: _stateshape.GetName(),
+				nodeInstance := &tree_models.Node{
+					Name:            _stateshape.GetName(),
 					IsNodeClickable: true,
-					OnUpdate: func(_ *tree.Stage, _, _ *tree.Node) {
+					OnUpdate: func(_ *tree_models.Stage, _, _ *tree_models.Node) {
 						FillUpFormFromGongstruct(_stateshape, probe)
 					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
-			nodeGongstruct.OnUpdate = func(treeStagee *tree.Stage, stagedNode, frontNode *tree.Node) {
+			nodeGongstruct.OnUpdate = func(treeStagee *tree_models.Stage, stagedNode, frontNode *tree_models.Node) {
 				if stagedNode.IsExpanded != frontNode.IsExpanded {
 					stagedNode.IsExpanded = frontNode.IsExpanded
 					return
 				}
 				updateProbeTable[*models.StateShape](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree.GetGongstructInstancesSet[tree.Node](treeStagee) {
+				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](treeStagee) {
 					node.BackgroundColor = ""
 				}
 				stagedNode.BackgroundColor = "lightgrey"
@@ -525,27 +535,27 @@ func updateAndCommitTree(
 			count := 0
 			for _transition := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree.Node{Name: "..."})
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
 					break
 				}
 				count++
-				nodeInstance := &tree.Node{
-					Name: _transition.GetName(),
+				nodeInstance := &tree_models.Node{
+					Name:            _transition.GetName(),
 					IsNodeClickable: true,
-					OnUpdate: func(_ *tree.Stage, _, _ *tree.Node) {
+					OnUpdate: func(_ *tree_models.Stage, _, _ *tree_models.Node) {
 						FillUpFormFromGongstruct(_transition, probe)
 					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
-			nodeGongstruct.OnUpdate = func(treeStagee *tree.Stage, stagedNode, frontNode *tree.Node) {
+			nodeGongstruct.OnUpdate = func(treeStagee *tree_models.Stage, stagedNode, frontNode *tree_models.Node) {
 				if stagedNode.IsExpanded != frontNode.IsExpanded {
 					stagedNode.IsExpanded = frontNode.IsExpanded
 					return
 				}
 				updateProbeTable[*models.Transition](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree.GetGongstructInstancesSet[tree.Node](treeStagee) {
+				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](treeStagee) {
 					node.BackgroundColor = ""
 				}
 				stagedNode.BackgroundColor = "lightgrey"
@@ -557,27 +567,27 @@ func updateAndCommitTree(
 			count := 0
 			for _transition_shape := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree.Node{Name: "..."})
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
 					break
 				}
 				count++
-				nodeInstance := &tree.Node{
-					Name: _transition_shape.GetName(),
+				nodeInstance := &tree_models.Node{
+					Name:            _transition_shape.GetName(),
 					IsNodeClickable: true,
-					OnUpdate: func(_ *tree.Stage, _, _ *tree.Node) {
+					OnUpdate: func(_ *tree_models.Stage, _, _ *tree_models.Node) {
 						FillUpFormFromGongstruct(_transition_shape, probe)
 					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
-			nodeGongstruct.OnUpdate = func(treeStagee *tree.Stage, stagedNode, frontNode *tree.Node) {
+			nodeGongstruct.OnUpdate = func(treeStagee *tree_models.Stage, stagedNode, frontNode *tree_models.Node) {
 				if stagedNode.IsExpanded != frontNode.IsExpanded {
 					stagedNode.IsExpanded = frontNode.IsExpanded
 					return
 				}
 				updateProbeTable[*models.Transition_Shape](probe)
 				// set color for node and reset all other nodes color
-				for node := range *tree.GetGongstructInstancesSet[tree.Node](treeStagee) {
+				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](treeStagee) {
 					node.BackgroundColor = ""
 				}
 				stagedNode.BackgroundColor = "lightgrey"
@@ -588,13 +598,13 @@ func updateAndCommitTree(
 		nodeGongstruct.IsNodeClickable = true
 
 		// add add button
-		addButton := &tree.Button{
-			Name:            gongStruct.Name + " " + string(gongtree_buttons.BUTTON_add),
-			Icon:            string(gongtree_buttons.BUTTON_add),
+		addButton := &tree_models.Button{
+			Name:            gongStruct.Name + " " + string(tree_buttons.BUTTON_add),
+			Icon:            string(tree_buttons.BUTTON_add),
 			HasToolTip:      true,
 			ToolTipText:     "Add an instance of " + gongStruct.GetName(),
-			ToolTipPosition: tree.Right,
-			OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+			ToolTipPosition: tree_models.Right,
+			OnUpdate: func(_ *tree_models.Stage, _ *tree_models.Button) {
 				FillUpFormFromGongstructName(
 					probe,
 					gongStruct.Name,
@@ -606,7 +616,7 @@ func updateAndCommitTree(
 		sidebar.RootNodes = append(sidebar.RootNodes, nodeGongstruct)
 	}
 
-	tree.StageBranch(probe.treeStage, sidebar)
+	tree_models.StageBranch(probe.treeStage, sidebar)
 
 	probe.treeStage.Commit()
 }
@@ -614,16 +624,16 @@ func updateAndCommitTree(
 func (probe *Probe) AddCommitNavigationNode(appendChildrenNodeFunc func(models.GongNodeIF)) {
 	stageOfInterest := probe.stageOfInterest
 
-	deltaNode := &tree.Node{}
+	deltaNode := &tree_models.Node{}
 
-	backwardButton := &tree.Button{
+	backwardButton := &tree_models.Button{
 		Name:       "BackwardButton",
-		Icon:       string(gongtree_buttons.BUTTON_undo),
+		Icon:       string(tree_buttons.BUTTON_undo),
 		HasToolTip: true,
 		ToolTipText: fmt.Sprintf("Go to previous commit (%d/%d)",
 			len(stageOfInterest.GetBackwardCommits()), stageOfInterest.GetCommitsBehind()),
-		ToolTipPosition: tree.Below,
-		OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+		ToolTipPosition: tree_models.Below,
+		OnUpdate: func(_ *tree_models.Stage, _ *tree_models.Button) {
 			err := stageOfInterest.ApplyBackwardCommit()
 			if err != nil {
 				panic(err)
@@ -638,14 +648,14 @@ func (probe *Probe) AddCommitNavigationNode(appendChildrenNodeFunc func(models.G
 		backwardButton.ToolTipText = "No more previous commits"
 	}
 
-	forwardButton := &tree.Button{
+	forwardButton := &tree_models.Button{
 		Name:       "ForwardButton",
-		Icon:       string(gongtree_buttons.BUTTON_redo),
+		Icon:       string(tree_buttons.BUTTON_redo),
 		HasToolTip: true,
 		ToolTipText: fmt.Sprintf("Go to next commit (%d/%d)",
 			len(stageOfInterest.GetBackwardCommits()), stageOfInterest.GetCommitsBehind()),
-		ToolTipPosition: tree.Below,
-		OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+		ToolTipPosition: tree_models.Below,
+		OnUpdate: func(_ *tree_models.Stage, _ *tree_models.Button) {
 			err := stageOfInterest.ApplyForwardCommit()
 			if err != nil {
 				panic(err)
@@ -661,13 +671,13 @@ func (probe *Probe) AddCommitNavigationNode(appendChildrenNodeFunc func(models.G
 	}
 
 	if stageOfInterest.GetCommitsBehind() > 0 {
-		discardButton := &tree.Button{
+		discardButton := &tree_models.Button{
 			Name:            "DiscardButton",
-			Icon:            string(gongtree_buttons.BUTTON_cancel),
+			Icon:            string(tree_buttons.BUTTON_cancel),
 			HasToolTip:      true,
 			ToolTipText:     "Discard commits ahead (git reset --hard HEAD)",
-			ToolTipPosition: tree.Below,
-			OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+			ToolTipPosition: tree_models.Below,
+			OnUpdate: func(_ *tree_models.Stage, _ *tree_models.Button) {
 				stageOfInterest.ResetHard()
 				probe.Refresh()
 			},
@@ -675,31 +685,30 @@ func (probe *Probe) AddCommitNavigationNode(appendChildrenNodeFunc func(models.G
 		deltaNode.Buttons = append(deltaNode.Buttons, discardButton)
 	}
 
-
-	orphansButton := &tree.Button{
-		Name:            "OrphansButton",
-		Icon:            string(gongtree_buttons.BUTTON_playlist_remove),
+	squashButton := &tree_models.Button{
+		Name:            "SquashButton",
+		Icon:            string(tree_buttons.BUTTON_playlist_remove),
 		HasToolTip:      true,
-		ToolTipText:     "Discard all commits history (git orphan)",
-		ToolTipPosition: tree.Below,
-		OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
-			stageOfInterest.Orphans()
+		ToolTipText:     "Squash all commits history",
+		ToolTipPosition: tree_models.Below,
+		OnUpdate: func(_ *tree_models.Stage, _ *tree_models.Button) {
+			stageOfInterest.Squash()
 			probe.Refresh()
 		},
 	}
 	if len(stageOfInterest.GetBackwardCommits()) == 0 {
-		orphansButton.IsDisabled = true
-		orphansButton.ToolTipText = "No commits to orphan"
+		squashButton.IsDisabled = true
+		squashButton.ToolTipText = "No commits to squash"
 	}
-	deltaNode.Buttons = append(deltaNode.Buttons, orphansButton)
+	deltaNode.Buttons = append(deltaNode.Buttons, squashButton)
 
-	logCommitsButton := &tree.Button{
+	logCommitsButton := &tree_models.Button{
 		Name:            "LogCommitsButton",
-		Icon:            string(gongtree_buttons.BUTTON_playlist_add),
+		Icon:            string(tree_buttons.BUTTON_playlist_add),
 		HasToolTip:      true,
 		ToolTipText:     "Log commits to notification table",
-		ToolTipPosition: tree.Below,
-		OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+		ToolTipPosition: tree_models.Below,
+		OnUpdate: func(_ *tree_models.Stage, _ *tree_models.Button) {
 			var mergedCommits string
 			for _, commit := range stageOfInterest.GetForwardCommits() {
 				mergedCommits += commit

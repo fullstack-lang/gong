@@ -4,7 +4,6 @@ package level1stack
 import (
 	"fmt"
 	"log"
-	"os"
 	"strings"
 
 	"github.com/fullstack-lang/gong/dsme/statemachines/go/models"
@@ -26,24 +25,23 @@ type BeforeCommitImplementation struct {
 
 func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.Stage) {
 
+	if stage.GetGongMarshallingMode() == models.GongMarshallingAppendCommit {
+		stage.ComputeForwardAndBackwardCommits()
+		stage.ComputeReferenceAndOrders()
+	}
+
 	// the ".go" is not provided
 	filename := impl.marshallOnCommit
 	if !strings.HasSuffix(filename, ".go") {
 		filename = filename + ".go"
 	}
 
-	file, err := os.Create(fmt.Sprintf("./%s", filename))
-	if err != nil {
-		log.Fatal(err.Error())
-	}
-	defer file.Close()
-
 	packageName := impl.packageName
 	if packageName == "" {
 		packageName = "main"
 	}
 
-	stage.Marshall(file, "github.com/fullstack-lang/gong/dsme/statemachines/go/models", packageName)
+	stage.MarshallFile(fmt.Sprintf("./%s", filename), "github.com/fullstack-lang/gong/dsme/statemachines/go/models", packageName)
 }
 
 type Level1Stack struct {
