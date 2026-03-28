@@ -41,6 +41,16 @@ const (
 	ProbeSplitSuffix                 = ":probe of the probe"
 )
 
+type GongMarshallingMode string
+
+const (
+	// the whole stage is generated at each marshall. This is the default
+	GongMarshallingNormal GongMarshallingMode = "GongMarshallingNormal"
+
+	// only the last commit is append to the marshall file
+	GongMarshallingAppendCommit GongMarshallingMode = "GongMarshallingAppendCommit"
+)
+
 func (stage *Stage) GetProbeTreeSidebarStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeTreeSidebarSuffix
 }
@@ -108,6 +118,9 @@ type Stage struct {
 	// isInDeltaMode is true when the stage is used to compute difference between
 	// succesive commit
 	isInDeltaMode bool
+
+	// GongMarshallingMode set the marshalling mode
+	GongMarshallingMode GongMarshallingMode
 
 	// insertion point for definition of arrays registering instances
 	ArtefactTypes                map[*ArtefactType]struct{}
@@ -339,7 +352,21 @@ type Stage struct {
 	navigationMode gongStageNavigationMode
 	commitsBehind  int // the number of commits the stage is behind the front of the history
 
+	isApplyingBackwardCommit bool
+	isApplyingForwardCommit  bool
+	isSquashing              bool
+
+	modified bool
+
 	lock sync.RWMutex
+}
+
+func (s *Stage) SetGongMarshallingMode(mode GongMarshallingMode) {
+	s.GongMarshallingMode = mode
+}
+
+func (s *Stage) GetGongMarshallingMode() GongMarshallingMode {
+	return s.GongMarshallingMode
 }
 
 // RegisterBeforeCommit adds a hook that runs before the commit happens
@@ -387,7 +414,9 @@ func (stage *Stage) ApplyBackwardCommit() error {
 	// therefore, it is important to stage.commitsBehind before because it is used in the
 	// UX
 	stage.commitsBehind++
+	stage.isApplyingBackwardCommit = true
 	err := GongParseAstString(stage, commitToApply, true)
+	stage.isApplyingBackwardCommit = false
 	if err != nil {
 		log.Println("error during ApplyBackwardCommit: ", err)
 		return err
@@ -425,7 +454,9 @@ func (stage *Stage) ApplyForwardCommit() error {
 	// therefore, it is important to stage.commitsBehind before because it is used in the
 	// UX
 	stage.commitsBehind--
+	stage.isApplyingForwardCommit = true
 	err := GongParseAstString(stage, commitToApply, true)
+	stage.isApplyingForwardCommit = false
 	if err != nil {
 		log.Println("error during ApplyForwardCommit: ", err)
 		return err
@@ -485,12 +516,64 @@ func (stage *Stage) ResetHard() {
 	}
 }
 
-// Orphans removes all commits
-func (stage *Stage) Orphans() {
+// Squash removes all commits and marshals the stage as a single commit
+func (stage *Stage) Squash() {
 	stage.forwardCommits = stage.forwardCommits[:0]
 	stage.backwardCommits = stage.backwardCommits[:0]
 	stage.commitsBehind = 0
 	stage.navigationMode = GongNavigationModeNormal
+
+	stage.modified = true
+	stage.isSquashing = true
+
+	// insertion point for clear references
+	stage.ArtefactTypes_reference = make(map[*ArtefactType]*ArtefactType)
+	stage.ArtefactTypes_instance = make(map[*ArtefactType]*ArtefactType)
+	stage.ArtefactTypes_referenceOrder = make(map[*ArtefactType]uint)
+
+	stage.ArtefactTypeShapes_reference = make(map[*ArtefactTypeShape]*ArtefactTypeShape)
+	stage.ArtefactTypeShapes_instance = make(map[*ArtefactTypeShape]*ArtefactTypeShape)
+	stage.ArtefactTypeShapes_referenceOrder = make(map[*ArtefactTypeShape]uint)
+
+	stage.Artists_reference = make(map[*Artist]*Artist)
+	stage.Artists_instance = make(map[*Artist]*Artist)
+	stage.Artists_referenceOrder = make(map[*Artist]uint)
+
+	stage.ArtistShapes_reference = make(map[*ArtistShape]*ArtistShape)
+	stage.ArtistShapes_instance = make(map[*ArtistShape]*ArtistShape)
+	stage.ArtistShapes_referenceOrder = make(map[*ArtistShape]uint)
+
+	stage.ControlPointShapes_reference = make(map[*ControlPointShape]*ControlPointShape)
+	stage.ControlPointShapes_instance = make(map[*ControlPointShape]*ControlPointShape)
+	stage.ControlPointShapes_referenceOrder = make(map[*ControlPointShape]uint)
+
+	stage.Desks_reference = make(map[*Desk]*Desk)
+	stage.Desks_instance = make(map[*Desk]*Desk)
+	stage.Desks_referenceOrder = make(map[*Desk]uint)
+
+	stage.Diagrams_reference = make(map[*Diagram]*Diagram)
+	stage.Diagrams_instance = make(map[*Diagram]*Diagram)
+	stage.Diagrams_referenceOrder = make(map[*Diagram]uint)
+
+	stage.Influences_reference = make(map[*Influence]*Influence)
+	stage.Influences_instance = make(map[*Influence]*Influence)
+	stage.Influences_referenceOrder = make(map[*Influence]uint)
+
+	stage.InfluenceShapes_reference = make(map[*InfluenceShape]*InfluenceShape)
+	stage.InfluenceShapes_instance = make(map[*InfluenceShape]*InfluenceShape)
+	stage.InfluenceShapes_referenceOrder = make(map[*InfluenceShape]uint)
+
+	stage.Movements_reference = make(map[*Movement]*Movement)
+	stage.Movements_instance = make(map[*Movement]*Movement)
+	stage.Movements_referenceOrder = make(map[*Movement]uint)
+
+	stage.MovementShapes_reference = make(map[*MovementShape]*MovementShape)
+	stage.MovementShapes_instance = make(map[*MovementShape]*MovementShape)
+	stage.MovementShapes_referenceOrder = make(map[*MovementShape]uint)
+
+	stage.Places_reference = make(map[*Place]*Place)
+	stage.Places_instance = make(map[*Place]*Place)
+	stage.Places_referenceOrder = make(map[*Place]uint)
 
 	stage.ComputeInstancesNb()
 	if stage.OnInitCommitCallback != nil {
@@ -509,6 +592,8 @@ func (stage *Stage) Orphans() {
 	for _, hook := range stage.afterCommitHooks {
 		hook(stage)
 	}
+
+	stage.isSquashing = false
 }
 
 // recomputeOrders recomputes the next order for each struct
