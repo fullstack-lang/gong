@@ -136,8 +136,14 @@ func (stage *Stage) MarshallFile(filename, modelsPackageName, packageName string
 			return
 		}
 
+		contentBeforeBrace := content[:lastBrace]
+		// check if the file ends with stage.Commit() before the brace
+		if !strings.HasSuffix(strings.TrimSpace(contentBeforeBrace), "stage.Commit()") {
+			contentBeforeBrace = contentBeforeBrace + "\n\tstage.Commit()\n"
+		}
+
 		// insert the commit statements before the last brace
-		newContent := content[:lastBrace] + forwardCommit + "\n" + content[lastBrace:]
+		newContent := contentBeforeBrace + forwardCommit + "\n" + content[lastBrace:]
 
 		err = os.WriteFile(filename, []byte(newContent), 0644)
 		if err != nil {
