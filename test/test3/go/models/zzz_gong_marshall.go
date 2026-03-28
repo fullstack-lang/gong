@@ -141,6 +141,10 @@ func (stage *Stage) MarshallFile(filename, modelsPackageName, packageName string
 			return // we are done for the backward case
 		}
 
+		if !stage.modified {
+			return
+		}
+
 		forwardCommits := stage.GetForwardCommits()
 		if len(forwardCommits) == 0 {
 			return // nothing to do

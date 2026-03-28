@@ -204,6 +204,8 @@ type Stage struct {
 
 	isApplyingBackwardCommit bool
 
+	modified bool
+
 	lock sync.RWMutex
 }
 
