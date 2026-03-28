@@ -365,22 +365,22 @@ func (probe *Probe) AddCommitNavigationNode(appendChildrenNodeFunc func(models.G
 		deltaNode.Buttons = append(deltaNode.Buttons, discardButton)
 	}
 
-	orphansButton := &tree_models.Button{
-		Name:            "OrphansButton",
+	squashButton := &tree_models.Button{
+		Name:            "SquashButton",
 		Icon:            string(tree_buttons.BUTTON_playlist_remove),
 		HasToolTip:      true,
-		ToolTipText:     "Discard all commits history (git orphan)",
+		ToolTipText:     "Squash all commits history",
 		ToolTipPosition: tree_models.Below,
 		OnUpdate: func(_ *tree_models.Stage, _ *tree_models.Button) {
-			stageOfInterest.Orphans()
+			stageOfInterest.Squash()
 			probe.Refresh()
 		},
 	}
 	if len(stageOfInterest.GetBackwardCommits()) == 0 {
-		orphansButton.IsDisabled = true
-		orphansButton.ToolTipText = "No commits to orphan"
+		squashButton.IsDisabled = true
+		squashButton.ToolTipText = "No commits to squash"
 	}
-	deltaNode.Buttons = append(deltaNode.Buttons, orphansButton)
+	deltaNode.Buttons = append(deltaNode.Buttons, squashButton)
 
 	logCommitsButton := &tree_models.Button{
 		Name:            "LogCommitsButton",

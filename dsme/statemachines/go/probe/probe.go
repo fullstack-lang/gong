@@ -17,7 +17,7 @@ import (
 	doc "github.com/fullstack-lang/gong/lib/doc/go/models"
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
 	form "github.com/fullstack-lang/gong/lib/table/go/models"
-	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
+	tree_models "github.com/fullstack-lang/gong/lib/tree/go/models"
 
 	"github.com/fullstack-lang/gong/dsme/statemachines/go/models"
 
@@ -28,7 +28,8 @@ type Probe struct {
 	r                      *gin.Engine
 	stageOfInterest        *models.Stage
 	gongStage              *gong_models.Stage
-	treeStage              *tree.Stage
+	treeStage              *tree_models.Stage
+	treeNavigationStage    *tree_models.Stage
 	formStage              *form.Stage
 	tableStage             *form.Stage
 	notificationTableStage *form.Stage
@@ -85,6 +86,7 @@ func NewProbe(
 
 	// treeForSelectingDate that is on the sidebar
 	treeStage, _ := gongtree_fullstack.NewStackInstance(r, stageOfInterest.GetProbeTreeSidebarStageName())
+	treeNavigationStage, _ := gongtree_fullstack.NewStackInstance(r, stageOfInterest.GetProbeNavigationTreeSidebarStageName())
 
 	// stage for main table
 	tableStage, _ := gongtable_fullstack.NewStackInstance(r, stageOfInterest.GetProbeTableStageName())
@@ -102,6 +104,7 @@ func NewProbe(
 		stageOfInterest:                stageOfInterest,
 		gongStage:                      stage,
 		treeStage:                      treeStage,
+		treeNavigationStage:            treeNavigationStage,
 		formStage:                      formStage,
 		tableStage:                     tableStage,
 		notificationTableStage:         notificationTableStage,
@@ -136,13 +139,34 @@ func NewProbe(
 		Direction: split.Horizontal,
 		AsSplitAreas: []*split.AsSplitArea{
 			{
-				Name: "sidebar tree",
+				Name: "sidebar",
 				Size: 20,
-				Tree: &split.Tree{
-					Name:      "Sidebar",
-					StackName: probe.treeStage.GetName(),
+				AsSplit: &split.AsSplit{
+					Direction:              split.Vertical,
+					IsSizeInPixel:          true,
+					IsWithCustomGutterSize: true,
+					GutterSize:             1,
+					AsSplitAreas: []*split.AsSplitArea{
+						{
+							Name: "sidebar tree",
+							Size: 53, // to align on the top of the table
+							Tree: &split.Tree{
+								Name:      "Sidebar",
+								StackName: probe.treeNavigationStage.GetName(),
+							},
+						},
+						{
+							Name:  "sidebar tree",
+							IsAny: true,
+							Tree: &split.Tree{
+								Name:      "Sidebar",
+								StackName: probe.treeStage.GetName(),
+							},
+						},
+					},
 				},
 			},
+
 			{
 				Name: "both tables",
 				Size: 50,
@@ -192,15 +216,15 @@ func NewProbe(
 	})
 	probe.splitStage.Commit()
 
-	updateAndCommitTree(probe)
+	probe.ux_tree()
 
 	return
 }
 
 func (probe *Probe) Refresh() {
-	updateAndCommitTree(probe)
-	updateCurrentProbeTable(probe)
-	probe.updateFillUpForm()
+	probe.ux_tree()
+	probe.ux_table()
+	probe.ux_form()
 	probe.docStager.Svg()
 }
 
