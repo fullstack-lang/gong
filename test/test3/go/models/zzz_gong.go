@@ -208,6 +208,14 @@ type Stage struct {
 	lock sync.RWMutex
 }
 
+func (s *Stage) SetGongMarshallingMode(mode GongMarshallingMode) {
+	s.GongMarshallingMode = mode
+}
+
+func (s *Stage) GetGongMarshallingMode() GongMarshallingMode {
+	return s.GongMarshallingMode
+}
+
 // RegisterBeforeCommit adds a hook that runs before the commit happens
 func (s *Stage) RegisterBeforeCommit(hook func(stage *Stage)) {
 	s.beforeCommitHooks = append(s.beforeCommitHooks, hook)
