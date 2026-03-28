@@ -1,6 +1,7 @@
 package main
 
 import (
+	"slices"
 	"time"
 
 	"github.com/fullstack-lang/gong/lib/table/go/models"
@@ -10,6 +11,7 @@ import (
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
 var _ time.Time
+var _ = slices.Index[[]int, int]
 
 // _ point for meta package dummy declaration{{ImportPackageDummyDeclaration}}
 
@@ -285,4 +287,3 @@ Et comme elles je veux me faire redorer`
 	__Table__000002_Table_with_5_types.Rows = append(__Table__000002_Table_with_5_types.Rows, __Row__000000_Row_1)
 	__Table__000002_Table_with_5_types.Rows = append(__Table__000002_Table_with_5_types.Rows, __Row__000001_Row_2)
 }
-
