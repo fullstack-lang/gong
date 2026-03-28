@@ -1151,6 +1151,9 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 		backwardCommit += "\n\tstage.Commit()"
 		// append to the end of the backward commits slice
 		stage.backwardCommits = append(stage.backwardCommits, backwardCommit)
+		stage.modified = true
+	} else {
+		stage.modified = false
 	}
 }
 

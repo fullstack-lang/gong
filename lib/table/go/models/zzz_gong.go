@@ -41,6 +41,16 @@ const (
 	ProbeSplitSuffix                 = ":probe of the probe"
 )
 
+type GongMarshallingMode string
+
+const (
+	// the whole stage is generated at each marshall. This is the default
+	GongMarshallingNormal GongMarshallingMode = "GongMarshallingNormal"
+
+	// only the last commit is append to the marshall file
+	GongMarshallingAppendCommit GongMarshallingMode = "GongMarshallingAppendCommit"
+)
+
 func (stage *Stage) GetProbeTreeSidebarStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeTreeSidebarSuffix
 }
@@ -108,6 +118,9 @@ type Stage struct {
 	// isInDeltaMode is true when the stage is used to compute difference between
 	// succesive commit
 	isInDeltaMode bool
+
+	// GongMarshallingMode set the marshalling mode
+	GongMarshallingMode GongMarshallingMode
 
 	// insertion point for definition of arrays registering instances
 	Cells                map[*Cell]struct{}
@@ -495,7 +508,21 @@ type Stage struct {
 	navigationMode gongStageNavigationMode
 	commitsBehind  int // the number of commits the stage is behind the front of the history
 
+	isApplyingBackwardCommit bool
+	isApplyingForwardCommit  bool
+	isSquashing              bool
+
+	modified bool
+
 	lock sync.RWMutex
+}
+
+func (s *Stage) SetGongMarshallingMode(mode GongMarshallingMode) {
+	s.GongMarshallingMode = mode
+}
+
+func (s *Stage) GetGongMarshallingMode() GongMarshallingMode {
+	return s.GongMarshallingMode
 }
 
 // RegisterBeforeCommit adds a hook that runs before the commit happens
@@ -543,7 +570,9 @@ func (stage *Stage) ApplyBackwardCommit() error {
 	// therefore, it is important to stage.commitsBehind before because it is used in the
 	// UX
 	stage.commitsBehind++
+	stage.isApplyingBackwardCommit = true
 	err := GongParseAstString(stage, commitToApply, true)
+	stage.isApplyingBackwardCommit = false
 	if err != nil {
 		log.Println("error during ApplyBackwardCommit: ", err)
 		return err
@@ -581,7 +610,9 @@ func (stage *Stage) ApplyForwardCommit() error {
 	// therefore, it is important to stage.commitsBehind before because it is used in the
 	// UX
 	stage.commitsBehind--
+	stage.isApplyingForwardCommit = true
 	err := GongParseAstString(stage, commitToApply, true)
+	stage.isApplyingForwardCommit = false
 	if err != nil {
 		log.Println("error during ApplyForwardCommit: ", err)
 		return err
@@ -641,12 +672,108 @@ func (stage *Stage) ResetHard() {
 	}
 }
 
-// Orphans removes all commits
-func (stage *Stage) Orphans() {
+// Squash removes all commits and marshals the stage as a single commit
+func (stage *Stage) Squash() {
 	stage.forwardCommits = stage.forwardCommits[:0]
 	stage.backwardCommits = stage.backwardCommits[:0]
 	stage.commitsBehind = 0
 	stage.navigationMode = GongNavigationModeNormal
+
+	stage.modified = true
+	stage.isSquashing = true
+
+	// insertion point for clear references
+	stage.Cells_reference = make(map[*Cell]*Cell)
+	stage.Cells_instance = make(map[*Cell]*Cell)
+	stage.Cells_referenceOrder = make(map[*Cell]uint)
+
+	stage.CellBooleans_reference = make(map[*CellBoolean]*CellBoolean)
+	stage.CellBooleans_instance = make(map[*CellBoolean]*CellBoolean)
+	stage.CellBooleans_referenceOrder = make(map[*CellBoolean]uint)
+
+	stage.CellFloat64s_reference = make(map[*CellFloat64]*CellFloat64)
+	stage.CellFloat64s_instance = make(map[*CellFloat64]*CellFloat64)
+	stage.CellFloat64s_referenceOrder = make(map[*CellFloat64]uint)
+
+	stage.CellIcons_reference = make(map[*CellIcon]*CellIcon)
+	stage.CellIcons_instance = make(map[*CellIcon]*CellIcon)
+	stage.CellIcons_referenceOrder = make(map[*CellIcon]uint)
+
+	stage.CellInts_reference = make(map[*CellInt]*CellInt)
+	stage.CellInts_instance = make(map[*CellInt]*CellInt)
+	stage.CellInts_referenceOrder = make(map[*CellInt]uint)
+
+	stage.CellStrings_reference = make(map[*CellString]*CellString)
+	stage.CellStrings_instance = make(map[*CellString]*CellString)
+	stage.CellStrings_referenceOrder = make(map[*CellString]uint)
+
+	stage.CheckBoxs_reference = make(map[*CheckBox]*CheckBox)
+	stage.CheckBoxs_instance = make(map[*CheckBox]*CheckBox)
+	stage.CheckBoxs_referenceOrder = make(map[*CheckBox]uint)
+
+	stage.DisplayedColumns_reference = make(map[*DisplayedColumn]*DisplayedColumn)
+	stage.DisplayedColumns_instance = make(map[*DisplayedColumn]*DisplayedColumn)
+	stage.DisplayedColumns_referenceOrder = make(map[*DisplayedColumn]uint)
+
+	stage.FormDivs_reference = make(map[*FormDiv]*FormDiv)
+	stage.FormDivs_instance = make(map[*FormDiv]*FormDiv)
+	stage.FormDivs_referenceOrder = make(map[*FormDiv]uint)
+
+	stage.FormEditAssocButtons_reference = make(map[*FormEditAssocButton]*FormEditAssocButton)
+	stage.FormEditAssocButtons_instance = make(map[*FormEditAssocButton]*FormEditAssocButton)
+	stage.FormEditAssocButtons_referenceOrder = make(map[*FormEditAssocButton]uint)
+
+	stage.FormFields_reference = make(map[*FormField]*FormField)
+	stage.FormFields_instance = make(map[*FormField]*FormField)
+	stage.FormFields_referenceOrder = make(map[*FormField]uint)
+
+	stage.FormFieldDates_reference = make(map[*FormFieldDate]*FormFieldDate)
+	stage.FormFieldDates_instance = make(map[*FormFieldDate]*FormFieldDate)
+	stage.FormFieldDates_referenceOrder = make(map[*FormFieldDate]uint)
+
+	stage.FormFieldDateTimes_reference = make(map[*FormFieldDateTime]*FormFieldDateTime)
+	stage.FormFieldDateTimes_instance = make(map[*FormFieldDateTime]*FormFieldDateTime)
+	stage.FormFieldDateTimes_referenceOrder = make(map[*FormFieldDateTime]uint)
+
+	stage.FormFieldFloat64s_reference = make(map[*FormFieldFloat64]*FormFieldFloat64)
+	stage.FormFieldFloat64s_instance = make(map[*FormFieldFloat64]*FormFieldFloat64)
+	stage.FormFieldFloat64s_referenceOrder = make(map[*FormFieldFloat64]uint)
+
+	stage.FormFieldInts_reference = make(map[*FormFieldInt]*FormFieldInt)
+	stage.FormFieldInts_instance = make(map[*FormFieldInt]*FormFieldInt)
+	stage.FormFieldInts_referenceOrder = make(map[*FormFieldInt]uint)
+
+	stage.FormFieldSelects_reference = make(map[*FormFieldSelect]*FormFieldSelect)
+	stage.FormFieldSelects_instance = make(map[*FormFieldSelect]*FormFieldSelect)
+	stage.FormFieldSelects_referenceOrder = make(map[*FormFieldSelect]uint)
+
+	stage.FormFieldStrings_reference = make(map[*FormFieldString]*FormFieldString)
+	stage.FormFieldStrings_instance = make(map[*FormFieldString]*FormFieldString)
+	stage.FormFieldStrings_referenceOrder = make(map[*FormFieldString]uint)
+
+	stage.FormFieldTimes_reference = make(map[*FormFieldTime]*FormFieldTime)
+	stage.FormFieldTimes_instance = make(map[*FormFieldTime]*FormFieldTime)
+	stage.FormFieldTimes_referenceOrder = make(map[*FormFieldTime]uint)
+
+	stage.FormGroups_reference = make(map[*FormGroup]*FormGroup)
+	stage.FormGroups_instance = make(map[*FormGroup]*FormGroup)
+	stage.FormGroups_referenceOrder = make(map[*FormGroup]uint)
+
+	stage.FormSortAssocButtons_reference = make(map[*FormSortAssocButton]*FormSortAssocButton)
+	stage.FormSortAssocButtons_instance = make(map[*FormSortAssocButton]*FormSortAssocButton)
+	stage.FormSortAssocButtons_referenceOrder = make(map[*FormSortAssocButton]uint)
+
+	stage.Options_reference = make(map[*Option]*Option)
+	stage.Options_instance = make(map[*Option]*Option)
+	stage.Options_referenceOrder = make(map[*Option]uint)
+
+	stage.Rows_reference = make(map[*Row]*Row)
+	stage.Rows_instance = make(map[*Row]*Row)
+	stage.Rows_referenceOrder = make(map[*Row]uint)
+
+	stage.Tables_reference = make(map[*Table]*Table)
+	stage.Tables_instance = make(map[*Table]*Table)
+	stage.Tables_referenceOrder = make(map[*Table]uint)
 
 	stage.ComputeInstancesNb()
 	if stage.OnInitCommitCallback != nil {
@@ -665,6 +792,8 @@ func (stage *Stage) Orphans() {
 	for _, hook := range stage.afterCommitHooks {
 		hook(stage)
 	}
+
+	stage.isSquashing = false
 }
 
 // recomputeOrders recomputes the next order for each struct
