@@ -202,6 +202,8 @@ type Stage struct {
 	navigationMode gongStageNavigationMode
 	commitsBehind  int // the number of commits the stage is behind the front of the history
 
+	isApplyingBackwardCommit bool
+
 	lock sync.RWMutex
 }
 
@@ -258,7 +260,9 @@ func (stage *Stage) ApplyBackwardCommit() error {
 	// therefore, it is important to stage.commitsBehind before because it is used in the
 	// UX
 	stage.commitsBehind++
+	stage.isApplyingBackwardCommit = true
 	err := GongParseAstString(stage, commitToApply, true)
+	stage.isApplyingBackwardCommit = false
 	if err != nil {
 		log.Println("error during ApplyBackwardCommit: ", err)
 		return err

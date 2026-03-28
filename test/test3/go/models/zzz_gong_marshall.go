@@ -96,15 +96,7 @@ func ToRawStringLiteral(s string) string {
 // In other modes, it will rewrite the entire file.
 func (stage *Stage) MarshallFile(filename, modelsPackageName, packageName string) {
 
-	if stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
-
-		forwardCommits := stage.GetForwardCommits()
-		if len(forwardCommits) == 0 {
-			return // nothing to do
-		}
-		forwardCommit := forwardCommits[len(forwardCommits)-1]
-
-		// read the file
+	if stage.GongMarshallingMode == GongMarshallingAppendCommit {
 		contentBytes, err := os.ReadFile(filename)
 
 		// if the file does not exist, marshall the full stage
@@ -122,6 +114,38 @@ func (stage *Stage) MarshallFile(filename, modelsPackageName, packageName string
 		}
 
 		content := string(contentBytes)
+
+		if stage.isApplyingBackwardCommit {
+			// we are going backward, we need to remove the last forward commit from the file
+
+			// because commitsBehind has been incremented before the call to this function
+			// the index of the commit to remove is len(forwardCommits) - commitsBehind
+			commitIndexToRemove := len(stage.forwardCommits) - stage.GetCommitsBehind()
+
+			if commitIndexToRemove < 0 || commitIndexToRemove >= len(stage.forwardCommits) {
+				return // Should not happen if history is consistent
+			}
+
+			commitToRemove := stage.forwardCommits[commitIndexToRemove]
+
+			lastIndex := strings.LastIndex(content, commitToRemove)
+			if lastIndex != -1 {
+				newContent := content[:lastIndex] + content[lastIndex+len(commitToRemove):]
+				err = os.WriteFile(filename, []byte(newContent), 0644)
+				if err != nil {
+					log.Fatal(err.Error())
+				}
+			} else {
+				log.Printf("Could not find commit to remove in file %s", filename)
+			}
+			return // we are done for the backward case
+		}
+
+		forwardCommits := stage.GetForwardCommits()
+		if len(forwardCommits) == 0 {
+			return // nothing to do
+		}
+		forwardCommit := forwardCommits[len(forwardCommits)-1]
 
 		// append before the ending brace of the func
 		lastBrace := strings.LastIndex(content, "}")
