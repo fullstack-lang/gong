@@ -12,6 +12,7 @@ import (
 const marshallRes = `package {{PackageName}}
 
 import (
+	"slices"
 	"time"
 
 	"{{ModelsPackageName}}"
@@ -21,6 +22,7 @@ import (
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
 var _ time.Time
+var _ = slices.Index[[]int, int]
 
 // _ point for meta package dummy declaration{{ImportPackageDummyDeclaration}}
 
@@ -138,23 +140,32 @@ func (stage *Stage) MarshallFile(filename, modelsPackageName, packageName string
 
 			commitToRemove := stage.forwardCommits[commitIndexToRemove]
 
-			lastIndex := strings.LastIndex(content, commitToRemove)
+			lastIndex := strings.LastIndex(content, commitToRemove+"\n")
 			if lastIndex != -1 {
-				newContent := content[:lastIndex] + content[lastIndex+len(commitToRemove):]
+				newContent := content[:lastIndex] + content[lastIndex+len(commitToRemove)+1:]
 				err = os.WriteFile(filename, []byte(newContent), 0644)
 				if err != nil {
 					log.Fatal(err.Error())
 				}
 			} else {
-				// The commit block was not found. This typically happens for the initial
-				// commit which is formatted differently (the lines after func _(stage *models.Stage) {).
-				// We rewrite the entire file with the current (rewound) stage state to safely remove it.
-				file, createErr := os.Create(filename)
-				if createErr != nil {
-					log.Fatal(createErr.Error())
+				lastIndex = strings.LastIndex(content, commitToRemove)
+				if lastIndex != -1 {
+					newContent := content[:lastIndex] + content[lastIndex+len(commitToRemove):]
+					err = os.WriteFile(filename, []byte(newContent), 0644)
+					if err != nil {
+						log.Fatal(err.Error())
+					}
+				} else {
+					// The commit block was not found. This typically happens for the initial
+					// commit which is formatted differently (the lines after func _(stage *models.Stage) {).
+					// We rewrite the entire file with the current (rewound) stage state to safely remove it.
+					file, createErr := os.Create(filename)
+					if createErr != nil {
+						log.Fatal(createErr.Error())
+					}
+					defer file.Close()
+					stage.Marshall(file, modelsPackageName, packageName)
 				}
-				defer file.Close()
-				stage.Marshall(file, modelsPackageName, packageName)
 			}
 			return // we are done for the backward case
 		}
