@@ -45,6 +45,10 @@ type ModelUnmarshaller interface {
 	UnmarshallField(stage *Stage, instance GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error
 }
 
+func (stage *Stage) UnmarshallFile(pathToFile string, preserveOrder bool) error {
+	return ParseAstFile(stage, pathToFile, preserveOrder)
+}
+
 // ParseAstFile Parse pathToFile and stages all instances declared in the file
 func ParseAstFile(stage *Stage, pathToFile string, preserveOrder bool) error {
 	fileOfInterest, err := filepath.Abs(pathToFile)
