@@ -204,8 +204,13 @@ func (stage *Stage) MarshallFile(filename, modelsPackageName, packageName string
 		}
 
 		contentBeforeBrace := content[:lastBrace]
+		trimmedContentBeforeBrace := strings.TrimSpace(contentBeforeBrace)
+		emptyBody := stage.isSquashing ||
+			strings.HasSuffix(trimmedContentBeforeBrace, "func _(stage *models.Stage) {") ||
+			strings.HasSuffix(trimmedContentBeforeBrace, "// insertion point for setup of pointers")
+
 		// check if the file ends with stage.Commit() before the brace
-		if !strings.HasSuffix(strings.TrimSpace(contentBeforeBrace), "stage.Commit()") {
+		if !emptyBody && !strings.HasSuffix(trimmedContentBeforeBrace, "stage.Commit()") {
 			contentBeforeBrace = contentBeforeBrace + "\n\tstage.Commit()\n"
 		}
 
