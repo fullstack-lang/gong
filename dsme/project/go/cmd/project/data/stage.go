@@ -55,10 +55,4 @@ func _(stage *models.Stage) {
 
 	// insertion point for setup of pointers
 	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000000_)
-
-	stage.Commit()
-
-	// 
-	__Library__00000000_.IsExpanded = true
-	stage.Commit()
 }
