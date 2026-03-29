@@ -119,8 +119,11 @@ type Stage struct {
 	// succesive commit
 	isInDeltaMode bool
 
-	// GongMarshallingMode set the marshalling mode
-	GongMarshallingMode GongMarshallingMode
+	// gongMarshallingMode set the marshalling mode
+	gongMarshallingMode GongMarshallingMode
+	// some stages have semantic rules that forbids them to be empty
+	// like for git, the commit #0 (genesis commit) cannot be rolled back
+	isWithGenesisCommit bool
 
 	// insertion point for definition of arrays registering instances
 	FileToDownloads                map[*FileToDownload]struct{}
@@ -224,11 +227,19 @@ type Stage struct {
 }
 
 func (s *Stage) SetGongMarshallingMode(mode GongMarshallingMode) {
-	s.GongMarshallingMode = mode
+	s.gongMarshallingMode = mode
 }
 
 func (s *Stage) GetGongMarshallingMode() GongMarshallingMode {
-	return s.GongMarshallingMode
+	return s.gongMarshallingMode
+}
+
+func (s *Stage) SetIsWithGenesisCommit(isWithGenesisCommit bool) {
+	s.isWithGenesisCommit = isWithGenesisCommit
+}
+
+func (s *Stage) GetIsWithGenesisCommit() bool {
+	return s.isWithGenesisCommit
 }
 
 // RegisterBeforeCommit adds a hook that runs before the commit happens
@@ -262,6 +273,10 @@ func (stage *Stage) ApplyBackwardCommit() error {
 
 	if stage.navigationMode == GongNavigationModeNormal {
 		stage.navigationMode = GongNavigationModeNavigating
+	}
+
+	if stage.isWithGenesisCommit && stage.commitsBehind >= len(stage.backwardCommits)-1 {
+		return errors.New("cannot rollback genesis commit")
 	}
 
 	if stage.commitsBehind >= len(stage.backwardCommits) {

@@ -680,6 +680,13 @@ func (probe *Probe) AddCommitNavigationNode(appendChildrenNodeFunc func(models.G
 		backwardButton.ToolTipText = "No more previous commits"
 	}
 
+	if stageOfInterest.GetIsWithGenesisCommit() &&
+		len(stageOfInterest.GetBackwardCommits()) > 0 &&
+		stageOfInterest.GetCommitsBehind() >= len(stageOfInterest.GetBackwardCommits())-1 {
+		backwardButton.IsDisabled = true
+		backwardButton.ToolTipText = "Cannot rollback genesis commit"
+	}
+
 	forwardButton := &tree_models.Button{
 		Name:       "ForwardButton",
 		Icon:       string(tree_buttons.BUTTON_redo),

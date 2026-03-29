@@ -165,7 +165,30 @@ GoYAML supports an optional **History Model**. Instead of just storing the final
 ### D. Solving "Bracket Hell"
 Unlike JSON, GoYAML encourages a flat structure:
 * Every object has a unique identifier (variable name).
-* Relationships are established via **pointer assignments** or **slices of pointers**, ensuring the nesting depth rarely exceeds one level.
+* Relationships are established via **pointer assignments** or **slices of pointers**, ensuring the nesting depth do not exceeds one level.
+* Recursive pointer chains and duplicate pointers to the same object are not a duplicate problem.
+
+For instance,
+```json
+[
+  {
+    "Name": "France",
+    "Hello": {
+      "Name": "Bonjour",
+      "HelloType": "Formal"
+    },
+    "AlternateHellos": [...]
+  },
+  {
+    "Name": "Belgium",
+    "Hello": {
+      "Name": "Bonjour",
+      "HelloType": "Formal"
+    },
+    "AlternateHellos": null
+  }
+]
+```
 
 ### E. Ready to use probe to edit the data, navigate history and view the model
 

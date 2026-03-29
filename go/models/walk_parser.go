@@ -38,7 +38,7 @@ func ParseEmbedModel(embeddedDir embed.FS, source string) map[string]*ast.Packag
 
 		var data, err1 = embeddedDir.ReadFile(path)
 		if err1 != nil {
-			log.Fatalln(err.Error())
+			log.Fatalln(err1.Error())
 		}
 		fset := token.NewFileSet()
 		astFile, errParser := parser.ParseFile(fset, path, data, parser.ParseComments)

@@ -101,7 +101,7 @@ func ToRawStringLiteral(s string) string {
 // In other modes, it will rewrite the entire file.
 func (stage *Stage) MarshallFile(filename, modelsPackageName, packageName string) {
 
-	if stage.GongMarshallingMode == GongMarshallingAppendCommit {
+	if stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
 		contentBytes, err := os.ReadFile(filename)
 
 		// if the file does not exist, marshall the full stage
@@ -204,8 +204,13 @@ func (stage *Stage) MarshallFile(filename, modelsPackageName, packageName string
 		}
 
 		contentBeforeBrace := content[:lastBrace]
+		trimmedContentBeforeBrace := strings.TrimSpace(contentBeforeBrace)
+		emptyBody := stage.isSquashing ||
+			strings.HasSuffix(trimmedContentBeforeBrace, "func _(stage *models.Stage) {") ||
+			strings.HasSuffix(trimmedContentBeforeBrace, "// insertion point for setup of pointers")
+
 		// check if the file ends with stage.Commit() before the brace
-		if !strings.HasSuffix(strings.TrimSpace(contentBeforeBrace), "stage.Commit()") {
+		if !emptyBody && !strings.HasSuffix(trimmedContentBeforeBrace, "stage.Commit()") {
 			contentBeforeBrace = contentBeforeBrace + "\n\tstage.Commit()\n"
 		}
 
