@@ -44,7 +44,7 @@
       "label": "00 - go install statemachines",
       "type": "shell",
       "options": {
-        "cwd": "dsme/statemachines/go/cmd/statemachines"
+        "cwd": "dsm/statemachines/go/cmd/statemachines"
       },
       "command": "go",
       "args": [
@@ -56,7 +56,7 @@
       "label": "00 - go install project",
       "type": "shell",
       "options": {
-        "cwd": "dsme/project/go/cmd/project"
+        "cwd": "dsm/project/go/cmd/project"
       },
       "command": "go",
       "args": [
@@ -444,7 +444,7 @@
       "label": "01 - gong generate statemachines",
       "type": "shell",
       "options": {
-        "cwd": "${workspaceFolder}/dsme/statemachines/go/models"
+        "cwd": "${workspaceFolder}/dsm/statemachines/go/models"
       },
       "command": "gong",
       "group": "build",
@@ -458,7 +458,7 @@
       "label": "01 - gong generate project",
       "type": "shell",
       "options": {
-        "cwd": "${workspaceFolder}/dsme/project/go/models"
+        "cwd": "${workspaceFolder}/dsm/project/go/models"
       },
       "command": "gong",
       "group": "build",
@@ -472,7 +472,7 @@
       "label": "04 - go run project on simple",
       "type": "shell",
       "options": {
-        "cwd": "./dsme/project/go/cmd/project"
+        "cwd": "./dsm/project/go/cmd/project"
       },
       "command": "go",
       "args": [
@@ -489,7 +489,7 @@
       "label": "01 - gong generate barrgraph",
       "type": "shell",
       "options": {
-        "cwd": "${workspaceFolder}/dsme/barrgraph/go/models"
+        "cwd": "${workspaceFolder}/dsm/barrgraph/go/models"
       },
       "command": "gong",
       "group": "build",
@@ -503,7 +503,7 @@
       "label": "00 - go build barrgraph-linux-amd64",
       "type": "shell",
       "options": {
-        "cwd": "dsme/barrgraph/go/cmd/barrgraph",
+        "cwd": "dsm/barrgraph/go/cmd/barrgraph",
         "env": {
           "GOOS": "linux",
           "GOARCH": "amd64"
