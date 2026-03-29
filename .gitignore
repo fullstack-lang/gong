@@ -60,10 +60,10 @@ test/test/go/tests/stage_tests/test.xlsx
 test/test/go/tests/stage_tests/test_withIDs.xlsx
 test/test/go/tests/stage_tests/~$test_withIDs.xlsx
 
-dsme/statemachines/go/cmd/statemachines/statemachines
-dsme/cld/go/cmd/cld/cld
-dsme/project/go/cmd/project/project
+dsm/statemachines/go/cmd/statemachines/statemachines
+dsm/cld/go/cmd/cld/cld
+dsm/project/go/cmd/project/project
 
 pkg/docx/go/cmd/docx/docx
-dsme/barrgraph/go/cmd/barrgraph/barrgraph
-dsme/barrgraph/go/cmd/barrgraph/barrgraph-linux-amd64
+dsm/barrgraph/go/cmd/barrgraph/barrgraph
+dsm/barrgraph/go/cmd/barrgraph/barrgraph-linux-amd64
