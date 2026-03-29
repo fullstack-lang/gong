@@ -6,6 +6,8 @@ add reference to de weck paper
 
 add code tgat generates code tgst generates code
 
+add that the rigorous model verification. against which version 
+of the rules is my data semantically correct
 
 ## Abstract
 In the world of Go development, we often rely on external serialization formats like JSON or YAML to define data and configuration. While these are industry standards, they lack native integration with the Go toolchain, requiring developers to learn separate syntaxes and deal with "bracket hell" or indentation errors. 
