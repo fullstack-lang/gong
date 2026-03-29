@@ -23,14 +23,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	// insertion point for declaration of instances to stage
+	stage.Commit()
 
 	__Diagram__00000000_ := (&models.Diagram{Name: `Default Diagram`}).Stage(stage)
-
 	__Library__00000000_ := (&models.Library{Name: ``}).Stage(stage)
-
-	// insertion point for initialization of values
-
 	__Diagram__00000000_.Name = `Default Diagram`
 	__Diagram__00000000_.ComputedPrefix = `1`
 	__Diagram__00000000_.IsInRenameMode = false
@@ -40,25 +36,17 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.ShowPrefix = false
 	__Diagram__00000000_.DefaultBoxWidth = 250.000000
 	__Diagram__00000000_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000000_.Width = 300.000000
-	__Diagram__00000000_.Height = 300.000000
+	__Diagram__00000000_.Width = 900.000000
+	__Diagram__00000000_.Height = 900.000000
 	__Diagram__00000000_.IsPBSNodeExpanded = false
 	__Diagram__00000000_.IsWBSNodeExpanded = false
 	__Diagram__00000000_.IsNotesNodeExpanded = false
 	__Diagram__00000000_.IsResourcesNodeExpanded = false
-
 	__Library__00000000_.Name = ``
 	__Library__00000000_.ComputedPrefix = ``
 	__Library__00000000_.IsInRenameMode = false
-	__Library__00000000_.IsExpanded = false
-	__Library__00000000_.NbPixPerCharacter = 8.000000
-
-	// insertion point for setup of pointers
-	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000000_)
-
-	stage.Commit()
-
-	// 
 	__Library__00000000_.IsExpanded = true
+	__Library__00000000_.NbPixPerCharacter = 8.000000
+	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000000_)
 	stage.Commit()
 }
