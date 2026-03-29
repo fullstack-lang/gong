@@ -1,6 +1,6 @@
 
 - [1. Why Gong ?](#1-why-gong-)
-- [2. A "hello world" Domain Specific Modeling Environment (DSME) application](#2-a-hello-world-domain-specific-modeling-environment-dsme-application)
+- [2. A "hello world" Domain Specific Modeling Environment (DSME) application](#2-a-hello-world-domain-specific-modeling-environment-dsm-application)
   - [2.1. Prerequisite](#21-prerequisite)
   - [2.2. Generating \& running the code with the `gong` command](#22-generating--running-the-code-with-the-gong-command)
 - [3. Installing and compiling the gong repo](#3-installing-and-compiling-the-gong-repo)
@@ -20,7 +20,7 @@ Gong allows you to grow your DSML. You start with an empty metamodel or an exist
 
 Developing a robust DSML remains a complex task that requires familiarity with standard metamodeling patterns. Gong aims to democratize the development part of this process.
 
-# 2. A "hello world" Domain Specific Modeling Environment (DSME) application
+# 2. A "hello world" Domain Specific Modeling (DSM) application
 
 ## 2.1. Prerequisite
 
@@ -80,5 +80,5 @@ Gong has been used in different settings. It is a work in progress that matures 
 
 For DSME examples see
 
-- explore the "dsme" directory that contains small DSMEs to start from.
+- explore the "dsm" directory that contains small DSMEs to start from.
 - https://github.com/fullstack-lang/gongreqif, a tool for analysing ReqIF files. The abstract syntax is the ReqIF model and the concrete syntax is the rendering of the specifications as markdown/HTML.
