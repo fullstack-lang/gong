@@ -14,6 +14,7 @@ In the world of Go development, we often rely on external serialization formats 
 
 This paper proposes **GoYAML**, a methodology and toolset where pure Go is used as the markup language itself. By leveraging the Go compiler and the Language Server Protocol (`gopls`), we can treat data files as first-class Go code. This approach enables native type-safety, seamless refactoring, and complex constraint validation without leaving the Go ecosystem.
 
+add also xml as the alternative (need to learn xsd)
 ---
 
 ## 1. Introduction & Background
