@@ -98,7 +98,7 @@ func ToRawStringLiteral(s string) string {
 // In other modes, it will rewrite the entire file.
 func (stage *Stage) MarshallFile(filename, modelsPackageName, packageName string) {
 
-	if stage.GongMarshallingMode == GongMarshallingAppendCommit {
+	if stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
 		contentBytes, err := os.ReadFile(filename)
 
 		// if the file does not exist, marshall the full stage
