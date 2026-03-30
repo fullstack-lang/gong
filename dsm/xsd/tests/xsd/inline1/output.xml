@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Root>
+  <Inlines>
+    <FieldA>A1</FieldA>
+    <FieldB>B1</FieldB>
+  </Inlines>
+  <Inlines>
+    <FieldA>A2</FieldA>
+    <FieldB>B2</FieldB>
+  </Inlines>
+</Root>
