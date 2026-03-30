@@ -64,6 +64,24 @@ func Generate(stage *Stage, outputFilePath string) {
 			var outerElementName string
 			if ct.OuterElement != nil {
 				outerElementName = ct.OuterElement.Name
+
+				isRootElement := false
+				schemas := GetGongstrucsSorted[*Schema](stage)
+				if len(schemas) == 1 {
+					for _, el := range schemas[0].Elements {
+						if el == ct.OuterElement {
+							isRootElement = true
+							break
+						}
+					}
+				}
+				if isRootElement {
+					// This is an anonymous complex type within a root element.
+					// It will be handled by the root element generation loop.
+					// So we skip generating a separate struct for it.
+					continue
+				}
+
 				if ct.OuterElement.Parent != nil {
 					if _, ok := ct.OuterElement.Parent.(*Schema); ok {
 						// This is an anonymous complex type within a root element.

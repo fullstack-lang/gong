@@ -19,15 +19,14 @@ const (
 // From xsd simple type with enumerate restriction "titleType"
 type Enum_TitleType string
 
-const ()
+const (
+)
 
-// insertion point for gongstructs declarations
+	// insertion point for gongstructs declarations
 
 // BookType Named source named complex type "bookType"
-//
-//	This complex type defines the structure of a book, including title,
-//
-// author, year, and format.
+//  This complex type defines the structure of a book, including title,
+// author, year, and format. 
 type BookType struct {
 	Name string `xml:"-"`
 
@@ -70,14 +69,6 @@ type Books struct {
 	// necessary since it is a root element
 	XMLName xml.Name `xml:"books"`
 
-	// generated from element "book" of type bookType order 15 depth 2
-	Book []*BookType `xml:"book,omitempty"`
-}
-
-// A_books Named source within outer element "books"
-type A_books struct {
-
-	// insertion point for fields
 
 	// generated from element "book" of type bookType order 15 depth 2
 	Book []*BookType `xml:"book,omitempty"`
@@ -108,7 +99,7 @@ type AttributeGroup_extendedAttributes struct {
 }
 
 // Credit Named source named complex type "credit"
-// The credit type ..
+// The credit type .. 
 type Credit struct {
 	Name string `xml:"-"`
 
