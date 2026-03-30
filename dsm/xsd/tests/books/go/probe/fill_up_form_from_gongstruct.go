@@ -19,18 +19,6 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongta
 
 	switch instancesTyped := any(instance).(type) {
 	// insertion point
-	case *models.A_books:
-		formGroup := (&gongtable.FormGroup{
-			Name:  formName,
-			Label: "A_books Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__A_booksFormCallback(
-			instancesTyped,
-			probe,
-			formGroup,
-		)
-		formGroup.HasSuppressButton = true
-		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.BookType:
 		formGroup := (&gongtable.FormGroup{
 			Name:  formName,

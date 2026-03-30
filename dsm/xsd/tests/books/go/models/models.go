@@ -70,13 +70,12 @@ type Books struct {
 	// necessary since it is a root element
 	XMLName xml.Name `xml:"books"`
 
-	// generated from inline complex type
-	A_books
+	// generated from element "book" of type bookType order 15 depth 2
+	Book []*BookType `xml:"book,omitempty"`
 }
 
 // A_books Named source within outer element "books"
 type A_books struct {
-	Name string `xml:"-"`
 
 	// insertion point for fields
 

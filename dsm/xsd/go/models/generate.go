@@ -64,6 +64,14 @@ func Generate(stage *Stage, outputFilePath string) {
 			var outerElementName string
 			if ct.OuterElement != nil {
 				outerElementName = ct.OuterElement.Name
+				if ct.OuterElement.Parent != nil {
+					if _, ok := ct.OuterElement.Parent.(*Schema); ok {
+						// This is an anonymous complex type within a root element.
+						// It will be handled by the root element generation loop.
+						// So we skip generating a separate struct for it.
+						continue
+					}
+				}
 			}
 			tmp := Replace4(
 				Level1Code[Level1NamedStructCode],
@@ -189,8 +197,7 @@ func Generate(stage *Stage, outputFilePath string) {
 		}
 
 		if element.ComplexType != nil {
-			fields += "\n\n\t// generated from inline complex type" +
-				"\n\t" + element.ComplexType.GoIdentifier
+			fields += "\n" + element.ComplexType.GetFields(stage)
 
 			tmp := Replace4(
 				Level1Code[Level1NamedStructCode],

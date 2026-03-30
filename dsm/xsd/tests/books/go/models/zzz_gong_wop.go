@@ -9,17 +9,6 @@ var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
 var _ = __GONG_time_The_fool_doth_think_he_is_wise__
 
 // insertion point
-type A_books_WOP struct {
-	// insertion point
-
-	Name string
-}
-
-func (from *A_books) CopyBasicFields(to *A_books) {
-	// insertion point
-	to.Name = from.Name
-}
-
 type BookType_WOP struct {
 	// insertion point
 
@@ -56,13 +45,10 @@ type Books_WOP struct {
 	// insertion point
 
 	Name string
-
-	Name string
 }
 
 func (from *Books) CopyBasicFields(to *Books) {
 	// insertion point
-	to.Name = from.Name
 	to.Name = from.Name
 }
 

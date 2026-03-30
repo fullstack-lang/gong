@@ -435,37 +435,6 @@ func GongUnmarshallEnum[T interface{ FromCodeString(string) error }](
 }
 
 // insertion point per named struct
-type A_booksUnmarshaller struct{}
-
-func (u *A_booksUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(A_books)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
-}
-
-func (u *A_booksUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*A_books)
-	_ = instance
-	switch fieldName {
-	// insertion point per field
-	case "Name":
-		instance.Name = GongExtractString(valueExpr)
-	case "Book":
-		GongUnmarshallSliceOfPointers(&instance.Book, valueExpr, identifierMap)
-	}
-	return nil
-}
-
 type BookTypeUnmarshaller struct{}
 
 func (u *BookTypeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -534,8 +503,6 @@ func (u *BooksUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 	_ = instance
 	switch fieldName {
 	// insertion point per field
-	case "Name":
-		instance.Name = GongExtractString(valueExpr)
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
 	case "Book":

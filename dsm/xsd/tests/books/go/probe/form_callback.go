@@ -19,115 +19,6 @@ var _ = slices.Delete([]string{"a"}, 0, 1)
 var _ = log.Panicf
 
 // insertion point
-func __gong__New__A_booksFormCallback(
-	a_books *models.A_books,
-	probe *Probe,
-	formGroup *table.FormGroup,
-) (a_booksFormCallback *A_booksFormCallback) {
-	a_booksFormCallback = new(A_booksFormCallback)
-	a_booksFormCallback.probe = probe
-	a_booksFormCallback.a_books = a_books
-	a_booksFormCallback.formGroup = formGroup
-
-	a_booksFormCallback.CreationMode = (a_books == nil)
-
-	return
-}
-
-type A_booksFormCallback struct {
-	a_books *models.A_books
-
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *table.FormGroup
-}
-
-func (a_booksFormCallback *A_booksFormCallback) OnSave() {
-	a_booksFormCallback.probe.stageOfInterest.Lock()
-	defer a_booksFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("A_booksFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	a_booksFormCallback.probe.formStage.Checkout()
-
-	if a_booksFormCallback.a_books == nil {
-		a_booksFormCallback.a_books = new(models.A_books).Stage(a_booksFormCallback.probe.stageOfInterest)
-	}
-	a_books_ := a_booksFormCallback.a_books
-	_ = a_books_
-
-	for _, formDiv := range a_booksFormCallback.formGroup.FormDivs {
-		switch formDiv.Name {
-		// insertion point per field
-		case "Name":
-			FormDivBasicFieldToField(&(a_books_.Name), formDiv)
-		case "Book":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.BookType](a_booksFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.BookType, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.BookType)
-
-			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					a_booksFormCallback.probe.stageOfInterest,
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.BookType](a_booksFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			a_books_.Book = instanceSlice
-
-		}
-	}
-
-	// manage the suppress operation
-	if a_booksFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		a_books_.Unstage(a_booksFormCallback.probe.stageOfInterest)
-	}
-
-	a_booksFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.A_books](
-		a_booksFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if a_booksFormCallback.CreationMode || a_booksFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		a_booksFormCallback.probe.formStage.Reset()
-		newFormGroup := (&table.FormGroup{
-			Name: FormName,
-		}).Stage(a_booksFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__A_booksFormCallback(
-			nil,
-			a_booksFormCallback.probe,
-			newFormGroup,
-		)
-		a_books := new(models.A_books)
-		FillUpForm(a_books, newFormGroup, a_booksFormCallback.probe)
-		a_booksFormCallback.probe.formStage.Commit()
-	}
-
-	a_booksFormCallback.probe.ux_tree()
-}
 func __gong__New__BookTypeFormCallback(
 	booktype *models.BookType,
 	probe *Probe,
@@ -220,72 +111,6 @@ func (booktypeFormCallback *BookTypeFormCallback) OnSave() {
 			}
 			booktype_.Credit = instanceSlice
 
-		case "A_books:Book":
-			// WARNING : this form deals with the N-N association "A_books.Book []*BookType" but
-			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
-			//
-			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
-			// association. For those use cases, it is handy to set the source of the assocation with
-			// the form of the target source (when editing an instance of BookType). Setting up a value
-			// will discard the former value is there is one.
-			//
-			// Therefore, the forms works only in ONE particular case:
-			// - there was no association to this target
-			var formerSource *models.A_books
-			{
-				var rf models.ReverseField
-				_ = rf
-				rf.GongstructName = "A_books"
-				rf.Fieldname = "Book"
-				formerAssociationSource := booktype_.GongGetReverseFieldOwner(
-					booktypeFormCallback.probe.stageOfInterest,
-					&rf)
-
-				var ok bool
-				if formerAssociationSource != nil {
-					formerSource, ok = formerAssociationSource.(*models.A_books)
-					if !ok {
-						log.Fatalln("Source of A_books.Book []*BookType, is not an A_books instance")
-					}
-				}
-			}
-
-			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
-
-			// case when the user set empty for the source value
-			if newSourceName == nil {
-				// That could mean we clear the assocation for all source instances
-				if formerSource != nil {
-					idx := slices.Index(formerSource.Book, booktype_)
-					formerSource.Book = slices.Delete(formerSource.Book, idx, idx+1)
-				}
-				break // nothing else to do for this field
-			}
-
-			// the former source is not empty. the new value could
-			// be different but there mught more that one source thet
-			// points to this target
-			if formerSource != nil {
-				break // nothing else to do for this field
-			}
-
-			// (2) find the source
-			var newSource *models.A_books
-			for _a_books := range *models.GetGongstructInstancesSet[models.A_books](booktypeFormCallback.probe.stageOfInterest) {
-
-				// the match is base on the name
-				if _a_books.GetName() == newSourceName.GetName() {
-					newSource = _a_books // we have a match
-					break
-				}
-			}
-			if newSource == nil {
-				log.Println("Source of A_books.Book []*BookType, with name", newSourceName, ", does not exist")
-				break
-			}
-
-			// (3) append the new value to the new source field
-			newSource.Book = append(newSource.Book, booktype_)
 		case "Books:Book":
 			// WARNING : this form deals with the N-N association "Books.Book []*BookType" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
@@ -428,8 +253,6 @@ func (booksFormCallback *BooksFormCallback) OnSave() {
 	for _, formDiv := range booksFormCallback.formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
-		case "Name":
-			FormDivBasicFieldToField(&(books_.Name), formDiv)
 		case "Name":
 			FormDivBasicFieldToField(&(books_.Name), formDiv)
 		case "Book":
