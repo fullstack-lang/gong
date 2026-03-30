@@ -17,12 +17,6 @@ func FillUpForm(
 
 	switch instanceWithInferedType := any(instance).(type) {
 	// insertion point
-	case *models.A_books:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
-		AssociationSliceToForm("Book", instanceWithInferedType, &instanceWithInferedType.Book, formGroup, probe)
-
 	case *models.BookType:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
@@ -42,28 +36,6 @@ func FillUpForm(
 		BasicFieldtoForm("Format", instanceWithInferedType.Format, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		AssociationSliceToForm("Credit", instanceWithInferedType, &instanceWithInferedType.Credit, formGroup, probe)
-		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "A_books"
-			rf.Fieldname = "Book"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.A_books),
-					"Book",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.A_books](
-					nil,
-					"Book",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
-		}
 		{
 			var rf models.ReverseField
 			_ = rf
@@ -89,8 +61,6 @@ func FillUpForm(
 
 	case *models.Books:
 		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		AssociationSliceToForm("Book", instanceWithInferedType, &instanceWithInferedType.Book, formGroup, probe)

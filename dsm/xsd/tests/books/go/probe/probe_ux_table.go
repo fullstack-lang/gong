@@ -23,8 +23,6 @@ func (probe *Probe) ux_table() {
 	}
 	switch tableName {
 	// insertion point
-	case "A_books":
-		updateProbeTable[*models.A_books](probe)
 	case "BookType":
 		updateProbeTable[*models.BookType](probe)
 	case "Books":

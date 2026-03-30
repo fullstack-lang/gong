@@ -268,33 +268,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	_ = setValueField
 
 	// insertion initialization of objects to stage
-	a_booksOrdered := []*A_books{}
-	for a_books := range stage.A_bookss {
-		a_booksOrdered = append(a_booksOrdered, a_books)
-	}
-	sort.Slice(a_booksOrdered[:], func(i, j int) bool {
-		a_booksi := a_booksOrdered[i]
-		a_booksj := a_booksOrdered[j]
-		a_booksi_order, oki := stage.A_books_stagedOrder[a_booksi]
-		a_booksj_order, okj := stage.A_books_stagedOrder[a_booksj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return a_booksi_order < a_booksj_order
-	})
-	if len(a_booksOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, a_books := range a_booksOrdered {
-
-		identifiersDecl.WriteString(a_books.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(a_books.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(a_books.GongMarshallField(stage, "Book"))
-	}
-
 	booktypeOrdered := []*BookType{}
 	for booktype := range stage.BookTypes {
 		booktypeOrdered = append(booktypeOrdered, booktype)
@@ -352,7 +325,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(books.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(books.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(books.GongMarshallField(stage, "Book"))
 	}
@@ -417,14 +389,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 
 	// insertion initialization of objects to stage
-	for _, a_books := range a_booksOrdered {
-		_ = a_books
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
 	for _, booktype := range booktypeOrdered {
 		_ = booktype
 		var setPointerField string
@@ -511,31 +475,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 }
 
 // insertion point for marshall field methods
-func (a_books *A_books) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
-	switch fieldName {
-	case "Name":
-		res = StringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", a_books.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_books.Name))
-
-	case "Book":
-		var sb strings.Builder
-		for _, _booktype := range a_books.Book {
-			tmp := SliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", a_books.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Book")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _booktype.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
-		}
-		res = sb.String()
-	default:
-		log.Panicf("Unknown field %s for Gongstruct A_books", fieldName)
-	}
-	return
-}
-
 func (booktype *BookType) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -599,11 +538,6 @@ func (booktype *BookType) GongMarshallField(stage *Stage, fieldName string) (res
 func (books *Books) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
-	case "Name":
-		res = StringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", books.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(books.Name))
 	case "Name":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", books.GongGetIdentifier(stage))
@@ -697,18 +631,6 @@ func (link *Link) GongMarshallField(stage *Stage, fieldName string) (res string)
 }
 
 // insertion point for marshall all fields methods
-func (a_books *A_books) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
-
-	var initializerStatements strings.Builder
-	var pointersInitializesStatements strings.Builder
-	{ // Insertion point for basic fields value assignment
-		initializerStatements.WriteString(a_books.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(a_books.GongMarshallField(stage, "Book"))
-	}
-	initRes = initializerStatements.String()
-	ptrRes = pointersInitializesStatements.String()
-	return
-}
 func (booktype *BookType) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
 	var initializerStatements strings.Builder
@@ -733,7 +655,6 @@ func (books *Books) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes 
 	var initializerStatements strings.Builder
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements.WriteString(books.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(books.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(books.GongMarshallField(stage, "Book"))
 	}

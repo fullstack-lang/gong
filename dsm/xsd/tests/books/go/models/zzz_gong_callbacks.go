@@ -6,10 +6,6 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point
-	case *A_books:
-		if stage.OnAfterA_booksCreateCallback != nil {
-			stage.OnAfterA_booksCreateCallback.OnAfterCreate(stage, target)
-		}
 	case *BookType:
 		if stage.OnAfterBookTypeCreateCallback != nil {
 			stage.OnAfterBookTypeCreateCallback.OnAfterCreate(stage, target)
@@ -40,11 +36,6 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point
-	case *A_books:
-		newTarget := any(new).(*A_books)
-		if stage.OnAfterA_booksUpdateCallback != nil {
-			stage.OnAfterA_booksUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
 	case *BookType:
 		newTarget := any(new).(*BookType)
 		if stage.OnAfterBookTypeUpdateCallback != nil {
@@ -75,11 +66,6 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 
 	switch front := any(front).(type) {
 	// insertion point
-	case *A_books:
-		if stage.OnAfterA_booksDeleteCallback != nil {
-			staged := any(staged).(*A_books)
-			stage.OnAfterA_booksDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
 	case *BookType:
 		if stage.OnAfterBookTypeDeleteCallback != nil {
 			staged := any(staged).(*BookType)
@@ -110,10 +96,6 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point
-	case *A_books:
-		if stage.OnAfterA_booksReadCallback != nil {
-			stage.OnAfterA_booksReadCallback.OnAfterRead(stage, target)
-		}
 	case *BookType:
 		if stage.OnAfterBookTypeReadCallback != nil {
 			stage.OnAfterBookTypeReadCallback.OnAfterRead(stage, target)
@@ -141,8 +123,6 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	var instance Type
 	switch any(instance).(type) {
 	// insertion point
-	case *A_books:
-		stage.OnAfterA_booksUpdateCallback = any(callback).(OnAfterUpdateInterface[A_books])
 	case *BookType:
 		stage.OnAfterBookTypeUpdateCallback = any(callback).(OnAfterUpdateInterface[BookType])
 	case *Books:
@@ -158,8 +138,6 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	var instance Type
 	switch any(instance).(type) {
 		// insertion point
-	case *A_books:
-		stage.OnAfterA_booksCreateCallback = any(callback).(OnAfterCreateInterface[A_books])
 	case *BookType:
 		stage.OnAfterBookTypeCreateCallback = any(callback).(OnAfterCreateInterface[BookType])
 	case *Books:
@@ -175,8 +153,6 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 	var instance Type
 	switch any(instance).(type) {
 		// insertion point
-	case *A_books:
-		stage.OnAfterA_booksDeleteCallback = any(callback).(OnAfterDeleteInterface[A_books])
 	case *BookType:
 		stage.OnAfterBookTypeDeleteCallback = any(callback).(OnAfterDeleteInterface[BookType])
 	case *Books:
@@ -192,8 +168,6 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 	var instance Type
 	switch any(instance).(type) {
 		// insertion point
-	case *A_books:
-		stage.OnAfterA_booksReadCallback = any(callback).(OnAfterReadInterface[A_books])
 	case *BookType:
 		stage.OnAfterBookTypeReadCallback = any(callback).(OnAfterReadInterface[BookType])
 	case *Books:

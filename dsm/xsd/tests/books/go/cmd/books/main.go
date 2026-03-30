@@ -1,8 +1,12 @@
 package main
 
 import (
+	"encoding/xml"
 	"flag"
+	"fmt"
+	"io"
 	"log"
+	"os"
 	"strconv"
 
 	"github.com/fullstack-lang/gong/dsm/xsd/tests/books/go/level1stack"
@@ -10,9 +14,6 @@ import (
 )
 
 var (
-	unmarshallFromCode = flag.String("unmarshallFromCode", "", "unmarshall data from go file and '.go' (must be lowercased without spaces), If unmarshallFromCode arg is '', no unmarshalling")
-	marshallOnCommit   = flag.String("marshallOnCommit", "", "on all commits, marshall staged data to a go file with the marshall name and '.go' (must be lowercased without spaces). If marshall arg is '', no marshalling")
-
 	embeddedDiagrams = flag.Bool("embeddedDiagrams", false, "parse/analysis go/models and go/embeddedDiagrams")
 
 	port = flag.Int("port", 8080, "port server")
@@ -28,7 +29,38 @@ func main() {
 	// setup
 	// - model level1 stack with its probe
 	// - unmarshall/marshall go file with stage data
-	stack := level1stack.NewLevel1Stack("books", *unmarshallFromCode, *marshallOnCommit, true, *embeddedDiagrams)
+	stack := level1stack.NewLevel1Stack("books", "", "", true, *embeddedDiagrams)
+
+	if len(os.Args) < 2 {
+		fmt.Println("Please provide a path to an XML file as the first argument.")
+		return
+	}
+
+	// Open the XML file
+	xmlFile, err := os.Open(os.Args[1])
+	if err != nil {
+		fmt.Println("Error opening file:", err)
+		return
+	}
+	defer xmlFile.Close()
+
+	// Read the XML file
+	byteValue, err := io.ReadAll(xmlFile)
+	if err != nil {
+		fmt.Println("Error reading file:", err)
+		return
+	}
+
+	// Unmarshal the XML into the Books struct
+	var books models.Books
+	err = xml.Unmarshal(byteValue, &books)
+	if err != nil {
+		fmt.Println("Error unmarshalling XML:", err)
+		return
+	}
+
+	models.StageBranch(stack.Stage, &books)
+	stack.Stage.Commit()
 
 	// refresh the probe, therefore we can see what has been unmarshalled
 	stack.Probe.Refresh()
@@ -41,7 +73,7 @@ func main() {
 	)
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(*port))
-	err := stack.R.Run(":" + strconv.Itoa(*port))
+	err = stack.R.Run(":" + strconv.Itoa(*port))
 	if err != nil {
 		log.Fatalln(err.Error())
 	}
