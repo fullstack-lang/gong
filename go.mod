@@ -26,11 +26,13 @@ require (
 	github.com/fullstack-lang/maticons v0.0.0-20240913013021-27a7b8fd9369
 	github.com/glebarez/sqlite v1.11.0
 	github.com/gorilla/websocket v1.5.3
+	github.com/iancoleman/strcase v0.3.0
 	github.com/mattn/go-runewidth v0.0.19
 	github.com/spf13/cobra v1.10.2
 	github.com/xuri/excelize/v2 v2.10.0
 	github.com/yuin/goldmark v1.7.16
 	github.com/yuin/goldmark-meta v1.1.0
+	golang.org/x/exp v0.0.0-20251219203646-944ab1f22d93
 )
 
 require (
@@ -76,7 +78,6 @@ require (
 	github.com/xuri/nfp v0.0.2-0.20250530014748-2ddeb826f9a9 // indirect
 	go.uber.org/mock v0.6.0 // indirect
 	golang.org/x/arch v0.23.0 // indirect
-	golang.org/x/exp v0.0.0-20251219203646-944ab1f22d93 // indirect
 	golang.org/x/net v0.48.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	modernc.org/libc v1.67.4 // indirect
