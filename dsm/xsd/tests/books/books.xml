@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<books xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="books.xsd">
+    <book isbn="978-3-16-148410-0" bestseller="true" edition="First Edition">
+        <title>The Great Gatsby</title>
+        <author>F. Scott Fitzgerald</author>
+        <year>1925</year>
+        <format>Hardcover</format>
+        <credit page="1">
+            <credit-type>Editor</credit-type>
+            <link name="http://example.com/editor-link">Some info in the link</link>
+            <credit-words>Edited by John Doe</credit-words>
+        </credit>
+        <credit page="2">
+            <credit-type>Illustrator</credit-type>
+            <link name="http://example.com/illustrator-link" />
+            <credit-symbol>Illustration Symbol</credit-symbol>
+        </credit>
+    </book>
+    <book isbn="978-1-4028-9462-6" bestseller="false" edition="Second Edition">
+        <title>To Kill a Mockingbird</title>
+        <author>Harper Lee</author>
+        <year>1960</year>
+        <format>Paperback</format>
+        <credit page="10">
+            <credit-type>Foreword</credit-type>
+            <link name="http://example.com/foreword-link" />
+            <credit-words>Foreword by Jane Smith</credit-words>
+        </credit>
+    </book>
+</books>
