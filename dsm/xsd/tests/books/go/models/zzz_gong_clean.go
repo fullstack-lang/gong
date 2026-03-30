@@ -40,14 +40,6 @@ func GongCleanPointer[T PointerToGongstruct](stage *Stage, element *T) (modified
 }
 
 // insertion point per named struct
-// Clean garbage collect unstaged instances that are referenced by A_books
-func (a_books *A_books) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	modified = GongCleanSlice(stage, &a_books.Book) || modified
-	// insertion point per field
-	return
-}
-
 // Clean garbage collect unstaged instances that are referenced by BookType
 func (booktype *BookType) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field

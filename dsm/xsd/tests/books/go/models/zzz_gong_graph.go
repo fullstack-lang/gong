@@ -7,9 +7,6 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 
 	switch target := any(instance).(type) {
 	// insertion point for stage
-	case *A_books:
-		ok = stage.IsStagedA_books(target)
-
 	case *BookType:
 		ok = stage.IsStagedBookType(target)
 
@@ -32,9 +29,6 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage
-	case *A_books:
-		ok = stage.IsStagedA_books(target)
-
 	case *BookType:
 		ok = stage.IsStagedBookType(target)
 
@@ -54,13 +48,6 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 }
 
 // insertion point for stage per struct
-func (stage *Stage) IsStagedA_books(a_books *A_books) (ok bool) {
-
-	_, ok = stage.A_bookss[a_books]
-
-	return
-}
-
 func (stage *Stage) IsStagedBookType(booktype *BookType) (ok bool) {
 
 	_, ok = stage.BookTypes[booktype]
@@ -97,9 +84,6 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage branch
-	case *A_books:
-		stage.StageBranchA_books(target)
-
 	case *BookType:
 		stage.StageBranchBookType(target)
 
@@ -118,24 +102,6 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 }
 
 // insertion point for stage branch per struct
-func (stage *Stage) StageBranchA_books(a_books *A_books) {
-
-	// check if instance is already staged
-	if IsStaged(stage, a_books) {
-		return
-	}
-
-	a_books.Stage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _booktype := range a_books.Book {
-		StageBranch(stage, _booktype)
-	}
-
-}
-
 func (stage *Stage) StageBranchBookType(booktype *BookType) {
 
 	// check if instance is already staged
@@ -216,10 +182,6 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	switch fromT := any(from).(type) {
 	// insertion point for stage branch
-	case *A_books:
-		toT := CopyBranchA_books(mapOrigCopy, fromT)
-		return any(toT).(*Type)
-
 	case *BookType:
 		toT := CopyBranchBookType(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -243,28 +205,6 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 }
 
 // insertion point for stage branch per struct
-func CopyBranchA_books(mapOrigCopy map[any]any, a_booksFrom *A_books) (a_booksTo *A_books) {
-
-	// a_booksFrom has already been copied
-	if _a_booksTo, ok := mapOrigCopy[a_booksFrom]; ok {
-		a_booksTo = _a_booksTo.(*A_books)
-		return
-	}
-
-	a_booksTo = new(A_books)
-	mapOrigCopy[a_booksFrom] = a_booksTo
-	a_booksFrom.CopyBasicFields(a_booksTo)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _booktype := range a_booksFrom.Book {
-		a_booksTo.Book = append(a_booksTo.Book, CopyBranchBookType(mapOrigCopy, _booktype))
-	}
-
-	return
-}
-
 func CopyBranchBookType(mapOrigCopy map[any]any, booktypeFrom *BookType) (booktypeTo *BookType) {
 
 	// booktypeFrom has already been copied
@@ -358,9 +298,6 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for unstage branch
-	case *A_books:
-		stage.UnstageBranchA_books(target)
-
 	case *BookType:
 		stage.UnstageBranchBookType(target)
 
@@ -379,24 +316,6 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 }
 
 // insertion point for unstage branch per struct
-func (stage *Stage) UnstageBranchA_books(a_books *A_books) {
-
-	// check if instance is already staged
-	if !IsStaged(stage, a_books) {
-		return
-	}
-
-	a_books.Unstage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _booktype := range a_books.Book {
-		UnstageBranch(stage, _booktype)
-	}
-
-}
-
 func (stage *Stage) UnstageBranchBookType(booktype *BookType) {
 
 	// check if instance is already staged
@@ -467,17 +386,6 @@ func (stage *Stage) UnstageBranchLink(link *Link) {
 }
 
 // insertion point for pointer reconstruction from references
-func (reference *A_books) GongReconstructPointersFromReferences(stage *Stage, instance *A_books) () {
-	// insertion point for pointers field
-	// insertion point for slice of pointers field
-	reference.Book = reference.Book[:0]
-	for _, _b := range instance.Book {
-		reference.Book = append(reference.Book, stage.BookTypes_reference[_b])
-	}
-
-	return
-}
-
 func (reference *BookType) GongReconstructPointersFromReferences(stage *Stage, instance *BookType) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -519,20 +427,6 @@ func (reference *Link) GongReconstructPointersFromReferences(stage *Stage, insta
 }
 
 // insertion point for pointer reconstruction from instances
-func (reference *A_books) GongReconstructPointersFromInstances(stage *Stage) () {
-	// insertion point for pointers field
-	// insertion point for slice of pointers fields
-	var _Book []*BookType
-	for _, _reference := range reference.Book {
-		if _instance, ok := stage.BookTypes_instance[_reference]; ok {
-			_Book = append(_Book, _instance)
-		}
-	}
-	reference.Book = _Book
-
-	return
-}
-
 func (reference *BookType) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
@@ -583,38 +477,6 @@ func (reference *Link) GongReconstructPointersFromInstances(stage *Stage) () {
 }
 
 // insertion point for diff per struct
-// GongDiff computes the diff between the instance and another instance of same gong struct type
-// and returns the list of differences as strings
-func (a_books *A_books) GongDiff(stage *Stage, a_booksOther *A_books) (diffs []string) {
-	// insertion point for field diffs
-	if a_books.Name != a_booksOther.Name {
-		diffs = append(diffs, a_books.GongMarshallField(stage, "Name"))
-	}
-	BookDifferent := false
-	if len(a_books.Book) != len(a_booksOther.Book) {
-		BookDifferent = true
-	} else {
-		for i := range a_books.Book {
-			if (a_books.Book[i] == nil) != (a_booksOther.Book[i] == nil) {
-				BookDifferent = true
-				break
-			} else if a_books.Book[i] != nil && a_booksOther.Book[i] != nil {
-				// this is a pointer comparaison
-				if a_books.Book[i] != a_booksOther.Book[i] {
-					BookDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if BookDifferent {
-		ops := Diff(stage, a_books, a_booksOther, "Book", a_booksOther.Book, a_books.Book)
-		diffs = append(diffs, ops)
-	}
-
-	return
-}
-
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
 func (booktype *BookType) GongDiff(stage *Stage, booktypeOther *BookType) (diffs []string) {
@@ -672,9 +534,6 @@ func (booktype *BookType) GongDiff(stage *Stage, booktypeOther *BookType) (diffs
 // and returns the list of differences as strings
 func (books *Books) GongDiff(stage *Stage, booksOther *Books) (diffs []string) {
 	// insertion point for field diffs
-	if books.Name != booksOther.Name {
-		diffs = append(diffs, books.GongMarshallField(stage, "Name"))
-	}
 	if books.Name != booksOther.Name {
 		diffs = append(diffs, books.GongMarshallField(stage, "Name"))
 	}

@@ -18,16 +18,6 @@ var (
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per named struct
-	// Compute reverse map for named struct A_books
-	// insertion point per field
-	stage.A_books_Book_reverseMap = make(map[*BookType]*A_books)
-	for a_books := range stage.A_bookss {
-		_ = a_books
-		for _, _booktype := range a_books.Book {
-			stage.A_books_Book_reverseMap[_booktype] = a_books
-		}
-	}
-
 	// Compute reverse map for named struct BookType
 	// insertion point per field
 	stage.BookType_Credit_reverseMap = make(map[*Credit]*BookType)
@@ -66,10 +56,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 func (stage *Stage) GetInstances() (res []GongstructIF) {
 	// insertion point per named struct
-	for instance := range stage.A_bookss {
-		res = append(res, instance)
-	}
-
 	for instance := range stage.BookTypes {
 		res = append(res, instance)
 	}
@@ -90,12 +76,6 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 }
 
 // insertion point per named struct
-func (a_books *A_books) GongCopy() GongstructIF {
-	newInstance := new(A_books)
-	a_books.CopyBasicFields(newInstance)
-	return newInstance
-}
-
 func (booktype *BookType) GongCopy() GongstructIF {
 	newInstance := new(BookType)
 	booktype.CopyBasicFields(newInstance)
@@ -138,57 +118,6 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	stage.Clean()
 
 	// insertion point per named struct
-	var a_bookss_newInstances []*A_books
-	var a_bookss_deletedInstances []*A_books
-
-	// parse all staged instances and check if they have a reference
-	for a_books := range stage.A_bookss {
-		if ref, ok := stage.A_bookss_reference[a_books]; !ok {
-			a_bookss_newInstances = append(a_bookss_newInstances, a_books)
-			newInstancesSlice = append(newInstancesSlice, a_books.GongMarshallIdentifier(stage))
-			if stage.A_bookss_referenceOrder == nil {
-				stage.A_bookss_referenceOrder = make(map[*A_books]uint)
-			}
-			stage.A_bookss_referenceOrder[a_books] = stage.A_books_stagedOrder[a_books]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, a_books.GongMarshallUnstaging(stage))
-			// delete(stage.A_bookss_referenceOrder, a_books)
-			fieldInitializers, pointersInitializations := a_books.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.A_books_stagedOrder[ref] = stage.A_books_stagedOrder[a_books]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := a_books.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, a_books)
-			// delete(stage.A_books_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", a_books.GetName())
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.A_bookss_reference {
-		instance := stage.A_bookss_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.A_bookss[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			a_bookss_deletedInstances = append(a_bookss_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(a_bookss_newInstances)
-	lenDeletedInstances += len(a_bookss_deletedInstances)
 	var booktypes_newInstances []*BookType
 	var booktypes_deletedInstances []*BookType
 
@@ -428,16 +357,6 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 // ComputeReferenceAndOrders will creates a deep copy of each of the staged elements
 func (stage *Stage) ComputeReferenceAndOrders() {
 	// insertion point per named struct
-	stage.A_bookss_reference = make(map[*A_books]*A_books)
-	stage.A_bookss_referenceOrder = make(map[*A_books]uint) // diff Unstage needs the reference order
-	stage.A_bookss_instance = make(map[*A_books]*A_books)
-	for instance := range stage.A_bookss {
-		_copy := instance.GongCopy().(*A_books)
-		stage.A_bookss_reference[instance] = _copy
-		stage.A_bookss_instance[_copy] = instance
-		stage.A_bookss_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
-
 	stage.BookTypes_reference = make(map[*BookType]*BookType)
 	stage.BookTypes_referenceOrder = make(map[*BookType]uint) // diff Unstage needs the reference order
 	stage.BookTypes_instance = make(map[*BookType]*BookType)
@@ -479,11 +398,6 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 	}
 
 	// insertion point per named struct
-	for instance := range stage.A_bookss {
-		reference := stage.A_bookss_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
-
 	for instance := range stage.BookTypes {
 		reference := stage.BookTypes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
@@ -514,18 +428,6 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 // which is important for frontends such as web frontends
 // to avoid unnecessary re-renderings
 // insertion point per named struct
-func (a_books *A_books) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.A_books_stagedOrder[a_books]; ok {
-		return order
-	}
-	if order, ok := stage.A_bookss_referenceOrder[a_books]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type A_books was not staged and does not have a reference order", a_books)
-		return 0
-	}
-}
-
 func (booktype *BookType) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.BookType_stagedOrder[booktype]; ok {
 		return order
@@ -579,15 +481,6 @@ func (link *Link) GongGetOrder(stage *Stage) uint {
 // in the staging area
 // It is used to identify instances across sessions
 // insertion point per named struct
-func (a_books *A_books) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", a_books.GongGetGongstructName(), a_books.GongGetOrder(stage))
-}
-
-// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
-func (a_books *A_books) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", a_books.GongGetGongstructName(), a_books.GongGetOrder(stage))
-}
-
 func (booktype *BookType) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", booktype.GongGetGongstructName(), booktype.GongGetOrder(stage))
 }
@@ -627,14 +520,6 @@ func (link *Link) GongGetReferenceIdentifier(stage *Stage) string {
 // MarshallIdentifier returns the code to instantiate the instance
 // in a marshalling file
 // insertion point per named struct
-func (a_books *A_books) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", a_books.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "A_books")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a_books.Name))
-	return
-}
-
 func (booktype *BookType) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", booktype.GongGetIdentifier(stage))
@@ -644,7 +529,7 @@ func (booktype *BookType) GongMarshallIdentifier(stage *Stage) (decl string) {
 }
 
 func (books *Books) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDeclsWithoutNameInit
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", books.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Books")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(books.Name))
@@ -668,12 +553,6 @@ func (link *Link) GongMarshallIdentifier(stage *Stage) (decl string) {
 }
 
 // insertion point for unstaging
-func (a_books *A_books) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", a_books.GongGetReferenceIdentifier(stage))
-	return
-}
-
 func (booktype *BookType) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", booktype.GongGetReferenceIdentifier(stage))

@@ -2,27 +2,11 @@
 package models
 
 // insertion point
-func (inst *A_books) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
-
-	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
-	return
-}
-
 func (inst *BookType) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
-	case "A_books":
-		switch reverseField.Fieldname {
-		case "Book":
-			if _a_books, ok := stage.A_books_Book_reverseMap[inst]; ok {
-				res = _a_books.Name
-			}
-		}
 	case "Books":
 		switch reverseField.Fieldname {
 		case "Book":
@@ -76,25 +60,11 @@ func (inst *Link) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Rever
 }
 
 // insertion point
-func (inst *A_books) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
-
-	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	}
-	return res
-}
-
 func (inst *BookType) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
-	case "A_books":
-		switch reverseField.Fieldname {
-		case "Book":
-			res = stage.A_books_Book_reverseMap[inst]
-		}
 	case "Books":
 		switch reverseField.Fieldname {
 		case "Book":
