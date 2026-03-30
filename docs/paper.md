@@ -1,6 +1,6 @@
 
 
-# Proposal: GoYAML — Using Go as its Own Markup Language
+# Proposal: GoML (go-m-l) — Using Go as its Own Markup Language
 
 add reference to de weck paper 
 
