@@ -59,6 +59,13 @@ func main() {
 		return
 	}
 
+	for _, book := range books.Book {
+		book.Name = book.Title
+		for _, credit := range book.Credit {
+			credit.Name = credit.Credit_type
+		}
+	}
+
 	models.StageBranch(stack.Stage, &books)
 	stack.Stage.Commit()
 
