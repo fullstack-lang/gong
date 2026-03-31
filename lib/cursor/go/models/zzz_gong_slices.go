@@ -43,8 +43,8 @@ func (cursor *Cursor) GongCopy() GongstructIF {
 // insertion point per named struct
 func (cursor *Cursor) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(cursor).(interface{ GongGetUUIDCustom() string }); ok {
-		return __gong__.GongGetUUIDCustom()
+	if __gong__, ok := any(cursor).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(cursor), uint64(GetOrderPointerGongstruct(stage, cursor)))
