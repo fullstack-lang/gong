@@ -69,6 +69,13 @@ type LayoutDB struct {
 	// Declation for basic field layoutDB.Name
 	Name_Data sql.NullString
 
+	// Declation for basic field layoutDB.IsWithCustomGutterSize
+	// provide the sql storage for the boolan
+	IsWithCustomGutterSize_Data sql.NullBool
+
+	// Declation for basic field layoutDB.GutterSize
+	GutterSize_Data sql.NullFloat64
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	LayoutPointersEncoding
@@ -92,6 +99,10 @@ type LayoutWOP struct {
 	// insertion for WOP basic fields
 
 	Name string `xlsx:"1"`
+
+	IsWithCustomGutterSize bool `xlsx:"2"`
+
+	GutterSize float64 `xlsx:"3"`
 	// insertion for WOP pointer fields
 }
 
@@ -99,6 +110,8 @@ var Layout_Fields = []string{
 	// insertion for WOP basic fields
 	"ID",
 	"Name",
+	"IsWithCustomGutterSize",
+	"GutterSize",
 }
 
 type BackRepoLayoutStruct struct {
@@ -403,6 +416,12 @@ func (layoutDB *LayoutDB) CopyBasicFieldsFromLayout(layout *models.Layout) {
 
 	layoutDB.Name_Data.String = layout.Name
 	layoutDB.Name_Data.Valid = true
+
+	layoutDB.IsWithCustomGutterSize_Data.Bool = layout.IsWithCustomGutterSize
+	layoutDB.IsWithCustomGutterSize_Data.Valid = true
+
+	layoutDB.GutterSize_Data.Float64 = layout.GutterSize
+	layoutDB.GutterSize_Data.Valid = true
 }
 
 // CopyBasicFieldsFromLayout_WOP
@@ -411,6 +430,12 @@ func (layoutDB *LayoutDB) CopyBasicFieldsFromLayout_WOP(layout *models.Layout_WO
 
 	layoutDB.Name_Data.String = layout.Name
 	layoutDB.Name_Data.Valid = true
+
+	layoutDB.IsWithCustomGutterSize_Data.Bool = layout.IsWithCustomGutterSize
+	layoutDB.IsWithCustomGutterSize_Data.Valid = true
+
+	layoutDB.GutterSize_Data.Float64 = layout.GutterSize
+	layoutDB.GutterSize_Data.Valid = true
 }
 
 // CopyBasicFieldsFromLayoutWOP
@@ -419,18 +444,28 @@ func (layoutDB *LayoutDB) CopyBasicFieldsFromLayoutWOP(layout *LayoutWOP) {
 
 	layoutDB.Name_Data.String = layout.Name
 	layoutDB.Name_Data.Valid = true
+
+	layoutDB.IsWithCustomGutterSize_Data.Bool = layout.IsWithCustomGutterSize
+	layoutDB.IsWithCustomGutterSize_Data.Valid = true
+
+	layoutDB.GutterSize_Data.Float64 = layout.GutterSize
+	layoutDB.GutterSize_Data.Valid = true
 }
 
 // CopyBasicFieldsToLayout
 func (layoutDB *LayoutDB) CopyBasicFieldsToLayout(layout *models.Layout) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	layout.Name = layoutDB.Name_Data.String
+	layout.IsWithCustomGutterSize = layoutDB.IsWithCustomGutterSize_Data.Bool
+	layout.GutterSize = layoutDB.GutterSize_Data.Float64
 }
 
 // CopyBasicFieldsToLayout_WOP
 func (layoutDB *LayoutDB) CopyBasicFieldsToLayout_WOP(layout *models.Layout_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	layout.Name = layoutDB.Name_Data.String
+	layout.IsWithCustomGutterSize = layoutDB.IsWithCustomGutterSize_Data.Bool
+	layout.GutterSize = layoutDB.GutterSize_Data.Float64
 }
 
 // CopyBasicFieldsToLayoutWOP
@@ -438,6 +473,8 @@ func (layoutDB *LayoutDB) CopyBasicFieldsToLayoutWOP(layout *LayoutWOP) {
 	layout.ID = int(layoutDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	layout.Name = layoutDB.Name_Data.String
+	layout.IsWithCustomGutterSize = layoutDB.IsWithCustomGutterSize_Data.Bool
+	layout.GutterSize = layoutDB.GutterSize_Data.Float64
 }
 
 // Backup generates a json file from a slice of all LayoutDB instances in the backrepo

@@ -532,6 +532,10 @@ func (u *LayoutUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, field
 		instance.Name = GongExtractString(valueExpr)
 	case "Groups":
 		GongUnmarshallSliceOfPointers(&instance.Groups, valueExpr, identifierMap)
+	case "IsWithCustomGutterSize":
+		instance.IsWithCustomGutterSize = GongExtractBool(valueExpr)
+	case "GutterSize":
+		instance.GutterSize = GongExtractFloat(valueExpr)
 	}
 	return nil
 }
