@@ -2,6 +2,7 @@ package models
 
 import (
 	"fmt"
+	"go/types"
 	"log"
 
 	gong "github.com/fullstack-lang/gong/go/models"
@@ -244,6 +245,15 @@ func (stager *Stager) tree() {
 				IsCheckboxDisabled: stager.embeddedDiagrams || !selected,
 				IsChecked:          isGongStructShapeInDiagram,
 				IsExpanded:         isExpanded,
+				CheckboxHasToolTip: true,
+				CheckboxToolTipText: func() string {
+					if isGongStructShapeInDiagram {
+						return "Remove from diagram"
+					} else {
+						return "Add to diagram"
+					}
+				}(),
+				CheckboxToolTipPosition: tree.Above,
 			}
 			nodeNamedStruct.OnUpdate = func(stage *tree.Stage, staged, front *tree.Node) {
 				// intercept update to the node that are when the node is checked
@@ -297,6 +307,46 @@ func (stager *Stager) tree() {
 						HasCheckboxButton:  true,
 						IsChecked:          isInDiagram,
 						IsCheckboxDisabled: !isGongStructShapeInDiagram || stager.embeddedDiagrams || !selected,
+						CheckboxHasToolTip: true,
+						CheckboxToolTipText: func() string {
+							if isInDiagram {
+								return "Remove from diagram"
+							} else {
+								return "Add to diagram"
+							}
+						}(),
+						CheckboxToolTipPosition: tree.Above,
+						HasToolTip:              true,
+						ToolTipText: func() string {
+							switch field := field.(type) {
+							case *gong.GongBasicField:
+								switch field.GetBasicKind() {
+								case types.Int, types.Int64, types.Int32, types.Float64:
+									if field.GongEnum != nil {
+										return fmt.Sprintf("%s (enum)", field.DeclaredType)
+									} else {
+										return fmt.Sprintf("%s", field.DeclaredType)
+									}
+								case types.String:
+									if field.GongEnum != nil {
+										return field.GongEnum.Name + " (enum)"
+									} else {
+										return "string"
+									}
+								case types.Bool:
+									return "boolean"
+								case types.UntypedNil:
+									return "any type (used for referencing identifiers)"
+								default:
+									return ""
+								}
+							case *gong.GongTimeField:
+								return "Type: time.Time"
+							default:
+								return ""
+							}
+						}(),
+						ToolTipPosition: tree.Right,
 					}
 
 					nodeField.OnUpdate = func(stage *tree.Stage, staged, front *tree.Node) {
@@ -346,6 +396,18 @@ func (stager *Stager) tree() {
 						HasCheckboxButton:  true,
 						IsChecked:          isInDiagram,
 						IsCheckboxDisabled: !isGongStructShapeInDiagram || isTargetGongstructAbsent || stager.embeddedDiagrams || !selected,
+						HasToolTip:         true,
+						ToolTipText: func() string {
+							switch field := field.(type) {
+							case *gong.PointerToGongStructField:
+								return fmt.Sprintf("*%s", field.GongStruct.Name)
+							case *gong.SliceOfPointerToGongStructField:
+								return fmt.Sprintf("[]*%s", field.GongStruct.Name)
+							default:
+								return ""
+							}
+						}(),
+						ToolTipPosition: tree.Right,
 					}
 
 					nodeField.OnUpdate = func(stage *tree.Stage, staged, front *tree.Node) {
