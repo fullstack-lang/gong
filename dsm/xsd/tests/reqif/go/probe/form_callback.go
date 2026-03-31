@@ -97,9 +97,8 @@ func (alternative_idFormCallback *ALTERNATIVE_IDFormCallback) OnSave() {
 		alternative_idFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(alternative_idFormCallback.probe)
+	alternative_idFormCallback.probe.ux_tree()
 }
-
 func __gong__New__ATTRIBUTE_DEFINITION_BOOLEANFormCallback(
 	attribute_definition_boolean *models.ATTRIBUTE_DEFINITION_BOOLEAN,
 	probe *Probe,
@@ -215,6 +214,7 @@ func (attribute_definition_booleanFormCallback *ATTRIBUTE_DEFINITION_BOOLEANForm
 			// (2) find the source
 			var newSource *models.A_SPEC_ATTRIBUTES
 			for _a_spec_attributes := range *models.GetGongstructInstancesSet[models.A_SPEC_ATTRIBUTES](attribute_definition_booleanFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _a_spec_attributes.GetName() == newSourceName.GetName() {
 					newSource = _a_spec_attributes // we have a match
@@ -257,9 +257,8 @@ func (attribute_definition_booleanFormCallback *ATTRIBUTE_DEFINITION_BOOLEANForm
 		attribute_definition_booleanFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(attribute_definition_booleanFormCallback.probe)
+	attribute_definition_booleanFormCallback.probe.ux_tree()
 }
-
 func __gong__New__ATTRIBUTE_DEFINITION_DATEFormCallback(
 	attribute_definition_date *models.ATTRIBUTE_DEFINITION_DATE,
 	probe *Probe,
@@ -375,6 +374,7 @@ func (attribute_definition_dateFormCallback *ATTRIBUTE_DEFINITION_DATEFormCallba
 			// (2) find the source
 			var newSource *models.A_SPEC_ATTRIBUTES
 			for _a_spec_attributes := range *models.GetGongstructInstancesSet[models.A_SPEC_ATTRIBUTES](attribute_definition_dateFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _a_spec_attributes.GetName() == newSourceName.GetName() {
 					newSource = _a_spec_attributes // we have a match
@@ -417,9 +417,8 @@ func (attribute_definition_dateFormCallback *ATTRIBUTE_DEFINITION_DATEFormCallba
 		attribute_definition_dateFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(attribute_definition_dateFormCallback.probe)
+	attribute_definition_dateFormCallback.probe.ux_tree()
 }
-
 func __gong__New__ATTRIBUTE_DEFINITION_ENUMERATIONFormCallback(
 	attribute_definition_enumeration *models.ATTRIBUTE_DEFINITION_ENUMERATION,
 	probe *Probe,
@@ -537,6 +536,7 @@ func (attribute_definition_enumerationFormCallback *ATTRIBUTE_DEFINITION_ENUMERA
 			// (2) find the source
 			var newSource *models.A_SPEC_ATTRIBUTES
 			for _a_spec_attributes := range *models.GetGongstructInstancesSet[models.A_SPEC_ATTRIBUTES](attribute_definition_enumerationFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _a_spec_attributes.GetName() == newSourceName.GetName() {
 					newSource = _a_spec_attributes // we have a match
@@ -579,9 +579,8 @@ func (attribute_definition_enumerationFormCallback *ATTRIBUTE_DEFINITION_ENUMERA
 		attribute_definition_enumerationFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(attribute_definition_enumerationFormCallback.probe)
+	attribute_definition_enumerationFormCallback.probe.ux_tree()
 }
-
 func __gong__New__ATTRIBUTE_DEFINITION_INTEGERFormCallback(
 	attribute_definition_integer *models.ATTRIBUTE_DEFINITION_INTEGER,
 	probe *Probe,
@@ -697,6 +696,7 @@ func (attribute_definition_integerFormCallback *ATTRIBUTE_DEFINITION_INTEGERForm
 			// (2) find the source
 			var newSource *models.A_SPEC_ATTRIBUTES
 			for _a_spec_attributes := range *models.GetGongstructInstancesSet[models.A_SPEC_ATTRIBUTES](attribute_definition_integerFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _a_spec_attributes.GetName() == newSourceName.GetName() {
 					newSource = _a_spec_attributes // we have a match
@@ -739,9 +739,8 @@ func (attribute_definition_integerFormCallback *ATTRIBUTE_DEFINITION_INTEGERForm
 		attribute_definition_integerFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(attribute_definition_integerFormCallback.probe)
+	attribute_definition_integerFormCallback.probe.ux_tree()
 }
-
 func __gong__New__ATTRIBUTE_DEFINITION_REALFormCallback(
 	attribute_definition_real *models.ATTRIBUTE_DEFINITION_REAL,
 	probe *Probe,
@@ -857,6 +856,7 @@ func (attribute_definition_realFormCallback *ATTRIBUTE_DEFINITION_REALFormCallba
 			// (2) find the source
 			var newSource *models.A_SPEC_ATTRIBUTES
 			for _a_spec_attributes := range *models.GetGongstructInstancesSet[models.A_SPEC_ATTRIBUTES](attribute_definition_realFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _a_spec_attributes.GetName() == newSourceName.GetName() {
 					newSource = _a_spec_attributes // we have a match
@@ -899,9 +899,8 @@ func (attribute_definition_realFormCallback *ATTRIBUTE_DEFINITION_REALFormCallba
 		attribute_definition_realFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(attribute_definition_realFormCallback.probe)
+	attribute_definition_realFormCallback.probe.ux_tree()
 }
-
 func __gong__New__ATTRIBUTE_DEFINITION_STRINGFormCallback(
 	attribute_definition_string *models.ATTRIBUTE_DEFINITION_STRING,
 	probe *Probe,
@@ -1017,6 +1016,7 @@ func (attribute_definition_stringFormCallback *ATTRIBUTE_DEFINITION_STRINGFormCa
 			// (2) find the source
 			var newSource *models.A_SPEC_ATTRIBUTES
 			for _a_spec_attributes := range *models.GetGongstructInstancesSet[models.A_SPEC_ATTRIBUTES](attribute_definition_stringFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _a_spec_attributes.GetName() == newSourceName.GetName() {
 					newSource = _a_spec_attributes // we have a match
@@ -1059,9 +1059,8 @@ func (attribute_definition_stringFormCallback *ATTRIBUTE_DEFINITION_STRINGFormCa
 		attribute_definition_stringFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(attribute_definition_stringFormCallback.probe)
+	attribute_definition_stringFormCallback.probe.ux_tree()
 }
-
 func __gong__New__ATTRIBUTE_DEFINITION_XHTMLFormCallback(
 	attribute_definition_xhtml *models.ATTRIBUTE_DEFINITION_XHTML,
 	probe *Probe,
@@ -1177,6 +1176,7 @@ func (attribute_definition_xhtmlFormCallback *ATTRIBUTE_DEFINITION_XHTMLFormCall
 			// (2) find the source
 			var newSource *models.A_SPEC_ATTRIBUTES
 			for _a_spec_attributes := range *models.GetGongstructInstancesSet[models.A_SPEC_ATTRIBUTES](attribute_definition_xhtmlFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _a_spec_attributes.GetName() == newSourceName.GetName() {
 					newSource = _a_spec_attributes // we have a match
@@ -1219,9 +1219,8 @@ func (attribute_definition_xhtmlFormCallback *ATTRIBUTE_DEFINITION_XHTMLFormCall
 		attribute_definition_xhtmlFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(attribute_definition_xhtmlFormCallback.probe)
+	attribute_definition_xhtmlFormCallback.probe.ux_tree()
 }
-
 func __gong__New__ATTRIBUTE_VALUE_BOOLEANFormCallback(
 	attribute_value_boolean *models.ATTRIBUTE_VALUE_BOOLEAN,
 	probe *Probe,
@@ -1325,6 +1324,7 @@ func (attribute_value_booleanFormCallback *ATTRIBUTE_VALUE_BOOLEANFormCallback) 
 			// (2) find the source
 			var newSource *models.A_ATTRIBUTE_VALUE_BOOLEAN
 			for _a_attribute_value_boolean := range *models.GetGongstructInstancesSet[models.A_ATTRIBUTE_VALUE_BOOLEAN](attribute_value_booleanFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _a_attribute_value_boolean.GetName() == newSourceName.GetName() {
 					newSource = _a_attribute_value_boolean // we have a match
@@ -1390,6 +1390,7 @@ func (attribute_value_booleanFormCallback *ATTRIBUTE_VALUE_BOOLEANFormCallback) 
 			// (2) find the source
 			var newSource *models.A_ATTRIBUTE_VALUE_XHTML_1
 			for _a_attribute_value_xhtml_1 := range *models.GetGongstructInstancesSet[models.A_ATTRIBUTE_VALUE_XHTML_1](attribute_value_booleanFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _a_attribute_value_xhtml_1.GetName() == newSourceName.GetName() {
 					newSource = _a_attribute_value_xhtml_1 // we have a match
@@ -1432,9 +1433,8 @@ func (attribute_value_booleanFormCallback *ATTRIBUTE_VALUE_BOOLEANFormCallback) 
 		attribute_value_booleanFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(attribute_value_booleanFormCallback.probe)
+	attribute_value_booleanFormCallback.probe.ux_tree()
 }
-
 func __gong__New__ATTRIBUTE_VALUE_DATEFormCallback(
 	attribute_value_date *models.ATTRIBUTE_VALUE_DATE,
 	probe *Probe,
@@ -1538,6 +1538,7 @@ func (attribute_value_dateFormCallback *ATTRIBUTE_VALUE_DATEFormCallback) OnSave
 			// (2) find the source
 			var newSource *models.A_ATTRIBUTE_VALUE_DATE
 			for _a_attribute_value_date := range *models.GetGongstructInstancesSet[models.A_ATTRIBUTE_VALUE_DATE](attribute_value_dateFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _a_attribute_value_date.GetName() == newSourceName.GetName() {
 					newSource = _a_attribute_value_date // we have a match
@@ -1603,6 +1604,7 @@ func (attribute_value_dateFormCallback *ATTRIBUTE_VALUE_DATEFormCallback) OnSave
 			// (2) find the source
 			var newSource *models.A_ATTRIBUTE_VALUE_XHTML_1
 			for _a_attribute_value_xhtml_1 := range *models.GetGongstructInstancesSet[models.A_ATTRIBUTE_VALUE_XHTML_1](attribute_value_dateFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _a_attribute_value_xhtml_1.GetName() == newSourceName.GetName() {
 					newSource = _a_attribute_value_xhtml_1 // we have a match
@@ -1645,9 +1647,8 @@ func (attribute_value_dateFormCallback *ATTRIBUTE_VALUE_DATEFormCallback) OnSave
 		attribute_value_dateFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(attribute_value_dateFormCallback.probe)
+	attribute_value_dateFormCallback.probe.ux_tree()
 }
-
 func __gong__New__ATTRIBUTE_VALUE_ENUMERATIONFormCallback(
 	attribute_value_enumeration *models.ATTRIBUTE_VALUE_ENUMERATION,
 	probe *Probe,
@@ -1751,6 +1752,7 @@ func (attribute_value_enumerationFormCallback *ATTRIBUTE_VALUE_ENUMERATIONFormCa
 			// (2) find the source
 			var newSource *models.A_ATTRIBUTE_VALUE_ENUMERATION
 			for _a_attribute_value_enumeration := range *models.GetGongstructInstancesSet[models.A_ATTRIBUTE_VALUE_ENUMERATION](attribute_value_enumerationFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _a_attribute_value_enumeration.GetName() == newSourceName.GetName() {
 					newSource = _a_attribute_value_enumeration // we have a match
@@ -1816,6 +1818,7 @@ func (attribute_value_enumerationFormCallback *ATTRIBUTE_VALUE_ENUMERATIONFormCa
 			// (2) find the source
 			var newSource *models.A_ATTRIBUTE_VALUE_XHTML_1
 			for _a_attribute_value_xhtml_1 := range *models.GetGongstructInstancesSet[models.A_ATTRIBUTE_VALUE_XHTML_1](attribute_value_enumerationFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _a_attribute_value_xhtml_1.GetName() == newSourceName.GetName() {
 					newSource = _a_attribute_value_xhtml_1 // we have a match
@@ -1858,9 +1861,8 @@ func (attribute_value_enumerationFormCallback *ATTRIBUTE_VALUE_ENUMERATIONFormCa
 		attribute_value_enumerationFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(attribute_value_enumerationFormCallback.probe)
+	attribute_value_enumerationFormCallback.probe.ux_tree()
 }
-
 func __gong__New__ATTRIBUTE_VALUE_INTEGERFormCallback(
 	attribute_value_integer *models.ATTRIBUTE_VALUE_INTEGER,
 	probe *Probe,
@@ -1964,6 +1966,7 @@ func (attribute_value_integerFormCallback *ATTRIBUTE_VALUE_INTEGERFormCallback) 
 			// (2) find the source
 			var newSource *models.A_ATTRIBUTE_VALUE_INTEGER
 			for _a_attribute_value_integer := range *models.GetGongstructInstancesSet[models.A_ATTRIBUTE_VALUE_INTEGER](attribute_value_integerFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _a_attribute_value_integer.GetName() == newSourceName.GetName() {
 					newSource = _a_attribute_value_integer // we have a match
@@ -2029,6 +2032,7 @@ func (attribute_value_integerFormCallback *ATTRIBUTE_VALUE_INTEGERFormCallback) 
 			// (2) find the source
 			var newSource *models.A_ATTRIBUTE_VALUE_XHTML_1
 			for _a_attribute_value_xhtml_1 := range *models.GetGongstructInstancesSet[models.A_ATTRIBUTE_VALUE_XHTML_1](attribute_value_integerFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _a_attribute_value_xhtml_1.GetName() == newSourceName.GetName() {
 					newSource = _a_attribute_value_xhtml_1 // we have a match
@@ -2071,9 +2075,8 @@ func (attribute_value_integerFormCallback *ATTRIBUTE_VALUE_INTEGERFormCallback) 
 		attribute_value_integerFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(attribute_value_integerFormCallback.probe)
+	attribute_value_integerFormCallback.probe.ux_tree()
 }
-
 func __gong__New__ATTRIBUTE_VALUE_REALFormCallback(
 	attribute_value_real *models.ATTRIBUTE_VALUE_REAL,
 	probe *Probe,
@@ -2177,6 +2180,7 @@ func (attribute_value_realFormCallback *ATTRIBUTE_VALUE_REALFormCallback) OnSave
 			// (2) find the source
 			var newSource *models.A_ATTRIBUTE_VALUE_REAL
 			for _a_attribute_value_real := range *models.GetGongstructInstancesSet[models.A_ATTRIBUTE_VALUE_REAL](attribute_value_realFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _a_attribute_value_real.GetName() == newSourceName.GetName() {
 					newSource = _a_attribute_value_real // we have a match
@@ -2242,6 +2246,7 @@ func (attribute_value_realFormCallback *ATTRIBUTE_VALUE_REALFormCallback) OnSave
 			// (2) find the source
 			var newSource *models.A_ATTRIBUTE_VALUE_XHTML_1
 			for _a_attribute_value_xhtml_1 := range *models.GetGongstructInstancesSet[models.A_ATTRIBUTE_VALUE_XHTML_1](attribute_value_realFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _a_attribute_value_xhtml_1.GetName() == newSourceName.GetName() {
 					newSource = _a_attribute_value_xhtml_1 // we have a match
@@ -2284,9 +2289,8 @@ func (attribute_value_realFormCallback *ATTRIBUTE_VALUE_REALFormCallback) OnSave
 		attribute_value_realFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(attribute_value_realFormCallback.probe)
+	attribute_value_realFormCallback.probe.ux_tree()
 }
-
 func __gong__New__ATTRIBUTE_VALUE_STRINGFormCallback(
 	attribute_value_string *models.ATTRIBUTE_VALUE_STRING,
 	probe *Probe,
@@ -2390,6 +2394,7 @@ func (attribute_value_stringFormCallback *ATTRIBUTE_VALUE_STRINGFormCallback) On
 			// (2) find the source
 			var newSource *models.A_ATTRIBUTE_VALUE_STRING
 			for _a_attribute_value_string := range *models.GetGongstructInstancesSet[models.A_ATTRIBUTE_VALUE_STRING](attribute_value_stringFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _a_attribute_value_string.GetName() == newSourceName.GetName() {
 					newSource = _a_attribute_value_string // we have a match
@@ -2455,6 +2460,7 @@ func (attribute_value_stringFormCallback *ATTRIBUTE_VALUE_STRINGFormCallback) On
 			// (2) find the source
 			var newSource *models.A_ATTRIBUTE_VALUE_XHTML_1
 			for _a_attribute_value_xhtml_1 := range *models.GetGongstructInstancesSet[models.A_ATTRIBUTE_VALUE_XHTML_1](attribute_value_stringFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _a_attribute_value_xhtml_1.GetName() == newSourceName.GetName() {
 					newSource = _a_attribute_value_xhtml_1 // we have a match
@@ -2497,9 +2503,8 @@ func (attribute_value_stringFormCallback *ATTRIBUTE_VALUE_STRINGFormCallback) On
 		attribute_value_stringFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(attribute_value_stringFormCallback.probe)
+	attribute_value_stringFormCallback.probe.ux_tree()
 }
-
 func __gong__New__ATTRIBUTE_VALUE_XHTMLFormCallback(
 	attribute_value_xhtml *models.ATTRIBUTE_VALUE_XHTML,
 	probe *Probe,
@@ -2607,6 +2612,7 @@ func (attribute_value_xhtmlFormCallback *ATTRIBUTE_VALUE_XHTMLFormCallback) OnSa
 			// (2) find the source
 			var newSource *models.A_ATTRIBUTE_VALUE_XHTML
 			for _a_attribute_value_xhtml := range *models.GetGongstructInstancesSet[models.A_ATTRIBUTE_VALUE_XHTML](attribute_value_xhtmlFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _a_attribute_value_xhtml.GetName() == newSourceName.GetName() {
 					newSource = _a_attribute_value_xhtml // we have a match
@@ -2672,6 +2678,7 @@ func (attribute_value_xhtmlFormCallback *ATTRIBUTE_VALUE_XHTMLFormCallback) OnSa
 			// (2) find the source
 			var newSource *models.A_ATTRIBUTE_VALUE_XHTML_1
 			for _a_attribute_value_xhtml_1 := range *models.GetGongstructInstancesSet[models.A_ATTRIBUTE_VALUE_XHTML_1](attribute_value_xhtmlFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _a_attribute_value_xhtml_1.GetName() == newSourceName.GetName() {
 					newSource = _a_attribute_value_xhtml_1 // we have a match
@@ -2714,9 +2721,8 @@ func (attribute_value_xhtmlFormCallback *ATTRIBUTE_VALUE_XHTMLFormCallback) OnSa
 		attribute_value_xhtmlFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(attribute_value_xhtmlFormCallback.probe)
+	attribute_value_xhtmlFormCallback.probe.ux_tree()
 }
-
 func __gong__New__A_ALTERNATIVE_IDFormCallback(
 	a_alternative_id *models.A_ALTERNATIVE_ID,
 	probe *Probe,
@@ -2795,9 +2801,8 @@ func (a_alternative_idFormCallback *A_ALTERNATIVE_IDFormCallback) OnSave() {
 		a_alternative_idFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(a_alternative_idFormCallback.probe)
+	a_alternative_idFormCallback.probe.ux_tree()
 }
-
 func __gong__New__A_ATTRIBUTE_DEFINITION_BOOLEAN_REFFormCallback(
 	a_attribute_definition_boolean_ref *models.A_ATTRIBUTE_DEFINITION_BOOLEAN_REF,
 	probe *Probe,
@@ -2876,9 +2881,8 @@ func (a_attribute_definition_boolean_refFormCallback *A_ATTRIBUTE_DEFINITION_BOO
 		a_attribute_definition_boolean_refFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(a_attribute_definition_boolean_refFormCallback.probe)
+	a_attribute_definition_boolean_refFormCallback.probe.ux_tree()
 }
-
 func __gong__New__A_ATTRIBUTE_DEFINITION_DATE_REFFormCallback(
 	a_attribute_definition_date_ref *models.A_ATTRIBUTE_DEFINITION_DATE_REF,
 	probe *Probe,
@@ -2957,9 +2961,8 @@ func (a_attribute_definition_date_refFormCallback *A_ATTRIBUTE_DEFINITION_DATE_R
 		a_attribute_definition_date_refFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(a_attribute_definition_date_refFormCallback.probe)
+	a_attribute_definition_date_refFormCallback.probe.ux_tree()
 }
-
 func __gong__New__A_ATTRIBUTE_DEFINITION_ENUMERATION_REFFormCallback(
 	a_attribute_definition_enumeration_ref *models.A_ATTRIBUTE_DEFINITION_ENUMERATION_REF,
 	probe *Probe,
@@ -3038,9 +3041,8 @@ func (a_attribute_definition_enumeration_refFormCallback *A_ATTRIBUTE_DEFINITION
 		a_attribute_definition_enumeration_refFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(a_attribute_definition_enumeration_refFormCallback.probe)
+	a_attribute_definition_enumeration_refFormCallback.probe.ux_tree()
 }
-
 func __gong__New__A_ATTRIBUTE_DEFINITION_INTEGER_REFFormCallback(
 	a_attribute_definition_integer_ref *models.A_ATTRIBUTE_DEFINITION_INTEGER_REF,
 	probe *Probe,
@@ -3119,9 +3121,8 @@ func (a_attribute_definition_integer_refFormCallback *A_ATTRIBUTE_DEFINITION_INT
 		a_attribute_definition_integer_refFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(a_attribute_definition_integer_refFormCallback.probe)
+	a_attribute_definition_integer_refFormCallback.probe.ux_tree()
 }
-
 func __gong__New__A_ATTRIBUTE_DEFINITION_REAL_REFFormCallback(
 	a_attribute_definition_real_ref *models.A_ATTRIBUTE_DEFINITION_REAL_REF,
 	probe *Probe,
@@ -3200,9 +3201,8 @@ func (a_attribute_definition_real_refFormCallback *A_ATTRIBUTE_DEFINITION_REAL_R
 		a_attribute_definition_real_refFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(a_attribute_definition_real_refFormCallback.probe)
+	a_attribute_definition_real_refFormCallback.probe.ux_tree()
 }
-
 func __gong__New__A_ATTRIBUTE_DEFINITION_STRING_REFFormCallback(
 	a_attribute_definition_string_ref *models.A_ATTRIBUTE_DEFINITION_STRING_REF,
 	probe *Probe,
@@ -3281,9 +3281,8 @@ func (a_attribute_definition_string_refFormCallback *A_ATTRIBUTE_DEFINITION_STRI
 		a_attribute_definition_string_refFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(a_attribute_definition_string_refFormCallback.probe)
+	a_attribute_definition_string_refFormCallback.probe.ux_tree()
 }
-
 func __gong__New__A_ATTRIBUTE_DEFINITION_XHTML_REFFormCallback(
 	a_attribute_definition_xhtml_ref *models.A_ATTRIBUTE_DEFINITION_XHTML_REF,
 	probe *Probe,
@@ -3362,9 +3361,8 @@ func (a_attribute_definition_xhtml_refFormCallback *A_ATTRIBUTE_DEFINITION_XHTML
 		a_attribute_definition_xhtml_refFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(a_attribute_definition_xhtml_refFormCallback.probe)
+	a_attribute_definition_xhtml_refFormCallback.probe.ux_tree()
 }
-
 func __gong__New__A_ATTRIBUTE_VALUE_BOOLEANFormCallback(
 	a_attribute_value_boolean *models.A_ATTRIBUTE_VALUE_BOOLEAN,
 	probe *Probe,
@@ -3428,6 +3426,7 @@ func (a_attribute_value_booleanFormCallback *A_ATTRIBUTE_VALUE_BOOLEANFormCallba
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -3471,9 +3470,8 @@ func (a_attribute_value_booleanFormCallback *A_ATTRIBUTE_VALUE_BOOLEANFormCallba
 		a_attribute_value_booleanFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(a_attribute_value_booleanFormCallback.probe)
+	a_attribute_value_booleanFormCallback.probe.ux_tree()
 }
-
 func __gong__New__A_ATTRIBUTE_VALUE_DATEFormCallback(
 	a_attribute_value_date *models.A_ATTRIBUTE_VALUE_DATE,
 	probe *Probe,
@@ -3537,6 +3535,7 @@ func (a_attribute_value_dateFormCallback *A_ATTRIBUTE_VALUE_DATEFormCallback) On
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -3580,9 +3579,8 @@ func (a_attribute_value_dateFormCallback *A_ATTRIBUTE_VALUE_DATEFormCallback) On
 		a_attribute_value_dateFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(a_attribute_value_dateFormCallback.probe)
+	a_attribute_value_dateFormCallback.probe.ux_tree()
 }
-
 func __gong__New__A_ATTRIBUTE_VALUE_ENUMERATIONFormCallback(
 	a_attribute_value_enumeration *models.A_ATTRIBUTE_VALUE_ENUMERATION,
 	probe *Probe,
@@ -3646,6 +3644,7 @@ func (a_attribute_value_enumerationFormCallback *A_ATTRIBUTE_VALUE_ENUMERATIONFo
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -3689,9 +3688,8 @@ func (a_attribute_value_enumerationFormCallback *A_ATTRIBUTE_VALUE_ENUMERATIONFo
 		a_attribute_value_enumerationFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(a_attribute_value_enumerationFormCallback.probe)
+	a_attribute_value_enumerationFormCallback.probe.ux_tree()
 }
-
 func __gong__New__A_ATTRIBUTE_VALUE_INTEGERFormCallback(
 	a_attribute_value_integer *models.A_ATTRIBUTE_VALUE_INTEGER,
 	probe *Probe,
@@ -3755,6 +3753,7 @@ func (a_attribute_value_integerFormCallback *A_ATTRIBUTE_VALUE_INTEGERFormCallba
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -3798,9 +3797,8 @@ func (a_attribute_value_integerFormCallback *A_ATTRIBUTE_VALUE_INTEGERFormCallba
 		a_attribute_value_integerFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(a_attribute_value_integerFormCallback.probe)
+	a_attribute_value_integerFormCallback.probe.ux_tree()
 }
-
 func __gong__New__A_ATTRIBUTE_VALUE_REALFormCallback(
 	a_attribute_value_real *models.A_ATTRIBUTE_VALUE_REAL,
 	probe *Probe,
@@ -3864,6 +3862,7 @@ func (a_attribute_value_realFormCallback *A_ATTRIBUTE_VALUE_REALFormCallback) On
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -3907,9 +3906,8 @@ func (a_attribute_value_realFormCallback *A_ATTRIBUTE_VALUE_REALFormCallback) On
 		a_attribute_value_realFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(a_attribute_value_realFormCallback.probe)
+	a_attribute_value_realFormCallback.probe.ux_tree()
 }
-
 func __gong__New__A_ATTRIBUTE_VALUE_STRINGFormCallback(
 	a_attribute_value_string *models.A_ATTRIBUTE_VALUE_STRING,
 	probe *Probe,
@@ -3973,6 +3971,7 @@ func (a_attribute_value_stringFormCallback *A_ATTRIBUTE_VALUE_STRINGFormCallback
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -4016,9 +4015,8 @@ func (a_attribute_value_stringFormCallback *A_ATTRIBUTE_VALUE_STRINGFormCallback
 		a_attribute_value_stringFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(a_attribute_value_stringFormCallback.probe)
+	a_attribute_value_stringFormCallback.probe.ux_tree()
 }
-
 func __gong__New__A_ATTRIBUTE_VALUE_XHTMLFormCallback(
 	a_attribute_value_xhtml *models.A_ATTRIBUTE_VALUE_XHTML,
 	probe *Probe,
@@ -4082,6 +4080,7 @@ func (a_attribute_value_xhtmlFormCallback *A_ATTRIBUTE_VALUE_XHTMLFormCallback) 
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -4125,9 +4124,8 @@ func (a_attribute_value_xhtmlFormCallback *A_ATTRIBUTE_VALUE_XHTMLFormCallback) 
 		a_attribute_value_xhtmlFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(a_attribute_value_xhtmlFormCallback.probe)
+	a_attribute_value_xhtmlFormCallback.probe.ux_tree()
 }
-
 func __gong__New__A_ATTRIBUTE_VALUE_XHTML_1FormCallback(
 	a_attribute_value_xhtml_1 *models.A_ATTRIBUTE_VALUE_XHTML_1,
 	probe *Probe,
@@ -4191,6 +4189,7 @@ func (a_attribute_value_xhtml_1FormCallback *A_ATTRIBUTE_VALUE_XHTML_1FormCallba
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -4221,6 +4220,7 @@ func (a_attribute_value_xhtml_1FormCallback *A_ATTRIBUTE_VALUE_XHTML_1FormCallba
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -4251,6 +4251,7 @@ func (a_attribute_value_xhtml_1FormCallback *A_ATTRIBUTE_VALUE_XHTML_1FormCallba
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -4281,6 +4282,7 @@ func (a_attribute_value_xhtml_1FormCallback *A_ATTRIBUTE_VALUE_XHTML_1FormCallba
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -4311,6 +4313,7 @@ func (a_attribute_value_xhtml_1FormCallback *A_ATTRIBUTE_VALUE_XHTML_1FormCallba
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -4341,6 +4344,7 @@ func (a_attribute_value_xhtml_1FormCallback *A_ATTRIBUTE_VALUE_XHTML_1FormCallba
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -4371,6 +4375,7 @@ func (a_attribute_value_xhtml_1FormCallback *A_ATTRIBUTE_VALUE_XHTML_1FormCallba
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -4414,9 +4419,8 @@ func (a_attribute_value_xhtml_1FormCallback *A_ATTRIBUTE_VALUE_XHTML_1FormCallba
 		a_attribute_value_xhtml_1FormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(a_attribute_value_xhtml_1FormCallback.probe)
+	a_attribute_value_xhtml_1FormCallback.probe.ux_tree()
 }
-
 func __gong__New__A_CHILDRENFormCallback(
 	a_children *models.A_CHILDREN,
 	probe *Probe,
@@ -4480,6 +4484,7 @@ func (a_childrenFormCallback *A_CHILDRENFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -4523,9 +4528,8 @@ func (a_childrenFormCallback *A_CHILDRENFormCallback) OnSave() {
 		a_childrenFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(a_childrenFormCallback.probe)
+	a_childrenFormCallback.probe.ux_tree()
 }
-
 func __gong__New__A_CORE_CONTENTFormCallback(
 	a_core_content *models.A_CORE_CONTENT,
 	probe *Probe,
@@ -4604,9 +4608,8 @@ func (a_core_contentFormCallback *A_CORE_CONTENTFormCallback) OnSave() {
 		a_core_contentFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(a_core_contentFormCallback.probe)
+	a_core_contentFormCallback.probe.ux_tree()
 }
-
 func __gong__New__A_DATATYPESFormCallback(
 	a_datatypes *models.A_DATATYPES,
 	probe *Probe,
@@ -4670,6 +4673,7 @@ func (a_datatypesFormCallback *A_DATATYPESFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -4700,6 +4704,7 @@ func (a_datatypesFormCallback *A_DATATYPESFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -4730,6 +4735,7 @@ func (a_datatypesFormCallback *A_DATATYPESFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -4760,6 +4766,7 @@ func (a_datatypesFormCallback *A_DATATYPESFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -4790,6 +4797,7 @@ func (a_datatypesFormCallback *A_DATATYPESFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -4820,6 +4828,7 @@ func (a_datatypesFormCallback *A_DATATYPESFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -4850,6 +4859,7 @@ func (a_datatypesFormCallback *A_DATATYPESFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -4893,9 +4903,8 @@ func (a_datatypesFormCallback *A_DATATYPESFormCallback) OnSave() {
 		a_datatypesFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(a_datatypesFormCallback.probe)
+	a_datatypesFormCallback.probe.ux_tree()
 }
-
 func __gong__New__A_DATATYPE_DEFINITION_BOOLEAN_REFFormCallback(
 	a_datatype_definition_boolean_ref *models.A_DATATYPE_DEFINITION_BOOLEAN_REF,
 	probe *Probe,
@@ -4974,9 +4983,8 @@ func (a_datatype_definition_boolean_refFormCallback *A_DATATYPE_DEFINITION_BOOLE
 		a_datatype_definition_boolean_refFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(a_datatype_definition_boolean_refFormCallback.probe)
+	a_datatype_definition_boolean_refFormCallback.probe.ux_tree()
 }
-
 func __gong__New__A_DATATYPE_DEFINITION_DATE_REFFormCallback(
 	a_datatype_definition_date_ref *models.A_DATATYPE_DEFINITION_DATE_REF,
 	probe *Probe,
@@ -5055,9 +5063,8 @@ func (a_datatype_definition_date_refFormCallback *A_DATATYPE_DEFINITION_DATE_REF
 		a_datatype_definition_date_refFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(a_datatype_definition_date_refFormCallback.probe)
+	a_datatype_definition_date_refFormCallback.probe.ux_tree()
 }
-
 func __gong__New__A_DATATYPE_DEFINITION_ENUMERATION_REFFormCallback(
 	a_datatype_definition_enumeration_ref *models.A_DATATYPE_DEFINITION_ENUMERATION_REF,
 	probe *Probe,
@@ -5136,9 +5143,8 @@ func (a_datatype_definition_enumeration_refFormCallback *A_DATATYPE_DEFINITION_E
 		a_datatype_definition_enumeration_refFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(a_datatype_definition_enumeration_refFormCallback.probe)
+	a_datatype_definition_enumeration_refFormCallback.probe.ux_tree()
 }
-
 func __gong__New__A_DATATYPE_DEFINITION_INTEGER_REFFormCallback(
 	a_datatype_definition_integer_ref *models.A_DATATYPE_DEFINITION_INTEGER_REF,
 	probe *Probe,
@@ -5217,9 +5223,8 @@ func (a_datatype_definition_integer_refFormCallback *A_DATATYPE_DEFINITION_INTEG
 		a_datatype_definition_integer_refFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(a_datatype_definition_integer_refFormCallback.probe)
+	a_datatype_definition_integer_refFormCallback.probe.ux_tree()
 }
-
 func __gong__New__A_DATATYPE_DEFINITION_REAL_REFFormCallback(
 	a_datatype_definition_real_ref *models.A_DATATYPE_DEFINITION_REAL_REF,
 	probe *Probe,
@@ -5298,9 +5303,8 @@ func (a_datatype_definition_real_refFormCallback *A_DATATYPE_DEFINITION_REAL_REF
 		a_datatype_definition_real_refFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(a_datatype_definition_real_refFormCallback.probe)
+	a_datatype_definition_real_refFormCallback.probe.ux_tree()
 }
-
 func __gong__New__A_DATATYPE_DEFINITION_STRING_REFFormCallback(
 	a_datatype_definition_string_ref *models.A_DATATYPE_DEFINITION_STRING_REF,
 	probe *Probe,
@@ -5379,9 +5383,8 @@ func (a_datatype_definition_string_refFormCallback *A_DATATYPE_DEFINITION_STRING
 		a_datatype_definition_string_refFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(a_datatype_definition_string_refFormCallback.probe)
+	a_datatype_definition_string_refFormCallback.probe.ux_tree()
 }
-
 func __gong__New__A_DATATYPE_DEFINITION_XHTML_REFFormCallback(
 	a_datatype_definition_xhtml_ref *models.A_DATATYPE_DEFINITION_XHTML_REF,
 	probe *Probe,
@@ -5460,9 +5463,8 @@ func (a_datatype_definition_xhtml_refFormCallback *A_DATATYPE_DEFINITION_XHTML_R
 		a_datatype_definition_xhtml_refFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(a_datatype_definition_xhtml_refFormCallback.probe)
+	a_datatype_definition_xhtml_refFormCallback.probe.ux_tree()
 }
-
 func __gong__New__A_EDITABLE_ATTSFormCallback(
 	a_editable_atts *models.A_EDITABLE_ATTS,
 	probe *Probe,
@@ -5553,9 +5555,8 @@ func (a_editable_attsFormCallback *A_EDITABLE_ATTSFormCallback) OnSave() {
 		a_editable_attsFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(a_editable_attsFormCallback.probe)
+	a_editable_attsFormCallback.probe.ux_tree()
 }
-
 func __gong__New__A_ENUM_VALUE_REFFormCallback(
 	a_enum_value_ref *models.A_ENUM_VALUE_REF,
 	probe *Probe,
@@ -5634,9 +5635,8 @@ func (a_enum_value_refFormCallback *A_ENUM_VALUE_REFFormCallback) OnSave() {
 		a_enum_value_refFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(a_enum_value_refFormCallback.probe)
+	a_enum_value_refFormCallback.probe.ux_tree()
 }
-
 func __gong__New__A_OBJECTFormCallback(
 	a_object *models.A_OBJECT,
 	probe *Probe,
@@ -5715,9 +5715,8 @@ func (a_objectFormCallback *A_OBJECTFormCallback) OnSave() {
 		a_objectFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(a_objectFormCallback.probe)
+	a_objectFormCallback.probe.ux_tree()
 }
-
 func __gong__New__A_PROPERTIESFormCallback(
 	a_properties *models.A_PROPERTIES,
 	probe *Probe,
@@ -5796,9 +5795,8 @@ func (a_propertiesFormCallback *A_PROPERTIESFormCallback) OnSave() {
 		a_propertiesFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(a_propertiesFormCallback.probe)
+	a_propertiesFormCallback.probe.ux_tree()
 }
-
 func __gong__New__A_RELATION_GROUP_TYPE_REFFormCallback(
 	a_relation_group_type_ref *models.A_RELATION_GROUP_TYPE_REF,
 	probe *Probe,
@@ -5877,9 +5875,8 @@ func (a_relation_group_type_refFormCallback *A_RELATION_GROUP_TYPE_REFFormCallba
 		a_relation_group_type_refFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(a_relation_group_type_refFormCallback.probe)
+	a_relation_group_type_refFormCallback.probe.ux_tree()
 }
-
 func __gong__New__A_SOURCE_1FormCallback(
 	a_source_1 *models.A_SOURCE_1,
 	probe *Probe,
@@ -5958,9 +5955,8 @@ func (a_source_1FormCallback *A_SOURCE_1FormCallback) OnSave() {
 		a_source_1FormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(a_source_1FormCallback.probe)
+	a_source_1FormCallback.probe.ux_tree()
 }
-
 func __gong__New__A_SOURCE_SPECIFICATION_1FormCallback(
 	a_source_specification_1 *models.A_SOURCE_SPECIFICATION_1,
 	probe *Probe,
@@ -6039,9 +6035,8 @@ func (a_source_specification_1FormCallback *A_SOURCE_SPECIFICATION_1FormCallback
 		a_source_specification_1FormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(a_source_specification_1FormCallback.probe)
+	a_source_specification_1FormCallback.probe.ux_tree()
 }
-
 func __gong__New__A_SPECIFICATIONSFormCallback(
 	a_specifications *models.A_SPECIFICATIONS,
 	probe *Probe,
@@ -6105,6 +6100,7 @@ func (a_specificationsFormCallback *A_SPECIFICATIONSFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -6148,9 +6144,8 @@ func (a_specificationsFormCallback *A_SPECIFICATIONSFormCallback) OnSave() {
 		a_specificationsFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(a_specificationsFormCallback.probe)
+	a_specificationsFormCallback.probe.ux_tree()
 }
-
 func __gong__New__A_SPECIFICATION_TYPE_REFFormCallback(
 	a_specification_type_ref *models.A_SPECIFICATION_TYPE_REF,
 	probe *Probe,
@@ -6229,9 +6224,8 @@ func (a_specification_type_refFormCallback *A_SPECIFICATION_TYPE_REFFormCallback
 		a_specification_type_refFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(a_specification_type_refFormCallback.probe)
+	a_specification_type_refFormCallback.probe.ux_tree()
 }
-
 func __gong__New__A_SPECIFIED_VALUESFormCallback(
 	a_specified_values *models.A_SPECIFIED_VALUES,
 	probe *Probe,
@@ -6295,6 +6289,7 @@ func (a_specified_valuesFormCallback *A_SPECIFIED_VALUESFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -6338,9 +6333,8 @@ func (a_specified_valuesFormCallback *A_SPECIFIED_VALUESFormCallback) OnSave() {
 		a_specified_valuesFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(a_specified_valuesFormCallback.probe)
+	a_specified_valuesFormCallback.probe.ux_tree()
 }
-
 func __gong__New__A_SPEC_ATTRIBUTESFormCallback(
 	a_spec_attributes *models.A_SPEC_ATTRIBUTES,
 	probe *Probe,
@@ -6404,6 +6398,7 @@ func (a_spec_attributesFormCallback *A_SPEC_ATTRIBUTESFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -6434,6 +6429,7 @@ func (a_spec_attributesFormCallback *A_SPEC_ATTRIBUTESFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -6464,6 +6460,7 @@ func (a_spec_attributesFormCallback *A_SPEC_ATTRIBUTESFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -6494,6 +6491,7 @@ func (a_spec_attributesFormCallback *A_SPEC_ATTRIBUTESFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -6524,6 +6522,7 @@ func (a_spec_attributesFormCallback *A_SPEC_ATTRIBUTESFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -6554,6 +6553,7 @@ func (a_spec_attributesFormCallback *A_SPEC_ATTRIBUTESFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -6584,6 +6584,7 @@ func (a_spec_attributesFormCallback *A_SPEC_ATTRIBUTESFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -6627,9 +6628,8 @@ func (a_spec_attributesFormCallback *A_SPEC_ATTRIBUTESFormCallback) OnSave() {
 		a_spec_attributesFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(a_spec_attributesFormCallback.probe)
+	a_spec_attributesFormCallback.probe.ux_tree()
 }
-
 func __gong__New__A_SPEC_OBJECTSFormCallback(
 	a_spec_objects *models.A_SPEC_OBJECTS,
 	probe *Probe,
@@ -6693,6 +6693,7 @@ func (a_spec_objectsFormCallback *A_SPEC_OBJECTSFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -6736,9 +6737,8 @@ func (a_spec_objectsFormCallback *A_SPEC_OBJECTSFormCallback) OnSave() {
 		a_spec_objectsFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(a_spec_objectsFormCallback.probe)
+	a_spec_objectsFormCallback.probe.ux_tree()
 }
-
 func __gong__New__A_SPEC_OBJECT_TYPE_REFFormCallback(
 	a_spec_object_type_ref *models.A_SPEC_OBJECT_TYPE_REF,
 	probe *Probe,
@@ -6817,9 +6817,8 @@ func (a_spec_object_type_refFormCallback *A_SPEC_OBJECT_TYPE_REFFormCallback) On
 		a_spec_object_type_refFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(a_spec_object_type_refFormCallback.probe)
+	a_spec_object_type_refFormCallback.probe.ux_tree()
 }
-
 func __gong__New__A_SPEC_RELATIONSFormCallback(
 	a_spec_relations *models.A_SPEC_RELATIONS,
 	probe *Probe,
@@ -6883,6 +6882,7 @@ func (a_spec_relationsFormCallback *A_SPEC_RELATIONSFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -6926,9 +6926,8 @@ func (a_spec_relationsFormCallback *A_SPEC_RELATIONSFormCallback) OnSave() {
 		a_spec_relationsFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(a_spec_relationsFormCallback.probe)
+	a_spec_relationsFormCallback.probe.ux_tree()
 }
-
 func __gong__New__A_SPEC_RELATION_GROUPSFormCallback(
 	a_spec_relation_groups *models.A_SPEC_RELATION_GROUPS,
 	probe *Probe,
@@ -6992,6 +6991,7 @@ func (a_spec_relation_groupsFormCallback *A_SPEC_RELATION_GROUPSFormCallback) On
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -7035,9 +7035,8 @@ func (a_spec_relation_groupsFormCallback *A_SPEC_RELATION_GROUPSFormCallback) On
 		a_spec_relation_groupsFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(a_spec_relation_groupsFormCallback.probe)
+	a_spec_relation_groupsFormCallback.probe.ux_tree()
 }
-
 func __gong__New__A_SPEC_RELATION_REFFormCallback(
 	a_spec_relation_ref *models.A_SPEC_RELATION_REF,
 	probe *Probe,
@@ -7116,9 +7115,8 @@ func (a_spec_relation_refFormCallback *A_SPEC_RELATION_REFFormCallback) OnSave()
 		a_spec_relation_refFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(a_spec_relation_refFormCallback.probe)
+	a_spec_relation_refFormCallback.probe.ux_tree()
 }
-
 func __gong__New__A_SPEC_RELATION_TYPE_REFFormCallback(
 	a_spec_relation_type_ref *models.A_SPEC_RELATION_TYPE_REF,
 	probe *Probe,
@@ -7197,9 +7195,8 @@ func (a_spec_relation_type_refFormCallback *A_SPEC_RELATION_TYPE_REFFormCallback
 		a_spec_relation_type_refFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(a_spec_relation_type_refFormCallback.probe)
+	a_spec_relation_type_refFormCallback.probe.ux_tree()
 }
-
 func __gong__New__A_SPEC_TYPESFormCallback(
 	a_spec_types *models.A_SPEC_TYPES,
 	probe *Probe,
@@ -7263,6 +7260,7 @@ func (a_spec_typesFormCallback *A_SPEC_TYPESFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -7293,6 +7291,7 @@ func (a_spec_typesFormCallback *A_SPEC_TYPESFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -7323,6 +7322,7 @@ func (a_spec_typesFormCallback *A_SPEC_TYPESFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -7353,6 +7353,7 @@ func (a_spec_typesFormCallback *A_SPEC_TYPESFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -7396,9 +7397,8 @@ func (a_spec_typesFormCallback *A_SPEC_TYPESFormCallback) OnSave() {
 		a_spec_typesFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(a_spec_typesFormCallback.probe)
+	a_spec_typesFormCallback.probe.ux_tree()
 }
-
 func __gong__New__A_THE_HEADERFormCallback(
 	a_the_header *models.A_THE_HEADER,
 	probe *Probe,
@@ -7477,9 +7477,8 @@ func (a_the_headerFormCallback *A_THE_HEADERFormCallback) OnSave() {
 		a_the_headerFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(a_the_headerFormCallback.probe)
+	a_the_headerFormCallback.probe.ux_tree()
 }
-
 func __gong__New__A_TOOL_EXTENSIONSFormCallback(
 	a_tool_extensions *models.A_TOOL_EXTENSIONS,
 	probe *Probe,
@@ -7543,6 +7542,7 @@ func (a_tool_extensionsFormCallback *A_TOOL_EXTENSIONSFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -7586,9 +7586,8 @@ func (a_tool_extensionsFormCallback *A_TOOL_EXTENSIONSFormCallback) OnSave() {
 		a_tool_extensionsFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(a_tool_extensionsFormCallback.probe)
+	a_tool_extensionsFormCallback.probe.ux_tree()
 }
-
 func __gong__New__DATATYPE_DEFINITION_BOOLEANFormCallback(
 	datatype_definition_boolean *models.DATATYPE_DEFINITION_BOOLEAN,
 	probe *Probe,
@@ -7698,6 +7697,7 @@ func (datatype_definition_booleanFormCallback *DATATYPE_DEFINITION_BOOLEANFormCa
 			// (2) find the source
 			var newSource *models.A_DATATYPES
 			for _a_datatypes := range *models.GetGongstructInstancesSet[models.A_DATATYPES](datatype_definition_booleanFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _a_datatypes.GetName() == newSourceName.GetName() {
 					newSource = _a_datatypes // we have a match
@@ -7740,9 +7740,8 @@ func (datatype_definition_booleanFormCallback *DATATYPE_DEFINITION_BOOLEANFormCa
 		datatype_definition_booleanFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(datatype_definition_booleanFormCallback.probe)
+	datatype_definition_booleanFormCallback.probe.ux_tree()
 }
-
 func __gong__New__DATATYPE_DEFINITION_DATEFormCallback(
 	datatype_definition_date *models.DATATYPE_DEFINITION_DATE,
 	probe *Probe,
@@ -7852,6 +7851,7 @@ func (datatype_definition_dateFormCallback *DATATYPE_DEFINITION_DATEFormCallback
 			// (2) find the source
 			var newSource *models.A_DATATYPES
 			for _a_datatypes := range *models.GetGongstructInstancesSet[models.A_DATATYPES](datatype_definition_dateFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _a_datatypes.GetName() == newSourceName.GetName() {
 					newSource = _a_datatypes // we have a match
@@ -7894,9 +7894,8 @@ func (datatype_definition_dateFormCallback *DATATYPE_DEFINITION_DATEFormCallback
 		datatype_definition_dateFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(datatype_definition_dateFormCallback.probe)
+	datatype_definition_dateFormCallback.probe.ux_tree()
 }
-
 func __gong__New__DATATYPE_DEFINITION_ENUMERATIONFormCallback(
 	datatype_definition_enumeration *models.DATATYPE_DEFINITION_ENUMERATION,
 	probe *Probe,
@@ -8008,6 +8007,7 @@ func (datatype_definition_enumerationFormCallback *DATATYPE_DEFINITION_ENUMERATI
 			// (2) find the source
 			var newSource *models.A_DATATYPES
 			for _a_datatypes := range *models.GetGongstructInstancesSet[models.A_DATATYPES](datatype_definition_enumerationFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _a_datatypes.GetName() == newSourceName.GetName() {
 					newSource = _a_datatypes // we have a match
@@ -8050,9 +8050,8 @@ func (datatype_definition_enumerationFormCallback *DATATYPE_DEFINITION_ENUMERATI
 		datatype_definition_enumerationFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(datatype_definition_enumerationFormCallback.probe)
+	datatype_definition_enumerationFormCallback.probe.ux_tree()
 }
-
 func __gong__New__DATATYPE_DEFINITION_INTEGERFormCallback(
 	datatype_definition_integer *models.DATATYPE_DEFINITION_INTEGER,
 	probe *Probe,
@@ -8166,6 +8165,7 @@ func (datatype_definition_integerFormCallback *DATATYPE_DEFINITION_INTEGERFormCa
 			// (2) find the source
 			var newSource *models.A_DATATYPES
 			for _a_datatypes := range *models.GetGongstructInstancesSet[models.A_DATATYPES](datatype_definition_integerFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _a_datatypes.GetName() == newSourceName.GetName() {
 					newSource = _a_datatypes // we have a match
@@ -8208,9 +8208,8 @@ func (datatype_definition_integerFormCallback *DATATYPE_DEFINITION_INTEGERFormCa
 		datatype_definition_integerFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(datatype_definition_integerFormCallback.probe)
+	datatype_definition_integerFormCallback.probe.ux_tree()
 }
-
 func __gong__New__DATATYPE_DEFINITION_REALFormCallback(
 	datatype_definition_real *models.DATATYPE_DEFINITION_REAL,
 	probe *Probe,
@@ -8326,6 +8325,7 @@ func (datatype_definition_realFormCallback *DATATYPE_DEFINITION_REALFormCallback
 			// (2) find the source
 			var newSource *models.A_DATATYPES
 			for _a_datatypes := range *models.GetGongstructInstancesSet[models.A_DATATYPES](datatype_definition_realFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _a_datatypes.GetName() == newSourceName.GetName() {
 					newSource = _a_datatypes // we have a match
@@ -8368,9 +8368,8 @@ func (datatype_definition_realFormCallback *DATATYPE_DEFINITION_REALFormCallback
 		datatype_definition_realFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(datatype_definition_realFormCallback.probe)
+	datatype_definition_realFormCallback.probe.ux_tree()
 }
-
 func __gong__New__DATATYPE_DEFINITION_STRINGFormCallback(
 	datatype_definition_string *models.DATATYPE_DEFINITION_STRING,
 	probe *Probe,
@@ -8482,6 +8481,7 @@ func (datatype_definition_stringFormCallback *DATATYPE_DEFINITION_STRINGFormCall
 			// (2) find the source
 			var newSource *models.A_DATATYPES
 			for _a_datatypes := range *models.GetGongstructInstancesSet[models.A_DATATYPES](datatype_definition_stringFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _a_datatypes.GetName() == newSourceName.GetName() {
 					newSource = _a_datatypes // we have a match
@@ -8524,9 +8524,8 @@ func (datatype_definition_stringFormCallback *DATATYPE_DEFINITION_STRINGFormCall
 		datatype_definition_stringFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(datatype_definition_stringFormCallback.probe)
+	datatype_definition_stringFormCallback.probe.ux_tree()
 }
-
 func __gong__New__DATATYPE_DEFINITION_XHTMLFormCallback(
 	datatype_definition_xhtml *models.DATATYPE_DEFINITION_XHTML,
 	probe *Probe,
@@ -8636,6 +8635,7 @@ func (datatype_definition_xhtmlFormCallback *DATATYPE_DEFINITION_XHTMLFormCallba
 			// (2) find the source
 			var newSource *models.A_DATATYPES
 			for _a_datatypes := range *models.GetGongstructInstancesSet[models.A_DATATYPES](datatype_definition_xhtmlFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _a_datatypes.GetName() == newSourceName.GetName() {
 					newSource = _a_datatypes // we have a match
@@ -8678,9 +8678,8 @@ func (datatype_definition_xhtmlFormCallback *DATATYPE_DEFINITION_XHTMLFormCallba
 		datatype_definition_xhtmlFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(datatype_definition_xhtmlFormCallback.probe)
+	datatype_definition_xhtmlFormCallback.probe.ux_tree()
 }
-
 func __gong__New__EMBEDDED_VALUEFormCallback(
 	embedded_value *models.EMBEDDED_VALUE,
 	probe *Probe,
@@ -8761,9 +8760,8 @@ func (embedded_valueFormCallback *EMBEDDED_VALUEFormCallback) OnSave() {
 		embedded_valueFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(embedded_valueFormCallback.probe)
+	embedded_valueFormCallback.probe.ux_tree()
 }
-
 func __gong__New__ENUM_VALUEFormCallback(
 	enum_value *models.ENUM_VALUE,
 	probe *Probe,
@@ -8875,6 +8873,7 @@ func (enum_valueFormCallback *ENUM_VALUEFormCallback) OnSave() {
 			// (2) find the source
 			var newSource *models.A_SPECIFIED_VALUES
 			for _a_specified_values := range *models.GetGongstructInstancesSet[models.A_SPECIFIED_VALUES](enum_valueFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _a_specified_values.GetName() == newSourceName.GetName() {
 					newSource = _a_specified_values // we have a match
@@ -8917,9 +8916,8 @@ func (enum_valueFormCallback *ENUM_VALUEFormCallback) OnSave() {
 		enum_valueFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(enum_valueFormCallback.probe)
+	enum_valueFormCallback.probe.ux_tree()
 }
-
 func __gong__New__RELATION_GROUPFormCallback(
 	relation_group *models.RELATION_GROUP,
 	probe *Probe,
@@ -9037,6 +9035,7 @@ func (relation_groupFormCallback *RELATION_GROUPFormCallback) OnSave() {
 			// (2) find the source
 			var newSource *models.A_SPEC_RELATION_GROUPS
 			for _a_spec_relation_groups := range *models.GetGongstructInstancesSet[models.A_SPEC_RELATION_GROUPS](relation_groupFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _a_spec_relation_groups.GetName() == newSourceName.GetName() {
 					newSource = _a_spec_relation_groups // we have a match
@@ -9079,9 +9078,8 @@ func (relation_groupFormCallback *RELATION_GROUPFormCallback) OnSave() {
 		relation_groupFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(relation_groupFormCallback.probe)
+	relation_groupFormCallback.probe.ux_tree()
 }
-
 func __gong__New__RELATION_GROUP_TYPEFormCallback(
 	relation_group_type *models.RELATION_GROUP_TYPE,
 	probe *Probe,
@@ -9193,6 +9191,7 @@ func (relation_group_typeFormCallback *RELATION_GROUP_TYPEFormCallback) OnSave()
 			// (2) find the source
 			var newSource *models.A_SPEC_TYPES
 			for _a_spec_types := range *models.GetGongstructInstancesSet[models.A_SPEC_TYPES](relation_group_typeFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _a_spec_types.GetName() == newSourceName.GetName() {
 					newSource = _a_spec_types // we have a match
@@ -9235,9 +9234,8 @@ func (relation_group_typeFormCallback *RELATION_GROUP_TYPEFormCallback) OnSave()
 		relation_group_typeFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(relation_group_typeFormCallback.probe)
+	relation_group_typeFormCallback.probe.ux_tree()
 }
-
 func __gong__New__REQ_IFFormCallback(
 	req_if *models.REQ_IF,
 	probe *Probe,
@@ -9322,9 +9320,8 @@ func (req_ifFormCallback *REQ_IFFormCallback) OnSave() {
 		req_ifFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(req_ifFormCallback.probe)
+	req_ifFormCallback.probe.ux_tree()
 }
-
 func __gong__New__REQ_IF_CONTENTFormCallback(
 	req_if_content *models.REQ_IF_CONTENT,
 	probe *Probe,
@@ -9413,9 +9410,8 @@ func (req_if_contentFormCallback *REQ_IF_CONTENTFormCallback) OnSave() {
 		req_if_contentFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(req_if_contentFormCallback.probe)
+	req_if_contentFormCallback.probe.ux_tree()
 }
-
 func __gong__New__REQ_IF_HEADERFormCallback(
 	req_if_header *models.REQ_IF_HEADER,
 	probe *Probe,
@@ -9508,9 +9504,8 @@ func (req_if_headerFormCallback *REQ_IF_HEADERFormCallback) OnSave() {
 		req_if_headerFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(req_if_headerFormCallback.probe)
+	req_if_headerFormCallback.probe.ux_tree()
 }
-
 func __gong__New__REQ_IF_TOOL_EXTENSIONFormCallback(
 	req_if_tool_extension *models.REQ_IF_TOOL_EXTENSION,
 	probe *Probe,
@@ -9610,6 +9605,7 @@ func (req_if_tool_extensionFormCallback *REQ_IF_TOOL_EXTENSIONFormCallback) OnSa
 			// (2) find the source
 			var newSource *models.A_TOOL_EXTENSIONS
 			for _a_tool_extensions := range *models.GetGongstructInstancesSet[models.A_TOOL_EXTENSIONS](req_if_tool_extensionFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _a_tool_extensions.GetName() == newSourceName.GetName() {
 					newSource = _a_tool_extensions // we have a match
@@ -9652,9 +9648,8 @@ func (req_if_tool_extensionFormCallback *REQ_IF_TOOL_EXTENSIONFormCallback) OnSa
 		req_if_tool_extensionFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(req_if_tool_extensionFormCallback.probe)
+	req_if_tool_extensionFormCallback.probe.ux_tree()
 }
-
 func __gong__New__SPECIFICATIONFormCallback(
 	specification *models.SPECIFICATION,
 	probe *Probe,
@@ -9770,6 +9765,7 @@ func (specificationFormCallback *SPECIFICATIONFormCallback) OnSave() {
 			// (2) find the source
 			var newSource *models.A_SPECIFICATIONS
 			for _a_specifications := range *models.GetGongstructInstancesSet[models.A_SPECIFICATIONS](specificationFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _a_specifications.GetName() == newSourceName.GetName() {
 					newSource = _a_specifications // we have a match
@@ -9812,9 +9808,8 @@ func (specificationFormCallback *SPECIFICATIONFormCallback) OnSave() {
 		specificationFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(specificationFormCallback.probe)
+	specificationFormCallback.probe.ux_tree()
 }
-
 func __gong__New__SPECIFICATION_TYPEFormCallback(
 	specification_type *models.SPECIFICATION_TYPE,
 	probe *Probe,
@@ -9926,6 +9921,7 @@ func (specification_typeFormCallback *SPECIFICATION_TYPEFormCallback) OnSave() {
 			// (2) find the source
 			var newSource *models.A_SPEC_TYPES
 			for _a_spec_types := range *models.GetGongstructInstancesSet[models.A_SPEC_TYPES](specification_typeFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _a_spec_types.GetName() == newSourceName.GetName() {
 					newSource = _a_spec_types // we have a match
@@ -9968,9 +9964,8 @@ func (specification_typeFormCallback *SPECIFICATION_TYPEFormCallback) OnSave() {
 		specification_typeFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(specification_typeFormCallback.probe)
+	specification_typeFormCallback.probe.ux_tree()
 }
-
 func __gong__New__SPEC_HIERARCHYFormCallback(
 	spec_hierarchy *models.SPEC_HIERARCHY,
 	probe *Probe,
@@ -10090,6 +10085,7 @@ func (spec_hierarchyFormCallback *SPEC_HIERARCHYFormCallback) OnSave() {
 			// (2) find the source
 			var newSource *models.A_CHILDREN
 			for _a_children := range *models.GetGongstructInstancesSet[models.A_CHILDREN](spec_hierarchyFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _a_children.GetName() == newSourceName.GetName() {
 					newSource = _a_children // we have a match
@@ -10132,9 +10128,8 @@ func (spec_hierarchyFormCallback *SPEC_HIERARCHYFormCallback) OnSave() {
 		spec_hierarchyFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(spec_hierarchyFormCallback.probe)
+	spec_hierarchyFormCallback.probe.ux_tree()
 }
-
 func __gong__New__SPEC_OBJECTFormCallback(
 	spec_object *models.SPEC_OBJECT,
 	probe *Probe,
@@ -10248,6 +10243,7 @@ func (spec_objectFormCallback *SPEC_OBJECTFormCallback) OnSave() {
 			// (2) find the source
 			var newSource *models.A_SPEC_OBJECTS
 			for _a_spec_objects := range *models.GetGongstructInstancesSet[models.A_SPEC_OBJECTS](spec_objectFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _a_spec_objects.GetName() == newSourceName.GetName() {
 					newSource = _a_spec_objects // we have a match
@@ -10290,9 +10286,8 @@ func (spec_objectFormCallback *SPEC_OBJECTFormCallback) OnSave() {
 		spec_objectFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(spec_objectFormCallback.probe)
+	spec_objectFormCallback.probe.ux_tree()
 }
-
 func __gong__New__SPEC_OBJECT_TYPEFormCallback(
 	spec_object_type *models.SPEC_OBJECT_TYPE,
 	probe *Probe,
@@ -10404,6 +10399,7 @@ func (spec_object_typeFormCallback *SPEC_OBJECT_TYPEFormCallback) OnSave() {
 			// (2) find the source
 			var newSource *models.A_SPEC_TYPES
 			for _a_spec_types := range *models.GetGongstructInstancesSet[models.A_SPEC_TYPES](spec_object_typeFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _a_spec_types.GetName() == newSourceName.GetName() {
 					newSource = _a_spec_types // we have a match
@@ -10446,9 +10442,8 @@ func (spec_object_typeFormCallback *SPEC_OBJECT_TYPEFormCallback) OnSave() {
 		spec_object_typeFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(spec_object_typeFormCallback.probe)
+	spec_object_typeFormCallback.probe.ux_tree()
 }
-
 func __gong__New__SPEC_RELATIONFormCallback(
 	spec_relation *models.SPEC_RELATION,
 	probe *Probe,
@@ -10566,6 +10561,7 @@ func (spec_relationFormCallback *SPEC_RELATIONFormCallback) OnSave() {
 			// (2) find the source
 			var newSource *models.A_SPEC_RELATIONS
 			for _a_spec_relations := range *models.GetGongstructInstancesSet[models.A_SPEC_RELATIONS](spec_relationFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _a_spec_relations.GetName() == newSourceName.GetName() {
 					newSource = _a_spec_relations // we have a match
@@ -10608,9 +10604,8 @@ func (spec_relationFormCallback *SPEC_RELATIONFormCallback) OnSave() {
 		spec_relationFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(spec_relationFormCallback.probe)
+	spec_relationFormCallback.probe.ux_tree()
 }
-
 func __gong__New__SPEC_RELATION_TYPEFormCallback(
 	spec_relation_type *models.SPEC_RELATION_TYPE,
 	probe *Probe,
@@ -10722,6 +10717,7 @@ func (spec_relation_typeFormCallback *SPEC_RELATION_TYPEFormCallback) OnSave() {
 			// (2) find the source
 			var newSource *models.A_SPEC_TYPES
 			for _a_spec_types := range *models.GetGongstructInstancesSet[models.A_SPEC_TYPES](spec_relation_typeFormCallback.probe.stageOfInterest) {
+
 				// the match is base on the name
 				if _a_spec_types.GetName() == newSourceName.GetName() {
 					newSource = _a_spec_types // we have a match
@@ -10764,9 +10760,8 @@ func (spec_relation_typeFormCallback *SPEC_RELATION_TYPEFormCallback) OnSave() {
 		spec_relation_typeFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(spec_relation_typeFormCallback.probe)
+	spec_relation_typeFormCallback.probe.ux_tree()
 }
-
 func __gong__New__XHTML_CONTENTFormCallback(
 	xhtml_content *models.XHTML_CONTENT,
 	probe *Probe,
@@ -10816,8 +10811,6 @@ func (xhtml_contentFormCallback *XHTML_CONTENTFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(xhtml_content_.Name), formDiv)
 		case "EnclosedText":
 			FormDivBasicFieldToField(&(xhtml_content_.EnclosedText), formDiv)
-		case "PureText":
-			FormDivBasicFieldToField(&(xhtml_content_.PureText), formDiv)
 		}
 	}
 
@@ -10847,5 +10840,5 @@ func (xhtml_contentFormCallback *XHTML_CONTENTFormCallback) OnSave() {
 		xhtml_contentFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(xhtml_contentFormCallback.probe)
+	xhtml_contentFormCallback.probe.ux_tree()
 }
