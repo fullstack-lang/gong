@@ -103,8 +103,8 @@ func (link *Link) GongCopy() GongstructIF {
 // insertion point per named struct
 func (booktype *BookType) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(booktype).(interface{ GongUUIDCustom() string }); ok {
-		return __gong__.GongUUIDCustom()
+	if __gong__, ok := any(booktype).(interface{ GongGetUUIDCustom() string }); ok {
+		return __gong__.GongGetUUIDCustom()
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(booktype), uint64(GetOrderPointerGongstruct(stage, booktype)))
@@ -113,8 +113,8 @@ func (booktype *BookType) GongGetUUID(stage *Stage) (uuid string) {
 
 func (books *Books) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(books).(interface{ GongUUIDCustom() string }); ok {
-		return __gong__.GongUUIDCustom()
+	if __gong__, ok := any(books).(interface{ GongGetUUIDCustom() string }); ok {
+		return __gong__.GongGetUUIDCustom()
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(books), uint64(GetOrderPointerGongstruct(stage, books)))
@@ -123,8 +123,8 @@ func (books *Books) GongGetUUID(stage *Stage) (uuid string) {
 
 func (credit *Credit) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(credit).(interface{ GongUUIDCustom() string }); ok {
-		return __gong__.GongUUIDCustom()
+	if __gong__, ok := any(credit).(interface{ GongGetUUIDCustom() string }); ok {
+		return __gong__.GongGetUUIDCustom()
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(credit), uint64(GetOrderPointerGongstruct(stage, credit)))
@@ -133,8 +133,8 @@ func (credit *Credit) GongGetUUID(stage *Stage) (uuid string) {
 
 func (link *Link) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(link).(interface{ GongUUIDCustom() string }); ok {
-		return __gong__.GongUUIDCustom()
+	if __gong__, ok := any(link).(interface{ GongGetUUIDCustom() string }); ok {
+		return __gong__.GongGetUUIDCustom()
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(link), uint64(GetOrderPointerGongstruct(stage, link)))
