@@ -1788,6 +1788,14 @@ func (layout *Layout) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Group",
 		},
+		{
+			Name:               "IsWithCustomGutterSize",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "GutterSize",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
 	}
 	return
 }
@@ -1963,6 +1971,14 @@ func (layout *Layout) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "IsWithCustomGutterSize":
+		res.valueString = fmt.Sprintf("%t", layout.IsWithCustomGutterSize)
+		res.valueBool = layout.IsWithCustomGutterSize
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "GutterSize":
+		res.valueString = fmt.Sprintf("%f", layout.GutterSize)
+		res.valueFloat = layout.GutterSize
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	}
 	return
 }
@@ -2099,6 +2115,10 @@ func (layout *Layout) GongSetFieldValue(fieldName string, value GongFieldValue, 
 				}
 			}
 		}
+	case "IsWithCustomGutterSize":
+		layout.IsWithCustomGutterSize = value.GetValueBool()
+	case "GutterSize":
+		layout.GutterSize = value.GetValueFloat()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

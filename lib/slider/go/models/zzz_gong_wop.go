@@ -47,11 +47,17 @@ type Layout_WOP struct {
 	// insertion point
 
 	Name string
+
+	IsWithCustomGutterSize bool
+
+	GutterSize float64
 }
 
 func (from *Layout) CopyBasicFields(to *Layout) {
 	// insertion point
 	to.Name = from.Name
+	to.IsWithCustomGutterSize = from.IsWithCustomGutterSize
+	to.GutterSize = from.GutterSize
 }
 
 type Slider_WOP struct {

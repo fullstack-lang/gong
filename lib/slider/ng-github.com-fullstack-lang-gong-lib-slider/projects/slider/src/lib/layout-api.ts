@@ -12,6 +12,8 @@ export class LayoutAPI {
 
 	// insertion point for basic fields declarations
 	Name: string = ""
+	IsWithCustomGutterSize: boolean = false
+	GutterSize: number = 0
 
 	// insertion point for other decls
 

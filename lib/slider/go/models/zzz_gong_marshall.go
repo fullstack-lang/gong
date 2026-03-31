@@ -351,6 +351,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(layout.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(layout.GongMarshallField(stage, "Groups"))
+		initializerStatements.WriteString(layout.GongMarshallField(stage, "IsWithCustomGutterSize"))
+		initializerStatements.WriteString(layout.GongMarshallField(stage, "GutterSize"))
 	}
 
 	sliderOrdered := []*Slider{}
@@ -554,6 +556,16 @@ func (layout *Layout) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = strings.ReplaceAll(res, "{{Identifier}}", layout.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(layout.Name))
+	case "IsWithCustomGutterSize":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", layout.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsWithCustomGutterSize")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", layout.IsWithCustomGutterSize))
+	case "GutterSize":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", layout.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "GutterSize")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", layout.GutterSize))
 
 	case "Groups":
 		var sb strings.Builder
@@ -672,6 +684,8 @@ func (layout *Layout) GongMarshallAllFields(stage *Stage) (initRes string, ptrRe
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(layout.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(layout.GongMarshallField(stage, "Groups"))
+		initializerStatements.WriteString(layout.GongMarshallField(stage, "IsWithCustomGutterSize"))
+		initializerStatements.WriteString(layout.GongMarshallField(stage, "GutterSize"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

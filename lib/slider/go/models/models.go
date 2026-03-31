@@ -4,6 +4,9 @@ type Layout struct {
 	Name string
 
 	Groups []*Group
+
+	IsWithCustomGutterSize bool
+	GutterSize             float64
 }
 
 type Group struct {

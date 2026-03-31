@@ -17,6 +17,8 @@ export class Layout {
 
 	// insertion point for basic fields declarations
 	Name: string = ""
+	IsWithCustomGutterSize: boolean = false
+	GutterSize: number = 0
 
 	// insertion point for pointers and slices of pointers declarations
 	Groups: Array<Group> = []
@@ -33,6 +35,8 @@ export function CopyLayoutToLayoutAPI(layout: Layout, layoutAPI: LayoutAPI) {
 
 	// insertion point for basic fields copy operations
 	layoutAPI.Name = layout.Name
+	layoutAPI.IsWithCustomGutterSize = layout.IsWithCustomGutterSize
+	layoutAPI.GutterSize = layout.GutterSize
 
 	// insertion point for pointer fields encoding
 
@@ -56,6 +60,8 @@ export function CopyLayoutAPIToLayout(layoutAPI: LayoutAPI, layout: Layout, fron
 
 	// insertion point for basic fields copy operations
 	layout.Name = layoutAPI.Name
+	layout.IsWithCustomGutterSize = layoutAPI.IsWithCustomGutterSize
+	layout.GutterSize = layoutAPI.GutterSize
 
 	// insertion point for pointer fields encoding
 

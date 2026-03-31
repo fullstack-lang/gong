@@ -581,6 +581,12 @@ func (layout *Layout) GongDiff(stage *Stage, layoutOther *Layout) (diffs []strin
 		ops := Diff(stage, layout, layoutOther, "Groups", layoutOther.Groups, layout.Groups)
 		diffs = append(diffs, ops)
 	}
+	if layout.IsWithCustomGutterSize != layoutOther.IsWithCustomGutterSize {
+		diffs = append(diffs, layout.GongMarshallField(stage, "IsWithCustomGutterSize"))
+	}
+	if layout.GutterSize != layoutOther.GutterSize {
+		diffs = append(diffs, layout.GongMarshallField(stage, "GutterSize"))
+	}
 
 	return
 }
