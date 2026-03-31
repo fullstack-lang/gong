@@ -69,8 +69,8 @@ func (message *Message) GongCopy() GongstructIF {
 // insertion point per named struct
 func (filetodownload *FileToDownload) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(filetodownload).(interface{ GongGetUUIDCustom() string }); ok {
-		return __gong__.GongGetUUIDCustom()
+	if __gong__, ok := any(filetodownload).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(filetodownload), uint64(GetOrderPointerGongstruct(stage, filetodownload)))
@@ -79,8 +79,8 @@ func (filetodownload *FileToDownload) GongGetUUID(stage *Stage) (uuid string) {
 
 func (filetoupload *FileToUpload) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(filetoupload).(interface{ GongGetUUIDCustom() string }); ok {
-		return __gong__.GongGetUUIDCustom()
+	if __gong__, ok := any(filetoupload).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(filetoupload), uint64(GetOrderPointerGongstruct(stage, filetoupload)))
@@ -89,8 +89,8 @@ func (filetoupload *FileToUpload) GongGetUUID(stage *Stage) (uuid string) {
 
 func (message *Message) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(message).(interface{ GongGetUUIDCustom() string }); ok {
-		return __gong__.GongGetUUIDCustom()
+	if __gong__, ok := any(message).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(message), uint64(GetOrderPointerGongstruct(stage, message)))

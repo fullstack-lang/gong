@@ -177,8 +177,8 @@ func (gstruct *Gstruct) GongCopy() GongstructIF {
 // insertion point per named struct
 func (astruct *Astruct) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(astruct).(interface{ GongGetUUIDCustom() string }); ok {
-		return __gong__.GongGetUUIDCustom()
+	if __gong__, ok := any(astruct).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(astruct), uint64(GetOrderPointerGongstruct(stage, astruct)))
@@ -187,8 +187,8 @@ func (astruct *Astruct) GongGetUUID(stage *Stage) (uuid string) {
 
 func (astructbstruct2use *AstructBstruct2Use) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(astructbstruct2use).(interface{ GongGetUUIDCustom() string }); ok {
-		return __gong__.GongGetUUIDCustom()
+	if __gong__, ok := any(astructbstruct2use).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(astructbstruct2use), uint64(GetOrderPointerGongstruct(stage, astructbstruct2use)))
@@ -197,8 +197,8 @@ func (astructbstruct2use *AstructBstruct2Use) GongGetUUID(stage *Stage) (uuid st
 
 func (astructbstructuse *AstructBstructUse) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(astructbstructuse).(interface{ GongGetUUIDCustom() string }); ok {
-		return __gong__.GongGetUUIDCustom()
+	if __gong__, ok := any(astructbstructuse).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(astructbstructuse), uint64(GetOrderPointerGongstruct(stage, astructbstructuse)))
@@ -207,8 +207,8 @@ func (astructbstructuse *AstructBstructUse) GongGetUUID(stage *Stage) (uuid stri
 
 func (bstruct *Bstruct) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(bstruct).(interface{ GongGetUUIDCustom() string }); ok {
-		return __gong__.GongGetUUIDCustom()
+	if __gong__, ok := any(bstruct).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(bstruct), uint64(GetOrderPointerGongstruct(stage, bstruct)))
@@ -217,8 +217,8 @@ func (bstruct *Bstruct) GongGetUUID(stage *Stage) (uuid string) {
 
 func (dstruct *Dstruct) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(dstruct).(interface{ GongGetUUIDCustom() string }); ok {
-		return __gong__.GongGetUUIDCustom()
+	if __gong__, ok := any(dstruct).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(dstruct), uint64(GetOrderPointerGongstruct(stage, dstruct)))
@@ -227,8 +227,8 @@ func (dstruct *Dstruct) GongGetUUID(stage *Stage) (uuid string) {
 
 func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(f0123456789012345678901234567890).(interface{ GongGetUUIDCustom() string }); ok {
-		return __gong__.GongGetUUIDCustom()
+	if __gong__, ok := any(f0123456789012345678901234567890).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(f0123456789012345678901234567890), uint64(GetOrderPointerGongstruct(stage, f0123456789012345678901234567890)))
@@ -237,8 +237,8 @@ func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GongGe
 
 func (gstruct *Gstruct) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(gstruct).(interface{ GongGetUUIDCustom() string }); ok {
-		return __gong__.GongGetUUIDCustom()
+	if __gong__, ok := any(gstruct).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(gstruct), uint64(GetOrderPointerGongstruct(stage, gstruct)))

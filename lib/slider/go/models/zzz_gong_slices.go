@@ -103,8 +103,8 @@ func (slider *Slider) GongCopy() GongstructIF {
 // insertion point per named struct
 func (checkbox *Checkbox) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(checkbox).(interface{ GongGetUUIDCustom() string }); ok {
-		return __gong__.GongGetUUIDCustom()
+	if __gong__, ok := any(checkbox).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(checkbox), uint64(GetOrderPointerGongstruct(stage, checkbox)))
@@ -113,8 +113,8 @@ func (checkbox *Checkbox) GongGetUUID(stage *Stage) (uuid string) {
 
 func (group *Group) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(group).(interface{ GongGetUUIDCustom() string }); ok {
-		return __gong__.GongGetUUIDCustom()
+	if __gong__, ok := any(group).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(group), uint64(GetOrderPointerGongstruct(stage, group)))
@@ -123,8 +123,8 @@ func (group *Group) GongGetUUID(stage *Stage) (uuid string) {
 
 func (layout *Layout) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(layout).(interface{ GongGetUUIDCustom() string }); ok {
-		return __gong__.GongGetUUIDCustom()
+	if __gong__, ok := any(layout).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(layout), uint64(GetOrderPointerGongstruct(stage, layout)))
@@ -133,8 +133,8 @@ func (layout *Layout) GongGetUUID(stage *Stage) (uuid string) {
 
 func (slider *Slider) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(slider).(interface{ GongGetUUIDCustom() string }); ok {
-		return __gong__.GongGetUUIDCustom()
+	if __gong__, ok := any(slider).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(slider), uint64(GetOrderPointerGongstruct(stage, slider)))
