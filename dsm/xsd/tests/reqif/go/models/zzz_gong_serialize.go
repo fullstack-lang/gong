@@ -3,8 +3,6 @@ package models
 
 import (
 	"cmp"
-	"crypto/sha256"
-	"encoding/binary"
 	"fmt"
 	"slices"
 
@@ -388,47 +386,4 @@ func SerializeExcelizePointerToGongstruct2[Type PointerToGongstruct](stage *Stag
 	// 	}
 	// 	f.SetColWidth(sheetName, name, name, float64(largestWidth))
 	// }
-}
-
-func IntToLetters(number int32) (letters string) {
-	number--
-	if firstLetter := number / 26; firstLetter > 0 {
-		letters += IntToLetters(firstLetter)
-		letters += string('A' + number%26)
-	} else {
-		letters += string('A' + number)
-	}
-
-	return
-}
-
-// GenerateReproducibleUUIDv4 creates a deterministic UUIDv4 based on a string and a positive integer.
-func GenerateReproducibleUUIDv4(seedStr string, seedInt uint64) string {
-	// 1. Create a deterministic hash from the inputs using SHA-256
-	h := sha256.New()
-
-	// Write the string to the hash
-	h.Write([]byte(seedStr))
-
-	// Write the integer to the hash (using BigEndian to ensure consistency across architectures)
-	intBytes := make([]byte, 8)
-	binary.BigEndian.PutUint64(intBytes, seedInt)
-	h.Write(intBytes)
-
-	// 2. Extract the first 16 bytes from our resulting hash
-	hashBytes := h.Sum(nil)
-	uuid := make([]byte, 16)
-	copy(uuid, hashBytes[:16])
-
-	// 3. Set the Version to 4 (0100 in binary)
-	// We take the 7th byte, clear the top 4 bits with & 0x0f, and set the top bits to 0100 with | 0x40
-	uuid[6] = (uuid[6] & 0x0f) | 0x40
-
-	// 4. Set the Variant to RFC4122 (10 in binary)
-	// We take the 9th byte, clear the top 2 bits with & 0x3f, and set the top bits to 10 with | 0x80
-	uuid[8] = (uuid[8] & 0x3f) | 0x80
-
-	// 5. Format and return the byte array as a standard UUID string
-	return fmt.Sprintf("%08x-%04x-%04x-%04x-%012x",
-		uuid[0:4], uuid[4:6], uuid[6:8], uuid[8:10], uuid[10:16])
 }

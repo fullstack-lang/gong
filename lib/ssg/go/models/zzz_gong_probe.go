@@ -21,6 +21,7 @@ type ProbeIF interface {
 	GetMaxElementsNbPerGongStructNode() int
 	AddCommitNavigationNode(appendChildrenNodeFunc func(GongNodeIF))
 	SetCommitMode(bool)
+	RefreshNavigationTree() // to be called in delta mode, when the navigation tree shall be refreshed to navigate commits
 }
 
 type GongNodeIF interface {
