@@ -71,6 +71,10 @@ func (probe *Probe) GetMaxElementsNbPerGongStructNode() int {
 	return probe.maxElementsNbPerGongStructNode
 }
 
+func (probe *Probe) RefreshNavigationTree() {
+	probe.ux_navigation_tree()
+}
+
 func NewProbe(
 	r *gin.Engine,
 	goModelsDir embed.FS,

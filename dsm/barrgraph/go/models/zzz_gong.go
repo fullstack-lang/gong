@@ -1397,6 +1397,9 @@ func (stage *Stage) Commit() {
 	if stage.IsInDeltaMode() {
 		stage.ComputeForwardAndBackwardCommits()
 		stage.ComputeReferenceAndOrders()
+		if stage.probeIF != nil {
+			stage.probeIF.RefreshNavigationTree()
+		}
 	}
 
 	// 2. Run all After Commit hooks

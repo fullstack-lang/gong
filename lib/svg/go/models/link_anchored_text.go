@@ -26,12 +26,17 @@ type LinkAnchoredText struct {
 	Animates []*Animate
 
 	Impl LinkAnchoredTextImplInterface
+
+	OnUpdate func(updatedAnchoredText *LinkAnchoredText)
 }
 
 func (linkAnchoredText *LinkAnchoredText) OnAfterUpdate(stage *Stage, _, frontLinkAnchoredText *LinkAnchoredText) {
 
 	if linkAnchoredText.Impl != nil {
 		linkAnchoredText.Impl.AnchoredTextUpdated(frontLinkAnchoredText)
+	}
+	if linkAnchoredText.OnUpdate != nil {
+		linkAnchoredText.OnUpdate(frontLinkAnchoredText)
 	}
 }
 
