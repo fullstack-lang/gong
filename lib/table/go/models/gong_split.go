@@ -15,6 +15,7 @@ type ProbeIF interface {
 	CommitNotificationTable()
 	ResetNotifications()
 	AddCommitNavigationNode(appendChildrenNodeFunc func(GongNodeIF))
+	RefreshNavigationTree()
 }
 
 type GongNodeIF interface {
