@@ -273,7 +273,6 @@ func SerializeExcelizePointerToGongstruct2[Type PointerToGongstruct](stage *Stag
 
 		// 3. Add the ID value in column A
 		// We use type assertion to check if the instance implements GetID()
-		id := GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(instance), uint64(GetOrderPointerGongstruct(stage, instance)))
 
 		for index, fieldName := range GetFieldsFromPointer[Type]() {
 			fieldStringValue := GetFieldStringValueFromPointer(instance, fieldName.Name, stage)
@@ -282,7 +281,7 @@ func SerializeExcelizePointerToGongstruct2[Type PointerToGongstruct](stage *Stag
 			} else {
 				f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(2*index+1)), line), fieldStringValue.GetValueString())
 				if index == 0 {
-					f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(2*index+2)), line), id)
+					f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(2*index+2)), line), instance.GongGetUUID(stage))
 				} else {
 					switch fieldStringValue.GongFieldValueType {
 					case GongFieldValueTypePointer, GongFieldValueTypeSliceOfPointers:

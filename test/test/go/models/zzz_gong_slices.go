@@ -191,6 +191,11 @@ func (astructbstructuse *AstructBstructUse) GongGetUUID(stage *Stage) (uuid stri
 }
 
 func (bstruct *Bstruct) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(bstruct).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(bstruct), uint64(GetOrderPointerGongstruct(stage, bstruct)))
 	return
 }
