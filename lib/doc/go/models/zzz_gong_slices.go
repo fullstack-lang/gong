@@ -202,46 +202,91 @@ func (linkshape *LinkShape) GongCopy() GongstructIF {
 
 // insertion point per named struct
 func (attributeshape *AttributeShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(attributeshape).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(attributeshape), uint64(GetOrderPointerGongstruct(stage, attributeshape)))
 	return
 }
 
 func (classdiagram *Classdiagram) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(classdiagram).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(classdiagram), uint64(GetOrderPointerGongstruct(stage, classdiagram)))
 	return
 }
 
 func (diagrampackage *DiagramPackage) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(diagrampackage).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(diagrampackage), uint64(GetOrderPointerGongstruct(stage, diagrampackage)))
 	return
 }
 
 func (gongenumshape *GongEnumShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(gongenumshape).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(gongenumshape), uint64(GetOrderPointerGongstruct(stage, gongenumshape)))
 	return
 }
 
 func (gongenumvalueshape *GongEnumValueShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(gongenumvalueshape).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(gongenumvalueshape), uint64(GetOrderPointerGongstruct(stage, gongenumvalueshape)))
 	return
 }
 
 func (gongnotelinkshape *GongNoteLinkShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(gongnotelinkshape).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(gongnotelinkshape), uint64(GetOrderPointerGongstruct(stage, gongnotelinkshape)))
 	return
 }
 
 func (gongnoteshape *GongNoteShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(gongnoteshape).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(gongnoteshape), uint64(GetOrderPointerGongstruct(stage, gongnoteshape)))
 	return
 }
 
 func (gongstructshape *GongStructShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(gongstructshape).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(gongstructshape), uint64(GetOrderPointerGongstruct(stage, gongstructshape)))
 	return
 }
 
 func (linkshape *LinkShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(linkshape).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(linkshape), uint64(GetOrderPointerGongstruct(stage, linkshape)))
 	return
 }

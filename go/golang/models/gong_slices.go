@@ -161,6 +161,11 @@ func ({{structname}} *{{Structname}}) GongCopy() GongstructIF {
 `,
 	GongSliceGongGetUUID: `
 func ({{structname}} *{{Structname}}) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any({{structname}}).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer({{structname}}), uint64(GetOrderPointerGongstruct(stage, {{structname}})))
 	return
 }

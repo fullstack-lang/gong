@@ -75,16 +75,31 @@ func (player *Player) GongCopy() GongstructIF {
 
 // insertion point per named struct
 func (freqency *Freqency) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(freqency).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(freqency), uint64(GetOrderPointerGongstruct(stage, freqency)))
 	return
 }
 
 func (note *Note) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(note).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(note), uint64(GetOrderPointerGongstruct(stage, note)))
 	return
 }
 
 func (player *Player) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(player).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(player), uint64(GetOrderPointerGongstruct(stage, player)))
 	return
 }

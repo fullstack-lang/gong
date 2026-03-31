@@ -68,16 +68,31 @@ func (message *Message) GongCopy() GongstructIF {
 
 // insertion point per named struct
 func (filetodownload *FileToDownload) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(filetodownload).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(filetodownload), uint64(GetOrderPointerGongstruct(stage, filetodownload)))
 	return
 }
 
 func (filetoupload *FileToUpload) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(filetoupload).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(filetoupload), uint64(GetOrderPointerGongstruct(stage, filetoupload)))
 	return
 }
 
 func (message *Message) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(message).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(message), uint64(GetOrderPointerGongstruct(stage, message)))
 	return
 }
