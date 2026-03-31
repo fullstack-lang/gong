@@ -61,7 +61,15 @@ func (stager *Stager) Svg() {
 		rect.Name = gongStructIdentifier
 
 		// hook a callback on rect modifications
-		rect.Impl = NewRectImplGongstructShape(gongstructShape, stager.stage)
+		rect.OnUpdate = func(updatedRect *svg_models.Rect) {
+			gongstructShape.X = updatedRect.X
+			gongstructShape.Y = updatedRect.Y
+			gongstructShape.Width = updatedRect.Width
+			gongstructShape.Height = updatedRect.Height
+
+			stager.stage.CommitWithSuspendedCallbacks()
+			stager.navigationTree()
+		}
 
 		stager.map_GongstructShape_Rect[gongstructShape] = rect
 		stager.map_Structname_Rect[gongStructIdentifier] = rect
@@ -207,6 +215,7 @@ func (stager *Stager) Svg() {
 					linkShape.CornerOffsetRatio = updatedLink.CornerOffsetRatio
 
 					stager.stage.CommitWithSuspendedCallbacks()
+					stager.navigationTree()
 				},
 			}
 
@@ -254,7 +263,13 @@ func (stager *Stager) Svg() {
 				targetMulitplicity.AutomaticLayout = true
 				targetMulitplicity.LinkAnchorType = svg_models.LINK_RIGHT_OR_BOTTOM
 
-				targetMulitplicity.Impl = NewAnchoredTextImplLinkTargetMultiplicity(linkShape, stager.stage)
+				targetMulitplicity.OnUpdate = func(updatedAnchoredText *svg_models.LinkAnchoredText) {
+					linkShape.TargetMultiplicityOffsetX = updatedAnchoredText.X_Offset
+					linkShape.TargetMultiplicityOffsetY = updatedAnchoredText.Y_Offset
+
+					stager.stage.CommitWithSuspendedCallbacks()
+					stager.navigationTree()
+				}
 				link.TextAtArrowEnd = append(link.TextAtArrowEnd, targetMulitplicity)
 				targetMulitplicity.Name = linkShape.TargetMultiplicity.ToString()
 				targetMulitplicity.Content = targetMulitplicity.Name
@@ -275,7 +290,13 @@ func (stager *Stager) Svg() {
 				fieldName.AutomaticLayout = true
 				fieldName.LinkAnchorType = svg_models.LINK_LEFT_OR_TOP
 
-				fieldName.Impl = NewAnchoredTextImplLinkFieldName(linkShape, stager.stage)
+				fieldName.OnUpdate = func(updatedAnchoredText *svg_models.LinkAnchoredText) {
+					linkShape.FieldOffsetX = updatedAnchoredText.X_Offset
+					linkShape.FieldOffsetY = updatedAnchoredText.Y_Offset
+
+					stager.stage.CommitWithSuspendedCallbacks()
+					stager.navigationTree()
+				}
 
 				link.TextAtArrowEnd = append(link.TextAtArrowEnd, fieldName)
 				fieldName.Name = linkShape.GetName()
@@ -298,7 +319,12 @@ func (stager *Stager) Svg() {
 				sourceMultiplicity.AutomaticLayout = true
 				sourceMultiplicity.LinkAnchorType = svg_models.LINK_RIGHT_OR_BOTTOM
 
-				sourceMultiplicity.Impl = NewAnchoredTextImplLinkSourceMultiplicity(linkShape, stager.stage)
+				sourceMultiplicity.OnUpdate = func(updatedAnchoredText *svg_models.LinkAnchoredText) {
+					linkShape.SourceMultiplicityOffsetX = updatedAnchoredText.X_Offset
+					linkShape.SourceMultiplicityOffsetY = updatedAnchoredText.Y_Offset
+
+					stager.stage.CommitWithSuspendedCallbacks()
+				}
 
 				link.TextAtArrowStart = append(link.TextAtArrowStart, sourceMultiplicity)
 				sourceMultiplicity.Name = linkShape.SourceMultiplicity.ToString()
@@ -327,7 +353,15 @@ func (stager *Stager) Svg() {
 		rect := new(svg_models.Rect)
 		rect.Name = GongEnumIdentifierMetaToGongEnumName(gongenumShape.IdentifierMeta)
 
-		rect.Impl = NewRectImplGongenumShape(gongenumShape, stager.stage)
+		rect.OnUpdate = func(updatedRect *svg_models.Rect) {
+			gongenumShape.X = updatedRect.X
+			gongenumShape.Y = updatedRect.Y
+			gongenumShape.Width = updatedRect.Width
+			gongenumShape.Height = updatedRect.Height
+
+			stager.stage.CommitWithSuspendedCallbacks()
+			stager.navigationTree()
+		}
 
 		stager.map_GongenumShape_Rect[gongenumShape] = rect
 		stager.map_Structname_Rect[GongEnumIdentifierMetaToGongEnumName(gongenumShape.IdentifierMeta)] = rect
@@ -420,7 +454,25 @@ func (stager *Stager) Svg() {
 		rect := new(svg_models.Rect)
 		rect.Name = noteShape.Identifier
 
-		rect.Impl = NewRectImplNoteShape(noteShape, stager)
+		rect.OnUpdate = func(updatedRect *svg_models.Rect) {
+			diffSize := noteShape.Width != updatedRect.Width || noteShape.Height != updatedRect.Height
+			diffPosition := noteShape.X != updatedRect.X || noteShape.Y != updatedRect.Y
+
+			if diffSize {
+				noteShape.Width = updatedRect.Width
+				noteShape.Height = updatedRect.Height
+				noteShape.X = updatedRect.X
+				noteShape.Y = updatedRect.Y
+				stager.stage.CommitWithSuspendedCallbacks()
+				stager.Svg()
+				stager.navigationTree()
+			} else if diffPosition {
+				noteShape.X = updatedRect.X
+				noteShape.Y = updatedRect.Y
+				stager.stage.CommitWithSuspendedCallbacks()
+				stager.navigationTree()
+			}
+		}
 
 		stager.map_NoteShape_Rect[noteShape] = rect
 		stager.map_Structname_Rect[noteShape.Identifier] = rect
@@ -607,5 +659,6 @@ func (stager *Stager) Svg() {
 	svg_models.StageBranch(stager.svgStage, svg)
 
 	stager.svgStage.Commit()
+	stager.navigationTree()
 
 }

@@ -330,7 +330,7 @@ or to <a href="/models#OrientationType">models.OrientationType</a>
 	__GongStructShape__00000006_.X = 637.000000
 	__GongStructShape__00000006_.Y = 304.000000
 	__GongStructShape__00000006_.IdentifierMeta = ref_models.GongStructShape{}
-	__GongStructShape__00000006_.Width = 240.000000
+	__GongStructShape__00000006_.Width = 236.000000
 	__GongStructShape__00000006_.Height = 349.000000
 	__GongStructShape__00000006_.IsSelected = false
 
@@ -351,8 +351,8 @@ or to <a href="/models#OrientationType">models.OrientationType</a>
 	__GongStructShape__00000008_.IsSelected = false
 
 	__GongStructShape__00000010_.Name = `Default-DiagramPackage`
-	__GongStructShape__00000010_.X = 111.000000
-	__GongStructShape__00000010_.Y = 601.999969
+	__GongStructShape__00000010_.X = 114.000000
+	__GongStructShape__00000010_.Y = 278.999969
 	__GongStructShape__00000010_.IdentifierMeta = ref_models.DiagramPackage{}
 	__GongStructShape__00000010_.Width = 240.000000
 	__GongStructShape__00000010_.Height = 103.000000
