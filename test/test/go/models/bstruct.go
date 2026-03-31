@@ -23,3 +23,7 @@ func (bstruct *Bstruct) OnAfterUpdate(stage *Stage, stagedInstance, frontInstanc
 
 	//
 }
+
+func (*Bstruct) GongUUIDCustom() string {
+	return "deadbeef-dead-4bef-a555-000000000000"
+}
