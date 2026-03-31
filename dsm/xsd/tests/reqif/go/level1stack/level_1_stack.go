@@ -4,7 +4,6 @@ package level1stack
 import (
 	"fmt"
 	"log"
-	"os"
 	"strings"
 
 	"github.com/fullstack-lang/gong/dsm/xsd/tests/reqif/go/models"
@@ -25,24 +24,24 @@ type BeforeCommitImplementation struct {
 }
 
 func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.Stage) {
+
+	if stage.GetGongMarshallingMode() == models.GongMarshallingAppendCommit {
+		stage.ComputeForwardAndBackwardCommits()
+		stage.ComputeReferenceAndOrders()
+	}
+
 	// the ".go" is not provided
 	filename := impl.marshallOnCommit
 	if !strings.HasSuffix(filename, ".go") {
 		filename = filename + ".go"
 	}
 
-	file, err := os.Create(fmt.Sprintf("./%s", filename))
-	if err != nil {
-		log.Fatal(err.Error())
-	}
-	defer file.Close()
-
 	packageName := impl.packageName
 	if packageName == "" {
 		packageName = "main"
 	}
 
-	stage.Marshall(file, "github.com/fullstack-lang/gong/dsm/xsd/tests/reqif/go/models", packageName)
+	stage.MarshallFile(fmt.Sprintf("./%s", filename), "github.com/fullstack-lang/gong/dsm/xsd/tests/reqif/go/models", packageName)
 }
 
 type Level1Stack struct {
@@ -69,6 +68,7 @@ func NewLevel1StackDelta(
 	embeddedDiagrams bool,
 	deltaMode bool,
 ) (level1Stack *Level1Stack) {
+
 	level1Stack = new(Level1Stack)
 	stage := models.NewStage(stackPath)
 
@@ -96,6 +96,7 @@ func NewLevel1StackDelta(
 
 	if unmarshallFromCode != "" {
 		err := models.ParseAstFile(stage, unmarshallFromCode, true)
+
 		// if the application is run with -unmarshallFromCode=xxx.go -marshallOnCommit
 		// xxx.go might be absent the first time. However, this shall not be a show stopper.
 		if err != nil {

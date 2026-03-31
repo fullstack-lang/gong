@@ -20,79 +20,79 @@ const (
 type Enum_Accidental_value string
 
 const (
-	Enum_Accidental_value_Sharp                Enum_Accidental_value = "sharp"
-	Enum_Accidental_value_Natural              Enum_Accidental_value = "natural"
-	Enum_Accidental_value_Flat                 Enum_Accidental_value = "flat"
-	Enum_Accidental_value_Double_sharp         Enum_Accidental_value = "double-sharp"
-	Enum_Accidental_value_Sharp_sharp          Enum_Accidental_value = "sharp-sharp"
-	Enum_Accidental_value_Flat_flat            Enum_Accidental_value = "flat-flat"
-	Enum_Accidental_value_Natural_sharp        Enum_Accidental_value = "natural-sharp"
-	Enum_Accidental_value_Natural_flat         Enum_Accidental_value = "natural-flat"
-	Enum_Accidental_value_Quarter_flat         Enum_Accidental_value = "quarter-flat"
-	Enum_Accidental_value_Quarter_sharp        Enum_Accidental_value = "quarter-sharp"
-	Enum_Accidental_value_Three_quarters_flat  Enum_Accidental_value = "three-quarters-flat"
+	Enum_Accidental_value_Sharp Enum_Accidental_value = "sharp"
+	Enum_Accidental_value_Natural Enum_Accidental_value = "natural"
+	Enum_Accidental_value_Flat Enum_Accidental_value = "flat"
+	Enum_Accidental_value_Double_sharp Enum_Accidental_value = "double-sharp"
+	Enum_Accidental_value_Sharp_sharp Enum_Accidental_value = "sharp-sharp"
+	Enum_Accidental_value_Flat_flat Enum_Accidental_value = "flat-flat"
+	Enum_Accidental_value_Natural_sharp Enum_Accidental_value = "natural-sharp"
+	Enum_Accidental_value_Natural_flat Enum_Accidental_value = "natural-flat"
+	Enum_Accidental_value_Quarter_flat Enum_Accidental_value = "quarter-flat"
+	Enum_Accidental_value_Quarter_sharp Enum_Accidental_value = "quarter-sharp"
+	Enum_Accidental_value_Three_quarters_flat Enum_Accidental_value = "three-quarters-flat"
 	Enum_Accidental_value_Three_quarters_sharp Enum_Accidental_value = "three-quarters-sharp"
-	Enum_Accidental_value_Sharp_down           Enum_Accidental_value = "sharp-down"
-	Enum_Accidental_value_Sharp_up             Enum_Accidental_value = "sharp-up"
-	Enum_Accidental_value_Natural_down         Enum_Accidental_value = "natural-down"
-	Enum_Accidental_value_Natural_up           Enum_Accidental_value = "natural-up"
-	Enum_Accidental_value_Flat_down            Enum_Accidental_value = "flat-down"
-	Enum_Accidental_value_Flat_up              Enum_Accidental_value = "flat-up"
-	Enum_Accidental_value_Double_sharp_down    Enum_Accidental_value = "double-sharp-down"
-	Enum_Accidental_value_Double_sharp_up      Enum_Accidental_value = "double-sharp-up"
-	Enum_Accidental_value_Flat_flat_down       Enum_Accidental_value = "flat-flat-down"
-	Enum_Accidental_value_Flat_flat_up         Enum_Accidental_value = "flat-flat-up"
-	Enum_Accidental_value_Arrow_down           Enum_Accidental_value = "arrow-down"
-	Enum_Accidental_value_Arrow_up             Enum_Accidental_value = "arrow-up"
-	Enum_Accidental_value_Triple_sharp         Enum_Accidental_value = "triple-sharp"
-	Enum_Accidental_value_Triple_flat          Enum_Accidental_value = "triple-flat"
-	Enum_Accidental_value_Slash_quarter_sharp  Enum_Accidental_value = "slash-quarter-sharp"
-	Enum_Accidental_value_Slash_sharp          Enum_Accidental_value = "slash-sharp"
-	Enum_Accidental_value_Slash_flat           Enum_Accidental_value = "slash-flat"
-	Enum_Accidental_value_Double_slash_flat    Enum_Accidental_value = "double-slash-flat"
-	Enum_Accidental_value_Sharp_1              Enum_Accidental_value = "sharp-1"
-	Enum_Accidental_value_Sharp_2              Enum_Accidental_value = "sharp-2"
-	Enum_Accidental_value_Sharp_3              Enum_Accidental_value = "sharp-3"
-	Enum_Accidental_value_Sharp_5              Enum_Accidental_value = "sharp-5"
-	Enum_Accidental_value_Flat_1               Enum_Accidental_value = "flat-1"
-	Enum_Accidental_value_Flat_2               Enum_Accidental_value = "flat-2"
-	Enum_Accidental_value_Flat_3               Enum_Accidental_value = "flat-3"
-	Enum_Accidental_value_Flat_4               Enum_Accidental_value = "flat-4"
-	Enum_Accidental_value_Sori                 Enum_Accidental_value = "sori"
-	Enum_Accidental_value_Koron                Enum_Accidental_value = "koron"
-	Enum_Accidental_value_Other                Enum_Accidental_value = "other"
+	Enum_Accidental_value_Sharp_down Enum_Accidental_value = "sharp-down"
+	Enum_Accidental_value_Sharp_up Enum_Accidental_value = "sharp-up"
+	Enum_Accidental_value_Natural_down Enum_Accidental_value = "natural-down"
+	Enum_Accidental_value_Natural_up Enum_Accidental_value = "natural-up"
+	Enum_Accidental_value_Flat_down Enum_Accidental_value = "flat-down"
+	Enum_Accidental_value_Flat_up Enum_Accidental_value = "flat-up"
+	Enum_Accidental_value_Double_sharp_down Enum_Accidental_value = "double-sharp-down"
+	Enum_Accidental_value_Double_sharp_up Enum_Accidental_value = "double-sharp-up"
+	Enum_Accidental_value_Flat_flat_down Enum_Accidental_value = "flat-flat-down"
+	Enum_Accidental_value_Flat_flat_up Enum_Accidental_value = "flat-flat-up"
+	Enum_Accidental_value_Arrow_down Enum_Accidental_value = "arrow-down"
+	Enum_Accidental_value_Arrow_up Enum_Accidental_value = "arrow-up"
+	Enum_Accidental_value_Triple_sharp Enum_Accidental_value = "triple-sharp"
+	Enum_Accidental_value_Triple_flat Enum_Accidental_value = "triple-flat"
+	Enum_Accidental_value_Slash_quarter_sharp Enum_Accidental_value = "slash-quarter-sharp"
+	Enum_Accidental_value_Slash_sharp Enum_Accidental_value = "slash-sharp"
+	Enum_Accidental_value_Slash_flat Enum_Accidental_value = "slash-flat"
+	Enum_Accidental_value_Double_slash_flat Enum_Accidental_value = "double-slash-flat"
+	Enum_Accidental_value_Sharp_1 Enum_Accidental_value = "sharp-1"
+	Enum_Accidental_value_Sharp_2 Enum_Accidental_value = "sharp-2"
+	Enum_Accidental_value_Sharp_3 Enum_Accidental_value = "sharp-3"
+	Enum_Accidental_value_Sharp_5 Enum_Accidental_value = "sharp-5"
+	Enum_Accidental_value_Flat_1 Enum_Accidental_value = "flat-1"
+	Enum_Accidental_value_Flat_2 Enum_Accidental_value = "flat-2"
+	Enum_Accidental_value_Flat_3 Enum_Accidental_value = "flat-3"
+	Enum_Accidental_value_Flat_4 Enum_Accidental_value = "flat-4"
+	Enum_Accidental_value_Sori Enum_Accidental_value = "sori"
+	Enum_Accidental_value_Koron Enum_Accidental_value = "koron"
+	Enum_Accidental_value_Other Enum_Accidental_value = "other"
 )
 
 // From xsd simple type with enumerate restriction "arrow-direction"
 type Enum_Arrow_direction string
 
 const (
-	Enum_Arrow_direction_Left                Enum_Arrow_direction = "left"
-	Enum_Arrow_direction_Up                  Enum_Arrow_direction = "up"
-	Enum_Arrow_direction_Right               Enum_Arrow_direction = "right"
-	Enum_Arrow_direction_Down                Enum_Arrow_direction = "down"
-	Enum_Arrow_direction_Northwest           Enum_Arrow_direction = "northwest"
-	Enum_Arrow_direction_Northeast           Enum_Arrow_direction = "northeast"
-	Enum_Arrow_direction_Southeast           Enum_Arrow_direction = "southeast"
-	Enum_Arrow_direction_Southwest           Enum_Arrow_direction = "southwest"
-	Enum_Arrow_direction_Left_right          Enum_Arrow_direction = "left right"
-	Enum_Arrow_direction_Up_down             Enum_Arrow_direction = "up down"
+	Enum_Arrow_direction_Left Enum_Arrow_direction = "left"
+	Enum_Arrow_direction_Up Enum_Arrow_direction = "up"
+	Enum_Arrow_direction_Right Enum_Arrow_direction = "right"
+	Enum_Arrow_direction_Down Enum_Arrow_direction = "down"
+	Enum_Arrow_direction_Northwest Enum_Arrow_direction = "northwest"
+	Enum_Arrow_direction_Northeast Enum_Arrow_direction = "northeast"
+	Enum_Arrow_direction_Southeast Enum_Arrow_direction = "southeast"
+	Enum_Arrow_direction_Southwest Enum_Arrow_direction = "southwest"
+	Enum_Arrow_direction_Left_right Enum_Arrow_direction = "left right"
+	Enum_Arrow_direction_Up_down Enum_Arrow_direction = "up down"
 	Enum_Arrow_direction_Northwest_southeast Enum_Arrow_direction = "northwest southeast"
 	Enum_Arrow_direction_Northeast_southwest Enum_Arrow_direction = "northeast southwest"
-	Enum_Arrow_direction_Other               Enum_Arrow_direction = "other"
+	Enum_Arrow_direction_Other Enum_Arrow_direction = "other"
 )
 
 // From xsd simple type with enumerate restriction "arrow-style"
 type Enum_Arrow_style string
 
 const (
-	Enum_Arrow_style_Single   Enum_Arrow_style = "single"
-	Enum_Arrow_style_Double   Enum_Arrow_style = "double"
-	Enum_Arrow_style_Filled   Enum_Arrow_style = "filled"
-	Enum_Arrow_style_Hollow   Enum_Arrow_style = "hollow"
-	Enum_Arrow_style_Paired   Enum_Arrow_style = "paired"
+	Enum_Arrow_style_Single Enum_Arrow_style = "single"
+	Enum_Arrow_style_Double Enum_Arrow_style = "double"
+	Enum_Arrow_style_Filled Enum_Arrow_style = "filled"
+	Enum_Arrow_style_Hollow Enum_Arrow_style = "hollow"
+	Enum_Arrow_style_Paired Enum_Arrow_style = "paired"
 	Enum_Arrow_style_Combined Enum_Arrow_style = "combined"
-	Enum_Arrow_style_Other    Enum_Arrow_style = "other"
+	Enum_Arrow_style_Other Enum_Arrow_style = "other"
 )
 
 // From xsd simple type with enumerate restriction "backward-forward"
@@ -100,34 +100,34 @@ type Enum_Backward_forward string
 
 const (
 	Enum_Backward_forward_Backward Enum_Backward_forward = "backward"
-	Enum_Backward_forward_Forward  Enum_Backward_forward = "forward"
+	Enum_Backward_forward_Forward Enum_Backward_forward = "forward"
 )
 
 // From xsd simple type with enumerate restriction "bar-style"
 type Enum_Bar_style string
 
 const (
-	Enum_Bar_style_Regular     Enum_Bar_style = "regular"
-	Enum_Bar_style_Dotted      Enum_Bar_style = "dotted"
-	Enum_Bar_style_Dashed      Enum_Bar_style = "dashed"
-	Enum_Bar_style_Heavy       Enum_Bar_style = "heavy"
+	Enum_Bar_style_Regular Enum_Bar_style = "regular"
+	Enum_Bar_style_Dotted Enum_Bar_style = "dotted"
+	Enum_Bar_style_Dashed Enum_Bar_style = "dashed"
+	Enum_Bar_style_Heavy Enum_Bar_style = "heavy"
 	Enum_Bar_style_Light_light Enum_Bar_style = "light-light"
 	Enum_Bar_style_Light_heavy Enum_Bar_style = "light-heavy"
 	Enum_Bar_style_Heavy_light Enum_Bar_style = "heavy-light"
 	Enum_Bar_style_Heavy_heavy Enum_Bar_style = "heavy-heavy"
-	Enum_Bar_style_Tick        Enum_Bar_style = "tick"
-	Enum_Bar_style_Short       Enum_Bar_style = "short"
-	Enum_Bar_style_None        Enum_Bar_style = "none"
+	Enum_Bar_style_Tick Enum_Bar_style = "tick"
+	Enum_Bar_style_Short Enum_Bar_style = "short"
+	Enum_Bar_style_None Enum_Bar_style = "none"
 )
 
 // From xsd simple type with enumerate restriction "beam-value"
 type Enum_Beam_value string
 
 const (
-	Enum_Beam_value_Begin         Enum_Beam_value = "begin"
-	Enum_Beam_value_Continue      Enum_Beam_value = "continue"
-	Enum_Beam_value_End           Enum_Beam_value = "end"
-	Enum_Beam_value_Forward_hook  Enum_Beam_value = "forward hook"
+	Enum_Beam_value_Begin Enum_Beam_value = "begin"
+	Enum_Beam_value_Continue Enum_Beam_value = "continue"
+	Enum_Beam_value_End Enum_Beam_value = "end"
+	Enum_Beam_value_Forward_hook Enum_Beam_value = "forward hook"
 	Enum_Beam_value_Backward_hook Enum_Beam_value = "backward hook"
 )
 
@@ -135,26 +135,26 @@ const (
 type Enum_Beater_value string
 
 const (
-	Enum_Beater_value_Bow                   Enum_Beater_value = "bow"
-	Enum_Beater_value_Chime_hammer          Enum_Beater_value = "chime hammer"
-	Enum_Beater_value_Coin                  Enum_Beater_value = "coin"
-	Enum_Beater_value_Drum_stick            Enum_Beater_value = "drum stick"
-	Enum_Beater_value_Finger                Enum_Beater_value = "finger"
-	Enum_Beater_value_Fingernail            Enum_Beater_value = "fingernail"
-	Enum_Beater_value_Fist                  Enum_Beater_value = "fist"
-	Enum_Beater_value_Guiro_scraper         Enum_Beater_value = "guiro scraper"
-	Enum_Beater_value_Hammer                Enum_Beater_value = "hammer"
-	Enum_Beater_value_Hand                  Enum_Beater_value = "hand"
-	Enum_Beater_value_Jazz_stick            Enum_Beater_value = "jazz stick"
-	Enum_Beater_value_Knitting_needle       Enum_Beater_value = "knitting needle"
-	Enum_Beater_value_Metal_hammer          Enum_Beater_value = "metal hammer"
-	Enum_Beater_value_Slide_brush_on_gong   Enum_Beater_value = "slide brush on gong"
-	Enum_Beater_value_Snare_stick           Enum_Beater_value = "snare stick"
-	Enum_Beater_value_Spoon_mallet          Enum_Beater_value = "spoon mallet"
-	Enum_Beater_value_Superball             Enum_Beater_value = "superball"
-	Enum_Beater_value_Triangle_beater       Enum_Beater_value = "triangle beater"
+	Enum_Beater_value_Bow Enum_Beater_value = "bow"
+	Enum_Beater_value_Chime_hammer Enum_Beater_value = "chime hammer"
+	Enum_Beater_value_Coin Enum_Beater_value = "coin"
+	Enum_Beater_value_Drum_stick Enum_Beater_value = "drum stick"
+	Enum_Beater_value_Finger Enum_Beater_value = "finger"
+	Enum_Beater_value_Fingernail Enum_Beater_value = "fingernail"
+	Enum_Beater_value_Fist Enum_Beater_value = "fist"
+	Enum_Beater_value_Guiro_scraper Enum_Beater_value = "guiro scraper"
+	Enum_Beater_value_Hammer Enum_Beater_value = "hammer"
+	Enum_Beater_value_Hand Enum_Beater_value = "hand"
+	Enum_Beater_value_Jazz_stick Enum_Beater_value = "jazz stick"
+	Enum_Beater_value_Knitting_needle Enum_Beater_value = "knitting needle"
+	Enum_Beater_value_Metal_hammer Enum_Beater_value = "metal hammer"
+	Enum_Beater_value_Slide_brush_on_gong Enum_Beater_value = "slide brush on gong"
+	Enum_Beater_value_Snare_stick Enum_Beater_value = "snare stick"
+	Enum_Beater_value_Spoon_mallet Enum_Beater_value = "spoon mallet"
+	Enum_Beater_value_Superball Enum_Beater_value = "superball"
+	Enum_Beater_value_Triangle_beater Enum_Beater_value = "triangle beater"
 	Enum_Beater_value_Triangle_beater_plain Enum_Beater_value = "triangle beater plain"
-	Enum_Beater_value_Wire_brush            Enum_Beater_value = "wire brush"
+	Enum_Beater_value_Wire_brush Enum_Beater_value = "wire brush"
 )
 
 // From xsd simple type with enumerate restriction "bend-shape"
@@ -169,10 +169,10 @@ const (
 type Enum_Breath_mark_value string
 
 const (
-	Enum_Breath_mark_value_        Enum_Breath_mark_value = ""
-	Enum_Breath_mark_value_Comma   Enum_Breath_mark_value = "comma"
-	Enum_Breath_mark_value_Tick    Enum_Breath_mark_value = "tick"
-	Enum_Breath_mark_value_Upbow   Enum_Breath_mark_value = "upbow"
+	Enum_Breath_mark_value_ Enum_Breath_mark_value = ""
+	Enum_Breath_mark_value_Comma Enum_Breath_mark_value = "comma"
+	Enum_Breath_mark_value_Tick Enum_Breath_mark_value = "tick"
+	Enum_Breath_mark_value_Upbow Enum_Breath_mark_value = "upbow"
 	Enum_Breath_mark_value_Salzedo Enum_Breath_mark_value = "salzedo"
 )
 
@@ -181,19 +181,19 @@ type Enum_Caesura_value string
 
 const (
 	Enum_Caesura_value_Normal Enum_Caesura_value = "normal"
-	Enum_Caesura_value_Thick  Enum_Caesura_value = "thick"
-	Enum_Caesura_value_Short  Enum_Caesura_value = "short"
+	Enum_Caesura_value_Thick Enum_Caesura_value = "thick"
+	Enum_Caesura_value_Short Enum_Caesura_value = "short"
 	Enum_Caesura_value_Curved Enum_Caesura_value = "curved"
 	Enum_Caesura_value_Single Enum_Caesura_value = "single"
-	Enum_Caesura_value_       Enum_Caesura_value = ""
+	Enum_Caesura_value_ Enum_Caesura_value = ""
 )
 
 // From xsd simple type with enumerate restriction "cancel-location"
 type Enum_Cancel_location string
 
 const (
-	Enum_Cancel_location_Left           Enum_Cancel_location = "left"
-	Enum_Cancel_location_Right          Enum_Cancel_location = "right"
+	Enum_Cancel_location_Left Enum_Cancel_location = "left"
+	Enum_Cancel_location_Right Enum_Cancel_location = "right"
 	Enum_Cancel_location_Before_barline Enum_Cancel_location = "before-barline"
 )
 
@@ -201,7 +201,7 @@ const (
 type Enum_Circular_arrow string
 
 const (
-	Enum_Circular_arrow_Clockwise     Enum_Circular_arrow = "clockwise"
+	Enum_Circular_arrow_Clockwise Enum_Circular_arrow = "clockwise"
 	Enum_Circular_arrow_Anticlockwise Enum_Circular_arrow = "anticlockwise"
 )
 
@@ -209,33 +209,35 @@ const (
 type Enum_Clef_sign string
 
 const (
-	Enum_Clef_sign_G          Enum_Clef_sign = "G"
-	Enum_Clef_sign_F          Enum_Clef_sign = "F"
-	Enum_Clef_sign_C          Enum_Clef_sign = "C"
+	Enum_Clef_sign_G Enum_Clef_sign = "G"
+	Enum_Clef_sign_F Enum_Clef_sign = "F"
+	Enum_Clef_sign_C Enum_Clef_sign = "C"
 	Enum_Clef_sign_Percussion Enum_Clef_sign = "percussion"
-	Enum_Clef_sign_TAB        Enum_Clef_sign = "TAB"
-	Enum_Clef_sign_Jianpu     Enum_Clef_sign = "jianpu"
-	Enum_Clef_sign_None       Enum_Clef_sign = "none"
+	Enum_Clef_sign_TAB Enum_Clef_sign = "TAB"
+	Enum_Clef_sign_Jianpu Enum_Clef_sign = "jianpu"
+	Enum_Clef_sign_None Enum_Clef_sign = "none"
 )
 
 // From xsd simple type with enumerate restriction "color"
 type Enum_Color string
 
-const ()
+const (
+)
 
 // From xsd simple type with enumerate restriction "comma-separated-text"
 type Enum_Comma_separated_text string
 
-const ()
+const (
+)
 
 // From xsd simple type with enumerate restriction "degree-symbol-value"
 type Enum_Degree_symbol_value string
 
 const (
-	Enum_Degree_symbol_value_Major           Enum_Degree_symbol_value = "major"
-	Enum_Degree_symbol_value_Minor           Enum_Degree_symbol_value = "minor"
-	Enum_Degree_symbol_value_Augmented       Enum_Degree_symbol_value = "augmented"
-	Enum_Degree_symbol_value_Diminished      Enum_Degree_symbol_value = "diminished"
+	Enum_Degree_symbol_value_Major Enum_Degree_symbol_value = "major"
+	Enum_Degree_symbol_value_Minor Enum_Degree_symbol_value = "minor"
+	Enum_Degree_symbol_value_Augmented Enum_Degree_symbol_value = "augmented"
+	Enum_Degree_symbol_value_Diminished Enum_Degree_symbol_value = "diminished"
 	Enum_Degree_symbol_value_Half_diminished Enum_Degree_symbol_value = "half-diminished"
 )
 
@@ -243,86 +245,88 @@ const (
 type Enum_Degree_type_value string
 
 const (
-	Enum_Degree_type_value_Add      Enum_Degree_type_value = "add"
-	Enum_Degree_type_value_Alter    Enum_Degree_type_value = "alter"
+	Enum_Degree_type_value_Add Enum_Degree_type_value = "add"
+	Enum_Degree_type_value_Alter Enum_Degree_type_value = "alter"
 	Enum_Degree_type_value_Subtract Enum_Degree_type_value = "subtract"
 )
 
 // From xsd simple type with enumerate restriction "distance-type"
 type Enum_Distance_type string
 
-const ()
+const (
+)
 
 // From xsd simple type with enumerate restriction "effect-value"
 type Enum_Effect_value string
 
 const (
-	Enum_Effect_value_Anvil          Enum_Effect_value = "anvil"
-	Enum_Effect_value_Auto_horn      Enum_Effect_value = "auto horn"
-	Enum_Effect_value_Bird_whistle   Enum_Effect_value = "bird whistle"
-	Enum_Effect_value_Cannon         Enum_Effect_value = "cannon"
-	Enum_Effect_value_Duck_call      Enum_Effect_value = "duck call"
-	Enum_Effect_value_Gun_shot       Enum_Effect_value = "gun shot"
-	Enum_Effect_value_Klaxon_horn    Enum_Effect_value = "klaxon horn"
-	Enum_Effect_value_Lions_roar     Enum_Effect_value = "lions roar"
-	Enum_Effect_value_Lotus_flute    Enum_Effect_value = "lotus flute"
-	Enum_Effect_value_Megaphone      Enum_Effect_value = "megaphone"
+	Enum_Effect_value_Anvil Enum_Effect_value = "anvil"
+	Enum_Effect_value_Auto_horn Enum_Effect_value = "auto horn"
+	Enum_Effect_value_Bird_whistle Enum_Effect_value = "bird whistle"
+	Enum_Effect_value_Cannon Enum_Effect_value = "cannon"
+	Enum_Effect_value_Duck_call Enum_Effect_value = "duck call"
+	Enum_Effect_value_Gun_shot Enum_Effect_value = "gun shot"
+	Enum_Effect_value_Klaxon_horn Enum_Effect_value = "klaxon horn"
+	Enum_Effect_value_Lions_roar Enum_Effect_value = "lions roar"
+	Enum_Effect_value_Lotus_flute Enum_Effect_value = "lotus flute"
+	Enum_Effect_value_Megaphone Enum_Effect_value = "megaphone"
 	Enum_Effect_value_Police_whistle Enum_Effect_value = "police whistle"
-	Enum_Effect_value_Siren          Enum_Effect_value = "siren"
-	Enum_Effect_value_Slide_whistle  Enum_Effect_value = "slide whistle"
-	Enum_Effect_value_Thunder_sheet  Enum_Effect_value = "thunder sheet"
-	Enum_Effect_value_Wind_machine   Enum_Effect_value = "wind machine"
-	Enum_Effect_value_Wind_whistle   Enum_Effect_value = "wind whistle"
+	Enum_Effect_value_Siren Enum_Effect_value = "siren"
+	Enum_Effect_value_Slide_whistle Enum_Effect_value = "slide whistle"
+	Enum_Effect_value_Thunder_sheet Enum_Effect_value = "thunder sheet"
+	Enum_Effect_value_Wind_machine Enum_Effect_value = "wind machine"
+	Enum_Effect_value_Wind_whistle Enum_Effect_value = "wind whistle"
 )
 
 // From xsd simple type with enumerate restriction "enclosure-shape"
 type Enum_Enclosure_shape string
 
 const (
-	Enum_Enclosure_shape_Rectangle        Enum_Enclosure_shape = "rectangle"
-	Enum_Enclosure_shape_Square           Enum_Enclosure_shape = "square"
-	Enum_Enclosure_shape_Oval             Enum_Enclosure_shape = "oval"
-	Enum_Enclosure_shape_Circle           Enum_Enclosure_shape = "circle"
-	Enum_Enclosure_shape_Bracket          Enum_Enclosure_shape = "bracket"
+	Enum_Enclosure_shape_Rectangle Enum_Enclosure_shape = "rectangle"
+	Enum_Enclosure_shape_Square Enum_Enclosure_shape = "square"
+	Enum_Enclosure_shape_Oval Enum_Enclosure_shape = "oval"
+	Enum_Enclosure_shape_Circle Enum_Enclosure_shape = "circle"
+	Enum_Enclosure_shape_Bracket Enum_Enclosure_shape = "bracket"
 	Enum_Enclosure_shape_Inverted_bracket Enum_Enclosure_shape = "inverted-bracket"
-	Enum_Enclosure_shape_Triangle         Enum_Enclosure_shape = "triangle"
-	Enum_Enclosure_shape_Diamond          Enum_Enclosure_shape = "diamond"
-	Enum_Enclosure_shape_Pentagon         Enum_Enclosure_shape = "pentagon"
-	Enum_Enclosure_shape_Hexagon          Enum_Enclosure_shape = "hexagon"
-	Enum_Enclosure_shape_Heptagon         Enum_Enclosure_shape = "heptagon"
-	Enum_Enclosure_shape_Octagon          Enum_Enclosure_shape = "octagon"
-	Enum_Enclosure_shape_Nonagon          Enum_Enclosure_shape = "nonagon"
-	Enum_Enclosure_shape_Decagon          Enum_Enclosure_shape = "decagon"
-	Enum_Enclosure_shape_None             Enum_Enclosure_shape = "none"
+	Enum_Enclosure_shape_Triangle Enum_Enclosure_shape = "triangle"
+	Enum_Enclosure_shape_Diamond Enum_Enclosure_shape = "diamond"
+	Enum_Enclosure_shape_Pentagon Enum_Enclosure_shape = "pentagon"
+	Enum_Enclosure_shape_Hexagon Enum_Enclosure_shape = "hexagon"
+	Enum_Enclosure_shape_Heptagon Enum_Enclosure_shape = "heptagon"
+	Enum_Enclosure_shape_Octagon Enum_Enclosure_shape = "octagon"
+	Enum_Enclosure_shape_Nonagon Enum_Enclosure_shape = "nonagon"
+	Enum_Enclosure_shape_Decagon Enum_Enclosure_shape = "decagon"
+	Enum_Enclosure_shape_None Enum_Enclosure_shape = "none"
 )
 
 // From xsd simple type with enumerate restriction "ending-number"
 type Enum_Ending_number string
 
-const ()
+const (
+)
 
 // From xsd simple type with enumerate restriction "fan"
 type Enum_Fan string
 
 const (
 	Enum_Fan_Accel Enum_Fan = "accel"
-	Enum_Fan_Rit   Enum_Fan = "rit"
-	Enum_Fan_None  Enum_Fan = "none"
+	Enum_Fan_Rit Enum_Fan = "rit"
+	Enum_Fan_None Enum_Fan = "none"
 )
 
 // From xsd simple type with enumerate restriction "fermata-shape"
 type Enum_Fermata_shape string
 
 const (
-	Enum_Fermata_shape_Normal        Enum_Fermata_shape = "normal"
-	Enum_Fermata_shape_Angled        Enum_Fermata_shape = "angled"
-	Enum_Fermata_shape_Square        Enum_Fermata_shape = "square"
+	Enum_Fermata_shape_Normal Enum_Fermata_shape = "normal"
+	Enum_Fermata_shape_Angled Enum_Fermata_shape = "angled"
+	Enum_Fermata_shape_Square Enum_Fermata_shape = "square"
 	Enum_Fermata_shape_Double_angled Enum_Fermata_shape = "double-angled"
 	Enum_Fermata_shape_Double_square Enum_Fermata_shape = "double-square"
-	Enum_Fermata_shape_Double_dot    Enum_Fermata_shape = "double-dot"
-	Enum_Fermata_shape_Half_curve    Enum_Fermata_shape = "half-curve"
-	Enum_Fermata_shape_Curlew        Enum_Fermata_shape = "curlew"
-	Enum_Fermata_shape_              Enum_Fermata_shape = ""
+	Enum_Fermata_shape_Double_dot Enum_Fermata_shape = "double-dot"
+	Enum_Fermata_shape_Half_curve Enum_Fermata_shape = "half-curve"
+	Enum_Fermata_shape_Curlew Enum_Fermata_shape = "curlew"
+	Enum_Fermata_shape_ Enum_Fermata_shape = ""
 )
 
 // From xsd simple type with enumerate restriction "font-style"
@@ -338,7 +342,7 @@ type Enum_Font_weight string
 
 const (
 	Enum_Font_weight_Normal Enum_Font_weight = "normal"
-	Enum_Font_weight_Bold   Enum_Font_weight = "bold"
+	Enum_Font_weight_Bold Enum_Font_weight = "bold"
 )
 
 // From xsd simple type with enumerate restriction "glass-value"
@@ -346,21 +350,22 @@ type Enum_Glass_value string
 
 const (
 	Enum_Glass_value_Glass_harmonica Enum_Glass_value = "glass harmonica"
-	Enum_Glass_value_Glass_harp      Enum_Glass_value = "glass harp"
-	Enum_Glass_value_Wind_chimes     Enum_Glass_value = "wind chimes"
+	Enum_Glass_value_Glass_harp Enum_Glass_value = "glass harp"
+	Enum_Glass_value_Wind_chimes Enum_Glass_value = "wind chimes"
 )
 
 // From xsd simple type with enumerate restriction "glyph-type"
 type Enum_Glyph_type string
 
-const ()
+const (
+)
 
 // From xsd simple type with enumerate restriction "group-barline-value"
 type Enum_Group_barline_value string
 
 const (
-	Enum_Group_barline_value_Yes          Enum_Group_barline_value = "yes"
-	Enum_Group_barline_value_No           Enum_Group_barline_value = "no"
+	Enum_Group_barline_value_Yes Enum_Group_barline_value = "yes"
+	Enum_Group_barline_value_No Enum_Group_barline_value = "no"
 	Enum_Group_barline_value_Mensurstrich Enum_Group_barline_value = "Mensurstrich"
 )
 
@@ -368,47 +373,47 @@ const (
 type Enum_Group_symbol_value string
 
 const (
-	Enum_Group_symbol_value_None    Enum_Group_symbol_value = "none"
-	Enum_Group_symbol_value_Brace   Enum_Group_symbol_value = "brace"
-	Enum_Group_symbol_value_Line    Enum_Group_symbol_value = "line"
+	Enum_Group_symbol_value_None Enum_Group_symbol_value = "none"
+	Enum_Group_symbol_value_Brace Enum_Group_symbol_value = "brace"
+	Enum_Group_symbol_value_Line Enum_Group_symbol_value = "line"
 	Enum_Group_symbol_value_Bracket Enum_Group_symbol_value = "bracket"
-	Enum_Group_symbol_value_Square  Enum_Group_symbol_value = "square"
+	Enum_Group_symbol_value_Square Enum_Group_symbol_value = "square"
 )
 
 // From xsd simple type with enumerate restriction "handbell-value"
 type Enum_Handbell_value string
 
 const (
-	Enum_Handbell_value_Belltree         Enum_Handbell_value = "belltree"
-	Enum_Handbell_value_Damp             Enum_Handbell_value = "damp"
-	Enum_Handbell_value_Echo             Enum_Handbell_value = "echo"
-	Enum_Handbell_value_Gyro             Enum_Handbell_value = "gyro"
-	Enum_Handbell_value_Hand_martellato  Enum_Handbell_value = "hand martellato"
-	Enum_Handbell_value_Mallet_lift      Enum_Handbell_value = "mallet lift"
-	Enum_Handbell_value_Mallet_table     Enum_Handbell_value = "mallet table"
-	Enum_Handbell_value_Martellato       Enum_Handbell_value = "martellato"
-	Enum_Handbell_value_Martellato_lift  Enum_Handbell_value = "martellato lift"
+	Enum_Handbell_value_Belltree Enum_Handbell_value = "belltree"
+	Enum_Handbell_value_Damp Enum_Handbell_value = "damp"
+	Enum_Handbell_value_Echo Enum_Handbell_value = "echo"
+	Enum_Handbell_value_Gyro Enum_Handbell_value = "gyro"
+	Enum_Handbell_value_Hand_martellato Enum_Handbell_value = "hand martellato"
+	Enum_Handbell_value_Mallet_lift Enum_Handbell_value = "mallet lift"
+	Enum_Handbell_value_Mallet_table Enum_Handbell_value = "mallet table"
+	Enum_Handbell_value_Martellato Enum_Handbell_value = "martellato"
+	Enum_Handbell_value_Martellato_lift Enum_Handbell_value = "martellato lift"
 	Enum_Handbell_value_Muted_martellato Enum_Handbell_value = "muted martellato"
-	Enum_Handbell_value_Pluck_lift       Enum_Handbell_value = "pluck lift"
-	Enum_Handbell_value_Swing            Enum_Handbell_value = "swing"
+	Enum_Handbell_value_Pluck_lift Enum_Handbell_value = "pluck lift"
+	Enum_Handbell_value_Swing Enum_Handbell_value = "swing"
 )
 
 // From xsd simple type with enumerate restriction "harmon-closed-location"
 type Enum_Harmon_closed_location string
 
 const (
-	Enum_Harmon_closed_location_Right  Enum_Harmon_closed_location = "right"
+	Enum_Harmon_closed_location_Right Enum_Harmon_closed_location = "right"
 	Enum_Harmon_closed_location_Bottom Enum_Harmon_closed_location = "bottom"
-	Enum_Harmon_closed_location_Left   Enum_Harmon_closed_location = "left"
-	Enum_Harmon_closed_location_Top    Enum_Harmon_closed_location = "top"
+	Enum_Harmon_closed_location_Left Enum_Harmon_closed_location = "left"
+	Enum_Harmon_closed_location_Top Enum_Harmon_closed_location = "top"
 )
 
 // From xsd simple type with enumerate restriction "harmon-closed-value"
 type Enum_Harmon_closed_value string
 
 const (
-	Enum_Harmon_closed_value_Yes  Enum_Harmon_closed_value = "yes"
-	Enum_Harmon_closed_value_No   Enum_Harmon_closed_value = "no"
+	Enum_Harmon_closed_value_Yes Enum_Harmon_closed_value = "yes"
+	Enum_Harmon_closed_value_No Enum_Harmon_closed_value = "no"
 	Enum_Harmon_closed_value_Half Enum_Harmon_closed_value = "half"
 )
 
@@ -416,17 +421,17 @@ const (
 type Enum_Harmony_arrangement string
 
 const (
-	Enum_Harmony_arrangement_Vertical   Enum_Harmony_arrangement = "vertical"
+	Enum_Harmony_arrangement_Vertical Enum_Harmony_arrangement = "vertical"
 	Enum_Harmony_arrangement_Horizontal Enum_Harmony_arrangement = "horizontal"
-	Enum_Harmony_arrangement_Diagonal   Enum_Harmony_arrangement = "diagonal"
+	Enum_Harmony_arrangement_Diagonal Enum_Harmony_arrangement = "diagonal"
 )
 
 // From xsd simple type with enumerate restriction "harmony-type"
 type Enum_Harmony_type string
 
 const (
-	Enum_Harmony_type_Explicit  Enum_Harmony_type = "explicit"
-	Enum_Harmony_type_Implied   Enum_Harmony_type = "implied"
+	Enum_Harmony_type_Explicit Enum_Harmony_type = "explicit"
+	Enum_Harmony_type_Implied Enum_Harmony_type = "implied"
 	Enum_Harmony_type_Alternate Enum_Harmony_type = "alternate"
 )
 
@@ -434,18 +439,18 @@ const (
 type Enum_Hole_closed_location string
 
 const (
-	Enum_Hole_closed_location_Right  Enum_Hole_closed_location = "right"
+	Enum_Hole_closed_location_Right Enum_Hole_closed_location = "right"
 	Enum_Hole_closed_location_Bottom Enum_Hole_closed_location = "bottom"
-	Enum_Hole_closed_location_Left   Enum_Hole_closed_location = "left"
-	Enum_Hole_closed_location_Top    Enum_Hole_closed_location = "top"
+	Enum_Hole_closed_location_Left Enum_Hole_closed_location = "left"
+	Enum_Hole_closed_location_Top Enum_Hole_closed_location = "top"
 )
 
 // From xsd simple type with enumerate restriction "hole-closed-value"
 type Enum_Hole_closed_value string
 
 const (
-	Enum_Hole_closed_value_Yes  Enum_Hole_closed_value = "yes"
-	Enum_Hole_closed_value_No   Enum_Hole_closed_value = "no"
+	Enum_Hole_closed_value_Yes Enum_Hole_closed_value = "yes"
+	Enum_Hole_closed_value_No Enum_Hole_closed_value = "no"
 	Enum_Hole_closed_value_Half Enum_Hole_closed_value = "half"
 )
 
@@ -453,55 +458,55 @@ const (
 type Enum_Kind_value string
 
 const (
-	Enum_Kind_value_Major              Enum_Kind_value = "major"
-	Enum_Kind_value_Minor              Enum_Kind_value = "minor"
-	Enum_Kind_value_Augmented          Enum_Kind_value = "augmented"
-	Enum_Kind_value_Diminished         Enum_Kind_value = "diminished"
-	Enum_Kind_value_Dominant           Enum_Kind_value = "dominant"
-	Enum_Kind_value_Major_seventh      Enum_Kind_value = "major-seventh"
-	Enum_Kind_value_Minor_seventh      Enum_Kind_value = "minor-seventh"
+	Enum_Kind_value_Major Enum_Kind_value = "major"
+	Enum_Kind_value_Minor Enum_Kind_value = "minor"
+	Enum_Kind_value_Augmented Enum_Kind_value = "augmented"
+	Enum_Kind_value_Diminished Enum_Kind_value = "diminished"
+	Enum_Kind_value_Dominant Enum_Kind_value = "dominant"
+	Enum_Kind_value_Major_seventh Enum_Kind_value = "major-seventh"
+	Enum_Kind_value_Minor_seventh Enum_Kind_value = "minor-seventh"
 	Enum_Kind_value_Diminished_seventh Enum_Kind_value = "diminished-seventh"
-	Enum_Kind_value_Augmented_seventh  Enum_Kind_value = "augmented-seventh"
-	Enum_Kind_value_Half_diminished    Enum_Kind_value = "half-diminished"
-	Enum_Kind_value_Major_minor        Enum_Kind_value = "major-minor"
-	Enum_Kind_value_Major_sixth        Enum_Kind_value = "major-sixth"
-	Enum_Kind_value_Minor_sixth        Enum_Kind_value = "minor-sixth"
-	Enum_Kind_value_Dominant_ninth     Enum_Kind_value = "dominant-ninth"
-	Enum_Kind_value_Major_ninth        Enum_Kind_value = "major-ninth"
-	Enum_Kind_value_Minor_ninth        Enum_Kind_value = "minor-ninth"
-	Enum_Kind_value_Dominant_11th      Enum_Kind_value = "dominant-11th"
-	Enum_Kind_value_Major_11th         Enum_Kind_value = "major-11th"
-	Enum_Kind_value_Minor_11th         Enum_Kind_value = "minor-11th"
-	Enum_Kind_value_Dominant_13th      Enum_Kind_value = "dominant-13th"
-	Enum_Kind_value_Major_13th         Enum_Kind_value = "major-13th"
-	Enum_Kind_value_Minor_13th         Enum_Kind_value = "minor-13th"
-	Enum_Kind_value_Suspended_second   Enum_Kind_value = "suspended-second"
-	Enum_Kind_value_Suspended_fourth   Enum_Kind_value = "suspended-fourth"
-	Enum_Kind_value_Neapolitan         Enum_Kind_value = "Neapolitan"
-	Enum_Kind_value_Italian            Enum_Kind_value = "Italian"
-	Enum_Kind_value_French             Enum_Kind_value = "French"
-	Enum_Kind_value_German             Enum_Kind_value = "German"
-	Enum_Kind_value_Pedal              Enum_Kind_value = "pedal"
-	Enum_Kind_value_Power              Enum_Kind_value = "power"
-	Enum_Kind_value_Tristan            Enum_Kind_value = "Tristan"
-	Enum_Kind_value_Other              Enum_Kind_value = "other"
-	Enum_Kind_value_None               Enum_Kind_value = "none"
+	Enum_Kind_value_Augmented_seventh Enum_Kind_value = "augmented-seventh"
+	Enum_Kind_value_Half_diminished Enum_Kind_value = "half-diminished"
+	Enum_Kind_value_Major_minor Enum_Kind_value = "major-minor"
+	Enum_Kind_value_Major_sixth Enum_Kind_value = "major-sixth"
+	Enum_Kind_value_Minor_sixth Enum_Kind_value = "minor-sixth"
+	Enum_Kind_value_Dominant_ninth Enum_Kind_value = "dominant-ninth"
+	Enum_Kind_value_Major_ninth Enum_Kind_value = "major-ninth"
+	Enum_Kind_value_Minor_ninth Enum_Kind_value = "minor-ninth"
+	Enum_Kind_value_Dominant_11th Enum_Kind_value = "dominant-11th"
+	Enum_Kind_value_Major_11th Enum_Kind_value = "major-11th"
+	Enum_Kind_value_Minor_11th Enum_Kind_value = "minor-11th"
+	Enum_Kind_value_Dominant_13th Enum_Kind_value = "dominant-13th"
+	Enum_Kind_value_Major_13th Enum_Kind_value = "major-13th"
+	Enum_Kind_value_Minor_13th Enum_Kind_value = "minor-13th"
+	Enum_Kind_value_Suspended_second Enum_Kind_value = "suspended-second"
+	Enum_Kind_value_Suspended_fourth Enum_Kind_value = "suspended-fourth"
+	Enum_Kind_value_Neapolitan Enum_Kind_value = "Neapolitan"
+	Enum_Kind_value_Italian Enum_Kind_value = "Italian"
+	Enum_Kind_value_French Enum_Kind_value = "French"
+	Enum_Kind_value_German Enum_Kind_value = "German"
+	Enum_Kind_value_Pedal Enum_Kind_value = "pedal"
+	Enum_Kind_value_Power Enum_Kind_value = "power"
+	Enum_Kind_value_Tristan Enum_Kind_value = "Tristan"
+	Enum_Kind_value_Other Enum_Kind_value = "other"
+	Enum_Kind_value_None Enum_Kind_value = "none"
 )
 
 // From xsd simple type with enumerate restriction "left-center-right"
 type Enum_Left_center_right string
 
 const (
-	Enum_Left_center_right_Left   Enum_Left_center_right = "left"
+	Enum_Left_center_right_Left Enum_Left_center_right = "left"
 	Enum_Left_center_right_Center Enum_Left_center_right = "center"
-	Enum_Left_center_right_Right  Enum_Left_center_right = "right"
+	Enum_Left_center_right_Right Enum_Left_center_right = "right"
 )
 
 // From xsd simple type with enumerate restriction "left-right"
 type Enum_Left_right string
 
 const (
-	Enum_Left_right_Left  Enum_Left_right = "left"
+	Enum_Left_right_Left Enum_Left_right = "left"
 	Enum_Left_right_Right Enum_Left_right = "right"
 )
 
@@ -509,20 +514,20 @@ const (
 type Enum_Line_end string
 
 const (
-	Enum_Line_end_Up    Enum_Line_end = "up"
-	Enum_Line_end_Down  Enum_Line_end = "down"
-	Enum_Line_end_Both  Enum_Line_end = "both"
+	Enum_Line_end_Up Enum_Line_end = "up"
+	Enum_Line_end_Down Enum_Line_end = "down"
+	Enum_Line_end_Both Enum_Line_end = "both"
 	Enum_Line_end_Arrow Enum_Line_end = "arrow"
-	Enum_Line_end_None  Enum_Line_end = "none"
+	Enum_Line_end_None Enum_Line_end = "none"
 )
 
 // From xsd simple type with enumerate restriction "line-length"
 type Enum_Line_length string
 
 const (
-	Enum_Line_length_Short  Enum_Line_length = "short"
+	Enum_Line_length_Short Enum_Line_length = "short"
 	Enum_Line_length_Medium Enum_Line_length = "medium"
-	Enum_Line_length_Long   Enum_Line_length = "long"
+	Enum_Line_length_Long Enum_Line_length = "long"
 )
 
 // From xsd simple type with enumerate restriction "line-shape"
@@ -530,29 +535,30 @@ type Enum_Line_shape string
 
 const (
 	Enum_Line_shape_Straight Enum_Line_shape = "straight"
-	Enum_Line_shape_Curved   Enum_Line_shape = "curved"
+	Enum_Line_shape_Curved Enum_Line_shape = "curved"
 )
 
 // From xsd simple type with enumerate restriction "line-type"
 type Enum_Line_type string
 
 const (
-	Enum_Line_type_Solid  Enum_Line_type = "solid"
+	Enum_Line_type_Solid Enum_Line_type = "solid"
 	Enum_Line_type_Dashed Enum_Line_type = "dashed"
 	Enum_Line_type_Dotted Enum_Line_type = "dotted"
-	Enum_Line_type_Wavy   Enum_Line_type = "wavy"
+	Enum_Line_type_Wavy Enum_Line_type = "wavy"
 )
 
 // From xsd simple type with enumerate restriction "line-width-type"
 type Enum_Line_width_type string
 
-const ()
+const (
+)
 
 // From xsd simple type with enumerate restriction "margin-type"
 type Enum_Margin_type string
 
 const (
-	Enum_Margin_type_Odd  Enum_Margin_type = "odd"
+	Enum_Margin_type_Odd Enum_Margin_type = "odd"
 	Enum_Margin_type_Even Enum_Margin_type = "even"
 	Enum_Margin_type_Both Enum_Margin_type = "both"
 )
@@ -561,175 +567,177 @@ const (
 type Enum_Measure_numbering_value string
 
 const (
-	Enum_Measure_numbering_value_None    Enum_Measure_numbering_value = "none"
+	Enum_Measure_numbering_value_None Enum_Measure_numbering_value = "none"
 	Enum_Measure_numbering_value_Measure Enum_Measure_numbering_value = "measure"
-	Enum_Measure_numbering_value_System  Enum_Measure_numbering_value = "system"
+	Enum_Measure_numbering_value_System Enum_Measure_numbering_value = "system"
 )
 
 // From xsd simple type with enumerate restriction "measure-text"
 type Enum_Measure_text string
 
-const ()
+const (
+)
 
 // From xsd simple type with enumerate restriction "membrane-value"
 type Enum_Membrane_value string
 
 const (
-	Enum_Membrane_value_Bass_drum             Enum_Membrane_value = "bass drum"
-	Enum_Membrane_value_Bass_drum_on_side     Enum_Membrane_value = "bass drum on side"
-	Enum_Membrane_value_Bongos                Enum_Membrane_value = "bongos"
-	Enum_Membrane_value_Chinese_tomtom        Enum_Membrane_value = "Chinese tomtom"
-	Enum_Membrane_value_Conga_drum            Enum_Membrane_value = "conga drum"
-	Enum_Membrane_value_Cuica                 Enum_Membrane_value = "cuica"
-	Enum_Membrane_value_Goblet_drum           Enum_Membrane_value = "goblet drum"
-	Enum_Membrane_value_Indo_American_tomtom  Enum_Membrane_value = "Indo-American tomtom"
-	Enum_Membrane_value_Japanese_tomtom       Enum_Membrane_value = "Japanese tomtom"
-	Enum_Membrane_value_Military_drum         Enum_Membrane_value = "military drum"
-	Enum_Membrane_value_Snare_drum            Enum_Membrane_value = "snare drum"
+	Enum_Membrane_value_Bass_drum Enum_Membrane_value = "bass drum"
+	Enum_Membrane_value_Bass_drum_on_side Enum_Membrane_value = "bass drum on side"
+	Enum_Membrane_value_Bongos Enum_Membrane_value = "bongos"
+	Enum_Membrane_value_Chinese_tomtom Enum_Membrane_value = "Chinese tomtom"
+	Enum_Membrane_value_Conga_drum Enum_Membrane_value = "conga drum"
+	Enum_Membrane_value_Cuica Enum_Membrane_value = "cuica"
+	Enum_Membrane_value_Goblet_drum Enum_Membrane_value = "goblet drum"
+	Enum_Membrane_value_Indo_American_tomtom Enum_Membrane_value = "Indo-American tomtom"
+	Enum_Membrane_value_Japanese_tomtom Enum_Membrane_value = "Japanese tomtom"
+	Enum_Membrane_value_Military_drum Enum_Membrane_value = "military drum"
+	Enum_Membrane_value_Snare_drum Enum_Membrane_value = "snare drum"
 	Enum_Membrane_value_Snare_drum_snares_off Enum_Membrane_value = "snare drum snares off"
-	Enum_Membrane_value_Tabla                 Enum_Membrane_value = "tabla"
-	Enum_Membrane_value_Tambourine            Enum_Membrane_value = "tambourine"
-	Enum_Membrane_value_Tenor_drum            Enum_Membrane_value = "tenor drum"
-	Enum_Membrane_value_Timbales              Enum_Membrane_value = "timbales"
-	Enum_Membrane_value_Tomtom                Enum_Membrane_value = "tomtom"
+	Enum_Membrane_value_Tabla Enum_Membrane_value = "tabla"
+	Enum_Membrane_value_Tambourine Enum_Membrane_value = "tambourine"
+	Enum_Membrane_value_Tenor_drum Enum_Membrane_value = "tenor drum"
+	Enum_Membrane_value_Timbales Enum_Membrane_value = "timbales"
+	Enum_Membrane_value_Tomtom Enum_Membrane_value = "tomtom"
 )
 
 // From xsd simple type with enumerate restriction "metal-value"
 type Enum_Metal_value string
 
 const (
-	Enum_Metal_value_Agogo               Enum_Metal_value = "agogo"
-	Enum_Metal_value_Almglocken          Enum_Metal_value = "almglocken"
-	Enum_Metal_value_Bell                Enum_Metal_value = "bell"
-	Enum_Metal_value_Bell_plate          Enum_Metal_value = "bell plate"
-	Enum_Metal_value_Bell_tree           Enum_Metal_value = "bell tree"
-	Enum_Metal_value_Brake_drum          Enum_Metal_value = "brake drum"
-	Enum_Metal_value_Cencerro            Enum_Metal_value = "cencerro"
-	Enum_Metal_value_Chain_rattle        Enum_Metal_value = "chain rattle"
-	Enum_Metal_value_Chinese_cymbal      Enum_Metal_value = "Chinese cymbal"
-	Enum_Metal_value_Cowbell             Enum_Metal_value = "cowbell"
-	Enum_Metal_value_Crash_cymbals       Enum_Metal_value = "crash cymbals"
-	Enum_Metal_value_Crotale             Enum_Metal_value = "crotale"
-	Enum_Metal_value_Cymbal_tongs        Enum_Metal_value = "cymbal tongs"
-	Enum_Metal_value_Domed_gong          Enum_Metal_value = "domed gong"
-	Enum_Metal_value_Finger_cymbals      Enum_Metal_value = "finger cymbals"
-	Enum_Metal_value_Flexatone           Enum_Metal_value = "flexatone"
-	Enum_Metal_value_Gong                Enum_Metal_value = "gong"
-	Enum_Metal_value_Hi_hat              Enum_Metal_value = "hi-hat"
-	Enum_Metal_value_High_hat_cymbals    Enum_Metal_value = "high-hat cymbals"
-	Enum_Metal_value_Handbell            Enum_Metal_value = "handbell"
-	Enum_Metal_value_Jaw_harp            Enum_Metal_value = "jaw harp"
-	Enum_Metal_value_Jingle_bells        Enum_Metal_value = "jingle bells"
-	Enum_Metal_value_Musical_saw         Enum_Metal_value = "musical saw"
-	Enum_Metal_value_Shell_bells         Enum_Metal_value = "shell bells"
-	Enum_Metal_value_Sistrum             Enum_Metal_value = "sistrum"
-	Enum_Metal_value_Sizzle_cymbal       Enum_Metal_value = "sizzle cymbal"
-	Enum_Metal_value_Sleigh_bells        Enum_Metal_value = "sleigh bells"
-	Enum_Metal_value_Suspended_cymbal    Enum_Metal_value = "suspended cymbal"
-	Enum_Metal_value_Tam_tam             Enum_Metal_value = "tam tam"
+	Enum_Metal_value_Agogo Enum_Metal_value = "agogo"
+	Enum_Metal_value_Almglocken Enum_Metal_value = "almglocken"
+	Enum_Metal_value_Bell Enum_Metal_value = "bell"
+	Enum_Metal_value_Bell_plate Enum_Metal_value = "bell plate"
+	Enum_Metal_value_Bell_tree Enum_Metal_value = "bell tree"
+	Enum_Metal_value_Brake_drum Enum_Metal_value = "brake drum"
+	Enum_Metal_value_Cencerro Enum_Metal_value = "cencerro"
+	Enum_Metal_value_Chain_rattle Enum_Metal_value = "chain rattle"
+	Enum_Metal_value_Chinese_cymbal Enum_Metal_value = "Chinese cymbal"
+	Enum_Metal_value_Cowbell Enum_Metal_value = "cowbell"
+	Enum_Metal_value_Crash_cymbals Enum_Metal_value = "crash cymbals"
+	Enum_Metal_value_Crotale Enum_Metal_value = "crotale"
+	Enum_Metal_value_Cymbal_tongs Enum_Metal_value = "cymbal tongs"
+	Enum_Metal_value_Domed_gong Enum_Metal_value = "domed gong"
+	Enum_Metal_value_Finger_cymbals Enum_Metal_value = "finger cymbals"
+	Enum_Metal_value_Flexatone Enum_Metal_value = "flexatone"
+	Enum_Metal_value_Gong Enum_Metal_value = "gong"
+	Enum_Metal_value_Hi_hat Enum_Metal_value = "hi-hat"
+	Enum_Metal_value_High_hat_cymbals Enum_Metal_value = "high-hat cymbals"
+	Enum_Metal_value_Handbell Enum_Metal_value = "handbell"
+	Enum_Metal_value_Jaw_harp Enum_Metal_value = "jaw harp"
+	Enum_Metal_value_Jingle_bells Enum_Metal_value = "jingle bells"
+	Enum_Metal_value_Musical_saw Enum_Metal_value = "musical saw"
+	Enum_Metal_value_Shell_bells Enum_Metal_value = "shell bells"
+	Enum_Metal_value_Sistrum Enum_Metal_value = "sistrum"
+	Enum_Metal_value_Sizzle_cymbal Enum_Metal_value = "sizzle cymbal"
+	Enum_Metal_value_Sleigh_bells Enum_Metal_value = "sleigh bells"
+	Enum_Metal_value_Suspended_cymbal Enum_Metal_value = "suspended cymbal"
+	Enum_Metal_value_Tam_tam Enum_Metal_value = "tam tam"
 	Enum_Metal_value_Tam_tam_with_beater Enum_Metal_value = "tam tam with beater"
-	Enum_Metal_value_Triangle            Enum_Metal_value = "triangle"
-	Enum_Metal_value_Vietnamese_hat      Enum_Metal_value = "Vietnamese hat"
+	Enum_Metal_value_Triangle Enum_Metal_value = "triangle"
+	Enum_Metal_value_Vietnamese_hat Enum_Metal_value = "Vietnamese hat"
 )
 
 // From xsd simple type with enumerate restriction "mode"
 type Enum_Mode string
 
-const ()
+const (
+)
 
 // From xsd simple type with enumerate restriction "mute"
 type Enum_Mute string
 
 const (
-	Enum_Mute_On             Enum_Mute = "on"
-	Enum_Mute_Off            Enum_Mute = "off"
-	Enum_Mute_Straight       Enum_Mute = "straight"
-	Enum_Mute_Cup            Enum_Mute = "cup"
+	Enum_Mute_On Enum_Mute = "on"
+	Enum_Mute_Off Enum_Mute = "off"
+	Enum_Mute_Straight Enum_Mute = "straight"
+	Enum_Mute_Cup Enum_Mute = "cup"
 	Enum_Mute_Harmon_no_stem Enum_Mute = "harmon-no-stem"
-	Enum_Mute_Harmon_stem    Enum_Mute = "harmon-stem"
-	Enum_Mute_Bucket         Enum_Mute = "bucket"
-	Enum_Mute_Plunger        Enum_Mute = "plunger"
-	Enum_Mute_Hat            Enum_Mute = "hat"
-	Enum_Mute_Solotone       Enum_Mute = "solotone"
-	Enum_Mute_Practice       Enum_Mute = "practice"
-	Enum_Mute_Stop_mute      Enum_Mute = "stop-mute"
-	Enum_Mute_Stop_hand      Enum_Mute = "stop-hand"
-	Enum_Mute_Echo           Enum_Mute = "echo"
-	Enum_Mute_Palm           Enum_Mute = "palm"
+	Enum_Mute_Harmon_stem Enum_Mute = "harmon-stem"
+	Enum_Mute_Bucket Enum_Mute = "bucket"
+	Enum_Mute_Plunger Enum_Mute = "plunger"
+	Enum_Mute_Hat Enum_Mute = "hat"
+	Enum_Mute_Solotone Enum_Mute = "solotone"
+	Enum_Mute_Practice Enum_Mute = "practice"
+	Enum_Mute_Stop_mute Enum_Mute = "stop-mute"
+	Enum_Mute_Stop_hand Enum_Mute = "stop-hand"
+	Enum_Mute_Echo Enum_Mute = "echo"
+	Enum_Mute_Palm Enum_Mute = "palm"
 )
 
 // From xsd simple type with enumerate restriction "note-size-type"
 type Enum_Note_size_type string
 
 const (
-	Enum_Note_size_type_Cue       Enum_Note_size_type = "cue"
-	Enum_Note_size_type_Grace     Enum_Note_size_type = "grace"
+	Enum_Note_size_type_Cue Enum_Note_size_type = "cue"
+	Enum_Note_size_type_Grace Enum_Note_size_type = "grace"
 	Enum_Note_size_type_Grace_cue Enum_Note_size_type = "grace-cue"
-	Enum_Note_size_type_Large     Enum_Note_size_type = "large"
+	Enum_Note_size_type_Large Enum_Note_size_type = "large"
 )
 
 // From xsd simple type with enumerate restriction "note-type-value"
 type Enum_Note_type_value string
 
 const (
-	Enum_Note_type_value_1024th  Enum_Note_type_value = "1024th"
-	Enum_Note_type_value_512th   Enum_Note_type_value = "512th"
-	Enum_Note_type_value_256th   Enum_Note_type_value = "256th"
-	Enum_Note_type_value_128th   Enum_Note_type_value = "128th"
-	Enum_Note_type_value_64th    Enum_Note_type_value = "64th"
-	Enum_Note_type_value_32nd    Enum_Note_type_value = "32nd"
-	Enum_Note_type_value_16th    Enum_Note_type_value = "16th"
-	Enum_Note_type_value_Eighth  Enum_Note_type_value = "eighth"
+	Enum_Note_type_value_1024th Enum_Note_type_value = "1024th"
+	Enum_Note_type_value_512th Enum_Note_type_value = "512th"
+	Enum_Note_type_value_256th Enum_Note_type_value = "256th"
+	Enum_Note_type_value_128th Enum_Note_type_value = "128th"
+	Enum_Note_type_value_64th Enum_Note_type_value = "64th"
+	Enum_Note_type_value_32nd Enum_Note_type_value = "32nd"
+	Enum_Note_type_value_16th Enum_Note_type_value = "16th"
+	Enum_Note_type_value_Eighth Enum_Note_type_value = "eighth"
 	Enum_Note_type_value_Quarter Enum_Note_type_value = "quarter"
-	Enum_Note_type_value_Half    Enum_Note_type_value = "half"
-	Enum_Note_type_value_Whole   Enum_Note_type_value = "whole"
-	Enum_Note_type_value_Breve   Enum_Note_type_value = "breve"
-	Enum_Note_type_value_Long    Enum_Note_type_value = "long"
-	Enum_Note_type_value_Maxima  Enum_Note_type_value = "maxima"
+	Enum_Note_type_value_Half Enum_Note_type_value = "half"
+	Enum_Note_type_value_Whole Enum_Note_type_value = "whole"
+	Enum_Note_type_value_Breve Enum_Note_type_value = "breve"
+	Enum_Note_type_value_Long Enum_Note_type_value = "long"
+	Enum_Note_type_value_Maxima Enum_Note_type_value = "maxima"
 )
 
 // From xsd simple type with enumerate restriction "notehead-value"
 type Enum_Notehead_value string
 
 const (
-	Enum_Notehead_value_Slash             Enum_Notehead_value = "slash"
-	Enum_Notehead_value_Triangle          Enum_Notehead_value = "triangle"
-	Enum_Notehead_value_Diamond           Enum_Notehead_value = "diamond"
-	Enum_Notehead_value_Square            Enum_Notehead_value = "square"
-	Enum_Notehead_value_Cross             Enum_Notehead_value = "cross"
-	Enum_Notehead_value_X                 Enum_Notehead_value = "x"
-	Enum_Notehead_value_Circle_x          Enum_Notehead_value = "circle-x"
+	Enum_Notehead_value_Slash Enum_Notehead_value = "slash"
+	Enum_Notehead_value_Triangle Enum_Notehead_value = "triangle"
+	Enum_Notehead_value_Diamond Enum_Notehead_value = "diamond"
+	Enum_Notehead_value_Square Enum_Notehead_value = "square"
+	Enum_Notehead_value_Cross Enum_Notehead_value = "cross"
+	Enum_Notehead_value_X Enum_Notehead_value = "x"
+	Enum_Notehead_value_Circle_x Enum_Notehead_value = "circle-x"
 	Enum_Notehead_value_Inverted_triangle Enum_Notehead_value = "inverted triangle"
-	Enum_Notehead_value_Arrow_down        Enum_Notehead_value = "arrow down"
-	Enum_Notehead_value_Arrow_up          Enum_Notehead_value = "arrow up"
-	Enum_Notehead_value_Circled           Enum_Notehead_value = "circled"
-	Enum_Notehead_value_Slashed           Enum_Notehead_value = "slashed"
-	Enum_Notehead_value_Back_slashed      Enum_Notehead_value = "back slashed"
-	Enum_Notehead_value_Normal            Enum_Notehead_value = "normal"
-	Enum_Notehead_value_Cluster           Enum_Notehead_value = "cluster"
-	Enum_Notehead_value_Circle_dot        Enum_Notehead_value = "circle dot"
-	Enum_Notehead_value_Left_triangle     Enum_Notehead_value = "left triangle"
-	Enum_Notehead_value_Rectangle         Enum_Notehead_value = "rectangle"
-	Enum_Notehead_value_None              Enum_Notehead_value = "none"
-	Enum_Notehead_value_Do                Enum_Notehead_value = "do"
-	Enum_Notehead_value_Re                Enum_Notehead_value = "re"
-	Enum_Notehead_value_Mi                Enum_Notehead_value = "mi"
-	Enum_Notehead_value_Fa                Enum_Notehead_value = "fa"
-	Enum_Notehead_value_Fa_up             Enum_Notehead_value = "fa up"
-	Enum_Notehead_value_So                Enum_Notehead_value = "so"
-	Enum_Notehead_value_La                Enum_Notehead_value = "la"
-	Enum_Notehead_value_Ti                Enum_Notehead_value = "ti"
-	Enum_Notehead_value_Other             Enum_Notehead_value = "other"
+	Enum_Notehead_value_Arrow_down Enum_Notehead_value = "arrow down"
+	Enum_Notehead_value_Arrow_up Enum_Notehead_value = "arrow up"
+	Enum_Notehead_value_Circled Enum_Notehead_value = "circled"
+	Enum_Notehead_value_Slashed Enum_Notehead_value = "slashed"
+	Enum_Notehead_value_Back_slashed Enum_Notehead_value = "back slashed"
+	Enum_Notehead_value_Normal Enum_Notehead_value = "normal"
+	Enum_Notehead_value_Cluster Enum_Notehead_value = "cluster"
+	Enum_Notehead_value_Circle_dot Enum_Notehead_value = "circle dot"
+	Enum_Notehead_value_Left_triangle Enum_Notehead_value = "left triangle"
+	Enum_Notehead_value_Rectangle Enum_Notehead_value = "rectangle"
+	Enum_Notehead_value_None Enum_Notehead_value = "none"
+	Enum_Notehead_value_Do Enum_Notehead_value = "do"
+	Enum_Notehead_value_Re Enum_Notehead_value = "re"
+	Enum_Notehead_value_Mi Enum_Notehead_value = "mi"
+	Enum_Notehead_value_Fa Enum_Notehead_value = "fa"
+	Enum_Notehead_value_Fa_up Enum_Notehead_value = "fa up"
+	Enum_Notehead_value_So Enum_Notehead_value = "so"
+	Enum_Notehead_value_La Enum_Notehead_value = "la"
+	Enum_Notehead_value_Ti Enum_Notehead_value = "ti"
+	Enum_Notehead_value_Other Enum_Notehead_value = "other"
 )
 
 // From xsd simple type with enumerate restriction "numeral-mode"
 type Enum_Numeral_mode string
 
 const (
-	Enum_Numeral_mode_Major          Enum_Numeral_mode = "major"
-	Enum_Numeral_mode_Minor          Enum_Numeral_mode = "minor"
-	Enum_Numeral_mode_Natural_minor  Enum_Numeral_mode = "natural minor"
-	Enum_Numeral_mode_Melodic_minor  Enum_Numeral_mode = "melodic minor"
+	Enum_Numeral_mode_Major Enum_Numeral_mode = "major"
+	Enum_Numeral_mode_Minor Enum_Numeral_mode = "minor"
+	Enum_Numeral_mode_Natural_minor Enum_Numeral_mode = "natural minor"
+	Enum_Numeral_mode_Melodic_minor Enum_Numeral_mode = "melodic minor"
 	Enum_Numeral_mode_Harmonic_minor Enum_Numeral_mode = "harmonic minor"
 )
 
@@ -737,7 +745,7 @@ const (
 type Enum_On_off string
 
 const (
-	Enum_On_off_On  Enum_On_off = "on"
+	Enum_On_off_On Enum_On_off = "on"
 	Enum_On_off_Off Enum_On_off = "off"
 )
 
@@ -745,7 +753,7 @@ const (
 type Enum_Over_under string
 
 const (
-	Enum_Over_under_Over  Enum_Over_under = "over"
+	Enum_Over_under_Over Enum_Over_under = "over"
 	Enum_Over_under_Under Enum_Over_under = "under"
 )
 
@@ -753,30 +761,30 @@ const (
 type Enum_Pedal_type string
 
 const (
-	Enum_Pedal_type_Start       Enum_Pedal_type = "start"
-	Enum_Pedal_type_Stop        Enum_Pedal_type = "stop"
-	Enum_Pedal_type_Sostenuto   Enum_Pedal_type = "sostenuto"
-	Enum_Pedal_type_Change      Enum_Pedal_type = "change"
-	Enum_Pedal_type_Continue    Enum_Pedal_type = "continue"
+	Enum_Pedal_type_Start Enum_Pedal_type = "start"
+	Enum_Pedal_type_Stop Enum_Pedal_type = "stop"
+	Enum_Pedal_type_Sostenuto Enum_Pedal_type = "sostenuto"
+	Enum_Pedal_type_Change Enum_Pedal_type = "change"
+	Enum_Pedal_type_Continue Enum_Pedal_type = "continue"
 	Enum_Pedal_type_Discontinue Enum_Pedal_type = "discontinue"
-	Enum_Pedal_type_Resume      Enum_Pedal_type = "resume"
+	Enum_Pedal_type_Resume Enum_Pedal_type = "resume"
 )
 
 // From xsd simple type with enumerate restriction "pitched-value"
 type Enum_Pitched_value string
 
 const (
-	Enum_Pitched_value_Celesta        Enum_Pitched_value = "celesta"
-	Enum_Pitched_value_Chimes         Enum_Pitched_value = "chimes"
-	Enum_Pitched_value_Glockenspiel   Enum_Pitched_value = "glockenspiel"
-	Enum_Pitched_value_Lithophone     Enum_Pitched_value = "lithophone"
-	Enum_Pitched_value_Mallet         Enum_Pitched_value = "mallet"
-	Enum_Pitched_value_Marimba        Enum_Pitched_value = "marimba"
-	Enum_Pitched_value_Steel_drums    Enum_Pitched_value = "steel drums"
-	Enum_Pitched_value_Tubaphone      Enum_Pitched_value = "tubaphone"
+	Enum_Pitched_value_Celesta Enum_Pitched_value = "celesta"
+	Enum_Pitched_value_Chimes Enum_Pitched_value = "chimes"
+	Enum_Pitched_value_Glockenspiel Enum_Pitched_value = "glockenspiel"
+	Enum_Pitched_value_Lithophone Enum_Pitched_value = "lithophone"
+	Enum_Pitched_value_Mallet Enum_Pitched_value = "mallet"
+	Enum_Pitched_value_Marimba Enum_Pitched_value = "marimba"
+	Enum_Pitched_value_Steel_drums Enum_Pitched_value = "steel drums"
+	Enum_Pitched_value_Tubaphone Enum_Pitched_value = "tubaphone"
 	Enum_Pitched_value_Tubular_chimes Enum_Pitched_value = "tubular chimes"
-	Enum_Pitched_value_Vibraphone     Enum_Pitched_value = "vibraphone"
-	Enum_Pitched_value_Xylophone      Enum_Pitched_value = "xylophone"
+	Enum_Pitched_value_Vibraphone Enum_Pitched_value = "vibraphone"
+	Enum_Pitched_value_Xylophone Enum_Pitched_value = "xylophone"
 )
 
 // From xsd simple type with enumerate restriction "principal-voice-symbol"
@@ -785,16 +793,16 @@ type Enum_Principal_voice_symbol string
 const (
 	Enum_Principal_voice_symbol_Hauptstimme Enum_Principal_voice_symbol = "Hauptstimme"
 	Enum_Principal_voice_symbol_Nebenstimme Enum_Principal_voice_symbol = "Nebenstimme"
-	Enum_Principal_voice_symbol_Plain       Enum_Principal_voice_symbol = "plain"
-	Enum_Principal_voice_symbol_None        Enum_Principal_voice_symbol = "none"
+	Enum_Principal_voice_symbol_Plain Enum_Principal_voice_symbol = "plain"
+	Enum_Principal_voice_symbol_None Enum_Principal_voice_symbol = "none"
 )
 
 // From xsd simple type with enumerate restriction "right-left-middle"
 type Enum_Right_left_middle string
 
 const (
-	Enum_Right_left_middle_Right  Enum_Right_left_middle = "right"
-	Enum_Right_left_middle_Left   Enum_Right_left_middle = "left"
+	Enum_Right_left_middle_Right Enum_Right_left_middle = "right"
+	Enum_Right_left_middle_Left Enum_Right_left_middle = "left"
 	Enum_Right_left_middle_Middle Enum_Right_left_middle = "middle"
 )
 
@@ -802,12 +810,12 @@ const (
 type Enum_Semi_pitched string
 
 const (
-	Enum_Semi_pitched_High        Enum_Semi_pitched = "high"
+	Enum_Semi_pitched_High Enum_Semi_pitched = "high"
 	Enum_Semi_pitched_Medium_high Enum_Semi_pitched = "medium-high"
-	Enum_Semi_pitched_Medium      Enum_Semi_pitched = "medium"
-	Enum_Semi_pitched_Medium_low  Enum_Semi_pitched = "medium-low"
-	Enum_Semi_pitched_Low         Enum_Semi_pitched = "low"
-	Enum_Semi_pitched_Very_low    Enum_Semi_pitched = "very-low"
+	Enum_Semi_pitched_Medium Enum_Semi_pitched = "medium"
+	Enum_Semi_pitched_Medium_low Enum_Semi_pitched = "medium-low"
+	Enum_Semi_pitched_Low Enum_Semi_pitched = "low"
+	Enum_Semi_pitched_Very_low Enum_Semi_pitched = "very-low"
 )
 
 // From xsd simple type with enumerate restriction "show-frets"
@@ -823,16 +831,16 @@ type Enum_Show_tuplet string
 
 const (
 	Enum_Show_tuplet_Actual Enum_Show_tuplet = "actual"
-	Enum_Show_tuplet_Both   Enum_Show_tuplet = "both"
-	Enum_Show_tuplet_None   Enum_Show_tuplet = "none"
+	Enum_Show_tuplet_Both Enum_Show_tuplet = "both"
+	Enum_Show_tuplet_None Enum_Show_tuplet = "none"
 )
 
 // From xsd simple type with enumerate restriction "staff-divide-symbol"
 type Enum_Staff_divide_symbol string
 
 const (
-	Enum_Staff_divide_symbol_Down    Enum_Staff_divide_symbol = "down"
-	Enum_Staff_divide_symbol_Up      Enum_Staff_divide_symbol = "up"
+	Enum_Staff_divide_symbol_Down Enum_Staff_divide_symbol = "down"
+	Enum_Staff_divide_symbol_Up Enum_Staff_divide_symbol = "up"
 	Enum_Staff_divide_symbol_Up_down Enum_Staff_divide_symbol = "up-down"
 )
 
@@ -840,11 +848,11 @@ const (
 type Enum_Staff_type string
 
 const (
-	Enum_Staff_type_Ossia     Enum_Staff_type = "ossia"
+	Enum_Staff_type_Ossia Enum_Staff_type = "ossia"
 	Enum_Staff_type_Editorial Enum_Staff_type = "editorial"
-	Enum_Staff_type_Cue       Enum_Staff_type = "cue"
+	Enum_Staff_type_Cue Enum_Staff_type = "cue"
 	Enum_Staff_type_Alternate Enum_Staff_type = "alternate"
-	Enum_Staff_type_Regular   Enum_Staff_type = "regular"
+	Enum_Staff_type_Regular Enum_Staff_type = "regular"
 )
 
 // From xsd simple type with enumerate restriction "start-note"
@@ -852,7 +860,7 @@ type Enum_Start_note string
 
 const (
 	Enum_Start_note_Upper Enum_Start_note = "upper"
-	Enum_Start_note_Main  Enum_Start_note = "main"
+	Enum_Start_note_Main Enum_Start_note = "main"
 	Enum_Start_note_Below Enum_Start_note = "below"
 )
 
@@ -861,15 +869,15 @@ type Enum_Start_stop string
 
 const (
 	Enum_Start_stop_Start Enum_Start_stop = "start"
-	Enum_Start_stop_Stop  Enum_Start_stop = "stop"
+	Enum_Start_stop_Stop Enum_Start_stop = "stop"
 )
 
 // From xsd simple type with enumerate restriction "start-stop-continue"
 type Enum_Start_stop_continue string
 
 const (
-	Enum_Start_stop_continue_Start    Enum_Start_stop_continue = "start"
-	Enum_Start_stop_continue_Stop     Enum_Start_stop_continue = "stop"
+	Enum_Start_stop_continue_Start Enum_Start_stop_continue = "start"
+	Enum_Start_stop_continue_Stop Enum_Start_stop_continue = "stop"
 	Enum_Start_stop_continue_Continue Enum_Start_stop_continue = "continue"
 )
 
@@ -877,8 +885,8 @@ const (
 type Enum_Start_stop_discontinue string
 
 const (
-	Enum_Start_stop_discontinue_Start       Enum_Start_stop_discontinue = "start"
-	Enum_Start_stop_discontinue_Stop        Enum_Start_stop_discontinue = "stop"
+	Enum_Start_stop_discontinue_Start Enum_Start_stop_discontinue = "start"
+	Enum_Start_stop_discontinue_Stop Enum_Start_stop_discontinue = "stop"
 	Enum_Start_stop_discontinue_Discontinue Enum_Start_stop_discontinue = "discontinue"
 )
 
@@ -886,8 +894,8 @@ const (
 type Enum_Start_stop_single string
 
 const (
-	Enum_Start_stop_single_Start  Enum_Start_stop_single = "start"
-	Enum_Start_stop_single_Stop   Enum_Start_stop_single = "stop"
+	Enum_Start_stop_single_Start Enum_Start_stop_single = "start"
+	Enum_Start_stop_single_Stop Enum_Start_stop_single = "stop"
 	Enum_Start_stop_single_Single Enum_Start_stop_single = "single"
 )
 
@@ -895,10 +903,10 @@ const (
 type Enum_Stem_value string
 
 const (
-	Enum_Stem_value_Down   Enum_Stem_value = "down"
-	Enum_Stem_value_Up     Enum_Stem_value = "up"
+	Enum_Stem_value_Down Enum_Stem_value = "down"
+	Enum_Stem_value_Up Enum_Stem_value = "up"
 	Enum_Stem_value_Double Enum_Stem_value = "double"
-	Enum_Stem_value_None   Enum_Stem_value = "none"
+	Enum_Stem_value_None Enum_Stem_value = "none"
 )
 
 // From xsd simple type with enumerate restriction "step"
@@ -918,8 +926,8 @@ const (
 type Enum_Stick_location string
 
 const (
-	Enum_Stick_location_Center      Enum_Stick_location = "center"
-	Enum_Stick_location_Rim         Enum_Stick_location = "rim"
+	Enum_Stick_location_Center Enum_Stick_location = "center"
+	Enum_Stick_location_Rim Enum_Stick_location = "rim"
 	Enum_Stick_location_Cymbal_bell Enum_Stick_location = "cymbal bell"
 	Enum_Stick_location_Cymbal_edge Enum_Stick_location = "cymbal edge"
 )
@@ -928,27 +936,27 @@ const (
 type Enum_Stick_material string
 
 const (
-	Enum_Stick_material_Soft   Enum_Stick_material = "soft"
+	Enum_Stick_material_Soft Enum_Stick_material = "soft"
 	Enum_Stick_material_Medium Enum_Stick_material = "medium"
-	Enum_Stick_material_Hard   Enum_Stick_material = "hard"
+	Enum_Stick_material_Hard Enum_Stick_material = "hard"
 	Enum_Stick_material_Shaded Enum_Stick_material = "shaded"
-	Enum_Stick_material_X      Enum_Stick_material = "x"
+	Enum_Stick_material_X Enum_Stick_material = "x"
 )
 
 // From xsd simple type with enumerate restriction "stick-type"
 type Enum_Stick_type string
 
 const (
-	Enum_Stick_type_Bass_drum        Enum_Stick_type = "bass drum"
+	Enum_Stick_type_Bass_drum Enum_Stick_type = "bass drum"
 	Enum_Stick_type_Double_bass_drum Enum_Stick_type = "double bass drum"
-	Enum_Stick_type_Glockenspiel     Enum_Stick_type = "glockenspiel"
-	Enum_Stick_type_Gum              Enum_Stick_type = "gum"
-	Enum_Stick_type_Hammer           Enum_Stick_type = "hammer"
-	Enum_Stick_type_Superball        Enum_Stick_type = "superball"
-	Enum_Stick_type_Timpani          Enum_Stick_type = "timpani"
-	Enum_Stick_type_Wound            Enum_Stick_type = "wound"
-	Enum_Stick_type_Xylophone        Enum_Stick_type = "xylophone"
-	Enum_Stick_type_Yarn             Enum_Stick_type = "yarn"
+	Enum_Stick_type_Glockenspiel Enum_Stick_type = "glockenspiel"
+	Enum_Stick_type_Gum Enum_Stick_type = "gum"
+	Enum_Stick_type_Hammer Enum_Stick_type = "hammer"
+	Enum_Stick_type_Superball Enum_Stick_type = "superball"
+	Enum_Stick_type_Timpani Enum_Stick_type = "timpani"
+	Enum_Stick_type_Wound Enum_Stick_type = "wound"
+	Enum_Stick_type_Xylophone Enum_Stick_type = "xylophone"
+	Enum_Stick_type_Yarn Enum_Stick_type = "yarn"
 )
 
 // From xsd simple type with enumerate restriction "syllabic"
@@ -956,8 +964,8 @@ type Enum_Syllabic string
 
 const (
 	Enum_Syllabic_Single Enum_Syllabic = "single"
-	Enum_Syllabic_Begin  Enum_Syllabic = "begin"
-	Enum_Syllabic_End    Enum_Syllabic = "end"
+	Enum_Syllabic_Begin Enum_Syllabic = "begin"
+	Enum_Syllabic_End Enum_Syllabic = "end"
 	Enum_Syllabic_Middle Enum_Syllabic = "middle"
 )
 
@@ -965,21 +973,21 @@ const (
 type Enum_Symbol_size string
 
 const (
-	Enum_Symbol_size_Full      Enum_Symbol_size = "full"
-	Enum_Symbol_size_Cue       Enum_Symbol_size = "cue"
+	Enum_Symbol_size_Full Enum_Symbol_size = "full"
+	Enum_Symbol_size_Cue Enum_Symbol_size = "cue"
 	Enum_Symbol_size_Grace_cue Enum_Symbol_size = "grace-cue"
-	Enum_Symbol_size_Large     Enum_Symbol_size = "large"
+	Enum_Symbol_size_Large Enum_Symbol_size = "large"
 )
 
 // From xsd simple type with enumerate restriction "sync-type"
 type Enum_Sync_type string
 
 const (
-	Enum_Sync_type_None         Enum_Sync_type = "none"
-	Enum_Sync_type_Tempo        Enum_Sync_type = "tempo"
+	Enum_Sync_type_None Enum_Sync_type = "none"
+	Enum_Sync_type_Tempo Enum_Sync_type = "tempo"
 	Enum_Sync_type_Mostly_tempo Enum_Sync_type = "mostly-tempo"
 	Enum_Sync_type_Mostly_event Enum_Sync_type = "mostly-event"
-	Enum_Sync_type_Event        Enum_Sync_type = "event"
+	Enum_Sync_type_Event Enum_Sync_type = "event"
 	Enum_Sync_type_Always_event Enum_Sync_type = "always-event"
 )
 
@@ -987,18 +995,18 @@ const (
 type Enum_System_relation_number string
 
 const (
-	Enum_System_relation_number_Only_top    Enum_System_relation_number = "only-top"
+	Enum_System_relation_number_Only_top Enum_System_relation_number = "only-top"
 	Enum_System_relation_number_Only_bottom Enum_System_relation_number = "only-bottom"
-	Enum_System_relation_number_Also_top    Enum_System_relation_number = "also-top"
+	Enum_System_relation_number_Also_top Enum_System_relation_number = "also-top"
 	Enum_System_relation_number_Also_bottom Enum_System_relation_number = "also-bottom"
-	Enum_System_relation_number_None        Enum_System_relation_number = "none"
+	Enum_System_relation_number_None Enum_System_relation_number = "none"
 )
 
 // From xsd simple type with enumerate restriction "tap-hand"
 type Enum_Tap_hand string
 
 const (
-	Enum_Tap_hand_Left  Enum_Tap_hand = "left"
+	Enum_Tap_hand_Left Enum_Tap_hand = "left"
 	Enum_Tap_hand_Right Enum_Tap_hand = "right"
 )
 
@@ -1016,8 +1024,8 @@ const (
 type Enum_Tied_type string
 
 const (
-	Enum_Tied_type_Start    Enum_Tied_type = "start"
-	Enum_Tied_type_Stop     Enum_Tied_type = "stop"
+	Enum_Tied_type_Start Enum_Tied_type = "start"
+	Enum_Tied_type_Stop Enum_Tied_type = "stop"
 	Enum_Tied_type_Continue Enum_Tied_type = "continue"
 	Enum_Tied_type_Let_ring Enum_Tied_type = "let-ring"
 )
@@ -1025,51 +1033,52 @@ const (
 // From xsd simple type with enumerate restriction "time-only"
 type Enum_Time_only string
 
-const ()
+const (
+)
 
 // From xsd simple type with enumerate restriction "time-relation"
 type Enum_Time_relation string
 
 const (
 	Enum_Time_relation_Parentheses Enum_Time_relation = "parentheses"
-	Enum_Time_relation_Bracket     Enum_Time_relation = "bracket"
-	Enum_Time_relation_Equals      Enum_Time_relation = "equals"
-	Enum_Time_relation_Slash       Enum_Time_relation = "slash"
-	Enum_Time_relation_Space       Enum_Time_relation = "space"
-	Enum_Time_relation_Hyphen      Enum_Time_relation = "hyphen"
+	Enum_Time_relation_Bracket Enum_Time_relation = "bracket"
+	Enum_Time_relation_Equals Enum_Time_relation = "equals"
+	Enum_Time_relation_Slash Enum_Time_relation = "slash"
+	Enum_Time_relation_Space Enum_Time_relation = "space"
+	Enum_Time_relation_Hyphen Enum_Time_relation = "hyphen"
 )
 
 // From xsd simple type with enumerate restriction "time-separator"
 type Enum_Time_separator string
 
 const (
-	Enum_Time_separator_None       Enum_Time_separator = "none"
+	Enum_Time_separator_None Enum_Time_separator = "none"
 	Enum_Time_separator_Horizontal Enum_Time_separator = "horizontal"
-	Enum_Time_separator_Diagonal   Enum_Time_separator = "diagonal"
-	Enum_Time_separator_Vertical   Enum_Time_separator = "vertical"
-	Enum_Time_separator_Adjacent   Enum_Time_separator = "adjacent"
+	Enum_Time_separator_Diagonal Enum_Time_separator = "diagonal"
+	Enum_Time_separator_Vertical Enum_Time_separator = "vertical"
+	Enum_Time_separator_Adjacent Enum_Time_separator = "adjacent"
 )
 
 // From xsd simple type with enumerate restriction "time-symbol"
 type Enum_Time_symbol string
 
 const (
-	Enum_Time_symbol_Common        Enum_Time_symbol = "common"
-	Enum_Time_symbol_Cut           Enum_Time_symbol = "cut"
+	Enum_Time_symbol_Common Enum_Time_symbol = "common"
+	Enum_Time_symbol_Cut Enum_Time_symbol = "cut"
 	Enum_Time_symbol_Single_number Enum_Time_symbol = "single-number"
-	Enum_Time_symbol_Note          Enum_Time_symbol = "note"
-	Enum_Time_symbol_Dotted_note   Enum_Time_symbol = "dotted-note"
-	Enum_Time_symbol_Normal        Enum_Time_symbol = "normal"
+	Enum_Time_symbol_Note Enum_Time_symbol = "note"
+	Enum_Time_symbol_Dotted_note Enum_Time_symbol = "dotted-note"
+	Enum_Time_symbol_Normal Enum_Time_symbol = "normal"
 )
 
 // From xsd simple type with enumerate restriction "tip-direction"
 type Enum_Tip_direction string
 
 const (
-	Enum_Tip_direction_Up        Enum_Tip_direction = "up"
-	Enum_Tip_direction_Down      Enum_Tip_direction = "down"
-	Enum_Tip_direction_Left      Enum_Tip_direction = "left"
-	Enum_Tip_direction_Right     Enum_Tip_direction = "right"
+	Enum_Tip_direction_Up Enum_Tip_direction = "up"
+	Enum_Tip_direction_Down Enum_Tip_direction = "down"
+	Enum_Tip_direction_Left Enum_Tip_direction = "left"
+	Enum_Tip_direction_Right Enum_Tip_direction = "right"
 	Enum_Tip_direction_Northwest Enum_Tip_direction = "northwest"
 	Enum_Tip_direction_Northeast Enum_Tip_direction = "northeast"
 	Enum_Tip_direction_Southeast Enum_Tip_direction = "southeast"
@@ -1080,7 +1089,7 @@ const (
 type Enum_Top_bottom string
 
 const (
-	Enum_Top_bottom_Top    Enum_Top_bottom = "top"
+	Enum_Top_bottom_Top Enum_Top_bottom = "top"
 	Enum_Top_bottom_Bottom Enum_Top_bottom = "bottom"
 )
 
@@ -1088,9 +1097,9 @@ const (
 type Enum_Tremolo_type string
 
 const (
-	Enum_Tremolo_type_Start      Enum_Tremolo_type = "start"
-	Enum_Tremolo_type_Stop       Enum_Tremolo_type = "stop"
-	Enum_Tremolo_type_Single     Enum_Tremolo_type = "single"
+	Enum_Tremolo_type_Start Enum_Tremolo_type = "start"
+	Enum_Tremolo_type_Stop Enum_Tremolo_type = "stop"
+	Enum_Tremolo_type_Single Enum_Tremolo_type = "single"
 	Enum_Tremolo_type_Unmeasured Enum_Tremolo_type = "unmeasured"
 )
 
@@ -1098,8 +1107,8 @@ const (
 type Enum_Trill_step string
 
 const (
-	Enum_Trill_step_Whole  Enum_Trill_step = "whole"
-	Enum_Trill_step_Half   Enum_Trill_step = "half"
+	Enum_Trill_step_Whole Enum_Trill_step = "whole"
+	Enum_Trill_step_Half Enum_Trill_step = "half"
 	Enum_Trill_step_Unison Enum_Trill_step = "unison"
 )
 
@@ -1108,15 +1117,15 @@ type Enum_Two_note_turn string
 
 const (
 	Enum_Two_note_turn_Whole Enum_Two_note_turn = "whole"
-	Enum_Two_note_turn_Half  Enum_Two_note_turn = "half"
-	Enum_Two_note_turn_None  Enum_Two_note_turn = "none"
+	Enum_Two_note_turn_Half Enum_Two_note_turn = "half"
+	Enum_Two_note_turn_None Enum_Two_note_turn = "none"
 )
 
 // From xsd simple type with enumerate restriction "up-down"
 type Enum_Up_down string
 
 const (
-	Enum_Up_down_Up   Enum_Up_down = "up"
+	Enum_Up_down_Up Enum_Up_down = "up"
 	Enum_Up_down_Down Enum_Up_down = "down"
 )
 
@@ -1124,9 +1133,9 @@ const (
 type Enum_Up_down_stop_continue string
 
 const (
-	Enum_Up_down_stop_continue_Up       Enum_Up_down_stop_continue = "up"
-	Enum_Up_down_stop_continue_Down     Enum_Up_down_stop_continue = "down"
-	Enum_Up_down_stop_continue_Stop     Enum_Up_down_stop_continue = "stop"
+	Enum_Up_down_stop_continue_Up Enum_Up_down_stop_continue = "up"
+	Enum_Up_down_stop_continue_Down Enum_Up_down_stop_continue = "down"
+	Enum_Up_down_stop_continue_Stop Enum_Up_down_stop_continue = "stop"
 	Enum_Up_down_stop_continue_Continue Enum_Up_down_stop_continue = "continue"
 )
 
@@ -1134,7 +1143,7 @@ const (
 type Enum_Upright_inverted string
 
 const (
-	Enum_Upright_inverted_Upright  Enum_Upright_inverted = "upright"
+	Enum_Upright_inverted_Upright Enum_Upright_inverted = "upright"
 	Enum_Upright_inverted_Inverted Enum_Upright_inverted = "inverted"
 )
 
@@ -1142,9 +1151,9 @@ const (
 type Enum_Valign string
 
 const (
-	Enum_Valign_Top      Enum_Valign = "top"
-	Enum_Valign_Middle   Enum_Valign = "middle"
-	Enum_Valign_Bottom   Enum_Valign = "bottom"
+	Enum_Valign_Top Enum_Valign = "top"
+	Enum_Valign_Middle Enum_Valign = "middle"
+	Enum_Valign_Bottom Enum_Valign = "bottom"
 	Enum_Valign_Baseline Enum_Valign = "baseline"
 )
 
@@ -1152,7 +1161,7 @@ const (
 type Enum_Valign_image string
 
 const (
-	Enum_Valign_image_Top    Enum_Valign_image = "top"
+	Enum_Valign_image_Top Enum_Valign_image = "top"
 	Enum_Valign_image_Middle Enum_Valign_image = "middle"
 	Enum_Valign_image_Bottom Enum_Valign_image = "bottom"
 )
@@ -1161,48 +1170,48 @@ const (
 type Enum_Wedge_type string
 
 const (
-	Enum_Wedge_type_Crescendo  Enum_Wedge_type = "crescendo"
+	Enum_Wedge_type_Crescendo Enum_Wedge_type = "crescendo"
 	Enum_Wedge_type_Diminuendo Enum_Wedge_type = "diminuendo"
-	Enum_Wedge_type_Stop       Enum_Wedge_type = "stop"
-	Enum_Wedge_type_Continue   Enum_Wedge_type = "continue"
+	Enum_Wedge_type_Stop Enum_Wedge_type = "stop"
+	Enum_Wedge_type_Continue Enum_Wedge_type = "continue"
 )
 
 // From xsd simple type with enumerate restriction "winged"
 type Enum_Winged string
 
 const (
-	Enum_Winged_None            Enum_Winged = "none"
-	Enum_Winged_Straight        Enum_Winged = "straight"
-	Enum_Winged_Curved          Enum_Winged = "curved"
+	Enum_Winged_None Enum_Winged = "none"
+	Enum_Winged_Straight Enum_Winged = "straight"
+	Enum_Winged_Curved Enum_Winged = "curved"
 	Enum_Winged_Double_straight Enum_Winged = "double-straight"
-	Enum_Winged_Double_curved   Enum_Winged = "double-curved"
+	Enum_Winged_Double_curved Enum_Winged = "double-curved"
 )
 
 // From xsd simple type with enumerate restriction "wood-value"
 type Enum_Wood_value string
 
 const (
-	Enum_Wood_value_Bamboo_scraper        Enum_Wood_value = "bamboo scraper"
-	Enum_Wood_value_Board_clapper         Enum_Wood_value = "board clapper"
-	Enum_Wood_value_Cabasa                Enum_Wood_value = "cabasa"
-	Enum_Wood_value_Castanets             Enum_Wood_value = "castanets"
+	Enum_Wood_value_Bamboo_scraper Enum_Wood_value = "bamboo scraper"
+	Enum_Wood_value_Board_clapper Enum_Wood_value = "board clapper"
+	Enum_Wood_value_Cabasa Enum_Wood_value = "cabasa"
+	Enum_Wood_value_Castanets Enum_Wood_value = "castanets"
 	Enum_Wood_value_Castanets_with_handle Enum_Wood_value = "castanets with handle"
-	Enum_Wood_value_Claves                Enum_Wood_value = "claves"
-	Enum_Wood_value_Football_rattle       Enum_Wood_value = "football rattle"
-	Enum_Wood_value_Guiro                 Enum_Wood_value = "guiro"
-	Enum_Wood_value_Log_drum              Enum_Wood_value = "log drum"
-	Enum_Wood_value_Maraca                Enum_Wood_value = "maraca"
-	Enum_Wood_value_Maracas               Enum_Wood_value = "maracas"
-	Enum_Wood_value_Quijada               Enum_Wood_value = "quijada"
-	Enum_Wood_value_Rainstick             Enum_Wood_value = "rainstick"
-	Enum_Wood_value_Ratchet               Enum_Wood_value = "ratchet"
-	Enum_Wood_value_Reco_reco             Enum_Wood_value = "reco-reco"
-	Enum_Wood_value_Sandpaper_blocks      Enum_Wood_value = "sandpaper blocks"
-	Enum_Wood_value_Slit_drum             Enum_Wood_value = "slit drum"
-	Enum_Wood_value_Temple_block          Enum_Wood_value = "temple block"
-	Enum_Wood_value_Vibraslap             Enum_Wood_value = "vibraslap"
-	Enum_Wood_value_Whip                  Enum_Wood_value = "whip"
-	Enum_Wood_value_Wood_block            Enum_Wood_value = "wood block"
+	Enum_Wood_value_Claves Enum_Wood_value = "claves"
+	Enum_Wood_value_Football_rattle Enum_Wood_value = "football rattle"
+	Enum_Wood_value_Guiro Enum_Wood_value = "guiro"
+	Enum_Wood_value_Log_drum Enum_Wood_value = "log drum"
+	Enum_Wood_value_Maraca Enum_Wood_value = "maraca"
+	Enum_Wood_value_Maracas Enum_Wood_value = "maracas"
+	Enum_Wood_value_Quijada Enum_Wood_value = "quijada"
+	Enum_Wood_value_Rainstick Enum_Wood_value = "rainstick"
+	Enum_Wood_value_Ratchet Enum_Wood_value = "ratchet"
+	Enum_Wood_value_Reco_reco Enum_Wood_value = "reco-reco"
+	Enum_Wood_value_Sandpaper_blocks Enum_Wood_value = "sandpaper blocks"
+	Enum_Wood_value_Slit_drum Enum_Wood_value = "slit drum"
+	Enum_Wood_value_Temple_block Enum_Wood_value = "temple block"
+	Enum_Wood_value_Vibraslap Enum_Wood_value = "vibraslap"
+	Enum_Wood_value_Whip Enum_Wood_value = "whip"
+	Enum_Wood_value_Wood_block Enum_Wood_value = "wood block"
 )
 
 // From xsd simple type with enumerate restriction "yes-no"
@@ -1210,10 +1219,10 @@ type Enum_Yes_no string
 
 const (
 	Enum_Yes_no_Yes Enum_Yes_no = "yes"
-	Enum_Yes_no_No  Enum_Yes_no = "no"
+	Enum_Yes_no_No Enum_Yes_no = "no"
 )
 
-// insertion point for gongstructs declarations
+	// insertion point for gongstructs declarations
 
 // AttributeGroup_bend_sound UnNamed source named attribute group "bend-sound"
 type AttributeGroup_bend_sound struct {
@@ -7409,7 +7418,7 @@ type Wait struct {
 // credit-type element indicates the purpose behind a credit. Multiple types of data
 // may be combined in a single credit, so multiple elements may be used. Standard
 // values include page number, title, subtitle, composer, arranger, lyricist, rights,
-// and part name.
+// and part name. 
 type Credit struct {
 	Name string `xml:"-"`
 
@@ -8259,15 +8268,6 @@ type Score_partwise struct {
 	// necessary since it is a root element
 	XMLName xml.Name `xml:"score-partwise"`
 
-	// generated from inline complex type
-	A_score_partwise
-}
-
-// A_score_partwise Named source within outer element "score-partwise"
-type A_score_partwise struct {
-	Name string `xml:"-"`
-
-	// insertion point for fields
 
 	// generated from attribute group "document-attributes
 	AttributeGroup_document_attributes
@@ -8317,15 +8317,6 @@ type Score_timewise struct {
 	// necessary since it is a root element
 	XMLName xml.Name `xml:"score-timewise"`
 
-	// generated from inline complex type
-	A_score_timewise
-}
-
-// A_score_timewise Named source within outer element "score-timewise"
-type A_score_timewise struct {
-	Name string `xml:"-"`
-
-	// insertion point for fields
 
 	// generated from attribute group "document-attributes
 	AttributeGroup_document_attributes

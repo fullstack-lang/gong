@@ -118,31 +118,6 @@
             ]
         },
         {
-            "name": "books: gong generate gongxsd books",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/../gongxsd/test/books/go/models",
-            "program": "${workspaceFolder}/go/cmd/gong",
-            "args": [
-                "generate"
-            ]
-        },
-        {
-            "name": "musicxml: gong generate musicxml of gongxsd -skipGoModCommands -skipNpmInstall -compileForDebug",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/../gongxsd/test/musicxml/go/models",
-            "program": "${workspaceFolder}/go/cmd/gong",
-            "args": [
-                "generate",
-                "--skipGoModCommands",
-                "--skipNpmInstall",
-                "--compileForDebug",
-            ]
-        },
-        {
             "name": "slider: gong generate slider -skipGoModCommands -skipNpmInstall -skipNpmWorkspaces",
             "type": "go",
             "request": "launch",
@@ -1005,7 +980,7 @@
             ]
         },
         {
-            "name": "xsd: xsd generate models.go from books.xsd",
+            "name": "xsd: books generate models.go from books.xsd",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -1020,7 +995,7 @@
             ]
         },
         {
-            "name": "xsd: gong generate test on books --level1",
+            "name": "xsd: books gong generate test on books --level1",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -1041,6 +1016,62 @@
             "program": "${workspaceFolder}/dsm/xsd/tests/books/go/cmd/books",
             "args": [
                 "../../../books.xml"
+            ]
+        },
+        {
+            "name": "xsd: musicxml generate models.go from musicxml.xsd",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/dsm/xsd/tests/musicxml",
+            "program": "${workspaceFolder}/dsm/xsd/go/cmd/xsd2gong",
+            "args": [
+                "generate",
+                "./musicxml.xsd",
+                "-v",
+                "-o",
+                "./go/models/models.go"
+            ]
+        },
+        {
+            "name": "xsd: musicxml gong generate test on musicxml --level1",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "cwd": "${workspaceFolder}/dsm/xsd/tests/musicxml/go/models",
+            "program": "${workspaceFolder}/go/cmd/gong",
+            "args": [
+                "generate",
+                "--skipGoModCommands",
+                "--level1"
+            ]
+        },
+        {
+            "name": "xsd: reqif generate models.go from dtc-11-04-05.xsd",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/dsm/xsd/tests/reqif",
+            "program": "${workspaceFolder}/dsm/xsd/go/cmd/xsd2gong",
+            "args": [
+                "generate",
+                "./dtc-11-04-05.xsd",
+                "-v",
+                "-o",
+                "./go/models/models.go"
+            ]
+        },
+        {
+            "name": "xsd: reqif gong generate reqif on reqif --level1",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "cwd": "${workspaceFolder}/dsm/xsd/tests/reqif/go/models",
+            "program": "${workspaceFolder}/go/cmd/gong",
+            "args": [
+                "generate",
+                "--skipGoModCommands",
+                "--level1"
             ]
         },
         {

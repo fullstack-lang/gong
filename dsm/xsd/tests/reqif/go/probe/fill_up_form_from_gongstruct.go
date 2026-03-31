@@ -12,9 +12,11 @@ func FillUpFormFromGongstruct(instance any, probe *Probe) {
 	formStage.Reset()
 
 	FillUpNamedFormFromGongstruct(instance, probe, formStage, FormName)
+
 }
 
 func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongtable.Stage, formName string) {
+
 	switch instancesTyped := any(instance).(type) {
 	// insertion point
 	case *models.ALTERNATIVE_ID:
@@ -1028,5 +1030,8 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongta
 	default:
 		_ = instancesTyped
 	}
-	formStage.Commit()
+
+	if probe.GetCommitMode() {
+		formStage.Commit()
+	}
 }

@@ -19,9 +19,9 @@ import (
 	form "github.com/fullstack-lang/gong/lib/table/go/models"
 	tree_models "github.com/fullstack-lang/gong/lib/tree/go/models"
 
-	"github.com/fullstack-lang/gong/dsm/xsd/tests/reqif/go/models"
+	"github.com/fullstack-lang/gong/dsm/xsd/tests/musicxml/go/models"
 
-	reqif_go "github.com/fullstack-lang/gong/dsm/xsd/tests/reqif/go"
+	musicxml_go "github.com/fullstack-lang/gong/dsm/xsd/tests/musicxml/go"
 )
 
 type Probe struct {
@@ -127,9 +127,9 @@ func NewProbe(
 		// this is the prefix of the names of the stages svg and tree that will be created
 		// by doc. Using a combination of the package name and the stage of interest name
 		// might prevent name collisions if more that one probe is being instancied
-		"github.com/fullstack-lang/gong/dsm/xsd/tests/reqif/go"+":"+stageOfInterest.GetName(),
-		reqif_go.GoModelsDir,
-		reqif_go.GoDiagramsDir,
+		"github.com/fullstack-lang/gong/dsm/xsd/tests/musicxml/go"+":"+stageOfInterest.GetName(),
+		musicxml_go.GoModelsDir,
+		musicxml_go.GoDiagramsDir,
 		probe.diagramEditor,
 		stageOfInterest.Map_GongStructName_InstancesNb,
 	)
