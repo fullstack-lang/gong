@@ -1,0 +1,909 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.opengis.net/gml/3.2" elementFormDefault="qualified" version="1.1.0 2015-02-12">
+	<annotation>
+		<documentation>A GML subset for aviation, as defined in the OGC Discussion Paper 12-028r1</documentation>
+	</annotation>
+	<import namespace="http://www.w3.org/1999/xlink" schemaLocation="http://www.w3.org/1999/xlink.xsd"/>
+	<!-- basicTypes.xsd -->
+	<simpleType name="NilReasonType">
+		<annotation>
+			<documentation>gml:NilReasonType defines a content model that allows recording of an explanation for a void value or other exception.
+gml:NilReasonType is a union of the following enumerated values:
+-	inapplicable there is no value
+-	missing the correct value is not readily available to the sender of this data. Furthermore, a correct value may not exist
+-	template the value will be available later
+-	unknown the correct value is not known to, and not computable by, the sender of this data. However, a correct value probably exists
+-	withheld the value is not divulged
+-	other:text other brief explanation, where text is a string of two or more characters with no included spaces
+and
+-	anyURI which should refer to a resource which describes the reason for the exception
+A particular community may choose to assign more detailed semantics to the standard values provided. Alternatively, the URI method enables a specific or more complete explanation for the absence of a value to be provided elsewhere and indicated by-reference in an instance document.
+gml:NilReasonType is used as a member of a union in a number of simple content types where it is necessary to permit a value from the NilReasonType union as an alternative to the primary type.</documentation>
+		</annotation>
+		<union memberTypes="gml:NilReasonEnumeration"/>
+	</simpleType>
+	<simpleType name="NilReasonEnumeration">
+		<union>
+			<simpleType>
+				<restriction base="string">
+					<enumeration value="inapplicable"/>
+					<enumeration value="missing"/>
+					<enumeration value="template"/>
+					<enumeration value="unknown"/>
+					<enumeration value="withheld"/>
+				</restriction>
+			</simpleType>
+			<simpleType>
+				<restriction base="string">
+					<pattern value="other:\w{2,}"/>
+				</restriction>
+			</simpleType>
+		</union>
+	</simpleType>
+	<simpleType name="SignType">
+		<annotation>
+			<documentation>gml:SignType is a convenience type with values "+" (plus) and "-" (minus).</documentation>
+		</annotation>
+		<restriction base="string">
+			<enumeration value="-"/>
+			<enumeration value="+"/>
+		</restriction>
+	</simpleType>
+	<complexType name="CodeType">
+		<annotation>
+			<documentation>gml:CodeType is a generalized type to be used for a term, keyword or name.
+It adds a XML attribute codeSpace to a term, where the value of the codeSpace attribute (if present) shall indicate a dictionary, thesaurus, classification scheme, authority, or pattern for the term.</documentation>
+		</annotation>
+		<simpleContent>
+			<extension base="string">
+				<attribute name="codeSpace" type="anyURI"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="CodeWithAuthorityType">
+		<annotation>
+			<documentation>gml:CodeWithAuthorityType requires that the codeSpace attribute is provided in an instance.</documentation>
+		</annotation>
+		<simpleContent>
+			<restriction base="gml:CodeType">
+				<attribute name="codeSpace" type="anyURI" use="required"/>
+			</restriction>
+		</simpleContent>
+	</complexType>
+	<complexType name="MeasureType">
+		<annotation>
+			<documentation>gml:MeasureType supports recording an amount encoded as a value of XML Schema double, together with a units of measure indicated by an attribute uom, short for "units Of measure". The value of the uom attribute identifies a reference system for the amount, usually a ratio or interval scale.</documentation>
+		</annotation>
+		<simpleContent>
+			<extension base="double">
+				<attribute name="uom" type="gml:UomIdentifier" use="required"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<simpleType name="UomIdentifier">
+		<annotation>
+			<documentation>The simple type gml:UomIdentifer defines the syntax and value space of the unit of measure identifier.</documentation>
+		</annotation>
+		<union memberTypes="gml:UomSymbol"/>
+	</simpleType>
+	<simpleType name="UomSymbol">
+		<annotation>
+			<documentation>This type specifies a character string of length at least one, and restricted such that it must not contain any of the following characters: ":" (colon), " " (space), (newline), (carriage return), (tab). This allows values corresponding to familiar abbreviations, such as "kg", "m/s", etc. 
+It is recommended that the symbol be an identifier for a unit of measure as specified in the "Unified Code of Units of Measure" (UCUM) (http://aurora.regenstrief.org/UCUM). This provides a set of symbols and a grammar for constructing identifiers for units of measure that are unique, and may be easily entered with a keyboard supporting the limited character set known as 7-bit ASCII. ISO 2955 formerly provided a specification with this scope, but was withdrawn in 2001. UCUM largely follows ISO 2955 with modifications to remove ambiguities and other problems.</documentation>
+		</annotation>
+		<restriction base="string">
+			<pattern value="[^: \n\r\t]+"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="doubleList">
+		<annotation>
+			<documentation>A type for a list of values of the respective simple type.</documentation>
+		</annotation>
+		<list itemType="double"/>
+	</simpleType>
+	<!-- measures.xsd -->
+	<complexType name="LengthType">
+		<annotation>
+			<documentation>This is a prototypical definition for a specific measure type defined as a vacuous extension (i.e. aliases) of gml:MeasureType. In this case, the content model supports the description of a length (or distance) quantity, with its units. The unit of measure referenced by uom shall be suitable for a length, such as metres or feet.</documentation>
+		</annotation>
+		<simpleContent>
+			<extension base="gml:MeasureType"/>
+		</simpleContent>
+	</complexType>
+	<complexType name="AngleType">
+		<simpleContent>
+			<extension base="gml:MeasureType"/>
+		</simpleContent>
+	</complexType>
+	<!-- gmlBase.xsd -->
+	<element name="AbstractObject" abstract="true">
+		<annotation>
+			<documentation>This element has no type defined, and is therefore implicitly (according to the rules of W3C XML Schema) an XML Schema anyType. It is used as the head of an XML Schema substitution group which unifies complex content and certain simple content elements used for datatypes in GML, including the gml:AbstractGML substitution group.</documentation>
+		</annotation>
+	</element>
+	<element name="AbstractGML" type="gml:AbstractGMLType" abstract="true" substitutionGroup="gml:AbstractObject">
+		<annotation>
+			<documentation>The abstract element gml:AbstractGML is "any GML object having identity".   It acts as the head of an XML Schema substitution group, which may include any element which is a GML feature, or other object, with identity.  This is used as a variable in content models in GML core and application schemas.  It is effectively an abstract superclass for all GML objects.</documentation>
+		</annotation>
+	</element>
+	<complexType name="AbstractGMLType" abstract="true">
+		<sequence>
+			<group ref="gml:StandardObjectProperties"/>
+		</sequence>
+		<attribute ref="gml:id" use="required"/>
+	</complexType>
+	<group name="StandardObjectProperties">
+		<sequence>
+			<element ref="gml:description" minOccurs="0"/>
+			<element ref="gml:identifier" minOccurs="0"/>
+			<element ref="gml:name" minOccurs="0" maxOccurs="unbounded"/>
+		</sequence>
+	</group>
+	<attributeGroup name="AssociationAttributeGroup">
+		<annotation>
+			<documentation>XLink components are the standard method to support hypertext referencing in XML. An XML Schema attribute group, gml:AssociationAttributeGroup, is provided to support the use of Xlinks as the method for indicating the value of a property by reference in a uniform manner in GML.</documentation>
+		</annotation>
+		<attributeGroup ref="xlink:simpleAttrs"/>
+		<attribute name="nilReason" type="gml:NilReasonType"/>
+	</attributeGroup>
+	<attributeGroup name="OwnershipAttributeGroup">
+		<annotation>
+			<documentation>Encoding a GML property inline vs. by-reference shall not imply anything about the "ownership" of the contained or referenced GML Object, i.e. the encoding style shall not imply any "deep-copy" or "deep-delete" semantics. To express ownership over the contained or referenced GML Object, the gml:OwnershipAttributeGroup attribute group may be added to object-valued property elements. If the attribute group is not part of the content model of such a property element, then the value may not be "owned".
+When the value of the owns attribute is "true", the existence of inline or referenced object(s) depends upon the existence of the parent object.</documentation>
+		</annotation>
+		<attribute name="owns" type="boolean" default="false"/>
+	</attributeGroup>
+	<element name="description" type="string">
+		<annotation>
+			<documentation>The value of this property is a text description of the object. gml:description uses gml:StringOrRefType as its content model, so it may contain a simple text string content, or carry a reference to an external description. The use of gml:description to reference an external description has been deprecated and replaced by the gml:descriptionReference property.</documentation>
+		</annotation>
+	</element>
+	<element name="name" type="gml:CodeType">
+		<annotation>
+			<documentation>The gml:name property provides a label or identifier for the object, commonly a descriptive name. An object may have several names, typically assigned by different authorities. gml:name uses the gml:CodeType content model.  The authority for a name is indicated by the value of its (optional) codeSpace attribute.  The name may or may not be unique, as determined by the rules of the organization responsible for the codeSpace.  In common usage there will be one name per authority, so a processing application may select the name from its preferred codeSpace.</documentation>
+		</annotation>
+	</element>
+	<element name="identifier" type="gml:CodeWithAuthorityType">
+		<annotation>
+			<documentation>Often, a special identifier is assigned to an object by the maintaining authority with the intention that it is used in references to the object For such cases, the codeSpace shall be provided. That identifier is usually unique either globally or within an application domain. gml:identifier is a pre-defined property for such identifiers.</documentation>
+		</annotation>
+	</element>
+	<attribute name="id" type="ID">
+		<annotation>
+			<documentation>The attribute gml:id supports provision of a handle for the XML element representing a GML Object. Its use is mandatory for all GML objects. It is of XML type ID, so is constrained to be unique in the XML document within which it occurs.</documentation>
+		</annotation>
+	</attribute>
+	<attributeGroup name="AggregationAttributeGroup">
+		<annotation>
+			<documentation>A GML Object Collection is any GML Object with a property element in its content model whose content model is derived by extension from gml:AbstractMemberType.
+In addition, the complex type describing the content model of the GML Object Collection may also include a reference to the attribute group gml:AggregationAttributeGroup to provide additional information about the semantics of the object collection.  This information may be used by applications to group GML objects, and optionally to order and index them.
+The allowed values for the aggregationType attribute are defined by gml:AggregationType. See 8.4 of ISO/IEC 11404:1996 for the meaning of the values in the enumeration.</documentation>
+		</annotation>
+		<attribute name="aggregationType" type="gml:AggregationType"/>
+	</attributeGroup>
+	<simpleType name="AggregationType" final="#all">
+		<restriction base="string">
+			<enumeration value="sequence"/>
+		</restriction>
+	</simpleType>
+	<complexType name="AbstractMetadataPropertyType" abstract="true">
+		<annotation>
+			<documentation>To associate metadata described by any XML Schema with a GML object, a property element shall be defined whose content model is derived by extension from gml:AbstractMetadataPropertyType. 
+The value of such a property shall be metadata. The content model of such a property type, i.e. the metadata application schema shall be specified by the GML Application Schema.
+By default, this abstract property type does not imply any ownership of the metadata. The owns attribute of gml:OwnershipAttributeGroup may be used on a metadata property element instance to assert ownership of the metadata. 
+If metadata following the conceptual model of ISO 19115 is to be encoded in a GML document, the corresponding Implementation Specification specified in ISO/TS 19139 shall be used to encode the metadata information.
+</documentation>
+		</annotation>
+		<sequence/>
+		<attributeGroup ref="gml:OwnershipAttributeGroup"/>
+	</complexType>
+	<!-- feature.xsd -->
+	<complexType name="AbstractFeatureType" abstract="true">
+		<annotation>
+			<documentation>The basic feature model is given by the gml:AbstractFeatureType.
+The content model for gml:AbstractFeatureType adds two specific properties suitable for geographic features to the content model defined in gml:AbstractGMLType. 
+The value of the gml:boundedBy property describes an envelope that encloses the entire feature instance, and is primarily useful for supporting rapid searching for features that occur in a particular location. 
+The value of the gml:location property describes the extent, position or relative location of the feature.</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="gml:AbstractGMLType">
+				<sequence>
+					<element ref="gml:boundedBy" minOccurs="0"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<element name="AbstractFeature" type="gml:AbstractFeatureType" abstract="true" substitutionGroup="gml:AbstractGML">
+		<annotation>
+			<documentation>This abstract element serves as the head of a substitution group which may contain any elements whose content model is derived from gml:AbstractFeatureType.  This may be used as a variable in the construction of content models.  
+gml:AbstractFeature may be thought of as "anything that is a GML feature" and may be used to define variables or templates in which the value of a GML property is "any feature". This occurs in particular in a GML feature collection where the feature member properties contain one or multiple copies of gml:AbstractFeature respectively.</documentation>
+		</annotation>
+	</element>
+	<element name="boundedBy" type="gml:BoundingShapeType" nillable="true">
+		<annotation>
+			<documentation>This property describes the minimum bounding box or rectangle that encloses the entire feature.</documentation>
+		</annotation>
+	</element>
+	<complexType name="BoundingShapeType">
+		<sequence>
+			<element ref="gml:Envelope"/>
+		</sequence>
+		<attribute name="nilReason" type="gml:NilReasonType"/>
+	</complexType>
+	<complexType name="AbstractFeatureMemberType" abstract="true">
+		<annotation>
+			<documentation>To create a collection of GML features, a property type shall be derived by extension from gml:AbstractFeatureMemberType.
+By default, this abstract property type does not imply any ownership of the features in the collection. The owns attribute of gml:OwnershipAttributeGroup may be used on a property element instance to assert ownership of a feature in the collection. A collection shall not own a feature already owned by another object.</documentation>
+		</annotation>
+		<sequence/>
+	</complexType>
+	<!-- dynamicFeature.xsd -->
+	<group name="dynamicProperties">
+		<annotation>
+			<documentation>A convenience group. This allows an application schema developer to include dynamic properties in a content model in a standard fashion.</documentation>
+		</annotation>
+		<sequence/>
+	</group>
+	<complexType name="DynamicFeatureType">
+		<complexContent>
+			<extension base="gml:AbstractFeatureType">
+				<group ref="gml:dynamicProperties"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<element name="AbstractTimeSlice" type="gml:AbstractTimeSliceType" abstract="true" substitutionGroup="gml:AbstractGML">
+		<annotation>
+			<documentation>To describe an event — an action that occurs at an instant or over an interval of time — GML provides the gml:AbtractTimeSlice element. A timeslice encapsulates the time-varying properties of a dynamic feature -- it shall be extended to represent a time stamped projection of a specific feature. The gml:dataSource property describes how the temporal data was acquired.
+A gml:AbstractTimeSlice instance is a GML object that encapsulates updates of the dynamic—or volatile—properties that reflect some change event; it thus includes only those feature properties that have actually changed due to some process.
+gml:AbstractTimeSlice basically provides a facility for attribute-level time stamping, in contrast to the object-level time stamping of dynamic feature instances. 
+The time slice can thus be viewed as event or process-oriented, whereas a snapshot is more state or structure-oriented. A timeslice has richer causality, whereas a snapshot merely portrays the status of the whole. 
+</documentation>
+		</annotation>
+	</element>
+	<complexType name="AbstractTimeSliceType" abstract="true">
+		<complexContent>
+			<extension base="gml:AbstractGMLType">
+				<sequence>
+					<element ref="gml:validTime"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<!-- temporal.xsd -->
+	<element name="AbstractTimeObject" type="gml:AbstractTimeObjectType" abstract="true" substitutionGroup="gml:AbstractGML">
+		<annotation>
+			<documentation>gml:AbstractTimeObject acts as the head of a substitution group for all temporal primitives and complexes.</documentation>
+		</annotation>
+	</element>
+	<complexType name="AbstractTimeObjectType" abstract="true">
+		<complexContent>
+			<extension base="gml:AbstractGMLType"/>
+		</complexContent>
+	</complexType>
+	<element name="AbstractTimePrimitive" type="gml:AbstractTimePrimitiveType" abstract="true" substitutionGroup="gml:AbstractTimeObject">
+		<annotation>
+			<documentation>gml:AbstractTimePrimitive acts as the head of a substitution group for geometric and topological temporal primitives.</documentation>
+		</annotation>
+	</element>
+	<complexType name="AbstractTimePrimitiveType" abstract="true">
+		<complexContent>
+			<extension base="gml:AbstractTimeObjectType"/>
+		</complexContent>
+	</complexType>
+	<complexType name="TimePrimitivePropertyType">
+		<annotation>
+			<documentation>gml:TimePrimitivePropertyType provides a standard content model for associations between an arbitrary member of the substitution group whose head is gml:AbstractTimePrimitive and another object.</documentation>
+		</annotation>
+		<sequence minOccurs="0">
+			<element ref="gml:AbstractTimePrimitive"/>
+		</sequence>
+		<attributeGroup ref="gml:AssociationAttributeGroup"/>
+	</complexType>
+	<element name="validTime" type="gml:TimePrimitivePropertyType">
+		<annotation>
+			<documentation>gml:validTime is a convenience property element.</documentation>
+		</annotation>
+	</element>
+	<element name="AbstractTimeGeometricPrimitive" type="gml:AbstractTimeGeometricPrimitiveType" abstract="true" substitutionGroup="gml:AbstractTimePrimitive">
+		<annotation>
+			<documentation>gml:TimeGeometricPrimitive acts as the head of a substitution group for geometric temporal primitives.
+A temporal geometry shall be associated with a temporal reference system through the frame attribute that provides a URI reference that identifies a description of the reference system. Following ISO 19108, the Gregorian calendar with UTC is the default reference system, but others may also be used. The GPS calendar is an alternative reference systems in common use.
+The two geometric primitives in the temporal dimension are the instant and the period. GML components are defined to support these as follows.</documentation>
+		</annotation>
+	</element>
+	<complexType name="AbstractTimeGeometricPrimitiveType" abstract="true">
+		<complexContent>
+			<extension base="gml:AbstractTimePrimitiveType">
+				<attribute name="frame" type="anyURI" fixed="#ISO-8601"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<element name="TimeInstant" type="gml:TimeInstantType" substitutionGroup="gml:AbstractTimeGeometricPrimitive">
+		<annotation>
+			<documentation>gml:TimeInstant acts as a zero-dimensional geometric primitive that represents an identifiable position in time.</documentation>
+		</annotation>
+	</element>
+	<complexType name="TimeInstantType" final="#all">
+		<complexContent>
+			<extension base="gml:AbstractTimeGeometricPrimitiveType">
+				<sequence>
+					<element ref="gml:timePosition"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<element name="TimePeriod" type="gml:TimePeriodType" substitutionGroup="gml:AbstractTimeGeometricPrimitive">
+		<annotation>
+			<documentation>gml:TimePeriod acts as a one-dimensional geometric primitive that represents an identifiable extent in time.
+The location in of a gml:TimePeriod is described by the temporal positions of the instants at which it begins and ends. The length of the period is equal to the temporal distance between the two bounding temporal positions. 
+Both beginning and end may be described in terms of their direct position using gml:TimePositionType which is an XML Schema simple content type, or by reference to an indentifiable time instant using gml:TimeInstantPropertyType.
+Alternatively a limit of a gml:TimePeriod may use the conventional GML property model to make a reference to a time instant described elsewhere, or a limit may be indicated as a direct position.</documentation>
+		</annotation>
+	</element>
+	<complexType name="TimePeriodType">
+		<complexContent>
+			<extension base="gml:AbstractTimeGeometricPrimitiveType">
+				<sequence>
+					<element name="beginPosition" type="gml:TimePositionType"/>
+					<element name="endPosition" type="gml:TimePositionType"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="TimePositionType" final="#all">
+		<annotation>
+			<documentation>The method for identifying a temporal position is specific to each temporal reference system.  gml:TimePositionType supports the description of temporal position according to the subtypes described in ISO 19108.
+Values based on calendars and clocks use lexical formats that are based on ISO 8601, as described in XML Schema Part 2:2001. A decimal value may be used with coordinate systems such as GPS time or UNIX time. A URI may be used to provide a reference to some era in an ordinal reference system . 
+In common with many of the components modelled as data types in the ISO 19100 series of International Standards, the corresponding GML component has simple content. However, the content model gml:TimePositionType is defined in several steps.
+Three XML attributes appear on gml:TimePositionType:
+A time value shall be associated with a temporal reference system through the frame attribute that provides a URI reference that identifies a description of the reference system. Following ISO 19108, the Gregorian calendar with UTC is the default reference system, but others may also be used. Components for describing temporal reference systems are described in 14.4, but it is not required that the reference system be described in this, as the reference may refer to anything that may be indentified with a URI.  
+For time values using a calendar containing more than one era, the (optional) calendarEraName attribute provides the name of the calendar era.  
+Inexact temporal positions may be expressed using the optional indeterminatePosition attribute.  This takes a value from an enumeration.</documentation>
+		</annotation>
+		<simpleContent>
+			<extension base="gml:TimePositionUnion">
+				<attribute name="frame" type="anyURI" fixed="#ISO-8601"/>
+				<attribute name="indeterminatePosition" type="gml:TimeIndeterminateValueType"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<simpleType name="TimeIndeterminateValueType">
+		<annotation>
+			<documentation>These values are interpreted as follows: 
+-	"unknown" indicates that no specific value for temporal position is provided.
+-	"now" indicates that the specified value shall be replaced with the current temporal position whenever the value is accessed.
+-	"before" indicates that the actual temporal position is unknown, but it is known to be before the specified value.
+-	"after" indicates that the actual temporal position is unknown, but it is known to be after the specified value.
+A value for indeterminatePosition may 
+-	be used either alone, or 
+-	qualify a specific value for temporal position.</documentation>
+		</annotation>
+		<restriction base="string">
+			<enumeration value="unknown"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="TimePositionUnion">
+		<annotation>
+			<documentation>The simple type gml:TimePositionUnion is a union of XML Schema simple types which instantiate the subtypes for temporal position described in ISO 19108.
+ An ordinal era may be referenced via URI.  A decimal value may be used to indicate the distance from the scale origin .  time is used for a position that recurs daily (see ISO 19108:2002 5.4.4.2).
+ Finally, calendar and clock forms that support the representation of time in systems based on years, months, days, hours, minutes and seconds, in a notation following ISO 8601, are assembled by gml:CalDate</documentation>
+		</annotation>
+		<union memberTypes="dateTime">
+			<simpleType>
+				<restriction base="string">
+					<enumeration value=""/>
+				</restriction>
+			</simpleType>
+		</union>
+	</simpleType>
+	<element name="timePosition" type="gml:TimePositionType">
+		<annotation>
+			<documentation>This element is used directly as a property of gml:TimeInstant (see 15.2.2.3), and may also be used in application schemas.</documentation>
+		</annotation>
+	</element>
+	<!-- geometryBasic0d1d.xsd -->
+	<complexType name="AbstractGeometryType" abstract="true">
+		<annotation>
+			<documentation>All geometry elements are derived directly or indirectly from this abstract supertype. A geometry element may have an identifying attribute (gml:id), one or more names (elements identifier and name) and a description (elements description and descriptionReference) . It may be associated with a spatial reference system (attribute group gml:SRSReferenceGroup).
+The following rules shall be adhered to:
+-	Every geometry type shall derive from this abstract type.
+-	Every geometry element (i.e. an element of a geometry type) shall be directly or indirectly in the substitution group of AbstractGeometry.</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="gml:AbstractGMLType">
+				<attributeGroup ref="gml:SRSReferenceGroup"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<attributeGroup name="SRSReferenceGroup">
+		<annotation>
+			<documentation>The attribute group SRSReferenceGroup is an optional reference to the CRS used by this geometry, with optional additional information to simplify the processing of the coordinates when a more complete definition of the CRS is not needed.
+In general the attribute srsName points to a CRS instance of gml:AbstractCoordinateReferenceSystem. For well-known references it is not required that the CRS description exists at the location the URI points to. 
+If no srsName attribute is given, the CRS shall be specified as part of the larger context this geometry element is part of.</documentation>
+		</annotation>
+		<attribute name="srsName" type="anyURI"/>
+	</attributeGroup>
+	<element name="AbstractGeometry" type="gml:AbstractGeometryType" abstract="true" substitutionGroup="gml:AbstractGML">
+		<annotation>
+			<documentation>The AbstractGeometry element is the abstract head of the substitution group for all geometry elements of GML. This includes pre-defined and user-defined geometry elements. Any geometry element shall be a direct or indirect extension/restriction of AbstractGeometryType and shall be directly or indirectly in the substitution group of AbstractGeometry.</documentation>
+		</annotation>
+	</element>
+	<complexType name="DirectPositionType">
+		<annotation>
+			<documentation>Direct position instances hold the coordinates for a position within some coordinate reference system (CRS). Since direct positions, as data types, will often be included in larger objects (such as geometry elements) that have references to CRS, the srsName attribute will in general be missing, if this particular direct position is included in a larger element with such a reference to a CRS. In this case, the CRS is implicitly assumed to take on the value of the containing object's CRS.
+if no srsName attribute is given, the CRS shall be specified as part of the larger context this geometry element is part of, typically a geometric object like a point, curve, etc.</documentation>
+		</annotation>
+		<simpleContent>
+			<extension base="gml:doubleList">
+				<attributeGroup ref="gml:SRSReferenceGroup"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<element name="pos" type="gml:DirectPositionType"/>
+	<complexType name="DirectPositionListType">
+		<annotation>
+			<documentation>posList instances (and other instances with the content model specified by DirectPositionListType) hold the coordinates for a sequence of direct positions within the same coordinate reference system (CRS).
+if no srsName attribute is given, the CRS shall be specified as part of the larger context this geometry element is part of, typically a geometric object like a point, curve, etc. 
+The optional attribute count specifies the number of direct positions in the list. If the attribute count is present then the attribute srsDimension shall be present, too.
+The number of entries in the list is equal to the product of the dimensionality of the coordinate reference system (i.e. it is a derived value of the coordinate reference system definition) and the number of direct positions.</documentation>
+		</annotation>
+		<simpleContent>
+			<extension base="gml:doubleList">
+				<attributeGroup ref="gml:SRSReferenceGroup"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<element name="posList" type="gml:DirectPositionListType"/>
+	<group name="geometricPositionGroup">
+		<annotation>
+			<documentation>GML supports two different ways to specify a geometric position: either by a direct position (a data type) or a point (a geometric object).
+pos elements are positions that are "owned" by the geometric primitive encapsulating this geometric position.
+pointProperty elements contain a point that may be referenced from other geometry elements or reference another point defined elsewhere (reuse of existing points).</documentation>
+		</annotation>
+		<choice>
+			<element ref="gml:pos"/>
+			<element ref="gml:pointProperty"/>
+		</choice>
+	</group>
+	<complexType name="EnvelopeType">
+		<sequence>
+			<element name="lowerCorner" type="gml:DirectPositionType"/>
+			<element name="upperCorner" type="gml:DirectPositionType"/>
+		</sequence>
+		<attributeGroup ref="gml:SRSReferenceGroup"/>
+	</complexType>
+	<element name="Envelope" type="gml:EnvelopeType" substitutionGroup="gml:AbstractObject">
+		<annotation>
+			<documentation>Envelope defines an extent using a pair of positions defining opposite corners in arbitrary dimensions. The first direct position is the "lower corner" (a coordinate position consisting of all the minimal ordinates for each dimension for all points within the envelope), the second one the "upper corner" (a coordinate position consisting of all the maximal ordinates for each dimension for all points within the envelope).
+The use of the properties "coordinates" and "pos" has been deprecated. The explicitly named properties "lowerCorner" and "upperCorner" shall be used instead.</documentation>
+		</annotation>
+	</element>
+	<complexType name="AbstractGeometricPrimitiveType" abstract="true">
+		<annotation>
+			<documentation>gml:AbstractGeometricPrimitiveType is the abstract root type of the geometric primitives. A geometric primitive is a geometric object that is not decomposed further into other primitives in the system. All primitives are oriented in the direction implied by the sequence of their coordinate tuples.</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="gml:AbstractGeometryType"/>
+		</complexContent>
+	</complexType>
+	<element name="AbstractGeometricPrimitive" type="gml:AbstractGeometricPrimitiveType" abstract="true" substitutionGroup="gml:AbstractGeometry">
+		<annotation>
+			<documentation>The AbstractGeometricPrimitive element is the abstract head of the substitution group for all (pre- and user-defined) geometric primitives.</documentation>
+		</annotation>
+	</element>
+	<complexType name="PointType">
+		<complexContent>
+			<extension base="gml:AbstractGeometricPrimitiveType">
+				<sequence>
+					<element ref="gml:pos"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<element name="Point" type="gml:PointType" substitutionGroup="gml:AbstractGeometricPrimitive">
+		<annotation>
+			<documentation>A Point is defined by a single coordinate tuple. The direct position of a point is specified by the pos element which is of type DirectPositionType.</documentation>
+		</annotation>
+	</element>
+	<complexType name="PointPropertyType">
+		<annotation>
+			<documentation>A property that has a point as its value domain may either be an appropriate geometry element encapsulated in an element of this type or an XLink reference to a remote geometry element (where remote includes geometry elements located elsewhere in the same document). Either the reference or the contained element shall be given, but neither both nor none.</documentation>
+		</annotation>
+		<sequence minOccurs="0">
+			<element ref="gml:Point"/>
+		</sequence>
+		<attributeGroup ref="gml:AssociationAttributeGroup"/>
+	</complexType>
+	<element name="pointProperty" type="gml:PointPropertyType">
+		<annotation>
+			<documentation>This property element either references a point via the XLink-attributes or contains the point element. pointProperty is the predefined property which may be used by GML Application Schemas whenever a GML feature has a property with a value that is substitutable for Point.</documentation>
+		</annotation>
+	</element>
+	<complexType name="AbstractCurveType" abstract="true">
+		<annotation>
+			<documentation>gml:AbstractCurveType is an abstraction of a curve to support the different levels of complexity. The curve may always be viewed as a geometric primitive, i.e. is continuous.</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="gml:AbstractGeometricPrimitiveType"/>
+		</complexContent>
+	</complexType>
+	<element name="AbstractCurve" type="gml:AbstractCurveType" abstract="true" substitutionGroup="gml:AbstractGeometricPrimitive">
+		<annotation>
+			<documentation>The AbstractCurve element is the abstract head of the substitution group for all (continuous) curve elements.</documentation>
+		</annotation>
+	</element>
+	<complexType name="CurvePropertyType">
+		<annotation>
+			<documentation>A property that has a curve as its value domain may either be an appropriate geometry element encapsulated in an element of this type or an XLink reference to a remote geometry element (where remote includes geometry elements located elsewhere in the same document). Either the reference or the contained element shall be given, but neither both nor none.</documentation>
+		</annotation>
+		<sequence minOccurs="0">
+			<element ref="gml:AbstractCurve"/>
+		</sequence>
+		<attributeGroup ref="gml:AssociationAttributeGroup"/>
+	</complexType>
+	<element name="curveProperty" type="gml:CurvePropertyType">
+		<annotation>
+			<documentation>This property element either references a curve via the XLink-attributes or contains the curve element. curveProperty is the predefined property which may be used by GML Application Schemas whenever a GML feature has a property with a value that is substitutable for AbstractCurve.</documentation>
+		</annotation>
+	</element>
+	<!-- geometryBasic2d.xsd -->
+	<complexType name="AbstractSurfaceType" abstract="true">
+		<annotation>
+			<documentation>gml:AbstractSurfaceType is an abstraction of a surface to support the different levels of complexity. A surface is always a continuous region of a plane.</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="gml:AbstractGeometricPrimitiveType"/>
+		</complexContent>
+	</complexType>
+	<element name="AbstractSurface" type="gml:AbstractSurfaceType" abstract="true" substitutionGroup="gml:AbstractGeometricPrimitive">
+		<annotation>
+			<documentation>The AbstractSurface element is the abstract head of the substitution group for all (continuous) surface elements.</documentation>
+		</annotation>
+	</element>
+	<element name="exterior" type="gml:AbstractRingPropertyType">
+		<annotation>
+			<documentation>A boundary of a surface consists of a number of rings. In the normal 2D case, one of these rings is distinguished as being the exterior boundary. In a general manifold this is not always possible, in which case all boundaries shall be listed as interior boundaries, and the exterior will be empty.</documentation>
+		</annotation>
+	</element>
+	<complexType name="AbstractRingType" abstract="true">
+		<sequence/>
+	</complexType>
+	<element name="AbstractRing" type="gml:AbstractRingType" abstract="true" substitutionGroup="gml:AbstractObject">
+		<annotation>
+			<documentation>An abstraction of a ring to support surface boundaries of different complexity.
+The AbstractRing element is the abstract head of the substituition group for all closed boundaries of a surface patch.</documentation>
+		</annotation>
+	</element>
+	<complexType name="AbstractRingPropertyType">
+		<annotation>
+			<documentation>A property with the content model of gml:AbstractRingPropertyType encapsulates a ring to represent the surface boundary property of a surface.</documentation>
+		</annotation>
+		<sequence>
+			<element ref="gml:AbstractRing"/>
+		</sequence>
+	</complexType>
+	<!-- geometryPrimitives.xsd -->
+	<complexType name="CurveType">
+		<complexContent>
+			<extension base="gml:AbstractCurveType">
+				<sequence>
+					<element ref="gml:segments"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<element name="Curve" type="gml:CurveType" substitutionGroup="gml:AbstractCurve">
+		<annotation>
+			<documentation>A curve is a 1-dimensional primitive. Curves are continuous, connected, and have a measurable length in terms of the coordinate system. 
+A curve is composed of one or more curve segments. Each curve segment within a curve may be defined using a different interpolation method. The curve segments are connected to one another, with the end point of each segment except the last being the start point of the next segment in the segment list.
+The orientation of the curve is positive.
+The element segments encapsulates the segments of the curve.</documentation>
+		</annotation>
+	</element>
+	<complexType name="OrientableCurveType">
+		<complexContent>
+			<extension base="gml:AbstractCurveType">
+				<sequence>
+					<element ref="gml:baseCurve"/>
+				</sequence>
+				<attribute name="orientation" type="gml:SignType" default="+"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<element name="baseCurve" type="gml:CurvePropertyType">
+		<annotation>
+			<documentation>The property baseCurve references or contains the base curve, i.e. it either references the base curve via the XLink-attributes or contains the curve element. A curve element is any element which is substitutable for AbstractCurve. The base curve has positive orientation.</documentation>
+		</annotation>
+	</element>
+	<element name="OrientableCurve" type="gml:OrientableCurveType" substitutionGroup="gml:AbstractCurve">
+		<annotation>
+			<documentation>OrientableCurve consists of a curve and an orientation. If the orientation is "+", then the OrientableCurve is identical to the baseCurve. If the orientation is "-", then the OrientableCurve is related to another AbstractCurve with a parameterization that reverses the sense of the curve traversal.</documentation>
+		</annotation>
+	</element>
+	<complexType name="AbstractCurveSegmentType" abstract="true">
+		<attribute name="numDerivativesAtStart" type="integer" default="0"/>
+		<attribute name="numDerivativesAtEnd" type="integer" default="0"/>
+		<attribute name="numDerivativeInterior" type="integer" default="0"/>
+	</complexType>
+	<element name="AbstractCurveSegment" type="gml:AbstractCurveSegmentType" abstract="true" substitutionGroup="gml:AbstractObject">
+		<annotation>
+			<documentation>A curve segment defines a homogeneous segment of a curve.
+The attributes numDerivativesAtStart, numDerivativesAtEnd and numDerivativesInterior specify the type of continuity as specified in ISO 19107:2003, 6.4.9.3.
+The AbstractCurveSegment element is the abstract head of the substituition group for all curve segment elements, i.e. continuous segments of the same interpolation mechanism.
+All curve segments shall have an attribute interpolation with type gml:CurveInterpolationType specifying the curve interpolation mechanism used for this segment. This mechanism uses the control points and control parameters to determine the position of this curve segment.</documentation>
+		</annotation>
+	</element>
+	<complexType name="CurveSegmentArrayPropertyType">
+		<annotation>
+			<documentation>gml:CurveSegmentArrayPropertyType is a container for an array of curve segments.</documentation>
+		</annotation>
+		<sequence minOccurs="0" maxOccurs="unbounded">
+			<element ref="gml:AbstractCurveSegment"/>
+		</sequence>
+	</complexType>
+	<element name="segments" type="gml:CurveSegmentArrayPropertyType">
+		<annotation>
+			<documentation>This property element contains a list of curve segments. The order of the elements is significant and shall be preserved when processing the array.</documentation>
+		</annotation>
+	</element>
+	<simpleType name="CurveInterpolationType">
+		<annotation>
+			<documentation>gml:CurveInterpolationType is a list of codes that may be used to identify the interpolation mechanisms specified by an application schema.</documentation>
+		</annotation>
+		<restriction base="string">
+			<enumeration value="linear"/>
+			<enumeration value="geodesic"/>
+			<enumeration value="circularArc3Points"/>
+			<enumeration value="circularArcCenterPointWithRadius"/>
+		</restriction>
+	</simpleType>
+	<complexType name="LineStringSegmentType">
+		<complexContent>
+			<extension base="gml:AbstractCurveSegmentType">
+				<sequence>
+					<choice>
+						<choice minOccurs="2" maxOccurs="unbounded">
+							<element ref="gml:pos"/>
+							<element ref="gml:pointProperty"/>
+						</choice>
+						<element ref="gml:posList"/>
+					</choice>
+				</sequence>
+				<attribute name="interpolation" type="gml:CurveInterpolationType" fixed="linear"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<element name="LineStringSegment" type="gml:LineStringSegmentType" substitutionGroup="gml:AbstractCurveSegment">
+		<annotation>
+			<documentation>A LineStringSegment is a curve segment that is defined by two or more control points including the start and end point, with linear interpolation between them.
+The content model follows the general pattern for the encoding of curve segments.</documentation>
+		</annotation>
+	</element>
+	<complexType name="ArcStringType">
+		<complexContent>
+			<extension base="gml:AbstractCurveSegmentType">
+				<sequence>
+					<choice>
+						<choice minOccurs="3" maxOccurs="unbounded">
+							<element ref="gml:pos"/>
+							<element ref="gml:pointProperty"/>
+						</choice>
+						<element ref="gml:posList"/>
+					</choice>
+				</sequence>
+				<attribute name="interpolation" type="gml:CurveInterpolationType" fixed="circularArc3Points"/>
+				<attribute name="numArc" type="integer"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<element name="ArcString" type="gml:ArcStringType" substitutionGroup="gml:AbstractCurveSegment">
+		<annotation>
+			<documentation>An ArcString is a curve segment that uses three-point circular arc interpolation ("circularArc3Points"). The number of arcs in the arc string may be explicitly stated in the attribute numArc. The number of control points in the arc string shall be 2 * numArc + 1.
+The content model follows the general pattern for the encoding of curve segments.</documentation>
+		</annotation>
+	</element>
+	<complexType name="ArcType">
+		<complexContent>
+			<restriction base="gml:ArcStringType">
+				<sequence>
+					<choice>
+						<choice minOccurs="3" maxOccurs="3">
+							<element ref="gml:pos"/>
+							<element ref="gml:pointProperty"/>
+						</choice>
+						<element ref="gml:posList"/>
+					</choice>
+				</sequence>
+				<attribute name="numArc" type="integer" fixed="1"/>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<element name="Arc" type="gml:ArcType" substitutionGroup="gml:ArcString">
+		<annotation>
+			<documentation>An Arc is an arc string with only one arc unit, i.e. three control points including the start and end point. As arc is an arc string consisting of a single arc, the attribute "numArc" is fixed to "1".</documentation>
+		</annotation>
+	</element>
+	<complexType name="CircleType">
+		<complexContent>
+			<extension base="gml:ArcType"/>
+		</complexContent>
+	</complexType>
+	<element name="Circle" type="gml:CircleType" substitutionGroup="gml:Arc">
+		<annotation>
+			<documentation>A Circle is an arc whose ends coincide to form a simple closed loop. The three control points shall be distinct non-co-linear points for the circle to be unambiguously defined. The arc is simply extended past the third control point until the first control point is encountered.</documentation>
+		</annotation>
+	</element>
+	<complexType name="ArcByCenterPointType">
+		<complexContent>
+			<extension base="gml:AbstractCurveSegmentType">
+				<sequence>
+					<choice>
+						<choice>
+							<element ref="gml:pos"/>
+							<element ref="gml:pointProperty"/>
+						</choice>
+						<element ref="gml:posList"/>
+					</choice>
+					<element name="radius" type="gml:LengthType"/>
+					<element name="startAngle" type="gml:AngleType" minOccurs="0"/>
+					<element name="endAngle" type="gml:AngleType" minOccurs="0"/>
+				</sequence>
+				<attribute name="interpolation" type="gml:CurveInterpolationType" fixed="circularArcCenterPointWithRadius"/>
+				<attribute name="numArc" type="integer" use="required" fixed="1"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<element name="ArcByCenterPoint" type="gml:ArcByCenterPointType" substitutionGroup="gml:AbstractCurveSegment">
+		<annotation>
+			<documentation>This variant of the arc requires that the points on the arc shall be computed instead of storing the coordinates directly. The single control point is the center point of the arc plus the radius and the bearing at start and end. This representation can be used only in 2D.
+The element radius specifies the radius of the arc.
+The element startAngle specifies the bearing of the arc at the start.
+The element endAngle specifies the bearing of the arc at the end.
+The interpolation is fixed as "circularArcCenterPointWithRadius".
+Since this type describes always a single arc, the attribute "numArc" is fixed to "1".
+The content model follows the general pattern for the encoding of curve segments.</documentation>
+		</annotation>
+	</element>
+	<complexType name="CircleByCenterPointType">
+		<complexContent>
+			<restriction base="gml:ArcByCenterPointType">
+				<sequence>
+					<choice>
+						<choice>
+							<element ref="gml:pos"/>
+							<element ref="gml:pointProperty"/>
+						</choice>
+						<element ref="gml:posList"/>
+					</choice>
+					<element name="radius" type="gml:LengthType"/>
+				</sequence>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<element name="CircleByCenterPoint" type="gml:CircleByCenterPointType" substitutionGroup="gml:ArcByCenterPoint">
+		<annotation>
+			<documentation>A gml:CircleByCenterPoint is an gml:ArcByCenterPoint with identical start and end angle to form a full circle. Again, this representation can be used only in 2D.</documentation>
+		</annotation>
+	</element>
+	<complexType name="GeodesicStringType">
+		<complexContent>
+			<extension base="gml:AbstractCurveSegmentType">
+				<choice>
+					<element ref="gml:posList"/>
+					<group ref="gml:geometricPositionGroup" minOccurs="2" maxOccurs="unbounded"/>
+				</choice>
+				<attribute name="interpolation" type="gml:CurveInterpolationType" fixed="geodesic"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<element name="GeodesicString" type="gml:GeodesicStringType" substitutionGroup="gml:AbstractCurveSegment">
+		<annotation>
+			<documentation>A sequence of geodesic segments. 
+The number of control points shall be at least two.
+interpolation is fixed as "geodesic".
+The content model follows the general pattern for the encoding of curve segments.</documentation>
+		</annotation>
+	</element>
+	<complexType name="GeodesicType">
+		<complexContent>
+			<extension base="gml:GeodesicStringType"/>
+		</complexContent>
+	</complexType>
+	<element name="Geodesic" type="gml:GeodesicType" substitutionGroup="gml:GeodesicString"/>
+	<complexType name="SurfaceType">
+		<complexContent>
+			<extension base="gml:AbstractSurfaceType">
+				<sequence>
+					<element ref="gml:patches"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<element name="Surface" type="gml:SurfaceType" substitutionGroup="gml:AbstractSurface">
+		<annotation>
+			<documentation>A Surface is a 2-dimensional primitive and is composed of one or more surface patches as specified in ISO 19107:2003, 6.3.17.1. The surface patches are connected to one another.
+patches encapsulates the patches of the surface.</documentation>
+		</annotation>
+	</element>
+	<complexType name="AbstractSurfacePatchType" abstract="true"/>
+	<element name="AbstractSurfacePatch" type="gml:AbstractSurfacePatchType" abstract="true">
+		<annotation>
+			<documentation>A surface patch defines a homogenuous portion of a surface. 
+The AbstractSurfacePatch element is the abstract head of the substituition group for all surface patch elements describing a continuous portion of a surface.
+All surface patches shall have an attribute interpolation (declared in the types derived from gml:AbstractSurfacePatchType) specifying the interpolation mechanism used for the patch using gml:SurfaceInterpolationType.</documentation>
+		</annotation>
+	</element>
+	<complexType name="SurfacePatchArrayPropertyType">
+		<annotation>
+			<documentation>gml:SurfacePatchArrayPropertyType is a container for a sequence of surface patches.</documentation>
+		</annotation>
+		<sequence minOccurs="0" maxOccurs="unbounded">
+			<element ref="gml:AbstractSurfacePatch"/>
+		</sequence>
+	</complexType>
+	<element name="patches" type="gml:SurfacePatchArrayPropertyType">
+		<annotation>
+			<documentation>The patches property element contains the sequence of surface patches. The order of the elements is significant and shall be preserved when processing the array.</documentation>
+		</annotation>
+	</element>
+	<simpleType name="SurfaceInterpolationType">
+		<annotation>
+			<documentation>gml:SurfaceInterpolationType is a list of codes that may be used to identify the interpolation mechanisms specified by an application schema.</documentation>
+		</annotation>
+		<restriction base="string">
+			<enumeration value="planar"/>
+		</restriction>
+	</simpleType>
+	<complexType name="PolygonPatchType">
+		<complexContent>
+			<extension base="gml:AbstractSurfacePatchType">
+				<sequence>
+					<element ref="gml:exterior"/>
+				</sequence>
+				<attribute name="interpolation" type="gml:SurfaceInterpolationType" fixed="planar"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<element name="PolygonPatch" type="gml:PolygonPatchType" substitutionGroup="gml:AbstractSurfacePatch">
+		<annotation>
+			<documentation>A gml:PolygonPatch is a surface patch that is defined by a set of boundary curves and an underlying surface to which these curves adhere. The curves shall be coplanar and the polygon uses planar interpolation in its interior. 
+interpolation is fixed to "planar", i.e. an interpolation shall return points on a single plane. The boundary of the patch shall be contained within that plane.</documentation>
+		</annotation>
+	</element>
+	<complexType name="RingType">
+		<complexContent>
+			<extension base="gml:AbstractRingType">
+				<sequence>
+					<element ref="gml:curveMember" maxOccurs="unbounded"/>
+				</sequence>
+				<attributeGroup ref="gml:AggregationAttributeGroup"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<element name="Ring" type="gml:RingType" substitutionGroup="gml:AbstractRing">
+		<annotation>
+			<documentation>A ring is used to represent a single connected component of a surface boundary as specified in ISO 19107:2003, 6.3.6.
+Every gml:curveMember references or contains one curve, i.e. any element which is substitutable for gml:AbstractCurve. In the context of a ring, the curves describe the boundary of the surface. The sequence of curves shall be contiguous and connected in a cycle.
+If provided, the aggregationType attribute shall have the value "sequence".</documentation>
+		</annotation>
+	</element>
+	<element name="curveMember" type="gml:CurvePropertyType"/>
+	<!-- geometryComplexes.xsd -->
+	<complexType name="CompositeCurveType">
+		<complexContent>
+			<extension base="gml:AbstractCurveType">
+				<sequence>
+					<element ref="gml:curveMember" maxOccurs="unbounded"/>
+				</sequence>
+				<attributeGroup ref="gml:AggregationAttributeGroup"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<element name="CompositeCurve" type="gml:CompositeCurveType" substitutionGroup="gml:AbstractCurve">
+		<annotation>
+			<documentation>A gml:CompositeCurve is represented by a sequence of (orientable) curves such that each curve in the sequence terminates at the start point of the subsequent curve in the list. 
+curveMember references or contains inline one curve in the composite curve. 
+The curves are contiguous, the collection of curves is ordered. Therefore, if provided, the aggregationType attribute shall have the value "sequence".</documentation>
+		</annotation>
+	</element>
+</schema>

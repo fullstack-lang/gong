@@ -1,0 +1,171 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+	  {
+		"label": "02 - run books -unmarshallFromCode=stage.go -marshallOnCommit=stage",
+		"type": "shell",
+		"options": {
+		  "cwd": "${workspaceFolder}/go/cmd/books"
+		},
+		"command": "go",
+		"args": [
+		  "run",
+		  "main.go",
+		  "-diagrams",
+		  "-unmarshallFromCode=stage.go",
+		  "-marshallOnCommit=stage"
+		],
+		"group": "build"
+	  },
+	  {
+		"label": "02 - run books w/o diagrams",
+		"type": "shell",
+		"options": {
+		  "cwd": "${workspaceFolder}/go/cmd/books"
+		},
+		"command": "go",
+		"args": [
+		  "run",
+		  ".",
+		  "-diagrams=false",
+		  "--unmarshall=stage",
+		  "-marshallOnCommit=stage"
+		],
+		"group": "build"
+	  },
+	  {
+		"label": "03 - lsof -i tcp:8080 ",
+		"type": "shell",
+		"command": "lsof -i tcp:8080 ",
+		"group": "build"
+	  },
+	  {
+		"label": "03 - ng build",
+		"type": "shell",
+		"command": "cd ng; ng build",
+		"group": "build",
+		"problemMatcher": []
+	  },
+	  {
+		"label": "04 - ng serve --host=127.0.0.1",
+		"type": "shell",
+		"command": "cd ng; ng serve --host=127.0.0.1",
+		"group": "build",
+		"problemMatcher": []
+	  },
+	  {
+		"label": "01 - gongc books",
+		"type": "shell",
+		"options": {
+		  "cwd": "${workspaceFolder}/go/models"
+		},
+		"command": "gongc",
+		"group": "build",
+		"args": []
+	  },
+	  {
+		"label": "01 - gongc books -skipNg",
+		"type": "shell",
+		"options": {
+		  "cwd": "${workspaceFolder}/go/models"
+		},
+		"command": "gongc",
+		"group": "build",
+		"args": [
+		  "-skipNg"
+		]
+	  },
+	  {
+		"label": "01 - gongc books -skipGoModCommands",
+		"type": "shell",
+		"options": {
+		  "cwd": "${workspaceFolder}/go/models"
+		},
+		"command": "gongc",
+		"group": "build",
+		"args": [
+			"-skipGoModCommands"
+		]
+	  },
+	  {
+		"label": "01 - gongc books -skipNg -skipGoModCommands",
+		"type": "shell",
+		"options": {
+		  "cwd": "${workspaceFolder}/go/models"
+		},
+		"command": "gongc",
+		"group": "build",
+		"args": [
+		  "-skipNg",
+		  "-skipGoModCommands"
+		]
+	  },
+	  {
+		"label": "00 - go mod vendor",
+		"type": "shell",
+		"group": "build",
+		"command": "go mod vendor"
+	  },
+	  {
+		"label": "00 - update dependencies",
+		"type": "shell",
+		"command": "go",
+		"args": [
+		  "get",
+		  "-d",
+		  "github.com/fullstack-lang/gong@HEAD",
+		  "github.com/fullstack-lang/gongdoc@HEAD",
+		  "github.com/fullstack-lang/gongsvg@HEAD",
+		],
+		"group": "build"
+	  },
+	  {
+		"label": "00 - go get -d github.com/fullstack-lang/gong@HEAD",
+		"type": "shell",
+		"command": "go",
+		"args": [
+		  "get",
+		  "-d",
+		  "github.com/fullstack-lang/gong@HEAD",
+		  "github.com/fullstack-lang/gongdoc@HEAD",
+		  "github.com/fullstack-lang/gongrouter@HEAD",
+		  "github.com/fullstack-lang/gongsvg@HEAD",
+		  "github.com/fullstack-lang/gongtree@HEAD",
+		],
+		"group": "build"
+	  },
+	  {
+		"label": "00 - go get -d github.com/fullstack-lang/gongdoc@HEAD",
+		"type": "shell",
+		"command": "go",
+		"args": [
+		  "get",
+		  "-d",
+		  "github.com/fullstack-lang/gongdoc@HEAD",
+		],
+		"group": "build"
+	  },
+	  {
+		"label": "00 - go mod tidy",
+		"type": "shell",
+		"command": "go",
+		"args": [
+		  "mod",
+		  "tidy"
+		],
+		"group": "build"
+	  },
+	  {
+		"label": "00 - go build",
+		"type": "shell",
+		"options": {
+		  "cwd": "${workspaceFolder}/go/cmd/books"
+		},
+		"command": "go",
+		"args": [
+		  "build"
+		],
+		"group": "build"
+	  },
+	]
+  }

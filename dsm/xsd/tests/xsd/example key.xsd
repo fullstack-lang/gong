@@ -1,0 +1,20 @@
+<xs:elementname="library">
+<xs:complexType>
+    <xs:sequence>
+        <xs:element name="book" maxOccurs="unbounded">
+            <xs:complexType>
+                <xs:sequence>
+                    <xs:element name="title" type="xs:string" />
+                    <xs:element name="author" type="xs:string" />
+                </xs:sequence>
+                <xs:attribute name="isbn" type="xs:string" use="required" />
+            </xs:complexType>
+        </xs:element>
+    </xs:sequence>
+</xs:complexType><!--
+Define a key to ensure that each book has a unique ISBN -->
+<xs:key name="uniqueISBN">
+    <xs:selector xpath="book" />
+    <xs:field xpath="@isbn" />
+</xs:key>
+</xs:element>

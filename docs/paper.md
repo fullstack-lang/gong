@@ -9,12 +9,29 @@ add code tgat generates code tgst generates code
 add that the rigorous model verification. against which version 
 of the rules is my data semantically correct
 
-limitation:
+next steps:
 
 - one package , not good for complex multi namespaces 
-stuff
+stuff 
+
 - one file. not possible yet to import another 
-data file
+data file. This requires working with directories instead of single file and having to declare the variables ouside the anonymous function.
+
+- overcoming the API restriction.
+
+The gong compiler generates code within the package and some name collision might happen with the existing code.
+For instance 
+
+
+```go
+type Books struct {
+	XMLNSXSI       string `xml:"xmlns:xsi,attr"`
+	SchemaLocation string `xml:"xsi:noNamespaceSchemaLocation,attr"`
+
+	XMLName xml.Name `xml:"books"`
+	Books   []Book   `xml:"book"`
+}
+```
 
 
 ## Abstract
