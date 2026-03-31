@@ -111,6 +111,8 @@ func (aFormCallback *AFormCallback) OnSave() {
 			}
 			a_.Bs = instanceSlice
 
+		case "UUID":
+			FormDivBasicFieldToField(&(a_.UUID), formDiv)
 		}
 	}
 

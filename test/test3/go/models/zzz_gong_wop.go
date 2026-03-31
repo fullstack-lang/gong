@@ -25,6 +25,8 @@ type A_WOP struct {
 	EnumString EnumTypeString
 
 	EnumInt EnumTypeInt
+
+	UUID string
 }
 
 func (from *A) CopyBasicFields(to *A) {
@@ -36,6 +38,7 @@ func (from *A) CopyBasicFields(to *A) {
 	to.Duration = from.Duration
 	to.EnumString = from.EnumString
 	to.EnumInt = from.EnumInt
+	to.UUID = from.UUID
 }
 
 type B_WOP struct {
