@@ -118,31 +118,6 @@
             ]
         },
         {
-            "name": "books: gong generate gongxsd books",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/../gongxsd/test/books/go/models",
-            "program": "${workspaceFolder}/go/cmd/gong",
-            "args": [
-                "generate"
-            ]
-        },
-        {
-            "name": "musicxml: gong generate musicxml of gongxsd -skipGoModCommands -skipNpmInstall -compileForDebug",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/../gongxsd/test/musicxml/go/models",
-            "program": "${workspaceFolder}/go/cmd/gong",
-            "args": [
-                "generate",
-                "--skipGoModCommands",
-                "--skipNpmInstall",
-                "--compileForDebug",
-            ]
-        },
-        {
             "name": "slider: gong generate slider -skipGoModCommands -skipNpmInstall -skipNpmWorkspaces",
             "type": "go",
             "request": "launch",
@@ -982,7 +957,7 @@
                 "-marshallOnCommit=data/massive_probe_edit.go"
             ]
         },
-                {
+        {
             "name": "statemachines: go run statemachines -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage.go",
             "type": "go",
             "request": "launch",
@@ -991,6 +966,112 @@
             "args": [
                 "-unmarshallFromCode=data/stage.go",
                 "-marshallOnCommit=data/stage.go"
+            ]
+        },
+        {
+            "name": "xsd: go run xsd -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/xsd/go/cmd/xsd",
+            "args": [
+                "-unmarshallFromCode=data/stage.go",
+                "-marshallOnCommit=data/stage.go"
+            ]
+        },
+        {
+            "name": "xsd: books generate models.go from books.xsd",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/dsm/xsd/tests/books",
+            "program": "${workspaceFolder}/dsm/xsd/go/cmd/xsd2gong",
+            "args": [
+                "generate",
+                "./books.xsd",
+                "-v",
+                "-o",
+                "./go/models/models.go"
+            ]
+        },
+        {
+            "name": "xsd: books gong generate test on books --level1",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "cwd": "${workspaceFolder}/dsm/xsd/tests/books/go/models",
+            "program": "${workspaceFolder}/go/cmd/gong",
+            "args": [
+                "generate",
+                "--skipGoModCommands",
+                "--level1"
+            ]
+        },
+        {
+            "name": "xsd: books reads books.xml",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "cwd": "${workspaceFolder}/dsm/xsd/tests/books/go/cmd/books",
+            "program": "${workspaceFolder}/dsm/xsd/tests/books/go/cmd/books",
+            "args": [
+                "../../../books.xml"
+            ]
+        },
+        {
+            "name": "xsd: musicxml generate models.go from musicxml.xsd",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/dsm/xsd/tests/musicxml",
+            "program": "${workspaceFolder}/dsm/xsd/go/cmd/xsd2gong",
+            "args": [
+                "generate",
+                "./musicxml.xsd",
+                "-v",
+                "-o",
+                "./go/models/models.go"
+            ]
+        },
+        {
+            "name": "xsd: musicxml gong generate test on musicxml --level1",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "cwd": "${workspaceFolder}/dsm/xsd/tests/musicxml/go/models",
+            "program": "${workspaceFolder}/go/cmd/gong",
+            "args": [
+                "generate",
+                "--skipGoModCommands",
+                "--level1"
+            ]
+        },
+        {
+            "name": "xsd: reqif generate models.go from dtc-11-04-05.xsd",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/dsm/xsd/tests/reqif",
+            "program": "${workspaceFolder}/dsm/xsd/go/cmd/xsd2gong",
+            "args": [
+                "generate",
+                "./dtc-11-04-05.xsd",
+                "-v",
+                "-o",
+                "./go/models/models.go"
+            ]
+        },
+        {
+            "name": "xsd: reqif gong generate reqif on reqif --level1",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "cwd": "${workspaceFolder}/dsm/xsd/tests/reqif/go/models",
+            "program": "${workspaceFolder}/go/cmd/gong",
+            "args": [
+                "generate",
+                "--skipGoModCommands",
+                "--level1"
             ]
         },
         {
@@ -1030,7 +1111,7 @@
                 "data/modern design.go"
             ]
         },
-                {
+        {
             "name": "barrgraph: go run barrgraph renaissance",
             "type": "go",
             "request": "launch",
@@ -1049,8 +1130,7 @@
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/dsm/barrgraph/go/cmd/barrgraph",
-            "args": [
-            ]
+            "args": []
         },
         {
             "name": "test: Launch Chrome (test) on 4200",
