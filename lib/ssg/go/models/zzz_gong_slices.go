@@ -82,16 +82,31 @@ func (page *Page) GongCopy() GongstructIF {
 
 // insertion point per named struct
 func (chapter *Chapter) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(chapter).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(chapter), uint64(GetOrderPointerGongstruct(stage, chapter)))
 	return
 }
 
 func (content *Content) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(content).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(content), uint64(GetOrderPointerGongstruct(stage, content)))
 	return
 }
 
 func (page *Page) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(page).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(page), uint64(GetOrderPointerGongstruct(stage, page)))
 	return
 }

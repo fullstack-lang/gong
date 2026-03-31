@@ -159,11 +159,24 @@
             ]
         },
         {
-            "name": "test: gong generate test -skipGoModCommands -skipNg -skipFlutter=false",
+            "name": "test: gong generate test -skipGoModCommands -skipNg with rm main.go",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "preLaunchTask": "01 - remove test main.go and stager.go",
+            "cwd": "${workspaceFolder}/test/test/go/models",
+            "program": "${workspaceFolder}/go/cmd/gong",
+            "args": [
+                "generate",
+                "--skipGoModCommands",
+                "--skipNg",
+            ]
+        },
+        {
+            "name": "test: gong generate test -skipGoModCommands -skipNg without rm main.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
             "cwd": "${workspaceFolder}/test/test/go/models",
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [

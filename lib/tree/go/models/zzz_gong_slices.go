@@ -102,21 +102,41 @@ func (tree *Tree) GongCopy() GongstructIF {
 
 // insertion point per named struct
 func (button *Button) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(button).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(button), uint64(GetOrderPointerGongstruct(stage, button)))
 	return
 }
 
 func (node *Node) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(node).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(node), uint64(GetOrderPointerGongstruct(stage, node)))
 	return
 }
 
 func (svgicon *SVGIcon) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(svgicon).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(svgicon), uint64(GetOrderPointerGongstruct(stage, svgicon)))
 	return
 }
 
 func (tree *Tree) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(tree).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(tree), uint64(GetOrderPointerGongstruct(stage, tree)))
 	return
 }

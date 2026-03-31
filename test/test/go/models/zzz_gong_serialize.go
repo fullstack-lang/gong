@@ -271,8 +271,7 @@ func SerializeExcelizePointerToGongstruct2[Type PointerToGongstruct](stage *Stag
 	for _, instance := range sortedSlice {
 		line = line + 1
 
-		// 3. Add the ID value in column A
-		// We use type assertion to check if the instance implements GetID()
+		// 3. Add the ID value in column B
 
 		for index, fieldName := range GetFieldsFromPointer[Type]() {
 			fieldStringValue := GetFieldStringValueFromPointer(instance, fieldName.Name, stage)
