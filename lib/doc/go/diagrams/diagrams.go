@@ -1,6 +1,7 @@
 package diagrams
 
 import (
+	"slices"
 	"time"
 
 	"github.com/fullstack-lang/gong/lib/doc/go/models"
@@ -11,6 +12,7 @@ import (
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
 var _ time.Time
+var _ = slices.Index[[]int, int]
 
 // _ point for meta package dummy declaration
 var _ ref_models.Stage
@@ -214,7 +216,7 @@ func _(stage *models.Stage) {
 	__Classdiagram__00000000_.IsInRenameMode = false
 	__Classdiagram__00000000_.IsExpanded = true
 	__Classdiagram__00000000_.NodeGongStructsIsExpanded = true
-	__Classdiagram__00000000_.NodeGongStructNodeExpansion = `[false,false,true,false,false,false,false,true,true]`
+	__Classdiagram__00000000_.NodeGongStructNodeExpansion = `[false,false,true,true,false,true,false,true,true]`
 	__Classdiagram__00000000_.NodeGongEnumsIsExpanded = true
 	__Classdiagram__00000000_.NodeGongEnumNodeExpansion = `[false]`
 	__Classdiagram__00000000_.NodeGongNotesIsExpanded = true
@@ -349,8 +351,8 @@ or to <a href="/models#OrientationType">models.OrientationType</a>
 	__GongStructShape__00000008_.IsSelected = false
 
 	__GongStructShape__00000010_.Name = `Default-DiagramPackage`
-	__GongStructShape__00000010_.X = 118.000000
-	__GongStructShape__00000010_.Y = 314.000000
+	__GongStructShape__00000010_.X = 111.000000
+	__GongStructShape__00000010_.Y = 601.999969
 	__GongStructShape__00000010_.IdentifierMeta = ref_models.DiagramPackage{}
 	__GongStructShape__00000010_.Width = 240.000000
 	__GongStructShape__00000010_.Height = 103.000000
@@ -467,7 +469,7 @@ or to <a href="/models#OrientationType">models.OrientationType</a>
 	__LinkShape__00000008_.StartOrientation = models.ORIENTATION_VERTICAL
 	__LinkShape__00000008_.StartRatio = 0.548991
 	__LinkShape__00000008_.EndOrientation = models.ORIENTATION_VERTICAL
-	__LinkShape__00000008_.EndRatio = 0.520712
+	__LinkShape__00000008_.EndRatio = 0.507307
 	__LinkShape__00000008_.CornerOffsetRatio = -0.451380
 
 	// insertion point for setup of pointers
