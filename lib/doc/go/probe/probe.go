@@ -255,6 +255,10 @@ func (probe *Probe) GetFormStage() *form.Stage {
 	return probe.formStage
 }
 
+func (probe *Probe) GetNavigationTreeStage() *tree_models.Stage {
+	return probe.treeNavigationStage
+}
+
 func (probe *Probe) GetDataEditor() *split.AsSplit {
 	return probe.dataEditor
 }
