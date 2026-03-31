@@ -600,7 +600,7 @@ map[GongFilePerStructSubTemplateId]string{
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if {{structname}}.{{FieldName}} != nil {
 			res.valueString = {{structname}}.{{FieldName}}.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer({{structname}}.{{FieldName}}), uint64(GetOrderPointerGongstruct(stage, {{structname}}.{{FieldName}})))
+			res.ids = {{structname}}.{{FieldName}}.GongGetUUID(stage)
 		}`,
 	GongFileFieldSubTmplStringValueSliceOfPointersField: `
 	case "{{FieldName}}":
@@ -611,7 +611,7 @@ map[GongFilePerStructSubTemplateId]string{
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}`,
 
 	GongFileFieldSubTmplSetBasicString: `
