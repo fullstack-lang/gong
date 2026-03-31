@@ -1515,7 +1515,7 @@ func (a *A) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValu
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if a.B != nil {
 			res.valueString = a.B.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(a.B), uint64(GetOrderPointerGongstruct(stage, a.B)))
+			res.ids = a.B.GongGetUUID(stage)
 		}
 	case "Bs":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -1525,7 +1525,7 @@ func (a *A) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValu
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "UUID":
 		res.valueString = a.UUID
