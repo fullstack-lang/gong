@@ -24,9 +24,9 @@ func (bstruct *Bstruct) OnAfterUpdate(stage *Stage, stagedInstance, frontInstanc
 	//
 }
 
-func (*Bstruct) GongGetUUIDCustom() string {
+func (*Bstruct) GongGetUUIDCustom(stage *Stage) string {
 	return "deadbeef-dead-4bef-a555-000000000000"
 }
 
 // When serializing with UUID, it is possible to force the UUID computed by default
-var _ (interface{ GongGetUUIDCustom() string }) = (*Bstruct)(nil)
+var _ (interface{ GongGetUUIDCustom(stage *Stage) string }) = (*Bstruct)(nil)
