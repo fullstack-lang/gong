@@ -1375,6 +1375,10 @@ func (a *A) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "B",
 		},
+		{
+			Name:               "UUID",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
 	}
 	return
 }
@@ -1523,6 +1527,8 @@ func (a *A) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValu
 			res.valueString += __instance__.Name
 			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
 		}
+	case "UUID":
+		res.valueString = a.UUID
 	}
 	return
 }
@@ -1580,6 +1586,8 @@ func (a *A) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Sta
 				}
 			}
 		}
+	case "UUID":
+		a.UUID = value.GetValueString()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

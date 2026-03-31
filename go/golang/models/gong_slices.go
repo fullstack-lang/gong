@@ -42,6 +42,7 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 }
 
 // insertion point per named struct{{` + string(rune(GongSliceGongCopy)) + `}}
+// insertion point per named struct{{` + string(rune(GongSliceGongGetUUID)) + `}}
 func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	var lenNewInstances int
 	var lenModifiedInstances int
@@ -125,6 +126,7 @@ const (
 	GongSliceReverseMapCompute
 	GongSliceGetInstances
 	GongSliceGongCopy
+	GongSliceGongGetUUID
 	GongSliceGongComputeDifference
 	GongSliceGongComputeReferencePass1
 	GongSliceGongComputeReferencePass2
@@ -155,6 +157,12 @@ func ({{structname}} *{{Structname}}) GongCopy() GongstructIF {
 	newInstance := new({{Structname}})
 	{{structname}}.CopyBasicFields(newInstance)
 	return newInstance
+}
+`,
+	GongSliceGongGetUUID: `
+func ({{structname}} *{{Structname}}) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer({{structname}}), uint64(GetOrderPointerGongstruct(stage, {{structname}})))
+	return
 }
 `,
 	GongSliceGongComputeDifference: `
