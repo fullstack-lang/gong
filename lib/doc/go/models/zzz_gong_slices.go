@@ -200,6 +200,52 @@ func (linkshape *LinkShape) GongCopy() GongstructIF {
 	return newInstance
 }
 
+// insertion point per named struct
+func (attributeshape *AttributeShape) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(attributeshape), uint64(GetOrderPointerGongstruct(stage, attributeshape)))
+	return
+}
+
+func (classdiagram *Classdiagram) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(classdiagram), uint64(GetOrderPointerGongstruct(stage, classdiagram)))
+	return
+}
+
+func (diagrampackage *DiagramPackage) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(diagrampackage), uint64(GetOrderPointerGongstruct(stage, diagrampackage)))
+	return
+}
+
+func (gongenumshape *GongEnumShape) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(gongenumshape), uint64(GetOrderPointerGongstruct(stage, gongenumshape)))
+	return
+}
+
+func (gongenumvalueshape *GongEnumValueShape) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(gongenumvalueshape), uint64(GetOrderPointerGongstruct(stage, gongenumvalueshape)))
+	return
+}
+
+func (gongnotelinkshape *GongNoteLinkShape) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(gongnotelinkshape), uint64(GetOrderPointerGongstruct(stage, gongnotelinkshape)))
+	return
+}
+
+func (gongnoteshape *GongNoteShape) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(gongnoteshape), uint64(GetOrderPointerGongstruct(stage, gongnoteshape)))
+	return
+}
+
+func (gongstructshape *GongStructShape) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(gongstructshape), uint64(GetOrderPointerGongstruct(stage, gongstructshape)))
+	return
+}
+
+func (linkshape *LinkShape) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(linkshape), uint64(GetOrderPointerGongstruct(stage, linkshape)))
+	return
+}
+
 func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	var lenNewInstances int
 	var lenModifiedInstances int

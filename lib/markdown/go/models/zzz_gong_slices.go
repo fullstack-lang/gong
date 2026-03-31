@@ -79,6 +79,27 @@ func (svgimage *SvgImage) GongCopy() GongstructIF {
 	return newInstance
 }
 
+// insertion point per named struct
+func (content *Content) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(content), uint64(GetOrderPointerGongstruct(stage, content)))
+	return
+}
+
+func (jpgimage *JpgImage) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(jpgimage), uint64(GetOrderPointerGongstruct(stage, jpgimage)))
+	return
+}
+
+func (pngimage *PngImage) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(pngimage), uint64(GetOrderPointerGongstruct(stage, pngimage)))
+	return
+}
+
+func (svgimage *SvgImage) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(svgimage), uint64(GetOrderPointerGongstruct(stage, svgimage)))
+	return
+}
+
 func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	var lenNewInstances int
 	var lenModifiedInstances int

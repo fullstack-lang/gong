@@ -4339,6 +4339,1162 @@ func (work *Work) GongCopy() GongstructIF {
 	return newInstance
 }
 
+// insertion point per named struct
+func (a_directive *A_directive) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(a_directive), uint64(GetOrderPointerGongstruct(stage, a_directive)))
+	return
+}
+
+func (a_measure *A_measure) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(a_measure), uint64(GetOrderPointerGongstruct(stage, a_measure)))
+	return
+}
+
+func (a_measure_1 *A_measure_1) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(a_measure_1), uint64(GetOrderPointerGongstruct(stage, a_measure_1)))
+	return
+}
+
+func (a_part *A_part) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(a_part), uint64(GetOrderPointerGongstruct(stage, a_part)))
+	return
+}
+
+func (a_part_1 *A_part_1) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(a_part_1), uint64(GetOrderPointerGongstruct(stage, a_part_1)))
+	return
+}
+
+func (accidental *Accidental) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(accidental), uint64(GetOrderPointerGongstruct(stage, accidental)))
+	return
+}
+
+func (accidental_mark *Accidental_mark) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(accidental_mark), uint64(GetOrderPointerGongstruct(stage, accidental_mark)))
+	return
+}
+
+func (accidental_text *Accidental_text) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(accidental_text), uint64(GetOrderPointerGongstruct(stage, accidental_text)))
+	return
+}
+
+func (accord *Accord) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(accord), uint64(GetOrderPointerGongstruct(stage, accord)))
+	return
+}
+
+func (accordion_registration *Accordion_registration) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(accordion_registration), uint64(GetOrderPointerGongstruct(stage, accordion_registration)))
+	return
+}
+
+func (appearance *Appearance) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(appearance), uint64(GetOrderPointerGongstruct(stage, appearance)))
+	return
+}
+
+func (arpeggiate *Arpeggiate) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(arpeggiate), uint64(GetOrderPointerGongstruct(stage, arpeggiate)))
+	return
+}
+
+func (arrow *Arrow) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(arrow), uint64(GetOrderPointerGongstruct(stage, arrow)))
+	return
+}
+
+func (articulations *Articulations) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(articulations), uint64(GetOrderPointerGongstruct(stage, articulations)))
+	return
+}
+
+func (assess *Assess) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(assess), uint64(GetOrderPointerGongstruct(stage, assess)))
+	return
+}
+
+func (attributes *Attributes) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(attributes), uint64(GetOrderPointerGongstruct(stage, attributes)))
+	return
+}
+
+func (backup *Backup) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(backup), uint64(GetOrderPointerGongstruct(stage, backup)))
+	return
+}
+
+func (bar_style_color *Bar_style_color) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(bar_style_color), uint64(GetOrderPointerGongstruct(stage, bar_style_color)))
+	return
+}
+
+func (barline *Barline) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(barline), uint64(GetOrderPointerGongstruct(stage, barline)))
+	return
+}
+
+func (barre *Barre) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(barre), uint64(GetOrderPointerGongstruct(stage, barre)))
+	return
+}
+
+func (bass *Bass) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(bass), uint64(GetOrderPointerGongstruct(stage, bass)))
+	return
+}
+
+func (bass_step *Bass_step) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(bass_step), uint64(GetOrderPointerGongstruct(stage, bass_step)))
+	return
+}
+
+func (beam *Beam) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(beam), uint64(GetOrderPointerGongstruct(stage, beam)))
+	return
+}
+
+func (beat_repeat *Beat_repeat) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(beat_repeat), uint64(GetOrderPointerGongstruct(stage, beat_repeat)))
+	return
+}
+
+func (beat_unit_tied *Beat_unit_tied) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(beat_unit_tied), uint64(GetOrderPointerGongstruct(stage, beat_unit_tied)))
+	return
+}
+
+func (beater *Beater) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(beater), uint64(GetOrderPointerGongstruct(stage, beater)))
+	return
+}
+
+func (bend *Bend) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(bend), uint64(GetOrderPointerGongstruct(stage, bend)))
+	return
+}
+
+func (bookmark *Bookmark) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(bookmark), uint64(GetOrderPointerGongstruct(stage, bookmark)))
+	return
+}
+
+func (bracket *Bracket) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(bracket), uint64(GetOrderPointerGongstruct(stage, bracket)))
+	return
+}
+
+func (breath_mark *Breath_mark) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(breath_mark), uint64(GetOrderPointerGongstruct(stage, breath_mark)))
+	return
+}
+
+func (caesura *Caesura) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(caesura), uint64(GetOrderPointerGongstruct(stage, caesura)))
+	return
+}
+
+func (cancel *Cancel) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(cancel), uint64(GetOrderPointerGongstruct(stage, cancel)))
+	return
+}
+
+func (clef *Clef) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(clef), uint64(GetOrderPointerGongstruct(stage, clef)))
+	return
+}
+
+func (coda *Coda) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(coda), uint64(GetOrderPointerGongstruct(stage, coda)))
+	return
+}
+
+func (credit *Credit) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(credit), uint64(GetOrderPointerGongstruct(stage, credit)))
+	return
+}
+
+func (dashes *Dashes) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(dashes), uint64(GetOrderPointerGongstruct(stage, dashes)))
+	return
+}
+
+func (defaults *Defaults) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(defaults), uint64(GetOrderPointerGongstruct(stage, defaults)))
+	return
+}
+
+func (degree *Degree) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(degree), uint64(GetOrderPointerGongstruct(stage, degree)))
+	return
+}
+
+func (degree_alter *Degree_alter) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(degree_alter), uint64(GetOrderPointerGongstruct(stage, degree_alter)))
+	return
+}
+
+func (degree_type *Degree_type) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(degree_type), uint64(GetOrderPointerGongstruct(stage, degree_type)))
+	return
+}
+
+func (degree_value *Degree_value) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(degree_value), uint64(GetOrderPointerGongstruct(stage, degree_value)))
+	return
+}
+
+func (direction *Direction) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(direction), uint64(GetOrderPointerGongstruct(stage, direction)))
+	return
+}
+
+func (direction_type *Direction_type) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(direction_type), uint64(GetOrderPointerGongstruct(stage, direction_type)))
+	return
+}
+
+func (distance *Distance) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(distance), uint64(GetOrderPointerGongstruct(stage, distance)))
+	return
+}
+
+func (double *Double) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(double), uint64(GetOrderPointerGongstruct(stage, double)))
+	return
+}
+
+func (dynamics *Dynamics) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(dynamics), uint64(GetOrderPointerGongstruct(stage, dynamics)))
+	return
+}
+
+func (effect *Effect) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(effect), uint64(GetOrderPointerGongstruct(stage, effect)))
+	return
+}
+
+func (elision *Elision) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(elision), uint64(GetOrderPointerGongstruct(stage, elision)))
+	return
+}
+
+func (empty *Empty) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(empty), uint64(GetOrderPointerGongstruct(stage, empty)))
+	return
+}
+
+func (empty_font *Empty_font) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(empty_font), uint64(GetOrderPointerGongstruct(stage, empty_font)))
+	return
+}
+
+func (empty_line *Empty_line) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(empty_line), uint64(GetOrderPointerGongstruct(stage, empty_line)))
+	return
+}
+
+func (empty_placement *Empty_placement) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(empty_placement), uint64(GetOrderPointerGongstruct(stage, empty_placement)))
+	return
+}
+
+func (empty_placement_smufl *Empty_placement_smufl) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(empty_placement_smufl), uint64(GetOrderPointerGongstruct(stage, empty_placement_smufl)))
+	return
+}
+
+func (empty_print_object_style_align *Empty_print_object_style_align) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(empty_print_object_style_align), uint64(GetOrderPointerGongstruct(stage, empty_print_object_style_align)))
+	return
+}
+
+func (empty_print_style *Empty_print_style) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(empty_print_style), uint64(GetOrderPointerGongstruct(stage, empty_print_style)))
+	return
+}
+
+func (empty_print_style_align *Empty_print_style_align) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(empty_print_style_align), uint64(GetOrderPointerGongstruct(stage, empty_print_style_align)))
+	return
+}
+
+func (empty_print_style_align_id *Empty_print_style_align_id) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(empty_print_style_align_id), uint64(GetOrderPointerGongstruct(stage, empty_print_style_align_id)))
+	return
+}
+
+func (empty_trill_sound *Empty_trill_sound) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(empty_trill_sound), uint64(GetOrderPointerGongstruct(stage, empty_trill_sound)))
+	return
+}
+
+func (encoding *Encoding) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(encoding), uint64(GetOrderPointerGongstruct(stage, encoding)))
+	return
+}
+
+func (ending *Ending) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(ending), uint64(GetOrderPointerGongstruct(stage, ending)))
+	return
+}
+
+func (extend *Extend) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(extend), uint64(GetOrderPointerGongstruct(stage, extend)))
+	return
+}
+
+func (feature *Feature) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(feature), uint64(GetOrderPointerGongstruct(stage, feature)))
+	return
+}
+
+func (fermata *Fermata) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(fermata), uint64(GetOrderPointerGongstruct(stage, fermata)))
+	return
+}
+
+func (figure *Figure) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(figure), uint64(GetOrderPointerGongstruct(stage, figure)))
+	return
+}
+
+func (figured_bass *Figured_bass) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(figured_bass), uint64(GetOrderPointerGongstruct(stage, figured_bass)))
+	return
+}
+
+func (fingering *Fingering) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(fingering), uint64(GetOrderPointerGongstruct(stage, fingering)))
+	return
+}
+
+func (first_fret *First_fret) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(first_fret), uint64(GetOrderPointerGongstruct(stage, first_fret)))
+	return
+}
+
+func (for_part *For_part) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(for_part), uint64(GetOrderPointerGongstruct(stage, for_part)))
+	return
+}
+
+func (formatted_symbol *Formatted_symbol) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formatted_symbol), uint64(GetOrderPointerGongstruct(stage, formatted_symbol)))
+	return
+}
+
+func (formatted_symbol_id *Formatted_symbol_id) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formatted_symbol_id), uint64(GetOrderPointerGongstruct(stage, formatted_symbol_id)))
+	return
+}
+
+func (formatted_text *Formatted_text) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formatted_text), uint64(GetOrderPointerGongstruct(stage, formatted_text)))
+	return
+}
+
+func (formatted_text_id *Formatted_text_id) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formatted_text_id), uint64(GetOrderPointerGongstruct(stage, formatted_text_id)))
+	return
+}
+
+func (forward *Forward) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(forward), uint64(GetOrderPointerGongstruct(stage, forward)))
+	return
+}
+
+func (frame *Frame) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(frame), uint64(GetOrderPointerGongstruct(stage, frame)))
+	return
+}
+
+func (frame_note *Frame_note) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(frame_note), uint64(GetOrderPointerGongstruct(stage, frame_note)))
+	return
+}
+
+func (fret *Fret) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(fret), uint64(GetOrderPointerGongstruct(stage, fret)))
+	return
+}
+
+func (glass *Glass) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(glass), uint64(GetOrderPointerGongstruct(stage, glass)))
+	return
+}
+
+func (glissando *Glissando) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(glissando), uint64(GetOrderPointerGongstruct(stage, glissando)))
+	return
+}
+
+func (glyph *Glyph) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(glyph), uint64(GetOrderPointerGongstruct(stage, glyph)))
+	return
+}
+
+func (grace *Grace) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(grace), uint64(GetOrderPointerGongstruct(stage, grace)))
+	return
+}
+
+func (group_barline *Group_barline) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(group_barline), uint64(GetOrderPointerGongstruct(stage, group_barline)))
+	return
+}
+
+func (group_name *Group_name) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(group_name), uint64(GetOrderPointerGongstruct(stage, group_name)))
+	return
+}
+
+func (group_symbol *Group_symbol) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(group_symbol), uint64(GetOrderPointerGongstruct(stage, group_symbol)))
+	return
+}
+
+func (grouping *Grouping) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(grouping), uint64(GetOrderPointerGongstruct(stage, grouping)))
+	return
+}
+
+func (hammer_on_pull_off *Hammer_on_pull_off) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(hammer_on_pull_off), uint64(GetOrderPointerGongstruct(stage, hammer_on_pull_off)))
+	return
+}
+
+func (handbell *Handbell) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(handbell), uint64(GetOrderPointerGongstruct(stage, handbell)))
+	return
+}
+
+func (harmon_closed *Harmon_closed) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(harmon_closed), uint64(GetOrderPointerGongstruct(stage, harmon_closed)))
+	return
+}
+
+func (harmon_mute *Harmon_mute) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(harmon_mute), uint64(GetOrderPointerGongstruct(stage, harmon_mute)))
+	return
+}
+
+func (harmonic *Harmonic) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(harmonic), uint64(GetOrderPointerGongstruct(stage, harmonic)))
+	return
+}
+
+func (harmony *Harmony) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(harmony), uint64(GetOrderPointerGongstruct(stage, harmony)))
+	return
+}
+
+func (harmony_alter *Harmony_alter) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(harmony_alter), uint64(GetOrderPointerGongstruct(stage, harmony_alter)))
+	return
+}
+
+func (harp_pedals *Harp_pedals) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(harp_pedals), uint64(GetOrderPointerGongstruct(stage, harp_pedals)))
+	return
+}
+
+func (heel_toe *Heel_toe) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(heel_toe), uint64(GetOrderPointerGongstruct(stage, heel_toe)))
+	return
+}
+
+func (hole *Hole) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(hole), uint64(GetOrderPointerGongstruct(stage, hole)))
+	return
+}
+
+func (hole_closed *Hole_closed) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(hole_closed), uint64(GetOrderPointerGongstruct(stage, hole_closed)))
+	return
+}
+
+func (horizontal_turn *Horizontal_turn) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(horizontal_turn), uint64(GetOrderPointerGongstruct(stage, horizontal_turn)))
+	return
+}
+
+func (identification *Identification) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(identification), uint64(GetOrderPointerGongstruct(stage, identification)))
+	return
+}
+
+func (image *Image) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(image), uint64(GetOrderPointerGongstruct(stage, image)))
+	return
+}
+
+func (instrument *Instrument) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(instrument), uint64(GetOrderPointerGongstruct(stage, instrument)))
+	return
+}
+
+func (instrument_change *Instrument_change) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(instrument_change), uint64(GetOrderPointerGongstruct(stage, instrument_change)))
+	return
+}
+
+func (instrument_link *Instrument_link) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(instrument_link), uint64(GetOrderPointerGongstruct(stage, instrument_link)))
+	return
+}
+
+func (interchangeable *Interchangeable) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(interchangeable), uint64(GetOrderPointerGongstruct(stage, interchangeable)))
+	return
+}
+
+func (inversion *Inversion) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(inversion), uint64(GetOrderPointerGongstruct(stage, inversion)))
+	return
+}
+
+func (key *Key) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(key), uint64(GetOrderPointerGongstruct(stage, key)))
+	return
+}
+
+func (key_accidental *Key_accidental) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(key_accidental), uint64(GetOrderPointerGongstruct(stage, key_accidental)))
+	return
+}
+
+func (key_octave *Key_octave) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(key_octave), uint64(GetOrderPointerGongstruct(stage, key_octave)))
+	return
+}
+
+func (kind *Kind) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(kind), uint64(GetOrderPointerGongstruct(stage, kind)))
+	return
+}
+
+func (level *Level) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(level), uint64(GetOrderPointerGongstruct(stage, level)))
+	return
+}
+
+func (line_detail *Line_detail) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(line_detail), uint64(GetOrderPointerGongstruct(stage, line_detail)))
+	return
+}
+
+func (line_width *Line_width) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(line_width), uint64(GetOrderPointerGongstruct(stage, line_width)))
+	return
+}
+
+func (link *Link) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(link), uint64(GetOrderPointerGongstruct(stage, link)))
+	return
+}
+
+func (listen *Listen) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(listen), uint64(GetOrderPointerGongstruct(stage, listen)))
+	return
+}
+
+func (listening *Listening) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(listening), uint64(GetOrderPointerGongstruct(stage, listening)))
+	return
+}
+
+func (lyric *Lyric) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(lyric), uint64(GetOrderPointerGongstruct(stage, lyric)))
+	return
+}
+
+func (lyric_font *Lyric_font) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(lyric_font), uint64(GetOrderPointerGongstruct(stage, lyric_font)))
+	return
+}
+
+func (lyric_language *Lyric_language) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(lyric_language), uint64(GetOrderPointerGongstruct(stage, lyric_language)))
+	return
+}
+
+func (measure_layout *Measure_layout) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(measure_layout), uint64(GetOrderPointerGongstruct(stage, measure_layout)))
+	return
+}
+
+func (measure_numbering *Measure_numbering) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(measure_numbering), uint64(GetOrderPointerGongstruct(stage, measure_numbering)))
+	return
+}
+
+func (measure_repeat *Measure_repeat) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(measure_repeat), uint64(GetOrderPointerGongstruct(stage, measure_repeat)))
+	return
+}
+
+func (measure_style *Measure_style) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(measure_style), uint64(GetOrderPointerGongstruct(stage, measure_style)))
+	return
+}
+
+func (membrane *Membrane) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(membrane), uint64(GetOrderPointerGongstruct(stage, membrane)))
+	return
+}
+
+func (metal *Metal) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(metal), uint64(GetOrderPointerGongstruct(stage, metal)))
+	return
+}
+
+func (metronome *Metronome) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(metronome), uint64(GetOrderPointerGongstruct(stage, metronome)))
+	return
+}
+
+func (metronome_beam *Metronome_beam) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(metronome_beam), uint64(GetOrderPointerGongstruct(stage, metronome_beam)))
+	return
+}
+
+func (metronome_note *Metronome_note) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(metronome_note), uint64(GetOrderPointerGongstruct(stage, metronome_note)))
+	return
+}
+
+func (metronome_tied *Metronome_tied) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(metronome_tied), uint64(GetOrderPointerGongstruct(stage, metronome_tied)))
+	return
+}
+
+func (metronome_tuplet *Metronome_tuplet) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(metronome_tuplet), uint64(GetOrderPointerGongstruct(stage, metronome_tuplet)))
+	return
+}
+
+func (midi_device *Midi_device) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(midi_device), uint64(GetOrderPointerGongstruct(stage, midi_device)))
+	return
+}
+
+func (midi_instrument *Midi_instrument) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(midi_instrument), uint64(GetOrderPointerGongstruct(stage, midi_instrument)))
+	return
+}
+
+func (miscellaneous *Miscellaneous) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(miscellaneous), uint64(GetOrderPointerGongstruct(stage, miscellaneous)))
+	return
+}
+
+func (miscellaneous_field *Miscellaneous_field) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(miscellaneous_field), uint64(GetOrderPointerGongstruct(stage, miscellaneous_field)))
+	return
+}
+
+func (mordent *Mordent) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(mordent), uint64(GetOrderPointerGongstruct(stage, mordent)))
+	return
+}
+
+func (multiple_rest *Multiple_rest) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(multiple_rest), uint64(GetOrderPointerGongstruct(stage, multiple_rest)))
+	return
+}
+
+func (name_display *Name_display) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(name_display), uint64(GetOrderPointerGongstruct(stage, name_display)))
+	return
+}
+
+func (non_arpeggiate *Non_arpeggiate) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(non_arpeggiate), uint64(GetOrderPointerGongstruct(stage, non_arpeggiate)))
+	return
+}
+
+func (notations *Notations) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(notations), uint64(GetOrderPointerGongstruct(stage, notations)))
+	return
+}
+
+func (note *Note) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(note), uint64(GetOrderPointerGongstruct(stage, note)))
+	return
+}
+
+func (note_size *Note_size) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(note_size), uint64(GetOrderPointerGongstruct(stage, note_size)))
+	return
+}
+
+func (note_type *Note_type) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(note_type), uint64(GetOrderPointerGongstruct(stage, note_type)))
+	return
+}
+
+func (notehead *Notehead) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(notehead), uint64(GetOrderPointerGongstruct(stage, notehead)))
+	return
+}
+
+func (notehead_text *Notehead_text) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(notehead_text), uint64(GetOrderPointerGongstruct(stage, notehead_text)))
+	return
+}
+
+func (numeral *Numeral) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(numeral), uint64(GetOrderPointerGongstruct(stage, numeral)))
+	return
+}
+
+func (numeral_key *Numeral_key) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(numeral_key), uint64(GetOrderPointerGongstruct(stage, numeral_key)))
+	return
+}
+
+func (numeral_root *Numeral_root) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(numeral_root), uint64(GetOrderPointerGongstruct(stage, numeral_root)))
+	return
+}
+
+func (octave_shift *Octave_shift) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(octave_shift), uint64(GetOrderPointerGongstruct(stage, octave_shift)))
+	return
+}
+
+func (offset *Offset) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(offset), uint64(GetOrderPointerGongstruct(stage, offset)))
+	return
+}
+
+func (opus *Opus) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(opus), uint64(GetOrderPointerGongstruct(stage, opus)))
+	return
+}
+
+func (ornaments *Ornaments) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(ornaments), uint64(GetOrderPointerGongstruct(stage, ornaments)))
+	return
+}
+
+func (other_appearance *Other_appearance) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(other_appearance), uint64(GetOrderPointerGongstruct(stage, other_appearance)))
+	return
+}
+
+func (other_direction *Other_direction) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(other_direction), uint64(GetOrderPointerGongstruct(stage, other_direction)))
+	return
+}
+
+func (other_listening *Other_listening) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(other_listening), uint64(GetOrderPointerGongstruct(stage, other_listening)))
+	return
+}
+
+func (other_notation *Other_notation) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(other_notation), uint64(GetOrderPointerGongstruct(stage, other_notation)))
+	return
+}
+
+func (other_placement_text *Other_placement_text) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(other_placement_text), uint64(GetOrderPointerGongstruct(stage, other_placement_text)))
+	return
+}
+
+func (other_play *Other_play) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(other_play), uint64(GetOrderPointerGongstruct(stage, other_play)))
+	return
+}
+
+func (other_text *Other_text) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(other_text), uint64(GetOrderPointerGongstruct(stage, other_text)))
+	return
+}
+
+func (page_layout *Page_layout) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(page_layout), uint64(GetOrderPointerGongstruct(stage, page_layout)))
+	return
+}
+
+func (page_margins *Page_margins) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(page_margins), uint64(GetOrderPointerGongstruct(stage, page_margins)))
+	return
+}
+
+func (part_clef *Part_clef) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(part_clef), uint64(GetOrderPointerGongstruct(stage, part_clef)))
+	return
+}
+
+func (part_group *Part_group) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(part_group), uint64(GetOrderPointerGongstruct(stage, part_group)))
+	return
+}
+
+func (part_link *Part_link) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(part_link), uint64(GetOrderPointerGongstruct(stage, part_link)))
+	return
+}
+
+func (part_list *Part_list) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(part_list), uint64(GetOrderPointerGongstruct(stage, part_list)))
+	return
+}
+
+func (part_name *Part_name) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(part_name), uint64(GetOrderPointerGongstruct(stage, part_name)))
+	return
+}
+
+func (part_symbol *Part_symbol) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(part_symbol), uint64(GetOrderPointerGongstruct(stage, part_symbol)))
+	return
+}
+
+func (part_transpose *Part_transpose) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(part_transpose), uint64(GetOrderPointerGongstruct(stage, part_transpose)))
+	return
+}
+
+func (pedal *Pedal) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(pedal), uint64(GetOrderPointerGongstruct(stage, pedal)))
+	return
+}
+
+func (pedal_tuning *Pedal_tuning) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(pedal_tuning), uint64(GetOrderPointerGongstruct(stage, pedal_tuning)))
+	return
+}
+
+func (per_minute *Per_minute) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(per_minute), uint64(GetOrderPointerGongstruct(stage, per_minute)))
+	return
+}
+
+func (percussion *Percussion) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(percussion), uint64(GetOrderPointerGongstruct(stage, percussion)))
+	return
+}
+
+func (pitch *Pitch) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(pitch), uint64(GetOrderPointerGongstruct(stage, pitch)))
+	return
+}
+
+func (pitched *Pitched) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(pitched), uint64(GetOrderPointerGongstruct(stage, pitched)))
+	return
+}
+
+func (placement_text *Placement_text) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(placement_text), uint64(GetOrderPointerGongstruct(stage, placement_text)))
+	return
+}
+
+func (play *Play) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(play), uint64(GetOrderPointerGongstruct(stage, play)))
+	return
+}
+
+func (player *Player) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(player), uint64(GetOrderPointerGongstruct(stage, player)))
+	return
+}
+
+func (principal_voice *Principal_voice) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(principal_voice), uint64(GetOrderPointerGongstruct(stage, principal_voice)))
+	return
+}
+
+func (print *Print) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(print), uint64(GetOrderPointerGongstruct(stage, print)))
+	return
+}
+
+func (release *Release) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(release), uint64(GetOrderPointerGongstruct(stage, release)))
+	return
+}
+
+func (repeat *Repeat) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(repeat), uint64(GetOrderPointerGongstruct(stage, repeat)))
+	return
+}
+
+func (rest *Rest) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(rest), uint64(GetOrderPointerGongstruct(stage, rest)))
+	return
+}
+
+func (root *Root) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(root), uint64(GetOrderPointerGongstruct(stage, root)))
+	return
+}
+
+func (root_step *Root_step) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(root_step), uint64(GetOrderPointerGongstruct(stage, root_step)))
+	return
+}
+
+func (scaling *Scaling) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(scaling), uint64(GetOrderPointerGongstruct(stage, scaling)))
+	return
+}
+
+func (scordatura *Scordatura) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(scordatura), uint64(GetOrderPointerGongstruct(stage, scordatura)))
+	return
+}
+
+func (score_instrument *Score_instrument) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(score_instrument), uint64(GetOrderPointerGongstruct(stage, score_instrument)))
+	return
+}
+
+func (score_part *Score_part) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(score_part), uint64(GetOrderPointerGongstruct(stage, score_part)))
+	return
+}
+
+func (score_partwise *Score_partwise) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(score_partwise), uint64(GetOrderPointerGongstruct(stage, score_partwise)))
+	return
+}
+
+func (score_timewise *Score_timewise) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(score_timewise), uint64(GetOrderPointerGongstruct(stage, score_timewise)))
+	return
+}
+
+func (segno *Segno) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(segno), uint64(GetOrderPointerGongstruct(stage, segno)))
+	return
+}
+
+func (slash *Slash) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(slash), uint64(GetOrderPointerGongstruct(stage, slash)))
+	return
+}
+
+func (slide *Slide) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(slide), uint64(GetOrderPointerGongstruct(stage, slide)))
+	return
+}
+
+func (slur *Slur) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(slur), uint64(GetOrderPointerGongstruct(stage, slur)))
+	return
+}
+
+func (sound *Sound) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(sound), uint64(GetOrderPointerGongstruct(stage, sound)))
+	return
+}
+
+func (staff_details *Staff_details) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(staff_details), uint64(GetOrderPointerGongstruct(stage, staff_details)))
+	return
+}
+
+func (staff_divide *Staff_divide) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(staff_divide), uint64(GetOrderPointerGongstruct(stage, staff_divide)))
+	return
+}
+
+func (staff_layout *Staff_layout) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(staff_layout), uint64(GetOrderPointerGongstruct(stage, staff_layout)))
+	return
+}
+
+func (staff_size *Staff_size) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(staff_size), uint64(GetOrderPointerGongstruct(stage, staff_size)))
+	return
+}
+
+func (staff_tuning *Staff_tuning) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(staff_tuning), uint64(GetOrderPointerGongstruct(stage, staff_tuning)))
+	return
+}
+
+func (stem *Stem) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(stem), uint64(GetOrderPointerGongstruct(stage, stem)))
+	return
+}
+
+func (stick *Stick) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(stick), uint64(GetOrderPointerGongstruct(stage, stick)))
+	return
+}
+
+func (string_mute *String_mute) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(string_mute), uint64(GetOrderPointerGongstruct(stage, string_mute)))
+	return
+}
+
+func (string_type *String_type) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(string_type), uint64(GetOrderPointerGongstruct(stage, string_type)))
+	return
+}
+
+func (strong_accent *Strong_accent) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(strong_accent), uint64(GetOrderPointerGongstruct(stage, strong_accent)))
+	return
+}
+
+func (style_text *Style_text) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(style_text), uint64(GetOrderPointerGongstruct(stage, style_text)))
+	return
+}
+
+func (supports *Supports) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(supports), uint64(GetOrderPointerGongstruct(stage, supports)))
+	return
+}
+
+func (swing *Swing) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(swing), uint64(GetOrderPointerGongstruct(stage, swing)))
+	return
+}
+
+func (sync *Sync) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(sync), uint64(GetOrderPointerGongstruct(stage, sync)))
+	return
+}
+
+func (system_dividers *System_dividers) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(system_dividers), uint64(GetOrderPointerGongstruct(stage, system_dividers)))
+	return
+}
+
+func (system_layout *System_layout) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(system_layout), uint64(GetOrderPointerGongstruct(stage, system_layout)))
+	return
+}
+
+func (system_margins *System_margins) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(system_margins), uint64(GetOrderPointerGongstruct(stage, system_margins)))
+	return
+}
+
+func (tap *Tap) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(tap), uint64(GetOrderPointerGongstruct(stage, tap)))
+	return
+}
+
+func (technical *Technical) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(technical), uint64(GetOrderPointerGongstruct(stage, technical)))
+	return
+}
+
+func (text_element_data *Text_element_data) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(text_element_data), uint64(GetOrderPointerGongstruct(stage, text_element_data)))
+	return
+}
+
+func (tie *Tie) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(tie), uint64(GetOrderPointerGongstruct(stage, tie)))
+	return
+}
+
+func (tied *Tied) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(tied), uint64(GetOrderPointerGongstruct(stage, tied)))
+	return
+}
+
+func (time *Time) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(time), uint64(GetOrderPointerGongstruct(stage, time)))
+	return
+}
+
+func (time_modification *Time_modification) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(time_modification), uint64(GetOrderPointerGongstruct(stage, time_modification)))
+	return
+}
+
+func (timpani *Timpani) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(timpani), uint64(GetOrderPointerGongstruct(stage, timpani)))
+	return
+}
+
+func (transpose *Transpose) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(transpose), uint64(GetOrderPointerGongstruct(stage, transpose)))
+	return
+}
+
+func (tremolo *Tremolo) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(tremolo), uint64(GetOrderPointerGongstruct(stage, tremolo)))
+	return
+}
+
+func (tuplet *Tuplet) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(tuplet), uint64(GetOrderPointerGongstruct(stage, tuplet)))
+	return
+}
+
+func (tuplet_dot *Tuplet_dot) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(tuplet_dot), uint64(GetOrderPointerGongstruct(stage, tuplet_dot)))
+	return
+}
+
+func (tuplet_number *Tuplet_number) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(tuplet_number), uint64(GetOrderPointerGongstruct(stage, tuplet_number)))
+	return
+}
+
+func (tuplet_portion *Tuplet_portion) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(tuplet_portion), uint64(GetOrderPointerGongstruct(stage, tuplet_portion)))
+	return
+}
+
+func (tuplet_type *Tuplet_type) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(tuplet_type), uint64(GetOrderPointerGongstruct(stage, tuplet_type)))
+	return
+}
+
+func (typed_text *Typed_text) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(typed_text), uint64(GetOrderPointerGongstruct(stage, typed_text)))
+	return
+}
+
+func (unpitched *Unpitched) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(unpitched), uint64(GetOrderPointerGongstruct(stage, unpitched)))
+	return
+}
+
+func (virtual_instrument *Virtual_instrument) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(virtual_instrument), uint64(GetOrderPointerGongstruct(stage, virtual_instrument)))
+	return
+}
+
+func (wait *Wait) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(wait), uint64(GetOrderPointerGongstruct(stage, wait)))
+	return
+}
+
+func (wavy_line *Wavy_line) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(wavy_line), uint64(GetOrderPointerGongstruct(stage, wavy_line)))
+	return
+}
+
+func (wedge *Wedge) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(wedge), uint64(GetOrderPointerGongstruct(stage, wedge)))
+	return
+}
+
+func (wood *Wood) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(wood), uint64(GetOrderPointerGongstruct(stage, wood)))
+	return
+}
+
+func (work *Work) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(work), uint64(GetOrderPointerGongstruct(stage, work)))
+	return
+}
+
 func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	var lenNewInstances int
 	var lenModifiedInstances int

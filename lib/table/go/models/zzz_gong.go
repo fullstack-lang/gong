@@ -6404,31 +6404,31 @@ func (cell *Cell) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if cell.CellString != nil {
 			res.valueString = cell.CellString.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(cell.CellString), uint64(GetOrderPointerGongstruct(stage, cell.CellString)))
+			res.ids = cell.CellString.GongGetUUID(stage)
 		}
 	case "CellFloat64":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if cell.CellFloat64 != nil {
 			res.valueString = cell.CellFloat64.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(cell.CellFloat64), uint64(GetOrderPointerGongstruct(stage, cell.CellFloat64)))
+			res.ids = cell.CellFloat64.GongGetUUID(stage)
 		}
 	case "CellInt":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if cell.CellInt != nil {
 			res.valueString = cell.CellInt.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(cell.CellInt), uint64(GetOrderPointerGongstruct(stage, cell.CellInt)))
+			res.ids = cell.CellInt.GongGetUUID(stage)
 		}
 	case "CellBool":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if cell.CellBool != nil {
 			res.valueString = cell.CellBool.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(cell.CellBool), uint64(GetOrderPointerGongstruct(stage, cell.CellBool)))
+			res.ids = cell.CellBool.GongGetUUID(stage)
 		}
 	case "CellIcon":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if cell.CellIcon != nil {
 			res.valueString = cell.CellIcon.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(cell.CellIcon), uint64(GetOrderPointerGongstruct(stage, cell.CellIcon)))
+			res.ids = cell.CellIcon.GongGetUUID(stage)
 		}
 	}
 	return
@@ -6536,7 +6536,7 @@ func (formdiv *FormDiv) GongGetFieldValue(fieldName string, stage *Stage) (res G
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "CheckBoxs":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -6546,19 +6546,19 @@ func (formdiv *FormDiv) GongGetFieldValue(fieldName string, stage *Stage) (res G
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "FormEditAssocButton":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if formdiv.FormEditAssocButton != nil {
 			res.valueString = formdiv.FormEditAssocButton.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formdiv.FormEditAssocButton), uint64(GetOrderPointerGongstruct(stage, formdiv.FormEditAssocButton)))
+			res.ids = formdiv.FormEditAssocButton.GongGetUUID(stage)
 		}
 	case "FormSortAssocButton":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if formdiv.FormSortAssocButton != nil {
 			res.valueString = formdiv.FormSortAssocButton.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formdiv.FormSortAssocButton), uint64(GetOrderPointerGongstruct(stage, formdiv.FormSortAssocButton)))
+			res.ids = formdiv.FormSortAssocButton.GongGetUUID(stage)
 		}
 	}
 	return
@@ -6609,43 +6609,43 @@ func (formfield *FormField) GongGetFieldValue(fieldName string, stage *Stage) (r
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if formfield.FormFieldString != nil {
 			res.valueString = formfield.FormFieldString.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formfield.FormFieldString), uint64(GetOrderPointerGongstruct(stage, formfield.FormFieldString)))
+			res.ids = formfield.FormFieldString.GongGetUUID(stage)
 		}
 	case "FormFieldFloat64":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if formfield.FormFieldFloat64 != nil {
 			res.valueString = formfield.FormFieldFloat64.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formfield.FormFieldFloat64), uint64(GetOrderPointerGongstruct(stage, formfield.FormFieldFloat64)))
+			res.ids = formfield.FormFieldFloat64.GongGetUUID(stage)
 		}
 	case "FormFieldInt":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if formfield.FormFieldInt != nil {
 			res.valueString = formfield.FormFieldInt.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formfield.FormFieldInt), uint64(GetOrderPointerGongstruct(stage, formfield.FormFieldInt)))
+			res.ids = formfield.FormFieldInt.GongGetUUID(stage)
 		}
 	case "FormFieldDate":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if formfield.FormFieldDate != nil {
 			res.valueString = formfield.FormFieldDate.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formfield.FormFieldDate), uint64(GetOrderPointerGongstruct(stage, formfield.FormFieldDate)))
+			res.ids = formfield.FormFieldDate.GongGetUUID(stage)
 		}
 	case "FormFieldTime":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if formfield.FormFieldTime != nil {
 			res.valueString = formfield.FormFieldTime.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formfield.FormFieldTime), uint64(GetOrderPointerGongstruct(stage, formfield.FormFieldTime)))
+			res.ids = formfield.FormFieldTime.GongGetUUID(stage)
 		}
 	case "FormFieldDateTime":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if formfield.FormFieldDateTime != nil {
 			res.valueString = formfield.FormFieldDateTime.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formfield.FormFieldDateTime), uint64(GetOrderPointerGongstruct(stage, formfield.FormFieldDateTime)))
+			res.ids = formfield.FormFieldDateTime.GongGetUUID(stage)
 		}
 	case "FormFieldSelect":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if formfield.FormFieldSelect != nil {
 			res.valueString = formfield.FormFieldSelect.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formfield.FormFieldSelect), uint64(GetOrderPointerGongstruct(stage, formfield.FormFieldSelect)))
+			res.ids = formfield.FormFieldSelect.GongGetUUID(stage)
 		}
 	case "HasBespokeWidth":
 		res.valueString = fmt.Sprintf("%t", formfield.HasBespokeWidth)
@@ -6756,7 +6756,7 @@ func (formfieldselect *FormFieldSelect) GongGetFieldValue(fieldName string, stag
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if formfieldselect.Value != nil {
 			res.valueString = formfieldselect.Value.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formfieldselect.Value), uint64(GetOrderPointerGongstruct(stage, formfieldselect.Value)))
+			res.ids = formfieldselect.Value.GongGetUUID(stage)
 		}
 	case "Options":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -6766,7 +6766,7 @@ func (formfieldselect *FormFieldSelect) GongGetFieldValue(fieldName string, stag
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "CanBeEmpty":
 		res.valueString = fmt.Sprintf("%t", formfieldselect.CanBeEmpty)
@@ -6825,7 +6825,7 @@ func (formgroup *FormGroup) GongGetFieldValue(fieldName string, stage *Stage) (r
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "HasSuppressButton":
 		res.valueString = fmt.Sprintf("%t", formgroup.HasSuppressButton)
@@ -6858,7 +6858,7 @@ func (formsortassocbutton *FormSortAssocButton) GongGetFieldValue(fieldName stri
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if formsortassocbutton.FormEditAssocButton != nil {
 			res.valueString = formsortassocbutton.FormEditAssocButton.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formsortassocbutton.FormEditAssocButton), uint64(GetOrderPointerGongstruct(stage, formsortassocbutton.FormEditAssocButton)))
+			res.ids = formsortassocbutton.FormEditAssocButton.GongGetUUID(stage)
 		}
 	}
 	return
@@ -6886,7 +6886,7 @@ func (row *Row) GongGetFieldValue(fieldName string, stage *Stage) (res GongField
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "IsChecked":
 		res.valueString = fmt.Sprintf("%t", row.IsChecked)
@@ -6909,7 +6909,7 @@ func (table *Table) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "Rows":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -6919,7 +6919,7 @@ func (table *Table) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "HasFiltering":
 		res.valueString = fmt.Sprintf("%t", table.HasFiltering)
