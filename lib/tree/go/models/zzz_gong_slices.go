@@ -103,8 +103,8 @@ func (tree *Tree) GongCopy() GongstructIF {
 // insertion point per named struct
 func (button *Button) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(button).(interface{ GongGetUUIDCustom() string }); ok {
-		return __gong__.GongGetUUIDCustom()
+	if __gong__, ok := any(button).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(button), uint64(GetOrderPointerGongstruct(stage, button)))
@@ -113,8 +113,8 @@ func (button *Button) GongGetUUID(stage *Stage) (uuid string) {
 
 func (node *Node) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(node).(interface{ GongGetUUIDCustom() string }); ok {
-		return __gong__.GongGetUUIDCustom()
+	if __gong__, ok := any(node).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(node), uint64(GetOrderPointerGongstruct(stage, node)))
@@ -123,8 +123,8 @@ func (node *Node) GongGetUUID(stage *Stage) (uuid string) {
 
 func (svgicon *SVGIcon) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(svgicon).(interface{ GongGetUUIDCustom() string }); ok {
-		return __gong__.GongGetUUIDCustom()
+	if __gong__, ok := any(svgicon).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(svgicon), uint64(GetOrderPointerGongstruct(stage, svgicon)))
@@ -133,8 +133,8 @@ func (svgicon *SVGIcon) GongGetUUID(stage *Stage) (uuid string) {
 
 func (tree *Tree) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(tree).(interface{ GongGetUUIDCustom() string }); ok {
-		return __gong__.GongGetUUIDCustom()
+	if __gong__, ok := any(tree).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(tree), uint64(GetOrderPointerGongstruct(stage, tree)))
