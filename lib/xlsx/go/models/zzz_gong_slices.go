@@ -123,8 +123,8 @@ func (xlsheet *XLSheet) GongCopy() GongstructIF {
 // insertion point per named struct
 func (displayselection *DisplaySelection) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(displayselection).(interface{ GongUUIDCustom() string }); ok {
-		return __gong__.GongUUIDCustom()
+	if __gong__, ok := any(displayselection).(interface{ GongGetUUIDCustom() string }); ok {
+		return __gong__.GongGetUUIDCustom()
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(displayselection), uint64(GetOrderPointerGongstruct(stage, displayselection)))
@@ -133,8 +133,8 @@ func (displayselection *DisplaySelection) GongGetUUID(stage *Stage) (uuid string
 
 func (xlcell *XLCell) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(xlcell).(interface{ GongUUIDCustom() string }); ok {
-		return __gong__.GongUUIDCustom()
+	if __gong__, ok := any(xlcell).(interface{ GongGetUUIDCustom() string }); ok {
+		return __gong__.GongGetUUIDCustom()
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(xlcell), uint64(GetOrderPointerGongstruct(stage, xlcell)))
@@ -143,8 +143,8 @@ func (xlcell *XLCell) GongGetUUID(stage *Stage) (uuid string) {
 
 func (xlfile *XLFile) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(xlfile).(interface{ GongUUIDCustom() string }); ok {
-		return __gong__.GongUUIDCustom()
+	if __gong__, ok := any(xlfile).(interface{ GongGetUUIDCustom() string }); ok {
+		return __gong__.GongGetUUIDCustom()
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(xlfile), uint64(GetOrderPointerGongstruct(stage, xlfile)))
@@ -153,8 +153,8 @@ func (xlfile *XLFile) GongGetUUID(stage *Stage) (uuid string) {
 
 func (xlrow *XLRow) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(xlrow).(interface{ GongUUIDCustom() string }); ok {
-		return __gong__.GongUUIDCustom()
+	if __gong__, ok := any(xlrow).(interface{ GongGetUUIDCustom() string }); ok {
+		return __gong__.GongGetUUIDCustom()
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(xlrow), uint64(GetOrderPointerGongstruct(stage, xlrow)))
@@ -163,8 +163,8 @@ func (xlrow *XLRow) GongGetUUID(stage *Stage) (uuid string) {
 
 func (xlsheet *XLSheet) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(xlsheet).(interface{ GongUUIDCustom() string }); ok {
-		return __gong__.GongUUIDCustom()
+	if __gong__, ok := any(xlsheet).(interface{ GongGetUUIDCustom() string }); ok {
+		return __gong__.GongGetUUIDCustom()
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(xlsheet), uint64(GetOrderPointerGongstruct(stage, xlsheet)))

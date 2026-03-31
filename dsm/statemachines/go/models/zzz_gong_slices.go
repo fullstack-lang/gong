@@ -330,8 +330,8 @@ func (transition_shape *Transition_Shape) GongCopy() GongstructIF {
 // insertion point per named struct
 func (action *Action) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(action).(interface{ GongUUIDCustom() string }); ok {
-		return __gong__.GongUUIDCustom()
+	if __gong__, ok := any(action).(interface{ GongGetUUIDCustom() string }); ok {
+		return __gong__.GongGetUUIDCustom()
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(action), uint64(GetOrderPointerGongstruct(stage, action)))
@@ -340,8 +340,8 @@ func (action *Action) GongGetUUID(stage *Stage) (uuid string) {
 
 func (activities *Activities) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(activities).(interface{ GongUUIDCustom() string }); ok {
-		return __gong__.GongUUIDCustom()
+	if __gong__, ok := any(activities).(interface{ GongGetUUIDCustom() string }); ok {
+		return __gong__.GongGetUUIDCustom()
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(activities), uint64(GetOrderPointerGongstruct(stage, activities)))
@@ -350,8 +350,8 @@ func (activities *Activities) GongGetUUID(stage *Stage) (uuid string) {
 
 func (architecture *Architecture) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(architecture).(interface{ GongUUIDCustom() string }); ok {
-		return __gong__.GongUUIDCustom()
+	if __gong__, ok := any(architecture).(interface{ GongGetUUIDCustom() string }); ok {
+		return __gong__.GongGetUUIDCustom()
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(architecture), uint64(GetOrderPointerGongstruct(stage, architecture)))
@@ -360,8 +360,8 @@ func (architecture *Architecture) GongGetUUID(stage *Stage) (uuid string) {
 
 func (diagram *Diagram) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(diagram).(interface{ GongUUIDCustom() string }); ok {
-		return __gong__.GongUUIDCustom()
+	if __gong__, ok := any(diagram).(interface{ GongGetUUIDCustom() string }); ok {
+		return __gong__.GongGetUUIDCustom()
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(diagram), uint64(GetOrderPointerGongstruct(stage, diagram)))
@@ -370,8 +370,8 @@ func (diagram *Diagram) GongGetUUID(stage *Stage) (uuid string) {
 
 func (guard *Guard) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(guard).(interface{ GongUUIDCustom() string }); ok {
-		return __gong__.GongUUIDCustom()
+	if __gong__, ok := any(guard).(interface{ GongGetUUIDCustom() string }); ok {
+		return __gong__.GongGetUUIDCustom()
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(guard), uint64(GetOrderPointerGongstruct(stage, guard)))
@@ -380,8 +380,8 @@ func (guard *Guard) GongGetUUID(stage *Stage) (uuid string) {
 
 func (kill *Kill) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(kill).(interface{ GongUUIDCustom() string }); ok {
-		return __gong__.GongUUIDCustom()
+	if __gong__, ok := any(kill).(interface{ GongGetUUIDCustom() string }); ok {
+		return __gong__.GongGetUUIDCustom()
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(kill), uint64(GetOrderPointerGongstruct(stage, kill)))
@@ -390,8 +390,8 @@ func (kill *Kill) GongGetUUID(stage *Stage) (uuid string) {
 
 func (message *Message) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(message).(interface{ GongUUIDCustom() string }); ok {
-		return __gong__.GongUUIDCustom()
+	if __gong__, ok := any(message).(interface{ GongGetUUIDCustom() string }); ok {
+		return __gong__.GongGetUUIDCustom()
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(message), uint64(GetOrderPointerGongstruct(stage, message)))
@@ -400,8 +400,8 @@ func (message *Message) GongGetUUID(stage *Stage) (uuid string) {
 
 func (messagetype *MessageType) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(messagetype).(interface{ GongUUIDCustom() string }); ok {
-		return __gong__.GongUUIDCustom()
+	if __gong__, ok := any(messagetype).(interface{ GongGetUUIDCustom() string }); ok {
+		return __gong__.GongGetUUIDCustom()
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(messagetype), uint64(GetOrderPointerGongstruct(stage, messagetype)))
@@ -410,8 +410,8 @@ func (messagetype *MessageType) GongGetUUID(stage *Stage) (uuid string) {
 
 func (object *Object) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(object).(interface{ GongUUIDCustom() string }); ok {
-		return __gong__.GongUUIDCustom()
+	if __gong__, ok := any(object).(interface{ GongGetUUIDCustom() string }); ok {
+		return __gong__.GongGetUUIDCustom()
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(object), uint64(GetOrderPointerGongstruct(stage, object)))
@@ -420,8 +420,8 @@ func (object *Object) GongGetUUID(stage *Stage) (uuid string) {
 
 func (role *Role) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(role).(interface{ GongUUIDCustom() string }); ok {
-		return __gong__.GongUUIDCustom()
+	if __gong__, ok := any(role).(interface{ GongGetUUIDCustom() string }); ok {
+		return __gong__.GongGetUUIDCustom()
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(role), uint64(GetOrderPointerGongstruct(stage, role)))
@@ -430,8 +430,8 @@ func (role *Role) GongGetUUID(stage *Stage) (uuid string) {
 
 func (state *State) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(state).(interface{ GongUUIDCustom() string }); ok {
-		return __gong__.GongUUIDCustom()
+	if __gong__, ok := any(state).(interface{ GongGetUUIDCustom() string }); ok {
+		return __gong__.GongGetUUIDCustom()
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(state), uint64(GetOrderPointerGongstruct(stage, state)))
@@ -440,8 +440,8 @@ func (state *State) GongGetUUID(stage *Stage) (uuid string) {
 
 func (statemachine *StateMachine) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(statemachine).(interface{ GongUUIDCustom() string }); ok {
-		return __gong__.GongUUIDCustom()
+	if __gong__, ok := any(statemachine).(interface{ GongGetUUIDCustom() string }); ok {
+		return __gong__.GongGetUUIDCustom()
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(statemachine), uint64(GetOrderPointerGongstruct(stage, statemachine)))
@@ -450,8 +450,8 @@ func (statemachine *StateMachine) GongGetUUID(stage *Stage) (uuid string) {
 
 func (stateshape *StateShape) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(stateshape).(interface{ GongUUIDCustom() string }); ok {
-		return __gong__.GongUUIDCustom()
+	if __gong__, ok := any(stateshape).(interface{ GongGetUUIDCustom() string }); ok {
+		return __gong__.GongGetUUIDCustom()
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(stateshape), uint64(GetOrderPointerGongstruct(stage, stateshape)))
@@ -460,8 +460,8 @@ func (stateshape *StateShape) GongGetUUID(stage *Stage) (uuid string) {
 
 func (transition *Transition) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(transition).(interface{ GongUUIDCustom() string }); ok {
-		return __gong__.GongUUIDCustom()
+	if __gong__, ok := any(transition).(interface{ GongGetUUIDCustom() string }); ok {
+		return __gong__.GongGetUUIDCustom()
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(transition), uint64(GetOrderPointerGongstruct(stage, transition)))
@@ -470,8 +470,8 @@ func (transition *Transition) GongGetUUID(stage *Stage) (uuid string) {
 
 func (transition_shape *Transition_Shape) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(transition_shape).(interface{ GongUUIDCustom() string }); ok {
-		return __gong__.GongUUIDCustom()
+	if __gong__, ok := any(transition_shape).(interface{ GongGetUUIDCustom() string }); ok {
+		return __gong__.GongGetUUIDCustom()
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(transition_shape), uint64(GetOrderPointerGongstruct(stage, transition_shape)))
