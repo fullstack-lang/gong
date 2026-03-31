@@ -2302,7 +2302,7 @@ func (command *Command) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if command.Engine != nil {
 			res.valueString = command.Engine.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(command.Engine), uint64(GetOrderPointerGongstruct(stage, command.Engine)))
+			res.ids = command.Engine.GongGetUUID(stage)
 		}
 	}
 	return

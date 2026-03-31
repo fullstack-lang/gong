@@ -225,6 +225,67 @@ func (place *Place) GongCopy() GongstructIF {
 	return newInstance
 }
 
+// insertion point per named struct
+func (artefacttype *ArtefactType) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(artefacttype), uint64(GetOrderPointerGongstruct(stage, artefacttype)))
+	return
+}
+
+func (artefacttypeshape *ArtefactTypeShape) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(artefacttypeshape), uint64(GetOrderPointerGongstruct(stage, artefacttypeshape)))
+	return
+}
+
+func (artist *Artist) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(artist), uint64(GetOrderPointerGongstruct(stage, artist)))
+	return
+}
+
+func (artistshape *ArtistShape) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(artistshape), uint64(GetOrderPointerGongstruct(stage, artistshape)))
+	return
+}
+
+func (controlpointshape *ControlPointShape) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(controlpointshape), uint64(GetOrderPointerGongstruct(stage, controlpointshape)))
+	return
+}
+
+func (desk *Desk) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(desk), uint64(GetOrderPointerGongstruct(stage, desk)))
+	return
+}
+
+func (diagram *Diagram) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(diagram), uint64(GetOrderPointerGongstruct(stage, diagram)))
+	return
+}
+
+func (influence *Influence) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(influence), uint64(GetOrderPointerGongstruct(stage, influence)))
+	return
+}
+
+func (influenceshape *InfluenceShape) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(influenceshape), uint64(GetOrderPointerGongstruct(stage, influenceshape)))
+	return
+}
+
+func (movement *Movement) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(movement), uint64(GetOrderPointerGongstruct(stage, movement)))
+	return
+}
+
+func (movementshape *MovementShape) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(movementshape), uint64(GetOrderPointerGongstruct(stage, movementshape)))
+	return
+}
+
+func (place *Place) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(place), uint64(GetOrderPointerGongstruct(stage, place)))
+	return
+}
+
 func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	var lenNewInstances int
 	var lenModifiedInstances int

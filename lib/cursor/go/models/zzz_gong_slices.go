@@ -40,6 +40,12 @@ func (cursor *Cursor) GongCopy() GongstructIF {
 	return newInstance
 }
 
+// insertion point per named struct
+func (cursor *Cursor) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(cursor), uint64(GetOrderPointerGongstruct(stage, cursor)))
+	return
+}
+
 func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	var lenNewInstances int
 	var lenModifiedInstances int

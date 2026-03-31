@@ -5134,7 +5134,7 @@ func (body *Body) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "Tables":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -5144,13 +5144,13 @@ func (body *Body) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "LastParagraph":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if body.LastParagraph != nil {
 			res.valueString = body.LastParagraph.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(body.LastParagraph), uint64(GetOrderPointerGongstruct(stage, body.LastParagraph)))
+			res.ids = body.LastParagraph.GongGetUUID(stage)
 		}
 	}
 	return
@@ -5165,19 +5165,19 @@ func (document *Document) GongGetFieldValue(fieldName string, stage *Stage) (res
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if document.File != nil {
 			res.valueString = document.File.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(document.File), uint64(GetOrderPointerGongstruct(stage, document.File)))
+			res.ids = document.File.GongGetUUID(stage)
 		}
 	case "Root":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if document.Root != nil {
 			res.valueString = document.Root.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(document.Root), uint64(GetOrderPointerGongstruct(stage, document.Root)))
+			res.ids = document.Root.GongGetUUID(stage)
 		}
 	case "Body":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if document.Body != nil {
 			res.valueString = document.Body.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(document.Body), uint64(GetOrderPointerGongstruct(stage, document.Body)))
+			res.ids = document.Body.GongGetUUID(stage)
 		}
 	}
 	return
@@ -5196,13 +5196,13 @@ func (docx *Docx) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "Document":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if docx.Document != nil {
 			res.valueString = docx.Document.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(docx.Document), uint64(GetOrderPointerGongstruct(stage, docx.Document)))
+			res.ids = docx.Document.GongGetUUID(stage)
 		}
 	}
 	return
@@ -5230,7 +5230,7 @@ func (node *Node) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	}
 	return
@@ -5247,13 +5247,13 @@ func (paragraph *Paragraph) GongGetFieldValue(fieldName string, stage *Stage) (r
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if paragraph.Node != nil {
 			res.valueString = paragraph.Node.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(paragraph.Node), uint64(GetOrderPointerGongstruct(stage, paragraph.Node)))
+			res.ids = paragraph.Node.GongGetUUID(stage)
 		}
 	case "ParagraphProperties":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if paragraph.ParagraphProperties != nil {
 			res.valueString = paragraph.ParagraphProperties.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(paragraph.ParagraphProperties), uint64(GetOrderPointerGongstruct(stage, paragraph.ParagraphProperties)))
+			res.ids = paragraph.ParagraphProperties.GongGetUUID(stage)
 		}
 	case "Runes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -5263,7 +5263,7 @@ func (paragraph *Paragraph) GongGetFieldValue(fieldName string, stage *Stage) (r
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "CollatedText":
 		res.valueString = paragraph.CollatedText
@@ -5271,25 +5271,25 @@ func (paragraph *Paragraph) GongGetFieldValue(fieldName string, stage *Stage) (r
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if paragraph.Next != nil {
 			res.valueString = paragraph.Next.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(paragraph.Next), uint64(GetOrderPointerGongstruct(stage, paragraph.Next)))
+			res.ids = paragraph.Next.GongGetUUID(stage)
 		}
 	case "Previous":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if paragraph.Previous != nil {
 			res.valueString = paragraph.Previous.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(paragraph.Previous), uint64(GetOrderPointerGongstruct(stage, paragraph.Previous)))
+			res.ids = paragraph.Previous.GongGetUUID(stage)
 		}
 	case "EnclosingBody":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if paragraph.EnclosingBody != nil {
 			res.valueString = paragraph.EnclosingBody.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(paragraph.EnclosingBody), uint64(GetOrderPointerGongstruct(stage, paragraph.EnclosingBody)))
+			res.ids = paragraph.EnclosingBody.GongGetUUID(stage)
 		}
 	case "EnclosingTableColumn":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if paragraph.EnclosingTableColumn != nil {
 			res.valueString = paragraph.EnclosingTableColumn.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(paragraph.EnclosingTableColumn), uint64(GetOrderPointerGongstruct(stage, paragraph.EnclosingTableColumn)))
+			res.ids = paragraph.EnclosingTableColumn.GongGetUUID(stage)
 		}
 	}
 	return
@@ -5306,13 +5306,13 @@ func (paragraphproperties *ParagraphProperties) GongGetFieldValue(fieldName stri
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if paragraphproperties.ParagraphStyle != nil {
 			res.valueString = paragraphproperties.ParagraphStyle.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(paragraphproperties.ParagraphStyle), uint64(GetOrderPointerGongstruct(stage, paragraphproperties.ParagraphStyle)))
+			res.ids = paragraphproperties.ParagraphStyle.GongGetUUID(stage)
 		}
 	case "Node":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if paragraphproperties.Node != nil {
 			res.valueString = paragraphproperties.Node.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(paragraphproperties.Node), uint64(GetOrderPointerGongstruct(stage, paragraphproperties.Node)))
+			res.ids = paragraphproperties.Node.GongGetUUID(stage)
 		}
 	}
 	return
@@ -5327,7 +5327,7 @@ func (paragraphstyle *ParagraphStyle) GongGetFieldValue(fieldName string, stage 
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if paragraphstyle.Node != nil {
 			res.valueString = paragraphstyle.Node.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(paragraphstyle.Node), uint64(GetOrderPointerGongstruct(stage, paragraphstyle.Node)))
+			res.ids = paragraphstyle.Node.GongGetUUID(stage)
 		}
 	case "Content":
 		res.valueString = paragraphstyle.Content
@@ -5348,25 +5348,25 @@ func (rune *Rune) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if rune.Node != nil {
 			res.valueString = rune.Node.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(rune.Node), uint64(GetOrderPointerGongstruct(stage, rune.Node)))
+			res.ids = rune.Node.GongGetUUID(stage)
 		}
 	case "Text":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if rune.Text != nil {
 			res.valueString = rune.Text.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(rune.Text), uint64(GetOrderPointerGongstruct(stage, rune.Text)))
+			res.ids = rune.Text.GongGetUUID(stage)
 		}
 	case "RuneProperties":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if rune.RuneProperties != nil {
 			res.valueString = rune.RuneProperties.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(rune.RuneProperties), uint64(GetOrderPointerGongstruct(stage, rune.RuneProperties)))
+			res.ids = rune.RuneProperties.GongGetUUID(stage)
 		}
 	case "EnclosingParagraph":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if rune.EnclosingParagraph != nil {
 			res.valueString = rune.EnclosingParagraph.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(rune.EnclosingParagraph), uint64(GetOrderPointerGongstruct(stage, rune.EnclosingParagraph)))
+			res.ids = rune.EnclosingParagraph.GongGetUUID(stage)
 		}
 	}
 	return
@@ -5381,7 +5381,7 @@ func (runeproperties *RuneProperties) GongGetFieldValue(fieldName string, stage 
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if runeproperties.Node != nil {
 			res.valueString = runeproperties.Node.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(runeproperties.Node), uint64(GetOrderPointerGongstruct(stage, runeproperties.Node)))
+			res.ids = runeproperties.Node.GongGetUUID(stage)
 		}
 	case "IsBold":
 		res.valueString = fmt.Sprintf("%t", runeproperties.IsBold)
@@ -5410,7 +5410,7 @@ func (table *Table) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if table.Node != nil {
 			res.valueString = table.Node.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(table.Node), uint64(GetOrderPointerGongstruct(stage, table.Node)))
+			res.ids = table.Node.GongGetUUID(stage)
 		}
 	case "Content":
 		res.valueString = table.Content
@@ -5418,7 +5418,7 @@ func (table *Table) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if table.TableProperties != nil {
 			res.valueString = table.TableProperties.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(table.TableProperties), uint64(GetOrderPointerGongstruct(stage, table.TableProperties)))
+			res.ids = table.TableProperties.GongGetUUID(stage)
 		}
 	case "TableRows":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -5428,7 +5428,7 @@ func (table *Table) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	}
 	return
@@ -5445,7 +5445,7 @@ func (tablecolumn *TableColumn) GongGetFieldValue(fieldName string, stage *Stage
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if tablecolumn.Node != nil {
 			res.valueString = tablecolumn.Node.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(tablecolumn.Node), uint64(GetOrderPointerGongstruct(stage, tablecolumn.Node)))
+			res.ids = tablecolumn.Node.GongGetUUID(stage)
 		}
 	case "Paragraphs":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -5455,7 +5455,7 @@ func (tablecolumn *TableColumn) GongGetFieldValue(fieldName string, stage *Stage
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	}
 	return
@@ -5470,7 +5470,7 @@ func (tableproperties *TableProperties) GongGetFieldValue(fieldName string, stag
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if tableproperties.Node != nil {
 			res.valueString = tableproperties.Node.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(tableproperties.Node), uint64(GetOrderPointerGongstruct(stage, tableproperties.Node)))
+			res.ids = tableproperties.Node.GongGetUUID(stage)
 		}
 	case "Content":
 		res.valueString = tableproperties.Content
@@ -5478,7 +5478,7 @@ func (tableproperties *TableProperties) GongGetFieldValue(fieldName string, stag
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if tableproperties.TableStyle != nil {
 			res.valueString = tableproperties.TableStyle.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(tableproperties.TableStyle), uint64(GetOrderPointerGongstruct(stage, tableproperties.TableStyle)))
+			res.ids = tableproperties.TableStyle.GongGetUUID(stage)
 		}
 	}
 	return
@@ -5495,7 +5495,7 @@ func (tablerow *TableRow) GongGetFieldValue(fieldName string, stage *Stage) (res
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if tablerow.Node != nil {
 			res.valueString = tablerow.Node.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(tablerow.Node), uint64(GetOrderPointerGongstruct(stage, tablerow.Node)))
+			res.ids = tablerow.Node.GongGetUUID(stage)
 		}
 	case "TableColumns":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -5505,7 +5505,7 @@ func (tablerow *TableRow) GongGetFieldValue(fieldName string, stage *Stage) (res
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	}
 	return
@@ -5520,7 +5520,7 @@ func (tablestyle *TableStyle) GongGetFieldValue(fieldName string, stage *Stage) 
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if tablestyle.Node != nil {
 			res.valueString = tablestyle.Node.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(tablestyle.Node), uint64(GetOrderPointerGongstruct(stage, tablestyle.Node)))
+			res.ids = tablestyle.Node.GongGetUUID(stage)
 		}
 	case "Content":
 		res.valueString = tablestyle.Content
@@ -5541,7 +5541,7 @@ func (text *Text) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if text.Node != nil {
 			res.valueString = text.Node.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(text.Node), uint64(GetOrderPointerGongstruct(stage, text.Node)))
+			res.ids = text.Node.GongGetUUID(stage)
 		}
 	case "PreserveWhiteSpace":
 		res.valueString = fmt.Sprintf("%t", text.PreserveWhiteSpace)
@@ -5551,7 +5551,7 @@ func (text *Text) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if text.EnclosingRune != nil {
 			res.valueString = text.EnclosingRune.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(text.EnclosingRune), uint64(GetOrderPointerGongstruct(stage, text.EnclosingRune)))
+			res.ids = text.EnclosingRune.GongGetUUID(stage)
 		}
 	}
 	return

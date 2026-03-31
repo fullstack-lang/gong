@@ -3574,7 +3574,7 @@ func (gongbasicfield *GongBasicField) GongGetFieldValue(fieldName string, stage 
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if gongbasicfield.GongEnum != nil {
 			res.valueString = gongbasicfield.GongEnum.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(gongbasicfield.GongEnum), uint64(GetOrderPointerGongstruct(stage, gongbasicfield.GongEnum)))
+			res.ids = gongbasicfield.GongEnum.GongGetUUID(stage)
 		}
 	case "DeclaredType":
 		res.valueString = gongbasicfield.DeclaredType
@@ -3624,7 +3624,7 @@ func (gongenum *GongEnum) GongGetFieldValue(fieldName string, stage *Stage) (res
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	}
 	return
@@ -3671,7 +3671,7 @@ func (gongnote *GongNote) GongGetFieldValue(fieldName string, stage *Stage) (res
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	}
 	return
@@ -3690,7 +3690,7 @@ func (gongstruct *GongStruct) GongGetFieldValue(fieldName string, stage *Stage) 
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "GongTimeFields":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -3700,7 +3700,7 @@ func (gongstruct *GongStruct) GongGetFieldValue(fieldName string, stage *Stage) 
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "PointerToGongStructFields":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -3710,7 +3710,7 @@ func (gongstruct *GongStruct) GongGetFieldValue(fieldName string, stage *Stage) 
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "SliceOfPointerToGongStructFields":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -3720,7 +3720,7 @@ func (gongstruct *GongStruct) GongGetFieldValue(fieldName string, stage *Stage) 
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "HasOnAfterUpdateSignature":
 		res.valueString = fmt.Sprintf("%t", gongstruct.HasOnAfterUpdateSignature)
@@ -3812,7 +3812,7 @@ func (pointertogongstructfield *PointerToGongStructField) GongGetFieldValue(fiel
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if pointertogongstructfield.GongStruct != nil {
 			res.valueString = pointertogongstructfield.GongStruct.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(pointertogongstructfield.GongStruct), uint64(GetOrderPointerGongstruct(stage, pointertogongstructfield.GongStruct)))
+			res.ids = pointertogongstructfield.GongStruct.GongGetUUID(stage)
 		}
 	case "Index":
 		res.valueString = fmt.Sprintf("%d", pointertogongstructfield.Index)
@@ -3837,7 +3837,7 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongGetF
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if sliceofpointertogongstructfield.GongStruct != nil {
 			res.valueString = sliceofpointertogongstructfield.GongStruct.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(sliceofpointertogongstructfield.GongStruct), uint64(GetOrderPointerGongstruct(stage, sliceofpointertogongstructfield.GongStruct)))
+			res.ids = sliceofpointertogongstructfield.GongStruct.GongGetUUID(stage)
 		}
 	case "Index":
 		res.valueString = fmt.Sprintf("%d", sliceofpointertogongstructfield.Index)

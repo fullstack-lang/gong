@@ -8428,7 +8428,7 @@ func (all *All) GongGetFieldValue(fieldName string, stage *Stage) (res GongField
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if all.Annotation != nil {
 			res.valueString = all.Annotation.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(all.Annotation), uint64(GetOrderPointerGongstruct(stage, all.Annotation)))
+			res.ids = all.Annotation.GongGetUUID(stage)
 		}
 	case "OuterElementName":
 		res.valueString = all.OuterElementName
@@ -8440,7 +8440,7 @@ func (all *All) GongGetFieldValue(fieldName string, stage *Stage) (res GongField
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "Alls":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -8450,7 +8450,7 @@ func (all *All) GongGetFieldValue(fieldName string, stage *Stage) (res GongField
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "Choices":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -8460,7 +8460,7 @@ func (all *All) GongGetFieldValue(fieldName string, stage *Stage) (res GongField
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "Groups":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -8470,7 +8470,7 @@ func (all *All) GongGetFieldValue(fieldName string, stage *Stage) (res GongField
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "Elements":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -8480,7 +8480,7 @@ func (all *All) GongGetFieldValue(fieldName string, stage *Stage) (res GongField
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "Order":
 		res.valueString = fmt.Sprintf("%d", all.Order)
@@ -8511,7 +8511,7 @@ func (annotation *Annotation) GongGetFieldValue(fieldName string, stage *Stage) 
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	}
 	return
@@ -8530,7 +8530,7 @@ func (attribute *Attribute) GongGetFieldValue(fieldName string, stage *Stage) (r
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if attribute.Annotation != nil {
 			res.valueString = attribute.Annotation.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(attribute.Annotation), uint64(GetOrderPointerGongstruct(stage, attribute.Annotation)))
+			res.ids = attribute.Annotation.GongGetUUID(stage)
 		}
 	case "HasNameConflict":
 		res.valueString = fmt.Sprintf("%t", attribute.HasNameConflict)
@@ -8569,7 +8569,7 @@ func (attributegroup *AttributeGroup) GongGetFieldValue(fieldName string, stage 
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if attributegroup.Annotation != nil {
 			res.valueString = attributegroup.Annotation.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(attributegroup.Annotation), uint64(GetOrderPointerGongstruct(stage, attributegroup.Annotation)))
+			res.ids = attributegroup.Annotation.GongGetUUID(stage)
 		}
 	case "HasNameConflict":
 		res.valueString = fmt.Sprintf("%t", attributegroup.HasNameConflict)
@@ -8585,7 +8585,7 @@ func (attributegroup *AttributeGroup) GongGetFieldValue(fieldName string, stage 
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "Ref":
 		res.valueString = attributegroup.Ref
@@ -8597,7 +8597,7 @@ func (attributegroup *AttributeGroup) GongGetFieldValue(fieldName string, stage 
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "Order":
 		res.valueString = fmt.Sprintf("%d", attributegroup.Order)
@@ -8620,7 +8620,7 @@ func (choice *Choice) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if choice.Annotation != nil {
 			res.valueString = choice.Annotation.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(choice.Annotation), uint64(GetOrderPointerGongstruct(stage, choice.Annotation)))
+			res.ids = choice.Annotation.GongGetUUID(stage)
 		}
 	case "OuterElementName":
 		res.valueString = choice.OuterElementName
@@ -8632,7 +8632,7 @@ func (choice *Choice) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "Alls":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -8642,7 +8642,7 @@ func (choice *Choice) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "Choices":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -8652,7 +8652,7 @@ func (choice *Choice) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "Groups":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -8662,7 +8662,7 @@ func (choice *Choice) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "Elements":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -8672,7 +8672,7 @@ func (choice *Choice) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "Order":
 		res.valueString = fmt.Sprintf("%d", choice.Order)
@@ -8722,13 +8722,13 @@ func (complextype *ComplexType) GongGetFieldValue(fieldName string, stage *Stage
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if complextype.OuterElement != nil {
 			res.valueString = complextype.OuterElement.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(complextype.OuterElement), uint64(GetOrderPointerGongstruct(stage, complextype.OuterElement)))
+			res.ids = complextype.OuterElement.GongGetUUID(stage)
 		}
 	case "Annotation":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if complextype.Annotation != nil {
 			res.valueString = complextype.Annotation.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(complextype.Annotation), uint64(GetOrderPointerGongstruct(stage, complextype.Annotation)))
+			res.ids = complextype.Annotation.GongGetUUID(stage)
 		}
 	case "NameXSD":
 		res.valueString = complextype.NameXSD
@@ -8742,7 +8742,7 @@ func (complextype *ComplexType) GongGetFieldValue(fieldName string, stage *Stage
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "Alls":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -8752,7 +8752,7 @@ func (complextype *ComplexType) GongGetFieldValue(fieldName string, stage *Stage
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "Choices":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -8762,7 +8762,7 @@ func (complextype *ComplexType) GongGetFieldValue(fieldName string, stage *Stage
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "Groups":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -8772,7 +8772,7 @@ func (complextype *ComplexType) GongGetFieldValue(fieldName string, stage *Stage
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "Elements":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -8782,7 +8782,7 @@ func (complextype *ComplexType) GongGetFieldValue(fieldName string, stage *Stage
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "Order":
 		res.valueString = fmt.Sprintf("%d", complextype.Order)
@@ -8800,19 +8800,19 @@ func (complextype *ComplexType) GongGetFieldValue(fieldName string, stage *Stage
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if complextype.Extension != nil {
 			res.valueString = complextype.Extension.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(complextype.Extension), uint64(GetOrderPointerGongstruct(stage, complextype.Extension)))
+			res.ids = complextype.Extension.GongGetUUID(stage)
 		}
 	case "SimpleContent":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if complextype.SimpleContent != nil {
 			res.valueString = complextype.SimpleContent.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(complextype.SimpleContent), uint64(GetOrderPointerGongstruct(stage, complextype.SimpleContent)))
+			res.ids = complextype.SimpleContent.GongGetUUID(stage)
 		}
 	case "ComplexContent":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if complextype.ComplexContent != nil {
 			res.valueString = complextype.ComplexContent.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(complextype.ComplexContent), uint64(GetOrderPointerGongstruct(stage, complextype.ComplexContent)))
+			res.ids = complextype.ComplexContent.GongGetUUID(stage)
 		}
 	case "Attributes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -8822,7 +8822,7 @@ func (complextype *ComplexType) GongGetFieldValue(fieldName string, stage *Stage
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "AttributeGroups":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -8832,7 +8832,7 @@ func (complextype *ComplexType) GongGetFieldValue(fieldName string, stage *Stage
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "IsDuplicatedInXSD":
 		res.valueString = fmt.Sprintf("%t", complextype.IsDuplicatedInXSD)
@@ -8880,7 +8880,7 @@ func (element *Element) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if element.Annotation != nil {
 			res.valueString = element.Annotation.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(element.Annotation), uint64(GetOrderPointerGongstruct(stage, element.Annotation)))
+			res.ids = element.Annotation.GongGetUUID(stage)
 		}
 	case "NameXSD":
 		res.valueString = element.NameXSD
@@ -8910,13 +8910,13 @@ func (element *Element) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if element.SimpleType != nil {
 			res.valueString = element.SimpleType.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(element.SimpleType), uint64(GetOrderPointerGongstruct(stage, element.SimpleType)))
+			res.ids = element.SimpleType.GongGetUUID(stage)
 		}
 	case "ComplexType":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if element.ComplexType != nil {
 			res.valueString = element.ComplexType.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(element.ComplexType), uint64(GetOrderPointerGongstruct(stage, element.ComplexType)))
+			res.ids = element.ComplexType.GongGetUUID(stage)
 		}
 	case "Groups":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -8926,7 +8926,7 @@ func (element *Element) GongGetFieldValue(fieldName string, stage *Stage) (res G
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "IsDuplicatedInXSD":
 		res.valueString = fmt.Sprintf("%t", element.IsDuplicatedInXSD)
@@ -8945,7 +8945,7 @@ func (enumeration *Enumeration) GongGetFieldValue(fieldName string, stage *Stage
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if enumeration.Annotation != nil {
 			res.valueString = enumeration.Annotation.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(enumeration.Annotation), uint64(GetOrderPointerGongstruct(stage, enumeration.Annotation)))
+			res.ids = enumeration.Annotation.GongGetUUID(stage)
 		}
 	case "Value":
 		res.valueString = enumeration.Value
@@ -8968,7 +8968,7 @@ func (extension *Extension) GongGetFieldValue(fieldName string, stage *Stage) (r
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "Alls":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -8978,7 +8978,7 @@ func (extension *Extension) GongGetFieldValue(fieldName string, stage *Stage) (r
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "Choices":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -8988,7 +8988,7 @@ func (extension *Extension) GongGetFieldValue(fieldName string, stage *Stage) (r
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "Groups":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -8998,7 +8998,7 @@ func (extension *Extension) GongGetFieldValue(fieldName string, stage *Stage) (r
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "Elements":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -9008,7 +9008,7 @@ func (extension *Extension) GongGetFieldValue(fieldName string, stage *Stage) (r
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "Order":
 		res.valueString = fmt.Sprintf("%d", extension.Order)
@@ -9034,7 +9034,7 @@ func (extension *Extension) GongGetFieldValue(fieldName string, stage *Stage) (r
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "AttributeGroups":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -9044,7 +9044,7 @@ func (extension *Extension) GongGetFieldValue(fieldName string, stage *Stage) (r
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	}
 	return
@@ -9059,7 +9059,7 @@ func (group *Group) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if group.Annotation != nil {
 			res.valueString = group.Annotation.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(group.Annotation), uint64(GetOrderPointerGongstruct(stage, group.Annotation)))
+			res.ids = group.Annotation.GongGetUUID(stage)
 		}
 	case "NameXSD":
 		res.valueString = group.NameXSD
@@ -9073,7 +9073,7 @@ func (group *Group) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if group.OuterElement != nil {
 			res.valueString = group.OuterElement.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(group.OuterElement), uint64(GetOrderPointerGongstruct(stage, group.OuterElement)))
+			res.ids = group.OuterElement.GongGetUUID(stage)
 		}
 	case "HasNameConflict":
 		res.valueString = fmt.Sprintf("%t", group.HasNameConflict)
@@ -9091,7 +9091,7 @@ func (group *Group) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "Alls":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -9101,7 +9101,7 @@ func (group *Group) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "Choices":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -9111,7 +9111,7 @@ func (group *Group) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "Groups":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -9121,7 +9121,7 @@ func (group *Group) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "Elements":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -9131,7 +9131,7 @@ func (group *Group) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "Order":
 		res.valueString = fmt.Sprintf("%d", group.Order)
@@ -9158,7 +9158,7 @@ func (length *Length) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if length.Annotation != nil {
 			res.valueString = length.Annotation.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(length.Annotation), uint64(GetOrderPointerGongstruct(stage, length.Annotation)))
+			res.ids = length.Annotation.GongGetUUID(stage)
 		}
 	case "Value":
 		res.valueString = length.Value
@@ -9175,7 +9175,7 @@ func (maxinclusive *MaxInclusive) GongGetFieldValue(fieldName string, stage *Sta
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if maxinclusive.Annotation != nil {
 			res.valueString = maxinclusive.Annotation.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(maxinclusive.Annotation), uint64(GetOrderPointerGongstruct(stage, maxinclusive.Annotation)))
+			res.ids = maxinclusive.Annotation.GongGetUUID(stage)
 		}
 	case "Value":
 		res.valueString = maxinclusive.Value
@@ -9192,7 +9192,7 @@ func (maxlength *MaxLength) GongGetFieldValue(fieldName string, stage *Stage) (r
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if maxlength.Annotation != nil {
 			res.valueString = maxlength.Annotation.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(maxlength.Annotation), uint64(GetOrderPointerGongstruct(stage, maxlength.Annotation)))
+			res.ids = maxlength.Annotation.GongGetUUID(stage)
 		}
 	case "Value":
 		res.valueString = maxlength.Value
@@ -9209,7 +9209,7 @@ func (mininclusive *MinInclusive) GongGetFieldValue(fieldName string, stage *Sta
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if mininclusive.Annotation != nil {
 			res.valueString = mininclusive.Annotation.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(mininclusive.Annotation), uint64(GetOrderPointerGongstruct(stage, mininclusive.Annotation)))
+			res.ids = mininclusive.Annotation.GongGetUUID(stage)
 		}
 	case "Value":
 		res.valueString = mininclusive.Value
@@ -9226,7 +9226,7 @@ func (minlength *MinLength) GongGetFieldValue(fieldName string, stage *Stage) (r
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if minlength.Annotation != nil {
 			res.valueString = minlength.Annotation.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(minlength.Annotation), uint64(GetOrderPointerGongstruct(stage, minlength.Annotation)))
+			res.ids = minlength.Annotation.GongGetUUID(stage)
 		}
 	case "Value":
 		res.valueString = minlength.Value
@@ -9243,7 +9243,7 @@ func (pattern *Pattern) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if pattern.Annotation != nil {
 			res.valueString = pattern.Annotation.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(pattern.Annotation), uint64(GetOrderPointerGongstruct(stage, pattern.Annotation)))
+			res.ids = pattern.Annotation.GongGetUUID(stage)
 		}
 	case "Value":
 		res.valueString = pattern.Value
@@ -9260,7 +9260,7 @@ func (restriction *Restriction) GongGetFieldValue(fieldName string, stage *Stage
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if restriction.Annotation != nil {
 			res.valueString = restriction.Annotation.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(restriction.Annotation), uint64(GetOrderPointerGongstruct(stage, restriction.Annotation)))
+			res.ids = restriction.Annotation.GongGetUUID(stage)
 		}
 	case "Base":
 		res.valueString = restriction.Base
@@ -9272,55 +9272,55 @@ func (restriction *Restriction) GongGetFieldValue(fieldName string, stage *Stage
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "MinInclusive":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if restriction.MinInclusive != nil {
 			res.valueString = restriction.MinInclusive.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(restriction.MinInclusive), uint64(GetOrderPointerGongstruct(stage, restriction.MinInclusive)))
+			res.ids = restriction.MinInclusive.GongGetUUID(stage)
 		}
 	case "MaxInclusive":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if restriction.MaxInclusive != nil {
 			res.valueString = restriction.MaxInclusive.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(restriction.MaxInclusive), uint64(GetOrderPointerGongstruct(stage, restriction.MaxInclusive)))
+			res.ids = restriction.MaxInclusive.GongGetUUID(stage)
 		}
 	case "Pattern":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if restriction.Pattern != nil {
 			res.valueString = restriction.Pattern.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(restriction.Pattern), uint64(GetOrderPointerGongstruct(stage, restriction.Pattern)))
+			res.ids = restriction.Pattern.GongGetUUID(stage)
 		}
 	case "WhiteSpace":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if restriction.WhiteSpace != nil {
 			res.valueString = restriction.WhiteSpace.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(restriction.WhiteSpace), uint64(GetOrderPointerGongstruct(stage, restriction.WhiteSpace)))
+			res.ids = restriction.WhiteSpace.GongGetUUID(stage)
 		}
 	case "MinLength":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if restriction.MinLength != nil {
 			res.valueString = restriction.MinLength.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(restriction.MinLength), uint64(GetOrderPointerGongstruct(stage, restriction.MinLength)))
+			res.ids = restriction.MinLength.GongGetUUID(stage)
 		}
 	case "MaxLength":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if restriction.MaxLength != nil {
 			res.valueString = restriction.MaxLength.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(restriction.MaxLength), uint64(GetOrderPointerGongstruct(stage, restriction.MaxLength)))
+			res.ids = restriction.MaxLength.GongGetUUID(stage)
 		}
 	case "Length":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if restriction.Length != nil {
 			res.valueString = restriction.Length.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(restriction.Length), uint64(GetOrderPointerGongstruct(stage, restriction.Length)))
+			res.ids = restriction.Length.GongGetUUID(stage)
 		}
 	case "TotalDigit":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if restriction.TotalDigit != nil {
 			res.valueString = restriction.TotalDigit.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(restriction.TotalDigit), uint64(GetOrderPointerGongstruct(stage, restriction.TotalDigit)))
+			res.ids = restriction.TotalDigit.GongGetUUID(stage)
 		}
 	}
 	return
@@ -9337,7 +9337,7 @@ func (schema *Schema) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if schema.Annotation != nil {
 			res.valueString = schema.Annotation.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(schema.Annotation), uint64(GetOrderPointerGongstruct(stage, schema.Annotation)))
+			res.ids = schema.Annotation.GongGetUUID(stage)
 		}
 	case "Elements":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -9347,7 +9347,7 @@ func (schema *Schema) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "SimpleTypes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -9357,7 +9357,7 @@ func (schema *Schema) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "ComplexTypes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -9367,7 +9367,7 @@ func (schema *Schema) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "AttributeGroups":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -9377,7 +9377,7 @@ func (schema *Schema) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "Groups":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -9387,7 +9387,7 @@ func (schema *Schema) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "Order":
 		res.valueString = fmt.Sprintf("%d", schema.Order)
@@ -9410,7 +9410,7 @@ func (sequence *Sequence) GongGetFieldValue(fieldName string, stage *Stage) (res
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if sequence.Annotation != nil {
 			res.valueString = sequence.Annotation.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(sequence.Annotation), uint64(GetOrderPointerGongstruct(stage, sequence.Annotation)))
+			res.ids = sequence.Annotation.GongGetUUID(stage)
 		}
 	case "OuterElementName":
 		res.valueString = sequence.OuterElementName
@@ -9422,7 +9422,7 @@ func (sequence *Sequence) GongGetFieldValue(fieldName string, stage *Stage) (res
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "Alls":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -9432,7 +9432,7 @@ func (sequence *Sequence) GongGetFieldValue(fieldName string, stage *Stage) (res
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "Choices":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -9442,7 +9442,7 @@ func (sequence *Sequence) GongGetFieldValue(fieldName string, stage *Stage) (res
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "Groups":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -9452,7 +9452,7 @@ func (sequence *Sequence) GongGetFieldValue(fieldName string, stage *Stage) (res
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "Elements":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -9462,7 +9462,7 @@ func (sequence *Sequence) GongGetFieldValue(fieldName string, stage *Stage) (res
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "Order":
 		res.valueString = fmt.Sprintf("%d", sequence.Order)
@@ -9489,13 +9489,13 @@ func (simplecontent *SimpleContent) GongGetFieldValue(fieldName string, stage *S
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if simplecontent.Extension != nil {
 			res.valueString = simplecontent.Extension.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(simplecontent.Extension), uint64(GetOrderPointerGongstruct(stage, simplecontent.Extension)))
+			res.ids = simplecontent.Extension.GongGetUUID(stage)
 		}
 	case "Restriction":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if simplecontent.Restriction != nil {
 			res.valueString = simplecontent.Restriction.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(simplecontent.Restriction), uint64(GetOrderPointerGongstruct(stage, simplecontent.Restriction)))
+			res.ids = simplecontent.Restriction.GongGetUUID(stage)
 		}
 	}
 	return
@@ -9510,7 +9510,7 @@ func (simpletype *SimpleType) GongGetFieldValue(fieldName string, stage *Stage) 
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if simpletype.Annotation != nil {
 			res.valueString = simpletype.Annotation.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(simpletype.Annotation), uint64(GetOrderPointerGongstruct(stage, simpletype.Annotation)))
+			res.ids = simpletype.Annotation.GongGetUUID(stage)
 		}
 	case "NameXSD":
 		res.valueString = simpletype.NameXSD
@@ -9518,13 +9518,13 @@ func (simpletype *SimpleType) GongGetFieldValue(fieldName string, stage *Stage) 
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if simpletype.Restriction != nil {
 			res.valueString = simpletype.Restriction.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(simpletype.Restriction), uint64(GetOrderPointerGongstruct(stage, simpletype.Restriction)))
+			res.ids = simpletype.Restriction.GongGetUUID(stage)
 		}
 	case "Union":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if simpletype.Union != nil {
 			res.valueString = simpletype.Union.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(simpletype.Union), uint64(GetOrderPointerGongstruct(stage, simpletype.Union)))
+			res.ids = simpletype.Union.GongGetUUID(stage)
 		}
 	case "Order":
 		res.valueString = fmt.Sprintf("%d", simpletype.Order)
@@ -9547,7 +9547,7 @@ func (totaldigit *TotalDigit) GongGetFieldValue(fieldName string, stage *Stage) 
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if totaldigit.Annotation != nil {
 			res.valueString = totaldigit.Annotation.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(totaldigit.Annotation), uint64(GetOrderPointerGongstruct(stage, totaldigit.Annotation)))
+			res.ids = totaldigit.Annotation.GongGetUUID(stage)
 		}
 	case "Value":
 		res.valueString = totaldigit.Value
@@ -9564,7 +9564,7 @@ func (union *Union) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if union.Annotation != nil {
 			res.valueString = union.Annotation.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(union.Annotation), uint64(GetOrderPointerGongstruct(stage, union.Annotation)))
+			res.ids = union.Annotation.GongGetUUID(stage)
 		}
 	case "MemberTypes":
 		res.valueString = union.MemberTypes
@@ -9581,7 +9581,7 @@ func (whitespace *WhiteSpace) GongGetFieldValue(fieldName string, stage *Stage) 
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if whitespace.Annotation != nil {
 			res.valueString = whitespace.Annotation.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(whitespace.Annotation), uint64(GetOrderPointerGongstruct(stage, whitespace.Annotation)))
+			res.ids = whitespace.Annotation.GongGetUUID(stage)
 		}
 	case "Value":
 		res.valueString = whitespace.Value

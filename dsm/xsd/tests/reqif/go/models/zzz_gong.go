@@ -21470,19 +21470,19 @@ func (attribute_definition_boolean *ATTRIBUTE_DEFINITION_BOOLEAN) GongGetFieldVa
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if attribute_definition_boolean.ALTERNATIVE_ID != nil {
 			res.valueString = attribute_definition_boolean.ALTERNATIVE_ID.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(attribute_definition_boolean.ALTERNATIVE_ID), uint64(GetOrderPointerGongstruct(stage, attribute_definition_boolean.ALTERNATIVE_ID)))
+			res.ids = attribute_definition_boolean.ALTERNATIVE_ID.GongGetUUID(stage)
 		}
 	case "DEFAULT_VALUE":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if attribute_definition_boolean.DEFAULT_VALUE != nil {
 			res.valueString = attribute_definition_boolean.DEFAULT_VALUE.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(attribute_definition_boolean.DEFAULT_VALUE), uint64(GetOrderPointerGongstruct(stage, attribute_definition_boolean.DEFAULT_VALUE)))
+			res.ids = attribute_definition_boolean.DEFAULT_VALUE.GongGetUUID(stage)
 		}
 	case "TYPE":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if attribute_definition_boolean.TYPE != nil {
 			res.valueString = attribute_definition_boolean.TYPE.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(attribute_definition_boolean.TYPE), uint64(GetOrderPointerGongstruct(stage, attribute_definition_boolean.TYPE)))
+			res.ids = attribute_definition_boolean.TYPE.GongGetUUID(stage)
 		}
 	}
 	return
@@ -21509,19 +21509,19 @@ func (attribute_definition_date *ATTRIBUTE_DEFINITION_DATE) GongGetFieldValue(fi
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if attribute_definition_date.ALTERNATIVE_ID != nil {
 			res.valueString = attribute_definition_date.ALTERNATIVE_ID.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(attribute_definition_date.ALTERNATIVE_ID), uint64(GetOrderPointerGongstruct(stage, attribute_definition_date.ALTERNATIVE_ID)))
+			res.ids = attribute_definition_date.ALTERNATIVE_ID.GongGetUUID(stage)
 		}
 	case "DEFAULT_VALUE":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if attribute_definition_date.DEFAULT_VALUE != nil {
 			res.valueString = attribute_definition_date.DEFAULT_VALUE.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(attribute_definition_date.DEFAULT_VALUE), uint64(GetOrderPointerGongstruct(stage, attribute_definition_date.DEFAULT_VALUE)))
+			res.ids = attribute_definition_date.DEFAULT_VALUE.GongGetUUID(stage)
 		}
 	case "TYPE":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if attribute_definition_date.TYPE != nil {
 			res.valueString = attribute_definition_date.TYPE.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(attribute_definition_date.TYPE), uint64(GetOrderPointerGongstruct(stage, attribute_definition_date.TYPE)))
+			res.ids = attribute_definition_date.TYPE.GongGetUUID(stage)
 		}
 	}
 	return
@@ -21552,19 +21552,19 @@ func (attribute_definition_enumeration *ATTRIBUTE_DEFINITION_ENUMERATION) GongGe
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if attribute_definition_enumeration.ALTERNATIVE_ID != nil {
 			res.valueString = attribute_definition_enumeration.ALTERNATIVE_ID.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(attribute_definition_enumeration.ALTERNATIVE_ID), uint64(GetOrderPointerGongstruct(stage, attribute_definition_enumeration.ALTERNATIVE_ID)))
+			res.ids = attribute_definition_enumeration.ALTERNATIVE_ID.GongGetUUID(stage)
 		}
 	case "DEFAULT_VALUE":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if attribute_definition_enumeration.DEFAULT_VALUE != nil {
 			res.valueString = attribute_definition_enumeration.DEFAULT_VALUE.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(attribute_definition_enumeration.DEFAULT_VALUE), uint64(GetOrderPointerGongstruct(stage, attribute_definition_enumeration.DEFAULT_VALUE)))
+			res.ids = attribute_definition_enumeration.DEFAULT_VALUE.GongGetUUID(stage)
 		}
 	case "TYPE":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if attribute_definition_enumeration.TYPE != nil {
 			res.valueString = attribute_definition_enumeration.TYPE.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(attribute_definition_enumeration.TYPE), uint64(GetOrderPointerGongstruct(stage, attribute_definition_enumeration.TYPE)))
+			res.ids = attribute_definition_enumeration.TYPE.GongGetUUID(stage)
 		}
 	}
 	return
@@ -21591,19 +21591,19 @@ func (attribute_definition_integer *ATTRIBUTE_DEFINITION_INTEGER) GongGetFieldVa
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if attribute_definition_integer.ALTERNATIVE_ID != nil {
 			res.valueString = attribute_definition_integer.ALTERNATIVE_ID.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(attribute_definition_integer.ALTERNATIVE_ID), uint64(GetOrderPointerGongstruct(stage, attribute_definition_integer.ALTERNATIVE_ID)))
+			res.ids = attribute_definition_integer.ALTERNATIVE_ID.GongGetUUID(stage)
 		}
 	case "DEFAULT_VALUE":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if attribute_definition_integer.DEFAULT_VALUE != nil {
 			res.valueString = attribute_definition_integer.DEFAULT_VALUE.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(attribute_definition_integer.DEFAULT_VALUE), uint64(GetOrderPointerGongstruct(stage, attribute_definition_integer.DEFAULT_VALUE)))
+			res.ids = attribute_definition_integer.DEFAULT_VALUE.GongGetUUID(stage)
 		}
 	case "TYPE":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if attribute_definition_integer.TYPE != nil {
 			res.valueString = attribute_definition_integer.TYPE.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(attribute_definition_integer.TYPE), uint64(GetOrderPointerGongstruct(stage, attribute_definition_integer.TYPE)))
+			res.ids = attribute_definition_integer.TYPE.GongGetUUID(stage)
 		}
 	}
 	return
@@ -21630,19 +21630,19 @@ func (attribute_definition_real *ATTRIBUTE_DEFINITION_REAL) GongGetFieldValue(fi
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if attribute_definition_real.ALTERNATIVE_ID != nil {
 			res.valueString = attribute_definition_real.ALTERNATIVE_ID.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(attribute_definition_real.ALTERNATIVE_ID), uint64(GetOrderPointerGongstruct(stage, attribute_definition_real.ALTERNATIVE_ID)))
+			res.ids = attribute_definition_real.ALTERNATIVE_ID.GongGetUUID(stage)
 		}
 	case "DEFAULT_VALUE":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if attribute_definition_real.DEFAULT_VALUE != nil {
 			res.valueString = attribute_definition_real.DEFAULT_VALUE.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(attribute_definition_real.DEFAULT_VALUE), uint64(GetOrderPointerGongstruct(stage, attribute_definition_real.DEFAULT_VALUE)))
+			res.ids = attribute_definition_real.DEFAULT_VALUE.GongGetUUID(stage)
 		}
 	case "TYPE":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if attribute_definition_real.TYPE != nil {
 			res.valueString = attribute_definition_real.TYPE.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(attribute_definition_real.TYPE), uint64(GetOrderPointerGongstruct(stage, attribute_definition_real.TYPE)))
+			res.ids = attribute_definition_real.TYPE.GongGetUUID(stage)
 		}
 	}
 	return
@@ -21669,19 +21669,19 @@ func (attribute_definition_string *ATTRIBUTE_DEFINITION_STRING) GongGetFieldValu
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if attribute_definition_string.ALTERNATIVE_ID != nil {
 			res.valueString = attribute_definition_string.ALTERNATIVE_ID.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(attribute_definition_string.ALTERNATIVE_ID), uint64(GetOrderPointerGongstruct(stage, attribute_definition_string.ALTERNATIVE_ID)))
+			res.ids = attribute_definition_string.ALTERNATIVE_ID.GongGetUUID(stage)
 		}
 	case "DEFAULT_VALUE":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if attribute_definition_string.DEFAULT_VALUE != nil {
 			res.valueString = attribute_definition_string.DEFAULT_VALUE.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(attribute_definition_string.DEFAULT_VALUE), uint64(GetOrderPointerGongstruct(stage, attribute_definition_string.DEFAULT_VALUE)))
+			res.ids = attribute_definition_string.DEFAULT_VALUE.GongGetUUID(stage)
 		}
 	case "TYPE":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if attribute_definition_string.TYPE != nil {
 			res.valueString = attribute_definition_string.TYPE.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(attribute_definition_string.TYPE), uint64(GetOrderPointerGongstruct(stage, attribute_definition_string.TYPE)))
+			res.ids = attribute_definition_string.TYPE.GongGetUUID(stage)
 		}
 	}
 	return
@@ -21708,19 +21708,19 @@ func (attribute_definition_xhtml *ATTRIBUTE_DEFINITION_XHTML) GongGetFieldValue(
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if attribute_definition_xhtml.ALTERNATIVE_ID != nil {
 			res.valueString = attribute_definition_xhtml.ALTERNATIVE_ID.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(attribute_definition_xhtml.ALTERNATIVE_ID), uint64(GetOrderPointerGongstruct(stage, attribute_definition_xhtml.ALTERNATIVE_ID)))
+			res.ids = attribute_definition_xhtml.ALTERNATIVE_ID.GongGetUUID(stage)
 		}
 	case "DEFAULT_VALUE":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if attribute_definition_xhtml.DEFAULT_VALUE != nil {
 			res.valueString = attribute_definition_xhtml.DEFAULT_VALUE.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(attribute_definition_xhtml.DEFAULT_VALUE), uint64(GetOrderPointerGongstruct(stage, attribute_definition_xhtml.DEFAULT_VALUE)))
+			res.ids = attribute_definition_xhtml.DEFAULT_VALUE.GongGetUUID(stage)
 		}
 	case "TYPE":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if attribute_definition_xhtml.TYPE != nil {
 			res.valueString = attribute_definition_xhtml.TYPE.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(attribute_definition_xhtml.TYPE), uint64(GetOrderPointerGongstruct(stage, attribute_definition_xhtml.TYPE)))
+			res.ids = attribute_definition_xhtml.TYPE.GongGetUUID(stage)
 		}
 	}
 	return
@@ -21739,7 +21739,7 @@ func (attribute_value_boolean *ATTRIBUTE_VALUE_BOOLEAN) GongGetFieldValue(fieldN
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if attribute_value_boolean.DEFINITION != nil {
 			res.valueString = attribute_value_boolean.DEFINITION.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(attribute_value_boolean.DEFINITION), uint64(GetOrderPointerGongstruct(stage, attribute_value_boolean.DEFINITION)))
+			res.ids = attribute_value_boolean.DEFINITION.GongGetUUID(stage)
 		}
 	}
 	return
@@ -21756,7 +21756,7 @@ func (attribute_value_date *ATTRIBUTE_VALUE_DATE) GongGetFieldValue(fieldName st
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if attribute_value_date.DEFINITION != nil {
 			res.valueString = attribute_value_date.DEFINITION.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(attribute_value_date.DEFINITION), uint64(GetOrderPointerGongstruct(stage, attribute_value_date.DEFINITION)))
+			res.ids = attribute_value_date.DEFINITION.GongGetUUID(stage)
 		}
 	}
 	return
@@ -21771,13 +21771,13 @@ func (attribute_value_enumeration *ATTRIBUTE_VALUE_ENUMERATION) GongGetFieldValu
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if attribute_value_enumeration.DEFINITION != nil {
 			res.valueString = attribute_value_enumeration.DEFINITION.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(attribute_value_enumeration.DEFINITION), uint64(GetOrderPointerGongstruct(stage, attribute_value_enumeration.DEFINITION)))
+			res.ids = attribute_value_enumeration.DEFINITION.GongGetUUID(stage)
 		}
 	case "VALUES":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if attribute_value_enumeration.VALUES != nil {
 			res.valueString = attribute_value_enumeration.VALUES.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(attribute_value_enumeration.VALUES), uint64(GetOrderPointerGongstruct(stage, attribute_value_enumeration.VALUES)))
+			res.ids = attribute_value_enumeration.VALUES.GongGetUUID(stage)
 		}
 	}
 	return
@@ -21796,7 +21796,7 @@ func (attribute_value_integer *ATTRIBUTE_VALUE_INTEGER) GongGetFieldValue(fieldN
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if attribute_value_integer.DEFINITION != nil {
 			res.valueString = attribute_value_integer.DEFINITION.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(attribute_value_integer.DEFINITION), uint64(GetOrderPointerGongstruct(stage, attribute_value_integer.DEFINITION)))
+			res.ids = attribute_value_integer.DEFINITION.GongGetUUID(stage)
 		}
 	}
 	return
@@ -21815,7 +21815,7 @@ func (attribute_value_real *ATTRIBUTE_VALUE_REAL) GongGetFieldValue(fieldName st
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if attribute_value_real.DEFINITION != nil {
 			res.valueString = attribute_value_real.DEFINITION.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(attribute_value_real.DEFINITION), uint64(GetOrderPointerGongstruct(stage, attribute_value_real.DEFINITION)))
+			res.ids = attribute_value_real.DEFINITION.GongGetUUID(stage)
 		}
 	}
 	return
@@ -21832,7 +21832,7 @@ func (attribute_value_string *ATTRIBUTE_VALUE_STRING) GongGetFieldValue(fieldNam
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if attribute_value_string.DEFINITION != nil {
 			res.valueString = attribute_value_string.DEFINITION.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(attribute_value_string.DEFINITION), uint64(GetOrderPointerGongstruct(stage, attribute_value_string.DEFINITION)))
+			res.ids = attribute_value_string.DEFINITION.GongGetUUID(stage)
 		}
 	}
 	return
@@ -21851,19 +21851,19 @@ func (attribute_value_xhtml *ATTRIBUTE_VALUE_XHTML) GongGetFieldValue(fieldName 
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if attribute_value_xhtml.THE_VALUE != nil {
 			res.valueString = attribute_value_xhtml.THE_VALUE.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(attribute_value_xhtml.THE_VALUE), uint64(GetOrderPointerGongstruct(stage, attribute_value_xhtml.THE_VALUE)))
+			res.ids = attribute_value_xhtml.THE_VALUE.GongGetUUID(stage)
 		}
 	case "THE_ORIGINAL_VALUE":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if attribute_value_xhtml.THE_ORIGINAL_VALUE != nil {
 			res.valueString = attribute_value_xhtml.THE_ORIGINAL_VALUE.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(attribute_value_xhtml.THE_ORIGINAL_VALUE), uint64(GetOrderPointerGongstruct(stage, attribute_value_xhtml.THE_ORIGINAL_VALUE)))
+			res.ids = attribute_value_xhtml.THE_ORIGINAL_VALUE.GongGetUUID(stage)
 		}
 	case "DEFINITION":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if attribute_value_xhtml.DEFINITION != nil {
 			res.valueString = attribute_value_xhtml.DEFINITION.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(attribute_value_xhtml.DEFINITION), uint64(GetOrderPointerGongstruct(stage, attribute_value_xhtml.DEFINITION)))
+			res.ids = attribute_value_xhtml.DEFINITION.GongGetUUID(stage)
 		}
 	}
 	return
@@ -21878,7 +21878,7 @@ func (a_alternative_id *A_ALTERNATIVE_ID) GongGetFieldValue(fieldName string, st
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if a_alternative_id.ALTERNATIVE_ID != nil {
 			res.valueString = a_alternative_id.ALTERNATIVE_ID.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(a_alternative_id.ALTERNATIVE_ID), uint64(GetOrderPointerGongstruct(stage, a_alternative_id.ALTERNATIVE_ID)))
+			res.ids = a_alternative_id.ALTERNATIVE_ID.GongGetUUID(stage)
 		}
 	}
 	return
@@ -21974,7 +21974,7 @@ func (a_attribute_value_boolean *A_ATTRIBUTE_VALUE_BOOLEAN) GongGetFieldValue(fi
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	}
 	return
@@ -21993,7 +21993,7 @@ func (a_attribute_value_date *A_ATTRIBUTE_VALUE_DATE) GongGetFieldValue(fieldNam
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	}
 	return
@@ -22012,7 +22012,7 @@ func (a_attribute_value_enumeration *A_ATTRIBUTE_VALUE_ENUMERATION) GongGetField
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	}
 	return
@@ -22031,7 +22031,7 @@ func (a_attribute_value_integer *A_ATTRIBUTE_VALUE_INTEGER) GongGetFieldValue(fi
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	}
 	return
@@ -22050,7 +22050,7 @@ func (a_attribute_value_real *A_ATTRIBUTE_VALUE_REAL) GongGetFieldValue(fieldNam
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	}
 	return
@@ -22069,7 +22069,7 @@ func (a_attribute_value_string *A_ATTRIBUTE_VALUE_STRING) GongGetFieldValue(fiel
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	}
 	return
@@ -22088,7 +22088,7 @@ func (a_attribute_value_xhtml *A_ATTRIBUTE_VALUE_XHTML) GongGetFieldValue(fieldN
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	}
 	return
@@ -22107,7 +22107,7 @@ func (a_attribute_value_xhtml_1 *A_ATTRIBUTE_VALUE_XHTML_1) GongGetFieldValue(fi
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "ATTRIBUTE_VALUE_DATE":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -22117,7 +22117,7 @@ func (a_attribute_value_xhtml_1 *A_ATTRIBUTE_VALUE_XHTML_1) GongGetFieldValue(fi
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "ATTRIBUTE_VALUE_ENUMERATION":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -22127,7 +22127,7 @@ func (a_attribute_value_xhtml_1 *A_ATTRIBUTE_VALUE_XHTML_1) GongGetFieldValue(fi
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "ATTRIBUTE_VALUE_INTEGER":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -22137,7 +22137,7 @@ func (a_attribute_value_xhtml_1 *A_ATTRIBUTE_VALUE_XHTML_1) GongGetFieldValue(fi
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "ATTRIBUTE_VALUE_REAL":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -22147,7 +22147,7 @@ func (a_attribute_value_xhtml_1 *A_ATTRIBUTE_VALUE_XHTML_1) GongGetFieldValue(fi
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "ATTRIBUTE_VALUE_STRING":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -22157,7 +22157,7 @@ func (a_attribute_value_xhtml_1 *A_ATTRIBUTE_VALUE_XHTML_1) GongGetFieldValue(fi
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "ATTRIBUTE_VALUE_XHTML":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -22167,7 +22167,7 @@ func (a_attribute_value_xhtml_1 *A_ATTRIBUTE_VALUE_XHTML_1) GongGetFieldValue(fi
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	}
 	return
@@ -22186,7 +22186,7 @@ func (a_children *A_CHILDREN) GongGetFieldValue(fieldName string, stage *Stage) 
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	}
 	return
@@ -22201,7 +22201,7 @@ func (a_core_content *A_CORE_CONTENT) GongGetFieldValue(fieldName string, stage 
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if a_core_content.REQ_IF_CONTENT != nil {
 			res.valueString = a_core_content.REQ_IF_CONTENT.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(a_core_content.REQ_IF_CONTENT), uint64(GetOrderPointerGongstruct(stage, a_core_content.REQ_IF_CONTENT)))
+			res.ids = a_core_content.REQ_IF_CONTENT.GongGetUUID(stage)
 		}
 	}
 	return
@@ -22220,7 +22220,7 @@ func (a_datatypes *A_DATATYPES) GongGetFieldValue(fieldName string, stage *Stage
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "DATATYPE_DEFINITION_DATE":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -22230,7 +22230,7 @@ func (a_datatypes *A_DATATYPES) GongGetFieldValue(fieldName string, stage *Stage
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "DATATYPE_DEFINITION_ENUMERATION":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -22240,7 +22240,7 @@ func (a_datatypes *A_DATATYPES) GongGetFieldValue(fieldName string, stage *Stage
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "DATATYPE_DEFINITION_INTEGER":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -22250,7 +22250,7 @@ func (a_datatypes *A_DATATYPES) GongGetFieldValue(fieldName string, stage *Stage
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "DATATYPE_DEFINITION_REAL":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -22260,7 +22260,7 @@ func (a_datatypes *A_DATATYPES) GongGetFieldValue(fieldName string, stage *Stage
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "DATATYPE_DEFINITION_STRING":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -22270,7 +22270,7 @@ func (a_datatypes *A_DATATYPES) GongGetFieldValue(fieldName string, stage *Stage
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "DATATYPE_DEFINITION_XHTML":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -22280,7 +22280,7 @@ func (a_datatypes *A_DATATYPES) GongGetFieldValue(fieldName string, stage *Stage
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	}
 	return
@@ -22417,7 +22417,7 @@ func (a_properties *A_PROPERTIES) GongGetFieldValue(fieldName string, stage *Sta
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if a_properties.EMBEDDED_VALUE != nil {
 			res.valueString = a_properties.EMBEDDED_VALUE.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(a_properties.EMBEDDED_VALUE), uint64(GetOrderPointerGongstruct(stage, a_properties.EMBEDDED_VALUE)))
+			res.ids = a_properties.EMBEDDED_VALUE.GongGetUUID(stage)
 		}
 	}
 	return
@@ -22470,7 +22470,7 @@ func (a_specifications *A_SPECIFICATIONS) GongGetFieldValue(fieldName string, st
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	}
 	return
@@ -22500,7 +22500,7 @@ func (a_specified_values *A_SPECIFIED_VALUES) GongGetFieldValue(fieldName string
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	}
 	return
@@ -22519,7 +22519,7 @@ func (a_spec_attributes *A_SPEC_ATTRIBUTES) GongGetFieldValue(fieldName string, 
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "ATTRIBUTE_DEFINITION_DATE":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -22529,7 +22529,7 @@ func (a_spec_attributes *A_SPEC_ATTRIBUTES) GongGetFieldValue(fieldName string, 
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "ATTRIBUTE_DEFINITION_ENUMERATION":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -22539,7 +22539,7 @@ func (a_spec_attributes *A_SPEC_ATTRIBUTES) GongGetFieldValue(fieldName string, 
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "ATTRIBUTE_DEFINITION_INTEGER":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -22549,7 +22549,7 @@ func (a_spec_attributes *A_SPEC_ATTRIBUTES) GongGetFieldValue(fieldName string, 
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "ATTRIBUTE_DEFINITION_REAL":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -22559,7 +22559,7 @@ func (a_spec_attributes *A_SPEC_ATTRIBUTES) GongGetFieldValue(fieldName string, 
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "ATTRIBUTE_DEFINITION_STRING":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -22569,7 +22569,7 @@ func (a_spec_attributes *A_SPEC_ATTRIBUTES) GongGetFieldValue(fieldName string, 
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "ATTRIBUTE_DEFINITION_XHTML":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -22579,7 +22579,7 @@ func (a_spec_attributes *A_SPEC_ATTRIBUTES) GongGetFieldValue(fieldName string, 
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	}
 	return
@@ -22598,7 +22598,7 @@ func (a_spec_objects *A_SPEC_OBJECTS) GongGetFieldValue(fieldName string, stage 
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	}
 	return
@@ -22628,7 +22628,7 @@ func (a_spec_relations *A_SPEC_RELATIONS) GongGetFieldValue(fieldName string, st
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	}
 	return
@@ -22647,7 +22647,7 @@ func (a_spec_relation_groups *A_SPEC_RELATION_GROUPS) GongGetFieldValue(fieldNam
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	}
 	return
@@ -22688,7 +22688,7 @@ func (a_spec_types *A_SPEC_TYPES) GongGetFieldValue(fieldName string, stage *Sta
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "SPEC_OBJECT_TYPE":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -22698,7 +22698,7 @@ func (a_spec_types *A_SPEC_TYPES) GongGetFieldValue(fieldName string, stage *Sta
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "SPEC_RELATION_TYPE":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -22708,7 +22708,7 @@ func (a_spec_types *A_SPEC_TYPES) GongGetFieldValue(fieldName string, stage *Sta
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "SPECIFICATION_TYPE":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -22718,7 +22718,7 @@ func (a_spec_types *A_SPEC_TYPES) GongGetFieldValue(fieldName string, stage *Sta
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	}
 	return
@@ -22733,7 +22733,7 @@ func (a_the_header *A_THE_HEADER) GongGetFieldValue(fieldName string, stage *Sta
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if a_the_header.REQ_IF_HEADER != nil {
 			res.valueString = a_the_header.REQ_IF_HEADER.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(a_the_header.REQ_IF_HEADER), uint64(GetOrderPointerGongstruct(stage, a_the_header.REQ_IF_HEADER)))
+			res.ids = a_the_header.REQ_IF_HEADER.GongGetUUID(stage)
 		}
 	}
 	return
@@ -22752,7 +22752,7 @@ func (a_tool_extensions *A_TOOL_EXTENSIONS) GongGetFieldValue(fieldName string, 
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	}
 	return
@@ -22775,7 +22775,7 @@ func (datatype_definition_boolean *DATATYPE_DEFINITION_BOOLEAN) GongGetFieldValu
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if datatype_definition_boolean.ALTERNATIVE_ID != nil {
 			res.valueString = datatype_definition_boolean.ALTERNATIVE_ID.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(datatype_definition_boolean.ALTERNATIVE_ID), uint64(GetOrderPointerGongstruct(stage, datatype_definition_boolean.ALTERNATIVE_ID)))
+			res.ids = datatype_definition_boolean.ALTERNATIVE_ID.GongGetUUID(stage)
 		}
 	}
 	return
@@ -22798,7 +22798,7 @@ func (datatype_definition_date *DATATYPE_DEFINITION_DATE) GongGetFieldValue(fiel
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if datatype_definition_date.ALTERNATIVE_ID != nil {
 			res.valueString = datatype_definition_date.ALTERNATIVE_ID.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(datatype_definition_date.ALTERNATIVE_ID), uint64(GetOrderPointerGongstruct(stage, datatype_definition_date.ALTERNATIVE_ID)))
+			res.ids = datatype_definition_date.ALTERNATIVE_ID.GongGetUUID(stage)
 		}
 	}
 	return
@@ -22821,13 +22821,13 @@ func (datatype_definition_enumeration *DATATYPE_DEFINITION_ENUMERATION) GongGetF
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if datatype_definition_enumeration.ALTERNATIVE_ID != nil {
 			res.valueString = datatype_definition_enumeration.ALTERNATIVE_ID.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(datatype_definition_enumeration.ALTERNATIVE_ID), uint64(GetOrderPointerGongstruct(stage, datatype_definition_enumeration.ALTERNATIVE_ID)))
+			res.ids = datatype_definition_enumeration.ALTERNATIVE_ID.GongGetUUID(stage)
 		}
 	case "SPECIFIED_VALUES":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if datatype_definition_enumeration.SPECIFIED_VALUES != nil {
 			res.valueString = datatype_definition_enumeration.SPECIFIED_VALUES.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(datatype_definition_enumeration.SPECIFIED_VALUES), uint64(GetOrderPointerGongstruct(stage, datatype_definition_enumeration.SPECIFIED_VALUES)))
+			res.ids = datatype_definition_enumeration.SPECIFIED_VALUES.GongGetUUID(stage)
 		}
 	}
 	return
@@ -22858,7 +22858,7 @@ func (datatype_definition_integer *DATATYPE_DEFINITION_INTEGER) GongGetFieldValu
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if datatype_definition_integer.ALTERNATIVE_ID != nil {
 			res.valueString = datatype_definition_integer.ALTERNATIVE_ID.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(datatype_definition_integer.ALTERNATIVE_ID), uint64(GetOrderPointerGongstruct(stage, datatype_definition_integer.ALTERNATIVE_ID)))
+			res.ids = datatype_definition_integer.ALTERNATIVE_ID.GongGetUUID(stage)
 		}
 	}
 	return
@@ -22893,7 +22893,7 @@ func (datatype_definition_real *DATATYPE_DEFINITION_REAL) GongGetFieldValue(fiel
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if datatype_definition_real.ALTERNATIVE_ID != nil {
 			res.valueString = datatype_definition_real.ALTERNATIVE_ID.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(datatype_definition_real.ALTERNATIVE_ID), uint64(GetOrderPointerGongstruct(stage, datatype_definition_real.ALTERNATIVE_ID)))
+			res.ids = datatype_definition_real.ALTERNATIVE_ID.GongGetUUID(stage)
 		}
 	}
 	return
@@ -22920,7 +22920,7 @@ func (datatype_definition_string *DATATYPE_DEFINITION_STRING) GongGetFieldValue(
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if datatype_definition_string.ALTERNATIVE_ID != nil {
 			res.valueString = datatype_definition_string.ALTERNATIVE_ID.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(datatype_definition_string.ALTERNATIVE_ID), uint64(GetOrderPointerGongstruct(stage, datatype_definition_string.ALTERNATIVE_ID)))
+			res.ids = datatype_definition_string.ALTERNATIVE_ID.GongGetUUID(stage)
 		}
 	}
 	return
@@ -22943,7 +22943,7 @@ func (datatype_definition_xhtml *DATATYPE_DEFINITION_XHTML) GongGetFieldValue(fi
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if datatype_definition_xhtml.ALTERNATIVE_ID != nil {
 			res.valueString = datatype_definition_xhtml.ALTERNATIVE_ID.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(datatype_definition_xhtml.ALTERNATIVE_ID), uint64(GetOrderPointerGongstruct(stage, datatype_definition_xhtml.ALTERNATIVE_ID)))
+			res.ids = datatype_definition_xhtml.ALTERNATIVE_ID.GongGetUUID(stage)
 		}
 	}
 	return
@@ -22981,13 +22981,13 @@ func (enum_value *ENUM_VALUE) GongGetFieldValue(fieldName string, stage *Stage) 
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if enum_value.ALTERNATIVE_ID != nil {
 			res.valueString = enum_value.ALTERNATIVE_ID.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(enum_value.ALTERNATIVE_ID), uint64(GetOrderPointerGongstruct(stage, enum_value.ALTERNATIVE_ID)))
+			res.ids = enum_value.ALTERNATIVE_ID.GongGetUUID(stage)
 		}
 	case "PROPERTIES":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if enum_value.PROPERTIES != nil {
 			res.valueString = enum_value.PROPERTIES.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(enum_value.PROPERTIES), uint64(GetOrderPointerGongstruct(stage, enum_value.PROPERTIES)))
+			res.ids = enum_value.PROPERTIES.GongGetUUID(stage)
 		}
 	}
 	return
@@ -23010,31 +23010,31 @@ func (relation_group *RELATION_GROUP) GongGetFieldValue(fieldName string, stage 
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if relation_group.ALTERNATIVE_ID != nil {
 			res.valueString = relation_group.ALTERNATIVE_ID.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(relation_group.ALTERNATIVE_ID), uint64(GetOrderPointerGongstruct(stage, relation_group.ALTERNATIVE_ID)))
+			res.ids = relation_group.ALTERNATIVE_ID.GongGetUUID(stage)
 		}
 	case "SOURCE_SPECIFICATION":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if relation_group.SOURCE_SPECIFICATION != nil {
 			res.valueString = relation_group.SOURCE_SPECIFICATION.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(relation_group.SOURCE_SPECIFICATION), uint64(GetOrderPointerGongstruct(stage, relation_group.SOURCE_SPECIFICATION)))
+			res.ids = relation_group.SOURCE_SPECIFICATION.GongGetUUID(stage)
 		}
 	case "SPEC_RELATIONS":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if relation_group.SPEC_RELATIONS != nil {
 			res.valueString = relation_group.SPEC_RELATIONS.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(relation_group.SPEC_RELATIONS), uint64(GetOrderPointerGongstruct(stage, relation_group.SPEC_RELATIONS)))
+			res.ids = relation_group.SPEC_RELATIONS.GongGetUUID(stage)
 		}
 	case "TARGET_SPECIFICATION":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if relation_group.TARGET_SPECIFICATION != nil {
 			res.valueString = relation_group.TARGET_SPECIFICATION.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(relation_group.TARGET_SPECIFICATION), uint64(GetOrderPointerGongstruct(stage, relation_group.TARGET_SPECIFICATION)))
+			res.ids = relation_group.TARGET_SPECIFICATION.GongGetUUID(stage)
 		}
 	case "TYPE":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if relation_group.TYPE != nil {
 			res.valueString = relation_group.TYPE.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(relation_group.TYPE), uint64(GetOrderPointerGongstruct(stage, relation_group.TYPE)))
+			res.ids = relation_group.TYPE.GongGetUUID(stage)
 		}
 	}
 	return
@@ -23057,13 +23057,13 @@ func (relation_group_type *RELATION_GROUP_TYPE) GongGetFieldValue(fieldName stri
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if relation_group_type.ALTERNATIVE_ID != nil {
 			res.valueString = relation_group_type.ALTERNATIVE_ID.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(relation_group_type.ALTERNATIVE_ID), uint64(GetOrderPointerGongstruct(stage, relation_group_type.ALTERNATIVE_ID)))
+			res.ids = relation_group_type.ALTERNATIVE_ID.GongGetUUID(stage)
 		}
 	case "SPEC_ATTRIBUTES":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if relation_group_type.SPEC_ATTRIBUTES != nil {
 			res.valueString = relation_group_type.SPEC_ATTRIBUTES.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(relation_group_type.SPEC_ATTRIBUTES), uint64(GetOrderPointerGongstruct(stage, relation_group_type.SPEC_ATTRIBUTES)))
+			res.ids = relation_group_type.SPEC_ATTRIBUTES.GongGetUUID(stage)
 		}
 	}
 	return
@@ -23080,19 +23080,19 @@ func (req_if *REQ_IF) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if req_if.THE_HEADER != nil {
 			res.valueString = req_if.THE_HEADER.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(req_if.THE_HEADER), uint64(GetOrderPointerGongstruct(stage, req_if.THE_HEADER)))
+			res.ids = req_if.THE_HEADER.GongGetUUID(stage)
 		}
 	case "CORE_CONTENT":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if req_if.CORE_CONTENT != nil {
 			res.valueString = req_if.CORE_CONTENT.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(req_if.CORE_CONTENT), uint64(GetOrderPointerGongstruct(stage, req_if.CORE_CONTENT)))
+			res.ids = req_if.CORE_CONTENT.GongGetUUID(stage)
 		}
 	case "TOOL_EXTENSIONS":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if req_if.TOOL_EXTENSIONS != nil {
 			res.valueString = req_if.TOOL_EXTENSIONS.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(req_if.TOOL_EXTENSIONS), uint64(GetOrderPointerGongstruct(stage, req_if.TOOL_EXTENSIONS)))
+			res.ids = req_if.TOOL_EXTENSIONS.GongGetUUID(stage)
 		}
 	}
 	return
@@ -23107,37 +23107,37 @@ func (req_if_content *REQ_IF_CONTENT) GongGetFieldValue(fieldName string, stage 
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if req_if_content.DATATYPES != nil {
 			res.valueString = req_if_content.DATATYPES.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(req_if_content.DATATYPES), uint64(GetOrderPointerGongstruct(stage, req_if_content.DATATYPES)))
+			res.ids = req_if_content.DATATYPES.GongGetUUID(stage)
 		}
 	case "SPEC_TYPES":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if req_if_content.SPEC_TYPES != nil {
 			res.valueString = req_if_content.SPEC_TYPES.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(req_if_content.SPEC_TYPES), uint64(GetOrderPointerGongstruct(stage, req_if_content.SPEC_TYPES)))
+			res.ids = req_if_content.SPEC_TYPES.GongGetUUID(stage)
 		}
 	case "SPEC_OBJECTS":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if req_if_content.SPEC_OBJECTS != nil {
 			res.valueString = req_if_content.SPEC_OBJECTS.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(req_if_content.SPEC_OBJECTS), uint64(GetOrderPointerGongstruct(stage, req_if_content.SPEC_OBJECTS)))
+			res.ids = req_if_content.SPEC_OBJECTS.GongGetUUID(stage)
 		}
 	case "SPEC_RELATIONS":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if req_if_content.SPEC_RELATIONS != nil {
 			res.valueString = req_if_content.SPEC_RELATIONS.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(req_if_content.SPEC_RELATIONS), uint64(GetOrderPointerGongstruct(stage, req_if_content.SPEC_RELATIONS)))
+			res.ids = req_if_content.SPEC_RELATIONS.GongGetUUID(stage)
 		}
 	case "SPECIFICATIONS":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if req_if_content.SPECIFICATIONS != nil {
 			res.valueString = req_if_content.SPECIFICATIONS.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(req_if_content.SPECIFICATIONS), uint64(GetOrderPointerGongstruct(stage, req_if_content.SPECIFICATIONS)))
+			res.ids = req_if_content.SPECIFICATIONS.GongGetUUID(stage)
 		}
 	case "SPEC_RELATION_GROUPS":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if req_if_content.SPEC_RELATION_GROUPS != nil {
 			res.valueString = req_if_content.SPEC_RELATION_GROUPS.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(req_if_content.SPEC_RELATION_GROUPS), uint64(GetOrderPointerGongstruct(stage, req_if_content.SPEC_RELATION_GROUPS)))
+			res.ids = req_if_content.SPEC_RELATION_GROUPS.GongGetUUID(stage)
 		}
 	}
 	return
@@ -23194,25 +23194,25 @@ func (specification *SPECIFICATION) GongGetFieldValue(fieldName string, stage *S
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if specification.ALTERNATIVE_ID != nil {
 			res.valueString = specification.ALTERNATIVE_ID.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(specification.ALTERNATIVE_ID), uint64(GetOrderPointerGongstruct(stage, specification.ALTERNATIVE_ID)))
+			res.ids = specification.ALTERNATIVE_ID.GongGetUUID(stage)
 		}
 	case "CHILDREN":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if specification.CHILDREN != nil {
 			res.valueString = specification.CHILDREN.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(specification.CHILDREN), uint64(GetOrderPointerGongstruct(stage, specification.CHILDREN)))
+			res.ids = specification.CHILDREN.GongGetUUID(stage)
 		}
 	case "VALUES":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if specification.VALUES != nil {
 			res.valueString = specification.VALUES.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(specification.VALUES), uint64(GetOrderPointerGongstruct(stage, specification.VALUES)))
+			res.ids = specification.VALUES.GongGetUUID(stage)
 		}
 	case "TYPE":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if specification.TYPE != nil {
 			res.valueString = specification.TYPE.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(specification.TYPE), uint64(GetOrderPointerGongstruct(stage, specification.TYPE)))
+			res.ids = specification.TYPE.GongGetUUID(stage)
 		}
 	}
 	return
@@ -23235,13 +23235,13 @@ func (specification_type *SPECIFICATION_TYPE) GongGetFieldValue(fieldName string
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if specification_type.ALTERNATIVE_ID != nil {
 			res.valueString = specification_type.ALTERNATIVE_ID.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(specification_type.ALTERNATIVE_ID), uint64(GetOrderPointerGongstruct(stage, specification_type.ALTERNATIVE_ID)))
+			res.ids = specification_type.ALTERNATIVE_ID.GongGetUUID(stage)
 		}
 	case "SPEC_ATTRIBUTES":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if specification_type.SPEC_ATTRIBUTES != nil {
 			res.valueString = specification_type.SPEC_ATTRIBUTES.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(specification_type.SPEC_ATTRIBUTES), uint64(GetOrderPointerGongstruct(stage, specification_type.SPEC_ATTRIBUTES)))
+			res.ids = specification_type.SPEC_ATTRIBUTES.GongGetUUID(stage)
 		}
 	}
 	return
@@ -23272,25 +23272,25 @@ func (spec_hierarchy *SPEC_HIERARCHY) GongGetFieldValue(fieldName string, stage 
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if spec_hierarchy.ALTERNATIVE_ID != nil {
 			res.valueString = spec_hierarchy.ALTERNATIVE_ID.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(spec_hierarchy.ALTERNATIVE_ID), uint64(GetOrderPointerGongstruct(stage, spec_hierarchy.ALTERNATIVE_ID)))
+			res.ids = spec_hierarchy.ALTERNATIVE_ID.GongGetUUID(stage)
 		}
 	case "CHILDREN":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if spec_hierarchy.CHILDREN != nil {
 			res.valueString = spec_hierarchy.CHILDREN.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(spec_hierarchy.CHILDREN), uint64(GetOrderPointerGongstruct(stage, spec_hierarchy.CHILDREN)))
+			res.ids = spec_hierarchy.CHILDREN.GongGetUUID(stage)
 		}
 	case "EDITABLE_ATTS":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if spec_hierarchy.EDITABLE_ATTS != nil {
 			res.valueString = spec_hierarchy.EDITABLE_ATTS.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(spec_hierarchy.EDITABLE_ATTS), uint64(GetOrderPointerGongstruct(stage, spec_hierarchy.EDITABLE_ATTS)))
+			res.ids = spec_hierarchy.EDITABLE_ATTS.GongGetUUID(stage)
 		}
 	case "OBJECT":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if spec_hierarchy.OBJECT != nil {
 			res.valueString = spec_hierarchy.OBJECT.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(spec_hierarchy.OBJECT), uint64(GetOrderPointerGongstruct(stage, spec_hierarchy.OBJECT)))
+			res.ids = spec_hierarchy.OBJECT.GongGetUUID(stage)
 		}
 	}
 	return
@@ -23313,19 +23313,19 @@ func (spec_object *SPEC_OBJECT) GongGetFieldValue(fieldName string, stage *Stage
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if spec_object.ALTERNATIVE_ID != nil {
 			res.valueString = spec_object.ALTERNATIVE_ID.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(spec_object.ALTERNATIVE_ID), uint64(GetOrderPointerGongstruct(stage, spec_object.ALTERNATIVE_ID)))
+			res.ids = spec_object.ALTERNATIVE_ID.GongGetUUID(stage)
 		}
 	case "VALUES":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if spec_object.VALUES != nil {
 			res.valueString = spec_object.VALUES.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(spec_object.VALUES), uint64(GetOrderPointerGongstruct(stage, spec_object.VALUES)))
+			res.ids = spec_object.VALUES.GongGetUUID(stage)
 		}
 	case "TYPE":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if spec_object.TYPE != nil {
 			res.valueString = spec_object.TYPE.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(spec_object.TYPE), uint64(GetOrderPointerGongstruct(stage, spec_object.TYPE)))
+			res.ids = spec_object.TYPE.GongGetUUID(stage)
 		}
 	}
 	return
@@ -23348,13 +23348,13 @@ func (spec_object_type *SPEC_OBJECT_TYPE) GongGetFieldValue(fieldName string, st
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if spec_object_type.ALTERNATIVE_ID != nil {
 			res.valueString = spec_object_type.ALTERNATIVE_ID.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(spec_object_type.ALTERNATIVE_ID), uint64(GetOrderPointerGongstruct(stage, spec_object_type.ALTERNATIVE_ID)))
+			res.ids = spec_object_type.ALTERNATIVE_ID.GongGetUUID(stage)
 		}
 	case "SPEC_ATTRIBUTES":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if spec_object_type.SPEC_ATTRIBUTES != nil {
 			res.valueString = spec_object_type.SPEC_ATTRIBUTES.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(spec_object_type.SPEC_ATTRIBUTES), uint64(GetOrderPointerGongstruct(stage, spec_object_type.SPEC_ATTRIBUTES)))
+			res.ids = spec_object_type.SPEC_ATTRIBUTES.GongGetUUID(stage)
 		}
 	}
 	return
@@ -23377,31 +23377,31 @@ func (spec_relation *SPEC_RELATION) GongGetFieldValue(fieldName string, stage *S
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if spec_relation.ALTERNATIVE_ID != nil {
 			res.valueString = spec_relation.ALTERNATIVE_ID.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(spec_relation.ALTERNATIVE_ID), uint64(GetOrderPointerGongstruct(stage, spec_relation.ALTERNATIVE_ID)))
+			res.ids = spec_relation.ALTERNATIVE_ID.GongGetUUID(stage)
 		}
 	case "VALUES":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if spec_relation.VALUES != nil {
 			res.valueString = spec_relation.VALUES.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(spec_relation.VALUES), uint64(GetOrderPointerGongstruct(stage, spec_relation.VALUES)))
+			res.ids = spec_relation.VALUES.GongGetUUID(stage)
 		}
 	case "SOURCE":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if spec_relation.SOURCE != nil {
 			res.valueString = spec_relation.SOURCE.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(spec_relation.SOURCE), uint64(GetOrderPointerGongstruct(stage, spec_relation.SOURCE)))
+			res.ids = spec_relation.SOURCE.GongGetUUID(stage)
 		}
 	case "TARGET":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if spec_relation.TARGET != nil {
 			res.valueString = spec_relation.TARGET.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(spec_relation.TARGET), uint64(GetOrderPointerGongstruct(stage, spec_relation.TARGET)))
+			res.ids = spec_relation.TARGET.GongGetUUID(stage)
 		}
 	case "TYPE":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if spec_relation.TYPE != nil {
 			res.valueString = spec_relation.TYPE.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(spec_relation.TYPE), uint64(GetOrderPointerGongstruct(stage, spec_relation.TYPE)))
+			res.ids = spec_relation.TYPE.GongGetUUID(stage)
 		}
 	}
 	return
@@ -23424,13 +23424,13 @@ func (spec_relation_type *SPEC_RELATION_TYPE) GongGetFieldValue(fieldName string
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if spec_relation_type.ALTERNATIVE_ID != nil {
 			res.valueString = spec_relation_type.ALTERNATIVE_ID.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(spec_relation_type.ALTERNATIVE_ID), uint64(GetOrderPointerGongstruct(stage, spec_relation_type.ALTERNATIVE_ID)))
+			res.ids = spec_relation_type.ALTERNATIVE_ID.GongGetUUID(stage)
 		}
 	case "SPEC_ATTRIBUTES":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if spec_relation_type.SPEC_ATTRIBUTES != nil {
 			res.valueString = spec_relation_type.SPEC_ATTRIBUTES.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(spec_relation_type.SPEC_ATTRIBUTES), uint64(GetOrderPointerGongstruct(stage, spec_relation_type.SPEC_ATTRIBUTES)))
+			res.ids = spec_relation_type.SPEC_ATTRIBUTES.GongGetUUID(stage)
 		}
 	}
 	return

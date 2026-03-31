@@ -120,6 +120,32 @@ func (xlsheet *XLSheet) GongCopy() GongstructIF {
 	return newInstance
 }
 
+// insertion point per named struct
+func (displayselection *DisplaySelection) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(displayselection), uint64(GetOrderPointerGongstruct(stage, displayselection)))
+	return
+}
+
+func (xlcell *XLCell) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(xlcell), uint64(GetOrderPointerGongstruct(stage, xlcell)))
+	return
+}
+
+func (xlfile *XLFile) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(xlfile), uint64(GetOrderPointerGongstruct(stage, xlfile)))
+	return
+}
+
+func (xlrow *XLRow) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(xlrow), uint64(GetOrderPointerGongstruct(stage, xlrow)))
+	return
+}
+
+func (xlsheet *XLSheet) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(xlsheet), uint64(GetOrderPointerGongstruct(stage, xlsheet)))
+	return
+}
+
 func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	var lenNewInstances int
 	var lenModifiedInstances int
