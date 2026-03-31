@@ -336,6 +336,9 @@ func (a *A) GongDiff(stage *Stage, aOther *A) (diffs []string) {
 		ops := Diff(stage, a, aOther, "Bs", aOther.Bs, a.Bs)
 		diffs = append(diffs, ops)
 	}
+	if a.UUID != aOther.UUID {
+		diffs = append(diffs, a.GongMarshallField(stage, "UUID"))
+	}
 
 	return
 }

@@ -300,6 +300,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(a.GongMarshallField(stage, "EnumInt"))
 		pointersInitializesStatements.WriteString(a.GongMarshallField(stage, "B"))
 		pointersInitializesStatements.WriteString(a.GongMarshallField(stage, "Bs"))
+		initializerStatements.WriteString(a.GongMarshallField(stage, "UUID"))
 	}
 
 	bOrdered := []*B{}
@@ -453,6 +454,11 @@ func (a *A) GongMarshallField(stage *Stage, fieldName string) (res string) {
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnumInt")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
 		}
+	case "UUID":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", a.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "UUID")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(a.UUID))
 
 	case "B":
 		if a.B != nil {
@@ -513,6 +519,7 @@ func (a *A) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) 
 		initializerStatements.WriteString(a.GongMarshallField(stage, "EnumInt"))
 		pointersInitializesStatements.WriteString(a.GongMarshallField(stage, "B"))
 		pointersInitializesStatements.WriteString(a.GongMarshallField(stage, "Bs"))
+		initializerStatements.WriteString(a.GongMarshallField(stage, "UUID"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

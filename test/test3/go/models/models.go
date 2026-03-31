@@ -30,6 +30,12 @@ type A struct {
 	B *B
 
 	Bs []*B
+
+	UUID string
+}
+
+func (a *A) GetUUID() string {
+	return a.UUID
 }
 
 type B struct {
