@@ -33,11 +33,6 @@ type A struct {
 
 	UUID string
 }
-
-func (a *A) GetUUID() string {
-	return a.UUID
-}
-
 type B struct {
 	Name string
 }
