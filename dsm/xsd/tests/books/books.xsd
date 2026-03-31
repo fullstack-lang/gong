@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:annotation>
+        <xs:documentation source="http://example.com/schema-docs" xml:lang="en"> This schema defines
+            the structure of a simple book collection. It includes types for book details, such as
+            title, author, year, and format. </xs:documentation>
+        <xs:documentation source="http://example.com/schema-docs" xml:lang="fr"> Ce schéma définit
+            la structure d'une collection de livres simple. Il inclut des types pour les détails du
+            livre, tels que le titre, l'auteur, l'année et le format. </xs:documentation>
+    </xs:annotation>
+
+    <!-- Definition of a simple type for the year -->
+    <xs:simpleType name="yearType">
+        <xs:annotation>
+            <xs:documentation> This type represents a year. It restricts the value to an integer
+                between 1000 and 2100 inclusive. </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:integer">
+            <xs:minInclusive value="1000" />
+            <xs:maxInclusive value="2100" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- Definition of a complex type for a book -->
+    <xs:complexType name="bookType">
+        <xs:annotation>
+            <xs:documentation> This complex type defines the structure of a book, including title,
+                author, year, and format. </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:group ref="bookDetailsGroup" />
+            <xs:element name="credit" type="credit" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+        <xs:attributeGroup ref="extendedAttributes" />
+    </xs:complexType>
+
+    <xs:group name="bookDetailsGroup">
+        <xs:sequence>
+            <xs:element name="title" type="titleType">
+                <xs:annotation>
+                    <xs:documentation>The title of the book, consisting of alphabetic characters and
+                        spaces only.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="author" type="xs:string" />
+            <xs:element name="year" type="yearType" />
+            <xs:element name="format" type="bookFormatEnum">
+                <xs:annotation>
+                    <xs:documentation>The format of the book, either Paperback or Hardcover.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:group>
+
+    <xs:simpleType name="bookFormatEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Paperback" />
+            <xs:enumeration value="Hardcover" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- Definition of a simple type for the title with a pattern facet -->
+    <xs:simpleType name="titleType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9A-Za-z ]+" />
+            <xs:whiteSpace value="collapse" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- Definition of the root element containing multiple books -->
+    <xs:element name="books">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="book" type="bookType" maxOccurs="unbounded">
+                    <xs:annotation>
+                        <xs:documentation> A book element representing a single book in the
+                            collection. </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Definition of a common attribute group -->
+    <xs:attributeGroup name="commonAttributes">
+        <xs:attribute name="isbn" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>The ISBN number of the book.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="bestseller" type="xs:boolean" use="optional">
+            <xs:annotation>
+                <xs:documentation>Indicates if the book is a bestseller.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:attributeGroup>
+
+    <xs:attributeGroup name="extendedAttributes">
+        <xs:attributeGroup ref="commonAttributes" />
+        <xs:attribute name="edition" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>The edition of the book.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:anyAttribute namespace="##other" processContents="lax">
+            <xs:annotation>
+                <xs:documentation>Allows any other attribute from other namespaces.</xs:documentation>
+            </xs:annotation>
+        </xs:anyAttribute>
+    </xs:attributeGroup>
+
+    <xs:complexType name="credit">
+        <xs:annotation>
+            <xs:documentation>The credit type .. </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="credit-type" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="link" type="link" minOccurs="0" maxOccurs="unbounded" />
+            <xs:choice>
+                <xs:sequence>
+                    <xs:choice>
+                        <xs:element name="credit-words" type="xs:string" />
+                        <xs:element name="credit-symbol" type="xs:string" />
+                    </xs:choice>
+                    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+                        <xs:element name="link" type="link" minOccurs="0" maxOccurs="unbounded" />
+                        <xs:choice>
+                            <xs:element name="credit-words" type="xs:string" />
+                            <xs:element name="credit-symbol" type="xs:string" />
+                        </xs:choice>
+                    </xs:sequence>
+                </xs:sequence>
+            </xs:choice>
+        </xs:sequence>
+        <xs:attribute name="page" type="xs:positiveInteger" />
+    </xs:complexType>
+
+    <xs:complexType name="link">
+        <xs:annotation>
+            <xs:documentation>The link type serves as an outgoing simple XLink. If a relative link
+                is used within a document that is part of a compressed MusicXML file, the link is
+                relative to the root folder of the zip file.</xs:documentation>
+        </xs:annotation>
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="name" type="xs:token" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+</xs:schema>
