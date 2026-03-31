@@ -7216,6 +7216,2360 @@ func (stage *Stage) UnstageBranchXHTML_CONTENT(xhtml_content *XHTML_CONTENT) {
 
 }
 
+// insertion point for pointer reconstruction from references
+func (reference *ALTERNATIVE_ID) GongReconstructPointersFromReferences(stage *Stage, instance *ALTERNATIVE_ID) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *ATTRIBUTE_DEFINITION_BOOLEAN) GongReconstructPointersFromReferences(stage *Stage, instance *ATTRIBUTE_DEFINITION_BOOLEAN) () {
+	// insertion point for pointers field
+	if instance.ALTERNATIVE_ID != nil {
+		reference.ALTERNATIVE_ID = stage.A_ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
+	}
+	if instance.DEFAULT_VALUE != nil {
+		reference.DEFAULT_VALUE = stage.A_ATTRIBUTE_VALUE_BOOLEANs_reference[instance.DEFAULT_VALUE]
+	}
+	if instance.TYPE != nil {
+		reference.TYPE = stage.A_DATATYPE_DEFINITION_BOOLEAN_REFs_reference[instance.TYPE]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *ATTRIBUTE_DEFINITION_DATE) GongReconstructPointersFromReferences(stage *Stage, instance *ATTRIBUTE_DEFINITION_DATE) () {
+	// insertion point for pointers field
+	if instance.ALTERNATIVE_ID != nil {
+		reference.ALTERNATIVE_ID = stage.A_ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
+	}
+	if instance.DEFAULT_VALUE != nil {
+		reference.DEFAULT_VALUE = stage.A_ATTRIBUTE_VALUE_DATEs_reference[instance.DEFAULT_VALUE]
+	}
+	if instance.TYPE != nil {
+		reference.TYPE = stage.A_DATATYPE_DEFINITION_DATE_REFs_reference[instance.TYPE]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *ATTRIBUTE_DEFINITION_ENUMERATION) GongReconstructPointersFromReferences(stage *Stage, instance *ATTRIBUTE_DEFINITION_ENUMERATION) () {
+	// insertion point for pointers field
+	if instance.ALTERNATIVE_ID != nil {
+		reference.ALTERNATIVE_ID = stage.A_ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
+	}
+	if instance.DEFAULT_VALUE != nil {
+		reference.DEFAULT_VALUE = stage.A_ATTRIBUTE_VALUE_ENUMERATIONs_reference[instance.DEFAULT_VALUE]
+	}
+	if instance.TYPE != nil {
+		reference.TYPE = stage.A_DATATYPE_DEFINITION_ENUMERATION_REFs_reference[instance.TYPE]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *ATTRIBUTE_DEFINITION_INTEGER) GongReconstructPointersFromReferences(stage *Stage, instance *ATTRIBUTE_DEFINITION_INTEGER) () {
+	// insertion point for pointers field
+	if instance.ALTERNATIVE_ID != nil {
+		reference.ALTERNATIVE_ID = stage.A_ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
+	}
+	if instance.DEFAULT_VALUE != nil {
+		reference.DEFAULT_VALUE = stage.A_ATTRIBUTE_VALUE_INTEGERs_reference[instance.DEFAULT_VALUE]
+	}
+	if instance.TYPE != nil {
+		reference.TYPE = stage.A_DATATYPE_DEFINITION_INTEGER_REFs_reference[instance.TYPE]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *ATTRIBUTE_DEFINITION_REAL) GongReconstructPointersFromReferences(stage *Stage, instance *ATTRIBUTE_DEFINITION_REAL) () {
+	// insertion point for pointers field
+	if instance.ALTERNATIVE_ID != nil {
+		reference.ALTERNATIVE_ID = stage.A_ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
+	}
+	if instance.DEFAULT_VALUE != nil {
+		reference.DEFAULT_VALUE = stage.A_ATTRIBUTE_VALUE_REALs_reference[instance.DEFAULT_VALUE]
+	}
+	if instance.TYPE != nil {
+		reference.TYPE = stage.A_DATATYPE_DEFINITION_REAL_REFs_reference[instance.TYPE]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *ATTRIBUTE_DEFINITION_STRING) GongReconstructPointersFromReferences(stage *Stage, instance *ATTRIBUTE_DEFINITION_STRING) () {
+	// insertion point for pointers field
+	if instance.ALTERNATIVE_ID != nil {
+		reference.ALTERNATIVE_ID = stage.A_ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
+	}
+	if instance.DEFAULT_VALUE != nil {
+		reference.DEFAULT_VALUE = stage.A_ATTRIBUTE_VALUE_STRINGs_reference[instance.DEFAULT_VALUE]
+	}
+	if instance.TYPE != nil {
+		reference.TYPE = stage.A_DATATYPE_DEFINITION_STRING_REFs_reference[instance.TYPE]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *ATTRIBUTE_DEFINITION_XHTML) GongReconstructPointersFromReferences(stage *Stage, instance *ATTRIBUTE_DEFINITION_XHTML) () {
+	// insertion point for pointers field
+	if instance.ALTERNATIVE_ID != nil {
+		reference.ALTERNATIVE_ID = stage.A_ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
+	}
+	if instance.DEFAULT_VALUE != nil {
+		reference.DEFAULT_VALUE = stage.A_ATTRIBUTE_VALUE_XHTMLs_reference[instance.DEFAULT_VALUE]
+	}
+	if instance.TYPE != nil {
+		reference.TYPE = stage.A_DATATYPE_DEFINITION_XHTML_REFs_reference[instance.TYPE]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *ATTRIBUTE_VALUE_BOOLEAN) GongReconstructPointersFromReferences(stage *Stage, instance *ATTRIBUTE_VALUE_BOOLEAN) () {
+	// insertion point for pointers field
+	if instance.DEFINITION != nil {
+		reference.DEFINITION = stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REFs_reference[instance.DEFINITION]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *ATTRIBUTE_VALUE_DATE) GongReconstructPointersFromReferences(stage *Stage, instance *ATTRIBUTE_VALUE_DATE) () {
+	// insertion point for pointers field
+	if instance.DEFINITION != nil {
+		reference.DEFINITION = stage.A_ATTRIBUTE_DEFINITION_DATE_REFs_reference[instance.DEFINITION]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *ATTRIBUTE_VALUE_ENUMERATION) GongReconstructPointersFromReferences(stage *Stage, instance *ATTRIBUTE_VALUE_ENUMERATION) () {
+	// insertion point for pointers field
+	if instance.DEFINITION != nil {
+		reference.DEFINITION = stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REFs_reference[instance.DEFINITION]
+	}
+	if instance.VALUES != nil {
+		reference.VALUES = stage.A_ENUM_VALUE_REFs_reference[instance.VALUES]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *ATTRIBUTE_VALUE_INTEGER) GongReconstructPointersFromReferences(stage *Stage, instance *ATTRIBUTE_VALUE_INTEGER) () {
+	// insertion point for pointers field
+	if instance.DEFINITION != nil {
+		reference.DEFINITION = stage.A_ATTRIBUTE_DEFINITION_INTEGER_REFs_reference[instance.DEFINITION]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *ATTRIBUTE_VALUE_REAL) GongReconstructPointersFromReferences(stage *Stage, instance *ATTRIBUTE_VALUE_REAL) () {
+	// insertion point for pointers field
+	if instance.DEFINITION != nil {
+		reference.DEFINITION = stage.A_ATTRIBUTE_DEFINITION_REAL_REFs_reference[instance.DEFINITION]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *ATTRIBUTE_VALUE_STRING) GongReconstructPointersFromReferences(stage *Stage, instance *ATTRIBUTE_VALUE_STRING) () {
+	// insertion point for pointers field
+	if instance.DEFINITION != nil {
+		reference.DEFINITION = stage.A_ATTRIBUTE_DEFINITION_STRING_REFs_reference[instance.DEFINITION]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *ATTRIBUTE_VALUE_XHTML) GongReconstructPointersFromReferences(stage *Stage, instance *ATTRIBUTE_VALUE_XHTML) () {
+	// insertion point for pointers field
+	if instance.THE_VALUE != nil {
+		reference.THE_VALUE = stage.XHTML_CONTENTs_reference[instance.THE_VALUE]
+	}
+	if instance.THE_ORIGINAL_VALUE != nil {
+		reference.THE_ORIGINAL_VALUE = stage.XHTML_CONTENTs_reference[instance.THE_ORIGINAL_VALUE]
+	}
+	if instance.DEFINITION != nil {
+		reference.DEFINITION = stage.A_ATTRIBUTE_DEFINITION_XHTML_REFs_reference[instance.DEFINITION]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *A_ALTERNATIVE_ID) GongReconstructPointersFromReferences(stage *Stage, instance *A_ALTERNATIVE_ID) () {
+	// insertion point for pointers field
+	if instance.ALTERNATIVE_ID != nil {
+		reference.ALTERNATIVE_ID = stage.ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF) GongReconstructPointersFromReferences(stage *Stage, instance *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *A_ATTRIBUTE_DEFINITION_DATE_REF) GongReconstructPointersFromReferences(stage *Stage, instance *A_ATTRIBUTE_DEFINITION_DATE_REF) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF) GongReconstructPointersFromReferences(stage *Stage, instance *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *A_ATTRIBUTE_DEFINITION_INTEGER_REF) GongReconstructPointersFromReferences(stage *Stage, instance *A_ATTRIBUTE_DEFINITION_INTEGER_REF) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *A_ATTRIBUTE_DEFINITION_REAL_REF) GongReconstructPointersFromReferences(stage *Stage, instance *A_ATTRIBUTE_DEFINITION_REAL_REF) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *A_ATTRIBUTE_DEFINITION_STRING_REF) GongReconstructPointersFromReferences(stage *Stage, instance *A_ATTRIBUTE_DEFINITION_STRING_REF) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *A_ATTRIBUTE_DEFINITION_XHTML_REF) GongReconstructPointersFromReferences(stage *Stage, instance *A_ATTRIBUTE_DEFINITION_XHTML_REF) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *A_ATTRIBUTE_VALUE_BOOLEAN) GongReconstructPointersFromReferences(stage *Stage, instance *A_ATTRIBUTE_VALUE_BOOLEAN) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.ATTRIBUTE_VALUE_BOOLEAN = reference.ATTRIBUTE_VALUE_BOOLEAN[:0]
+	for _, _b := range instance.ATTRIBUTE_VALUE_BOOLEAN {
+		reference.ATTRIBUTE_VALUE_BOOLEAN = append(reference.ATTRIBUTE_VALUE_BOOLEAN, stage.ATTRIBUTE_VALUE_BOOLEANs_reference[_b])
+	}
+
+	return
+}
+
+func (reference *A_ATTRIBUTE_VALUE_DATE) GongReconstructPointersFromReferences(stage *Stage, instance *A_ATTRIBUTE_VALUE_DATE) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.ATTRIBUTE_VALUE_DATE = reference.ATTRIBUTE_VALUE_DATE[:0]
+	for _, _b := range instance.ATTRIBUTE_VALUE_DATE {
+		reference.ATTRIBUTE_VALUE_DATE = append(reference.ATTRIBUTE_VALUE_DATE, stage.ATTRIBUTE_VALUE_DATEs_reference[_b])
+	}
+
+	return
+}
+
+func (reference *A_ATTRIBUTE_VALUE_ENUMERATION) GongReconstructPointersFromReferences(stage *Stage, instance *A_ATTRIBUTE_VALUE_ENUMERATION) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.ATTRIBUTE_VALUE_ENUMERATION = reference.ATTRIBUTE_VALUE_ENUMERATION[:0]
+	for _, _b := range instance.ATTRIBUTE_VALUE_ENUMERATION {
+		reference.ATTRIBUTE_VALUE_ENUMERATION = append(reference.ATTRIBUTE_VALUE_ENUMERATION, stage.ATTRIBUTE_VALUE_ENUMERATIONs_reference[_b])
+	}
+
+	return
+}
+
+func (reference *A_ATTRIBUTE_VALUE_INTEGER) GongReconstructPointersFromReferences(stage *Stage, instance *A_ATTRIBUTE_VALUE_INTEGER) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.ATTRIBUTE_VALUE_INTEGER = reference.ATTRIBUTE_VALUE_INTEGER[:0]
+	for _, _b := range instance.ATTRIBUTE_VALUE_INTEGER {
+		reference.ATTRIBUTE_VALUE_INTEGER = append(reference.ATTRIBUTE_VALUE_INTEGER, stage.ATTRIBUTE_VALUE_INTEGERs_reference[_b])
+	}
+
+	return
+}
+
+func (reference *A_ATTRIBUTE_VALUE_REAL) GongReconstructPointersFromReferences(stage *Stage, instance *A_ATTRIBUTE_VALUE_REAL) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.ATTRIBUTE_VALUE_REAL = reference.ATTRIBUTE_VALUE_REAL[:0]
+	for _, _b := range instance.ATTRIBUTE_VALUE_REAL {
+		reference.ATTRIBUTE_VALUE_REAL = append(reference.ATTRIBUTE_VALUE_REAL, stage.ATTRIBUTE_VALUE_REALs_reference[_b])
+	}
+
+	return
+}
+
+func (reference *A_ATTRIBUTE_VALUE_STRING) GongReconstructPointersFromReferences(stage *Stage, instance *A_ATTRIBUTE_VALUE_STRING) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.ATTRIBUTE_VALUE_STRING = reference.ATTRIBUTE_VALUE_STRING[:0]
+	for _, _b := range instance.ATTRIBUTE_VALUE_STRING {
+		reference.ATTRIBUTE_VALUE_STRING = append(reference.ATTRIBUTE_VALUE_STRING, stage.ATTRIBUTE_VALUE_STRINGs_reference[_b])
+	}
+
+	return
+}
+
+func (reference *A_ATTRIBUTE_VALUE_XHTML) GongReconstructPointersFromReferences(stage *Stage, instance *A_ATTRIBUTE_VALUE_XHTML) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.ATTRIBUTE_VALUE_XHTML = reference.ATTRIBUTE_VALUE_XHTML[:0]
+	for _, _b := range instance.ATTRIBUTE_VALUE_XHTML {
+		reference.ATTRIBUTE_VALUE_XHTML = append(reference.ATTRIBUTE_VALUE_XHTML, stage.ATTRIBUTE_VALUE_XHTMLs_reference[_b])
+	}
+
+	return
+}
+
+func (reference *A_ATTRIBUTE_VALUE_XHTML_1) GongReconstructPointersFromReferences(stage *Stage, instance *A_ATTRIBUTE_VALUE_XHTML_1) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.ATTRIBUTE_VALUE_BOOLEAN = reference.ATTRIBUTE_VALUE_BOOLEAN[:0]
+	for _, _b := range instance.ATTRIBUTE_VALUE_BOOLEAN {
+		reference.ATTRIBUTE_VALUE_BOOLEAN = append(reference.ATTRIBUTE_VALUE_BOOLEAN, stage.ATTRIBUTE_VALUE_BOOLEANs_reference[_b])
+	}
+	reference.ATTRIBUTE_VALUE_DATE = reference.ATTRIBUTE_VALUE_DATE[:0]
+	for _, _b := range instance.ATTRIBUTE_VALUE_DATE {
+		reference.ATTRIBUTE_VALUE_DATE = append(reference.ATTRIBUTE_VALUE_DATE, stage.ATTRIBUTE_VALUE_DATEs_reference[_b])
+	}
+	reference.ATTRIBUTE_VALUE_ENUMERATION = reference.ATTRIBUTE_VALUE_ENUMERATION[:0]
+	for _, _b := range instance.ATTRIBUTE_VALUE_ENUMERATION {
+		reference.ATTRIBUTE_VALUE_ENUMERATION = append(reference.ATTRIBUTE_VALUE_ENUMERATION, stage.ATTRIBUTE_VALUE_ENUMERATIONs_reference[_b])
+	}
+	reference.ATTRIBUTE_VALUE_INTEGER = reference.ATTRIBUTE_VALUE_INTEGER[:0]
+	for _, _b := range instance.ATTRIBUTE_VALUE_INTEGER {
+		reference.ATTRIBUTE_VALUE_INTEGER = append(reference.ATTRIBUTE_VALUE_INTEGER, stage.ATTRIBUTE_VALUE_INTEGERs_reference[_b])
+	}
+	reference.ATTRIBUTE_VALUE_REAL = reference.ATTRIBUTE_VALUE_REAL[:0]
+	for _, _b := range instance.ATTRIBUTE_VALUE_REAL {
+		reference.ATTRIBUTE_VALUE_REAL = append(reference.ATTRIBUTE_VALUE_REAL, stage.ATTRIBUTE_VALUE_REALs_reference[_b])
+	}
+	reference.ATTRIBUTE_VALUE_STRING = reference.ATTRIBUTE_VALUE_STRING[:0]
+	for _, _b := range instance.ATTRIBUTE_VALUE_STRING {
+		reference.ATTRIBUTE_VALUE_STRING = append(reference.ATTRIBUTE_VALUE_STRING, stage.ATTRIBUTE_VALUE_STRINGs_reference[_b])
+	}
+	reference.ATTRIBUTE_VALUE_XHTML = reference.ATTRIBUTE_VALUE_XHTML[:0]
+	for _, _b := range instance.ATTRIBUTE_VALUE_XHTML {
+		reference.ATTRIBUTE_VALUE_XHTML = append(reference.ATTRIBUTE_VALUE_XHTML, stage.ATTRIBUTE_VALUE_XHTMLs_reference[_b])
+	}
+
+	return
+}
+
+func (reference *A_CHILDREN) GongReconstructPointersFromReferences(stage *Stage, instance *A_CHILDREN) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.SPEC_HIERARCHY = reference.SPEC_HIERARCHY[:0]
+	for _, _b := range instance.SPEC_HIERARCHY {
+		reference.SPEC_HIERARCHY = append(reference.SPEC_HIERARCHY, stage.SPEC_HIERARCHYs_reference[_b])
+	}
+
+	return
+}
+
+func (reference *A_CORE_CONTENT) GongReconstructPointersFromReferences(stage *Stage, instance *A_CORE_CONTENT) () {
+	// insertion point for pointers field
+	if instance.REQ_IF_CONTENT != nil {
+		reference.REQ_IF_CONTENT = stage.REQ_IF_CONTENTs_reference[instance.REQ_IF_CONTENT]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *A_DATATYPES) GongReconstructPointersFromReferences(stage *Stage, instance *A_DATATYPES) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.DATATYPE_DEFINITION_BOOLEAN = reference.DATATYPE_DEFINITION_BOOLEAN[:0]
+	for _, _b := range instance.DATATYPE_DEFINITION_BOOLEAN {
+		reference.DATATYPE_DEFINITION_BOOLEAN = append(reference.DATATYPE_DEFINITION_BOOLEAN, stage.DATATYPE_DEFINITION_BOOLEANs_reference[_b])
+	}
+	reference.DATATYPE_DEFINITION_DATE = reference.DATATYPE_DEFINITION_DATE[:0]
+	for _, _b := range instance.DATATYPE_DEFINITION_DATE {
+		reference.DATATYPE_DEFINITION_DATE = append(reference.DATATYPE_DEFINITION_DATE, stage.DATATYPE_DEFINITION_DATEs_reference[_b])
+	}
+	reference.DATATYPE_DEFINITION_ENUMERATION = reference.DATATYPE_DEFINITION_ENUMERATION[:0]
+	for _, _b := range instance.DATATYPE_DEFINITION_ENUMERATION {
+		reference.DATATYPE_DEFINITION_ENUMERATION = append(reference.DATATYPE_DEFINITION_ENUMERATION, stage.DATATYPE_DEFINITION_ENUMERATIONs_reference[_b])
+	}
+	reference.DATATYPE_DEFINITION_INTEGER = reference.DATATYPE_DEFINITION_INTEGER[:0]
+	for _, _b := range instance.DATATYPE_DEFINITION_INTEGER {
+		reference.DATATYPE_DEFINITION_INTEGER = append(reference.DATATYPE_DEFINITION_INTEGER, stage.DATATYPE_DEFINITION_INTEGERs_reference[_b])
+	}
+	reference.DATATYPE_DEFINITION_REAL = reference.DATATYPE_DEFINITION_REAL[:0]
+	for _, _b := range instance.DATATYPE_DEFINITION_REAL {
+		reference.DATATYPE_DEFINITION_REAL = append(reference.DATATYPE_DEFINITION_REAL, stage.DATATYPE_DEFINITION_REALs_reference[_b])
+	}
+	reference.DATATYPE_DEFINITION_STRING = reference.DATATYPE_DEFINITION_STRING[:0]
+	for _, _b := range instance.DATATYPE_DEFINITION_STRING {
+		reference.DATATYPE_DEFINITION_STRING = append(reference.DATATYPE_DEFINITION_STRING, stage.DATATYPE_DEFINITION_STRINGs_reference[_b])
+	}
+	reference.DATATYPE_DEFINITION_XHTML = reference.DATATYPE_DEFINITION_XHTML[:0]
+	for _, _b := range instance.DATATYPE_DEFINITION_XHTML {
+		reference.DATATYPE_DEFINITION_XHTML = append(reference.DATATYPE_DEFINITION_XHTML, stage.DATATYPE_DEFINITION_XHTMLs_reference[_b])
+	}
+
+	return
+}
+
+func (reference *A_DATATYPE_DEFINITION_BOOLEAN_REF) GongReconstructPointersFromReferences(stage *Stage, instance *A_DATATYPE_DEFINITION_BOOLEAN_REF) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *A_DATATYPE_DEFINITION_DATE_REF) GongReconstructPointersFromReferences(stage *Stage, instance *A_DATATYPE_DEFINITION_DATE_REF) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *A_DATATYPE_DEFINITION_ENUMERATION_REF) GongReconstructPointersFromReferences(stage *Stage, instance *A_DATATYPE_DEFINITION_ENUMERATION_REF) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *A_DATATYPE_DEFINITION_INTEGER_REF) GongReconstructPointersFromReferences(stage *Stage, instance *A_DATATYPE_DEFINITION_INTEGER_REF) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *A_DATATYPE_DEFINITION_REAL_REF) GongReconstructPointersFromReferences(stage *Stage, instance *A_DATATYPE_DEFINITION_REAL_REF) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *A_DATATYPE_DEFINITION_STRING_REF) GongReconstructPointersFromReferences(stage *Stage, instance *A_DATATYPE_DEFINITION_STRING_REF) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *A_DATATYPE_DEFINITION_XHTML_REF) GongReconstructPointersFromReferences(stage *Stage, instance *A_DATATYPE_DEFINITION_XHTML_REF) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *A_EDITABLE_ATTS) GongReconstructPointersFromReferences(stage *Stage, instance *A_EDITABLE_ATTS) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *A_ENUM_VALUE_REF) GongReconstructPointersFromReferences(stage *Stage, instance *A_ENUM_VALUE_REF) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *A_OBJECT) GongReconstructPointersFromReferences(stage *Stage, instance *A_OBJECT) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *A_PROPERTIES) GongReconstructPointersFromReferences(stage *Stage, instance *A_PROPERTIES) () {
+	// insertion point for pointers field
+	if instance.EMBEDDED_VALUE != nil {
+		reference.EMBEDDED_VALUE = stage.EMBEDDED_VALUEs_reference[instance.EMBEDDED_VALUE]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *A_RELATION_GROUP_TYPE_REF) GongReconstructPointersFromReferences(stage *Stage, instance *A_RELATION_GROUP_TYPE_REF) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *A_SOURCE_1) GongReconstructPointersFromReferences(stage *Stage, instance *A_SOURCE_1) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *A_SOURCE_SPECIFICATION_1) GongReconstructPointersFromReferences(stage *Stage, instance *A_SOURCE_SPECIFICATION_1) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *A_SPECIFICATIONS) GongReconstructPointersFromReferences(stage *Stage, instance *A_SPECIFICATIONS) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.SPECIFICATION = reference.SPECIFICATION[:0]
+	for _, _b := range instance.SPECIFICATION {
+		reference.SPECIFICATION = append(reference.SPECIFICATION, stage.SPECIFICATIONs_reference[_b])
+	}
+
+	return
+}
+
+func (reference *A_SPECIFICATION_TYPE_REF) GongReconstructPointersFromReferences(stage *Stage, instance *A_SPECIFICATION_TYPE_REF) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *A_SPECIFIED_VALUES) GongReconstructPointersFromReferences(stage *Stage, instance *A_SPECIFIED_VALUES) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.ENUM_VALUE = reference.ENUM_VALUE[:0]
+	for _, _b := range instance.ENUM_VALUE {
+		reference.ENUM_VALUE = append(reference.ENUM_VALUE, stage.ENUM_VALUEs_reference[_b])
+	}
+
+	return
+}
+
+func (reference *A_SPEC_ATTRIBUTES) GongReconstructPointersFromReferences(stage *Stage, instance *A_SPEC_ATTRIBUTES) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.ATTRIBUTE_DEFINITION_BOOLEAN = reference.ATTRIBUTE_DEFINITION_BOOLEAN[:0]
+	for _, _b := range instance.ATTRIBUTE_DEFINITION_BOOLEAN {
+		reference.ATTRIBUTE_DEFINITION_BOOLEAN = append(reference.ATTRIBUTE_DEFINITION_BOOLEAN, stage.ATTRIBUTE_DEFINITION_BOOLEANs_reference[_b])
+	}
+	reference.ATTRIBUTE_DEFINITION_DATE = reference.ATTRIBUTE_DEFINITION_DATE[:0]
+	for _, _b := range instance.ATTRIBUTE_DEFINITION_DATE {
+		reference.ATTRIBUTE_DEFINITION_DATE = append(reference.ATTRIBUTE_DEFINITION_DATE, stage.ATTRIBUTE_DEFINITION_DATEs_reference[_b])
+	}
+	reference.ATTRIBUTE_DEFINITION_ENUMERATION = reference.ATTRIBUTE_DEFINITION_ENUMERATION[:0]
+	for _, _b := range instance.ATTRIBUTE_DEFINITION_ENUMERATION {
+		reference.ATTRIBUTE_DEFINITION_ENUMERATION = append(reference.ATTRIBUTE_DEFINITION_ENUMERATION, stage.ATTRIBUTE_DEFINITION_ENUMERATIONs_reference[_b])
+	}
+	reference.ATTRIBUTE_DEFINITION_INTEGER = reference.ATTRIBUTE_DEFINITION_INTEGER[:0]
+	for _, _b := range instance.ATTRIBUTE_DEFINITION_INTEGER {
+		reference.ATTRIBUTE_DEFINITION_INTEGER = append(reference.ATTRIBUTE_DEFINITION_INTEGER, stage.ATTRIBUTE_DEFINITION_INTEGERs_reference[_b])
+	}
+	reference.ATTRIBUTE_DEFINITION_REAL = reference.ATTRIBUTE_DEFINITION_REAL[:0]
+	for _, _b := range instance.ATTRIBUTE_DEFINITION_REAL {
+		reference.ATTRIBUTE_DEFINITION_REAL = append(reference.ATTRIBUTE_DEFINITION_REAL, stage.ATTRIBUTE_DEFINITION_REALs_reference[_b])
+	}
+	reference.ATTRIBUTE_DEFINITION_STRING = reference.ATTRIBUTE_DEFINITION_STRING[:0]
+	for _, _b := range instance.ATTRIBUTE_DEFINITION_STRING {
+		reference.ATTRIBUTE_DEFINITION_STRING = append(reference.ATTRIBUTE_DEFINITION_STRING, stage.ATTRIBUTE_DEFINITION_STRINGs_reference[_b])
+	}
+	reference.ATTRIBUTE_DEFINITION_XHTML = reference.ATTRIBUTE_DEFINITION_XHTML[:0]
+	for _, _b := range instance.ATTRIBUTE_DEFINITION_XHTML {
+		reference.ATTRIBUTE_DEFINITION_XHTML = append(reference.ATTRIBUTE_DEFINITION_XHTML, stage.ATTRIBUTE_DEFINITION_XHTMLs_reference[_b])
+	}
+
+	return
+}
+
+func (reference *A_SPEC_OBJECTS) GongReconstructPointersFromReferences(stage *Stage, instance *A_SPEC_OBJECTS) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.SPEC_OBJECT = reference.SPEC_OBJECT[:0]
+	for _, _b := range instance.SPEC_OBJECT {
+		reference.SPEC_OBJECT = append(reference.SPEC_OBJECT, stage.SPEC_OBJECTs_reference[_b])
+	}
+
+	return
+}
+
+func (reference *A_SPEC_OBJECT_TYPE_REF) GongReconstructPointersFromReferences(stage *Stage, instance *A_SPEC_OBJECT_TYPE_REF) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *A_SPEC_RELATIONS) GongReconstructPointersFromReferences(stage *Stage, instance *A_SPEC_RELATIONS) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.SPEC_RELATION = reference.SPEC_RELATION[:0]
+	for _, _b := range instance.SPEC_RELATION {
+		reference.SPEC_RELATION = append(reference.SPEC_RELATION, stage.SPEC_RELATIONs_reference[_b])
+	}
+
+	return
+}
+
+func (reference *A_SPEC_RELATION_GROUPS) GongReconstructPointersFromReferences(stage *Stage, instance *A_SPEC_RELATION_GROUPS) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.RELATION_GROUP = reference.RELATION_GROUP[:0]
+	for _, _b := range instance.RELATION_GROUP {
+		reference.RELATION_GROUP = append(reference.RELATION_GROUP, stage.RELATION_GROUPs_reference[_b])
+	}
+
+	return
+}
+
+func (reference *A_SPEC_RELATION_REF) GongReconstructPointersFromReferences(stage *Stage, instance *A_SPEC_RELATION_REF) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *A_SPEC_RELATION_TYPE_REF) GongReconstructPointersFromReferences(stage *Stage, instance *A_SPEC_RELATION_TYPE_REF) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *A_SPEC_TYPES) GongReconstructPointersFromReferences(stage *Stage, instance *A_SPEC_TYPES) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.RELATION_GROUP_TYPE = reference.RELATION_GROUP_TYPE[:0]
+	for _, _b := range instance.RELATION_GROUP_TYPE {
+		reference.RELATION_GROUP_TYPE = append(reference.RELATION_GROUP_TYPE, stage.RELATION_GROUP_TYPEs_reference[_b])
+	}
+	reference.SPEC_OBJECT_TYPE = reference.SPEC_OBJECT_TYPE[:0]
+	for _, _b := range instance.SPEC_OBJECT_TYPE {
+		reference.SPEC_OBJECT_TYPE = append(reference.SPEC_OBJECT_TYPE, stage.SPEC_OBJECT_TYPEs_reference[_b])
+	}
+	reference.SPEC_RELATION_TYPE = reference.SPEC_RELATION_TYPE[:0]
+	for _, _b := range instance.SPEC_RELATION_TYPE {
+		reference.SPEC_RELATION_TYPE = append(reference.SPEC_RELATION_TYPE, stage.SPEC_RELATION_TYPEs_reference[_b])
+	}
+	reference.SPECIFICATION_TYPE = reference.SPECIFICATION_TYPE[:0]
+	for _, _b := range instance.SPECIFICATION_TYPE {
+		reference.SPECIFICATION_TYPE = append(reference.SPECIFICATION_TYPE, stage.SPECIFICATION_TYPEs_reference[_b])
+	}
+
+	return
+}
+
+func (reference *A_THE_HEADER) GongReconstructPointersFromReferences(stage *Stage, instance *A_THE_HEADER) () {
+	// insertion point for pointers field
+	if instance.REQ_IF_HEADER != nil {
+		reference.REQ_IF_HEADER = stage.REQ_IF_HEADERs_reference[instance.REQ_IF_HEADER]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *A_TOOL_EXTENSIONS) GongReconstructPointersFromReferences(stage *Stage, instance *A_TOOL_EXTENSIONS) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.REQ_IF_TOOL_EXTENSION = reference.REQ_IF_TOOL_EXTENSION[:0]
+	for _, _b := range instance.REQ_IF_TOOL_EXTENSION {
+		reference.REQ_IF_TOOL_EXTENSION = append(reference.REQ_IF_TOOL_EXTENSION, stage.REQ_IF_TOOL_EXTENSIONs_reference[_b])
+	}
+
+	return
+}
+
+func (reference *DATATYPE_DEFINITION_BOOLEAN) GongReconstructPointersFromReferences(stage *Stage, instance *DATATYPE_DEFINITION_BOOLEAN) () {
+	// insertion point for pointers field
+	if instance.ALTERNATIVE_ID != nil {
+		reference.ALTERNATIVE_ID = stage.A_ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *DATATYPE_DEFINITION_DATE) GongReconstructPointersFromReferences(stage *Stage, instance *DATATYPE_DEFINITION_DATE) () {
+	// insertion point for pointers field
+	if instance.ALTERNATIVE_ID != nil {
+		reference.ALTERNATIVE_ID = stage.A_ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *DATATYPE_DEFINITION_ENUMERATION) GongReconstructPointersFromReferences(stage *Stage, instance *DATATYPE_DEFINITION_ENUMERATION) () {
+	// insertion point for pointers field
+	if instance.ALTERNATIVE_ID != nil {
+		reference.ALTERNATIVE_ID = stage.A_ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
+	}
+	if instance.SPECIFIED_VALUES != nil {
+		reference.SPECIFIED_VALUES = stage.A_SPECIFIED_VALUESs_reference[instance.SPECIFIED_VALUES]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *DATATYPE_DEFINITION_INTEGER) GongReconstructPointersFromReferences(stage *Stage, instance *DATATYPE_DEFINITION_INTEGER) () {
+	// insertion point for pointers field
+	if instance.ALTERNATIVE_ID != nil {
+		reference.ALTERNATIVE_ID = stage.A_ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *DATATYPE_DEFINITION_REAL) GongReconstructPointersFromReferences(stage *Stage, instance *DATATYPE_DEFINITION_REAL) () {
+	// insertion point for pointers field
+	if instance.ALTERNATIVE_ID != nil {
+		reference.ALTERNATIVE_ID = stage.A_ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *DATATYPE_DEFINITION_STRING) GongReconstructPointersFromReferences(stage *Stage, instance *DATATYPE_DEFINITION_STRING) () {
+	// insertion point for pointers field
+	if instance.ALTERNATIVE_ID != nil {
+		reference.ALTERNATIVE_ID = stage.A_ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *DATATYPE_DEFINITION_XHTML) GongReconstructPointersFromReferences(stage *Stage, instance *DATATYPE_DEFINITION_XHTML) () {
+	// insertion point for pointers field
+	if instance.ALTERNATIVE_ID != nil {
+		reference.ALTERNATIVE_ID = stage.A_ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *EMBEDDED_VALUE) GongReconstructPointersFromReferences(stage *Stage, instance *EMBEDDED_VALUE) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *ENUM_VALUE) GongReconstructPointersFromReferences(stage *Stage, instance *ENUM_VALUE) () {
+	// insertion point for pointers field
+	if instance.ALTERNATIVE_ID != nil {
+		reference.ALTERNATIVE_ID = stage.A_ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
+	}
+	if instance.PROPERTIES != nil {
+		reference.PROPERTIES = stage.A_PROPERTIESs_reference[instance.PROPERTIES]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *RELATION_GROUP) GongReconstructPointersFromReferences(stage *Stage, instance *RELATION_GROUP) () {
+	// insertion point for pointers field
+	if instance.ALTERNATIVE_ID != nil {
+		reference.ALTERNATIVE_ID = stage.A_ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
+	}
+	if instance.SOURCE_SPECIFICATION != nil {
+		reference.SOURCE_SPECIFICATION = stage.A_SOURCE_SPECIFICATION_1s_reference[instance.SOURCE_SPECIFICATION]
+	}
+	if instance.SPEC_RELATIONS != nil {
+		reference.SPEC_RELATIONS = stage.A_SPEC_RELATION_REFs_reference[instance.SPEC_RELATIONS]
+	}
+	if instance.TARGET_SPECIFICATION != nil {
+		reference.TARGET_SPECIFICATION = stage.A_SOURCE_SPECIFICATION_1s_reference[instance.TARGET_SPECIFICATION]
+	}
+	if instance.TYPE != nil {
+		reference.TYPE = stage.A_RELATION_GROUP_TYPE_REFs_reference[instance.TYPE]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *RELATION_GROUP_TYPE) GongReconstructPointersFromReferences(stage *Stage, instance *RELATION_GROUP_TYPE) () {
+	// insertion point for pointers field
+	if instance.ALTERNATIVE_ID != nil {
+		reference.ALTERNATIVE_ID = stage.A_ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
+	}
+	if instance.SPEC_ATTRIBUTES != nil {
+		reference.SPEC_ATTRIBUTES = stage.A_SPEC_ATTRIBUTESs_reference[instance.SPEC_ATTRIBUTES]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *REQ_IF) GongReconstructPointersFromReferences(stage *Stage, instance *REQ_IF) () {
+	// insertion point for pointers field
+	if instance.THE_HEADER != nil {
+		reference.THE_HEADER = stage.A_THE_HEADERs_reference[instance.THE_HEADER]
+	}
+	if instance.CORE_CONTENT != nil {
+		reference.CORE_CONTENT = stage.A_CORE_CONTENTs_reference[instance.CORE_CONTENT]
+	}
+	if instance.TOOL_EXTENSIONS != nil {
+		reference.TOOL_EXTENSIONS = stage.A_TOOL_EXTENSIONSs_reference[instance.TOOL_EXTENSIONS]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *REQ_IF_CONTENT) GongReconstructPointersFromReferences(stage *Stage, instance *REQ_IF_CONTENT) () {
+	// insertion point for pointers field
+	if instance.DATATYPES != nil {
+		reference.DATATYPES = stage.A_DATATYPESs_reference[instance.DATATYPES]
+	}
+	if instance.SPEC_TYPES != nil {
+		reference.SPEC_TYPES = stage.A_SPEC_TYPESs_reference[instance.SPEC_TYPES]
+	}
+	if instance.SPEC_OBJECTS != nil {
+		reference.SPEC_OBJECTS = stage.A_SPEC_OBJECTSs_reference[instance.SPEC_OBJECTS]
+	}
+	if instance.SPEC_RELATIONS != nil {
+		reference.SPEC_RELATIONS = stage.A_SPEC_RELATIONSs_reference[instance.SPEC_RELATIONS]
+	}
+	if instance.SPECIFICATIONS != nil {
+		reference.SPECIFICATIONS = stage.A_SPECIFICATIONSs_reference[instance.SPECIFICATIONS]
+	}
+	if instance.SPEC_RELATION_GROUPS != nil {
+		reference.SPEC_RELATION_GROUPS = stage.A_SPEC_RELATION_GROUPSs_reference[instance.SPEC_RELATION_GROUPS]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *REQ_IF_HEADER) GongReconstructPointersFromReferences(stage *Stage, instance *REQ_IF_HEADER) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *REQ_IF_TOOL_EXTENSION) GongReconstructPointersFromReferences(stage *Stage, instance *REQ_IF_TOOL_EXTENSION) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *SPECIFICATION) GongReconstructPointersFromReferences(stage *Stage, instance *SPECIFICATION) () {
+	// insertion point for pointers field
+	if instance.ALTERNATIVE_ID != nil {
+		reference.ALTERNATIVE_ID = stage.A_ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
+	}
+	if instance.CHILDREN != nil {
+		reference.CHILDREN = stage.A_CHILDRENs_reference[instance.CHILDREN]
+	}
+	if instance.VALUES != nil {
+		reference.VALUES = stage.A_ATTRIBUTE_VALUE_XHTML_1s_reference[instance.VALUES]
+	}
+	if instance.TYPE != nil {
+		reference.TYPE = stage.A_SPECIFICATION_TYPE_REFs_reference[instance.TYPE]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *SPECIFICATION_TYPE) GongReconstructPointersFromReferences(stage *Stage, instance *SPECIFICATION_TYPE) () {
+	// insertion point for pointers field
+	if instance.ALTERNATIVE_ID != nil {
+		reference.ALTERNATIVE_ID = stage.A_ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
+	}
+	if instance.SPEC_ATTRIBUTES != nil {
+		reference.SPEC_ATTRIBUTES = stage.A_SPEC_ATTRIBUTESs_reference[instance.SPEC_ATTRIBUTES]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *SPEC_HIERARCHY) GongReconstructPointersFromReferences(stage *Stage, instance *SPEC_HIERARCHY) () {
+	// insertion point for pointers field
+	if instance.ALTERNATIVE_ID != nil {
+		reference.ALTERNATIVE_ID = stage.A_ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
+	}
+	if instance.CHILDREN != nil {
+		reference.CHILDREN = stage.A_CHILDRENs_reference[instance.CHILDREN]
+	}
+	if instance.EDITABLE_ATTS != nil {
+		reference.EDITABLE_ATTS = stage.A_EDITABLE_ATTSs_reference[instance.EDITABLE_ATTS]
+	}
+	if instance.OBJECT != nil {
+		reference.OBJECT = stage.A_OBJECTs_reference[instance.OBJECT]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *SPEC_OBJECT) GongReconstructPointersFromReferences(stage *Stage, instance *SPEC_OBJECT) () {
+	// insertion point for pointers field
+	if instance.ALTERNATIVE_ID != nil {
+		reference.ALTERNATIVE_ID = stage.A_ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
+	}
+	if instance.VALUES != nil {
+		reference.VALUES = stage.A_ATTRIBUTE_VALUE_XHTML_1s_reference[instance.VALUES]
+	}
+	if instance.TYPE != nil {
+		reference.TYPE = stage.A_SPEC_OBJECT_TYPE_REFs_reference[instance.TYPE]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *SPEC_OBJECT_TYPE) GongReconstructPointersFromReferences(stage *Stage, instance *SPEC_OBJECT_TYPE) () {
+	// insertion point for pointers field
+	if instance.ALTERNATIVE_ID != nil {
+		reference.ALTERNATIVE_ID = stage.A_ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
+	}
+	if instance.SPEC_ATTRIBUTES != nil {
+		reference.SPEC_ATTRIBUTES = stage.A_SPEC_ATTRIBUTESs_reference[instance.SPEC_ATTRIBUTES]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *SPEC_RELATION) GongReconstructPointersFromReferences(stage *Stage, instance *SPEC_RELATION) () {
+	// insertion point for pointers field
+	if instance.ALTERNATIVE_ID != nil {
+		reference.ALTERNATIVE_ID = stage.A_ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
+	}
+	if instance.VALUES != nil {
+		reference.VALUES = stage.A_ATTRIBUTE_VALUE_XHTML_1s_reference[instance.VALUES]
+	}
+	if instance.SOURCE != nil {
+		reference.SOURCE = stage.A_SOURCE_1s_reference[instance.SOURCE]
+	}
+	if instance.TARGET != nil {
+		reference.TARGET = stage.A_SOURCE_1s_reference[instance.TARGET]
+	}
+	if instance.TYPE != nil {
+		reference.TYPE = stage.A_SPEC_RELATION_TYPE_REFs_reference[instance.TYPE]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *SPEC_RELATION_TYPE) GongReconstructPointersFromReferences(stage *Stage, instance *SPEC_RELATION_TYPE) () {
+	// insertion point for pointers field
+	if instance.ALTERNATIVE_ID != nil {
+		reference.ALTERNATIVE_ID = stage.A_ALTERNATIVE_IDs_reference[instance.ALTERNATIVE_ID]
+	}
+	if instance.SPEC_ATTRIBUTES != nil {
+		reference.SPEC_ATTRIBUTES = stage.A_SPEC_ATTRIBUTESs_reference[instance.SPEC_ATTRIBUTES]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *XHTML_CONTENT) GongReconstructPointersFromReferences(stage *Stage, instance *XHTML_CONTENT) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+// insertion point for pointer reconstruction from instances
+func (reference *ALTERNATIVE_ID) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *ATTRIBUTE_DEFINITION_BOOLEAN) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
+		reference.ALTERNATIVE_ID = nil
+		if _instance, ok := stage.A_ALTERNATIVE_IDs_instance[_reference]; ok {
+			reference.ALTERNATIVE_ID = _instance
+		}
+	}
+	if _reference := reference.DEFAULT_VALUE; _reference != nil {
+		reference.DEFAULT_VALUE = nil
+		if _instance, ok := stage.A_ATTRIBUTE_VALUE_BOOLEANs_instance[_reference]; ok {
+			reference.DEFAULT_VALUE = _instance
+		}
+	}
+	if _reference := reference.TYPE; _reference != nil {
+		reference.TYPE = nil
+		if _instance, ok := stage.A_DATATYPE_DEFINITION_BOOLEAN_REFs_instance[_reference]; ok {
+			reference.TYPE = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *ATTRIBUTE_DEFINITION_DATE) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
+		reference.ALTERNATIVE_ID = nil
+		if _instance, ok := stage.A_ALTERNATIVE_IDs_instance[_reference]; ok {
+			reference.ALTERNATIVE_ID = _instance
+		}
+	}
+	if _reference := reference.DEFAULT_VALUE; _reference != nil {
+		reference.DEFAULT_VALUE = nil
+		if _instance, ok := stage.A_ATTRIBUTE_VALUE_DATEs_instance[_reference]; ok {
+			reference.DEFAULT_VALUE = _instance
+		}
+	}
+	if _reference := reference.TYPE; _reference != nil {
+		reference.TYPE = nil
+		if _instance, ok := stage.A_DATATYPE_DEFINITION_DATE_REFs_instance[_reference]; ok {
+			reference.TYPE = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *ATTRIBUTE_DEFINITION_ENUMERATION) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
+		reference.ALTERNATIVE_ID = nil
+		if _instance, ok := stage.A_ALTERNATIVE_IDs_instance[_reference]; ok {
+			reference.ALTERNATIVE_ID = _instance
+		}
+	}
+	if _reference := reference.DEFAULT_VALUE; _reference != nil {
+		reference.DEFAULT_VALUE = nil
+		if _instance, ok := stage.A_ATTRIBUTE_VALUE_ENUMERATIONs_instance[_reference]; ok {
+			reference.DEFAULT_VALUE = _instance
+		}
+	}
+	if _reference := reference.TYPE; _reference != nil {
+		reference.TYPE = nil
+		if _instance, ok := stage.A_DATATYPE_DEFINITION_ENUMERATION_REFs_instance[_reference]; ok {
+			reference.TYPE = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *ATTRIBUTE_DEFINITION_INTEGER) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
+		reference.ALTERNATIVE_ID = nil
+		if _instance, ok := stage.A_ALTERNATIVE_IDs_instance[_reference]; ok {
+			reference.ALTERNATIVE_ID = _instance
+		}
+	}
+	if _reference := reference.DEFAULT_VALUE; _reference != nil {
+		reference.DEFAULT_VALUE = nil
+		if _instance, ok := stage.A_ATTRIBUTE_VALUE_INTEGERs_instance[_reference]; ok {
+			reference.DEFAULT_VALUE = _instance
+		}
+	}
+	if _reference := reference.TYPE; _reference != nil {
+		reference.TYPE = nil
+		if _instance, ok := stage.A_DATATYPE_DEFINITION_INTEGER_REFs_instance[_reference]; ok {
+			reference.TYPE = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *ATTRIBUTE_DEFINITION_REAL) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
+		reference.ALTERNATIVE_ID = nil
+		if _instance, ok := stage.A_ALTERNATIVE_IDs_instance[_reference]; ok {
+			reference.ALTERNATIVE_ID = _instance
+		}
+	}
+	if _reference := reference.DEFAULT_VALUE; _reference != nil {
+		reference.DEFAULT_VALUE = nil
+		if _instance, ok := stage.A_ATTRIBUTE_VALUE_REALs_instance[_reference]; ok {
+			reference.DEFAULT_VALUE = _instance
+		}
+	}
+	if _reference := reference.TYPE; _reference != nil {
+		reference.TYPE = nil
+		if _instance, ok := stage.A_DATATYPE_DEFINITION_REAL_REFs_instance[_reference]; ok {
+			reference.TYPE = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *ATTRIBUTE_DEFINITION_STRING) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
+		reference.ALTERNATIVE_ID = nil
+		if _instance, ok := stage.A_ALTERNATIVE_IDs_instance[_reference]; ok {
+			reference.ALTERNATIVE_ID = _instance
+		}
+	}
+	if _reference := reference.DEFAULT_VALUE; _reference != nil {
+		reference.DEFAULT_VALUE = nil
+		if _instance, ok := stage.A_ATTRIBUTE_VALUE_STRINGs_instance[_reference]; ok {
+			reference.DEFAULT_VALUE = _instance
+		}
+	}
+	if _reference := reference.TYPE; _reference != nil {
+		reference.TYPE = nil
+		if _instance, ok := stage.A_DATATYPE_DEFINITION_STRING_REFs_instance[_reference]; ok {
+			reference.TYPE = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *ATTRIBUTE_DEFINITION_XHTML) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
+		reference.ALTERNATIVE_ID = nil
+		if _instance, ok := stage.A_ALTERNATIVE_IDs_instance[_reference]; ok {
+			reference.ALTERNATIVE_ID = _instance
+		}
+	}
+	if _reference := reference.DEFAULT_VALUE; _reference != nil {
+		reference.DEFAULT_VALUE = nil
+		if _instance, ok := stage.A_ATTRIBUTE_VALUE_XHTMLs_instance[_reference]; ok {
+			reference.DEFAULT_VALUE = _instance
+		}
+	}
+	if _reference := reference.TYPE; _reference != nil {
+		reference.TYPE = nil
+		if _instance, ok := stage.A_DATATYPE_DEFINITION_XHTML_REFs_instance[_reference]; ok {
+			reference.TYPE = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *ATTRIBUTE_VALUE_BOOLEAN) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.DEFINITION; _reference != nil {
+		reference.DEFINITION = nil
+		if _instance, ok := stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REFs_instance[_reference]; ok {
+			reference.DEFINITION = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *ATTRIBUTE_VALUE_DATE) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.DEFINITION; _reference != nil {
+		reference.DEFINITION = nil
+		if _instance, ok := stage.A_ATTRIBUTE_DEFINITION_DATE_REFs_instance[_reference]; ok {
+			reference.DEFINITION = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *ATTRIBUTE_VALUE_ENUMERATION) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.DEFINITION; _reference != nil {
+		reference.DEFINITION = nil
+		if _instance, ok := stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REFs_instance[_reference]; ok {
+			reference.DEFINITION = _instance
+		}
+	}
+	if _reference := reference.VALUES; _reference != nil {
+		reference.VALUES = nil
+		if _instance, ok := stage.A_ENUM_VALUE_REFs_instance[_reference]; ok {
+			reference.VALUES = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *ATTRIBUTE_VALUE_INTEGER) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.DEFINITION; _reference != nil {
+		reference.DEFINITION = nil
+		if _instance, ok := stage.A_ATTRIBUTE_DEFINITION_INTEGER_REFs_instance[_reference]; ok {
+			reference.DEFINITION = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *ATTRIBUTE_VALUE_REAL) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.DEFINITION; _reference != nil {
+		reference.DEFINITION = nil
+		if _instance, ok := stage.A_ATTRIBUTE_DEFINITION_REAL_REFs_instance[_reference]; ok {
+			reference.DEFINITION = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *ATTRIBUTE_VALUE_STRING) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.DEFINITION; _reference != nil {
+		reference.DEFINITION = nil
+		if _instance, ok := stage.A_ATTRIBUTE_DEFINITION_STRING_REFs_instance[_reference]; ok {
+			reference.DEFINITION = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *ATTRIBUTE_VALUE_XHTML) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.THE_VALUE; _reference != nil {
+		reference.THE_VALUE = nil
+		if _instance, ok := stage.XHTML_CONTENTs_instance[_reference]; ok {
+			reference.THE_VALUE = _instance
+		}
+	}
+	if _reference := reference.THE_ORIGINAL_VALUE; _reference != nil {
+		reference.THE_ORIGINAL_VALUE = nil
+		if _instance, ok := stage.XHTML_CONTENTs_instance[_reference]; ok {
+			reference.THE_ORIGINAL_VALUE = _instance
+		}
+	}
+	if _reference := reference.DEFINITION; _reference != nil {
+		reference.DEFINITION = nil
+		if _instance, ok := stage.A_ATTRIBUTE_DEFINITION_XHTML_REFs_instance[_reference]; ok {
+			reference.DEFINITION = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *A_ALTERNATIVE_ID) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
+		reference.ALTERNATIVE_ID = nil
+		if _instance, ok := stage.ALTERNATIVE_IDs_instance[_reference]; ok {
+			reference.ALTERNATIVE_ID = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *A_ATTRIBUTE_DEFINITION_BOOLEAN_REF) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *A_ATTRIBUTE_DEFINITION_DATE_REF) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *A_ATTRIBUTE_DEFINITION_ENUMERATION_REF) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *A_ATTRIBUTE_DEFINITION_INTEGER_REF) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *A_ATTRIBUTE_DEFINITION_REAL_REF) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *A_ATTRIBUTE_DEFINITION_STRING_REF) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *A_ATTRIBUTE_DEFINITION_XHTML_REF) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *A_ATTRIBUTE_VALUE_BOOLEAN) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _ATTRIBUTE_VALUE_BOOLEAN []*ATTRIBUTE_VALUE_BOOLEAN
+	for _, _reference := range reference.ATTRIBUTE_VALUE_BOOLEAN {
+		if _instance, ok := stage.ATTRIBUTE_VALUE_BOOLEANs_instance[_reference]; ok {
+			_ATTRIBUTE_VALUE_BOOLEAN = append(_ATTRIBUTE_VALUE_BOOLEAN, _instance)
+		}
+	}
+	reference.ATTRIBUTE_VALUE_BOOLEAN = _ATTRIBUTE_VALUE_BOOLEAN
+
+	return
+}
+
+func (reference *A_ATTRIBUTE_VALUE_DATE) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _ATTRIBUTE_VALUE_DATE []*ATTRIBUTE_VALUE_DATE
+	for _, _reference := range reference.ATTRIBUTE_VALUE_DATE {
+		if _instance, ok := stage.ATTRIBUTE_VALUE_DATEs_instance[_reference]; ok {
+			_ATTRIBUTE_VALUE_DATE = append(_ATTRIBUTE_VALUE_DATE, _instance)
+		}
+	}
+	reference.ATTRIBUTE_VALUE_DATE = _ATTRIBUTE_VALUE_DATE
+
+	return
+}
+
+func (reference *A_ATTRIBUTE_VALUE_ENUMERATION) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _ATTRIBUTE_VALUE_ENUMERATION []*ATTRIBUTE_VALUE_ENUMERATION
+	for _, _reference := range reference.ATTRIBUTE_VALUE_ENUMERATION {
+		if _instance, ok := stage.ATTRIBUTE_VALUE_ENUMERATIONs_instance[_reference]; ok {
+			_ATTRIBUTE_VALUE_ENUMERATION = append(_ATTRIBUTE_VALUE_ENUMERATION, _instance)
+		}
+	}
+	reference.ATTRIBUTE_VALUE_ENUMERATION = _ATTRIBUTE_VALUE_ENUMERATION
+
+	return
+}
+
+func (reference *A_ATTRIBUTE_VALUE_INTEGER) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _ATTRIBUTE_VALUE_INTEGER []*ATTRIBUTE_VALUE_INTEGER
+	for _, _reference := range reference.ATTRIBUTE_VALUE_INTEGER {
+		if _instance, ok := stage.ATTRIBUTE_VALUE_INTEGERs_instance[_reference]; ok {
+			_ATTRIBUTE_VALUE_INTEGER = append(_ATTRIBUTE_VALUE_INTEGER, _instance)
+		}
+	}
+	reference.ATTRIBUTE_VALUE_INTEGER = _ATTRIBUTE_VALUE_INTEGER
+
+	return
+}
+
+func (reference *A_ATTRIBUTE_VALUE_REAL) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _ATTRIBUTE_VALUE_REAL []*ATTRIBUTE_VALUE_REAL
+	for _, _reference := range reference.ATTRIBUTE_VALUE_REAL {
+		if _instance, ok := stage.ATTRIBUTE_VALUE_REALs_instance[_reference]; ok {
+			_ATTRIBUTE_VALUE_REAL = append(_ATTRIBUTE_VALUE_REAL, _instance)
+		}
+	}
+	reference.ATTRIBUTE_VALUE_REAL = _ATTRIBUTE_VALUE_REAL
+
+	return
+}
+
+func (reference *A_ATTRIBUTE_VALUE_STRING) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _ATTRIBUTE_VALUE_STRING []*ATTRIBUTE_VALUE_STRING
+	for _, _reference := range reference.ATTRIBUTE_VALUE_STRING {
+		if _instance, ok := stage.ATTRIBUTE_VALUE_STRINGs_instance[_reference]; ok {
+			_ATTRIBUTE_VALUE_STRING = append(_ATTRIBUTE_VALUE_STRING, _instance)
+		}
+	}
+	reference.ATTRIBUTE_VALUE_STRING = _ATTRIBUTE_VALUE_STRING
+
+	return
+}
+
+func (reference *A_ATTRIBUTE_VALUE_XHTML) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _ATTRIBUTE_VALUE_XHTML []*ATTRIBUTE_VALUE_XHTML
+	for _, _reference := range reference.ATTRIBUTE_VALUE_XHTML {
+		if _instance, ok := stage.ATTRIBUTE_VALUE_XHTMLs_instance[_reference]; ok {
+			_ATTRIBUTE_VALUE_XHTML = append(_ATTRIBUTE_VALUE_XHTML, _instance)
+		}
+	}
+	reference.ATTRIBUTE_VALUE_XHTML = _ATTRIBUTE_VALUE_XHTML
+
+	return
+}
+
+func (reference *A_ATTRIBUTE_VALUE_XHTML_1) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _ATTRIBUTE_VALUE_BOOLEAN []*ATTRIBUTE_VALUE_BOOLEAN
+	for _, _reference := range reference.ATTRIBUTE_VALUE_BOOLEAN {
+		if _instance, ok := stage.ATTRIBUTE_VALUE_BOOLEANs_instance[_reference]; ok {
+			_ATTRIBUTE_VALUE_BOOLEAN = append(_ATTRIBUTE_VALUE_BOOLEAN, _instance)
+		}
+	}
+	reference.ATTRIBUTE_VALUE_BOOLEAN = _ATTRIBUTE_VALUE_BOOLEAN
+	var _ATTRIBUTE_VALUE_DATE []*ATTRIBUTE_VALUE_DATE
+	for _, _reference := range reference.ATTRIBUTE_VALUE_DATE {
+		if _instance, ok := stage.ATTRIBUTE_VALUE_DATEs_instance[_reference]; ok {
+			_ATTRIBUTE_VALUE_DATE = append(_ATTRIBUTE_VALUE_DATE, _instance)
+		}
+	}
+	reference.ATTRIBUTE_VALUE_DATE = _ATTRIBUTE_VALUE_DATE
+	var _ATTRIBUTE_VALUE_ENUMERATION []*ATTRIBUTE_VALUE_ENUMERATION
+	for _, _reference := range reference.ATTRIBUTE_VALUE_ENUMERATION {
+		if _instance, ok := stage.ATTRIBUTE_VALUE_ENUMERATIONs_instance[_reference]; ok {
+			_ATTRIBUTE_VALUE_ENUMERATION = append(_ATTRIBUTE_VALUE_ENUMERATION, _instance)
+		}
+	}
+	reference.ATTRIBUTE_VALUE_ENUMERATION = _ATTRIBUTE_VALUE_ENUMERATION
+	var _ATTRIBUTE_VALUE_INTEGER []*ATTRIBUTE_VALUE_INTEGER
+	for _, _reference := range reference.ATTRIBUTE_VALUE_INTEGER {
+		if _instance, ok := stage.ATTRIBUTE_VALUE_INTEGERs_instance[_reference]; ok {
+			_ATTRIBUTE_VALUE_INTEGER = append(_ATTRIBUTE_VALUE_INTEGER, _instance)
+		}
+	}
+	reference.ATTRIBUTE_VALUE_INTEGER = _ATTRIBUTE_VALUE_INTEGER
+	var _ATTRIBUTE_VALUE_REAL []*ATTRIBUTE_VALUE_REAL
+	for _, _reference := range reference.ATTRIBUTE_VALUE_REAL {
+		if _instance, ok := stage.ATTRIBUTE_VALUE_REALs_instance[_reference]; ok {
+			_ATTRIBUTE_VALUE_REAL = append(_ATTRIBUTE_VALUE_REAL, _instance)
+		}
+	}
+	reference.ATTRIBUTE_VALUE_REAL = _ATTRIBUTE_VALUE_REAL
+	var _ATTRIBUTE_VALUE_STRING []*ATTRIBUTE_VALUE_STRING
+	for _, _reference := range reference.ATTRIBUTE_VALUE_STRING {
+		if _instance, ok := stage.ATTRIBUTE_VALUE_STRINGs_instance[_reference]; ok {
+			_ATTRIBUTE_VALUE_STRING = append(_ATTRIBUTE_VALUE_STRING, _instance)
+		}
+	}
+	reference.ATTRIBUTE_VALUE_STRING = _ATTRIBUTE_VALUE_STRING
+	var _ATTRIBUTE_VALUE_XHTML []*ATTRIBUTE_VALUE_XHTML
+	for _, _reference := range reference.ATTRIBUTE_VALUE_XHTML {
+		if _instance, ok := stage.ATTRIBUTE_VALUE_XHTMLs_instance[_reference]; ok {
+			_ATTRIBUTE_VALUE_XHTML = append(_ATTRIBUTE_VALUE_XHTML, _instance)
+		}
+	}
+	reference.ATTRIBUTE_VALUE_XHTML = _ATTRIBUTE_VALUE_XHTML
+
+	return
+}
+
+func (reference *A_CHILDREN) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _SPEC_HIERARCHY []*SPEC_HIERARCHY
+	for _, _reference := range reference.SPEC_HIERARCHY {
+		if _instance, ok := stage.SPEC_HIERARCHYs_instance[_reference]; ok {
+			_SPEC_HIERARCHY = append(_SPEC_HIERARCHY, _instance)
+		}
+	}
+	reference.SPEC_HIERARCHY = _SPEC_HIERARCHY
+
+	return
+}
+
+func (reference *A_CORE_CONTENT) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.REQ_IF_CONTENT; _reference != nil {
+		reference.REQ_IF_CONTENT = nil
+		if _instance, ok := stage.REQ_IF_CONTENTs_instance[_reference]; ok {
+			reference.REQ_IF_CONTENT = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *A_DATATYPES) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _DATATYPE_DEFINITION_BOOLEAN []*DATATYPE_DEFINITION_BOOLEAN
+	for _, _reference := range reference.DATATYPE_DEFINITION_BOOLEAN {
+		if _instance, ok := stage.DATATYPE_DEFINITION_BOOLEANs_instance[_reference]; ok {
+			_DATATYPE_DEFINITION_BOOLEAN = append(_DATATYPE_DEFINITION_BOOLEAN, _instance)
+		}
+	}
+	reference.DATATYPE_DEFINITION_BOOLEAN = _DATATYPE_DEFINITION_BOOLEAN
+	var _DATATYPE_DEFINITION_DATE []*DATATYPE_DEFINITION_DATE
+	for _, _reference := range reference.DATATYPE_DEFINITION_DATE {
+		if _instance, ok := stage.DATATYPE_DEFINITION_DATEs_instance[_reference]; ok {
+			_DATATYPE_DEFINITION_DATE = append(_DATATYPE_DEFINITION_DATE, _instance)
+		}
+	}
+	reference.DATATYPE_DEFINITION_DATE = _DATATYPE_DEFINITION_DATE
+	var _DATATYPE_DEFINITION_ENUMERATION []*DATATYPE_DEFINITION_ENUMERATION
+	for _, _reference := range reference.DATATYPE_DEFINITION_ENUMERATION {
+		if _instance, ok := stage.DATATYPE_DEFINITION_ENUMERATIONs_instance[_reference]; ok {
+			_DATATYPE_DEFINITION_ENUMERATION = append(_DATATYPE_DEFINITION_ENUMERATION, _instance)
+		}
+	}
+	reference.DATATYPE_DEFINITION_ENUMERATION = _DATATYPE_DEFINITION_ENUMERATION
+	var _DATATYPE_DEFINITION_INTEGER []*DATATYPE_DEFINITION_INTEGER
+	for _, _reference := range reference.DATATYPE_DEFINITION_INTEGER {
+		if _instance, ok := stage.DATATYPE_DEFINITION_INTEGERs_instance[_reference]; ok {
+			_DATATYPE_DEFINITION_INTEGER = append(_DATATYPE_DEFINITION_INTEGER, _instance)
+		}
+	}
+	reference.DATATYPE_DEFINITION_INTEGER = _DATATYPE_DEFINITION_INTEGER
+	var _DATATYPE_DEFINITION_REAL []*DATATYPE_DEFINITION_REAL
+	for _, _reference := range reference.DATATYPE_DEFINITION_REAL {
+		if _instance, ok := stage.DATATYPE_DEFINITION_REALs_instance[_reference]; ok {
+			_DATATYPE_DEFINITION_REAL = append(_DATATYPE_DEFINITION_REAL, _instance)
+		}
+	}
+	reference.DATATYPE_DEFINITION_REAL = _DATATYPE_DEFINITION_REAL
+	var _DATATYPE_DEFINITION_STRING []*DATATYPE_DEFINITION_STRING
+	for _, _reference := range reference.DATATYPE_DEFINITION_STRING {
+		if _instance, ok := stage.DATATYPE_DEFINITION_STRINGs_instance[_reference]; ok {
+			_DATATYPE_DEFINITION_STRING = append(_DATATYPE_DEFINITION_STRING, _instance)
+		}
+	}
+	reference.DATATYPE_DEFINITION_STRING = _DATATYPE_DEFINITION_STRING
+	var _DATATYPE_DEFINITION_XHTML []*DATATYPE_DEFINITION_XHTML
+	for _, _reference := range reference.DATATYPE_DEFINITION_XHTML {
+		if _instance, ok := stage.DATATYPE_DEFINITION_XHTMLs_instance[_reference]; ok {
+			_DATATYPE_DEFINITION_XHTML = append(_DATATYPE_DEFINITION_XHTML, _instance)
+		}
+	}
+	reference.DATATYPE_DEFINITION_XHTML = _DATATYPE_DEFINITION_XHTML
+
+	return
+}
+
+func (reference *A_DATATYPE_DEFINITION_BOOLEAN_REF) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *A_DATATYPE_DEFINITION_DATE_REF) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *A_DATATYPE_DEFINITION_ENUMERATION_REF) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *A_DATATYPE_DEFINITION_INTEGER_REF) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *A_DATATYPE_DEFINITION_REAL_REF) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *A_DATATYPE_DEFINITION_STRING_REF) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *A_DATATYPE_DEFINITION_XHTML_REF) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *A_EDITABLE_ATTS) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *A_ENUM_VALUE_REF) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *A_OBJECT) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *A_PROPERTIES) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.EMBEDDED_VALUE; _reference != nil {
+		reference.EMBEDDED_VALUE = nil
+		if _instance, ok := stage.EMBEDDED_VALUEs_instance[_reference]; ok {
+			reference.EMBEDDED_VALUE = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *A_RELATION_GROUP_TYPE_REF) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *A_SOURCE_1) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *A_SOURCE_SPECIFICATION_1) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *A_SPECIFICATIONS) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _SPECIFICATION []*SPECIFICATION
+	for _, _reference := range reference.SPECIFICATION {
+		if _instance, ok := stage.SPECIFICATIONs_instance[_reference]; ok {
+			_SPECIFICATION = append(_SPECIFICATION, _instance)
+		}
+	}
+	reference.SPECIFICATION = _SPECIFICATION
+
+	return
+}
+
+func (reference *A_SPECIFICATION_TYPE_REF) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *A_SPECIFIED_VALUES) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _ENUM_VALUE []*ENUM_VALUE
+	for _, _reference := range reference.ENUM_VALUE {
+		if _instance, ok := stage.ENUM_VALUEs_instance[_reference]; ok {
+			_ENUM_VALUE = append(_ENUM_VALUE, _instance)
+		}
+	}
+	reference.ENUM_VALUE = _ENUM_VALUE
+
+	return
+}
+
+func (reference *A_SPEC_ATTRIBUTES) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _ATTRIBUTE_DEFINITION_BOOLEAN []*ATTRIBUTE_DEFINITION_BOOLEAN
+	for _, _reference := range reference.ATTRIBUTE_DEFINITION_BOOLEAN {
+		if _instance, ok := stage.ATTRIBUTE_DEFINITION_BOOLEANs_instance[_reference]; ok {
+			_ATTRIBUTE_DEFINITION_BOOLEAN = append(_ATTRIBUTE_DEFINITION_BOOLEAN, _instance)
+		}
+	}
+	reference.ATTRIBUTE_DEFINITION_BOOLEAN = _ATTRIBUTE_DEFINITION_BOOLEAN
+	var _ATTRIBUTE_DEFINITION_DATE []*ATTRIBUTE_DEFINITION_DATE
+	for _, _reference := range reference.ATTRIBUTE_DEFINITION_DATE {
+		if _instance, ok := stage.ATTRIBUTE_DEFINITION_DATEs_instance[_reference]; ok {
+			_ATTRIBUTE_DEFINITION_DATE = append(_ATTRIBUTE_DEFINITION_DATE, _instance)
+		}
+	}
+	reference.ATTRIBUTE_DEFINITION_DATE = _ATTRIBUTE_DEFINITION_DATE
+	var _ATTRIBUTE_DEFINITION_ENUMERATION []*ATTRIBUTE_DEFINITION_ENUMERATION
+	for _, _reference := range reference.ATTRIBUTE_DEFINITION_ENUMERATION {
+		if _instance, ok := stage.ATTRIBUTE_DEFINITION_ENUMERATIONs_instance[_reference]; ok {
+			_ATTRIBUTE_DEFINITION_ENUMERATION = append(_ATTRIBUTE_DEFINITION_ENUMERATION, _instance)
+		}
+	}
+	reference.ATTRIBUTE_DEFINITION_ENUMERATION = _ATTRIBUTE_DEFINITION_ENUMERATION
+	var _ATTRIBUTE_DEFINITION_INTEGER []*ATTRIBUTE_DEFINITION_INTEGER
+	for _, _reference := range reference.ATTRIBUTE_DEFINITION_INTEGER {
+		if _instance, ok := stage.ATTRIBUTE_DEFINITION_INTEGERs_instance[_reference]; ok {
+			_ATTRIBUTE_DEFINITION_INTEGER = append(_ATTRIBUTE_DEFINITION_INTEGER, _instance)
+		}
+	}
+	reference.ATTRIBUTE_DEFINITION_INTEGER = _ATTRIBUTE_DEFINITION_INTEGER
+	var _ATTRIBUTE_DEFINITION_REAL []*ATTRIBUTE_DEFINITION_REAL
+	for _, _reference := range reference.ATTRIBUTE_DEFINITION_REAL {
+		if _instance, ok := stage.ATTRIBUTE_DEFINITION_REALs_instance[_reference]; ok {
+			_ATTRIBUTE_DEFINITION_REAL = append(_ATTRIBUTE_DEFINITION_REAL, _instance)
+		}
+	}
+	reference.ATTRIBUTE_DEFINITION_REAL = _ATTRIBUTE_DEFINITION_REAL
+	var _ATTRIBUTE_DEFINITION_STRING []*ATTRIBUTE_DEFINITION_STRING
+	for _, _reference := range reference.ATTRIBUTE_DEFINITION_STRING {
+		if _instance, ok := stage.ATTRIBUTE_DEFINITION_STRINGs_instance[_reference]; ok {
+			_ATTRIBUTE_DEFINITION_STRING = append(_ATTRIBUTE_DEFINITION_STRING, _instance)
+		}
+	}
+	reference.ATTRIBUTE_DEFINITION_STRING = _ATTRIBUTE_DEFINITION_STRING
+	var _ATTRIBUTE_DEFINITION_XHTML []*ATTRIBUTE_DEFINITION_XHTML
+	for _, _reference := range reference.ATTRIBUTE_DEFINITION_XHTML {
+		if _instance, ok := stage.ATTRIBUTE_DEFINITION_XHTMLs_instance[_reference]; ok {
+			_ATTRIBUTE_DEFINITION_XHTML = append(_ATTRIBUTE_DEFINITION_XHTML, _instance)
+		}
+	}
+	reference.ATTRIBUTE_DEFINITION_XHTML = _ATTRIBUTE_DEFINITION_XHTML
+
+	return
+}
+
+func (reference *A_SPEC_OBJECTS) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _SPEC_OBJECT []*SPEC_OBJECT
+	for _, _reference := range reference.SPEC_OBJECT {
+		if _instance, ok := stage.SPEC_OBJECTs_instance[_reference]; ok {
+			_SPEC_OBJECT = append(_SPEC_OBJECT, _instance)
+		}
+	}
+	reference.SPEC_OBJECT = _SPEC_OBJECT
+
+	return
+}
+
+func (reference *A_SPEC_OBJECT_TYPE_REF) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *A_SPEC_RELATIONS) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _SPEC_RELATION []*SPEC_RELATION
+	for _, _reference := range reference.SPEC_RELATION {
+		if _instance, ok := stage.SPEC_RELATIONs_instance[_reference]; ok {
+			_SPEC_RELATION = append(_SPEC_RELATION, _instance)
+		}
+	}
+	reference.SPEC_RELATION = _SPEC_RELATION
+
+	return
+}
+
+func (reference *A_SPEC_RELATION_GROUPS) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _RELATION_GROUP []*RELATION_GROUP
+	for _, _reference := range reference.RELATION_GROUP {
+		if _instance, ok := stage.RELATION_GROUPs_instance[_reference]; ok {
+			_RELATION_GROUP = append(_RELATION_GROUP, _instance)
+		}
+	}
+	reference.RELATION_GROUP = _RELATION_GROUP
+
+	return
+}
+
+func (reference *A_SPEC_RELATION_REF) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *A_SPEC_RELATION_TYPE_REF) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *A_SPEC_TYPES) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _RELATION_GROUP_TYPE []*RELATION_GROUP_TYPE
+	for _, _reference := range reference.RELATION_GROUP_TYPE {
+		if _instance, ok := stage.RELATION_GROUP_TYPEs_instance[_reference]; ok {
+			_RELATION_GROUP_TYPE = append(_RELATION_GROUP_TYPE, _instance)
+		}
+	}
+	reference.RELATION_GROUP_TYPE = _RELATION_GROUP_TYPE
+	var _SPEC_OBJECT_TYPE []*SPEC_OBJECT_TYPE
+	for _, _reference := range reference.SPEC_OBJECT_TYPE {
+		if _instance, ok := stage.SPEC_OBJECT_TYPEs_instance[_reference]; ok {
+			_SPEC_OBJECT_TYPE = append(_SPEC_OBJECT_TYPE, _instance)
+		}
+	}
+	reference.SPEC_OBJECT_TYPE = _SPEC_OBJECT_TYPE
+	var _SPEC_RELATION_TYPE []*SPEC_RELATION_TYPE
+	for _, _reference := range reference.SPEC_RELATION_TYPE {
+		if _instance, ok := stage.SPEC_RELATION_TYPEs_instance[_reference]; ok {
+			_SPEC_RELATION_TYPE = append(_SPEC_RELATION_TYPE, _instance)
+		}
+	}
+	reference.SPEC_RELATION_TYPE = _SPEC_RELATION_TYPE
+	var _SPECIFICATION_TYPE []*SPECIFICATION_TYPE
+	for _, _reference := range reference.SPECIFICATION_TYPE {
+		if _instance, ok := stage.SPECIFICATION_TYPEs_instance[_reference]; ok {
+			_SPECIFICATION_TYPE = append(_SPECIFICATION_TYPE, _instance)
+		}
+	}
+	reference.SPECIFICATION_TYPE = _SPECIFICATION_TYPE
+
+	return
+}
+
+func (reference *A_THE_HEADER) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.REQ_IF_HEADER; _reference != nil {
+		reference.REQ_IF_HEADER = nil
+		if _instance, ok := stage.REQ_IF_HEADERs_instance[_reference]; ok {
+			reference.REQ_IF_HEADER = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *A_TOOL_EXTENSIONS) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _REQ_IF_TOOL_EXTENSION []*REQ_IF_TOOL_EXTENSION
+	for _, _reference := range reference.REQ_IF_TOOL_EXTENSION {
+		if _instance, ok := stage.REQ_IF_TOOL_EXTENSIONs_instance[_reference]; ok {
+			_REQ_IF_TOOL_EXTENSION = append(_REQ_IF_TOOL_EXTENSION, _instance)
+		}
+	}
+	reference.REQ_IF_TOOL_EXTENSION = _REQ_IF_TOOL_EXTENSION
+
+	return
+}
+
+func (reference *DATATYPE_DEFINITION_BOOLEAN) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
+		reference.ALTERNATIVE_ID = nil
+		if _instance, ok := stage.A_ALTERNATIVE_IDs_instance[_reference]; ok {
+			reference.ALTERNATIVE_ID = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *DATATYPE_DEFINITION_DATE) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
+		reference.ALTERNATIVE_ID = nil
+		if _instance, ok := stage.A_ALTERNATIVE_IDs_instance[_reference]; ok {
+			reference.ALTERNATIVE_ID = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *DATATYPE_DEFINITION_ENUMERATION) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
+		reference.ALTERNATIVE_ID = nil
+		if _instance, ok := stage.A_ALTERNATIVE_IDs_instance[_reference]; ok {
+			reference.ALTERNATIVE_ID = _instance
+		}
+	}
+	if _reference := reference.SPECIFIED_VALUES; _reference != nil {
+		reference.SPECIFIED_VALUES = nil
+		if _instance, ok := stage.A_SPECIFIED_VALUESs_instance[_reference]; ok {
+			reference.SPECIFIED_VALUES = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *DATATYPE_DEFINITION_INTEGER) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
+		reference.ALTERNATIVE_ID = nil
+		if _instance, ok := stage.A_ALTERNATIVE_IDs_instance[_reference]; ok {
+			reference.ALTERNATIVE_ID = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *DATATYPE_DEFINITION_REAL) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
+		reference.ALTERNATIVE_ID = nil
+		if _instance, ok := stage.A_ALTERNATIVE_IDs_instance[_reference]; ok {
+			reference.ALTERNATIVE_ID = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *DATATYPE_DEFINITION_STRING) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
+		reference.ALTERNATIVE_ID = nil
+		if _instance, ok := stage.A_ALTERNATIVE_IDs_instance[_reference]; ok {
+			reference.ALTERNATIVE_ID = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *DATATYPE_DEFINITION_XHTML) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
+		reference.ALTERNATIVE_ID = nil
+		if _instance, ok := stage.A_ALTERNATIVE_IDs_instance[_reference]; ok {
+			reference.ALTERNATIVE_ID = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *EMBEDDED_VALUE) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *ENUM_VALUE) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
+		reference.ALTERNATIVE_ID = nil
+		if _instance, ok := stage.A_ALTERNATIVE_IDs_instance[_reference]; ok {
+			reference.ALTERNATIVE_ID = _instance
+		}
+	}
+	if _reference := reference.PROPERTIES; _reference != nil {
+		reference.PROPERTIES = nil
+		if _instance, ok := stage.A_PROPERTIESs_instance[_reference]; ok {
+			reference.PROPERTIES = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *RELATION_GROUP) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
+		reference.ALTERNATIVE_ID = nil
+		if _instance, ok := stage.A_ALTERNATIVE_IDs_instance[_reference]; ok {
+			reference.ALTERNATIVE_ID = _instance
+		}
+	}
+	if _reference := reference.SOURCE_SPECIFICATION; _reference != nil {
+		reference.SOURCE_SPECIFICATION = nil
+		if _instance, ok := stage.A_SOURCE_SPECIFICATION_1s_instance[_reference]; ok {
+			reference.SOURCE_SPECIFICATION = _instance
+		}
+	}
+	if _reference := reference.SPEC_RELATIONS; _reference != nil {
+		reference.SPEC_RELATIONS = nil
+		if _instance, ok := stage.A_SPEC_RELATION_REFs_instance[_reference]; ok {
+			reference.SPEC_RELATIONS = _instance
+		}
+	}
+	if _reference := reference.TARGET_SPECIFICATION; _reference != nil {
+		reference.TARGET_SPECIFICATION = nil
+		if _instance, ok := stage.A_SOURCE_SPECIFICATION_1s_instance[_reference]; ok {
+			reference.TARGET_SPECIFICATION = _instance
+		}
+	}
+	if _reference := reference.TYPE; _reference != nil {
+		reference.TYPE = nil
+		if _instance, ok := stage.A_RELATION_GROUP_TYPE_REFs_instance[_reference]; ok {
+			reference.TYPE = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *RELATION_GROUP_TYPE) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
+		reference.ALTERNATIVE_ID = nil
+		if _instance, ok := stage.A_ALTERNATIVE_IDs_instance[_reference]; ok {
+			reference.ALTERNATIVE_ID = _instance
+		}
+	}
+	if _reference := reference.SPEC_ATTRIBUTES; _reference != nil {
+		reference.SPEC_ATTRIBUTES = nil
+		if _instance, ok := stage.A_SPEC_ATTRIBUTESs_instance[_reference]; ok {
+			reference.SPEC_ATTRIBUTES = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *REQ_IF) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.THE_HEADER; _reference != nil {
+		reference.THE_HEADER = nil
+		if _instance, ok := stage.A_THE_HEADERs_instance[_reference]; ok {
+			reference.THE_HEADER = _instance
+		}
+	}
+	if _reference := reference.CORE_CONTENT; _reference != nil {
+		reference.CORE_CONTENT = nil
+		if _instance, ok := stage.A_CORE_CONTENTs_instance[_reference]; ok {
+			reference.CORE_CONTENT = _instance
+		}
+	}
+	if _reference := reference.TOOL_EXTENSIONS; _reference != nil {
+		reference.TOOL_EXTENSIONS = nil
+		if _instance, ok := stage.A_TOOL_EXTENSIONSs_instance[_reference]; ok {
+			reference.TOOL_EXTENSIONS = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *REQ_IF_CONTENT) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.DATATYPES; _reference != nil {
+		reference.DATATYPES = nil
+		if _instance, ok := stage.A_DATATYPESs_instance[_reference]; ok {
+			reference.DATATYPES = _instance
+		}
+	}
+	if _reference := reference.SPEC_TYPES; _reference != nil {
+		reference.SPEC_TYPES = nil
+		if _instance, ok := stage.A_SPEC_TYPESs_instance[_reference]; ok {
+			reference.SPEC_TYPES = _instance
+		}
+	}
+	if _reference := reference.SPEC_OBJECTS; _reference != nil {
+		reference.SPEC_OBJECTS = nil
+		if _instance, ok := stage.A_SPEC_OBJECTSs_instance[_reference]; ok {
+			reference.SPEC_OBJECTS = _instance
+		}
+	}
+	if _reference := reference.SPEC_RELATIONS; _reference != nil {
+		reference.SPEC_RELATIONS = nil
+		if _instance, ok := stage.A_SPEC_RELATIONSs_instance[_reference]; ok {
+			reference.SPEC_RELATIONS = _instance
+		}
+	}
+	if _reference := reference.SPECIFICATIONS; _reference != nil {
+		reference.SPECIFICATIONS = nil
+		if _instance, ok := stage.A_SPECIFICATIONSs_instance[_reference]; ok {
+			reference.SPECIFICATIONS = _instance
+		}
+	}
+	if _reference := reference.SPEC_RELATION_GROUPS; _reference != nil {
+		reference.SPEC_RELATION_GROUPS = nil
+		if _instance, ok := stage.A_SPEC_RELATION_GROUPSs_instance[_reference]; ok {
+			reference.SPEC_RELATION_GROUPS = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *REQ_IF_HEADER) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *REQ_IF_TOOL_EXTENSION) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *SPECIFICATION) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
+		reference.ALTERNATIVE_ID = nil
+		if _instance, ok := stage.A_ALTERNATIVE_IDs_instance[_reference]; ok {
+			reference.ALTERNATIVE_ID = _instance
+		}
+	}
+	if _reference := reference.CHILDREN; _reference != nil {
+		reference.CHILDREN = nil
+		if _instance, ok := stage.A_CHILDRENs_instance[_reference]; ok {
+			reference.CHILDREN = _instance
+		}
+	}
+	if _reference := reference.VALUES; _reference != nil {
+		reference.VALUES = nil
+		if _instance, ok := stage.A_ATTRIBUTE_VALUE_XHTML_1s_instance[_reference]; ok {
+			reference.VALUES = _instance
+		}
+	}
+	if _reference := reference.TYPE; _reference != nil {
+		reference.TYPE = nil
+		if _instance, ok := stage.A_SPECIFICATION_TYPE_REFs_instance[_reference]; ok {
+			reference.TYPE = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *SPECIFICATION_TYPE) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
+		reference.ALTERNATIVE_ID = nil
+		if _instance, ok := stage.A_ALTERNATIVE_IDs_instance[_reference]; ok {
+			reference.ALTERNATIVE_ID = _instance
+		}
+	}
+	if _reference := reference.SPEC_ATTRIBUTES; _reference != nil {
+		reference.SPEC_ATTRIBUTES = nil
+		if _instance, ok := stage.A_SPEC_ATTRIBUTESs_instance[_reference]; ok {
+			reference.SPEC_ATTRIBUTES = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *SPEC_HIERARCHY) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
+		reference.ALTERNATIVE_ID = nil
+		if _instance, ok := stage.A_ALTERNATIVE_IDs_instance[_reference]; ok {
+			reference.ALTERNATIVE_ID = _instance
+		}
+	}
+	if _reference := reference.CHILDREN; _reference != nil {
+		reference.CHILDREN = nil
+		if _instance, ok := stage.A_CHILDRENs_instance[_reference]; ok {
+			reference.CHILDREN = _instance
+		}
+	}
+	if _reference := reference.EDITABLE_ATTS; _reference != nil {
+		reference.EDITABLE_ATTS = nil
+		if _instance, ok := stage.A_EDITABLE_ATTSs_instance[_reference]; ok {
+			reference.EDITABLE_ATTS = _instance
+		}
+	}
+	if _reference := reference.OBJECT; _reference != nil {
+		reference.OBJECT = nil
+		if _instance, ok := stage.A_OBJECTs_instance[_reference]; ok {
+			reference.OBJECT = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *SPEC_OBJECT) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
+		reference.ALTERNATIVE_ID = nil
+		if _instance, ok := stage.A_ALTERNATIVE_IDs_instance[_reference]; ok {
+			reference.ALTERNATIVE_ID = _instance
+		}
+	}
+	if _reference := reference.VALUES; _reference != nil {
+		reference.VALUES = nil
+		if _instance, ok := stage.A_ATTRIBUTE_VALUE_XHTML_1s_instance[_reference]; ok {
+			reference.VALUES = _instance
+		}
+	}
+	if _reference := reference.TYPE; _reference != nil {
+		reference.TYPE = nil
+		if _instance, ok := stage.A_SPEC_OBJECT_TYPE_REFs_instance[_reference]; ok {
+			reference.TYPE = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *SPEC_OBJECT_TYPE) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
+		reference.ALTERNATIVE_ID = nil
+		if _instance, ok := stage.A_ALTERNATIVE_IDs_instance[_reference]; ok {
+			reference.ALTERNATIVE_ID = _instance
+		}
+	}
+	if _reference := reference.SPEC_ATTRIBUTES; _reference != nil {
+		reference.SPEC_ATTRIBUTES = nil
+		if _instance, ok := stage.A_SPEC_ATTRIBUTESs_instance[_reference]; ok {
+			reference.SPEC_ATTRIBUTES = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *SPEC_RELATION) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
+		reference.ALTERNATIVE_ID = nil
+		if _instance, ok := stage.A_ALTERNATIVE_IDs_instance[_reference]; ok {
+			reference.ALTERNATIVE_ID = _instance
+		}
+	}
+	if _reference := reference.VALUES; _reference != nil {
+		reference.VALUES = nil
+		if _instance, ok := stage.A_ATTRIBUTE_VALUE_XHTML_1s_instance[_reference]; ok {
+			reference.VALUES = _instance
+		}
+	}
+	if _reference := reference.SOURCE; _reference != nil {
+		reference.SOURCE = nil
+		if _instance, ok := stage.A_SOURCE_1s_instance[_reference]; ok {
+			reference.SOURCE = _instance
+		}
+	}
+	if _reference := reference.TARGET; _reference != nil {
+		reference.TARGET = nil
+		if _instance, ok := stage.A_SOURCE_1s_instance[_reference]; ok {
+			reference.TARGET = _instance
+		}
+	}
+	if _reference := reference.TYPE; _reference != nil {
+		reference.TYPE = nil
+		if _instance, ok := stage.A_SPEC_RELATION_TYPE_REFs_instance[_reference]; ok {
+			reference.TYPE = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *SPEC_RELATION_TYPE) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.ALTERNATIVE_ID; _reference != nil {
+		reference.ALTERNATIVE_ID = nil
+		if _instance, ok := stage.A_ALTERNATIVE_IDs_instance[_reference]; ok {
+			reference.ALTERNATIVE_ID = _instance
+		}
+	}
+	if _reference := reference.SPEC_ATTRIBUTES; _reference != nil {
+		reference.SPEC_ATTRIBUTES = nil
+		if _instance, ok := stage.A_SPEC_ATTRIBUTESs_instance[_reference]; ok {
+			reference.SPEC_ATTRIBUTES = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *XHTML_CONTENT) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
@@ -10019,9 +12373,6 @@ func (xhtml_content *XHTML_CONTENT) GongDiff(stage *Stage, xhtml_contentOther *X
 	}
 	if xhtml_content.EnclosedText != xhtml_contentOther.EnclosedText {
 		diffs = append(diffs, xhtml_content.GongMarshallField(stage, "EnclosedText"))
-	}
-	if xhtml_content.PureText != xhtml_contentOther.PureText {
-		diffs = append(diffs, xhtml_content.GongMarshallField(stage, "PureText"))
 	}
 
 	return

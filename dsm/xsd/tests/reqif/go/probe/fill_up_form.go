@@ -14,6 +14,7 @@ func FillUpForm(
 	formGroup *form.FormGroup,
 	probe *Probe,
 ) {
+
 	switch instanceWithInferedType := any(instance).(type) {
 	// insertion point
 	case *models.ALTERNATIVE_ID:
@@ -1735,9 +1736,7 @@ func FillUpForm(
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			true, true, 600, true, 400)
-		BasicFieldtoForm("PureText", instanceWithInferedType.PureText, instanceWithInferedType, probe.formStage, formGroup,
-			true, true, 600, true, 400)
+			false, false, 0, false, 0)
 
 	default:
 		_ = instanceWithInferedType

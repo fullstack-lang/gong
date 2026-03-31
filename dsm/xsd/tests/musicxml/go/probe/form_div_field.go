@@ -6,7 +6,7 @@ import (
 
 	form "github.com/fullstack-lang/gong/lib/table/go/models"
 
-	"github.com/fullstack-lang/gong/dsm/xsd/tests/reqif/go/models"
+	"github.com/fullstack-lang/gong/dsm/xsd/tests/musicxml/go/models"
 )
 
 func FormDivBasicFieldToField[TF models.GongtructBasicField](field *TF, formDiv *form.FormDiv) {

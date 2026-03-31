@@ -45,6 +45,10 @@ type ModelUnmarshaller interface {
 	UnmarshallField(stage *Stage, instance GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error
 }
 
+func (stage *Stage) UnmarshallFile(pathToFile string, preserveOrder bool) error {
+	return ParseAstFile(stage, pathToFile, preserveOrder)
+}
+
 // ParseAstFile Parse pathToFile and stages all instances declared in the file
 func ParseAstFile(stage *Stage, pathToFile string, preserveOrder bool) error {
 	fileOfInterest, err := filepath.Abs(pathToFile)
@@ -152,15 +156,10 @@ func ParseAstFileFromAst(stage *Stage, inFile *ast.File, fset *token.FileSet, pr
 				if selExpr, ok := node.Lhs[0].(*ast.SelectorExpr); ok {
 					if ident, ok := selExpr.X.(*ast.Ident); ok {
 						if instance, exists := identifierMap[ident.Name]; exists {
-							// Extract TypeName from identifier convention (e.g. __A__...)
-							// This avoids needing to store type info explicitly in the map
-							parts := strings.Split(ident.Name, "__")
-							if len(parts) >= 2 {
-								typeName := parts[1]
-								if unmarshaller, exists := stage.GongUnmarshallers[typeName]; exists {
-									// 3. Strategy Pattern: Delegate to Handler
-									unmarshaller.UnmarshallField(stage, instance, selExpr.Sel.Name, node.Rhs[0], identifierMap)
-								}
+							typeName := instance.GongGetGongstructName()
+							if unmarshaller, exists := stage.GongUnmarshallers[typeName]; exists {
+								// 3. Strategy Pattern: Delegate to Handler
+								unmarshaller.UnmarshallField(stage, instance, selExpr.Sel.Name, node.Rhs[0], identifierMap)
 							}
 						}
 					}
@@ -189,6 +188,15 @@ func ParseAstFileFromAst(stage *Stage, inFile *ast.File, fset *token.FileSet, pr
 								if stage.OnInitCommitFromBackCallback != nil {
 									stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
 								}
+								// 1. Run all Before Commit hooks
+								for _, hook := range stage.beforeCommitHooks {
+									hook(stage)
+								}
+
+								// 2. Run all After Commit hooks
+								for _, hook := range stage.afterCommitHooks {
+									hook(stage)
+								}
 							}
 						}
 					}
@@ -204,9 +212,29 @@ func ParseAstFileFromAst(stage *Stage, inFile *ast.File, fset *token.FileSet, pr
 // --- Generic Helpers for Unmarshallers ---
 
 func GongExtractString(expr ast.Expr) string {
-	if bl, ok := expr.(*ast.BasicLit); ok {
-		return strings.Trim(bl.Value, "\"`")
+	switch e := expr.(type) {
+
+	// Case 1: It's a standard string literal
+	case *ast.BasicLit:
+		if e.Kind == token.STRING {
+			if unquoted, err := strconv.Unquote(e.Value); err == nil {
+				return unquoted
+			}
+		}
+
+	// Case 2: It's a concatenated string
+	case *ast.BinaryExpr:
+		// We only care if they are being added together
+		if e.Op == token.ADD {
+			// Recursively extract the left and right sides
+			left := GongExtractString(e.X)
+			right := GongExtractString(e.Y)
+
+			// Join them back together
+			return left + right
+		}
 	}
+
 	return ""
 }
 
@@ -314,7 +342,7 @@ func GongExtractExpr(expr ast.Expr) any {
 func GongUnmarshallSliceOfPointers[T PointerToGongstruct](
 	slice *[]T,
 	valueExpr ast.Expr,
-	identifierMap map[string]GongstructIF) {
+	identifierMap map[string]GongstructIF) (err error) {
 
 	if call, ok := valueExpr.(*ast.CallExpr); ok {
 		funcName := ""
@@ -333,9 +361,17 @@ func GongUnmarshallSliceOfPointers[T PointerToGongstruct](
 			if funcName == "Delete" && len(call.Args) == 3 {
 				start := GongExtractInt(call.Args[1])
 				end := GongExtractInt(call.Args[2])
+				if end > len(*slice) {
+					// Handle error: log warning, resize slice, or return error
+					// For example:
+					return fmt.Errorf("index out of bounds: %d for len %d", end, len(*slice))
+				}
 				*slice = slices.Delete(*slice, start, end)
 			} else if funcName == "Insert" && len(call.Args) == 3 {
 				index := GongExtractInt(call.Args[1])
+				if index > len(*slice) {
+					return fmt.Errorf("index out of bounds: %d for len %d", index, len(*slice))
+				}
 				if ident, ok := call.Args[2].(*ast.Ident); ok {
 					if val, ok := identifierMap[ident.Name]; ok {
 						*slice = slices.Insert(*slice, index, val.(T))
@@ -356,6 +392,7 @@ func GongUnmarshallSliceOfPointers[T PointerToGongstruct](
 			}
 		}
 	}
+	return nil
 }
 
 // GongUnmarshallPointer handles assignment of a single pointer field
@@ -3396,8 +3433,6 @@ func (u *XHTML_CONTENTUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 		instance.Name = GongExtractString(valueExpr)
 	case "EnclosedText":
 		instance.EnclosedText = GongExtractString(valueExpr)
-	case "PureText":
-		instance.PureText = GongExtractString(valueExpr)
 	}
 	return nil
 }

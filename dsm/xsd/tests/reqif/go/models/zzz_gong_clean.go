@@ -1,6 +1,8 @@
 // generated code - do not edit
 package models
 
+import "time"
+
 // GongCleanSlice removes unstaged elements from a slice of pointers of type T.
 // T must be a pointer to a struct that implements PointerToGongstruct.
 func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice *[]T) (modified bool) {
@@ -15,19 +17,26 @@ func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice *[]T) (modified b
 		}
 	}
 	modified = len(cleanedSlice) != len(*slice)
-	*slice = cleanedSlice
+	if modified {
+		*slice = cleanedSlice
+	}
 	return
 }
 
 // GongCleanPointer sets the pointer to nil if the referenced element is not staged.
 // T must be a pointer to a struct that implements PointerToGongstruct.
 func GongCleanPointer[T PointerToGongstruct](stage *Stage, element *T) (modified bool) {
-	if !IsStagedPointerToGongstruct(stage, *element) {
-		var zero T
-		*element = zero
-		return true
+	var zero T
+	if *element == zero {
+		return
 	}
-	return false
+
+	if !IsStagedPointerToGongstruct(stage, *element) {
+		*element = zero
+		modified = true
+		return
+	}
+	return
 }
 
 // insertion point per named struct
@@ -745,6 +754,11 @@ func (xhtml_content *XHTML_CONTENT) GongClean(stage *Stage) (modified bool) {
 func (stage *Stage) Clean() (modified bool) {
 	for _, instance := range stage.GetInstances() {
 		modified = instance.GongClean(stage) || modified
+	}
+	if modified {
+		if stage.probeIF != nil {
+			stage.probeIF.AddNotification(time.Now(), "Stage clean generated a modification")
+		}
 	}
 	return
 }
