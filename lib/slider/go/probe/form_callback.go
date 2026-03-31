@@ -455,6 +455,10 @@ func (layoutFormCallback *LayoutFormCallback) OnSave() {
 			}
 			layout_.Groups = instanceSlice
 
+		case "IsWithCustomGutterSize":
+			FormDivBasicFieldToField(&(layout_.IsWithCustomGutterSize), formDiv)
+		case "GutterSize":
+			FormDivBasicFieldToField(&(layout_.GutterSize), formDiv)
 		}
 	}
 

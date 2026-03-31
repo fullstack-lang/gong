@@ -1,4 +1,4 @@
-<as-split direction="vertical">
+<as-split direction="vertical" [gutterSize]="layout?.IsWithCustomGutterSize ? layout?.GutterSize : null">
     @for (group of layout?.Groups; track group) {
         <as-split-area [size]="group.Percentage">
             <p>{{group.Name}}</p>
