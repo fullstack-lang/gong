@@ -2029,7 +2029,7 @@ func (button *Button) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if button.SVGIcon != nil {
 			res.valueString = button.SVGIcon.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(button.SVGIcon), uint64(GetOrderPointerGongstruct(stage, button.SVGIcon)))
+			res.ids = button.SVGIcon.GongGetUUID(stage)
 		}
 	case "IsDisabled":
 		res.valueString = fmt.Sprintf("%t", button.IsDisabled)
@@ -2139,7 +2139,7 @@ func (node *Node) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if node.PreceedingSVGIcon != nil {
 			res.valueString = node.PreceedingSVGIcon.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(node.PreceedingSVGIcon), uint64(GetOrderPointerGongstruct(stage, node.PreceedingSVGIcon)))
+			res.ids = node.PreceedingSVGIcon.GongGetUUID(stage)
 		}
 	case "Children":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -2149,7 +2149,7 @@ func (node *Node) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "Buttons":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -2159,7 +2159,7 @@ func (node *Node) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	}
 	return
@@ -2189,7 +2189,7 @@ func (tree *Tree) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	}
 	return

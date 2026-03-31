@@ -288,6 +288,102 @@ func (xlsx *Xlsx) GongCopy() GongstructIF {
 	return newInstance
 }
 
+// insertion point per named struct
+func (assplit *AsSplit) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(assplit), uint64(GetOrderPointerGongstruct(stage, assplit)))
+	return
+}
+
+func (assplitarea *AsSplitArea) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(assplitarea), uint64(GetOrderPointerGongstruct(stage, assplitarea)))
+	return
+}
+
+func (button *Button) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(button), uint64(GetOrderPointerGongstruct(stage, button)))
+	return
+}
+
+func (cursor *Cursor) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(cursor), uint64(GetOrderPointerGongstruct(stage, cursor)))
+	return
+}
+
+func (favicon *FavIcon) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(favicon), uint64(GetOrderPointerGongstruct(stage, favicon)))
+	return
+}
+
+func (form *Form) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(form), uint64(GetOrderPointerGongstruct(stage, form)))
+	return
+}
+
+func (load *Load) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(load), uint64(GetOrderPointerGongstruct(stage, load)))
+	return
+}
+
+func (logoontheleft *LogoOnTheLeft) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(logoontheleft), uint64(GetOrderPointerGongstruct(stage, logoontheleft)))
+	return
+}
+
+func (logoontheright *LogoOnTheRight) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(logoontheright), uint64(GetOrderPointerGongstruct(stage, logoontheright)))
+	return
+}
+
+func (markdown *Markdown) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(markdown), uint64(GetOrderPointerGongstruct(stage, markdown)))
+	return
+}
+
+func (slider *Slider) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(slider), uint64(GetOrderPointerGongstruct(stage, slider)))
+	return
+}
+
+func (split *Split) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(split), uint64(GetOrderPointerGongstruct(stage, split)))
+	return
+}
+
+func (svg *Svg) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(svg), uint64(GetOrderPointerGongstruct(stage, svg)))
+	return
+}
+
+func (table *Table) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(table), uint64(GetOrderPointerGongstruct(stage, table)))
+	return
+}
+
+func (title *Title) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(title), uint64(GetOrderPointerGongstruct(stage, title)))
+	return
+}
+
+func (tone *Tone) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(tone), uint64(GetOrderPointerGongstruct(stage, tone)))
+	return
+}
+
+func (tree *Tree) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(tree), uint64(GetOrderPointerGongstruct(stage, tree)))
+	return
+}
+
+func (view *View) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(view), uint64(GetOrderPointerGongstruct(stage, view)))
+	return
+}
+
+func (xlsx *Xlsx) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(xlsx), uint64(GetOrderPointerGongstruct(stage, xlsx)))
+	return
+}
+
 func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	var lenNewInstances int
 	var lenModifiedInstances int

@@ -100,6 +100,27 @@ func (tree *Tree) GongCopy() GongstructIF {
 	return newInstance
 }
 
+// insertion point per named struct
+func (button *Button) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(button), uint64(GetOrderPointerGongstruct(stage, button)))
+	return
+}
+
+func (node *Node) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(node), uint64(GetOrderPointerGongstruct(stage, node)))
+	return
+}
+
+func (svgicon *SVGIcon) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(svgicon), uint64(GetOrderPointerGongstruct(stage, svgicon)))
+	return
+}
+
+func (tree *Tree) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(tree), uint64(GetOrderPointerGongstruct(stage, tree)))
+	return
+}
+
 func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	var lenNewInstances int
 	var lenModifiedInstances int

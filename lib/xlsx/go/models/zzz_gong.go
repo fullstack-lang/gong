@@ -2149,13 +2149,13 @@ func (displayselection *DisplaySelection) GongGetFieldValue(fieldName string, st
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if displayselection.XLFile != nil {
 			res.valueString = displayselection.XLFile.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(displayselection.XLFile), uint64(GetOrderPointerGongstruct(stage, displayselection.XLFile)))
+			res.ids = displayselection.XLFile.GongGetUUID(stage)
 		}
 	case "XLSheet":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if displayselection.XLSheet != nil {
 			res.valueString = displayselection.XLSheet.Name
-			res.ids = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(displayselection.XLSheet), uint64(GetOrderPointerGongstruct(stage, displayselection.XLSheet)))
+			res.ids = displayselection.XLSheet.GongGetUUID(stage)
 		}
 	}
 	return
@@ -2195,7 +2195,7 @@ func (xlfile *XLFile) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	}
 	return
@@ -2218,7 +2218,7 @@ func (xlrow *XLRow) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	}
 	return
@@ -2249,7 +2249,7 @@ func (xlsheet *XLSheet) GongGetFieldValue(fieldName string, stage *Stage) (res G
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "SheetCells":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -2259,7 +2259,7 @@ func (xlsheet *XLSheet) GongGetFieldValue(fieldName string, stage *Stage) (res G
 				res.ids += ";"
 			}
 			res.valueString += __instance__.Name
-			res.ids += GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(__instance__), uint64(GetOrderPointerGongstruct(stage, __instance__)))
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	}
 	return

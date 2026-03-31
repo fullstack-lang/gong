@@ -167,6 +167,42 @@ func (milestone *Milestone) GongCopy() GongstructIF {
 	return newInstance
 }
 
+// insertion point per named struct
+func (arrow *Arrow) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(arrow), uint64(GetOrderPointerGongstruct(stage, arrow)))
+	return
+}
+
+func (bar *Bar) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(bar), uint64(GetOrderPointerGongstruct(stage, bar)))
+	return
+}
+
+func (gantt *Gantt) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(gantt), uint64(GetOrderPointerGongstruct(stage, gantt)))
+	return
+}
+
+func (group *Group) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(group), uint64(GetOrderPointerGongstruct(stage, group)))
+	return
+}
+
+func (lane *Lane) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(lane), uint64(GetOrderPointerGongstruct(stage, lane)))
+	return
+}
+
+func (laneuse *LaneUse) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(laneuse), uint64(GetOrderPointerGongstruct(stage, laneuse)))
+	return
+}
+
+func (milestone *Milestone) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(milestone), uint64(GetOrderPointerGongstruct(stage, milestone)))
+	return
+}
+
 func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	var lenNewInstances int
 	var lenModifiedInstances int

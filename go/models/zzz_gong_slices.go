@@ -212,6 +212,62 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongCopy
 	return newInstance
 }
 
+// insertion point per named struct
+func (gongbasicfield *GongBasicField) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(gongbasicfield), uint64(GetOrderPointerGongstruct(stage, gongbasicfield)))
+	return
+}
+
+func (gongenum *GongEnum) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(gongenum), uint64(GetOrderPointerGongstruct(stage, gongenum)))
+	return
+}
+
+func (gongenumvalue *GongEnumValue) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(gongenumvalue), uint64(GetOrderPointerGongstruct(stage, gongenumvalue)))
+	return
+}
+
+func (gonglink *GongLink) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(gonglink), uint64(GetOrderPointerGongstruct(stage, gonglink)))
+	return
+}
+
+func (gongnote *GongNote) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(gongnote), uint64(GetOrderPointerGongstruct(stage, gongnote)))
+	return
+}
+
+func (gongstruct *GongStruct) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(gongstruct), uint64(GetOrderPointerGongstruct(stage, gongstruct)))
+	return
+}
+
+func (gongtimefield *GongTimeField) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(gongtimefield), uint64(GetOrderPointerGongstruct(stage, gongtimefield)))
+	return
+}
+
+func (metareference *MetaReference) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(metareference), uint64(GetOrderPointerGongstruct(stage, metareference)))
+	return
+}
+
+func (modelpkg *ModelPkg) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(modelpkg), uint64(GetOrderPointerGongstruct(stage, modelpkg)))
+	return
+}
+
+func (pointertogongstructfield *PointerToGongStructField) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(pointertogongstructfield), uint64(GetOrderPointerGongstruct(stage, pointertogongstructfield)))
+	return
+}
+
+func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(sliceofpointertogongstructfield), uint64(GetOrderPointerGongstruct(stage, sliceofpointertogongstructfield)))
+	return
+}
+
 func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	var lenNewInstances int
 	var lenModifiedInstances int

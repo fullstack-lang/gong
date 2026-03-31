@@ -105,6 +105,37 @@ func (updatestate *UpdateState) GongCopy() GongstructIF {
 	return newInstance
 }
 
+// insertion point per named struct
+func (command *Command) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(command), uint64(GetOrderPointerGongstruct(stage, command)))
+	return
+}
+
+func (dummyagent *DummyAgent) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(dummyagent), uint64(GetOrderPointerGongstruct(stage, dummyagent)))
+	return
+}
+
+func (engine *Engine) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(engine), uint64(GetOrderPointerGongstruct(stage, engine)))
+	return
+}
+
+func (event *Event) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(event), uint64(GetOrderPointerGongstruct(stage, event)))
+	return
+}
+
+func (status *Status) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(status), uint64(GetOrderPointerGongstruct(stage, status)))
+	return
+}
+
+func (updatestate *UpdateState) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(updatestate), uint64(GetOrderPointerGongstruct(stage, updatestate)))
+	return
+}
+
 func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	var lenNewInstances int
 	var lenModifiedInstances int

@@ -100,6 +100,27 @@ func (slider *Slider) GongCopy() GongstructIF {
 	return newInstance
 }
 
+// insertion point per named struct
+func (checkbox *Checkbox) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(checkbox), uint64(GetOrderPointerGongstruct(stage, checkbox)))
+	return
+}
+
+func (group *Group) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(group), uint64(GetOrderPointerGongstruct(stage, group)))
+	return
+}
+
+func (layout *Layout) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(layout), uint64(GetOrderPointerGongstruct(stage, layout)))
+	return
+}
+
+func (slider *Slider) GongGetUUID(stage *Stage) (uuid string) {
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(slider), uint64(GetOrderPointerGongstruct(stage, slider)))
+	return
+}
+
 func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	var lenNewInstances int
 	var lenModifiedInstances int
