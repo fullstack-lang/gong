@@ -82,8 +82,8 @@ func (svgimage *SvgImage) GongCopy() GongstructIF {
 // insertion point per named struct
 func (content *Content) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(content).(interface{ GongUUIDCustom() string }); ok {
-		return __gong__.GongUUIDCustom()
+	if __gong__, ok := any(content).(interface{ GongGetUUIDCustom() string }); ok {
+		return __gong__.GongGetUUIDCustom()
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(content), uint64(GetOrderPointerGongstruct(stage, content)))
@@ -92,8 +92,8 @@ func (content *Content) GongGetUUID(stage *Stage) (uuid string) {
 
 func (jpgimage *JpgImage) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(jpgimage).(interface{ GongUUIDCustom() string }); ok {
-		return __gong__.GongUUIDCustom()
+	if __gong__, ok := any(jpgimage).(interface{ GongGetUUIDCustom() string }); ok {
+		return __gong__.GongGetUUIDCustom()
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(jpgimage), uint64(GetOrderPointerGongstruct(stage, jpgimage)))
@@ -102,8 +102,8 @@ func (jpgimage *JpgImage) GongGetUUID(stage *Stage) (uuid string) {
 
 func (pngimage *PngImage) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(pngimage).(interface{ GongUUIDCustom() string }); ok {
-		return __gong__.GongUUIDCustom()
+	if __gong__, ok := any(pngimage).(interface{ GongGetUUIDCustom() string }); ok {
+		return __gong__.GongGetUUIDCustom()
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(pngimage), uint64(GetOrderPointerGongstruct(stage, pngimage)))
@@ -112,8 +112,8 @@ func (pngimage *PngImage) GongGetUUID(stage *Stage) (uuid string) {
 
 func (svgimage *SvgImage) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(svgimage).(interface{ GongUUIDCustom() string }); ok {
-		return __gong__.GongUUIDCustom()
+	if __gong__, ok := any(svgimage).(interface{ GongGetUUIDCustom() string }); ok {
+		return __gong__.GongGetUUIDCustom()
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(svgimage), uint64(GetOrderPointerGongstruct(stage, svgimage)))
