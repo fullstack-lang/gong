@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-// for the split package, we define a ProbeIF interface
+// for the split package, we define a ProbeIF interface (that is never implemented by the split package)
 // otherwise, the split package cannot refer to the main gong package
 type ProbeIF interface {
 	Refresh()
@@ -16,6 +16,7 @@ type ProbeIF interface {
 	CommitNotificationTable()
 	ResetNotifications()
 	AddCommitNavigationNode(appendChildrenNodeFunc func(GongNodeIF))
+	RefreshNavigationTree()
 }
 
 type GongNodeIF interface {

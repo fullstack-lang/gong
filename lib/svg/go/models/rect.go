@@ -50,6 +50,8 @@ type Rect struct {
 
 	Impl RectImplInterface
 
+	OnUpdate func(updatedRect *Rect)
+
 	MouseEvent
 }
 
@@ -58,6 +60,9 @@ func (rect *Rect) OnAfterUpdate(stage *Stage, _, frontRect *Rect) {
 
 	if rect.Impl != nil {
 		rect.Impl.RectUpdated(frontRect)
+	}
+	if rect.OnUpdate != nil {
+		rect.OnUpdate(frontRect)
 	}
 }
 
