@@ -107,31 +107,61 @@ func (updatestate *UpdateState) GongCopy() GongstructIF {
 
 // insertion point per named struct
 func (command *Command) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(command).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(command), uint64(GetOrderPointerGongstruct(stage, command)))
 	return
 }
 
 func (dummyagent *DummyAgent) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(dummyagent).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(dummyagent), uint64(GetOrderPointerGongstruct(stage, dummyagent)))
 	return
 }
 
 func (engine *Engine) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(engine).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(engine), uint64(GetOrderPointerGongstruct(stage, engine)))
 	return
 }
 
 func (event *Event) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(event).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(event), uint64(GetOrderPointerGongstruct(stage, event)))
 	return
 }
 
 func (status *Status) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(status).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(status), uint64(GetOrderPointerGongstruct(stage, status)))
 	return
 }
 
 func (updatestate *UpdateState) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(updatestate).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(updatestate), uint64(GetOrderPointerGongstruct(stage, updatestate)))
 	return
 }

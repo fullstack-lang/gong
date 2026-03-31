@@ -377,116 +377,231 @@ func (table *Table) GongCopy() GongstructIF {
 
 // insertion point per named struct
 func (cell *Cell) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(cell).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(cell), uint64(GetOrderPointerGongstruct(stage, cell)))
 	return
 }
 
 func (cellboolean *CellBoolean) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(cellboolean).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(cellboolean), uint64(GetOrderPointerGongstruct(stage, cellboolean)))
 	return
 }
 
 func (cellfloat64 *CellFloat64) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(cellfloat64).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(cellfloat64), uint64(GetOrderPointerGongstruct(stage, cellfloat64)))
 	return
 }
 
 func (cellicon *CellIcon) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(cellicon).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(cellicon), uint64(GetOrderPointerGongstruct(stage, cellicon)))
 	return
 }
 
 func (cellint *CellInt) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(cellint).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(cellint), uint64(GetOrderPointerGongstruct(stage, cellint)))
 	return
 }
 
 func (cellstring *CellString) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(cellstring).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(cellstring), uint64(GetOrderPointerGongstruct(stage, cellstring)))
 	return
 }
 
 func (checkbox *CheckBox) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(checkbox).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(checkbox), uint64(GetOrderPointerGongstruct(stage, checkbox)))
 	return
 }
 
 func (displayedcolumn *DisplayedColumn) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(displayedcolumn).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(displayedcolumn), uint64(GetOrderPointerGongstruct(stage, displayedcolumn)))
 	return
 }
 
 func (formdiv *FormDiv) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(formdiv).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formdiv), uint64(GetOrderPointerGongstruct(stage, formdiv)))
 	return
 }
 
 func (formeditassocbutton *FormEditAssocButton) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(formeditassocbutton).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formeditassocbutton), uint64(GetOrderPointerGongstruct(stage, formeditassocbutton)))
 	return
 }
 
 func (formfield *FormField) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(formfield).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formfield), uint64(GetOrderPointerGongstruct(stage, formfield)))
 	return
 }
 
 func (formfielddate *FormFieldDate) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(formfielddate).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formfielddate), uint64(GetOrderPointerGongstruct(stage, formfielddate)))
 	return
 }
 
 func (formfielddatetime *FormFieldDateTime) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(formfielddatetime).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formfielddatetime), uint64(GetOrderPointerGongstruct(stage, formfielddatetime)))
 	return
 }
 
 func (formfieldfloat64 *FormFieldFloat64) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(formfieldfloat64).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formfieldfloat64), uint64(GetOrderPointerGongstruct(stage, formfieldfloat64)))
 	return
 }
 
 func (formfieldint *FormFieldInt) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(formfieldint).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formfieldint), uint64(GetOrderPointerGongstruct(stage, formfieldint)))
 	return
 }
 
 func (formfieldselect *FormFieldSelect) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(formfieldselect).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formfieldselect), uint64(GetOrderPointerGongstruct(stage, formfieldselect)))
 	return
 }
 
 func (formfieldstring *FormFieldString) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(formfieldstring).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formfieldstring), uint64(GetOrderPointerGongstruct(stage, formfieldstring)))
 	return
 }
 
 func (formfieldtime *FormFieldTime) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(formfieldtime).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formfieldtime), uint64(GetOrderPointerGongstruct(stage, formfieldtime)))
 	return
 }
 
 func (formgroup *FormGroup) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(formgroup).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formgroup), uint64(GetOrderPointerGongstruct(stage, formgroup)))
 	return
 }
 
 func (formsortassocbutton *FormSortAssocButton) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(formsortassocbutton).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(formsortassocbutton), uint64(GetOrderPointerGongstruct(stage, formsortassocbutton)))
 	return
 }
 
 func (option *Option) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(option).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(option), uint64(GetOrderPointerGongstruct(stage, option)))
 	return
 }
 
 func (row *Row) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(row).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(row), uint64(GetOrderPointerGongstruct(stage, row)))
 	return
 }
 
 func (table *Table) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(table).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(table), uint64(GetOrderPointerGongstruct(stage, table)))
 	return
 }

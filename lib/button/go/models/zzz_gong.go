@@ -1569,6 +1569,7 @@ type GongstructIF interface {
 	GongCopy() GongstructIF
 	GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) string
 	GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) GongstructIF
+	GongGetUUID(stage *Stage) string
 }
 type PointerToGongstruct interface {
 	GongstructIF

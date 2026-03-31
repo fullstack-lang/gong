@@ -81,21 +81,41 @@ func (svgimage *SvgImage) GongCopy() GongstructIF {
 
 // insertion point per named struct
 func (content *Content) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(content).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(content), uint64(GetOrderPointerGongstruct(stage, content)))
 	return
 }
 
 func (jpgimage *JpgImage) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(jpgimage).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(jpgimage), uint64(GetOrderPointerGongstruct(stage, jpgimage)))
 	return
 }
 
 func (pngimage *PngImage) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(pngimage).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(pngimage), uint64(GetOrderPointerGongstruct(stage, pngimage)))
 	return
 }
 
 func (svgimage *SvgImage) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(svgimage).(interface{ GongUUIDCustom() string }); ok {
+		return __gong__.GongUUIDCustom()
+	}
+
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(svgimage), uint64(GetOrderPointerGongstruct(stage, svgimage)))
 	return
 }
