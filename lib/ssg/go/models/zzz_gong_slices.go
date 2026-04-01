@@ -40,6 +40,9 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
+	// Compute reverse map for named struct DownloadableFile
+	// insertion point per field
+
 	// Compute reverse map for named struct JpgImage
 	// insertion point per field
 
@@ -72,6 +75,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.Contents {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.DownloadableFiles {
 		res = append(res, instance)
 	}
 
@@ -108,6 +115,12 @@ func (chapter *Chapter) GongCopy() GongstructIF {
 func (content *Content) GongCopy() GongstructIF {
 	newInstance := new(Content)
 	content.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (downloadablefile *DownloadableFile) GongCopy() GongstructIF {
+	newInstance := new(DownloadableFile)
+	downloadablefile.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -159,6 +172,16 @@ func (content *Content) GongGetUUID(stage *Stage) (uuid string) {
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(content), uint64(GetOrderPointerGongstruct(stage, content)))
+	return
+}
+
+func (downloadablefile *DownloadableFile) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(downloadablefile).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(downloadablefile), uint64(GetOrderPointerGongstruct(stage, downloadablefile)))
 	return
 }
 
@@ -332,6 +355,57 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(contents_newInstances)
 	lenDeletedInstances += len(contents_deletedInstances)
+	var downloadablefiles_newInstances []*DownloadableFile
+	var downloadablefiles_deletedInstances []*DownloadableFile
+
+	// parse all staged instances and check if they have a reference
+	for downloadablefile := range stage.DownloadableFiles {
+		if ref, ok := stage.DownloadableFiles_reference[downloadablefile]; !ok {
+			downloadablefiles_newInstances = append(downloadablefiles_newInstances, downloadablefile)
+			newInstancesSlice = append(newInstancesSlice, downloadablefile.GongMarshallIdentifier(stage))
+			if stage.DownloadableFiles_referenceOrder == nil {
+				stage.DownloadableFiles_referenceOrder = make(map[*DownloadableFile]uint)
+			}
+			stage.DownloadableFiles_referenceOrder[downloadablefile] = stage.DownloadableFile_stagedOrder[downloadablefile]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, downloadablefile.GongMarshallUnstaging(stage))
+			// delete(stage.DownloadableFiles_referenceOrder, downloadablefile)
+			fieldInitializers, pointersInitializations := downloadablefile.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.DownloadableFile_stagedOrder[ref] = stage.DownloadableFile_stagedOrder[downloadablefile]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := downloadablefile.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, downloadablefile)
+			// delete(stage.DownloadableFile_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				fieldsEdit += fmt.Sprintf("\n\t// %s", downloadablefile.GetName())
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.DownloadableFiles_reference {
+		instance := stage.DownloadableFiles_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.DownloadableFiles[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			downloadablefiles_deletedInstances = append(downloadablefiles_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(downloadablefiles_newInstances)
+	lenDeletedInstances += len(downloadablefiles_deletedInstances)
 	var jpgimages_newInstances []*JpgImage
 	var jpgimages_deletedInstances []*JpgImage
 
@@ -642,6 +716,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.Contents_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.DownloadableFiles_reference = make(map[*DownloadableFile]*DownloadableFile)
+	stage.DownloadableFiles_referenceOrder = make(map[*DownloadableFile]uint) // diff Unstage needs the reference order
+	stage.DownloadableFiles_instance = make(map[*DownloadableFile]*DownloadableFile)
+	for instance := range stage.DownloadableFiles {
+		_copy := instance.GongCopy().(*DownloadableFile)
+		stage.DownloadableFiles_reference[instance] = _copy
+		stage.DownloadableFiles_instance[_copy] = instance
+		stage.DownloadableFiles_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.JpgImages_reference = make(map[*JpgImage]*JpgImage)
 	stage.JpgImages_referenceOrder = make(map[*JpgImage]uint) // diff Unstage needs the reference order
 	stage.JpgImages_instance = make(map[*JpgImage]*JpgImage)
@@ -703,6 +787,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
+	for instance := range stage.DownloadableFiles {
+		reference := stage.DownloadableFiles_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
 	for instance := range stage.JpgImages {
 		reference := stage.JpgImages_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
@@ -758,6 +847,18 @@ func (content *Content) GongGetOrder(stage *Stage) uint {
 		return order
 	} else {
 		log.Printf("instance %p of type Content was not staged and does not have a reference order", content)
+		return 0
+	}
+}
+
+func (downloadablefile *DownloadableFile) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.DownloadableFile_stagedOrder[downloadablefile]; ok {
+		return order
+	}
+	if order, ok := stage.DownloadableFiles_referenceOrder[downloadablefile]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type DownloadableFile was not staged and does not have a reference order", downloadablefile)
 		return 0
 	}
 }
@@ -845,6 +946,15 @@ func (content *Content) GongGetReferenceIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", content.GongGetGongstructName(), content.GongGetOrder(stage))
 }
 
+func (downloadablefile *DownloadableFile) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", downloadablefile.GongGetGongstructName(), downloadablefile.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (downloadablefile *DownloadableFile) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", downloadablefile.GongGetGongstructName(), downloadablefile.GongGetOrder(stage))
+}
+
 func (jpgimage *JpgImage) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", jpgimage.GongGetGongstructName(), jpgimage.GongGetOrder(stage))
 }
@@ -909,6 +1019,14 @@ func (content *Content) GongMarshallIdentifier(stage *Stage) (decl string) {
 	return
 }
 
+func (downloadablefile *DownloadableFile) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", downloadablefile.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "DownloadableFile")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(downloadablefile.Name))
+	return
+}
+
 func (jpgimage *JpgImage) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", jpgimage.GongGetIdentifier(stage))
@@ -959,6 +1077,12 @@ func (chapter *Chapter) GongMarshallUnstaging(stage *Stage) (decl string) {
 func (content *Content) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", content.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (downloadablefile *DownloadableFile) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", downloadablefile.GongGetReferenceIdentifier(stage))
 	return
 }
 

@@ -56,6 +56,13 @@ func (content *Content) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by DownloadableFile
+func (downloadablefile *DownloadableFile) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by JpgImage
 func (jpgimage *JpgImage) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -85,6 +92,7 @@ func (section *Section) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanPointer(stage, &section.SvgImage) || modified
 	modified = GongCleanPointer(stage, &section.PngImage) || modified
 	modified = GongCleanPointer(stage, &section.JpgImage) || modified
+	modified = GongCleanPointer(stage, &section.DownloadableFile) || modified
 	return
 }
 

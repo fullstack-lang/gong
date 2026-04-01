@@ -521,6 +521,37 @@ func (u *ContentUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 	return nil
 }
 
+type DownloadableFileUnmarshaller struct{}
+
+func (u *DownloadableFileUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(DownloadableFile)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *DownloadableFileUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*DownloadableFile)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Base64Content":
+		instance.Base64Content = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
 type JpgImageUnmarshaller struct{}
 
 func (u *JpgImageUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -651,6 +682,10 @@ func (u *SectionUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		GongUnmarshallPointer(&instance.PngImage, valueExpr, identifierMap)
 	case "JpgImage":
 		GongUnmarshallPointer(&instance.JpgImage, valueExpr, identifierMap)
+	case "IsDownloadableFile":
+		instance.IsDownloadableFile = GongExtractBool(valueExpr)
+	case "DownloadableFile":
+		GongUnmarshallPointer(&instance.DownloadableFile, valueExpr, identifierMap)
 	}
 	return nil
 }

@@ -74,6 +74,13 @@ func FillUpForm(
 		BasicFieldtoForm("VersionInfo", instanceWithInferedType.VersionInfo, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 
+	case *models.DownloadableFile:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("Base64Content", instanceWithInferedType.Base64Content, instanceWithInferedType, probe.formStage, formGroup,
+			true, true, 600, true, 400)
+
 	case *models.JpgImage:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
@@ -129,6 +136,9 @@ func FillUpForm(
 		AssociationFieldToForm("SvgImage", instanceWithInferedType.SvgImage, formGroup, probe)
 		AssociationFieldToForm("PngImage", instanceWithInferedType.PngImage, formGroup, probe)
 		AssociationFieldToForm("JpgImage", instanceWithInferedType.JpgImage, formGroup, probe)
+		BasicFieldtoForm("IsDownloadableFile", instanceWithInferedType.IsDownloadableFile, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		AssociationFieldToForm("DownloadableFile", instanceWithInferedType.DownloadableFile, formGroup, probe)
 		{
 			var rf models.ReverseField
 			_ = rf

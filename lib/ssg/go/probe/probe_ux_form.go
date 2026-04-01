@@ -27,6 +27,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.content, probe)
 			}
+		case *DownloadableFileFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "DownloadableFile", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.downloadablefile, probe)
+			}
 		case *JpgImageFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "JpgImage", true)
@@ -105,6 +111,19 @@ func FillUpFormFromGongstructName(
 		content := new(models.Content)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(content, formGroup, probe)
+	case "DownloadableFile":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "DownloadableFile Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__DownloadableFileFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		downloadablefile := new(models.DownloadableFile)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(downloadablefile, formGroup, probe)
 	case "JpgImage":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
