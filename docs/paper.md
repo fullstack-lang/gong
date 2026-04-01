@@ -2,7 +2,21 @@
 
 # Proposal: GoML (go-m-l) — Using Go as its Own Markup Language
 
-add reference to de weck paper 
+add reference to de weck paper . related manybdesign 
+decision follows explicitly from a desire
+to minimize complexity :
+
+- completly hide the non go code from usual
+tool development 
+- single binary with very small size (80 mo) for
+the probe
+- use if go modules to synchronize configuration 
+between backend and frontend
+- use of go as the markup language 
+- allow for very fast refactoring (velocity is a consequence of 
+simplicity because the mental model is not hindered 
+by the refactoring task)
+
 
 add code tgat generates code tgst generates code
 
