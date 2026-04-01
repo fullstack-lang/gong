@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<REQ-IF xmlns="http://www.omg.org/spec/ReqIF/20110401/reqif.xsd"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:reqif="http://www.omg.org/spec/ReqIF/20110401/reqif.xsd">
+  <THE-HEADER>
+    <REQ-IF-HEADER IDENTIFIER="_header-id-1">
+      <CREATION-TIME>2025-09-17T00:24:29+02:00</CREATION-TIME>
+      <REQ-IF-TOOL-ID>ExampleTool</REQ-IF-TOOL-ID>
+      <REQ-IF-VERSION>1.0</REQ-IF-VERSION>
+      <SOURCE-TOOL-ID>ExampleTool</SOURCE-TOOL-ID>
+      <TITLE>Example ReqIF with Specification and XHTML Table</TITLE>
+    </REQ-IF-HEADER>
+  </THE-HEADER>
+  <CORE-CONTENT>
+    <REQ-IF-CONTENT>
+      <DATATYPES>
+        <DATATYPE-DEFINITION-XHTML IDENTIFIER="_datatype-def-xhtml-1" LONG-NAME="XHTML Content"/>
+      </DATATYPES>
+      <SPEC-TYPES>
+        <SPEC-OBJECT-TYPE IDENTIFIER="_spec-object-type-1" LONG-NAME="Requirement">
+          <SPEC-ATTRIBUTES>
+            <ATTRIBUTE-DEFINITION-XHTML IDENTIFIER="_attribute-def-xhtml-1" LONG-NAME="ReqIF.Text">
+              <TYPE>
+                <DATATYPE-DEFINITION-XHTML-REF>_datatype-def-xhtml-1</DATATYPE-DEFINITION-XHTML-REF>
+              </TYPE>
+            </ATTRIBUTE-DEFINITION-XHTML>
+          </SPEC-ATTRIBUTES>
+        </SPEC-OBJECT-TYPE>
+        <SPECIFICATION-TYPE IDENTIFIER="_specification-type-1" LONG-NAME="Specification Document Type"/>
+      </SPEC-TYPES>
+      <SPEC-OBJECTS>
+        <SPEC-OBJECT IDENTIFIER="_spec-object-1" LONG-NAME="Sample Requirement 1">
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>_spec-object-type-1</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_attribute-def-xhtml-1</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>
+                    <xhtml:table style="width: 100%; border: 1px solid #CCCCCC; border-collapse: collapse;">
+                        <xhtml:tbody>
+                            <xhtml:tr>
+                                <xhtml:th colspan="4" style="font-weight: bold; background-color: #F0F0F0; text-align: center; border: 1px solid #CCCCCC; padding: 8px;">
+                                    Main Table Title
+                                </xhtml:th>
+                            </xhtml:tr>
+                            
+                            <xhtml:tr>
+                                <xhtml:th style="font-weight: bold; text-align: center; border: 1px solid #CCCCCC; padding: 8px;">Header 1</xhtml:th>
+                                <xhtml:th style="font-weight: bold; text-align: center; border: 1px solid #CCCCCC; padding: 8px;">Header 2</xhtml:th>
+                                <xhtml:th style="font-weight: bold; text-align: center; border: 1px solid #CCCCCC; padding: 8px;">Header 3</xhtml:th>
+                                <xhtml:th style="font-weight: bold; text-align: center; border: 1px solid #CCCCCC; padding: 8px;">Header 4</xhtml:th>
+                            </xhtml:tr>
+                            
+                            <xhtml:tr>
+                                <xhtml:td style="text-align: center; border: 1px solid #CCCCCC; padding: 8px;">Data A1</xhtml:td>
+                                <xhtml:td style="text-align: center; border: 1px solid #CCCCCC; padding: 8px;">Data B1</xhtml:td>
+                                <xhtml:td style="text-align: center; border: 1px solid #CCCCCC; padding: 8px;">Data C1</xhtml:td>
+                                <xhtml:td style="text-align: center; border: 1px solid #CCCCCC; padding: 8px;">Data D1</xhtml:td>
+                            </xhtml:tr>
+                            <xhtml:tr>
+                                <xhtml:td style="text-align: center; border: 1px solid #CCCCCC; padding: 8px;">Data A2</xhtml:td>
+                                <xhtml:td style="text-align: center; border: 1px solid #CCCCCC; padding: 8px;">Data B2</xhtml:td>
+                                <xhtml:td style="text-align: center; border: 1px solid #CCCCCC; padding: 8px;">Data C2</xhtml:td>
+                                <xhtml:td style="text-align: center; border: 1px solid #CCCCCC; padding: 8px;">Data D2</xhtml:td>
+                            </xhtml:tr>
+                            <xhtml:tr>
+                                <xhtml:td style="text-align: center; border: 1px solid #CCCCCC; padding: 8px;">Data A3</xhtml:td>
+                                <xhtml:td style="text-align: center; border: 1px solid #CCCCCC; padding: 8px;">Data B3</xhtml:td>
+                                <xhtml:td style="text-align: center; border: 1px solid #CCCCCC; padding: 8px;">Data C3</xhtml:td>
+                                <xhtml:td style="text-align: center; border: 1px solid #CCCCCC; padding: 8px;">Data D3</xhtml:td>
+                            </xhtml:tr>
+                        </xhtml:tbody>
+                    </xhtml:table>
+                </xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+          </VALUES>
+        </SPEC-OBJECT>
+                <SPEC-OBJECT IDENTIFIER="_spec-object-2" LONG-NAME="Sample Requirement 2">
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>_spec-object-type-1</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_attribute-def-xhtml-1</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>
+                    <xhtml:table style="width: 100%; border: 1px solid #CCCCCC; border-collapse: collapse;">
+                        <xhtml:tbody>
+                            <xhtml:tr>
+                                <xhtml:th style="font-weight: bold; background-color: #F0F0F0; text-align: center; border: 1px solid #CCCCCC; padding: 8px;">Header 1</xhtml:th>
+                                <xhtml:th style="font-weight: bold; background-color: #F0F0F0; text-align: center; border: 1px solid #CCCCCC; padding: 8px;">Header 2</xhtml:th>
+                                <xhtml:th style="font-weight: bold; background-color: #F0F0F0; text-align: center; border: 1px solid #CCCCCC; padding: 8px;">Header 3</xhtml:th>
+                                <xhtml:th style="font-weight: bold; background-color: #F0F0F0; text-align: center; border: 1px solid #CCCCCC; padding: 8px;">Header 4</xhtml:th>
+                                <xhtml:th style="font-weight: bold; background-color: #F0F0F0; text-align: center; border: 1px solid #CCCCCC; padding: 8px;">Header 5</xhtml:th>
+                            </xhtml:tr>
+                            
+                            <xhtml:tr>
+                                <xhtml:td style="text-align: center; border: 1px solid #CCCCCC; padding: 8px;">R1-C1</xhtml:td>
+                                <xhtml:td style="text-align: center; border: 1px solid #CCCCCC; padding: 8px;">R1-C2</xhtml:td>
+                                <xhtml:td style="text-align: center; border: 1px solid #CCCCCC; padding: 8px;">R1-C3</xhtml:td>
+                                <xhtml:td style="text-align: center; border: 1px solid #CCCCCC; padding: 8px;">R1-C4</xhtml:td>
+                                <xhtml:td style="text-align: center; border: 1px solid #CCCCCC; padding: 8px;">R1-C5</xhtml:td>
+                            </xhtml:tr>
+                            
+                            <xhtml:tr>
+                                <xhtml:td style="text-align: center; border: 1px solid #CCCCCC; padding: 8px;">R2-C1</xhtml:td>
+                                <xhtml:td style="text-align: center; border: 1px solid #CCCCCC; padding: 8px;">R2-C2</xhtml:td>
+                                <xhtml:td style="text-align: center; border: 1px solid #CCCCCC; padding: 8px;">R2-C3</xhtml:td>
+                                <xhtml:td style="text-align: center; border: 1px solid #CCCCCC; padding: 8px;">R2-C4</xhtml:td>
+                                <xhtml:td style="text-align: center; border: 1px solid #CCCCCC; padding: 8px;">R2-C5</xhtml:td>
+                            </xhtml:tr>
+                            
+                            <xhtml:tr>
+                                <xhtml:td style="text-align: center; border: 1px solid #CCCCCC; padding: 8px;">R3-C1</xhtml:td>
+                                <xhtml:td style="text-align: center; border: 1px solid #CCCCCC; padding: 8px;">R3-C2</xhtml:td>
+                                <xhtml:td style="text-align: center; border: 1px solid #CCCCCC; padding: 8px;">R3-C3</xhtml:td>
+                                <xhtml:td style="text-align: center; border: 1px solid #CCCCCC; padding: 8px;">R3-C4</xhtml:td>
+                                <xhtml:td style="text-align: center; border: 1px solid #CCCCCC; padding: 8px;">R3-C5</xhtml:td>
+                            </xhtml:tr>
+                        </xhtml:tbody>
+                    </xhtml:table>
+                </xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+          </VALUES>
+        </SPEC-OBJECT>
+      </SPEC-OBJECTS>
+      <SPECIFICATIONS>
+        <SPECIFICATION IDENTIFIER="_specification-1" LONG-NAME="Sample Specification">
+          <TYPE>
+            <SPECIFICATION-TYPE-REF>_specification-type-1</SPECIFICATION-TYPE-REF>
+          </TYPE>
+          <CHILDREN>
+            <SPEC-HIERARCHY IDENTIFIER="_spec-hierarchy-1">
+              <OBJECT>
+                <SPEC-OBJECT-REF>_spec-object-1</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY IDENTIFIER="_spec-hierarchy-2">
+              <OBJECT>
+                <SPEC-OBJECT-REF>_spec-object-2</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+          </CHILDREN>
+        </SPECIFICATION>
+      </SPECIFICATIONS>
+    </REQ-IF-CONTENT>
+  </CORE-CONTENT>
+</REQ-IF>

@@ -1,0 +1,3758 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<REQ-IF xmlns="http://www.omg.org/spec/ReqIF/20110401/reqif.xsd"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <THE-HEADER>
+    <REQ-IF-HEADER IDENTIFIER="reqif-header-13">
+      <CREATION-TIME>2025-08-27T18:33:00+02:00</CREATION-TIME>
+      <REQ-IF-TOOL-ID>Gemini AI</REQ-IF-TOOL-ID>
+      <REQ-IF-VERSION>2.1.0</REQ-IF-VERSION>
+      <SOURCE-TOOL-ID>Manual</SOURCE-TOOL-ID>
+      <TITLE>ReqIF for Wheeled Tennis Ball Drone</TITLE>
+    </REQ-IF-HEADER>
+  </THE-HEADER>
+  <CORE-CONTENT>
+    <REQ-IF-CONTENT>
+      <DATATYPES>
+        <DATATYPE-DEFINITION-STRING IDENTIFIER="dt-string" LONG-NAME="String" />
+        <DATATYPE-DEFINITION-XHTML IDENTIFIER="dt-xhtml" LONG-NAME="XHTML" />
+        <DATATYPE-DEFINITION-BOOLEAN IDENTIFIER="dt-boolean" LONG-NAME="Boolean" />
+        <DATATYPE-DEFINITION-INTEGER IDENTIFIER="dt-integer" LONG-NAME="Integer" />
+        <DATATYPE-DEFINITION-REAL IDENTIFIER="dt-real" LONG-NAME="Real" />
+        <DATATYPE-DEFINITION-DATE IDENTIFIER="dt-date" LONG-NAME="Date" />
+        <DATATYPE-DEFINITION-ENUMERATION IDENTIFIER="dt-enum-status"
+          LONG-NAME="Requirement Status Enum">
+          <SPECIFIED-VALUES>
+            <ENUM-VALUE IDENTIFIER="enum-val-new" LONG-NAME="New">
+              <PROPERTIES>
+                <EMBEDDED-VALUE VAL="0" />
+              </PROPERTIES>
+            </ENUM-VALUE>
+            <ENUM-VALUE IDENTIFIER="enum-val-inprogress" LONG-NAME="In Progress">
+              <PROPERTIES>
+                <EMBEDDED-VALUE VAL="1" />
+              </PROPERTIES>
+            </ENUM-VALUE>
+            <ENUM-VALUE IDENTIFIER="enum-val-implemented" LONG-NAME="Implemented">
+              <PROPERTIES>
+                <EMBEDDED-VALUE VAL="2" />
+              </PROPERTIES>
+            </ENUM-VALUE>
+            <ENUM-VALUE IDENTIFIER="enum-val-verified" LONG-NAME="Verified">
+              <PROPERTIES>
+                <EMBEDDED-VALUE VAL="3" />
+              </PROPERTIES>
+            </ENUM-VALUE>
+          </SPECIFIED-VALUES>
+        </DATATYPE-DEFINITION-ENUMERATION>
+        <DATATYPE-DEFINITION-ENUMERATION IDENTIFIER="dt-enum-relation-status"
+          LONG-NAME="Relation Status Enum">
+          <SPECIFIED-VALUES>
+            <ENUM-VALUE IDENTIFIER="enum-relation-proposed" LONG-NAME="Proposed">
+              <PROPERTIES>
+                <EMBEDDED-VALUE VAL="0" />
+              </PROPERTIES>
+            </ENUM-VALUE>
+            <ENUM-VALUE IDENTIFIER="enum-relation-accepted" LONG-NAME="Accepted">
+              <PROPERTIES>
+                <EMBEDDED-VALUE VAL="1" />
+              </PROPERTIES>
+            </ENUM-VALUE>
+          </SPECIFIED-VALUES>
+        </DATATYPE-DEFINITION-ENUMERATION>
+      </DATATYPES>
+      <SPEC-TYPES>
+        <SPEC-OBJECT-TYPE IDENTIFIER="st-descriptive-text" LONG-NAME="Descriptive Text">
+          <SPEC-ATTRIBUTES>
+            <ATTRIBUTE-DEFINITION-XHTML IDENTIFIER="ats-text-content" LONG-NAME="Content">
+              <TYPE>
+                <DATATYPE-DEFINITION-XHTML-REF>dt-xhtml</DATATYPE-DEFINITION-XHTML-REF>
+              </TYPE>
+            </ATTRIBUTE-DEFINITION-XHTML>
+          </SPEC-ATTRIBUTES>
+        </SPEC-OBJECT-TYPE>
+        <SPEC-OBJECT-TYPE IDENTIFIER="st-heading" LONG-NAME="Heading">
+          <SPEC-ATTRIBUTES>
+            <ATTRIBUTE-DEFINITION-STRING IDENTIFIER="ats-heading-title" LONG-NAME="Title">
+              <TYPE>
+                <DATATYPE-DEFINITION-STRING-REF>dt-string</DATATYPE-DEFINITION-STRING-REF>
+              </TYPE>
+            </ATTRIBUTE-DEFINITION-STRING>
+          </SPEC-ATTRIBUTES>
+        </SPEC-OBJECT-TYPE>
+        <SPEC-OBJECT-TYPE IDENTIFIER="st-stakeholder-req" LONG-NAME="Stakeholder Requirement">
+          <SPEC-ATTRIBUTES>
+            <ATTRIBUTE-DEFINITION-STRING IDENTIFIER="ats-stakeholder-req-title" LONG-NAME="Title">
+              <TYPE>
+                <DATATYPE-DEFINITION-STRING-REF>dt-string</DATATYPE-DEFINITION-STRING-REF>
+              </TYPE>
+            </ATTRIBUTE-DEFINITION-STRING>
+            <ATTRIBUTE-DEFINITION-STRING IDENTIFIER="ats-stakeholder-req-text"
+              LONG-NAME="Requirement Text">
+              <TYPE>
+                <DATATYPE-DEFINITION-STRING-REF>dt-string</DATATYPE-DEFINITION-STRING-REF>
+              </TYPE>
+            </ATTRIBUTE-DEFINITION-STRING>
+          </SPEC-ATTRIBUTES>
+        </SPEC-OBJECT-TYPE>
+        <SPEC-OBJECT-TYPE IDENTIFIER="st-system-req" LONG-NAME="System Requirement">
+          <SPEC-ATTRIBUTES>
+            <ATTRIBUTE-DEFINITION-STRING IDENTIFIER="ats-system-req-title" LONG-NAME="Title">
+              <TYPE>
+                <DATATYPE-DEFINITION-STRING-REF>dt-string</DATATYPE-DEFINITION-STRING-REF>
+              </TYPE>
+            </ATTRIBUTE-DEFINITION-STRING>
+            <ATTRIBUTE-DEFINITION-STRING IDENTIFIER="ats-system-req-text"
+              LONG-NAME="Requirement Text">
+              <TYPE>
+                <DATATYPE-DEFINITION-STRING-REF>dt-string</DATATYPE-DEFINITION-STRING-REF>
+              </TYPE>
+            </ATTRIBUTE-DEFINITION-STRING>
+            <ATTRIBUTE-DEFINITION-INTEGER IDENTIFIER="ats-system-req-priority" LONG-NAME="Priority">
+              <TYPE>
+                <DATATYPE-DEFINITION-INTEGER-REF>dt-integer</DATATYPE-DEFINITION-INTEGER-REF>
+              </TYPE>
+            </ATTRIBUTE-DEFINITION-INTEGER>
+            <ATTRIBUTE-DEFINITION-REAL IDENTIFIER="ats-system-req-cost" LONG-NAME="Cost Estimate">
+              <TYPE>
+                <DATATYPE-DEFINITION-REAL-REF>dt-real</DATATYPE-DEFINITION-REAL-REF>
+              </TYPE>
+            </ATTRIBUTE-DEFINITION-REAL>
+            <ATTRIBUTE-DEFINITION-BOOLEAN IDENTIFIER="ats-system-req-verified" LONG-NAME="Verified">
+              <TYPE>
+                <DATATYPE-DEFINITION-BOOLEAN-REF>dt-boolean</DATATYPE-DEFINITION-BOOLEAN-REF>
+              </TYPE>
+            </ATTRIBUTE-DEFINITION-BOOLEAN>
+            <ATTRIBUTE-DEFINITION-DATE IDENTIFIER="ats-system-req-duedate" LONG-NAME="Due Date">
+              <TYPE>
+                <DATATYPE-DEFINITION-DATE-REF>dt-date</DATATYPE-DEFINITION-DATE-REF>
+              </TYPE>
+            </ATTRIBUTE-DEFINITION-DATE>
+            <ATTRIBUTE-DEFINITION-ENUMERATION IDENTIFIER="ats-system-req-status" LONG-NAME="Status"
+              MULTI-VALUED="false">
+              <TYPE>
+                <DATATYPE-DEFINITION-ENUMERATION-REF>dt-enum-status</DATATYPE-DEFINITION-ENUMERATION-REF>
+              </TYPE>
+            </ATTRIBUTE-DEFINITION-ENUMERATION>
+          </SPEC-ATTRIBUTES>
+        </SPEC-OBJECT-TYPE>
+
+        <SPEC-RELATION-TYPE IDENTIFIER="srt-satisfy" LONG-NAME="Satisfy">
+          <SPEC-ATTRIBUTES>
+            <ATTRIBUTE-DEFINITION-ENUMERATION IDENTIFIER="ats-relation-status" LONG-NAME="Status"
+              MULTI-VALUED="false">
+              <TYPE>
+                <DATATYPE-DEFINITION-ENUMERATION-REF>dt-enum-relation-status</DATATYPE-DEFINITION-ENUMERATION-REF>
+              </TYPE>
+            </ATTRIBUTE-DEFINITION-ENUMERATION>
+            <ATTRIBUTE-DEFINITION-STRING IDENTIFIER="ats-relation-validation"
+              LONG-NAME="Validation Method">
+              <TYPE>
+                <DATATYPE-DEFINITION-STRING-REF>dt-string</DATATYPE-DEFINITION-STRING-REF>
+              </TYPE>
+            </ATTRIBUTE-DEFINITION-STRING>
+          </SPEC-ATTRIBUTES>
+        </SPEC-RELATION-TYPE>
+
+        <SPECIFICATION-TYPE IDENTIFIER="spectype-doc"
+          LONG-NAME="Generic Specification Document Type">
+          <SPEC-ATTRIBUTES>
+            <ATTRIBUTE-DEFINITION-STRING IDENTIFIER="ats-spec-version" LONG-NAME="Version">
+              <TYPE>
+                <DATATYPE-DEFINITION-STRING-REF>dt-string</DATATYPE-DEFINITION-STRING-REF>
+              </TYPE>
+            </ATTRIBUTE-DEFINITION-STRING>
+            <ATTRIBUTE-DEFINITION-STRING IDENTIFIER="ats-spec-owner" LONG-NAME="Owner">
+              <TYPE>
+                <DATATYPE-DEFINITION-STRING-REF>dt-string</DATATYPE-DEFINITION-STRING-REF>
+              </TYPE>
+            </ATTRIBUTE-DEFINITION-STRING>
+            <ATTRIBUTE-DEFINITION-BOOLEAN IDENTIFIER="ats-spec-approved" LONG-NAME="Approved">
+              <TYPE>
+                <DATATYPE-DEFINITION-BOOLEAN-REF>dt-boolean</DATATYPE-DEFINITION-BOOLEAN-REF>
+              </TYPE>
+            </ATTRIBUTE-DEFINITION-BOOLEAN>
+          </SPEC-ATTRIBUTES>
+        </SPECIFICATION-TYPE>
+        <SPECIFICATION-TYPE IDENTIFIER="spectype-traceability-doc"
+          LONG-NAME="Traceability Document Type">
+          <SPEC-ATTRIBUTES>
+            <ATTRIBUTE-DEFINITION-STRING IDENTIFIER="ats-trace-version" LONG-NAME="Version">
+              <TYPE>
+                <DATATYPE-DEFINITION-STRING-REF>dt-string</DATATYPE-DEFINITION-STRING-REF>
+              </TYPE>
+            </ATTRIBUTE-DEFINITION-STRING>
+            <ATTRIBUTE-DEFINITION-STRING IDENTIFIER="ats-trace-owner" LONG-NAME="Owner">
+              <TYPE>
+                <DATATYPE-DEFINITION-STRING-REF>dt-string</DATATYPE-DEFINITION-STRING-REF>
+              </TYPE>
+            </ATTRIBUTE-DEFINITION-STRING>
+            <ATTRIBUTE-DEFINITION-BOOLEAN IDENTIFIER="ats-trace-approved" LONG-NAME="Approved">
+              <TYPE>
+                <DATATYPE-DEFINITION-BOOLEAN-REF>dt-boolean</DATATYPE-DEFINITION-BOOLEAN-REF>
+              </TYPE>
+            </ATTRIBUTE-DEFINITION-BOOLEAN>
+          </SPEC-ATTRIBUTES>
+        </SPECIFICATION-TYPE>
+
+      </SPEC-TYPES>
+      <SPEC-OBJECTS>
+        <SPEC-OBJECT IDENTIFIER="TXT_INTRO_STAKEHOLDER" LAST-CHANGE="2025-06-10T10:00:00+02:00"
+          LONG-NAME="Stakeholder Spec Intro">
+          <VALUES>
+            <ATTRIBUTE-VALUE-XHTML>
+              <THE-VALUE>
+                <xhtml:div>
+                  <xhtml:h2>Stakeholder Needs and Expectations</xhtml:h2>
+                  <xhtml:p>This document outlines the high-level requirements for the <xhtml:strong>Wheeled
+                    Tennis Ball Drone</xhtml:strong>. These requirements reflect the primary needs
+                    of key stakeholders, including:</xhtml:p>
+                  <xhtml:ul>
+                    <xhtml:li>Tennis Club Owners</xhtml:li>
+                    <xhtml:li>Coaching Staff</xhtml:li>
+                    <xhtml:li>Maintenance Personnel</xhtml:li>
+                  </xhtml:ul>
+                  <xhtml:p>The focus is on <xhtml:em>what</xhtml:em> the system must do, not <xhtml:em>
+                    how</xhtml:em> it should be implemented.</xhtml:p>
+                </xhtml:div>
+              </THE-VALUE>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>ats-text-content</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-XHTML>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-descriptive-text</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="TXT_INTRO_SYSTEM" LAST-CHANGE="2025-06-10T10:00:00+02:00"
+          LONG-NAME="System Spec Intro">
+          <VALUES>
+            <ATTRIBUTE-VALUE-XHTML>
+              <THE-VALUE>
+                <xhtml:div>
+                  <xhtml:h2>System Requirements Specification</xhtml:h2>
+                  <xhtml:p>This document provides the detailed system requirements derived from
+                    stakeholder needs. It translates operational needs into specific, <xhtml:strong>
+                    testable</xhtml:strong> technical requirements that will guide the system
+                    design.</xhtml:p>
+                  <xhtml:p>Schematic view</xhtml:p>
+                  <xhtml:object data="images/drone tennis.svg" type="image/svg">Embedded Image</xhtml:object>
+                  <xhtml:h3>1. User Roles &amp; Permissions</xhtml:h3>
+                  <xhtml:p>The system shall support the following user roles:</xhtml:p>
+                  <xhtml:ul>
+                    <xhtml:li>Standard User: Can view and export data.</xhtml:li>
+                    <xhtml:li>Editor: Can create and modify content.</xhtml:li>
+                    <xhtml:li>Administrator: Full control over users and system settings. <xhtml:em>This
+                      role is critical.</xhtml:em></xhtml:li>
+                  </xhtml:ul>
+
+                  <xhtml:blockquote>
+                    <xhtml:p>Note: The principle of least privilege must be strictly enforced.</xhtml:p>
+                  </xhtml:blockquote>
+
+                  <xhtml:h3>2. Performance Metrics</xhtml:h3>
+                  <xhtml:p>The system must meet or exceed the performance targets outlined in the
+                    table below.</xhtml:p>
+                  <xhtml:table>
+                    <xhtml:thead>
+                      <xhtml:tr>
+                        <xhtml:th>Metric</xhtml:th>
+                        <xhtml:th>Target</xhtml:th>
+                        <xhtml:th>Priority</xhtml:th>
+                      </xhtml:tr>
+                    </xhtml:thead>
+                    <xhtml:tbody>
+                      <xhtml:tr>
+                        <xhtml:td>API Response Time (p95)</xhtml:td>
+                        <xhtml:td>&lt; 250ms</xhtml:td>
+                        <xhtml:td>High</xhtml:td>
+                      </xhtml:tr>
+                      <xhtml:tr>
+                        <xhtml:td>Page Load Time (LCP)</xhtml:td>
+                        <xhtml:td>&lt; 2s</xhtml:td>
+                        <xhtml:td>High</xhtml:td>
+                      </xhtml:tr>
+                      <xhtml:tr>
+                        <xhtml:td>Report Generation</xhtml:td>
+                        <xhtml:td>&lt; 30s</xhtml:td>
+                        <xhtml:td>Medium</xhtml:td>
+                      </xhtml:tr>
+                    </xhtml:tbody>
+                  </xhtml:table>
+
+                  <xhtml:table>
+                    <xhtml:thead>
+                      <xhtml:tr>
+                        <xhtml:th>Component Status Summary</xhtml:th>
+                      </xhtml:tr>
+                    </xhtml:thead>
+                    <xhtml:tbody>
+                      <xhtml:tr>
+                        <xhtml:td>Database Service</xhtml:td>
+                        <xhtml:td>Online</xhtml:td>
+                        <xhtml:td>Uptime: 99.98%</xhtml:td>
+                      </xhtml:tr>
+                      <xhtml:tr>
+                        <xhtml:td>API Gateway</xhtml:td>
+                        <xhtml:td>Degraded</xhtml:td>
+                      </xhtml:tr>
+                      <xhtml:tr>
+                        <xhtml:td>Authentication Service</xhtml:td>
+                        <xhtml:td>Online</xhtml:td>
+                        <xhtml:td>Uptime: 99.99%</xhtml:td>
+                      </xhtml:tr>
+                    </xhtml:tbody>
+                  </xhtml:table>
+
+                  <xhtml:h3>3. Deployment Steps</xhtml:h3>
+                  <xhtml:ol>
+                    <xhtml:li>Provision infrastructure.</xhtml:li>
+                    <xhtml:li>Deploy the database schema.</xhtml:li>
+                    <xhtml:li>Deploy the application services.</xhtml:li>
+                    <xhtml:li>Run integration tests.</xhtml:li>
+                  </xhtml:ol>
+
+                  <xhtml:p>For more details, consult the <xhtml:a
+                      href="https://example.com/deployment-guide">Official Deployment Guide</xhtml:a>
+                    . <xhtml:br /> All changes must be logged.</xhtml:p>
+                </xhtml:div>
+              </THE-VALUE>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>ats-text-content</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-XHTML>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-descriptive-text</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="TXT_INTRO_TRACE" LAST-CHANGE="2025-06-10T10:00:00+02:00"
+          LONG-NAME="Traceability Matrix Intro">
+          <VALUES>
+            <ATTRIBUTE-VALUE-XHTML>
+              <THE-VALUE>
+                <xhtml:div>
+                  <xhtml:h2>Traceability Matrix View</xhtml:h2>
+                  <xhtml:p>This document provides a view of the traceability links, connecting each
+                    stakeholder requirement to the system requirement(s) that satisfy it. This
+                    ensures that all stakeholder needs are fully addressed by the system design.</xhtml:p>
+                </xhtml:div>
+              </THE-VALUE>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>ats-text-content</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-XHTML>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-descriptive-text</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="TXT_INTRO_SYS_CHAP1" LAST-CHANGE="2025-06-25T14:30:00+02:00"
+          LONG-NAME="System Chapter 1 Intro">
+          <VALUES>
+            <ATTRIBUTE-VALUE-XHTML>
+              <THE-VALUE>
+                <xhtml:p>This chapter details requirements for the <xhtml:strong>physical
+                  construction</xhtml:strong> of the drone, including its materials, dimensions,
+                  weight, and weather resistance.</xhtml:p>
+              </THE-VALUE>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>ats-text-content</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-XHTML>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-descriptive-text</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="TXT_INTRO_SYS_CHAP2" LAST-CHANGE="2025-06-25T14:30:00+02:00"
+          LONG-NAME="System Chapter 2 Intro">
+          <VALUES>
+            <ATTRIBUTE-VALUE-XHTML>
+              <THE-VALUE>
+                <xhtml:p>This chapter specifies requirements for the drone's <xhtml:strong>power and
+                  battery systems</xhtml:strong>, which are critical for achieving operational
+                  endurance.</xhtml:p>
+              </THE-VALUE>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>ats-text-content</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-XHTML>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-descriptive-text</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_HD_1_1" LAST-CHANGE="2025-08-27T19:00:00+02:00"
+          LONG-NAME="Physical Attributes">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Physical Attributes">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-heading-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-heading</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+
+        <SPEC-OBJECT IDENTIFIER="SYS_HD_1_2" LAST-CHANGE="2025-08-27T19:00:00+02:00"
+          LONG-NAME="Chassis and Protection">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Chassis and Protection">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-heading-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-heading</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+
+        <SPEC-OBJECT IDENTIFIER="SYS_HD_1_3" LAST-CHANGE="2025-08-27T19:00:00+02:00"
+          LONG-NAME="Drive System">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Drive System">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-heading-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-heading</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="TXT_INTRO_SYS_CHAP3" LAST-CHANGE="2025-06-25T14:30:00+02:00"
+          LONG-NAME="System Chapter 3 Intro">
+          <VALUES>
+            <ATTRIBUTE-VALUE-XHTML>
+              <THE-VALUE>
+                <xhtml:p>This chapter covers the core functionality of the drone: the <xhtml:strong>ball
+                  collection mechanism</xhtml:strong>.</xhtml:p>
+              </THE-VALUE>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>ats-text-content</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-XHTML>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-descriptive-text</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="TXT_INTRO_SYS_CHAP4" LAST-CHANGE="2025-06-25T14:30:00+02:00"
+          LONG-NAME="System Chapter 4 Intro">
+          <VALUES>
+            <ATTRIBUTE-VALUE-XHTML>
+              <THE-VALUE>
+                <xhtml:p>This chapter outlines critical requirements for <xhtml:strong>autonomous
+                  navigation and safety systems</xhtml:strong> that prevent collisions.</xhtml:p>
+              </THE-VALUE>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>ats-text-content</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-XHTML>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-descriptive-text</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="TXT_INTRO_SYS_CHAP5" LAST-CHANGE="2025-06-25T14:30:00+02:00"
+          LONG-NAME="System Chapter 5 Intro">
+          <VALUES>
+            <ATTRIBUTE-VALUE-XHTML>
+              <THE-VALUE>
+                <xhtml:p>This chapter defines requirements for the drone's <xhtml:strong>firmware,
+                  user controls, and status indicators</xhtml:strong>.</xhtml:p>
+              </THE-VALUE>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>ats-text-content</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-XHTML>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-descriptive-text</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="TXT_INTRO_SYS_CHAP6" LAST-CHANGE="2025-06-25T14:30:00+02:00"
+          LONG-NAME="System Chapter 6 Intro">
+          <VALUES>
+            <ATTRIBUTE-VALUE-XHTML>
+              <THE-VALUE>
+                <xhtml:p>This chapter details <xhtml:strong>non-functional and lifecycle
+                    requirements</xhtml:strong> such as noise levels, cost, and maintainability.</xhtml:p>
+              </THE-VALUE>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>ats-text-content</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-XHTML>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-descriptive-text</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+
+        <SPEC-OBJECT IDENTIFIER="SHR_001" LAST-CHANGE="2025-06-10T10:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Drone shall collect tennis balls">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-stakeholder-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The drone shall be capable of collecting standard tennis balls from a tennis court surface.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-stakeholder-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-stakeholder-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SHR_002" LAST-CHANGE="2025-06-10T10:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Drone shall operate autonomously">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-stakeholder-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The drone shall navigate the tennis court and collect balls without manual intervention.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-stakeholder-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-stakeholder-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SHR_003" LAST-CHANGE="2025-06-10T10:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Drone shall have a sufficient ball capacity">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-stakeholder-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The drone's storage container shall hold at least 75 tennis balls.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-stakeholder-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-stakeholder-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SHR_004" LAST-CHANGE="2025-06-10T10:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Drone shall be safe to operate">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-stakeholder-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The drone shall not pose a hazard to people or property on and around the tennis court.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-stakeholder-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-stakeholder-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SHR_005" LAST-CHANGE="2025-06-10T10:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Drone shall have a long operational time">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-stakeholder-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The drone shall operate for at least 90 minutes on a single charge.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-stakeholder-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-stakeholder-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SHR_006" LAST-CHANGE="2025-07-02T09:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Drone shall be easily transportable">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-stakeholder-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The drone shall be lightweight and have handles for easy carrying.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-stakeholder-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-stakeholder-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SHR_007" LAST-CHANGE="2025-07-02T09:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Drone shall be easy to start and stop">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-stakeholder-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The drone shall have a simple and intuitive interface for starting and stopping its operation.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-stakeholder-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-stakeholder-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SHR_008" LAST-CHANGE="2025-07-02T09:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Drone shall be weather-resistant">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-stakeholder-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The drone shall be able to operate in light rain conditions.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-stakeholder-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-stakeholder-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SHR_009" LAST-CHANGE="2025-07-02T09:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Drone shall have a clear status indicator">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-stakeholder-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The drone shall clearly indicate its current operational status (e.g., collecting, full, charging).">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-stakeholder-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-stakeholder-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SHR_010" LAST-CHANGE="2025-07-02T09:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Drone shall avoid obstacles">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-stakeholder-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The drone shall be able to detect and avoid obstacles such as the net, posts, and people.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-stakeholder-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-stakeholder-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SHR_011" LAST-CHANGE="2025-07-08T11:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Drone shall be quiet">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-stakeholder-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The drone's operation shall not be disruptively loud.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-stakeholder-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-stakeholder-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SHR_012" LAST-CHANGE="2025-07-08T11:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Drone shall have a manual override">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-stakeholder-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="A user shall be able to manually control the drone's movement if necessary.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-stakeholder-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-stakeholder-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SHR_013" LAST-CHANGE="2025-07-08T11:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Drone shall be easy to empty">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-stakeholder-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The process of emptying the collected tennis balls shall be quick and simple.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-stakeholder-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-stakeholder-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SHR_014" LAST-CHANGE="2025-07-08T11:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Drone shall have a durable chassis">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-stakeholder-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The drone's body shall withstand minor impacts and the outdoor environment.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-stakeholder-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-stakeholder-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SHR_015" LAST-CHANGE="2025-07-08T11:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Drone shall have good traction">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-stakeholder-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The drone's wheels shall provide adequate grip on a tennis court surface.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-stakeholder-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-stakeholder-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SHR_016" LAST-CHANGE="2025-06-10T10:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Drone shall have an emergency stop">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-stakeholder-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="An easily accessible emergency stop button shall be present on the drone.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-stakeholder-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-stakeholder-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SHR_017" LAST-CHANGE="2025-06-10T10:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Drone shall be affordable">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-stakeholder-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The total cost of ownership for the drone shall be reasonable for tennis clubs.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-stakeholder-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-stakeholder-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SHR_018" LAST-CHANGE="2025-06-10T10:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Drone shall have replaceable parts">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-stakeholder-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="Key components like wheels and the collection mechanism shall be easily replaceable.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-stakeholder-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-stakeholder-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SHR_019" LAST-CHANGE="2025-06-10T10:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Drone shall provide collection statistics">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-stakeholder-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The user shall be able to view basic statistics like the number of balls collected.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-stakeholder-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-stakeholder-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SHR_020" LAST-CHANGE="2025-06-10T10:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Drone shall return to a home base">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-stakeholder-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The drone shall be able to return to a designated home base for charging and storage.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-stakeholder-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-stakeholder-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_001" LAST-CHANGE="2025-07-08T11:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Ball collection mechanism">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The drone shall be equipped with a rotating brush or roller mechanism to sweep balls into a collection bin.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-INTEGER THE-VALUE="1">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-INTEGER-REF>ats-system-req-priority</ATTRIBUTE-DEFINITION-INTEGER-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-INTEGER>
+            <ATTRIBUTE-VALUE-REAL THE-VALUE="250.50">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-REAL-REF>ats-system-req-cost</ATTRIBUTE-DEFINITION-REAL-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-REAL>
+            <ATTRIBUTE-VALUE-BOOLEAN THE-VALUE="false">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-BOOLEAN-REF>ats-system-req-verified</ATTRIBUTE-DEFINITION-BOOLEAN-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-BOOLEAN>
+            <ATTRIBUTE-VALUE-DATE THE-VALUE="2025-09-30T18:00:00+02:00">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-DATE-REF>ats-system-req-duedate</ATTRIBUTE-DEFINITION-DATE-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-DATE>
+            <ATTRIBUTE-VALUE-ENUMERATION>
+              <VALUES>
+                <ENUM-VALUE-REF>enum-val-new</ENUM-VALUE-REF>
+              </VALUES>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-ENUMERATION-REF>ats-system-req-status</ATTRIBUTE-DEFINITION-ENUMERATION-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-ENUMERATION>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_002" LAST-CHANGE="2025-07-08T11:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Ball detection sensor">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The drone shall use a camera with computer vision to identify the location of tennis balls.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-INTEGER THE-VALUE="1">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-INTEGER-REF>ats-system-req-priority</ATTRIBUTE-DEFINITION-INTEGER-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-INTEGER>
+            <ATTRIBUTE-VALUE-REAL THE-VALUE="400.00">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-REAL-REF>ats-system-req-cost</ATTRIBUTE-DEFINITION-REAL-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-REAL>
+            <ATTRIBUTE-VALUE-BOOLEAN THE-VALUE="false">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-BOOLEAN-REF>ats-system-req-verified</ATTRIBUTE-DEFINITION-BOOLEAN-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-BOOLEAN>
+            <ATTRIBUTE-VALUE-DATE THE-VALUE="2025-10-15T18:00:00+02:00">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-DATE-REF>ats-system-req-duedate</ATTRIBUTE-DEFINITION-DATE-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-DATE>
+            <ATTRIBUTE-VALUE-ENUMERATION>
+              <VALUES>
+                <ENUM-VALUE-REF>enum-val-new</ENUM-VALUE-REF>
+              </VALUES>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-ENUMERATION-REF>ats-system-req-status</ATTRIBUTE-DEFINITION-ENUMERATION-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-ENUMERATION>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_003" LAST-CHANGE="2025-07-02T09:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Pathfinding algorithm">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The drone shall use an A* or similar pathfinding algorithm to navigate to detected balls.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-INTEGER THE-VALUE="2">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-INTEGER-REF>ats-system-req-priority</ATTRIBUTE-DEFINITION-INTEGER-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-INTEGER>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_004" LAST-CHANGE="2025-07-02T09:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Court boundary detection">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The drone's navigation system shall recognize the lines of the tennis court to stay within the designated area.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_005" LAST-CHANGE="2025-07-02T09:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Storage bin material">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The ball storage bin shall be made of a durable, lightweight plastic.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_006" LAST-CHANGE="2025-06-25T14:30:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Bin full sensor">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="An infrared sensor shall detect when the storage bin is full.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_007" LAST-CHANGE="2025-06-25T14:30:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Ultrasonic obstacle sensors">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The drone shall be equipped with ultrasonic sensors on all sides to detect obstacles within 2 meters.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_008" LAST-CHANGE="2025-06-25T14:30:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Collision avoidance logic">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="Upon detecting an obstacle, the drone shall slow down and navigate around it.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_009" LAST-CHANGE="2025-06-25T14:30:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Battery type">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The drone shall use a rechargeable lithium-ion battery.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_010" LAST-CHANGE="2025-06-25T14:30:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Battery management system">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The drone shall have a battery management system to monitor charge level and battery health.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_011" LAST-CHANGE="2025-06-25T14:30:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Low battery behavior">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="When the battery level is below 15%, the drone shall automatically return to its home base.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_012" LAST-CHANGE="2025-06-25T14:30:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Drone weight">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The total weight of the drone without balls shall not exceed 15 kg.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_013" LAST-CHANGE="2025-06-10T10:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Carrying handles">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The drone shall have two ergonomically designed handles for lifting.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_014" LAST-CHANGE="2025-06-10T10:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Start/stop button">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="A single, large, clearly labeled button shall start and stop the drone's autonomous operation.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_015" LAST-CHANGE="2025-06-10T10:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Waterproof rating">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The drone's electronics enclosure shall have an IPX4 waterproof rating.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_016" LAST-CHANGE="2025-06-10T10:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Status LEDs">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The drone shall have a set of LEDs to indicate its status: green for operating, yellow for full, and red for error.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_017" LAST-CHANGE="2025-06-10T10:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Net detection">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The drone's computer vision shall be trained to recognize the tennis net and maintain a safe distance.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_018" LAST-CHANGE="2025-06-10T10:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Person detection">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The drone's computer vision shall be able to detect human shapes and halt operation if a person is too close.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_019" LAST-CHANGE="2025-06-10T10:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Motor noise level">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The drone's drive motors shall operate at a noise level below 60 decibels.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_020" LAST-CHANGE="2025-06-10T10:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Remote control">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The drone shall be controllable via a simple Bluetooth remote control.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_021" LAST-CHANGE="2025-07-02T09:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Bin release mechanism">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The storage bin shall have a quick-release latch for easy removal.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_022" LAST-CHANGE="2025-07-02T09:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Chassis material">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The drone's chassis shall be constructed from a high-impact ABS plastic.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_023" LAST-CHANGE="2025-07-02T09:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Wheel type">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The drone shall use non-marking rubber wheels with a tread pattern suitable for hard courts.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_024" LAST-CHANGE="2025-07-02T09:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Emergency stop button placement">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="A large, red emergency stop button shall be located on the top surface of the drone.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_025" LAST-CHANGE="2025-07-02T09:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Bill of materials cost">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The total cost of all electronic and mechanical components shall not exceed a predefined target.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_026" LAST-CHANGE="2025-07-02T09:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Modular wheel assembly">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The wheel and motor assemblies shall be replaceable with simple tools.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_027" LAST-CHANGE="2025-07-02T09:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Modular collection mechanism">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The ball collection mechanism shall be a self-contained, replaceable module.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_028" LAST-CHANGE="2025-07-02T09:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Ball counter">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The drone shall maintain a count of collected balls in its internal memory.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_029" LAST-CHANGE="2025-07-08T11:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Statistics display">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="A small LCD screen on the drone shall display the number of balls collected.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_030" LAST-CHANGE="2025-07-08T11:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Home base beacon">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The home base shall emit an infrared beacon to guide the drone's return.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_031" LAST-CHANGE="2025-07-08T11:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Collection efficiency">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The drone shall collect at least 95% of tennis balls in its designated operational area.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_032" LAST-CHANGE="2025-07-08T11:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Maximum speed">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The drone's maximum speed shall be limited to 1.5 m/s for safety.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_033" LAST-CHANGE="2025-07-08T11:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Charging time">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The battery shall be fully chargeable within 3 hours.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_034" LAST-CHANGE="2025-07-08T11:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Software updates">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The drone's firmware shall be updatable via a USB-C port.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_035" LAST-CHANGE="2025-07-08T11:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Motor torque">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The drive motors shall provide sufficient torque to navigate minor inclines on the court.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_036" LAST-CHANGE="2025-07-08T11:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Onboard diagnostics">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The drone shall perform a self-diagnostic check upon startup.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_037" LAST-CHANGE="2025-06-25T14:30:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Data logging">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The drone shall log operational data and errors to internal memory for maintenance purposes.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_038" LAST-CHANGE="2025-06-25T14:30:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Sleep mode">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The drone shall enter a low-power sleep mode after 30 minutes of inactivity.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_039" LAST-CHANGE="2025-06-25T14:30:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Audible alerts">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The drone shall emit audible beeps to signal state changes (e.g., starting, stopping, error).">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_040" LAST-CHANGE="2025-06-25T14:30:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="UV resistance">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The drone's external components shall be made of UV-resistant materials.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_041" LAST-CHANGE="2025-06-25T14:30:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Remote control range">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The Bluetooth remote control shall have a range of at least 10 meters.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_042" LAST-CHANGE="2025-06-25T14:30:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Manual control responsiveness">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The drone shall respond to manual control inputs with a latency of less than 200ms.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_043" LAST-CHANGE="2025-06-25T14:30:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Manufacturing tolerances">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="All parts shall be manufactured to specified tolerances to ensure proper assembly and function.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_044" LAST-CHANGE="2025-06-10T10:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="User manual">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="A comprehensive user manual shall be provided with the drone.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_045" LAST-CHANGE="2025-06-10T10:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Maintenance schedule">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The user manual shall include a recommended maintenance schedule.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_046" LAST-CHANGE="2025-06-10T10:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Regulatory compliance">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The drone shall comply with all relevant electronics and safety regulations (e.g., CE, FCC).">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_047" LAST-CHANGE="2025-06-10T10:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Recyclability">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="At least 80% of the drone's components by weight shall be recyclable.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_048" LAST-CHANGE="2025-06-10T10:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Packaging">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="The drone shall be packaged in recyclable materials.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_049" LAST-CHANGE="2025-06-10T10:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Warranty">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The drone shall come with a one-year limited warranty.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_050" LAST-CHANGE="2025-06-10T10:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Customer support">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="Customer support shall be available via email and phone during business hours.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_051" LAST-CHANGE="2025-06-10T10:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Spare parts availability">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="Spare parts shall be available for purchase for at least five years after the product launch.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_052" LAST-CHANGE="2025-07-08T11:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Operational temperature range">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The drone shall operate in ambient temperatures from 5°C to 40°C.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_053" LAST-CHANGE="2025-07-08T11:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Storage temperature range">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The drone shall be storable in temperatures from -10°C to 50°C.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_054" LAST-CHANGE="2025-07-08T11:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Firmware rollback">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The drone's firmware update mechanism shall support rolling back to the previous version in case of failure.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_055" LAST-CHANGE="2025-07-08T11:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Home base alignment">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The drone shall align itself with the charging contacts on the home base with a tolerance of +/- 5mm.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_056" LAST-CHANGE="2025-07-08T11:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Collection speed">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The drone shall be able to collect up to 10 balls per minute.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_057" LAST-CHANGE="2025-07-08T11:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Error code display">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The LCD screen shall display specific error codes to aid in troubleshooting.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_058" LAST-CHANGE="2025-07-08T11:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Power consumption">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="The drone shall consume less than 100 watts during normal operation.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_059" LAST-CHANGE="2025-07-08T11:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Turning radius">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="The drone shall have a zero-degree turning radius.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_060" LAST-CHANGE="2025-07-08T11:00:00+02:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Fail-safe mechanism">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING
+              THE-VALUE="In case of a critical system failure, the drone shall immediately stop all motors.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-system-req-text</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-system-req</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_HD_0" LAST-CHANGE="2025-06-25T14:30:00+02:00"
+          LONG-NAME="System Requirements Specification">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="System Requirements Specification">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-heading-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-heading</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_HD_1" LAST-CHANGE="2025-06-25T14:30:00+02:00"
+          LONG-NAME="Hardware and Mechanical Design">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Hardware and Mechanical Design">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-heading-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-heading</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_HD_2" LAST-CHANGE="2025-06-25T14:30:00+02:00"
+          LONG-NAME="Power and Battery System">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Power and Battery System">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-heading-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-heading</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_HD_3" LAST-CHANGE="2025-06-25T14:30:00+02:00"
+          LONG-NAME="Ball Collection System">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Ball Collection System">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-heading-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-heading</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_HD_4" LAST-CHANGE="2025-06-25T14:30:00+02:00"
+          LONG-NAME="Navigation and Safety">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Navigation and Safety">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-heading-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-heading</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_HD_5" LAST-CHANGE="2025-06-25T14:30:00+02:00"
+          LONG-NAME="Software, Control, and UI">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Software, Control, and UI">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-heading-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-heading</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="SYS_HD_6" LAST-CHANGE="2025-06-25T14:30:00+02:00"
+          LONG-NAME="Lifecycle and Non-Functional Requirements">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Lifecycle and Non-Functional Requirements">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-heading-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>st-heading</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+      </SPEC-OBJECTS>
+      <SPEC-RELATIONS>
+        <SPEC-RELATION IDENTIFIER="SR_SHR001_SYS001" LAST-CHANGE="2025-07-02T09:00:00+02:00">
+          <SOURCE>
+            <SPEC-OBJECT-REF>SYS_001</SPEC-OBJECT-REF>
+          </SOURCE>
+          <TARGET>
+            <SPEC-OBJECT-REF>SHR_001</SPEC-OBJECT-REF>
+          </TARGET>
+          <TYPE>
+            <SPEC-RELATION-TYPE-REF>srt-satisfy</SPEC-RELATION-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-ENUMERATION>
+              <VALUES>
+                <ENUM-VALUE-REF>enum-relation-accepted</ENUM-VALUE-REF>
+              </VALUES>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-ENUMERATION-REF>ats-relation-status</ATTRIBUTE-DEFINITION-ENUMERATION-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-ENUMERATION>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Review">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-relation-validation</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+        </SPEC-RELATION>
+        <SPEC-RELATION IDENTIFIER="SR_SHR001_SYS002" LAST-CHANGE="2025-07-02T09:00:00+02:00">
+          <SOURCE>
+            <SPEC-OBJECT-REF>SYS_002</SPEC-OBJECT-REF>
+          </SOURCE>
+          <TARGET>
+            <SPEC-OBJECT-REF>SHR_001</SPEC-OBJECT-REF>
+          </TARGET>
+          <TYPE>
+            <SPEC-RELATION-TYPE-REF>srt-satisfy</SPEC-RELATION-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-ENUMERATION>
+              <VALUES>
+                <ENUM-VALUE-REF>enum-relation-accepted</ENUM-VALUE-REF>
+              </VALUES>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-ENUMERATION-REF>ats-relation-status</ATTRIBUTE-DEFINITION-ENUMERATION-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-ENUMERATION>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Review">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-relation-validation</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+        </SPEC-RELATION>
+        <SPEC-RELATION IDENTIFIER="SR_SHR002_SYS003" LAST-CHANGE="2025-07-02T09:00:00+02:00">
+          <SOURCE>
+            <SPEC-OBJECT-REF>SYS_003</SPEC-OBJECT-REF>
+          </SOURCE>
+          <TARGET>
+            <SPEC-OBJECT-REF>SHR_002</SPEC-OBJECT-REF>
+          </TARGET>
+          <TYPE>
+            <SPEC-RELATION-TYPE-REF>srt-satisfy</SPEC-RELATION-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-ENUMERATION>
+              <VALUES>
+                <ENUM-VALUE-REF>enum-relation-accepted</ENUM-VALUE-REF>
+              </VALUES>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-ENUMERATION-REF>ats-relation-status</ATTRIBUTE-DEFINITION-ENUMERATION-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-ENUMERATION>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Review">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-relation-validation</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+        </SPEC-RELATION>
+        <SPEC-RELATION IDENTIFIER="SR_SHR002_SYS004" LAST-CHANGE="2025-07-02T09:00:00+02:00">
+          <SOURCE>
+            <SPEC-OBJECT-REF>SYS_004</SPEC-OBJECT-REF>
+          </SOURCE>
+          <TARGET>
+            <SPEC-OBJECT-REF>SHR_002</SPEC-OBJECT-REF>
+          </TARGET>
+          <TYPE>
+            <SPEC-RELATION-TYPE-REF>srt-satisfy</SPEC-RELATION-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-ENUMERATION>
+              <VALUES>
+                <ENUM-VALUE-REF>enum-relation-accepted</ENUM-VALUE-REF>
+              </VALUES>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-ENUMERATION-REF>ats-relation-status</ATTRIBUTE-DEFINITION-ENUMERATION-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-ENUMERATION>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Review">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-relation-validation</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+        </SPEC-RELATION>
+        <SPEC-RELATION IDENTIFIER="SR_SHR003_SYS005" LAST-CHANGE="2025-07-02T09:00:00+02:00">
+          <SOURCE>
+            <SPEC-OBJECT-REF>SYS_005</SPEC-OBJECT-REF>
+          </SOURCE>
+          <TARGET>
+            <SPEC-OBJECT-REF>SHR_003</SPEC-OBJECT-REF>
+          </TARGET>
+          <TYPE>
+            <SPEC-RELATION-TYPE-REF>srt-satisfy</SPEC-RELATION-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-ENUMERATION>
+              <VALUES>
+                <ENUM-VALUE-REF>enum-relation-accepted</ENUM-VALUE-REF>
+              </VALUES>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-ENUMERATION-REF>ats-relation-status</ATTRIBUTE-DEFINITION-ENUMERATION-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-ENUMERATION>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Review">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-relation-validation</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+        </SPEC-RELATION>
+        <SPEC-RELATION IDENTIFIER="SR_SHR003_SYS006" LAST-CHANGE="2025-07-02T09:00:00+02:00">
+          <SOURCE>
+            <SPEC-OBJECT-REF>SYS_006</SPEC-OBJECT-REF>
+          </SOURCE>
+          <TARGET>
+            <SPEC-OBJECT-REF>SHR_003</SPEC-OBJECT-REF>
+          </TARGET>
+          <TYPE>
+            <SPEC-RELATION-TYPE-REF>srt-satisfy</SPEC-RELATION-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-ENUMERATION>
+              <VALUES>
+                <ENUM-VALUE-REF>enum-relation-proposed</ENUM-VALUE-REF>
+              </VALUES>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-ENUMERATION-REF>ats-relation-status</ATTRIBUTE-DEFINITION-ENUMERATION-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-ENUMERATION>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Review">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-relation-validation</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+        </SPEC-RELATION>
+        <SPEC-RELATION IDENTIFIER="SR_SHR004_SYS007" LAST-CHANGE="2025-07-02T09:00:00+02:00">
+          <SOURCE>
+            <SPEC-OBJECT-REF>SYS_007</SPEC-OBJECT-REF>
+          </SOURCE>
+          <TARGET>
+            <SPEC-OBJECT-REF>SHR_004</SPEC-OBJECT-REF>
+          </TARGET>
+          <TYPE>
+            <SPEC-RELATION-TYPE-REF>srt-satisfy</SPEC-RELATION-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-ENUMERATION>
+              <VALUES>
+                <ENUM-VALUE-REF>enum-relation-proposed</ENUM-VALUE-REF>
+              </VALUES>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-ENUMERATION-REF>ats-relation-status</ATTRIBUTE-DEFINITION-ENUMERATION-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-ENUMERATION>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Review">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-relation-validation</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+        </SPEC-RELATION>
+        <SPEC-RELATION IDENTIFIER="SR_SHR004_SYS008" LAST-CHANGE="2025-07-02T09:00:00+02:00">
+          <SOURCE>
+            <SPEC-OBJECT-REF>SYS_008</SPEC-OBJECT-REF>
+          </SOURCE>
+          <TARGET>
+            <SPEC-OBJECT-REF>SHR_004</SPEC-OBJECT-REF>
+          </TARGET>
+          <TYPE>
+            <SPEC-RELATION-TYPE-REF>srt-satisfy</SPEC-RELATION-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-ENUMERATION>
+              <VALUES>
+                <ENUM-VALUE-REF>enum-relation-proposed</ENUM-VALUE-REF>
+              </VALUES>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-ENUMERATION-REF>ats-relation-status</ATTRIBUTE-DEFINITION-ENUMERATION-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-ENUMERATION>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Review">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-relation-validation</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+        </SPEC-RELATION>
+        <SPEC-RELATION IDENTIFIER="SR_SHR005_SYS009" LAST-CHANGE="2025-07-02T09:00:00+02:00">
+          <SOURCE>
+            <SPEC-OBJECT-REF>SYS_009</SPEC-OBJECT-REF>
+          </SOURCE>
+          <TARGET>
+            <SPEC-OBJECT-REF>SHR_005</SPEC-OBJECT-REF>
+          </TARGET>
+          <TYPE>
+            <SPEC-RELATION-TYPE-REF>srt-satisfy</SPEC-RELATION-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-ENUMERATION>
+              <VALUES>
+                <ENUM-VALUE-REF>enum-relation-proposed</ENUM-VALUE-REF>
+              </VALUES>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-ENUMERATION-REF>ats-relation-status</ATTRIBUTE-DEFINITION-ENUMERATION-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-ENUMERATION>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Review">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-relation-validation</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+        </SPEC-RELATION>
+        <SPEC-RELATION IDENTIFIER="SR_SHR005_SYS010" LAST-CHANGE="2025-07-02T09:00:00+02:00">
+          <SOURCE>
+            <SPEC-OBJECT-REF>SYS_010</SPEC-OBJECT-REF>
+          </SOURCE>
+          <TARGET>
+            <SPEC-OBJECT-REF>SHR_005</SPEC-OBJECT-REF>
+          </TARGET>
+          <TYPE>
+            <SPEC-RELATION-TYPE-REF>srt-satisfy</SPEC-RELATION-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-ENUMERATION>
+              <VALUES>
+                <ENUM-VALUE-REF>enum-relation-proposed</ENUM-VALUE-REF>
+              </VALUES>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-ENUMERATION-REF>ats-relation-status</ATTRIBUTE-DEFINITION-ENUMERATION-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-ENUMERATION>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Review">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-relation-validation</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+        </SPEC-RELATION>
+        <SPEC-RELATION IDENTIFIER="SR_SHR005_SYS011" LAST-CHANGE="2025-07-02T09:00:00+02:00">
+          <SOURCE>
+            <SPEC-OBJECT-REF>SYS_011</SPEC-OBJECT-REF>
+          </SOURCE>
+          <TARGET>
+            <SPEC-OBJECT-REF>SHR_005</SPEC-OBJECT-REF>
+          </TARGET>
+          <TYPE>
+            <SPEC-RELATION-TYPE-REF>srt-satisfy</SPEC-RELATION-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-ENUMERATION>
+              <VALUES>
+                <ENUM-VALUE-REF>enum-relation-proposed</ENUM-VALUE-REF>
+              </VALUES>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-ENUMERATION-REF>ats-relation-status</ATTRIBUTE-DEFINITION-ENUMERATION-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-ENUMERATION>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Review">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-relation-validation</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+        </SPEC-RELATION>
+        <SPEC-RELATION IDENTIFIER="SR_SHR006_SYS012" LAST-CHANGE="2025-07-02T09:00:00+02:00">
+          <SOURCE>
+            <SPEC-OBJECT-REF>SYS_012</SPEC-OBJECT-REF>
+          </SOURCE>
+          <TARGET>
+            <SPEC-OBJECT-REF>SHR_006</SPEC-OBJECT-REF>
+          </TARGET>
+          <TYPE>
+            <SPEC-RELATION-TYPE-REF>srt-satisfy</SPEC-RELATION-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-ENUMERATION>
+              <VALUES>
+                <ENUM-VALUE-REF>enum-relation-proposed</ENUM-VALUE-REF>
+              </VALUES>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-ENUMERATION-REF>ats-relation-status</ATTRIBUTE-DEFINITION-ENUMERATION-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-ENUMERATION>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Review">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-relation-validation</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+        </SPEC-RELATION>
+        <SPEC-RELATION IDENTIFIER="SR_SHR006_SYS013" LAST-CHANGE="2025-07-02T09:00:00+02:00">
+          <SOURCE>
+            <SPEC-OBJECT-REF>SYS_013</SPEC-OBJECT-REF>
+          </SOURCE>
+          <TARGET>
+            <SPEC-OBJECT-REF>SHR_006</SPEC-OBJECT-REF>
+          </TARGET>
+          <TYPE>
+            <SPEC-RELATION-TYPE-REF>srt-satisfy</SPEC-RELATION-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-ENUMERATION>
+              <VALUES>
+                <ENUM-VALUE-REF>enum-relation-proposed</ENUM-VALUE-REF>
+              </VALUES>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-ENUMERATION-REF>ats-relation-status</ATTRIBUTE-DEFINITION-ENUMERATION-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-ENUMERATION>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Review">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-relation-validation</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+        </SPEC-RELATION>
+        <SPEC-RELATION IDENTIFIER="SR_SHR007_SYS014" LAST-CHANGE="2025-07-02T09:00:00+02:00">
+          <SOURCE>
+            <SPEC-OBJECT-REF>SYS_014</SPEC-OBJECT-REF>
+          </SOURCE>
+          <TARGET>
+            <SPEC-OBJECT-REF>SHR_007</SPEC-OBJECT-REF>
+          </TARGET>
+          <TYPE>
+            <SPEC-RELATION-TYPE-REF>srt-satisfy</SPEC-RELATION-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-ENUMERATION>
+              <VALUES>
+                <ENUM-VALUE-REF>enum-relation-proposed</ENUM-VALUE-REF>
+              </VALUES>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-ENUMERATION-REF>ats-relation-status</ATTRIBUTE-DEFINITION-ENUMERATION-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-ENUMERATION>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Review">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-relation-validation</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+        </SPEC-RELATION>
+        <SPEC-RELATION IDENTIFIER="SR_SHR008_SYS015" LAST-CHANGE="2025-07-02T09:00:00+02:00">
+          <SOURCE>
+            <SPEC-OBJECT-REF>SYS_015</SPEC-OBJECT-REF>
+          </SOURCE>
+          <TARGET>
+            <SPEC-OBJECT-REF>SHR_008</SPEC-OBJECT-REF>
+          </TARGET>
+          <TYPE>
+            <SPEC-RELATION-TYPE-REF>srt-satisfy</SPEC-RELATION-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-ENUMERATION>
+              <VALUES>
+                <ENUM-VALUE-REF>enum-relation-accepted</ENUM-VALUE-REF>
+              </VALUES>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-ENUMERATION-REF>ats-relation-status</ATTRIBUTE-DEFINITION-ENUMERATION-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-ENUMERATION>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Test">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-relation-validation</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+        </SPEC-RELATION>
+        <SPEC-RELATION IDENTIFIER="SR_SHR009_SYS016" LAST-CHANGE="2025-07-02T09:00:00+02:00">
+          <SOURCE>
+            <SPEC-OBJECT-REF>SYS_016</SPEC-OBJECT-REF>
+          </SOURCE>
+          <TARGET>
+            <SPEC-OBJECT-REF>SHR_009</SPEC-OBJECT-REF>
+          </TARGET>
+          <TYPE>
+            <SPEC-RELATION-TYPE-REF>srt-satisfy</SPEC-RELATION-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-ENUMERATION>
+              <VALUES>
+                <ENUM-VALUE-REF>enum-relation-accepted</ENUM-VALUE-REF>
+              </VALUES>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-ENUMERATION-REF>ats-relation-status</ATTRIBUTE-DEFINITION-ENUMERATION-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-ENUMERATION>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Test">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-relation-validation</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+        </SPEC-RELATION>
+        <SPEC-RELATION IDENTIFIER="SR_SHR010_SYS017" LAST-CHANGE="2025-07-02T09:00:00+02:00">
+          <SOURCE>
+            <SPEC-OBJECT-REF>SYS_017</SPEC-OBJECT-REF>
+          </SOURCE>
+          <TARGET>
+            <SPEC-OBJECT-REF>SHR_010</SPEC-OBJECT-REF>
+          </TARGET>
+          <TYPE>
+            <SPEC-RELATION-TYPE-REF>srt-satisfy</SPEC-RELATION-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-ENUMERATION>
+              <VALUES>
+                <ENUM-VALUE-REF>enum-relation-accepted</ENUM-VALUE-REF>
+              </VALUES>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-ENUMERATION-REF>ats-relation-status</ATTRIBUTE-DEFINITION-ENUMERATION-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-ENUMERATION>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Test">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-relation-validation</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+        </SPEC-RELATION>
+        <SPEC-RELATION IDENTIFIER="SR_SHR010_SYS018" LAST-CHANGE="2025-07-02T09:00:00+02:00">
+          <SOURCE>
+            <SPEC-OBJECT-REF>SYS_018</SPEC-OBJECT-REF>
+          </SOURCE>
+          <TARGET>
+            <SPEC-OBJECT-REF>SHR_010</SPEC-OBJECT-REF>
+          </TARGET>
+          <TYPE>
+            <SPEC-RELATION-TYPE-REF>srt-satisfy</SPEC-RELATION-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-ENUMERATION>
+              <VALUES>
+                <ENUM-VALUE-REF>enum-relation-accepted</ENUM-VALUE-REF>
+              </VALUES>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-ENUMERATION-REF>ats-relation-status</ATTRIBUTE-DEFINITION-ENUMERATION-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-ENUMERATION>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Test">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-relation-validation</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+        </SPEC-RELATION>
+        <SPEC-RELATION IDENTIFIER="SR_SHR011_SYS019" LAST-CHANGE="2025-07-02T09:00:00+02:00">
+          <SOURCE>
+            <SPEC-OBJECT-REF>SYS_019</SPEC-OBJECT-REF>
+          </SOURCE>
+          <TARGET>
+            <SPEC-OBJECT-REF>SHR_011</SPEC-OBJECT-REF>
+          </TARGET>
+          <TYPE>
+            <SPEC-RELATION-TYPE-REF>srt-satisfy</SPEC-RELATION-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-ENUMERATION>
+              <VALUES>
+                <ENUM-VALUE-REF>enum-relation-accepted</ENUM-VALUE-REF>
+              </VALUES>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-ENUMERATION-REF>ats-relation-status</ATTRIBUTE-DEFINITION-ENUMERATION-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-ENUMERATION>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Test">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-relation-validation</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+        </SPEC-RELATION>
+        <SPEC-RELATION IDENTIFIER="SR_SHR012_SYS020" LAST-CHANGE="2025-07-02T09:00:00+02:00">
+          <SOURCE>
+            <SPEC-OBJECT-REF>SYS_020</SPEC-OBJECT-REF>
+          </SOURCE>
+          <TARGET>
+            <SPEC-OBJECT-REF>SHR_012</SPEC-OBJECT-REF>
+          </TARGET>
+          <TYPE>
+            <SPEC-RELATION-TYPE-REF>srt-satisfy</SPEC-RELATION-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-ENUMERATION>
+              <VALUES>
+                <ENUM-VALUE-REF>enum-relation-accepted</ENUM-VALUE-REF>
+              </VALUES>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-ENUMERATION-REF>ats-relation-status</ATTRIBUTE-DEFINITION-ENUMERATION-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-ENUMERATION>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Test">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-relation-validation</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+        </SPEC-RELATION>
+        <SPEC-RELATION IDENTIFIER="SR_SHR013_SYS021" LAST-CHANGE="2025-07-08T11:00:00+02:00">
+          <SOURCE>
+            <SPEC-OBJECT-REF>SYS_021</SPEC-OBJECT-REF>
+          </SOURCE>
+          <TARGET>
+            <SPEC-OBJECT-REF>SHR_013</SPEC-OBJECT-REF>
+          </TARGET>
+          <TYPE>
+            <SPEC-RELATION-TYPE-REF>srt-satisfy</SPEC-RELATION-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-ENUMERATION>
+              <VALUES>
+                <ENUM-VALUE-REF>enum-relation-accepted</ENUM-VALUE-REF>
+              </VALUES>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-ENUMERATION-REF>ats-relation-status</ATTRIBUTE-DEFINITION-ENUMERATION-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-ENUMERATION>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Test">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-relation-validation</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+        </SPEC-RELATION>
+        <SPEC-RELATION IDENTIFIER="SR_SHR014_SYS022" LAST-CHANGE="2025-07-08T11:00:00+02:00">
+          <SOURCE>
+            <SPEC-OBJECT-REF>SYS_022</SPEC-OBJECT-REF>
+          </SOURCE>
+          <TARGET>
+            <SPEC-OBJECT-REF>SHR_014</SPEC-OBJECT-REF>
+          </TARGET>
+          <TYPE>
+            <SPEC-RELATION-TYPE-REF>srt-satisfy</SPEC-RELATION-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-ENUMERATION>
+              <VALUES>
+                <ENUM-VALUE-REF>enum-relation-accepted</ENUM-VALUE-REF>
+              </VALUES>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-ENUMERATION-REF>ats-relation-status</ATTRIBUTE-DEFINITION-ENUMERATION-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-ENUMERATION>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Test">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-relation-validation</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+        </SPEC-RELATION>
+        <SPEC-RELATION IDENTIFIER="SR_SHR015_SYS023" LAST-CHANGE="2025-07-08T11:00:00+02:00">
+          <SOURCE>
+            <SPEC-OBJECT-REF>SYS_023</SPEC-OBJECT-REF>
+          </SOURCE>
+          <TARGET>
+            <SPEC-OBJECT-REF>SHR_015</SPEC-OBJECT-REF>
+          </TARGET>
+          <TYPE>
+            <SPEC-RELATION-TYPE-REF>srt-satisfy</SPEC-RELATION-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-ENUMERATION>
+              <VALUES>
+                <ENUM-VALUE-REF>enum-relation-accepted</ENUM-VALUE-REF>
+              </VALUES>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-ENUMERATION-REF>ats-relation-status</ATTRIBUTE-DEFINITION-ENUMERATION-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-ENUMERATION>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Test">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-relation-validation</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+        </SPEC-RELATION>
+        <SPEC-RELATION IDENTIFIER="SR_SHR016_SYS024" LAST-CHANGE="2025-07-08T11:00:00+02:00">
+          <SOURCE>
+            <SPEC-OBJECT-REF>SYS_024</SPEC-OBJECT-REF>
+          </SOURCE>
+          <TARGET>
+            <SPEC-OBJECT-REF>SHR_016</SPEC-OBJECT-REF>
+          </TARGET>
+          <TYPE>
+            <SPEC-RELATION-TYPE-REF>srt-satisfy</SPEC-RELATION-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-ENUMERATION>
+              <VALUES>
+                <ENUM-VALUE-REF>enum-relation-accepted</ENUM-VALUE-REF>
+              </VALUES>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-ENUMERATION-REF>ats-relation-status</ATTRIBUTE-DEFINITION-ENUMERATION-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-ENUMERATION>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Test">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-relation-validation</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+        </SPEC-RELATION>
+        <SPEC-RELATION IDENTIFIER="SR_SHR017_SYS025" LAST-CHANGE="2025-07-08T11:00:00+02:00">
+          <SOURCE>
+            <SPEC-OBJECT-REF>SYS_025</SPEC-OBJECT-REF>
+          </SOURCE>
+          <TARGET>
+            <SPEC-OBJECT-REF>SHR_017</SPEC-OBJECT-REF>
+          </TARGET>
+          <TYPE>
+            <SPEC-RELATION-TYPE-REF>srt-satisfy</SPEC-RELATION-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-ENUMERATION>
+              <VALUES>
+                <ENUM-VALUE-REF>enum-relation-accepted</ENUM-VALUE-REF>
+              </VALUES>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-ENUMERATION-REF>ats-relation-status</ATTRIBUTE-DEFINITION-ENUMERATION-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-ENUMERATION>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Review">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-relation-validation</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+        </SPEC-RELATION>
+        <SPEC-RELATION IDENTIFIER="SR_SHR018_SYS026" LAST-CHANGE="2025-07-08T11:00:00+02:00">
+          <SOURCE>
+            <SPEC-OBJECT-REF>SYS_026</SPEC-OBJECT-REF>
+          </SOURCE>
+          <TARGET>
+            <SPEC-OBJECT-REF>SHR_018</SPEC-OBJECT-REF>
+          </TARGET>
+          <TYPE>
+            <SPEC-RELATION-TYPE-REF>srt-satisfy</SPEC-RELATION-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-ENUMERATION>
+              <VALUES>
+                <ENUM-VALUE-REF>enum-relation-accepted</ENUM-VALUE-REF>
+              </VALUES>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-ENUMERATION-REF>ats-relation-status</ATTRIBUTE-DEFINITION-ENUMERATION-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-ENUMERATION>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Review">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-relation-validation</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+        </SPEC-RELATION>
+        <SPEC-RELATION IDENTIFIER="SR_SHR018_SYS027" LAST-CHANGE="2025-07-08T11:00:00+02:00">
+          <SOURCE>
+            <SPEC-OBJECT-REF>SYS_027</SPEC-OBJECT-REF>
+          </SOURCE>
+          <TARGET>
+            <SPEC-OBJECT-REF>SHR_018</SPEC-OBJECT-REF>
+          </TARGET>
+          <TYPE>
+            <SPEC-RELATION-TYPE-REF>srt-satisfy</SPEC-RELATION-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-ENUMERATION>
+              <VALUES>
+                <ENUM-VALUE-REF>enum-relation-accepted</ENUM-VALUE-REF>
+              </VALUES>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-ENUMERATION-REF>ats-relation-status</ATTRIBUTE-DEFINITION-ENUMERATION-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-ENUMERATION>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Review">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-relation-validation</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+        </SPEC-RELATION>
+        <SPEC-RELATION IDENTIFIER="SR_SHR019_SYS028" LAST-CHANGE="2025-07-08T11:00:00+02:00">
+          <SOURCE>
+            <SPEC-OBJECT-REF>SYS_028</SPEC-OBJECT-REF>
+          </SOURCE>
+          <TARGET>
+            <SPEC-OBJECT-REF>SHR_019</SPEC-OBJECT-REF>
+          </TARGET>
+          <TYPE>
+            <SPEC-RELATION-TYPE-REF>srt-satisfy</SPEC-RELATION-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-ENUMERATION>
+              <VALUES>
+                <ENUM-VALUE-REF>enum-relation-accepted</ENUM-VALUE-REF>
+              </VALUES>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-ENUMERATION-REF>ats-relation-status</ATTRIBUTE-DEFINITION-ENUMERATION-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-ENUMERATION>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Review">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-relation-validation</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+        </SPEC-RELATION>
+        <SPEC-RELATION IDENTIFIER="SR_SHR019_SYS029" LAST-CHANGE="2025-07-08T11:00:00+02:00">
+          <SOURCE>
+            <SPEC-OBJECT-REF>SYS_029</SPEC-OBJECT-REF>
+          </SOURCE>
+          <TARGET>
+            <SPEC-OBJECT-REF>SHR_019</SPEC-OBJECT-REF>
+          </TARGET>
+          <TYPE>
+            <SPEC-RELATION-TYPE-REF>srt-satisfy</SPEC-RELATION-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-ENUMERATION>
+              <VALUES>
+                <ENUM-VALUE-REF>enum-relation-accepted</ENUM-VALUE-REF>
+              </VALUES>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-ENUMERATION-REF>ats-relation-status</ATTRIBUTE-DEFINITION-ENUMERATION-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-ENUMERATION>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Review">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-relation-validation</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+        </SPEC-RELATION>
+        <SPEC-RELATION IDENTIFIER="SR_SHR020_SYS030" LAST-CHANGE="2025-07-08T11:00:00+02:00">
+          <SOURCE>
+            <SPEC-OBJECT-REF>SYS_030</SPEC-OBJECT-REF>
+          </SOURCE>
+          <TARGET>
+            <SPEC-OBJECT-REF>SHR_020</SPEC-OBJECT-REF>
+          </TARGET>
+          <TYPE>
+            <SPEC-RELATION-TYPE-REF>srt-satisfy</SPEC-RELATION-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-ENUMERATION>
+              <VALUES>
+                <ENUM-VALUE-REF>enum-relation-accepted</ENUM-VALUE-REF>
+              </VALUES>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-ENUMERATION-REF>ats-relation-status</ATTRIBUTE-DEFINITION-ENUMERATION-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-ENUMERATION>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Review">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-relation-validation</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+        </SPEC-RELATION>
+      </SPEC-RELATIONS>
+      <SPEC-RELATION-GROUPS>
+      </SPEC-RELATION-GROUPS>
+      <SPECIFICATIONS>
+        <SPECIFICATION IDENTIFIER="spec-stakeholder" LAST-CHANGE="2025-07-08T11:00:00+02:00"
+          LONG-NAME="Stakeholder Requirements Specification">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="1.0">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-spec-version</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Project Lead">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-spec-owner</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-BOOLEAN THE-VALUE="true">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-BOOLEAN-REF>ats-spec-approved</ATTRIBUTE-DEFINITION-BOOLEAN-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-BOOLEAN>
+          </VALUES>
+          <TYPE>
+            <SPECIFICATION-TYPE-REF>spectype-doc</SPECIFICATION-TYPE-REF>
+          </TYPE>
+          <CHILDREN>
+            <SPEC-HIERARCHY>
+              <OBJECT>
+                <SPEC-OBJECT-REF>TXT_INTRO_STAKEHOLDER</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY>
+              <OBJECT>
+                <SPEC-OBJECT-REF>SHR_001</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY>
+              <OBJECT>
+                <SPEC-OBJECT-REF>SHR_002</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY>
+              <OBJECT>
+                <SPEC-OBJECT-REF>SHR_003</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY>
+              <OBJECT>
+                <SPEC-OBJECT-REF>SHR_004</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY>
+              <OBJECT>
+                <SPEC-OBJECT-REF>SHR_005</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY>
+              <OBJECT>
+                <SPEC-OBJECT-REF>SHR_006</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY>
+              <OBJECT>
+                <SPEC-OBJECT-REF>SHR_007</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY>
+              <OBJECT>
+                <SPEC-OBJECT-REF>SHR_008</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY>
+              <OBJECT>
+                <SPEC-OBJECT-REF>SHR_009</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY>
+              <OBJECT>
+                <SPEC-OBJECT-REF>SHR_010</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY>
+              <OBJECT>
+                <SPEC-OBJECT-REF>SHR_011</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY>
+              <OBJECT>
+                <SPEC-OBJECT-REF>SHR_012</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY>
+              <OBJECT>
+                <SPEC-OBJECT-REF>SHR_013</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY>
+              <OBJECT>
+                <SPEC-OBJECT-REF>SHR_014</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY>
+              <OBJECT>
+                <SPEC-OBJECT-REF>SHR_015</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY>
+              <OBJECT>
+                <SPEC-OBJECT-REF>SHR_016</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY>
+              <OBJECT>
+                <SPEC-OBJECT-REF>SHR_017</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY>
+              <OBJECT>
+                <SPEC-OBJECT-REF>SHR_018</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY>
+              <OBJECT>
+                <SPEC-OBJECT-REF>SHR_019</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY>
+              <OBJECT>
+                <SPEC-OBJECT-REF>SHR_020</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+          </CHILDREN>
+        </SPECIFICATION>
+        <SPECIFICATION IDENTIFIER="spec-system" LAST-CHANGE="2025-07-08T11:00:00+02:00"
+          LONG-NAME="System Requirements Specification">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="1.2">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-spec-version</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="System Architect">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-spec-owner</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-BOOLEAN THE-VALUE="false">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-BOOLEAN-REF>ats-spec-approved</ATTRIBUTE-DEFINITION-BOOLEAN-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-BOOLEAN>
+          </VALUES>
+          <TYPE>
+            <SPECIFICATION-TYPE-REF>spectype-doc</SPECIFICATION-TYPE-REF>
+          </TYPE>
+          <CHILDREN>
+            <SPEC-HIERARCHY>
+              <OBJECT>
+                <SPEC-OBJECT-REF>SYS_HD_0</SPEC-OBJECT-REF>
+              </OBJECT>
+              <CHILDREN>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>TXT_INTRO_SYSTEM</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+              </CHILDREN>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY>
+              <OBJECT>
+                <SPEC-OBJECT-REF>SYS_HD_1</SPEC-OBJECT-REF>
+              </OBJECT>
+              <CHILDREN>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>TXT_INTRO_SYS_CHAP1</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_HD_1_1</SPEC-OBJECT-REF>
+                  </OBJECT>
+                  <CHILDREN>
+                    <SPEC-HIERARCHY>
+                      <OBJECT>
+                        <SPEC-OBJECT-REF>SYS_012</SPEC-OBJECT-REF>
+                      </OBJECT>
+                    </SPEC-HIERARCHY>
+                    <SPEC-HIERARCHY>
+                      <OBJECT>
+                        <SPEC-OBJECT-REF>SYS_013</SPEC-OBJECT-REF>
+                      </OBJECT>
+                    </SPEC-HIERARCHY>
+                  </CHILDREN>
+                </SPEC-HIERARCHY>
+
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_HD_1_2</SPEC-OBJECT-REF>
+                  </OBJECT>
+                  <CHILDREN>
+                    <SPEC-HIERARCHY>
+                      <OBJECT>
+                        <SPEC-OBJECT-REF>SYS_015</SPEC-OBJECT-REF>
+                      </OBJECT>
+                    </SPEC-HIERARCHY>
+                    <SPEC-HIERARCHY>
+                      <OBJECT>
+                        <SPEC-OBJECT-REF>SYS_022</SPEC-OBJECT-REF>
+                      </OBJECT>
+                    </SPEC-HIERARCHY>
+                    <SPEC-HIERARCHY>
+                      <OBJECT>
+                        <SPEC-OBJECT-REF>SYS_040</SPEC-OBJECT-REF>
+                      </OBJECT>
+                    </SPEC-HIERARCHY>
+                  </CHILDREN>
+                </SPEC-HIERARCHY>
+
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_HD_1_3</SPEC-OBJECT-REF>
+                  </OBJECT>
+                  <CHILDREN>
+                    <SPEC-HIERARCHY>
+                      <OBJECT>
+                        <SPEC-OBJECT-REF>SYS_023</SPEC-OBJECT-REF>
+                      </OBJECT>
+                    </SPEC-HIERARCHY>
+                    <SPEC-HIERARCHY>
+                      <OBJECT>
+                        <SPEC-OBJECT-REF>SYS_026</SPEC-OBJECT-REF>
+                      </OBJECT>
+                    </SPEC-HIERARCHY>
+                    <SPEC-HIERARCHY>
+                      <OBJECT>
+                        <SPEC-OBJECT-REF>SYS_035</SPEC-OBJECT-REF>
+                      </OBJECT>
+                    </SPEC-HIERARCHY>
+                  </CHILDREN>
+                </SPEC-HIERARCHY>
+              </CHILDREN>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY>
+              <OBJECT>
+                <SPEC-OBJECT-REF>SYS_HD_2</SPEC-OBJECT-REF>
+              </OBJECT>
+              <CHILDREN>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>TXT_INTRO_SYS_CHAP2</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_009</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_010</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_011</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_033</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_038</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_055</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_058</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+              </CHILDREN>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY>
+              <OBJECT>
+                <SPEC-OBJECT-REF>SYS_HD_3</SPEC-OBJECT-REF>
+              </OBJECT>
+              <CHILDREN>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>TXT_INTRO_SYS_CHAP3</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_001</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_005</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_006</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_021</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_027</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_031</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_056</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+              </CHILDREN>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY>
+              <OBJECT>
+                <SPEC-OBJECT-REF>SYS_HD_4</SPEC-OBJECT-REF>
+              </OBJECT>
+              <CHILDREN>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>TXT_INTRO_SYS_CHAP4</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_003</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_004</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_007</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_008</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_017</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_018</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_032</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_059</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_060</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+              </CHILDREN>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY>
+              <OBJECT>
+                <SPEC-OBJECT-REF>SYS_HD_5</SPEC-OBJECT-REF>
+              </OBJECT>
+              <CHILDREN>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>TXT_INTRO_SYS_CHAP5</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_002</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_014</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_016</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_020</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_024</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_028</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_029</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_030</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_034</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_036</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_037</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_039</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_041</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_042</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_054</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_057</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+              </CHILDREN>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY>
+              <OBJECT>
+                <SPEC-OBJECT-REF>SYS_HD_6</SPEC-OBJECT-REF>
+              </OBJECT>
+              <CHILDREN>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>TXT_INTRO_SYS_CHAP6</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_019</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_025</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_043</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_044</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_045</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_046</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_047</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_048</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_049</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_050</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_051</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_052</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_053</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+              </CHILDREN>
+            </SPEC-HIERARCHY>
+          </CHILDREN>
+        </SPECIFICATION>
+        <SPECIFICATION IDENTIFIER="spec-traceability-matrix" LAST-CHANGE="2025-07-08T11:00:00+02:00"
+          LONG-NAME="Traceability Matrix">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="1.1">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-trace-version</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="System Architect">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>ats-trace-owner</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-BOOLEAN THE-VALUE="true">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-BOOLEAN-REF>ats-trace-approved</ATTRIBUTE-DEFINITION-BOOLEAN-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-BOOLEAN>
+          </VALUES>
+          <TYPE>
+            <SPECIFICATION-TYPE-REF>spectype-traceability-doc</SPECIFICATION-TYPE-REF>
+          </TYPE>
+          <CHILDREN>
+            <SPEC-HIERARCHY>
+              <OBJECT>
+                <SPEC-OBJECT-REF>TXT_INTRO_TRACE</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY>
+              <OBJECT>
+                <SPEC-OBJECT-REF>SHR_001</SPEC-OBJECT-REF>
+              </OBJECT>
+              <CHILDREN>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_001</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_002</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+              </CHILDREN>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY>
+              <OBJECT>
+                <SPEC-OBJECT-REF>SHR_002</SPEC-OBJECT-REF>
+              </OBJECT>
+              <CHILDREN>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_003</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_004</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+              </CHILDREN>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY>
+              <OBJECT>
+                <SPEC-OBJECT-REF>SHR_003</SPEC-OBJECT-REF>
+              </OBJECT>
+              <CHILDREN>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_005</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_006</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+              </CHILDREN>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY>
+              <OBJECT>
+                <SPEC-OBJECT-REF>SHR_004</SPEC-OBJECT-REF>
+              </OBJECT>
+              <CHILDREN>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_007</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_008</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+              </CHILDREN>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY>
+              <OBJECT>
+                <SPEC-OBJECT-REF>SHR_005</SPEC-OBJECT-REF>
+              </OBJECT>
+              <CHILDREN>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_009</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_010</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_011</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+              </CHILDREN>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY>
+              <OBJECT>
+                <SPEC-OBJECT-REF>SHR_006</SPEC-OBJECT-REF>
+              </OBJECT>
+              <CHILDREN>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_012</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_013</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+              </CHILDREN>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY>
+              <OBJECT>
+                <SPEC-OBJECT-REF>SHR_007</SPEC-OBJECT-REF>
+              </OBJECT>
+              <CHILDREN>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_014</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+              </CHILDREN>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY>
+              <OBJECT>
+                <SPEC-OBJECT-REF>SHR_008</SPEC-OBJECT-REF>
+              </OBJECT>
+              <CHILDREN>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_015</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+              </CHILDREN>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY>
+              <OBJECT>
+                <SPEC-OBJECT-REF>SHR_009</SPEC-OBJECT-REF>
+              </OBJECT>
+              <CHILDREN>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_016</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+              </CHILDREN>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY>
+              <OBJECT>
+                <SPEC-OBJECT-REF>SHR_010</SPEC-OBJECT-REF>
+              </OBJECT>
+              <CHILDREN>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_017</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_018</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+              </CHILDREN>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY>
+              <OBJECT>
+                <SPEC-OBJECT-REF>SHR_011</SPEC-OBJECT-REF>
+              </OBJECT>
+              <CHILDREN>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_019</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+              </CHILDREN>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY>
+              <OBJECT>
+                <SPEC-OBJECT-REF>SHR_012</SPEC-OBJECT-REF>
+              </OBJECT>
+              <CHILDREN>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_020</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+              </CHILDREN>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY>
+              <OBJECT>
+                <SPEC-OBJECT-REF>SHR_013</SPEC-OBJECT-REF>
+              </OBJECT>
+              <CHILDREN>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_021</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+              </CHILDREN>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY>
+              <OBJECT>
+                <SPEC-OBJECT-REF>SHR_014</SPEC-OBJECT-REF>
+              </OBJECT>
+              <CHILDREN>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_022</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+              </CHILDREN>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY>
+              <OBJECT>
+                <SPEC-OBJECT-REF>SHR_015</SPEC-OBJECT-REF>
+              </OBJECT>
+              <CHILDREN>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_023</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+              </CHILDREN>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY>
+              <OBJECT>
+                <SPEC-OBJECT-REF>SHR_016</SPEC-OBJECT-REF>
+              </OBJECT>
+              <CHILDREN>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_024</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+              </CHILDREN>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY>
+              <OBJECT>
+                <SPEC-OBJECT-REF>SHR_017</SPEC-OBJECT-REF>
+              </OBJECT>
+              <CHILDREN>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_025</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+              </CHILDREN>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY>
+              <OBJECT>
+                <SPEC-OBJECT-REF>SHR_018</SPEC-OBJECT-REF>
+              </OBJECT>
+              <CHILDREN>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_026</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_027</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+              </CHILDREN>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY>
+              <OBJECT>
+                <SPEC-OBJECT-REF>SHR_019</SPEC-OBJECT-REF>
+              </OBJECT>
+              <CHILDREN>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_028</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_029</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+              </CHILDREN>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY>
+              <OBJECT>
+                <SPEC-OBJECT-REF>SHR_020</SPEC-OBJECT-REF>
+              </OBJECT>
+              <CHILDREN>
+                <SPEC-HIERARCHY>
+                  <OBJECT>
+                    <SPEC-OBJECT-REF>SYS_030</SPEC-OBJECT-REF>
+                  </OBJECT>
+                </SPEC-HIERARCHY>
+              </CHILDREN>
+            </SPEC-HIERARCHY>
+          </CHILDREN>
+        </SPECIFICATION>
+      </SPECIFICATIONS>
+    </REQ-IF-CONTENT>
+  </CORE-CONTENT>
+</REQ-IF>
