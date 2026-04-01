@@ -23,42 +23,37 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-12-03 00:55:04.820035 CET"
-	const __write__utc_time__ = "2025-12-02 23:55:04.820035 UTC"
+	// insertion point for declaration of instances to stage
 
-	const __commitId__ = "0000000047"
+	__Chapter__00000000_ := (&models.Chapter{Name: `The Observatory`}).Stage(stage)
+	__Chapter__00000001_ := (&models.Chapter{Name: `The Science`}).Stage(stage)
 
-	// Declaration of instances to stage
+	__Content__00000000_ := (&models.Content{Name: `The Vera C. Rubin Observatory`}).Stage(stage)
 
-	__Chapter__000000_The_Observatory := (&models.Chapter{}).Stage(stage)
-	__Chapter__000001_The_Science := (&models.Chapter{}).Stage(stage)
+	__Page__00000000_ := (&models.Page{Name: `Overview and Mission`}).Stage(stage)
+	__Page__00000001_ := (&models.Page{Name: `The Simonyi Survey Telescope`}).Stage(stage)
+	__Page__00000002_ := (&models.Page{Name: `The Camera`}).Stage(stage)
+	__Page__00000003_ := (&models.Page{Name: `Legacy Survey of Space and Time (LSST)`}).Stage(stage)
+	__Page__00000004_ := (&models.Page{Name: `Key Science Pillars`}).Stage(stage)
+	__Page__00000005_ := (&models.Page{Name: `The Data`}).Stage(stage)
+	__Page__00000006_ := (&models.Page{Name: `Accessing the Data`}).Stage(stage)
+	__Page__00000007_ := (&models.Page{Name: `Vera Rubin`}).Stage(stage)
+	__Page__00000008_ := (&models.Page{Name: `From Concept to Concrete Plans`}).Stage(stage)
 
-	__Content__000000_The_Vera_C_Rubin_Observatory := (&models.Content{}).Stage(stage)
+	// insertion point for initialization of values
 
-	__Page__000000_Overview_and_Mission := (&models.Page{}).Stage(stage)
-	__Page__000001_The_Simonyi_Survey_Telescope := (&models.Page{}).Stage(stage)
-	__Page__000002_The_Camera := (&models.Page{}).Stage(stage)
-	__Page__000003_Legacy_Survey_of_Space_and_Time_LSST_ := (&models.Page{}).Stage(stage)
-	__Page__000004_Key_Science_Pillars := (&models.Page{}).Stage(stage)
-	__Page__000005_The_Data := (&models.Page{}).Stage(stage)
-	__Page__000006_Accessing_the_Data := (&models.Page{}).Stage(stage)
-	__Page__000007_Vera_Rubin := (&models.Page{}).Stage(stage)
-	__Page__000008_From_Concept_to_Concrete_Plans := (&models.Page{}).Stage(stage)
-
-	// Setup of values
-
-	__Chapter__000000_The_Observatory.Name = `The Observatory`
-	__Chapter__000000_The_Observatory.MardownContent = `This chapter provides an overview of the Vera C. Rubin Observatory, its history, and its key components.
+	__Chapter__00000000_.Name = `The Observatory`
+	__Chapter__00000000_.MardownContent = `This chapter provides an overview of the Vera C. Rubin Observatory, its history, and its key components.
 
 <img src="../images/Large_Synoptic_Survey_Telescope_3_4_render_2013.png" alt="Large Synoptic Survey Telescope" style="width: 800px;">
 `
 
-	__Chapter__000001_The_Science.Name = `The Science`
-	__Chapter__000001_The_Science.MardownContent = `The Legacy Survey of Space and Time (LSST) will generate an unprecedented dataset, enabling a wide array of scientific discoveries.
+	__Chapter__00000001_.Name = `The Science`
+	__Chapter__00000001_.MardownContent = `The Legacy Survey of Space and Time (LSST) will generate an unprecedented dataset, enabling a wide array of scientific discoveries.
 `
 
-	__Content__000000_The_Vera_C_Rubin_Observatory.Name = `The Vera C. Rubin Observatory`
-	__Content__000000_The_Vera_C_Rubin_Observatory.MardownContent = `The Vera C. Rubin Observatory, formerly known as the Large Synoptic Survey Telescope (LSST), is an astronomical observatory in Chile. Its main task is an astronomical survey of the entire available southern sky every few nights, creating a time-lapse record over ten years, the Legacy Survey of Space and Time (also abbreviated LSST).[2][3][4] The observatory is located on the El Peñón peak of Cerro Pachón, a 2,682-meter-high (8,799 ft) mountain in Coquimbo Region, in northern Chile, alongside the existing Gemini South and Southern Astrophysical Research Telescopes.[5] The Rubin Observatory base facility is located about 100 kilometres (62 miles) away from the observatory by road, in the city of La Serena. The observatory is named for Vera Rubin, an American astronomer who pioneered discoveries about galactic rotation rates.
+	__Content__00000000_.Name = `The Vera C. Rubin Observatory`
+	__Content__00000000_.MardownContent = `The Vera C. Rubin Observatory, formerly known as the Large Synoptic Survey Telescope (LSST), is an astronomical observatory in Chile. Its main task is an astronomical survey of the entire available southern sky every few nights, creating a time-lapse record over ten years, the Legacy Survey of Space and Time (also abbreviated LSST).[2][3][4] The observatory is located on the El Peñón peak of Cerro Pachón, a 2,682-meter-high (8,799 ft) mountain in Coquimbo Region, in northern Chile, alongside the existing Gemini South and Southern Astrophysical Research Telescopes.[5] The Rubin Observatory base facility is located about 100 kilometres (62 miles) away from the observatory by road, in the city of La Serena. The observatory is named for Vera Rubin, an American astronomer who pioneered discoveries about galactic rotation rates.
 
 Vera C. Rubin Observatory is a joint initiative of the U.S. National Science Foundation (NSF) and the U.S. Department of Energy's Office of Science and is operated jointly by NSF NOIRLab and SLAC National Accelerator Laboratory.[6]
 
@@ -67,19 +62,19 @@ The Rubin Observatory houses the Simonyi Survey Telescope, a wide-field reflecti
 The Rubin Observatory was proposed in 2001 as the LSST, and construction of the mirror began (with private funds) in 2007. The LSST then became the top-ranked large ground-based project in the 2010 Astrophysics Decadal Survey, and the project officially began construction on 1 August 2014, when the United States National Science Foundation (NSF) authorized the FY2014 portion ($27.5 million) of its construction budget.[9] Funding comes from the NSF, the United States Department of Energy, and private funding raised by the dedicated international non-profit organization, the LSST Discovery Alliance.[10] Operations are under the management of the Association of Universities for Research in Astronomy (AURA).[11] The total construction cost was expected to be about $680 million.[12]
 
 Site construction began on 14 April 2015 with the ceremonial laying of the first stone.[13][14] The first on-sky observations with the engineering camera occurred on 24 October 2024,[15] while system first light images were released 23 June 2025. Full survey operations are planned to begin later in 2025, due to COVID-related schedule delays.[16] Data is scheduled to become fully public after two years.[17]`
-	__Content__000000_The_Vera_C_Rubin_Observatory.ContentPath = `content`
-	__Content__000000_The_Vera_C_Rubin_Observatory.OutputPath = `public`
-	__Content__000000_The_Vera_C_Rubin_Observatory.LayoutPath = `../../defaults/layouts`
-	__Content__000000_The_Vera_C_Rubin_Observatory.StaticPath = `../../defaults/static`
-	__Content__000000_The_Vera_C_Rubin_Observatory.IsBespokeLogoFileName = false
-	__Content__000000_The_Vera_C_Rubin_Observatory.BespokeLogoFileName = `gong logo.svg`
-	__Content__000000_The_Vera_C_Rubin_Observatory.IsBespokePageTileLogoFileName = true
-	__Content__000000_The_Vera_C_Rubin_Observatory.BespokePageTileLogoFileName = `page-title-logo.svg`
-	__Content__000000_The_Vera_C_Rubin_Observatory.Target = models.FILE
-	__Content__000000_The_Vera_C_Rubin_Observatory.VersionInfo = `1.9.8`
+	__Content__00000000_.ContentPath = `content`
+	__Content__00000000_.OutputPath = `public`
+	__Content__00000000_.LayoutPath = `../../defaults/layouts`
+	__Content__00000000_.StaticPath = `../../defaults/static`
+	__Content__00000000_.IsBespokeLogoFileName = false
+	__Content__00000000_.BespokeLogoFileName = `gong logo.svg`
+	__Content__00000000_.IsBespokePageTileLogoFileName = true
+	__Content__00000000_.BespokePageTileLogoFileName = `page-title-logo.svg`
+	__Content__00000000_.Target = models.FILE
+	__Content__00000000_.VersionInfo = `1.9.8`
 
-	__Page__000000_Overview_and_Mission.Name = `Overview and Mission`
-	__Page__000000_Overview_and_Mission.MardownContent = `The Vera C. Rubin Observatory, formerly known as the Large Synoptic Survey Telescope (LSST), is an astronomical observatory currently under construction in Chile. Its main task is to carry out a ten-year survey of the southern sky, the Legacy Survey of Space and Time (LSST).
+	__Page__00000000_.Name = `Overview and Mission`
+	__Page__00000000_.MardownContent = `The Vera C. Rubin Observatory, formerly known as the Large Synoptic Survey Telescope (LSST), is an astronomical observatory currently under construction in Chile. Its main task is to carry out a ten-year survey of the southern sky, the Legacy Survey of Space and Time (LSST).
 
 The mission is to build a well-understood and calibrated system that will produce a vast astronomical dataset for a broad range of scientific investigations. The observatory is designed to address four main science areas:
 
@@ -88,16 +83,16 @@ The mission is to build a well-understood and calibrated system that will produc
 3.  Exploring the transient optical sky.
 4.  Mapping the Milky Way.`
 
-	__Page__000001_The_Simonyi_Survey_Telescope.Name = `The Simonyi Survey Telescope`
-	__Page__000001_The_Simonyi_Survey_Telescope.MardownContent = `The heart of the Rubin Observatory is the Simonyi Survey Telescope, an 8.4-meter telescope with a unique three-mirror design. This design provides a very wide 3.5-degree field of view, allowing it to survey the entire available sky in just a few nights.
+	__Page__00000001_.Name = `The Simonyi Survey Telescope`
+	__Page__00000001_.MardownContent = `The heart of the Rubin Observatory is the Simonyi Survey Telescope, an 8.4-meter telescope with a unique three-mirror design. This design provides a very wide 3.5-degree field of view, allowing it to survey the entire available sky in just a few nights.
 
 Key features include:
 - A large aperture to collect significant light.
 - A compact design to enable rapid slewing and repositioning.
 - A state-of-the-art active optics system to maintain image quality.`
 
-	__Page__000002_The_Camera.Name = `The Camera`
-	__Page__000002_The_Camera.MardownContent = `The telescope is equipped with the largest digital camera ever constructed for astronomy. It has 3.2 gigapixels and will produce images of exceptional quality.
+	__Page__00000002_.Name = `The Camera`
+	__Page__00000002_.MardownContent = `The telescope is equipped with the largest digital camera ever constructed for astronomy. It has 3.2 gigapixels and will produce images of exceptional quality.
 
 | Feature          | Specification                |
 |------------------|------------------------------|
@@ -106,16 +101,20 @@ Key features include:
 | Filter System    | 6 filters (u, g, r, i, z, y) |
 | Cooldown        | Cryogenic cooling            |
 
-The camera's data will be read out in just two seconds, a critical feature for the rapid cadence of the survey.`
+The camera's data will be read out in just two seconds, a critical feature for the rapid cadence of the survey.
 
-	__Page__000003_Legacy_Survey_of_Space_and_Time_LSST_.Name = `Legacy Survey of Space and Time (LSST)`
-	__Page__000003_Legacy_Survey_of_Space_and_Time_LSST_.MardownContent = `The LSST is a planned 10-year survey of the southern sky that will take place at the Vera C. Rubin Observatory. It will image the sky over and over again, producing a time-lapse movie of the universe.
+<img src="../images/lsst_camera_completion_pr_sv_telescope_composite_final-crop.jpg" alt="LSST Camera" style="width: 800px;">
+
+`
+
+	__Page__00000003_.Name = `Legacy Survey of Space and Time (LSST)`
+	__Page__00000003_.MardownContent = `The LSST is a planned 10-year survey of the southern sky that will take place at the Vera C. Rubin Observatory. It will image the sky over and over again, producing a time-lapse movie of the universe.
 
 The survey is expected to generate approximately 20 terabytes of data per night, leading to a total database of over 15 petabytes by the end of the survey. This "Big Data" challenge requires sophisticated data management and processing techniques.
 `
 
-	__Page__000004_Key_Science_Pillars.Name = `Key Science Pillars`
-	__Page__000004_Key_Science_Pillars.MardownContent = `The LSST is designed to make transformative discoveries in four key areas:
+	__Page__00000004_.Name = `Key Science Pillars`
+	__Page__00000004_.MardownContent = `The LSST is designed to make transformative discoveries in four key areas:
 
 1.  **Dark Energy and Dark Matter:** By observing billions of galaxies, the LSST will map the distribution of dark matter and measure the effects of dark energy on the expansion of the universe.
 2.  **Solar System Inventory:** The survey will catalog millions of small bodies in our solar system, from near-Earth asteroids to distant Kuiper Belt objects.
@@ -123,21 +122,21 @@ The survey is expected to generate approximately 20 terabytes of data per night,
 4.  **Milky Way Mapping:** The LSST will provide a detailed map of the structure and evolution of our own galaxy, the Milky Way.
 `
 
-	__Page__000005_The_Data.Name = `The Data`
-	__Page__000005_The_Data.MardownContent = `he data management system for the Rubin Observatory is a massive undertaking. It is responsible for:
+	__Page__00000005_.Name = `The Data`
+	__Page__00000005_.MardownContent = `he data management system for the Rubin Observatory is a massive undertaking. It is responsible for:
 - Transporting data from the telescope in Chile to the archive center in the United States.
 - Processing the raw images to produce scientifically useful data products.
 - Archiving the data and making it accessible to users.
 - Providing tools and services for data analysis.`
 
-	__Page__000006_Accessing_the_Data.Name = `Accessing the Data`
-	__Page__000006_Accessing_the_Data.MardownContent = `The primary data products will be accessible through the Rubin Science Platform (RSP), a web-based portal. The RSP will provide a suite of tools for querying the database, visualizing images, and performing scientific analysis.
+	__Page__00000006_.Name = `Accessing the Data`
+	__Page__00000006_.MardownContent = `The primary data products will be accessible through the Rubin Science Platform (RSP), a web-based portal. The RSP will provide a suite of tools for querying the database, visualizing images, and performing scientific analysis.
 
 Data will be released in annual data releases. After a proprietary period for scientists in the US and Chile, all data products will become fully public to the world.
 `
 
-	__Page__000007_Vera_Rubin.Name = `Vera Rubin`
-	__Page__000007_Vera_Rubin.MardownContent = `The decision to name a major scientific facility is never taken lightly. It is an act of commemoration, a way to etch a name into the annals of science, ensuring a legacy that will inspire future generations. In December 2019, through an act of the United States Congress, the Large Synoptic Survey Telescope (LSST) was officially christened the Vera C. Rubin Observatory. This dedication was more than just an honor; it was a profound statement. For the first time, a major, publicly-funded national observatory in the United States was named after a woman, recognizing the monumental contributions of an astronomer who fundamentally altered our perception of the cosmos and tirelessly championed the cause of women in science.
+	__Page__00000007_.Name = `Vera Rubin`
+	__Page__00000007_.MardownContent = `The decision to name a major scientific facility is never taken lightly. It is an act of commemoration, a way to etch a name into the annals of science, ensuring a legacy that will inspire future generations. In December 2019, through an act of the United States Congress, the Large Synoptic Survey Telescope (LSST) was officially christened the Vera C. Rubin Observatory. This dedication was more than just an honor; it was a profound statement. For the first time, a major, publicly-funded national observatory in the United States was named after a woman, recognizing the monumental contributions of an astronomer who fundamentally altered our perception of the cosmos and tirelessly championed the cause of women in science.
 
 
 Vera Cooper Rubin (1928-2016) was a force of nature in the field of astronomy, a brilliant and tenacious scientist whose work provided the most compelling evidence for the existence of one of the universe's most profound mysteries: dark matter. Her journey in science was one of perseverance against the systemic gender biases of her time. From her early fascination with the stars as a young girl in Washington, D.C., she pursued her passion with unwavering determination. Despite being the sole astronomy graduate from Vassar College in 1948 and facing obstacles that barred women from certain academic programs—the graduate astronomy program at Princeton being a notable example—she carved out an extraordinary career.
@@ -159,8 +158,8 @@ Naming the observatory after Vera Rubin is therefore exceptionally fitting. One 
 
 Furthermore, the naming honors Rubin's role as a passionate advocate for women in science. She was a mentor to countless aspiring astronomers and a vocal critic of the barriers that women faced. She fought for their inclusion in professional organizations and their access to observing facilities. Naming this next-generation observatory in her honor serves as a powerful symbol of progress and an inspiration for a new, more inclusive generation of scientists. The Vera C. Rubin Observatory is not just a testament to her groundbreaking discoveries; it is a continuation of her legacy of exploration, perseverance, and the relentless pursuit of cosmic truths`
 
-	__Page__000008_From_Concept_to_Concrete_Plans.Name = `From Concept to Concrete Plans`
-	__Page__000008_From_Concept_to_Concrete_Plans.MardownContent = `Every great scientific instrument begins as an idea, a response to the fundamental questions that drive human curiosity. The Vera C. Rubin Observatory, in its modern form, is a product of decades of technological advancement and evolving scientific priorities, but its conceptual roots lie in the long-held astronomical ambition to create a comprehensive, dynamic map of the night sky. For centuries, astronomers have compiled star charts and catalogs, but these were static snapshots. The idea of a telescope that could repeatedly survey the entire sky, not just to catalog objects but to monitor their changes over time, was a revolutionary leap.
+	__Page__00000008_.Name = `From Concept to Concrete Plans`
+	__Page__00000008_.MardownContent = `Every great scientific instrument begins as an idea, a response to the fundamental questions that drive human curiosity. The Vera C. Rubin Observatory, in its modern form, is a product of decades of technological advancement and evolving scientific priorities, but its conceptual roots lie in the long-held astronomical ambition to create a comprehensive, dynamic map of the night sky. For centuries, astronomers have compiled star charts and catalogs, but these were static snapshots. The idea of a telescope that could repeatedly survey the entire sky, not just to catalog objects but to monitor their changes over time, was a revolutionary leap.
 
 The seeds for what would become the Rubin Observatory were sown in the 1990s, a period of fertile discussion within the astronomical community about the future of the field. Advances in computing, data storage, and detector technology—specifically the development of large-format charge-coupled devices (CCDs)—were making it possible to imagine a project of a scale that was previously pure science fiction. The core concept was to build a wide-field survey telescope that could achieve an unprecedented combination of depth, area, and cadence. It would need to see faint objects (depth), cover a huge swath of the sky (area), and do so repeatedly and rapidly (cadence).
 
@@ -181,19 +180,16 @@ This powerful, multi-faceted scientific potential began to attract a growing coa
 
 `
 
-	// Setup of pointers
-	// setup of Chapter instances pointers
-	__Chapter__000000_The_Observatory.Pages = append(__Chapter__000000_The_Observatory.Pages, __Page__000000_Overview_and_Mission)
-	__Chapter__000000_The_Observatory.Pages = append(__Chapter__000000_The_Observatory.Pages, __Page__000001_The_Simonyi_Survey_Telescope)
-	__Chapter__000000_The_Observatory.Pages = append(__Chapter__000000_The_Observatory.Pages, __Page__000002_The_Camera)
-	__Chapter__000000_The_Observatory.Pages = append(__Chapter__000000_The_Observatory.Pages, __Page__000007_Vera_Rubin)
-	__Chapter__000000_The_Observatory.Pages = append(__Chapter__000000_The_Observatory.Pages, __Page__000008_From_Concept_to_Concrete_Plans)
-	__Chapter__000001_The_Science.Pages = append(__Chapter__000001_The_Science.Pages, __Page__000003_Legacy_Survey_of_Space_and_Time_LSST_)
-	__Chapter__000001_The_Science.Pages = append(__Chapter__000001_The_Science.Pages, __Page__000004_Key_Science_Pillars)
-	__Chapter__000001_The_Science.Pages = append(__Chapter__000001_The_Science.Pages, __Page__000005_The_Data)
-	__Chapter__000001_The_Science.Pages = append(__Chapter__000001_The_Science.Pages, __Page__000006_Accessing_the_Data)
-	// setup of Content instances pointers
-	__Content__000000_The_Vera_C_Rubin_Observatory.Chapters = append(__Content__000000_The_Vera_C_Rubin_Observatory.Chapters, __Chapter__000000_The_Observatory)
-	__Content__000000_The_Vera_C_Rubin_Observatory.Chapters = append(__Content__000000_The_Vera_C_Rubin_Observatory.Chapters, __Chapter__000001_The_Science)
-	// setup of Page instances pointers
+	// insertion point for setup of pointers
+	__Chapter__00000000_.Pages = append(__Chapter__00000000_.Pages, __Page__00000000_)
+	__Chapter__00000000_.Pages = append(__Chapter__00000000_.Pages, __Page__00000001_)
+	__Chapter__00000000_.Pages = append(__Chapter__00000000_.Pages, __Page__00000002_)
+	__Chapter__00000000_.Pages = append(__Chapter__00000000_.Pages, __Page__00000007_)
+	__Chapter__00000000_.Pages = append(__Chapter__00000000_.Pages, __Page__00000008_)
+	__Chapter__00000001_.Pages = append(__Chapter__00000001_.Pages, __Page__00000003_)
+	__Chapter__00000001_.Pages = append(__Chapter__00000001_.Pages, __Page__00000004_)
+	__Chapter__00000001_.Pages = append(__Chapter__00000001_.Pages, __Page__00000005_)
+	__Chapter__00000001_.Pages = append(__Chapter__00000001_.Pages, __Page__00000006_)
+	__Content__00000000_.Chapters = append(__Content__00000000_.Chapters, __Chapter__00000000_)
+	__Content__00000000_.Chapters = append(__Content__00000000_.Chapters, __Chapter__00000001_)
 }
