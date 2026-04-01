@@ -59,6 +59,7 @@ type Page struct {
 	//gong:width 600 gong:height 300
 	MardownContent string
 
+	// sections are added after the markdown content, they are used to generate the content of the page
 	Sections []*Section
 }
 
