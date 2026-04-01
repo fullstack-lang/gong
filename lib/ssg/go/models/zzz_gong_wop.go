@@ -67,6 +67,20 @@ func (from *Content) CopyBasicFields(to *Content) {
 	to.VersionInfo = from.VersionInfo
 }
 
+type JpgImage_WOP struct {
+	// insertion point
+
+	Name string
+
+	Base64Content string
+}
+
+func (from *JpgImage) CopyBasicFields(to *JpgImage) {
+	// insertion point
+	to.Name = from.Name
+	to.Base64Content = from.Base64Content
+}
+
 type Page_WOP struct {
 	// insertion point
 
@@ -79,5 +93,50 @@ func (from *Page) CopyBasicFields(to *Page) {
 	// insertion point
 	to.Name = from.Name
 	to.MardownContent = from.MardownContent
+}
+
+type PngImage_WOP struct {
+	// insertion point
+
+	Name string
+
+	Base64Content string
+}
+
+func (from *PngImage) CopyBasicFields(to *PngImage) {
+	// insertion point
+	to.Name = from.Name
+	to.Base64Content = from.Base64Content
+}
+
+type Section_WOP struct {
+	// insertion point
+
+	Name string
+
+	MardownContent string
+
+	IsImage bool
+}
+
+func (from *Section) CopyBasicFields(to *Section) {
+	// insertion point
+	to.Name = from.Name
+	to.MardownContent = from.MardownContent
+	to.IsImage = from.IsImage
+}
+
+type SvgImage_WOP struct {
+	// insertion point
+
+	Name string
+
+	Content string
+}
+
+func (from *SvgImage) CopyBasicFields(to *SvgImage) {
+	// insertion point
+	to.Name = from.Name
+	to.Content = from.Content
 }
 
