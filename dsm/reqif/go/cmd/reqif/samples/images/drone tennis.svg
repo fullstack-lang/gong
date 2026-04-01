@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="394.53174"
+   height="186.64111"
+   viewBox="0 0 394.53174 186.64112"
+   font-family="sans-serif"
+   font-size="14px"
+   version="1.1"
+   id="svg21"
+   sodipodi:docname="drone tennis.svg"
+   inkscape:version="1.4 (e7c3feb1, 2024-10-09)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview21"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="1.32"
+     inkscape:cx="196.59091"
+     inkscape:cy="92.045455"
+     inkscape:window-width="2240"
+     inkscape:window-height="1122"
+     inkscape:window-x="0"
+     inkscape:window-y="25"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg21" />
+  <defs
+     id="defs1">
+    <style
+       id="style1">
+      .label-line { stroke: #555; stroke-width: 1; stroke-dasharray: 4 2; }
+      .label-text { fill: #333; font-weight: bold; }
+      .chassis { fill: #E0E0E0; stroke: #333; stroke-width: 2; }
+      .wheel { fill: #444; stroke: #222; stroke-width: 1; }
+      .bin { fill: #B3E5FC; fill-opacity: 0.6; stroke: #0277BD; stroke-width: 1.5; }
+      .brush { fill: #757575; }
+      .e-stop { fill: #D32F2F; stroke: #FFF; stroke-width: 3; }
+      .screen { fill: #B0BEC5; }
+      .led { stroke: #555; stroke-width: 0.5; }
+      .sensor { fill: #616161; }
+      .handle { fill: #BDBDBD; stroke: #333; stroke-width: 1.5; }
+    </style>
+  </defs>
+  <g
+     transform="matrix(0.5,0,0,0.5,72.147951,42.695313)"
+     id="g16">
+    <circle
+       cx="50"
+       cy="200"
+       r="40"
+       class="wheel"
+       id="circle1" />
+    <circle
+       cx="450"
+       cy="200"
+       r="40"
+       class="wheel"
+       id="circle2" />
+    <path
+       class="chassis"
+       d="M 0,50 Q 0,0 50,0 h 400 q 50,0 50,50 v 130 q 0,50 -50,50 H 50 Q 0,230 0,180 Z"
+       id="path2" />
+    <circle
+       cx="50"
+       cy="200"
+       r="25"
+       fill="#777777"
+       id="circle3" />
+    <circle
+       cx="450"
+       cy="200"
+       r="25"
+       fill="#777777"
+       id="circle4" />
+    <rect
+       x="180"
+       y="20"
+       width="300"
+       height="150"
+       rx="10"
+       class="bin"
+       id="rect4" />
+    <text
+       x="330"
+       y="100"
+       text-anchor="middle"
+       fill="#01579b"
+       font-size="16px"
+       id="text4">BALL BIN</text>
+    <rect
+       x="20"
+       y="170"
+       width="120"
+       height="40"
+       rx="5"
+       class="brush"
+       id="rect5" />
+    <line
+       x1="25"
+       y1="175"
+       x2="135"
+       y2="175"
+       stroke="#dddddd"
+       stroke-width="2"
+       id="line5" />
+    <line
+       x1="25"
+       y1="185"
+       x2="135"
+       y2="185"
+       stroke="#dddddd"
+       stroke-width="2"
+       id="line6" />
+    <line
+       x1="25"
+       y1="195"
+       x2="135"
+       y2="195"
+       stroke="#dddddd"
+       stroke-width="2"
+       id="line7" />
+    <line
+       x1="25"
+       y1="205"
+       x2="135"
+       y2="205"
+       stroke="#dddddd"
+       stroke-width="2"
+       id="line8" />
+    <circle
+       cx="100"
+       cy="40"
+       r="20"
+       class="e-stop"
+       id="circle8" />
+    <rect
+       x="140"
+       y="20"
+       width="80"
+       height="40"
+       rx="3"
+       class="screen"
+       id="rect8" />
+    <circle
+       cx="240"
+       cy="30"
+       r="5"
+       fill="#4caf50"
+       class="led"
+       id="circle9" />
+    <circle
+       cx="255"
+       cy="30"
+       r="5"
+       fill="#ffeb3b"
+       class="led"
+       id="circle10" />
+    <circle
+       cx="270"
+       cy="30"
+       r="5"
+       fill="#f44336"
+       class="led"
+       id="circle11" />
+    <path
+       class="handle"
+       d="M 10,70 Q 20,50 40,50 V 60 Q 20,60 10,80 Z"
+       id="path11" />
+    <path
+       class="handle"
+       d="M 490,70 Q 480,50 460,50 v 10 q 20,0 30,20 z"
+       id="path12" />
+    <circle
+       cx="165"
+       cy="180"
+       r="6"
+       class="sensor"
+       id="circle12" />
+    <circle
+       cx="485"
+       cy="120"
+       r="6"
+       class="sensor"
+       id="circle13" />
+    <circle
+       cx="15"
+       cy="120"
+       r="6"
+       class="sensor"
+       id="circle14" />
+    <circle
+       cx="80"
+       cy="140"
+       r="12"
+       fill="#212121"
+       id="circle15" />
+    <circle
+       cx="80"
+       cy="140"
+       r="5"
+       fill="#42a5f5"
+       id="circle16" />
+  </g>
+  <line
+     x1="89.647949"
+     y1="150.19531"
+     x2="62.147949"
+     y2="177.69531"
+     class="label-line"
+     id="line16" />
+  <text
+     x="-0.35205078"
+     y="185.19531"
+     class="label-text"
+     id="text16"
+     style="font-size:7px;stroke-width:0.5">Rotating Brush Collector</text>
+  <line
+     x1="237.14795"
+     y1="82.695312"
+     x2="262.14795"
+     y2="42.695312"
+     class="label-line"
+     id="line17" />
+  <text
+     x="264.64795"
+     y="40.195312"
+     class="label-text"
+     id="text17"
+     style="font-size:7px;stroke-width:0.5">Storage Bin (Removable)</text>
+  <line
+     x1="122.14795"
+     y1="60.195312"
+     x2="97.147949"
+     y2="7.6953125"
+     class="label-line"
+     id="line18" />
+  <text
+     x="94.647949"
+     y="5.1953125"
+     text-anchor="end"
+     class="label-text"
+     id="text18"
+     style="font-size:7px;stroke-width:0.5">Emergency Stop</text>
+  <line
+     x1="187.14795"
+     y1="60.195312"
+     x2="207.14795"
+     y2="7.6953125"
+     class="label-line"
+     id="line19" />
+  <text
+     x="209.64795"
+     y="5.1953125"
+     class="label-text"
+     id="text19"
+     style="font-size:7px;stroke-width:0.5">LCD &amp; Status LEDs</text>
+  <line
+     x1="112.14795"
+     y1="112.69531"
+     x2="72.147949"
+     y2="142.69531"
+     class="label-line"
+     id="line20" />
+  <text
+     x="-0.35205078"
+     y="150.19531"
+     class="label-text"
+     id="text20"
+     style="font-size:7px;stroke-width:0.5">Camera &amp; Vision System</text>
+  <line
+     x1="314.64795"
+     y1="102.69531"
+     x2="337.14795"
+     y2="127.69531"
+     class="label-line"
+     id="line21" />
+  <text
+     x="394.64795"
+     y="130.19531"
+     text-anchor="end"
+     class="label-text"
+     id="text21"
+     style="font-size:7px;stroke-width:0.5">Ultrasonic Sensor</text>
+</svg>

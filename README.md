@@ -81,4 +81,4 @@ Gong has been used in different settings. It is a work in progress that matures 
 For DSME examples see
 
 - explore the "dsm" directory that contains small DSMEs to start from.
-- https://github.com/fullstack-lang/gongreqif, a tool for analysing ReqIF files. The abstract syntax is the ReqIF model and the concrete syntax is the rendering of the specifications as markdown/HTML.
+- https://github.com/fullstack-lang/gong/dsm/reqif, a tool for analysing ReqIF files. The abstract syntax is the ReqIF model and the concrete syntax is the rendering of the specifications as markdown/HTML.

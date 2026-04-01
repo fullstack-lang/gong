@@ -517,7 +517,21 @@
       ],
       "group": "build"
     },
-        {
+    {
+      "label": "01 - gong generate reqif",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}/dsm/reqif/go/models"
+      },
+      "command": "gong",
+      "group": "build",
+      "args": [
+        "generate",
+        "--skipGoModCommands",
+        "--level1",
+      ]
+    },
+    {
       "label": "01 - gong generate xsd",
       "type": "shell",
       "options": {
