@@ -1,6 +1,6 @@
 
 
-# Proposal: GoML (go-m-l) — Using Go as its Own Markup Language
+# Proposal: GoML (go-m-l) —GOSON Using Go as its Own Markup Language
 
 add reference to de weck paper . related manybdesign 
 decision follows explicitly from a desire
