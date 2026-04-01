@@ -107,7 +107,7 @@ Key features include:
 
 The camera's data will be read out in just two seconds, a critical feature for the rapid cadence of the survey.
 
-<img src="../images/lsst_camera_completion_pr_sv_telescope_composite_final-crop.jpg" alt="LSST Camera" style="width: 800px;">
+<img src="../../images/lsst_camera_completion_pr_sv_telescope_composite_final-crop.jpg" alt="LSST Camera" style="width: 800px;">
 
 `
 
@@ -185,8 +185,8 @@ This powerful, multi-faceted scientific potential began to attract a growing coa
 `
 
 	__Section__00000000_.Name = `SVG image with objectives`
-	__Section__00000000_.MardownContent = ``
-	__Section__00000000_.IsImage = false
+	__Section__00000000_.MardownContent = `This is the content for the image`
+	__Section__00000000_.IsImage = true
 
 	__SvgImage__00000000_.Name = `Objectives`
 	__SvgImage__00000000_.Content = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
@@ -265,6 +265,7 @@ This powerful, multi-faceted scientific potential began to attract a growing coa
 	__Chapter__00000001_.Pages = append(__Chapter__00000001_.Pages, __Page__00000006_)
 	__Content__00000000_.Chapters = append(__Content__00000000_.Chapters, __Chapter__00000000_)
 	__Content__00000000_.Chapters = append(__Content__00000000_.Chapters, __Chapter__00000001_)
+	__Page__00000004_.Sections = append(__Page__00000004_.Sections, __Section__00000000_)
 	__Section__00000000_.SvgImage = __SvgImage__00000000_
 	__Section__00000000_.PngImage = nil
 	__Section__00000000_.JpgImage = nil
