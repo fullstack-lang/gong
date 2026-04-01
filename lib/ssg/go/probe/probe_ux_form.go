@@ -27,11 +27,35 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.content, probe)
 			}
+		case *JpgImageFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "JpgImage", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.jpgimage, probe)
+			}
 		case *PageFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "Page", true)
 			} else {
 				FillUpFormFromGongstruct(onSave.page, probe)
+			}
+		case *PngImageFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "PngImage", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.pngimage, probe)
+			}
+		case *SectionFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Section", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.section, probe)
+			}
+		case *SvgImageFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "SvgImage", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.svgimage, probe)
 			}
 		}
 	}
@@ -81,6 +105,19 @@ func FillUpFormFromGongstructName(
 		content := new(models.Content)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(content, formGroup, probe)
+	case "JpgImage":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "JpgImage Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__JpgImageFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		jpgimage := new(models.JpgImage)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(jpgimage, formGroup, probe)
 	case "Page":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -94,6 +131,45 @@ func FillUpFormFromGongstructName(
 		page := new(models.Page)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(page, formGroup, probe)
+	case "PngImage":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "PngImage Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__PngImageFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		pngimage := new(models.PngImage)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(pngimage, formGroup, probe)
+	case "Section":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "Section Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__SectionFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		section := new(models.Section)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(section, formGroup, probe)
+	case "SvgImage":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "SvgImage Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__SvgImageFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		svgimage := new(models.SvgImage)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(svgimage, formGroup, probe)
 	}
 	formStage.Commit()
 }

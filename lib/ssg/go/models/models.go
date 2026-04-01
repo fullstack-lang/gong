@@ -58,4 +58,40 @@ type Page struct {
 	//gong:text
 	//gong:width 600 gong:height 300
 	MardownContent string
+
+	Sections []*Section
+}
+
+type Section struct {
+	Name string
+
+	//gong:text
+	//gong:width 600 gong:height 300
+	MardownContent string
+
+	IsImage  bool
+	SvgImage *SvgImage
+	PngImage *PngImage
+	JpgImage *JpgImage
+}
+
+type SvgImage struct {
+	Name string // path to the image
+
+	// gong:text gong:width 600 gong:height 400
+	Content string // the svg
+}
+
+type PngImage struct {
+	Name string // path to the image
+
+	// gong:text gong:width 600 gong:height 400
+	Base64Content string // the svg
+}
+
+type JpgImage struct {
+	Name string // path to the image
+
+	// gong:text gong:width 600 gong:height 400
+	Base64Content string // the svg
 }

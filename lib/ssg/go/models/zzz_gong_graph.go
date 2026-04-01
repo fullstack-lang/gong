@@ -13,8 +13,20 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *Content:
 		ok = stage.IsStagedContent(target)
 
+	case *JpgImage:
+		ok = stage.IsStagedJpgImage(target)
+
 	case *Page:
 		ok = stage.IsStagedPage(target)
+
+	case *PngImage:
+		ok = stage.IsStagedPngImage(target)
+
+	case *Section:
+		ok = stage.IsStagedSection(target)
+
+	case *SvgImage:
+		ok = stage.IsStagedSvgImage(target)
 
 	default:
 		_ = target
@@ -32,8 +44,20 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 	case *Content:
 		ok = stage.IsStagedContent(target)
 
+	case *JpgImage:
+		ok = stage.IsStagedJpgImage(target)
+
 	case *Page:
 		ok = stage.IsStagedPage(target)
+
+	case *PngImage:
+		ok = stage.IsStagedPngImage(target)
+
+	case *Section:
+		ok = stage.IsStagedSection(target)
+
+	case *SvgImage:
+		ok = stage.IsStagedSvgImage(target)
 
 	default:
 		_ = target
@@ -56,9 +80,37 @@ func (stage *Stage) IsStagedContent(content *Content) (ok bool) {
 	return
 }
 
+func (stage *Stage) IsStagedJpgImage(jpgimage *JpgImage) (ok bool) {
+
+	_, ok = stage.JpgImages[jpgimage]
+
+	return
+}
+
 func (stage *Stage) IsStagedPage(page *Page) (ok bool) {
 
 	_, ok = stage.Pages[page]
+
+	return
+}
+
+func (stage *Stage) IsStagedPngImage(pngimage *PngImage) (ok bool) {
+
+	_, ok = stage.PngImages[pngimage]
+
+	return
+}
+
+func (stage *Stage) IsStagedSection(section *Section) (ok bool) {
+
+	_, ok = stage.Sections[section]
+
+	return
+}
+
+func (stage *Stage) IsStagedSvgImage(svgimage *SvgImage) (ok bool) {
+
+	_, ok = stage.SvgImages[svgimage]
 
 	return
 }
@@ -77,8 +129,20 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Content:
 		stage.StageBranchContent(target)
 
+	case *JpgImage:
+		stage.StageBranchJpgImage(target)
+
 	case *Page:
 		stage.StageBranchPage(target)
+
+	case *PngImage:
+		stage.StageBranchPngImage(target)
+
+	case *Section:
+		stage.StageBranchSection(target)
+
+	case *SvgImage:
+		stage.StageBranchSvgImage(target)
 
 	default:
 		_ = target
@@ -122,6 +186,21 @@ func (stage *Stage) StageBranchContent(content *Content) {
 
 }
 
+func (stage *Stage) StageBranchJpgImage(jpgimage *JpgImage) {
+
+	// check if instance is already staged
+	if IsStaged(stage, jpgimage) {
+		return
+	}
+
+	jpgimage.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) StageBranchPage(page *Page) {
 
 	// check if instance is already staged
@@ -130,6 +209,63 @@ func (stage *Stage) StageBranchPage(page *Page) {
 	}
 
 	page.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _section := range page.Sections {
+		StageBranch(stage, _section)
+	}
+
+}
+
+func (stage *Stage) StageBranchPngImage(pngimage *PngImage) {
+
+	// check if instance is already staged
+	if IsStaged(stage, pngimage) {
+		return
+	}
+
+	pngimage.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchSection(section *Section) {
+
+	// check if instance is already staged
+	if IsStaged(stage, section) {
+		return
+	}
+
+	section.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if section.SvgImage != nil {
+		StageBranch(stage, section.SvgImage)
+	}
+	if section.PngImage != nil {
+		StageBranch(stage, section.PngImage)
+	}
+	if section.JpgImage != nil {
+		StageBranch(stage, section.JpgImage)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchSvgImage(svgimage *SvgImage) {
+
+	// check if instance is already staged
+	if IsStaged(stage, svgimage) {
+		return
+	}
+
+	svgimage.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -156,8 +292,24 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchContent(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *JpgImage:
+		toT := CopyBranchJpgImage(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *Page:
 		toT := CopyBranchPage(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *PngImage:
+		toT := CopyBranchPngImage(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *Section:
+		toT := CopyBranchSection(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *SvgImage:
+		toT := CopyBranchSvgImage(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	default:
@@ -211,6 +363,25 @@ func CopyBranchContent(mapOrigCopy map[any]any, contentFrom *Content) (contentTo
 	return
 }
 
+func CopyBranchJpgImage(mapOrigCopy map[any]any, jpgimageFrom *JpgImage) (jpgimageTo *JpgImage) {
+
+	// jpgimageFrom has already been copied
+	if _jpgimageTo, ok := mapOrigCopy[jpgimageFrom]; ok {
+		jpgimageTo = _jpgimageTo.(*JpgImage)
+		return
+	}
+
+	jpgimageTo = new(JpgImage)
+	mapOrigCopy[jpgimageFrom] = jpgimageTo
+	jpgimageFrom.CopyBasicFields(jpgimageTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchPage(mapOrigCopy map[any]any, pageFrom *Page) (pageTo *Page) {
 
 	// pageFrom has already been copied
@@ -222,6 +393,75 @@ func CopyBranchPage(mapOrigCopy map[any]any, pageFrom *Page) (pageTo *Page) {
 	pageTo = new(Page)
 	mapOrigCopy[pageFrom] = pageTo
 	pageFrom.CopyBasicFields(pageTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _section := range pageFrom.Sections {
+		pageTo.Sections = append(pageTo.Sections, CopyBranchSection(mapOrigCopy, _section))
+	}
+
+	return
+}
+
+func CopyBranchPngImage(mapOrigCopy map[any]any, pngimageFrom *PngImage) (pngimageTo *PngImage) {
+
+	// pngimageFrom has already been copied
+	if _pngimageTo, ok := mapOrigCopy[pngimageFrom]; ok {
+		pngimageTo = _pngimageTo.(*PngImage)
+		return
+	}
+
+	pngimageTo = new(PngImage)
+	mapOrigCopy[pngimageFrom] = pngimageTo
+	pngimageFrom.CopyBasicFields(pngimageTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchSection(mapOrigCopy map[any]any, sectionFrom *Section) (sectionTo *Section) {
+
+	// sectionFrom has already been copied
+	if _sectionTo, ok := mapOrigCopy[sectionFrom]; ok {
+		sectionTo = _sectionTo.(*Section)
+		return
+	}
+
+	sectionTo = new(Section)
+	mapOrigCopy[sectionFrom] = sectionTo
+	sectionFrom.CopyBasicFields(sectionTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if sectionFrom.SvgImage != nil {
+		sectionTo.SvgImage = CopyBranchSvgImage(mapOrigCopy, sectionFrom.SvgImage)
+	}
+	if sectionFrom.PngImage != nil {
+		sectionTo.PngImage = CopyBranchPngImage(mapOrigCopy, sectionFrom.PngImage)
+	}
+	if sectionFrom.JpgImage != nil {
+		sectionTo.JpgImage = CopyBranchJpgImage(mapOrigCopy, sectionFrom.JpgImage)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchSvgImage(mapOrigCopy map[any]any, svgimageFrom *SvgImage) (svgimageTo *SvgImage) {
+
+	// svgimageFrom has already been copied
+	if _svgimageTo, ok := mapOrigCopy[svgimageFrom]; ok {
+		svgimageTo = _svgimageTo.(*SvgImage)
+		return
+	}
+
+	svgimageTo = new(SvgImage)
+	mapOrigCopy[svgimageFrom] = svgimageTo
+	svgimageFrom.CopyBasicFields(svgimageTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -244,8 +484,20 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Content:
 		stage.UnstageBranchContent(target)
 
+	case *JpgImage:
+		stage.UnstageBranchJpgImage(target)
+
 	case *Page:
 		stage.UnstageBranchPage(target)
+
+	case *PngImage:
+		stage.UnstageBranchPngImage(target)
+
+	case *Section:
+		stage.UnstageBranchSection(target)
+
+	case *SvgImage:
+		stage.UnstageBranchSvgImage(target)
 
 	default:
 		_ = target
@@ -289,6 +541,21 @@ func (stage *Stage) UnstageBranchContent(content *Content) {
 
 }
 
+func (stage *Stage) UnstageBranchJpgImage(jpgimage *JpgImage) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, jpgimage) {
+		return
+	}
+
+	jpgimage.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) UnstageBranchPage(page *Page) {
 
 	// check if instance is already staged
@@ -297,6 +564,63 @@ func (stage *Stage) UnstageBranchPage(page *Page) {
 	}
 
 	page.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _section := range page.Sections {
+		UnstageBranch(stage, _section)
+	}
+
+}
+
+func (stage *Stage) UnstageBranchPngImage(pngimage *PngImage) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, pngimage) {
+		return
+	}
+
+	pngimage.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchSection(section *Section) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, section) {
+		return
+	}
+
+	section.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if section.SvgImage != nil {
+		UnstageBranch(stage, section.SvgImage)
+	}
+	if section.PngImage != nil {
+		UnstageBranch(stage, section.PngImage)
+	}
+	if section.JpgImage != nil {
+		UnstageBranch(stage, section.JpgImage)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchSvgImage(svgimage *SvgImage) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, svgimage) {
+		return
+	}
+
+	svgimage.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -327,7 +651,48 @@ func (reference *Content) GongReconstructPointersFromReferences(stage *Stage, in
 	return
 }
 
+func (reference *JpgImage) GongReconstructPointersFromReferences(stage *Stage, instance *JpgImage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
 func (reference *Page) GongReconstructPointersFromReferences(stage *Stage, instance *Page) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.Sections = reference.Sections[:0]
+	for _, _b := range instance.Sections {
+		reference.Sections = append(reference.Sections, stage.Sections_reference[_b])
+	}
+
+	return
+}
+
+func (reference *PngImage) GongReconstructPointersFromReferences(stage *Stage, instance *PngImage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *Section) GongReconstructPointersFromReferences(stage *Stage, instance *Section) () {
+	// insertion point for pointers field
+	if instance.SvgImage != nil {
+		reference.SvgImage = stage.SvgImages_reference[instance.SvgImage]
+	}
+	if instance.PngImage != nil {
+		reference.PngImage = stage.PngImages_reference[instance.PngImage]
+	}
+	if instance.JpgImage != nil {
+		reference.JpgImage = stage.JpgImages_reference[instance.JpgImage]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *SvgImage) GongReconstructPointersFromReferences(stage *Stage, instance *SvgImage) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
@@ -363,7 +728,60 @@ func (reference *Content) GongReconstructPointersFromInstances(stage *Stage) () 
 	return
 }
 
+func (reference *JpgImage) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
 func (reference *Page) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _Sections []*Section
+	for _, _reference := range reference.Sections {
+		if _instance, ok := stage.Sections_instance[_reference]; ok {
+			_Sections = append(_Sections, _instance)
+		}
+	}
+	reference.Sections = _Sections
+
+	return
+}
+
+func (reference *PngImage) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *Section) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.SvgImage; _reference != nil {
+		reference.SvgImage = nil
+		if _instance, ok := stage.SvgImages_instance[_reference]; ok {
+			reference.SvgImage = _instance
+		}
+	}
+	if _reference := reference.PngImage; _reference != nil {
+		reference.PngImage = nil
+		if _instance, ok := stage.PngImages_instance[_reference]; ok {
+			reference.PngImage = _instance
+		}
+	}
+	if _reference := reference.JpgImage; _reference != nil {
+		reference.JpgImage = nil
+		if _instance, ok := stage.JpgImages_instance[_reference]; ok {
+			reference.JpgImage = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *SvgImage) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 
@@ -473,6 +891,20 @@ func (content *Content) GongDiff(stage *Stage, contentOther *Content) (diffs []s
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
+func (jpgimage *JpgImage) GongDiff(stage *Stage, jpgimageOther *JpgImage) (diffs []string) {
+	// insertion point for field diffs
+	if jpgimage.Name != jpgimageOther.Name {
+		diffs = append(diffs, jpgimage.GongMarshallField(stage, "Name"))
+	}
+	if jpgimage.Base64Content != jpgimageOther.Base64Content {
+		diffs = append(diffs, jpgimage.GongMarshallField(stage, "Base64Content"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
 func (page *Page) GongDiff(stage *Stage, pageOther *Page) (diffs []string) {
 	// insertion point for field diffs
 	if page.Name != pageOther.Name {
@@ -480,6 +912,93 @@ func (page *Page) GongDiff(stage *Stage, pageOther *Page) (diffs []string) {
 	}
 	if page.MardownContent != pageOther.MardownContent {
 		diffs = append(diffs, page.GongMarshallField(stage, "MardownContent"))
+	}
+	SectionsDifferent := false
+	if len(page.Sections) != len(pageOther.Sections) {
+		SectionsDifferent = true
+	} else {
+		for i := range page.Sections {
+			if (page.Sections[i] == nil) != (pageOther.Sections[i] == nil) {
+				SectionsDifferent = true
+				break
+			} else if page.Sections[i] != nil && pageOther.Sections[i] != nil {
+				// this is a pointer comparaison
+				if page.Sections[i] != pageOther.Sections[i] {
+					SectionsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if SectionsDifferent {
+		ops := Diff(stage, page, pageOther, "Sections", pageOther.Sections, page.Sections)
+		diffs = append(diffs, ops)
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (pngimage *PngImage) GongDiff(stage *Stage, pngimageOther *PngImage) (diffs []string) {
+	// insertion point for field diffs
+	if pngimage.Name != pngimageOther.Name {
+		diffs = append(diffs, pngimage.GongMarshallField(stage, "Name"))
+	}
+	if pngimage.Base64Content != pngimageOther.Base64Content {
+		diffs = append(diffs, pngimage.GongMarshallField(stage, "Base64Content"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (section *Section) GongDiff(stage *Stage, sectionOther *Section) (diffs []string) {
+	// insertion point for field diffs
+	if section.Name != sectionOther.Name {
+		diffs = append(diffs, section.GongMarshallField(stage, "Name"))
+	}
+	if section.MardownContent != sectionOther.MardownContent {
+		diffs = append(diffs, section.GongMarshallField(stage, "MardownContent"))
+	}
+	if section.IsImage != sectionOther.IsImage {
+		diffs = append(diffs, section.GongMarshallField(stage, "IsImage"))
+	}
+	if (section.SvgImage == nil) != (sectionOther.SvgImage == nil) {
+		diffs = append(diffs, section.GongMarshallField(stage, "SvgImage"))
+	} else if section.SvgImage != nil && sectionOther.SvgImage != nil {
+		if section.SvgImage != sectionOther.SvgImage {
+			diffs = append(diffs, section.GongMarshallField(stage, "SvgImage"))
+		}
+	}
+	if (section.PngImage == nil) != (sectionOther.PngImage == nil) {
+		diffs = append(diffs, section.GongMarshallField(stage, "PngImage"))
+	} else if section.PngImage != nil && sectionOther.PngImage != nil {
+		if section.PngImage != sectionOther.PngImage {
+			diffs = append(diffs, section.GongMarshallField(stage, "PngImage"))
+		}
+	}
+	if (section.JpgImage == nil) != (sectionOther.JpgImage == nil) {
+		diffs = append(diffs, section.GongMarshallField(stage, "JpgImage"))
+	} else if section.JpgImage != nil && sectionOther.JpgImage != nil {
+		if section.JpgImage != sectionOther.JpgImage {
+			diffs = append(diffs, section.GongMarshallField(stage, "JpgImage"))
+		}
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (svgimage *SvgImage) GongDiff(stage *Stage, svgimageOther *SvgImage) (diffs []string) {
+	// insertion point for field diffs
+	if svgimage.Name != svgimageOther.Name {
+		diffs = append(diffs, svgimage.GongMarshallField(stage, "Name"))
+	}
+	if svgimage.Content != svgimageOther.Content {
+		diffs = append(diffs, svgimage.GongMarshallField(stage, "Content"))
 	}
 
 	return
