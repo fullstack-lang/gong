@@ -15,7 +15,8 @@ between backend and frontend
 - use of go as the markup language 
 - allow for very fast refactoring (velocity is a consequence of 
 simplicity because the mental model is not hindered 
-by the refactoring task)
+by the refactoring task) Accidental complexity is
+mental accidental cognitive load.
 
 
 add code tgat generates code tgst generates code
