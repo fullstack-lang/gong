@@ -122,6 +122,7 @@ func NewLevel1StackDelta(
 	// insertion point
 	models.SetOrchestratorOnAfterUpdate[models.Chapter](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Content](stage)
+	models.SetOrchestratorOnAfterUpdate[models.DownloadableFile](stage)
 	models.SetOrchestratorOnAfterUpdate[models.JpgImage](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Page](stage)
 	models.SetOrchestratorOnAfterUpdate[models.PngImage](stage)

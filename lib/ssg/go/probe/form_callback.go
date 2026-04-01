@@ -327,6 +327,86 @@ func (contentFormCallback *ContentFormCallback) OnSave() {
 
 	contentFormCallback.probe.ux_tree()
 }
+func __gong__New__DownloadableFileFormCallback(
+	downloadablefile *models.DownloadableFile,
+	probe *Probe,
+	formGroup *table.FormGroup,
+) (downloadablefileFormCallback *DownloadableFileFormCallback) {
+	downloadablefileFormCallback = new(DownloadableFileFormCallback)
+	downloadablefileFormCallback.probe = probe
+	downloadablefileFormCallback.downloadablefile = downloadablefile
+	downloadablefileFormCallback.formGroup = formGroup
+
+	downloadablefileFormCallback.CreationMode = (downloadablefile == nil)
+
+	return
+}
+
+type DownloadableFileFormCallback struct {
+	downloadablefile *models.DownloadableFile
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *table.FormGroup
+}
+
+func (downloadablefileFormCallback *DownloadableFileFormCallback) OnSave() {
+	downloadablefileFormCallback.probe.stageOfInterest.Lock()
+	defer downloadablefileFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("DownloadableFileFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	downloadablefileFormCallback.probe.formStage.Checkout()
+
+	if downloadablefileFormCallback.downloadablefile == nil {
+		downloadablefileFormCallback.downloadablefile = new(models.DownloadableFile).Stage(downloadablefileFormCallback.probe.stageOfInterest)
+	}
+	downloadablefile_ := downloadablefileFormCallback.downloadablefile
+	_ = downloadablefile_
+
+	for _, formDiv := range downloadablefileFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(downloadablefile_.Name), formDiv)
+		case "Base64Content":
+			FormDivBasicFieldToField(&(downloadablefile_.Base64Content), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if downloadablefileFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		downloadablefile_.Unstage(downloadablefileFormCallback.probe.stageOfInterest)
+	}
+
+	downloadablefileFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.DownloadableFile](
+		downloadablefileFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if downloadablefileFormCallback.CreationMode || downloadablefileFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		downloadablefileFormCallback.probe.formStage.Reset()
+		newFormGroup := (&table.FormGroup{
+			Name: FormName,
+		}).Stage(downloadablefileFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__DownloadableFileFormCallback(
+			nil,
+			downloadablefileFormCallback.probe,
+			newFormGroup,
+		)
+		downloadablefile := new(models.DownloadableFile)
+		FillUpForm(downloadablefile, newFormGroup, downloadablefileFormCallback.probe)
+		downloadablefileFormCallback.probe.formStage.Commit()
+	}
+
+	downloadablefileFormCallback.probe.ux_tree()
+}
 func __gong__New__JpgImageFormCallback(
 	jpgimage *models.JpgImage,
 	probe *Probe,
@@ -721,6 +801,10 @@ func (sectionFormCallback *SectionFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(section_.PngImage), sectionFormCallback.probe.stageOfInterest, formDiv)
 		case "JpgImage":
 			FormDivSelectFieldToField(&(section_.JpgImage), sectionFormCallback.probe.stageOfInterest, formDiv)
+		case "IsDownloadableFile":
+			FormDivBasicFieldToField(&(section_.IsDownloadableFile), formDiv)
+		case "DownloadableFile":
+			FormDivSelectFieldToField(&(section_.DownloadableFile), sectionFormCallback.probe.stageOfInterest, formDiv)
 		case "Page:Sections":
 			// WARNING : this form deals with the N-N association "Page.Sections []*Section" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)

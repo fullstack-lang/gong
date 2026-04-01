@@ -14,6 +14,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterContentCreateCallback != nil {
 			stage.OnAfterContentCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *DownloadableFile:
+		if stage.OnAfterDownloadableFileCreateCallback != nil {
+			stage.OnAfterDownloadableFileCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *JpgImage:
 		if stage.OnAfterJpgImageCreateCallback != nil {
 			stage.OnAfterJpgImageCreateCallback.OnAfterCreate(stage, target)
@@ -57,6 +61,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*Content)
 		if stage.OnAfterContentUpdateCallback != nil {
 			stage.OnAfterContentUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *DownloadableFile:
+		newTarget := any(new).(*DownloadableFile)
+		if stage.OnAfterDownloadableFileUpdateCallback != nil {
+			stage.OnAfterDownloadableFileUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *JpgImage:
 		newTarget := any(new).(*JpgImage)
@@ -103,6 +112,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*Content)
 			stage.OnAfterContentDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *DownloadableFile:
+		if stage.OnAfterDownloadableFileDeleteCallback != nil {
+			staged := any(staged).(*DownloadableFile)
+			stage.OnAfterDownloadableFileDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *JpgImage:
 		if stage.OnAfterJpgImageDeleteCallback != nil {
 			staged := any(staged).(*JpgImage)
@@ -146,6 +160,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterContentReadCallback != nil {
 			stage.OnAfterContentReadCallback.OnAfterRead(stage, target)
 		}
+	case *DownloadableFile:
+		if stage.OnAfterDownloadableFileReadCallback != nil {
+			stage.OnAfterDownloadableFileReadCallback.OnAfterRead(stage, target)
+		}
 	case *JpgImage:
 		if stage.OnAfterJpgImageReadCallback != nil {
 			stage.OnAfterJpgImageReadCallback.OnAfterRead(stage, target)
@@ -181,6 +199,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterChapterUpdateCallback = any(callback).(OnAfterUpdateInterface[Chapter])
 	case *Content:
 		stage.OnAfterContentUpdateCallback = any(callback).(OnAfterUpdateInterface[Content])
+	case *DownloadableFile:
+		stage.OnAfterDownloadableFileUpdateCallback = any(callback).(OnAfterUpdateInterface[DownloadableFile])
 	case *JpgImage:
 		stage.OnAfterJpgImageUpdateCallback = any(callback).(OnAfterUpdateInterface[JpgImage])
 	case *Page:
@@ -202,6 +222,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterChapterCreateCallback = any(callback).(OnAfterCreateInterface[Chapter])
 	case *Content:
 		stage.OnAfterContentCreateCallback = any(callback).(OnAfterCreateInterface[Content])
+	case *DownloadableFile:
+		stage.OnAfterDownloadableFileCreateCallback = any(callback).(OnAfterCreateInterface[DownloadableFile])
 	case *JpgImage:
 		stage.OnAfterJpgImageCreateCallback = any(callback).(OnAfterCreateInterface[JpgImage])
 	case *Page:
@@ -223,6 +245,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterChapterDeleteCallback = any(callback).(OnAfterDeleteInterface[Chapter])
 	case *Content:
 		stage.OnAfterContentDeleteCallback = any(callback).(OnAfterDeleteInterface[Content])
+	case *DownloadableFile:
+		stage.OnAfterDownloadableFileDeleteCallback = any(callback).(OnAfterDeleteInterface[DownloadableFile])
 	case *JpgImage:
 		stage.OnAfterJpgImageDeleteCallback = any(callback).(OnAfterDeleteInterface[JpgImage])
 	case *Page:
@@ -244,6 +268,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterChapterReadCallback = any(callback).(OnAfterReadInterface[Chapter])
 	case *Content:
 		stage.OnAfterContentReadCallback = any(callback).(OnAfterReadInterface[Content])
+	case *DownloadableFile:
+		stage.OnAfterDownloadableFileReadCallback = any(callback).(OnAfterReadInterface[DownloadableFile])
 	case *JpgImage:
 		stage.OnAfterJpgImageReadCallback = any(callback).(OnAfterReadInterface[JpgImage])
 	case *Page:

@@ -67,6 +67,20 @@ func (from *Content) CopyBasicFields(to *Content) {
 	to.VersionInfo = from.VersionInfo
 }
 
+type DownloadableFile_WOP struct {
+	// insertion point
+
+	Name string
+
+	Base64Content string
+}
+
+func (from *DownloadableFile) CopyBasicFields(to *DownloadableFile) {
+	// insertion point
+	to.Name = from.Name
+	to.Base64Content = from.Base64Content
+}
+
 type JpgImage_WOP struct {
 	// insertion point
 
@@ -117,6 +131,8 @@ type Section_WOP struct {
 	MardownContent string
 
 	IsImage bool
+
+	IsDownloadableFile bool
 }
 
 func (from *Section) CopyBasicFields(to *Section) {
@@ -124,6 +140,7 @@ func (from *Section) CopyBasicFields(to *Section) {
 	to.Name = from.Name
 	to.MardownContent = from.MardownContent
 	to.IsImage = from.IsImage
+	to.IsDownloadableFile = from.IsDownloadableFile
 }
 
 type SvgImage_WOP struct {

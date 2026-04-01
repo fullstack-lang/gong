@@ -13,6 +13,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *Content:
 		ok = stage.IsStagedContent(target)
 
+	case *DownloadableFile:
+		ok = stage.IsStagedDownloadableFile(target)
+
 	case *JpgImage:
 		ok = stage.IsStagedJpgImage(target)
 
@@ -43,6 +46,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *Content:
 		ok = stage.IsStagedContent(target)
+
+	case *DownloadableFile:
+		ok = stage.IsStagedDownloadableFile(target)
 
 	case *JpgImage:
 		ok = stage.IsStagedJpgImage(target)
@@ -76,6 +82,13 @@ func (stage *Stage) IsStagedChapter(chapter *Chapter) (ok bool) {
 func (stage *Stage) IsStagedContent(content *Content) (ok bool) {
 
 	_, ok = stage.Contents[content]
+
+	return
+}
+
+func (stage *Stage) IsStagedDownloadableFile(downloadablefile *DownloadableFile) (ok bool) {
+
+	_, ok = stage.DownloadableFiles[downloadablefile]
 
 	return
 }
@@ -128,6 +141,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *Content:
 		stage.StageBranchContent(target)
+
+	case *DownloadableFile:
+		stage.StageBranchDownloadableFile(target)
 
 	case *JpgImage:
 		stage.StageBranchJpgImage(target)
@@ -183,6 +199,21 @@ func (stage *Stage) StageBranchContent(content *Content) {
 	for _, _chapter := range content.Chapters {
 		StageBranch(stage, _chapter)
 	}
+
+}
+
+func (stage *Stage) StageBranchDownloadableFile(downloadablefile *DownloadableFile) {
+
+	// check if instance is already staged
+	if IsStaged(stage, downloadablefile) {
+		return
+	}
+
+	downloadablefile.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -253,6 +284,9 @@ func (stage *Stage) StageBranchSection(section *Section) {
 	if section.JpgImage != nil {
 		StageBranch(stage, section.JpgImage)
 	}
+	if section.DownloadableFile != nil {
+		StageBranch(stage, section.DownloadableFile)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -290,6 +324,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *Content:
 		toT := CopyBranchContent(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *DownloadableFile:
+		toT := CopyBranchDownloadableFile(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *JpgImage:
@@ -359,6 +397,25 @@ func CopyBranchContent(mapOrigCopy map[any]any, contentFrom *Content) (contentTo
 	for _, _chapter := range contentFrom.Chapters {
 		contentTo.Chapters = append(contentTo.Chapters, CopyBranchChapter(mapOrigCopy, _chapter))
 	}
+
+	return
+}
+
+func CopyBranchDownloadableFile(mapOrigCopy map[any]any, downloadablefileFrom *DownloadableFile) (downloadablefileTo *DownloadableFile) {
+
+	// downloadablefileFrom has already been copied
+	if _downloadablefileTo, ok := mapOrigCopy[downloadablefileFrom]; ok {
+		downloadablefileTo = _downloadablefileTo.(*DownloadableFile)
+		return
+	}
+
+	downloadablefileTo = new(DownloadableFile)
+	mapOrigCopy[downloadablefileFrom] = downloadablefileTo
+	downloadablefileFrom.CopyBasicFields(downloadablefileTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 	return
 }
@@ -445,6 +502,9 @@ func CopyBranchSection(mapOrigCopy map[any]any, sectionFrom *Section) (sectionTo
 	if sectionFrom.JpgImage != nil {
 		sectionTo.JpgImage = CopyBranchJpgImage(mapOrigCopy, sectionFrom.JpgImage)
 	}
+	if sectionFrom.DownloadableFile != nil {
+		sectionTo.DownloadableFile = CopyBranchDownloadableFile(mapOrigCopy, sectionFrom.DownloadableFile)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -483,6 +543,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *Content:
 		stage.UnstageBranchContent(target)
+
+	case *DownloadableFile:
+		stage.UnstageBranchDownloadableFile(target)
 
 	case *JpgImage:
 		stage.UnstageBranchJpgImage(target)
@@ -538,6 +601,21 @@ func (stage *Stage) UnstageBranchContent(content *Content) {
 	for _, _chapter := range content.Chapters {
 		UnstageBranch(stage, _chapter)
 	}
+
+}
+
+func (stage *Stage) UnstageBranchDownloadableFile(downloadablefile *DownloadableFile) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, downloadablefile) {
+		return
+	}
+
+	downloadablefile.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -608,6 +686,9 @@ func (stage *Stage) UnstageBranchSection(section *Section) {
 	if section.JpgImage != nil {
 		UnstageBranch(stage, section.JpgImage)
 	}
+	if section.DownloadableFile != nil {
+		UnstageBranch(stage, section.DownloadableFile)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -651,6 +732,13 @@ func (reference *Content) GongReconstructPointersFromReferences(stage *Stage, in
 	return
 }
 
+func (reference *DownloadableFile) GongReconstructPointersFromReferences(stage *Stage, instance *DownloadableFile) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
 func (reference *JpgImage) GongReconstructPointersFromReferences(stage *Stage, instance *JpgImage) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -686,6 +774,9 @@ func (reference *Section) GongReconstructPointersFromReferences(stage *Stage, in
 	}
 	if instance.JpgImage != nil {
 		reference.JpgImage = stage.JpgImages_reference[instance.JpgImage]
+	}
+	if instance.DownloadableFile != nil {
+		reference.DownloadableFile = stage.DownloadableFiles_reference[instance.DownloadableFile]
 	}
 	// insertion point for slice of pointers field
 
@@ -724,6 +815,13 @@ func (reference *Content) GongReconstructPointersFromInstances(stage *Stage) () 
 		}
 	}
 	reference.Chapters = _Chapters
+
+	return
+}
+
+func (reference *DownloadableFile) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
 
 	return
 }
@@ -774,6 +872,12 @@ func (reference *Section) GongReconstructPointersFromInstances(stage *Stage) () 
 		reference.JpgImage = nil
 		if _instance, ok := stage.JpgImages_instance[_reference]; ok {
 			reference.JpgImage = _instance
+		}
+	}
+	if _reference := reference.DownloadableFile; _reference != nil {
+		reference.DownloadableFile = nil
+		if _instance, ok := stage.DownloadableFiles_instance[_reference]; ok {
+			reference.DownloadableFile = _instance
 		}
 	}
 	// insertion point for slice of pointers fields
@@ -891,6 +995,20 @@ func (content *Content) GongDiff(stage *Stage, contentOther *Content) (diffs []s
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
+func (downloadablefile *DownloadableFile) GongDiff(stage *Stage, downloadablefileOther *DownloadableFile) (diffs []string) {
+	// insertion point for field diffs
+	if downloadablefile.Name != downloadablefileOther.Name {
+		diffs = append(diffs, downloadablefile.GongMarshallField(stage, "Name"))
+	}
+	if downloadablefile.Base64Content != downloadablefileOther.Base64Content {
+		diffs = append(diffs, downloadablefile.GongMarshallField(stage, "Base64Content"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
 func (jpgimage *JpgImage) GongDiff(stage *Stage, jpgimageOther *JpgImage) (diffs []string) {
 	// insertion point for field diffs
 	if jpgimage.Name != jpgimageOther.Name {
@@ -984,6 +1102,16 @@ func (section *Section) GongDiff(stage *Stage, sectionOther *Section) (diffs []s
 	} else if section.JpgImage != nil && sectionOther.JpgImage != nil {
 		if section.JpgImage != sectionOther.JpgImage {
 			diffs = append(diffs, section.GongMarshallField(stage, "JpgImage"))
+		}
+	}
+	if section.IsDownloadableFile != sectionOther.IsDownloadableFile {
+		diffs = append(diffs, section.GongMarshallField(stage, "IsDownloadableFile"))
+	}
+	if (section.DownloadableFile == nil) != (sectionOther.DownloadableFile == nil) {
+		diffs = append(diffs, section.GongMarshallField(stage, "DownloadableFile"))
+	} else if section.DownloadableFile != nil && sectionOther.DownloadableFile != nil {
+		if section.DownloadableFile != sectionOther.DownloadableFile {
+			diffs = append(diffs, section.GongMarshallField(stage, "DownloadableFile"))
 		}
 	}
 

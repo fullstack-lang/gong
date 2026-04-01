@@ -74,6 +74,16 @@ type Section struct {
 	SvgImage *SvgImage
 	PngImage *PngImage
 	JpgImage *JpgImage
+
+	IsDownloadableFile bool
+	DownloadableFile   *DownloadableFile
+}
+
+type DownloadableFile struct {
+	Name string // path to the file
+
+	// gong:text gong:width 600 gong:height 400
+	Base64Content string // the file content
 }
 
 type SvgImage struct {
@@ -87,12 +97,12 @@ type PngImage struct {
 	Name string // path to the image
 
 	// gong:text gong:width 600 gong:height 400
-	Base64Content string // the svg
+	Base64Content string
 }
 
 type JpgImage struct {
 	Name string // path to the image
 
 	// gong:text gong:width 600 gong:height 400
-	Base64Content string // the svg
+	Base64Content string
 }

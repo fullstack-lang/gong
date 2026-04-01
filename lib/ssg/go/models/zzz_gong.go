@@ -158,6 +158,20 @@ type Stage struct {
 	OnAfterContentDeleteCallback OnAfterDeleteInterface[Content]
 	OnAfterContentReadCallback   OnAfterReadInterface[Content]
 
+	DownloadableFiles                map[*DownloadableFile]struct{}
+	DownloadableFiles_instance       map[*DownloadableFile]*DownloadableFile
+	DownloadableFiles_mapString      map[string]*DownloadableFile
+	DownloadableFileOrder            uint
+	DownloadableFile_stagedOrder     map[*DownloadableFile]uint
+	DownloadableFiles_reference      map[*DownloadableFile]*DownloadableFile
+	DownloadableFiles_referenceOrder map[*DownloadableFile]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterDownloadableFileCreateCallback OnAfterCreateInterface[DownloadableFile]
+	OnAfterDownloadableFileUpdateCallback OnAfterUpdateInterface[DownloadableFile]
+	OnAfterDownloadableFileDeleteCallback OnAfterDeleteInterface[DownloadableFile]
+	OnAfterDownloadableFileReadCallback   OnAfterReadInterface[DownloadableFile]
+
 	JpgImages                map[*JpgImage]struct{}
 	JpgImages_instance       map[*JpgImage]*JpgImage
 	JpgImages_mapString      map[string]*JpgImage
@@ -474,6 +488,10 @@ func (stage *Stage) Squash() {
 	stage.Contents_instance = make(map[*Content]*Content)
 	stage.Contents_referenceOrder = make(map[*Content]uint)
 
+	stage.DownloadableFiles_reference = make(map[*DownloadableFile]*DownloadableFile)
+	stage.DownloadableFiles_instance = make(map[*DownloadableFile]*DownloadableFile)
+	stage.DownloadableFiles_referenceOrder = make(map[*DownloadableFile]uint)
+
 	stage.JpgImages_reference = make(map[*JpgImage]*JpgImage)
 	stage.JpgImages_instance = make(map[*JpgImage]*JpgImage)
 	stage.JpgImages_referenceOrder = make(map[*JpgImage]uint)
@@ -547,6 +565,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.ContentOrder = maxContentOrder + 1
 	} else {
 		stage.ContentOrder = 0
+	}
+
+	var maxDownloadableFileOrder uint
+	var foundDownloadableFile bool
+	for _, order := range stage.DownloadableFile_stagedOrder {
+		if !foundDownloadableFile || order > maxDownloadableFileOrder {
+			maxDownloadableFileOrder = order
+			foundDownloadableFile = true
+		}
+	}
+	if foundDownloadableFile {
+		stage.DownloadableFileOrder = maxDownloadableFileOrder + 1
+	} else {
+		stage.DownloadableFileOrder = 0
 	}
 
 	var maxJpgImageOrder uint
@@ -708,6 +740,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *DownloadableFile:
+		tmp := GetStructInstancesByOrder(stage.DownloadableFiles, stage.DownloadableFile_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *DownloadableFile implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *JpgImage:
 		tmp := GetStructInstancesByOrder(stage.JpgImages, stage.JpgImage_stagedOrder)
 
@@ -811,6 +857,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.Chapters, stage.Chapter_stagedOrder)
 	case "Content":
 		res = GetNamedStructInstances(stage.Contents, stage.Content_stagedOrder)
+	case "DownloadableFile":
+		res = GetNamedStructInstances(stage.DownloadableFiles, stage.DownloadableFile_stagedOrder)
 	case "JpgImage":
 		res = GetNamedStructInstances(stage.JpgImages, stage.JpgImage_stagedOrder)
 	case "Page":
@@ -894,6 +942,8 @@ type BackRepoInterface interface {
 	CheckoutChapter(chapter *Chapter)
 	CommitContent(content *Content)
 	CheckoutContent(content *Content)
+	CommitDownloadableFile(downloadablefile *DownloadableFile)
+	CheckoutDownloadableFile(downloadablefile *DownloadableFile)
 	CommitJpgImage(jpgimage *JpgImage)
 	CheckoutJpgImage(jpgimage *JpgImage)
 	CommitPage(page *Page)
@@ -915,6 +965,9 @@ func NewStage(name string) (stage *Stage) {
 
 		Contents:           make(map[*Content]struct{}),
 		Contents_mapString: make(map[string]*Content),
+
+		DownloadableFiles:           make(map[*DownloadableFile]struct{}),
+		DownloadableFiles_mapString: make(map[string]*DownloadableFile),
 
 		JpgImages:           make(map[*JpgImage]struct{}),
 		JpgImages_mapString: make(map[string]*JpgImage),
@@ -945,6 +998,8 @@ func NewStage(name string) (stage *Stage) {
 
 		Content_stagedOrder: make(map[*Content]uint),
 
+		DownloadableFile_stagedOrder: make(map[*DownloadableFile]uint),
+
 		JpgImage_stagedOrder: make(map[*JpgImage]uint),
 
 		Page_stagedOrder: make(map[*Page]uint),
@@ -960,6 +1015,8 @@ func NewStage(name string) (stage *Stage) {
 			"Chapter": &ChapterUnmarshaller{},
 
 			"Content": &ContentUnmarshaller{},
+
+			"DownloadableFile": &DownloadableFileUnmarshaller{},
 
 			"JpgImage": &JpgImageUnmarshaller{},
 
@@ -977,6 +1034,7 @@ func NewStage(name string) (stage *Stage) {
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
 			{name: "Chapter"},
 			{name: "Content"},
+			{name: "DownloadableFile"},
 			{name: "JpgImage"},
 			{name: "Page"},
 			{name: "PngImage"},
@@ -997,6 +1055,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.Chapter_stagedOrder[instance]
 	case *Content:
 		return stage.Content_stagedOrder[instance]
+	case *DownloadableFile:
+		return stage.DownloadableFile_stagedOrder[instance]
 	case *JpgImage:
 		return stage.JpgImage_stagedOrder[instance]
 	case *Page:
@@ -1019,6 +1079,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.Chapter_stagedOrder[instance]
 	case *Content:
 		return stage.Content_stagedOrder[instance]
+	case *DownloadableFile:
+		return stage.DownloadableFile_stagedOrder[instance]
 	case *JpgImage:
 		return stage.JpgImage_stagedOrder[instance]
 	case *Page:
@@ -1096,6 +1158,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	// insertion point for computing the map of number of instances per gongstruct
 	stage.Map_GongStructName_InstancesNb["Chapter"] = len(stage.Chapters)
 	stage.Map_GongStructName_InstancesNb["Content"] = len(stage.Contents)
+	stage.Map_GongStructName_InstancesNb["DownloadableFile"] = len(stage.DownloadableFiles)
 	stage.Map_GongStructName_InstancesNb["JpgImage"] = len(stage.JpgImages)
 	stage.Map_GongStructName_InstancesNb["Page"] = len(stage.Pages)
 	stage.Map_GongStructName_InstancesNb["PngImage"] = len(stage.PngImages)
@@ -1311,6 +1374,92 @@ func (content *Content) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (content *Content) SetName(name string) {
 	content.Name = name
+}
+
+// Stage puts downloadablefile to the model stage
+func (downloadablefile *DownloadableFile) Stage(stage *Stage) *DownloadableFile {
+	if _, ok := stage.DownloadableFiles[downloadablefile]; !ok {
+		stage.DownloadableFiles[downloadablefile] = struct{}{}
+		stage.DownloadableFile_stagedOrder[downloadablefile] = stage.DownloadableFileOrder
+		stage.DownloadableFileOrder++
+	}
+	stage.DownloadableFiles_mapString[downloadablefile.Name] = downloadablefile
+
+	return downloadablefile
+}
+
+// StagePreserveOrder puts downloadablefile to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.DownloadableFileOrder
+// - update stage.DownloadableFileOrder accordingly
+func (downloadablefile *DownloadableFile) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.DownloadableFiles[downloadablefile]; !ok {
+		stage.DownloadableFiles[downloadablefile] = struct{}{}
+
+		if order > stage.DownloadableFileOrder {
+			stage.DownloadableFileOrder = order
+		}
+		stage.DownloadableFile_stagedOrder[downloadablefile] = order
+		stage.DownloadableFileOrder++
+	}
+	stage.DownloadableFiles_mapString[downloadablefile.Name] = downloadablefile
+}
+
+// Unstage removes downloadablefile off the model stage
+func (downloadablefile *DownloadableFile) Unstage(stage *Stage) *DownloadableFile {
+	delete(stage.DownloadableFiles, downloadablefile)
+	// issue1150
+	// delete(stage.DownloadableFile_stagedOrder, downloadablefile)
+	delete(stage.DownloadableFiles_mapString, downloadablefile.Name)
+
+	return downloadablefile
+}
+
+// UnstageVoid removes downloadablefile off the model stage
+func (downloadablefile *DownloadableFile) UnstageVoid(stage *Stage) {
+	delete(stage.DownloadableFiles, downloadablefile)
+	// issue1150
+	// delete(stage.DownloadableFile_stagedOrder, downloadablefile)
+	delete(stage.DownloadableFiles_mapString, downloadablefile.Name)
+}
+
+// commit downloadablefile to the back repo (if it is already staged)
+func (downloadablefile *DownloadableFile) Commit(stage *Stage) *DownloadableFile {
+	if _, ok := stage.DownloadableFiles[downloadablefile]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitDownloadableFile(downloadablefile)
+		}
+	}
+	return downloadablefile
+}
+
+func (downloadablefile *DownloadableFile) CommitVoid(stage *Stage) {
+	downloadablefile.Commit(stage)
+}
+
+func (downloadablefile *DownloadableFile) StageVoid(stage *Stage) {
+	downloadablefile.Stage(stage)
+}
+
+// Checkout downloadablefile to the back repo (if it is already staged)
+func (downloadablefile *DownloadableFile) Checkout(stage *Stage) *DownloadableFile {
+	if _, ok := stage.DownloadableFiles[downloadablefile]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutDownloadableFile(downloadablefile)
+		}
+	}
+	return downloadablefile
+}
+
+// for satisfaction of GongStruct interface
+func (downloadablefile *DownloadableFile) GetName() (res string) {
+	return downloadablefile.Name
+}
+
+// for satisfaction of GongStruct interface
+func (downloadablefile *DownloadableFile) SetName(name string) {
+	downloadablefile.Name = name
 }
 
 // Stage puts jpgimage to the model stage
@@ -1747,6 +1896,7 @@ func (svgimage *SvgImage) SetName(name string) {
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
 	CreateORMChapter(Chapter *Chapter)
 	CreateORMContent(Content *Content)
+	CreateORMDownloadableFile(DownloadableFile *DownloadableFile)
 	CreateORMJpgImage(JpgImage *JpgImage)
 	CreateORMPage(Page *Page)
 	CreateORMPngImage(PngImage *PngImage)
@@ -1757,6 +1907,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
 	DeleteORMChapter(Chapter *Chapter)
 	DeleteORMContent(Content *Content)
+	DeleteORMDownloadableFile(DownloadableFile *DownloadableFile)
 	DeleteORMJpgImage(JpgImage *JpgImage)
 	DeleteORMPage(Page *Page)
 	DeleteORMPngImage(PngImage *PngImage)
@@ -1774,6 +1925,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Contents_mapString = make(map[string]*Content)
 	stage.Content_stagedOrder = make(map[*Content]uint)
 	stage.ContentOrder = 0
+
+	stage.DownloadableFiles = make(map[*DownloadableFile]struct{})
+	stage.DownloadableFiles_mapString = make(map[string]*DownloadableFile)
+	stage.DownloadableFile_stagedOrder = make(map[*DownloadableFile]uint)
+	stage.DownloadableFileOrder = 0
 
 	stage.JpgImages = make(map[*JpgImage]struct{})
 	stage.JpgImages_mapString = make(map[string]*JpgImage)
@@ -1815,6 +1971,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.Contents = nil
 	stage.Contents_mapString = nil
 
+	stage.DownloadableFiles = nil
+	stage.DownloadableFiles_mapString = nil
+
 	stage.JpgImages = nil
 	stage.JpgImages_mapString = nil
 
@@ -1840,6 +1999,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for content := range stage.Contents {
 		content.Unstage(stage)
+	}
+
+	for downloadablefile := range stage.DownloadableFiles {
+		downloadablefile.Unstage(stage)
 	}
 
 	for jpgimage := range stage.JpgImages {
@@ -1942,6 +2105,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.Chapters).(*Type)
 	case map[*Content]any:
 		return any(&stage.Contents).(*Type)
+	case map[*DownloadableFile]any:
+		return any(&stage.DownloadableFiles).(*Type)
 	case map[*JpgImage]any:
 		return any(&stage.JpgImages).(*Type)
 	case map[*Page]any:
@@ -1968,6 +2133,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.Chapters_mapString).(map[string]Type)
 	case *Content:
 		return any(stage.Contents_mapString).(map[string]Type)
+	case *DownloadableFile:
+		return any(stage.DownloadableFiles_mapString).(map[string]Type)
 	case *JpgImage:
 		return any(stage.JpgImages_mapString).(map[string]Type)
 	case *Page:
@@ -1994,6 +2161,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.Chapters).(*map[*Type]struct{})
 	case Content:
 		return any(&stage.Contents).(*map[*Type]struct{})
+	case DownloadableFile:
+		return any(&stage.DownloadableFiles).(*map[*Type]struct{})
 	case JpgImage:
 		return any(&stage.JpgImages).(*map[*Type]struct{})
 	case Page:
@@ -2020,6 +2189,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.Chapters).(*map[Type]struct{})
 	case *Content:
 		return any(&stage.Contents).(*map[Type]struct{})
+	case *DownloadableFile:
+		return any(&stage.DownloadableFiles).(*map[Type]struct{})
 	case *JpgImage:
 		return any(&stage.JpgImages).(*map[Type]struct{})
 	case *Page:
@@ -2046,6 +2217,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.Chapters_mapString).(*map[string]*Type)
 	case Content:
 		return any(&stage.Contents_mapString).(*map[string]*Type)
+	case DownloadableFile:
+		return any(&stage.DownloadableFiles_mapString).(*map[string]*Type)
 	case JpgImage:
 		return any(&stage.JpgImages_mapString).(*map[string]*Type)
 	case Page:
@@ -2082,6 +2255,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// field is initialized with an instance of Chapter with the name of the field
 			Chapters: []*Chapter{{Name: "Chapters"}},
 		}).(*Type)
+	case DownloadableFile:
+		return any(&DownloadableFile{
+			// Initialisation of associations
+		}).(*Type)
 	case JpgImage:
 		return any(&JpgImage{
 			// Initialisation of associations
@@ -2105,6 +2282,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			PngImage: &PngImage{Name: "PngImage"},
 			// field is initialized with an instance of JpgImage with the name of the field
 			JpgImage: &JpgImage{Name: "JpgImage"},
+			// field is initialized with an instance of DownloadableFile with the name of the field
+			DownloadableFile: &DownloadableFile{Name: "DownloadableFile"},
 		}).(*Type)
 	case SvgImage:
 		return any(&SvgImage{
@@ -2134,6 +2313,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		}
 	// reverse maps of direct associations of Content
 	case Content:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of DownloadableFile
+	case DownloadableFile:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -2207,6 +2391,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "DownloadableFile":
+			res := make(map[*DownloadableFile][]*Section)
+			for section := range stage.Sections {
+				if section.DownloadableFile != nil {
+					downloadablefile_ := section.DownloadableFile
+					var sections []*Section
+					_, ok := res[downloadablefile_]
+					if ok {
+						sections = res[downloadablefile_]
+					} else {
+						sections = make([]*Section, 0)
+					}
+					sections = append(sections, section)
+					res[downloadablefile_] = sections
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of SvgImage
 	case SvgImage:
@@ -2253,6 +2454,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of DownloadableFile
+	case DownloadableFile:
+		switch fieldname {
+		// insertion point for per direct association field
 		}
 	// reverse maps of direct associations of JpgImage
 	case JpgImage:
@@ -2302,6 +2508,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "Chapter"
 	case *Content:
 		res = "Content"
+	case *DownloadableFile:
+		res = "DownloadableFile"
 	case *JpgImage:
 		res = "JpgImage"
 	case *Page:
@@ -2336,6 +2544,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.Fieldname = "Chapters"
 		res = append(res, rf)
 	case *Content:
+		var rf ReverseField
+		_ = rf
+	case *DownloadableFile:
 		var rf ReverseField
 		_ = rf
 	case *JpgImage:
@@ -2445,6 +2656,21 @@ func (content *Content) GongGetFieldHeaders() (res []GongFieldHeader) {
 	return
 }
 
+func (downloadablefile *DownloadableFile) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "Base64Content",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
 func (jpgimage *JpgImage) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -2524,6 +2750,15 @@ func (section *Section) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "JpgImage",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "JpgImage",
+		},
+		{
+			Name:               "IsDownloadableFile",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "DownloadableFile",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "DownloadableFile",
 		},
 	}
 	return
@@ -2666,6 +2901,17 @@ func (content *Content) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	return
 }
 
+func (downloadablefile *DownloadableFile) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = downloadablefile.Name
+	case "Base64Content":
+		res.valueString = downloadablefile.Base64Content
+	}
+	return
+}
+
 func (jpgimage *JpgImage) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -2737,6 +2983,16 @@ func (section *Section) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		if section.JpgImage != nil {
 			res.valueString = section.JpgImage.Name
 			res.ids = section.JpgImage.GongGetUUID(stage)
+		}
+	case "IsDownloadableFile":
+		res.valueString = fmt.Sprintf("%t", section.IsDownloadableFile)
+		res.valueBool = section.IsDownloadableFile
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "DownloadableFile":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if section.DownloadableFile != nil {
+			res.valueString = section.DownloadableFile.Name
+			res.ids = section.DownloadableFile.GongGetUUID(stage)
 		}
 	}
 	return
@@ -2827,6 +3083,19 @@ func (content *Content) GongSetFieldValue(fieldName string, value GongFieldValue
 		}
 	case "VersionInfo":
 		content.VersionInfo = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (downloadablefile *DownloadableFile) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		downloadablefile.Name = value.GetValueString()
+	case "Base64Content":
+		downloadablefile.Base64Content = value.GetValueString()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -2928,6 +3197,19 @@ func (section *Section) GongSetFieldValue(fieldName string, value GongFieldValue
 				}
 			}
 		}
+	case "IsDownloadableFile":
+		section.IsDownloadableFile = value.GetValueBool()
+	case "DownloadableFile":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			section.DownloadableFile = nil
+			for __instance__ := range stage.DownloadableFiles {
+				if stage.DownloadableFile_stagedOrder[__instance__] == uint(id) {
+					section.DownloadableFile = __instance__
+					break
+				}
+			}
+		}
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -2958,6 +3240,10 @@ func (chapter *Chapter) GongGetGongstructName() string {
 
 func (content *Content) GongGetGongstructName() string {
 	return "Content"
+}
+
+func (downloadablefile *DownloadableFile) GongGetGongstructName() string {
+	return "DownloadableFile"
 }
 
 func (jpgimage *JpgImage) GongGetGongstructName() string {
@@ -2995,6 +3281,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.Contents_mapString = make(map[string]*Content)
 	for content := range stage.Contents {
 		stage.Contents_mapString[content.Name] = content
+	}
+
+	stage.DownloadableFiles_mapString = make(map[string]*DownloadableFile)
+	for downloadablefile := range stage.DownloadableFiles {
+		stage.DownloadableFiles_mapString[downloadablefile.Name] = downloadablefile
 	}
 
 	stage.JpgImages_mapString = make(map[string]*JpgImage)
