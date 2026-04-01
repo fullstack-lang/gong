@@ -81,18 +81,6 @@
             ]
         },
         {
-            "name": "gongreqif: gong generate gongreqif",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/../gongreqif/go/models",
-            "program": "${workspaceFolder}/go/cmd/gong",
-            "args": [
-                "generate",
-                "--level1",
-            ]
-        },
-        {
             "name": "phyllotaxymusic: gong generate phyllotaxymusic",
             "type": "go",
             "request": "launch",
@@ -919,6 +907,36 @@
                 "-marshallOnCommit=data/stage.go",
                 "-port=8090",
                 "-embeddedDiagrams=false",
+            ]
+        },
+        {
+            "name": "reqif: go server -pathToReqifFile=`samples/ReqIF for Wheeled Tennis Ball Drone.reqif`",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "${workspaceFolder}/dsm/reqif/go/cmd/reqif",
+            "buildFlags": "-v",
+            "args": [
+                "-embeddedDiagrams=false",
+                "-pathToReqifFile",
+                "samples/ReqIF for Wheeled Tennis Ball Drone.reqif",
+                "-pathToRenderingConf",
+                "samples/reqif samples_ReqIF for Wheeled Tennis Ball Drone-renderingConf.go1",
+            ]
+        },
+        {
+            "name": "reqif: go server -pathToReqifFile=`samples/ReqIF for Wheeled Tennis Ball Drone.reqifz`",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "${workspaceFolder}/dsm/reqif/go/cmd/reqif",
+            "buildFlags": "-v",
+            "args": [
+                "-embeddedDiagrams=false",
+                "-pathToReqifFile",
+                "samples/ReqIF for Wheeled Tennis Ball Drone.reqifz",
+                "-pathToRenderingConf",
+                "samples/reqif samples_ReqIF for Wheeled Tennis Ball Drone-renderingConf.go1",
             ]
         },
         {
