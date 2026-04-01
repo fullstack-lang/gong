@@ -56,8 +56,40 @@ func (content *Content) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by JpgImage
+func (jpgimage *JpgImage) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by Page
 func (page *Page) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = GongCleanSlice(stage, &page.Sections) || modified
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by PngImage
+func (pngimage *PngImage) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by Section
+func (section *Section) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = GongCleanPointer(stage, &section.SvgImage) || modified
+	modified = GongCleanPointer(stage, &section.PngImage) || modified
+	modified = GongCleanPointer(stage, &section.JpgImage) || modified
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by SvgImage
+func (svgimage *SvgImage) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
 	return

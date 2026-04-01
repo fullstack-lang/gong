@@ -308,7 +308,7 @@
       "args": [
         "generate",
         "--skipGoModCommands",
-        "--skipNpmWorkspaces",
+        "--level1",
         "go/models"
       ]
     },

@@ -27,8 +27,16 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.Chapter](probe)
 	case "Content":
 		updateProbeTable[*models.Content](probe)
+	case "JpgImage":
+		updateProbeTable[*models.JpgImage](probe)
 	case "Page":
 		updateProbeTable[*models.Page](probe)
+	case "PngImage":
+		updateProbeTable[*models.PngImage](probe)
+	case "Section":
+		updateProbeTable[*models.Section](probe)
+	case "SvgImage":
+		updateProbeTable[*models.SvgImage](probe)
 	}
 }
 
