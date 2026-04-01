@@ -31,7 +31,6 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 	skipSerialize bool,
 	skipStager bool,
 	level1 bool,
-	debouncedMarshall bool,
 ) {
 	// generate main.go if absent
 	{
@@ -197,21 +196,13 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 	if level1 {
 		template = fullstack.FullstackNewStackInstanceTemplateLevel1
 
-		if debouncedMarshall {
-			gong_models.SimpleCodeGenerator(
-				modelPkg,
-				caserEnglish.String(modelPkg.Name),
-				modelPkg.PkgPath, filepath.Join(pkgPath, "../level1stack/level_1_stack.go"),
-				level1stack.DebouncedMarshallingLevel1StackInstanceTemplate,
-				level1stack.ModelGongNLevel1tackInstanceStructSubTemplateCode)
-		} else {
-			gong_models.SimpleCodeGenerator(
-				modelPkg,
-				caserEnglish.String(modelPkg.Name),
-				modelPkg.PkgPath, filepath.Join(pkgPath, "../level1stack/level_1_stack.go"),
-				level1stack.BlockingMarshallingLevel1StackInstanceTemplate,
-				level1stack.ModelGongNLevel1tackInstanceStructSubTemplateCode)
-		}
+		gong_models.SimpleCodeGenerator(
+			modelPkg,
+			caserEnglish.String(modelPkg.Name),
+			modelPkg.PkgPath, filepath.Join(pkgPath, "../level1stack/level_1_stack.go"),
+			level1stack.Level1StackInstanceTemplate,
+			level1stack.ModelGongNLevel1tackInstanceStructSubTemplateCode)
+
 	}
 
 	// a level 1 application does not need the static files service since
@@ -224,17 +215,10 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 			template,
 			fullstack.ModelGongNewStackInstanceStructSubTemplateCode)
 
-		if debouncedMarshall {
-			gong_models.VerySimpleCodeGenerator(
-				modelPkg,
-				filepath.Join(pkgPath, "../stack/stack.go"),
-				stack.DebouncedMarshallingStackInstanceTemplate)
-		} else {
-			gong_models.VerySimpleCodeGenerator(
-				modelPkg,
-				filepath.Join(pkgPath, "../stack/stack.go"),
-				stack.BlockingMarshallingStackInstanceTemplate)
-		}
+		gong_models.VerySimpleCodeGenerator(
+			modelPkg,
+			filepath.Join(pkgPath, "../stack/stack.go"),
+			stack.BlockingMarshallingStackInstanceTemplate)
 
 		gong_models.VerySimpleCodeGenerator(
 			modelPkg,
