@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<REQ-IF xmlns="http://www.omg.org/spec/ReqIF/20110401/reqif.xsd"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.omg.org/spec/ReqIF/20110401/reqif.xsd reqif.xsd"
+        VERSION="1.2"
+        LANG="en">
+    <THE-HEADER>
+        <REQ-IF-HEADER IDENTIFIER="_unique_header_id_12345">
+            <CREATION-TIME>2025-09-27T17:57:50+02:00</CREATION-TIME>
+            <TITLE>Minimal Empty ReqIF File</TITLE>
+            <SOURCE-TOOL-ID>Manual Generator</SOURCE-TOOL-ID>
+        </REQ-IF-HEADER>
+    </THE-HEADER>
+    <CORE-CONTENT>
+        <REQ-IF-CONTENT>
+            </REQ-IF-CONTENT>
+    </CORE-CONTENT>
+    <TOOL-EXTENSIONS>
+        </TOOL-EXTENSIONS>
+</REQ-IF>
