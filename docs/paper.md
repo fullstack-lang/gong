@@ -17,7 +17,8 @@ between backend and frontend
 simplicity because the mental model is not hindered 
 by the refactoring task) Accidental complexity is
 mental accidental cognitive load.
-
+- the stage métal model is simpler than alternatives where
+you need to plan how to serialize ....
 
 add code tgat generates code tgst generates code
 
