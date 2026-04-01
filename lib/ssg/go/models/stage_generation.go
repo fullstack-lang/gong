@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/fullstack-lang/gong/lib/ssg/go/gen"
 	// Import strconv for float to string conversion if needed directly
@@ -125,14 +126,47 @@ weight: %d
 			sanitizedPageName := SanitizeFileName(page.GetName(), " ") // <--- ADDED: Sanitize the page name
 			pageIndexFilePath := filepath.Join(chapterDirPath, page.GetName()+".md")
 
+			var pageBody strings.Builder
+			pageBody.WriteString(page.MardownContent)
+
+			for _, section := range page.Sections {
+				pageBody.WriteString("\n\n")
+				if section.Name != "" {
+					pageBody.WriteString(fmt.Sprintf("## %s\n\n", section.Name))
+				}
+				if section.MardownContent != "" {
+					pageBody.WriteString(section.MardownContent)
+					pageBody.WriteString("\n\n")
+				}
+				if section.IsImage {
+					if section.SvgImage != nil {
+						// Clean the SVG content to prevent the markdown parser from treating
+						// indented lines as code blocks or empty lines as paragraph breaks.
+						pageBody.WriteString("<div class=\"svg-container\">\n")
+						for _, line := range strings.Split(section.SvgImage.Content, "\n") {
+							if trimmed := strings.TrimSpace(line); trimmed != "" {
+								pageBody.WriteString(trimmed + "\n")
+							}
+						}
+						pageBody.WriteString("</div>\n\n")
+					}
+					if section.PngImage != nil {
+						pageBody.WriteString(fmt.Sprintf("![%s](data:image/png;base64,%s)\n\n", section.PngImage.Name, section.PngImage.Base64Content))
+					}
+					if section.JpgImage != nil {
+						pageBody.WriteString(fmt.Sprintf("![%s](data:image/jpeg;base64,%s)\n\n", section.JpgImage.Name, section.JpgImage.Base64Content))
+					}
+				}
+			}
+
 			pageFileContent := fmt.Sprintf(`---
 title: "%s"
 weight: %d
 ---
 %s`,
 				sanitizedPageName,
-				idx,                 // Convert float64 weight to int
-				page.MardownContent) // Use Description as body content based on example
+				idx,               // Convert float64 weight to int
+				pageBody.String()) // Use Description as body content based on example
 
 			err = os.WriteFile(pageIndexFilePath, []byte(pageFileContent), 0644) // Use 0644 for standard file permissions
 			if err != nil {
