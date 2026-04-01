@@ -27,6 +27,15 @@ func (inst *Content) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Re
 	return
 }
 
+func (inst *DownloadableFile) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
 func (inst *JpgImage) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -102,6 +111,15 @@ func (inst *Chapter) GongGetReverseFieldOwner(stage *Stage, reverseField *Revers
 }
 
 func (inst *Content) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+
+func (inst *DownloadableFile) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {

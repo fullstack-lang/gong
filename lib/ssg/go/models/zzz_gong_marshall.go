@@ -334,6 +334,33 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(content.GongMarshallField(stage, "VersionInfo"))
 	}
 
+	downloadablefileOrdered := []*DownloadableFile{}
+	for downloadablefile := range stage.DownloadableFiles {
+		downloadablefileOrdered = append(downloadablefileOrdered, downloadablefile)
+	}
+	sort.Slice(downloadablefileOrdered[:], func(i, j int) bool {
+		downloadablefilei := downloadablefileOrdered[i]
+		downloadablefilej := downloadablefileOrdered[j]
+		downloadablefilei_order, oki := stage.DownloadableFile_stagedOrder[downloadablefilei]
+		downloadablefilej_order, okj := stage.DownloadableFile_stagedOrder[downloadablefilej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return downloadablefilei_order < downloadablefilej_order
+	})
+	if len(downloadablefileOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, downloadablefile := range downloadablefileOrdered {
+
+		identifiersDecl.WriteString(downloadablefile.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(downloadablefile.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(downloadablefile.GongMarshallField(stage, "Base64Content"))
+	}
+
 	jpgimageOrdered := []*JpgImage{}
 	for jpgimage := range stage.JpgImages {
 		jpgimageOrdered = append(jpgimageOrdered, jpgimage)
@@ -445,6 +472,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(section.GongMarshallField(stage, "SvgImage"))
 		pointersInitializesStatements.WriteString(section.GongMarshallField(stage, "PngImage"))
 		pointersInitializesStatements.WriteString(section.GongMarshallField(stage, "JpgImage"))
+		initializerStatements.WriteString(section.GongMarshallField(stage, "IsDownloadableFile"))
+		pointersInitializesStatements.WriteString(section.GongMarshallField(stage, "DownloadableFile"))
 	}
 
 	svgimageOrdered := []*SvgImage{}
@@ -485,6 +514,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	for _, content := range contentOrdered {
 		_ = content
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, downloadablefile := range downloadablefileOrdered {
+		_ = downloadablefile
 		var setPointerField string
 		_ = setPointerField
 
@@ -703,6 +740,26 @@ func (content *Content) GongMarshallField(stage *Stage, fieldName string) (res s
 	return
 }
 
+func (downloadablefile *DownloadableFile) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", downloadablefile.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(downloadablefile.Name))
+	case "Base64Content":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", downloadablefile.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Base64Content")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(downloadablefile.Base64Content))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct DownloadableFile", fieldName)
+	}
+	return
+}
+
 func (jpgimage *JpgImage) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -791,6 +848,11 @@ func (section *Section) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{Identifier}}", section.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsImage")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", section.IsImage))
+	case "IsDownloadableFile":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", section.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsDownloadableFile")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", section.IsDownloadableFile))
 
 	case "SvgImage":
 		if section.SvgImage != nil {
@@ -829,6 +891,19 @@ func (section *Section) GongMarshallField(stage *Stage, fieldName string) (res s
 			res = PointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", section.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "JpgImage")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	case "DownloadableFile":
+		if section.DownloadableFile != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", section.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DownloadableFile")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", section.DownloadableFile.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", section.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DownloadableFile")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	default:
@@ -894,6 +969,18 @@ func (content *Content) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 	ptrRes = pointersInitializesStatements.String()
 	return
 }
+func (downloadablefile *DownloadableFile) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(downloadablefile.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(downloadablefile.GongMarshallField(stage, "Base64Content"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
 func (jpgimage *JpgImage) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
 	var initializerStatements strings.Builder
@@ -942,6 +1029,8 @@ func (section *Section) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		pointersInitializesStatements.WriteString(section.GongMarshallField(stage, "SvgImage"))
 		pointersInitializesStatements.WriteString(section.GongMarshallField(stage, "PngImage"))
 		pointersInitializesStatements.WriteString(section.GongMarshallField(stage, "JpgImage"))
+		initializerStatements.WriteString(section.GongMarshallField(stage, "IsDownloadableFile"))
+		pointersInitializesStatements.WriteString(section.GongMarshallField(stage, "DownloadableFile"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

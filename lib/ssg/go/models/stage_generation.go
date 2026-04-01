@@ -157,6 +157,12 @@ weight: %d
 						pageBody.WriteString(fmt.Sprintf("![%s](data:image/jpeg;base64,%s)\n\n", section.JpgImage.Name, section.JpgImage.Base64Content))
 					}
 				}
+				if section.IsDownloadableFile && section.DownloadableFile != nil {
+					fileName := filepath.Base(section.DownloadableFile.Name)
+					pageBody.WriteString(fmt.Sprintf("<a href=\"data:application/octet-stream;base64,%s\" download=\"%s\">\n", section.DownloadableFile.Base64Content, fileName))
+					pageBody.WriteString(fmt.Sprintf("<button>Download %s</button>\n", fileName))
+					pageBody.WriteString("</a>\n\n")
+				}
 			}
 
 			pageFileContent := fmt.Sprintf(`---
