@@ -8,6 +8,7 @@ import (
 	"time"
 
 	button "github.com/fullstack-lang/gong/lib/button/go/models"
+	ssg "github.com/fullstack-lang/gong/lib/ssg/go/models"
 
 	buttons "github.com/fullstack-lang/gong/lib/tree/go/buttons"
 
@@ -96,7 +97,7 @@ func (stager *Stager) button() {
 		Icon:  string(buttons.BUTTON_stop_circle),
 		Label: "Stop for maintenance",
 		OnUpdate: func() {
-			log.Println("Arret demandé de l'application")
+			log.Println("Stop")
 			os.Exit(0)
 		},
 	})
@@ -106,8 +107,26 @@ func (stager *Stager) button() {
 		Icon:  string(buttons.BUTTON_web),
 		Label: "Export website",
 		OnUpdate: func() {
-			log.Println("Arret demandé de l'application")
-			os.Exit(0)
+			stager.ssgStage.Reset()
+
+			content := ssg.Content{
+				Name:           "Root to project the website",
+				ContentPath:    "/tmp/project",
+				MardownContent: "## Project website",
+			}
+			content.Chapters = append(content.Chapters, &ssg.Chapter{
+				Name:           "Chapter 1",
+				MardownContent: "### Chapter 1",
+			})
+			content.Chapters = append(content.Chapters, &ssg.Chapter{
+				Name:           "Chapter 2",
+				MardownContent: "### Chapter 2",
+			})
+
+			ssg.StageBranch(stager.ssgStage, &content)
+
+			stager.ssgStage.Commit()
+			stager.ssgStage.Generation()
 		},
 	})
 
