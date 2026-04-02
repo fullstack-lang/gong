@@ -40,8 +40,8 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.ShowPrefix = false
 	__Diagram__00000000_.DefaultBoxWidth = 250.000000
 	__Diagram__00000000_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000000_.Width = 300.000000
-	__Diagram__00000000_.Height = 300.000000
+	__Diagram__00000000_.Width = 500.000000
+	__Diagram__00000000_.Height = 500.000000
 	__Diagram__00000000_.IsPBSNodeExpanded = false
 	__Diagram__00000000_.IsWBSNodeExpanded = false
 	__Diagram__00000000_.IsNotesNodeExpanded = false
@@ -50,7 +50,7 @@ func _(stage *models.Stage) {
 	__Library__00000000_.Name = ``
 	__Library__00000000_.ComputedPrefix = ``
 	__Library__00000000_.IsInRenameMode = false
-	__Library__00000000_.IsExpanded = false
+	__Library__00000000_.IsExpanded = true
 	__Library__00000000_.NbPixPerCharacter = 8.000000
 
 	// insertion point for setup of pointers
