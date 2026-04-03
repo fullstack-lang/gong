@@ -2,15 +2,23 @@ package models
 
 import (
 	"fmt"
+	"io/fs"
 	"log"
-	"os"
+	"path"
 	"path/filepath"
 	"strings"
+	"testing/fstest"
 
 	"github.com/fullstack-lang/gong/lib/ssg/go/gen"
 	// Import strconv for float to string conversion if needed directly
 )
 
+// Generation orchestrates the markdown and static site generation process.
+// It extracts the single Content instance from the stage, sets up the
+// necessary directory structure under ContentPath, and generates the
+// markdown files (_index.md for the root and chapters, and individual .md
+// files for pages). It also embeds sections (text, images, downloadable files)
+// into the page markdown. Finally, it triggers the HTML rendering process.
 func (stage *Stage) Generation() {
 
 	contents := GetGongstructInstancesSet[Content](stage)
@@ -31,53 +39,17 @@ func (stage *Stage) Generation() {
 		return
 	}
 
-	contentPath := content.ContentPath
-	if contentPath == "" {
-		log.Println("ContentPath is empty.")
-		return
-	}
-
-	// log.Printf("Starting generation process for content '%s' in path '%s'", content.Name, contentPath)
-
-	// --- Start: Remove existing contentPath directory ---
-	// log.Printf("Attempting to remove existing directory: %s", contentPath)
-	err := os.RemoveAll(contentPath)
-	if err != nil {
-		// Log the error but continue, as MkdirAll below might still succeed if the path didn't exist
-		// or if the error was related to something already gone.
-		// If MkdirAll fails later, that error will be caught.
-		log.Printf("Warning: Error removing directory '%s': %v. Attempting to continue.", contentPath, err)
-	} else {
-		// log.Printf("Successfully removed existing directory: %s", contentPath)
-	}
-	// --- End: Remove existing contentPath directory ---
+	memoryFS := make(fstest.MapFS)
 
 	// --- Start: Generate root _index.md for the Content ---
-	// 1. Create the root content directory (MkdirAll handles existing directories gracefully)
-	err = os.MkdirAll(contentPath, 0755) // Use 0755 for standard directory permissions
-	if err != nil {
-		log.Printf("Error creating root content directory '%s': %v\n", contentPath, err)
-		// Decide if this is fatal or if chapter generation should still proceed.
-		// For now, let's return if the root directory cannot be created.
-		return
-	}
-	// log.Printf("Root content directory created or already exists: %s\n", contentPath)
+	// 1. Define the root _index.md file path
+	rootIndexFilePath := "_index.md"
 
-	// 2. Define the root _index.md file path
-	rootIndexFilePath := filepath.Join(contentPath, "_index.md")
-
-	// 3. Define file content using the Content struct's Name and Text fields
+	// 2. Define file content using the Content struct's Name and Text fields
 	rootFileContent := fmt.Sprintf("---\ntitle: \"%s\"\nversioninfo: \"%s\"\n---\n%s", content.Name, content.VersionInfo, content.MardownContent)
 
-	// 4. Write content to the root _index.md file
-	err = os.WriteFile(rootIndexFilePath, []byte(rootFileContent), 0644) // Use 0644 for standard file permissions
-	if err != nil {
-		log.Printf("Error writing root _index.md file '%s': %v\n", rootIndexFilePath, err)
-		// Decide if this is fatal or if chapter generation should still proceed.
-		// For now, let's return if the root index file cannot be written.
-		return
-	}
-	// log.Printf("Root _index.md file created successfully: %s\n", rootIndexFilePath)
+	// 3. Write content to the root _index.md file in MapFS
+	memoryFS[rootIndexFilePath] = &fstest.MapFile{Data: []byte(rootFileContent)}
 	// --- End: Generate root _index.md for the Content ---
 
 	// --- Start: Generate subdirectories and _index.md for each Chapter ---
@@ -90,17 +62,9 @@ func (stage *Stage) Generation() {
 		// if it might contain characters invalid for directory names.
 		// For simplicity, assuming chapter.Name is a valid directory name here.
 		chapterDirName := SanitizeFileName(chapter.Name, " ") // <--- MODIFIED: Sanitize the chapter name
-		chapterDirPath := filepath.Join(contentPath, chapterDirName)
-
-		err := os.MkdirAll(chapterDirPath, 0755) // Use 0755 for standard directory permissions
-		if err != nil {
-			log.Printf("Error creating directory '%s' for chapter '%s': %v", chapterDirPath, chapter.Name, err)
-			continue // Skip this chapter if directory creation fails
-		}
-		// log.Printf("Directory created or already exists: %s", chapterDirPath)
 
 		// 2. Define the _index.md file path within the chapter directory
-		chapterIndexFilePath := filepath.Join(chapterDirPath, "_index.md")
+		chapterIndexFilePath := path.Join(chapterDirName, "_index.md")
 
 		// 3. Define file content using chapter fields
 		//    Using chapter.Description for the body content as per the user's example.
@@ -114,17 +78,12 @@ weight: %d
 			idx,                    // Convert float64 weight to int
 			chapter.MardownContent) // Use Description as body content based on example
 
-		// 4. Write content to the _index.md file
-		err = os.WriteFile(chapterIndexFilePath, []byte(chapterFileContent), 0644) // Use 0644 for standard file permissions
-		if err != nil {
-			log.Printf("Error writing file '%s' for chapter '%s': %v", chapterIndexFilePath, chapter.Name, err)
-			continue // Skip this chapter if file writing fails
-		}
-		// log.Printf("File created successfully: %s", chapterIndexFilePath)
+		// 4. Write content to the _index.md file in MapFS
+		memoryFS[chapterIndexFilePath] = &fstest.MapFile{Data: []byte(chapterFileContent)}
 
 		for idx, page := range chapter.Pages {
 			sanitizedPageName := SanitizeFileName(page.GetName(), " ") // <--- ADDED: Sanitize the page name
-			pageIndexFilePath := filepath.Join(chapterDirPath, page.GetName()+".md")
+			pageIndexFilePath := path.Join(chapterDirName, sanitizedPageName+".md")
 
 			var pageBody strings.Builder
 			pageBody.WriteString(page.MardownContent)
@@ -174,12 +133,7 @@ weight: %d
 				idx,               // Convert float64 weight to int
 				pageBody.String()) // Use Description as body content based on example
 
-			err = os.WriteFile(pageIndexFilePath, []byte(pageFileContent), 0644) // Use 0644 for standard file permissions
-			if err != nil {
-				log.Printf("Error writing file '%s' for chapter '%s': %v", pageIndexFilePath, page.Name, err)
-				continue // Skip this chapter if file writing fails
-			}
-			// log.Printf("File created successfully: %s", pageIndexFilePath)
+			memoryFS[pageIndexFilePath] = &fstest.MapFile{Data: []byte(pageFileContent)}
 		}
 
 	}
@@ -188,10 +142,14 @@ weight: %d
 	// log.Println("Generation process finished.")
 
 	// --- Build Steps ---
-	stage.markdown2ssg(content)
+	stage.markdown2ssg(content, memoryFS)
 }
 
-func (*Stage) markdown2ssg(content *Content) {
+// markdown2ssg handles the transformation of the generated markdown files
+// into a static HTML site. It cleans the output directory, loads the layout
+// templates, parses the markdown content, builds the site navigation structure,
+// renders the final HTML pages, and copies any static assets to the output directory.
+func (*Stage) markdown2ssg(content *Content, memoryFS fs.FS) {
 	if err := gen.CleanOutputDir(content.OutputPath); err != nil {
 		log.Fatalf("Error cleaning output directory '%s': %v", content.OutputPath, err)
 	}
@@ -212,9 +170,9 @@ func (*Stage) markdown2ssg(content *Content) {
 		BespokePageTileLogoFileName:   content.BespokePageTileLogoFileName,
 	}
 	// Pass build target and output dir to parseContent
-	err = gen.ParseContent(content.ContentPath, site, content.Target.ToString(), content.OutputPath)
+	err = gen.ParseContent(memoryFS, site, content.Target.ToString(), content.OutputPath)
 	if err != nil {
-		log.Fatalf("Error parsing content from '%s': %v", content.ContentPath, err)
+		log.Fatalf("Error parsing content from memory: %v", err)
 	}
 	// log.Printf("Parsed %d content files.\n", len(site.Pages))
 
