@@ -9,6 +9,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path"
 	"path/filepath"
 	"sort"
 	"strings"
@@ -42,11 +43,11 @@ type Page struct {
 
 // SiteInfo holds global information about the site
 type SiteInfo struct {
-	Pages                       map[string]*Page   // Map Absolute URLs to Pages for easy lookup
-	Sections                    []*Page            // Top-level sections (chapters) sorted by weight
-	Templates                   *template.Template // Parsed HTML templates
-	IsBespokeLogoFileName       bool
-	BespokeLogoFileName         string // Logo file name
+	Pages                         map[string]*Page   // Map Absolute URLs to Pages for easy lookup
+	Sections                      []*Page            // Top-level sections (chapters) sorted by weight
+	Templates                     *template.Template // Parsed HTML templates
+	IsBespokeLogoFileName         bool
+	BespokeLogoFileName           string // Logo file name
 	IsBespokePageTileLogoFileName bool
 	BespokePageTileLogoFileName   string
 }
@@ -90,20 +91,20 @@ func LoadTemplates(layoutDir string) (*template.Template, error) {
 
 // --- parseContent - Unchanged ---
 // Uses the globally configured `md` variable which now includes the Table extension.
-func ParseContent(contentDir string, site *SiteInfo, buildTarget string, outputDir string) error {
-	// log.Printf("Parsing content from directory: %s\n", contentDir)
-	return filepath.WalkDir(contentDir, func(path string, d fs.DirEntry, err error) error {
+func ParseContent(fileSystem fs.FS, site *SiteInfo, buildTarget string, outputDir string) error {
+	// log.Printf("Parsing content from memory FS\n")
+	return fs.WalkDir(fileSystem, ".", func(filePath string, d fs.DirEntry, err error) error {
 		if err != nil {
-			log.Printf("Error accessing path %s: %v\n", path, err)
+			log.Printf("Error accessing path %s: %v\n", filePath, err)
 			return err
 		}
-		if d.IsDir() || strings.ToLower(filepath.Ext(path)) != ".md" {
+		if d.IsDir() || strings.ToLower(path.Ext(filePath)) != ".md" {
 			return nil
 		}
 
-		contentBytes, err := os.ReadFile(path)
+		contentBytes, err := fs.ReadFile(fileSystem, filePath)
 		if err != nil {
-			log.Printf("Error reading file %s: %v\n", path, err)
+			log.Printf("Error reading file %s: %v\n", filePath, err)
 			return nil // Continue with other files
 		}
 
@@ -111,7 +112,7 @@ func ParseContent(contentDir string, site *SiteInfo, buildTarget string, outputD
 		context := parser.NewContext()
 		// Use the globally configured md parser (now with Table support)
 		if err := md.Convert(contentBytes, &buf, parser.WithContext(context)); err != nil {
-			log.Printf("Error converting markdown file %s: %v\n", path, err)
+			log.Printf("Error converting markdown file %s: %v\n", filePath, err)
 			return nil // Continue with other files
 		}
 
@@ -120,17 +121,19 @@ func ParseContent(contentDir string, site *SiteInfo, buildTarget string, outputD
 		if metaData != nil {
 			pageMeta = metaData
 		} else {
-			log.Printf("Warning: No front matter found in %s\n", path)
+			log.Printf("Warning: No front matter found in %s\n", filePath)
 		}
 
 		// --- Determine Paths and URLs ---
-		relSourcePath, _ := filepath.Rel(contentDir, path)
+		relSourcePath := filePath
+		relSourcePath = strings.TrimPrefix(relSourcePath, "./")
+
 		outputPath := ""
 		url := ""           // Absolute URL path for internal logic (remains consistent)
 		relativeURL := ""   // Path relative to output root (consistent for both targets)
 		relPathToRoot := "" // Path from page to root (depends on target)
 
-		isSection := strings.HasSuffix(filepath.Base(path), "_index.md")
+		isSection := strings.HasSuffix(path.Base(filePath), "_index.md")
 		isHome := (relSourcePath == "_index.md")
 
 		// Calculate OutputPath, internal URL, and root-relative URL (used by templates)
@@ -139,19 +142,19 @@ func ParseContent(contentDir string, site *SiteInfo, buildTarget string, outputD
 			url = "/"
 			relativeURL = "index.html" // Path relative to output root
 		} else {
-			dir := filepath.Dir(relSourcePath)
-			base := strings.TrimSuffix(filepath.Base(path), filepath.Ext(path))
+			dir := path.Dir(relSourcePath)
+			base := strings.TrimSuffix(path.Base(filePath), path.Ext(filePath))
 
 			if isSection {
 				// Section index page (_index.md)
-				outputPath = filepath.Join(outputDir, dir, "index.html")
-				url = "/" + filepath.ToSlash(dir) + "/"                          // URL ends with /
-				relativeURL = filepath.ToSlash(filepath.Join(dir, "index.html")) // Path relative to output root
+				outputPath = filepath.Join(outputDir, filepath.FromSlash(dir), "index.html")
+				url = "/" + dir + "/"                      // URL ends with /
+				relativeURL = path.Join(dir, "index.html") // Path relative to output root
 			} else {
 				// Regular page (e.g., page.md)
-				outputPath = filepath.Join(outputDir, dir, base, "index.html")         // Output into its own folder
-				url = "/" + filepath.ToSlash(filepath.Join(dir, base)) + "/"           // URL ends with /
-				relativeURL = filepath.ToSlash(filepath.Join(dir, base, "index.html")) // Path relative to output root
+				outputPath = filepath.Join(outputDir, filepath.FromSlash(dir), base, "index.html") // Output into its own folder
+				url = "/" + path.Join(dir, base) + "/"                                             // URL ends with /
+				relativeURL = path.Join(dir, base, "index.html")                                   // Path relative to output root
 			}
 		}
 
@@ -173,7 +176,7 @@ func ParseContent(contentDir string, site *SiteInfo, buildTarget string, outputD
 
 		// --- Create Page Struct ---
 		page := &Page{
-			SourcePath:    path,
+			SourcePath:    filePath,
 			OutputPath:    outputPath,
 			URL:           url,           // Internal absolute URL
 			RelativeURL:   relativeURL,   // Path relative to output root (used by template)
@@ -188,7 +191,7 @@ func ParseContent(contentDir string, site *SiteInfo, buildTarget string, outputD
 		}
 
 		if _, exists := site.Pages[page.URL]; exists {
-			log.Printf("Warning: Duplicate URL detected '%s' from file %s. Overwriting.", page.URL, path)
+			log.Printf("Warning: Duplicate URL detected '%s' from file %s. Overwriting.", page.URL, filePath)
 		}
 		site.Pages[page.URL] = page
 
