@@ -52,6 +52,8 @@ type Chapter struct {
 	MardownContent string
 
 	Pages []*Page
+
+	SubChapters []*Chapter
 }
 
 type Page struct {

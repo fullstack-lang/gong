@@ -60,18 +60,16 @@ func (stage *Stage) Generation(inMemory bool) (base64Zip string, err error) {
 	// --- End: Generate root _index.md for the Content ---
 
 	// --- Start: Generate subdirectories and _index.md for each Chapter ---
-	// Iterate through each chapter associated with the Content instance
-	for idx, chapter := range content.Chapters {
-		// log.Printf("Processing chapter: %s", chapter.Name)
-
+	var processChapter func(chapter *Chapter, parentDir string, weight int)
+	processChapter = func(chapter *Chapter, parentDir string, weight int) {
 		// 1. Create subdirectory for the chapter
 		// Use chapter.Name for the subdirectory name. Consider sanitizing the name
 		// if it might contain characters invalid for directory names.
-		// For simplicity, assuming chapter.Name is a valid directory name here.
 		chapterDirName := SanitizeFileName(chapter.Name, " ") // <--- MODIFIED: Sanitize the chapter name
+		chapterDirPath := path.Join(parentDir, chapterDirName)
 
 		// 2. Define the _index.md file path within the chapter directory
-		chapterIndexFilePath := path.Join(chapterDirName, "_index.md")
+		chapterIndexFilePath := path.Join(chapterDirPath, "_index.md")
 
 		// 3. Define file content using chapter fields
 		//    Using chapter.Description for the body content as per the user's example.
@@ -82,7 +80,7 @@ weight: %d
 ---
 %s`,
 			chapter.Name,
-			idx,                    // Convert float64 weight to int
+			weight,                 // Convert float64 weight to int
 			chapter.MardownContent) // Use Description as body content based on example
 
 		// 4. Write content to the _index.md file in MapFS
@@ -90,7 +88,7 @@ weight: %d
 
 		for idx, page := range chapter.Pages {
 			sanitizedPageName := SanitizeFileName(page.GetName(), " ") // <--- ADDED: Sanitize the page name
-			pageIndexFilePath := path.Join(chapterDirName, sanitizedPageName+".md")
+			pageIndexFilePath := path.Join(chapterDirPath, sanitizedPageName+".md")
 
 			var pageBody strings.Builder
 			pageBody.WriteString(page.MardownContent)
@@ -137,12 +135,20 @@ weight: %d
 ---
 %s`,
 				sanitizedPageName,
-				idx,               // Convert float64 weight to int
-				pageBody.String()) // Use Description as body content based on example
+				(len(chapter.SubChapters)+idx+1)*10, // Give pages a higher weight to place them after sub-chapters
+				pageBody.String())                   // Use Description as body content based on example
 
 			memoryFS[pageIndexFilePath] = &fstest.MapFile{Data: []byte(pageFileContent)}
 		}
 
+		for idx, subChapter := range chapter.SubChapters {
+			processChapter(subChapter, chapterDirPath, (idx+1)*10)
+		}
+	}
+
+	// Iterate through each chapter associated with the Content instance
+	for idx, chapter := range content.Chapters {
+		processChapter(chapter, "", (idx+1)*10)
 	}
 	// --- End: Generate subdirectories and _index.md for each Chapter ---
 
@@ -271,6 +277,111 @@ func (*Stage) markdown2ssg(content *Content, memoryFS fs.FS) error {
 		if err := os.WriteFile(logoPath, []byte(content.LogoSVGFile), 0644); err != nil {
 			return fmt.Errorf("error writing logo file: %w", err)
 		}
+	}
+
+	// POST-PROCESSING: Fix nested submenu JS toggling and styling
+	filepath.WalkDir(content.OutputPath, func(p string, d fs.DirEntry, walkErr error) error {
+		if walkErr != nil {
+			return walkErr
+		}
+		if !d.IsDir() && strings.HasSuffix(p, ".html") {
+			htmlData, err := os.ReadFile(p)
+			if err == nil {
+				htmlStr := string(htmlData)
+				// 1. Fix JS selector to target all list items, not just top-level ones
+				htmlStr = strings.ReplaceAll(htmlStr, "document.querySelectorAll('.sidebar > ul > li');", "document.querySelectorAll('.sidebar li');")
+				// 2. Add a class to links that have a submenu to style them as chapters
+				htmlStr = strings.ReplaceAll(htmlStr, "if (chapterLink && submenu) {", "if (chapterLink && submenu) {\n                    chapterLink.classList.add('has-submenu');")
+
+				// 3. Allow navigation by removing preventDefault so users can visit chapter pages
+				htmlStr = strings.ReplaceAll(htmlStr, "event.preventDefault();", "")
+
+				// 4. Rebuild the sidebar HTML to contain the full recursive tree
+				navStartIndex := strings.Index(htmlStr, `<nav class="sidebar">`)
+				if navStartIndex != -1 {
+					navCloseIndex := strings.Index(htmlStr[navStartIndex:], "</nav>")
+					if navCloseIndex != -1 {
+						navCloseIndex += navStartIndex
+						h2Index := strings.Index(htmlStr[navStartIndex:navCloseIndex], "</h2>")
+						if h2Index != -1 {
+							h2Index += navStartIndex
+
+							relPath, _ := filepath.Rel(content.OutputPath, p)
+							relPath = filepath.ToSlash(relPath)
+							depth := strings.Count(relPath, "/")
+							prefix := strings.Repeat("../", depth)
+
+							var sb strings.Builder
+							sb.WriteString("\n            <ul>\n")
+
+							var walkChapter func(c *Chapter, currentPath string)
+							walkChapter = func(c *Chapter, currentPath string) {
+								chapterDir := SanitizeFileName(c.Name, " ")
+								chapterPath := chapterDir
+								if currentPath != "" {
+									chapterPath = currentPath + "/" + chapterDir
+								}
+
+								targetRelPath := chapterPath + "/index.html"
+								href := prefix + strings.ReplaceAll(targetRelPath, " ", "%20")
+
+								activeClass := ""
+								if targetRelPath == relPath {
+									activeClass = ` class="active-page"`
+								}
+
+								sb.WriteString("                <li>\n")
+								sb.WriteString(fmt.Sprintf(`                    <a href="%s"%s>%s</a>`+"\n", href, activeClass, c.Name))
+
+								hasChildren := len(c.SubChapters) > 0 || len(c.Pages) > 0
+								if hasChildren {
+									sb.WriteString("                    <ul>\n")
+									for _, sub := range c.SubChapters {
+										walkChapter(sub, chapterPath)
+									}
+									for _, page := range c.Pages {
+										pageDir := SanitizeFileName(page.GetName(), " ")
+										pagePath := chapterPath + "/" + pageDir
+										pageTargetRelPath := pagePath + "/index.html"
+										pageHref := prefix + strings.ReplaceAll(pageTargetRelPath, " ", "%20")
+
+										pageActiveClass := ""
+										if pageTargetRelPath == relPath {
+											pageActiveClass = ` class="active-page"`
+										}
+
+										sb.WriteString("                        <li>\n")
+										sb.WriteString(fmt.Sprintf(`                            <a href="%s"%s>%s</a>`+"\n", pageHref, pageActiveClass, page.GetName()))
+										sb.WriteString("                        </li>\n")
+									}
+									sb.WriteString("                    </ul>\n")
+								}
+								sb.WriteString("                </li>\n")
+							}
+
+							for _, c := range content.Chapters {
+								walkChapter(c, "")
+							}
+
+							sb.WriteString("            </ul>\n        ")
+
+							htmlStr = htmlStr[:h2Index+5] + sb.String() + htmlStr[navCloseIndex:]
+						}
+					}
+				}
+
+				os.WriteFile(p, []byte(htmlStr), 0644)
+			}
+		}
+		return nil
+	})
+
+	// Append CSS for the .has-submenu class so sub-chapters look like main chapters
+	cssPath := filepath.Join(content.OutputPath, "css", "style.css")
+	cssFile, err := os.OpenFile(cssPath, os.O_APPEND|os.O_WRONLY, 0644)
+	if err == nil {
+		cssFile.WriteString("\n/* Sub-chapter styling */\n.has-submenu { font-weight: bold !important; color: #007bff !important; }\n")
+		cssFile.Close()
 	}
 
 	// log.Println("Build finished successfully!")

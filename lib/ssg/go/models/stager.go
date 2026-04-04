@@ -93,19 +93,21 @@ func (stager *Stager) UpdateAndCommitButtonStage() {
 		OnUpdate: func() {
 			log.Println("button updated")
 			stager.stage.Generation(false)
-			zipData, err := stager.stage.Generation(true)
-			if err != nil {
-				log.Println(err)
+			if false {
+				zipData, err := stager.stage.Generation(true)
+				if err != nil {
+					log.Println(err)
+				}
+
+				stager.loadStage.Reset()
+
+				fileToDownload := new(load.FileToDownload).Stage(stager.loadStage)
+				fileToDownload.Base64EncodedContent = zipData
+
+				fileToDownload.Name = "site.zip"
+
+				stager.loadStage.Commit()
 			}
-
-			stager.loadStage.Reset()
-
-			fileToDownload := new(load.FileToDownload).Stage(stager.loadStage)
-			fileToDownload.Base64EncodedContent = zipData
-
-			fileToDownload.Name = "site.zip"
-
-			stager.loadStage.Commit()
 		},
 	}).Stage(stager.buttonStage)
 

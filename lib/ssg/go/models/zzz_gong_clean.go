@@ -44,6 +44,7 @@ func GongCleanPointer[T PointerToGongstruct](stage *Stage, element *T) (modified
 func (chapter *Chapter) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = GongCleanSlice(stage, &chapter.Pages) || modified
+	modified = GongCleanSlice(stage, &chapter.SubChapters) || modified
 	// insertion point per field
 	return
 }

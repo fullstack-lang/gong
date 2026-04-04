@@ -27,6 +27,7 @@ func _(stage *models.Stage) {
 
 	__Chapter__00000000_ := (&models.Chapter{Name: `The Observatory`}).Stage(stage)
 	__Chapter__00000001_ := (&models.Chapter{Name: `The Science`}).Stage(stage)
+	__Chapter__00000002_ := (&models.Chapter{Name: `Telescope Details`}).Stage(stage)
 
 	__Content__00000000_ := (&models.Content{Name: `The Vera C. Rubin Observatory`}).Stage(stage)
 
@@ -44,11 +45,13 @@ func _(stage *models.Stage) {
 	__Page__00000006_ := (&models.Page{Name: `Accessing the Data`}).Stage(stage)
 	__Page__00000007_ := (&models.Page{Name: `Vera Rubin`}).Stage(stage)
 	__Page__00000008_ := (&models.Page{Name: `From Concept to Concrete Plans`}).Stage(stage)
+	__Page__00000009_ := (&models.Page{Name: `Telescope detail page`}).Stage(stage)
 
 	__Section__00000000_ := (&models.Section{Name: `SVG image with objectives`}).Stage(stage)
 	__Section__00000001_ := (&models.Section{Name: `Rubin lsst timeline`}).Stage(stage)
 	__Section__00000002_ := (&models.Section{Name: `downloadable file`}).Stage(stage)
 	__Section__00000003_ := (&models.Section{Name: `XL of the time`}).Stage(stage)
+	__Section__00000004_ := (&models.Section{Name: `Telescope detail`}).Stage(stage)
 
 	__SvgImage__00000000_ := (&models.SvgImage{Name: `Objectives`}).Stage(stage)
 
@@ -64,6 +67,9 @@ func _(stage *models.Stage) {
 	__Chapter__00000001_.MardownContent = `The Legacy Survey of Space and Time (LSST) will generate an unprecedented dataset, enabling a wide array of scientific discoveries.
 `
 
+	__Chapter__00000002_.Name = `Telescope Details`
+	__Chapter__00000002_.MardownContent = `This sub-chapter contains details about the Simonyi Survey Telescope and its components.`
+
 	__Content__00000000_.Name = `The Vera C. Rubin Observatory`
 	__Content__00000000_.MardownContent = `The Vera C. Rubin Observatory, formerly known as the Large Synoptic Survey Telescope (LSST), is an astronomical observatory in Chile. Its main task is an astronomical survey of the entire available southern sky every few nights, creating a time-lapse record over ten years, the Legacy Survey of Space and Time (also abbreviated LSST).[2][3][4] The observatory is located on the El Peñón peak of Cerro Pachón, a 2,682-meter-high (8,799 ft) mountain in Coquimbo Region, in northern Chile, alongside the existing Gemini South and Southern Astrophysical Research Telescopes.[5] The Rubin Observatory base facility is located about 100 kilometres (62 miles) away from the observatory by road, in the city of La Serena. The observatory is named for Vera Rubin, an American astronomer who pioneered discoveries about galactic rotation rates.
 
@@ -77,6 +83,7 @@ Site construction began on 14 April 2015 with the ceremonial laying of the first
 	__Content__00000000_.ContentPath = `content`
 	__Content__00000000_.OutputPath = `public`
 	__Content__00000000_.StaticPath = `../../defaults/static`
+	__Content__00000000_.LogoSVGFile = ``
 	__Content__00000000_.IsBespokeLogoFileName = false
 	__Content__00000000_.BespokeLogoFileName = `gong logo.svg`
 	__Content__00000000_.IsBespokePageTileLogoFileName = true
@@ -200,6 +207,11 @@ This powerful, multi-faceted scientific potential began to attract a growing coa
 
 `
 
+	__Page__00000009_.Name = `Telescope detail page`
+	__Page__00000009_.MardownContent = `The Simonyi Survey Telescope is designed to carry out the Legacy Survey of Space and Time. Its unique three-mirror optical design allows for a remarkably wide field of view, enabling it to survey the entire southern sky every few nights.
+
+The primary mirror, measuring 8.4 meters in diameter, is combined with a 3.4-meter secondary mirror and a 5.0-meter tertiary mirror. This compact configuration minimizes the telescope's moving mass and allows it to slew quickly between observations.`
+
 	__Section__00000000_.Name = `SVG image with objectives`
 	__Section__00000000_.MardownContent = `This is the content for the image`
 	__Section__00000000_.IsImage = true
@@ -219,6 +231,15 @@ This powerful, multi-faceted scientific potential began to attract a growing coa
 	__Section__00000003_.MardownContent = ``
 	__Section__00000003_.IsImage = false
 	__Section__00000003_.IsDownloadableFile = true
+
+	__Section__00000004_.Name = `Telescope detail`
+	__Section__00000004_.MardownContent = `### Active Optics
+The telescope features an active optics system that continuously measures and corrects optical aberrations during operations. This is critical for maintaining the high image quality required by the LSST.
+
+### Camera Assembly
+At the focal plane lies the largest digital camera ever built for astronomy, weighing over 3 tons and featuring a 3.2-gigapixel focal plane array.`
+	__Section__00000004_.IsImage = false
+	__Section__00000004_.IsDownloadableFile = false
 
 	__SvgImage__00000000_.Name = `Objectives`
 	__SvgImage__00000000_.Content = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
@@ -287,20 +308,23 @@ This powerful, multi-faceted scientific potential began to attract a growing coa
 
 	// insertion point for setup of pointers
 	__Chapter__00000000_.Pages = append(__Chapter__00000000_.Pages, __Page__00000000_)
-	__Chapter__00000000_.Pages = append(__Chapter__00000000_.Pages, __Page__00000001_)
 	__Chapter__00000000_.Pages = append(__Chapter__00000000_.Pages, __Page__00000002_)
 	__Chapter__00000000_.Pages = append(__Chapter__00000000_.Pages, __Page__00000007_)
 	__Chapter__00000000_.Pages = append(__Chapter__00000000_.Pages, __Page__00000008_)
-	__Chapter__00000001_.Pages = append(__Chapter__00000001_.Pages, __Page__00000003_)
-	__Chapter__00000001_.Pages = append(__Chapter__00000001_.Pages, __Page__00000004_)
+	__Chapter__00000000_.SubChapters = append(__Chapter__00000000_.SubChapters, __Chapter__00000002_)
 	__Chapter__00000001_.Pages = append(__Chapter__00000001_.Pages, __Page__00000005_)
+	__Chapter__00000001_.Pages = append(__Chapter__00000001_.Pages, __Page__00000001_)
+	__Chapter__00000001_.Pages = append(__Chapter__00000001_.Pages, __Page__00000004_)
+	__Chapter__00000001_.Pages = append(__Chapter__00000001_.Pages, __Page__00000003_)
 	__Chapter__00000001_.Pages = append(__Chapter__00000001_.Pages, __Page__00000006_)
+	__Chapter__00000002_.Pages = append(__Chapter__00000002_.Pages, __Page__00000009_)
 	__Content__00000000_.Chapters = append(__Content__00000000_.Chapters, __Chapter__00000000_)
 	__Content__00000000_.Chapters = append(__Content__00000000_.Chapters, __Chapter__00000001_)
 	__Page__00000003_.Sections = append(__Page__00000003_.Sections, __Section__00000001_)
 	__Page__00000003_.Sections = append(__Page__00000003_.Sections, __Section__00000002_)
 	__Page__00000003_.Sections = append(__Page__00000003_.Sections, __Section__00000003_)
 	__Page__00000004_.Sections = append(__Page__00000004_.Sections, __Section__00000000_)
+	__Page__00000009_.Sections = append(__Page__00000009_.Sections, __Section__00000004_)
 	__Section__00000000_.SvgImage = __SvgImage__00000000_
 	__Section__00000000_.PngImage = nil
 	__Section__00000000_.JpgImage = nil
@@ -317,4 +341,8 @@ This powerful, multi-faceted scientific potential began to attract a growing coa
 	__Section__00000003_.PngImage = nil
 	__Section__00000003_.JpgImage = nil
 	__Section__00000003_.DownloadableFile = __DownloadableFile__00000001_
+	__Section__00000004_.SvgImage = nil
+	__Section__00000004_.PngImage = nil
+	__Section__00000004_.JpgImage = nil
+	__Section__00000004_.DownloadableFile = nil
 }
