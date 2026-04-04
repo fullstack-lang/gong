@@ -10,11 +10,6 @@ import (
 func (stager *Stager) svg() {
 	log.Println("svg")
 	stager.svgStage.Reset()
-	stage := stager.stage
-	_ = stage
-	root := stager.rootLibrary
-
-	svgStage := stager.svgStage
 
 	var diagram *Diagram
 	{
@@ -29,15 +24,27 @@ func (stager *Stager) svg() {
 		stager.svgStage.Commit()
 		return
 	}
+	svgObject := stager.generateSvgObject(diagram)
 
-	stager.svgObject = (&svg.SVG{Name: `SVG`})
-	stager.diagram = diagram
+	svg.StageBranch(stager.svgStage, svgObject)
+	stager.svgObject = svgObject
 	stager.svgObject.OnUpdate = stager.onUpdateSVG
 
-	stager.svgObject.OverrideWidth = true
-	stager.svgObject.OverriddenWidth = diagram.Width
-	stager.svgObject.OverrideHeight = true
-	stager.svgObject.OverriddenHeight = diagram.Height
+	stager.svgStage.Commit()
+}
+
+// generateSvgObject creates and returns a new svg.SVG object representing the given diagram.
+// It maps all visible domain shapes (Products, Tasks, Notes, Resources) and their associations
+// to SVG elements (Rects, Links, Paths) on a single layer. It also populates the diagram's
+// internal maps to link abstract elements with their visual SVG counterparts.
+func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
+	svgObject := (&svg.SVG{Name: `SVG`})
+	stager.diagram = diagram
+
+	svgObject.OverrideWidth = true
+	svgObject.OverriddenWidth = diagram.Width
+	svgObject.OverrideHeight = true
+	svgObject.OverriddenHeight = diagram.Height
 
 	diagram.map_Product_Rect = make(map[*Product]*svg.Rect)
 	diagram.map_Task_Rect = make(map[*Task]*svg.Rect)
@@ -52,16 +59,16 @@ func (stager *Stager) svg() {
 	// // to implement association between abstract elements by mouse drag
 	// svgImpl := &svgProxy{
 	// 	stager:  stager,
-	// 	svg_:    stager.svgObject,
+	// 	svg_:
 	// 	diagram: diagram,
 	// }
-	// stager.svgObject.Impl = svgImpl
+	// Impl = svgImpl
 
-	stager.svgObject.Name = diagram.Name
-	stager.svgObject.IsEditable = diagram.IsEditable()
+	svgObject.Name = diagram.Name
+	svgObject.IsEditable = diagram.IsEditable()
 
 	layer := (&svg.Layer{Name: "Layer 1"})
-	stager.svgObject.Layers = append(stager.svgObject.Layers, layer)
+	svgObject.Layers = append(svgObject.Layers, layer)
 
 	for _, productShape := range diagram.Product_Shapes {
 		if productShape.IsHidden {
@@ -161,7 +168,8 @@ func (stager *Stager) svg() {
 			// shift the text on the right
 			title := rect.RectAnchoredTexts[0]
 			if rect.Width > (distanceFromBorder + iconWidth) {
-				title.Content = strutils.WrapStringPreservingNewlines(title.Content, int((rect.Width-(distanceFromBorder+iconWidth))/root.NbPixPerCharacter))
+				title.Content = strutils.WrapStringPreservingNewlines(title.Content,
+					int((rect.Width-(distanceFromBorder+iconWidth))/stager.rootLibrary.NbPixPerCharacter))
 			}
 			title.X_Offset = (distanceFromBorder + iconWidth) / 2.0
 		}
@@ -374,7 +382,8 @@ func (stager *Stager) svg() {
 			// shift the text on the right
 			title := rect.RectAnchoredTexts[0]
 			if rect.Width > (distanceFromBorder + iconWidth) {
-				title.Content = strutils.WrapStringPreservingNewlines(title.Content, int((rect.Width-(distanceFromBorder+iconWidth))/root.NbPixPerCharacter))
+				title.Content = strutils.WrapStringPreservingNewlines(title.Content,
+					int((rect.Width-(distanceFromBorder+iconWidth))/stager.rootLibrary.NbPixPerCharacter))
 			}
 			title.X_Offset = (distanceFromBorder + iconWidth) / 2.0
 
@@ -450,7 +459,5 @@ func (stager *Stager) svg() {
 			true,
 		)
 	}
-
-	svg.StageBranch(svgStage, stager.svgObject)
-	stager.svgStage.Commit()
+	return svgObject
 }
