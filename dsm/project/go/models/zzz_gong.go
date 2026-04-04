@@ -5652,6 +5652,10 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:               "NbPixPerCharacter",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
+		{
+			Name:               "LogoSVGFile",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
 	}
 	return
 }
@@ -6793,6 +6797,8 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%f", library.NbPixPerCharacter)
 		res.valueFloat = library.NbPixPerCharacter
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "LogoSVGFile":
+		res.valueString = library.LogoSVGFile
 	}
 	return
 }
@@ -7929,6 +7935,8 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 		}
 	case "NbPixPerCharacter":
 		library.NbPixPerCharacter = value.GetValueFloat()
+	case "LogoSVGFile":
+		library.LogoSVGFile = value.GetValueString()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

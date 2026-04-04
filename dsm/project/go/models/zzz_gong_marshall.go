@@ -361,6 +361,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "Diagrams"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "SubLibraries"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "NbPixPerCharacter"))
+		initializerStatements.WriteString(library.GongMarshallField(stage, "LogoSVGFile"))
 	}
 
 	noteOrdered := []*Note{}
@@ -1444,6 +1445,11 @@ func (library *Library) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "NbPixPerCharacter")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", library.NbPixPerCharacter))
+	case "LogoSVGFile":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LogoSVGFile")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(library.LogoSVGFile))
 
 	case "RootProducts":
 		var sb strings.Builder
@@ -2821,6 +2827,7 @@ func (library *Library) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "Diagrams"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "SubLibraries"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "NbPixPerCharacter"))
+		initializerStatements.WriteString(library.GongMarshallField(stage, "LogoSVGFile"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

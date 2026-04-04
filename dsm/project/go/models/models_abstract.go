@@ -25,6 +25,9 @@ type Library struct {
 	SubLibraries []*Library
 
 	NbPixPerCharacter float64 // stored at the root Library only
+
+	//gong:width 600 gong:height 300
+	LogoSVGFile string // the content of the logo file, used for the static site generation
 }
 
 type LibraryAbstractFields struct {

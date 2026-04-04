@@ -16,8 +16,10 @@ type Content struct {
 	// path to the content generation
 	ContentPath string // path to the markdown content
 	OutputPath  string // path to the output directory
-	LayoutPath  string // path to the layout directory
-	StaticPath  string // path to the static directory
+	StaticPath  string // path to the static directory (if empty, generation uses the default static content embedded in the binary)
+
+	//gong:width 600 gong:height 300
+	LogoSVGFile string // the content of the logo file, used generation uses the default static content embedded in the binary)
 
 	// BespokeLogoFileName is the filename is the file located in the StaticPath/images
 	// default "logo.svg"

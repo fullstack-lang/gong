@@ -1021,6 +1021,8 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 
 		case "NbPixPerCharacter":
 			FormDivBasicFieldToField(&(library_.NbPixPerCharacter), formDiv)
+		case "LogoSVGFile":
+			FormDivBasicFieldToField(&(library_.LogoSVGFile), formDiv)
 		case "Library:SubLibraries":
 			// WARNING : this form deals with the N-N association "Library.SubLibraries []*Library" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)

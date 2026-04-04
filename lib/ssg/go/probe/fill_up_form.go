@@ -57,10 +57,10 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("OutputPath", instanceWithInferedType.OutputPath, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("LayoutPath", instanceWithInferedType.LayoutPath, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
 		BasicFieldtoForm("StaticPath", instanceWithInferedType.StaticPath, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		BasicFieldtoForm("LogoSVGFile", instanceWithInferedType.LogoSVGFile, instanceWithInferedType, probe.formStage, formGroup,
+			false, true, 600, true, 300)
 		BasicFieldtoForm("IsBespokeLogoFileName", instanceWithInferedType.IsBespokeLogoFileName, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("BespokeLogoFileName", instanceWithInferedType.BespokeLogoFileName, instanceWithInferedType, probe.formStage, formGroup,
