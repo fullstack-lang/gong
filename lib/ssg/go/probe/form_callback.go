@@ -249,8 +249,6 @@ func (contentFormCallback *ContentFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(content_.ContentPath), formDiv)
 		case "OutputPath":
 			FormDivBasicFieldToField(&(content_.OutputPath), formDiv)
-		case "LayoutPath":
-			FormDivBasicFieldToField(&(content_.LayoutPath), formDiv)
 		case "StaticPath":
 			FormDivBasicFieldToField(&(content_.StaticPath), formDiv)
 		case "IsBespokeLogoFileName":

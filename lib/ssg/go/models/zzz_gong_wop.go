@@ -34,8 +34,6 @@ type Content_WOP struct {
 
 	OutputPath string
 
-	LayoutPath string
-
 	StaticPath string
 
 	IsBespokeLogoFileName bool
@@ -57,7 +55,6 @@ func (from *Content) CopyBasicFields(to *Content) {
 	to.MardownContent = from.MardownContent
 	to.ContentPath = from.ContentPath
 	to.OutputPath = from.OutputPath
-	to.LayoutPath = from.LayoutPath
 	to.StaticPath = from.StaticPath
 	to.IsBespokeLogoFileName = from.IsBespokeLogoFileName
 	to.BespokeLogoFileName = from.BespokeLogoFileName

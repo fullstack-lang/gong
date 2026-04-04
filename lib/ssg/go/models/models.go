@@ -16,7 +16,6 @@ type Content struct {
 	// path to the content generation
 	ContentPath string // path to the markdown content
 	OutputPath  string // path to the output directory
-	LayoutPath  string // path to the layout directory
 	StaticPath  string // path to the static directory
 
 	// BespokeLogoFileName is the filename is the file located in the StaticPath/images
