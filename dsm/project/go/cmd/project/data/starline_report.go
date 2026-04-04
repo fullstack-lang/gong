@@ -23,47 +23,14 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	// insertion point for declaration of instances to stage
-
 	__Diagram__00000000_ := (&models.Diagram{Name: `Default Diagram`}).Stage(stage)
-
-	__Library__00000000_ := (&models.Library{Name: ``}).Stage(stage)
-
-	// insertion point for initialization of values
-
-	__Diagram__00000000_.Name = `Default Diagram`
-	__Diagram__00000000_.ComputedPrefix = `1`
-	__Diagram__00000000_.IsInRenameMode = false
-	__Diagram__00000000_.IsExpanded = true
-	__Diagram__00000000_.IsChecked = true
-	__Diagram__00000000_.IsEditable_ = true
-	__Diagram__00000000_.ShowPrefix = false
-	__Diagram__00000000_.DefaultBoxWidth = 250.000000
-	__Diagram__00000000_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000000_.Width = 300.000000
-	__Diagram__00000000_.Height = 300.000000
-	__Diagram__00000000_.IsPBSNodeExpanded = false
-	__Diagram__00000000_.IsWBSNodeExpanded = false
-	__Diagram__00000000_.IsNotesNodeExpanded = false
-	__Diagram__00000000_.IsResourcesNodeExpanded = false
-
-	__Library__00000000_.Name = ``
-	__Library__00000000_.ComputedPrefix = ``
-	__Library__00000000_.IsInRenameMode = false
-	__Library__00000000_.IsExpanded = false
-	__Library__00000000_.NbPixPerCharacter = 8.000000
-
-	// insertion point for setup of pointers
-	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000000_)
-
-	stage.Commit()
-
 	__Diagram__00000001_ := (&models.Diagram{Name: `WBS`}).Stage(stage)
 	__Diagram__00000002_ := (&models.Diagram{Name: `PBS`}).Stage(stage)
 	__Diagram__00000003_ := (&models.Diagram{Name: `RBS`}).Stage(stage)
 	__Diagram__00000004_ := (&models.Diagram{Name: `PIT focus`}).Stage(stage)
 	__Diagram__00000005_ := (&models.Diagram{Name: `PIT Report`}).Stage(stage)
 	__Diagram__00000006_ := (&models.Diagram{Name: `RCS PBS`}).Stage(stage)
+	__Library__00000000_ := (&models.Library{Name: `Startliner Mishape Report`}).Stage(stage)
 	__NoteProductShape__00000000_ := (&models.NoteProductShape{Name: `A thorough review of the STAR report is advised to  Starliner Tests and Anomalies Review (STAR) Investigation Report`}).Stage(stage)
 	__NoteProductShape__00000001_ := (&models.NoteProductShape{Name: `NASA utilized a firm fixed price contracting type for CCtCap. This was a significant shift from the cost-plus contracting for traditional NASA builds of developmental vehicles. These shifts signified that CCP was not only positioned to be an innovative, first-of-its kind program for NASA, but how it interacted with new and traditional space flight industry providers was setup to be significantly distinct and different.   to Commercial Crew Transportation Capability (CCtCap).`}).Stage(stage)
 	__NoteProductShape__00000002_ := (&models.NoteProductShape{Name: ` to CCP Requirements`}).Stage(stage)
@@ -424,70 +391,33 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Task__00000005_ := (&models.Task{Name: `Orbital Flight Test-1 (OFT-1)`}).Stage(stage)
 	__Task__00000006_ := (&models.Task{Name: `Orbital Flight Test-2 (OFT-2)`}).Stage(stage)
 	__Task__00000007_ := (&models.Task{Name: `ISS Approach`}).Stage(stage)
-	// Default Diagram
+	__Diagram__00000000_.Name = `Default Diagram`
+	__Diagram__00000000_.ComputedPrefix = `1`
+	__Diagram__00000000_.IsInRenameMode = false
 	__Diagram__00000000_.IsExpanded = false
 	__Diagram__00000000_.IsChecked = false
-	__Diagram__00000000_.Width = 27455.187127
-	__Diagram__00000000_.Height = 28217.751617
+	__Diagram__00000000_.IsEditable_ = true
+	__Diagram__00000000_.ShowPrefix = false
+	__Diagram__00000000_.DefaultBoxWidth = 250.000000
+	__Diagram__00000000_.DefaultBoxHeigth = 70.000000
+	__Diagram__00000000_.Width = 27755.187127
+	__Diagram__00000000_.Height = 28517.751617
 	__Diagram__00000000_.IsPBSNodeExpanded = true
 	__Diagram__00000000_.IsWBSNodeExpanded = true
-	__Diagram__00000000_.Task_Shapes = slices.Insert( __Diagram__00000000_.Task_Shapes, 0, __TaskShape__00000000_)
-	__Diagram__00000000_.Task_Shapes = slices.Insert( __Diagram__00000000_.Task_Shapes, 1, __TaskShape__00000001_)
-	__Diagram__00000000_.Task_Shapes = slices.Insert( __Diagram__00000000_.Task_Shapes, 2, __TaskShape__00000002_)
-	__Diagram__00000000_.TasksWhoseNodeIsExpanded = slices.Insert( __Diagram__00000000_.TasksWhoseNodeIsExpanded, 0, __Task__00000002_)
-	__Diagram__00000000_.TaskComposition_Shapes = slices.Insert( __Diagram__00000000_.TaskComposition_Shapes, 0, __TaskCompositionShape__00000000_)
-	__Diagram__00000000_.Note_Shapes = slices.Insert( __Diagram__00000000_.Note_Shapes, 0, __NoteShape__00000000_)
 	__Diagram__00000000_.IsNotesNodeExpanded = true
-	__Diagram__00000000_.NoteTaskShapes = slices.Insert( __Diagram__00000000_.NoteTaskShapes, 0, __NoteTaskShape__00000000_)
-	__Diagram__00000000_.Resource_Shapes = slices.Insert( __Diagram__00000000_.Resource_Shapes, 0, __ResourceShape__00000000_)
-	__Diagram__00000000_.Resource_Shapes = slices.Insert( __Diagram__00000000_.Resource_Shapes, 1, __ResourceShape__00000001_)
-	__Diagram__00000000_.Resource_Shapes = slices.Insert( __Diagram__00000000_.Resource_Shapes, 2, __ResourceShape__00000002_)
-	__Diagram__00000000_.ResourcesWhoseNodeIsExpanded = slices.Insert( __Diagram__00000000_.ResourcesWhoseNodeIsExpanded, 0, __Resource__00000000_)
 	__Diagram__00000000_.IsResourcesNodeExpanded = true
-	__Diagram__00000000_.ResourceTaskShapes = slices.Insert( __Diagram__00000000_.ResourceTaskShapes, 0, __ResourceTaskShape__00000000_)
-	// Startliner Mishape Report
-	__Library__00000000_.Name = `Startliner Mishape Report`
-	__Library__00000000_.IsExpanded = true
-	__Library__00000000_.RootProducts = slices.Insert( __Library__00000000_.RootProducts, 0, __Product__00000007_)
-	__Library__00000000_.RootProducts = slices.Insert( __Library__00000000_.RootProducts, 1, __Product__00000003_)
-	__Library__00000000_.RootTasks = slices.Insert( __Library__00000000_.RootTasks, 0, __Task__00000001_)
-	__Library__00000000_.RootTasks = slices.Insert( __Library__00000000_.RootTasks, 1, __Task__00000002_)
-	__Library__00000000_.RootTasks = slices.Insert( __Library__00000000_.RootTasks, 2, __Task__00000003_)
-	__Library__00000000_.RootResources = slices.Insert( __Library__00000000_.RootResources, 0, __Resource__00000003_)
-	__Library__00000000_.RootResources = slices.Insert( __Library__00000000_.RootResources, 1, __Resource__00000006_)
-	__Library__00000000_.Notes = slices.Insert( __Library__00000000_.Notes, 0, __Note__00000000_)
-	__Library__00000000_.Notes = slices.Insert( __Library__00000000_.Notes, 1, __Note__00000001_)
-	__Library__00000000_.Notes = slices.Insert( __Library__00000000_.Notes, 2, __Note__00000002_)
-	__Library__00000000_.Notes = slices.Insert( __Library__00000000_.Notes, 3, __Note__00000003_)
-	__Library__00000000_.Notes = slices.Insert( __Library__00000000_.Notes, 4, __Note__00000004_)
-	__Library__00000000_.Notes = slices.Insert( __Library__00000000_.Notes, 5, __Note__00000005_)
-	__Library__00000000_.Notes = slices.Insert( __Library__00000000_.Notes, 6, __Note__00000006_)
-	__Library__00000000_.Notes = slices.Insert( __Library__00000000_.Notes, 7, __Note__00000007_)
-	__Library__00000000_.Notes = slices.Insert( __Library__00000000_.Notes, 8, __Note__00000008_)
-	__Library__00000000_.Notes = slices.Insert( __Library__00000000_.Notes, 9, __Note__00000009_)
-	__Library__00000000_.Notes = slices.Insert( __Library__00000000_.Notes, 10, __Note__00000010_)
-	__Library__00000000_.Notes = slices.Insert( __Library__00000000_.Notes, 11, __Note__00000011_)
-	__Library__00000000_.Notes = slices.Insert( __Library__00000000_.Notes, 12, __Note__00000012_)
-	__Library__00000000_.Notes = slices.Insert( __Library__00000000_.Notes, 13, __Note__00000013_)
-	__Library__00000000_.Notes = slices.Insert( __Library__00000000_.Notes, 14, __Note__00000014_)
-	__Library__00000000_.Notes = slices.Insert( __Library__00000000_.Notes, 15, __Note__00000015_)
-	__Library__00000000_.Notes = slices.Insert( __Library__00000000_.Notes, 16, __Note__00000016_)
-	__Library__00000000_.Notes = slices.Insert( __Library__00000000_.Notes, 17, __Note__00000017_)
-	__Library__00000000_.Notes = slices.Insert( __Library__00000000_.Notes, 18, __Note__00000018_)
-	__Library__00000000_.Notes = slices.Insert( __Library__00000000_.Notes, 19, __Note__00000019_)
-	__Library__00000000_.Notes = slices.Insert( __Library__00000000_.Notes, 20, __Note__00000020_)
-	__Library__00000000_.Notes = slices.Insert( __Library__00000000_.Notes, 21, __Note__00000021_)
-	__Library__00000000_.Notes = slices.Insert( __Library__00000000_.Notes, 22, __Note__00000022_)
-	__Library__00000000_.Notes = slices.Insert( __Library__00000000_.Notes, 23, __Note__00000023_)
-	__Library__00000000_.Notes = slices.Insert( __Library__00000000_.Notes, 24, __Note__00000024_)
-	__Library__00000000_.Notes = slices.Insert( __Library__00000000_.Notes, 25, __Note__00000025_)
-	__Library__00000000_.Diagrams = slices.Insert( __Library__00000000_.Diagrams, 1, __Diagram__00000000_)
-	__Library__00000000_.Diagrams = slices.Insert( __Library__00000000_.Diagrams, 2, __Diagram__00000001_)
-	__Library__00000000_.Diagrams = slices.Insert( __Library__00000000_.Diagrams, 3, __Diagram__00000002_)
-	__Library__00000000_.Diagrams = slices.Insert( __Library__00000000_.Diagrams, 4, __Diagram__00000003_)
-	__Library__00000000_.Diagrams = slices.Insert( __Library__00000000_.Diagrams, 5, __Diagram__00000004_)
-	__Library__00000000_.Diagrams = slices.Insert( __Library__00000000_.Diagrams, 6, __Diagram__00000005_)
-	__Library__00000000_.Diagrams = slices.Insert( __Library__00000000_.Diagrams, 7, __Diagram__00000006_)
+	__Diagram__00000000_.Task_Shapes = append(__Diagram__00000000_.Task_Shapes, __TaskShape__00000000_)
+	__Diagram__00000000_.Task_Shapes = append(__Diagram__00000000_.Task_Shapes, __TaskShape__00000001_)
+	__Diagram__00000000_.Task_Shapes = append(__Diagram__00000000_.Task_Shapes, __TaskShape__00000002_)
+	__Diagram__00000000_.TasksWhoseNodeIsExpanded = append(__Diagram__00000000_.TasksWhoseNodeIsExpanded, __Task__00000002_)
+	__Diagram__00000000_.TaskComposition_Shapes = append(__Diagram__00000000_.TaskComposition_Shapes, __TaskCompositionShape__00000000_)
+	__Diagram__00000000_.Note_Shapes = append(__Diagram__00000000_.Note_Shapes, __NoteShape__00000000_)
+	__Diagram__00000000_.NoteTaskShapes = append(__Diagram__00000000_.NoteTaskShapes, __NoteTaskShape__00000000_)
+	__Diagram__00000000_.Resource_Shapes = append(__Diagram__00000000_.Resource_Shapes, __ResourceShape__00000000_)
+	__Diagram__00000000_.Resource_Shapes = append(__Diagram__00000000_.Resource_Shapes, __ResourceShape__00000001_)
+	__Diagram__00000000_.Resource_Shapes = append(__Diagram__00000000_.Resource_Shapes, __ResourceShape__00000002_)
+	__Diagram__00000000_.ResourcesWhoseNodeIsExpanded = append(__Diagram__00000000_.ResourcesWhoseNodeIsExpanded, __Resource__00000000_)
+	__Diagram__00000000_.ResourceTaskShapes = append(__Diagram__00000000_.ResourceTaskShapes, __ResourceTaskShape__00000000_)
 	__Diagram__00000001_.Name = `WBS`
 	__Diagram__00000001_.ComputedPrefix = `2`
 	__Diagram__00000001_.IsInRenameMode = false
@@ -497,8 +427,8 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Diagram__00000001_.ShowPrefix = true
 	__Diagram__00000001_.DefaultBoxWidth = 250.000000
 	__Diagram__00000001_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000001_.Width = 27995.617766
-	__Diagram__00000001_.Height = 27856.674065
+	__Diagram__00000001_.Width = 28295.617766
+	__Diagram__00000001_.Height = 28156.674065
 	__Diagram__00000001_.IsPBSNodeExpanded = false
 	__Diagram__00000001_.IsWBSNodeExpanded = false
 	__Diagram__00000001_.IsNotesNodeExpanded = true
@@ -531,8 +461,8 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Diagram__00000002_.ShowPrefix = true
 	__Diagram__00000002_.DefaultBoxWidth = 250.000000
 	__Diagram__00000002_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000002_.Width = 28491.980809
-	__Diagram__00000002_.Height = 28021.961381
+	__Diagram__00000002_.Width = 28791.980809
+	__Diagram__00000002_.Height = 28321.961381
 	__Diagram__00000002_.IsPBSNodeExpanded = true
 	__Diagram__00000002_.IsWBSNodeExpanded = false
 	__Diagram__00000002_.IsNotesNodeExpanded = true
@@ -573,8 +503,8 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Diagram__00000003_.ShowPrefix = true
 	__Diagram__00000003_.DefaultBoxWidth = 250.000000
 	__Diagram__00000003_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000003_.Width = 28185.651635
-	__Diagram__00000003_.Height = 28199.201740
+	__Diagram__00000003_.Width = 28485.651635
+	__Diagram__00000003_.Height = 28499.201740
 	__Diagram__00000003_.IsPBSNodeExpanded = true
 	__Diagram__00000003_.IsWBSNodeExpanded = false
 	__Diagram__00000003_.IsNotesNodeExpanded = false
@@ -610,8 +540,8 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Diagram__00000004_.ShowPrefix = true
 	__Diagram__00000004_.DefaultBoxWidth = 250.000000
 	__Diagram__00000004_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000004_.Width = 28262.017987
-	__Diagram__00000004_.Height = 27458.658205
+	__Diagram__00000004_.Width = 28562.017987
+	__Diagram__00000004_.Height = 27758.658205
 	__Diagram__00000004_.IsPBSNodeExpanded = true
 	__Diagram__00000004_.IsWBSNodeExpanded = false
 	__Diagram__00000004_.IsNotesNodeExpanded = true
@@ -640,8 +570,8 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Diagram__00000005_.ShowPrefix = true
 	__Diagram__00000005_.DefaultBoxWidth = 250.000000
 	__Diagram__00000005_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000005_.Width = 28685.901110
-	__Diagram__00000005_.Height = 28648.855478
+	__Diagram__00000005_.Width = 28985.901110
+	__Diagram__00000005_.Height = 28948.855478
 	__Diagram__00000005_.IsPBSNodeExpanded = true
 	__Diagram__00000005_.IsWBSNodeExpanded = false
 	__Diagram__00000005_.IsNotesNodeExpanded = true
@@ -736,8 +666,8 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Diagram__00000006_.ShowPrefix = false
 	__Diagram__00000006_.DefaultBoxWidth = 250.000000
 	__Diagram__00000006_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000006_.Width = 28569.153628
-	__Diagram__00000006_.Height = 28277.529266
+	__Diagram__00000006_.Width = 28869.153628
+	__Diagram__00000006_.Height = 28577.529266
 	__Diagram__00000006_.IsPBSNodeExpanded = true
 	__Diagram__00000006_.IsWBSNodeExpanded = false
 	__Diagram__00000006_.IsNotesNodeExpanded = true
@@ -798,6 +728,53 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Diagram__00000006_.NoteProductShapes = append(__Diagram__00000006_.NoteProductShapes, __NoteProductShape__00000013_)
 	__Diagram__00000006_.NoteProductShapes = append(__Diagram__00000006_.NoteProductShapes, __NoteProductShape__00000014_)
 	__Diagram__00000006_.NoteProductShapes = append(__Diagram__00000006_.NoteProductShapes, __NoteProductShape__00000015_)
+	__Library__00000000_.Name = `Startliner Mishape Report`
+	__Library__00000000_.ComputedPrefix = ``
+	__Library__00000000_.IsInRenameMode = false
+	__Library__00000000_.IsExpanded = true
+	__Library__00000000_.NbPixPerCharacter = 8.000000
+	__Library__00000000_.LogoSVGFile = `<?xml version="1.0"?> <svg width="508.204" height="141.732" xmlns="http://www.w3.org/2000/svg"> <path fill="#DB362D" d="M91.991,104.699c1.576,5.961,4.119,8.266,8.613,8.266c4.659,0,7.102-2.799,7.102-8.266V3.2h29.184v101.499 c0,14.307-1.856,20.506-9.11,27.762c-5.228,5.229-14.871,9.271-27.047,9.271c-9.837,0-19.25-3.256-25.253-9.27 c-5.263-5.273-8.154-10.689-12.672-27.764L44.9,37.033c-1.577-5.961-4.119-8.265-8.613-8.265c-4.66,0-7.103,2.798-7.103,8.265 v101.5H0v-101.5C0,22.727,1.857,16.527,9.111,9.271C14.337,4.044,23.981,0,36.158,0c9.837,0,19.25,3.257,25.253,9.27 c5.263,5.273,8.154,10.689,12.672,27.764L91.991,104.699z"/>  <path fill="#DB362D" d="M478.038,138.533L444.334,33.096c-0.372-1.164-0.723-2.152-1.263-2.811 c-0.926-1.127-2.207-1.719-3.931-1.719c-1.723,0-3.004,0.592-3.931,1.719c-0.539,0.658-0.891,1.646-1.262,2.811l-33.703,105.437 h-30.167l36.815-115.177c1.918-6,4.66-11.094,8.139-14.488C421.002,3.047,428.038,0,439.141,0s18.14,3.047,24.109,8.867 c3.479,3.395,6.221,8.488,8.14,14.488l36.814,115.177H478.038z"/>  <path fill="#DB362D" d="M328.878,138.533c19.12,0,28.446-4.062,35.814-11.389c8.153-8.105,12.053-16.973,12.053-30.213 c0-11.699-4.283-22.535-10.804-29.019c-8.526-8.479-19.116-11.151-36.384-11.151L305.37,56.76c-9.242,0-12.925-1.117-15.839-3.98 c-2.001-1.964-2.939-4.885-2.939-8.328c0-3.559,0.857-7.074,3.303-9.475c2.171-2.131,5.13-3.109,10.816-3.109h69.903V3.2H306.05 c-19.12,0-28.445,4.063-35.814,11.389c-8.152,8.105-12.053,16.972-12.053,30.212c0,11.701,4.283,22.536,10.804,29.019 c8.527,8.479,19.116,11.152,36.384,11.152l24.188,0.002c9.242,0,12.925,1.115,15.839,3.979c2.001,1.965,2.939,4.885,2.939,8.328 c0,3.559-0.857,7.074-3.302,9.475c-2.172,2.131-5.131,3.109-10.817,3.109h-72.094l-27.651-86.509 c-1.918-6-4.66-11.094-8.139-14.488C220.363,3.047,213.327,0,202.224,0s-18.14,3.047-24.108,8.867 c-3.48,3.395-6.221,8.488-8.139,14.488l-36.815,115.177h30.166l33.704-105.437c0.372-1.164,0.723-2.152,1.263-2.811 c0.926-1.127,2.208-1.719,3.931-1.719s3.004,0.592,3.931,1.719c0.54,0.658,0.891,1.646,1.262,2.811l33.704,105.437H328.878z"/> </svg>`
+	__Library__00000000_.RootProducts = append(__Library__00000000_.RootProducts, __Product__00000007_)
+	__Library__00000000_.RootProducts = append(__Library__00000000_.RootProducts, __Product__00000003_)
+	__Library__00000000_.RootTasks = append(__Library__00000000_.RootTasks, __Task__00000001_)
+	__Library__00000000_.RootTasks = append(__Library__00000000_.RootTasks, __Task__00000002_)
+	__Library__00000000_.RootTasks = append(__Library__00000000_.RootTasks, __Task__00000003_)
+	__Library__00000000_.RootResources = append(__Library__00000000_.RootResources, __Resource__00000003_)
+	__Library__00000000_.RootResources = append(__Library__00000000_.RootResources, __Resource__00000006_)
+	__Library__00000000_.Notes = append(__Library__00000000_.Notes, __Note__00000000_)
+	__Library__00000000_.Notes = append(__Library__00000000_.Notes, __Note__00000001_)
+	__Library__00000000_.Notes = append(__Library__00000000_.Notes, __Note__00000002_)
+	__Library__00000000_.Notes = append(__Library__00000000_.Notes, __Note__00000003_)
+	__Library__00000000_.Notes = append(__Library__00000000_.Notes, __Note__00000004_)
+	__Library__00000000_.Notes = append(__Library__00000000_.Notes, __Note__00000005_)
+	__Library__00000000_.Notes = append(__Library__00000000_.Notes, __Note__00000006_)
+	__Library__00000000_.Notes = append(__Library__00000000_.Notes, __Note__00000007_)
+	__Library__00000000_.Notes = append(__Library__00000000_.Notes, __Note__00000008_)
+	__Library__00000000_.Notes = append(__Library__00000000_.Notes, __Note__00000009_)
+	__Library__00000000_.Notes = append(__Library__00000000_.Notes, __Note__00000010_)
+	__Library__00000000_.Notes = append(__Library__00000000_.Notes, __Note__00000011_)
+	__Library__00000000_.Notes = append(__Library__00000000_.Notes, __Note__00000012_)
+	__Library__00000000_.Notes = append(__Library__00000000_.Notes, __Note__00000013_)
+	__Library__00000000_.Notes = append(__Library__00000000_.Notes, __Note__00000014_)
+	__Library__00000000_.Notes = append(__Library__00000000_.Notes, __Note__00000015_)
+	__Library__00000000_.Notes = append(__Library__00000000_.Notes, __Note__00000016_)
+	__Library__00000000_.Notes = append(__Library__00000000_.Notes, __Note__00000017_)
+	__Library__00000000_.Notes = append(__Library__00000000_.Notes, __Note__00000018_)
+	__Library__00000000_.Notes = append(__Library__00000000_.Notes, __Note__00000019_)
+	__Library__00000000_.Notes = append(__Library__00000000_.Notes, __Note__00000020_)
+	__Library__00000000_.Notes = append(__Library__00000000_.Notes, __Note__00000021_)
+	__Library__00000000_.Notes = append(__Library__00000000_.Notes, __Note__00000022_)
+	__Library__00000000_.Notes = append(__Library__00000000_.Notes, __Note__00000023_)
+	__Library__00000000_.Notes = append(__Library__00000000_.Notes, __Note__00000024_)
+	__Library__00000000_.Notes = append(__Library__00000000_.Notes, __Note__00000025_)
+	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000000_)
+	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000000_)
+	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000001_)
+	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000002_)
+	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000003_)
+	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000004_)
+	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000005_)
+	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000006_)
 	__NoteProductShape__00000000_.Name = `A thorough review of the STAR report is advised to  Starliner Tests and Anomalies Review (STAR) Investigation Report`
 	__NoteProductShape__00000000_.StartRatio = 0.500000
 	__NoteProductShape__00000000_.EndRatio = 0.500000

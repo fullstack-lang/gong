@@ -113,3 +113,10 @@ func (stager *Stager) enforceThereIsADefaultLibrary() (needCommit bool) {
 
 	return
 }
+
+func (stager *Stager) GetRootLibrary() (rootLibrary *Library) {
+	if stager.rootLibrary == nil {
+		stager.enforceThereIsADefaultLibrary()
+	}
+	return stager.rootLibrary
+}
