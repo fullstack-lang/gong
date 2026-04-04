@@ -294,6 +294,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(chapter.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(chapter.GongMarshallField(stage, "MardownContent"))
 		pointersInitializesStatements.WriteString(chapter.GongMarshallField(stage, "Pages"))
+		pointersInitializesStatements.WriteString(chapter.GongMarshallField(stage, "SubChapters"))
 	}
 
 	contentOrdered := []*Content{}
@@ -646,6 +647,16 @@ func (chapter *Chapter) GongMarshallField(stage *Stage, fieldName string) (res s
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
+	case "SubChapters":
+		var sb strings.Builder
+		for _, _chapter := range chapter.SubChapters {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", chapter.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "SubChapters")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _chapter.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Chapter", fieldName)
 	}
@@ -941,6 +952,7 @@ func (chapter *Chapter) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		initializerStatements.WriteString(chapter.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(chapter.GongMarshallField(stage, "MardownContent"))
 		pointersInitializesStatements.WriteString(chapter.GongMarshallField(stage, "Pages"))
+		pointersInitializesStatements.WriteString(chapter.GongMarshallField(stage, "SubChapters"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

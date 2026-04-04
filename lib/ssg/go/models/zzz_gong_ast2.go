@@ -464,6 +464,8 @@ func (u *ChapterUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.MardownContent = GongExtractString(valueExpr)
 	case "Pages":
 		GongUnmarshallSliceOfPointers(&instance.Pages, valueExpr, identifierMap)
+	case "SubChapters":
+		GongUnmarshallSliceOfPointers(&instance.SubChapters, valueExpr, identifierMap)
 	}
 	return nil
 }

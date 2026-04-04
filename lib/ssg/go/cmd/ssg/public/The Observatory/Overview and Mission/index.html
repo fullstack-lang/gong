@@ -17,77 +17,52 @@
             
             <h2><a href="../../index.html">The Vera C. Rubin Observatory</a></h2>
             <ul>
-    
-    
-        <li>
-            
-            
-                
-                <a href="../../The%20Observatory/index.html" >The Observatory</a>
-            
-
-            
-            
-                <ul>
-                    
-                    
+                <li>
+                    <a href="../../The%20Observatory/index.html">The Observatory</a>
+                    <ul>
+                <li>
+                    <a href="../../The%20Observatory/Telescope%20Details/index.html">Telescope Details</a>
+                    <ul>
                         <li>
-                            
-                            
-                                
-                                <a href="../../The%20Observatory/Overview%20and%20Mission/index.html" class="active-page">Overview and Mission</a>
-                            
+                            <a href="../../The%20Observatory/Telescope%20Details/Telescope%20detail%20page/index.html">Telescope detail page</a>
                         </li>
-                    
+                    </ul>
+                </li>
                         <li>
-                            
-                            
-                                
-                                <a href="../../The%20Observatory/The%20Simonyi%20Survey%20Telescope/index.html" >The Simonyi Survey Telescope</a>
-                            
+                            <a href="../../The%20Observatory/Overview%20and%20Mission/index.html" class="active-page">Overview and Mission</a>
                         </li>
-                    
                         <li>
-                            
-                            
-                                
-                                <a href="../../The%20Observatory/The%20Camera/index.html" >The Camera</a>
-                            
+                            <a href="../../The%20Observatory/The%20Camera/index.html">The Camera</a>
                         </li>
-                    
                         <li>
-                            
-                            
-                                
-                                <a href="../../The%20Observatory/Vera%20Rubin/index.html" >Vera Rubin</a>
-                            
+                            <a href="../../The%20Observatory/Vera%20Rubin/index.html">Vera Rubin</a>
                         </li>
-                    
                         <li>
-                            
-                            
-                                
-                                <a href="../../The%20Observatory/From%20Concept%20to%20Concrete%20Plans/index.html" >From Concept to Concrete Plans</a>
-                            
+                            <a href="../../The%20Observatory/From%20Concept%20to%20Concrete%20Plans/index.html">From Concept to Concrete Plans</a>
                         </li>
-                    
-                </ul>
-            
-        </li>
-    
-        <li>
-            
-            
-                
-                <a href="../../The%20Science/index.html" >The Science</a>
-            
-
-            
-            
-        </li>
-    
-</ul>
-
+                    </ul>
+                </li>
+                <li>
+                    <a href="../../The%20Science/index.html">The Science</a>
+                    <ul>
+                        <li>
+                            <a href="../../The%20Science/The%20Data/index.html">The Data</a>
+                        </li>
+                        <li>
+                            <a href="../../The%20Science/The%20Simonyi%20Survey%20Telescope/index.html">The Simonyi Survey Telescope</a>
+                        </li>
+                        <li>
+                            <a href="../../The%20Science/Key%20Science%20Pillars/index.html">Key Science Pillars</a>
+                        </li>
+                        <li>
+                            <a href="../../The%20Science/Legacy%20Survey%20of%20Space%20and%20Time%20(LSST)/index.html">Legacy Survey of Space and Time (LSST)</a>
+                        </li>
+                        <li>
+                            <a href="../../The%20Science/Accessing%20the%20Data/index.html">Accessing the Data</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
         </nav>
         <main class="content">
             
@@ -115,7 +90,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             
-            const chapters = document.querySelectorAll('.sidebar > ul > li');
+            const chapters = document.querySelectorAll('.sidebar li');
 
             chapters.forEach(function(chapter) {
                 
@@ -124,6 +99,7 @@
 
                 
                 if (chapterLink && submenu) {
+                    chapterLink.classList.add('has-submenu');
                     
                     
                     
@@ -132,7 +108,7 @@
                     
                     chapterLink.addEventListener('click', function(event) {
                         
-                        event.preventDefault();
+                        
 
                         
                         if (submenu.style.display === 'none') {
