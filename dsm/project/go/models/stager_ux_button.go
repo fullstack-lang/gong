@@ -113,6 +113,7 @@ func (stager *Stager) button() {
 				Name:           "Root to project the website",
 				ContentPath:    "/tmp/project",
 				MardownContent: "## Project website",
+				OutputPath:     "./generated static web site",
 			}
 			content.Chapters = append(content.Chapters, &ssg.Chapter{
 				Name:           "Chapter 1",
@@ -122,11 +123,25 @@ func (stager *Stager) button() {
 				Name:           "Chapter 2",
 				MardownContent: "### Chapter 2",
 			})
+			content.LogoSVGFile = stager.GetRootLibrary().LogoSVGFile
 
 			ssg.StageBranch(stager.ssgStage, &content)
 
 			stager.ssgStage.Commit()
-			stager.ssgStage.Generation(false)
+
+			zipData, err := stager.ssgStage.Generation(true)
+			if err != nil {
+				log.Println(err)
+			}
+
+			stager.loadStage.Reset()
+
+			fileToDownload := new(load.FileToDownload).Stage(stager.loadStage)
+			fileToDownload.Base64EncodedContent = zipData
+
+			fileToDownload.Name = "site.zip"
+
+			stager.loadStage.Commit()
 		},
 	})
 

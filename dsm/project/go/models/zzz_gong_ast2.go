@@ -575,6 +575,8 @@ func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		GongUnmarshallSliceOfPointers(&instance.SubLibraries, valueExpr, identifierMap)
 	case "NbPixPerCharacter":
 		instance.NbPixPerCharacter = GongExtractFloat(valueExpr)
+	case "LogoSVGFile":
+		instance.LogoSVGFile = GongExtractString(valueExpr)
 	}
 	return nil
 }

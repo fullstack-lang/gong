@@ -501,6 +501,8 @@ func (u *ContentUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.OutputPath = GongExtractString(valueExpr)
 	case "StaticPath":
 		instance.StaticPath = GongExtractString(valueExpr)
+	case "LogoSVGFile":
+		instance.LogoSVGFile = GongExtractString(valueExpr)
 	case "IsBespokeLogoFileName":
 		instance.IsBespokeLogoFileName = GongExtractBool(valueExpr)
 	case "BespokeLogoFileName":
