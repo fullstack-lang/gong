@@ -256,3 +256,5 @@ body {
 .sidebar > ul > li > a {
     font-weight: bold;
 }
+/* Sub-chapter styling */
+.has-submenu { font-weight: bold !important; color: #007bff !important; }

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telescope detail page | The Vera C. Rubin Observatory</title>
+    <link rel="stylesheet" href="../../../css/style.css">
+</head>
+<body>
+    
+        <div class="version-info">1.9.8</div>
+    
+    <div class="container">
+        <nav class="sidebar">
+            
+            <img src="../../../images/logo.svg" alt="Site Logo" class="site-logo">
+            
+            <h2><a href="../../../index.html">The Vera C. Rubin Observatory</a></h2>
+            <ul>
+                <li>
+                    <a href="../../../The%20Observatory/index.html">The Observatory</a>
+                    <ul>
+                <li>
+                    <a href="../../../The%20Observatory/Telescope%20Details/index.html">Telescope Details</a>
+                    <ul>
+                        <li>
+                            <a href="../../../The%20Observatory/Telescope%20Details/Telescope%20detail%20page/index.html" class="active-page">Telescope detail page</a>
+                        </li>
+                    </ul>
+                </li>
+                        <li>
+                            <a href="../../../The%20Observatory/Overview%20and%20Mission/index.html">Overview and Mission</a>
+                        </li>
+                        <li>
+                            <a href="../../../The%20Observatory/The%20Camera/index.html">The Camera</a>
+                        </li>
+                        <li>
+                            <a href="../../../The%20Observatory/Vera%20Rubin/index.html">Vera Rubin</a>
+                        </li>
+                        <li>
+                            <a href="../../../The%20Observatory/From%20Concept%20to%20Concrete%20Plans/index.html">From Concept to Concrete Plans</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="../../../The%20Science/index.html">The Science</a>
+                    <ul>
+                        <li>
+                            <a href="../../../The%20Science/The%20Data/index.html">The Data</a>
+                        </li>
+                        <li>
+                            <a href="../../../The%20Science/The%20Simonyi%20Survey%20Telescope/index.html">The Simonyi Survey Telescope</a>
+                        </li>
+                        <li>
+                            <a href="../../../The%20Science/Key%20Science%20Pillars/index.html">Key Science Pillars</a>
+                        </li>
+                        <li>
+                            <a href="../../../The%20Science/Legacy%20Survey%20of%20Space%20and%20Time%20(LSST)/index.html">Legacy Survey of Space and Time (LSST)</a>
+                        </li>
+                        <li>
+                            <a href="../../../The%20Science/Accessing%20the%20Data/index.html">Accessing the Data</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <main class="content">
+            
+    <div class="title-container">
+        <h1>Telescope detail page</h1>
+        
+        <img src="../../../images/page-title-logo.svg" alt="Page Title Logo" class="page-title-logo">
+        
+    </div>
+    <article class="page-content">
+        <p>The Simonyi Survey Telescope is designed to carry out the Legacy Survey of Space and Time. Its unique three-mirror optical design allows for a remarkably wide field of view, enabling it to survey the entire southern sky every few nights.</p>
+<p>The primary mirror, measuring 8.4 meters in diameter, is combined with a 3.4-meter secondary mirror and a 5.0-meter tertiary mirror. This compact configuration minimizes the telescope's moving mass and allows it to slew quickly between observations.</p>
+<h2>Telescope detail</h2>
+<h3>Active Optics</h3>
+<p>The telescope features an active optics system that continuously measures and corrects optical aberrations during operations. This is critical for maintaining the high image quality required by the LSST.</p>
+<h3>Camera Assembly</h3>
+<p>At the focal plane lies the largest digital camera ever built for astronomy, weighing over 3 tons and featuring a 3.2-gigapixel focal plane array.</p>
+
+    </article>
+
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            const chapters = document.querySelectorAll('.sidebar li');
+
+            chapters.forEach(function(chapter) {
+                
+                const chapterLink = chapter.querySelector('a');
+                const submenu = chapter.querySelector('ul');
+
+                
+                if (chapterLink && submenu) {
+                    chapterLink.classList.add('has-submenu');
+                    
+                    
+                    
+                    const isActive = chapter.querySelector('.active-section, .active-page') !== null;
+
+                    
+                    chapterLink.addEventListener('click', function(event) {
+                        
+                        
+
+                        
+                        if (submenu.style.display === 'none') {
+                            submenu.style.display = 'block';
+                        } else {
+                            submenu.style.display = 'none';
+                        }
+                    });
+
+                    
+                    if (!isActive) {
+                        submenu.style.display = 'none';
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

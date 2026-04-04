@@ -181,6 +181,9 @@ func (stage *Stage) StageBranchChapter(chapter *Chapter) {
 	for _, _page := range chapter.Pages {
 		StageBranch(stage, _page)
 	}
+	for _, _chapter := range chapter.SubChapters {
+		StageBranch(stage, _chapter)
+	}
 
 }
 
@@ -374,6 +377,9 @@ func CopyBranchChapter(mapOrigCopy map[any]any, chapterFrom *Chapter) (chapterTo
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _page := range chapterFrom.Pages {
 		chapterTo.Pages = append(chapterTo.Pages, CopyBranchPage(mapOrigCopy, _page))
+	}
+	for _, _chapter := range chapterFrom.SubChapters {
+		chapterTo.SubChapters = append(chapterTo.SubChapters, CopyBranchChapter(mapOrigCopy, _chapter))
 	}
 
 	return
@@ -583,6 +589,9 @@ func (stage *Stage) UnstageBranchChapter(chapter *Chapter) {
 	for _, _page := range chapter.Pages {
 		UnstageBranch(stage, _page)
 	}
+	for _, _chapter := range chapter.SubChapters {
+		UnstageBranch(stage, _chapter)
+	}
 
 }
 
@@ -717,6 +726,10 @@ func (reference *Chapter) GongReconstructPointersFromReferences(stage *Stage, in
 	for _, _b := range instance.Pages {
 		reference.Pages = append(reference.Pages, stage.Pages_reference[_b])
 	}
+	reference.SubChapters = reference.SubChapters[:0]
+	for _, _b := range instance.SubChapters {
+		reference.SubChapters = append(reference.SubChapters, stage.Chapters_reference[_b])
+	}
 
 	return
 }
@@ -801,6 +814,13 @@ func (reference *Chapter) GongReconstructPointersFromInstances(stage *Stage) () 
 		}
 	}
 	reference.Pages = _Pages
+	var _SubChapters []*Chapter
+	for _, _reference := range reference.SubChapters {
+		if _instance, ok := stage.Chapters_instance[_reference]; ok {
+			_SubChapters = append(_SubChapters, _instance)
+		}
+	}
+	reference.SubChapters = _SubChapters
 
 	return
 }
@@ -922,6 +942,27 @@ func (chapter *Chapter) GongDiff(stage *Stage, chapterOther *Chapter) (diffs []s
 	}
 	if PagesDifferent {
 		ops := Diff(stage, chapter, chapterOther, "Pages", chapterOther.Pages, chapter.Pages)
+		diffs = append(diffs, ops)
+	}
+	SubChaptersDifferent := false
+	if len(chapter.SubChapters) != len(chapterOther.SubChapters) {
+		SubChaptersDifferent = true
+	} else {
+		for i := range chapter.SubChapters {
+			if (chapter.SubChapters[i] == nil) != (chapterOther.SubChapters[i] == nil) {
+				SubChaptersDifferent = true
+				break
+			} else if chapter.SubChapters[i] != nil && chapterOther.SubChapters[i] != nil {
+				// this is a pointer comparaison
+				if chapter.SubChapters[i] != chapterOther.SubChapters[i] {
+					SubChaptersDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if SubChaptersDifferent {
+		ops := Diff(stage, chapter, chapterOther, "SubChapters", chapterOther.SubChapters, chapter.SubChapters)
 		diffs = append(diffs, ops)
 	}
 
