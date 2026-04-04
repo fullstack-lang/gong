@@ -249,6 +249,35 @@ func (stager *Stager) button() {
 					}
 					chapter.Pages = append(chapter.Pages, page)
 				}
+
+				page := &ssg.Page{
+					Name:           "XL files",
+					MardownContent: "### XL files\n",
+				}
+
+				tempFile, err := os.CreateTemp("", "export-*.xlsx")
+				if err != nil {
+					log.Println("Error creating temp file for Excel export:", err)
+				} else {
+					defer os.Remove(tempFile.Name())
+					SerializeStage2(stager.stage, tempFile.Name(), false)
+
+					content, err := os.ReadFile(tempFile.Name())
+					if err != nil {
+						log.Println("Error reading temp Excel file:", err)
+					} else {
+						encodedXL := base64.StdEncoding.EncodeToString(content)
+						dataURI := "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," + encodedXL
+						page.MardownContent += fmt.Sprintf("\n[Download %s.xlsx](%s)\n", lib.Name, dataURI)
+
+						section := &ssg.Section{
+							Name: "Embedded XL file",
+						}
+						page.Sections = append(page.Sections, section)
+					}
+				}
+
+				chapter.Pages = append(chapter.Pages, page)
 			}
 
 			content.LogoSVGFile = stager.GetRootLibrary().LogoSVGFile
