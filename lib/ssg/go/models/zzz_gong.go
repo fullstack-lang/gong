@@ -2619,6 +2619,10 @@ func (content *Content) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:               "LogoSVGFile",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
 			Name:               "IsBespokeLogoFileName",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -2864,6 +2868,8 @@ func (content *Content) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = content.OutputPath
 	case "StaticPath":
 		res.valueString = content.StaticPath
+	case "LogoSVGFile":
+		res.valueString = content.LogoSVGFile
 	case "IsBespokeLogoFileName":
 		res.valueString = fmt.Sprintf("%t", content.IsBespokeLogoFileName)
 		res.valueBool = content.IsBespokeLogoFileName
@@ -3049,6 +3055,8 @@ func (content *Content) GongSetFieldValue(fieldName string, value GongFieldValue
 		content.OutputPath = value.GetValueString()
 	case "StaticPath":
 		content.StaticPath = value.GetValueString()
+	case "LogoSVGFile":
+		content.LogoSVGFile = value.GetValueString()
 	case "IsBespokeLogoFileName":
 		content.IsBespokeLogoFileName = value.GetValueBool()
 	case "BespokeLogoFileName":

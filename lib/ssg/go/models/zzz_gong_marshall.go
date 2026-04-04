@@ -324,6 +324,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(content.GongMarshallField(stage, "ContentPath"))
 		initializerStatements.WriteString(content.GongMarshallField(stage, "OutputPath"))
 		initializerStatements.WriteString(content.GongMarshallField(stage, "StaticPath"))
+		initializerStatements.WriteString(content.GongMarshallField(stage, "LogoSVGFile"))
 		initializerStatements.WriteString(content.GongMarshallField(stage, "IsBespokeLogoFileName"))
 		initializerStatements.WriteString(content.GongMarshallField(stage, "BespokeLogoFileName"))
 		initializerStatements.WriteString(content.GongMarshallField(stage, "IsBespokePageTileLogoFileName"))
@@ -679,6 +680,11 @@ func (content *Content) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{Identifier}}", content.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StaticPath")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(content.StaticPath))
+	case "LogoSVGFile":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", content.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LogoSVGFile")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(content.LogoSVGFile))
 	case "IsBespokeLogoFileName":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", content.GongGetIdentifier(stage))
@@ -950,6 +956,7 @@ func (content *Content) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		initializerStatements.WriteString(content.GongMarshallField(stage, "ContentPath"))
 		initializerStatements.WriteString(content.GongMarshallField(stage, "OutputPath"))
 		initializerStatements.WriteString(content.GongMarshallField(stage, "StaticPath"))
+		initializerStatements.WriteString(content.GongMarshallField(stage, "LogoSVGFile"))
 		initializerStatements.WriteString(content.GongMarshallField(stage, "IsBespokeLogoFileName"))
 		initializerStatements.WriteString(content.GongMarshallField(stage, "BespokeLogoFileName"))
 		initializerStatements.WriteString(content.GongMarshallField(stage, "IsBespokePageTileLogoFileName"))

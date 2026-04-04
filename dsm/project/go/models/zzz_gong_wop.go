@@ -74,6 +74,8 @@ type Library_WOP struct {
 	IsExpanded bool
 
 	NbPixPerCharacter float64
+
+	LogoSVGFile string
 }
 
 func (from *Library) CopyBasicFields(to *Library) {
@@ -83,6 +85,7 @@ func (from *Library) CopyBasicFields(to *Library) {
 	to.IsInRenameMode = from.IsInRenameMode
 	to.IsExpanded = from.IsExpanded
 	to.NbPixPerCharacter = from.NbPixPerCharacter
+	to.LogoSVGFile = from.LogoSVGFile
 }
 
 type Note_WOP struct {

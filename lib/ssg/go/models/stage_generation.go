@@ -259,6 +259,20 @@ func (*Stage) markdown2ssg(content *Content, memoryFS fs.FS) error {
 	}
 	// log.Println("Copied static files.")
 
+	if content.LogoSVGFile != "" {
+		logoFileName := "logo.svg"
+		if content.IsBespokeLogoFileName && content.BespokeLogoFileName != "" {
+			logoFileName = content.BespokeLogoFileName
+		}
+		logoPath := filepath.Join(content.OutputPath, "images", logoFileName)
+		if err := os.MkdirAll(filepath.Dir(logoPath), 0755); err != nil {
+			return fmt.Errorf("error creating directory for logo: %w", err)
+		}
+		if err := os.WriteFile(logoPath, []byte(content.LogoSVGFile), 0644); err != nil {
+			return fmt.Errorf("error writing logo file: %w", err)
+		}
+	}
+
 	// log.Println("Build finished successfully!")
 	return nil
 }

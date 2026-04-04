@@ -358,8 +358,50 @@ func RenderPages(site *SiteInfo, outputDir string, buildTarget string) error {
 	return nil
 }
 
-// --- copyStaticFiles - Unchanged ---
+// --- copyStaticFiles ---
 func CopyStaticFiles(staticDir, outputDir string) error {
+	if staticDir == "" {
+		log.Printf("StaticPath is empty, using embedded default static/css files.\n")
+		return fs.WalkDir(defaults.StaticFS, "static/css", func(filePath string, d fs.DirEntry, err error) error {
+			if err != nil {
+				return err
+			}
+
+			relPath, err := filepath.Rel("static", filePath)
+			if err != nil {
+				return fmt.Errorf("failed to get relative path for %s: %w", filePath, err)
+			}
+			if relPath == "." {
+				return nil // Skip the root directory itself
+			}
+
+			// Target path is relative to the specified output directory
+			targetPath := filepath.Join(outputDir, relPath)
+
+			if d.IsDir() {
+				return os.MkdirAll(targetPath, 0755)
+			}
+
+			sourceFile, err := defaults.StaticFS.Open(filePath)
+			if err != nil {
+				return err
+			}
+			defer sourceFile.Close()
+
+			if err := os.MkdirAll(filepath.Dir(targetPath), 0755); err != nil {
+				return err
+			}
+			targetFile, err := os.Create(targetPath)
+			if err != nil {
+				return err
+			}
+			defer targetFile.Close()
+
+			_, err = io.Copy(targetFile, sourceFile)
+			return err
+		})
+	}
+
 	log.Printf("Copying static files from '%s' to '%s'\n", staticDir, outputDir)
 	if _, err := os.Stat(staticDir); os.IsNotExist(err) {
 		log.Printf("Static directory '%s' does not exist, skipping copy.\n", staticDir)
