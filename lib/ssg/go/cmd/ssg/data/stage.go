@@ -76,7 +76,6 @@ The Rubin Observatory was proposed in 2001 as the LSST, and construction of the 
 Site construction began on 14 April 2015 with the ceremonial laying of the first stone.[13][14] The first on-sky observations with the engineering camera occurred on 24 October 2024,[15] while system first light images were released 23 June 2025. Full survey operations are planned to begin later in 2025, due to COVID-related schedule delays.[16] Data is scheduled to become fully public after two years.[17]`
 	__Content__00000000_.ContentPath = `content`
 	__Content__00000000_.OutputPath = `public`
-	__Content__00000000_.LayoutPath = `../../defaults/layouts`
 	__Content__00000000_.StaticPath = `../../defaults/static`
 	__Content__00000000_.IsBespokeLogoFileName = false
 	__Content__00000000_.BespokeLogoFileName = `gong logo.svg`

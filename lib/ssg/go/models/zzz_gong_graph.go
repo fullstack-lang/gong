@@ -944,9 +944,6 @@ func (content *Content) GongDiff(stage *Stage, contentOther *Content) (diffs []s
 	if content.OutputPath != contentOther.OutputPath {
 		diffs = append(diffs, content.GongMarshallField(stage, "OutputPath"))
 	}
-	if content.LayoutPath != contentOther.LayoutPath {
-		diffs = append(diffs, content.GongMarshallField(stage, "LayoutPath"))
-	}
 	if content.StaticPath != contentOther.StaticPath {
 		diffs = append(diffs, content.GongMarshallField(stage, "StaticPath"))
 	}
