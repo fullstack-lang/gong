@@ -1,9 +1,14 @@
 package models
 
 import (
+	"archive/zip"
+	"bytes"
+	"encoding/base64"
 	"fmt"
+	"io"
 	"io/fs"
 	"log"
+	"os"
 	"path"
 	"path/filepath"
 	"strings"
@@ -19,13 +24,14 @@ import (
 // markdown files (_index.md for the root and chapters, and individual .md
 // files for pages). It also embeds sections (text, images, downloadable files)
 // into the page markdown. Finally, it triggers the HTML rendering process.
-func (stage *Stage) Generation() {
+func (stage *Stage) Generation(inMemory bool) (base64Zip string, err error) {
 
 	contents := GetGongstructInstancesSet[Content](stage)
 
 	if len(*contents) != 1 {
-		log.Println("Generation requires exactly one Content instance.")
-		return
+		err = fmt.Errorf("generation requires exactly one Content instance")
+		log.Println(err)
+		return "", err
 	}
 
 	var content *Content
@@ -35,8 +41,9 @@ func (stage *Stage) Generation() {
 	}
 
 	if content == nil {
-		log.Println("No Content instance found.")
-		return
+		err = fmt.Errorf("no Content instance found")
+		log.Println(err)
+		return "", err
 	}
 
 	memoryFS := make(fstest.MapFS)
@@ -141,23 +148,83 @@ weight: %d
 
 	// log.Println("Generation process finished.")
 
+	originalOutputPath := content.OutputPath
+	if inMemory {
+		var tempDir string
+		tempDir, err = os.MkdirTemp("", "ssg_output_*")
+		if err != nil {
+			return "", err
+		}
+		defer os.RemoveAll(tempDir)
+		content.OutputPath = tempDir
+	}
+
 	// --- Build Steps ---
-	stage.markdown2ssg(content, memoryFS)
+	err = stage.markdown2ssg(content, memoryFS)
+	if err != nil {
+		content.OutputPath = originalOutputPath
+		return "", err
+	}
+
+	if inMemory {
+		var buf bytes.Buffer
+		zipWriter := zip.NewWriter(&buf)
+
+		err = filepath.WalkDir(content.OutputPath, func(p string, d fs.DirEntry, walkErr error) error {
+			if walkErr != nil {
+				return walkErr
+			}
+			if d.IsDir() {
+				return nil
+			}
+			relPath, relErr := filepath.Rel(content.OutputPath, p)
+			if relErr != nil {
+				return relErr
+			}
+			file, openErr := os.Open(p)
+			if openErr != nil {
+				return openErr
+			}
+			defer file.Close()
+
+			w, createErr := zipWriter.Create(filepath.ToSlash(relPath))
+			if createErr != nil {
+				return createErr
+			}
+			_, copyErr := io.Copy(w, file)
+			return copyErr
+		})
+		if err != nil {
+			content.OutputPath = originalOutputPath
+			return "", err
+		}
+
+		err = zipWriter.Close()
+		if err != nil {
+			content.OutputPath = originalOutputPath
+			return "", err
+		}
+
+		base64Zip = base64.StdEncoding.EncodeToString(buf.Bytes())
+		content.OutputPath = originalOutputPath
+	}
+
+	return base64Zip, nil
 }
 
 // markdown2ssg handles the transformation of the generated markdown files
 // into a static HTML site. It cleans the output directory, loads the layout
 // templates, parses the markdown content, builds the site navigation structure,
 // renders the final HTML pages, and copies any static assets to the output directory.
-func (*Stage) markdown2ssg(content *Content, memoryFS fs.FS) {
+func (*Stage) markdown2ssg(content *Content, memoryFS fs.FS) error {
 	if err := gen.CleanOutputDir(content.OutputPath); err != nil {
-		log.Fatalf("Error cleaning output directory '%s': %v", content.OutputPath, err)
+		return fmt.Errorf("error cleaning output directory '%s': %w", content.OutputPath, err)
 	}
 	// log.Printf("Cleaned output directory '%s'.\n", content.OutputPath)
 
 	templates, err := gen.LoadTemplates()
 	if err != nil {
-		log.Fatalf("Error loading embedded templates: %v", err)
+		return fmt.Errorf("error loading embedded templates: %w", err)
 	}
 	// log.Println("Loaded HTML templates.")
 
@@ -172,7 +239,7 @@ func (*Stage) markdown2ssg(content *Content, memoryFS fs.FS) {
 	// Pass build target and output dir to parseContent
 	err = gen.ParseContent(memoryFS, site, content.Target.ToString(), content.OutputPath)
 	if err != nil {
-		log.Fatalf("Error parsing content from memory: %v", err)
+		return fmt.Errorf("error parsing content from memory: %w", err)
 	}
 	// log.Printf("Parsed %d content files.\n", len(site.Pages))
 
@@ -182,15 +249,16 @@ func (*Stage) markdown2ssg(content *Content, memoryFS fs.FS) {
 	// Pass output dir and build target to renderPages
 	err = gen.RenderPages(site, content.OutputPath, content.Target.ToString())
 	if err != nil {
-		log.Fatalf("Error rendering HTML pages: %v", err)
+		return fmt.Errorf("error rendering HTML pages: %w", err)
 	}
 	// log.Println("Rendered HTML pages.")
 
 	// Pass output dir to copyStaticFiles
 	if err := gen.CopyStaticFiles(content.StaticPath, content.OutputPath); err != nil {
-		log.Fatalf("Error copying static files from '%s' to '%s': %v", content.StaticPath, content.OutputPath, err)
+		return fmt.Errorf("error copying static files from '%s' to '%s': %w", content.StaticPath, content.OutputPath, err)
 	}
 	// log.Println("Copied static files.")
 
 	// log.Println("Build finished successfully!")
+	return nil
 }

@@ -126,7 +126,7 @@ func (stager *Stager) button() {
 			ssg.StageBranch(stager.ssgStage, &content)
 
 			stager.ssgStage.Commit()
-			stager.ssgStage.Generation()
+			stager.ssgStage.Generation(false)
 		},
 	})
 
