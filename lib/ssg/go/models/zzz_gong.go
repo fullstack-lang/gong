@@ -2615,11 +2615,11 @@ func (content *Content) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "LayoutPath",
+			Name:               "StaticPath",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "StaticPath",
+			Name:               "LogoSVGFile",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
@@ -2866,10 +2866,10 @@ func (content *Content) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = content.ContentPath
 	case "OutputPath":
 		res.valueString = content.OutputPath
-	case "LayoutPath":
-		res.valueString = content.LayoutPath
 	case "StaticPath":
 		res.valueString = content.StaticPath
+	case "LogoSVGFile":
+		res.valueString = content.LogoSVGFile
 	case "IsBespokeLogoFileName":
 		res.valueString = fmt.Sprintf("%t", content.IsBespokeLogoFileName)
 		res.valueBool = content.IsBespokeLogoFileName
@@ -3053,10 +3053,10 @@ func (content *Content) GongSetFieldValue(fieldName string, value GongFieldValue
 		content.ContentPath = value.GetValueString()
 	case "OutputPath":
 		content.OutputPath = value.GetValueString()
-	case "LayoutPath":
-		content.LayoutPath = value.GetValueString()
 	case "StaticPath":
 		content.StaticPath = value.GetValueString()
+	case "LogoSVGFile":
+		content.LogoSVGFile = value.GetValueString()
 	case "IsBespokeLogoFileName":
 		content.IsBespokeLogoFileName = value.GetValueBool()
 	case "BespokeLogoFileName":

@@ -5,8 +5,6 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/fullstack-lang/gong/lib/ssg/go/defaults"
-
 	ssg "github.com/fullstack-lang/gong/lib/ssg/go/models"
 )
 
@@ -34,9 +32,6 @@ func (stager *Stager) generatesSiteFromSSGStage() {
 		log.Fatalln("Path siteWeb.InputImagesDir", siteWeb.InputImagesDir, "is not local")
 	}
 
-	extractGongSsgEmbeddedFiles(defaults.StaticDir, stager.pathToExtractedGongSsgDefaultStaticFiles)
-	extractGongSsgEmbeddedFiles(defaults.LayoutsDir, stager.pathToExtractedGongSsgDefaultLayoutFiles)
-
 	// start by copying the static directory
 	_, shouldReturn := stager.copyImagesToDirectoryForSsgGeneration()
 	if shouldReturn {
@@ -47,7 +42,7 @@ func (stager *Stager) generatesSiteFromSSGStage() {
 	filename := filepath.Join(stager.rootPathToImageInputs, siteWeb.InputImagesDir, "reqif.xlsx")
 	SerializeStage(stager.stage, filename)
 
-	stager.ssgStage.Generation()
+	stager.ssgStage.Generation(false)
 }
 
 func (stager *Stager) copyImagesToDirectoryForSsgGeneration() (error, bool) {
