@@ -9,6 +9,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path"
 	"path/filepath"
 	"sort"
 	"strings"
@@ -19,6 +20,8 @@ import (
 	"github.com/yuin/goldmark/extension" // <-- Import the standard extension package
 	"github.com/yuin/goldmark/parser"
 	"github.com/yuin/goldmark/renderer/html" // Import the html renderer package
+
+	"github.com/fullstack-lang/gong/lib/ssg/go/defaults"
 )
 
 // --- Structs (Page, SiteInfo) - Unchanged ---
@@ -42,11 +45,11 @@ type Page struct {
 
 // SiteInfo holds global information about the site
 type SiteInfo struct {
-	Pages                       map[string]*Page   // Map Absolute URLs to Pages for easy lookup
-	Sections                    []*Page            // Top-level sections (chapters) sorted by weight
-	Templates                   *template.Template // Parsed HTML templates
-	IsBespokeLogoFileName       bool
-	BespokeLogoFileName         string // Logo file name
+	Pages                         map[string]*Page   // Map Absolute URLs to Pages for easy lookup
+	Sections                      []*Page            // Top-level sections (chapters) sorted by weight
+	Templates                     *template.Template // Parsed HTML templates
+	IsBespokeLogoFileName         bool
+	BespokeLogoFileName           string // Logo file name
 	IsBespokePageTileLogoFileName bool
 	BespokePageTileLogoFileName   string
 }
@@ -72,17 +75,32 @@ func CleanOutputDir(dir string) error {
 }
 
 // --- loadTemplates - Unchanged ---
-func LoadTemplates(layoutDir string) (*template.Template, error) {
+func LoadTemplates() (*template.Template, error) {
 	tmpl := template.New("base").Funcs(template.FuncMap{
 		"safeHTML": func(s string) template.HTML { return template.HTML(s) },
 	})
 
-	globPattern := filepath.Join(layoutDir, "**/*.html")
-	// log.Printf("Parsing templates with glob pattern: %s\n", globPattern)
-
-	tmpl, err := tmpl.ParseGlob(globPattern)
+	var files []string
+	err := fs.WalkDir(defaults.LayoutsFS, "layouts", func(filePath string, d fs.DirEntry, err error) error {
+		if err != nil {
+			return err
+		}
+		if !d.IsDir() && strings.HasSuffix(filePath, ".html") {
+			files = append(files, filePath)
+		}
+		return nil
+	})
 	if err != nil {
-		return nil, fmt.Errorf("failed to parse templates with glob '%s': %w", globPattern, err)
+		return nil, fmt.Errorf("failed to walk embedded layouts: %w", err)
+	}
+
+	if len(files) == 0 {
+		return nil, fmt.Errorf("no HTML templates found in embedded layouts directory")
+	}
+
+	tmpl, err = tmpl.ParseFS(defaults.LayoutsFS, files...)
+	if err != nil {
+		return nil, fmt.Errorf("failed to parse embedded templates: %w", err)
 	}
 
 	return tmpl, nil
@@ -90,20 +108,20 @@ func LoadTemplates(layoutDir string) (*template.Template, error) {
 
 // --- parseContent - Unchanged ---
 // Uses the globally configured `md` variable which now includes the Table extension.
-func ParseContent(contentDir string, site *SiteInfo, buildTarget string, outputDir string) error {
-	// log.Printf("Parsing content from directory: %s\n", contentDir)
-	return filepath.WalkDir(contentDir, func(path string, d fs.DirEntry, err error) error {
+func ParseContent(fileSystem fs.FS, site *SiteInfo, buildTarget string, outputDir string) error {
+	// log.Printf("Parsing content from memory FS\n")
+	return fs.WalkDir(fileSystem, ".", func(filePath string, d fs.DirEntry, err error) error {
 		if err != nil {
-			log.Printf("Error accessing path %s: %v\n", path, err)
+			log.Printf("Error accessing path %s: %v\n", filePath, err)
 			return err
 		}
-		if d.IsDir() || strings.ToLower(filepath.Ext(path)) != ".md" {
+		if d.IsDir() || strings.ToLower(path.Ext(filePath)) != ".md" {
 			return nil
 		}
 
-		contentBytes, err := os.ReadFile(path)
+		contentBytes, err := fs.ReadFile(fileSystem, filePath)
 		if err != nil {
-			log.Printf("Error reading file %s: %v\n", path, err)
+			log.Printf("Error reading file %s: %v\n", filePath, err)
 			return nil // Continue with other files
 		}
 
@@ -111,7 +129,7 @@ func ParseContent(contentDir string, site *SiteInfo, buildTarget string, outputD
 		context := parser.NewContext()
 		// Use the globally configured md parser (now with Table support)
 		if err := md.Convert(contentBytes, &buf, parser.WithContext(context)); err != nil {
-			log.Printf("Error converting markdown file %s: %v\n", path, err)
+			log.Printf("Error converting markdown file %s: %v\n", filePath, err)
 			return nil // Continue with other files
 		}
 
@@ -120,17 +138,19 @@ func ParseContent(contentDir string, site *SiteInfo, buildTarget string, outputD
 		if metaData != nil {
 			pageMeta = metaData
 		} else {
-			log.Printf("Warning: No front matter found in %s\n", path)
+			log.Printf("Warning: No front matter found in %s\n", filePath)
 		}
 
 		// --- Determine Paths and URLs ---
-		relSourcePath, _ := filepath.Rel(contentDir, path)
+		relSourcePath := filePath
+		relSourcePath = strings.TrimPrefix(relSourcePath, "./")
+
 		outputPath := ""
 		url := ""           // Absolute URL path for internal logic (remains consistent)
 		relativeURL := ""   // Path relative to output root (consistent for both targets)
 		relPathToRoot := "" // Path from page to root (depends on target)
 
-		isSection := strings.HasSuffix(filepath.Base(path), "_index.md")
+		isSection := strings.HasSuffix(path.Base(filePath), "_index.md")
 		isHome := (relSourcePath == "_index.md")
 
 		// Calculate OutputPath, internal URL, and root-relative URL (used by templates)
@@ -139,19 +159,19 @@ func ParseContent(contentDir string, site *SiteInfo, buildTarget string, outputD
 			url = "/"
 			relativeURL = "index.html" // Path relative to output root
 		} else {
-			dir := filepath.Dir(relSourcePath)
-			base := strings.TrimSuffix(filepath.Base(path), filepath.Ext(path))
+			dir := path.Dir(relSourcePath)
+			base := strings.TrimSuffix(path.Base(filePath), path.Ext(filePath))
 
 			if isSection {
 				// Section index page (_index.md)
-				outputPath = filepath.Join(outputDir, dir, "index.html")
-				url = "/" + filepath.ToSlash(dir) + "/"                          // URL ends with /
-				relativeURL = filepath.ToSlash(filepath.Join(dir, "index.html")) // Path relative to output root
+				outputPath = filepath.Join(outputDir, filepath.FromSlash(dir), "index.html")
+				url = "/" + dir + "/"                      // URL ends with /
+				relativeURL = path.Join(dir, "index.html") // Path relative to output root
 			} else {
 				// Regular page (e.g., page.md)
-				outputPath = filepath.Join(outputDir, dir, base, "index.html")         // Output into its own folder
-				url = "/" + filepath.ToSlash(filepath.Join(dir, base)) + "/"           // URL ends with /
-				relativeURL = filepath.ToSlash(filepath.Join(dir, base, "index.html")) // Path relative to output root
+				outputPath = filepath.Join(outputDir, filepath.FromSlash(dir), base, "index.html") // Output into its own folder
+				url = "/" + path.Join(dir, base) + "/"                                             // URL ends with /
+				relativeURL = path.Join(dir, base, "index.html")                                   // Path relative to output root
 			}
 		}
 
@@ -173,7 +193,7 @@ func ParseContent(contentDir string, site *SiteInfo, buildTarget string, outputD
 
 		// --- Create Page Struct ---
 		page := &Page{
-			SourcePath:    path,
+			SourcePath:    filePath,
 			OutputPath:    outputPath,
 			URL:           url,           // Internal absolute URL
 			RelativeURL:   relativeURL,   // Path relative to output root (used by template)
@@ -188,7 +208,7 @@ func ParseContent(contentDir string, site *SiteInfo, buildTarget string, outputD
 		}
 
 		if _, exists := site.Pages[page.URL]; exists {
-			log.Printf("Warning: Duplicate URL detected '%s' from file %s. Overwriting.", page.URL, path)
+			log.Printf("Warning: Duplicate URL detected '%s' from file %s. Overwriting.", page.URL, filePath)
 		}
 		site.Pages[page.URL] = page
 
@@ -312,8 +332,12 @@ func RenderPages(site *SiteInfo, outputDir string, buildTarget string) error {
 			"BuildTarget": buildTarget, // Pass buildTarget to template data
 		}
 
-		// Execute the base template, which will in turn call the correct block (list or single)
-		err = site.Templates.ExecuteTemplate(outFile, "baseof.html", templateData)
+		// Execute the base template if it exists, otherwise fallback to the specific layout block
+		if site.Templates.Lookup("baseof.html") != nil {
+			err = site.Templates.ExecuteTemplate(outFile, "baseof.html", templateData)
+		} else {
+			err = site.Templates.ExecuteTemplate(outFile, layoutName, templateData)
+		}
 		closeErr := outFile.Close() // Close file after execution attempt
 
 		if err != nil {
@@ -334,8 +358,50 @@ func RenderPages(site *SiteInfo, outputDir string, buildTarget string) error {
 	return nil
 }
 
-// --- copyStaticFiles - Unchanged ---
+// --- copyStaticFiles ---
 func CopyStaticFiles(staticDir, outputDir string) error {
+	if staticDir == "" {
+		log.Printf("StaticPath is empty, using embedded default static/css files.\n")
+		return fs.WalkDir(defaults.StaticFS, "static/css", func(filePath string, d fs.DirEntry, err error) error {
+			if err != nil {
+				return err
+			}
+
+			relPath, err := filepath.Rel("static", filePath)
+			if err != nil {
+				return fmt.Errorf("failed to get relative path for %s: %w", filePath, err)
+			}
+			if relPath == "." {
+				return nil // Skip the root directory itself
+			}
+
+			// Target path is relative to the specified output directory
+			targetPath := filepath.Join(outputDir, relPath)
+
+			if d.IsDir() {
+				return os.MkdirAll(targetPath, 0755)
+			}
+
+			sourceFile, err := defaults.StaticFS.Open(filePath)
+			if err != nil {
+				return err
+			}
+			defer sourceFile.Close()
+
+			if err := os.MkdirAll(filepath.Dir(targetPath), 0755); err != nil {
+				return err
+			}
+			targetFile, err := os.Create(targetPath)
+			if err != nil {
+				return err
+			}
+			defer targetFile.Close()
+
+			_, err = io.Copy(targetFile, sourceFile)
+			return err
+		})
+	}
+
 	log.Printf("Copying static files from '%s' to '%s'\n", staticDir, outputDir)
 	if _, err := os.Stat(staticDir); os.IsNotExist(err) {
 		log.Printf("Static directory '%s' does not exist, skipping copy.\n", staticDir)

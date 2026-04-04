@@ -44,7 +44,6 @@ func (stager *Stager) UpdateAndCommitSsgStage() {
 		Name:           siteWeb.Name,
 		MardownContent: siteWeb.MarkdownContent,
 
-		LayoutPath: filepath.Join(stager.pathToExtractedGongSsgDefaultLayoutFiles, "layouts"),
 		StaticPath: filepath.Join(stager.pathToFilesUsedForSsgGeneration, "static"),
 
 		ContentPath: stager.pathToFilesForSsgGeneratedMarkdownFiles,

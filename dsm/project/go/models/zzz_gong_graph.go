@@ -3326,6 +3326,9 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 	if library.NbPixPerCharacter != libraryOther.NbPixPerCharacter {
 		diffs = append(diffs, library.GongMarshallField(stage, "NbPixPerCharacter"))
 	}
+	if library.LogoSVGFile != libraryOther.LogoSVGFile {
+		diffs = append(diffs, library.GongMarshallField(stage, "LogoSVGFile"))
+	}
 
 	return
 }

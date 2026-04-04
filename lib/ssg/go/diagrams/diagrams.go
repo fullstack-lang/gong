@@ -1,6 +1,7 @@
 package diagrams
 
 import (
+	"slices"
 	"time"
 
 	"github.com/fullstack-lang/gong/lib/doc/go/models"
@@ -11,6 +12,7 @@ import (
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
 var _ time.Time
+var _ = slices.Index[[]int, int]
 
 // _ point for meta package dummy declaration
 var _ ref_models.Stage
@@ -23,240 +25,220 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-12-03 00:12:14.658179 CET"
-	const __write__utc_time__ = "2025-12-02 23:12:14.658179 UTC"
+	// insertion point for declaration of instances to stage
 
-	const __commitId__ = "0000000046"
+	__AttributeShape__00000000_ := (&models.AttributeShape{Name: `Name`}).Stage(stage)
+	__AttributeShape__00000001_ := (&models.AttributeShape{Name: `MardownContent`}).Stage(stage)
+	__AttributeShape__00000002_ := (&models.AttributeShape{Name: `Name`}).Stage(stage)
+	__AttributeShape__00000003_ := (&models.AttributeShape{Name: `MardownContent`}).Stage(stage)
+	__AttributeShape__00000004_ := (&models.AttributeShape{Name: `ContentPath`}).Stage(stage)
+	__AttributeShape__00000005_ := (&models.AttributeShape{Name: `OutputPath`}).Stage(stage)
+	__AttributeShape__00000007_ := (&models.AttributeShape{Name: `StaticPath`}).Stage(stage)
+	__AttributeShape__00000008_ := (&models.AttributeShape{Name: `Target`}).Stage(stage)
+	__AttributeShape__00000009_ := (&models.AttributeShape{Name: `Name`}).Stage(stage)
+	__AttributeShape__00000010_ := (&models.AttributeShape{Name: `MardownContent`}).Stage(stage)
+	__AttributeShape__00000011_ := (&models.AttributeShape{Name: `LogoFileName`}).Stage(stage)
 
-	// Declaration of instances to stage
+	__Classdiagram__00000000_ := (&models.Classdiagram{Name: `Default`}).Stage(stage)
 
-	__AttributeShape__000000_Name := (&models.AttributeShape{}).Stage(stage)
-	__AttributeShape__000001_MardownContent := (&models.AttributeShape{}).Stage(stage)
-	__AttributeShape__000002_Name := (&models.AttributeShape{}).Stage(stage)
-	__AttributeShape__000003_MardownContent := (&models.AttributeShape{}).Stage(stage)
-	__AttributeShape__000004_ContentPath := (&models.AttributeShape{}).Stage(stage)
-	__AttributeShape__000005_OutputPath := (&models.AttributeShape{}).Stage(stage)
-	__AttributeShape__000006_LayoutPath := (&models.AttributeShape{}).Stage(stage)
-	__AttributeShape__000007_StaticPath := (&models.AttributeShape{}).Stage(stage)
-	__AttributeShape__000008_Target := (&models.AttributeShape{}).Stage(stage)
-	__AttributeShape__000009_Name := (&models.AttributeShape{}).Stage(stage)
-	__AttributeShape__000010_MardownContent := (&models.AttributeShape{}).Stage(stage)
-	__AttributeShape__000011_LogoFileName := (&models.AttributeShape{}).Stage(stage)
+	__DiagramPackage__00000000_ := (&models.DiagramPackage{Name: `Diagram Package created the 2025-05-09T00:55:33Z`}).Stage(stage)
 
-	__Classdiagram__000000_Default := (&models.Classdiagram{}).Stage(stage)
+	__GongEnumShape__00000000_ := (&models.GongEnumShape{Name: `Default-Target`}).Stage(stage)
 
-	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_09T00_55_33Z := (&models.DiagramPackage{}).Stage(stage)
+	__GongEnumValueShape__00000000_ := (&models.GongEnumValueShape{Name: `FILE`}).Stage(stage)
+	__GongEnumValueShape__00000001_ := (&models.GongEnumValueShape{Name: `WEB`}).Stage(stage)
 
-	__GongEnumShape__000000_Default_Target := (&models.GongEnumShape{}).Stage(stage)
+	__GongStructShape__00000000_ := (&models.GongStructShape{Name: `Default-Chapter`}).Stage(stage)
+	__GongStructShape__00000001_ := (&models.GongStructShape{Name: `Default-Content`}).Stage(stage)
+	__GongStructShape__00000002_ := (&models.GongStructShape{Name: `Default-Page`}).Stage(stage)
 
-	__GongEnumValueShape__000000_FILE := (&models.GongEnumValueShape{}).Stage(stage)
-	__GongEnumValueShape__000001_WEB := (&models.GongEnumValueShape{}).Stage(stage)
+	__LinkShape__00000000_ := (&models.LinkShape{Name: `Pages`}).Stage(stage)
+	__LinkShape__00000001_ := (&models.LinkShape{Name: `Chapters`}).Stage(stage)
 
-	__GongStructShape__000000_Default_Chapter := (&models.GongStructShape{}).Stage(stage)
-	__GongStructShape__000001_Default_Content := (&models.GongStructShape{}).Stage(stage)
-	__GongStructShape__000002_Default_Page := (&models.GongStructShape{}).Stage(stage)
+	// insertion point for initialization of values
 
-	__LinkShape__000000_Pages := (&models.LinkShape{}).Stage(stage)
-	__LinkShape__000001_Chapters := (&models.LinkShape{}).Stage(stage)
+	__AttributeShape__00000000_.Name = `Name`
+	__AttributeShape__00000000_.IdentifierMeta = ref_models.Chapter{}.Name
+	__AttributeShape__00000000_.FieldTypeAsString = ``
+	__AttributeShape__00000000_.Structname = `Chapter`
+	__AttributeShape__00000000_.Fieldtypename = `string`
 
-	// Setup of values
+	__AttributeShape__00000001_.Name = `MardownContent`
+	__AttributeShape__00000001_.IdentifierMeta = ref_models.Chapter{}.MardownContent
+	__AttributeShape__00000001_.FieldTypeAsString = ``
+	__AttributeShape__00000001_.Structname = `Chapter`
+	__AttributeShape__00000001_.Fieldtypename = `string`
 
-	__AttributeShape__000000_Name.Name = `Name`
-	__AttributeShape__000000_Name.IdentifierMeta = ref_models.Chapter{}.Name
-	__AttributeShape__000000_Name.FieldTypeAsString = ``
-	__AttributeShape__000000_Name.Structname = `Chapter`
-	__AttributeShape__000000_Name.Fieldtypename = `string`
+	__AttributeShape__00000002_.Name = `Name`
+	__AttributeShape__00000002_.IdentifierMeta = ref_models.Content{}.Name
+	__AttributeShape__00000002_.FieldTypeAsString = ``
+	__AttributeShape__00000002_.Structname = `Content`
+	__AttributeShape__00000002_.Fieldtypename = `string`
 
-	__AttributeShape__000001_MardownContent.Name = `MardownContent`
-	__AttributeShape__000001_MardownContent.IdentifierMeta = ref_models.Chapter{}.MardownContent
-	__AttributeShape__000001_MardownContent.FieldTypeAsString = ``
-	__AttributeShape__000001_MardownContent.Structname = `Chapter`
-	__AttributeShape__000001_MardownContent.Fieldtypename = `string`
+	__AttributeShape__00000003_.Name = `MardownContent`
+	__AttributeShape__00000003_.IdentifierMeta = ref_models.Content{}.MardownContent
+	__AttributeShape__00000003_.FieldTypeAsString = ``
+	__AttributeShape__00000003_.Structname = `Content`
+	__AttributeShape__00000003_.Fieldtypename = `string`
 
-	__AttributeShape__000002_Name.Name = `Name`
-	__AttributeShape__000002_Name.IdentifierMeta = ref_models.Content{}.Name
-	__AttributeShape__000002_Name.FieldTypeAsString = ``
-	__AttributeShape__000002_Name.Structname = `Content`
-	__AttributeShape__000002_Name.Fieldtypename = `string`
+	__AttributeShape__00000004_.Name = `ContentPath`
+	__AttributeShape__00000004_.IdentifierMeta = ref_models.Content{}.ContentPath
+	__AttributeShape__00000004_.FieldTypeAsString = ``
+	__AttributeShape__00000004_.Structname = `Content`
+	__AttributeShape__00000004_.Fieldtypename = `string`
 
-	__AttributeShape__000003_MardownContent.Name = `MardownContent`
-	__AttributeShape__000003_MardownContent.IdentifierMeta = ref_models.Content{}.MardownContent
-	__AttributeShape__000003_MardownContent.FieldTypeAsString = ``
-	__AttributeShape__000003_MardownContent.Structname = `Content`
-	__AttributeShape__000003_MardownContent.Fieldtypename = `string`
+	__AttributeShape__00000005_.Name = `OutputPath`
+	__AttributeShape__00000005_.IdentifierMeta = ref_models.Content{}.OutputPath
+	__AttributeShape__00000005_.FieldTypeAsString = ``
+	__AttributeShape__00000005_.Structname = `Content`
+	__AttributeShape__00000005_.Fieldtypename = `string`
 
-	__AttributeShape__000004_ContentPath.Name = `ContentPath`
-	__AttributeShape__000004_ContentPath.IdentifierMeta = ref_models.Content{}.ContentPath
-	__AttributeShape__000004_ContentPath.FieldTypeAsString = ``
-	__AttributeShape__000004_ContentPath.Structname = `Content`
-	__AttributeShape__000004_ContentPath.Fieldtypename = `string`
+	__AttributeShape__00000007_.Name = `StaticPath`
+	__AttributeShape__00000007_.IdentifierMeta = ref_models.Content{}.StaticPath
+	__AttributeShape__00000007_.FieldTypeAsString = ``
+	__AttributeShape__00000007_.Structname = `Content`
+	__AttributeShape__00000007_.Fieldtypename = `string`
 
-	__AttributeShape__000005_OutputPath.Name = `OutputPath`
-	__AttributeShape__000005_OutputPath.IdentifierMeta = ref_models.Content{}.OutputPath
-	__AttributeShape__000005_OutputPath.FieldTypeAsString = ``
-	__AttributeShape__000005_OutputPath.Structname = `Content`
-	__AttributeShape__000005_OutputPath.Fieldtypename = `string`
+	__AttributeShape__00000008_.Name = `Target`
+	__AttributeShape__00000008_.IdentifierMeta = ref_models.Content{}.Target
+	__AttributeShape__00000008_.FieldTypeAsString = ``
+	__AttributeShape__00000008_.Structname = `Content`
+	__AttributeShape__00000008_.Fieldtypename = `Target`
 
-	__AttributeShape__000006_LayoutPath.Name = `LayoutPath`
-	__AttributeShape__000006_LayoutPath.IdentifierMeta = ref_models.Content{}.LayoutPath
-	__AttributeShape__000006_LayoutPath.FieldTypeAsString = ``
-	__AttributeShape__000006_LayoutPath.Structname = `Content`
-	__AttributeShape__000006_LayoutPath.Fieldtypename = `string`
+	__AttributeShape__00000009_.Name = `Name`
+	__AttributeShape__00000009_.IdentifierMeta = ref_models.Page{}.Name
+	__AttributeShape__00000009_.FieldTypeAsString = ``
+	__AttributeShape__00000009_.Structname = `Page`
+	__AttributeShape__00000009_.Fieldtypename = `string`
 
-	__AttributeShape__000007_StaticPath.Name = `StaticPath`
-	__AttributeShape__000007_StaticPath.IdentifierMeta = ref_models.Content{}.StaticPath
-	__AttributeShape__000007_StaticPath.FieldTypeAsString = ``
-	__AttributeShape__000007_StaticPath.Structname = `Content`
-	__AttributeShape__000007_StaticPath.Fieldtypename = `string`
+	__AttributeShape__00000010_.Name = `MardownContent`
+	__AttributeShape__00000010_.IdentifierMeta = ref_models.Page{}.MardownContent
+	__AttributeShape__00000010_.FieldTypeAsString = ``
+	__AttributeShape__00000010_.Structname = `Page`
+	__AttributeShape__00000010_.Fieldtypename = `string`
 
-	__AttributeShape__000008_Target.Name = `Target`
-	__AttributeShape__000008_Target.IdentifierMeta = ref_models.Content{}.Target
-	__AttributeShape__000008_Target.FieldTypeAsString = ``
-	__AttributeShape__000008_Target.Structname = `Content`
-	__AttributeShape__000008_Target.Fieldtypename = `Target`
+	__AttributeShape__00000011_.Name = `LogoFileName`
+	__AttributeShape__00000011_.IdentifierMeta = ref_models.Content{}.BespokeLogoFileName
+	__AttributeShape__00000011_.FieldTypeAsString = ``
+	__AttributeShape__00000011_.Structname = `Content`
+	__AttributeShape__00000011_.Fieldtypename = `string`
 
-	__AttributeShape__000009_Name.Name = `Name`
-	__AttributeShape__000009_Name.IdentifierMeta = ref_models.Page{}.Name
-	__AttributeShape__000009_Name.FieldTypeAsString = ``
-	__AttributeShape__000009_Name.Structname = `Page`
-	__AttributeShape__000009_Name.Fieldtypename = `string`
+	__Classdiagram__00000000_.Name = `Default`
+	__Classdiagram__00000000_.Description = ``
+	__Classdiagram__00000000_.IsIncludedInStaticWebSite = false
+	__Classdiagram__00000000_.ShowNbInstances = false
+	__Classdiagram__00000000_.ShowMultiplicity = false
+	__Classdiagram__00000000_.ShowLinkNames = false
+	__Classdiagram__00000000_.IsInRenameMode = false
+	__Classdiagram__00000000_.IsExpanded = true
+	__Classdiagram__00000000_.NodeGongStructsIsExpanded = true
+	__Classdiagram__00000000_.NodeGongStructNodeExpansion = `[false,false,true]`
+	__Classdiagram__00000000_.NodeGongEnumsIsExpanded = true
+	__Classdiagram__00000000_.NodeGongEnumNodeExpansion = `[true]`
+	__Classdiagram__00000000_.NodeGongNotesIsExpanded = false
+	__Classdiagram__00000000_.NodeGongNoteNodeExpansion = ``
 
-	__AttributeShape__000010_MardownContent.Name = `MardownContent`
-	__AttributeShape__000010_MardownContent.IdentifierMeta = ref_models.Page{}.MardownContent
-	__AttributeShape__000010_MardownContent.FieldTypeAsString = ``
-	__AttributeShape__000010_MardownContent.Structname = `Page`
-	__AttributeShape__000010_MardownContent.Fieldtypename = `string`
+	__DiagramPackage__00000000_.Name = `Diagram Package created the 2025-05-09T00:55:33Z`
+	__DiagramPackage__00000000_.Path = ``
+	__DiagramPackage__00000000_.GongModelPath = ``
+	__DiagramPackage__00000000_.AbsolutePathToDiagramPackage = ``
 
-	__AttributeShape__000011_LogoFileName.Name = `LogoFileName`
-	__AttributeShape__000011_LogoFileName.IdentifierMeta = ref_models.Content{}.BespokeLogoFileName
-	__AttributeShape__000011_LogoFileName.FieldTypeAsString = ``
-	__AttributeShape__000011_LogoFileName.Structname = `Content`
-	__AttributeShape__000011_LogoFileName.Fieldtypename = `string`
+	__GongEnumShape__00000000_.Name = `Default-Target`
+	__GongEnumShape__00000000_.X = 47.000000
+	__GongEnumShape__00000000_.Y = 272.000000
+	__GongEnumShape__00000000_.IdentifierMeta = new(ref_models.Target)
+	__GongEnumShape__00000000_.Width = 240.000000
+	__GongEnumShape__00000000_.Height = 103.000000
+	__GongEnumShape__00000000_.IsExpanded = false
 
-	__Classdiagram__000000_Default.Name = `Default`
-	__Classdiagram__000000_Default.Description = ``
-	__Classdiagram__000000_Default.IsIncludedInStaticWebSite = false
-	__Classdiagram__000000_Default.ShowNbInstances = false
-	__Classdiagram__000000_Default.ShowMultiplicity = false
-	__Classdiagram__000000_Default.ShowLinkNames = false
-	__Classdiagram__000000_Default.IsInRenameMode = false
-	__Classdiagram__000000_Default.IsExpanded = true
-	__Classdiagram__000000_Default.NodeGongStructsIsExpanded = true
-	__Classdiagram__000000_Default.NodeGongStructNodeExpansion = `[false,false,true]`
-	__Classdiagram__000000_Default.NodeGongEnumsIsExpanded = true
-	__Classdiagram__000000_Default.NodeGongEnumNodeExpansion = `[true]`
-	__Classdiagram__000000_Default.NodeGongNotesIsExpanded = false
-	__Classdiagram__000000_Default.NodeGongNoteNodeExpansion = ``
+	__GongEnumValueShape__00000000_.Name = `FILE`
+	__GongEnumValueShape__00000000_.IdentifierMeta = ref_models.FILE
 
-	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_09T00_55_33Z.Name = `Diagram Package created the 2025-05-09T00:55:33Z`
-	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_09T00_55_33Z.Path = ``
-	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_09T00_55_33Z.GongModelPath = ``
-	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_09T00_55_33Z.AbsolutePathToDiagramPackage = ``
+	__GongEnumValueShape__00000001_.Name = `WEB`
+	__GongEnumValueShape__00000001_.IdentifierMeta = ref_models.WEB
 
-	__GongEnumShape__000000_Default_Target.Name = `Default-Target`
-	__GongEnumShape__000000_Default_Target.X = 47.000000
-	__GongEnumShape__000000_Default_Target.Y = 272.000000
-	__GongEnumShape__000000_Default_Target.IdentifierMeta = new(ref_models.Target)
-	__GongEnumShape__000000_Default_Target.Width = 240.000000
-	__GongEnumShape__000000_Default_Target.Height = 103.000000
-	__GongEnumShape__000000_Default_Target.IsExpanded = false
+	__GongStructShape__00000000_.Name = `Default-Chapter`
+	__GongStructShape__00000000_.X = 497.000000
+	__GongStructShape__00000000_.Y = 98.000000
+	__GongStructShape__00000000_.IdentifierMeta = ref_models.Chapter{}
+	__GongStructShape__00000000_.Width = 240.000000
+	__GongStructShape__00000000_.Height = 103.000000
+	__GongStructShape__00000000_.IsSelected = false
 
-	__GongEnumValueShape__000000_FILE.Name = `FILE`
-	__GongEnumValueShape__000000_FILE.IdentifierMeta = ref_models.FILE
+	__GongStructShape__00000001_.Name = `Default-Content`
+	__GongStructShape__00000001_.X = 46.000000
+	__GongStructShape__00000001_.Y = 44.000000
+	__GongStructShape__00000001_.IdentifierMeta = ref_models.Content{}
+	__GongStructShape__00000001_.Width = 240.000000
+	__GongStructShape__00000001_.Height = 223.000000
+	__GongStructShape__00000001_.IsSelected = false
 
-	__GongEnumValueShape__000001_WEB.Name = `WEB`
-	__GongEnumValueShape__000001_WEB.IdentifierMeta = ref_models.WEB
+	__GongStructShape__00000002_.Name = `Default-Page`
+	__GongStructShape__00000002_.X = 941.000000
+	__GongStructShape__00000002_.Y = 107.000000
+	__GongStructShape__00000002_.IdentifierMeta = ref_models.Page{}
+	__GongStructShape__00000002_.Width = 240.000000
+	__GongStructShape__00000002_.Height = 103.000000
+	__GongStructShape__00000002_.IsSelected = false
 
-	__GongStructShape__000000_Default_Chapter.Name = `Default-Chapter`
-	__GongStructShape__000000_Default_Chapter.X = 497.000000
-	__GongStructShape__000000_Default_Chapter.Y = 98.000000
-	__GongStructShape__000000_Default_Chapter.IdentifierMeta = ref_models.Chapter{}
-	__GongStructShape__000000_Default_Chapter.Width = 240.000000
-	__GongStructShape__000000_Default_Chapter.Height = 103.000000
-	__GongStructShape__000000_Default_Chapter.IsSelected = false
+	__LinkShape__00000000_.Name = `Pages`
+	__LinkShape__00000000_.IdentifierMeta = ref_models.Chapter{}.Pages
+	__LinkShape__00000000_.FieldTypeIdentifierMeta = ref_models.Page{}
+	__LinkShape__00000000_.FieldOffsetX = 0.000000
+	__LinkShape__00000000_.FieldOffsetY = 0.000000
+	__LinkShape__00000000_.TargetMultiplicity = models.MANY
+	__LinkShape__00000000_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000000_.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__00000000_.SourceMultiplicity = models.MANY
+	__LinkShape__00000000_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000000_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000000_.X = 798.500000
+	__LinkShape__00000000_.Y = 107.000000
+	__LinkShape__00000000_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000000_.StartRatio = 0.500000
+	__LinkShape__00000000_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000000_.EndRatio = 0.500000
+	__LinkShape__00000000_.CornerOffsetRatio = 1.380000
 
-	__GongStructShape__000001_Default_Content.Name = `Default-Content`
-	__GongStructShape__000001_Default_Content.X = 46.000000
-	__GongStructShape__000001_Default_Content.Y = 44.000000
-	__GongStructShape__000001_Default_Content.IdentifierMeta = ref_models.Content{}
-	__GongStructShape__000001_Default_Content.Width = 240.000000
-	__GongStructShape__000001_Default_Content.Height = 223.000000
-	__GongStructShape__000001_Default_Content.IsSelected = false
+	__LinkShape__00000001_.Name = `Chapters`
+	__LinkShape__00000001_.IdentifierMeta = ref_models.Content{}.Chapters
+	__LinkShape__00000001_.FieldTypeIdentifierMeta = ref_models.Chapter{}
+	__LinkShape__00000001_.FieldOffsetX = 0.000000
+	__LinkShape__00000001_.FieldOffsetY = 0.000000
+	__LinkShape__00000001_.TargetMultiplicity = models.MANY
+	__LinkShape__00000001_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000001_.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__00000001_.SourceMultiplicity = models.MANY
+	__LinkShape__00000001_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000001_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000001_.X = 574.000000
+	__LinkShape__00000001_.Y = 147.500000
+	__LinkShape__00000001_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000001_.StartRatio = 0.500000
+	__LinkShape__00000001_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000001_.EndRatio = 0.500000
+	__LinkShape__00000001_.CornerOffsetRatio = 1.380000
 
-	__GongStructShape__000002_Default_Page.Name = `Default-Page`
-	__GongStructShape__000002_Default_Page.X = 941.000000
-	__GongStructShape__000002_Default_Page.Y = 107.000000
-	__GongStructShape__000002_Default_Page.IdentifierMeta = ref_models.Page{}
-	__GongStructShape__000002_Default_Page.Width = 240.000000
-	__GongStructShape__000002_Default_Page.Height = 103.000000
-	__GongStructShape__000002_Default_Page.IsSelected = false
-
-	__LinkShape__000000_Pages.Name = `Pages`
-	__LinkShape__000000_Pages.IdentifierMeta = ref_models.Chapter{}.Pages
-	__LinkShape__000000_Pages.FieldTypeIdentifierMeta = ref_models.Page{}
-	__LinkShape__000000_Pages.FieldOffsetX = 0.000000
-	__LinkShape__000000_Pages.FieldOffsetY = 0.000000
-	__LinkShape__000000_Pages.TargetMultiplicity = models.MANY
-	__LinkShape__000000_Pages.TargetMultiplicityOffsetX = 0.000000
-	__LinkShape__000000_Pages.TargetMultiplicityOffsetY = 0.000000
-	__LinkShape__000000_Pages.SourceMultiplicity = models.MANY
-	__LinkShape__000000_Pages.SourceMultiplicityOffsetX = 0.000000
-	__LinkShape__000000_Pages.SourceMultiplicityOffsetY = 0.000000
-	__LinkShape__000000_Pages.X = 798.500000
-	__LinkShape__000000_Pages.Y = 107.000000
-	__LinkShape__000000_Pages.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__LinkShape__000000_Pages.StartRatio = 0.500000
-	__LinkShape__000000_Pages.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__LinkShape__000000_Pages.EndRatio = 0.500000
-	__LinkShape__000000_Pages.CornerOffsetRatio = 1.380000
-
-	__LinkShape__000001_Chapters.Name = `Chapters`
-	__LinkShape__000001_Chapters.IdentifierMeta = ref_models.Content{}.Chapters
-	__LinkShape__000001_Chapters.FieldTypeIdentifierMeta = ref_models.Chapter{}
-	__LinkShape__000001_Chapters.FieldOffsetX = 0.000000
-	__LinkShape__000001_Chapters.FieldOffsetY = 0.000000
-	__LinkShape__000001_Chapters.TargetMultiplicity = models.MANY
-	__LinkShape__000001_Chapters.TargetMultiplicityOffsetX = 0.000000
-	__LinkShape__000001_Chapters.TargetMultiplicityOffsetY = 0.000000
-	__LinkShape__000001_Chapters.SourceMultiplicity = models.MANY
-	__LinkShape__000001_Chapters.SourceMultiplicityOffsetX = 0.000000
-	__LinkShape__000001_Chapters.SourceMultiplicityOffsetY = 0.000000
-	__LinkShape__000001_Chapters.X = 574.000000
-	__LinkShape__000001_Chapters.Y = 147.500000
-	__LinkShape__000001_Chapters.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__LinkShape__000001_Chapters.StartRatio = 0.500000
-	__LinkShape__000001_Chapters.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__LinkShape__000001_Chapters.EndRatio = 0.500000
-	__LinkShape__000001_Chapters.CornerOffsetRatio = 1.380000
-
-	// Setup of pointers
-	// setup of AttributeShape instances pointers
-	// setup of Classdiagram instances pointers
-	__Classdiagram__000000_Default.GongStructShapes = append(__Classdiagram__000000_Default.GongStructShapes, __GongStructShape__000000_Default_Chapter)
-	__Classdiagram__000000_Default.GongStructShapes = append(__Classdiagram__000000_Default.GongStructShapes, __GongStructShape__000001_Default_Content)
-	__Classdiagram__000000_Default.GongStructShapes = append(__Classdiagram__000000_Default.GongStructShapes, __GongStructShape__000002_Default_Page)
-	__Classdiagram__000000_Default.GongEnumShapes = append(__Classdiagram__000000_Default.GongEnumShapes, __GongEnumShape__000000_Default_Target)
-	// setup of DiagramPackage instances pointers
-	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_09T00_55_33Z.Classdiagrams = append(__DiagramPackage__000000_Diagram_Package_created_the_2025_05_09T00_55_33Z.Classdiagrams, __Classdiagram__000000_Default)
-	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_09T00_55_33Z.SelectedClassdiagram = __Classdiagram__000000_Default
-	// setup of GongEnumShape instances pointers
-	__GongEnumShape__000000_Default_Target.GongEnumValueShapes = append(__GongEnumShape__000000_Default_Target.GongEnumValueShapes, __GongEnumValueShape__000000_FILE)
-	__GongEnumShape__000000_Default_Target.GongEnumValueShapes = append(__GongEnumShape__000000_Default_Target.GongEnumValueShapes, __GongEnumValueShape__000001_WEB)
-	// setup of GongEnumValueShape instances pointers
-	// setup of GongStructShape instances pointers
-	__GongStructShape__000000_Default_Chapter.AttributeShapes = append(__GongStructShape__000000_Default_Chapter.AttributeShapes, __AttributeShape__000000_Name)
-	__GongStructShape__000000_Default_Chapter.AttributeShapes = append(__GongStructShape__000000_Default_Chapter.AttributeShapes, __AttributeShape__000001_MardownContent)
-	__GongStructShape__000000_Default_Chapter.LinkShapes = append(__GongStructShape__000000_Default_Chapter.LinkShapes, __LinkShape__000000_Pages)
-	__GongStructShape__000001_Default_Content.AttributeShapes = append(__GongStructShape__000001_Default_Content.AttributeShapes, __AttributeShape__000002_Name)
-	__GongStructShape__000001_Default_Content.AttributeShapes = append(__GongStructShape__000001_Default_Content.AttributeShapes, __AttributeShape__000003_MardownContent)
-	__GongStructShape__000001_Default_Content.AttributeShapes = append(__GongStructShape__000001_Default_Content.AttributeShapes, __AttributeShape__000004_ContentPath)
-	__GongStructShape__000001_Default_Content.AttributeShapes = append(__GongStructShape__000001_Default_Content.AttributeShapes, __AttributeShape__000005_OutputPath)
-	__GongStructShape__000001_Default_Content.AttributeShapes = append(__GongStructShape__000001_Default_Content.AttributeShapes, __AttributeShape__000006_LayoutPath)
-	__GongStructShape__000001_Default_Content.AttributeShapes = append(__GongStructShape__000001_Default_Content.AttributeShapes, __AttributeShape__000007_StaticPath)
-	__GongStructShape__000001_Default_Content.AttributeShapes = append(__GongStructShape__000001_Default_Content.AttributeShapes, __AttributeShape__000011_LogoFileName)
-	__GongStructShape__000001_Default_Content.AttributeShapes = append(__GongStructShape__000001_Default_Content.AttributeShapes, __AttributeShape__000008_Target)
-	__GongStructShape__000001_Default_Content.LinkShapes = append(__GongStructShape__000001_Default_Content.LinkShapes, __LinkShape__000001_Chapters)
-	__GongStructShape__000002_Default_Page.AttributeShapes = append(__GongStructShape__000002_Default_Page.AttributeShapes, __AttributeShape__000009_Name)
-	__GongStructShape__000002_Default_Page.AttributeShapes = append(__GongStructShape__000002_Default_Page.AttributeShapes, __AttributeShape__000010_MardownContent)
-	// setup of LinkShape instances pointers
+	// insertion point for setup of pointers
+	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000000_)
+	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000001_)
+	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000002_)
+	__Classdiagram__00000000_.GongEnumShapes = append(__Classdiagram__00000000_.GongEnumShapes, __GongEnumShape__00000000_)
+	__DiagramPackage__00000000_.Classdiagrams = append(__DiagramPackage__00000000_.Classdiagrams, __Classdiagram__00000000_)
+	__DiagramPackage__00000000_.SelectedClassdiagram = __Classdiagram__00000000_
+	__GongEnumShape__00000000_.GongEnumValueShapes = append(__GongEnumShape__00000000_.GongEnumValueShapes, __GongEnumValueShape__00000000_)
+	__GongEnumShape__00000000_.GongEnumValueShapes = append(__GongEnumShape__00000000_.GongEnumValueShapes, __GongEnumValueShape__00000001_)
+	__GongStructShape__00000000_.AttributeShapes = append(__GongStructShape__00000000_.AttributeShapes, __AttributeShape__00000000_)
+	__GongStructShape__00000000_.AttributeShapes = append(__GongStructShape__00000000_.AttributeShapes, __AttributeShape__00000001_)
+	__GongStructShape__00000000_.LinkShapes = append(__GongStructShape__00000000_.LinkShapes, __LinkShape__00000000_)
+	__GongStructShape__00000001_.AttributeShapes = append(__GongStructShape__00000001_.AttributeShapes, __AttributeShape__00000002_)
+	__GongStructShape__00000001_.AttributeShapes = append(__GongStructShape__00000001_.AttributeShapes, __AttributeShape__00000003_)
+	__GongStructShape__00000001_.AttributeShapes = append(__GongStructShape__00000001_.AttributeShapes, __AttributeShape__00000004_)
+	__GongStructShape__00000001_.AttributeShapes = append(__GongStructShape__00000001_.AttributeShapes, __AttributeShape__00000005_)
+	__GongStructShape__00000001_.AttributeShapes = append(__GongStructShape__00000001_.AttributeShapes, __AttributeShape__00000007_)
+	__GongStructShape__00000001_.AttributeShapes = append(__GongStructShape__00000001_.AttributeShapes, __AttributeShape__00000011_)
+	__GongStructShape__00000001_.AttributeShapes = append(__GongStructShape__00000001_.AttributeShapes, __AttributeShape__00000008_)
+	__GongStructShape__00000001_.LinkShapes = append(__GongStructShape__00000001_.LinkShapes, __LinkShape__00000001_)
+	__GongStructShape__00000002_.AttributeShapes = append(__GongStructShape__00000002_.AttributeShapes, __AttributeShape__00000009_)
+	__GongStructShape__00000002_.AttributeShapes = append(__GongStructShape__00000002_.AttributeShapes, __AttributeShape__00000010_)
 }
