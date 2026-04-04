@@ -214,10 +214,29 @@ func (stager *Stager) button() {
 						Name:           "Diagrams",
 						MardownContent: "### Diagrams\n",
 					}
-					for _, d := range lib.Diagrams {
-						page.MardownContent += "\n- " + d.Name
+					for _, diagram := range lib.Diagrams {
+						page.MardownContent += "\n- " + diagram.Name
+
+						svgObject := stager.generateSvgObject(diagram)
+						_ = svgObject
+						svgString, maxX, maxY := svgObject.GenerateString()
+
+						// Replace 100% width/height with exact pixel values to prevent the
+						// SVG from stretching and looking "too big" in the browser.
+						svgString = strings.Replace(svgString, `width="100%"`, fmt.Sprintf(`width="%f"`, maxX), 1)
+						svgString = strings.Replace(svgString, `height="100%"`, fmt.Sprintf(`height="%f"`, maxY), 1)
+
+						section := &ssg.Section{
+							Name:    diagram.Name,
+							IsImage: true,
+							SvgImage: &ssg.SvgImage{
+								Content: svgString,
+							},
+						}
+						page.Sections = append(page.Sections, section)
 					}
 					chapter.Pages = append(chapter.Pages, page)
+
 				}
 
 				if len(lib.SubLibraries) > 0 {

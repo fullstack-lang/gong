@@ -26,6 +26,22 @@ const extraMargin = 10
 
 // GenerateFile generates an SVG file that represents the content of the SVG object.
 func (svg *SVG) GenerateFile(pathToFile string) (err error, maxX, maxY float64) {
+	var result string
+	result, maxX, maxY = svg.GenerateString()
+
+	err = os.WriteFile(pathToFile, []byte(result), 0644)
+	if err != nil {
+		log.Fatalln("Probleme lors de l'écriture du fichier SVG", err.Error())
+		return err, 0, 0
+	}
+
+	return
+}
+
+// GenerateString generates the raw SVG string that represents the content of the SVG object.
+// It returns the generated SVG string, as well as the maximum X and Y coordinates (maxX, maxY)
+// of the bounding box containing all the SVG elements, which can be used to properly size the SVG viewport.
+func (svg *SVG) GenerateString() (result string, maxX, maxY float64) {
 	var sb strings.Builder
 
 	maxX_string_to_be_replaced := "__gong__maxX_string_to_be_replaced"
@@ -278,18 +294,12 @@ func (svg *SVG) GenerateFile(pathToFile string) (err error, maxX, maxY float64) 
 
 	sb.WriteString("</svg>\n")
 
-	result := sb.String()
+	result = sb.String()
 
 	maxX += extraMargin
 	maxY += extraMargin
 	result = strings.ReplaceAll(result, maxX_string_to_be_replaced, fmt.Sprintf("%f", maxX))
 	result = strings.ReplaceAll(result, maxY_string_to_be_replaced, fmt.Sprintf("%f", maxY))
-
-	err = os.WriteFile(pathToFile, []byte(result), 0644)
-	if err != nil {
-		log.Fatalln("Probleme lors de l'écriture du fichier SVG", err.Error())
-		return err, 0, 0
-	}
 
 	return
 }
