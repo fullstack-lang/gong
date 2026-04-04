@@ -155,9 +155,9 @@ func (*Stage) markdown2ssg(content *Content, memoryFS fs.FS) {
 	}
 	// log.Printf("Cleaned output directory '%s'.\n", content.OutputPath)
 
-	templates, err := gen.LoadTemplates(content.LayoutPath)
+	templates, err := gen.LoadTemplates()
 	if err != nil {
-		log.Fatalf("Error loading templates from '%s': %v", content.LayoutPath, err)
+		log.Fatalf("Error loading embedded templates: %v", err)
 	}
 	// log.Println("Loaded HTML templates.")
 

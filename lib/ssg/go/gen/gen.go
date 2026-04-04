@@ -20,6 +20,8 @@ import (
 	"github.com/yuin/goldmark/extension" // <-- Import the standard extension package
 	"github.com/yuin/goldmark/parser"
 	"github.com/yuin/goldmark/renderer/html" // Import the html renderer package
+
+	"github.com/fullstack-lang/gong/lib/ssg/go/defaults"
 )
 
 // --- Structs (Page, SiteInfo) - Unchanged ---
@@ -73,17 +75,32 @@ func CleanOutputDir(dir string) error {
 }
 
 // --- loadTemplates - Unchanged ---
-func LoadTemplates(layoutDir string) (*template.Template, error) {
+func LoadTemplates() (*template.Template, error) {
 	tmpl := template.New("base").Funcs(template.FuncMap{
 		"safeHTML": func(s string) template.HTML { return template.HTML(s) },
 	})
 
-	globPattern := filepath.Join(layoutDir, "**/*.html")
-	// log.Printf("Parsing templates with glob pattern: %s\n", globPattern)
-
-	tmpl, err := tmpl.ParseGlob(globPattern)
+	var files []string
+	err := fs.WalkDir(defaults.LayoutsFS, "layouts", func(filePath string, d fs.DirEntry, err error) error {
+		if err != nil {
+			return err
+		}
+		if !d.IsDir() && strings.HasSuffix(filePath, ".html") {
+			files = append(files, filePath)
+		}
+		return nil
+	})
 	if err != nil {
-		return nil, fmt.Errorf("failed to parse templates with glob '%s': %w", globPattern, err)
+		return nil, fmt.Errorf("failed to walk embedded layouts: %w", err)
+	}
+
+	if len(files) == 0 {
+		return nil, fmt.Errorf("no HTML templates found in embedded layouts directory")
+	}
+
+	tmpl, err = tmpl.ParseFS(defaults.LayoutsFS, files...)
+	if err != nil {
+		return nil, fmt.Errorf("failed to parse embedded templates: %w", err)
 	}
 
 	return tmpl, nil
@@ -315,8 +332,12 @@ func RenderPages(site *SiteInfo, outputDir string, buildTarget string) error {
 			"BuildTarget": buildTarget, // Pass buildTarget to template data
 		}
 
-		// Execute the base template, which will in turn call the correct block (list or single)
-		err = site.Templates.ExecuteTemplate(outFile, "baseof.html", templateData)
+		// Execute the base template if it exists, otherwise fallback to the specific layout block
+		if site.Templates.Lookup("baseof.html") != nil {
+			err = site.Templates.ExecuteTemplate(outFile, "baseof.html", templateData)
+		} else {
+			err = site.Templates.ExecuteTemplate(outFile, layoutName, templateData)
+		}
 		closeErr := outFile.Close() // Close file after execution attempt
 
 		if err != nil {

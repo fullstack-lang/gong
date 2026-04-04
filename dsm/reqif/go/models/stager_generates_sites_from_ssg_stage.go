@@ -5,8 +5,6 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/fullstack-lang/gong/lib/ssg/go/defaults"
-
 	ssg "github.com/fullstack-lang/gong/lib/ssg/go/models"
 )
 
@@ -33,9 +31,6 @@ func (stager *Stager) generatesSiteFromSSGStage() {
 	if !filepath.IsLocal(siteWeb.InputImagesDir) {
 		log.Fatalln("Path siteWeb.InputImagesDir", siteWeb.InputImagesDir, "is not local")
 	}
-
-	extractGongSsgEmbeddedFiles(defaults.StaticDir, stager.pathToExtractedGongSsgDefaultStaticFiles)
-	extractGongSsgEmbeddedFiles(defaults.LayoutsDir, stager.pathToExtractedGongSsgDefaultLayoutFiles)
 
 	// start by copying the static directory
 	_, shouldReturn := stager.copyImagesToDirectoryForSsgGeneration()
