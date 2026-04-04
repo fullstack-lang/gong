@@ -42,7 +42,7 @@ func (stager *Stager) generatesSiteFromSSGStage() {
 	filename := filepath.Join(stager.rootPathToImageInputs, siteWeb.InputImagesDir, "reqif.xlsx")
 	SerializeStage(stager.stage, filename)
 
-	stager.ssgStage.Generation()
+	stager.ssgStage.Generation(false)
 }
 
 func (stager *Stager) copyImagesToDirectoryForSsgGeneration() (error, bool) {

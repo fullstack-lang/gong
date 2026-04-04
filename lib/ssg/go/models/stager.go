@@ -61,6 +61,13 @@ func NewStager(r *gin.Engine, stage *Stage) (stager *Stager) {
 						StackName: stage.GetProbeSplitStageName(),
 					}),
 				}),
+				(&split.AsSplitArea{
+					Size:             0,
+					ShowNameInHeader: false,
+					Load: (&split.Load{
+						StackName: stager.loadStage.GetName(),
+					}),
+				}),
 			},
 		})
 
@@ -85,7 +92,20 @@ func (stager *Stager) UpdateAndCommitButtonStage() {
 		Label: "Generate static site",
 		OnUpdate: func() {
 			log.Println("button updated")
-			stager.stage.Generation()
+			stager.stage.Generation(false)
+			zipData, err := stager.stage.Generation(true)
+			if err != nil {
+				log.Println(err)
+			}
+
+			stager.loadStage.Reset()
+
+			fileToDownload := new(load.FileToDownload).Stage(stager.loadStage)
+			fileToDownload.Base64EncodedContent = zipData
+
+			fileToDownload.Name = "site.zip"
+
+			stager.loadStage.Commit()
 		},
 	}).Stage(stager.buttonStage)
 
