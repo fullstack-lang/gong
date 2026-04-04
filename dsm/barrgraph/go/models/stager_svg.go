@@ -2,21 +2,39 @@ package models
 
 import (
 	"fmt"
+	"log"
 	"strings"
 
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 )
 
 func (stager *Stager) svg() {
+	log.Println("svg")
 	stager.svgStage.Reset()
+
+	if stager.desk.SelectedDiagram == nil {
+		stager.svgStage.Commit()
+		return
+	}
+	svgObject := stager.generateSvgObject(stager.desk.SelectedDiagram)
+
+	svg.StageBranch(stager.svgStage, svgObject)
+
+	stager.svgStage.Commit()
+}
+
+// generateSvgObject creates and returns a new svg.SVG object representing the given diagram.
+// It maps all visible domain shapes (Products, Tasks, Notes, Resources) and their associations
+// to SVG elements (Rects, Links, Paths) on a single layer. It also populates the diagram's
+// internal maps to link abstract elements with their visual SVG counterparts.
+func (stager *Stager) generateSvgObject(diagram *Diagram) (svg_ *svg.SVG) {
 
 	// creates a map of art history element
 	map_ArtElement_Rect := make(map[ArtElement]*svg.Rect)
 
 	map_Artist_Influences := GetPointerReverseMap[Influence, Artist](GetAssociationName[Influence]().SourceArtist.Name, stager.stage)
 
-	diagram := stager.desk.SelectedDiagram
-	svg_ := &svg.SVG{
+	svg_ = &svg.SVG{
 		Name:       diagram.Name,
 		IsEditable: diagram.IsEditable,
 	}
@@ -608,9 +626,7 @@ func (stager *Stager) svg() {
 		}
 	}
 
-	svg.StageBranch(stager.svgStage, svg_)
-
-	stager.svgStage.Commit()
+	return
 }
 
 func (*Stager) addBottomRect(y float64, diagram *Diagram, layer *svg.Layer) {
