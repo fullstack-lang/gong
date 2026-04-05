@@ -154,17 +154,21 @@ func (rectAnchoredText *RectAnchoredText) WriteSVG(sb *strings.Builder, x, y flo
 			writing-mode="%s"
 			dominant-baseline="%s"
 			text-anchor="%s"
+			font-family="%s"
 			font-weight="%s"
 			font-style="%s"
-			font-size="%s"`,
+			font-size="%s"
+			letter-spacing="%s"`,
 			formatFloat(x+rectAnchoredText.X_Offset),
 			formatFloat(y+rectAnchoredText.Y_Offset),
 			rectAnchoredText.WritingMode.ToString(),
 			rectAnchoredText.DominantBaseline.ToString(),
 			rectAnchoredText.TextAnchorType.ToString(),
+			rectAnchoredText.FontFamily,
 			rectAnchoredText.FontWeight,
 			rectAnchoredText.FontStyle,
 			rectAnchoredText.FontSize,
+			rectAnchoredText.LetterSpacing,
 		))
 
 	rectAnchoredText.Presentation.WriteSVG(sb)

@@ -82,15 +82,19 @@ func (linkAnchoredText *LinkAnchoredText) WriteSVG(sb *strings.Builder, link *Li
 			x="%s" 
 			y="%s" 
 			text-anchor="%s"
+			font-family="%s"
 			font-weight="%s"
 			font-style="%s"
-			font-size="%s"`,
+			font-size="%s"
+			letter-spacing="%s"`,
 			formatFloat(x),
 			formatFloat(y),
 			anchorType,
+			linkAnchoredText.FontFamily,
 			linkAnchoredText.FontWeight,
 			linkAnchoredText.FontStyle,
 			linkAnchoredText.FontSize,
+			linkAnchoredText.LetterSpacing,
 		))
 
 	linkAnchoredText.Presentation.WriteSVG(sb)
