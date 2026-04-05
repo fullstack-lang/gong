@@ -11,6 +11,9 @@ import (
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 	svg_stack "github.com/fullstack-lang/gong/lib/svg/go/stack"
 
+	ssg_stack "github.com/fullstack-lang/gong/lib/ssg/go/level1stack"
+	ssg "github.com/fullstack-lang/gong/lib/ssg/go/models"
+
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 	tree_stack "github.com/fullstack-lang/gong/lib/tree/go/stack"
 
@@ -27,6 +30,7 @@ type Stager struct {
 	asSplitArea *split.AsSplitArea
 
 	svgStage  *svg.Stage
+	ssgStage  *ssg.Stage
 	treeStage *tree.Stage
 
 	loadStage   *load.Stage
@@ -54,6 +58,7 @@ func NewStager(
 	stage.SetDeltaMode(true)
 
 	stager.svgStage = svg_stack.NewStack(r, stage.GetName(), "", "", "", true, true).Stage
+	stager.ssgStage = ssg_stack.NewLevel1Stack("", "", "", true, true).Stage
 	stager.treeStage = tree_stack.NewStack(r, stage.GetName(), "", "", "", true, true).Stage
 	stager.loadStage = load_stack.NewStack(r, "", "", "", "", true, true).Stage
 	stager.buttonStage = button_stack.NewStack(r, "", "", "", "", true, true).Stage
