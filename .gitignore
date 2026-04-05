@@ -73,3 +73,4 @@ dsm/xsd/tests/musicxml/go/cmd/musicxml/musicxml
 dsm/xsd/tests/reqif/go/cmd/reqif/reqif
 dsm/reqif/go/cmd/reqif/gongreqif.log
 dsm/reqif/go/cmd/reqif/reqif
+dsm/barrgraph/go/cmd/site
