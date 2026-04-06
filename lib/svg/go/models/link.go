@@ -157,35 +157,43 @@ func (link *Link) WriteSVGEndArrow(sb *strings.Builder, segment *Segment) {
 	const ratio = 0.707106781 / 2 // (1/sqrt(2)) / 2
 
 	arrowSize := link.EndArrowSize
+	if segment.Type == StartSegment {
+		arrowSize = link.StartArrowSize
+	}
+	if arrowSize == 0 {
+		arrowSize = link.EndArrowSize
+	}
 
-	firstStartX := segment.EndPointWithoutRadius.X
-	firstStartY := segment.EndPointWithoutRadius.Y
+	tipX := segment.EndPointWithoutRadius.X
+	tipY := segment.EndPointWithoutRadius.Y
 
-	secondStartX := segment.EndPointWithoutRadius.X
-	secondStartY := segment.EndPointWithoutRadius.Y
+	dxSeg := tipX - segment.StartPointWithoutRadius.X
+	dySeg := tipY - segment.StartPointWithoutRadius.Y
+	length := math.Sqrt(dxSeg*dxSeg + dySeg*dySeg)
 
-	firstTipX := segment.EndPointWithoutRadius.X
-	firstTipY := segment.EndPointWithoutRadius.Y
-	secondTipX := segment.EndPointWithoutRadius.X
-	secondTipY := segment.EndPointWithoutRadius.Y
+	if length == 0 {
+		return
+	}
 
-	// Calculate first tip and start points
-	dx, dy := rotateToSegmentDirection(segment, -arrowSize, -arrowSize)
-	firstTipX += dx
-	firstTipY += dy
+	ux := dxSeg / length
+	uy := dySeg / length
 
-	dx, dy = rotateToSegmentDirection(segment, link.StrokeWidth*ratio, link.StrokeWidth*ratio)
-	firstStartX += dx
-	firstStartY += dy
+	nx := -uy
+	ny := ux
 
-	// Calculate second tip and start points
-	dx, dy = rotateToSegmentDirection(segment, -arrowSize, arrowSize)
-	secondTipX += dx
-	secondTipY += dy
+	offset := link.StrokeWidth * ratio
 
-	dx, dy = rotateToSegmentDirection(segment, link.StrokeWidth*ratio, -link.StrokeWidth*ratio)
-	secondStartX += dx
-	secondStartY += dy
+	firstStartX := tipX - offset*ux + offset*nx
+	firstStartY := tipY - offset*uy + offset*ny
+
+	secondStartX := tipX - offset*ux - offset*nx
+	secondStartY := tipY - offset*uy - offset*ny
+
+	firstTipX := tipX - arrowSize*ux + arrowSize*nx
+	firstTipY := tipY - arrowSize*uy + arrowSize*ny
+
+	secondTipX := tipX - arrowSize*ux - arrowSize*nx
+	secondTipY := tipY - arrowSize*uy - arrowSize*ny
 
 	sb.WriteString(fmt.Sprintf("	<path d=\"M %f %f L %f %f M %f %f L %f %f\"",
 		firstStartX,
@@ -204,6 +212,24 @@ func (link *Link) WriteSVGEndArrow(sb *strings.Builder, segment *Segment) {
 }
 
 func (link *Link) WriteSVGArcPath(sb *strings.Builder, segment, nextSegment *Segment) {
+
+	if link.Type == LINK_TYPE_LINE_WITH_CONTROL_POINTS {
+		cornerX := segment.EndPointWithoutRadius.X
+		cornerY := segment.EndPointWithoutRadius.Y
+		startX := segment.EndPoint.X
+		startY := segment.EndPoint.Y
+		endX := nextSegment.StartPoint.X
+		endY := nextSegment.StartPoint.Y
+
+		sb.WriteString(fmt.Sprintf("	<path d=\"M %f %f Q %f %f %f %f\"",
+			startX, startY,
+			cornerX, cornerY,
+			endX, endY))
+
+		link.Presentation.WriteSVG(sb)
+		sb.WriteString(" />\n")
+		return
+	}
 
 	// The TypeScript version uses constant startDegree and endDegree,
 	// which means startRadians and endRadians are also constant.
