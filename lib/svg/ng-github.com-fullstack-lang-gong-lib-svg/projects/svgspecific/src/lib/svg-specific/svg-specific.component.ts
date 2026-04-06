@@ -12,7 +12,7 @@ import { MatDividerModule } from '@angular/material/divider'
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule, TooltipPosition } from '@angular/material/tooltip';
-
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 import { manageHandles } from '../manage.handles';
 import { Segment, createPoint, drawSegments, drawSegmentsFromLink } from '../draw.segments';
@@ -63,7 +63,6 @@ import { controlPointToPoint, pointToControlPoint } from '../control-points';
   styleUrl: './svg-specific.component.css'
 })
 export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
-
 
   @ViewChild('controlsContainer') controlsContainerRef!: ElementRef<HTMLDivElement>;
 
@@ -1533,4 +1532,7 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
     return controlPointToPoint(controlPoint)
   }
 
+  manualDetect() {
+    this.changeDetectorRef.detectChanges()
+  }
 }
