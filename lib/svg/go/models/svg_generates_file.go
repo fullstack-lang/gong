@@ -539,11 +539,37 @@ func generateSegmentsWithControlPoints(link *Link) []Segment {
 			segType = EndSegment
 		}
 
+		start := trimmed[i]
+		end := trimmed[i+1]
+		startWithout := start
+		endWithout := end
+
+		if link.CornerRadius > 0 {
+			dx := end.X - start.X
+			dy := end.Y - start.Y
+			length := math.Sqrt(dx*dx + dy*dy)
+
+			if length > 0 {
+				// pull back start if not first segment
+				if i > 0 {
+					pullback := math.Min(link.CornerRadius, length/2.0)
+					start.X += (dx / length) * pullback
+					start.Y += (dy / length) * pullback
+				}
+				// pull back end if not last segment
+				if i < len(trimmed)-2 {
+					pullback := math.Min(link.CornerRadius, length/2.0)
+					end.X -= (dx / length) * pullback
+					end.Y -= (dy / length) * pullback
+				}
+			}
+		}
+
 		segments = append(segments, Segment{
-			StartPoint:              trimmed[i],
-			EndPoint:                trimmed[i+1],
-			StartPointWithoutRadius: trimmed[i],
-			EndPointWithoutRadius:   trimmed[i+1],
+			StartPoint:              start,
+			EndPoint:                end,
+			StartPointWithoutRadius: startWithout,
+			EndPointWithoutRadius:   endWithout,
 			Number:                  i,
 			Type:                    segType,
 		})
