@@ -26,10 +26,13 @@ func _(stage *models.Stage) {
 	// insertion point for declaration of instances to stage
 
 	__ControlPoint__00000000_ := (&models.ControlPoint{Name: ``}).Stage(stage)
+	__ControlPoint__00000001_ := (&models.ControlPoint{Name: `Control point inside End Rect`}).Stage(stage)
+	__ControlPoint__00000002_ := (&models.ControlPoint{Name: `Control point inside Start Rect`}).Stage(stage)
 
 	__Layer__00000000_ := (&models.Layer{Name: ``}).Stage(stage)
 
-	__Link__00000000_ := (&models.Link{Name: `Link of interest`}).Stage(stage)
+	__Link__00000000_ := (&models.Link{Name: `Link of interest with control point outside end rect`}).Stage(stage)
+	__Link__00000001_ := (&models.Link{Name: `Link of interest with control point inside rects`}).Stage(stage)
 
 	__Rect__00000000_ := (&models.Rect{Name: `Start`}).Stage(stage)
 	__Rect__00000001_ := (&models.Rect{Name: `End`}).Stage(stage)
@@ -42,9 +45,17 @@ func _(stage *models.Stage) {
 	__ControlPoint__00000000_.X_Relative = 1.100000
 	__ControlPoint__00000000_.Y_Relative = 1.500000
 
+	__ControlPoint__00000001_.Name = `Control point inside End Rect`
+	__ControlPoint__00000001_.X_Relative = 0.100000
+	__ControlPoint__00000001_.Y_Relative = 0.500000
+
+	__ControlPoint__00000002_.Name = `Control point inside Start Rect`
+	__ControlPoint__00000002_.X_Relative = 0.100000
+	__ControlPoint__00000002_.Y_Relative = 0.900000
+
 	__Layer__00000000_.Name = ``
 
-	__Link__00000000_.Name = `Link of interest`
+	__Link__00000000_.Name = `Link of interest with control point outside end rect`
 	__Link__00000000_.Type = models.LINK_TYPE_LINE_WITH_CONTROL_POINTS
 	__Link__00000000_.IsBezierCurve = false
 	__Link__00000000_.StartAnchorType = models.ANCHOR_CENTER
@@ -54,7 +65,7 @@ func _(stage *models.Stage) {
 	__Link__00000000_.EndOrientation = ""
 	__Link__00000000_.EndRatio = 0.000000
 	__Link__00000000_.CornerOffsetRatio = 0.000000
-	__Link__00000000_.CornerRadius = 0.000000
+	__Link__00000000_.CornerRadius = 13.000000
 	__Link__00000000_.HasEndArrow = true
 	__Link__00000000_.EndArrowSize = 5.000000
 	__Link__00000000_.EndArrowOffset = 20.000000
@@ -63,7 +74,7 @@ func _(stage *models.Stage) {
 	__Link__00000000_.StartArrowOffset = 10.000000
 	__Link__00000000_.Color = ``
 	__Link__00000000_.FillOpacity = 0.000000
-	__Link__00000000_.Stroke = `black`
+	__Link__00000000_.Stroke = `red`
 	__Link__00000000_.StrokeOpacity = 1.000000
 	__Link__00000000_.StrokeWidth = 1.000000
 	__Link__00000000_.StrokeDashArray = ``
@@ -72,6 +83,35 @@ func _(stage *models.Stage) {
 	__Link__00000000_.MouseX = 0.000000
 	__Link__00000000_.MouseY = 0.000000
 	__Link__00000000_.MouseEventKey = ""
+
+	__Link__00000001_.Name = `Link of interest with control point inside rects`
+	__Link__00000001_.Type = models.LINK_TYPE_LINE_WITH_CONTROL_POINTS
+	__Link__00000001_.IsBezierCurve = false
+	__Link__00000001_.StartAnchorType = models.ANCHOR_CENTER
+	__Link__00000001_.EndAnchorType = models.ANCHOR_CENTER
+	__Link__00000001_.StartOrientation = ""
+	__Link__00000001_.StartRatio = 0.000000
+	__Link__00000001_.EndOrientation = ""
+	__Link__00000001_.EndRatio = 0.000000
+	__Link__00000001_.CornerOffsetRatio = 0.000000
+	__Link__00000001_.CornerRadius = 10.000000
+	__Link__00000001_.HasEndArrow = true
+	__Link__00000001_.EndArrowSize = 5.000000
+	__Link__00000001_.EndArrowOffset = 10.000000
+	__Link__00000001_.HasStartArrow = true
+	__Link__00000001_.StartArrowSize = 5.000000
+	__Link__00000001_.StartArrowOffset = 10.000000
+	__Link__00000001_.Color = ``
+	__Link__00000001_.FillOpacity = 0.000000
+	__Link__00000001_.Stroke = `blue`
+	__Link__00000001_.StrokeOpacity = 1.000000
+	__Link__00000001_.StrokeWidth = 1.000000
+	__Link__00000001_.StrokeDashArray = ``
+	__Link__00000001_.StrokeDashArrayWhenSelected = ``
+	__Link__00000001_.Transform = ``
+	__Link__00000001_.MouseX = 0.000000
+	__Link__00000001_.MouseY = 0.000000
+	__Link__00000001_.MouseEventKey = ""
 
 	__Rect__00000000_.Name = `Start`
 	__Rect__00000000_.X = 10.000000
@@ -153,7 +193,7 @@ func _(stage *models.Stage) {
 
 	__SVG__00000000_.Name = `issue 1216`
 	__SVG__00000000_.DrawingState = ""
-	__SVG__00000000_.IsEditable = true
+	__SVG__00000000_.IsEditable = false
 	__SVG__00000000_.IsSVGFrontEndFileGenerated = false
 	__SVG__00000000_.IsSVGBackEndFileGenerated = false
 	__SVG__00000000_.DefaultDirectoryForGeneratedImages = ``
@@ -165,12 +205,19 @@ func _(stage *models.Stage) {
 
 	// insertion point for setup of pointers
 	__ControlPoint__00000000_.ClosestRect = __Rect__00000000_
+	__ControlPoint__00000001_.ClosestRect = __Rect__00000001_
+	__ControlPoint__00000002_.ClosestRect = __Rect__00000000_
 	__Layer__00000000_.Rects = append(__Layer__00000000_.Rects, __Rect__00000000_)
 	__Layer__00000000_.Rects = append(__Layer__00000000_.Rects, __Rect__00000001_)
 	__Layer__00000000_.Links = append(__Layer__00000000_.Links, __Link__00000000_)
+	__Layer__00000000_.Links = append(__Layer__00000000_.Links, __Link__00000001_)
 	__Link__00000000_.Start = __Rect__00000000_
 	__Link__00000000_.End = __Rect__00000001_
 	__Link__00000000_.ControlPoints = append(__Link__00000000_.ControlPoints, __ControlPoint__00000000_)
+	__Link__00000001_.Start = __Rect__00000000_
+	__Link__00000001_.End = __Rect__00000001_
+	__Link__00000001_.ControlPoints = append(__Link__00000001_.ControlPoints, __ControlPoint__00000002_)
+	__Link__00000001_.ControlPoints = append(__Link__00000001_.ControlPoints, __ControlPoint__00000001_)
 	__SVG__00000000_.Layers = append(__SVG__00000000_.Layers, __Layer__00000000_)
 	__SVG__00000000_.StartRect = nil
 	__SVG__00000000_.EndRect = nil
