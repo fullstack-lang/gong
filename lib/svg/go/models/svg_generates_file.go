@@ -5,6 +5,7 @@ import (
 	// For escaping text and attribute values
 	"fmt"
 	"log"
+	"math"
 	"os"
 	"strconv"
 	"strings"
@@ -68,19 +69,24 @@ func (svg *SVG) GenerateString() (result string, maxX, maxY float64) {
 				continue
 			}
 
-			segments := link.generateSegments()
+			var segments []Segment
+			if link.Type == LINK_TYPE_LINE_WITH_CONTROL_POINTS {
+				segments = generateSegmentsWithControlPoints(link)
+			} else {
+				segments = link.generateSegments()
+			}
 
 			for idx, segment := range segments {
 				maxX_, maxY_ := segment.WriteSVG(&sb, link)
 				updateMaxx(maxX_, maxY_, &maxX, &maxY)
 
 				// draw the end arrow
-				if segment.Type == EndSegment && link.HasEndArrow {
+				if (segment.Type == EndSegment || idx == len(segments)-1) && link.HasEndArrow {
 					link.WriteSVGEndArrow(&sb, &segment)
 				}
 
 				// draw the start arrow (yes, that's strange, why start and end ?)
-				if segment.Type == StartSegment && link.HasStartArrow {
+				if (segment.Type == StartSegment || idx == 0) && link.HasStartArrow {
 					swapedSegment := swapSegment(segment)
 					link.WriteSVGEndArrow(&sb, &swapedSegment)
 				}
@@ -91,13 +97,13 @@ func (svg *SVG) GenerateString() (result string, maxX, maxY float64) {
 				}
 
 				// draw the text at the end of the link
-				if segment.Type == EndSegment {
+				if segment.Type == EndSegment || idx == len(segments)-1 {
 					for _, linkAnchoredText := range link.TextAtArrowEnd {
 						linkAnchoredText.WriteSVG(&sb, link, &segment)
 					}
 				}
 
-				if segment.Type == StartSegment {
+				if segment.Type == StartSegment || idx == 0 {
 					for _, linkAnchoredText := range link.TextAtArrowStart {
 						linkAnchoredText.WriteSVG(&sb, link, &segment)
 					}
@@ -361,4 +367,187 @@ func getRectAnchorPointWithOffset(rect *Rect, anchorType RectAnchorType, xOffset
 
 func formatFloat(f float64) string {
 	return strconv.FormatFloat(f, 'g', -1, 64)
+}
+
+func isPointInside(x, y float64, rect *Rect) bool {
+	return x >= rect.X && x <= rect.X+rect.Width && y >= rect.Y && y <= rect.Y+rect.Height
+}
+
+func intersectSegmentRectLast(p1X, p1Y, p2X, p2Y float64, rect *Rect) (float64, float64, bool) {
+	rX, rY, rW, rH := rect.X, rect.Y, rect.Width, rect.Height
+	var tMax float64 = -1.0
+	var ix, iy float64
+	var ok bool
+
+	checkT := func(t float64, x, y float64) {
+		if t >= 0 && t <= 1 {
+			if x >= rX-0.001 && x <= rX+rW+0.001 && y >= rY-0.001 && y <= rY+rH+0.001 {
+				if t > tMax {
+					tMax = t
+					ix = x
+					iy = y
+					ok = true
+				}
+			}
+		}
+	}
+
+	if p1X != p2X {
+		t1 := (rX - p1X) / (p2X - p1X)
+		checkT(t1, rX, p1Y+t1*(p2Y-p1Y))
+		t2 := (rX + rW - p1X) / (p2X - p1X)
+		checkT(t2, rX+rW, p1Y+t2*(p2Y-p1Y))
+	}
+	if p1Y != p2Y {
+		t1 := (rY - p1Y) / (p2Y - p1Y)
+		checkT(t1, p1X+t1*(p2X-p1X), rY)
+		t2 := (rY + rH - p1Y) / (p2Y - p1Y)
+		checkT(t2, p1X+t2*(p2X-p1X), rY+rH)
+	}
+	return ix, iy, ok
+}
+
+func intersectSegmentRectFirst(p1X, p1Y, p2X, p2Y float64, rect *Rect) (float64, float64, bool) {
+	rX, rY, rW, rH := rect.X, rect.Y, rect.Width, rect.Height
+	var tMin float64 = 2.0
+	var ix, iy float64
+	var ok bool
+
+	checkT := func(t float64, x, y float64) {
+		if t >= 0 && t <= 1 {
+			if x >= rX-0.001 && x <= rX+rW+0.001 && y >= rY-0.001 && y <= rY+rH+0.001 {
+				if t < tMin {
+					tMin = t
+					ix = x
+					iy = y
+					ok = true
+				}
+			}
+		}
+	}
+
+	if p1X != p2X {
+		t1 := (rX - p1X) / (p2X - p1X)
+		checkT(t1, rX, p1Y+t1*(p2Y-p1Y))
+		t2 := (rX + rW - p1X) / (p2X - p1X)
+		checkT(t2, rX+rW, p1Y+t2*(p2Y-p1Y))
+	}
+	if p1Y != p2Y {
+		t1 := (rY - p1Y) / (p2Y - p1Y)
+		checkT(t1, p1X+t1*(p2X-p1X), rY)
+		t2 := (rY + rH - p1Y) / (p2Y - p1Y)
+		checkT(t2, p1X+t2*(p2X-p1X), rY+rH)
+	}
+	return ix, iy, ok
+}
+
+func generateSegmentsWithControlPoints(link *Link) []Segment {
+	var pts []Point
+
+	startX := link.Start.X + link.Start.Width/2.0
+	startY := link.Start.Y + link.Start.Height/2.0
+	pts = append(pts, Point{X: startX, Y: startY})
+
+	for _, cp := range link.ControlPoints {
+		x := cp.X_Relative
+		y := cp.Y_Relative
+		if cp.ClosestRect != nil {
+			x = cp.ClosestRect.X + cp.X_Relative*cp.ClosestRect.Width
+			y = cp.ClosestRect.Y + cp.Y_Relative*cp.ClosestRect.Height
+		}
+		pts = append(pts, Point{X: x, Y: y})
+	}
+
+	endX := link.End.X + link.End.Width/2.0
+	endY := link.End.Y + link.End.Height/2.0
+	pts = append(pts, Point{X: endX, Y: endY})
+
+	var startIntersect Point
+	startIntersectOk := false
+	startIdx := 0
+	for i := len(pts) - 2; i >= 0; i-- {
+		ix, iy, ok := intersectSegmentRectLast(pts[i].X, pts[i].Y, pts[i+1].X, pts[i+1].Y, link.Start)
+		if ok {
+			startIntersect = Point{X: ix, Y: iy}
+			startIdx = i
+			startIntersectOk = true
+			break
+		}
+	}
+
+	var endIntersect Point
+	endIntersectOk := false
+	endIdx := len(pts) - 1
+	for i := 0; i < len(pts)-1; i++ {
+		ix, iy, ok := intersectSegmentRectFirst(pts[i].X, pts[i].Y, pts[i+1].X, pts[i+1].Y, link.End)
+		if ok {
+			endIntersect = Point{X: ix, Y: iy}
+			endIdx = i + 1
+			endIntersectOk = true
+			break
+		}
+	}
+
+	var trimmed []Point
+	if startIntersectOk {
+		trimmed = append(trimmed, startIntersect)
+	} else {
+		trimmed = append(trimmed, pts[0])
+	}
+
+	for i := startIdx + 1; i < endIdx; i++ {
+		trimmed = append(trimmed, pts[i])
+	}
+
+	if endIntersectOk {
+		trimmed = append(trimmed, endIntersect)
+	} else {
+		trimmed = append(trimmed, pts[len(pts)-1])
+	}
+
+	if len(trimmed) >= 2 {
+		if link.StartArrowOffset > 0 {
+			dx := trimmed[1].X - trimmed[0].X
+			dy := trimmed[1].Y - trimmed[0].Y
+			length := math.Sqrt(dx*dx + dy*dy)
+			if length > link.StartArrowOffset {
+				ratio := link.StartArrowOffset / length
+				trimmed[0].X += dx * ratio
+				trimmed[0].Y += dy * ratio
+			}
+		}
+		if link.EndArrowOffset > 0 {
+			last := len(trimmed) - 1
+			dx := trimmed[last].X - trimmed[last-1].X
+			dy := trimmed[last].Y - trimmed[last-1].Y
+			length := math.Sqrt(dx*dx + dy*dy)
+			if length > link.EndArrowOffset {
+				ratio := link.EndArrowOffset / length
+				trimmed[last].X -= dx * ratio
+				trimmed[last].Y -= dy * ratio
+			}
+		}
+	}
+
+	var segments []Segment
+	for i := 0; i < len(trimmed)-1; i++ {
+		segType := MiddleSegment
+		if i == 0 {
+			segType = StartSegment
+		}
+		if i == len(trimmed)-2 {
+			segType = EndSegment
+		}
+
+		segments = append(segments, Segment{
+			StartPoint:              trimmed[i],
+			EndPoint:                trimmed[i+1],
+			StartPointWithoutRadius: trimmed[i],
+			EndPointWithoutRadius:   trimmed[i+1],
+			Number:                  i,
+			Type:                    segType,
+		})
+	}
+
+	return segments
 }

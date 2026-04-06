@@ -37,7 +37,7 @@ func _(stage *models.Stage) {
 	__Rect__00000000_ := (&models.Rect{Name: `Start`}).Stage(stage)
 	__Rect__00000001_ := (&models.Rect{Name: `End`}).Stage(stage)
 
-	__SVG__00000000_ := (&models.SVG{Name: `issue 1216`}).Stage(stage)
+	__SVG__00000000_ := (&models.SVG{Name: `issue 1216 back end`}).Stage(stage)
 
 	// insertion point for initialization of values
 
@@ -191,7 +191,7 @@ func _(stage *models.Stage) {
 	__Rect__00000001_.MouseY = 0.000000
 	__Rect__00000001_.MouseEventKey = ""
 
-	__SVG__00000000_.Name = `issue 1216`
+	__SVG__00000000_.Name = `issue 1216 back end`
 	__SVG__00000000_.DrawingState = ""
 	__SVG__00000000_.IsEditable = false
 	__SVG__00000000_.IsSVGFrontEndFileGenerated = false
