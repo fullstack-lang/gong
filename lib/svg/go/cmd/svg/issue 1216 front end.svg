@@ -1,0 +1,74 @@
+<svg _ngcontent-ng-c1128920074="" width="3000" height="4000">
+    <g _ngcontent-ng-c1128920074="" transform="translate(0 0) scale(1)">
+        <rect _ngcontent-ng-c1128920074="" x="0" y="0" width="3000" height="4000" fill-opacity="0"></rect><!----><!----><!----><!----><!----><!----><!---->
+        <rect _ngcontent-ng-c1128920074="" class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled"
+            x="10" y="10" width="200" height="70" rx="3" fill="" fill-opacity="0" stroke="black"
+            stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform=""><!---->
+        </rect><!----><!----><!----><!----><!----><!----><!----><!----><!----><!---->
+        <rect _ngcontent-ng-c1128920074="" class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled"
+            x="200" y="170" width="200" height="70" rx="4" fill="" fill-opacity="0" stroke="black"
+            stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform=""><!---->
+        </rect><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!---->
+        <g _ngcontent-ng-c1128920074="">
+            <line _ngcontent-ng-c1128920074="" class="moveable-line" x1="159.2116119811705"
+                y1="86.44135745782779" x2="224.28799188203456" y2="112.69556557785198" fill=""
+                fill-opacity="0" stroke="red" stroke-opacity="1" stroke-width="1"
+                stroke-dasharray="" segment-number="0"></line>
+            <line _ngcontent-ng-c1128920074="" class="hit-area" x1="159.2116119811705"
+                y1="86.44135745782779" x2="224.28799188203456" y2="112.69556557785198"
+                stroke="transparent" stroke-width="11"></line>
+            <line _ngcontent-ng-c1128920074="" class="moveable-line" x1="231.83433066981294"
+                y1="120.87985422773964" x2="243.139276037659" y2="157.11728508434442" fill=""
+                fill-opacity="0" stroke="red" stroke-opacity="1" stroke-width="1"
+                stroke-dasharray="" segment-number="1"></line>
+            <line _ngcontent-ng-c1128920074="" class="hit-area" x1="231.83433066981294"
+                y1="120.87985422773964" x2="243.139276037659" y2="157.11728508434442"
+                stroke="transparent" stroke-width="11"></line><!---->
+        </g>
+        <path _ngcontent-ng-c1128920074=""
+            d="M 224.28799188203456,112.69556557785198 A 13,13 0 0,1 231.83433066981294,120.87985422773964"
+            fill="" fill-opacity="0" stroke="red" stroke-opacity="1" stroke-width="1"
+            stroke-dasharray=""></path><!----><!---->
+        <path _ngcontent-ng-c1128920074=""
+            d="M 159.01601318915561 85.98120410031488 L 161.97779662641295 92.94890864920731 M 158.75145862365758 86.6369562498427 L 165.71916317255003 83.67517281258534"
+            fill="" fill-opacity="0" stroke="red" stroke-opacity="1" stroke-width="1"
+            stroke-dasharray=""></path><!----><!---->
+        <path _ngcontent-ng-c1128920074=""
+            d="M 242.90705816311396 157.56008849287903 L 246.4233327145958 150.8550992245454 M 243.5820794461936 157.34950295888945 L 236.87709017785997 153.8332284074076"
+            fill="" fill-opacity="0" stroke="red" stroke-opacity="1" stroke-width="1"
+            stroke-dasharray=""></path><!----><!----><!----><!----><!----><!---->
+        <path _ngcontent-ng-c1128920074=""
+            d="M 242.90705816311396 157.56008849287903 L 246.4233327145958 150.8550992245454 M 243.5820794461936 157.34950295888945 L 236.87709017785997 153.8332284074076"
+            fill="" fill-opacity="0" stroke="red" stroke-opacity="1" stroke-width="1"
+            stroke-dasharray=""></path><!---->
+        <path _ngcontent-ng-c1128920074=""
+            d="M 159.01601318915561 85.98120410031488 L 161.97779662641295 92.94890864920731 M 158.75145862365758 86.6369562498427 L 165.71916317255003 83.67517281258534"
+            fill="" fill-opacity="0" stroke="red" stroke-opacity="1" stroke-width="1"
+            stroke-dasharray=""></path><!----><!----><!----><!----><!---->
+        <g _ngcontent-ng-c1128920074="">
+            <line _ngcontent-ng-c1128920074="" class="moveable-line" x1="48.288332031698914"
+                y1="85.70557804307504" x2="191.78742554405866" y2="185.3996851148197" fill=""
+                fill-opacity="0" stroke="blue" stroke-opacity="1" stroke-width="1"
+                stroke-dasharray="" segment-number="0"></line>
+            <line _ngcontent-ng-c1128920074="" class="hit-area" x1="48.288332031698914"
+                y1="85.70557804307504" x2="191.78742554405866" y2="185.3996851148197"
+                stroke="transparent" stroke-width="11"></line><!---->
+        </g><!---->
+        <path _ngcontent-ng-c1128920074=""
+            d="M 191.8760612522327 185.89176611537204 L 190.5339273376255 178.44060886531153 M 192.279506544611 185.31104940664568 L 184.8283492945505 186.65318332125287"
+            fill="" fill-opacity="0" stroke="blue" stroke-opacity="1" stroke-width="1"
+            stroke-dasharray=""></path><!----><!----><!---->
+        <path _ngcontent-ng-c1128920074=""
+            d="M 48.19969632352489 85.2134970425227 L 49.541830238132064 92.66465429258322 M 47.79625103114659 85.79421375124906 L 55.2474082812071 84.45207983664189"
+            fill="" fill-opacity="0" stroke="blue" stroke-opacity="1" stroke-width="1"
+            stroke-dasharray=""></path><!----><!----><!---->
+        <path _ngcontent-ng-c1128920074=""
+            d="M 191.8760612522327 185.89176611537204 L 190.5339273376255 178.44060886531153 M 192.279506544611 185.31104940664568 L 184.8283492945505 186.65318332125287"
+            fill="" fill-opacity="0" stroke="blue" stroke-opacity="1" stroke-width="1"
+            stroke-dasharray=""></path><!---->
+        <path _ngcontent-ng-c1128920074=""
+            d="M 48.19969632352489 85.2134970425227 L 49.541830238132064 92.66465429258322 M 47.79625103114659 85.79421375124906 L 55.2474082812071 84.45207983664189"
+            fill="" fill-opacity="0" stroke="blue" stroke-opacity="1" stroke-width="1"
+            stroke-dasharray=""></path><!----><!----><!----><!----><!----><!----><!----><!----><!----><!---->
+    </g>
+</svg>
