@@ -3075,4 +3075,482 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Task__00000007_.IsWithCompletion = false
 	__Task__00000007_.Completion = ""
 	stage.Commit()
+
+	// Default Diagram
+	__Diagram__00000000_.Width = 27855.187127
+	__Diagram__00000000_.Height = 28617.751617
+	// PBS
+	__Diagram__00000002_.Width = 28891.980809
+	__Diagram__00000002_.Height = 28421.961381
+	// PIT Report
+	__Diagram__00000005_.IsExpanded = false
+	__Diagram__00000005_.Width = 29085.901110
+	__Diagram__00000005_.Height = 29048.855478
+	// PIT focus
+	__Diagram__00000004_.Width = 28662.017987
+	__Diagram__00000004_.Height = 27858.658205
+	// RBS
+	__Diagram__00000003_.Width = 28585.651635
+	__Diagram__00000003_.Height = 28599.201740
+	// RCS PBS
+	__Diagram__00000006_.Width = 28969.153628
+	__Diagram__00000006_.Height = 28677.529266
+	// WBS
+	__Diagram__00000001_.Width = 28395.617766
+	__Diagram__00000001_.Height = 28256.674065
+	stage.Commit()
+
+	// PBS
+	__Diagram__00000002_.IsChecked = true
+	// PIT Report
+	__Diagram__00000005_.IsChecked = false
+	stage.Commit()
+
+	// PBS
+	__Diagram__00000002_.IsExpanded = true
+	stage.Commit()
+
+	// PBS
+	__Diagram__00000002_.ProductsWhoseNodeIsExpanded = slices.Insert( __Diagram__00000002_.ProductsWhoseNodeIsExpanded, 3, __Product__00000002_)
+	stage.Commit()
+
+	// PBS
+	__Diagram__00000002_.IsExpanded = false
+	stage.Commit()
+
+	// PBS
+	__Diagram__00000002_.IsExpanded = true
+	stage.Commit()
+
+	// Default Diagram
+	__Diagram__00000000_.Width = 27955.187127
+	__Diagram__00000000_.Height = 28717.751617
+	// PBS
+	__Diagram__00000002_.Width = 28991.980809
+	__Diagram__00000002_.Height = 28521.961381
+	// PIT Report
+	__Diagram__00000005_.Width = 29185.901110
+	__Diagram__00000005_.Height = 29148.855478
+	// PIT focus
+	__Diagram__00000004_.Width = 28762.017987
+	__Diagram__00000004_.Height = 27958.658205
+	// RBS
+	__Diagram__00000003_.Width = 28685.651635
+	__Diagram__00000003_.Height = 28699.201740
+	// RCS PBS
+	__Diagram__00000006_.Width = 29069.153628
+	__Diagram__00000006_.Height = 28777.529266
+	// WBS
+	__Diagram__00000001_.Width = 28495.617766
+	__Diagram__00000001_.Height = 28356.674065
+	stage.Commit()
+
+	// Default Diagram
+	__Diagram__00000000_.Width = 28055.187127
+	__Diagram__00000000_.Height = 28817.751617
+	// PBS
+	__Diagram__00000002_.Width = 29091.980809
+	__Diagram__00000002_.Height = 28621.961381
+	// PIT Report
+	__Diagram__00000005_.Width = 29285.901110
+	__Diagram__00000005_.Height = 29248.855478
+	// PIT focus
+	__Diagram__00000004_.Width = 28862.017987
+	__Diagram__00000004_.Height = 28058.658205
+	// RBS
+	__Diagram__00000003_.Width = 28785.651635
+	__Diagram__00000003_.Height = 28799.201740
+	// RCS PBS
+	__Diagram__00000006_.Width = 29169.153628
+	__Diagram__00000006_.Height = 28877.529266
+	// WBS
+	__Diagram__00000001_.Width = 28595.617766
+	__Diagram__00000001_.Height = 28456.674065
+	stage.Commit()
+
+	// Default Diagram
+	__Diagram__00000000_.Width = 28155.187127
+	__Diagram__00000000_.Height = 28917.751617
+	// PBS
+	__Diagram__00000002_.Width = 29191.980809
+	__Diagram__00000002_.Height = 28721.961381
+	// PIT Report
+	__Diagram__00000005_.Width = 29385.901110
+	__Diagram__00000005_.Height = 29348.855478
+	// PIT focus
+	__Diagram__00000004_.Width = 28962.017987
+	__Diagram__00000004_.Height = 28158.658205
+	// RBS
+	__Diagram__00000003_.Width = 28885.651635
+	__Diagram__00000003_.Height = 28899.201740
+	// RCS PBS
+	__Diagram__00000006_.Width = 29269.153628
+	__Diagram__00000006_.Height = 28977.529266
+	// WBS
+	__Diagram__00000001_.Width = 28695.617766
+	__Diagram__00000001_.Height = 28556.674065
+	stage.Commit()
+
+	// PBS
+	__Diagram__00000002_.IsChecked = false
+	// RCS PBS
+	__Diagram__00000006_.IsChecked = true
+	stage.Commit()
+
+	// PBS
+	__Diagram__00000002_.IsPBSNodeExpanded = false
+	stage.Commit()
+
+	// PBS
+	__Diagram__00000002_.IsExpanded = false
+	stage.Commit()
+
+	// RCS PBS
+	__Diagram__00000006_.IsExpanded = true
+	stage.Commit()
+
+	// RCS PBS
+	__Diagram__00000006_.ProductsWhoseNodeIsExpanded = slices.Insert( __Diagram__00000006_.ProductsWhoseNodeIsExpanded, 8, __Product__00000021_)
+	stage.Commit()
+
+	// Default Diagram
+	__Diagram__00000000_.Width = 28255.187127
+	__Diagram__00000000_.Height = 29017.751617
+	// PBS
+	__Diagram__00000002_.Width = 29291.980809
+	__Diagram__00000002_.Height = 28821.961381
+	// PIT Report
+	__Diagram__00000005_.Width = 29485.901110
+	__Diagram__00000005_.Height = 29448.855478
+	// PIT focus
+	__Diagram__00000004_.Width = 29062.017987
+	__Diagram__00000004_.Height = 28258.658205
+	// RBS
+	__Diagram__00000003_.Width = 28985.651635
+	__Diagram__00000003_.Height = 28999.201740
+	// RCS PBS
+	__Diagram__00000006_.Width = 29369.153628
+	__Diagram__00000006_.Height = 29077.529266
+	__Diagram__00000006_.ProductsWhoseNodeIsExpanded = slices.Delete( __Diagram__00000006_.ProductsWhoseNodeIsExpanded, 7, 8)
+	// WBS
+	__Diagram__00000001_.Width = 28795.617766
+	__Diagram__00000001_.Height = 28656.674065
+	stage.Commit()
+
+	// PBS
+	__Diagram__00000002_.IsChecked = true
+	// RCS PBS
+	__Diagram__00000006_.IsChecked = false
+	stage.Commit()
+
+	// PBS
+	__Diagram__00000002_.IsChecked = false
+	// RCS PBS
+	__Diagram__00000006_.IsChecked = true
+	stage.Commit()
+
+	// PBS
+	__Diagram__00000002_.IsChecked = true
+	// RCS PBS
+	__Diagram__00000006_.IsChecked = false
+	stage.Commit()
+
+	// RCS PBS
+	__Diagram__00000006_.IsExpanded = false
+	stage.Commit()
+
+	// PBS
+	__Diagram__00000002_.IsExpanded = true
+	stage.Commit()
+
+	// Default Diagram
+	__Diagram__00000000_.Width = 28355.187127
+	__Diagram__00000000_.Height = 29117.751617
+	// PBS
+	__Diagram__00000002_.Width = 29391.980809
+	__Diagram__00000002_.Height = 28921.961381
+	// PIT Report
+	__Diagram__00000005_.Width = 29585.901110
+	__Diagram__00000005_.Height = 29548.855478
+	// PIT focus
+	__Diagram__00000004_.Width = 29162.017987
+	__Diagram__00000004_.Height = 28358.658205
+	// RBS
+	__Diagram__00000003_.Width = 29085.651635
+	__Diagram__00000003_.Height = 29099.201740
+	// RCS PBS
+	__Diagram__00000006_.Width = 29469.153628
+	__Diagram__00000006_.Height = 29177.529266
+	// WBS
+	__Diagram__00000001_.Width = 28895.617766
+	__Diagram__00000001_.Height = 28756.674065
+	stage.Commit()
+
+	__NoteShape__00000026_ := (&models.NoteShape{Name: `CFT ended in march 2025-PBS`}).Stage(stage)
+	// PBS
+	__Diagram__00000002_.Note_Shapes = slices.Insert( __Diagram__00000002_.Note_Shapes, 1, __NoteShape__00000026_)
+	__NoteShape__00000026_.Name = `CFT ended in march 2025-PBS`
+	__NoteShape__00000026_.IsExpanded = false
+	__NoteShape__00000026_.X = 106.565927
+	__NoteShape__00000026_.Y = 141.094225
+	__NoteShape__00000026_.Width = 250.000000
+	__NoteShape__00000026_.Height = 70.000000
+	__NoteShape__00000026_.IsHidden = false
+	__NoteShape__00000026_.Note = __Note__00000000_
+	stage.Commit()
+
+	// PBS
+	__Diagram__00000002_.Note_Shapes = slices.Delete( __Diagram__00000002_.Note_Shapes, 1, 2)
+	__NoteShape__00000026_.Unstage(stage)
+	stage.Commit()
+
+	// PBS
+	__Diagram__00000002_.IsPBSNodeExpanded = true
+	stage.Commit()
+
+	// PBS
+	__Diagram__00000002_.IsChecked = false
+	// RCS PBS
+	__Diagram__00000006_.IsChecked = true
+	stage.Commit()
+
+	// PBS
+	__Diagram__00000002_.IsChecked = true
+	// RCS PBS
+	__Diagram__00000006_.IsChecked = false
+	stage.Commit()
+
+	// Default Diagram
+	__Diagram__00000000_.Width = 28455.187127
+	__Diagram__00000000_.Height = 29217.751617
+	// PBS
+	__Diagram__00000002_.Width = 29491.980809
+	__Diagram__00000002_.Height = 29021.961381
+	// PIT Report
+	__Diagram__00000005_.Width = 29685.901110
+	__Diagram__00000005_.Height = 29648.855478
+	// PIT focus
+	__Diagram__00000004_.Width = 29262.017987
+	__Diagram__00000004_.Height = 28458.658205
+	// RBS
+	__Diagram__00000003_.Width = 29185.651635
+	__Diagram__00000003_.Height = 29199.201740
+	// RCS PBS
+	__Diagram__00000006_.Width = 29569.153628
+	__Diagram__00000006_.Height = 29277.529266
+	// WBS
+	__Diagram__00000001_.Width = 28995.617766
+	__Diagram__00000001_.Height = 28856.674065
+	stage.Commit()
+
+	// Default Diagram
+	__Diagram__00000000_.Width = 28555.187127
+	__Diagram__00000000_.Height = 29317.751617
+	// PBS
+	__Diagram__00000002_.Width = 29591.980809
+	__Diagram__00000002_.Height = 29121.961381
+	// PIT Report
+	__Diagram__00000005_.Width = 29785.901110
+	__Diagram__00000005_.Height = 29748.855478
+	// PIT focus
+	__Diagram__00000004_.Width = 29362.017987
+	__Diagram__00000004_.Height = 28558.658205
+	// RBS
+	__Diagram__00000003_.Width = 29285.651635
+	__Diagram__00000003_.Height = 29299.201740
+	// RCS PBS
+	__Diagram__00000006_.Width = 29669.153628
+	__Diagram__00000006_.Height = 29377.529266
+	// WBS
+	__Diagram__00000001_.Width = 29095.617766
+	__Diagram__00000001_.Height = 28956.674065
+	stage.Commit()
+
+	// PBS
+	__Diagram__00000002_.IsExpanded = false
+	stage.Commit()
+
+	// WBS
+	__Diagram__00000001_.IsExpanded = true
+	stage.Commit()
+
+	// WBS
+	__Diagram__00000001_.IsExpanded = false
+	stage.Commit()
+
+	// WBS
+	__Diagram__00000001_.IsExpanded = true
+	stage.Commit()
+
+	// Default Diagram
+	__Diagram__00000000_.IsExpanded = true
+	__Diagram__00000000_.Width = 28655.187127
+	__Diagram__00000000_.Height = 29417.751617
+	// PBS
+	__Diagram__00000002_.Width = 29691.980809
+	__Diagram__00000002_.Height = 29221.961381
+	// PIT Report
+	__Diagram__00000005_.Width = 29885.901110
+	__Diagram__00000005_.Height = 29848.855478
+	// PIT focus
+	__Diagram__00000004_.Width = 29462.017987
+	__Diagram__00000004_.Height = 28658.658205
+	// RBS
+	__Diagram__00000003_.Width = 29385.651635
+	__Diagram__00000003_.Height = 29399.201740
+	// RCS PBS
+	__Diagram__00000006_.Width = 29769.153628
+	__Diagram__00000006_.Height = 29477.529266
+	// WBS
+	__Diagram__00000001_.Width = 29195.617766
+	__Diagram__00000001_.Height = 29056.674065
+	stage.Commit()
+
+	// Default Diagram
+	__Diagram__00000000_.IsChecked = true
+	// PBS
+	__Diagram__00000002_.IsChecked = false
+	stage.Commit()
+
+	// Default Diagram
+	__Diagram__00000000_.IsChecked = false
+	// WBS
+	__Diagram__00000001_.IsChecked = true
+	stage.Commit()
+
+	// WBS
+	__Diagram__00000001_.IsNotesNodeExpanded = false
+	stage.Commit()
+
+	// Default Diagram
+	__Diagram__00000000_.TasksWhoseNodeIsExpanded = slices.Delete( __Diagram__00000000_.TasksWhoseNodeIsExpanded, 0, 1)
+	stage.Commit()
+
+	// Default Diagram
+	__Diagram__00000000_.IsWBSNodeExpanded = false
+	stage.Commit()
+
+	// Default Diagram
+	__Diagram__00000000_.IsResourcesNodeExpanded = false
+	stage.Commit()
+
+	// Default Diagram
+	__Diagram__00000000_.IsNotesNodeExpanded = false
+	stage.Commit()
+
+	// Default Diagram
+	__Diagram__00000000_.IsPBSNodeExpanded = false
+	stage.Commit()
+
+	// Default Diagram
+	__Diagram__00000000_.IsPBSNodeExpanded = true
+	stage.Commit()
+
+	// Default Diagram
+	__Diagram__00000000_.IsPBSNodeExpanded = false
+	stage.Commit()
+
+	// Default Diagram
+	__Diagram__00000000_.IsPBSNodeExpanded = true
+	stage.Commit()
+
+	// Default Diagram
+	__Diagram__00000000_.IsExpanded = false
+	stage.Commit()
+
+	// WBS
+	__Diagram__00000001_.IsExpanded = false
+	stage.Commit()
+
+	// Default Diagram
+	__Diagram__00000000_.IsChecked = true
+	// WBS
+	__Diagram__00000001_.IsChecked = false
+	stage.Commit()
+
+	// Default Diagram
+	__Diagram__00000000_.IsChecked = false
+	stage.Commit()
+
+	// Default Diagram
+	__Diagram__00000000_.IsChecked = true
+	stage.Commit()
+
+	// Startliner Mishape Report
+	__Library__00000000_.Diagrams = slices.Delete( __Library__00000000_.Diagrams, 1, 2)
+	__Library__00000000_.Diagrams = slices.Delete( __Library__00000000_.Diagrams, 0, 1)
+	__Diagram__00000000_.Unstage(stage)
+	stage.Commit()
+
+	// PBS
+	__Diagram__00000002_.ComputedPrefix = `2`
+	__Diagram__00000002_.Width = 31891.980809
+	__Diagram__00000002_.Height = 31421.961381
+	// PIT Report
+	__Diagram__00000005_.ComputedPrefix = `5`
+	__Diagram__00000005_.Width = 32085.901110
+	__Diagram__00000005_.Height = 32048.855478
+	// PIT focus
+	__Diagram__00000004_.ComputedPrefix = `4`
+	__Diagram__00000004_.Width = 31662.017987
+	__Diagram__00000004_.Height = 30858.658205
+	// RBS
+	__Diagram__00000003_.ComputedPrefix = `3`
+	__Diagram__00000003_.Width = 31585.651635
+	__Diagram__00000003_.Height = 31599.201740
+	// RCS PBS
+	__Diagram__00000006_.ComputedPrefix = `6`
+	__Diagram__00000006_.Width = 31969.153628
+	__Diagram__00000006_.Height = 31677.529266
+	// WBS
+	__Diagram__00000001_.ComputedPrefix = `1`
+	__Diagram__00000001_.Width = 31395.617766
+	__Diagram__00000001_.Height = 31256.674065
+	__NoteShape__00000000_.Unstage(stage)
+	__NoteTaskShape__00000000_.Unstage(stage)
+	__TaskCompositionShape__00000000_.Unstage(stage)
+	__TaskShape__00000000_.Unstage(stage)
+	__TaskShape__00000001_.Unstage(stage)
+	__TaskShape__00000002_.Unstage(stage)
+	stage.Commit()
+
+	// WBS
+	__Diagram__00000001_.IsChecked = true
+	stage.Commit()
+
+	// PBS
+	__Diagram__00000002_.IsChecked = true
+	// WBS
+	__Diagram__00000001_.IsChecked = false
+	stage.Commit()
+
+	// PBS
+	__Diagram__00000002_.IsChecked = false
+	// RBS
+	__Diagram__00000003_.IsChecked = true
+	stage.Commit()
+
+	// PIT focus
+	__Diagram__00000004_.IsChecked = true
+	// RBS
+	__Diagram__00000003_.IsChecked = false
+	stage.Commit()
+
+	// PIT Report
+	__Diagram__00000005_.IsChecked = true
+	// PIT focus
+	__Diagram__00000004_.IsChecked = false
+	stage.Commit()
+
+	// PIT Report
+	__Diagram__00000005_.IsChecked = false
+	// RCS PBS
+	__Diagram__00000006_.IsChecked = true
+	stage.Commit()
+
+	// RCS PBS
+	__Diagram__00000006_.IsChecked = false
+	// WBS
+	__Diagram__00000001_.IsChecked = true
+	stage.Commit()
 }

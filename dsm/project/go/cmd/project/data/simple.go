@@ -35,11 +35,14 @@ func _(stage *models.Stage) {
 
 	__Product__00000000_ := (&models.Product{Name: `G3`}).Stage(stage)
 	__Product__00000001_ := (&models.Product{Name: `G3.1`}).Stage(stage)
+	__Product__00000002_ := (&models.Product{Name: ``}).Stage(stage)
 
 	__ProductCompositionShape__00000000_ := (&models.ProductCompositionShape{Name: `G3 to `}).Stage(stage)
+	__ProductCompositionShape__00000001_ := (&models.ProductCompositionShape{Name: `G3 to `}).Stage(stage)
 
 	__ProductShape__00000000_ := (&models.ProductShape{Name: `-Default Diagram`}).Stage(stage)
 	__ProductShape__00000001_ := (&models.ProductShape{Name: `-Default Diagram`}).Stage(stage)
+	__ProductShape__00000002_ := (&models.ProductShape{Name: `-Default Diagram`}).Stage(stage)
 
 	// insertion point for initialization of values
 
@@ -52,8 +55,8 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.ShowPrefix = false
 	__Diagram__00000000_.DefaultBoxWidth = 250.000000
 	__Diagram__00000000_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000000_.Width = 6100.000000
-	__Diagram__00000000_.Height = 6100.000000
+	__Diagram__00000000_.Width = 6700.000000
+	__Diagram__00000000_.Height = 6700.000000
 	__Diagram__00000000_.IsPBSNodeExpanded = true
 	__Diagram__00000000_.IsWBSNodeExpanded = false
 	__Diagram__00000000_.IsNotesNodeExpanded = true
@@ -64,6 +67,7 @@ func _(stage *models.Stage) {
 	__Library__00000000_.IsInRenameMode = false
 	__Library__00000000_.IsExpanded = true
 	__Library__00000000_.NbPixPerCharacter = 8.000000
+	__Library__00000000_.LogoSVGFile = ``
 
 	__Note__00000000_.Name = ``
 	__Note__00000000_.ComputedPrefix = `1`
@@ -94,6 +98,14 @@ func _(stage *models.Stage) {
 	__Product__00000001_.IsProducersNodeExpanded = false
 	__Product__00000001_.IsConsumersNodeExpanded = false
 
+	__Product__00000002_.Name = ``
+	__Product__00000002_.ComputedPrefix = `1.2`
+	__Product__00000002_.IsInRenameMode = false
+	__Product__00000002_.IsExpanded = false
+	__Product__00000002_.Description = ``
+	__Product__00000002_.IsProducersNodeExpanded = false
+	__Product__00000002_.IsConsumersNodeExpanded = false
+
 	__ProductCompositionShape__00000000_.Name = `G3 to `
 	__ProductCompositionShape__00000000_.StartRatio = 0.500000
 	__ProductCompositionShape__00000000_.EndRatio = 0.500000
@@ -101,6 +113,14 @@ func _(stage *models.Stage) {
 	__ProductCompositionShape__00000000_.EndOrientation = models.ORIENTATION_VERTICAL
 	__ProductCompositionShape__00000000_.CornerOffsetRatio = 1.680000
 	__ProductCompositionShape__00000000_.IsHidden = false
+
+	__ProductCompositionShape__00000001_.Name = `G3 to `
+	__ProductCompositionShape__00000001_.StartRatio = 0.500000
+	__ProductCompositionShape__00000001_.EndRatio = 0.500000
+	__ProductCompositionShape__00000001_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000001_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000001_.CornerOffsetRatio = 1.680000
+	__ProductCompositionShape__00000001_.IsHidden = false
 
 	__ProductShape__00000000_.Name = `-Default Diagram`
 	__ProductShape__00000000_.IsExpanded = false
@@ -118,18 +138,64 @@ func _(stage *models.Stage) {
 	__ProductShape__00000001_.Height = 70.000000
 	__ProductShape__00000001_.IsHidden = false
 
+	__ProductShape__00000002_.Name = `-Default Diagram`
+	__ProductShape__00000002_.IsExpanded = false
+	__ProductShape__00000002_.X = 459.729721
+	__ProductShape__00000002_.Y = 252.660089
+	__ProductShape__00000002_.Width = 250.000000
+	__ProductShape__00000002_.Height = 70.000000
+	__ProductShape__00000002_.IsHidden = false
+
 	// insertion point for setup of pointers
 	__Diagram__00000000_.Product_Shapes = append(__Diagram__00000000_.Product_Shapes, __ProductShape__00000000_)
 	__Diagram__00000000_.Product_Shapes = append(__Diagram__00000000_.Product_Shapes, __ProductShape__00000001_)
+	__Diagram__00000000_.Product_Shapes = append(__Diagram__00000000_.Product_Shapes, __ProductShape__00000002_)
 	__Diagram__00000000_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000000_.ProductsWhoseNodeIsExpanded, __Product__00000000_)
 	__Diagram__00000000_.ProductComposition_Shapes = append(__Diagram__00000000_.ProductComposition_Shapes, __ProductCompositionShape__00000000_)
+	__Diagram__00000000_.ProductComposition_Shapes = append(__Diagram__00000000_.ProductComposition_Shapes, __ProductCompositionShape__00000001_)
 	__Diagram__00000000_.Note_Shapes = append(__Diagram__00000000_.Note_Shapes, __NoteShape__00000000_)
 	__Library__00000000_.RootProducts = append(__Library__00000000_.RootProducts, __Product__00000000_)
 	__Library__00000000_.Notes = append(__Library__00000000_.Notes, __Note__00000000_)
 	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000000_)
 	__NoteShape__00000000_.Note = __Note__00000000_
 	__Product__00000000_.SubProducts = append(__Product__00000000_.SubProducts, __Product__00000001_)
+	__Product__00000000_.SubProducts = append(__Product__00000000_.SubProducts, __Product__00000002_)
 	__ProductCompositionShape__00000000_.Product = __Product__00000001_
+	__ProductCompositionShape__00000001_.Product = __Product__00000002_
 	__ProductShape__00000000_.Product = __Product__00000000_
 	__ProductShape__00000001_.Product = __Product__00000001_
+	__ProductShape__00000002_.Product = __Product__00000002_
+
+	stage.Commit()
+
+	// -Default Diagram
+	__ProductShape__00000002_.Product = nil
+	// G3
+	__Product__00000000_.SubProducts = slices.Delete( __Product__00000000_.SubProducts, 1, 2)
+	// G3 to 
+	__ProductCompositionShape__00000001_.Product = nil
+	__Product__00000002_.Unstage(stage)
+	stage.Commit()
+
+	// Default Diagram
+	__Diagram__00000000_.Width = 7100.000000
+	__Diagram__00000000_.Height = 7100.000000
+	__Diagram__00000000_.Product_Shapes = slices.Delete( __Diagram__00000000_.Product_Shapes, 2, 3)
+	__Diagram__00000000_.ProductComposition_Shapes = slices.Delete( __Diagram__00000000_.ProductComposition_Shapes, 1, 2)
+	__ProductCompositionShape__00000001_.Unstage(stage)
+	__ProductShape__00000002_.Unstage(stage)
+	stage.Commit()
+
+	// Default Diagram
+	__Diagram__00000000_.IsExpanded = false
+	stage.Commit()
+
+	// Default Diagram
+	__Diagram__00000000_.IsExpanded = true
+	stage.Commit()
+
+	// Default Diagram
+	__Diagram__00000000_.Width = 7200.000000
+	__Diagram__00000000_.Height = 7200.000000
+	stage.Commit()
 }

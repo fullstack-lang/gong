@@ -43,7 +43,10 @@ type Stager struct {
 	taskToLibrary    map[*Task]*Library
 
 	svgObject *svg.SVG
-	diagram   *Diagram
+	diagram   *Diagram // diagram is the current diagram being displayed
+
+	// map to navigate from abstract elements to all diagrams where they are displayed
+	map_Element_Diagrams map[AbstractType][]*Diagram
 }
 
 func NewStager(

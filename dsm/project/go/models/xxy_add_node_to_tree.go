@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"slices"
 
 	"github.com/fullstack-lang/gong/lib/tree/go/buttons"
@@ -59,6 +60,7 @@ func addNodeToTree[
 	}
 	parentNode.Children = append(parentNode.Children, node)
 
+	// if the element is not in rename mode, then we can add a button to enter rename mode
 	if !element.GetIsInRenameMode() {
 		node.Buttons = append(node.Buttons,
 			&tree.Button{
@@ -91,6 +93,7 @@ func addNodeToTree[
 			})
 	}
 
+	// if the element is in the diagram, then we can add a button to remove it from the diagram
 	if shape, ok := shapesMap[element]; ok {
 		node.IsChecked = true
 		visibilityButton := &tree.Button{
@@ -116,6 +119,65 @@ func addNodeToTree[
 	var compositionShape ACT
 	compositionShape, _ = map_Element_CompositionShape[element]
 
+	// add a button to have the list of other diagrams where the element is present
+	diagrams := stager.map_Element_Diagrams[element]
+	if len(diagrams) > 1 {
+		if diagram.elementWhoseDiagramListIsDisplayed == element {
+			node.IsExpanded = true
+			diagramsButton := &tree.Button{
+				Name:            diagram.GetName(),
+				Icon:            string(buttons.BUTTON_list),
+				ToolTipText:     "List of other " + fmt.Sprint(len(diagrams)-1) + " diagrams where element is present",
+				HasToolTip:      true,
+				ToolTipPosition: tree.Right,
+				OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+					diagram.elementWhoseDiagramListIsDisplayed = nil
+					stage.Commit()
+				},
+			}
+			node.Buttons = append(node.Buttons, diagramsButton)
+
+			for _, diag := range diagrams {
+				if diag == diagram {
+					continue
+				}
+				diagramNode := &tree.Node{
+					Name:            diag.GetName(),
+					ToolTipText:     "Go to diagram \"" + diag.GetName() + "\"",
+					HasToolTip:      true,
+					ToolTipPosition: tree.Right,
+					IsNodeClickable: true,
+					OnUpdate: func(_ *tree.Stage, _, _ *tree.Node) {
+						for diagram_ := range *GetGongstructInstancesSet[Diagram](stager.stage) {
+							diagram_.IsChecked = false
+						}
+						diag.IsChecked = true
+						diagram.elementWhoseDiagramListIsDisplayed = nil
+						stage.Commit()
+					},
+				}
+				node.Children = append(node.Children, diagramNode)
+			}
+		} else {
+			node.Buttons = append(node.Buttons,
+				&tree.Button{
+					Name:            diagram.GetName(),
+					Icon:            string(buttons.BUTTON_list),
+					ToolTipText:     "Show list of other diagrams where \"" + element.GetName() + "\" is present",
+					HasToolTip:      true,
+					ToolTipPosition: tree.Right,
+					OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+						diagram.elementWhoseDiagramListIsDisplayed = element
+						stage.Commit()
+					},
+				})
+		}
+	}
+
+	//
+
+	// if the parent element is in the diagram and the child element is in the diagram,
+	// then we can add a checkbox to add/remove the link between the parent and child element to/from the diagram
 	if parentElement != nil && isParentInDiagram && isChildInDiagram {
 		node.HasSecondCheckboxButton = true
 		node.SecondCheckboxHasToolTip = true
@@ -154,6 +216,8 @@ func addNodeToTree[
 			node.Buttons = append(node.Buttons, showHideCompositionButton)
 		}
 	}
+
+	//
 
 	// what to do when the node is clicked
 	node.OnUpdate = onUpdateElementInDiagram(
