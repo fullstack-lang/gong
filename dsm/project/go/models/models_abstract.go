@@ -123,6 +123,8 @@ type Diagram struct {
 	map_SvgRect_TaskShape     map[*svg.Rect]*TaskShape
 	map_SvgRect_NoteShape     map[*svg.Rect]*NoteShape
 	map_SvgRect_ResourceShape map[*svg.Rect]*ResourceShape
+
+	elementWhoseDiagramListIsDisplayed AbstractType
 }
 
 func (d *Diagram) IsEditable() bool {

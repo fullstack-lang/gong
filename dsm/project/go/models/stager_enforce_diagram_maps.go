@@ -1,12 +1,27 @@
 package models
 
+import "slices"
+
 func (stager *Stager) enforceDiagramMaps() {
+
+	stager.map_Element_Diagrams = make(map[AbstractType][]*Diagram)
+
 	for _, diagram := range GetGongstrucsSorted[*Diagram](stager.stage) {
 		// computes all products presents in the diagram
 		diagram.map_Product_ProductShape = make(map[*Product]*ProductShape)
 		for _, shape := range diagram.Product_Shapes {
 			if shape.Product != nil {
 				diagram.map_Product_ProductShape[shape.Product] = shape
+				var diagrams = stager.map_Element_Diagrams[shape.Product]
+
+				if diagrams == nil {
+					diagrams = []*Diagram{diagram}
+				}
+
+				if !slices.Contains(diagrams, diagram) {
+					diagrams = append(diagrams, diagram)
+				}
+				stager.map_Element_Diagrams[shape.Product] = diagrams
 			}
 		}
 
@@ -14,6 +29,16 @@ func (stager *Stager) enforceDiagramMaps() {
 		for _, shape := range diagram.Task_Shapes {
 			if shape.Task != nil {
 				diagram.map_Task_TaskShape[shape.Task] = shape
+				var diagrams = stager.map_Element_Diagrams[shape.Task]
+
+				if diagrams == nil {
+					diagrams = []*Diagram{diagram}
+				}
+
+				if !slices.Contains(diagrams, diagram) {
+					diagrams = append(diagrams, diagram)
+				}
+				stager.map_Element_Diagrams[shape.Task] = diagrams
 			}
 		}
 
@@ -49,6 +74,7 @@ func (stager *Stager) enforceDiagramMaps() {
 		for _, shape := range diagram.Note_Shapes {
 			if shape.Note != nil {
 				diagram.map_Note_NoteShape[shape.Note] = shape
+
 			}
 		}
 
@@ -77,6 +103,16 @@ func (stager *Stager) enforceDiagramMaps() {
 		for _, shape := range diagram.Resource_Shapes {
 			if shape.Resource != nil {
 				diagram.map_Resource_ResourceShape[shape.Resource] = shape
+				var diagrams = stager.map_Element_Diagrams[shape.Resource]
+
+				if diagrams == nil {
+					diagrams = []*Diagram{diagram}
+				}
+
+				if !slices.Contains(diagrams, diagram) {
+					diagrams = append(diagrams, diagram)
+				}
+				stager.map_Element_Diagrams[shape.Resource] = diagrams
 			}
 		}
 
