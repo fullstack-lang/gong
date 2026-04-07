@@ -3553,4 +3553,58 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	// WBS
 	__Diagram__00000001_.IsChecked = true
 	stage.Commit()
+
+	// WBS
+	__Diagram__00000001_.IsExpanded = true
+	stage.Commit()
+
+	// WBS
+	__Diagram__00000001_.IsPBSNodeExpanded = true
+	stage.Commit()
+
+	// PBS
+	__Diagram__00000002_.IsExpanded = true
+	stage.Commit()
+
+	// PBS
+	__Diagram__00000002_.IsPBSNodeExpanded = false
+	stage.Commit()
+
+	// PBS
+	__Diagram__00000002_.IsNotesNodeExpanded = false
+	stage.Commit()
+
+	// PBS
+	__Diagram__00000002_.IsPBSNodeExpanded = true
+	stage.Commit()
+
+	// PBS
+	__Diagram__00000002_.ProductsWhoseNodeIsExpanded = slices.Delete( __Diagram__00000002_.ProductsWhoseNodeIsExpanded, 2, 3)
+	stage.Commit()
+
+	// PBS
+	__Diagram__00000002_.ProductsWhoseNodeIsExpanded = slices.Delete( __Diagram__00000002_.ProductsWhoseNodeIsExpanded, 0, 1)
+	stage.Commit()
+
+	// PBS
+	__Diagram__00000002_.IsPBSNodeExpanded = false
+	stage.Commit()
+
+	// PBS
+	__Diagram__00000002_.IsExpanded = false
+	stage.Commit()
+
+	// WBS
+	__Diagram__00000001_.IsPBSNodeExpanded = false
+	stage.Commit()
+
+	// WBS
+	__Diagram__00000001_.IsExpanded = false
+	stage.Commit()
+
+	// PBS
+	__Diagram__00000002_.IsChecked = true
+	// WBS
+	__Diagram__00000001_.IsChecked = false
+	stage.Commit()
 }

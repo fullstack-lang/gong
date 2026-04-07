@@ -28,9 +28,9 @@ func (stager *Stager) button() {
 	layout.Groups = append(layout.Groups, group1)
 
 	group1.Buttons = append(group1.Buttons, &button.Button{
-		Name:  "Reset library file",
+		Name:  "Reset file",
 		Icon:  string(buttons.BUTTON_reset_tv),
-		Label: "Reset library file",
+		Label: "Reset file",
 		OnUpdate: func() {
 			stager.stage.Reset()
 			stager.stage.Commit()
@@ -38,9 +38,9 @@ func (stager *Stager) button() {
 	})
 
 	group1.Buttons = append(group1.Buttons, &button.Button{
-		Name:  "Export library file",
+		Name:  "Export file",
 		Icon:  string(buttons.BUTTON_fact_check),
-		Label: "Export library file",
+		Label: "Export file",
 		OnUpdate: func() {
 			log.Println("Exporting the rendering configuration")
 
@@ -87,7 +87,7 @@ func (stager *Stager) button() {
 
 			stager.loadStage.Commit()
 
-			log.Println("Finished exporting library file", tempFile.Name())
+			log.Println("Finished exporting file", tempFile.Name())
 
 			time.Sleep(1 * time.Second) // Sleep to ensure the client has time to start the download before we delete the file.
 			stager.load()
