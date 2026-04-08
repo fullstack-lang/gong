@@ -31,7 +31,7 @@ func (stager *Stager) button() {
 		Name:  "Reset file",
 		Icon:  string(buttons.BUTTON_reset_tv),
 		Label: "Reset file",
-		OnUpdate: func() {
+		OnClick: func() {
 			stager.stage.Reset()
 			stager.stage.Commit()
 		},
@@ -41,7 +41,7 @@ func (stager *Stager) button() {
 		Name:  "Export file",
 		Icon:  string(buttons.BUTTON_fact_check),
 		Label: "Export file",
-		OnUpdate: func() {
+		OnClick: func() {
 			log.Println("Exporting the rendering configuration")
 
 			loadStage := stager.loadStage
@@ -98,7 +98,7 @@ func (stager *Stager) button() {
 		Name:  "Stop for maintenance",
 		Icon:  string(buttons.BUTTON_stop_circle),
 		Label: "Stop for maintenance",
-		OnUpdate: func() {
+		OnClick: func() {
 			log.Println("Stop")
 			os.Exit(0)
 		},
@@ -108,7 +108,7 @@ func (stager *Stager) button() {
 		Name:  "Export website",
 		Icon:  string(buttons.BUTTON_web),
 		Label: "Export website",
-		OnUpdate: func() {
+		OnClick: func() {
 			stager.ssgStage.Reset()
 
 			content := ssg.Content{
