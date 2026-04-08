@@ -80,7 +80,7 @@ func (stager *Stager) buttonSimulation() {
 				Name:  transition.Name,
 				Icon:  "",
 				Label: transition.Name,
-				OnUpdate: func() {
+				OnClick: func() {
 					transition.performTransition(stager.stage)
 				},
 			}).Stage(stager.buttonTransitionsStage)
