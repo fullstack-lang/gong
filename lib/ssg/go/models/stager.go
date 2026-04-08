@@ -90,7 +90,7 @@ func (stager *Stager) UpdateAndCommitButtonStage() {
 		Name:  "Generate static site",
 		Icon:  string(buttons.BUTTON_web_asset),
 		Label: "Generate static site",
-		OnUpdate: func() {
+		OnClick: func() {
 			log.Println("button updated")
 			stager.stage.Generation(false)
 			if false {
