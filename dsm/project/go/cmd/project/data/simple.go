@@ -298,4 +298,104 @@ func _(stage *models.Stage) {
 	// Default Diagram copy
 	__Diagram__00000006_.IsChecked = false
 	stage.Commit()
+
+	// 
+	__Library__00000000_.Diagrams = slices.Delete( __Library__00000000_.Diagrams, 1, 2)
+	// Default Diagram
+	__Diagram__00000000_.Width = 12200.000000
+	__Diagram__00000000_.Height = 12200.000000
+	__Diagram__00000006_.Unstage(stage)
+	stage.Commit()
+
+	// Default Diagram
+	__Diagram__00000000_.Width = 12400.000000
+	__Diagram__00000000_.Height = 12400.000000
+	__NoteShape__00000002_.Unstage(stage)
+	__ProductCompositionShape__00000012_.Unstage(stage)
+	__ProductShape__00000021_.Unstage(stage)
+	__ProductShape__00000022_.Unstage(stage)
+	stage.Commit()
+
+	__Diagram__00000007_ := (&models.Diagram{Name: `Default Diagram copy`}).Stage(stage)
+	__NoteShape__00000003_ := (&models.NoteShape{Name: `-Default Diagram`}).Stage(stage)
+	__ProductCompositionShape__00000013_ := (&models.ProductCompositionShape{Name: `G3 to `}).Stage(stage)
+	__ProductShape__00000023_ := (&models.ProductShape{Name: `-Default Diagram`}).Stage(stage)
+	__ProductShape__00000024_ := (&models.ProductShape{Name: `-Default Diagram`}).Stage(stage)
+	// 
+	__Library__00000000_.Diagrams = slices.Insert( __Library__00000000_.Diagrams, 1, __Diagram__00000007_)
+	__Diagram__00000007_.Name = `Default Diagram copy`
+	__Diagram__00000007_.ComputedPrefix = ``
+	__Diagram__00000007_.IsInRenameMode = false
+	__Diagram__00000007_.IsExpanded = false
+	__Diagram__00000007_.IsChecked = false
+	__Diagram__00000007_.IsEditable_ = true
+	__Diagram__00000007_.ShowPrefix = false
+	__Diagram__00000007_.DefaultBoxWidth = 0.000000
+	__Diagram__00000007_.DefaultBoxHeigth = 0.000000
+	__Diagram__00000007_.Width = 0.000000
+	__Diagram__00000007_.Height = 0.000000
+	__Diagram__00000007_.IsPBSNodeExpanded = false
+	__Diagram__00000007_.IsWBSNodeExpanded = false
+	__Diagram__00000007_.IsNotesNodeExpanded = false
+	__Diagram__00000007_.IsResourcesNodeExpanded = false
+	__Diagram__00000007_.Product_Shapes = append(__Diagram__00000007_.Product_Shapes, __ProductShape__00000023_)
+	__Diagram__00000007_.Product_Shapes = append(__Diagram__00000007_.Product_Shapes, __ProductShape__00000024_)
+	__Diagram__00000007_.ProductComposition_Shapes = append(__Diagram__00000007_.ProductComposition_Shapes, __ProductCompositionShape__00000013_)
+	__Diagram__00000007_.Note_Shapes = append(__Diagram__00000007_.Note_Shapes, __NoteShape__00000003_)
+	__NoteShape__00000003_.Name = `-Default Diagram`
+	__NoteShape__00000003_.IsExpanded = false
+	__NoteShape__00000003_.X = 409.078303
+	__NoteShape__00000003_.Y = 447.001756
+	__NoteShape__00000003_.Width = 250.000000
+	__NoteShape__00000003_.Height = 70.000000
+	__NoteShape__00000003_.IsHidden = false
+	__NoteShape__00000003_.Note = __Note__00000000_
+	__ProductCompositionShape__00000013_.Name = `G3 to `
+	__ProductCompositionShape__00000013_.StartRatio = 0.500000
+	__ProductCompositionShape__00000013_.EndRatio = 0.500000
+	__ProductCompositionShape__00000013_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000013_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000013_.CornerOffsetRatio = 1.680000
+	__ProductCompositionShape__00000013_.IsHidden = false
+	__ProductCompositionShape__00000013_.Product = __Product__00000001_
+	__ProductShape__00000023_.Name = `-Default Diagram`
+	__ProductShape__00000023_.IsExpanded = false
+	__ProductShape__00000023_.X = 159.729721
+	__ProductShape__00000023_.Y = 112.660089
+	__ProductShape__00000023_.Width = 250.000000
+	__ProductShape__00000023_.Height = 70.000000
+	__ProductShape__00000023_.IsHidden = false
+	__ProductShape__00000023_.Product = __Product__00000000_
+	__ProductShape__00000024_.Name = `-Default Diagram`
+	__ProductShape__00000024_.IsExpanded = false
+	__ProductShape__00000024_.X = 159.729721
+	__ProductShape__00000024_.Y = 252.660089
+	__ProductShape__00000024_.Width = 250.000000
+	__ProductShape__00000024_.Height = 70.000000
+	__ProductShape__00000024_.IsHidden = false
+	__ProductShape__00000024_.Product = __Product__00000001_
+	stage.Commit()
+
+	// Default Diagram
+	__Diagram__00000000_.Width = 12600.000000
+	__Diagram__00000000_.Height = 12600.000000
+	// Default Diagram copy
+	__Diagram__00000007_.ComputedPrefix = `2`
+	__Diagram__00000007_.DefaultBoxWidth = 250.000000
+	__Diagram__00000007_.DefaultBoxHeigth = 70.000000
+	__Diagram__00000007_.Width = 859.078303
+	__Diagram__00000007_.Height = 717.001756
+	stage.Commit()
+
+	// Default Diagram
+	__Diagram__00000000_.IsChecked = false
+	// Default Diagram copy
+	__Diagram__00000007_.IsChecked = true
+	stage.Commit()
+
+	// Default Diagram
+	__Diagram__00000000_.IsChecked = true
+	// Default Diagram copy
+	__Diagram__00000007_.IsChecked = false
+	stage.Commit()
 }
