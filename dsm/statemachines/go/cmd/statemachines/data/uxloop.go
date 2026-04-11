@@ -611,4 +611,11 @@ func _(stage *models.Stage) {
 	__Transition_Shape__00000009_.Transition = __Transition__00000009_
 	__Transition_Shape__00000010_.Transition = __Transition__00000010_
 	__Transition_Shape__00000011_.Transition = __Transition__00000011_
+
+	stage.Commit()
+
+	// Probe Form
+	__StateShape__00000000_.X = 171.000000
+	__StateShape__00000000_.Y = 166.000000
+	stage.Commit()
 }
