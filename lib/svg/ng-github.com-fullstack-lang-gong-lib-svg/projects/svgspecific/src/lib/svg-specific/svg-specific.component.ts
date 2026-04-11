@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostListener, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, ChangeDetectionStrategy, Component, ElementRef, HostListener, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 
 import * as svg from '../../../../svg/src/public-api'
 
@@ -46,6 +46,7 @@ import { controlPointToPoint, pointToControlPoint } from '../control-points';
 
 @Component({
   selector: 'lib-svg-specific',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
     MatIconModule,
@@ -303,7 +304,7 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
     // by the change detector ("dirty" or "clean").
     // therefore, the extra complexity is needed otherwise the template is perpetually
     // computed
-    this.changeDetectorRef.detach()
+    // this.changeDetectorRef.detach()
 
     this.gongsvgFrontRepoService.connectToWebSocket(this.Name).subscribe(
       gongsvgsFrontRepo => {
