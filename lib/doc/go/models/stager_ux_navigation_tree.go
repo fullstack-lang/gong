@@ -27,7 +27,7 @@ func (stager *Stager) navigationTree() {
 		ToolTipText: fmt.Sprintf("Go to previous commit (%d/%d)",
 			len(stageOfInterest.GetBackwardCommits()), stageOfInterest.GetCommitsBehind()),
 		ToolTipPosition: tree_models.Below,
-		OnUpdate: func(_ *tree_models.Stage, _ *tree_models.Button) {
+		OnClick: func() {
 			err := stageOfInterest.ApplyBackwardCommit()
 			if err != nil {
 				panic(err)
@@ -49,7 +49,7 @@ func (stager *Stager) navigationTree() {
 		ToolTipText: fmt.Sprintf("Go to next commit (%d/%d)",
 			len(stageOfInterest.GetBackwardCommits()), stageOfInterest.GetCommitsBehind()),
 		ToolTipPosition: tree_models.Below,
-		OnUpdate: func(_ *tree_models.Stage, _ *tree_models.Button) {
+		OnClick: func() {
 			err := stageOfInterest.ApplyForwardCommit()
 			if err != nil {
 				panic(err)
@@ -71,7 +71,7 @@ func (stager *Stager) navigationTree() {
 			HasToolTip:      true,
 			ToolTipText:     "Discard commits ahead (git reset --hard HEAD)",
 			ToolTipPosition: tree_models.Below,
-			OnUpdate: func(_ *tree_models.Stage, _ *tree_models.Button) {
+			OnClick: func() {
 				stageOfInterest.ResetHard()
 				// probe.Refresh()
 			},
@@ -85,7 +85,7 @@ func (stager *Stager) navigationTree() {
 		HasToolTip:      true,
 		ToolTipText:     "Discard all commits history (git orphan)",
 		ToolTipPosition: tree_models.Below,
-		OnUpdate: func(_ *tree_models.Stage, _ *tree_models.Button) {
+		OnClick: func() {
 			stageOfInterest.Squash()
 			// probe.Refresh()
 		},

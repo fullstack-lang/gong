@@ -198,4 +198,91 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.Width = 7200.000000
 	__Diagram__00000000_.Height = 7200.000000
 	stage.Commit()
+
+	__Diagram__00000001_ := (&models.Diagram{Name: ``}).Stage(stage)
+	// 
+	__Library__00000000_.Diagrams = slices.Insert( __Library__00000000_.Diagrams, 1, __Diagram__00000001_)
+	// Default Diagram
+	__Diagram__00000000_.IsChecked = false
+	__Diagram__00000000_.Width = 7300.000000
+	__Diagram__00000000_.Height = 7300.000000
+	__Diagram__00000001_.Name = ``
+	__Diagram__00000001_.ComputedPrefix = ``
+	__Diagram__00000001_.IsInRenameMode = false
+	__Diagram__00000001_.IsExpanded = true
+	__Diagram__00000001_.IsChecked = true
+	__Diagram__00000001_.IsEditable_ = true
+	__Diagram__00000001_.ShowPrefix = false
+	__Diagram__00000001_.DefaultBoxWidth = 0.000000
+	__Diagram__00000001_.DefaultBoxHeigth = 0.000000
+	__Diagram__00000001_.Width = 0.000000
+	__Diagram__00000001_.Height = 0.000000
+	__Diagram__00000001_.IsPBSNodeExpanded = false
+	__Diagram__00000001_.IsWBSNodeExpanded = false
+	__Diagram__00000001_.IsNotesNodeExpanded = false
+	__Diagram__00000001_.IsResourcesNodeExpanded = false
+	stage.Commit()
+
+	// 
+	__Diagram__00000001_.ComputedPrefix = `2`
+	__Diagram__00000001_.DefaultBoxWidth = 250.000000
+	__Diagram__00000001_.DefaultBoxHeigth = 70.000000
+	__Diagram__00000001_.Width = 200.000000
+	__Diagram__00000001_.Height = 200.000000
+	// Default Diagram
+	__Diagram__00000000_.Width = 7500.000000
+	__Diagram__00000000_.Height = 7500.000000
+	stage.Commit()
+
+	// 
+	__Diagram__00000001_.IsPBSNodeExpanded = true
+	stage.Commit()
+
+	__ProductShape__00000003_ := (&models.ProductShape{Name: `G3-`}).Stage(stage)
+	// 
+	__Diagram__00000001_.Product_Shapes = slices.Insert( __Diagram__00000001_.Product_Shapes, 0, __ProductShape__00000003_)
+	__ProductShape__00000003_.Name = `G3-`
+	__ProductShape__00000003_.IsExpanded = false
+	__ProductShape__00000003_.X = 184.385391
+	__ProductShape__00000003_.Y = 170.877611
+	__ProductShape__00000003_.Width = 250.000000
+	__ProductShape__00000003_.Height = 70.000000
+	__ProductShape__00000003_.IsHidden = false
+	__ProductShape__00000003_.Product = __Product__00000000_
+	stage.Commit()
+
+	// 
+	__Diagram__00000001_.Width = 634.385391
+	__Diagram__00000001_.Height = 500.000000
+	// Default Diagram
+	__Diagram__00000000_.Width = 7800.000000
+	__Diagram__00000000_.Height = 7800.000000
+	stage.Commit()
+
+	// 
+	__Diagram__00000001_.ProductsWhoseNodeIsExpanded = slices.Insert( __Diagram__00000001_.ProductsWhoseNodeIsExpanded, 0, __Product__00000000_)
+	stage.Commit()
+
+	__ProductShape__00000004_ := (&models.ProductShape{Name: `G3.1-`}).Stage(stage)
+	// 
+	__Diagram__00000001_.Width = 734.385391
+	__Diagram__00000001_.Height = 600.000000
+	__Diagram__00000001_.Product_Shapes = slices.Insert( __Diagram__00000001_.Product_Shapes, 1, __ProductShape__00000004_)
+	// Default Diagram
+	__Diagram__00000000_.Width = 7900.000000
+	__Diagram__00000000_.Height = 7900.000000
+	__ProductShape__00000004_.Name = `G3.1-`
+	__ProductShape__00000004_.IsExpanded = false
+	__ProductShape__00000004_.X = 163.488662
+	__ProductShape__00000004_.Y = 177.098443
+	__ProductShape__00000004_.Width = 250.000000
+	__ProductShape__00000004_.Height = 70.000000
+	__ProductShape__00000004_.IsHidden = false
+	__ProductShape__00000004_.Product = __Product__00000001_
+	stage.Commit()
+
+	// 
+	__Diagram__00000001_.Product_Shapes = slices.Delete( __Diagram__00000001_.Product_Shapes, 1, 2)
+	__ProductShape__00000004_.Unstage(stage)
+	stage.Commit()
 }

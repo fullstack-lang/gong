@@ -35,7 +35,7 @@ func (stager *Stager) tree() {
 			{
 				Name: diagram.GetName(),
 				Icon: string(buttons.BUTTON_edit),
-				OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+				OnClick: func() {
 					diagram.IsEditable = !diagram.IsEditable
 					stage.Commit()
 				},
@@ -74,7 +74,7 @@ func (stager *Stager) tree() {
 			{
 				Name: diagram.GetName(),
 				Icon: string(buttons.BUTTON_visibility),
-				OnUpdate: func(stage *tree.Stage, updatedButton *tree.Button) {
+				OnClick: func() {
 					diagram.IsMovementCategoryShown = !diagram.IsMovementCategoryShown
 					stage.Commit()
 				},
@@ -135,7 +135,7 @@ func (stager *Stager) tree() {
 					ToolTipText:     "Hide from diagram",
 					HasToolTip:      true,
 					ToolTipPosition: tree.Right,
-					OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+					OnClick: func() {
 						shape.IsHidden = !shape.IsHidden
 						stage.Commit()
 					},
@@ -163,7 +163,7 @@ func (stager *Stager) tree() {
 			{
 				Name: diagram.GetName(),
 				Icon: string(buttons.BUTTON_visibility),
-				OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+				OnClick: func() {
 					diagram.IsArtefactTypeCategoryShown = !diagram.IsArtefactTypeCategoryShown
 					stage.Commit()
 				},
@@ -222,7 +222,7 @@ func (stager *Stager) tree() {
 					ToolTipText:     "Hide from diagram",
 					HasToolTip:      true,
 					ToolTipPosition: tree.Right,
-					OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+					OnClick: func() {
 						shape.IsHidden = !shape.IsHidden
 						stage.Commit()
 					},
@@ -247,7 +247,7 @@ func (stager *Stager) tree() {
 			{
 				Name: diagram.GetName(),
 				Icon: string(buttons.BUTTON_visibility),
-				OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+				OnClick: func() {
 					diagram.IsArtistCategoryShown = !diagram.IsArtistCategoryShown
 					stage.Commit()
 				},
@@ -339,7 +339,7 @@ func (stager *Stager) tree() {
 						ToolTipText:     "Hide from diagram",
 						HasToolTip:      true,
 						ToolTipPosition: tree.Right,
-						OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+						OnClick: func() {
 							shape.IsHidden = !shape.IsHidden
 							stage.Commit()
 						},
@@ -369,7 +369,7 @@ func (stager *Stager) tree() {
 			{
 				Name: diagram.GetName(),
 				Icon: string(buttons.BUTTON_visibility),
-				OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+				OnClick: func() {
 					diagram.IsInfluenceCategoryShown = !diagram.IsInfluenceCategoryShown
 					stage.Commit()
 				},
