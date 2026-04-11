@@ -45,6 +45,25 @@ func onUpdateElementInDiagram[
 				log.Panic("adding a shape to an already product shape")
 			}
 			shape = newShapeToDiagram(element, diagram, shapes, stager.stage)
+
+			if parentElement != nil {
+				if parentShape, ok := shapesMap[parentElement]; ok {
+					if compositionShapes != nil {
+						addAssociationShapeToDiagram(stager, parentElement, element, compositionShapes)
+
+						var siblingsCount int
+						for _, compShape := range *compositionShapes {
+							if compShape.GetAbstractStartElement() == parentElement {
+								siblingsCount++
+							}
+						}
+
+						shape.SetX(parentShape.GetX() + float64(siblingsCount-1)*parentShape.GetWidth()*1.2)
+						shape.SetY(parentShape.GetY() + parentShape.GetHeight()*2.0)
+					}
+				}
+			}
+
 			stager.stage.Commit()
 			return
 		}
