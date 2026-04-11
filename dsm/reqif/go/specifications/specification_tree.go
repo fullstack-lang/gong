@@ -69,9 +69,12 @@ func (o *SpecificationsTreeStageUpdater) UpdateAndCommitSpecificationsTreeStage(
 		{
 			button := &tree.Button{
 				Name: "Show/Unshow Numbering",
-				Impl: &toggleButtonProxy{
-					stager:      stager,
-					toggleValue: &specificationRendering.IsWithHeadingNumbering,
+				OnClick: func() {
+					proxy := &toggleButtonProxy{
+						stager:      stager,
+						toggleValue: &specificationRendering.IsWithHeadingNumbering,
+					}
+					proxy.ButtonUpdated(nil, nil, nil)
 				},
 				HasToolTip:      true,
 				ToolTipPosition: tree.Right,

@@ -30,9 +30,10 @@ func configureAndAddAttributeNode[AttrDef m.AttributeDefinition](
 	{
 		button := &tree.Button{
 			Name: longName + ": show attribute on/off in title",
-			Impl: &toggleButtonProxy{
-				stager:      stager,
-				toggleValue: attrDefRendering.GetShowInTitlePtr(),
+			OnClick: func() {
+				*attrDefRendering.GetShowInTitlePtr() = !*attrDefRendering.GetShowInTitlePtr()
+				stager.GetSpecificationsTreeUpdater().UpdateAndCommitSpecificationsMarkdownStage(stager)
+				stager.GetSpecTypesTreeUpdater().UpdateAndCommitSpecTypesTreeStage(stager)
 			},
 			HasToolTip:      true,
 			ToolTipPosition: tree.Right,
@@ -53,9 +54,10 @@ func configureAndAddAttributeNode[AttrDef m.AttributeDefinition](
 	{
 		button := &tree.Button{
 			Name: longName + ": show attribute on/off in table",
-			Impl: &toggleButtonProxy{
-				stager:      stager,
-				toggleValue: attrDefRendering.GetShowInTablePtr(),
+			OnClick: func() {
+				*attrDefRendering.GetShowInTablePtr() = !*attrDefRendering.GetShowInTablePtr()
+				stager.GetSpecificationsTreeUpdater().UpdateAndCommitSpecificationsMarkdownStage(stager)
+				stager.GetSpecTypesTreeUpdater().UpdateAndCommitSpecTypesTreeStage(stager)
 			},
 			HasToolTip:      true,
 			ToolTipPosition: tree.Right,
@@ -76,9 +78,10 @@ func configureAndAddAttributeNode[AttrDef m.AttributeDefinition](
 	{
 		button := &tree.Button{
 			Name: longName + ": show attribute on/off in subject",
-			Impl: &toggleButtonProxy{
-				stager:      stager,
-				toggleValue: attrDefRendering.GetShowInSubjectPtr(),
+			OnClick: func() {
+				*attrDefRendering.GetShowInSubjectPtr() = !*attrDefRendering.GetShowInSubjectPtr()
+				stager.GetSpecificationsTreeUpdater().UpdateAndCommitSpecificationsMarkdownStage(stager)
+				stager.GetSpecTypesTreeUpdater().UpdateAndCommitSpecTypesTreeStage(stager)
 			},
 			HasToolTip:      true,
 			ToolTipPosition: tree.Right,
@@ -98,9 +101,10 @@ func configureAndAddAttributeNode[AttrDef m.AttributeDefinition](
 	{
 		button := &tree.Button{
 			Name: longName + ": increase rank",
-			Impl: &increaseButtonProxy{
-				stager:      stager,
-				targetValue: attrDefRendering.GetRankPtr(),
+			OnClick: func() {
+				*attrDefRendering.GetRankPtr()++
+				stager.GetSpecificationsTreeUpdater().UpdateAndCommitSpecificationsMarkdownStage(stager)
+				stager.GetSpecTypesTreeUpdater().UpdateAndCommitSpecTypesTreeStage(stager)
 			},
 			HasToolTip:      true,
 			ToolTipPosition: tree.Right,
@@ -114,9 +118,10 @@ func configureAndAddAttributeNode[AttrDef m.AttributeDefinition](
 	{
 		button := &tree.Button{
 			Name: longName + ": decrease rank",
-			Impl: &decreaseButtonProxy{
-				stager:      stager,
-				targetValue: attrDefRendering.GetRankPtr(),
+			OnClick: func() {
+				*attrDefRendering.GetRankPtr()--
+				stager.GetSpecificationsTreeUpdater().UpdateAndCommitSpecificationsMarkdownStage(stager)
+				stager.GetSpecTypesTreeUpdater().UpdateAndCommitSpecTypesTreeStage(stager)
 			},
 			HasToolTip:      true,
 			ToolTipPosition: tree.Right,

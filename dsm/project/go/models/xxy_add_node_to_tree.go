@@ -66,11 +66,9 @@ func addNodeToTree[
 			&tree.Button{
 				Name: element.GetName() + " " + string(buttons.BUTTON_edit_note),
 				Icon: string(buttons.BUTTON_edit_note),
-				Impl: &tree.FunctionalButtonProxy{
-					OnUpdated: func(_ *tree.Stage, _, _ *tree.Button) {
-						element.SetIsInRenameMode(true)
-						stage.Commit()
-					},
+				OnClick: func() {
+					element.SetIsInRenameMode(true)
+					stage.Commit()
 				},
 				HasToolTip:      true,
 				ToolTipText:     "Rename the " + GetGongstructNameFromPointer(element),
@@ -81,11 +79,9 @@ func addNodeToTree[
 			&tree.Button{
 				Name: element.GetName() + " " + string(buttons.BUTTON_edit_off),
 				Icon: string(buttons.BUTTON_edit_off),
-				Impl: &tree.FunctionalButtonProxy{
-					OnUpdated: func(_ *tree.Stage, _, _ *tree.Button) {
-						element.SetIsInRenameMode(false)
-						stage.Commit()
-					},
+				OnClick: func() {
+					element.SetIsInRenameMode(false)
+					stage.Commit()
 				},
 				HasToolTip:      true,
 				ToolTipText:     "Cancel renaming",

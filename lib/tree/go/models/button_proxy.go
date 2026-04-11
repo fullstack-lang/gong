@@ -16,7 +16,9 @@ func NewButton(
 		target,
 	)
 
-	button.Impl = proxy
+	button.OnClick = func() {
+		proxy.target.OnAfterUpdateButton()
+	}
 
 	return button
 }
