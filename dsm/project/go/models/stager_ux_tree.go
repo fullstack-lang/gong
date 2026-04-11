@@ -40,7 +40,7 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 				&tree.Button{
 					Name: library.GetName() + " " + string(buttons.BUTTON_edit_note),
 					Icon: string(buttons.BUTTON_edit_note),
-					OnUpdate: func(stage *tree.Stage, updatedButton *tree.Button) {
+					OnClick: func() {
 						library.SetIsInRenameMode(true)
 						stager.stage.Commit()
 					},
@@ -53,7 +53,7 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 				&tree.Button{
 					Name: library.GetName() + " " + string(buttons.BUTTON_edit_off),
 					Icon: string(buttons.BUTTON_edit_off),
-					OnUpdate: func(stage *tree.Stage, updatedButton *tree.Button) {
+					OnClick: func() {
 						library.SetIsInRenameMode(false)
 						stager.stage.Commit()
 					},
@@ -89,7 +89,7 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 				&tree.Button{
 					Name: element.GetName() + " " + string(buttons.BUTTON_edit_note),
 					Icon: string(buttons.BUTTON_edit_note),
-					OnUpdate: func(stage *tree.Stage, updatedButton *tree.Button) {
+					OnClick: func() {
 						element.SetIsInRenameMode(true)
 						stager.stage.Commit()
 					},
@@ -102,7 +102,7 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 				&tree.Button{
 					Name: element.GetName() + " " + string(buttons.BUTTON_edit_off),
 					Icon: string(buttons.BUTTON_edit_off),
-					OnUpdate: func(stage *tree.Stage, updatedButton *tree.Button) {
+					OnClick: func() {
 						element.SetIsInRenameMode(false)
 						stager.stage.Commit()
 					},
@@ -121,7 +121,7 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 				HasToolTip:      true,
 				ToolTipPosition: tree.Above,
 				ToolTipText:     "Copy Diagram",
-				OnUpdate:        onCopyDiagram(stager, diagram),
+				OnClick:         onCopyDiagram(stager, diagram),
 			}
 			diagramNode.Buttons = append(diagramNode.Buttons, copyButton)
 		}
@@ -132,7 +132,7 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 				HasToolTip:      true,
 				ToolTipPosition: tree.Above,
 				ToolTipText:     "Show All Elements in the Diagram",
-				OnUpdate:        onShowAllInDiagram(stager, diagram),
+				OnClick:         onShowAllInDiagram(stager, diagram),
 			}
 			diagramNode.Buttons = append(diagramNode.Buttons, showAllButton)
 		}
@@ -143,7 +143,7 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 				HasToolTip:      true,
 				ToolTipPosition: tree.Above,
 				ToolTipText:     "Show Show As PBS Tree",
-				OnUpdate:        onLayoutPBS(stager, diagram),
+				OnClick:         onLayoutPBS(stager, diagram),
 			}
 			diagramNode.Buttons = append(diagramNode.Buttons, showAllButton)
 		}
@@ -154,7 +154,7 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 				HasToolTip:      true,
 				ToolTipPosition: tree.Above,
 				ToolTipText:     "Show Show As WBS Tree",
-				OnUpdate:        onLayoutWBS(stager, diagram),
+				OnClick:         onLayoutWBS(stager, diagram),
 			}
 			diagramNode.Buttons = append(diagramNode.Buttons, showAllButton)
 		}
@@ -165,7 +165,7 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 				HasToolTip:      true,
 				ToolTipPosition: tree.Above,
 
-				OnUpdate: func(stage *tree.Stage, updatedButton *tree.Button) {
+				OnClick: func() {
 					diagram.ShowPrefix = !diagram.ShowPrefix
 					stager.stage.Commit()
 				},
@@ -288,12 +288,12 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 								showHideRelationButton.ToolTipText = "Hide link from note \"" + note.Name +
 									"\" to product \"" + product.Name + "\""
 								// what to do when the product node is clicked
-								showHideRelationButton.OnUpdate = onRemoveAssociationShape(stager, noteProductShape, &diagram.NoteProductShapes)
+								showHideRelationButton.OnClick = onRemoveAssociationShape(stager, noteProductShape, &diagram.NoteProductShapes)
 							} else {
 								showHideRelationButton.Icon = string(buttons.BUTTON_visibility)
 								showHideRelationButton.ToolTipText = "Show link from note \"" + note.Name +
 									"\" to product \"" + product.Name + "\""
-								showHideRelationButton.OnUpdate = onAddAssociationShape(stager, note, product, &diagram.NoteProductShapes)
+								showHideRelationButton.OnClick = onAddAssociationShape(stager, note, product, &diagram.NoteProductShapes)
 							}
 						}
 					}
@@ -321,12 +321,12 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 								showHideRelationButton.ToolTipText = "Hide link from note \"" + note.Name +
 									"\" to task \"" + task.Name + "\""
 								// what to do when the product node is clicked
-								showHideRelationButton.OnUpdate = onRemoveAssociationShape(stager, noteTaskShape, &diagram.NoteTaskShapes)
+								showHideRelationButton.OnClick = onRemoveAssociationShape(stager, noteTaskShape, &diagram.NoteTaskShapes)
 							} else {
 								showHideRelationButton.Icon = string(buttons.BUTTON_visibility)
 								showHideRelationButton.ToolTipText = "Show link from note \"" + note.Name +
 									"\" to task \"" + task.Name + "\""
-								showHideRelationButton.OnUpdate = onAddAssociationShape(stager, note, task, &diagram.NoteTaskShapes)
+								showHideRelationButton.OnClick = onAddAssociationShape(stager, note, task, &diagram.NoteTaskShapes)
 							}
 						}
 					}
@@ -353,12 +353,12 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 								showHideRelationButton.ToolTipText = "Hide link from note \"" + note.Name +
 									"\" to resource \"" + resource.Name + "\""
 								// what to do when the product node is clicked
-								showHideRelationButton.OnUpdate = onRemoveAssociationShape(stager, noteResourceShape, &diagram.NoteResourceShapes)
+								showHideRelationButton.OnClick = onRemoveAssociationShape(stager, noteResourceShape, &diagram.NoteResourceShapes)
 							} else {
 								showHideRelationButton.Icon = string(buttons.BUTTON_visibility)
 								showHideRelationButton.ToolTipText = "Show link from note \"" + note.Name +
 									"\" to resource \"" + resource.Name + "\""
-								showHideRelationButton.OnUpdate = onAddAssociationShape(stager, note, resource, &diagram.NoteResourceShapes)
+								showHideRelationButton.OnClick = onAddAssociationShape(stager, note, resource, &diagram.NoteResourceShapes)
 							}
 						}
 					}
@@ -440,9 +440,8 @@ func (stager *Stager) OnUpdateDiagram(diagram *Diagram) func(stage *tree.Stage, 
 	}
 }
 
-func onCopyDiagram(stager *Stager, diagram *Diagram) func(
-	stage *tree.Stage, updatedButton *tree.Button) {
-	return func(_ *tree.Stage, _ *tree.Button) {
+func onCopyDiagram(stager *Stager, diagram *Diagram) func() {
+	return func() {
 		newDiagram := new(Diagram)
 		newDiagram.Name = diagram.Name + " copy"
 		newDiagram.IsEditable_ = true

@@ -83,7 +83,7 @@ func (stager *Stager) treeRBSinDiagram(diagram *Diagram, resource *Resource, par
 							ToolTipText:     "Hide link from diagram",
 							HasToolTip:      true,
 							ToolTipPosition: tree.Right,
-							OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+							OnClick: func() {
 								resourceTaskShape.SetIsHidden(!resourceTaskShape.GetIsHidden())
 								stager.stage.Commit()
 							},

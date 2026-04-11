@@ -7,9 +7,12 @@ type Button struct {
 	// SVG Icon, overides the angular materal icon
 	SVGIcon *SVGIcon
 
-	// Deprecated
-	Impl     ButtonImplInterface
+	// Deprecated, uses OnClick instead
+	Impl ButtonImplInterface
+	// Deprecated, uses OnClick instead
 	OnUpdate func(stage *Stage, updatedButton *Button)
+
+	OnClick func() // is called when the button is clicked
 
 	IsDisabled bool
 

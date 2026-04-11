@@ -29,7 +29,7 @@ func (stager *Stager) treeSimulation() {
 		addButton := (&tree.Button{
 			Name: "Object" + " " + string(buttons.BUTTON_add),
 			Icon: string(buttons.BUTTON_add),
-			OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+			OnClick: func() {
 				for object_ := range *GetGongstructInstancesSet[Object](stager.stage) {
 					object_.IsSelected = false
 				}
@@ -102,7 +102,7 @@ func (stager *Stager) treeSimulation() {
 			deleteButton := (&tree.Button{
 				Name: "State" + " " + string(buttons.BUTTON_delete),
 				Icon: string(buttons.BUTTON_delete),
-				OnUpdate: func(stage *tree.Stage, updatedButton *tree.Button) {
+				OnClick: func() {
 					object.Unstage(stager.stage)
 
 					for _, message := range object.Messages {

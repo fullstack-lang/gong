@@ -43,7 +43,7 @@ func (stager *Stager) treeDiagrams() {
 			HasToolTip:      true,
 			ToolTipPosition: tree.Above,
 			ToolTipText:     "Add a State Machine",
-			OnUpdate: func(stage *tree.Stage, updatedButton *tree.Button) {
+			OnClick: func() {
 				s := stager.stage
 				newDiagram := (&StateMachine{
 					Name: "New StateMachine",
@@ -82,7 +82,7 @@ func (stager *Stager) treeDiagrams() {
 				HasToolTip:      true,
 				ToolTipPosition: tree.Above,
 				ToolTipText:     "Add a Diagram to the state machine",
-				OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+				OnClick: func() {
 					s := stager.stage
 					newDiagram := (&Diagram{
 						Name:        "New Diagram",
@@ -165,7 +165,7 @@ func (stager *Stager) treeDiagrams() {
 					HasToolTip:      true,
 					ToolTipPosition: tree.Above,
 					ToolTipText:     "Add a State to the State Machine and add it to the diagram",
-					OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+					OnClick: func() {
 						s := stager.stage
 						newState := new(State).Stage(s)
 
@@ -243,7 +243,7 @@ func (stager *Stager) treeDiagrams() {
 						HasToolTip:      true,
 						ToolTipPosition: tree.Above,
 						ToolTipText:     "Show State Shape",
-						OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+						OnClick: func() {
 							stateShape.SetIsHidden(!stateShape.GetIsHidden())
 							stager.stage.Commit()
 						},
@@ -328,7 +328,7 @@ func (stager *Stager) treeDiagrams() {
 								HasToolTip:      true,
 								ToolTipPosition: tree.Above,
 								ToolTipText:     "Show Transition Shape",
-								OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+								OnClick: func() {
 									if transitionShape != nil {
 										transitionShape.SetIsHidden(!transitionShape.GetIsHidden())
 										stager.stage.Commit()
