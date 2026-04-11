@@ -42,4 +42,7 @@ func (button *Button) OnAfterUpdate(stage *Stage, _, frontButton *Button) {
 	if button.OnUpdate != nil {
 		button.OnUpdate(stage, frontButton)
 	}
+	if button.OnClick != nil {
+		button.OnClick()
+	}
 }
