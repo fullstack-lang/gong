@@ -1,14 +1,9 @@
 package models
 
-import (
-	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
-)
-
 // onLayoutWBS resets the diagram, creates and adds all possible task-related concrete instances to the diagram,
 // and organizes them in a breakdown structure
-func onLayoutWBS(stager *Stager, diagram *Diagram) func(
-	stage *tree.Stage, updatedButton *tree.Button) {
-	return func(_ *tree.Stage, _ *tree.Button) {
+func onLayoutWBS(stager *Stager, diagram *Diagram) func() {
+	return func() {
 		// 1. Reset the diagram: remove all shapes from the stage to start fresh
 		diagram.Product_Shapes = []*ProductShape{}
 		diagram.Task_Shapes = []*TaskShape{}

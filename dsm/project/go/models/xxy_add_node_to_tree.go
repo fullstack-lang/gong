@@ -102,7 +102,7 @@ func addNodeToTree[
 			ToolTipText:     "Hide from diagram",
 			HasToolTip:      true,
 			ToolTipPosition: tree.Right,
-			OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+			OnClick: func() {
 				shape.SetIsHidden(!shape.GetIsHidden())
 				stage.Commit()
 			},
@@ -130,7 +130,7 @@ func addNodeToTree[
 				ToolTipText:     "List of other " + fmt.Sprint(len(diagrams)-1) + " diagrams where element is present",
 				HasToolTip:      true,
 				ToolTipPosition: tree.Right,
-				OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+				OnClick: func() {
 					diagram.elementWhoseDiagramListIsDisplayed = nil
 					stage.Commit()
 				},
@@ -166,7 +166,7 @@ func addNodeToTree[
 					ToolTipText:     "Show list of other diagrams where \"" + element.GetName() + "\" is present",
 					HasToolTip:      true,
 					ToolTipPosition: tree.Right,
-					OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+					OnClick: func() {
 						diagram.elementWhoseDiagramListIsDisplayed = element
 						stage.Commit()
 					},
@@ -197,7 +197,7 @@ func addNodeToTree[
 				Name:            GetGongstructNameFromPointer(element) + " " + string(buttons.BUTTON_add),
 				HasToolTip:      true,
 				ToolTipPosition: tree.Right,
-				OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+				OnClick: func() {
 					compositionShape.SetIsHidden(!compositionShape.GetIsHidden())
 					stage.Commit()
 				},
