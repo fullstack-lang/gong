@@ -67,9 +67,12 @@ func (updater *SpecTypesTreeStageUpdater) UpdateAndCommitSpecTypesTreeStage(stag
 			{
 				button := &tree.Button{
 					Name: "Show/Unshow identifier",
-					Impl: &toggleButtonProxy{
-						stager:      stager,
-						toggleValue: &specObjectTypeRendering.ShowIdentifier,
+					OnClick: func() {
+						proxy := &toggleButtonProxy{
+							stager:      stager,
+							toggleValue: &specObjectTypeRendering.ShowIdentifier,
+						}
+						proxy.ButtonUpdated(nil, nil, nil)
 					},
 					HasToolTip:      true,
 					ToolTipPosition: tree.Right,
@@ -88,9 +91,12 @@ func (updater *SpecTypesTreeStageUpdater) UpdateAndCommitSpecTypesTreeStage(stag
 			{
 				button := &tree.Button{
 					Name: "Show/Unshow name",
-					Impl: &toggleButtonProxy{
-						stager:      stager,
-						toggleValue: &specObjectTypeRendering.ShowName,
+					OnClick: func() {
+						proxy := &toggleButtonProxy{
+							stager:      stager,
+							toggleValue: &specObjectTypeRendering.ShowName,
+						}
+						proxy.ButtonUpdated(nil, nil, nil)
 					},
 					HasToolTip:      true,
 					ToolTipPosition: tree.Right,
@@ -109,9 +115,12 @@ func (updater *SpecTypesTreeStageUpdater) UpdateAndCommitSpecTypesTreeStage(stag
 			{
 				button := &tree.Button{
 					Name: "Show/Unshow relation",
-					Impl: &toggleButtonProxy{
-						stager:      stager,
-						toggleValue: &specObjectTypeRendering.ShowRelations,
+					OnClick: func() {
+						proxy := &toggleButtonProxy{
+							stager:      stager,
+							toggleValue: &specObjectTypeRendering.ShowRelations,
+						}
+						proxy.ButtonUpdated(nil, nil, nil)
 					},
 					HasToolTip:      true,
 					ToolTipPosition: tree.Right,
@@ -130,9 +139,12 @@ func (updater *SpecTypesTreeStageUpdater) UpdateAndCommitSpecTypesTreeStage(stag
 			{
 				button := &tree.Button{
 					Name: "Is Spec Object Type Heading",
-					Impl: &toggleButtonProxy{
-						stager:      stager,
-						toggleValue: &specObjectTypeRendering.IsHeading,
+					OnClick: func() {
+						proxy := &toggleButtonProxy{
+							stager:      stager,
+							toggleValue: &specObjectTypeRendering.IsHeading,
+						}
+						proxy.ButtonUpdated(nil, nil, nil)
 					},
 					HasToolTip:      true,
 					ToolTipPosition: tree.Right,

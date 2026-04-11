@@ -41,77 +41,75 @@ func addAddItemButton[
 		ToolTipPosition: tree.Right,
 	}
 	node.Buttons = append(node.Buttons, addButton)
-	addButton.Impl = &tree.FunctionalButtonProxy{
-		OnUpdated: func(_ *tree.Stage, _, _ *tree.Button) {
-			newItem := PT(new(T))
-			newItem.SetName("New" + GetGongstructNameFromPointer(newItem))
-			newItem.SetName("") // easier to rename an item when its name is empty
-			newItem.StageVoid(stager.stage)
-			*items = append(*items, newItem)
-			stager.stage.ComputeReverseMaps() // this is important, otherwise, the form is not correctly initialized
+	addButton.OnClick = func() {
+		newItem := PT(new(T))
+		newItem.SetName("New" + GetGongstructNameFromPointer(newItem))
+		newItem.SetName("") // easier to rename an item when its name is empty
+		newItem.StageVoid(stager.stage)
+		*items = append(*items, newItem)
+		stager.stage.ComputeReverseMaps() // this is important, otherwise, the form is not correctly initialized
 
-			// if the created item is a newDiagram, set the IsEditable_ field to true
-			if newDiagram, ok := any(newItem).(*Diagram); ok {
-				newDiagram.IsEditable_ = true
-				newDiagram.IsExpanded = true
-				for diagram_ := range *GetGongstructInstancesSet[Diagram](stager.stage) {
-					diagram_.IsChecked = false
-				}
-				newDiagram.IsChecked = true
+		// if the created item is a newDiagram, set the IsEditable_ field to true
+		if newDiagram, ok := any(newItem).(*Diagram); ok {
+			newDiagram.IsEditable_ = true
+			newDiagram.IsExpanded = true
+			for diagram_ := range *GetGongstructInstancesSet[Diagram](stager.stage) {
+				diagram_.IsChecked = false
 			}
+			newDiagram.IsChecked = true
+		}
 
-			// if the created item is a project, add a diagram to it
-			if newLibrary, ok := any(newItem).(*Library); ok {
-				newLibrary.IsExpanded = true
-				for diagram_ := range *GetGongstructInstancesSet[Diagram](stager.stage) {
-					diagram_.IsChecked = false
-				}
-				newDiagram := &Diagram{
-					Name:        "Default Diagram",
-					IsChecked:   true,
-					IsEditable_: true,
-					AbstractTypeFields: AbstractTypeFields{
-						IsExpanded: true,
-					},
-				}
-				newDiagram.StageVoid(stager.stage)
-				newLibrary.Diagrams = append(newLibrary.Diagrams, newDiagram)
+		// if the created item is a project, add a diagram to it
+		if newLibrary, ok := any(newItem).(*Library); ok {
+			newLibrary.IsExpanded = true
+			for diagram_ := range *GetGongstructInstancesSet[Diagram](stager.stage) {
+				diagram_.IsChecked = false
 			}
-
-			// stager.probeForm.SetCommitMode(false), no need yet
-			stager.probeForm.FillUpFormFromGongstruct(newItem, GetPointerToGongstructName[PT]())
-			// stager.probeForm.SetCommitMode(true)
-
-			// add the parent item to the list of items whose node is expanded
-			if parentItemsWhoseNodeIsExpanded != nil && parentItem != nil &&
-				!slices.Contains(*parentItemsWhoseNodeIsExpanded, parentItem) {
-				*parentItemsWhoseNodeIsExpanded = append(*parentItemsWhoseNodeIsExpanded, parentItem)
+			newDiagram := &Diagram{
+				Name:        "Default Diagram",
+				IsChecked:   true,
+				IsEditable_: true,
+				AbstractTypeFields: AbstractTypeFields{
+					IsExpanded: true,
+				},
 			}
-			if isNodeExpanded != nil {
-				*isNodeExpanded = true
-			}
+			newDiagram.StageVoid(stager.stage)
+			newLibrary.Diagrams = append(newLibrary.Diagrams, newDiagram)
+		}
 
-			if receivingDiagram != nil && shapes != nil {
-				newShape := newShapeToDiagram(newItem, receivingDiagram, shapes, stager.stage)
+		// stager.probeForm.SetCommitMode(false), no need yet
+		stager.probeForm.FillUpFormFromGongstruct(newItem, GetPointerToGongstructName[PT]())
+		// stager.probeForm.SetCommitMode(true)
 
-				// get the parent shape to eventually create an association shape
-				var parentShape CT
-				if parentItem != nil {
-					for _, parentShape_ := range *shapes {
-						if parentShape_.GetAbstractElement() == parentItem {
-							parentShape = parentShape_
-							break
-						}
+		// add the parent item to the list of items whose node is expanded
+		if parentItemsWhoseNodeIsExpanded != nil && parentItem != nil &&
+			!slices.Contains(*parentItemsWhoseNodeIsExpanded, parentItem) {
+			*parentItemsWhoseNodeIsExpanded = append(*parentItemsWhoseNodeIsExpanded, parentItem)
+		}
+		if isNodeExpanded != nil {
+			*isNodeExpanded = true
+		}
+
+		if receivingDiagram != nil && shapes != nil {
+			newShape := newShapeToDiagram(newItem, receivingDiagram, shapes, stager.stage)
+
+			// get the parent shape to eventually create an association shape
+			var parentShape CT
+			if parentItem != nil {
+				for _, parentShape_ := range *shapes {
+					if parentShape_.GetAbstractElement() == parentItem {
+						parentShape = parentShape_
+						break
 					}
 				}
-				if parentShape != nil && parentItem != nil && associationShapes != nil {
-					addAssociationShapeToDiagram(stager, parentItem, newItem, associationShapes)
-
-					newShape.SetX(parentShape.GetX() + float64(len(*items)-1)*parentShape.GetWidth()*1.2)
-					newShape.SetY(parentShape.GetY() + parentShape.GetHeight()*2.0)
-				}
 			}
-			stager.stage.Commit()
-		},
+			if parentShape != nil && parentItem != nil && associationShapes != nil {
+				addAssociationShapeToDiagram(stager, parentItem, newItem, associationShapes)
+
+				newShape.SetX(parentShape.GetX() + float64(len(*items)-1)*parentShape.GetWidth()*1.2)
+				newShape.SetY(parentShape.GetY() + parentShape.GetHeight()*2.0)
+			}
+		}
+		stager.stage.Commit()
 	}
 }
