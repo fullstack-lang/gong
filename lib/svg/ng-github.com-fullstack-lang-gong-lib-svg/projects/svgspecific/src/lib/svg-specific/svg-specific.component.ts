@@ -728,6 +728,16 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
 
     if (this.State == StateEnumType.RECTS_DRAGGING) {
       console.assert(this.draggedRect != undefined, "no dragged rect")
+
+      // Constrain movement to horizontal or vertical if Shift key is pressed
+      if (event.shiftKey) {
+        if (Math.abs(deltaX) > Math.abs(deltaY)) {
+          deltaY = 0
+        } else {
+          deltaX = 0
+        }
+      }
+
       if (this.draggedRect!.CanMoveHorizontaly) {
         this.draggedRect!.X = this.RectAtMouseDown!.X + deltaX
       }
