@@ -45,6 +45,7 @@ func addAddItemButton[
 		newAbstractElement := PT(new(T))
 		newAbstractElement.SetName("New" + GetGongstructNameFromPointer(newAbstractElement))
 		newAbstractElement.SetName("") // easier to rename an item when its name is empty
+		newAbstractElement.SetIsInRenameMode(true)
 		newAbstractElement.StageVoid(stager.stage)
 		*items = append(*items, newAbstractElement)
 		stager.stage.ComputeReverseMaps() // this is important, otherwise, the form is not correctly initialized
