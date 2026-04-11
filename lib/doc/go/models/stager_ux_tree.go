@@ -44,8 +44,11 @@ func (stager *Stager) tree() {
 			&tree.Button{
 				Name: "Class Diagramm Add Button",
 				Icon: string(buttons.BUTTON_add),
-				Impl: &ButtonNewClassdiagramProxy{
-					stager: stager,
+				OnClick: func() {
+					proxy := &ButtonNewClassdiagramProxy{
+						stager: stager,
+					}
+					proxy.ButtonUpdated(nil, nil, nil)
 				},
 				HasToolTip:      true,
 				ToolTipText:     "Create a new diagram",
@@ -624,9 +627,9 @@ func (stager *Stager) addDisplayModeButtons(classDiagram *Classdiagram, nodeClas
 	{
 		button := &tree.Button{
 			Name: "Show/Unshow number of instances",
-			Impl: &toggleButtonProxy{
-				stager:      stager,
-				toggleValue: &classDiagram.ShowNbInstances,
+			OnClick: func() {
+				classDiagram.ShowNbInstances = !classDiagram.ShowNbInstances
+				stager.stage.Commit()
 			},
 			HasToolTip:      true,
 			ToolTipPosition: tree.Right,
@@ -646,9 +649,9 @@ func (stager *Stager) addDisplayModeButtons(classDiagram *Classdiagram, nodeClas
 	{
 		button := &tree.Button{
 			Name: "Show/Unshow multiplicity",
-			Impl: &toggleButtonProxy{
-				stager:      stager,
-				toggleValue: &classDiagram.ShowMultiplicity,
+			OnClick: func() {
+				classDiagram.ShowMultiplicity = !classDiagram.ShowMultiplicity
+				stager.stage.Commit()
 			},
 			HasToolTip:      true,
 			ToolTipPosition: tree.Right,
@@ -668,9 +671,9 @@ func (stager *Stager) addDisplayModeButtons(classDiagram *Classdiagram, nodeClas
 	{
 		button := &tree.Button{
 			Name: "Show/Unshow Link Names",
-			Impl: &toggleButtonProxy{
-				stager:      stager,
-				toggleValue: &classDiagram.ShowLinkNames,
+			OnClick: func() {
+				classDiagram.ShowLinkNames = !classDiagram.ShowLinkNames
+				stager.stage.Commit()
 			},
 			HasToolTip:      true,
 			ToolTipPosition: tree.Right,
@@ -693,12 +696,14 @@ func (stager *Stager) addDeleteRenameCopyButtons(nodeClassdiagram *tree.Node, cl
 		&tree.Button{
 			Name: classDiagram.GetName() + " " + string(buttons.BUTTON_delete),
 			Icon: string(buttons.BUTTON_delete),
-			Impl: NewClassDiagramButtonProxy(
-				stager,
-				classDiagram,
-				nodeClassdiagram,
-				REMOVE,
-			),
+			OnClick: func() {
+				NewClassDiagramButtonProxy(
+					stager,
+					classDiagram,
+					nodeClassdiagram,
+					REMOVE,
+				).ButtonUpdated(nil, nil, nil)
+			},
 			HasToolTip:      true,
 			ToolTipText:     "Delete the diagram",
 			ToolTipPosition: tree.Above,
@@ -709,12 +714,14 @@ func (stager *Stager) addDeleteRenameCopyButtons(nodeClassdiagram *tree.Node, cl
 			&tree.Button{
 				Name: classDiagram.GetName() + " " + string(buttons.BUTTON_edit_note),
 				Icon: string(buttons.BUTTON_edit_note),
-				Impl: NewClassDiagramButtonProxy(
-					stager,
-					classDiagram,
-					nodeClassdiagram,
-					RENAME,
-				),
+				OnClick: func() {
+					NewClassDiagramButtonProxy(
+						stager,
+						classDiagram,
+						nodeClassdiagram,
+						RENAME,
+					).ButtonUpdated(nil, nil, nil)
+				},
 				HasToolTip:      true,
 				ToolTipText:     "Rename the diagram",
 				ToolTipPosition: tree.Above,
@@ -724,12 +731,14 @@ func (stager *Stager) addDeleteRenameCopyButtons(nodeClassdiagram *tree.Node, cl
 			&tree.Button{
 				Name: classDiagram.GetName() + " " + string(buttons.BUTTON_edit_off),
 				Icon: string(buttons.BUTTON_edit_off),
-				Impl: NewClassDiagramButtonProxy(
-					stager,
-					classDiagram,
-					nodeClassdiagram,
-					RENAME_CANCEL,
-				),
+				OnClick: func() {
+					NewClassDiagramButtonProxy(
+						stager,
+						classDiagram,
+						nodeClassdiagram,
+						RENAME_CANCEL,
+					).ButtonUpdated(nil, nil, nil)
+				},
 				HasToolTip:      true,
 				ToolTipText:     "Cancel renaming",
 				ToolTipPosition: tree.Above,
@@ -740,12 +749,14 @@ func (stager *Stager) addDeleteRenameCopyButtons(nodeClassdiagram *tree.Node, cl
 		&tree.Button{
 			Name: classDiagram.GetName() + " " + string(buttons.BUTTON_copy_all),
 			Icon: string(buttons.BUTTON_copy_all),
-			Impl: NewClassDiagramButtonProxy(
-				stager,
-				classDiagram,
-				nodeClassdiagram,
-				DUPLICATE,
-			),
+			OnClick: func() {
+				NewClassDiagramButtonProxy(
+					stager,
+					classDiagram,
+					nodeClassdiagram,
+					DUPLICATE,
+				).ButtonUpdated(nil, nil, nil)
+			},
 			HasToolTip:      true,
 			ToolTipText:     "Duplicate diagram",
 			ToolTipPosition: tree.Right,
