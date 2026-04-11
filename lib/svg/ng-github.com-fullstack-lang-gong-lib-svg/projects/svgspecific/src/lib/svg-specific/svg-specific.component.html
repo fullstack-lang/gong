@@ -5,7 +5,10 @@
         (mouseenter)="manualDetect()"
        style="display: flex; align-items: center; gap: 10px; margin-bottom: 0px; margin-top: -15px; flex-wrap: wrap; padding: 0px 5px;"> 
     
-    <button mat-icon-button color="primary" (click)="generatesSVG(true)" matTooltip="Download diagram">
+    <button mat-icon-button color="primary" 
+      (click)="generatesSVG(true)" 
+      matTooltip="Download diagram" 
+      matTooltipPosition="above">
       <mat-icon>download</mat-icon>
     </button>
 
@@ -40,7 +43,8 @@
     <button mat-icon-button 
             (click)="generatesSVGInTheBack(true)" 
             style="opacity: 0.8;" 
-            matTooltip="Backend generation (experimental)">
+            matTooltip="Backend generation (experimental)"
+            matTooltipPosition="above">
       <mat-icon>cloud_sync</mat-icon>
     </button>
   </div>
