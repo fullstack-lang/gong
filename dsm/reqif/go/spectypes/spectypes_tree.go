@@ -68,11 +68,9 @@ func (updater *SpecTypesTreeStageUpdater) UpdateAndCommitSpecTypesTreeStage(stag
 				button := &tree.Button{
 					Name: "Show/Unshow identifier",
 					OnClick: func() {
-						proxy := &toggleButtonProxy{
-							stager:      stager,
-							toggleValue: &specObjectTypeRendering.ShowIdentifier,
-						}
-						proxy.ButtonUpdated(nil, nil, nil)
+						specObjectTypeRendering.ShowIdentifier = !specObjectTypeRendering.ShowIdentifier
+						stager.GetSpecificationsTreeUpdater().UpdateAndCommitSpecificationsMarkdownStage(stager)
+						stager.GetSpecTypesTreeUpdater().UpdateAndCommitSpecTypesTreeStage(stager)
 					},
 					HasToolTip:      true,
 					ToolTipPosition: tree.Right,
@@ -92,11 +90,9 @@ func (updater *SpecTypesTreeStageUpdater) UpdateAndCommitSpecTypesTreeStage(stag
 				button := &tree.Button{
 					Name: "Show/Unshow name",
 					OnClick: func() {
-						proxy := &toggleButtonProxy{
-							stager:      stager,
-							toggleValue: &specObjectTypeRendering.ShowName,
-						}
-						proxy.ButtonUpdated(nil, nil, nil)
+						specObjectTypeRendering.ShowName = !specObjectTypeRendering.ShowName
+						stager.GetSpecificationsTreeUpdater().UpdateAndCommitSpecificationsMarkdownStage(stager)
+						stager.GetSpecTypesTreeUpdater().UpdateAndCommitSpecTypesTreeStage(stager)
 					},
 					HasToolTip:      true,
 					ToolTipPosition: tree.Right,
@@ -116,11 +112,9 @@ func (updater *SpecTypesTreeStageUpdater) UpdateAndCommitSpecTypesTreeStage(stag
 				button := &tree.Button{
 					Name: "Show/Unshow relation",
 					OnClick: func() {
-						proxy := &toggleButtonProxy{
-							stager:      stager,
-							toggleValue: &specObjectTypeRendering.ShowRelations,
-						}
-						proxy.ButtonUpdated(nil, nil, nil)
+						specObjectTypeRendering.ShowRelations = !specObjectTypeRendering.ShowRelations
+						stager.GetSpecificationsTreeUpdater().UpdateAndCommitSpecificationsMarkdownStage(stager)
+						stager.GetSpecTypesTreeUpdater().UpdateAndCommitSpecTypesTreeStage(stager)
 					},
 					HasToolTip:      true,
 					ToolTipPosition: tree.Right,
@@ -140,11 +134,9 @@ func (updater *SpecTypesTreeStageUpdater) UpdateAndCommitSpecTypesTreeStage(stag
 				button := &tree.Button{
 					Name: "Is Spec Object Type Heading",
 					OnClick: func() {
-						proxy := &toggleButtonProxy{
-							stager:      stager,
-							toggleValue: &specObjectTypeRendering.IsHeading,
-						}
-						proxy.ButtonUpdated(nil, nil, nil)
+						specObjectTypeRendering.IsHeading = !specObjectTypeRendering.IsHeading
+						stager.GetSpecificationsTreeUpdater().UpdateAndCommitSpecificationsMarkdownStage(stager)
+						stager.GetSpecTypesTreeUpdater().UpdateAndCommitSpecTypesTreeStage(stager)
 					},
 					HasToolTip:      true,
 					ToolTipPosition: tree.Right,
