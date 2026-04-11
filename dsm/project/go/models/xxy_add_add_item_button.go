@@ -42,15 +42,15 @@ func addAddItemButton[
 	}
 	node.Buttons = append(node.Buttons, addButton)
 	addButton.OnClick = func() {
-		newItem := PT(new(T))
-		newItem.SetName("New" + GetGongstructNameFromPointer(newItem))
-		newItem.SetName("") // easier to rename an item when its name is empty
-		newItem.StageVoid(stager.stage)
-		*items = append(*items, newItem)
+		newAbstractElement := PT(new(T))
+		newAbstractElement.SetName("New" + GetGongstructNameFromPointer(newAbstractElement))
+		newAbstractElement.SetName("") // easier to rename an item when its name is empty
+		newAbstractElement.StageVoid(stager.stage)
+		*items = append(*items, newAbstractElement)
 		stager.stage.ComputeReverseMaps() // this is important, otherwise, the form is not correctly initialized
 
 		// if the created item is a newDiagram, set the IsEditable_ field to true
-		if newDiagram, ok := any(newItem).(*Diagram); ok {
+		if newDiagram, ok := any(newAbstractElement).(*Diagram); ok {
 			newDiagram.IsEditable_ = true
 			newDiagram.IsExpanded = true
 			for diagram_ := range *GetGongstructInstancesSet[Diagram](stager.stage) {
@@ -60,7 +60,7 @@ func addAddItemButton[
 		}
 
 		// if the created item is a project, add a diagram to it
-		if newLibrary, ok := any(newItem).(*Library); ok {
+		if newLibrary, ok := any(newAbstractElement).(*Library); ok {
 			newLibrary.IsExpanded = true
 			for diagram_ := range *GetGongstructInstancesSet[Diagram](stager.stage) {
 				diagram_.IsChecked = false
@@ -78,7 +78,7 @@ func addAddItemButton[
 		}
 
 		// stager.probeForm.SetCommitMode(false), no need yet
-		stager.probeForm.FillUpFormFromGongstruct(newItem, GetPointerToGongstructName[PT]())
+		stager.probeForm.FillUpFormFromGongstruct(newAbstractElement, GetPointerToGongstructName[PT]())
 		// stager.probeForm.SetCommitMode(true)
 
 		// add the parent item to the list of items whose node is expanded
@@ -91,7 +91,7 @@ func addAddItemButton[
 		}
 
 		if receivingDiagram != nil && shapes != nil {
-			newShape := newShapeToDiagram(newItem, receivingDiagram, shapes, stager.stage)
+			newShape := newShapeToDiagram(newAbstractElement, receivingDiagram, shapes, stager.stage)
 
 			// get the parent shape to eventually create an association shape
 			var parentShape CT
@@ -104,7 +104,7 @@ func addAddItemButton[
 				}
 			}
 			if parentShape != nil && parentItem != nil && associationShapes != nil {
-				addAssociationShapeToDiagram(stager, parentItem, newItem, associationShapes)
+				addAssociationShapeToDiagram(stager, parentItem, newAbstractElement, associationShapes)
 
 				newShape.SetX(parentShape.GetX() + float64(len(*items)-1)*parentShape.GetWidth()*1.2)
 				newShape.SetY(parentShape.GetY() + parentShape.GetHeight()*2.0)
