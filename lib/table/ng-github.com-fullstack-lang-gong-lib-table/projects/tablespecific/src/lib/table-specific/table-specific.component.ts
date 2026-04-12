@@ -113,6 +113,7 @@ export class TableSpecificComponent implements OnInit, AfterViewInit, OnDestroy 
     private gongtableCommitNbFromBackService: table.CommitNbFromBackService,
     private rowService: table.RowService,
     private tableService: table.TableService,
+    private buttonService: table.ButtonService,
     private celliconService: table.CellIconService,
 
     // MatDialog service for opening OTHER dialogs (if needed)
@@ -598,4 +599,15 @@ export class TableSpecificComponent implements OnInit, AfterViewInit, OnDestroy 
       console.log('sort.direction:', this.sort.direction)
     }
   }
+
+  onButtonClick(event: Event, button: table.Button) {
+      // Stop the click event from propagating to the parent node
+      event.stopPropagation();
+  
+      this.buttonService.updateFront(button, this.Name).subscribe(
+        () => {
+          // Success
+        }
+      )
+    }
 }

@@ -25,6 +25,8 @@ func _(stage *models.Stage) {
 
 	// insertion point for declaration of instances to stage
 
+	__Button__00000000_ := (&models.Button{Name: `Delete`}).Stage(stage)
+
 	__Cell__00000000_ := (&models.Cell{Name: `Row 1 - Cell 1`}).Stage(stage)
 	__Cell__00000001_ := (&models.Cell{Name: `Row 1 - Cell 2`}).Stage(stage)
 	__Cell__00000002_ := (&models.Cell{Name: `Row 1 - Cell 3`}).Stage(stage)
@@ -82,6 +84,13 @@ func _(stage *models.Stage) {
 	__Table__00000002_ := (&models.Table{Name: `Table with 5 types`}).Stage(stage)
 
 	// insertion point for initialization of values
+
+	__Button__00000000_.Name = `Delete`
+	__Button__00000000_.Icon = `delete`
+	__Button__00000000_.IsDisabled = false
+	__Button__00000000_.HasToolTip = false
+	__Button__00000000_.ToolTipText = `test to delete`
+	__Button__00000000_.ToolTipPosition = models.Above
 
 	__Cell__00000000_.Name = `Row 1 - Cell 1`
 
@@ -234,6 +243,7 @@ Et comme elles je veux me faire redorer`
 	__Table__00000002_.NbOfStickyColumns = 3
 
 	// insertion point for setup of pointers
+	__Button__00000000_.SVGIcon = nil
 	__Cell__00000000_.CellString = nil
 	__Cell__00000000_.CellFloat64 = nil
 	__Cell__00000000_.CellInt = nil
@@ -341,4 +351,5 @@ Et comme elles je veux me faire redorer`
 	__Table__00000002_.DisplayedColumns = append(__Table__00000002_.DisplayedColumns, __DisplayedColumn__00000006_)
 	__Table__00000002_.Rows = append(__Table__00000002_.Rows, __Row__00000000_)
 	__Table__00000002_.Rows = append(__Table__00000002_.Rows, __Row__00000001_)
+	__Table__00000002_.Buttons = append(__Table__00000002_.Buttons, __Button__00000000_)
 }
