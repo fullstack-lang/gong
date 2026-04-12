@@ -62,7 +62,7 @@ func (probe *Probe) ux_tree() {
 		HasToolTip:      true,
 		ToolTipText:     "Reset notification table",
 		ToolTipPosition: tree_models.Below,
-		OnUpdate: func(_ *tree_models.Stage, _ *tree_models.Button) {
+		OnClick: func() {
 			probe.ResetNotifications()
 		},
 	}
@@ -73,7 +73,7 @@ func (probe *Probe) ux_tree() {
 		HasToolTip:      true,
 		ToolTipText:     "Refresh probe",
 		ToolTipPosition: tree_models.Below,
-		OnUpdate: func(_ *tree_models.Stage, _ *tree_models.Button) {
+		OnClick: func() {
 			probe.stageOfInterest.ComputeInstancesNb()
 			probe.docStager.SetMap_GongStructName_InstancesNb(
 				probe.stageOfInterest.Map_GongStructName_InstancesNb,
@@ -476,7 +476,7 @@ func (probe *Probe) ux_tree() {
 			HasToolTip:      true,
 			ToolTipText:     "Add an instance of " + gongStruct.GetName(),
 			ToolTipPosition: tree_models.Right,
-			OnUpdate: func(_ *tree_models.Stage, _ *tree_models.Button) {
+			OnClick: func() {
 				FillUpFormFromGongstructName(
 					probe,
 					gongStruct.Name,
@@ -505,7 +505,7 @@ func (probe *Probe) AddCommitNavigationNode(appendChildrenNodeFunc func(models.G
 		ToolTipText: fmt.Sprintf("Go to previous commit (%d/%d)",
 			len(stageOfInterest.GetBackwardCommits()), stageOfInterest.GetCommitsBehind()),
 		ToolTipPosition: tree_models.Below,
-		OnUpdate: func(_ *tree_models.Stage, _ *tree_models.Button) {
+		OnClick: func() {
 			err := stageOfInterest.ApplyBackwardCommit()
 			if err != nil {
 				panic(err)
@@ -534,7 +534,7 @@ func (probe *Probe) AddCommitNavigationNode(appendChildrenNodeFunc func(models.G
 		ToolTipText: fmt.Sprintf("Go to next commit (%d/%d)",
 			len(stageOfInterest.GetBackwardCommits()), stageOfInterest.GetCommitsBehind()),
 		ToolTipPosition: tree_models.Below,
-		OnUpdate: func(_ *tree_models.Stage, _ *tree_models.Button) {
+		OnClick: func() {
 			err := stageOfInterest.ApplyForwardCommit()
 			if err != nil {
 				panic(err)
@@ -556,7 +556,7 @@ func (probe *Probe) AddCommitNavigationNode(appendChildrenNodeFunc func(models.G
 			HasToolTip:      true,
 			ToolTipText:     "Discard commits ahead (git reset --hard HEAD)",
 			ToolTipPosition: tree_models.Below,
-			OnUpdate: func(_ *tree_models.Stage, _ *tree_models.Button) {
+			OnClick: func() {
 				stageOfInterest.ResetHard()
 				probe.Refresh()
 			},
@@ -570,7 +570,7 @@ func (probe *Probe) AddCommitNavigationNode(appendChildrenNodeFunc func(models.G
 		HasToolTip:      true,
 		ToolTipText:     "Squash all commits history",
 		ToolTipPosition: tree_models.Below,
-		OnUpdate: func(_ *tree_models.Stage, _ *tree_models.Button) {
+		OnClick: func() {
 			stageOfInterest.Squash()
 			probe.Refresh()
 		},
@@ -587,7 +587,7 @@ func (probe *Probe) AddCommitNavigationNode(appendChildrenNodeFunc func(models.G
 		HasToolTip:      true,
 		ToolTipText:     "Log commits to notification table",
 		ToolTipPosition: tree_models.Below,
-		OnUpdate: func(_ *tree_models.Stage, _ *tree_models.Button) {
+		OnClick: func() {
 			var mergedCommits string
 			for _, commit := range stageOfInterest.GetForwardCommits() {
 				mergedCommits += commit
