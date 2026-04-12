@@ -23,6 +23,8 @@ func (probe *Probe) ux_table() {
 	}
 	switch tableName {
 	// insertion point
+	case "Button":
+		updateProbeTable[*models.Button](probe)
 	case "Cell":
 		updateProbeTable[*models.Cell](probe)
 	case "CellBoolean":
@@ -67,6 +69,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.Option](probe)
 	case "Row":
 		updateProbeTable[*models.Row](probe)
+	case "SVGIcon":
+		updateProbeTable[*models.SVGIcon](probe)
 	case "Table":
 		updateProbeTable[*models.Table](probe)
 	}

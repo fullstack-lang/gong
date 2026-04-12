@@ -13,6 +13,10 @@ export * from './lib/back-repo-data'
 export * from './lib/web-socket-service'
 
 
+export * from './lib/button-api'
+export * from './lib/button'
+export * from './lib/button.service'
+
 export * from './lib/cell-api'
 export * from './lib/cell'
 export * from './lib/cell.service'
@@ -101,6 +105,10 @@ export * from './lib/row-api'
 export * from './lib/row'
 export * from './lib/row.service'
 
+export * from './lib/svgicon-api'
+export * from './lib/svgicon'
+export * from './lib/svgicon.service'
+
 export * from './lib/table-api'
 export * from './lib/table'
 export * from './lib/table.service'
@@ -112,3 +120,4 @@ export * from './lib/TableExtraNameEnum'
 export * from './lib/TableExtraPathEnum'
 export * from './lib/TableName'
 export * from './lib/TableTestNameEnum'
+export * from './lib/ToolTipPositionEnum'

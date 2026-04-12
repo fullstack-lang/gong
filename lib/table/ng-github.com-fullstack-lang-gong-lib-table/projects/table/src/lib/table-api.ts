@@ -1,6 +1,7 @@
 // insertion point for imports
 import { DisplayedColumnAPI } from './displayedcolumn-api'
 import { RowAPI } from './row-api'
+import { ButtonAPI } from './button-api'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
@@ -36,4 +37,5 @@ export class TablePointersEncoding {
 	// insertion point for pointers and slices of pointers encoding fields
 	DisplayedColumns: number[] = []
 	Rows: number[] = []
+	Buttons: number[] = []
 }

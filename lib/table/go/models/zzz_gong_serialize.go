@@ -17,6 +17,7 @@ func SerializeStage2(stage *Stage, filename string, addIDs bool) {
 	f := excelize.NewFile()
 	{
 		// insertion point
+		SerializeExcelizePointerToGongstruct2[*Button](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Cell](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*CellBoolean](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*CellFloat64](stage, f, addIDs)
@@ -39,6 +40,7 @@ func SerializeStage2(stage *Stage, filename string, addIDs bool) {
 		SerializeExcelizePointerToGongstruct2[*FormSortAssocButton](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Option](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Row](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*SVGIcon](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Table](stage, f, addIDs)
 	}
 

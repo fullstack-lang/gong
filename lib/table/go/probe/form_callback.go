@@ -19,6 +19,162 @@ var _ = slices.Delete([]string{"a"}, 0, 1)
 var _ = log.Panicf
 
 // insertion point
+func __gong__New__ButtonFormCallback(
+	button *models.Button,
+	probe *Probe,
+	formGroup *table.FormGroup,
+) (buttonFormCallback *ButtonFormCallback) {
+	buttonFormCallback = new(ButtonFormCallback)
+	buttonFormCallback.probe = probe
+	buttonFormCallback.button = button
+	buttonFormCallback.formGroup = formGroup
+
+	buttonFormCallback.CreationMode = (button == nil)
+
+	return
+}
+
+type ButtonFormCallback struct {
+	button *models.Button
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *table.FormGroup
+}
+
+func (buttonFormCallback *ButtonFormCallback) OnSave() {
+	buttonFormCallback.probe.stageOfInterest.Lock()
+	defer buttonFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("ButtonFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	buttonFormCallback.probe.formStage.Checkout()
+
+	if buttonFormCallback.button == nil {
+		buttonFormCallback.button = new(models.Button).Stage(buttonFormCallback.probe.stageOfInterest)
+	}
+	button_ := buttonFormCallback.button
+	_ = button_
+
+	for _, formDiv := range buttonFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(button_.Name), formDiv)
+		case "Icon":
+			FormDivBasicFieldToField(&(button_.Icon), formDiv)
+		case "SVGIcon":
+			FormDivSelectFieldToField(&(button_.SVGIcon), buttonFormCallback.probe.stageOfInterest, formDiv)
+		case "IsDisabled":
+			FormDivBasicFieldToField(&(button_.IsDisabled), formDiv)
+		case "HasToolTip":
+			FormDivBasicFieldToField(&(button_.HasToolTip), formDiv)
+		case "ToolTipText":
+			FormDivBasicFieldToField(&(button_.ToolTipText), formDiv)
+		case "ToolTipPosition":
+			FormDivEnumStringFieldToField(&(button_.ToolTipPosition), formDiv)
+		case "Table:Buttons":
+			// WARNING : this form deals with the N-N association "Table.Buttons []*Button" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Button). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Table
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Table"
+				rf.Fieldname = "Buttons"
+				formerAssociationSource := button_.GongGetReverseFieldOwner(
+					buttonFormCallback.probe.stageOfInterest,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Table)
+					if !ok {
+						log.Fatalln("Source of Table.Buttons []*Button, is not an Table instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Buttons, button_)
+					formerSource.Buttons = slices.Delete(formerSource.Buttons, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Table
+			for _table := range *models.GetGongstructInstancesSet[models.Table](buttonFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _table.GetName() == newSourceName.GetName() {
+					newSource = _table // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Table.Buttons []*Button, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.Buttons = append(newSource.Buttons, button_)
+		}
+	}
+
+	// manage the suppress operation
+	if buttonFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		button_.Unstage(buttonFormCallback.probe.stageOfInterest)
+	}
+
+	buttonFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.Button](
+		buttonFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if buttonFormCallback.CreationMode || buttonFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		buttonFormCallback.probe.formStage.Reset()
+		newFormGroup := (&table.FormGroup{
+			Name: FormName,
+		}).Stage(buttonFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__ButtonFormCallback(
+			nil,
+			buttonFormCallback.probe,
+			newFormGroup,
+		)
+		button := new(models.Button)
+		FillUpForm(button, newFormGroup, buttonFormCallback.probe)
+		buttonFormCallback.probe.formStage.Commit()
+	}
+
+	buttonFormCallback.probe.ux_tree()
+}
 func __gong__New__CellFormCallback(
 	cell *models.Cell,
 	probe *Probe,
@@ -2480,6 +2636,86 @@ func (rowFormCallback *RowFormCallback) OnSave() {
 
 	rowFormCallback.probe.ux_tree()
 }
+func __gong__New__SVGIconFormCallback(
+	svgicon *models.SVGIcon,
+	probe *Probe,
+	formGroup *table.FormGroup,
+) (svgiconFormCallback *SVGIconFormCallback) {
+	svgiconFormCallback = new(SVGIconFormCallback)
+	svgiconFormCallback.probe = probe
+	svgiconFormCallback.svgicon = svgicon
+	svgiconFormCallback.formGroup = formGroup
+
+	svgiconFormCallback.CreationMode = (svgicon == nil)
+
+	return
+}
+
+type SVGIconFormCallback struct {
+	svgicon *models.SVGIcon
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *table.FormGroup
+}
+
+func (svgiconFormCallback *SVGIconFormCallback) OnSave() {
+	svgiconFormCallback.probe.stageOfInterest.Lock()
+	defer svgiconFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("SVGIconFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	svgiconFormCallback.probe.formStage.Checkout()
+
+	if svgiconFormCallback.svgicon == nil {
+		svgiconFormCallback.svgicon = new(models.SVGIcon).Stage(svgiconFormCallback.probe.stageOfInterest)
+	}
+	svgicon_ := svgiconFormCallback.svgicon
+	_ = svgicon_
+
+	for _, formDiv := range svgiconFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(svgicon_.Name), formDiv)
+		case "SVG":
+			FormDivBasicFieldToField(&(svgicon_.SVG), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if svgiconFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		svgicon_.Unstage(svgiconFormCallback.probe.stageOfInterest)
+	}
+
+	svgiconFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.SVGIcon](
+		svgiconFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if svgiconFormCallback.CreationMode || svgiconFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		svgiconFormCallback.probe.formStage.Reset()
+		newFormGroup := (&table.FormGroup{
+			Name: FormName,
+		}).Stage(svgiconFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__SVGIconFormCallback(
+			nil,
+			svgiconFormCallback.probe,
+			newFormGroup,
+		)
+		svgicon := new(models.SVGIcon)
+		FillUpForm(svgicon, newFormGroup, svgiconFormCallback.probe)
+		svgiconFormCallback.probe.formStage.Commit()
+	}
+
+	svgiconFormCallback.probe.ux_tree()
+}
 func __gong__New__TableFormCallback(
 	table *models.Table,
 	probe *Probe,
@@ -2609,6 +2845,37 @@ func (tableFormCallback *TableFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(table_.SavingInProgress), formDiv)
 		case "NbOfStickyColumns":
 			FormDivBasicFieldToField(&(table_.NbOfStickyColumns), formDiv)
+		case "Buttons":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Button](tableFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Button, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Button)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					tableFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Button](tableFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			table_.Buttons = instanceSlice
+
 		}
 	}
 
