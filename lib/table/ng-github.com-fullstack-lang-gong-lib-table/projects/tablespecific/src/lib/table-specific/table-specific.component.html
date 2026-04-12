@@ -21,7 +21,7 @@
             <div class="toolbar-separator"></div>
 
             @if (selectedTable.HasSaveButton) {
-            <button mat-icon-button (click)="save()" [matTooltip]="dialogRef ? 'Save changes' : 'Save'">
+            <button mat-icon-button (click)="save()" [matTooltip]="dialogRef ? 'Save changes to the form' : 'Save'">
                 <mat-icon>save</mat-icon>
             </button>
             }
