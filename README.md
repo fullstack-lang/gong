@@ -9,22 +9,22 @@
 
 # 1. Why Gong ?
 
-Gong is a framework for lowering the effort for developping Domain Specific Modelling Environnement (DSME).
+Gong is a framework for lowering the effort for developping Domain Specific Modelling (DSM).
 
-A DSME is an application that allows a users to edit data and diagrams.
+A DSM is an application that allows a users to edit data and diagrams.
 The data is based on the abstract syntax of the Domain Specific Language (DSL). The diagrams are based on the concrete syntax of the DSL.
 
 General Purpose Modeling Languages (GPML) like UML or SysML are standards with hundreds of elements in their abstract and concrete syntax. However, tailoring them to a specific domain often involves subsetting—ignoring the majority of the standard to focus on a narrow slice — and profiling (stereotypes) to bend generic concepts to specific needs.
 
-Gong allows you to grow your DSML. You start with an empty metamodel or an existing small metamodel close to your need and progressively introduce abstract and concrete syntax elements only as your understanding of the domain matures. 
+Gong allows you to grow your DSM. You start with an empty metamodel or an existing small metamodel close to your need and progressively introduce abstract and concrete syntax elements only as your understanding of the domain matures. 
 
-Developing a robust DSML remains a complex task that requires familiarity with standard metamodeling patterns. Gong aims to democratize the development part of this process.
+Developing a robust DSM remains a complex task that requires familiarity with standard metamodeling patterns. Gong aims to democratize the development part of this process.
 
 # 2. A "hello world" Domain Specific Modeling (DSM) application
 
 ## 2.1. Prerequisite
 
-- go 1.24 (see https://go.dev/doc/install)
+- go 1.25 (see https://go.dev/doc/install)
 
 ## 2.2. Generating & running the code with the `gong` command
 
@@ -53,7 +53,7 @@ const (
   Casual HelloType = \"Casual\"
   Formal HelloType = \"Formal\"
 )" > go/models/hello_type.go
-gong generate --level1 go/models
+gong generate go/models
 cd go/cmd/helloworld
 ./helloworld -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage
 cd ../../../..

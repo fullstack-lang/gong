@@ -13,18 +13,18 @@
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
+                "--stack-height=4"
             ]
         },
         {
-            "name": "helloworld: gong generate /tmp/helloworld -level1",
+            "name": "helloworld: gong generate /tmp/helloworld --stack-height=0",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "cwd": "/tmp/helloworld/go/models",
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
-                "generate",
-                "--level1",
+                "generate"
             ]
         },
         {
@@ -38,10 +38,11 @@
                 "generate",
                 "--skipGoModCommands",
                 "--skipNg",
+                "--stack-height=4"
             ]
         },
         {
-            "name": "gong: gong generate gong -skipGoModCommands -level1",
+            "name": "gong: gong generate gong -skipGoModCommands --stack-height=0",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -49,12 +50,11 @@
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
-                "--skipGoModCommands",
-                "--level1"
+                "--skipGoModCommands"
             ]
         },
         {
-            "name": "split: gong generate split -skipGoModCommands -level1",
+            "name": "split: gong generate split -skipGoModCommands --stack-height=0",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -62,8 +62,7 @@
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
-                "--skipGoModCommands",
-                "--level1"
+                "--skipGoModCommands"
             ]
         },
         {
@@ -77,19 +76,19 @@
                 "generate",
                 "--skipGoModCommands",
                 "--skipNpmWorkspaces",
-                "--skipGoModCommands"
+                "--skipGoModCommands",
+                "--stack-height=4"
             ]
         },
         {
-            "name": "phyllotaxymusic: gong generate phyllotaxymusic",
+            "name": "phyllotaxymusic: gong generate phyllotaxymusic --stack-height=0",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "cwd": "${workspaceFolder}/../../thomaspeugeot/phyllotaxymusic/go/models",
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
-                "generate",
-                "--level1"
+                "generate"
             ]
         },
         {
@@ -103,7 +102,8 @@
                 "generate",
                 "--skipGoModCommands",
                 "--skipNpmInstall",
-                "--skipNpmWorkspaces"
+                "--skipNpmWorkspaces",
+                "--stack-height=4"
             ]
         },
         {
@@ -117,6 +117,7 @@
                 "generate",
                 "--skipGoModCommands",
                 "--skipNg",
+                "--stack-height=4"
             ]
         },
         {
@@ -130,7 +131,8 @@
                 "generate",
                 "--skipGoModCommands",
                 "--skipNpmInstall",
-                "--skipNpmWorkspaces"
+                "--skipNpmWorkspaces",
+                "--stack-height=4"
             ]
         },
         {
@@ -145,6 +147,7 @@
                 "generate",
                 "--skipGoModCommands",
                 "--skipNg",
+                "--stack-height=4"
             ]
         },
         {
@@ -158,6 +161,7 @@
                 "generate",
                 "--skipGoModCommands",
                 "--skipNg",
+                "--stack-height=4"
             ]
         },
         {
@@ -173,7 +177,8 @@
                 "--skipGoModCommands",
                 "--skipNg",
                 "--skipNpmInstall",
-                "--debouncedMarshall"
+                "--debouncedMarshall",
+                "--stack-height=4"
             ]
         },
         {
@@ -187,7 +192,8 @@
             "args": [
                 "generate",
                 "--skipGoModCommands",
-                "--skipNpmInstall"
+                "--skipNpmInstall",
+                "--stack-height=4"
             ]
         },
         {
@@ -202,7 +208,8 @@
                 "generate",
                 "--skipNg",
                 "--skipGoModCommands",
-                "--skipNpmInstall"
+                "--skipNpmInstall",
+                "--stack-height=4"
             ]
         },
         {
@@ -218,7 +225,8 @@
                 "go/models",
                 "--skipNg",
                 "--skipGoModCommands",
-                "--skipNpmInstall"
+                "--skipNpmInstall",
+                "--stack-height=4"
             ]
         },
         {
@@ -234,6 +242,7 @@
                 "--skipGoModCommands",
                 "--skipNpmInstall",
                 "--skipNpmWorkspaces",
+                "--stack-height=4"
             ]
         },
         {
@@ -246,7 +255,8 @@
             "args": [
                 "generate",
                 "--skipGoModCommands",
-                "--skipNpmInstall"
+                "--skipNpmInstall",
+                "--stack-height=4"
             ]
         },
         {
@@ -261,6 +271,7 @@
                 "generate",
                 "--skipGoModCommands",
                 "--skipNpmWorkspaces",
+                "--stack-height=4"
             ]
         },
         {
@@ -275,7 +286,8 @@
                 "generate",
                 "--skipNg",
                 "--skipGoModCommands",
-                "--skipNpmWorkspaces"
+                "--skipNpmWorkspaces",
+                "--stack-height=4"
             ]
         },
         {
@@ -291,6 +303,7 @@
                 "--skipNpmInstall",
                 "--skipGoModCommands",
                 "--skipNg",
+                "--stack-height=4"
             ]
         },
         {
@@ -304,6 +317,7 @@
                 "generate",
                 "--skipNg",
                 "--skipGoModCommands",
+                "--stack-height=4"
             ]
         },
         {
@@ -316,7 +330,8 @@
             "args": [
                 "generate",
                 "--skipGoModCommands",
-                "--skipNpmInstall"
+                "--skipNpmInstall",
+                "--stack-height=4"
             ]
         },
         {
@@ -331,6 +346,7 @@
                 "--skipGoModCommands",
                 "--skipNpmInstall",
                 "--skipNg",
+                "--stack-height=4"
             ]
         },
         //
@@ -356,7 +372,7 @@
             "args": []
         },
         {
-            "name": "doc: gong generate doc --skipGoModCommands --level1",
+            "name": "doc: gong generate doc --skipGoModCommands --stack-height=0",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -364,8 +380,7 @@
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
-                "--skipGoModCommands",
-                "--level1",
+                "--skipGoModCommands"
             ]
         },
         {
@@ -668,7 +683,8 @@
                 "--compileForDebug",
                 "--skipGoModCommands",
                 "--skipNg",
-                "--skipNpmInstall"
+                "--skipNpmInstall",
+                "--stack-height=4"
             ]
         },
         {
@@ -838,7 +854,7 @@
             ]
         },
         {
-            "name": "barrgraph: gong generate --level1",
+            "name": "barrgraph: gong generate --stack-height=0",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -846,8 +862,7 @@
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
-                "--skipGoModCommands",
-                "--level1"
+                "--skipGoModCommands"
             ]
         },
         {
@@ -896,7 +911,7 @@
             "args": []
         },
         {
-            "name": "project: gong generate --level1",
+            "name": "project: gong generate --stack-height=0",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -904,8 +919,7 @@
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
-                "--skipGoModCommands",
-                "--level1"
+                "--skipGoModCommands"
             ]
         },
         {
@@ -1009,7 +1023,7 @@
             ]
         },
         {
-            "name": "statemachines: gong generate statemachines -level1",
+            "name": "statemachines: gong generate statemachines --stack-height=0",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -1017,8 +1031,7 @@
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
-                "--skipGoModCommands",
-                "--level1"
+                "--skipGoModCommands"
             ]
         },
         {
@@ -1081,7 +1094,7 @@
             ]
         },
         {
-            "name": "xsd: books gong generate test on books --level1",
+            "name": "xsd: books gong generate test on books --stack-height=0",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -1089,8 +1102,7 @@
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
-                "--skipGoModCommands",
-                "--level1"
+                "--skipGoModCommands"
             ]
         },
         {
@@ -1120,7 +1132,7 @@
             ]
         },
         {
-            "name": "xsd: musicxml gong generate test on musicxml --level1",
+            "name": "xsd: musicxml gong generate test on musicxml --stack-height=0",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -1128,8 +1140,7 @@
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
-                "--skipGoModCommands",
-                "--level1"
+                "--skipGoModCommands"
             ]
         },
         {
@@ -1148,7 +1159,7 @@
             ]
         },
         {
-            "name": "xsd: reqif gong generate reqif on reqif --level1",
+            "name": "xsd: reqif gong generate reqif on reqif --stack-height=0",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -1156,8 +1167,7 @@
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
-                "--skipGoModCommands",
-                "--level1"
+                "--skipGoModCommands"
             ]
         },
         {

@@ -41,7 +41,7 @@ const VsCodeTasksConfig = `{
 		"problemMatcher": []
 	  },
 	  {
-		"label": "01 - gong generate --level1",
+		"label": "01 - gong generate",
 		"type": "shell",
 		"options": {
 		  "cwd": "${workspaceFolder}/go/models"
@@ -50,7 +50,6 @@ const VsCodeTasksConfig = `{
 		"group": "build",
 		"args": [
 			"generate",
-			"--level1",
 		]
 	  },
    	  {
