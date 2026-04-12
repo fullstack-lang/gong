@@ -268,6 +268,38 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	_ = setValueField
 
 	// insertion initialization of objects to stage
+	buttonOrdered := []*Button{}
+	for button := range stage.Buttons {
+		buttonOrdered = append(buttonOrdered, button)
+	}
+	sort.Slice(buttonOrdered[:], func(i, j int) bool {
+		buttoni := buttonOrdered[i]
+		buttonj := buttonOrdered[j]
+		buttoni_order, oki := stage.Button_stagedOrder[buttoni]
+		buttonj_order, okj := stage.Button_stagedOrder[buttonj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return buttoni_order < buttonj_order
+	})
+	if len(buttonOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, button := range buttonOrdered {
+
+		identifiersDecl.WriteString(button.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(button.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(button.GongMarshallField(stage, "Icon"))
+		pointersInitializesStatements.WriteString(button.GongMarshallField(stage, "SVGIcon"))
+		initializerStatements.WriteString(button.GongMarshallField(stage, "IsDisabled"))
+		initializerStatements.WriteString(button.GongMarshallField(stage, "HasToolTip"))
+		initializerStatements.WriteString(button.GongMarshallField(stage, "ToolTipText"))
+		initializerStatements.WriteString(button.GongMarshallField(stage, "ToolTipPosition"))
+	}
+
 	cellOrdered := []*Cell{}
 	for cell := range stage.Cells {
 		cellOrdered = append(cellOrdered, cell)
@@ -909,6 +941,33 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(row.GongMarshallField(stage, "IsChecked"))
 	}
 
+	svgiconOrdered := []*SVGIcon{}
+	for svgicon := range stage.SVGIcons {
+		svgiconOrdered = append(svgiconOrdered, svgicon)
+	}
+	sort.Slice(svgiconOrdered[:], func(i, j int) bool {
+		svgiconi := svgiconOrdered[i]
+		svgiconj := svgiconOrdered[j]
+		svgiconi_order, oki := stage.SVGIcon_stagedOrder[svgiconi]
+		svgiconj_order, okj := stage.SVGIcon_stagedOrder[svgiconj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return svgiconi_order < svgiconj_order
+	})
+	if len(svgiconOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, svgicon := range svgiconOrdered {
+
+		identifiersDecl.WriteString(svgicon.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(svgicon.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(svgicon.GongMarshallField(stage, "SVG"))
+	}
+
 	tableOrdered := []*Table{}
 	for table := range stage.Tables {
 		tableOrdered = append(tableOrdered, table)
@@ -945,9 +1004,18 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(table.GongMarshallField(stage, "HasCloseButton"))
 		initializerStatements.WriteString(table.GongMarshallField(stage, "SavingInProgress"))
 		initializerStatements.WriteString(table.GongMarshallField(stage, "NbOfStickyColumns"))
+		pointersInitializesStatements.WriteString(table.GongMarshallField(stage, "Buttons"))
 	}
 
 	// insertion initialization of objects to stage
+	for _, button := range buttonOrdered {
+		_ = button
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
 	for _, cell := range cellOrdered {
 		_ = cell
 		var setPointerField string
@@ -1124,6 +1192,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for pointers initialization
 	}
 
+	for _, svgicon := range svgiconOrdered {
+		_ = svgicon
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
 	for _, table := range tableOrdered {
 		_ = table
 		var setPointerField string
@@ -1186,6 +1262,67 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 }
 
 // insertion point for marshall field methods
+func (button *Button) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", button.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(button.Name))
+	case "Icon":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", button.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Icon")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(button.Icon))
+	case "IsDisabled":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", button.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsDisabled")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", button.IsDisabled))
+	case "HasToolTip":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", button.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "HasToolTip")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", button.HasToolTip))
+	case "ToolTipText":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", button.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ToolTipText")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(button.ToolTipText))
+	case "ToolTipPosition":
+		if button.ToolTipPosition.ToCodeString() != "" {
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", button.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ToolTipPosition")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+button.ToolTipPosition.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", button.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ToolTipPosition")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
+		}
+
+	case "SVGIcon":
+		if button.SVGIcon != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", button.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SVGIcon")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", button.SVGIcon.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", button.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SVGIcon")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Button", fieldName)
+	}
+	return
+}
+
 func (cell *Cell) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -2022,6 +2159,26 @@ func (row *Row) GongMarshallField(stage *Stage, fieldName string) (res string) {
 	return
 }
 
+func (svgicon *SVGIcon) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", svgicon.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(svgicon.Name))
+	case "SVG":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", svgicon.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SVG")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(svgicon.SVG))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct SVGIcon", fieldName)
+	}
+	return
+}
+
 func (table *Table) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -2101,6 +2258,16 @@ func (table *Table) GongMarshallField(stage *Stage, fieldName string) (res strin
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
+	case "Buttons":
+		var sb strings.Builder
+		for _, _button := range table.Buttons {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", table.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Buttons")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _button.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Table", fieldName)
 	}
@@ -2108,6 +2275,23 @@ func (table *Table) GongMarshallField(stage *Stage, fieldName string) (res strin
 }
 
 // insertion point for marshall all fields methods
+func (button *Button) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(button.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(button.GongMarshallField(stage, "Icon"))
+		pointersInitializesStatements.WriteString(button.GongMarshallField(stage, "SVGIcon"))
+		initializerStatements.WriteString(button.GongMarshallField(stage, "IsDisabled"))
+		initializerStatements.WriteString(button.GongMarshallField(stage, "HasToolTip"))
+		initializerStatements.WriteString(button.GongMarshallField(stage, "ToolTipText"))
+		initializerStatements.WriteString(button.GongMarshallField(stage, "ToolTipPosition"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
 func (cell *Cell) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
 	var initializerStatements strings.Builder
@@ -2419,6 +2603,18 @@ func (row *Row) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes stri
 	ptrRes = pointersInitializesStatements.String()
 	return
 }
+func (svgicon *SVGIcon) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(svgicon.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(svgicon.GongMarshallField(stage, "SVG"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
 func (table *Table) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
 	var initializerStatements strings.Builder
@@ -2437,6 +2633,7 @@ func (table *Table) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes 
 		initializerStatements.WriteString(table.GongMarshallField(stage, "HasCloseButton"))
 		initializerStatements.WriteString(table.GongMarshallField(stage, "SavingInProgress"))
 		initializerStatements.WriteString(table.GongMarshallField(stage, "NbOfStickyColumns"))
+		pointersInitializesStatements.WriteString(table.GongMarshallField(stage, "Buttons"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
