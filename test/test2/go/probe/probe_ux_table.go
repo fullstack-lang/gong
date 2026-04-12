@@ -6,7 +6,8 @@ import (
 	"sort"
 	"time"
 
-	gongtable "github.com/fullstack-lang/gong/lib/table/go/models"
+	table_models "github.com/fullstack-lang/gong/lib/table/go/models"
+	tree_buttons "github.com/fullstack-lang/gong/lib/tree/go/buttons"
 
 	"github.com/fullstack-lang/maticons/maticons"
 
@@ -35,7 +36,7 @@ func updateProbeTable[T models.PointerToGongstruct](
 ) {
 	probe.tableStage.Reset()
 
-	table := new(gongtable.Table)
+	table := new(table_models.Table)
 	table.Name = models.GetPointerToGongstructName[T]()
 	table.HasColumnSorting = true
 	table.HasFiltering = true
@@ -60,28 +61,28 @@ func updateProbeTable[T models.PointerToGongstruct](
 			models.GetOrderPointerGongstruct(probe.stageOfInterest, sliceOfGongStructsSorted[j])
 	})
 
-	column := new(gongtable.DisplayedColumn)
+	column := new(table_models.DisplayedColumn)
 	column.Name = "ID"
 	table.DisplayedColumns = append(table.DisplayedColumns, column)
 
-	column = new(gongtable.DisplayedColumn)
+	column = new(table_models.DisplayedColumn)
 	column.Name = "Delete"
 	table.DisplayedColumns = append(table.DisplayedColumns, column)
 
 	for _, fieldName := range fields {
-		column := new(gongtable.DisplayedColumn)
+		column := new(table_models.DisplayedColumn)
 		column.Name = fieldName.Name
 		table.DisplayedColumns = append(table.DisplayedColumns, column)
 	}
 	for _, reverseField := range reverseFields {
-		column := new(gongtable.DisplayedColumn)
+		column := new(table_models.DisplayedColumn)
 		column.Name = "(" + reverseField.GongstructName + ") -> " + reverseField.Fieldname
 		table.DisplayedColumns = append(table.DisplayedColumns, column)
 	}
 
 	fieldIndex := 0
 	for _, structInstance := range sliceOfGongStructsSorted {
-		row := new(gongtable.Row)
+		row := new(table_models.Row)
 		value := models.GetFieldStringValueFromPointer(structInstance, "Name", probe.stageOfInterest)
 		row.Name = value.GetValueString()
 
@@ -91,11 +92,11 @@ func updateProbeTable[T models.PointerToGongstruct](
 
 		table.Rows = append(table.Rows, row)
 
-		cell := &gongtable.Cell{
+		cell := &table_models.Cell{
 			Name: "ID",
 		}
 		row.Cells = append(row.Cells, cell)
-		cellInt := &gongtable.CellInt{
+		cellInt := &table_models.CellInt{
 			Name: "ID",
 			Value: int(models.GetOrderPointerGongstruct(
 				probe.stageOfInterest,
@@ -104,11 +105,11 @@ func updateProbeTable[T models.PointerToGongstruct](
 		}
 		cell.CellInt = cellInt
 
-		cell = &gongtable.Cell{
+		cell = &table_models.Cell{
 			Name: "Delete Icon",
 		}
 		row.Cells = append(row.Cells, cell)
-		cellIcon := &gongtable.CellIcon{
+		cellIcon := &table_models.CellIcon{
 			Name: fmt.Sprintf("Delete Icon %d", models.GetOrderPointerGongstruct(
 				probe.stageOfInterest,
 				structInstance,
@@ -117,8 +118,8 @@ func updateProbeTable[T models.PointerToGongstruct](
 			NeedsConfirmation:   true,
 			ConfirmationMessage: "Do you confirm tou want to delete this instance ?",
 		}
-		cellIcon.Impl = &gongtable.FunctionalCellIconProxy{
-			OnUpdated: func(stage *gongtable.Stage, cellIcon, updatedCellIcon *gongtable.CellIcon) {
+		cellIcon.Impl = &table_models.FunctionalCellIconProxy{
+			OnUpdated: func(stage *table_models.Stage, cellIcon, updatedCellIcon *table_models.CellIcon) {
 				structInstance.UnstageVoid(probe.stageOfInterest)
 
 				// after a delete of an instance, the stage might be dirty if a pointer or a slice of pointer
@@ -138,32 +139,32 @@ func updateProbeTable[T models.PointerToGongstruct](
 			name := fmt.Sprintf("%d", fieldIndex) + " " + value.GetValueString()
 			fieldIndex++
 			// log.Println(fieldName, value)
-			cell := &gongtable.Cell{
+			cell := &table_models.Cell{
 				Name: name,
 			}
 			row.Cells = append(row.Cells, cell)
 
 			switch value.GongFieldValueType {
 			case models.GongFieldValueTypeInt:
-				cellInt := &gongtable.CellInt{
+				cellInt := &table_models.CellInt{
 					Name:  name,
 					Value: value.GetValueInt(),
 				}
 				cell.CellInt = cellInt
 			case models.GongFieldValueTypeFloat:
-				cellFloat := &gongtable.CellFloat64{
+				cellFloat := &table_models.CellFloat64{
 					Name:  name,
 					Value: value.GetValueFloat(),
 				}
 				cell.CellFloat64 = cellFloat
 			case models.GongFieldValueTypeBool:
-				cellBool := &gongtable.CellBoolean{
+				cellBool := &table_models.CellBoolean{
 					Name:  name,
 					Value: value.GetValueBool(),
 				}
 				cell.CellBool = cellBool
 			default:
-				cellString := &gongtable.CellString{
+				cellString := &table_models.CellString{
 					Name:  name,
 					Value: value.GetValueString(),
 				}
@@ -179,12 +180,12 @@ func updateProbeTable[T models.PointerToGongstruct](
 			name := fmt.Sprintf("%d", fieldIndex) + " " + value
 			fieldIndex++
 			// log.Println(fieldName, value)
-			cell := &gongtable.Cell{
+			cell := &table_models.Cell{
 				Name: name,
 			}
 			row.Cells = append(row.Cells, cell)
 
-			cellString := &gongtable.CellString{
+			cellString := &table_models.CellString{
 				Name:  name,
 				Value: value,
 			}
@@ -192,7 +193,7 @@ func updateProbeTable[T models.PointerToGongstruct](
 		}
 	}
 
-	gongtable.StageBranch(probe.tableStage, table)
+	table_models.StageBranch(probe.tableStage, table)
 
 	probe.tableStage.Commit()
 }
@@ -212,7 +213,7 @@ type RowUpdate[T models.PointerToGongstruct] struct {
 	probe    *Probe
 }
 
-func (rowUpdate *RowUpdate[T]) RowUpdated(stage *gongtable.Stage, row, updatedRow *gongtable.Row) {
+func (rowUpdate *RowUpdate[T]) RowUpdated(stage *table_models.Stage, row, updatedRow *table_models.Row) {
 	// log.Println("RowUpdate: RowUpdated", updatedRow.Name)
 
 	FillUpFormFromGongstruct(rowUpdate.Instance, rowUpdate.probe)
@@ -221,7 +222,7 @@ func (rowUpdate *RowUpdate[T]) RowUpdated(stage *gongtable.Stage, row, updatedRo
 func (probe *Probe) UpdateAndCommitNotificationTable() {
 	probe.notificationTableStage.Reset()
 
-	table := new(gongtable.Table)
+	table := new(table_models.Table)
 	table.Name = TableName
 	table.HasColumnSorting = true
 	table.HasFiltering = true
@@ -229,11 +230,38 @@ func (probe *Probe) UpdateAndCommitNotificationTable() {
 	table.HasCheckableRows = false
 	table.HasSaveButton = false
 
-	column := new(gongtable.DisplayedColumn)
+	notificationsResetButton := &table_models.Button{
+		Name:            "NotificationsResetButton",
+		Icon:            string(tree_buttons.BUTTON_playlist_remove),
+		HasToolTip:      true,
+		ToolTipText:     "Reset notification table",
+		ToolTipPosition: table_models.Below,
+		OnClick: func() {
+			probe.ResetNotifications()
+		},
+	}
+	table.Buttons = append(table.Buttons, notificationsResetButton)
+	refreshButton := &table_models.Button{
+		Name:            "RefreshButton" + " " + string(tree_buttons.BUTTON_refresh),
+		Icon:            string(tree_buttons.BUTTON_refresh),
+		HasToolTip:      true,
+		ToolTipText:     "Refresh probe",
+		ToolTipPosition: table_models.Below,
+		OnClick: func() {
+			probe.stageOfInterest.ComputeInstancesNb()
+			probe.docStager.SetMap_GongStructName_InstancesNb(
+				probe.stageOfInterest.Map_GongStructName_InstancesNb,
+			)
+			probe.Refresh()
+		},
+	}
+	table.Buttons = append(table.Buttons, refreshButton)
+
+	column := new(table_models.DisplayedColumn)
 	column.Name = "Date"
 	table.DisplayedColumns = append(table.DisplayedColumns, column)
 
-	column = new(gongtable.DisplayedColumn)
+	column = new(table_models.DisplayedColumn)
 	column.Name = "Message"
 	table.DisplayedColumns = append(table.DisplayedColumns, column)
 
@@ -243,27 +271,27 @@ func (probe *Probe) UpdateAndCommitNotificationTable() {
 	})
 
 	for _, notification := range probe.notification {
-		row := new(gongtable.Row)
+		row := new(table_models.Row)
 		table.Rows = append(table.Rows, row)
 
 		{
-			cell := new(gongtable.Cell)
-			cellString := new(gongtable.CellString)
+			cell := new(table_models.Cell)
+			cellString := new(table_models.CellString)
 			cell.CellString = cellString
 			cellString.Value = notification.Date.Format(time.StampMicro)
 			row.Cells = append(row.Cells, cell)
 		}
 
 		{
-			cell := new(gongtable.Cell)
-			cellString := new(gongtable.CellString)
+			cell := new(table_models.Cell)
+			cellString := new(table_models.CellString)
 			cell.CellString = cellString
 			cellString.Value = notification.Message
 			row.Cells = append(row.Cells, cell)
 		}
 	}
 
-	gongtable.StageBranch(probe.notificationTableStage, table)
+	table_models.StageBranch(probe.notificationTableStage, table)
 
 	probe.notificationTableStage.Commit()
 }
