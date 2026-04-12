@@ -7,6 +7,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 
 	switch target := any(instance).(type) {
 	// insertion point for stage
+	case *Button:
+		ok = stage.IsStagedButton(target)
+
 	case *Cell:
 		ok = stage.IsStagedCell(target)
 
@@ -72,6 +75,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 
 	case *Row:
 		ok = stage.IsStagedRow(target)
+
+	case *SVGIcon:
+		ok = stage.IsStagedSVGIcon(target)
 
 	case *Table:
 		ok = stage.IsStagedTable(target)
@@ -86,6 +92,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage
+	case *Button:
+		ok = stage.IsStagedButton(target)
+
 	case *Cell:
 		ok = stage.IsStagedCell(target)
 
@@ -152,6 +161,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 	case *Row:
 		ok = stage.IsStagedRow(target)
 
+	case *SVGIcon:
+		ok = stage.IsStagedSVGIcon(target)
+
 	case *Table:
 		ok = stage.IsStagedTable(target)
 
@@ -162,6 +174,13 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 }
 
 // insertion point for stage per struct
+func (stage *Stage) IsStagedButton(button *Button) (ok bool) {
+
+	_, ok = stage.Buttons[button]
+
+	return
+}
+
 func (stage *Stage) IsStagedCell(cell *Cell) (ok bool) {
 
 	_, ok = stage.Cells[cell]
@@ -316,6 +335,13 @@ func (stage *Stage) IsStagedRow(row *Row) (ok bool) {
 	return
 }
 
+func (stage *Stage) IsStagedSVGIcon(svgicon *SVGIcon) (ok bool) {
+
+	_, ok = stage.SVGIcons[svgicon]
+
+	return
+}
+
 func (stage *Stage) IsStagedTable(table *Table) (ok bool) {
 
 	_, ok = stage.Tables[table]
@@ -331,6 +357,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage branch
+	case *Button:
+		stage.StageBranchButton(target)
+
 	case *Cell:
 		stage.StageBranchCell(target)
 
@@ -397,6 +426,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Row:
 		stage.StageBranchRow(target)
 
+	case *SVGIcon:
+		stage.StageBranchSVGIcon(target)
+
 	case *Table:
 		stage.StageBranchTable(target)
 
@@ -406,6 +438,24 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 }
 
 // insertion point for stage branch per struct
+func (stage *Stage) StageBranchButton(button *Button) {
+
+	// check if instance is already staged
+	if IsStaged(stage, button) {
+		return
+	}
+
+	button.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if button.SVGIcon != nil {
+		StageBranch(stage, button.SVGIcon)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) StageBranchCell(cell *Cell) {
 
 	// check if instance is already staged
@@ -799,6 +849,21 @@ func (stage *Stage) StageBranchRow(row *Row) {
 
 }
 
+func (stage *Stage) StageBranchSVGIcon(svgicon *SVGIcon) {
+
+	// check if instance is already staged
+	if IsStaged(stage, svgicon) {
+		return
+	}
+
+	svgicon.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) StageBranchTable(table *Table) {
 
 	// check if instance is already staged
@@ -817,6 +882,9 @@ func (stage *Stage) StageBranchTable(table *Table) {
 	for _, _row := range table.Rows {
 		StageBranch(stage, _row)
 	}
+	for _, _button := range table.Buttons {
+		StageBranch(stage, _button)
+	}
 
 }
 
@@ -831,6 +899,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	switch fromT := any(from).(type) {
 	// insertion point for stage branch
+	case *Button:
+		toT := CopyBranchButton(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *Cell:
 		toT := CopyBranchCell(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -919,6 +991,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchRow(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *SVGIcon:
+		toT := CopyBranchSVGIcon(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *Table:
 		toT := CopyBranchTable(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -930,6 +1006,28 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 }
 
 // insertion point for stage branch per struct
+func CopyBranchButton(mapOrigCopy map[any]any, buttonFrom *Button) (buttonTo *Button) {
+
+	// buttonFrom has already been copied
+	if _buttonTo, ok := mapOrigCopy[buttonFrom]; ok {
+		buttonTo = _buttonTo.(*Button)
+		return
+	}
+
+	buttonTo = new(Button)
+	mapOrigCopy[buttonFrom] = buttonTo
+	buttonFrom.CopyBasicFields(buttonTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if buttonFrom.SVGIcon != nil {
+		buttonTo.SVGIcon = CopyBranchSVGIcon(mapOrigCopy, buttonFrom.SVGIcon)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchCell(mapOrigCopy map[any]any, cellFrom *Cell) (cellTo *Cell) {
 
 	// cellFrom has already been copied
@@ -1411,6 +1509,25 @@ func CopyBranchRow(mapOrigCopy map[any]any, rowFrom *Row) (rowTo *Row) {
 	return
 }
 
+func CopyBranchSVGIcon(mapOrigCopy map[any]any, svgiconFrom *SVGIcon) (svgiconTo *SVGIcon) {
+
+	// svgiconFrom has already been copied
+	if _svgiconTo, ok := mapOrigCopy[svgiconFrom]; ok {
+		svgiconTo = _svgiconTo.(*SVGIcon)
+		return
+	}
+
+	svgiconTo = new(SVGIcon)
+	mapOrigCopy[svgiconFrom] = svgiconTo
+	svgiconFrom.CopyBasicFields(svgiconTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchTable(mapOrigCopy map[any]any, tableFrom *Table) (tableTo *Table) {
 
 	// tableFrom has already been copied
@@ -1432,6 +1549,9 @@ func CopyBranchTable(mapOrigCopy map[any]any, tableFrom *Table) (tableTo *Table)
 	for _, _row := range tableFrom.Rows {
 		tableTo.Rows = append(tableTo.Rows, CopyBranchRow(mapOrigCopy, _row))
 	}
+	for _, _button := range tableFrom.Buttons {
+		tableTo.Buttons = append(tableTo.Buttons, CopyBranchButton(mapOrigCopy, _button))
+	}
 
 	return
 }
@@ -1444,6 +1564,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for unstage branch
+	case *Button:
+		stage.UnstageBranchButton(target)
+
 	case *Cell:
 		stage.UnstageBranchCell(target)
 
@@ -1510,6 +1633,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Row:
 		stage.UnstageBranchRow(target)
 
+	case *SVGIcon:
+		stage.UnstageBranchSVGIcon(target)
+
 	case *Table:
 		stage.UnstageBranchTable(target)
 
@@ -1519,6 +1645,24 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 }
 
 // insertion point for unstage branch per struct
+func (stage *Stage) UnstageBranchButton(button *Button) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, button) {
+		return
+	}
+
+	button.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if button.SVGIcon != nil {
+		UnstageBranch(stage, button.SVGIcon)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) UnstageBranchCell(cell *Cell) {
 
 	// check if instance is already staged
@@ -1912,6 +2056,21 @@ func (stage *Stage) UnstageBranchRow(row *Row) {
 
 }
 
+func (stage *Stage) UnstageBranchSVGIcon(svgicon *SVGIcon) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, svgicon) {
+		return
+	}
+
+	svgicon.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) UnstageBranchTable(table *Table) {
 
 	// check if instance is already staged
@@ -1930,10 +2089,23 @@ func (stage *Stage) UnstageBranchTable(table *Table) {
 	for _, _row := range table.Rows {
 		UnstageBranch(stage, _row)
 	}
+	for _, _button := range table.Buttons {
+		UnstageBranch(stage, _button)
+	}
 
 }
 
 // insertion point for pointer reconstruction from references
+func (reference *Button) GongReconstructPointersFromReferences(stage *Stage, instance *Button) () {
+	// insertion point for pointers field
+	if instance.SVGIcon != nil {
+		reference.SVGIcon = stage.SVGIcons_reference[instance.SVGIcon]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
 func (reference *Cell) GongReconstructPointersFromReferences(stage *Stage, instance *Cell) () {
 	// insertion point for pointers field
 	if instance.CellString != nil {
@@ -2156,6 +2328,13 @@ func (reference *Row) GongReconstructPointersFromReferences(stage *Stage, instan
 	return
 }
 
+func (reference *SVGIcon) GongReconstructPointersFromReferences(stage *Stage, instance *SVGIcon) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
 func (reference *Table) GongReconstructPointersFromReferences(stage *Stage, instance *Table) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -2167,11 +2346,28 @@ func (reference *Table) GongReconstructPointersFromReferences(stage *Stage, inst
 	for _, _b := range instance.Rows {
 		reference.Rows = append(reference.Rows, stage.Rows_reference[_b])
 	}
+	reference.Buttons = reference.Buttons[:0]
+	for _, _b := range instance.Buttons {
+		reference.Buttons = append(reference.Buttons, stage.Buttons_reference[_b])
+	}
 
 	return
 }
 
 // insertion point for pointer reconstruction from instances
+func (reference *Button) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.SVGIcon; _reference != nil {
+		reference.SVGIcon = nil
+		if _instance, ok := stage.SVGIcons_instance[_reference]; ok {
+			reference.SVGIcon = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
 func (reference *Cell) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
 	if _reference := reference.CellString; _reference != nil {
@@ -2457,6 +2653,13 @@ func (reference *Row) GongReconstructPointersFromInstances(stage *Stage) () {
 	return
 }
 
+func (reference *SVGIcon) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
 func (reference *Table) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
@@ -2474,11 +2677,51 @@ func (reference *Table) GongReconstructPointersFromInstances(stage *Stage) () {
 		}
 	}
 	reference.Rows = _Rows
+	var _Buttons []*Button
+	for _, _reference := range reference.Buttons {
+		if _instance, ok := stage.Buttons_instance[_reference]; ok {
+			_Buttons = append(_Buttons, _instance)
+		}
+	}
+	reference.Buttons = _Buttons
 
 	return
 }
 
 // insertion point for diff per struct
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (button *Button) GongDiff(stage *Stage, buttonOther *Button) (diffs []string) {
+	// insertion point for field diffs
+	if button.Name != buttonOther.Name {
+		diffs = append(diffs, button.GongMarshallField(stage, "Name"))
+	}
+	if button.Icon != buttonOther.Icon {
+		diffs = append(diffs, button.GongMarshallField(stage, "Icon"))
+	}
+	if (button.SVGIcon == nil) != (buttonOther.SVGIcon == nil) {
+		diffs = append(diffs, button.GongMarshallField(stage, "SVGIcon"))
+	} else if button.SVGIcon != nil && buttonOther.SVGIcon != nil {
+		if button.SVGIcon != buttonOther.SVGIcon {
+			diffs = append(diffs, button.GongMarshallField(stage, "SVGIcon"))
+		}
+	}
+	if button.IsDisabled != buttonOther.IsDisabled {
+		diffs = append(diffs, button.GongMarshallField(stage, "IsDisabled"))
+	}
+	if button.HasToolTip != buttonOther.HasToolTip {
+		diffs = append(diffs, button.GongMarshallField(stage, "HasToolTip"))
+	}
+	if button.ToolTipText != buttonOther.ToolTipText {
+		diffs = append(diffs, button.GongMarshallField(stage, "ToolTipText"))
+	}
+	if button.ToolTipPosition != buttonOther.ToolTipPosition {
+		diffs = append(diffs, button.GongMarshallField(stage, "ToolTipPosition"))
+	}
+
+	return
+}
+
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
 func (cell *Cell) GongDiff(stage *Stage, cellOther *Cell) (diffs []string) {
@@ -3084,6 +3327,20 @@ func (row *Row) GongDiff(stage *Stage, rowOther *Row) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
+func (svgicon *SVGIcon) GongDiff(stage *Stage, svgiconOther *SVGIcon) (diffs []string) {
+	// insertion point for field diffs
+	if svgicon.Name != svgiconOther.Name {
+		diffs = append(diffs, svgicon.GongMarshallField(stage, "Name"))
+	}
+	if svgicon.SVG != svgiconOther.SVG {
+		diffs = append(diffs, svgicon.GongMarshallField(stage, "SVG"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
 func (table *Table) GongDiff(stage *Stage, tableOther *Table) (diffs []string) {
 	// insertion point for field diffs
 	if table.Name != tableOther.Name {
@@ -3160,6 +3417,27 @@ func (table *Table) GongDiff(stage *Stage, tableOther *Table) (diffs []string) {
 	}
 	if table.NbOfStickyColumns != tableOther.NbOfStickyColumns {
 		diffs = append(diffs, table.GongMarshallField(stage, "NbOfStickyColumns"))
+	}
+	ButtonsDifferent := false
+	if len(table.Buttons) != len(tableOther.Buttons) {
+		ButtonsDifferent = true
+	} else {
+		for i := range table.Buttons {
+			if (table.Buttons[i] == nil) != (tableOther.Buttons[i] == nil) {
+				ButtonsDifferent = true
+				break
+			} else if table.Buttons[i] != nil && tableOther.Buttons[i] != nil {
+				// this is a pointer comparaison
+				if table.Buttons[i] != tableOther.Buttons[i] {
+					ButtonsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ButtonsDifferent {
+		ops := Diff(stage, table, tableOther, "Buttons", tableOther.Buttons, table.Buttons)
+		diffs = append(diffs, ops)
 	}
 
 	return

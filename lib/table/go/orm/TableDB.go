@@ -56,6 +56,9 @@ type TablePointersEncoding struct {
 
 	// field Rows is a slice of pointers to another Struct (optional or 0..1)
 	Rows IntSlice `gorm:"type:TEXT"`
+
+	// field Buttons is a slice of pointers to another Struct (optional or 0..1)
+	Buttons IntSlice `gorm:"type:TEXT"`
 }
 
 // TableDB describes a table in the database
@@ -336,6 +339,24 @@ func (backRepoTable *BackRepoTableStruct) CommitPhaseTwoInstance(backRepo *BackR
 				append(tableDB.TablePointersEncoding.Rows, int(rowAssocEnd_DB.ID))
 		}
 
+		// 1. reset
+		tableDB.TablePointersEncoding.Buttons = make([]int, 0)
+		// 2. encode
+		for _, buttonAssocEnd := range table.Buttons {
+			buttonAssocEnd_DB :=
+				backRepo.BackRepoButton.GetButtonDBFromButtonPtr(buttonAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the buttonAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if buttonAssocEnd_DB == nil {
+				continue
+			}
+			
+			tableDB.TablePointersEncoding.Buttons =
+				append(tableDB.TablePointersEncoding.Buttons, int(buttonAssocEnd_DB.ID))
+		}
+
 		_, err := backRepoTable.db.Save(tableDB)
 		if err != nil {
 			log.Fatal(err)
@@ -464,6 +485,15 @@ func (tableDB *TableDB) DecodePointers(backRepo *BackRepoStruct, table *models.T
 	table.Rows = table.Rows[:0]
 	for _, _Rowid := range tableDB.TablePointersEncoding.Rows {
 		table.Rows = append(table.Rows, backRepo.BackRepoRow.Map_RowDBID_RowPtr[uint(_Rowid)])
+	}
+
+	// This loop redeem table.Buttons in the stage from the encode in the back repo
+	// It parses all ButtonDB in the back repo and if the reverse pointer encoding matches the back repo ID
+	// it appends the stage instance
+	// 1. reset the slice
+	table.Buttons = table.Buttons[:0]
+	for _, _Buttonid := range tableDB.TablePointersEncoding.Buttons {
+		table.Buttons = append(table.Buttons, backRepo.BackRepoButton.Map_ButtonDBID_ButtonPtr[uint(_Buttonid)])
 	}
 
 }

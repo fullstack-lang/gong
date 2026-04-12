@@ -31,6 +31,8 @@ type Table struct {
 
 	// swagger:ignore
 	Impl TableImplInterface
+
+	Buttons []*Button
 }
 
 type TableImplInterface interface {

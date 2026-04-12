@@ -30,6 +30,27 @@
                 <mat-icon>close</mat-icon>
             </button>
             }
+
+            @for (button of selectedTable.Buttons; track $index) {
+            <span [matTooltip]="button.ToolTipText"
+                  [matTooltipPosition]="$any(button.ToolTipPosition)"
+                  [matTooltipDisabled]="!button.HasToolTip">
+                <button [id]="'button-' + button.Name"
+                        mat-icon-button
+                        (click)="onButtonClick($event, button)"
+                        [disabled]="button.IsDisabled">
+                    @if (!button.SVGIcon) {
+                        <mat-icon [ngStyle]="{'color': button.IsDisabled ? 'rgba(0,0,0,.20)' : 'rgba(0,0,0,.50)'}">
+                            {{button.Icon}}
+                        </mat-icon>
+                    } @else {
+                        <mat-icon [ngStyle]="{'color': button.IsDisabled ? 'rgba(0,0,0,.20)' : 'rgba(0,0,0,.50)'}"
+                                  [svgIcon]="button.SVGIcon.Name">
+                        </mat-icon>
+                    }
+                </button>
+            </span>
+            }
         </div>
 
         <div class="right-toolbar">

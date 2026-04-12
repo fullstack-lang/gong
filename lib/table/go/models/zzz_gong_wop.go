@@ -9,6 +9,32 @@ var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
 var _ = __GONG_time_The_fool_doth_think_he_is_wise__
 
 // insertion point
+type Button_WOP struct {
+	// insertion point
+
+	Name string
+
+	Icon string
+
+	IsDisabled bool
+
+	HasToolTip bool
+
+	ToolTipText string
+
+	ToolTipPosition ToolTipPositionEnum
+}
+
+func (from *Button) CopyBasicFields(to *Button) {
+	// insertion point
+	to.Name = from.Name
+	to.Icon = from.Icon
+	to.IsDisabled = from.IsDisabled
+	to.HasToolTip = from.HasToolTip
+	to.ToolTipText = from.ToolTipText
+	to.ToolTipPosition = from.ToolTipPosition
+}
+
 type Cell_WOP struct {
 	// insertion point
 
@@ -393,6 +419,20 @@ func (from *Row) CopyBasicFields(to *Row) {
 	// insertion point
 	to.Name = from.Name
 	to.IsChecked = from.IsChecked
+}
+
+type SVGIcon_WOP struct {
+	// insertion point
+
+	Name string
+
+	SVG string
+}
+
+func (from *SVGIcon) CopyBasicFields(to *SVGIcon) {
+	// insertion point
+	to.Name = from.Name
+	to.SVG = from.SVG
 }
 
 type Table_WOP struct {

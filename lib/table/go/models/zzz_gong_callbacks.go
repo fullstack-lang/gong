@@ -6,6 +6,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point
+	case *Button:
+		if stage.OnAfterButtonCreateCallback != nil {
+			stage.OnAfterButtonCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *Cell:
 		if stage.OnAfterCellCreateCallback != nil {
 			stage.OnAfterCellCreateCallback.OnAfterCreate(stage, target)
@@ -94,6 +98,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterRowCreateCallback != nil {
 			stage.OnAfterRowCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *SVGIcon:
+		if stage.OnAfterSVGIconCreateCallback != nil {
+			stage.OnAfterSVGIconCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *Table:
 		if stage.OnAfterTableCreateCallback != nil {
 			stage.OnAfterTableCreateCallback.OnAfterCreate(stage, target)
@@ -112,6 +120,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point
+	case *Button:
+		newTarget := any(new).(*Button)
+		if stage.OnAfterButtonUpdateCallback != nil {
+			stage.OnAfterButtonUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
 	case *Cell:
 		newTarget := any(new).(*Cell)
 		if stage.OnAfterCellUpdateCallback != nil {
@@ -222,6 +235,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		if stage.OnAfterRowUpdateCallback != nil {
 			stage.OnAfterRowUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
+	case *SVGIcon:
+		newTarget := any(new).(*SVGIcon)
+		if stage.OnAfterSVGIconUpdateCallback != nil {
+			stage.OnAfterSVGIconUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
 	case *Table:
 		newTarget := any(new).(*Table)
 		if stage.OnAfterTableUpdateCallback != nil {
@@ -237,6 +255,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 
 	switch front := any(front).(type) {
 	// insertion point
+	case *Button:
+		if stage.OnAfterButtonDeleteCallback != nil {
+			staged := any(staged).(*Button)
+			stage.OnAfterButtonDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *Cell:
 		if stage.OnAfterCellDeleteCallback != nil {
 			staged := any(staged).(*Cell)
@@ -347,6 +370,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*Row)
 			stage.OnAfterRowDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *SVGIcon:
+		if stage.OnAfterSVGIconDeleteCallback != nil {
+			staged := any(staged).(*SVGIcon)
+			stage.OnAfterSVGIconDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *Table:
 		if stage.OnAfterTableDeleteCallback != nil {
 			staged := any(staged).(*Table)
@@ -362,6 +390,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point
+	case *Button:
+		if stage.OnAfterButtonReadCallback != nil {
+			stage.OnAfterButtonReadCallback.OnAfterRead(stage, target)
+		}
 	case *Cell:
 		if stage.OnAfterCellReadCallback != nil {
 			stage.OnAfterCellReadCallback.OnAfterRead(stage, target)
@@ -450,6 +482,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterRowReadCallback != nil {
 			stage.OnAfterRowReadCallback.OnAfterRead(stage, target)
 		}
+	case *SVGIcon:
+		if stage.OnAfterSVGIconReadCallback != nil {
+			stage.OnAfterSVGIconReadCallback.OnAfterRead(stage, target)
+		}
 	case *Table:
 		if stage.OnAfterTableReadCallback != nil {
 			stage.OnAfterTableReadCallback.OnAfterRead(stage, target)
@@ -465,6 +501,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	var instance Type
 	switch any(instance).(type) {
 	// insertion point
+	case *Button:
+		stage.OnAfterButtonUpdateCallback = any(callback).(OnAfterUpdateInterface[Button])
 	case *Cell:
 		stage.OnAfterCellUpdateCallback = any(callback).(OnAfterUpdateInterface[Cell])
 	case *CellBoolean:
@@ -509,6 +547,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterOptionUpdateCallback = any(callback).(OnAfterUpdateInterface[Option])
 	case *Row:
 		stage.OnAfterRowUpdateCallback = any(callback).(OnAfterUpdateInterface[Row])
+	case *SVGIcon:
+		stage.OnAfterSVGIconUpdateCallback = any(callback).(OnAfterUpdateInterface[SVGIcon])
 	case *Table:
 		stage.OnAfterTableUpdateCallback = any(callback).(OnAfterUpdateInterface[Table])
 	}
@@ -518,6 +558,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	var instance Type
 	switch any(instance).(type) {
 		// insertion point
+	case *Button:
+		stage.OnAfterButtonCreateCallback = any(callback).(OnAfterCreateInterface[Button])
 	case *Cell:
 		stage.OnAfterCellCreateCallback = any(callback).(OnAfterCreateInterface[Cell])
 	case *CellBoolean:
@@ -562,6 +604,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterOptionCreateCallback = any(callback).(OnAfterCreateInterface[Option])
 	case *Row:
 		stage.OnAfterRowCreateCallback = any(callback).(OnAfterCreateInterface[Row])
+	case *SVGIcon:
+		stage.OnAfterSVGIconCreateCallback = any(callback).(OnAfterCreateInterface[SVGIcon])
 	case *Table:
 		stage.OnAfterTableCreateCallback = any(callback).(OnAfterCreateInterface[Table])
 	}
@@ -571,6 +615,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 	var instance Type
 	switch any(instance).(type) {
 		// insertion point
+	case *Button:
+		stage.OnAfterButtonDeleteCallback = any(callback).(OnAfterDeleteInterface[Button])
 	case *Cell:
 		stage.OnAfterCellDeleteCallback = any(callback).(OnAfterDeleteInterface[Cell])
 	case *CellBoolean:
@@ -615,6 +661,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterOptionDeleteCallback = any(callback).(OnAfterDeleteInterface[Option])
 	case *Row:
 		stage.OnAfterRowDeleteCallback = any(callback).(OnAfterDeleteInterface[Row])
+	case *SVGIcon:
+		stage.OnAfterSVGIconDeleteCallback = any(callback).(OnAfterDeleteInterface[SVGIcon])
 	case *Table:
 		stage.OnAfterTableDeleteCallback = any(callback).(OnAfterDeleteInterface[Table])
 	}
@@ -624,6 +672,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 	var instance Type
 	switch any(instance).(type) {
 		// insertion point
+	case *Button:
+		stage.OnAfterButtonReadCallback = any(callback).(OnAfterReadInterface[Button])
 	case *Cell:
 		stage.OnAfterCellReadCallback = any(callback).(OnAfterReadInterface[Cell])
 	case *CellBoolean:
@@ -668,6 +718,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterOptionReadCallback = any(callback).(OnAfterReadInterface[Option])
 	case *Row:
 		stage.OnAfterRowReadCallback = any(callback).(OnAfterReadInterface[Row])
+	case *SVGIcon:
+		stage.OnAfterSVGIconReadCallback = any(callback).(OnAfterReadInterface[SVGIcon])
 	case *Table:
 		stage.OnAfterTableReadCallback = any(callback).(OnAfterReadInterface[Table])
 	}

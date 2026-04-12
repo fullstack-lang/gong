@@ -4,6 +4,8 @@ package orm
 type BackRepoData struct {
 	// insertion point for slices
 
+	ButtonAPIs []*ButtonAPI
+
 	CellAPIs []*CellAPI
 
 	CellBooleanAPIs []*CellBooleanAPI
@@ -48,6 +50,8 @@ type BackRepoData struct {
 
 	RowAPIs []*RowAPI
 
+	SVGIconAPIs []*SVGIconAPI
+
 	TableAPIs []*TableAPI
 
 	// index of the web socket for this stack type (unique among all stack instances)
@@ -61,6 +65,16 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 	defer backRepo.rwMutex.RUnlock()
 
 	// insertion point for slices copies
+	for _, buttonDB := range backRepo.BackRepoButton.Map_ButtonDBID_ButtonDB {
+
+		var buttonAPI ButtonAPI
+		buttonAPI.ID = buttonDB.ID
+		buttonAPI.ButtonPointersEncoding = buttonDB.ButtonPointersEncoding
+		buttonDB.CopyBasicFieldsToButton_WOP(&buttonAPI.Button_WOP)
+
+		backRepoData.ButtonAPIs = append(backRepoData.ButtonAPIs, &buttonAPI)
+	}
+
 	for _, cellDB := range backRepo.BackRepoCell.Map_CellDBID_CellDB {
 
 		var cellAPI CellAPI
@@ -279,6 +293,16 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		rowDB.CopyBasicFieldsToRow_WOP(&rowAPI.Row_WOP)
 
 		backRepoData.RowAPIs = append(backRepoData.RowAPIs, &rowAPI)
+	}
+
+	for _, svgiconDB := range backRepo.BackRepoSVGIcon.Map_SVGIconDBID_SVGIconDB {
+
+		var svgiconAPI SVGIconAPI
+		svgiconAPI.ID = svgiconDB.ID
+		svgiconAPI.SVGIconPointersEncoding = svgiconDB.SVGIconPointersEncoding
+		svgiconDB.CopyBasicFieldsToSVGIcon_WOP(&svgiconAPI.SVGIcon_WOP)
+
+		backRepoData.SVGIconAPIs = append(backRepoData.SVGIconAPIs, &svgiconAPI)
 	}
 
 	for _, tableDB := range backRepo.BackRepoTable.Map_TableDBID_TableDB {

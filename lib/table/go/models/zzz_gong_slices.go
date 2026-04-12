@@ -20,6 +20,9 @@ var (
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per named struct
+	// Compute reverse map for named struct Button
+	// insertion point per field
+
 	// Compute reverse map for named struct Cell
 	// insertion point per field
 
@@ -121,6 +124,9 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
+	// Compute reverse map for named struct SVGIcon
+	// insertion point per field
+
 	// Compute reverse map for named struct Table
 	// insertion point per field
 	stage.Table_DisplayedColumns_reverseMap = make(map[*DisplayedColumn]*Table)
@@ -137,12 +143,23 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Table_Rows_reverseMap[_row] = table
 		}
 	}
+	stage.Table_Buttons_reverseMap = make(map[*Button]*Table)
+	for table := range stage.Tables {
+		_ = table
+		for _, _button := range table.Buttons {
+			stage.Table_Buttons_reverseMap[_button] = table
+		}
+	}
 
 	// end of insertion point per named struct
 }
 
 func (stage *Stage) GetInstances() (res []GongstructIF) {
 	// insertion point per named struct
+	for instance := range stage.Buttons {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.Cells {
 		res = append(res, instance)
 	}
@@ -231,6 +248,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
+	for instance := range stage.SVGIcons {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.Tables {
 		res = append(res, instance)
 	}
@@ -239,6 +260,12 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 }
 
 // insertion point per named struct
+func (button *Button) GongCopy() GongstructIF {
+	newInstance := new(Button)
+	button.CopyBasicFields(newInstance)
+	return newInstance
+}
+
 func (cell *Cell) GongCopy() GongstructIF {
 	newInstance := new(Cell)
 	cell.CopyBasicFields(newInstance)
@@ -371,6 +398,12 @@ func (row *Row) GongCopy() GongstructIF {
 	return newInstance
 }
 
+func (svgicon *SVGIcon) GongCopy() GongstructIF {
+	newInstance := new(SVGIcon)
+	svgicon.CopyBasicFields(newInstance)
+	return newInstance
+}
+
 func (table *Table) GongCopy() GongstructIF {
 	newInstance := new(Table)
 	table.CopyBasicFields(newInstance)
@@ -378,6 +411,16 @@ func (table *Table) GongCopy() GongstructIF {
 }
 
 // insertion point per named struct
+func (button *Button) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(button).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(button), uint64(GetOrderPointerGongstruct(stage, button)))
+	return
+}
+
 func (cell *Cell) GongGetUUID(stage *Stage) (uuid string) {
 
 	if __gong__, ok := any(cell).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
@@ -598,6 +641,16 @@ func (row *Row) GongGetUUID(stage *Stage) (uuid string) {
 	return
 }
 
+func (svgicon *SVGIcon) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(svgicon).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(svgicon), uint64(GetOrderPointerGongstruct(stage, svgicon)))
+	return
+}
+
 func (table *Table) GongGetUUID(stage *Stage) (uuid string) {
 
 	if __gong__, ok := any(table).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
@@ -626,6 +679,57 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	stage.Clean()
 
 	// insertion point per named struct
+	var buttons_newInstances []*Button
+	var buttons_deletedInstances []*Button
+
+	// parse all staged instances and check if they have a reference
+	for button := range stage.Buttons {
+		if ref, ok := stage.Buttons_reference[button]; !ok {
+			buttons_newInstances = append(buttons_newInstances, button)
+			newInstancesSlice = append(newInstancesSlice, button.GongMarshallIdentifier(stage))
+			if stage.Buttons_referenceOrder == nil {
+				stage.Buttons_referenceOrder = make(map[*Button]uint)
+			}
+			stage.Buttons_referenceOrder[button] = stage.Button_stagedOrder[button]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, button.GongMarshallUnstaging(stage))
+			// delete(stage.Buttons_referenceOrder, button)
+			fieldInitializers, pointersInitializations := button.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.Button_stagedOrder[ref] = stage.Button_stagedOrder[button]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := button.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, button)
+			// delete(stage.Button_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				fieldsEdit += fmt.Sprintf("\n\t// %s", button.GetName())
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.Buttons_reference {
+		instance := stage.Buttons_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.Buttons[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			buttons_deletedInstances = append(buttons_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(buttons_newInstances)
+	lenDeletedInstances += len(buttons_deletedInstances)
 	var cells_newInstances []*Cell
 	var cells_deletedInstances []*Cell
 
@@ -1748,6 +1852,57 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(rows_newInstances)
 	lenDeletedInstances += len(rows_deletedInstances)
+	var svgicons_newInstances []*SVGIcon
+	var svgicons_deletedInstances []*SVGIcon
+
+	// parse all staged instances and check if they have a reference
+	for svgicon := range stage.SVGIcons {
+		if ref, ok := stage.SVGIcons_reference[svgicon]; !ok {
+			svgicons_newInstances = append(svgicons_newInstances, svgicon)
+			newInstancesSlice = append(newInstancesSlice, svgicon.GongMarshallIdentifier(stage))
+			if stage.SVGIcons_referenceOrder == nil {
+				stage.SVGIcons_referenceOrder = make(map[*SVGIcon]uint)
+			}
+			stage.SVGIcons_referenceOrder[svgicon] = stage.SVGIcon_stagedOrder[svgicon]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, svgicon.GongMarshallUnstaging(stage))
+			// delete(stage.SVGIcons_referenceOrder, svgicon)
+			fieldInitializers, pointersInitializations := svgicon.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.SVGIcon_stagedOrder[ref] = stage.SVGIcon_stagedOrder[svgicon]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := svgicon.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, svgicon)
+			// delete(stage.SVGIcon_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				fieldsEdit += fmt.Sprintf("\n\t// %s", svgicon.GetName())
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.SVGIcons_reference {
+		instance := stage.SVGIcons_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.SVGIcons[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			svgicons_deletedInstances = append(svgicons_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(svgicons_newInstances)
+	lenDeletedInstances += len(svgicons_deletedInstances)
 	var tables_newInstances []*Table
 	var tables_deletedInstances []*Table
 
@@ -1834,6 +1989,16 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 // ComputeReferenceAndOrders will creates a deep copy of each of the staged elements
 func (stage *Stage) ComputeReferenceAndOrders() {
 	// insertion point per named struct
+	stage.Buttons_reference = make(map[*Button]*Button)
+	stage.Buttons_referenceOrder = make(map[*Button]uint) // diff Unstage needs the reference order
+	stage.Buttons_instance = make(map[*Button]*Button)
+	for instance := range stage.Buttons {
+		_copy := instance.GongCopy().(*Button)
+		stage.Buttons_reference[instance] = _copy
+		stage.Buttons_instance[_copy] = instance
+		stage.Buttons_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.Cells_reference = make(map[*Cell]*Cell)
 	stage.Cells_referenceOrder = make(map[*Cell]uint) // diff Unstage needs the reference order
 	stage.Cells_instance = make(map[*Cell]*Cell)
@@ -2054,6 +2219,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.Rows_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.SVGIcons_reference = make(map[*SVGIcon]*SVGIcon)
+	stage.SVGIcons_referenceOrder = make(map[*SVGIcon]uint) // diff Unstage needs the reference order
+	stage.SVGIcons_instance = make(map[*SVGIcon]*SVGIcon)
+	for instance := range stage.SVGIcons {
+		_copy := instance.GongCopy().(*SVGIcon)
+		stage.SVGIcons_reference[instance] = _copy
+		stage.SVGIcons_instance[_copy] = instance
+		stage.SVGIcons_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.Tables_reference = make(map[*Table]*Table)
 	stage.Tables_referenceOrder = make(map[*Table]uint) // diff Unstage needs the reference order
 	stage.Tables_instance = make(map[*Table]*Table)
@@ -2065,6 +2240,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 	}
 
 	// insertion point per named struct
+	for instance := range stage.Buttons {
+		reference := stage.Buttons_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
 	for instance := range stage.Cells {
 		reference := stage.Cells_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
@@ -2175,6 +2355,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
+	for instance := range stage.SVGIcons {
+		reference := stage.SVGIcons_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
 	for instance := range stage.Tables {
 		reference := stage.Tables_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
@@ -2190,6 +2375,18 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 // which is important for frontends such as web frontends
 // to avoid unnecessary re-renderings
 // insertion point per named struct
+func (button *Button) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.Button_stagedOrder[button]; ok {
+		return order
+	}
+	if order, ok := stage.Buttons_referenceOrder[button]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type Button was not staged and does not have a reference order", button)
+		return 0
+	}
+}
+
 func (cell *Cell) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.Cell_stagedOrder[cell]; ok {
 		return order
@@ -2454,6 +2651,18 @@ func (row *Row) GongGetOrder(stage *Stage) uint {
 	}
 }
 
+func (svgicon *SVGIcon) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.SVGIcon_stagedOrder[svgicon]; ok {
+		return order
+	}
+	if order, ok := stage.SVGIcons_referenceOrder[svgicon]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type SVGIcon was not staged and does not have a reference order", svgicon)
+		return 0
+	}
+}
+
 func (table *Table) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.Table_stagedOrder[table]; ok {
 		return order
@@ -2471,6 +2680,15 @@ func (table *Table) GongGetOrder(stage *Stage) uint {
 // in the staging area
 // It is used to identify instances across sessions
 // insertion point per named struct
+func (button *Button) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", button.GongGetGongstructName(), button.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (button *Button) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", button.GongGetGongstructName(), button.GongGetOrder(stage))
+}
+
 func (cell *Cell) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", cell.GongGetGongstructName(), cell.GongGetOrder(stage))
 }
@@ -2669,6 +2887,15 @@ func (row *Row) GongGetReferenceIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", row.GongGetGongstructName(), row.GongGetOrder(stage))
 }
 
+func (svgicon *SVGIcon) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", svgicon.GongGetGongstructName(), svgicon.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (svgicon *SVGIcon) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", svgicon.GongGetGongstructName(), svgicon.GongGetOrder(stage))
+}
+
 func (table *Table) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", table.GongGetGongstructName(), table.GongGetOrder(stage))
 }
@@ -2681,6 +2908,14 @@ func (table *Table) GongGetReferenceIdentifier(stage *Stage) string {
 // MarshallIdentifier returns the code to instantiate the instance
 // in a marshalling file
 // insertion point per named struct
+func (button *Button) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", button.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Button")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(button.Name))
+	return
+}
+
 func (cell *Cell) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", cell.GongGetIdentifier(stage))
@@ -2857,6 +3092,14 @@ func (row *Row) GongMarshallIdentifier(stage *Stage) (decl string) {
 	return
 }
 
+func (svgicon *SVGIcon) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", svgicon.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "SVGIcon")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(svgicon.Name))
+	return
+}
+
 func (table *Table) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", table.GongGetIdentifier(stage))
@@ -2866,6 +3109,12 @@ func (table *Table) GongMarshallIdentifier(stage *Stage) (decl string) {
 }
 
 // insertion point for unstaging
+func (button *Button) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", button.GongGetReferenceIdentifier(stage))
+	return
+}
+
 func (cell *Cell) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", cell.GongGetReferenceIdentifier(stage))
@@ -2995,6 +3244,12 @@ func (option *Option) GongMarshallUnstaging(stage *Stage) (decl string) {
 func (row *Row) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", row.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (svgicon *SVGIcon) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", svgicon.GongGetReferenceIdentifier(stage))
 	return
 }
 

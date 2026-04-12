@@ -5,6 +5,10 @@ import { Observable, combineLatest, BehaviorSubject, of } from 'rxjs'
 import { shareReplay } from 'rxjs/operators'
 
 // insertion point sub template for services imports
+import { ButtonAPI } from './button-api'
+import { Button, CopyButtonAPIToButton } from './button'
+import { ButtonService } from './button.service'
+
 import { CellAPI } from './cell-api'
 import { Cell, CopyCellAPIToCell } from './cell'
 import { CellService } from './cell.service'
@@ -93,6 +97,10 @@ import { RowAPI } from './row-api'
 import { Row, CopyRowAPIToRow } from './row'
 import { RowService } from './row.service'
 
+import { SVGIconAPI } from './svgicon-api'
+import { SVGIcon, CopySVGIconAPIToSVGIcon } from './svgicon'
+import { SVGIconService } from './svgicon.service'
+
 import { TableAPI } from './table-api'
 import { Table, CopyTableAPIToTable } from './table'
 import { TableService } from './table.service'
@@ -104,6 +112,9 @@ export const StackType = "github.com/fullstack-lang/gong/lib/table/go/models"
 
 // FrontRepo stores all instances in a front repository (design pattern repository)
 export class FrontRepo { // insertion point sub template
+	array_Buttons = new Array<Button>() // array of front instances
+	map_ID_Button = new Map<number, Button>() // map of front instances
+
 	array_Cells = new Array<Cell>() // array of front instances
 	map_ID_Cell = new Map<number, Cell>() // map of front instances
 
@@ -170,6 +181,9 @@ export class FrontRepo { // insertion point sub template
 	array_Rows = new Array<Row>() // array of front instances
 	map_ID_Row = new Map<number, Row>() // map of front instances
 
+	array_SVGIcons = new Array<SVGIcon>() // array of front instances
+	map_ID_SVGIcon = new Map<number, SVGIcon>() // map of front instances
+
 	array_Tables = new Array<Table>() // array of front instances
 	map_ID_Table = new Map<number, Table>() // map of front instances
 
@@ -182,6 +196,8 @@ export class FrontRepo { // insertion point sub template
 	getFrontArray<Type>(gongStructName: string): Array<Type> {
 		switch (gongStructName) {
 			// insertion point
+			case 'Button':
+				return this.array_Buttons as unknown as Array<Type>
 			case 'Cell':
 				return this.array_Cells as unknown as Array<Type>
 			case 'CellBoolean':
@@ -226,6 +242,8 @@ export class FrontRepo { // insertion point sub template
 				return this.array_Options as unknown as Array<Type>
 			case 'Row':
 				return this.array_Rows as unknown as Array<Type>
+			case 'SVGIcon':
+				return this.array_SVGIcons as unknown as Array<Type>
 			case 'Table':
 				return this.array_Tables as unknown as Array<Type>
 			default:
@@ -236,6 +254,8 @@ export class FrontRepo { // insertion point sub template
 	getFrontMap<Type>(gongStructName: string): Map<number, Type> {
 		switch (gongStructName) {
 			// insertion point
+			case 'Button':
+				return this.map_ID_Button as unknown as Map<number, Type>
 			case 'Cell':
 				return this.map_ID_Cell as unknown as Map<number, Type>
 			case 'CellBoolean':
@@ -280,6 +300,8 @@ export class FrontRepo { // insertion point sub template
 				return this.map_ID_Option as unknown as Map<number, Type>
 			case 'Row':
 				return this.map_ID_Row as unknown as Map<number, Type>
+			case 'SVGIcon':
+				return this.map_ID_SVGIcon as unknown as Map<number, Type>
 			case 'Table':
 				return this.map_ID_Table as unknown as Map<number, Type>
 			default:
@@ -352,6 +374,7 @@ export class FrontRepoService {
 
 	constructor(
 		private http: HttpClient, // insertion point sub template 
+		private buttonService: ButtonService,
 		private cellService: CellService,
 		private cellbooleanService: CellBooleanService,
 		private cellfloat64Service: CellFloat64Service,
@@ -374,6 +397,7 @@ export class FrontRepoService {
 		private formsortassocbuttonService: FormSortAssocButtonService,
 		private optionService: OptionService,
 		private rowService: RowService,
+		private svgiconService: SVGIconService,
 		private tableService: TableService,
 	) { }
 
@@ -407,6 +431,7 @@ export class FrontRepoService {
 	observableFrontRepo!: [
 		Observable<null>, // see below for the of(null) observable
 		// insertion point sub template 
+		Observable<ButtonAPI[]>,
 		Observable<CellAPI[]>,
 		Observable<CellBooleanAPI[]>,
 		Observable<CellFloat64API[]>,
@@ -429,6 +454,7 @@ export class FrontRepoService {
 		Observable<FormSortAssocButtonAPI[]>,
 		Observable<OptionAPI[]>,
 		Observable<RowAPI[]>,
+		Observable<SVGIconAPI[]>,
 		Observable<TableAPI[]>,
 	]
 
@@ -445,6 +471,7 @@ export class FrontRepoService {
 		this.observableFrontRepo = [
 			of(null), // see above for justification
 			// insertion point sub template
+			this.buttonService.getButtons(this.Name, this.frontRepo),
 			this.cellService.getCells(this.Name, this.frontRepo),
 			this.cellbooleanService.getCellBooleans(this.Name, this.frontRepo),
 			this.cellfloat64Service.getCellFloat64s(this.Name, this.frontRepo),
@@ -467,6 +494,7 @@ export class FrontRepoService {
 			this.formsortassocbuttonService.getFormSortAssocButtons(this.Name, this.frontRepo),
 			this.optionService.getOptions(this.Name, this.frontRepo),
 			this.rowService.getRows(this.Name, this.frontRepo),
+			this.svgiconService.getSVGIcons(this.Name, this.frontRepo),
 			this.tableService.getTables(this.Name, this.frontRepo),
 		]
 
@@ -478,6 +506,7 @@ export class FrontRepoService {
 					([
 						___of_null, // see above for the explanation about of
 						// insertion point sub template for declarations 
+						buttons_,
 						cells_,
 						cellbooleans_,
 						cellfloat64s_,
@@ -500,11 +529,14 @@ export class FrontRepoService {
 						formsortassocbuttons_,
 						options_,
 						rows_,
+						svgicons_,
 						tables_,
 					]) => {
 						let _this = this
 						// Typing can be messy with many items. Therefore, type casting is necessary here
 						// insertion point sub template for type casting 
+						var buttons: ButtonAPI[]
+						buttons = buttons_ as ButtonAPI[]
 						var cells: CellAPI[]
 						cells = cells_ as CellAPI[]
 						var cellbooleans: CellBooleanAPI[]
@@ -549,12 +581,26 @@ export class FrontRepoService {
 						options = options_ as OptionAPI[]
 						var rows: RowAPI[]
 						rows = rows_ as RowAPI[]
+						var svgicons: SVGIconAPI[]
+						svgicons = svgicons_ as SVGIconAPI[]
 						var tables: TableAPI[]
 						tables = tables_ as TableAPI[]
 
 						// 
 						// First Step: init map of instances
 						// insertion point sub template for init 
+						// init the arrays
+						this.frontRepo.array_Buttons = []
+						this.frontRepo.map_ID_Button.clear()
+
+						buttons.forEach(
+							buttonAPI => {
+								let button = new Button
+								this.frontRepo.array_Buttons.push(button)
+								this.frontRepo.map_ID_Button.set(buttonAPI.ID, button)
+							}
+						)
+
 						// init the arrays
 						this.frontRepo.array_Cells = []
 						this.frontRepo.map_ID_Cell.clear()
@@ -820,6 +866,18 @@ export class FrontRepoService {
 						)
 
 						// init the arrays
+						this.frontRepo.array_SVGIcons = []
+						this.frontRepo.map_ID_SVGIcon.clear()
+
+						svgicons.forEach(
+							svgiconAPI => {
+								let svgicon = new SVGIcon
+								this.frontRepo.array_SVGIcons.push(svgicon)
+								this.frontRepo.map_ID_SVGIcon.set(svgiconAPI.ID, svgicon)
+							}
+						)
+
+						// init the arrays
 						this.frontRepo.array_Tables = []
 						this.frontRepo.map_ID_Table.clear()
 
@@ -835,6 +893,14 @@ export class FrontRepoService {
 						// 
 						// Second Step: reddeem front objects
 						// insertion point sub template for redeem 
+						// fill up front objects
+						buttons.forEach(
+							buttonAPI => {
+								let button = this.frontRepo.map_ID_Button.get(buttonAPI.ID)
+								CopyButtonAPIToButton(buttonAPI, button!, this.frontRepo)
+							}
+						)
+
 						// fill up front objects
 						cells.forEach(
 							cellAPI => {
@@ -1012,6 +1078,14 @@ export class FrontRepoService {
 						)
 
 						// fill up front objects
+						svgicons.forEach(
+							svgiconAPI => {
+								let svgicon = this.frontRepo.map_ID_SVGIcon.get(svgiconAPI.ID)
+								CopySVGIconAPIToSVGIcon(svgiconAPI, svgicon!, this.frontRepo)
+							}
+						)
+
+						// fill up front objects
 						tables.forEach(
 							tableAPI => {
 								let table = this.frontRepo.map_ID_Table.get(tableAPI.ID)
@@ -1066,6 +1140,18 @@ export class FrontRepoService {
 				// insertion point sub template for init 
 				// init the arrays
 				// insertion point sub template for init 
+				// init the arrays
+				frontRepo.array_Buttons = []
+				frontRepo.map_ID_Button.clear()
+
+				backRepoData.ButtonAPIs.forEach(
+					buttonAPI => {
+						let button = new Button
+						frontRepo.array_Buttons.push(button)
+						frontRepo.map_ID_Button.set(buttonAPI.ID, button)
+					}
+				)
+
 				// init the arrays
 				frontRepo.array_Cells = []
 				frontRepo.map_ID_Cell.clear()
@@ -1331,6 +1417,18 @@ export class FrontRepoService {
 				)
 
 				// init the arrays
+				frontRepo.array_SVGIcons = []
+				frontRepo.map_ID_SVGIcon.clear()
+
+				backRepoData.SVGIconAPIs.forEach(
+					svgiconAPI => {
+						let svgicon = new SVGIcon
+						frontRepo.array_SVGIcons.push(svgicon)
+						frontRepo.map_ID_SVGIcon.set(svgiconAPI.ID, svgicon)
+					}
+				)
+
+				// init the arrays
 				frontRepo.array_Tables = []
 				frontRepo.map_ID_Table.clear()
 
@@ -1348,6 +1446,14 @@ export class FrontRepoService {
 				// insertion point sub template for redeem 
 				// fill up front objects
 				// insertion point sub template for redeem 
+				// fill up front objects
+				backRepoData.ButtonAPIs.forEach(
+					buttonAPI => {
+						let button = frontRepo.map_ID_Button.get(buttonAPI.ID)
+						CopyButtonAPIToButton(buttonAPI, button!, frontRepo)
+					}
+				)
+
 				// fill up front objects
 				backRepoData.CellAPIs.forEach(
 					cellAPI => {
@@ -1525,6 +1631,14 @@ export class FrontRepoService {
 				)
 
 				// fill up front objects
+				backRepoData.SVGIconAPIs.forEach(
+					svgiconAPI => {
+						let svgicon = frontRepo.map_ID_SVGIcon.get(svgiconAPI.ID)
+						CopySVGIconAPIToSVGIcon(svgiconAPI, svgicon!, frontRepo)
+					}
+				)
+
+				// fill up front objects
 				backRepoData.TableAPIs.forEach(
 					tableAPI => {
 						let table = frontRepo.map_ID_Table.get(tableAPI.ID)
@@ -1560,72 +1674,78 @@ export class FrontRepoService {
 }
 
 // insertion point for get unique ID per struct 
-export function getCellUniqueID(id: number): number {
+export function getButtonUniqueID(id: number): number {
 	return 31 * id
 }
-export function getCellBooleanUniqueID(id: number): number {
+export function getCellUniqueID(id: number): number {
 	return 37 * id
 }
-export function getCellFloat64UniqueID(id: number): number {
+export function getCellBooleanUniqueID(id: number): number {
 	return 41 * id
 }
-export function getCellIconUniqueID(id: number): number {
+export function getCellFloat64UniqueID(id: number): number {
 	return 43 * id
 }
-export function getCellIntUniqueID(id: number): number {
+export function getCellIconUniqueID(id: number): number {
 	return 47 * id
 }
-export function getCellStringUniqueID(id: number): number {
+export function getCellIntUniqueID(id: number): number {
 	return 53 * id
 }
-export function getCheckBoxUniqueID(id: number): number {
+export function getCellStringUniqueID(id: number): number {
 	return 59 * id
 }
-export function getDisplayedColumnUniqueID(id: number): number {
+export function getCheckBoxUniqueID(id: number): number {
 	return 61 * id
 }
-export function getFormDivUniqueID(id: number): number {
+export function getDisplayedColumnUniqueID(id: number): number {
 	return 67 * id
 }
-export function getFormEditAssocButtonUniqueID(id: number): number {
+export function getFormDivUniqueID(id: number): number {
 	return 71 * id
 }
-export function getFormFieldUniqueID(id: number): number {
+export function getFormEditAssocButtonUniqueID(id: number): number {
 	return 73 * id
 }
-export function getFormFieldDateUniqueID(id: number): number {
+export function getFormFieldUniqueID(id: number): number {
 	return 79 * id
 }
-export function getFormFieldDateTimeUniqueID(id: number): number {
+export function getFormFieldDateUniqueID(id: number): number {
 	return 83 * id
 }
-export function getFormFieldFloat64UniqueID(id: number): number {
+export function getFormFieldDateTimeUniqueID(id: number): number {
 	return 89 * id
 }
-export function getFormFieldIntUniqueID(id: number): number {
+export function getFormFieldFloat64UniqueID(id: number): number {
 	return 97 * id
 }
-export function getFormFieldSelectUniqueID(id: number): number {
+export function getFormFieldIntUniqueID(id: number): number {
 	return 101 * id
 }
-export function getFormFieldStringUniqueID(id: number): number {
+export function getFormFieldSelectUniqueID(id: number): number {
 	return 103 * id
 }
-export function getFormFieldTimeUniqueID(id: number): number {
+export function getFormFieldStringUniqueID(id: number): number {
 	return 107 * id
 }
-export function getFormGroupUniqueID(id: number): number {
+export function getFormFieldTimeUniqueID(id: number): number {
 	return 109 * id
 }
-export function getFormSortAssocButtonUniqueID(id: number): number {
+export function getFormGroupUniqueID(id: number): number {
 	return 113 * id
 }
-export function getOptionUniqueID(id: number): number {
+export function getFormSortAssocButtonUniqueID(id: number): number {
 	return 127 * id
 }
-export function getRowUniqueID(id: number): number {
+export function getOptionUniqueID(id: number): number {
 	return 131 * id
 }
-export function getTableUniqueID(id: number): number {
+export function getRowUniqueID(id: number): number {
 	return 137 * id
+}
+export function getSVGIconUniqueID(id: number): number {
+	return 139 * id
+}
+export function getTableUniqueID(id: number): number {
+	return 149 * id
 }
