@@ -15,6 +15,12 @@ func (probe *Probe) ux_form() {
 	}
 	if formGroup != nil {
 		switch onSave := formGroup.OnSave.(type) { // insertion point
+		case *ButtonFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Button", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.button, probe)
+			}
 		case *CellFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "Cell", true)
@@ -147,6 +153,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.row, probe)
 			}
+		case *SVGIconFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "SVGIcon", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.svgicon, probe)
+			}
 		case *TableFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "Table", true)
@@ -175,6 +187,19 @@ func FillUpFormFromGongstructName(
 
 	switch gongstructName {
 	// insertion point
+	case "Button":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "Button Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ButtonFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		button := new(models.Button)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(button, formGroup, probe)
 	case "Cell":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -461,6 +486,19 @@ func FillUpFormFromGongstructName(
 		row := new(models.Row)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(row, formGroup, probe)
+	case "SVGIcon":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "SVGIcon Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__SVGIconFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		svgicon := new(models.SVGIcon)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(svgicon, formGroup, probe)
 	case "Table":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
