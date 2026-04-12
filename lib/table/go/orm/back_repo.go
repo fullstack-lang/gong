@@ -24,6 +24,8 @@ import (
 // BackRepoStruct supports callback functions
 type BackRepoStruct struct {
 	// insertion point for per struct back repo declarations
+	BackRepoButton BackRepoButtonStruct
+
 	BackRepoCell BackRepoCellStruct
 
 	BackRepoCellBoolean BackRepoCellBooleanStruct
@@ -68,6 +70,8 @@ type BackRepoStruct struct {
 
 	BackRepoRow BackRepoRowStruct
 
+	BackRepoSVGIcon BackRepoSVGIconStruct
+
 	BackRepoTable BackRepoTableStruct
 
 	CommitFromBackNb uint // records commit increments when performed by the back
@@ -91,6 +95,7 @@ func NewBackRepo(stage *models.Stage, filename string) (backRepo *BackRepoStruct
 
 	/* THIS IS REMOVED BY GONG COMPILER IF TARGET IS gorm
 	db = dbgorm.NewDBWrapper(filename, "github_com_fullstack_lang_gong_lib_table_go",
+		&ButtonDB{},
 		&CellDB{},
 		&CellBooleanDB{},
 		&CellFloat64DB{},
@@ -113,6 +118,7 @@ func NewBackRepo(stage *models.Stage, filename string) (backRepo *BackRepoStruct
 		&FormSortAssocButtonDB{},
 		&OptionDB{},
 		&RowDB{},
+		&SVGIconDB{},
 		&TableDB{},
 	)
 	THIS IS REMOVED BY GONG COMPILER IF TARGET IS gorm */
@@ -120,6 +126,14 @@ func NewBackRepo(stage *models.Stage, filename string) (backRepo *BackRepoStruct
 	backRepo = new(BackRepoStruct)
 
 	// insertion point for per struct back repo declarations
+	backRepo.BackRepoButton = BackRepoButtonStruct{
+		Map_ButtonDBID_ButtonPtr: make(map[uint]*models.Button, 0),
+		Map_ButtonDBID_ButtonDB:  make(map[uint]*ButtonDB, 0),
+		Map_ButtonPtr_ButtonDBID: make(map[*models.Button]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
 	backRepo.BackRepoCell = BackRepoCellStruct{
 		Map_CellDBID_CellPtr: make(map[uint]*models.Cell, 0),
 		Map_CellDBID_CellDB:  make(map[uint]*CellDB, 0),
@@ -296,6 +310,14 @@ func NewBackRepo(stage *models.Stage, filename string) (backRepo *BackRepoStruct
 		db:    db,
 		stage: stage,
 	}
+	backRepo.BackRepoSVGIcon = BackRepoSVGIconStruct{
+		Map_SVGIconDBID_SVGIconPtr: make(map[uint]*models.SVGIcon, 0),
+		Map_SVGIconDBID_SVGIconDB:  make(map[uint]*SVGIconDB, 0),
+		Map_SVGIconPtr_SVGIconDBID: make(map[*models.SVGIcon]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
 	backRepo.BackRepoTable = BackRepoTableStruct{
 		Map_TableDBID_TablePtr: make(map[uint]*models.Table, 0),
 		Map_TableDBID_TableDB:  make(map[uint]*TableDB, 0),
@@ -350,6 +372,7 @@ func (backRepo *BackRepoStruct) Commit(stage *models.Stage) {
 	backRepo.rwMutex.Lock()
 
 	// insertion point for per struct back repo phase one commit
+	backRepo.BackRepoButton.CommitPhaseOne(stage)
 	backRepo.BackRepoCell.CommitPhaseOne(stage)
 	backRepo.BackRepoCellBoolean.CommitPhaseOne(stage)
 	backRepo.BackRepoCellFloat64.CommitPhaseOne(stage)
@@ -372,9 +395,11 @@ func (backRepo *BackRepoStruct) Commit(stage *models.Stage) {
 	backRepo.BackRepoFormSortAssocButton.CommitPhaseOne(stage)
 	backRepo.BackRepoOption.CommitPhaseOne(stage)
 	backRepo.BackRepoRow.CommitPhaseOne(stage)
+	backRepo.BackRepoSVGIcon.CommitPhaseOne(stage)
 	backRepo.BackRepoTable.CommitPhaseOne(stage)
 
 	// insertion point for per struct back repo phase two commit
+	backRepo.BackRepoButton.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoCell.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoCellBoolean.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoCellFloat64.CommitPhaseTwo(backRepo)
@@ -397,6 +422,7 @@ func (backRepo *BackRepoStruct) Commit(stage *models.Stage) {
 	backRepo.BackRepoFormSortAssocButton.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoOption.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoRow.CommitPhaseTwo(backRepo)
+	backRepo.BackRepoSVGIcon.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoTable.CommitPhaseTwo(backRepo)
 
 	// important to release the mutex before calls to IncrementCommitFromBackNb
@@ -412,6 +438,7 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.Stage) {
 	backRepo.rwMutex.Lock()
 	defer backRepo.rwMutex.Unlock()
 	// insertion point for per struct back repo phase one commit
+	backRepo.BackRepoButton.CheckoutPhaseOne()
 	backRepo.BackRepoCell.CheckoutPhaseOne()
 	backRepo.BackRepoCellBoolean.CheckoutPhaseOne()
 	backRepo.BackRepoCellFloat64.CheckoutPhaseOne()
@@ -434,9 +461,11 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.Stage) {
 	backRepo.BackRepoFormSortAssocButton.CheckoutPhaseOne()
 	backRepo.BackRepoOption.CheckoutPhaseOne()
 	backRepo.BackRepoRow.CheckoutPhaseOne()
+	backRepo.BackRepoSVGIcon.CheckoutPhaseOne()
 	backRepo.BackRepoTable.CheckoutPhaseOne()
 
 	// insertion point for per struct back repo phase two commit
+	backRepo.BackRepoButton.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoCell.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoCellBoolean.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoCellFloat64.CheckoutPhaseTwo(backRepo)
@@ -459,6 +488,7 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.Stage) {
 	backRepo.BackRepoFormSortAssocButton.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoOption.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoRow.CheckoutPhaseTwo(backRepo)
+	backRepo.BackRepoSVGIcon.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoTable.CheckoutPhaseTwo(backRepo)
 }
 
@@ -467,6 +497,7 @@ func (backRepo *BackRepoStruct) Backup(stage *models.Stage, dirPath string) {
 	os.MkdirAll(dirPath, os.ModePerm)
 
 	// insertion point for per struct backup
+	backRepo.BackRepoButton.Backup(dirPath)
 	backRepo.BackRepoCell.Backup(dirPath)
 	backRepo.BackRepoCellBoolean.Backup(dirPath)
 	backRepo.BackRepoCellFloat64.Backup(dirPath)
@@ -489,6 +520,7 @@ func (backRepo *BackRepoStruct) Backup(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoFormSortAssocButton.Backup(dirPath)
 	backRepo.BackRepoOption.Backup(dirPath)
 	backRepo.BackRepoRow.Backup(dirPath)
+	backRepo.BackRepoSVGIcon.Backup(dirPath)
 	backRepo.BackRepoTable.Backup(dirPath)
 }
 
@@ -500,6 +532,7 @@ func (backRepo *BackRepoStruct) BackupXL(stage *models.Stage, dirPath string) {
 	file := xlsx.NewFile()
 
 	// insertion point for per struct backup
+	backRepo.BackRepoButton.BackupXL(file)
 	backRepo.BackRepoCell.BackupXL(file)
 	backRepo.BackRepoCellBoolean.BackupXL(file)
 	backRepo.BackRepoCellFloat64.BackupXL(file)
@@ -522,6 +555,7 @@ func (backRepo *BackRepoStruct) BackupXL(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoFormSortAssocButton.BackupXL(file)
 	backRepo.BackRepoOption.BackupXL(file)
 	backRepo.BackRepoRow.BackupXL(file)
+	backRepo.BackRepoSVGIcon.BackupXL(file)
 	backRepo.BackRepoTable.BackupXL(file)
 
 	var b bytes.Buffer
@@ -547,6 +581,7 @@ func (backRepo *BackRepoStruct) Restore(stage *models.Stage, dirPath string) {
 	//
 
 	// insertion point for per struct backup
+	backRepo.BackRepoButton.RestorePhaseOne(dirPath)
 	backRepo.BackRepoCell.RestorePhaseOne(dirPath)
 	backRepo.BackRepoCellBoolean.RestorePhaseOne(dirPath)
 	backRepo.BackRepoCellFloat64.RestorePhaseOne(dirPath)
@@ -569,6 +604,7 @@ func (backRepo *BackRepoStruct) Restore(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoFormSortAssocButton.RestorePhaseOne(dirPath)
 	backRepo.BackRepoOption.RestorePhaseOne(dirPath)
 	backRepo.BackRepoRow.RestorePhaseOne(dirPath)
+	backRepo.BackRepoSVGIcon.RestorePhaseOne(dirPath)
 	backRepo.BackRepoTable.RestorePhaseOne(dirPath)
 
 	//
@@ -576,6 +612,7 @@ func (backRepo *BackRepoStruct) Restore(stage *models.Stage, dirPath string) {
 	//
 
 	// insertion point for per struct backup
+	backRepo.BackRepoButton.RestorePhaseTwo()
 	backRepo.BackRepoCell.RestorePhaseTwo()
 	backRepo.BackRepoCellBoolean.RestorePhaseTwo()
 	backRepo.BackRepoCellFloat64.RestorePhaseTwo()
@@ -598,6 +635,7 @@ func (backRepo *BackRepoStruct) Restore(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoFormSortAssocButton.RestorePhaseTwo()
 	backRepo.BackRepoOption.RestorePhaseTwo()
 	backRepo.BackRepoRow.RestorePhaseTwo()
+	backRepo.BackRepoSVGIcon.RestorePhaseTwo()
 	backRepo.BackRepoTable.RestorePhaseTwo()
 
 	backRepo.stage.Checkout()
@@ -626,6 +664,7 @@ func (backRepo *BackRepoStruct) RestoreXL(stage *models.Stage, dirPath string) {
 	//
 
 	// insertion point for per struct backup
+	backRepo.BackRepoButton.RestoreXLPhaseOne(file)
 	backRepo.BackRepoCell.RestoreXLPhaseOne(file)
 	backRepo.BackRepoCellBoolean.RestoreXLPhaseOne(file)
 	backRepo.BackRepoCellFloat64.RestoreXLPhaseOne(file)
@@ -648,6 +687,7 @@ func (backRepo *BackRepoStruct) RestoreXL(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoFormSortAssocButton.RestoreXLPhaseOne(file)
 	backRepo.BackRepoOption.RestoreXLPhaseOne(file)
 	backRepo.BackRepoRow.RestoreXLPhaseOne(file)
+	backRepo.BackRepoSVGIcon.RestoreXLPhaseOne(file)
 	backRepo.BackRepoTable.RestoreXLPhaseOne(file)
 
 	// commit the restored stage

@@ -20,6 +20,10 @@ type DBLite struct {
 
 	// insertion point definitions
 
+	buttonDBs map[uint]*ButtonDB
+
+	nextIDButtonDB uint
+
 	cellDBs map[uint]*CellDB
 
 	nextIDCellDB uint
@@ -108,6 +112,10 @@ type DBLite struct {
 
 	nextIDRowDB uint
 
+	svgiconDBs map[uint]*SVGIconDB
+
+	nextIDSVGIconDB uint
+
 	tableDBs map[uint]*TableDB
 
 	nextIDTableDB uint
@@ -117,6 +125,8 @@ type DBLite struct {
 func NewDBLite() *DBLite {
 	return &DBLite{
 		// insertion point maps init
+
+		buttonDBs: make(map[uint]*ButtonDB),
 
 		cellDBs: make(map[uint]*CellDB),
 
@@ -162,6 +172,8 @@ func NewDBLite() *DBLite {
 
 		rowDBs: make(map[uint]*RowDB),
 
+		svgiconDBs: make(map[uint]*SVGIconDB),
+
 		tableDBs: make(map[uint]*TableDB),
 	}
 }
@@ -177,6 +189,10 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 
 	switch v := instanceDB.(type) {
 	// insertion point create
+	case *ButtonDB:
+		db.nextIDButtonDB++
+		v.ID = db.nextIDButtonDB
+		db.buttonDBs[v.ID] = v
 	case *CellDB:
 		db.nextIDCellDB++
 		v.ID = db.nextIDCellDB
@@ -265,6 +281,10 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		db.nextIDRowDB++
 		v.ID = db.nextIDRowDB
 		db.rowDBs[v.ID] = v
+	case *SVGIconDB:
+		db.nextIDSVGIconDB++
+		v.ID = db.nextIDSVGIconDB
+		db.svgiconDBs[v.ID] = v
 	case *TableDB:
 		db.nextIDTableDB++
 		v.ID = db.nextIDTableDB
@@ -297,6 +317,8 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 
 	switch v := instanceDB.(type) {
 	// insertion point delete
+	case *ButtonDB:
+		delete(db.buttonDBs, v.ID)
 	case *CellDB:
 		delete(db.cellDBs, v.ID)
 	case *CellBooleanDB:
@@ -341,6 +363,8 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 		delete(db.optionDBs, v.ID)
 	case *RowDB:
 		delete(db.rowDBs, v.ID)
+	case *SVGIconDB:
+		delete(db.svgiconDBs, v.ID)
 	case *TableDB:
 		delete(db.tableDBs, v.ID)
 	default:
@@ -361,6 +385,9 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 
 	switch v := instanceDB.(type) {
 	// insertion point delete
+	case *ButtonDB:
+		db.buttonDBs[v.ID] = v
+		return db, nil
 	case *CellDB:
 		db.cellDBs[v.ID] = v
 		return db, nil
@@ -427,6 +454,9 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 	case *RowDB:
 		db.rowDBs[v.ID] = v
 		return db, nil
+	case *SVGIconDB:
+		db.svgiconDBs[v.ID] = v
+		return db, nil
 	case *TableDB:
 		db.tableDBs[v.ID] = v
 		return db, nil
@@ -446,6 +476,12 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 
 	switch v := instanceDB.(type) {
 	// insertion point delete
+	case *ButtonDB:
+		if existing, ok := db.buttonDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("db Button github.com/fullstack-lang/gong/lib/table/go, record not found")
+		}
 	case *CellDB:
 		if existing, ok := db.cellDBs[v.ID]; ok {
 			*existing = *v
@@ -578,6 +614,12 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 		} else {
 			return nil, errors.New("db Row github.com/fullstack-lang/gong/lib/table/go, record not found")
 		}
+	case *SVGIconDB:
+		if existing, ok := db.svgiconDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("db SVGIcon github.com/fullstack-lang/gong/lib/table/go, record not found")
+		}
 	case *TableDB:
 		if existing, ok := db.tableDBs[v.ID]; ok {
 			*existing = *v
@@ -598,6 +640,12 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 
 	switch ptr := instanceDBs.(type) {
 	// insertion point find
+	case *[]ButtonDB:
+		*ptr = make([]ButtonDB, 0, len(db.buttonDBs))
+		for _, v := range db.buttonDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]CellDB:
 		*ptr = make([]CellDB, 0, len(db.cellDBs))
 		for _, v := range db.cellDBs {
@@ -730,6 +778,12 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
+	case *[]SVGIconDB:
+		*ptr = make([]SVGIconDB, 0, len(db.svgiconDBs))
+		for _, v := range db.svgiconDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]TableDB:
 		*ptr = make([]TableDB, 0, len(db.tableDBs))
 		for _, v := range db.tableDBs {
@@ -769,6 +823,16 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 	switch instanceDB.(type) {
 	// insertion point first
+	case *ButtonDB:
+		tmp, ok := db.buttonDBs[uint(i)]
+
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Button Unkown entry %d", i))
+		}
+
+		buttonDB, _ := instanceDB.(*ButtonDB)
+		*buttonDB = *tmp
+		
 	case *CellDB:
 		tmp, ok := db.cellDBs[uint(i)]
 
@@ -988,6 +1052,16 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		rowDB, _ := instanceDB.(*RowDB)
 		*rowDB = *tmp
+		
+	case *SVGIconDB:
+		tmp, ok := db.svgiconDBs[uint(i)]
+
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First SVGIcon Unkown entry %d", i))
+		}
+
+		svgiconDB, _ := instanceDB.(*SVGIconDB)
+		*svgiconDB = *tmp
 		
 	case *TableDB:
 		tmp, ok := db.tableDBs[uint(i)]

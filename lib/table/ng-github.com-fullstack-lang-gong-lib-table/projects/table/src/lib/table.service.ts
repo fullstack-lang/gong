@@ -18,6 +18,7 @@ import { FrontRepo, FrontRepoService } from './front-repo.service';
 // insertion point for imports
 import { DisplayedColumnAPI } from './displayedcolumn-api'
 import { RowAPI } from './row-api'
+import { ButtonAPI } from './button-api'
 
 @Injectable({
   providedIn: 'root'

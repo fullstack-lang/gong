@@ -23,267 +23,322 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	// Declaration of instances to stage
+	// insertion point for declaration of instances to stage
 
-	__Cell__000000_Row_1_Cell_1 := (&models.Cell{}).Stage(stage)
-	__Cell__000001_Row_1_Cell_2 := (&models.Cell{}).Stage(stage)
-	__Cell__000002_Row_1_Cell_3 := (&models.Cell{}).Stage(stage)
-	__Cell__000003_Row_1_Cell_4 := (&models.Cell{}).Stage(stage)
-	__Cell__000004_Row_1_Cell_5 := (&models.Cell{}).Stage(stage)
-	__Cell__000005_Row_2_Cell_1 := (&models.Cell{}).Stage(stage)
-	__Cell__000006_Row_2_Cell_2 := (&models.Cell{}).Stage(stage)
-	__Cell__000007_Row_2_Cell_3 := (&models.Cell{}).Stage(stage)
-	__Cell__000008_Row_2_Cell_4 := (&models.Cell{}).Stage(stage)
-	__Cell__000009_Row_2_Cell_5 := (&models.Cell{}).Stage(stage)
-	__Cell__000010_T2_R1_A := (&models.Cell{}).Stage(stage)
-	__Cell__000011_T2_R1_B := (&models.Cell{}).Stage(stage)
-	__Cell__000012_T2_R2_A := (&models.Cell{}).Stage(stage)
-	__Cell__000013_T2_R2_B := (&models.Cell{}).Stage(stage)
-	__Cell__000014_T2_R3_A := (&models.Cell{}).Stage(stage)
-	__Cell__000015_T2_R3_B := (&models.Cell{}).Stage(stage)
+	__Cell__00000000_ := (&models.Cell{Name: `Row 1 - Cell 1`}).Stage(stage)
+	__Cell__00000001_ := (&models.Cell{Name: `Row 1 - Cell 2`}).Stage(stage)
+	__Cell__00000002_ := (&models.Cell{Name: `Row 1 - Cell 3`}).Stage(stage)
+	__Cell__00000003_ := (&models.Cell{Name: `Row 1 - Cell 4`}).Stage(stage)
+	__Cell__00000004_ := (&models.Cell{Name: `Row 1 - Cell 5`}).Stage(stage)
+	__Cell__00000005_ := (&models.Cell{Name: `Row 2 - Cell 1`}).Stage(stage)
+	__Cell__00000006_ := (&models.Cell{Name: `Row 2 - Cell 2`}).Stage(stage)
+	__Cell__00000007_ := (&models.Cell{Name: `Row 2 - Cell 3`}).Stage(stage)
+	__Cell__00000008_ := (&models.Cell{Name: `Row 2 - Cell 4`}).Stage(stage)
+	__Cell__00000009_ := (&models.Cell{Name: `Row 2 - Cell 5`}).Stage(stage)
+	__Cell__00000010_ := (&models.Cell{Name: `T2 - R1 - A`}).Stage(stage)
+	__Cell__00000011_ := (&models.Cell{Name: `T2 - R1 - B`}).Stage(stage)
+	__Cell__00000012_ := (&models.Cell{Name: `T2 - R2 - A`}).Stage(stage)
+	__Cell__00000013_ := (&models.Cell{Name: `T2 - R2 - B`}).Stage(stage)
+	__Cell__00000014_ := (&models.Cell{Name: `T2 - R3 - A`}).Stage(stage)
+	__Cell__00000015_ := (&models.Cell{Name: `T2 - R3 - B`}).Stage(stage)
 
-	__CellBoolean__000000_Row_1_Cell_1_Cell_False := (&models.CellBoolean{}).Stage(stage)
-	__CellBoolean__000001_Row_2_Cell_1_Cell_true := (&models.CellBoolean{}).Stage(stage)
+	__CellBoolean__00000000_ := (&models.CellBoolean{Name: `Row 1 -Cell 1 - Cell False`}).Stage(stage)
+	__CellBoolean__00000001_ := (&models.CellBoolean{Name: `Row 2 - Cell 1 - Cell true`}).Stage(stage)
 
-	__CellFloat64__000000_Row_1_Cell2_Float := (&models.CellFloat64{}).Stage(stage)
-	__CellFloat64__000001_Row_2_Cell_2_Float := (&models.CellFloat64{}).Stage(stage)
+	__CellFloat64__00000000_ := (&models.CellFloat64{Name: `Row 1 - Cell2 - Float`}).Stage(stage)
+	__CellFloat64__00000001_ := (&models.CellFloat64{Name: `Row 2 - Cell 2 - Float`}).Stage(stage)
 
-	__CellIcon__000000_Row_1_Cell_3_Delete := (&models.CellIcon{}).Stage(stage)
-	__CellIcon__000001_Row_2_Cell_3_home := (&models.CellIcon{}).Stage(stage)
+	__CellIcon__00000000_ := (&models.CellIcon{Name: `Row 1 - Cell 3 - Delete`}).Stage(stage)
+	__CellIcon__00000001_ := (&models.CellIcon{Name: `Row 2 - Cell 3 - home`}).Stage(stage)
 
-	__CellInt__000000_Row_1_Cell_4_Int := (&models.CellInt{}).Stage(stage)
-	__CellInt__000001_Row_2_Cell_4_Int := (&models.CellInt{}).Stage(stage)
+	__CellInt__00000000_ := (&models.CellInt{Name: `Row 1 - Cell 4 - Int`}).Stage(stage)
+	__CellInt__00000001_ := (&models.CellInt{Name: `Row 2 - Cell 4 - Int`}).Stage(stage)
 
-	__CellString__000000_Row_1_Cell_5 := (&models.CellString{}).Stage(stage)
-	__CellString__000001_Row_2_Cell_5 := (&models.CellString{}).Stage(stage)
-	__CellString__000002_T2_R1_A := (&models.CellString{}).Stage(stage)
-	__CellString__000003_T2_R1_B := (&models.CellString{}).Stage(stage)
-	__CellString__000004_T2_R2_A := (&models.CellString{}).Stage(stage)
-	__CellString__000005_T2_R2_B := (&models.CellString{}).Stage(stage)
-	__CellString__000006_T2_R3_A := (&models.CellString{}).Stage(stage)
-	__CellString__000007_T2_R3_B := (&models.CellString{}).Stage(stage)
+	__CellString__00000000_ := (&models.CellString{Name: `Row 1 - Cell 5`}).Stage(stage)
+	__CellString__00000001_ := (&models.CellString{Name: `Row 2 - Cell 5`}).Stage(stage)
+	__CellString__00000002_ := (&models.CellString{Name: `T2 - R1 - A`}).Stage(stage)
+	__CellString__00000003_ := (&models.CellString{Name: `T2 - R1 - B`}).Stage(stage)
+	__CellString__00000004_ := (&models.CellString{Name: `T2 - R2 - A`}).Stage(stage)
+	__CellString__00000005_ := (&models.CellString{Name: `T2 - R2 - B`}).Stage(stage)
+	__CellString__00000006_ := (&models.CellString{Name: `T2 - R3 - A`}).Stage(stage)
+	__CellString__00000007_ := (&models.CellString{Name: `T2 - R3 - B`}).Stage(stage)
 
-	__DisplayedColumn__000000_A := (&models.DisplayedColumn{}).Stage(stage)
-	__DisplayedColumn__000001_B := (&models.DisplayedColumn{}).Stage(stage)
-	__DisplayedColumn__000002_Column_1_Boolean := (&models.DisplayedColumn{}).Stage(stage)
-	__DisplayedColumn__000003_Column_2_Float64 := (&models.DisplayedColumn{}).Stage(stage)
-	__DisplayedColumn__000004_Column_3_Icon := (&models.DisplayedColumn{}).Stage(stage)
-	__DisplayedColumn__000005_Column_4_Int := (&models.DisplayedColumn{}).Stage(stage)
-	__DisplayedColumn__000006_Column_5_String := (&models.DisplayedColumn{}).Stage(stage)
+	__DisplayedColumn__00000000_ := (&models.DisplayedColumn{Name: `A`}).Stage(stage)
+	__DisplayedColumn__00000001_ := (&models.DisplayedColumn{Name: `B`}).Stage(stage)
+	__DisplayedColumn__00000002_ := (&models.DisplayedColumn{Name: `Column 1 - Boolean`}).Stage(stage)
+	__DisplayedColumn__00000003_ := (&models.DisplayedColumn{Name: `Column 2 - Float64`}).Stage(stage)
+	__DisplayedColumn__00000004_ := (&models.DisplayedColumn{Name: `Column 3 - Icon`}).Stage(stage)
+	__DisplayedColumn__00000005_ := (&models.DisplayedColumn{Name: `Column 4 - Int`}).Stage(stage)
+	__DisplayedColumn__00000006_ := (&models.DisplayedColumn{Name: `Column 5 - String`}).Stage(stage)
 
-	__Row__000000_Row_1 := (&models.Row{}).Stage(stage)
-	__Row__000001_Row_2 := (&models.Row{}).Stage(stage)
-	__Row__000002_Table_2_Row_1 := (&models.Row{}).Stage(stage)
-	__Row__000003_Table_2_Row_2 := (&models.Row{}).Stage(stage)
-	__Row__000004_Table_2_Row_3 := (&models.Row{}).Stage(stage)
+	__Row__00000000_ := (&models.Row{Name: `Row 1`}).Stage(stage)
+	__Row__00000001_ := (&models.Row{Name: `Row 2`}).Stage(stage)
+	__Row__00000002_ := (&models.Row{Name: `Table 2 - Row 1`}).Stage(stage)
+	__Row__00000003_ := (&models.Row{Name: `Table 2 - Row 2`}).Stage(stage)
+	__Row__00000004_ := (&models.Row{Name: `Table 2 - Row 3`}).Stage(stage)
 
-	__Table__000000_EmptyTable := (&models.Table{}).Stage(stage)
-	__Table__000001_Table_2 := (&models.Table{}).Stage(stage)
-	__Table__000002_Table_with_5_types := (&models.Table{}).Stage(stage)
+	__Table__00000000_ := (&models.Table{Name: `EmptyTable`}).Stage(stage)
+	__Table__00000001_ := (&models.Table{Name: `Table 2`}).Stage(stage)
+	__Table__00000002_ := (&models.Table{Name: `Table with 5 types`}).Stage(stage)
 
-	// Setup of values
+	// insertion point for initialization of values
 
-	__Cell__000000_Row_1_Cell_1.Name = `Row 1 - Cell 1`
+	__Cell__00000000_.Name = `Row 1 - Cell 1`
 
-	__Cell__000001_Row_1_Cell_2.Name = `Row 1 - Cell 2`
+	__Cell__00000001_.Name = `Row 1 - Cell 2`
 
-	__Cell__000002_Row_1_Cell_3.Name = `Row 1 - Cell 3`
+	__Cell__00000002_.Name = `Row 1 - Cell 3`
 
-	__Cell__000003_Row_1_Cell_4.Name = `Row 1 - Cell 4`
+	__Cell__00000003_.Name = `Row 1 - Cell 4`
 
-	__Cell__000004_Row_1_Cell_5.Name = `Row 1 - Cell 5`
+	__Cell__00000004_.Name = `Row 1 - Cell 5`
 
-	__Cell__000005_Row_2_Cell_1.Name = `Row 2 - Cell 1`
+	__Cell__00000005_.Name = `Row 2 - Cell 1`
 
-	__Cell__000006_Row_2_Cell_2.Name = `Row 2 - Cell 2`
+	__Cell__00000006_.Name = `Row 2 - Cell 2`
 
-	__Cell__000007_Row_2_Cell_3.Name = `Row 2 - Cell 3`
+	__Cell__00000007_.Name = `Row 2 - Cell 3`
 
-	__Cell__000008_Row_2_Cell_4.Name = `Row 2 - Cell 4`
+	__Cell__00000008_.Name = `Row 2 - Cell 4`
 
-	__Cell__000009_Row_2_Cell_5.Name = `Row 2 - Cell 5`
+	__Cell__00000009_.Name = `Row 2 - Cell 5`
 
-	__Cell__000010_T2_R1_A.Name = `T2 - R1 - A`
+	__Cell__00000010_.Name = `T2 - R1 - A`
 
-	__Cell__000011_T2_R1_B.Name = `T2 - R1 - B`
+	__Cell__00000011_.Name = `T2 - R1 - B`
 
-	__Cell__000012_T2_R2_A.Name = `T2 - R2 - A`
+	__Cell__00000012_.Name = `T2 - R2 - A`
 
-	__Cell__000013_T2_R2_B.Name = `T2 - R2 - B`
+	__Cell__00000013_.Name = `T2 - R2 - B`
 
-	__Cell__000014_T2_R3_A.Name = `T2 - R3 - A`
+	__Cell__00000014_.Name = `T2 - R3 - A`
 
-	__Cell__000015_T2_R3_B.Name = `T2 - R3 - B`
+	__Cell__00000015_.Name = `T2 - R3 - B`
 
-	__CellBoolean__000000_Row_1_Cell_1_Cell_False.Name = `Row 1 -Cell 1 - Cell False`
-	__CellBoolean__000000_Row_1_Cell_1_Cell_False.Value = false
+	__CellBoolean__00000000_.Name = `Row 1 -Cell 1 - Cell False`
+	__CellBoolean__00000000_.Value = false
 
-	__CellBoolean__000001_Row_2_Cell_1_Cell_true.Name = `Row 2 - Cell 1 - Cell true`
-	__CellBoolean__000001_Row_2_Cell_1_Cell_true.Value = true
+	__CellBoolean__00000001_.Name = `Row 2 - Cell 1 - Cell true`
+	__CellBoolean__00000001_.Value = true
 
-	__CellFloat64__000000_Row_1_Cell2_Float.Name = `Row 1 - Cell2 - Float`
-	__CellFloat64__000000_Row_1_Cell2_Float.Value = 20.433333
+	__CellFloat64__00000000_.Name = `Row 1 - Cell2 - Float`
+	__CellFloat64__00000000_.Value = 20.433333
 
-	__CellFloat64__000001_Row_2_Cell_2_Float.Name = `Row 2 - Cell 2 - Float`
-	__CellFloat64__000001_Row_2_Cell_2_Float.Value = 18.550000
+	__CellFloat64__00000001_.Name = `Row 2 - Cell 2 - Float`
+	__CellFloat64__00000001_.Value = 18.550000
 
-	__CellIcon__000000_Row_1_Cell_3_Delete.Name = `Row 1 - Cell 3 - Delete`
-	__CellIcon__000000_Row_1_Cell_3_Delete.Icon = `delete`
-	__CellIcon__000000_Row_1_Cell_3_Delete.NeedsConfirmation = true
-	__CellIcon__000000_Row_1_Cell_3_Delete.ConfirmationMessage = `Do you confirm deletion`
+	__CellIcon__00000000_.Name = `Row 1 - Cell 3 - Delete`
+	__CellIcon__00000000_.Icon = `delete`
+	__CellIcon__00000000_.NeedsConfirmation = true
+	__CellIcon__00000000_.ConfirmationMessage = `Do you confirm deletion`
 
-	__CellIcon__000001_Row_2_Cell_3_home.Name = `Row 2 - Cell 3 - home`
-	__CellIcon__000001_Row_2_Cell_3_home.Icon = `edit`
-	__CellIcon__000001_Row_2_Cell_3_home.NeedsConfirmation = false
-	__CellIcon__000001_Row_2_Cell_3_home.ConfirmationMessage = ``
+	__CellIcon__00000001_.Name = `Row 2 - Cell 3 - home`
+	__CellIcon__00000001_.Icon = `edit`
+	__CellIcon__00000001_.NeedsConfirmation = false
+	__CellIcon__00000001_.ConfirmationMessage = ``
 
-	__CellInt__000000_Row_1_Cell_4_Int.Name = `Row 1 - Cell 4 - Int`
-	__CellInt__000000_Row_1_Cell_4_Int.Value = 10
+	__CellInt__00000000_.Name = `Row 1 - Cell 4 - Int`
+	__CellInt__00000000_.Value = 10
 
-	__CellInt__000001_Row_2_Cell_4_Int.Name = `Row 2 - Cell 4 - Int`
-	__CellInt__000001_Row_2_Cell_4_Int.Value = 288
+	__CellInt__00000001_.Name = `Row 2 - Cell 4 - Int`
+	__CellInt__00000001_.Value = 288
 
-	__CellString__000000_Row_1_Cell_5.Name = `Row 1 - Cell 5`
-	__CellString__000000_Row_1_Cell_5.Value = `Je ferais le métier  des idoles antiques
+	__CellString__00000000_.Name = `Row 1 - Cell 5`
+	__CellString__00000000_.Value = `Je ferais le métier  des idoles antiques
 Et comme elles je veux me faire redorer`
 
-	__CellString__000001_Row_2_Cell_5.Name = `Row 2 - Cell 5`
-	__CellString__000001_Row_2_Cell_5.Value = `des idoles antiques`
+	__CellString__00000001_.Name = `Row 2 - Cell 5`
+	__CellString__00000001_.Value = `des idoles antiques`
 
-	__CellString__000002_T2_R1_A.Name = `T2 - R1 - A`
-	__CellString__000002_T2_R1_A.Value = `T2 - R1 - A`
+	__CellString__00000002_.Name = `T2 - R1 - A`
+	__CellString__00000002_.Value = `T2 - R1 - A`
 
-	__CellString__000003_T2_R1_B.Name = `T2 - R1 - B`
-	__CellString__000003_T2_R1_B.Value = `T2 - R1 - B`
+	__CellString__00000003_.Name = `T2 - R1 - B`
+	__CellString__00000003_.Value = `T2 - R1 - B`
 
-	__CellString__000004_T2_R2_A.Name = `T2 - R2 - A`
-	__CellString__000004_T2_R2_A.Value = `T2 - R2 - A`
+	__CellString__00000004_.Name = `T2 - R2 - A`
+	__CellString__00000004_.Value = `T2 - R2 - A`
 
-	__CellString__000005_T2_R2_B.Name = `T2 - R2 - B`
-	__CellString__000005_T2_R2_B.Value = `T2 - R2 - B`
+	__CellString__00000005_.Name = `T2 - R2 - B`
+	__CellString__00000005_.Value = `T2 - R2 - B`
 
-	__CellString__000006_T2_R3_A.Name = `T2 - R3 - A`
-	__CellString__000006_T2_R3_A.Value = `T2 - R3 - A`
+	__CellString__00000006_.Name = `T2 - R3 - A`
+	__CellString__00000006_.Value = `T2 - R3 - A`
 
-	__CellString__000007_T2_R3_B.Name = `T2 - R3 - B`
-	__CellString__000007_T2_R3_B.Value = `T2 - R3 - B`
+	__CellString__00000007_.Name = `T2 - R3 - B`
+	__CellString__00000007_.Value = `T2 - R3 - B`
 
-	__DisplayedColumn__000000_A.Name = `A`
+	__DisplayedColumn__00000000_.Name = `A`
 
-	__DisplayedColumn__000001_B.Name = `B`
+	__DisplayedColumn__00000001_.Name = `B`
 
-	__DisplayedColumn__000002_Column_1_Boolean.Name = `Column 1 - Boolean`
+	__DisplayedColumn__00000002_.Name = `Column 1 - Boolean`
 
-	__DisplayedColumn__000003_Column_2_Float64.Name = `Column 2 - Float64`
+	__DisplayedColumn__00000003_.Name = `Column 2 - Float64`
 
-	__DisplayedColumn__000004_Column_3_Icon.Name = `Column 3 - Icon`
+	__DisplayedColumn__00000004_.Name = `Column 3 - Icon`
 
-	__DisplayedColumn__000005_Column_4_Int.Name = `Column 4 - Int`
+	__DisplayedColumn__00000005_.Name = `Column 4 - Int`
 
-	__DisplayedColumn__000006_Column_5_String.Name = `Column 5 - String`
+	__DisplayedColumn__00000006_.Name = `Column 5 - String`
 
-	__Row__000000_Row_1.Name = `Row 1`
-	__Row__000000_Row_1.IsChecked = true
+	__Row__00000000_.Name = `Row 1`
+	__Row__00000000_.IsChecked = true
 
-	__Row__000001_Row_2.Name = `Row 2`
-	__Row__000001_Row_2.IsChecked = false
+	__Row__00000001_.Name = `Row 2`
+	__Row__00000001_.IsChecked = false
 
-	__Row__000002_Table_2_Row_1.Name = `Table 2 - Row 1`
-	__Row__000002_Table_2_Row_1.IsChecked = false
+	__Row__00000002_.Name = `Table 2 - Row 1`
+	__Row__00000002_.IsChecked = false
 
-	__Row__000003_Table_2_Row_2.Name = `Table 2 - Row 2`
-	__Row__000003_Table_2_Row_2.IsChecked = false
+	__Row__00000003_.Name = `Table 2 - Row 2`
+	__Row__00000003_.IsChecked = false
 
-	__Row__000004_Table_2_Row_3.Name = `Table 2 - Row 3`
-	__Row__000004_Table_2_Row_3.IsChecked = false
+	__Row__00000004_.Name = `Table 2 - Row 3`
+	__Row__00000004_.IsChecked = false
 
-	__Table__000000_EmptyTable.Name = `EmptyTable`
-	__Table__000000_EmptyTable.HasFiltering = false
-	__Table__000000_EmptyTable.HasColumnSorting = false
-	__Table__000000_EmptyTable.HasPaginator = false
-	__Table__000000_EmptyTable.HasCheckableRows = false
-	__Table__000000_EmptyTable.HasSaveButton = false
-	__Table__000000_EmptyTable.SaveButtonLabel = ``
-	__Table__000000_EmptyTable.CanDragDropRows = false
-	__Table__000000_EmptyTable.HasCloseButton = false
-	__Table__000000_EmptyTable.SavingInProgress = false
-	__Table__000000_EmptyTable.NbOfStickyColumns = 0
+	__Table__00000000_.Name = `EmptyTable`
+	__Table__00000000_.HasFiltering = false
+	__Table__00000000_.HasColumnSorting = false
+	__Table__00000000_.HasPaginator = false
+	__Table__00000000_.HasCheckableRows = false
+	__Table__00000000_.HasSaveButton = false
+	__Table__00000000_.SaveButtonLabel = ``
+	__Table__00000000_.CanDragDropRows = false
+	__Table__00000000_.HasCloseButton = false
+	__Table__00000000_.SavingInProgress = false
+	__Table__00000000_.NbOfStickyColumns = 0
 
-	__Table__000001_Table_2.Name = `Table 2`
-	__Table__000001_Table_2.HasFiltering = false
-	__Table__000001_Table_2.HasColumnSorting = false
-	__Table__000001_Table_2.HasPaginator = false
-	__Table__000001_Table_2.HasCheckableRows = false
-	__Table__000001_Table_2.HasSaveButton = true
-	__Table__000001_Table_2.SaveButtonLabel = ``
-	__Table__000001_Table_2.CanDragDropRows = true
-	__Table__000001_Table_2.HasCloseButton = true
-	__Table__000001_Table_2.SavingInProgress = false
-	__Table__000001_Table_2.NbOfStickyColumns = 0
+	__Table__00000001_.Name = `Table 2`
+	__Table__00000001_.HasFiltering = false
+	__Table__00000001_.HasColumnSorting = false
+	__Table__00000001_.HasPaginator = false
+	__Table__00000001_.HasCheckableRows = false
+	__Table__00000001_.HasSaveButton = true
+	__Table__00000001_.SaveButtonLabel = ``
+	__Table__00000001_.CanDragDropRows = true
+	__Table__00000001_.HasCloseButton = true
+	__Table__00000001_.SavingInProgress = false
+	__Table__00000001_.NbOfStickyColumns = 0
 
-	__Table__000002_Table_with_5_types.Name = `Table with 5 types`
-	__Table__000002_Table_with_5_types.HasFiltering = true
-	__Table__000002_Table_with_5_types.HasColumnSorting = true
-	__Table__000002_Table_with_5_types.HasPaginator = true
-	__Table__000002_Table_with_5_types.HasCheckableRows = true
-	__Table__000002_Table_with_5_types.HasSaveButton = true
-	__Table__000002_Table_with_5_types.SaveButtonLabel = ``
-	__Table__000002_Table_with_5_types.CanDragDropRows = false
-	__Table__000002_Table_with_5_types.HasCloseButton = false
-	__Table__000002_Table_with_5_types.SavingInProgress = false
-	__Table__000002_Table_with_5_types.NbOfStickyColumns = 3
+	__Table__00000002_.Name = `Table with 5 types`
+	__Table__00000002_.HasFiltering = true
+	__Table__00000002_.HasColumnSorting = true
+	__Table__00000002_.HasPaginator = true
+	__Table__00000002_.HasCheckableRows = true
+	__Table__00000002_.HasSaveButton = true
+	__Table__00000002_.SaveButtonLabel = ``
+	__Table__00000002_.CanDragDropRows = false
+	__Table__00000002_.HasCloseButton = false
+	__Table__00000002_.SavingInProgress = false
+	__Table__00000002_.NbOfStickyColumns = 3
 
-	// Setup of pointers
-	// setup of Cell instances pointers
-	__Cell__000000_Row_1_Cell_1.CellBool = __CellBoolean__000000_Row_1_Cell_1_Cell_False
-	__Cell__000001_Row_1_Cell_2.CellFloat64 = __CellFloat64__000000_Row_1_Cell2_Float
-	__Cell__000002_Row_1_Cell_3.CellIcon = __CellIcon__000000_Row_1_Cell_3_Delete
-	__Cell__000003_Row_1_Cell_4.CellInt = __CellInt__000000_Row_1_Cell_4_Int
-	__Cell__000004_Row_1_Cell_5.CellString = __CellString__000000_Row_1_Cell_5
-	__Cell__000005_Row_2_Cell_1.CellBool = __CellBoolean__000001_Row_2_Cell_1_Cell_true
-	__Cell__000006_Row_2_Cell_2.CellFloat64 = __CellFloat64__000001_Row_2_Cell_2_Float
-	__Cell__000007_Row_2_Cell_3.CellIcon = __CellIcon__000001_Row_2_Cell_3_home
-	__Cell__000008_Row_2_Cell_4.CellInt = __CellInt__000001_Row_2_Cell_4_Int
-	__Cell__000009_Row_2_Cell_5.CellString = __CellString__000001_Row_2_Cell_5
-	__Cell__000010_T2_R1_A.CellString = __CellString__000002_T2_R1_A
-	__Cell__000011_T2_R1_B.CellString = __CellString__000003_T2_R1_B
-	__Cell__000012_T2_R2_A.CellString = __CellString__000004_T2_R2_A
-	__Cell__000013_T2_R2_B.CellString = __CellString__000005_T2_R2_B
-	__Cell__000014_T2_R3_A.CellString = __CellString__000006_T2_R3_A
-	__Cell__000015_T2_R3_B.CellString = __CellString__000007_T2_R3_B
-	// setup of CellBoolean instances pointers
-	// setup of CellFloat64 instances pointers
-	// setup of CellIcon instances pointers
-	// setup of CellInt instances pointers
-	// setup of CellString instances pointers
-	// setup of DisplayedColumn instances pointers
-	// setup of Row instances pointers
-	__Row__000000_Row_1.Cells = append(__Row__000000_Row_1.Cells, __Cell__000000_Row_1_Cell_1)
-	__Row__000000_Row_1.Cells = append(__Row__000000_Row_1.Cells, __Cell__000001_Row_1_Cell_2)
-	__Row__000000_Row_1.Cells = append(__Row__000000_Row_1.Cells, __Cell__000002_Row_1_Cell_3)
-	__Row__000000_Row_1.Cells = append(__Row__000000_Row_1.Cells, __Cell__000003_Row_1_Cell_4)
-	__Row__000000_Row_1.Cells = append(__Row__000000_Row_1.Cells, __Cell__000004_Row_1_Cell_5)
-	__Row__000001_Row_2.Cells = append(__Row__000001_Row_2.Cells, __Cell__000005_Row_2_Cell_1)
-	__Row__000001_Row_2.Cells = append(__Row__000001_Row_2.Cells, __Cell__000006_Row_2_Cell_2)
-	__Row__000001_Row_2.Cells = append(__Row__000001_Row_2.Cells, __Cell__000007_Row_2_Cell_3)
-	__Row__000001_Row_2.Cells = append(__Row__000001_Row_2.Cells, __Cell__000008_Row_2_Cell_4)
-	__Row__000001_Row_2.Cells = append(__Row__000001_Row_2.Cells, __Cell__000009_Row_2_Cell_5)
-	__Row__000002_Table_2_Row_1.Cells = append(__Row__000002_Table_2_Row_1.Cells, __Cell__000011_T2_R1_B)
-	__Row__000002_Table_2_Row_1.Cells = append(__Row__000002_Table_2_Row_1.Cells, __Cell__000010_T2_R1_A)
-	__Row__000003_Table_2_Row_2.Cells = append(__Row__000003_Table_2_Row_2.Cells, __Cell__000013_T2_R2_B)
-	__Row__000003_Table_2_Row_2.Cells = append(__Row__000003_Table_2_Row_2.Cells, __Cell__000012_T2_R2_A)
-	__Row__000004_Table_2_Row_3.Cells = append(__Row__000004_Table_2_Row_3.Cells, __Cell__000014_T2_R3_A)
-	__Row__000004_Table_2_Row_3.Cells = append(__Row__000004_Table_2_Row_3.Cells, __Cell__000015_T2_R3_B)
-	// setup of Table instances pointers
-	__Table__000001_Table_2.DisplayedColumns = append(__Table__000001_Table_2.DisplayedColumns, __DisplayedColumn__000000_A)
-	__Table__000001_Table_2.Rows = append(__Table__000001_Table_2.Rows, __Row__000003_Table_2_Row_2)
-	__Table__000001_Table_2.Rows = append(__Table__000001_Table_2.Rows, __Row__000002_Table_2_Row_1)
-	__Table__000001_Table_2.Rows = append(__Table__000001_Table_2.Rows, __Row__000004_Table_2_Row_3)
-	__Table__000002_Table_with_5_types.DisplayedColumns = append(__Table__000002_Table_with_5_types.DisplayedColumns, __DisplayedColumn__000002_Column_1_Boolean)
-	__Table__000002_Table_with_5_types.DisplayedColumns = append(__Table__000002_Table_with_5_types.DisplayedColumns, __DisplayedColumn__000003_Column_2_Float64)
-	__Table__000002_Table_with_5_types.DisplayedColumns = append(__Table__000002_Table_with_5_types.DisplayedColumns, __DisplayedColumn__000004_Column_3_Icon)
-	__Table__000002_Table_with_5_types.DisplayedColumns = append(__Table__000002_Table_with_5_types.DisplayedColumns, __DisplayedColumn__000005_Column_4_Int)
-	__Table__000002_Table_with_5_types.DisplayedColumns = append(__Table__000002_Table_with_5_types.DisplayedColumns, __DisplayedColumn__000006_Column_5_String)
-	__Table__000002_Table_with_5_types.Rows = append(__Table__000002_Table_with_5_types.Rows, __Row__000000_Row_1)
-	__Table__000002_Table_with_5_types.Rows = append(__Table__000002_Table_with_5_types.Rows, __Row__000001_Row_2)
+	// insertion point for setup of pointers
+	__Cell__00000000_.CellString = nil
+	__Cell__00000000_.CellFloat64 = nil
+	__Cell__00000000_.CellInt = nil
+	__Cell__00000000_.CellBool = __CellBoolean__00000000_
+	__Cell__00000000_.CellIcon = nil
+	__Cell__00000001_.CellString = nil
+	__Cell__00000001_.CellFloat64 = __CellFloat64__00000000_
+	__Cell__00000001_.CellInt = nil
+	__Cell__00000001_.CellBool = nil
+	__Cell__00000001_.CellIcon = nil
+	__Cell__00000002_.CellString = nil
+	__Cell__00000002_.CellFloat64 = nil
+	__Cell__00000002_.CellInt = nil
+	__Cell__00000002_.CellBool = nil
+	__Cell__00000002_.CellIcon = __CellIcon__00000000_
+	__Cell__00000003_.CellString = nil
+	__Cell__00000003_.CellFloat64 = nil
+	__Cell__00000003_.CellInt = __CellInt__00000000_
+	__Cell__00000003_.CellBool = nil
+	__Cell__00000003_.CellIcon = nil
+	__Cell__00000004_.CellString = __CellString__00000000_
+	__Cell__00000004_.CellFloat64 = nil
+	__Cell__00000004_.CellInt = nil
+	__Cell__00000004_.CellBool = nil
+	__Cell__00000004_.CellIcon = nil
+	__Cell__00000005_.CellString = nil
+	__Cell__00000005_.CellFloat64 = nil
+	__Cell__00000005_.CellInt = nil
+	__Cell__00000005_.CellBool = __CellBoolean__00000001_
+	__Cell__00000005_.CellIcon = nil
+	__Cell__00000006_.CellString = nil
+	__Cell__00000006_.CellFloat64 = __CellFloat64__00000001_
+	__Cell__00000006_.CellInt = nil
+	__Cell__00000006_.CellBool = nil
+	__Cell__00000006_.CellIcon = nil
+	__Cell__00000007_.CellString = nil
+	__Cell__00000007_.CellFloat64 = nil
+	__Cell__00000007_.CellInt = nil
+	__Cell__00000007_.CellBool = nil
+	__Cell__00000007_.CellIcon = __CellIcon__00000001_
+	__Cell__00000008_.CellString = nil
+	__Cell__00000008_.CellFloat64 = nil
+	__Cell__00000008_.CellInt = __CellInt__00000001_
+	__Cell__00000008_.CellBool = nil
+	__Cell__00000008_.CellIcon = nil
+	__Cell__00000009_.CellString = __CellString__00000001_
+	__Cell__00000009_.CellFloat64 = nil
+	__Cell__00000009_.CellInt = nil
+	__Cell__00000009_.CellBool = nil
+	__Cell__00000009_.CellIcon = nil
+	__Cell__00000010_.CellString = __CellString__00000002_
+	__Cell__00000010_.CellFloat64 = nil
+	__Cell__00000010_.CellInt = nil
+	__Cell__00000010_.CellBool = nil
+	__Cell__00000010_.CellIcon = nil
+	__Cell__00000011_.CellString = __CellString__00000003_
+	__Cell__00000011_.CellFloat64 = nil
+	__Cell__00000011_.CellInt = nil
+	__Cell__00000011_.CellBool = nil
+	__Cell__00000011_.CellIcon = nil
+	__Cell__00000012_.CellString = __CellString__00000004_
+	__Cell__00000012_.CellFloat64 = nil
+	__Cell__00000012_.CellInt = nil
+	__Cell__00000012_.CellBool = nil
+	__Cell__00000012_.CellIcon = nil
+	__Cell__00000013_.CellString = __CellString__00000005_
+	__Cell__00000013_.CellFloat64 = nil
+	__Cell__00000013_.CellInt = nil
+	__Cell__00000013_.CellBool = nil
+	__Cell__00000013_.CellIcon = nil
+	__Cell__00000014_.CellString = __CellString__00000006_
+	__Cell__00000014_.CellFloat64 = nil
+	__Cell__00000014_.CellInt = nil
+	__Cell__00000014_.CellBool = nil
+	__Cell__00000014_.CellIcon = nil
+	__Cell__00000015_.CellString = __CellString__00000007_
+	__Cell__00000015_.CellFloat64 = nil
+	__Cell__00000015_.CellInt = nil
+	__Cell__00000015_.CellBool = nil
+	__Cell__00000015_.CellIcon = nil
+	__Row__00000000_.Cells = append(__Row__00000000_.Cells, __Cell__00000000_)
+	__Row__00000000_.Cells = append(__Row__00000000_.Cells, __Cell__00000001_)
+	__Row__00000000_.Cells = append(__Row__00000000_.Cells, __Cell__00000002_)
+	__Row__00000000_.Cells = append(__Row__00000000_.Cells, __Cell__00000003_)
+	__Row__00000000_.Cells = append(__Row__00000000_.Cells, __Cell__00000004_)
+	__Row__00000001_.Cells = append(__Row__00000001_.Cells, __Cell__00000005_)
+	__Row__00000001_.Cells = append(__Row__00000001_.Cells, __Cell__00000006_)
+	__Row__00000001_.Cells = append(__Row__00000001_.Cells, __Cell__00000007_)
+	__Row__00000001_.Cells = append(__Row__00000001_.Cells, __Cell__00000008_)
+	__Row__00000001_.Cells = append(__Row__00000001_.Cells, __Cell__00000009_)
+	__Row__00000002_.Cells = append(__Row__00000002_.Cells, __Cell__00000011_)
+	__Row__00000002_.Cells = append(__Row__00000002_.Cells, __Cell__00000010_)
+	__Row__00000003_.Cells = append(__Row__00000003_.Cells, __Cell__00000013_)
+	__Row__00000003_.Cells = append(__Row__00000003_.Cells, __Cell__00000012_)
+	__Row__00000004_.Cells = append(__Row__00000004_.Cells, __Cell__00000014_)
+	__Row__00000004_.Cells = append(__Row__00000004_.Cells, __Cell__00000015_)
+	__Table__00000001_.DisplayedColumns = append(__Table__00000001_.DisplayedColumns, __DisplayedColumn__00000000_)
+	__Table__00000001_.Rows = append(__Table__00000001_.Rows, __Row__00000003_)
+	__Table__00000001_.Rows = append(__Table__00000001_.Rows, __Row__00000002_)
+	__Table__00000001_.Rows = append(__Table__00000001_.Rows, __Row__00000004_)
+	__Table__00000002_.DisplayedColumns = append(__Table__00000002_.DisplayedColumns, __DisplayedColumn__00000002_)
+	__Table__00000002_.DisplayedColumns = append(__Table__00000002_.DisplayedColumns, __DisplayedColumn__00000003_)
+	__Table__00000002_.DisplayedColumns = append(__Table__00000002_.DisplayedColumns, __DisplayedColumn__00000004_)
+	__Table__00000002_.DisplayedColumns = append(__Table__00000002_.DisplayedColumns, __DisplayedColumn__00000005_)
+	__Table__00000002_.DisplayedColumns = append(__Table__00000002_.DisplayedColumns, __DisplayedColumn__00000006_)
+	__Table__00000002_.Rows = append(__Table__00000002_.Rows, __Row__00000000_)
+	__Table__00000002_.Rows = append(__Table__00000002_.Rows, __Row__00000001_)
 }

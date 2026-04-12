@@ -6,6 +6,7 @@ import { FrontRepo } from './front-repo.service';
 // insertion point for imports
 import { DisplayedColumn } from './displayedcolumn'
 import { Row } from './row'
+import { Button } from './button'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
@@ -32,6 +33,7 @@ export class Table {
 	// insertion point for pointers and slices of pointers declarations
 	DisplayedColumns: Array<DisplayedColumn> = []
 	Rows: Array<Row> = []
+	Buttons: Array<Button> = []
 
 	CreatedAt?: string
 	DeletedAt?: string
@@ -67,6 +69,11 @@ export function CopyTableToTableAPI(table: Table, tableAPI: TableAPI) {
 	tableAPI.TablePointersEncoding.Rows = []
 	for (let _row of table.Rows) {
 		tableAPI.TablePointersEncoding.Rows.push(_row.ID)
+	}
+
+	tableAPI.TablePointersEncoding.Buttons = []
+	for (let _button of table.Buttons) {
+		tableAPI.TablePointersEncoding.Buttons.push(_button.ID)
 	}
 
 }
@@ -119,6 +126,18 @@ export function CopyTableAPIToTable(tableAPI: TableAPI, table: Table, frontRepo:
 		let _row = frontRepo.map_ID_Row.get(_id)
 		if (_row != undefined) {
 			table.Rows.push(_row!)
+		}
+	}
+	if (!Array.isArray(tableAPI.TablePointersEncoding.Buttons)) {
+		console.error('Rects is not an array:', tableAPI.TablePointersEncoding.Buttons);
+		return;
+	}
+
+	table.Buttons = new Array<Button>()
+	for (let _id of tableAPI.TablePointersEncoding.Buttons) {
+		let _button = frontRepo.map_ID_Button.get(_id)
+		if (_button != undefined) {
+			table.Buttons.push(_button!)
 		}
 	}
 }

@@ -2,6 +2,22 @@
 package models
 
 // insertion point
+func (inst *Button) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "Table":
+		switch reverseField.Fieldname {
+		case "Buttons":
+			if _table, ok := stage.Table_Buttons_reverseMap[inst]; ok {
+				res = _table.Name
+			}
+		}
+	}
+	return
+}
+
 func (inst *Cell) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -249,6 +265,15 @@ func (inst *Row) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Revers
 	return
 }
 
+func (inst *SVGIcon) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
 func (inst *Table) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -259,6 +284,20 @@ func (inst *Table) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Reve
 }
 
 // insertion point
+func (inst *Button) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	case "Table":
+		switch reverseField.Fieldname {
+		case "Buttons":
+			res = stage.Table_Buttons_reverseMap[inst]
+		}
+	}
+	return res
+}
+
 func (inst *Cell) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
@@ -488,6 +527,15 @@ func (inst *Row) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseFie
 		case "Rows":
 			res = stage.Table_Rows_reverseMap[inst]
 		}
+	}
+	return res
+}
+
+func (inst *SVGIcon) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
 	}
 	return res
 }
