@@ -119,6 +119,7 @@
         "generate",
         "--skipGoModCommands",
         "--skipNpmWorkspaces",
+        "--stack-height=4",
         "go/models"
       ]
     },
@@ -134,6 +135,7 @@
         "generate",
         "--skipGoModCommands",
         "--skipNpmWorkspaces",
+        "--stack-height=4",
         "go/models"
       ]
     },
@@ -148,7 +150,6 @@
       "args": [
         "generate",
         "--skipGoModCommands",
-        "--level1",
         "go/models"
       ]
     },
@@ -162,7 +163,8 @@
       "group": "build",
       "args": [
         "generate",
-        "--clean"
+        "--clean",
+        "--stack-height=4"
       ]
     },
     {
@@ -176,7 +178,6 @@
       "args": [
         "generate",
         "--skipGoModCommands",
-        "--level1",
         "go/models"
       ]
     },
@@ -192,6 +193,7 @@
         "generate",
         "--skipGoModCommands",
         "--skipNpmWorkspaces",
+        "--stack-height=4",
         "go/models"
       ]
     },
@@ -207,6 +209,7 @@
         "generate",
         "--skipGoModCommands",
         "--skipNpmWorkspaces",
+        "--stack-height=4",
         "go/models"
       ]
     },
@@ -222,6 +225,7 @@
         "generate",
         "--skipGoModCommands",
         "--skipNpmWorkspaces",
+        "--stack-height=4",
         "go/models"
       ]
     },
@@ -236,7 +240,6 @@
       "args": [
         "generate",
         "--skipGoModCommands",
-        "--level1",
         "go/models"
       ]
     },
@@ -251,7 +254,6 @@
       "args": [
         "generate",
         "--skipGoModCommands",
-        "--level1",
         "go/models"
       ]
     },
@@ -265,7 +267,8 @@
       "group": "build",
       "args": [
         "generate",
-        "--clean"
+        "--clean",
+        "--stack-height=4"
       ]
     },
     {
@@ -279,7 +282,8 @@
       "args": [
         "generate",
         "--skipGoModCommands",
-        "--skipNg"
+        "--skipNg",
+        "--stack-height=4"
       ]
     },
     {
@@ -294,6 +298,7 @@
         "generate",
         "--skipGoModCommands",
         "--skipNpmWorkspaces",
+        "--stack-height=4",
         "go/models"
       ]
     },
@@ -308,7 +313,6 @@
       "args": [
         "generate",
         "--skipGoModCommands",
-        "--level1",
         "go/models"
       ]
     },
@@ -324,6 +328,7 @@
         "generate",
         "--skipGoModCommands",
         "--skipNpmWorkspaces",
+        "--stack-height=4",
         "go/models"
       ]
     },
@@ -339,6 +344,7 @@
         "generate",
         "--skipGoModCommands",
         "--skipNpmWorkspaces",
+        "--stack-height=4",
         "go/models"
       ]
     },
@@ -354,6 +360,7 @@
         "generate",
         "--skipGoModCommands",
         "--skipNpmWorkspaces",
+        "--stack-height=4",
         "go/models"
       ]
     },
@@ -368,7 +375,8 @@
       "args": [
         "generate",
         "--skipGoModCommands",
-        "--skipNpmWorkspaces"
+        "--skipNpmWorkspaces",
+        "--stack-height=4"
       ]
     },
     {
@@ -381,7 +389,8 @@
       "group": "build",
       "args": [
         "generate",
-        "--skipNg"
+        "--skipNg",
+        "--stack-height=4"
       ]
     },
     {
@@ -394,7 +403,8 @@
       "group": "build",
       "args": [
         "generate",
-        "--skipNpmWorkspaces"
+        "--skipNpmWorkspaces",
+        "--stack-height=4"
       ]
     },
     {
@@ -408,11 +418,25 @@
       "args": [
         "generate",
         "--skipGoModCommands",
-        "--skipNpmWorkspaces"
+        "--skipNpmWorkspaces",
+        "--stack-height=4"
       ]
     },
     {
-      "label": "01 - gong generate test3 --level1",
+      "label": "01 - gong generate test3",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}/test/test3/go/models"
+      },
+      "command": "gong",
+      "group": "build",
+      "args": [
+        "generate",
+        "--skipGoModCommands"
+      ]
+    },
+    {
+      "label": "01 - gong generate test3 --debouncedMarshall=true",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/test/test3/go/models"
@@ -422,21 +446,6 @@
       "args": [
         "generate",
         "--skipGoModCommands",
-        "--level1",
-      ]
-    },
-    {
-      "label": "01 - gong generate test3 --level1 --debouncedMarshall=true",
-      "type": "shell",
-      "options": {
-        "cwd": "${workspaceFolder}/test/test3/go/models"
-      },
-      "command": "gong",
-      "group": "build",
-      "args": [
-        "generate",
-        "--skipGoModCommands",
-        "--level1",
         "--debouncedMarshall=true"
       ]
     },
@@ -450,8 +459,7 @@
       "group": "build",
       "args": [
         "generate",
-        "--skipGoModCommands",
-        "--level1",
+        "--skipGoModCommands"
       ]
     },
     {
@@ -464,8 +472,7 @@
       "group": "build",
       "args": [
         "generate",
-        "--skipGoModCommands",
-        "--level1",
+        "--skipGoModCommands"
       ]
     },
     {
@@ -495,8 +502,7 @@
       "group": "build",
       "args": [
         "generate",
-        "--skipGoModCommands",
-        "--level1",
+        "--skipGoModCommands"
       ]
     },
     {
@@ -527,8 +533,7 @@
       "group": "build",
       "args": [
         "generate",
-        "--skipGoModCommands",
-        "--level1",
+        "--skipGoModCommands"
       ]
     },
     {
@@ -541,8 +546,7 @@
       "group": "build",
       "args": [
         "generate",
-        "--skipGoModCommands",
-        "--level1",
+        "--skipGoModCommands"
       ]
     },
     {
@@ -557,6 +561,7 @@
         "generate",
         "--skipGoModCommands",
         "--skipNpmWorkspaces",
+        "--stack-height=4",
         "go/models"
       ]
     },
@@ -572,6 +577,7 @@
         "generate",
         "--skipGoModCommands",
         "--skipNpmWorkspaces",
+        "--stack-height=4",
         "go/models"
       ]
     },
@@ -586,7 +592,6 @@
       "args": [
         "generate",
         "--skipGoModCommands",
-        "--level1",
         "go/models"
       ]
     },
@@ -602,6 +607,7 @@
         "generate",
         "--skipGoModCommands",
         "--skipNpmWorkspaces",
+        "--stack-height=4",
         "go/models"
       ]
     },
@@ -1178,45 +1184,27 @@
       "group": "build"
     },
     {
-      "label": "Create and Run Helloworld level4 Gong Example in /tmp",
+      "label": "Create and Run Helloworld --stack-height=4 Gong Example in /tmp",
+      "type": "shell",
+      "command": "rm -rf helloworld && mkdir helloworld && cd helloworld && mkdir -p go/models && echo \"package models\ntype Hello struct {\n  Name string\n  HelloType HelloType\n}\" > go/models/hello.go && echo \"package models\ntype Country struct {\n  Name string\n  Hello *Hello\n  AlternateHellos []*Hello\n}\" > go/models/country.go && echo \"package models\ntype HelloType string\nconst (\n  Casual HelloType = \\\"Casual\\\"\n  Formal HelloType = \\\"Formal\\\"\n)\" > go/models/hello_type.go && gong generate --stack-height=4 go/models && cd go/cmd/helloworld && ./helloworld -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage",
+      "options": {
+        "cwd": "/tmp"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "clear": true
+      },
+      "detail": "Creates a temporary 'helloworld' project in /tmp, runs gong and the compiled binary, then cleans up.",
+      "group": "build"
+    },
+    {
+      "label": "Create and Run Helloworld stack-height=0 Gong Example in /tmp",
       "type": "shell",
       "command": "rm -rf helloworld && mkdir helloworld && cd helloworld && mkdir -p go/models && echo \"package models\ntype Hello struct {\n  Name string\n  HelloType HelloType\n}\" > go/models/hello.go && echo \"package models\ntype Country struct {\n  Name string\n  Hello *Hello\n  AlternateHellos []*Hello\n}\" > go/models/country.go && echo \"package models\ntype HelloType string\nconst (\n  Casual HelloType = \\\"Casual\\\"\n  Formal HelloType = \\\"Formal\\\"\n)\" > go/models/hello_type.go && gong generate go/models && cd go/cmd/helloworld && ./helloworld -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage",
-      "options": {
-        "cwd": "/tmp"
-      },
-      "problemMatcher": [],
-      "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": true,
-        "panel": "shared",
-        "clear": true
-      },
-      "detail": "Creates a temporary 'helloworld' project in /tmp, runs gong and the compiled binary, then cleans up.",
-      "group": "build"
-    },
-    {
-      "label": "Create and Run Helloworld level1 Gong Example in /tmp",
-      "type": "shell",
-      "command": "rm -rf helloworld && mkdir helloworld && cd helloworld && mkdir -p go/models && echo \"package models\ntype Hello struct {\n  Name string\n  HelloType HelloType\n}\" > go/models/hello.go && echo \"package models\ntype Country struct {\n  Name string\n  Hello *Hello\n  AlternateHellos []*Hello\n}\" > go/models/country.go && echo \"package models\ntype HelloType string\nconst (\n  Casual HelloType = \\\"Casual\\\"\n  Formal HelloType = \\\"Formal\\\"\n)\" > go/models/hello_type.go && gong generate --level1 go/models && cd go/cmd/helloworld && ./helloworld -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage",
-      "options": {
-        "cwd": "/tmp"
-      },
-      "problemMatcher": [],
-      "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": true,
-        "panel": "shared",
-        "clear": true
-      },
-      "detail": "Creates a temporary 'helloworld' project in /tmp, runs gong and the compiled binary, then cleans up.",
-      "group": "build"
-    },
-    {
-      "label": "Create Helloworld level1 Gong Example in /tmp",
-      "type": "shell",
-      "command": "rm -rf helloworld && mkdir helloworld && cd helloworld && mkdir -p go/models && echo \"package models\ntype Hello struct {\n  Name string\n  HelloType HelloType\n}\" > go/models/hello.go && echo \"package models\ntype Country struct {\n  Name string\n  Hello *Hello\n  AlternateHellos []*Hello\n}\" > go/models/country.go && echo \"package models\ntype HelloType string\nconst (\n  Casual HelloType = \\\"Casual\\\"\n  Formal HelloType = \\\"Formal\\\"\n)\" > go/models/hello_type.go",
       "options": {
         "cwd": "/tmp"
       },
