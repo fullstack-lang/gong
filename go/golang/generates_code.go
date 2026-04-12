@@ -30,7 +30,8 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 	dbLite bool,
 	skipSerialize bool,
 	skipStager bool,
-	level1 bool,
+	stackHeight int,
+	withProbe bool,
 ) {
 	// generate main.go if absent
 	{
@@ -63,7 +64,7 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 				log.Println("directory " + dataDirPath + " allready exists")
 			}
 
-			if level1 {
+			if stackHeight == 0 {
 				gong_models.VerySimpleCodeGenerator(
 					modelPkg,
 					mainFilePath,
@@ -110,7 +111,7 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 		log.Println("directory " + modelPkg.DbOrmPkgGenPath + " allready exists")
 	}
 
-	if !level1 {
+	if stackHeight == 4 {
 		// generate directory for orm package
 		errd = os.MkdirAll(modelPkg.DbLiteOrmPkgGenPath, os.ModePerm)
 		if os.IsNotExist(errd) {
@@ -139,7 +140,7 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 		}
 	}
 
-	if level1 {
+	if stackHeight == 0 {
 		errd = os.MkdirAll(modelPkg.Level1StackPkgGenPath, os.ModePerm)
 		if os.IsNotExist(errd) {
 			log.Println("creating directory : " + modelPkg.Level1StackPkgGenPath)
@@ -193,7 +194,7 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 		EmebedGoDirTemplate)
 
 	template := fullstack.FullstackNewStackInstanceTemplate
-	if level1 {
+	if stackHeight == 0 {
 		template = fullstack.FullstackNewStackInstanceTemplateLevel1
 
 		gong_models.SimpleCodeGenerator(
@@ -207,7 +208,7 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 
 	// a level 1 application does not need the static files service since
 	// it uses the gong split static file
-	if !level1 {
+	if stackHeight == 4 {
 		gong_models.SimpleCodeGeneratorForGongStructWithNameField(
 			modelPkg,
 			caserEnglish.String(modelPkg.Name),
@@ -284,7 +285,7 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 
 	models.GongAst2(modelPkg, pkgPath)
 
-	if !level1 {
+	if stackHeight == 4 {
 		gong_models.SimpleCodeGeneratorForGongStructWithNameField(
 			modelPkg,
 			modelPkg.Name,
@@ -381,7 +382,7 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 
 	models.CodeGeneratorModelGongWop(modelPkg, modelPkg.Name, pkgPath)
 
-	if !level1 {
+	if stackHeight == 4 {
 
 		orm.MultiCodeGeneratorBackRepo(
 			modelPkg,
@@ -402,14 +403,14 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 		RootFileDocsTemplate,
 		map[string]string{})
 
-	probe.CodeGeneratorFillUpForm(
+	models.CodeGeneratorGongReverse(
 		modelPkg,
 		modelPkg.Name,
 		pkgPath,
 		modelPkg.PkgPath,
 	)
 
-	models.CodeGeneratorGongReverse(
+	probe.CodeGeneratorFillUpForm(
 		modelPkg,
 		modelPkg.Name,
 		pkgPath,

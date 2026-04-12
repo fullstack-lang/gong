@@ -36,6 +36,8 @@ var (
 	skipNpmInstall    bool
 	compileForDebug   bool
 	dbLite            bool
+	stackHeight       int
+	withProbe         bool
 )
 
 var generateCmd = &cobra.Command{
@@ -48,7 +50,19 @@ var generateCmd = &cobra.Command{
 		log.SetFlags(0)
 
 		if level1 {
+			stackHeight = 0
+		}
+
+		if stackHeight != 0 && stackHeight != 4 {
+			log.Fatalf("stack-height %d is not supported. Only 0 and 4 are supported.", stackHeight)
+		}
+
+		if stackHeight == 0 {
 			skipNg = true
+		}
+
+		if !withProbe {
+			log.Fatalf("--with-probe=false is not yet implemented")
 		}
 
 		var pkgPath string
@@ -66,7 +80,7 @@ var generateCmd = &cobra.Command{
 		modelPkg, _ := gong_models.LoadSource(modelStage, pkgPath)
 
 		// check wether the package name follows gong naming convention
-		if strings.ContainsAny(modelPkg.Name, "-") && !level1 {
+		if strings.ContainsAny(modelPkg.Name, "-") && stackHeight == 4 {
 			log.Panicln(modelPkg.Name + " is not OK for a gong package name because it contains a - (dash) " +
 				"and it cannot be used for naming a typescript class (in the generated front end lib)")
 		}
@@ -310,11 +324,11 @@ var generateCmd = &cobra.Command{
 
 		}
 
-		golang.GeneratesGoCode(modelPkg, pkgPath, skipCoder, dbLite, skipSerialize, skipStager, level1)
+		golang.GeneratesGoCode(modelPkg, pkgPath, skipCoder, dbLite, skipSerialize, skipStager, stackHeight, withProbe)
 
 		// since go mod vendor brings angular dependencies into the vendor directory
 		// the go mod vendor command has to be issued before the ng build command
-		if !skipNg && !level1 {
+		if !skipNg && stackHeight == 4 {
 			angular.GeneratesAngularCode(modelPkg, pkgPath, skipNpmInstall, skipGoModCommands, addr)
 		}
 
@@ -453,4 +467,6 @@ func init() {
 	generateCmd.Flags().BoolVar(&skipNpmInstall, "skipNpmInstall", false, "skip the npm install command")
 	generateCmd.Flags().BoolVar(&compileForDebug, "compileForDebug", false, "The go debugger can be slow to start (more than 60'). A workaround is to generate a go build with with '-N -l' options")
 	generateCmd.Flags().BoolVar(&dbLite, "dbLite", true, "If true, the database in all stack instances are purely in memory. If false, it is sqlite and can be persisted to a sqlite file")
+	generateCmd.Flags().IntVarP(&stackHeight, "stack-height", "s", 0, "stack height (0 or 4)")
+	generateCmd.Flags().BoolVarP(&withProbe, "with-probe", "p", true, "generate probe")
 }
