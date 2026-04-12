@@ -19,6 +19,7 @@
       ]
     },
     "outDir": "./dist/out-tsc",
+    "rootDir": "../../../..",
     "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
