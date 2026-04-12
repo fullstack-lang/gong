@@ -1,6 +1,8 @@
 // generated code - do not edit
 
 //insertion point for imports
+import { ButtonAPI } from './button-api'
+
 import { CellAPI } from './cell-api'
 
 import { CellBooleanAPI } from './cellboolean-api'
@@ -45,11 +47,15 @@ import { OptionAPI } from './option-api'
 
 import { RowAPI } from './row-api'
 
+import { SVGIconAPI } from './svgicon-api'
+
 import { TableAPI } from './table-api'
 
 
 export class BackRepoData {
 	// insertion point for declarations
+	ButtonAPIs = new Array<ButtonAPI>()
+
 	CellAPIs = new Array<CellAPI>()
 
 	CellBooleanAPIs = new Array<CellBooleanAPI>()
@@ -94,6 +100,8 @@ export class BackRepoData {
 
 	RowAPIs = new Array<RowAPI>()
 
+	SVGIconAPIs = new Array<SVGIconAPI>()
+
 	TableAPIs = new Array<TableAPI>()
 
 
@@ -102,6 +110,8 @@ export class BackRepoData {
 
 	constructor(data?: Partial<BackRepoData>) {
 		// insertion point for copies
+		this.ButtonAPIs = data?.ButtonAPIs || [];
+
 		this.CellAPIs = data?.CellAPIs || [];
 
 		this.CellBooleanAPIs = data?.CellBooleanAPIs || [];
@@ -145,6 +155,8 @@ export class BackRepoData {
 		this.OptionAPIs = data?.OptionAPIs || [];
 
 		this.RowAPIs = data?.RowAPIs || [];
+
+		this.SVGIconAPIs = data?.SVGIconAPIs || [];
 
 		this.TableAPIs = data?.TableAPIs || [];
 

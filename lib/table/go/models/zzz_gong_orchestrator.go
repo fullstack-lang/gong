@@ -2,6 +2,16 @@
 package models
 
 // insertion point
+// ButtonOrchestrator
+type ButtonOrchestrator struct {
+}
+
+func (orchestrator *ButtonOrchestrator) OnAfterUpdate(
+	gongsvgStage *Stage,
+	stagedButton, backRepoButton *Button) {
+
+	stagedButton.OnAfterUpdate(gongsvgStage, stagedButton, backRepoButton)
+}
 // CellIconOrchestrator
 type CellIconOrchestrator struct {
 }
@@ -69,6 +79,8 @@ func SetOrchestratorOnAfterUpdate[Type Gongstruct](stage *Stage) {
 
 	switch any(ret).(type) {
 	// insertion point
+	case Button:
+		stage.OnAfterButtonUpdateCallback = new(ButtonOrchestrator)
 	case CellIcon:
 		stage.OnAfterCellIconUpdateCallback = new(CellIconOrchestrator)
 	case FormEditAssocButton:

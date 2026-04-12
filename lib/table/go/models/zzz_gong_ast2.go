@@ -435,6 +435,47 @@ func GongUnmarshallEnum[T interface{ FromCodeString(string) error }](
 }
 
 // insertion point per named struct
+type ButtonUnmarshaller struct{}
+
+func (u *ButtonUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(Button)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *ButtonUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*Button)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Icon":
+		instance.Icon = GongExtractString(valueExpr)
+	case "SVGIcon":
+		GongUnmarshallPointer(&instance.SVGIcon, valueExpr, identifierMap)
+	case "IsDisabled":
+		instance.IsDisabled = GongExtractBool(valueExpr)
+	case "HasToolTip":
+		instance.HasToolTip = GongExtractBool(valueExpr)
+	case "ToolTipText":
+		instance.ToolTipText = GongExtractString(valueExpr)
+	case "ToolTipPosition":
+		GongUnmarshallEnum(&instance.ToolTipPosition, valueExpr)
+	}
+	return nil
+}
+
 type CellUnmarshaller struct{}
 
 func (u *CellUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -1229,6 +1270,37 @@ func (u *RowUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNam
 	return nil
 }
 
+type SVGIconUnmarshaller struct{}
+
+func (u *SVGIconUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(SVGIcon)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *SVGIconUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*SVGIcon)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "SVG":
+		instance.SVG = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
 type TableUnmarshaller struct{}
 
 func (u *TableUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -1278,6 +1350,8 @@ func (u *TableUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		instance.SavingInProgress = GongExtractBool(valueExpr)
 	case "NbOfStickyColumns":
 		instance.NbOfStickyColumns = GongExtractInt(valueExpr)
+	case "Buttons":
+		GongUnmarshallSliceOfPointers(&instance.Buttons, valueExpr, identifierMap)
 	}
 	return nil
 }

@@ -42,6 +42,7 @@ func NewStackInstance(
 
 	// add orchestration
 	// insertion point
+	models.SetOrchestratorOnAfterUpdate[models.Button](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Cell](stage)
 	models.SetOrchestratorOnAfterUpdate[models.CellBoolean](stage)
 	models.SetOrchestratorOnAfterUpdate[models.CellFloat64](stage)
@@ -64,6 +65,7 @@ func NewStackInstance(
 	models.SetOrchestratorOnAfterUpdate[models.FormSortAssocButton](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Option](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Row](stage)
+	models.SetOrchestratorOnAfterUpdate[models.SVGIcon](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Table](stage)
 
 	return

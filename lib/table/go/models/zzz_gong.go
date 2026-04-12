@@ -126,6 +126,20 @@ type Stage struct {
 	isWithGenesisCommit bool
 
 	// insertion point for definition of arrays registering instances
+	Buttons                map[*Button]struct{}
+	Buttons_instance       map[*Button]*Button
+	Buttons_mapString      map[string]*Button
+	ButtonOrder            uint
+	Button_stagedOrder     map[*Button]uint
+	Buttons_reference      map[*Button]*Button
+	Buttons_referenceOrder map[*Button]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterButtonCreateCallback OnAfterCreateInterface[Button]
+	OnAfterButtonUpdateCallback OnAfterUpdateInterface[Button]
+	OnAfterButtonDeleteCallback OnAfterDeleteInterface[Button]
+	OnAfterButtonReadCallback   OnAfterReadInterface[Button]
+
 	Cells                map[*Cell]struct{}
 	Cells_instance       map[*Cell]*Cell
 	Cells_mapString      map[string]*Cell
@@ -444,6 +458,20 @@ type Stage struct {
 	OnAfterRowDeleteCallback OnAfterDeleteInterface[Row]
 	OnAfterRowReadCallback   OnAfterReadInterface[Row]
 
+	SVGIcons                map[*SVGIcon]struct{}
+	SVGIcons_instance       map[*SVGIcon]*SVGIcon
+	SVGIcons_mapString      map[string]*SVGIcon
+	SVGIconOrder            uint
+	SVGIcon_stagedOrder     map[*SVGIcon]uint
+	SVGIcons_reference      map[*SVGIcon]*SVGIcon
+	SVGIcons_referenceOrder map[*SVGIcon]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterSVGIconCreateCallback OnAfterCreateInterface[SVGIcon]
+	OnAfterSVGIconUpdateCallback OnAfterUpdateInterface[SVGIcon]
+	OnAfterSVGIconDeleteCallback OnAfterDeleteInterface[SVGIcon]
+	OnAfterSVGIconReadCallback   OnAfterReadInterface[SVGIcon]
+
 	Tables                map[*Table]struct{}
 	Tables_instance       map[*Table]*Table
 	Tables_mapString      map[string]*Table
@@ -456,6 +484,8 @@ type Stage struct {
 	Table_DisplayedColumns_reverseMap map[*DisplayedColumn]*Table
 
 	Table_Rows_reverseMap map[*Row]*Table
+
+	Table_Buttons_reverseMap map[*Button]*Table
 
 	OnAfterTableCreateCallback OnAfterCreateInterface[Table]
 	OnAfterTableUpdateCallback OnAfterUpdateInterface[Table]
@@ -698,6 +728,10 @@ func (stage *Stage) Squash() {
 	stage.isSquashing = true
 
 	// insertion point for clear references
+	stage.Buttons_reference = make(map[*Button]*Button)
+	stage.Buttons_instance = make(map[*Button]*Button)
+	stage.Buttons_referenceOrder = make(map[*Button]uint)
+
 	stage.Cells_reference = make(map[*Cell]*Cell)
 	stage.Cells_instance = make(map[*Cell]*Cell)
 	stage.Cells_referenceOrder = make(map[*Cell]uint)
@@ -786,6 +820,10 @@ func (stage *Stage) Squash() {
 	stage.Rows_instance = make(map[*Row]*Row)
 	stage.Rows_referenceOrder = make(map[*Row]uint)
 
+	stage.SVGIcons_reference = make(map[*SVGIcon]*SVGIcon)
+	stage.SVGIcons_instance = make(map[*SVGIcon]*SVGIcon)
+	stage.SVGIcons_referenceOrder = make(map[*SVGIcon]uint)
+
 	stage.Tables_reference = make(map[*Table]*Table)
 	stage.Tables_instance = make(map[*Table]*Table)
 	stage.Tables_referenceOrder = make(map[*Table]uint)
@@ -817,6 +855,20 @@ func (stage *Stage) Squash() {
 // insertion point for max order recomputation
 func (stage *Stage) recomputeOrders() {
 	// insertion point for max order recomputation
+	var maxButtonOrder uint
+	var foundButton bool
+	for _, order := range stage.Button_stagedOrder {
+		if !foundButton || order > maxButtonOrder {
+			maxButtonOrder = order
+			foundButton = true
+		}
+	}
+	if foundButton {
+		stage.ButtonOrder = maxButtonOrder + 1
+	} else {
+		stage.ButtonOrder = 0
+	}
+
 	var maxCellOrder uint
 	var foundCell bool
 	for _, order := range stage.Cell_stagedOrder {
@@ -1125,6 +1177,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.RowOrder = 0
 	}
 
+	var maxSVGIconOrder uint
+	var foundSVGIcon bool
+	for _, order := range stage.SVGIcon_stagedOrder {
+		if !foundSVGIcon || order > maxSVGIconOrder {
+			maxSVGIconOrder = order
+			foundSVGIcon = true
+		}
+	}
+	if foundSVGIcon {
+		stage.SVGIconOrder = maxSVGIconOrder + 1
+	} else {
+		stage.SVGIconOrder = 0
+	}
+
 	var maxTableOrder uint
 	var foundTable bool
 	for _, order := range stage.Table_stagedOrder {
@@ -1200,6 +1266,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 	var t T
 	switch any(t).(type) {
 	// insertion point for case
+	case *Button:
+		tmp := GetStructInstancesByOrder(stage.Buttons, stage.Button_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *Button implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *Cell:
 		tmp := GetStructInstancesByOrder(stage.Cells, stage.Cell_stagedOrder)
 
@@ -1508,6 +1588,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *SVGIcon:
+		tmp := GetStructInstancesByOrder(stage.SVGIcons, stage.SVGIcon_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *SVGIcon implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *Table:
 		tmp := GetStructInstancesByOrder(stage.Tables, stage.Table_stagedOrder)
 
@@ -1551,6 +1645,8 @@ func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order 
 func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
 	switch namedStructName {
 	// insertion point for case
+	case "Button":
+		res = GetNamedStructInstances(stage.Buttons, stage.Button_stagedOrder)
 	case "Cell":
 		res = GetNamedStructInstances(stage.Cells, stage.Cell_stagedOrder)
 	case "CellBoolean":
@@ -1595,6 +1691,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.Options, stage.Option_stagedOrder)
 	case "Row":
 		res = GetNamedStructInstances(stage.Rows, stage.Row_stagedOrder)
+	case "SVGIcon":
+		res = GetNamedStructInstances(stage.SVGIcons, stage.SVGIcon_stagedOrder)
 	case "Table":
 		res = GetNamedStructInstances(stage.Tables, stage.Table_stagedOrder)
 	}
@@ -1666,6 +1764,8 @@ type BackRepoInterface interface {
 	BackupXL(stage *Stage, dirPath string)
 	RestoreXL(stage *Stage, dirPath string)
 	// insertion point for Commit and Checkout signatures
+	CommitButton(button *Button)
+	CheckoutButton(button *Button)
 	CommitCell(cell *Cell)
 	CheckoutCell(cell *Cell)
 	CommitCellBoolean(cellboolean *CellBoolean)
@@ -1710,6 +1810,8 @@ type BackRepoInterface interface {
 	CheckoutOption(option *Option)
 	CommitRow(row *Row)
 	CheckoutRow(row *Row)
+	CommitSVGIcon(svgicon *SVGIcon)
+	CheckoutSVGIcon(svgicon *SVGIcon)
 	CommitTable(table *Table)
 	CheckoutTable(table *Table)
 	GetLastCommitFromBackNb() uint
@@ -1718,6 +1820,9 @@ type BackRepoInterface interface {
 
 func NewStage(name string) (stage *Stage) {
 	stage = &Stage{ // insertion point for array initiatialisation
+		Buttons:           make(map[*Button]struct{}),
+		Buttons_mapString: make(map[string]*Button),
+
 		Cells:           make(map[*Cell]struct{}),
 		Cells_mapString: make(map[string]*Cell),
 
@@ -1784,6 +1889,9 @@ func NewStage(name string) (stage *Stage) {
 		Rows:           make(map[*Row]struct{}),
 		Rows_mapString: make(map[string]*Row),
 
+		SVGIcons:           make(map[*SVGIcon]struct{}),
+		SVGIcons_mapString: make(map[string]*SVGIcon),
+
 		Tables:           make(map[*Table]struct{}),
 		Tables_mapString: make(map[string]*Table),
 
@@ -1797,6 +1905,8 @@ func NewStage(name string) (stage *Stage) {
 		// the to be removed stops here
 
 		// insertion point for order map initialisations
+		Button_stagedOrder: make(map[*Button]uint),
+
 		Cell_stagedOrder: make(map[*Cell]uint),
 
 		CellBoolean_stagedOrder: make(map[*CellBoolean]uint),
@@ -1841,10 +1951,14 @@ func NewStage(name string) (stage *Stage) {
 
 		Row_stagedOrder: make(map[*Row]uint),
 
+		SVGIcon_stagedOrder: make(map[*SVGIcon]uint),
+
 		Table_stagedOrder: make(map[*Table]uint),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
+			"Button": &ButtonUnmarshaller{},
+
 			"Cell": &CellUnmarshaller{},
 
 			"CellBoolean": &CellBooleanUnmarshaller{},
@@ -1889,12 +2003,15 @@ func NewStage(name string) (stage *Stage) {
 
 			"Row": &RowUnmarshaller{},
 
+			"SVGIcon": &SVGIconUnmarshaller{},
+
 			"Table": &TableUnmarshaller{},
 
 			// end of insertion point
 		},
 
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
+			{name: "Button"},
 			{name: "Cell"},
 			{name: "CellBoolean"},
 			{name: "CellFloat64"},
@@ -1917,6 +2034,7 @@ func NewStage(name string) (stage *Stage) {
 			{name: "FormSortAssocButton"},
 			{name: "Option"},
 			{name: "Row"},
+			{name: "SVGIcon"},
 			{name: "Table"},
 		}, // end of insertion point
 
@@ -1929,6 +2047,8 @@ func NewStage(name string) (stage *Stage) {
 func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
+	case *Button:
+		return stage.Button_stagedOrder[instance]
 	case *Cell:
 		return stage.Cell_stagedOrder[instance]
 	case *CellBoolean:
@@ -1973,6 +2093,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.Option_stagedOrder[instance]
 	case *Row:
 		return stage.Row_stagedOrder[instance]
+	case *SVGIcon:
+		return stage.SVGIcon_stagedOrder[instance]
 	case *Table:
 		return stage.Table_stagedOrder[instance]
 	default:
@@ -1983,6 +2105,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) uint {
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
+	case *Button:
+		return stage.Button_stagedOrder[instance]
 	case *Cell:
 		return stage.Cell_stagedOrder[instance]
 	case *CellBoolean:
@@ -2027,6 +2151,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.Option_stagedOrder[instance]
 	case *Row:
 		return stage.Row_stagedOrder[instance]
+	case *SVGIcon:
+		return stage.SVGIcon_stagedOrder[instance]
 	case *Table:
 		return stage.Table_stagedOrder[instance]
 	default:
@@ -2094,6 +2220,7 @@ func (stage *Stage) Commit() {
 
 func (stage *Stage) ComputeInstancesNb() {
 	// insertion point for computing the map of number of instances per gongstruct
+	stage.Map_GongStructName_InstancesNb["Button"] = len(stage.Buttons)
 	stage.Map_GongStructName_InstancesNb["Cell"] = len(stage.Cells)
 	stage.Map_GongStructName_InstancesNb["CellBoolean"] = len(stage.CellBooleans)
 	stage.Map_GongStructName_InstancesNb["CellFloat64"] = len(stage.CellFloat64s)
@@ -2116,6 +2243,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["FormSortAssocButton"] = len(stage.FormSortAssocButtons)
 	stage.Map_GongStructName_InstancesNb["Option"] = len(stage.Options)
 	stage.Map_GongStructName_InstancesNb["Row"] = len(stage.Rows)
+	stage.Map_GongStructName_InstancesNb["SVGIcon"] = len(stage.SVGIcons)
 	stage.Map_GongStructName_InstancesNb["Table"] = len(stage.Tables)
 }
 
@@ -2157,6 +2285,92 @@ func (stage *Stage) RestoreXL(dirPath string) {
 }
 
 // insertion point for cumulative sub template with model space calls
+// Stage puts button to the model stage
+func (button *Button) Stage(stage *Stage) *Button {
+	if _, ok := stage.Buttons[button]; !ok {
+		stage.Buttons[button] = struct{}{}
+		stage.Button_stagedOrder[button] = stage.ButtonOrder
+		stage.ButtonOrder++
+	}
+	stage.Buttons_mapString[button.Name] = button
+
+	return button
+}
+
+// StagePreserveOrder puts button to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ButtonOrder
+// - update stage.ButtonOrder accordingly
+func (button *Button) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.Buttons[button]; !ok {
+		stage.Buttons[button] = struct{}{}
+
+		if order > stage.ButtonOrder {
+			stage.ButtonOrder = order
+		}
+		stage.Button_stagedOrder[button] = order
+		stage.ButtonOrder++
+	}
+	stage.Buttons_mapString[button.Name] = button
+}
+
+// Unstage removes button off the model stage
+func (button *Button) Unstage(stage *Stage) *Button {
+	delete(stage.Buttons, button)
+	// issue1150
+	// delete(stage.Button_stagedOrder, button)
+	delete(stage.Buttons_mapString, button.Name)
+
+	return button
+}
+
+// UnstageVoid removes button off the model stage
+func (button *Button) UnstageVoid(stage *Stage) {
+	delete(stage.Buttons, button)
+	// issue1150
+	// delete(stage.Button_stagedOrder, button)
+	delete(stage.Buttons_mapString, button.Name)
+}
+
+// commit button to the back repo (if it is already staged)
+func (button *Button) Commit(stage *Stage) *Button {
+	if _, ok := stage.Buttons[button]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitButton(button)
+		}
+	}
+	return button
+}
+
+func (button *Button) CommitVoid(stage *Stage) {
+	button.Commit(stage)
+}
+
+func (button *Button) StageVoid(stage *Stage) {
+	button.Stage(stage)
+}
+
+// Checkout button to the back repo (if it is already staged)
+func (button *Button) Checkout(stage *Stage) *Button {
+	if _, ok := stage.Buttons[button]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutButton(button)
+		}
+	}
+	return button
+}
+
+// for satisfaction of GongStruct interface
+func (button *Button) GetName() (res string) {
+	return button.Name
+}
+
+// for satisfaction of GongStruct interface
+func (button *Button) SetName(name string) {
+	button.Name = name
+}
+
 // Stage puts cell to the model stage
 func (cell *Cell) Stage(stage *Stage) *Cell {
 	if _, ok := stage.Cells[cell]; !ok {
@@ -4049,6 +4263,92 @@ func (row *Row) SetName(name string) {
 	row.Name = name
 }
 
+// Stage puts svgicon to the model stage
+func (svgicon *SVGIcon) Stage(stage *Stage) *SVGIcon {
+	if _, ok := stage.SVGIcons[svgicon]; !ok {
+		stage.SVGIcons[svgicon] = struct{}{}
+		stage.SVGIcon_stagedOrder[svgicon] = stage.SVGIconOrder
+		stage.SVGIconOrder++
+	}
+	stage.SVGIcons_mapString[svgicon.Name] = svgicon
+
+	return svgicon
+}
+
+// StagePreserveOrder puts svgicon to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.SVGIconOrder
+// - update stage.SVGIconOrder accordingly
+func (svgicon *SVGIcon) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.SVGIcons[svgicon]; !ok {
+		stage.SVGIcons[svgicon] = struct{}{}
+
+		if order > stage.SVGIconOrder {
+			stage.SVGIconOrder = order
+		}
+		stage.SVGIcon_stagedOrder[svgicon] = order
+		stage.SVGIconOrder++
+	}
+	stage.SVGIcons_mapString[svgicon.Name] = svgicon
+}
+
+// Unstage removes svgicon off the model stage
+func (svgicon *SVGIcon) Unstage(stage *Stage) *SVGIcon {
+	delete(stage.SVGIcons, svgicon)
+	// issue1150
+	// delete(stage.SVGIcon_stagedOrder, svgicon)
+	delete(stage.SVGIcons_mapString, svgicon.Name)
+
+	return svgicon
+}
+
+// UnstageVoid removes svgicon off the model stage
+func (svgicon *SVGIcon) UnstageVoid(stage *Stage) {
+	delete(stage.SVGIcons, svgicon)
+	// issue1150
+	// delete(stage.SVGIcon_stagedOrder, svgicon)
+	delete(stage.SVGIcons_mapString, svgicon.Name)
+}
+
+// commit svgicon to the back repo (if it is already staged)
+func (svgicon *SVGIcon) Commit(stage *Stage) *SVGIcon {
+	if _, ok := stage.SVGIcons[svgicon]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitSVGIcon(svgicon)
+		}
+	}
+	return svgicon
+}
+
+func (svgicon *SVGIcon) CommitVoid(stage *Stage) {
+	svgicon.Commit(stage)
+}
+
+func (svgicon *SVGIcon) StageVoid(stage *Stage) {
+	svgicon.Stage(stage)
+}
+
+// Checkout svgicon to the back repo (if it is already staged)
+func (svgicon *SVGIcon) Checkout(stage *Stage) *SVGIcon {
+	if _, ok := stage.SVGIcons[svgicon]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutSVGIcon(svgicon)
+		}
+	}
+	return svgicon
+}
+
+// for satisfaction of GongStruct interface
+func (svgicon *SVGIcon) GetName() (res string) {
+	return svgicon.Name
+}
+
+// for satisfaction of GongStruct interface
+func (svgicon *SVGIcon) SetName(name string) {
+	svgicon.Name = name
+}
+
 // Stage puts table to the model stage
 func (table *Table) Stage(stage *Stage) *Table {
 	if _, ok := stage.Tables[table]; !ok {
@@ -4137,6 +4437,7 @@ func (table *Table) SetName(name string) {
 
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
+	CreateORMButton(Button *Button)
 	CreateORMCell(Cell *Cell)
 	CreateORMCellBoolean(CellBoolean *CellBoolean)
 	CreateORMCellFloat64(CellFloat64 *CellFloat64)
@@ -4159,10 +4460,12 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMFormSortAssocButton(FormSortAssocButton *FormSortAssocButton)
 	CreateORMOption(Option *Option)
 	CreateORMRow(Row *Row)
+	CreateORMSVGIcon(SVGIcon *SVGIcon)
 	CreateORMTable(Table *Table)
 }
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
+	DeleteORMButton(Button *Button)
 	DeleteORMCell(Cell *Cell)
 	DeleteORMCellBoolean(CellBoolean *CellBoolean)
 	DeleteORMCellFloat64(CellFloat64 *CellFloat64)
@@ -4185,10 +4488,16 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMFormSortAssocButton(FormSortAssocButton *FormSortAssocButton)
 	DeleteORMOption(Option *Option)
 	DeleteORMRow(Row *Row)
+	DeleteORMSVGIcon(SVGIcon *SVGIcon)
 	DeleteORMTable(Table *Table)
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
+	stage.Buttons = make(map[*Button]struct{})
+	stage.Buttons_mapString = make(map[string]*Button)
+	stage.Button_stagedOrder = make(map[*Button]uint)
+	stage.ButtonOrder = 0
+
 	stage.Cells = make(map[*Cell]struct{})
 	stage.Cells_mapString = make(map[string]*Cell)
 	stage.Cell_stagedOrder = make(map[*Cell]uint)
@@ -4299,6 +4608,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Row_stagedOrder = make(map[*Row]uint)
 	stage.RowOrder = 0
 
+	stage.SVGIcons = make(map[*SVGIcon]struct{})
+	stage.SVGIcons_mapString = make(map[string]*SVGIcon)
+	stage.SVGIcon_stagedOrder = make(map[*SVGIcon]uint)
+	stage.SVGIconOrder = 0
+
 	stage.Tables = make(map[*Table]struct{})
 	stage.Tables_mapString = make(map[string]*Table)
 	stage.Table_stagedOrder = make(map[*Table]uint)
@@ -4313,6 +4627,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 }
 
 func (stage *Stage) Nil() { // insertion point for array nil
+	stage.Buttons = nil
+	stage.Buttons_mapString = nil
+
 	stage.Cells = nil
 	stage.Cells_mapString = nil
 
@@ -4379,6 +4696,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.Rows = nil
 	stage.Rows_mapString = nil
 
+	stage.SVGIcons = nil
+	stage.SVGIcons_mapString = nil
+
 	stage.Tables = nil
 	stage.Tables_mapString = nil
 
@@ -4386,6 +4706,10 @@ func (stage *Stage) Nil() { // insertion point for array nil
 }
 
 func (stage *Stage) Unstage() { // insertion point for array nil
+	for button := range stage.Buttons {
+		button.Unstage(stage)
+	}
+
 	for cell := range stage.Cells {
 		cell.Unstage(stage)
 	}
@@ -4474,6 +4798,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 		row.Unstage(stage)
 	}
 
+	for svgicon := range stage.SVGIcons {
+		svgicon.Unstage(stage)
+	}
+
 	for table := range stage.Tables {
 		table.Unstage(stage)
 	}
@@ -4554,6 +4882,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
+	case map[*Button]any:
+		return any(&stage.Buttons).(*Type)
 	case map[*Cell]any:
 		return any(&stage.Cells).(*Type)
 	case map[*CellBoolean]any:
@@ -4598,6 +4928,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.Options).(*Type)
 	case map[*Row]any:
 		return any(&stage.Rows).(*Type)
+	case map[*SVGIcon]any:
+		return any(&stage.SVGIcons).(*Type)
 	case map[*Table]any:
 		return any(&stage.Tables).(*Type)
 	default:
@@ -4612,6 +4944,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
+	case *Button:
+		return any(stage.Buttons_mapString).(map[string]Type)
 	case *Cell:
 		return any(stage.Cells_mapString).(map[string]Type)
 	case *CellBoolean:
@@ -4656,6 +4990,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.Options_mapString).(map[string]Type)
 	case *Row:
 		return any(stage.Rows_mapString).(map[string]Type)
+	case *SVGIcon:
+		return any(stage.SVGIcons_mapString).(map[string]Type)
 	case *Table:
 		return any(stage.Tables_mapString).(map[string]Type)
 	default:
@@ -4670,6 +5006,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
+	case Button:
+		return any(&stage.Buttons).(*map[*Type]struct{})
 	case Cell:
 		return any(&stage.Cells).(*map[*Type]struct{})
 	case CellBoolean:
@@ -4714,6 +5052,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.Options).(*map[*Type]struct{})
 	case Row:
 		return any(&stage.Rows).(*map[*Type]struct{})
+	case SVGIcon:
+		return any(&stage.SVGIcons).(*map[*Type]struct{})
 	case Table:
 		return any(&stage.Tables).(*map[*Type]struct{})
 	default:
@@ -4728,6 +5068,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
+	case *Button:
+		return any(&stage.Buttons).(*map[Type]struct{})
 	case *Cell:
 		return any(&stage.Cells).(*map[Type]struct{})
 	case *CellBoolean:
@@ -4772,6 +5114,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.Options).(*map[Type]struct{})
 	case *Row:
 		return any(&stage.Rows).(*map[Type]struct{})
+	case *SVGIcon:
+		return any(&stage.SVGIcons).(*map[Type]struct{})
 	case *Table:
 		return any(&stage.Tables).(*map[Type]struct{})
 	default:
@@ -4786,6 +5130,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
+	case Button:
+		return any(&stage.Buttons_mapString).(*map[string]*Type)
 	case Cell:
 		return any(&stage.Cells_mapString).(*map[string]*Type)
 	case CellBoolean:
@@ -4830,6 +5176,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.Options_mapString).(*map[string]*Type)
 	case Row:
 		return any(&stage.Rows_mapString).(*map[string]*Type)
+	case SVGIcon:
+		return any(&stage.SVGIcons_mapString).(*map[string]*Type)
 	case Table:
 		return any(&stage.Tables_mapString).(*map[string]*Type)
 	default:
@@ -4846,6 +5194,12 @@ func GetAssociationName[Type Gongstruct]() *Type {
 
 	switch any(ret).(type) {
 	// insertion point for instance with special fields
+	case Button:
+		return any(&Button{
+			// Initialisation of associations
+			// field is initialized with an instance of SVGIcon with the name of the field
+			SVGIcon: &SVGIcon{Name: "SVGIcon"},
+		}).(*Type)
 	case Cell:
 		return any(&Cell{
 			// Initialisation of associations
@@ -4976,6 +5330,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// field is initialized with an instance of Cell with the name of the field
 			Cells: []*Cell{{Name: "Cells"}},
 		}).(*Type)
+	case SVGIcon:
+		return any(&SVGIcon{
+			// Initialisation of associations
+		}).(*Type)
 	case Table:
 		return any(&Table{
 			// Initialisation of associations
@@ -4983,6 +5341,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			DisplayedColumns: []*DisplayedColumn{{Name: "DisplayedColumns"}},
 			// field is initialized with an instance of Row with the name of the field
 			Rows: []*Row{{Name: "Rows"}},
+			// field is initialized with an instance of Button with the name of the field
+			Buttons: []*Button{{Name: "Buttons"}},
 		}).(*Type)
 	default:
 		return nil
@@ -5001,6 +5361,28 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 
 	switch any(ret).(type) {
 	// insertion point of functions that provide maps for reverse associations
+	// reverse maps of direct associations of Button
+	case Button:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "SVGIcon":
+			res := make(map[*SVGIcon][]*Button)
+			for button := range stage.Buttons {
+				if button.SVGIcon != nil {
+					svgicon_ := button.SVGIcon
+					var buttons []*Button
+					_, ok := res[svgicon_]
+					if ok {
+						buttons = res[svgicon_]
+					} else {
+						buttons = make([]*Button, 0)
+					}
+					buttons = append(buttons, button)
+					res[svgicon_] = buttons
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
 	// reverse maps of direct associations of Cell
 	case Cell:
 		switch fieldname {
@@ -5383,6 +5765,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of SVGIcon
+	case SVGIcon:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of Table
 	case Table:
 		switch fieldname {
@@ -5403,6 +5790,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 
 	switch any(ret).(type) {
 	// insertion point of functions that provide maps for reverse associations
+	// reverse maps of direct associations of Button
+	case Button:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of Cell
 	case Cell:
 		switch fieldname {
@@ -5553,6 +5945,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			}
 			return any(res).(map[*End][]*Start)
 		}
+	// reverse maps of direct associations of SVGIcon
+	case SVGIcon:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of Table
 	case Table:
 		switch fieldname {
@@ -5573,6 +5970,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "Buttons":
+			res := make(map[*Button][]*Table)
+			for table := range stage.Tables {
+				for _, button_ := range table.Buttons {
+					res[button_] = append(res[button_], table)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	}
 	return nil
@@ -5585,6 +5990,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
+	case *Button:
+		res = "Button"
 	case *Cell:
 		res = "Cell"
 	case *CellBoolean:
@@ -5629,6 +6036,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "Option"
 	case *Row:
 		res = "Row"
+	case *SVGIcon:
+		res = "SVGIcon"
 	case *Table:
 		res = "Table"
 	}
@@ -5648,6 +6057,12 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	switch any(ret).(type) {
 
 	// insertion point for generic get gongstruct name
+	case *Button:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Table"
+		rf.Fieldname = "Buttons"
+		res = append(res, rf)
 	case *Cell:
 		var rf ReverseField
 		_ = rf
@@ -5735,6 +6150,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.GongstructName = "Table"
 		rf.Fieldname = "Rows"
 		res = append(res, rf)
+	case *SVGIcon:
+		var rf ReverseField
+		_ = rf
 	case *Table:
 		var rf ReverseField
 		_ = rf
@@ -5743,6 +6161,43 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 }
 
 // insertion point for get fields header method
+func (button *Button) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "Icon",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "SVGIcon",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "SVGIcon",
+		},
+		{
+			Name:               "IsDisabled",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "HasToolTip",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "ToolTipText",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "ToolTipPosition",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "ToolTipPositionEnum",
+		},
+	}
+	return
+}
+
 func (cell *Cell) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -6283,6 +6738,21 @@ func (row *Row) GongGetFieldHeaders() (res []GongFieldHeader) {
 	return
 }
 
+func (svgicon *SVGIcon) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "SVG",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
 func (table *Table) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -6339,6 +6809,11 @@ func (table *Table) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "NbOfStickyColumns",
 			GongFieldValueType: GongFieldValueTypeInt,
+		},
+		{
+			Name:                 "Buttons",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Button",
 		},
 	}
 	return
@@ -6399,6 +6874,36 @@ func (gongValueField *GongFieldValue) GetValueBool() bool {
 }
 
 // insertion point for generic get gongstruct field value
+func (button *Button) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = button.Name
+	case "Icon":
+		res.valueString = button.Icon
+	case "SVGIcon":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if button.SVGIcon != nil {
+			res.valueString = button.SVGIcon.Name
+			res.ids = button.SVGIcon.GongGetUUID(stage)
+		}
+	case "IsDisabled":
+		res.valueString = fmt.Sprintf("%t", button.IsDisabled)
+		res.valueBool = button.IsDisabled
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "HasToolTip":
+		res.valueString = fmt.Sprintf("%t", button.HasToolTip)
+		res.valueBool = button.HasToolTip
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ToolTipText":
+		res.valueString = button.ToolTipText
+	case "ToolTipPosition":
+		enum := button.ToolTipPosition
+		res.valueString = enum.ToCodeString()
+	}
+	return
+}
+
 func (cell *Cell) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -6900,6 +7405,17 @@ func (row *Row) GongGetFieldValue(fieldName string, stage *Stage) (res GongField
 	return
 }
 
+func (svgicon *SVGIcon) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = svgicon.Name
+	case "SVG":
+		res.valueString = svgicon.SVG
+	}
+	return
+}
+
 func (table *Table) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -6963,6 +7479,16 @@ func (table *Table) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 		res.valueString = fmt.Sprintf("%d", table.NbOfStickyColumns)
 		res.valueInt = table.NbOfStickyColumns
 		res.GongFieldValueType = GongFieldValueTypeInt
+	case "Buttons":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range table.Buttons {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	}
 	return
 }
@@ -6973,6 +7499,38 @@ func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, sta
 }
 
 // insertion point for generic set gongstruct field value
+func (button *Button) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		button.Name = value.GetValueString()
+	case "Icon":
+		button.Icon = value.GetValueString()
+	case "SVGIcon":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			button.SVGIcon = nil
+			for __instance__ := range stage.SVGIcons {
+				if stage.SVGIcon_stagedOrder[__instance__] == uint(id) {
+					button.SVGIcon = __instance__
+					break
+				}
+			}
+		}
+	case "IsDisabled":
+		button.IsDisabled = value.GetValueBool()
+	case "HasToolTip":
+		button.HasToolTip = value.GetValueBool()
+	case "ToolTipText":
+		button.ToolTipText = value.GetValueString()
+	case "ToolTipPosition":
+		button.ToolTipPosition.FromCodeString(value.GetValueString())
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (cell *Cell) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -7551,6 +8109,19 @@ func (row *Row) GongSetFieldValue(fieldName string, value GongFieldValue, stage 
 	return nil
 }
 
+func (svgicon *SVGIcon) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		svgicon.Name = value.GetValueString()
+	case "SVG":
+		svgicon.SVG = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (table *Table) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -7604,6 +8175,20 @@ func (table *Table) GongSetFieldValue(fieldName string, value GongFieldValue, st
 		table.SavingInProgress = value.GetValueBool()
 	case "NbOfStickyColumns":
 		table.NbOfStickyColumns = int(value.GetValueInt())
+	case "Buttons":
+		table.Buttons = make([]*Button, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Buttons {
+					if stage.Button_stagedOrder[__instance__] == uint(id) {
+						table.Buttons = append(table.Buttons, __instance__)
+						break
+					}
+				}
+			}
+		}
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -7615,6 +8200,10 @@ func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, val
 }
 
 // insertion point for generic get gongstruct name
+func (button *Button) GongGetGongstructName() string {
+	return "Button"
+}
+
 func (cell *Cell) GongGetGongstructName() string {
 	return "Cell"
 }
@@ -7703,6 +8292,10 @@ func (row *Row) GongGetGongstructName() string {
 	return "Row"
 }
 
+func (svgicon *SVGIcon) GongGetGongstructName() string {
+	return "SVGIcon"
+}
+
 func (table *Table) GongGetGongstructName() string {
 	return "Table"
 }
@@ -7714,6 +8307,11 @@ func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 
 func (stage *Stage) ResetMapStrings() {
 	// insertion point for generic get gongstruct name
+	stage.Buttons_mapString = make(map[string]*Button)
+	for button := range stage.Buttons {
+		stage.Buttons_mapString[button.Name] = button
+	}
+
 	stage.Cells_mapString = make(map[string]*Cell)
 	for cell := range stage.Cells {
 		stage.Cells_mapString[cell.Name] = cell
@@ -7822,6 +8420,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.Rows_mapString = make(map[string]*Row)
 	for row := range stage.Rows {
 		stage.Rows_mapString[row.Name] = row
+	}
+
+	stage.SVGIcons_mapString = make(map[string]*SVGIcon)
+	for svgicon := range stage.SVGIcons {
+		stage.SVGIcons_mapString[svgicon.Name] = svgicon
 	}
 
 	stage.Tables_mapString = make(map[string]*Table)

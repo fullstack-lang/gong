@@ -40,6 +40,14 @@ func GongCleanPointer[T PointerToGongstruct](stage *Stage, element *T) (modified
 }
 
 // insertion point per named struct
+// Clean garbage collect unstaged instances that are referenced by Button
+func (button *Button) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = GongCleanPointer(stage, &button.SVGIcon) || modified
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by Cell
 func (cell *Cell) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -215,11 +223,19 @@ func (row *Row) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by SVGIcon
+func (svgicon *SVGIcon) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by Table
 func (table *Table) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = GongCleanSlice(stage, &table.DisplayedColumns) || modified
 	modified = GongCleanSlice(stage, &table.Rows) || modified
+	modified = GongCleanSlice(stage, &table.Buttons) || modified
 	// insertion point per field
 	return
 }

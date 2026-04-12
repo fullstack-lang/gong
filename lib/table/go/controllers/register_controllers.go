@@ -56,6 +56,13 @@ type ValidationError struct {
 func registerControllers(r *gin.Engine) {
 	v1 := r.Group("/api/github.com/fullstack-lang/gong/lib/table/go")
 	{ // insertion point for registrations
+		v1.GET("/v1/buttons", GetController().GetButtons)
+		v1.GET("/v1/buttons/:id", GetController().GetButton)
+		v1.POST("/v1/buttons", GetController().PostButton)
+		v1.PATCH("/v1/buttons/:id", GetController().UpdateButton)
+		v1.PUT("/v1/buttons/:id", GetController().UpdateButton)
+		v1.DELETE("/v1/buttons/:id", GetController().DeleteButton)
+
 		v1.GET("/v1/cells", GetController().GetCells)
 		v1.GET("/v1/cells/:id", GetController().GetCell)
 		v1.POST("/v1/cells", GetController().PostCell)
@@ -209,6 +216,13 @@ func registerControllers(r *gin.Engine) {
 		v1.PATCH("/v1/rows/:id", GetController().UpdateRow)
 		v1.PUT("/v1/rows/:id", GetController().UpdateRow)
 		v1.DELETE("/v1/rows/:id", GetController().DeleteRow)
+
+		v1.GET("/v1/svgicons", GetController().GetSVGIcons)
+		v1.GET("/v1/svgicons/:id", GetController().GetSVGIcon)
+		v1.POST("/v1/svgicons", GetController().PostSVGIcon)
+		v1.PATCH("/v1/svgicons/:id", GetController().UpdateSVGIcon)
+		v1.PUT("/v1/svgicons/:id", GetController().UpdateSVGIcon)
+		v1.DELETE("/v1/svgicons/:id", GetController().DeleteSVGIcon)
 
 		v1.GET("/v1/tables", GetController().GetTables)
 		v1.GET("/v1/tables/:id", GetController().GetTable)
