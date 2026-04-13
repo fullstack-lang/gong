@@ -8,17 +8,15 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/fullstack-lang/gong/lib/doc/go/prepare"
-	form_fullstack "github.com/fullstack-lang/gong/lib/form/go/fullstack"
-	gongsplit_fullstack "github.com/fullstack-lang/gong/lib/split/go/fullstack"
+	split_fullstack "github.com/fullstack-lang/gong/lib/split/go/fullstack"
 	table_fullstack "github.com/fullstack-lang/gong/lib/table/go/fullstack"
-
-	gongtree_fullstack "github.com/fullstack-lang/gong/lib/tree/go/fullstack"
+	tree_fullstack "github.com/fullstack-lang/gong/lib/tree/go/fullstack"
 
 	gong_models "github.com/fullstack-lang/gong/go/models"
 
 	doc "github.com/fullstack-lang/gong/lib/doc/go/models"
-	form "github.com/fullstack-lang/gong/lib/form/go/models"
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
+	form "github.com/fullstack-lang/gong/lib/table/go/models"
 	table "github.com/fullstack-lang/gong/lib/table/go/models"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 
@@ -84,7 +82,7 @@ func NewProbe(
 	stageOfInterest *models.Stage) (probe *Probe) {
 
 	// split stage for the whole probe
-	splitStage, _ := gongsplit_fullstack.NewStackInstance(r, stageOfInterest.GetProbeSplitStageName())
+	splitStage, _ := split_fullstack.NewStackInstance(r, stageOfInterest.GetProbeSplitStageName())
 	splitStage.Commit()
 
 	// load the gong
@@ -92,8 +90,8 @@ func NewProbe(
 	gong_models.LoadEmbedded(stage, goModelsDir)
 
 	// treeForSelectingDate that is on the sidebar
-	treeStage, _ := gongtree_fullstack.NewStackInstance(r, stageOfInterest.GetProbeTreeSidebarStageName())
-	treeNavigationStage, _ := gongtree_fullstack.NewStackInstance(r, stageOfInterest.GetProbeNavigationTreeSidebarStageName())
+	treeStage, _ := tree_fullstack.NewStackInstance(r, stageOfInterest.GetProbeTreeSidebarStageName())
+	treeNavigationStage, _ := tree_fullstack.NewStackInstance(r, stageOfInterest.GetProbeNavigationTreeSidebarStageName())
 
 	// stage for main table
 	tableStage, _ := table_fullstack.NewStackInstance(r, stageOfInterest.GetProbeTableStageName())
@@ -103,7 +101,7 @@ func NewProbe(
 	notificationTableStage.Commit()
 
 	// stage for reusable form
-	formStage, _ := form_fullstack.NewStackInstance(r, stageOfInterest.GetProbeFormStageName())
+	formStage, _ := table_fullstack.NewStackInstance(r, stageOfInterest.GetProbeFormStageName())
 	formStage.Commit()
 
 	probe = &Probe{

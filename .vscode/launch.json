@@ -805,8 +805,6 @@
             "args": [
                 "generate",
                 "--skipGoModCommands",
-                "--level1",
-                // "--debouncedMarshall=true"
             ]
         },
         {
