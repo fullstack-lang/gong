@@ -4,7 +4,7 @@ const FillUpFormFromGongstructTemplate = `// generated code - do not edit
 package probe
 
 import (
-	gongtable "github.com/fullstack-lang/gong/lib/table/go/models"
+	form "github.com/fullstack-lang/gong/lib/table/go/models"
 
 	"{{PkgPathRoot}}/models"
 )
@@ -17,7 +17,7 @@ func FillUpFormFromGongstruct(instance any, probe *Probe) {
 
 }
 
-func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongtable.Stage, formName string) {
+func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.Stage, formName string) {
 
 	switch instancesTyped := any(instance).(type) {
 	// insertion point{{` + string(rune(FillUpFormFromGongstructSwitchCase)) + `}}
@@ -42,7 +42,7 @@ var FillUpFormFromGongstructSubTemplateCode map[string]string = // new line
 map[string]string{
 	string(rune(FillUpTreeStructCase)): `
 	case *models.{{Structname}}:
-		formGroup := (&gongtable.FormGroup{
+		formGroup := (&form.FormGroup{
 			Name:  formName,
 			Label: "{{Structname}} Form",
 		}).Stage(formStage)

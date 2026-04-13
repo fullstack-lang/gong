@@ -8,6 +8,8 @@ import (
 	"sort"
 
 	gongtable_fullstack "github.com/fullstack-lang/gong/lib/table/go/fullstack"
+
+	form "github.com/fullstack-lang/gong/lib/table/go/models"
 	table "github.com/fullstack-lang/gong/lib/table/go/models"
 
 	"github.com/fullstack-lang/gong/dsm/xsd/go/models"
@@ -70,11 +72,11 @@ func AssociationSliceToForm[InstanceType models.PointerToGongstruct, FieldType m
 	fieldName string,
 	instance InstanceType,
 	field *[]FieldType,
-	formGroup *table.FormGroup,
+	formGroup *form.FormGroup,
 	probe *Probe,
 ) {
 
-	formDiv := (&table.FormDiv{
+	formDiv := (&form.FormDiv{
 		Name: fieldName,
 	}).Stage(probe.formStage)
 	formGroup.FormDivs = append(formGroup.FormDivs, formDiv)
@@ -95,7 +97,7 @@ func AssociationSliceToForm[InstanceType models.PointerToGongstruct, FieldType m
 		log.Panic("Unable to encode association")
 	}
 
-	formEditAssocButton := (&table.FormEditAssocButton{
+	formEditAssocButton := (&form.FormEditAssocButton{
 		Name:                fieldName,
 		Label:               fieldName,
 		AssociationStorage:  storage,
@@ -107,7 +109,7 @@ func AssociationSliceToForm[InstanceType models.PointerToGongstruct, FieldType m
 	onAssocEditon := NewOnAssocEditon(instance, field, probe)
 	formEditAssocButton.OnAssocEditon = onAssocEditon
 
-	formSortAssocButton := (&table.FormSortAssocButton{
+	formSortAssocButton := (&form.FormSortAssocButton{
 		Name:                fieldName,
 		Label:               fieldName,
 		HasToolTip:          true,

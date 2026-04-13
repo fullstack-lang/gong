@@ -22,7 +22,7 @@ import (
 	"slices"
 	"time"
 
-	table "github.com/fullstack-lang/gong/lib/table/go/models"
+	form "github.com/fullstack-lang/gong/lib/table/go/models"
 
 	"{{PkgPathRoot}}/models"
 )
@@ -50,7 +50,7 @@ map[FormCallbackGongstructInsertionId]string{
 func __gong__New__{{Structname}}FormCallback(
 	{{structname}} *models.{{Structname}},
 	probe *Probe,
-	formGroup *table.FormGroup,
+	formGroup *form.FormGroup,
 ) ({{structname}}FormCallback *{{Structname}}FormCallback) {
 	{{structname}}FormCallback = new({{Structname}}FormCallback)
 	{{structname}}FormCallback.probe = probe
@@ -70,7 +70,7 @@ type {{Structname}}FormCallback struct {
 
 	probe *Probe
 
-	formGroup *table.FormGroup
+	formGroup *form.FormGroup
 }
 
 func ({{structname}}FormCallback *{{Structname}}FormCallback) OnSave() {
@@ -108,7 +108,7 @@ func ({{structname}}FormCallback *{{Structname}}FormCallback) OnSave() {
 	// display a new form by reset the form stage
 	if {{structname}}FormCallback.CreationMode || {{structname}}FormCallback.formGroup.HasSuppressButtonBeenPressed {
 		{{structname}}FormCallback.probe.formStage.Reset()
-		newFormGroup := (&table.FormGroup{
+		newFormGroup := (&form.FormGroup{
 			Name: FormName,
 		}).Stage({{structname}}FormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__{{Structname}}FormCallback(
