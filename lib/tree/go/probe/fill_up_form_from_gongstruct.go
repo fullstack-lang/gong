@@ -2,7 +2,7 @@
 package probe
 
 import (
-	gongtable "github.com/fullstack-lang/gong/lib/table/go/models"
+	form "github.com/fullstack-lang/gong/lib/table/go/models"
 
 	"github.com/fullstack-lang/gong/lib/tree/go/models"
 )
@@ -15,12 +15,12 @@ func FillUpFormFromGongstruct(instance any, probe *Probe) {
 
 }
 
-func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongtable.Stage, formName string) {
+func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.Stage, formName string) {
 
 	switch instancesTyped := any(instance).(type) {
 	// insertion point
 	case *models.Button:
-		formGroup := (&gongtable.FormGroup{
+		formGroup := (&form.FormGroup{
 			Name:  formName,
 			Label: "Button Form",
 		}).Stage(formStage)
@@ -32,7 +32,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongta
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Node:
-		formGroup := (&gongtable.FormGroup{
+		formGroup := (&form.FormGroup{
 			Name:  formName,
 			Label: "Node Form",
 		}).Stage(formStage)
@@ -44,7 +44,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongta
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.SVGIcon:
-		formGroup := (&gongtable.FormGroup{
+		formGroup := (&form.FormGroup{
 			Name:  formName,
 			Label: "SVGIcon Form",
 		}).Stage(formStage)
@@ -56,7 +56,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongta
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Tree:
-		formGroup := (&gongtable.FormGroup{
+		formGroup := (&form.FormGroup{
 			Name:  formName,
 			Label: "Tree Form",
 		}).Stage(formStage)

@@ -6,7 +6,7 @@ import (
 	"slices"
 	"time"
 
-	table "github.com/fullstack-lang/gong/lib/table/go/models"
+	form "github.com/fullstack-lang/gong/lib/table/go/models"
 
 	"github.com/fullstack-lang/gong/lib/tree/go/models"
 )
@@ -22,7 +22,7 @@ var _ = log.Panicf
 func __gong__New__ButtonFormCallback(
 	button *models.Button,
 	probe *Probe,
-	formGroup *table.FormGroup,
+	formGroup *form.FormGroup,
 ) (buttonFormCallback *ButtonFormCallback) {
 	buttonFormCallback = new(ButtonFormCallback)
 	buttonFormCallback.probe = probe
@@ -42,7 +42,7 @@ type ButtonFormCallback struct {
 
 	probe *Probe
 
-	formGroup *table.FormGroup
+	formGroup *form.FormGroup
 }
 
 func (buttonFormCallback *ButtonFormCallback) OnSave() {
@@ -160,7 +160,7 @@ func (buttonFormCallback *ButtonFormCallback) OnSave() {
 	// display a new form by reset the form stage
 	if buttonFormCallback.CreationMode || buttonFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		buttonFormCallback.probe.formStage.Reset()
-		newFormGroup := (&table.FormGroup{
+		newFormGroup := (&form.FormGroup{
 			Name: FormName,
 		}).Stage(buttonFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__ButtonFormCallback(
@@ -178,7 +178,7 @@ func (buttonFormCallback *ButtonFormCallback) OnSave() {
 func __gong__New__NodeFormCallback(
 	node *models.Node,
 	probe *Probe,
-	formGroup *table.FormGroup,
+	formGroup *form.FormGroup,
 ) (nodeFormCallback *NodeFormCallback) {
 	nodeFormCallback = new(NodeFormCallback)
 	nodeFormCallback.probe = probe
@@ -198,7 +198,7 @@ type NodeFormCallback struct {
 
 	probe *Probe
 
-	formGroup *table.FormGroup
+	formGroup *form.FormGroup
 }
 
 func (nodeFormCallback *NodeFormCallback) OnSave() {
@@ -484,7 +484,7 @@ func (nodeFormCallback *NodeFormCallback) OnSave() {
 	// display a new form by reset the form stage
 	if nodeFormCallback.CreationMode || nodeFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		nodeFormCallback.probe.formStage.Reset()
-		newFormGroup := (&table.FormGroup{
+		newFormGroup := (&form.FormGroup{
 			Name: FormName,
 		}).Stage(nodeFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__NodeFormCallback(
@@ -502,7 +502,7 @@ func (nodeFormCallback *NodeFormCallback) OnSave() {
 func __gong__New__SVGIconFormCallback(
 	svgicon *models.SVGIcon,
 	probe *Probe,
-	formGroup *table.FormGroup,
+	formGroup *form.FormGroup,
 ) (svgiconFormCallback *SVGIconFormCallback) {
 	svgiconFormCallback = new(SVGIconFormCallback)
 	svgiconFormCallback.probe = probe
@@ -522,7 +522,7 @@ type SVGIconFormCallback struct {
 
 	probe *Probe
 
-	formGroup *table.FormGroup
+	formGroup *form.FormGroup
 }
 
 func (svgiconFormCallback *SVGIconFormCallback) OnSave() {
@@ -564,7 +564,7 @@ func (svgiconFormCallback *SVGIconFormCallback) OnSave() {
 	// display a new form by reset the form stage
 	if svgiconFormCallback.CreationMode || svgiconFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		svgiconFormCallback.probe.formStage.Reset()
-		newFormGroup := (&table.FormGroup{
+		newFormGroup := (&form.FormGroup{
 			Name: FormName,
 		}).Stage(svgiconFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__SVGIconFormCallback(
@@ -582,7 +582,7 @@ func (svgiconFormCallback *SVGIconFormCallback) OnSave() {
 func __gong__New__TreeFormCallback(
 	tree *models.Tree,
 	probe *Probe,
-	formGroup *table.FormGroup,
+	formGroup *form.FormGroup,
 ) (treeFormCallback *TreeFormCallback) {
 	treeFormCallback = new(TreeFormCallback)
 	treeFormCallback.probe = probe
@@ -602,7 +602,7 @@ type TreeFormCallback struct {
 
 	probe *Probe
 
-	formGroup *table.FormGroup
+	formGroup *form.FormGroup
 }
 
 func (treeFormCallback *TreeFormCallback) OnSave() {
@@ -673,7 +673,7 @@ func (treeFormCallback *TreeFormCallback) OnSave() {
 	// display a new form by reset the form stage
 	if treeFormCallback.CreationMode || treeFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		treeFormCallback.probe.formStage.Reset()
-		newFormGroup := (&table.FormGroup{
+		newFormGroup := (&form.FormGroup{
 			Name: FormName,
 		}).Stage(treeFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__TreeFormCallback(

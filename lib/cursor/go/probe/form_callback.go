@@ -6,7 +6,7 @@ import (
 	"slices"
 	"time"
 
-	table "github.com/fullstack-lang/gong/lib/table/go/models"
+	form "github.com/fullstack-lang/gong/lib/table/go/models"
 
 	"github.com/fullstack-lang/gong/lib/cursor/go/models"
 )
@@ -22,7 +22,7 @@ var _ = log.Panicf
 func __gong__New__CursorFormCallback(
 	cursor *models.Cursor,
 	probe *Probe,
-	formGroup *table.FormGroup,
+	formGroup *form.FormGroup,
 ) (cursorFormCallback *CursorFormCallback) {
 	cursorFormCallback = new(CursorFormCallback)
 	cursorFormCallback.probe = probe
@@ -42,7 +42,7 @@ type CursorFormCallback struct {
 
 	probe *Probe
 
-	formGroup *table.FormGroup
+	formGroup *form.FormGroup
 }
 
 func (cursorFormCallback *CursorFormCallback) OnSave() {
@@ -110,7 +110,7 @@ func (cursorFormCallback *CursorFormCallback) OnSave() {
 	// display a new form by reset the form stage
 	if cursorFormCallback.CreationMode || cursorFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		cursorFormCallback.probe.formStage.Reset()
-		newFormGroup := (&table.FormGroup{
+		newFormGroup := (&form.FormGroup{
 			Name: FormName,
 		}).Stage(cursorFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__CursorFormCallback(

@@ -2,7 +2,7 @@
 package probe
 
 import (
-	gongtable "github.com/fullstack-lang/gong/lib/table/go/models"
+	form "github.com/fullstack-lang/gong/lib/table/go/models"
 
 	"github.com/fullstack-lang/gong/pkg/docx/go/models"
 )
@@ -15,12 +15,12 @@ func FillUpFormFromGongstruct(instance any, probe *Probe) {
 
 }
 
-func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongtable.Stage, formName string) {
+func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.Stage, formName string) {
 
 	switch instancesTyped := any(instance).(type) {
 	// insertion point
 	case *models.Body:
-		formGroup := (&gongtable.FormGroup{
+		formGroup := (&form.FormGroup{
 			Name:  formName,
 			Label: "Body Form",
 		}).Stage(formStage)
@@ -32,7 +32,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongta
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Document:
-		formGroup := (&gongtable.FormGroup{
+		formGroup := (&form.FormGroup{
 			Name:  formName,
 			Label: "Document Form",
 		}).Stage(formStage)
@@ -44,7 +44,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongta
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Docx:
-		formGroup := (&gongtable.FormGroup{
+		formGroup := (&form.FormGroup{
 			Name:  formName,
 			Label: "Docx Form",
 		}).Stage(formStage)
@@ -56,7 +56,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongta
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.File:
-		formGroup := (&gongtable.FormGroup{
+		formGroup := (&form.FormGroup{
 			Name:  formName,
 			Label: "File Form",
 		}).Stage(formStage)
@@ -68,7 +68,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongta
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Node:
-		formGroup := (&gongtable.FormGroup{
+		formGroup := (&form.FormGroup{
 			Name:  formName,
 			Label: "Node Form",
 		}).Stage(formStage)
@@ -80,7 +80,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongta
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Paragraph:
-		formGroup := (&gongtable.FormGroup{
+		formGroup := (&form.FormGroup{
 			Name:  formName,
 			Label: "Paragraph Form",
 		}).Stage(formStage)
@@ -92,7 +92,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongta
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.ParagraphProperties:
-		formGroup := (&gongtable.FormGroup{
+		formGroup := (&form.FormGroup{
 			Name:  formName,
 			Label: "ParagraphProperties Form",
 		}).Stage(formStage)
@@ -104,7 +104,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongta
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.ParagraphStyle:
-		formGroup := (&gongtable.FormGroup{
+		formGroup := (&form.FormGroup{
 			Name:  formName,
 			Label: "ParagraphStyle Form",
 		}).Stage(formStage)
@@ -116,7 +116,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongta
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Rune:
-		formGroup := (&gongtable.FormGroup{
+		formGroup := (&form.FormGroup{
 			Name:  formName,
 			Label: "Rune Form",
 		}).Stage(formStage)
@@ -128,7 +128,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongta
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.RuneProperties:
-		formGroup := (&gongtable.FormGroup{
+		formGroup := (&form.FormGroup{
 			Name:  formName,
 			Label: "RuneProperties Form",
 		}).Stage(formStage)
@@ -140,7 +140,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongta
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Table:
-		formGroup := (&gongtable.FormGroup{
+		formGroup := (&form.FormGroup{
 			Name:  formName,
 			Label: "Table Form",
 		}).Stage(formStage)
@@ -152,7 +152,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongta
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.TableColumn:
-		formGroup := (&gongtable.FormGroup{
+		formGroup := (&form.FormGroup{
 			Name:  formName,
 			Label: "TableColumn Form",
 		}).Stage(formStage)
@@ -164,7 +164,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongta
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.TableProperties:
-		formGroup := (&gongtable.FormGroup{
+		formGroup := (&form.FormGroup{
 			Name:  formName,
 			Label: "TableProperties Form",
 		}).Stage(formStage)
@@ -176,7 +176,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongta
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.TableRow:
-		formGroup := (&gongtable.FormGroup{
+		formGroup := (&form.FormGroup{
 			Name:  formName,
 			Label: "TableRow Form",
 		}).Stage(formStage)
@@ -188,7 +188,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongta
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.TableStyle:
-		formGroup := (&gongtable.FormGroup{
+		formGroup := (&form.FormGroup{
 			Name:  formName,
 			Label: "TableStyle Form",
 		}).Stage(formStage)
@@ -200,7 +200,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongta
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Text:
-		formGroup := (&gongtable.FormGroup{
+		formGroup := (&form.FormGroup{
 			Name:  formName,
 			Label: "Text Form",
 		}).Stage(formStage)

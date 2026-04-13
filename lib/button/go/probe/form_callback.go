@@ -6,7 +6,7 @@ import (
 	"slices"
 	"time"
 
-	table "github.com/fullstack-lang/gong/lib/table/go/models"
+	form "github.com/fullstack-lang/gong/lib/table/go/models"
 
 	"github.com/fullstack-lang/gong/lib/button/go/models"
 )
@@ -22,7 +22,7 @@ var _ = log.Panicf
 func __gong__New__ButtonFormCallback(
 	button *models.Button,
 	probe *Probe,
-	formGroup *table.FormGroup,
+	formGroup *form.FormGroup,
 ) (buttonFormCallback *ButtonFormCallback) {
 	buttonFormCallback = new(ButtonFormCallback)
 	buttonFormCallback.probe = probe
@@ -42,7 +42,7 @@ type ButtonFormCallback struct {
 
 	probe *Probe
 
-	formGroup *table.FormGroup
+	formGroup *form.FormGroup
 }
 
 func (buttonFormCallback *ButtonFormCallback) OnSave() {
@@ -160,7 +160,7 @@ func (buttonFormCallback *ButtonFormCallback) OnSave() {
 	// display a new form by reset the form stage
 	if buttonFormCallback.CreationMode || buttonFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		buttonFormCallback.probe.formStage.Reset()
-		newFormGroup := (&table.FormGroup{
+		newFormGroup := (&form.FormGroup{
 			Name: FormName,
 		}).Stage(buttonFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__ButtonFormCallback(
@@ -178,7 +178,7 @@ func (buttonFormCallback *ButtonFormCallback) OnSave() {
 func __gong__New__ButtonToggleFormCallback(
 	buttontoggle *models.ButtonToggle,
 	probe *Probe,
-	formGroup *table.FormGroup,
+	formGroup *form.FormGroup,
 ) (buttontoggleFormCallback *ButtonToggleFormCallback) {
 	buttontoggleFormCallback = new(ButtonToggleFormCallback)
 	buttontoggleFormCallback.probe = probe
@@ -198,7 +198,7 @@ type ButtonToggleFormCallback struct {
 
 	probe *Probe
 
-	formGroup *table.FormGroup
+	formGroup *form.FormGroup
 }
 
 func (buttontoggleFormCallback *ButtonToggleFormCallback) OnSave() {
@@ -312,7 +312,7 @@ func (buttontoggleFormCallback *ButtonToggleFormCallback) OnSave() {
 	// display a new form by reset the form stage
 	if buttontoggleFormCallback.CreationMode || buttontoggleFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		buttontoggleFormCallback.probe.formStage.Reset()
-		newFormGroup := (&table.FormGroup{
+		newFormGroup := (&form.FormGroup{
 			Name: FormName,
 		}).Stage(buttontoggleFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__ButtonToggleFormCallback(
@@ -330,7 +330,7 @@ func (buttontoggleFormCallback *ButtonToggleFormCallback) OnSave() {
 func __gong__New__GroupFormCallback(
 	group *models.Group,
 	probe *Probe,
-	formGroup *table.FormGroup,
+	formGroup *form.FormGroup,
 ) (groupFormCallback *GroupFormCallback) {
 	groupFormCallback = new(GroupFormCallback)
 	groupFormCallback.probe = probe
@@ -350,7 +350,7 @@ type GroupFormCallback struct {
 
 	probe *Probe
 
-	formGroup *table.FormGroup
+	formGroup *form.FormGroup
 }
 
 func (groupFormCallback *GroupFormCallback) OnSave() {
@@ -491,7 +491,7 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 	// display a new form by reset the form stage
 	if groupFormCallback.CreationMode || groupFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		groupFormCallback.probe.formStage.Reset()
-		newFormGroup := (&table.FormGroup{
+		newFormGroup := (&form.FormGroup{
 			Name: FormName,
 		}).Stage(groupFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__GroupFormCallback(
@@ -509,7 +509,7 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 func __gong__New__GroupToogleFormCallback(
 	grouptoogle *models.GroupToogle,
 	probe *Probe,
-	formGroup *table.FormGroup,
+	formGroup *form.FormGroup,
 ) (grouptoogleFormCallback *GroupToogleFormCallback) {
 	grouptoogleFormCallback = new(GroupToogleFormCallback)
 	grouptoogleFormCallback.probe = probe
@@ -529,7 +529,7 @@ type GroupToogleFormCallback struct {
 
 	probe *Probe
 
-	formGroup *table.FormGroup
+	formGroup *form.FormGroup
 }
 
 func (grouptoogleFormCallback *GroupToogleFormCallback) OnSave() {
@@ -670,7 +670,7 @@ func (grouptoogleFormCallback *GroupToogleFormCallback) OnSave() {
 	// display a new form by reset the form stage
 	if grouptoogleFormCallback.CreationMode || grouptoogleFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		grouptoogleFormCallback.probe.formStage.Reset()
-		newFormGroup := (&table.FormGroup{
+		newFormGroup := (&form.FormGroup{
 			Name: FormName,
 		}).Stage(grouptoogleFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__GroupToogleFormCallback(
@@ -688,7 +688,7 @@ func (grouptoogleFormCallback *GroupToogleFormCallback) OnSave() {
 func __gong__New__LayoutFormCallback(
 	layout *models.Layout,
 	probe *Probe,
-	formGroup *table.FormGroup,
+	formGroup *form.FormGroup,
 ) (layoutFormCallback *LayoutFormCallback) {
 	layoutFormCallback = new(LayoutFormCallback)
 	layoutFormCallback.probe = probe
@@ -708,7 +708,7 @@ type LayoutFormCallback struct {
 
 	probe *Probe
 
-	formGroup *table.FormGroup
+	formGroup *form.FormGroup
 }
 
 func (layoutFormCallback *LayoutFormCallback) OnSave() {
@@ -810,7 +810,7 @@ func (layoutFormCallback *LayoutFormCallback) OnSave() {
 	// display a new form by reset the form stage
 	if layoutFormCallback.CreationMode || layoutFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		layoutFormCallback.probe.formStage.Reset()
-		newFormGroup := (&table.FormGroup{
+		newFormGroup := (&form.FormGroup{
 			Name: FormName,
 		}).Stage(layoutFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__LayoutFormCallback(

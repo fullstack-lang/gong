@@ -6,7 +6,7 @@ import (
 	"slices"
 	"time"
 
-	table "github.com/fullstack-lang/gong/lib/table/go/models"
+	form "github.com/fullstack-lang/gong/lib/table/go/models"
 
 	"github.com/fullstack-lang/gong/test/test/go/models"
 )
@@ -22,7 +22,7 @@ var _ = log.Panicf
 func __gong__New__AstructFormCallback(
 	astruct *models.Astruct,
 	probe *Probe,
-	formGroup *table.FormGroup,
+	formGroup *form.FormGroup,
 ) (astructFormCallback *AstructFormCallback) {
 	astructFormCallback = new(AstructFormCallback)
 	astructFormCallback.probe = probe
@@ -42,7 +42,7 @@ type AstructFormCallback struct {
 
 	probe *Probe
 
-	formGroup *table.FormGroup
+	formGroup *form.FormGroup
 }
 
 func (astructFormCallback *AstructFormCallback) OnSave() {
@@ -382,7 +382,7 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 	// display a new form by reset the form stage
 	if astructFormCallback.CreationMode || astructFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		astructFormCallback.probe.formStage.Reset()
-		newFormGroup := (&table.FormGroup{
+		newFormGroup := (&form.FormGroup{
 			Name: FormName,
 		}).Stage(astructFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__AstructFormCallback(
@@ -400,7 +400,7 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 func __gong__New__AstructBstruct2UseFormCallback(
 	astructbstruct2use *models.AstructBstruct2Use,
 	probe *Probe,
-	formGroup *table.FormGroup,
+	formGroup *form.FormGroup,
 ) (astructbstruct2useFormCallback *AstructBstruct2UseFormCallback) {
 	astructbstruct2useFormCallback = new(AstructBstruct2UseFormCallback)
 	astructbstruct2useFormCallback.probe = probe
@@ -420,7 +420,7 @@ type AstructBstruct2UseFormCallback struct {
 
 	probe *Probe
 
-	formGroup *table.FormGroup
+	formGroup *form.FormGroup
 }
 
 func (astructbstruct2useFormCallback *AstructBstruct2UseFormCallback) OnSave() {
@@ -528,7 +528,7 @@ func (astructbstruct2useFormCallback *AstructBstruct2UseFormCallback) OnSave() {
 	// display a new form by reset the form stage
 	if astructbstruct2useFormCallback.CreationMode || astructbstruct2useFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		astructbstruct2useFormCallback.probe.formStage.Reset()
-		newFormGroup := (&table.FormGroup{
+		newFormGroup := (&form.FormGroup{
 			Name: FormName,
 		}).Stage(astructbstruct2useFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__AstructBstruct2UseFormCallback(
@@ -546,7 +546,7 @@ func (astructbstruct2useFormCallback *AstructBstruct2UseFormCallback) OnSave() {
 func __gong__New__AstructBstructUseFormCallback(
 	astructbstructuse *models.AstructBstructUse,
 	probe *Probe,
-	formGroup *table.FormGroup,
+	formGroup *form.FormGroup,
 ) (astructbstructuseFormCallback *AstructBstructUseFormCallback) {
 	astructbstructuseFormCallback = new(AstructBstructUseFormCallback)
 	astructbstructuseFormCallback.probe = probe
@@ -566,7 +566,7 @@ type AstructBstructUseFormCallback struct {
 
 	probe *Probe
 
-	formGroup *table.FormGroup
+	formGroup *form.FormGroup
 }
 
 func (astructbstructuseFormCallback *AstructBstructUseFormCallback) OnSave() {
@@ -674,7 +674,7 @@ func (astructbstructuseFormCallback *AstructBstructUseFormCallback) OnSave() {
 	// display a new form by reset the form stage
 	if astructbstructuseFormCallback.CreationMode || astructbstructuseFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		astructbstructuseFormCallback.probe.formStage.Reset()
-		newFormGroup := (&table.FormGroup{
+		newFormGroup := (&form.FormGroup{
 			Name: FormName,
 		}).Stage(astructbstructuseFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__AstructBstructUseFormCallback(
@@ -692,7 +692,7 @@ func (astructbstructuseFormCallback *AstructBstructUseFormCallback) OnSave() {
 func __gong__New__BstructFormCallback(
 	bstruct *models.Bstruct,
 	probe *Probe,
-	formGroup *table.FormGroup,
+	formGroup *form.FormGroup,
 ) (bstructFormCallback *BstructFormCallback) {
 	bstructFormCallback = new(BstructFormCallback)
 	bstructFormCallback.probe = probe
@@ -712,7 +712,7 @@ type BstructFormCallback struct {
 
 	probe *Probe
 
-	formGroup *table.FormGroup
+	formGroup *form.FormGroup
 }
 
 func (bstructFormCallback *BstructFormCallback) OnSave() {
@@ -956,7 +956,7 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 	// display a new form by reset the form stage
 	if bstructFormCallback.CreationMode || bstructFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		bstructFormCallback.probe.formStage.Reset()
-		newFormGroup := (&table.FormGroup{
+		newFormGroup := (&form.FormGroup{
 			Name: FormName,
 		}).Stage(bstructFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__BstructFormCallback(
@@ -974,7 +974,7 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 func __gong__New__DstructFormCallback(
 	dstruct *models.Dstruct,
 	probe *Probe,
-	formGroup *table.FormGroup,
+	formGroup *form.FormGroup,
 ) (dstructFormCallback *DstructFormCallback) {
 	dstructFormCallback = new(DstructFormCallback)
 	dstructFormCallback.probe = probe
@@ -994,7 +994,7 @@ type DstructFormCallback struct {
 
 	probe *Probe
 
-	formGroup *table.FormGroup
+	formGroup *form.FormGroup
 }
 
 func (dstructFormCallback *DstructFormCallback) OnSave() {
@@ -1164,7 +1164,7 @@ func (dstructFormCallback *DstructFormCallback) OnSave() {
 	// display a new form by reset the form stage
 	if dstructFormCallback.CreationMode || dstructFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		dstructFormCallback.probe.formStage.Reset()
-		newFormGroup := (&table.FormGroup{
+		newFormGroup := (&form.FormGroup{
 			Name: FormName,
 		}).Stage(dstructFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__DstructFormCallback(
@@ -1182,7 +1182,7 @@ func (dstructFormCallback *DstructFormCallback) OnSave() {
 func __gong__New__F0123456789012345678901234567890FormCallback(
 	f0123456789012345678901234567890 *models.F0123456789012345678901234567890,
 	probe *Probe,
-	formGroup *table.FormGroup,
+	formGroup *form.FormGroup,
 ) (f0123456789012345678901234567890FormCallback *F0123456789012345678901234567890FormCallback) {
 	f0123456789012345678901234567890FormCallback = new(F0123456789012345678901234567890FormCallback)
 	f0123456789012345678901234567890FormCallback.probe = probe
@@ -1202,7 +1202,7 @@ type F0123456789012345678901234567890FormCallback struct {
 
 	probe *Probe
 
-	formGroup *table.FormGroup
+	formGroup *form.FormGroup
 }
 
 func (f0123456789012345678901234567890FormCallback *F0123456789012345678901234567890FormCallback) OnSave() {
@@ -1244,7 +1244,7 @@ func (f0123456789012345678901234567890FormCallback *F012345678901234567890123456
 	// display a new form by reset the form stage
 	if f0123456789012345678901234567890FormCallback.CreationMode || f0123456789012345678901234567890FormCallback.formGroup.HasSuppressButtonBeenPressed {
 		f0123456789012345678901234567890FormCallback.probe.formStage.Reset()
-		newFormGroup := (&table.FormGroup{
+		newFormGroup := (&form.FormGroup{
 			Name: FormName,
 		}).Stage(f0123456789012345678901234567890FormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__F0123456789012345678901234567890FormCallback(
@@ -1262,7 +1262,7 @@ func (f0123456789012345678901234567890FormCallback *F012345678901234567890123456
 func __gong__New__GstructFormCallback(
 	gstruct *models.Gstruct,
 	probe *Probe,
-	formGroup *table.FormGroup,
+	formGroup *form.FormGroup,
 ) (gstructFormCallback *GstructFormCallback) {
 	gstructFormCallback = new(GstructFormCallback)
 	gstructFormCallback.probe = probe
@@ -1282,7 +1282,7 @@ type GstructFormCallback struct {
 
 	probe *Probe
 
-	formGroup *table.FormGroup
+	formGroup *form.FormGroup
 }
 
 func (gstructFormCallback *GstructFormCallback) OnSave() {
@@ -1394,7 +1394,7 @@ func (gstructFormCallback *GstructFormCallback) OnSave() {
 	// display a new form by reset the form stage
 	if gstructFormCallback.CreationMode || gstructFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		gstructFormCallback.probe.formStage.Reset()
-		newFormGroup := (&table.FormGroup{
+		newFormGroup := (&form.FormGroup{
 			Name: FormName,
 		}).Stage(gstructFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__GstructFormCallback(
