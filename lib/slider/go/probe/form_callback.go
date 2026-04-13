@@ -6,7 +6,7 @@ import (
 	"slices"
 	"time"
 
-	table "github.com/fullstack-lang/gong/lib/table/go/models"
+	form "github.com/fullstack-lang/gong/lib/table/go/models"
 
 	"github.com/fullstack-lang/gong/lib/slider/go/models"
 )
@@ -22,7 +22,7 @@ var _ = log.Panicf
 func __gong__New__CheckboxFormCallback(
 	checkbox *models.Checkbox,
 	probe *Probe,
-	formGroup *table.FormGroup,
+	formGroup *form.FormGroup,
 ) (checkboxFormCallback *CheckboxFormCallback) {
 	checkboxFormCallback = new(CheckboxFormCallback)
 	checkboxFormCallback.probe = probe
@@ -42,7 +42,7 @@ type CheckboxFormCallback struct {
 
 	probe *Probe
 
-	formGroup *table.FormGroup
+	formGroup *form.FormGroup
 }
 
 func (checkboxFormCallback *CheckboxFormCallback) OnSave() {
@@ -154,7 +154,7 @@ func (checkboxFormCallback *CheckboxFormCallback) OnSave() {
 	// display a new form by reset the form stage
 	if checkboxFormCallback.CreationMode || checkboxFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		checkboxFormCallback.probe.formStage.Reset()
-		newFormGroup := (&table.FormGroup{
+		newFormGroup := (&form.FormGroup{
 			Name: FormName,
 		}).Stage(checkboxFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__CheckboxFormCallback(
@@ -172,7 +172,7 @@ func (checkboxFormCallback *CheckboxFormCallback) OnSave() {
 func __gong__New__GroupFormCallback(
 	group *models.Group,
 	probe *Probe,
-	formGroup *table.FormGroup,
+	formGroup *form.FormGroup,
 ) (groupFormCallback *GroupFormCallback) {
 	groupFormCallback = new(GroupFormCallback)
 	groupFormCallback.probe = probe
@@ -192,7 +192,7 @@ type GroupFormCallback struct {
 
 	probe *Probe
 
-	formGroup *table.FormGroup
+	formGroup *form.FormGroup
 }
 
 func (groupFormCallback *GroupFormCallback) OnSave() {
@@ -362,7 +362,7 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 	// display a new form by reset the form stage
 	if groupFormCallback.CreationMode || groupFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		groupFormCallback.probe.formStage.Reset()
-		newFormGroup := (&table.FormGroup{
+		newFormGroup := (&form.FormGroup{
 			Name: FormName,
 		}).Stage(groupFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__GroupFormCallback(
@@ -380,7 +380,7 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 func __gong__New__LayoutFormCallback(
 	layout *models.Layout,
 	probe *Probe,
-	formGroup *table.FormGroup,
+	formGroup *form.FormGroup,
 ) (layoutFormCallback *LayoutFormCallback) {
 	layoutFormCallback = new(LayoutFormCallback)
 	layoutFormCallback.probe = probe
@@ -400,7 +400,7 @@ type LayoutFormCallback struct {
 
 	probe *Probe
 
-	formGroup *table.FormGroup
+	formGroup *form.FormGroup
 }
 
 func (layoutFormCallback *LayoutFormCallback) OnSave() {
@@ -475,7 +475,7 @@ func (layoutFormCallback *LayoutFormCallback) OnSave() {
 	// display a new form by reset the form stage
 	if layoutFormCallback.CreationMode || layoutFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		layoutFormCallback.probe.formStage.Reset()
-		newFormGroup := (&table.FormGroup{
+		newFormGroup := (&form.FormGroup{
 			Name: FormName,
 		}).Stage(layoutFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__LayoutFormCallback(
@@ -493,7 +493,7 @@ func (layoutFormCallback *LayoutFormCallback) OnSave() {
 func __gong__New__SliderFormCallback(
 	slider *models.Slider,
 	probe *Probe,
-	formGroup *table.FormGroup,
+	formGroup *form.FormGroup,
 ) (sliderFormCallback *SliderFormCallback) {
 	sliderFormCallback = new(SliderFormCallback)
 	sliderFormCallback.probe = probe
@@ -513,7 +513,7 @@ type SliderFormCallback struct {
 
 	probe *Probe
 
-	formGroup *table.FormGroup
+	formGroup *form.FormGroup
 }
 
 func (sliderFormCallback *SliderFormCallback) OnSave() {
@@ -639,7 +639,7 @@ func (sliderFormCallback *SliderFormCallback) OnSave() {
 	// display a new form by reset the form stage
 	if sliderFormCallback.CreationMode || sliderFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		sliderFormCallback.probe.formStage.Reset()
-		newFormGroup := (&table.FormGroup{
+		newFormGroup := (&form.FormGroup{
 			Name: FormName,
 		}).Stage(sliderFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__SliderFormCallback(
