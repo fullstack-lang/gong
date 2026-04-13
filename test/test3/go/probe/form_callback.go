@@ -6,7 +6,7 @@ import (
 	"slices"
 	"time"
 
-	form "github.com/fullstack-lang/gong/lib/form/go/models"
+	form "github.com/fullstack-lang/gong/lib/table/go/models"
 
 	"github.com/fullstack-lang/gong/test/test3/go/models"
 )
