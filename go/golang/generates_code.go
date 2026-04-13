@@ -263,7 +263,8 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 	// form (table) and split. Therefore, it can only
 	// be generated when it is not either stack
 	if modelPkg.PkgPath != "github.com/fullstack-lang/gong/lib/table/go/models" &&
-		modelPkg.PkgPath != "github.com/fullstack-lang/gong/lib/split/go/models" {
+		modelPkg.PkgPath != "github.com/fullstack-lang/gong/lib/split/go/models" &&
+		modelPkg.PkgPath != "github.com/fullstack-lang/gong/lib/form/go/models" {
 
 		gong_models.VerySimpleCodeGenerator(
 			modelPkg,

@@ -6,7 +6,7 @@ import (
 	"slices"
 	"time"
 
-	table "github.com/fullstack-lang/gong/lib/table/go/models"
+	form "github.com/fullstack-lang/gong/lib/table/go/models"
 
 	"github.com/fullstack-lang/gong/lib/xlsx/go/models"
 )
@@ -22,7 +22,7 @@ var _ = log.Panicf
 func __gong__New__DisplaySelectionFormCallback(
 	displayselection *models.DisplaySelection,
 	probe *Probe,
-	formGroup *table.FormGroup,
+	formGroup *form.FormGroup,
 ) (displayselectionFormCallback *DisplaySelectionFormCallback) {
 	displayselectionFormCallback = new(DisplaySelectionFormCallback)
 	displayselectionFormCallback.probe = probe
@@ -42,7 +42,7 @@ type DisplaySelectionFormCallback struct {
 
 	probe *Probe
 
-	formGroup *table.FormGroup
+	formGroup *form.FormGroup
 }
 
 func (displayselectionFormCallback *DisplaySelectionFormCallback) OnSave() {
@@ -86,7 +86,7 @@ func (displayselectionFormCallback *DisplaySelectionFormCallback) OnSave() {
 	// display a new form by reset the form stage
 	if displayselectionFormCallback.CreationMode || displayselectionFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		displayselectionFormCallback.probe.formStage.Reset()
-		newFormGroup := (&table.FormGroup{
+		newFormGroup := (&form.FormGroup{
 			Name: FormName,
 		}).Stage(displayselectionFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__DisplaySelectionFormCallback(
@@ -104,7 +104,7 @@ func (displayselectionFormCallback *DisplaySelectionFormCallback) OnSave() {
 func __gong__New__XLCellFormCallback(
 	xlcell *models.XLCell,
 	probe *Probe,
-	formGroup *table.FormGroup,
+	formGroup *form.FormGroup,
 ) (xlcellFormCallback *XLCellFormCallback) {
 	xlcellFormCallback = new(XLCellFormCallback)
 	xlcellFormCallback.probe = probe
@@ -124,7 +124,7 @@ type XLCellFormCallback struct {
 
 	probe *Probe
 
-	formGroup *table.FormGroup
+	formGroup *form.FormGroup
 }
 
 func (xlcellFormCallback *XLCellFormCallback) OnSave() {
@@ -300,7 +300,7 @@ func (xlcellFormCallback *XLCellFormCallback) OnSave() {
 	// display a new form by reset the form stage
 	if xlcellFormCallback.CreationMode || xlcellFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		xlcellFormCallback.probe.formStage.Reset()
-		newFormGroup := (&table.FormGroup{
+		newFormGroup := (&form.FormGroup{
 			Name: FormName,
 		}).Stage(xlcellFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__XLCellFormCallback(
@@ -318,7 +318,7 @@ func (xlcellFormCallback *XLCellFormCallback) OnSave() {
 func __gong__New__XLFileFormCallback(
 	xlfile *models.XLFile,
 	probe *Probe,
-	formGroup *table.FormGroup,
+	formGroup *form.FormGroup,
 ) (xlfileFormCallback *XLFileFormCallback) {
 	xlfileFormCallback = new(XLFileFormCallback)
 	xlfileFormCallback.probe = probe
@@ -338,7 +338,7 @@ type XLFileFormCallback struct {
 
 	probe *Probe
 
-	formGroup *table.FormGroup
+	formGroup *form.FormGroup
 }
 
 func (xlfileFormCallback *XLFileFormCallback) OnSave() {
@@ -411,7 +411,7 @@ func (xlfileFormCallback *XLFileFormCallback) OnSave() {
 	// display a new form by reset the form stage
 	if xlfileFormCallback.CreationMode || xlfileFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		xlfileFormCallback.probe.formStage.Reset()
-		newFormGroup := (&table.FormGroup{
+		newFormGroup := (&form.FormGroup{
 			Name: FormName,
 		}).Stage(xlfileFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__XLFileFormCallback(
@@ -429,7 +429,7 @@ func (xlfileFormCallback *XLFileFormCallback) OnSave() {
 func __gong__New__XLRowFormCallback(
 	xlrow *models.XLRow,
 	probe *Probe,
-	formGroup *table.FormGroup,
+	formGroup *form.FormGroup,
 ) (xlrowFormCallback *XLRowFormCallback) {
 	xlrowFormCallback = new(XLRowFormCallback)
 	xlrowFormCallback.probe = probe
@@ -449,7 +449,7 @@ type XLRowFormCallback struct {
 
 	probe *Probe
 
-	formGroup *table.FormGroup
+	formGroup *form.FormGroup
 }
 
 func (xlrowFormCallback *XLRowFormCallback) OnSave() {
@@ -588,7 +588,7 @@ func (xlrowFormCallback *XLRowFormCallback) OnSave() {
 	// display a new form by reset the form stage
 	if xlrowFormCallback.CreationMode || xlrowFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		xlrowFormCallback.probe.formStage.Reset()
-		newFormGroup := (&table.FormGroup{
+		newFormGroup := (&form.FormGroup{
 			Name: FormName,
 		}).Stage(xlrowFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__XLRowFormCallback(
@@ -606,7 +606,7 @@ func (xlrowFormCallback *XLRowFormCallback) OnSave() {
 func __gong__New__XLSheetFormCallback(
 	xlsheet *models.XLSheet,
 	probe *Probe,
-	formGroup *table.FormGroup,
+	formGroup *form.FormGroup,
 ) (xlsheetFormCallback *XLSheetFormCallback) {
 	xlsheetFormCallback = new(XLSheetFormCallback)
 	xlsheetFormCallback.probe = probe
@@ -626,7 +626,7 @@ type XLSheetFormCallback struct {
 
 	probe *Probe
 
-	formGroup *table.FormGroup
+	formGroup *form.FormGroup
 }
 
 func (xlsheetFormCallback *XLSheetFormCallback) OnSave() {
@@ -800,7 +800,7 @@ func (xlsheetFormCallback *XLSheetFormCallback) OnSave() {
 	// display a new form by reset the form stage
 	if xlsheetFormCallback.CreationMode || xlsheetFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		xlsheetFormCallback.probe.formStage.Reset()
-		newFormGroup := (&table.FormGroup{
+		newFormGroup := (&form.FormGroup{
 			Name: FormName,
 		}).Stage(xlsheetFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__XLSheetFormCallback(
