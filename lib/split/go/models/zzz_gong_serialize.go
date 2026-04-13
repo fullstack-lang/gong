@@ -23,6 +23,7 @@ func SerializeStage2(stage *Stage, filename string, addIDs bool) {
 		SerializeExcelizePointerToGongstruct2[*Cursor](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*FavIcon](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Form](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*Form2](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Load](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*LogoOnTheLeft](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*LogoOnTheRight](stage, f, addIDs)
