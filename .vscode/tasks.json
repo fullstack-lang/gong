@@ -182,6 +182,22 @@
       ]
     },
     {
+      "label": "01 - gong generate form",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}/lib/form"
+      },
+      "command": "gong",
+      "group": "build",
+      "args": [
+        "generate",
+        "--skipGoModCommands",
+        "--skipNpmWorkspaces",
+        "--stack-height=4",
+        "go/models"
+      ]
+    },
+    {
       "label": "01 - gong generate load",
       "type": "shell",
       "options": {
@@ -668,6 +684,19 @@
       "type": "shell",
       "options": {
         "cwd": "lib/doc/ng-github.com-fullstack-lang-gong-lib-doc"
+      },
+      "command": "ng",
+      "group": "build",
+      "args": [
+        "serve",
+        ""
+      ]
+    },
+    {
+      "label": "03 - ng serve form",
+      "type": "shell",
+      "options": {
+        "cwd": "lib/form/ng-github.com-fullstack-lang-gong-lib-form"
       },
       "command": "ng",
       "group": "build",
@@ -1168,18 +1197,19 @@
       "group": "build"
     },
     {
-      "label": "04 - go run test3 -marshallOnCommit stage_out -unmarshallFromCode stage.go",
+      "label": "04 - go run test3 -marshallOnCommit=data/stage.go",
       "type": "shell",
       "options": {
-        "cwd": "./test3/go/cmd/test3"
+        "cwd": "./test/test3/go/cmd/test3"
       },
       "command": "go",
       "args": [
         "run",
         "main.go",
-        "-marshallOnCommit=sdata/tage_out",
+        "-marshallOnCommit",
+        "data/stage.go",
         "-unmarshallFromCode",
-        "stage.go"
+        "data/stage.go"
       ],
       "group": "build"
     },

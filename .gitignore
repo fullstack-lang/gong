@@ -32,6 +32,7 @@ test/go/tests/serialize_test.xlsx
 test/go/tests/wrap_text.xlsx
 test/test2/go/cmd/test2/test2
 test/test3/go/cmd/test3/test3
+lib/form/go/cmd/form/form
 lib/tone/go/cmd/tone/tone
 lib/sim/go/cmd/sim/sim
 lib/gantt/go/cmd/gantt/gantt
@@ -74,3 +75,4 @@ dsm/xsd/tests/reqif/go/cmd/reqif/reqif
 dsm/reqif/go/cmd/reqif/gongreqif.log
 dsm/reqif/go/cmd/reqif/reqif
 dsm/barrgraph/go/cmd/site
+
