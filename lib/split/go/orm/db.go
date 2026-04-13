@@ -44,6 +44,10 @@ type DBLite struct {
 
 	nextIDFormDB uint
 
+	form2DBs map[uint]*Form2DB
+
+	nextIDForm2DB uint
+
 	loadDBs map[uint]*LoadDB
 
 	nextIDLoadDB uint
@@ -114,6 +118,8 @@ func NewDBLite() *DBLite {
 
 		formDBs: make(map[uint]*FormDB),
 
+		form2DBs: make(map[uint]*Form2DB),
+
 		loadDBs: make(map[uint]*LoadDB),
 
 		logoontheleftDBs: make(map[uint]*LogoOnTheLeftDB),
@@ -177,6 +183,10 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		db.nextIDFormDB++
 		v.ID = db.nextIDFormDB
 		db.formDBs[v.ID] = v
+	case *Form2DB:
+		db.nextIDForm2DB++
+		v.ID = db.nextIDForm2DB
+		db.form2DBs[v.ID] = v
 	case *LoadDB:
 		db.nextIDLoadDB++
 		v.ID = db.nextIDLoadDB
@@ -269,6 +279,8 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 		delete(db.faviconDBs, v.ID)
 	case *FormDB:
 		delete(db.formDBs, v.ID)
+	case *Form2DB:
+		delete(db.form2DBs, v.ID)
 	case *LoadDB:
 		delete(db.loadDBs, v.ID)
 	case *LogoOnTheLeftDB:
@@ -330,6 +342,9 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 		return db, nil
 	case *FormDB:
 		db.formDBs[v.ID] = v
+		return db, nil
+	case *Form2DB:
+		db.form2DBs[v.ID] = v
 		return db, nil
 	case *LoadDB:
 		db.loadDBs[v.ID] = v
@@ -421,6 +436,12 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 			*existing = *v
 		} else {
 			return nil, errors.New("db Form github.com/fullstack-lang/gong/lib/split/go, record not found")
+		}
+	case *Form2DB:
+		if existing, ok := db.form2DBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("db Form2 github.com/fullstack-lang/gong/lib/split/go, record not found")
 		}
 	case *LoadDB:
 		if existing, ok := db.loadDBs[v.ID]; ok {
@@ -547,6 +568,12 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 	case *[]FormDB:
 		*ptr = make([]FormDB, 0, len(db.formDBs))
 		for _, v := range db.formDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
+	case *[]Form2DB:
+		*ptr = make([]Form2DB, 0, len(db.form2DBs))
+		for _, v := range db.form2DBs {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
@@ -720,6 +747,16 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		formDB, _ := instanceDB.(*FormDB)
 		*formDB = *tmp
+		
+	case *Form2DB:
+		tmp, ok := db.form2DBs[uint(i)]
+
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Form2 Unkown entry %d", i))
+		}
+
+		form2DB, _ := instanceDB.(*Form2DB)
+		*form2DB = *tmp
 		
 	case *LoadDB:
 		tmp, ok := db.loadDBs[uint(i)]

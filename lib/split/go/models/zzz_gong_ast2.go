@@ -513,6 +513,8 @@ func (u *AsSplitAreaUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 		GongUnmarshallPointer(&instance.Cursor, valueExpr, identifierMap)
 	case "Form":
 		GongUnmarshallPointer(&instance.Form, valueExpr, identifierMap)
+	case "Form2":
+		GongUnmarshallPointer(&instance.Form2, valueExpr, identifierMap)
 	case "Load":
 		GongUnmarshallPointer(&instance.Load, valueExpr, identifierMap)
 	case "Markdown":
@@ -654,6 +656,37 @@ func (u *FormUnmarshaller) Initialize(stage *Stage, identifier string, instanceN
 
 func (u *FormUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
 	instance := i.(*Form)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "StackName":
+		instance.StackName = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
+type Form2Unmarshaller struct{}
+
+func (u *Form2Unmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(Form2)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *Form2Unmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*Form2)
 	_ = instance
 	switch fieldName {
 	// insertion point per field

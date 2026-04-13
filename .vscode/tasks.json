@@ -978,6 +978,21 @@
       ],
       "group": "build"
     },
+      {
+      "label": "04 - go run form",
+      "type": "shell",
+      "options": {
+        "cwd": "./lib/form/go/cmd/form"
+      },
+      "command": "go",
+      "args": [
+        "run",
+        ".",
+        "-unmarshallFromCode=data/stage.go",
+        "-marshallOnCommit=data/stage"
+      ],
+      "group": "build"
+    },
     {
       "label": "04 - go run load",
       "type": "shell",
