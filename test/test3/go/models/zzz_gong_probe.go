@@ -4,8 +4,8 @@ package models
 import (
 	"time"
 
+	form "github.com/fullstack-lang/gong/lib/form/go/models"
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
-	form "github.com/fullstack-lang/gong/lib/table/go/models"
 )
 
 type ProbeIF interface {
