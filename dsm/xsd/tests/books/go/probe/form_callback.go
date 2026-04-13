@@ -6,7 +6,7 @@ import (
 	"slices"
 	"time"
 
-	table "github.com/fullstack-lang/gong/lib/table/go/models"
+	form "github.com/fullstack-lang/gong/lib/table/go/models"
 
 	"github.com/fullstack-lang/gong/dsm/xsd/tests/books/go/models"
 )
@@ -22,7 +22,7 @@ var _ = log.Panicf
 func __gong__New__BookTypeFormCallback(
 	booktype *models.BookType,
 	probe *Probe,
-	formGroup *table.FormGroup,
+	formGroup *form.FormGroup,
 ) (booktypeFormCallback *BookTypeFormCallback) {
 	booktypeFormCallback = new(BookTypeFormCallback)
 	booktypeFormCallback.probe = probe
@@ -42,7 +42,7 @@ type BookTypeFormCallback struct {
 
 	probe *Probe
 
-	formGroup *table.FormGroup
+	formGroup *form.FormGroup
 }
 
 func (booktypeFormCallback *BookTypeFormCallback) OnSave() {
@@ -193,7 +193,7 @@ func (booktypeFormCallback *BookTypeFormCallback) OnSave() {
 	// display a new form by reset the form stage
 	if booktypeFormCallback.CreationMode || booktypeFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		booktypeFormCallback.probe.formStage.Reset()
-		newFormGroup := (&table.FormGroup{
+		newFormGroup := (&form.FormGroup{
 			Name: FormName,
 		}).Stage(booktypeFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__BookTypeFormCallback(
@@ -211,7 +211,7 @@ func (booktypeFormCallback *BookTypeFormCallback) OnSave() {
 func __gong__New__BooksFormCallback(
 	books *models.Books,
 	probe *Probe,
-	formGroup *table.FormGroup,
+	formGroup *form.FormGroup,
 ) (booksFormCallback *BooksFormCallback) {
 	booksFormCallback = new(BooksFormCallback)
 	booksFormCallback.probe = probe
@@ -231,7 +231,7 @@ type BooksFormCallback struct {
 
 	probe *Probe
 
-	formGroup *table.FormGroup
+	formGroup *form.FormGroup
 }
 
 func (booksFormCallback *BooksFormCallback) OnSave() {
@@ -302,7 +302,7 @@ func (booksFormCallback *BooksFormCallback) OnSave() {
 	// display a new form by reset the form stage
 	if booksFormCallback.CreationMode || booksFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		booksFormCallback.probe.formStage.Reset()
-		newFormGroup := (&table.FormGroup{
+		newFormGroup := (&form.FormGroup{
 			Name: FormName,
 		}).Stage(booksFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__BooksFormCallback(
@@ -320,7 +320,7 @@ func (booksFormCallback *BooksFormCallback) OnSave() {
 func __gong__New__CreditFormCallback(
 	credit *models.Credit,
 	probe *Probe,
-	formGroup *table.FormGroup,
+	formGroup *form.FormGroup,
 ) (creditFormCallback *CreditFormCallback) {
 	creditFormCallback = new(CreditFormCallback)
 	creditFormCallback.probe = probe
@@ -340,7 +340,7 @@ type CreditFormCallback struct {
 
 	probe *Probe
 
-	formGroup *table.FormGroup
+	formGroup *form.FormGroup
 }
 
 func (creditFormCallback *CreditFormCallback) OnSave() {
@@ -485,7 +485,7 @@ func (creditFormCallback *CreditFormCallback) OnSave() {
 	// display a new form by reset the form stage
 	if creditFormCallback.CreationMode || creditFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		creditFormCallback.probe.formStage.Reset()
-		newFormGroup := (&table.FormGroup{
+		newFormGroup := (&form.FormGroup{
 			Name: FormName,
 		}).Stage(creditFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__CreditFormCallback(
@@ -503,7 +503,7 @@ func (creditFormCallback *CreditFormCallback) OnSave() {
 func __gong__New__LinkFormCallback(
 	link *models.Link,
 	probe *Probe,
-	formGroup *table.FormGroup,
+	formGroup *form.FormGroup,
 ) (linkFormCallback *LinkFormCallback) {
 	linkFormCallback = new(LinkFormCallback)
 	linkFormCallback.probe = probe
@@ -523,7 +523,7 @@ type LinkFormCallback struct {
 
 	probe *Probe
 
-	formGroup *table.FormGroup
+	formGroup *form.FormGroup
 }
 
 func (linkFormCallback *LinkFormCallback) OnSave() {
@@ -633,7 +633,7 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 	// display a new form by reset the form stage
 	if linkFormCallback.CreationMode || linkFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		linkFormCallback.probe.formStage.Reset()
-		newFormGroup := (&table.FormGroup{
+		newFormGroup := (&form.FormGroup{
 			Name: FormName,
 		}).Stage(linkFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__LinkFormCallback(

@@ -6,7 +6,7 @@ import (
 	"slices"
 	"time"
 
-	table "github.com/fullstack-lang/gong/lib/table/go/models"
+	form "github.com/fullstack-lang/gong/lib/table/go/models"
 
 	"github.com/fullstack-lang/gong/lib/tone/go/models"
 )
@@ -22,7 +22,7 @@ var _ = log.Panicf
 func __gong__New__FreqencyFormCallback(
 	freqency *models.Freqency,
 	probe *Probe,
-	formGroup *table.FormGroup,
+	formGroup *form.FormGroup,
 ) (freqencyFormCallback *FreqencyFormCallback) {
 	freqencyFormCallback = new(FreqencyFormCallback)
 	freqencyFormCallback.probe = probe
@@ -42,7 +42,7 @@ type FreqencyFormCallback struct {
 
 	probe *Probe
 
-	formGroup *table.FormGroup
+	formGroup *form.FormGroup
 }
 
 func (freqencyFormCallback *FreqencyFormCallback) OnSave() {
@@ -148,7 +148,7 @@ func (freqencyFormCallback *FreqencyFormCallback) OnSave() {
 	// display a new form by reset the form stage
 	if freqencyFormCallback.CreationMode || freqencyFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		freqencyFormCallback.probe.formStage.Reset()
-		newFormGroup := (&table.FormGroup{
+		newFormGroup := (&form.FormGroup{
 			Name: FormName,
 		}).Stage(freqencyFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__FreqencyFormCallback(
@@ -166,7 +166,7 @@ func (freqencyFormCallback *FreqencyFormCallback) OnSave() {
 func __gong__New__NoteFormCallback(
 	note *models.Note,
 	probe *Probe,
-	formGroup *table.FormGroup,
+	formGroup *form.FormGroup,
 ) (noteFormCallback *NoteFormCallback) {
 	noteFormCallback = new(NoteFormCallback)
 	noteFormCallback.probe = probe
@@ -186,7 +186,7 @@ type NoteFormCallback struct {
 
 	probe *Probe
 
-	formGroup *table.FormGroup
+	formGroup *form.FormGroup
 }
 
 func (noteFormCallback *NoteFormCallback) OnSave() {
@@ -265,7 +265,7 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 	// display a new form by reset the form stage
 	if noteFormCallback.CreationMode || noteFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		noteFormCallback.probe.formStage.Reset()
-		newFormGroup := (&table.FormGroup{
+		newFormGroup := (&form.FormGroup{
 			Name: FormName,
 		}).Stage(noteFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__NoteFormCallback(
@@ -283,7 +283,7 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 func __gong__New__PlayerFormCallback(
 	player *models.Player,
 	probe *Probe,
-	formGroup *table.FormGroup,
+	formGroup *form.FormGroup,
 ) (playerFormCallback *PlayerFormCallback) {
 	playerFormCallback = new(PlayerFormCallback)
 	playerFormCallback.probe = probe
@@ -303,7 +303,7 @@ type PlayerFormCallback struct {
 
 	probe *Probe
 
-	formGroup *table.FormGroup
+	formGroup *form.FormGroup
 }
 
 func (playerFormCallback *PlayerFormCallback) OnSave() {
@@ -345,7 +345,7 @@ func (playerFormCallback *PlayerFormCallback) OnSave() {
 	// display a new form by reset the form stage
 	if playerFormCallback.CreationMode || playerFormCallback.formGroup.HasSuppressButtonBeenPressed {
 		playerFormCallback.probe.formStage.Reset()
-		newFormGroup := (&table.FormGroup{
+		newFormGroup := (&form.FormGroup{
 			Name: FormName,
 		}).Stage(playerFormCallback.probe.formStage)
 		newFormGroup.OnSave = __gong__New__PlayerFormCallback(

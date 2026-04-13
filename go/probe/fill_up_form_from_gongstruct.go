@@ -2,7 +2,7 @@
 package probe
 
 import (
-	gongtable "github.com/fullstack-lang/gong/lib/table/go/models"
+	form "github.com/fullstack-lang/gong/lib/table/go/models"
 
 	"github.com/fullstack-lang/gong/go/models"
 )
@@ -15,12 +15,12 @@ func FillUpFormFromGongstruct(instance any, probe *Probe) {
 
 }
 
-func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongtable.Stage, formName string) {
+func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.Stage, formName string) {
 
 	switch instancesTyped := any(instance).(type) {
 	// insertion point
 	case *models.GongBasicField:
-		formGroup := (&gongtable.FormGroup{
+		formGroup := (&form.FormGroup{
 			Name:  formName,
 			Label: "GongBasicField Form",
 		}).Stage(formStage)
@@ -32,7 +32,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongta
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.GongEnum:
-		formGroup := (&gongtable.FormGroup{
+		formGroup := (&form.FormGroup{
 			Name:  formName,
 			Label: "GongEnum Form",
 		}).Stage(formStage)
@@ -44,7 +44,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongta
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.GongEnumValue:
-		formGroup := (&gongtable.FormGroup{
+		formGroup := (&form.FormGroup{
 			Name:  formName,
 			Label: "GongEnumValue Form",
 		}).Stage(formStage)
@@ -56,7 +56,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongta
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.GongLink:
-		formGroup := (&gongtable.FormGroup{
+		formGroup := (&form.FormGroup{
 			Name:  formName,
 			Label: "GongLink Form",
 		}).Stage(formStage)
@@ -68,7 +68,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongta
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.GongNote:
-		formGroup := (&gongtable.FormGroup{
+		formGroup := (&form.FormGroup{
 			Name:  formName,
 			Label: "GongNote Form",
 		}).Stage(formStage)
@@ -80,7 +80,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongta
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.GongStruct:
-		formGroup := (&gongtable.FormGroup{
+		formGroup := (&form.FormGroup{
 			Name:  formName,
 			Label: "GongStruct Form",
 		}).Stage(formStage)
@@ -92,7 +92,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongta
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.GongTimeField:
-		formGroup := (&gongtable.FormGroup{
+		formGroup := (&form.FormGroup{
 			Name:  formName,
 			Label: "GongTimeField Form",
 		}).Stage(formStage)
@@ -104,7 +104,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongta
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.MetaReference:
-		formGroup := (&gongtable.FormGroup{
+		formGroup := (&form.FormGroup{
 			Name:  formName,
 			Label: "MetaReference Form",
 		}).Stage(formStage)
@@ -116,7 +116,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongta
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.ModelPkg:
-		formGroup := (&gongtable.FormGroup{
+		formGroup := (&form.FormGroup{
 			Name:  formName,
 			Label: "ModelPkg Form",
 		}).Stage(formStage)
@@ -128,7 +128,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongta
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.PointerToGongStructField:
-		formGroup := (&gongtable.FormGroup{
+		formGroup := (&form.FormGroup{
 			Name:  formName,
 			Label: "PointerToGongStructField Form",
 		}).Stage(formStage)
@@ -140,7 +140,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongta
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.SliceOfPointerToGongStructField:
-		formGroup := (&gongtable.FormGroup{
+		formGroup := (&form.FormGroup{
 			Name:  formName,
 			Label: "SliceOfPointerToGongStructField Form",
 		}).Stage(formStage)
