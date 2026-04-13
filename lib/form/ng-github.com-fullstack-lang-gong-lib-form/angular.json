@@ -1,0 +1,161 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "newProjectRoot": "projects",
+  "projects": {
+    "ng-github.com-fullstack-lang-gong-lib-form": {
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "configurations": {
+            "development": {
+              "extractLicenses": false,
+              "optimization": false,
+              "sourceMap": true
+            },
+            "production": {
+              "budgets": [
+                {
+                  "maximumError": "10mb",
+                  "maximumWarning": "500kB",
+                  "type": "initial"
+                },
+                {
+                  "maximumError": "8kB",
+                  "maximumWarning": "4kB",
+                  "type": "anyComponentStyle"
+                }
+              ],
+              "outputHashing": "all"
+            }
+          },
+          "defaultConfiguration": "production",
+          "options": {
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
+            ],
+            "browser": "src/main.ts",
+            "polyfills": [
+              "zone.js"
+            ],
+            "styles": [
+              "src/custom-theme.scss",
+              "src/styles.css"
+            ],
+            "tsConfig": "tsconfig.app.json"
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular/build:extract-i18n"
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "configurations": {
+            "development": {
+              "buildTarget": "ng-github.com-fullstack-lang-gong-lib-form:build:development"
+            },
+            "production": {
+              "buildTarget": "ng-github.com-fullstack-lang-gong-lib-form:build:production"
+            }
+          },
+          "defaultConfiguration": "development"
+        }
+      },
+      "prefix": "app",
+      "projectType": "application",
+      "root": "",
+      "schematics": {
+        "@schematics/angular:class": {
+          "skipTests": true
+        },
+        "@schematics/angular:component": {
+          "inlineStyle": true,
+          "inlineTemplate": true,
+          "skipTests": true
+        },
+        "@schematics/angular:directive": {
+          "skipTests": true
+        },
+        "@schematics/angular:guard": {
+          "skipTests": true
+        },
+        "@schematics/angular:interceptor": {
+          "skipTests": true
+        },
+        "@schematics/angular:pipe": {
+          "skipTests": true
+        },
+        "@schematics/angular:resolver": {
+          "skipTests": true
+        },
+        "@schematics/angular:service": {
+          "skipTests": true
+        }
+      },
+      "sourceRoot": "src"
+    },
+    "form": {
+      "projectType": "library",
+      "root": "projects/form",
+      "sourceRoot": "projects/form/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:ng-packagr",
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/form/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/form/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular/build:karma",
+          "options": {
+            "tsConfig": "projects/form/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
+    },
+    "formspecific": {
+      "projectType": "library",
+      "root": "projects/formspecific",
+      "sourceRoot": "projects/formspecific/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:ng-packagr",
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/formspecific/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/formspecific/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular/build:karma",
+          "options": {
+            "tsConfig": "projects/formspecific/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "version": 1
+}
