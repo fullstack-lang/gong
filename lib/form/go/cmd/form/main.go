@@ -48,22 +48,22 @@ func main() {
 	split.StageBranch(splitStage, &split.View{
 		Name: "Split",
 		RootAsSplitAreas: []*split.AsSplitArea{
-			// (&split.AsSplitArea{
-			// 	Size: 50,
-			// 	AsSplit: (&split.AsSplit{
-			// 		Direction: split.Horizontal,
-			// 		AsSplitAreas: []*split.AsSplitArea{
-			// 			(&split.AsSplitArea{
-			// 				Name: "Form",
-			// 				Size: 50,
-			// 				Form: (&split.Form{
-			// 					Name:      "Form",
-			// 					StackName: stageForManualyEditedForm.GetName(),
-			// 				}),
-			// 			}),
-			// 		},
-			// 	}),
-			// }),
+			(&split.AsSplitArea{
+				Size: 50,
+				AsSplit: (&split.AsSplit{
+					Direction: split.Horizontal,
+					AsSplitAreas: []*split.AsSplitArea{
+						(&split.AsSplitArea{
+							Name: "Form",
+							Size: 50,
+							Form2: (&split.Form2{
+								Name:      "Form2",
+								StackName: stack.Stage.GetName(),
+							}),
+						}),
+					},
+				}),
+			}),
 			(&split.AsSplitArea{
 				Size: 50,
 				Split: (&split.Split{
