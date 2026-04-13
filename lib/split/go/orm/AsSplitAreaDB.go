@@ -67,6 +67,10 @@ type AsSplitAreaPointersEncoding struct {
 	// This field is generated into another field to enable AS ONE association
 	FormID sql.NullInt64
 
+	// field Form2 is a pointer to another Struct (optional or 0..1)
+	// This field is generated into another field to enable AS ONE association
+	Form2ID sql.NullInt64
+
 	// field Load is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
 	LoadID sql.NullInt64
@@ -357,6 +361,18 @@ func (backRepoAsSplitArea *BackRepoAsSplitAreaStruct) CommitPhaseTwoInstance(bac
 		} else {
 			assplitareaDB.FormID.Int64 = 0
 			assplitareaDB.FormID.Valid = true
+		}
+
+		// commit pointer value assplitarea.Form2 translates to updating the assplitarea.Form2ID
+		assplitareaDB.Form2ID.Valid = true // allow for a 0 value (nil association)
+		if assplitarea.Form2 != nil {
+			if Form2Id, ok := backRepo.BackRepoForm2.Map_Form2Ptr_Form2DBID[assplitarea.Form2]; ok {
+				assplitareaDB.Form2ID.Int64 = int64(Form2Id)
+				assplitareaDB.Form2ID.Valid = true
+			}
+		} else {
+			assplitareaDB.Form2ID.Int64 = 0
+			assplitareaDB.Form2ID.Valid = true
 		}
 
 		// commit pointer value assplitarea.Load translates to updating the assplitarea.LoadID
@@ -660,6 +676,27 @@ func (assplitareaDB *AsSplitAreaDB) DecodePointers(backRepo *BackRepoStruct, ass
 			}
 		} else {
 			assplitarea.Form = nil
+		}
+	}
+	
+	// Form2 field	
+	{
+		id := assplitareaDB.Form2ID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoForm2.Map_Form2DBID_Form2Ptr[uint(id)]
+
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
+			if !ok {
+				log.Println("DecodePointers: assplitarea.Form2, unknown pointer id", id)
+				assplitarea.Form2 = nil
+			} else {
+				// updates only if field has changed
+				if assplitarea.Form2 == nil || assplitarea.Form2 != tmp {
+					assplitarea.Form2 = tmp
+				}
+			}
+		} else {
+			assplitarea.Form2 = nil
 		}
 	}
 	
@@ -1161,6 +1198,12 @@ func (backRepoAsSplitArea *BackRepoAsSplitAreaStruct) RestorePhaseTwo() {
 		if assplitareaDB.FormID.Int64 != 0 {
 			assplitareaDB.FormID.Int64 = int64(BackRepoFormid_atBckpTime_newID[uint(assplitareaDB.FormID.Int64)])
 			assplitareaDB.FormID.Valid = true
+		}
+
+		// reindexing Form2 field
+		if assplitareaDB.Form2ID.Int64 != 0 {
+			assplitareaDB.Form2ID.Int64 = int64(BackRepoForm2id_atBckpTime_newID[uint(assplitareaDB.Form2ID.Int64)])
+			assplitareaDB.Form2ID.Valid = true
 		}
 
 		// reindexing Load field

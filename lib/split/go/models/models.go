@@ -5,6 +5,7 @@ package models
 import (
 	_ "github.com/fullstack-lang/gong/lib/button/ng-github.com-fullstack-lang-gong-lib-button"
 	_ "github.com/fullstack-lang/gong/lib/cursor/ng-github.com-fullstack-lang-gong-lib-cursor"
+	_ "github.com/fullstack-lang/gong/lib/form/ng-github.com-fullstack-lang-gong-lib-form"
 	_ "github.com/fullstack-lang/gong/lib/load/ng-github.com-fullstack-lang-gong-lib-load"
 	_ "github.com/fullstack-lang/gong/lib/markdown/ng-github.com-fullstack-lang-gong-lib-markdown"
 	_ "github.com/fullstack-lang/gong/lib/sim/ng-github.com-fullstack-lang-gong-lib-sim"
@@ -72,6 +73,7 @@ type AsSplitArea struct {
 	Button   *Button
 	Cursor   *Cursor
 	Form     *Form
+	Form2    *Form2
 	Load     *Load
 	Markdown *Markdown
 	Slider   *Slider
@@ -98,6 +100,11 @@ type Cursor struct {
 }
 
 type Form struct {
+	Name      string // name of the stack
+	StackName string
+}
+
+type Form2 struct {
 	Name      string // name of the stack
 	StackName string
 }

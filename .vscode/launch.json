@@ -1207,6 +1207,14 @@
             "sourceMaps": true,
         },
         {
+            "name": "form: Launch Chrome (form) on 4200",
+            "request": "launch",
+            "type": "chrome",
+            "url": "http://localhost:4200",
+            "webRoot": "${workspaceFolder}/lib/form/ng-github.com-fullstack-lang-gong-lib-form",
+            "sourceMaps": true,
+        },
+        {
             "name": "load: Launch Chrome (load) on 4200",
             "request": "launch",
             "type": "chrome",

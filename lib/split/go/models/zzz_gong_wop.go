@@ -117,6 +117,20 @@ func (from *Form) CopyBasicFields(to *Form) {
 	to.StackName = from.StackName
 }
 
+type Form2_WOP struct {
+	// insertion point
+
+	Name string
+
+	StackName string
+}
+
+func (from *Form2) CopyBasicFields(to *Form2) {
+	// insertion point
+	to.Name = from.Name
+	to.StackName = from.StackName
+}
+
 type Load_WOP struct {
 	// insertion point
 

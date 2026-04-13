@@ -36,6 +36,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.FavIcon](probe)
 	case "Form":
 		updateProbeTable[*models.Form](probe)
+	case "Form2":
+		updateProbeTable[*models.Form2](probe)
 	case "Load":
 		updateProbeTable[*models.Load](probe)
 	case "LogoOnTheLeft":
