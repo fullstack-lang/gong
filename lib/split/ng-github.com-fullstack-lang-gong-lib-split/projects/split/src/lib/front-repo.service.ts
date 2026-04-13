@@ -29,6 +29,10 @@ import { FormAPI } from './form-api'
 import { Form, CopyFormAPIToForm } from './form'
 import { FormService } from './form.service'
 
+import { Form2API } from './form2-api'
+import { Form2, CopyForm2APIToForm2 } from './form2'
+import { Form2Service } from './form2.service'
+
 import { LoadAPI } from './load-api'
 import { Load, CopyLoadAPIToLoad } from './load'
 import { LoadService } from './load.service'
@@ -106,6 +110,9 @@ export class FrontRepo { // insertion point sub template
 	array_Forms = new Array<Form>() // array of front instances
 	map_ID_Form = new Map<number, Form>() // map of front instances
 
+	array_Form2s = new Array<Form2>() // array of front instances
+	map_ID_Form2 = new Map<number, Form2>() // map of front instances
+
 	array_Loads = new Array<Load>() // array of front instances
 	map_ID_Load = new Map<number, Load>() // map of front instances
 
@@ -166,6 +173,8 @@ export class FrontRepo { // insertion point sub template
 				return this.array_FavIcons as unknown as Array<Type>
 			case 'Form':
 				return this.array_Forms as unknown as Array<Type>
+			case 'Form2':
+				return this.array_Form2s as unknown as Array<Type>
 			case 'Load':
 				return this.array_Loads as unknown as Array<Type>
 			case 'LogoOnTheLeft':
@@ -212,6 +221,8 @@ export class FrontRepo { // insertion point sub template
 				return this.map_ID_FavIcon as unknown as Map<number, Type>
 			case 'Form':
 				return this.map_ID_Form as unknown as Map<number, Type>
+			case 'Form2':
+				return this.map_ID_Form2 as unknown as Map<number, Type>
 			case 'Load':
 				return this.map_ID_Load as unknown as Map<number, Type>
 			case 'LogoOnTheLeft':
@@ -314,6 +325,7 @@ export class FrontRepoService {
 		private cursorService: CursorService,
 		private faviconService: FavIconService,
 		private formService: FormService,
+		private form2Service: Form2Service,
 		private loadService: LoadService,
 		private logoontheleftService: LogoOnTheLeftService,
 		private logoontherightService: LogoOnTheRightService,
@@ -365,6 +377,7 @@ export class FrontRepoService {
 		Observable<CursorAPI[]>,
 		Observable<FavIconAPI[]>,
 		Observable<FormAPI[]>,
+		Observable<Form2API[]>,
 		Observable<LoadAPI[]>,
 		Observable<LogoOnTheLeftAPI[]>,
 		Observable<LogoOnTheRightAPI[]>,
@@ -399,6 +412,7 @@ export class FrontRepoService {
 			this.cursorService.getCursors(this.Name, this.frontRepo),
 			this.faviconService.getFavIcons(this.Name, this.frontRepo),
 			this.formService.getForms(this.Name, this.frontRepo),
+			this.form2Service.getForm2s(this.Name, this.frontRepo),
 			this.loadService.getLoads(this.Name, this.frontRepo),
 			this.logoontheleftService.getLogoOnTheLefts(this.Name, this.frontRepo),
 			this.logoontherightService.getLogoOnTheRights(this.Name, this.frontRepo),
@@ -428,6 +442,7 @@ export class FrontRepoService {
 						cursors_,
 						favicons_,
 						forms_,
+						form2s_,
 						loads_,
 						logoonthelefts_,
 						logoontherights_,
@@ -457,6 +472,8 @@ export class FrontRepoService {
 						favicons = favicons_ as FavIconAPI[]
 						var forms: FormAPI[]
 						forms = forms_ as FormAPI[]
+						var form2s: Form2API[]
+						form2s = form2s_ as Form2API[]
 						var loads: LoadAPI[]
 						loads = loads_ as LoadAPI[]
 						var logoonthelefts: LogoOnTheLeftAPI[]
@@ -556,6 +573,18 @@ export class FrontRepoService {
 								let form = new Form
 								this.frontRepo.array_Forms.push(form)
 								this.frontRepo.map_ID_Form.set(formAPI.ID, form)
+							}
+						)
+
+						// init the arrays
+						this.frontRepo.array_Form2s = []
+						this.frontRepo.map_ID_Form2.clear()
+
+						form2s.forEach(
+							form2API => {
+								let form2 = new Form2
+								this.frontRepo.array_Form2s.push(form2)
+								this.frontRepo.map_ID_Form2.set(form2API.ID, form2)
 							}
 						)
 
@@ -764,6 +793,14 @@ export class FrontRepoService {
 							formAPI => {
 								let form = this.frontRepo.map_ID_Form.get(formAPI.ID)
 								CopyFormAPIToForm(formAPI, form!, this.frontRepo)
+							}
+						)
+
+						// fill up front objects
+						form2s.forEach(
+							form2API => {
+								let form2 = this.frontRepo.map_ID_Form2.get(form2API.ID)
+								CopyForm2APIToForm2(form2API, form2!, this.frontRepo)
 							}
 						)
 
@@ -991,6 +1028,18 @@ export class FrontRepoService {
 				)
 
 				// init the arrays
+				frontRepo.array_Form2s = []
+				frontRepo.map_ID_Form2.clear()
+
+				backRepoData.Form2APIs.forEach(
+					form2API => {
+						let form2 = new Form2
+						frontRepo.array_Form2s.push(form2)
+						frontRepo.map_ID_Form2.set(form2API.ID, form2)
+					}
+				)
+
+				// init the arrays
 				frontRepo.array_Loads = []
 				frontRepo.map_ID_Load.clear()
 
@@ -1201,6 +1250,14 @@ export class FrontRepoService {
 				)
 
 				// fill up front objects
+				backRepoData.Form2APIs.forEach(
+					form2API => {
+						let form2 = frontRepo.map_ID_Form2.get(form2API.ID)
+						CopyForm2APIToForm2(form2API, form2!, frontRepo)
+					}
+				)
+
+				// fill up front objects
 				backRepoData.LoadAPIs.forEach(
 					loadAPI => {
 						let load = frontRepo.map_ID_Load.get(loadAPI.ID)
@@ -1350,42 +1407,45 @@ export function getFavIconUniqueID(id: number): number {
 export function getFormUniqueID(id: number): number {
 	return 53 * id
 }
-export function getLoadUniqueID(id: number): number {
+export function getForm2UniqueID(id: number): number {
 	return 59 * id
 }
-export function getLogoOnTheLeftUniqueID(id: number): number {
+export function getLoadUniqueID(id: number): number {
 	return 61 * id
 }
-export function getLogoOnTheRightUniqueID(id: number): number {
+export function getLogoOnTheLeftUniqueID(id: number): number {
 	return 67 * id
 }
-export function getMarkdownUniqueID(id: number): number {
+export function getLogoOnTheRightUniqueID(id: number): number {
 	return 71 * id
 }
-export function getSliderUniqueID(id: number): number {
+export function getMarkdownUniqueID(id: number): number {
 	return 73 * id
 }
-export function getSplitUniqueID(id: number): number {
+export function getSliderUniqueID(id: number): number {
 	return 79 * id
 }
-export function getSvgUniqueID(id: number): number {
+export function getSplitUniqueID(id: number): number {
 	return 83 * id
 }
-export function getTableUniqueID(id: number): number {
+export function getSvgUniqueID(id: number): number {
 	return 89 * id
 }
-export function getTitleUniqueID(id: number): number {
+export function getTableUniqueID(id: number): number {
 	return 97 * id
 }
-export function getToneUniqueID(id: number): number {
+export function getTitleUniqueID(id: number): number {
 	return 101 * id
 }
-export function getTreeUniqueID(id: number): number {
+export function getToneUniqueID(id: number): number {
 	return 103 * id
 }
-export function getViewUniqueID(id: number): number {
+export function getTreeUniqueID(id: number): number {
 	return 107 * id
 }
-export function getXlsxUniqueID(id: number): number {
+export function getViewUniqueID(id: number): number {
 	return 109 * id
+}
+export function getXlsxUniqueID(id: number): number {
+	return 113 * id
 }

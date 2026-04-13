@@ -3,7 +3,20 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "outDir": "./dist/out-tsc",
+    "rootDir": "../../../..",
     "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "bundler",
+    "importHelpers": true,
+    "target": "ES2022",
     "paths": {
       // with gong, some angular standalone component are imported from other stacks
       "@vendored_components/*": [
@@ -11,50 +24,20 @@
         "../../vendor/*", // path for stack within 1 level of the module
         "../../../vendor/*", // path for stack within 2 levels of the module
         "../../../../../../*", // path with gong internal lib and test libraries
-        "../../../../*", // path when compile gong ng
-
       ],
-      "form": [
-        "./dist/form"
+      "table": [
+        "./dist/table"
       ],
-      "formspecific": [
-        "./dist/formspecific"
+      "tablespecific": [
+        "./dist/tablespecific"
       ]
     },
-    "noImplicitOverride": true,
-    "noPropertyAccessFromIndexSignature": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "skipLibCheck": true,
-    "isolatedModules": true,
-    "experimentalDecorators": true,
-    "importHelpers": true,
-    "target": "ES2022",
-    "module": "preserve"
+    "module": "ES2022"
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
-    "typeCheckHostBindings": true,
     "strictTemplates": true
-  },
-  "files": [],
-  "references": [
-    {
-      "path": "./tsconfig.app.json"
-    },
-    {
-      "path": "./projects/form/tsconfig.lib.json"
-    },
-    {
-      "path": "./projects/form/tsconfig.spec.json"
-    },
-    {
-      "path": "./projects/formspecific/tsconfig.lib.json"
-    },
-    {
-      "path": "./projects/formspecific/tsconfig.spec.json"
-    }
-  ]
+  }
 }

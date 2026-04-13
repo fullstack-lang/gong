@@ -48,6 +48,7 @@ func NewStackInstance(
 	models.SetOrchestratorOnAfterUpdate[models.Cursor](stage)
 	models.SetOrchestratorOnAfterUpdate[models.FavIcon](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Form](stage)
+	models.SetOrchestratorOnAfterUpdate[models.Form2](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Load](stage)
 	models.SetOrchestratorOnAfterUpdate[models.LogoOnTheLeft](stage)
 	models.SetOrchestratorOnAfterUpdate[models.LogoOnTheRight](stage)
