@@ -17,6 +17,7 @@ import { AngularSplitModule } from 'angular-split';
 
 import { ButtonSpecificComponent } from '../../../../../../../button/ng-github.com-fullstack-lang-gong-lib-button/projects/buttonspecific/src/lib/button-specific/button-specific.component'
 import { CursorSpecificComponent } from '../../../../../../../cursor/ng-github.com-fullstack-lang-gong-lib-cursor/projects/cursorspecific/src/lib/cursor-specific/cursor-specific.component'
+import { FormSpecific } from '../../../../../../../form/ng-github.com-fullstack-lang-gong-lib-form/projects/formspecific/src/lib/form-specific/form-specific'
 import { FormSpecificComponent } from '../../../../../../../table/ng-github.com-fullstack-lang-gong-lib-table/projects/tablespecific/src/lib/form-specific/form-specific.component'
 import { LoadSpecificComponent } from '../../../../../../../load/ng-github.com-fullstack-lang-gong-lib-load/projects/loadspecific/src/lib/load-specific/load-specific.component'
 import { MarkdownSpecificComponent } from '../../../../../../../markdown/ng-github.com-fullstack-lang-gong-lib-markdown/projects/markdownspecific/src/lib/markdown-specific/markdown-specific.component'
@@ -44,6 +45,7 @@ import { DomSanitizer, SafeHtml, Title } from '@angular/platform-browser';
 
     ButtonSpecificComponent,
     CursorSpecificComponent,
+    FormSpecific,
     FormSpecificComponent,
     LoadSpecificComponent,
     MarkdownSpecificComponent,
