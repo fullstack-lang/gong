@@ -4332,8 +4332,6 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Button: &Button{Name: "Button"},
 			// field is initialized with an instance of Cursor with the name of the field
 			Cursor: &Cursor{Name: "Cursor"},
-			// field is initialized with an instance of Form with the name of the field
-			Form: &Form{Name: "Form"},
 			// field is initialized with an instance of Form2 with the name of the field
 			Form2: &Form2{Name: "Form2"},
 			// field is initialized with an instance of Load with the name of the field
@@ -4503,23 +4501,6 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 					}
 					assplitareas = append(assplitareas, assplitarea)
 					res[cursor_] = assplitareas
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "Form":
-			res := make(map[*Form][]*AsSplitArea)
-			for assplitarea := range stage.AsSplitAreas {
-				if assplitarea.Form != nil {
-					form_ := assplitarea.Form
-					var assplitareas []*AsSplitArea
-					_, ok := res[form_]
-					if ok {
-						assplitareas = res[form_]
-					} else {
-						assplitareas = make([]*AsSplitArea, 0)
-					}
-					assplitareas = append(assplitareas, assplitarea)
-					res[form_] = assplitareas
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -5122,11 +5103,6 @@ func (assplitarea *AsSplitArea) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Cursor",
 		},
 		{
-			Name:                 "Form",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "Form",
-		},
-		{
 			Name:                 "Form2",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Form2",
@@ -5632,12 +5608,6 @@ func (assplitarea *AsSplitArea) GongGetFieldValue(fieldName string, stage *Stage
 			res.valueString = assplitarea.Cursor.Name
 			res.ids = assplitarea.Cursor.GongGetUUID(stage)
 		}
-	case "Form":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if assplitarea.Form != nil {
-			res.valueString = assplitarea.Form.Name
-			res.ids = assplitarea.Form.GongGetUUID(stage)
-		}
 	case "Form2":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if assplitarea.Form2 != nil {
@@ -6038,17 +6008,6 @@ func (assplitarea *AsSplitArea) GongSetFieldValue(fieldName string, value GongFi
 			for __instance__ := range stage.Cursors {
 				if stage.Cursor_stagedOrder[__instance__] == uint(id) {
 					assplitarea.Cursor = __instance__
-					break
-				}
-			}
-		}
-	case "Form":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			assplitarea.Form = nil
-			for __instance__ := range stage.Forms {
-				if stage.Form_stagedOrder[__instance__] == uint(id) {
-					assplitarea.Form = __instance__
 					break
 				}
 			}

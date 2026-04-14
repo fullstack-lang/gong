@@ -72,7 +72,6 @@ type AsSplitArea struct {
 
 	Button   *Button
 	Cursor   *Cursor
-	Form     *Form
 	Form2    *Form2
 	Load     *Load
 	Markdown *Markdown

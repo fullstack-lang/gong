@@ -395,9 +395,6 @@ func (stage *Stage) StageBranchAsSplitArea(assplitarea *AsSplitArea) {
 	if assplitarea.Cursor != nil {
 		StageBranch(stage, assplitarea.Cursor)
 	}
-	if assplitarea.Form != nil {
-		StageBranch(stage, assplitarea.Form)
-	}
 	if assplitarea.Form2 != nil {
 		StageBranch(stage, assplitarea.Form2)
 	}
@@ -847,9 +844,6 @@ func CopyBranchAsSplitArea(mapOrigCopy map[any]any, assplitareaFrom *AsSplitArea
 	}
 	if assplitareaFrom.Cursor != nil {
 		assplitareaTo.Cursor = CopyBranchCursor(mapOrigCopy, assplitareaFrom.Cursor)
-	}
-	if assplitareaFrom.Form != nil {
-		assplitareaTo.Form = CopyBranchForm(mapOrigCopy, assplitareaFrom.Form)
 	}
 	if assplitareaFrom.Form2 != nil {
 		assplitareaTo.Form2 = CopyBranchForm2(mapOrigCopy, assplitareaFrom.Form2)
@@ -1343,9 +1337,6 @@ func (stage *Stage) UnstageBranchAsSplitArea(assplitarea *AsSplitArea) {
 	if assplitarea.Cursor != nil {
 		UnstageBranch(stage, assplitarea.Cursor)
 	}
-	if assplitarea.Form != nil {
-		UnstageBranch(stage, assplitarea.Form)
-	}
 	if assplitarea.Form2 != nil {
 		UnstageBranch(stage, assplitarea.Form2)
 	}
@@ -1677,9 +1668,6 @@ func (reference *AsSplitArea) GongReconstructPointersFromReferences(stage *Stage
 	if instance.Cursor != nil {
 		reference.Cursor = stage.Cursors_reference[instance.Cursor]
 	}
-	if instance.Form != nil {
-		reference.Form = stage.Forms_reference[instance.Form]
-	}
 	if instance.Form2 != nil {
 		reference.Form2 = stage.Form2s_reference[instance.Form2]
 	}
@@ -1878,12 +1866,6 @@ func (reference *AsSplitArea) GongReconstructPointersFromInstances(stage *Stage)
 		reference.Cursor = nil
 		if _instance, ok := stage.Cursors_instance[_reference]; ok {
 			reference.Cursor = _instance
-		}
-	}
-	if _reference := reference.Form; _reference != nil {
-		reference.Form = nil
-		if _instance, ok := stage.Forms_instance[_reference]; ok {
-			reference.Form = _instance
 		}
 	}
 	if _reference := reference.Form2; _reference != nil {
@@ -2164,13 +2146,6 @@ func (assplitarea *AsSplitArea) GongDiff(stage *Stage, assplitareaOther *AsSplit
 	} else if assplitarea.Cursor != nil && assplitareaOther.Cursor != nil {
 		if assplitarea.Cursor != assplitareaOther.Cursor {
 			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Cursor"))
-		}
-	}
-	if (assplitarea.Form == nil) != (assplitareaOther.Form == nil) {
-		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Form"))
-	} else if assplitarea.Form != nil && assplitareaOther.Form != nil {
-		if assplitarea.Form != assplitareaOther.Form {
-			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Form"))
 		}
 	}
 	if (assplitarea.Form2 == nil) != (assplitareaOther.Form2 == nil) {
