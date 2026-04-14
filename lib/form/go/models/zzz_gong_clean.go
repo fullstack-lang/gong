@@ -47,13 +47,6 @@ func (checkbox *CheckBox) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
-// Clean garbage collect unstaged instances that are referenced by Form2
-func (form2 *Form2) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
 // Clean garbage collect unstaged instances that are referenced by FormDiv
 func (formdiv *FormDiv) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field

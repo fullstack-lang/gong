@@ -25,9 +25,6 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *Form:
 		ok = stage.IsStagedForm(target)
 
-	case *Form2:
-		ok = stage.IsStagedForm2(target)
-
 	case *Load:
 		ok = stage.IsStagedLoad(target)
 
@@ -94,9 +91,6 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *Form:
 		ok = stage.IsStagedForm(target)
-
-	case *Form2:
-		ok = stage.IsStagedForm2(target)
 
 	case *Load:
 		ok = stage.IsStagedLoad(target)
@@ -182,13 +176,6 @@ func (stage *Stage) IsStagedFavIcon(favicon *FavIcon) (ok bool) {
 func (stage *Stage) IsStagedForm(form *Form) (ok bool) {
 
 	_, ok = stage.Forms[form]
-
-	return
-}
-
-func (stage *Stage) IsStagedForm2(form2 *Form2) (ok bool) {
-
-	_, ok = stage.Form2s[form2]
 
 	return
 }
@@ -310,9 +297,6 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Form:
 		stage.StageBranchForm(target)
 
-	case *Form2:
-		stage.StageBranchForm2(target)
-
 	case *Load:
 		stage.StageBranchLoad(target)
 
@@ -395,8 +379,8 @@ func (stage *Stage) StageBranchAsSplitArea(assplitarea *AsSplitArea) {
 	if assplitarea.Cursor != nil {
 		StageBranch(stage, assplitarea.Cursor)
 	}
-	if assplitarea.Form2 != nil {
-		StageBranch(stage, assplitarea.Form2)
+	if assplitarea.Form != nil {
+		StageBranch(stage, assplitarea.Form)
 	}
 	if assplitarea.Load != nil {
 		StageBranch(stage, assplitarea.Load)
@@ -483,21 +467,6 @@ func (stage *Stage) StageBranchForm(form *Form) {
 	}
 
 	form.Stage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-
-}
-
-func (stage *Stage) StageBranchForm2(form2 *Form2) {
-
-	// check if instance is already staged
-	if IsStaged(stage, form2) {
-		return
-	}
-
-	form2.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -738,10 +707,6 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchForm(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
-	case *Form2:
-		toT := CopyBranchForm2(mapOrigCopy, fromT)
-		return any(toT).(*Type)
-
 	case *Load:
 		toT := CopyBranchLoad(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -845,8 +810,8 @@ func CopyBranchAsSplitArea(mapOrigCopy map[any]any, assplitareaFrom *AsSplitArea
 	if assplitareaFrom.Cursor != nil {
 		assplitareaTo.Cursor = CopyBranchCursor(mapOrigCopy, assplitareaFrom.Cursor)
 	}
-	if assplitareaFrom.Form2 != nil {
-		assplitareaTo.Form2 = CopyBranchForm2(mapOrigCopy, assplitareaFrom.Form2)
+	if assplitareaFrom.Form != nil {
+		assplitareaTo.Form = CopyBranchForm(mapOrigCopy, assplitareaFrom.Form)
 	}
 	if assplitareaFrom.Load != nil {
 		assplitareaTo.Load = CopyBranchLoad(mapOrigCopy, assplitareaFrom.Load)
@@ -949,25 +914,6 @@ func CopyBranchForm(mapOrigCopy map[any]any, formFrom *Form) (formTo *Form) {
 	formTo = new(Form)
 	mapOrigCopy[formFrom] = formTo
 	formFrom.CopyBasicFields(formTo)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-
-	return
-}
-
-func CopyBranchForm2(mapOrigCopy map[any]any, form2From *Form2) (form2To *Form2) {
-
-	// form2From has already been copied
-	if _form2To, ok := mapOrigCopy[form2From]; ok {
-		form2To = _form2To.(*Form2)
-		return
-	}
-
-	form2To = new(Form2)
-	mapOrigCopy[form2From] = form2To
-	form2From.CopyBasicFields(form2To)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -1252,9 +1198,6 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Form:
 		stage.UnstageBranchForm(target)
 
-	case *Form2:
-		stage.UnstageBranchForm2(target)
-
 	case *Load:
 		stage.UnstageBranchLoad(target)
 
@@ -1337,8 +1280,8 @@ func (stage *Stage) UnstageBranchAsSplitArea(assplitarea *AsSplitArea) {
 	if assplitarea.Cursor != nil {
 		UnstageBranch(stage, assplitarea.Cursor)
 	}
-	if assplitarea.Form2 != nil {
-		UnstageBranch(stage, assplitarea.Form2)
+	if assplitarea.Form != nil {
+		UnstageBranch(stage, assplitarea.Form)
 	}
 	if assplitarea.Load != nil {
 		UnstageBranch(stage, assplitarea.Load)
@@ -1425,21 +1368,6 @@ func (stage *Stage) UnstageBranchForm(form *Form) {
 	}
 
 	form.Unstage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-
-}
-
-func (stage *Stage) UnstageBranchForm2(form2 *Form2) {
-
-	// check if instance is already staged
-	if !IsStaged(stage, form2) {
-		return
-	}
-
-	form2.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -1668,8 +1596,8 @@ func (reference *AsSplitArea) GongReconstructPointersFromReferences(stage *Stage
 	if instance.Cursor != nil {
 		reference.Cursor = stage.Cursors_reference[instance.Cursor]
 	}
-	if instance.Form2 != nil {
-		reference.Form2 = stage.Form2s_reference[instance.Form2]
+	if instance.Form != nil {
+		reference.Form = stage.Forms_reference[instance.Form]
 	}
 	if instance.Load != nil {
 		reference.Load = stage.Loads_reference[instance.Load]
@@ -1725,13 +1653,6 @@ func (reference *FavIcon) GongReconstructPointersFromReferences(stage *Stage, in
 }
 
 func (reference *Form) GongReconstructPointersFromReferences(stage *Stage, instance *Form) () {
-	// insertion point for pointers field
-	// insertion point for slice of pointers field
-
-	return
-}
-
-func (reference *Form2) GongReconstructPointersFromReferences(stage *Stage, instance *Form2) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
@@ -1868,10 +1789,10 @@ func (reference *AsSplitArea) GongReconstructPointersFromInstances(stage *Stage)
 			reference.Cursor = _instance
 		}
 	}
-	if _reference := reference.Form2; _reference != nil {
-		reference.Form2 = nil
-		if _instance, ok := stage.Form2s_instance[_reference]; ok {
-			reference.Form2 = _instance
+	if _reference := reference.Form; _reference != nil {
+		reference.Form = nil
+		if _instance, ok := stage.Forms_instance[_reference]; ok {
+			reference.Form = _instance
 		}
 	}
 	if _reference := reference.Load; _reference != nil {
@@ -1955,13 +1876,6 @@ func (reference *FavIcon) GongReconstructPointersFromInstances(stage *Stage) () 
 }
 
 func (reference *Form) GongReconstructPointersFromInstances(stage *Stage) () {
-	// insertion point for pointers field
-	// insertion point for slice of pointers fields
-
-	return
-}
-
-func (reference *Form2) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 
@@ -2148,11 +2062,11 @@ func (assplitarea *AsSplitArea) GongDiff(stage *Stage, assplitareaOther *AsSplit
 			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Cursor"))
 		}
 	}
-	if (assplitarea.Form2 == nil) != (assplitareaOther.Form2 == nil) {
-		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Form2"))
-	} else if assplitarea.Form2 != nil && assplitareaOther.Form2 != nil {
-		if assplitarea.Form2 != assplitareaOther.Form2 {
-			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Form2"))
+	if (assplitarea.Form == nil) != (assplitareaOther.Form == nil) {
+		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Form"))
+	} else if assplitarea.Form != nil && assplitareaOther.Form != nil {
+		if assplitarea.Form != assplitareaOther.Form {
+			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Form"))
 		}
 	}
 	if (assplitarea.Load == nil) != (assplitareaOther.Load == nil) {
@@ -2282,20 +2196,6 @@ func (form *Form) GongDiff(stage *Stage, formOther *Form) (diffs []string) {
 	}
 	if form.StackName != formOther.StackName {
 		diffs = append(diffs, form.GongMarshallField(stage, "StackName"))
-	}
-
-	return
-}
-
-// GongDiff computes the diff between the instance and another instance of same gong struct type
-// and returns the list of differences as strings
-func (form2 *Form2) GongDiff(stage *Stage, form2Other *Form2) (diffs []string) {
-	// insertion point for field diffs
-	if form2.Name != form2Other.Name {
-		diffs = append(diffs, form2.GongMarshallField(stage, "Name"))
-	}
-	if form2.StackName != form2Other.StackName {
-		diffs = append(diffs, form2.GongMarshallField(stage, "StackName"))
 	}
 
 	return
