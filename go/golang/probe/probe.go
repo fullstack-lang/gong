@@ -11,6 +11,7 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/doc/go/prepare"
 	split_fullstack "github.com/fullstack-lang/gong/lib/split/go/fullstack"
+	form_fullstack "github.com/fullstack-lang/gong/lib/table/go/fullstack"
 	table_fullstack "github.com/fullstack-lang/gong/lib/table/go/fullstack"
 	tree_fullstack "github.com/fullstack-lang/gong/lib/tree/go/fullstack"
 
@@ -103,7 +104,7 @@ func NewProbe(
 	notificationTableStage.Commit()
 
 	// stage for reusable form
-	formStage, _ := table_fullstack.NewStackInstance(r, stageOfInterest.GetProbeFormStageName())
+	formStage, _ := form_fullstack.NewStackInstance(r, stageOfInterest.GetProbeFormStageName())
 	formStage.Commit()
 
 	probe = &Probe{
