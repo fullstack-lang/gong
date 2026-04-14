@@ -9,7 +9,7 @@ import (
 
 	gongtable_fullstack "github.com/fullstack-lang/gong/lib/table/go/fullstack"
 
-	form "github.com/fullstack-lang/gong/lib/table/go/models"
+	form "github.com/fullstack-lang/gong/lib/form/go/models"
 	table "github.com/fullstack-lang/gong/lib/table/go/models"
 
 	"github.com/fullstack-lang/gong/lib/xlsx/go/models"

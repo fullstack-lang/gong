@@ -117,4 +117,8 @@ func _(stage *models.Stage) {
 	__B__00000026_.Name = `34`
 	__B__00000027_.Name = `B35`
 	stage.Commit()
+
+	// A09
+	__A__00000000_.Name = `A09`
+	stage.Commit()
 }
