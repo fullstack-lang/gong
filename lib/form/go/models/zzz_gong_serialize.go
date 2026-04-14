@@ -17,7 +17,21 @@ func SerializeStage2(stage *Stage, filename string, addIDs bool) {
 	f := excelize.NewFile()
 	{
 		// insertion point
+		SerializeExcelizePointerToGongstruct2[*CheckBox](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Form2](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*FormDiv](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*FormEditAssocButton](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*FormField](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*FormFieldDate](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*FormFieldDateTime](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*FormFieldFloat64](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*FormFieldInt](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*FormFieldSelect](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*FormFieldString](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*FormFieldTime](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*FormGroup](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*FormSortAssocButton](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*Option](stage, f, addIDs)
 	}
 
 	// Create a style with wrap text enabled
