@@ -295,32 +295,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(checkbox.GongMarshallField(stage, "Value"))
 	}
 
-	form2Ordered := []*Form2{}
-	for form2 := range stage.Form2s {
-		form2Ordered = append(form2Ordered, form2)
-	}
-	sort.Slice(form2Ordered[:], func(i, j int) bool {
-		form2i := form2Ordered[i]
-		form2j := form2Ordered[j]
-		form2i_order, oki := stage.Form2_stagedOrder[form2i]
-		form2j_order, okj := stage.Form2_stagedOrder[form2j]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return form2i_order < form2j_order
-	})
-	if len(form2Ordered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, form2 := range form2Ordered {
-
-		identifiersDecl.WriteString(form2.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(form2.GongMarshallField(stage, "Name"))
-	}
-
 	formdivOrdered := []*FormDiv{}
 	for formdiv := range stage.FormDivs {
 		formdivOrdered = append(formdivOrdered, formdiv)
@@ -722,14 +696,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for pointers initialization
 	}
 
-	for _, form2 := range form2Ordered {
-		_ = form2
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
 	for _, formdiv := range formdivOrdered {
 		_ = formdiv
 		var setPointerField string
@@ -904,21 +870,6 @@ func (checkbox *CheckBox) GongMarshallField(stage *Stage, fieldName string) (res
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct CheckBox", fieldName)
-	}
-	return
-}
-
-func (form2 *Form2) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
-	switch fieldName {
-	case "Name":
-		res = StringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", form2.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(form2.Name))
-
-	default:
-		log.Panicf("Unknown field %s for Gongstruct Form2", fieldName)
 	}
 	return
 }
@@ -1512,17 +1463,6 @@ func (checkbox *CheckBox) GongMarshallAllFields(stage *Stage) (initRes string, p
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(checkbox.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(checkbox.GongMarshallField(stage, "Value"))
-	}
-	initRes = initializerStatements.String()
-	ptrRes = pointersInitializesStatements.String()
-	return
-}
-func (form2 *Form2) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
-
-	var initializerStatements strings.Builder
-	var pointersInitializesStatements strings.Builder
-	{ // Insertion point for basic fields value assignment
-		initializerStatements.WriteString(form2.GongMarshallField(stage, "Name"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

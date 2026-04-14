@@ -18,15 +18,6 @@ func (inst *CheckBox) GongGetReverseFieldOwnerName(stage *Stage, reverseField *R
 	return
 }
 
-func (inst *Form2) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
-
-	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	}
-	return
-}
-
 func (inst *FormDiv) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -176,15 +167,6 @@ func (inst *CheckBox) GongGetReverseFieldOwner(stage *Stage, reverseField *Rever
 		case "CheckBoxs":
 			res = stage.FormDiv_CheckBoxs_reverseMap[inst]
 		}
-	}
-	return res
-}
-
-func (inst *Form2) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
-
-	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
 	}
 	return res
 }

@@ -10,9 +10,6 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *CheckBox:
 		ok = stage.IsStagedCheckBox(target)
 
-	case *Form2:
-		ok = stage.IsStagedForm2(target)
-
 	case *FormDiv:
 		ok = stage.IsStagedFormDiv(target)
 
@@ -65,9 +62,6 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 	case *CheckBox:
 		ok = stage.IsStagedCheckBox(target)
 
-	case *Form2:
-		ok = stage.IsStagedForm2(target)
-
 	case *FormDiv:
 		ok = stage.IsStagedFormDiv(target)
 
@@ -117,13 +111,6 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 func (stage *Stage) IsStagedCheckBox(checkbox *CheckBox) (ok bool) {
 
 	_, ok = stage.CheckBoxs[checkbox]
-
-	return
-}
-
-func (stage *Stage) IsStagedForm2(form2 *Form2) (ok bool) {
-
-	_, ok = stage.Form2s[form2]
 
 	return
 }
@@ -230,9 +217,6 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *CheckBox:
 		stage.StageBranchCheckBox(target)
 
-	case *Form2:
-		stage.StageBranchForm2(target)
-
 	case *FormDiv:
 		stage.StageBranchFormDiv(target)
 
@@ -286,21 +270,6 @@ func (stage *Stage) StageBranchCheckBox(checkbox *CheckBox) {
 	}
 
 	checkbox.Stage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-
-}
-
-func (stage *Stage) StageBranchForm2(form2 *Form2) {
-
-	// check if instance is already staged
-	if IsStaged(stage, form2) {
-		return
-	}
-
-	form2.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -563,10 +532,6 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchCheckBox(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
-	case *Form2:
-		toT := CopyBranchForm2(mapOrigCopy, fromT)
-		return any(toT).(*Type)
-
 	case *FormDiv:
 		toT := CopyBranchFormDiv(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -637,25 +602,6 @@ func CopyBranchCheckBox(mapOrigCopy map[any]any, checkboxFrom *CheckBox) (checkb
 	checkboxTo = new(CheckBox)
 	mapOrigCopy[checkboxFrom] = checkboxTo
 	checkboxFrom.CopyBasicFields(checkboxTo)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-
-	return
-}
-
-func CopyBranchForm2(mapOrigCopy map[any]any, form2From *Form2) (form2To *Form2) {
-
-	// form2From has already been copied
-	if _form2To, ok := mapOrigCopy[form2From]; ok {
-		form2To = _form2To.(*Form2)
-		return
-	}
-
-	form2To = new(Form2)
-	mapOrigCopy[form2From] = form2To
-	form2From.CopyBasicFields(form2To)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -967,9 +913,6 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *CheckBox:
 		stage.UnstageBranchCheckBox(target)
 
-	case *Form2:
-		stage.UnstageBranchForm2(target)
-
 	case *FormDiv:
 		stage.UnstageBranchFormDiv(target)
 
@@ -1023,21 +966,6 @@ func (stage *Stage) UnstageBranchCheckBox(checkbox *CheckBox) {
 	}
 
 	checkbox.Unstage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-
-}
-
-func (stage *Stage) UnstageBranchForm2(form2 *Form2) {
-
-	// check if instance is already staged
-	if !IsStaged(stage, form2) {
-		return
-	}
-
-	form2.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -1293,13 +1221,6 @@ func (reference *CheckBox) GongReconstructPointersFromReferences(stage *Stage, i
 	return
 }
 
-func (reference *Form2) GongReconstructPointersFromReferences(stage *Stage, instance *Form2) () {
-	// insertion point for pointers field
-	// insertion point for slice of pointers field
-
-	return
-}
-
 func (reference *FormDiv) GongReconstructPointersFromReferences(stage *Stage, instance *FormDiv) () {
 	// insertion point for pointers field
 	if instance.FormEditAssocButton != nil {
@@ -1442,13 +1363,6 @@ func (reference *Option) GongReconstructPointersFromReferences(stage *Stage, ins
 
 // insertion point for pointer reconstruction from instances
 func (reference *CheckBox) GongReconstructPointersFromInstances(stage *Stage) () {
-	// insertion point for pointers field
-	// insertion point for slice of pointers fields
-
-	return
-}
-
-func (reference *Form2) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 
@@ -1650,17 +1564,6 @@ func (checkbox *CheckBox) GongDiff(stage *Stage, checkboxOther *CheckBox) (diffs
 	}
 	if checkbox.Value != checkboxOther.Value {
 		diffs = append(diffs, checkbox.GongMarshallField(stage, "Value"))
-	}
-
-	return
-}
-
-// GongDiff computes the diff between the instance and another instance of same gong struct type
-// and returns the list of differences as strings
-func (form2 *Form2) GongDiff(stage *Stage, form2Other *Form2) (diffs []string) {
-	// insertion point for field diffs
-	if form2.Name != form2Other.Name {
-		diffs = append(diffs, form2.GongMarshallField(stage, "Name"))
 	}
 
 	return

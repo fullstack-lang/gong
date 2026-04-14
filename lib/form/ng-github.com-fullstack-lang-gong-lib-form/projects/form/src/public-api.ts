@@ -17,10 +17,6 @@ export * from './lib/checkbox-api'
 export * from './lib/checkbox'
 export * from './lib/checkbox.service'
 
-export * from './lib/form2-api'
-export * from './lib/form2'
-export * from './lib/form2.service'
-
 export * from './lib/formdiv-api'
 export * from './lib/formdiv'
 export * from './lib/formdiv.service'
