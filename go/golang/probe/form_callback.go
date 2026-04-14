@@ -22,7 +22,7 @@ import (
 	"slices"
 	"time"
 
-	form "github.com/fullstack-lang/gong/lib/table/go/models"
+	form "github.com/fullstack-lang/gong/lib/form/go/models"
 
 	"{{PkgPathRoot}}/models"
 )

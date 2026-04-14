@@ -2,7 +2,7 @@
 package probe
 
 import (
-	form "github.com/fullstack-lang/gong/lib/table/go/models"
+	form "github.com/fullstack-lang/gong/lib/form/go/models"
 
 	"github.com/fullstack-lang/gong/lib/sim/go/models"
 )
