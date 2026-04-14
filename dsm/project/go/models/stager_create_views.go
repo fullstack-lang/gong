@@ -55,7 +55,7 @@ func (stager *Stager) createViews(stage *Stage) {
 			},
 			{
 				Size: 18,
-				Form: &split.Form{
+				Form2: &split.Form2{
 					StackName: stager.probeForm.GetFormStage().GetName(),
 				},
 			},
@@ -92,7 +92,7 @@ func (stager *Stager) createViews(stage *Stage) {
 						},
 						{
 							Size: 62,
-							Form: &split.Form{
+							Form2: &split.Form2{
 								StackName: stager.probeForm.GetFormStage().GetName(),
 							},
 						},

@@ -23,51 +23,46 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-10-21 06:06:44.788294 CEST"
-	const __write__utc_time__ = "2025-10-21 04:06:44.788294 UTC"
+	// insertion point for declaration of instances to stage
 
-	const __commitId__ = "0000000121"
+	__Astruct__00000000_ := (&models.Astruct{Name: `A0xxd`}).Stage(stage)
+	__Astruct__00000001_ := (&models.Astruct{Name: `A1`}).Stage(stage)
+	__Astruct__00000005_ := (&models.Astruct{Name: `A5`}).Stage(stage)
+	__Astruct__00000006_ := (&models.Astruct{Name: `A6`}).Stage(stage)
 
-	// Declaration of instances to stage
+	__AstructBstruct2Use__00000000_ := (&models.AstructBstruct2Use{Name: ``}).Stage(stage)
+	__AstructBstruct2Use__00000001_ := (&models.AstructBstruct2Use{Name: ``}).Stage(stage)
 
-	__Astruct__000000_A1 := (&models.Astruct{}).Stage(stage)
-	__Astruct__000001_A2 := (&models.Astruct{}).Stage(stage)
-	__Astruct__000002_A3 := (&models.Astruct{}).Stage(stage)
-	__Astruct__000003_A3 := (&models.Astruct{}).Stage(stage)
+	__Bstruct__00000000_ := (&models.Bstruct{Name: `B0`}).Stage(stage)
+	__Bstruct__00000004_ := (&models.Bstruct{Name: `vv`}).Stage(stage)
 
-	__AstructBstruct2Use__000000_ := (&models.AstructBstruct2Use{}).Stage(stage)
-	__AstructBstruct2Use__000001_ := (&models.AstructBstruct2Use{}).Stage(stage)
+	__Dstruct__00000000_ := (&models.Dstruct{Name: `D1`}).Stage(stage)
 
-	__Bstruct__000000_B1 := (&models.Bstruct{}).Stage(stage)
-	__Bstruct__000001_B2_ := (&models.Bstruct{}).Stage(stage)
-	__Bstruct__000002_B3 := (&models.Bstruct{}).Stage(stage)
+	__Gstruct__00000000_ := (&models.Gstruct{}).Stage(stage)
+	__Gstruct__00000001_ := (&models.Gstruct{}).Stage(stage)
 
-	__Dstruct__000000_D1 := (&models.Dstruct{}).Stage(stage)
+	// insertion point for initialization of values
 
-	__Gstruct__000000_ := (&models.Gstruct{}).Stage(stage)
-	__Gstruct__000001_g2 := (&models.Gstruct{}).Stage(stage)
-
-	// Setup of values
-
-	__Astruct__000000_A1.Name = `A1`
-	__Astruct__000000_A1.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2022-11-14 03:08:21 +0000 UTC")
-	__Astruct__000000_A1.Date2, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
-	__Astruct__000000_A1.Booleanfield = false
-	__Astruct__000000_A1.Aenum = models.ENUM_VAL1
-	__Astruct__000000_A1.Aenum_2 = models.ENUM_VAL2
-	__Astruct__000000_A1.Benum = models.BENUM_VAL2
-	__Astruct__000000_A1.CEnum = models.CENUM_VAL1
-	__Astruct__000000_A1.CName = `CName1
+	__Astruct__00000000_.Name = `A0xxd`
+	__Astruct__00000000_.Field = models.Astruct{}.Date2
+	__Astruct__00000000_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2042-11-14 03:08:21 +0000 UTC")
+	__Astruct__00000000_.Date2, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Astruct__00000000_.Booleanfield = false
+	__Astruct__00000000_.Aenum = models.ENUM_VAL2
+	__Astruct__00000000_.Aenum_2 = models.ENUM_VAL2
+	__Astruct__00000000_.Benum = models.BENUM_VAL2
+	__Astruct__00000000_.CEnum = models.CENUM_VAL1
+	__Astruct__00000000_.CName = `CName1
 
 	\n"""" fdfsqjfhdqksfhqksf
 Second Line`
-	__Astruct__000000_A1.CFloatfield = 60.500000
-	__Astruct__000000_A1.Floatfield = 0.000000
-	__Astruct__000000_A1.Intfield = 3
-	__Astruct__000000_A1.Anotherbooleanfield = false
-	__Astruct__000000_A1.Duration1 = -79653000000000
-	__Astruct__000000_A1.TextFieldBespokeSize = ``
-	__Astruct__000000_A1.TextArea = `dsqdqd
+	__Astruct__00000000_.CFloatfield = 60.500000
+	__Astruct__00000000_.Floatfield = 0.000000
+	__Astruct__00000000_.Intfield = 3
+	__Astruct__00000000_.Anotherbooleanfield = false
+	__Astruct__00000000_.Duration1 = -79653000000000
+	__Astruct__00000000_.TextFieldBespokeSize = ``
+	__Astruct__00000000_.TextArea = `dsqdqd
 dqsdqsd
 
 dsq
@@ -82,93 +77,126 @@ sqd
 sqd
 `
 
-	__Astruct__000001_A2.Name = `A2`
-	__Astruct__000001_A2.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2024-01-28 09:59:06 +0000 UTC")
-	__Astruct__000001_A2.Date2, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
-	__Astruct__000001_A2.Booleanfield = false
-	__Astruct__000001_A2.CEnum = models.CENUM_VAL1
-	__Astruct__000001_A2.CName = ``
-	__Astruct__000001_A2.CFloatfield = 0.000000
-	__Astruct__000001_A2.Floatfield = 0.000000
-	__Astruct__000001_A2.Intfield = 0
-	__Astruct__000001_A2.Anotherbooleanfield = false
-	__Astruct__000001_A2.Duration1 = 796530000000000000
-	__Astruct__000001_A2.TextFieldBespokeSize = ``
-	__Astruct__000001_A2.TextArea = ``
+	__Astruct__00000001_.Name = `A1`
+	__Astruct__00000001_.Field = models.Astruct{}
+	__Astruct__00000001_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2024-01-28 09:59:06 +0000 UTC")
+	__Astruct__00000001_.Date2, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Astruct__00000001_.Booleanfield = false
+	__Astruct__00000001_.Aenum = ""
+	__Astruct__00000001_.Aenum_2 = ""
+	__Astruct__00000001_.Benum = ""
+	__Astruct__00000001_.CEnum = models.CENUM_VAL1
+	__Astruct__00000001_.CName = ``
+	__Astruct__00000001_.CFloatfield = 0.000000
+	__Astruct__00000001_.Floatfield = 0.000000
+	__Astruct__00000001_.Intfield = 0
+	__Astruct__00000001_.Anotherbooleanfield = false
+	__Astruct__00000001_.Duration1 = 796530000000000000
+	__Astruct__00000001_.TextFieldBespokeSize = ``
+	__Astruct__00000001_.TextArea = ``
 
-	__Astruct__000002_A3.Name = `A3`
-	__Astruct__000002_A3.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2024-01-28 11:16:35.978 +0000 UTC")
-	__Astruct__000002_A3.Date2, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
-	__Astruct__000002_A3.Booleanfield = true
-	__Astruct__000002_A3.Benum = models.BENUM_VAL2
-	__Astruct__000002_A3.CEnum = models.CENUM_VAL1
-	__Astruct__000002_A3.CName = ``
-	__Astruct__000002_A3.CFloatfield = 4.900000
-	__Astruct__000002_A3.Floatfield = 2.000000
-	__Astruct__000002_A3.Intfield = 0
-	__Astruct__000002_A3.Anotherbooleanfield = false
-	__Astruct__000002_A3.Duration1 = -79653000000000
-	__Astruct__000002_A3.TextFieldBespokeSize = ``
-	__Astruct__000002_A3.TextArea = ``
+	__Astruct__00000005_.Name = `A5`
+	__Astruct__00000005_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Astruct__00000005_.Date2, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Astruct__00000005_.Booleanfield = false
+	__Astruct__00000005_.Aenum = ""
+	__Astruct__00000005_.Aenum_2 = ""
+	__Astruct__00000005_.Benum = ""
+	__Astruct__00000005_.CEnum = models.CENUM_VAL1
+	__Astruct__00000005_.CName = ``
+	__Astruct__00000005_.CFloatfield = 0.000000
+	__Astruct__00000005_.Floatfield = 0.000000
+	__Astruct__00000005_.Intfield = 0
+	__Astruct__00000005_.Anotherbooleanfield = false
+	__Astruct__00000005_.Duration1 = 0
+	__Astruct__00000005_.TextFieldBespokeSize = ``
+	__Astruct__00000005_.TextArea = ``
 
-	__Astruct__000003_A3.Name = `A3`
-	__Astruct__000003_A3.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
-	__Astruct__000003_A3.Date2, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
-	__Astruct__000003_A3.Booleanfield = false
-	__Astruct__000003_A3.CEnum = models.CENUM_VAL1
-	__Astruct__000003_A3.CName = ``
-	__Astruct__000003_A3.CFloatfield = 0.000000
-	__Astruct__000003_A3.Floatfield = 0.000000
-	__Astruct__000003_A3.Intfield = 0
-	__Astruct__000003_A3.Anotherbooleanfield = false
-	__Astruct__000003_A3.Duration1 = 0
-	__Astruct__000003_A3.TextFieldBespokeSize = ``
-	__Astruct__000003_A3.TextArea = ``
+	__Astruct__00000006_.Name = `A6`
+	__Astruct__00000006_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Astruct__00000006_.Date2, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Astruct__00000006_.Booleanfield = false
+	__Astruct__00000006_.Aenum = ""
+	__Astruct__00000006_.Aenum_2 = ""
+	__Astruct__00000006_.Benum = ""
+	__Astruct__00000006_.CEnum = models.CENUM_VAL1
+	__Astruct__00000006_.CName = ``
+	__Astruct__00000006_.CFloatfield = 0.000000
+	__Astruct__00000006_.Floatfield = 0.000000
+	__Astruct__00000006_.Intfield = 0
+	__Astruct__00000006_.Anotherbooleanfield = false
+	__Astruct__00000006_.Duration1 = 0
+	__Astruct__00000006_.TextFieldBespokeSize = ``
+	__Astruct__00000006_.TextArea = ``
 
-	__AstructBstruct2Use__000000_.Name = ``
+	__AstructBstruct2Use__00000000_.Name = ``
 
-	__AstructBstruct2Use__000001_.Name = ``
+	__AstructBstruct2Use__00000001_.Name = ``
 
-	__Bstruct__000000_B1.Name = `B1`
-	__Bstruct__000000_B1.Floatfield = 0.000000
-	__Bstruct__000000_B1.Floatfield2 = 0.000000
-	__Bstruct__000000_B1.Intfield = 0
+	__Bstruct__00000000_.Name = `B0`
+	__Bstruct__00000000_.Floatfield = 0.000000
+	__Bstruct__00000000_.Floatfield2 = 0.000000
+	__Bstruct__00000000_.Intfield = 0
 
-	__Bstruct__000001_B2_.Name = `B2 *`
-	__Bstruct__000001_B2_.Floatfield = 0.000000
-	__Bstruct__000001_B2_.Floatfield2 = 0.000000
-	__Bstruct__000001_B2_.Intfield = 0
+	__Bstruct__00000004_.Name = `vv`
+	__Bstruct__00000004_.Floatfield = 0.000000
+	__Bstruct__00000004_.Floatfield2 = 0.000000
+	__Bstruct__00000004_.Intfield = 0
 
-	__Bstruct__000002_B3.Name = `B3`
-	__Bstruct__000002_B3.Floatfield = 0.000000
-	__Bstruct__000002_B3.Floatfield2 = 0.000000
-	__Bstruct__000002_B3.Intfield = 0
+	__Dstruct__00000000_.Name = `D1`
 
-	__Dstruct__000000_D1.Name = `D1`
+	__Gstruct__00000000_.Name = ``
+	__Gstruct__00000000_.Floatfield = 0.000000
+	__Gstruct__00000000_.Floatfield2 = 0.000000
+	__Gstruct__00000000_.Intfield = 0
 
-	__Gstruct__000000_.Name = ``
-	__Gstruct__000000_.Floatfield = 0.000000
-	__Gstruct__000000_.Floatfield2 = 0.000000
-	__Gstruct__000000_.Intfield = 0
+	__Gstruct__00000001_.Name = `g2`
+	__Gstruct__00000001_.Floatfield = 0.000000
+	__Gstruct__00000001_.Floatfield2 = 0.000000
+	__Gstruct__00000001_.Intfield = 0
 
-	__Gstruct__000001_g2.Name = `g2`
-	__Gstruct__000001_g2.Floatfield = 0.000000
-	__Gstruct__000001_g2.Floatfield2 = 0.000000
-	__Gstruct__000001_g2.Intfield = 0
-
-	// Setup of pointers
-	// setup of Astruct instances pointers
-	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000000_B1)
-	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000001_B2_)
-	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000002_B3)
-	__Astruct__000000_A1.Anarrayofa = append(__Astruct__000000_A1.Anarrayofa, __Astruct__000000_A1)
-	__Astruct__000000_A1.Anarrayofb2Use = append(__Astruct__000000_A1.Anarrayofb2Use, __AstructBstruct2Use__000001_)
-	// setup of AstructBstruct2Use instances pointers
-	__AstructBstruct2Use__000000_.Bstrcut2 = __Bstruct__000000_B1
-	__AstructBstruct2Use__000001_.Bstrcut2 = __Bstruct__000000_B1
-	// setup of Bstruct instances pointers
-	// setup of Dstruct instances pointers
-	__Dstruct__000000_D1.Anarrayofb = append(__Dstruct__000000_D1.Anarrayofb, __Bstruct__000001_B2_)
-	__Dstruct__000000_D1.Anarrayofb = append(__Dstruct__000000_D1.Anarrayofb, __Bstruct__000002_B3)
-	// setup of Gstruct instances pointers
+	// insertion point for setup of pointers
+	__Astruct__00000000_.Associationtob = nil
+	__Astruct__00000000_.Anarrayofb = append(__Astruct__00000000_.Anarrayofb, __Bstruct__00000000_)
+	__Astruct__00000000_.Anarrayofb = append(__Astruct__00000000_.Anarrayofb, __Bstruct__00000004_)
+	__Astruct__00000000_.Anotherassociationtob_2 = nil
+	__Astruct__00000000_.Bstruct = nil
+	__Astruct__00000000_.Bstruct2 = nil
+	__Astruct__00000000_.Dstruct = nil
+	__Astruct__00000000_.Dstruct2 = nil
+	__Astruct__00000000_.Dstruct3 = nil
+	__Astruct__00000000_.Dstruct4 = nil
+	__Astruct__00000000_.Anarrayofb2Use = append(__Astruct__00000000_.Anarrayofb2Use, __AstructBstruct2Use__00000001_)
+	__Astruct__00000000_.AnAstruct = nil
+	__Astruct__00000001_.Associationtob = nil
+	__Astruct__00000001_.Anarrayofb = append(__Astruct__00000001_.Anarrayofb, __Bstruct__00000000_)
+	__Astruct__00000001_.Anotherassociationtob_2 = nil
+	__Astruct__00000001_.Bstruct = nil
+	__Astruct__00000001_.Bstruct2 = nil
+	__Astruct__00000001_.Dstruct = nil
+	__Astruct__00000001_.Dstruct2 = nil
+	__Astruct__00000001_.Dstruct3 = nil
+	__Astruct__00000001_.Dstruct4 = nil
+	__Astruct__00000001_.AnAstruct = nil
+	__Astruct__00000005_.Associationtob = nil
+	__Astruct__00000005_.Anotherassociationtob_2 = nil
+	__Astruct__00000005_.Bstruct = nil
+	__Astruct__00000005_.Bstruct2 = nil
+	__Astruct__00000005_.Dstruct = nil
+	__Astruct__00000005_.Dstruct2 = nil
+	__Astruct__00000005_.Dstruct3 = nil
+	__Astruct__00000005_.Dstruct4 = nil
+	__Astruct__00000005_.AnAstruct = nil
+	__Astruct__00000006_.Associationtob = nil
+	__Astruct__00000006_.Anotherassociationtob_2 = nil
+	__Astruct__00000006_.Bstruct = nil
+	__Astruct__00000006_.Bstruct2 = nil
+	__Astruct__00000006_.Dstruct = nil
+	__Astruct__00000006_.Dstruct2 = nil
+	__Astruct__00000006_.Dstruct3 = nil
+	__Astruct__00000006_.Dstruct4 = nil
+	__Astruct__00000006_.AnAstruct = nil
+	__AstructBstruct2Use__00000000_.Bstrcut2 = __Bstruct__00000000_
+	__AstructBstruct2Use__00000001_.Bstrcut2 = __Bstruct__00000000_
+	__Dstruct__00000000_.Gstruct = nil
 }

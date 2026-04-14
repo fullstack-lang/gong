@@ -3607,4 +3607,30 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	// WBS
 	__Diagram__00000001_.IsChecked = false
 	stage.Commit()
+
+	// PBS
+	__Diagram__00000002_.IsChecked = false
+	__Diagram__00000002_.Width = 31991.980809
+	__Diagram__00000002_.Height = 31521.961381
+	// PIT Report
+	__Diagram__00000005_.Width = 32185.901110
+	__Diagram__00000005_.Height = 32148.855478
+	// PIT focus
+	__Diagram__00000004_.Width = 31762.017987
+	__Diagram__00000004_.Height = 30958.658205
+	// RBS
+	__Diagram__00000003_.IsChecked = true
+	__Diagram__00000003_.Width = 31685.651635
+	__Diagram__00000003_.Height = 31699.201740
+	// RCS PBS
+	__Diagram__00000006_.Width = 32069.153628
+	__Diagram__00000006_.Height = 31777.529266
+	// WBS
+	__Diagram__00000001_.Width = 31495.617766
+	__Diagram__00000001_.Height = 31356.674065
+	stage.Commit()
+
+	// Crew Commercial Program (CPP2)
+	__Resource__00000004_.Name = `Crew Commercial Program (CPP2)`
+	stage.Commit()
 }
