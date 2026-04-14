@@ -72,7 +72,7 @@ func _(stage *models.Stage) {
 	__LinkShape__00000001_ := (&models.LinkShape{Name: `AsSplit`}).Stage(stage)
 	__LinkShape__00000002_ := (&models.LinkShape{Name: `Button`}).Stage(stage)
 	__LinkShape__00000003_ := (&models.LinkShape{Name: `Cursor`}).Stage(stage)
-	__LinkShape__00000004_ := (&models.LinkShape{Name: `Form`}).Stage(stage)
+
 	__LinkShape__00000005_ := (&models.LinkShape{Name: `Load`}).Stage(stage)
 	__LinkShape__00000006_ := (&models.LinkShape{Name: `Markdown`}).Stage(stage)
 	__LinkShape__00000007_ := (&models.LinkShape{Name: `Slider`}).Stage(stage)
@@ -414,25 +414,6 @@ func _(stage *models.Stage) {
 	__LinkShape__00000003_.EndRatio = 0.500000
 	__LinkShape__00000003_.CornerOffsetRatio = 1.380000
 
-	__LinkShape__00000004_.Name = `Form`
-	__LinkShape__00000004_.IdentifierMeta = ref_models.AsSplitArea{}.Form
-	__LinkShape__00000004_.FieldTypeIdentifierMeta = ref_models.Form{}
-	__LinkShape__00000004_.FieldOffsetX = 0.000000
-	__LinkShape__00000004_.FieldOffsetY = 0.000000
-	__LinkShape__00000004_.TargetMultiplicity = models.ZERO_ONE
-	__LinkShape__00000004_.TargetMultiplicityOffsetX = 0.000000
-	__LinkShape__00000004_.TargetMultiplicityOffsetY = 0.000000
-	__LinkShape__00000004_.SourceMultiplicity = models.MANY
-	__LinkShape__00000004_.SourceMultiplicityOffsetX = 0.000000
-	__LinkShape__00000004_.SourceMultiplicityOffsetY = 0.000000
-	__LinkShape__00000004_.X = 540.000000
-	__LinkShape__00000004_.Y = 439.000000
-	__LinkShape__00000004_.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__LinkShape__00000004_.StartRatio = 0.500000
-	__LinkShape__00000004_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__LinkShape__00000004_.EndRatio = 0.500000
-	__LinkShape__00000004_.CornerOffsetRatio = 1.380000
-
 	__LinkShape__00000005_.Name = `Load`
 	__LinkShape__00000005_.IdentifierMeta = ref_models.AsSplitArea{}.Load
 	__LinkShape__00000005_.FieldTypeIdentifierMeta = ref_models.Load{}
@@ -685,7 +666,6 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000017_.LinkShapes = append(__GongStructShape__00000017_.LinkShapes, __LinkShape__00000001_)
 	__GongStructShape__00000017_.LinkShapes = append(__GongStructShape__00000017_.LinkShapes, __LinkShape__00000002_)
 	__GongStructShape__00000017_.LinkShapes = append(__GongStructShape__00000017_.LinkShapes, __LinkShape__00000003_)
-	__GongStructShape__00000017_.LinkShapes = append(__GongStructShape__00000017_.LinkShapes, __LinkShape__00000004_)
 	__GongStructShape__00000017_.LinkShapes = append(__GongStructShape__00000017_.LinkShapes, __LinkShape__00000005_)
 	__GongStructShape__00000017_.LinkShapes = append(__GongStructShape__00000017_.LinkShapes, __LinkShape__00000006_)
 	__GongStructShape__00000017_.LinkShapes = append(__GongStructShape__00000017_.LinkShapes, __LinkShape__00000007_)

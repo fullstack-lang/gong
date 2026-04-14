@@ -329,7 +329,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "AsSplit"))
 		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Button"))
 		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Cursor"))
-		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Form"))
 		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Form2"))
 		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Load"))
 		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Markdown"))
@@ -1183,19 +1182,6 @@ func (assplitarea *AsSplitArea) GongMarshallField(stage *Stage, fieldName string
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Cursor")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
-	case "Form":
-		if assplitarea.Form != nil {
-			res = PointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", assplitarea.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Form")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", assplitarea.Form.GongGetIdentifier(stage))
-		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = PointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", assplitarea.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Form")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
-		}
 	case "Form2":
 		if assplitarea.Form2 != nil {
 			res = PointerFieldInitStatement
@@ -1794,7 +1780,6 @@ func (assplitarea *AsSplitArea) GongMarshallAllFields(stage *Stage) (initRes str
 		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "AsSplit"))
 		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Button"))
 		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Cursor"))
-		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Form"))
 		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Form2"))
 		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Load"))
 		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Markdown"))

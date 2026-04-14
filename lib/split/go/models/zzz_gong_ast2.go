@@ -511,8 +511,6 @@ func (u *AsSplitAreaUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 		GongUnmarshallPointer(&instance.Button, valueExpr, identifierMap)
 	case "Cursor":
 		GongUnmarshallPointer(&instance.Cursor, valueExpr, identifierMap)
-	case "Form":
-		GongUnmarshallPointer(&instance.Form, valueExpr, identifierMap)
 	case "Form2":
 		GongUnmarshallPointer(&instance.Form2, valueExpr, identifierMap)
 	case "Load":

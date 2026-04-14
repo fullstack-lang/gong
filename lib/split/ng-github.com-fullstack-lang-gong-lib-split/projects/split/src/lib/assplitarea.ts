@@ -7,7 +7,6 @@ import { FrontRepo } from './front-repo.service';
 import { AsSplit } from './assplit'
 import { Button } from './button'
 import { Cursor } from './cursor'
-import { Form } from './form'
 import { Form2 } from './form2'
 import { Load } from './load'
 import { Markdown } from './markdown'
@@ -42,8 +41,6 @@ export class AsSplitArea {
 	Button?: Button
 
 	Cursor?: Cursor
-
-	Form?: Form
 
 	Form2?: Form2
 
@@ -104,13 +101,6 @@ export function CopyAsSplitAreaToAsSplitAreaAPI(assplitarea: AsSplitArea, asspli
 		assplitareaAPI.AsSplitAreaPointersEncoding.CursorID.Int64 = assplitarea.Cursor.ID  
 	} else {
 		assplitareaAPI.AsSplitAreaPointersEncoding.CursorID.Int64 = 0 		
-	}
-
-	assplitareaAPI.AsSplitAreaPointersEncoding.FormID.Valid = true
-	if (assplitarea.Form != undefined) {
-		assplitareaAPI.AsSplitAreaPointersEncoding.FormID.Int64 = assplitarea.Form.ID  
-	} else {
-		assplitareaAPI.AsSplitAreaPointersEncoding.FormID.Int64 = 0 		
 	}
 
 	assplitareaAPI.AsSplitAreaPointersEncoding.Form2ID.Valid = true
@@ -209,7 +199,6 @@ export function CopyAsSplitAreaAPIToAsSplitArea(assplitareaAPI: AsSplitAreaAPI, 
 	assplitarea.AsSplit = frontRepo.map_ID_AsSplit.get(assplitareaAPI.AsSplitAreaPointersEncoding.AsSplitID.Int64)
 	assplitarea.Button = frontRepo.map_ID_Button.get(assplitareaAPI.AsSplitAreaPointersEncoding.ButtonID.Int64)
 	assplitarea.Cursor = frontRepo.map_ID_Cursor.get(assplitareaAPI.AsSplitAreaPointersEncoding.CursorID.Int64)
-	assplitarea.Form = frontRepo.map_ID_Form.get(assplitareaAPI.AsSplitAreaPointersEncoding.FormID.Int64)
 	assplitarea.Form2 = frontRepo.map_ID_Form2.get(assplitareaAPI.AsSplitAreaPointersEncoding.Form2ID.Int64)
 	assplitarea.Load = frontRepo.map_ID_Load.get(assplitareaAPI.AsSplitAreaPointersEncoding.LoadID.Int64)
 	assplitarea.Markdown = frontRepo.map_ID_Markdown.get(assplitareaAPI.AsSplitAreaPointersEncoding.MarkdownID.Int64)

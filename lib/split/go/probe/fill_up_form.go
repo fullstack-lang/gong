@@ -43,7 +43,6 @@ func FillUpForm(
 		AssociationFieldToForm("AsSplit", instanceWithInferedType.AsSplit, formGroup, probe)
 		AssociationFieldToForm("Button", instanceWithInferedType.Button, formGroup, probe)
 		AssociationFieldToForm("Cursor", instanceWithInferedType.Cursor, formGroup, probe)
-		AssociationFieldToForm("Form", instanceWithInferedType.Form, formGroup, probe)
 		AssociationFieldToForm("Form2", instanceWithInferedType.Form2, formGroup, probe)
 		AssociationFieldToForm("Load", instanceWithInferedType.Load, formGroup, probe)
 		AssociationFieldToForm("Markdown", instanceWithInferedType.Markdown, formGroup, probe)
