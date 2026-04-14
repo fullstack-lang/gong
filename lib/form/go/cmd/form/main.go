@@ -99,7 +99,7 @@ func main() {
 						(&split.AsSplitArea{
 							Name: "Form",
 							Size: 50,
-							Form2: (&split.Form2{
+							Form: (&split.Form{
 								Name:      "Form2",
 								StackName: stack.Stage.GetName(),
 							}),

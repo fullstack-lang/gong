@@ -11,8 +11,8 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/doc/go/models"
 
+	form_fullstack "github.com/fullstack-lang/gong/lib/form/go/fullstack"
 	svg_fullstack "github.com/fullstack-lang/gong/lib/svg/go/fullstack"
-	table_fullstack "github.com/fullstack-lang/gong/lib/table/go/fullstack"
 	tree_fullstack "github.com/fullstack-lang/gong/lib/tree/go/fullstack"
 
 	gong "github.com/fullstack-lang/gong/go/models"
@@ -97,7 +97,7 @@ func Prepare(
 	treeStage, _ := tree_fullstack.NewStackInstance(r, docStackName+":doc-sidebar", "", "")
 	svgStage, _ := svg_fullstack.NewStackInstance(r, docStackName+":doc-svg", "", "", "")
 	gongStage := gong.NewStage(docStackName + ":doc-gong")
-	formStage, _ := table_fullstack.NewStackInstance(r, docStackName+":doc-diagramForm", "", "")
+	formStage, _ := form_fullstack.NewStackInstance(r, docStackName+":doc-diagramForm", "", "")
 	treeNavigationStage, _ := tree_fullstack.NewStackInstance(r, docStackName+":doc-sidebar-navigation", "", "")
 
 	// load the code of the model of interest into the gongStage

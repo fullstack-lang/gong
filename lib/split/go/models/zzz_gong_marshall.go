@@ -330,7 +330,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Button"))
 		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Cursor"))
 		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Form"))
-		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Form2"))
 		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Load"))
 		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Markdown"))
 		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Slider"))
@@ -451,33 +450,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(form.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(form.GongMarshallField(stage, "StackName"))
-	}
-
-	form2Ordered := []*Form2{}
-	for form2 := range stage.Form2s {
-		form2Ordered = append(form2Ordered, form2)
-	}
-	sort.Slice(form2Ordered[:], func(i, j int) bool {
-		form2i := form2Ordered[i]
-		form2j := form2Ordered[j]
-		form2i_order, oki := stage.Form2_stagedOrder[form2i]
-		form2j_order, okj := stage.Form2_stagedOrder[form2j]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return form2i_order < form2j_order
-	})
-	if len(form2Ordered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, form2 := range form2Ordered {
-
-		identifiersDecl.WriteString(form2.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(form2.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(form2.GongMarshallField(stage, "StackName"))
 	}
 
 	loadOrdered := []*Load{}
@@ -891,14 +863,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for pointers initialization
 	}
 
-	for _, form2 := range form2Ordered {
-		_ = form2
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
 	for _, load := range loadOrdered {
 		_ = load
 		var setPointerField string
@@ -1196,19 +1160,6 @@ func (assplitarea *AsSplitArea) GongMarshallField(stage *Stage, fieldName string
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Form")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
-	case "Form2":
-		if assplitarea.Form2 != nil {
-			res = PointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", assplitarea.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Form2")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", assplitarea.Form2.GongGetIdentifier(stage))
-		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = PointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", assplitarea.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Form2")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
-		}
 	case "Load":
 		if assplitarea.Load != nil {
 			res = PointerFieldInitStatement
@@ -1413,26 +1364,6 @@ func (form *Form) GongMarshallField(stage *Stage, fieldName string) (res string)
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Form", fieldName)
-	}
-	return
-}
-
-func (form2 *Form2) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
-	switch fieldName {
-	case "Name":
-		res = StringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", form2.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(form2.Name))
-	case "StackName":
-		res = StringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", form2.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StackName")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(form2.StackName))
-
-	default:
-		log.Panicf("Unknown field %s for Gongstruct Form2", fieldName)
 	}
 	return
 }
@@ -1795,7 +1726,6 @@ func (assplitarea *AsSplitArea) GongMarshallAllFields(stage *Stage) (initRes str
 		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Button"))
 		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Cursor"))
 		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Form"))
-		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Form2"))
 		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Load"))
 		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Markdown"))
 		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Slider"))
@@ -1856,18 +1786,6 @@ func (form *Form) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(form.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(form.GongMarshallField(stage, "StackName"))
-	}
-	initRes = initializerStatements.String()
-	ptrRes = pointersInitializesStatements.String()
-	return
-}
-func (form2 *Form2) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
-
-	var initializerStatements strings.Builder
-	var pointersInitializesStatements strings.Builder
-	{ // Insertion point for basic fields value assignment
-		initializerStatements.WriteString(form2.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(form2.GongMarshallField(stage, "StackName"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

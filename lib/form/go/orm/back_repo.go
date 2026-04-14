@@ -26,8 +26,6 @@ type BackRepoStruct struct {
 	// insertion point for per struct back repo declarations
 	BackRepoCheckBox BackRepoCheckBoxStruct
 
-	BackRepoForm2 BackRepoForm2Struct
-
 	BackRepoFormDiv BackRepoFormDivStruct
 
 	BackRepoFormEditAssocButton BackRepoFormEditAssocButtonStruct
@@ -76,7 +74,6 @@ func NewBackRepo(stage *models.Stage, filename string) (backRepo *BackRepoStruct
 	/* THIS IS REMOVED BY GONG COMPILER IF TARGET IS gorm
 	db = dbgorm.NewDBWrapper(filename, "github_com_fullstack_lang_gong_lib_form_go",
 		&CheckBoxDB{},
-		&Form2DB{},
 		&FormDivDB{},
 		&FormEditAssocButtonDB{},
 		&FormFieldDB{},
@@ -100,14 +97,6 @@ func NewBackRepo(stage *models.Stage, filename string) (backRepo *BackRepoStruct
 		Map_CheckBoxDBID_CheckBoxPtr: make(map[uint]*models.CheckBox, 0),
 		Map_CheckBoxDBID_CheckBoxDB:  make(map[uint]*CheckBoxDB, 0),
 		Map_CheckBoxPtr_CheckBoxDBID: make(map[*models.CheckBox]uint, 0),
-
-		db:    db,
-		stage: stage,
-	}
-	backRepo.BackRepoForm2 = BackRepoForm2Struct{
-		Map_Form2DBID_Form2Ptr: make(map[uint]*models.Form2, 0),
-		Map_Form2DBID_Form2DB:  make(map[uint]*Form2DB, 0),
-		Map_Form2Ptr_Form2DBID: make(map[*models.Form2]uint, 0),
 
 		db:    db,
 		stage: stage,
@@ -263,7 +252,6 @@ func (backRepo *BackRepoStruct) Commit(stage *models.Stage) {
 
 	// insertion point for per struct back repo phase one commit
 	backRepo.BackRepoCheckBox.CommitPhaseOne(stage)
-	backRepo.BackRepoForm2.CommitPhaseOne(stage)
 	backRepo.BackRepoFormDiv.CommitPhaseOne(stage)
 	backRepo.BackRepoFormEditAssocButton.CommitPhaseOne(stage)
 	backRepo.BackRepoFormField.CommitPhaseOne(stage)
@@ -280,7 +268,6 @@ func (backRepo *BackRepoStruct) Commit(stage *models.Stage) {
 
 	// insertion point for per struct back repo phase two commit
 	backRepo.BackRepoCheckBox.CommitPhaseTwo(backRepo)
-	backRepo.BackRepoForm2.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoFormDiv.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoFormEditAssocButton.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoFormField.CommitPhaseTwo(backRepo)
@@ -309,7 +296,6 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.Stage) {
 	defer backRepo.rwMutex.Unlock()
 	// insertion point for per struct back repo phase one commit
 	backRepo.BackRepoCheckBox.CheckoutPhaseOne()
-	backRepo.BackRepoForm2.CheckoutPhaseOne()
 	backRepo.BackRepoFormDiv.CheckoutPhaseOne()
 	backRepo.BackRepoFormEditAssocButton.CheckoutPhaseOne()
 	backRepo.BackRepoFormField.CheckoutPhaseOne()
@@ -326,7 +312,6 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.Stage) {
 
 	// insertion point for per struct back repo phase two commit
 	backRepo.BackRepoCheckBox.CheckoutPhaseTwo(backRepo)
-	backRepo.BackRepoForm2.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoFormDiv.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoFormEditAssocButton.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoFormField.CheckoutPhaseTwo(backRepo)
@@ -348,7 +333,6 @@ func (backRepo *BackRepoStruct) Backup(stage *models.Stage, dirPath string) {
 
 	// insertion point for per struct backup
 	backRepo.BackRepoCheckBox.Backup(dirPath)
-	backRepo.BackRepoForm2.Backup(dirPath)
 	backRepo.BackRepoFormDiv.Backup(dirPath)
 	backRepo.BackRepoFormEditAssocButton.Backup(dirPath)
 	backRepo.BackRepoFormField.Backup(dirPath)
@@ -373,7 +357,6 @@ func (backRepo *BackRepoStruct) BackupXL(stage *models.Stage, dirPath string) {
 
 	// insertion point for per struct backup
 	backRepo.BackRepoCheckBox.BackupXL(file)
-	backRepo.BackRepoForm2.BackupXL(file)
 	backRepo.BackRepoFormDiv.BackupXL(file)
 	backRepo.BackRepoFormEditAssocButton.BackupXL(file)
 	backRepo.BackRepoFormField.BackupXL(file)
@@ -412,7 +395,6 @@ func (backRepo *BackRepoStruct) Restore(stage *models.Stage, dirPath string) {
 
 	// insertion point for per struct backup
 	backRepo.BackRepoCheckBox.RestorePhaseOne(dirPath)
-	backRepo.BackRepoForm2.RestorePhaseOne(dirPath)
 	backRepo.BackRepoFormDiv.RestorePhaseOne(dirPath)
 	backRepo.BackRepoFormEditAssocButton.RestorePhaseOne(dirPath)
 	backRepo.BackRepoFormField.RestorePhaseOne(dirPath)
@@ -433,7 +415,6 @@ func (backRepo *BackRepoStruct) Restore(stage *models.Stage, dirPath string) {
 
 	// insertion point for per struct backup
 	backRepo.BackRepoCheckBox.RestorePhaseTwo()
-	backRepo.BackRepoForm2.RestorePhaseTwo()
 	backRepo.BackRepoFormDiv.RestorePhaseTwo()
 	backRepo.BackRepoFormEditAssocButton.RestorePhaseTwo()
 	backRepo.BackRepoFormField.RestorePhaseTwo()
@@ -475,7 +456,6 @@ func (backRepo *BackRepoStruct) RestoreXL(stage *models.Stage, dirPath string) {
 
 	// insertion point for per struct backup
 	backRepo.BackRepoCheckBox.RestoreXLPhaseOne(file)
-	backRepo.BackRepoForm2.RestoreXLPhaseOne(file)
 	backRepo.BackRepoFormDiv.RestoreXLPhaseOne(file)
 	backRepo.BackRepoFormEditAssocButton.RestoreXLPhaseOne(file)
 	backRepo.BackRepoFormField.RestoreXLPhaseOne(file)

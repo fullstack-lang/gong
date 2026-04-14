@@ -32,7 +32,7 @@ import { TableExtraPathEnum } from '../../../../../../../table/ng-github.com-ful
 import { TableExtraNameEnum } from '../../../../../../../table/ng-github.com-fullstack-lang-gong-lib-table/projects/table/src/lib/TableExtraNameEnum';
 
 @Component({
-  selector: 'lib-form2-specific',
+  selector: 'lib-form-specific',
   imports: [
     CommonModule,
     FormsModule,

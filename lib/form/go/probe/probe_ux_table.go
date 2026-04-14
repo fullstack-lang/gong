@@ -26,8 +26,6 @@ func (probe *Probe) ux_table() {
 	// insertion point
 	case "CheckBox":
 		updateProbeTable[*models.CheckBox](probe)
-	case "Form2":
-		updateProbeTable[*models.Form2](probe)
 	case "FormDiv":
 		updateProbeTable[*models.FormDiv](probe)
 	case "FormEditAssocButton":
@@ -267,21 +265,6 @@ func (probe *Probe) UpdateAndCommitNotificationTable() {
 		},
 	}
 	table.Buttons = append(table.Buttons, notificationsResetButton)
-	refreshButton := &table_models.Button{
-		Name:            "RefreshButton" + " " + string(tree_buttons.BUTTON_refresh),
-		Icon:            string(tree_buttons.BUTTON_refresh),
-		HasToolTip:      true,
-		ToolTipText:     "Refresh probe",
-		ToolTipPosition: table_models.Below,
-		OnClick: func() {
-			probe.stageOfInterest.ComputeInstancesNb()
-			probe.docStager.SetMap_GongStructName_InstancesNb(
-				probe.stageOfInterest.Map_GongStructName_InstancesNb,
-			)
-			probe.Refresh()
-		},
-	}
-	table.Buttons = append(table.Buttons, refreshButton)
 
 	column := new(table_models.DisplayedColumn)
 	column.Name = "Date"

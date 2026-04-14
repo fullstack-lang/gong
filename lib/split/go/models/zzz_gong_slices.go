@@ -45,9 +45,6 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct Form
 	// insertion point per field
 
-	// Compute reverse map for named struct Form2
-	// insertion point per field
-
 	// Compute reverse map for named struct Load
 	// insertion point per field
 
@@ -120,10 +117,6 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.Forms {
-		res = append(res, instance)
-	}
-
-	for instance := range stage.Form2s {
 		res = append(res, instance)
 	}
 
@@ -216,12 +209,6 @@ func (favicon *FavIcon) GongCopy() GongstructIF {
 func (form *Form) GongCopy() GongstructIF {
 	newInstance := new(Form)
 	form.CopyBasicFields(newInstance)
-	return newInstance
-}
-
-func (form2 *Form2) GongCopy() GongstructIF {
-	newInstance := new(Form2)
-	form2.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -361,16 +348,6 @@ func (form *Form) GongGetUUID(stage *Stage) (uuid string) {
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(form), uint64(GetOrderPointerGongstruct(stage, form)))
-	return
-}
-
-func (form2 *Form2) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(form2).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(form2), uint64(GetOrderPointerGongstruct(stage, form2)))
 	return
 }
 
@@ -828,57 +805,6 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(forms_newInstances)
 	lenDeletedInstances += len(forms_deletedInstances)
-	var form2s_newInstances []*Form2
-	var form2s_deletedInstances []*Form2
-
-	// parse all staged instances and check if they have a reference
-	for form2 := range stage.Form2s {
-		if ref, ok := stage.Form2s_reference[form2]; !ok {
-			form2s_newInstances = append(form2s_newInstances, form2)
-			newInstancesSlice = append(newInstancesSlice, form2.GongMarshallIdentifier(stage))
-			if stage.Form2s_referenceOrder == nil {
-				stage.Form2s_referenceOrder = make(map[*Form2]uint)
-			}
-			stage.Form2s_referenceOrder[form2] = stage.Form2_stagedOrder[form2]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, form2.GongMarshallUnstaging(stage))
-			// delete(stage.Form2s_referenceOrder, form2)
-			fieldInitializers, pointersInitializations := form2.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.Form2_stagedOrder[ref] = stage.Form2_stagedOrder[form2]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := form2.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, form2)
-			// delete(stage.Form2_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", form2.GetName())
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.Form2s_reference {
-		instance := stage.Form2s_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.Form2s[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			form2s_deletedInstances = append(form2s_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(form2s_newInstances)
-	lenDeletedInstances += len(form2s_deletedInstances)
 	var loads_newInstances []*Load
 	var loads_deletedInstances []*Load
 
@@ -1637,16 +1563,6 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.Forms_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
-	stage.Form2s_reference = make(map[*Form2]*Form2)
-	stage.Form2s_referenceOrder = make(map[*Form2]uint) // diff Unstage needs the reference order
-	stage.Form2s_instance = make(map[*Form2]*Form2)
-	for instance := range stage.Form2s {
-		_copy := instance.GongCopy().(*Form2)
-		stage.Form2s_reference[instance] = _copy
-		stage.Form2s_instance[_copy] = instance
-		stage.Form2s_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
-
 	stage.Loads_reference = make(map[*Load]*Load)
 	stage.Loads_referenceOrder = make(map[*Load]uint) // diff Unstage needs the reference order
 	stage.Loads_instance = make(map[*Load]*Load)
@@ -1808,11 +1724,6 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
-	for instance := range stage.Form2s {
-		reference := stage.Form2s_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
-
 	for instance := range stage.Loads {
 		reference := stage.Loads_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
@@ -1956,18 +1867,6 @@ func (form *Form) GongGetOrder(stage *Stage) uint {
 		return order
 	} else {
 		log.Printf("instance %p of type Form was not staged and does not have a reference order", form)
-		return 0
-	}
-}
-
-func (form2 *Form2) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.Form2_stagedOrder[form2]; ok {
-		return order
-	}
-	if order, ok := stage.Form2s_referenceOrder[form2]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type Form2 was not staged and does not have a reference order", form2)
 		return 0
 	}
 }
@@ -2187,15 +2086,6 @@ func (form *Form) GongGetReferenceIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", form.GongGetGongstructName(), form.GongGetOrder(stage))
 }
 
-func (form2 *Form2) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", form2.GongGetGongstructName(), form2.GongGetOrder(stage))
-}
-
-// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
-func (form2 *Form2) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", form2.GongGetGongstructName(), form2.GongGetOrder(stage))
-}
-
 func (load *Load) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", load.GongGetGongstructName(), load.GongGetOrder(stage))
 }
@@ -2364,14 +2254,6 @@ func (form *Form) GongMarshallIdentifier(stage *Stage) (decl string) {
 	return
 }
 
-func (form2 *Form2) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", form2.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Form2")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(form2.Name))
-	return
-}
-
 func (load *Load) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", load.GongGetIdentifier(stage))
@@ -2510,12 +2392,6 @@ func (favicon *FavIcon) GongMarshallUnstaging(stage *Stage) (decl string) {
 func (form *Form) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", form.GongGetReferenceIdentifier(stage))
-	return
-}
-
-func (form2 *Form2) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", form2.GongGetReferenceIdentifier(stage))
 	return
 }
 
