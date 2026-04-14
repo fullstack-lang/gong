@@ -34,65 +34,9 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterCellStringCreateCallback != nil {
 			stage.OnAfterCellStringCreateCallback.OnAfterCreate(stage, target)
 		}
-	case *CheckBox:
-		if stage.OnAfterCheckBoxCreateCallback != nil {
-			stage.OnAfterCheckBoxCreateCallback.OnAfterCreate(stage, target)
-		}
 	case *DisplayedColumn:
 		if stage.OnAfterDisplayedColumnCreateCallback != nil {
 			stage.OnAfterDisplayedColumnCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *FormDiv:
-		if stage.OnAfterFormDivCreateCallback != nil {
-			stage.OnAfterFormDivCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *FormEditAssocButton:
-		if stage.OnAfterFormEditAssocButtonCreateCallback != nil {
-			stage.OnAfterFormEditAssocButtonCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *FormField:
-		if stage.OnAfterFormFieldCreateCallback != nil {
-			stage.OnAfterFormFieldCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *FormFieldDate:
-		if stage.OnAfterFormFieldDateCreateCallback != nil {
-			stage.OnAfterFormFieldDateCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *FormFieldDateTime:
-		if stage.OnAfterFormFieldDateTimeCreateCallback != nil {
-			stage.OnAfterFormFieldDateTimeCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *FormFieldFloat64:
-		if stage.OnAfterFormFieldFloat64CreateCallback != nil {
-			stage.OnAfterFormFieldFloat64CreateCallback.OnAfterCreate(stage, target)
-		}
-	case *FormFieldInt:
-		if stage.OnAfterFormFieldIntCreateCallback != nil {
-			stage.OnAfterFormFieldIntCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *FormFieldSelect:
-		if stage.OnAfterFormFieldSelectCreateCallback != nil {
-			stage.OnAfterFormFieldSelectCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *FormFieldString:
-		if stage.OnAfterFormFieldStringCreateCallback != nil {
-			stage.OnAfterFormFieldStringCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *FormFieldTime:
-		if stage.OnAfterFormFieldTimeCreateCallback != nil {
-			stage.OnAfterFormFieldTimeCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *FormGroup:
-		if stage.OnAfterFormGroupCreateCallback != nil {
-			stage.OnAfterFormGroupCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *FormSortAssocButton:
-		if stage.OnAfterFormSortAssocButtonCreateCallback != nil {
-			stage.OnAfterFormSortAssocButtonCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *Option:
-		if stage.OnAfterOptionCreateCallback != nil {
-			stage.OnAfterOptionCreateCallback.OnAfterCreate(stage, target)
 		}
 	case *Row:
 		if stage.OnAfterRowCreateCallback != nil {
@@ -155,80 +99,10 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		if stage.OnAfterCellStringUpdateCallback != nil {
 			stage.OnAfterCellStringUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
-	case *CheckBox:
-		newTarget := any(new).(*CheckBox)
-		if stage.OnAfterCheckBoxUpdateCallback != nil {
-			stage.OnAfterCheckBoxUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
 	case *DisplayedColumn:
 		newTarget := any(new).(*DisplayedColumn)
 		if stage.OnAfterDisplayedColumnUpdateCallback != nil {
 			stage.OnAfterDisplayedColumnUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *FormDiv:
-		newTarget := any(new).(*FormDiv)
-		if stage.OnAfterFormDivUpdateCallback != nil {
-			stage.OnAfterFormDivUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *FormEditAssocButton:
-		newTarget := any(new).(*FormEditAssocButton)
-		if stage.OnAfterFormEditAssocButtonUpdateCallback != nil {
-			stage.OnAfterFormEditAssocButtonUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *FormField:
-		newTarget := any(new).(*FormField)
-		if stage.OnAfterFormFieldUpdateCallback != nil {
-			stage.OnAfterFormFieldUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *FormFieldDate:
-		newTarget := any(new).(*FormFieldDate)
-		if stage.OnAfterFormFieldDateUpdateCallback != nil {
-			stage.OnAfterFormFieldDateUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *FormFieldDateTime:
-		newTarget := any(new).(*FormFieldDateTime)
-		if stage.OnAfterFormFieldDateTimeUpdateCallback != nil {
-			stage.OnAfterFormFieldDateTimeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *FormFieldFloat64:
-		newTarget := any(new).(*FormFieldFloat64)
-		if stage.OnAfterFormFieldFloat64UpdateCallback != nil {
-			stage.OnAfterFormFieldFloat64UpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *FormFieldInt:
-		newTarget := any(new).(*FormFieldInt)
-		if stage.OnAfterFormFieldIntUpdateCallback != nil {
-			stage.OnAfterFormFieldIntUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *FormFieldSelect:
-		newTarget := any(new).(*FormFieldSelect)
-		if stage.OnAfterFormFieldSelectUpdateCallback != nil {
-			stage.OnAfterFormFieldSelectUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *FormFieldString:
-		newTarget := any(new).(*FormFieldString)
-		if stage.OnAfterFormFieldStringUpdateCallback != nil {
-			stage.OnAfterFormFieldStringUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *FormFieldTime:
-		newTarget := any(new).(*FormFieldTime)
-		if stage.OnAfterFormFieldTimeUpdateCallback != nil {
-			stage.OnAfterFormFieldTimeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *FormGroup:
-		newTarget := any(new).(*FormGroup)
-		if stage.OnAfterFormGroupUpdateCallback != nil {
-			stage.OnAfterFormGroupUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *FormSortAssocButton:
-		newTarget := any(new).(*FormSortAssocButton)
-		if stage.OnAfterFormSortAssocButtonUpdateCallback != nil {
-			stage.OnAfterFormSortAssocButtonUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *Option:
-		newTarget := any(new).(*Option)
-		if stage.OnAfterOptionUpdateCallback != nil {
-			stage.OnAfterOptionUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Row:
 		newTarget := any(new).(*Row)
@@ -290,80 +164,10 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*CellString)
 			stage.OnAfterCellStringDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
-	case *CheckBox:
-		if stage.OnAfterCheckBoxDeleteCallback != nil {
-			staged := any(staged).(*CheckBox)
-			stage.OnAfterCheckBoxDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
 	case *DisplayedColumn:
 		if stage.OnAfterDisplayedColumnDeleteCallback != nil {
 			staged := any(staged).(*DisplayedColumn)
 			stage.OnAfterDisplayedColumnDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *FormDiv:
-		if stage.OnAfterFormDivDeleteCallback != nil {
-			staged := any(staged).(*FormDiv)
-			stage.OnAfterFormDivDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *FormEditAssocButton:
-		if stage.OnAfterFormEditAssocButtonDeleteCallback != nil {
-			staged := any(staged).(*FormEditAssocButton)
-			stage.OnAfterFormEditAssocButtonDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *FormField:
-		if stage.OnAfterFormFieldDeleteCallback != nil {
-			staged := any(staged).(*FormField)
-			stage.OnAfterFormFieldDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *FormFieldDate:
-		if stage.OnAfterFormFieldDateDeleteCallback != nil {
-			staged := any(staged).(*FormFieldDate)
-			stage.OnAfterFormFieldDateDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *FormFieldDateTime:
-		if stage.OnAfterFormFieldDateTimeDeleteCallback != nil {
-			staged := any(staged).(*FormFieldDateTime)
-			stage.OnAfterFormFieldDateTimeDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *FormFieldFloat64:
-		if stage.OnAfterFormFieldFloat64DeleteCallback != nil {
-			staged := any(staged).(*FormFieldFloat64)
-			stage.OnAfterFormFieldFloat64DeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *FormFieldInt:
-		if stage.OnAfterFormFieldIntDeleteCallback != nil {
-			staged := any(staged).(*FormFieldInt)
-			stage.OnAfterFormFieldIntDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *FormFieldSelect:
-		if stage.OnAfterFormFieldSelectDeleteCallback != nil {
-			staged := any(staged).(*FormFieldSelect)
-			stage.OnAfterFormFieldSelectDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *FormFieldString:
-		if stage.OnAfterFormFieldStringDeleteCallback != nil {
-			staged := any(staged).(*FormFieldString)
-			stage.OnAfterFormFieldStringDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *FormFieldTime:
-		if stage.OnAfterFormFieldTimeDeleteCallback != nil {
-			staged := any(staged).(*FormFieldTime)
-			stage.OnAfterFormFieldTimeDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *FormGroup:
-		if stage.OnAfterFormGroupDeleteCallback != nil {
-			staged := any(staged).(*FormGroup)
-			stage.OnAfterFormGroupDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *FormSortAssocButton:
-		if stage.OnAfterFormSortAssocButtonDeleteCallback != nil {
-			staged := any(staged).(*FormSortAssocButton)
-			stage.OnAfterFormSortAssocButtonDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *Option:
-		if stage.OnAfterOptionDeleteCallback != nil {
-			staged := any(staged).(*Option)
-			stage.OnAfterOptionDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	case *Row:
 		if stage.OnAfterRowDeleteCallback != nil {
@@ -418,65 +222,9 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterCellStringReadCallback != nil {
 			stage.OnAfterCellStringReadCallback.OnAfterRead(stage, target)
 		}
-	case *CheckBox:
-		if stage.OnAfterCheckBoxReadCallback != nil {
-			stage.OnAfterCheckBoxReadCallback.OnAfterRead(stage, target)
-		}
 	case *DisplayedColumn:
 		if stage.OnAfterDisplayedColumnReadCallback != nil {
 			stage.OnAfterDisplayedColumnReadCallback.OnAfterRead(stage, target)
-		}
-	case *FormDiv:
-		if stage.OnAfterFormDivReadCallback != nil {
-			stage.OnAfterFormDivReadCallback.OnAfterRead(stage, target)
-		}
-	case *FormEditAssocButton:
-		if stage.OnAfterFormEditAssocButtonReadCallback != nil {
-			stage.OnAfterFormEditAssocButtonReadCallback.OnAfterRead(stage, target)
-		}
-	case *FormField:
-		if stage.OnAfterFormFieldReadCallback != nil {
-			stage.OnAfterFormFieldReadCallback.OnAfterRead(stage, target)
-		}
-	case *FormFieldDate:
-		if stage.OnAfterFormFieldDateReadCallback != nil {
-			stage.OnAfterFormFieldDateReadCallback.OnAfterRead(stage, target)
-		}
-	case *FormFieldDateTime:
-		if stage.OnAfterFormFieldDateTimeReadCallback != nil {
-			stage.OnAfterFormFieldDateTimeReadCallback.OnAfterRead(stage, target)
-		}
-	case *FormFieldFloat64:
-		if stage.OnAfterFormFieldFloat64ReadCallback != nil {
-			stage.OnAfterFormFieldFloat64ReadCallback.OnAfterRead(stage, target)
-		}
-	case *FormFieldInt:
-		if stage.OnAfterFormFieldIntReadCallback != nil {
-			stage.OnAfterFormFieldIntReadCallback.OnAfterRead(stage, target)
-		}
-	case *FormFieldSelect:
-		if stage.OnAfterFormFieldSelectReadCallback != nil {
-			stage.OnAfterFormFieldSelectReadCallback.OnAfterRead(stage, target)
-		}
-	case *FormFieldString:
-		if stage.OnAfterFormFieldStringReadCallback != nil {
-			stage.OnAfterFormFieldStringReadCallback.OnAfterRead(stage, target)
-		}
-	case *FormFieldTime:
-		if stage.OnAfterFormFieldTimeReadCallback != nil {
-			stage.OnAfterFormFieldTimeReadCallback.OnAfterRead(stage, target)
-		}
-	case *FormGroup:
-		if stage.OnAfterFormGroupReadCallback != nil {
-			stage.OnAfterFormGroupReadCallback.OnAfterRead(stage, target)
-		}
-	case *FormSortAssocButton:
-		if stage.OnAfterFormSortAssocButtonReadCallback != nil {
-			stage.OnAfterFormSortAssocButtonReadCallback.OnAfterRead(stage, target)
-		}
-	case *Option:
-		if stage.OnAfterOptionReadCallback != nil {
-			stage.OnAfterOptionReadCallback.OnAfterRead(stage, target)
 		}
 	case *Row:
 		if stage.OnAfterRowReadCallback != nil {
@@ -515,36 +263,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterCellIntUpdateCallback = any(callback).(OnAfterUpdateInterface[CellInt])
 	case *CellString:
 		stage.OnAfterCellStringUpdateCallback = any(callback).(OnAfterUpdateInterface[CellString])
-	case *CheckBox:
-		stage.OnAfterCheckBoxUpdateCallback = any(callback).(OnAfterUpdateInterface[CheckBox])
 	case *DisplayedColumn:
 		stage.OnAfterDisplayedColumnUpdateCallback = any(callback).(OnAfterUpdateInterface[DisplayedColumn])
-	case *FormDiv:
-		stage.OnAfterFormDivUpdateCallback = any(callback).(OnAfterUpdateInterface[FormDiv])
-	case *FormEditAssocButton:
-		stage.OnAfterFormEditAssocButtonUpdateCallback = any(callback).(OnAfterUpdateInterface[FormEditAssocButton])
-	case *FormField:
-		stage.OnAfterFormFieldUpdateCallback = any(callback).(OnAfterUpdateInterface[FormField])
-	case *FormFieldDate:
-		stage.OnAfterFormFieldDateUpdateCallback = any(callback).(OnAfterUpdateInterface[FormFieldDate])
-	case *FormFieldDateTime:
-		stage.OnAfterFormFieldDateTimeUpdateCallback = any(callback).(OnAfterUpdateInterface[FormFieldDateTime])
-	case *FormFieldFloat64:
-		stage.OnAfterFormFieldFloat64UpdateCallback = any(callback).(OnAfterUpdateInterface[FormFieldFloat64])
-	case *FormFieldInt:
-		stage.OnAfterFormFieldIntUpdateCallback = any(callback).(OnAfterUpdateInterface[FormFieldInt])
-	case *FormFieldSelect:
-		stage.OnAfterFormFieldSelectUpdateCallback = any(callback).(OnAfterUpdateInterface[FormFieldSelect])
-	case *FormFieldString:
-		stage.OnAfterFormFieldStringUpdateCallback = any(callback).(OnAfterUpdateInterface[FormFieldString])
-	case *FormFieldTime:
-		stage.OnAfterFormFieldTimeUpdateCallback = any(callback).(OnAfterUpdateInterface[FormFieldTime])
-	case *FormGroup:
-		stage.OnAfterFormGroupUpdateCallback = any(callback).(OnAfterUpdateInterface[FormGroup])
-	case *FormSortAssocButton:
-		stage.OnAfterFormSortAssocButtonUpdateCallback = any(callback).(OnAfterUpdateInterface[FormSortAssocButton])
-	case *Option:
-		stage.OnAfterOptionUpdateCallback = any(callback).(OnAfterUpdateInterface[Option])
 	case *Row:
 		stage.OnAfterRowUpdateCallback = any(callback).(OnAfterUpdateInterface[Row])
 	case *SVGIcon:
@@ -572,36 +292,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterCellIntCreateCallback = any(callback).(OnAfterCreateInterface[CellInt])
 	case *CellString:
 		stage.OnAfterCellStringCreateCallback = any(callback).(OnAfterCreateInterface[CellString])
-	case *CheckBox:
-		stage.OnAfterCheckBoxCreateCallback = any(callback).(OnAfterCreateInterface[CheckBox])
 	case *DisplayedColumn:
 		stage.OnAfterDisplayedColumnCreateCallback = any(callback).(OnAfterCreateInterface[DisplayedColumn])
-	case *FormDiv:
-		stage.OnAfterFormDivCreateCallback = any(callback).(OnAfterCreateInterface[FormDiv])
-	case *FormEditAssocButton:
-		stage.OnAfterFormEditAssocButtonCreateCallback = any(callback).(OnAfterCreateInterface[FormEditAssocButton])
-	case *FormField:
-		stage.OnAfterFormFieldCreateCallback = any(callback).(OnAfterCreateInterface[FormField])
-	case *FormFieldDate:
-		stage.OnAfterFormFieldDateCreateCallback = any(callback).(OnAfterCreateInterface[FormFieldDate])
-	case *FormFieldDateTime:
-		stage.OnAfterFormFieldDateTimeCreateCallback = any(callback).(OnAfterCreateInterface[FormFieldDateTime])
-	case *FormFieldFloat64:
-		stage.OnAfterFormFieldFloat64CreateCallback = any(callback).(OnAfterCreateInterface[FormFieldFloat64])
-	case *FormFieldInt:
-		stage.OnAfterFormFieldIntCreateCallback = any(callback).(OnAfterCreateInterface[FormFieldInt])
-	case *FormFieldSelect:
-		stage.OnAfterFormFieldSelectCreateCallback = any(callback).(OnAfterCreateInterface[FormFieldSelect])
-	case *FormFieldString:
-		stage.OnAfterFormFieldStringCreateCallback = any(callback).(OnAfterCreateInterface[FormFieldString])
-	case *FormFieldTime:
-		stage.OnAfterFormFieldTimeCreateCallback = any(callback).(OnAfterCreateInterface[FormFieldTime])
-	case *FormGroup:
-		stage.OnAfterFormGroupCreateCallback = any(callback).(OnAfterCreateInterface[FormGroup])
-	case *FormSortAssocButton:
-		stage.OnAfterFormSortAssocButtonCreateCallback = any(callback).(OnAfterCreateInterface[FormSortAssocButton])
-	case *Option:
-		stage.OnAfterOptionCreateCallback = any(callback).(OnAfterCreateInterface[Option])
 	case *Row:
 		stage.OnAfterRowCreateCallback = any(callback).(OnAfterCreateInterface[Row])
 	case *SVGIcon:
@@ -629,36 +321,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterCellIntDeleteCallback = any(callback).(OnAfterDeleteInterface[CellInt])
 	case *CellString:
 		stage.OnAfterCellStringDeleteCallback = any(callback).(OnAfterDeleteInterface[CellString])
-	case *CheckBox:
-		stage.OnAfterCheckBoxDeleteCallback = any(callback).(OnAfterDeleteInterface[CheckBox])
 	case *DisplayedColumn:
 		stage.OnAfterDisplayedColumnDeleteCallback = any(callback).(OnAfterDeleteInterface[DisplayedColumn])
-	case *FormDiv:
-		stage.OnAfterFormDivDeleteCallback = any(callback).(OnAfterDeleteInterface[FormDiv])
-	case *FormEditAssocButton:
-		stage.OnAfterFormEditAssocButtonDeleteCallback = any(callback).(OnAfterDeleteInterface[FormEditAssocButton])
-	case *FormField:
-		stage.OnAfterFormFieldDeleteCallback = any(callback).(OnAfterDeleteInterface[FormField])
-	case *FormFieldDate:
-		stage.OnAfterFormFieldDateDeleteCallback = any(callback).(OnAfterDeleteInterface[FormFieldDate])
-	case *FormFieldDateTime:
-		stage.OnAfterFormFieldDateTimeDeleteCallback = any(callback).(OnAfterDeleteInterface[FormFieldDateTime])
-	case *FormFieldFloat64:
-		stage.OnAfterFormFieldFloat64DeleteCallback = any(callback).(OnAfterDeleteInterface[FormFieldFloat64])
-	case *FormFieldInt:
-		stage.OnAfterFormFieldIntDeleteCallback = any(callback).(OnAfterDeleteInterface[FormFieldInt])
-	case *FormFieldSelect:
-		stage.OnAfterFormFieldSelectDeleteCallback = any(callback).(OnAfterDeleteInterface[FormFieldSelect])
-	case *FormFieldString:
-		stage.OnAfterFormFieldStringDeleteCallback = any(callback).(OnAfterDeleteInterface[FormFieldString])
-	case *FormFieldTime:
-		stage.OnAfterFormFieldTimeDeleteCallback = any(callback).(OnAfterDeleteInterface[FormFieldTime])
-	case *FormGroup:
-		stage.OnAfterFormGroupDeleteCallback = any(callback).(OnAfterDeleteInterface[FormGroup])
-	case *FormSortAssocButton:
-		stage.OnAfterFormSortAssocButtonDeleteCallback = any(callback).(OnAfterDeleteInterface[FormSortAssocButton])
-	case *Option:
-		stage.OnAfterOptionDeleteCallback = any(callback).(OnAfterDeleteInterface[Option])
 	case *Row:
 		stage.OnAfterRowDeleteCallback = any(callback).(OnAfterDeleteInterface[Row])
 	case *SVGIcon:
@@ -686,36 +350,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterCellIntReadCallback = any(callback).(OnAfterReadInterface[CellInt])
 	case *CellString:
 		stage.OnAfterCellStringReadCallback = any(callback).(OnAfterReadInterface[CellString])
-	case *CheckBox:
-		stage.OnAfterCheckBoxReadCallback = any(callback).(OnAfterReadInterface[CheckBox])
 	case *DisplayedColumn:
 		stage.OnAfterDisplayedColumnReadCallback = any(callback).(OnAfterReadInterface[DisplayedColumn])
-	case *FormDiv:
-		stage.OnAfterFormDivReadCallback = any(callback).(OnAfterReadInterface[FormDiv])
-	case *FormEditAssocButton:
-		stage.OnAfterFormEditAssocButtonReadCallback = any(callback).(OnAfterReadInterface[FormEditAssocButton])
-	case *FormField:
-		stage.OnAfterFormFieldReadCallback = any(callback).(OnAfterReadInterface[FormField])
-	case *FormFieldDate:
-		stage.OnAfterFormFieldDateReadCallback = any(callback).(OnAfterReadInterface[FormFieldDate])
-	case *FormFieldDateTime:
-		stage.OnAfterFormFieldDateTimeReadCallback = any(callback).(OnAfterReadInterface[FormFieldDateTime])
-	case *FormFieldFloat64:
-		stage.OnAfterFormFieldFloat64ReadCallback = any(callback).(OnAfterReadInterface[FormFieldFloat64])
-	case *FormFieldInt:
-		stage.OnAfterFormFieldIntReadCallback = any(callback).(OnAfterReadInterface[FormFieldInt])
-	case *FormFieldSelect:
-		stage.OnAfterFormFieldSelectReadCallback = any(callback).(OnAfterReadInterface[FormFieldSelect])
-	case *FormFieldString:
-		stage.OnAfterFormFieldStringReadCallback = any(callback).(OnAfterReadInterface[FormFieldString])
-	case *FormFieldTime:
-		stage.OnAfterFormFieldTimeReadCallback = any(callback).(OnAfterReadInterface[FormFieldTime])
-	case *FormGroup:
-		stage.OnAfterFormGroupReadCallback = any(callback).(OnAfterReadInterface[FormGroup])
-	case *FormSortAssocButton:
-		stage.OnAfterFormSortAssocButtonReadCallback = any(callback).(OnAfterReadInterface[FormSortAssocButton])
-	case *Option:
-		stage.OnAfterOptionReadCallback = any(callback).(OnAfterReadInterface[Option])
 	case *Row:
 		stage.OnAfterRowReadCallback = any(callback).(OnAfterReadInterface[Row])
 	case *SVGIcon:
