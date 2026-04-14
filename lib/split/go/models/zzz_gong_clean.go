@@ -55,7 +55,6 @@ func (assplitarea *AsSplitArea) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanPointer(stage, &assplitarea.AsSplit) || modified
 	modified = GongCleanPointer(stage, &assplitarea.Button) || modified
 	modified = GongCleanPointer(stage, &assplitarea.Cursor) || modified
-	modified = GongCleanPointer(stage, &assplitarea.Form) || modified
 	modified = GongCleanPointer(stage, &assplitarea.Form2) || modified
 	modified = GongCleanPointer(stage, &assplitarea.Load) || modified
 	modified = GongCleanPointer(stage, &assplitarea.Markdown) || modified

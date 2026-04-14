@@ -195,8 +195,6 @@ func (assplitareaFormCallback *AsSplitAreaFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(assplitarea_.Button), assplitareaFormCallback.probe.stageOfInterest, formDiv)
 		case "Cursor":
 			FormDivSelectFieldToField(&(assplitarea_.Cursor), assplitareaFormCallback.probe.stageOfInterest, formDiv)
-		case "Form":
-			FormDivSelectFieldToField(&(assplitarea_.Form), assplitareaFormCallback.probe.stageOfInterest, formDiv)
 		case "Form2":
 			FormDivSelectFieldToField(&(assplitarea_.Form2), assplitareaFormCallback.probe.stageOfInterest, formDiv)
 		case "Load":
