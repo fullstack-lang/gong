@@ -247,7 +247,7 @@ func _(stage *models.Stage) {
 	__FormFieldString__00000000_.IsTextArea = false
 
 	__FormFieldString__00000001_.Name = `LastName`
-	__FormFieldString__00000001_.Value = `Baudelaire`
+	__FormFieldString__00000001_.Value = `Baudelaires`
 	__FormFieldString__00000001_.IsTextArea = false
 
 	__FormFieldString__00000002_.Name = `Text Area`
