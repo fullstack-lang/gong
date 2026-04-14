@@ -73,7 +73,6 @@ type AsSplitArea struct {
 	Button   *Button
 	Cursor   *Cursor
 	Form     *Form
-	Form2    *Form2
 	Load     *Load
 	Markdown *Markdown
 	Slider   *Slider
@@ -100,11 +99,6 @@ type Cursor struct {
 }
 
 type Form struct {
-	Name      string // name of the stack
-	StackName string
-}
-
-type Form2 struct {
 	Name      string // name of the stack
 	StackName string
 }

@@ -23,17 +23,6 @@ func (from *CheckBox) CopyBasicFields(to *CheckBox) {
 	to.Value = from.Value
 }
 
-type Form2_WOP struct {
-	// insertion point
-
-	Name string
-}
-
-func (from *Form2) CopyBasicFields(to *Form2) {
-	// insertion point
-	to.Name = from.Name
-}
-
 type FormDiv_WOP struct {
 	// insertion point
 

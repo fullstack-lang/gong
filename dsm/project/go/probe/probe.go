@@ -201,7 +201,7 @@ func NewProbe(
 			{
 				Name: "form",
 				Size: 30,
-				Form2: &split.Form2{
+				Form: &split.Form{
 					Name:      "Form",
 					StackName: probe.formStage.GetName(),
 				},

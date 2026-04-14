@@ -46,11 +46,6 @@ func FillUpForm(
 			}
 		}
 
-	case *models.Form2:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
-
 	case *models.FormDiv:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,

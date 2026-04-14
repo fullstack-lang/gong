@@ -56,7 +56,6 @@ func (assplitarea *AsSplitArea) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanPointer(stage, &assplitarea.Button) || modified
 	modified = GongCleanPointer(stage, &assplitarea.Cursor) || modified
 	modified = GongCleanPointer(stage, &assplitarea.Form) || modified
-	modified = GongCleanPointer(stage, &assplitarea.Form2) || modified
 	modified = GongCleanPointer(stage, &assplitarea.Load) || modified
 	modified = GongCleanPointer(stage, &assplitarea.Markdown) || modified
 	modified = GongCleanPointer(stage, &assplitarea.Slider) || modified
@@ -92,13 +91,6 @@ func (favicon *FavIcon) GongClean(stage *Stage) (modified bool) {
 
 // Clean garbage collect unstaged instances that are referenced by Form
 func (form *Form) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by Form2
-func (form2 *Form2) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
 	return

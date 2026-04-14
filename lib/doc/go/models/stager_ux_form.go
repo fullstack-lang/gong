@@ -1,7 +1,7 @@
 package models
 
 import (
-	form "github.com/fullstack-lang/gong/lib/table/go/models"
+	form "github.com/fullstack-lang/gong/lib/form/go/models"
 )
 
 func (stager *Stager) form() {
