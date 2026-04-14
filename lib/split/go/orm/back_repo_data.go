@@ -16,8 +16,6 @@ type BackRepoData struct {
 
 	FormAPIs []*FormAPI
 
-	Form2APIs []*Form2API
-
 	LoadAPIs []*LoadAPI
 
 	LogoOnTheLeftAPIs []*LogoOnTheLeftAPI
@@ -113,16 +111,6 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		formDB.CopyBasicFieldsToForm_WOP(&formAPI.Form_WOP)
 
 		backRepoData.FormAPIs = append(backRepoData.FormAPIs, &formAPI)
-	}
-
-	for _, form2DB := range backRepo.BackRepoForm2.Map_Form2DBID_Form2DB {
-
-		var form2API Form2API
-		form2API.ID = form2DB.ID
-		form2API.Form2PointersEncoding = form2DB.Form2PointersEncoding
-		form2DB.CopyBasicFieldsToForm2_WOP(&form2API.Form2_WOP)
-
-		backRepoData.Form2APIs = append(backRepoData.Form2APIs, &form2API)
 	}
 
 	for _, loadDB := range backRepo.BackRepoLoad.Map_LoadDBID_LoadDB {

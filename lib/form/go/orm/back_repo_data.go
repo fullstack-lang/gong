@@ -6,8 +6,6 @@ type BackRepoData struct {
 
 	CheckBoxAPIs []*CheckBoxAPI
 
-	Form2APIs []*Form2API
-
 	FormDivAPIs []*FormDivAPI
 
 	FormEditAssocButtonAPIs []*FormEditAssocButtonAPI
@@ -53,16 +51,6 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		checkboxDB.CopyBasicFieldsToCheckBox_WOP(&checkboxAPI.CheckBox_WOP)
 
 		backRepoData.CheckBoxAPIs = append(backRepoData.CheckBoxAPIs, &checkboxAPI)
-	}
-
-	for _, form2DB := range backRepo.BackRepoForm2.Map_Form2DBID_Form2DB {
-
-		var form2API Form2API
-		form2API.ID = form2DB.ID
-		form2API.Form2PointersEncoding = form2DB.Form2PointersEncoding
-		form2DB.CopyBasicFieldsToForm2_WOP(&form2API.Form2_WOP)
-
-		backRepoData.Form2APIs = append(backRepoData.Form2APIs, &form2API)
 	}
 
 	for _, formdivDB := range backRepo.BackRepoFormDiv.Map_FormDivDBID_FormDivDB {

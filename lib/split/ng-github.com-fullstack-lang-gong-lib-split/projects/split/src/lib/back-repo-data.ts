@@ -13,8 +13,6 @@ import { FavIconAPI } from './favicon-api'
 
 import { FormAPI } from './form-api'
 
-import { Form2API } from './form2-api'
-
 import { LoadAPI } from './load-api'
 
 import { LogoOnTheLeftAPI } from './logoontheleft-api'
@@ -55,8 +53,6 @@ export class BackRepoData {
 	FavIconAPIs = new Array<FavIconAPI>()
 
 	FormAPIs = new Array<FormAPI>()
-
-	Form2APIs = new Array<Form2API>()
 
 	LoadAPIs = new Array<LoadAPI>()
 
@@ -101,8 +97,6 @@ export class BackRepoData {
 		this.FavIconAPIs = data?.FavIconAPIs || [];
 
 		this.FormAPIs = data?.FormAPIs || [];
-
-		this.Form2APIs = data?.Form2APIs || [];
 
 		this.LoadAPIs = data?.LoadAPIs || [];
 

@@ -37,10 +37,6 @@ export * from './lib/form-api'
 export * from './lib/form'
 export * from './lib/form.service'
 
-export * from './lib/form2-api'
-export * from './lib/form2'
-export * from './lib/form2.service'
-
 export * from './lib/load-api'
 export * from './lib/load'
 export * from './lib/load.service'

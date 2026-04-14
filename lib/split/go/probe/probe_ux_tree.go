@@ -56,6 +56,22 @@ func (probe *Probe) ux_tree() {
 	topNode := &tree_models.Node{Name: fmt.Sprintf("%s", stageOfInterest.GetName())}
 	sidebar.RootNodes = append(sidebar.RootNodes, topNode)
 
+	refreshButton := &tree_models.Button{
+		Name:            "RefreshButton" + " " + string(tree_buttons.BUTTON_refresh),
+		Icon:            string(tree_buttons.BUTTON_refresh),
+		HasToolTip:      true,
+		ToolTipText:     "Refresh probe",
+		ToolTipPosition: tree_models.Below,
+		OnClick: func() {
+			probe.stageOfInterest.ComputeInstancesNb()
+			probe.docStager.SetMap_GongStructName_InstancesNb(
+				probe.stageOfInterest.Map_GongStructName_InstancesNb,
+			)
+			probe.Refresh()
+		},
+	}
+	topNode.Buttons = append(topNode.Buttons, refreshButton)
+
 	// collect all gong struct to construe the true
 	setOfGongStructs := *gong_models.GetGongstructInstancesSetFromPointerType[*gong_models.GongStruct](probe.gongStage)
 
@@ -271,38 +287,6 @@ func (probe *Probe) ux_tree() {
 					return
 				}
 				updateProbeTable[*models.Form](probe)
-				// set color for node and reset all other nodes color
-				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](treeStagee) {
-					node.BackgroundColor = ""
-				}
-				stagedNode.BackgroundColor = "lightgrey"
-				treeStagee.Commit()
-			}
-		case "Form2":
-			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Form2](probe.stageOfInterest)
-			count := 0
-			for _form2 := range set {
-				if count >= probe.GetMaxElementsNbPerGongStructNode() {
-					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
-					break
-				}
-				count++
-				nodeInstance := &tree_models.Node{
-					Name:            _form2.GetName(),
-					IsNodeClickable: true,
-					OnUpdate: func(_ *tree_models.Stage, _, _ *tree_models.Node) {
-						FillUpFormFromGongstruct(_form2, probe)
-					},
-				}
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-			nodeGongstruct.OnUpdate = func(treeStagee *tree_models.Stage, stagedNode, frontNode *tree_models.Node) {
-				if stagedNode.IsExpanded != frontNode.IsExpanded {
-					stagedNode.IsExpanded = frontNode.IsExpanded
-					return
-				}
-				updateProbeTable[*models.Form2](probe)
 				// set color for node and reset all other nodes color
 				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](treeStagee) {
 					node.BackgroundColor = ""

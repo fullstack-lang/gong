@@ -18,7 +18,6 @@ func SerializeStage2(stage *Stage, filename string, addIDs bool) {
 	{
 		// insertion point
 		SerializeExcelizePointerToGongstruct2[*CheckBox](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Form2](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*FormDiv](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*FormEditAssocButton](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*FormField](stage, f, addIDs)

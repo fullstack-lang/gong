@@ -140,20 +140,6 @@ type Stage struct {
 	OnAfterCheckBoxDeleteCallback OnAfterDeleteInterface[CheckBox]
 	OnAfterCheckBoxReadCallback   OnAfterReadInterface[CheckBox]
 
-	Form2s                map[*Form2]struct{}
-	Form2s_instance       map[*Form2]*Form2
-	Form2s_mapString      map[string]*Form2
-	Form2Order            uint
-	Form2_stagedOrder     map[*Form2]uint
-	Form2s_reference      map[*Form2]*Form2
-	Form2s_referenceOrder map[*Form2]uint
-
-	// insertion point for slice of pointers maps
-	OnAfterForm2CreateCallback OnAfterCreateInterface[Form2]
-	OnAfterForm2UpdateCallback OnAfterUpdateInterface[Form2]
-	OnAfterForm2DeleteCallback OnAfterDeleteInterface[Form2]
-	OnAfterForm2ReadCallback   OnAfterReadInterface[Form2]
-
 	FormDivs                map[*FormDiv]struct{}
 	FormDivs_instance       map[*FormDiv]*FormDiv
 	FormDivs_mapString      map[string]*FormDiv
@@ -584,10 +570,6 @@ func (stage *Stage) Squash() {
 	stage.CheckBoxs_instance = make(map[*CheckBox]*CheckBox)
 	stage.CheckBoxs_referenceOrder = make(map[*CheckBox]uint)
 
-	stage.Form2s_reference = make(map[*Form2]*Form2)
-	stage.Form2s_instance = make(map[*Form2]*Form2)
-	stage.Form2s_referenceOrder = make(map[*Form2]uint)
-
 	stage.FormDivs_reference = make(map[*FormDiv]*FormDiv)
 	stage.FormDivs_instance = make(map[*FormDiv]*FormDiv)
 	stage.FormDivs_referenceOrder = make(map[*FormDiv]uint)
@@ -679,20 +661,6 @@ func (stage *Stage) recomputeOrders() {
 		stage.CheckBoxOrder = maxCheckBoxOrder + 1
 	} else {
 		stage.CheckBoxOrder = 0
-	}
-
-	var maxForm2Order uint
-	var foundForm2 bool
-	for _, order := range stage.Form2_stagedOrder {
-		if !foundForm2 || order > maxForm2Order {
-			maxForm2Order = order
-			foundForm2 = true
-		}
-	}
-	if foundForm2 {
-		stage.Form2Order = maxForm2Order + 1
-	} else {
-		stage.Form2Order = 0
 	}
 
 	var maxFormDivOrder uint
@@ -952,20 +920,6 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
-	case *Form2:
-		tmp := GetStructInstancesByOrder(stage.Form2s, stage.Form2_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Form2 implements.
-			res = append(res, any(v).(T))
-		}
-		return res
 	case *FormDiv:
 		tmp := GetStructInstancesByOrder(stage.FormDivs, stage.FormDiv_stagedOrder)
 
@@ -1179,8 +1133,6 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 	// insertion point for case
 	case "CheckBox":
 		res = GetNamedStructInstances(stage.CheckBoxs, stage.CheckBox_stagedOrder)
-	case "Form2":
-		res = GetNamedStructInstances(stage.Form2s, stage.Form2_stagedOrder)
 	case "FormDiv":
 		res = GetNamedStructInstances(stage.FormDivs, stage.FormDiv_stagedOrder)
 	case "FormEditAssocButton":
@@ -1278,8 +1230,6 @@ type BackRepoInterface interface {
 	// insertion point for Commit and Checkout signatures
 	CommitCheckBox(checkbox *CheckBox)
 	CheckoutCheckBox(checkbox *CheckBox)
-	CommitForm2(form2 *Form2)
-	CheckoutForm2(form2 *Form2)
 	CommitFormDiv(formdiv *FormDiv)
 	CheckoutFormDiv(formdiv *FormDiv)
 	CommitFormEditAssocButton(formeditassocbutton *FormEditAssocButton)
@@ -1314,9 +1264,6 @@ func NewStage(name string) (stage *Stage) {
 	stage = &Stage{ // insertion point for array initiatialisation
 		CheckBoxs:           make(map[*CheckBox]struct{}),
 		CheckBoxs_mapString: make(map[string]*CheckBox),
-
-		Form2s:           make(map[*Form2]struct{}),
-		Form2s_mapString: make(map[string]*Form2),
 
 		FormDivs:           make(map[*FormDiv]struct{}),
 		FormDivs_mapString: make(map[string]*FormDiv),
@@ -1369,8 +1316,6 @@ func NewStage(name string) (stage *Stage) {
 		// insertion point for order map initialisations
 		CheckBox_stagedOrder: make(map[*CheckBox]uint),
 
-		Form2_stagedOrder: make(map[*Form2]uint),
-
 		FormDiv_stagedOrder: make(map[*FormDiv]uint),
 
 		FormEditAssocButton_stagedOrder: make(map[*FormEditAssocButton]uint),
@@ -1400,8 +1345,6 @@ func NewStage(name string) (stage *Stage) {
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
 			"CheckBox": &CheckBoxUnmarshaller{},
-
-			"Form2": &Form2Unmarshaller{},
 
 			"FormDiv": &FormDivUnmarshaller{},
 
@@ -1434,7 +1377,6 @@ func NewStage(name string) (stage *Stage) {
 
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
 			{name: "CheckBox"},
-			{name: "Form2"},
 			{name: "FormDiv"},
 			{name: "FormEditAssocButton"},
 			{name: "FormField"},
@@ -1461,8 +1403,6 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 	// insertion point for order map initialisations
 	case *CheckBox:
 		return stage.CheckBox_stagedOrder[instance]
-	case *Form2:
-		return stage.Form2_stagedOrder[instance]
 	case *FormDiv:
 		return stage.FormDiv_stagedOrder[instance]
 	case *FormEditAssocButton:
@@ -1499,8 +1439,6 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 	// insertion point for order map initialisations
 	case *CheckBox:
 		return stage.CheckBox_stagedOrder[instance]
-	case *Form2:
-		return stage.Form2_stagedOrder[instance]
 	case *FormDiv:
 		return stage.FormDiv_stagedOrder[instance]
 	case *FormEditAssocButton:
@@ -1593,7 +1531,6 @@ func (stage *Stage) Commit() {
 func (stage *Stage) ComputeInstancesNb() {
 	// insertion point for computing the map of number of instances per gongstruct
 	stage.Map_GongStructName_InstancesNb["CheckBox"] = len(stage.CheckBoxs)
-	stage.Map_GongStructName_InstancesNb["Form2"] = len(stage.Form2s)
 	stage.Map_GongStructName_InstancesNb["FormDiv"] = len(stage.FormDivs)
 	stage.Map_GongStructName_InstancesNb["FormEditAssocButton"] = len(stage.FormEditAssocButtons)
 	stage.Map_GongStructName_InstancesNb["FormField"] = len(stage.FormFields)
@@ -1731,92 +1668,6 @@ func (checkbox *CheckBox) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (checkbox *CheckBox) SetName(name string) {
 	checkbox.Name = name
-}
-
-// Stage puts form2 to the model stage
-func (form2 *Form2) Stage(stage *Stage) *Form2 {
-	if _, ok := stage.Form2s[form2]; !ok {
-		stage.Form2s[form2] = struct{}{}
-		stage.Form2_stagedOrder[form2] = stage.Form2Order
-		stage.Form2Order++
-	}
-	stage.Form2s_mapString[form2.Name] = form2
-
-	return form2
-}
-
-// StagePreserveOrder puts form2 to the model stage, and if the astrtuct
-// was not staged before:
-//
-// - force the order if the order is equal or greater than the stage.Form2Order
-// - update stage.Form2Order accordingly
-func (form2 *Form2) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Form2s[form2]; !ok {
-		stage.Form2s[form2] = struct{}{}
-
-		if order > stage.Form2Order {
-			stage.Form2Order = order
-		}
-		stage.Form2_stagedOrder[form2] = order
-		stage.Form2Order++
-	}
-	stage.Form2s_mapString[form2.Name] = form2
-}
-
-// Unstage removes form2 off the model stage
-func (form2 *Form2) Unstage(stage *Stage) *Form2 {
-	delete(stage.Form2s, form2)
-	// issue1150
-	// delete(stage.Form2_stagedOrder, form2)
-	delete(stage.Form2s_mapString, form2.Name)
-
-	return form2
-}
-
-// UnstageVoid removes form2 off the model stage
-func (form2 *Form2) UnstageVoid(stage *Stage) {
-	delete(stage.Form2s, form2)
-	// issue1150
-	// delete(stage.Form2_stagedOrder, form2)
-	delete(stage.Form2s_mapString, form2.Name)
-}
-
-// commit form2 to the back repo (if it is already staged)
-func (form2 *Form2) Commit(stage *Stage) *Form2 {
-	if _, ok := stage.Form2s[form2]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitForm2(form2)
-		}
-	}
-	return form2
-}
-
-func (form2 *Form2) CommitVoid(stage *Stage) {
-	form2.Commit(stage)
-}
-
-func (form2 *Form2) StageVoid(stage *Stage) {
-	form2.Stage(stage)
-}
-
-// Checkout form2 to the back repo (if it is already staged)
-func (form2 *Form2) Checkout(stage *Stage) *Form2 {
-	if _, ok := stage.Form2s[form2]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutForm2(form2)
-		}
-	}
-	return form2
-}
-
-// for satisfaction of GongStruct interface
-func (form2 *Form2) GetName() (res string) {
-	return form2.Name
-}
-
-// for satisfaction of GongStruct interface
-func (form2 *Form2) SetName(name string) {
-	form2.Name = name
 }
 
 // Stage puts formdiv to the model stage
@@ -2940,7 +2791,6 @@ func (option *Option) SetName(name string) {
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
 	CreateORMCheckBox(CheckBox *CheckBox)
-	CreateORMForm2(Form2 *Form2)
 	CreateORMFormDiv(FormDiv *FormDiv)
 	CreateORMFormEditAssocButton(FormEditAssocButton *FormEditAssocButton)
 	CreateORMFormField(FormField *FormField)
@@ -2958,7 +2808,6 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
 	DeleteORMCheckBox(CheckBox *CheckBox)
-	DeleteORMForm2(Form2 *Form2)
 	DeleteORMFormDiv(FormDiv *FormDiv)
 	DeleteORMFormEditAssocButton(FormEditAssocButton *FormEditAssocButton)
 	DeleteORMFormField(FormField *FormField)
@@ -2979,11 +2828,6 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.CheckBoxs_mapString = make(map[string]*CheckBox)
 	stage.CheckBox_stagedOrder = make(map[*CheckBox]uint)
 	stage.CheckBoxOrder = 0
-
-	stage.Form2s = make(map[*Form2]struct{})
-	stage.Form2s_mapString = make(map[string]*Form2)
-	stage.Form2_stagedOrder = make(map[*Form2]uint)
-	stage.Form2Order = 0
 
 	stage.FormDivs = make(map[*FormDiv]struct{})
 	stage.FormDivs_mapString = make(map[string]*FormDiv)
@@ -3062,9 +2906,6 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.CheckBoxs = nil
 	stage.CheckBoxs_mapString = nil
 
-	stage.Form2s = nil
-	stage.Form2s_mapString = nil
-
 	stage.FormDivs = nil
 	stage.FormDivs_mapString = nil
 
@@ -3110,10 +2951,6 @@ func (stage *Stage) Nil() { // insertion point for array nil
 func (stage *Stage) Unstage() { // insertion point for array nil
 	for checkbox := range stage.CheckBoxs {
 		checkbox.Unstage(stage)
-	}
-
-	for form2 := range stage.Form2s {
-		form2.Unstage(stage)
 	}
 
 	for formdiv := range stage.FormDivs {
@@ -3246,8 +3083,6 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 	// insertion point for generic get functions
 	case map[*CheckBox]any:
 		return any(&stage.CheckBoxs).(*Type)
-	case map[*Form2]any:
-		return any(&stage.Form2s).(*Type)
 	case map[*FormDiv]any:
 		return any(&stage.FormDivs).(*Type)
 	case map[*FormEditAssocButton]any:
@@ -3288,8 +3123,6 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 	// insertion point for generic get functions
 	case *CheckBox:
 		return any(stage.CheckBoxs_mapString).(map[string]Type)
-	case *Form2:
-		return any(stage.Form2s_mapString).(map[string]Type)
 	case *FormDiv:
 		return any(stage.FormDivs_mapString).(map[string]Type)
 	case *FormEditAssocButton:
@@ -3330,8 +3163,6 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 	// insertion point for generic get functions
 	case CheckBox:
 		return any(&stage.CheckBoxs).(*map[*Type]struct{})
-	case Form2:
-		return any(&stage.Form2s).(*map[*Type]struct{})
 	case FormDiv:
 		return any(&stage.FormDivs).(*map[*Type]struct{})
 	case FormEditAssocButton:
@@ -3372,8 +3203,6 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 	// insertion point for generic get functions
 	case *CheckBox:
 		return any(&stage.CheckBoxs).(*map[Type]struct{})
-	case *Form2:
-		return any(&stage.Form2s).(*map[Type]struct{})
 	case *FormDiv:
 		return any(&stage.FormDivs).(*map[Type]struct{})
 	case *FormEditAssocButton:
@@ -3414,8 +3243,6 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 	// insertion point for generic get functions
 	case CheckBox:
 		return any(&stage.CheckBoxs_mapString).(*map[string]*Type)
-	case Form2:
-		return any(&stage.Form2s_mapString).(*map[string]*Type)
 	case FormDiv:
 		return any(&stage.FormDivs_mapString).(*map[string]*Type)
 	case FormEditAssocButton:
@@ -3458,10 +3285,6 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	// insertion point for instance with special fields
 	case CheckBox:
 		return any(&CheckBox{
-			// Initialisation of associations
-		}).(*Type)
-	case Form2:
-		return any(&Form2{
 			// Initialisation of associations
 		}).(*Type)
 	case FormDiv:
@@ -3565,11 +3388,6 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	// insertion point of functions that provide maps for reverse associations
 	// reverse maps of direct associations of CheckBox
 	case CheckBox:
-		switch fieldname {
-		// insertion point for per direct association field
-		}
-	// reverse maps of direct associations of Form2
-	case Form2:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -3845,11 +3663,6 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
-	// reverse maps of direct associations of Form2
-	case Form2:
-		switch fieldname {
-		// insertion point for per direct association field
-		}
 	// reverse maps of direct associations of FormDiv
 	case FormDiv:
 		switch fieldname {
@@ -3960,8 +3773,6 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 	// insertion point for generic get gongstruct name
 	case *CheckBox:
 		res = "CheckBox"
-	case *Form2:
-		res = "Form2"
 	case *FormDiv:
 		res = "FormDiv"
 	case *FormEditAssocButton:
@@ -4011,9 +3822,6 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.GongstructName = "FormDiv"
 		rf.Fieldname = "CheckBoxs"
 		res = append(res, rf)
-	case *Form2:
-		var rf ReverseField
-		_ = rf
 	case *FormDiv:
 		var rf ReverseField
 		_ = rf
@@ -4077,17 +3885,6 @@ func (checkbox *CheckBox) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "Value",
 			GongFieldValueType: GongFieldValueTypeBool,
-		},
-	}
-	return
-}
-
-func (form2 *Form2) GongGetFieldHeaders() (res []GongFieldHeader) {
-	// insertion point for list of field headers
-	res = []GongFieldHeader{
-		{
-			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeString,
 		},
 	}
 	return
@@ -4536,15 +4333,6 @@ func (checkbox *CheckBox) GongGetFieldValue(fieldName string, stage *Stage) (res
 	return
 }
 
-func (form2 *Form2) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
-	switch fieldName {
-	// string value of fields
-	case "Name":
-		res.valueString = form2.Name
-	}
-	return
-}
-
 func (formdiv *FormDiv) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -4908,17 +4696,6 @@ func (checkbox *CheckBox) GongSetFieldValue(fieldName string, value GongFieldVal
 		checkbox.Name = value.GetValueString()
 	case "Value":
 		checkbox.Value = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (form2 *Form2) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		form2.Name = value.GetValueString()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -5326,10 +5103,6 @@ func (checkbox *CheckBox) GongGetGongstructName() string {
 	return "CheckBox"
 }
 
-func (form2 *Form2) GongGetGongstructName() string {
-	return "Form2"
-}
-
 func (formdiv *FormDiv) GongGetGongstructName() string {
 	return "FormDiv"
 }
@@ -5392,11 +5165,6 @@ func (stage *Stage) ResetMapStrings() {
 	stage.CheckBoxs_mapString = make(map[string]*CheckBox)
 	for checkbox := range stage.CheckBoxs {
 		stage.CheckBoxs_mapString[checkbox.Name] = checkbox
-	}
-
-	stage.Form2s_mapString = make(map[string]*Form2)
-	for form2 := range stage.Form2s {
-		stage.Form2s_mapString[form2.Name] = form2
 	}
 
 	stage.FormDivs_mapString = make(map[string]*FormDiv)

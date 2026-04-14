@@ -3,8 +3,6 @@
 //insertion point for imports
 import { CheckBoxAPI } from './checkbox-api'
 
-import { Form2API } from './form2-api'
-
 import { FormDivAPI } from './formdiv-api'
 
 import { FormEditAssocButtonAPI } from './formeditassocbutton-api'
@@ -35,8 +33,6 @@ import { OptionAPI } from './option-api'
 export class BackRepoData {
 	// insertion point for declarations
 	CheckBoxAPIs = new Array<CheckBoxAPI>()
-
-	Form2APIs = new Array<Form2API>()
 
 	FormDivAPIs = new Array<FormDivAPI>()
 
@@ -71,8 +67,6 @@ export class BackRepoData {
 	constructor(data?: Partial<BackRepoData>) {
 		// insertion point for copies
 		this.CheckBoxAPIs = data?.CheckBoxAPIs || [];
-
-		this.Form2APIs = data?.Form2APIs || [];
 
 		this.FormDivAPIs = data?.FormDivAPIs || [];
 

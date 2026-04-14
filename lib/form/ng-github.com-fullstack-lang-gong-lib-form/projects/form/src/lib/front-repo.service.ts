@@ -9,10 +9,6 @@ import { CheckBoxAPI } from './checkbox-api'
 import { CheckBox, CopyCheckBoxAPIToCheckBox } from './checkbox'
 import { CheckBoxService } from './checkbox.service'
 
-import { Form2API } from './form2-api'
-import { Form2, CopyForm2APIToForm2 } from './form2'
-import { Form2Service } from './form2.service'
-
 import { FormDivAPI } from './formdiv-api'
 import { FormDiv, CopyFormDivAPIToFormDiv } from './formdiv'
 import { FormDivService } from './formdiv.service'
@@ -75,9 +71,6 @@ export class FrontRepo { // insertion point sub template
 	array_CheckBoxs = new Array<CheckBox>() // array of front instances
 	map_ID_CheckBox = new Map<number, CheckBox>() // map of front instances
 
-	array_Form2s = new Array<Form2>() // array of front instances
-	map_ID_Form2 = new Map<number, Form2>() // map of front instances
-
 	array_FormDivs = new Array<FormDiv>() // array of front instances
 	map_ID_FormDiv = new Map<number, FormDiv>() // map of front instances
 
@@ -128,8 +121,6 @@ export class FrontRepo { // insertion point sub template
 			// insertion point
 			case 'CheckBox':
 				return this.array_CheckBoxs as unknown as Array<Type>
-			case 'Form2':
-				return this.array_Form2s as unknown as Array<Type>
 			case 'FormDiv':
 				return this.array_FormDivs as unknown as Array<Type>
 			case 'FormEditAssocButton':
@@ -166,8 +157,6 @@ export class FrontRepo { // insertion point sub template
 			// insertion point
 			case 'CheckBox':
 				return this.map_ID_CheckBox as unknown as Map<number, Type>
-			case 'Form2':
-				return this.map_ID_Form2 as unknown as Map<number, Type>
 			case 'FormDiv':
 				return this.map_ID_FormDiv as unknown as Map<number, Type>
 			case 'FormEditAssocButton':
@@ -265,7 +254,6 @@ export class FrontRepoService {
 	constructor(
 		private http: HttpClient, // insertion point sub template 
 		private checkboxService: CheckBoxService,
-		private form2Service: Form2Service,
 		private formdivService: FormDivService,
 		private formeditassocbuttonService: FormEditAssocButtonService,
 		private formfieldService: FormFieldService,
@@ -312,7 +300,6 @@ export class FrontRepoService {
 		Observable<null>, // see below for the of(null) observable
 		// insertion point sub template 
 		Observable<CheckBoxAPI[]>,
-		Observable<Form2API[]>,
 		Observable<FormDivAPI[]>,
 		Observable<FormEditAssocButtonAPI[]>,
 		Observable<FormFieldAPI[]>,
@@ -342,7 +329,6 @@ export class FrontRepoService {
 			of(null), // see above for justification
 			// insertion point sub template
 			this.checkboxService.getCheckBoxs(this.Name, this.frontRepo),
-			this.form2Service.getForm2s(this.Name, this.frontRepo),
 			this.formdivService.getFormDivs(this.Name, this.frontRepo),
 			this.formeditassocbuttonService.getFormEditAssocButtons(this.Name, this.frontRepo),
 			this.formfieldService.getFormFields(this.Name, this.frontRepo),
@@ -367,7 +353,6 @@ export class FrontRepoService {
 						___of_null, // see above for the explanation about of
 						// insertion point sub template for declarations 
 						checkboxs_,
-						form2s_,
 						formdivs_,
 						formeditassocbuttons_,
 						formfields_,
@@ -387,8 +372,6 @@ export class FrontRepoService {
 						// insertion point sub template for type casting 
 						var checkboxs: CheckBoxAPI[]
 						checkboxs = checkboxs_ as CheckBoxAPI[]
-						var form2s: Form2API[]
-						form2s = form2s_ as Form2API[]
 						var formdivs: FormDivAPI[]
 						formdivs = formdivs_ as FormDivAPI[]
 						var formeditassocbuttons: FormEditAssocButtonAPI[]
@@ -428,18 +411,6 @@ export class FrontRepoService {
 								let checkbox = new CheckBox
 								this.frontRepo.array_CheckBoxs.push(checkbox)
 								this.frontRepo.map_ID_CheckBox.set(checkboxAPI.ID, checkbox)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Form2s = []
-						this.frontRepo.map_ID_Form2.clear()
-
-						form2s.forEach(
-							form2API => {
-								let form2 = new Form2
-								this.frontRepo.array_Form2s.push(form2)
-								this.frontRepo.map_ID_Form2.set(form2API.ID, form2)
 							}
 						)
 
@@ -612,14 +583,6 @@ export class FrontRepoService {
 						)
 
 						// fill up front objects
-						form2s.forEach(
-							form2API => {
-								let form2 = this.frontRepo.map_ID_Form2.get(form2API.ID)
-								CopyForm2APIToForm2(form2API, form2!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
 						formdivs.forEach(
 							formdivAPI => {
 								let formdiv = this.frontRepo.map_ID_FormDiv.get(formdivAPI.ID)
@@ -779,18 +742,6 @@ export class FrontRepoService {
 						let checkbox = new CheckBox
 						frontRepo.array_CheckBoxs.push(checkbox)
 						frontRepo.map_ID_CheckBox.set(checkboxAPI.ID, checkbox)
-					}
-				)
-
-				// init the arrays
-				frontRepo.array_Form2s = []
-				frontRepo.map_ID_Form2.clear()
-
-				backRepoData.Form2APIs.forEach(
-					form2API => {
-						let form2 = new Form2
-						frontRepo.array_Form2s.push(form2)
-						frontRepo.map_ID_Form2.set(form2API.ID, form2)
 					}
 				)
 
@@ -965,14 +916,6 @@ export class FrontRepoService {
 				)
 
 				// fill up front objects
-				backRepoData.Form2APIs.forEach(
-					form2API => {
-						let form2 = frontRepo.map_ID_Form2.get(form2API.ID)
-						CopyForm2APIToForm2(form2API, form2!, frontRepo)
-					}
-				)
-
-				// fill up front objects
 				backRepoData.FormDivAPIs.forEach(
 					formdivAPI => {
 						let formdiv = frontRepo.map_ID_FormDiv.get(formdivAPI.ID)
@@ -1107,45 +1050,42 @@ export class FrontRepoService {
 export function getCheckBoxUniqueID(id: number): number {
 	return 31 * id
 }
-export function getForm2UniqueID(id: number): number {
+export function getFormDivUniqueID(id: number): number {
 	return 37 * id
 }
-export function getFormDivUniqueID(id: number): number {
+export function getFormEditAssocButtonUniqueID(id: number): number {
 	return 41 * id
 }
-export function getFormEditAssocButtonUniqueID(id: number): number {
+export function getFormFieldUniqueID(id: number): number {
 	return 43 * id
 }
-export function getFormFieldUniqueID(id: number): number {
+export function getFormFieldDateUniqueID(id: number): number {
 	return 47 * id
 }
-export function getFormFieldDateUniqueID(id: number): number {
+export function getFormFieldDateTimeUniqueID(id: number): number {
 	return 53 * id
 }
-export function getFormFieldDateTimeUniqueID(id: number): number {
+export function getFormFieldFloat64UniqueID(id: number): number {
 	return 59 * id
 }
-export function getFormFieldFloat64UniqueID(id: number): number {
+export function getFormFieldIntUniqueID(id: number): number {
 	return 61 * id
 }
-export function getFormFieldIntUniqueID(id: number): number {
+export function getFormFieldSelectUniqueID(id: number): number {
 	return 67 * id
 }
-export function getFormFieldSelectUniqueID(id: number): number {
+export function getFormFieldStringUniqueID(id: number): number {
 	return 71 * id
 }
-export function getFormFieldStringUniqueID(id: number): number {
+export function getFormFieldTimeUniqueID(id: number): number {
 	return 73 * id
 }
-export function getFormFieldTimeUniqueID(id: number): number {
+export function getFormGroupUniqueID(id: number): number {
 	return 79 * id
 }
-export function getFormGroupUniqueID(id: number): number {
+export function getFormSortAssocButtonUniqueID(id: number): number {
 	return 83 * id
 }
-export function getFormSortAssocButtonUniqueID(id: number): number {
-	return 89 * id
-}
 export function getOptionUniqueID(id: number): number {
-	return 97 * id
+	return 89 * id
 }

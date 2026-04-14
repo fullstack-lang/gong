@@ -38,7 +38,7 @@ func _(stage *models.Stage) {
 	// insertion point for initialization of values
 
 	__AttributeShape__00000000_.Name = `Name`
-	__AttributeShape__00000000_.IdentifierMeta = ref_models.Form2{}.Name
+	__AttributeShape__00000000_.IdentifierMeta = ref_models.Form{}.Name
 	__AttributeShape__00000000_.FieldTypeAsString = ``
 	__AttributeShape__00000000_.Structname = `Form2`
 	__AttributeShape__00000000_.Fieldtypename = `string`
@@ -66,7 +66,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000000_.Name = `Default-Form2`
 	__GongStructShape__00000000_.X = 63.000000
 	__GongStructShape__00000000_.Y = 82.000000
-	__GongStructShape__00000000_.IdentifierMeta = ref_models.Form2{}
+	__GongStructShape__00000000_.IdentifierMeta = ref_models.Form{}
 	__GongStructShape__00000000_.Width = 240.000000
 	__GongStructShape__00000000_.Height = 83.000000
 	__GongStructShape__00000000_.IsSelected = false

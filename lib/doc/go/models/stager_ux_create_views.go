@@ -25,7 +25,7 @@ func (stager *Stager) sidebar() []*split.AsSplitArea {
 			{
 				Name: "temporary form stack",
 				Size: 24,
-				Form2: &split.Form2{
+				Form: &split.Form{
 					StackName: stager.formStage.GetName(),
 				},
 			},

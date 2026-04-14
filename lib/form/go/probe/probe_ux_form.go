@@ -21,12 +21,6 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.checkbox, probe)
 			}
-		case *Form2FormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Form2", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.form2, probe)
-			}
 		case *FormDivFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "FormDiv", true)
@@ -140,19 +134,6 @@ func FillUpFormFromGongstructName(
 		checkbox := new(models.CheckBox)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(checkbox, formGroup, probe)
-	case "Form2":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Form2 Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__Form2FormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		form2 := new(models.Form2)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(form2, formGroup, probe)
 	case "FormDiv":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

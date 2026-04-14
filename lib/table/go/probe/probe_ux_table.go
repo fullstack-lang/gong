@@ -38,36 +38,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.CellInt](probe)
 	case "CellString":
 		updateProbeTable[*models.CellString](probe)
-	case "CheckBox":
-		updateProbeTable[*models.CheckBox](probe)
 	case "DisplayedColumn":
 		updateProbeTable[*models.DisplayedColumn](probe)
-	case "FormDiv":
-		updateProbeTable[*models.FormDiv](probe)
-	case "FormEditAssocButton":
-		updateProbeTable[*models.FormEditAssocButton](probe)
-	case "FormField":
-		updateProbeTable[*models.FormField](probe)
-	case "FormFieldDate":
-		updateProbeTable[*models.FormFieldDate](probe)
-	case "FormFieldDateTime":
-		updateProbeTable[*models.FormFieldDateTime](probe)
-	case "FormFieldFloat64":
-		updateProbeTable[*models.FormFieldFloat64](probe)
-	case "FormFieldInt":
-		updateProbeTable[*models.FormFieldInt](probe)
-	case "FormFieldSelect":
-		updateProbeTable[*models.FormFieldSelect](probe)
-	case "FormFieldString":
-		updateProbeTable[*models.FormFieldString](probe)
-	case "FormFieldTime":
-		updateProbeTable[*models.FormFieldTime](probe)
-	case "FormGroup":
-		updateProbeTable[*models.FormGroup](probe)
-	case "FormSortAssocButton":
-		updateProbeTable[*models.FormSortAssocButton](probe)
-	case "Option":
-		updateProbeTable[*models.Option](probe)
 	case "Row":
 		updateProbeTable[*models.Row](probe)
 	case "SVGIcon":
@@ -287,21 +259,6 @@ func (probe *Probe) UpdateAndCommitNotificationTable() {
 		},
 	}
 	table.Buttons = append(table.Buttons, notificationsResetButton)
-	refreshButton := &table_models.Button{
-		Name:            "RefreshButton" + " " + string(tree_buttons.BUTTON_refresh),
-		Icon:            string(tree_buttons.BUTTON_refresh),
-		HasToolTip:      true,
-		ToolTipText:     "Refresh probe",
-		ToolTipPosition: table_models.Below,
-		OnClick: func() {
-			probe.stageOfInterest.ComputeInstancesNb()
-			probe.docStager.SetMap_GongStructName_InstancesNb(
-				probe.stageOfInterest.Map_GongStructName_InstancesNb,
-			)
-			probe.Refresh()
-		},
-	}
-	table.Buttons = append(table.Buttons, refreshButton)
 
 	column := new(table_models.DisplayedColumn)
 	column.Name = "Date"

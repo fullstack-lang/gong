@@ -24,10 +24,6 @@ type DBLite struct {
 
 	nextIDCheckBoxDB uint
 
-	form2DBs map[uint]*Form2DB
-
-	nextIDForm2DB uint
-
 	formdivDBs map[uint]*FormDivDB
 
 	nextIDFormDivDB uint
@@ -88,8 +84,6 @@ func NewDBLite() *DBLite {
 
 		checkboxDBs: make(map[uint]*CheckBoxDB),
 
-		form2DBs: make(map[uint]*Form2DB),
-
 		formdivDBs: make(map[uint]*FormDivDB),
 
 		formeditassocbuttonDBs: make(map[uint]*FormEditAssocButtonDB),
@@ -133,10 +127,6 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		db.nextIDCheckBoxDB++
 		v.ID = db.nextIDCheckBoxDB
 		db.checkboxDBs[v.ID] = v
-	case *Form2DB:
-		db.nextIDForm2DB++
-		v.ID = db.nextIDForm2DB
-		db.form2DBs[v.ID] = v
 	case *FormDivDB:
 		db.nextIDFormDivDB++
 		v.ID = db.nextIDFormDivDB
@@ -219,8 +209,6 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 	// insertion point delete
 	case *CheckBoxDB:
 		delete(db.checkboxDBs, v.ID)
-	case *Form2DB:
-		delete(db.form2DBs, v.ID)
 	case *FormDivDB:
 		delete(db.formdivDBs, v.ID)
 	case *FormEditAssocButtonDB:
@@ -267,9 +255,6 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 	// insertion point delete
 	case *CheckBoxDB:
 		db.checkboxDBs[v.ID] = v
-		return db, nil
-	case *Form2DB:
-		db.form2DBs[v.ID] = v
 		return db, nil
 	case *FormDivDB:
 		db.formdivDBs[v.ID] = v
@@ -331,12 +316,6 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 			*existing = *v
 		} else {
 			return nil, errors.New("db CheckBox github.com/fullstack-lang/gong/lib/form/go, record not found")
-		}
-	case *Form2DB:
-		if existing, ok := db.form2DBs[v.ID]; ok {
-			*existing = *v
-		} else {
-			return nil, errors.New("db Form2 github.com/fullstack-lang/gong/lib/form/go, record not found")
 		}
 	case *FormDivDB:
 		if existing, ok := db.formdivDBs[v.ID]; ok {
@@ -433,12 +412,6 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 	case *[]CheckBoxDB:
 		*ptr = make([]CheckBoxDB, 0, len(db.checkboxDBs))
 		for _, v := range db.checkboxDBs {
-			*ptr = append(*ptr, *v)
-		}
-		return db, nil
-	case *[]Form2DB:
-		*ptr = make([]Form2DB, 0, len(db.form2DBs))
-		for _, v := range db.form2DBs {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
@@ -562,16 +535,6 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		checkboxDB, _ := instanceDB.(*CheckBoxDB)
 		*checkboxDB = *tmp
-		
-	case *Form2DB:
-		tmp, ok := db.form2DBs[uint(i)]
-
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("db.First Form2 Unkown entry %d", i))
-		}
-
-		form2DB, _ := instanceDB.(*Form2DB)
-		*form2DB = *tmp
 		
 	case *FormDivDB:
 		tmp, ok := db.formdivDBs[uint(i)]

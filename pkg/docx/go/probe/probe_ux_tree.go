@@ -56,6 +56,22 @@ func (probe *Probe) ux_tree() {
 	topNode := &tree_models.Node{Name: fmt.Sprintf("%s", stageOfInterest.GetName())}
 	sidebar.RootNodes = append(sidebar.RootNodes, topNode)
 
+	refreshButton := &tree_models.Button{
+		Name:            "RefreshButton" + " " + string(tree_buttons.BUTTON_refresh),
+		Icon:            string(tree_buttons.BUTTON_refresh),
+		HasToolTip:      true,
+		ToolTipText:     "Refresh probe",
+		ToolTipPosition: tree_models.Below,
+		OnClick: func() {
+			probe.stageOfInterest.ComputeInstancesNb()
+			probe.docStager.SetMap_GongStructName_InstancesNb(
+				probe.stageOfInterest.Map_GongStructName_InstancesNb,
+			)
+			probe.Refresh()
+		},
+	}
+	topNode.Buttons = append(topNode.Buttons, refreshButton)
+
 	// collect all gong struct to construe the true
 	setOfGongStructs := *gong_models.GetGongstructInstancesSetFromPointerType[*gong_models.GongStruct](probe.gongStage)
 
