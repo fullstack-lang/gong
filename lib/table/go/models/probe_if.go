@@ -3,13 +3,15 @@ package models
 
 import (
 	"time"
+
+	form "github.com/fullstack-lang/gong/lib/form/go/models"
 )
 
 // for the split package, we define a ProbeIF interface
 // otherwise, the split package cannot refer to the main gong package
 type ProbeIF interface {
 	Refresh()
-	GetFormStage() *Stage
+	GetFormStage() *form.Stage
 	FillUpFormFromGongstruct(instance any, formName string)
 	AddNotification(date time.Time, message string)
 	CommitNotificationTable()
