@@ -42,7 +42,21 @@ func NewStackInstance(
 
 	// add orchestration
 	// insertion point
+	models.SetOrchestratorOnAfterUpdate[models.CheckBox](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Form2](stage)
+	models.SetOrchestratorOnAfterUpdate[models.FormDiv](stage)
+	models.SetOrchestratorOnAfterUpdate[models.FormEditAssocButton](stage)
+	models.SetOrchestratorOnAfterUpdate[models.FormField](stage)
+	models.SetOrchestratorOnAfterUpdate[models.FormFieldDate](stage)
+	models.SetOrchestratorOnAfterUpdate[models.FormFieldDateTime](stage)
+	models.SetOrchestratorOnAfterUpdate[models.FormFieldFloat64](stage)
+	models.SetOrchestratorOnAfterUpdate[models.FormFieldInt](stage)
+	models.SetOrchestratorOnAfterUpdate[models.FormFieldSelect](stage)
+	models.SetOrchestratorOnAfterUpdate[models.FormFieldString](stage)
+	models.SetOrchestratorOnAfterUpdate[models.FormFieldTime](stage)
+	models.SetOrchestratorOnAfterUpdate[models.FormGroup](stage)
+	models.SetOrchestratorOnAfterUpdate[models.FormSortAssocButton](stage)
+	models.SetOrchestratorOnAfterUpdate[models.Option](stage)
 
 	return
 }
