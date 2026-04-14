@@ -212,20 +212,6 @@ type Stage struct {
 	OnAfterFormDeleteCallback OnAfterDeleteInterface[Form]
 	OnAfterFormReadCallback   OnAfterReadInterface[Form]
 
-	Form2s                map[*Form2]struct{}
-	Form2s_instance       map[*Form2]*Form2
-	Form2s_mapString      map[string]*Form2
-	Form2Order            uint
-	Form2_stagedOrder     map[*Form2]uint
-	Form2s_reference      map[*Form2]*Form2
-	Form2s_referenceOrder map[*Form2]uint
-
-	// insertion point for slice of pointers maps
-	OnAfterForm2CreateCallback OnAfterCreateInterface[Form2]
-	OnAfterForm2UpdateCallback OnAfterUpdateInterface[Form2]
-	OnAfterForm2DeleteCallback OnAfterDeleteInterface[Form2]
-	OnAfterForm2ReadCallback   OnAfterReadInterface[Form2]
-
 	Loads                map[*Load]struct{}
 	Loads_instance       map[*Load]*Load
 	Loads_mapString      map[string]*Load
@@ -670,10 +656,6 @@ func (stage *Stage) Squash() {
 	stage.Forms_instance = make(map[*Form]*Form)
 	stage.Forms_referenceOrder = make(map[*Form]uint)
 
-	stage.Form2s_reference = make(map[*Form2]*Form2)
-	stage.Form2s_instance = make(map[*Form2]*Form2)
-	stage.Form2s_referenceOrder = make(map[*Form2]uint)
-
 	stage.Loads_reference = make(map[*Load]*Load)
 	stage.Loads_instance = make(map[*Load]*Load)
 	stage.Loads_referenceOrder = make(map[*Load]uint)
@@ -835,20 +817,6 @@ func (stage *Stage) recomputeOrders() {
 		stage.FormOrder = maxFormOrder + 1
 	} else {
 		stage.FormOrder = 0
-	}
-
-	var maxForm2Order uint
-	var foundForm2 bool
-	for _, order := range stage.Form2_stagedOrder {
-		if !foundForm2 || order > maxForm2Order {
-			maxForm2Order = order
-			foundForm2 = true
-		}
-	}
-	if foundForm2 {
-		stage.Form2Order = maxForm2Order + 1
-	} else {
-		stage.Form2Order = 0
 	}
 
 	var maxLoadOrder uint
@@ -1178,20 +1146,6 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
-	case *Form2:
-		tmp := GetStructInstancesByOrder(stage.Form2s, stage.Form2_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Form2 implements.
-			res = append(res, any(v).(T))
-		}
-		return res
 	case *Load:
 		tmp := GetStructInstancesByOrder(stage.Loads, stage.Load_stagedOrder)
 
@@ -1415,8 +1369,6 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.FavIcons, stage.FavIcon_stagedOrder)
 	case "Form":
 		res = GetNamedStructInstances(stage.Forms, stage.Form_stagedOrder)
-	case "Form2":
-		res = GetNamedStructInstances(stage.Form2s, stage.Form2_stagedOrder)
 	case "Load":
 		res = GetNamedStructInstances(stage.Loads, stage.Load_stagedOrder)
 	case "LogoOnTheLeft":
@@ -1524,8 +1476,6 @@ type BackRepoInterface interface {
 	CheckoutFavIcon(favicon *FavIcon)
 	CommitForm(form *Form)
 	CheckoutForm(form *Form)
-	CommitForm2(form2 *Form2)
-	CheckoutForm2(form2 *Form2)
 	CommitLoad(load *Load)
 	CheckoutLoad(load *Load)
 	CommitLogoOnTheLeft(logoontheleft *LogoOnTheLeft)
@@ -1575,9 +1525,6 @@ func NewStage(name string) (stage *Stage) {
 
 		Forms:           make(map[*Form]struct{}),
 		Forms_mapString: make(map[string]*Form),
-
-		Form2s:           make(map[*Form2]struct{}),
-		Form2s_mapString: make(map[string]*Form2),
 
 		Loads:           make(map[*Load]struct{}),
 		Loads_mapString: make(map[string]*Load),
@@ -1640,8 +1587,6 @@ func NewStage(name string) (stage *Stage) {
 
 		Form_stagedOrder: make(map[*Form]uint),
 
-		Form2_stagedOrder: make(map[*Form2]uint),
-
 		Load_stagedOrder: make(map[*Load]uint),
 
 		LogoOnTheLeft_stagedOrder: make(map[*LogoOnTheLeft]uint),
@@ -1682,8 +1627,6 @@ func NewStage(name string) (stage *Stage) {
 
 			"Form": &FormUnmarshaller{},
 
-			"Form2": &Form2Unmarshaller{},
-
 			"Load": &LoadUnmarshaller{},
 
 			"LogoOnTheLeft": &LogoOnTheLeftUnmarshaller{},
@@ -1720,7 +1663,6 @@ func NewStage(name string) (stage *Stage) {
 			{name: "Cursor"},
 			{name: "FavIcon"},
 			{name: "Form"},
-			{name: "Form2"},
 			{name: "Load"},
 			{name: "LogoOnTheLeft"},
 			{name: "LogoOnTheRight"},
@@ -1757,8 +1699,6 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.FavIcon_stagedOrder[instance]
 	case *Form:
 		return stage.Form_stagedOrder[instance]
-	case *Form2:
-		return stage.Form2_stagedOrder[instance]
 	case *Load:
 		return stage.Load_stagedOrder[instance]
 	case *LogoOnTheLeft:
@@ -1805,8 +1745,6 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.FavIcon_stagedOrder[instance]
 	case *Form:
 		return stage.Form_stagedOrder[instance]
-	case *Form2:
-		return stage.Form2_stagedOrder[instance]
 	case *Load:
 		return stage.Load_stagedOrder[instance]
 	case *LogoOnTheLeft:
@@ -1904,7 +1842,6 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["Cursor"] = len(stage.Cursors)
 	stage.Map_GongStructName_InstancesNb["FavIcon"] = len(stage.FavIcons)
 	stage.Map_GongStructName_InstancesNb["Form"] = len(stage.Forms)
-	stage.Map_GongStructName_InstancesNb["Form2"] = len(stage.Form2s)
 	stage.Map_GongStructName_InstancesNb["Load"] = len(stage.Loads)
 	stage.Map_GongStructName_InstancesNb["LogoOnTheLeft"] = len(stage.LogoOnTheLefts)
 	stage.Map_GongStructName_InstancesNb["LogoOnTheRight"] = len(stage.LogoOnTheRights)
@@ -2472,92 +2409,6 @@ func (form *Form) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (form *Form) SetName(name string) {
 	form.Name = name
-}
-
-// Stage puts form2 to the model stage
-func (form2 *Form2) Stage(stage *Stage) *Form2 {
-	if _, ok := stage.Form2s[form2]; !ok {
-		stage.Form2s[form2] = struct{}{}
-		stage.Form2_stagedOrder[form2] = stage.Form2Order
-		stage.Form2Order++
-	}
-	stage.Form2s_mapString[form2.Name] = form2
-
-	return form2
-}
-
-// StagePreserveOrder puts form2 to the model stage, and if the astrtuct
-// was not staged before:
-//
-// - force the order if the order is equal or greater than the stage.Form2Order
-// - update stage.Form2Order accordingly
-func (form2 *Form2) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Form2s[form2]; !ok {
-		stage.Form2s[form2] = struct{}{}
-
-		if order > stage.Form2Order {
-			stage.Form2Order = order
-		}
-		stage.Form2_stagedOrder[form2] = order
-		stage.Form2Order++
-	}
-	stage.Form2s_mapString[form2.Name] = form2
-}
-
-// Unstage removes form2 off the model stage
-func (form2 *Form2) Unstage(stage *Stage) *Form2 {
-	delete(stage.Form2s, form2)
-	// issue1150
-	// delete(stage.Form2_stagedOrder, form2)
-	delete(stage.Form2s_mapString, form2.Name)
-
-	return form2
-}
-
-// UnstageVoid removes form2 off the model stage
-func (form2 *Form2) UnstageVoid(stage *Stage) {
-	delete(stage.Form2s, form2)
-	// issue1150
-	// delete(stage.Form2_stagedOrder, form2)
-	delete(stage.Form2s_mapString, form2.Name)
-}
-
-// commit form2 to the back repo (if it is already staged)
-func (form2 *Form2) Commit(stage *Stage) *Form2 {
-	if _, ok := stage.Form2s[form2]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitForm2(form2)
-		}
-	}
-	return form2
-}
-
-func (form2 *Form2) CommitVoid(stage *Stage) {
-	form2.Commit(stage)
-}
-
-func (form2 *Form2) StageVoid(stage *Stage) {
-	form2.Stage(stage)
-}
-
-// Checkout form2 to the back repo (if it is already staged)
-func (form2 *Form2) Checkout(stage *Stage) *Form2 {
-	if _, ok := stage.Form2s[form2]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutForm2(form2)
-		}
-	}
-	return form2
-}
-
-// for satisfaction of GongStruct interface
-func (form2 *Form2) GetName() (res string) {
-	return form2.Name
-}
-
-// for satisfaction of GongStruct interface
-func (form2 *Form2) SetName(name string) {
-	form2.Name = name
 }
 
 // Stage puts load to the model stage
@@ -3686,7 +3537,6 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMCursor(Cursor *Cursor)
 	CreateORMFavIcon(FavIcon *FavIcon)
 	CreateORMForm(Form *Form)
-	CreateORMForm2(Form2 *Form2)
 	CreateORMLoad(Load *Load)
 	CreateORMLogoOnTheLeft(LogoOnTheLeft *LogoOnTheLeft)
 	CreateORMLogoOnTheRight(LogoOnTheRight *LogoOnTheRight)
@@ -3709,7 +3559,6 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMCursor(Cursor *Cursor)
 	DeleteORMFavIcon(FavIcon *FavIcon)
 	DeleteORMForm(Form *Form)
-	DeleteORMForm2(Form2 *Form2)
 	DeleteORMLoad(Load *Load)
 	DeleteORMLogoOnTheLeft(LogoOnTheLeft *LogoOnTheLeft)
 	DeleteORMLogoOnTheRight(LogoOnTheRight *LogoOnTheRight)
@@ -3755,11 +3604,6 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Forms_mapString = make(map[string]*Form)
 	stage.Form_stagedOrder = make(map[*Form]uint)
 	stage.FormOrder = 0
-
-	stage.Form2s = make(map[*Form2]struct{})
-	stage.Form2s_mapString = make(map[string]*Form2)
-	stage.Form2_stagedOrder = make(map[*Form2]uint)
-	stage.Form2Order = 0
 
 	stage.Loads = make(map[*Load]struct{})
 	stage.Loads_mapString = make(map[string]*Load)
@@ -3853,9 +3697,6 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.Forms = nil
 	stage.Forms_mapString = nil
 
-	stage.Form2s = nil
-	stage.Form2s_mapString = nil
-
 	stage.Loads = nil
 	stage.Loads_mapString = nil
 
@@ -3921,10 +3762,6 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for form := range stage.Forms {
 		form.Unstage(stage)
-	}
-
-	for form2 := range stage.Form2s {
-		form2.Unstage(stage)
 	}
 
 	for load := range stage.Loads {
@@ -4067,8 +3904,6 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.FavIcons).(*Type)
 	case map[*Form]any:
 		return any(&stage.Forms).(*Type)
-	case map[*Form2]any:
-		return any(&stage.Form2s).(*Type)
 	case map[*Load]any:
 		return any(&stage.Loads).(*Type)
 	case map[*LogoOnTheLeft]any:
@@ -4119,8 +3954,6 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.FavIcons_mapString).(map[string]Type)
 	case *Form:
 		return any(stage.Forms_mapString).(map[string]Type)
-	case *Form2:
-		return any(stage.Form2s_mapString).(map[string]Type)
 	case *Load:
 		return any(stage.Loads_mapString).(map[string]Type)
 	case *LogoOnTheLeft:
@@ -4171,8 +4004,6 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.FavIcons).(*map[*Type]struct{})
 	case Form:
 		return any(&stage.Forms).(*map[*Type]struct{})
-	case Form2:
-		return any(&stage.Form2s).(*map[*Type]struct{})
 	case Load:
 		return any(&stage.Loads).(*map[*Type]struct{})
 	case LogoOnTheLeft:
@@ -4223,8 +4054,6 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.FavIcons).(*map[Type]struct{})
 	case *Form:
 		return any(&stage.Forms).(*map[Type]struct{})
-	case *Form2:
-		return any(&stage.Form2s).(*map[Type]struct{})
 	case *Load:
 		return any(&stage.Loads).(*map[Type]struct{})
 	case *LogoOnTheLeft:
@@ -4275,8 +4104,6 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.FavIcons_mapString).(*map[string]*Type)
 	case Form:
 		return any(&stage.Forms_mapString).(*map[string]*Type)
-	case Form2:
-		return any(&stage.Form2s_mapString).(*map[string]*Type)
 	case Load:
 		return any(&stage.Loads_mapString).(*map[string]*Type)
 	case LogoOnTheLeft:
@@ -4332,8 +4159,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Button: &Button{Name: "Button"},
 			// field is initialized with an instance of Cursor with the name of the field
 			Cursor: &Cursor{Name: "Cursor"},
-			// field is initialized with an instance of Form2 with the name of the field
-			Form2: &Form2{Name: "Form2"},
+			// field is initialized with an instance of Form with the name of the field
+			Form: &Form{Name: "Form"},
 			// field is initialized with an instance of Load with the name of the field
 			Load: &Load{Name: "Load"},
 			// field is initialized with an instance of Markdown with the name of the field
@@ -4367,10 +4194,6 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		}).(*Type)
 	case Form:
 		return any(&Form{
-			// Initialisation of associations
-		}).(*Type)
-	case Form2:
-		return any(&Form2{
 			// Initialisation of associations
 		}).(*Type)
 	case Load:
@@ -4504,20 +4327,20 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "Form2":
-			res := make(map[*Form2][]*AsSplitArea)
+		case "Form":
+			res := make(map[*Form][]*AsSplitArea)
 			for assplitarea := range stage.AsSplitAreas {
-				if assplitarea.Form2 != nil {
-					form2_ := assplitarea.Form2
+				if assplitarea.Form != nil {
+					form_ := assplitarea.Form
 					var assplitareas []*AsSplitArea
-					_, ok := res[form2_]
+					_, ok := res[form_]
 					if ok {
-						assplitareas = res[form2_]
+						assplitareas = res[form_]
 					} else {
 						assplitareas = make([]*AsSplitArea, 0)
 					}
 					assplitareas = append(assplitareas, assplitarea)
-					res[form2_] = assplitareas
+					res[form_] = assplitareas
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -4695,11 +4518,6 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		switch fieldname {
 		// insertion point for per direct association field
 		}
-	// reverse maps of direct associations of Form2
-	case Form2:
-		switch fieldname {
-		// insertion point for per direct association field
-		}
 	// reverse maps of direct associations of Load
 	case Load:
 		switch fieldname {
@@ -4818,11 +4636,6 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
-	// reverse maps of direct associations of Form2
-	case Form2:
-		switch fieldname {
-		// insertion point for per direct association field
-		}
 	// reverse maps of direct associations of Load
 	case Load:
 		switch fieldname {
@@ -4919,8 +4732,6 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "FavIcon"
 	case *Form:
 		res = "Form"
-	case *Form2:
-		res = "Form2"
 	case *Load:
 		res = "Load"
 	case *LogoOnTheLeft:
@@ -4986,9 +4797,6 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		var rf ReverseField
 		_ = rf
 	case *Form:
-		var rf ReverseField
-		_ = rf
-	case *Form2:
 		var rf ReverseField
 		_ = rf
 	case *Load:
@@ -5103,9 +4911,9 @@ func (assplitarea *AsSplitArea) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Cursor",
 		},
 		{
-			Name:                 "Form2",
+			Name:                 "Form",
 			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "Form2",
+			TargetGongstructName: "Form",
 		},
 		{
 			Name:                 "Load",
@@ -5214,21 +5022,6 @@ func (favicon *FavIcon) GongGetFieldHeaders() (res []GongFieldHeader) {
 }
 
 func (form *Form) GongGetFieldHeaders() (res []GongFieldHeader) {
-	// insertion point for list of field headers
-	res = []GongFieldHeader{
-		{
-			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "StackName",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-	}
-	return
-}
-
-func (form2 *Form2) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
 		{
@@ -5608,11 +5401,11 @@ func (assplitarea *AsSplitArea) GongGetFieldValue(fieldName string, stage *Stage
 			res.valueString = assplitarea.Cursor.Name
 			res.ids = assplitarea.Cursor.GongGetUUID(stage)
 		}
-	case "Form2":
+	case "Form":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if assplitarea.Form2 != nil {
-			res.valueString = assplitarea.Form2.Name
-			res.ids = assplitarea.Form2.GongGetUUID(stage)
+		if assplitarea.Form != nil {
+			res.valueString = assplitarea.Form.Name
+			res.ids = assplitarea.Form.GongGetUUID(stage)
 		}
 	case "Load":
 		res.GongFieldValueType = GongFieldValueTypePointer
@@ -5720,17 +5513,6 @@ func (form *Form) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.valueString = form.Name
 	case "StackName":
 		res.valueString = form.StackName
-	}
-	return
-}
-
-func (form2 *Form2) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
-	switch fieldName {
-	// string value of fields
-	case "Name":
-		res.valueString = form2.Name
-	case "StackName":
-		res.valueString = form2.StackName
 	}
 	return
 }
@@ -6012,13 +5794,13 @@ func (assplitarea *AsSplitArea) GongSetFieldValue(fieldName string, value GongFi
 				}
 			}
 		}
-	case "Form2":
+	case "Form":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			assplitarea.Form2 = nil
-			for __instance__ := range stage.Form2s {
-				if stage.Form2_stagedOrder[__instance__] == uint(id) {
-					assplitarea.Form2 = __instance__
+			assplitarea.Form = nil
+			for __instance__ := range stage.Forms {
+				if stage.Form_stagedOrder[__instance__] == uint(id) {
+					assplitarea.Form = __instance__
 					break
 				}
 			}
@@ -6180,19 +5962,6 @@ func (form *Form) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 		form.Name = value.GetValueString()
 	case "StackName":
 		form.StackName = value.GetValueString()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (form2 *Form2) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		form2.Name = value.GetValueString()
-	case "StackName":
-		form2.StackName = value.GetValueString()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -6431,10 +6200,6 @@ func (form *Form) GongGetGongstructName() string {
 	return "Form"
 }
 
-func (form2 *Form2) GongGetGongstructName() string {
-	return "Form2"
-}
-
 func (load *Load) GongGetGongstructName() string {
 	return "Load"
 }
@@ -6522,11 +6287,6 @@ func (stage *Stage) ResetMapStrings() {
 	stage.Forms_mapString = make(map[string]*Form)
 	for form := range stage.Forms {
 		stage.Forms_mapString[form.Name] = form
-	}
-
-	stage.Form2s_mapString = make(map[string]*Form2)
-	for form2 := range stage.Form2s {
-		stage.Form2s_mapString[form2.Name] = form2
 	}
 
 	stage.Loads_mapString = make(map[string]*Load)

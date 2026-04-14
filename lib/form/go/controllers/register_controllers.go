@@ -63,13 +63,6 @@ func registerControllers(r *gin.Engine) {
 		v1.PUT("/v1/checkboxs/:id", GetController().UpdateCheckBox)
 		v1.DELETE("/v1/checkboxs/:id", GetController().DeleteCheckBox)
 
-		v1.GET("/v1/form2s", GetController().GetForm2s)
-		v1.GET("/v1/form2s/:id", GetController().GetForm2)
-		v1.POST("/v1/form2s", GetController().PostForm2)
-		v1.PATCH("/v1/form2s/:id", GetController().UpdateForm2)
-		v1.PUT("/v1/form2s/:id", GetController().UpdateForm2)
-		v1.DELETE("/v1/form2s/:id", GetController().DeleteForm2)
-
 		v1.GET("/v1/formdivs", GetController().GetFormDivs)
 		v1.GET("/v1/formdivs/:id", GetController().GetFormDiv)
 		v1.POST("/v1/formdivs", GetController().PostFormDiv)

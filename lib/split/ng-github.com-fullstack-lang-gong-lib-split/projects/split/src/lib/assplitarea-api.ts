@@ -2,7 +2,7 @@
 import { AsSplitAPI } from './assplit-api'
 import { ButtonAPI } from './button-api'
 import { CursorAPI } from './cursor-api'
-import { Form2API } from './form2-api'
+import { FormAPI } from './form-api'
 import { LoadAPI } from './load-api'
 import { MarkdownAPI } from './markdown-api'
 import { SliderAPI } from './slider-api'
@@ -46,7 +46,7 @@ export class AsSplitAreaPointersEncoding {
 
 	CursorID: NullInt64 = new NullInt64 // if pointer is null, Cursor.ID = 0
 
-	Form2ID: NullInt64 = new NullInt64 // if pointer is null, Form2.ID = 0
+	FormID: NullInt64 = new NullInt64 // if pointer is null, Form.ID = 0
 
 	LoadID: NullInt64 = new NullInt64 // if pointer is null, Load.ID = 0
 

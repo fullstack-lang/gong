@@ -10,10 +10,6 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterCheckBoxCreateCallback != nil {
 			stage.OnAfterCheckBoxCreateCallback.OnAfterCreate(stage, target)
 		}
-	case *Form2:
-		if stage.OnAfterForm2CreateCallback != nil {
-			stage.OnAfterForm2CreateCallback.OnAfterCreate(stage, target)
-		}
 	case *FormDiv:
 		if stage.OnAfterFormDivCreateCallback != nil {
 			stage.OnAfterFormDivCreateCallback.OnAfterCreate(stage, target)
@@ -84,11 +80,6 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*CheckBox)
 		if stage.OnAfterCheckBoxUpdateCallback != nil {
 			stage.OnAfterCheckBoxUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *Form2:
-		newTarget := any(new).(*Form2)
-		if stage.OnAfterForm2UpdateCallback != nil {
-			stage.OnAfterForm2UpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *FormDiv:
 		newTarget := any(new).(*FormDiv)
@@ -170,11 +161,6 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*CheckBox)
 			stage.OnAfterCheckBoxDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
-	case *Form2:
-		if stage.OnAfterForm2DeleteCallback != nil {
-			staged := any(staged).(*Form2)
-			stage.OnAfterForm2DeleteCallback.OnAfterDelete(stage, staged, front)
-		}
 	case *FormDiv:
 		if stage.OnAfterFormDivDeleteCallback != nil {
 			staged := any(staged).(*FormDiv)
@@ -254,10 +240,6 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterCheckBoxReadCallback != nil {
 			stage.OnAfterCheckBoxReadCallback.OnAfterRead(stage, target)
 		}
-	case *Form2:
-		if stage.OnAfterForm2ReadCallback != nil {
-			stage.OnAfterForm2ReadCallback.OnAfterRead(stage, target)
-		}
 	case *FormDiv:
 		if stage.OnAfterFormDivReadCallback != nil {
 			stage.OnAfterFormDivReadCallback.OnAfterRead(stage, target)
@@ -323,8 +305,6 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	// insertion point
 	case *CheckBox:
 		stage.OnAfterCheckBoxUpdateCallback = any(callback).(OnAfterUpdateInterface[CheckBox])
-	case *Form2:
-		stage.OnAfterForm2UpdateCallback = any(callback).(OnAfterUpdateInterface[Form2])
 	case *FormDiv:
 		stage.OnAfterFormDivUpdateCallback = any(callback).(OnAfterUpdateInterface[FormDiv])
 	case *FormEditAssocButton:
@@ -360,8 +340,6 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		// insertion point
 	case *CheckBox:
 		stage.OnAfterCheckBoxCreateCallback = any(callback).(OnAfterCreateInterface[CheckBox])
-	case *Form2:
-		stage.OnAfterForm2CreateCallback = any(callback).(OnAfterCreateInterface[Form2])
 	case *FormDiv:
 		stage.OnAfterFormDivCreateCallback = any(callback).(OnAfterCreateInterface[FormDiv])
 	case *FormEditAssocButton:
@@ -397,8 +375,6 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		// insertion point
 	case *CheckBox:
 		stage.OnAfterCheckBoxDeleteCallback = any(callback).(OnAfterDeleteInterface[CheckBox])
-	case *Form2:
-		stage.OnAfterForm2DeleteCallback = any(callback).(OnAfterDeleteInterface[Form2])
 	case *FormDiv:
 		stage.OnAfterFormDivDeleteCallback = any(callback).(OnAfterDeleteInterface[FormDiv])
 	case *FormEditAssocButton:
@@ -434,8 +410,6 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		// insertion point
 	case *CheckBox:
 		stage.OnAfterCheckBoxReadCallback = any(callback).(OnAfterReadInterface[CheckBox])
-	case *Form2:
-		stage.OnAfterForm2ReadCallback = any(callback).(OnAfterReadInterface[Form2])
 	case *FormDiv:
 		stage.OnAfterFormDivReadCallback = any(callback).(OnAfterReadInterface[FormDiv])
 	case *FormEditAssocButton:
