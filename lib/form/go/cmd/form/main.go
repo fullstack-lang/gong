@@ -7,8 +7,10 @@ import (
 	"strconv"
 
 	// insertion point for models import{{modelsImportDirective}}
+	form "github.com/fullstack-lang/gong/lib/form/go/models"
 	form_stack "github.com/fullstack-lang/gong/lib/form/go/stack"
 	form_static "github.com/fullstack-lang/gong/lib/form/go/static"
+
 	"github.com/gin-gonic/gin"
 
 	// form_models "github.com/fullstack-lang/gong/lib/form/go/models"
@@ -32,6 +34,13 @@ var (
 	port = flag.Int("port", 8080, "port server")
 )
 
+type StackName string
+
+// values for TableTestNameEnum
+const (
+	ManualyEditedFormStackName StackName = "manualy edited form"
+)
+
 func main() {
 
 	log.SetPrefix("form: ")
@@ -47,6 +56,34 @@ func main() {
 	stack := form_stack.NewStack(r, "form", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
 	stack.Probe.Refresh()
 	stack.Stage.Commit()
+
+	stageForManualyEditedForm := stack.Stage
+
+	{
+
+		// hook table stack creation to on pressed button
+		for formEditAssocButton := range *form.GetGongstructInstancesSet[form.FormEditAssocButton](
+			stageForManualyEditedForm) {
+			_ = formEditAssocButton
+
+			// create the struct for callabck
+			onAssocEditon := new(OnAssocEditon)
+			onAssocEditon.r = r
+			onAssocEditon.sourceStackName = stageForManualyEditedForm.GetName()
+			formEditAssocButton.OnAssocEditon = onAssocEditon
+		}
+		for formSortAssocButton := range *form.GetGongstructInstancesSet[form.FormSortAssocButton](
+			stageForManualyEditedForm) {
+			_ = formSortAssocButton
+
+			// create the struct for callabck
+			onSortEdition := new(OnSortEditon)
+			onSortEdition.r = r
+			onSortEdition.sourceStackNName = stageForManualyEditedForm.GetName()
+			formSortAssocButton.OnSortEdition = onSortEdition
+		}
+
+	}
 
 	splitStage := split_stack.NewStack(r, "", "", "", "", false, false).Stage
 
@@ -89,8 +126,8 @@ func main() {
 }
 
 type OnAssocEditon struct {
-	r           *gin.Engine
-	sourceStack *table.Stage
+	r               *gin.Engine
+	sourceStackName string
 }
 
 // OnSave implements models.FormEditAssocButtonInterface.
@@ -102,7 +139,7 @@ func (onAssocEditon *OnAssocEditon) OnButtonPressed() {
 	// create a new with the name append "-table"
 	newStage, _ := table_fullstack.NewStackInstance(
 		onAssocEditon.r,
-		onAssocEditon.sourceStack.GetName()+
+		onAssocEditon.sourceStackName+
 			string(table.StackNamePostFixForTableForAssociation))
 
 	fillUpSelectTableDummyStuff(newStage, string(table.TableSelectExtraName))
@@ -110,15 +147,15 @@ func (onAssocEditon *OnAssocEditon) OnButtonPressed() {
 }
 
 type OnSortEditon struct {
-	r           *gin.Engine
-	sourceStack *table.Stage
+	r                *gin.Engine
+	sourceStackNName string
 }
 
 func (onSortEditon *OnSortEditon) OnButtonPressed() {
 
 	newStage, _ := table_fullstack.NewStackInstance(
 		onSortEditon.r,
-		onSortEditon.sourceStack.GetName()+
+		onSortEditon.sourceStackNName+
 			string(table.StackNamePostFixForTableForAssociationSorting))
 
 	fillUpSortTableDummyStuff(newStage, string(table.TableSortExtraName))
@@ -184,42 +221,6 @@ func fillUpSelectTableDummyStuff(stage *table_models.Stage, tableName string) {
 		if i%2 == 0 {
 			row.IsChecked = true
 		}
-
-		for j := 0; j < nbColumns; j++ {
-			cell := new(table_models.Cell).Stage(stage)
-			cell.Name = fmt.Sprintf("Row %d - Column %d", i, j)
-
-			cellString := new(table_models.CellString).Stage(stage)
-			cellString.Name = cell.Name
-			cellString.Value = cell.Name
-			cell.CellString = cellString
-
-			row.Cells = append(row.Cells, cell)
-		}
-	}
-}
-
-func fillUpTableWithDummyStuff(stage *table_models.Stage, tableName string) {
-	nbRows := 200
-	nbColumns := 10
-	table := new(table_models.Table).Stage(stage)
-	table.Name = tableName
-	table.HasColumnSorting = true
-	table.HasFiltering = true
-	table.HasPaginator = true
-
-	table.NbOfStickyColumns = 2
-
-	for j := 0; j < nbColumns; j++ {
-		column := new(table_models.DisplayedColumn).Stage(stage)
-		column.Name = fmt.Sprintf("Column %d", j)
-		table.DisplayedColumns = append(table.DisplayedColumns, column)
-	}
-
-	for i := 0; i < nbRows; i++ {
-		row := new(table_models.Row).Stage(stage)
-		row.Name = fmt.Sprintf("Row %d", i)
-		table.Rows = append(table.Rows, row)
 
 		for j := 0; j < nbColumns; j++ {
 			cell := new(table_models.Cell).Stage(stage)
