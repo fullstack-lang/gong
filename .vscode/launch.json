@@ -436,7 +436,11 @@
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/lib/form/go/cmd/form",
-            "args": []
+            "args": [
+                "-unmarshallFromCode=data/stage.go",
+                "-marshallOnCommit=data/stage",
+                "-embeddedDiagrams=true"
+            ]
         },
         {
             "name": "load: go run load",

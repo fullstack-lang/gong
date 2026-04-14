@@ -86,6 +86,38 @@ func (probe *Probe) ux_tree() {
 
 		switch gongStruct.Name {
 		// insertion point
+		case "CheckBox":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.CheckBox](probe.stageOfInterest)
+			count := 0
+			for _checkbox := range set {
+				if count >= probe.GetMaxElementsNbPerGongStructNode() {
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+					break
+				}
+				count++
+				nodeInstance := &tree_models.Node{
+					Name:            _checkbox.GetName(),
+					IsNodeClickable: true,
+					OnUpdate: func(_ *tree_models.Stage, _, _ *tree_models.Node) {
+						FillUpFormFromGongstruct(_checkbox, probe)
+					},
+				}
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
+			nodeGongstruct.OnUpdate = func(treeStagee *tree_models.Stage, stagedNode, frontNode *tree_models.Node) {
+				if stagedNode.IsExpanded != frontNode.IsExpanded {
+					stagedNode.IsExpanded = frontNode.IsExpanded
+					return
+				}
+				updateProbeTable[*models.CheckBox](probe)
+				// set color for node and reset all other nodes color
+				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](treeStagee) {
+					node.BackgroundColor = ""
+				}
+				stagedNode.BackgroundColor = "lightgrey"
+				treeStagee.Commit()
+			}
 		case "Form2":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.Form2](probe.stageOfInterest)
@@ -111,6 +143,422 @@ func (probe *Probe) ux_tree() {
 					return
 				}
 				updateProbeTable[*models.Form2](probe)
+				// set color for node and reset all other nodes color
+				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](treeStagee) {
+					node.BackgroundColor = ""
+				}
+				stagedNode.BackgroundColor = "lightgrey"
+				treeStagee.Commit()
+			}
+		case "FormDiv":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.FormDiv](probe.stageOfInterest)
+			count := 0
+			for _formdiv := range set {
+				if count >= probe.GetMaxElementsNbPerGongStructNode() {
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+					break
+				}
+				count++
+				nodeInstance := &tree_models.Node{
+					Name:            _formdiv.GetName(),
+					IsNodeClickable: true,
+					OnUpdate: func(_ *tree_models.Stage, _, _ *tree_models.Node) {
+						FillUpFormFromGongstruct(_formdiv, probe)
+					},
+				}
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
+			nodeGongstruct.OnUpdate = func(treeStagee *tree_models.Stage, stagedNode, frontNode *tree_models.Node) {
+				if stagedNode.IsExpanded != frontNode.IsExpanded {
+					stagedNode.IsExpanded = frontNode.IsExpanded
+					return
+				}
+				updateProbeTable[*models.FormDiv](probe)
+				// set color for node and reset all other nodes color
+				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](treeStagee) {
+					node.BackgroundColor = ""
+				}
+				stagedNode.BackgroundColor = "lightgrey"
+				treeStagee.Commit()
+			}
+		case "FormEditAssocButton":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.FormEditAssocButton](probe.stageOfInterest)
+			count := 0
+			for _formeditassocbutton := range set {
+				if count >= probe.GetMaxElementsNbPerGongStructNode() {
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+					break
+				}
+				count++
+				nodeInstance := &tree_models.Node{
+					Name:            _formeditassocbutton.GetName(),
+					IsNodeClickable: true,
+					OnUpdate: func(_ *tree_models.Stage, _, _ *tree_models.Node) {
+						FillUpFormFromGongstruct(_formeditassocbutton, probe)
+					},
+				}
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
+			nodeGongstruct.OnUpdate = func(treeStagee *tree_models.Stage, stagedNode, frontNode *tree_models.Node) {
+				if stagedNode.IsExpanded != frontNode.IsExpanded {
+					stagedNode.IsExpanded = frontNode.IsExpanded
+					return
+				}
+				updateProbeTable[*models.FormEditAssocButton](probe)
+				// set color for node and reset all other nodes color
+				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](treeStagee) {
+					node.BackgroundColor = ""
+				}
+				stagedNode.BackgroundColor = "lightgrey"
+				treeStagee.Commit()
+			}
+		case "FormField":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.FormField](probe.stageOfInterest)
+			count := 0
+			for _formfield := range set {
+				if count >= probe.GetMaxElementsNbPerGongStructNode() {
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+					break
+				}
+				count++
+				nodeInstance := &tree_models.Node{
+					Name:            _formfield.GetName(),
+					IsNodeClickable: true,
+					OnUpdate: func(_ *tree_models.Stage, _, _ *tree_models.Node) {
+						FillUpFormFromGongstruct(_formfield, probe)
+					},
+				}
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
+			nodeGongstruct.OnUpdate = func(treeStagee *tree_models.Stage, stagedNode, frontNode *tree_models.Node) {
+				if stagedNode.IsExpanded != frontNode.IsExpanded {
+					stagedNode.IsExpanded = frontNode.IsExpanded
+					return
+				}
+				updateProbeTable[*models.FormField](probe)
+				// set color for node and reset all other nodes color
+				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](treeStagee) {
+					node.BackgroundColor = ""
+				}
+				stagedNode.BackgroundColor = "lightgrey"
+				treeStagee.Commit()
+			}
+		case "FormFieldDate":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.FormFieldDate](probe.stageOfInterest)
+			count := 0
+			for _formfielddate := range set {
+				if count >= probe.GetMaxElementsNbPerGongStructNode() {
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+					break
+				}
+				count++
+				nodeInstance := &tree_models.Node{
+					Name:            _formfielddate.GetName(),
+					IsNodeClickable: true,
+					OnUpdate: func(_ *tree_models.Stage, _, _ *tree_models.Node) {
+						FillUpFormFromGongstruct(_formfielddate, probe)
+					},
+				}
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
+			nodeGongstruct.OnUpdate = func(treeStagee *tree_models.Stage, stagedNode, frontNode *tree_models.Node) {
+				if stagedNode.IsExpanded != frontNode.IsExpanded {
+					stagedNode.IsExpanded = frontNode.IsExpanded
+					return
+				}
+				updateProbeTable[*models.FormFieldDate](probe)
+				// set color for node and reset all other nodes color
+				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](treeStagee) {
+					node.BackgroundColor = ""
+				}
+				stagedNode.BackgroundColor = "lightgrey"
+				treeStagee.Commit()
+			}
+		case "FormFieldDateTime":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.FormFieldDateTime](probe.stageOfInterest)
+			count := 0
+			for _formfielddatetime := range set {
+				if count >= probe.GetMaxElementsNbPerGongStructNode() {
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+					break
+				}
+				count++
+				nodeInstance := &tree_models.Node{
+					Name:            _formfielddatetime.GetName(),
+					IsNodeClickable: true,
+					OnUpdate: func(_ *tree_models.Stage, _, _ *tree_models.Node) {
+						FillUpFormFromGongstruct(_formfielddatetime, probe)
+					},
+				}
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
+			nodeGongstruct.OnUpdate = func(treeStagee *tree_models.Stage, stagedNode, frontNode *tree_models.Node) {
+				if stagedNode.IsExpanded != frontNode.IsExpanded {
+					stagedNode.IsExpanded = frontNode.IsExpanded
+					return
+				}
+				updateProbeTable[*models.FormFieldDateTime](probe)
+				// set color for node and reset all other nodes color
+				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](treeStagee) {
+					node.BackgroundColor = ""
+				}
+				stagedNode.BackgroundColor = "lightgrey"
+				treeStagee.Commit()
+			}
+		case "FormFieldFloat64":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.FormFieldFloat64](probe.stageOfInterest)
+			count := 0
+			for _formfieldfloat64 := range set {
+				if count >= probe.GetMaxElementsNbPerGongStructNode() {
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+					break
+				}
+				count++
+				nodeInstance := &tree_models.Node{
+					Name:            _formfieldfloat64.GetName(),
+					IsNodeClickable: true,
+					OnUpdate: func(_ *tree_models.Stage, _, _ *tree_models.Node) {
+						FillUpFormFromGongstruct(_formfieldfloat64, probe)
+					},
+				}
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
+			nodeGongstruct.OnUpdate = func(treeStagee *tree_models.Stage, stagedNode, frontNode *tree_models.Node) {
+				if stagedNode.IsExpanded != frontNode.IsExpanded {
+					stagedNode.IsExpanded = frontNode.IsExpanded
+					return
+				}
+				updateProbeTable[*models.FormFieldFloat64](probe)
+				// set color for node and reset all other nodes color
+				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](treeStagee) {
+					node.BackgroundColor = ""
+				}
+				stagedNode.BackgroundColor = "lightgrey"
+				treeStagee.Commit()
+			}
+		case "FormFieldInt":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.FormFieldInt](probe.stageOfInterest)
+			count := 0
+			for _formfieldint := range set {
+				if count >= probe.GetMaxElementsNbPerGongStructNode() {
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+					break
+				}
+				count++
+				nodeInstance := &tree_models.Node{
+					Name:            _formfieldint.GetName(),
+					IsNodeClickable: true,
+					OnUpdate: func(_ *tree_models.Stage, _, _ *tree_models.Node) {
+						FillUpFormFromGongstruct(_formfieldint, probe)
+					},
+				}
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
+			nodeGongstruct.OnUpdate = func(treeStagee *tree_models.Stage, stagedNode, frontNode *tree_models.Node) {
+				if stagedNode.IsExpanded != frontNode.IsExpanded {
+					stagedNode.IsExpanded = frontNode.IsExpanded
+					return
+				}
+				updateProbeTable[*models.FormFieldInt](probe)
+				// set color for node and reset all other nodes color
+				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](treeStagee) {
+					node.BackgroundColor = ""
+				}
+				stagedNode.BackgroundColor = "lightgrey"
+				treeStagee.Commit()
+			}
+		case "FormFieldSelect":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.FormFieldSelect](probe.stageOfInterest)
+			count := 0
+			for _formfieldselect := range set {
+				if count >= probe.GetMaxElementsNbPerGongStructNode() {
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+					break
+				}
+				count++
+				nodeInstance := &tree_models.Node{
+					Name:            _formfieldselect.GetName(),
+					IsNodeClickable: true,
+					OnUpdate: func(_ *tree_models.Stage, _, _ *tree_models.Node) {
+						FillUpFormFromGongstruct(_formfieldselect, probe)
+					},
+				}
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
+			nodeGongstruct.OnUpdate = func(treeStagee *tree_models.Stage, stagedNode, frontNode *tree_models.Node) {
+				if stagedNode.IsExpanded != frontNode.IsExpanded {
+					stagedNode.IsExpanded = frontNode.IsExpanded
+					return
+				}
+				updateProbeTable[*models.FormFieldSelect](probe)
+				// set color for node and reset all other nodes color
+				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](treeStagee) {
+					node.BackgroundColor = ""
+				}
+				stagedNode.BackgroundColor = "lightgrey"
+				treeStagee.Commit()
+			}
+		case "FormFieldString":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.FormFieldString](probe.stageOfInterest)
+			count := 0
+			for _formfieldstring := range set {
+				if count >= probe.GetMaxElementsNbPerGongStructNode() {
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+					break
+				}
+				count++
+				nodeInstance := &tree_models.Node{
+					Name:            _formfieldstring.GetName(),
+					IsNodeClickable: true,
+					OnUpdate: func(_ *tree_models.Stage, _, _ *tree_models.Node) {
+						FillUpFormFromGongstruct(_formfieldstring, probe)
+					},
+				}
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
+			nodeGongstruct.OnUpdate = func(treeStagee *tree_models.Stage, stagedNode, frontNode *tree_models.Node) {
+				if stagedNode.IsExpanded != frontNode.IsExpanded {
+					stagedNode.IsExpanded = frontNode.IsExpanded
+					return
+				}
+				updateProbeTable[*models.FormFieldString](probe)
+				// set color for node and reset all other nodes color
+				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](treeStagee) {
+					node.BackgroundColor = ""
+				}
+				stagedNode.BackgroundColor = "lightgrey"
+				treeStagee.Commit()
+			}
+		case "FormFieldTime":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.FormFieldTime](probe.stageOfInterest)
+			count := 0
+			for _formfieldtime := range set {
+				if count >= probe.GetMaxElementsNbPerGongStructNode() {
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+					break
+				}
+				count++
+				nodeInstance := &tree_models.Node{
+					Name:            _formfieldtime.GetName(),
+					IsNodeClickable: true,
+					OnUpdate: func(_ *tree_models.Stage, _, _ *tree_models.Node) {
+						FillUpFormFromGongstruct(_formfieldtime, probe)
+					},
+				}
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
+			nodeGongstruct.OnUpdate = func(treeStagee *tree_models.Stage, stagedNode, frontNode *tree_models.Node) {
+				if stagedNode.IsExpanded != frontNode.IsExpanded {
+					stagedNode.IsExpanded = frontNode.IsExpanded
+					return
+				}
+				updateProbeTable[*models.FormFieldTime](probe)
+				// set color for node and reset all other nodes color
+				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](treeStagee) {
+					node.BackgroundColor = ""
+				}
+				stagedNode.BackgroundColor = "lightgrey"
+				treeStagee.Commit()
+			}
+		case "FormGroup":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.FormGroup](probe.stageOfInterest)
+			count := 0
+			for _formgroup := range set {
+				if count >= probe.GetMaxElementsNbPerGongStructNode() {
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+					break
+				}
+				count++
+				nodeInstance := &tree_models.Node{
+					Name:            _formgroup.GetName(),
+					IsNodeClickable: true,
+					OnUpdate: func(_ *tree_models.Stage, _, _ *tree_models.Node) {
+						FillUpFormFromGongstruct(_formgroup, probe)
+					},
+				}
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
+			nodeGongstruct.OnUpdate = func(treeStagee *tree_models.Stage, stagedNode, frontNode *tree_models.Node) {
+				if stagedNode.IsExpanded != frontNode.IsExpanded {
+					stagedNode.IsExpanded = frontNode.IsExpanded
+					return
+				}
+				updateProbeTable[*models.FormGroup](probe)
+				// set color for node and reset all other nodes color
+				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](treeStagee) {
+					node.BackgroundColor = ""
+				}
+				stagedNode.BackgroundColor = "lightgrey"
+				treeStagee.Commit()
+			}
+		case "FormSortAssocButton":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.FormSortAssocButton](probe.stageOfInterest)
+			count := 0
+			for _formsortassocbutton := range set {
+				if count >= probe.GetMaxElementsNbPerGongStructNode() {
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+					break
+				}
+				count++
+				nodeInstance := &tree_models.Node{
+					Name:            _formsortassocbutton.GetName(),
+					IsNodeClickable: true,
+					OnUpdate: func(_ *tree_models.Stage, _, _ *tree_models.Node) {
+						FillUpFormFromGongstruct(_formsortassocbutton, probe)
+					},
+				}
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
+			nodeGongstruct.OnUpdate = func(treeStagee *tree_models.Stage, stagedNode, frontNode *tree_models.Node) {
+				if stagedNode.IsExpanded != frontNode.IsExpanded {
+					stagedNode.IsExpanded = frontNode.IsExpanded
+					return
+				}
+				updateProbeTable[*models.FormSortAssocButton](probe)
+				// set color for node and reset all other nodes color
+				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](treeStagee) {
+					node.BackgroundColor = ""
+				}
+				stagedNode.BackgroundColor = "lightgrey"
+				treeStagee.Commit()
+			}
+		case "Option":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.Option](probe.stageOfInterest)
+			count := 0
+			for _option := range set {
+				if count >= probe.GetMaxElementsNbPerGongStructNode() {
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+					break
+				}
+				count++
+				nodeInstance := &tree_models.Node{
+					Name:            _option.GetName(),
+					IsNodeClickable: true,
+					OnUpdate: func(_ *tree_models.Stage, _, _ *tree_models.Node) {
+						FillUpFormFromGongstruct(_option, probe)
+					},
+				}
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
+			nodeGongstruct.OnUpdate = func(treeStagee *tree_models.Stage, stagedNode, frontNode *tree_models.Node) {
+				if stagedNode.IsExpanded != frontNode.IsExpanded {
+					stagedNode.IsExpanded = frontNode.IsExpanded
+					return
+				}
+				updateProbeTable[*models.Option](probe)
 				// set color for node and reset all other nodes color
 				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](treeStagee) {
 					node.BackgroundColor = ""
