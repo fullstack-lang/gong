@@ -10,16 +10,16 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/fullstack-lang/gong/lib/doc/go/prepare"
+	form_fullstack "github.com/fullstack-lang/gong/lib/form/go/fullstack"
 	split_fullstack "github.com/fullstack-lang/gong/lib/split/go/fullstack"
-	form_fullstack "github.com/fullstack-lang/gong/lib/table/go/fullstack"
 	table_fullstack "github.com/fullstack-lang/gong/lib/table/go/fullstack"
 	tree_fullstack "github.com/fullstack-lang/gong/lib/tree/go/fullstack"
 
 	gong_models "github.com/fullstack-lang/gong/go/models"
 
 	doc "github.com/fullstack-lang/gong/lib/doc/go/models"
+	form "github.com/fullstack-lang/gong/lib/form/go/models"
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
-	form "github.com/fullstack-lang/gong/lib/table/go/models"
 	table "github.com/fullstack-lang/gong/lib/table/go/models"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 
@@ -203,7 +203,7 @@ func NewProbe(
 			{
 				Name: "form",
 				Size: 30,
-				Form: &split.Form{
+				Form2: &split.Form2{
 					Name:      "Form",
 					StackName: probe.formStage.GetName(),
 				},
