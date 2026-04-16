@@ -627,7 +627,7 @@ export class TableSpecificComponent implements OnInit, AfterViewInit, OnDestroy 
       }
       // encode the IDs into table.BulkDeleteSelectedRowsIDsJson
       if (this.selectedTable) {
-        const selectedIDs = this.selection.selected.map(row => row.ID - 1) // Assuming ID is in the first cell and is 1-based
+        const selectedIDs = this.selection.selected.map(row => row.ID)
         this.selectedTable.BulkDeleteSelectedRowsIDsJson = JSON.stringify(selectedIDs)
      
         this.tableService.updateFront(this.selectedTable, this.Name).subscribe(
