@@ -131,6 +131,7 @@ type Stage struct {
 	Bodys_mapString      map[string]*Body
 	BodyOrder            uint
 	Body_stagedOrder     map[*Body]uint
+	Body_orderStaged     map[uint]*Body
 	Bodys_reference      map[*Body]*Body
 	Bodys_referenceOrder map[*Body]uint
 
@@ -149,6 +150,7 @@ type Stage struct {
 	Documents_mapString      map[string]*Document
 	DocumentOrder            uint
 	Document_stagedOrder     map[*Document]uint
+	Document_orderStaged     map[uint]*Document
 	Documents_reference      map[*Document]*Document
 	Documents_referenceOrder map[*Document]uint
 
@@ -163,6 +165,7 @@ type Stage struct {
 	Docxs_mapString      map[string]*Docx
 	DocxOrder            uint
 	Docx_stagedOrder     map[*Docx]uint
+	Docx_orderStaged     map[uint]*Docx
 	Docxs_reference      map[*Docx]*Docx
 	Docxs_referenceOrder map[*Docx]uint
 
@@ -179,6 +182,7 @@ type Stage struct {
 	Files_mapString      map[string]*File
 	FileOrder            uint
 	File_stagedOrder     map[*File]uint
+	File_orderStaged     map[uint]*File
 	Files_reference      map[*File]*File
 	Files_referenceOrder map[*File]uint
 
@@ -193,6 +197,7 @@ type Stage struct {
 	Nodes_mapString      map[string]*Node
 	NodeOrder            uint
 	Node_stagedOrder     map[*Node]uint
+	Node_orderStaged     map[uint]*Node
 	Nodes_reference      map[*Node]*Node
 	Nodes_referenceOrder map[*Node]uint
 
@@ -209,6 +214,7 @@ type Stage struct {
 	Paragraphs_mapString      map[string]*Paragraph
 	ParagraphOrder            uint
 	Paragraph_stagedOrder     map[*Paragraph]uint
+	Paragraph_orderStaged     map[uint]*Paragraph
 	Paragraphs_reference      map[*Paragraph]*Paragraph
 	Paragraphs_referenceOrder map[*Paragraph]uint
 
@@ -225,6 +231,7 @@ type Stage struct {
 	ParagraphPropertiess_mapString      map[string]*ParagraphProperties
 	ParagraphPropertiesOrder            uint
 	ParagraphProperties_stagedOrder     map[*ParagraphProperties]uint
+	ParagraphProperties_orderStaged     map[uint]*ParagraphProperties
 	ParagraphPropertiess_reference      map[*ParagraphProperties]*ParagraphProperties
 	ParagraphPropertiess_referenceOrder map[*ParagraphProperties]uint
 
@@ -239,6 +246,7 @@ type Stage struct {
 	ParagraphStyles_mapString      map[string]*ParagraphStyle
 	ParagraphStyleOrder            uint
 	ParagraphStyle_stagedOrder     map[*ParagraphStyle]uint
+	ParagraphStyle_orderStaged     map[uint]*ParagraphStyle
 	ParagraphStyles_reference      map[*ParagraphStyle]*ParagraphStyle
 	ParagraphStyles_referenceOrder map[*ParagraphStyle]uint
 
@@ -253,6 +261,7 @@ type Stage struct {
 	Runes_mapString      map[string]*Rune
 	RuneOrder            uint
 	Rune_stagedOrder     map[*Rune]uint
+	Rune_orderStaged     map[uint]*Rune
 	Runes_reference      map[*Rune]*Rune
 	Runes_referenceOrder map[*Rune]uint
 
@@ -267,6 +276,7 @@ type Stage struct {
 	RunePropertiess_mapString      map[string]*RuneProperties
 	RunePropertiesOrder            uint
 	RuneProperties_stagedOrder     map[*RuneProperties]uint
+	RuneProperties_orderStaged     map[uint]*RuneProperties
 	RunePropertiess_reference      map[*RuneProperties]*RuneProperties
 	RunePropertiess_referenceOrder map[*RuneProperties]uint
 
@@ -281,6 +291,7 @@ type Stage struct {
 	Tables_mapString      map[string]*Table
 	TableOrder            uint
 	Table_stagedOrder     map[*Table]uint
+	Table_orderStaged     map[uint]*Table
 	Tables_reference      map[*Table]*Table
 	Tables_referenceOrder map[*Table]uint
 
@@ -297,6 +308,7 @@ type Stage struct {
 	TableColumns_mapString      map[string]*TableColumn
 	TableColumnOrder            uint
 	TableColumn_stagedOrder     map[*TableColumn]uint
+	TableColumn_orderStaged     map[uint]*TableColumn
 	TableColumns_reference      map[*TableColumn]*TableColumn
 	TableColumns_referenceOrder map[*TableColumn]uint
 
@@ -313,6 +325,7 @@ type Stage struct {
 	TablePropertiess_mapString      map[string]*TableProperties
 	TablePropertiesOrder            uint
 	TableProperties_stagedOrder     map[*TableProperties]uint
+	TableProperties_orderStaged     map[uint]*TableProperties
 	TablePropertiess_reference      map[*TableProperties]*TableProperties
 	TablePropertiess_referenceOrder map[*TableProperties]uint
 
@@ -327,6 +340,7 @@ type Stage struct {
 	TableRows_mapString      map[string]*TableRow
 	TableRowOrder            uint
 	TableRow_stagedOrder     map[*TableRow]uint
+	TableRow_orderStaged     map[uint]*TableRow
 	TableRows_reference      map[*TableRow]*TableRow
 	TableRows_referenceOrder map[*TableRow]uint
 
@@ -343,6 +357,7 @@ type Stage struct {
 	TableStyles_mapString      map[string]*TableStyle
 	TableStyleOrder            uint
 	TableStyle_stagedOrder     map[*TableStyle]uint
+	TableStyle_orderStaged     map[uint]*TableStyle
 	TableStyles_reference      map[*TableStyle]*TableStyle
 	TableStyles_referenceOrder map[*TableStyle]uint
 
@@ -357,6 +372,7 @@ type Stage struct {
 	Texts_mapString      map[string]*Text
 	TextOrder            uint
 	Text_stagedOrder     map[*Text]uint
+	Text_orderStaged     map[uint]*Text
 	Texts_reference      map[*Text]*Text
 	Texts_referenceOrder map[*Text]uint
 
@@ -1429,36 +1445,68 @@ func NewStage(name string) (stage *Stage) {
 
 		// insertion point for order map initialisations
 		Body_stagedOrder: make(map[*Body]uint),
+		Body_orderStaged: make(map[uint]*Body),
+		Bodys_reference: make(map[*Body]*Body),
 
 		Document_stagedOrder: make(map[*Document]uint),
+		Document_orderStaged: make(map[uint]*Document),
+		Documents_reference: make(map[*Document]*Document),
 
 		Docx_stagedOrder: make(map[*Docx]uint),
+		Docx_orderStaged: make(map[uint]*Docx),
+		Docxs_reference: make(map[*Docx]*Docx),
 
 		File_stagedOrder: make(map[*File]uint),
+		File_orderStaged: make(map[uint]*File),
+		Files_reference: make(map[*File]*File),
 
 		Node_stagedOrder: make(map[*Node]uint),
+		Node_orderStaged: make(map[uint]*Node),
+		Nodes_reference: make(map[*Node]*Node),
 
 		Paragraph_stagedOrder: make(map[*Paragraph]uint),
+		Paragraph_orderStaged: make(map[uint]*Paragraph),
+		Paragraphs_reference: make(map[*Paragraph]*Paragraph),
 
 		ParagraphProperties_stagedOrder: make(map[*ParagraphProperties]uint),
+		ParagraphProperties_orderStaged: make(map[uint]*ParagraphProperties),
+		ParagraphPropertiess_reference: make(map[*ParagraphProperties]*ParagraphProperties),
 
 		ParagraphStyle_stagedOrder: make(map[*ParagraphStyle]uint),
+		ParagraphStyle_orderStaged: make(map[uint]*ParagraphStyle),
+		ParagraphStyles_reference: make(map[*ParagraphStyle]*ParagraphStyle),
 
 		Rune_stagedOrder: make(map[*Rune]uint),
+		Rune_orderStaged: make(map[uint]*Rune),
+		Runes_reference: make(map[*Rune]*Rune),
 
 		RuneProperties_stagedOrder: make(map[*RuneProperties]uint),
+		RuneProperties_orderStaged: make(map[uint]*RuneProperties),
+		RunePropertiess_reference: make(map[*RuneProperties]*RuneProperties),
 
 		Table_stagedOrder: make(map[*Table]uint),
+		Table_orderStaged: make(map[uint]*Table),
+		Tables_reference: make(map[*Table]*Table),
 
 		TableColumn_stagedOrder: make(map[*TableColumn]uint),
+		TableColumn_orderStaged: make(map[uint]*TableColumn),
+		TableColumns_reference: make(map[*TableColumn]*TableColumn),
 
 		TableProperties_stagedOrder: make(map[*TableProperties]uint),
+		TableProperties_orderStaged: make(map[uint]*TableProperties),
+		TablePropertiess_reference: make(map[*TableProperties]*TableProperties),
 
 		TableRow_stagedOrder: make(map[*TableRow]uint),
+		TableRow_orderStaged: make(map[uint]*TableRow),
+		TableRows_reference: make(map[*TableRow]*TableRow),
 
 		TableStyle_stagedOrder: make(map[*TableStyle]uint),
+		TableStyle_orderStaged: make(map[uint]*TableStyle),
+		TableStyles_reference: make(map[*TableStyle]*TableStyle),
 
 		Text_stagedOrder: make(map[*Text]uint),
+		Text_orderStaged: make(map[uint]*Text),
+		Texts_reference: make(map[*Text]*Text),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
@@ -1559,6 +1607,47 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.Text_stagedOrder[instance]
 	default:
 		return 0 // should not happen
+	}
+}
+
+func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint) (res Type) {
+	var t Type
+	switch any(t).(type) {
+	// insertion point for order map initialisations
+	case *Body:
+		return any(stage.Body_orderStaged[order]).(Type)
+	case *Document:
+		return any(stage.Document_orderStaged[order]).(Type)
+	case *Docx:
+		return any(stage.Docx_orderStaged[order]).(Type)
+	case *File:
+		return any(stage.File_orderStaged[order]).(Type)
+	case *Node:
+		return any(stage.Node_orderStaged[order]).(Type)
+	case *Paragraph:
+		return any(stage.Paragraph_orderStaged[order]).(Type)
+	case *ParagraphProperties:
+		return any(stage.ParagraphProperties_orderStaged[order]).(Type)
+	case *ParagraphStyle:
+		return any(stage.ParagraphStyle_orderStaged[order]).(Type)
+	case *Rune:
+		return any(stage.Rune_orderStaged[order]).(Type)
+	case *RuneProperties:
+		return any(stage.RuneProperties_orderStaged[order]).(Type)
+	case *Table:
+		return any(stage.Table_orderStaged[order]).(Type)
+	case *TableColumn:
+		return any(stage.TableColumn_orderStaged[order]).(Type)
+	case *TableProperties:
+		return any(stage.TableProperties_orderStaged[order]).(Type)
+	case *TableRow:
+		return any(stage.TableRow_orderStaged[order]).(Type)
+	case *TableStyle:
+		return any(stage.TableStyle_orderStaged[order]).(Type)
+	case *Text:
+		return any(stage.Text_orderStaged[order]).(Type)
+	default:
+		return // should not happen
 	}
 }
 
@@ -1723,6 +1812,7 @@ func (body *Body) Stage(stage *Stage) *Body {
 	if _, ok := stage.Bodys[body]; !ok {
 		stage.Bodys[body] = struct{}{}
 		stage.Body_stagedOrder[body] = stage.BodyOrder
+		stage.Body_orderStaged[stage.BodyOrder] = body
 		stage.BodyOrder++
 	}
 	stage.Bodys_mapString[body.Name] = body
@@ -1743,6 +1833,7 @@ func (body *Body) StagePreserveOrder(stage *Stage, order uint) {
 			stage.BodyOrder = order
 		}
 		stage.Body_stagedOrder[body] = order
+		stage.Body_orderStaged[order] = body
 		stage.BodyOrder++
 	}
 	stage.Bodys_mapString[body.Name] = body
@@ -1809,6 +1900,7 @@ func (document *Document) Stage(stage *Stage) *Document {
 	if _, ok := stage.Documents[document]; !ok {
 		stage.Documents[document] = struct{}{}
 		stage.Document_stagedOrder[document] = stage.DocumentOrder
+		stage.Document_orderStaged[stage.DocumentOrder] = document
 		stage.DocumentOrder++
 	}
 	stage.Documents_mapString[document.Name] = document
@@ -1829,6 +1921,7 @@ func (document *Document) StagePreserveOrder(stage *Stage, order uint) {
 			stage.DocumentOrder = order
 		}
 		stage.Document_stagedOrder[document] = order
+		stage.Document_orderStaged[order] = document
 		stage.DocumentOrder++
 	}
 	stage.Documents_mapString[document.Name] = document
@@ -1895,6 +1988,7 @@ func (docx *Docx) Stage(stage *Stage) *Docx {
 	if _, ok := stage.Docxs[docx]; !ok {
 		stage.Docxs[docx] = struct{}{}
 		stage.Docx_stagedOrder[docx] = stage.DocxOrder
+		stage.Docx_orderStaged[stage.DocxOrder] = docx
 		stage.DocxOrder++
 	}
 	stage.Docxs_mapString[docx.Name] = docx
@@ -1915,6 +2009,7 @@ func (docx *Docx) StagePreserveOrder(stage *Stage, order uint) {
 			stage.DocxOrder = order
 		}
 		stage.Docx_stagedOrder[docx] = order
+		stage.Docx_orderStaged[order] = docx
 		stage.DocxOrder++
 	}
 	stage.Docxs_mapString[docx.Name] = docx
@@ -1981,6 +2076,7 @@ func (file *File) Stage(stage *Stage) *File {
 	if _, ok := stage.Files[file]; !ok {
 		stage.Files[file] = struct{}{}
 		stage.File_stagedOrder[file] = stage.FileOrder
+		stage.File_orderStaged[stage.FileOrder] = file
 		stage.FileOrder++
 	}
 	stage.Files_mapString[file.Name] = file
@@ -2001,6 +2097,7 @@ func (file *File) StagePreserveOrder(stage *Stage, order uint) {
 			stage.FileOrder = order
 		}
 		stage.File_stagedOrder[file] = order
+		stage.File_orderStaged[order] = file
 		stage.FileOrder++
 	}
 	stage.Files_mapString[file.Name] = file
@@ -2067,6 +2164,7 @@ func (node *Node) Stage(stage *Stage) *Node {
 	if _, ok := stage.Nodes[node]; !ok {
 		stage.Nodes[node] = struct{}{}
 		stage.Node_stagedOrder[node] = stage.NodeOrder
+		stage.Node_orderStaged[stage.NodeOrder] = node
 		stage.NodeOrder++
 	}
 	stage.Nodes_mapString[node.Name] = node
@@ -2087,6 +2185,7 @@ func (node *Node) StagePreserveOrder(stage *Stage, order uint) {
 			stage.NodeOrder = order
 		}
 		stage.Node_stagedOrder[node] = order
+		stage.Node_orderStaged[order] = node
 		stage.NodeOrder++
 	}
 	stage.Nodes_mapString[node.Name] = node
@@ -2153,6 +2252,7 @@ func (paragraph *Paragraph) Stage(stage *Stage) *Paragraph {
 	if _, ok := stage.Paragraphs[paragraph]; !ok {
 		stage.Paragraphs[paragraph] = struct{}{}
 		stage.Paragraph_stagedOrder[paragraph] = stage.ParagraphOrder
+		stage.Paragraph_orderStaged[stage.ParagraphOrder] = paragraph
 		stage.ParagraphOrder++
 	}
 	stage.Paragraphs_mapString[paragraph.Name] = paragraph
@@ -2173,6 +2273,7 @@ func (paragraph *Paragraph) StagePreserveOrder(stage *Stage, order uint) {
 			stage.ParagraphOrder = order
 		}
 		stage.Paragraph_stagedOrder[paragraph] = order
+		stage.Paragraph_orderStaged[order] = paragraph
 		stage.ParagraphOrder++
 	}
 	stage.Paragraphs_mapString[paragraph.Name] = paragraph
@@ -2239,6 +2340,7 @@ func (paragraphproperties *ParagraphProperties) Stage(stage *Stage) *ParagraphPr
 	if _, ok := stage.ParagraphPropertiess[paragraphproperties]; !ok {
 		stage.ParagraphPropertiess[paragraphproperties] = struct{}{}
 		stage.ParagraphProperties_stagedOrder[paragraphproperties] = stage.ParagraphPropertiesOrder
+		stage.ParagraphProperties_orderStaged[stage.ParagraphPropertiesOrder] = paragraphproperties
 		stage.ParagraphPropertiesOrder++
 	}
 	stage.ParagraphPropertiess_mapString[paragraphproperties.Name] = paragraphproperties
@@ -2259,6 +2361,7 @@ func (paragraphproperties *ParagraphProperties) StagePreserveOrder(stage *Stage,
 			stage.ParagraphPropertiesOrder = order
 		}
 		stage.ParagraphProperties_stagedOrder[paragraphproperties] = order
+		stage.ParagraphProperties_orderStaged[order] = paragraphproperties
 		stage.ParagraphPropertiesOrder++
 	}
 	stage.ParagraphPropertiess_mapString[paragraphproperties.Name] = paragraphproperties
@@ -2325,6 +2428,7 @@ func (paragraphstyle *ParagraphStyle) Stage(stage *Stage) *ParagraphStyle {
 	if _, ok := stage.ParagraphStyles[paragraphstyle]; !ok {
 		stage.ParagraphStyles[paragraphstyle] = struct{}{}
 		stage.ParagraphStyle_stagedOrder[paragraphstyle] = stage.ParagraphStyleOrder
+		stage.ParagraphStyle_orderStaged[stage.ParagraphStyleOrder] = paragraphstyle
 		stage.ParagraphStyleOrder++
 	}
 	stage.ParagraphStyles_mapString[paragraphstyle.Name] = paragraphstyle
@@ -2345,6 +2449,7 @@ func (paragraphstyle *ParagraphStyle) StagePreserveOrder(stage *Stage, order uin
 			stage.ParagraphStyleOrder = order
 		}
 		stage.ParagraphStyle_stagedOrder[paragraphstyle] = order
+		stage.ParagraphStyle_orderStaged[order] = paragraphstyle
 		stage.ParagraphStyleOrder++
 	}
 	stage.ParagraphStyles_mapString[paragraphstyle.Name] = paragraphstyle
@@ -2411,6 +2516,7 @@ func (rune *Rune) Stage(stage *Stage) *Rune {
 	if _, ok := stage.Runes[rune]; !ok {
 		stage.Runes[rune] = struct{}{}
 		stage.Rune_stagedOrder[rune] = stage.RuneOrder
+		stage.Rune_orderStaged[stage.RuneOrder] = rune
 		stage.RuneOrder++
 	}
 	stage.Runes_mapString[rune.Name] = rune
@@ -2431,6 +2537,7 @@ func (rune *Rune) StagePreserveOrder(stage *Stage, order uint) {
 			stage.RuneOrder = order
 		}
 		stage.Rune_stagedOrder[rune] = order
+		stage.Rune_orderStaged[order] = rune
 		stage.RuneOrder++
 	}
 	stage.Runes_mapString[rune.Name] = rune
@@ -2497,6 +2604,7 @@ func (runeproperties *RuneProperties) Stage(stage *Stage) *RuneProperties {
 	if _, ok := stage.RunePropertiess[runeproperties]; !ok {
 		stage.RunePropertiess[runeproperties] = struct{}{}
 		stage.RuneProperties_stagedOrder[runeproperties] = stage.RunePropertiesOrder
+		stage.RuneProperties_orderStaged[stage.RunePropertiesOrder] = runeproperties
 		stage.RunePropertiesOrder++
 	}
 	stage.RunePropertiess_mapString[runeproperties.Name] = runeproperties
@@ -2517,6 +2625,7 @@ func (runeproperties *RuneProperties) StagePreserveOrder(stage *Stage, order uin
 			stage.RunePropertiesOrder = order
 		}
 		stage.RuneProperties_stagedOrder[runeproperties] = order
+		stage.RuneProperties_orderStaged[order] = runeproperties
 		stage.RunePropertiesOrder++
 	}
 	stage.RunePropertiess_mapString[runeproperties.Name] = runeproperties
@@ -2583,6 +2692,7 @@ func (table *Table) Stage(stage *Stage) *Table {
 	if _, ok := stage.Tables[table]; !ok {
 		stage.Tables[table] = struct{}{}
 		stage.Table_stagedOrder[table] = stage.TableOrder
+		stage.Table_orderStaged[stage.TableOrder] = table
 		stage.TableOrder++
 	}
 	stage.Tables_mapString[table.Name] = table
@@ -2603,6 +2713,7 @@ func (table *Table) StagePreserveOrder(stage *Stage, order uint) {
 			stage.TableOrder = order
 		}
 		stage.Table_stagedOrder[table] = order
+		stage.Table_orderStaged[order] = table
 		stage.TableOrder++
 	}
 	stage.Tables_mapString[table.Name] = table
@@ -2669,6 +2780,7 @@ func (tablecolumn *TableColumn) Stage(stage *Stage) *TableColumn {
 	if _, ok := stage.TableColumns[tablecolumn]; !ok {
 		stage.TableColumns[tablecolumn] = struct{}{}
 		stage.TableColumn_stagedOrder[tablecolumn] = stage.TableColumnOrder
+		stage.TableColumn_orderStaged[stage.TableColumnOrder] = tablecolumn
 		stage.TableColumnOrder++
 	}
 	stage.TableColumns_mapString[tablecolumn.Name] = tablecolumn
@@ -2689,6 +2801,7 @@ func (tablecolumn *TableColumn) StagePreserveOrder(stage *Stage, order uint) {
 			stage.TableColumnOrder = order
 		}
 		stage.TableColumn_stagedOrder[tablecolumn] = order
+		stage.TableColumn_orderStaged[order] = tablecolumn
 		stage.TableColumnOrder++
 	}
 	stage.TableColumns_mapString[tablecolumn.Name] = tablecolumn
@@ -2755,6 +2868,7 @@ func (tableproperties *TableProperties) Stage(stage *Stage) *TableProperties {
 	if _, ok := stage.TablePropertiess[tableproperties]; !ok {
 		stage.TablePropertiess[tableproperties] = struct{}{}
 		stage.TableProperties_stagedOrder[tableproperties] = stage.TablePropertiesOrder
+		stage.TableProperties_orderStaged[stage.TablePropertiesOrder] = tableproperties
 		stage.TablePropertiesOrder++
 	}
 	stage.TablePropertiess_mapString[tableproperties.Name] = tableproperties
@@ -2775,6 +2889,7 @@ func (tableproperties *TableProperties) StagePreserveOrder(stage *Stage, order u
 			stage.TablePropertiesOrder = order
 		}
 		stage.TableProperties_stagedOrder[tableproperties] = order
+		stage.TableProperties_orderStaged[order] = tableproperties
 		stage.TablePropertiesOrder++
 	}
 	stage.TablePropertiess_mapString[tableproperties.Name] = tableproperties
@@ -2841,6 +2956,7 @@ func (tablerow *TableRow) Stage(stage *Stage) *TableRow {
 	if _, ok := stage.TableRows[tablerow]; !ok {
 		stage.TableRows[tablerow] = struct{}{}
 		stage.TableRow_stagedOrder[tablerow] = stage.TableRowOrder
+		stage.TableRow_orderStaged[stage.TableRowOrder] = tablerow
 		stage.TableRowOrder++
 	}
 	stage.TableRows_mapString[tablerow.Name] = tablerow
@@ -2861,6 +2977,7 @@ func (tablerow *TableRow) StagePreserveOrder(stage *Stage, order uint) {
 			stage.TableRowOrder = order
 		}
 		stage.TableRow_stagedOrder[tablerow] = order
+		stage.TableRow_orderStaged[order] = tablerow
 		stage.TableRowOrder++
 	}
 	stage.TableRows_mapString[tablerow.Name] = tablerow
@@ -2927,6 +3044,7 @@ func (tablestyle *TableStyle) Stage(stage *Stage) *TableStyle {
 	if _, ok := stage.TableStyles[tablestyle]; !ok {
 		stage.TableStyles[tablestyle] = struct{}{}
 		stage.TableStyle_stagedOrder[tablestyle] = stage.TableStyleOrder
+		stage.TableStyle_orderStaged[stage.TableStyleOrder] = tablestyle
 		stage.TableStyleOrder++
 	}
 	stage.TableStyles_mapString[tablestyle.Name] = tablestyle
@@ -2947,6 +3065,7 @@ func (tablestyle *TableStyle) StagePreserveOrder(stage *Stage, order uint) {
 			stage.TableStyleOrder = order
 		}
 		stage.TableStyle_stagedOrder[tablestyle] = order
+		stage.TableStyle_orderStaged[order] = tablestyle
 		stage.TableStyleOrder++
 	}
 	stage.TableStyles_mapString[tablestyle.Name] = tablestyle
@@ -3013,6 +3132,7 @@ func (text *Text) Stage(stage *Stage) *Text {
 	if _, ok := stage.Texts[text]; !ok {
 		stage.Texts[text] = struct{}{}
 		stage.Text_stagedOrder[text] = stage.TextOrder
+		stage.Text_orderStaged[stage.TextOrder] = text
 		stage.TextOrder++
 	}
 	stage.Texts_mapString[text.Name] = text
@@ -3033,6 +3153,7 @@ func (text *Text) StagePreserveOrder(stage *Stage, order uint) {
 			stage.TextOrder = order
 		}
 		stage.Text_stagedOrder[text] = order
+		stage.Text_orderStaged[order] = text
 		stage.TextOrder++
 	}
 	stage.Texts_mapString[text.Name] = text

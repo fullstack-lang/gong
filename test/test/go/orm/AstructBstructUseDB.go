@@ -194,10 +194,9 @@ func (backRepoAstructBstructUse *BackRepoAstructBstructUseStruct) CommitPhaseOne
 
 	// initiate astructbstructuse
 	var astructbstructuseDB AstructBstructUseDB
-
 	astructbstructuseDB.CopyBasicFieldsFromAstructBstructUse(astructbstructuse)
-	_, err := backRepoAstructBstructUse.db.Create(&astructbstructuseDB)
 
+	_, err := backRepoAstructBstructUse.db.Create(&astructbstructuseDB)
 	if err != nil {
 		log.Fatal(err)
 	}

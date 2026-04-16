@@ -208,10 +208,9 @@ func (backRepoBstruct *BackRepoBstructStruct) CommitPhaseOneInstance(bstruct *mo
 
 	// initiate bstruct
 	var bstructDB BstructDB
-
 	bstructDB.CopyBasicFieldsFromBstruct(bstruct)
-	_, err := backRepoBstruct.db.Create(&bstructDB)
 
+	_, err := backRepoBstruct.db.Create(&bstructDB)
 	if err != nil {
 		log.Fatal(err)
 	}

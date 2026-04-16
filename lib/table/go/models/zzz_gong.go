@@ -131,6 +131,7 @@ type Stage struct {
 	Buttons_mapString      map[string]*Button
 	ButtonOrder            uint
 	Button_stagedOrder     map[*Button]uint
+	Button_orderStaged     map[uint]*Button
 	Buttons_reference      map[*Button]*Button
 	Buttons_referenceOrder map[*Button]uint
 
@@ -145,6 +146,7 @@ type Stage struct {
 	Cells_mapString      map[string]*Cell
 	CellOrder            uint
 	Cell_stagedOrder     map[*Cell]uint
+	Cell_orderStaged     map[uint]*Cell
 	Cells_reference      map[*Cell]*Cell
 	Cells_referenceOrder map[*Cell]uint
 
@@ -159,6 +161,7 @@ type Stage struct {
 	CellBooleans_mapString      map[string]*CellBoolean
 	CellBooleanOrder            uint
 	CellBoolean_stagedOrder     map[*CellBoolean]uint
+	CellBoolean_orderStaged     map[uint]*CellBoolean
 	CellBooleans_reference      map[*CellBoolean]*CellBoolean
 	CellBooleans_referenceOrder map[*CellBoolean]uint
 
@@ -173,6 +176,7 @@ type Stage struct {
 	CellFloat64s_mapString      map[string]*CellFloat64
 	CellFloat64Order            uint
 	CellFloat64_stagedOrder     map[*CellFloat64]uint
+	CellFloat64_orderStaged     map[uint]*CellFloat64
 	CellFloat64s_reference      map[*CellFloat64]*CellFloat64
 	CellFloat64s_referenceOrder map[*CellFloat64]uint
 
@@ -187,6 +191,7 @@ type Stage struct {
 	CellIcons_mapString      map[string]*CellIcon
 	CellIconOrder            uint
 	CellIcon_stagedOrder     map[*CellIcon]uint
+	CellIcon_orderStaged     map[uint]*CellIcon
 	CellIcons_reference      map[*CellIcon]*CellIcon
 	CellIcons_referenceOrder map[*CellIcon]uint
 
@@ -201,6 +206,7 @@ type Stage struct {
 	CellInts_mapString      map[string]*CellInt
 	CellIntOrder            uint
 	CellInt_stagedOrder     map[*CellInt]uint
+	CellInt_orderStaged     map[uint]*CellInt
 	CellInts_reference      map[*CellInt]*CellInt
 	CellInts_referenceOrder map[*CellInt]uint
 
@@ -215,6 +221,7 @@ type Stage struct {
 	CellStrings_mapString      map[string]*CellString
 	CellStringOrder            uint
 	CellString_stagedOrder     map[*CellString]uint
+	CellString_orderStaged     map[uint]*CellString
 	CellStrings_reference      map[*CellString]*CellString
 	CellStrings_referenceOrder map[*CellString]uint
 
@@ -229,6 +236,7 @@ type Stage struct {
 	DisplayedColumns_mapString      map[string]*DisplayedColumn
 	DisplayedColumnOrder            uint
 	DisplayedColumn_stagedOrder     map[*DisplayedColumn]uint
+	DisplayedColumn_orderStaged     map[uint]*DisplayedColumn
 	DisplayedColumns_reference      map[*DisplayedColumn]*DisplayedColumn
 	DisplayedColumns_referenceOrder map[*DisplayedColumn]uint
 
@@ -243,6 +251,7 @@ type Stage struct {
 	Rows_mapString      map[string]*Row
 	RowOrder            uint
 	Row_stagedOrder     map[*Row]uint
+	Row_orderStaged     map[uint]*Row
 	Rows_reference      map[*Row]*Row
 	Rows_referenceOrder map[*Row]uint
 
@@ -259,6 +268,7 @@ type Stage struct {
 	SVGIcons_mapString      map[string]*SVGIcon
 	SVGIconOrder            uint
 	SVGIcon_stagedOrder     map[*SVGIcon]uint
+	SVGIcon_orderStaged     map[uint]*SVGIcon
 	SVGIcons_reference      map[*SVGIcon]*SVGIcon
 	SVGIcons_referenceOrder map[*SVGIcon]uint
 
@@ -273,6 +283,7 @@ type Stage struct {
 	Tables_mapString      map[string]*Table
 	TableOrder            uint
 	Table_stagedOrder     map[*Table]uint
+	Table_orderStaged     map[uint]*Table
 	Tables_reference      map[*Table]*Table
 	Tables_referenceOrder map[*Table]uint
 
@@ -1158,26 +1169,48 @@ func NewStage(name string) (stage *Stage) {
 
 		// insertion point for order map initialisations
 		Button_stagedOrder: make(map[*Button]uint),
+		Button_orderStaged: make(map[uint]*Button),
+		Buttons_reference: make(map[*Button]*Button),
 
 		Cell_stagedOrder: make(map[*Cell]uint),
+		Cell_orderStaged: make(map[uint]*Cell),
+		Cells_reference: make(map[*Cell]*Cell),
 
 		CellBoolean_stagedOrder: make(map[*CellBoolean]uint),
+		CellBoolean_orderStaged: make(map[uint]*CellBoolean),
+		CellBooleans_reference: make(map[*CellBoolean]*CellBoolean),
 
 		CellFloat64_stagedOrder: make(map[*CellFloat64]uint),
+		CellFloat64_orderStaged: make(map[uint]*CellFloat64),
+		CellFloat64s_reference: make(map[*CellFloat64]*CellFloat64),
 
 		CellIcon_stagedOrder: make(map[*CellIcon]uint),
+		CellIcon_orderStaged: make(map[uint]*CellIcon),
+		CellIcons_reference: make(map[*CellIcon]*CellIcon),
 
 		CellInt_stagedOrder: make(map[*CellInt]uint),
+		CellInt_orderStaged: make(map[uint]*CellInt),
+		CellInts_reference: make(map[*CellInt]*CellInt),
 
 		CellString_stagedOrder: make(map[*CellString]uint),
+		CellString_orderStaged: make(map[uint]*CellString),
+		CellStrings_reference: make(map[*CellString]*CellString),
 
 		DisplayedColumn_stagedOrder: make(map[*DisplayedColumn]uint),
+		DisplayedColumn_orderStaged: make(map[uint]*DisplayedColumn),
+		DisplayedColumns_reference: make(map[*DisplayedColumn]*DisplayedColumn),
 
 		Row_stagedOrder: make(map[*Row]uint),
+		Row_orderStaged: make(map[uint]*Row),
+		Rows_reference: make(map[*Row]*Row),
 
 		SVGIcon_stagedOrder: make(map[*SVGIcon]uint),
+		SVGIcon_orderStaged: make(map[uint]*SVGIcon),
+		SVGIcons_reference: make(map[*SVGIcon]*SVGIcon),
 
 		Table_stagedOrder: make(map[*Table]uint),
+		Table_orderStaged: make(map[uint]*Table),
+		Tables_reference: make(map[*Table]*Table),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
@@ -1253,6 +1286,37 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.Table_stagedOrder[instance]
 	default:
 		return 0 // should not happen
+	}
+}
+
+func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint) (res Type) {
+	var t Type
+	switch any(t).(type) {
+	// insertion point for order map initialisations
+	case *Button:
+		return any(stage.Button_orderStaged[order]).(Type)
+	case *Cell:
+		return any(stage.Cell_orderStaged[order]).(Type)
+	case *CellBoolean:
+		return any(stage.CellBoolean_orderStaged[order]).(Type)
+	case *CellFloat64:
+		return any(stage.CellFloat64_orderStaged[order]).(Type)
+	case *CellIcon:
+		return any(stage.CellIcon_orderStaged[order]).(Type)
+	case *CellInt:
+		return any(stage.CellInt_orderStaged[order]).(Type)
+	case *CellString:
+		return any(stage.CellString_orderStaged[order]).(Type)
+	case *DisplayedColumn:
+		return any(stage.DisplayedColumn_orderStaged[order]).(Type)
+	case *Row:
+		return any(stage.Row_orderStaged[order]).(Type)
+	case *SVGIcon:
+		return any(stage.SVGIcon_orderStaged[order]).(Type)
+	case *Table:
+		return any(stage.Table_orderStaged[order]).(Type)
+	default:
+		return // should not happen
 	}
 }
 
@@ -1402,6 +1466,7 @@ func (button *Button) Stage(stage *Stage) *Button {
 	if _, ok := stage.Buttons[button]; !ok {
 		stage.Buttons[button] = struct{}{}
 		stage.Button_stagedOrder[button] = stage.ButtonOrder
+		stage.Button_orderStaged[stage.ButtonOrder] = button
 		stage.ButtonOrder++
 	}
 	stage.Buttons_mapString[button.Name] = button
@@ -1422,6 +1487,7 @@ func (button *Button) StagePreserveOrder(stage *Stage, order uint) {
 			stage.ButtonOrder = order
 		}
 		stage.Button_stagedOrder[button] = order
+		stage.Button_orderStaged[order] = button
 		stage.ButtonOrder++
 	}
 	stage.Buttons_mapString[button.Name] = button
@@ -1488,6 +1554,7 @@ func (cell *Cell) Stage(stage *Stage) *Cell {
 	if _, ok := stage.Cells[cell]; !ok {
 		stage.Cells[cell] = struct{}{}
 		stage.Cell_stagedOrder[cell] = stage.CellOrder
+		stage.Cell_orderStaged[stage.CellOrder] = cell
 		stage.CellOrder++
 	}
 	stage.Cells_mapString[cell.Name] = cell
@@ -1508,6 +1575,7 @@ func (cell *Cell) StagePreserveOrder(stage *Stage, order uint) {
 			stage.CellOrder = order
 		}
 		stage.Cell_stagedOrder[cell] = order
+		stage.Cell_orderStaged[order] = cell
 		stage.CellOrder++
 	}
 	stage.Cells_mapString[cell.Name] = cell
@@ -1574,6 +1642,7 @@ func (cellboolean *CellBoolean) Stage(stage *Stage) *CellBoolean {
 	if _, ok := stage.CellBooleans[cellboolean]; !ok {
 		stage.CellBooleans[cellboolean] = struct{}{}
 		stage.CellBoolean_stagedOrder[cellboolean] = stage.CellBooleanOrder
+		stage.CellBoolean_orderStaged[stage.CellBooleanOrder] = cellboolean
 		stage.CellBooleanOrder++
 	}
 	stage.CellBooleans_mapString[cellboolean.Name] = cellboolean
@@ -1594,6 +1663,7 @@ func (cellboolean *CellBoolean) StagePreserveOrder(stage *Stage, order uint) {
 			stage.CellBooleanOrder = order
 		}
 		stage.CellBoolean_stagedOrder[cellboolean] = order
+		stage.CellBoolean_orderStaged[order] = cellboolean
 		stage.CellBooleanOrder++
 	}
 	stage.CellBooleans_mapString[cellboolean.Name] = cellboolean
@@ -1660,6 +1730,7 @@ func (cellfloat64 *CellFloat64) Stage(stage *Stage) *CellFloat64 {
 	if _, ok := stage.CellFloat64s[cellfloat64]; !ok {
 		stage.CellFloat64s[cellfloat64] = struct{}{}
 		stage.CellFloat64_stagedOrder[cellfloat64] = stage.CellFloat64Order
+		stage.CellFloat64_orderStaged[stage.CellFloat64Order] = cellfloat64
 		stage.CellFloat64Order++
 	}
 	stage.CellFloat64s_mapString[cellfloat64.Name] = cellfloat64
@@ -1680,6 +1751,7 @@ func (cellfloat64 *CellFloat64) StagePreserveOrder(stage *Stage, order uint) {
 			stage.CellFloat64Order = order
 		}
 		stage.CellFloat64_stagedOrder[cellfloat64] = order
+		stage.CellFloat64_orderStaged[order] = cellfloat64
 		stage.CellFloat64Order++
 	}
 	stage.CellFloat64s_mapString[cellfloat64.Name] = cellfloat64
@@ -1746,6 +1818,7 @@ func (cellicon *CellIcon) Stage(stage *Stage) *CellIcon {
 	if _, ok := stage.CellIcons[cellicon]; !ok {
 		stage.CellIcons[cellicon] = struct{}{}
 		stage.CellIcon_stagedOrder[cellicon] = stage.CellIconOrder
+		stage.CellIcon_orderStaged[stage.CellIconOrder] = cellicon
 		stage.CellIconOrder++
 	}
 	stage.CellIcons_mapString[cellicon.Name] = cellicon
@@ -1766,6 +1839,7 @@ func (cellicon *CellIcon) StagePreserveOrder(stage *Stage, order uint) {
 			stage.CellIconOrder = order
 		}
 		stage.CellIcon_stagedOrder[cellicon] = order
+		stage.CellIcon_orderStaged[order] = cellicon
 		stage.CellIconOrder++
 	}
 	stage.CellIcons_mapString[cellicon.Name] = cellicon
@@ -1832,6 +1906,7 @@ func (cellint *CellInt) Stage(stage *Stage) *CellInt {
 	if _, ok := stage.CellInts[cellint]; !ok {
 		stage.CellInts[cellint] = struct{}{}
 		stage.CellInt_stagedOrder[cellint] = stage.CellIntOrder
+		stage.CellInt_orderStaged[stage.CellIntOrder] = cellint
 		stage.CellIntOrder++
 	}
 	stage.CellInts_mapString[cellint.Name] = cellint
@@ -1852,6 +1927,7 @@ func (cellint *CellInt) StagePreserveOrder(stage *Stage, order uint) {
 			stage.CellIntOrder = order
 		}
 		stage.CellInt_stagedOrder[cellint] = order
+		stage.CellInt_orderStaged[order] = cellint
 		stage.CellIntOrder++
 	}
 	stage.CellInts_mapString[cellint.Name] = cellint
@@ -1918,6 +1994,7 @@ func (cellstring *CellString) Stage(stage *Stage) *CellString {
 	if _, ok := stage.CellStrings[cellstring]; !ok {
 		stage.CellStrings[cellstring] = struct{}{}
 		stage.CellString_stagedOrder[cellstring] = stage.CellStringOrder
+		stage.CellString_orderStaged[stage.CellStringOrder] = cellstring
 		stage.CellStringOrder++
 	}
 	stage.CellStrings_mapString[cellstring.Name] = cellstring
@@ -1938,6 +2015,7 @@ func (cellstring *CellString) StagePreserveOrder(stage *Stage, order uint) {
 			stage.CellStringOrder = order
 		}
 		stage.CellString_stagedOrder[cellstring] = order
+		stage.CellString_orderStaged[order] = cellstring
 		stage.CellStringOrder++
 	}
 	stage.CellStrings_mapString[cellstring.Name] = cellstring
@@ -2004,6 +2082,7 @@ func (displayedcolumn *DisplayedColumn) Stage(stage *Stage) *DisplayedColumn {
 	if _, ok := stage.DisplayedColumns[displayedcolumn]; !ok {
 		stage.DisplayedColumns[displayedcolumn] = struct{}{}
 		stage.DisplayedColumn_stagedOrder[displayedcolumn] = stage.DisplayedColumnOrder
+		stage.DisplayedColumn_orderStaged[stage.DisplayedColumnOrder] = displayedcolumn
 		stage.DisplayedColumnOrder++
 	}
 	stage.DisplayedColumns_mapString[displayedcolumn.Name] = displayedcolumn
@@ -2024,6 +2103,7 @@ func (displayedcolumn *DisplayedColumn) StagePreserveOrder(stage *Stage, order u
 			stage.DisplayedColumnOrder = order
 		}
 		stage.DisplayedColumn_stagedOrder[displayedcolumn] = order
+		stage.DisplayedColumn_orderStaged[order] = displayedcolumn
 		stage.DisplayedColumnOrder++
 	}
 	stage.DisplayedColumns_mapString[displayedcolumn.Name] = displayedcolumn
@@ -2090,6 +2170,7 @@ func (row *Row) Stage(stage *Stage) *Row {
 	if _, ok := stage.Rows[row]; !ok {
 		stage.Rows[row] = struct{}{}
 		stage.Row_stagedOrder[row] = stage.RowOrder
+		stage.Row_orderStaged[stage.RowOrder] = row
 		stage.RowOrder++
 	}
 	stage.Rows_mapString[row.Name] = row
@@ -2110,6 +2191,7 @@ func (row *Row) StagePreserveOrder(stage *Stage, order uint) {
 			stage.RowOrder = order
 		}
 		stage.Row_stagedOrder[row] = order
+		stage.Row_orderStaged[order] = row
 		stage.RowOrder++
 	}
 	stage.Rows_mapString[row.Name] = row
@@ -2176,6 +2258,7 @@ func (svgicon *SVGIcon) Stage(stage *Stage) *SVGIcon {
 	if _, ok := stage.SVGIcons[svgicon]; !ok {
 		stage.SVGIcons[svgicon] = struct{}{}
 		stage.SVGIcon_stagedOrder[svgicon] = stage.SVGIconOrder
+		stage.SVGIcon_orderStaged[stage.SVGIconOrder] = svgicon
 		stage.SVGIconOrder++
 	}
 	stage.SVGIcons_mapString[svgicon.Name] = svgicon
@@ -2196,6 +2279,7 @@ func (svgicon *SVGIcon) StagePreserveOrder(stage *Stage, order uint) {
 			stage.SVGIconOrder = order
 		}
 		stage.SVGIcon_stagedOrder[svgicon] = order
+		stage.SVGIcon_orderStaged[order] = svgicon
 		stage.SVGIconOrder++
 	}
 	stage.SVGIcons_mapString[svgicon.Name] = svgicon
@@ -2262,6 +2346,7 @@ func (table *Table) Stage(stage *Stage) *Table {
 	if _, ok := stage.Tables[table]; !ok {
 		stage.Tables[table] = struct{}{}
 		stage.Table_stagedOrder[table] = stage.TableOrder
+		stage.Table_orderStaged[stage.TableOrder] = table
 		stage.TableOrder++
 	}
 	stage.Tables_mapString[table.Name] = table
@@ -2282,6 +2367,7 @@ func (table *Table) StagePreserveOrder(stage *Stage, order uint) {
 			stage.TableOrder = order
 		}
 		stage.Table_stagedOrder[table] = order
+		stage.Table_orderStaged[order] = table
 		stage.TableOrder++
 	}
 	stage.Tables_mapString[table.Name] = table

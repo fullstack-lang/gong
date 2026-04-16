@@ -131,6 +131,7 @@ type Stage struct {
 	FileToDownloads_mapString      map[string]*FileToDownload
 	FileToDownloadOrder            uint
 	FileToDownload_stagedOrder     map[*FileToDownload]uint
+	FileToDownload_orderStaged     map[uint]*FileToDownload
 	FileToDownloads_reference      map[*FileToDownload]*FileToDownload
 	FileToDownloads_referenceOrder map[*FileToDownload]uint
 
@@ -145,6 +146,7 @@ type Stage struct {
 	FileToUploads_mapString      map[string]*FileToUpload
 	FileToUploadOrder            uint
 	FileToUpload_stagedOrder     map[*FileToUpload]uint
+	FileToUpload_orderStaged     map[uint]*FileToUpload
 	FileToUploads_reference      map[*FileToUpload]*FileToUpload
 	FileToUploads_referenceOrder map[*FileToUpload]uint
 
@@ -159,6 +161,7 @@ type Stage struct {
 	Messages_mapString      map[string]*Message
 	MessageOrder            uint
 	Message_stagedOrder     map[*Message]uint
+	Message_orderStaged     map[uint]*Message
 	Messages_reference      map[*Message]*Message
 	Messages_referenceOrder map[*Message]uint
 
@@ -724,10 +727,16 @@ func NewStage(name string) (stage *Stage) {
 
 		// insertion point for order map initialisations
 		FileToDownload_stagedOrder: make(map[*FileToDownload]uint),
+		FileToDownload_orderStaged: make(map[uint]*FileToDownload),
+		FileToDownloads_reference: make(map[*FileToDownload]*FileToDownload),
 
 		FileToUpload_stagedOrder: make(map[*FileToUpload]uint),
+		FileToUpload_orderStaged: make(map[uint]*FileToUpload),
+		FileToUploads_reference: make(map[*FileToUpload]*FileToUpload),
 
 		Message_stagedOrder: make(map[*Message]uint),
+		Message_orderStaged: make(map[uint]*Message),
+		Messages_reference: make(map[*Message]*Message),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
@@ -763,6 +772,21 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.Message_stagedOrder[instance]
 	default:
 		return 0 // should not happen
+	}
+}
+
+func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint) (res Type) {
+	var t Type
+	switch any(t).(type) {
+	// insertion point for order map initialisations
+	case *FileToDownload:
+		return any(stage.FileToDownload_orderStaged[order]).(Type)
+	case *FileToUpload:
+		return any(stage.FileToUpload_orderStaged[order]).(Type)
+	case *Message:
+		return any(stage.Message_orderStaged[order]).(Type)
+	default:
+		return // should not happen
 	}
 }
 
@@ -888,6 +912,7 @@ func (filetodownload *FileToDownload) Stage(stage *Stage) *FileToDownload {
 	if _, ok := stage.FileToDownloads[filetodownload]; !ok {
 		stage.FileToDownloads[filetodownload] = struct{}{}
 		stage.FileToDownload_stagedOrder[filetodownload] = stage.FileToDownloadOrder
+		stage.FileToDownload_orderStaged[stage.FileToDownloadOrder] = filetodownload
 		stage.FileToDownloadOrder++
 	}
 	stage.FileToDownloads_mapString[filetodownload.Name] = filetodownload
@@ -908,6 +933,7 @@ func (filetodownload *FileToDownload) StagePreserveOrder(stage *Stage, order uin
 			stage.FileToDownloadOrder = order
 		}
 		stage.FileToDownload_stagedOrder[filetodownload] = order
+		stage.FileToDownload_orderStaged[order] = filetodownload
 		stage.FileToDownloadOrder++
 	}
 	stage.FileToDownloads_mapString[filetodownload.Name] = filetodownload
@@ -974,6 +1000,7 @@ func (filetoupload *FileToUpload) Stage(stage *Stage) *FileToUpload {
 	if _, ok := stage.FileToUploads[filetoupload]; !ok {
 		stage.FileToUploads[filetoupload] = struct{}{}
 		stage.FileToUpload_stagedOrder[filetoupload] = stage.FileToUploadOrder
+		stage.FileToUpload_orderStaged[stage.FileToUploadOrder] = filetoupload
 		stage.FileToUploadOrder++
 	}
 	stage.FileToUploads_mapString[filetoupload.Name] = filetoupload
@@ -994,6 +1021,7 @@ func (filetoupload *FileToUpload) StagePreserveOrder(stage *Stage, order uint) {
 			stage.FileToUploadOrder = order
 		}
 		stage.FileToUpload_stagedOrder[filetoupload] = order
+		stage.FileToUpload_orderStaged[order] = filetoupload
 		stage.FileToUploadOrder++
 	}
 	stage.FileToUploads_mapString[filetoupload.Name] = filetoupload
@@ -1060,6 +1088,7 @@ func (message *Message) Stage(stage *Stage) *Message {
 	if _, ok := stage.Messages[message]; !ok {
 		stage.Messages[message] = struct{}{}
 		stage.Message_stagedOrder[message] = stage.MessageOrder
+		stage.Message_orderStaged[stage.MessageOrder] = message
 		stage.MessageOrder++
 	}
 	stage.Messages_mapString[message.Name] = message
@@ -1080,6 +1109,7 @@ func (message *Message) StagePreserveOrder(stage *Stage, order uint) {
 			stage.MessageOrder = order
 		}
 		stage.Message_stagedOrder[message] = order
+		stage.Message_orderStaged[order] = message
 		stage.MessageOrder++
 	}
 	stage.Messages_mapString[message.Name] = message
