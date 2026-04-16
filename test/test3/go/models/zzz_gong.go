@@ -148,6 +148,7 @@ type Stage struct {
 	Bs_mapString      map[string]*B
 	BOrder            uint
 	B_stagedOrder     map[*B]uint
+	B_orderStaged     map[uint]*B
 	Bs_reference      map[*B]*B
 	Bs_referenceOrder map[*B]uint
 
@@ -674,8 +675,12 @@ func NewStage(name string) (stage *Stage) {
 
 		// insertion point for order map initialisations
 		A_stagedOrder: make(map[*A]uint),
-
 		B_stagedOrder: make(map[*B]uint),
+
+		A_orderStaged: make(map[uint]*A),
+		B_orderStaged: make(map[uint]*B),
+
+		As_reference: make(map[*A]*A),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
@@ -706,6 +711,19 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.B_stagedOrder[instance]
 	default:
 		return 0 // should not happen
+	}
+}
+
+func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint) (res Type) {
+	var t Type
+	switch any(t).(type) {
+	// insertion point for order map initialisations
+	case *A:
+		return any(stage.A_orderStaged[order]).(Type)
+	case *B:
+		return any(stage.B_orderStaged[order]).(Type)
+	default:
+		return
 	}
 }
 
@@ -848,6 +866,7 @@ func (a *A) StagePreserveOrder(stage *Stage, order uint) {
 			stage.AOrder = order
 		}
 		stage.A_stagedOrder[a] = order
+		stage.A_orderStaged[order] = a
 		stage.AOrder++
 	}
 	stage.As_mapString[a.Name] = a
