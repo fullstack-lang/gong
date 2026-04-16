@@ -131,6 +131,7 @@ type Stage struct {
 	Checkboxs_mapString      map[string]*Checkbox
 	CheckboxOrder            uint
 	Checkbox_stagedOrder     map[*Checkbox]uint
+	Checkbox_orderStaged     map[uint]*Checkbox
 	Checkboxs_reference      map[*Checkbox]*Checkbox
 	Checkboxs_referenceOrder map[*Checkbox]uint
 
@@ -145,6 +146,7 @@ type Stage struct {
 	Groups_mapString      map[string]*Group
 	GroupOrder            uint
 	Group_stagedOrder     map[*Group]uint
+	Group_orderStaged     map[uint]*Group
 	Groups_reference      map[*Group]*Group
 	Groups_referenceOrder map[*Group]uint
 
@@ -163,6 +165,7 @@ type Stage struct {
 	Layouts_mapString      map[string]*Layout
 	LayoutOrder            uint
 	Layout_stagedOrder     map[*Layout]uint
+	Layout_orderStaged     map[uint]*Layout
 	Layouts_reference      map[*Layout]*Layout
 	Layouts_referenceOrder map[*Layout]uint
 
@@ -179,6 +182,7 @@ type Stage struct {
 	Sliders_mapString      map[string]*Slider
 	SliderOrder            uint
 	Slider_stagedOrder     map[*Slider]uint
+	Slider_orderStaged     map[uint]*Slider
 	Sliders_reference      map[*Slider]*Slider
 	Sliders_referenceOrder map[*Slider]uint
 
@@ -783,12 +787,20 @@ func NewStage(name string) (stage *Stage) {
 
 		// insertion point for order map initialisations
 		Checkbox_stagedOrder: make(map[*Checkbox]uint),
+		Checkbox_orderStaged: make(map[uint]*Checkbox),
+		Checkboxs_reference: make(map[*Checkbox]*Checkbox),
 
 		Group_stagedOrder: make(map[*Group]uint),
+		Group_orderStaged: make(map[uint]*Group),
+		Groups_reference: make(map[*Group]*Group),
 
 		Layout_stagedOrder: make(map[*Layout]uint),
+		Layout_orderStaged: make(map[uint]*Layout),
+		Layouts_reference: make(map[*Layout]*Layout),
 
 		Slider_stagedOrder: make(map[*Slider]uint),
+		Slider_orderStaged: make(map[uint]*Slider),
+		Sliders_reference: make(map[*Slider]*Slider),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
@@ -829,6 +841,23 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.Slider_stagedOrder[instance]
 	default:
 		return 0 // should not happen
+	}
+}
+
+func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint) (res Type) {
+	var t Type
+	switch any(t).(type) {
+	// insertion point for order map initialisations
+	case *Checkbox:
+		return any(stage.Checkbox_orderStaged[order]).(Type)
+	case *Group:
+		return any(stage.Group_orderStaged[order]).(Type)
+	case *Layout:
+		return any(stage.Layout_orderStaged[order]).(Type)
+	case *Slider:
+		return any(stage.Slider_orderStaged[order]).(Type)
+	default:
+		return // should not happen
 	}
 }
 
@@ -957,6 +986,7 @@ func (checkbox *Checkbox) Stage(stage *Stage) *Checkbox {
 	if _, ok := stage.Checkboxs[checkbox]; !ok {
 		stage.Checkboxs[checkbox] = struct{}{}
 		stage.Checkbox_stagedOrder[checkbox] = stage.CheckboxOrder
+		stage.Checkbox_orderStaged[stage.CheckboxOrder] = checkbox
 		stage.CheckboxOrder++
 	}
 	stage.Checkboxs_mapString[checkbox.Name] = checkbox
@@ -977,6 +1007,7 @@ func (checkbox *Checkbox) StagePreserveOrder(stage *Stage, order uint) {
 			stage.CheckboxOrder = order
 		}
 		stage.Checkbox_stagedOrder[checkbox] = order
+		stage.Checkbox_orderStaged[order] = checkbox
 		stage.CheckboxOrder++
 	}
 	stage.Checkboxs_mapString[checkbox.Name] = checkbox
@@ -1043,6 +1074,7 @@ func (group *Group) Stage(stage *Stage) *Group {
 	if _, ok := stage.Groups[group]; !ok {
 		stage.Groups[group] = struct{}{}
 		stage.Group_stagedOrder[group] = stage.GroupOrder
+		stage.Group_orderStaged[stage.GroupOrder] = group
 		stage.GroupOrder++
 	}
 	stage.Groups_mapString[group.Name] = group
@@ -1063,6 +1095,7 @@ func (group *Group) StagePreserveOrder(stage *Stage, order uint) {
 			stage.GroupOrder = order
 		}
 		stage.Group_stagedOrder[group] = order
+		stage.Group_orderStaged[order] = group
 		stage.GroupOrder++
 	}
 	stage.Groups_mapString[group.Name] = group
@@ -1129,6 +1162,7 @@ func (layout *Layout) Stage(stage *Stage) *Layout {
 	if _, ok := stage.Layouts[layout]; !ok {
 		stage.Layouts[layout] = struct{}{}
 		stage.Layout_stagedOrder[layout] = stage.LayoutOrder
+		stage.Layout_orderStaged[stage.LayoutOrder] = layout
 		stage.LayoutOrder++
 	}
 	stage.Layouts_mapString[layout.Name] = layout
@@ -1149,6 +1183,7 @@ func (layout *Layout) StagePreserveOrder(stage *Stage, order uint) {
 			stage.LayoutOrder = order
 		}
 		stage.Layout_stagedOrder[layout] = order
+		stage.Layout_orderStaged[order] = layout
 		stage.LayoutOrder++
 	}
 	stage.Layouts_mapString[layout.Name] = layout
@@ -1215,6 +1250,7 @@ func (slider *Slider) Stage(stage *Stage) *Slider {
 	if _, ok := stage.Sliders[slider]; !ok {
 		stage.Sliders[slider] = struct{}{}
 		stage.Slider_stagedOrder[slider] = stage.SliderOrder
+		stage.Slider_orderStaged[stage.SliderOrder] = slider
 		stage.SliderOrder++
 	}
 	stage.Sliders_mapString[slider.Name] = slider
@@ -1235,6 +1271,7 @@ func (slider *Slider) StagePreserveOrder(stage *Stage, order uint) {
 			stage.SliderOrder = order
 		}
 		stage.Slider_stagedOrder[slider] = order
+		stage.Slider_orderStaged[order] = slider
 		stage.SliderOrder++
 	}
 	stage.Sliders_mapString[slider.Name] = slider

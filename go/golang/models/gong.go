@@ -59,6 +59,7 @@ const (
 	ModelGongOrderFields
 	ModelGongOrderMapsInit
 	ModelGongOrderSwitchGet
+	ModelGongGetInstanceFromOrder
 
 	ModelGongNamedStructsUnmarshallers
 	ModelGongNamedStructsSliceInit
@@ -135,6 +136,7 @@ func ({{structname}} *{{Structname}}) Stage(stage *Stage) *{{Structname}} {
 	if _, ok := stage.{{Structname}}s[{{structname}}]; !ok {
 		stage.{{Structname}}s[{{structname}}] = struct{}{}
 		stage.{{Structname}}_stagedOrder[{{structname}}] = stage.{{Structname}}Order
+		stage.{{Structname}}_orderStaged[stage.{{Structname}}Order] = {{structname}}
 		stage.{{Structname}}Order++
 	}
 	stage.{{Structname}}s_mapString[{{structname}}.Name] = {{structname}}
@@ -155,6 +157,7 @@ func ({{structname}} *{{Structname}}) StagePreserveOrder(stage *Stage, order uin
 			stage.{{Structname}}Order = order
 		}
 		stage.{{Structname}}_stagedOrder[{{structname}}] = order
+		stage.{{Structname}}_orderStaged[order] = {{structname}}
 		stage.{{Structname}}Order++
 	}
 	stage.{{Structname}}s_mapString[{{structname}}.Name] = {{structname}}
@@ -229,6 +232,7 @@ func ({{structname}} *{{Structname}}) SetName(name string) {
 	{{Structname}}s_mapString      map[string]*{{Structname}}
 	{{Structname}}Order            uint
 	{{Structname}}_stagedOrder     map[*{{Structname}}]uint
+	{{Structname}}_orderStaged     map[uint]*{{Structname}}
 	{{Structname}}s_reference      map[*{{Structname}}]*{{Structname}}
 	{{Structname}}s_referenceOrder map[*{{Structname}}]uint
 
@@ -345,10 +349,16 @@ func ({{structname}} *{{Structname}}) SetName(name string) {
 
 	ModelGongOrderMapsInit: `
 		{{Structname}}_stagedOrder: make(map[*{{Structname}}]uint),
+		{{Structname}}_orderStaged: make(map[uint]*{{Structname}}),
+		{{Structname}}s_reference: make(map[*{{Structname}}]*{{Structname}}),
 `,
 	ModelGongOrderSwitchGet: `
 	case *{{Structname}}:
 		return stage.{{Structname}}_stagedOrder[instance]`,
+
+	ModelGongGetInstanceFromOrder: `
+	case *{{Structname}}:
+		return any(stage.{{Structname}}_orderStaged[order]).(Type)`,
 
 	ModelGongNamedStructsUnmarshallers: `
 			"{{Structname}}": &{{Structname}}Unmarshaller{},

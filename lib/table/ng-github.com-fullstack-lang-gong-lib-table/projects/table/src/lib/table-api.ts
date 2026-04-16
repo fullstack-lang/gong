@@ -20,6 +20,8 @@ export class TableAPI {
 	HasCheckableRows: boolean = false
 	HasSaveButton: boolean = false
 	SaveButtonLabel: string = ""
+	HasBulkDeleteButton: boolean = false
+	BulkDeleteButtonTooltip: string = ""
 	CanDragDropRows: boolean = false
 	HasCloseButton: boolean = false
 	SavingInProgress: boolean = false
@@ -37,5 +39,6 @@ export class TablePointersEncoding {
 	// insertion point for pointers and slices of pointers encoding fields
 	DisplayedColumns: number[] = []
 	Rows: number[] = []
+	RowsSelectedForBulkDelete: number[] = []
 	Buttons: number[] = []
 }
