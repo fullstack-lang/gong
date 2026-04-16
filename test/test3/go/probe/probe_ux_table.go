@@ -2,6 +2,7 @@
 package probe
 
 import (
+	"encoding/json"
 	"fmt"
 	"sort"
 	"time"
@@ -13,6 +14,15 @@ import (
 
 	"github.com/fullstack-lang/gong/test/test3/go/models"
 )
+
+func UnmarshalUintSliceFromJSON(jsonStr string) []uint {
+	var result []uint
+	err := json.Unmarshal([]byte(jsonStr), &result)
+	if err != nil {
+		return []uint{}
+	}
+	return result
+}
 
 const TableName = "Table"
 
@@ -41,8 +51,34 @@ func updateProbeTable[T models.PointerToGongstruct](
 	table.HasColumnSorting = true
 	table.HasFiltering = true
 	table.HasPaginator = true
-	table.HasCheckableRows = false
+	table.HasCheckableRows = probe.bulkDeleteMode
+	table.HasBulkDeleteButton = probe.bulkDeleteMode
+	table.BulkDeleteButtonTooltip = "Select rows to delete and click to delete them"
 	table.HasSaveButton = false
+
+	// add a button for bulk delete
+	bulkDeleteButton := &table_models.Button{
+		Name: "BulkDeleteButton",
+		Icon: func() string {
+			if probe.bulkDeleteMode {
+				return string(maticons.BUTTON_deselect)
+			}
+			return string(maticons.BUTTON_delete_sweep)
+		}(),
+		HasToolTip: true,
+		ToolTipText: func() string {
+			if probe.bulkDeleteMode {
+				return "Cancel bulk delete"
+			}
+			return "Select instances to delete"
+		}(),
+		ToolTipPosition: table_models.Below,
+	}
+	bulkDeleteButton.OnClick = func() {
+		probe.bulkDeleteMode = !probe.bulkDeleteMode
+		updateProbeTable[T](probe)
+	}
+	table.Buttons = append(table.Buttons, bulkDeleteButton)
 
 	fields := models.GetFieldsFromPointer[T]()
 	reverseFields := models.GetReverseFields[T]()
@@ -65,9 +101,21 @@ func updateProbeTable[T models.PointerToGongstruct](
 	column.Name = "ID"
 	table.DisplayedColumns = append(table.DisplayedColumns, column)
 
-	column = new(table_models.DisplayedColumn)
-	column.Name = "Delete"
-	table.DisplayedColumns = append(table.DisplayedColumns, column)
+	if !probe.bulkDeleteMode {
+		column = new(table_models.DisplayedColumn)
+		column.Name = "Delete"
+		table.DisplayedColumns = append(table.DisplayedColumns, column)
+	} else {
+		table.OnUpdate = func(stage *table_models.Stage, updatedTable *table_models.Table) {
+			// log.Println("Table updated, selectedRowIDsForBulkDelete:", updatedTable.BulkDeleteSelectedRowsIDsJson)
+			probe.selectedRowIDsForBulkDelete = make([]uint, 0)
+			if updatedTable.BulkDeleteSelectedRowsIDsJson != "" {
+				for _, id := range UnmarshalUintSliceFromJSON(updatedTable.BulkDeleteSelectedRowsIDsJson) {
+					probe.selectedRowIDsForBulkDelete = append(probe.selectedRowIDsForBulkDelete, id)
+				}
+			}
+		}
+	}
 
 	for _, fieldName := range fields {
 		column := new(table_models.DisplayedColumn)
@@ -105,34 +153,35 @@ func updateProbeTable[T models.PointerToGongstruct](
 		}
 		cell.CellInt = cellInt
 
+		// in non bulk delete mode, the delete icon is on a dedicated column,
+		// otherwise it is on the first column and the user can select multiple rows to delete them in one click
 		cell = &table_models.Cell{
 			Name: "Delete Icon",
-		}
-		row.Cells = append(row.Cells, cell)
-		cellIcon := &table_models.CellIcon{
-			Name: fmt.Sprintf("Delete Icon %d", models.GetOrderPointerGongstruct(
-				probe.stageOfInterest,
-				structInstance,
-			)),
-			Icon:                string(maticons.BUTTON_delete),
-			NeedsConfirmation:   true,
-			ConfirmationMessage: "Do you confirm tou want to delete this instance ?",
-		}
-		cellIcon.Impl = &table_models.FunctionalCellIconProxy{
-			OnUpdated: func(stage *table_models.Stage, cellIcon, updatedCellIcon *table_models.CellIcon) {
-				structInstance.UnstageVoid(probe.stageOfInterest)
+			CellIcon: &table_models.CellIcon{
+				Name: fmt.Sprintf("Delete Icon %d", models.GetOrderPointerGongstruct(
+					probe.stageOfInterest,
+					structInstance,
+				)),
+				Icon:                string(maticons.BUTTON_delete),
+				NeedsConfirmation:   true,
+				ConfirmationMessage: "Do you confirm tou want to delete this instance ?",
+				OnClick: func() {
+					structInstance.UnstageVoid(probe.stageOfInterest)
 
-				// after a delete of an instance, the stage might be dirty if a pointer or a slice of pointer
-				// reference the deleted instance.
-				// therefore, it is mandatory to clean the stage of interest
-				probe.stageOfInterest.Clean()
-				probe.stageOfInterest.Commit()
+					// after a delete of an instance, the stage might be dirty if a pointer or a slice of pointer
+					// reference the deleted instance.
+					// therefore, it is mandatory to clean the stage of interest
+					probe.stageOfInterest.Clean()
+					probe.stageOfInterest.Commit()
 
-				updateProbeTable[T](probe)
-				probe.ux_tree()
+					updateProbeTable[T](probe)
+					probe.ux_tree()
+				},
 			},
 		}
-		cell.CellIcon = cellIcon
+		if !probe.bulkDeleteMode {
+			row.Cells = append(row.Cells, cell)
+		}
 
 		for _, fieldName := range fields {
 			value := models.GetFieldStringValueFromPointer(structInstance, fieldName.Name, probe.stageOfInterest)

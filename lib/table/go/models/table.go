@@ -14,6 +14,10 @@ type Table struct {
 	HasSaveButton   bool
 	SaveButtonLabel string
 
+	HasBulkDeleteButton           bool
+	BulkDeleteButtonTooltip       string
+	BulkDeleteSelectedRowsIDsJson string
+
 	CanDragDropRows bool
 	HasCloseButton  bool // Is used in case of drag drop since drag drop operation save the result
 
@@ -30,7 +34,9 @@ type Table struct {
 	NbOfStickyColumns int
 
 	// swagger:ignore
-	Impl TableImplInterface
+	// deprecated
+	Impl     TableImplInterface
+	OnUpdate func(stage *Stage, updatedTable *Table)
 
 	Buttons []*Button
 }
@@ -47,5 +53,8 @@ func (table *Table) OnAfterUpdate(stage *Stage, _, frontTable *Table) {
 
 	if table.Impl != nil {
 		table.Impl.TableUpdated(stage, table, frontTable)
+	}
+	if table.OnUpdate != nil {
+		table.OnUpdate(stage, frontTable)
 	}
 }

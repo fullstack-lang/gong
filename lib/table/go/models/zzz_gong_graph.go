@@ -1489,6 +1489,15 @@ func (table *Table) GongDiff(stage *Stage, tableOther *Table) (diffs []string) {
 	if table.SaveButtonLabel != tableOther.SaveButtonLabel {
 		diffs = append(diffs, table.GongMarshallField(stage, "SaveButtonLabel"))
 	}
+	if table.HasBulkDeleteButton != tableOther.HasBulkDeleteButton {
+		diffs = append(diffs, table.GongMarshallField(stage, "HasBulkDeleteButton"))
+	}
+	if table.BulkDeleteButtonTooltip != tableOther.BulkDeleteButtonTooltip {
+		diffs = append(diffs, table.GongMarshallField(stage, "BulkDeleteButtonTooltip"))
+	}
+	if table.BulkDeleteSelectedRowsIDsJson != tableOther.BulkDeleteSelectedRowsIDsJson {
+		diffs = append(diffs, table.GongMarshallField(stage, "BulkDeleteSelectedRowsIDsJson"))
+	}
 	if table.CanDragDropRows != tableOther.CanDragDropRows {
 		diffs = append(diffs, table.GongMarshallField(stage, "CanDragDropRows"))
 	}

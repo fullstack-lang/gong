@@ -12,6 +12,8 @@ type CellIcon struct {
 
 	// swagger:ignore
 	Impl CellIconImplInterface
+
+	OnClick func()
 }
 
 type CellIconImplInterface interface {
@@ -24,6 +26,9 @@ func (cellIcon *CellIcon) OnAfterUpdate(stage *Stage, stagedInstance, frontCellI
 
 	if cellIcon.Impl != nil {
 		cellIcon.Impl.CellIconUpdated(stage, cellIcon, frontCellIcon)
+	}
+	if cellIcon.OnClick != nil {
+		cellIcon.OnClick()
 	}
 }
 
