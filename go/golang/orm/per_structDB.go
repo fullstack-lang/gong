@@ -202,6 +202,8 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) CommitPhaseOneInstan
 	{{structname}}DB.CopyBasicFieldsFrom{{Structname}}({{structname}})
 
 	_, err := backRepo{{Structname}}.db.Create(&{{structname}}DB)
+	{{structname}}DB.ID = models.GetOrderPointerGongstruct(backRepo{{Structname}}.stage, {{structname}})
+
 	if err != nil {
 		log.Fatal(err)
 	}

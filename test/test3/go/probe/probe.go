@@ -57,6 +57,7 @@ type Probe struct {
 	// bulkDeleteMode is used to control if the bulk delete button has been clicked.
 	bulkDeleteMode              bool
 	selectedRowIDsForBulkDelete []uint
+	map_rowID_ID_ForBulkDelete  map[uint]uint
 }
 
 func (probe *Probe) SetCommitMode(commitMode bool) {

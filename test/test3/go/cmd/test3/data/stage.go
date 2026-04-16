@@ -198,4 +198,5 @@ func _(stage *models.Stage) {
 	__A__00000002_.Name = `ID 2`
 	__A__00000002_.EnumInt = models.EnumTypeInt_Value1
 	stage.Commit()
+
 }
