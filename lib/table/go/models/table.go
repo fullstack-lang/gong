@@ -14,9 +14,9 @@ type Table struct {
 	HasSaveButton   bool
 	SaveButtonLabel string
 
-	HasBulkDeleteButton           bool
-	BulkDeleteButtonTooltip       string
-	BulkDeleteSelectedRowsIDsJson string
+	HasBulkDeleteButton       bool
+	BulkDeleteButtonTooltip   string
+	RowsSelectedForBulkDelete []*Row
 
 	CanDragDropRows bool
 	HasCloseButton  bool // Is used in case of drag drop since drag drop operation save the result

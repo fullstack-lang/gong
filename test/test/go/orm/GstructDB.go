@@ -208,9 +208,10 @@ func (backRepoGstruct *BackRepoGstructStruct) CommitPhaseOneInstance(gstruct *mo
 
 	// initiate gstruct
 	var gstructDB GstructDB
-	gstructDB.CopyBasicFieldsFromGstruct(gstruct)
 
+	gstructDB.CopyBasicFieldsFromGstruct(gstruct)
 	_, err := backRepoGstruct.db.Create(&gstructDB)
+
 	if err != nil {
 		log.Fatal(err)
 	}

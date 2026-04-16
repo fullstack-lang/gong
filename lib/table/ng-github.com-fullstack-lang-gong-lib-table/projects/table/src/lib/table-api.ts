@@ -22,7 +22,6 @@ export class TableAPI {
 	SaveButtonLabel: string = ""
 	HasBulkDeleteButton: boolean = false
 	BulkDeleteButtonTooltip: string = ""
-	BulkDeleteSelectedRowsIDsJson: string = ""
 	CanDragDropRows: boolean = false
 	HasCloseButton: boolean = false
 	SavingInProgress: boolean = false
@@ -40,5 +39,6 @@ export class TablePointersEncoding {
 	// insertion point for pointers and slices of pointers encoding fields
 	DisplayedColumns: number[] = []
 	Rows: number[] = []
+	RowsSelectedForBulkDelete: number[] = []
 	Buttons: number[] = []
 }

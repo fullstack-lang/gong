@@ -196,9 +196,10 @@ func (backRepoPlayer *BackRepoPlayerStruct) CommitPhaseOneInstance(player *model
 
 	// initiate player
 	var playerDB PlayerDB
-	playerDB.CopyBasicFieldsFromPlayer(player)
 
+	playerDB.CopyBasicFieldsFromPlayer(player)
 	_, err := backRepoPlayer.db.Create(&playerDB)
+
 	if err != nil {
 		log.Fatal(err)
 	}

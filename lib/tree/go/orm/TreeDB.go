@@ -193,9 +193,10 @@ func (backRepoTree *BackRepoTreeStruct) CommitPhaseOneInstance(tree *models.Tree
 
 	// initiate tree
 	var treeDB TreeDB
-	treeDB.CopyBasicFieldsFromTree(tree)
 
+	treeDB.CopyBasicFieldsFromTree(tree)
 	_, err := backRepoTree.db.Create(&treeDB)
+
 	if err != nil {
 		log.Fatal(err)
 	}

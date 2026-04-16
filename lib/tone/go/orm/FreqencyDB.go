@@ -190,9 +190,10 @@ func (backRepoFreqency *BackRepoFreqencyStruct) CommitPhaseOneInstance(freqency 
 
 	// initiate freqency
 	var freqencyDB FreqencyDB
-	freqencyDB.CopyBasicFieldsFromFreqency(freqency)
 
+	freqencyDB.CopyBasicFieldsFromFreqency(freqency)
 	_, err := backRepoFreqency.db.Create(&freqencyDB)
+
 	if err != nil {
 		log.Fatal(err)
 	}
