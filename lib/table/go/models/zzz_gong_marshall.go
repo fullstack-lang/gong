@@ -581,6 +581,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(table.GongMarshallField(stage, "HasCheckableRows"))
 		initializerStatements.WriteString(table.GongMarshallField(stage, "HasSaveButton"))
 		initializerStatements.WriteString(table.GongMarshallField(stage, "SaveButtonLabel"))
+		initializerStatements.WriteString(table.GongMarshallField(stage, "HasBulkDeleteButton"))
+		initializerStatements.WriteString(table.GongMarshallField(stage, "BulkDeleteButtonTooltip"))
+		pointersInitializesStatements.WriteString(table.GongMarshallField(stage, "RowsSelectedForBulkDelete"))
 		initializerStatements.WriteString(table.GongMarshallField(stage, "CanDragDropRows"))
 		initializerStatements.WriteString(table.GongMarshallField(stage, "HasCloseButton"))
 		initializerStatements.WriteString(table.GongMarshallField(stage, "SavingInProgress"))
@@ -1085,6 +1088,16 @@ func (table *Table) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = strings.ReplaceAll(res, "{{Identifier}}", table.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SaveButtonLabel")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(table.SaveButtonLabel))
+	case "HasBulkDeleteButton":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", table.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "HasBulkDeleteButton")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", table.HasBulkDeleteButton))
+	case "BulkDeleteButtonTooltip":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", table.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "BulkDeleteButtonTooltip")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(table.BulkDeleteButtonTooltip))
 	case "CanDragDropRows":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", table.GongGetIdentifier(stage))
@@ -1122,6 +1135,16 @@ func (table *Table) GongMarshallField(stage *Stage, fieldName string) (res strin
 			tmp := SliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", table.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Rows")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _row.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "RowsSelectedForBulkDelete":
+		var sb strings.Builder
+		for _, _row := range table.RowsSelectedForBulkDelete {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", table.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "RowsSelectedForBulkDelete")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _row.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
 		}
@@ -1288,6 +1311,9 @@ func (table *Table) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes 
 		initializerStatements.WriteString(table.GongMarshallField(stage, "HasCheckableRows"))
 		initializerStatements.WriteString(table.GongMarshallField(stage, "HasSaveButton"))
 		initializerStatements.WriteString(table.GongMarshallField(stage, "SaveButtonLabel"))
+		initializerStatements.WriteString(table.GongMarshallField(stage, "HasBulkDeleteButton"))
+		initializerStatements.WriteString(table.GongMarshallField(stage, "BulkDeleteButtonTooltip"))
+		pointersInitializesStatements.WriteString(table.GongMarshallField(stage, "RowsSelectedForBulkDelete"))
 		initializerStatements.WriteString(table.GongMarshallField(stage, "CanDragDropRows"))
 		initializerStatements.WriteString(table.GongMarshallField(stage, "HasCloseButton"))
 		initializerStatements.WriteString(table.GongMarshallField(stage, "SavingInProgress"))

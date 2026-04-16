@@ -178,6 +178,10 @@ type Table_WOP struct {
 
 	SaveButtonLabel string
 
+	HasBulkDeleteButton bool
+
+	BulkDeleteButtonTooltip string
+
 	CanDragDropRows bool
 
 	HasCloseButton bool
@@ -196,6 +200,8 @@ func (from *Table) CopyBasicFields(to *Table) {
 	to.HasCheckableRows = from.HasCheckableRows
 	to.HasSaveButton = from.HasSaveButton
 	to.SaveButtonLabel = from.SaveButtonLabel
+	to.HasBulkDeleteButton = from.HasBulkDeleteButton
+	to.BulkDeleteButtonTooltip = from.BulkDeleteButtonTooltip
 	to.CanDragDropRows = from.CanDragDropRows
 	to.HasCloseButton = from.HasCloseButton
 	to.SavingInProgress = from.SavingInProgress

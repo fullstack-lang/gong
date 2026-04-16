@@ -131,6 +131,7 @@ type Stage struct {
 	BookTypes_mapString      map[string]*BookType
 	BookTypeOrder            uint
 	BookType_stagedOrder     map[*BookType]uint
+	BookType_orderStaged     map[uint]*BookType
 	BookTypes_reference      map[*BookType]*BookType
 	BookTypes_referenceOrder map[*BookType]uint
 
@@ -147,6 +148,7 @@ type Stage struct {
 	Bookss_mapString      map[string]*Books
 	BooksOrder            uint
 	Books_stagedOrder     map[*Books]uint
+	Books_orderStaged     map[uint]*Books
 	Bookss_reference      map[*Books]*Books
 	Bookss_referenceOrder map[*Books]uint
 
@@ -163,6 +165,7 @@ type Stage struct {
 	Credits_mapString      map[string]*Credit
 	CreditOrder            uint
 	Credit_stagedOrder     map[*Credit]uint
+	Credit_orderStaged     map[uint]*Credit
 	Credits_reference      map[*Credit]*Credit
 	Credits_referenceOrder map[*Credit]uint
 
@@ -179,6 +182,7 @@ type Stage struct {
 	Links_mapString      map[string]*Link
 	LinkOrder            uint
 	Link_stagedOrder     map[*Link]uint
+	Link_orderStaged     map[uint]*Link
 	Links_reference      map[*Link]*Link
 	Links_referenceOrder map[*Link]uint
 
@@ -783,12 +787,20 @@ func NewStage(name string) (stage *Stage) {
 
 		// insertion point for order map initialisations
 		BookType_stagedOrder: make(map[*BookType]uint),
+		BookType_orderStaged: make(map[uint]*BookType),
+		BookTypes_reference: make(map[*BookType]*BookType),
 
 		Books_stagedOrder: make(map[*Books]uint),
+		Books_orderStaged: make(map[uint]*Books),
+		Bookss_reference: make(map[*Books]*Books),
 
 		Credit_stagedOrder: make(map[*Credit]uint),
+		Credit_orderStaged: make(map[uint]*Credit),
+		Credits_reference: make(map[*Credit]*Credit),
 
 		Link_stagedOrder: make(map[*Link]uint),
+		Link_orderStaged: make(map[uint]*Link),
+		Links_reference: make(map[*Link]*Link),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
@@ -829,6 +841,23 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.Link_stagedOrder[instance]
 	default:
 		return 0 // should not happen
+	}
+}
+
+func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint) (res Type) {
+	var t Type
+	switch any(t).(type) {
+	// insertion point for order map initialisations
+	case *BookType:
+		return any(stage.BookType_orderStaged[order]).(Type)
+	case *Books:
+		return any(stage.Books_orderStaged[order]).(Type)
+	case *Credit:
+		return any(stage.Credit_orderStaged[order]).(Type)
+	case *Link:
+		return any(stage.Link_orderStaged[order]).(Type)
+	default:
+		return // should not happen
 	}
 }
 
@@ -957,6 +986,7 @@ func (booktype *BookType) Stage(stage *Stage) *BookType {
 	if _, ok := stage.BookTypes[booktype]; !ok {
 		stage.BookTypes[booktype] = struct{}{}
 		stage.BookType_stagedOrder[booktype] = stage.BookTypeOrder
+		stage.BookType_orderStaged[stage.BookTypeOrder] = booktype
 		stage.BookTypeOrder++
 	}
 	stage.BookTypes_mapString[booktype.Name] = booktype
@@ -977,6 +1007,7 @@ func (booktype *BookType) StagePreserveOrder(stage *Stage, order uint) {
 			stage.BookTypeOrder = order
 		}
 		stage.BookType_stagedOrder[booktype] = order
+		stage.BookType_orderStaged[order] = booktype
 		stage.BookTypeOrder++
 	}
 	stage.BookTypes_mapString[booktype.Name] = booktype
@@ -1043,6 +1074,7 @@ func (books *Books) Stage(stage *Stage) *Books {
 	if _, ok := stage.Bookss[books]; !ok {
 		stage.Bookss[books] = struct{}{}
 		stage.Books_stagedOrder[books] = stage.BooksOrder
+		stage.Books_orderStaged[stage.BooksOrder] = books
 		stage.BooksOrder++
 	}
 	stage.Bookss_mapString[books.Name] = books
@@ -1063,6 +1095,7 @@ func (books *Books) StagePreserveOrder(stage *Stage, order uint) {
 			stage.BooksOrder = order
 		}
 		stage.Books_stagedOrder[books] = order
+		stage.Books_orderStaged[order] = books
 		stage.BooksOrder++
 	}
 	stage.Bookss_mapString[books.Name] = books
@@ -1129,6 +1162,7 @@ func (credit *Credit) Stage(stage *Stage) *Credit {
 	if _, ok := stage.Credits[credit]; !ok {
 		stage.Credits[credit] = struct{}{}
 		stage.Credit_stagedOrder[credit] = stage.CreditOrder
+		stage.Credit_orderStaged[stage.CreditOrder] = credit
 		stage.CreditOrder++
 	}
 	stage.Credits_mapString[credit.Name] = credit
@@ -1149,6 +1183,7 @@ func (credit *Credit) StagePreserveOrder(stage *Stage, order uint) {
 			stage.CreditOrder = order
 		}
 		stage.Credit_stagedOrder[credit] = order
+		stage.Credit_orderStaged[order] = credit
 		stage.CreditOrder++
 	}
 	stage.Credits_mapString[credit.Name] = credit
@@ -1215,6 +1250,7 @@ func (link *Link) Stage(stage *Stage) *Link {
 	if _, ok := stage.Links[link]; !ok {
 		stage.Links[link] = struct{}{}
 		stage.Link_stagedOrder[link] = stage.LinkOrder
+		stage.Link_orderStaged[stage.LinkOrder] = link
 		stage.LinkOrder++
 	}
 	stage.Links_mapString[link.Name] = link
@@ -1235,6 +1271,7 @@ func (link *Link) StagePreserveOrder(stage *Stage, order uint) {
 			stage.LinkOrder = order
 		}
 		stage.Link_stagedOrder[link] = order
+		stage.Link_orderStaged[order] = link
 		stage.LinkOrder++
 	}
 	stage.Links_mapString[link.Name] = link

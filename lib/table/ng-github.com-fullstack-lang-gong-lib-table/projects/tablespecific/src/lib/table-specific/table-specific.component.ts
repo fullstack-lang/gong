@@ -601,13 +601,43 @@ export class TableSpecificComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   onButtonClick(event: Event, button: table.Button) {
-      // Stop the click event from propagating to the parent node
-      event.stopPropagation();
-  
-      this.buttonService.updateFront(button, this.Name).subscribe(
-        () => {
-          // Success
-        }
-      )
+    // Stop the click event from propagating to the parent node
+    event.stopPropagation();
+
+    this.buttonService.updateFront(button, this.Name).subscribe(
+      () => {
+        // Success
+      }
+    )
+  }
+
+  bulkDelete() {
+    if (this.selection.isEmpty()) {
+      return
     }
+
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '250px',
+      data: { message: `Are you sure you want to delete the selected ${this.selection.selected.length} rows?` }
+    })
+
+    const dialogSubscription = dialogRef.afterClosed().subscribe(result => {
+      if (!result) {
+        return
+      }
+      // encode the IDs into table.BulkDeleteSelectedRowsIDsJson
+      if (this.selectedTable) {
+        const selectedIDs = this.selection.selected
+        for (let i = 0; i < selectedIDs.length; i++) {
+          this.selectedTable.RowsSelectedForBulkDelete.push(selectedIDs[i])
+        }
+     
+        this.tableService.updateFront(this.selectedTable, this.Name).subscribe(
+          () => {
+            // Success
+          }
+        )
+      }
+    })
+  }
 }

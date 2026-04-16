@@ -106,6 +106,10 @@ func (inst *Row) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Revers
 			if _table, ok := stage.Table_Rows_reverseMap[inst]; ok {
 				res = _table.Name
 			}
+		case "RowsSelectedForBulkDelete":
+			if _table, ok := stage.Table_RowsSelectedForBulkDelete_reverseMap[inst]; ok {
+				res = _table.Name
+			}
 		}
 	}
 	return
@@ -226,6 +230,8 @@ func (inst *Row) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseFie
 		switch reverseField.Fieldname {
 		case "Rows":
 			res = stage.Table_Rows_reverseMap[inst]
+		case "RowsSelectedForBulkDelete":
+			res = stage.Table_RowsSelectedForBulkDelete_reverseMap[inst]
 		}
 	}
 	return res

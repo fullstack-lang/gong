@@ -131,6 +131,7 @@ type Stage struct {
 	A_directives_mapString      map[string]*A_directive
 	A_directiveOrder            uint
 	A_directive_stagedOrder     map[*A_directive]uint
+	A_directive_orderStaged     map[uint]*A_directive
 	A_directives_reference      map[*A_directive]*A_directive
 	A_directives_referenceOrder map[*A_directive]uint
 
@@ -145,6 +146,7 @@ type Stage struct {
 	A_measures_mapString      map[string]*A_measure
 	A_measureOrder            uint
 	A_measure_stagedOrder     map[*A_measure]uint
+	A_measure_orderStaged     map[uint]*A_measure
 	A_measures_reference      map[*A_measure]*A_measure
 	A_measures_referenceOrder map[*A_measure]uint
 
@@ -187,6 +189,7 @@ type Stage struct {
 	A_measure_1s_mapString      map[string]*A_measure_1
 	A_measure_1Order            uint
 	A_measure_1_stagedOrder     map[*A_measure_1]uint
+	A_measure_1_orderStaged     map[uint]*A_measure_1
 	A_measure_1s_reference      map[*A_measure_1]*A_measure_1
 	A_measure_1s_referenceOrder map[*A_measure_1]uint
 
@@ -203,6 +206,7 @@ type Stage struct {
 	A_parts_mapString      map[string]*A_part
 	A_partOrder            uint
 	A_part_stagedOrder     map[*A_part]uint
+	A_part_orderStaged     map[uint]*A_part
 	A_parts_reference      map[*A_part]*A_part
 	A_parts_referenceOrder map[*A_part]uint
 
@@ -219,6 +223,7 @@ type Stage struct {
 	A_part_1s_mapString      map[string]*A_part_1
 	A_part_1Order            uint
 	A_part_1_stagedOrder     map[*A_part_1]uint
+	A_part_1_orderStaged     map[uint]*A_part_1
 	A_part_1s_reference      map[*A_part_1]*A_part_1
 	A_part_1s_referenceOrder map[*A_part_1]uint
 
@@ -261,6 +266,7 @@ type Stage struct {
 	Accidentals_mapString      map[string]*Accidental
 	AccidentalOrder            uint
 	Accidental_stagedOrder     map[*Accidental]uint
+	Accidental_orderStaged     map[uint]*Accidental
 	Accidentals_reference      map[*Accidental]*Accidental
 	Accidentals_referenceOrder map[*Accidental]uint
 
@@ -275,6 +281,7 @@ type Stage struct {
 	Accidental_marks_mapString      map[string]*Accidental_mark
 	Accidental_markOrder            uint
 	Accidental_mark_stagedOrder     map[*Accidental_mark]uint
+	Accidental_mark_orderStaged     map[uint]*Accidental_mark
 	Accidental_marks_reference      map[*Accidental_mark]*Accidental_mark
 	Accidental_marks_referenceOrder map[*Accidental_mark]uint
 
@@ -289,6 +296,7 @@ type Stage struct {
 	Accidental_texts_mapString      map[string]*Accidental_text
 	Accidental_textOrder            uint
 	Accidental_text_stagedOrder     map[*Accidental_text]uint
+	Accidental_text_orderStaged     map[uint]*Accidental_text
 	Accidental_texts_reference      map[*Accidental_text]*Accidental_text
 	Accidental_texts_referenceOrder map[*Accidental_text]uint
 
@@ -303,6 +311,7 @@ type Stage struct {
 	Accords_mapString      map[string]*Accord
 	AccordOrder            uint
 	Accord_stagedOrder     map[*Accord]uint
+	Accord_orderStaged     map[uint]*Accord
 	Accords_reference      map[*Accord]*Accord
 	Accords_referenceOrder map[*Accord]uint
 
@@ -317,6 +326,7 @@ type Stage struct {
 	Accordion_registrations_mapString      map[string]*Accordion_registration
 	Accordion_registrationOrder            uint
 	Accordion_registration_stagedOrder     map[*Accordion_registration]uint
+	Accordion_registration_orderStaged     map[uint]*Accordion_registration
 	Accordion_registrations_reference      map[*Accordion_registration]*Accordion_registration
 	Accordion_registrations_referenceOrder map[*Accordion_registration]uint
 
@@ -331,6 +341,7 @@ type Stage struct {
 	Appearances_mapString      map[string]*Appearance
 	AppearanceOrder            uint
 	Appearance_stagedOrder     map[*Appearance]uint
+	Appearance_orderStaged     map[uint]*Appearance
 	Appearances_reference      map[*Appearance]*Appearance
 	Appearances_referenceOrder map[*Appearance]uint
 
@@ -355,6 +366,7 @@ type Stage struct {
 	Arpeggiates_mapString      map[string]*Arpeggiate
 	ArpeggiateOrder            uint
 	Arpeggiate_stagedOrder     map[*Arpeggiate]uint
+	Arpeggiate_orderStaged     map[uint]*Arpeggiate
 	Arpeggiates_reference      map[*Arpeggiate]*Arpeggiate
 	Arpeggiates_referenceOrder map[*Arpeggiate]uint
 
@@ -369,6 +381,7 @@ type Stage struct {
 	Arrows_mapString      map[string]*Arrow
 	ArrowOrder            uint
 	Arrow_stagedOrder     map[*Arrow]uint
+	Arrow_orderStaged     map[uint]*Arrow
 	Arrows_reference      map[*Arrow]*Arrow
 	Arrows_referenceOrder map[*Arrow]uint
 
@@ -383,6 +396,7 @@ type Stage struct {
 	Articulationss_mapString      map[string]*Articulations
 	ArticulationsOrder            uint
 	Articulations_stagedOrder     map[*Articulations]uint
+	Articulations_orderStaged     map[uint]*Articulations
 	Articulationss_reference      map[*Articulations]*Articulations
 	Articulationss_referenceOrder map[*Articulations]uint
 
@@ -431,6 +445,7 @@ type Stage struct {
 	Assesss_mapString      map[string]*Assess
 	AssessOrder            uint
 	Assess_stagedOrder     map[*Assess]uint
+	Assess_orderStaged     map[uint]*Assess
 	Assesss_reference      map[*Assess]*Assess
 	Assesss_referenceOrder map[*Assess]uint
 
@@ -445,6 +460,7 @@ type Stage struct {
 	Attributess_mapString      map[string]*Attributes
 	AttributesOrder            uint
 	Attributes_stagedOrder     map[*Attributes]uint
+	Attributes_orderStaged     map[uint]*Attributes
 	Attributess_reference      map[*Attributes]*Attributes
 	Attributess_referenceOrder map[*Attributes]uint
 
@@ -475,6 +491,7 @@ type Stage struct {
 	Backups_mapString      map[string]*Backup
 	BackupOrder            uint
 	Backup_stagedOrder     map[*Backup]uint
+	Backup_orderStaged     map[uint]*Backup
 	Backups_reference      map[*Backup]*Backup
 	Backups_referenceOrder map[*Backup]uint
 
@@ -489,6 +506,7 @@ type Stage struct {
 	Bar_style_colors_mapString      map[string]*Bar_style_color
 	Bar_style_colorOrder            uint
 	Bar_style_color_stagedOrder     map[*Bar_style_color]uint
+	Bar_style_color_orderStaged     map[uint]*Bar_style_color
 	Bar_style_colors_reference      map[*Bar_style_color]*Bar_style_color
 	Bar_style_colors_referenceOrder map[*Bar_style_color]uint
 
@@ -503,6 +521,7 @@ type Stage struct {
 	Barlines_mapString      map[string]*Barline
 	BarlineOrder            uint
 	Barline_stagedOrder     map[*Barline]uint
+	Barline_orderStaged     map[uint]*Barline
 	Barlines_reference      map[*Barline]*Barline
 	Barlines_referenceOrder map[*Barline]uint
 
@@ -517,6 +536,7 @@ type Stage struct {
 	Barres_mapString      map[string]*Barre
 	BarreOrder            uint
 	Barre_stagedOrder     map[*Barre]uint
+	Barre_orderStaged     map[uint]*Barre
 	Barres_reference      map[*Barre]*Barre
 	Barres_referenceOrder map[*Barre]uint
 
@@ -531,6 +551,7 @@ type Stage struct {
 	Basss_mapString      map[string]*Bass
 	BassOrder            uint
 	Bass_stagedOrder     map[*Bass]uint
+	Bass_orderStaged     map[uint]*Bass
 	Basss_reference      map[*Bass]*Bass
 	Basss_referenceOrder map[*Bass]uint
 
@@ -545,6 +566,7 @@ type Stage struct {
 	Bass_steps_mapString      map[string]*Bass_step
 	Bass_stepOrder            uint
 	Bass_step_stagedOrder     map[*Bass_step]uint
+	Bass_step_orderStaged     map[uint]*Bass_step
 	Bass_steps_reference      map[*Bass_step]*Bass_step
 	Bass_steps_referenceOrder map[*Bass_step]uint
 
@@ -559,6 +581,7 @@ type Stage struct {
 	Beams_mapString      map[string]*Beam
 	BeamOrder            uint
 	Beam_stagedOrder     map[*Beam]uint
+	Beam_orderStaged     map[uint]*Beam
 	Beams_reference      map[*Beam]*Beam
 	Beams_referenceOrder map[*Beam]uint
 
@@ -573,6 +596,7 @@ type Stage struct {
 	Beat_repeats_mapString      map[string]*Beat_repeat
 	Beat_repeatOrder            uint
 	Beat_repeat_stagedOrder     map[*Beat_repeat]uint
+	Beat_repeat_orderStaged     map[uint]*Beat_repeat
 	Beat_repeats_reference      map[*Beat_repeat]*Beat_repeat
 	Beat_repeats_referenceOrder map[*Beat_repeat]uint
 
@@ -587,6 +611,7 @@ type Stage struct {
 	Beat_unit_tieds_mapString      map[string]*Beat_unit_tied
 	Beat_unit_tiedOrder            uint
 	Beat_unit_tied_stagedOrder     map[*Beat_unit_tied]uint
+	Beat_unit_tied_orderStaged     map[uint]*Beat_unit_tied
 	Beat_unit_tieds_reference      map[*Beat_unit_tied]*Beat_unit_tied
 	Beat_unit_tieds_referenceOrder map[*Beat_unit_tied]uint
 
@@ -601,6 +626,7 @@ type Stage struct {
 	Beaters_mapString      map[string]*Beater
 	BeaterOrder            uint
 	Beater_stagedOrder     map[*Beater]uint
+	Beater_orderStaged     map[uint]*Beater
 	Beaters_reference      map[*Beater]*Beater
 	Beaters_referenceOrder map[*Beater]uint
 
@@ -615,6 +641,7 @@ type Stage struct {
 	Bends_mapString      map[string]*Bend
 	BendOrder            uint
 	Bend_stagedOrder     map[*Bend]uint
+	Bend_orderStaged     map[uint]*Bend
 	Bends_reference      map[*Bend]*Bend
 	Bends_referenceOrder map[*Bend]uint
 
@@ -629,6 +656,7 @@ type Stage struct {
 	Bookmarks_mapString      map[string]*Bookmark
 	BookmarkOrder            uint
 	Bookmark_stagedOrder     map[*Bookmark]uint
+	Bookmark_orderStaged     map[uint]*Bookmark
 	Bookmarks_reference      map[*Bookmark]*Bookmark
 	Bookmarks_referenceOrder map[*Bookmark]uint
 
@@ -643,6 +671,7 @@ type Stage struct {
 	Brackets_mapString      map[string]*Bracket
 	BracketOrder            uint
 	Bracket_stagedOrder     map[*Bracket]uint
+	Bracket_orderStaged     map[uint]*Bracket
 	Brackets_reference      map[*Bracket]*Bracket
 	Brackets_referenceOrder map[*Bracket]uint
 
@@ -657,6 +686,7 @@ type Stage struct {
 	Breath_marks_mapString      map[string]*Breath_mark
 	Breath_markOrder            uint
 	Breath_mark_stagedOrder     map[*Breath_mark]uint
+	Breath_mark_orderStaged     map[uint]*Breath_mark
 	Breath_marks_reference      map[*Breath_mark]*Breath_mark
 	Breath_marks_referenceOrder map[*Breath_mark]uint
 
@@ -671,6 +701,7 @@ type Stage struct {
 	Caesuras_mapString      map[string]*Caesura
 	CaesuraOrder            uint
 	Caesura_stagedOrder     map[*Caesura]uint
+	Caesura_orderStaged     map[uint]*Caesura
 	Caesuras_reference      map[*Caesura]*Caesura
 	Caesuras_referenceOrder map[*Caesura]uint
 
@@ -685,6 +716,7 @@ type Stage struct {
 	Cancels_mapString      map[string]*Cancel
 	CancelOrder            uint
 	Cancel_stagedOrder     map[*Cancel]uint
+	Cancel_orderStaged     map[uint]*Cancel
 	Cancels_reference      map[*Cancel]*Cancel
 	Cancels_referenceOrder map[*Cancel]uint
 
@@ -699,6 +731,7 @@ type Stage struct {
 	Clefs_mapString      map[string]*Clef
 	ClefOrder            uint
 	Clef_stagedOrder     map[*Clef]uint
+	Clef_orderStaged     map[uint]*Clef
 	Clefs_reference      map[*Clef]*Clef
 	Clefs_referenceOrder map[*Clef]uint
 
@@ -713,6 +746,7 @@ type Stage struct {
 	Codas_mapString      map[string]*Coda
 	CodaOrder            uint
 	Coda_stagedOrder     map[*Coda]uint
+	Coda_orderStaged     map[uint]*Coda
 	Codas_reference      map[*Coda]*Coda
 	Codas_referenceOrder map[*Coda]uint
 
@@ -727,6 +761,7 @@ type Stage struct {
 	Credits_mapString      map[string]*Credit
 	CreditOrder            uint
 	Credit_stagedOrder     map[*Credit]uint
+	Credit_orderStaged     map[uint]*Credit
 	Credits_reference      map[*Credit]*Credit
 	Credits_referenceOrder map[*Credit]uint
 
@@ -749,6 +784,7 @@ type Stage struct {
 	Dashess_mapString      map[string]*Dashes
 	DashesOrder            uint
 	Dashes_stagedOrder     map[*Dashes]uint
+	Dashes_orderStaged     map[uint]*Dashes
 	Dashess_reference      map[*Dashes]*Dashes
 	Dashess_referenceOrder map[*Dashes]uint
 
@@ -763,6 +799,7 @@ type Stage struct {
 	Defaultss_mapString      map[string]*Defaults
 	DefaultsOrder            uint
 	Defaults_stagedOrder     map[*Defaults]uint
+	Defaults_orderStaged     map[uint]*Defaults
 	Defaultss_reference      map[*Defaults]*Defaults
 	Defaultss_referenceOrder map[*Defaults]uint
 
@@ -783,6 +820,7 @@ type Stage struct {
 	Degrees_mapString      map[string]*Degree
 	DegreeOrder            uint
 	Degree_stagedOrder     map[*Degree]uint
+	Degree_orderStaged     map[uint]*Degree
 	Degrees_reference      map[*Degree]*Degree
 	Degrees_referenceOrder map[*Degree]uint
 
@@ -797,6 +835,7 @@ type Stage struct {
 	Degree_alters_mapString      map[string]*Degree_alter
 	Degree_alterOrder            uint
 	Degree_alter_stagedOrder     map[*Degree_alter]uint
+	Degree_alter_orderStaged     map[uint]*Degree_alter
 	Degree_alters_reference      map[*Degree_alter]*Degree_alter
 	Degree_alters_referenceOrder map[*Degree_alter]uint
 
@@ -811,6 +850,7 @@ type Stage struct {
 	Degree_types_mapString      map[string]*Degree_type
 	Degree_typeOrder            uint
 	Degree_type_stagedOrder     map[*Degree_type]uint
+	Degree_type_orderStaged     map[uint]*Degree_type
 	Degree_types_reference      map[*Degree_type]*Degree_type
 	Degree_types_referenceOrder map[*Degree_type]uint
 
@@ -825,6 +865,7 @@ type Stage struct {
 	Degree_values_mapString      map[string]*Degree_value
 	Degree_valueOrder            uint
 	Degree_value_stagedOrder     map[*Degree_value]uint
+	Degree_value_orderStaged     map[uint]*Degree_value
 	Degree_values_reference      map[*Degree_value]*Degree_value
 	Degree_values_referenceOrder map[*Degree_value]uint
 
@@ -839,6 +880,7 @@ type Stage struct {
 	Directions_mapString      map[string]*Direction
 	DirectionOrder            uint
 	Direction_stagedOrder     map[*Direction]uint
+	Direction_orderStaged     map[uint]*Direction
 	Directions_reference      map[*Direction]*Direction
 	Directions_referenceOrder map[*Direction]uint
 
@@ -855,6 +897,7 @@ type Stage struct {
 	Direction_types_mapString      map[string]*Direction_type
 	Direction_typeOrder            uint
 	Direction_type_stagedOrder     map[*Direction_type]uint
+	Direction_type_orderStaged     map[uint]*Direction_type
 	Direction_types_reference      map[*Direction_type]*Direction_type
 	Direction_types_referenceOrder map[*Direction_type]uint
 
@@ -883,6 +926,7 @@ type Stage struct {
 	Distances_mapString      map[string]*Distance
 	DistanceOrder            uint
 	Distance_stagedOrder     map[*Distance]uint
+	Distance_orderStaged     map[uint]*Distance
 	Distances_reference      map[*Distance]*Distance
 	Distances_referenceOrder map[*Distance]uint
 
@@ -897,6 +941,7 @@ type Stage struct {
 	Doubles_mapString      map[string]*Double
 	DoubleOrder            uint
 	Double_stagedOrder     map[*Double]uint
+	Double_orderStaged     map[uint]*Double
 	Doubles_reference      map[*Double]*Double
 	Doubles_referenceOrder map[*Double]uint
 
@@ -911,6 +956,7 @@ type Stage struct {
 	Dynamicss_mapString      map[string]*Dynamics
 	DynamicsOrder            uint
 	Dynamics_stagedOrder     map[*Dynamics]uint
+	Dynamics_orderStaged     map[uint]*Dynamics
 	Dynamicss_reference      map[*Dynamics]*Dynamics
 	Dynamicss_referenceOrder map[*Dynamics]uint
 
@@ -927,6 +973,7 @@ type Stage struct {
 	Effects_mapString      map[string]*Effect
 	EffectOrder            uint
 	Effect_stagedOrder     map[*Effect]uint
+	Effect_orderStaged     map[uint]*Effect
 	Effects_reference      map[*Effect]*Effect
 	Effects_referenceOrder map[*Effect]uint
 
@@ -941,6 +988,7 @@ type Stage struct {
 	Elisions_mapString      map[string]*Elision
 	ElisionOrder            uint
 	Elision_stagedOrder     map[*Elision]uint
+	Elision_orderStaged     map[uint]*Elision
 	Elisions_reference      map[*Elision]*Elision
 	Elisions_referenceOrder map[*Elision]uint
 
@@ -955,6 +1003,7 @@ type Stage struct {
 	Emptys_mapString      map[string]*Empty
 	EmptyOrder            uint
 	Empty_stagedOrder     map[*Empty]uint
+	Empty_orderStaged     map[uint]*Empty
 	Emptys_reference      map[*Empty]*Empty
 	Emptys_referenceOrder map[*Empty]uint
 
@@ -969,6 +1018,7 @@ type Stage struct {
 	Empty_fonts_mapString      map[string]*Empty_font
 	Empty_fontOrder            uint
 	Empty_font_stagedOrder     map[*Empty_font]uint
+	Empty_font_orderStaged     map[uint]*Empty_font
 	Empty_fonts_reference      map[*Empty_font]*Empty_font
 	Empty_fonts_referenceOrder map[*Empty_font]uint
 
@@ -983,6 +1033,7 @@ type Stage struct {
 	Empty_lines_mapString      map[string]*Empty_line
 	Empty_lineOrder            uint
 	Empty_line_stagedOrder     map[*Empty_line]uint
+	Empty_line_orderStaged     map[uint]*Empty_line
 	Empty_lines_reference      map[*Empty_line]*Empty_line
 	Empty_lines_referenceOrder map[*Empty_line]uint
 
@@ -997,6 +1048,7 @@ type Stage struct {
 	Empty_placements_mapString      map[string]*Empty_placement
 	Empty_placementOrder            uint
 	Empty_placement_stagedOrder     map[*Empty_placement]uint
+	Empty_placement_orderStaged     map[uint]*Empty_placement
 	Empty_placements_reference      map[*Empty_placement]*Empty_placement
 	Empty_placements_referenceOrder map[*Empty_placement]uint
 
@@ -1011,6 +1063,7 @@ type Stage struct {
 	Empty_placement_smufls_mapString      map[string]*Empty_placement_smufl
 	Empty_placement_smuflOrder            uint
 	Empty_placement_smufl_stagedOrder     map[*Empty_placement_smufl]uint
+	Empty_placement_smufl_orderStaged     map[uint]*Empty_placement_smufl
 	Empty_placement_smufls_reference      map[*Empty_placement_smufl]*Empty_placement_smufl
 	Empty_placement_smufls_referenceOrder map[*Empty_placement_smufl]uint
 
@@ -1025,6 +1078,7 @@ type Stage struct {
 	Empty_print_object_style_aligns_mapString      map[string]*Empty_print_object_style_align
 	Empty_print_object_style_alignOrder            uint
 	Empty_print_object_style_align_stagedOrder     map[*Empty_print_object_style_align]uint
+	Empty_print_object_style_align_orderStaged     map[uint]*Empty_print_object_style_align
 	Empty_print_object_style_aligns_reference      map[*Empty_print_object_style_align]*Empty_print_object_style_align
 	Empty_print_object_style_aligns_referenceOrder map[*Empty_print_object_style_align]uint
 
@@ -1039,6 +1093,7 @@ type Stage struct {
 	Empty_print_styles_mapString      map[string]*Empty_print_style
 	Empty_print_styleOrder            uint
 	Empty_print_style_stagedOrder     map[*Empty_print_style]uint
+	Empty_print_style_orderStaged     map[uint]*Empty_print_style
 	Empty_print_styles_reference      map[*Empty_print_style]*Empty_print_style
 	Empty_print_styles_referenceOrder map[*Empty_print_style]uint
 
@@ -1053,6 +1108,7 @@ type Stage struct {
 	Empty_print_style_aligns_mapString      map[string]*Empty_print_style_align
 	Empty_print_style_alignOrder            uint
 	Empty_print_style_align_stagedOrder     map[*Empty_print_style_align]uint
+	Empty_print_style_align_orderStaged     map[uint]*Empty_print_style_align
 	Empty_print_style_aligns_reference      map[*Empty_print_style_align]*Empty_print_style_align
 	Empty_print_style_aligns_referenceOrder map[*Empty_print_style_align]uint
 
@@ -1067,6 +1123,7 @@ type Stage struct {
 	Empty_print_style_align_ids_mapString      map[string]*Empty_print_style_align_id
 	Empty_print_style_align_idOrder            uint
 	Empty_print_style_align_id_stagedOrder     map[*Empty_print_style_align_id]uint
+	Empty_print_style_align_id_orderStaged     map[uint]*Empty_print_style_align_id
 	Empty_print_style_align_ids_reference      map[*Empty_print_style_align_id]*Empty_print_style_align_id
 	Empty_print_style_align_ids_referenceOrder map[*Empty_print_style_align_id]uint
 
@@ -1081,6 +1138,7 @@ type Stage struct {
 	Empty_trill_sounds_mapString      map[string]*Empty_trill_sound
 	Empty_trill_soundOrder            uint
 	Empty_trill_sound_stagedOrder     map[*Empty_trill_sound]uint
+	Empty_trill_sound_orderStaged     map[uint]*Empty_trill_sound
 	Empty_trill_sounds_reference      map[*Empty_trill_sound]*Empty_trill_sound
 	Empty_trill_sounds_referenceOrder map[*Empty_trill_sound]uint
 
@@ -1095,6 +1153,7 @@ type Stage struct {
 	Encodings_mapString      map[string]*Encoding
 	EncodingOrder            uint
 	Encoding_stagedOrder     map[*Encoding]uint
+	Encoding_orderStaged     map[uint]*Encoding
 	Encodings_reference      map[*Encoding]*Encoding
 	Encodings_referenceOrder map[*Encoding]uint
 
@@ -1113,6 +1172,7 @@ type Stage struct {
 	Endings_mapString      map[string]*Ending
 	EndingOrder            uint
 	Ending_stagedOrder     map[*Ending]uint
+	Ending_orderStaged     map[uint]*Ending
 	Endings_reference      map[*Ending]*Ending
 	Endings_referenceOrder map[*Ending]uint
 
@@ -1127,6 +1187,7 @@ type Stage struct {
 	Extends_mapString      map[string]*Extend
 	ExtendOrder            uint
 	Extend_stagedOrder     map[*Extend]uint
+	Extend_orderStaged     map[uint]*Extend
 	Extends_reference      map[*Extend]*Extend
 	Extends_referenceOrder map[*Extend]uint
 
@@ -1141,6 +1202,7 @@ type Stage struct {
 	Features_mapString      map[string]*Feature
 	FeatureOrder            uint
 	Feature_stagedOrder     map[*Feature]uint
+	Feature_orderStaged     map[uint]*Feature
 	Features_reference      map[*Feature]*Feature
 	Features_referenceOrder map[*Feature]uint
 
@@ -1155,6 +1217,7 @@ type Stage struct {
 	Fermatas_mapString      map[string]*Fermata
 	FermataOrder            uint
 	Fermata_stagedOrder     map[*Fermata]uint
+	Fermata_orderStaged     map[uint]*Fermata
 	Fermatas_reference      map[*Fermata]*Fermata
 	Fermatas_referenceOrder map[*Fermata]uint
 
@@ -1169,6 +1232,7 @@ type Stage struct {
 	Figures_mapString      map[string]*Figure
 	FigureOrder            uint
 	Figure_stagedOrder     map[*Figure]uint
+	Figure_orderStaged     map[uint]*Figure
 	Figures_reference      map[*Figure]*Figure
 	Figures_referenceOrder map[*Figure]uint
 
@@ -1183,6 +1247,7 @@ type Stage struct {
 	Figured_basss_mapString      map[string]*Figured_bass
 	Figured_bassOrder            uint
 	Figured_bass_stagedOrder     map[*Figured_bass]uint
+	Figured_bass_orderStaged     map[uint]*Figured_bass
 	Figured_basss_reference      map[*Figured_bass]*Figured_bass
 	Figured_basss_referenceOrder map[*Figured_bass]uint
 
@@ -1199,6 +1264,7 @@ type Stage struct {
 	Fingerings_mapString      map[string]*Fingering
 	FingeringOrder            uint
 	Fingering_stagedOrder     map[*Fingering]uint
+	Fingering_orderStaged     map[uint]*Fingering
 	Fingerings_reference      map[*Fingering]*Fingering
 	Fingerings_referenceOrder map[*Fingering]uint
 
@@ -1213,6 +1279,7 @@ type Stage struct {
 	First_frets_mapString      map[string]*First_fret
 	First_fretOrder            uint
 	First_fret_stagedOrder     map[*First_fret]uint
+	First_fret_orderStaged     map[uint]*First_fret
 	First_frets_reference      map[*First_fret]*First_fret
 	First_frets_referenceOrder map[*First_fret]uint
 
@@ -1227,6 +1294,7 @@ type Stage struct {
 	For_parts_mapString      map[string]*For_part
 	For_partOrder            uint
 	For_part_stagedOrder     map[*For_part]uint
+	For_part_orderStaged     map[uint]*For_part
 	For_parts_reference      map[*For_part]*For_part
 	For_parts_referenceOrder map[*For_part]uint
 
@@ -1241,6 +1309,7 @@ type Stage struct {
 	Formatted_symbols_mapString      map[string]*Formatted_symbol
 	Formatted_symbolOrder            uint
 	Formatted_symbol_stagedOrder     map[*Formatted_symbol]uint
+	Formatted_symbol_orderStaged     map[uint]*Formatted_symbol
 	Formatted_symbols_reference      map[*Formatted_symbol]*Formatted_symbol
 	Formatted_symbols_referenceOrder map[*Formatted_symbol]uint
 
@@ -1255,6 +1324,7 @@ type Stage struct {
 	Formatted_symbol_ids_mapString      map[string]*Formatted_symbol_id
 	Formatted_symbol_idOrder            uint
 	Formatted_symbol_id_stagedOrder     map[*Formatted_symbol_id]uint
+	Formatted_symbol_id_orderStaged     map[uint]*Formatted_symbol_id
 	Formatted_symbol_ids_reference      map[*Formatted_symbol_id]*Formatted_symbol_id
 	Formatted_symbol_ids_referenceOrder map[*Formatted_symbol_id]uint
 
@@ -1269,6 +1339,7 @@ type Stage struct {
 	Formatted_texts_mapString      map[string]*Formatted_text
 	Formatted_textOrder            uint
 	Formatted_text_stagedOrder     map[*Formatted_text]uint
+	Formatted_text_orderStaged     map[uint]*Formatted_text
 	Formatted_texts_reference      map[*Formatted_text]*Formatted_text
 	Formatted_texts_referenceOrder map[*Formatted_text]uint
 
@@ -1283,6 +1354,7 @@ type Stage struct {
 	Formatted_text_ids_mapString      map[string]*Formatted_text_id
 	Formatted_text_idOrder            uint
 	Formatted_text_id_stagedOrder     map[*Formatted_text_id]uint
+	Formatted_text_id_orderStaged     map[uint]*Formatted_text_id
 	Formatted_text_ids_reference      map[*Formatted_text_id]*Formatted_text_id
 	Formatted_text_ids_referenceOrder map[*Formatted_text_id]uint
 
@@ -1297,6 +1369,7 @@ type Stage struct {
 	Forwards_mapString      map[string]*Forward
 	ForwardOrder            uint
 	Forward_stagedOrder     map[*Forward]uint
+	Forward_orderStaged     map[uint]*Forward
 	Forwards_reference      map[*Forward]*Forward
 	Forwards_referenceOrder map[*Forward]uint
 
@@ -1311,6 +1384,7 @@ type Stage struct {
 	Frames_mapString      map[string]*Frame
 	FrameOrder            uint
 	Frame_stagedOrder     map[*Frame]uint
+	Frame_orderStaged     map[uint]*Frame
 	Frames_reference      map[*Frame]*Frame
 	Frames_referenceOrder map[*Frame]uint
 
@@ -1327,6 +1401,7 @@ type Stage struct {
 	Frame_notes_mapString      map[string]*Frame_note
 	Frame_noteOrder            uint
 	Frame_note_stagedOrder     map[*Frame_note]uint
+	Frame_note_orderStaged     map[uint]*Frame_note
 	Frame_notes_reference      map[*Frame_note]*Frame_note
 	Frame_notes_referenceOrder map[*Frame_note]uint
 
@@ -1341,6 +1416,7 @@ type Stage struct {
 	Frets_mapString      map[string]*Fret
 	FretOrder            uint
 	Fret_stagedOrder     map[*Fret]uint
+	Fret_orderStaged     map[uint]*Fret
 	Frets_reference      map[*Fret]*Fret
 	Frets_referenceOrder map[*Fret]uint
 
@@ -1355,6 +1431,7 @@ type Stage struct {
 	Glasss_mapString      map[string]*Glass
 	GlassOrder            uint
 	Glass_stagedOrder     map[*Glass]uint
+	Glass_orderStaged     map[uint]*Glass
 	Glasss_reference      map[*Glass]*Glass
 	Glasss_referenceOrder map[*Glass]uint
 
@@ -1369,6 +1446,7 @@ type Stage struct {
 	Glissandos_mapString      map[string]*Glissando
 	GlissandoOrder            uint
 	Glissando_stagedOrder     map[*Glissando]uint
+	Glissando_orderStaged     map[uint]*Glissando
 	Glissandos_reference      map[*Glissando]*Glissando
 	Glissandos_referenceOrder map[*Glissando]uint
 
@@ -1383,6 +1461,7 @@ type Stage struct {
 	Glyphs_mapString      map[string]*Glyph
 	GlyphOrder            uint
 	Glyph_stagedOrder     map[*Glyph]uint
+	Glyph_orderStaged     map[uint]*Glyph
 	Glyphs_reference      map[*Glyph]*Glyph
 	Glyphs_referenceOrder map[*Glyph]uint
 
@@ -1397,6 +1476,7 @@ type Stage struct {
 	Graces_mapString      map[string]*Grace
 	GraceOrder            uint
 	Grace_stagedOrder     map[*Grace]uint
+	Grace_orderStaged     map[uint]*Grace
 	Graces_reference      map[*Grace]*Grace
 	Graces_referenceOrder map[*Grace]uint
 
@@ -1411,6 +1491,7 @@ type Stage struct {
 	Group_barlines_mapString      map[string]*Group_barline
 	Group_barlineOrder            uint
 	Group_barline_stagedOrder     map[*Group_barline]uint
+	Group_barline_orderStaged     map[uint]*Group_barline
 	Group_barlines_reference      map[*Group_barline]*Group_barline
 	Group_barlines_referenceOrder map[*Group_barline]uint
 
@@ -1425,6 +1506,7 @@ type Stage struct {
 	Group_names_mapString      map[string]*Group_name
 	Group_nameOrder            uint
 	Group_name_stagedOrder     map[*Group_name]uint
+	Group_name_orderStaged     map[uint]*Group_name
 	Group_names_reference      map[*Group_name]*Group_name
 	Group_names_referenceOrder map[*Group_name]uint
 
@@ -1439,6 +1521,7 @@ type Stage struct {
 	Group_symbols_mapString      map[string]*Group_symbol
 	Group_symbolOrder            uint
 	Group_symbol_stagedOrder     map[*Group_symbol]uint
+	Group_symbol_orderStaged     map[uint]*Group_symbol
 	Group_symbols_reference      map[*Group_symbol]*Group_symbol
 	Group_symbols_referenceOrder map[*Group_symbol]uint
 
@@ -1453,6 +1536,7 @@ type Stage struct {
 	Groupings_mapString      map[string]*Grouping
 	GroupingOrder            uint
 	Grouping_stagedOrder     map[*Grouping]uint
+	Grouping_orderStaged     map[uint]*Grouping
 	Groupings_reference      map[*Grouping]*Grouping
 	Groupings_referenceOrder map[*Grouping]uint
 
@@ -1469,6 +1553,7 @@ type Stage struct {
 	Hammer_on_pull_offs_mapString      map[string]*Hammer_on_pull_off
 	Hammer_on_pull_offOrder            uint
 	Hammer_on_pull_off_stagedOrder     map[*Hammer_on_pull_off]uint
+	Hammer_on_pull_off_orderStaged     map[uint]*Hammer_on_pull_off
 	Hammer_on_pull_offs_reference      map[*Hammer_on_pull_off]*Hammer_on_pull_off
 	Hammer_on_pull_offs_referenceOrder map[*Hammer_on_pull_off]uint
 
@@ -1483,6 +1568,7 @@ type Stage struct {
 	Handbells_mapString      map[string]*Handbell
 	HandbellOrder            uint
 	Handbell_stagedOrder     map[*Handbell]uint
+	Handbell_orderStaged     map[uint]*Handbell
 	Handbells_reference      map[*Handbell]*Handbell
 	Handbells_referenceOrder map[*Handbell]uint
 
@@ -1497,6 +1583,7 @@ type Stage struct {
 	Harmon_closeds_mapString      map[string]*Harmon_closed
 	Harmon_closedOrder            uint
 	Harmon_closed_stagedOrder     map[*Harmon_closed]uint
+	Harmon_closed_orderStaged     map[uint]*Harmon_closed
 	Harmon_closeds_reference      map[*Harmon_closed]*Harmon_closed
 	Harmon_closeds_referenceOrder map[*Harmon_closed]uint
 
@@ -1511,6 +1598,7 @@ type Stage struct {
 	Harmon_mutes_mapString      map[string]*Harmon_mute
 	Harmon_muteOrder            uint
 	Harmon_mute_stagedOrder     map[*Harmon_mute]uint
+	Harmon_mute_orderStaged     map[uint]*Harmon_mute
 	Harmon_mutes_reference      map[*Harmon_mute]*Harmon_mute
 	Harmon_mutes_referenceOrder map[*Harmon_mute]uint
 
@@ -1525,6 +1613,7 @@ type Stage struct {
 	Harmonics_mapString      map[string]*Harmonic
 	HarmonicOrder            uint
 	Harmonic_stagedOrder     map[*Harmonic]uint
+	Harmonic_orderStaged     map[uint]*Harmonic
 	Harmonics_reference      map[*Harmonic]*Harmonic
 	Harmonics_referenceOrder map[*Harmonic]uint
 
@@ -1539,6 +1628,7 @@ type Stage struct {
 	Harmonys_mapString      map[string]*Harmony
 	HarmonyOrder            uint
 	Harmony_stagedOrder     map[*Harmony]uint
+	Harmony_orderStaged     map[uint]*Harmony
 	Harmonys_reference      map[*Harmony]*Harmony
 	Harmonys_referenceOrder map[*Harmony]uint
 
@@ -1555,6 +1645,7 @@ type Stage struct {
 	Harmony_alters_mapString      map[string]*Harmony_alter
 	Harmony_alterOrder            uint
 	Harmony_alter_stagedOrder     map[*Harmony_alter]uint
+	Harmony_alter_orderStaged     map[uint]*Harmony_alter
 	Harmony_alters_reference      map[*Harmony_alter]*Harmony_alter
 	Harmony_alters_referenceOrder map[*Harmony_alter]uint
 
@@ -1569,6 +1660,7 @@ type Stage struct {
 	Harp_pedalss_mapString      map[string]*Harp_pedals
 	Harp_pedalsOrder            uint
 	Harp_pedals_stagedOrder     map[*Harp_pedals]uint
+	Harp_pedals_orderStaged     map[uint]*Harp_pedals
 	Harp_pedalss_reference      map[*Harp_pedals]*Harp_pedals
 	Harp_pedalss_referenceOrder map[*Harp_pedals]uint
 
@@ -1585,6 +1677,7 @@ type Stage struct {
 	Heel_toes_mapString      map[string]*Heel_toe
 	Heel_toeOrder            uint
 	Heel_toe_stagedOrder     map[*Heel_toe]uint
+	Heel_toe_orderStaged     map[uint]*Heel_toe
 	Heel_toes_reference      map[*Heel_toe]*Heel_toe
 	Heel_toes_referenceOrder map[*Heel_toe]uint
 
@@ -1599,6 +1692,7 @@ type Stage struct {
 	Holes_mapString      map[string]*Hole
 	HoleOrder            uint
 	Hole_stagedOrder     map[*Hole]uint
+	Hole_orderStaged     map[uint]*Hole
 	Holes_reference      map[*Hole]*Hole
 	Holes_referenceOrder map[*Hole]uint
 
@@ -1613,6 +1707,7 @@ type Stage struct {
 	Hole_closeds_mapString      map[string]*Hole_closed
 	Hole_closedOrder            uint
 	Hole_closed_stagedOrder     map[*Hole_closed]uint
+	Hole_closed_orderStaged     map[uint]*Hole_closed
 	Hole_closeds_reference      map[*Hole_closed]*Hole_closed
 	Hole_closeds_referenceOrder map[*Hole_closed]uint
 
@@ -1627,6 +1722,7 @@ type Stage struct {
 	Horizontal_turns_mapString      map[string]*Horizontal_turn
 	Horizontal_turnOrder            uint
 	Horizontal_turn_stagedOrder     map[*Horizontal_turn]uint
+	Horizontal_turn_orderStaged     map[uint]*Horizontal_turn
 	Horizontal_turns_reference      map[*Horizontal_turn]*Horizontal_turn
 	Horizontal_turns_referenceOrder map[*Horizontal_turn]uint
 
@@ -1641,6 +1737,7 @@ type Stage struct {
 	Identifications_mapString      map[string]*Identification
 	IdentificationOrder            uint
 	Identification_stagedOrder     map[*Identification]uint
+	Identification_orderStaged     map[uint]*Identification
 	Identifications_reference      map[*Identification]*Identification
 	Identifications_referenceOrder map[*Identification]uint
 
@@ -1661,6 +1758,7 @@ type Stage struct {
 	Images_mapString      map[string]*Image
 	ImageOrder            uint
 	Image_stagedOrder     map[*Image]uint
+	Image_orderStaged     map[uint]*Image
 	Images_reference      map[*Image]*Image
 	Images_referenceOrder map[*Image]uint
 
@@ -1675,6 +1773,7 @@ type Stage struct {
 	Instruments_mapString      map[string]*Instrument
 	InstrumentOrder            uint
 	Instrument_stagedOrder     map[*Instrument]uint
+	Instrument_orderStaged     map[uint]*Instrument
 	Instruments_reference      map[*Instrument]*Instrument
 	Instruments_referenceOrder map[*Instrument]uint
 
@@ -1689,6 +1788,7 @@ type Stage struct {
 	Instrument_changes_mapString      map[string]*Instrument_change
 	Instrument_changeOrder            uint
 	Instrument_change_stagedOrder     map[*Instrument_change]uint
+	Instrument_change_orderStaged     map[uint]*Instrument_change
 	Instrument_changes_reference      map[*Instrument_change]*Instrument_change
 	Instrument_changes_referenceOrder map[*Instrument_change]uint
 
@@ -1703,6 +1803,7 @@ type Stage struct {
 	Instrument_links_mapString      map[string]*Instrument_link
 	Instrument_linkOrder            uint
 	Instrument_link_stagedOrder     map[*Instrument_link]uint
+	Instrument_link_orderStaged     map[uint]*Instrument_link
 	Instrument_links_reference      map[*Instrument_link]*Instrument_link
 	Instrument_links_referenceOrder map[*Instrument_link]uint
 
@@ -1717,6 +1818,7 @@ type Stage struct {
 	Interchangeables_mapString      map[string]*Interchangeable
 	InterchangeableOrder            uint
 	Interchangeable_stagedOrder     map[*Interchangeable]uint
+	Interchangeable_orderStaged     map[uint]*Interchangeable
 	Interchangeables_reference      map[*Interchangeable]*Interchangeable
 	Interchangeables_referenceOrder map[*Interchangeable]uint
 
@@ -1731,6 +1833,7 @@ type Stage struct {
 	Inversions_mapString      map[string]*Inversion
 	InversionOrder            uint
 	Inversion_stagedOrder     map[*Inversion]uint
+	Inversion_orderStaged     map[uint]*Inversion
 	Inversions_reference      map[*Inversion]*Inversion
 	Inversions_referenceOrder map[*Inversion]uint
 
@@ -1745,6 +1848,7 @@ type Stage struct {
 	Keys_mapString      map[string]*Key
 	KeyOrder            uint
 	Key_stagedOrder     map[*Key]uint
+	Key_orderStaged     map[uint]*Key
 	Keys_reference      map[*Key]*Key
 	Keys_referenceOrder map[*Key]uint
 
@@ -1761,6 +1865,7 @@ type Stage struct {
 	Key_accidentals_mapString      map[string]*Key_accidental
 	Key_accidentalOrder            uint
 	Key_accidental_stagedOrder     map[*Key_accidental]uint
+	Key_accidental_orderStaged     map[uint]*Key_accidental
 	Key_accidentals_reference      map[*Key_accidental]*Key_accidental
 	Key_accidentals_referenceOrder map[*Key_accidental]uint
 
@@ -1775,6 +1880,7 @@ type Stage struct {
 	Key_octaves_mapString      map[string]*Key_octave
 	Key_octaveOrder            uint
 	Key_octave_stagedOrder     map[*Key_octave]uint
+	Key_octave_orderStaged     map[uint]*Key_octave
 	Key_octaves_reference      map[*Key_octave]*Key_octave
 	Key_octaves_referenceOrder map[*Key_octave]uint
 
@@ -1789,6 +1895,7 @@ type Stage struct {
 	Kinds_mapString      map[string]*Kind
 	KindOrder            uint
 	Kind_stagedOrder     map[*Kind]uint
+	Kind_orderStaged     map[uint]*Kind
 	Kinds_reference      map[*Kind]*Kind
 	Kinds_referenceOrder map[*Kind]uint
 
@@ -1803,6 +1910,7 @@ type Stage struct {
 	Levels_mapString      map[string]*Level
 	LevelOrder            uint
 	Level_stagedOrder     map[*Level]uint
+	Level_orderStaged     map[uint]*Level
 	Levels_reference      map[*Level]*Level
 	Levels_referenceOrder map[*Level]uint
 
@@ -1817,6 +1925,7 @@ type Stage struct {
 	Line_details_mapString      map[string]*Line_detail
 	Line_detailOrder            uint
 	Line_detail_stagedOrder     map[*Line_detail]uint
+	Line_detail_orderStaged     map[uint]*Line_detail
 	Line_details_reference      map[*Line_detail]*Line_detail
 	Line_details_referenceOrder map[*Line_detail]uint
 
@@ -1831,6 +1940,7 @@ type Stage struct {
 	Line_widths_mapString      map[string]*Line_width
 	Line_widthOrder            uint
 	Line_width_stagedOrder     map[*Line_width]uint
+	Line_width_orderStaged     map[uint]*Line_width
 	Line_widths_reference      map[*Line_width]*Line_width
 	Line_widths_referenceOrder map[*Line_width]uint
 
@@ -1845,6 +1955,7 @@ type Stage struct {
 	Links_mapString      map[string]*Link
 	LinkOrder            uint
 	Link_stagedOrder     map[*Link]uint
+	Link_orderStaged     map[uint]*Link
 	Links_reference      map[*Link]*Link
 	Links_referenceOrder map[*Link]uint
 
@@ -1859,6 +1970,7 @@ type Stage struct {
 	Listens_mapString      map[string]*Listen
 	ListenOrder            uint
 	Listen_stagedOrder     map[*Listen]uint
+	Listen_orderStaged     map[uint]*Listen
 	Listens_reference      map[*Listen]*Listen
 	Listens_referenceOrder map[*Listen]uint
 
@@ -1879,6 +1991,7 @@ type Stage struct {
 	Listenings_mapString      map[string]*Listening
 	ListeningOrder            uint
 	Listening_stagedOrder     map[*Listening]uint
+	Listening_orderStaged     map[uint]*Listening
 	Listenings_reference      map[*Listening]*Listening
 	Listenings_referenceOrder map[*Listening]uint
 
@@ -1897,6 +2010,7 @@ type Stage struct {
 	Lyrics_mapString      map[string]*Lyric
 	LyricOrder            uint
 	Lyric_stagedOrder     map[*Lyric]uint
+	Lyric_orderStaged     map[uint]*Lyric
 	Lyrics_reference      map[*Lyric]*Lyric
 	Lyrics_referenceOrder map[*Lyric]uint
 
@@ -1915,6 +2029,7 @@ type Stage struct {
 	Lyric_fonts_mapString      map[string]*Lyric_font
 	Lyric_fontOrder            uint
 	Lyric_font_stagedOrder     map[*Lyric_font]uint
+	Lyric_font_orderStaged     map[uint]*Lyric_font
 	Lyric_fonts_reference      map[*Lyric_font]*Lyric_font
 	Lyric_fonts_referenceOrder map[*Lyric_font]uint
 
@@ -1929,6 +2044,7 @@ type Stage struct {
 	Lyric_languages_mapString      map[string]*Lyric_language
 	Lyric_languageOrder            uint
 	Lyric_language_stagedOrder     map[*Lyric_language]uint
+	Lyric_language_orderStaged     map[uint]*Lyric_language
 	Lyric_languages_reference      map[*Lyric_language]*Lyric_language
 	Lyric_languages_referenceOrder map[*Lyric_language]uint
 
@@ -1943,6 +2059,7 @@ type Stage struct {
 	Measure_layouts_mapString      map[string]*Measure_layout
 	Measure_layoutOrder            uint
 	Measure_layout_stagedOrder     map[*Measure_layout]uint
+	Measure_layout_orderStaged     map[uint]*Measure_layout
 	Measure_layouts_reference      map[*Measure_layout]*Measure_layout
 	Measure_layouts_referenceOrder map[*Measure_layout]uint
 
@@ -1957,6 +2074,7 @@ type Stage struct {
 	Measure_numberings_mapString      map[string]*Measure_numbering
 	Measure_numberingOrder            uint
 	Measure_numbering_stagedOrder     map[*Measure_numbering]uint
+	Measure_numbering_orderStaged     map[uint]*Measure_numbering
 	Measure_numberings_reference      map[*Measure_numbering]*Measure_numbering
 	Measure_numberings_referenceOrder map[*Measure_numbering]uint
 
@@ -1971,6 +2089,7 @@ type Stage struct {
 	Measure_repeats_mapString      map[string]*Measure_repeat
 	Measure_repeatOrder            uint
 	Measure_repeat_stagedOrder     map[*Measure_repeat]uint
+	Measure_repeat_orderStaged     map[uint]*Measure_repeat
 	Measure_repeats_reference      map[*Measure_repeat]*Measure_repeat
 	Measure_repeats_referenceOrder map[*Measure_repeat]uint
 
@@ -1985,6 +2104,7 @@ type Stage struct {
 	Measure_styles_mapString      map[string]*Measure_style
 	Measure_styleOrder            uint
 	Measure_style_stagedOrder     map[*Measure_style]uint
+	Measure_style_orderStaged     map[uint]*Measure_style
 	Measure_styles_reference      map[*Measure_style]*Measure_style
 	Measure_styles_referenceOrder map[*Measure_style]uint
 
@@ -1999,6 +2119,7 @@ type Stage struct {
 	Membranes_mapString      map[string]*Membrane
 	MembraneOrder            uint
 	Membrane_stagedOrder     map[*Membrane]uint
+	Membrane_orderStaged     map[uint]*Membrane
 	Membranes_reference      map[*Membrane]*Membrane
 	Membranes_referenceOrder map[*Membrane]uint
 
@@ -2013,6 +2134,7 @@ type Stage struct {
 	Metals_mapString      map[string]*Metal
 	MetalOrder            uint
 	Metal_stagedOrder     map[*Metal]uint
+	Metal_orderStaged     map[uint]*Metal
 	Metals_reference      map[*Metal]*Metal
 	Metals_referenceOrder map[*Metal]uint
 
@@ -2027,6 +2149,7 @@ type Stage struct {
 	Metronomes_mapString      map[string]*Metronome
 	MetronomeOrder            uint
 	Metronome_stagedOrder     map[*Metronome]uint
+	Metronome_orderStaged     map[uint]*Metronome
 	Metronomes_reference      map[*Metronome]*Metronome
 	Metronomes_referenceOrder map[*Metronome]uint
 
@@ -2045,6 +2168,7 @@ type Stage struct {
 	Metronome_beams_mapString      map[string]*Metronome_beam
 	Metronome_beamOrder            uint
 	Metronome_beam_stagedOrder     map[*Metronome_beam]uint
+	Metronome_beam_orderStaged     map[uint]*Metronome_beam
 	Metronome_beams_reference      map[*Metronome_beam]*Metronome_beam
 	Metronome_beams_referenceOrder map[*Metronome_beam]uint
 
@@ -2059,6 +2183,7 @@ type Stage struct {
 	Metronome_notes_mapString      map[string]*Metronome_note
 	Metronome_noteOrder            uint
 	Metronome_note_stagedOrder     map[*Metronome_note]uint
+	Metronome_note_orderStaged     map[uint]*Metronome_note
 	Metronome_notes_reference      map[*Metronome_note]*Metronome_note
 	Metronome_notes_referenceOrder map[*Metronome_note]uint
 
@@ -2075,6 +2200,7 @@ type Stage struct {
 	Metronome_tieds_mapString      map[string]*Metronome_tied
 	Metronome_tiedOrder            uint
 	Metronome_tied_stagedOrder     map[*Metronome_tied]uint
+	Metronome_tied_orderStaged     map[uint]*Metronome_tied
 	Metronome_tieds_reference      map[*Metronome_tied]*Metronome_tied
 	Metronome_tieds_referenceOrder map[*Metronome_tied]uint
 
@@ -2089,6 +2215,7 @@ type Stage struct {
 	Metronome_tuplets_mapString      map[string]*Metronome_tuplet
 	Metronome_tupletOrder            uint
 	Metronome_tuplet_stagedOrder     map[*Metronome_tuplet]uint
+	Metronome_tuplet_orderStaged     map[uint]*Metronome_tuplet
 	Metronome_tuplets_reference      map[*Metronome_tuplet]*Metronome_tuplet
 	Metronome_tuplets_referenceOrder map[*Metronome_tuplet]uint
 
@@ -2103,6 +2230,7 @@ type Stage struct {
 	Midi_devices_mapString      map[string]*Midi_device
 	Midi_deviceOrder            uint
 	Midi_device_stagedOrder     map[*Midi_device]uint
+	Midi_device_orderStaged     map[uint]*Midi_device
 	Midi_devices_reference      map[*Midi_device]*Midi_device
 	Midi_devices_referenceOrder map[*Midi_device]uint
 
@@ -2117,6 +2245,7 @@ type Stage struct {
 	Midi_instruments_mapString      map[string]*Midi_instrument
 	Midi_instrumentOrder            uint
 	Midi_instrument_stagedOrder     map[*Midi_instrument]uint
+	Midi_instrument_orderStaged     map[uint]*Midi_instrument
 	Midi_instruments_reference      map[*Midi_instrument]*Midi_instrument
 	Midi_instruments_referenceOrder map[*Midi_instrument]uint
 
@@ -2131,6 +2260,7 @@ type Stage struct {
 	Miscellaneouss_mapString      map[string]*Miscellaneous
 	MiscellaneousOrder            uint
 	Miscellaneous_stagedOrder     map[*Miscellaneous]uint
+	Miscellaneous_orderStaged     map[uint]*Miscellaneous
 	Miscellaneouss_reference      map[*Miscellaneous]*Miscellaneous
 	Miscellaneouss_referenceOrder map[*Miscellaneous]uint
 
@@ -2147,6 +2277,7 @@ type Stage struct {
 	Miscellaneous_fields_mapString      map[string]*Miscellaneous_field
 	Miscellaneous_fieldOrder            uint
 	Miscellaneous_field_stagedOrder     map[*Miscellaneous_field]uint
+	Miscellaneous_field_orderStaged     map[uint]*Miscellaneous_field
 	Miscellaneous_fields_reference      map[*Miscellaneous_field]*Miscellaneous_field
 	Miscellaneous_fields_referenceOrder map[*Miscellaneous_field]uint
 
@@ -2161,6 +2292,7 @@ type Stage struct {
 	Mordents_mapString      map[string]*Mordent
 	MordentOrder            uint
 	Mordent_stagedOrder     map[*Mordent]uint
+	Mordent_orderStaged     map[uint]*Mordent
 	Mordents_reference      map[*Mordent]*Mordent
 	Mordents_referenceOrder map[*Mordent]uint
 
@@ -2175,6 +2307,7 @@ type Stage struct {
 	Multiple_rests_mapString      map[string]*Multiple_rest
 	Multiple_restOrder            uint
 	Multiple_rest_stagedOrder     map[*Multiple_rest]uint
+	Multiple_rest_orderStaged     map[uint]*Multiple_rest
 	Multiple_rests_reference      map[*Multiple_rest]*Multiple_rest
 	Multiple_rests_referenceOrder map[*Multiple_rest]uint
 
@@ -2189,6 +2322,7 @@ type Stage struct {
 	Name_displays_mapString      map[string]*Name_display
 	Name_displayOrder            uint
 	Name_display_stagedOrder     map[*Name_display]uint
+	Name_display_orderStaged     map[uint]*Name_display
 	Name_displays_reference      map[*Name_display]*Name_display
 	Name_displays_referenceOrder map[*Name_display]uint
 
@@ -2207,6 +2341,7 @@ type Stage struct {
 	Non_arpeggiates_mapString      map[string]*Non_arpeggiate
 	Non_arpeggiateOrder            uint
 	Non_arpeggiate_stagedOrder     map[*Non_arpeggiate]uint
+	Non_arpeggiate_orderStaged     map[uint]*Non_arpeggiate
 	Non_arpeggiates_reference      map[*Non_arpeggiate]*Non_arpeggiate
 	Non_arpeggiates_referenceOrder map[*Non_arpeggiate]uint
 
@@ -2221,6 +2356,7 @@ type Stage struct {
 	Notationss_mapString      map[string]*Notations
 	NotationsOrder            uint
 	Notations_stagedOrder     map[*Notations]uint
+	Notations_orderStaged     map[uint]*Notations
 	Notationss_reference      map[*Notations]*Notations
 	Notationss_referenceOrder map[*Notations]uint
 
@@ -2263,6 +2399,7 @@ type Stage struct {
 	Notes_mapString      map[string]*Note
 	NoteOrder            uint
 	Note_stagedOrder     map[*Note]uint
+	Note_orderStaged     map[uint]*Note
 	Notes_reference      map[*Note]*Note
 	Notes_referenceOrder map[*Note]uint
 
@@ -2285,6 +2422,7 @@ type Stage struct {
 	Note_sizes_mapString      map[string]*Note_size
 	Note_sizeOrder            uint
 	Note_size_stagedOrder     map[*Note_size]uint
+	Note_size_orderStaged     map[uint]*Note_size
 	Note_sizes_reference      map[*Note_size]*Note_size
 	Note_sizes_referenceOrder map[*Note_size]uint
 
@@ -2299,6 +2437,7 @@ type Stage struct {
 	Note_types_mapString      map[string]*Note_type
 	Note_typeOrder            uint
 	Note_type_stagedOrder     map[*Note_type]uint
+	Note_type_orderStaged     map[uint]*Note_type
 	Note_types_reference      map[*Note_type]*Note_type
 	Note_types_referenceOrder map[*Note_type]uint
 
@@ -2313,6 +2452,7 @@ type Stage struct {
 	Noteheads_mapString      map[string]*Notehead
 	NoteheadOrder            uint
 	Notehead_stagedOrder     map[*Notehead]uint
+	Notehead_orderStaged     map[uint]*Notehead
 	Noteheads_reference      map[*Notehead]*Notehead
 	Noteheads_referenceOrder map[*Notehead]uint
 
@@ -2327,6 +2467,7 @@ type Stage struct {
 	Notehead_texts_mapString      map[string]*Notehead_text
 	Notehead_textOrder            uint
 	Notehead_text_stagedOrder     map[*Notehead_text]uint
+	Notehead_text_orderStaged     map[uint]*Notehead_text
 	Notehead_texts_reference      map[*Notehead_text]*Notehead_text
 	Notehead_texts_referenceOrder map[*Notehead_text]uint
 
@@ -2345,6 +2486,7 @@ type Stage struct {
 	Numerals_mapString      map[string]*Numeral
 	NumeralOrder            uint
 	Numeral_stagedOrder     map[*Numeral]uint
+	Numeral_orderStaged     map[uint]*Numeral
 	Numerals_reference      map[*Numeral]*Numeral
 	Numerals_referenceOrder map[*Numeral]uint
 
@@ -2359,6 +2501,7 @@ type Stage struct {
 	Numeral_keys_mapString      map[string]*Numeral_key
 	Numeral_keyOrder            uint
 	Numeral_key_stagedOrder     map[*Numeral_key]uint
+	Numeral_key_orderStaged     map[uint]*Numeral_key
 	Numeral_keys_reference      map[*Numeral_key]*Numeral_key
 	Numeral_keys_referenceOrder map[*Numeral_key]uint
 
@@ -2373,6 +2516,7 @@ type Stage struct {
 	Numeral_roots_mapString      map[string]*Numeral_root
 	Numeral_rootOrder            uint
 	Numeral_root_stagedOrder     map[*Numeral_root]uint
+	Numeral_root_orderStaged     map[uint]*Numeral_root
 	Numeral_roots_reference      map[*Numeral_root]*Numeral_root
 	Numeral_roots_referenceOrder map[*Numeral_root]uint
 
@@ -2387,6 +2531,7 @@ type Stage struct {
 	Octave_shifts_mapString      map[string]*Octave_shift
 	Octave_shiftOrder            uint
 	Octave_shift_stagedOrder     map[*Octave_shift]uint
+	Octave_shift_orderStaged     map[uint]*Octave_shift
 	Octave_shifts_reference      map[*Octave_shift]*Octave_shift
 	Octave_shifts_referenceOrder map[*Octave_shift]uint
 
@@ -2401,6 +2546,7 @@ type Stage struct {
 	Offsets_mapString      map[string]*Offset
 	OffsetOrder            uint
 	Offset_stagedOrder     map[*Offset]uint
+	Offset_orderStaged     map[uint]*Offset
 	Offsets_reference      map[*Offset]*Offset
 	Offsets_referenceOrder map[*Offset]uint
 
@@ -2415,6 +2561,7 @@ type Stage struct {
 	Opuss_mapString      map[string]*Opus
 	OpusOrder            uint
 	Opus_stagedOrder     map[*Opus]uint
+	Opus_orderStaged     map[uint]*Opus
 	Opuss_reference      map[*Opus]*Opus
 	Opuss_referenceOrder map[*Opus]uint
 
@@ -2429,6 +2576,7 @@ type Stage struct {
 	Ornamentss_mapString      map[string]*Ornaments
 	OrnamentsOrder            uint
 	Ornaments_stagedOrder     map[*Ornaments]uint
+	Ornaments_orderStaged     map[uint]*Ornaments
 	Ornamentss_reference      map[*Ornaments]*Ornaments
 	Ornamentss_referenceOrder map[*Ornaments]uint
 
@@ -2475,6 +2623,7 @@ type Stage struct {
 	Other_appearances_mapString      map[string]*Other_appearance
 	Other_appearanceOrder            uint
 	Other_appearance_stagedOrder     map[*Other_appearance]uint
+	Other_appearance_orderStaged     map[uint]*Other_appearance
 	Other_appearances_reference      map[*Other_appearance]*Other_appearance
 	Other_appearances_referenceOrder map[*Other_appearance]uint
 
@@ -2489,6 +2638,7 @@ type Stage struct {
 	Other_directions_mapString      map[string]*Other_direction
 	Other_directionOrder            uint
 	Other_direction_stagedOrder     map[*Other_direction]uint
+	Other_direction_orderStaged     map[uint]*Other_direction
 	Other_directions_reference      map[*Other_direction]*Other_direction
 	Other_directions_referenceOrder map[*Other_direction]uint
 
@@ -2503,6 +2653,7 @@ type Stage struct {
 	Other_listenings_mapString      map[string]*Other_listening
 	Other_listeningOrder            uint
 	Other_listening_stagedOrder     map[*Other_listening]uint
+	Other_listening_orderStaged     map[uint]*Other_listening
 	Other_listenings_reference      map[*Other_listening]*Other_listening
 	Other_listenings_referenceOrder map[*Other_listening]uint
 
@@ -2517,6 +2668,7 @@ type Stage struct {
 	Other_notations_mapString      map[string]*Other_notation
 	Other_notationOrder            uint
 	Other_notation_stagedOrder     map[*Other_notation]uint
+	Other_notation_orderStaged     map[uint]*Other_notation
 	Other_notations_reference      map[*Other_notation]*Other_notation
 	Other_notations_referenceOrder map[*Other_notation]uint
 
@@ -2531,6 +2683,7 @@ type Stage struct {
 	Other_placement_texts_mapString      map[string]*Other_placement_text
 	Other_placement_textOrder            uint
 	Other_placement_text_stagedOrder     map[*Other_placement_text]uint
+	Other_placement_text_orderStaged     map[uint]*Other_placement_text
 	Other_placement_texts_reference      map[*Other_placement_text]*Other_placement_text
 	Other_placement_texts_referenceOrder map[*Other_placement_text]uint
 
@@ -2545,6 +2698,7 @@ type Stage struct {
 	Other_plays_mapString      map[string]*Other_play
 	Other_playOrder            uint
 	Other_play_stagedOrder     map[*Other_play]uint
+	Other_play_orderStaged     map[uint]*Other_play
 	Other_plays_reference      map[*Other_play]*Other_play
 	Other_plays_referenceOrder map[*Other_play]uint
 
@@ -2559,6 +2713,7 @@ type Stage struct {
 	Other_texts_mapString      map[string]*Other_text
 	Other_textOrder            uint
 	Other_text_stagedOrder     map[*Other_text]uint
+	Other_text_orderStaged     map[uint]*Other_text
 	Other_texts_reference      map[*Other_text]*Other_text
 	Other_texts_referenceOrder map[*Other_text]uint
 
@@ -2573,6 +2728,7 @@ type Stage struct {
 	Page_layouts_mapString      map[string]*Page_layout
 	Page_layoutOrder            uint
 	Page_layout_stagedOrder     map[*Page_layout]uint
+	Page_layout_orderStaged     map[uint]*Page_layout
 	Page_layouts_reference      map[*Page_layout]*Page_layout
 	Page_layouts_referenceOrder map[*Page_layout]uint
 
@@ -2587,6 +2743,7 @@ type Stage struct {
 	Page_marginss_mapString      map[string]*Page_margins
 	Page_marginsOrder            uint
 	Page_margins_stagedOrder     map[*Page_margins]uint
+	Page_margins_orderStaged     map[uint]*Page_margins
 	Page_marginss_reference      map[*Page_margins]*Page_margins
 	Page_marginss_referenceOrder map[*Page_margins]uint
 
@@ -2601,6 +2758,7 @@ type Stage struct {
 	Part_clefs_mapString      map[string]*Part_clef
 	Part_clefOrder            uint
 	Part_clef_stagedOrder     map[*Part_clef]uint
+	Part_clef_orderStaged     map[uint]*Part_clef
 	Part_clefs_reference      map[*Part_clef]*Part_clef
 	Part_clefs_referenceOrder map[*Part_clef]uint
 
@@ -2615,6 +2773,7 @@ type Stage struct {
 	Part_groups_mapString      map[string]*Part_group
 	Part_groupOrder            uint
 	Part_group_stagedOrder     map[*Part_group]uint
+	Part_group_orderStaged     map[uint]*Part_group
 	Part_groups_reference      map[*Part_group]*Part_group
 	Part_groups_referenceOrder map[*Part_group]uint
 
@@ -2629,6 +2788,7 @@ type Stage struct {
 	Part_links_mapString      map[string]*Part_link
 	Part_linkOrder            uint
 	Part_link_stagedOrder     map[*Part_link]uint
+	Part_link_orderStaged     map[uint]*Part_link
 	Part_links_reference      map[*Part_link]*Part_link
 	Part_links_referenceOrder map[*Part_link]uint
 
@@ -2645,6 +2805,7 @@ type Stage struct {
 	Part_lists_mapString      map[string]*Part_list
 	Part_listOrder            uint
 	Part_list_stagedOrder     map[*Part_list]uint
+	Part_list_orderStaged     map[uint]*Part_list
 	Part_lists_reference      map[*Part_list]*Part_list
 	Part_lists_referenceOrder map[*Part_list]uint
 
@@ -2659,6 +2820,7 @@ type Stage struct {
 	Part_names_mapString      map[string]*Part_name
 	Part_nameOrder            uint
 	Part_name_stagedOrder     map[*Part_name]uint
+	Part_name_orderStaged     map[uint]*Part_name
 	Part_names_reference      map[*Part_name]*Part_name
 	Part_names_referenceOrder map[*Part_name]uint
 
@@ -2673,6 +2835,7 @@ type Stage struct {
 	Part_symbols_mapString      map[string]*Part_symbol
 	Part_symbolOrder            uint
 	Part_symbol_stagedOrder     map[*Part_symbol]uint
+	Part_symbol_orderStaged     map[uint]*Part_symbol
 	Part_symbols_reference      map[*Part_symbol]*Part_symbol
 	Part_symbols_referenceOrder map[*Part_symbol]uint
 
@@ -2687,6 +2850,7 @@ type Stage struct {
 	Part_transposes_mapString      map[string]*Part_transpose
 	Part_transposeOrder            uint
 	Part_transpose_stagedOrder     map[*Part_transpose]uint
+	Part_transpose_orderStaged     map[uint]*Part_transpose
 	Part_transposes_reference      map[*Part_transpose]*Part_transpose
 	Part_transposes_referenceOrder map[*Part_transpose]uint
 
@@ -2701,6 +2865,7 @@ type Stage struct {
 	Pedals_mapString      map[string]*Pedal
 	PedalOrder            uint
 	Pedal_stagedOrder     map[*Pedal]uint
+	Pedal_orderStaged     map[uint]*Pedal
 	Pedals_reference      map[*Pedal]*Pedal
 	Pedals_referenceOrder map[*Pedal]uint
 
@@ -2715,6 +2880,7 @@ type Stage struct {
 	Pedal_tunings_mapString      map[string]*Pedal_tuning
 	Pedal_tuningOrder            uint
 	Pedal_tuning_stagedOrder     map[*Pedal_tuning]uint
+	Pedal_tuning_orderStaged     map[uint]*Pedal_tuning
 	Pedal_tunings_reference      map[*Pedal_tuning]*Pedal_tuning
 	Pedal_tunings_referenceOrder map[*Pedal_tuning]uint
 
@@ -2729,6 +2895,7 @@ type Stage struct {
 	Per_minutes_mapString      map[string]*Per_minute
 	Per_minuteOrder            uint
 	Per_minute_stagedOrder     map[*Per_minute]uint
+	Per_minute_orderStaged     map[uint]*Per_minute
 	Per_minutes_reference      map[*Per_minute]*Per_minute
 	Per_minutes_referenceOrder map[*Per_minute]uint
 
@@ -2743,6 +2910,7 @@ type Stage struct {
 	Percussions_mapString      map[string]*Percussion
 	PercussionOrder            uint
 	Percussion_stagedOrder     map[*Percussion]uint
+	Percussion_orderStaged     map[uint]*Percussion
 	Percussions_reference      map[*Percussion]*Percussion
 	Percussions_referenceOrder map[*Percussion]uint
 
@@ -2757,6 +2925,7 @@ type Stage struct {
 	Pitchs_mapString      map[string]*Pitch
 	PitchOrder            uint
 	Pitch_stagedOrder     map[*Pitch]uint
+	Pitch_orderStaged     map[uint]*Pitch
 	Pitchs_reference      map[*Pitch]*Pitch
 	Pitchs_referenceOrder map[*Pitch]uint
 
@@ -2771,6 +2940,7 @@ type Stage struct {
 	Pitcheds_mapString      map[string]*Pitched
 	PitchedOrder            uint
 	Pitched_stagedOrder     map[*Pitched]uint
+	Pitched_orderStaged     map[uint]*Pitched
 	Pitcheds_reference      map[*Pitched]*Pitched
 	Pitcheds_referenceOrder map[*Pitched]uint
 
@@ -2785,6 +2955,7 @@ type Stage struct {
 	Placement_texts_mapString      map[string]*Placement_text
 	Placement_textOrder            uint
 	Placement_text_stagedOrder     map[*Placement_text]uint
+	Placement_text_orderStaged     map[uint]*Placement_text
 	Placement_texts_reference      map[*Placement_text]*Placement_text
 	Placement_texts_referenceOrder map[*Placement_text]uint
 
@@ -2799,6 +2970,7 @@ type Stage struct {
 	Plays_mapString      map[string]*Play
 	PlayOrder            uint
 	Play_stagedOrder     map[*Play]uint
+	Play_orderStaged     map[uint]*Play
 	Plays_reference      map[*Play]*Play
 	Plays_referenceOrder map[*Play]uint
 
@@ -2815,6 +2987,7 @@ type Stage struct {
 	Players_mapString      map[string]*Player
 	PlayerOrder            uint
 	Player_stagedOrder     map[*Player]uint
+	Player_orderStaged     map[uint]*Player
 	Players_reference      map[*Player]*Player
 	Players_referenceOrder map[*Player]uint
 
@@ -2829,6 +3002,7 @@ type Stage struct {
 	Principal_voices_mapString      map[string]*Principal_voice
 	Principal_voiceOrder            uint
 	Principal_voice_stagedOrder     map[*Principal_voice]uint
+	Principal_voice_orderStaged     map[uint]*Principal_voice
 	Principal_voices_reference      map[*Principal_voice]*Principal_voice
 	Principal_voices_referenceOrder map[*Principal_voice]uint
 
@@ -2843,6 +3017,7 @@ type Stage struct {
 	Prints_mapString      map[string]*Print
 	PrintOrder            uint
 	Print_stagedOrder     map[*Print]uint
+	Print_orderStaged     map[uint]*Print
 	Prints_reference      map[*Print]*Print
 	Prints_referenceOrder map[*Print]uint
 
@@ -2859,6 +3034,7 @@ type Stage struct {
 	Releases_mapString      map[string]*Release
 	ReleaseOrder            uint
 	Release_stagedOrder     map[*Release]uint
+	Release_orderStaged     map[uint]*Release
 	Releases_reference      map[*Release]*Release
 	Releases_referenceOrder map[*Release]uint
 
@@ -2873,6 +3049,7 @@ type Stage struct {
 	Repeats_mapString      map[string]*Repeat
 	RepeatOrder            uint
 	Repeat_stagedOrder     map[*Repeat]uint
+	Repeat_orderStaged     map[uint]*Repeat
 	Repeats_reference      map[*Repeat]*Repeat
 	Repeats_referenceOrder map[*Repeat]uint
 
@@ -2887,6 +3064,7 @@ type Stage struct {
 	Rests_mapString      map[string]*Rest
 	RestOrder            uint
 	Rest_stagedOrder     map[*Rest]uint
+	Rest_orderStaged     map[uint]*Rest
 	Rests_reference      map[*Rest]*Rest
 	Rests_referenceOrder map[*Rest]uint
 
@@ -2901,6 +3079,7 @@ type Stage struct {
 	Roots_mapString      map[string]*Root
 	RootOrder            uint
 	Root_stagedOrder     map[*Root]uint
+	Root_orderStaged     map[uint]*Root
 	Roots_reference      map[*Root]*Root
 	Roots_referenceOrder map[*Root]uint
 
@@ -2915,6 +3094,7 @@ type Stage struct {
 	Root_steps_mapString      map[string]*Root_step
 	Root_stepOrder            uint
 	Root_step_stagedOrder     map[*Root_step]uint
+	Root_step_orderStaged     map[uint]*Root_step
 	Root_steps_reference      map[*Root_step]*Root_step
 	Root_steps_referenceOrder map[*Root_step]uint
 
@@ -2929,6 +3109,7 @@ type Stage struct {
 	Scalings_mapString      map[string]*Scaling
 	ScalingOrder            uint
 	Scaling_stagedOrder     map[*Scaling]uint
+	Scaling_orderStaged     map[uint]*Scaling
 	Scalings_reference      map[*Scaling]*Scaling
 	Scalings_referenceOrder map[*Scaling]uint
 
@@ -2943,6 +3124,7 @@ type Stage struct {
 	Scordaturas_mapString      map[string]*Scordatura
 	ScordaturaOrder            uint
 	Scordatura_stagedOrder     map[*Scordatura]uint
+	Scordatura_orderStaged     map[uint]*Scordatura
 	Scordaturas_reference      map[*Scordatura]*Scordatura
 	Scordaturas_referenceOrder map[*Scordatura]uint
 
@@ -2959,6 +3141,7 @@ type Stage struct {
 	Score_instruments_mapString      map[string]*Score_instrument
 	Score_instrumentOrder            uint
 	Score_instrument_stagedOrder     map[*Score_instrument]uint
+	Score_instrument_orderStaged     map[uint]*Score_instrument
 	Score_instruments_reference      map[*Score_instrument]*Score_instrument
 	Score_instruments_referenceOrder map[*Score_instrument]uint
 
@@ -2973,6 +3156,7 @@ type Stage struct {
 	Score_parts_mapString      map[string]*Score_part
 	Score_partOrder            uint
 	Score_part_stagedOrder     map[*Score_part]uint
+	Score_part_orderStaged     map[uint]*Score_part
 	Score_parts_reference      map[*Score_part]*Score_part
 	Score_parts_referenceOrder map[*Score_part]uint
 
@@ -2997,6 +3181,7 @@ type Stage struct {
 	Score_partwises_mapString      map[string]*Score_partwise
 	Score_partwiseOrder            uint
 	Score_partwise_stagedOrder     map[*Score_partwise]uint
+	Score_partwise_orderStaged     map[uint]*Score_partwise
 	Score_partwises_reference      map[*Score_partwise]*Score_partwise
 	Score_partwises_referenceOrder map[*Score_partwise]uint
 
@@ -3015,6 +3200,7 @@ type Stage struct {
 	Score_timewises_mapString      map[string]*Score_timewise
 	Score_timewiseOrder            uint
 	Score_timewise_stagedOrder     map[*Score_timewise]uint
+	Score_timewise_orderStaged     map[uint]*Score_timewise
 	Score_timewises_reference      map[*Score_timewise]*Score_timewise
 	Score_timewises_referenceOrder map[*Score_timewise]uint
 
@@ -3033,6 +3219,7 @@ type Stage struct {
 	Segnos_mapString      map[string]*Segno
 	SegnoOrder            uint
 	Segno_stagedOrder     map[*Segno]uint
+	Segno_orderStaged     map[uint]*Segno
 	Segnos_reference      map[*Segno]*Segno
 	Segnos_referenceOrder map[*Segno]uint
 
@@ -3047,6 +3234,7 @@ type Stage struct {
 	Slashs_mapString      map[string]*Slash
 	SlashOrder            uint
 	Slash_stagedOrder     map[*Slash]uint
+	Slash_orderStaged     map[uint]*Slash
 	Slashs_reference      map[*Slash]*Slash
 	Slashs_referenceOrder map[*Slash]uint
 
@@ -3061,6 +3249,7 @@ type Stage struct {
 	Slides_mapString      map[string]*Slide
 	SlideOrder            uint
 	Slide_stagedOrder     map[*Slide]uint
+	Slide_orderStaged     map[uint]*Slide
 	Slides_reference      map[*Slide]*Slide
 	Slides_referenceOrder map[*Slide]uint
 
@@ -3075,6 +3264,7 @@ type Stage struct {
 	Slurs_mapString      map[string]*Slur
 	SlurOrder            uint
 	Slur_stagedOrder     map[*Slur]uint
+	Slur_orderStaged     map[uint]*Slur
 	Slurs_reference      map[*Slur]*Slur
 	Slurs_referenceOrder map[*Slur]uint
 
@@ -3089,6 +3279,7 @@ type Stage struct {
 	Sounds_mapString      map[string]*Sound
 	SoundOrder            uint
 	Sound_stagedOrder     map[*Sound]uint
+	Sound_orderStaged     map[uint]*Sound
 	Sounds_reference      map[*Sound]*Sound
 	Sounds_referenceOrder map[*Sound]uint
 
@@ -3111,6 +3302,7 @@ type Stage struct {
 	Staff_detailss_mapString      map[string]*Staff_details
 	Staff_detailsOrder            uint
 	Staff_details_stagedOrder     map[*Staff_details]uint
+	Staff_details_orderStaged     map[uint]*Staff_details
 	Staff_detailss_reference      map[*Staff_details]*Staff_details
 	Staff_detailss_referenceOrder map[*Staff_details]uint
 
@@ -3129,6 +3321,7 @@ type Stage struct {
 	Staff_divides_mapString      map[string]*Staff_divide
 	Staff_divideOrder            uint
 	Staff_divide_stagedOrder     map[*Staff_divide]uint
+	Staff_divide_orderStaged     map[uint]*Staff_divide
 	Staff_divides_reference      map[*Staff_divide]*Staff_divide
 	Staff_divides_referenceOrder map[*Staff_divide]uint
 
@@ -3143,6 +3336,7 @@ type Stage struct {
 	Staff_layouts_mapString      map[string]*Staff_layout
 	Staff_layoutOrder            uint
 	Staff_layout_stagedOrder     map[*Staff_layout]uint
+	Staff_layout_orderStaged     map[uint]*Staff_layout
 	Staff_layouts_reference      map[*Staff_layout]*Staff_layout
 	Staff_layouts_referenceOrder map[*Staff_layout]uint
 
@@ -3157,6 +3351,7 @@ type Stage struct {
 	Staff_sizes_mapString      map[string]*Staff_size
 	Staff_sizeOrder            uint
 	Staff_size_stagedOrder     map[*Staff_size]uint
+	Staff_size_orderStaged     map[uint]*Staff_size
 	Staff_sizes_reference      map[*Staff_size]*Staff_size
 	Staff_sizes_referenceOrder map[*Staff_size]uint
 
@@ -3171,6 +3366,7 @@ type Stage struct {
 	Staff_tunings_mapString      map[string]*Staff_tuning
 	Staff_tuningOrder            uint
 	Staff_tuning_stagedOrder     map[*Staff_tuning]uint
+	Staff_tuning_orderStaged     map[uint]*Staff_tuning
 	Staff_tunings_reference      map[*Staff_tuning]*Staff_tuning
 	Staff_tunings_referenceOrder map[*Staff_tuning]uint
 
@@ -3185,6 +3381,7 @@ type Stage struct {
 	Stems_mapString      map[string]*Stem
 	StemOrder            uint
 	Stem_stagedOrder     map[*Stem]uint
+	Stem_orderStaged     map[uint]*Stem
 	Stems_reference      map[*Stem]*Stem
 	Stems_referenceOrder map[*Stem]uint
 
@@ -3199,6 +3396,7 @@ type Stage struct {
 	Sticks_mapString      map[string]*Stick
 	StickOrder            uint
 	Stick_stagedOrder     map[*Stick]uint
+	Stick_orderStaged     map[uint]*Stick
 	Sticks_reference      map[*Stick]*Stick
 	Sticks_referenceOrder map[*Stick]uint
 
@@ -3213,6 +3411,7 @@ type Stage struct {
 	String_mutes_mapString      map[string]*String_mute
 	String_muteOrder            uint
 	String_mute_stagedOrder     map[*String_mute]uint
+	String_mute_orderStaged     map[uint]*String_mute
 	String_mutes_reference      map[*String_mute]*String_mute
 	String_mutes_referenceOrder map[*String_mute]uint
 
@@ -3227,6 +3426,7 @@ type Stage struct {
 	String_types_mapString      map[string]*String_type
 	String_typeOrder            uint
 	String_type_stagedOrder     map[*String_type]uint
+	String_type_orderStaged     map[uint]*String_type
 	String_types_reference      map[*String_type]*String_type
 	String_types_referenceOrder map[*String_type]uint
 
@@ -3241,6 +3441,7 @@ type Stage struct {
 	Strong_accents_mapString      map[string]*Strong_accent
 	Strong_accentOrder            uint
 	Strong_accent_stagedOrder     map[*Strong_accent]uint
+	Strong_accent_orderStaged     map[uint]*Strong_accent
 	Strong_accents_reference      map[*Strong_accent]*Strong_accent
 	Strong_accents_referenceOrder map[*Strong_accent]uint
 
@@ -3255,6 +3456,7 @@ type Stage struct {
 	Style_texts_mapString      map[string]*Style_text
 	Style_textOrder            uint
 	Style_text_stagedOrder     map[*Style_text]uint
+	Style_text_orderStaged     map[uint]*Style_text
 	Style_texts_reference      map[*Style_text]*Style_text
 	Style_texts_referenceOrder map[*Style_text]uint
 
@@ -3269,6 +3471,7 @@ type Stage struct {
 	Supportss_mapString      map[string]*Supports
 	SupportsOrder            uint
 	Supports_stagedOrder     map[*Supports]uint
+	Supports_orderStaged     map[uint]*Supports
 	Supportss_reference      map[*Supports]*Supports
 	Supportss_referenceOrder map[*Supports]uint
 
@@ -3283,6 +3486,7 @@ type Stage struct {
 	Swings_mapString      map[string]*Swing
 	SwingOrder            uint
 	Swing_stagedOrder     map[*Swing]uint
+	Swing_orderStaged     map[uint]*Swing
 	Swings_reference      map[*Swing]*Swing
 	Swings_referenceOrder map[*Swing]uint
 
@@ -3297,6 +3501,7 @@ type Stage struct {
 	Syncs_mapString      map[string]*Sync
 	SyncOrder            uint
 	Sync_stagedOrder     map[*Sync]uint
+	Sync_orderStaged     map[uint]*Sync
 	Syncs_reference      map[*Sync]*Sync
 	Syncs_referenceOrder map[*Sync]uint
 
@@ -3311,6 +3516,7 @@ type Stage struct {
 	System_dividerss_mapString      map[string]*System_dividers
 	System_dividersOrder            uint
 	System_dividers_stagedOrder     map[*System_dividers]uint
+	System_dividers_orderStaged     map[uint]*System_dividers
 	System_dividerss_reference      map[*System_dividers]*System_dividers
 	System_dividerss_referenceOrder map[*System_dividers]uint
 
@@ -3325,6 +3531,7 @@ type Stage struct {
 	System_layouts_mapString      map[string]*System_layout
 	System_layoutOrder            uint
 	System_layout_stagedOrder     map[*System_layout]uint
+	System_layout_orderStaged     map[uint]*System_layout
 	System_layouts_reference      map[*System_layout]*System_layout
 	System_layouts_referenceOrder map[*System_layout]uint
 
@@ -3339,6 +3546,7 @@ type Stage struct {
 	System_marginss_mapString      map[string]*System_margins
 	System_marginsOrder            uint
 	System_margins_stagedOrder     map[*System_margins]uint
+	System_margins_orderStaged     map[uint]*System_margins
 	System_marginss_reference      map[*System_margins]*System_margins
 	System_marginss_referenceOrder map[*System_margins]uint
 
@@ -3353,6 +3561,7 @@ type Stage struct {
 	Taps_mapString      map[string]*Tap
 	TapOrder            uint
 	Tap_stagedOrder     map[*Tap]uint
+	Tap_orderStaged     map[uint]*Tap
 	Taps_reference      map[*Tap]*Tap
 	Taps_referenceOrder map[*Tap]uint
 
@@ -3367,6 +3576,7 @@ type Stage struct {
 	Technicals_mapString      map[string]*Technical
 	TechnicalOrder            uint
 	Technical_stagedOrder     map[*Technical]uint
+	Technical_orderStaged     map[uint]*Technical
 	Technicals_reference      map[*Technical]*Technical
 	Technicals_referenceOrder map[*Technical]uint
 
@@ -3443,6 +3653,7 @@ type Stage struct {
 	Text_element_datas_mapString      map[string]*Text_element_data
 	Text_element_dataOrder            uint
 	Text_element_data_stagedOrder     map[*Text_element_data]uint
+	Text_element_data_orderStaged     map[uint]*Text_element_data
 	Text_element_datas_reference      map[*Text_element_data]*Text_element_data
 	Text_element_datas_referenceOrder map[*Text_element_data]uint
 
@@ -3457,6 +3668,7 @@ type Stage struct {
 	Ties_mapString      map[string]*Tie
 	TieOrder            uint
 	Tie_stagedOrder     map[*Tie]uint
+	Tie_orderStaged     map[uint]*Tie
 	Ties_reference      map[*Tie]*Tie
 	Ties_referenceOrder map[*Tie]uint
 
@@ -3471,6 +3683,7 @@ type Stage struct {
 	Tieds_mapString      map[string]*Tied
 	TiedOrder            uint
 	Tied_stagedOrder     map[*Tied]uint
+	Tied_orderStaged     map[uint]*Tied
 	Tieds_reference      map[*Tied]*Tied
 	Tieds_referenceOrder map[*Tied]uint
 
@@ -3485,6 +3698,7 @@ type Stage struct {
 	Times_mapString      map[string]*Time
 	TimeOrder            uint
 	Time_stagedOrder     map[*Time]uint
+	Time_orderStaged     map[uint]*Time
 	Times_reference      map[*Time]*Time
 	Times_referenceOrder map[*Time]uint
 
@@ -3499,6 +3713,7 @@ type Stage struct {
 	Time_modifications_mapString      map[string]*Time_modification
 	Time_modificationOrder            uint
 	Time_modification_stagedOrder     map[*Time_modification]uint
+	Time_modification_orderStaged     map[uint]*Time_modification
 	Time_modifications_reference      map[*Time_modification]*Time_modification
 	Time_modifications_referenceOrder map[*Time_modification]uint
 
@@ -3513,6 +3728,7 @@ type Stage struct {
 	Timpanis_mapString      map[string]*Timpani
 	TimpaniOrder            uint
 	Timpani_stagedOrder     map[*Timpani]uint
+	Timpani_orderStaged     map[uint]*Timpani
 	Timpanis_reference      map[*Timpani]*Timpani
 	Timpanis_referenceOrder map[*Timpani]uint
 
@@ -3527,6 +3743,7 @@ type Stage struct {
 	Transposes_mapString      map[string]*Transpose
 	TransposeOrder            uint
 	Transpose_stagedOrder     map[*Transpose]uint
+	Transpose_orderStaged     map[uint]*Transpose
 	Transposes_reference      map[*Transpose]*Transpose
 	Transposes_referenceOrder map[*Transpose]uint
 
@@ -3541,6 +3758,7 @@ type Stage struct {
 	Tremolos_mapString      map[string]*Tremolo
 	TremoloOrder            uint
 	Tremolo_stagedOrder     map[*Tremolo]uint
+	Tremolo_orderStaged     map[uint]*Tremolo
 	Tremolos_reference      map[*Tremolo]*Tremolo
 	Tremolos_referenceOrder map[*Tremolo]uint
 
@@ -3555,6 +3773,7 @@ type Stage struct {
 	Tuplets_mapString      map[string]*Tuplet
 	TupletOrder            uint
 	Tuplet_stagedOrder     map[*Tuplet]uint
+	Tuplet_orderStaged     map[uint]*Tuplet
 	Tuplets_reference      map[*Tuplet]*Tuplet
 	Tuplets_referenceOrder map[*Tuplet]uint
 
@@ -3569,6 +3788,7 @@ type Stage struct {
 	Tuplet_dots_mapString      map[string]*Tuplet_dot
 	Tuplet_dotOrder            uint
 	Tuplet_dot_stagedOrder     map[*Tuplet_dot]uint
+	Tuplet_dot_orderStaged     map[uint]*Tuplet_dot
 	Tuplet_dots_reference      map[*Tuplet_dot]*Tuplet_dot
 	Tuplet_dots_referenceOrder map[*Tuplet_dot]uint
 
@@ -3583,6 +3803,7 @@ type Stage struct {
 	Tuplet_numbers_mapString      map[string]*Tuplet_number
 	Tuplet_numberOrder            uint
 	Tuplet_number_stagedOrder     map[*Tuplet_number]uint
+	Tuplet_number_orderStaged     map[uint]*Tuplet_number
 	Tuplet_numbers_reference      map[*Tuplet_number]*Tuplet_number
 	Tuplet_numbers_referenceOrder map[*Tuplet_number]uint
 
@@ -3597,6 +3818,7 @@ type Stage struct {
 	Tuplet_portions_mapString      map[string]*Tuplet_portion
 	Tuplet_portionOrder            uint
 	Tuplet_portion_stagedOrder     map[*Tuplet_portion]uint
+	Tuplet_portion_orderStaged     map[uint]*Tuplet_portion
 	Tuplet_portions_reference      map[*Tuplet_portion]*Tuplet_portion
 	Tuplet_portions_referenceOrder map[*Tuplet_portion]uint
 
@@ -3613,6 +3835,7 @@ type Stage struct {
 	Tuplet_types_mapString      map[string]*Tuplet_type
 	Tuplet_typeOrder            uint
 	Tuplet_type_stagedOrder     map[*Tuplet_type]uint
+	Tuplet_type_orderStaged     map[uint]*Tuplet_type
 	Tuplet_types_reference      map[*Tuplet_type]*Tuplet_type
 	Tuplet_types_referenceOrder map[*Tuplet_type]uint
 
@@ -3627,6 +3850,7 @@ type Stage struct {
 	Typed_texts_mapString      map[string]*Typed_text
 	Typed_textOrder            uint
 	Typed_text_stagedOrder     map[*Typed_text]uint
+	Typed_text_orderStaged     map[uint]*Typed_text
 	Typed_texts_reference      map[*Typed_text]*Typed_text
 	Typed_texts_referenceOrder map[*Typed_text]uint
 
@@ -3641,6 +3865,7 @@ type Stage struct {
 	Unpitcheds_mapString      map[string]*Unpitched
 	UnpitchedOrder            uint
 	Unpitched_stagedOrder     map[*Unpitched]uint
+	Unpitched_orderStaged     map[uint]*Unpitched
 	Unpitcheds_reference      map[*Unpitched]*Unpitched
 	Unpitcheds_referenceOrder map[*Unpitched]uint
 
@@ -3655,6 +3880,7 @@ type Stage struct {
 	Virtual_instruments_mapString      map[string]*Virtual_instrument
 	Virtual_instrumentOrder            uint
 	Virtual_instrument_stagedOrder     map[*Virtual_instrument]uint
+	Virtual_instrument_orderStaged     map[uint]*Virtual_instrument
 	Virtual_instruments_reference      map[*Virtual_instrument]*Virtual_instrument
 	Virtual_instruments_referenceOrder map[*Virtual_instrument]uint
 
@@ -3669,6 +3895,7 @@ type Stage struct {
 	Waits_mapString      map[string]*Wait
 	WaitOrder            uint
 	Wait_stagedOrder     map[*Wait]uint
+	Wait_orderStaged     map[uint]*Wait
 	Waits_reference      map[*Wait]*Wait
 	Waits_referenceOrder map[*Wait]uint
 
@@ -3683,6 +3910,7 @@ type Stage struct {
 	Wavy_lines_mapString      map[string]*Wavy_line
 	Wavy_lineOrder            uint
 	Wavy_line_stagedOrder     map[*Wavy_line]uint
+	Wavy_line_orderStaged     map[uint]*Wavy_line
 	Wavy_lines_reference      map[*Wavy_line]*Wavy_line
 	Wavy_lines_referenceOrder map[*Wavy_line]uint
 
@@ -3697,6 +3925,7 @@ type Stage struct {
 	Wedges_mapString      map[string]*Wedge
 	WedgeOrder            uint
 	Wedge_stagedOrder     map[*Wedge]uint
+	Wedge_orderStaged     map[uint]*Wedge
 	Wedges_reference      map[*Wedge]*Wedge
 	Wedges_referenceOrder map[*Wedge]uint
 
@@ -3711,6 +3940,7 @@ type Stage struct {
 	Woods_mapString      map[string]*Wood
 	WoodOrder            uint
 	Wood_stagedOrder     map[*Wood]uint
+	Wood_orderStaged     map[uint]*Wood
 	Woods_reference      map[*Wood]*Wood
 	Woods_referenceOrder map[*Wood]uint
 
@@ -3725,6 +3955,7 @@ type Stage struct {
 	Works_mapString      map[string]*Work
 	WorkOrder            uint
 	Work_stagedOrder     map[*Work]uint
+	Work_orderStaged     map[uint]*Work
 	Works_reference      map[*Work]*Work
 	Works_referenceOrder map[*Work]uint
 
@@ -13182,466 +13413,928 @@ func NewStage(name string) (stage *Stage) {
 
 		// insertion point for order map initialisations
 		A_directive_stagedOrder: make(map[*A_directive]uint),
+		A_directive_orderStaged: make(map[uint]*A_directive),
+		A_directives_reference: make(map[*A_directive]*A_directive),
 
 		A_measure_stagedOrder: make(map[*A_measure]uint),
+		A_measure_orderStaged: make(map[uint]*A_measure),
+		A_measures_reference: make(map[*A_measure]*A_measure),
 
 		A_measure_1_stagedOrder: make(map[*A_measure_1]uint),
+		A_measure_1_orderStaged: make(map[uint]*A_measure_1),
+		A_measure_1s_reference: make(map[*A_measure_1]*A_measure_1),
 
 		A_part_stagedOrder: make(map[*A_part]uint),
+		A_part_orderStaged: make(map[uint]*A_part),
+		A_parts_reference: make(map[*A_part]*A_part),
 
 		A_part_1_stagedOrder: make(map[*A_part_1]uint),
+		A_part_1_orderStaged: make(map[uint]*A_part_1),
+		A_part_1s_reference: make(map[*A_part_1]*A_part_1),
 
 		Accidental_stagedOrder: make(map[*Accidental]uint),
+		Accidental_orderStaged: make(map[uint]*Accidental),
+		Accidentals_reference: make(map[*Accidental]*Accidental),
 
 		Accidental_mark_stagedOrder: make(map[*Accidental_mark]uint),
+		Accidental_mark_orderStaged: make(map[uint]*Accidental_mark),
+		Accidental_marks_reference: make(map[*Accidental_mark]*Accidental_mark),
 
 		Accidental_text_stagedOrder: make(map[*Accidental_text]uint),
+		Accidental_text_orderStaged: make(map[uint]*Accidental_text),
+		Accidental_texts_reference: make(map[*Accidental_text]*Accidental_text),
 
 		Accord_stagedOrder: make(map[*Accord]uint),
+		Accord_orderStaged: make(map[uint]*Accord),
+		Accords_reference: make(map[*Accord]*Accord),
 
 		Accordion_registration_stagedOrder: make(map[*Accordion_registration]uint),
+		Accordion_registration_orderStaged: make(map[uint]*Accordion_registration),
+		Accordion_registrations_reference: make(map[*Accordion_registration]*Accordion_registration),
 
 		Appearance_stagedOrder: make(map[*Appearance]uint),
+		Appearance_orderStaged: make(map[uint]*Appearance),
+		Appearances_reference: make(map[*Appearance]*Appearance),
 
 		Arpeggiate_stagedOrder: make(map[*Arpeggiate]uint),
+		Arpeggiate_orderStaged: make(map[uint]*Arpeggiate),
+		Arpeggiates_reference: make(map[*Arpeggiate]*Arpeggiate),
 
 		Arrow_stagedOrder: make(map[*Arrow]uint),
+		Arrow_orderStaged: make(map[uint]*Arrow),
+		Arrows_reference: make(map[*Arrow]*Arrow),
 
 		Articulations_stagedOrder: make(map[*Articulations]uint),
+		Articulations_orderStaged: make(map[uint]*Articulations),
+		Articulationss_reference: make(map[*Articulations]*Articulations),
 
 		Assess_stagedOrder: make(map[*Assess]uint),
+		Assess_orderStaged: make(map[uint]*Assess),
+		Assesss_reference: make(map[*Assess]*Assess),
 
 		Attributes_stagedOrder: make(map[*Attributes]uint),
+		Attributes_orderStaged: make(map[uint]*Attributes),
+		Attributess_reference: make(map[*Attributes]*Attributes),
 
 		Backup_stagedOrder: make(map[*Backup]uint),
+		Backup_orderStaged: make(map[uint]*Backup),
+		Backups_reference: make(map[*Backup]*Backup),
 
 		Bar_style_color_stagedOrder: make(map[*Bar_style_color]uint),
+		Bar_style_color_orderStaged: make(map[uint]*Bar_style_color),
+		Bar_style_colors_reference: make(map[*Bar_style_color]*Bar_style_color),
 
 		Barline_stagedOrder: make(map[*Barline]uint),
+		Barline_orderStaged: make(map[uint]*Barline),
+		Barlines_reference: make(map[*Barline]*Barline),
 
 		Barre_stagedOrder: make(map[*Barre]uint),
+		Barre_orderStaged: make(map[uint]*Barre),
+		Barres_reference: make(map[*Barre]*Barre),
 
 		Bass_stagedOrder: make(map[*Bass]uint),
+		Bass_orderStaged: make(map[uint]*Bass),
+		Basss_reference: make(map[*Bass]*Bass),
 
 		Bass_step_stagedOrder: make(map[*Bass_step]uint),
+		Bass_step_orderStaged: make(map[uint]*Bass_step),
+		Bass_steps_reference: make(map[*Bass_step]*Bass_step),
 
 		Beam_stagedOrder: make(map[*Beam]uint),
+		Beam_orderStaged: make(map[uint]*Beam),
+		Beams_reference: make(map[*Beam]*Beam),
 
 		Beat_repeat_stagedOrder: make(map[*Beat_repeat]uint),
+		Beat_repeat_orderStaged: make(map[uint]*Beat_repeat),
+		Beat_repeats_reference: make(map[*Beat_repeat]*Beat_repeat),
 
 		Beat_unit_tied_stagedOrder: make(map[*Beat_unit_tied]uint),
+		Beat_unit_tied_orderStaged: make(map[uint]*Beat_unit_tied),
+		Beat_unit_tieds_reference: make(map[*Beat_unit_tied]*Beat_unit_tied),
 
 		Beater_stagedOrder: make(map[*Beater]uint),
+		Beater_orderStaged: make(map[uint]*Beater),
+		Beaters_reference: make(map[*Beater]*Beater),
 
 		Bend_stagedOrder: make(map[*Bend]uint),
+		Bend_orderStaged: make(map[uint]*Bend),
+		Bends_reference: make(map[*Bend]*Bend),
 
 		Bookmark_stagedOrder: make(map[*Bookmark]uint),
+		Bookmark_orderStaged: make(map[uint]*Bookmark),
+		Bookmarks_reference: make(map[*Bookmark]*Bookmark),
 
 		Bracket_stagedOrder: make(map[*Bracket]uint),
+		Bracket_orderStaged: make(map[uint]*Bracket),
+		Brackets_reference: make(map[*Bracket]*Bracket),
 
 		Breath_mark_stagedOrder: make(map[*Breath_mark]uint),
+		Breath_mark_orderStaged: make(map[uint]*Breath_mark),
+		Breath_marks_reference: make(map[*Breath_mark]*Breath_mark),
 
 		Caesura_stagedOrder: make(map[*Caesura]uint),
+		Caesura_orderStaged: make(map[uint]*Caesura),
+		Caesuras_reference: make(map[*Caesura]*Caesura),
 
 		Cancel_stagedOrder: make(map[*Cancel]uint),
+		Cancel_orderStaged: make(map[uint]*Cancel),
+		Cancels_reference: make(map[*Cancel]*Cancel),
 
 		Clef_stagedOrder: make(map[*Clef]uint),
+		Clef_orderStaged: make(map[uint]*Clef),
+		Clefs_reference: make(map[*Clef]*Clef),
 
 		Coda_stagedOrder: make(map[*Coda]uint),
+		Coda_orderStaged: make(map[uint]*Coda),
+		Codas_reference: make(map[*Coda]*Coda),
 
 		Credit_stagedOrder: make(map[*Credit]uint),
+		Credit_orderStaged: make(map[uint]*Credit),
+		Credits_reference: make(map[*Credit]*Credit),
 
 		Dashes_stagedOrder: make(map[*Dashes]uint),
+		Dashes_orderStaged: make(map[uint]*Dashes),
+		Dashess_reference: make(map[*Dashes]*Dashes),
 
 		Defaults_stagedOrder: make(map[*Defaults]uint),
+		Defaults_orderStaged: make(map[uint]*Defaults),
+		Defaultss_reference: make(map[*Defaults]*Defaults),
 
 		Degree_stagedOrder: make(map[*Degree]uint),
+		Degree_orderStaged: make(map[uint]*Degree),
+		Degrees_reference: make(map[*Degree]*Degree),
 
 		Degree_alter_stagedOrder: make(map[*Degree_alter]uint),
+		Degree_alter_orderStaged: make(map[uint]*Degree_alter),
+		Degree_alters_reference: make(map[*Degree_alter]*Degree_alter),
 
 		Degree_type_stagedOrder: make(map[*Degree_type]uint),
+		Degree_type_orderStaged: make(map[uint]*Degree_type),
+		Degree_types_reference: make(map[*Degree_type]*Degree_type),
 
 		Degree_value_stagedOrder: make(map[*Degree_value]uint),
+		Degree_value_orderStaged: make(map[uint]*Degree_value),
+		Degree_values_reference: make(map[*Degree_value]*Degree_value),
 
 		Direction_stagedOrder: make(map[*Direction]uint),
+		Direction_orderStaged: make(map[uint]*Direction),
+		Directions_reference: make(map[*Direction]*Direction),
 
 		Direction_type_stagedOrder: make(map[*Direction_type]uint),
+		Direction_type_orderStaged: make(map[uint]*Direction_type),
+		Direction_types_reference: make(map[*Direction_type]*Direction_type),
 
 		Distance_stagedOrder: make(map[*Distance]uint),
+		Distance_orderStaged: make(map[uint]*Distance),
+		Distances_reference: make(map[*Distance]*Distance),
 
 		Double_stagedOrder: make(map[*Double]uint),
+		Double_orderStaged: make(map[uint]*Double),
+		Doubles_reference: make(map[*Double]*Double),
 
 		Dynamics_stagedOrder: make(map[*Dynamics]uint),
+		Dynamics_orderStaged: make(map[uint]*Dynamics),
+		Dynamicss_reference: make(map[*Dynamics]*Dynamics),
 
 		Effect_stagedOrder: make(map[*Effect]uint),
+		Effect_orderStaged: make(map[uint]*Effect),
+		Effects_reference: make(map[*Effect]*Effect),
 
 		Elision_stagedOrder: make(map[*Elision]uint),
+		Elision_orderStaged: make(map[uint]*Elision),
+		Elisions_reference: make(map[*Elision]*Elision),
 
 		Empty_stagedOrder: make(map[*Empty]uint),
+		Empty_orderStaged: make(map[uint]*Empty),
+		Emptys_reference: make(map[*Empty]*Empty),
 
 		Empty_font_stagedOrder: make(map[*Empty_font]uint),
+		Empty_font_orderStaged: make(map[uint]*Empty_font),
+		Empty_fonts_reference: make(map[*Empty_font]*Empty_font),
 
 		Empty_line_stagedOrder: make(map[*Empty_line]uint),
+		Empty_line_orderStaged: make(map[uint]*Empty_line),
+		Empty_lines_reference: make(map[*Empty_line]*Empty_line),
 
 		Empty_placement_stagedOrder: make(map[*Empty_placement]uint),
+		Empty_placement_orderStaged: make(map[uint]*Empty_placement),
+		Empty_placements_reference: make(map[*Empty_placement]*Empty_placement),
 
 		Empty_placement_smufl_stagedOrder: make(map[*Empty_placement_smufl]uint),
+		Empty_placement_smufl_orderStaged: make(map[uint]*Empty_placement_smufl),
+		Empty_placement_smufls_reference: make(map[*Empty_placement_smufl]*Empty_placement_smufl),
 
 		Empty_print_object_style_align_stagedOrder: make(map[*Empty_print_object_style_align]uint),
+		Empty_print_object_style_align_orderStaged: make(map[uint]*Empty_print_object_style_align),
+		Empty_print_object_style_aligns_reference: make(map[*Empty_print_object_style_align]*Empty_print_object_style_align),
 
 		Empty_print_style_stagedOrder: make(map[*Empty_print_style]uint),
+		Empty_print_style_orderStaged: make(map[uint]*Empty_print_style),
+		Empty_print_styles_reference: make(map[*Empty_print_style]*Empty_print_style),
 
 		Empty_print_style_align_stagedOrder: make(map[*Empty_print_style_align]uint),
+		Empty_print_style_align_orderStaged: make(map[uint]*Empty_print_style_align),
+		Empty_print_style_aligns_reference: make(map[*Empty_print_style_align]*Empty_print_style_align),
 
 		Empty_print_style_align_id_stagedOrder: make(map[*Empty_print_style_align_id]uint),
+		Empty_print_style_align_id_orderStaged: make(map[uint]*Empty_print_style_align_id),
+		Empty_print_style_align_ids_reference: make(map[*Empty_print_style_align_id]*Empty_print_style_align_id),
 
 		Empty_trill_sound_stagedOrder: make(map[*Empty_trill_sound]uint),
+		Empty_trill_sound_orderStaged: make(map[uint]*Empty_trill_sound),
+		Empty_trill_sounds_reference: make(map[*Empty_trill_sound]*Empty_trill_sound),
 
 		Encoding_stagedOrder: make(map[*Encoding]uint),
+		Encoding_orderStaged: make(map[uint]*Encoding),
+		Encodings_reference: make(map[*Encoding]*Encoding),
 
 		Ending_stagedOrder: make(map[*Ending]uint),
+		Ending_orderStaged: make(map[uint]*Ending),
+		Endings_reference: make(map[*Ending]*Ending),
 
 		Extend_stagedOrder: make(map[*Extend]uint),
+		Extend_orderStaged: make(map[uint]*Extend),
+		Extends_reference: make(map[*Extend]*Extend),
 
 		Feature_stagedOrder: make(map[*Feature]uint),
+		Feature_orderStaged: make(map[uint]*Feature),
+		Features_reference: make(map[*Feature]*Feature),
 
 		Fermata_stagedOrder: make(map[*Fermata]uint),
+		Fermata_orderStaged: make(map[uint]*Fermata),
+		Fermatas_reference: make(map[*Fermata]*Fermata),
 
 		Figure_stagedOrder: make(map[*Figure]uint),
+		Figure_orderStaged: make(map[uint]*Figure),
+		Figures_reference: make(map[*Figure]*Figure),
 
 		Figured_bass_stagedOrder: make(map[*Figured_bass]uint),
+		Figured_bass_orderStaged: make(map[uint]*Figured_bass),
+		Figured_basss_reference: make(map[*Figured_bass]*Figured_bass),
 
 		Fingering_stagedOrder: make(map[*Fingering]uint),
+		Fingering_orderStaged: make(map[uint]*Fingering),
+		Fingerings_reference: make(map[*Fingering]*Fingering),
 
 		First_fret_stagedOrder: make(map[*First_fret]uint),
+		First_fret_orderStaged: make(map[uint]*First_fret),
+		First_frets_reference: make(map[*First_fret]*First_fret),
 
 		For_part_stagedOrder: make(map[*For_part]uint),
+		For_part_orderStaged: make(map[uint]*For_part),
+		For_parts_reference: make(map[*For_part]*For_part),
 
 		Formatted_symbol_stagedOrder: make(map[*Formatted_symbol]uint),
+		Formatted_symbol_orderStaged: make(map[uint]*Formatted_symbol),
+		Formatted_symbols_reference: make(map[*Formatted_symbol]*Formatted_symbol),
 
 		Formatted_symbol_id_stagedOrder: make(map[*Formatted_symbol_id]uint),
+		Formatted_symbol_id_orderStaged: make(map[uint]*Formatted_symbol_id),
+		Formatted_symbol_ids_reference: make(map[*Formatted_symbol_id]*Formatted_symbol_id),
 
 		Formatted_text_stagedOrder: make(map[*Formatted_text]uint),
+		Formatted_text_orderStaged: make(map[uint]*Formatted_text),
+		Formatted_texts_reference: make(map[*Formatted_text]*Formatted_text),
 
 		Formatted_text_id_stagedOrder: make(map[*Formatted_text_id]uint),
+		Formatted_text_id_orderStaged: make(map[uint]*Formatted_text_id),
+		Formatted_text_ids_reference: make(map[*Formatted_text_id]*Formatted_text_id),
 
 		Forward_stagedOrder: make(map[*Forward]uint),
+		Forward_orderStaged: make(map[uint]*Forward),
+		Forwards_reference: make(map[*Forward]*Forward),
 
 		Frame_stagedOrder: make(map[*Frame]uint),
+		Frame_orderStaged: make(map[uint]*Frame),
+		Frames_reference: make(map[*Frame]*Frame),
 
 		Frame_note_stagedOrder: make(map[*Frame_note]uint),
+		Frame_note_orderStaged: make(map[uint]*Frame_note),
+		Frame_notes_reference: make(map[*Frame_note]*Frame_note),
 
 		Fret_stagedOrder: make(map[*Fret]uint),
+		Fret_orderStaged: make(map[uint]*Fret),
+		Frets_reference: make(map[*Fret]*Fret),
 
 		Glass_stagedOrder: make(map[*Glass]uint),
+		Glass_orderStaged: make(map[uint]*Glass),
+		Glasss_reference: make(map[*Glass]*Glass),
 
 		Glissando_stagedOrder: make(map[*Glissando]uint),
+		Glissando_orderStaged: make(map[uint]*Glissando),
+		Glissandos_reference: make(map[*Glissando]*Glissando),
 
 		Glyph_stagedOrder: make(map[*Glyph]uint),
+		Glyph_orderStaged: make(map[uint]*Glyph),
+		Glyphs_reference: make(map[*Glyph]*Glyph),
 
 		Grace_stagedOrder: make(map[*Grace]uint),
+		Grace_orderStaged: make(map[uint]*Grace),
+		Graces_reference: make(map[*Grace]*Grace),
 
 		Group_barline_stagedOrder: make(map[*Group_barline]uint),
+		Group_barline_orderStaged: make(map[uint]*Group_barline),
+		Group_barlines_reference: make(map[*Group_barline]*Group_barline),
 
 		Group_name_stagedOrder: make(map[*Group_name]uint),
+		Group_name_orderStaged: make(map[uint]*Group_name),
+		Group_names_reference: make(map[*Group_name]*Group_name),
 
 		Group_symbol_stagedOrder: make(map[*Group_symbol]uint),
+		Group_symbol_orderStaged: make(map[uint]*Group_symbol),
+		Group_symbols_reference: make(map[*Group_symbol]*Group_symbol),
 
 		Grouping_stagedOrder: make(map[*Grouping]uint),
+		Grouping_orderStaged: make(map[uint]*Grouping),
+		Groupings_reference: make(map[*Grouping]*Grouping),
 
 		Hammer_on_pull_off_stagedOrder: make(map[*Hammer_on_pull_off]uint),
+		Hammer_on_pull_off_orderStaged: make(map[uint]*Hammer_on_pull_off),
+		Hammer_on_pull_offs_reference: make(map[*Hammer_on_pull_off]*Hammer_on_pull_off),
 
 		Handbell_stagedOrder: make(map[*Handbell]uint),
+		Handbell_orderStaged: make(map[uint]*Handbell),
+		Handbells_reference: make(map[*Handbell]*Handbell),
 
 		Harmon_closed_stagedOrder: make(map[*Harmon_closed]uint),
+		Harmon_closed_orderStaged: make(map[uint]*Harmon_closed),
+		Harmon_closeds_reference: make(map[*Harmon_closed]*Harmon_closed),
 
 		Harmon_mute_stagedOrder: make(map[*Harmon_mute]uint),
+		Harmon_mute_orderStaged: make(map[uint]*Harmon_mute),
+		Harmon_mutes_reference: make(map[*Harmon_mute]*Harmon_mute),
 
 		Harmonic_stagedOrder: make(map[*Harmonic]uint),
+		Harmonic_orderStaged: make(map[uint]*Harmonic),
+		Harmonics_reference: make(map[*Harmonic]*Harmonic),
 
 		Harmony_stagedOrder: make(map[*Harmony]uint),
+		Harmony_orderStaged: make(map[uint]*Harmony),
+		Harmonys_reference: make(map[*Harmony]*Harmony),
 
 		Harmony_alter_stagedOrder: make(map[*Harmony_alter]uint),
+		Harmony_alter_orderStaged: make(map[uint]*Harmony_alter),
+		Harmony_alters_reference: make(map[*Harmony_alter]*Harmony_alter),
 
 		Harp_pedals_stagedOrder: make(map[*Harp_pedals]uint),
+		Harp_pedals_orderStaged: make(map[uint]*Harp_pedals),
+		Harp_pedalss_reference: make(map[*Harp_pedals]*Harp_pedals),
 
 		Heel_toe_stagedOrder: make(map[*Heel_toe]uint),
+		Heel_toe_orderStaged: make(map[uint]*Heel_toe),
+		Heel_toes_reference: make(map[*Heel_toe]*Heel_toe),
 
 		Hole_stagedOrder: make(map[*Hole]uint),
+		Hole_orderStaged: make(map[uint]*Hole),
+		Holes_reference: make(map[*Hole]*Hole),
 
 		Hole_closed_stagedOrder: make(map[*Hole_closed]uint),
+		Hole_closed_orderStaged: make(map[uint]*Hole_closed),
+		Hole_closeds_reference: make(map[*Hole_closed]*Hole_closed),
 
 		Horizontal_turn_stagedOrder: make(map[*Horizontal_turn]uint),
+		Horizontal_turn_orderStaged: make(map[uint]*Horizontal_turn),
+		Horizontal_turns_reference: make(map[*Horizontal_turn]*Horizontal_turn),
 
 		Identification_stagedOrder: make(map[*Identification]uint),
+		Identification_orderStaged: make(map[uint]*Identification),
+		Identifications_reference: make(map[*Identification]*Identification),
 
 		Image_stagedOrder: make(map[*Image]uint),
+		Image_orderStaged: make(map[uint]*Image),
+		Images_reference: make(map[*Image]*Image),
 
 		Instrument_stagedOrder: make(map[*Instrument]uint),
+		Instrument_orderStaged: make(map[uint]*Instrument),
+		Instruments_reference: make(map[*Instrument]*Instrument),
 
 		Instrument_change_stagedOrder: make(map[*Instrument_change]uint),
+		Instrument_change_orderStaged: make(map[uint]*Instrument_change),
+		Instrument_changes_reference: make(map[*Instrument_change]*Instrument_change),
 
 		Instrument_link_stagedOrder: make(map[*Instrument_link]uint),
+		Instrument_link_orderStaged: make(map[uint]*Instrument_link),
+		Instrument_links_reference: make(map[*Instrument_link]*Instrument_link),
 
 		Interchangeable_stagedOrder: make(map[*Interchangeable]uint),
+		Interchangeable_orderStaged: make(map[uint]*Interchangeable),
+		Interchangeables_reference: make(map[*Interchangeable]*Interchangeable),
 
 		Inversion_stagedOrder: make(map[*Inversion]uint),
+		Inversion_orderStaged: make(map[uint]*Inversion),
+		Inversions_reference: make(map[*Inversion]*Inversion),
 
 		Key_stagedOrder: make(map[*Key]uint),
+		Key_orderStaged: make(map[uint]*Key),
+		Keys_reference: make(map[*Key]*Key),
 
 		Key_accidental_stagedOrder: make(map[*Key_accidental]uint),
+		Key_accidental_orderStaged: make(map[uint]*Key_accidental),
+		Key_accidentals_reference: make(map[*Key_accidental]*Key_accidental),
 
 		Key_octave_stagedOrder: make(map[*Key_octave]uint),
+		Key_octave_orderStaged: make(map[uint]*Key_octave),
+		Key_octaves_reference: make(map[*Key_octave]*Key_octave),
 
 		Kind_stagedOrder: make(map[*Kind]uint),
+		Kind_orderStaged: make(map[uint]*Kind),
+		Kinds_reference: make(map[*Kind]*Kind),
 
 		Level_stagedOrder: make(map[*Level]uint),
+		Level_orderStaged: make(map[uint]*Level),
+		Levels_reference: make(map[*Level]*Level),
 
 		Line_detail_stagedOrder: make(map[*Line_detail]uint),
+		Line_detail_orderStaged: make(map[uint]*Line_detail),
+		Line_details_reference: make(map[*Line_detail]*Line_detail),
 
 		Line_width_stagedOrder: make(map[*Line_width]uint),
+		Line_width_orderStaged: make(map[uint]*Line_width),
+		Line_widths_reference: make(map[*Line_width]*Line_width),
 
 		Link_stagedOrder: make(map[*Link]uint),
+		Link_orderStaged: make(map[uint]*Link),
+		Links_reference: make(map[*Link]*Link),
 
 		Listen_stagedOrder: make(map[*Listen]uint),
+		Listen_orderStaged: make(map[uint]*Listen),
+		Listens_reference: make(map[*Listen]*Listen),
 
 		Listening_stagedOrder: make(map[*Listening]uint),
+		Listening_orderStaged: make(map[uint]*Listening),
+		Listenings_reference: make(map[*Listening]*Listening),
 
 		Lyric_stagedOrder: make(map[*Lyric]uint),
+		Lyric_orderStaged: make(map[uint]*Lyric),
+		Lyrics_reference: make(map[*Lyric]*Lyric),
 
 		Lyric_font_stagedOrder: make(map[*Lyric_font]uint),
+		Lyric_font_orderStaged: make(map[uint]*Lyric_font),
+		Lyric_fonts_reference: make(map[*Lyric_font]*Lyric_font),
 
 		Lyric_language_stagedOrder: make(map[*Lyric_language]uint),
+		Lyric_language_orderStaged: make(map[uint]*Lyric_language),
+		Lyric_languages_reference: make(map[*Lyric_language]*Lyric_language),
 
 		Measure_layout_stagedOrder: make(map[*Measure_layout]uint),
+		Measure_layout_orderStaged: make(map[uint]*Measure_layout),
+		Measure_layouts_reference: make(map[*Measure_layout]*Measure_layout),
 
 		Measure_numbering_stagedOrder: make(map[*Measure_numbering]uint),
+		Measure_numbering_orderStaged: make(map[uint]*Measure_numbering),
+		Measure_numberings_reference: make(map[*Measure_numbering]*Measure_numbering),
 
 		Measure_repeat_stagedOrder: make(map[*Measure_repeat]uint),
+		Measure_repeat_orderStaged: make(map[uint]*Measure_repeat),
+		Measure_repeats_reference: make(map[*Measure_repeat]*Measure_repeat),
 
 		Measure_style_stagedOrder: make(map[*Measure_style]uint),
+		Measure_style_orderStaged: make(map[uint]*Measure_style),
+		Measure_styles_reference: make(map[*Measure_style]*Measure_style),
 
 		Membrane_stagedOrder: make(map[*Membrane]uint),
+		Membrane_orderStaged: make(map[uint]*Membrane),
+		Membranes_reference: make(map[*Membrane]*Membrane),
 
 		Metal_stagedOrder: make(map[*Metal]uint),
+		Metal_orderStaged: make(map[uint]*Metal),
+		Metals_reference: make(map[*Metal]*Metal),
 
 		Metronome_stagedOrder: make(map[*Metronome]uint),
+		Metronome_orderStaged: make(map[uint]*Metronome),
+		Metronomes_reference: make(map[*Metronome]*Metronome),
 
 		Metronome_beam_stagedOrder: make(map[*Metronome_beam]uint),
+		Metronome_beam_orderStaged: make(map[uint]*Metronome_beam),
+		Metronome_beams_reference: make(map[*Metronome_beam]*Metronome_beam),
 
 		Metronome_note_stagedOrder: make(map[*Metronome_note]uint),
+		Metronome_note_orderStaged: make(map[uint]*Metronome_note),
+		Metronome_notes_reference: make(map[*Metronome_note]*Metronome_note),
 
 		Metronome_tied_stagedOrder: make(map[*Metronome_tied]uint),
+		Metronome_tied_orderStaged: make(map[uint]*Metronome_tied),
+		Metronome_tieds_reference: make(map[*Metronome_tied]*Metronome_tied),
 
 		Metronome_tuplet_stagedOrder: make(map[*Metronome_tuplet]uint),
+		Metronome_tuplet_orderStaged: make(map[uint]*Metronome_tuplet),
+		Metronome_tuplets_reference: make(map[*Metronome_tuplet]*Metronome_tuplet),
 
 		Midi_device_stagedOrder: make(map[*Midi_device]uint),
+		Midi_device_orderStaged: make(map[uint]*Midi_device),
+		Midi_devices_reference: make(map[*Midi_device]*Midi_device),
 
 		Midi_instrument_stagedOrder: make(map[*Midi_instrument]uint),
+		Midi_instrument_orderStaged: make(map[uint]*Midi_instrument),
+		Midi_instruments_reference: make(map[*Midi_instrument]*Midi_instrument),
 
 		Miscellaneous_stagedOrder: make(map[*Miscellaneous]uint),
+		Miscellaneous_orderStaged: make(map[uint]*Miscellaneous),
+		Miscellaneouss_reference: make(map[*Miscellaneous]*Miscellaneous),
 
 		Miscellaneous_field_stagedOrder: make(map[*Miscellaneous_field]uint),
+		Miscellaneous_field_orderStaged: make(map[uint]*Miscellaneous_field),
+		Miscellaneous_fields_reference: make(map[*Miscellaneous_field]*Miscellaneous_field),
 
 		Mordent_stagedOrder: make(map[*Mordent]uint),
+		Mordent_orderStaged: make(map[uint]*Mordent),
+		Mordents_reference: make(map[*Mordent]*Mordent),
 
 		Multiple_rest_stagedOrder: make(map[*Multiple_rest]uint),
+		Multiple_rest_orderStaged: make(map[uint]*Multiple_rest),
+		Multiple_rests_reference: make(map[*Multiple_rest]*Multiple_rest),
 
 		Name_display_stagedOrder: make(map[*Name_display]uint),
+		Name_display_orderStaged: make(map[uint]*Name_display),
+		Name_displays_reference: make(map[*Name_display]*Name_display),
 
 		Non_arpeggiate_stagedOrder: make(map[*Non_arpeggiate]uint),
+		Non_arpeggiate_orderStaged: make(map[uint]*Non_arpeggiate),
+		Non_arpeggiates_reference: make(map[*Non_arpeggiate]*Non_arpeggiate),
 
 		Notations_stagedOrder: make(map[*Notations]uint),
+		Notations_orderStaged: make(map[uint]*Notations),
+		Notationss_reference: make(map[*Notations]*Notations),
 
 		Note_stagedOrder: make(map[*Note]uint),
+		Note_orderStaged: make(map[uint]*Note),
+		Notes_reference: make(map[*Note]*Note),
 
 		Note_size_stagedOrder: make(map[*Note_size]uint),
+		Note_size_orderStaged: make(map[uint]*Note_size),
+		Note_sizes_reference: make(map[*Note_size]*Note_size),
 
 		Note_type_stagedOrder: make(map[*Note_type]uint),
+		Note_type_orderStaged: make(map[uint]*Note_type),
+		Note_types_reference: make(map[*Note_type]*Note_type),
 
 		Notehead_stagedOrder: make(map[*Notehead]uint),
+		Notehead_orderStaged: make(map[uint]*Notehead),
+		Noteheads_reference: make(map[*Notehead]*Notehead),
 
 		Notehead_text_stagedOrder: make(map[*Notehead_text]uint),
+		Notehead_text_orderStaged: make(map[uint]*Notehead_text),
+		Notehead_texts_reference: make(map[*Notehead_text]*Notehead_text),
 
 		Numeral_stagedOrder: make(map[*Numeral]uint),
+		Numeral_orderStaged: make(map[uint]*Numeral),
+		Numerals_reference: make(map[*Numeral]*Numeral),
 
 		Numeral_key_stagedOrder: make(map[*Numeral_key]uint),
+		Numeral_key_orderStaged: make(map[uint]*Numeral_key),
+		Numeral_keys_reference: make(map[*Numeral_key]*Numeral_key),
 
 		Numeral_root_stagedOrder: make(map[*Numeral_root]uint),
+		Numeral_root_orderStaged: make(map[uint]*Numeral_root),
+		Numeral_roots_reference: make(map[*Numeral_root]*Numeral_root),
 
 		Octave_shift_stagedOrder: make(map[*Octave_shift]uint),
+		Octave_shift_orderStaged: make(map[uint]*Octave_shift),
+		Octave_shifts_reference: make(map[*Octave_shift]*Octave_shift),
 
 		Offset_stagedOrder: make(map[*Offset]uint),
+		Offset_orderStaged: make(map[uint]*Offset),
+		Offsets_reference: make(map[*Offset]*Offset),
 
 		Opus_stagedOrder: make(map[*Opus]uint),
+		Opus_orderStaged: make(map[uint]*Opus),
+		Opuss_reference: make(map[*Opus]*Opus),
 
 		Ornaments_stagedOrder: make(map[*Ornaments]uint),
+		Ornaments_orderStaged: make(map[uint]*Ornaments),
+		Ornamentss_reference: make(map[*Ornaments]*Ornaments),
 
 		Other_appearance_stagedOrder: make(map[*Other_appearance]uint),
+		Other_appearance_orderStaged: make(map[uint]*Other_appearance),
+		Other_appearances_reference: make(map[*Other_appearance]*Other_appearance),
 
 		Other_direction_stagedOrder: make(map[*Other_direction]uint),
+		Other_direction_orderStaged: make(map[uint]*Other_direction),
+		Other_directions_reference: make(map[*Other_direction]*Other_direction),
 
 		Other_listening_stagedOrder: make(map[*Other_listening]uint),
+		Other_listening_orderStaged: make(map[uint]*Other_listening),
+		Other_listenings_reference: make(map[*Other_listening]*Other_listening),
 
 		Other_notation_stagedOrder: make(map[*Other_notation]uint),
+		Other_notation_orderStaged: make(map[uint]*Other_notation),
+		Other_notations_reference: make(map[*Other_notation]*Other_notation),
 
 		Other_placement_text_stagedOrder: make(map[*Other_placement_text]uint),
+		Other_placement_text_orderStaged: make(map[uint]*Other_placement_text),
+		Other_placement_texts_reference: make(map[*Other_placement_text]*Other_placement_text),
 
 		Other_play_stagedOrder: make(map[*Other_play]uint),
+		Other_play_orderStaged: make(map[uint]*Other_play),
+		Other_plays_reference: make(map[*Other_play]*Other_play),
 
 		Other_text_stagedOrder: make(map[*Other_text]uint),
+		Other_text_orderStaged: make(map[uint]*Other_text),
+		Other_texts_reference: make(map[*Other_text]*Other_text),
 
 		Page_layout_stagedOrder: make(map[*Page_layout]uint),
+		Page_layout_orderStaged: make(map[uint]*Page_layout),
+		Page_layouts_reference: make(map[*Page_layout]*Page_layout),
 
 		Page_margins_stagedOrder: make(map[*Page_margins]uint),
+		Page_margins_orderStaged: make(map[uint]*Page_margins),
+		Page_marginss_reference: make(map[*Page_margins]*Page_margins),
 
 		Part_clef_stagedOrder: make(map[*Part_clef]uint),
+		Part_clef_orderStaged: make(map[uint]*Part_clef),
+		Part_clefs_reference: make(map[*Part_clef]*Part_clef),
 
 		Part_group_stagedOrder: make(map[*Part_group]uint),
+		Part_group_orderStaged: make(map[uint]*Part_group),
+		Part_groups_reference: make(map[*Part_group]*Part_group),
 
 		Part_link_stagedOrder: make(map[*Part_link]uint),
+		Part_link_orderStaged: make(map[uint]*Part_link),
+		Part_links_reference: make(map[*Part_link]*Part_link),
 
 		Part_list_stagedOrder: make(map[*Part_list]uint),
+		Part_list_orderStaged: make(map[uint]*Part_list),
+		Part_lists_reference: make(map[*Part_list]*Part_list),
 
 		Part_name_stagedOrder: make(map[*Part_name]uint),
+		Part_name_orderStaged: make(map[uint]*Part_name),
+		Part_names_reference: make(map[*Part_name]*Part_name),
 
 		Part_symbol_stagedOrder: make(map[*Part_symbol]uint),
+		Part_symbol_orderStaged: make(map[uint]*Part_symbol),
+		Part_symbols_reference: make(map[*Part_symbol]*Part_symbol),
 
 		Part_transpose_stagedOrder: make(map[*Part_transpose]uint),
+		Part_transpose_orderStaged: make(map[uint]*Part_transpose),
+		Part_transposes_reference: make(map[*Part_transpose]*Part_transpose),
 
 		Pedal_stagedOrder: make(map[*Pedal]uint),
+		Pedal_orderStaged: make(map[uint]*Pedal),
+		Pedals_reference: make(map[*Pedal]*Pedal),
 
 		Pedal_tuning_stagedOrder: make(map[*Pedal_tuning]uint),
+		Pedal_tuning_orderStaged: make(map[uint]*Pedal_tuning),
+		Pedal_tunings_reference: make(map[*Pedal_tuning]*Pedal_tuning),
 
 		Per_minute_stagedOrder: make(map[*Per_minute]uint),
+		Per_minute_orderStaged: make(map[uint]*Per_minute),
+		Per_minutes_reference: make(map[*Per_minute]*Per_minute),
 
 		Percussion_stagedOrder: make(map[*Percussion]uint),
+		Percussion_orderStaged: make(map[uint]*Percussion),
+		Percussions_reference: make(map[*Percussion]*Percussion),
 
 		Pitch_stagedOrder: make(map[*Pitch]uint),
+		Pitch_orderStaged: make(map[uint]*Pitch),
+		Pitchs_reference: make(map[*Pitch]*Pitch),
 
 		Pitched_stagedOrder: make(map[*Pitched]uint),
+		Pitched_orderStaged: make(map[uint]*Pitched),
+		Pitcheds_reference: make(map[*Pitched]*Pitched),
 
 		Placement_text_stagedOrder: make(map[*Placement_text]uint),
+		Placement_text_orderStaged: make(map[uint]*Placement_text),
+		Placement_texts_reference: make(map[*Placement_text]*Placement_text),
 
 		Play_stagedOrder: make(map[*Play]uint),
+		Play_orderStaged: make(map[uint]*Play),
+		Plays_reference: make(map[*Play]*Play),
 
 		Player_stagedOrder: make(map[*Player]uint),
+		Player_orderStaged: make(map[uint]*Player),
+		Players_reference: make(map[*Player]*Player),
 
 		Principal_voice_stagedOrder: make(map[*Principal_voice]uint),
+		Principal_voice_orderStaged: make(map[uint]*Principal_voice),
+		Principal_voices_reference: make(map[*Principal_voice]*Principal_voice),
 
 		Print_stagedOrder: make(map[*Print]uint),
+		Print_orderStaged: make(map[uint]*Print),
+		Prints_reference: make(map[*Print]*Print),
 
 		Release_stagedOrder: make(map[*Release]uint),
+		Release_orderStaged: make(map[uint]*Release),
+		Releases_reference: make(map[*Release]*Release),
 
 		Repeat_stagedOrder: make(map[*Repeat]uint),
+		Repeat_orderStaged: make(map[uint]*Repeat),
+		Repeats_reference: make(map[*Repeat]*Repeat),
 
 		Rest_stagedOrder: make(map[*Rest]uint),
+		Rest_orderStaged: make(map[uint]*Rest),
+		Rests_reference: make(map[*Rest]*Rest),
 
 		Root_stagedOrder: make(map[*Root]uint),
+		Root_orderStaged: make(map[uint]*Root),
+		Roots_reference: make(map[*Root]*Root),
 
 		Root_step_stagedOrder: make(map[*Root_step]uint),
+		Root_step_orderStaged: make(map[uint]*Root_step),
+		Root_steps_reference: make(map[*Root_step]*Root_step),
 
 		Scaling_stagedOrder: make(map[*Scaling]uint),
+		Scaling_orderStaged: make(map[uint]*Scaling),
+		Scalings_reference: make(map[*Scaling]*Scaling),
 
 		Scordatura_stagedOrder: make(map[*Scordatura]uint),
+		Scordatura_orderStaged: make(map[uint]*Scordatura),
+		Scordaturas_reference: make(map[*Scordatura]*Scordatura),
 
 		Score_instrument_stagedOrder: make(map[*Score_instrument]uint),
+		Score_instrument_orderStaged: make(map[uint]*Score_instrument),
+		Score_instruments_reference: make(map[*Score_instrument]*Score_instrument),
 
 		Score_part_stagedOrder: make(map[*Score_part]uint),
+		Score_part_orderStaged: make(map[uint]*Score_part),
+		Score_parts_reference: make(map[*Score_part]*Score_part),
 
 		Score_partwise_stagedOrder: make(map[*Score_partwise]uint),
+		Score_partwise_orderStaged: make(map[uint]*Score_partwise),
+		Score_partwises_reference: make(map[*Score_partwise]*Score_partwise),
 
 		Score_timewise_stagedOrder: make(map[*Score_timewise]uint),
+		Score_timewise_orderStaged: make(map[uint]*Score_timewise),
+		Score_timewises_reference: make(map[*Score_timewise]*Score_timewise),
 
 		Segno_stagedOrder: make(map[*Segno]uint),
+		Segno_orderStaged: make(map[uint]*Segno),
+		Segnos_reference: make(map[*Segno]*Segno),
 
 		Slash_stagedOrder: make(map[*Slash]uint),
+		Slash_orderStaged: make(map[uint]*Slash),
+		Slashs_reference: make(map[*Slash]*Slash),
 
 		Slide_stagedOrder: make(map[*Slide]uint),
+		Slide_orderStaged: make(map[uint]*Slide),
+		Slides_reference: make(map[*Slide]*Slide),
 
 		Slur_stagedOrder: make(map[*Slur]uint),
+		Slur_orderStaged: make(map[uint]*Slur),
+		Slurs_reference: make(map[*Slur]*Slur),
 
 		Sound_stagedOrder: make(map[*Sound]uint),
+		Sound_orderStaged: make(map[uint]*Sound),
+		Sounds_reference: make(map[*Sound]*Sound),
 
 		Staff_details_stagedOrder: make(map[*Staff_details]uint),
+		Staff_details_orderStaged: make(map[uint]*Staff_details),
+		Staff_detailss_reference: make(map[*Staff_details]*Staff_details),
 
 		Staff_divide_stagedOrder: make(map[*Staff_divide]uint),
+		Staff_divide_orderStaged: make(map[uint]*Staff_divide),
+		Staff_divides_reference: make(map[*Staff_divide]*Staff_divide),
 
 		Staff_layout_stagedOrder: make(map[*Staff_layout]uint),
+		Staff_layout_orderStaged: make(map[uint]*Staff_layout),
+		Staff_layouts_reference: make(map[*Staff_layout]*Staff_layout),
 
 		Staff_size_stagedOrder: make(map[*Staff_size]uint),
+		Staff_size_orderStaged: make(map[uint]*Staff_size),
+		Staff_sizes_reference: make(map[*Staff_size]*Staff_size),
 
 		Staff_tuning_stagedOrder: make(map[*Staff_tuning]uint),
+		Staff_tuning_orderStaged: make(map[uint]*Staff_tuning),
+		Staff_tunings_reference: make(map[*Staff_tuning]*Staff_tuning),
 
 		Stem_stagedOrder: make(map[*Stem]uint),
+		Stem_orderStaged: make(map[uint]*Stem),
+		Stems_reference: make(map[*Stem]*Stem),
 
 		Stick_stagedOrder: make(map[*Stick]uint),
+		Stick_orderStaged: make(map[uint]*Stick),
+		Sticks_reference: make(map[*Stick]*Stick),
 
 		String_mute_stagedOrder: make(map[*String_mute]uint),
+		String_mute_orderStaged: make(map[uint]*String_mute),
+		String_mutes_reference: make(map[*String_mute]*String_mute),
 
 		String_type_stagedOrder: make(map[*String_type]uint),
+		String_type_orderStaged: make(map[uint]*String_type),
+		String_types_reference: make(map[*String_type]*String_type),
 
 		Strong_accent_stagedOrder: make(map[*Strong_accent]uint),
+		Strong_accent_orderStaged: make(map[uint]*Strong_accent),
+		Strong_accents_reference: make(map[*Strong_accent]*Strong_accent),
 
 		Style_text_stagedOrder: make(map[*Style_text]uint),
+		Style_text_orderStaged: make(map[uint]*Style_text),
+		Style_texts_reference: make(map[*Style_text]*Style_text),
 
 		Supports_stagedOrder: make(map[*Supports]uint),
+		Supports_orderStaged: make(map[uint]*Supports),
+		Supportss_reference: make(map[*Supports]*Supports),
 
 		Swing_stagedOrder: make(map[*Swing]uint),
+		Swing_orderStaged: make(map[uint]*Swing),
+		Swings_reference: make(map[*Swing]*Swing),
 
 		Sync_stagedOrder: make(map[*Sync]uint),
+		Sync_orderStaged: make(map[uint]*Sync),
+		Syncs_reference: make(map[*Sync]*Sync),
 
 		System_dividers_stagedOrder: make(map[*System_dividers]uint),
+		System_dividers_orderStaged: make(map[uint]*System_dividers),
+		System_dividerss_reference: make(map[*System_dividers]*System_dividers),
 
 		System_layout_stagedOrder: make(map[*System_layout]uint),
+		System_layout_orderStaged: make(map[uint]*System_layout),
+		System_layouts_reference: make(map[*System_layout]*System_layout),
 
 		System_margins_stagedOrder: make(map[*System_margins]uint),
+		System_margins_orderStaged: make(map[uint]*System_margins),
+		System_marginss_reference: make(map[*System_margins]*System_margins),
 
 		Tap_stagedOrder: make(map[*Tap]uint),
+		Tap_orderStaged: make(map[uint]*Tap),
+		Taps_reference: make(map[*Tap]*Tap),
 
 		Technical_stagedOrder: make(map[*Technical]uint),
+		Technical_orderStaged: make(map[uint]*Technical),
+		Technicals_reference: make(map[*Technical]*Technical),
 
 		Text_element_data_stagedOrder: make(map[*Text_element_data]uint),
+		Text_element_data_orderStaged: make(map[uint]*Text_element_data),
+		Text_element_datas_reference: make(map[*Text_element_data]*Text_element_data),
 
 		Tie_stagedOrder: make(map[*Tie]uint),
+		Tie_orderStaged: make(map[uint]*Tie),
+		Ties_reference: make(map[*Tie]*Tie),
 
 		Tied_stagedOrder: make(map[*Tied]uint),
+		Tied_orderStaged: make(map[uint]*Tied),
+		Tieds_reference: make(map[*Tied]*Tied),
 
 		Time_stagedOrder: make(map[*Time]uint),
+		Time_orderStaged: make(map[uint]*Time),
+		Times_reference: make(map[*Time]*Time),
 
 		Time_modification_stagedOrder: make(map[*Time_modification]uint),
+		Time_modification_orderStaged: make(map[uint]*Time_modification),
+		Time_modifications_reference: make(map[*Time_modification]*Time_modification),
 
 		Timpani_stagedOrder: make(map[*Timpani]uint),
+		Timpani_orderStaged: make(map[uint]*Timpani),
+		Timpanis_reference: make(map[*Timpani]*Timpani),
 
 		Transpose_stagedOrder: make(map[*Transpose]uint),
+		Transpose_orderStaged: make(map[uint]*Transpose),
+		Transposes_reference: make(map[*Transpose]*Transpose),
 
 		Tremolo_stagedOrder: make(map[*Tremolo]uint),
+		Tremolo_orderStaged: make(map[uint]*Tremolo),
+		Tremolos_reference: make(map[*Tremolo]*Tremolo),
 
 		Tuplet_stagedOrder: make(map[*Tuplet]uint),
+		Tuplet_orderStaged: make(map[uint]*Tuplet),
+		Tuplets_reference: make(map[*Tuplet]*Tuplet),
 
 		Tuplet_dot_stagedOrder: make(map[*Tuplet_dot]uint),
+		Tuplet_dot_orderStaged: make(map[uint]*Tuplet_dot),
+		Tuplet_dots_reference: make(map[*Tuplet_dot]*Tuplet_dot),
 
 		Tuplet_number_stagedOrder: make(map[*Tuplet_number]uint),
+		Tuplet_number_orderStaged: make(map[uint]*Tuplet_number),
+		Tuplet_numbers_reference: make(map[*Tuplet_number]*Tuplet_number),
 
 		Tuplet_portion_stagedOrder: make(map[*Tuplet_portion]uint),
+		Tuplet_portion_orderStaged: make(map[uint]*Tuplet_portion),
+		Tuplet_portions_reference: make(map[*Tuplet_portion]*Tuplet_portion),
 
 		Tuplet_type_stagedOrder: make(map[*Tuplet_type]uint),
+		Tuplet_type_orderStaged: make(map[uint]*Tuplet_type),
+		Tuplet_types_reference: make(map[*Tuplet_type]*Tuplet_type),
 
 		Typed_text_stagedOrder: make(map[*Typed_text]uint),
+		Typed_text_orderStaged: make(map[uint]*Typed_text),
+		Typed_texts_reference: make(map[*Typed_text]*Typed_text),
 
 		Unpitched_stagedOrder: make(map[*Unpitched]uint),
+		Unpitched_orderStaged: make(map[uint]*Unpitched),
+		Unpitcheds_reference: make(map[*Unpitched]*Unpitched),
 
 		Virtual_instrument_stagedOrder: make(map[*Virtual_instrument]uint),
+		Virtual_instrument_orderStaged: make(map[uint]*Virtual_instrument),
+		Virtual_instruments_reference: make(map[*Virtual_instrument]*Virtual_instrument),
 
 		Wait_stagedOrder: make(map[*Wait]uint),
+		Wait_orderStaged: make(map[uint]*Wait),
+		Waits_reference: make(map[*Wait]*Wait),
 
 		Wavy_line_stagedOrder: make(map[*Wavy_line]uint),
+		Wavy_line_orderStaged: make(map[uint]*Wavy_line),
+		Wavy_lines_reference: make(map[*Wavy_line]*Wavy_line),
 
 		Wedge_stagedOrder: make(map[*Wedge]uint),
+		Wedge_orderStaged: make(map[uint]*Wedge),
+		Wedges_reference: make(map[*Wedge]*Wedge),
 
 		Wood_stagedOrder: make(map[*Wood]uint),
+		Wood_orderStaged: make(map[uint]*Wood),
+		Woods_reference: make(map[*Wood]*Wood),
 
 		Work_stagedOrder: make(map[*Work]uint),
+		Work_orderStaged: make(map[uint]*Work),
+		Works_reference: make(map[*Work]*Work),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
@@ -14820,6 +15513,477 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 	}
 }
 
+func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint) (res Type) {
+	var t Type
+	switch any(t).(type) {
+	// insertion point for order map initialisations
+	case *A_directive:
+		return any(stage.A_directive_orderStaged[order]).(Type)
+	case *A_measure:
+		return any(stage.A_measure_orderStaged[order]).(Type)
+	case *A_measure_1:
+		return any(stage.A_measure_1_orderStaged[order]).(Type)
+	case *A_part:
+		return any(stage.A_part_orderStaged[order]).(Type)
+	case *A_part_1:
+		return any(stage.A_part_1_orderStaged[order]).(Type)
+	case *Accidental:
+		return any(stage.Accidental_orderStaged[order]).(Type)
+	case *Accidental_mark:
+		return any(stage.Accidental_mark_orderStaged[order]).(Type)
+	case *Accidental_text:
+		return any(stage.Accidental_text_orderStaged[order]).(Type)
+	case *Accord:
+		return any(stage.Accord_orderStaged[order]).(Type)
+	case *Accordion_registration:
+		return any(stage.Accordion_registration_orderStaged[order]).(Type)
+	case *Appearance:
+		return any(stage.Appearance_orderStaged[order]).(Type)
+	case *Arpeggiate:
+		return any(stage.Arpeggiate_orderStaged[order]).(Type)
+	case *Arrow:
+		return any(stage.Arrow_orderStaged[order]).(Type)
+	case *Articulations:
+		return any(stage.Articulations_orderStaged[order]).(Type)
+	case *Assess:
+		return any(stage.Assess_orderStaged[order]).(Type)
+	case *Attributes:
+		return any(stage.Attributes_orderStaged[order]).(Type)
+	case *Backup:
+		return any(stage.Backup_orderStaged[order]).(Type)
+	case *Bar_style_color:
+		return any(stage.Bar_style_color_orderStaged[order]).(Type)
+	case *Barline:
+		return any(stage.Barline_orderStaged[order]).(Type)
+	case *Barre:
+		return any(stage.Barre_orderStaged[order]).(Type)
+	case *Bass:
+		return any(stage.Bass_orderStaged[order]).(Type)
+	case *Bass_step:
+		return any(stage.Bass_step_orderStaged[order]).(Type)
+	case *Beam:
+		return any(stage.Beam_orderStaged[order]).(Type)
+	case *Beat_repeat:
+		return any(stage.Beat_repeat_orderStaged[order]).(Type)
+	case *Beat_unit_tied:
+		return any(stage.Beat_unit_tied_orderStaged[order]).(Type)
+	case *Beater:
+		return any(stage.Beater_orderStaged[order]).(Type)
+	case *Bend:
+		return any(stage.Bend_orderStaged[order]).(Type)
+	case *Bookmark:
+		return any(stage.Bookmark_orderStaged[order]).(Type)
+	case *Bracket:
+		return any(stage.Bracket_orderStaged[order]).(Type)
+	case *Breath_mark:
+		return any(stage.Breath_mark_orderStaged[order]).(Type)
+	case *Caesura:
+		return any(stage.Caesura_orderStaged[order]).(Type)
+	case *Cancel:
+		return any(stage.Cancel_orderStaged[order]).(Type)
+	case *Clef:
+		return any(stage.Clef_orderStaged[order]).(Type)
+	case *Coda:
+		return any(stage.Coda_orderStaged[order]).(Type)
+	case *Credit:
+		return any(stage.Credit_orderStaged[order]).(Type)
+	case *Dashes:
+		return any(stage.Dashes_orderStaged[order]).(Type)
+	case *Defaults:
+		return any(stage.Defaults_orderStaged[order]).(Type)
+	case *Degree:
+		return any(stage.Degree_orderStaged[order]).(Type)
+	case *Degree_alter:
+		return any(stage.Degree_alter_orderStaged[order]).(Type)
+	case *Degree_type:
+		return any(stage.Degree_type_orderStaged[order]).(Type)
+	case *Degree_value:
+		return any(stage.Degree_value_orderStaged[order]).(Type)
+	case *Direction:
+		return any(stage.Direction_orderStaged[order]).(Type)
+	case *Direction_type:
+		return any(stage.Direction_type_orderStaged[order]).(Type)
+	case *Distance:
+		return any(stage.Distance_orderStaged[order]).(Type)
+	case *Double:
+		return any(stage.Double_orderStaged[order]).(Type)
+	case *Dynamics:
+		return any(stage.Dynamics_orderStaged[order]).(Type)
+	case *Effect:
+		return any(stage.Effect_orderStaged[order]).(Type)
+	case *Elision:
+		return any(stage.Elision_orderStaged[order]).(Type)
+	case *Empty:
+		return any(stage.Empty_orderStaged[order]).(Type)
+	case *Empty_font:
+		return any(stage.Empty_font_orderStaged[order]).(Type)
+	case *Empty_line:
+		return any(stage.Empty_line_orderStaged[order]).(Type)
+	case *Empty_placement:
+		return any(stage.Empty_placement_orderStaged[order]).(Type)
+	case *Empty_placement_smufl:
+		return any(stage.Empty_placement_smufl_orderStaged[order]).(Type)
+	case *Empty_print_object_style_align:
+		return any(stage.Empty_print_object_style_align_orderStaged[order]).(Type)
+	case *Empty_print_style:
+		return any(stage.Empty_print_style_orderStaged[order]).(Type)
+	case *Empty_print_style_align:
+		return any(stage.Empty_print_style_align_orderStaged[order]).(Type)
+	case *Empty_print_style_align_id:
+		return any(stage.Empty_print_style_align_id_orderStaged[order]).(Type)
+	case *Empty_trill_sound:
+		return any(stage.Empty_trill_sound_orderStaged[order]).(Type)
+	case *Encoding:
+		return any(stage.Encoding_orderStaged[order]).(Type)
+	case *Ending:
+		return any(stage.Ending_orderStaged[order]).(Type)
+	case *Extend:
+		return any(stage.Extend_orderStaged[order]).(Type)
+	case *Feature:
+		return any(stage.Feature_orderStaged[order]).(Type)
+	case *Fermata:
+		return any(stage.Fermata_orderStaged[order]).(Type)
+	case *Figure:
+		return any(stage.Figure_orderStaged[order]).(Type)
+	case *Figured_bass:
+		return any(stage.Figured_bass_orderStaged[order]).(Type)
+	case *Fingering:
+		return any(stage.Fingering_orderStaged[order]).(Type)
+	case *First_fret:
+		return any(stage.First_fret_orderStaged[order]).(Type)
+	case *For_part:
+		return any(stage.For_part_orderStaged[order]).(Type)
+	case *Formatted_symbol:
+		return any(stage.Formatted_symbol_orderStaged[order]).(Type)
+	case *Formatted_symbol_id:
+		return any(stage.Formatted_symbol_id_orderStaged[order]).(Type)
+	case *Formatted_text:
+		return any(stage.Formatted_text_orderStaged[order]).(Type)
+	case *Formatted_text_id:
+		return any(stage.Formatted_text_id_orderStaged[order]).(Type)
+	case *Forward:
+		return any(stage.Forward_orderStaged[order]).(Type)
+	case *Frame:
+		return any(stage.Frame_orderStaged[order]).(Type)
+	case *Frame_note:
+		return any(stage.Frame_note_orderStaged[order]).(Type)
+	case *Fret:
+		return any(stage.Fret_orderStaged[order]).(Type)
+	case *Glass:
+		return any(stage.Glass_orderStaged[order]).(Type)
+	case *Glissando:
+		return any(stage.Glissando_orderStaged[order]).(Type)
+	case *Glyph:
+		return any(stage.Glyph_orderStaged[order]).(Type)
+	case *Grace:
+		return any(stage.Grace_orderStaged[order]).(Type)
+	case *Group_barline:
+		return any(stage.Group_barline_orderStaged[order]).(Type)
+	case *Group_name:
+		return any(stage.Group_name_orderStaged[order]).(Type)
+	case *Group_symbol:
+		return any(stage.Group_symbol_orderStaged[order]).(Type)
+	case *Grouping:
+		return any(stage.Grouping_orderStaged[order]).(Type)
+	case *Hammer_on_pull_off:
+		return any(stage.Hammer_on_pull_off_orderStaged[order]).(Type)
+	case *Handbell:
+		return any(stage.Handbell_orderStaged[order]).(Type)
+	case *Harmon_closed:
+		return any(stage.Harmon_closed_orderStaged[order]).(Type)
+	case *Harmon_mute:
+		return any(stage.Harmon_mute_orderStaged[order]).(Type)
+	case *Harmonic:
+		return any(stage.Harmonic_orderStaged[order]).(Type)
+	case *Harmony:
+		return any(stage.Harmony_orderStaged[order]).(Type)
+	case *Harmony_alter:
+		return any(stage.Harmony_alter_orderStaged[order]).(Type)
+	case *Harp_pedals:
+		return any(stage.Harp_pedals_orderStaged[order]).(Type)
+	case *Heel_toe:
+		return any(stage.Heel_toe_orderStaged[order]).(Type)
+	case *Hole:
+		return any(stage.Hole_orderStaged[order]).(Type)
+	case *Hole_closed:
+		return any(stage.Hole_closed_orderStaged[order]).(Type)
+	case *Horizontal_turn:
+		return any(stage.Horizontal_turn_orderStaged[order]).(Type)
+	case *Identification:
+		return any(stage.Identification_orderStaged[order]).(Type)
+	case *Image:
+		return any(stage.Image_orderStaged[order]).(Type)
+	case *Instrument:
+		return any(stage.Instrument_orderStaged[order]).(Type)
+	case *Instrument_change:
+		return any(stage.Instrument_change_orderStaged[order]).(Type)
+	case *Instrument_link:
+		return any(stage.Instrument_link_orderStaged[order]).(Type)
+	case *Interchangeable:
+		return any(stage.Interchangeable_orderStaged[order]).(Type)
+	case *Inversion:
+		return any(stage.Inversion_orderStaged[order]).(Type)
+	case *Key:
+		return any(stage.Key_orderStaged[order]).(Type)
+	case *Key_accidental:
+		return any(stage.Key_accidental_orderStaged[order]).(Type)
+	case *Key_octave:
+		return any(stage.Key_octave_orderStaged[order]).(Type)
+	case *Kind:
+		return any(stage.Kind_orderStaged[order]).(Type)
+	case *Level:
+		return any(stage.Level_orderStaged[order]).(Type)
+	case *Line_detail:
+		return any(stage.Line_detail_orderStaged[order]).(Type)
+	case *Line_width:
+		return any(stage.Line_width_orderStaged[order]).(Type)
+	case *Link:
+		return any(stage.Link_orderStaged[order]).(Type)
+	case *Listen:
+		return any(stage.Listen_orderStaged[order]).(Type)
+	case *Listening:
+		return any(stage.Listening_orderStaged[order]).(Type)
+	case *Lyric:
+		return any(stage.Lyric_orderStaged[order]).(Type)
+	case *Lyric_font:
+		return any(stage.Lyric_font_orderStaged[order]).(Type)
+	case *Lyric_language:
+		return any(stage.Lyric_language_orderStaged[order]).(Type)
+	case *Measure_layout:
+		return any(stage.Measure_layout_orderStaged[order]).(Type)
+	case *Measure_numbering:
+		return any(stage.Measure_numbering_orderStaged[order]).(Type)
+	case *Measure_repeat:
+		return any(stage.Measure_repeat_orderStaged[order]).(Type)
+	case *Measure_style:
+		return any(stage.Measure_style_orderStaged[order]).(Type)
+	case *Membrane:
+		return any(stage.Membrane_orderStaged[order]).(Type)
+	case *Metal:
+		return any(stage.Metal_orderStaged[order]).(Type)
+	case *Metronome:
+		return any(stage.Metronome_orderStaged[order]).(Type)
+	case *Metronome_beam:
+		return any(stage.Metronome_beam_orderStaged[order]).(Type)
+	case *Metronome_note:
+		return any(stage.Metronome_note_orderStaged[order]).(Type)
+	case *Metronome_tied:
+		return any(stage.Metronome_tied_orderStaged[order]).(Type)
+	case *Metronome_tuplet:
+		return any(stage.Metronome_tuplet_orderStaged[order]).(Type)
+	case *Midi_device:
+		return any(stage.Midi_device_orderStaged[order]).(Type)
+	case *Midi_instrument:
+		return any(stage.Midi_instrument_orderStaged[order]).(Type)
+	case *Miscellaneous:
+		return any(stage.Miscellaneous_orderStaged[order]).(Type)
+	case *Miscellaneous_field:
+		return any(stage.Miscellaneous_field_orderStaged[order]).(Type)
+	case *Mordent:
+		return any(stage.Mordent_orderStaged[order]).(Type)
+	case *Multiple_rest:
+		return any(stage.Multiple_rest_orderStaged[order]).(Type)
+	case *Name_display:
+		return any(stage.Name_display_orderStaged[order]).(Type)
+	case *Non_arpeggiate:
+		return any(stage.Non_arpeggiate_orderStaged[order]).(Type)
+	case *Notations:
+		return any(stage.Notations_orderStaged[order]).(Type)
+	case *Note:
+		return any(stage.Note_orderStaged[order]).(Type)
+	case *Note_size:
+		return any(stage.Note_size_orderStaged[order]).(Type)
+	case *Note_type:
+		return any(stage.Note_type_orderStaged[order]).(Type)
+	case *Notehead:
+		return any(stage.Notehead_orderStaged[order]).(Type)
+	case *Notehead_text:
+		return any(stage.Notehead_text_orderStaged[order]).(Type)
+	case *Numeral:
+		return any(stage.Numeral_orderStaged[order]).(Type)
+	case *Numeral_key:
+		return any(stage.Numeral_key_orderStaged[order]).(Type)
+	case *Numeral_root:
+		return any(stage.Numeral_root_orderStaged[order]).(Type)
+	case *Octave_shift:
+		return any(stage.Octave_shift_orderStaged[order]).(Type)
+	case *Offset:
+		return any(stage.Offset_orderStaged[order]).(Type)
+	case *Opus:
+		return any(stage.Opus_orderStaged[order]).(Type)
+	case *Ornaments:
+		return any(stage.Ornaments_orderStaged[order]).(Type)
+	case *Other_appearance:
+		return any(stage.Other_appearance_orderStaged[order]).(Type)
+	case *Other_direction:
+		return any(stage.Other_direction_orderStaged[order]).(Type)
+	case *Other_listening:
+		return any(stage.Other_listening_orderStaged[order]).(Type)
+	case *Other_notation:
+		return any(stage.Other_notation_orderStaged[order]).(Type)
+	case *Other_placement_text:
+		return any(stage.Other_placement_text_orderStaged[order]).(Type)
+	case *Other_play:
+		return any(stage.Other_play_orderStaged[order]).(Type)
+	case *Other_text:
+		return any(stage.Other_text_orderStaged[order]).(Type)
+	case *Page_layout:
+		return any(stage.Page_layout_orderStaged[order]).(Type)
+	case *Page_margins:
+		return any(stage.Page_margins_orderStaged[order]).(Type)
+	case *Part_clef:
+		return any(stage.Part_clef_orderStaged[order]).(Type)
+	case *Part_group:
+		return any(stage.Part_group_orderStaged[order]).(Type)
+	case *Part_link:
+		return any(stage.Part_link_orderStaged[order]).(Type)
+	case *Part_list:
+		return any(stage.Part_list_orderStaged[order]).(Type)
+	case *Part_name:
+		return any(stage.Part_name_orderStaged[order]).(Type)
+	case *Part_symbol:
+		return any(stage.Part_symbol_orderStaged[order]).(Type)
+	case *Part_transpose:
+		return any(stage.Part_transpose_orderStaged[order]).(Type)
+	case *Pedal:
+		return any(stage.Pedal_orderStaged[order]).(Type)
+	case *Pedal_tuning:
+		return any(stage.Pedal_tuning_orderStaged[order]).(Type)
+	case *Per_minute:
+		return any(stage.Per_minute_orderStaged[order]).(Type)
+	case *Percussion:
+		return any(stage.Percussion_orderStaged[order]).(Type)
+	case *Pitch:
+		return any(stage.Pitch_orderStaged[order]).(Type)
+	case *Pitched:
+		return any(stage.Pitched_orderStaged[order]).(Type)
+	case *Placement_text:
+		return any(stage.Placement_text_orderStaged[order]).(Type)
+	case *Play:
+		return any(stage.Play_orderStaged[order]).(Type)
+	case *Player:
+		return any(stage.Player_orderStaged[order]).(Type)
+	case *Principal_voice:
+		return any(stage.Principal_voice_orderStaged[order]).(Type)
+	case *Print:
+		return any(stage.Print_orderStaged[order]).(Type)
+	case *Release:
+		return any(stage.Release_orderStaged[order]).(Type)
+	case *Repeat:
+		return any(stage.Repeat_orderStaged[order]).(Type)
+	case *Rest:
+		return any(stage.Rest_orderStaged[order]).(Type)
+	case *Root:
+		return any(stage.Root_orderStaged[order]).(Type)
+	case *Root_step:
+		return any(stage.Root_step_orderStaged[order]).(Type)
+	case *Scaling:
+		return any(stage.Scaling_orderStaged[order]).(Type)
+	case *Scordatura:
+		return any(stage.Scordatura_orderStaged[order]).(Type)
+	case *Score_instrument:
+		return any(stage.Score_instrument_orderStaged[order]).(Type)
+	case *Score_part:
+		return any(stage.Score_part_orderStaged[order]).(Type)
+	case *Score_partwise:
+		return any(stage.Score_partwise_orderStaged[order]).(Type)
+	case *Score_timewise:
+		return any(stage.Score_timewise_orderStaged[order]).(Type)
+	case *Segno:
+		return any(stage.Segno_orderStaged[order]).(Type)
+	case *Slash:
+		return any(stage.Slash_orderStaged[order]).(Type)
+	case *Slide:
+		return any(stage.Slide_orderStaged[order]).(Type)
+	case *Slur:
+		return any(stage.Slur_orderStaged[order]).(Type)
+	case *Sound:
+		return any(stage.Sound_orderStaged[order]).(Type)
+	case *Staff_details:
+		return any(stage.Staff_details_orderStaged[order]).(Type)
+	case *Staff_divide:
+		return any(stage.Staff_divide_orderStaged[order]).(Type)
+	case *Staff_layout:
+		return any(stage.Staff_layout_orderStaged[order]).(Type)
+	case *Staff_size:
+		return any(stage.Staff_size_orderStaged[order]).(Type)
+	case *Staff_tuning:
+		return any(stage.Staff_tuning_orderStaged[order]).(Type)
+	case *Stem:
+		return any(stage.Stem_orderStaged[order]).(Type)
+	case *Stick:
+		return any(stage.Stick_orderStaged[order]).(Type)
+	case *String_mute:
+		return any(stage.String_mute_orderStaged[order]).(Type)
+	case *String_type:
+		return any(stage.String_type_orderStaged[order]).(Type)
+	case *Strong_accent:
+		return any(stage.Strong_accent_orderStaged[order]).(Type)
+	case *Style_text:
+		return any(stage.Style_text_orderStaged[order]).(Type)
+	case *Supports:
+		return any(stage.Supports_orderStaged[order]).(Type)
+	case *Swing:
+		return any(stage.Swing_orderStaged[order]).(Type)
+	case *Sync:
+		return any(stage.Sync_orderStaged[order]).(Type)
+	case *System_dividers:
+		return any(stage.System_dividers_orderStaged[order]).(Type)
+	case *System_layout:
+		return any(stage.System_layout_orderStaged[order]).(Type)
+	case *System_margins:
+		return any(stage.System_margins_orderStaged[order]).(Type)
+	case *Tap:
+		return any(stage.Tap_orderStaged[order]).(Type)
+	case *Technical:
+		return any(stage.Technical_orderStaged[order]).(Type)
+	case *Text_element_data:
+		return any(stage.Text_element_data_orderStaged[order]).(Type)
+	case *Tie:
+		return any(stage.Tie_orderStaged[order]).(Type)
+	case *Tied:
+		return any(stage.Tied_orderStaged[order]).(Type)
+	case *Time:
+		return any(stage.Time_orderStaged[order]).(Type)
+	case *Time_modification:
+		return any(stage.Time_modification_orderStaged[order]).(Type)
+	case *Timpani:
+		return any(stage.Timpani_orderStaged[order]).(Type)
+	case *Transpose:
+		return any(stage.Transpose_orderStaged[order]).(Type)
+	case *Tremolo:
+		return any(stage.Tremolo_orderStaged[order]).(Type)
+	case *Tuplet:
+		return any(stage.Tuplet_orderStaged[order]).(Type)
+	case *Tuplet_dot:
+		return any(stage.Tuplet_dot_orderStaged[order]).(Type)
+	case *Tuplet_number:
+		return any(stage.Tuplet_number_orderStaged[order]).(Type)
+	case *Tuplet_portion:
+		return any(stage.Tuplet_portion_orderStaged[order]).(Type)
+	case *Tuplet_type:
+		return any(stage.Tuplet_type_orderStaged[order]).(Type)
+	case *Typed_text:
+		return any(stage.Typed_text_orderStaged[order]).(Type)
+	case *Unpitched:
+		return any(stage.Unpitched_orderStaged[order]).(Type)
+	case *Virtual_instrument:
+		return any(stage.Virtual_instrument_orderStaged[order]).(Type)
+	case *Wait:
+		return any(stage.Wait_orderStaged[order]).(Type)
+	case *Wavy_line:
+		return any(stage.Wavy_line_orderStaged[order]).(Type)
+	case *Wedge:
+		return any(stage.Wedge_orderStaged[order]).(Type)
+	case *Wood:
+		return any(stage.Wood_orderStaged[order]).(Type)
+	case *Work:
+		return any(stage.Work_orderStaged[order]).(Type)
+	default:
+		return // should not happen
+	}
+}
+
 func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) uint {
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
@@ -15626,6 +16790,7 @@ func (a_directive *A_directive) Stage(stage *Stage) *A_directive {
 	if _, ok := stage.A_directives[a_directive]; !ok {
 		stage.A_directives[a_directive] = struct{}{}
 		stage.A_directive_stagedOrder[a_directive] = stage.A_directiveOrder
+		stage.A_directive_orderStaged[stage.A_directiveOrder] = a_directive
 		stage.A_directiveOrder++
 	}
 	stage.A_directives_mapString[a_directive.Name] = a_directive
@@ -15646,6 +16811,7 @@ func (a_directive *A_directive) StagePreserveOrder(stage *Stage, order uint) {
 			stage.A_directiveOrder = order
 		}
 		stage.A_directive_stagedOrder[a_directive] = order
+		stage.A_directive_orderStaged[order] = a_directive
 		stage.A_directiveOrder++
 	}
 	stage.A_directives_mapString[a_directive.Name] = a_directive
@@ -15712,6 +16878,7 @@ func (a_measure *A_measure) Stage(stage *Stage) *A_measure {
 	if _, ok := stage.A_measures[a_measure]; !ok {
 		stage.A_measures[a_measure] = struct{}{}
 		stage.A_measure_stagedOrder[a_measure] = stage.A_measureOrder
+		stage.A_measure_orderStaged[stage.A_measureOrder] = a_measure
 		stage.A_measureOrder++
 	}
 	stage.A_measures_mapString[a_measure.Name] = a_measure
@@ -15732,6 +16899,7 @@ func (a_measure *A_measure) StagePreserveOrder(stage *Stage, order uint) {
 			stage.A_measureOrder = order
 		}
 		stage.A_measure_stagedOrder[a_measure] = order
+		stage.A_measure_orderStaged[order] = a_measure
 		stage.A_measureOrder++
 	}
 	stage.A_measures_mapString[a_measure.Name] = a_measure
@@ -15798,6 +16966,7 @@ func (a_measure_1 *A_measure_1) Stage(stage *Stage) *A_measure_1 {
 	if _, ok := stage.A_measure_1s[a_measure_1]; !ok {
 		stage.A_measure_1s[a_measure_1] = struct{}{}
 		stage.A_measure_1_stagedOrder[a_measure_1] = stage.A_measure_1Order
+		stage.A_measure_1_orderStaged[stage.A_measure_1Order] = a_measure_1
 		stage.A_measure_1Order++
 	}
 	stage.A_measure_1s_mapString[a_measure_1.Name] = a_measure_1
@@ -15818,6 +16987,7 @@ func (a_measure_1 *A_measure_1) StagePreserveOrder(stage *Stage, order uint) {
 			stage.A_measure_1Order = order
 		}
 		stage.A_measure_1_stagedOrder[a_measure_1] = order
+		stage.A_measure_1_orderStaged[order] = a_measure_1
 		stage.A_measure_1Order++
 	}
 	stage.A_measure_1s_mapString[a_measure_1.Name] = a_measure_1
@@ -15884,6 +17054,7 @@ func (a_part *A_part) Stage(stage *Stage) *A_part {
 	if _, ok := stage.A_parts[a_part]; !ok {
 		stage.A_parts[a_part] = struct{}{}
 		stage.A_part_stagedOrder[a_part] = stage.A_partOrder
+		stage.A_part_orderStaged[stage.A_partOrder] = a_part
 		stage.A_partOrder++
 	}
 	stage.A_parts_mapString[a_part.Name] = a_part
@@ -15904,6 +17075,7 @@ func (a_part *A_part) StagePreserveOrder(stage *Stage, order uint) {
 			stage.A_partOrder = order
 		}
 		stage.A_part_stagedOrder[a_part] = order
+		stage.A_part_orderStaged[order] = a_part
 		stage.A_partOrder++
 	}
 	stage.A_parts_mapString[a_part.Name] = a_part
@@ -15970,6 +17142,7 @@ func (a_part_1 *A_part_1) Stage(stage *Stage) *A_part_1 {
 	if _, ok := stage.A_part_1s[a_part_1]; !ok {
 		stage.A_part_1s[a_part_1] = struct{}{}
 		stage.A_part_1_stagedOrder[a_part_1] = stage.A_part_1Order
+		stage.A_part_1_orderStaged[stage.A_part_1Order] = a_part_1
 		stage.A_part_1Order++
 	}
 	stage.A_part_1s_mapString[a_part_1.Name] = a_part_1
@@ -15990,6 +17163,7 @@ func (a_part_1 *A_part_1) StagePreserveOrder(stage *Stage, order uint) {
 			stage.A_part_1Order = order
 		}
 		stage.A_part_1_stagedOrder[a_part_1] = order
+		stage.A_part_1_orderStaged[order] = a_part_1
 		stage.A_part_1Order++
 	}
 	stage.A_part_1s_mapString[a_part_1.Name] = a_part_1
@@ -16056,6 +17230,7 @@ func (accidental *Accidental) Stage(stage *Stage) *Accidental {
 	if _, ok := stage.Accidentals[accidental]; !ok {
 		stage.Accidentals[accidental] = struct{}{}
 		stage.Accidental_stagedOrder[accidental] = stage.AccidentalOrder
+		stage.Accidental_orderStaged[stage.AccidentalOrder] = accidental
 		stage.AccidentalOrder++
 	}
 	stage.Accidentals_mapString[accidental.Name] = accidental
@@ -16076,6 +17251,7 @@ func (accidental *Accidental) StagePreserveOrder(stage *Stage, order uint) {
 			stage.AccidentalOrder = order
 		}
 		stage.Accidental_stagedOrder[accidental] = order
+		stage.Accidental_orderStaged[order] = accidental
 		stage.AccidentalOrder++
 	}
 	stage.Accidentals_mapString[accidental.Name] = accidental
@@ -16142,6 +17318,7 @@ func (accidental_mark *Accidental_mark) Stage(stage *Stage) *Accidental_mark {
 	if _, ok := stage.Accidental_marks[accidental_mark]; !ok {
 		stage.Accidental_marks[accidental_mark] = struct{}{}
 		stage.Accidental_mark_stagedOrder[accidental_mark] = stage.Accidental_markOrder
+		stage.Accidental_mark_orderStaged[stage.Accidental_markOrder] = accidental_mark
 		stage.Accidental_markOrder++
 	}
 	stage.Accidental_marks_mapString[accidental_mark.Name] = accidental_mark
@@ -16162,6 +17339,7 @@ func (accidental_mark *Accidental_mark) StagePreserveOrder(stage *Stage, order u
 			stage.Accidental_markOrder = order
 		}
 		stage.Accidental_mark_stagedOrder[accidental_mark] = order
+		stage.Accidental_mark_orderStaged[order] = accidental_mark
 		stage.Accidental_markOrder++
 	}
 	stage.Accidental_marks_mapString[accidental_mark.Name] = accidental_mark
@@ -16228,6 +17406,7 @@ func (accidental_text *Accidental_text) Stage(stage *Stage) *Accidental_text {
 	if _, ok := stage.Accidental_texts[accidental_text]; !ok {
 		stage.Accidental_texts[accidental_text] = struct{}{}
 		stage.Accidental_text_stagedOrder[accidental_text] = stage.Accidental_textOrder
+		stage.Accidental_text_orderStaged[stage.Accidental_textOrder] = accidental_text
 		stage.Accidental_textOrder++
 	}
 	stage.Accidental_texts_mapString[accidental_text.Name] = accidental_text
@@ -16248,6 +17427,7 @@ func (accidental_text *Accidental_text) StagePreserveOrder(stage *Stage, order u
 			stage.Accidental_textOrder = order
 		}
 		stage.Accidental_text_stagedOrder[accidental_text] = order
+		stage.Accidental_text_orderStaged[order] = accidental_text
 		stage.Accidental_textOrder++
 	}
 	stage.Accidental_texts_mapString[accidental_text.Name] = accidental_text
@@ -16314,6 +17494,7 @@ func (accord *Accord) Stage(stage *Stage) *Accord {
 	if _, ok := stage.Accords[accord]; !ok {
 		stage.Accords[accord] = struct{}{}
 		stage.Accord_stagedOrder[accord] = stage.AccordOrder
+		stage.Accord_orderStaged[stage.AccordOrder] = accord
 		stage.AccordOrder++
 	}
 	stage.Accords_mapString[accord.Name] = accord
@@ -16334,6 +17515,7 @@ func (accord *Accord) StagePreserveOrder(stage *Stage, order uint) {
 			stage.AccordOrder = order
 		}
 		stage.Accord_stagedOrder[accord] = order
+		stage.Accord_orderStaged[order] = accord
 		stage.AccordOrder++
 	}
 	stage.Accords_mapString[accord.Name] = accord
@@ -16400,6 +17582,7 @@ func (accordion_registration *Accordion_registration) Stage(stage *Stage) *Accor
 	if _, ok := stage.Accordion_registrations[accordion_registration]; !ok {
 		stage.Accordion_registrations[accordion_registration] = struct{}{}
 		stage.Accordion_registration_stagedOrder[accordion_registration] = stage.Accordion_registrationOrder
+		stage.Accordion_registration_orderStaged[stage.Accordion_registrationOrder] = accordion_registration
 		stage.Accordion_registrationOrder++
 	}
 	stage.Accordion_registrations_mapString[accordion_registration.Name] = accordion_registration
@@ -16420,6 +17603,7 @@ func (accordion_registration *Accordion_registration) StagePreserveOrder(stage *
 			stage.Accordion_registrationOrder = order
 		}
 		stage.Accordion_registration_stagedOrder[accordion_registration] = order
+		stage.Accordion_registration_orderStaged[order] = accordion_registration
 		stage.Accordion_registrationOrder++
 	}
 	stage.Accordion_registrations_mapString[accordion_registration.Name] = accordion_registration
@@ -16486,6 +17670,7 @@ func (appearance *Appearance) Stage(stage *Stage) *Appearance {
 	if _, ok := stage.Appearances[appearance]; !ok {
 		stage.Appearances[appearance] = struct{}{}
 		stage.Appearance_stagedOrder[appearance] = stage.AppearanceOrder
+		stage.Appearance_orderStaged[stage.AppearanceOrder] = appearance
 		stage.AppearanceOrder++
 	}
 	stage.Appearances_mapString[appearance.Name] = appearance
@@ -16506,6 +17691,7 @@ func (appearance *Appearance) StagePreserveOrder(stage *Stage, order uint) {
 			stage.AppearanceOrder = order
 		}
 		stage.Appearance_stagedOrder[appearance] = order
+		stage.Appearance_orderStaged[order] = appearance
 		stage.AppearanceOrder++
 	}
 	stage.Appearances_mapString[appearance.Name] = appearance
@@ -16572,6 +17758,7 @@ func (arpeggiate *Arpeggiate) Stage(stage *Stage) *Arpeggiate {
 	if _, ok := stage.Arpeggiates[arpeggiate]; !ok {
 		stage.Arpeggiates[arpeggiate] = struct{}{}
 		stage.Arpeggiate_stagedOrder[arpeggiate] = stage.ArpeggiateOrder
+		stage.Arpeggiate_orderStaged[stage.ArpeggiateOrder] = arpeggiate
 		stage.ArpeggiateOrder++
 	}
 	stage.Arpeggiates_mapString[arpeggiate.Name] = arpeggiate
@@ -16592,6 +17779,7 @@ func (arpeggiate *Arpeggiate) StagePreserveOrder(stage *Stage, order uint) {
 			stage.ArpeggiateOrder = order
 		}
 		stage.Arpeggiate_stagedOrder[arpeggiate] = order
+		stage.Arpeggiate_orderStaged[order] = arpeggiate
 		stage.ArpeggiateOrder++
 	}
 	stage.Arpeggiates_mapString[arpeggiate.Name] = arpeggiate
@@ -16658,6 +17846,7 @@ func (arrow *Arrow) Stage(stage *Stage) *Arrow {
 	if _, ok := stage.Arrows[arrow]; !ok {
 		stage.Arrows[arrow] = struct{}{}
 		stage.Arrow_stagedOrder[arrow] = stage.ArrowOrder
+		stage.Arrow_orderStaged[stage.ArrowOrder] = arrow
 		stage.ArrowOrder++
 	}
 	stage.Arrows_mapString[arrow.Name] = arrow
@@ -16678,6 +17867,7 @@ func (arrow *Arrow) StagePreserveOrder(stage *Stage, order uint) {
 			stage.ArrowOrder = order
 		}
 		stage.Arrow_stagedOrder[arrow] = order
+		stage.Arrow_orderStaged[order] = arrow
 		stage.ArrowOrder++
 	}
 	stage.Arrows_mapString[arrow.Name] = arrow
@@ -16744,6 +17934,7 @@ func (articulations *Articulations) Stage(stage *Stage) *Articulations {
 	if _, ok := stage.Articulationss[articulations]; !ok {
 		stage.Articulationss[articulations] = struct{}{}
 		stage.Articulations_stagedOrder[articulations] = stage.ArticulationsOrder
+		stage.Articulations_orderStaged[stage.ArticulationsOrder] = articulations
 		stage.ArticulationsOrder++
 	}
 	stage.Articulationss_mapString[articulations.Name] = articulations
@@ -16764,6 +17955,7 @@ func (articulations *Articulations) StagePreserveOrder(stage *Stage, order uint)
 			stage.ArticulationsOrder = order
 		}
 		stage.Articulations_stagedOrder[articulations] = order
+		stage.Articulations_orderStaged[order] = articulations
 		stage.ArticulationsOrder++
 	}
 	stage.Articulationss_mapString[articulations.Name] = articulations
@@ -16830,6 +18022,7 @@ func (assess *Assess) Stage(stage *Stage) *Assess {
 	if _, ok := stage.Assesss[assess]; !ok {
 		stage.Assesss[assess] = struct{}{}
 		stage.Assess_stagedOrder[assess] = stage.AssessOrder
+		stage.Assess_orderStaged[stage.AssessOrder] = assess
 		stage.AssessOrder++
 	}
 	stage.Assesss_mapString[assess.Name] = assess
@@ -16850,6 +18043,7 @@ func (assess *Assess) StagePreserveOrder(stage *Stage, order uint) {
 			stage.AssessOrder = order
 		}
 		stage.Assess_stagedOrder[assess] = order
+		stage.Assess_orderStaged[order] = assess
 		stage.AssessOrder++
 	}
 	stage.Assesss_mapString[assess.Name] = assess
@@ -16916,6 +18110,7 @@ func (attributes *Attributes) Stage(stage *Stage) *Attributes {
 	if _, ok := stage.Attributess[attributes]; !ok {
 		stage.Attributess[attributes] = struct{}{}
 		stage.Attributes_stagedOrder[attributes] = stage.AttributesOrder
+		stage.Attributes_orderStaged[stage.AttributesOrder] = attributes
 		stage.AttributesOrder++
 	}
 	stage.Attributess_mapString[attributes.Name] = attributes
@@ -16936,6 +18131,7 @@ func (attributes *Attributes) StagePreserveOrder(stage *Stage, order uint) {
 			stage.AttributesOrder = order
 		}
 		stage.Attributes_stagedOrder[attributes] = order
+		stage.Attributes_orderStaged[order] = attributes
 		stage.AttributesOrder++
 	}
 	stage.Attributess_mapString[attributes.Name] = attributes
@@ -17002,6 +18198,7 @@ func (backup *Backup) Stage(stage *Stage) *Backup {
 	if _, ok := stage.Backups[backup]; !ok {
 		stage.Backups[backup] = struct{}{}
 		stage.Backup_stagedOrder[backup] = stage.BackupOrder
+		stage.Backup_orderStaged[stage.BackupOrder] = backup
 		stage.BackupOrder++
 	}
 	stage.Backups_mapString[backup.Name] = backup
@@ -17022,6 +18219,7 @@ func (backup *Backup) StagePreserveOrder(stage *Stage, order uint) {
 			stage.BackupOrder = order
 		}
 		stage.Backup_stagedOrder[backup] = order
+		stage.Backup_orderStaged[order] = backup
 		stage.BackupOrder++
 	}
 	stage.Backups_mapString[backup.Name] = backup
@@ -17088,6 +18286,7 @@ func (bar_style_color *Bar_style_color) Stage(stage *Stage) *Bar_style_color {
 	if _, ok := stage.Bar_style_colors[bar_style_color]; !ok {
 		stage.Bar_style_colors[bar_style_color] = struct{}{}
 		stage.Bar_style_color_stagedOrder[bar_style_color] = stage.Bar_style_colorOrder
+		stage.Bar_style_color_orderStaged[stage.Bar_style_colorOrder] = bar_style_color
 		stage.Bar_style_colorOrder++
 	}
 	stage.Bar_style_colors_mapString[bar_style_color.Name] = bar_style_color
@@ -17108,6 +18307,7 @@ func (bar_style_color *Bar_style_color) StagePreserveOrder(stage *Stage, order u
 			stage.Bar_style_colorOrder = order
 		}
 		stage.Bar_style_color_stagedOrder[bar_style_color] = order
+		stage.Bar_style_color_orderStaged[order] = bar_style_color
 		stage.Bar_style_colorOrder++
 	}
 	stage.Bar_style_colors_mapString[bar_style_color.Name] = bar_style_color
@@ -17174,6 +18374,7 @@ func (barline *Barline) Stage(stage *Stage) *Barline {
 	if _, ok := stage.Barlines[barline]; !ok {
 		stage.Barlines[barline] = struct{}{}
 		stage.Barline_stagedOrder[barline] = stage.BarlineOrder
+		stage.Barline_orderStaged[stage.BarlineOrder] = barline
 		stage.BarlineOrder++
 	}
 	stage.Barlines_mapString[barline.Name] = barline
@@ -17194,6 +18395,7 @@ func (barline *Barline) StagePreserveOrder(stage *Stage, order uint) {
 			stage.BarlineOrder = order
 		}
 		stage.Barline_stagedOrder[barline] = order
+		stage.Barline_orderStaged[order] = barline
 		stage.BarlineOrder++
 	}
 	stage.Barlines_mapString[barline.Name] = barline
@@ -17260,6 +18462,7 @@ func (barre *Barre) Stage(stage *Stage) *Barre {
 	if _, ok := stage.Barres[barre]; !ok {
 		stage.Barres[barre] = struct{}{}
 		stage.Barre_stagedOrder[barre] = stage.BarreOrder
+		stage.Barre_orderStaged[stage.BarreOrder] = barre
 		stage.BarreOrder++
 	}
 	stage.Barres_mapString[barre.Name] = barre
@@ -17280,6 +18483,7 @@ func (barre *Barre) StagePreserveOrder(stage *Stage, order uint) {
 			stage.BarreOrder = order
 		}
 		stage.Barre_stagedOrder[barre] = order
+		stage.Barre_orderStaged[order] = barre
 		stage.BarreOrder++
 	}
 	stage.Barres_mapString[barre.Name] = barre
@@ -17346,6 +18550,7 @@ func (bass *Bass) Stage(stage *Stage) *Bass {
 	if _, ok := stage.Basss[bass]; !ok {
 		stage.Basss[bass] = struct{}{}
 		stage.Bass_stagedOrder[bass] = stage.BassOrder
+		stage.Bass_orderStaged[stage.BassOrder] = bass
 		stage.BassOrder++
 	}
 	stage.Basss_mapString[bass.Name] = bass
@@ -17366,6 +18571,7 @@ func (bass *Bass) StagePreserveOrder(stage *Stage, order uint) {
 			stage.BassOrder = order
 		}
 		stage.Bass_stagedOrder[bass] = order
+		stage.Bass_orderStaged[order] = bass
 		stage.BassOrder++
 	}
 	stage.Basss_mapString[bass.Name] = bass
@@ -17432,6 +18638,7 @@ func (bass_step *Bass_step) Stage(stage *Stage) *Bass_step {
 	if _, ok := stage.Bass_steps[bass_step]; !ok {
 		stage.Bass_steps[bass_step] = struct{}{}
 		stage.Bass_step_stagedOrder[bass_step] = stage.Bass_stepOrder
+		stage.Bass_step_orderStaged[stage.Bass_stepOrder] = bass_step
 		stage.Bass_stepOrder++
 	}
 	stage.Bass_steps_mapString[bass_step.Name] = bass_step
@@ -17452,6 +18659,7 @@ func (bass_step *Bass_step) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Bass_stepOrder = order
 		}
 		stage.Bass_step_stagedOrder[bass_step] = order
+		stage.Bass_step_orderStaged[order] = bass_step
 		stage.Bass_stepOrder++
 	}
 	stage.Bass_steps_mapString[bass_step.Name] = bass_step
@@ -17518,6 +18726,7 @@ func (beam *Beam) Stage(stage *Stage) *Beam {
 	if _, ok := stage.Beams[beam]; !ok {
 		stage.Beams[beam] = struct{}{}
 		stage.Beam_stagedOrder[beam] = stage.BeamOrder
+		stage.Beam_orderStaged[stage.BeamOrder] = beam
 		stage.BeamOrder++
 	}
 	stage.Beams_mapString[beam.Name] = beam
@@ -17538,6 +18747,7 @@ func (beam *Beam) StagePreserveOrder(stage *Stage, order uint) {
 			stage.BeamOrder = order
 		}
 		stage.Beam_stagedOrder[beam] = order
+		stage.Beam_orderStaged[order] = beam
 		stage.BeamOrder++
 	}
 	stage.Beams_mapString[beam.Name] = beam
@@ -17604,6 +18814,7 @@ func (beat_repeat *Beat_repeat) Stage(stage *Stage) *Beat_repeat {
 	if _, ok := stage.Beat_repeats[beat_repeat]; !ok {
 		stage.Beat_repeats[beat_repeat] = struct{}{}
 		stage.Beat_repeat_stagedOrder[beat_repeat] = stage.Beat_repeatOrder
+		stage.Beat_repeat_orderStaged[stage.Beat_repeatOrder] = beat_repeat
 		stage.Beat_repeatOrder++
 	}
 	stage.Beat_repeats_mapString[beat_repeat.Name] = beat_repeat
@@ -17624,6 +18835,7 @@ func (beat_repeat *Beat_repeat) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Beat_repeatOrder = order
 		}
 		stage.Beat_repeat_stagedOrder[beat_repeat] = order
+		stage.Beat_repeat_orderStaged[order] = beat_repeat
 		stage.Beat_repeatOrder++
 	}
 	stage.Beat_repeats_mapString[beat_repeat.Name] = beat_repeat
@@ -17690,6 +18902,7 @@ func (beat_unit_tied *Beat_unit_tied) Stage(stage *Stage) *Beat_unit_tied {
 	if _, ok := stage.Beat_unit_tieds[beat_unit_tied]; !ok {
 		stage.Beat_unit_tieds[beat_unit_tied] = struct{}{}
 		stage.Beat_unit_tied_stagedOrder[beat_unit_tied] = stage.Beat_unit_tiedOrder
+		stage.Beat_unit_tied_orderStaged[stage.Beat_unit_tiedOrder] = beat_unit_tied
 		stage.Beat_unit_tiedOrder++
 	}
 	stage.Beat_unit_tieds_mapString[beat_unit_tied.Name] = beat_unit_tied
@@ -17710,6 +18923,7 @@ func (beat_unit_tied *Beat_unit_tied) StagePreserveOrder(stage *Stage, order uin
 			stage.Beat_unit_tiedOrder = order
 		}
 		stage.Beat_unit_tied_stagedOrder[beat_unit_tied] = order
+		stage.Beat_unit_tied_orderStaged[order] = beat_unit_tied
 		stage.Beat_unit_tiedOrder++
 	}
 	stage.Beat_unit_tieds_mapString[beat_unit_tied.Name] = beat_unit_tied
@@ -17776,6 +18990,7 @@ func (beater *Beater) Stage(stage *Stage) *Beater {
 	if _, ok := stage.Beaters[beater]; !ok {
 		stage.Beaters[beater] = struct{}{}
 		stage.Beater_stagedOrder[beater] = stage.BeaterOrder
+		stage.Beater_orderStaged[stage.BeaterOrder] = beater
 		stage.BeaterOrder++
 	}
 	stage.Beaters_mapString[beater.Name] = beater
@@ -17796,6 +19011,7 @@ func (beater *Beater) StagePreserveOrder(stage *Stage, order uint) {
 			stage.BeaterOrder = order
 		}
 		stage.Beater_stagedOrder[beater] = order
+		stage.Beater_orderStaged[order] = beater
 		stage.BeaterOrder++
 	}
 	stage.Beaters_mapString[beater.Name] = beater
@@ -17862,6 +19078,7 @@ func (bend *Bend) Stage(stage *Stage) *Bend {
 	if _, ok := stage.Bends[bend]; !ok {
 		stage.Bends[bend] = struct{}{}
 		stage.Bend_stagedOrder[bend] = stage.BendOrder
+		stage.Bend_orderStaged[stage.BendOrder] = bend
 		stage.BendOrder++
 	}
 	stage.Bends_mapString[bend.Name] = bend
@@ -17882,6 +19099,7 @@ func (bend *Bend) StagePreserveOrder(stage *Stage, order uint) {
 			stage.BendOrder = order
 		}
 		stage.Bend_stagedOrder[bend] = order
+		stage.Bend_orderStaged[order] = bend
 		stage.BendOrder++
 	}
 	stage.Bends_mapString[bend.Name] = bend
@@ -17948,6 +19166,7 @@ func (bookmark *Bookmark) Stage(stage *Stage) *Bookmark {
 	if _, ok := stage.Bookmarks[bookmark]; !ok {
 		stage.Bookmarks[bookmark] = struct{}{}
 		stage.Bookmark_stagedOrder[bookmark] = stage.BookmarkOrder
+		stage.Bookmark_orderStaged[stage.BookmarkOrder] = bookmark
 		stage.BookmarkOrder++
 	}
 	stage.Bookmarks_mapString[bookmark.Name] = bookmark
@@ -17968,6 +19187,7 @@ func (bookmark *Bookmark) StagePreserveOrder(stage *Stage, order uint) {
 			stage.BookmarkOrder = order
 		}
 		stage.Bookmark_stagedOrder[bookmark] = order
+		stage.Bookmark_orderStaged[order] = bookmark
 		stage.BookmarkOrder++
 	}
 	stage.Bookmarks_mapString[bookmark.Name] = bookmark
@@ -18034,6 +19254,7 @@ func (bracket *Bracket) Stage(stage *Stage) *Bracket {
 	if _, ok := stage.Brackets[bracket]; !ok {
 		stage.Brackets[bracket] = struct{}{}
 		stage.Bracket_stagedOrder[bracket] = stage.BracketOrder
+		stage.Bracket_orderStaged[stage.BracketOrder] = bracket
 		stage.BracketOrder++
 	}
 	stage.Brackets_mapString[bracket.Name] = bracket
@@ -18054,6 +19275,7 @@ func (bracket *Bracket) StagePreserveOrder(stage *Stage, order uint) {
 			stage.BracketOrder = order
 		}
 		stage.Bracket_stagedOrder[bracket] = order
+		stage.Bracket_orderStaged[order] = bracket
 		stage.BracketOrder++
 	}
 	stage.Brackets_mapString[bracket.Name] = bracket
@@ -18120,6 +19342,7 @@ func (breath_mark *Breath_mark) Stage(stage *Stage) *Breath_mark {
 	if _, ok := stage.Breath_marks[breath_mark]; !ok {
 		stage.Breath_marks[breath_mark] = struct{}{}
 		stage.Breath_mark_stagedOrder[breath_mark] = stage.Breath_markOrder
+		stage.Breath_mark_orderStaged[stage.Breath_markOrder] = breath_mark
 		stage.Breath_markOrder++
 	}
 	stage.Breath_marks_mapString[breath_mark.Name] = breath_mark
@@ -18140,6 +19363,7 @@ func (breath_mark *Breath_mark) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Breath_markOrder = order
 		}
 		stage.Breath_mark_stagedOrder[breath_mark] = order
+		stage.Breath_mark_orderStaged[order] = breath_mark
 		stage.Breath_markOrder++
 	}
 	stage.Breath_marks_mapString[breath_mark.Name] = breath_mark
@@ -18206,6 +19430,7 @@ func (caesura *Caesura) Stage(stage *Stage) *Caesura {
 	if _, ok := stage.Caesuras[caesura]; !ok {
 		stage.Caesuras[caesura] = struct{}{}
 		stage.Caesura_stagedOrder[caesura] = stage.CaesuraOrder
+		stage.Caesura_orderStaged[stage.CaesuraOrder] = caesura
 		stage.CaesuraOrder++
 	}
 	stage.Caesuras_mapString[caesura.Name] = caesura
@@ -18226,6 +19451,7 @@ func (caesura *Caesura) StagePreserveOrder(stage *Stage, order uint) {
 			stage.CaesuraOrder = order
 		}
 		stage.Caesura_stagedOrder[caesura] = order
+		stage.Caesura_orderStaged[order] = caesura
 		stage.CaesuraOrder++
 	}
 	stage.Caesuras_mapString[caesura.Name] = caesura
@@ -18292,6 +19518,7 @@ func (cancel *Cancel) Stage(stage *Stage) *Cancel {
 	if _, ok := stage.Cancels[cancel]; !ok {
 		stage.Cancels[cancel] = struct{}{}
 		stage.Cancel_stagedOrder[cancel] = stage.CancelOrder
+		stage.Cancel_orderStaged[stage.CancelOrder] = cancel
 		stage.CancelOrder++
 	}
 	stage.Cancels_mapString[cancel.Name] = cancel
@@ -18312,6 +19539,7 @@ func (cancel *Cancel) StagePreserveOrder(stage *Stage, order uint) {
 			stage.CancelOrder = order
 		}
 		stage.Cancel_stagedOrder[cancel] = order
+		stage.Cancel_orderStaged[order] = cancel
 		stage.CancelOrder++
 	}
 	stage.Cancels_mapString[cancel.Name] = cancel
@@ -18378,6 +19606,7 @@ func (clef *Clef) Stage(stage *Stage) *Clef {
 	if _, ok := stage.Clefs[clef]; !ok {
 		stage.Clefs[clef] = struct{}{}
 		stage.Clef_stagedOrder[clef] = stage.ClefOrder
+		stage.Clef_orderStaged[stage.ClefOrder] = clef
 		stage.ClefOrder++
 	}
 	stage.Clefs_mapString[clef.Name] = clef
@@ -18398,6 +19627,7 @@ func (clef *Clef) StagePreserveOrder(stage *Stage, order uint) {
 			stage.ClefOrder = order
 		}
 		stage.Clef_stagedOrder[clef] = order
+		stage.Clef_orderStaged[order] = clef
 		stage.ClefOrder++
 	}
 	stage.Clefs_mapString[clef.Name] = clef
@@ -18464,6 +19694,7 @@ func (coda *Coda) Stage(stage *Stage) *Coda {
 	if _, ok := stage.Codas[coda]; !ok {
 		stage.Codas[coda] = struct{}{}
 		stage.Coda_stagedOrder[coda] = stage.CodaOrder
+		stage.Coda_orderStaged[stage.CodaOrder] = coda
 		stage.CodaOrder++
 	}
 	stage.Codas_mapString[coda.Name] = coda
@@ -18484,6 +19715,7 @@ func (coda *Coda) StagePreserveOrder(stage *Stage, order uint) {
 			stage.CodaOrder = order
 		}
 		stage.Coda_stagedOrder[coda] = order
+		stage.Coda_orderStaged[order] = coda
 		stage.CodaOrder++
 	}
 	stage.Codas_mapString[coda.Name] = coda
@@ -18550,6 +19782,7 @@ func (credit *Credit) Stage(stage *Stage) *Credit {
 	if _, ok := stage.Credits[credit]; !ok {
 		stage.Credits[credit] = struct{}{}
 		stage.Credit_stagedOrder[credit] = stage.CreditOrder
+		stage.Credit_orderStaged[stage.CreditOrder] = credit
 		stage.CreditOrder++
 	}
 	stage.Credits_mapString[credit.Name] = credit
@@ -18570,6 +19803,7 @@ func (credit *Credit) StagePreserveOrder(stage *Stage, order uint) {
 			stage.CreditOrder = order
 		}
 		stage.Credit_stagedOrder[credit] = order
+		stage.Credit_orderStaged[order] = credit
 		stage.CreditOrder++
 	}
 	stage.Credits_mapString[credit.Name] = credit
@@ -18636,6 +19870,7 @@ func (dashes *Dashes) Stage(stage *Stage) *Dashes {
 	if _, ok := stage.Dashess[dashes]; !ok {
 		stage.Dashess[dashes] = struct{}{}
 		stage.Dashes_stagedOrder[dashes] = stage.DashesOrder
+		stage.Dashes_orderStaged[stage.DashesOrder] = dashes
 		stage.DashesOrder++
 	}
 	stage.Dashess_mapString[dashes.Name] = dashes
@@ -18656,6 +19891,7 @@ func (dashes *Dashes) StagePreserveOrder(stage *Stage, order uint) {
 			stage.DashesOrder = order
 		}
 		stage.Dashes_stagedOrder[dashes] = order
+		stage.Dashes_orderStaged[order] = dashes
 		stage.DashesOrder++
 	}
 	stage.Dashess_mapString[dashes.Name] = dashes
@@ -18722,6 +19958,7 @@ func (defaults *Defaults) Stage(stage *Stage) *Defaults {
 	if _, ok := stage.Defaultss[defaults]; !ok {
 		stage.Defaultss[defaults] = struct{}{}
 		stage.Defaults_stagedOrder[defaults] = stage.DefaultsOrder
+		stage.Defaults_orderStaged[stage.DefaultsOrder] = defaults
 		stage.DefaultsOrder++
 	}
 	stage.Defaultss_mapString[defaults.Name] = defaults
@@ -18742,6 +19979,7 @@ func (defaults *Defaults) StagePreserveOrder(stage *Stage, order uint) {
 			stage.DefaultsOrder = order
 		}
 		stage.Defaults_stagedOrder[defaults] = order
+		stage.Defaults_orderStaged[order] = defaults
 		stage.DefaultsOrder++
 	}
 	stage.Defaultss_mapString[defaults.Name] = defaults
@@ -18808,6 +20046,7 @@ func (degree *Degree) Stage(stage *Stage) *Degree {
 	if _, ok := stage.Degrees[degree]; !ok {
 		stage.Degrees[degree] = struct{}{}
 		stage.Degree_stagedOrder[degree] = stage.DegreeOrder
+		stage.Degree_orderStaged[stage.DegreeOrder] = degree
 		stage.DegreeOrder++
 	}
 	stage.Degrees_mapString[degree.Name] = degree
@@ -18828,6 +20067,7 @@ func (degree *Degree) StagePreserveOrder(stage *Stage, order uint) {
 			stage.DegreeOrder = order
 		}
 		stage.Degree_stagedOrder[degree] = order
+		stage.Degree_orderStaged[order] = degree
 		stage.DegreeOrder++
 	}
 	stage.Degrees_mapString[degree.Name] = degree
@@ -18894,6 +20134,7 @@ func (degree_alter *Degree_alter) Stage(stage *Stage) *Degree_alter {
 	if _, ok := stage.Degree_alters[degree_alter]; !ok {
 		stage.Degree_alters[degree_alter] = struct{}{}
 		stage.Degree_alter_stagedOrder[degree_alter] = stage.Degree_alterOrder
+		stage.Degree_alter_orderStaged[stage.Degree_alterOrder] = degree_alter
 		stage.Degree_alterOrder++
 	}
 	stage.Degree_alters_mapString[degree_alter.Name] = degree_alter
@@ -18914,6 +20155,7 @@ func (degree_alter *Degree_alter) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Degree_alterOrder = order
 		}
 		stage.Degree_alter_stagedOrder[degree_alter] = order
+		stage.Degree_alter_orderStaged[order] = degree_alter
 		stage.Degree_alterOrder++
 	}
 	stage.Degree_alters_mapString[degree_alter.Name] = degree_alter
@@ -18980,6 +20222,7 @@ func (degree_type *Degree_type) Stage(stage *Stage) *Degree_type {
 	if _, ok := stage.Degree_types[degree_type]; !ok {
 		stage.Degree_types[degree_type] = struct{}{}
 		stage.Degree_type_stagedOrder[degree_type] = stage.Degree_typeOrder
+		stage.Degree_type_orderStaged[stage.Degree_typeOrder] = degree_type
 		stage.Degree_typeOrder++
 	}
 	stage.Degree_types_mapString[degree_type.Name] = degree_type
@@ -19000,6 +20243,7 @@ func (degree_type *Degree_type) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Degree_typeOrder = order
 		}
 		stage.Degree_type_stagedOrder[degree_type] = order
+		stage.Degree_type_orderStaged[order] = degree_type
 		stage.Degree_typeOrder++
 	}
 	stage.Degree_types_mapString[degree_type.Name] = degree_type
@@ -19066,6 +20310,7 @@ func (degree_value *Degree_value) Stage(stage *Stage) *Degree_value {
 	if _, ok := stage.Degree_values[degree_value]; !ok {
 		stage.Degree_values[degree_value] = struct{}{}
 		stage.Degree_value_stagedOrder[degree_value] = stage.Degree_valueOrder
+		stage.Degree_value_orderStaged[stage.Degree_valueOrder] = degree_value
 		stage.Degree_valueOrder++
 	}
 	stage.Degree_values_mapString[degree_value.Name] = degree_value
@@ -19086,6 +20331,7 @@ func (degree_value *Degree_value) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Degree_valueOrder = order
 		}
 		stage.Degree_value_stagedOrder[degree_value] = order
+		stage.Degree_value_orderStaged[order] = degree_value
 		stage.Degree_valueOrder++
 	}
 	stage.Degree_values_mapString[degree_value.Name] = degree_value
@@ -19152,6 +20398,7 @@ func (direction *Direction) Stage(stage *Stage) *Direction {
 	if _, ok := stage.Directions[direction]; !ok {
 		stage.Directions[direction] = struct{}{}
 		stage.Direction_stagedOrder[direction] = stage.DirectionOrder
+		stage.Direction_orderStaged[stage.DirectionOrder] = direction
 		stage.DirectionOrder++
 	}
 	stage.Directions_mapString[direction.Name] = direction
@@ -19172,6 +20419,7 @@ func (direction *Direction) StagePreserveOrder(stage *Stage, order uint) {
 			stage.DirectionOrder = order
 		}
 		stage.Direction_stagedOrder[direction] = order
+		stage.Direction_orderStaged[order] = direction
 		stage.DirectionOrder++
 	}
 	stage.Directions_mapString[direction.Name] = direction
@@ -19238,6 +20486,7 @@ func (direction_type *Direction_type) Stage(stage *Stage) *Direction_type {
 	if _, ok := stage.Direction_types[direction_type]; !ok {
 		stage.Direction_types[direction_type] = struct{}{}
 		stage.Direction_type_stagedOrder[direction_type] = stage.Direction_typeOrder
+		stage.Direction_type_orderStaged[stage.Direction_typeOrder] = direction_type
 		stage.Direction_typeOrder++
 	}
 	stage.Direction_types_mapString[direction_type.Name] = direction_type
@@ -19258,6 +20507,7 @@ func (direction_type *Direction_type) StagePreserveOrder(stage *Stage, order uin
 			stage.Direction_typeOrder = order
 		}
 		stage.Direction_type_stagedOrder[direction_type] = order
+		stage.Direction_type_orderStaged[order] = direction_type
 		stage.Direction_typeOrder++
 	}
 	stage.Direction_types_mapString[direction_type.Name] = direction_type
@@ -19324,6 +20574,7 @@ func (distance *Distance) Stage(stage *Stage) *Distance {
 	if _, ok := stage.Distances[distance]; !ok {
 		stage.Distances[distance] = struct{}{}
 		stage.Distance_stagedOrder[distance] = stage.DistanceOrder
+		stage.Distance_orderStaged[stage.DistanceOrder] = distance
 		stage.DistanceOrder++
 	}
 	stage.Distances_mapString[distance.Name] = distance
@@ -19344,6 +20595,7 @@ func (distance *Distance) StagePreserveOrder(stage *Stage, order uint) {
 			stage.DistanceOrder = order
 		}
 		stage.Distance_stagedOrder[distance] = order
+		stage.Distance_orderStaged[order] = distance
 		stage.DistanceOrder++
 	}
 	stage.Distances_mapString[distance.Name] = distance
@@ -19410,6 +20662,7 @@ func (double *Double) Stage(stage *Stage) *Double {
 	if _, ok := stage.Doubles[double]; !ok {
 		stage.Doubles[double] = struct{}{}
 		stage.Double_stagedOrder[double] = stage.DoubleOrder
+		stage.Double_orderStaged[stage.DoubleOrder] = double
 		stage.DoubleOrder++
 	}
 	stage.Doubles_mapString[double.Name] = double
@@ -19430,6 +20683,7 @@ func (double *Double) StagePreserveOrder(stage *Stage, order uint) {
 			stage.DoubleOrder = order
 		}
 		stage.Double_stagedOrder[double] = order
+		stage.Double_orderStaged[order] = double
 		stage.DoubleOrder++
 	}
 	stage.Doubles_mapString[double.Name] = double
@@ -19496,6 +20750,7 @@ func (dynamics *Dynamics) Stage(stage *Stage) *Dynamics {
 	if _, ok := stage.Dynamicss[dynamics]; !ok {
 		stage.Dynamicss[dynamics] = struct{}{}
 		stage.Dynamics_stagedOrder[dynamics] = stage.DynamicsOrder
+		stage.Dynamics_orderStaged[stage.DynamicsOrder] = dynamics
 		stage.DynamicsOrder++
 	}
 	stage.Dynamicss_mapString[dynamics.Name] = dynamics
@@ -19516,6 +20771,7 @@ func (dynamics *Dynamics) StagePreserveOrder(stage *Stage, order uint) {
 			stage.DynamicsOrder = order
 		}
 		stage.Dynamics_stagedOrder[dynamics] = order
+		stage.Dynamics_orderStaged[order] = dynamics
 		stage.DynamicsOrder++
 	}
 	stage.Dynamicss_mapString[dynamics.Name] = dynamics
@@ -19582,6 +20838,7 @@ func (effect *Effect) Stage(stage *Stage) *Effect {
 	if _, ok := stage.Effects[effect]; !ok {
 		stage.Effects[effect] = struct{}{}
 		stage.Effect_stagedOrder[effect] = stage.EffectOrder
+		stage.Effect_orderStaged[stage.EffectOrder] = effect
 		stage.EffectOrder++
 	}
 	stage.Effects_mapString[effect.Name] = effect
@@ -19602,6 +20859,7 @@ func (effect *Effect) StagePreserveOrder(stage *Stage, order uint) {
 			stage.EffectOrder = order
 		}
 		stage.Effect_stagedOrder[effect] = order
+		stage.Effect_orderStaged[order] = effect
 		stage.EffectOrder++
 	}
 	stage.Effects_mapString[effect.Name] = effect
@@ -19668,6 +20926,7 @@ func (elision *Elision) Stage(stage *Stage) *Elision {
 	if _, ok := stage.Elisions[elision]; !ok {
 		stage.Elisions[elision] = struct{}{}
 		stage.Elision_stagedOrder[elision] = stage.ElisionOrder
+		stage.Elision_orderStaged[stage.ElisionOrder] = elision
 		stage.ElisionOrder++
 	}
 	stage.Elisions_mapString[elision.Name] = elision
@@ -19688,6 +20947,7 @@ func (elision *Elision) StagePreserveOrder(stage *Stage, order uint) {
 			stage.ElisionOrder = order
 		}
 		stage.Elision_stagedOrder[elision] = order
+		stage.Elision_orderStaged[order] = elision
 		stage.ElisionOrder++
 	}
 	stage.Elisions_mapString[elision.Name] = elision
@@ -19754,6 +21014,7 @@ func (empty *Empty) Stage(stage *Stage) *Empty {
 	if _, ok := stage.Emptys[empty]; !ok {
 		stage.Emptys[empty] = struct{}{}
 		stage.Empty_stagedOrder[empty] = stage.EmptyOrder
+		stage.Empty_orderStaged[stage.EmptyOrder] = empty
 		stage.EmptyOrder++
 	}
 	stage.Emptys_mapString[empty.Name] = empty
@@ -19774,6 +21035,7 @@ func (empty *Empty) StagePreserveOrder(stage *Stage, order uint) {
 			stage.EmptyOrder = order
 		}
 		stage.Empty_stagedOrder[empty] = order
+		stage.Empty_orderStaged[order] = empty
 		stage.EmptyOrder++
 	}
 	stage.Emptys_mapString[empty.Name] = empty
@@ -19840,6 +21102,7 @@ func (empty_font *Empty_font) Stage(stage *Stage) *Empty_font {
 	if _, ok := stage.Empty_fonts[empty_font]; !ok {
 		stage.Empty_fonts[empty_font] = struct{}{}
 		stage.Empty_font_stagedOrder[empty_font] = stage.Empty_fontOrder
+		stage.Empty_font_orderStaged[stage.Empty_fontOrder] = empty_font
 		stage.Empty_fontOrder++
 	}
 	stage.Empty_fonts_mapString[empty_font.Name] = empty_font
@@ -19860,6 +21123,7 @@ func (empty_font *Empty_font) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Empty_fontOrder = order
 		}
 		stage.Empty_font_stagedOrder[empty_font] = order
+		stage.Empty_font_orderStaged[order] = empty_font
 		stage.Empty_fontOrder++
 	}
 	stage.Empty_fonts_mapString[empty_font.Name] = empty_font
@@ -19926,6 +21190,7 @@ func (empty_line *Empty_line) Stage(stage *Stage) *Empty_line {
 	if _, ok := stage.Empty_lines[empty_line]; !ok {
 		stage.Empty_lines[empty_line] = struct{}{}
 		stage.Empty_line_stagedOrder[empty_line] = stage.Empty_lineOrder
+		stage.Empty_line_orderStaged[stage.Empty_lineOrder] = empty_line
 		stage.Empty_lineOrder++
 	}
 	stage.Empty_lines_mapString[empty_line.Name] = empty_line
@@ -19946,6 +21211,7 @@ func (empty_line *Empty_line) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Empty_lineOrder = order
 		}
 		stage.Empty_line_stagedOrder[empty_line] = order
+		stage.Empty_line_orderStaged[order] = empty_line
 		stage.Empty_lineOrder++
 	}
 	stage.Empty_lines_mapString[empty_line.Name] = empty_line
@@ -20012,6 +21278,7 @@ func (empty_placement *Empty_placement) Stage(stage *Stage) *Empty_placement {
 	if _, ok := stage.Empty_placements[empty_placement]; !ok {
 		stage.Empty_placements[empty_placement] = struct{}{}
 		stage.Empty_placement_stagedOrder[empty_placement] = stage.Empty_placementOrder
+		stage.Empty_placement_orderStaged[stage.Empty_placementOrder] = empty_placement
 		stage.Empty_placementOrder++
 	}
 	stage.Empty_placements_mapString[empty_placement.Name] = empty_placement
@@ -20032,6 +21299,7 @@ func (empty_placement *Empty_placement) StagePreserveOrder(stage *Stage, order u
 			stage.Empty_placementOrder = order
 		}
 		stage.Empty_placement_stagedOrder[empty_placement] = order
+		stage.Empty_placement_orderStaged[order] = empty_placement
 		stage.Empty_placementOrder++
 	}
 	stage.Empty_placements_mapString[empty_placement.Name] = empty_placement
@@ -20098,6 +21366,7 @@ func (empty_placement_smufl *Empty_placement_smufl) Stage(stage *Stage) *Empty_p
 	if _, ok := stage.Empty_placement_smufls[empty_placement_smufl]; !ok {
 		stage.Empty_placement_smufls[empty_placement_smufl] = struct{}{}
 		stage.Empty_placement_smufl_stagedOrder[empty_placement_smufl] = stage.Empty_placement_smuflOrder
+		stage.Empty_placement_smufl_orderStaged[stage.Empty_placement_smuflOrder] = empty_placement_smufl
 		stage.Empty_placement_smuflOrder++
 	}
 	stage.Empty_placement_smufls_mapString[empty_placement_smufl.Name] = empty_placement_smufl
@@ -20118,6 +21387,7 @@ func (empty_placement_smufl *Empty_placement_smufl) StagePreserveOrder(stage *St
 			stage.Empty_placement_smuflOrder = order
 		}
 		stage.Empty_placement_smufl_stagedOrder[empty_placement_smufl] = order
+		stage.Empty_placement_smufl_orderStaged[order] = empty_placement_smufl
 		stage.Empty_placement_smuflOrder++
 	}
 	stage.Empty_placement_smufls_mapString[empty_placement_smufl.Name] = empty_placement_smufl
@@ -20184,6 +21454,7 @@ func (empty_print_object_style_align *Empty_print_object_style_align) Stage(stag
 	if _, ok := stage.Empty_print_object_style_aligns[empty_print_object_style_align]; !ok {
 		stage.Empty_print_object_style_aligns[empty_print_object_style_align] = struct{}{}
 		stage.Empty_print_object_style_align_stagedOrder[empty_print_object_style_align] = stage.Empty_print_object_style_alignOrder
+		stage.Empty_print_object_style_align_orderStaged[stage.Empty_print_object_style_alignOrder] = empty_print_object_style_align
 		stage.Empty_print_object_style_alignOrder++
 	}
 	stage.Empty_print_object_style_aligns_mapString[empty_print_object_style_align.Name] = empty_print_object_style_align
@@ -20204,6 +21475,7 @@ func (empty_print_object_style_align *Empty_print_object_style_align) StagePrese
 			stage.Empty_print_object_style_alignOrder = order
 		}
 		stage.Empty_print_object_style_align_stagedOrder[empty_print_object_style_align] = order
+		stage.Empty_print_object_style_align_orderStaged[order] = empty_print_object_style_align
 		stage.Empty_print_object_style_alignOrder++
 	}
 	stage.Empty_print_object_style_aligns_mapString[empty_print_object_style_align.Name] = empty_print_object_style_align
@@ -20270,6 +21542,7 @@ func (empty_print_style *Empty_print_style) Stage(stage *Stage) *Empty_print_sty
 	if _, ok := stage.Empty_print_styles[empty_print_style]; !ok {
 		stage.Empty_print_styles[empty_print_style] = struct{}{}
 		stage.Empty_print_style_stagedOrder[empty_print_style] = stage.Empty_print_styleOrder
+		stage.Empty_print_style_orderStaged[stage.Empty_print_styleOrder] = empty_print_style
 		stage.Empty_print_styleOrder++
 	}
 	stage.Empty_print_styles_mapString[empty_print_style.Name] = empty_print_style
@@ -20290,6 +21563,7 @@ func (empty_print_style *Empty_print_style) StagePreserveOrder(stage *Stage, ord
 			stage.Empty_print_styleOrder = order
 		}
 		stage.Empty_print_style_stagedOrder[empty_print_style] = order
+		stage.Empty_print_style_orderStaged[order] = empty_print_style
 		stage.Empty_print_styleOrder++
 	}
 	stage.Empty_print_styles_mapString[empty_print_style.Name] = empty_print_style
@@ -20356,6 +21630,7 @@ func (empty_print_style_align *Empty_print_style_align) Stage(stage *Stage) *Emp
 	if _, ok := stage.Empty_print_style_aligns[empty_print_style_align]; !ok {
 		stage.Empty_print_style_aligns[empty_print_style_align] = struct{}{}
 		stage.Empty_print_style_align_stagedOrder[empty_print_style_align] = stage.Empty_print_style_alignOrder
+		stage.Empty_print_style_align_orderStaged[stage.Empty_print_style_alignOrder] = empty_print_style_align
 		stage.Empty_print_style_alignOrder++
 	}
 	stage.Empty_print_style_aligns_mapString[empty_print_style_align.Name] = empty_print_style_align
@@ -20376,6 +21651,7 @@ func (empty_print_style_align *Empty_print_style_align) StagePreserveOrder(stage
 			stage.Empty_print_style_alignOrder = order
 		}
 		stage.Empty_print_style_align_stagedOrder[empty_print_style_align] = order
+		stage.Empty_print_style_align_orderStaged[order] = empty_print_style_align
 		stage.Empty_print_style_alignOrder++
 	}
 	stage.Empty_print_style_aligns_mapString[empty_print_style_align.Name] = empty_print_style_align
@@ -20442,6 +21718,7 @@ func (empty_print_style_align_id *Empty_print_style_align_id) Stage(stage *Stage
 	if _, ok := stage.Empty_print_style_align_ids[empty_print_style_align_id]; !ok {
 		stage.Empty_print_style_align_ids[empty_print_style_align_id] = struct{}{}
 		stage.Empty_print_style_align_id_stagedOrder[empty_print_style_align_id] = stage.Empty_print_style_align_idOrder
+		stage.Empty_print_style_align_id_orderStaged[stage.Empty_print_style_align_idOrder] = empty_print_style_align_id
 		stage.Empty_print_style_align_idOrder++
 	}
 	stage.Empty_print_style_align_ids_mapString[empty_print_style_align_id.Name] = empty_print_style_align_id
@@ -20462,6 +21739,7 @@ func (empty_print_style_align_id *Empty_print_style_align_id) StagePreserveOrder
 			stage.Empty_print_style_align_idOrder = order
 		}
 		stage.Empty_print_style_align_id_stagedOrder[empty_print_style_align_id] = order
+		stage.Empty_print_style_align_id_orderStaged[order] = empty_print_style_align_id
 		stage.Empty_print_style_align_idOrder++
 	}
 	stage.Empty_print_style_align_ids_mapString[empty_print_style_align_id.Name] = empty_print_style_align_id
@@ -20528,6 +21806,7 @@ func (empty_trill_sound *Empty_trill_sound) Stage(stage *Stage) *Empty_trill_sou
 	if _, ok := stage.Empty_trill_sounds[empty_trill_sound]; !ok {
 		stage.Empty_trill_sounds[empty_trill_sound] = struct{}{}
 		stage.Empty_trill_sound_stagedOrder[empty_trill_sound] = stage.Empty_trill_soundOrder
+		stage.Empty_trill_sound_orderStaged[stage.Empty_trill_soundOrder] = empty_trill_sound
 		stage.Empty_trill_soundOrder++
 	}
 	stage.Empty_trill_sounds_mapString[empty_trill_sound.Name] = empty_trill_sound
@@ -20548,6 +21827,7 @@ func (empty_trill_sound *Empty_trill_sound) StagePreserveOrder(stage *Stage, ord
 			stage.Empty_trill_soundOrder = order
 		}
 		stage.Empty_trill_sound_stagedOrder[empty_trill_sound] = order
+		stage.Empty_trill_sound_orderStaged[order] = empty_trill_sound
 		stage.Empty_trill_soundOrder++
 	}
 	stage.Empty_trill_sounds_mapString[empty_trill_sound.Name] = empty_trill_sound
@@ -20614,6 +21894,7 @@ func (encoding *Encoding) Stage(stage *Stage) *Encoding {
 	if _, ok := stage.Encodings[encoding]; !ok {
 		stage.Encodings[encoding] = struct{}{}
 		stage.Encoding_stagedOrder[encoding] = stage.EncodingOrder
+		stage.Encoding_orderStaged[stage.EncodingOrder] = encoding
 		stage.EncodingOrder++
 	}
 	stage.Encodings_mapString[encoding.Name] = encoding
@@ -20634,6 +21915,7 @@ func (encoding *Encoding) StagePreserveOrder(stage *Stage, order uint) {
 			stage.EncodingOrder = order
 		}
 		stage.Encoding_stagedOrder[encoding] = order
+		stage.Encoding_orderStaged[order] = encoding
 		stage.EncodingOrder++
 	}
 	stage.Encodings_mapString[encoding.Name] = encoding
@@ -20700,6 +21982,7 @@ func (ending *Ending) Stage(stage *Stage) *Ending {
 	if _, ok := stage.Endings[ending]; !ok {
 		stage.Endings[ending] = struct{}{}
 		stage.Ending_stagedOrder[ending] = stage.EndingOrder
+		stage.Ending_orderStaged[stage.EndingOrder] = ending
 		stage.EndingOrder++
 	}
 	stage.Endings_mapString[ending.Name] = ending
@@ -20720,6 +22003,7 @@ func (ending *Ending) StagePreserveOrder(stage *Stage, order uint) {
 			stage.EndingOrder = order
 		}
 		stage.Ending_stagedOrder[ending] = order
+		stage.Ending_orderStaged[order] = ending
 		stage.EndingOrder++
 	}
 	stage.Endings_mapString[ending.Name] = ending
@@ -20786,6 +22070,7 @@ func (extend *Extend) Stage(stage *Stage) *Extend {
 	if _, ok := stage.Extends[extend]; !ok {
 		stage.Extends[extend] = struct{}{}
 		stage.Extend_stagedOrder[extend] = stage.ExtendOrder
+		stage.Extend_orderStaged[stage.ExtendOrder] = extend
 		stage.ExtendOrder++
 	}
 	stage.Extends_mapString[extend.Name] = extend
@@ -20806,6 +22091,7 @@ func (extend *Extend) StagePreserveOrder(stage *Stage, order uint) {
 			stage.ExtendOrder = order
 		}
 		stage.Extend_stagedOrder[extend] = order
+		stage.Extend_orderStaged[order] = extend
 		stage.ExtendOrder++
 	}
 	stage.Extends_mapString[extend.Name] = extend
@@ -20872,6 +22158,7 @@ func (feature *Feature) Stage(stage *Stage) *Feature {
 	if _, ok := stage.Features[feature]; !ok {
 		stage.Features[feature] = struct{}{}
 		stage.Feature_stagedOrder[feature] = stage.FeatureOrder
+		stage.Feature_orderStaged[stage.FeatureOrder] = feature
 		stage.FeatureOrder++
 	}
 	stage.Features_mapString[feature.Name] = feature
@@ -20892,6 +22179,7 @@ func (feature *Feature) StagePreserveOrder(stage *Stage, order uint) {
 			stage.FeatureOrder = order
 		}
 		stage.Feature_stagedOrder[feature] = order
+		stage.Feature_orderStaged[order] = feature
 		stage.FeatureOrder++
 	}
 	stage.Features_mapString[feature.Name] = feature
@@ -20958,6 +22246,7 @@ func (fermata *Fermata) Stage(stage *Stage) *Fermata {
 	if _, ok := stage.Fermatas[fermata]; !ok {
 		stage.Fermatas[fermata] = struct{}{}
 		stage.Fermata_stagedOrder[fermata] = stage.FermataOrder
+		stage.Fermata_orderStaged[stage.FermataOrder] = fermata
 		stage.FermataOrder++
 	}
 	stage.Fermatas_mapString[fermata.Name] = fermata
@@ -20978,6 +22267,7 @@ func (fermata *Fermata) StagePreserveOrder(stage *Stage, order uint) {
 			stage.FermataOrder = order
 		}
 		stage.Fermata_stagedOrder[fermata] = order
+		stage.Fermata_orderStaged[order] = fermata
 		stage.FermataOrder++
 	}
 	stage.Fermatas_mapString[fermata.Name] = fermata
@@ -21044,6 +22334,7 @@ func (figure *Figure) Stage(stage *Stage) *Figure {
 	if _, ok := stage.Figures[figure]; !ok {
 		stage.Figures[figure] = struct{}{}
 		stage.Figure_stagedOrder[figure] = stage.FigureOrder
+		stage.Figure_orderStaged[stage.FigureOrder] = figure
 		stage.FigureOrder++
 	}
 	stage.Figures_mapString[figure.Name] = figure
@@ -21064,6 +22355,7 @@ func (figure *Figure) StagePreserveOrder(stage *Stage, order uint) {
 			stage.FigureOrder = order
 		}
 		stage.Figure_stagedOrder[figure] = order
+		stage.Figure_orderStaged[order] = figure
 		stage.FigureOrder++
 	}
 	stage.Figures_mapString[figure.Name] = figure
@@ -21130,6 +22422,7 @@ func (figured_bass *Figured_bass) Stage(stage *Stage) *Figured_bass {
 	if _, ok := stage.Figured_basss[figured_bass]; !ok {
 		stage.Figured_basss[figured_bass] = struct{}{}
 		stage.Figured_bass_stagedOrder[figured_bass] = stage.Figured_bassOrder
+		stage.Figured_bass_orderStaged[stage.Figured_bassOrder] = figured_bass
 		stage.Figured_bassOrder++
 	}
 	stage.Figured_basss_mapString[figured_bass.Name] = figured_bass
@@ -21150,6 +22443,7 @@ func (figured_bass *Figured_bass) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Figured_bassOrder = order
 		}
 		stage.Figured_bass_stagedOrder[figured_bass] = order
+		stage.Figured_bass_orderStaged[order] = figured_bass
 		stage.Figured_bassOrder++
 	}
 	stage.Figured_basss_mapString[figured_bass.Name] = figured_bass
@@ -21216,6 +22510,7 @@ func (fingering *Fingering) Stage(stage *Stage) *Fingering {
 	if _, ok := stage.Fingerings[fingering]; !ok {
 		stage.Fingerings[fingering] = struct{}{}
 		stage.Fingering_stagedOrder[fingering] = stage.FingeringOrder
+		stage.Fingering_orderStaged[stage.FingeringOrder] = fingering
 		stage.FingeringOrder++
 	}
 	stage.Fingerings_mapString[fingering.Name] = fingering
@@ -21236,6 +22531,7 @@ func (fingering *Fingering) StagePreserveOrder(stage *Stage, order uint) {
 			stage.FingeringOrder = order
 		}
 		stage.Fingering_stagedOrder[fingering] = order
+		stage.Fingering_orderStaged[order] = fingering
 		stage.FingeringOrder++
 	}
 	stage.Fingerings_mapString[fingering.Name] = fingering
@@ -21302,6 +22598,7 @@ func (first_fret *First_fret) Stage(stage *Stage) *First_fret {
 	if _, ok := stage.First_frets[first_fret]; !ok {
 		stage.First_frets[first_fret] = struct{}{}
 		stage.First_fret_stagedOrder[first_fret] = stage.First_fretOrder
+		stage.First_fret_orderStaged[stage.First_fretOrder] = first_fret
 		stage.First_fretOrder++
 	}
 	stage.First_frets_mapString[first_fret.Name] = first_fret
@@ -21322,6 +22619,7 @@ func (first_fret *First_fret) StagePreserveOrder(stage *Stage, order uint) {
 			stage.First_fretOrder = order
 		}
 		stage.First_fret_stagedOrder[first_fret] = order
+		stage.First_fret_orderStaged[order] = first_fret
 		stage.First_fretOrder++
 	}
 	stage.First_frets_mapString[first_fret.Name] = first_fret
@@ -21388,6 +22686,7 @@ func (for_part *For_part) Stage(stage *Stage) *For_part {
 	if _, ok := stage.For_parts[for_part]; !ok {
 		stage.For_parts[for_part] = struct{}{}
 		stage.For_part_stagedOrder[for_part] = stage.For_partOrder
+		stage.For_part_orderStaged[stage.For_partOrder] = for_part
 		stage.For_partOrder++
 	}
 	stage.For_parts_mapString[for_part.Name] = for_part
@@ -21408,6 +22707,7 @@ func (for_part *For_part) StagePreserveOrder(stage *Stage, order uint) {
 			stage.For_partOrder = order
 		}
 		stage.For_part_stagedOrder[for_part] = order
+		stage.For_part_orderStaged[order] = for_part
 		stage.For_partOrder++
 	}
 	stage.For_parts_mapString[for_part.Name] = for_part
@@ -21474,6 +22774,7 @@ func (formatted_symbol *Formatted_symbol) Stage(stage *Stage) *Formatted_symbol 
 	if _, ok := stage.Formatted_symbols[formatted_symbol]; !ok {
 		stage.Formatted_symbols[formatted_symbol] = struct{}{}
 		stage.Formatted_symbol_stagedOrder[formatted_symbol] = stage.Formatted_symbolOrder
+		stage.Formatted_symbol_orderStaged[stage.Formatted_symbolOrder] = formatted_symbol
 		stage.Formatted_symbolOrder++
 	}
 	stage.Formatted_symbols_mapString[formatted_symbol.Name] = formatted_symbol
@@ -21494,6 +22795,7 @@ func (formatted_symbol *Formatted_symbol) StagePreserveOrder(stage *Stage, order
 			stage.Formatted_symbolOrder = order
 		}
 		stage.Formatted_symbol_stagedOrder[formatted_symbol] = order
+		stage.Formatted_symbol_orderStaged[order] = formatted_symbol
 		stage.Formatted_symbolOrder++
 	}
 	stage.Formatted_symbols_mapString[formatted_symbol.Name] = formatted_symbol
@@ -21560,6 +22862,7 @@ func (formatted_symbol_id *Formatted_symbol_id) Stage(stage *Stage) *Formatted_s
 	if _, ok := stage.Formatted_symbol_ids[formatted_symbol_id]; !ok {
 		stage.Formatted_symbol_ids[formatted_symbol_id] = struct{}{}
 		stage.Formatted_symbol_id_stagedOrder[formatted_symbol_id] = stage.Formatted_symbol_idOrder
+		stage.Formatted_symbol_id_orderStaged[stage.Formatted_symbol_idOrder] = formatted_symbol_id
 		stage.Formatted_symbol_idOrder++
 	}
 	stage.Formatted_symbol_ids_mapString[formatted_symbol_id.Name] = formatted_symbol_id
@@ -21580,6 +22883,7 @@ func (formatted_symbol_id *Formatted_symbol_id) StagePreserveOrder(stage *Stage,
 			stage.Formatted_symbol_idOrder = order
 		}
 		stage.Formatted_symbol_id_stagedOrder[formatted_symbol_id] = order
+		stage.Formatted_symbol_id_orderStaged[order] = formatted_symbol_id
 		stage.Formatted_symbol_idOrder++
 	}
 	stage.Formatted_symbol_ids_mapString[formatted_symbol_id.Name] = formatted_symbol_id
@@ -21646,6 +22950,7 @@ func (formatted_text *Formatted_text) Stage(stage *Stage) *Formatted_text {
 	if _, ok := stage.Formatted_texts[formatted_text]; !ok {
 		stage.Formatted_texts[formatted_text] = struct{}{}
 		stage.Formatted_text_stagedOrder[formatted_text] = stage.Formatted_textOrder
+		stage.Formatted_text_orderStaged[stage.Formatted_textOrder] = formatted_text
 		stage.Formatted_textOrder++
 	}
 	stage.Formatted_texts_mapString[formatted_text.Name] = formatted_text
@@ -21666,6 +22971,7 @@ func (formatted_text *Formatted_text) StagePreserveOrder(stage *Stage, order uin
 			stage.Formatted_textOrder = order
 		}
 		stage.Formatted_text_stagedOrder[formatted_text] = order
+		stage.Formatted_text_orderStaged[order] = formatted_text
 		stage.Formatted_textOrder++
 	}
 	stage.Formatted_texts_mapString[formatted_text.Name] = formatted_text
@@ -21732,6 +23038,7 @@ func (formatted_text_id *Formatted_text_id) Stage(stage *Stage) *Formatted_text_
 	if _, ok := stage.Formatted_text_ids[formatted_text_id]; !ok {
 		stage.Formatted_text_ids[formatted_text_id] = struct{}{}
 		stage.Formatted_text_id_stagedOrder[formatted_text_id] = stage.Formatted_text_idOrder
+		stage.Formatted_text_id_orderStaged[stage.Formatted_text_idOrder] = formatted_text_id
 		stage.Formatted_text_idOrder++
 	}
 	stage.Formatted_text_ids_mapString[formatted_text_id.Name] = formatted_text_id
@@ -21752,6 +23059,7 @@ func (formatted_text_id *Formatted_text_id) StagePreserveOrder(stage *Stage, ord
 			stage.Formatted_text_idOrder = order
 		}
 		stage.Formatted_text_id_stagedOrder[formatted_text_id] = order
+		stage.Formatted_text_id_orderStaged[order] = formatted_text_id
 		stage.Formatted_text_idOrder++
 	}
 	stage.Formatted_text_ids_mapString[formatted_text_id.Name] = formatted_text_id
@@ -21818,6 +23126,7 @@ func (forward *Forward) Stage(stage *Stage) *Forward {
 	if _, ok := stage.Forwards[forward]; !ok {
 		stage.Forwards[forward] = struct{}{}
 		stage.Forward_stagedOrder[forward] = stage.ForwardOrder
+		stage.Forward_orderStaged[stage.ForwardOrder] = forward
 		stage.ForwardOrder++
 	}
 	stage.Forwards_mapString[forward.Name] = forward
@@ -21838,6 +23147,7 @@ func (forward *Forward) StagePreserveOrder(stage *Stage, order uint) {
 			stage.ForwardOrder = order
 		}
 		stage.Forward_stagedOrder[forward] = order
+		stage.Forward_orderStaged[order] = forward
 		stage.ForwardOrder++
 	}
 	stage.Forwards_mapString[forward.Name] = forward
@@ -21904,6 +23214,7 @@ func (frame *Frame) Stage(stage *Stage) *Frame {
 	if _, ok := stage.Frames[frame]; !ok {
 		stage.Frames[frame] = struct{}{}
 		stage.Frame_stagedOrder[frame] = stage.FrameOrder
+		stage.Frame_orderStaged[stage.FrameOrder] = frame
 		stage.FrameOrder++
 	}
 	stage.Frames_mapString[frame.Name] = frame
@@ -21924,6 +23235,7 @@ func (frame *Frame) StagePreserveOrder(stage *Stage, order uint) {
 			stage.FrameOrder = order
 		}
 		stage.Frame_stagedOrder[frame] = order
+		stage.Frame_orderStaged[order] = frame
 		stage.FrameOrder++
 	}
 	stage.Frames_mapString[frame.Name] = frame
@@ -21990,6 +23302,7 @@ func (frame_note *Frame_note) Stage(stage *Stage) *Frame_note {
 	if _, ok := stage.Frame_notes[frame_note]; !ok {
 		stage.Frame_notes[frame_note] = struct{}{}
 		stage.Frame_note_stagedOrder[frame_note] = stage.Frame_noteOrder
+		stage.Frame_note_orderStaged[stage.Frame_noteOrder] = frame_note
 		stage.Frame_noteOrder++
 	}
 	stage.Frame_notes_mapString[frame_note.Name] = frame_note
@@ -22010,6 +23323,7 @@ func (frame_note *Frame_note) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Frame_noteOrder = order
 		}
 		stage.Frame_note_stagedOrder[frame_note] = order
+		stage.Frame_note_orderStaged[order] = frame_note
 		stage.Frame_noteOrder++
 	}
 	stage.Frame_notes_mapString[frame_note.Name] = frame_note
@@ -22076,6 +23390,7 @@ func (fret *Fret) Stage(stage *Stage) *Fret {
 	if _, ok := stage.Frets[fret]; !ok {
 		stage.Frets[fret] = struct{}{}
 		stage.Fret_stagedOrder[fret] = stage.FretOrder
+		stage.Fret_orderStaged[stage.FretOrder] = fret
 		stage.FretOrder++
 	}
 	stage.Frets_mapString[fret.Name] = fret
@@ -22096,6 +23411,7 @@ func (fret *Fret) StagePreserveOrder(stage *Stage, order uint) {
 			stage.FretOrder = order
 		}
 		stage.Fret_stagedOrder[fret] = order
+		stage.Fret_orderStaged[order] = fret
 		stage.FretOrder++
 	}
 	stage.Frets_mapString[fret.Name] = fret
@@ -22162,6 +23478,7 @@ func (glass *Glass) Stage(stage *Stage) *Glass {
 	if _, ok := stage.Glasss[glass]; !ok {
 		stage.Glasss[glass] = struct{}{}
 		stage.Glass_stagedOrder[glass] = stage.GlassOrder
+		stage.Glass_orderStaged[stage.GlassOrder] = glass
 		stage.GlassOrder++
 	}
 	stage.Glasss_mapString[glass.Name] = glass
@@ -22182,6 +23499,7 @@ func (glass *Glass) StagePreserveOrder(stage *Stage, order uint) {
 			stage.GlassOrder = order
 		}
 		stage.Glass_stagedOrder[glass] = order
+		stage.Glass_orderStaged[order] = glass
 		stage.GlassOrder++
 	}
 	stage.Glasss_mapString[glass.Name] = glass
@@ -22248,6 +23566,7 @@ func (glissando *Glissando) Stage(stage *Stage) *Glissando {
 	if _, ok := stage.Glissandos[glissando]; !ok {
 		stage.Glissandos[glissando] = struct{}{}
 		stage.Glissando_stagedOrder[glissando] = stage.GlissandoOrder
+		stage.Glissando_orderStaged[stage.GlissandoOrder] = glissando
 		stage.GlissandoOrder++
 	}
 	stage.Glissandos_mapString[glissando.Name] = glissando
@@ -22268,6 +23587,7 @@ func (glissando *Glissando) StagePreserveOrder(stage *Stage, order uint) {
 			stage.GlissandoOrder = order
 		}
 		stage.Glissando_stagedOrder[glissando] = order
+		stage.Glissando_orderStaged[order] = glissando
 		stage.GlissandoOrder++
 	}
 	stage.Glissandos_mapString[glissando.Name] = glissando
@@ -22334,6 +23654,7 @@ func (glyph *Glyph) Stage(stage *Stage) *Glyph {
 	if _, ok := stage.Glyphs[glyph]; !ok {
 		stage.Glyphs[glyph] = struct{}{}
 		stage.Glyph_stagedOrder[glyph] = stage.GlyphOrder
+		stage.Glyph_orderStaged[stage.GlyphOrder] = glyph
 		stage.GlyphOrder++
 	}
 	stage.Glyphs_mapString[glyph.Name] = glyph
@@ -22354,6 +23675,7 @@ func (glyph *Glyph) StagePreserveOrder(stage *Stage, order uint) {
 			stage.GlyphOrder = order
 		}
 		stage.Glyph_stagedOrder[glyph] = order
+		stage.Glyph_orderStaged[order] = glyph
 		stage.GlyphOrder++
 	}
 	stage.Glyphs_mapString[glyph.Name] = glyph
@@ -22420,6 +23742,7 @@ func (grace *Grace) Stage(stage *Stage) *Grace {
 	if _, ok := stage.Graces[grace]; !ok {
 		stage.Graces[grace] = struct{}{}
 		stage.Grace_stagedOrder[grace] = stage.GraceOrder
+		stage.Grace_orderStaged[stage.GraceOrder] = grace
 		stage.GraceOrder++
 	}
 	stage.Graces_mapString[grace.Name] = grace
@@ -22440,6 +23763,7 @@ func (grace *Grace) StagePreserveOrder(stage *Stage, order uint) {
 			stage.GraceOrder = order
 		}
 		stage.Grace_stagedOrder[grace] = order
+		stage.Grace_orderStaged[order] = grace
 		stage.GraceOrder++
 	}
 	stage.Graces_mapString[grace.Name] = grace
@@ -22506,6 +23830,7 @@ func (group_barline *Group_barline) Stage(stage *Stage) *Group_barline {
 	if _, ok := stage.Group_barlines[group_barline]; !ok {
 		stage.Group_barlines[group_barline] = struct{}{}
 		stage.Group_barline_stagedOrder[group_barline] = stage.Group_barlineOrder
+		stage.Group_barline_orderStaged[stage.Group_barlineOrder] = group_barline
 		stage.Group_barlineOrder++
 	}
 	stage.Group_barlines_mapString[group_barline.Name] = group_barline
@@ -22526,6 +23851,7 @@ func (group_barline *Group_barline) StagePreserveOrder(stage *Stage, order uint)
 			stage.Group_barlineOrder = order
 		}
 		stage.Group_barline_stagedOrder[group_barline] = order
+		stage.Group_barline_orderStaged[order] = group_barline
 		stage.Group_barlineOrder++
 	}
 	stage.Group_barlines_mapString[group_barline.Name] = group_barline
@@ -22592,6 +23918,7 @@ func (group_name *Group_name) Stage(stage *Stage) *Group_name {
 	if _, ok := stage.Group_names[group_name]; !ok {
 		stage.Group_names[group_name] = struct{}{}
 		stage.Group_name_stagedOrder[group_name] = stage.Group_nameOrder
+		stage.Group_name_orderStaged[stage.Group_nameOrder] = group_name
 		stage.Group_nameOrder++
 	}
 	stage.Group_names_mapString[group_name.Name] = group_name
@@ -22612,6 +23939,7 @@ func (group_name *Group_name) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Group_nameOrder = order
 		}
 		stage.Group_name_stagedOrder[group_name] = order
+		stage.Group_name_orderStaged[order] = group_name
 		stage.Group_nameOrder++
 	}
 	stage.Group_names_mapString[group_name.Name] = group_name
@@ -22678,6 +24006,7 @@ func (group_symbol *Group_symbol) Stage(stage *Stage) *Group_symbol {
 	if _, ok := stage.Group_symbols[group_symbol]; !ok {
 		stage.Group_symbols[group_symbol] = struct{}{}
 		stage.Group_symbol_stagedOrder[group_symbol] = stage.Group_symbolOrder
+		stage.Group_symbol_orderStaged[stage.Group_symbolOrder] = group_symbol
 		stage.Group_symbolOrder++
 	}
 	stage.Group_symbols_mapString[group_symbol.Name] = group_symbol
@@ -22698,6 +24027,7 @@ func (group_symbol *Group_symbol) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Group_symbolOrder = order
 		}
 		stage.Group_symbol_stagedOrder[group_symbol] = order
+		stage.Group_symbol_orderStaged[order] = group_symbol
 		stage.Group_symbolOrder++
 	}
 	stage.Group_symbols_mapString[group_symbol.Name] = group_symbol
@@ -22764,6 +24094,7 @@ func (grouping *Grouping) Stage(stage *Stage) *Grouping {
 	if _, ok := stage.Groupings[grouping]; !ok {
 		stage.Groupings[grouping] = struct{}{}
 		stage.Grouping_stagedOrder[grouping] = stage.GroupingOrder
+		stage.Grouping_orderStaged[stage.GroupingOrder] = grouping
 		stage.GroupingOrder++
 	}
 	stage.Groupings_mapString[grouping.Name] = grouping
@@ -22784,6 +24115,7 @@ func (grouping *Grouping) StagePreserveOrder(stage *Stage, order uint) {
 			stage.GroupingOrder = order
 		}
 		stage.Grouping_stagedOrder[grouping] = order
+		stage.Grouping_orderStaged[order] = grouping
 		stage.GroupingOrder++
 	}
 	stage.Groupings_mapString[grouping.Name] = grouping
@@ -22850,6 +24182,7 @@ func (hammer_on_pull_off *Hammer_on_pull_off) Stage(stage *Stage) *Hammer_on_pul
 	if _, ok := stage.Hammer_on_pull_offs[hammer_on_pull_off]; !ok {
 		stage.Hammer_on_pull_offs[hammer_on_pull_off] = struct{}{}
 		stage.Hammer_on_pull_off_stagedOrder[hammer_on_pull_off] = stage.Hammer_on_pull_offOrder
+		stage.Hammer_on_pull_off_orderStaged[stage.Hammer_on_pull_offOrder] = hammer_on_pull_off
 		stage.Hammer_on_pull_offOrder++
 	}
 	stage.Hammer_on_pull_offs_mapString[hammer_on_pull_off.Name] = hammer_on_pull_off
@@ -22870,6 +24203,7 @@ func (hammer_on_pull_off *Hammer_on_pull_off) StagePreserveOrder(stage *Stage, o
 			stage.Hammer_on_pull_offOrder = order
 		}
 		stage.Hammer_on_pull_off_stagedOrder[hammer_on_pull_off] = order
+		stage.Hammer_on_pull_off_orderStaged[order] = hammer_on_pull_off
 		stage.Hammer_on_pull_offOrder++
 	}
 	stage.Hammer_on_pull_offs_mapString[hammer_on_pull_off.Name] = hammer_on_pull_off
@@ -22936,6 +24270,7 @@ func (handbell *Handbell) Stage(stage *Stage) *Handbell {
 	if _, ok := stage.Handbells[handbell]; !ok {
 		stage.Handbells[handbell] = struct{}{}
 		stage.Handbell_stagedOrder[handbell] = stage.HandbellOrder
+		stage.Handbell_orderStaged[stage.HandbellOrder] = handbell
 		stage.HandbellOrder++
 	}
 	stage.Handbells_mapString[handbell.Name] = handbell
@@ -22956,6 +24291,7 @@ func (handbell *Handbell) StagePreserveOrder(stage *Stage, order uint) {
 			stage.HandbellOrder = order
 		}
 		stage.Handbell_stagedOrder[handbell] = order
+		stage.Handbell_orderStaged[order] = handbell
 		stage.HandbellOrder++
 	}
 	stage.Handbells_mapString[handbell.Name] = handbell
@@ -23022,6 +24358,7 @@ func (harmon_closed *Harmon_closed) Stage(stage *Stage) *Harmon_closed {
 	if _, ok := stage.Harmon_closeds[harmon_closed]; !ok {
 		stage.Harmon_closeds[harmon_closed] = struct{}{}
 		stage.Harmon_closed_stagedOrder[harmon_closed] = stage.Harmon_closedOrder
+		stage.Harmon_closed_orderStaged[stage.Harmon_closedOrder] = harmon_closed
 		stage.Harmon_closedOrder++
 	}
 	stage.Harmon_closeds_mapString[harmon_closed.Name] = harmon_closed
@@ -23042,6 +24379,7 @@ func (harmon_closed *Harmon_closed) StagePreserveOrder(stage *Stage, order uint)
 			stage.Harmon_closedOrder = order
 		}
 		stage.Harmon_closed_stagedOrder[harmon_closed] = order
+		stage.Harmon_closed_orderStaged[order] = harmon_closed
 		stage.Harmon_closedOrder++
 	}
 	stage.Harmon_closeds_mapString[harmon_closed.Name] = harmon_closed
@@ -23108,6 +24446,7 @@ func (harmon_mute *Harmon_mute) Stage(stage *Stage) *Harmon_mute {
 	if _, ok := stage.Harmon_mutes[harmon_mute]; !ok {
 		stage.Harmon_mutes[harmon_mute] = struct{}{}
 		stage.Harmon_mute_stagedOrder[harmon_mute] = stage.Harmon_muteOrder
+		stage.Harmon_mute_orderStaged[stage.Harmon_muteOrder] = harmon_mute
 		stage.Harmon_muteOrder++
 	}
 	stage.Harmon_mutes_mapString[harmon_mute.Name] = harmon_mute
@@ -23128,6 +24467,7 @@ func (harmon_mute *Harmon_mute) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Harmon_muteOrder = order
 		}
 		stage.Harmon_mute_stagedOrder[harmon_mute] = order
+		stage.Harmon_mute_orderStaged[order] = harmon_mute
 		stage.Harmon_muteOrder++
 	}
 	stage.Harmon_mutes_mapString[harmon_mute.Name] = harmon_mute
@@ -23194,6 +24534,7 @@ func (harmonic *Harmonic) Stage(stage *Stage) *Harmonic {
 	if _, ok := stage.Harmonics[harmonic]; !ok {
 		stage.Harmonics[harmonic] = struct{}{}
 		stage.Harmonic_stagedOrder[harmonic] = stage.HarmonicOrder
+		stage.Harmonic_orderStaged[stage.HarmonicOrder] = harmonic
 		stage.HarmonicOrder++
 	}
 	stage.Harmonics_mapString[harmonic.Name] = harmonic
@@ -23214,6 +24555,7 @@ func (harmonic *Harmonic) StagePreserveOrder(stage *Stage, order uint) {
 			stage.HarmonicOrder = order
 		}
 		stage.Harmonic_stagedOrder[harmonic] = order
+		stage.Harmonic_orderStaged[order] = harmonic
 		stage.HarmonicOrder++
 	}
 	stage.Harmonics_mapString[harmonic.Name] = harmonic
@@ -23280,6 +24622,7 @@ func (harmony *Harmony) Stage(stage *Stage) *Harmony {
 	if _, ok := stage.Harmonys[harmony]; !ok {
 		stage.Harmonys[harmony] = struct{}{}
 		stage.Harmony_stagedOrder[harmony] = stage.HarmonyOrder
+		stage.Harmony_orderStaged[stage.HarmonyOrder] = harmony
 		stage.HarmonyOrder++
 	}
 	stage.Harmonys_mapString[harmony.Name] = harmony
@@ -23300,6 +24643,7 @@ func (harmony *Harmony) StagePreserveOrder(stage *Stage, order uint) {
 			stage.HarmonyOrder = order
 		}
 		stage.Harmony_stagedOrder[harmony] = order
+		stage.Harmony_orderStaged[order] = harmony
 		stage.HarmonyOrder++
 	}
 	stage.Harmonys_mapString[harmony.Name] = harmony
@@ -23366,6 +24710,7 @@ func (harmony_alter *Harmony_alter) Stage(stage *Stage) *Harmony_alter {
 	if _, ok := stage.Harmony_alters[harmony_alter]; !ok {
 		stage.Harmony_alters[harmony_alter] = struct{}{}
 		stage.Harmony_alter_stagedOrder[harmony_alter] = stage.Harmony_alterOrder
+		stage.Harmony_alter_orderStaged[stage.Harmony_alterOrder] = harmony_alter
 		stage.Harmony_alterOrder++
 	}
 	stage.Harmony_alters_mapString[harmony_alter.Name] = harmony_alter
@@ -23386,6 +24731,7 @@ func (harmony_alter *Harmony_alter) StagePreserveOrder(stage *Stage, order uint)
 			stage.Harmony_alterOrder = order
 		}
 		stage.Harmony_alter_stagedOrder[harmony_alter] = order
+		stage.Harmony_alter_orderStaged[order] = harmony_alter
 		stage.Harmony_alterOrder++
 	}
 	stage.Harmony_alters_mapString[harmony_alter.Name] = harmony_alter
@@ -23452,6 +24798,7 @@ func (harp_pedals *Harp_pedals) Stage(stage *Stage) *Harp_pedals {
 	if _, ok := stage.Harp_pedalss[harp_pedals]; !ok {
 		stage.Harp_pedalss[harp_pedals] = struct{}{}
 		stage.Harp_pedals_stagedOrder[harp_pedals] = stage.Harp_pedalsOrder
+		stage.Harp_pedals_orderStaged[stage.Harp_pedalsOrder] = harp_pedals
 		stage.Harp_pedalsOrder++
 	}
 	stage.Harp_pedalss_mapString[harp_pedals.Name] = harp_pedals
@@ -23472,6 +24819,7 @@ func (harp_pedals *Harp_pedals) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Harp_pedalsOrder = order
 		}
 		stage.Harp_pedals_stagedOrder[harp_pedals] = order
+		stage.Harp_pedals_orderStaged[order] = harp_pedals
 		stage.Harp_pedalsOrder++
 	}
 	stage.Harp_pedalss_mapString[harp_pedals.Name] = harp_pedals
@@ -23538,6 +24886,7 @@ func (heel_toe *Heel_toe) Stage(stage *Stage) *Heel_toe {
 	if _, ok := stage.Heel_toes[heel_toe]; !ok {
 		stage.Heel_toes[heel_toe] = struct{}{}
 		stage.Heel_toe_stagedOrder[heel_toe] = stage.Heel_toeOrder
+		stage.Heel_toe_orderStaged[stage.Heel_toeOrder] = heel_toe
 		stage.Heel_toeOrder++
 	}
 	stage.Heel_toes_mapString[heel_toe.Name] = heel_toe
@@ -23558,6 +24907,7 @@ func (heel_toe *Heel_toe) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Heel_toeOrder = order
 		}
 		stage.Heel_toe_stagedOrder[heel_toe] = order
+		stage.Heel_toe_orderStaged[order] = heel_toe
 		stage.Heel_toeOrder++
 	}
 	stage.Heel_toes_mapString[heel_toe.Name] = heel_toe
@@ -23624,6 +24974,7 @@ func (hole *Hole) Stage(stage *Stage) *Hole {
 	if _, ok := stage.Holes[hole]; !ok {
 		stage.Holes[hole] = struct{}{}
 		stage.Hole_stagedOrder[hole] = stage.HoleOrder
+		stage.Hole_orderStaged[stage.HoleOrder] = hole
 		stage.HoleOrder++
 	}
 	stage.Holes_mapString[hole.Name] = hole
@@ -23644,6 +24995,7 @@ func (hole *Hole) StagePreserveOrder(stage *Stage, order uint) {
 			stage.HoleOrder = order
 		}
 		stage.Hole_stagedOrder[hole] = order
+		stage.Hole_orderStaged[order] = hole
 		stage.HoleOrder++
 	}
 	stage.Holes_mapString[hole.Name] = hole
@@ -23710,6 +25062,7 @@ func (hole_closed *Hole_closed) Stage(stage *Stage) *Hole_closed {
 	if _, ok := stage.Hole_closeds[hole_closed]; !ok {
 		stage.Hole_closeds[hole_closed] = struct{}{}
 		stage.Hole_closed_stagedOrder[hole_closed] = stage.Hole_closedOrder
+		stage.Hole_closed_orderStaged[stage.Hole_closedOrder] = hole_closed
 		stage.Hole_closedOrder++
 	}
 	stage.Hole_closeds_mapString[hole_closed.Name] = hole_closed
@@ -23730,6 +25083,7 @@ func (hole_closed *Hole_closed) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Hole_closedOrder = order
 		}
 		stage.Hole_closed_stagedOrder[hole_closed] = order
+		stage.Hole_closed_orderStaged[order] = hole_closed
 		stage.Hole_closedOrder++
 	}
 	stage.Hole_closeds_mapString[hole_closed.Name] = hole_closed
@@ -23796,6 +25150,7 @@ func (horizontal_turn *Horizontal_turn) Stage(stage *Stage) *Horizontal_turn {
 	if _, ok := stage.Horizontal_turns[horizontal_turn]; !ok {
 		stage.Horizontal_turns[horizontal_turn] = struct{}{}
 		stage.Horizontal_turn_stagedOrder[horizontal_turn] = stage.Horizontal_turnOrder
+		stage.Horizontal_turn_orderStaged[stage.Horizontal_turnOrder] = horizontal_turn
 		stage.Horizontal_turnOrder++
 	}
 	stage.Horizontal_turns_mapString[horizontal_turn.Name] = horizontal_turn
@@ -23816,6 +25171,7 @@ func (horizontal_turn *Horizontal_turn) StagePreserveOrder(stage *Stage, order u
 			stage.Horizontal_turnOrder = order
 		}
 		stage.Horizontal_turn_stagedOrder[horizontal_turn] = order
+		stage.Horizontal_turn_orderStaged[order] = horizontal_turn
 		stage.Horizontal_turnOrder++
 	}
 	stage.Horizontal_turns_mapString[horizontal_turn.Name] = horizontal_turn
@@ -23882,6 +25238,7 @@ func (identification *Identification) Stage(stage *Stage) *Identification {
 	if _, ok := stage.Identifications[identification]; !ok {
 		stage.Identifications[identification] = struct{}{}
 		stage.Identification_stagedOrder[identification] = stage.IdentificationOrder
+		stage.Identification_orderStaged[stage.IdentificationOrder] = identification
 		stage.IdentificationOrder++
 	}
 	stage.Identifications_mapString[identification.Name] = identification
@@ -23902,6 +25259,7 @@ func (identification *Identification) StagePreserveOrder(stage *Stage, order uin
 			stage.IdentificationOrder = order
 		}
 		stage.Identification_stagedOrder[identification] = order
+		stage.Identification_orderStaged[order] = identification
 		stage.IdentificationOrder++
 	}
 	stage.Identifications_mapString[identification.Name] = identification
@@ -23968,6 +25326,7 @@ func (image *Image) Stage(stage *Stage) *Image {
 	if _, ok := stage.Images[image]; !ok {
 		stage.Images[image] = struct{}{}
 		stage.Image_stagedOrder[image] = stage.ImageOrder
+		stage.Image_orderStaged[stage.ImageOrder] = image
 		stage.ImageOrder++
 	}
 	stage.Images_mapString[image.Name] = image
@@ -23988,6 +25347,7 @@ func (image *Image) StagePreserveOrder(stage *Stage, order uint) {
 			stage.ImageOrder = order
 		}
 		stage.Image_stagedOrder[image] = order
+		stage.Image_orderStaged[order] = image
 		stage.ImageOrder++
 	}
 	stage.Images_mapString[image.Name] = image
@@ -24054,6 +25414,7 @@ func (instrument *Instrument) Stage(stage *Stage) *Instrument {
 	if _, ok := stage.Instruments[instrument]; !ok {
 		stage.Instruments[instrument] = struct{}{}
 		stage.Instrument_stagedOrder[instrument] = stage.InstrumentOrder
+		stage.Instrument_orderStaged[stage.InstrumentOrder] = instrument
 		stage.InstrumentOrder++
 	}
 	stage.Instruments_mapString[instrument.Name] = instrument
@@ -24074,6 +25435,7 @@ func (instrument *Instrument) StagePreserveOrder(stage *Stage, order uint) {
 			stage.InstrumentOrder = order
 		}
 		stage.Instrument_stagedOrder[instrument] = order
+		stage.Instrument_orderStaged[order] = instrument
 		stage.InstrumentOrder++
 	}
 	stage.Instruments_mapString[instrument.Name] = instrument
@@ -24140,6 +25502,7 @@ func (instrument_change *Instrument_change) Stage(stage *Stage) *Instrument_chan
 	if _, ok := stage.Instrument_changes[instrument_change]; !ok {
 		stage.Instrument_changes[instrument_change] = struct{}{}
 		stage.Instrument_change_stagedOrder[instrument_change] = stage.Instrument_changeOrder
+		stage.Instrument_change_orderStaged[stage.Instrument_changeOrder] = instrument_change
 		stage.Instrument_changeOrder++
 	}
 	stage.Instrument_changes_mapString[instrument_change.Name] = instrument_change
@@ -24160,6 +25523,7 @@ func (instrument_change *Instrument_change) StagePreserveOrder(stage *Stage, ord
 			stage.Instrument_changeOrder = order
 		}
 		stage.Instrument_change_stagedOrder[instrument_change] = order
+		stage.Instrument_change_orderStaged[order] = instrument_change
 		stage.Instrument_changeOrder++
 	}
 	stage.Instrument_changes_mapString[instrument_change.Name] = instrument_change
@@ -24226,6 +25590,7 @@ func (instrument_link *Instrument_link) Stage(stage *Stage) *Instrument_link {
 	if _, ok := stage.Instrument_links[instrument_link]; !ok {
 		stage.Instrument_links[instrument_link] = struct{}{}
 		stage.Instrument_link_stagedOrder[instrument_link] = stage.Instrument_linkOrder
+		stage.Instrument_link_orderStaged[stage.Instrument_linkOrder] = instrument_link
 		stage.Instrument_linkOrder++
 	}
 	stage.Instrument_links_mapString[instrument_link.Name] = instrument_link
@@ -24246,6 +25611,7 @@ func (instrument_link *Instrument_link) StagePreserveOrder(stage *Stage, order u
 			stage.Instrument_linkOrder = order
 		}
 		stage.Instrument_link_stagedOrder[instrument_link] = order
+		stage.Instrument_link_orderStaged[order] = instrument_link
 		stage.Instrument_linkOrder++
 	}
 	stage.Instrument_links_mapString[instrument_link.Name] = instrument_link
@@ -24312,6 +25678,7 @@ func (interchangeable *Interchangeable) Stage(stage *Stage) *Interchangeable {
 	if _, ok := stage.Interchangeables[interchangeable]; !ok {
 		stage.Interchangeables[interchangeable] = struct{}{}
 		stage.Interchangeable_stagedOrder[interchangeable] = stage.InterchangeableOrder
+		stage.Interchangeable_orderStaged[stage.InterchangeableOrder] = interchangeable
 		stage.InterchangeableOrder++
 	}
 	stage.Interchangeables_mapString[interchangeable.Name] = interchangeable
@@ -24332,6 +25699,7 @@ func (interchangeable *Interchangeable) StagePreserveOrder(stage *Stage, order u
 			stage.InterchangeableOrder = order
 		}
 		stage.Interchangeable_stagedOrder[interchangeable] = order
+		stage.Interchangeable_orderStaged[order] = interchangeable
 		stage.InterchangeableOrder++
 	}
 	stage.Interchangeables_mapString[interchangeable.Name] = interchangeable
@@ -24398,6 +25766,7 @@ func (inversion *Inversion) Stage(stage *Stage) *Inversion {
 	if _, ok := stage.Inversions[inversion]; !ok {
 		stage.Inversions[inversion] = struct{}{}
 		stage.Inversion_stagedOrder[inversion] = stage.InversionOrder
+		stage.Inversion_orderStaged[stage.InversionOrder] = inversion
 		stage.InversionOrder++
 	}
 	stage.Inversions_mapString[inversion.Name] = inversion
@@ -24418,6 +25787,7 @@ func (inversion *Inversion) StagePreserveOrder(stage *Stage, order uint) {
 			stage.InversionOrder = order
 		}
 		stage.Inversion_stagedOrder[inversion] = order
+		stage.Inversion_orderStaged[order] = inversion
 		stage.InversionOrder++
 	}
 	stage.Inversions_mapString[inversion.Name] = inversion
@@ -24484,6 +25854,7 @@ func (key *Key) Stage(stage *Stage) *Key {
 	if _, ok := stage.Keys[key]; !ok {
 		stage.Keys[key] = struct{}{}
 		stage.Key_stagedOrder[key] = stage.KeyOrder
+		stage.Key_orderStaged[stage.KeyOrder] = key
 		stage.KeyOrder++
 	}
 	stage.Keys_mapString[key.Name] = key
@@ -24504,6 +25875,7 @@ func (key *Key) StagePreserveOrder(stage *Stage, order uint) {
 			stage.KeyOrder = order
 		}
 		stage.Key_stagedOrder[key] = order
+		stage.Key_orderStaged[order] = key
 		stage.KeyOrder++
 	}
 	stage.Keys_mapString[key.Name] = key
@@ -24570,6 +25942,7 @@ func (key_accidental *Key_accidental) Stage(stage *Stage) *Key_accidental {
 	if _, ok := stage.Key_accidentals[key_accidental]; !ok {
 		stage.Key_accidentals[key_accidental] = struct{}{}
 		stage.Key_accidental_stagedOrder[key_accidental] = stage.Key_accidentalOrder
+		stage.Key_accidental_orderStaged[stage.Key_accidentalOrder] = key_accidental
 		stage.Key_accidentalOrder++
 	}
 	stage.Key_accidentals_mapString[key_accidental.Name] = key_accidental
@@ -24590,6 +25963,7 @@ func (key_accidental *Key_accidental) StagePreserveOrder(stage *Stage, order uin
 			stage.Key_accidentalOrder = order
 		}
 		stage.Key_accidental_stagedOrder[key_accidental] = order
+		stage.Key_accidental_orderStaged[order] = key_accidental
 		stage.Key_accidentalOrder++
 	}
 	stage.Key_accidentals_mapString[key_accidental.Name] = key_accidental
@@ -24656,6 +26030,7 @@ func (key_octave *Key_octave) Stage(stage *Stage) *Key_octave {
 	if _, ok := stage.Key_octaves[key_octave]; !ok {
 		stage.Key_octaves[key_octave] = struct{}{}
 		stage.Key_octave_stagedOrder[key_octave] = stage.Key_octaveOrder
+		stage.Key_octave_orderStaged[stage.Key_octaveOrder] = key_octave
 		stage.Key_octaveOrder++
 	}
 	stage.Key_octaves_mapString[key_octave.Name] = key_octave
@@ -24676,6 +26051,7 @@ func (key_octave *Key_octave) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Key_octaveOrder = order
 		}
 		stage.Key_octave_stagedOrder[key_octave] = order
+		stage.Key_octave_orderStaged[order] = key_octave
 		stage.Key_octaveOrder++
 	}
 	stage.Key_octaves_mapString[key_octave.Name] = key_octave
@@ -24742,6 +26118,7 @@ func (kind *Kind) Stage(stage *Stage) *Kind {
 	if _, ok := stage.Kinds[kind]; !ok {
 		stage.Kinds[kind] = struct{}{}
 		stage.Kind_stagedOrder[kind] = stage.KindOrder
+		stage.Kind_orderStaged[stage.KindOrder] = kind
 		stage.KindOrder++
 	}
 	stage.Kinds_mapString[kind.Name] = kind
@@ -24762,6 +26139,7 @@ func (kind *Kind) StagePreserveOrder(stage *Stage, order uint) {
 			stage.KindOrder = order
 		}
 		stage.Kind_stagedOrder[kind] = order
+		stage.Kind_orderStaged[order] = kind
 		stage.KindOrder++
 	}
 	stage.Kinds_mapString[kind.Name] = kind
@@ -24828,6 +26206,7 @@ func (level *Level) Stage(stage *Stage) *Level {
 	if _, ok := stage.Levels[level]; !ok {
 		stage.Levels[level] = struct{}{}
 		stage.Level_stagedOrder[level] = stage.LevelOrder
+		stage.Level_orderStaged[stage.LevelOrder] = level
 		stage.LevelOrder++
 	}
 	stage.Levels_mapString[level.Name] = level
@@ -24848,6 +26227,7 @@ func (level *Level) StagePreserveOrder(stage *Stage, order uint) {
 			stage.LevelOrder = order
 		}
 		stage.Level_stagedOrder[level] = order
+		stage.Level_orderStaged[order] = level
 		stage.LevelOrder++
 	}
 	stage.Levels_mapString[level.Name] = level
@@ -24914,6 +26294,7 @@ func (line_detail *Line_detail) Stage(stage *Stage) *Line_detail {
 	if _, ok := stage.Line_details[line_detail]; !ok {
 		stage.Line_details[line_detail] = struct{}{}
 		stage.Line_detail_stagedOrder[line_detail] = stage.Line_detailOrder
+		stage.Line_detail_orderStaged[stage.Line_detailOrder] = line_detail
 		stage.Line_detailOrder++
 	}
 	stage.Line_details_mapString[line_detail.Name] = line_detail
@@ -24934,6 +26315,7 @@ func (line_detail *Line_detail) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Line_detailOrder = order
 		}
 		stage.Line_detail_stagedOrder[line_detail] = order
+		stage.Line_detail_orderStaged[order] = line_detail
 		stage.Line_detailOrder++
 	}
 	stage.Line_details_mapString[line_detail.Name] = line_detail
@@ -25000,6 +26382,7 @@ func (line_width *Line_width) Stage(stage *Stage) *Line_width {
 	if _, ok := stage.Line_widths[line_width]; !ok {
 		stage.Line_widths[line_width] = struct{}{}
 		stage.Line_width_stagedOrder[line_width] = stage.Line_widthOrder
+		stage.Line_width_orderStaged[stage.Line_widthOrder] = line_width
 		stage.Line_widthOrder++
 	}
 	stage.Line_widths_mapString[line_width.Name] = line_width
@@ -25020,6 +26403,7 @@ func (line_width *Line_width) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Line_widthOrder = order
 		}
 		stage.Line_width_stagedOrder[line_width] = order
+		stage.Line_width_orderStaged[order] = line_width
 		stage.Line_widthOrder++
 	}
 	stage.Line_widths_mapString[line_width.Name] = line_width
@@ -25086,6 +26470,7 @@ func (link *Link) Stage(stage *Stage) *Link {
 	if _, ok := stage.Links[link]; !ok {
 		stage.Links[link] = struct{}{}
 		stage.Link_stagedOrder[link] = stage.LinkOrder
+		stage.Link_orderStaged[stage.LinkOrder] = link
 		stage.LinkOrder++
 	}
 	stage.Links_mapString[link.Name] = link
@@ -25106,6 +26491,7 @@ func (link *Link) StagePreserveOrder(stage *Stage, order uint) {
 			stage.LinkOrder = order
 		}
 		stage.Link_stagedOrder[link] = order
+		stage.Link_orderStaged[order] = link
 		stage.LinkOrder++
 	}
 	stage.Links_mapString[link.Name] = link
@@ -25172,6 +26558,7 @@ func (listen *Listen) Stage(stage *Stage) *Listen {
 	if _, ok := stage.Listens[listen]; !ok {
 		stage.Listens[listen] = struct{}{}
 		stage.Listen_stagedOrder[listen] = stage.ListenOrder
+		stage.Listen_orderStaged[stage.ListenOrder] = listen
 		stage.ListenOrder++
 	}
 	stage.Listens_mapString[listen.Name] = listen
@@ -25192,6 +26579,7 @@ func (listen *Listen) StagePreserveOrder(stage *Stage, order uint) {
 			stage.ListenOrder = order
 		}
 		stage.Listen_stagedOrder[listen] = order
+		stage.Listen_orderStaged[order] = listen
 		stage.ListenOrder++
 	}
 	stage.Listens_mapString[listen.Name] = listen
@@ -25258,6 +26646,7 @@ func (listening *Listening) Stage(stage *Stage) *Listening {
 	if _, ok := stage.Listenings[listening]; !ok {
 		stage.Listenings[listening] = struct{}{}
 		stage.Listening_stagedOrder[listening] = stage.ListeningOrder
+		stage.Listening_orderStaged[stage.ListeningOrder] = listening
 		stage.ListeningOrder++
 	}
 	stage.Listenings_mapString[listening.Name] = listening
@@ -25278,6 +26667,7 @@ func (listening *Listening) StagePreserveOrder(stage *Stage, order uint) {
 			stage.ListeningOrder = order
 		}
 		stage.Listening_stagedOrder[listening] = order
+		stage.Listening_orderStaged[order] = listening
 		stage.ListeningOrder++
 	}
 	stage.Listenings_mapString[listening.Name] = listening
@@ -25344,6 +26734,7 @@ func (lyric *Lyric) Stage(stage *Stage) *Lyric {
 	if _, ok := stage.Lyrics[lyric]; !ok {
 		stage.Lyrics[lyric] = struct{}{}
 		stage.Lyric_stagedOrder[lyric] = stage.LyricOrder
+		stage.Lyric_orderStaged[stage.LyricOrder] = lyric
 		stage.LyricOrder++
 	}
 	stage.Lyrics_mapString[lyric.Name] = lyric
@@ -25364,6 +26755,7 @@ func (lyric *Lyric) StagePreserveOrder(stage *Stage, order uint) {
 			stage.LyricOrder = order
 		}
 		stage.Lyric_stagedOrder[lyric] = order
+		stage.Lyric_orderStaged[order] = lyric
 		stage.LyricOrder++
 	}
 	stage.Lyrics_mapString[lyric.Name] = lyric
@@ -25430,6 +26822,7 @@ func (lyric_font *Lyric_font) Stage(stage *Stage) *Lyric_font {
 	if _, ok := stage.Lyric_fonts[lyric_font]; !ok {
 		stage.Lyric_fonts[lyric_font] = struct{}{}
 		stage.Lyric_font_stagedOrder[lyric_font] = stage.Lyric_fontOrder
+		stage.Lyric_font_orderStaged[stage.Lyric_fontOrder] = lyric_font
 		stage.Lyric_fontOrder++
 	}
 	stage.Lyric_fonts_mapString[lyric_font.Name] = lyric_font
@@ -25450,6 +26843,7 @@ func (lyric_font *Lyric_font) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Lyric_fontOrder = order
 		}
 		stage.Lyric_font_stagedOrder[lyric_font] = order
+		stage.Lyric_font_orderStaged[order] = lyric_font
 		stage.Lyric_fontOrder++
 	}
 	stage.Lyric_fonts_mapString[lyric_font.Name] = lyric_font
@@ -25516,6 +26910,7 @@ func (lyric_language *Lyric_language) Stage(stage *Stage) *Lyric_language {
 	if _, ok := stage.Lyric_languages[lyric_language]; !ok {
 		stage.Lyric_languages[lyric_language] = struct{}{}
 		stage.Lyric_language_stagedOrder[lyric_language] = stage.Lyric_languageOrder
+		stage.Lyric_language_orderStaged[stage.Lyric_languageOrder] = lyric_language
 		stage.Lyric_languageOrder++
 	}
 	stage.Lyric_languages_mapString[lyric_language.Name] = lyric_language
@@ -25536,6 +26931,7 @@ func (lyric_language *Lyric_language) StagePreserveOrder(stage *Stage, order uin
 			stage.Lyric_languageOrder = order
 		}
 		stage.Lyric_language_stagedOrder[lyric_language] = order
+		stage.Lyric_language_orderStaged[order] = lyric_language
 		stage.Lyric_languageOrder++
 	}
 	stage.Lyric_languages_mapString[lyric_language.Name] = lyric_language
@@ -25602,6 +26998,7 @@ func (measure_layout *Measure_layout) Stage(stage *Stage) *Measure_layout {
 	if _, ok := stage.Measure_layouts[measure_layout]; !ok {
 		stage.Measure_layouts[measure_layout] = struct{}{}
 		stage.Measure_layout_stagedOrder[measure_layout] = stage.Measure_layoutOrder
+		stage.Measure_layout_orderStaged[stage.Measure_layoutOrder] = measure_layout
 		stage.Measure_layoutOrder++
 	}
 	stage.Measure_layouts_mapString[measure_layout.Name] = measure_layout
@@ -25622,6 +27019,7 @@ func (measure_layout *Measure_layout) StagePreserveOrder(stage *Stage, order uin
 			stage.Measure_layoutOrder = order
 		}
 		stage.Measure_layout_stagedOrder[measure_layout] = order
+		stage.Measure_layout_orderStaged[order] = measure_layout
 		stage.Measure_layoutOrder++
 	}
 	stage.Measure_layouts_mapString[measure_layout.Name] = measure_layout
@@ -25688,6 +27086,7 @@ func (measure_numbering *Measure_numbering) Stage(stage *Stage) *Measure_numberi
 	if _, ok := stage.Measure_numberings[measure_numbering]; !ok {
 		stage.Measure_numberings[measure_numbering] = struct{}{}
 		stage.Measure_numbering_stagedOrder[measure_numbering] = stage.Measure_numberingOrder
+		stage.Measure_numbering_orderStaged[stage.Measure_numberingOrder] = measure_numbering
 		stage.Measure_numberingOrder++
 	}
 	stage.Measure_numberings_mapString[measure_numbering.Name] = measure_numbering
@@ -25708,6 +27107,7 @@ func (measure_numbering *Measure_numbering) StagePreserveOrder(stage *Stage, ord
 			stage.Measure_numberingOrder = order
 		}
 		stage.Measure_numbering_stagedOrder[measure_numbering] = order
+		stage.Measure_numbering_orderStaged[order] = measure_numbering
 		stage.Measure_numberingOrder++
 	}
 	stage.Measure_numberings_mapString[measure_numbering.Name] = measure_numbering
@@ -25774,6 +27174,7 @@ func (measure_repeat *Measure_repeat) Stage(stage *Stage) *Measure_repeat {
 	if _, ok := stage.Measure_repeats[measure_repeat]; !ok {
 		stage.Measure_repeats[measure_repeat] = struct{}{}
 		stage.Measure_repeat_stagedOrder[measure_repeat] = stage.Measure_repeatOrder
+		stage.Measure_repeat_orderStaged[stage.Measure_repeatOrder] = measure_repeat
 		stage.Measure_repeatOrder++
 	}
 	stage.Measure_repeats_mapString[measure_repeat.Name] = measure_repeat
@@ -25794,6 +27195,7 @@ func (measure_repeat *Measure_repeat) StagePreserveOrder(stage *Stage, order uin
 			stage.Measure_repeatOrder = order
 		}
 		stage.Measure_repeat_stagedOrder[measure_repeat] = order
+		stage.Measure_repeat_orderStaged[order] = measure_repeat
 		stage.Measure_repeatOrder++
 	}
 	stage.Measure_repeats_mapString[measure_repeat.Name] = measure_repeat
@@ -25860,6 +27262,7 @@ func (measure_style *Measure_style) Stage(stage *Stage) *Measure_style {
 	if _, ok := stage.Measure_styles[measure_style]; !ok {
 		stage.Measure_styles[measure_style] = struct{}{}
 		stage.Measure_style_stagedOrder[measure_style] = stage.Measure_styleOrder
+		stage.Measure_style_orderStaged[stage.Measure_styleOrder] = measure_style
 		stage.Measure_styleOrder++
 	}
 	stage.Measure_styles_mapString[measure_style.Name] = measure_style
@@ -25880,6 +27283,7 @@ func (measure_style *Measure_style) StagePreserveOrder(stage *Stage, order uint)
 			stage.Measure_styleOrder = order
 		}
 		stage.Measure_style_stagedOrder[measure_style] = order
+		stage.Measure_style_orderStaged[order] = measure_style
 		stage.Measure_styleOrder++
 	}
 	stage.Measure_styles_mapString[measure_style.Name] = measure_style
@@ -25946,6 +27350,7 @@ func (membrane *Membrane) Stage(stage *Stage) *Membrane {
 	if _, ok := stage.Membranes[membrane]; !ok {
 		stage.Membranes[membrane] = struct{}{}
 		stage.Membrane_stagedOrder[membrane] = stage.MembraneOrder
+		stage.Membrane_orderStaged[stage.MembraneOrder] = membrane
 		stage.MembraneOrder++
 	}
 	stage.Membranes_mapString[membrane.Name] = membrane
@@ -25966,6 +27371,7 @@ func (membrane *Membrane) StagePreserveOrder(stage *Stage, order uint) {
 			stage.MembraneOrder = order
 		}
 		stage.Membrane_stagedOrder[membrane] = order
+		stage.Membrane_orderStaged[order] = membrane
 		stage.MembraneOrder++
 	}
 	stage.Membranes_mapString[membrane.Name] = membrane
@@ -26032,6 +27438,7 @@ func (metal *Metal) Stage(stage *Stage) *Metal {
 	if _, ok := stage.Metals[metal]; !ok {
 		stage.Metals[metal] = struct{}{}
 		stage.Metal_stagedOrder[metal] = stage.MetalOrder
+		stage.Metal_orderStaged[stage.MetalOrder] = metal
 		stage.MetalOrder++
 	}
 	stage.Metals_mapString[metal.Name] = metal
@@ -26052,6 +27459,7 @@ func (metal *Metal) StagePreserveOrder(stage *Stage, order uint) {
 			stage.MetalOrder = order
 		}
 		stage.Metal_stagedOrder[metal] = order
+		stage.Metal_orderStaged[order] = metal
 		stage.MetalOrder++
 	}
 	stage.Metals_mapString[metal.Name] = metal
@@ -26118,6 +27526,7 @@ func (metronome *Metronome) Stage(stage *Stage) *Metronome {
 	if _, ok := stage.Metronomes[metronome]; !ok {
 		stage.Metronomes[metronome] = struct{}{}
 		stage.Metronome_stagedOrder[metronome] = stage.MetronomeOrder
+		stage.Metronome_orderStaged[stage.MetronomeOrder] = metronome
 		stage.MetronomeOrder++
 	}
 	stage.Metronomes_mapString[metronome.Name] = metronome
@@ -26138,6 +27547,7 @@ func (metronome *Metronome) StagePreserveOrder(stage *Stage, order uint) {
 			stage.MetronomeOrder = order
 		}
 		stage.Metronome_stagedOrder[metronome] = order
+		stage.Metronome_orderStaged[order] = metronome
 		stage.MetronomeOrder++
 	}
 	stage.Metronomes_mapString[metronome.Name] = metronome
@@ -26204,6 +27614,7 @@ func (metronome_beam *Metronome_beam) Stage(stage *Stage) *Metronome_beam {
 	if _, ok := stage.Metronome_beams[metronome_beam]; !ok {
 		stage.Metronome_beams[metronome_beam] = struct{}{}
 		stage.Metronome_beam_stagedOrder[metronome_beam] = stage.Metronome_beamOrder
+		stage.Metronome_beam_orderStaged[stage.Metronome_beamOrder] = metronome_beam
 		stage.Metronome_beamOrder++
 	}
 	stage.Metronome_beams_mapString[metronome_beam.Name] = metronome_beam
@@ -26224,6 +27635,7 @@ func (metronome_beam *Metronome_beam) StagePreserveOrder(stage *Stage, order uin
 			stage.Metronome_beamOrder = order
 		}
 		stage.Metronome_beam_stagedOrder[metronome_beam] = order
+		stage.Metronome_beam_orderStaged[order] = metronome_beam
 		stage.Metronome_beamOrder++
 	}
 	stage.Metronome_beams_mapString[metronome_beam.Name] = metronome_beam
@@ -26290,6 +27702,7 @@ func (metronome_note *Metronome_note) Stage(stage *Stage) *Metronome_note {
 	if _, ok := stage.Metronome_notes[metronome_note]; !ok {
 		stage.Metronome_notes[metronome_note] = struct{}{}
 		stage.Metronome_note_stagedOrder[metronome_note] = stage.Metronome_noteOrder
+		stage.Metronome_note_orderStaged[stage.Metronome_noteOrder] = metronome_note
 		stage.Metronome_noteOrder++
 	}
 	stage.Metronome_notes_mapString[metronome_note.Name] = metronome_note
@@ -26310,6 +27723,7 @@ func (metronome_note *Metronome_note) StagePreserveOrder(stage *Stage, order uin
 			stage.Metronome_noteOrder = order
 		}
 		stage.Metronome_note_stagedOrder[metronome_note] = order
+		stage.Metronome_note_orderStaged[order] = metronome_note
 		stage.Metronome_noteOrder++
 	}
 	stage.Metronome_notes_mapString[metronome_note.Name] = metronome_note
@@ -26376,6 +27790,7 @@ func (metronome_tied *Metronome_tied) Stage(stage *Stage) *Metronome_tied {
 	if _, ok := stage.Metronome_tieds[metronome_tied]; !ok {
 		stage.Metronome_tieds[metronome_tied] = struct{}{}
 		stage.Metronome_tied_stagedOrder[metronome_tied] = stage.Metronome_tiedOrder
+		stage.Metronome_tied_orderStaged[stage.Metronome_tiedOrder] = metronome_tied
 		stage.Metronome_tiedOrder++
 	}
 	stage.Metronome_tieds_mapString[metronome_tied.Name] = metronome_tied
@@ -26396,6 +27811,7 @@ func (metronome_tied *Metronome_tied) StagePreserveOrder(stage *Stage, order uin
 			stage.Metronome_tiedOrder = order
 		}
 		stage.Metronome_tied_stagedOrder[metronome_tied] = order
+		stage.Metronome_tied_orderStaged[order] = metronome_tied
 		stage.Metronome_tiedOrder++
 	}
 	stage.Metronome_tieds_mapString[metronome_tied.Name] = metronome_tied
@@ -26462,6 +27878,7 @@ func (metronome_tuplet *Metronome_tuplet) Stage(stage *Stage) *Metronome_tuplet 
 	if _, ok := stage.Metronome_tuplets[metronome_tuplet]; !ok {
 		stage.Metronome_tuplets[metronome_tuplet] = struct{}{}
 		stage.Metronome_tuplet_stagedOrder[metronome_tuplet] = stage.Metronome_tupletOrder
+		stage.Metronome_tuplet_orderStaged[stage.Metronome_tupletOrder] = metronome_tuplet
 		stage.Metronome_tupletOrder++
 	}
 	stage.Metronome_tuplets_mapString[metronome_tuplet.Name] = metronome_tuplet
@@ -26482,6 +27899,7 @@ func (metronome_tuplet *Metronome_tuplet) StagePreserveOrder(stage *Stage, order
 			stage.Metronome_tupletOrder = order
 		}
 		stage.Metronome_tuplet_stagedOrder[metronome_tuplet] = order
+		stage.Metronome_tuplet_orderStaged[order] = metronome_tuplet
 		stage.Metronome_tupletOrder++
 	}
 	stage.Metronome_tuplets_mapString[metronome_tuplet.Name] = metronome_tuplet
@@ -26548,6 +27966,7 @@ func (midi_device *Midi_device) Stage(stage *Stage) *Midi_device {
 	if _, ok := stage.Midi_devices[midi_device]; !ok {
 		stage.Midi_devices[midi_device] = struct{}{}
 		stage.Midi_device_stagedOrder[midi_device] = stage.Midi_deviceOrder
+		stage.Midi_device_orderStaged[stage.Midi_deviceOrder] = midi_device
 		stage.Midi_deviceOrder++
 	}
 	stage.Midi_devices_mapString[midi_device.Name] = midi_device
@@ -26568,6 +27987,7 @@ func (midi_device *Midi_device) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Midi_deviceOrder = order
 		}
 		stage.Midi_device_stagedOrder[midi_device] = order
+		stage.Midi_device_orderStaged[order] = midi_device
 		stage.Midi_deviceOrder++
 	}
 	stage.Midi_devices_mapString[midi_device.Name] = midi_device
@@ -26634,6 +28054,7 @@ func (midi_instrument *Midi_instrument) Stage(stage *Stage) *Midi_instrument {
 	if _, ok := stage.Midi_instruments[midi_instrument]; !ok {
 		stage.Midi_instruments[midi_instrument] = struct{}{}
 		stage.Midi_instrument_stagedOrder[midi_instrument] = stage.Midi_instrumentOrder
+		stage.Midi_instrument_orderStaged[stage.Midi_instrumentOrder] = midi_instrument
 		stage.Midi_instrumentOrder++
 	}
 	stage.Midi_instruments_mapString[midi_instrument.Name] = midi_instrument
@@ -26654,6 +28075,7 @@ func (midi_instrument *Midi_instrument) StagePreserveOrder(stage *Stage, order u
 			stage.Midi_instrumentOrder = order
 		}
 		stage.Midi_instrument_stagedOrder[midi_instrument] = order
+		stage.Midi_instrument_orderStaged[order] = midi_instrument
 		stage.Midi_instrumentOrder++
 	}
 	stage.Midi_instruments_mapString[midi_instrument.Name] = midi_instrument
@@ -26720,6 +28142,7 @@ func (miscellaneous *Miscellaneous) Stage(stage *Stage) *Miscellaneous {
 	if _, ok := stage.Miscellaneouss[miscellaneous]; !ok {
 		stage.Miscellaneouss[miscellaneous] = struct{}{}
 		stage.Miscellaneous_stagedOrder[miscellaneous] = stage.MiscellaneousOrder
+		stage.Miscellaneous_orderStaged[stage.MiscellaneousOrder] = miscellaneous
 		stage.MiscellaneousOrder++
 	}
 	stage.Miscellaneouss_mapString[miscellaneous.Name] = miscellaneous
@@ -26740,6 +28163,7 @@ func (miscellaneous *Miscellaneous) StagePreserveOrder(stage *Stage, order uint)
 			stage.MiscellaneousOrder = order
 		}
 		stage.Miscellaneous_stagedOrder[miscellaneous] = order
+		stage.Miscellaneous_orderStaged[order] = miscellaneous
 		stage.MiscellaneousOrder++
 	}
 	stage.Miscellaneouss_mapString[miscellaneous.Name] = miscellaneous
@@ -26806,6 +28230,7 @@ func (miscellaneous_field *Miscellaneous_field) Stage(stage *Stage) *Miscellaneo
 	if _, ok := stage.Miscellaneous_fields[miscellaneous_field]; !ok {
 		stage.Miscellaneous_fields[miscellaneous_field] = struct{}{}
 		stage.Miscellaneous_field_stagedOrder[miscellaneous_field] = stage.Miscellaneous_fieldOrder
+		stage.Miscellaneous_field_orderStaged[stage.Miscellaneous_fieldOrder] = miscellaneous_field
 		stage.Miscellaneous_fieldOrder++
 	}
 	stage.Miscellaneous_fields_mapString[miscellaneous_field.Name] = miscellaneous_field
@@ -26826,6 +28251,7 @@ func (miscellaneous_field *Miscellaneous_field) StagePreserveOrder(stage *Stage,
 			stage.Miscellaneous_fieldOrder = order
 		}
 		stage.Miscellaneous_field_stagedOrder[miscellaneous_field] = order
+		stage.Miscellaneous_field_orderStaged[order] = miscellaneous_field
 		stage.Miscellaneous_fieldOrder++
 	}
 	stage.Miscellaneous_fields_mapString[miscellaneous_field.Name] = miscellaneous_field
@@ -26892,6 +28318,7 @@ func (mordent *Mordent) Stage(stage *Stage) *Mordent {
 	if _, ok := stage.Mordents[mordent]; !ok {
 		stage.Mordents[mordent] = struct{}{}
 		stage.Mordent_stagedOrder[mordent] = stage.MordentOrder
+		stage.Mordent_orderStaged[stage.MordentOrder] = mordent
 		stage.MordentOrder++
 	}
 	stage.Mordents_mapString[mordent.Name] = mordent
@@ -26912,6 +28339,7 @@ func (mordent *Mordent) StagePreserveOrder(stage *Stage, order uint) {
 			stage.MordentOrder = order
 		}
 		stage.Mordent_stagedOrder[mordent] = order
+		stage.Mordent_orderStaged[order] = mordent
 		stage.MordentOrder++
 	}
 	stage.Mordents_mapString[mordent.Name] = mordent
@@ -26978,6 +28406,7 @@ func (multiple_rest *Multiple_rest) Stage(stage *Stage) *Multiple_rest {
 	if _, ok := stage.Multiple_rests[multiple_rest]; !ok {
 		stage.Multiple_rests[multiple_rest] = struct{}{}
 		stage.Multiple_rest_stagedOrder[multiple_rest] = stage.Multiple_restOrder
+		stage.Multiple_rest_orderStaged[stage.Multiple_restOrder] = multiple_rest
 		stage.Multiple_restOrder++
 	}
 	stage.Multiple_rests_mapString[multiple_rest.Name] = multiple_rest
@@ -26998,6 +28427,7 @@ func (multiple_rest *Multiple_rest) StagePreserveOrder(stage *Stage, order uint)
 			stage.Multiple_restOrder = order
 		}
 		stage.Multiple_rest_stagedOrder[multiple_rest] = order
+		stage.Multiple_rest_orderStaged[order] = multiple_rest
 		stage.Multiple_restOrder++
 	}
 	stage.Multiple_rests_mapString[multiple_rest.Name] = multiple_rest
@@ -27064,6 +28494,7 @@ func (name_display *Name_display) Stage(stage *Stage) *Name_display {
 	if _, ok := stage.Name_displays[name_display]; !ok {
 		stage.Name_displays[name_display] = struct{}{}
 		stage.Name_display_stagedOrder[name_display] = stage.Name_displayOrder
+		stage.Name_display_orderStaged[stage.Name_displayOrder] = name_display
 		stage.Name_displayOrder++
 	}
 	stage.Name_displays_mapString[name_display.Name] = name_display
@@ -27084,6 +28515,7 @@ func (name_display *Name_display) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Name_displayOrder = order
 		}
 		stage.Name_display_stagedOrder[name_display] = order
+		stage.Name_display_orderStaged[order] = name_display
 		stage.Name_displayOrder++
 	}
 	stage.Name_displays_mapString[name_display.Name] = name_display
@@ -27150,6 +28582,7 @@ func (non_arpeggiate *Non_arpeggiate) Stage(stage *Stage) *Non_arpeggiate {
 	if _, ok := stage.Non_arpeggiates[non_arpeggiate]; !ok {
 		stage.Non_arpeggiates[non_arpeggiate] = struct{}{}
 		stage.Non_arpeggiate_stagedOrder[non_arpeggiate] = stage.Non_arpeggiateOrder
+		stage.Non_arpeggiate_orderStaged[stage.Non_arpeggiateOrder] = non_arpeggiate
 		stage.Non_arpeggiateOrder++
 	}
 	stage.Non_arpeggiates_mapString[non_arpeggiate.Name] = non_arpeggiate
@@ -27170,6 +28603,7 @@ func (non_arpeggiate *Non_arpeggiate) StagePreserveOrder(stage *Stage, order uin
 			stage.Non_arpeggiateOrder = order
 		}
 		stage.Non_arpeggiate_stagedOrder[non_arpeggiate] = order
+		stage.Non_arpeggiate_orderStaged[order] = non_arpeggiate
 		stage.Non_arpeggiateOrder++
 	}
 	stage.Non_arpeggiates_mapString[non_arpeggiate.Name] = non_arpeggiate
@@ -27236,6 +28670,7 @@ func (notations *Notations) Stage(stage *Stage) *Notations {
 	if _, ok := stage.Notationss[notations]; !ok {
 		stage.Notationss[notations] = struct{}{}
 		stage.Notations_stagedOrder[notations] = stage.NotationsOrder
+		stage.Notations_orderStaged[stage.NotationsOrder] = notations
 		stage.NotationsOrder++
 	}
 	stage.Notationss_mapString[notations.Name] = notations
@@ -27256,6 +28691,7 @@ func (notations *Notations) StagePreserveOrder(stage *Stage, order uint) {
 			stage.NotationsOrder = order
 		}
 		stage.Notations_stagedOrder[notations] = order
+		stage.Notations_orderStaged[order] = notations
 		stage.NotationsOrder++
 	}
 	stage.Notationss_mapString[notations.Name] = notations
@@ -27322,6 +28758,7 @@ func (note *Note) Stage(stage *Stage) *Note {
 	if _, ok := stage.Notes[note]; !ok {
 		stage.Notes[note] = struct{}{}
 		stage.Note_stagedOrder[note] = stage.NoteOrder
+		stage.Note_orderStaged[stage.NoteOrder] = note
 		stage.NoteOrder++
 	}
 	stage.Notes_mapString[note.Name] = note
@@ -27342,6 +28779,7 @@ func (note *Note) StagePreserveOrder(stage *Stage, order uint) {
 			stage.NoteOrder = order
 		}
 		stage.Note_stagedOrder[note] = order
+		stage.Note_orderStaged[order] = note
 		stage.NoteOrder++
 	}
 	stage.Notes_mapString[note.Name] = note
@@ -27408,6 +28846,7 @@ func (note_size *Note_size) Stage(stage *Stage) *Note_size {
 	if _, ok := stage.Note_sizes[note_size]; !ok {
 		stage.Note_sizes[note_size] = struct{}{}
 		stage.Note_size_stagedOrder[note_size] = stage.Note_sizeOrder
+		stage.Note_size_orderStaged[stage.Note_sizeOrder] = note_size
 		stage.Note_sizeOrder++
 	}
 	stage.Note_sizes_mapString[note_size.Name] = note_size
@@ -27428,6 +28867,7 @@ func (note_size *Note_size) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Note_sizeOrder = order
 		}
 		stage.Note_size_stagedOrder[note_size] = order
+		stage.Note_size_orderStaged[order] = note_size
 		stage.Note_sizeOrder++
 	}
 	stage.Note_sizes_mapString[note_size.Name] = note_size
@@ -27494,6 +28934,7 @@ func (note_type *Note_type) Stage(stage *Stage) *Note_type {
 	if _, ok := stage.Note_types[note_type]; !ok {
 		stage.Note_types[note_type] = struct{}{}
 		stage.Note_type_stagedOrder[note_type] = stage.Note_typeOrder
+		stage.Note_type_orderStaged[stage.Note_typeOrder] = note_type
 		stage.Note_typeOrder++
 	}
 	stage.Note_types_mapString[note_type.Name] = note_type
@@ -27514,6 +28955,7 @@ func (note_type *Note_type) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Note_typeOrder = order
 		}
 		stage.Note_type_stagedOrder[note_type] = order
+		stage.Note_type_orderStaged[order] = note_type
 		stage.Note_typeOrder++
 	}
 	stage.Note_types_mapString[note_type.Name] = note_type
@@ -27580,6 +29022,7 @@ func (notehead *Notehead) Stage(stage *Stage) *Notehead {
 	if _, ok := stage.Noteheads[notehead]; !ok {
 		stage.Noteheads[notehead] = struct{}{}
 		stage.Notehead_stagedOrder[notehead] = stage.NoteheadOrder
+		stage.Notehead_orderStaged[stage.NoteheadOrder] = notehead
 		stage.NoteheadOrder++
 	}
 	stage.Noteheads_mapString[notehead.Name] = notehead
@@ -27600,6 +29043,7 @@ func (notehead *Notehead) StagePreserveOrder(stage *Stage, order uint) {
 			stage.NoteheadOrder = order
 		}
 		stage.Notehead_stagedOrder[notehead] = order
+		stage.Notehead_orderStaged[order] = notehead
 		stage.NoteheadOrder++
 	}
 	stage.Noteheads_mapString[notehead.Name] = notehead
@@ -27666,6 +29110,7 @@ func (notehead_text *Notehead_text) Stage(stage *Stage) *Notehead_text {
 	if _, ok := stage.Notehead_texts[notehead_text]; !ok {
 		stage.Notehead_texts[notehead_text] = struct{}{}
 		stage.Notehead_text_stagedOrder[notehead_text] = stage.Notehead_textOrder
+		stage.Notehead_text_orderStaged[stage.Notehead_textOrder] = notehead_text
 		stage.Notehead_textOrder++
 	}
 	stage.Notehead_texts_mapString[notehead_text.Name] = notehead_text
@@ -27686,6 +29131,7 @@ func (notehead_text *Notehead_text) StagePreserveOrder(stage *Stage, order uint)
 			stage.Notehead_textOrder = order
 		}
 		stage.Notehead_text_stagedOrder[notehead_text] = order
+		stage.Notehead_text_orderStaged[order] = notehead_text
 		stage.Notehead_textOrder++
 	}
 	stage.Notehead_texts_mapString[notehead_text.Name] = notehead_text
@@ -27752,6 +29198,7 @@ func (numeral *Numeral) Stage(stage *Stage) *Numeral {
 	if _, ok := stage.Numerals[numeral]; !ok {
 		stage.Numerals[numeral] = struct{}{}
 		stage.Numeral_stagedOrder[numeral] = stage.NumeralOrder
+		stage.Numeral_orderStaged[stage.NumeralOrder] = numeral
 		stage.NumeralOrder++
 	}
 	stage.Numerals_mapString[numeral.Name] = numeral
@@ -27772,6 +29219,7 @@ func (numeral *Numeral) StagePreserveOrder(stage *Stage, order uint) {
 			stage.NumeralOrder = order
 		}
 		stage.Numeral_stagedOrder[numeral] = order
+		stage.Numeral_orderStaged[order] = numeral
 		stage.NumeralOrder++
 	}
 	stage.Numerals_mapString[numeral.Name] = numeral
@@ -27838,6 +29286,7 @@ func (numeral_key *Numeral_key) Stage(stage *Stage) *Numeral_key {
 	if _, ok := stage.Numeral_keys[numeral_key]; !ok {
 		stage.Numeral_keys[numeral_key] = struct{}{}
 		stage.Numeral_key_stagedOrder[numeral_key] = stage.Numeral_keyOrder
+		stage.Numeral_key_orderStaged[stage.Numeral_keyOrder] = numeral_key
 		stage.Numeral_keyOrder++
 	}
 	stage.Numeral_keys_mapString[numeral_key.Name] = numeral_key
@@ -27858,6 +29307,7 @@ func (numeral_key *Numeral_key) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Numeral_keyOrder = order
 		}
 		stage.Numeral_key_stagedOrder[numeral_key] = order
+		stage.Numeral_key_orderStaged[order] = numeral_key
 		stage.Numeral_keyOrder++
 	}
 	stage.Numeral_keys_mapString[numeral_key.Name] = numeral_key
@@ -27924,6 +29374,7 @@ func (numeral_root *Numeral_root) Stage(stage *Stage) *Numeral_root {
 	if _, ok := stage.Numeral_roots[numeral_root]; !ok {
 		stage.Numeral_roots[numeral_root] = struct{}{}
 		stage.Numeral_root_stagedOrder[numeral_root] = stage.Numeral_rootOrder
+		stage.Numeral_root_orderStaged[stage.Numeral_rootOrder] = numeral_root
 		stage.Numeral_rootOrder++
 	}
 	stage.Numeral_roots_mapString[numeral_root.Name] = numeral_root
@@ -27944,6 +29395,7 @@ func (numeral_root *Numeral_root) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Numeral_rootOrder = order
 		}
 		stage.Numeral_root_stagedOrder[numeral_root] = order
+		stage.Numeral_root_orderStaged[order] = numeral_root
 		stage.Numeral_rootOrder++
 	}
 	stage.Numeral_roots_mapString[numeral_root.Name] = numeral_root
@@ -28010,6 +29462,7 @@ func (octave_shift *Octave_shift) Stage(stage *Stage) *Octave_shift {
 	if _, ok := stage.Octave_shifts[octave_shift]; !ok {
 		stage.Octave_shifts[octave_shift] = struct{}{}
 		stage.Octave_shift_stagedOrder[octave_shift] = stage.Octave_shiftOrder
+		stage.Octave_shift_orderStaged[stage.Octave_shiftOrder] = octave_shift
 		stage.Octave_shiftOrder++
 	}
 	stage.Octave_shifts_mapString[octave_shift.Name] = octave_shift
@@ -28030,6 +29483,7 @@ func (octave_shift *Octave_shift) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Octave_shiftOrder = order
 		}
 		stage.Octave_shift_stagedOrder[octave_shift] = order
+		stage.Octave_shift_orderStaged[order] = octave_shift
 		stage.Octave_shiftOrder++
 	}
 	stage.Octave_shifts_mapString[octave_shift.Name] = octave_shift
@@ -28096,6 +29550,7 @@ func (offset *Offset) Stage(stage *Stage) *Offset {
 	if _, ok := stage.Offsets[offset]; !ok {
 		stage.Offsets[offset] = struct{}{}
 		stage.Offset_stagedOrder[offset] = stage.OffsetOrder
+		stage.Offset_orderStaged[stage.OffsetOrder] = offset
 		stage.OffsetOrder++
 	}
 	stage.Offsets_mapString[offset.Name] = offset
@@ -28116,6 +29571,7 @@ func (offset *Offset) StagePreserveOrder(stage *Stage, order uint) {
 			stage.OffsetOrder = order
 		}
 		stage.Offset_stagedOrder[offset] = order
+		stage.Offset_orderStaged[order] = offset
 		stage.OffsetOrder++
 	}
 	stage.Offsets_mapString[offset.Name] = offset
@@ -28182,6 +29638,7 @@ func (opus *Opus) Stage(stage *Stage) *Opus {
 	if _, ok := stage.Opuss[opus]; !ok {
 		stage.Opuss[opus] = struct{}{}
 		stage.Opus_stagedOrder[opus] = stage.OpusOrder
+		stage.Opus_orderStaged[stage.OpusOrder] = opus
 		stage.OpusOrder++
 	}
 	stage.Opuss_mapString[opus.Name] = opus
@@ -28202,6 +29659,7 @@ func (opus *Opus) StagePreserveOrder(stage *Stage, order uint) {
 			stage.OpusOrder = order
 		}
 		stage.Opus_stagedOrder[opus] = order
+		stage.Opus_orderStaged[order] = opus
 		stage.OpusOrder++
 	}
 	stage.Opuss_mapString[opus.Name] = opus
@@ -28268,6 +29726,7 @@ func (ornaments *Ornaments) Stage(stage *Stage) *Ornaments {
 	if _, ok := stage.Ornamentss[ornaments]; !ok {
 		stage.Ornamentss[ornaments] = struct{}{}
 		stage.Ornaments_stagedOrder[ornaments] = stage.OrnamentsOrder
+		stage.Ornaments_orderStaged[stage.OrnamentsOrder] = ornaments
 		stage.OrnamentsOrder++
 	}
 	stage.Ornamentss_mapString[ornaments.Name] = ornaments
@@ -28288,6 +29747,7 @@ func (ornaments *Ornaments) StagePreserveOrder(stage *Stage, order uint) {
 			stage.OrnamentsOrder = order
 		}
 		stage.Ornaments_stagedOrder[ornaments] = order
+		stage.Ornaments_orderStaged[order] = ornaments
 		stage.OrnamentsOrder++
 	}
 	stage.Ornamentss_mapString[ornaments.Name] = ornaments
@@ -28354,6 +29814,7 @@ func (other_appearance *Other_appearance) Stage(stage *Stage) *Other_appearance 
 	if _, ok := stage.Other_appearances[other_appearance]; !ok {
 		stage.Other_appearances[other_appearance] = struct{}{}
 		stage.Other_appearance_stagedOrder[other_appearance] = stage.Other_appearanceOrder
+		stage.Other_appearance_orderStaged[stage.Other_appearanceOrder] = other_appearance
 		stage.Other_appearanceOrder++
 	}
 	stage.Other_appearances_mapString[other_appearance.Name] = other_appearance
@@ -28374,6 +29835,7 @@ func (other_appearance *Other_appearance) StagePreserveOrder(stage *Stage, order
 			stage.Other_appearanceOrder = order
 		}
 		stage.Other_appearance_stagedOrder[other_appearance] = order
+		stage.Other_appearance_orderStaged[order] = other_appearance
 		stage.Other_appearanceOrder++
 	}
 	stage.Other_appearances_mapString[other_appearance.Name] = other_appearance
@@ -28440,6 +29902,7 @@ func (other_direction *Other_direction) Stage(stage *Stage) *Other_direction {
 	if _, ok := stage.Other_directions[other_direction]; !ok {
 		stage.Other_directions[other_direction] = struct{}{}
 		stage.Other_direction_stagedOrder[other_direction] = stage.Other_directionOrder
+		stage.Other_direction_orderStaged[stage.Other_directionOrder] = other_direction
 		stage.Other_directionOrder++
 	}
 	stage.Other_directions_mapString[other_direction.Name] = other_direction
@@ -28460,6 +29923,7 @@ func (other_direction *Other_direction) StagePreserveOrder(stage *Stage, order u
 			stage.Other_directionOrder = order
 		}
 		stage.Other_direction_stagedOrder[other_direction] = order
+		stage.Other_direction_orderStaged[order] = other_direction
 		stage.Other_directionOrder++
 	}
 	stage.Other_directions_mapString[other_direction.Name] = other_direction
@@ -28526,6 +29990,7 @@ func (other_listening *Other_listening) Stage(stage *Stage) *Other_listening {
 	if _, ok := stage.Other_listenings[other_listening]; !ok {
 		stage.Other_listenings[other_listening] = struct{}{}
 		stage.Other_listening_stagedOrder[other_listening] = stage.Other_listeningOrder
+		stage.Other_listening_orderStaged[stage.Other_listeningOrder] = other_listening
 		stage.Other_listeningOrder++
 	}
 	stage.Other_listenings_mapString[other_listening.Name] = other_listening
@@ -28546,6 +30011,7 @@ func (other_listening *Other_listening) StagePreserveOrder(stage *Stage, order u
 			stage.Other_listeningOrder = order
 		}
 		stage.Other_listening_stagedOrder[other_listening] = order
+		stage.Other_listening_orderStaged[order] = other_listening
 		stage.Other_listeningOrder++
 	}
 	stage.Other_listenings_mapString[other_listening.Name] = other_listening
@@ -28612,6 +30078,7 @@ func (other_notation *Other_notation) Stage(stage *Stage) *Other_notation {
 	if _, ok := stage.Other_notations[other_notation]; !ok {
 		stage.Other_notations[other_notation] = struct{}{}
 		stage.Other_notation_stagedOrder[other_notation] = stage.Other_notationOrder
+		stage.Other_notation_orderStaged[stage.Other_notationOrder] = other_notation
 		stage.Other_notationOrder++
 	}
 	stage.Other_notations_mapString[other_notation.Name] = other_notation
@@ -28632,6 +30099,7 @@ func (other_notation *Other_notation) StagePreserveOrder(stage *Stage, order uin
 			stage.Other_notationOrder = order
 		}
 		stage.Other_notation_stagedOrder[other_notation] = order
+		stage.Other_notation_orderStaged[order] = other_notation
 		stage.Other_notationOrder++
 	}
 	stage.Other_notations_mapString[other_notation.Name] = other_notation
@@ -28698,6 +30166,7 @@ func (other_placement_text *Other_placement_text) Stage(stage *Stage) *Other_pla
 	if _, ok := stage.Other_placement_texts[other_placement_text]; !ok {
 		stage.Other_placement_texts[other_placement_text] = struct{}{}
 		stage.Other_placement_text_stagedOrder[other_placement_text] = stage.Other_placement_textOrder
+		stage.Other_placement_text_orderStaged[stage.Other_placement_textOrder] = other_placement_text
 		stage.Other_placement_textOrder++
 	}
 	stage.Other_placement_texts_mapString[other_placement_text.Name] = other_placement_text
@@ -28718,6 +30187,7 @@ func (other_placement_text *Other_placement_text) StagePreserveOrder(stage *Stag
 			stage.Other_placement_textOrder = order
 		}
 		stage.Other_placement_text_stagedOrder[other_placement_text] = order
+		stage.Other_placement_text_orderStaged[order] = other_placement_text
 		stage.Other_placement_textOrder++
 	}
 	stage.Other_placement_texts_mapString[other_placement_text.Name] = other_placement_text
@@ -28784,6 +30254,7 @@ func (other_play *Other_play) Stage(stage *Stage) *Other_play {
 	if _, ok := stage.Other_plays[other_play]; !ok {
 		stage.Other_plays[other_play] = struct{}{}
 		stage.Other_play_stagedOrder[other_play] = stage.Other_playOrder
+		stage.Other_play_orderStaged[stage.Other_playOrder] = other_play
 		stage.Other_playOrder++
 	}
 	stage.Other_plays_mapString[other_play.Name] = other_play
@@ -28804,6 +30275,7 @@ func (other_play *Other_play) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Other_playOrder = order
 		}
 		stage.Other_play_stagedOrder[other_play] = order
+		stage.Other_play_orderStaged[order] = other_play
 		stage.Other_playOrder++
 	}
 	stage.Other_plays_mapString[other_play.Name] = other_play
@@ -28870,6 +30342,7 @@ func (other_text *Other_text) Stage(stage *Stage) *Other_text {
 	if _, ok := stage.Other_texts[other_text]; !ok {
 		stage.Other_texts[other_text] = struct{}{}
 		stage.Other_text_stagedOrder[other_text] = stage.Other_textOrder
+		stage.Other_text_orderStaged[stage.Other_textOrder] = other_text
 		stage.Other_textOrder++
 	}
 	stage.Other_texts_mapString[other_text.Name] = other_text
@@ -28890,6 +30363,7 @@ func (other_text *Other_text) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Other_textOrder = order
 		}
 		stage.Other_text_stagedOrder[other_text] = order
+		stage.Other_text_orderStaged[order] = other_text
 		stage.Other_textOrder++
 	}
 	stage.Other_texts_mapString[other_text.Name] = other_text
@@ -28956,6 +30430,7 @@ func (page_layout *Page_layout) Stage(stage *Stage) *Page_layout {
 	if _, ok := stage.Page_layouts[page_layout]; !ok {
 		stage.Page_layouts[page_layout] = struct{}{}
 		stage.Page_layout_stagedOrder[page_layout] = stage.Page_layoutOrder
+		stage.Page_layout_orderStaged[stage.Page_layoutOrder] = page_layout
 		stage.Page_layoutOrder++
 	}
 	stage.Page_layouts_mapString[page_layout.Name] = page_layout
@@ -28976,6 +30451,7 @@ func (page_layout *Page_layout) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Page_layoutOrder = order
 		}
 		stage.Page_layout_stagedOrder[page_layout] = order
+		stage.Page_layout_orderStaged[order] = page_layout
 		stage.Page_layoutOrder++
 	}
 	stage.Page_layouts_mapString[page_layout.Name] = page_layout
@@ -29042,6 +30518,7 @@ func (page_margins *Page_margins) Stage(stage *Stage) *Page_margins {
 	if _, ok := stage.Page_marginss[page_margins]; !ok {
 		stage.Page_marginss[page_margins] = struct{}{}
 		stage.Page_margins_stagedOrder[page_margins] = stage.Page_marginsOrder
+		stage.Page_margins_orderStaged[stage.Page_marginsOrder] = page_margins
 		stage.Page_marginsOrder++
 	}
 	stage.Page_marginss_mapString[page_margins.Name] = page_margins
@@ -29062,6 +30539,7 @@ func (page_margins *Page_margins) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Page_marginsOrder = order
 		}
 		stage.Page_margins_stagedOrder[page_margins] = order
+		stage.Page_margins_orderStaged[order] = page_margins
 		stage.Page_marginsOrder++
 	}
 	stage.Page_marginss_mapString[page_margins.Name] = page_margins
@@ -29128,6 +30606,7 @@ func (part_clef *Part_clef) Stage(stage *Stage) *Part_clef {
 	if _, ok := stage.Part_clefs[part_clef]; !ok {
 		stage.Part_clefs[part_clef] = struct{}{}
 		stage.Part_clef_stagedOrder[part_clef] = stage.Part_clefOrder
+		stage.Part_clef_orderStaged[stage.Part_clefOrder] = part_clef
 		stage.Part_clefOrder++
 	}
 	stage.Part_clefs_mapString[part_clef.Name] = part_clef
@@ -29148,6 +30627,7 @@ func (part_clef *Part_clef) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Part_clefOrder = order
 		}
 		stage.Part_clef_stagedOrder[part_clef] = order
+		stage.Part_clef_orderStaged[order] = part_clef
 		stage.Part_clefOrder++
 	}
 	stage.Part_clefs_mapString[part_clef.Name] = part_clef
@@ -29214,6 +30694,7 @@ func (part_group *Part_group) Stage(stage *Stage) *Part_group {
 	if _, ok := stage.Part_groups[part_group]; !ok {
 		stage.Part_groups[part_group] = struct{}{}
 		stage.Part_group_stagedOrder[part_group] = stage.Part_groupOrder
+		stage.Part_group_orderStaged[stage.Part_groupOrder] = part_group
 		stage.Part_groupOrder++
 	}
 	stage.Part_groups_mapString[part_group.Name] = part_group
@@ -29234,6 +30715,7 @@ func (part_group *Part_group) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Part_groupOrder = order
 		}
 		stage.Part_group_stagedOrder[part_group] = order
+		stage.Part_group_orderStaged[order] = part_group
 		stage.Part_groupOrder++
 	}
 	stage.Part_groups_mapString[part_group.Name] = part_group
@@ -29300,6 +30782,7 @@ func (part_link *Part_link) Stage(stage *Stage) *Part_link {
 	if _, ok := stage.Part_links[part_link]; !ok {
 		stage.Part_links[part_link] = struct{}{}
 		stage.Part_link_stagedOrder[part_link] = stage.Part_linkOrder
+		stage.Part_link_orderStaged[stage.Part_linkOrder] = part_link
 		stage.Part_linkOrder++
 	}
 	stage.Part_links_mapString[part_link.Name] = part_link
@@ -29320,6 +30803,7 @@ func (part_link *Part_link) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Part_linkOrder = order
 		}
 		stage.Part_link_stagedOrder[part_link] = order
+		stage.Part_link_orderStaged[order] = part_link
 		stage.Part_linkOrder++
 	}
 	stage.Part_links_mapString[part_link.Name] = part_link
@@ -29386,6 +30870,7 @@ func (part_list *Part_list) Stage(stage *Stage) *Part_list {
 	if _, ok := stage.Part_lists[part_list]; !ok {
 		stage.Part_lists[part_list] = struct{}{}
 		stage.Part_list_stagedOrder[part_list] = stage.Part_listOrder
+		stage.Part_list_orderStaged[stage.Part_listOrder] = part_list
 		stage.Part_listOrder++
 	}
 	stage.Part_lists_mapString[part_list.Name] = part_list
@@ -29406,6 +30891,7 @@ func (part_list *Part_list) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Part_listOrder = order
 		}
 		stage.Part_list_stagedOrder[part_list] = order
+		stage.Part_list_orderStaged[order] = part_list
 		stage.Part_listOrder++
 	}
 	stage.Part_lists_mapString[part_list.Name] = part_list
@@ -29472,6 +30958,7 @@ func (part_name *Part_name) Stage(stage *Stage) *Part_name {
 	if _, ok := stage.Part_names[part_name]; !ok {
 		stage.Part_names[part_name] = struct{}{}
 		stage.Part_name_stagedOrder[part_name] = stage.Part_nameOrder
+		stage.Part_name_orderStaged[stage.Part_nameOrder] = part_name
 		stage.Part_nameOrder++
 	}
 	stage.Part_names_mapString[part_name.Name] = part_name
@@ -29492,6 +30979,7 @@ func (part_name *Part_name) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Part_nameOrder = order
 		}
 		stage.Part_name_stagedOrder[part_name] = order
+		stage.Part_name_orderStaged[order] = part_name
 		stage.Part_nameOrder++
 	}
 	stage.Part_names_mapString[part_name.Name] = part_name
@@ -29558,6 +31046,7 @@ func (part_symbol *Part_symbol) Stage(stage *Stage) *Part_symbol {
 	if _, ok := stage.Part_symbols[part_symbol]; !ok {
 		stage.Part_symbols[part_symbol] = struct{}{}
 		stage.Part_symbol_stagedOrder[part_symbol] = stage.Part_symbolOrder
+		stage.Part_symbol_orderStaged[stage.Part_symbolOrder] = part_symbol
 		stage.Part_symbolOrder++
 	}
 	stage.Part_symbols_mapString[part_symbol.Name] = part_symbol
@@ -29578,6 +31067,7 @@ func (part_symbol *Part_symbol) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Part_symbolOrder = order
 		}
 		stage.Part_symbol_stagedOrder[part_symbol] = order
+		stage.Part_symbol_orderStaged[order] = part_symbol
 		stage.Part_symbolOrder++
 	}
 	stage.Part_symbols_mapString[part_symbol.Name] = part_symbol
@@ -29644,6 +31134,7 @@ func (part_transpose *Part_transpose) Stage(stage *Stage) *Part_transpose {
 	if _, ok := stage.Part_transposes[part_transpose]; !ok {
 		stage.Part_transposes[part_transpose] = struct{}{}
 		stage.Part_transpose_stagedOrder[part_transpose] = stage.Part_transposeOrder
+		stage.Part_transpose_orderStaged[stage.Part_transposeOrder] = part_transpose
 		stage.Part_transposeOrder++
 	}
 	stage.Part_transposes_mapString[part_transpose.Name] = part_transpose
@@ -29664,6 +31155,7 @@ func (part_transpose *Part_transpose) StagePreserveOrder(stage *Stage, order uin
 			stage.Part_transposeOrder = order
 		}
 		stage.Part_transpose_stagedOrder[part_transpose] = order
+		stage.Part_transpose_orderStaged[order] = part_transpose
 		stage.Part_transposeOrder++
 	}
 	stage.Part_transposes_mapString[part_transpose.Name] = part_transpose
@@ -29730,6 +31222,7 @@ func (pedal *Pedal) Stage(stage *Stage) *Pedal {
 	if _, ok := stage.Pedals[pedal]; !ok {
 		stage.Pedals[pedal] = struct{}{}
 		stage.Pedal_stagedOrder[pedal] = stage.PedalOrder
+		stage.Pedal_orderStaged[stage.PedalOrder] = pedal
 		stage.PedalOrder++
 	}
 	stage.Pedals_mapString[pedal.Name] = pedal
@@ -29750,6 +31243,7 @@ func (pedal *Pedal) StagePreserveOrder(stage *Stage, order uint) {
 			stage.PedalOrder = order
 		}
 		stage.Pedal_stagedOrder[pedal] = order
+		stage.Pedal_orderStaged[order] = pedal
 		stage.PedalOrder++
 	}
 	stage.Pedals_mapString[pedal.Name] = pedal
@@ -29816,6 +31310,7 @@ func (pedal_tuning *Pedal_tuning) Stage(stage *Stage) *Pedal_tuning {
 	if _, ok := stage.Pedal_tunings[pedal_tuning]; !ok {
 		stage.Pedal_tunings[pedal_tuning] = struct{}{}
 		stage.Pedal_tuning_stagedOrder[pedal_tuning] = stage.Pedal_tuningOrder
+		stage.Pedal_tuning_orderStaged[stage.Pedal_tuningOrder] = pedal_tuning
 		stage.Pedal_tuningOrder++
 	}
 	stage.Pedal_tunings_mapString[pedal_tuning.Name] = pedal_tuning
@@ -29836,6 +31331,7 @@ func (pedal_tuning *Pedal_tuning) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Pedal_tuningOrder = order
 		}
 		stage.Pedal_tuning_stagedOrder[pedal_tuning] = order
+		stage.Pedal_tuning_orderStaged[order] = pedal_tuning
 		stage.Pedal_tuningOrder++
 	}
 	stage.Pedal_tunings_mapString[pedal_tuning.Name] = pedal_tuning
@@ -29902,6 +31398,7 @@ func (per_minute *Per_minute) Stage(stage *Stage) *Per_minute {
 	if _, ok := stage.Per_minutes[per_minute]; !ok {
 		stage.Per_minutes[per_minute] = struct{}{}
 		stage.Per_minute_stagedOrder[per_minute] = stage.Per_minuteOrder
+		stage.Per_minute_orderStaged[stage.Per_minuteOrder] = per_minute
 		stage.Per_minuteOrder++
 	}
 	stage.Per_minutes_mapString[per_minute.Name] = per_minute
@@ -29922,6 +31419,7 @@ func (per_minute *Per_minute) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Per_minuteOrder = order
 		}
 		stage.Per_minute_stagedOrder[per_minute] = order
+		stage.Per_minute_orderStaged[order] = per_minute
 		stage.Per_minuteOrder++
 	}
 	stage.Per_minutes_mapString[per_minute.Name] = per_minute
@@ -29988,6 +31486,7 @@ func (percussion *Percussion) Stage(stage *Stage) *Percussion {
 	if _, ok := stage.Percussions[percussion]; !ok {
 		stage.Percussions[percussion] = struct{}{}
 		stage.Percussion_stagedOrder[percussion] = stage.PercussionOrder
+		stage.Percussion_orderStaged[stage.PercussionOrder] = percussion
 		stage.PercussionOrder++
 	}
 	stage.Percussions_mapString[percussion.Name] = percussion
@@ -30008,6 +31507,7 @@ func (percussion *Percussion) StagePreserveOrder(stage *Stage, order uint) {
 			stage.PercussionOrder = order
 		}
 		stage.Percussion_stagedOrder[percussion] = order
+		stage.Percussion_orderStaged[order] = percussion
 		stage.PercussionOrder++
 	}
 	stage.Percussions_mapString[percussion.Name] = percussion
@@ -30074,6 +31574,7 @@ func (pitch *Pitch) Stage(stage *Stage) *Pitch {
 	if _, ok := stage.Pitchs[pitch]; !ok {
 		stage.Pitchs[pitch] = struct{}{}
 		stage.Pitch_stagedOrder[pitch] = stage.PitchOrder
+		stage.Pitch_orderStaged[stage.PitchOrder] = pitch
 		stage.PitchOrder++
 	}
 	stage.Pitchs_mapString[pitch.Name] = pitch
@@ -30094,6 +31595,7 @@ func (pitch *Pitch) StagePreserveOrder(stage *Stage, order uint) {
 			stage.PitchOrder = order
 		}
 		stage.Pitch_stagedOrder[pitch] = order
+		stage.Pitch_orderStaged[order] = pitch
 		stage.PitchOrder++
 	}
 	stage.Pitchs_mapString[pitch.Name] = pitch
@@ -30160,6 +31662,7 @@ func (pitched *Pitched) Stage(stage *Stage) *Pitched {
 	if _, ok := stage.Pitcheds[pitched]; !ok {
 		stage.Pitcheds[pitched] = struct{}{}
 		stage.Pitched_stagedOrder[pitched] = stage.PitchedOrder
+		stage.Pitched_orderStaged[stage.PitchedOrder] = pitched
 		stage.PitchedOrder++
 	}
 	stage.Pitcheds_mapString[pitched.Name] = pitched
@@ -30180,6 +31683,7 @@ func (pitched *Pitched) StagePreserveOrder(stage *Stage, order uint) {
 			stage.PitchedOrder = order
 		}
 		stage.Pitched_stagedOrder[pitched] = order
+		stage.Pitched_orderStaged[order] = pitched
 		stage.PitchedOrder++
 	}
 	stage.Pitcheds_mapString[pitched.Name] = pitched
@@ -30246,6 +31750,7 @@ func (placement_text *Placement_text) Stage(stage *Stage) *Placement_text {
 	if _, ok := stage.Placement_texts[placement_text]; !ok {
 		stage.Placement_texts[placement_text] = struct{}{}
 		stage.Placement_text_stagedOrder[placement_text] = stage.Placement_textOrder
+		stage.Placement_text_orderStaged[stage.Placement_textOrder] = placement_text
 		stage.Placement_textOrder++
 	}
 	stage.Placement_texts_mapString[placement_text.Name] = placement_text
@@ -30266,6 +31771,7 @@ func (placement_text *Placement_text) StagePreserveOrder(stage *Stage, order uin
 			stage.Placement_textOrder = order
 		}
 		stage.Placement_text_stagedOrder[placement_text] = order
+		stage.Placement_text_orderStaged[order] = placement_text
 		stage.Placement_textOrder++
 	}
 	stage.Placement_texts_mapString[placement_text.Name] = placement_text
@@ -30332,6 +31838,7 @@ func (play *Play) Stage(stage *Stage) *Play {
 	if _, ok := stage.Plays[play]; !ok {
 		stage.Plays[play] = struct{}{}
 		stage.Play_stagedOrder[play] = stage.PlayOrder
+		stage.Play_orderStaged[stage.PlayOrder] = play
 		stage.PlayOrder++
 	}
 	stage.Plays_mapString[play.Name] = play
@@ -30352,6 +31859,7 @@ func (play *Play) StagePreserveOrder(stage *Stage, order uint) {
 			stage.PlayOrder = order
 		}
 		stage.Play_stagedOrder[play] = order
+		stage.Play_orderStaged[order] = play
 		stage.PlayOrder++
 	}
 	stage.Plays_mapString[play.Name] = play
@@ -30418,6 +31926,7 @@ func (player *Player) Stage(stage *Stage) *Player {
 	if _, ok := stage.Players[player]; !ok {
 		stage.Players[player] = struct{}{}
 		stage.Player_stagedOrder[player] = stage.PlayerOrder
+		stage.Player_orderStaged[stage.PlayerOrder] = player
 		stage.PlayerOrder++
 	}
 	stage.Players_mapString[player.Name] = player
@@ -30438,6 +31947,7 @@ func (player *Player) StagePreserveOrder(stage *Stage, order uint) {
 			stage.PlayerOrder = order
 		}
 		stage.Player_stagedOrder[player] = order
+		stage.Player_orderStaged[order] = player
 		stage.PlayerOrder++
 	}
 	stage.Players_mapString[player.Name] = player
@@ -30504,6 +32014,7 @@ func (principal_voice *Principal_voice) Stage(stage *Stage) *Principal_voice {
 	if _, ok := stage.Principal_voices[principal_voice]; !ok {
 		stage.Principal_voices[principal_voice] = struct{}{}
 		stage.Principal_voice_stagedOrder[principal_voice] = stage.Principal_voiceOrder
+		stage.Principal_voice_orderStaged[stage.Principal_voiceOrder] = principal_voice
 		stage.Principal_voiceOrder++
 	}
 	stage.Principal_voices_mapString[principal_voice.Name] = principal_voice
@@ -30524,6 +32035,7 @@ func (principal_voice *Principal_voice) StagePreserveOrder(stage *Stage, order u
 			stage.Principal_voiceOrder = order
 		}
 		stage.Principal_voice_stagedOrder[principal_voice] = order
+		stage.Principal_voice_orderStaged[order] = principal_voice
 		stage.Principal_voiceOrder++
 	}
 	stage.Principal_voices_mapString[principal_voice.Name] = principal_voice
@@ -30590,6 +32102,7 @@ func (print *Print) Stage(stage *Stage) *Print {
 	if _, ok := stage.Prints[print]; !ok {
 		stage.Prints[print] = struct{}{}
 		stage.Print_stagedOrder[print] = stage.PrintOrder
+		stage.Print_orderStaged[stage.PrintOrder] = print
 		stage.PrintOrder++
 	}
 	stage.Prints_mapString[print.Name] = print
@@ -30610,6 +32123,7 @@ func (print *Print) StagePreserveOrder(stage *Stage, order uint) {
 			stage.PrintOrder = order
 		}
 		stage.Print_stagedOrder[print] = order
+		stage.Print_orderStaged[order] = print
 		stage.PrintOrder++
 	}
 	stage.Prints_mapString[print.Name] = print
@@ -30676,6 +32190,7 @@ func (release *Release) Stage(stage *Stage) *Release {
 	if _, ok := stage.Releases[release]; !ok {
 		stage.Releases[release] = struct{}{}
 		stage.Release_stagedOrder[release] = stage.ReleaseOrder
+		stage.Release_orderStaged[stage.ReleaseOrder] = release
 		stage.ReleaseOrder++
 	}
 	stage.Releases_mapString[release.Name] = release
@@ -30696,6 +32211,7 @@ func (release *Release) StagePreserveOrder(stage *Stage, order uint) {
 			stage.ReleaseOrder = order
 		}
 		stage.Release_stagedOrder[release] = order
+		stage.Release_orderStaged[order] = release
 		stage.ReleaseOrder++
 	}
 	stage.Releases_mapString[release.Name] = release
@@ -30762,6 +32278,7 @@ func (repeat *Repeat) Stage(stage *Stage) *Repeat {
 	if _, ok := stage.Repeats[repeat]; !ok {
 		stage.Repeats[repeat] = struct{}{}
 		stage.Repeat_stagedOrder[repeat] = stage.RepeatOrder
+		stage.Repeat_orderStaged[stage.RepeatOrder] = repeat
 		stage.RepeatOrder++
 	}
 	stage.Repeats_mapString[repeat.Name] = repeat
@@ -30782,6 +32299,7 @@ func (repeat *Repeat) StagePreserveOrder(stage *Stage, order uint) {
 			stage.RepeatOrder = order
 		}
 		stage.Repeat_stagedOrder[repeat] = order
+		stage.Repeat_orderStaged[order] = repeat
 		stage.RepeatOrder++
 	}
 	stage.Repeats_mapString[repeat.Name] = repeat
@@ -30848,6 +32366,7 @@ func (rest *Rest) Stage(stage *Stage) *Rest {
 	if _, ok := stage.Rests[rest]; !ok {
 		stage.Rests[rest] = struct{}{}
 		stage.Rest_stagedOrder[rest] = stage.RestOrder
+		stage.Rest_orderStaged[stage.RestOrder] = rest
 		stage.RestOrder++
 	}
 	stage.Rests_mapString[rest.Name] = rest
@@ -30868,6 +32387,7 @@ func (rest *Rest) StagePreserveOrder(stage *Stage, order uint) {
 			stage.RestOrder = order
 		}
 		stage.Rest_stagedOrder[rest] = order
+		stage.Rest_orderStaged[order] = rest
 		stage.RestOrder++
 	}
 	stage.Rests_mapString[rest.Name] = rest
@@ -30934,6 +32454,7 @@ func (root *Root) Stage(stage *Stage) *Root {
 	if _, ok := stage.Roots[root]; !ok {
 		stage.Roots[root] = struct{}{}
 		stage.Root_stagedOrder[root] = stage.RootOrder
+		stage.Root_orderStaged[stage.RootOrder] = root
 		stage.RootOrder++
 	}
 	stage.Roots_mapString[root.Name] = root
@@ -30954,6 +32475,7 @@ func (root *Root) StagePreserveOrder(stage *Stage, order uint) {
 			stage.RootOrder = order
 		}
 		stage.Root_stagedOrder[root] = order
+		stage.Root_orderStaged[order] = root
 		stage.RootOrder++
 	}
 	stage.Roots_mapString[root.Name] = root
@@ -31020,6 +32542,7 @@ func (root_step *Root_step) Stage(stage *Stage) *Root_step {
 	if _, ok := stage.Root_steps[root_step]; !ok {
 		stage.Root_steps[root_step] = struct{}{}
 		stage.Root_step_stagedOrder[root_step] = stage.Root_stepOrder
+		stage.Root_step_orderStaged[stage.Root_stepOrder] = root_step
 		stage.Root_stepOrder++
 	}
 	stage.Root_steps_mapString[root_step.Name] = root_step
@@ -31040,6 +32563,7 @@ func (root_step *Root_step) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Root_stepOrder = order
 		}
 		stage.Root_step_stagedOrder[root_step] = order
+		stage.Root_step_orderStaged[order] = root_step
 		stage.Root_stepOrder++
 	}
 	stage.Root_steps_mapString[root_step.Name] = root_step
@@ -31106,6 +32630,7 @@ func (scaling *Scaling) Stage(stage *Stage) *Scaling {
 	if _, ok := stage.Scalings[scaling]; !ok {
 		stage.Scalings[scaling] = struct{}{}
 		stage.Scaling_stagedOrder[scaling] = stage.ScalingOrder
+		stage.Scaling_orderStaged[stage.ScalingOrder] = scaling
 		stage.ScalingOrder++
 	}
 	stage.Scalings_mapString[scaling.Name] = scaling
@@ -31126,6 +32651,7 @@ func (scaling *Scaling) StagePreserveOrder(stage *Stage, order uint) {
 			stage.ScalingOrder = order
 		}
 		stage.Scaling_stagedOrder[scaling] = order
+		stage.Scaling_orderStaged[order] = scaling
 		stage.ScalingOrder++
 	}
 	stage.Scalings_mapString[scaling.Name] = scaling
@@ -31192,6 +32718,7 @@ func (scordatura *Scordatura) Stage(stage *Stage) *Scordatura {
 	if _, ok := stage.Scordaturas[scordatura]; !ok {
 		stage.Scordaturas[scordatura] = struct{}{}
 		stage.Scordatura_stagedOrder[scordatura] = stage.ScordaturaOrder
+		stage.Scordatura_orderStaged[stage.ScordaturaOrder] = scordatura
 		stage.ScordaturaOrder++
 	}
 	stage.Scordaturas_mapString[scordatura.Name] = scordatura
@@ -31212,6 +32739,7 @@ func (scordatura *Scordatura) StagePreserveOrder(stage *Stage, order uint) {
 			stage.ScordaturaOrder = order
 		}
 		stage.Scordatura_stagedOrder[scordatura] = order
+		stage.Scordatura_orderStaged[order] = scordatura
 		stage.ScordaturaOrder++
 	}
 	stage.Scordaturas_mapString[scordatura.Name] = scordatura
@@ -31278,6 +32806,7 @@ func (score_instrument *Score_instrument) Stage(stage *Stage) *Score_instrument 
 	if _, ok := stage.Score_instruments[score_instrument]; !ok {
 		stage.Score_instruments[score_instrument] = struct{}{}
 		stage.Score_instrument_stagedOrder[score_instrument] = stage.Score_instrumentOrder
+		stage.Score_instrument_orderStaged[stage.Score_instrumentOrder] = score_instrument
 		stage.Score_instrumentOrder++
 	}
 	stage.Score_instruments_mapString[score_instrument.Name] = score_instrument
@@ -31298,6 +32827,7 @@ func (score_instrument *Score_instrument) StagePreserveOrder(stage *Stage, order
 			stage.Score_instrumentOrder = order
 		}
 		stage.Score_instrument_stagedOrder[score_instrument] = order
+		stage.Score_instrument_orderStaged[order] = score_instrument
 		stage.Score_instrumentOrder++
 	}
 	stage.Score_instruments_mapString[score_instrument.Name] = score_instrument
@@ -31364,6 +32894,7 @@ func (score_part *Score_part) Stage(stage *Stage) *Score_part {
 	if _, ok := stage.Score_parts[score_part]; !ok {
 		stage.Score_parts[score_part] = struct{}{}
 		stage.Score_part_stagedOrder[score_part] = stage.Score_partOrder
+		stage.Score_part_orderStaged[stage.Score_partOrder] = score_part
 		stage.Score_partOrder++
 	}
 	stage.Score_parts_mapString[score_part.Name] = score_part
@@ -31384,6 +32915,7 @@ func (score_part *Score_part) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Score_partOrder = order
 		}
 		stage.Score_part_stagedOrder[score_part] = order
+		stage.Score_part_orderStaged[order] = score_part
 		stage.Score_partOrder++
 	}
 	stage.Score_parts_mapString[score_part.Name] = score_part
@@ -31450,6 +32982,7 @@ func (score_partwise *Score_partwise) Stage(stage *Stage) *Score_partwise {
 	if _, ok := stage.Score_partwises[score_partwise]; !ok {
 		stage.Score_partwises[score_partwise] = struct{}{}
 		stage.Score_partwise_stagedOrder[score_partwise] = stage.Score_partwiseOrder
+		stage.Score_partwise_orderStaged[stage.Score_partwiseOrder] = score_partwise
 		stage.Score_partwiseOrder++
 	}
 	stage.Score_partwises_mapString[score_partwise.Name] = score_partwise
@@ -31470,6 +33003,7 @@ func (score_partwise *Score_partwise) StagePreserveOrder(stage *Stage, order uin
 			stage.Score_partwiseOrder = order
 		}
 		stage.Score_partwise_stagedOrder[score_partwise] = order
+		stage.Score_partwise_orderStaged[order] = score_partwise
 		stage.Score_partwiseOrder++
 	}
 	stage.Score_partwises_mapString[score_partwise.Name] = score_partwise
@@ -31536,6 +33070,7 @@ func (score_timewise *Score_timewise) Stage(stage *Stage) *Score_timewise {
 	if _, ok := stage.Score_timewises[score_timewise]; !ok {
 		stage.Score_timewises[score_timewise] = struct{}{}
 		stage.Score_timewise_stagedOrder[score_timewise] = stage.Score_timewiseOrder
+		stage.Score_timewise_orderStaged[stage.Score_timewiseOrder] = score_timewise
 		stage.Score_timewiseOrder++
 	}
 	stage.Score_timewises_mapString[score_timewise.Name] = score_timewise
@@ -31556,6 +33091,7 @@ func (score_timewise *Score_timewise) StagePreserveOrder(stage *Stage, order uin
 			stage.Score_timewiseOrder = order
 		}
 		stage.Score_timewise_stagedOrder[score_timewise] = order
+		stage.Score_timewise_orderStaged[order] = score_timewise
 		stage.Score_timewiseOrder++
 	}
 	stage.Score_timewises_mapString[score_timewise.Name] = score_timewise
@@ -31622,6 +33158,7 @@ func (segno *Segno) Stage(stage *Stage) *Segno {
 	if _, ok := stage.Segnos[segno]; !ok {
 		stage.Segnos[segno] = struct{}{}
 		stage.Segno_stagedOrder[segno] = stage.SegnoOrder
+		stage.Segno_orderStaged[stage.SegnoOrder] = segno
 		stage.SegnoOrder++
 	}
 	stage.Segnos_mapString[segno.Name] = segno
@@ -31642,6 +33179,7 @@ func (segno *Segno) StagePreserveOrder(stage *Stage, order uint) {
 			stage.SegnoOrder = order
 		}
 		stage.Segno_stagedOrder[segno] = order
+		stage.Segno_orderStaged[order] = segno
 		stage.SegnoOrder++
 	}
 	stage.Segnos_mapString[segno.Name] = segno
@@ -31708,6 +33246,7 @@ func (slash *Slash) Stage(stage *Stage) *Slash {
 	if _, ok := stage.Slashs[slash]; !ok {
 		stage.Slashs[slash] = struct{}{}
 		stage.Slash_stagedOrder[slash] = stage.SlashOrder
+		stage.Slash_orderStaged[stage.SlashOrder] = slash
 		stage.SlashOrder++
 	}
 	stage.Slashs_mapString[slash.Name] = slash
@@ -31728,6 +33267,7 @@ func (slash *Slash) StagePreserveOrder(stage *Stage, order uint) {
 			stage.SlashOrder = order
 		}
 		stage.Slash_stagedOrder[slash] = order
+		stage.Slash_orderStaged[order] = slash
 		stage.SlashOrder++
 	}
 	stage.Slashs_mapString[slash.Name] = slash
@@ -31794,6 +33334,7 @@ func (slide *Slide) Stage(stage *Stage) *Slide {
 	if _, ok := stage.Slides[slide]; !ok {
 		stage.Slides[slide] = struct{}{}
 		stage.Slide_stagedOrder[slide] = stage.SlideOrder
+		stage.Slide_orderStaged[stage.SlideOrder] = slide
 		stage.SlideOrder++
 	}
 	stage.Slides_mapString[slide.Name] = slide
@@ -31814,6 +33355,7 @@ func (slide *Slide) StagePreserveOrder(stage *Stage, order uint) {
 			stage.SlideOrder = order
 		}
 		stage.Slide_stagedOrder[slide] = order
+		stage.Slide_orderStaged[order] = slide
 		stage.SlideOrder++
 	}
 	stage.Slides_mapString[slide.Name] = slide
@@ -31880,6 +33422,7 @@ func (slur *Slur) Stage(stage *Stage) *Slur {
 	if _, ok := stage.Slurs[slur]; !ok {
 		stage.Slurs[slur] = struct{}{}
 		stage.Slur_stagedOrder[slur] = stage.SlurOrder
+		stage.Slur_orderStaged[stage.SlurOrder] = slur
 		stage.SlurOrder++
 	}
 	stage.Slurs_mapString[slur.Name] = slur
@@ -31900,6 +33443,7 @@ func (slur *Slur) StagePreserveOrder(stage *Stage, order uint) {
 			stage.SlurOrder = order
 		}
 		stage.Slur_stagedOrder[slur] = order
+		stage.Slur_orderStaged[order] = slur
 		stage.SlurOrder++
 	}
 	stage.Slurs_mapString[slur.Name] = slur
@@ -31966,6 +33510,7 @@ func (sound *Sound) Stage(stage *Stage) *Sound {
 	if _, ok := stage.Sounds[sound]; !ok {
 		stage.Sounds[sound] = struct{}{}
 		stage.Sound_stagedOrder[sound] = stage.SoundOrder
+		stage.Sound_orderStaged[stage.SoundOrder] = sound
 		stage.SoundOrder++
 	}
 	stage.Sounds_mapString[sound.Name] = sound
@@ -31986,6 +33531,7 @@ func (sound *Sound) StagePreserveOrder(stage *Stage, order uint) {
 			stage.SoundOrder = order
 		}
 		stage.Sound_stagedOrder[sound] = order
+		stage.Sound_orderStaged[order] = sound
 		stage.SoundOrder++
 	}
 	stage.Sounds_mapString[sound.Name] = sound
@@ -32052,6 +33598,7 @@ func (staff_details *Staff_details) Stage(stage *Stage) *Staff_details {
 	if _, ok := stage.Staff_detailss[staff_details]; !ok {
 		stage.Staff_detailss[staff_details] = struct{}{}
 		stage.Staff_details_stagedOrder[staff_details] = stage.Staff_detailsOrder
+		stage.Staff_details_orderStaged[stage.Staff_detailsOrder] = staff_details
 		stage.Staff_detailsOrder++
 	}
 	stage.Staff_detailss_mapString[staff_details.Name] = staff_details
@@ -32072,6 +33619,7 @@ func (staff_details *Staff_details) StagePreserveOrder(stage *Stage, order uint)
 			stage.Staff_detailsOrder = order
 		}
 		stage.Staff_details_stagedOrder[staff_details] = order
+		stage.Staff_details_orderStaged[order] = staff_details
 		stage.Staff_detailsOrder++
 	}
 	stage.Staff_detailss_mapString[staff_details.Name] = staff_details
@@ -32138,6 +33686,7 @@ func (staff_divide *Staff_divide) Stage(stage *Stage) *Staff_divide {
 	if _, ok := stage.Staff_divides[staff_divide]; !ok {
 		stage.Staff_divides[staff_divide] = struct{}{}
 		stage.Staff_divide_stagedOrder[staff_divide] = stage.Staff_divideOrder
+		stage.Staff_divide_orderStaged[stage.Staff_divideOrder] = staff_divide
 		stage.Staff_divideOrder++
 	}
 	stage.Staff_divides_mapString[staff_divide.Name] = staff_divide
@@ -32158,6 +33707,7 @@ func (staff_divide *Staff_divide) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Staff_divideOrder = order
 		}
 		stage.Staff_divide_stagedOrder[staff_divide] = order
+		stage.Staff_divide_orderStaged[order] = staff_divide
 		stage.Staff_divideOrder++
 	}
 	stage.Staff_divides_mapString[staff_divide.Name] = staff_divide
@@ -32224,6 +33774,7 @@ func (staff_layout *Staff_layout) Stage(stage *Stage) *Staff_layout {
 	if _, ok := stage.Staff_layouts[staff_layout]; !ok {
 		stage.Staff_layouts[staff_layout] = struct{}{}
 		stage.Staff_layout_stagedOrder[staff_layout] = stage.Staff_layoutOrder
+		stage.Staff_layout_orderStaged[stage.Staff_layoutOrder] = staff_layout
 		stage.Staff_layoutOrder++
 	}
 	stage.Staff_layouts_mapString[staff_layout.Name] = staff_layout
@@ -32244,6 +33795,7 @@ func (staff_layout *Staff_layout) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Staff_layoutOrder = order
 		}
 		stage.Staff_layout_stagedOrder[staff_layout] = order
+		stage.Staff_layout_orderStaged[order] = staff_layout
 		stage.Staff_layoutOrder++
 	}
 	stage.Staff_layouts_mapString[staff_layout.Name] = staff_layout
@@ -32310,6 +33862,7 @@ func (staff_size *Staff_size) Stage(stage *Stage) *Staff_size {
 	if _, ok := stage.Staff_sizes[staff_size]; !ok {
 		stage.Staff_sizes[staff_size] = struct{}{}
 		stage.Staff_size_stagedOrder[staff_size] = stage.Staff_sizeOrder
+		stage.Staff_size_orderStaged[stage.Staff_sizeOrder] = staff_size
 		stage.Staff_sizeOrder++
 	}
 	stage.Staff_sizes_mapString[staff_size.Name] = staff_size
@@ -32330,6 +33883,7 @@ func (staff_size *Staff_size) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Staff_sizeOrder = order
 		}
 		stage.Staff_size_stagedOrder[staff_size] = order
+		stage.Staff_size_orderStaged[order] = staff_size
 		stage.Staff_sizeOrder++
 	}
 	stage.Staff_sizes_mapString[staff_size.Name] = staff_size
@@ -32396,6 +33950,7 @@ func (staff_tuning *Staff_tuning) Stage(stage *Stage) *Staff_tuning {
 	if _, ok := stage.Staff_tunings[staff_tuning]; !ok {
 		stage.Staff_tunings[staff_tuning] = struct{}{}
 		stage.Staff_tuning_stagedOrder[staff_tuning] = stage.Staff_tuningOrder
+		stage.Staff_tuning_orderStaged[stage.Staff_tuningOrder] = staff_tuning
 		stage.Staff_tuningOrder++
 	}
 	stage.Staff_tunings_mapString[staff_tuning.Name] = staff_tuning
@@ -32416,6 +33971,7 @@ func (staff_tuning *Staff_tuning) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Staff_tuningOrder = order
 		}
 		stage.Staff_tuning_stagedOrder[staff_tuning] = order
+		stage.Staff_tuning_orderStaged[order] = staff_tuning
 		stage.Staff_tuningOrder++
 	}
 	stage.Staff_tunings_mapString[staff_tuning.Name] = staff_tuning
@@ -32482,6 +34038,7 @@ func (stem *Stem) Stage(stage *Stage) *Stem {
 	if _, ok := stage.Stems[stem]; !ok {
 		stage.Stems[stem] = struct{}{}
 		stage.Stem_stagedOrder[stem] = stage.StemOrder
+		stage.Stem_orderStaged[stage.StemOrder] = stem
 		stage.StemOrder++
 	}
 	stage.Stems_mapString[stem.Name] = stem
@@ -32502,6 +34059,7 @@ func (stem *Stem) StagePreserveOrder(stage *Stage, order uint) {
 			stage.StemOrder = order
 		}
 		stage.Stem_stagedOrder[stem] = order
+		stage.Stem_orderStaged[order] = stem
 		stage.StemOrder++
 	}
 	stage.Stems_mapString[stem.Name] = stem
@@ -32568,6 +34126,7 @@ func (stick *Stick) Stage(stage *Stage) *Stick {
 	if _, ok := stage.Sticks[stick]; !ok {
 		stage.Sticks[stick] = struct{}{}
 		stage.Stick_stagedOrder[stick] = stage.StickOrder
+		stage.Stick_orderStaged[stage.StickOrder] = stick
 		stage.StickOrder++
 	}
 	stage.Sticks_mapString[stick.Name] = stick
@@ -32588,6 +34147,7 @@ func (stick *Stick) StagePreserveOrder(stage *Stage, order uint) {
 			stage.StickOrder = order
 		}
 		stage.Stick_stagedOrder[stick] = order
+		stage.Stick_orderStaged[order] = stick
 		stage.StickOrder++
 	}
 	stage.Sticks_mapString[stick.Name] = stick
@@ -32654,6 +34214,7 @@ func (string_mute *String_mute) Stage(stage *Stage) *String_mute {
 	if _, ok := stage.String_mutes[string_mute]; !ok {
 		stage.String_mutes[string_mute] = struct{}{}
 		stage.String_mute_stagedOrder[string_mute] = stage.String_muteOrder
+		stage.String_mute_orderStaged[stage.String_muteOrder] = string_mute
 		stage.String_muteOrder++
 	}
 	stage.String_mutes_mapString[string_mute.Name] = string_mute
@@ -32674,6 +34235,7 @@ func (string_mute *String_mute) StagePreserveOrder(stage *Stage, order uint) {
 			stage.String_muteOrder = order
 		}
 		stage.String_mute_stagedOrder[string_mute] = order
+		stage.String_mute_orderStaged[order] = string_mute
 		stage.String_muteOrder++
 	}
 	stage.String_mutes_mapString[string_mute.Name] = string_mute
@@ -32740,6 +34302,7 @@ func (string_type *String_type) Stage(stage *Stage) *String_type {
 	if _, ok := stage.String_types[string_type]; !ok {
 		stage.String_types[string_type] = struct{}{}
 		stage.String_type_stagedOrder[string_type] = stage.String_typeOrder
+		stage.String_type_orderStaged[stage.String_typeOrder] = string_type
 		stage.String_typeOrder++
 	}
 	stage.String_types_mapString[string_type.Name] = string_type
@@ -32760,6 +34323,7 @@ func (string_type *String_type) StagePreserveOrder(stage *Stage, order uint) {
 			stage.String_typeOrder = order
 		}
 		stage.String_type_stagedOrder[string_type] = order
+		stage.String_type_orderStaged[order] = string_type
 		stage.String_typeOrder++
 	}
 	stage.String_types_mapString[string_type.Name] = string_type
@@ -32826,6 +34390,7 @@ func (strong_accent *Strong_accent) Stage(stage *Stage) *Strong_accent {
 	if _, ok := stage.Strong_accents[strong_accent]; !ok {
 		stage.Strong_accents[strong_accent] = struct{}{}
 		stage.Strong_accent_stagedOrder[strong_accent] = stage.Strong_accentOrder
+		stage.Strong_accent_orderStaged[stage.Strong_accentOrder] = strong_accent
 		stage.Strong_accentOrder++
 	}
 	stage.Strong_accents_mapString[strong_accent.Name] = strong_accent
@@ -32846,6 +34411,7 @@ func (strong_accent *Strong_accent) StagePreserveOrder(stage *Stage, order uint)
 			stage.Strong_accentOrder = order
 		}
 		stage.Strong_accent_stagedOrder[strong_accent] = order
+		stage.Strong_accent_orderStaged[order] = strong_accent
 		stage.Strong_accentOrder++
 	}
 	stage.Strong_accents_mapString[strong_accent.Name] = strong_accent
@@ -32912,6 +34478,7 @@ func (style_text *Style_text) Stage(stage *Stage) *Style_text {
 	if _, ok := stage.Style_texts[style_text]; !ok {
 		stage.Style_texts[style_text] = struct{}{}
 		stage.Style_text_stagedOrder[style_text] = stage.Style_textOrder
+		stage.Style_text_orderStaged[stage.Style_textOrder] = style_text
 		stage.Style_textOrder++
 	}
 	stage.Style_texts_mapString[style_text.Name] = style_text
@@ -32932,6 +34499,7 @@ func (style_text *Style_text) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Style_textOrder = order
 		}
 		stage.Style_text_stagedOrder[style_text] = order
+		stage.Style_text_orderStaged[order] = style_text
 		stage.Style_textOrder++
 	}
 	stage.Style_texts_mapString[style_text.Name] = style_text
@@ -32998,6 +34566,7 @@ func (supports *Supports) Stage(stage *Stage) *Supports {
 	if _, ok := stage.Supportss[supports]; !ok {
 		stage.Supportss[supports] = struct{}{}
 		stage.Supports_stagedOrder[supports] = stage.SupportsOrder
+		stage.Supports_orderStaged[stage.SupportsOrder] = supports
 		stage.SupportsOrder++
 	}
 	stage.Supportss_mapString[supports.Name] = supports
@@ -33018,6 +34587,7 @@ func (supports *Supports) StagePreserveOrder(stage *Stage, order uint) {
 			stage.SupportsOrder = order
 		}
 		stage.Supports_stagedOrder[supports] = order
+		stage.Supports_orderStaged[order] = supports
 		stage.SupportsOrder++
 	}
 	stage.Supportss_mapString[supports.Name] = supports
@@ -33084,6 +34654,7 @@ func (swing *Swing) Stage(stage *Stage) *Swing {
 	if _, ok := stage.Swings[swing]; !ok {
 		stage.Swings[swing] = struct{}{}
 		stage.Swing_stagedOrder[swing] = stage.SwingOrder
+		stage.Swing_orderStaged[stage.SwingOrder] = swing
 		stage.SwingOrder++
 	}
 	stage.Swings_mapString[swing.Name] = swing
@@ -33104,6 +34675,7 @@ func (swing *Swing) StagePreserveOrder(stage *Stage, order uint) {
 			stage.SwingOrder = order
 		}
 		stage.Swing_stagedOrder[swing] = order
+		stage.Swing_orderStaged[order] = swing
 		stage.SwingOrder++
 	}
 	stage.Swings_mapString[swing.Name] = swing
@@ -33170,6 +34742,7 @@ func (sync *Sync) Stage(stage *Stage) *Sync {
 	if _, ok := stage.Syncs[sync]; !ok {
 		stage.Syncs[sync] = struct{}{}
 		stage.Sync_stagedOrder[sync] = stage.SyncOrder
+		stage.Sync_orderStaged[stage.SyncOrder] = sync
 		stage.SyncOrder++
 	}
 	stage.Syncs_mapString[sync.Name] = sync
@@ -33190,6 +34763,7 @@ func (sync *Sync) StagePreserveOrder(stage *Stage, order uint) {
 			stage.SyncOrder = order
 		}
 		stage.Sync_stagedOrder[sync] = order
+		stage.Sync_orderStaged[order] = sync
 		stage.SyncOrder++
 	}
 	stage.Syncs_mapString[sync.Name] = sync
@@ -33256,6 +34830,7 @@ func (system_dividers *System_dividers) Stage(stage *Stage) *System_dividers {
 	if _, ok := stage.System_dividerss[system_dividers]; !ok {
 		stage.System_dividerss[system_dividers] = struct{}{}
 		stage.System_dividers_stagedOrder[system_dividers] = stage.System_dividersOrder
+		stage.System_dividers_orderStaged[stage.System_dividersOrder] = system_dividers
 		stage.System_dividersOrder++
 	}
 	stage.System_dividerss_mapString[system_dividers.Name] = system_dividers
@@ -33276,6 +34851,7 @@ func (system_dividers *System_dividers) StagePreserveOrder(stage *Stage, order u
 			stage.System_dividersOrder = order
 		}
 		stage.System_dividers_stagedOrder[system_dividers] = order
+		stage.System_dividers_orderStaged[order] = system_dividers
 		stage.System_dividersOrder++
 	}
 	stage.System_dividerss_mapString[system_dividers.Name] = system_dividers
@@ -33342,6 +34918,7 @@ func (system_layout *System_layout) Stage(stage *Stage) *System_layout {
 	if _, ok := stage.System_layouts[system_layout]; !ok {
 		stage.System_layouts[system_layout] = struct{}{}
 		stage.System_layout_stagedOrder[system_layout] = stage.System_layoutOrder
+		stage.System_layout_orderStaged[stage.System_layoutOrder] = system_layout
 		stage.System_layoutOrder++
 	}
 	stage.System_layouts_mapString[system_layout.Name] = system_layout
@@ -33362,6 +34939,7 @@ func (system_layout *System_layout) StagePreserveOrder(stage *Stage, order uint)
 			stage.System_layoutOrder = order
 		}
 		stage.System_layout_stagedOrder[system_layout] = order
+		stage.System_layout_orderStaged[order] = system_layout
 		stage.System_layoutOrder++
 	}
 	stage.System_layouts_mapString[system_layout.Name] = system_layout
@@ -33428,6 +35006,7 @@ func (system_margins *System_margins) Stage(stage *Stage) *System_margins {
 	if _, ok := stage.System_marginss[system_margins]; !ok {
 		stage.System_marginss[system_margins] = struct{}{}
 		stage.System_margins_stagedOrder[system_margins] = stage.System_marginsOrder
+		stage.System_margins_orderStaged[stage.System_marginsOrder] = system_margins
 		stage.System_marginsOrder++
 	}
 	stage.System_marginss_mapString[system_margins.Name] = system_margins
@@ -33448,6 +35027,7 @@ func (system_margins *System_margins) StagePreserveOrder(stage *Stage, order uin
 			stage.System_marginsOrder = order
 		}
 		stage.System_margins_stagedOrder[system_margins] = order
+		stage.System_margins_orderStaged[order] = system_margins
 		stage.System_marginsOrder++
 	}
 	stage.System_marginss_mapString[system_margins.Name] = system_margins
@@ -33514,6 +35094,7 @@ func (tap *Tap) Stage(stage *Stage) *Tap {
 	if _, ok := stage.Taps[tap]; !ok {
 		stage.Taps[tap] = struct{}{}
 		stage.Tap_stagedOrder[tap] = stage.TapOrder
+		stage.Tap_orderStaged[stage.TapOrder] = tap
 		stage.TapOrder++
 	}
 	stage.Taps_mapString[tap.Name] = tap
@@ -33534,6 +35115,7 @@ func (tap *Tap) StagePreserveOrder(stage *Stage, order uint) {
 			stage.TapOrder = order
 		}
 		stage.Tap_stagedOrder[tap] = order
+		stage.Tap_orderStaged[order] = tap
 		stage.TapOrder++
 	}
 	stage.Taps_mapString[tap.Name] = tap
@@ -33600,6 +35182,7 @@ func (technical *Technical) Stage(stage *Stage) *Technical {
 	if _, ok := stage.Technicals[technical]; !ok {
 		stage.Technicals[technical] = struct{}{}
 		stage.Technical_stagedOrder[technical] = stage.TechnicalOrder
+		stage.Technical_orderStaged[stage.TechnicalOrder] = technical
 		stage.TechnicalOrder++
 	}
 	stage.Technicals_mapString[technical.Name] = technical
@@ -33620,6 +35203,7 @@ func (technical *Technical) StagePreserveOrder(stage *Stage, order uint) {
 			stage.TechnicalOrder = order
 		}
 		stage.Technical_stagedOrder[technical] = order
+		stage.Technical_orderStaged[order] = technical
 		stage.TechnicalOrder++
 	}
 	stage.Technicals_mapString[technical.Name] = technical
@@ -33686,6 +35270,7 @@ func (text_element_data *Text_element_data) Stage(stage *Stage) *Text_element_da
 	if _, ok := stage.Text_element_datas[text_element_data]; !ok {
 		stage.Text_element_datas[text_element_data] = struct{}{}
 		stage.Text_element_data_stagedOrder[text_element_data] = stage.Text_element_dataOrder
+		stage.Text_element_data_orderStaged[stage.Text_element_dataOrder] = text_element_data
 		stage.Text_element_dataOrder++
 	}
 	stage.Text_element_datas_mapString[text_element_data.Name] = text_element_data
@@ -33706,6 +35291,7 @@ func (text_element_data *Text_element_data) StagePreserveOrder(stage *Stage, ord
 			stage.Text_element_dataOrder = order
 		}
 		stage.Text_element_data_stagedOrder[text_element_data] = order
+		stage.Text_element_data_orderStaged[order] = text_element_data
 		stage.Text_element_dataOrder++
 	}
 	stage.Text_element_datas_mapString[text_element_data.Name] = text_element_data
@@ -33772,6 +35358,7 @@ func (tie *Tie) Stage(stage *Stage) *Tie {
 	if _, ok := stage.Ties[tie]; !ok {
 		stage.Ties[tie] = struct{}{}
 		stage.Tie_stagedOrder[tie] = stage.TieOrder
+		stage.Tie_orderStaged[stage.TieOrder] = tie
 		stage.TieOrder++
 	}
 	stage.Ties_mapString[tie.Name] = tie
@@ -33792,6 +35379,7 @@ func (tie *Tie) StagePreserveOrder(stage *Stage, order uint) {
 			stage.TieOrder = order
 		}
 		stage.Tie_stagedOrder[tie] = order
+		stage.Tie_orderStaged[order] = tie
 		stage.TieOrder++
 	}
 	stage.Ties_mapString[tie.Name] = tie
@@ -33858,6 +35446,7 @@ func (tied *Tied) Stage(stage *Stage) *Tied {
 	if _, ok := stage.Tieds[tied]; !ok {
 		stage.Tieds[tied] = struct{}{}
 		stage.Tied_stagedOrder[tied] = stage.TiedOrder
+		stage.Tied_orderStaged[stage.TiedOrder] = tied
 		stage.TiedOrder++
 	}
 	stage.Tieds_mapString[tied.Name] = tied
@@ -33878,6 +35467,7 @@ func (tied *Tied) StagePreserveOrder(stage *Stage, order uint) {
 			stage.TiedOrder = order
 		}
 		stage.Tied_stagedOrder[tied] = order
+		stage.Tied_orderStaged[order] = tied
 		stage.TiedOrder++
 	}
 	stage.Tieds_mapString[tied.Name] = tied
@@ -33944,6 +35534,7 @@ func (time *Time) Stage(stage *Stage) *Time {
 	if _, ok := stage.Times[time]; !ok {
 		stage.Times[time] = struct{}{}
 		stage.Time_stagedOrder[time] = stage.TimeOrder
+		stage.Time_orderStaged[stage.TimeOrder] = time
 		stage.TimeOrder++
 	}
 	stage.Times_mapString[time.Name] = time
@@ -33964,6 +35555,7 @@ func (time *Time) StagePreserveOrder(stage *Stage, order uint) {
 			stage.TimeOrder = order
 		}
 		stage.Time_stagedOrder[time] = order
+		stage.Time_orderStaged[order] = time
 		stage.TimeOrder++
 	}
 	stage.Times_mapString[time.Name] = time
@@ -34030,6 +35622,7 @@ func (time_modification *Time_modification) Stage(stage *Stage) *Time_modificati
 	if _, ok := stage.Time_modifications[time_modification]; !ok {
 		stage.Time_modifications[time_modification] = struct{}{}
 		stage.Time_modification_stagedOrder[time_modification] = stage.Time_modificationOrder
+		stage.Time_modification_orderStaged[stage.Time_modificationOrder] = time_modification
 		stage.Time_modificationOrder++
 	}
 	stage.Time_modifications_mapString[time_modification.Name] = time_modification
@@ -34050,6 +35643,7 @@ func (time_modification *Time_modification) StagePreserveOrder(stage *Stage, ord
 			stage.Time_modificationOrder = order
 		}
 		stage.Time_modification_stagedOrder[time_modification] = order
+		stage.Time_modification_orderStaged[order] = time_modification
 		stage.Time_modificationOrder++
 	}
 	stage.Time_modifications_mapString[time_modification.Name] = time_modification
@@ -34116,6 +35710,7 @@ func (timpani *Timpani) Stage(stage *Stage) *Timpani {
 	if _, ok := stage.Timpanis[timpani]; !ok {
 		stage.Timpanis[timpani] = struct{}{}
 		stage.Timpani_stagedOrder[timpani] = stage.TimpaniOrder
+		stage.Timpani_orderStaged[stage.TimpaniOrder] = timpani
 		stage.TimpaniOrder++
 	}
 	stage.Timpanis_mapString[timpani.Name] = timpani
@@ -34136,6 +35731,7 @@ func (timpani *Timpani) StagePreserveOrder(stage *Stage, order uint) {
 			stage.TimpaniOrder = order
 		}
 		stage.Timpani_stagedOrder[timpani] = order
+		stage.Timpani_orderStaged[order] = timpani
 		stage.TimpaniOrder++
 	}
 	stage.Timpanis_mapString[timpani.Name] = timpani
@@ -34202,6 +35798,7 @@ func (transpose *Transpose) Stage(stage *Stage) *Transpose {
 	if _, ok := stage.Transposes[transpose]; !ok {
 		stage.Transposes[transpose] = struct{}{}
 		stage.Transpose_stagedOrder[transpose] = stage.TransposeOrder
+		stage.Transpose_orderStaged[stage.TransposeOrder] = transpose
 		stage.TransposeOrder++
 	}
 	stage.Transposes_mapString[transpose.Name] = transpose
@@ -34222,6 +35819,7 @@ func (transpose *Transpose) StagePreserveOrder(stage *Stage, order uint) {
 			stage.TransposeOrder = order
 		}
 		stage.Transpose_stagedOrder[transpose] = order
+		stage.Transpose_orderStaged[order] = transpose
 		stage.TransposeOrder++
 	}
 	stage.Transposes_mapString[transpose.Name] = transpose
@@ -34288,6 +35886,7 @@ func (tremolo *Tremolo) Stage(stage *Stage) *Tremolo {
 	if _, ok := stage.Tremolos[tremolo]; !ok {
 		stage.Tremolos[tremolo] = struct{}{}
 		stage.Tremolo_stagedOrder[tremolo] = stage.TremoloOrder
+		stage.Tremolo_orderStaged[stage.TremoloOrder] = tremolo
 		stage.TremoloOrder++
 	}
 	stage.Tremolos_mapString[tremolo.Name] = tremolo
@@ -34308,6 +35907,7 @@ func (tremolo *Tremolo) StagePreserveOrder(stage *Stage, order uint) {
 			stage.TremoloOrder = order
 		}
 		stage.Tremolo_stagedOrder[tremolo] = order
+		stage.Tremolo_orderStaged[order] = tremolo
 		stage.TremoloOrder++
 	}
 	stage.Tremolos_mapString[tremolo.Name] = tremolo
@@ -34374,6 +35974,7 @@ func (tuplet *Tuplet) Stage(stage *Stage) *Tuplet {
 	if _, ok := stage.Tuplets[tuplet]; !ok {
 		stage.Tuplets[tuplet] = struct{}{}
 		stage.Tuplet_stagedOrder[tuplet] = stage.TupletOrder
+		stage.Tuplet_orderStaged[stage.TupletOrder] = tuplet
 		stage.TupletOrder++
 	}
 	stage.Tuplets_mapString[tuplet.Name] = tuplet
@@ -34394,6 +35995,7 @@ func (tuplet *Tuplet) StagePreserveOrder(stage *Stage, order uint) {
 			stage.TupletOrder = order
 		}
 		stage.Tuplet_stagedOrder[tuplet] = order
+		stage.Tuplet_orderStaged[order] = tuplet
 		stage.TupletOrder++
 	}
 	stage.Tuplets_mapString[tuplet.Name] = tuplet
@@ -34460,6 +36062,7 @@ func (tuplet_dot *Tuplet_dot) Stage(stage *Stage) *Tuplet_dot {
 	if _, ok := stage.Tuplet_dots[tuplet_dot]; !ok {
 		stage.Tuplet_dots[tuplet_dot] = struct{}{}
 		stage.Tuplet_dot_stagedOrder[tuplet_dot] = stage.Tuplet_dotOrder
+		stage.Tuplet_dot_orderStaged[stage.Tuplet_dotOrder] = tuplet_dot
 		stage.Tuplet_dotOrder++
 	}
 	stage.Tuplet_dots_mapString[tuplet_dot.Name] = tuplet_dot
@@ -34480,6 +36083,7 @@ func (tuplet_dot *Tuplet_dot) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Tuplet_dotOrder = order
 		}
 		stage.Tuplet_dot_stagedOrder[tuplet_dot] = order
+		stage.Tuplet_dot_orderStaged[order] = tuplet_dot
 		stage.Tuplet_dotOrder++
 	}
 	stage.Tuplet_dots_mapString[tuplet_dot.Name] = tuplet_dot
@@ -34546,6 +36150,7 @@ func (tuplet_number *Tuplet_number) Stage(stage *Stage) *Tuplet_number {
 	if _, ok := stage.Tuplet_numbers[tuplet_number]; !ok {
 		stage.Tuplet_numbers[tuplet_number] = struct{}{}
 		stage.Tuplet_number_stagedOrder[tuplet_number] = stage.Tuplet_numberOrder
+		stage.Tuplet_number_orderStaged[stage.Tuplet_numberOrder] = tuplet_number
 		stage.Tuplet_numberOrder++
 	}
 	stage.Tuplet_numbers_mapString[tuplet_number.Name] = tuplet_number
@@ -34566,6 +36171,7 @@ func (tuplet_number *Tuplet_number) StagePreserveOrder(stage *Stage, order uint)
 			stage.Tuplet_numberOrder = order
 		}
 		stage.Tuplet_number_stagedOrder[tuplet_number] = order
+		stage.Tuplet_number_orderStaged[order] = tuplet_number
 		stage.Tuplet_numberOrder++
 	}
 	stage.Tuplet_numbers_mapString[tuplet_number.Name] = tuplet_number
@@ -34632,6 +36238,7 @@ func (tuplet_portion *Tuplet_portion) Stage(stage *Stage) *Tuplet_portion {
 	if _, ok := stage.Tuplet_portions[tuplet_portion]; !ok {
 		stage.Tuplet_portions[tuplet_portion] = struct{}{}
 		stage.Tuplet_portion_stagedOrder[tuplet_portion] = stage.Tuplet_portionOrder
+		stage.Tuplet_portion_orderStaged[stage.Tuplet_portionOrder] = tuplet_portion
 		stage.Tuplet_portionOrder++
 	}
 	stage.Tuplet_portions_mapString[tuplet_portion.Name] = tuplet_portion
@@ -34652,6 +36259,7 @@ func (tuplet_portion *Tuplet_portion) StagePreserveOrder(stage *Stage, order uin
 			stage.Tuplet_portionOrder = order
 		}
 		stage.Tuplet_portion_stagedOrder[tuplet_portion] = order
+		stage.Tuplet_portion_orderStaged[order] = tuplet_portion
 		stage.Tuplet_portionOrder++
 	}
 	stage.Tuplet_portions_mapString[tuplet_portion.Name] = tuplet_portion
@@ -34718,6 +36326,7 @@ func (tuplet_type *Tuplet_type) Stage(stage *Stage) *Tuplet_type {
 	if _, ok := stage.Tuplet_types[tuplet_type]; !ok {
 		stage.Tuplet_types[tuplet_type] = struct{}{}
 		stage.Tuplet_type_stagedOrder[tuplet_type] = stage.Tuplet_typeOrder
+		stage.Tuplet_type_orderStaged[stage.Tuplet_typeOrder] = tuplet_type
 		stage.Tuplet_typeOrder++
 	}
 	stage.Tuplet_types_mapString[tuplet_type.Name] = tuplet_type
@@ -34738,6 +36347,7 @@ func (tuplet_type *Tuplet_type) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Tuplet_typeOrder = order
 		}
 		stage.Tuplet_type_stagedOrder[tuplet_type] = order
+		stage.Tuplet_type_orderStaged[order] = tuplet_type
 		stage.Tuplet_typeOrder++
 	}
 	stage.Tuplet_types_mapString[tuplet_type.Name] = tuplet_type
@@ -34804,6 +36414,7 @@ func (typed_text *Typed_text) Stage(stage *Stage) *Typed_text {
 	if _, ok := stage.Typed_texts[typed_text]; !ok {
 		stage.Typed_texts[typed_text] = struct{}{}
 		stage.Typed_text_stagedOrder[typed_text] = stage.Typed_textOrder
+		stage.Typed_text_orderStaged[stage.Typed_textOrder] = typed_text
 		stage.Typed_textOrder++
 	}
 	stage.Typed_texts_mapString[typed_text.Name] = typed_text
@@ -34824,6 +36435,7 @@ func (typed_text *Typed_text) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Typed_textOrder = order
 		}
 		stage.Typed_text_stagedOrder[typed_text] = order
+		stage.Typed_text_orderStaged[order] = typed_text
 		stage.Typed_textOrder++
 	}
 	stage.Typed_texts_mapString[typed_text.Name] = typed_text
@@ -34890,6 +36502,7 @@ func (unpitched *Unpitched) Stage(stage *Stage) *Unpitched {
 	if _, ok := stage.Unpitcheds[unpitched]; !ok {
 		stage.Unpitcheds[unpitched] = struct{}{}
 		stage.Unpitched_stagedOrder[unpitched] = stage.UnpitchedOrder
+		stage.Unpitched_orderStaged[stage.UnpitchedOrder] = unpitched
 		stage.UnpitchedOrder++
 	}
 	stage.Unpitcheds_mapString[unpitched.Name] = unpitched
@@ -34910,6 +36523,7 @@ func (unpitched *Unpitched) StagePreserveOrder(stage *Stage, order uint) {
 			stage.UnpitchedOrder = order
 		}
 		stage.Unpitched_stagedOrder[unpitched] = order
+		stage.Unpitched_orderStaged[order] = unpitched
 		stage.UnpitchedOrder++
 	}
 	stage.Unpitcheds_mapString[unpitched.Name] = unpitched
@@ -34976,6 +36590,7 @@ func (virtual_instrument *Virtual_instrument) Stage(stage *Stage) *Virtual_instr
 	if _, ok := stage.Virtual_instruments[virtual_instrument]; !ok {
 		stage.Virtual_instruments[virtual_instrument] = struct{}{}
 		stage.Virtual_instrument_stagedOrder[virtual_instrument] = stage.Virtual_instrumentOrder
+		stage.Virtual_instrument_orderStaged[stage.Virtual_instrumentOrder] = virtual_instrument
 		stage.Virtual_instrumentOrder++
 	}
 	stage.Virtual_instruments_mapString[virtual_instrument.Name] = virtual_instrument
@@ -34996,6 +36611,7 @@ func (virtual_instrument *Virtual_instrument) StagePreserveOrder(stage *Stage, o
 			stage.Virtual_instrumentOrder = order
 		}
 		stage.Virtual_instrument_stagedOrder[virtual_instrument] = order
+		stage.Virtual_instrument_orderStaged[order] = virtual_instrument
 		stage.Virtual_instrumentOrder++
 	}
 	stage.Virtual_instruments_mapString[virtual_instrument.Name] = virtual_instrument
@@ -35062,6 +36678,7 @@ func (wait *Wait) Stage(stage *Stage) *Wait {
 	if _, ok := stage.Waits[wait]; !ok {
 		stage.Waits[wait] = struct{}{}
 		stage.Wait_stagedOrder[wait] = stage.WaitOrder
+		stage.Wait_orderStaged[stage.WaitOrder] = wait
 		stage.WaitOrder++
 	}
 	stage.Waits_mapString[wait.Name] = wait
@@ -35082,6 +36699,7 @@ func (wait *Wait) StagePreserveOrder(stage *Stage, order uint) {
 			stage.WaitOrder = order
 		}
 		stage.Wait_stagedOrder[wait] = order
+		stage.Wait_orderStaged[order] = wait
 		stage.WaitOrder++
 	}
 	stage.Waits_mapString[wait.Name] = wait
@@ -35148,6 +36766,7 @@ func (wavy_line *Wavy_line) Stage(stage *Stage) *Wavy_line {
 	if _, ok := stage.Wavy_lines[wavy_line]; !ok {
 		stage.Wavy_lines[wavy_line] = struct{}{}
 		stage.Wavy_line_stagedOrder[wavy_line] = stage.Wavy_lineOrder
+		stage.Wavy_line_orderStaged[stage.Wavy_lineOrder] = wavy_line
 		stage.Wavy_lineOrder++
 	}
 	stage.Wavy_lines_mapString[wavy_line.Name] = wavy_line
@@ -35168,6 +36787,7 @@ func (wavy_line *Wavy_line) StagePreserveOrder(stage *Stage, order uint) {
 			stage.Wavy_lineOrder = order
 		}
 		stage.Wavy_line_stagedOrder[wavy_line] = order
+		stage.Wavy_line_orderStaged[order] = wavy_line
 		stage.Wavy_lineOrder++
 	}
 	stage.Wavy_lines_mapString[wavy_line.Name] = wavy_line
@@ -35234,6 +36854,7 @@ func (wedge *Wedge) Stage(stage *Stage) *Wedge {
 	if _, ok := stage.Wedges[wedge]; !ok {
 		stage.Wedges[wedge] = struct{}{}
 		stage.Wedge_stagedOrder[wedge] = stage.WedgeOrder
+		stage.Wedge_orderStaged[stage.WedgeOrder] = wedge
 		stage.WedgeOrder++
 	}
 	stage.Wedges_mapString[wedge.Name] = wedge
@@ -35254,6 +36875,7 @@ func (wedge *Wedge) StagePreserveOrder(stage *Stage, order uint) {
 			stage.WedgeOrder = order
 		}
 		stage.Wedge_stagedOrder[wedge] = order
+		stage.Wedge_orderStaged[order] = wedge
 		stage.WedgeOrder++
 	}
 	stage.Wedges_mapString[wedge.Name] = wedge
@@ -35320,6 +36942,7 @@ func (wood *Wood) Stage(stage *Stage) *Wood {
 	if _, ok := stage.Woods[wood]; !ok {
 		stage.Woods[wood] = struct{}{}
 		stage.Wood_stagedOrder[wood] = stage.WoodOrder
+		stage.Wood_orderStaged[stage.WoodOrder] = wood
 		stage.WoodOrder++
 	}
 	stage.Woods_mapString[wood.Name] = wood
@@ -35340,6 +36963,7 @@ func (wood *Wood) StagePreserveOrder(stage *Stage, order uint) {
 			stage.WoodOrder = order
 		}
 		stage.Wood_stagedOrder[wood] = order
+		stage.Wood_orderStaged[order] = wood
 		stage.WoodOrder++
 	}
 	stage.Woods_mapString[wood.Name] = wood
@@ -35406,6 +37030,7 @@ func (work *Work) Stage(stage *Stage) *Work {
 	if _, ok := stage.Works[work]; !ok {
 		stage.Works[work] = struct{}{}
 		stage.Work_stagedOrder[work] = stage.WorkOrder
+		stage.Work_orderStaged[stage.WorkOrder] = work
 		stage.WorkOrder++
 	}
 	stage.Works_mapString[work.Name] = work
@@ -35426,6 +37051,7 @@ func (work *Work) StagePreserveOrder(stage *Stage, order uint) {
 			stage.WorkOrder = order
 		}
 		stage.Work_stagedOrder[work] = order
+		stage.Work_orderStaged[order] = work
 		stage.WorkOrder++
 	}
 	stage.Works_mapString[work.Name] = work

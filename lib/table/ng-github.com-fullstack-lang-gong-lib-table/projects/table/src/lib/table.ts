@@ -25,6 +25,8 @@ export class Table {
 	HasCheckableRows: boolean = false
 	HasSaveButton: boolean = false
 	SaveButtonLabel: string = ""
+	HasBulkDeleteButton: boolean = false
+	BulkDeleteButtonTooltip: string = ""
 	CanDragDropRows: boolean = false
 	HasCloseButton: boolean = false
 	SavingInProgress: boolean = false
@@ -33,6 +35,7 @@ export class Table {
 	// insertion point for pointers and slices of pointers declarations
 	DisplayedColumns: Array<DisplayedColumn> = []
 	Rows: Array<Row> = []
+	RowsSelectedForBulkDelete: Array<Row> = []
 	Buttons: Array<Button> = []
 
 	CreatedAt?: string
@@ -53,6 +56,8 @@ export function CopyTableToTableAPI(table: Table, tableAPI: TableAPI) {
 	tableAPI.HasCheckableRows = table.HasCheckableRows
 	tableAPI.HasSaveButton = table.HasSaveButton
 	tableAPI.SaveButtonLabel = table.SaveButtonLabel
+	tableAPI.HasBulkDeleteButton = table.HasBulkDeleteButton
+	tableAPI.BulkDeleteButtonTooltip = table.BulkDeleteButtonTooltip
 	tableAPI.CanDragDropRows = table.CanDragDropRows
 	tableAPI.HasCloseButton = table.HasCloseButton
 	tableAPI.SavingInProgress = table.SavingInProgress
@@ -69,6 +74,11 @@ export function CopyTableToTableAPI(table: Table, tableAPI: TableAPI) {
 	tableAPI.TablePointersEncoding.Rows = []
 	for (let _row of table.Rows) {
 		tableAPI.TablePointersEncoding.Rows.push(_row.ID)
+	}
+
+	tableAPI.TablePointersEncoding.RowsSelectedForBulkDelete = []
+	for (let _row of table.RowsSelectedForBulkDelete) {
+		tableAPI.TablePointersEncoding.RowsSelectedForBulkDelete.push(_row.ID)
 	}
 
 	tableAPI.TablePointersEncoding.Buttons = []
@@ -96,6 +106,8 @@ export function CopyTableAPIToTable(tableAPI: TableAPI, table: Table, frontRepo:
 	table.HasCheckableRows = tableAPI.HasCheckableRows
 	table.HasSaveButton = tableAPI.HasSaveButton
 	table.SaveButtonLabel = tableAPI.SaveButtonLabel
+	table.HasBulkDeleteButton = tableAPI.HasBulkDeleteButton
+	table.BulkDeleteButtonTooltip = tableAPI.BulkDeleteButtonTooltip
 	table.CanDragDropRows = tableAPI.CanDragDropRows
 	table.HasCloseButton = tableAPI.HasCloseButton
 	table.SavingInProgress = tableAPI.SavingInProgress
@@ -126,6 +138,18 @@ export function CopyTableAPIToTable(tableAPI: TableAPI, table: Table, frontRepo:
 		let _row = frontRepo.map_ID_Row.get(_id)
 		if (_row != undefined) {
 			table.Rows.push(_row!)
+		}
+	}
+	if (!Array.isArray(tableAPI.TablePointersEncoding.RowsSelectedForBulkDelete)) {
+		console.error('Rects is not an array:', tableAPI.TablePointersEncoding.RowsSelectedForBulkDelete);
+		return;
+	}
+
+	table.RowsSelectedForBulkDelete = new Array<Row>()
+	for (let _id of tableAPI.TablePointersEncoding.RowsSelectedForBulkDelete) {
+		let _row = frontRepo.map_ID_Row.get(_id)
+		if (_row != undefined) {
+			table.RowsSelectedForBulkDelete.push(_row!)
 		}
 	}
 	if (!Array.isArray(tableAPI.TablePointersEncoding.Buttons)) {

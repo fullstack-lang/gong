@@ -131,6 +131,7 @@ type Stage struct {
 	Buttons_mapString      map[string]*Button
 	ButtonOrder            uint
 	Button_stagedOrder     map[*Button]uint
+	Button_orderStaged     map[uint]*Button
 	Buttons_reference      map[*Button]*Button
 	Buttons_referenceOrder map[*Button]uint
 
@@ -145,6 +146,7 @@ type Stage struct {
 	Nodes_mapString      map[string]*Node
 	NodeOrder            uint
 	Node_stagedOrder     map[*Node]uint
+	Node_orderStaged     map[uint]*Node
 	Nodes_reference      map[*Node]*Node
 	Nodes_referenceOrder map[*Node]uint
 
@@ -163,6 +165,7 @@ type Stage struct {
 	SVGIcons_mapString      map[string]*SVGIcon
 	SVGIconOrder            uint
 	SVGIcon_stagedOrder     map[*SVGIcon]uint
+	SVGIcon_orderStaged     map[uint]*SVGIcon
 	SVGIcons_reference      map[*SVGIcon]*SVGIcon
 	SVGIcons_referenceOrder map[*SVGIcon]uint
 
@@ -177,6 +180,7 @@ type Stage struct {
 	Trees_mapString      map[string]*Tree
 	TreeOrder            uint
 	Tree_stagedOrder     map[*Tree]uint
+	Tree_orderStaged     map[uint]*Tree
 	Trees_reference      map[*Tree]*Tree
 	Trees_referenceOrder map[*Tree]uint
 
@@ -783,12 +787,20 @@ func NewStage(name string) (stage *Stage) {
 
 		// insertion point for order map initialisations
 		Button_stagedOrder: make(map[*Button]uint),
+		Button_orderStaged: make(map[uint]*Button),
+		Buttons_reference: make(map[*Button]*Button),
 
 		Node_stagedOrder: make(map[*Node]uint),
+		Node_orderStaged: make(map[uint]*Node),
+		Nodes_reference: make(map[*Node]*Node),
 
 		SVGIcon_stagedOrder: make(map[*SVGIcon]uint),
+		SVGIcon_orderStaged: make(map[uint]*SVGIcon),
+		SVGIcons_reference: make(map[*SVGIcon]*SVGIcon),
 
 		Tree_stagedOrder: make(map[*Tree]uint),
+		Tree_orderStaged: make(map[uint]*Tree),
+		Trees_reference: make(map[*Tree]*Tree),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
@@ -829,6 +841,23 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.Tree_stagedOrder[instance]
 	default:
 		return 0 // should not happen
+	}
+}
+
+func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint) (res Type) {
+	var t Type
+	switch any(t).(type) {
+	// insertion point for order map initialisations
+	case *Button:
+		return any(stage.Button_orderStaged[order]).(Type)
+	case *Node:
+		return any(stage.Node_orderStaged[order]).(Type)
+	case *SVGIcon:
+		return any(stage.SVGIcon_orderStaged[order]).(Type)
+	case *Tree:
+		return any(stage.Tree_orderStaged[order]).(Type)
+	default:
+		return // should not happen
 	}
 }
 
@@ -957,6 +986,7 @@ func (button *Button) Stage(stage *Stage) *Button {
 	if _, ok := stage.Buttons[button]; !ok {
 		stage.Buttons[button] = struct{}{}
 		stage.Button_stagedOrder[button] = stage.ButtonOrder
+		stage.Button_orderStaged[stage.ButtonOrder] = button
 		stage.ButtonOrder++
 	}
 	stage.Buttons_mapString[button.Name] = button
@@ -977,6 +1007,7 @@ func (button *Button) StagePreserveOrder(stage *Stage, order uint) {
 			stage.ButtonOrder = order
 		}
 		stage.Button_stagedOrder[button] = order
+		stage.Button_orderStaged[order] = button
 		stage.ButtonOrder++
 	}
 	stage.Buttons_mapString[button.Name] = button
@@ -1043,6 +1074,7 @@ func (node *Node) Stage(stage *Stage) *Node {
 	if _, ok := stage.Nodes[node]; !ok {
 		stage.Nodes[node] = struct{}{}
 		stage.Node_stagedOrder[node] = stage.NodeOrder
+		stage.Node_orderStaged[stage.NodeOrder] = node
 		stage.NodeOrder++
 	}
 	stage.Nodes_mapString[node.Name] = node
@@ -1063,6 +1095,7 @@ func (node *Node) StagePreserveOrder(stage *Stage, order uint) {
 			stage.NodeOrder = order
 		}
 		stage.Node_stagedOrder[node] = order
+		stage.Node_orderStaged[order] = node
 		stage.NodeOrder++
 	}
 	stage.Nodes_mapString[node.Name] = node
@@ -1129,6 +1162,7 @@ func (svgicon *SVGIcon) Stage(stage *Stage) *SVGIcon {
 	if _, ok := stage.SVGIcons[svgicon]; !ok {
 		stage.SVGIcons[svgicon] = struct{}{}
 		stage.SVGIcon_stagedOrder[svgicon] = stage.SVGIconOrder
+		stage.SVGIcon_orderStaged[stage.SVGIconOrder] = svgicon
 		stage.SVGIconOrder++
 	}
 	stage.SVGIcons_mapString[svgicon.Name] = svgicon
@@ -1149,6 +1183,7 @@ func (svgicon *SVGIcon) StagePreserveOrder(stage *Stage, order uint) {
 			stage.SVGIconOrder = order
 		}
 		stage.SVGIcon_stagedOrder[svgicon] = order
+		stage.SVGIcon_orderStaged[order] = svgicon
 		stage.SVGIconOrder++
 	}
 	stage.SVGIcons_mapString[svgicon.Name] = svgicon
@@ -1215,6 +1250,7 @@ func (tree *Tree) Stage(stage *Stage) *Tree {
 	if _, ok := stage.Trees[tree]; !ok {
 		stage.Trees[tree] = struct{}{}
 		stage.Tree_stagedOrder[tree] = stage.TreeOrder
+		stage.Tree_orderStaged[stage.TreeOrder] = tree
 		stage.TreeOrder++
 	}
 	stage.Trees_mapString[tree.Name] = tree
@@ -1235,6 +1271,7 @@ func (tree *Tree) StagePreserveOrder(stage *Stage, order uint) {
 			stage.TreeOrder = order
 		}
 		stage.Tree_stagedOrder[tree] = order
+		stage.Tree_orderStaged[order] = tree
 		stage.TreeOrder++
 	}
 	stage.Trees_mapString[tree.Name] = tree

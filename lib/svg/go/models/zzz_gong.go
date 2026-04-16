@@ -131,6 +131,7 @@ type Stage struct {
 	Animates_mapString      map[string]*Animate
 	AnimateOrder            uint
 	Animate_stagedOrder     map[*Animate]uint
+	Animate_orderStaged     map[uint]*Animate
 	Animates_reference      map[*Animate]*Animate
 	Animates_referenceOrder map[*Animate]uint
 
@@ -145,6 +146,7 @@ type Stage struct {
 	Circles_mapString      map[string]*Circle
 	CircleOrder            uint
 	Circle_stagedOrder     map[*Circle]uint
+	Circle_orderStaged     map[uint]*Circle
 	Circles_reference      map[*Circle]*Circle
 	Circles_referenceOrder map[*Circle]uint
 
@@ -161,6 +163,7 @@ type Stage struct {
 	Conditions_mapString      map[string]*Condition
 	ConditionOrder            uint
 	Condition_stagedOrder     map[*Condition]uint
+	Condition_orderStaged     map[uint]*Condition
 	Conditions_reference      map[*Condition]*Condition
 	Conditions_referenceOrder map[*Condition]uint
 
@@ -175,6 +178,7 @@ type Stage struct {
 	ControlPoints_mapString      map[string]*ControlPoint
 	ControlPointOrder            uint
 	ControlPoint_stagedOrder     map[*ControlPoint]uint
+	ControlPoint_orderStaged     map[uint]*ControlPoint
 	ControlPoints_reference      map[*ControlPoint]*ControlPoint
 	ControlPoints_referenceOrder map[*ControlPoint]uint
 
@@ -189,6 +193,7 @@ type Stage struct {
 	Ellipses_mapString      map[string]*Ellipse
 	EllipseOrder            uint
 	Ellipse_stagedOrder     map[*Ellipse]uint
+	Ellipse_orderStaged     map[uint]*Ellipse
 	Ellipses_reference      map[*Ellipse]*Ellipse
 	Ellipses_referenceOrder map[*Ellipse]uint
 
@@ -205,6 +210,7 @@ type Stage struct {
 	Layers_mapString      map[string]*Layer
 	LayerOrder            uint
 	Layer_stagedOrder     map[*Layer]uint
+	Layer_orderStaged     map[uint]*Layer
 	Layers_reference      map[*Layer]*Layer
 	Layers_referenceOrder map[*Layer]uint
 
@@ -239,6 +245,7 @@ type Stage struct {
 	Lines_mapString      map[string]*Line
 	LineOrder            uint
 	Line_stagedOrder     map[*Line]uint
+	Line_orderStaged     map[uint]*Line
 	Lines_reference      map[*Line]*Line
 	Lines_referenceOrder map[*Line]uint
 
@@ -255,6 +262,7 @@ type Stage struct {
 	Links_mapString      map[string]*Link
 	LinkOrder            uint
 	Link_stagedOrder     map[*Link]uint
+	Link_orderStaged     map[uint]*Link
 	Links_reference      map[*Link]*Link
 	Links_referenceOrder map[*Link]uint
 
@@ -275,6 +283,7 @@ type Stage struct {
 	LinkAnchoredTexts_mapString      map[string]*LinkAnchoredText
 	LinkAnchoredTextOrder            uint
 	LinkAnchoredText_stagedOrder     map[*LinkAnchoredText]uint
+	LinkAnchoredText_orderStaged     map[uint]*LinkAnchoredText
 	LinkAnchoredTexts_reference      map[*LinkAnchoredText]*LinkAnchoredText
 	LinkAnchoredTexts_referenceOrder map[*LinkAnchoredText]uint
 
@@ -291,6 +300,7 @@ type Stage struct {
 	Paths_mapString      map[string]*Path
 	PathOrder            uint
 	Path_stagedOrder     map[*Path]uint
+	Path_orderStaged     map[uint]*Path
 	Paths_reference      map[*Path]*Path
 	Paths_referenceOrder map[*Path]uint
 
@@ -307,6 +317,7 @@ type Stage struct {
 	Points_mapString      map[string]*Point
 	PointOrder            uint
 	Point_stagedOrder     map[*Point]uint
+	Point_orderStaged     map[uint]*Point
 	Points_reference      map[*Point]*Point
 	Points_referenceOrder map[*Point]uint
 
@@ -321,6 +332,7 @@ type Stage struct {
 	Polygones_mapString      map[string]*Polygone
 	PolygoneOrder            uint
 	Polygone_stagedOrder     map[*Polygone]uint
+	Polygone_orderStaged     map[uint]*Polygone
 	Polygones_reference      map[*Polygone]*Polygone
 	Polygones_referenceOrder map[*Polygone]uint
 
@@ -337,6 +349,7 @@ type Stage struct {
 	Polylines_mapString      map[string]*Polyline
 	PolylineOrder            uint
 	Polyline_stagedOrder     map[*Polyline]uint
+	Polyline_orderStaged     map[uint]*Polyline
 	Polylines_reference      map[*Polyline]*Polyline
 	Polylines_referenceOrder map[*Polyline]uint
 
@@ -353,6 +366,7 @@ type Stage struct {
 	Rects_mapString      map[string]*Rect
 	RectOrder            uint
 	Rect_stagedOrder     map[*Rect]uint
+	Rect_orderStaged     map[uint]*Rect
 	Rects_reference      map[*Rect]*Rect
 	Rects_referenceOrder map[*Rect]uint
 
@@ -379,6 +393,7 @@ type Stage struct {
 	RectAnchoredPaths_mapString      map[string]*RectAnchoredPath
 	RectAnchoredPathOrder            uint
 	RectAnchoredPath_stagedOrder     map[*RectAnchoredPath]uint
+	RectAnchoredPath_orderStaged     map[uint]*RectAnchoredPath
 	RectAnchoredPaths_reference      map[*RectAnchoredPath]*RectAnchoredPath
 	RectAnchoredPaths_referenceOrder map[*RectAnchoredPath]uint
 
@@ -393,6 +408,7 @@ type Stage struct {
 	RectAnchoredRects_mapString      map[string]*RectAnchoredRect
 	RectAnchoredRectOrder            uint
 	RectAnchoredRect_stagedOrder     map[*RectAnchoredRect]uint
+	RectAnchoredRect_orderStaged     map[uint]*RectAnchoredRect
 	RectAnchoredRects_reference      map[*RectAnchoredRect]*RectAnchoredRect
 	RectAnchoredRects_referenceOrder map[*RectAnchoredRect]uint
 
@@ -407,6 +423,7 @@ type Stage struct {
 	RectAnchoredTexts_mapString      map[string]*RectAnchoredText
 	RectAnchoredTextOrder            uint
 	RectAnchoredText_stagedOrder     map[*RectAnchoredText]uint
+	RectAnchoredText_orderStaged     map[uint]*RectAnchoredText
 	RectAnchoredTexts_reference      map[*RectAnchoredText]*RectAnchoredText
 	RectAnchoredTexts_referenceOrder map[*RectAnchoredText]uint
 
@@ -423,6 +440,7 @@ type Stage struct {
 	RectLinkLinks_mapString      map[string]*RectLinkLink
 	RectLinkLinkOrder            uint
 	RectLinkLink_stagedOrder     map[*RectLinkLink]uint
+	RectLinkLink_orderStaged     map[uint]*RectLinkLink
 	RectLinkLinks_reference      map[*RectLinkLink]*RectLinkLink
 	RectLinkLinks_referenceOrder map[*RectLinkLink]uint
 
@@ -437,6 +455,7 @@ type Stage struct {
 	SVGs_mapString      map[string]*SVG
 	SVGOrder            uint
 	SVG_stagedOrder     map[*SVG]uint
+	SVG_orderStaged     map[uint]*SVG
 	SVGs_reference      map[*SVG]*SVG
 	SVGs_referenceOrder map[*SVG]uint
 
@@ -453,6 +472,7 @@ type Stage struct {
 	SvgTexts_mapString      map[string]*SvgText
 	SvgTextOrder            uint
 	SvgText_stagedOrder     map[*SvgText]uint
+	SvgText_orderStaged     map[uint]*SvgText
 	SvgTexts_reference      map[*SvgText]*SvgText
 	SvgTexts_referenceOrder map[*SvgText]uint
 
@@ -467,6 +487,7 @@ type Stage struct {
 	Texts_mapString      map[string]*Text
 	TextOrder            uint
 	Text_stagedOrder     map[*Text]uint
+	Text_orderStaged     map[uint]*Text
 	Texts_reference      map[*Text]*Text
 	Texts_referenceOrder map[*Text]uint
 
@@ -1736,46 +1757,88 @@ func NewStage(name string) (stage *Stage) {
 
 		// insertion point for order map initialisations
 		Animate_stagedOrder: make(map[*Animate]uint),
+		Animate_orderStaged: make(map[uint]*Animate),
+		Animates_reference: make(map[*Animate]*Animate),
 
 		Circle_stagedOrder: make(map[*Circle]uint),
+		Circle_orderStaged: make(map[uint]*Circle),
+		Circles_reference: make(map[*Circle]*Circle),
 
 		Condition_stagedOrder: make(map[*Condition]uint),
+		Condition_orderStaged: make(map[uint]*Condition),
+		Conditions_reference: make(map[*Condition]*Condition),
 
 		ControlPoint_stagedOrder: make(map[*ControlPoint]uint),
+		ControlPoint_orderStaged: make(map[uint]*ControlPoint),
+		ControlPoints_reference: make(map[*ControlPoint]*ControlPoint),
 
 		Ellipse_stagedOrder: make(map[*Ellipse]uint),
+		Ellipse_orderStaged: make(map[uint]*Ellipse),
+		Ellipses_reference: make(map[*Ellipse]*Ellipse),
 
 		Layer_stagedOrder: make(map[*Layer]uint),
+		Layer_orderStaged: make(map[uint]*Layer),
+		Layers_reference: make(map[*Layer]*Layer),
 
 		Line_stagedOrder: make(map[*Line]uint),
+		Line_orderStaged: make(map[uint]*Line),
+		Lines_reference: make(map[*Line]*Line),
 
 		Link_stagedOrder: make(map[*Link]uint),
+		Link_orderStaged: make(map[uint]*Link),
+		Links_reference: make(map[*Link]*Link),
 
 		LinkAnchoredText_stagedOrder: make(map[*LinkAnchoredText]uint),
+		LinkAnchoredText_orderStaged: make(map[uint]*LinkAnchoredText),
+		LinkAnchoredTexts_reference: make(map[*LinkAnchoredText]*LinkAnchoredText),
 
 		Path_stagedOrder: make(map[*Path]uint),
+		Path_orderStaged: make(map[uint]*Path),
+		Paths_reference: make(map[*Path]*Path),
 
 		Point_stagedOrder: make(map[*Point]uint),
+		Point_orderStaged: make(map[uint]*Point),
+		Points_reference: make(map[*Point]*Point),
 
 		Polygone_stagedOrder: make(map[*Polygone]uint),
+		Polygone_orderStaged: make(map[uint]*Polygone),
+		Polygones_reference: make(map[*Polygone]*Polygone),
 
 		Polyline_stagedOrder: make(map[*Polyline]uint),
+		Polyline_orderStaged: make(map[uint]*Polyline),
+		Polylines_reference: make(map[*Polyline]*Polyline),
 
 		Rect_stagedOrder: make(map[*Rect]uint),
+		Rect_orderStaged: make(map[uint]*Rect),
+		Rects_reference: make(map[*Rect]*Rect),
 
 		RectAnchoredPath_stagedOrder: make(map[*RectAnchoredPath]uint),
+		RectAnchoredPath_orderStaged: make(map[uint]*RectAnchoredPath),
+		RectAnchoredPaths_reference: make(map[*RectAnchoredPath]*RectAnchoredPath),
 
 		RectAnchoredRect_stagedOrder: make(map[*RectAnchoredRect]uint),
+		RectAnchoredRect_orderStaged: make(map[uint]*RectAnchoredRect),
+		RectAnchoredRects_reference: make(map[*RectAnchoredRect]*RectAnchoredRect),
 
 		RectAnchoredText_stagedOrder: make(map[*RectAnchoredText]uint),
+		RectAnchoredText_orderStaged: make(map[uint]*RectAnchoredText),
+		RectAnchoredTexts_reference: make(map[*RectAnchoredText]*RectAnchoredText),
 
 		RectLinkLink_stagedOrder: make(map[*RectLinkLink]uint),
+		RectLinkLink_orderStaged: make(map[uint]*RectLinkLink),
+		RectLinkLinks_reference: make(map[*RectLinkLink]*RectLinkLink),
 
 		SVG_stagedOrder: make(map[*SVG]uint),
+		SVG_orderStaged: make(map[uint]*SVG),
+		SVGs_reference: make(map[*SVG]*SVG),
 
 		SvgText_stagedOrder: make(map[*SvgText]uint),
+		SvgText_orderStaged: make(map[uint]*SvgText),
+		SvgTexts_reference: make(map[*SvgText]*SvgText),
 
 		Text_stagedOrder: make(map[*Text]uint),
+		Text_orderStaged: make(map[uint]*Text),
+		Texts_reference: make(map[*Text]*Text),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
@@ -1901,6 +1964,57 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.Text_stagedOrder[instance]
 	default:
 		return 0 // should not happen
+	}
+}
+
+func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint) (res Type) {
+	var t Type
+	switch any(t).(type) {
+	// insertion point for order map initialisations
+	case *Animate:
+		return any(stage.Animate_orderStaged[order]).(Type)
+	case *Circle:
+		return any(stage.Circle_orderStaged[order]).(Type)
+	case *Condition:
+		return any(stage.Condition_orderStaged[order]).(Type)
+	case *ControlPoint:
+		return any(stage.ControlPoint_orderStaged[order]).(Type)
+	case *Ellipse:
+		return any(stage.Ellipse_orderStaged[order]).(Type)
+	case *Layer:
+		return any(stage.Layer_orderStaged[order]).(Type)
+	case *Line:
+		return any(stage.Line_orderStaged[order]).(Type)
+	case *Link:
+		return any(stage.Link_orderStaged[order]).(Type)
+	case *LinkAnchoredText:
+		return any(stage.LinkAnchoredText_orderStaged[order]).(Type)
+	case *Path:
+		return any(stage.Path_orderStaged[order]).(Type)
+	case *Point:
+		return any(stage.Point_orderStaged[order]).(Type)
+	case *Polygone:
+		return any(stage.Polygone_orderStaged[order]).(Type)
+	case *Polyline:
+		return any(stage.Polyline_orderStaged[order]).(Type)
+	case *Rect:
+		return any(stage.Rect_orderStaged[order]).(Type)
+	case *RectAnchoredPath:
+		return any(stage.RectAnchoredPath_orderStaged[order]).(Type)
+	case *RectAnchoredRect:
+		return any(stage.RectAnchoredRect_orderStaged[order]).(Type)
+	case *RectAnchoredText:
+		return any(stage.RectAnchoredText_orderStaged[order]).(Type)
+	case *RectLinkLink:
+		return any(stage.RectLinkLink_orderStaged[order]).(Type)
+	case *SVG:
+		return any(stage.SVG_orderStaged[order]).(Type)
+	case *SvgText:
+		return any(stage.SvgText_orderStaged[order]).(Type)
+	case *Text:
+		return any(stage.Text_orderStaged[order]).(Type)
+	default:
+		return // should not happen
 	}
 }
 
@@ -2080,6 +2194,7 @@ func (animate *Animate) Stage(stage *Stage) *Animate {
 	if _, ok := stage.Animates[animate]; !ok {
 		stage.Animates[animate] = struct{}{}
 		stage.Animate_stagedOrder[animate] = stage.AnimateOrder
+		stage.Animate_orderStaged[stage.AnimateOrder] = animate
 		stage.AnimateOrder++
 	}
 	stage.Animates_mapString[animate.Name] = animate
@@ -2100,6 +2215,7 @@ func (animate *Animate) StagePreserveOrder(stage *Stage, order uint) {
 			stage.AnimateOrder = order
 		}
 		stage.Animate_stagedOrder[animate] = order
+		stage.Animate_orderStaged[order] = animate
 		stage.AnimateOrder++
 	}
 	stage.Animates_mapString[animate.Name] = animate
@@ -2166,6 +2282,7 @@ func (circle *Circle) Stage(stage *Stage) *Circle {
 	if _, ok := stage.Circles[circle]; !ok {
 		stage.Circles[circle] = struct{}{}
 		stage.Circle_stagedOrder[circle] = stage.CircleOrder
+		stage.Circle_orderStaged[stage.CircleOrder] = circle
 		stage.CircleOrder++
 	}
 	stage.Circles_mapString[circle.Name] = circle
@@ -2186,6 +2303,7 @@ func (circle *Circle) StagePreserveOrder(stage *Stage, order uint) {
 			stage.CircleOrder = order
 		}
 		stage.Circle_stagedOrder[circle] = order
+		stage.Circle_orderStaged[order] = circle
 		stage.CircleOrder++
 	}
 	stage.Circles_mapString[circle.Name] = circle
@@ -2252,6 +2370,7 @@ func (condition *Condition) Stage(stage *Stage) *Condition {
 	if _, ok := stage.Conditions[condition]; !ok {
 		stage.Conditions[condition] = struct{}{}
 		stage.Condition_stagedOrder[condition] = stage.ConditionOrder
+		stage.Condition_orderStaged[stage.ConditionOrder] = condition
 		stage.ConditionOrder++
 	}
 	stage.Conditions_mapString[condition.Name] = condition
@@ -2272,6 +2391,7 @@ func (condition *Condition) StagePreserveOrder(stage *Stage, order uint) {
 			stage.ConditionOrder = order
 		}
 		stage.Condition_stagedOrder[condition] = order
+		stage.Condition_orderStaged[order] = condition
 		stage.ConditionOrder++
 	}
 	stage.Conditions_mapString[condition.Name] = condition
@@ -2338,6 +2458,7 @@ func (controlpoint *ControlPoint) Stage(stage *Stage) *ControlPoint {
 	if _, ok := stage.ControlPoints[controlpoint]; !ok {
 		stage.ControlPoints[controlpoint] = struct{}{}
 		stage.ControlPoint_stagedOrder[controlpoint] = stage.ControlPointOrder
+		stage.ControlPoint_orderStaged[stage.ControlPointOrder] = controlpoint
 		stage.ControlPointOrder++
 	}
 	stage.ControlPoints_mapString[controlpoint.Name] = controlpoint
@@ -2358,6 +2479,7 @@ func (controlpoint *ControlPoint) StagePreserveOrder(stage *Stage, order uint) {
 			stage.ControlPointOrder = order
 		}
 		stage.ControlPoint_stagedOrder[controlpoint] = order
+		stage.ControlPoint_orderStaged[order] = controlpoint
 		stage.ControlPointOrder++
 	}
 	stage.ControlPoints_mapString[controlpoint.Name] = controlpoint
@@ -2424,6 +2546,7 @@ func (ellipse *Ellipse) Stage(stage *Stage) *Ellipse {
 	if _, ok := stage.Ellipses[ellipse]; !ok {
 		stage.Ellipses[ellipse] = struct{}{}
 		stage.Ellipse_stagedOrder[ellipse] = stage.EllipseOrder
+		stage.Ellipse_orderStaged[stage.EllipseOrder] = ellipse
 		stage.EllipseOrder++
 	}
 	stage.Ellipses_mapString[ellipse.Name] = ellipse
@@ -2444,6 +2567,7 @@ func (ellipse *Ellipse) StagePreserveOrder(stage *Stage, order uint) {
 			stage.EllipseOrder = order
 		}
 		stage.Ellipse_stagedOrder[ellipse] = order
+		stage.Ellipse_orderStaged[order] = ellipse
 		stage.EllipseOrder++
 	}
 	stage.Ellipses_mapString[ellipse.Name] = ellipse
@@ -2510,6 +2634,7 @@ func (layer *Layer) Stage(stage *Stage) *Layer {
 	if _, ok := stage.Layers[layer]; !ok {
 		stage.Layers[layer] = struct{}{}
 		stage.Layer_stagedOrder[layer] = stage.LayerOrder
+		stage.Layer_orderStaged[stage.LayerOrder] = layer
 		stage.LayerOrder++
 	}
 	stage.Layers_mapString[layer.Name] = layer
@@ -2530,6 +2655,7 @@ func (layer *Layer) StagePreserveOrder(stage *Stage, order uint) {
 			stage.LayerOrder = order
 		}
 		stage.Layer_stagedOrder[layer] = order
+		stage.Layer_orderStaged[order] = layer
 		stage.LayerOrder++
 	}
 	stage.Layers_mapString[layer.Name] = layer
@@ -2596,6 +2722,7 @@ func (line *Line) Stage(stage *Stage) *Line {
 	if _, ok := stage.Lines[line]; !ok {
 		stage.Lines[line] = struct{}{}
 		stage.Line_stagedOrder[line] = stage.LineOrder
+		stage.Line_orderStaged[stage.LineOrder] = line
 		stage.LineOrder++
 	}
 	stage.Lines_mapString[line.Name] = line
@@ -2616,6 +2743,7 @@ func (line *Line) StagePreserveOrder(stage *Stage, order uint) {
 			stage.LineOrder = order
 		}
 		stage.Line_stagedOrder[line] = order
+		stage.Line_orderStaged[order] = line
 		stage.LineOrder++
 	}
 	stage.Lines_mapString[line.Name] = line
@@ -2682,6 +2810,7 @@ func (link *Link) Stage(stage *Stage) *Link {
 	if _, ok := stage.Links[link]; !ok {
 		stage.Links[link] = struct{}{}
 		stage.Link_stagedOrder[link] = stage.LinkOrder
+		stage.Link_orderStaged[stage.LinkOrder] = link
 		stage.LinkOrder++
 	}
 	stage.Links_mapString[link.Name] = link
@@ -2702,6 +2831,7 @@ func (link *Link) StagePreserveOrder(stage *Stage, order uint) {
 			stage.LinkOrder = order
 		}
 		stage.Link_stagedOrder[link] = order
+		stage.Link_orderStaged[order] = link
 		stage.LinkOrder++
 	}
 	stage.Links_mapString[link.Name] = link
@@ -2768,6 +2898,7 @@ func (linkanchoredtext *LinkAnchoredText) Stage(stage *Stage) *LinkAnchoredText 
 	if _, ok := stage.LinkAnchoredTexts[linkanchoredtext]; !ok {
 		stage.LinkAnchoredTexts[linkanchoredtext] = struct{}{}
 		stage.LinkAnchoredText_stagedOrder[linkanchoredtext] = stage.LinkAnchoredTextOrder
+		stage.LinkAnchoredText_orderStaged[stage.LinkAnchoredTextOrder] = linkanchoredtext
 		stage.LinkAnchoredTextOrder++
 	}
 	stage.LinkAnchoredTexts_mapString[linkanchoredtext.Name] = linkanchoredtext
@@ -2788,6 +2919,7 @@ func (linkanchoredtext *LinkAnchoredText) StagePreserveOrder(stage *Stage, order
 			stage.LinkAnchoredTextOrder = order
 		}
 		stage.LinkAnchoredText_stagedOrder[linkanchoredtext] = order
+		stage.LinkAnchoredText_orderStaged[order] = linkanchoredtext
 		stage.LinkAnchoredTextOrder++
 	}
 	stage.LinkAnchoredTexts_mapString[linkanchoredtext.Name] = linkanchoredtext
@@ -2854,6 +2986,7 @@ func (path *Path) Stage(stage *Stage) *Path {
 	if _, ok := stage.Paths[path]; !ok {
 		stage.Paths[path] = struct{}{}
 		stage.Path_stagedOrder[path] = stage.PathOrder
+		stage.Path_orderStaged[stage.PathOrder] = path
 		stage.PathOrder++
 	}
 	stage.Paths_mapString[path.Name] = path
@@ -2874,6 +3007,7 @@ func (path *Path) StagePreserveOrder(stage *Stage, order uint) {
 			stage.PathOrder = order
 		}
 		stage.Path_stagedOrder[path] = order
+		stage.Path_orderStaged[order] = path
 		stage.PathOrder++
 	}
 	stage.Paths_mapString[path.Name] = path
@@ -2940,6 +3074,7 @@ func (point *Point) Stage(stage *Stage) *Point {
 	if _, ok := stage.Points[point]; !ok {
 		stage.Points[point] = struct{}{}
 		stage.Point_stagedOrder[point] = stage.PointOrder
+		stage.Point_orderStaged[stage.PointOrder] = point
 		stage.PointOrder++
 	}
 	stage.Points_mapString[point.Name] = point
@@ -2960,6 +3095,7 @@ func (point *Point) StagePreserveOrder(stage *Stage, order uint) {
 			stage.PointOrder = order
 		}
 		stage.Point_stagedOrder[point] = order
+		stage.Point_orderStaged[order] = point
 		stage.PointOrder++
 	}
 	stage.Points_mapString[point.Name] = point
@@ -3026,6 +3162,7 @@ func (polygone *Polygone) Stage(stage *Stage) *Polygone {
 	if _, ok := stage.Polygones[polygone]; !ok {
 		stage.Polygones[polygone] = struct{}{}
 		stage.Polygone_stagedOrder[polygone] = stage.PolygoneOrder
+		stage.Polygone_orderStaged[stage.PolygoneOrder] = polygone
 		stage.PolygoneOrder++
 	}
 	stage.Polygones_mapString[polygone.Name] = polygone
@@ -3046,6 +3183,7 @@ func (polygone *Polygone) StagePreserveOrder(stage *Stage, order uint) {
 			stage.PolygoneOrder = order
 		}
 		stage.Polygone_stagedOrder[polygone] = order
+		stage.Polygone_orderStaged[order] = polygone
 		stage.PolygoneOrder++
 	}
 	stage.Polygones_mapString[polygone.Name] = polygone
@@ -3112,6 +3250,7 @@ func (polyline *Polyline) Stage(stage *Stage) *Polyline {
 	if _, ok := stage.Polylines[polyline]; !ok {
 		stage.Polylines[polyline] = struct{}{}
 		stage.Polyline_stagedOrder[polyline] = stage.PolylineOrder
+		stage.Polyline_orderStaged[stage.PolylineOrder] = polyline
 		stage.PolylineOrder++
 	}
 	stage.Polylines_mapString[polyline.Name] = polyline
@@ -3132,6 +3271,7 @@ func (polyline *Polyline) StagePreserveOrder(stage *Stage, order uint) {
 			stage.PolylineOrder = order
 		}
 		stage.Polyline_stagedOrder[polyline] = order
+		stage.Polyline_orderStaged[order] = polyline
 		stage.PolylineOrder++
 	}
 	stage.Polylines_mapString[polyline.Name] = polyline
@@ -3198,6 +3338,7 @@ func (rect *Rect) Stage(stage *Stage) *Rect {
 	if _, ok := stage.Rects[rect]; !ok {
 		stage.Rects[rect] = struct{}{}
 		stage.Rect_stagedOrder[rect] = stage.RectOrder
+		stage.Rect_orderStaged[stage.RectOrder] = rect
 		stage.RectOrder++
 	}
 	stage.Rects_mapString[rect.Name] = rect
@@ -3218,6 +3359,7 @@ func (rect *Rect) StagePreserveOrder(stage *Stage, order uint) {
 			stage.RectOrder = order
 		}
 		stage.Rect_stagedOrder[rect] = order
+		stage.Rect_orderStaged[order] = rect
 		stage.RectOrder++
 	}
 	stage.Rects_mapString[rect.Name] = rect
@@ -3284,6 +3426,7 @@ func (rectanchoredpath *RectAnchoredPath) Stage(stage *Stage) *RectAnchoredPath 
 	if _, ok := stage.RectAnchoredPaths[rectanchoredpath]; !ok {
 		stage.RectAnchoredPaths[rectanchoredpath] = struct{}{}
 		stage.RectAnchoredPath_stagedOrder[rectanchoredpath] = stage.RectAnchoredPathOrder
+		stage.RectAnchoredPath_orderStaged[stage.RectAnchoredPathOrder] = rectanchoredpath
 		stage.RectAnchoredPathOrder++
 	}
 	stage.RectAnchoredPaths_mapString[rectanchoredpath.Name] = rectanchoredpath
@@ -3304,6 +3447,7 @@ func (rectanchoredpath *RectAnchoredPath) StagePreserveOrder(stage *Stage, order
 			stage.RectAnchoredPathOrder = order
 		}
 		stage.RectAnchoredPath_stagedOrder[rectanchoredpath] = order
+		stage.RectAnchoredPath_orderStaged[order] = rectanchoredpath
 		stage.RectAnchoredPathOrder++
 	}
 	stage.RectAnchoredPaths_mapString[rectanchoredpath.Name] = rectanchoredpath
@@ -3370,6 +3514,7 @@ func (rectanchoredrect *RectAnchoredRect) Stage(stage *Stage) *RectAnchoredRect 
 	if _, ok := stage.RectAnchoredRects[rectanchoredrect]; !ok {
 		stage.RectAnchoredRects[rectanchoredrect] = struct{}{}
 		stage.RectAnchoredRect_stagedOrder[rectanchoredrect] = stage.RectAnchoredRectOrder
+		stage.RectAnchoredRect_orderStaged[stage.RectAnchoredRectOrder] = rectanchoredrect
 		stage.RectAnchoredRectOrder++
 	}
 	stage.RectAnchoredRects_mapString[rectanchoredrect.Name] = rectanchoredrect
@@ -3390,6 +3535,7 @@ func (rectanchoredrect *RectAnchoredRect) StagePreserveOrder(stage *Stage, order
 			stage.RectAnchoredRectOrder = order
 		}
 		stage.RectAnchoredRect_stagedOrder[rectanchoredrect] = order
+		stage.RectAnchoredRect_orderStaged[order] = rectanchoredrect
 		stage.RectAnchoredRectOrder++
 	}
 	stage.RectAnchoredRects_mapString[rectanchoredrect.Name] = rectanchoredrect
@@ -3456,6 +3602,7 @@ func (rectanchoredtext *RectAnchoredText) Stage(stage *Stage) *RectAnchoredText 
 	if _, ok := stage.RectAnchoredTexts[rectanchoredtext]; !ok {
 		stage.RectAnchoredTexts[rectanchoredtext] = struct{}{}
 		stage.RectAnchoredText_stagedOrder[rectanchoredtext] = stage.RectAnchoredTextOrder
+		stage.RectAnchoredText_orderStaged[stage.RectAnchoredTextOrder] = rectanchoredtext
 		stage.RectAnchoredTextOrder++
 	}
 	stage.RectAnchoredTexts_mapString[rectanchoredtext.Name] = rectanchoredtext
@@ -3476,6 +3623,7 @@ func (rectanchoredtext *RectAnchoredText) StagePreserveOrder(stage *Stage, order
 			stage.RectAnchoredTextOrder = order
 		}
 		stage.RectAnchoredText_stagedOrder[rectanchoredtext] = order
+		stage.RectAnchoredText_orderStaged[order] = rectanchoredtext
 		stage.RectAnchoredTextOrder++
 	}
 	stage.RectAnchoredTexts_mapString[rectanchoredtext.Name] = rectanchoredtext
@@ -3542,6 +3690,7 @@ func (rectlinklink *RectLinkLink) Stage(stage *Stage) *RectLinkLink {
 	if _, ok := stage.RectLinkLinks[rectlinklink]; !ok {
 		stage.RectLinkLinks[rectlinklink] = struct{}{}
 		stage.RectLinkLink_stagedOrder[rectlinklink] = stage.RectLinkLinkOrder
+		stage.RectLinkLink_orderStaged[stage.RectLinkLinkOrder] = rectlinklink
 		stage.RectLinkLinkOrder++
 	}
 	stage.RectLinkLinks_mapString[rectlinklink.Name] = rectlinklink
@@ -3562,6 +3711,7 @@ func (rectlinklink *RectLinkLink) StagePreserveOrder(stage *Stage, order uint) {
 			stage.RectLinkLinkOrder = order
 		}
 		stage.RectLinkLink_stagedOrder[rectlinklink] = order
+		stage.RectLinkLink_orderStaged[order] = rectlinklink
 		stage.RectLinkLinkOrder++
 	}
 	stage.RectLinkLinks_mapString[rectlinklink.Name] = rectlinklink
@@ -3628,6 +3778,7 @@ func (svg *SVG) Stage(stage *Stage) *SVG {
 	if _, ok := stage.SVGs[svg]; !ok {
 		stage.SVGs[svg] = struct{}{}
 		stage.SVG_stagedOrder[svg] = stage.SVGOrder
+		stage.SVG_orderStaged[stage.SVGOrder] = svg
 		stage.SVGOrder++
 	}
 	stage.SVGs_mapString[svg.Name] = svg
@@ -3648,6 +3799,7 @@ func (svg *SVG) StagePreserveOrder(stage *Stage, order uint) {
 			stage.SVGOrder = order
 		}
 		stage.SVG_stagedOrder[svg] = order
+		stage.SVG_orderStaged[order] = svg
 		stage.SVGOrder++
 	}
 	stage.SVGs_mapString[svg.Name] = svg
@@ -3714,6 +3866,7 @@ func (svgtext *SvgText) Stage(stage *Stage) *SvgText {
 	if _, ok := stage.SvgTexts[svgtext]; !ok {
 		stage.SvgTexts[svgtext] = struct{}{}
 		stage.SvgText_stagedOrder[svgtext] = stage.SvgTextOrder
+		stage.SvgText_orderStaged[stage.SvgTextOrder] = svgtext
 		stage.SvgTextOrder++
 	}
 	stage.SvgTexts_mapString[svgtext.Name] = svgtext
@@ -3734,6 +3887,7 @@ func (svgtext *SvgText) StagePreserveOrder(stage *Stage, order uint) {
 			stage.SvgTextOrder = order
 		}
 		stage.SvgText_stagedOrder[svgtext] = order
+		stage.SvgText_orderStaged[order] = svgtext
 		stage.SvgTextOrder++
 	}
 	stage.SvgTexts_mapString[svgtext.Name] = svgtext
@@ -3800,6 +3954,7 @@ func (text *Text) Stage(stage *Stage) *Text {
 	if _, ok := stage.Texts[text]; !ok {
 		stage.Texts[text] = struct{}{}
 		stage.Text_stagedOrder[text] = stage.TextOrder
+		stage.Text_orderStaged[stage.TextOrder] = text
 		stage.TextOrder++
 	}
 	stage.Texts_mapString[text.Name] = text
@@ -3820,6 +3975,7 @@ func (text *Text) StagePreserveOrder(stage *Stage, order uint) {
 			stage.TextOrder = order
 		}
 		stage.Text_stagedOrder[text] = order
+		stage.Text_orderStaged[order] = text
 		stage.TextOrder++
 	}
 	stage.Texts_mapString[text.Name] = text
