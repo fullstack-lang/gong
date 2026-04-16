@@ -57,6 +57,9 @@ type TablePointersEncoding struct {
 	// field Rows is a slice of pointers to another Struct (optional or 0..1)
 	Rows IntSlice `gorm:"type:TEXT"`
 
+	// field RowsSelectedForBulkDelete is a slice of pointers to another Struct (optional or 0..1)
+	RowsSelectedForBulkDelete IntSlice `gorm:"type:TEXT"`
+
 	// field Buttons is a slice of pointers to another Struct (optional or 0..1)
 	Buttons IntSlice `gorm:"type:TEXT"`
 }
@@ -97,6 +100,13 @@ type TableDB struct {
 
 	// Declation for basic field tableDB.SaveButtonLabel
 	SaveButtonLabel_Data sql.NullString
+
+	// Declation for basic field tableDB.HasBulkDeleteButton
+	// provide the sql storage for the boolan
+	HasBulkDeleteButton_Data sql.NullBool
+
+	// Declation for basic field tableDB.BulkDeleteButtonTooltip
+	BulkDeleteButtonTooltip_Data sql.NullString
 
 	// Declation for basic field tableDB.CanDragDropRows
 	// provide the sql storage for the boolan
@@ -149,13 +159,17 @@ type TableWOP struct {
 
 	SaveButtonLabel string `xlsx:"7"`
 
-	CanDragDropRows bool `xlsx:"8"`
+	HasBulkDeleteButton bool `xlsx:"8"`
 
-	HasCloseButton bool `xlsx:"9"`
+	BulkDeleteButtonTooltip string `xlsx:"9"`
 
-	SavingInProgress bool `xlsx:"10"`
+	CanDragDropRows bool `xlsx:"10"`
 
-	NbOfStickyColumns int `xlsx:"11"`
+	HasCloseButton bool `xlsx:"11"`
+
+	SavingInProgress bool `xlsx:"12"`
+
+	NbOfStickyColumns int `xlsx:"13"`
 	// insertion for WOP pointer fields
 }
 
@@ -169,6 +183,8 @@ var Table_Fields = []string{
 	"HasCheckableRows",
 	"HasSaveButton",
 	"SaveButtonLabel",
+	"HasBulkDeleteButton",
+	"BulkDeleteButtonTooltip",
 	"CanDragDropRows",
 	"HasCloseButton",
 	"SavingInProgress",
@@ -340,6 +356,24 @@ func (backRepoTable *BackRepoTableStruct) CommitPhaseTwoInstance(backRepo *BackR
 		}
 
 		// 1. reset
+		tableDB.TablePointersEncoding.RowsSelectedForBulkDelete = make([]int, 0)
+		// 2. encode
+		for _, rowAssocEnd := range table.RowsSelectedForBulkDelete {
+			rowAssocEnd_DB :=
+				backRepo.BackRepoRow.GetRowDBFromRowPtr(rowAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the rowAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if rowAssocEnd_DB == nil {
+				continue
+			}
+			
+			tableDB.TablePointersEncoding.RowsSelectedForBulkDelete =
+				append(tableDB.TablePointersEncoding.RowsSelectedForBulkDelete, int(rowAssocEnd_DB.ID))
+		}
+
+		// 1. reset
 		tableDB.TablePointersEncoding.Buttons = make([]int, 0)
 		// 2. encode
 		for _, buttonAssocEnd := range table.Buttons {
@@ -487,6 +521,15 @@ func (tableDB *TableDB) DecodePointers(backRepo *BackRepoStruct, table *models.T
 		table.Rows = append(table.Rows, backRepo.BackRepoRow.Map_RowDBID_RowPtr[uint(_Rowid)])
 	}
 
+	// This loop redeem table.RowsSelectedForBulkDelete in the stage from the encode in the back repo
+	// It parses all RowDB in the back repo and if the reverse pointer encoding matches the back repo ID
+	// it appends the stage instance
+	// 1. reset the slice
+	table.RowsSelectedForBulkDelete = table.RowsSelectedForBulkDelete[:0]
+	for _, _Rowid := range tableDB.TablePointersEncoding.RowsSelectedForBulkDelete {
+		table.RowsSelectedForBulkDelete = append(table.RowsSelectedForBulkDelete, backRepo.BackRepoRow.Map_RowDBID_RowPtr[uint(_Rowid)])
+	}
+
 	// This loop redeem table.Buttons in the stage from the encode in the back repo
 	// It parses all ButtonDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance
@@ -550,6 +593,12 @@ func (tableDB *TableDB) CopyBasicFieldsFromTable(table *models.Table) {
 	tableDB.SaveButtonLabel_Data.String = table.SaveButtonLabel
 	tableDB.SaveButtonLabel_Data.Valid = true
 
+	tableDB.HasBulkDeleteButton_Data.Bool = table.HasBulkDeleteButton
+	tableDB.HasBulkDeleteButton_Data.Valid = true
+
+	tableDB.BulkDeleteButtonTooltip_Data.String = table.BulkDeleteButtonTooltip
+	tableDB.BulkDeleteButtonTooltip_Data.Valid = true
+
 	tableDB.CanDragDropRows_Data.Bool = table.CanDragDropRows
 	tableDB.CanDragDropRows_Data.Valid = true
 
@@ -587,6 +636,12 @@ func (tableDB *TableDB) CopyBasicFieldsFromTable_WOP(table *models.Table_WOP) {
 
 	tableDB.SaveButtonLabel_Data.String = table.SaveButtonLabel
 	tableDB.SaveButtonLabel_Data.Valid = true
+
+	tableDB.HasBulkDeleteButton_Data.Bool = table.HasBulkDeleteButton
+	tableDB.HasBulkDeleteButton_Data.Valid = true
+
+	tableDB.BulkDeleteButtonTooltip_Data.String = table.BulkDeleteButtonTooltip
+	tableDB.BulkDeleteButtonTooltip_Data.Valid = true
 
 	tableDB.CanDragDropRows_Data.Bool = table.CanDragDropRows
 	tableDB.CanDragDropRows_Data.Valid = true
@@ -626,6 +681,12 @@ func (tableDB *TableDB) CopyBasicFieldsFromTableWOP(table *TableWOP) {
 	tableDB.SaveButtonLabel_Data.String = table.SaveButtonLabel
 	tableDB.SaveButtonLabel_Data.Valid = true
 
+	tableDB.HasBulkDeleteButton_Data.Bool = table.HasBulkDeleteButton
+	tableDB.HasBulkDeleteButton_Data.Valid = true
+
+	tableDB.BulkDeleteButtonTooltip_Data.String = table.BulkDeleteButtonTooltip
+	tableDB.BulkDeleteButtonTooltip_Data.Valid = true
+
 	tableDB.CanDragDropRows_Data.Bool = table.CanDragDropRows
 	tableDB.CanDragDropRows_Data.Valid = true
 
@@ -649,6 +710,8 @@ func (tableDB *TableDB) CopyBasicFieldsToTable(table *models.Table) {
 	table.HasCheckableRows = tableDB.HasCheckableRows_Data.Bool
 	table.HasSaveButton = tableDB.HasSaveButton_Data.Bool
 	table.SaveButtonLabel = tableDB.SaveButtonLabel_Data.String
+	table.HasBulkDeleteButton = tableDB.HasBulkDeleteButton_Data.Bool
+	table.BulkDeleteButtonTooltip = tableDB.BulkDeleteButtonTooltip_Data.String
 	table.CanDragDropRows = tableDB.CanDragDropRows_Data.Bool
 	table.HasCloseButton = tableDB.HasCloseButton_Data.Bool
 	table.SavingInProgress = tableDB.SavingInProgress_Data.Bool
@@ -665,6 +728,8 @@ func (tableDB *TableDB) CopyBasicFieldsToTable_WOP(table *models.Table_WOP) {
 	table.HasCheckableRows = tableDB.HasCheckableRows_Data.Bool
 	table.HasSaveButton = tableDB.HasSaveButton_Data.Bool
 	table.SaveButtonLabel = tableDB.SaveButtonLabel_Data.String
+	table.HasBulkDeleteButton = tableDB.HasBulkDeleteButton_Data.Bool
+	table.BulkDeleteButtonTooltip = tableDB.BulkDeleteButtonTooltip_Data.String
 	table.CanDragDropRows = tableDB.CanDragDropRows_Data.Bool
 	table.HasCloseButton = tableDB.HasCloseButton_Data.Bool
 	table.SavingInProgress = tableDB.SavingInProgress_Data.Bool
@@ -682,6 +747,8 @@ func (tableDB *TableDB) CopyBasicFieldsToTableWOP(table *TableWOP) {
 	table.HasCheckableRows = tableDB.HasCheckableRows_Data.Bool
 	table.HasSaveButton = tableDB.HasSaveButton_Data.Bool
 	table.SaveButtonLabel = tableDB.SaveButtonLabel_Data.String
+	table.HasBulkDeleteButton = tableDB.HasBulkDeleteButton_Data.Bool
+	table.BulkDeleteButtonTooltip = tableDB.BulkDeleteButtonTooltip_Data.String
 	table.CanDragDropRows = tableDB.CanDragDropRows_Data.Bool
 	table.HasCloseButton = tableDB.HasCloseButton_Data.Bool
 	table.SavingInProgress = tableDB.SavingInProgress_Data.Bool

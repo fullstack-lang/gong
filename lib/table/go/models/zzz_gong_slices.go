@@ -73,6 +73,13 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Table_Rows_reverseMap[_row] = table
 		}
 	}
+	stage.Table_RowsSelectedForBulkDelete_reverseMap = make(map[*Row]*Table)
+	for table := range stage.Tables {
+		_ = table
+		for _, _row := range table.RowsSelectedForBulkDelete {
+			stage.Table_RowsSelectedForBulkDelete_reverseMap[_row] = table
+		}
+	}
 	stage.Table_Buttons_reverseMap = make(map[*Button]*Table)
 	for table := range stage.Tables {
 		_ = table

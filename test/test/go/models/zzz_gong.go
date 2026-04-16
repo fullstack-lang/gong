@@ -131,6 +131,7 @@ type Stage struct {
 	Astructs_mapString      map[string]*Astruct
 	AstructOrder            uint
 	Astruct_stagedOrder     map[*Astruct]uint
+	Astruct_orderStaged     map[uint]*Astruct
 	Astructs_reference      map[*Astruct]*Astruct
 	Astructs_referenceOrder map[*Astruct]uint
 
@@ -157,6 +158,7 @@ type Stage struct {
 	AstructBstruct2Uses_mapString      map[string]*AstructBstruct2Use
 	AstructBstruct2UseOrder            uint
 	AstructBstruct2Use_stagedOrder     map[*AstructBstruct2Use]uint
+	AstructBstruct2Use_orderStaged     map[uint]*AstructBstruct2Use
 	AstructBstruct2Uses_reference      map[*AstructBstruct2Use]*AstructBstruct2Use
 	AstructBstruct2Uses_referenceOrder map[*AstructBstruct2Use]uint
 
@@ -171,6 +173,7 @@ type Stage struct {
 	AstructBstructUses_mapString      map[string]*AstructBstructUse
 	AstructBstructUseOrder            uint
 	AstructBstructUse_stagedOrder     map[*AstructBstructUse]uint
+	AstructBstructUse_orderStaged     map[uint]*AstructBstructUse
 	AstructBstructUses_reference      map[*AstructBstructUse]*AstructBstructUse
 	AstructBstructUses_referenceOrder map[*AstructBstructUse]uint
 
@@ -185,6 +188,7 @@ type Stage struct {
 	Bstructs_mapString      map[string]*Bstruct
 	BstructOrder            uint
 	Bstruct_stagedOrder     map[*Bstruct]uint
+	Bstruct_orderStaged     map[uint]*Bstruct
 	Bstructs_reference      map[*Bstruct]*Bstruct
 	Bstructs_referenceOrder map[*Bstruct]uint
 
@@ -199,6 +203,7 @@ type Stage struct {
 	Dstructs_mapString      map[string]*Dstruct
 	DstructOrder            uint
 	Dstruct_stagedOrder     map[*Dstruct]uint
+	Dstruct_orderStaged     map[uint]*Dstruct
 	Dstructs_reference      map[*Dstruct]*Dstruct
 	Dstructs_referenceOrder map[*Dstruct]uint
 
@@ -217,6 +222,7 @@ type Stage struct {
 	F0123456789012345678901234567890s_mapString      map[string]*F0123456789012345678901234567890
 	F0123456789012345678901234567890Order            uint
 	F0123456789012345678901234567890_stagedOrder     map[*F0123456789012345678901234567890]uint
+	F0123456789012345678901234567890_orderStaged     map[uint]*F0123456789012345678901234567890
 	F0123456789012345678901234567890s_reference      map[*F0123456789012345678901234567890]*F0123456789012345678901234567890
 	F0123456789012345678901234567890s_referenceOrder map[*F0123456789012345678901234567890]uint
 
@@ -231,6 +237,7 @@ type Stage struct {
 	Gstructs_mapString      map[string]*Gstruct
 	GstructOrder            uint
 	Gstruct_stagedOrder     map[*Gstruct]uint
+	Gstruct_orderStaged     map[uint]*Gstruct
 	Gstructs_reference      map[*Gstruct]*Gstruct
 	Gstructs_referenceOrder map[*Gstruct]uint
 
@@ -952,18 +959,32 @@ func NewStage(name string) (stage *Stage) {
 
 		// insertion point for order map initialisations
 		Astruct_stagedOrder: make(map[*Astruct]uint),
+		Astruct_orderStaged: make(map[uint]*Astruct),
+		Astructs_reference: make(map[*Astruct]*Astruct),
 
 		AstructBstruct2Use_stagedOrder: make(map[*AstructBstruct2Use]uint),
+		AstructBstruct2Use_orderStaged: make(map[uint]*AstructBstruct2Use),
+		AstructBstruct2Uses_reference: make(map[*AstructBstruct2Use]*AstructBstruct2Use),
 
 		AstructBstructUse_stagedOrder: make(map[*AstructBstructUse]uint),
+		AstructBstructUse_orderStaged: make(map[uint]*AstructBstructUse),
+		AstructBstructUses_reference: make(map[*AstructBstructUse]*AstructBstructUse),
 
 		Bstruct_stagedOrder: make(map[*Bstruct]uint),
+		Bstruct_orderStaged: make(map[uint]*Bstruct),
+		Bstructs_reference: make(map[*Bstruct]*Bstruct),
 
 		Dstruct_stagedOrder: make(map[*Dstruct]uint),
+		Dstruct_orderStaged: make(map[uint]*Dstruct),
+		Dstructs_reference: make(map[*Dstruct]*Dstruct),
 
 		F0123456789012345678901234567890_stagedOrder: make(map[*F0123456789012345678901234567890]uint),
+		F0123456789012345678901234567890_orderStaged: make(map[uint]*F0123456789012345678901234567890),
+		F0123456789012345678901234567890s_reference: make(map[*F0123456789012345678901234567890]*F0123456789012345678901234567890),
 
 		Gstruct_stagedOrder: make(map[*Gstruct]uint),
+		Gstruct_orderStaged: make(map[uint]*Gstruct),
+		Gstructs_reference: make(map[*Gstruct]*Gstruct),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
@@ -1019,6 +1040,29 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.Gstruct_stagedOrder[instance]
 	default:
 		return 0 // should not happen
+	}
+}
+
+func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint) (res Type) {
+	var t Type
+	switch any(t).(type) {
+	// insertion point for order map initialisations
+	case *Astruct:
+		return any(stage.Astruct_orderStaged[order]).(Type)
+	case *AstructBstruct2Use:
+		return any(stage.AstructBstruct2Use_orderStaged[order]).(Type)
+	case *AstructBstructUse:
+		return any(stage.AstructBstructUse_orderStaged[order]).(Type)
+	case *Bstruct:
+		return any(stage.Bstruct_orderStaged[order]).(Type)
+	case *Dstruct:
+		return any(stage.Dstruct_orderStaged[order]).(Type)
+	case *F0123456789012345678901234567890:
+		return any(stage.F0123456789012345678901234567890_orderStaged[order]).(Type)
+	case *Gstruct:
+		return any(stage.Gstruct_orderStaged[order]).(Type)
+	default:
+		return // should not happen
 	}
 }
 
@@ -1156,6 +1200,7 @@ func (astruct *Astruct) Stage(stage *Stage) *Astruct {
 	if _, ok := stage.Astructs[astruct]; !ok {
 		stage.Astructs[astruct] = struct{}{}
 		stage.Astruct_stagedOrder[astruct] = stage.AstructOrder
+		stage.Astruct_orderStaged[stage.AstructOrder] = astruct
 		stage.AstructOrder++
 	}
 	stage.Astructs_mapString[astruct.Name] = astruct
@@ -1176,6 +1221,7 @@ func (astruct *Astruct) StagePreserveOrder(stage *Stage, order uint) {
 			stage.AstructOrder = order
 		}
 		stage.Astruct_stagedOrder[astruct] = order
+		stage.Astruct_orderStaged[order] = astruct
 		stage.AstructOrder++
 	}
 	stage.Astructs_mapString[astruct.Name] = astruct
@@ -1242,6 +1288,7 @@ func (astructbstruct2use *AstructBstruct2Use) Stage(stage *Stage) *AstructBstruc
 	if _, ok := stage.AstructBstruct2Uses[astructbstruct2use]; !ok {
 		stage.AstructBstruct2Uses[astructbstruct2use] = struct{}{}
 		stage.AstructBstruct2Use_stagedOrder[astructbstruct2use] = stage.AstructBstruct2UseOrder
+		stage.AstructBstruct2Use_orderStaged[stage.AstructBstruct2UseOrder] = astructbstruct2use
 		stage.AstructBstruct2UseOrder++
 	}
 	stage.AstructBstruct2Uses_mapString[astructbstruct2use.Name] = astructbstruct2use
@@ -1262,6 +1309,7 @@ func (astructbstruct2use *AstructBstruct2Use) StagePreserveOrder(stage *Stage, o
 			stage.AstructBstruct2UseOrder = order
 		}
 		stage.AstructBstruct2Use_stagedOrder[astructbstruct2use] = order
+		stage.AstructBstruct2Use_orderStaged[order] = astructbstruct2use
 		stage.AstructBstruct2UseOrder++
 	}
 	stage.AstructBstruct2Uses_mapString[astructbstruct2use.Name] = astructbstruct2use
@@ -1328,6 +1376,7 @@ func (astructbstructuse *AstructBstructUse) Stage(stage *Stage) *AstructBstructU
 	if _, ok := stage.AstructBstructUses[astructbstructuse]; !ok {
 		stage.AstructBstructUses[astructbstructuse] = struct{}{}
 		stage.AstructBstructUse_stagedOrder[astructbstructuse] = stage.AstructBstructUseOrder
+		stage.AstructBstructUse_orderStaged[stage.AstructBstructUseOrder] = astructbstructuse
 		stage.AstructBstructUseOrder++
 	}
 	stage.AstructBstructUses_mapString[astructbstructuse.Name] = astructbstructuse
@@ -1348,6 +1397,7 @@ func (astructbstructuse *AstructBstructUse) StagePreserveOrder(stage *Stage, ord
 			stage.AstructBstructUseOrder = order
 		}
 		stage.AstructBstructUse_stagedOrder[astructbstructuse] = order
+		stage.AstructBstructUse_orderStaged[order] = astructbstructuse
 		stage.AstructBstructUseOrder++
 	}
 	stage.AstructBstructUses_mapString[astructbstructuse.Name] = astructbstructuse
@@ -1414,6 +1464,7 @@ func (bstruct *Bstruct) Stage(stage *Stage) *Bstruct {
 	if _, ok := stage.Bstructs[bstruct]; !ok {
 		stage.Bstructs[bstruct] = struct{}{}
 		stage.Bstruct_stagedOrder[bstruct] = stage.BstructOrder
+		stage.Bstruct_orderStaged[stage.BstructOrder] = bstruct
 		stage.BstructOrder++
 	}
 	stage.Bstructs_mapString[bstruct.Name] = bstruct
@@ -1434,6 +1485,7 @@ func (bstruct *Bstruct) StagePreserveOrder(stage *Stage, order uint) {
 			stage.BstructOrder = order
 		}
 		stage.Bstruct_stagedOrder[bstruct] = order
+		stage.Bstruct_orderStaged[order] = bstruct
 		stage.BstructOrder++
 	}
 	stage.Bstructs_mapString[bstruct.Name] = bstruct
@@ -1500,6 +1552,7 @@ func (dstruct *Dstruct) Stage(stage *Stage) *Dstruct {
 	if _, ok := stage.Dstructs[dstruct]; !ok {
 		stage.Dstructs[dstruct] = struct{}{}
 		stage.Dstruct_stagedOrder[dstruct] = stage.DstructOrder
+		stage.Dstruct_orderStaged[stage.DstructOrder] = dstruct
 		stage.DstructOrder++
 	}
 	stage.Dstructs_mapString[dstruct.Name] = dstruct
@@ -1520,6 +1573,7 @@ func (dstruct *Dstruct) StagePreserveOrder(stage *Stage, order uint) {
 			stage.DstructOrder = order
 		}
 		stage.Dstruct_stagedOrder[dstruct] = order
+		stage.Dstruct_orderStaged[order] = dstruct
 		stage.DstructOrder++
 	}
 	stage.Dstructs_mapString[dstruct.Name] = dstruct
@@ -1586,6 +1640,7 @@ func (f0123456789012345678901234567890 *F0123456789012345678901234567890) Stage(
 	if _, ok := stage.F0123456789012345678901234567890s[f0123456789012345678901234567890]; !ok {
 		stage.F0123456789012345678901234567890s[f0123456789012345678901234567890] = struct{}{}
 		stage.F0123456789012345678901234567890_stagedOrder[f0123456789012345678901234567890] = stage.F0123456789012345678901234567890Order
+		stage.F0123456789012345678901234567890_orderStaged[stage.F0123456789012345678901234567890Order] = f0123456789012345678901234567890
 		stage.F0123456789012345678901234567890Order++
 	}
 	stage.F0123456789012345678901234567890s_mapString[f0123456789012345678901234567890.Name] = f0123456789012345678901234567890
@@ -1606,6 +1661,7 @@ func (f0123456789012345678901234567890 *F0123456789012345678901234567890) StageP
 			stage.F0123456789012345678901234567890Order = order
 		}
 		stage.F0123456789012345678901234567890_stagedOrder[f0123456789012345678901234567890] = order
+		stage.F0123456789012345678901234567890_orderStaged[order] = f0123456789012345678901234567890
 		stage.F0123456789012345678901234567890Order++
 	}
 	stage.F0123456789012345678901234567890s_mapString[f0123456789012345678901234567890.Name] = f0123456789012345678901234567890
@@ -1672,6 +1728,7 @@ func (gstruct *Gstruct) Stage(stage *Stage) *Gstruct {
 	if _, ok := stage.Gstructs[gstruct]; !ok {
 		stage.Gstructs[gstruct] = struct{}{}
 		stage.Gstruct_stagedOrder[gstruct] = stage.GstructOrder
+		stage.Gstruct_orderStaged[stage.GstructOrder] = gstruct
 		stage.GstructOrder++
 	}
 	stage.Gstructs_mapString[gstruct.Name] = gstruct
@@ -1692,6 +1749,7 @@ func (gstruct *Gstruct) StagePreserveOrder(stage *Stage, order uint) {
 			stage.GstructOrder = order
 		}
 		stage.Gstruct_stagedOrder[gstruct] = order
+		stage.Gstruct_orderStaged[order] = gstruct
 		stage.GstructOrder++
 	}
 	stage.Gstructs_mapString[gstruct.Name] = gstruct

@@ -131,6 +131,7 @@ type Stage struct {
 	Contents_mapString      map[string]*Content
 	ContentOrder            uint
 	Content_stagedOrder     map[*Content]uint
+	Content_orderStaged     map[uint]*Content
 	Contents_reference      map[*Content]*Content
 	Contents_referenceOrder map[*Content]uint
 
@@ -145,6 +146,7 @@ type Stage struct {
 	JpgImages_mapString      map[string]*JpgImage
 	JpgImageOrder            uint
 	JpgImage_stagedOrder     map[*JpgImage]uint
+	JpgImage_orderStaged     map[uint]*JpgImage
 	JpgImages_reference      map[*JpgImage]*JpgImage
 	JpgImages_referenceOrder map[*JpgImage]uint
 
@@ -159,6 +161,7 @@ type Stage struct {
 	PngImages_mapString      map[string]*PngImage
 	PngImageOrder            uint
 	PngImage_stagedOrder     map[*PngImage]uint
+	PngImage_orderStaged     map[uint]*PngImage
 	PngImages_reference      map[*PngImage]*PngImage
 	PngImages_referenceOrder map[*PngImage]uint
 
@@ -173,6 +176,7 @@ type Stage struct {
 	SvgImages_mapString      map[string]*SvgImage
 	SvgImageOrder            uint
 	SvgImage_stagedOrder     map[*SvgImage]uint
+	SvgImage_orderStaged     map[uint]*SvgImage
 	SvgImages_reference      map[*SvgImage]*SvgImage
 	SvgImages_referenceOrder map[*SvgImage]uint
 
@@ -777,12 +781,20 @@ func NewStage(name string) (stage *Stage) {
 
 		// insertion point for order map initialisations
 		Content_stagedOrder: make(map[*Content]uint),
+		Content_orderStaged: make(map[uint]*Content),
+		Contents_reference: make(map[*Content]*Content),
 
 		JpgImage_stagedOrder: make(map[*JpgImage]uint),
+		JpgImage_orderStaged: make(map[uint]*JpgImage),
+		JpgImages_reference: make(map[*JpgImage]*JpgImage),
 
 		PngImage_stagedOrder: make(map[*PngImage]uint),
+		PngImage_orderStaged: make(map[uint]*PngImage),
+		PngImages_reference: make(map[*PngImage]*PngImage),
 
 		SvgImage_stagedOrder: make(map[*SvgImage]uint),
+		SvgImage_orderStaged: make(map[uint]*SvgImage),
+		SvgImages_reference: make(map[*SvgImage]*SvgImage),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
@@ -823,6 +835,23 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.SvgImage_stagedOrder[instance]
 	default:
 		return 0 // should not happen
+	}
+}
+
+func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint) (res Type) {
+	var t Type
+	switch any(t).(type) {
+	// insertion point for order map initialisations
+	case *Content:
+		return any(stage.Content_orderStaged[order]).(Type)
+	case *JpgImage:
+		return any(stage.JpgImage_orderStaged[order]).(Type)
+	case *PngImage:
+		return any(stage.PngImage_orderStaged[order]).(Type)
+	case *SvgImage:
+		return any(stage.SvgImage_orderStaged[order]).(Type)
+	default:
+		return // should not happen
 	}
 }
 
@@ -951,6 +980,7 @@ func (content *Content) Stage(stage *Stage) *Content {
 	if _, ok := stage.Contents[content]; !ok {
 		stage.Contents[content] = struct{}{}
 		stage.Content_stagedOrder[content] = stage.ContentOrder
+		stage.Content_orderStaged[stage.ContentOrder] = content
 		stage.ContentOrder++
 	}
 	stage.Contents_mapString[content.Name] = content
@@ -971,6 +1001,7 @@ func (content *Content) StagePreserveOrder(stage *Stage, order uint) {
 			stage.ContentOrder = order
 		}
 		stage.Content_stagedOrder[content] = order
+		stage.Content_orderStaged[order] = content
 		stage.ContentOrder++
 	}
 	stage.Contents_mapString[content.Name] = content
@@ -1037,6 +1068,7 @@ func (jpgimage *JpgImage) Stage(stage *Stage) *JpgImage {
 	if _, ok := stage.JpgImages[jpgimage]; !ok {
 		stage.JpgImages[jpgimage] = struct{}{}
 		stage.JpgImage_stagedOrder[jpgimage] = stage.JpgImageOrder
+		stage.JpgImage_orderStaged[stage.JpgImageOrder] = jpgimage
 		stage.JpgImageOrder++
 	}
 	stage.JpgImages_mapString[jpgimage.Name] = jpgimage
@@ -1057,6 +1089,7 @@ func (jpgimage *JpgImage) StagePreserveOrder(stage *Stage, order uint) {
 			stage.JpgImageOrder = order
 		}
 		stage.JpgImage_stagedOrder[jpgimage] = order
+		stage.JpgImage_orderStaged[order] = jpgimage
 		stage.JpgImageOrder++
 	}
 	stage.JpgImages_mapString[jpgimage.Name] = jpgimage
@@ -1123,6 +1156,7 @@ func (pngimage *PngImage) Stage(stage *Stage) *PngImage {
 	if _, ok := stage.PngImages[pngimage]; !ok {
 		stage.PngImages[pngimage] = struct{}{}
 		stage.PngImage_stagedOrder[pngimage] = stage.PngImageOrder
+		stage.PngImage_orderStaged[stage.PngImageOrder] = pngimage
 		stage.PngImageOrder++
 	}
 	stage.PngImages_mapString[pngimage.Name] = pngimage
@@ -1143,6 +1177,7 @@ func (pngimage *PngImage) StagePreserveOrder(stage *Stage, order uint) {
 			stage.PngImageOrder = order
 		}
 		stage.PngImage_stagedOrder[pngimage] = order
+		stage.PngImage_orderStaged[order] = pngimage
 		stage.PngImageOrder++
 	}
 	stage.PngImages_mapString[pngimage.Name] = pngimage
@@ -1209,6 +1244,7 @@ func (svgimage *SvgImage) Stage(stage *Stage) *SvgImage {
 	if _, ok := stage.SvgImages[svgimage]; !ok {
 		stage.SvgImages[svgimage] = struct{}{}
 		stage.SvgImage_stagedOrder[svgimage] = stage.SvgImageOrder
+		stage.SvgImage_orderStaged[stage.SvgImageOrder] = svgimage
 		stage.SvgImageOrder++
 	}
 	stage.SvgImages_mapString[svgimage.Name] = svgimage
@@ -1229,6 +1265,7 @@ func (svgimage *SvgImage) StagePreserveOrder(stage *Stage, order uint) {
 			stage.SvgImageOrder = order
 		}
 		stage.SvgImage_stagedOrder[svgimage] = order
+		stage.SvgImage_orderStaged[order] = svgimage
 		stage.SvgImageOrder++
 	}
 	stage.SvgImages_mapString[svgimage.Name] = svgimage

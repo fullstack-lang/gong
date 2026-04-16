@@ -23,11 +23,11 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	stage.Commit()
-
-	__A__00000000_ := (&models.A{Name: `A09iii`}).Stage(stage)
-	__A__00000001_ := (&models.A{Name: `A6`}).Stage(stage)
-	__A__00000002_ := (&models.A{Name: `fff`}).Stage(stage)
+	__A__00000000_ := (&models.A{Name: `ID 0`}).Stage(stage)
+	__A__00000001_ := (&models.A{Name: `ID 1`}).Stage(stage)
+	__A__00000002_ := (&models.A{Name: `ID 2`}).Stage(stage)
+	__A__00000005_ := (&models.A{Name: `ID 5`}).Stage(stage)
+	__A__00000006_ := (&models.A{Name: `ID 6`}).Stage(stage)
 	__B__00000000_ := (&models.B{Name: `1___0009`}).Stage(stage)
 	__B__00000001_ := (&models.B{Name: `2gfsdfggf`}).Stage(stage)
 	__B__00000002_ := (&models.B{Name: `6`}).Stage(stage)
@@ -56,21 +56,23 @@ func _(stage *models.Stage) {
 	__B__00000025_ := (&models.B{Name: `33`}).Stage(stage)
 	__B__00000026_ := (&models.B{Name: `34`}).Stage(stage)
 	__B__00000027_ := (&models.B{Name: `B35`}).Stage(stage)
-	__A__00000000_.Name = `A09iii`
+	__A__00000000_.Name = `ID 0`
 	__A__00000000_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2022-01-01 00:00:00 +0000 UTC")
 	__A__00000000_.FloatValue = 14.500000
 	__A__00000000_.IntValue = 9
 	__A__00000000_.Duration = -446400000000000
 	__A__00000000_.EnumString = ""
 	__A__00000000_.EnumInt = models.EnumTypeInt_Value2
+	__A__00000000_.UUID = ``
 	__A__00000000_.B = __B__00000006_
-	__A__00000001_.Name = `A6`
+	__A__00000001_.Name = `ID 1`
 	__A__00000001_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__A__00000001_.FloatValue = 0.000000
 	__A__00000001_.IntValue = 0
 	__A__00000001_.Duration = 0
 	__A__00000001_.EnumString = ""
 	__A__00000001_.EnumInt = models.EnumTypeInt_Value2
+	__A__00000001_.UUID = ``
 	__A__00000001_.B = __B__00000000_
 	__A__00000001_.Bs = append(__A__00000001_.Bs, __B__00000003_)
 	__A__00000001_.Bs = append(__A__00000001_.Bs, __B__00000004_)
@@ -78,16 +80,35 @@ func _(stage *models.Stage) {
 	__A__00000001_.Bs = append(__A__00000001_.Bs, __B__00000001_)
 	__A__00000001_.Bs = append(__A__00000001_.Bs, __B__00000000_)
 	__A__00000001_.Bs = append(__A__00000001_.Bs, __B__00000005_)
-	__A__00000002_.Name = `fff`
+	__A__00000002_.Name = `ID 2`
 	__A__00000002_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__A__00000002_.FloatValue = 0.000000
 	__A__00000002_.IntValue = 0
 	__A__00000002_.Duration = 0
 	__A__00000002_.EnumString = ""
-	__A__00000002_.EnumInt = 0
+	__A__00000002_.EnumInt = models.EnumTypeInt_Value1
+	__A__00000002_.UUID = ``
 	__A__00000002_.B = __B__00000008_
 	__A__00000002_.Bs = append(__A__00000002_.Bs, __B__00000002_)
 	__A__00000002_.Bs = append(__A__00000002_.Bs, __B__00000004_)
+	__A__00000005_.Name = `ID 5`
+	__A__00000005_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__A__00000005_.FloatValue = 0.000000
+	__A__00000005_.IntValue = 0
+	__A__00000005_.Duration = 0
+	__A__00000005_.EnumString = ""
+	__A__00000005_.EnumInt = models.EnumTypeInt_Value2
+	__A__00000005_.UUID = ``
+	__A__00000005_.B = nil
+	__A__00000006_.Name = `ID 6`
+	__A__00000006_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__A__00000006_.FloatValue = 0.000000
+	__A__00000006_.IntValue = 0
+	__A__00000006_.Duration = 0
+	__A__00000006_.EnumString = ""
+	__A__00000006_.EnumInt = models.EnumTypeInt_Value2
+	__A__00000006_.UUID = ``
+	__A__00000006_.B = nil
 	__B__00000000_.Name = `1___0009`
 	__B__00000001_.Name = `2gfsdfggf`
 	__B__00000002_.Name = `6`
@@ -116,9 +137,5 @@ func _(stage *models.Stage) {
 	__B__00000025_.Name = `33`
 	__B__00000026_.Name = `34`
 	__B__00000027_.Name = `B35`
-	stage.Commit()
-
-	// A09
-	__A__00000000_.Name = `A09`
 	stage.Commit()
 }

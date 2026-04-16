@@ -131,6 +131,7 @@ type Stage struct {
 	Buttons_mapString      map[string]*Button
 	ButtonOrder            uint
 	Button_stagedOrder     map[*Button]uint
+	Button_orderStaged     map[uint]*Button
 	Buttons_reference      map[*Button]*Button
 	Buttons_referenceOrder map[*Button]uint
 
@@ -145,6 +146,7 @@ type Stage struct {
 	ButtonToggles_mapString      map[string]*ButtonToggle
 	ButtonToggleOrder            uint
 	ButtonToggle_stagedOrder     map[*ButtonToggle]uint
+	ButtonToggle_orderStaged     map[uint]*ButtonToggle
 	ButtonToggles_reference      map[*ButtonToggle]*ButtonToggle
 	ButtonToggles_referenceOrder map[*ButtonToggle]uint
 
@@ -159,6 +161,7 @@ type Stage struct {
 	Groups_mapString      map[string]*Group
 	GroupOrder            uint
 	Group_stagedOrder     map[*Group]uint
+	Group_orderStaged     map[uint]*Group
 	Groups_reference      map[*Group]*Group
 	Groups_referenceOrder map[*Group]uint
 
@@ -175,6 +178,7 @@ type Stage struct {
 	GroupToogles_mapString      map[string]*GroupToogle
 	GroupToogleOrder            uint
 	GroupToogle_stagedOrder     map[*GroupToogle]uint
+	GroupToogle_orderStaged     map[uint]*GroupToogle
 	GroupToogles_reference      map[*GroupToogle]*GroupToogle
 	GroupToogles_referenceOrder map[*GroupToogle]uint
 
@@ -191,6 +195,7 @@ type Stage struct {
 	Layouts_mapString      map[string]*Layout
 	LayoutOrder            uint
 	Layout_stagedOrder     map[*Layout]uint
+	Layout_orderStaged     map[uint]*Layout
 	Layouts_reference      map[*Layout]*Layout
 	Layouts_referenceOrder map[*Layout]uint
 
@@ -838,14 +843,24 @@ func NewStage(name string) (stage *Stage) {
 
 		// insertion point for order map initialisations
 		Button_stagedOrder: make(map[*Button]uint),
+		Button_orderStaged: make(map[uint]*Button),
+		Buttons_reference: make(map[*Button]*Button),
 
 		ButtonToggle_stagedOrder: make(map[*ButtonToggle]uint),
+		ButtonToggle_orderStaged: make(map[uint]*ButtonToggle),
+		ButtonToggles_reference: make(map[*ButtonToggle]*ButtonToggle),
 
 		Group_stagedOrder: make(map[*Group]uint),
+		Group_orderStaged: make(map[uint]*Group),
+		Groups_reference: make(map[*Group]*Group),
 
 		GroupToogle_stagedOrder: make(map[*GroupToogle]uint),
+		GroupToogle_orderStaged: make(map[uint]*GroupToogle),
+		GroupToogles_reference: make(map[*GroupToogle]*GroupToogle),
 
 		Layout_stagedOrder: make(map[*Layout]uint),
+		Layout_orderStaged: make(map[uint]*Layout),
+		Layouts_reference: make(map[*Layout]*Layout),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
@@ -891,6 +906,25 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.Layout_stagedOrder[instance]
 	default:
 		return 0 // should not happen
+	}
+}
+
+func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint) (res Type) {
+	var t Type
+	switch any(t).(type) {
+	// insertion point for order map initialisations
+	case *Button:
+		return any(stage.Button_orderStaged[order]).(Type)
+	case *ButtonToggle:
+		return any(stage.ButtonToggle_orderStaged[order]).(Type)
+	case *Group:
+		return any(stage.Group_orderStaged[order]).(Type)
+	case *GroupToogle:
+		return any(stage.GroupToogle_orderStaged[order]).(Type)
+	case *Layout:
+		return any(stage.Layout_orderStaged[order]).(Type)
+	default:
+		return // should not happen
 	}
 }
 
@@ -1022,6 +1056,7 @@ func (button *Button) Stage(stage *Stage) *Button {
 	if _, ok := stage.Buttons[button]; !ok {
 		stage.Buttons[button] = struct{}{}
 		stage.Button_stagedOrder[button] = stage.ButtonOrder
+		stage.Button_orderStaged[stage.ButtonOrder] = button
 		stage.ButtonOrder++
 	}
 	stage.Buttons_mapString[button.Name] = button
@@ -1042,6 +1077,7 @@ func (button *Button) StagePreserveOrder(stage *Stage, order uint) {
 			stage.ButtonOrder = order
 		}
 		stage.Button_stagedOrder[button] = order
+		stage.Button_orderStaged[order] = button
 		stage.ButtonOrder++
 	}
 	stage.Buttons_mapString[button.Name] = button
@@ -1108,6 +1144,7 @@ func (buttontoggle *ButtonToggle) Stage(stage *Stage) *ButtonToggle {
 	if _, ok := stage.ButtonToggles[buttontoggle]; !ok {
 		stage.ButtonToggles[buttontoggle] = struct{}{}
 		stage.ButtonToggle_stagedOrder[buttontoggle] = stage.ButtonToggleOrder
+		stage.ButtonToggle_orderStaged[stage.ButtonToggleOrder] = buttontoggle
 		stage.ButtonToggleOrder++
 	}
 	stage.ButtonToggles_mapString[buttontoggle.Name] = buttontoggle
@@ -1128,6 +1165,7 @@ func (buttontoggle *ButtonToggle) StagePreserveOrder(stage *Stage, order uint) {
 			stage.ButtonToggleOrder = order
 		}
 		stage.ButtonToggle_stagedOrder[buttontoggle] = order
+		stage.ButtonToggle_orderStaged[order] = buttontoggle
 		stage.ButtonToggleOrder++
 	}
 	stage.ButtonToggles_mapString[buttontoggle.Name] = buttontoggle
@@ -1194,6 +1232,7 @@ func (group *Group) Stage(stage *Stage) *Group {
 	if _, ok := stage.Groups[group]; !ok {
 		stage.Groups[group] = struct{}{}
 		stage.Group_stagedOrder[group] = stage.GroupOrder
+		stage.Group_orderStaged[stage.GroupOrder] = group
 		stage.GroupOrder++
 	}
 	stage.Groups_mapString[group.Name] = group
@@ -1214,6 +1253,7 @@ func (group *Group) StagePreserveOrder(stage *Stage, order uint) {
 			stage.GroupOrder = order
 		}
 		stage.Group_stagedOrder[group] = order
+		stage.Group_orderStaged[order] = group
 		stage.GroupOrder++
 	}
 	stage.Groups_mapString[group.Name] = group
@@ -1280,6 +1320,7 @@ func (grouptoogle *GroupToogle) Stage(stage *Stage) *GroupToogle {
 	if _, ok := stage.GroupToogles[grouptoogle]; !ok {
 		stage.GroupToogles[grouptoogle] = struct{}{}
 		stage.GroupToogle_stagedOrder[grouptoogle] = stage.GroupToogleOrder
+		stage.GroupToogle_orderStaged[stage.GroupToogleOrder] = grouptoogle
 		stage.GroupToogleOrder++
 	}
 	stage.GroupToogles_mapString[grouptoogle.Name] = grouptoogle
@@ -1300,6 +1341,7 @@ func (grouptoogle *GroupToogle) StagePreserveOrder(stage *Stage, order uint) {
 			stage.GroupToogleOrder = order
 		}
 		stage.GroupToogle_stagedOrder[grouptoogle] = order
+		stage.GroupToogle_orderStaged[order] = grouptoogle
 		stage.GroupToogleOrder++
 	}
 	stage.GroupToogles_mapString[grouptoogle.Name] = grouptoogle
@@ -1366,6 +1408,7 @@ func (layout *Layout) Stage(stage *Stage) *Layout {
 	if _, ok := stage.Layouts[layout]; !ok {
 		stage.Layouts[layout] = struct{}{}
 		stage.Layout_stagedOrder[layout] = stage.LayoutOrder
+		stage.Layout_orderStaged[stage.LayoutOrder] = layout
 		stage.LayoutOrder++
 	}
 	stage.Layouts_mapString[layout.Name] = layout
@@ -1386,6 +1429,7 @@ func (layout *Layout) StagePreserveOrder(stage *Stage, order uint) {
 			stage.LayoutOrder = order
 		}
 		stage.Layout_stagedOrder[layout] = order
+		stage.Layout_orderStaged[order] = layout
 		stage.LayoutOrder++
 	}
 	stage.Layouts_mapString[layout.Name] = layout

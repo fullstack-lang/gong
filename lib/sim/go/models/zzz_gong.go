@@ -131,6 +131,7 @@ type Stage struct {
 	Commands_mapString      map[string]*Command
 	CommandOrder            uint
 	Command_stagedOrder     map[*Command]uint
+	Command_orderStaged     map[uint]*Command
 	Commands_reference      map[*Command]*Command
 	Commands_referenceOrder map[*Command]uint
 
@@ -145,6 +146,7 @@ type Stage struct {
 	DummyAgents_mapString      map[string]*DummyAgent
 	DummyAgentOrder            uint
 	DummyAgent_stagedOrder     map[*DummyAgent]uint
+	DummyAgent_orderStaged     map[uint]*DummyAgent
 	DummyAgents_reference      map[*DummyAgent]*DummyAgent
 	DummyAgents_referenceOrder map[*DummyAgent]uint
 
@@ -159,6 +161,7 @@ type Stage struct {
 	Engines_mapString      map[string]*Engine
 	EngineOrder            uint
 	Engine_stagedOrder     map[*Engine]uint
+	Engine_orderStaged     map[uint]*Engine
 	Engines_reference      map[*Engine]*Engine
 	Engines_referenceOrder map[*Engine]uint
 
@@ -173,6 +176,7 @@ type Stage struct {
 	Events_mapString      map[string]*Event
 	EventOrder            uint
 	Event_stagedOrder     map[*Event]uint
+	Event_orderStaged     map[uint]*Event
 	Events_reference      map[*Event]*Event
 	Events_referenceOrder map[*Event]uint
 
@@ -187,6 +191,7 @@ type Stage struct {
 	Statuss_mapString      map[string]*Status
 	StatusOrder            uint
 	Status_stagedOrder     map[*Status]uint
+	Status_orderStaged     map[uint]*Status
 	Statuss_reference      map[*Status]*Status
 	Statuss_referenceOrder map[*Status]uint
 
@@ -201,6 +206,7 @@ type Stage struct {
 	UpdateStates_mapString      map[string]*UpdateState
 	UpdateStateOrder            uint
 	UpdateState_stagedOrder     map[*UpdateState]uint
+	UpdateState_orderStaged     map[uint]*UpdateState
 	UpdateStates_reference      map[*UpdateState]*UpdateState
 	UpdateStates_referenceOrder map[*UpdateState]uint
 
@@ -883,16 +889,28 @@ func NewStage(name string) (stage *Stage) {
 
 		// insertion point for order map initialisations
 		Command_stagedOrder: make(map[*Command]uint),
+		Command_orderStaged: make(map[uint]*Command),
+		Commands_reference: make(map[*Command]*Command),
 
 		DummyAgent_stagedOrder: make(map[*DummyAgent]uint),
+		DummyAgent_orderStaged: make(map[uint]*DummyAgent),
+		DummyAgents_reference: make(map[*DummyAgent]*DummyAgent),
 
 		Engine_stagedOrder: make(map[*Engine]uint),
+		Engine_orderStaged: make(map[uint]*Engine),
+		Engines_reference: make(map[*Engine]*Engine),
 
 		Event_stagedOrder: make(map[*Event]uint),
+		Event_orderStaged: make(map[uint]*Event),
+		Events_reference: make(map[*Event]*Event),
 
 		Status_stagedOrder: make(map[*Status]uint),
+		Status_orderStaged: make(map[uint]*Status),
+		Statuss_reference: make(map[*Status]*Status),
 
 		UpdateState_stagedOrder: make(map[*UpdateState]uint),
+		UpdateState_orderStaged: make(map[uint]*UpdateState),
+		UpdateStates_reference: make(map[*UpdateState]*UpdateState),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
@@ -943,6 +961,27 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.UpdateState_stagedOrder[instance]
 	default:
 		return 0 // should not happen
+	}
+}
+
+func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint) (res Type) {
+	var t Type
+	switch any(t).(type) {
+	// insertion point for order map initialisations
+	case *Command:
+		return any(stage.Command_orderStaged[order]).(Type)
+	case *DummyAgent:
+		return any(stage.DummyAgent_orderStaged[order]).(Type)
+	case *Engine:
+		return any(stage.Engine_orderStaged[order]).(Type)
+	case *Event:
+		return any(stage.Event_orderStaged[order]).(Type)
+	case *Status:
+		return any(stage.Status_orderStaged[order]).(Type)
+	case *UpdateState:
+		return any(stage.UpdateState_orderStaged[order]).(Type)
+	default:
+		return // should not happen
 	}
 }
 
@@ -1077,6 +1116,7 @@ func (command *Command) Stage(stage *Stage) *Command {
 	if _, ok := stage.Commands[command]; !ok {
 		stage.Commands[command] = struct{}{}
 		stage.Command_stagedOrder[command] = stage.CommandOrder
+		stage.Command_orderStaged[stage.CommandOrder] = command
 		stage.CommandOrder++
 	}
 	stage.Commands_mapString[command.Name] = command
@@ -1097,6 +1137,7 @@ func (command *Command) StagePreserveOrder(stage *Stage, order uint) {
 			stage.CommandOrder = order
 		}
 		stage.Command_stagedOrder[command] = order
+		stage.Command_orderStaged[order] = command
 		stage.CommandOrder++
 	}
 	stage.Commands_mapString[command.Name] = command
@@ -1163,6 +1204,7 @@ func (dummyagent *DummyAgent) Stage(stage *Stage) *DummyAgent {
 	if _, ok := stage.DummyAgents[dummyagent]; !ok {
 		stage.DummyAgents[dummyagent] = struct{}{}
 		stage.DummyAgent_stagedOrder[dummyagent] = stage.DummyAgentOrder
+		stage.DummyAgent_orderStaged[stage.DummyAgentOrder] = dummyagent
 		stage.DummyAgentOrder++
 	}
 	stage.DummyAgents_mapString[dummyagent.Name] = dummyagent
@@ -1183,6 +1225,7 @@ func (dummyagent *DummyAgent) StagePreserveOrder(stage *Stage, order uint) {
 			stage.DummyAgentOrder = order
 		}
 		stage.DummyAgent_stagedOrder[dummyagent] = order
+		stage.DummyAgent_orderStaged[order] = dummyagent
 		stage.DummyAgentOrder++
 	}
 	stage.DummyAgents_mapString[dummyagent.Name] = dummyagent
@@ -1249,6 +1292,7 @@ func (engine *Engine) Stage(stage *Stage) *Engine {
 	if _, ok := stage.Engines[engine]; !ok {
 		stage.Engines[engine] = struct{}{}
 		stage.Engine_stagedOrder[engine] = stage.EngineOrder
+		stage.Engine_orderStaged[stage.EngineOrder] = engine
 		stage.EngineOrder++
 	}
 	stage.Engines_mapString[engine.Name] = engine
@@ -1269,6 +1313,7 @@ func (engine *Engine) StagePreserveOrder(stage *Stage, order uint) {
 			stage.EngineOrder = order
 		}
 		stage.Engine_stagedOrder[engine] = order
+		stage.Engine_orderStaged[order] = engine
 		stage.EngineOrder++
 	}
 	stage.Engines_mapString[engine.Name] = engine
@@ -1335,6 +1380,7 @@ func (event *Event) Stage(stage *Stage) *Event {
 	if _, ok := stage.Events[event]; !ok {
 		stage.Events[event] = struct{}{}
 		stage.Event_stagedOrder[event] = stage.EventOrder
+		stage.Event_orderStaged[stage.EventOrder] = event
 		stage.EventOrder++
 	}
 	stage.Events_mapString[event.Name] = event
@@ -1355,6 +1401,7 @@ func (event *Event) StagePreserveOrder(stage *Stage, order uint) {
 			stage.EventOrder = order
 		}
 		stage.Event_stagedOrder[event] = order
+		stage.Event_orderStaged[order] = event
 		stage.EventOrder++
 	}
 	stage.Events_mapString[event.Name] = event
@@ -1421,6 +1468,7 @@ func (status *Status) Stage(stage *Stage) *Status {
 	if _, ok := stage.Statuss[status]; !ok {
 		stage.Statuss[status] = struct{}{}
 		stage.Status_stagedOrder[status] = stage.StatusOrder
+		stage.Status_orderStaged[stage.StatusOrder] = status
 		stage.StatusOrder++
 	}
 	stage.Statuss_mapString[status.Name] = status
@@ -1441,6 +1489,7 @@ func (status *Status) StagePreserveOrder(stage *Stage, order uint) {
 			stage.StatusOrder = order
 		}
 		stage.Status_stagedOrder[status] = order
+		stage.Status_orderStaged[order] = status
 		stage.StatusOrder++
 	}
 	stage.Statuss_mapString[status.Name] = status
@@ -1507,6 +1556,7 @@ func (updatestate *UpdateState) Stage(stage *Stage) *UpdateState {
 	if _, ok := stage.UpdateStates[updatestate]; !ok {
 		stage.UpdateStates[updatestate] = struct{}{}
 		stage.UpdateState_stagedOrder[updatestate] = stage.UpdateStateOrder
+		stage.UpdateState_orderStaged[stage.UpdateStateOrder] = updatestate
 		stage.UpdateStateOrder++
 	}
 	stage.UpdateStates_mapString[updatestate.Name] = updatestate
@@ -1527,6 +1577,7 @@ func (updatestate *UpdateState) StagePreserveOrder(stage *Stage, order uint) {
 			stage.UpdateStateOrder = order
 		}
 		stage.UpdateState_stagedOrder[updatestate] = order
+		stage.UpdateState_orderStaged[order] = updatestate
 		stage.UpdateStateOrder++
 	}
 	stage.UpdateStates_mapString[updatestate.Name] = updatestate

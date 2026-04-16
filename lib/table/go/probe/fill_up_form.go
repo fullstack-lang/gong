@@ -181,6 +181,28 @@ func FillUpForm(
 					probe)
 			}
 		}
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "Table"
+			rf.Fieldname = "RowsSelectedForBulkDelete"
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.Table),
+					"RowsSelectedForBulkDelete",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			} else {
+				AssociationReverseFieldToForm[*models.Table](
+					nil,
+					"RowsSelectedForBulkDelete",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			}
+		}
 
 	case *models.SVGIcon:
 		// insertion point
@@ -207,6 +229,11 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("SaveButtonLabel", instanceWithInferedType.SaveButtonLabel, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		BasicFieldtoForm("HasBulkDeleteButton", instanceWithInferedType.HasBulkDeleteButton, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("BulkDeleteButtonTooltip", instanceWithInferedType.BulkDeleteButtonTooltip, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		AssociationSliceToForm("RowsSelectedForBulkDelete", instanceWithInferedType, &instanceWithInferedType.RowsSelectedForBulkDelete, formGroup, probe)
 		BasicFieldtoForm("CanDragDropRows", instanceWithInferedType.CanDragDropRows, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("HasCloseButton", instanceWithInferedType.HasCloseButton, instanceWithInferedType, probe.formStage, formGroup,

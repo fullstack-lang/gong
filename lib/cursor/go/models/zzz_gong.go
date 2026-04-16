@@ -131,6 +131,7 @@ type Stage struct {
 	Cursors_mapString      map[string]*Cursor
 	CursorOrder            uint
 	Cursor_stagedOrder     map[*Cursor]uint
+	Cursor_orderStaged     map[uint]*Cursor
 	Cursors_reference      map[*Cursor]*Cursor
 	Cursors_referenceOrder map[*Cursor]uint
 
@@ -618,6 +619,8 @@ func NewStage(name string) (stage *Stage) {
 
 		// insertion point for order map initialisations
 		Cursor_stagedOrder: make(map[*Cursor]uint),
+		Cursor_orderStaged: make(map[uint]*Cursor),
+		Cursors_reference: make(map[*Cursor]*Cursor),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
@@ -643,6 +646,17 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.Cursor_stagedOrder[instance]
 	default:
 		return 0 // should not happen
+	}
+}
+
+func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint) (res Type) {
+	var t Type
+	switch any(t).(type) {
+	// insertion point for order map initialisations
+	case *Cursor:
+		return any(stage.Cursor_orderStaged[order]).(Type)
+	default:
+		return // should not happen
 	}
 }
 
@@ -762,6 +776,7 @@ func (cursor *Cursor) Stage(stage *Stage) *Cursor {
 	if _, ok := stage.Cursors[cursor]; !ok {
 		stage.Cursors[cursor] = struct{}{}
 		stage.Cursor_stagedOrder[cursor] = stage.CursorOrder
+		stage.Cursor_orderStaged[stage.CursorOrder] = cursor
 		stage.CursorOrder++
 	}
 	stage.Cursors_mapString[cursor.Name] = cursor
@@ -782,6 +797,7 @@ func (cursor *Cursor) StagePreserveOrder(stage *Stage, order uint) {
 			stage.CursorOrder = order
 		}
 		stage.Cursor_stagedOrder[cursor] = order
+		stage.Cursor_orderStaged[order] = cursor
 		stage.CursorOrder++
 	}
 	stage.Cursors_mapString[cursor.Name] = cursor

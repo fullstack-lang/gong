@@ -588,6 +588,15 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 	}
 }
 
+func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint) (res Type) {
+	var t Type
+	switch any(t).(type) {
+	// insertion point for order map initialisations{{` + string(rune(ModelGongGetInstanceFromOrder)) + `}}
+	default:
+		return // should not happen
+	}
+}
+
 func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) uint {
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations{{` + string(rune(ModelGongOrderSwitchGet)) + `}}

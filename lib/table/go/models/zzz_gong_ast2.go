@@ -808,6 +808,12 @@ func (u *TableUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		instance.HasSaveButton = GongExtractBool(valueExpr)
 	case "SaveButtonLabel":
 		instance.SaveButtonLabel = GongExtractString(valueExpr)
+	case "HasBulkDeleteButton":
+		instance.HasBulkDeleteButton = GongExtractBool(valueExpr)
+	case "BulkDeleteButtonTooltip":
+		instance.BulkDeleteButtonTooltip = GongExtractString(valueExpr)
+	case "RowsSelectedForBulkDelete":
+		GongUnmarshallSliceOfPointers(&instance.RowsSelectedForBulkDelete, valueExpr, identifierMap)
 	case "CanDragDropRows":
 		instance.CanDragDropRows = GongExtractBool(valueExpr)
 	case "HasCloseButton":

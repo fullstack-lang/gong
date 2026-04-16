@@ -131,6 +131,7 @@ type Stage struct {
 	Freqencys_mapString      map[string]*Freqency
 	FreqencyOrder            uint
 	Freqency_stagedOrder     map[*Freqency]uint
+	Freqency_orderStaged     map[uint]*Freqency
 	Freqencys_reference      map[*Freqency]*Freqency
 	Freqencys_referenceOrder map[*Freqency]uint
 
@@ -145,6 +146,7 @@ type Stage struct {
 	Notes_mapString      map[string]*Note
 	NoteOrder            uint
 	Note_stagedOrder     map[*Note]uint
+	Note_orderStaged     map[uint]*Note
 	Notes_reference      map[*Note]*Note
 	Notes_referenceOrder map[*Note]uint
 
@@ -161,6 +163,7 @@ type Stage struct {
 	Players_mapString      map[string]*Player
 	PlayerOrder            uint
 	Player_stagedOrder     map[*Player]uint
+	Player_orderStaged     map[uint]*Player
 	Players_reference      map[*Player]*Player
 	Players_referenceOrder map[*Player]uint
 
@@ -726,10 +729,16 @@ func NewStage(name string) (stage *Stage) {
 
 		// insertion point for order map initialisations
 		Freqency_stagedOrder: make(map[*Freqency]uint),
+		Freqency_orderStaged: make(map[uint]*Freqency),
+		Freqencys_reference: make(map[*Freqency]*Freqency),
 
 		Note_stagedOrder: make(map[*Note]uint),
+		Note_orderStaged: make(map[uint]*Note),
+		Notes_reference: make(map[*Note]*Note),
 
 		Player_stagedOrder: make(map[*Player]uint),
+		Player_orderStaged: make(map[uint]*Player),
+		Players_reference: make(map[*Player]*Player),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
@@ -765,6 +774,21 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.Player_stagedOrder[instance]
 	default:
 		return 0 // should not happen
+	}
+}
+
+func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint) (res Type) {
+	var t Type
+	switch any(t).(type) {
+	// insertion point for order map initialisations
+	case *Freqency:
+		return any(stage.Freqency_orderStaged[order]).(Type)
+	case *Note:
+		return any(stage.Note_orderStaged[order]).(Type)
+	case *Player:
+		return any(stage.Player_orderStaged[order]).(Type)
+	default:
+		return // should not happen
 	}
 }
 
@@ -890,6 +914,7 @@ func (freqency *Freqency) Stage(stage *Stage) *Freqency {
 	if _, ok := stage.Freqencys[freqency]; !ok {
 		stage.Freqencys[freqency] = struct{}{}
 		stage.Freqency_stagedOrder[freqency] = stage.FreqencyOrder
+		stage.Freqency_orderStaged[stage.FreqencyOrder] = freqency
 		stage.FreqencyOrder++
 	}
 	stage.Freqencys_mapString[freqency.Name] = freqency
@@ -910,6 +935,7 @@ func (freqency *Freqency) StagePreserveOrder(stage *Stage, order uint) {
 			stage.FreqencyOrder = order
 		}
 		stage.Freqency_stagedOrder[freqency] = order
+		stage.Freqency_orderStaged[order] = freqency
 		stage.FreqencyOrder++
 	}
 	stage.Freqencys_mapString[freqency.Name] = freqency
@@ -976,6 +1002,7 @@ func (note *Note) Stage(stage *Stage) *Note {
 	if _, ok := stage.Notes[note]; !ok {
 		stage.Notes[note] = struct{}{}
 		stage.Note_stagedOrder[note] = stage.NoteOrder
+		stage.Note_orderStaged[stage.NoteOrder] = note
 		stage.NoteOrder++
 	}
 	stage.Notes_mapString[note.Name] = note
@@ -996,6 +1023,7 @@ func (note *Note) StagePreserveOrder(stage *Stage, order uint) {
 			stage.NoteOrder = order
 		}
 		stage.Note_stagedOrder[note] = order
+		stage.Note_orderStaged[order] = note
 		stage.NoteOrder++
 	}
 	stage.Notes_mapString[note.Name] = note
@@ -1062,6 +1090,7 @@ func (player *Player) Stage(stage *Stage) *Player {
 	if _, ok := stage.Players[player]; !ok {
 		stage.Players[player] = struct{}{}
 		stage.Player_stagedOrder[player] = stage.PlayerOrder
+		stage.Player_orderStaged[stage.PlayerOrder] = player
 		stage.PlayerOrder++
 	}
 	stage.Players_mapString[player.Name] = player
@@ -1082,6 +1111,7 @@ func (player *Player) StagePreserveOrder(stage *Stage, order uint) {
 			stage.PlayerOrder = order
 		}
 		stage.Player_stagedOrder[player] = order
+		stage.Player_orderStaged[order] = player
 		stage.PlayerOrder++
 	}
 	stage.Players_mapString[player.Name] = player
