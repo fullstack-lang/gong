@@ -155,6 +155,7 @@ func ({{structname}} *{{Structname}}) StagePreserveOrder(stage *Stage, order uin
 			stage.{{Structname}}Order = order
 		}
 		stage.{{Structname}}_stagedOrder[{{structname}}] = order
+		stage.{{Structname}}_orderStaged[order] = {{structname}}
 		stage.{{Structname}}Order++
 	}
 	stage.{{Structname}}s_mapString[{{structname}}.Name] = {{structname}}
@@ -229,6 +230,7 @@ func ({{structname}} *{{Structname}}) SetName(name string) {
 	{{Structname}}s_mapString      map[string]*{{Structname}}
 	{{Structname}}Order            uint
 	{{Structname}}_stagedOrder     map[*{{Structname}}]uint
+	{{Structname}}_orderStaged     map[uint]*{{Structname}}
 	{{Structname}}s_reference      map[*{{Structname}}]*{{Structname}}
 	{{Structname}}s_referenceOrder map[*{{Structname}}]uint
 
