@@ -812,8 +812,8 @@ func (u *TableUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		instance.HasBulkDeleteButton = GongExtractBool(valueExpr)
 	case "BulkDeleteButtonTooltip":
 		instance.BulkDeleteButtonTooltip = GongExtractString(valueExpr)
-	case "BulkDeleteSelectedRowsIDsJson":
-		instance.BulkDeleteSelectedRowsIDsJson = GongExtractString(valueExpr)
+	case "RowsSelectedForBulkDelete":
+		GongUnmarshallSliceOfPointers(&instance.RowsSelectedForBulkDelete, valueExpr, identifierMap)
 	case "CanDragDropRows":
 		instance.CanDragDropRows = GongExtractBool(valueExpr)
 	case "HasCloseButton":

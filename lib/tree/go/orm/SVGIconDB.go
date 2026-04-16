@@ -196,9 +196,10 @@ func (backRepoSVGIcon *BackRepoSVGIconStruct) CommitPhaseOneInstance(svgicon *mo
 
 	// initiate svgicon
 	var svgiconDB SVGIconDB
-	svgiconDB.CopyBasicFieldsFromSVGIcon(svgicon)
 
+	svgiconDB.CopyBasicFieldsFromSVGIcon(svgicon)
 	_, err := backRepoSVGIcon.db.Create(&svgiconDB)
+
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -122,6 +122,7 @@ func (table *Table) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = GongCleanSlice(stage, &table.DisplayedColumns) || modified
 	modified = GongCleanSlice(stage, &table.Rows) || modified
+	modified = GongCleanSlice(stage, &table.RowsSelectedForBulkDelete) || modified
 	modified = GongCleanSlice(stage, &table.Buttons) || modified
 	// insertion point per field
 	return

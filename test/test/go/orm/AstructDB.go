@@ -339,9 +339,10 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseOneInstance(astruct *mo
 
 	// initiate astruct
 	var astructDB AstructDB
-	astructDB.CopyBasicFieldsFromAstruct(astruct)
 
+	astructDB.CopyBasicFieldsFromAstruct(astruct)
 	_, err := backRepoAstruct.db.Create(&astructDB)
+
 	if err != nil {
 		log.Fatal(err)
 	}
