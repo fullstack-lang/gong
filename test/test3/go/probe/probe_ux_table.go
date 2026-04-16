@@ -56,30 +56,6 @@ func updateProbeTable[T models.PointerToGongstruct](
 	table.BulkDeleteButtonTooltip = "Select rows to delete and click to delete them"
 	table.HasSaveButton = false
 
-	// add a button for bulk delete
-	bulkDeleteButton := &table_models.Button{
-		Name: "BulkDeleteButton",
-		Icon: func() string {
-			if probe.bulkDeleteMode {
-				return string(maticons.BUTTON_deselect)
-			}
-			return string(maticons.BUTTON_delete_sweep)
-		}(),
-		HasToolTip: true,
-		ToolTipText: func() string {
-			if probe.bulkDeleteMode {
-				return "Cancel bulk delete"
-			}
-			return "Select instances to delete"
-		}(),
-		ToolTipPosition: table_models.Below,
-	}
-	bulkDeleteButton.OnClick = func() {
-		probe.bulkDeleteMode = !probe.bulkDeleteMode
-		updateProbeTable[T](probe)
-	}
-	table.Buttons = append(table.Buttons, bulkDeleteButton)
-
 	fields := models.GetFieldsFromPointer[T]()
 	reverseFields := models.GetReverseFields[T]()
 
@@ -96,6 +72,31 @@ func updateProbeTable[T models.PointerToGongstruct](
 		return models.GetOrderPointerGongstruct(probe.stageOfInterest, sliceOfGongStructsSorted[i]) <
 			models.GetOrderPointerGongstruct(probe.stageOfInterest, sliceOfGongStructsSorted[j])
 	})
+
+	// add a button for bulk delete
+	bulkDeleteModeButton := &table_models.Button{
+		Name: "BulkDeleteButton",
+		Icon: func() string {
+			if probe.bulkDeleteMode {
+				return string(maticons.BUTTON_deselect)
+			}
+			return string(maticons.BUTTON_delete_sweep)
+		}(),
+		HasToolTip: true,
+		ToolTipText: func() string {
+			if probe.bulkDeleteMode {
+				return "Cancel bulk delete"
+			}
+			return "Select instances to delete"
+		}(),
+		ToolTipPosition: table_models.Below,
+	}
+
+	bulkDeleteModeButton.OnClick = func() {
+		probe.bulkDeleteMode = !probe.bulkDeleteMode
+		updateProbeTable[T](probe)
+	}
+	table.Buttons = append(table.Buttons, bulkDeleteModeButton)
 
 	column := new(table_models.DisplayedColumn)
 	column.Name = "ID"
@@ -114,6 +115,29 @@ func updateProbeTable[T models.PointerToGongstruct](
 					probe.selectedRowIDsForBulkDelete = append(probe.selectedRowIDsForBulkDelete, id)
 				}
 			}
+			for _, rowID_ := range probe.selectedRowIDsForBulkDelete {
+				if selectedIDForDelete, ok := probe.map_rowID_ID_ForBulkDelete[rowID_]; ok {
+					// log.Println("Deleting instance with ID", id, "rowID", rowID)
+					for _, structInstance := range sliceOfGongStructsSorted {
+						if models.GetOrderPointerGongstruct(probe.stageOfInterest, structInstance) == selectedIDForDelete {
+							structInstance.UnstageVoid(probe.stageOfInterest)
+							break
+						}
+					}
+				}
+			}
+			if len(probe.selectedRowIDsForBulkDelete) > 0 {
+				// after a delete of an instance, the stage might be dirty if a pointer or a slice of pointer
+				// reference the deleted instance.
+				// therefore, it is mandatory to clean the stage of interest
+				probe.stageOfInterest.Clean()
+				probe.bulkDeleteMode = false
+				probe.stageOfInterest.Commit()
+				probe.Refresh()
+			}
+			probe.selectedRowIDsForBulkDelete = make([]uint, 0)
+
+			probe.tableStage.Commit()
 		}
 	}
 
@@ -173,9 +197,7 @@ func updateProbeTable[T models.PointerToGongstruct](
 					// therefore, it is mandatory to clean the stage of interest
 					probe.stageOfInterest.Clean()
 					probe.stageOfInterest.Commit()
-
-					updateProbeTable[T](probe)
-					probe.ux_tree()
+					probe.Refresh()
 				},
 			},
 		}
@@ -243,6 +265,17 @@ func updateProbeTable[T models.PointerToGongstruct](
 	}
 
 	table_models.StageBranch(probe.tableStage, table)
+
+	probe.map_rowID_ID_ForBulkDelete = make(map[uint]uint)
+	for idx, row := range table.Rows {
+		// we suppose that the row ID is the same as the order of the gong struct instance in the stage of interest
+		structOFInterest := sliceOfGongStructsSorted[idx]
+		idStructOfInterest := models.GetOrderPointerGongstruct(probe.stageOfInterest, structOFInterest)
+
+		idRow := table_models.GetOrderPointerGongstruct(probe.tableStage, row)
+
+		probe.map_rowID_ID_ForBulkDelete[uint(idRow)] = idStructOfInterest
+	}
 
 	probe.tableStage.Commit()
 }

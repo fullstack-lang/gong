@@ -23,7 +23,7 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Row_sql sql.NullBool
-var _ =  dummy_Row_sql
+var _ = dummy_Row_sql
 var dummy_Row_time time.Duration
 var _ = dummy_Row_time
 var dummy_Row_sort sort.Float64Slice
@@ -203,6 +203,7 @@ func (backRepoRow *BackRepoRowStruct) CommitPhaseOneInstance(row *models.Row) (E
 	rowDB.CopyBasicFieldsFromRow(row)
 
 	_, err := backRepoRow.db.Create(&rowDB)
+	rowDB.ID = models.GetOrderPointerGongstruct(backRepoRow.stage, row)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -242,14 +243,14 @@ func (backRepoRow *BackRepoRowStruct) CommitPhaseTwoInstance(backRepo *BackRepoS
 		for _, cellAssocEnd := range row.Cells {
 			cellAssocEnd_DB :=
 				backRepo.BackRepoCell.GetCellDBFromCellPtr(cellAssocEnd)
-			
+
 			// the stage might be inconsistant, meaning that the cellAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
 			if cellAssocEnd_DB == nil {
 				continue
 			}
-			
+
 			rowDB.RowPointersEncoding.Cells =
 				append(rowDB.RowPointersEncoding.Cells, int(cellAssocEnd_DB.ID))
 		}
