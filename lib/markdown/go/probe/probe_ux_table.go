@@ -45,7 +45,9 @@ func updateProbeTable[T models.PointerToGongstruct](
 	table.HasColumnSorting = true
 	table.HasFiltering = true
 	table.HasPaginator = true
-	table.HasCheckableRows = false
+	table.HasCheckableRows = probe.bulkDeleteMode
+	table.HasBulkDeleteButton = probe.bulkDeleteMode
+	table.BulkDeleteButtonTooltip = "Select rows to delete and click to delete them"
 	table.HasSaveButton = false
 
 	fields := models.GetFieldsFromPointer[T]()
@@ -65,13 +67,65 @@ func updateProbeTable[T models.PointerToGongstruct](
 			models.GetOrderPointerGongstruct(probe.stageOfInterest, sliceOfGongStructsSorted[j])
 	})
 
+	// add a button for bulk delete
+	bulkDeleteModeButton := &table_models.Button{
+		Name: "BulkDeleteButton",
+		Icon: func() string {
+			if probe.bulkDeleteMode {
+				return string(maticons.BUTTON_deselect)
+			}
+			return string(maticons.BUTTON_delete_sweep)
+		}(),
+		HasToolTip: true,
+		ToolTipText: func() string {
+			if probe.bulkDeleteMode {
+				return "Cancel bulk delete"
+			}
+			return "Select instances to delete"
+		}(),
+		ToolTipPosition: table_models.Below,
+	}
+
+	bulkDeleteModeButton.OnClick = func() {
+		probe.bulkDeleteMode = !probe.bulkDeleteMode
+		updateProbeTable[T](probe)
+	}
+	table.Buttons = append(table.Buttons, bulkDeleteModeButton)
+
 	column := new(table_models.DisplayedColumn)
 	column.Name = "ID"
 	table.DisplayedColumns = append(table.DisplayedColumns, column)
 
-	column = new(table_models.DisplayedColumn)
-	column.Name = "Delete"
-	table.DisplayedColumns = append(table.DisplayedColumns, column)
+	if !probe.bulkDeleteMode {
+		column = new(table_models.DisplayedColumn)
+		column.Name = "Delete"
+		table.DisplayedColumns = append(table.DisplayedColumns, column)
+	} else {
+		table.OnUpdate = func(stage *table_models.Stage, updatedTable *table_models.Table) {
+			// log.Println("Table updated, selectedRowIDsForBulkDelete:", updatedTable.BulkDeleteSelectedRowsIDsJson)
+
+			for _, row := range updatedTable.RowsSelectedForBulkDelete {
+				cellID := row.Cells[0]
+				id := cellID.CellInt.Value
+				instance := models.GongGetInstanceFromOrder[T](probe.stageOfInterest, uint(id))
+				var zeroInstance T
+				if instance == zeroInstance {
+					continue
+				}
+				instance.UnstageVoid(probe.stageOfInterest)
+			}
+			if len(updatedTable.RowsSelectedForBulkDelete) > 0 {
+				// after a delete of an instance, the stage might be dirty if a pointer or a slice of pointer
+				// reference the deleted instance.
+				// therefore, it is mandatory to clean the stage of interest
+				probe.bulkDeleteMode = false
+				probe.stageOfInterest.Commit()
+				probe.Refresh()
+			}
+
+			probe.stageOfInterest.Commit()
+		}
+	}
 
 	for _, fieldName := range fields {
 		column := new(table_models.DisplayedColumn)
