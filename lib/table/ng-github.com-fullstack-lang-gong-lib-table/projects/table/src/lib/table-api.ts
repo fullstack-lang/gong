@@ -20,6 +20,9 @@ export class TableAPI {
 	HasCheckableRows: boolean = false
 	HasSaveButton: boolean = false
 	SaveButtonLabel: string = ""
+	HasBulkDeleteButton: boolean = false
+	BulkDeleteButtonTooltip: string = ""
+	BulkDeleteSelectedRowsIDsJson: string = ""
 	CanDragDropRows: boolean = false
 	HasCloseButton: boolean = false
 	SavingInProgress: boolean = false

@@ -25,6 +25,9 @@ export class Table {
 	HasCheckableRows: boolean = false
 	HasSaveButton: boolean = false
 	SaveButtonLabel: string = ""
+	HasBulkDeleteButton: boolean = false
+	BulkDeleteButtonTooltip: string = ""
+	BulkDeleteSelectedRowsIDsJson: string = ""
 	CanDragDropRows: boolean = false
 	HasCloseButton: boolean = false
 	SavingInProgress: boolean = false
@@ -53,6 +56,9 @@ export function CopyTableToTableAPI(table: Table, tableAPI: TableAPI) {
 	tableAPI.HasCheckableRows = table.HasCheckableRows
 	tableAPI.HasSaveButton = table.HasSaveButton
 	tableAPI.SaveButtonLabel = table.SaveButtonLabel
+	tableAPI.HasBulkDeleteButton = table.HasBulkDeleteButton
+	tableAPI.BulkDeleteButtonTooltip = table.BulkDeleteButtonTooltip
+	tableAPI.BulkDeleteSelectedRowsIDsJson = table.BulkDeleteSelectedRowsIDsJson
 	tableAPI.CanDragDropRows = table.CanDragDropRows
 	tableAPI.HasCloseButton = table.HasCloseButton
 	tableAPI.SavingInProgress = table.SavingInProgress
@@ -96,6 +102,9 @@ export function CopyTableAPIToTable(tableAPI: TableAPI, table: Table, frontRepo:
 	table.HasCheckableRows = tableAPI.HasCheckableRows
 	table.HasSaveButton = tableAPI.HasSaveButton
 	table.SaveButtonLabel = tableAPI.SaveButtonLabel
+	table.HasBulkDeleteButton = tableAPI.HasBulkDeleteButton
+	table.BulkDeleteButtonTooltip = tableAPI.BulkDeleteButtonTooltip
+	table.BulkDeleteSelectedRowsIDsJson = tableAPI.BulkDeleteSelectedRowsIDsJson
 	table.CanDragDropRows = tableAPI.CanDragDropRows
 	table.HasCloseButton = tableAPI.HasCloseButton
 	table.SavingInProgress = tableAPI.SavingInProgress

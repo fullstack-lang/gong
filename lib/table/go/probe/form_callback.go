@@ -1255,6 +1255,12 @@ func (tableFormCallback *TableFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(table_.HasSaveButton), formDiv)
 		case "SaveButtonLabel":
 			FormDivBasicFieldToField(&(table_.SaveButtonLabel), formDiv)
+		case "HasBulkDeleteButton":
+			FormDivBasicFieldToField(&(table_.HasBulkDeleteButton), formDiv)
+		case "BulkDeleteButtonTooltip":
+			FormDivBasicFieldToField(&(table_.BulkDeleteButtonTooltip), formDiv)
+		case "BulkDeleteSelectedRowsIDsJson":
+			FormDivBasicFieldToField(&(table_.BulkDeleteSelectedRowsIDsJson), formDiv)
 		case "CanDragDropRows":
 			FormDivBasicFieldToField(&(table_.CanDragDropRows), formDiv)
 		case "HasCloseButton":
