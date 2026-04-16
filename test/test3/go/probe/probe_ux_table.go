@@ -103,10 +103,14 @@ func updateProbeTable[T models.PointerToGongstruct](
 			for _, row := range updatedTable.RowsSelectedForBulkDelete {
 				cellID := row.Cells[0]
 				id := cellID.CellInt.Value
-				_ = cellID
-				_ = id
+				instance := models.GongGetInstanceFromOrder[T](probe.stageOfInterest, uint(id))
+				var zeroInstance T
+				if instance == zeroInstance {
+					continue
+				}
+				instance.UnstageVoid(probe.stageOfInterest)
 			}
-			if len(table.RowsSelectedForBulkDelete) > 0 {
+			if len(updatedTable.RowsSelectedForBulkDelete) > 0 {
 				// after a delete of an instance, the stage might be dirty if a pointer or a slice of pointer
 				// reference the deleted instance.
 				// therefore, it is mandatory to clean the stage of interest
