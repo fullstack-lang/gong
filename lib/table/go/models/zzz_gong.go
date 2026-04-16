@@ -3448,6 +3448,18 @@ func (table *Table) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:               "HasBulkDeleteButton",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "BulkDeleteButtonTooltip",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "BulkDeleteSelectedRowsIDsJson",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
 			Name:               "CanDragDropRows",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -3753,6 +3765,14 @@ func (table *Table) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "SaveButtonLabel":
 		res.valueString = table.SaveButtonLabel
+	case "HasBulkDeleteButton":
+		res.valueString = fmt.Sprintf("%t", table.HasBulkDeleteButton)
+		res.valueBool = table.HasBulkDeleteButton
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "BulkDeleteButtonTooltip":
+		res.valueString = table.BulkDeleteButtonTooltip
+	case "BulkDeleteSelectedRowsIDsJson":
+		res.valueString = table.BulkDeleteSelectedRowsIDsJson
 	case "CanDragDropRows":
 		res.valueString = fmt.Sprintf("%t", table.CanDragDropRows)
 		res.valueBool = table.CanDragDropRows
@@ -4052,6 +4072,12 @@ func (table *Table) GongSetFieldValue(fieldName string, value GongFieldValue, st
 		table.HasSaveButton = value.GetValueBool()
 	case "SaveButtonLabel":
 		table.SaveButtonLabel = value.GetValueString()
+	case "HasBulkDeleteButton":
+		table.HasBulkDeleteButton = value.GetValueBool()
+	case "BulkDeleteButtonTooltip":
+		table.BulkDeleteButtonTooltip = value.GetValueString()
+	case "BulkDeleteSelectedRowsIDsJson":
+		table.BulkDeleteSelectedRowsIDsJson = value.GetValueString()
 	case "CanDragDropRows":
 		table.CanDragDropRows = value.GetValueBool()
 	case "HasCloseButton":

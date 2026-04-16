@@ -121,4 +121,81 @@ func _(stage *models.Stage) {
 	// A09
 	__A__00000000_.Name = `A09`
 	stage.Commit()
+
+	__A__00000003_ := (&models.A{Name: `sss`}).Stage(stage)
+	__A__00000003_.Name = `sss`
+	__A__00000003_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__A__00000003_.FloatValue = 0.000000
+	__A__00000003_.IntValue = 0
+	__A__00000003_.Duration = 0
+	__A__00000003_.EnumString = ""
+	__A__00000003_.EnumInt = models.EnumTypeInt_Value1
+	__A__00000003_.UUID = ``
+	__A__00000003_.B = nil
+	stage.Commit()
+
+	__A__00000004_ := (&models.A{Name: `aaa`}).Stage(stage)
+	__A__00000004_.Name = `aaa`
+	__A__00000004_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__A__00000004_.FloatValue = 0.000000
+	__A__00000004_.IntValue = 0
+	__A__00000004_.Duration = 0
+	__A__00000004_.EnumString = ""
+	__A__00000004_.EnumInt = models.EnumTypeInt_Value1
+	__A__00000004_.UUID = ``
+	__A__00000004_.B = nil
+	stage.Commit()
+
+	__A__00000003_.Unstage(stage)
+	stage.Commit()
+
+	__A__00000005_ := (&models.A{Name: `ddd`}).Stage(stage)
+	__A__00000005_.Name = `ddd`
+	__A__00000005_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__A__00000005_.FloatValue = 0.000000
+	__A__00000005_.IntValue = 0
+	__A__00000005_.Duration = 0
+	__A__00000005_.EnumString = ""
+	__A__00000005_.EnumInt = models.EnumTypeInt_Value1
+	__A__00000005_.UUID = ``
+	__A__00000005_.B = nil
+	stage.Commit()
+
+	__A__00000004_.Unstage(stage)
+	stage.Commit()
+
+	__A__00000006_ := (&models.A{Name: `sdqd`}).Stage(stage)
+	__A__00000006_.Name = `sdqd`
+	__A__00000006_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__A__00000006_.FloatValue = 0.000000
+	__A__00000006_.IntValue = 0
+	__A__00000006_.Duration = 0
+	__A__00000006_.EnumString = ""
+	__A__00000006_.EnumInt = models.EnumTypeInt_Value1
+	__A__00000006_.UUID = ``
+	__A__00000006_.B = nil
+	stage.Commit()
+
+	// ID 5
+	__A__00000005_.Name = `ID 5`
+	__A__00000005_.EnumInt = models.EnumTypeInt_Value2
+	stage.Commit()
+
+	// ID 6
+	__A__00000006_.Name = `ID 6`
+	__A__00000006_.EnumInt = models.EnumTypeInt_Value2
+	stage.Commit()
+
+	// ID 0
+	__A__00000000_.Name = `ID 0`
+	stage.Commit()
+
+	// ID 1
+	__A__00000001_.Name = `ID 1`
+	stage.Commit()
+
+	// ID 2
+	__A__00000002_.Name = `ID 2`
+	__A__00000002_.EnumInt = models.EnumTypeInt_Value1
+	stage.Commit()
 }

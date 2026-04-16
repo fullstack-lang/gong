@@ -98,6 +98,16 @@ type TableDB struct {
 	// Declation for basic field tableDB.SaveButtonLabel
 	SaveButtonLabel_Data sql.NullString
 
+	// Declation for basic field tableDB.HasBulkDeleteButton
+	// provide the sql storage for the boolan
+	HasBulkDeleteButton_Data sql.NullBool
+
+	// Declation for basic field tableDB.BulkDeleteButtonTooltip
+	BulkDeleteButtonTooltip_Data sql.NullString
+
+	// Declation for basic field tableDB.BulkDeleteSelectedRowsIDsJson
+	BulkDeleteSelectedRowsIDsJson_Data sql.NullString
+
 	// Declation for basic field tableDB.CanDragDropRows
 	// provide the sql storage for the boolan
 	CanDragDropRows_Data sql.NullBool
@@ -149,13 +159,19 @@ type TableWOP struct {
 
 	SaveButtonLabel string `xlsx:"7"`
 
-	CanDragDropRows bool `xlsx:"8"`
+	HasBulkDeleteButton bool `xlsx:"8"`
 
-	HasCloseButton bool `xlsx:"9"`
+	BulkDeleteButtonTooltip string `xlsx:"9"`
 
-	SavingInProgress bool `xlsx:"10"`
+	BulkDeleteSelectedRowsIDsJson string `xlsx:"10"`
 
-	NbOfStickyColumns int `xlsx:"11"`
+	CanDragDropRows bool `xlsx:"11"`
+
+	HasCloseButton bool `xlsx:"12"`
+
+	SavingInProgress bool `xlsx:"13"`
+
+	NbOfStickyColumns int `xlsx:"14"`
 	// insertion for WOP pointer fields
 }
 
@@ -169,6 +185,9 @@ var Table_Fields = []string{
 	"HasCheckableRows",
 	"HasSaveButton",
 	"SaveButtonLabel",
+	"HasBulkDeleteButton",
+	"BulkDeleteButtonTooltip",
+	"BulkDeleteSelectedRowsIDsJson",
 	"CanDragDropRows",
 	"HasCloseButton",
 	"SavingInProgress",
@@ -550,6 +569,15 @@ func (tableDB *TableDB) CopyBasicFieldsFromTable(table *models.Table) {
 	tableDB.SaveButtonLabel_Data.String = table.SaveButtonLabel
 	tableDB.SaveButtonLabel_Data.Valid = true
 
+	tableDB.HasBulkDeleteButton_Data.Bool = table.HasBulkDeleteButton
+	tableDB.HasBulkDeleteButton_Data.Valid = true
+
+	tableDB.BulkDeleteButtonTooltip_Data.String = table.BulkDeleteButtonTooltip
+	tableDB.BulkDeleteButtonTooltip_Data.Valid = true
+
+	tableDB.BulkDeleteSelectedRowsIDsJson_Data.String = table.BulkDeleteSelectedRowsIDsJson
+	tableDB.BulkDeleteSelectedRowsIDsJson_Data.Valid = true
+
 	tableDB.CanDragDropRows_Data.Bool = table.CanDragDropRows
 	tableDB.CanDragDropRows_Data.Valid = true
 
@@ -587,6 +615,15 @@ func (tableDB *TableDB) CopyBasicFieldsFromTable_WOP(table *models.Table_WOP) {
 
 	tableDB.SaveButtonLabel_Data.String = table.SaveButtonLabel
 	tableDB.SaveButtonLabel_Data.Valid = true
+
+	tableDB.HasBulkDeleteButton_Data.Bool = table.HasBulkDeleteButton
+	tableDB.HasBulkDeleteButton_Data.Valid = true
+
+	tableDB.BulkDeleteButtonTooltip_Data.String = table.BulkDeleteButtonTooltip
+	tableDB.BulkDeleteButtonTooltip_Data.Valid = true
+
+	tableDB.BulkDeleteSelectedRowsIDsJson_Data.String = table.BulkDeleteSelectedRowsIDsJson
+	tableDB.BulkDeleteSelectedRowsIDsJson_Data.Valid = true
 
 	tableDB.CanDragDropRows_Data.Bool = table.CanDragDropRows
 	tableDB.CanDragDropRows_Data.Valid = true
@@ -626,6 +663,15 @@ func (tableDB *TableDB) CopyBasicFieldsFromTableWOP(table *TableWOP) {
 	tableDB.SaveButtonLabel_Data.String = table.SaveButtonLabel
 	tableDB.SaveButtonLabel_Data.Valid = true
 
+	tableDB.HasBulkDeleteButton_Data.Bool = table.HasBulkDeleteButton
+	tableDB.HasBulkDeleteButton_Data.Valid = true
+
+	tableDB.BulkDeleteButtonTooltip_Data.String = table.BulkDeleteButtonTooltip
+	tableDB.BulkDeleteButtonTooltip_Data.Valid = true
+
+	tableDB.BulkDeleteSelectedRowsIDsJson_Data.String = table.BulkDeleteSelectedRowsIDsJson
+	tableDB.BulkDeleteSelectedRowsIDsJson_Data.Valid = true
+
 	tableDB.CanDragDropRows_Data.Bool = table.CanDragDropRows
 	tableDB.CanDragDropRows_Data.Valid = true
 
@@ -649,6 +695,9 @@ func (tableDB *TableDB) CopyBasicFieldsToTable(table *models.Table) {
 	table.HasCheckableRows = tableDB.HasCheckableRows_Data.Bool
 	table.HasSaveButton = tableDB.HasSaveButton_Data.Bool
 	table.SaveButtonLabel = tableDB.SaveButtonLabel_Data.String
+	table.HasBulkDeleteButton = tableDB.HasBulkDeleteButton_Data.Bool
+	table.BulkDeleteButtonTooltip = tableDB.BulkDeleteButtonTooltip_Data.String
+	table.BulkDeleteSelectedRowsIDsJson = tableDB.BulkDeleteSelectedRowsIDsJson_Data.String
 	table.CanDragDropRows = tableDB.CanDragDropRows_Data.Bool
 	table.HasCloseButton = tableDB.HasCloseButton_Data.Bool
 	table.SavingInProgress = tableDB.SavingInProgress_Data.Bool
@@ -665,6 +714,9 @@ func (tableDB *TableDB) CopyBasicFieldsToTable_WOP(table *models.Table_WOP) {
 	table.HasCheckableRows = tableDB.HasCheckableRows_Data.Bool
 	table.HasSaveButton = tableDB.HasSaveButton_Data.Bool
 	table.SaveButtonLabel = tableDB.SaveButtonLabel_Data.String
+	table.HasBulkDeleteButton = tableDB.HasBulkDeleteButton_Data.Bool
+	table.BulkDeleteButtonTooltip = tableDB.BulkDeleteButtonTooltip_Data.String
+	table.BulkDeleteSelectedRowsIDsJson = tableDB.BulkDeleteSelectedRowsIDsJson_Data.String
 	table.CanDragDropRows = tableDB.CanDragDropRows_Data.Bool
 	table.HasCloseButton = tableDB.HasCloseButton_Data.Bool
 	table.SavingInProgress = tableDB.SavingInProgress_Data.Bool
@@ -682,6 +734,9 @@ func (tableDB *TableDB) CopyBasicFieldsToTableWOP(table *TableWOP) {
 	table.HasCheckableRows = tableDB.HasCheckableRows_Data.Bool
 	table.HasSaveButton = tableDB.HasSaveButton_Data.Bool
 	table.SaveButtonLabel = tableDB.SaveButtonLabel_Data.String
+	table.HasBulkDeleteButton = tableDB.HasBulkDeleteButton_Data.Bool
+	table.BulkDeleteButtonTooltip = tableDB.BulkDeleteButtonTooltip_Data.String
+	table.BulkDeleteSelectedRowsIDsJson = tableDB.BulkDeleteSelectedRowsIDsJson_Data.String
 	table.CanDragDropRows = tableDB.CanDragDropRows_Data.Bool
 	table.HasCloseButton = tableDB.HasCloseButton_Data.Bool
 	table.SavingInProgress = tableDB.SavingInProgress_Data.Bool
