@@ -190,10 +190,9 @@ func (backRepoB *BackRepoBStruct) CommitPhaseOneInstance(b *models.B) (Error err
 
 	// initiate b
 	var bDB BDB
-
 	bDB.CopyBasicFieldsFromB(b)
-	_, err := backRepoB.db.Create(&bDB)
 
+	_, err := backRepoB.db.Create(&bDB)
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -131,6 +131,7 @@ type Stage struct {
 	GongBasicFields_mapString      map[string]*GongBasicField
 	GongBasicFieldOrder            uint
 	GongBasicField_stagedOrder     map[*GongBasicField]uint
+	GongBasicField_orderStaged     map[uint]*GongBasicField
 	GongBasicFields_reference      map[*GongBasicField]*GongBasicField
 	GongBasicFields_referenceOrder map[*GongBasicField]uint
 
@@ -145,6 +146,7 @@ type Stage struct {
 	GongEnums_mapString      map[string]*GongEnum
 	GongEnumOrder            uint
 	GongEnum_stagedOrder     map[*GongEnum]uint
+	GongEnum_orderStaged     map[uint]*GongEnum
 	GongEnums_reference      map[*GongEnum]*GongEnum
 	GongEnums_referenceOrder map[*GongEnum]uint
 
@@ -161,6 +163,7 @@ type Stage struct {
 	GongEnumValues_mapString      map[string]*GongEnumValue
 	GongEnumValueOrder            uint
 	GongEnumValue_stagedOrder     map[*GongEnumValue]uint
+	GongEnumValue_orderStaged     map[uint]*GongEnumValue
 	GongEnumValues_reference      map[*GongEnumValue]*GongEnumValue
 	GongEnumValues_referenceOrder map[*GongEnumValue]uint
 
@@ -175,6 +178,7 @@ type Stage struct {
 	GongLinks_mapString      map[string]*GongLink
 	GongLinkOrder            uint
 	GongLink_stagedOrder     map[*GongLink]uint
+	GongLink_orderStaged     map[uint]*GongLink
 	GongLinks_reference      map[*GongLink]*GongLink
 	GongLinks_referenceOrder map[*GongLink]uint
 
@@ -189,6 +193,7 @@ type Stage struct {
 	GongNotes_mapString      map[string]*GongNote
 	GongNoteOrder            uint
 	GongNote_stagedOrder     map[*GongNote]uint
+	GongNote_orderStaged     map[uint]*GongNote
 	GongNotes_reference      map[*GongNote]*GongNote
 	GongNotes_referenceOrder map[*GongNote]uint
 
@@ -205,6 +210,7 @@ type Stage struct {
 	GongStructs_mapString      map[string]*GongStruct
 	GongStructOrder            uint
 	GongStruct_stagedOrder     map[*GongStruct]uint
+	GongStruct_orderStaged     map[uint]*GongStruct
 	GongStructs_reference      map[*GongStruct]*GongStruct
 	GongStructs_referenceOrder map[*GongStruct]uint
 
@@ -227,6 +233,7 @@ type Stage struct {
 	GongTimeFields_mapString      map[string]*GongTimeField
 	GongTimeFieldOrder            uint
 	GongTimeField_stagedOrder     map[*GongTimeField]uint
+	GongTimeField_orderStaged     map[uint]*GongTimeField
 	GongTimeFields_reference      map[*GongTimeField]*GongTimeField
 	GongTimeFields_referenceOrder map[*GongTimeField]uint
 
@@ -241,6 +248,7 @@ type Stage struct {
 	MetaReferences_mapString      map[string]*MetaReference
 	MetaReferenceOrder            uint
 	MetaReference_stagedOrder     map[*MetaReference]uint
+	MetaReference_orderStaged     map[uint]*MetaReference
 	MetaReferences_reference      map[*MetaReference]*MetaReference
 	MetaReferences_referenceOrder map[*MetaReference]uint
 
@@ -255,6 +263,7 @@ type Stage struct {
 	ModelPkgs_mapString      map[string]*ModelPkg
 	ModelPkgOrder            uint
 	ModelPkg_stagedOrder     map[*ModelPkg]uint
+	ModelPkg_orderStaged     map[uint]*ModelPkg
 	ModelPkgs_reference      map[*ModelPkg]*ModelPkg
 	ModelPkgs_referenceOrder map[*ModelPkg]uint
 
@@ -269,6 +278,7 @@ type Stage struct {
 	PointerToGongStructFields_mapString      map[string]*PointerToGongStructField
 	PointerToGongStructFieldOrder            uint
 	PointerToGongStructField_stagedOrder     map[*PointerToGongStructField]uint
+	PointerToGongStructField_orderStaged     map[uint]*PointerToGongStructField
 	PointerToGongStructFields_reference      map[*PointerToGongStructField]*PointerToGongStructField
 	PointerToGongStructFields_referenceOrder map[*PointerToGongStructField]uint
 
@@ -283,6 +293,7 @@ type Stage struct {
 	SliceOfPointerToGongStructFields_mapString      map[string]*SliceOfPointerToGongStructField
 	SliceOfPointerToGongStructFieldOrder            uint
 	SliceOfPointerToGongStructField_stagedOrder     map[*SliceOfPointerToGongStructField]uint
+	SliceOfPointerToGongStructField_orderStaged     map[uint]*SliceOfPointerToGongStructField
 	SliceOfPointerToGongStructFields_reference      map[*SliceOfPointerToGongStructField]*SliceOfPointerToGongStructField
 	SliceOfPointerToGongStructFields_referenceOrder map[*SliceOfPointerToGongStructField]uint
 
@@ -1160,26 +1171,48 @@ func NewStage(name string) (stage *Stage) {
 
 		// insertion point for order map initialisations
 		GongBasicField_stagedOrder: make(map[*GongBasicField]uint),
+		GongBasicField_orderStaged: make(map[uint]*GongBasicField),
+		GongBasicFields_reference: make(map[*GongBasicField]*GongBasicField),
 
 		GongEnum_stagedOrder: make(map[*GongEnum]uint),
+		GongEnum_orderStaged: make(map[uint]*GongEnum),
+		GongEnums_reference: make(map[*GongEnum]*GongEnum),
 
 		GongEnumValue_stagedOrder: make(map[*GongEnumValue]uint),
+		GongEnumValue_orderStaged: make(map[uint]*GongEnumValue),
+		GongEnumValues_reference: make(map[*GongEnumValue]*GongEnumValue),
 
 		GongLink_stagedOrder: make(map[*GongLink]uint),
+		GongLink_orderStaged: make(map[uint]*GongLink),
+		GongLinks_reference: make(map[*GongLink]*GongLink),
 
 		GongNote_stagedOrder: make(map[*GongNote]uint),
+		GongNote_orderStaged: make(map[uint]*GongNote),
+		GongNotes_reference: make(map[*GongNote]*GongNote),
 
 		GongStruct_stagedOrder: make(map[*GongStruct]uint),
+		GongStruct_orderStaged: make(map[uint]*GongStruct),
+		GongStructs_reference: make(map[*GongStruct]*GongStruct),
 
 		GongTimeField_stagedOrder: make(map[*GongTimeField]uint),
+		GongTimeField_orderStaged: make(map[uint]*GongTimeField),
+		GongTimeFields_reference: make(map[*GongTimeField]*GongTimeField),
 
 		MetaReference_stagedOrder: make(map[*MetaReference]uint),
+		MetaReference_orderStaged: make(map[uint]*MetaReference),
+		MetaReferences_reference: make(map[*MetaReference]*MetaReference),
 
 		ModelPkg_stagedOrder: make(map[*ModelPkg]uint),
+		ModelPkg_orderStaged: make(map[uint]*ModelPkg),
+		ModelPkgs_reference: make(map[*ModelPkg]*ModelPkg),
 
 		PointerToGongStructField_stagedOrder: make(map[*PointerToGongStructField]uint),
+		PointerToGongStructField_orderStaged: make(map[uint]*PointerToGongStructField),
+		PointerToGongStructFields_reference: make(map[*PointerToGongStructField]*PointerToGongStructField),
 
 		SliceOfPointerToGongStructField_stagedOrder: make(map[*SliceOfPointerToGongStructField]uint),
+		SliceOfPointerToGongStructField_orderStaged: make(map[uint]*SliceOfPointerToGongStructField),
+		SliceOfPointerToGongStructFields_reference: make(map[*SliceOfPointerToGongStructField]*SliceOfPointerToGongStructField),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
@@ -1255,6 +1288,37 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.SliceOfPointerToGongStructField_stagedOrder[instance]
 	default:
 		return 0 // should not happen
+	}
+}
+
+func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint) (res Type) {
+	var t Type
+	switch any(t).(type) {
+	// insertion point for order map initialisations
+	case *GongBasicField:
+		return any(stage.GongBasicField_orderStaged[order]).(Type)
+	case *GongEnum:
+		return any(stage.GongEnum_orderStaged[order]).(Type)
+	case *GongEnumValue:
+		return any(stage.GongEnumValue_orderStaged[order]).(Type)
+	case *GongLink:
+		return any(stage.GongLink_orderStaged[order]).(Type)
+	case *GongNote:
+		return any(stage.GongNote_orderStaged[order]).(Type)
+	case *GongStruct:
+		return any(stage.GongStruct_orderStaged[order]).(Type)
+	case *GongTimeField:
+		return any(stage.GongTimeField_orderStaged[order]).(Type)
+	case *MetaReference:
+		return any(stage.MetaReference_orderStaged[order]).(Type)
+	case *ModelPkg:
+		return any(stage.ModelPkg_orderStaged[order]).(Type)
+	case *PointerToGongStructField:
+		return any(stage.PointerToGongStructField_orderStaged[order]).(Type)
+	case *SliceOfPointerToGongStructField:
+		return any(stage.SliceOfPointerToGongStructField_orderStaged[order]).(Type)
+	default:
+		return // should not happen
 	}
 }
 
@@ -1404,6 +1468,7 @@ func (gongbasicfield *GongBasicField) Stage(stage *Stage) *GongBasicField {
 	if _, ok := stage.GongBasicFields[gongbasicfield]; !ok {
 		stage.GongBasicFields[gongbasicfield] = struct{}{}
 		stage.GongBasicField_stagedOrder[gongbasicfield] = stage.GongBasicFieldOrder
+		stage.GongBasicField_orderStaged[stage.GongBasicFieldOrder] = gongbasicfield
 		stage.GongBasicFieldOrder++
 	}
 	stage.GongBasicFields_mapString[gongbasicfield.Name] = gongbasicfield
@@ -1424,6 +1489,7 @@ func (gongbasicfield *GongBasicField) StagePreserveOrder(stage *Stage, order uin
 			stage.GongBasicFieldOrder = order
 		}
 		stage.GongBasicField_stagedOrder[gongbasicfield] = order
+		stage.GongBasicField_orderStaged[order] = gongbasicfield
 		stage.GongBasicFieldOrder++
 	}
 	stage.GongBasicFields_mapString[gongbasicfield.Name] = gongbasicfield
@@ -1490,6 +1556,7 @@ func (gongenum *GongEnum) Stage(stage *Stage) *GongEnum {
 	if _, ok := stage.GongEnums[gongenum]; !ok {
 		stage.GongEnums[gongenum] = struct{}{}
 		stage.GongEnum_stagedOrder[gongenum] = stage.GongEnumOrder
+		stage.GongEnum_orderStaged[stage.GongEnumOrder] = gongenum
 		stage.GongEnumOrder++
 	}
 	stage.GongEnums_mapString[gongenum.Name] = gongenum
@@ -1510,6 +1577,7 @@ func (gongenum *GongEnum) StagePreserveOrder(stage *Stage, order uint) {
 			stage.GongEnumOrder = order
 		}
 		stage.GongEnum_stagedOrder[gongenum] = order
+		stage.GongEnum_orderStaged[order] = gongenum
 		stage.GongEnumOrder++
 	}
 	stage.GongEnums_mapString[gongenum.Name] = gongenum
@@ -1576,6 +1644,7 @@ func (gongenumvalue *GongEnumValue) Stage(stage *Stage) *GongEnumValue {
 	if _, ok := stage.GongEnumValues[gongenumvalue]; !ok {
 		stage.GongEnumValues[gongenumvalue] = struct{}{}
 		stage.GongEnumValue_stagedOrder[gongenumvalue] = stage.GongEnumValueOrder
+		stage.GongEnumValue_orderStaged[stage.GongEnumValueOrder] = gongenumvalue
 		stage.GongEnumValueOrder++
 	}
 	stage.GongEnumValues_mapString[gongenumvalue.Name] = gongenumvalue
@@ -1596,6 +1665,7 @@ func (gongenumvalue *GongEnumValue) StagePreserveOrder(stage *Stage, order uint)
 			stage.GongEnumValueOrder = order
 		}
 		stage.GongEnumValue_stagedOrder[gongenumvalue] = order
+		stage.GongEnumValue_orderStaged[order] = gongenumvalue
 		stage.GongEnumValueOrder++
 	}
 	stage.GongEnumValues_mapString[gongenumvalue.Name] = gongenumvalue
@@ -1662,6 +1732,7 @@ func (gonglink *GongLink) Stage(stage *Stage) *GongLink {
 	if _, ok := stage.GongLinks[gonglink]; !ok {
 		stage.GongLinks[gonglink] = struct{}{}
 		stage.GongLink_stagedOrder[gonglink] = stage.GongLinkOrder
+		stage.GongLink_orderStaged[stage.GongLinkOrder] = gonglink
 		stage.GongLinkOrder++
 	}
 	stage.GongLinks_mapString[gonglink.Name] = gonglink
@@ -1682,6 +1753,7 @@ func (gonglink *GongLink) StagePreserveOrder(stage *Stage, order uint) {
 			stage.GongLinkOrder = order
 		}
 		stage.GongLink_stagedOrder[gonglink] = order
+		stage.GongLink_orderStaged[order] = gonglink
 		stage.GongLinkOrder++
 	}
 	stage.GongLinks_mapString[gonglink.Name] = gonglink
@@ -1748,6 +1820,7 @@ func (gongnote *GongNote) Stage(stage *Stage) *GongNote {
 	if _, ok := stage.GongNotes[gongnote]; !ok {
 		stage.GongNotes[gongnote] = struct{}{}
 		stage.GongNote_stagedOrder[gongnote] = stage.GongNoteOrder
+		stage.GongNote_orderStaged[stage.GongNoteOrder] = gongnote
 		stage.GongNoteOrder++
 	}
 	stage.GongNotes_mapString[gongnote.Name] = gongnote
@@ -1768,6 +1841,7 @@ func (gongnote *GongNote) StagePreserveOrder(stage *Stage, order uint) {
 			stage.GongNoteOrder = order
 		}
 		stage.GongNote_stagedOrder[gongnote] = order
+		stage.GongNote_orderStaged[order] = gongnote
 		stage.GongNoteOrder++
 	}
 	stage.GongNotes_mapString[gongnote.Name] = gongnote
@@ -1834,6 +1908,7 @@ func (gongstruct *GongStruct) Stage(stage *Stage) *GongStruct {
 	if _, ok := stage.GongStructs[gongstruct]; !ok {
 		stage.GongStructs[gongstruct] = struct{}{}
 		stage.GongStruct_stagedOrder[gongstruct] = stage.GongStructOrder
+		stage.GongStruct_orderStaged[stage.GongStructOrder] = gongstruct
 		stage.GongStructOrder++
 	}
 	stage.GongStructs_mapString[gongstruct.Name] = gongstruct
@@ -1854,6 +1929,7 @@ func (gongstruct *GongStruct) StagePreserveOrder(stage *Stage, order uint) {
 			stage.GongStructOrder = order
 		}
 		stage.GongStruct_stagedOrder[gongstruct] = order
+		stage.GongStruct_orderStaged[order] = gongstruct
 		stage.GongStructOrder++
 	}
 	stage.GongStructs_mapString[gongstruct.Name] = gongstruct
@@ -1920,6 +1996,7 @@ func (gongtimefield *GongTimeField) Stage(stage *Stage) *GongTimeField {
 	if _, ok := stage.GongTimeFields[gongtimefield]; !ok {
 		stage.GongTimeFields[gongtimefield] = struct{}{}
 		stage.GongTimeField_stagedOrder[gongtimefield] = stage.GongTimeFieldOrder
+		stage.GongTimeField_orderStaged[stage.GongTimeFieldOrder] = gongtimefield
 		stage.GongTimeFieldOrder++
 	}
 	stage.GongTimeFields_mapString[gongtimefield.Name] = gongtimefield
@@ -1940,6 +2017,7 @@ func (gongtimefield *GongTimeField) StagePreserveOrder(stage *Stage, order uint)
 			stage.GongTimeFieldOrder = order
 		}
 		stage.GongTimeField_stagedOrder[gongtimefield] = order
+		stage.GongTimeField_orderStaged[order] = gongtimefield
 		stage.GongTimeFieldOrder++
 	}
 	stage.GongTimeFields_mapString[gongtimefield.Name] = gongtimefield
@@ -2006,6 +2084,7 @@ func (metareference *MetaReference) Stage(stage *Stage) *MetaReference {
 	if _, ok := stage.MetaReferences[metareference]; !ok {
 		stage.MetaReferences[metareference] = struct{}{}
 		stage.MetaReference_stagedOrder[metareference] = stage.MetaReferenceOrder
+		stage.MetaReference_orderStaged[stage.MetaReferenceOrder] = metareference
 		stage.MetaReferenceOrder++
 	}
 	stage.MetaReferences_mapString[metareference.Name] = metareference
@@ -2026,6 +2105,7 @@ func (metareference *MetaReference) StagePreserveOrder(stage *Stage, order uint)
 			stage.MetaReferenceOrder = order
 		}
 		stage.MetaReference_stagedOrder[metareference] = order
+		stage.MetaReference_orderStaged[order] = metareference
 		stage.MetaReferenceOrder++
 	}
 	stage.MetaReferences_mapString[metareference.Name] = metareference
@@ -2092,6 +2172,7 @@ func (modelpkg *ModelPkg) Stage(stage *Stage) *ModelPkg {
 	if _, ok := stage.ModelPkgs[modelpkg]; !ok {
 		stage.ModelPkgs[modelpkg] = struct{}{}
 		stage.ModelPkg_stagedOrder[modelpkg] = stage.ModelPkgOrder
+		stage.ModelPkg_orderStaged[stage.ModelPkgOrder] = modelpkg
 		stage.ModelPkgOrder++
 	}
 	stage.ModelPkgs_mapString[modelpkg.Name] = modelpkg
@@ -2112,6 +2193,7 @@ func (modelpkg *ModelPkg) StagePreserveOrder(stage *Stage, order uint) {
 			stage.ModelPkgOrder = order
 		}
 		stage.ModelPkg_stagedOrder[modelpkg] = order
+		stage.ModelPkg_orderStaged[order] = modelpkg
 		stage.ModelPkgOrder++
 	}
 	stage.ModelPkgs_mapString[modelpkg.Name] = modelpkg
@@ -2178,6 +2260,7 @@ func (pointertogongstructfield *PointerToGongStructField) Stage(stage *Stage) *P
 	if _, ok := stage.PointerToGongStructFields[pointertogongstructfield]; !ok {
 		stage.PointerToGongStructFields[pointertogongstructfield] = struct{}{}
 		stage.PointerToGongStructField_stagedOrder[pointertogongstructfield] = stage.PointerToGongStructFieldOrder
+		stage.PointerToGongStructField_orderStaged[stage.PointerToGongStructFieldOrder] = pointertogongstructfield
 		stage.PointerToGongStructFieldOrder++
 	}
 	stage.PointerToGongStructFields_mapString[pointertogongstructfield.Name] = pointertogongstructfield
@@ -2198,6 +2281,7 @@ func (pointertogongstructfield *PointerToGongStructField) StagePreserveOrder(sta
 			stage.PointerToGongStructFieldOrder = order
 		}
 		stage.PointerToGongStructField_stagedOrder[pointertogongstructfield] = order
+		stage.PointerToGongStructField_orderStaged[order] = pointertogongstructfield
 		stage.PointerToGongStructFieldOrder++
 	}
 	stage.PointerToGongStructFields_mapString[pointertogongstructfield.Name] = pointertogongstructfield
@@ -2264,6 +2348,7 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) Stage(st
 	if _, ok := stage.SliceOfPointerToGongStructFields[sliceofpointertogongstructfield]; !ok {
 		stage.SliceOfPointerToGongStructFields[sliceofpointertogongstructfield] = struct{}{}
 		stage.SliceOfPointerToGongStructField_stagedOrder[sliceofpointertogongstructfield] = stage.SliceOfPointerToGongStructFieldOrder
+		stage.SliceOfPointerToGongStructField_orderStaged[stage.SliceOfPointerToGongStructFieldOrder] = sliceofpointertogongstructfield
 		stage.SliceOfPointerToGongStructFieldOrder++
 	}
 	stage.SliceOfPointerToGongStructFields_mapString[sliceofpointertogongstructfield.Name] = sliceofpointertogongstructfield
@@ -2284,6 +2369,7 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) StagePre
 			stage.SliceOfPointerToGongStructFieldOrder = order
 		}
 		stage.SliceOfPointerToGongStructField_stagedOrder[sliceofpointertogongstructfield] = order
+		stage.SliceOfPointerToGongStructField_orderStaged[order] = sliceofpointertogongstructfield
 		stage.SliceOfPointerToGongStructFieldOrder++
 	}
 	stage.SliceOfPointerToGongStructFields_mapString[sliceofpointertogongstructfield.Name] = sliceofpointertogongstructfield

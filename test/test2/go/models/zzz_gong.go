@@ -131,6 +131,7 @@ type Stage struct {
 	As_mapString      map[string]*A
 	AOrder            uint
 	A_stagedOrder     map[*A]uint
+	A_orderStaged     map[uint]*A
 	As_reference      map[*A]*A
 	As_referenceOrder map[*A]uint
 
@@ -147,6 +148,7 @@ type Stage struct {
 	Bs_mapString      map[string]*B
 	BOrder            uint
 	B_stagedOrder     map[*B]uint
+	B_orderStaged     map[uint]*B
 	Bs_reference      map[*B]*B
 	Bs_referenceOrder map[*B]uint
 
@@ -673,8 +675,12 @@ func NewStage(name string) (stage *Stage) {
 
 		// insertion point for order map initialisations
 		A_stagedOrder: make(map[*A]uint),
+		A_orderStaged: make(map[uint]*A),
+		As_reference: make(map[*A]*A),
 
 		B_stagedOrder: make(map[*B]uint),
+		B_orderStaged: make(map[uint]*B),
+		Bs_reference: make(map[*B]*B),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
@@ -705,6 +711,19 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.B_stagedOrder[instance]
 	default:
 		return 0 // should not happen
+	}
+}
+
+func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint) (res Type) {
+	var t Type
+	switch any(t).(type) {
+	// insertion point for order map initialisations
+	case *A:
+		return any(stage.A_orderStaged[order]).(Type)
+	case *B:
+		return any(stage.B_orderStaged[order]).(Type)
+	default:
+		return // should not happen
 	}
 }
 
@@ -827,6 +846,7 @@ func (a *A) Stage(stage *Stage) *A {
 	if _, ok := stage.As[a]; !ok {
 		stage.As[a] = struct{}{}
 		stage.A_stagedOrder[a] = stage.AOrder
+		stage.A_orderStaged[stage.AOrder] = a
 		stage.AOrder++
 	}
 	stage.As_mapString[a.Name] = a
@@ -847,6 +867,7 @@ func (a *A) StagePreserveOrder(stage *Stage, order uint) {
 			stage.AOrder = order
 		}
 		stage.A_stagedOrder[a] = order
+		stage.A_orderStaged[order] = a
 		stage.AOrder++
 	}
 	stage.As_mapString[a.Name] = a
@@ -913,6 +934,7 @@ func (b *B) Stage(stage *Stage) *B {
 	if _, ok := stage.Bs[b]; !ok {
 		stage.Bs[b] = struct{}{}
 		stage.B_stagedOrder[b] = stage.BOrder
+		stage.B_orderStaged[stage.BOrder] = b
 		stage.BOrder++
 	}
 	stage.Bs_mapString[b.Name] = b
@@ -933,6 +955,7 @@ func (b *B) StagePreserveOrder(stage *Stage, order uint) {
 			stage.BOrder = order
 		}
 		stage.B_stagedOrder[b] = order
+		stage.B_orderStaged[order] = b
 		stage.BOrder++
 	}
 	stage.Bs_mapString[b.Name] = b

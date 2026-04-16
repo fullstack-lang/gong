@@ -131,6 +131,7 @@ type Stage struct {
 	Alls_mapString      map[string]*All
 	AllOrder            uint
 	All_stagedOrder     map[*All]uint
+	All_orderStaged     map[uint]*All
 	Alls_reference      map[*All]*All
 	Alls_referenceOrder map[*All]uint
 
@@ -155,6 +156,7 @@ type Stage struct {
 	Annotations_mapString      map[string]*Annotation
 	AnnotationOrder            uint
 	Annotation_stagedOrder     map[*Annotation]uint
+	Annotation_orderStaged     map[uint]*Annotation
 	Annotations_reference      map[*Annotation]*Annotation
 	Annotations_referenceOrder map[*Annotation]uint
 
@@ -171,6 +173,7 @@ type Stage struct {
 	Attributes_mapString      map[string]*Attribute
 	AttributeOrder            uint
 	Attribute_stagedOrder     map[*Attribute]uint
+	Attribute_orderStaged     map[uint]*Attribute
 	Attributes_reference      map[*Attribute]*Attribute
 	Attributes_referenceOrder map[*Attribute]uint
 
@@ -185,6 +188,7 @@ type Stage struct {
 	AttributeGroups_mapString      map[string]*AttributeGroup
 	AttributeGroupOrder            uint
 	AttributeGroup_stagedOrder     map[*AttributeGroup]uint
+	AttributeGroup_orderStaged     map[uint]*AttributeGroup
 	AttributeGroups_reference      map[*AttributeGroup]*AttributeGroup
 	AttributeGroups_referenceOrder map[*AttributeGroup]uint
 
@@ -203,6 +207,7 @@ type Stage struct {
 	Choices_mapString      map[string]*Choice
 	ChoiceOrder            uint
 	Choice_stagedOrder     map[*Choice]uint
+	Choice_orderStaged     map[uint]*Choice
 	Choices_reference      map[*Choice]*Choice
 	Choices_referenceOrder map[*Choice]uint
 
@@ -227,6 +232,7 @@ type Stage struct {
 	ComplexContents_mapString      map[string]*ComplexContent
 	ComplexContentOrder            uint
 	ComplexContent_stagedOrder     map[*ComplexContent]uint
+	ComplexContent_orderStaged     map[uint]*ComplexContent
 	ComplexContents_reference      map[*ComplexContent]*ComplexContent
 	ComplexContents_referenceOrder map[*ComplexContent]uint
 
@@ -241,6 +247,7 @@ type Stage struct {
 	ComplexTypes_mapString      map[string]*ComplexType
 	ComplexTypeOrder            uint
 	ComplexType_stagedOrder     map[*ComplexType]uint
+	ComplexType_orderStaged     map[uint]*ComplexType
 	ComplexTypes_reference      map[*ComplexType]*ComplexType
 	ComplexTypes_referenceOrder map[*ComplexType]uint
 
@@ -269,6 +276,7 @@ type Stage struct {
 	Documentations_mapString      map[string]*Documentation
 	DocumentationOrder            uint
 	Documentation_stagedOrder     map[*Documentation]uint
+	Documentation_orderStaged     map[uint]*Documentation
 	Documentations_reference      map[*Documentation]*Documentation
 	Documentations_referenceOrder map[*Documentation]uint
 
@@ -283,6 +291,7 @@ type Stage struct {
 	Elements_mapString      map[string]*Element
 	ElementOrder            uint
 	Element_stagedOrder     map[*Element]uint
+	Element_orderStaged     map[uint]*Element
 	Elements_reference      map[*Element]*Element
 	Elements_referenceOrder map[*Element]uint
 
@@ -299,6 +308,7 @@ type Stage struct {
 	Enumerations_mapString      map[string]*Enumeration
 	EnumerationOrder            uint
 	Enumeration_stagedOrder     map[*Enumeration]uint
+	Enumeration_orderStaged     map[uint]*Enumeration
 	Enumerations_reference      map[*Enumeration]*Enumeration
 	Enumerations_referenceOrder map[*Enumeration]uint
 
@@ -313,6 +323,7 @@ type Stage struct {
 	Extensions_mapString      map[string]*Extension
 	ExtensionOrder            uint
 	Extension_stagedOrder     map[*Extension]uint
+	Extension_orderStaged     map[uint]*Extension
 	Extensions_reference      map[*Extension]*Extension
 	Extensions_referenceOrder map[*Extension]uint
 
@@ -341,6 +352,7 @@ type Stage struct {
 	Groups_mapString      map[string]*Group
 	GroupOrder            uint
 	Group_stagedOrder     map[*Group]uint
+	Group_orderStaged     map[uint]*Group
 	Groups_reference      map[*Group]*Group
 	Groups_referenceOrder map[*Group]uint
 
@@ -365,6 +377,7 @@ type Stage struct {
 	Lengths_mapString      map[string]*Length
 	LengthOrder            uint
 	Length_stagedOrder     map[*Length]uint
+	Length_orderStaged     map[uint]*Length
 	Lengths_reference      map[*Length]*Length
 	Lengths_referenceOrder map[*Length]uint
 
@@ -379,6 +392,7 @@ type Stage struct {
 	MaxInclusives_mapString      map[string]*MaxInclusive
 	MaxInclusiveOrder            uint
 	MaxInclusive_stagedOrder     map[*MaxInclusive]uint
+	MaxInclusive_orderStaged     map[uint]*MaxInclusive
 	MaxInclusives_reference      map[*MaxInclusive]*MaxInclusive
 	MaxInclusives_referenceOrder map[*MaxInclusive]uint
 
@@ -393,6 +407,7 @@ type Stage struct {
 	MaxLengths_mapString      map[string]*MaxLength
 	MaxLengthOrder            uint
 	MaxLength_stagedOrder     map[*MaxLength]uint
+	MaxLength_orderStaged     map[uint]*MaxLength
 	MaxLengths_reference      map[*MaxLength]*MaxLength
 	MaxLengths_referenceOrder map[*MaxLength]uint
 
@@ -407,6 +422,7 @@ type Stage struct {
 	MinInclusives_mapString      map[string]*MinInclusive
 	MinInclusiveOrder            uint
 	MinInclusive_stagedOrder     map[*MinInclusive]uint
+	MinInclusive_orderStaged     map[uint]*MinInclusive
 	MinInclusives_reference      map[*MinInclusive]*MinInclusive
 	MinInclusives_referenceOrder map[*MinInclusive]uint
 
@@ -421,6 +437,7 @@ type Stage struct {
 	MinLengths_mapString      map[string]*MinLength
 	MinLengthOrder            uint
 	MinLength_stagedOrder     map[*MinLength]uint
+	MinLength_orderStaged     map[uint]*MinLength
 	MinLengths_reference      map[*MinLength]*MinLength
 	MinLengths_referenceOrder map[*MinLength]uint
 
@@ -435,6 +452,7 @@ type Stage struct {
 	Patterns_mapString      map[string]*Pattern
 	PatternOrder            uint
 	Pattern_stagedOrder     map[*Pattern]uint
+	Pattern_orderStaged     map[uint]*Pattern
 	Patterns_reference      map[*Pattern]*Pattern
 	Patterns_referenceOrder map[*Pattern]uint
 
@@ -449,6 +467,7 @@ type Stage struct {
 	Restrictions_mapString      map[string]*Restriction
 	RestrictionOrder            uint
 	Restriction_stagedOrder     map[*Restriction]uint
+	Restriction_orderStaged     map[uint]*Restriction
 	Restrictions_reference      map[*Restriction]*Restriction
 	Restrictions_referenceOrder map[*Restriction]uint
 
@@ -465,6 +484,7 @@ type Stage struct {
 	Schemas_mapString      map[string]*Schema
 	SchemaOrder            uint
 	Schema_stagedOrder     map[*Schema]uint
+	Schema_orderStaged     map[uint]*Schema
 	Schemas_reference      map[*Schema]*Schema
 	Schemas_referenceOrder map[*Schema]uint
 
@@ -489,6 +509,7 @@ type Stage struct {
 	Sequences_mapString      map[string]*Sequence
 	SequenceOrder            uint
 	Sequence_stagedOrder     map[*Sequence]uint
+	Sequence_orderStaged     map[uint]*Sequence
 	Sequences_reference      map[*Sequence]*Sequence
 	Sequences_referenceOrder map[*Sequence]uint
 
@@ -513,6 +534,7 @@ type Stage struct {
 	SimpleContents_mapString      map[string]*SimpleContent
 	SimpleContentOrder            uint
 	SimpleContent_stagedOrder     map[*SimpleContent]uint
+	SimpleContent_orderStaged     map[uint]*SimpleContent
 	SimpleContents_reference      map[*SimpleContent]*SimpleContent
 	SimpleContents_referenceOrder map[*SimpleContent]uint
 
@@ -527,6 +549,7 @@ type Stage struct {
 	SimpleTypes_mapString      map[string]*SimpleType
 	SimpleTypeOrder            uint
 	SimpleType_stagedOrder     map[*SimpleType]uint
+	SimpleType_orderStaged     map[uint]*SimpleType
 	SimpleTypes_reference      map[*SimpleType]*SimpleType
 	SimpleTypes_referenceOrder map[*SimpleType]uint
 
@@ -541,6 +564,7 @@ type Stage struct {
 	TotalDigits_mapString      map[string]*TotalDigit
 	TotalDigitOrder            uint
 	TotalDigit_stagedOrder     map[*TotalDigit]uint
+	TotalDigit_orderStaged     map[uint]*TotalDigit
 	TotalDigits_reference      map[*TotalDigit]*TotalDigit
 	TotalDigits_referenceOrder map[*TotalDigit]uint
 
@@ -555,6 +579,7 @@ type Stage struct {
 	Unions_mapString      map[string]*Union
 	UnionOrder            uint
 	Union_stagedOrder     map[*Union]uint
+	Union_orderStaged     map[uint]*Union
 	Unions_reference      map[*Union]*Union
 	Unions_referenceOrder map[*Union]uint
 
@@ -569,6 +594,7 @@ type Stage struct {
 	WhiteSpaces_mapString      map[string]*WhiteSpace
 	WhiteSpaceOrder            uint
 	WhiteSpace_stagedOrder     map[*WhiteSpace]uint
+	WhiteSpace_orderStaged     map[uint]*WhiteSpace
 	WhiteSpaces_reference      map[*WhiteSpace]*WhiteSpace
 	WhiteSpaces_referenceOrder map[*WhiteSpace]uint
 
@@ -2031,56 +2057,108 @@ func NewStage(name string) (stage *Stage) {
 
 		// insertion point for order map initialisations
 		All_stagedOrder: make(map[*All]uint),
+		All_orderStaged: make(map[uint]*All),
+		Alls_reference: make(map[*All]*All),
 
 		Annotation_stagedOrder: make(map[*Annotation]uint),
+		Annotation_orderStaged: make(map[uint]*Annotation),
+		Annotations_reference: make(map[*Annotation]*Annotation),
 
 		Attribute_stagedOrder: make(map[*Attribute]uint),
+		Attribute_orderStaged: make(map[uint]*Attribute),
+		Attributes_reference: make(map[*Attribute]*Attribute),
 
 		AttributeGroup_stagedOrder: make(map[*AttributeGroup]uint),
+		AttributeGroup_orderStaged: make(map[uint]*AttributeGroup),
+		AttributeGroups_reference: make(map[*AttributeGroup]*AttributeGroup),
 
 		Choice_stagedOrder: make(map[*Choice]uint),
+		Choice_orderStaged: make(map[uint]*Choice),
+		Choices_reference: make(map[*Choice]*Choice),
 
 		ComplexContent_stagedOrder: make(map[*ComplexContent]uint),
+		ComplexContent_orderStaged: make(map[uint]*ComplexContent),
+		ComplexContents_reference: make(map[*ComplexContent]*ComplexContent),
 
 		ComplexType_stagedOrder: make(map[*ComplexType]uint),
+		ComplexType_orderStaged: make(map[uint]*ComplexType),
+		ComplexTypes_reference: make(map[*ComplexType]*ComplexType),
 
 		Documentation_stagedOrder: make(map[*Documentation]uint),
+		Documentation_orderStaged: make(map[uint]*Documentation),
+		Documentations_reference: make(map[*Documentation]*Documentation),
 
 		Element_stagedOrder: make(map[*Element]uint),
+		Element_orderStaged: make(map[uint]*Element),
+		Elements_reference: make(map[*Element]*Element),
 
 		Enumeration_stagedOrder: make(map[*Enumeration]uint),
+		Enumeration_orderStaged: make(map[uint]*Enumeration),
+		Enumerations_reference: make(map[*Enumeration]*Enumeration),
 
 		Extension_stagedOrder: make(map[*Extension]uint),
+		Extension_orderStaged: make(map[uint]*Extension),
+		Extensions_reference: make(map[*Extension]*Extension),
 
 		Group_stagedOrder: make(map[*Group]uint),
+		Group_orderStaged: make(map[uint]*Group),
+		Groups_reference: make(map[*Group]*Group),
 
 		Length_stagedOrder: make(map[*Length]uint),
+		Length_orderStaged: make(map[uint]*Length),
+		Lengths_reference: make(map[*Length]*Length),
 
 		MaxInclusive_stagedOrder: make(map[*MaxInclusive]uint),
+		MaxInclusive_orderStaged: make(map[uint]*MaxInclusive),
+		MaxInclusives_reference: make(map[*MaxInclusive]*MaxInclusive),
 
 		MaxLength_stagedOrder: make(map[*MaxLength]uint),
+		MaxLength_orderStaged: make(map[uint]*MaxLength),
+		MaxLengths_reference: make(map[*MaxLength]*MaxLength),
 
 		MinInclusive_stagedOrder: make(map[*MinInclusive]uint),
+		MinInclusive_orderStaged: make(map[uint]*MinInclusive),
+		MinInclusives_reference: make(map[*MinInclusive]*MinInclusive),
 
 		MinLength_stagedOrder: make(map[*MinLength]uint),
+		MinLength_orderStaged: make(map[uint]*MinLength),
+		MinLengths_reference: make(map[*MinLength]*MinLength),
 
 		Pattern_stagedOrder: make(map[*Pattern]uint),
+		Pattern_orderStaged: make(map[uint]*Pattern),
+		Patterns_reference: make(map[*Pattern]*Pattern),
 
 		Restriction_stagedOrder: make(map[*Restriction]uint),
+		Restriction_orderStaged: make(map[uint]*Restriction),
+		Restrictions_reference: make(map[*Restriction]*Restriction),
 
 		Schema_stagedOrder: make(map[*Schema]uint),
+		Schema_orderStaged: make(map[uint]*Schema),
+		Schemas_reference: make(map[*Schema]*Schema),
 
 		Sequence_stagedOrder: make(map[*Sequence]uint),
+		Sequence_orderStaged: make(map[uint]*Sequence),
+		Sequences_reference: make(map[*Sequence]*Sequence),
 
 		SimpleContent_stagedOrder: make(map[*SimpleContent]uint),
+		SimpleContent_orderStaged: make(map[uint]*SimpleContent),
+		SimpleContents_reference: make(map[*SimpleContent]*SimpleContent),
 
 		SimpleType_stagedOrder: make(map[*SimpleType]uint),
+		SimpleType_orderStaged: make(map[uint]*SimpleType),
+		SimpleTypes_reference: make(map[*SimpleType]*SimpleType),
 
 		TotalDigit_stagedOrder: make(map[*TotalDigit]uint),
+		TotalDigit_orderStaged: make(map[uint]*TotalDigit),
+		TotalDigits_reference: make(map[*TotalDigit]*TotalDigit),
 
 		Union_stagedOrder: make(map[*Union]uint),
+		Union_orderStaged: make(map[uint]*Union),
+		Unions_reference: make(map[*Union]*Union),
 
 		WhiteSpace_stagedOrder: make(map[*WhiteSpace]uint),
+		WhiteSpace_orderStaged: make(map[uint]*WhiteSpace),
+		WhiteSpaces_reference: make(map[*WhiteSpace]*WhiteSpace),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
@@ -2231,6 +2309,67 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.WhiteSpace_stagedOrder[instance]
 	default:
 		return 0 // should not happen
+	}
+}
+
+func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint) (res Type) {
+	var t Type
+	switch any(t).(type) {
+	// insertion point for order map initialisations
+	case *All:
+		return any(stage.All_orderStaged[order]).(Type)
+	case *Annotation:
+		return any(stage.Annotation_orderStaged[order]).(Type)
+	case *Attribute:
+		return any(stage.Attribute_orderStaged[order]).(Type)
+	case *AttributeGroup:
+		return any(stage.AttributeGroup_orderStaged[order]).(Type)
+	case *Choice:
+		return any(stage.Choice_orderStaged[order]).(Type)
+	case *ComplexContent:
+		return any(stage.ComplexContent_orderStaged[order]).(Type)
+	case *ComplexType:
+		return any(stage.ComplexType_orderStaged[order]).(Type)
+	case *Documentation:
+		return any(stage.Documentation_orderStaged[order]).(Type)
+	case *Element:
+		return any(stage.Element_orderStaged[order]).(Type)
+	case *Enumeration:
+		return any(stage.Enumeration_orderStaged[order]).(Type)
+	case *Extension:
+		return any(stage.Extension_orderStaged[order]).(Type)
+	case *Group:
+		return any(stage.Group_orderStaged[order]).(Type)
+	case *Length:
+		return any(stage.Length_orderStaged[order]).(Type)
+	case *MaxInclusive:
+		return any(stage.MaxInclusive_orderStaged[order]).(Type)
+	case *MaxLength:
+		return any(stage.MaxLength_orderStaged[order]).(Type)
+	case *MinInclusive:
+		return any(stage.MinInclusive_orderStaged[order]).(Type)
+	case *MinLength:
+		return any(stage.MinLength_orderStaged[order]).(Type)
+	case *Pattern:
+		return any(stage.Pattern_orderStaged[order]).(Type)
+	case *Restriction:
+		return any(stage.Restriction_orderStaged[order]).(Type)
+	case *Schema:
+		return any(stage.Schema_orderStaged[order]).(Type)
+	case *Sequence:
+		return any(stage.Sequence_orderStaged[order]).(Type)
+	case *SimpleContent:
+		return any(stage.SimpleContent_orderStaged[order]).(Type)
+	case *SimpleType:
+		return any(stage.SimpleType_orderStaged[order]).(Type)
+	case *TotalDigit:
+		return any(stage.TotalDigit_orderStaged[order]).(Type)
+	case *Union:
+		return any(stage.Union_orderStaged[order]).(Type)
+	case *WhiteSpace:
+		return any(stage.WhiteSpace_orderStaged[order]).(Type)
+	default:
+		return // should not happen
 	}
 }
 
@@ -2425,6 +2564,7 @@ func (all *All) Stage(stage *Stage) *All {
 	if _, ok := stage.Alls[all]; !ok {
 		stage.Alls[all] = struct{}{}
 		stage.All_stagedOrder[all] = stage.AllOrder
+		stage.All_orderStaged[stage.AllOrder] = all
 		stage.AllOrder++
 	}
 	stage.Alls_mapString[all.Name] = all
@@ -2445,6 +2585,7 @@ func (all *All) StagePreserveOrder(stage *Stage, order uint) {
 			stage.AllOrder = order
 		}
 		stage.All_stagedOrder[all] = order
+		stage.All_orderStaged[order] = all
 		stage.AllOrder++
 	}
 	stage.Alls_mapString[all.Name] = all
@@ -2511,6 +2652,7 @@ func (annotation *Annotation) Stage(stage *Stage) *Annotation {
 	if _, ok := stage.Annotations[annotation]; !ok {
 		stage.Annotations[annotation] = struct{}{}
 		stage.Annotation_stagedOrder[annotation] = stage.AnnotationOrder
+		stage.Annotation_orderStaged[stage.AnnotationOrder] = annotation
 		stage.AnnotationOrder++
 	}
 	stage.Annotations_mapString[annotation.Name] = annotation
@@ -2531,6 +2673,7 @@ func (annotation *Annotation) StagePreserveOrder(stage *Stage, order uint) {
 			stage.AnnotationOrder = order
 		}
 		stage.Annotation_stagedOrder[annotation] = order
+		stage.Annotation_orderStaged[order] = annotation
 		stage.AnnotationOrder++
 	}
 	stage.Annotations_mapString[annotation.Name] = annotation
@@ -2597,6 +2740,7 @@ func (attribute *Attribute) Stage(stage *Stage) *Attribute {
 	if _, ok := stage.Attributes[attribute]; !ok {
 		stage.Attributes[attribute] = struct{}{}
 		stage.Attribute_stagedOrder[attribute] = stage.AttributeOrder
+		stage.Attribute_orderStaged[stage.AttributeOrder] = attribute
 		stage.AttributeOrder++
 	}
 	stage.Attributes_mapString[attribute.Name] = attribute
@@ -2617,6 +2761,7 @@ func (attribute *Attribute) StagePreserveOrder(stage *Stage, order uint) {
 			stage.AttributeOrder = order
 		}
 		stage.Attribute_stagedOrder[attribute] = order
+		stage.Attribute_orderStaged[order] = attribute
 		stage.AttributeOrder++
 	}
 	stage.Attributes_mapString[attribute.Name] = attribute
@@ -2683,6 +2828,7 @@ func (attributegroup *AttributeGroup) Stage(stage *Stage) *AttributeGroup {
 	if _, ok := stage.AttributeGroups[attributegroup]; !ok {
 		stage.AttributeGroups[attributegroup] = struct{}{}
 		stage.AttributeGroup_stagedOrder[attributegroup] = stage.AttributeGroupOrder
+		stage.AttributeGroup_orderStaged[stage.AttributeGroupOrder] = attributegroup
 		stage.AttributeGroupOrder++
 	}
 	stage.AttributeGroups_mapString[attributegroup.Name] = attributegroup
@@ -2703,6 +2849,7 @@ func (attributegroup *AttributeGroup) StagePreserveOrder(stage *Stage, order uin
 			stage.AttributeGroupOrder = order
 		}
 		stage.AttributeGroup_stagedOrder[attributegroup] = order
+		stage.AttributeGroup_orderStaged[order] = attributegroup
 		stage.AttributeGroupOrder++
 	}
 	stage.AttributeGroups_mapString[attributegroup.Name] = attributegroup
@@ -2769,6 +2916,7 @@ func (choice *Choice) Stage(stage *Stage) *Choice {
 	if _, ok := stage.Choices[choice]; !ok {
 		stage.Choices[choice] = struct{}{}
 		stage.Choice_stagedOrder[choice] = stage.ChoiceOrder
+		stage.Choice_orderStaged[stage.ChoiceOrder] = choice
 		stage.ChoiceOrder++
 	}
 	stage.Choices_mapString[choice.Name] = choice
@@ -2789,6 +2937,7 @@ func (choice *Choice) StagePreserveOrder(stage *Stage, order uint) {
 			stage.ChoiceOrder = order
 		}
 		stage.Choice_stagedOrder[choice] = order
+		stage.Choice_orderStaged[order] = choice
 		stage.ChoiceOrder++
 	}
 	stage.Choices_mapString[choice.Name] = choice
@@ -2855,6 +3004,7 @@ func (complexcontent *ComplexContent) Stage(stage *Stage) *ComplexContent {
 	if _, ok := stage.ComplexContents[complexcontent]; !ok {
 		stage.ComplexContents[complexcontent] = struct{}{}
 		stage.ComplexContent_stagedOrder[complexcontent] = stage.ComplexContentOrder
+		stage.ComplexContent_orderStaged[stage.ComplexContentOrder] = complexcontent
 		stage.ComplexContentOrder++
 	}
 	stage.ComplexContents_mapString[complexcontent.Name] = complexcontent
@@ -2875,6 +3025,7 @@ func (complexcontent *ComplexContent) StagePreserveOrder(stage *Stage, order uin
 			stage.ComplexContentOrder = order
 		}
 		stage.ComplexContent_stagedOrder[complexcontent] = order
+		stage.ComplexContent_orderStaged[order] = complexcontent
 		stage.ComplexContentOrder++
 	}
 	stage.ComplexContents_mapString[complexcontent.Name] = complexcontent
@@ -2941,6 +3092,7 @@ func (complextype *ComplexType) Stage(stage *Stage) *ComplexType {
 	if _, ok := stage.ComplexTypes[complextype]; !ok {
 		stage.ComplexTypes[complextype] = struct{}{}
 		stage.ComplexType_stagedOrder[complextype] = stage.ComplexTypeOrder
+		stage.ComplexType_orderStaged[stage.ComplexTypeOrder] = complextype
 		stage.ComplexTypeOrder++
 	}
 	stage.ComplexTypes_mapString[complextype.Name] = complextype
@@ -2961,6 +3113,7 @@ func (complextype *ComplexType) StagePreserveOrder(stage *Stage, order uint) {
 			stage.ComplexTypeOrder = order
 		}
 		stage.ComplexType_stagedOrder[complextype] = order
+		stage.ComplexType_orderStaged[order] = complextype
 		stage.ComplexTypeOrder++
 	}
 	stage.ComplexTypes_mapString[complextype.Name] = complextype
@@ -3027,6 +3180,7 @@ func (documentation *Documentation) Stage(stage *Stage) *Documentation {
 	if _, ok := stage.Documentations[documentation]; !ok {
 		stage.Documentations[documentation] = struct{}{}
 		stage.Documentation_stagedOrder[documentation] = stage.DocumentationOrder
+		stage.Documentation_orderStaged[stage.DocumentationOrder] = documentation
 		stage.DocumentationOrder++
 	}
 	stage.Documentations_mapString[documentation.Name] = documentation
@@ -3047,6 +3201,7 @@ func (documentation *Documentation) StagePreserveOrder(stage *Stage, order uint)
 			stage.DocumentationOrder = order
 		}
 		stage.Documentation_stagedOrder[documentation] = order
+		stage.Documentation_orderStaged[order] = documentation
 		stage.DocumentationOrder++
 	}
 	stage.Documentations_mapString[documentation.Name] = documentation
@@ -3113,6 +3268,7 @@ func (element *Element) Stage(stage *Stage) *Element {
 	if _, ok := stage.Elements[element]; !ok {
 		stage.Elements[element] = struct{}{}
 		stage.Element_stagedOrder[element] = stage.ElementOrder
+		stage.Element_orderStaged[stage.ElementOrder] = element
 		stage.ElementOrder++
 	}
 	stage.Elements_mapString[element.Name] = element
@@ -3133,6 +3289,7 @@ func (element *Element) StagePreserveOrder(stage *Stage, order uint) {
 			stage.ElementOrder = order
 		}
 		stage.Element_stagedOrder[element] = order
+		stage.Element_orderStaged[order] = element
 		stage.ElementOrder++
 	}
 	stage.Elements_mapString[element.Name] = element
@@ -3199,6 +3356,7 @@ func (enumeration *Enumeration) Stage(stage *Stage) *Enumeration {
 	if _, ok := stage.Enumerations[enumeration]; !ok {
 		stage.Enumerations[enumeration] = struct{}{}
 		stage.Enumeration_stagedOrder[enumeration] = stage.EnumerationOrder
+		stage.Enumeration_orderStaged[stage.EnumerationOrder] = enumeration
 		stage.EnumerationOrder++
 	}
 	stage.Enumerations_mapString[enumeration.Name] = enumeration
@@ -3219,6 +3377,7 @@ func (enumeration *Enumeration) StagePreserveOrder(stage *Stage, order uint) {
 			stage.EnumerationOrder = order
 		}
 		stage.Enumeration_stagedOrder[enumeration] = order
+		stage.Enumeration_orderStaged[order] = enumeration
 		stage.EnumerationOrder++
 	}
 	stage.Enumerations_mapString[enumeration.Name] = enumeration
@@ -3285,6 +3444,7 @@ func (extension *Extension) Stage(stage *Stage) *Extension {
 	if _, ok := stage.Extensions[extension]; !ok {
 		stage.Extensions[extension] = struct{}{}
 		stage.Extension_stagedOrder[extension] = stage.ExtensionOrder
+		stage.Extension_orderStaged[stage.ExtensionOrder] = extension
 		stage.ExtensionOrder++
 	}
 	stage.Extensions_mapString[extension.Name] = extension
@@ -3305,6 +3465,7 @@ func (extension *Extension) StagePreserveOrder(stage *Stage, order uint) {
 			stage.ExtensionOrder = order
 		}
 		stage.Extension_stagedOrder[extension] = order
+		stage.Extension_orderStaged[order] = extension
 		stage.ExtensionOrder++
 	}
 	stage.Extensions_mapString[extension.Name] = extension
@@ -3371,6 +3532,7 @@ func (group *Group) Stage(stage *Stage) *Group {
 	if _, ok := stage.Groups[group]; !ok {
 		stage.Groups[group] = struct{}{}
 		stage.Group_stagedOrder[group] = stage.GroupOrder
+		stage.Group_orderStaged[stage.GroupOrder] = group
 		stage.GroupOrder++
 	}
 	stage.Groups_mapString[group.Name] = group
@@ -3391,6 +3553,7 @@ func (group *Group) StagePreserveOrder(stage *Stage, order uint) {
 			stage.GroupOrder = order
 		}
 		stage.Group_stagedOrder[group] = order
+		stage.Group_orderStaged[order] = group
 		stage.GroupOrder++
 	}
 	stage.Groups_mapString[group.Name] = group
@@ -3457,6 +3620,7 @@ func (length *Length) Stage(stage *Stage) *Length {
 	if _, ok := stage.Lengths[length]; !ok {
 		stage.Lengths[length] = struct{}{}
 		stage.Length_stagedOrder[length] = stage.LengthOrder
+		stage.Length_orderStaged[stage.LengthOrder] = length
 		stage.LengthOrder++
 	}
 	stage.Lengths_mapString[length.Name] = length
@@ -3477,6 +3641,7 @@ func (length *Length) StagePreserveOrder(stage *Stage, order uint) {
 			stage.LengthOrder = order
 		}
 		stage.Length_stagedOrder[length] = order
+		stage.Length_orderStaged[order] = length
 		stage.LengthOrder++
 	}
 	stage.Lengths_mapString[length.Name] = length
@@ -3543,6 +3708,7 @@ func (maxinclusive *MaxInclusive) Stage(stage *Stage) *MaxInclusive {
 	if _, ok := stage.MaxInclusives[maxinclusive]; !ok {
 		stage.MaxInclusives[maxinclusive] = struct{}{}
 		stage.MaxInclusive_stagedOrder[maxinclusive] = stage.MaxInclusiveOrder
+		stage.MaxInclusive_orderStaged[stage.MaxInclusiveOrder] = maxinclusive
 		stage.MaxInclusiveOrder++
 	}
 	stage.MaxInclusives_mapString[maxinclusive.Name] = maxinclusive
@@ -3563,6 +3729,7 @@ func (maxinclusive *MaxInclusive) StagePreserveOrder(stage *Stage, order uint) {
 			stage.MaxInclusiveOrder = order
 		}
 		stage.MaxInclusive_stagedOrder[maxinclusive] = order
+		stage.MaxInclusive_orderStaged[order] = maxinclusive
 		stage.MaxInclusiveOrder++
 	}
 	stage.MaxInclusives_mapString[maxinclusive.Name] = maxinclusive
@@ -3629,6 +3796,7 @@ func (maxlength *MaxLength) Stage(stage *Stage) *MaxLength {
 	if _, ok := stage.MaxLengths[maxlength]; !ok {
 		stage.MaxLengths[maxlength] = struct{}{}
 		stage.MaxLength_stagedOrder[maxlength] = stage.MaxLengthOrder
+		stage.MaxLength_orderStaged[stage.MaxLengthOrder] = maxlength
 		stage.MaxLengthOrder++
 	}
 	stage.MaxLengths_mapString[maxlength.Name] = maxlength
@@ -3649,6 +3817,7 @@ func (maxlength *MaxLength) StagePreserveOrder(stage *Stage, order uint) {
 			stage.MaxLengthOrder = order
 		}
 		stage.MaxLength_stagedOrder[maxlength] = order
+		stage.MaxLength_orderStaged[order] = maxlength
 		stage.MaxLengthOrder++
 	}
 	stage.MaxLengths_mapString[maxlength.Name] = maxlength
@@ -3715,6 +3884,7 @@ func (mininclusive *MinInclusive) Stage(stage *Stage) *MinInclusive {
 	if _, ok := stage.MinInclusives[mininclusive]; !ok {
 		stage.MinInclusives[mininclusive] = struct{}{}
 		stage.MinInclusive_stagedOrder[mininclusive] = stage.MinInclusiveOrder
+		stage.MinInclusive_orderStaged[stage.MinInclusiveOrder] = mininclusive
 		stage.MinInclusiveOrder++
 	}
 	stage.MinInclusives_mapString[mininclusive.Name] = mininclusive
@@ -3735,6 +3905,7 @@ func (mininclusive *MinInclusive) StagePreserveOrder(stage *Stage, order uint) {
 			stage.MinInclusiveOrder = order
 		}
 		stage.MinInclusive_stagedOrder[mininclusive] = order
+		stage.MinInclusive_orderStaged[order] = mininclusive
 		stage.MinInclusiveOrder++
 	}
 	stage.MinInclusives_mapString[mininclusive.Name] = mininclusive
@@ -3801,6 +3972,7 @@ func (minlength *MinLength) Stage(stage *Stage) *MinLength {
 	if _, ok := stage.MinLengths[minlength]; !ok {
 		stage.MinLengths[minlength] = struct{}{}
 		stage.MinLength_stagedOrder[minlength] = stage.MinLengthOrder
+		stage.MinLength_orderStaged[stage.MinLengthOrder] = minlength
 		stage.MinLengthOrder++
 	}
 	stage.MinLengths_mapString[minlength.Name] = minlength
@@ -3821,6 +3993,7 @@ func (minlength *MinLength) StagePreserveOrder(stage *Stage, order uint) {
 			stage.MinLengthOrder = order
 		}
 		stage.MinLength_stagedOrder[minlength] = order
+		stage.MinLength_orderStaged[order] = minlength
 		stage.MinLengthOrder++
 	}
 	stage.MinLengths_mapString[minlength.Name] = minlength
@@ -3887,6 +4060,7 @@ func (pattern *Pattern) Stage(stage *Stage) *Pattern {
 	if _, ok := stage.Patterns[pattern]; !ok {
 		stage.Patterns[pattern] = struct{}{}
 		stage.Pattern_stagedOrder[pattern] = stage.PatternOrder
+		stage.Pattern_orderStaged[stage.PatternOrder] = pattern
 		stage.PatternOrder++
 	}
 	stage.Patterns_mapString[pattern.Name] = pattern
@@ -3907,6 +4081,7 @@ func (pattern *Pattern) StagePreserveOrder(stage *Stage, order uint) {
 			stage.PatternOrder = order
 		}
 		stage.Pattern_stagedOrder[pattern] = order
+		stage.Pattern_orderStaged[order] = pattern
 		stage.PatternOrder++
 	}
 	stage.Patterns_mapString[pattern.Name] = pattern
@@ -3973,6 +4148,7 @@ func (restriction *Restriction) Stage(stage *Stage) *Restriction {
 	if _, ok := stage.Restrictions[restriction]; !ok {
 		stage.Restrictions[restriction] = struct{}{}
 		stage.Restriction_stagedOrder[restriction] = stage.RestrictionOrder
+		stage.Restriction_orderStaged[stage.RestrictionOrder] = restriction
 		stage.RestrictionOrder++
 	}
 	stage.Restrictions_mapString[restriction.Name] = restriction
@@ -3993,6 +4169,7 @@ func (restriction *Restriction) StagePreserveOrder(stage *Stage, order uint) {
 			stage.RestrictionOrder = order
 		}
 		stage.Restriction_stagedOrder[restriction] = order
+		stage.Restriction_orderStaged[order] = restriction
 		stage.RestrictionOrder++
 	}
 	stage.Restrictions_mapString[restriction.Name] = restriction
@@ -4059,6 +4236,7 @@ func (schema *Schema) Stage(stage *Stage) *Schema {
 	if _, ok := stage.Schemas[schema]; !ok {
 		stage.Schemas[schema] = struct{}{}
 		stage.Schema_stagedOrder[schema] = stage.SchemaOrder
+		stage.Schema_orderStaged[stage.SchemaOrder] = schema
 		stage.SchemaOrder++
 	}
 	stage.Schemas_mapString[schema.Name] = schema
@@ -4079,6 +4257,7 @@ func (schema *Schema) StagePreserveOrder(stage *Stage, order uint) {
 			stage.SchemaOrder = order
 		}
 		stage.Schema_stagedOrder[schema] = order
+		stage.Schema_orderStaged[order] = schema
 		stage.SchemaOrder++
 	}
 	stage.Schemas_mapString[schema.Name] = schema
@@ -4145,6 +4324,7 @@ func (sequence *Sequence) Stage(stage *Stage) *Sequence {
 	if _, ok := stage.Sequences[sequence]; !ok {
 		stage.Sequences[sequence] = struct{}{}
 		stage.Sequence_stagedOrder[sequence] = stage.SequenceOrder
+		stage.Sequence_orderStaged[stage.SequenceOrder] = sequence
 		stage.SequenceOrder++
 	}
 	stage.Sequences_mapString[sequence.Name] = sequence
@@ -4165,6 +4345,7 @@ func (sequence *Sequence) StagePreserveOrder(stage *Stage, order uint) {
 			stage.SequenceOrder = order
 		}
 		stage.Sequence_stagedOrder[sequence] = order
+		stage.Sequence_orderStaged[order] = sequence
 		stage.SequenceOrder++
 	}
 	stage.Sequences_mapString[sequence.Name] = sequence
@@ -4231,6 +4412,7 @@ func (simplecontent *SimpleContent) Stage(stage *Stage) *SimpleContent {
 	if _, ok := stage.SimpleContents[simplecontent]; !ok {
 		stage.SimpleContents[simplecontent] = struct{}{}
 		stage.SimpleContent_stagedOrder[simplecontent] = stage.SimpleContentOrder
+		stage.SimpleContent_orderStaged[stage.SimpleContentOrder] = simplecontent
 		stage.SimpleContentOrder++
 	}
 	stage.SimpleContents_mapString[simplecontent.Name] = simplecontent
@@ -4251,6 +4433,7 @@ func (simplecontent *SimpleContent) StagePreserveOrder(stage *Stage, order uint)
 			stage.SimpleContentOrder = order
 		}
 		stage.SimpleContent_stagedOrder[simplecontent] = order
+		stage.SimpleContent_orderStaged[order] = simplecontent
 		stage.SimpleContentOrder++
 	}
 	stage.SimpleContents_mapString[simplecontent.Name] = simplecontent
@@ -4317,6 +4500,7 @@ func (simpletype *SimpleType) Stage(stage *Stage) *SimpleType {
 	if _, ok := stage.SimpleTypes[simpletype]; !ok {
 		stage.SimpleTypes[simpletype] = struct{}{}
 		stage.SimpleType_stagedOrder[simpletype] = stage.SimpleTypeOrder
+		stage.SimpleType_orderStaged[stage.SimpleTypeOrder] = simpletype
 		stage.SimpleTypeOrder++
 	}
 	stage.SimpleTypes_mapString[simpletype.Name] = simpletype
@@ -4337,6 +4521,7 @@ func (simpletype *SimpleType) StagePreserveOrder(stage *Stage, order uint) {
 			stage.SimpleTypeOrder = order
 		}
 		stage.SimpleType_stagedOrder[simpletype] = order
+		stage.SimpleType_orderStaged[order] = simpletype
 		stage.SimpleTypeOrder++
 	}
 	stage.SimpleTypes_mapString[simpletype.Name] = simpletype
@@ -4403,6 +4588,7 @@ func (totaldigit *TotalDigit) Stage(stage *Stage) *TotalDigit {
 	if _, ok := stage.TotalDigits[totaldigit]; !ok {
 		stage.TotalDigits[totaldigit] = struct{}{}
 		stage.TotalDigit_stagedOrder[totaldigit] = stage.TotalDigitOrder
+		stage.TotalDigit_orderStaged[stage.TotalDigitOrder] = totaldigit
 		stage.TotalDigitOrder++
 	}
 	stage.TotalDigits_mapString[totaldigit.Name] = totaldigit
@@ -4423,6 +4609,7 @@ func (totaldigit *TotalDigit) StagePreserveOrder(stage *Stage, order uint) {
 			stage.TotalDigitOrder = order
 		}
 		stage.TotalDigit_stagedOrder[totaldigit] = order
+		stage.TotalDigit_orderStaged[order] = totaldigit
 		stage.TotalDigitOrder++
 	}
 	stage.TotalDigits_mapString[totaldigit.Name] = totaldigit
@@ -4489,6 +4676,7 @@ func (union *Union) Stage(stage *Stage) *Union {
 	if _, ok := stage.Unions[union]; !ok {
 		stage.Unions[union] = struct{}{}
 		stage.Union_stagedOrder[union] = stage.UnionOrder
+		stage.Union_orderStaged[stage.UnionOrder] = union
 		stage.UnionOrder++
 	}
 	stage.Unions_mapString[union.Name] = union
@@ -4509,6 +4697,7 @@ func (union *Union) StagePreserveOrder(stage *Stage, order uint) {
 			stage.UnionOrder = order
 		}
 		stage.Union_stagedOrder[union] = order
+		stage.Union_orderStaged[order] = union
 		stage.UnionOrder++
 	}
 	stage.Unions_mapString[union.Name] = union
@@ -4575,6 +4764,7 @@ func (whitespace *WhiteSpace) Stage(stage *Stage) *WhiteSpace {
 	if _, ok := stage.WhiteSpaces[whitespace]; !ok {
 		stage.WhiteSpaces[whitespace] = struct{}{}
 		stage.WhiteSpace_stagedOrder[whitespace] = stage.WhiteSpaceOrder
+		stage.WhiteSpace_orderStaged[stage.WhiteSpaceOrder] = whitespace
 		stage.WhiteSpaceOrder++
 	}
 	stage.WhiteSpaces_mapString[whitespace.Name] = whitespace
@@ -4595,6 +4785,7 @@ func (whitespace *WhiteSpace) StagePreserveOrder(stage *Stage, order uint) {
 			stage.WhiteSpaceOrder = order
 		}
 		stage.WhiteSpace_stagedOrder[whitespace] = order
+		stage.WhiteSpace_orderStaged[order] = whitespace
 		stage.WhiteSpaceOrder++
 	}
 	stage.WhiteSpaces_mapString[whitespace.Name] = whitespace
