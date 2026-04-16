@@ -53,11 +53,6 @@ type Probe struct {
 	// commit mode is used to control if the commit button is enabled or not.
 	// It is set to false when the probe is in a state where the commit is not possible (for example when the stage is dirty and the commit would fail)
 	commitMode bool
-
-	// bulkDeleteMode is used to control if the bulk delete button has been clicked.
-	bulkDeleteMode              bool
-	selectedRowIDsForBulkDelete []uint
-	map_rowID_ID_ForBulkDelete  map[uint]uint
 }
 
 func (probe *Probe) SetCommitMode(commitMode bool) {
