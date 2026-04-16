@@ -131,6 +131,7 @@ type Stage struct {
 	As_mapString      map[string]*A
 	AOrder            uint
 	A_stagedOrder     map[*A]uint
+	A_orderStaged     map[uint]*A
 	As_reference      map[*A]*A
 	As_referenceOrder map[*A]uint
 

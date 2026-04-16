@@ -182,8 +182,6 @@ type Table_WOP struct {
 
 	BulkDeleteButtonTooltip string
 
-	BulkDeleteSelectedRowsIDsJson string
-
 	CanDragDropRows bool
 
 	HasCloseButton bool
@@ -204,7 +202,6 @@ func (from *Table) CopyBasicFields(to *Table) {
 	to.SaveButtonLabel = from.SaveButtonLabel
 	to.HasBulkDeleteButton = from.HasBulkDeleteButton
 	to.BulkDeleteButtonTooltip = from.BulkDeleteButtonTooltip
-	to.BulkDeleteSelectedRowsIDsJson = from.BulkDeleteSelectedRowsIDsJson
 	to.CanDragDropRows = from.CanDragDropRows
 	to.HasCloseButton = from.HasCloseButton
 	to.SavingInProgress = from.SavingInProgress

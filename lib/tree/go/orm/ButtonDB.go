@@ -226,9 +226,10 @@ func (backRepoButton *BackRepoButtonStruct) CommitPhaseOneInstance(button *model
 
 	// initiate button
 	var buttonDB ButtonDB
-	buttonDB.CopyBasicFieldsFromButton(button)
 
+	buttonDB.CopyBasicFieldsFromButton(button)
 	_, err := backRepoButton.db.Create(&buttonDB)
+
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -281,6 +281,8 @@ type Stage struct {
 
 	Table_Rows_reverseMap map[*Row]*Table
 
+	Table_RowsSelectedForBulkDelete_reverseMap map[*Row]*Table
+
 	Table_Buttons_reverseMap map[*Button]*Table
 
 	OnAfterTableCreateCallback OnAfterCreateInterface[Table]
@@ -2825,6 +2827,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			DisplayedColumns: []*DisplayedColumn{{Name: "DisplayedColumns"}},
 			// field is initialized with an instance of Row with the name of the field
 			Rows: []*Row{{Name: "Rows"}},
+			// field is initialized with an instance of Row with the name of the field
+			RowsSelectedForBulkDelete: []*Row{{Name: "RowsSelectedForBulkDelete"}},
 			// field is initialized with an instance of Button with the name of the field
 			Buttons: []*Button{{Name: "Buttons"}},
 		}).(*Type)
@@ -3095,6 +3099,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "RowsSelectedForBulkDelete":
+			res := make(map[*Row][]*Table)
+			for table := range stage.Tables {
+				for _, row_ := range table.RowsSelectedForBulkDelete {
+					res[row_] = append(res[row_], table)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "Buttons":
 			res := make(map[*Button][]*Table)
 			for table := range stage.Tables {
@@ -3192,6 +3204,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		_ = rf
 		rf.GongstructName = "Table"
 		rf.Fieldname = "Rows"
+		res = append(res, rf)
+		rf.GongstructName = "Table"
+		rf.Fieldname = "RowsSelectedForBulkDelete"
 		res = append(res, rf)
 	case *SVGIcon:
 		var rf ReverseField
@@ -3456,8 +3471,9 @@ func (table *Table) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "BulkDeleteSelectedRowsIDsJson",
-			GongFieldValueType: GongFieldValueTypeString,
+			Name:                 "RowsSelectedForBulkDelete",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Row",
 		},
 		{
 			Name:               "CanDragDropRows",
@@ -3771,8 +3787,16 @@ func (table *Table) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "BulkDeleteButtonTooltip":
 		res.valueString = table.BulkDeleteButtonTooltip
-	case "BulkDeleteSelectedRowsIDsJson":
-		res.valueString = table.BulkDeleteSelectedRowsIDsJson
+	case "RowsSelectedForBulkDelete":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range table.RowsSelectedForBulkDelete {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	case "CanDragDropRows":
 		res.valueString = fmt.Sprintf("%t", table.CanDragDropRows)
 		res.valueBool = table.CanDragDropRows
@@ -4076,8 +4100,20 @@ func (table *Table) GongSetFieldValue(fieldName string, value GongFieldValue, st
 		table.HasBulkDeleteButton = value.GetValueBool()
 	case "BulkDeleteButtonTooltip":
 		table.BulkDeleteButtonTooltip = value.GetValueString()
-	case "BulkDeleteSelectedRowsIDsJson":
-		table.BulkDeleteSelectedRowsIDsJson = value.GetValueString()
+	case "RowsSelectedForBulkDelete":
+		table.RowsSelectedForBulkDelete = make([]*Row, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Rows {
+					if stage.Row_stagedOrder[__instance__] == uint(id) {
+						table.RowsSelectedForBulkDelete = append(table.RowsSelectedForBulkDelete, __instance__)
+						break
+					}
+				}
+			}
+		}
 	case "CanDragDropRows":
 		table.CanDragDropRows = value.GetValueBool()
 	case "HasCloseButton":

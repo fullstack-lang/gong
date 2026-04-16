@@ -217,9 +217,10 @@ func (backRepoNote *BackRepoNoteStruct) CommitPhaseOneInstance(note *models.Note
 
 	// initiate note
 	var noteDB NoteDB
-	noteDB.CopyBasicFieldsFromNote(note)
 
+	noteDB.CopyBasicFieldsFromNote(note)
 	_, err := backRepoNote.db.Create(&noteDB)
+
 	if err != nil {
 		log.Fatal(err)
 	}

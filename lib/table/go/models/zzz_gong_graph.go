@@ -403,6 +403,9 @@ func (stage *Stage) StageBranchTable(table *Table) {
 	for _, _row := range table.Rows {
 		StageBranch(stage, _row)
 	}
+	for _, _row := range table.RowsSelectedForBulkDelete {
+		StageBranch(stage, _row)
+	}
 	for _, _button := range table.Buttons {
 		StageBranch(stage, _button)
 	}
@@ -703,6 +706,9 @@ func CopyBranchTable(mapOrigCopy map[any]any, tableFrom *Table) (tableTo *Table)
 	for _, _row := range tableFrom.Rows {
 		tableTo.Rows = append(tableTo.Rows, CopyBranchRow(mapOrigCopy, _row))
 	}
+	for _, _row := range tableFrom.RowsSelectedForBulkDelete {
+		tableTo.RowsSelectedForBulkDelete = append(tableTo.RowsSelectedForBulkDelete, CopyBranchRow(mapOrigCopy, _row))
+	}
 	for _, _button := range tableFrom.Buttons {
 		tableTo.Buttons = append(tableTo.Buttons, CopyBranchButton(mapOrigCopy, _button))
 	}
@@ -946,6 +952,9 @@ func (stage *Stage) UnstageBranchTable(table *Table) {
 	for _, _row := range table.Rows {
 		UnstageBranch(stage, _row)
 	}
+	for _, _row := range table.RowsSelectedForBulkDelete {
+		UnstageBranch(stage, _row)
+	}
 	for _, _button := range table.Buttons {
 		UnstageBranch(stage, _button)
 	}
@@ -1055,6 +1064,10 @@ func (reference *Table) GongReconstructPointersFromReferences(stage *Stage, inst
 	reference.Rows = reference.Rows[:0]
 	for _, _b := range instance.Rows {
 		reference.Rows = append(reference.Rows, stage.Rows_reference[_b])
+	}
+	reference.RowsSelectedForBulkDelete = reference.RowsSelectedForBulkDelete[:0]
+	for _, _b := range instance.RowsSelectedForBulkDelete {
+		reference.RowsSelectedForBulkDelete = append(reference.RowsSelectedForBulkDelete, stage.Rows_reference[_b])
 	}
 	reference.Buttons = reference.Buttons[:0]
 	for _, _b := range instance.Buttons {
@@ -1195,6 +1208,13 @@ func (reference *Table) GongReconstructPointersFromInstances(stage *Stage) () {
 		}
 	}
 	reference.Rows = _Rows
+	var _RowsSelectedForBulkDelete []*Row
+	for _, _reference := range reference.RowsSelectedForBulkDelete {
+		if _instance, ok := stage.Rows_instance[_reference]; ok {
+			_RowsSelectedForBulkDelete = append(_RowsSelectedForBulkDelete, _instance)
+		}
+	}
+	reference.RowsSelectedForBulkDelete = _RowsSelectedForBulkDelete
 	var _Buttons []*Button
 	for _, _reference := range reference.Buttons {
 		if _instance, ok := stage.Buttons_instance[_reference]; ok {
@@ -1495,8 +1515,26 @@ func (table *Table) GongDiff(stage *Stage, tableOther *Table) (diffs []string) {
 	if table.BulkDeleteButtonTooltip != tableOther.BulkDeleteButtonTooltip {
 		diffs = append(diffs, table.GongMarshallField(stage, "BulkDeleteButtonTooltip"))
 	}
-	if table.BulkDeleteSelectedRowsIDsJson != tableOther.BulkDeleteSelectedRowsIDsJson {
-		diffs = append(diffs, table.GongMarshallField(stage, "BulkDeleteSelectedRowsIDsJson"))
+	RowsSelectedForBulkDeleteDifferent := false
+	if len(table.RowsSelectedForBulkDelete) != len(tableOther.RowsSelectedForBulkDelete) {
+		RowsSelectedForBulkDeleteDifferent = true
+	} else {
+		for i := range table.RowsSelectedForBulkDelete {
+			if (table.RowsSelectedForBulkDelete[i] == nil) != (tableOther.RowsSelectedForBulkDelete[i] == nil) {
+				RowsSelectedForBulkDeleteDifferent = true
+				break
+			} else if table.RowsSelectedForBulkDelete[i] != nil && tableOther.RowsSelectedForBulkDelete[i] != nil {
+				// this is a pointer comparaison
+				if table.RowsSelectedForBulkDelete[i] != tableOther.RowsSelectedForBulkDelete[i] {
+					RowsSelectedForBulkDeleteDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if RowsSelectedForBulkDeleteDifferent {
+		ops := Diff(stage, table, tableOther, "RowsSelectedForBulkDelete", tableOther.RowsSelectedForBulkDelete, table.RowsSelectedForBulkDelete)
+		diffs = append(diffs, ops)
 	}
 	if table.CanDragDropRows != tableOther.CanDragDropRows {
 		diffs = append(diffs, table.GongMarshallField(stage, "CanDragDropRows"))

@@ -364,9 +364,10 @@ func (backRepoNode *BackRepoNodeStruct) CommitPhaseOneInstance(node *models.Node
 
 	// initiate node
 	var nodeDB NodeDB
-	nodeDB.CopyBasicFieldsFromNode(node)
 
+	nodeDB.CopyBasicFieldsFromNode(node)
 	_, err := backRepoNode.db.Create(&nodeDB)
+
 	if err != nil {
 		log.Fatal(err)
 	}
