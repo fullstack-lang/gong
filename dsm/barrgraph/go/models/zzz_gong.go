@@ -131,6 +131,7 @@ type Stage struct {
 	ArtefactTypes_mapString      map[string]*ArtefactType
 	ArtefactTypeOrder            uint
 	ArtefactType_stagedOrder     map[*ArtefactType]uint
+	ArtefactType_orderStaged     map[uint]*ArtefactType
 	ArtefactTypes_reference      map[*ArtefactType]*ArtefactType
 	ArtefactTypes_referenceOrder map[*ArtefactType]uint
 
@@ -145,6 +146,7 @@ type Stage struct {
 	ArtefactTypeShapes_mapString      map[string]*ArtefactTypeShape
 	ArtefactTypeShapeOrder            uint
 	ArtefactTypeShape_stagedOrder     map[*ArtefactTypeShape]uint
+	ArtefactTypeShape_orderStaged     map[uint]*ArtefactTypeShape
 	ArtefactTypeShapes_reference      map[*ArtefactTypeShape]*ArtefactTypeShape
 	ArtefactTypeShapes_referenceOrder map[*ArtefactTypeShape]uint
 
@@ -159,6 +161,7 @@ type Stage struct {
 	Artists_mapString      map[string]*Artist
 	ArtistOrder            uint
 	Artist_stagedOrder     map[*Artist]uint
+	Artist_orderStaged     map[uint]*Artist
 	Artists_reference      map[*Artist]*Artist
 	Artists_referenceOrder map[*Artist]uint
 
@@ -173,6 +176,7 @@ type Stage struct {
 	ArtistShapes_mapString      map[string]*ArtistShape
 	ArtistShapeOrder            uint
 	ArtistShape_stagedOrder     map[*ArtistShape]uint
+	ArtistShape_orderStaged     map[uint]*ArtistShape
 	ArtistShapes_reference      map[*ArtistShape]*ArtistShape
 	ArtistShapes_referenceOrder map[*ArtistShape]uint
 
@@ -187,6 +191,7 @@ type Stage struct {
 	ControlPointShapes_mapString      map[string]*ControlPointShape
 	ControlPointShapeOrder            uint
 	ControlPointShape_stagedOrder     map[*ControlPointShape]uint
+	ControlPointShape_orderStaged     map[uint]*ControlPointShape
 	ControlPointShapes_reference      map[*ControlPointShape]*ControlPointShape
 	ControlPointShapes_referenceOrder map[*ControlPointShape]uint
 
@@ -201,6 +206,7 @@ type Stage struct {
 	Desks_mapString      map[string]*Desk
 	DeskOrder            uint
 	Desk_stagedOrder     map[*Desk]uint
+	Desk_orderStaged     map[uint]*Desk
 	Desks_reference      map[*Desk]*Desk
 	Desks_referenceOrder map[*Desk]uint
 
@@ -215,6 +221,7 @@ type Stage struct {
 	Diagrams_mapString      map[string]*Diagram
 	DiagramOrder            uint
 	Diagram_stagedOrder     map[*Diagram]uint
+	Diagram_orderStaged     map[uint]*Diagram
 	Diagrams_reference      map[*Diagram]*Diagram
 	Diagrams_referenceOrder map[*Diagram]uint
 
@@ -237,6 +244,7 @@ type Stage struct {
 	Influences_mapString      map[string]*Influence
 	InfluenceOrder            uint
 	Influence_stagedOrder     map[*Influence]uint
+	Influence_orderStaged     map[uint]*Influence
 	Influences_reference      map[*Influence]*Influence
 	Influences_referenceOrder map[*Influence]uint
 
@@ -251,6 +259,7 @@ type Stage struct {
 	InfluenceShapes_mapString      map[string]*InfluenceShape
 	InfluenceShapeOrder            uint
 	InfluenceShape_stagedOrder     map[*InfluenceShape]uint
+	InfluenceShape_orderStaged     map[uint]*InfluenceShape
 	InfluenceShapes_reference      map[*InfluenceShape]*InfluenceShape
 	InfluenceShapes_referenceOrder map[*InfluenceShape]uint
 
@@ -267,6 +276,7 @@ type Stage struct {
 	Movements_mapString      map[string]*Movement
 	MovementOrder            uint
 	Movement_stagedOrder     map[*Movement]uint
+	Movement_orderStaged     map[uint]*Movement
 	Movements_reference      map[*Movement]*Movement
 	Movements_referenceOrder map[*Movement]uint
 
@@ -283,6 +293,7 @@ type Stage struct {
 	MovementShapes_mapString      map[string]*MovementShape
 	MovementShapeOrder            uint
 	MovementShape_stagedOrder     map[*MovementShape]uint
+	MovementShape_orderStaged     map[uint]*MovementShape
 	MovementShapes_reference      map[*MovementShape]*MovementShape
 	MovementShapes_referenceOrder map[*MovementShape]uint
 
@@ -297,6 +308,7 @@ type Stage struct {
 	Places_mapString      map[string]*Place
 	PlaceOrder            uint
 	Place_stagedOrder     map[*Place]uint
+	Place_orderStaged     map[uint]*Place
 	Places_reference      map[*Place]*Place
 	Places_referenceOrder map[*Place]uint
 
@@ -1213,28 +1225,52 @@ func NewStage(name string) (stage *Stage) {
 
 		// insertion point for order map initialisations
 		ArtefactType_stagedOrder: make(map[*ArtefactType]uint),
+		ArtefactType_orderStaged: make(map[uint]*ArtefactType),
+		ArtefactTypes_reference: make(map[*ArtefactType]*ArtefactType),
 
 		ArtefactTypeShape_stagedOrder: make(map[*ArtefactTypeShape]uint),
+		ArtefactTypeShape_orderStaged: make(map[uint]*ArtefactTypeShape),
+		ArtefactTypeShapes_reference: make(map[*ArtefactTypeShape]*ArtefactTypeShape),
 
 		Artist_stagedOrder: make(map[*Artist]uint),
+		Artist_orderStaged: make(map[uint]*Artist),
+		Artists_reference: make(map[*Artist]*Artist),
 
 		ArtistShape_stagedOrder: make(map[*ArtistShape]uint),
+		ArtistShape_orderStaged: make(map[uint]*ArtistShape),
+		ArtistShapes_reference: make(map[*ArtistShape]*ArtistShape),
 
 		ControlPointShape_stagedOrder: make(map[*ControlPointShape]uint),
+		ControlPointShape_orderStaged: make(map[uint]*ControlPointShape),
+		ControlPointShapes_reference: make(map[*ControlPointShape]*ControlPointShape),
 
 		Desk_stagedOrder: make(map[*Desk]uint),
+		Desk_orderStaged: make(map[uint]*Desk),
+		Desks_reference: make(map[*Desk]*Desk),
 
 		Diagram_stagedOrder: make(map[*Diagram]uint),
+		Diagram_orderStaged: make(map[uint]*Diagram),
+		Diagrams_reference: make(map[*Diagram]*Diagram),
 
 		Influence_stagedOrder: make(map[*Influence]uint),
+		Influence_orderStaged: make(map[uint]*Influence),
+		Influences_reference: make(map[*Influence]*Influence),
 
 		InfluenceShape_stagedOrder: make(map[*InfluenceShape]uint),
+		InfluenceShape_orderStaged: make(map[uint]*InfluenceShape),
+		InfluenceShapes_reference: make(map[*InfluenceShape]*InfluenceShape),
 
 		Movement_stagedOrder: make(map[*Movement]uint),
+		Movement_orderStaged: make(map[uint]*Movement),
+		Movements_reference: make(map[*Movement]*Movement),
 
 		MovementShape_stagedOrder: make(map[*MovementShape]uint),
+		MovementShape_orderStaged: make(map[uint]*MovementShape),
+		MovementShapes_reference: make(map[*MovementShape]*MovementShape),
 
 		Place_stagedOrder: make(map[*Place]uint),
+		Place_orderStaged: make(map[uint]*Place),
+		Places_reference: make(map[*Place]*Place),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
@@ -1315,6 +1351,39 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.Place_stagedOrder[instance]
 	default:
 		return 0 // should not happen
+	}
+}
+
+func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint) (res Type) {
+	var t Type
+	switch any(t).(type) {
+	// insertion point for order map initialisations
+	case *ArtefactType:
+		return any(stage.ArtefactType_orderStaged[order]).(Type)
+	case *ArtefactTypeShape:
+		return any(stage.ArtefactTypeShape_orderStaged[order]).(Type)
+	case *Artist:
+		return any(stage.Artist_orderStaged[order]).(Type)
+	case *ArtistShape:
+		return any(stage.ArtistShape_orderStaged[order]).(Type)
+	case *ControlPointShape:
+		return any(stage.ControlPointShape_orderStaged[order]).(Type)
+	case *Desk:
+		return any(stage.Desk_orderStaged[order]).(Type)
+	case *Diagram:
+		return any(stage.Diagram_orderStaged[order]).(Type)
+	case *Influence:
+		return any(stage.Influence_orderStaged[order]).(Type)
+	case *InfluenceShape:
+		return any(stage.InfluenceShape_orderStaged[order]).(Type)
+	case *Movement:
+		return any(stage.Movement_orderStaged[order]).(Type)
+	case *MovementShape:
+		return any(stage.MovementShape_orderStaged[order]).(Type)
+	case *Place:
+		return any(stage.Place_orderStaged[order]).(Type)
+	default:
+		return // should not happen
 	}
 }
 
@@ -1467,6 +1536,7 @@ func (artefacttype *ArtefactType) Stage(stage *Stage) *ArtefactType {
 	if _, ok := stage.ArtefactTypes[artefacttype]; !ok {
 		stage.ArtefactTypes[artefacttype] = struct{}{}
 		stage.ArtefactType_stagedOrder[artefacttype] = stage.ArtefactTypeOrder
+		stage.ArtefactType_orderStaged[stage.ArtefactTypeOrder] = artefacttype
 		stage.ArtefactTypeOrder++
 	}
 	stage.ArtefactTypes_mapString[artefacttype.Name] = artefacttype
@@ -1487,6 +1557,7 @@ func (artefacttype *ArtefactType) StagePreserveOrder(stage *Stage, order uint) {
 			stage.ArtefactTypeOrder = order
 		}
 		stage.ArtefactType_stagedOrder[artefacttype] = order
+		stage.ArtefactType_orderStaged[order] = artefacttype
 		stage.ArtefactTypeOrder++
 	}
 	stage.ArtefactTypes_mapString[artefacttype.Name] = artefacttype
@@ -1553,6 +1624,7 @@ func (artefacttypeshape *ArtefactTypeShape) Stage(stage *Stage) *ArtefactTypeSha
 	if _, ok := stage.ArtefactTypeShapes[artefacttypeshape]; !ok {
 		stage.ArtefactTypeShapes[artefacttypeshape] = struct{}{}
 		stage.ArtefactTypeShape_stagedOrder[artefacttypeshape] = stage.ArtefactTypeShapeOrder
+		stage.ArtefactTypeShape_orderStaged[stage.ArtefactTypeShapeOrder] = artefacttypeshape
 		stage.ArtefactTypeShapeOrder++
 	}
 	stage.ArtefactTypeShapes_mapString[artefacttypeshape.Name] = artefacttypeshape
@@ -1573,6 +1645,7 @@ func (artefacttypeshape *ArtefactTypeShape) StagePreserveOrder(stage *Stage, ord
 			stage.ArtefactTypeShapeOrder = order
 		}
 		stage.ArtefactTypeShape_stagedOrder[artefacttypeshape] = order
+		stage.ArtefactTypeShape_orderStaged[order] = artefacttypeshape
 		stage.ArtefactTypeShapeOrder++
 	}
 	stage.ArtefactTypeShapes_mapString[artefacttypeshape.Name] = artefacttypeshape
@@ -1639,6 +1712,7 @@ func (artist *Artist) Stage(stage *Stage) *Artist {
 	if _, ok := stage.Artists[artist]; !ok {
 		stage.Artists[artist] = struct{}{}
 		stage.Artist_stagedOrder[artist] = stage.ArtistOrder
+		stage.Artist_orderStaged[stage.ArtistOrder] = artist
 		stage.ArtistOrder++
 	}
 	stage.Artists_mapString[artist.Name] = artist
@@ -1659,6 +1733,7 @@ func (artist *Artist) StagePreserveOrder(stage *Stage, order uint) {
 			stage.ArtistOrder = order
 		}
 		stage.Artist_stagedOrder[artist] = order
+		stage.Artist_orderStaged[order] = artist
 		stage.ArtistOrder++
 	}
 	stage.Artists_mapString[artist.Name] = artist
@@ -1725,6 +1800,7 @@ func (artistshape *ArtistShape) Stage(stage *Stage) *ArtistShape {
 	if _, ok := stage.ArtistShapes[artistshape]; !ok {
 		stage.ArtistShapes[artistshape] = struct{}{}
 		stage.ArtistShape_stagedOrder[artistshape] = stage.ArtistShapeOrder
+		stage.ArtistShape_orderStaged[stage.ArtistShapeOrder] = artistshape
 		stage.ArtistShapeOrder++
 	}
 	stage.ArtistShapes_mapString[artistshape.Name] = artistshape
@@ -1745,6 +1821,7 @@ func (artistshape *ArtistShape) StagePreserveOrder(stage *Stage, order uint) {
 			stage.ArtistShapeOrder = order
 		}
 		stage.ArtistShape_stagedOrder[artistshape] = order
+		stage.ArtistShape_orderStaged[order] = artistshape
 		stage.ArtistShapeOrder++
 	}
 	stage.ArtistShapes_mapString[artistshape.Name] = artistshape
@@ -1811,6 +1888,7 @@ func (controlpointshape *ControlPointShape) Stage(stage *Stage) *ControlPointSha
 	if _, ok := stage.ControlPointShapes[controlpointshape]; !ok {
 		stage.ControlPointShapes[controlpointshape] = struct{}{}
 		stage.ControlPointShape_stagedOrder[controlpointshape] = stage.ControlPointShapeOrder
+		stage.ControlPointShape_orderStaged[stage.ControlPointShapeOrder] = controlpointshape
 		stage.ControlPointShapeOrder++
 	}
 	stage.ControlPointShapes_mapString[controlpointshape.Name] = controlpointshape
@@ -1831,6 +1909,7 @@ func (controlpointshape *ControlPointShape) StagePreserveOrder(stage *Stage, ord
 			stage.ControlPointShapeOrder = order
 		}
 		stage.ControlPointShape_stagedOrder[controlpointshape] = order
+		stage.ControlPointShape_orderStaged[order] = controlpointshape
 		stage.ControlPointShapeOrder++
 	}
 	stage.ControlPointShapes_mapString[controlpointshape.Name] = controlpointshape
@@ -1897,6 +1976,7 @@ func (desk *Desk) Stage(stage *Stage) *Desk {
 	if _, ok := stage.Desks[desk]; !ok {
 		stage.Desks[desk] = struct{}{}
 		stage.Desk_stagedOrder[desk] = stage.DeskOrder
+		stage.Desk_orderStaged[stage.DeskOrder] = desk
 		stage.DeskOrder++
 	}
 	stage.Desks_mapString[desk.Name] = desk
@@ -1917,6 +1997,7 @@ func (desk *Desk) StagePreserveOrder(stage *Stage, order uint) {
 			stage.DeskOrder = order
 		}
 		stage.Desk_stagedOrder[desk] = order
+		stage.Desk_orderStaged[order] = desk
 		stage.DeskOrder++
 	}
 	stage.Desks_mapString[desk.Name] = desk
@@ -1983,6 +2064,7 @@ func (diagram *Diagram) Stage(stage *Stage) *Diagram {
 	if _, ok := stage.Diagrams[diagram]; !ok {
 		stage.Diagrams[diagram] = struct{}{}
 		stage.Diagram_stagedOrder[diagram] = stage.DiagramOrder
+		stage.Diagram_orderStaged[stage.DiagramOrder] = diagram
 		stage.DiagramOrder++
 	}
 	stage.Diagrams_mapString[diagram.Name] = diagram
@@ -2003,6 +2085,7 @@ func (diagram *Diagram) StagePreserveOrder(stage *Stage, order uint) {
 			stage.DiagramOrder = order
 		}
 		stage.Diagram_stagedOrder[diagram] = order
+		stage.Diagram_orderStaged[order] = diagram
 		stage.DiagramOrder++
 	}
 	stage.Diagrams_mapString[diagram.Name] = diagram
@@ -2069,6 +2152,7 @@ func (influence *Influence) Stage(stage *Stage) *Influence {
 	if _, ok := stage.Influences[influence]; !ok {
 		stage.Influences[influence] = struct{}{}
 		stage.Influence_stagedOrder[influence] = stage.InfluenceOrder
+		stage.Influence_orderStaged[stage.InfluenceOrder] = influence
 		stage.InfluenceOrder++
 	}
 	stage.Influences_mapString[influence.Name] = influence
@@ -2089,6 +2173,7 @@ func (influence *Influence) StagePreserveOrder(stage *Stage, order uint) {
 			stage.InfluenceOrder = order
 		}
 		stage.Influence_stagedOrder[influence] = order
+		stage.Influence_orderStaged[order] = influence
 		stage.InfluenceOrder++
 	}
 	stage.Influences_mapString[influence.Name] = influence
@@ -2155,6 +2240,7 @@ func (influenceshape *InfluenceShape) Stage(stage *Stage) *InfluenceShape {
 	if _, ok := stage.InfluenceShapes[influenceshape]; !ok {
 		stage.InfluenceShapes[influenceshape] = struct{}{}
 		stage.InfluenceShape_stagedOrder[influenceshape] = stage.InfluenceShapeOrder
+		stage.InfluenceShape_orderStaged[stage.InfluenceShapeOrder] = influenceshape
 		stage.InfluenceShapeOrder++
 	}
 	stage.InfluenceShapes_mapString[influenceshape.Name] = influenceshape
@@ -2175,6 +2261,7 @@ func (influenceshape *InfluenceShape) StagePreserveOrder(stage *Stage, order uin
 			stage.InfluenceShapeOrder = order
 		}
 		stage.InfluenceShape_stagedOrder[influenceshape] = order
+		stage.InfluenceShape_orderStaged[order] = influenceshape
 		stage.InfluenceShapeOrder++
 	}
 	stage.InfluenceShapes_mapString[influenceshape.Name] = influenceshape
@@ -2241,6 +2328,7 @@ func (movement *Movement) Stage(stage *Stage) *Movement {
 	if _, ok := stage.Movements[movement]; !ok {
 		stage.Movements[movement] = struct{}{}
 		stage.Movement_stagedOrder[movement] = stage.MovementOrder
+		stage.Movement_orderStaged[stage.MovementOrder] = movement
 		stage.MovementOrder++
 	}
 	stage.Movements_mapString[movement.Name] = movement
@@ -2261,6 +2349,7 @@ func (movement *Movement) StagePreserveOrder(stage *Stage, order uint) {
 			stage.MovementOrder = order
 		}
 		stage.Movement_stagedOrder[movement] = order
+		stage.Movement_orderStaged[order] = movement
 		stage.MovementOrder++
 	}
 	stage.Movements_mapString[movement.Name] = movement
@@ -2327,6 +2416,7 @@ func (movementshape *MovementShape) Stage(stage *Stage) *MovementShape {
 	if _, ok := stage.MovementShapes[movementshape]; !ok {
 		stage.MovementShapes[movementshape] = struct{}{}
 		stage.MovementShape_stagedOrder[movementshape] = stage.MovementShapeOrder
+		stage.MovementShape_orderStaged[stage.MovementShapeOrder] = movementshape
 		stage.MovementShapeOrder++
 	}
 	stage.MovementShapes_mapString[movementshape.Name] = movementshape
@@ -2347,6 +2437,7 @@ func (movementshape *MovementShape) StagePreserveOrder(stage *Stage, order uint)
 			stage.MovementShapeOrder = order
 		}
 		stage.MovementShape_stagedOrder[movementshape] = order
+		stage.MovementShape_orderStaged[order] = movementshape
 		stage.MovementShapeOrder++
 	}
 	stage.MovementShapes_mapString[movementshape.Name] = movementshape
@@ -2413,6 +2504,7 @@ func (place *Place) Stage(stage *Stage) *Place {
 	if _, ok := stage.Places[place]; !ok {
 		stage.Places[place] = struct{}{}
 		stage.Place_stagedOrder[place] = stage.PlaceOrder
+		stage.Place_orderStaged[stage.PlaceOrder] = place
 		stage.PlaceOrder++
 	}
 	stage.Places_mapString[place.Name] = place
@@ -2433,6 +2525,7 @@ func (place *Place) StagePreserveOrder(stage *Stage, order uint) {
 			stage.PlaceOrder = order
 		}
 		stage.Place_stagedOrder[place] = order
+		stage.Place_orderStaged[order] = place
 		stage.PlaceOrder++
 	}
 	stage.Places_mapString[place.Name] = place

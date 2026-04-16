@@ -131,6 +131,7 @@ type Stage struct {
 	Actions_mapString      map[string]*Action
 	ActionOrder            uint
 	Action_stagedOrder     map[*Action]uint
+	Action_orderStaged     map[uint]*Action
 	Actions_reference      map[*Action]*Action
 	Actions_referenceOrder map[*Action]uint
 
@@ -145,6 +146,7 @@ type Stage struct {
 	Activitiess_mapString      map[string]*Activities
 	ActivitiesOrder            uint
 	Activities_stagedOrder     map[*Activities]uint
+	Activities_orderStaged     map[uint]*Activities
 	Activitiess_reference      map[*Activities]*Activities
 	Activitiess_referenceOrder map[*Activities]uint
 
@@ -159,6 +161,7 @@ type Stage struct {
 	Architectures_mapString      map[string]*Architecture
 	ArchitectureOrder            uint
 	Architecture_stagedOrder     map[*Architecture]uint
+	Architecture_orderStaged     map[uint]*Architecture
 	Architectures_reference      map[*Architecture]*Architecture
 	Architectures_referenceOrder map[*Architecture]uint
 
@@ -177,6 +180,7 @@ type Stage struct {
 	Diagrams_mapString      map[string]*Diagram
 	DiagramOrder            uint
 	Diagram_stagedOrder     map[*Diagram]uint
+	Diagram_orderStaged     map[uint]*Diagram
 	Diagrams_reference      map[*Diagram]*Diagram
 	Diagrams_referenceOrder map[*Diagram]uint
 
@@ -197,6 +201,7 @@ type Stage struct {
 	Guards_mapString      map[string]*Guard
 	GuardOrder            uint
 	Guard_stagedOrder     map[*Guard]uint
+	Guard_orderStaged     map[uint]*Guard
 	Guards_reference      map[*Guard]*Guard
 	Guards_referenceOrder map[*Guard]uint
 
@@ -211,6 +216,7 @@ type Stage struct {
 	Kills_mapString      map[string]*Kill
 	KillOrder            uint
 	Kill_stagedOrder     map[*Kill]uint
+	Kill_orderStaged     map[uint]*Kill
 	Kills_reference      map[*Kill]*Kill
 	Kills_referenceOrder map[*Kill]uint
 
@@ -225,6 +231,7 @@ type Stage struct {
 	Messages_mapString      map[string]*Message
 	MessageOrder            uint
 	Message_stagedOrder     map[*Message]uint
+	Message_orderStaged     map[uint]*Message
 	Messages_reference      map[*Message]*Message
 	Messages_referenceOrder map[*Message]uint
 
@@ -239,6 +246,7 @@ type Stage struct {
 	MessageTypes_mapString      map[string]*MessageType
 	MessageTypeOrder            uint
 	MessageType_stagedOrder     map[*MessageType]uint
+	MessageType_orderStaged     map[uint]*MessageType
 	MessageTypes_reference      map[*MessageType]*MessageType
 	MessageTypes_referenceOrder map[*MessageType]uint
 
@@ -253,6 +261,7 @@ type Stage struct {
 	Objects_mapString      map[string]*Object
 	ObjectOrder            uint
 	Object_stagedOrder     map[*Object]uint
+	Object_orderStaged     map[uint]*Object
 	Objects_reference      map[*Object]*Object
 	Objects_referenceOrder map[*Object]uint
 
@@ -269,6 +278,7 @@ type Stage struct {
 	Roles_mapString      map[string]*Role
 	RoleOrder            uint
 	Role_stagedOrder     map[*Role]uint
+	Role_orderStaged     map[uint]*Role
 	Roles_reference      map[*Role]*Role
 	Roles_referenceOrder map[*Role]uint
 
@@ -285,6 +295,7 @@ type Stage struct {
 	States_mapString      map[string]*State
 	StateOrder            uint
 	State_stagedOrder     map[*State]uint
+	State_orderStaged     map[uint]*State
 	States_reference      map[*State]*State
 	States_referenceOrder map[*State]uint
 
@@ -305,6 +316,7 @@ type Stage struct {
 	StateMachines_mapString      map[string]*StateMachine
 	StateMachineOrder            uint
 	StateMachine_stagedOrder     map[*StateMachine]uint
+	StateMachine_orderStaged     map[uint]*StateMachine
 	StateMachines_reference      map[*StateMachine]*StateMachine
 	StateMachines_referenceOrder map[*StateMachine]uint
 
@@ -323,6 +335,7 @@ type Stage struct {
 	StateShapes_mapString      map[string]*StateShape
 	StateShapeOrder            uint
 	StateShape_stagedOrder     map[*StateShape]uint
+	StateShape_orderStaged     map[uint]*StateShape
 	StateShapes_reference      map[*StateShape]*StateShape
 	StateShapes_referenceOrder map[*StateShape]uint
 
@@ -337,6 +350,7 @@ type Stage struct {
 	Transitions_mapString      map[string]*Transition
 	TransitionOrder            uint
 	Transition_stagedOrder     map[*Transition]uint
+	Transition_orderStaged     map[uint]*Transition
 	Transitions_reference      map[*Transition]*Transition
 	Transitions_referenceOrder map[*Transition]uint
 
@@ -357,6 +371,7 @@ type Stage struct {
 	Transition_Shapes_mapString      map[string]*Transition_Shape
 	Transition_ShapeOrder            uint
 	Transition_Shape_stagedOrder     map[*Transition_Shape]uint
+	Transition_Shape_orderStaged     map[uint]*Transition_Shape
 	Transition_Shapes_reference      map[*Transition_Shape]*Transition_Shape
 	Transition_Shapes_referenceOrder map[*Transition_Shape]uint
 
@@ -1390,34 +1405,64 @@ func NewStage(name string) (stage *Stage) {
 
 		// insertion point for order map initialisations
 		Action_stagedOrder: make(map[*Action]uint),
+		Action_orderStaged: make(map[uint]*Action),
+		Actions_reference: make(map[*Action]*Action),
 
 		Activities_stagedOrder: make(map[*Activities]uint),
+		Activities_orderStaged: make(map[uint]*Activities),
+		Activitiess_reference: make(map[*Activities]*Activities),
 
 		Architecture_stagedOrder: make(map[*Architecture]uint),
+		Architecture_orderStaged: make(map[uint]*Architecture),
+		Architectures_reference: make(map[*Architecture]*Architecture),
 
 		Diagram_stagedOrder: make(map[*Diagram]uint),
+		Diagram_orderStaged: make(map[uint]*Diagram),
+		Diagrams_reference: make(map[*Diagram]*Diagram),
 
 		Guard_stagedOrder: make(map[*Guard]uint),
+		Guard_orderStaged: make(map[uint]*Guard),
+		Guards_reference: make(map[*Guard]*Guard),
 
 		Kill_stagedOrder: make(map[*Kill]uint),
+		Kill_orderStaged: make(map[uint]*Kill),
+		Kills_reference: make(map[*Kill]*Kill),
 
 		Message_stagedOrder: make(map[*Message]uint),
+		Message_orderStaged: make(map[uint]*Message),
+		Messages_reference: make(map[*Message]*Message),
 
 		MessageType_stagedOrder: make(map[*MessageType]uint),
+		MessageType_orderStaged: make(map[uint]*MessageType),
+		MessageTypes_reference: make(map[*MessageType]*MessageType),
 
 		Object_stagedOrder: make(map[*Object]uint),
+		Object_orderStaged: make(map[uint]*Object),
+		Objects_reference: make(map[*Object]*Object),
 
 		Role_stagedOrder: make(map[*Role]uint),
+		Role_orderStaged: make(map[uint]*Role),
+		Roles_reference: make(map[*Role]*Role),
 
 		State_stagedOrder: make(map[*State]uint),
+		State_orderStaged: make(map[uint]*State),
+		States_reference: make(map[*State]*State),
 
 		StateMachine_stagedOrder: make(map[*StateMachine]uint),
+		StateMachine_orderStaged: make(map[uint]*StateMachine),
+		StateMachines_reference: make(map[*StateMachine]*StateMachine),
 
 		StateShape_stagedOrder: make(map[*StateShape]uint),
+		StateShape_orderStaged: make(map[uint]*StateShape),
+		StateShapes_reference: make(map[*StateShape]*StateShape),
 
 		Transition_stagedOrder: make(map[*Transition]uint),
+		Transition_orderStaged: make(map[uint]*Transition),
+		Transitions_reference: make(map[*Transition]*Transition),
 
 		Transition_Shape_stagedOrder: make(map[*Transition_Shape]uint),
+		Transition_Shape_orderStaged: make(map[uint]*Transition_Shape),
+		Transition_Shapes_reference: make(map[*Transition_Shape]*Transition_Shape),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
@@ -1513,6 +1558,45 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.Transition_Shape_stagedOrder[instance]
 	default:
 		return 0 // should not happen
+	}
+}
+
+func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint) (res Type) {
+	var t Type
+	switch any(t).(type) {
+	// insertion point for order map initialisations
+	case *Action:
+		return any(stage.Action_orderStaged[order]).(Type)
+	case *Activities:
+		return any(stage.Activities_orderStaged[order]).(Type)
+	case *Architecture:
+		return any(stage.Architecture_orderStaged[order]).(Type)
+	case *Diagram:
+		return any(stage.Diagram_orderStaged[order]).(Type)
+	case *Guard:
+		return any(stage.Guard_orderStaged[order]).(Type)
+	case *Kill:
+		return any(stage.Kill_orderStaged[order]).(Type)
+	case *Message:
+		return any(stage.Message_orderStaged[order]).(Type)
+	case *MessageType:
+		return any(stage.MessageType_orderStaged[order]).(Type)
+	case *Object:
+		return any(stage.Object_orderStaged[order]).(Type)
+	case *Role:
+		return any(stage.Role_orderStaged[order]).(Type)
+	case *State:
+		return any(stage.State_orderStaged[order]).(Type)
+	case *StateMachine:
+		return any(stage.StateMachine_orderStaged[order]).(Type)
+	case *StateShape:
+		return any(stage.StateShape_orderStaged[order]).(Type)
+	case *Transition:
+		return any(stage.Transition_orderStaged[order]).(Type)
+	case *Transition_Shape:
+		return any(stage.Transition_Shape_orderStaged[order]).(Type)
+	default:
+		return // should not happen
 	}
 }
 
@@ -1674,6 +1758,7 @@ func (action *Action) Stage(stage *Stage) *Action {
 	if _, ok := stage.Actions[action]; !ok {
 		stage.Actions[action] = struct{}{}
 		stage.Action_stagedOrder[action] = stage.ActionOrder
+		stage.Action_orderStaged[stage.ActionOrder] = action
 		stage.ActionOrder++
 	}
 	stage.Actions_mapString[action.Name] = action
@@ -1694,6 +1779,7 @@ func (action *Action) StagePreserveOrder(stage *Stage, order uint) {
 			stage.ActionOrder = order
 		}
 		stage.Action_stagedOrder[action] = order
+		stage.Action_orderStaged[order] = action
 		stage.ActionOrder++
 	}
 	stage.Actions_mapString[action.Name] = action
@@ -1760,6 +1846,7 @@ func (activities *Activities) Stage(stage *Stage) *Activities {
 	if _, ok := stage.Activitiess[activities]; !ok {
 		stage.Activitiess[activities] = struct{}{}
 		stage.Activities_stagedOrder[activities] = stage.ActivitiesOrder
+		stage.Activities_orderStaged[stage.ActivitiesOrder] = activities
 		stage.ActivitiesOrder++
 	}
 	stage.Activitiess_mapString[activities.Name] = activities
@@ -1780,6 +1867,7 @@ func (activities *Activities) StagePreserveOrder(stage *Stage, order uint) {
 			stage.ActivitiesOrder = order
 		}
 		stage.Activities_stagedOrder[activities] = order
+		stage.Activities_orderStaged[order] = activities
 		stage.ActivitiesOrder++
 	}
 	stage.Activitiess_mapString[activities.Name] = activities
@@ -1846,6 +1934,7 @@ func (architecture *Architecture) Stage(stage *Stage) *Architecture {
 	if _, ok := stage.Architectures[architecture]; !ok {
 		stage.Architectures[architecture] = struct{}{}
 		stage.Architecture_stagedOrder[architecture] = stage.ArchitectureOrder
+		stage.Architecture_orderStaged[stage.ArchitectureOrder] = architecture
 		stage.ArchitectureOrder++
 	}
 	stage.Architectures_mapString[architecture.Name] = architecture
@@ -1866,6 +1955,7 @@ func (architecture *Architecture) StagePreserveOrder(stage *Stage, order uint) {
 			stage.ArchitectureOrder = order
 		}
 		stage.Architecture_stagedOrder[architecture] = order
+		stage.Architecture_orderStaged[order] = architecture
 		stage.ArchitectureOrder++
 	}
 	stage.Architectures_mapString[architecture.Name] = architecture
@@ -1932,6 +2022,7 @@ func (diagram *Diagram) Stage(stage *Stage) *Diagram {
 	if _, ok := stage.Diagrams[diagram]; !ok {
 		stage.Diagrams[diagram] = struct{}{}
 		stage.Diagram_stagedOrder[diagram] = stage.DiagramOrder
+		stage.Diagram_orderStaged[stage.DiagramOrder] = diagram
 		stage.DiagramOrder++
 	}
 	stage.Diagrams_mapString[diagram.Name] = diagram
@@ -1952,6 +2043,7 @@ func (diagram *Diagram) StagePreserveOrder(stage *Stage, order uint) {
 			stage.DiagramOrder = order
 		}
 		stage.Diagram_stagedOrder[diagram] = order
+		stage.Diagram_orderStaged[order] = diagram
 		stage.DiagramOrder++
 	}
 	stage.Diagrams_mapString[diagram.Name] = diagram
@@ -2018,6 +2110,7 @@ func (guard *Guard) Stage(stage *Stage) *Guard {
 	if _, ok := stage.Guards[guard]; !ok {
 		stage.Guards[guard] = struct{}{}
 		stage.Guard_stagedOrder[guard] = stage.GuardOrder
+		stage.Guard_orderStaged[stage.GuardOrder] = guard
 		stage.GuardOrder++
 	}
 	stage.Guards_mapString[guard.Name] = guard
@@ -2038,6 +2131,7 @@ func (guard *Guard) StagePreserveOrder(stage *Stage, order uint) {
 			stage.GuardOrder = order
 		}
 		stage.Guard_stagedOrder[guard] = order
+		stage.Guard_orderStaged[order] = guard
 		stage.GuardOrder++
 	}
 	stage.Guards_mapString[guard.Name] = guard
@@ -2104,6 +2198,7 @@ func (kill *Kill) Stage(stage *Stage) *Kill {
 	if _, ok := stage.Kills[kill]; !ok {
 		stage.Kills[kill] = struct{}{}
 		stage.Kill_stagedOrder[kill] = stage.KillOrder
+		stage.Kill_orderStaged[stage.KillOrder] = kill
 		stage.KillOrder++
 	}
 	stage.Kills_mapString[kill.Name] = kill
@@ -2124,6 +2219,7 @@ func (kill *Kill) StagePreserveOrder(stage *Stage, order uint) {
 			stage.KillOrder = order
 		}
 		stage.Kill_stagedOrder[kill] = order
+		stage.Kill_orderStaged[order] = kill
 		stage.KillOrder++
 	}
 	stage.Kills_mapString[kill.Name] = kill
@@ -2190,6 +2286,7 @@ func (message *Message) Stage(stage *Stage) *Message {
 	if _, ok := stage.Messages[message]; !ok {
 		stage.Messages[message] = struct{}{}
 		stage.Message_stagedOrder[message] = stage.MessageOrder
+		stage.Message_orderStaged[stage.MessageOrder] = message
 		stage.MessageOrder++
 	}
 	stage.Messages_mapString[message.Name] = message
@@ -2210,6 +2307,7 @@ func (message *Message) StagePreserveOrder(stage *Stage, order uint) {
 			stage.MessageOrder = order
 		}
 		stage.Message_stagedOrder[message] = order
+		stage.Message_orderStaged[order] = message
 		stage.MessageOrder++
 	}
 	stage.Messages_mapString[message.Name] = message
@@ -2276,6 +2374,7 @@ func (messagetype *MessageType) Stage(stage *Stage) *MessageType {
 	if _, ok := stage.MessageTypes[messagetype]; !ok {
 		stage.MessageTypes[messagetype] = struct{}{}
 		stage.MessageType_stagedOrder[messagetype] = stage.MessageTypeOrder
+		stage.MessageType_orderStaged[stage.MessageTypeOrder] = messagetype
 		stage.MessageTypeOrder++
 	}
 	stage.MessageTypes_mapString[messagetype.Name] = messagetype
@@ -2296,6 +2395,7 @@ func (messagetype *MessageType) StagePreserveOrder(stage *Stage, order uint) {
 			stage.MessageTypeOrder = order
 		}
 		stage.MessageType_stagedOrder[messagetype] = order
+		stage.MessageType_orderStaged[order] = messagetype
 		stage.MessageTypeOrder++
 	}
 	stage.MessageTypes_mapString[messagetype.Name] = messagetype
@@ -2362,6 +2462,7 @@ func (object *Object) Stage(stage *Stage) *Object {
 	if _, ok := stage.Objects[object]; !ok {
 		stage.Objects[object] = struct{}{}
 		stage.Object_stagedOrder[object] = stage.ObjectOrder
+		stage.Object_orderStaged[stage.ObjectOrder] = object
 		stage.ObjectOrder++
 	}
 	stage.Objects_mapString[object.Name] = object
@@ -2382,6 +2483,7 @@ func (object *Object) StagePreserveOrder(stage *Stage, order uint) {
 			stage.ObjectOrder = order
 		}
 		stage.Object_stagedOrder[object] = order
+		stage.Object_orderStaged[order] = object
 		stage.ObjectOrder++
 	}
 	stage.Objects_mapString[object.Name] = object
@@ -2448,6 +2550,7 @@ func (role *Role) Stage(stage *Stage) *Role {
 	if _, ok := stage.Roles[role]; !ok {
 		stage.Roles[role] = struct{}{}
 		stage.Role_stagedOrder[role] = stage.RoleOrder
+		stage.Role_orderStaged[stage.RoleOrder] = role
 		stage.RoleOrder++
 	}
 	stage.Roles_mapString[role.Name] = role
@@ -2468,6 +2571,7 @@ func (role *Role) StagePreserveOrder(stage *Stage, order uint) {
 			stage.RoleOrder = order
 		}
 		stage.Role_stagedOrder[role] = order
+		stage.Role_orderStaged[order] = role
 		stage.RoleOrder++
 	}
 	stage.Roles_mapString[role.Name] = role
@@ -2534,6 +2638,7 @@ func (state *State) Stage(stage *Stage) *State {
 	if _, ok := stage.States[state]; !ok {
 		stage.States[state] = struct{}{}
 		stage.State_stagedOrder[state] = stage.StateOrder
+		stage.State_orderStaged[stage.StateOrder] = state
 		stage.StateOrder++
 	}
 	stage.States_mapString[state.Name] = state
@@ -2554,6 +2659,7 @@ func (state *State) StagePreserveOrder(stage *Stage, order uint) {
 			stage.StateOrder = order
 		}
 		stage.State_stagedOrder[state] = order
+		stage.State_orderStaged[order] = state
 		stage.StateOrder++
 	}
 	stage.States_mapString[state.Name] = state
@@ -2620,6 +2726,7 @@ func (statemachine *StateMachine) Stage(stage *Stage) *StateMachine {
 	if _, ok := stage.StateMachines[statemachine]; !ok {
 		stage.StateMachines[statemachine] = struct{}{}
 		stage.StateMachine_stagedOrder[statemachine] = stage.StateMachineOrder
+		stage.StateMachine_orderStaged[stage.StateMachineOrder] = statemachine
 		stage.StateMachineOrder++
 	}
 	stage.StateMachines_mapString[statemachine.Name] = statemachine
@@ -2640,6 +2747,7 @@ func (statemachine *StateMachine) StagePreserveOrder(stage *Stage, order uint) {
 			stage.StateMachineOrder = order
 		}
 		stage.StateMachine_stagedOrder[statemachine] = order
+		stage.StateMachine_orderStaged[order] = statemachine
 		stage.StateMachineOrder++
 	}
 	stage.StateMachines_mapString[statemachine.Name] = statemachine
@@ -2706,6 +2814,7 @@ func (stateshape *StateShape) Stage(stage *Stage) *StateShape {
 	if _, ok := stage.StateShapes[stateshape]; !ok {
 		stage.StateShapes[stateshape] = struct{}{}
 		stage.StateShape_stagedOrder[stateshape] = stage.StateShapeOrder
+		stage.StateShape_orderStaged[stage.StateShapeOrder] = stateshape
 		stage.StateShapeOrder++
 	}
 	stage.StateShapes_mapString[stateshape.Name] = stateshape
@@ -2726,6 +2835,7 @@ func (stateshape *StateShape) StagePreserveOrder(stage *Stage, order uint) {
 			stage.StateShapeOrder = order
 		}
 		stage.StateShape_stagedOrder[stateshape] = order
+		stage.StateShape_orderStaged[order] = stateshape
 		stage.StateShapeOrder++
 	}
 	stage.StateShapes_mapString[stateshape.Name] = stateshape
@@ -2792,6 +2902,7 @@ func (transition *Transition) Stage(stage *Stage) *Transition {
 	if _, ok := stage.Transitions[transition]; !ok {
 		stage.Transitions[transition] = struct{}{}
 		stage.Transition_stagedOrder[transition] = stage.TransitionOrder
+		stage.Transition_orderStaged[stage.TransitionOrder] = transition
 		stage.TransitionOrder++
 	}
 	stage.Transitions_mapString[transition.Name] = transition
@@ -2812,6 +2923,7 @@ func (transition *Transition) StagePreserveOrder(stage *Stage, order uint) {
 			stage.TransitionOrder = order
 		}
 		stage.Transition_stagedOrder[transition] = order
+		stage.Transition_orderStaged[order] = transition
 		stage.TransitionOrder++
 	}
 	stage.Transitions_mapString[transition.Name] = transition
@@ -2878,6 +2990,7 @@ func (transition_shape *Transition_Shape) Stage(stage *Stage) *Transition_Shape 
 	if _, ok := stage.Transition_Shapes[transition_shape]; !ok {
 		stage.Transition_Shapes[transition_shape] = struct{}{}
 		stage.Transition_Shape_stagedOrder[transition_shape] = stage.Transition_ShapeOrder
+		stage.Transition_Shape_orderStaged[stage.Transition_ShapeOrder] = transition_shape
 		stage.Transition_ShapeOrder++
 	}
 	stage.Transition_Shapes_mapString[transition_shape.Name] = transition_shape
@@ -2898,6 +3011,7 @@ func (transition_shape *Transition_Shape) StagePreserveOrder(stage *Stage, order
 			stage.Transition_ShapeOrder = order
 		}
 		stage.Transition_Shape_stagedOrder[transition_shape] = order
+		stage.Transition_Shape_orderStaged[order] = transition_shape
 		stage.Transition_ShapeOrder++
 	}
 	stage.Transition_Shapes_mapString[transition_shape.Name] = transition_shape

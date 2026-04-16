@@ -200,10 +200,9 @@ func (backRepoDstruct *BackRepoDstructStruct) CommitPhaseOneInstance(dstruct *mo
 
 	// initiate dstruct
 	var dstructDB DstructDB
-
 	dstructDB.CopyBasicFieldsFromDstruct(dstruct)
-	_, err := backRepoDstruct.db.Create(&dstructDB)
 
+	_, err := backRepoDstruct.db.Create(&dstructDB)
 	if err != nil {
 		log.Fatal(err)
 	}

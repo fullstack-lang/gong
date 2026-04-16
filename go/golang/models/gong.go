@@ -59,6 +59,7 @@ const (
 	ModelGongOrderFields
 	ModelGongOrderMapsInit
 	ModelGongOrderSwitchGet
+	ModelGongGetInstanceFromOrder
 
 	ModelGongNamedStructsUnmarshallers
 	ModelGongNamedStructsSliceInit
@@ -135,6 +136,7 @@ func ({{structname}} *{{Structname}}) Stage(stage *Stage) *{{Structname}} {
 	if _, ok := stage.{{Structname}}s[{{structname}}]; !ok {
 		stage.{{Structname}}s[{{structname}}] = struct{}{}
 		stage.{{Structname}}_stagedOrder[{{structname}}] = stage.{{Structname}}Order
+		stage.{{Structname}}_orderStaged[stage.{{Structname}}Order] = {{structname}}
 		stage.{{Structname}}Order++
 	}
 	stage.{{Structname}}s_mapString[{{structname}}.Name] = {{structname}}
@@ -347,10 +349,16 @@ func ({{structname}} *{{Structname}}) SetName(name string) {
 
 	ModelGongOrderMapsInit: `
 		{{Structname}}_stagedOrder: make(map[*{{Structname}}]uint),
+		{{Structname}}_orderStaged: make(map[uint]*{{Structname}}),
+		{{Structname}}s_reference: make(map[*{{Structname}}]*{{Structname}}),
 `,
 	ModelGongOrderSwitchGet: `
 	case *{{Structname}}:
 		return stage.{{Structname}}_stagedOrder[instance]`,
+
+	ModelGongGetInstanceFromOrder: `
+	case *{{Structname}}:
+		return any(stage.{{Structname}}_orderStaged[order]).(Type)`,
 
 	ModelGongNamedStructsUnmarshallers: `
 			"{{Structname}}": &{{Structname}}Unmarshaller{},
