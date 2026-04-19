@@ -76,3 +76,4 @@ dsm/reqif/go/cmd/reqif/gongreqif.log
 dsm/reqif/go/cmd/reqif/reqif
 dsm/barrgraph/go/cmd/site
 
+dsm/process/go/cmd/process/process
