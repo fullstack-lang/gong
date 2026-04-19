@@ -935,6 +935,30 @@
             "args": []
         },
         {
+            "name": "process: gong generate --stack-height=0",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "cwd": "${workspaceFolder}/dsm/process/go/models",
+            "program": "${workspaceFolder}/go/cmd/gong",
+            "args": [
+                "generate",
+                "--skipGoModCommands"
+            ]
+        },
+        {
+            "name": "process: go run process -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/process/go/cmd/process",
+            "args": [
+                "-unmarshallFromCode=data/stage.go",
+                "-marshallOnCommit=data/stage.go",
+                "-embeddedDiagrams=false",
+            ]
+        },
+        {
             "name": "project: gong generate --stack-height=0",
             "type": "go",
             "request": "launch",
