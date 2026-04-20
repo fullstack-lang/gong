@@ -15,6 +15,18 @@ func (probe *Probe) ux_form() {
 	}
 	if formGroup != nil {
 		switch onSave := formGroup.OnSave.(type) { // insertion point
+		case *DiagramFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Diagram", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.diagram, probe)
+			}
+		case *LibraryFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Library", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.library, probe)
+			}
 		case *ProcessFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "Process", true)
@@ -43,6 +55,32 @@ func FillUpFormFromGongstructName(
 
 	switch gongstructName {
 	// insertion point
+	case "Diagram":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "Diagram Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__DiagramFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		diagram := new(models.Diagram)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(diagram, formGroup, probe)
+	case "Library":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "Library Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__LibraryFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		library := new(models.Library)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(library, formGroup, probe)
 	case "Process":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

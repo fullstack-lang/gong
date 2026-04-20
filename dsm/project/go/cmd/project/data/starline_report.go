@@ -10,8 +10,10 @@ import (
 
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
-var _ time.Time
-var _ = slices.Index[[]int, int]
+var (
+	_ time.Time
+	_ = slices.Index[[]int, int]
+)
 
 // _ point for meta package dummy declaration{{ImportPackageDummyDeclaration}}
 
@@ -22,7 +24,6 @@ var _ map[string]any = map[string]any{
 
 // function will stage objects
 func _(stage *models.Stage) {
-
 	__Diagram__00000000_ := (&models.Diagram{Name: `Default Diagram`}).Stage(stage)
 	__Diagram__00000001_ := (&models.Diagram{Name: `WBS`}).Stage(stage)
 	__Diagram__00000002_ := (&models.Diagram{Name: `PBS`}).Stage(stage)
@@ -397,7 +398,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Diagram__00000000_.IsExpanded = false
 	__Diagram__00000000_.IsChecked = false
 	__Diagram__00000000_.IsEditable_ = true
-	__Diagram__00000000_.ShowPrefix = false
+	__Diagram__00000000_.IsShowPrefix = false
 	__Diagram__00000000_.DefaultBoxWidth = 250.000000
 	__Diagram__00000000_.DefaultBoxHeigth = 70.000000
 	__Diagram__00000000_.Width = 27755.187127
@@ -424,7 +425,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Diagram__00000001_.IsExpanded = false
 	__Diagram__00000001_.IsChecked = false
 	__Diagram__00000001_.IsEditable_ = true
-	__Diagram__00000001_.ShowPrefix = true
+	__Diagram__00000001_.IsShowPrefix = true
 	__Diagram__00000001_.DefaultBoxWidth = 250.000000
 	__Diagram__00000001_.DefaultBoxHeigth = 70.000000
 	__Diagram__00000001_.Width = 28295.617766
@@ -458,7 +459,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Diagram__00000002_.IsExpanded = false
 	__Diagram__00000002_.IsChecked = false
 	__Diagram__00000002_.IsEditable_ = true
-	__Diagram__00000002_.ShowPrefix = true
+	__Diagram__00000002_.IsShowPrefix = true
 	__Diagram__00000002_.DefaultBoxWidth = 250.000000
 	__Diagram__00000002_.DefaultBoxHeigth = 70.000000
 	__Diagram__00000002_.Width = 28791.980809
@@ -500,7 +501,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Diagram__00000003_.IsExpanded = false
 	__Diagram__00000003_.IsChecked = false
 	__Diagram__00000003_.IsEditable_ = true
-	__Diagram__00000003_.ShowPrefix = true
+	__Diagram__00000003_.IsShowPrefix = true
 	__Diagram__00000003_.DefaultBoxWidth = 250.000000
 	__Diagram__00000003_.DefaultBoxHeigth = 70.000000
 	__Diagram__00000003_.Width = 28485.651635
@@ -537,7 +538,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Diagram__00000004_.IsExpanded = false
 	__Diagram__00000004_.IsChecked = false
 	__Diagram__00000004_.IsEditable_ = true
-	__Diagram__00000004_.ShowPrefix = true
+	__Diagram__00000004_.IsShowPrefix = true
 	__Diagram__00000004_.DefaultBoxWidth = 250.000000
 	__Diagram__00000004_.DefaultBoxHeigth = 70.000000
 	__Diagram__00000004_.Width = 28562.017987
@@ -567,7 +568,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Diagram__00000005_.IsExpanded = true
 	__Diagram__00000005_.IsChecked = true
 	__Diagram__00000005_.IsEditable_ = true
-	__Diagram__00000005_.ShowPrefix = true
+	__Diagram__00000005_.IsShowPrefix = true
 	__Diagram__00000005_.DefaultBoxWidth = 250.000000
 	__Diagram__00000005_.DefaultBoxHeigth = 70.000000
 	__Diagram__00000005_.Width = 28985.901110
@@ -663,7 +664,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Diagram__00000006_.IsExpanded = false
 	__Diagram__00000006_.IsChecked = false
 	__Diagram__00000006_.IsEditable_ = true
-	__Diagram__00000006_.ShowPrefix = false
+	__Diagram__00000006_.IsShowPrefix = false
 	__Diagram__00000006_.DefaultBoxWidth = 250.000000
 	__Diagram__00000006_.DefaultBoxHeigth = 70.000000
 	__Diagram__00000006_.Width = 28869.153628
@@ -3111,7 +3112,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	stage.Commit()
 
 	// PBS
-	__Diagram__00000002_.ProductsWhoseNodeIsExpanded = slices.Insert( __Diagram__00000002_.ProductsWhoseNodeIsExpanded, 3, __Product__00000002_)
+	__Diagram__00000002_.ProductsWhoseNodeIsExpanded = slices.Insert(__Diagram__00000002_.ProductsWhoseNodeIsExpanded, 3, __Product__00000002_)
 	stage.Commit()
 
 	// PBS
@@ -3210,7 +3211,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	stage.Commit()
 
 	// RCS PBS
-	__Diagram__00000006_.ProductsWhoseNodeIsExpanded = slices.Insert( __Diagram__00000006_.ProductsWhoseNodeIsExpanded, 8, __Product__00000021_)
+	__Diagram__00000006_.ProductsWhoseNodeIsExpanded = slices.Insert(__Diagram__00000006_.ProductsWhoseNodeIsExpanded, 8, __Product__00000021_)
 	stage.Commit()
 
 	// Default Diagram
@@ -3231,7 +3232,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	// RCS PBS
 	__Diagram__00000006_.Width = 29369.153628
 	__Diagram__00000006_.Height = 29077.529266
-	__Diagram__00000006_.ProductsWhoseNodeIsExpanded = slices.Delete( __Diagram__00000006_.ProductsWhoseNodeIsExpanded, 7, 8)
+	__Diagram__00000006_.ProductsWhoseNodeIsExpanded = slices.Delete(__Diagram__00000006_.ProductsWhoseNodeIsExpanded, 7, 8)
 	// WBS
 	__Diagram__00000001_.Width = 28795.617766
 	__Diagram__00000001_.Height = 28656.674065
@@ -3288,7 +3289,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 
 	__NoteShape__00000026_ := (&models.NoteShape{Name: `CFT ended in march 2025-PBS`}).Stage(stage)
 	// PBS
-	__Diagram__00000002_.Note_Shapes = slices.Insert( __Diagram__00000002_.Note_Shapes, 1, __NoteShape__00000026_)
+	__Diagram__00000002_.Note_Shapes = slices.Insert(__Diagram__00000002_.Note_Shapes, 1, __NoteShape__00000026_)
 	__NoteShape__00000026_.Name = `CFT ended in march 2025-PBS`
 	__NoteShape__00000026_.IsExpanded = false
 	__NoteShape__00000026_.X = 106.565927
@@ -3300,7 +3301,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	stage.Commit()
 
 	// PBS
-	__Diagram__00000002_.Note_Shapes = slices.Delete( __Diagram__00000002_.Note_Shapes, 1, 2)
+	__Diagram__00000002_.Note_Shapes = slices.Delete(__Diagram__00000002_.Note_Shapes, 1, 2)
 	__NoteShape__00000026_.Unstage(stage)
 	stage.Commit()
 
@@ -3423,7 +3424,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	stage.Commit()
 
 	// Default Diagram
-	__Diagram__00000000_.TasksWhoseNodeIsExpanded = slices.Delete( __Diagram__00000000_.TasksWhoseNodeIsExpanded, 0, 1)
+	__Diagram__00000000_.TasksWhoseNodeIsExpanded = slices.Delete(__Diagram__00000000_.TasksWhoseNodeIsExpanded, 0, 1)
 	stage.Commit()
 
 	// Default Diagram
@@ -3477,8 +3478,8 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	stage.Commit()
 
 	// Startliner Mishape Report
-	__Library__00000000_.Diagrams = slices.Delete( __Library__00000000_.Diagrams, 1, 2)
-	__Library__00000000_.Diagrams = slices.Delete( __Library__00000000_.Diagrams, 0, 1)
+	__Library__00000000_.Diagrams = slices.Delete(__Library__00000000_.Diagrams, 1, 2)
+	__Library__00000000_.Diagrams = slices.Delete(__Library__00000000_.Diagrams, 0, 1)
 	__Diagram__00000000_.Unstage(stage)
 	stage.Commit()
 
@@ -3579,11 +3580,11 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	stage.Commit()
 
 	// PBS
-	__Diagram__00000002_.ProductsWhoseNodeIsExpanded = slices.Delete( __Diagram__00000002_.ProductsWhoseNodeIsExpanded, 2, 3)
+	__Diagram__00000002_.ProductsWhoseNodeIsExpanded = slices.Delete(__Diagram__00000002_.ProductsWhoseNodeIsExpanded, 2, 3)
 	stage.Commit()
 
 	// PBS
-	__Diagram__00000002_.ProductsWhoseNodeIsExpanded = slices.Delete( __Diagram__00000002_.ProductsWhoseNodeIsExpanded, 0, 1)
+	__Diagram__00000002_.ProductsWhoseNodeIsExpanded = slices.Delete(__Diagram__00000002_.ProductsWhoseNodeIsExpanded, 0, 1)
 	stage.Commit()
 
 	// PBS
