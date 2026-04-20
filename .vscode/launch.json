@@ -935,7 +935,7 @@
             "args": []
         },
         {
-            "name": "process: gong generate --stack-height=0",
+            "name": "process: gong generate --stack-height=0 --dsm",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -943,7 +943,8 @@
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
-                "--skipGoModCommands"
+                "--skipGoModCommands",
+                "--dsm", 
             ]
         },
         {

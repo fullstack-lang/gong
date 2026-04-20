@@ -470,8 +470,8 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.IsChecked = GongExtractBool(valueExpr)
 	case "IsEditable_":
 		instance.IsEditable_ = GongExtractBool(valueExpr)
-	case "ShowPrefix":
-		instance.ShowPrefix = GongExtractBool(valueExpr)
+	case "IsShowPrefix":
+		instance.IsShowPrefix = GongExtractBool(valueExpr)
 	case "DefaultBoxWidth":
 		instance.DefaultBoxWidth = GongExtractFloat(valueExpr)
 	case "DefaultBoxHeigth":

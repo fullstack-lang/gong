@@ -126,6 +126,40 @@ type Stage struct {
 	isWithGenesisCommit bool
 
 	// insertion point for definition of arrays registering instances
+	Diagrams                map[*Diagram]struct{}
+	Diagrams_instance       map[*Diagram]*Diagram
+	Diagrams_mapString      map[string]*Diagram
+	DiagramOrder            uint
+	Diagram_stagedOrder     map[*Diagram]uint
+	Diagram_orderStaged     map[uint]*Diagram
+	Diagrams_reference      map[*Diagram]*Diagram
+	Diagrams_referenceOrder map[*Diagram]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterDiagramCreateCallback OnAfterCreateInterface[Diagram]
+	OnAfterDiagramUpdateCallback OnAfterUpdateInterface[Diagram]
+	OnAfterDiagramDeleteCallback OnAfterDeleteInterface[Diagram]
+	OnAfterDiagramReadCallback   OnAfterReadInterface[Diagram]
+
+	Librarys                map[*Library]struct{}
+	Librarys_instance       map[*Library]*Library
+	Librarys_mapString      map[string]*Library
+	LibraryOrder            uint
+	Library_stagedOrder     map[*Library]uint
+	Library_orderStaged     map[uint]*Library
+	Librarys_reference      map[*Library]*Library
+	Librarys_referenceOrder map[*Library]uint
+
+	// insertion point for slice of pointers maps
+	Library_Diagrams_reverseMap map[*Diagram]*Library
+
+	Library_SubLibraries_reverseMap map[*Library]*Library
+
+	OnAfterLibraryCreateCallback OnAfterCreateInterface[Library]
+	OnAfterLibraryUpdateCallback OnAfterUpdateInterface[Library]
+	OnAfterLibraryDeleteCallback OnAfterDeleteInterface[Library]
+	OnAfterLibraryReadCallback   OnAfterReadInterface[Library]
+
 	Processs                map[*Process]struct{}
 	Processs_instance       map[*Process]*Process
 	Processs_mapString      map[string]*Process
@@ -377,6 +411,14 @@ func (stage *Stage) Squash() {
 	stage.isSquashing = true
 
 	// insertion point for clear references
+	stage.Diagrams_reference = make(map[*Diagram]*Diagram)
+	stage.Diagrams_instance = make(map[*Diagram]*Diagram)
+	stage.Diagrams_referenceOrder = make(map[*Diagram]uint)
+
+	stage.Librarys_reference = make(map[*Library]*Library)
+	stage.Librarys_instance = make(map[*Library]*Library)
+	stage.Librarys_referenceOrder = make(map[*Library]uint)
+
 	stage.Processs_reference = make(map[*Process]*Process)
 	stage.Processs_instance = make(map[*Process]*Process)
 	stage.Processs_referenceOrder = make(map[*Process]uint)
@@ -408,6 +450,34 @@ func (stage *Stage) Squash() {
 // insertion point for max order recomputation
 func (stage *Stage) recomputeOrders() {
 	// insertion point for max order recomputation
+	var maxDiagramOrder uint
+	var foundDiagram bool
+	for _, order := range stage.Diagram_stagedOrder {
+		if !foundDiagram || order > maxDiagramOrder {
+			maxDiagramOrder = order
+			foundDiagram = true
+		}
+	}
+	if foundDiagram {
+		stage.DiagramOrder = maxDiagramOrder + 1
+	} else {
+		stage.DiagramOrder = 0
+	}
+
+	var maxLibraryOrder uint
+	var foundLibrary bool
+	for _, order := range stage.Library_stagedOrder {
+		if !foundLibrary || order > maxLibraryOrder {
+			maxLibraryOrder = order
+			foundLibrary = true
+		}
+	}
+	if foundLibrary {
+		stage.LibraryOrder = maxLibraryOrder + 1
+	} else {
+		stage.LibraryOrder = 0
+	}
+
 	var maxProcessOrder uint
 	var foundProcess bool
 	for _, order := range stage.Process_stagedOrder {
@@ -483,6 +553,34 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 	var t T
 	switch any(t).(type) {
 	// insertion point for case
+	case *Diagram:
+		tmp := GetStructInstancesByOrder(stage.Diagrams, stage.Diagram_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *Diagram implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *Library:
+		tmp := GetStructInstancesByOrder(stage.Librarys, stage.Library_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *Library implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *Process:
 		tmp := GetStructInstancesByOrder(stage.Processs, stage.Process_stagedOrder)
 
@@ -526,6 +624,10 @@ func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order 
 func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
 	switch namedStructName {
 	// insertion point for case
+	case "Diagram":
+		res = GetNamedStructInstances(stage.Diagrams, stage.Diagram_stagedOrder)
+	case "Library":
+		res = GetNamedStructInstances(stage.Librarys, stage.Library_stagedOrder)
 	case "Process":
 		res = GetNamedStructInstances(stage.Processs, stage.Process_stagedOrder)
 	}
@@ -597,6 +699,10 @@ type BackRepoInterface interface {
 	BackupXL(stage *Stage, dirPath string)
 	RestoreXL(stage *Stage, dirPath string)
 	// insertion point for Commit and Checkout signatures
+	CommitDiagram(diagram *Diagram)
+	CheckoutDiagram(diagram *Diagram)
+	CommitLibrary(library *Library)
+	CheckoutLibrary(library *Library)
 	CommitProcess(process *Process)
 	CheckoutProcess(process *Process)
 	GetLastCommitFromBackNb() uint
@@ -605,6 +711,12 @@ type BackRepoInterface interface {
 
 func NewStage(name string) (stage *Stage) {
 	stage = &Stage{ // insertion point for array initiatialisation
+		Diagrams:           make(map[*Diagram]struct{}),
+		Diagrams_mapString: make(map[string]*Diagram),
+
+		Librarys:           make(map[*Library]struct{}),
+		Librarys_mapString: make(map[string]*Library),
+
 		Processs:           make(map[*Process]struct{}),
 		Processs_mapString: make(map[string]*Process),
 
@@ -618,18 +730,32 @@ func NewStage(name string) (stage *Stage) {
 		// the to be removed stops here
 
 		// insertion point for order map initialisations
+		Diagram_stagedOrder: make(map[*Diagram]uint),
+		Diagram_orderStaged: make(map[uint]*Diagram),
+		Diagrams_reference: make(map[*Diagram]*Diagram),
+
+		Library_stagedOrder: make(map[*Library]uint),
+		Library_orderStaged: make(map[uint]*Library),
+		Librarys_reference: make(map[*Library]*Library),
+
 		Process_stagedOrder: make(map[*Process]uint),
 		Process_orderStaged: make(map[uint]*Process),
 		Processs_reference: make(map[*Process]*Process),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
+			"Diagram": &DiagramUnmarshaller{},
+
+			"Library": &LibraryUnmarshaller{},
+
 			"Process": &ProcessUnmarshaller{},
 
 			// end of insertion point
 		},
 
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
+			{name: "Diagram"},
+			{name: "Library"},
 			{name: "Process"},
 		}, // end of insertion point
 
@@ -642,6 +768,10 @@ func NewStage(name string) (stage *Stage) {
 func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
+	case *Diagram:
+		return stage.Diagram_stagedOrder[instance]
+	case *Library:
+		return stage.Library_stagedOrder[instance]
 	case *Process:
 		return stage.Process_stagedOrder[instance]
 	default:
@@ -653,6 +783,10 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 	var t Type
 	switch any(t).(type) {
 	// insertion point for order map initialisations
+	case *Diagram:
+		return any(stage.Diagram_orderStaged[order]).(Type)
+	case *Library:
+		return any(stage.Library_orderStaged[order]).(Type)
 	case *Process:
 		return any(stage.Process_orderStaged[order]).(Type)
 	default:
@@ -663,6 +797,10 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) uint {
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
+	case *Diagram:
+		return stage.Diagram_stagedOrder[instance]
+	case *Library:
+		return stage.Library_stagedOrder[instance]
 	case *Process:
 		return stage.Process_stagedOrder[instance]
 	default:
@@ -730,6 +868,8 @@ func (stage *Stage) Commit() {
 
 func (stage *Stage) ComputeInstancesNb() {
 	// insertion point for computing the map of number of instances per gongstruct
+	stage.Map_GongStructName_InstancesNb["Diagram"] = len(stage.Diagrams)
+	stage.Map_GongStructName_InstancesNb["Library"] = len(stage.Librarys)
 	stage.Map_GongStructName_InstancesNb["Process"] = len(stage.Processs)
 }
 
@@ -771,6 +911,182 @@ func (stage *Stage) RestoreXL(dirPath string) {
 }
 
 // insertion point for cumulative sub template with model space calls
+// Stage puts diagram to the model stage
+func (diagram *Diagram) Stage(stage *Stage) *Diagram {
+	if _, ok := stage.Diagrams[diagram]; !ok {
+		stage.Diagrams[diagram] = struct{}{}
+		stage.Diagram_stagedOrder[diagram] = stage.DiagramOrder
+		stage.Diagram_orderStaged[stage.DiagramOrder] = diagram
+		stage.DiagramOrder++
+	}
+	stage.Diagrams_mapString[diagram.Name] = diagram
+
+	return diagram
+}
+
+// StagePreserveOrder puts diagram to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.DiagramOrder
+// - update stage.DiagramOrder accordingly
+func (diagram *Diagram) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.Diagrams[diagram]; !ok {
+		stage.Diagrams[diagram] = struct{}{}
+
+		if order > stage.DiagramOrder {
+			stage.DiagramOrder = order
+		}
+		stage.Diagram_stagedOrder[diagram] = order
+		stage.Diagram_orderStaged[order] = diagram
+		stage.DiagramOrder++
+	}
+	stage.Diagrams_mapString[diagram.Name] = diagram
+}
+
+// Unstage removes diagram off the model stage
+func (diagram *Diagram) Unstage(stage *Stage) *Diagram {
+	delete(stage.Diagrams, diagram)
+	// issue1150
+	// delete(stage.Diagram_stagedOrder, diagram)
+	delete(stage.Diagrams_mapString, diagram.Name)
+
+	return diagram
+}
+
+// UnstageVoid removes diagram off the model stage
+func (diagram *Diagram) UnstageVoid(stage *Stage) {
+	delete(stage.Diagrams, diagram)
+	// issue1150
+	// delete(stage.Diagram_stagedOrder, diagram)
+	delete(stage.Diagrams_mapString, diagram.Name)
+}
+
+// commit diagram to the back repo (if it is already staged)
+func (diagram *Diagram) Commit(stage *Stage) *Diagram {
+	if _, ok := stage.Diagrams[diagram]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitDiagram(diagram)
+		}
+	}
+	return diagram
+}
+
+func (diagram *Diagram) CommitVoid(stage *Stage) {
+	diagram.Commit(stage)
+}
+
+func (diagram *Diagram) StageVoid(stage *Stage) {
+	diagram.Stage(stage)
+}
+
+// Checkout diagram to the back repo (if it is already staged)
+func (diagram *Diagram) Checkout(stage *Stage) *Diagram {
+	if _, ok := stage.Diagrams[diagram]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutDiagram(diagram)
+		}
+	}
+	return diagram
+}
+
+// for satisfaction of GongStruct interface
+func (diagram *Diagram) GetName() (res string) {
+	return diagram.Name
+}
+
+// for satisfaction of GongStruct interface
+func (diagram *Diagram) SetName(name string) {
+	diagram.Name = name
+}
+
+// Stage puts library to the model stage
+func (library *Library) Stage(stage *Stage) *Library {
+	if _, ok := stage.Librarys[library]; !ok {
+		stage.Librarys[library] = struct{}{}
+		stage.Library_stagedOrder[library] = stage.LibraryOrder
+		stage.Library_orderStaged[stage.LibraryOrder] = library
+		stage.LibraryOrder++
+	}
+	stage.Librarys_mapString[library.Name] = library
+
+	return library
+}
+
+// StagePreserveOrder puts library to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.LibraryOrder
+// - update stage.LibraryOrder accordingly
+func (library *Library) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.Librarys[library]; !ok {
+		stage.Librarys[library] = struct{}{}
+
+		if order > stage.LibraryOrder {
+			stage.LibraryOrder = order
+		}
+		stage.Library_stagedOrder[library] = order
+		stage.Library_orderStaged[order] = library
+		stage.LibraryOrder++
+	}
+	stage.Librarys_mapString[library.Name] = library
+}
+
+// Unstage removes library off the model stage
+func (library *Library) Unstage(stage *Stage) *Library {
+	delete(stage.Librarys, library)
+	// issue1150
+	// delete(stage.Library_stagedOrder, library)
+	delete(stage.Librarys_mapString, library.Name)
+
+	return library
+}
+
+// UnstageVoid removes library off the model stage
+func (library *Library) UnstageVoid(stage *Stage) {
+	delete(stage.Librarys, library)
+	// issue1150
+	// delete(stage.Library_stagedOrder, library)
+	delete(stage.Librarys_mapString, library.Name)
+}
+
+// commit library to the back repo (if it is already staged)
+func (library *Library) Commit(stage *Stage) *Library {
+	if _, ok := stage.Librarys[library]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitLibrary(library)
+		}
+	}
+	return library
+}
+
+func (library *Library) CommitVoid(stage *Stage) {
+	library.Commit(stage)
+}
+
+func (library *Library) StageVoid(stage *Stage) {
+	library.Stage(stage)
+}
+
+// Checkout library to the back repo (if it is already staged)
+func (library *Library) Checkout(stage *Stage) *Library {
+	if _, ok := stage.Librarys[library]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutLibrary(library)
+		}
+	}
+	return library
+}
+
+// for satisfaction of GongStruct interface
+func (library *Library) GetName() (res string) {
+	return library.Name
+}
+
+// for satisfaction of GongStruct interface
+func (library *Library) SetName(name string) {
+	library.Name = name
+}
+
 // Stage puts process to the model stage
 func (process *Process) Stage(stage *Stage) *Process {
 	if _, ok := stage.Processs[process]; !ok {
@@ -861,14 +1177,28 @@ func (process *Process) SetName(name string) {
 
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
+	CreateORMDiagram(Diagram *Diagram)
+	CreateORMLibrary(Library *Library)
 	CreateORMProcess(Process *Process)
 }
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
+	DeleteORMDiagram(Diagram *Diagram)
+	DeleteORMLibrary(Library *Library)
 	DeleteORMProcess(Process *Process)
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
+	stage.Diagrams = make(map[*Diagram]struct{})
+	stage.Diagrams_mapString = make(map[string]*Diagram)
+	stage.Diagram_stagedOrder = make(map[*Diagram]uint)
+	stage.DiagramOrder = 0
+
+	stage.Librarys = make(map[*Library]struct{})
+	stage.Librarys_mapString = make(map[string]*Library)
+	stage.Library_stagedOrder = make(map[*Library]uint)
+	stage.LibraryOrder = 0
+
 	stage.Processs = make(map[*Process]struct{})
 	stage.Processs_mapString = make(map[string]*Process)
 	stage.Process_stagedOrder = make(map[*Process]uint)
@@ -883,6 +1213,12 @@ func (stage *Stage) Reset() { // insertion point for array reset
 }
 
 func (stage *Stage) Nil() { // insertion point for array nil
+	stage.Diagrams = nil
+	stage.Diagrams_mapString = nil
+
+	stage.Librarys = nil
+	stage.Librarys_mapString = nil
+
 	stage.Processs = nil
 	stage.Processs_mapString = nil
 
@@ -890,6 +1226,14 @@ func (stage *Stage) Nil() { // insertion point for array nil
 }
 
 func (stage *Stage) Unstage() { // insertion point for array nil
+	for diagram := range stage.Diagrams {
+		diagram.Unstage(stage)
+	}
+
+	for library := range stage.Librarys {
+		library.Unstage(stage)
+	}
+
 	for process := range stage.Processs {
 		process.Unstage(stage)
 	}
@@ -970,6 +1314,10 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
+	case map[*Diagram]any:
+		return any(&stage.Diagrams).(*Type)
+	case map[*Library]any:
+		return any(&stage.Librarys).(*Type)
 	case map[*Process]any:
 		return any(&stage.Processs).(*Type)
 	default:
@@ -984,6 +1332,10 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
+	case *Diagram:
+		return any(stage.Diagrams_mapString).(map[string]Type)
+	case *Library:
+		return any(stage.Librarys_mapString).(map[string]Type)
 	case *Process:
 		return any(stage.Processs_mapString).(map[string]Type)
 	default:
@@ -998,6 +1350,10 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
+	case Diagram:
+		return any(&stage.Diagrams).(*map[*Type]struct{})
+	case Library:
+		return any(&stage.Librarys).(*map[*Type]struct{})
 	case Process:
 		return any(&stage.Processs).(*map[*Type]struct{})
 	default:
@@ -1012,6 +1368,10 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
+	case *Diagram:
+		return any(&stage.Diagrams).(*map[Type]struct{})
+	case *Library:
+		return any(&stage.Librarys).(*map[Type]struct{})
 	case *Process:
 		return any(&stage.Processs).(*map[Type]struct{})
 	default:
@@ -1026,6 +1386,10 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
+	case Diagram:
+		return any(&stage.Diagrams_mapString).(*map[string]*Type)
+	case Library:
+		return any(&stage.Librarys_mapString).(*map[string]*Type)
 	case Process:
 		return any(&stage.Processs_mapString).(*map[string]*Type)
 	default:
@@ -1042,6 +1406,18 @@ func GetAssociationName[Type Gongstruct]() *Type {
 
 	switch any(ret).(type) {
 	// insertion point for instance with special fields
+	case Diagram:
+		return any(&Diagram{
+			// Initialisation of associations
+		}).(*Type)
+	case Library:
+		return any(&Library{
+			// Initialisation of associations
+			// field is initialized with an instance of Diagram with the name of the field
+			Diagrams: []*Diagram{{Name: "Diagrams"}},
+			// field is initialized with an instance of Library with the name of the field
+			SubLibraries: []*Library{{Name: "SubLibraries"}},
+		}).(*Type)
 	case Process:
 		return any(&Process{
 			// Initialisation of associations
@@ -1063,6 +1439,16 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 
 	switch any(ret).(type) {
 	// insertion point of functions that provide maps for reverse associations
+	// reverse maps of direct associations of Diagram
+	case Diagram:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of Library
+	case Library:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of Process
 	case Process:
 		switch fieldname {
@@ -1083,6 +1469,32 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 
 	switch any(ret).(type) {
 	// insertion point of functions that provide maps for reverse associations
+	// reverse maps of direct associations of Diagram
+	case Diagram:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of Library
+	case Library:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Diagrams":
+			res := make(map[*Diagram][]*Library)
+			for library := range stage.Librarys {
+				for _, diagram_ := range library.Diagrams {
+					res[diagram_] = append(res[diagram_], library)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "SubLibraries":
+			res := make(map[*Library][]*Library)
+			for library := range stage.Librarys {
+				for _, library_ := range library.SubLibraries {
+					res[library_] = append(res[library_], library)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
 	// reverse maps of direct associations of Process
 	case Process:
 		switch fieldname {
@@ -1099,6 +1511,10 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
+	case *Diagram:
+		res = "Diagram"
+	case *Library:
+		res = "Library"
 	case *Process:
 		res = "Process"
 	}
@@ -1118,6 +1534,18 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	switch any(ret).(type) {
 
 	// insertion point for generic get gongstruct name
+	case *Diagram:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Library"
+		rf.Fieldname = "Diagrams"
+		res = append(res, rf)
+	case *Library:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Library"
+		rf.Fieldname = "SubLibraries"
+		res = append(res, rf)
 	case *Process:
 		var rf ReverseField
 		_ = rf
@@ -1126,6 +1554,98 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 }
 
 // insertion point for get fields header method
+func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "ComputedPrefix",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsInRenameMode",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsChecked",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsEditable_",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsShowPrefix",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "DefaultBoxWidth",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "DefaultBoxHeigth",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Width",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Height",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+	}
+	return
+}
+
+func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "ComputedPrefix",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsInRenameMode",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "Diagrams",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Diagram",
+		},
+		{
+			Name:                 "SubLibraries",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Library",
+		},
+		{
+			Name:               "NbPixPerCharacter",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "LogoSVGFile",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
 func (process *Process) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -1192,6 +1712,98 @@ func (gongValueField *GongFieldValue) GetValueBool() bool {
 }
 
 // insertion point for generic get gongstruct field value
+func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = diagram.Name
+	case "ComputedPrefix":
+		res.valueString = diagram.ComputedPrefix
+	case "IsInRenameMode":
+		res.valueString = fmt.Sprintf("%t", diagram.IsInRenameMode)
+		res.valueBool = diagram.IsInRenameMode
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", diagram.IsExpanded)
+		res.valueBool = diagram.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsChecked":
+		res.valueString = fmt.Sprintf("%t", diagram.IsChecked)
+		res.valueBool = diagram.IsChecked
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsEditable_":
+		res.valueString = fmt.Sprintf("%t", diagram.IsEditable_)
+		res.valueBool = diagram.IsEditable_
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsShowPrefix":
+		res.valueString = fmt.Sprintf("%t", diagram.IsShowPrefix)
+		res.valueBool = diagram.IsShowPrefix
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "DefaultBoxWidth":
+		res.valueString = fmt.Sprintf("%f", diagram.DefaultBoxWidth)
+		res.valueFloat = diagram.DefaultBoxWidth
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "DefaultBoxHeigth":
+		res.valueString = fmt.Sprintf("%f", diagram.DefaultBoxHeigth)
+		res.valueFloat = diagram.DefaultBoxHeigth
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Width":
+		res.valueString = fmt.Sprintf("%f", diagram.Width)
+		res.valueFloat = diagram.Width
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Height":
+		res.valueString = fmt.Sprintf("%f", diagram.Height)
+		res.valueFloat = diagram.Height
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	}
+	return
+}
+
+func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = library.Name
+	case "ComputedPrefix":
+		res.valueString = library.ComputedPrefix
+	case "IsInRenameMode":
+		res.valueString = fmt.Sprintf("%t", library.IsInRenameMode)
+		res.valueBool = library.IsInRenameMode
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", library.IsExpanded)
+		res.valueBool = library.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Diagrams":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range library.Diagrams {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "SubLibraries":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range library.SubLibraries {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "NbPixPerCharacter":
+		res.valueString = fmt.Sprintf("%f", library.NbPixPerCharacter)
+		res.valueFloat = library.NbPixPerCharacter
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "LogoSVGFile":
+		res.valueString = library.LogoSVGFile
+	}
+	return
+}
+
 func (process *Process) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -1207,6 +1819,86 @@ func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, sta
 }
 
 // insertion point for generic set gongstruct field value
+func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		diagram.Name = value.GetValueString()
+	case "ComputedPrefix":
+		diagram.ComputedPrefix = value.GetValueString()
+	case "IsInRenameMode":
+		diagram.IsInRenameMode = value.GetValueBool()
+	case "IsExpanded":
+		diagram.IsExpanded = value.GetValueBool()
+	case "IsChecked":
+		diagram.IsChecked = value.GetValueBool()
+	case "IsEditable_":
+		diagram.IsEditable_ = value.GetValueBool()
+	case "IsShowPrefix":
+		diagram.IsShowPrefix = value.GetValueBool()
+	case "DefaultBoxWidth":
+		diagram.DefaultBoxWidth = value.GetValueFloat()
+	case "DefaultBoxHeigth":
+		diagram.DefaultBoxHeigth = value.GetValueFloat()
+	case "Width":
+		diagram.Width = value.GetValueFloat()
+	case "Height":
+		diagram.Height = value.GetValueFloat()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		library.Name = value.GetValueString()
+	case "ComputedPrefix":
+		library.ComputedPrefix = value.GetValueString()
+	case "IsInRenameMode":
+		library.IsInRenameMode = value.GetValueBool()
+	case "IsExpanded":
+		library.IsExpanded = value.GetValueBool()
+	case "Diagrams":
+		library.Diagrams = make([]*Diagram, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Diagrams {
+					if stage.Diagram_stagedOrder[__instance__] == uint(id) {
+						library.Diagrams = append(library.Diagrams, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "SubLibraries":
+		library.SubLibraries = make([]*Library, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Librarys {
+					if stage.Library_stagedOrder[__instance__] == uint(id) {
+						library.SubLibraries = append(library.SubLibraries, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "NbPixPerCharacter":
+		library.NbPixPerCharacter = value.GetValueFloat()
+	case "LogoSVGFile":
+		library.LogoSVGFile = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (process *Process) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -1223,6 +1915,14 @@ func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, val
 }
 
 // insertion point for generic get gongstruct name
+func (diagram *Diagram) GongGetGongstructName() string {
+	return "Diagram"
+}
+
+func (library *Library) GongGetGongstructName() string {
+	return "Library"
+}
+
 func (process *Process) GongGetGongstructName() string {
 	return "Process"
 }
@@ -1234,6 +1934,16 @@ func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 
 func (stage *Stage) ResetMapStrings() {
 	// insertion point for generic get gongstruct name
+	stage.Diagrams_mapString = make(map[string]*Diagram)
+	for diagram := range stage.Diagrams {
+		stage.Diagrams_mapString[diagram.Name] = diagram
+	}
+
+	stage.Librarys_mapString = make(map[string]*Library)
+	for library := range stage.Librarys {
+		stage.Librarys_mapString[library.Name] = library
+	}
+
 	stage.Processs_mapString = make(map[string]*Process)
 	for process := range stage.Processs {
 		stage.Processs_mapString[process.Name] = process

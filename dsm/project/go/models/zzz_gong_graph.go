@@ -2751,8 +2751,8 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 	if diagram.IsEditable_ != diagramOther.IsEditable_ {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "IsEditable_"))
 	}
-	if diagram.ShowPrefix != diagramOther.ShowPrefix {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "ShowPrefix"))
+	if diagram.IsShowPrefix != diagramOther.IsShowPrefix {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "IsShowPrefix"))
 	}
 	if diagram.DefaultBoxWidth != diagramOther.DefaultBoxWidth {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "DefaultBoxWidth"))

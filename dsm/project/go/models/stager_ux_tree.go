@@ -26,7 +26,7 @@ func (stager *Stager) tree() {
 }
 
 func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, parentNodes *[]*tree.Node) {
-	var libraryNode = &tree.Node{
+	libraryNode := &tree.Node{
 		Name:            library.Name,
 		IsExpanded:      library.IsExpanded,
 		IsNodeClickable: true,
@@ -127,50 +127,17 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 		}
 		{
 			showAllButton := &tree.Button{
-				Name:            "Diagram Show All",
-				Icon:            string(buttons.BUTTON_all_out),
-				HasToolTip:      true,
-				ToolTipPosition: tree.Above,
-				ToolTipText:     "Show All Elements in the Diagram",
-				OnClick:         onShowAllInDiagram(stager, diagram),
-			}
-			diagramNode.Buttons = append(diagramNode.Buttons, showAllButton)
-		}
-		{
-			showAllButton := &tree.Button{
-				Name:            "Diagram Show As PBS Tree",
-				Icon:            string(buttons.BUTTON_account_tree),
-				HasToolTip:      true,
-				ToolTipPosition: tree.Above,
-				ToolTipText:     "Show Show As PBS Tree",
-				OnClick:         onLayoutPBS(stager, diagram),
-			}
-			diagramNode.Buttons = append(diagramNode.Buttons, showAllButton)
-		}
-		{
-			showAllButton := &tree.Button{
-				Name:            "Diagram Show As WBS Tree",
-				Icon:            string(buttons.BUTTON_account_circle),
-				HasToolTip:      true,
-				ToolTipPosition: tree.Above,
-				ToolTipText:     "Show Show As WBS Tree",
-				OnClick:         onLayoutWBS(stager, diagram),
-			}
-			diagramNode.Buttons = append(diagramNode.Buttons, showAllButton)
-		}
-		{
-			showAllButton := &tree.Button{
 				Name:            "Diagram Prefix",
 				Icon:            string(buttons.BUTTON_show_chart),
 				HasToolTip:      true,
 				ToolTipPosition: tree.Above,
 
 				OnClick: func() {
-					diagram.ShowPrefix = !diagram.ShowPrefix
+					diagram.IsShowPrefix = !diagram.IsShowPrefix
 					stager.stage.Commit()
 				},
 			}
-			if !diagram.ShowPrefix {
+			if !diagram.IsShowPrefix {
 				showAllButton.Icon = string(buttons.BUTTON_label)
 				showAllButton.ToolTipText = "Show Prefix"
 			} else {

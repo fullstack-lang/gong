@@ -6,6 +6,14 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point
+	case *Diagram:
+		if stage.OnAfterDiagramCreateCallback != nil {
+			stage.OnAfterDiagramCreateCallback.OnAfterCreate(stage, target)
+		}
+	case *Library:
+		if stage.OnAfterLibraryCreateCallback != nil {
+			stage.OnAfterLibraryCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *Process:
 		if stage.OnAfterProcessCreateCallback != nil {
 			stage.OnAfterProcessCreateCallback.OnAfterCreate(stage, target)
@@ -24,6 +32,16 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point
+	case *Diagram:
+		newTarget := any(new).(*Diagram)
+		if stage.OnAfterDiagramUpdateCallback != nil {
+			stage.OnAfterDiagramUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *Library:
+		newTarget := any(new).(*Library)
+		if stage.OnAfterLibraryUpdateCallback != nil {
+			stage.OnAfterLibraryUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
 	case *Process:
 		newTarget := any(new).(*Process)
 		if stage.OnAfterProcessUpdateCallback != nil {
@@ -39,6 +57,16 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 
 	switch front := any(front).(type) {
 	// insertion point
+	case *Diagram:
+		if stage.OnAfterDiagramDeleteCallback != nil {
+			staged := any(staged).(*Diagram)
+			stage.OnAfterDiagramDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
+	case *Library:
+		if stage.OnAfterLibraryDeleteCallback != nil {
+			staged := any(staged).(*Library)
+			stage.OnAfterLibraryDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *Process:
 		if stage.OnAfterProcessDeleteCallback != nil {
 			staged := any(staged).(*Process)
@@ -54,6 +82,14 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point
+	case *Diagram:
+		if stage.OnAfterDiagramReadCallback != nil {
+			stage.OnAfterDiagramReadCallback.OnAfterRead(stage, target)
+		}
+	case *Library:
+		if stage.OnAfterLibraryReadCallback != nil {
+			stage.OnAfterLibraryReadCallback.OnAfterRead(stage, target)
+		}
 	case *Process:
 		if stage.OnAfterProcessReadCallback != nil {
 			stage.OnAfterProcessReadCallback.OnAfterRead(stage, target)
@@ -69,6 +105,10 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	var instance Type
 	switch any(instance).(type) {
 	// insertion point
+	case *Diagram:
+		stage.OnAfterDiagramUpdateCallback = any(callback).(OnAfterUpdateInterface[Diagram])
+	case *Library:
+		stage.OnAfterLibraryUpdateCallback = any(callback).(OnAfterUpdateInterface[Library])
 	case *Process:
 		stage.OnAfterProcessUpdateCallback = any(callback).(OnAfterUpdateInterface[Process])
 	}
@@ -78,6 +118,10 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	var instance Type
 	switch any(instance).(type) {
 		// insertion point
+	case *Diagram:
+		stage.OnAfterDiagramCreateCallback = any(callback).(OnAfterCreateInterface[Diagram])
+	case *Library:
+		stage.OnAfterLibraryCreateCallback = any(callback).(OnAfterCreateInterface[Library])
 	case *Process:
 		stage.OnAfterProcessCreateCallback = any(callback).(OnAfterCreateInterface[Process])
 	}
@@ -87,6 +131,10 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 	var instance Type
 	switch any(instance).(type) {
 		// insertion point
+	case *Diagram:
+		stage.OnAfterDiagramDeleteCallback = any(callback).(OnAfterDeleteInterface[Diagram])
+	case *Library:
+		stage.OnAfterLibraryDeleteCallback = any(callback).(OnAfterDeleteInterface[Library])
 	case *Process:
 		stage.OnAfterProcessDeleteCallback = any(callback).(OnAfterDeleteInterface[Process])
 	}
@@ -96,6 +144,10 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 	var instance Type
 	switch any(instance).(type) {
 		// insertion point
+	case *Diagram:
+		stage.OnAfterDiagramReadCallback = any(callback).(OnAfterReadInterface[Diagram])
+	case *Library:
+		stage.OnAfterLibraryReadCallback = any(callback).(OnAfterReadInterface[Library])
 	case *Process:
 		stage.OnAfterProcessReadCallback = any(callback).(OnAfterReadInterface[Process])
 	}
