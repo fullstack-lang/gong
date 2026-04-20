@@ -76,8 +76,8 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(diagram_.IsChecked), formDiv)
 		case "IsEditable_":
 			FormDivBasicFieldToField(&(diagram_.IsEditable_), formDiv)
-		case "ShowPrefix":
-			FormDivBasicFieldToField(&(diagram_.ShowPrefix), formDiv)
+		case "IsShowPrefix":
+			FormDivBasicFieldToField(&(diagram_.IsShowPrefix), formDiv)
 		case "DefaultBoxWidth":
 			FormDivBasicFieldToField(&(diagram_.DefaultBoxWidth), formDiv)
 		case "DefaultBoxHeigth":

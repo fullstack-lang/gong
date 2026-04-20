@@ -5607,7 +5607,7 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:               "ShowPrefix",
+			Name:               "IsShowPrefix",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
@@ -6630,9 +6630,9 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%t", diagram.IsEditable_)
 		res.valueBool = diagram.IsEditable_
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "ShowPrefix":
-		res.valueString = fmt.Sprintf("%t", diagram.ShowPrefix)
-		res.valueBool = diagram.ShowPrefix
+	case "IsShowPrefix":
+		res.valueString = fmt.Sprintf("%t", diagram.IsShowPrefix)
+		res.valueBool = diagram.IsShowPrefix
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "DefaultBoxWidth":
 		res.valueString = fmt.Sprintf("%f", diagram.DefaultBoxWidth)
@@ -7690,8 +7690,8 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 		diagram.IsChecked = value.GetValueBool()
 	case "IsEditable_":
 		diagram.IsEditable_ = value.GetValueBool()
-	case "ShowPrefix":
-		diagram.ShowPrefix = value.GetValueBool()
+	case "IsShowPrefix":
+		diagram.IsShowPrefix = value.GetValueBool()
 	case "DefaultBoxWidth":
 		diagram.DefaultBoxWidth = value.GetValueFloat()
 	case "DefaultBoxHeigth":
