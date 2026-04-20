@@ -10,9 +10,22 @@ import (
 )
 
 type Stager struct {
-	stage       *Stage
-	splitStage  *split.Stage
-	probeForm   ProbeIF
+	stage      *Stage
+	splitStage *split.Stage
+	probeForm  ProbeIF
+
+	rootLibrary *Library
+
+	// map to navigate from abstract elements to all diagrams where they are displayed
+	map_Element_Diagrams map[AbstractType][]*Diagram
+}
+
+func (s *Stager) tree() {
+	panic("unimplemented")
+}
+
+func (s *Stager) GetRootLibrary() *Library {
+	return s.rootLibrary
 }
 
 func NewStager(
@@ -20,7 +33,6 @@ func NewStager(
 	stage *Stage,
 	probeForm ProbeIF,
 ) (stager *Stager) {
-
 	stager = new(Stager)
 
 	stager.stage = stage
@@ -57,6 +69,4 @@ type BeforeCommitImplementation struct {
 }
 
 func (c *BeforeCommitImplementation) BeforeCommit(stage *Stage) {
-
 }
-

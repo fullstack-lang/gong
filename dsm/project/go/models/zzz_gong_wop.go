@@ -24,7 +24,7 @@ type Diagram_WOP struct {
 
 	IsEditable_ bool
 
-	ShowPrefix bool
+	IsShowPrefix bool
 
 	DefaultBoxWidth float64
 
@@ -51,7 +51,7 @@ func (from *Diagram) CopyBasicFields(to *Diagram) {
 	to.IsExpanded = from.IsExpanded
 	to.IsChecked = from.IsChecked
 	to.IsEditable_ = from.IsEditable_
-	to.ShowPrefix = from.ShowPrefix
+	to.IsShowPrefix = from.IsShowPrefix
 	to.DefaultBoxWidth = from.DefaultBoxWidth
 	to.DefaultBoxHeigth = from.DefaultBoxHeigth
 	to.Width = from.Width
