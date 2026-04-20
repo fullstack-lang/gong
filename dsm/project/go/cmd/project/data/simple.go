@@ -10,8 +10,10 @@ import (
 
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
-var _ time.Time
-var _ = slices.Index[[]int, int]
+var (
+	_ time.Time
+	_ = slices.Index[[]int, int]
+)
 
 // _ point for meta package dummy declaration{{ImportPackageDummyDeclaration}}
 
@@ -22,7 +24,6 @@ var _ map[string]any = map[string]any{
 
 // function will stage objects
 func _(stage *models.Stage) {
-
 	__Diagram__00000000_ := (&models.Diagram{Name: `Default Diagram`}).Stage(stage)
 	__Library__00000000_ := (&models.Library{Name: ``}).Stage(stage)
 	__NoteShape__00000000_ := (&models.NoteShape{Name: `-Default Diagram`}).Stage(stage)
@@ -38,7 +39,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.IsExpanded = true
 	__Diagram__00000000_.IsChecked = true
 	__Diagram__00000000_.IsEditable_ = true
-	__Diagram__00000000_.ShowPrefix = false
+	__Diagram__00000000_.IsShowPrefix = false
 	__Diagram__00000000_.DefaultBoxWidth = 250.000000
 	__Diagram__00000000_.DefaultBoxHeigth = 70.000000
 	__Diagram__00000000_.Width = 11300.000000
@@ -119,8 +120,8 @@ func _(stage *models.Stage) {
 	__ProductCompositionShape__00000011_ := (&models.ProductCompositionShape{Name: `G3 to `}).Stage(stage)
 	__ProductShape__00000019_ := (&models.ProductShape{Name: `-Default Diagram`}).Stage(stage)
 	__ProductShape__00000020_ := (&models.ProductShape{Name: `-Default Diagram`}).Stage(stage)
-	// 
-	__Library__00000000_.Diagrams = slices.Insert( __Library__00000000_.Diagrams, 1, __Diagram__00000005_)
+	//
+	__Library__00000000_.Diagrams = slices.Insert(__Library__00000000_.Diagrams, 1, __Diagram__00000005_)
 	// Default Diagram
 	__Diagram__00000000_.Width = 11400.000000
 	__Diagram__00000000_.Height = 11400.000000
@@ -130,7 +131,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000005_.IsExpanded = false
 	__Diagram__00000005_.IsChecked = false
 	__Diagram__00000005_.IsEditable_ = true
-	__Diagram__00000005_.ShowPrefix = false
+	__Diagram__00000005_.IsShowPrefix = false
 	__Diagram__00000005_.DefaultBoxWidth = 0.000000
 	__Diagram__00000005_.DefaultBoxHeigth = 0.000000
 	__Diagram__00000005_.Width = 0.000000
@@ -186,10 +187,10 @@ func _(stage *models.Stage) {
 	__Diagram__00000005_.DefaultBoxHeigth = 70.000000
 	__Diagram__00000005_.Width = 959.078303
 	__Diagram__00000005_.Height = 817.001756
-	__Diagram__00000005_.Product_Shapes = slices.Delete( __Diagram__00000005_.Product_Shapes, 1, 2)
-	__Diagram__00000005_.Product_Shapes = slices.Delete( __Diagram__00000005_.Product_Shapes, 0, 1)
-	__Diagram__00000005_.ProductComposition_Shapes = slices.Delete( __Diagram__00000005_.ProductComposition_Shapes, 0, 1)
-	__Diagram__00000005_.Note_Shapes = slices.Delete( __Diagram__00000005_.Note_Shapes, 0, 1)
+	__Diagram__00000005_.Product_Shapes = slices.Delete(__Diagram__00000005_.Product_Shapes, 1, 2)
+	__Diagram__00000005_.Product_Shapes = slices.Delete(__Diagram__00000005_.Product_Shapes, 0, 1)
+	__Diagram__00000005_.ProductComposition_Shapes = slices.Delete(__Diagram__00000005_.ProductComposition_Shapes, 0, 1)
+	__Diagram__00000005_.Note_Shapes = slices.Delete(__Diagram__00000005_.Note_Shapes, 0, 1)
 	__NoteShape__00000001_.Unstage(stage)
 	__ProductCompositionShape__00000011_.Unstage(stage)
 	__ProductShape__00000019_.Unstage(stage)
@@ -205,11 +206,11 @@ func _(stage *models.Stage) {
 	stage.Commit()
 
 	// Default Diagram copy
-	__Diagram__00000005_.ProductsWhoseNodeIsExpanded = slices.Insert( __Diagram__00000005_.ProductsWhoseNodeIsExpanded, 0, __Product__00000000_)
+	__Diagram__00000005_.ProductsWhoseNodeIsExpanded = slices.Insert(__Diagram__00000005_.ProductsWhoseNodeIsExpanded, 0, __Product__00000000_)
 	stage.Commit()
 
-	// 
-	__Library__00000000_.Diagrams = slices.Delete( __Library__00000000_.Diagrams, 1, 2)
+	//
+	__Library__00000000_.Diagrams = slices.Delete(__Library__00000000_.Diagrams, 1, 2)
 	// Default Diagram
 	__Diagram__00000000_.Width = 11800.000000
 	__Diagram__00000000_.Height = 11800.000000
@@ -221,15 +222,15 @@ func _(stage *models.Stage) {
 	__ProductCompositionShape__00000012_ := (&models.ProductCompositionShape{Name: `G3 to `}).Stage(stage)
 	__ProductShape__00000021_ := (&models.ProductShape{Name: `-Default Diagram`}).Stage(stage)
 	__ProductShape__00000022_ := (&models.ProductShape{Name: `-Default Diagram`}).Stage(stage)
-	// 
-	__Library__00000000_.Diagrams = slices.Insert( __Library__00000000_.Diagrams, 1, __Diagram__00000006_)
+	//
+	__Library__00000000_.Diagrams = slices.Insert(__Library__00000000_.Diagrams, 1, __Diagram__00000006_)
 	__Diagram__00000006_.Name = `Default Diagram copy`
 	__Diagram__00000006_.ComputedPrefix = ``
 	__Diagram__00000006_.IsInRenameMode = false
 	__Diagram__00000006_.IsExpanded = false
 	__Diagram__00000006_.IsChecked = false
 	__Diagram__00000006_.IsEditable_ = true
-	__Diagram__00000006_.ShowPrefix = false
+	__Diagram__00000006_.IsShowPrefix = false
 	__Diagram__00000006_.DefaultBoxWidth = 0.000000
 	__Diagram__00000006_.DefaultBoxHeigth = 0.000000
 	__Diagram__00000006_.Width = 0.000000
@@ -299,8 +300,8 @@ func _(stage *models.Stage) {
 	__Diagram__00000006_.IsChecked = false
 	stage.Commit()
 
-	// 
-	__Library__00000000_.Diagrams = slices.Delete( __Library__00000000_.Diagrams, 1, 2)
+	//
+	__Library__00000000_.Diagrams = slices.Delete(__Library__00000000_.Diagrams, 1, 2)
 	// Default Diagram
 	__Diagram__00000000_.Width = 12200.000000
 	__Diagram__00000000_.Height = 12200.000000
@@ -321,15 +322,15 @@ func _(stage *models.Stage) {
 	__ProductCompositionShape__00000013_ := (&models.ProductCompositionShape{Name: `G3 to `}).Stage(stage)
 	__ProductShape__00000023_ := (&models.ProductShape{Name: `-Default Diagram`}).Stage(stage)
 	__ProductShape__00000024_ := (&models.ProductShape{Name: `-Default Diagram`}).Stage(stage)
-	// 
-	__Library__00000000_.Diagrams = slices.Insert( __Library__00000000_.Diagrams, 1, __Diagram__00000007_)
+	//
+	__Library__00000000_.Diagrams = slices.Insert(__Library__00000000_.Diagrams, 1, __Diagram__00000007_)
 	__Diagram__00000007_.Name = `Default Diagram copy`
 	__Diagram__00000007_.ComputedPrefix = ``
 	__Diagram__00000007_.IsInRenameMode = false
 	__Diagram__00000007_.IsExpanded = false
 	__Diagram__00000007_.IsChecked = false
 	__Diagram__00000007_.IsEditable_ = true
-	__Diagram__00000007_.ShowPrefix = false
+	__Diagram__00000007_.IsShowPrefix = false
 	__Diagram__00000007_.DefaultBoxWidth = 0.000000
 	__Diagram__00000007_.DefaultBoxHeigth = 0.000000
 	__Diagram__00000007_.Width = 0.000000

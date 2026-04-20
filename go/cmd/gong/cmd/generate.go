@@ -12,6 +12,7 @@ import (
 	"strings"
 	"time"
 
+	dsm_models "github.com/fullstack-lang/gong/dsm/project/go/models"
 	"github.com/fullstack-lang/gong/go/angular"
 	"github.com/fullstack-lang/gong/go/flutter"
 	"github.com/fullstack-lang/gong/go/golang"
@@ -38,6 +39,7 @@ var (
 	dbLite            bool
 	stackHeight       int
 	withProbe         bool
+	dsm               bool
 )
 
 var generateCmd = &cobra.Command{
@@ -326,6 +328,29 @@ var generateCmd = &cobra.Command{
 
 		golang.GeneratesGoCode(modelPkg, pkgPath, skipCoder, dbLite, skipSerialize, skipStager, stackHeight, withProbe)
 
+		// copy dsm files if flag is set, potentially overwriting generated files
+		if dsm {
+			entries, err := dsm_models.XXYFiles.ReadDir(".")
+			if err != nil {
+				log.Fatalf("failed reading embedded dsm files: %v", err)
+			}
+			for _, entry := range entries {
+				if entry.IsDir() {
+					continue
+				}
+				content, err := dsm_models.XXYFiles.ReadFile(entry.Name())
+				if err != nil {
+					log.Fatalf("failed reading embedded file %s: %v", entry.Name(), err)
+				}
+				destPath := filepath.Join(pkgPath, entry.Name())
+				err = os.WriteFile(destPath, content, 0o644)
+				if err != nil {
+					log.Fatalf("failed writing file %s: %v", destPath, err)
+				}
+				log.Printf("copied %s to %s", entry.Name(), destPath)
+			}
+		}
+
 		// since go mod vendor brings angular dependencies into the vendor directory
 		// the go mod vendor command has to be issued before the ng build command
 		if !skipNg && stackHeight == 4 {
@@ -469,4 +494,5 @@ func init() {
 	generateCmd.Flags().BoolVar(&dbLite, "dbLite", true, "If true, the database in all stack instances are purely in memory. If false, it is sqlite and can be persisted to a sqlite file")
 	generateCmd.Flags().IntVarP(&stackHeight, "stack-height", "s", 0, "stack height (0 or 4)")
 	generateCmd.Flags().BoolVarP(&withProbe, "with-probe", "p", true, "generate probe")
+	generateCmd.Flags().BoolVar(&dsm, "dsm", false, "copy zzz_ files from dsm/process/go/models into the target package")
 }
