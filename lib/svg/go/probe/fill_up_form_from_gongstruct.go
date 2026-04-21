@@ -187,6 +187,18 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.RectAnchoredJpgImage:
+		formGroup := (&form.FormGroup{
+			Name:  formName,
+			Label: "RectAnchoredJpgImage Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__RectAnchoredJpgImageFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.RectAnchoredPath:
 		formGroup := (&form.FormGroup{
 			Name:  formName,
@@ -199,12 +211,36 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.RectAnchoredPngImage:
+		formGroup := (&form.FormGroup{
+			Name:  formName,
+			Label: "RectAnchoredPngImage Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__RectAnchoredPngImageFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.RectAnchoredRect:
 		formGroup := (&form.FormGroup{
 			Name:  formName,
 			Label: "RectAnchoredRect Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__RectAnchoredRectFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.RectAnchoredSvgImage:
+		formGroup := (&form.FormGroup{
+			Name:  formName,
+			Label: "RectAnchoredSvgImage Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__RectAnchoredSvgImageFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,

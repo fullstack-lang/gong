@@ -154,6 +154,13 @@ func registerControllers(r *gin.Engine) {
 		v1.PUT("/v1/rects/:id", GetController().UpdateRect)
 		v1.DELETE("/v1/rects/:id", GetController().DeleteRect)
 
+		v1.GET("/v1/rectanchoredjpgimages", GetController().GetRectAnchoredJpgImages)
+		v1.GET("/v1/rectanchoredjpgimages/:id", GetController().GetRectAnchoredJpgImage)
+		v1.POST("/v1/rectanchoredjpgimages", GetController().PostRectAnchoredJpgImage)
+		v1.PATCH("/v1/rectanchoredjpgimages/:id", GetController().UpdateRectAnchoredJpgImage)
+		v1.PUT("/v1/rectanchoredjpgimages/:id", GetController().UpdateRectAnchoredJpgImage)
+		v1.DELETE("/v1/rectanchoredjpgimages/:id", GetController().DeleteRectAnchoredJpgImage)
+
 		v1.GET("/v1/rectanchoredpaths", GetController().GetRectAnchoredPaths)
 		v1.GET("/v1/rectanchoredpaths/:id", GetController().GetRectAnchoredPath)
 		v1.POST("/v1/rectanchoredpaths", GetController().PostRectAnchoredPath)
@@ -161,12 +168,26 @@ func registerControllers(r *gin.Engine) {
 		v1.PUT("/v1/rectanchoredpaths/:id", GetController().UpdateRectAnchoredPath)
 		v1.DELETE("/v1/rectanchoredpaths/:id", GetController().DeleteRectAnchoredPath)
 
+		v1.GET("/v1/rectanchoredpngimages", GetController().GetRectAnchoredPngImages)
+		v1.GET("/v1/rectanchoredpngimages/:id", GetController().GetRectAnchoredPngImage)
+		v1.POST("/v1/rectanchoredpngimages", GetController().PostRectAnchoredPngImage)
+		v1.PATCH("/v1/rectanchoredpngimages/:id", GetController().UpdateRectAnchoredPngImage)
+		v1.PUT("/v1/rectanchoredpngimages/:id", GetController().UpdateRectAnchoredPngImage)
+		v1.DELETE("/v1/rectanchoredpngimages/:id", GetController().DeleteRectAnchoredPngImage)
+
 		v1.GET("/v1/rectanchoredrects", GetController().GetRectAnchoredRects)
 		v1.GET("/v1/rectanchoredrects/:id", GetController().GetRectAnchoredRect)
 		v1.POST("/v1/rectanchoredrects", GetController().PostRectAnchoredRect)
 		v1.PATCH("/v1/rectanchoredrects/:id", GetController().UpdateRectAnchoredRect)
 		v1.PUT("/v1/rectanchoredrects/:id", GetController().UpdateRectAnchoredRect)
 		v1.DELETE("/v1/rectanchoredrects/:id", GetController().DeleteRectAnchoredRect)
+
+		v1.GET("/v1/rectanchoredsvgimages", GetController().GetRectAnchoredSvgImages)
+		v1.GET("/v1/rectanchoredsvgimages/:id", GetController().GetRectAnchoredSvgImage)
+		v1.POST("/v1/rectanchoredsvgimages", GetController().PostRectAnchoredSvgImage)
+		v1.PATCH("/v1/rectanchoredsvgimages/:id", GetController().UpdateRectAnchoredSvgImage)
+		v1.PUT("/v1/rectanchoredsvgimages/:id", GetController().UpdateRectAnchoredSvgImage)
+		v1.DELETE("/v1/rectanchoredsvgimages/:id", GetController().DeleteRectAnchoredSvgImage)
 
 		v1.GET("/v1/rectanchoredtexts", GetController().GetRectAnchoredTexts)
 		v1.GET("/v1/rectanchoredtexts/:id", GetController().GetRectAnchoredText)
