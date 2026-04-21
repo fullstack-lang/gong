@@ -65,6 +65,10 @@ import { RectAnchoredPathAPI } from './rectanchoredpath-api'
 import { RectAnchoredPath, CopyRectAnchoredPathAPIToRectAnchoredPath } from './rectanchoredpath'
 import { RectAnchoredPathService } from './rectanchoredpath.service'
 
+import { RectAnchoredPngImageAPI } from './rectanchoredpngimage-api'
+import { RectAnchoredPngImage, CopyRectAnchoredPngImageAPIToRectAnchoredPngImage } from './rectanchoredpngimage'
+import { RectAnchoredPngImageService } from './rectanchoredpngimage.service'
+
 import { RectAnchoredRectAPI } from './rectanchoredrect-api'
 import { RectAnchoredRect, CopyRectAnchoredRectAPIToRectAnchoredRect } from './rectanchoredrect'
 import { RectAnchoredRectService } from './rectanchoredrect.service'
@@ -141,6 +145,9 @@ export class FrontRepo { // insertion point sub template
 	array_RectAnchoredPaths = new Array<RectAnchoredPath>() // array of front instances
 	map_ID_RectAnchoredPath = new Map<number, RectAnchoredPath>() // map of front instances
 
+	array_RectAnchoredPngImages = new Array<RectAnchoredPngImage>() // array of front instances
+	map_ID_RectAnchoredPngImage = new Map<number, RectAnchoredPngImage>() // map of front instances
+
 	array_RectAnchoredRects = new Array<RectAnchoredRect>() // array of front instances
 	map_ID_RectAnchoredRect = new Map<number, RectAnchoredRect>() // map of front instances
 
@@ -198,6 +205,8 @@ export class FrontRepo { // insertion point sub template
 				return this.array_Rects as unknown as Array<Type>
 			case 'RectAnchoredPath':
 				return this.array_RectAnchoredPaths as unknown as Array<Type>
+			case 'RectAnchoredPngImage':
+				return this.array_RectAnchoredPngImages as unknown as Array<Type>
 			case 'RectAnchoredRect':
 				return this.array_RectAnchoredRects as unknown as Array<Type>
 			case 'RectAnchoredText':
@@ -248,6 +257,8 @@ export class FrontRepo { // insertion point sub template
 				return this.map_ID_Rect as unknown as Map<number, Type>
 			case 'RectAnchoredPath':
 				return this.map_ID_RectAnchoredPath as unknown as Map<number, Type>
+			case 'RectAnchoredPngImage':
+				return this.map_ID_RectAnchoredPngImage as unknown as Map<number, Type>
 			case 'RectAnchoredRect':
 				return this.map_ID_RectAnchoredRect as unknown as Map<number, Type>
 			case 'RectAnchoredText':
@@ -345,6 +356,7 @@ export class FrontRepoService {
 		private polylineService: PolylineService,
 		private rectService: RectService,
 		private rectanchoredpathService: RectAnchoredPathService,
+		private rectanchoredpngimageService: RectAnchoredPngImageService,
 		private rectanchoredrectService: RectAnchoredRectService,
 		private rectanchoredtextService: RectAnchoredTextService,
 		private rectlinklinkService: RectLinkLinkService,
@@ -398,6 +410,7 @@ export class FrontRepoService {
 		Observable<PolylineAPI[]>,
 		Observable<RectAPI[]>,
 		Observable<RectAnchoredPathAPI[]>,
+		Observable<RectAnchoredPngImageAPI[]>,
 		Observable<RectAnchoredRectAPI[]>,
 		Observable<RectAnchoredTextAPI[]>,
 		Observable<RectLinkLinkAPI[]>,
@@ -434,6 +447,7 @@ export class FrontRepoService {
 			this.polylineService.getPolylines(this.Name, this.frontRepo),
 			this.rectService.getRects(this.Name, this.frontRepo),
 			this.rectanchoredpathService.getRectAnchoredPaths(this.Name, this.frontRepo),
+			this.rectanchoredpngimageService.getRectAnchoredPngImages(this.Name, this.frontRepo),
 			this.rectanchoredrectService.getRectAnchoredRects(this.Name, this.frontRepo),
 			this.rectanchoredtextService.getRectAnchoredTexts(this.Name, this.frontRepo),
 			this.rectlinklinkService.getRectLinkLinks(this.Name, this.frontRepo),
@@ -465,6 +479,7 @@ export class FrontRepoService {
 						polylines_,
 						rects_,
 						rectanchoredpaths_,
+						rectanchoredpngimages_,
 						rectanchoredrects_,
 						rectanchoredtexts_,
 						rectlinklinks_,
@@ -505,6 +520,8 @@ export class FrontRepoService {
 						rects = rects_ as RectAPI[]
 						var rectanchoredpaths: RectAnchoredPathAPI[]
 						rectanchoredpaths = rectanchoredpaths_ as RectAnchoredPathAPI[]
+						var rectanchoredpngimages: RectAnchoredPngImageAPI[]
+						rectanchoredpngimages = rectanchoredpngimages_ as RectAnchoredPngImageAPI[]
 						var rectanchoredrects: RectAnchoredRectAPI[]
 						rectanchoredrects = rectanchoredrects_ as RectAnchoredRectAPI[]
 						var rectanchoredtexts: RectAnchoredTextAPI[]
@@ -702,6 +719,18 @@ export class FrontRepoService {
 						)
 
 						// init the arrays
+						this.frontRepo.array_RectAnchoredPngImages = []
+						this.frontRepo.map_ID_RectAnchoredPngImage.clear()
+
+						rectanchoredpngimages.forEach(
+							rectanchoredpngimageAPI => {
+								let rectanchoredpngimage = new RectAnchoredPngImage
+								this.frontRepo.array_RectAnchoredPngImages.push(rectanchoredpngimage)
+								this.frontRepo.map_ID_RectAnchoredPngImage.set(rectanchoredpngimageAPI.ID, rectanchoredpngimage)
+							}
+						)
+
+						// init the arrays
 						this.frontRepo.array_RectAnchoredRects = []
 						this.frontRepo.map_ID_RectAnchoredRect.clear()
 
@@ -894,6 +923,14 @@ export class FrontRepoService {
 							rectanchoredpathAPI => {
 								let rectanchoredpath = this.frontRepo.map_ID_RectAnchoredPath.get(rectanchoredpathAPI.ID)
 								CopyRectAnchoredPathAPIToRectAnchoredPath(rectanchoredpathAPI, rectanchoredpath!, this.frontRepo)
+							}
+						)
+
+						// fill up front objects
+						rectanchoredpngimages.forEach(
+							rectanchoredpngimageAPI => {
+								let rectanchoredpngimage = this.frontRepo.map_ID_RectAnchoredPngImage.get(rectanchoredpngimageAPI.ID)
+								CopyRectAnchoredPngImageAPIToRectAnchoredPngImage(rectanchoredpngimageAPI, rectanchoredpngimage!, this.frontRepo)
 							}
 						)
 
@@ -1173,6 +1210,18 @@ export class FrontRepoService {
 				)
 
 				// init the arrays
+				frontRepo.array_RectAnchoredPngImages = []
+				frontRepo.map_ID_RectAnchoredPngImage.clear()
+
+				backRepoData.RectAnchoredPngImageAPIs.forEach(
+					rectanchoredpngimageAPI => {
+						let rectanchoredpngimage = new RectAnchoredPngImage
+						frontRepo.array_RectAnchoredPngImages.push(rectanchoredpngimage)
+						frontRepo.map_ID_RectAnchoredPngImage.set(rectanchoredpngimageAPI.ID, rectanchoredpngimage)
+					}
+				)
+
+				// init the arrays
 				frontRepo.array_RectAnchoredRects = []
 				frontRepo.map_ID_RectAnchoredRect.clear()
 
@@ -1371,6 +1420,14 @@ export class FrontRepoService {
 				)
 
 				// fill up front objects
+				backRepoData.RectAnchoredPngImageAPIs.forEach(
+					rectanchoredpngimageAPI => {
+						let rectanchoredpngimage = frontRepo.map_ID_RectAnchoredPngImage.get(rectanchoredpngimageAPI.ID)
+						CopyRectAnchoredPngImageAPIToRectAnchoredPngImage(rectanchoredpngimageAPI, rectanchoredpngimage!, frontRepo)
+					}
+				)
+
+				// fill up front objects
 				backRepoData.RectAnchoredRectAPIs.forEach(
 					rectanchoredrectAPI => {
 						let rectanchoredrect = frontRepo.map_ID_RectAnchoredRect.get(rectanchoredrectAPI.ID)
@@ -1491,21 +1548,24 @@ export function getRectUniqueID(id: number): number {
 export function getRectAnchoredPathUniqueID(id: number): number {
 	return 97 * id
 }
-export function getRectAnchoredRectUniqueID(id: number): number {
+export function getRectAnchoredPngImageUniqueID(id: number): number {
 	return 101 * id
 }
-export function getRectAnchoredTextUniqueID(id: number): number {
+export function getRectAnchoredRectUniqueID(id: number): number {
 	return 103 * id
 }
-export function getRectLinkLinkUniqueID(id: number): number {
+export function getRectAnchoredTextUniqueID(id: number): number {
 	return 107 * id
 }
-export function getSVGUniqueID(id: number): number {
+export function getRectLinkLinkUniqueID(id: number): number {
 	return 109 * id
 }
-export function getSvgTextUniqueID(id: number): number {
+export function getSVGUniqueID(id: number): number {
 	return 113 * id
 }
-export function getTextUniqueID(id: number): number {
+export function getSvgTextUniqueID(id: number): number {
 	return 127 * id
+}
+export function getTextUniqueID(id: number): number {
+	return 131 * id
 }

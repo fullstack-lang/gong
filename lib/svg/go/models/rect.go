@@ -34,9 +34,10 @@ type Rect struct {
 	CanMoveHorizontaly bool
 	CanMoveVerticaly   bool
 
-	RectAnchoredTexts []*RectAnchoredText
-	RectAnchoredRects []*RectAnchoredRect
-	RectAnchoredPaths []*RectAnchoredPath
+	RectAnchoredTexts     []*RectAnchoredText
+	RectAnchoredRects     []*RectAnchoredRect
+	RectAnchoredPaths     []*RectAnchoredPath
+	RectAnchoredPngImages []*RectAnchoredPngImage
 
 	ChangeColorWhenHovered bool
 	ColorWhenHovered       string
@@ -57,7 +58,6 @@ type Rect struct {
 
 // OnAfterUpdate, notice that rect == stagedRect
 func (rect *Rect) OnAfterUpdate(stage *Stage, _, frontRect *Rect) {
-
 	if rect.Impl != nil {
 		rect.Impl.RectUpdated(frontRect)
 	}
@@ -67,7 +67,6 @@ func (rect *Rect) OnAfterUpdate(stage *Stage, _, frontRect *Rect) {
 }
 
 func (rect *Rect) WriteSVG(sb *strings.Builder) (maxX, maxY float64) {
-
 	sb.WriteString(
 		fmt.Sprintf(
 			`  <rect x="%s" y="%s" width="%s" height="%s" rx="%s" ry="%s"`,

@@ -31,6 +31,8 @@ import { RectAPI } from './rect-api'
 
 import { RectAnchoredPathAPI } from './rectanchoredpath-api'
 
+import { RectAnchoredPngImageAPI } from './rectanchoredpngimage-api'
+
 import { RectAnchoredRectAPI } from './rectanchoredrect-api'
 
 import { RectAnchoredTextAPI } from './rectanchoredtext-api'
@@ -75,6 +77,8 @@ export class BackRepoData {
 	RectAPIs = new Array<RectAPI>()
 
 	RectAnchoredPathAPIs = new Array<RectAnchoredPathAPI>()
+
+	RectAnchoredPngImageAPIs = new Array<RectAnchoredPngImageAPI>()
 
 	RectAnchoredRectAPIs = new Array<RectAnchoredRectAPI>()
 
@@ -123,6 +127,8 @@ export class BackRepoData {
 		this.RectAPIs = data?.RectAPIs || [];
 
 		this.RectAnchoredPathAPIs = data?.RectAnchoredPathAPIs || [];
+
+		this.RectAnchoredPngImageAPIs = data?.RectAnchoredPngImageAPIs || [];
 
 		this.RectAnchoredRectAPIs = data?.RectAnchoredRectAPIs || [];
 

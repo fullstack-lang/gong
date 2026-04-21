@@ -271,6 +271,13 @@
                 [ngTemplateOutletContext]="getContextForAnchoredText(rectAnchoredText, rect)">
               </ng-container>
             }
+            @for(rectAnchoredPngImage of rect.RectAnchoredPngImages!; track rectAnchoredPngImage.ID) {
+              <ng-container 
+                [ngTemplateOutlet]="anchoredPngImage" 
+                [ngTemplateOutletContext]="getContextForAnchoredPngImage(rectAnchoredPngImage, rect)">
+              </ng-container>
+            }
+            
             <ng-container>
               @if(rect.HasLeftHandle) {
                 <circle class="overlay"
@@ -823,4 +830,16 @@
       </svg:path>
     </svg:g>
   }
+</ng-template>
+
+<ng-template #anchoredPngImage let-pngImage="pngImage" let-anchorX="anchorX" let-anchorY="anchorY">
+  <svg:image
+    class="click-through"
+    [attr.x]="anchorX"
+    [attr.y]="anchorY"
+    [attr.width]="pngImage.Width"
+    [attr.height]="pngImage.Height"
+    [attr.href]="'data:image/png;base64,' + pngImage.Base64Content"
+    [attr.transform]="pngImage.Transform">
+  </svg:image>
 </ng-template>

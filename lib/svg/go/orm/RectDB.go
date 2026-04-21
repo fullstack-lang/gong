@@ -68,6 +68,9 @@ type RectPointersEncoding struct {
 
 	// field RectAnchoredPaths is a slice of pointers to another Struct (optional or 0..1)
 	RectAnchoredPaths IntSlice `gorm:"type:TEXT"`
+
+	// field RectAnchoredPngImages is a slice of pointers to another Struct (optional or 0..1)
+	RectAnchoredPngImages IntSlice `gorm:"type:TEXT"`
 }
 
 // RectDB describes a rect in the database
@@ -589,6 +592,24 @@ func (backRepoRect *BackRepoRectStruct) CommitPhaseTwoInstance(backRepo *BackRep
 				append(rectDB.RectPointersEncoding.RectAnchoredPaths, int(rectanchoredpathAssocEnd_DB.ID))
 		}
 
+		// 1. reset
+		rectDB.RectPointersEncoding.RectAnchoredPngImages = make([]int, 0)
+		// 2. encode
+		for _, rectanchoredpngimageAssocEnd := range rect.RectAnchoredPngImages {
+			rectanchoredpngimageAssocEnd_DB :=
+				backRepo.BackRepoRectAnchoredPngImage.GetRectAnchoredPngImageDBFromRectAnchoredPngImagePtr(rectanchoredpngimageAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the rectanchoredpngimageAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if rectanchoredpngimageAssocEnd_DB == nil {
+				continue
+			}
+			
+			rectDB.RectPointersEncoding.RectAnchoredPngImages =
+				append(rectDB.RectPointersEncoding.RectAnchoredPngImages, int(rectanchoredpngimageAssocEnd_DB.ID))
+		}
+
 		_, err := backRepoRect.db.Save(rectDB)
 		if err != nil {
 			log.Fatal(err)
@@ -753,6 +774,15 @@ func (rectDB *RectDB) DecodePointers(backRepo *BackRepoStruct, rect *models.Rect
 	rect.RectAnchoredPaths = rect.RectAnchoredPaths[:0]
 	for _, _RectAnchoredPathid := range rectDB.RectPointersEncoding.RectAnchoredPaths {
 		rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, backRepo.BackRepoRectAnchoredPath.Map_RectAnchoredPathDBID_RectAnchoredPathPtr[uint(_RectAnchoredPathid)])
+	}
+
+	// This loop redeem rect.RectAnchoredPngImages in the stage from the encode in the back repo
+	// It parses all RectAnchoredPngImageDB in the back repo and if the reverse pointer encoding matches the back repo ID
+	// it appends the stage instance
+	// 1. reset the slice
+	rect.RectAnchoredPngImages = rect.RectAnchoredPngImages[:0]
+	for _, _RectAnchoredPngImageid := range rectDB.RectPointersEncoding.RectAnchoredPngImages {
+		rect.RectAnchoredPngImages = append(rect.RectAnchoredPngImages, backRepo.BackRepoRectAnchoredPngImage.Map_RectAnchoredPngImageDBID_RectAnchoredPngImagePtr[uint(_RectAnchoredPngImageid)])
 	}
 
 }

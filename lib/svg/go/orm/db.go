@@ -80,6 +80,10 @@ type DBLite struct {
 
 	nextIDRectAnchoredPathDB uint
 
+	rectanchoredpngimageDBs map[uint]*RectAnchoredPngImageDB
+
+	nextIDRectAnchoredPngImageDB uint
+
 	rectanchoredrectDBs map[uint]*RectAnchoredRectDB
 
 	nextIDRectAnchoredRectDB uint
@@ -139,6 +143,8 @@ func NewDBLite() *DBLite {
 		rectDBs: make(map[uint]*RectDB),
 
 		rectanchoredpathDBs: make(map[uint]*RectAnchoredPathDB),
+
+		rectanchoredpngimageDBs: make(map[uint]*RectAnchoredPngImageDB),
 
 		rectanchoredrectDBs: make(map[uint]*RectAnchoredRectDB),
 
@@ -225,6 +231,10 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		db.nextIDRectAnchoredPathDB++
 		v.ID = db.nextIDRectAnchoredPathDB
 		db.rectanchoredpathDBs[v.ID] = v
+	case *RectAnchoredPngImageDB:
+		db.nextIDRectAnchoredPngImageDB++
+		v.ID = db.nextIDRectAnchoredPngImageDB
+		db.rectanchoredpngimageDBs[v.ID] = v
 	case *RectAnchoredRectDB:
 		db.nextIDRectAnchoredRectDB++
 		v.ID = db.nextIDRectAnchoredRectDB
@@ -307,6 +317,8 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 		delete(db.rectDBs, v.ID)
 	case *RectAnchoredPathDB:
 		delete(db.rectanchoredpathDBs, v.ID)
+	case *RectAnchoredPngImageDB:
+		delete(db.rectanchoredpngimageDBs, v.ID)
 	case *RectAnchoredRectDB:
 		delete(db.rectanchoredrectDBs, v.ID)
 	case *RectAnchoredTextDB:
@@ -381,6 +393,9 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 		return db, nil
 	case *RectAnchoredPathDB:
 		db.rectanchoredpathDBs[v.ID] = v
+		return db, nil
+	case *RectAnchoredPngImageDB:
+		db.rectanchoredpngimageDBs[v.ID] = v
 		return db, nil
 	case *RectAnchoredRectDB:
 		db.rectanchoredrectDBs[v.ID] = v
@@ -505,6 +520,12 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 			*existing = *v
 		} else {
 			return nil, errors.New("db RectAnchoredPath github.com/fullstack-lang/gong/lib/svg/go, record not found")
+		}
+	case *RectAnchoredPngImageDB:
+		if existing, ok := db.rectanchoredpngimageDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("db RectAnchoredPngImage github.com/fullstack-lang/gong/lib/svg/go, record not found")
 		}
 	case *RectAnchoredRectDB:
 		if existing, ok := db.rectanchoredrectDBs[v.ID]; ok {
@@ -643,6 +664,12 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 	case *[]RectAnchoredPathDB:
 		*ptr = make([]RectAnchoredPathDB, 0, len(db.rectanchoredpathDBs))
 		for _, v := range db.rectanchoredpathDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
+	case *[]RectAnchoredPngImageDB:
+		*ptr = make([]RectAnchoredPngImageDB, 0, len(db.rectanchoredpngimageDBs))
+		for _, v := range db.rectanchoredpngimageDBs {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
@@ -864,6 +891,16 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		rectanchoredpathDB, _ := instanceDB.(*RectAnchoredPathDB)
 		*rectanchoredpathDB = *tmp
+		
+	case *RectAnchoredPngImageDB:
+		tmp, ok := db.rectanchoredpngimageDBs[uint(i)]
+
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First RectAnchoredPngImage Unkown entry %d", i))
+		}
+
+		rectanchoredpngimageDB, _ := instanceDB.(*RectAnchoredPngImageDB)
+		*rectanchoredpngimageDB = *tmp
 		
 	case *RectAnchoredRectDB:
 		tmp, ok := db.rectanchoredrectDBs[uint(i)]

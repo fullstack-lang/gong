@@ -73,6 +73,10 @@ export * from './lib/rectanchoredpath-api'
 export * from './lib/rectanchoredpath'
 export * from './lib/rectanchoredpath.service'
 
+export * from './lib/rectanchoredpngimage-api'
+export * from './lib/rectanchoredpngimage'
+export * from './lib/rectanchoredpngimage.service'
+
 export * from './lib/rectanchoredrect-api'
 export * from './lib/rectanchoredrect'
 export * from './lib/rectanchoredrect.service'

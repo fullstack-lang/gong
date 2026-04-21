@@ -1546,4 +1546,28 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
   manualDetect() {
     this.changeDetectorRef.detectChanges()
   }
+
+  getContextForAnchoredPngImage(rectAnchoredPngImage: any, rect: any): any {
+    // Basic anchoring logic. 
+    // You should calculate anchorX and anchorY based on rectAnchoredPngImage's specific 
+    // AnchorType, X_Offset, Y_Offset, etc. mirroring how you position paths or text.
+    let anchorX = rect.X; 
+    let anchorY = rect.Y;
+    
+    if (rectAnchoredPngImage.X_Offset) {
+      anchorX += rectAnchoredPngImage.X_Offset;
+    }
+    
+    if (rectAnchoredPngImage.Y_Offset) {
+      anchorY += rectAnchoredPngImage.Y_Offset;
+    }
+
+    return {
+      pngImage: rectAnchoredPngImage,
+      anchorX: anchorX,
+      anchorY: anchorY,
+      width: rectAnchoredPngImage.Width,
+      height: rectAnchoredPngImage.Height
+    };
+  }
 }

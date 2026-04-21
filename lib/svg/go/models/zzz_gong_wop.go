@@ -687,6 +687,44 @@ func (from *RectAnchoredPath) CopyBasicFields(to *RectAnchoredPath) {
 	to.Transform = from.Transform
 }
 
+type RectAnchoredPngImage_WOP struct {
+	// insertion point
+
+	Name string
+
+	X float64
+
+	Y float64
+
+	Width float64
+
+	Height float64
+
+	RX float64
+
+	X_Offset float64
+
+	Y_Offset float64
+
+	RectAnchorType RectAnchorType
+
+	Base64Content string
+}
+
+func (from *RectAnchoredPngImage) CopyBasicFields(to *RectAnchoredPngImage) {
+	// insertion point
+	to.Name = from.Name
+	to.X = from.X
+	to.Y = from.Y
+	to.Width = from.Width
+	to.Height = from.Height
+	to.RX = from.RX
+	to.X_Offset = from.X_Offset
+	to.Y_Offset = from.Y_Offset
+	to.RectAnchorType = from.RectAnchorType
+	to.Base64Content = from.Base64Content
+}
+
 type RectAnchoredRect_WOP struct {
 	// insertion point
 

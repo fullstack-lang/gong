@@ -32,6 +32,7 @@ func SerializeStage2(stage *Stage, filename string, addIDs bool) {
 		SerializeExcelizePointerToGongstruct2[*Polyline](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Rect](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*RectAnchoredPath](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*RectAnchoredPngImage](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*RectAnchoredRect](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*RectAnchoredText](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*RectLinkLink](stage, f, addIDs)

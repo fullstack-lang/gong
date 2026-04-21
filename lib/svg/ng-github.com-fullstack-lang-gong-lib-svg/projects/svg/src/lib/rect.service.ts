@@ -21,6 +21,7 @@ import { AnimateAPI } from './animate-api'
 import { RectAnchoredTextAPI } from './rectanchoredtext-api'
 import { RectAnchoredRectAPI } from './rectanchoredrect-api'
 import { RectAnchoredPathAPI } from './rectanchoredpath-api'
+import { RectAnchoredPngImageAPI } from './rectanchoredpngimage-api'
 
 @Injectable({
   providedIn: 'root'
