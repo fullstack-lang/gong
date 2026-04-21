@@ -243,30 +243,13 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Rect_RectAnchoredPaths_reverseMap[_rectanchoredpath] = rect
 		}
 	}
-	stage.Rect_RectAnchoredSvgImage_reverseMap = make(map[*RectAnchoredSvgImage]*Rect)
+	stage.Rect_RectAnchoredPngImages_reverseMap = make(map[*RectAnchoredPngImage]*Rect)
 	for rect := range stage.Rects {
 		_ = rect
-		for _, _rectanchoredsvgimage := range rect.RectAnchoredSvgImage {
-			stage.Rect_RectAnchoredSvgImage_reverseMap[_rectanchoredsvgimage] = rect
+		for _, _rectanchoredpngimage := range rect.RectAnchoredPngImages {
+			stage.Rect_RectAnchoredPngImages_reverseMap[_rectanchoredpngimage] = rect
 		}
 	}
-	stage.Rect_RectAnchoredPngImage_reverseMap = make(map[*RectAnchoredPngImage]*Rect)
-	for rect := range stage.Rects {
-		_ = rect
-		for _, _rectanchoredpngimage := range rect.RectAnchoredPngImage {
-			stage.Rect_RectAnchoredPngImage_reverseMap[_rectanchoredpngimage] = rect
-		}
-	}
-	stage.Rect_RectAnchoredJpgImage_reverseMap = make(map[*RectAnchoredJpgImage]*Rect)
-	for rect := range stage.Rects {
-		_ = rect
-		for _, _rectanchoredjpgimage := range rect.RectAnchoredJpgImage {
-			stage.Rect_RectAnchoredJpgImage_reverseMap[_rectanchoredjpgimage] = rect
-		}
-	}
-
-	// Compute reverse map for named struct RectAnchoredJpgImage
-	// insertion point per field
 
 	// Compute reverse map for named struct RectAnchoredPath
 	// insertion point per field
@@ -275,9 +258,6 @@ func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per field
 
 	// Compute reverse map for named struct RectAnchoredRect
-	// insertion point per field
-
-	// Compute reverse map for named struct RectAnchoredSvgImage
 	// insertion point per field
 
 	// Compute reverse map for named struct RectAnchoredText
@@ -377,10 +357,6 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
-	for instance := range stage.RectAnchoredJpgImages {
-		res = append(res, instance)
-	}
-
 	for instance := range stage.RectAnchoredPaths {
 		res = append(res, instance)
 	}
@@ -390,10 +366,6 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.RectAnchoredRects {
-		res = append(res, instance)
-	}
-
-	for instance := range stage.RectAnchoredSvgImages {
 		res = append(res, instance)
 	}
 
@@ -505,12 +477,6 @@ func (rect *Rect) GongCopy() GongstructIF {
 	return newInstance
 }
 
-func (rectanchoredjpgimage *RectAnchoredJpgImage) GongCopy() GongstructIF {
-	newInstance := new(RectAnchoredJpgImage)
-	rectanchoredjpgimage.CopyBasicFields(newInstance)
-	return newInstance
-}
-
 func (rectanchoredpath *RectAnchoredPath) GongCopy() GongstructIF {
 	newInstance := new(RectAnchoredPath)
 	rectanchoredpath.CopyBasicFields(newInstance)
@@ -526,12 +492,6 @@ func (rectanchoredpngimage *RectAnchoredPngImage) GongCopy() GongstructIF {
 func (rectanchoredrect *RectAnchoredRect) GongCopy() GongstructIF {
 	newInstance := new(RectAnchoredRect)
 	rectanchoredrect.CopyBasicFields(newInstance)
-	return newInstance
-}
-
-func (rectanchoredsvgimage *RectAnchoredSvgImage) GongCopy() GongstructIF {
-	newInstance := new(RectAnchoredSvgImage)
-	rectanchoredsvgimage.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -706,16 +666,6 @@ func (rect *Rect) GongGetUUID(stage *Stage) (uuid string) {
 	return
 }
 
-func (rectanchoredjpgimage *RectAnchoredJpgImage) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(rectanchoredjpgimage).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(rectanchoredjpgimage), uint64(GetOrderPointerGongstruct(stage, rectanchoredjpgimage)))
-	return
-}
-
 func (rectanchoredpath *RectAnchoredPath) GongGetUUID(stage *Stage) (uuid string) {
 
 	if __gong__, ok := any(rectanchoredpath).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
@@ -743,16 +693,6 @@ func (rectanchoredrect *RectAnchoredRect) GongGetUUID(stage *Stage) (uuid string
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(rectanchoredrect), uint64(GetOrderPointerGongstruct(stage, rectanchoredrect)))
-	return
-}
-
-func (rectanchoredsvgimage *RectAnchoredSvgImage) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(rectanchoredsvgimage).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(rectanchoredsvgimage), uint64(GetOrderPointerGongstruct(stage, rectanchoredsvgimage)))
 	return
 }
 
@@ -1538,57 +1478,6 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(rects_newInstances)
 	lenDeletedInstances += len(rects_deletedInstances)
-	var rectanchoredjpgimages_newInstances []*RectAnchoredJpgImage
-	var rectanchoredjpgimages_deletedInstances []*RectAnchoredJpgImage
-
-	// parse all staged instances and check if they have a reference
-	for rectanchoredjpgimage := range stage.RectAnchoredJpgImages {
-		if ref, ok := stage.RectAnchoredJpgImages_reference[rectanchoredjpgimage]; !ok {
-			rectanchoredjpgimages_newInstances = append(rectanchoredjpgimages_newInstances, rectanchoredjpgimage)
-			newInstancesSlice = append(newInstancesSlice, rectanchoredjpgimage.GongMarshallIdentifier(stage))
-			if stage.RectAnchoredJpgImages_referenceOrder == nil {
-				stage.RectAnchoredJpgImages_referenceOrder = make(map[*RectAnchoredJpgImage]uint)
-			}
-			stage.RectAnchoredJpgImages_referenceOrder[rectanchoredjpgimage] = stage.RectAnchoredJpgImage_stagedOrder[rectanchoredjpgimage]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, rectanchoredjpgimage.GongMarshallUnstaging(stage))
-			// delete(stage.RectAnchoredJpgImages_referenceOrder, rectanchoredjpgimage)
-			fieldInitializers, pointersInitializations := rectanchoredjpgimage.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.RectAnchoredJpgImage_stagedOrder[ref] = stage.RectAnchoredJpgImage_stagedOrder[rectanchoredjpgimage]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := rectanchoredjpgimage.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, rectanchoredjpgimage)
-			// delete(stage.RectAnchoredJpgImage_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", rectanchoredjpgimage.GetName())
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.RectAnchoredJpgImages_reference {
-		instance := stage.RectAnchoredJpgImages_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.RectAnchoredJpgImages[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			rectanchoredjpgimages_deletedInstances = append(rectanchoredjpgimages_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(rectanchoredjpgimages_newInstances)
-	lenDeletedInstances += len(rectanchoredjpgimages_deletedInstances)
 	var rectanchoredpaths_newInstances []*RectAnchoredPath
 	var rectanchoredpaths_deletedInstances []*RectAnchoredPath
 
@@ -1742,57 +1631,6 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(rectanchoredrects_newInstances)
 	lenDeletedInstances += len(rectanchoredrects_deletedInstances)
-	var rectanchoredsvgimages_newInstances []*RectAnchoredSvgImage
-	var rectanchoredsvgimages_deletedInstances []*RectAnchoredSvgImage
-
-	// parse all staged instances and check if they have a reference
-	for rectanchoredsvgimage := range stage.RectAnchoredSvgImages {
-		if ref, ok := stage.RectAnchoredSvgImages_reference[rectanchoredsvgimage]; !ok {
-			rectanchoredsvgimages_newInstances = append(rectanchoredsvgimages_newInstances, rectanchoredsvgimage)
-			newInstancesSlice = append(newInstancesSlice, rectanchoredsvgimage.GongMarshallIdentifier(stage))
-			if stage.RectAnchoredSvgImages_referenceOrder == nil {
-				stage.RectAnchoredSvgImages_referenceOrder = make(map[*RectAnchoredSvgImage]uint)
-			}
-			stage.RectAnchoredSvgImages_referenceOrder[rectanchoredsvgimage] = stage.RectAnchoredSvgImage_stagedOrder[rectanchoredsvgimage]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, rectanchoredsvgimage.GongMarshallUnstaging(stage))
-			// delete(stage.RectAnchoredSvgImages_referenceOrder, rectanchoredsvgimage)
-			fieldInitializers, pointersInitializations := rectanchoredsvgimage.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.RectAnchoredSvgImage_stagedOrder[ref] = stage.RectAnchoredSvgImage_stagedOrder[rectanchoredsvgimage]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := rectanchoredsvgimage.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, rectanchoredsvgimage)
-			// delete(stage.RectAnchoredSvgImage_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", rectanchoredsvgimage.GetName())
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.RectAnchoredSvgImages_reference {
-		instance := stage.RectAnchoredSvgImages_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.RectAnchoredSvgImages[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			rectanchoredsvgimages_deletedInstances = append(rectanchoredsvgimages_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(rectanchoredsvgimages_newInstances)
-	lenDeletedInstances += len(rectanchoredsvgimages_deletedInstances)
 	var rectanchoredtexts_newInstances []*RectAnchoredText
 	var rectanchoredtexts_deletedInstances []*RectAnchoredText
 
@@ -2223,16 +2061,6 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.Rects_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
-	stage.RectAnchoredJpgImages_reference = make(map[*RectAnchoredJpgImage]*RectAnchoredJpgImage)
-	stage.RectAnchoredJpgImages_referenceOrder = make(map[*RectAnchoredJpgImage]uint) // diff Unstage needs the reference order
-	stage.RectAnchoredJpgImages_instance = make(map[*RectAnchoredJpgImage]*RectAnchoredJpgImage)
-	for instance := range stage.RectAnchoredJpgImages {
-		_copy := instance.GongCopy().(*RectAnchoredJpgImage)
-		stage.RectAnchoredJpgImages_reference[instance] = _copy
-		stage.RectAnchoredJpgImages_instance[_copy] = instance
-		stage.RectAnchoredJpgImages_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
-
 	stage.RectAnchoredPaths_reference = make(map[*RectAnchoredPath]*RectAnchoredPath)
 	stage.RectAnchoredPaths_referenceOrder = make(map[*RectAnchoredPath]uint) // diff Unstage needs the reference order
 	stage.RectAnchoredPaths_instance = make(map[*RectAnchoredPath]*RectAnchoredPath)
@@ -2261,16 +2089,6 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.RectAnchoredRects_reference[instance] = _copy
 		stage.RectAnchoredRects_instance[_copy] = instance
 		stage.RectAnchoredRects_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
-
-	stage.RectAnchoredSvgImages_reference = make(map[*RectAnchoredSvgImage]*RectAnchoredSvgImage)
-	stage.RectAnchoredSvgImages_referenceOrder = make(map[*RectAnchoredSvgImage]uint) // diff Unstage needs the reference order
-	stage.RectAnchoredSvgImages_instance = make(map[*RectAnchoredSvgImage]*RectAnchoredSvgImage)
-	for instance := range stage.RectAnchoredSvgImages {
-		_copy := instance.GongCopy().(*RectAnchoredSvgImage)
-		stage.RectAnchoredSvgImages_reference[instance] = _copy
-		stage.RectAnchoredSvgImages_instance[_copy] = instance
-		stage.RectAnchoredSvgImages_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.RectAnchoredTexts_reference = make(map[*RectAnchoredText]*RectAnchoredText)
@@ -2394,11 +2212,6 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
-	for instance := range stage.RectAnchoredJpgImages {
-		reference := stage.RectAnchoredJpgImages_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
-
 	for instance := range stage.RectAnchoredPaths {
 		reference := stage.RectAnchoredPaths_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
@@ -2411,11 +2224,6 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.RectAnchoredRects {
 		reference := stage.RectAnchoredRects_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
-
-	for instance := range stage.RectAnchoredSvgImages {
-		reference := stage.RectAnchoredSvgImages_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -2622,18 +2430,6 @@ func (rect *Rect) GongGetOrder(stage *Stage) uint {
 	}
 }
 
-func (rectanchoredjpgimage *RectAnchoredJpgImage) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.RectAnchoredJpgImage_stagedOrder[rectanchoredjpgimage]; ok {
-		return order
-	}
-	if order, ok := stage.RectAnchoredJpgImages_referenceOrder[rectanchoredjpgimage]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type RectAnchoredJpgImage was not staged and does not have a reference order", rectanchoredjpgimage)
-		return 0
-	}
-}
-
 func (rectanchoredpath *RectAnchoredPath) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.RectAnchoredPath_stagedOrder[rectanchoredpath]; ok {
 		return order
@@ -2666,18 +2462,6 @@ func (rectanchoredrect *RectAnchoredRect) GongGetOrder(stage *Stage) uint {
 		return order
 	} else {
 		log.Printf("instance %p of type RectAnchoredRect was not staged and does not have a reference order", rectanchoredrect)
-		return 0
-	}
-}
-
-func (rectanchoredsvgimage *RectAnchoredSvgImage) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.RectAnchoredSvgImage_stagedOrder[rectanchoredsvgimage]; ok {
-		return order
-	}
-	if order, ok := stage.RectAnchoredSvgImages_referenceOrder[rectanchoredsvgimage]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type RectAnchoredSvgImage was not staged and does not have a reference order", rectanchoredsvgimage)
 		return 0
 	}
 }
@@ -2873,15 +2657,6 @@ func (rect *Rect) GongGetReferenceIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", rect.GongGetGongstructName(), rect.GongGetOrder(stage))
 }
 
-func (rectanchoredjpgimage *RectAnchoredJpgImage) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", rectanchoredjpgimage.GongGetGongstructName(), rectanchoredjpgimage.GongGetOrder(stage))
-}
-
-// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
-func (rectanchoredjpgimage *RectAnchoredJpgImage) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", rectanchoredjpgimage.GongGetGongstructName(), rectanchoredjpgimage.GongGetOrder(stage))
-}
-
 func (rectanchoredpath *RectAnchoredPath) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", rectanchoredpath.GongGetGongstructName(), rectanchoredpath.GongGetOrder(stage))
 }
@@ -2907,15 +2682,6 @@ func (rectanchoredrect *RectAnchoredRect) GongGetIdentifier(stage *Stage) string
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (rectanchoredrect *RectAnchoredRect) GongGetReferenceIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", rectanchoredrect.GongGetGongstructName(), rectanchoredrect.GongGetOrder(stage))
-}
-
-func (rectanchoredsvgimage *RectAnchoredSvgImage) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", rectanchoredsvgimage.GongGetGongstructName(), rectanchoredsvgimage.GongGetOrder(stage))
-}
-
-// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
-func (rectanchoredsvgimage *RectAnchoredSvgImage) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", rectanchoredsvgimage.GongGetGongstructName(), rectanchoredsvgimage.GongGetOrder(stage))
 }
 
 func (rectanchoredtext *RectAnchoredText) GongGetIdentifier(stage *Stage) string {
@@ -3078,14 +2844,6 @@ func (rect *Rect) GongMarshallIdentifier(stage *Stage) (decl string) {
 	return
 }
 
-func (rectanchoredjpgimage *RectAnchoredJpgImage) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", rectanchoredjpgimage.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "RectAnchoredJpgImage")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rectanchoredjpgimage.Name))
-	return
-}
-
 func (rectanchoredpath *RectAnchoredPath) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", rectanchoredpath.GongGetIdentifier(stage))
@@ -3107,14 +2865,6 @@ func (rectanchoredrect *RectAnchoredRect) GongMarshallIdentifier(stage *Stage) (
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", rectanchoredrect.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "RectAnchoredRect")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rectanchoredrect.Name))
-	return
-}
-
-func (rectanchoredsvgimage *RectAnchoredSvgImage) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", rectanchoredsvgimage.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "RectAnchoredSvgImage")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rectanchoredsvgimage.Name))
 	return
 }
 
@@ -3243,12 +2993,6 @@ func (rect *Rect) GongMarshallUnstaging(stage *Stage) (decl string) {
 	return
 }
 
-func (rectanchoredjpgimage *RectAnchoredJpgImage) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", rectanchoredjpgimage.GongGetReferenceIdentifier(stage))
-	return
-}
-
 func (rectanchoredpath *RectAnchoredPath) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", rectanchoredpath.GongGetReferenceIdentifier(stage))
@@ -3264,12 +3008,6 @@ func (rectanchoredpngimage *RectAnchoredPngImage) GongMarshallUnstaging(stage *S
 func (rectanchoredrect *RectAnchoredRect) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", rectanchoredrect.GongGetReferenceIdentifier(stage))
-	return
-}
-
-func (rectanchoredsvgimage *RectAnchoredSvgImage) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", rectanchoredsvgimage.GongGetReferenceIdentifier(stage))
 	return
 }
 

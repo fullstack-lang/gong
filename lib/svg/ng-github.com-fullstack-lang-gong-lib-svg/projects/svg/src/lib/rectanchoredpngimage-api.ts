@@ -11,6 +11,14 @@ export class RectAnchoredPngImageAPI {
 
 	// insertion point for basic fields declarations
 	Name: string = ""
+	X: number = 0
+	Y: number = 0
+	Width: number = 0
+	Height: number = 0
+	RX: number = 0
+	X_Offset: number = 0
+	Y_Offset: number = 0
+	RectAnchorType: string = ""
 	Base64Content: string = ""
 
 	// insertion point for other decls

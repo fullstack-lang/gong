@@ -52,16 +52,12 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.Polyline](probe)
 	case "Rect":
 		updateProbeTable[*models.Rect](probe)
-	case "RectAnchoredJpgImage":
-		updateProbeTable[*models.RectAnchoredJpgImage](probe)
 	case "RectAnchoredPath":
 		updateProbeTable[*models.RectAnchoredPath](probe)
 	case "RectAnchoredPngImage":
 		updateProbeTable[*models.RectAnchoredPngImage](probe)
 	case "RectAnchoredRect":
 		updateProbeTable[*models.RectAnchoredRect](probe)
-	case "RectAnchoredSvgImage":
-		updateProbeTable[*models.RectAnchoredSvgImage](probe)
 	case "RectAnchoredText":
 		updateProbeTable[*models.RectAnchoredText](probe)
 	case "RectLinkLink":
