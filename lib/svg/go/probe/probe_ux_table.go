@@ -54,6 +54,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.Rect](probe)
 	case "RectAnchoredPath":
 		updateProbeTable[*models.RectAnchoredPath](probe)
+	case "RectAnchoredPngImage":
+		updateProbeTable[*models.RectAnchoredPngImage](probe)
 	case "RectAnchoredRect":
 		updateProbeTable[*models.RectAnchoredRect](probe)
 	case "RectAnchoredText":

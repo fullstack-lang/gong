@@ -21,8 +21,10 @@ import (
 
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
-var _ time.Time
-var _ = slices.Index[[]int, int]
+var (
+	_ time.Time
+	_ = slices.Index[[]int, int]
+)
 
 // _ point for meta package dummy declaration{{ImportPackageDummyDeclaration}}
 
@@ -805,6 +807,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(rect.GongMarshallField(stage, "RectAnchoredTexts"))
 		pointersInitializesStatements.WriteString(rect.GongMarshallField(stage, "RectAnchoredRects"))
 		pointersInitializesStatements.WriteString(rect.GongMarshallField(stage, "RectAnchoredPaths"))
+		pointersInitializesStatements.WriteString(rect.GongMarshallField(stage, "RectAnchoredPngImages"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "ChangeColorWhenHovered"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "ColorWhenHovered"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "OriginalColor"))
@@ -856,6 +859,41 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(rectanchoredpath.GongMarshallField(stage, "StrokeDashArray"))
 		initializerStatements.WriteString(rectanchoredpath.GongMarshallField(stage, "StrokeDashArrayWhenSelected"))
 		initializerStatements.WriteString(rectanchoredpath.GongMarshallField(stage, "Transform"))
+	}
+
+	rectanchoredpngimageOrdered := []*RectAnchoredPngImage{}
+	for rectanchoredpngimage := range stage.RectAnchoredPngImages {
+		rectanchoredpngimageOrdered = append(rectanchoredpngimageOrdered, rectanchoredpngimage)
+	}
+	sort.Slice(rectanchoredpngimageOrdered[:], func(i, j int) bool {
+		rectanchoredpngimagei := rectanchoredpngimageOrdered[i]
+		rectanchoredpngimagej := rectanchoredpngimageOrdered[j]
+		rectanchoredpngimagei_order, oki := stage.RectAnchoredPngImage_stagedOrder[rectanchoredpngimagei]
+		rectanchoredpngimagej_order, okj := stage.RectAnchoredPngImage_stagedOrder[rectanchoredpngimagej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return rectanchoredpngimagei_order < rectanchoredpngimagej_order
+	})
+	if len(rectanchoredpngimageOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, rectanchoredpngimage := range rectanchoredpngimageOrdered {
+
+		identifiersDecl.WriteString(rectanchoredpngimage.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(rectanchoredpngimage.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(rectanchoredpngimage.GongMarshallField(stage, "X"))
+		initializerStatements.WriteString(rectanchoredpngimage.GongMarshallField(stage, "Y"))
+		initializerStatements.WriteString(rectanchoredpngimage.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(rectanchoredpngimage.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(rectanchoredpngimage.GongMarshallField(stage, "RX"))
+		initializerStatements.WriteString(rectanchoredpngimage.GongMarshallField(stage, "X_Offset"))
+		initializerStatements.WriteString(rectanchoredpngimage.GongMarshallField(stage, "Y_Offset"))
+		initializerStatements.WriteString(rectanchoredpngimage.GongMarshallField(stage, "RectAnchorType"))
+		initializerStatements.WriteString(rectanchoredpngimage.GongMarshallField(stage, "Base64Content"))
 	}
 
 	rectanchoredrectOrdered := []*RectAnchoredRect{}
@@ -1214,6 +1252,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	for _, rectanchoredpath := range rectanchoredpathOrdered {
 		_ = rectanchoredpath
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, rectanchoredpngimage := range rectanchoredpngimageOrdered {
+		_ = rectanchoredpngimage
 		var setPointerField string
 		_ = setPointerField
 
@@ -2690,6 +2736,16 @@ func (rect *Rect) GongMarshallField(stage *Stage, fieldName string) (res string)
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
+	case "RectAnchoredPngImages":
+		var sb strings.Builder
+		for _, _rectanchoredpngimage := range rect.RectAnchoredPngImages {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", rect.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "RectAnchoredPngImages")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _rectanchoredpngimage.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Rect", fieldName)
 	}
@@ -2785,6 +2841,74 @@ func (rectanchoredpath *RectAnchoredPath) GongMarshallField(stage *Stage, fieldN
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct RectAnchoredPath", fieldName)
+	}
+	return
+}
+
+func (rectanchoredpngimage *RectAnchoredPngImage) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredpngimage.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rectanchoredpngimage.Name))
+	case "X":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredpngimage.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "X")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", rectanchoredpngimage.X))
+	case "Y":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredpngimage.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Y")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", rectanchoredpngimage.Y))
+	case "Width":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredpngimage.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Width")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", rectanchoredpngimage.Width))
+	case "Height":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredpngimage.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Height")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", rectanchoredpngimage.Height))
+	case "RX":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredpngimage.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RX")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", rectanchoredpngimage.RX))
+	case "X_Offset":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredpngimage.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "X_Offset")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", rectanchoredpngimage.X_Offset))
+	case "Y_Offset":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredpngimage.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Y_Offset")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", rectanchoredpngimage.Y_Offset))
+	case "RectAnchorType":
+		if rectanchoredpngimage.RectAnchorType.ToCodeString() != "" {
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredpngimage.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RectAnchorType")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+rectanchoredpngimage.RectAnchorType.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredpngimage.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RectAnchorType")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
+		}
+	case "Base64Content":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredpngimage.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Base64Content")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rectanchoredpngimage.Base64Content))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct RectAnchoredPngImage", fieldName)
 	}
 	return
 }
@@ -3740,6 +3864,7 @@ func (rect *Rect) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		pointersInitializesStatements.WriteString(rect.GongMarshallField(stage, "RectAnchoredTexts"))
 		pointersInitializesStatements.WriteString(rect.GongMarshallField(stage, "RectAnchoredRects"))
 		pointersInitializesStatements.WriteString(rect.GongMarshallField(stage, "RectAnchoredPaths"))
+		pointersInitializesStatements.WriteString(rect.GongMarshallField(stage, "RectAnchoredPngImages"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "ChangeColorWhenHovered"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "ColorWhenHovered"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "OriginalColor"))
@@ -3776,6 +3901,26 @@ func (rectanchoredpath *RectAnchoredPath) GongMarshallAllFields(stage *Stage) (i
 		initializerStatements.WriteString(rectanchoredpath.GongMarshallField(stage, "StrokeDashArray"))
 		initializerStatements.WriteString(rectanchoredpath.GongMarshallField(stage, "StrokeDashArrayWhenSelected"))
 		initializerStatements.WriteString(rectanchoredpath.GongMarshallField(stage, "Transform"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (rectanchoredpngimage *RectAnchoredPngImage) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(rectanchoredpngimage.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(rectanchoredpngimage.GongMarshallField(stage, "X"))
+		initializerStatements.WriteString(rectanchoredpngimage.GongMarshallField(stage, "Y"))
+		initializerStatements.WriteString(rectanchoredpngimage.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(rectanchoredpngimage.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(rectanchoredpngimage.GongMarshallField(stage, "RX"))
+		initializerStatements.WriteString(rectanchoredpngimage.GongMarshallField(stage, "X_Offset"))
+		initializerStatements.WriteString(rectanchoredpngimage.GongMarshallField(stage, "Y_Offset"))
+		initializerStatements.WriteString(rectanchoredpngimage.GongMarshallField(stage, "RectAnchorType"))
+		initializerStatements.WriteString(rectanchoredpngimage.GongMarshallField(stage, "Base64Content"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

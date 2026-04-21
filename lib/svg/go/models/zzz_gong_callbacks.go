@@ -66,6 +66,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterRectAnchoredPathCreateCallback != nil {
 			stage.OnAfterRectAnchoredPathCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *RectAnchoredPngImage:
+		if stage.OnAfterRectAnchoredPngImageCreateCallback != nil {
+			stage.OnAfterRectAnchoredPngImageCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *RectAnchoredRect:
 		if stage.OnAfterRectAnchoredRectCreateCallback != nil {
 			stage.OnAfterRectAnchoredRectCreateCallback.OnAfterCreate(stage, target)
@@ -178,6 +182,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*RectAnchoredPath)
 		if stage.OnAfterRectAnchoredPathUpdateCallback != nil {
 			stage.OnAfterRectAnchoredPathUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *RectAnchoredPngImage:
+		newTarget := any(new).(*RectAnchoredPngImage)
+		if stage.OnAfterRectAnchoredPngImageUpdateCallback != nil {
+			stage.OnAfterRectAnchoredPngImageUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *RectAnchoredRect:
 		newTarget := any(new).(*RectAnchoredRect)
@@ -294,6 +303,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*RectAnchoredPath)
 			stage.OnAfterRectAnchoredPathDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *RectAnchoredPngImage:
+		if stage.OnAfterRectAnchoredPngImageDeleteCallback != nil {
+			staged := any(staged).(*RectAnchoredPngImage)
+			stage.OnAfterRectAnchoredPngImageDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *RectAnchoredRect:
 		if stage.OnAfterRectAnchoredRectDeleteCallback != nil {
 			staged := any(staged).(*RectAnchoredRect)
@@ -394,6 +408,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterRectAnchoredPathReadCallback != nil {
 			stage.OnAfterRectAnchoredPathReadCallback.OnAfterRead(stage, target)
 		}
+	case *RectAnchoredPngImage:
+		if stage.OnAfterRectAnchoredPngImageReadCallback != nil {
+			stage.OnAfterRectAnchoredPngImageReadCallback.OnAfterRead(stage, target)
+		}
 	case *RectAnchoredRect:
 		if stage.OnAfterRectAnchoredRectReadCallback != nil {
 			stage.OnAfterRectAnchoredRectReadCallback.OnAfterRead(stage, target)
@@ -459,6 +477,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterRectUpdateCallback = any(callback).(OnAfterUpdateInterface[Rect])
 	case *RectAnchoredPath:
 		stage.OnAfterRectAnchoredPathUpdateCallback = any(callback).(OnAfterUpdateInterface[RectAnchoredPath])
+	case *RectAnchoredPngImage:
+		stage.OnAfterRectAnchoredPngImageUpdateCallback = any(callback).(OnAfterUpdateInterface[RectAnchoredPngImage])
 	case *RectAnchoredRect:
 		stage.OnAfterRectAnchoredRectUpdateCallback = any(callback).(OnAfterUpdateInterface[RectAnchoredRect])
 	case *RectAnchoredText:
@@ -508,6 +528,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterRectCreateCallback = any(callback).(OnAfterCreateInterface[Rect])
 	case *RectAnchoredPath:
 		stage.OnAfterRectAnchoredPathCreateCallback = any(callback).(OnAfterCreateInterface[RectAnchoredPath])
+	case *RectAnchoredPngImage:
+		stage.OnAfterRectAnchoredPngImageCreateCallback = any(callback).(OnAfterCreateInterface[RectAnchoredPngImage])
 	case *RectAnchoredRect:
 		stage.OnAfterRectAnchoredRectCreateCallback = any(callback).(OnAfterCreateInterface[RectAnchoredRect])
 	case *RectAnchoredText:
@@ -557,6 +579,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterRectDeleteCallback = any(callback).(OnAfterDeleteInterface[Rect])
 	case *RectAnchoredPath:
 		stage.OnAfterRectAnchoredPathDeleteCallback = any(callback).(OnAfterDeleteInterface[RectAnchoredPath])
+	case *RectAnchoredPngImage:
+		stage.OnAfterRectAnchoredPngImageDeleteCallback = any(callback).(OnAfterDeleteInterface[RectAnchoredPngImage])
 	case *RectAnchoredRect:
 		stage.OnAfterRectAnchoredRectDeleteCallback = any(callback).(OnAfterDeleteInterface[RectAnchoredRect])
 	case *RectAnchoredText:
@@ -606,6 +630,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterRectReadCallback = any(callback).(OnAfterReadInterface[Rect])
 	case *RectAnchoredPath:
 		stage.OnAfterRectAnchoredPathReadCallback = any(callback).(OnAfterReadInterface[RectAnchoredPath])
+	case *RectAnchoredPngImage:
+		stage.OnAfterRectAnchoredPngImageReadCallback = any(callback).(OnAfterReadInterface[RectAnchoredPngImage])
 	case *RectAnchoredRect:
 		stage.OnAfterRectAnchoredRectReadCallback = any(callback).(OnAfterReadInterface[RectAnchoredRect])
 	case *RectAnchoredText:

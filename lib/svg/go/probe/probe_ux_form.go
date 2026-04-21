@@ -105,6 +105,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.rectanchoredpath, probe)
 			}
+		case *RectAnchoredPngImageFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "RectAnchoredPngImage", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.rectanchoredpngimage, probe)
+			}
 		case *RectAnchoredRectFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "RectAnchoredRect", true)
@@ -358,6 +364,19 @@ func FillUpFormFromGongstructName(
 		rectanchoredpath := new(models.RectAnchoredPath)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(rectanchoredpath, formGroup, probe)
+	case "RectAnchoredPngImage":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "RectAnchoredPngImage Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__RectAnchoredPngImageFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		rectanchoredpngimage := new(models.RectAnchoredPngImage)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(rectanchoredpngimage, formGroup, probe)
 	case "RectAnchoredRect":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
