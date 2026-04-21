@@ -29,9 +29,15 @@ import { PolylineAPI } from './polyline-api'
 
 import { RectAPI } from './rect-api'
 
+import { RectAnchoredJpgImageAPI } from './rectanchoredjpgimage-api'
+
 import { RectAnchoredPathAPI } from './rectanchoredpath-api'
 
+import { RectAnchoredPngImageAPI } from './rectanchoredpngimage-api'
+
 import { RectAnchoredRectAPI } from './rectanchoredrect-api'
+
+import { RectAnchoredSvgImageAPI } from './rectanchoredsvgimage-api'
 
 import { RectAnchoredTextAPI } from './rectanchoredtext-api'
 
@@ -74,9 +80,15 @@ export class BackRepoData {
 
 	RectAPIs = new Array<RectAPI>()
 
+	RectAnchoredJpgImageAPIs = new Array<RectAnchoredJpgImageAPI>()
+
 	RectAnchoredPathAPIs = new Array<RectAnchoredPathAPI>()
 
+	RectAnchoredPngImageAPIs = new Array<RectAnchoredPngImageAPI>()
+
 	RectAnchoredRectAPIs = new Array<RectAnchoredRectAPI>()
+
+	RectAnchoredSvgImageAPIs = new Array<RectAnchoredSvgImageAPI>()
 
 	RectAnchoredTextAPIs = new Array<RectAnchoredTextAPI>()
 
@@ -122,9 +134,15 @@ export class BackRepoData {
 
 		this.RectAPIs = data?.RectAPIs || [];
 
+		this.RectAnchoredJpgImageAPIs = data?.RectAnchoredJpgImageAPIs || [];
+
 		this.RectAnchoredPathAPIs = data?.RectAnchoredPathAPIs || [];
 
+		this.RectAnchoredPngImageAPIs = data?.RectAnchoredPngImageAPIs || [];
+
 		this.RectAnchoredRectAPIs = data?.RectAnchoredRectAPIs || [];
+
+		this.RectAnchoredSvgImageAPIs = data?.RectAnchoredSvgImageAPIs || [];
 
 		this.RectAnchoredTextAPIs = data?.RectAnchoredTextAPIs || [];
 

@@ -9,6 +9,9 @@ import { Animate } from './animate'
 import { RectAnchoredText } from './rectanchoredtext'
 import { RectAnchoredRect } from './rectanchoredrect'
 import { RectAnchoredPath } from './rectanchoredpath'
+import { RectAnchoredSvgImage } from './rectanchoredsvgimage'
+import { RectAnchoredPngImage } from './rectanchoredpngimage'
+import { RectAnchoredJpgImage } from './rectanchoredjpgimage'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
@@ -66,6 +69,9 @@ export class Rect {
 	RectAnchoredTexts: Array<RectAnchoredText> = []
 	RectAnchoredRects: Array<RectAnchoredRect> = []
 	RectAnchoredPaths: Array<RectAnchoredPath> = []
+	RectAnchoredSvgImage: Array<RectAnchoredSvgImage> = []
+	RectAnchoredPngImage: Array<RectAnchoredPngImage> = []
+	RectAnchoredJpgImage: Array<RectAnchoredJpgImage> = []
 
 	CreatedAt?: string
 	DeletedAt?: string
@@ -148,6 +154,21 @@ export function CopyRectToRectAPI(rect: Rect, rectAPI: RectAPI) {
 	rectAPI.RectPointersEncoding.RectAnchoredPaths = []
 	for (let _rectanchoredpath of rect.RectAnchoredPaths) {
 		rectAPI.RectPointersEncoding.RectAnchoredPaths.push(_rectanchoredpath.ID)
+	}
+
+	rectAPI.RectPointersEncoding.RectAnchoredSvgImage = []
+	for (let _rectanchoredsvgimage of rect.RectAnchoredSvgImage) {
+		rectAPI.RectPointersEncoding.RectAnchoredSvgImage.push(_rectanchoredsvgimage.ID)
+	}
+
+	rectAPI.RectPointersEncoding.RectAnchoredPngImage = []
+	for (let _rectanchoredpngimage of rect.RectAnchoredPngImage) {
+		rectAPI.RectPointersEncoding.RectAnchoredPngImage.push(_rectanchoredpngimage.ID)
+	}
+
+	rectAPI.RectPointersEncoding.RectAnchoredJpgImage = []
+	for (let _rectanchoredjpgimage of rect.RectAnchoredJpgImage) {
+		rectAPI.RectPointersEncoding.RectAnchoredJpgImage.push(_rectanchoredjpgimage.ID)
 	}
 
 }
@@ -275,6 +296,42 @@ export function CopyRectAPIToRect(rectAPI: RectAPI, rect: Rect, frontRepo: Front
 		let _rectanchoredpath = frontRepo.map_ID_RectAnchoredPath.get(_id)
 		if (_rectanchoredpath != undefined) {
 			rect.RectAnchoredPaths.push(_rectanchoredpath!)
+		}
+	}
+	if (!Array.isArray(rectAPI.RectPointersEncoding.RectAnchoredSvgImage)) {
+		console.error('Rects is not an array:', rectAPI.RectPointersEncoding.RectAnchoredSvgImage);
+		return;
+	}
+
+	rect.RectAnchoredSvgImage = new Array<RectAnchoredSvgImage>()
+	for (let _id of rectAPI.RectPointersEncoding.RectAnchoredSvgImage) {
+		let _rectanchoredsvgimage = frontRepo.map_ID_RectAnchoredSvgImage.get(_id)
+		if (_rectanchoredsvgimage != undefined) {
+			rect.RectAnchoredSvgImage.push(_rectanchoredsvgimage!)
+		}
+	}
+	if (!Array.isArray(rectAPI.RectPointersEncoding.RectAnchoredPngImage)) {
+		console.error('Rects is not an array:', rectAPI.RectPointersEncoding.RectAnchoredPngImage);
+		return;
+	}
+
+	rect.RectAnchoredPngImage = new Array<RectAnchoredPngImage>()
+	for (let _id of rectAPI.RectPointersEncoding.RectAnchoredPngImage) {
+		let _rectanchoredpngimage = frontRepo.map_ID_RectAnchoredPngImage.get(_id)
+		if (_rectanchoredpngimage != undefined) {
+			rect.RectAnchoredPngImage.push(_rectanchoredpngimage!)
+		}
+	}
+	if (!Array.isArray(rectAPI.RectPointersEncoding.RectAnchoredJpgImage)) {
+		console.error('Rects is not an array:', rectAPI.RectPointersEncoding.RectAnchoredJpgImage);
+		return;
+	}
+
+	rect.RectAnchoredJpgImage = new Array<RectAnchoredJpgImage>()
+	for (let _id of rectAPI.RectPointersEncoding.RectAnchoredJpgImage) {
+		let _rectanchoredjpgimage = frontRepo.map_ID_RectAnchoredJpgImage.get(_id)
+		if (_rectanchoredjpgimage != undefined) {
+			rect.RectAnchoredJpgImage.push(_rectanchoredjpgimage!)
 		}
 	}
 }

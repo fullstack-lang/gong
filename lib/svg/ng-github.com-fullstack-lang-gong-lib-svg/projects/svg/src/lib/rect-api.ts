@@ -4,6 +4,9 @@ import { AnimateAPI } from './animate-api'
 import { RectAnchoredTextAPI } from './rectanchoredtext-api'
 import { RectAnchoredRectAPI } from './rectanchoredrect-api'
 import { RectAnchoredPathAPI } from './rectanchoredpath-api'
+import { RectAnchoredSvgImageAPI } from './rectanchoredsvgimage-api'
+import { RectAnchoredPngImageAPI } from './rectanchoredpngimage-api'
+import { RectAnchoredJpgImageAPI } from './rectanchoredjpgimage-api'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
@@ -70,4 +73,7 @@ export class RectPointersEncoding {
 	RectAnchoredTexts: number[] = []
 	RectAnchoredRects: number[] = []
 	RectAnchoredPaths: number[] = []
+	RectAnchoredSvgImage: number[] = []
+	RectAnchoredPngImage: number[] = []
+	RectAnchoredJpgImage: number[] = []
 }

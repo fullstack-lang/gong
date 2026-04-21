@@ -34,9 +34,12 @@ type Rect struct {
 	CanMoveHorizontaly bool
 	CanMoveVerticaly   bool
 
-	RectAnchoredTexts []*RectAnchoredText
-	RectAnchoredRects []*RectAnchoredRect
-	RectAnchoredPaths []*RectAnchoredPath
+	RectAnchoredTexts    []*RectAnchoredText
+	RectAnchoredRects    []*RectAnchoredRect
+	RectAnchoredPaths    []*RectAnchoredPath
+	RectAnchoredSvgImage []*RectAnchoredSvgImage
+	RectAnchoredPngImage []*RectAnchoredPngImage
+	RectAnchoredJpgImage []*RectAnchoredJpgImage
 
 	ChangeColorWhenHovered bool
 	ColorWhenHovered       string
@@ -57,7 +60,6 @@ type Rect struct {
 
 // OnAfterUpdate, notice that rect == stagedRect
 func (rect *Rect) OnAfterUpdate(stage *Stage, _, frontRect *Rect) {
-
 	if rect.Impl != nil {
 		rect.Impl.RectUpdated(frontRect)
 	}
@@ -67,7 +69,6 @@ func (rect *Rect) OnAfterUpdate(stage *Stage, _, frontRect *Rect) {
 }
 
 func (rect *Rect) WriteSVG(sb *strings.Builder) (maxX, maxY float64) {
-
 	sb.WriteString(
 		fmt.Sprintf(
 			`  <rect x="%s" y="%s" width="%s" height="%s" rx="%s" ry="%s"`,
@@ -105,4 +106,25 @@ func (rect *Rect) WriteSVG(sb *strings.Builder) (maxX, maxY float64) {
 	}
 
 	return
+}
+
+type RectAnchoredSvgImage struct {
+	Name string // path to the image
+
+	// gong:text gong:width 600 gong:height 400
+	Content string // the svg
+}
+
+type RectAnchoredPngImage struct {
+	Name string // path to the image
+
+	// gong:text gong:width 600 gong:height 400
+	Base64Content string
+}
+
+type RectAnchoredJpgImage struct {
+	Name string // path to the image
+
+	// gong:text gong:width 600 gong:height 400
+	Base64Content string
 }

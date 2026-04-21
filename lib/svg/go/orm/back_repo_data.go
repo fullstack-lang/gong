@@ -32,9 +32,15 @@ type BackRepoData struct {
 
 	RectAPIs []*RectAPI
 
+	RectAnchoredJpgImageAPIs []*RectAnchoredJpgImageAPI
+
 	RectAnchoredPathAPIs []*RectAnchoredPathAPI
 
+	RectAnchoredPngImageAPIs []*RectAnchoredPngImageAPI
+
 	RectAnchoredRectAPIs []*RectAnchoredRectAPI
+
+	RectAnchoredSvgImageAPIs []*RectAnchoredSvgImageAPI
 
 	RectAnchoredTextAPIs []*RectAnchoredTextAPI
 
@@ -197,6 +203,16 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		backRepoData.RectAPIs = append(backRepoData.RectAPIs, &rectAPI)
 	}
 
+	for _, rectanchoredjpgimageDB := range backRepo.BackRepoRectAnchoredJpgImage.Map_RectAnchoredJpgImageDBID_RectAnchoredJpgImageDB {
+
+		var rectanchoredjpgimageAPI RectAnchoredJpgImageAPI
+		rectanchoredjpgimageAPI.ID = rectanchoredjpgimageDB.ID
+		rectanchoredjpgimageAPI.RectAnchoredJpgImagePointersEncoding = rectanchoredjpgimageDB.RectAnchoredJpgImagePointersEncoding
+		rectanchoredjpgimageDB.CopyBasicFieldsToRectAnchoredJpgImage_WOP(&rectanchoredjpgimageAPI.RectAnchoredJpgImage_WOP)
+
+		backRepoData.RectAnchoredJpgImageAPIs = append(backRepoData.RectAnchoredJpgImageAPIs, &rectanchoredjpgimageAPI)
+	}
+
 	for _, rectanchoredpathDB := range backRepo.BackRepoRectAnchoredPath.Map_RectAnchoredPathDBID_RectAnchoredPathDB {
 
 		var rectanchoredpathAPI RectAnchoredPathAPI
@@ -207,6 +223,16 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		backRepoData.RectAnchoredPathAPIs = append(backRepoData.RectAnchoredPathAPIs, &rectanchoredpathAPI)
 	}
 
+	for _, rectanchoredpngimageDB := range backRepo.BackRepoRectAnchoredPngImage.Map_RectAnchoredPngImageDBID_RectAnchoredPngImageDB {
+
+		var rectanchoredpngimageAPI RectAnchoredPngImageAPI
+		rectanchoredpngimageAPI.ID = rectanchoredpngimageDB.ID
+		rectanchoredpngimageAPI.RectAnchoredPngImagePointersEncoding = rectanchoredpngimageDB.RectAnchoredPngImagePointersEncoding
+		rectanchoredpngimageDB.CopyBasicFieldsToRectAnchoredPngImage_WOP(&rectanchoredpngimageAPI.RectAnchoredPngImage_WOP)
+
+		backRepoData.RectAnchoredPngImageAPIs = append(backRepoData.RectAnchoredPngImageAPIs, &rectanchoredpngimageAPI)
+	}
+
 	for _, rectanchoredrectDB := range backRepo.BackRepoRectAnchoredRect.Map_RectAnchoredRectDBID_RectAnchoredRectDB {
 
 		var rectanchoredrectAPI RectAnchoredRectAPI
@@ -215,6 +241,16 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		rectanchoredrectDB.CopyBasicFieldsToRectAnchoredRect_WOP(&rectanchoredrectAPI.RectAnchoredRect_WOP)
 
 		backRepoData.RectAnchoredRectAPIs = append(backRepoData.RectAnchoredRectAPIs, &rectanchoredrectAPI)
+	}
+
+	for _, rectanchoredsvgimageDB := range backRepo.BackRepoRectAnchoredSvgImage.Map_RectAnchoredSvgImageDBID_RectAnchoredSvgImageDB {
+
+		var rectanchoredsvgimageAPI RectAnchoredSvgImageAPI
+		rectanchoredsvgimageAPI.ID = rectanchoredsvgimageDB.ID
+		rectanchoredsvgimageAPI.RectAnchoredSvgImagePointersEncoding = rectanchoredsvgimageDB.RectAnchoredSvgImagePointersEncoding
+		rectanchoredsvgimageDB.CopyBasicFieldsToRectAnchoredSvgImage_WOP(&rectanchoredsvgimageAPI.RectAnchoredSvgImage_WOP)
+
+		backRepoData.RectAnchoredSvgImageAPIs = append(backRepoData.RectAnchoredSvgImageAPIs, &rectanchoredsvgimageAPI)
 	}
 
 	for _, rectanchoredtextDB := range backRepo.BackRepoRectAnchoredText.Map_RectAnchoredTextDBID_RectAnchoredTextDB {
