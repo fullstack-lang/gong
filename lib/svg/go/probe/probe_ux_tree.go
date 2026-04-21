@@ -550,6 +550,38 @@ func (probe *Probe) ux_tree() {
 				stagedNode.BackgroundColor = "lightgrey"
 				treeStagee.Commit()
 			}
+		case "RectAnchoredJpgImage":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.RectAnchoredJpgImage](probe.stageOfInterest)
+			count := 0
+			for _rectanchoredjpgimage := range set {
+				if count >= probe.GetMaxElementsNbPerGongStructNode() {
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+					break
+				}
+				count++
+				nodeInstance := &tree_models.Node{
+					Name:            _rectanchoredjpgimage.GetName(),
+					IsNodeClickable: true,
+					OnUpdate: func(_ *tree_models.Stage, _, _ *tree_models.Node) {
+						FillUpFormFromGongstruct(_rectanchoredjpgimage, probe)
+					},
+				}
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
+			nodeGongstruct.OnUpdate = func(treeStagee *tree_models.Stage, stagedNode, frontNode *tree_models.Node) {
+				if stagedNode.IsExpanded != frontNode.IsExpanded {
+					stagedNode.IsExpanded = frontNode.IsExpanded
+					return
+				}
+				updateProbeTable[*models.RectAnchoredJpgImage](probe)
+				// set color for node and reset all other nodes color
+				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](treeStagee) {
+					node.BackgroundColor = ""
+				}
+				stagedNode.BackgroundColor = "lightgrey"
+				treeStagee.Commit()
+			}
 		case "RectAnchoredPath":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.RectAnchoredPath](probe.stageOfInterest)
@@ -582,6 +614,38 @@ func (probe *Probe) ux_tree() {
 				stagedNode.BackgroundColor = "lightgrey"
 				treeStagee.Commit()
 			}
+		case "RectAnchoredPngImage":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.RectAnchoredPngImage](probe.stageOfInterest)
+			count := 0
+			for _rectanchoredpngimage := range set {
+				if count >= probe.GetMaxElementsNbPerGongStructNode() {
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+					break
+				}
+				count++
+				nodeInstance := &tree_models.Node{
+					Name:            _rectanchoredpngimage.GetName(),
+					IsNodeClickable: true,
+					OnUpdate: func(_ *tree_models.Stage, _, _ *tree_models.Node) {
+						FillUpFormFromGongstruct(_rectanchoredpngimage, probe)
+					},
+				}
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
+			nodeGongstruct.OnUpdate = func(treeStagee *tree_models.Stage, stagedNode, frontNode *tree_models.Node) {
+				if stagedNode.IsExpanded != frontNode.IsExpanded {
+					stagedNode.IsExpanded = frontNode.IsExpanded
+					return
+				}
+				updateProbeTable[*models.RectAnchoredPngImage](probe)
+				// set color for node and reset all other nodes color
+				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](treeStagee) {
+					node.BackgroundColor = ""
+				}
+				stagedNode.BackgroundColor = "lightgrey"
+				treeStagee.Commit()
+			}
 		case "RectAnchoredRect":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.RectAnchoredRect](probe.stageOfInterest)
@@ -607,6 +671,38 @@ func (probe *Probe) ux_tree() {
 					return
 				}
 				updateProbeTable[*models.RectAnchoredRect](probe)
+				// set color for node and reset all other nodes color
+				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](treeStagee) {
+					node.BackgroundColor = ""
+				}
+				stagedNode.BackgroundColor = "lightgrey"
+				treeStagee.Commit()
+			}
+		case "RectAnchoredSvgImage":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.RectAnchoredSvgImage](probe.stageOfInterest)
+			count := 0
+			for _rectanchoredsvgimage := range set {
+				if count >= probe.GetMaxElementsNbPerGongStructNode() {
+					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
+					break
+				}
+				count++
+				nodeInstance := &tree_models.Node{
+					Name:            _rectanchoredsvgimage.GetName(),
+					IsNodeClickable: true,
+					OnUpdate: func(_ *tree_models.Stage, _, _ *tree_models.Node) {
+						FillUpFormFromGongstruct(_rectanchoredsvgimage, probe)
+					},
+				}
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
+			nodeGongstruct.OnUpdate = func(treeStagee *tree_models.Stage, stagedNode, frontNode *tree_models.Node) {
+				if stagedNode.IsExpanded != frontNode.IsExpanded {
+					stagedNode.IsExpanded = frontNode.IsExpanded
+					return
+				}
+				updateProbeTable[*models.RectAnchoredSvgImage](probe)
 				// set color for node and reset all other nodes color
 				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](treeStagee) {
 					node.BackgroundColor = ""

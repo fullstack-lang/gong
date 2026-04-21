@@ -1187,6 +1187,12 @@ func (u *RectUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		GongUnmarshallSliceOfPointers(&instance.RectAnchoredRects, valueExpr, identifierMap)
 	case "RectAnchoredPaths":
 		GongUnmarshallSliceOfPointers(&instance.RectAnchoredPaths, valueExpr, identifierMap)
+	case "RectAnchoredSvgImage":
+		GongUnmarshallSliceOfPointers(&instance.RectAnchoredSvgImage, valueExpr, identifierMap)
+	case "RectAnchoredPngImage":
+		GongUnmarshallSliceOfPointers(&instance.RectAnchoredPngImage, valueExpr, identifierMap)
+	case "RectAnchoredJpgImage":
+		GongUnmarshallSliceOfPointers(&instance.RectAnchoredJpgImage, valueExpr, identifierMap)
 	case "ChangeColorWhenHovered":
 		instance.ChangeColorWhenHovered = GongExtractBool(valueExpr)
 	case "ColorWhenHovered":
@@ -1209,6 +1215,37 @@ func (u *RectUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.MouseY = GongExtractFloat(valueExpr)
 	case "MouseEventKey":
 		GongUnmarshallEnum(&instance.MouseEventKey, valueExpr)
+	}
+	return nil
+}
+
+type RectAnchoredJpgImageUnmarshaller struct{}
+
+func (u *RectAnchoredJpgImageUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(RectAnchoredJpgImage)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *RectAnchoredJpgImageUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*RectAnchoredJpgImage)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Base64Content":
+		instance.Base64Content = GongExtractString(valueExpr)
 	}
 	return nil
 }
@@ -1266,6 +1303,37 @@ func (u *RectAnchoredPathUnmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 		instance.StrokeDashArrayWhenSelected = GongExtractString(valueExpr)
 	case "Transform":
 		instance.Transform = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
+type RectAnchoredPngImageUnmarshaller struct{}
+
+func (u *RectAnchoredPngImageUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(RectAnchoredPngImage)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *RectAnchoredPngImageUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*RectAnchoredPngImage)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Base64Content":
+		instance.Base64Content = GongExtractString(valueExpr)
 	}
 	return nil
 }
@@ -1335,6 +1403,37 @@ func (u *RectAnchoredRectUnmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 		instance.StrokeDashArrayWhenSelected = GongExtractString(valueExpr)
 	case "Transform":
 		instance.Transform = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
+type RectAnchoredSvgImageUnmarshaller struct{}
+
+func (u *RectAnchoredSvgImageUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(RectAnchoredSvgImage)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *RectAnchoredSvgImageUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*RectAnchoredSvgImage)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Content":
+		instance.Content = GongExtractString(valueExpr)
 	}
 	return nil
 }

@@ -905,6 +905,9 @@ func FillUpForm(
 		AssociationSliceToForm("RectAnchoredTexts", instanceWithInferedType, &instanceWithInferedType.RectAnchoredTexts, formGroup, probe)
 		AssociationSliceToForm("RectAnchoredRects", instanceWithInferedType, &instanceWithInferedType.RectAnchoredRects, formGroup, probe)
 		AssociationSliceToForm("RectAnchoredPaths", instanceWithInferedType, &instanceWithInferedType.RectAnchoredPaths, formGroup, probe)
+		AssociationSliceToForm("RectAnchoredSvgImage", instanceWithInferedType, &instanceWithInferedType.RectAnchoredSvgImage, formGroup, probe)
+		AssociationSliceToForm("RectAnchoredPngImage", instanceWithInferedType, &instanceWithInferedType.RectAnchoredPngImage, formGroup, probe)
+		AssociationSliceToForm("RectAnchoredJpgImage", instanceWithInferedType, &instanceWithInferedType.RectAnchoredJpgImage, formGroup, probe)
 		BasicFieldtoForm("ChangeColorWhenHovered", instanceWithInferedType.ChangeColorWhenHovered, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("ColorWhenHovered", instanceWithInferedType.ColorWhenHovered, instanceWithInferedType, probe.formStage, formGroup,
@@ -942,6 +945,35 @@ func FillUpForm(
 				AssociationReverseFieldToForm[*models.Layer](
 					nil,
 					"Rects",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			}
+		}
+
+	case *models.RectAnchoredJpgImage:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("Base64Content", instanceWithInferedType.Base64Content, instanceWithInferedType, probe.formStage, formGroup,
+			true, true, 600, true, 400)
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "Rect"
+			rf.Fieldname = "RectAnchoredJpgImage"
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.Rect),
+					"RectAnchoredJpgImage",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			} else {
+				AssociationReverseFieldToForm[*models.Rect](
+					nil,
+					"RectAnchoredJpgImage",
 					instanceWithInferedType,
 					formGroup,
 					probe)
@@ -996,6 +1028,35 @@ func FillUpForm(
 				AssociationReverseFieldToForm[*models.Rect](
 					nil,
 					"RectAnchoredPaths",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			}
+		}
+
+	case *models.RectAnchoredPngImage:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("Base64Content", instanceWithInferedType.Base64Content, instanceWithInferedType, probe.formStage, formGroup,
+			true, true, 600, true, 400)
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "Rect"
+			rf.Fieldname = "RectAnchoredPngImage"
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.Rect),
+					"RectAnchoredPngImage",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			} else {
+				AssociationReverseFieldToForm[*models.Rect](
+					nil,
+					"RectAnchoredPngImage",
 					instanceWithInferedType,
 					formGroup,
 					probe)
@@ -1062,6 +1123,35 @@ func FillUpForm(
 				AssociationReverseFieldToForm[*models.Rect](
 					nil,
 					"RectAnchoredRects",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			}
+		}
+
+	case *models.RectAnchoredSvgImage:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("Content", instanceWithInferedType.Content, instanceWithInferedType, probe.formStage, formGroup,
+			true, true, 600, true, 400)
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "Rect"
+			rf.Fieldname = "RectAnchoredSvgImage"
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.Rect),
+					"RectAnchoredSvgImage",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			} else {
+				AssociationReverseFieldToForm[*models.Rect](
+					nil,
+					"RectAnchoredSvgImage",
 					instanceWithInferedType,
 					formGroup,
 					probe)

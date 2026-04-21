@@ -3702,6 +3702,99 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 			}
 			rect_.RectAnchoredPaths = instanceSlice
 
+		case "RectAnchoredSvgImage":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.RectAnchoredSvgImage](rectFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.RectAnchoredSvgImage, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.RectAnchoredSvgImage)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					rectFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.RectAnchoredSvgImage](rectFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			rect_.RectAnchoredSvgImage = instanceSlice
+
+		case "RectAnchoredPngImage":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.RectAnchoredPngImage](rectFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.RectAnchoredPngImage, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.RectAnchoredPngImage)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					rectFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.RectAnchoredPngImage](rectFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			rect_.RectAnchoredPngImage = instanceSlice
+
+		case "RectAnchoredJpgImage":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.RectAnchoredJpgImage](rectFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.RectAnchoredJpgImage, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.RectAnchoredJpgImage)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					rectFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.RectAnchoredJpgImage](rectFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			rect_.RectAnchoredJpgImage = instanceSlice
+
 		case "ChangeColorWhenHovered":
 			FormDivBasicFieldToField(&(rect_.ChangeColorWhenHovered), formDiv)
 		case "ColorWhenHovered":
@@ -3820,6 +3913,152 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 	}
 
 	rectFormCallback.probe.ux_tree()
+}
+func __gong__New__RectAnchoredJpgImageFormCallback(
+	rectanchoredjpgimage *models.RectAnchoredJpgImage,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (rectanchoredjpgimageFormCallback *RectAnchoredJpgImageFormCallback) {
+	rectanchoredjpgimageFormCallback = new(RectAnchoredJpgImageFormCallback)
+	rectanchoredjpgimageFormCallback.probe = probe
+	rectanchoredjpgimageFormCallback.rectanchoredjpgimage = rectanchoredjpgimage
+	rectanchoredjpgimageFormCallback.formGroup = formGroup
+
+	rectanchoredjpgimageFormCallback.CreationMode = (rectanchoredjpgimage == nil)
+
+	return
+}
+
+type RectAnchoredJpgImageFormCallback struct {
+	rectanchoredjpgimage *models.RectAnchoredJpgImage
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (rectanchoredjpgimageFormCallback *RectAnchoredJpgImageFormCallback) OnSave() {
+	rectanchoredjpgimageFormCallback.probe.stageOfInterest.Lock()
+	defer rectanchoredjpgimageFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("RectAnchoredJpgImageFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	rectanchoredjpgimageFormCallback.probe.formStage.Checkout()
+
+	if rectanchoredjpgimageFormCallback.rectanchoredjpgimage == nil {
+		rectanchoredjpgimageFormCallback.rectanchoredjpgimage = new(models.RectAnchoredJpgImage).Stage(rectanchoredjpgimageFormCallback.probe.stageOfInterest)
+	}
+	rectanchoredjpgimage_ := rectanchoredjpgimageFormCallback.rectanchoredjpgimage
+	_ = rectanchoredjpgimage_
+
+	for _, formDiv := range rectanchoredjpgimageFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(rectanchoredjpgimage_.Name), formDiv)
+		case "Base64Content":
+			FormDivBasicFieldToField(&(rectanchoredjpgimage_.Base64Content), formDiv)
+		case "Rect:RectAnchoredJpgImage":
+			// WARNING : this form deals with the N-N association "Rect.RectAnchoredJpgImage []*RectAnchoredJpgImage" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of RectAnchoredJpgImage). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Rect
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Rect"
+				rf.Fieldname = "RectAnchoredJpgImage"
+				formerAssociationSource := rectanchoredjpgimage_.GongGetReverseFieldOwner(
+					rectanchoredjpgimageFormCallback.probe.stageOfInterest,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Rect)
+					if !ok {
+						log.Fatalln("Source of Rect.RectAnchoredJpgImage []*RectAnchoredJpgImage, is not an Rect instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.RectAnchoredJpgImage, rectanchoredjpgimage_)
+					formerSource.RectAnchoredJpgImage = slices.Delete(formerSource.RectAnchoredJpgImage, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Rect
+			for _rect := range *models.GetGongstructInstancesSet[models.Rect](rectanchoredjpgimageFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _rect.GetName() == newSourceName.GetName() {
+					newSource = _rect // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Rect.RectAnchoredJpgImage []*RectAnchoredJpgImage, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.RectAnchoredJpgImage = append(newSource.RectAnchoredJpgImage, rectanchoredjpgimage_)
+		}
+	}
+
+	// manage the suppress operation
+	if rectanchoredjpgimageFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		rectanchoredjpgimage_.Unstage(rectanchoredjpgimageFormCallback.probe.stageOfInterest)
+	}
+
+	rectanchoredjpgimageFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.RectAnchoredJpgImage](
+		rectanchoredjpgimageFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if rectanchoredjpgimageFormCallback.CreationMode || rectanchoredjpgimageFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		rectanchoredjpgimageFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(rectanchoredjpgimageFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__RectAnchoredJpgImageFormCallback(
+			nil,
+			rectanchoredjpgimageFormCallback.probe,
+			newFormGroup,
+		)
+		rectanchoredjpgimage := new(models.RectAnchoredJpgImage)
+		FillUpForm(rectanchoredjpgimage, newFormGroup, rectanchoredjpgimageFormCallback.probe)
+		rectanchoredjpgimageFormCallback.probe.formStage.Commit()
+	}
+
+	rectanchoredjpgimageFormCallback.probe.ux_tree()
 }
 func __gong__New__RectAnchoredPathFormCallback(
 	rectanchoredpath *models.RectAnchoredPath,
@@ -3992,6 +4231,152 @@ func (rectanchoredpathFormCallback *RectAnchoredPathFormCallback) OnSave() {
 	}
 
 	rectanchoredpathFormCallback.probe.ux_tree()
+}
+func __gong__New__RectAnchoredPngImageFormCallback(
+	rectanchoredpngimage *models.RectAnchoredPngImage,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (rectanchoredpngimageFormCallback *RectAnchoredPngImageFormCallback) {
+	rectanchoredpngimageFormCallback = new(RectAnchoredPngImageFormCallback)
+	rectanchoredpngimageFormCallback.probe = probe
+	rectanchoredpngimageFormCallback.rectanchoredpngimage = rectanchoredpngimage
+	rectanchoredpngimageFormCallback.formGroup = formGroup
+
+	rectanchoredpngimageFormCallback.CreationMode = (rectanchoredpngimage == nil)
+
+	return
+}
+
+type RectAnchoredPngImageFormCallback struct {
+	rectanchoredpngimage *models.RectAnchoredPngImage
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (rectanchoredpngimageFormCallback *RectAnchoredPngImageFormCallback) OnSave() {
+	rectanchoredpngimageFormCallback.probe.stageOfInterest.Lock()
+	defer rectanchoredpngimageFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("RectAnchoredPngImageFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	rectanchoredpngimageFormCallback.probe.formStage.Checkout()
+
+	if rectanchoredpngimageFormCallback.rectanchoredpngimage == nil {
+		rectanchoredpngimageFormCallback.rectanchoredpngimage = new(models.RectAnchoredPngImage).Stage(rectanchoredpngimageFormCallback.probe.stageOfInterest)
+	}
+	rectanchoredpngimage_ := rectanchoredpngimageFormCallback.rectanchoredpngimage
+	_ = rectanchoredpngimage_
+
+	for _, formDiv := range rectanchoredpngimageFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(rectanchoredpngimage_.Name), formDiv)
+		case "Base64Content":
+			FormDivBasicFieldToField(&(rectanchoredpngimage_.Base64Content), formDiv)
+		case "Rect:RectAnchoredPngImage":
+			// WARNING : this form deals with the N-N association "Rect.RectAnchoredPngImage []*RectAnchoredPngImage" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of RectAnchoredPngImage). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Rect
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Rect"
+				rf.Fieldname = "RectAnchoredPngImage"
+				formerAssociationSource := rectanchoredpngimage_.GongGetReverseFieldOwner(
+					rectanchoredpngimageFormCallback.probe.stageOfInterest,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Rect)
+					if !ok {
+						log.Fatalln("Source of Rect.RectAnchoredPngImage []*RectAnchoredPngImage, is not an Rect instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.RectAnchoredPngImage, rectanchoredpngimage_)
+					formerSource.RectAnchoredPngImage = slices.Delete(formerSource.RectAnchoredPngImage, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Rect
+			for _rect := range *models.GetGongstructInstancesSet[models.Rect](rectanchoredpngimageFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _rect.GetName() == newSourceName.GetName() {
+					newSource = _rect // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Rect.RectAnchoredPngImage []*RectAnchoredPngImage, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.RectAnchoredPngImage = append(newSource.RectAnchoredPngImage, rectanchoredpngimage_)
+		}
+	}
+
+	// manage the suppress operation
+	if rectanchoredpngimageFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		rectanchoredpngimage_.Unstage(rectanchoredpngimageFormCallback.probe.stageOfInterest)
+	}
+
+	rectanchoredpngimageFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.RectAnchoredPngImage](
+		rectanchoredpngimageFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if rectanchoredpngimageFormCallback.CreationMode || rectanchoredpngimageFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		rectanchoredpngimageFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(rectanchoredpngimageFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__RectAnchoredPngImageFormCallback(
+			nil,
+			rectanchoredpngimageFormCallback.probe,
+			newFormGroup,
+		)
+		rectanchoredpngimage := new(models.RectAnchoredPngImage)
+		FillUpForm(rectanchoredpngimage, newFormGroup, rectanchoredpngimageFormCallback.probe)
+		rectanchoredpngimageFormCallback.probe.formStage.Commit()
+	}
+
+	rectanchoredpngimageFormCallback.probe.ux_tree()
 }
 func __gong__New__RectAnchoredRectFormCallback(
 	rectanchoredrect *models.RectAnchoredRect,
@@ -4176,6 +4561,152 @@ func (rectanchoredrectFormCallback *RectAnchoredRectFormCallback) OnSave() {
 	}
 
 	rectanchoredrectFormCallback.probe.ux_tree()
+}
+func __gong__New__RectAnchoredSvgImageFormCallback(
+	rectanchoredsvgimage *models.RectAnchoredSvgImage,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (rectanchoredsvgimageFormCallback *RectAnchoredSvgImageFormCallback) {
+	rectanchoredsvgimageFormCallback = new(RectAnchoredSvgImageFormCallback)
+	rectanchoredsvgimageFormCallback.probe = probe
+	rectanchoredsvgimageFormCallback.rectanchoredsvgimage = rectanchoredsvgimage
+	rectanchoredsvgimageFormCallback.formGroup = formGroup
+
+	rectanchoredsvgimageFormCallback.CreationMode = (rectanchoredsvgimage == nil)
+
+	return
+}
+
+type RectAnchoredSvgImageFormCallback struct {
+	rectanchoredsvgimage *models.RectAnchoredSvgImage
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (rectanchoredsvgimageFormCallback *RectAnchoredSvgImageFormCallback) OnSave() {
+	rectanchoredsvgimageFormCallback.probe.stageOfInterest.Lock()
+	defer rectanchoredsvgimageFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("RectAnchoredSvgImageFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	rectanchoredsvgimageFormCallback.probe.formStage.Checkout()
+
+	if rectanchoredsvgimageFormCallback.rectanchoredsvgimage == nil {
+		rectanchoredsvgimageFormCallback.rectanchoredsvgimage = new(models.RectAnchoredSvgImage).Stage(rectanchoredsvgimageFormCallback.probe.stageOfInterest)
+	}
+	rectanchoredsvgimage_ := rectanchoredsvgimageFormCallback.rectanchoredsvgimage
+	_ = rectanchoredsvgimage_
+
+	for _, formDiv := range rectanchoredsvgimageFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(rectanchoredsvgimage_.Name), formDiv)
+		case "Content":
+			FormDivBasicFieldToField(&(rectanchoredsvgimage_.Content), formDiv)
+		case "Rect:RectAnchoredSvgImage":
+			// WARNING : this form deals with the N-N association "Rect.RectAnchoredSvgImage []*RectAnchoredSvgImage" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of RectAnchoredSvgImage). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Rect
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Rect"
+				rf.Fieldname = "RectAnchoredSvgImage"
+				formerAssociationSource := rectanchoredsvgimage_.GongGetReverseFieldOwner(
+					rectanchoredsvgimageFormCallback.probe.stageOfInterest,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Rect)
+					if !ok {
+						log.Fatalln("Source of Rect.RectAnchoredSvgImage []*RectAnchoredSvgImage, is not an Rect instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.RectAnchoredSvgImage, rectanchoredsvgimage_)
+					formerSource.RectAnchoredSvgImage = slices.Delete(formerSource.RectAnchoredSvgImage, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Rect
+			for _rect := range *models.GetGongstructInstancesSet[models.Rect](rectanchoredsvgimageFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _rect.GetName() == newSourceName.GetName() {
+					newSource = _rect // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Rect.RectAnchoredSvgImage []*RectAnchoredSvgImage, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.RectAnchoredSvgImage = append(newSource.RectAnchoredSvgImage, rectanchoredsvgimage_)
+		}
+	}
+
+	// manage the suppress operation
+	if rectanchoredsvgimageFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		rectanchoredsvgimage_.Unstage(rectanchoredsvgimageFormCallback.probe.stageOfInterest)
+	}
+
+	rectanchoredsvgimageFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.RectAnchoredSvgImage](
+		rectanchoredsvgimageFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if rectanchoredsvgimageFormCallback.CreationMode || rectanchoredsvgimageFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		rectanchoredsvgimageFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(rectanchoredsvgimageFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__RectAnchoredSvgImageFormCallback(
+			nil,
+			rectanchoredsvgimageFormCallback.probe,
+			newFormGroup,
+		)
+		rectanchoredsvgimage := new(models.RectAnchoredSvgImage)
+		FillUpForm(rectanchoredsvgimage, newFormGroup, rectanchoredsvgimageFormCallback.probe)
+		rectanchoredsvgimageFormCallback.probe.formStage.Commit()
+	}
+
+	rectanchoredsvgimageFormCallback.probe.ux_tree()
 }
 func __gong__New__RectAnchoredTextFormCallback(
 	rectanchoredtext *models.RectAnchoredText,
