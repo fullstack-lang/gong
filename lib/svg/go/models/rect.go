@@ -34,12 +34,10 @@ type Rect struct {
 	CanMoveHorizontaly bool
 	CanMoveVerticaly   bool
 
-	RectAnchoredTexts    []*RectAnchoredText
-	RectAnchoredRects    []*RectAnchoredRect
-	RectAnchoredPaths    []*RectAnchoredPath
-	RectAnchoredSvgImage []*RectAnchoredSvgImage
-	RectAnchoredPngImage []*RectAnchoredPngImage
-	RectAnchoredJpgImage []*RectAnchoredJpgImage
+	RectAnchoredTexts     []*RectAnchoredText
+	RectAnchoredRects     []*RectAnchoredRect
+	RectAnchoredPaths     []*RectAnchoredPath
+	RectAnchoredPngImages []*RectAnchoredPngImage
 
 	ChangeColorWhenHovered bool
 	ColorWhenHovered       string
@@ -106,25 +104,4 @@ func (rect *Rect) WriteSVG(sb *strings.Builder) (maxX, maxY float64) {
 	}
 
 	return
-}
-
-type RectAnchoredSvgImage struct {
-	Name string // path to the image
-
-	// gong:text gong:width 600 gong:height 400
-	Content string // the svg
-}
-
-type RectAnchoredPngImage struct {
-	Name string // path to the image
-
-	// gong:text gong:width 600 gong:height 400
-	Base64Content string
-}
-
-type RectAnchoredJpgImage struct {
-	Name string // path to the image
-
-	// gong:text gong:width 600 gong:height 400
-	Base64Content string
 }

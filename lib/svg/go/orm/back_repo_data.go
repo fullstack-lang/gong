@@ -32,15 +32,11 @@ type BackRepoData struct {
 
 	RectAPIs []*RectAPI
 
-	RectAnchoredJpgImageAPIs []*RectAnchoredJpgImageAPI
-
 	RectAnchoredPathAPIs []*RectAnchoredPathAPI
 
 	RectAnchoredPngImageAPIs []*RectAnchoredPngImageAPI
 
 	RectAnchoredRectAPIs []*RectAnchoredRectAPI
-
-	RectAnchoredSvgImageAPIs []*RectAnchoredSvgImageAPI
 
 	RectAnchoredTextAPIs []*RectAnchoredTextAPI
 
@@ -203,16 +199,6 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		backRepoData.RectAPIs = append(backRepoData.RectAPIs, &rectAPI)
 	}
 
-	for _, rectanchoredjpgimageDB := range backRepo.BackRepoRectAnchoredJpgImage.Map_RectAnchoredJpgImageDBID_RectAnchoredJpgImageDB {
-
-		var rectanchoredjpgimageAPI RectAnchoredJpgImageAPI
-		rectanchoredjpgimageAPI.ID = rectanchoredjpgimageDB.ID
-		rectanchoredjpgimageAPI.RectAnchoredJpgImagePointersEncoding = rectanchoredjpgimageDB.RectAnchoredJpgImagePointersEncoding
-		rectanchoredjpgimageDB.CopyBasicFieldsToRectAnchoredJpgImage_WOP(&rectanchoredjpgimageAPI.RectAnchoredJpgImage_WOP)
-
-		backRepoData.RectAnchoredJpgImageAPIs = append(backRepoData.RectAnchoredJpgImageAPIs, &rectanchoredjpgimageAPI)
-	}
-
 	for _, rectanchoredpathDB := range backRepo.BackRepoRectAnchoredPath.Map_RectAnchoredPathDBID_RectAnchoredPathDB {
 
 		var rectanchoredpathAPI RectAnchoredPathAPI
@@ -241,16 +227,6 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		rectanchoredrectDB.CopyBasicFieldsToRectAnchoredRect_WOP(&rectanchoredrectAPI.RectAnchoredRect_WOP)
 
 		backRepoData.RectAnchoredRectAPIs = append(backRepoData.RectAnchoredRectAPIs, &rectanchoredrectAPI)
-	}
-
-	for _, rectanchoredsvgimageDB := range backRepo.BackRepoRectAnchoredSvgImage.Map_RectAnchoredSvgImageDBID_RectAnchoredSvgImageDB {
-
-		var rectanchoredsvgimageAPI RectAnchoredSvgImageAPI
-		rectanchoredsvgimageAPI.ID = rectanchoredsvgimageDB.ID
-		rectanchoredsvgimageAPI.RectAnchoredSvgImagePointersEncoding = rectanchoredsvgimageDB.RectAnchoredSvgImagePointersEncoding
-		rectanchoredsvgimageDB.CopyBasicFieldsToRectAnchoredSvgImage_WOP(&rectanchoredsvgimageAPI.RectAnchoredSvgImage_WOP)
-
-		backRepoData.RectAnchoredSvgImageAPIs = append(backRepoData.RectAnchoredSvgImageAPIs, &rectanchoredsvgimageAPI)
 	}
 
 	for _, rectanchoredtextDB := range backRepo.BackRepoRectAnchoredText.Map_RectAnchoredTextDBID_RectAnchoredTextDB {

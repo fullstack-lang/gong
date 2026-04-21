@@ -69,10 +69,6 @@ export * from './lib/rect-api'
 export * from './lib/rect'
 export * from './lib/rect.service'
 
-export * from './lib/rectanchoredjpgimage-api'
-export * from './lib/rectanchoredjpgimage'
-export * from './lib/rectanchoredjpgimage.service'
-
 export * from './lib/rectanchoredpath-api'
 export * from './lib/rectanchoredpath'
 export * from './lib/rectanchoredpath.service'
@@ -84,10 +80,6 @@ export * from './lib/rectanchoredpngimage.service'
 export * from './lib/rectanchoredrect-api'
 export * from './lib/rectanchoredrect'
 export * from './lib/rectanchoredrect.service'
-
-export * from './lib/rectanchoredsvgimage-api'
-export * from './lib/rectanchoredsvgimage'
-export * from './lib/rectanchoredsvgimage.service'
 
 export * from './lib/rectanchoredtext-api'
 export * from './lib/rectanchoredtext'

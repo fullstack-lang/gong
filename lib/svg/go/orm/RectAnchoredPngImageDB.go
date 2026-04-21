@@ -66,6 +66,30 @@ type RectAnchoredPngImageDB struct {
 	// Declation for basic field rectanchoredpngimageDB.Name
 	Name_Data sql.NullString
 
+	// Declation for basic field rectanchoredpngimageDB.X
+	X_Data sql.NullFloat64
+
+	// Declation for basic field rectanchoredpngimageDB.Y
+	Y_Data sql.NullFloat64
+
+	// Declation for basic field rectanchoredpngimageDB.Width
+	Width_Data sql.NullFloat64
+
+	// Declation for basic field rectanchoredpngimageDB.Height
+	Height_Data sql.NullFloat64
+
+	// Declation for basic field rectanchoredpngimageDB.RX
+	RX_Data sql.NullFloat64
+
+	// Declation for basic field rectanchoredpngimageDB.X_Offset
+	X_Offset_Data sql.NullFloat64
+
+	// Declation for basic field rectanchoredpngimageDB.Y_Offset
+	Y_Offset_Data sql.NullFloat64
+
+	// Declation for basic field rectanchoredpngimageDB.RectAnchorType
+	RectAnchorType_Data sql.NullString
+
 	// Declation for basic field rectanchoredpngimageDB.Base64Content
 	Base64Content_Data sql.NullString
 
@@ -93,7 +117,23 @@ type RectAnchoredPngImageWOP struct {
 
 	Name string `xlsx:"1"`
 
-	Base64Content string `xlsx:"2"`
+	X float64 `xlsx:"2"`
+
+	Y float64 `xlsx:"3"`
+
+	Width float64 `xlsx:"4"`
+
+	Height float64 `xlsx:"5"`
+
+	RX float64 `xlsx:"6"`
+
+	X_Offset float64 `xlsx:"7"`
+
+	Y_Offset float64 `xlsx:"8"`
+
+	RectAnchorType models.RectAnchorType `xlsx:"9"`
+
+	Base64Content string `xlsx:"10"`
 	// insertion for WOP pointer fields
 }
 
@@ -101,6 +141,14 @@ var RectAnchoredPngImage_Fields = []string{
 	// insertion for WOP basic fields
 	"ID",
 	"Name",
+	"X",
+	"Y",
+	"Width",
+	"Height",
+	"RX",
+	"X_Offset",
+	"Y_Offset",
+	"RectAnchorType",
 	"Base64Content",
 }
 
@@ -380,6 +428,30 @@ func (rectanchoredpngimageDB *RectAnchoredPngImageDB) CopyBasicFieldsFromRectAnc
 	rectanchoredpngimageDB.Name_Data.String = rectanchoredpngimage.Name
 	rectanchoredpngimageDB.Name_Data.Valid = true
 
+	rectanchoredpngimageDB.X_Data.Float64 = rectanchoredpngimage.X
+	rectanchoredpngimageDB.X_Data.Valid = true
+
+	rectanchoredpngimageDB.Y_Data.Float64 = rectanchoredpngimage.Y
+	rectanchoredpngimageDB.Y_Data.Valid = true
+
+	rectanchoredpngimageDB.Width_Data.Float64 = rectanchoredpngimage.Width
+	rectanchoredpngimageDB.Width_Data.Valid = true
+
+	rectanchoredpngimageDB.Height_Data.Float64 = rectanchoredpngimage.Height
+	rectanchoredpngimageDB.Height_Data.Valid = true
+
+	rectanchoredpngimageDB.RX_Data.Float64 = rectanchoredpngimage.RX
+	rectanchoredpngimageDB.RX_Data.Valid = true
+
+	rectanchoredpngimageDB.X_Offset_Data.Float64 = rectanchoredpngimage.X_Offset
+	rectanchoredpngimageDB.X_Offset_Data.Valid = true
+
+	rectanchoredpngimageDB.Y_Offset_Data.Float64 = rectanchoredpngimage.Y_Offset
+	rectanchoredpngimageDB.Y_Offset_Data.Valid = true
+
+	rectanchoredpngimageDB.RectAnchorType_Data.String = rectanchoredpngimage.RectAnchorType.ToString()
+	rectanchoredpngimageDB.RectAnchorType_Data.Valid = true
+
 	rectanchoredpngimageDB.Base64Content_Data.String = rectanchoredpngimage.Base64Content
 	rectanchoredpngimageDB.Base64Content_Data.Valid = true
 }
@@ -390,6 +462,30 @@ func (rectanchoredpngimageDB *RectAnchoredPngImageDB) CopyBasicFieldsFromRectAnc
 
 	rectanchoredpngimageDB.Name_Data.String = rectanchoredpngimage.Name
 	rectanchoredpngimageDB.Name_Data.Valid = true
+
+	rectanchoredpngimageDB.X_Data.Float64 = rectanchoredpngimage.X
+	rectanchoredpngimageDB.X_Data.Valid = true
+
+	rectanchoredpngimageDB.Y_Data.Float64 = rectanchoredpngimage.Y
+	rectanchoredpngimageDB.Y_Data.Valid = true
+
+	rectanchoredpngimageDB.Width_Data.Float64 = rectanchoredpngimage.Width
+	rectanchoredpngimageDB.Width_Data.Valid = true
+
+	rectanchoredpngimageDB.Height_Data.Float64 = rectanchoredpngimage.Height
+	rectanchoredpngimageDB.Height_Data.Valid = true
+
+	rectanchoredpngimageDB.RX_Data.Float64 = rectanchoredpngimage.RX
+	rectanchoredpngimageDB.RX_Data.Valid = true
+
+	rectanchoredpngimageDB.X_Offset_Data.Float64 = rectanchoredpngimage.X_Offset
+	rectanchoredpngimageDB.X_Offset_Data.Valid = true
+
+	rectanchoredpngimageDB.Y_Offset_Data.Float64 = rectanchoredpngimage.Y_Offset
+	rectanchoredpngimageDB.Y_Offset_Data.Valid = true
+
+	rectanchoredpngimageDB.RectAnchorType_Data.String = rectanchoredpngimage.RectAnchorType.ToString()
+	rectanchoredpngimageDB.RectAnchorType_Data.Valid = true
 
 	rectanchoredpngimageDB.Base64Content_Data.String = rectanchoredpngimage.Base64Content
 	rectanchoredpngimageDB.Base64Content_Data.Valid = true
@@ -402,6 +498,30 @@ func (rectanchoredpngimageDB *RectAnchoredPngImageDB) CopyBasicFieldsFromRectAnc
 	rectanchoredpngimageDB.Name_Data.String = rectanchoredpngimage.Name
 	rectanchoredpngimageDB.Name_Data.Valid = true
 
+	rectanchoredpngimageDB.X_Data.Float64 = rectanchoredpngimage.X
+	rectanchoredpngimageDB.X_Data.Valid = true
+
+	rectanchoredpngimageDB.Y_Data.Float64 = rectanchoredpngimage.Y
+	rectanchoredpngimageDB.Y_Data.Valid = true
+
+	rectanchoredpngimageDB.Width_Data.Float64 = rectanchoredpngimage.Width
+	rectanchoredpngimageDB.Width_Data.Valid = true
+
+	rectanchoredpngimageDB.Height_Data.Float64 = rectanchoredpngimage.Height
+	rectanchoredpngimageDB.Height_Data.Valid = true
+
+	rectanchoredpngimageDB.RX_Data.Float64 = rectanchoredpngimage.RX
+	rectanchoredpngimageDB.RX_Data.Valid = true
+
+	rectanchoredpngimageDB.X_Offset_Data.Float64 = rectanchoredpngimage.X_Offset
+	rectanchoredpngimageDB.X_Offset_Data.Valid = true
+
+	rectanchoredpngimageDB.Y_Offset_Data.Float64 = rectanchoredpngimage.Y_Offset
+	rectanchoredpngimageDB.Y_Offset_Data.Valid = true
+
+	rectanchoredpngimageDB.RectAnchorType_Data.String = rectanchoredpngimage.RectAnchorType.ToString()
+	rectanchoredpngimageDB.RectAnchorType_Data.Valid = true
+
 	rectanchoredpngimageDB.Base64Content_Data.String = rectanchoredpngimage.Base64Content
 	rectanchoredpngimageDB.Base64Content_Data.Valid = true
 }
@@ -410,6 +530,14 @@ func (rectanchoredpngimageDB *RectAnchoredPngImageDB) CopyBasicFieldsFromRectAnc
 func (rectanchoredpngimageDB *RectAnchoredPngImageDB) CopyBasicFieldsToRectAnchoredPngImage(rectanchoredpngimage *models.RectAnchoredPngImage) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	rectanchoredpngimage.Name = rectanchoredpngimageDB.Name_Data.String
+	rectanchoredpngimage.X = rectanchoredpngimageDB.X_Data.Float64
+	rectanchoredpngimage.Y = rectanchoredpngimageDB.Y_Data.Float64
+	rectanchoredpngimage.Width = rectanchoredpngimageDB.Width_Data.Float64
+	rectanchoredpngimage.Height = rectanchoredpngimageDB.Height_Data.Float64
+	rectanchoredpngimage.RX = rectanchoredpngimageDB.RX_Data.Float64
+	rectanchoredpngimage.X_Offset = rectanchoredpngimageDB.X_Offset_Data.Float64
+	rectanchoredpngimage.Y_Offset = rectanchoredpngimageDB.Y_Offset_Data.Float64
+	rectanchoredpngimage.RectAnchorType.FromString(rectanchoredpngimageDB.RectAnchorType_Data.String)
 	rectanchoredpngimage.Base64Content = rectanchoredpngimageDB.Base64Content_Data.String
 }
 
@@ -417,6 +545,14 @@ func (rectanchoredpngimageDB *RectAnchoredPngImageDB) CopyBasicFieldsToRectAncho
 func (rectanchoredpngimageDB *RectAnchoredPngImageDB) CopyBasicFieldsToRectAnchoredPngImage_WOP(rectanchoredpngimage *models.RectAnchoredPngImage_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	rectanchoredpngimage.Name = rectanchoredpngimageDB.Name_Data.String
+	rectanchoredpngimage.X = rectanchoredpngimageDB.X_Data.Float64
+	rectanchoredpngimage.Y = rectanchoredpngimageDB.Y_Data.Float64
+	rectanchoredpngimage.Width = rectanchoredpngimageDB.Width_Data.Float64
+	rectanchoredpngimage.Height = rectanchoredpngimageDB.Height_Data.Float64
+	rectanchoredpngimage.RX = rectanchoredpngimageDB.RX_Data.Float64
+	rectanchoredpngimage.X_Offset = rectanchoredpngimageDB.X_Offset_Data.Float64
+	rectanchoredpngimage.Y_Offset = rectanchoredpngimageDB.Y_Offset_Data.Float64
+	rectanchoredpngimage.RectAnchorType.FromString(rectanchoredpngimageDB.RectAnchorType_Data.String)
 	rectanchoredpngimage.Base64Content = rectanchoredpngimageDB.Base64Content_Data.String
 }
 
@@ -425,6 +561,14 @@ func (rectanchoredpngimageDB *RectAnchoredPngImageDB) CopyBasicFieldsToRectAncho
 	rectanchoredpngimage.ID = int(rectanchoredpngimageDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	rectanchoredpngimage.Name = rectanchoredpngimageDB.Name_Data.String
+	rectanchoredpngimage.X = rectanchoredpngimageDB.X_Data.Float64
+	rectanchoredpngimage.Y = rectanchoredpngimageDB.Y_Data.Float64
+	rectanchoredpngimage.Width = rectanchoredpngimageDB.Width_Data.Float64
+	rectanchoredpngimage.Height = rectanchoredpngimageDB.Height_Data.Float64
+	rectanchoredpngimage.RX = rectanchoredpngimageDB.RX_Data.Float64
+	rectanchoredpngimage.X_Offset = rectanchoredpngimageDB.X_Offset_Data.Float64
+	rectanchoredpngimage.Y_Offset = rectanchoredpngimageDB.Y_Offset_Data.Float64
+	rectanchoredpngimage.RectAnchorType.FromString(rectanchoredpngimageDB.RectAnchorType_Data.String)
 	rectanchoredpngimage.Base64Content = rectanchoredpngimageDB.Base64Content_Data.String
 }
 

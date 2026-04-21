@@ -290,22 +290,6 @@ func (inst *Rect) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Rever
 	return
 }
 
-func (inst *RectAnchoredJpgImage) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
-
-	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	case "Rect":
-		switch reverseField.Fieldname {
-		case "RectAnchoredJpgImage":
-			if _rect, ok := stage.Rect_RectAnchoredJpgImage_reverseMap[inst]; ok {
-				res = _rect.Name
-			}
-		}
-	}
-	return
-}
-
 func (inst *RectAnchoredPath) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -329,8 +313,8 @@ func (inst *RectAnchoredPngImage) GongGetReverseFieldOwnerName(stage *Stage, rev
 	// insertion point
 	case "Rect":
 		switch reverseField.Fieldname {
-		case "RectAnchoredPngImage":
-			if _rect, ok := stage.Rect_RectAnchoredPngImage_reverseMap[inst]; ok {
+		case "RectAnchoredPngImages":
+			if _rect, ok := stage.Rect_RectAnchoredPngImages_reverseMap[inst]; ok {
 				res = _rect.Name
 			}
 		}
@@ -347,22 +331,6 @@ func (inst *RectAnchoredRect) GongGetReverseFieldOwnerName(stage *Stage, reverse
 		switch reverseField.Fieldname {
 		case "RectAnchoredRects":
 			if _rect, ok := stage.Rect_RectAnchoredRects_reverseMap[inst]; ok {
-				res = _rect.Name
-			}
-		}
-	}
-	return
-}
-
-func (inst *RectAnchoredSvgImage) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
-
-	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	case "Rect":
-		switch reverseField.Fieldname {
-		case "RectAnchoredSvgImage":
-			if _rect, ok := stage.Rect_RectAnchoredSvgImage_reverseMap[inst]; ok {
 				res = _rect.Name
 			}
 		}
@@ -677,20 +645,6 @@ func (inst *Rect) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseFi
 	return res
 }
 
-func (inst *RectAnchoredJpgImage) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
-
-	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	case "Rect":
-		switch reverseField.Fieldname {
-		case "RectAnchoredJpgImage":
-			res = stage.Rect_RectAnchoredJpgImage_reverseMap[inst]
-		}
-	}
-	return res
-}
-
 func (inst *RectAnchoredPath) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
@@ -712,8 +666,8 @@ func (inst *RectAnchoredPngImage) GongGetReverseFieldOwner(stage *Stage, reverse
 	// insertion point
 	case "Rect":
 		switch reverseField.Fieldname {
-		case "RectAnchoredPngImage":
-			res = stage.Rect_RectAnchoredPngImage_reverseMap[inst]
+		case "RectAnchoredPngImages":
+			res = stage.Rect_RectAnchoredPngImages_reverseMap[inst]
 		}
 	}
 	return res
@@ -728,20 +682,6 @@ func (inst *RectAnchoredRect) GongGetReverseFieldOwner(stage *Stage, reverseFiel
 		switch reverseField.Fieldname {
 		case "RectAnchoredRects":
 			res = stage.Rect_RectAnchoredRects_reverseMap[inst]
-		}
-	}
-	return res
-}
-
-func (inst *RectAnchoredSvgImage) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
-
-	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	case "Rect":
-		switch reverseField.Fieldname {
-		case "RectAnchoredSvgImage":
-			res = stage.Rect_RectAnchoredSvgImage_reverseMap[inst]
 		}
 	}
 	return res
