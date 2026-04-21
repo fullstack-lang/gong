@@ -634,20 +634,6 @@ func (from *Rect) CopyBasicFields(to *Rect) {
 	to.MouseEventKey = from.MouseEventKey
 }
 
-type RectAnchoredJpgImage_WOP struct {
-	// insertion point
-
-	Name string
-
-	Base64Content string
-}
-
-func (from *RectAnchoredJpgImage) CopyBasicFields(to *RectAnchoredJpgImage) {
-	// insertion point
-	to.Name = from.Name
-	to.Base64Content = from.Base64Content
-}
-
 type RectAnchoredPath_WOP struct {
 	// insertion point
 
@@ -706,12 +692,36 @@ type RectAnchoredPngImage_WOP struct {
 
 	Name string
 
+	X float64
+
+	Y float64
+
+	Width float64
+
+	Height float64
+
+	RX float64
+
+	X_Offset float64
+
+	Y_Offset float64
+
+	RectAnchorType RectAnchorType
+
 	Base64Content string
 }
 
 func (from *RectAnchoredPngImage) CopyBasicFields(to *RectAnchoredPngImage) {
 	// insertion point
 	to.Name = from.Name
+	to.X = from.X
+	to.Y = from.Y
+	to.Width = from.Width
+	to.Height = from.Height
+	to.RX = from.RX
+	to.X_Offset = from.X_Offset
+	to.Y_Offset = from.Y_Offset
+	to.RectAnchorType = from.RectAnchorType
 	to.Base64Content = from.Base64Content
 }
 
@@ -784,20 +794,6 @@ func (from *RectAnchoredRect) CopyBasicFields(to *RectAnchoredRect) {
 	to.StrokeDashArray = from.StrokeDashArray
 	to.StrokeDashArrayWhenSelected = from.StrokeDashArrayWhenSelected
 	to.Transform = from.Transform
-}
-
-type RectAnchoredSvgImage_WOP struct {
-	// insertion point
-
-	Name string
-
-	Content string
-}
-
-func (from *RectAnchoredSvgImage) CopyBasicFields(to *RectAnchoredSvgImage) {
-	// insertion point
-	to.Name = from.Name
-	to.Content = from.Content
 }
 
 type RectAnchoredText_WOP struct {

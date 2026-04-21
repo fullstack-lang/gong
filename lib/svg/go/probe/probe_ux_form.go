@@ -99,12 +99,6 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.rect, probe)
 			}
-		case *RectAnchoredJpgImageFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "RectAnchoredJpgImage", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.rectanchoredjpgimage, probe)
-			}
 		case *RectAnchoredPathFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "RectAnchoredPath", true)
@@ -122,12 +116,6 @@ func (probe *Probe) ux_form() {
 				FillUpFormFromGongstructName(probe, "RectAnchoredRect", true)
 			} else {
 				FillUpFormFromGongstruct(onSave.rectanchoredrect, probe)
-			}
-		case *RectAnchoredSvgImageFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "RectAnchoredSvgImage", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.rectanchoredsvgimage, probe)
 			}
 		case *RectAnchoredTextFormCallback:
 			if onSave.CreationMode {
@@ -363,19 +351,6 @@ func FillUpFormFromGongstructName(
 		rect := new(models.Rect)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(rect, formGroup, probe)
-	case "RectAnchoredJpgImage":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "RectAnchoredJpgImage Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__RectAnchoredJpgImageFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		rectanchoredjpgimage := new(models.RectAnchoredJpgImage)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(rectanchoredjpgimage, formGroup, probe)
 	case "RectAnchoredPath":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -415,19 +390,6 @@ func FillUpFormFromGongstructName(
 		rectanchoredrect := new(models.RectAnchoredRect)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(rectanchoredrect, formGroup, probe)
-	case "RectAnchoredSvgImage":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "RectAnchoredSvgImage Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__RectAnchoredSvgImageFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		rectanchoredsvgimage := new(models.RectAnchoredSvgImage)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(rectanchoredsvgimage, formGroup, probe)
 	case "RectAnchoredText":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

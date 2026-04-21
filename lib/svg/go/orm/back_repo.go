@@ -52,15 +52,11 @@ type BackRepoStruct struct {
 
 	BackRepoRect BackRepoRectStruct
 
-	BackRepoRectAnchoredJpgImage BackRepoRectAnchoredJpgImageStruct
-
 	BackRepoRectAnchoredPath BackRepoRectAnchoredPathStruct
 
 	BackRepoRectAnchoredPngImage BackRepoRectAnchoredPngImageStruct
 
 	BackRepoRectAnchoredRect BackRepoRectAnchoredRectStruct
-
-	BackRepoRectAnchoredSvgImage BackRepoRectAnchoredSvgImageStruct
 
 	BackRepoRectAnchoredText BackRepoRectAnchoredTextStruct
 
@@ -107,11 +103,9 @@ func NewBackRepo(stage *models.Stage, filename string) (backRepo *BackRepoStruct
 		&PolygoneDB{},
 		&PolylineDB{},
 		&RectDB{},
-		&RectAnchoredJpgImageDB{},
 		&RectAnchoredPathDB{},
 		&RectAnchoredPngImageDB{},
 		&RectAnchoredRectDB{},
-		&RectAnchoredSvgImageDB{},
 		&RectAnchoredTextDB{},
 		&RectLinkLinkDB{},
 		&SVGDB{},
@@ -235,14 +229,6 @@ func NewBackRepo(stage *models.Stage, filename string) (backRepo *BackRepoStruct
 		db:    db,
 		stage: stage,
 	}
-	backRepo.BackRepoRectAnchoredJpgImage = BackRepoRectAnchoredJpgImageStruct{
-		Map_RectAnchoredJpgImageDBID_RectAnchoredJpgImagePtr: make(map[uint]*models.RectAnchoredJpgImage, 0),
-		Map_RectAnchoredJpgImageDBID_RectAnchoredJpgImageDB:  make(map[uint]*RectAnchoredJpgImageDB, 0),
-		Map_RectAnchoredJpgImagePtr_RectAnchoredJpgImageDBID: make(map[*models.RectAnchoredJpgImage]uint, 0),
-
-		db:    db,
-		stage: stage,
-	}
 	backRepo.BackRepoRectAnchoredPath = BackRepoRectAnchoredPathStruct{
 		Map_RectAnchoredPathDBID_RectAnchoredPathPtr: make(map[uint]*models.RectAnchoredPath, 0),
 		Map_RectAnchoredPathDBID_RectAnchoredPathDB:  make(map[uint]*RectAnchoredPathDB, 0),
@@ -263,14 +249,6 @@ func NewBackRepo(stage *models.Stage, filename string) (backRepo *BackRepoStruct
 		Map_RectAnchoredRectDBID_RectAnchoredRectPtr: make(map[uint]*models.RectAnchoredRect, 0),
 		Map_RectAnchoredRectDBID_RectAnchoredRectDB:  make(map[uint]*RectAnchoredRectDB, 0),
 		Map_RectAnchoredRectPtr_RectAnchoredRectDBID: make(map[*models.RectAnchoredRect]uint, 0),
-
-		db:    db,
-		stage: stage,
-	}
-	backRepo.BackRepoRectAnchoredSvgImage = BackRepoRectAnchoredSvgImageStruct{
-		Map_RectAnchoredSvgImageDBID_RectAnchoredSvgImagePtr: make(map[uint]*models.RectAnchoredSvgImage, 0),
-		Map_RectAnchoredSvgImageDBID_RectAnchoredSvgImageDB:  make(map[uint]*RectAnchoredSvgImageDB, 0),
-		Map_RectAnchoredSvgImagePtr_RectAnchoredSvgImageDBID: make(map[*models.RectAnchoredSvgImage]uint, 0),
 
 		db:    db,
 		stage: stage,
@@ -375,11 +353,9 @@ func (backRepo *BackRepoStruct) Commit(stage *models.Stage) {
 	backRepo.BackRepoPolygone.CommitPhaseOne(stage)
 	backRepo.BackRepoPolyline.CommitPhaseOne(stage)
 	backRepo.BackRepoRect.CommitPhaseOne(stage)
-	backRepo.BackRepoRectAnchoredJpgImage.CommitPhaseOne(stage)
 	backRepo.BackRepoRectAnchoredPath.CommitPhaseOne(stage)
 	backRepo.BackRepoRectAnchoredPngImage.CommitPhaseOne(stage)
 	backRepo.BackRepoRectAnchoredRect.CommitPhaseOne(stage)
-	backRepo.BackRepoRectAnchoredSvgImage.CommitPhaseOne(stage)
 	backRepo.BackRepoRectAnchoredText.CommitPhaseOne(stage)
 	backRepo.BackRepoRectLinkLink.CommitPhaseOne(stage)
 	backRepo.BackRepoSVG.CommitPhaseOne(stage)
@@ -401,11 +377,9 @@ func (backRepo *BackRepoStruct) Commit(stage *models.Stage) {
 	backRepo.BackRepoPolygone.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoPolyline.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoRect.CommitPhaseTwo(backRepo)
-	backRepo.BackRepoRectAnchoredJpgImage.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoRectAnchoredPath.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoRectAnchoredPngImage.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoRectAnchoredRect.CommitPhaseTwo(backRepo)
-	backRepo.BackRepoRectAnchoredSvgImage.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoRectAnchoredText.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoRectLinkLink.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoSVG.CommitPhaseTwo(backRepo)
@@ -439,11 +413,9 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.Stage) {
 	backRepo.BackRepoPolygone.CheckoutPhaseOne()
 	backRepo.BackRepoPolyline.CheckoutPhaseOne()
 	backRepo.BackRepoRect.CheckoutPhaseOne()
-	backRepo.BackRepoRectAnchoredJpgImage.CheckoutPhaseOne()
 	backRepo.BackRepoRectAnchoredPath.CheckoutPhaseOne()
 	backRepo.BackRepoRectAnchoredPngImage.CheckoutPhaseOne()
 	backRepo.BackRepoRectAnchoredRect.CheckoutPhaseOne()
-	backRepo.BackRepoRectAnchoredSvgImage.CheckoutPhaseOne()
 	backRepo.BackRepoRectAnchoredText.CheckoutPhaseOne()
 	backRepo.BackRepoRectLinkLink.CheckoutPhaseOne()
 	backRepo.BackRepoSVG.CheckoutPhaseOne()
@@ -465,11 +437,9 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.Stage) {
 	backRepo.BackRepoPolygone.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoPolyline.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoRect.CheckoutPhaseTwo(backRepo)
-	backRepo.BackRepoRectAnchoredJpgImage.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoRectAnchoredPath.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoRectAnchoredPngImage.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoRectAnchoredRect.CheckoutPhaseTwo(backRepo)
-	backRepo.BackRepoRectAnchoredSvgImage.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoRectAnchoredText.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoRectLinkLink.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoSVG.CheckoutPhaseTwo(backRepo)
@@ -496,11 +466,9 @@ func (backRepo *BackRepoStruct) Backup(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoPolygone.Backup(dirPath)
 	backRepo.BackRepoPolyline.Backup(dirPath)
 	backRepo.BackRepoRect.Backup(dirPath)
-	backRepo.BackRepoRectAnchoredJpgImage.Backup(dirPath)
 	backRepo.BackRepoRectAnchoredPath.Backup(dirPath)
 	backRepo.BackRepoRectAnchoredPngImage.Backup(dirPath)
 	backRepo.BackRepoRectAnchoredRect.Backup(dirPath)
-	backRepo.BackRepoRectAnchoredSvgImage.Backup(dirPath)
 	backRepo.BackRepoRectAnchoredText.Backup(dirPath)
 	backRepo.BackRepoRectLinkLink.Backup(dirPath)
 	backRepo.BackRepoSVG.Backup(dirPath)
@@ -530,11 +498,9 @@ func (backRepo *BackRepoStruct) BackupXL(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoPolygone.BackupXL(file)
 	backRepo.BackRepoPolyline.BackupXL(file)
 	backRepo.BackRepoRect.BackupXL(file)
-	backRepo.BackRepoRectAnchoredJpgImage.BackupXL(file)
 	backRepo.BackRepoRectAnchoredPath.BackupXL(file)
 	backRepo.BackRepoRectAnchoredPngImage.BackupXL(file)
 	backRepo.BackRepoRectAnchoredRect.BackupXL(file)
-	backRepo.BackRepoRectAnchoredSvgImage.BackupXL(file)
 	backRepo.BackRepoRectAnchoredText.BackupXL(file)
 	backRepo.BackRepoRectLinkLink.BackupXL(file)
 	backRepo.BackRepoSVG.BackupXL(file)
@@ -578,11 +544,9 @@ func (backRepo *BackRepoStruct) Restore(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoPolygone.RestorePhaseOne(dirPath)
 	backRepo.BackRepoPolyline.RestorePhaseOne(dirPath)
 	backRepo.BackRepoRect.RestorePhaseOne(dirPath)
-	backRepo.BackRepoRectAnchoredJpgImage.RestorePhaseOne(dirPath)
 	backRepo.BackRepoRectAnchoredPath.RestorePhaseOne(dirPath)
 	backRepo.BackRepoRectAnchoredPngImage.RestorePhaseOne(dirPath)
 	backRepo.BackRepoRectAnchoredRect.RestorePhaseOne(dirPath)
-	backRepo.BackRepoRectAnchoredSvgImage.RestorePhaseOne(dirPath)
 	backRepo.BackRepoRectAnchoredText.RestorePhaseOne(dirPath)
 	backRepo.BackRepoRectLinkLink.RestorePhaseOne(dirPath)
 	backRepo.BackRepoSVG.RestorePhaseOne(dirPath)
@@ -608,11 +572,9 @@ func (backRepo *BackRepoStruct) Restore(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoPolygone.RestorePhaseTwo()
 	backRepo.BackRepoPolyline.RestorePhaseTwo()
 	backRepo.BackRepoRect.RestorePhaseTwo()
-	backRepo.BackRepoRectAnchoredJpgImage.RestorePhaseTwo()
 	backRepo.BackRepoRectAnchoredPath.RestorePhaseTwo()
 	backRepo.BackRepoRectAnchoredPngImage.RestorePhaseTwo()
 	backRepo.BackRepoRectAnchoredRect.RestorePhaseTwo()
-	backRepo.BackRepoRectAnchoredSvgImage.RestorePhaseTwo()
 	backRepo.BackRepoRectAnchoredText.RestorePhaseTwo()
 	backRepo.BackRepoRectLinkLink.RestorePhaseTwo()
 	backRepo.BackRepoSVG.RestorePhaseTwo()
@@ -659,11 +621,9 @@ func (backRepo *BackRepoStruct) RestoreXL(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoPolygone.RestoreXLPhaseOne(file)
 	backRepo.BackRepoPolyline.RestoreXLPhaseOne(file)
 	backRepo.BackRepoRect.RestoreXLPhaseOne(file)
-	backRepo.BackRepoRectAnchoredJpgImage.RestoreXLPhaseOne(file)
 	backRepo.BackRepoRectAnchoredPath.RestoreXLPhaseOne(file)
 	backRepo.BackRepoRectAnchoredPngImage.RestoreXLPhaseOne(file)
 	backRepo.BackRepoRectAnchoredRect.RestoreXLPhaseOne(file)
-	backRepo.BackRepoRectAnchoredSvgImage.RestoreXLPhaseOne(file)
 	backRepo.BackRepoRectAnchoredText.RestoreXLPhaseOne(file)
 	backRepo.BackRepoRectLinkLink.RestoreXLPhaseOne(file)
 	backRepo.BackRepoSVG.RestoreXLPhaseOne(file)
