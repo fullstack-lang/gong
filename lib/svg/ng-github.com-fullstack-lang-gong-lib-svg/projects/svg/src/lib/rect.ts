@@ -9,6 +9,7 @@ import { Animate } from './animate'
 import { RectAnchoredText } from './rectanchoredtext'
 import { RectAnchoredRect } from './rectanchoredrect'
 import { RectAnchoredPath } from './rectanchoredpath'
+import { RectAnchoredPngImage } from './rectanchoredpngimage'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
@@ -66,6 +67,7 @@ export class Rect {
 	RectAnchoredTexts: Array<RectAnchoredText> = []
 	RectAnchoredRects: Array<RectAnchoredRect> = []
 	RectAnchoredPaths: Array<RectAnchoredPath> = []
+	RectAnchoredPngImages: Array<RectAnchoredPngImage> = []
 
 	CreatedAt?: string
 	DeletedAt?: string
@@ -148,6 +150,11 @@ export function CopyRectToRectAPI(rect: Rect, rectAPI: RectAPI) {
 	rectAPI.RectPointersEncoding.RectAnchoredPaths = []
 	for (let _rectanchoredpath of rect.RectAnchoredPaths) {
 		rectAPI.RectPointersEncoding.RectAnchoredPaths.push(_rectanchoredpath.ID)
+	}
+
+	rectAPI.RectPointersEncoding.RectAnchoredPngImages = []
+	for (let _rectanchoredpngimage of rect.RectAnchoredPngImages) {
+		rectAPI.RectPointersEncoding.RectAnchoredPngImages.push(_rectanchoredpngimage.ID)
 	}
 
 }
@@ -275,6 +282,18 @@ export function CopyRectAPIToRect(rectAPI: RectAPI, rect: Rect, frontRepo: Front
 		let _rectanchoredpath = frontRepo.map_ID_RectAnchoredPath.get(_id)
 		if (_rectanchoredpath != undefined) {
 			rect.RectAnchoredPaths.push(_rectanchoredpath!)
+		}
+	}
+	if (!Array.isArray(rectAPI.RectPointersEncoding.RectAnchoredPngImages)) {
+		console.error('Rects is not an array:', rectAPI.RectPointersEncoding.RectAnchoredPngImages);
+		return;
+	}
+
+	rect.RectAnchoredPngImages = new Array<RectAnchoredPngImage>()
+	for (let _id of rectAPI.RectPointersEncoding.RectAnchoredPngImages) {
+		let _rectanchoredpngimage = frontRepo.map_ID_RectAnchoredPngImage.get(_id)
+		if (_rectanchoredpngimage != undefined) {
+			rect.RectAnchoredPngImages.push(_rectanchoredpngimage!)
 		}
 	}
 }

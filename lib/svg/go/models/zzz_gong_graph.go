@@ -52,6 +52,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *RectAnchoredPath:
 		ok = stage.IsStagedRectAnchoredPath(target)
 
+	case *RectAnchoredPngImage:
+		ok = stage.IsStagedRectAnchoredPngImage(target)
+
 	case *RectAnchoredRect:
 		ok = stage.IsStagedRectAnchoredRect(target)
 
@@ -124,6 +127,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *RectAnchoredPath:
 		ok = stage.IsStagedRectAnchoredPath(target)
+
+	case *RectAnchoredPngImage:
+		ok = stage.IsStagedRectAnchoredPngImage(target)
 
 	case *RectAnchoredRect:
 		ok = stage.IsStagedRectAnchoredRect(target)
@@ -255,6 +261,13 @@ func (stage *Stage) IsStagedRectAnchoredPath(rectanchoredpath *RectAnchoredPath)
 	return
 }
 
+func (stage *Stage) IsStagedRectAnchoredPngImage(rectanchoredpngimage *RectAnchoredPngImage) (ok bool) {
+
+	_, ok = stage.RectAnchoredPngImages[rectanchoredpngimage]
+
+	return
+}
+
 func (stage *Stage) IsStagedRectAnchoredRect(rectanchoredrect *RectAnchoredRect) (ok bool) {
 
 	_, ok = stage.RectAnchoredRects[rectanchoredrect]
@@ -349,6 +362,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *RectAnchoredPath:
 		stage.StageBranchRectAnchoredPath(target)
+
+	case *RectAnchoredPngImage:
+		stage.StageBranchRectAnchoredPngImage(target)
 
 	case *RectAnchoredRect:
 		stage.StageBranchRectAnchoredRect(target)
@@ -668,6 +684,9 @@ func (stage *Stage) StageBranchRect(rect *Rect) {
 	for _, _rectanchoredpath := range rect.RectAnchoredPaths {
 		StageBranch(stage, _rectanchoredpath)
 	}
+	for _, _rectanchoredpngimage := range rect.RectAnchoredPngImages {
+		StageBranch(stage, _rectanchoredpngimage)
+	}
 
 }
 
@@ -679,6 +698,21 @@ func (stage *Stage) StageBranchRectAnchoredPath(rectanchoredpath *RectAnchoredPa
 	}
 
 	rectanchoredpath.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchRectAnchoredPngImage(rectanchoredpngimage *RectAnchoredPngImage) {
+
+	// check if instance is already staged
+	if IsStaged(stage, rectanchoredpngimage) {
+		return
+	}
+
+	rectanchoredpngimage.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -866,6 +900,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *RectAnchoredPath:
 		toT := CopyBranchRectAnchoredPath(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *RectAnchoredPngImage:
+		toT := CopyBranchRectAnchoredPngImage(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *RectAnchoredRect:
@@ -1248,6 +1286,9 @@ func CopyBranchRect(mapOrigCopy map[any]any, rectFrom *Rect) (rectTo *Rect) {
 	for _, _rectanchoredpath := range rectFrom.RectAnchoredPaths {
 		rectTo.RectAnchoredPaths = append(rectTo.RectAnchoredPaths, CopyBranchRectAnchoredPath(mapOrigCopy, _rectanchoredpath))
 	}
+	for _, _rectanchoredpngimage := range rectFrom.RectAnchoredPngImages {
+		rectTo.RectAnchoredPngImages = append(rectTo.RectAnchoredPngImages, CopyBranchRectAnchoredPngImage(mapOrigCopy, _rectanchoredpngimage))
+	}
 
 	return
 }
@@ -1263,6 +1304,25 @@ func CopyBranchRectAnchoredPath(mapOrigCopy map[any]any, rectanchoredpathFrom *R
 	rectanchoredpathTo = new(RectAnchoredPath)
 	mapOrigCopy[rectanchoredpathFrom] = rectanchoredpathTo
 	rectanchoredpathFrom.CopyBasicFields(rectanchoredpathTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchRectAnchoredPngImage(mapOrigCopy map[any]any, rectanchoredpngimageFrom *RectAnchoredPngImage) (rectanchoredpngimageTo *RectAnchoredPngImage) {
+
+	// rectanchoredpngimageFrom has already been copied
+	if _rectanchoredpngimageTo, ok := mapOrigCopy[rectanchoredpngimageFrom]; ok {
+		rectanchoredpngimageTo = _rectanchoredpngimageTo.(*RectAnchoredPngImage)
+		return
+	}
+
+	rectanchoredpngimageTo = new(RectAnchoredPngImage)
+	mapOrigCopy[rectanchoredpngimageFrom] = rectanchoredpngimageTo
+	rectanchoredpngimageFrom.CopyBasicFields(rectanchoredpngimageTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -1458,6 +1518,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *RectAnchoredPath:
 		stage.UnstageBranchRectAnchoredPath(target)
+
+	case *RectAnchoredPngImage:
+		stage.UnstageBranchRectAnchoredPngImage(target)
 
 	case *RectAnchoredRect:
 		stage.UnstageBranchRectAnchoredRect(target)
@@ -1777,6 +1840,9 @@ func (stage *Stage) UnstageBranchRect(rect *Rect) {
 	for _, _rectanchoredpath := range rect.RectAnchoredPaths {
 		UnstageBranch(stage, _rectanchoredpath)
 	}
+	for _, _rectanchoredpngimage := range rect.RectAnchoredPngImages {
+		UnstageBranch(stage, _rectanchoredpngimage)
+	}
 
 }
 
@@ -1788,6 +1854,21 @@ func (stage *Stage) UnstageBranchRectAnchoredPath(rectanchoredpath *RectAnchored
 	}
 
 	rectanchoredpath.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchRectAnchoredPngImage(rectanchoredpngimage *RectAnchoredPngImage) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, rectanchoredpngimage) {
+		return
+	}
+
+	rectanchoredpngimage.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -2114,11 +2195,22 @@ func (reference *Rect) GongReconstructPointersFromReferences(stage *Stage, insta
 	for _, _b := range instance.RectAnchoredPaths {
 		reference.RectAnchoredPaths = append(reference.RectAnchoredPaths, stage.RectAnchoredPaths_reference[_b])
 	}
+	reference.RectAnchoredPngImages = reference.RectAnchoredPngImages[:0]
+	for _, _b := range instance.RectAnchoredPngImages {
+		reference.RectAnchoredPngImages = append(reference.RectAnchoredPngImages, stage.RectAnchoredPngImages_reference[_b])
+	}
 
 	return
 }
 
 func (reference *RectAnchoredPath) GongReconstructPointersFromReferences(stage *Stage, instance *RectAnchoredPath) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *RectAnchoredPngImage) GongReconstructPointersFromReferences(stage *Stage, instance *RectAnchoredPngImage) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
@@ -2486,11 +2578,25 @@ func (reference *Rect) GongReconstructPointersFromInstances(stage *Stage) () {
 		}
 	}
 	reference.RectAnchoredPaths = _RectAnchoredPaths
+	var _RectAnchoredPngImages []*RectAnchoredPngImage
+	for _, _reference := range reference.RectAnchoredPngImages {
+		if _instance, ok := stage.RectAnchoredPngImages_instance[_reference]; ok {
+			_RectAnchoredPngImages = append(_RectAnchoredPngImages, _instance)
+		}
+	}
+	reference.RectAnchoredPngImages = _RectAnchoredPngImages
 
 	return
 }
 
 func (reference *RectAnchoredPath) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *RectAnchoredPngImage) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 
@@ -3740,6 +3846,27 @@ func (rect *Rect) GongDiff(stage *Stage, rectOther *Rect) (diffs []string) {
 		ops := Diff(stage, rect, rectOther, "RectAnchoredPaths", rectOther.RectAnchoredPaths, rect.RectAnchoredPaths)
 		diffs = append(diffs, ops)
 	}
+	RectAnchoredPngImagesDifferent := false
+	if len(rect.RectAnchoredPngImages) != len(rectOther.RectAnchoredPngImages) {
+		RectAnchoredPngImagesDifferent = true
+	} else {
+		for i := range rect.RectAnchoredPngImages {
+			if (rect.RectAnchoredPngImages[i] == nil) != (rectOther.RectAnchoredPngImages[i] == nil) {
+				RectAnchoredPngImagesDifferent = true
+				break
+			} else if rect.RectAnchoredPngImages[i] != nil && rectOther.RectAnchoredPngImages[i] != nil {
+				// this is a pointer comparaison
+				if rect.RectAnchoredPngImages[i] != rectOther.RectAnchoredPngImages[i] {
+					RectAnchoredPngImagesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if RectAnchoredPngImagesDifferent {
+		ops := Diff(stage, rect, rectOther, "RectAnchoredPngImages", rectOther.RectAnchoredPngImages, rect.RectAnchoredPngImages)
+		diffs = append(diffs, ops)
+	}
 	if rect.ChangeColorWhenHovered != rectOther.ChangeColorWhenHovered {
 		diffs = append(diffs, rect.GongMarshallField(stage, "ChangeColorWhenHovered"))
 	}
@@ -3825,6 +3952,44 @@ func (rectanchoredpath *RectAnchoredPath) GongDiff(stage *Stage, rectanchoredpat
 	}
 	if rectanchoredpath.Transform != rectanchoredpathOther.Transform {
 		diffs = append(diffs, rectanchoredpath.GongMarshallField(stage, "Transform"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (rectanchoredpngimage *RectAnchoredPngImage) GongDiff(stage *Stage, rectanchoredpngimageOther *RectAnchoredPngImage) (diffs []string) {
+	// insertion point for field diffs
+	if rectanchoredpngimage.Name != rectanchoredpngimageOther.Name {
+		diffs = append(diffs, rectanchoredpngimage.GongMarshallField(stage, "Name"))
+	}
+	if rectanchoredpngimage.X != rectanchoredpngimageOther.X {
+		diffs = append(diffs, rectanchoredpngimage.GongMarshallField(stage, "X"))
+	}
+	if rectanchoredpngimage.Y != rectanchoredpngimageOther.Y {
+		diffs = append(diffs, rectanchoredpngimage.GongMarshallField(stage, "Y"))
+	}
+	if rectanchoredpngimage.Width != rectanchoredpngimageOther.Width {
+		diffs = append(diffs, rectanchoredpngimage.GongMarshallField(stage, "Width"))
+	}
+	if rectanchoredpngimage.Height != rectanchoredpngimageOther.Height {
+		diffs = append(diffs, rectanchoredpngimage.GongMarshallField(stage, "Height"))
+	}
+	if rectanchoredpngimage.RX != rectanchoredpngimageOther.RX {
+		diffs = append(diffs, rectanchoredpngimage.GongMarshallField(stage, "RX"))
+	}
+	if rectanchoredpngimage.X_Offset != rectanchoredpngimageOther.X_Offset {
+		diffs = append(diffs, rectanchoredpngimage.GongMarshallField(stage, "X_Offset"))
+	}
+	if rectanchoredpngimage.Y_Offset != rectanchoredpngimageOther.Y_Offset {
+		diffs = append(diffs, rectanchoredpngimage.GongMarshallField(stage, "Y_Offset"))
+	}
+	if rectanchoredpngimage.RectAnchorType != rectanchoredpngimageOther.RectAnchorType {
+		diffs = append(diffs, rectanchoredpngimage.GongMarshallField(stage, "RectAnchorType"))
+	}
+	if rectanchoredpngimage.Base64Content != rectanchoredpngimageOther.Base64Content {
+		diffs = append(diffs, rectanchoredpngimage.GongMarshallField(stage, "Base64Content"))
 	}
 
 	return

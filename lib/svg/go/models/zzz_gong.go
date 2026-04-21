@@ -383,6 +383,8 @@ type Stage struct {
 
 	Rect_RectAnchoredPaths_reverseMap map[*RectAnchoredPath]*Rect
 
+	Rect_RectAnchoredPngImages_reverseMap map[*RectAnchoredPngImage]*Rect
+
 	OnAfterRectCreateCallback OnAfterCreateInterface[Rect]
 	OnAfterRectUpdateCallback OnAfterUpdateInterface[Rect]
 	OnAfterRectDeleteCallback OnAfterDeleteInterface[Rect]
@@ -402,6 +404,21 @@ type Stage struct {
 	OnAfterRectAnchoredPathUpdateCallback OnAfterUpdateInterface[RectAnchoredPath]
 	OnAfterRectAnchoredPathDeleteCallback OnAfterDeleteInterface[RectAnchoredPath]
 	OnAfterRectAnchoredPathReadCallback   OnAfterReadInterface[RectAnchoredPath]
+
+	RectAnchoredPngImages                map[*RectAnchoredPngImage]struct{}
+	RectAnchoredPngImages_instance       map[*RectAnchoredPngImage]*RectAnchoredPngImage
+	RectAnchoredPngImages_mapString      map[string]*RectAnchoredPngImage
+	RectAnchoredPngImageOrder            uint
+	RectAnchoredPngImage_stagedOrder     map[*RectAnchoredPngImage]uint
+	RectAnchoredPngImage_orderStaged     map[uint]*RectAnchoredPngImage
+	RectAnchoredPngImages_reference      map[*RectAnchoredPngImage]*RectAnchoredPngImage
+	RectAnchoredPngImages_referenceOrder map[*RectAnchoredPngImage]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterRectAnchoredPngImageCreateCallback OnAfterCreateInterface[RectAnchoredPngImage]
+	OnAfterRectAnchoredPngImageUpdateCallback OnAfterUpdateInterface[RectAnchoredPngImage]
+	OnAfterRectAnchoredPngImageDeleteCallback OnAfterDeleteInterface[RectAnchoredPngImage]
+	OnAfterRectAnchoredPngImageReadCallback   OnAfterReadInterface[RectAnchoredPngImage]
 
 	RectAnchoredRects                map[*RectAnchoredRect]struct{}
 	RectAnchoredRects_instance       map[*RectAnchoredRect]*RectAnchoredRect
@@ -795,6 +812,10 @@ func (stage *Stage) Squash() {
 	stage.RectAnchoredPaths_instance = make(map[*RectAnchoredPath]*RectAnchoredPath)
 	stage.RectAnchoredPaths_referenceOrder = make(map[*RectAnchoredPath]uint)
 
+	stage.RectAnchoredPngImages_reference = make(map[*RectAnchoredPngImage]*RectAnchoredPngImage)
+	stage.RectAnchoredPngImages_instance = make(map[*RectAnchoredPngImage]*RectAnchoredPngImage)
+	stage.RectAnchoredPngImages_referenceOrder = make(map[*RectAnchoredPngImage]uint)
+
 	stage.RectAnchoredRects_reference = make(map[*RectAnchoredRect]*RectAnchoredRect)
 	stage.RectAnchoredRects_instance = make(map[*RectAnchoredRect]*RectAnchoredRect)
 	stage.RectAnchoredRects_referenceOrder = make(map[*RectAnchoredRect]uint)
@@ -1054,6 +1075,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.RectAnchoredPathOrder = maxRectAnchoredPathOrder + 1
 	} else {
 		stage.RectAnchoredPathOrder = 0
+	}
+
+	var maxRectAnchoredPngImageOrder uint
+	var foundRectAnchoredPngImage bool
+	for _, order := range stage.RectAnchoredPngImage_stagedOrder {
+		if !foundRectAnchoredPngImage || order > maxRectAnchoredPngImageOrder {
+			maxRectAnchoredPngImageOrder = order
+			foundRectAnchoredPngImage = true
+		}
+	}
+	if foundRectAnchoredPngImage {
+		stage.RectAnchoredPngImageOrder = maxRectAnchoredPngImageOrder + 1
+	} else {
+		stage.RectAnchoredPngImageOrder = 0
 	}
 
 	var maxRectAnchoredRectOrder uint
@@ -1411,6 +1446,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *RectAnchoredPngImage:
+		tmp := GetStructInstancesByOrder(stage.RectAnchoredPngImages, stage.RectAnchoredPngImage_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *RectAnchoredPngImage implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *RectAnchoredRect:
 		tmp := GetStructInstancesByOrder(stage.RectAnchoredRects, stage.RectAnchoredRect_stagedOrder)
 
@@ -1554,6 +1603,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.Rects, stage.Rect_stagedOrder)
 	case "RectAnchoredPath":
 		res = GetNamedStructInstances(stage.RectAnchoredPaths, stage.RectAnchoredPath_stagedOrder)
+	case "RectAnchoredPngImage":
+		res = GetNamedStructInstances(stage.RectAnchoredPngImages, stage.RectAnchoredPngImage_stagedOrder)
 	case "RectAnchoredRect":
 		res = GetNamedStructInstances(stage.RectAnchoredRects, stage.RectAnchoredRect_stagedOrder)
 	case "RectAnchoredText":
@@ -1665,6 +1716,8 @@ type BackRepoInterface interface {
 	CheckoutRect(rect *Rect)
 	CommitRectAnchoredPath(rectanchoredpath *RectAnchoredPath)
 	CheckoutRectAnchoredPath(rectanchoredpath *RectAnchoredPath)
+	CommitRectAnchoredPngImage(rectanchoredpngimage *RectAnchoredPngImage)
+	CheckoutRectAnchoredPngImage(rectanchoredpngimage *RectAnchoredPngImage)
 	CommitRectAnchoredRect(rectanchoredrect *RectAnchoredRect)
 	CheckoutRectAnchoredRect(rectanchoredrect *RectAnchoredRect)
 	CommitRectAnchoredText(rectanchoredtext *RectAnchoredText)
@@ -1727,6 +1780,9 @@ func NewStage(name string) (stage *Stage) {
 
 		RectAnchoredPaths:           make(map[*RectAnchoredPath]struct{}),
 		RectAnchoredPaths_mapString: make(map[string]*RectAnchoredPath),
+
+		RectAnchoredPngImages:           make(map[*RectAnchoredPngImage]struct{}),
+		RectAnchoredPngImages_mapString: make(map[string]*RectAnchoredPngImage),
 
 		RectAnchoredRects:           make(map[*RectAnchoredRect]struct{}),
 		RectAnchoredRects_mapString: make(map[string]*RectAnchoredRect),
@@ -1816,6 +1872,10 @@ func NewStage(name string) (stage *Stage) {
 		RectAnchoredPath_orderStaged: make(map[uint]*RectAnchoredPath),
 		RectAnchoredPaths_reference: make(map[*RectAnchoredPath]*RectAnchoredPath),
 
+		RectAnchoredPngImage_stagedOrder: make(map[*RectAnchoredPngImage]uint),
+		RectAnchoredPngImage_orderStaged: make(map[uint]*RectAnchoredPngImage),
+		RectAnchoredPngImages_reference: make(map[*RectAnchoredPngImage]*RectAnchoredPngImage),
+
 		RectAnchoredRect_stagedOrder: make(map[*RectAnchoredRect]uint),
 		RectAnchoredRect_orderStaged: make(map[uint]*RectAnchoredRect),
 		RectAnchoredRects_reference: make(map[*RectAnchoredRect]*RectAnchoredRect),
@@ -1872,6 +1932,8 @@ func NewStage(name string) (stage *Stage) {
 
 			"RectAnchoredPath": &RectAnchoredPathUnmarshaller{},
 
+			"RectAnchoredPngImage": &RectAnchoredPngImageUnmarshaller{},
+
 			"RectAnchoredRect": &RectAnchoredRectUnmarshaller{},
 
 			"RectAnchoredText": &RectAnchoredTextUnmarshaller{},
@@ -1903,6 +1965,7 @@ func NewStage(name string) (stage *Stage) {
 			{name: "Polyline"},
 			{name: "Rect"},
 			{name: "RectAnchoredPath"},
+			{name: "RectAnchoredPngImage"},
 			{name: "RectAnchoredRect"},
 			{name: "RectAnchoredText"},
 			{name: "RectLinkLink"},
@@ -1950,6 +2013,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.Rect_stagedOrder[instance]
 	case *RectAnchoredPath:
 		return stage.RectAnchoredPath_stagedOrder[instance]
+	case *RectAnchoredPngImage:
+		return stage.RectAnchoredPngImage_stagedOrder[instance]
 	case *RectAnchoredRect:
 		return stage.RectAnchoredRect_stagedOrder[instance]
 	case *RectAnchoredText:
@@ -2001,6 +2066,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.Rect_orderStaged[order]).(Type)
 	case *RectAnchoredPath:
 		return any(stage.RectAnchoredPath_orderStaged[order]).(Type)
+	case *RectAnchoredPngImage:
+		return any(stage.RectAnchoredPngImage_orderStaged[order]).(Type)
 	case *RectAnchoredRect:
 		return any(stage.RectAnchoredRect_orderStaged[order]).(Type)
 	case *RectAnchoredText:
@@ -2051,6 +2118,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.Rect_stagedOrder[instance]
 	case *RectAnchoredPath:
 		return stage.RectAnchoredPath_stagedOrder[instance]
+	case *RectAnchoredPngImage:
+		return stage.RectAnchoredPngImage_stagedOrder[instance]
 	case *RectAnchoredRect:
 		return stage.RectAnchoredRect_stagedOrder[instance]
 	case *RectAnchoredText:
@@ -2143,6 +2212,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["Polyline"] = len(stage.Polylines)
 	stage.Map_GongStructName_InstancesNb["Rect"] = len(stage.Rects)
 	stage.Map_GongStructName_InstancesNb["RectAnchoredPath"] = len(stage.RectAnchoredPaths)
+	stage.Map_GongStructName_InstancesNb["RectAnchoredPngImage"] = len(stage.RectAnchoredPngImages)
 	stage.Map_GongStructName_InstancesNb["RectAnchoredRect"] = len(stage.RectAnchoredRects)
 	stage.Map_GongStructName_InstancesNb["RectAnchoredText"] = len(stage.RectAnchoredTexts)
 	stage.Map_GongStructName_InstancesNb["RectLinkLink"] = len(stage.RectLinkLinks)
@@ -3509,6 +3579,94 @@ func (rectanchoredpath *RectAnchoredPath) SetName(name string) {
 	rectanchoredpath.Name = name
 }
 
+// Stage puts rectanchoredpngimage to the model stage
+func (rectanchoredpngimage *RectAnchoredPngImage) Stage(stage *Stage) *RectAnchoredPngImage {
+	if _, ok := stage.RectAnchoredPngImages[rectanchoredpngimage]; !ok {
+		stage.RectAnchoredPngImages[rectanchoredpngimage] = struct{}{}
+		stage.RectAnchoredPngImage_stagedOrder[rectanchoredpngimage] = stage.RectAnchoredPngImageOrder
+		stage.RectAnchoredPngImage_orderStaged[stage.RectAnchoredPngImageOrder] = rectanchoredpngimage
+		stage.RectAnchoredPngImageOrder++
+	}
+	stage.RectAnchoredPngImages_mapString[rectanchoredpngimage.Name] = rectanchoredpngimage
+
+	return rectanchoredpngimage
+}
+
+// StagePreserveOrder puts rectanchoredpngimage to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.RectAnchoredPngImageOrder
+// - update stage.RectAnchoredPngImageOrder accordingly
+func (rectanchoredpngimage *RectAnchoredPngImage) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.RectAnchoredPngImages[rectanchoredpngimage]; !ok {
+		stage.RectAnchoredPngImages[rectanchoredpngimage] = struct{}{}
+
+		if order > stage.RectAnchoredPngImageOrder {
+			stage.RectAnchoredPngImageOrder = order
+		}
+		stage.RectAnchoredPngImage_stagedOrder[rectanchoredpngimage] = order
+		stage.RectAnchoredPngImage_orderStaged[order] = rectanchoredpngimage
+		stage.RectAnchoredPngImageOrder++
+	}
+	stage.RectAnchoredPngImages_mapString[rectanchoredpngimage.Name] = rectanchoredpngimage
+}
+
+// Unstage removes rectanchoredpngimage off the model stage
+func (rectanchoredpngimage *RectAnchoredPngImage) Unstage(stage *Stage) *RectAnchoredPngImage {
+	delete(stage.RectAnchoredPngImages, rectanchoredpngimage)
+	// issue1150
+	// delete(stage.RectAnchoredPngImage_stagedOrder, rectanchoredpngimage)
+	delete(stage.RectAnchoredPngImages_mapString, rectanchoredpngimage.Name)
+
+	return rectanchoredpngimage
+}
+
+// UnstageVoid removes rectanchoredpngimage off the model stage
+func (rectanchoredpngimage *RectAnchoredPngImage) UnstageVoid(stage *Stage) {
+	delete(stage.RectAnchoredPngImages, rectanchoredpngimage)
+	// issue1150
+	// delete(stage.RectAnchoredPngImage_stagedOrder, rectanchoredpngimage)
+	delete(stage.RectAnchoredPngImages_mapString, rectanchoredpngimage.Name)
+}
+
+// commit rectanchoredpngimage to the back repo (if it is already staged)
+func (rectanchoredpngimage *RectAnchoredPngImage) Commit(stage *Stage) *RectAnchoredPngImage {
+	if _, ok := stage.RectAnchoredPngImages[rectanchoredpngimage]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitRectAnchoredPngImage(rectanchoredpngimage)
+		}
+	}
+	return rectanchoredpngimage
+}
+
+func (rectanchoredpngimage *RectAnchoredPngImage) CommitVoid(stage *Stage) {
+	rectanchoredpngimage.Commit(stage)
+}
+
+func (rectanchoredpngimage *RectAnchoredPngImage) StageVoid(stage *Stage) {
+	rectanchoredpngimage.Stage(stage)
+}
+
+// Checkout rectanchoredpngimage to the back repo (if it is already staged)
+func (rectanchoredpngimage *RectAnchoredPngImage) Checkout(stage *Stage) *RectAnchoredPngImage {
+	if _, ok := stage.RectAnchoredPngImages[rectanchoredpngimage]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutRectAnchoredPngImage(rectanchoredpngimage)
+		}
+	}
+	return rectanchoredpngimage
+}
+
+// for satisfaction of GongStruct interface
+func (rectanchoredpngimage *RectAnchoredPngImage) GetName() (res string) {
+	return rectanchoredpngimage.Name
+}
+
+// for satisfaction of GongStruct interface
+func (rectanchoredpngimage *RectAnchoredPngImage) SetName(name string) {
+	rectanchoredpngimage.Name = name
+}
+
 // Stage puts rectanchoredrect to the model stage
 func (rectanchoredrect *RectAnchoredRect) Stage(stage *Stage) *RectAnchoredRect {
 	if _, ok := stage.RectAnchoredRects[rectanchoredrect]; !ok {
@@ -4054,6 +4212,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMPolyline(Polyline *Polyline)
 	CreateORMRect(Rect *Rect)
 	CreateORMRectAnchoredPath(RectAnchoredPath *RectAnchoredPath)
+	CreateORMRectAnchoredPngImage(RectAnchoredPngImage *RectAnchoredPngImage)
 	CreateORMRectAnchoredRect(RectAnchoredRect *RectAnchoredRect)
 	CreateORMRectAnchoredText(RectAnchoredText *RectAnchoredText)
 	CreateORMRectLinkLink(RectLinkLink *RectLinkLink)
@@ -4078,6 +4237,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMPolyline(Polyline *Polyline)
 	DeleteORMRect(Rect *Rect)
 	DeleteORMRectAnchoredPath(RectAnchoredPath *RectAnchoredPath)
+	DeleteORMRectAnchoredPngImage(RectAnchoredPngImage *RectAnchoredPngImage)
 	DeleteORMRectAnchoredRect(RectAnchoredRect *RectAnchoredRect)
 	DeleteORMRectAnchoredText(RectAnchoredText *RectAnchoredText)
 	DeleteORMRectLinkLink(RectLinkLink *RectLinkLink)
@@ -4161,6 +4321,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.RectAnchoredPaths_mapString = make(map[string]*RectAnchoredPath)
 	stage.RectAnchoredPath_stagedOrder = make(map[*RectAnchoredPath]uint)
 	stage.RectAnchoredPathOrder = 0
+
+	stage.RectAnchoredPngImages = make(map[*RectAnchoredPngImage]struct{})
+	stage.RectAnchoredPngImages_mapString = make(map[string]*RectAnchoredPngImage)
+	stage.RectAnchoredPngImage_stagedOrder = make(map[*RectAnchoredPngImage]uint)
+	stage.RectAnchoredPngImageOrder = 0
 
 	stage.RectAnchoredRects = make(map[*RectAnchoredRect]struct{})
 	stage.RectAnchoredRects_mapString = make(map[string]*RectAnchoredRect)
@@ -4246,6 +4411,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.RectAnchoredPaths = nil
 	stage.RectAnchoredPaths_mapString = nil
 
+	stage.RectAnchoredPngImages = nil
+	stage.RectAnchoredPngImages_mapString = nil
+
 	stage.RectAnchoredRects = nil
 	stage.RectAnchoredRects_mapString = nil
 
@@ -4326,6 +4494,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for rectanchoredpath := range stage.RectAnchoredPaths {
 		rectanchoredpath.Unstage(stage)
+	}
+
+	for rectanchoredpngimage := range stage.RectAnchoredPngImages {
+		rectanchoredpngimage.Unstage(stage)
 	}
 
 	for rectanchoredrect := range stage.RectAnchoredRects {
@@ -4458,6 +4630,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.Rects).(*Type)
 	case map[*RectAnchoredPath]any:
 		return any(&stage.RectAnchoredPaths).(*Type)
+	case map[*RectAnchoredPngImage]any:
+		return any(&stage.RectAnchoredPngImages).(*Type)
 	case map[*RectAnchoredRect]any:
 		return any(&stage.RectAnchoredRects).(*Type)
 	case map[*RectAnchoredText]any:
@@ -4512,6 +4686,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.Rects_mapString).(map[string]Type)
 	case *RectAnchoredPath:
 		return any(stage.RectAnchoredPaths_mapString).(map[string]Type)
+	case *RectAnchoredPngImage:
+		return any(stage.RectAnchoredPngImages_mapString).(map[string]Type)
 	case *RectAnchoredRect:
 		return any(stage.RectAnchoredRects_mapString).(map[string]Type)
 	case *RectAnchoredText:
@@ -4566,6 +4742,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.Rects).(*map[*Type]struct{})
 	case RectAnchoredPath:
 		return any(&stage.RectAnchoredPaths).(*map[*Type]struct{})
+	case RectAnchoredPngImage:
+		return any(&stage.RectAnchoredPngImages).(*map[*Type]struct{})
 	case RectAnchoredRect:
 		return any(&stage.RectAnchoredRects).(*map[*Type]struct{})
 	case RectAnchoredText:
@@ -4620,6 +4798,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.Rects).(*map[Type]struct{})
 	case *RectAnchoredPath:
 		return any(&stage.RectAnchoredPaths).(*map[Type]struct{})
+	case *RectAnchoredPngImage:
+		return any(&stage.RectAnchoredPngImages).(*map[Type]struct{})
 	case *RectAnchoredRect:
 		return any(&stage.RectAnchoredRects).(*map[Type]struct{})
 	case *RectAnchoredText:
@@ -4674,6 +4854,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.Rects_mapString).(*map[string]*Type)
 	case RectAnchoredPath:
 		return any(&stage.RectAnchoredPaths_mapString).(*map[string]*Type)
+	case RectAnchoredPngImage:
+		return any(&stage.RectAnchoredPngImages_mapString).(*map[string]*Type)
 	case RectAnchoredRect:
 		return any(&stage.RectAnchoredRects_mapString).(*map[string]*Type)
 	case RectAnchoredText:
@@ -4809,9 +4991,15 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			RectAnchoredRects: []*RectAnchoredRect{{Name: "RectAnchoredRects"}},
 			// field is initialized with an instance of RectAnchoredPath with the name of the field
 			RectAnchoredPaths: []*RectAnchoredPath{{Name: "RectAnchoredPaths"}},
+			// field is initialized with an instance of RectAnchoredPngImage with the name of the field
+			RectAnchoredPngImages: []*RectAnchoredPngImage{{Name: "RectAnchoredPngImages"}},
 		}).(*Type)
 	case RectAnchoredPath:
 		return any(&RectAnchoredPath{
+			// Initialisation of associations
+		}).(*Type)
+	case RectAnchoredPngImage:
+		return any(&RectAnchoredPngImage{
 			// Initialisation of associations
 		}).(*Type)
 	case RectAnchoredRect:
@@ -4992,6 +5180,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		}
 	// reverse maps of direct associations of RectAnchoredPath
 	case RectAnchoredPath:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of RectAnchoredPngImage
+	case RectAnchoredPngImage:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -5385,9 +5578,22 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "RectAnchoredPngImages":
+			res := make(map[*RectAnchoredPngImage][]*Rect)
+			for rect := range stage.Rects {
+				for _, rectanchoredpngimage_ := range rect.RectAnchoredPngImages {
+					res[rectanchoredpngimage_] = append(res[rectanchoredpngimage_], rect)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of RectAnchoredPath
 	case RectAnchoredPath:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of RectAnchoredPngImage
+	case RectAnchoredPngImage:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -5486,6 +5692,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "Rect"
 	case *RectAnchoredPath:
 		res = "RectAnchoredPath"
+	case *RectAnchoredPngImage:
+		res = "RectAnchoredPngImage"
 	case *RectAnchoredRect:
 		res = "RectAnchoredRect"
 	case *RectAnchoredText:
@@ -5634,6 +5842,12 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		_ = rf
 		rf.GongstructName = "Rect"
 		rf.Fieldname = "RectAnchoredPaths"
+		res = append(res, rf)
+	case *RectAnchoredPngImage:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Rect"
+		rf.Fieldname = "RectAnchoredPngImages"
 		res = append(res, rf)
 	case *RectAnchoredRect:
 		var rf ReverseField
@@ -6558,6 +6772,11 @@ func (rect *Rect) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "RectAnchoredPath",
 		},
 		{
+			Name:                 "RectAnchoredPngImages",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "RectAnchoredPngImage",
+		},
+		{
 			Name:               "ChangeColorWhenHovered",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -6669,6 +6888,54 @@ func (rectanchoredpath *RectAnchoredPath) GongGetFieldHeaders() (res []GongField
 		},
 		{
 			Name:               "Transform",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
+func (rectanchoredpngimage *RectAnchoredPngImage) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "X",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Y",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Width",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Height",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "RX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "X_Offset",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Y_Offset",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:                 "RectAnchorType",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "RectAnchorType",
+		},
+		{
+			Name:               "Base64Content",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 	}
@@ -8007,6 +8274,16 @@ func (rect *Rect) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "RectAnchoredPngImages":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range rect.RectAnchoredPngImages {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	case "ChangeColorWhenHovered":
 		res.valueString = fmt.Sprintf("%t", rect.ChangeColorWhenHovered)
 		res.valueBool = rect.ChangeColorWhenHovered
@@ -8095,6 +8372,48 @@ func (rectanchoredpath *RectAnchoredPath) GongGetFieldValue(fieldName string, st
 		res.valueString = rectanchoredpath.StrokeDashArrayWhenSelected
 	case "Transform":
 		res.valueString = rectanchoredpath.Transform
+	}
+	return
+}
+
+func (rectanchoredpngimage *RectAnchoredPngImage) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = rectanchoredpngimage.Name
+	case "X":
+		res.valueString = fmt.Sprintf("%f", rectanchoredpngimage.X)
+		res.valueFloat = rectanchoredpngimage.X
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Y":
+		res.valueString = fmt.Sprintf("%f", rectanchoredpngimage.Y)
+		res.valueFloat = rectanchoredpngimage.Y
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Width":
+		res.valueString = fmt.Sprintf("%f", rectanchoredpngimage.Width)
+		res.valueFloat = rectanchoredpngimage.Width
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Height":
+		res.valueString = fmt.Sprintf("%f", rectanchoredpngimage.Height)
+		res.valueFloat = rectanchoredpngimage.Height
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RX":
+		res.valueString = fmt.Sprintf("%f", rectanchoredpngimage.RX)
+		res.valueFloat = rectanchoredpngimage.RX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "X_Offset":
+		res.valueString = fmt.Sprintf("%f", rectanchoredpngimage.X_Offset)
+		res.valueFloat = rectanchoredpngimage.X_Offset
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Y_Offset":
+		res.valueString = fmt.Sprintf("%f", rectanchoredpngimage.Y_Offset)
+		res.valueFloat = rectanchoredpngimage.Y_Offset
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RectAnchorType":
+		enum := rectanchoredpngimage.RectAnchorType
+		res.valueString = enum.ToCodeString()
+	case "Base64Content":
+		res.valueString = rectanchoredpngimage.Base64Content
 	}
 	return
 }
@@ -9284,6 +9603,20 @@ func (rect *Rect) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 				}
 			}
 		}
+	case "RectAnchoredPngImages":
+		rect.RectAnchoredPngImages = make([]*RectAnchoredPngImage, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.RectAnchoredPngImages {
+					if stage.RectAnchoredPngImage_stagedOrder[__instance__] == uint(id) {
+						rect.RectAnchoredPngImages = append(rect.RectAnchoredPngImages, __instance__)
+						break
+					}
+				}
+			}
+		}
 	case "ChangeColorWhenHovered":
 		rect.ChangeColorWhenHovered = value.GetValueBool()
 	case "ColorWhenHovered":
@@ -9345,6 +9678,35 @@ func (rectanchoredpath *RectAnchoredPath) GongSetFieldValue(fieldName string, va
 		rectanchoredpath.StrokeDashArrayWhenSelected = value.GetValueString()
 	case "Transform":
 		rectanchoredpath.Transform = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (rectanchoredpngimage *RectAnchoredPngImage) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		rectanchoredpngimage.Name = value.GetValueString()
+	case "X":
+		rectanchoredpngimage.X = value.GetValueFloat()
+	case "Y":
+		rectanchoredpngimage.Y = value.GetValueFloat()
+	case "Width":
+		rectanchoredpngimage.Width = value.GetValueFloat()
+	case "Height":
+		rectanchoredpngimage.Height = value.GetValueFloat()
+	case "RX":
+		rectanchoredpngimage.RX = value.GetValueFloat()
+	case "X_Offset":
+		rectanchoredpngimage.X_Offset = value.GetValueFloat()
+	case "Y_Offset":
+		rectanchoredpngimage.Y_Offset = value.GetValueFloat()
+	case "RectAnchorType":
+		rectanchoredpngimage.RectAnchorType.FromCodeString(value.GetValueString())
+	case "Base64Content":
+		rectanchoredpngimage.Base64Content = value.GetValueString()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -9724,6 +10086,10 @@ func (rectanchoredpath *RectAnchoredPath) GongGetGongstructName() string {
 	return "RectAnchoredPath"
 }
 
+func (rectanchoredpngimage *RectAnchoredPngImage) GongGetGongstructName() string {
+	return "RectAnchoredPngImage"
+}
+
 func (rectanchoredrect *RectAnchoredRect) GongGetGongstructName() string {
 	return "RectAnchoredRect"
 }
@@ -9828,6 +10194,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.RectAnchoredPaths_mapString = make(map[string]*RectAnchoredPath)
 	for rectanchoredpath := range stage.RectAnchoredPaths {
 		stage.RectAnchoredPaths_mapString[rectanchoredpath.Name] = rectanchoredpath
+	}
+
+	stage.RectAnchoredPngImages_mapString = make(map[string]*RectAnchoredPngImage)
+	for rectanchoredpngimage := range stage.RectAnchoredPngImages {
+		stage.RectAnchoredPngImages_mapString[rectanchoredpngimage.Name] = rectanchoredpngimage
 	}
 
 	stage.RectAnchoredRects_mapString = make(map[string]*RectAnchoredRect)

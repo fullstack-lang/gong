@@ -163,12 +163,20 @@ func (rect *Rect) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &rect.RectAnchoredTexts) || modified
 	modified = GongCleanSlice(stage, &rect.RectAnchoredRects) || modified
 	modified = GongCleanSlice(stage, &rect.RectAnchoredPaths) || modified
+	modified = GongCleanSlice(stage, &rect.RectAnchoredPngImages) || modified
 	// insertion point per field
 	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by RectAnchoredPath
 func (rectanchoredpath *RectAnchoredPath) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by RectAnchoredPngImage
+func (rectanchoredpngimage *RectAnchoredPngImage) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
 	return
