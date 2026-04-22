@@ -488,6 +488,20 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) (svg_ *svg.SVG) {
 		}
 		map_ArtElement_Rect[artist] = rect
 
+		if artistShape.ImagePngBase64Content != "" {
+			rect.RectAnchoredPngImages = append(
+				rect.RectAnchoredPngImages,
+				&svg.RectAnchoredPngImage{
+					Name:           artistShape.Name,
+					X_Offset:       artistShape.ImagePng_X_Offset,
+					Y_Offset:       artistShape.ImagePng_Y_Offset,
+					Width:          artistShape.ImagePng_Width,
+					Height:         artistShape.ImagePng_Height,
+					RectAnchorType: svg.RectAnchorType(artistShape.ImagePng_RectAnchorType),
+					Base64Content:  artistShape.ImagePngBase64Content,
+				})
+		}
+
 		if artist.IsDead {
 			rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, dateRectAnchoredText)
 		}
