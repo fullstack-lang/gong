@@ -10,8 +10,10 @@ import (
 
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
-var _ time.Time
-var _ = slices.Index[[]int, int]
+var (
+	_ time.Time
+	_ = slices.Index[[]int, int]
+)
 
 // _ point for meta package dummy declaration{{ImportPackageDummyDeclaration}}
 
@@ -22,7 +24,6 @@ var _ map[string]any = map[string]any{
 
 // function will stage objects
 func _(stage *models.Stage) {
-
 	// insertion point for declaration of instances to stage
 
 	__ArtefactType__00000000_ := (&models.ArtefactType{Name: `Byzantine Art`}).Stage(stage)
@@ -527,10 +528,10 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.IsArtefactTypeCategoryNodeExpanded = true
 	__Diagram__00000000_.IsArtistCategoryNodeExpanded = true
 	__Diagram__00000000_.IsInfluenceCategoryNodeExpanded = true
-	__Diagram__00000000_.IsMovementCategoryShown = true
-	__Diagram__00000000_.IsArtefactTypeCategoryShown = true
-	__Diagram__00000000_.IsArtistCategoryShown = true
-	__Diagram__00000000_.IsInfluenceCategoryShown = true
+	__Diagram__00000000_.IsMovementCategoryHidden = true
+	__Diagram__00000000_.IsArtefactTypeCategoryHidden = true
+	__Diagram__00000000_.IsArtistCategoryHidden = true
+	__Diagram__00000000_.IsInfluenceCategoryHidden = true
 	__Diagram__00000000_.StartDate, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1300-01-01 00:00:00 +0000 UTC")
 	__Diagram__00000000_.EndDate, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1550-01-01 00:00:00 +0000 UTC")
 	__Diagram__00000000_.NbYearsForIntervals = 10

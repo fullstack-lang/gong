@@ -83,6 +83,22 @@ type ArtistShape_WOP struct {
 	Height float64
 
 	IsHidden bool
+
+	ImagePng_X float64
+
+	ImagePng_Y float64
+
+	ImagePng_Width float64
+
+	ImagePng_Height float64
+
+	ImagePng_X_Offset float64
+
+	ImagePng_Y_Offset float64
+
+	ImagePng_RectAnchorType RectAnchorType
+
+	ImagePngBase64Content string
 }
 
 func (from *ArtistShape) CopyBasicFields(to *ArtistShape) {
@@ -93,6 +109,14 @@ func (from *ArtistShape) CopyBasicFields(to *ArtistShape) {
 	to.Width = from.Width
 	to.Height = from.Height
 	to.IsHidden = from.IsHidden
+	to.ImagePng_X = from.ImagePng_X
+	to.ImagePng_Y = from.ImagePng_Y
+	to.ImagePng_Width = from.ImagePng_Width
+	to.ImagePng_Height = from.ImagePng_Height
+	to.ImagePng_X_Offset = from.ImagePng_X_Offset
+	to.ImagePng_Y_Offset = from.ImagePng_Y_Offset
+	to.ImagePng_RectAnchorType = from.ImagePng_RectAnchorType
+	to.ImagePngBase64Content = from.ImagePngBase64Content
 }
 
 type ControlPointShape_WOP struct {
@@ -309,10 +333,10 @@ func (from *Diagram) CopyBasicFields(to *Diagram) {
 	to.IsArtefactTypeCategoryNodeExpanded = from.IsArtefactTypeCategoryNodeExpanded
 	to.IsArtistCategoryNodeExpanded = from.IsArtistCategoryNodeExpanded
 	to.IsInfluenceCategoryNodeExpanded = from.IsInfluenceCategoryNodeExpanded
-	to.IsMovementCategoryShown = from.IsMovementCategoryShown
-	to.IsArtefactTypeCategoryShown = from.IsArtefactTypeCategoryShown
-	to.IsArtistCategoryShown = from.IsArtistCategoryShown
-	to.IsInfluenceCategoryShown = from.IsInfluenceCategoryShown
+	to.IsMovementCategoryHidden = from.IsMovementCategoryHidden
+	to.IsArtefactTypeCategoryHidden = from.IsArtefactTypeCategoryHidden
+	to.IsArtistCategoryHidden = from.IsArtistCategoryHidden
+	to.IsInfluenceCategoryHidden = from.IsInfluenceCategoryHidden
 	to.StartDate = from.StartDate
 	to.EndDate = from.EndDate
 	to.NbYearsForIntervals = from.NbYearsForIntervals
@@ -491,4 +515,3 @@ func (from *Place) CopyBasicFields(to *Place) {
 	// insertion point
 	to.Name = from.Name
 }
-

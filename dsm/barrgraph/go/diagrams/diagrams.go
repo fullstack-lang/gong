@@ -22,7 +22,6 @@ var _ map[string]any = map[string]any{
 
 // function will stage objects
 func _(stage *models.Stage) {
-
 	// insertion point for declaration of instances to stage
 
 	__AttributeShape__00000000_ := (&models.AttributeShape{Name: `Date`}).Stage(stage)
@@ -190,13 +189,13 @@ func _(stage *models.Stage) {
 	__AttributeShape__00000009_.Fieldtypename = `bool`
 
 	__AttributeShape__00000010_.Name = `IsMovementCategoryShown`
-	__AttributeShape__00000010_.IdentifierMeta = ref_models.Diagram{}.IsMovementCategoryShown
+	__AttributeShape__00000010_.IdentifierMeta = ref_models.Diagram{}.IsMovementCategoryHidden
 	__AttributeShape__00000010_.FieldTypeAsString = ``
 	__AttributeShape__00000010_.Structname = `Diagram`
 	__AttributeShape__00000010_.Fieldtypename = `bool`
 
 	__AttributeShape__00000011_.Name = `IsArtefactTypeCategoryShown`
-	__AttributeShape__00000011_.IdentifierMeta = ref_models.Diagram{}.IsArtefactTypeCategoryShown
+	__AttributeShape__00000011_.IdentifierMeta = ref_models.Diagram{}.IsArtefactTypeCategoryHidden
 	__AttributeShape__00000011_.FieldTypeAsString = ``
 	__AttributeShape__00000011_.Structname = `Diagram`
 	__AttributeShape__00000011_.Fieldtypename = `bool`
