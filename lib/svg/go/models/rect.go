@@ -49,6 +49,7 @@ type Rect struct {
 	ToolTipText     string
 	ToolTipPosition ToolTipPositionEnum
 
+	// deprecated, uses OnUpdate instead
 	Impl RectImplInterface
 
 	OnUpdate func(updatedRect *Rect)

@@ -28,7 +28,6 @@ func (stager *Stager) svg() {
 // to SVG elements (Rects, Links, Paths) on a single layer. It also populates the diagram's
 // internal maps to link abstract elements with their visual SVG counterparts.
 func (stager *Stager) generateSvgObject(diagram *Diagram) (svg_ *svg.SVG) {
-
 	// creates a map of art history element
 	map_ArtElement_Rect := make(map[ArtElement]*svg.Rect)
 
@@ -59,9 +58,9 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) (svg_ *svg.SVG) {
 			Color:       diagram.BackgroundGreyColorCode,
 			FillOpacity: 1.0,
 		},
-		Impl: &BackgroundRectProxy{
-			stager:  stager,
-			diagram: diagram,
+		OnUpdate: func(frontRect *svg.Rect) {
+			diagram.IsEditable = !diagram.IsEditable
+			stager.stage.Commit()
 		},
 	}
 	layer.Rects = append(layer.Rects, backgroundRect)
@@ -270,34 +269,33 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) (svg_ *svg.SVG) {
 			},
 		}
 
-		rect.Impl = &svg.FunctionalSvgRectProxy{
-			OnUpdated: func(frontRect *svg.Rect) {
-				diff := movementShape.X != frontRect.X ||
-					movementShape.Y != frontRect.Y ||
-					movementShape.Width != frontRect.Width ||
-					movementShape.Height != frontRect.Height
+		rect.OnUpdate = func(frontRect *svg.Rect) {
+			diff := movementShape.X != frontRect.X ||
+				movementShape.Y != frontRect.Y ||
+				movementShape.Width != frontRect.Width ||
+				movementShape.Height != frontRect.Height
 
-				// update the shape
-				movementShape.X = frontRect.X
-				movementShape.Y = frontRect.Y
-				movementShape.Width = frontRect.Width
-				movementShape.Height = frontRect.Height
+			// update the shape
+			movementShape.X = frontRect.X
+			movementShape.Y = frontRect.Y
+			movementShape.Width = frontRect.Width
+			movementShape.Height = frontRect.Height
 
-				if !diff {
-					stager.stage.probeIF.FillUpFormFromGongstruct(movementShape.Movement,
-						GetGongstructNameFromPointer(movementShape.Movement))
-				} else {
-					stager.stage.Commit()
-				}
-			},
+			if !diff {
+				stager.stage.probeIF.FillUpFormFromGongstruct(movementShape.Movement,
+					GetGongstructNameFromPointer(movementShape.Movement))
+			} else {
+				stager.stage.Commit()
+			}
 		}
-		if diagram.IsInfluenceCategoryShown {
+
+		if !diagram.IsInfluenceCategoryHidden {
 			// some movements have no underlying arcs
 			if !movement.IsFeatured && len(movement.Places) > 0 {
 				arcLayer.Paths = append(arcLayer.Paths, path)
 			}
 		}
-		if diagram.IsMovementCategoryShown {
+		if !diagram.IsMovementCategoryHidden {
 			layer.Rects = append(layer.Rects, rect)
 		}
 	}
@@ -352,28 +350,27 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) (svg_ *svg.SVG) {
 		}
 		map_ArtElement_Rect[artefactType] = rect
 
-		rect.Impl = &svg.FunctionalSvgRectProxy{
-			OnUpdated: func(frontRect *svg.Rect) {
-				diff := artefactTypeShape.X != frontRect.X ||
-					artefactTypeShape.Y != frontRect.Y ||
-					artefactTypeShape.Width != frontRect.Width ||
-					artefactTypeShape.Height != frontRect.Height
+		rect.OnUpdate = func(frontRect *svg.Rect) {
+			diff := artefactTypeShape.X != frontRect.X ||
+				artefactTypeShape.Y != frontRect.Y ||
+				artefactTypeShape.Width != frontRect.Width ||
+				artefactTypeShape.Height != frontRect.Height
 
-				// update the shape
-				artefactTypeShape.X = frontRect.X
-				artefactTypeShape.Y = frontRect.Y
-				artefactTypeShape.Width = frontRect.Width
-				artefactTypeShape.Height = frontRect.Height
+			// update the shape
+			artefactTypeShape.X = frontRect.X
+			artefactTypeShape.Y = frontRect.Y
+			artefactTypeShape.Width = frontRect.Width
+			artefactTypeShape.Height = frontRect.Height
 
-				if !diff {
-					stager.stage.probeIF.FillUpFormFromGongstruct(artefactTypeShape.ArtefactType,
-						GetGongstructNameFromPointer(artefactTypeShape.ArtefactType))
-				} else {
-					stager.stage.Commit()
-				}
-			},
+			if !diff {
+				stager.stage.probeIF.FillUpFormFromGongstruct(artefactTypeShape.ArtefactType,
+					GetGongstructNameFromPointer(artefactTypeShape.ArtefactType))
+			} else {
+				stager.stage.Commit()
+			}
 		}
-		if diagram.IsArtefactTypeCategoryShown {
+
+		if !diagram.IsArtefactTypeCategoryHidden {
 			layer.Rects = append(layer.Rects, rect)
 		}
 	}
@@ -491,39 +488,51 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) (svg_ *svg.SVG) {
 		}
 		map_ArtElement_Rect[artist] = rect
 
+		if artistShape.ImagePngBase64Content != "" {
+			rect.RectAnchoredPngImages = append(
+				rect.RectAnchoredPngImages,
+				&svg.RectAnchoredPngImage{
+					Name:           artistShape.Name,
+					X_Offset:       artistShape.ImagePng_X_Offset,
+					Y_Offset:       artistShape.ImagePng_Y_Offset,
+					Width:          artistShape.ImagePng_Width,
+					Height:         artistShape.ImagePng_Height,
+					RectAnchorType: svg.RectAnchorType(artistShape.ImagePng_RectAnchorType),
+					Base64Content:  artistShape.ImagePngBase64Content,
+				})
+		}
+
 		if artist.IsDead {
 			rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, dateRectAnchoredText)
 		}
 
-		rect.Impl = &svg.FunctionalSvgRectProxy{
-			OnUpdated: func(frontRect *svg.Rect) {
-				diff := artistShape.X != frontRect.X ||
-					artistShape.Y != frontRect.Y ||
-					artistShape.Width != frontRect.Width ||
-					artistShape.Height != frontRect.Height
+		rect.OnUpdate = func(frontRect *svg.Rect) {
+			diff := artistShape.X != frontRect.X ||
+				artistShape.Y != frontRect.Y ||
+				artistShape.Width != frontRect.Width ||
+				artistShape.Height != frontRect.Height
 
-				// update the shape
-				artistShape.X = frontRect.X
-				artistShape.Y = frontRect.Y
-				artistShape.Width = frontRect.Width
-				artistShape.Height = frontRect.Height
+			// update the shape
+			artistShape.X = frontRect.X
+			artistShape.Y = frontRect.Y
+			artistShape.Width = frontRect.Width
+			artistShape.Height = frontRect.Height
 
-				if !diff {
-					stager.stage.probeIF.FillUpFormFromGongstruct(artistShape.Artist,
-						GetGongstructNameFromPointer(artistShape.Artist))
-				} else {
-					stager.stage.Commit()
-				}
-			},
+			if !diff {
+				stager.stage.probeIF.FillUpFormFromGongstruct(artistShape.Artist,
+					GetGongstructNameFromPointer(artistShape.Artist))
+			} else {
+				stager.stage.Commit()
+			}
 		}
 
-		if diagram.IsInfluenceCategoryShown {
+		if !diagram.IsInfluenceCategoryHidden {
 			// only artists with influence have a bottom arc
 			if len(map_Artist_Influences[artist]) > 0 {
 				arcLayer.Paths = append(arcLayer.Paths, path)
 			}
 		}
-		if diagram.IsArtistCategoryShown {
+		if !diagram.IsArtistCategoryHidden {
 			layer.Rects = append(layer.Rects, rect)
 		}
 	}
@@ -621,7 +630,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) (svg_ *svg.SVG) {
 			stager:         stager,
 		}
 
-		if diagram.IsInfluenceCategoryShown {
+		if !diagram.IsInfluenceCategoryHidden {
 			layer.Links = append(layer.Links, link)
 		}
 	}

@@ -110,6 +110,16 @@ type ArtistShape struct {
 	Width, Height float64
 
 	IsHidden bool
+
+	ImagePng_X, ImagePng_Y, ImagePng_Width, ImagePng_Height float64
+
+	ImagePng_X_Offset float64
+	ImagePng_Y_Offset float64
+
+	ImagePng_RectAnchorType RectAnchorType
+
+	// gong:text gong:width 600 gong:height 400
+	ImagePngBase64Content string
 }
 
 func (shape *ArtistShape) GetArtElement() *Artist {

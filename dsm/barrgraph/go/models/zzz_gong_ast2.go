@@ -17,8 +17,10 @@ import (
 	"time"
 )
 
-var _time__dummyDeclaration2 time.Duration
-var _ = _time__dummyDeclaration2
+var (
+	_time__dummyDeclaration2 time.Duration
+	_                        = _time__dummyDeclaration2
+)
 
 // swagger:ignore
 type GONG__ExpressionType string
@@ -95,7 +97,6 @@ func GongParseAstString(stage *Stage, blob string, preserveOrder bool) error {
 
 // ParseAstFileFromAst traverses the AST and stages instances using the Unmarshaller registry
 func ParseAstFileFromAst(stage *Stage, inFile *ast.File, fset *token.FileSet, preserveOrder bool) error {
-
 	// 1. Remove Global Variables: Use a local map to track variable names to instances
 	identifierMap := make(map[string]GongstructIF)
 
@@ -342,8 +343,8 @@ func GongExtractExpr(expr ast.Expr) any {
 func GongUnmarshallSliceOfPointers[T PointerToGongstruct](
 	slice *[]T,
 	valueExpr ast.Expr,
-	identifierMap map[string]GongstructIF) (err error) {
-
+	identifierMap map[string]GongstructIF,
+) (err error) {
 	if call, ok := valueExpr.(*ast.CallExpr); ok {
 		funcName := ""
 		var isSlices bool
@@ -399,8 +400,8 @@ func GongUnmarshallSliceOfPointers[T PointerToGongstruct](
 func GongUnmarshallPointer[T PointerToGongstruct](
 	ptr *T,
 	valueExpr ast.Expr,
-	identifierMap map[string]GongstructIF) {
-
+	identifierMap map[string]GongstructIF,
+) {
 	if ident, ok := valueExpr.(*ast.Ident); ok {
 		if ident.Name == "nil" {
 			var zero T
@@ -416,8 +417,8 @@ func GongUnmarshallPointer[T PointerToGongstruct](
 // GongUnmarshallEnum handles assignment of enum fields (via SelectorExpr or String fallback)
 func GongUnmarshallEnum[T interface{ FromCodeString(string) error }](
 	ptr T,
-	valueExpr ast.Expr) {
-
+	valueExpr ast.Expr,
+) {
 	// Case 1: Standard Enum usage (models.EnumType_Value)
 	if sel, ok := valueExpr.(*ast.SelectorExpr); ok {
 		if err := ptr.FromCodeString(sel.Sel.Name); err != nil {
@@ -587,6 +588,22 @@ func (u *ArtistShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 		instance.Height = GongExtractFloat(valueExpr)
 	case "IsHidden":
 		instance.IsHidden = GongExtractBool(valueExpr)
+	case "ImagePng_X":
+		instance.ImagePng_X = GongExtractFloat(valueExpr)
+	case "ImagePng_Y":
+		instance.ImagePng_Y = GongExtractFloat(valueExpr)
+	case "ImagePng_Width":
+		instance.ImagePng_Width = GongExtractFloat(valueExpr)
+	case "ImagePng_Height":
+		instance.ImagePng_Height = GongExtractFloat(valueExpr)
+	case "ImagePng_X_Offset":
+		instance.ImagePng_X_Offset = GongExtractFloat(valueExpr)
+	case "ImagePng_Y_Offset":
+		instance.ImagePng_Y_Offset = GongExtractFloat(valueExpr)
+	case "ImagePng_RectAnchorType":
+		GongUnmarshallEnum(&instance.ImagePng_RectAnchorType, valueExpr)
+	case "ImagePngBase64Content":
+		instance.ImagePngBase64Content = GongExtractString(valueExpr)
 	}
 	return nil
 }
@@ -703,13 +720,13 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 	case "IsInfluenceCategoryNodeExpanded":
 		instance.IsInfluenceCategoryNodeExpanded = GongExtractBool(valueExpr)
 	case "IsMovementCategoryShown":
-		instance.IsMovementCategoryShown = GongExtractBool(valueExpr)
+		instance.IsMovementCategoryHidden = GongExtractBool(valueExpr)
 	case "IsArtefactTypeCategoryShown":
-		instance.IsArtefactTypeCategoryShown = GongExtractBool(valueExpr)
+		instance.IsArtefactTypeCategoryHidden = GongExtractBool(valueExpr)
 	case "IsArtistCategoryShown":
-		instance.IsArtistCategoryShown = GongExtractBool(valueExpr)
+		instance.IsArtistCategoryHidden = GongExtractBool(valueExpr)
 	case "IsInfluenceCategoryShown":
-		instance.IsInfluenceCategoryShown = GongExtractBool(valueExpr)
+		instance.IsInfluenceCategoryHidden = GongExtractBool(valueExpr)
 	case "StartDate":
 		if call, ok := valueExpr.(*ast.CallExpr); ok {
 			if len(call.Args) == 2 {

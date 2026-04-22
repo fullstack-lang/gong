@@ -64,13 +64,17 @@ type Link struct {
 
 	Impl LinkImplInterface
 
+	OnUpdate func(updatedLink *Link)
+
 	MouseEvent
 }
 
 func (link *Link) OnAfterUpdate(stage *Stage, _, frontLink *Link) {
-
 	if link.Impl != nil {
 		link.Impl.LinkUpdated(frontLink)
+	}
+	if link.OnUpdate != nil {
+		link.OnUpdate(frontLink)
 	}
 }
 
@@ -208,11 +212,9 @@ func (link *Link) WriteSVGEndArrow(sb *strings.Builder, segment *Segment) {
 
 	link.Presentation.WriteSVG(sb)
 	sb.WriteString(" />\n")
-
 }
 
 func (link *Link) WriteSVGArcPath(sb *strings.Builder, segment, nextSegment *Segment) {
-
 	if link.Type == LINK_TYPE_LINE_WITH_CONTROL_POINTS {
 		cornerX := segment.EndPointWithoutRadius.X
 		cornerY := segment.EndPointWithoutRadius.Y
@@ -318,5 +320,4 @@ func (link *Link) WriteSVGArcPath(sb *strings.Builder, segment, nextSegment *Seg
 
 	link.Presentation.WriteSVG(sb)
 	sb.WriteString(" />\n")
-
 }
