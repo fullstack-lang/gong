@@ -28,7 +28,6 @@ func (stager *Stager) svg() {
 // to SVG elements (Rects, Links, Paths) on a single layer. It also populates the diagram's
 // internal maps to link abstract elements with their visual SVG counterparts.
 func (stager *Stager) generateSvgObject(diagram *Diagram) (svg_ *svg.SVG) {
-
 	// creates a map of art history element
 	map_ArtElement_Rect := make(map[ArtElement]*svg.Rect)
 
@@ -291,13 +290,13 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) (svg_ *svg.SVG) {
 				}
 			},
 		}
-		if diagram.IsInfluenceCategoryShown {
+		if !diagram.IsInfluenceCategoryHidden {
 			// some movements have no underlying arcs
 			if !movement.IsFeatured && len(movement.Places) > 0 {
 				arcLayer.Paths = append(arcLayer.Paths, path)
 			}
 		}
-		if diagram.IsMovementCategoryShown {
+		if !diagram.IsMovementCategoryHidden {
 			layer.Rects = append(layer.Rects, rect)
 		}
 	}
@@ -373,7 +372,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) (svg_ *svg.SVG) {
 				}
 			},
 		}
-		if diagram.IsArtefactTypeCategoryShown {
+		if !diagram.IsArtefactTypeCategoryHidden {
 			layer.Rects = append(layer.Rects, rect)
 		}
 	}
@@ -517,13 +516,13 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) (svg_ *svg.SVG) {
 			},
 		}
 
-		if diagram.IsInfluenceCategoryShown {
+		if !diagram.IsInfluenceCategoryHidden {
 			// only artists with influence have a bottom arc
 			if len(map_Artist_Influences[artist]) > 0 {
 				arcLayer.Paths = append(arcLayer.Paths, path)
 			}
 		}
-		if diagram.IsArtistCategoryShown {
+		if !diagram.IsArtistCategoryHidden {
 			layer.Rects = append(layer.Rects, rect)
 		}
 	}
@@ -621,7 +620,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) (svg_ *svg.SVG) {
 			stager:         stager,
 		}
 
-		if diagram.IsInfluenceCategoryShown {
+		if !diagram.IsInfluenceCategoryHidden {
 			layer.Links = append(layer.Links, link)
 		}
 	}

@@ -27,30 +27,59 @@ func _(stage *models.Stage) {
 
 	// insertion point for declaration of instances to stage
 
+	__Artist__00000000_ := (&models.Artist{Name: `Isamo Noguchi`}).Stage(stage)
+
+	__ArtistShape__00000001_ := (&models.ArtistShape{Name: ``}).Stage(stage)
+
 	__Desk__00000000_ := (&models.Desk{Name: `Desk`}).Stage(stage)
 
-	__Diagram__00000000_ := (&models.Diagram{Name: `Default`}).Stage(stage)
+	__Diagram__00000000_ := (&models.Diagram{Name: `  AVIVA    STOOL  BACKGROUND`}).Stage(stage)
 
 	__Movement__00000000_ := (&models.Movement{Name: `biomorphism`}).Stage(stage)
 
+	__MovementShape__00000006_ := (&models.MovementShape{Name: ``}).Stage(stage)
+
+	__Place__00000000_ := (&models.Place{Name: `Paris`}).Stage(stage)
+	__Place__00000001_ := (&models.Place{Name: `New York`}).Stage(stage)
+
 	// insertion point for initialization of values
+
+	__Artist__00000000_.Name = `Isamo Noguchi`
+	__Artist__00000000_.IsInRenameMode = false
+	__Artist__00000000_.IsDead = true
+	__Artist__00000000_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1984-01-01 00:00:00 +0000 UTC")
+
+	__ArtistShape__00000001_.Name = ``
+	__ArtistShape__00000001_.X = 99.000000
+	__ArtistShape__00000001_.Y = 99.000000
+	__ArtistShape__00000001_.Width = 80.000000
+	__ArtistShape__00000001_.Height = 30.000000
+	__ArtistShape__00000001_.IsHidden = false
+	__ArtistShape__00000001_.ImagePng_X = 0.000000
+	__ArtistShape__00000001_.ImagePng_Y = 0.000000
+	__ArtistShape__00000001_.ImagePng_Width = 0.000000
+	__ArtistShape__00000001_.ImagePng_Height = 0.000000
+	__ArtistShape__00000001_.ImagePng_X_Offset = 0.000000
+	__ArtistShape__00000001_.ImagePng_Y_Offset = 0.000000
+	__ArtistShape__00000001_.ImagePng_RectAnchorType = ""
+	__ArtistShape__00000001_.ImagePngBase64Content = ``
 
 	__Desk__00000000_.Name = `Desk`
 
-	__Diagram__00000000_.Name = `Default`
-	__Diagram__00000000_.IsEditable = true
+	__Diagram__00000000_.Name = `  AVIVA    STOOL  BACKGROUND`
+	__Diagram__00000000_.IsEditable = false
 	__Diagram__00000000_.IsNodeExpanded = true
 	__Diagram__00000000_.IsMovementCategoryNodeExpanded = true
 	__Diagram__00000000_.IsArtefactTypeCategoryNodeExpanded = false
-	__Diagram__00000000_.IsArtistCategoryNodeExpanded = false
+	__Diagram__00000000_.IsArtistCategoryNodeExpanded = true
 	__Diagram__00000000_.IsInfluenceCategoryNodeExpanded = false
 	__Diagram__00000000_.IsMovementCategoryShown = false
 	__Diagram__00000000_.IsArtefactTypeCategoryShown = false
 	__Diagram__00000000_.IsArtistCategoryShown = false
 	__Diagram__00000000_.IsInfluenceCategoryShown = false
-	__Diagram__00000000_.StartDate, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1950-01-01 00:00:00 +0000 UTC")
+	__Diagram__00000000_.StartDate, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1900-01-01 00:00:00 +0000 UTC")
 	__Diagram__00000000_.EndDate, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2030-01-01 00:00:00 +0000 UTC")
-	__Diagram__00000000_.NbYearsForIntervals = 5
+	__Diagram__00000000_.NbYearsForIntervals = 10
 	__Diagram__00000000_.XMargin = 20.000000
 	__Diagram__00000000_.YMargin = 40.000000
 	__Diagram__00000000_.Height = 900.000000
@@ -135,6 +164,24 @@ func _(stage *models.Stage) {
 	__Movement__00000000_.IsMinor = false
 	__Movement__00000000_.AdditionnalName = ``
 
+	__MovementShape__00000006_.Name = ``
+	__MovementShape__00000006_.X = 335.000000
+	__MovementShape__00000006_.Y = 94.000000
+	__MovementShape__00000006_.Width = 121.000000
+	__MovementShape__00000006_.Height = 39.000000
+	__MovementShape__00000006_.IsHidden = false
+
+	__Place__00000000_.Name = `Paris`
+
+	__Place__00000001_.Name = `New York`
+
 	// insertion point for setup of pointers
+	__Artist__00000000_.Place = __Place__00000000_
+	__ArtistShape__00000001_.Artist = __Artist__00000000_
 	__Desk__00000000_.SelectedDiagram = __Diagram__00000000_
+	__Diagram__00000000_.MovementShapes = append(__Diagram__00000000_.MovementShapes, __MovementShape__00000006_)
+	__Diagram__00000000_.ArtistShapes = append(__Diagram__00000000_.ArtistShapes, __ArtistShape__00000001_)
+	__Movement__00000000_.Places = append(__Movement__00000000_.Places, __Place__00000001_)
+	__Movement__00000000_.Places = append(__Movement__00000000_.Places, __Place__00000000_)
+	__MovementShape__00000006_.Movement = __Movement__00000000_
 }

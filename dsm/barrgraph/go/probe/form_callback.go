@@ -99,6 +99,7 @@ func (artefacttypeFormCallback *ArtefactTypeFormCallback) OnSave() {
 
 	artefacttypeFormCallback.probe.ux_tree()
 }
+
 func __gong__New__ArtefactTypeShapeFormCallback(
 	artefacttypeshape *models.ArtefactTypeShape,
 	probe *Probe,
@@ -210,7 +211,6 @@ func (artefacttypeshapeFormCallback *ArtefactTypeShapeFormCallback) OnSave() {
 			// (2) find the source
 			var newSource *models.Diagram
 			for _diagram := range *models.GetGongstructInstancesSet[models.Diagram](artefacttypeshapeFormCallback.probe.stageOfInterest) {
-
 				// the match is base on the name
 				if _diagram.GetName() == newSourceName.GetName() {
 					newSource = _diagram // we have a match
@@ -255,6 +255,7 @@ func (artefacttypeshapeFormCallback *ArtefactTypeShapeFormCallback) OnSave() {
 
 	artefacttypeshapeFormCallback.probe.ux_tree()
 }
+
 func __gong__New__ArtistFormCallback(
 	artist *models.Artist,
 	probe *Probe,
@@ -341,6 +342,7 @@ func (artistFormCallback *ArtistFormCallback) OnSave() {
 
 	artistFormCallback.probe.ux_tree()
 }
+
 func __gong__New__ArtistShapeFormCallback(
 	artistshape *models.ArtistShape,
 	probe *Probe,
@@ -400,6 +402,22 @@ func (artistshapeFormCallback *ArtistShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(artistshape_.Height), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(artistshape_.IsHidden), formDiv)
+		case "ImagePng_X":
+			FormDivBasicFieldToField(&(artistshape_.ImagePng_X), formDiv)
+		case "ImagePng_Y":
+			FormDivBasicFieldToField(&(artistshape_.ImagePng_Y), formDiv)
+		case "ImagePng_Width":
+			FormDivBasicFieldToField(&(artistshape_.ImagePng_Width), formDiv)
+		case "ImagePng_Height":
+			FormDivBasicFieldToField(&(artistshape_.ImagePng_Height), formDiv)
+		case "ImagePng_X_Offset":
+			FormDivBasicFieldToField(&(artistshape_.ImagePng_X_Offset), formDiv)
+		case "ImagePng_Y_Offset":
+			FormDivBasicFieldToField(&(artistshape_.ImagePng_Y_Offset), formDiv)
+		case "ImagePng_RectAnchorType":
+			FormDivEnumStringFieldToField(&(artistshape_.ImagePng_RectAnchorType), formDiv)
+		case "ImagePngBase64Content":
+			FormDivBasicFieldToField(&(artistshape_.ImagePngBase64Content), formDiv)
 		case "Diagram:ArtistShapes":
 			// WARNING : this form deals with the N-N association "Diagram.ArtistShapes []*ArtistShape" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
@@ -452,7 +470,6 @@ func (artistshapeFormCallback *ArtistShapeFormCallback) OnSave() {
 			// (2) find the source
 			var newSource *models.Diagram
 			for _diagram := range *models.GetGongstructInstancesSet[models.Diagram](artistshapeFormCallback.probe.stageOfInterest) {
-
 				// the match is base on the name
 				if _diagram.GetName() == newSourceName.GetName() {
 					newSource = _diagram // we have a match
@@ -497,6 +514,7 @@ func (artistshapeFormCallback *ArtistShapeFormCallback) OnSave() {
 
 	artistshapeFormCallback.probe.ux_tree()
 }
+
 func __gong__New__ControlPointShapeFormCallback(
 	controlpointshape *models.ControlPointShape,
 	probe *Probe,
@@ -602,7 +620,6 @@ func (controlpointshapeFormCallback *ControlPointShapeFormCallback) OnSave() {
 			// (2) find the source
 			var newSource *models.InfluenceShape
 			for _influenceshape := range *models.GetGongstructInstancesSet[models.InfluenceShape](controlpointshapeFormCallback.probe.stageOfInterest) {
-
 				// the match is base on the name
 				if _influenceshape.GetName() == newSourceName.GetName() {
 					newSource = _influenceshape // we have a match
@@ -647,6 +664,7 @@ func (controlpointshapeFormCallback *ControlPointShapeFormCallback) OnSave() {
 
 	controlpointshapeFormCallback.probe.ux_tree()
 }
+
 func __gong__New__DeskFormCallback(
 	desk *models.Desk,
 	probe *Probe,
@@ -727,6 +745,7 @@ func (deskFormCallback *DeskFormCallback) OnSave() {
 
 	deskFormCallback.probe.ux_tree()
 }
+
 func __gong__New__DiagramFormCallback(
 	diagram *models.Diagram,
 	probe *Probe,
@@ -790,7 +809,6 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -821,7 +839,6 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -852,7 +869,6 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -883,7 +899,6 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -911,13 +926,13 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 		case "IsInfluenceCategoryNodeExpanded":
 			FormDivBasicFieldToField(&(diagram_.IsInfluenceCategoryNodeExpanded), formDiv)
 		case "IsMovementCategoryShown":
-			FormDivBasicFieldToField(&(diagram_.IsMovementCategoryShown), formDiv)
+			FormDivBasicFieldToField(&(diagram_.IsMovementCategoryHidden), formDiv)
 		case "IsArtefactTypeCategoryShown":
-			FormDivBasicFieldToField(&(diagram_.IsArtefactTypeCategoryShown), formDiv)
+			FormDivBasicFieldToField(&(diagram_.IsArtefactTypeCategoryHidden), formDiv)
 		case "IsArtistCategoryShown":
-			FormDivBasicFieldToField(&(diagram_.IsArtistCategoryShown), formDiv)
+			FormDivBasicFieldToField(&(diagram_.IsArtistCategoryHidden), formDiv)
 		case "IsInfluenceCategoryShown":
-			FormDivBasicFieldToField(&(diagram_.IsInfluenceCategoryShown), formDiv)
+			FormDivBasicFieldToField(&(diagram_.IsInfluenceCategoryHidden), formDiv)
 		case "StartDate":
 			FormDivBasicFieldToField(&(diagram_.StartDate), formDiv)
 		case "EndDate":
@@ -1097,6 +1112,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 
 	diagramFormCallback.probe.ux_tree()
 }
+
 func __gong__New__InfluenceFormCallback(
 	influence *models.Influence,
 	probe *Probe,
@@ -1189,6 +1205,7 @@ func (influenceFormCallback *InfluenceFormCallback) OnSave() {
 
 	influenceFormCallback.probe.ux_tree()
 }
+
 func __gong__New__InfluenceShapeFormCallback(
 	influenceshape *models.InfluenceShape,
 	probe *Probe,
@@ -1254,7 +1271,6 @@ func (influenceshapeFormCallback *InfluenceShapeFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -1321,7 +1337,6 @@ func (influenceshapeFormCallback *InfluenceShapeFormCallback) OnSave() {
 			// (2) find the source
 			var newSource *models.Diagram
 			for _diagram := range *models.GetGongstructInstancesSet[models.Diagram](influenceshapeFormCallback.probe.stageOfInterest) {
-
 				// the match is base on the name
 				if _diagram.GetName() == newSourceName.GetName() {
 					newSource = _diagram // we have a match
@@ -1366,6 +1381,7 @@ func (influenceshapeFormCallback *InfluenceShapeFormCallback) OnSave() {
 
 	influenceshapeFormCallback.probe.ux_tree()
 }
+
 func __gong__New__MovementFormCallback(
 	movement *models.Movement,
 	probe *Probe,
@@ -1435,7 +1451,6 @@ func (movementFormCallback *MovementFormCallback) OnSave() {
 			}
 
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
@@ -1495,6 +1510,7 @@ func (movementFormCallback *MovementFormCallback) OnSave() {
 
 	movementFormCallback.probe.ux_tree()
 }
+
 func __gong__New__MovementShapeFormCallback(
 	movementshape *models.MovementShape,
 	probe *Probe,
@@ -1606,7 +1622,6 @@ func (movementshapeFormCallback *MovementShapeFormCallback) OnSave() {
 			// (2) find the source
 			var newSource *models.Diagram
 			for _diagram := range *models.GetGongstructInstancesSet[models.Diagram](movementshapeFormCallback.probe.stageOfInterest) {
-
 				// the match is base on the name
 				if _diagram.GetName() == newSourceName.GetName() {
 					newSource = _diagram // we have a match
@@ -1651,6 +1666,7 @@ func (movementshapeFormCallback *MovementShapeFormCallback) OnSave() {
 
 	movementshapeFormCallback.probe.ux_tree()
 }
+
 func __gong__New__PlaceFormCallback(
 	place *models.Place,
 	probe *Probe,
@@ -1750,7 +1766,6 @@ func (placeFormCallback *PlaceFormCallback) OnSave() {
 			// (2) find the source
 			var newSource *models.Movement
 			for _movement := range *models.GetGongstructInstancesSet[models.Movement](placeFormCallback.probe.stageOfInterest) {
-
 				// the match is base on the name
 				if _movement.GetName() == newSourceName.GetName() {
 					newSource = _movement // we have a match
