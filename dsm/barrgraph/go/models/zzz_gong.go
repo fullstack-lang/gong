@@ -1226,51 +1226,51 @@ func NewStage(name string) (stage *Stage) {
 		// insertion point for order map initialisations
 		ArtefactType_stagedOrder: make(map[*ArtefactType]uint),
 		ArtefactType_orderStaged: make(map[uint]*ArtefactType),
-		ArtefactTypes_reference: make(map[*ArtefactType]*ArtefactType),
+		ArtefactTypes_reference:  make(map[*ArtefactType]*ArtefactType),
 
 		ArtefactTypeShape_stagedOrder: make(map[*ArtefactTypeShape]uint),
 		ArtefactTypeShape_orderStaged: make(map[uint]*ArtefactTypeShape),
-		ArtefactTypeShapes_reference: make(map[*ArtefactTypeShape]*ArtefactTypeShape),
+		ArtefactTypeShapes_reference:  make(map[*ArtefactTypeShape]*ArtefactTypeShape),
 
 		Artist_stagedOrder: make(map[*Artist]uint),
 		Artist_orderStaged: make(map[uint]*Artist),
-		Artists_reference: make(map[*Artist]*Artist),
+		Artists_reference:  make(map[*Artist]*Artist),
 
 		ArtistShape_stagedOrder: make(map[*ArtistShape]uint),
 		ArtistShape_orderStaged: make(map[uint]*ArtistShape),
-		ArtistShapes_reference: make(map[*ArtistShape]*ArtistShape),
+		ArtistShapes_reference:  make(map[*ArtistShape]*ArtistShape),
 
 		ControlPointShape_stagedOrder: make(map[*ControlPointShape]uint),
 		ControlPointShape_orderStaged: make(map[uint]*ControlPointShape),
-		ControlPointShapes_reference: make(map[*ControlPointShape]*ControlPointShape),
+		ControlPointShapes_reference:  make(map[*ControlPointShape]*ControlPointShape),
 
 		Desk_stagedOrder: make(map[*Desk]uint),
 		Desk_orderStaged: make(map[uint]*Desk),
-		Desks_reference: make(map[*Desk]*Desk),
+		Desks_reference:  make(map[*Desk]*Desk),
 
 		Diagram_stagedOrder: make(map[*Diagram]uint),
 		Diagram_orderStaged: make(map[uint]*Diagram),
-		Diagrams_reference: make(map[*Diagram]*Diagram),
+		Diagrams_reference:  make(map[*Diagram]*Diagram),
 
 		Influence_stagedOrder: make(map[*Influence]uint),
 		Influence_orderStaged: make(map[uint]*Influence),
-		Influences_reference: make(map[*Influence]*Influence),
+		Influences_reference:  make(map[*Influence]*Influence),
 
 		InfluenceShape_stagedOrder: make(map[*InfluenceShape]uint),
 		InfluenceShape_orderStaged: make(map[uint]*InfluenceShape),
-		InfluenceShapes_reference: make(map[*InfluenceShape]*InfluenceShape),
+		InfluenceShapes_reference:  make(map[*InfluenceShape]*InfluenceShape),
 
 		Movement_stagedOrder: make(map[*Movement]uint),
 		Movement_orderStaged: make(map[uint]*Movement),
-		Movements_reference: make(map[*Movement]*Movement),
+		Movements_reference:  make(map[*Movement]*Movement),
 
 		MovementShape_stagedOrder: make(map[*MovementShape]uint),
 		MovementShape_orderStaged: make(map[uint]*MovementShape),
-		MovementShapes_reference: make(map[*MovementShape]*MovementShape),
+		MovementShapes_reference:  make(map[*MovementShape]*MovementShape),
 
 		Place_stagedOrder: make(map[*Place]uint),
 		Place_orderStaged: make(map[uint]*Place),
-		Places_reference: make(map[*Place]*Place),
+		Places_reference:  make(map[*Place]*Place),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
@@ -3744,6 +3744,39 @@ func (artistshape *ArtistShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:               "IsHidden",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
+		{
+			Name:               "ImagePng_X",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "ImagePng_Y",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "ImagePng_Width",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "ImagePng_Height",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "ImagePng_X_Offset",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "ImagePng_Y_Offset",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:                 "ImagePng_RectAnchorType",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "RectAnchorType",
+		},
+		{
+			Name:               "ImagePngBase64Content",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
 	}
 	return
 }
@@ -4505,6 +4538,35 @@ func (artistshape *ArtistShape) GongGetFieldValue(fieldName string, stage *Stage
 		res.valueString = fmt.Sprintf("%t", artistshape.IsHidden)
 		res.valueBool = artistshape.IsHidden
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ImagePng_X":
+		res.valueString = fmt.Sprintf("%f", artistshape.ImagePng_X)
+		res.valueFloat = artistshape.ImagePng_X
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "ImagePng_Y":
+		res.valueString = fmt.Sprintf("%f", artistshape.ImagePng_Y)
+		res.valueFloat = artistshape.ImagePng_Y
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "ImagePng_Width":
+		res.valueString = fmt.Sprintf("%f", artistshape.ImagePng_Width)
+		res.valueFloat = artistshape.ImagePng_Width
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "ImagePng_Height":
+		res.valueString = fmt.Sprintf("%f", artistshape.ImagePng_Height)
+		res.valueFloat = artistshape.ImagePng_Height
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "ImagePng_X_Offset":
+		res.valueString = fmt.Sprintf("%f", artistshape.ImagePng_X_Offset)
+		res.valueFloat = artistshape.ImagePng_X_Offset
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "ImagePng_Y_Offset":
+		res.valueString = fmt.Sprintf("%f", artistshape.ImagePng_Y_Offset)
+		res.valueFloat = artistshape.ImagePng_Y_Offset
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "ImagePng_RectAnchorType":
+		enum := artistshape.ImagePng_RectAnchorType
+		res.valueString = enum.ToCodeString()
+	case "ImagePngBase64Content":
+		res.valueString = artistshape.ImagePngBase64Content
 	}
 	return
 }
@@ -4615,20 +4677,20 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueBool = diagram.IsInfluenceCategoryNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsMovementCategoryShown":
-		res.valueString = fmt.Sprintf("%t", diagram.IsMovementCategoryShown)
-		res.valueBool = diagram.IsMovementCategoryShown
+		res.valueString = fmt.Sprintf("%t", diagram.IsMovementCategoryHidden)
+		res.valueBool = diagram.IsMovementCategoryHidden
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsArtefactTypeCategoryShown":
-		res.valueString = fmt.Sprintf("%t", diagram.IsArtefactTypeCategoryShown)
-		res.valueBool = diagram.IsArtefactTypeCategoryShown
+		res.valueString = fmt.Sprintf("%t", diagram.IsArtefactTypeCategoryHidden)
+		res.valueBool = diagram.IsArtefactTypeCategoryHidden
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsArtistCategoryShown":
-		res.valueString = fmt.Sprintf("%t", diagram.IsArtistCategoryShown)
-		res.valueBool = diagram.IsArtistCategoryShown
+		res.valueString = fmt.Sprintf("%t", diagram.IsArtistCategoryHidden)
+		res.valueBool = diagram.IsArtistCategoryHidden
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsInfluenceCategoryShown":
-		res.valueString = fmt.Sprintf("%t", diagram.IsInfluenceCategoryShown)
-		res.valueBool = diagram.IsInfluenceCategoryShown
+		res.valueString = fmt.Sprintf("%t", diagram.IsInfluenceCategoryHidden)
+		res.valueBool = diagram.IsInfluenceCategoryHidden
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "StartDate":
 		res.valueString = diagram.StartDate.String()
@@ -5107,6 +5169,22 @@ func (artistshape *ArtistShape) GongSetFieldValue(fieldName string, value GongFi
 		artistshape.Height = value.GetValueFloat()
 	case "IsHidden":
 		artistshape.IsHidden = value.GetValueBool()
+	case "ImagePng_X":
+		artistshape.ImagePng_X = value.GetValueFloat()
+	case "ImagePng_Y":
+		artistshape.ImagePng_Y = value.GetValueFloat()
+	case "ImagePng_Width":
+		artistshape.ImagePng_Width = value.GetValueFloat()
+	case "ImagePng_Height":
+		artistshape.ImagePng_Height = value.GetValueFloat()
+	case "ImagePng_X_Offset":
+		artistshape.ImagePng_X_Offset = value.GetValueFloat()
+	case "ImagePng_Y_Offset":
+		artistshape.ImagePng_Y_Offset = value.GetValueFloat()
+	case "ImagePng_RectAnchorType":
+		artistshape.ImagePng_RectAnchorType.FromCodeString(value.GetValueString())
+	case "ImagePngBase64Content":
+		artistshape.ImagePngBase64Content = value.GetValueString()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -5226,13 +5304,13 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 	case "IsInfluenceCategoryNodeExpanded":
 		diagram.IsInfluenceCategoryNodeExpanded = value.GetValueBool()
 	case "IsMovementCategoryShown":
-		diagram.IsMovementCategoryShown = value.GetValueBool()
+		diagram.IsMovementCategoryHidden = value.GetValueBool()
 	case "IsArtefactTypeCategoryShown":
-		diagram.IsArtefactTypeCategoryShown = value.GetValueBool()
+		diagram.IsArtefactTypeCategoryHidden = value.GetValueBool()
 	case "IsArtistCategoryShown":
-		diagram.IsArtistCategoryShown = value.GetValueBool()
+		diagram.IsArtistCategoryHidden = value.GetValueBool()
 	case "IsInfluenceCategoryShown":
-		diagram.IsInfluenceCategoryShown = value.GetValueBool()
+		diagram.IsInfluenceCategoryHidden = value.GetValueBool()
 	case "NbYearsForIntervals":
 		diagram.NbYearsForIntervals = int(value.GetValueInt())
 	case "XMargin":

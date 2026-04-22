@@ -75,12 +75,12 @@ func (stager *Stager) tree() {
 				Name: diagram.GetName(),
 				Icon: string(buttons.BUTTON_visibility),
 				OnClick: func() {
-					diagram.IsMovementCategoryShown = !diagram.IsMovementCategoryShown
+					diagram.IsMovementCategoryHidden = !diagram.IsMovementCategoryHidden
 					stage.Commit()
 				},
 			},
 		}
-		if diagram.IsMovementCategoryShown {
+		if !diagram.IsMovementCategoryHidden {
 			movementCategoryNode.Buttons[0].Icon = string(buttons.BUTTON_visibility_off)
 		}
 		diagramNode.Children = append(diagramNode.Children, movementCategoryNode)
@@ -164,12 +164,12 @@ func (stager *Stager) tree() {
 				Name: diagram.GetName(),
 				Icon: string(buttons.BUTTON_visibility),
 				OnClick: func() {
-					diagram.IsArtefactTypeCategoryShown = !diagram.IsArtefactTypeCategoryShown
+					diagram.IsArtefactTypeCategoryHidden = !diagram.IsArtefactTypeCategoryHidden
 					stage.Commit()
 				},
 			},
 		}
-		if diagram.IsArtefactTypeCategoryShown {
+		if !diagram.IsArtefactTypeCategoryHidden {
 			artefactTypeCategoryNode.Buttons[0].Icon = string(buttons.BUTTON_visibility_off)
 		}
 		for _, artefactType := range GetGongstrucsSorted[*ArtefactType](stager.stage) {
@@ -248,12 +248,12 @@ func (stager *Stager) tree() {
 				Name: diagram.GetName(),
 				Icon: string(buttons.BUTTON_visibility),
 				OnClick: func() {
-					diagram.IsArtistCategoryShown = !diagram.IsArtistCategoryShown
+					diagram.IsArtistCategoryHidden = !diagram.IsArtistCategoryHidden
 					stage.Commit()
 				},
 			},
 		}
-		if diagram.IsArtistCategoryShown {
+		if !diagram.IsArtistCategoryHidden {
 			artistCategoryNode.Buttons[0].Icon = string(buttons.BUTTON_visibility_off)
 		}
 		for _, element := range GetGongstrucsSorted[*Artist](stager.stage) {
@@ -341,7 +341,7 @@ func (stager *Stager) tree() {
 						},
 					},
 				}
-				if diagram.IsArtistCategoryShown {
+				if !diagram.IsArtistCategoryHidden {
 					node.Buttons[0].Icon = string(buttons.BUTTON_visibility)
 					node.Buttons[0].ToolTipText = "Show on diagram"
 				}
@@ -366,12 +366,12 @@ func (stager *Stager) tree() {
 				Name: diagram.GetName(),
 				Icon: string(buttons.BUTTON_visibility),
 				OnClick: func() {
-					diagram.IsInfluenceCategoryShown = !diagram.IsInfluenceCategoryShown
+					diagram.IsInfluenceCategoryHidden = !diagram.IsInfluenceCategoryHidden
 					stage.Commit()
 				},
 			},
 		}
-		if diagram.IsInfluenceCategoryShown {
+		if !diagram.IsInfluenceCategoryHidden {
 			influenceCategoryNode.Buttons[0].Icon = string(buttons.BUTTON_visibility_off)
 		}
 		for _, influence := range GetGongstrucsSorted[*Influence](stager.stage) {
