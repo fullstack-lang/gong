@@ -14,7 +14,6 @@ func FillUpForm(
 	formGroup *form.FormGroup,
 	probe *Probe,
 ) {
-
 	switch instanceWithInferedType := any(instance).(type) {
 	// insertion point
 	case *models.ArtefactType:
@@ -89,6 +88,21 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsHidden", instanceWithInferedType.IsHidden, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		BasicFieldtoForm("ImagePng_X", instanceWithInferedType.ImagePng_X, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("ImagePng_Y", instanceWithInferedType.ImagePng_Y, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("ImagePng_Width", instanceWithInferedType.ImagePng_Width, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("ImagePng_Height", instanceWithInferedType.ImagePng_Height, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("ImagePng_X_Offset", instanceWithInferedType.ImagePng_X_Offset, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("ImagePng_Y_Offset", instanceWithInferedType.ImagePng_Y_Offset, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		EnumTypeStringToForm("ImagePng_RectAnchorType", instanceWithInferedType.ImagePng_RectAnchorType, instanceWithInferedType, probe.formStage, formGroup)
+		BasicFieldtoForm("ImagePngBase64Content", instanceWithInferedType.ImagePngBase64Content, instanceWithInferedType, probe.formStage, formGroup,
+			true, true, 600, true, 400)
 		{
 			var rf models.ReverseField
 			_ = rf
@@ -171,13 +185,13 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsInfluenceCategoryNodeExpanded", instanceWithInferedType.IsInfluenceCategoryNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("IsMovementCategoryShown", instanceWithInferedType.IsMovementCategoryShown, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("IsMovementCategoryShown", instanceWithInferedType.IsMovementCategoryHidden, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("IsArtefactTypeCategoryShown", instanceWithInferedType.IsArtefactTypeCategoryShown, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("IsArtefactTypeCategoryShown", instanceWithInferedType.IsArtefactTypeCategoryHidden, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("IsArtistCategoryShown", instanceWithInferedType.IsArtistCategoryShown, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("IsArtistCategoryShown", instanceWithInferedType.IsArtistCategoryHidden, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("IsInfluenceCategoryShown", instanceWithInferedType.IsInfluenceCategoryShown, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("IsInfluenceCategoryShown", instanceWithInferedType.IsInfluenceCategoryHidden, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("StartDate", instanceWithInferedType.StartDate, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)

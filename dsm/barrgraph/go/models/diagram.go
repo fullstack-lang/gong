@@ -19,10 +19,10 @@ type Diagram struct {
 	IsArtistCategoryNodeExpanded       bool
 	IsInfluenceCategoryNodeExpanded    bool
 
-	IsMovementCategoryShown     bool
-	IsArtefactTypeCategoryShown bool
-	IsArtistCategoryShown       bool
-	IsInfluenceCategoryShown    bool
+	IsMovementCategoryHidden     bool
+	IsArtefactTypeCategoryHidden bool
+	IsArtistCategoryHidden       bool
+	IsInfluenceCategoryHidden    bool
 
 	StartDate           time.Time
 	EndDate             time.Time
