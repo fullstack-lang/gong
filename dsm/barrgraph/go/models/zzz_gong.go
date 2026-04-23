@@ -1226,51 +1226,51 @@ func NewStage(name string) (stage *Stage) {
 		// insertion point for order map initialisations
 		ArtefactType_stagedOrder: make(map[*ArtefactType]uint),
 		ArtefactType_orderStaged: make(map[uint]*ArtefactType),
-		ArtefactTypes_reference:  make(map[*ArtefactType]*ArtefactType),
+		ArtefactTypes_reference: make(map[*ArtefactType]*ArtefactType),
 
 		ArtefactTypeShape_stagedOrder: make(map[*ArtefactTypeShape]uint),
 		ArtefactTypeShape_orderStaged: make(map[uint]*ArtefactTypeShape),
-		ArtefactTypeShapes_reference:  make(map[*ArtefactTypeShape]*ArtefactTypeShape),
+		ArtefactTypeShapes_reference: make(map[*ArtefactTypeShape]*ArtefactTypeShape),
 
 		Artist_stagedOrder: make(map[*Artist]uint),
 		Artist_orderStaged: make(map[uint]*Artist),
-		Artists_reference:  make(map[*Artist]*Artist),
+		Artists_reference: make(map[*Artist]*Artist),
 
 		ArtistShape_stagedOrder: make(map[*ArtistShape]uint),
 		ArtistShape_orderStaged: make(map[uint]*ArtistShape),
-		ArtistShapes_reference:  make(map[*ArtistShape]*ArtistShape),
+		ArtistShapes_reference: make(map[*ArtistShape]*ArtistShape),
 
 		ControlPointShape_stagedOrder: make(map[*ControlPointShape]uint),
 		ControlPointShape_orderStaged: make(map[uint]*ControlPointShape),
-		ControlPointShapes_reference:  make(map[*ControlPointShape]*ControlPointShape),
+		ControlPointShapes_reference: make(map[*ControlPointShape]*ControlPointShape),
 
 		Desk_stagedOrder: make(map[*Desk]uint),
 		Desk_orderStaged: make(map[uint]*Desk),
-		Desks_reference:  make(map[*Desk]*Desk),
+		Desks_reference: make(map[*Desk]*Desk),
 
 		Diagram_stagedOrder: make(map[*Diagram]uint),
 		Diagram_orderStaged: make(map[uint]*Diagram),
-		Diagrams_reference:  make(map[*Diagram]*Diagram),
+		Diagrams_reference: make(map[*Diagram]*Diagram),
 
 		Influence_stagedOrder: make(map[*Influence]uint),
 		Influence_orderStaged: make(map[uint]*Influence),
-		Influences_reference:  make(map[*Influence]*Influence),
+		Influences_reference: make(map[*Influence]*Influence),
 
 		InfluenceShape_stagedOrder: make(map[*InfluenceShape]uint),
 		InfluenceShape_orderStaged: make(map[uint]*InfluenceShape),
-		InfluenceShapes_reference:  make(map[*InfluenceShape]*InfluenceShape),
+		InfluenceShapes_reference: make(map[*InfluenceShape]*InfluenceShape),
 
 		Movement_stagedOrder: make(map[*Movement]uint),
 		Movement_orderStaged: make(map[uint]*Movement),
-		Movements_reference:  make(map[*Movement]*Movement),
+		Movements_reference: make(map[*Movement]*Movement),
 
 		MovementShape_stagedOrder: make(map[*MovementShape]uint),
 		MovementShape_orderStaged: make(map[uint]*MovementShape),
-		MovementShapes_reference:  make(map[*MovementShape]*MovementShape),
+		MovementShapes_reference: make(map[*MovementShape]*MovementShape),
 
 		Place_stagedOrder: make(map[*Place]uint),
 		Place_orderStaged: make(map[uint]*Place),
-		Places_reference:  make(map[*Place]*Place),
+		Places_reference: make(map[*Place]*Place),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
@@ -3872,19 +3872,19 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:               "IsMovementCategoryShown",
+			Name:               "IsMovementCategoryHidden",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:               "IsArtefactTypeCategoryShown",
+			Name:               "IsArtefactTypeCategoryHidden",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:               "IsArtistCategoryShown",
+			Name:               "IsArtistCategoryHidden",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:               "IsInfluenceCategoryShown",
+			Name:               "IsInfluenceCategoryHidden",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
@@ -4676,19 +4676,19 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%t", diagram.IsInfluenceCategoryNodeExpanded)
 		res.valueBool = diagram.IsInfluenceCategoryNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsMovementCategoryShown":
+	case "IsMovementCategoryHidden":
 		res.valueString = fmt.Sprintf("%t", diagram.IsMovementCategoryHidden)
 		res.valueBool = diagram.IsMovementCategoryHidden
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsArtefactTypeCategoryShown":
+	case "IsArtefactTypeCategoryHidden":
 		res.valueString = fmt.Sprintf("%t", diagram.IsArtefactTypeCategoryHidden)
 		res.valueBool = diagram.IsArtefactTypeCategoryHidden
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsArtistCategoryShown":
+	case "IsArtistCategoryHidden":
 		res.valueString = fmt.Sprintf("%t", diagram.IsArtistCategoryHidden)
 		res.valueBool = diagram.IsArtistCategoryHidden
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsInfluenceCategoryShown":
+	case "IsInfluenceCategoryHidden":
 		res.valueString = fmt.Sprintf("%t", diagram.IsInfluenceCategoryHidden)
 		res.valueBool = diagram.IsInfluenceCategoryHidden
 		res.GongFieldValueType = GongFieldValueTypeBool
@@ -5303,13 +5303,13 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 		diagram.IsArtistCategoryNodeExpanded = value.GetValueBool()
 	case "IsInfluenceCategoryNodeExpanded":
 		diagram.IsInfluenceCategoryNodeExpanded = value.GetValueBool()
-	case "IsMovementCategoryShown":
+	case "IsMovementCategoryHidden":
 		diagram.IsMovementCategoryHidden = value.GetValueBool()
-	case "IsArtefactTypeCategoryShown":
+	case "IsArtefactTypeCategoryHidden":
 		diagram.IsArtefactTypeCategoryHidden = value.GetValueBool()
-	case "IsArtistCategoryShown":
+	case "IsArtistCategoryHidden":
 		diagram.IsArtistCategoryHidden = value.GetValueBool()
-	case "IsInfluenceCategoryShown":
+	case "IsInfluenceCategoryHidden":
 		diagram.IsInfluenceCategoryHidden = value.GetValueBool()
 	case "NbYearsForIntervals":
 		diagram.NbYearsForIntervals = int(value.GetValueInt())

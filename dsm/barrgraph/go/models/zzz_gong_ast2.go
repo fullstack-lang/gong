@@ -97,6 +97,7 @@ func GongParseAstString(stage *Stage, blob string, preserveOrder bool) error {
 
 // ParseAstFileFromAst traverses the AST and stages instances using the Unmarshaller registry
 func ParseAstFileFromAst(stage *Stage, inFile *ast.File, fset *token.FileSet, preserveOrder bool) error {
+
 	// 1. Remove Global Variables: Use a local map to track variable names to instances
 	identifierMap := make(map[string]GongstructIF)
 
@@ -343,8 +344,8 @@ func GongExtractExpr(expr ast.Expr) any {
 func GongUnmarshallSliceOfPointers[T PointerToGongstruct](
 	slice *[]T,
 	valueExpr ast.Expr,
-	identifierMap map[string]GongstructIF,
-) (err error) {
+	identifierMap map[string]GongstructIF) (err error) {
+
 	if call, ok := valueExpr.(*ast.CallExpr); ok {
 		funcName := ""
 		var isSlices bool
@@ -400,8 +401,8 @@ func GongUnmarshallSliceOfPointers[T PointerToGongstruct](
 func GongUnmarshallPointer[T PointerToGongstruct](
 	ptr *T,
 	valueExpr ast.Expr,
-	identifierMap map[string]GongstructIF,
-) {
+	identifierMap map[string]GongstructIF) {
+
 	if ident, ok := valueExpr.(*ast.Ident); ok {
 		if ident.Name == "nil" {
 			var zero T
@@ -417,8 +418,8 @@ func GongUnmarshallPointer[T PointerToGongstruct](
 // GongUnmarshallEnum handles assignment of enum fields (via SelectorExpr or String fallback)
 func GongUnmarshallEnum[T interface{ FromCodeString(string) error }](
 	ptr T,
-	valueExpr ast.Expr,
-) {
+	valueExpr ast.Expr) {
+
 	// Case 1: Standard Enum usage (models.EnumType_Value)
 	if sel, ok := valueExpr.(*ast.SelectorExpr); ok {
 		if err := ptr.FromCodeString(sel.Sel.Name); err != nil {
@@ -719,13 +720,13 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.IsArtistCategoryNodeExpanded = GongExtractBool(valueExpr)
 	case "IsInfluenceCategoryNodeExpanded":
 		instance.IsInfluenceCategoryNodeExpanded = GongExtractBool(valueExpr)
-	case "IsMovementCategoryShown":
+	case "IsMovementCategoryHidden":
 		instance.IsMovementCategoryHidden = GongExtractBool(valueExpr)
-	case "IsArtefactTypeCategoryShown":
+	case "IsArtefactTypeCategoryHidden":
 		instance.IsArtefactTypeCategoryHidden = GongExtractBool(valueExpr)
-	case "IsArtistCategoryShown":
+	case "IsArtistCategoryHidden":
 		instance.IsArtistCategoryHidden = GongExtractBool(valueExpr)
-	case "IsInfluenceCategoryShown":
+	case "IsInfluenceCategoryHidden":
 		instance.IsInfluenceCategoryHidden = GongExtractBool(valueExpr)
 	case "StartDate":
 		if call, ok := valueExpr.(*ast.CallExpr); ok {

@@ -99,6 +99,7 @@ func ToRawStringLiteral(s string) string {
 // In GongMarshallingAppendCommit mode, it will append the last commit to the file.
 // In other modes, it will rewrite the entire file.
 func (stage *Stage) MarshallFile(filename, modelsPackageName, packageName string) {
+
 	if stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
 		contentBytes, err := os.ReadFile(filename)
 
@@ -144,7 +145,7 @@ func (stage *Stage) MarshallFile(filename, modelsPackageName, packageName string
 			lastIndex := strings.LastIndex(content, commitToRemove+"\n")
 			if lastIndex != -1 {
 				newContent := content[:lastIndex] + content[lastIndex+len(commitToRemove)+1:]
-				err = os.WriteFile(filename, []byte(newContent), 0o644)
+				err = os.WriteFile(filename, []byte(newContent), 0644)
 				if err != nil {
 					log.Fatal(err.Error())
 				}
@@ -152,7 +153,7 @@ func (stage *Stage) MarshallFile(filename, modelsPackageName, packageName string
 				lastIndex = strings.LastIndex(content, commitToRemove)
 				if lastIndex != -1 {
 					newContent := content[:lastIndex] + content[lastIndex+len(commitToRemove):]
-					err = os.WriteFile(filename, []byte(newContent), 0o644)
+					err = os.WriteFile(filename, []byte(newContent), 0644)
 					if err != nil {
 						log.Fatal(err.Error())
 					}
@@ -215,7 +216,7 @@ func (stage *Stage) MarshallFile(filename, modelsPackageName, packageName string
 		// insert the commit statements before the last brace
 		newContent := contentBeforeBrace + forwardCommit + "\n" + content[lastBrace:]
 
-		err = os.WriteFile(filename, []byte(newContent), 0o644)
+		err = os.WriteFile(filename, []byte(newContent), 0644)
 		if err != nil {
 			log.Fatal(err.Error())
 		}
@@ -233,6 +234,7 @@ func (stage *Stage) MarshallFile(filename, modelsPackageName, packageName string
 
 // Marshall marshall the stage content into the file as an instanciation into a stage
 func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName string) {
+
 	name := file.Name()
 
 	if !strings.HasSuffix(name, ".go") {
@@ -251,6 +253,7 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 
 // MarshallToString marshall the stage content into a string
 func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res string, err error) {
+
 	res = marshallRes
 	res = strings.ReplaceAll(res, "{{PackageName}}", packageName)
 	res = strings.ReplaceAll(res, "{{ModelsPackageName}}", modelsPackageName)
@@ -486,10 +489,10 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsArtefactTypeCategoryNodeExpanded"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsArtistCategoryNodeExpanded"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsInfluenceCategoryNodeExpanded"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsMovementCategoryShown"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsArtefactTypeCategoryShown"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsArtistCategoryShown"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsInfluenceCategoryShown"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsMovementCategoryHidden"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsArtefactTypeCategoryHidden"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsArtistCategoryHidden"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsInfluenceCategoryHidden"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "StartDate"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "EndDate"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "NbYearsForIntervals"))
@@ -844,6 +847,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 			return valuesOrdered[i].Ident < valuesOrdered[j].Ident
 		})
 		for _, value := range valuesOrdered {
+
 			// get the number of points in the value to find if it is a field
 			// or a struct
 
@@ -873,6 +877,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 // insertion point for marshall field methods
 func (artefacttype *ArtefactType) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
 	switch fieldName {
 	case "Name":
 		res = StringInitStatement
@@ -892,6 +897,7 @@ func (artefacttype *ArtefactType) GongMarshallField(stage *Stage, fieldName stri
 }
 
 func (artefacttypeshape *ArtefactTypeShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
 	switch fieldName {
 	case "Name":
 		res = StringInitStatement
@@ -944,6 +950,7 @@ func (artefacttypeshape *ArtefactTypeShape) GongMarshallField(stage *Stage, fiel
 }
 
 func (artist *Artist) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
 	switch fieldName {
 	case "Name":
 		res = StringInitStatement
@@ -986,6 +993,7 @@ func (artist *Artist) GongMarshallField(stage *Stage, fieldName string) (res str
 }
 
 func (artistshape *ArtistShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
 	switch fieldName {
 	case "Name":
 		res = StringInitStatement
@@ -1086,6 +1094,7 @@ func (artistshape *ArtistShape) GongMarshallField(stage *Stage, fieldName string
 }
 
 func (controlpointshape *ControlPointShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
 	switch fieldName {
 	case "Name":
 		res = StringInitStatement
@@ -1115,6 +1124,7 @@ func (controlpointshape *ControlPointShape) GongMarshallField(stage *Stage, fiel
 }
 
 func (desk *Desk) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
 	switch fieldName {
 	case "Name":
 		res = StringInitStatement
@@ -1142,6 +1152,7 @@ func (desk *Desk) GongMarshallField(stage *Stage, fieldName string) (res string)
 }
 
 func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
 	switch fieldName {
 	case "Name":
 		res = StringInitStatement
@@ -1178,25 +1189,25 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsInfluenceCategoryNodeExpanded")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsInfluenceCategoryNodeExpanded))
-	case "IsMovementCategoryShown":
+	case "IsMovementCategoryHidden":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsMovementCategoryShown")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsMovementCategoryHidden")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsMovementCategoryHidden))
-	case "IsArtefactTypeCategoryShown":
+	case "IsArtefactTypeCategoryHidden":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsArtefactTypeCategoryShown")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsArtefactTypeCategoryHidden")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsArtefactTypeCategoryHidden))
-	case "IsArtistCategoryShown":
+	case "IsArtistCategoryHidden":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsArtistCategoryShown")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsArtistCategoryHidden")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsArtistCategoryHidden))
-	case "IsInfluenceCategoryShown":
+	case "IsInfluenceCategoryHidden":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsInfluenceCategoryShown")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsInfluenceCategoryHidden")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsInfluenceCategoryHidden))
 	case "StartDate":
 		res = TimeInitStatement
@@ -1800,6 +1811,7 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 }
 
 func (influence *Influence) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
 	switch fieldName {
 	case "Name":
 		res = StringInitStatement
@@ -1897,6 +1909,7 @@ func (influence *Influence) GongMarshallField(stage *Stage, fieldName string) (r
 }
 
 func (influenceshape *InfluenceShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
 	switch fieldName {
 	case "Name":
 		res = StringInitStatement
@@ -1934,6 +1947,7 @@ func (influenceshape *InfluenceShape) GongMarshallField(stage *Stage, fieldName 
 }
 
 func (movement *Movement) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
 	switch fieldName {
 	case "Name":
 		res = StringInitStatement
@@ -2008,6 +2022,7 @@ func (movement *Movement) GongMarshallField(stage *Stage, fieldName string) (res
 }
 
 func (movementshape *MovementShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
 	switch fieldName {
 	case "Name":
 		res = StringInitStatement
@@ -2060,6 +2075,7 @@ func (movementshape *MovementShape) GongMarshallField(stage *Stage, fieldName st
 }
 
 func (place *Place) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
 	switch fieldName {
 	case "Name":
 		res = StringInitStatement
@@ -2075,6 +2091,7 @@ func (place *Place) GongMarshallField(stage *Stage, fieldName string) (res strin
 
 // insertion point for marshall all fields methods
 func (artefacttype *ArtefactType) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
 	var initializerStatements strings.Builder
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
@@ -2085,8 +2102,8 @@ func (artefacttype *ArtefactType) GongMarshallAllFields(stage *Stage) (initRes s
 	ptrRes = pointersInitializesStatements.String()
 	return
 }
-
 func (artefacttypeshape *ArtefactTypeShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
 	var initializerStatements strings.Builder
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
@@ -2102,8 +2119,8 @@ func (artefacttypeshape *ArtefactTypeShape) GongMarshallAllFields(stage *Stage) 
 	ptrRes = pointersInitializesStatements.String()
 	return
 }
-
 func (artist *Artist) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
 	var initializerStatements strings.Builder
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
@@ -2117,8 +2134,8 @@ func (artist *Artist) GongMarshallAllFields(stage *Stage) (initRes string, ptrRe
 	ptrRes = pointersInitializesStatements.String()
 	return
 }
-
 func (artistshape *ArtistShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
 	var initializerStatements strings.Builder
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
@@ -2142,8 +2159,8 @@ func (artistshape *ArtistShape) GongMarshallAllFields(stage *Stage) (initRes str
 	ptrRes = pointersInitializesStatements.String()
 	return
 }
-
 func (controlpointshape *ControlPointShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
 	var initializerStatements strings.Builder
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
@@ -2156,8 +2173,8 @@ func (controlpointshape *ControlPointShape) GongMarshallAllFields(stage *Stage) 
 	ptrRes = pointersInitializesStatements.String()
 	return
 }
-
 func (desk *Desk) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
 	var initializerStatements strings.Builder
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
@@ -2168,8 +2185,8 @@ func (desk *Desk) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 	ptrRes = pointersInitializesStatements.String()
 	return
 }
-
 func (diagram *Diagram) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
 	var initializerStatements strings.Builder
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
@@ -2184,10 +2201,10 @@ func (diagram *Diagram) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsArtefactTypeCategoryNodeExpanded"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsArtistCategoryNodeExpanded"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsInfluenceCategoryNodeExpanded"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsMovementCategoryShown"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsArtefactTypeCategoryShown"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsArtistCategoryShown"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsInfluenceCategoryShown"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsMovementCategoryHidden"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsArtefactTypeCategoryHidden"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsArtistCategoryHidden"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsInfluenceCategoryHidden"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "StartDate"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "EndDate"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "NbYearsForIntervals"))
@@ -2267,8 +2284,8 @@ func (diagram *Diagram) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 	ptrRes = pointersInitializesStatements.String()
 	return
 }
-
 func (influence *Influence) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
 	var initializerStatements strings.Builder
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
@@ -2285,8 +2302,8 @@ func (influence *Influence) GongMarshallAllFields(stage *Stage) (initRes string,
 	ptrRes = pointersInitializesStatements.String()
 	return
 }
-
 func (influenceshape *InfluenceShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
 	var initializerStatements strings.Builder
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
@@ -2298,8 +2315,8 @@ func (influenceshape *InfluenceShape) GongMarshallAllFields(stage *Stage) (initR
 	ptrRes = pointersInitializesStatements.String()
 	return
 }
-
 func (movement *Movement) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
 	var initializerStatements strings.Builder
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
@@ -2320,8 +2337,8 @@ func (movement *Movement) GongMarshallAllFields(stage *Stage) (initRes string, p
 	ptrRes = pointersInitializesStatements.String()
 	return
 }
-
 func (movementshape *MovementShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
 	var initializerStatements strings.Builder
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
@@ -2337,8 +2354,8 @@ func (movementshape *MovementShape) GongMarshallAllFields(stage *Stage) (initRes
 	ptrRes = pointersInitializesStatements.String()
 	return
 }
-
 func (place *Place) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
 	var initializerStatements strings.Builder
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
