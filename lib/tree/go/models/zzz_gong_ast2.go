@@ -17,8 +17,10 @@ import (
 	"time"
 )
 
-var _time__dummyDeclaration2 time.Duration
-var _ = _time__dummyDeclaration2
+var (
+	_time__dummyDeclaration2 time.Duration
+	_                        = _time__dummyDeclaration2
+)
 
 // swagger:ignore
 type GONG__ExpressionType string

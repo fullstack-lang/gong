@@ -14,6 +14,7 @@ func FillUpForm(
 	formGroup *form.FormGroup,
 	probe *Probe,
 ) {
+
 	switch instanceWithInferedType := any(instance).(type) {
 	// insertion point
 	case *models.ArtefactType:
@@ -185,13 +186,13 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsInfluenceCategoryNodeExpanded", instanceWithInferedType.IsInfluenceCategoryNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("IsMovementCategoryShown", instanceWithInferedType.IsMovementCategoryHidden, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("IsMovementCategoryHidden", instanceWithInferedType.IsMovementCategoryHidden, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("IsArtefactTypeCategoryShown", instanceWithInferedType.IsArtefactTypeCategoryHidden, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("IsArtefactTypeCategoryHidden", instanceWithInferedType.IsArtefactTypeCategoryHidden, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("IsArtistCategoryShown", instanceWithInferedType.IsArtistCategoryHidden, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("IsArtistCategoryHidden", instanceWithInferedType.IsArtistCategoryHidden, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("IsInfluenceCategoryShown", instanceWithInferedType.IsInfluenceCategoryHidden, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("IsInfluenceCategoryHidden", instanceWithInferedType.IsInfluenceCategoryHidden, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("StartDate", instanceWithInferedType.StartDate, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)

@@ -4,6 +4,7 @@ package models
 import "fmt"
 
 func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) (ok bool) {
+
 	switch target := any(instance).(type) {
 	// insertion point for stage
 	case *ArtefactType:
@@ -49,6 +50,7 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 }
 
 func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
+
 	switch target := any(instance).(type) {
 	// insertion point for stage
 	case *ArtefactType:
@@ -95,72 +97,84 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 // insertion point for stage per struct
 func (stage *Stage) IsStagedArtefactType(artefacttype *ArtefactType) (ok bool) {
+
 	_, ok = stage.ArtefactTypes[artefacttype]
 
 	return
 }
 
 func (stage *Stage) IsStagedArtefactTypeShape(artefacttypeshape *ArtefactTypeShape) (ok bool) {
+
 	_, ok = stage.ArtefactTypeShapes[artefacttypeshape]
 
 	return
 }
 
 func (stage *Stage) IsStagedArtist(artist *Artist) (ok bool) {
+
 	_, ok = stage.Artists[artist]
 
 	return
 }
 
 func (stage *Stage) IsStagedArtistShape(artistshape *ArtistShape) (ok bool) {
+
 	_, ok = stage.ArtistShapes[artistshape]
 
 	return
 }
 
 func (stage *Stage) IsStagedControlPointShape(controlpointshape *ControlPointShape) (ok bool) {
+
 	_, ok = stage.ControlPointShapes[controlpointshape]
 
 	return
 }
 
 func (stage *Stage) IsStagedDesk(desk *Desk) (ok bool) {
+
 	_, ok = stage.Desks[desk]
 
 	return
 }
 
 func (stage *Stage) IsStagedDiagram(diagram *Diagram) (ok bool) {
+
 	_, ok = stage.Diagrams[diagram]
 
 	return
 }
 
 func (stage *Stage) IsStagedInfluence(influence *Influence) (ok bool) {
+
 	_, ok = stage.Influences[influence]
 
 	return
 }
 
 func (stage *Stage) IsStagedInfluenceShape(influenceshape *InfluenceShape) (ok bool) {
+
 	_, ok = stage.InfluenceShapes[influenceshape]
 
 	return
 }
 
 func (stage *Stage) IsStagedMovement(movement *Movement) (ok bool) {
+
 	_, ok = stage.Movements[movement]
 
 	return
 }
 
 func (stage *Stage) IsStagedMovementShape(movementshape *MovementShape) (ok bool) {
+
 	_, ok = stage.MovementShapes[movementshape]
 
 	return
 }
 
 func (stage *Stage) IsStagedPlace(place *Place) (ok bool) {
+
 	_, ok = stage.Places[place]
 
 	return
@@ -171,6 +185,7 @@ func (stage *Stage) IsStagedPlace(place *Place) (ok bool) {
 //
 // the algorithm stops along the course of graph if a vertex is already staged
 func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
+
 	switch target := any(instance).(type) {
 	// insertion point for stage branch
 	case *ArtefactType:
@@ -216,6 +231,7 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 // insertion point for stage branch per struct
 func (stage *Stage) StageBranchArtefactType(artefacttype *ArtefactType) {
+
 	// check if instance is already staged
 	if IsStaged(stage, artefacttype) {
 		return
@@ -223,12 +239,14 @@ func (stage *Stage) StageBranchArtefactType(artefacttype *ArtefactType) {
 
 	artefacttype.Stage(stage)
 
-	// insertion point for the staging of instances referenced by pointers
+	//insertion point for the staging of instances referenced by pointers
 
-	// insertion point for the staging of instances referenced by slice of pointers
+	//insertion point for the staging of instances referenced by slice of pointers
+
 }
 
 func (stage *Stage) StageBranchArtefactTypeShape(artefacttypeshape *ArtefactTypeShape) {
+
 	// check if instance is already staged
 	if IsStaged(stage, artefacttypeshape) {
 		return
@@ -236,15 +254,17 @@ func (stage *Stage) StageBranchArtefactTypeShape(artefacttypeshape *ArtefactType
 
 	artefacttypeshape.Stage(stage)
 
-	// insertion point for the staging of instances referenced by pointers
+	//insertion point for the staging of instances referenced by pointers
 	if artefacttypeshape.ArtefactType != nil {
 		StageBranch(stage, artefacttypeshape.ArtefactType)
 	}
 
-	// insertion point for the staging of instances referenced by slice of pointers
+	//insertion point for the staging of instances referenced by slice of pointers
+
 }
 
 func (stage *Stage) StageBranchArtist(artist *Artist) {
+
 	// check if instance is already staged
 	if IsStaged(stage, artist) {
 		return
@@ -252,15 +272,17 @@ func (stage *Stage) StageBranchArtist(artist *Artist) {
 
 	artist.Stage(stage)
 
-	// insertion point for the staging of instances referenced by pointers
+	//insertion point for the staging of instances referenced by pointers
 	if artist.Place != nil {
 		StageBranch(stage, artist.Place)
 	}
 
-	// insertion point for the staging of instances referenced by slice of pointers
+	//insertion point for the staging of instances referenced by slice of pointers
+
 }
 
 func (stage *Stage) StageBranchArtistShape(artistshape *ArtistShape) {
+
 	// check if instance is already staged
 	if IsStaged(stage, artistshape) {
 		return
@@ -268,15 +290,17 @@ func (stage *Stage) StageBranchArtistShape(artistshape *ArtistShape) {
 
 	artistshape.Stage(stage)
 
-	// insertion point for the staging of instances referenced by pointers
+	//insertion point for the staging of instances referenced by pointers
 	if artistshape.Artist != nil {
 		StageBranch(stage, artistshape.Artist)
 	}
 
-	// insertion point for the staging of instances referenced by slice of pointers
+	//insertion point for the staging of instances referenced by slice of pointers
+
 }
 
 func (stage *Stage) StageBranchControlPointShape(controlpointshape *ControlPointShape) {
+
 	// check if instance is already staged
 	if IsStaged(stage, controlpointshape) {
 		return
@@ -284,12 +308,14 @@ func (stage *Stage) StageBranchControlPointShape(controlpointshape *ControlPoint
 
 	controlpointshape.Stage(stage)
 
-	// insertion point for the staging of instances referenced by pointers
+	//insertion point for the staging of instances referenced by pointers
 
-	// insertion point for the staging of instances referenced by slice of pointers
+	//insertion point for the staging of instances referenced by slice of pointers
+
 }
 
 func (stage *Stage) StageBranchDesk(desk *Desk) {
+
 	// check if instance is already staged
 	if IsStaged(stage, desk) {
 		return
@@ -297,15 +323,17 @@ func (stage *Stage) StageBranchDesk(desk *Desk) {
 
 	desk.Stage(stage)
 
-	// insertion point for the staging of instances referenced by pointers
+	//insertion point for the staging of instances referenced by pointers
 	if desk.SelectedDiagram != nil {
 		StageBranch(stage, desk.SelectedDiagram)
 	}
 
-	// insertion point for the staging of instances referenced by slice of pointers
+	//insertion point for the staging of instances referenced by slice of pointers
+
 }
 
 func (stage *Stage) StageBranchDiagram(diagram *Diagram) {
+
 	// check if instance is already staged
 	if IsStaged(stage, diagram) {
 		return
@@ -313,9 +341,9 @@ func (stage *Stage) StageBranchDiagram(diagram *Diagram) {
 
 	diagram.Stage(stage)
 
-	// insertion point for the staging of instances referenced by pointers
+	//insertion point for the staging of instances referenced by pointers
 
-	// insertion point for the staging of instances referenced by slice of pointers
+	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _movementshape := range diagram.MovementShapes {
 		StageBranch(stage, _movementshape)
 	}
@@ -328,9 +356,11 @@ func (stage *Stage) StageBranchDiagram(diagram *Diagram) {
 	for _, _influenceshape := range diagram.InfluenceShapes {
 		StageBranch(stage, _influenceshape)
 	}
+
 }
 
 func (stage *Stage) StageBranchInfluence(influence *Influence) {
+
 	// check if instance is already staged
 	if IsStaged(stage, influence) {
 		return
@@ -338,7 +368,7 @@ func (stage *Stage) StageBranchInfluence(influence *Influence) {
 
 	influence.Stage(stage)
 
-	// insertion point for the staging of instances referenced by pointers
+	//insertion point for the staging of instances referenced by pointers
 	if influence.SourceMovement != nil {
 		StageBranch(stage, influence.SourceMovement)
 	}
@@ -358,10 +388,12 @@ func (stage *Stage) StageBranchInfluence(influence *Influence) {
 		StageBranch(stage, influence.TargetArtist)
 	}
 
-	// insertion point for the staging of instances referenced by slice of pointers
+	//insertion point for the staging of instances referenced by slice of pointers
+
 }
 
 func (stage *Stage) StageBranchInfluenceShape(influenceshape *InfluenceShape) {
+
 	// check if instance is already staged
 	if IsStaged(stage, influenceshape) {
 		return
@@ -369,18 +401,20 @@ func (stage *Stage) StageBranchInfluenceShape(influenceshape *InfluenceShape) {
 
 	influenceshape.Stage(stage)
 
-	// insertion point for the staging of instances referenced by pointers
+	//insertion point for the staging of instances referenced by pointers
 	if influenceshape.Influence != nil {
 		StageBranch(stage, influenceshape.Influence)
 	}
 
-	// insertion point for the staging of instances referenced by slice of pointers
+	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _controlpointshape := range influenceshape.ControlPointShapes {
 		StageBranch(stage, _controlpointshape)
 	}
+
 }
 
 func (stage *Stage) StageBranchMovement(movement *Movement) {
+
 	// check if instance is already staged
 	if IsStaged(stage, movement) {
 		return
@@ -388,15 +422,17 @@ func (stage *Stage) StageBranchMovement(movement *Movement) {
 
 	movement.Stage(stage)
 
-	// insertion point for the staging of instances referenced by pointers
+	//insertion point for the staging of instances referenced by pointers
 
-	// insertion point for the staging of instances referenced by slice of pointers
+	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _place := range movement.Places {
 		StageBranch(stage, _place)
 	}
+
 }
 
 func (stage *Stage) StageBranchMovementShape(movementshape *MovementShape) {
+
 	// check if instance is already staged
 	if IsStaged(stage, movementshape) {
 		return
@@ -404,15 +440,17 @@ func (stage *Stage) StageBranchMovementShape(movementshape *MovementShape) {
 
 	movementshape.Stage(stage)
 
-	// insertion point for the staging of instances referenced by pointers
+	//insertion point for the staging of instances referenced by pointers
 	if movementshape.Movement != nil {
 		StageBranch(stage, movementshape.Movement)
 	}
 
-	// insertion point for the staging of instances referenced by slice of pointers
+	//insertion point for the staging of instances referenced by slice of pointers
+
 }
 
 func (stage *Stage) StageBranchPlace(place *Place) {
+
 	// check if instance is already staged
 	if IsStaged(stage, place) {
 		return
@@ -420,9 +458,10 @@ func (stage *Stage) StageBranchPlace(place *Place) {
 
 	place.Stage(stage)
 
-	// insertion point for the staging of instances referenced by pointers
+	//insertion point for the staging of instances referenced by pointers
 
-	// insertion point for the staging of instances referenced by slice of pointers
+	//insertion point for the staging of instances referenced by slice of pointers
+
 }
 
 // CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
@@ -430,6 +469,7 @@ func (stage *Stage) StageBranchPlace(place *Place) {
 //
 // the algorithm stops along the course of graph if a vertex is already staged
 func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
+
 	mapOrigCopy := make(map[any]any)
 	_ = mapOrigCopy
 
@@ -491,6 +531,7 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 // insertion point for stage branch per struct
 func CopyBranchArtefactType(mapOrigCopy map[any]any, artefacttypeFrom *ArtefactType) (artefacttypeTo *ArtefactType) {
+
 	// artefacttypeFrom has already been copied
 	if _artefacttypeTo, ok := mapOrigCopy[artefacttypeFrom]; ok {
 		artefacttypeTo = _artefacttypeTo.(*ArtefactType)
@@ -501,14 +542,15 @@ func CopyBranchArtefactType(mapOrigCopy map[any]any, artefacttypeFrom *ArtefactT
 	mapOrigCopy[artefacttypeFrom] = artefacttypeTo
 	artefacttypeFrom.CopyBasicFields(artefacttypeTo)
 
-	// insertion point for the staging of instances referenced by pointers
+	//insertion point for the staging of instances referenced by pointers
 
-	// insertion point for the staging of instances referenced by slice of pointers
+	//insertion point for the staging of instances referenced by slice of pointers
 
 	return
 }
 
 func CopyBranchArtefactTypeShape(mapOrigCopy map[any]any, artefacttypeshapeFrom *ArtefactTypeShape) (artefacttypeshapeTo *ArtefactTypeShape) {
+
 	// artefacttypeshapeFrom has already been copied
 	if _artefacttypeshapeTo, ok := mapOrigCopy[artefacttypeshapeFrom]; ok {
 		artefacttypeshapeTo = _artefacttypeshapeTo.(*ArtefactTypeShape)
@@ -519,17 +561,18 @@ func CopyBranchArtefactTypeShape(mapOrigCopy map[any]any, artefacttypeshapeFrom 
 	mapOrigCopy[artefacttypeshapeFrom] = artefacttypeshapeTo
 	artefacttypeshapeFrom.CopyBasicFields(artefacttypeshapeTo)
 
-	// insertion point for the staging of instances referenced by pointers
+	//insertion point for the staging of instances referenced by pointers
 	if artefacttypeshapeFrom.ArtefactType != nil {
 		artefacttypeshapeTo.ArtefactType = CopyBranchArtefactType(mapOrigCopy, artefacttypeshapeFrom.ArtefactType)
 	}
 
-	// insertion point for the staging of instances referenced by slice of pointers
+	//insertion point for the staging of instances referenced by slice of pointers
 
 	return
 }
 
 func CopyBranchArtist(mapOrigCopy map[any]any, artistFrom *Artist) (artistTo *Artist) {
+
 	// artistFrom has already been copied
 	if _artistTo, ok := mapOrigCopy[artistFrom]; ok {
 		artistTo = _artistTo.(*Artist)
@@ -540,17 +583,18 @@ func CopyBranchArtist(mapOrigCopy map[any]any, artistFrom *Artist) (artistTo *Ar
 	mapOrigCopy[artistFrom] = artistTo
 	artistFrom.CopyBasicFields(artistTo)
 
-	// insertion point for the staging of instances referenced by pointers
+	//insertion point for the staging of instances referenced by pointers
 	if artistFrom.Place != nil {
 		artistTo.Place = CopyBranchPlace(mapOrigCopy, artistFrom.Place)
 	}
 
-	// insertion point for the staging of instances referenced by slice of pointers
+	//insertion point for the staging of instances referenced by slice of pointers
 
 	return
 }
 
 func CopyBranchArtistShape(mapOrigCopy map[any]any, artistshapeFrom *ArtistShape) (artistshapeTo *ArtistShape) {
+
 	// artistshapeFrom has already been copied
 	if _artistshapeTo, ok := mapOrigCopy[artistshapeFrom]; ok {
 		artistshapeTo = _artistshapeTo.(*ArtistShape)
@@ -561,17 +605,18 @@ func CopyBranchArtistShape(mapOrigCopy map[any]any, artistshapeFrom *ArtistShape
 	mapOrigCopy[artistshapeFrom] = artistshapeTo
 	artistshapeFrom.CopyBasicFields(artistshapeTo)
 
-	// insertion point for the staging of instances referenced by pointers
+	//insertion point for the staging of instances referenced by pointers
 	if artistshapeFrom.Artist != nil {
 		artistshapeTo.Artist = CopyBranchArtist(mapOrigCopy, artistshapeFrom.Artist)
 	}
 
-	// insertion point for the staging of instances referenced by slice of pointers
+	//insertion point for the staging of instances referenced by slice of pointers
 
 	return
 }
 
 func CopyBranchControlPointShape(mapOrigCopy map[any]any, controlpointshapeFrom *ControlPointShape) (controlpointshapeTo *ControlPointShape) {
+
 	// controlpointshapeFrom has already been copied
 	if _controlpointshapeTo, ok := mapOrigCopy[controlpointshapeFrom]; ok {
 		controlpointshapeTo = _controlpointshapeTo.(*ControlPointShape)
@@ -582,14 +627,15 @@ func CopyBranchControlPointShape(mapOrigCopy map[any]any, controlpointshapeFrom 
 	mapOrigCopy[controlpointshapeFrom] = controlpointshapeTo
 	controlpointshapeFrom.CopyBasicFields(controlpointshapeTo)
 
-	// insertion point for the staging of instances referenced by pointers
+	//insertion point for the staging of instances referenced by pointers
 
-	// insertion point for the staging of instances referenced by slice of pointers
+	//insertion point for the staging of instances referenced by slice of pointers
 
 	return
 }
 
 func CopyBranchDesk(mapOrigCopy map[any]any, deskFrom *Desk) (deskTo *Desk) {
+
 	// deskFrom has already been copied
 	if _deskTo, ok := mapOrigCopy[deskFrom]; ok {
 		deskTo = _deskTo.(*Desk)
@@ -600,17 +646,18 @@ func CopyBranchDesk(mapOrigCopy map[any]any, deskFrom *Desk) (deskTo *Desk) {
 	mapOrigCopy[deskFrom] = deskTo
 	deskFrom.CopyBasicFields(deskTo)
 
-	// insertion point for the staging of instances referenced by pointers
+	//insertion point for the staging of instances referenced by pointers
 	if deskFrom.SelectedDiagram != nil {
 		deskTo.SelectedDiagram = CopyBranchDiagram(mapOrigCopy, deskFrom.SelectedDiagram)
 	}
 
-	// insertion point for the staging of instances referenced by slice of pointers
+	//insertion point for the staging of instances referenced by slice of pointers
 
 	return
 }
 
 func CopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagramTo *Diagram) {
+
 	// diagramFrom has already been copied
 	if _diagramTo, ok := mapOrigCopy[diagramFrom]; ok {
 		diagramTo = _diagramTo.(*Diagram)
@@ -621,9 +668,9 @@ func CopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagramTo
 	mapOrigCopy[diagramFrom] = diagramTo
 	diagramFrom.CopyBasicFields(diagramTo)
 
-	// insertion point for the staging of instances referenced by pointers
+	//insertion point for the staging of instances referenced by pointers
 
-	// insertion point for the staging of instances referenced by slice of pointers
+	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _movementshape := range diagramFrom.MovementShapes {
 		diagramTo.MovementShapes = append(diagramTo.MovementShapes, CopyBranchMovementShape(mapOrigCopy, _movementshape))
 	}
@@ -641,6 +688,7 @@ func CopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagramTo
 }
 
 func CopyBranchInfluence(mapOrigCopy map[any]any, influenceFrom *Influence) (influenceTo *Influence) {
+
 	// influenceFrom has already been copied
 	if _influenceTo, ok := mapOrigCopy[influenceFrom]; ok {
 		influenceTo = _influenceTo.(*Influence)
@@ -651,7 +699,7 @@ func CopyBranchInfluence(mapOrigCopy map[any]any, influenceFrom *Influence) (inf
 	mapOrigCopy[influenceFrom] = influenceTo
 	influenceFrom.CopyBasicFields(influenceTo)
 
-	// insertion point for the staging of instances referenced by pointers
+	//insertion point for the staging of instances referenced by pointers
 	if influenceFrom.SourceMovement != nil {
 		influenceTo.SourceMovement = CopyBranchMovement(mapOrigCopy, influenceFrom.SourceMovement)
 	}
@@ -671,12 +719,13 @@ func CopyBranchInfluence(mapOrigCopy map[any]any, influenceFrom *Influence) (inf
 		influenceTo.TargetArtist = CopyBranchArtist(mapOrigCopy, influenceFrom.TargetArtist)
 	}
 
-	// insertion point for the staging of instances referenced by slice of pointers
+	//insertion point for the staging of instances referenced by slice of pointers
 
 	return
 }
 
 func CopyBranchInfluenceShape(mapOrigCopy map[any]any, influenceshapeFrom *InfluenceShape) (influenceshapeTo *InfluenceShape) {
+
 	// influenceshapeFrom has already been copied
 	if _influenceshapeTo, ok := mapOrigCopy[influenceshapeFrom]; ok {
 		influenceshapeTo = _influenceshapeTo.(*InfluenceShape)
@@ -687,12 +736,12 @@ func CopyBranchInfluenceShape(mapOrigCopy map[any]any, influenceshapeFrom *Influ
 	mapOrigCopy[influenceshapeFrom] = influenceshapeTo
 	influenceshapeFrom.CopyBasicFields(influenceshapeTo)
 
-	// insertion point for the staging of instances referenced by pointers
+	//insertion point for the staging of instances referenced by pointers
 	if influenceshapeFrom.Influence != nil {
 		influenceshapeTo.Influence = CopyBranchInfluence(mapOrigCopy, influenceshapeFrom.Influence)
 	}
 
-	// insertion point for the staging of instances referenced by slice of pointers
+	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _controlpointshape := range influenceshapeFrom.ControlPointShapes {
 		influenceshapeTo.ControlPointShapes = append(influenceshapeTo.ControlPointShapes, CopyBranchControlPointShape(mapOrigCopy, _controlpointshape))
 	}
@@ -701,6 +750,7 @@ func CopyBranchInfluenceShape(mapOrigCopy map[any]any, influenceshapeFrom *Influ
 }
 
 func CopyBranchMovement(mapOrigCopy map[any]any, movementFrom *Movement) (movementTo *Movement) {
+
 	// movementFrom has already been copied
 	if _movementTo, ok := mapOrigCopy[movementFrom]; ok {
 		movementTo = _movementTo.(*Movement)
@@ -711,9 +761,9 @@ func CopyBranchMovement(mapOrigCopy map[any]any, movementFrom *Movement) (moveme
 	mapOrigCopy[movementFrom] = movementTo
 	movementFrom.CopyBasicFields(movementTo)
 
-	// insertion point for the staging of instances referenced by pointers
+	//insertion point for the staging of instances referenced by pointers
 
-	// insertion point for the staging of instances referenced by slice of pointers
+	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _place := range movementFrom.Places {
 		movementTo.Places = append(movementTo.Places, CopyBranchPlace(mapOrigCopy, _place))
 	}
@@ -722,6 +772,7 @@ func CopyBranchMovement(mapOrigCopy map[any]any, movementFrom *Movement) (moveme
 }
 
 func CopyBranchMovementShape(mapOrigCopy map[any]any, movementshapeFrom *MovementShape) (movementshapeTo *MovementShape) {
+
 	// movementshapeFrom has already been copied
 	if _movementshapeTo, ok := mapOrigCopy[movementshapeFrom]; ok {
 		movementshapeTo = _movementshapeTo.(*MovementShape)
@@ -732,17 +783,18 @@ func CopyBranchMovementShape(mapOrigCopy map[any]any, movementshapeFrom *Movemen
 	mapOrigCopy[movementshapeFrom] = movementshapeTo
 	movementshapeFrom.CopyBasicFields(movementshapeTo)
 
-	// insertion point for the staging of instances referenced by pointers
+	//insertion point for the staging of instances referenced by pointers
 	if movementshapeFrom.Movement != nil {
 		movementshapeTo.Movement = CopyBranchMovement(mapOrigCopy, movementshapeFrom.Movement)
 	}
 
-	// insertion point for the staging of instances referenced by slice of pointers
+	//insertion point for the staging of instances referenced by slice of pointers
 
 	return
 }
 
 func CopyBranchPlace(mapOrigCopy map[any]any, placeFrom *Place) (placeTo *Place) {
+
 	// placeFrom has already been copied
 	if _placeTo, ok := mapOrigCopy[placeFrom]; ok {
 		placeTo = _placeTo.(*Place)
@@ -753,9 +805,9 @@ func CopyBranchPlace(mapOrigCopy map[any]any, placeFrom *Place) (placeTo *Place)
 	mapOrigCopy[placeFrom] = placeTo
 	placeFrom.CopyBasicFields(placeTo)
 
-	// insertion point for the staging of instances referenced by pointers
+	//insertion point for the staging of instances referenced by pointers
 
-	// insertion point for the staging of instances referenced by slice of pointers
+	//insertion point for the staging of instances referenced by slice of pointers
 
 	return
 }
@@ -765,6 +817,7 @@ func CopyBranchPlace(mapOrigCopy map[any]any, placeFrom *Place) (placeTo *Place)
 //
 // the algorithm stops along the course of graph if a vertex is already staged
 func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
+
 	switch target := any(instance).(type) {
 	// insertion point for unstage branch
 	case *ArtefactType:
@@ -810,6 +863,7 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 // insertion point for unstage branch per struct
 func (stage *Stage) UnstageBranchArtefactType(artefacttype *ArtefactType) {
+
 	// check if instance is already staged
 	if !IsStaged(stage, artefacttype) {
 		return
@@ -817,12 +871,14 @@ func (stage *Stage) UnstageBranchArtefactType(artefacttype *ArtefactType) {
 
 	artefacttype.Unstage(stage)
 
-	// insertion point for the staging of instances referenced by pointers
+	//insertion point for the staging of instances referenced by pointers
 
-	// insertion point for the staging of instances referenced by slice of pointers
+	//insertion point for the staging of instances referenced by slice of pointers
+
 }
 
 func (stage *Stage) UnstageBranchArtefactTypeShape(artefacttypeshape *ArtefactTypeShape) {
+
 	// check if instance is already staged
 	if !IsStaged(stage, artefacttypeshape) {
 		return
@@ -830,15 +886,17 @@ func (stage *Stage) UnstageBranchArtefactTypeShape(artefacttypeshape *ArtefactTy
 
 	artefacttypeshape.Unstage(stage)
 
-	// insertion point for the staging of instances referenced by pointers
+	//insertion point for the staging of instances referenced by pointers
 	if artefacttypeshape.ArtefactType != nil {
 		UnstageBranch(stage, artefacttypeshape.ArtefactType)
 	}
 
-	// insertion point for the staging of instances referenced by slice of pointers
+	//insertion point for the staging of instances referenced by slice of pointers
+
 }
 
 func (stage *Stage) UnstageBranchArtist(artist *Artist) {
+
 	// check if instance is already staged
 	if !IsStaged(stage, artist) {
 		return
@@ -846,15 +904,17 @@ func (stage *Stage) UnstageBranchArtist(artist *Artist) {
 
 	artist.Unstage(stage)
 
-	// insertion point for the staging of instances referenced by pointers
+	//insertion point for the staging of instances referenced by pointers
 	if artist.Place != nil {
 		UnstageBranch(stage, artist.Place)
 	}
 
-	// insertion point for the staging of instances referenced by slice of pointers
+	//insertion point for the staging of instances referenced by slice of pointers
+
 }
 
 func (stage *Stage) UnstageBranchArtistShape(artistshape *ArtistShape) {
+
 	// check if instance is already staged
 	if !IsStaged(stage, artistshape) {
 		return
@@ -862,15 +922,17 @@ func (stage *Stage) UnstageBranchArtistShape(artistshape *ArtistShape) {
 
 	artistshape.Unstage(stage)
 
-	// insertion point for the staging of instances referenced by pointers
+	//insertion point for the staging of instances referenced by pointers
 	if artistshape.Artist != nil {
 		UnstageBranch(stage, artistshape.Artist)
 	}
 
-	// insertion point for the staging of instances referenced by slice of pointers
+	//insertion point for the staging of instances referenced by slice of pointers
+
 }
 
 func (stage *Stage) UnstageBranchControlPointShape(controlpointshape *ControlPointShape) {
+
 	// check if instance is already staged
 	if !IsStaged(stage, controlpointshape) {
 		return
@@ -878,12 +940,14 @@ func (stage *Stage) UnstageBranchControlPointShape(controlpointshape *ControlPoi
 
 	controlpointshape.Unstage(stage)
 
-	// insertion point for the staging of instances referenced by pointers
+	//insertion point for the staging of instances referenced by pointers
 
-	// insertion point for the staging of instances referenced by slice of pointers
+	//insertion point for the staging of instances referenced by slice of pointers
+
 }
 
 func (stage *Stage) UnstageBranchDesk(desk *Desk) {
+
 	// check if instance is already staged
 	if !IsStaged(stage, desk) {
 		return
@@ -891,15 +955,17 @@ func (stage *Stage) UnstageBranchDesk(desk *Desk) {
 
 	desk.Unstage(stage)
 
-	// insertion point for the staging of instances referenced by pointers
+	//insertion point for the staging of instances referenced by pointers
 	if desk.SelectedDiagram != nil {
 		UnstageBranch(stage, desk.SelectedDiagram)
 	}
 
-	// insertion point for the staging of instances referenced by slice of pointers
+	//insertion point for the staging of instances referenced by slice of pointers
+
 }
 
 func (stage *Stage) UnstageBranchDiagram(diagram *Diagram) {
+
 	// check if instance is already staged
 	if !IsStaged(stage, diagram) {
 		return
@@ -907,9 +973,9 @@ func (stage *Stage) UnstageBranchDiagram(diagram *Diagram) {
 
 	diagram.Unstage(stage)
 
-	// insertion point for the staging of instances referenced by pointers
+	//insertion point for the staging of instances referenced by pointers
 
-	// insertion point for the staging of instances referenced by slice of pointers
+	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _movementshape := range diagram.MovementShapes {
 		UnstageBranch(stage, _movementshape)
 	}
@@ -922,9 +988,11 @@ func (stage *Stage) UnstageBranchDiagram(diagram *Diagram) {
 	for _, _influenceshape := range diagram.InfluenceShapes {
 		UnstageBranch(stage, _influenceshape)
 	}
+
 }
 
 func (stage *Stage) UnstageBranchInfluence(influence *Influence) {
+
 	// check if instance is already staged
 	if !IsStaged(stage, influence) {
 		return
@@ -932,7 +1000,7 @@ func (stage *Stage) UnstageBranchInfluence(influence *Influence) {
 
 	influence.Unstage(stage)
 
-	// insertion point for the staging of instances referenced by pointers
+	//insertion point for the staging of instances referenced by pointers
 	if influence.SourceMovement != nil {
 		UnstageBranch(stage, influence.SourceMovement)
 	}
@@ -952,10 +1020,12 @@ func (stage *Stage) UnstageBranchInfluence(influence *Influence) {
 		UnstageBranch(stage, influence.TargetArtist)
 	}
 
-	// insertion point for the staging of instances referenced by slice of pointers
+	//insertion point for the staging of instances referenced by slice of pointers
+
 }
 
 func (stage *Stage) UnstageBranchInfluenceShape(influenceshape *InfluenceShape) {
+
 	// check if instance is already staged
 	if !IsStaged(stage, influenceshape) {
 		return
@@ -963,18 +1033,20 @@ func (stage *Stage) UnstageBranchInfluenceShape(influenceshape *InfluenceShape) 
 
 	influenceshape.Unstage(stage)
 
-	// insertion point for the staging of instances referenced by pointers
+	//insertion point for the staging of instances referenced by pointers
 	if influenceshape.Influence != nil {
 		UnstageBranch(stage, influenceshape.Influence)
 	}
 
-	// insertion point for the staging of instances referenced by slice of pointers
+	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _controlpointshape := range influenceshape.ControlPointShapes {
 		UnstageBranch(stage, _controlpointshape)
 	}
+
 }
 
 func (stage *Stage) UnstageBranchMovement(movement *Movement) {
+
 	// check if instance is already staged
 	if !IsStaged(stage, movement) {
 		return
@@ -982,15 +1054,17 @@ func (stage *Stage) UnstageBranchMovement(movement *Movement) {
 
 	movement.Unstage(stage)
 
-	// insertion point for the staging of instances referenced by pointers
+	//insertion point for the staging of instances referenced by pointers
 
-	// insertion point for the staging of instances referenced by slice of pointers
+	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _place := range movement.Places {
 		UnstageBranch(stage, _place)
 	}
+
 }
 
 func (stage *Stage) UnstageBranchMovementShape(movementshape *MovementShape) {
+
 	// check if instance is already staged
 	if !IsStaged(stage, movementshape) {
 		return
@@ -998,15 +1072,17 @@ func (stage *Stage) UnstageBranchMovementShape(movementshape *MovementShape) {
 
 	movementshape.Unstage(stage)
 
-	// insertion point for the staging of instances referenced by pointers
+	//insertion point for the staging of instances referenced by pointers
 	if movementshape.Movement != nil {
 		UnstageBranch(stage, movementshape.Movement)
 	}
 
-	// insertion point for the staging of instances referenced by slice of pointers
+	//insertion point for the staging of instances referenced by slice of pointers
+
 }
 
 func (stage *Stage) UnstageBranchPlace(place *Place) {
+
 	// check if instance is already staged
 	if !IsStaged(stage, place) {
 		return
@@ -1014,20 +1090,21 @@ func (stage *Stage) UnstageBranchPlace(place *Place) {
 
 	place.Unstage(stage)
 
-	// insertion point for the staging of instances referenced by pointers
+	//insertion point for the staging of instances referenced by pointers
 
-	// insertion point for the staging of instances referenced by slice of pointers
+	//insertion point for the staging of instances referenced by slice of pointers
+
 }
 
 // insertion point for pointer reconstruction from references
-func (reference *ArtefactType) GongReconstructPointersFromReferences(stage *Stage, instance *ArtefactType) {
+func (reference *ArtefactType) GongReconstructPointersFromReferences(stage *Stage, instance *ArtefactType) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
 	return
 }
 
-func (reference *ArtefactTypeShape) GongReconstructPointersFromReferences(stage *Stage, instance *ArtefactTypeShape) {
+func (reference *ArtefactTypeShape) GongReconstructPointersFromReferences(stage *Stage, instance *ArtefactTypeShape) () {
 	// insertion point for pointers field
 	if instance.ArtefactType != nil {
 		reference.ArtefactType = stage.ArtefactTypes_reference[instance.ArtefactType]
@@ -1037,7 +1114,7 @@ func (reference *ArtefactTypeShape) GongReconstructPointersFromReferences(stage 
 	return
 }
 
-func (reference *Artist) GongReconstructPointersFromReferences(stage *Stage, instance *Artist) {
+func (reference *Artist) GongReconstructPointersFromReferences(stage *Stage, instance *Artist) () {
 	// insertion point for pointers field
 	if instance.Place != nil {
 		reference.Place = stage.Places_reference[instance.Place]
@@ -1047,7 +1124,7 @@ func (reference *Artist) GongReconstructPointersFromReferences(stage *Stage, ins
 	return
 }
 
-func (reference *ArtistShape) GongReconstructPointersFromReferences(stage *Stage, instance *ArtistShape) {
+func (reference *ArtistShape) GongReconstructPointersFromReferences(stage *Stage, instance *ArtistShape) () {
 	// insertion point for pointers field
 	if instance.Artist != nil {
 		reference.Artist = stage.Artists_reference[instance.Artist]
@@ -1057,14 +1134,14 @@ func (reference *ArtistShape) GongReconstructPointersFromReferences(stage *Stage
 	return
 }
 
-func (reference *ControlPointShape) GongReconstructPointersFromReferences(stage *Stage, instance *ControlPointShape) {
+func (reference *ControlPointShape) GongReconstructPointersFromReferences(stage *Stage, instance *ControlPointShape) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
 	return
 }
 
-func (reference *Desk) GongReconstructPointersFromReferences(stage *Stage, instance *Desk) {
+func (reference *Desk) GongReconstructPointersFromReferences(stage *Stage, instance *Desk) () {
 	// insertion point for pointers field
 	if instance.SelectedDiagram != nil {
 		reference.SelectedDiagram = stage.Diagrams_reference[instance.SelectedDiagram]
@@ -1074,7 +1151,7 @@ func (reference *Desk) GongReconstructPointersFromReferences(stage *Stage, insta
 	return
 }
 
-func (reference *Diagram) GongReconstructPointersFromReferences(stage *Stage, instance *Diagram) {
+func (reference *Diagram) GongReconstructPointersFromReferences(stage *Stage, instance *Diagram) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	reference.MovementShapes = reference.MovementShapes[:0]
@@ -1097,7 +1174,7 @@ func (reference *Diagram) GongReconstructPointersFromReferences(stage *Stage, in
 	return
 }
 
-func (reference *Influence) GongReconstructPointersFromReferences(stage *Stage, instance *Influence) {
+func (reference *Influence) GongReconstructPointersFromReferences(stage *Stage, instance *Influence) () {
 	// insertion point for pointers field
 	if instance.SourceMovement != nil {
 		reference.SourceMovement = stage.Movements_reference[instance.SourceMovement]
@@ -1122,7 +1199,7 @@ func (reference *Influence) GongReconstructPointersFromReferences(stage *Stage, 
 	return
 }
 
-func (reference *InfluenceShape) GongReconstructPointersFromReferences(stage *Stage, instance *InfluenceShape) {
+func (reference *InfluenceShape) GongReconstructPointersFromReferences(stage *Stage, instance *InfluenceShape) () {
 	// insertion point for pointers field
 	if instance.Influence != nil {
 		reference.Influence = stage.Influences_reference[instance.Influence]
@@ -1136,7 +1213,7 @@ func (reference *InfluenceShape) GongReconstructPointersFromReferences(stage *St
 	return
 }
 
-func (reference *Movement) GongReconstructPointersFromReferences(stage *Stage, instance *Movement) {
+func (reference *Movement) GongReconstructPointersFromReferences(stage *Stage, instance *Movement) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	reference.Places = reference.Places[:0]
@@ -1147,7 +1224,7 @@ func (reference *Movement) GongReconstructPointersFromReferences(stage *Stage, i
 	return
 }
 
-func (reference *MovementShape) GongReconstructPointersFromReferences(stage *Stage, instance *MovementShape) {
+func (reference *MovementShape) GongReconstructPointersFromReferences(stage *Stage, instance *MovementShape) () {
 	// insertion point for pointers field
 	if instance.Movement != nil {
 		reference.Movement = stage.Movements_reference[instance.Movement]
@@ -1157,7 +1234,7 @@ func (reference *MovementShape) GongReconstructPointersFromReferences(stage *Sta
 	return
 }
 
-func (reference *Place) GongReconstructPointersFromReferences(stage *Stage, instance *Place) {
+func (reference *Place) GongReconstructPointersFromReferences(stage *Stage, instance *Place) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
@@ -1165,14 +1242,14 @@ func (reference *Place) GongReconstructPointersFromReferences(stage *Stage, inst
 }
 
 // insertion point for pointer reconstruction from instances
-func (reference *ArtefactType) GongReconstructPointersFromInstances(stage *Stage) {
+func (reference *ArtefactType) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 
 	return
 }
 
-func (reference *ArtefactTypeShape) GongReconstructPointersFromInstances(stage *Stage) {
+func (reference *ArtefactTypeShape) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
 	if _reference := reference.ArtefactType; _reference != nil {
 		reference.ArtefactType = nil
@@ -1185,7 +1262,7 @@ func (reference *ArtefactTypeShape) GongReconstructPointersFromInstances(stage *
 	return
 }
 
-func (reference *Artist) GongReconstructPointersFromInstances(stage *Stage) {
+func (reference *Artist) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
 	if _reference := reference.Place; _reference != nil {
 		reference.Place = nil
@@ -1198,7 +1275,7 @@ func (reference *Artist) GongReconstructPointersFromInstances(stage *Stage) {
 	return
 }
 
-func (reference *ArtistShape) GongReconstructPointersFromInstances(stage *Stage) {
+func (reference *ArtistShape) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
 	if _reference := reference.Artist; _reference != nil {
 		reference.Artist = nil
@@ -1211,14 +1288,14 @@ func (reference *ArtistShape) GongReconstructPointersFromInstances(stage *Stage)
 	return
 }
 
-func (reference *ControlPointShape) GongReconstructPointersFromInstances(stage *Stage) {
+func (reference *ControlPointShape) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 
 	return
 }
 
-func (reference *Desk) GongReconstructPointersFromInstances(stage *Stage) {
+func (reference *Desk) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
 	if _reference := reference.SelectedDiagram; _reference != nil {
 		reference.SelectedDiagram = nil
@@ -1231,7 +1308,7 @@ func (reference *Desk) GongReconstructPointersFromInstances(stage *Stage) {
 	return
 }
 
-func (reference *Diagram) GongReconstructPointersFromInstances(stage *Stage) {
+func (reference *Diagram) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	var _MovementShapes []*MovementShape
@@ -1266,7 +1343,7 @@ func (reference *Diagram) GongReconstructPointersFromInstances(stage *Stage) {
 	return
 }
 
-func (reference *Influence) GongReconstructPointersFromInstances(stage *Stage) {
+func (reference *Influence) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
 	if _reference := reference.SourceMovement; _reference != nil {
 		reference.SourceMovement = nil
@@ -1309,7 +1386,7 @@ func (reference *Influence) GongReconstructPointersFromInstances(stage *Stage) {
 	return
 }
 
-func (reference *InfluenceShape) GongReconstructPointersFromInstances(stage *Stage) {
+func (reference *InfluenceShape) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
 	if _reference := reference.Influence; _reference != nil {
 		reference.Influence = nil
@@ -1329,7 +1406,7 @@ func (reference *InfluenceShape) GongReconstructPointersFromInstances(stage *Sta
 	return
 }
 
-func (reference *Movement) GongReconstructPointersFromInstances(stage *Stage) {
+func (reference *Movement) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	var _Places []*Place
@@ -1343,7 +1420,7 @@ func (reference *Movement) GongReconstructPointersFromInstances(stage *Stage) {
 	return
 }
 
-func (reference *MovementShape) GongReconstructPointersFromInstances(stage *Stage) {
+func (reference *MovementShape) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
 	if _reference := reference.Movement; _reference != nil {
 		reference.Movement = nil
@@ -1356,7 +1433,7 @@ func (reference *MovementShape) GongReconstructPointersFromInstances(stage *Stag
 	return
 }
 
-func (reference *Place) GongReconstructPointersFromInstances(stage *Stage) {
+func (reference *Place) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 
@@ -1643,16 +1720,16 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		diffs = append(diffs, diagram.GongMarshallField(stage, "IsInfluenceCategoryNodeExpanded"))
 	}
 	if diagram.IsMovementCategoryHidden != diagramOther.IsMovementCategoryHidden {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "IsMovementCategoryShown"))
+		diffs = append(diffs, diagram.GongMarshallField(stage, "IsMovementCategoryHidden"))
 	}
 	if diagram.IsArtefactTypeCategoryHidden != diagramOther.IsArtefactTypeCategoryHidden {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "IsArtefactTypeCategoryShown"))
+		diffs = append(diffs, diagram.GongMarshallField(stage, "IsArtefactTypeCategoryHidden"))
 	}
 	if diagram.IsArtistCategoryHidden != diagramOther.IsArtistCategoryHidden {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "IsArtistCategoryShown"))
+		diffs = append(diffs, diagram.GongMarshallField(stage, "IsArtistCategoryHidden"))
 	}
 	if diagram.IsInfluenceCategoryHidden != diagramOther.IsInfluenceCategoryHidden {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "IsInfluenceCategoryShown"))
+		diffs = append(diffs, diagram.GongMarshallField(stage, "IsInfluenceCategoryHidden"))
 	}
 	if diagram.StartDate != diagramOther.StartDate {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "StartDate"))
