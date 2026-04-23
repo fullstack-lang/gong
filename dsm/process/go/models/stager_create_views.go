@@ -1,0 +1,205 @@
+package models
+
+import split "github.com/fullstack-lang/gong/lib/split/go/models"
+
+func (stager *Stager) createViews(stage *Stage) {
+	split.StageBranch(stager.splitStage, &split.View{
+		Name:           "Edit PBS/WBS",
+		Direction:      split.Horizontal,
+		IsSelectedView: true,
+		RootAsSplitAreas: []*split.AsSplitArea{
+			{
+				Name:             "Sidebar with both trees",
+				ShowNameInHeader: false,
+				Size:             82,
+				AsSplit: &split.AsSplit{
+					Name:      "as split",
+					Direction: split.Horizontal,
+					AsSplitAreas: []*split.AsSplitArea{
+						{
+							Size: 26,
+							AsSplit: &split.AsSplit{
+								Direction: split.Vertical,
+								AsSplitAreas: []*split.AsSplitArea{
+									{
+										Name:             "Libraries",
+										Size:             70,
+										ShowNameInHeader: false,
+										Tree: &split.Tree{
+											StackName: stager.treeStage.GetName(),
+										},
+									},
+									{
+										Size: 20,
+										Load: &split.Load{
+											StackName: stager.loadStage.GetName(),
+										},
+									},
+									{
+										Size: 10,
+										Button: &split.Button{
+											StackName: stager.buttonStage.GetName(),
+										},
+									},
+								},
+							},
+						},
+						{
+							Size: 74,
+							Svg: &split.Svg{
+								StackName: stager.processDiagramSvgStage.GetName(),
+							},
+						},
+					},
+				},
+			},
+			{
+				Size: 18,
+				Form: &split.Form{
+					StackName: stager.probeForm.GetFormStage().GetName(),
+				},
+			},
+		},
+	})
+
+	split.StageBranch(stager.splitStage, &split.View{
+		Name:      "Edit PBS/WBS",
+		Direction: split.Horizontal,
+		RootAsSplitAreas: []*split.AsSplitArea{
+			{
+				Name:             "Sidebar with both trees",
+				ShowNameInHeader: false,
+				Size:             62,
+				AsSplit: &split.AsSplit{
+					Name:      "as split",
+					Direction: split.Horizontal,
+					AsSplitAreas: []*split.AsSplitArea{
+						{
+							Size: 38,
+							AsSplit: &split.AsSplit{
+								Direction: split.Vertical,
+								AsSplitAreas: []*split.AsSplitArea{
+									{
+										Name:             "Libraries",
+										Size:             100,
+										ShowNameInHeader: false,
+										Tree: &split.Tree{
+											StackName: stager.treeStage.GetName(),
+										},
+									},
+								},
+							},
+						},
+						{
+							Size: 62,
+							Form: &split.Form{
+								StackName: stager.probeForm.GetFormStage().GetName(),
+							},
+						},
+					},
+				},
+			},
+			{
+				Size: 38,
+				Split: &split.Split{
+					StackName: stage.GetProbeSplitStageName(),
+				},
+			},
+		},
+	})
+
+	split.StageBranch(stager.splitStage, &split.View{
+		Name: "Probe",
+		RootAsSplitAreas: []*split.AsSplitArea{
+			{
+				Split: &split.Split{
+					StackName: stager.stage.GetProbeSplitStageName(),
+				},
+			},
+		},
+	})
+
+	split.StageBranch(stager.splitStage, &split.View{
+		Name:      "All",
+		Direction: split.Horizontal,
+		RootAsSplitAreas: []*split.AsSplitArea{
+			{
+				Name:             "Sidebar with both trees",
+				ShowNameInHeader: false,
+				Size:             35,
+				AsSplit: &split.AsSplit{
+					Name:      "as split",
+					Direction: split.Horizontal,
+					AsSplitAreas: []*split.AsSplitArea{
+						{
+							Size: 50,
+							AsSplit: &split.AsSplit{
+								Direction: split.Vertical,
+								AsSplitAreas: []*split.AsSplitArea{
+									{
+										Name:             "Bottom",
+										Size:             100,
+										ShowNameInHeader: false,
+										Tree: &split.Tree{
+											StackName: stager.treeStage.GetName(),
+										},
+									},
+								},
+							},
+						},
+						{
+							Size: 50,
+							Svg: &split.Svg{
+								StackName: stager.processDiagramSvgStage.GetName(),
+							},
+						},
+					},
+				},
+			},
+			{
+				Size: 65,
+				Split: &split.Split{
+					StackName: stage.GetProbeSplitStageName(),
+				},
+			},
+		},
+	})
+
+	split.StageBranch(stager.splitStage, &split.View{
+		Name:            "Tree Product Probe",
+		IsSecondatyView: true,
+		RootAsSplitAreas: []*split.AsSplitArea{
+			{
+				Split: &split.Split{
+					StackName: stager.treeStage.GetProbeSplitStageName(),
+				},
+			},
+		},
+	})
+
+	split.StageBranch(stager.splitStage, &split.View{
+		Name:            "Svg Probe",
+		IsSecondatyView: true,
+		RootAsSplitAreas: []*split.AsSplitArea{
+			{
+				Split: &split.Split{
+					StackName: stager.processDiagramSvgStage.GetProbeSplitStageName(),
+				},
+			},
+		},
+	})
+
+	split.StageBranch(stager.splitStage, &split.View{
+		Name:            "ssg Probe",
+		IsSecondatyView: true,
+		RootAsSplitAreas: []*split.AsSplitArea{
+			{
+				Split: &split.Split{
+					StackName: stager.ssgStage.GetProbeSplitStageName(),
+				},
+			},
+		},
+	})
+
+	stager.splitStage.Commit()
+}

@@ -32,4 +32,13 @@ func _(stage *models.Stage) {
 	__Process__00000000_.Name = `Process 1`
 
 	// insertion point for setup of pointers
+
+	__Library__00000000_ := (&models.Library{Name: ``}).Stage(stage)
+	__Library__00000000_.Name = ``
+	__Library__00000000_.ComputedPrefix = ``
+	__Library__00000000_.IsInRenameMode = false
+	__Library__00000000_.IsExpanded = false
+	__Library__00000000_.NbPixPerCharacter = 0.000000
+	__Library__00000000_.LogoSVGFile = ``
+	stage.Commit()
 }
