@@ -73,10 +73,10 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.IsArtefactTypeCategoryNodeExpanded = false
 	__Diagram__00000000_.IsArtistCategoryNodeExpanded = true
 	__Diagram__00000000_.IsInfluenceCategoryNodeExpanded = false
-	__Diagram__00000000_.IsMovementCategoryShown = false
-	__Diagram__00000000_.IsArtefactTypeCategoryShown = false
-	__Diagram__00000000_.IsArtistCategoryShown = false
-	__Diagram__00000000_.IsInfluenceCategoryShown = false
+	__Diagram__00000000_.IsMovementCategoryHidden = false
+	__Diagram__00000000_.IsArtefactTypeCategoryHidden = false
+	__Diagram__00000000_.IsArtistCategoryHidden = false
+	__Diagram__00000000_.IsInfluenceCategoryHidden = false
 	__Diagram__00000000_.StartDate, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1900-01-01 00:00:00 +0000 UTC")
 	__Diagram__00000000_.EndDate, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2030-01-01 00:00:00 +0000 UTC")
 	__Diagram__00000000_.NbYearsForIntervals = 10
