@@ -167,13 +167,13 @@ type Diagram_WOP struct {
 
 	IsInfluenceCategoryNodeExpanded bool
 
-	IsMovementCategoryShown bool
+	IsMovementCategoryHidden bool
 
-	IsArtefactTypeCategoryShown bool
+	IsArtefactTypeCategoryHidden bool
 
-	IsArtistCategoryShown bool
+	IsArtistCategoryHidden bool
 
-	IsInfluenceCategoryShown bool
+	IsInfluenceCategoryHidden bool
 
 	StartDate time.Time
 
@@ -515,3 +515,4 @@ func (from *Place) CopyBasicFields(to *Place) {
 	// insertion point
 	to.Name = from.Name
 }
+
