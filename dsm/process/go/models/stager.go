@@ -5,8 +5,24 @@ package models
 import (
 	"github.com/gin-gonic/gin"
 
-	split "github.com/fullstack-lang/gong/lib/split/go/models"
 	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
+
+	tree_stack "github.com/fullstack-lang/gong/lib/tree/go/stack"
+
+	split "github.com/fullstack-lang/gong/lib/split/go/models"
+	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
+
+	ssg_stack "github.com/fullstack-lang/gong/lib/ssg/go/level1stack"
+	ssg "github.com/fullstack-lang/gong/lib/ssg/go/models"
+
+	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
+	svg_stack "github.com/fullstack-lang/gong/lib/svg/go/stack"
+
+	load "github.com/fullstack-lang/gong/lib/load/go/models"
+	load_stack "github.com/fullstack-lang/gong/lib/load/go/stack"
+
+	button "github.com/fullstack-lang/gong/lib/button/go/models"
+	button_stack "github.com/fullstack-lang/gong/lib/button/go/stack"
 )
 
 type Stager struct {
@@ -16,12 +32,19 @@ type Stager struct {
 
 	rootLibrary *Library
 
+	treeStage                *tree.Stage
+	processDiagramSvgStage   *svg.Stage
+	structureDiagramSvgStage *svg.Stage
+	ssgStage                 *ssg.Stage
+	loadStage                *load.Stage
+	fileName                 string // fileName is used to store the name of the file to load or save
+	buttonStage              *button.Stage
+
+	svgObject *svg.SVG
+	diagram   *Diagram // diagram is the current diagram being displayed
+
 	// map to navigate from abstract elements to all diagrams where they are displayed
 	map_Element_Diagrams map[AbstractType][]*Diagram
-}
-
-func (s *Stager) tree() {
-	panic("unimplemented")
 }
 
 func (s *Stager) GetRootLibrary() *Library {
@@ -41,27 +64,33 @@ func NewStager(
 	// the root split name is "" by convention. Is is the same for all gong applications
 	// that do not develop their specific angular component
 	stager.splitStage = split_stack.NewStack(r, "", "", "", "", false, false).Stage
+	stager.treeStage = tree_stack.NewStack(r, "", "", "", "", true, true).Stage
+	stager.ssgStage = ssg_stack.NewLevel1Stack("", "", "", true, true).Stage
+	stager.processDiagramSvgStage = svg_stack.NewStack(r, "process diagram svg", "", "", "", true, true).Stage
+	stager.structureDiagramSvgStage = svg_stack.NewStack(r, "structure diagram svg", "", "", "", true, true).Stage
+	stager.loadStage = load_stack.NewStack(r, "", "", "", "", true, true).Stage
+	stager.buttonStage = button_stack.NewStack(r, "", "", "", "", true, true).Stage
 
-	split.StageBranch(stager.splitStage, &split.View{
-		Name: "Data Probe & Data Model",
-		RootAsSplitAreas: []*split.AsSplitArea{
-			{
-				Split: &split.Split{
-					StackName: stage.GetProbeSplitStageName(),
-				},
-			},
-		},
-	})
+	stager.createViews(stage)
 
-	stager.splitStage.Commit()
+	// Setup your before commit sequence
 
-	callbacks := &BeforeCommitImplementation{
-		stager: stager,
+	beforeCommit := func(stage *Stage) {
+		stager.enforceSemantic()
 	}
-	stager.stage.OnInitCommitFromBackCallback = callbacks
-	callbacks.BeforeCommit(stage)
+	afterCommit := func(stage *Stage) {
+		stager.tree()
+		stager.svg()
+		stager.button()
+		stager.load()
+	}
 
-	return
+	stager.stage.RegisterBeforeCommit(beforeCommit)
+	stager.stage.RegisterAfterCommit(afterCommit)
+	beforeCommit(stager.stage)
+	afterCommit(stager.stage)
+
+	return stager
 }
 
 type BeforeCommitImplementation struct {
