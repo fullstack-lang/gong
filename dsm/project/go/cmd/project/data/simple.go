@@ -399,4 +399,69 @@ func _(stage *models.Stage) {
 	// Default Diagram copy
 	__Diagram__00000007_.IsChecked = false
 	stage.Commit()
+
+	// Default Diagram
+	__Diagram__00000000_.Width = 12700.000000
+	__Diagram__00000000_.Height = 12700.000000
+	// Default Diagram copy
+	__Diagram__00000007_.Width = 959.078303
+	__Diagram__00000007_.Height = 817.001756
+	stage.Commit()
+
+	// Default Diagram
+	__Diagram__00000000_.IsChecked = false
+	// Default Diagram copy
+	__Diagram__00000007_.IsChecked = true
+	stage.Commit()
+
+	// Default Diagram
+	__Diagram__00000000_.IsChecked = true
+	// Default Diagram copy
+	__Diagram__00000007_.IsChecked = false
+	stage.Commit()
+
+	// Default Diagram
+	__Diagram__00000000_.IsChecked = false
+	// Default Diagram copy
+	__Diagram__00000007_.IsChecked = true
+	stage.Commit()
+
+	// Default Diagram copy
+	__Diagram__00000007_.IsExpanded = true
+	stage.Commit()
+
+	// Default Diagram copy
+	__Diagram__00000007_.IsPBSNodeExpanded = true
+	stage.Commit()
+
+	// Default Diagram copy
+	__Diagram__00000007_.ProductsWhoseNodeIsExpanded = slices.Insert( __Diagram__00000007_.ProductsWhoseNodeIsExpanded, 0, __Product__00000000_)
+	stage.Commit()
+
+	// Default Diagram copy
+	__Diagram__00000007_.Product_Shapes = slices.Delete( __Diagram__00000007_.Product_Shapes, 1, 2)
+	__ProductShape__00000024_.Unstage(stage)
+	stage.Commit()
+
+	// Default Diagram
+	__Diagram__00000000_.Width = 13700.000000
+	__Diagram__00000000_.Height = 13700.000000
+	// Default Diagram copy
+	__Diagram__00000007_.Width = 1959.078303
+	__Diagram__00000007_.Height = 1817.001756
+	__Diagram__00000007_.ProductComposition_Shapes = slices.Delete( __Diagram__00000007_.ProductComposition_Shapes, 0, 1)
+	__ProductCompositionShape__00000013_.Unstage(stage)
+	stage.Commit()
+
+	// Default Diagram
+	__Diagram__00000000_.IsChecked = true
+	// Default Diagram copy
+	__Diagram__00000007_.IsChecked = false
+	stage.Commit()
+
+	// Default Diagram
+	__Diagram__00000000_.IsChecked = false
+	// Default Diagram copy
+	__Diagram__00000007_.IsChecked = true
+	stage.Commit()
 }
