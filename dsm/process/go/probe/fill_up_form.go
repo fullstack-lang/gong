@@ -50,19 +50,19 @@ func FillUpForm(
 			var rf models.ReverseField
 			_ = rf
 			rf.GongstructName = "Library"
-			rf.Fieldname = "Diagrams"
+			rf.Fieldname = "DiagramProcesss"
 			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Library),
-					"Diagrams",
+					"DiagramProcesss",
 					instanceWithInferedType,
 					formGroup,
 					probe)
 			} else {
 				AssociationReverseFieldToForm[*models.Library](
 					nil,
-					"Diagrams",
+					"DiagramProcesss",
 					instanceWithInferedType,
 					formGroup,
 					probe)
@@ -79,7 +79,7 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		AssociationSliceToForm("Diagrams", instanceWithInferedType, &instanceWithInferedType.Diagrams, formGroup, probe)
+		AssociationSliceToForm("DiagramProcesss", instanceWithInferedType, &instanceWithInferedType.DiagramProcesss, formGroup, probe)
 		AssociationSliceToForm("SubLibraries", instanceWithInferedType, &instanceWithInferedType.SubLibraries, formGroup, probe)
 		BasicFieldtoForm("NbPixPerCharacter", instanceWithInferedType.NbPixPerCharacter, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)

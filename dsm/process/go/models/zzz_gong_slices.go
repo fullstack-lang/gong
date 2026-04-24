@@ -46,11 +46,11 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Library
 	// insertion point per field
-	stage.Library_Diagrams_reverseMap = make(map[*DiagramProcess]*Library)
+	stage.Library_DiagramProcesss_reverseMap = make(map[*DiagramProcess]*Library)
 	for library := range stage.Librarys {
 		_ = library
-		for _, _diagramprocess := range library.Diagrams {
-			stage.Library_Diagrams_reverseMap[_diagramprocess] = library
+		for _, _diagramprocess := range library.DiagramProcesss {
+			stage.Library_DiagramProcesss_reverseMap[_diagramprocess] = library
 		}
 	}
 	stage.Library_SubLibraries_reverseMap = make(map[*Library]*Library)

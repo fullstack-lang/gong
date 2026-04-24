@@ -525,8 +525,8 @@ func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.IsInRenameMode = GongExtractBool(valueExpr)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
-	case "Diagrams":
-		GongUnmarshallSliceOfPointers(&instance.Diagrams, valueExpr, identifierMap)
+	case "DiagramProcesss":
+		GongUnmarshallSliceOfPointers(&instance.DiagramProcesss, valueExpr, identifierMap)
 	case "SubLibraries":
 		GongUnmarshallSliceOfPointers(&instance.SubLibraries, valueExpr, identifierMap)
 	case "NbPixPerCharacter":
