@@ -1,7 +1,6 @@
 package models
 
 import (
-	buttons "github.com/fullstack-lang/gong/lib/tree/go/buttons"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
@@ -15,33 +14,7 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 	*parentNodes = append(*parentNodes, libraryNode)
 
 	if library != stager.rootLibrary {
-		if !library.GetIsInRenameMode() {
-			libraryNode.Buttons = append(libraryNode.Buttons,
-				&tree.Button{
-					Name: library.GetName() + " " + string(buttons.BUTTON_edit_note),
-					Icon: string(buttons.BUTTON_edit_note),
-					OnClick: func() {
-						library.SetIsInRenameMode(true)
-						stager.stage.Commit()
-					},
-					HasToolTip:      true,
-					ToolTipText:     "Rename the " + GetGongstructNameFromPointer(library),
-					ToolTipPosition: tree.Above,
-				})
-		} else {
-			libraryNode.Buttons = append(libraryNode.Buttons,
-				&tree.Button{
-					Name: library.GetName() + " " + string(buttons.BUTTON_edit_off),
-					Icon: string(buttons.BUTTON_edit_off),
-					OnClick: func() {
-						library.SetIsInRenameMode(false)
-						stager.stage.Commit()
-					},
-					HasToolTip:      true,
-					ToolTipText:     "Cancel renaming",
-					ToolTipPosition: tree.Above,
-				})
-		}
+		addRenameButton(library, libraryNode, stager)
 	}
 
 	libraryNode.OnUpdate = stager.OnUpdateLibrary(library)

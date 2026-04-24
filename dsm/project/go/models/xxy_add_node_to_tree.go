@@ -66,33 +66,7 @@ func addNodeToTree[
 	parentNode.Children = append(parentNode.Children, node)
 
 	// if the element is not in rename mode, then we can add a button to enter rename mode
-	if !element.GetIsInRenameMode() {
-		node.Buttons = append(node.Buttons,
-			&tree.Button{
-				Name: element.GetName() + " " + string(buttons.BUTTON_edit_note),
-				Icon: string(buttons.BUTTON_edit_note),
-				OnClick: func() {
-					element.SetIsInRenameMode(true)
-					stage.Commit()
-				},
-				HasToolTip:      true,
-				ToolTipText:     "Rename the " + GetGongstructNameFromPointer(element),
-				ToolTipPosition: tree.Above,
-			})
-	} else {
-		node.Buttons = append(node.Buttons,
-			&tree.Button{
-				Name: element.GetName() + " " + string(buttons.BUTTON_edit_off),
-				Icon: string(buttons.BUTTON_edit_off),
-				OnClick: func() {
-					element.SetIsInRenameMode(false)
-					stage.Commit()
-				},
-				HasToolTip:      true,
-				ToolTipText:     "Cancel renaming",
-				ToolTipPosition: tree.Above,
-			})
-	}
+	addRenameButton(element, node, stager)
 
 	// if the element is in the diagram, then we can add a button to remove it from the diagram
 	if shape, ok := shapesMap[element]; ok {
