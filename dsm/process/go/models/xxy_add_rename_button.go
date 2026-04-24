@@ -5,9 +5,9 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
-func addRenameButton[T AbstractType](at T, libraryNode *tree.Node, stager *Stager) {
+func addRenameButton[T AbstractType](at T, node *tree.Node, stager *Stager) {
 	if !at.GetIsInRenameMode() {
-		libraryNode.Buttons = append(libraryNode.Buttons,
+		node.Buttons = append(node.Buttons,
 			&tree.Button{
 				Name: at.GetName() + " " + string(buttons.BUTTON_edit_note),
 				Icon: string(buttons.BUTTON_edit_note),
@@ -20,7 +20,7 @@ func addRenameButton[T AbstractType](at T, libraryNode *tree.Node, stager *Stage
 				ToolTipPosition: tree.Above,
 			})
 	} else {
-		libraryNode.Buttons = append(libraryNode.Buttons,
+		node.Buttons = append(node.Buttons,
 			&tree.Button{
 				Name: at.GetName() + " " + string(buttons.BUTTON_edit_off),
 				Icon: string(buttons.BUTTON_edit_off),
