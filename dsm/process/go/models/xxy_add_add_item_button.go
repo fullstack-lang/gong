@@ -7,6 +7,23 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
+type itemAdderCallback[PT AbstractType] struct {
+	createdItem    PT
+	OnBeforeCommit func()
+}
+
+// addAddItemButton appends an "add" button to the given tree node.
+// When clicked, this button instantiates a new abstract element of type PT,
+// adds it to the provided items slice, and prepares the UI for immediate renaming.
+//
+// Special behaviors are implemented for specific element types (e.g., Diagram, Library).
+// If a receivingDiagram and shapes are provided, the function also creates
+// the corresponding visual shape (of type CT) on the diagram. If a parentItem
+// is provided and its shape is found, an association link (of type ACT) is automatically
+// generated between the parent and the newly created child shape.
+//
+// The heavy use of generics allows this function to be completely agnostic to the actual
+// underlying types (e.g. Product, Task, Note, and their respective shapes).
 func addAddItemButton[
 	T Gongstruct,
 	PT interface {
@@ -29,9 +46,12 @@ func addAddItemButton[
 	stager *Stager,
 	parentItemsWhoseNodeIsExpanded *[]PT, parentItem PT, isNodeExpanded *bool,
 	node *tree.Node, items *[]PT,
-	receivingDiagram DiagramIF, shapes *[]CT,
+	receivingDiagram DiagramIF,
+	shapes *[]CT,
 	associationShapes *[]ACT,
-) {
+) (callbacks *itemAdderCallback[PT]) {
+	callbacks = &itemAdderCallback[PT]{}
+
 	var dummyItem PT
 	addButton := &tree.Button{
 		Name:            GetGongstructNameFromPointer(dummyItem) + " " + string(buttons.BUTTON_add),
@@ -43,40 +63,13 @@ func addAddItemButton[
 	node.Buttons = append(node.Buttons, addButton)
 	addButton.OnClick = func() {
 		newAbstractElement := PT(new(T))
+		callbacks.createdItem = newAbstractElement
 		newAbstractElement.SetName("New" + GetGongstructNameFromPointer(newAbstractElement))
 		newAbstractElement.SetName("") // easier to rename an item when its name is empty
 		newAbstractElement.SetIsInRenameMode(true)
 		newAbstractElement.StageVoid(stager.stage)
 		*items = append(*items, newAbstractElement)
 		stager.stage.ComputeReverseMaps() // this is important, otherwise, the form is not correctly initialized
-
-		// if the created item is a newDiagram, set the IsEditable_ field to true
-		if newDiagram, ok := any(newAbstractElement).(*Diagram); ok {
-			newDiagram.IsEditable_ = true
-			newDiagram.IsExpanded = true
-			for diagram_ := range *GetGongstructInstancesSet[Diagram](stager.stage) {
-				diagram_.IsChecked = false
-			}
-			newDiagram.IsChecked = true
-		}
-
-		// if the created item is a project, add a diagram to it
-		if newLibrary, ok := any(newAbstractElement).(*Library); ok {
-			newLibrary.IsExpanded = true
-			for diagram_ := range *GetGongstructInstancesSet[Diagram](stager.stage) {
-				diagram_.IsChecked = false
-			}
-			newDiagram := &Diagram{
-				Name:        "Default Diagram",
-				IsChecked:   true,
-				IsEditable_: true,
-				AbstractTypeFields: AbstractTypeFields{
-					IsExpanded: true,
-				},
-			}
-			newDiagram.StageVoid(stager.stage)
-			newLibrary.Diagrams = append(newLibrary.Diagrams, newDiagram)
-		}
 
 		// stager.probeForm.SetCommitMode(false), no need yet
 		stager.probeForm.FillUpFormFromGongstruct(newAbstractElement, GetPointerToGongstructName[PT]())
@@ -111,6 +104,68 @@ func addAddItemButton[
 				newShape.SetY(parentShape.GetY() + parentShape.GetHeight()*2.0)
 			}
 		}
+
+		if callbacks.OnBeforeCommit != nil {
+			callbacks.OnBeforeCommit()
+		}
 		stager.stage.Commit()
 	}
+
+	return
+}
+
+// addAddItemButtonSimple appends an "add" button to the given tree node.
+// When clicked, this button instantiates a new abstract element of type PT,
+// adds it to the provided items slice, and prepares the UI for immediate renaming.
+// It is a simplified version of addAddItemButton without diagram/shape logic.
+func addAddItemButtonSimple[
+	T Gongstruct,
+	PT interface {
+		*T
+		AbstractType
+	},
+](
+	stager *Stager,
+	parentItemsWhoseNodeIsExpanded *[]PT, parentItem PT, isNodeExpanded *bool,
+	node *tree.Node, items *[]PT,
+) (callbacks *itemAdderCallback[PT]) {
+	callbacks = &itemAdderCallback[PT]{}
+
+	var dummyItem PT
+	addButton := &tree.Button{
+		Name:            GetGongstructNameFromPointer(dummyItem) + " " + string(buttons.BUTTON_add),
+		Icon:            string(buttons.BUTTON_add),
+		ToolTipText:     "Add a " + GetGongstructNameFromPointer(dummyItem) + " to \"" + node.Name + "\"",
+		HasToolTip:      true,
+		ToolTipPosition: tree.Right,
+	}
+	node.Buttons = append(node.Buttons, addButton)
+	addButton.OnClick = func() {
+		newAbstractElement := PT(new(T))
+		callbacks.createdItem = newAbstractElement
+		newAbstractElement.SetName("New" + GetGongstructNameFromPointer(newAbstractElement))
+		newAbstractElement.SetName("") // easier to rename an item when its name is empty
+		newAbstractElement.SetIsInRenameMode(true)
+		newAbstractElement.StageVoid(stager.stage)
+		*items = append(*items, newAbstractElement)
+		stager.stage.ComputeReverseMaps() // this is important, otherwise, the form is not correctly initialized
+
+		stager.probeForm.FillUpFormFromGongstruct(newAbstractElement, GetPointerToGongstructName[PT]())
+
+		// add the parent item to the list of items whose node is expanded
+		if parentItemsWhoseNodeIsExpanded != nil && parentItem != nil &&
+			!slices.Contains(*parentItemsWhoseNodeIsExpanded, parentItem) {
+			*parentItemsWhoseNodeIsExpanded = append(*parentItemsWhoseNodeIsExpanded, parentItem)
+		}
+		if isNodeExpanded != nil {
+			*isNodeExpanded = true
+		}
+
+		if callbacks.OnBeforeCommit != nil {
+			callbacks.OnBeforeCommit()
+		}
+		stager.stage.Commit()
+	}
+
+	return
 }

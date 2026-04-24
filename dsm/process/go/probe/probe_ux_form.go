@@ -15,11 +15,11 @@ func (probe *Probe) ux_form() {
 	}
 	if formGroup != nil {
 		switch onSave := formGroup.OnSave.(type) { // insertion point
-		case *DiagramFormCallback:
+		case *DiagramProcessFormCallback:
 			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Diagram", true)
+				FillUpFormFromGongstructName(probe, "DiagramProcess", true)
 			} else {
-				FillUpFormFromGongstruct(onSave.diagram, probe)
+				FillUpFormFromGongstruct(onSave.diagramprocess, probe)
 			}
 		case *LibraryFormCallback:
 			if onSave.CreationMode {
@@ -32,6 +32,18 @@ func (probe *Probe) ux_form() {
 				FillUpFormFromGongstructName(probe, "Process", true)
 			} else {
 				FillUpFormFromGongstruct(onSave.process, probe)
+			}
+		case *ProcessCompositionShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "ProcessCompositionShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.processcompositionshape, probe)
+			}
+		case *ProcessShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "ProcessShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.processshape, probe)
 			}
 		}
 	}
@@ -55,19 +67,19 @@ func FillUpFormFromGongstructName(
 
 	switch gongstructName {
 	// insertion point
-	case "Diagram":
+	case "DiagramProcess":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
-			Label: prefix + "Diagram Form",
+			Label: prefix + "DiagramProcess Form",
 		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__DiagramFormCallback(
+		formGroup.OnSave = __gong__New__DiagramProcessFormCallback(
 			nil,
 			probe,
 			formGroup,
 		)
-		diagram := new(models.Diagram)
+		diagramprocess := new(models.DiagramProcess)
 		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(diagram, formGroup, probe)
+		FillUpForm(diagramprocess, formGroup, probe)
 	case "Library":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -94,6 +106,32 @@ func FillUpFormFromGongstructName(
 		process := new(models.Process)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(process, formGroup, probe)
+	case "ProcessCompositionShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "ProcessCompositionShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ProcessCompositionShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		processcompositionshape := new(models.ProcessCompositionShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(processcompositionshape, formGroup, probe)
+	case "ProcessShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "ProcessShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ProcessShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		processshape := new(models.ProcessShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(processshape, formGroup, probe)
 	}
 	formStage.Commit()
 }

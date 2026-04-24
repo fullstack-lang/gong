@@ -24,12 +24,16 @@ func (probe *Probe) ux_table() {
 	}
 	switch tableName {
 	// insertion point
-	case "Diagram":
-		updateProbeTable[*models.Diagram](probe)
+	case "DiagramProcess":
+		updateProbeTable[*models.DiagramProcess](probe)
 	case "Library":
 		updateProbeTable[*models.Library](probe)
 	case "Process":
 		updateProbeTable[*models.Process](probe)
+	case "ProcessCompositionShape":
+		updateProbeTable[*models.ProcessCompositionShape](probe)
+	case "ProcessShape":
+		updateProbeTable[*models.ProcessShape](probe)
 	}
 }
 
