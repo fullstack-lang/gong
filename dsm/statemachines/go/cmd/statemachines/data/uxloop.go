@@ -618,4 +618,32 @@ func _(stage *models.Stage) {
 	__StateShape__00000000_.X = 171.000000
 	__StateShape__00000000_.Y = 166.000000
 	stage.Commit()
+
+	__Diagram__00000001_ := (&models.Diagram{Name: `New Diagram`}).Stage(stage)
+	// UX Loop
+	__StateMachine__00000000_.Diagrams = slices.Insert( __StateMachine__00000000_.Diagrams, 1, __Diagram__00000001_)
+	__Diagram__00000001_.Name = `New Diagram`
+	__Diagram__00000001_.IsChecked = false
+	__Diagram__00000001_.IsExpanded = false
+	__Diagram__00000001_.IsEditable_ = true
+	__Diagram__00000001_.IsInRenameMode = false
+	stage.Commit()
+
+	// New Diagram
+	__Diagram__00000001_.IsChecked = true
+	// UX Loop Diagram
+	__Diagram__00000000_.IsChecked = false
+	stage.Commit()
+
+	// New Diagram
+	__Diagram__00000001_.IsChecked = false
+	// UX Loop Diagram
+	__Diagram__00000000_.IsChecked = true
+	stage.Commit()
+
+	// New Diagram
+	__Diagram__00000001_.IsChecked = true
+	// UX Loop Diagram
+	__Diagram__00000000_.IsChecked = false
+	stage.Commit()
 }
