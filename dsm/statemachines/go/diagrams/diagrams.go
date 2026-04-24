@@ -72,7 +72,7 @@ func _(stage *models.Stage) {
 	__AttributeShape__00000000_.Fieldtypename = `bool`
 
 	__AttributeShape__00000001_.Name = `IsFictif`
-	__AttributeShape__00000001_.IdentifierMeta = ref_models.State{}.IsFictif
+	__AttributeShape__00000001_.IdentifierMeta = ref_models.State{}.IsFictious
 	__AttributeShape__00000001_.FieldTypeAsString = ``
 	__AttributeShape__00000001_.Structname = `State`
 	__AttributeShape__00000001_.Fieldtypename = `bool`

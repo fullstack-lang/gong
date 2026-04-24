@@ -578,7 +578,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(state.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "Parent"))
 		initializerStatements.WriteString(state.GongMarshallField(stage, "IsDecisionNode"))
-		initializerStatements.WriteString(state.GongMarshallField(stage, "IsFictif"))
+		initializerStatements.WriteString(state.GongMarshallField(stage, "IsFictious"))
 		initializerStatements.WriteString(state.GongMarshallField(stage, "IsEndState"))
 		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "SubStates"))
 		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "Diagrams"))
@@ -1237,11 +1237,11 @@ func (state *State) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = strings.ReplaceAll(res, "{{Identifier}}", state.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsDecisionNode")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", state.IsDecisionNode))
-	case "IsFictif":
+	case "IsFictious":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", state.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsFictif")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", state.IsFictif))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsFictious")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", state.IsFictious))
 	case "IsEndState":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", state.GongGetIdentifier(stage))
@@ -1728,7 +1728,7 @@ func (state *State) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes 
 		initializerStatements.WriteString(state.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "Parent"))
 		initializerStatements.WriteString(state.GongMarshallField(stage, "IsDecisionNode"))
-		initializerStatements.WriteString(state.GongMarshallField(stage, "IsFictif"))
+		initializerStatements.WriteString(state.GongMarshallField(stage, "IsFictious"))
 		initializerStatements.WriteString(state.GongMarshallField(stage, "IsEndState"))
 		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "SubStates"))
 		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "Diagrams"))

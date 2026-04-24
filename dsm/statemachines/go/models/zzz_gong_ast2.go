@@ -806,8 +806,8 @@ func (u *StateUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		GongUnmarshallPointer(&instance.Parent, valueExpr, identifierMap)
 	case "IsDecisionNode":
 		instance.IsDecisionNode = GongExtractBool(valueExpr)
-	case "IsFictif":
-		instance.IsFictif = GongExtractBool(valueExpr)
+	case "IsFictious":
+		instance.IsFictious = GongExtractBool(valueExpr)
 	case "IsEndState":
 		instance.IsEndState = GongExtractBool(valueExpr)
 	case "SubStates":
