@@ -66,9 +66,9 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 
 	libraryNode.OnUpdate = stager.OnUpdateLibrary(library)
 
-	addAddItemButton(stager, nil, nil, &library.IsExpanded, libraryNode, &library.SubLibraries, nil, &[]*ProductShape{}, &[]*ProductCompositionShape{})
+	addAddItemButtonSimple(stager, nil, nil, &library.IsExpanded, libraryNode, &library.SubLibraries)
 
-	itemAdderCallback := addAddItemButton(stager, nil, nil, &library.IsExpanded, libraryNode, &library.Diagrams, nil, &[]*ProductShape{}, &[]*ProductCompositionShape{})
+	itemAdderCallback := addAddItemButtonSimple(stager, nil, nil, &library.IsExpanded, libraryNode, &library.Diagrams)
 
 	itemAdderCallback.OnBeforeCommit = func() {
 		newDiagram := itemAdderCallback.createdItem
