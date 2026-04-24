@@ -28,8 +28,6 @@ func _(stage *models.Stage) {
 	// insertion point for declaration of instances to stage
 
 	__DiagramProcess__00000000_ := (&models.DiagramProcess{Name: `D1`}).Stage(stage)
-	__DiagramProcess__00000001_ := (&models.DiagramProcess{Name: `DiagramProcess`}).Stage(stage)
-	__DiagramProcess__00000002_ := (&models.DiagramProcess{Name: `DiagramProcess`}).Stage(stage)
 	__DiagramProcess__00000003_ := (&models.DiagramProcess{Name: `DiagramProcess`}).Stage(stage)
 
 	__Library__00000000_ := (&models.Library{Name: `Root`}).Stage(stage)
@@ -38,6 +36,7 @@ func _(stage *models.Stage) {
 	__Process__00000003_ := (&models.Process{Name: `P3`}).Stage(stage)
 
 	__ProcessShape__00000002_ := (&models.ProcessShape{Name: `ProcessShape`}).Stage(stage)
+	__ProcessShape__00000003_ := (&models.ProcessShape{Name: `ProcessShape`}).Stage(stage)
 
 	// insertion point for initialization of values
 
@@ -48,31 +47,9 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000000_.IsShowPrefix = false
 	__DiagramProcess__00000000_.DefaultBoxWidth = 250.000000
 	__DiagramProcess__00000000_.DefaultBoxHeigth = 70.000000
-	__DiagramProcess__00000000_.Width = 12000.000000
-	__DiagramProcess__00000000_.Height = 12000.000000
+	__DiagramProcess__00000000_.Width = 17700.000000
+	__DiagramProcess__00000000_.Height = 17700.000000
 	__DiagramProcess__00000000_.IsProcesssNodeExpanded = false
-
-	__DiagramProcess__00000001_.Name = `DiagramProcess`
-	__DiagramProcess__00000001_.ComputedPrefix = ``
-	__DiagramProcess__00000001_.IsChecked = false
-	__DiagramProcess__00000001_.IsEditable_ = false
-	__DiagramProcess__00000001_.IsShowPrefix = false
-	__DiagramProcess__00000001_.DefaultBoxWidth = 250.000000
-	__DiagramProcess__00000001_.DefaultBoxHeigth = 70.000000
-	__DiagramProcess__00000001_.Width = 10200.000000
-	__DiagramProcess__00000001_.Height = 10650.000000
-	__DiagramProcess__00000001_.IsProcesssNodeExpanded = false
-
-	__DiagramProcess__00000002_.Name = `DiagramProcess`
-	__DiagramProcess__00000002_.ComputedPrefix = ``
-	__DiagramProcess__00000002_.IsChecked = false
-	__DiagramProcess__00000002_.IsEditable_ = false
-	__DiagramProcess__00000002_.IsShowPrefix = false
-	__DiagramProcess__00000002_.DefaultBoxWidth = 250.000000
-	__DiagramProcess__00000002_.DefaultBoxHeigth = 70.000000
-	__DiagramProcess__00000002_.Width = 10200.000000
-	__DiagramProcess__00000002_.Height = 10650.000000
-	__DiagramProcess__00000002_.IsProcesssNodeExpanded = false
 
 	__DiagramProcess__00000003_.Name = `DiagramProcess`
 	__DiagramProcess__00000003_.ComputedPrefix = ``
@@ -81,8 +58,8 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000003_.IsShowPrefix = false
 	__DiagramProcess__00000003_.DefaultBoxWidth = 250.000000
 	__DiagramProcess__00000003_.DefaultBoxHeigth = 70.000000
-	__DiagramProcess__00000003_.Width = 10200.000000
-	__DiagramProcess__00000003_.Height = 10650.000000
+	__DiagramProcess__00000003_.Width = 15900.000000
+	__DiagramProcess__00000003_.Height = 16350.000000
 	__DiagramProcess__00000003_.IsProcesssNodeExpanded = false
 
 	__Library__00000000_.Name = `Root`
@@ -106,13 +83,23 @@ func _(stage *models.Stage) {
 	__ProcessShape__00000002_.Height = 1000.000000
 	__ProcessShape__00000002_.IsHidden = false
 
+	__ProcessShape__00000003_.Name = `ProcessShape`
+	__ProcessShape__00000003_.IsExpanded = false
+	__ProcessShape__00000003_.X = 100.000000
+	__ProcessShape__00000003_.Y = 50.000000
+	__ProcessShape__00000003_.Width = 887.000000
+	__ProcessShape__00000003_.Height = 1000.000000
+	__ProcessShape__00000003_.IsHidden = false
+
 	// insertion point for setup of pointers
+	__DiagramProcess__00000000_.Process_Shapes = append(__DiagramProcess__00000000_.Process_Shapes, __ProcessShape__00000003_)
 	__DiagramProcess__00000003_.Process_Shapes = append(__DiagramProcess__00000003_.Process_Shapes, __ProcessShape__00000002_)
 	__Library__00000000_.RootProcesses = append(__Library__00000000_.RootProcesses, __Process__00000000_)
 	__Library__00000000_.RootProcesses = append(__Library__00000000_.RootProcesses, __Process__00000003_)
-	__Library__00000000_.ProcesssWhoseNodeIsExpanded = append(__Library__00000000_.ProcesssWhoseNodeIsExpanded, __Process__00000000_)
 	__Library__00000000_.ProcesssWhoseNodeIsExpanded = append(__Library__00000000_.ProcesssWhoseNodeIsExpanded, __Process__00000003_)
+	__Library__00000000_.ProcesssWhoseNodeIsExpanded = append(__Library__00000000_.ProcesssWhoseNodeIsExpanded, __Process__00000000_)
 	__Process__00000000_.DiagramProcesss = append(__Process__00000000_.DiagramProcesss, __DiagramProcess__00000000_)
 	__Process__00000003_.DiagramProcesss = append(__Process__00000003_.DiagramProcesss, __DiagramProcess__00000003_)
 	__ProcessShape__00000002_.Process = __Process__00000003_
+	__ProcessShape__00000003_.Process = __Process__00000000_
 }
