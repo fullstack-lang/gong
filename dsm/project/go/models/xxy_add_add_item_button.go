@@ -7,6 +7,11 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
+type itemAdderCallback[PT AbstractType] struct {
+	createdItem    PT
+	OnBeforeCommit func()
+}
+
 // addAddItemButton appends an "add" button to the given tree node.
 // When clicked, this button instantiates a new abstract element of type PT,
 // adds it to the provided items slice, and prepares the UI for immediate renaming.
@@ -44,7 +49,9 @@ func addAddItemButton[
 	receivingDiagram DiagramIF,
 	shapes *[]CT,
 	associationShapes *[]ACT,
-) {
+) (callbacks *itemAdderCallback[PT]) {
+	callbacks = &itemAdderCallback[PT]{}
+
 	var dummyItem PT
 	addButton := &tree.Button{
 		Name:            GetGongstructNameFromPointer(dummyItem) + " " + string(buttons.BUTTON_add),
@@ -56,40 +63,13 @@ func addAddItemButton[
 	node.Buttons = append(node.Buttons, addButton)
 	addButton.OnClick = func() {
 		newAbstractElement := PT(new(T))
+		callbacks.createdItem = newAbstractElement
 		newAbstractElement.SetName("New" + GetGongstructNameFromPointer(newAbstractElement))
 		newAbstractElement.SetName("") // easier to rename an item when its name is empty
 		newAbstractElement.SetIsInRenameMode(true)
 		newAbstractElement.StageVoid(stager.stage)
 		*items = append(*items, newAbstractElement)
 		stager.stage.ComputeReverseMaps() // this is important, otherwise, the form is not correctly initialized
-
-		// if the created item is a newDiagram, set the IsEditable_ field to true
-		if newDiagram, ok := any(newAbstractElement).(*Diagram); ok {
-			newDiagram.IsEditable_ = true
-			newDiagram.IsExpanded = true
-			for diagram_ := range *GetGongstructInstancesSet[Diagram](stager.stage) {
-				diagram_.IsChecked = false
-			}
-			newDiagram.IsChecked = true
-		}
-
-		// if the created item is a library, add a diagram to it
-		if newLibrary, ok := any(newAbstractElement).(*Library); ok {
-			newLibrary.IsExpanded = true
-			for diagram_ := range *GetGongstructInstancesSet[Diagram](stager.stage) {
-				diagram_.IsChecked = false
-			}
-			newDiagram := &Diagram{
-				Name:        "Default Diagram",
-				IsChecked:   true,
-				IsEditable_: true,
-				AbstractTypeFields: AbstractTypeFields{
-					IsExpanded: true,
-				},
-			}
-			newDiagram.StageVoid(stager.stage)
-			newLibrary.Diagrams = append(newLibrary.Diagrams, newDiagram)
-		}
 
 		// stager.probeForm.SetCommitMode(false), no need yet
 		stager.probeForm.FillUpFormFromGongstruct(newAbstractElement, GetPointerToGongstructName[PT]())
@@ -124,6 +104,12 @@ func addAddItemButton[
 				newShape.SetY(parentShape.GetY() + parentShape.GetHeight()*2.0)
 			}
 		}
+
+		if callbacks.OnBeforeCommit != nil {
+			callbacks.OnBeforeCommit()
+		}
 		stager.stage.Commit()
 	}
+
+	return
 }
