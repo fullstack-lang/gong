@@ -40,12 +40,12 @@ func GongCleanPointer[T PointerToGongstruct](stage *Stage, element *T) (modified
 }
 
 // insertion point per named struct
-// Clean garbage collect unstaged instances that are referenced by Diagram
-func (diagram *Diagram) GongClean(stage *Stage) (modified bool) {
+// Clean garbage collect unstaged instances that are referenced by DiagramProcess
+func (diagramprocess *DiagramProcess) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &diagram.Process_Shapes) || modified
-	modified = GongCleanSlice(stage, &diagram.ProcesssWhoseNodeIsExpanded) || modified
-	modified = GongCleanSlice(stage, &diagram.ProcessComposition_Shapes) || modified
+	modified = GongCleanSlice(stage, &diagramprocess.Process_Shapes) || modified
+	modified = GongCleanSlice(stage, &diagramprocess.ProcesssWhoseNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &diagramprocess.ProcessComposition_Shapes) || modified
 	// insertion point per field
 	return
 }

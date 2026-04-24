@@ -270,44 +270,44 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	_ = setValueField
 
 	// insertion initialization of objects to stage
-	diagramOrdered := []*Diagram{}
-	for diagram := range stage.Diagrams {
-		diagramOrdered = append(diagramOrdered, diagram)
+	diagramprocessOrdered := []*DiagramProcess{}
+	for diagramprocess := range stage.DiagramProcesss {
+		diagramprocessOrdered = append(diagramprocessOrdered, diagramprocess)
 	}
-	sort.Slice(diagramOrdered[:], func(i, j int) bool {
-		diagrami := diagramOrdered[i]
-		diagramj := diagramOrdered[j]
-		diagrami_order, oki := stage.Diagram_stagedOrder[diagrami]
-		diagramj_order, okj := stage.Diagram_stagedOrder[diagramj]
+	sort.Slice(diagramprocessOrdered[:], func(i, j int) bool {
+		diagramprocessi := diagramprocessOrdered[i]
+		diagramprocessj := diagramprocessOrdered[j]
+		diagramprocessi_order, oki := stage.DiagramProcess_stagedOrder[diagramprocessi]
+		diagramprocessj_order, okj := stage.DiagramProcess_stagedOrder[diagramprocessj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
-		return diagrami_order < diagramj_order
+		return diagramprocessi_order < diagramprocessj_order
 	})
-	if len(diagramOrdered) > 0 {
+	if len(diagramprocessOrdered) > 0 {
 		identifiersDecl.WriteString("\n")
 	}
-	for _, diagram := range diagramOrdered {
+	for _, diagramprocess := range diagramprocessOrdered {
 
-		identifiersDecl.WriteString(diagram.GongMarshallIdentifier(stage))
+		identifiersDecl.WriteString(diagramprocess.GongMarshallIdentifier(stage))
 
 		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ComputedPrefix"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsInRenameMode"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsExpanded"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsChecked"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsEditable_"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsShowPrefix"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "DefaultBoxWidth"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "DefaultBoxHeigth"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Width"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Height"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "Process_Shapes"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ProcesssWhoseNodeIsExpanded"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsProcesssNodeExpanded"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ProcessComposition_Shapes"))
+		initializerStatements.WriteString(diagramprocess.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(diagramprocess.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(diagramprocess.GongMarshallField(stage, "IsInRenameMode"))
+		initializerStatements.WriteString(diagramprocess.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(diagramprocess.GongMarshallField(stage, "IsChecked"))
+		initializerStatements.WriteString(diagramprocess.GongMarshallField(stage, "IsEditable_"))
+		initializerStatements.WriteString(diagramprocess.GongMarshallField(stage, "IsShowPrefix"))
+		initializerStatements.WriteString(diagramprocess.GongMarshallField(stage, "DefaultBoxWidth"))
+		initializerStatements.WriteString(diagramprocess.GongMarshallField(stage, "DefaultBoxHeigth"))
+		initializerStatements.WriteString(diagramprocess.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(diagramprocess.GongMarshallField(stage, "Height"))
+		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "Process_Shapes"))
+		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "ProcesssWhoseNodeIsExpanded"))
+		initializerStatements.WriteString(diagramprocess.GongMarshallField(stage, "IsProcesssNodeExpanded"))
+		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "ProcessComposition_Shapes"))
 	}
 
 	libraryOrdered := []*Library{}
@@ -440,8 +440,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 
 	// insertion initialization of objects to stage
-	for _, diagram := range diagramOrdered {
-		_ = diagram
+	for _, diagramprocess := range diagramprocessOrdered {
+		_ = diagramprocess
 		var setPointerField string
 		_ = setPointerField
 
@@ -534,75 +534,75 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 }
 
 // insertion point for marshall field methods
-func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res string) {
+func (diagramprocess *DiagramProcess) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
 	case "Name":
 		res = StringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramprocess.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(diagram.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(diagramprocess.Name))
 	case "ComputedPrefix":
 		res = StringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramprocess.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(diagram.ComputedPrefix))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(diagramprocess.ComputedPrefix))
 	case "IsInRenameMode":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramprocess.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsInRenameMode")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsInRenameMode))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagramprocess.IsInRenameMode))
 	case "IsExpanded":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramprocess.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsExpanded))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagramprocess.IsExpanded))
 	case "IsChecked":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramprocess.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsChecked")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsChecked))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagramprocess.IsChecked))
 	case "IsEditable_":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramprocess.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsEditable_")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsEditable_))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagramprocess.IsEditable_))
 	case "IsShowPrefix":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramprocess.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsShowPrefix")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsShowPrefix))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagramprocess.IsShowPrefix))
 	case "DefaultBoxWidth":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramprocess.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DefaultBoxWidth")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.DefaultBoxWidth))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagramprocess.DefaultBoxWidth))
 	case "DefaultBoxHeigth":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramprocess.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DefaultBoxHeigth")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.DefaultBoxHeigth))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagramprocess.DefaultBoxHeigth))
 	case "Width":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramprocess.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Width")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.Width))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagramprocess.Width))
 	case "Height":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramprocess.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Height")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.Height))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagramprocess.Height))
 	case "IsProcesssNodeExpanded":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramprocess.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsProcesssNodeExpanded")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsProcesssNodeExpanded))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagramprocess.IsProcesssNodeExpanded))
 
 	case "Process_Shapes":
 		var sb strings.Builder
-		for _, _processshape := range diagram.Process_Shapes {
+		for _, _processshape := range diagramprocess.Process_Shapes {
 			tmp := SliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramprocess.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Process_Shapes")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _processshape.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
@@ -610,9 +610,9 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = sb.String()
 	case "ProcesssWhoseNodeIsExpanded":
 		var sb strings.Builder
-		for _, _process := range diagram.ProcesssWhoseNodeIsExpanded {
+		for _, _process := range diagramprocess.ProcesssWhoseNodeIsExpanded {
 			tmp := SliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramprocess.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ProcesssWhoseNodeIsExpanded")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _process.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
@@ -620,16 +620,16 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = sb.String()
 	case "ProcessComposition_Shapes":
 		var sb strings.Builder
-		for _, _processcompositionshape := range diagram.ProcessComposition_Shapes {
+		for _, _processcompositionshape := range diagramprocess.ProcessComposition_Shapes {
 			tmp := SliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramprocess.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ProcessComposition_Shapes")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _processcompositionshape.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
 	default:
-		log.Panicf("Unknown field %s for Gongstruct Diagram", fieldName)
+		log.Panicf("Unknown field %s for Gongstruct DiagramProcess", fieldName)
 	}
 	return
 }
@@ -670,11 +670,11 @@ func (library *Library) GongMarshallField(stage *Stage, fieldName string) (res s
 
 	case "Diagrams":
 		var sb strings.Builder
-		for _, _diagram := range library.Diagrams {
+		for _, _diagramprocess := range library.Diagrams {
 			tmp := SliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", library.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Diagrams")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _diagramprocess.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
@@ -867,26 +867,26 @@ func (processshape *ProcessShape) GongMarshallField(stage *Stage, fieldName stri
 }
 
 // insertion point for marshall all fields methods
-func (diagram *Diagram) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+func (diagramprocess *DiagramProcess) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
 	var initializerStatements strings.Builder
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ComputedPrefix"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsInRenameMode"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsExpanded"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsChecked"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsEditable_"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsShowPrefix"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "DefaultBoxWidth"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "DefaultBoxHeigth"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Width"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Height"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "Process_Shapes"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ProcesssWhoseNodeIsExpanded"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsProcesssNodeExpanded"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ProcessComposition_Shapes"))
+		initializerStatements.WriteString(diagramprocess.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(diagramprocess.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(diagramprocess.GongMarshallField(stage, "IsInRenameMode"))
+		initializerStatements.WriteString(diagramprocess.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(diagramprocess.GongMarshallField(stage, "IsChecked"))
+		initializerStatements.WriteString(diagramprocess.GongMarshallField(stage, "IsEditable_"))
+		initializerStatements.WriteString(diagramprocess.GongMarshallField(stage, "IsShowPrefix"))
+		initializerStatements.WriteString(diagramprocess.GongMarshallField(stage, "DefaultBoxWidth"))
+		initializerStatements.WriteString(diagramprocess.GongMarshallField(stage, "DefaultBoxHeigth"))
+		initializerStatements.WriteString(diagramprocess.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(diagramprocess.GongMarshallField(stage, "Height"))
+		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "Process_Shapes"))
+		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "ProcesssWhoseNodeIsExpanded"))
+		initializerStatements.WriteString(diagramprocess.GongMarshallField(stage, "IsProcesssNodeExpanded"))
+		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "ProcessComposition_Shapes"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

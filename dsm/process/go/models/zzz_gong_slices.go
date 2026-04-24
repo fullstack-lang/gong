@@ -20,37 +20,37 @@ var (
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per named struct
-	// Compute reverse map for named struct Diagram
+	// Compute reverse map for named struct DiagramProcess
 	// insertion point per field
-	stage.Diagram_Process_Shapes_reverseMap = make(map[*ProcessShape]*Diagram)
-	for diagram := range stage.Diagrams {
-		_ = diagram
-		for _, _processshape := range diagram.Process_Shapes {
-			stage.Diagram_Process_Shapes_reverseMap[_processshape] = diagram
+	stage.DiagramProcess_Process_Shapes_reverseMap = make(map[*ProcessShape]*DiagramProcess)
+	for diagramprocess := range stage.DiagramProcesss {
+		_ = diagramprocess
+		for _, _processshape := range diagramprocess.Process_Shapes {
+			stage.DiagramProcess_Process_Shapes_reverseMap[_processshape] = diagramprocess
 		}
 	}
-	stage.Diagram_ProcesssWhoseNodeIsExpanded_reverseMap = make(map[*Process]*Diagram)
-	for diagram := range stage.Diagrams {
-		_ = diagram
-		for _, _process := range diagram.ProcesssWhoseNodeIsExpanded {
-			stage.Diagram_ProcesssWhoseNodeIsExpanded_reverseMap[_process] = diagram
+	stage.DiagramProcess_ProcesssWhoseNodeIsExpanded_reverseMap = make(map[*Process]*DiagramProcess)
+	for diagramprocess := range stage.DiagramProcesss {
+		_ = diagramprocess
+		for _, _process := range diagramprocess.ProcesssWhoseNodeIsExpanded {
+			stage.DiagramProcess_ProcesssWhoseNodeIsExpanded_reverseMap[_process] = diagramprocess
 		}
 	}
-	stage.Diagram_ProcessComposition_Shapes_reverseMap = make(map[*ProcessCompositionShape]*Diagram)
-	for diagram := range stage.Diagrams {
-		_ = diagram
-		for _, _processcompositionshape := range diagram.ProcessComposition_Shapes {
-			stage.Diagram_ProcessComposition_Shapes_reverseMap[_processcompositionshape] = diagram
+	stage.DiagramProcess_ProcessComposition_Shapes_reverseMap = make(map[*ProcessCompositionShape]*DiagramProcess)
+	for diagramprocess := range stage.DiagramProcesss {
+		_ = diagramprocess
+		for _, _processcompositionshape := range diagramprocess.ProcessComposition_Shapes {
+			stage.DiagramProcess_ProcessComposition_Shapes_reverseMap[_processcompositionshape] = diagramprocess
 		}
 	}
 
 	// Compute reverse map for named struct Library
 	// insertion point per field
-	stage.Library_Diagrams_reverseMap = make(map[*Diagram]*Library)
+	stage.Library_Diagrams_reverseMap = make(map[*DiagramProcess]*Library)
 	for library := range stage.Librarys {
 		_ = library
-		for _, _diagram := range library.Diagrams {
-			stage.Library_Diagrams_reverseMap[_diagram] = library
+		for _, _diagramprocess := range library.Diagrams {
+			stage.Library_Diagrams_reverseMap[_diagramprocess] = library
 		}
 	}
 	stage.Library_SubLibraries_reverseMap = make(map[*Library]*Library)
@@ -82,7 +82,7 @@ func (stage *Stage) ComputeReverseMaps() {
 
 func (stage *Stage) GetInstances() (res []GongstructIF) {
 	// insertion point per named struct
-	for instance := range stage.Diagrams {
+	for instance := range stage.DiagramProcesss {
 		res = append(res, instance)
 	}
 
@@ -106,9 +106,9 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 }
 
 // insertion point per named struct
-func (diagram *Diagram) GongCopy() GongstructIF {
-	newInstance := new(Diagram)
-	diagram.CopyBasicFields(newInstance)
+func (diagramprocess *DiagramProcess) GongCopy() GongstructIF {
+	newInstance := new(DiagramProcess)
+	diagramprocess.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -137,13 +137,13 @@ func (processshape *ProcessShape) GongCopy() GongstructIF {
 }
 
 // insertion point per named struct
-func (diagram *Diagram) GongGetUUID(stage *Stage) (uuid string) {
+func (diagramprocess *DiagramProcess) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(diagram).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+	if __gong__, ok := any(diagramprocess).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(diagram), uint64(GetOrderPointerGongstruct(stage, diagram)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(diagramprocess), uint64(GetOrderPointerGongstruct(stage, diagramprocess)))
 	return
 }
 
@@ -205,31 +205,31 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	stage.Clean()
 
 	// insertion point per named struct
-	var diagrams_newInstances []*Diagram
-	var diagrams_deletedInstances []*Diagram
+	var diagramprocesss_newInstances []*DiagramProcess
+	var diagramprocesss_deletedInstances []*DiagramProcess
 
 	// parse all staged instances and check if they have a reference
-	for diagram := range stage.Diagrams {
-		if ref, ok := stage.Diagrams_reference[diagram]; !ok {
-			diagrams_newInstances = append(diagrams_newInstances, diagram)
-			newInstancesSlice = append(newInstancesSlice, diagram.GongMarshallIdentifier(stage))
-			if stage.Diagrams_referenceOrder == nil {
-				stage.Diagrams_referenceOrder = make(map[*Diagram]uint)
+	for diagramprocess := range stage.DiagramProcesss {
+		if ref, ok := stage.DiagramProcesss_reference[diagramprocess]; !ok {
+			diagramprocesss_newInstances = append(diagramprocesss_newInstances, diagramprocess)
+			newInstancesSlice = append(newInstancesSlice, diagramprocess.GongMarshallIdentifier(stage))
+			if stage.DiagramProcesss_referenceOrder == nil {
+				stage.DiagramProcesss_referenceOrder = make(map[*DiagramProcess]uint)
 			}
-			stage.Diagrams_referenceOrder[diagram] = stage.Diagram_stagedOrder[diagram]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, diagram.GongMarshallUnstaging(stage))
-			// delete(stage.Diagrams_referenceOrder, diagram)
-			fieldInitializers, pointersInitializations := diagram.GongMarshallAllFields(stage)
+			stage.DiagramProcesss_referenceOrder[diagramprocess] = stage.DiagramProcess_stagedOrder[diagramprocess]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, diagramprocess.GongMarshallUnstaging(stage))
+			// delete(stage.DiagramProcesss_referenceOrder, diagramprocess)
+			fieldInitializers, pointersInitializations := diagramprocess.GongMarshallAllFields(stage)
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
-			stage.Diagram_stagedOrder[ref] = stage.Diagram_stagedOrder[diagram]
+			stage.DiagramProcess_stagedOrder[ref] = stage.DiagramProcess_stagedOrder[diagramprocess]
 			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := diagram.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, diagram)
-			// delete(stage.Diagram_stagedOrder, ref)
+			diffs := diagramprocess.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, diagramprocess)
+			// delete(stage.DiagramProcess_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", diagram.GetName())
+				fieldsEdit += fmt.Sprintf("\n\t// %s", diagramprocess.GetName())
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -243,10 +243,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.Diagrams_reference {
-		instance := stage.Diagrams_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.Diagrams[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			diagrams_deletedInstances = append(diagrams_deletedInstances, ref)
+	for _, ref := range stage.DiagramProcesss_reference {
+		instance := stage.DiagramProcesss_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.DiagramProcesss[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			diagramprocesss_deletedInstances = append(diagramprocesss_deletedInstances, ref)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -254,8 +254,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 		}
 	}
 
-	lenNewInstances += len(diagrams_newInstances)
-	lenDeletedInstances += len(diagrams_deletedInstances)
+	lenNewInstances += len(diagramprocesss_newInstances)
+	lenDeletedInstances += len(diagramprocesss_deletedInstances)
 	var librarys_newInstances []*Library
 	var librarys_deletedInstances []*Library
 
@@ -495,14 +495,14 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 // ComputeReferenceAndOrders will creates a deep copy of each of the staged elements
 func (stage *Stage) ComputeReferenceAndOrders() {
 	// insertion point per named struct
-	stage.Diagrams_reference = make(map[*Diagram]*Diagram)
-	stage.Diagrams_referenceOrder = make(map[*Diagram]uint) // diff Unstage needs the reference order
-	stage.Diagrams_instance = make(map[*Diagram]*Diagram)
-	for instance := range stage.Diagrams {
-		_copy := instance.GongCopy().(*Diagram)
-		stage.Diagrams_reference[instance] = _copy
-		stage.Diagrams_instance[_copy] = instance
-		stage.Diagrams_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	stage.DiagramProcesss_reference = make(map[*DiagramProcess]*DiagramProcess)
+	stage.DiagramProcesss_referenceOrder = make(map[*DiagramProcess]uint) // diff Unstage needs the reference order
+	stage.DiagramProcesss_instance = make(map[*DiagramProcess]*DiagramProcess)
+	for instance := range stage.DiagramProcesss {
+		_copy := instance.GongCopy().(*DiagramProcess)
+		stage.DiagramProcesss_reference[instance] = _copy
+		stage.DiagramProcesss_instance[_copy] = instance
+		stage.DiagramProcesss_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Librarys_reference = make(map[*Library]*Library)
@@ -546,8 +546,8 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 	}
 
 	// insertion point per named struct
-	for instance := range stage.Diagrams {
-		reference := stage.Diagrams_reference[instance]
+	for instance := range stage.DiagramProcesss {
+		reference := stage.DiagramProcesss_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -581,14 +581,14 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 // which is important for frontends such as web frontends
 // to avoid unnecessary re-renderings
 // insertion point per named struct
-func (diagram *Diagram) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.Diagram_stagedOrder[diagram]; ok {
+func (diagramprocess *DiagramProcess) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.DiagramProcess_stagedOrder[diagramprocess]; ok {
 		return order
 	}
-	if order, ok := stage.Diagrams_referenceOrder[diagram]; ok {
+	if order, ok := stage.DiagramProcesss_referenceOrder[diagramprocess]; ok {
 		return order
 	} else {
-		log.Printf("instance %p of type Diagram was not staged and does not have a reference order", diagram)
+		log.Printf("instance %p of type DiagramProcess was not staged and does not have a reference order", diagramprocess)
 		return 0
 	}
 }
@@ -646,13 +646,13 @@ func (processshape *ProcessShape) GongGetOrder(stage *Stage) uint {
 // in the staging area
 // It is used to identify instances across sessions
 // insertion point per named struct
-func (diagram *Diagram) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", diagram.GongGetGongstructName(), diagram.GongGetOrder(stage))
+func (diagramprocess *DiagramProcess) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", diagramprocess.GongGetGongstructName(), diagramprocess.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
-func (diagram *Diagram) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", diagram.GongGetGongstructName(), diagram.GongGetOrder(stage))
+func (diagramprocess *DiagramProcess) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", diagramprocess.GongGetGongstructName(), diagramprocess.GongGetOrder(stage))
 }
 
 func (library *Library) GongGetIdentifier(stage *Stage) string {
@@ -694,11 +694,11 @@ func (processshape *ProcessShape) GongGetReferenceIdentifier(stage *Stage) strin
 // MarshallIdentifier returns the code to instantiate the instance
 // in a marshalling file
 // insertion point per named struct
-func (diagram *Diagram) GongMarshallIdentifier(stage *Stage) (decl string) {
+func (diagramprocess *DiagramProcess) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Diagram")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(diagram.Name))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", diagramprocess.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "DiagramProcess")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(diagramprocess.Name))
 	return
 }
 
@@ -735,9 +735,9 @@ func (processshape *ProcessShape) GongMarshallIdentifier(stage *Stage) (decl str
 }
 
 // insertion point for unstaging
-func (diagram *Diagram) GongMarshallUnstaging(stage *Stage) (decl string) {
+func (diagramprocess *DiagramProcess) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", diagram.GongGetReferenceIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", diagramprocess.GongGetReferenceIdentifier(stage))
 	return
 }
 
