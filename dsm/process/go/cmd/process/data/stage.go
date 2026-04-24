@@ -83,4 +83,64 @@ func _(stage *models.Stage) {
 	// D2
 	__DiagramProcess__00000001_.IsChecked = false
 	stage.Commit()
+
+	// D1
+	__DiagramProcess__00000000_.Process_Shapes = slices.Delete( __DiagramProcess__00000000_.Process_Shapes, 1, 2)
+	__ProcessShape__00000001_.Unstage(stage)
+	stage.Commit()
+
+	__ProcessShape__00000002_ := (&models.ProcessShape{Name: `P1-D1`}).Stage(stage)
+	// D1
+	__DiagramProcess__00000000_.Process_Shapes = slices.Insert( __DiagramProcess__00000000_.Process_Shapes, 1, __ProcessShape__00000002_)
+	__ProcessShape__00000002_.Name = `P1-D1`
+	__ProcessShape__00000002_.IsExpanded = false
+	__ProcessShape__00000002_.X = 102.568327
+	__ProcessShape__00000002_.Y = 174.777678
+	__ProcessShape__00000002_.Width = 0.000000
+	__ProcessShape__00000002_.Height = 0.000000
+	__ProcessShape__00000002_.IsHidden = false
+	__ProcessShape__00000002_.Process = __Process__00000001_
+	stage.Commit()
+
+	// D1
+	__DiagramProcess__00000000_.Process_Shapes = slices.Delete( __DiagramProcess__00000000_.Process_Shapes, 1, 2)
+	__ProcessShape__00000002_.Unstage(stage)
+	stage.Commit()
+
+	// D1
+	__DiagramProcess__00000000_.Process_Shapes = slices.Delete( __DiagramProcess__00000000_.Process_Shapes, 0, 1)
+	__ProcessShape__00000000_.Unstage(stage)
+	stage.Commit()
+
+	// D1
+	__DiagramProcess__00000000_.IsChecked = false
+	// D2
+	__DiagramProcess__00000001_.IsChecked = true
+	stage.Commit()
+
+	__ProcessShape__00000003_ := (&models.ProcessShape{Name: `P1-D2`}).Stage(stage)
+	// D2
+	__DiagramProcess__00000001_.Process_Shapes = slices.Insert( __DiagramProcess__00000001_.Process_Shapes, 0, __ProcessShape__00000003_)
+	__ProcessShape__00000003_.Name = `P1-D2`
+	__ProcessShape__00000003_.IsExpanded = false
+	__ProcessShape__00000003_.X = 163.901066
+	__ProcessShape__00000003_.Y = 129.483041
+	__ProcessShape__00000003_.Width = 0.000000
+	__ProcessShape__00000003_.Height = 0.000000
+	__ProcessShape__00000003_.IsHidden = false
+	__ProcessShape__00000003_.Process = __Process__00000001_
+	stage.Commit()
+
+	__ProcessShape__00000004_ := (&models.ProcessShape{Name: `P1-D2`}).Stage(stage)
+	// D2
+	__DiagramProcess__00000001_.Process_Shapes = slices.Insert( __DiagramProcess__00000001_.Process_Shapes, 1, __ProcessShape__00000004_)
+	__ProcessShape__00000004_.Name = `P1-D2`
+	__ProcessShape__00000004_.IsExpanded = false
+	__ProcessShape__00000004_.X = 187.623755
+	__ProcessShape__00000004_.Y = 114.162730
+	__ProcessShape__00000004_.Width = 0.000000
+	__ProcessShape__00000004_.Height = 0.000000
+	__ProcessShape__00000004_.IsHidden = false
+	__ProcessShape__00000004_.Process = __Process__00000001_
+	stage.Commit()
 }
