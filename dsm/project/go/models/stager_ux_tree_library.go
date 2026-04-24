@@ -65,7 +65,7 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 			diagramNode.Buttons = append(diagramNode.Buttons, copyButton)
 		}
 		{
-			showAllButton := &tree.Button{
+			showPrefixButton := &tree.Button{
 				Name:            "Diagram Prefix",
 				Icon:            string(buttons.BUTTON_show_chart),
 				HasToolTip:      true,
@@ -77,13 +77,13 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 				},
 			}
 			if !diagram.IsShowPrefix {
-				showAllButton.Icon = string(buttons.BUTTON_label)
-				showAllButton.ToolTipText = "Show Prefix"
+				showPrefixButton.Icon = string(buttons.BUTTON_label)
+				showPrefixButton.ToolTipText = "Show Prefix"
 			} else {
-				showAllButton.Icon = string(buttons.BUTTON_label_off)
-				showAllButton.ToolTipText = "Hide Prefix"
+				showPrefixButton.Icon = string(buttons.BUTTON_label_off)
+				showPrefixButton.ToolTipText = "Hide Prefix"
 			}
-			diagramNode.Buttons = append(diagramNode.Buttons, showAllButton)
+			diagramNode.Buttons = append(diagramNode.Buttons, showPrefixButton)
 		}
 
 		pbsNode := &tree.Node{
