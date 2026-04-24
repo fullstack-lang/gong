@@ -2210,8 +2210,8 @@ func (state *State) GongDiff(stage *Stage, stateOther *State) (diffs []string) {
 	if state.IsDecisionNode != stateOther.IsDecisionNode {
 		diffs = append(diffs, state.GongMarshallField(stage, "IsDecisionNode"))
 	}
-	if state.IsFictif != stateOther.IsFictif {
-		diffs = append(diffs, state.GongMarshallField(stage, "IsFictif"))
+	if state.IsFictious != stateOther.IsFictious {
+		diffs = append(diffs, state.GongMarshallField(stage, "IsFictious"))
 	}
 	if state.IsEndState != stateOther.IsEndState {
 		diffs = append(diffs, state.GongMarshallField(stage, "IsEndState"))

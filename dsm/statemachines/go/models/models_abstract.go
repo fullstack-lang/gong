@@ -76,7 +76,7 @@ type State struct {
 
 	IsDecisionNode bool
 
-	IsFictif bool
+	IsFictious bool
 
 	IsEndState bool
 

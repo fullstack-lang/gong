@@ -1691,8 +1691,8 @@ func (stateFormCallback *StateFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(state_.Parent), stateFormCallback.probe.stageOfInterest, formDiv)
 		case "IsDecisionNode":
 			FormDivBasicFieldToField(&(state_.IsDecisionNode), formDiv)
-		case "IsFictif":
-			FormDivBasicFieldToField(&(state_.IsFictif), formDiv)
+		case "IsFictious":
+			FormDivBasicFieldToField(&(state_.IsFictious), formDiv)
 		case "IsEndState":
 			FormDivBasicFieldToField(&(state_.IsEndState), formDiv)
 		case "SubStates":

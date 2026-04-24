@@ -332,7 +332,7 @@ func (stager *Stager) svgGenerateRect(
 
 	}
 
-	if state.IsFictif {
+	if state.IsFictious {
 		rect.StrokeDashArray = "5 5"
 	}
 
