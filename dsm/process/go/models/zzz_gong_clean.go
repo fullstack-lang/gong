@@ -53,9 +53,9 @@ func (diagramprocess *DiagramProcess) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Library
 func (library *Library) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &library.DiagramProcesss) || modified
 	modified = GongCleanSlice(stage, &library.SubLibraries) || modified
 	modified = GongCleanSlice(stage, &library.RootProcesses) || modified
+	modified = GongCleanSlice(stage, &library.ProcesssWhoseNodeIsExpanded) || modified
 	// insertion point per field
 	return
 }
@@ -64,6 +64,7 @@ func (library *Library) GongClean(stage *Stage) (modified bool) {
 func (process *Process) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = GongCleanSlice(stage, &process.SubProcesses) || modified
+	modified = GongCleanSlice(stage, &process.DiagramProcesss) || modified
 	// insertion point per field
 	return
 }

@@ -45,101 +45,15 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 	}
 
 	libraryNode.OnUpdate = stager.OnUpdateLibrary(library)
+
+	// add sub library button
 	addAddItemButtonSimple(stager, nil, nil, &library.isExpanded, libraryNode, &library.SubLibraries)
 
-	itemAdderCallback := addAddItemButtonSimple(stager, nil, nil, &library.isExpanded, libraryNode, &library.DiagramProcesss)
+	// add a process to the library button
+	addAddItemButtonSimple(stager, nil, nil, &library.isExpanded, libraryNode, &library.RootProcesses)
 
-	itemAdderCallback.OnBeforeCommit = func() {
-		newDiagram := itemAdderCallback.createdItem
-		newDiagram.IsEditable_ = true
-		newDiagram.isExpanded = true
-		for diagram_ := range *GetGongstructInstancesSet[DiagramProcess](stager.stage) {
-			diagram_.IsChecked = false
-		}
-		newDiagram.IsChecked = true
-	}
-
-	for _, diagram := range library.DiagramProcesss {
-		diagramNode := &tree.Node{
-			Name:              diagram.Name,
-			IsExpanded:        diagram.isExpanded,
-			IsNodeClickable:   true,
-			HasCheckboxButton: true,
-			IsChecked:         diagram.IsChecked,
-
-			IsInEditMode: diagram.isInRenameMode,
-		}
-		libraryNode.Children = append(libraryNode.Children, diagramNode)
-
-		element := diagram
-		node := diagramNode
-
-		if !element.GetIsInRenameMode() {
-			node.Buttons = append(node.Buttons,
-				&tree.Button{
-					Name: element.GetName() + " " + string(buttons.BUTTON_edit_note),
-					Icon: string(buttons.BUTTON_edit_note),
-					OnClick: func() {
-						element.SetIsInRenameMode(true)
-						stager.stage.Commit()
-					},
-					HasToolTip:      true,
-					ToolTipText:     "Rename the " + GetGongstructNameFromPointer(element),
-					ToolTipPosition: tree.Above,
-				})
-		} else {
-			node.Buttons = append(node.Buttons,
-				&tree.Button{
-					Name: element.GetName() + " " + string(buttons.BUTTON_edit_off),
-					Icon: string(buttons.BUTTON_edit_off),
-					OnClick: func() {
-						element.SetIsInRenameMode(false)
-						stager.stage.Commit()
-					},
-					HasToolTip:      true,
-					ToolTipText:     "Cancel renaming",
-					ToolTipPosition: tree.Above,
-				})
-		}
-
-		diagramNode.OnUpdate = stager.OnUpdateDiagram(diagram)
-
-		{
-			showAllButton := &tree.Button{
-				Name:            "Diagram Prefix",
-				Icon:            string(buttons.BUTTON_show_chart),
-				HasToolTip:      true,
-				ToolTipPosition: tree.Above,
-
-				OnClick: func() {
-					diagram.IsShowPrefix = !diagram.IsShowPrefix
-					stager.stage.Commit()
-				},
-			}
-			if !diagram.IsShowPrefix {
-				showAllButton.Icon = string(buttons.BUTTON_label)
-				showAllButton.ToolTipText = "Show Prefix"
-			} else {
-				showAllButton.Icon = string(buttons.BUTTON_label_off)
-				showAllButton.ToolTipText = "Hide Prefix"
-			}
-			diagramNode.Buttons = append(diagramNode.Buttons, showAllButton)
-		}
-
-		processesNode := &tree.Node{
-			Name:            "PBS",
-			FontStyle:       tree.ITALIC,
-			IsExpanded:      diagram.IsProcesssNodeExpanded,
-			IsNodeClickable: true,
-		}
-		diagramNode.Children = append(diagramNode.Children, processesNode)
-		processesNode.OnUpdate = stager.OnUpdateExpansion(&diagram.IsProcesssNodeExpanded)
-
-		addAddItemButton(stager, nil, nil, &diagram.IsProcesssNodeExpanded, processesNode, &library.RootProcesses, diagram, &diagram.Process_Shapes, &diagram.ProcessComposition_Shapes)
-
-		for _, product := range library.RootProcesses {
-			stager.treeProcessesWithinDiagram(diagram, product, processesNode)
-		}
+	for _, process := range library.RootProcesses {
+		stager.treeProcesses(process, libraryNode, &library.ProcesssWhoseNodeIsExpanded)
 	}
 
 	for _, subLibrary := range library.SubLibraries {
