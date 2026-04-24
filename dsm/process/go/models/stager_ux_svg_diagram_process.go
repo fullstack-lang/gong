@@ -10,20 +10,20 @@ func (stager *Stager) svg() {
 	log.Println("svg")
 	stager.processDiagramSvgStage.Reset()
 
-	var diagramprocess *DiagramProcess
+	var diagramProcess *DiagramProcess
 	{
 		for diagramprocess_ := range *GetGongstructInstancesSet[DiagramProcess](stager.stage) {
 			if diagramprocess_.IsChecked {
-				diagramprocess = diagramprocess_
+				diagramProcess = diagramprocess_
 			}
 		}
 	}
 
-	if diagramprocess == nil {
+	if diagramProcess == nil {
 		stager.processDiagramSvgStage.Commit()
 		return
 	}
-	svgObject := stager.generateSvgObject(diagramprocess)
+	svgObject := stager.generateSvgObject(diagramProcess)
 
 	svg.StageBranch(stager.processDiagramSvgStage, svgObject)
 	stager.svgObjectDiagramProcess = svgObject
@@ -62,19 +62,19 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 	layer := (&svg.Layer{Name: "Layer 1"})
 	svgObject.Layers = append(svgObject.Layers, layer)
 
-	for _, ProcessShape := range diagramProcess.Process_Shapes {
-		if ProcessShape.IsHidden {
+	for _, processShape := range diagramProcess.Process_Shapes {
+		if processShape.IsHidden {
 			continue
 		}
 
 		rect := svgRect(
 			stager,
 			diagramProcess,
-			ProcessShape,
+			processShape,
 			layer)
 		rect.RX = 3
-		diagramProcess.map_Process_Rect[ProcessShape.Process] = rect
-		diagramProcess.map_SvgRect_ProcessShape[rect] = ProcessShape
+		diagramProcess.map_Process_Rect[processShape.Process] = rect
+		diagramProcess.map_SvgRect_ProcessShape[rect] = processShape
 	}
 
 	for _, ProcessCompositionShape := range diagramProcess.ProcessComposition_Shapes {
