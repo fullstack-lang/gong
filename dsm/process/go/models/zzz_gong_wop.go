@@ -33,6 +33,8 @@ type Diagram_WOP struct {
 	Width float64
 
 	Height float64
+
+	IsProcesssNodeExpanded bool
 }
 
 func (from *Diagram) CopyBasicFields(to *Diagram) {
@@ -48,6 +50,7 @@ func (from *Diagram) CopyBasicFields(to *Diagram) {
 	to.DefaultBoxHeigth = from.DefaultBoxHeigth
 	to.Width = from.Width
 	to.Height = from.Height
+	to.IsProcesssNodeExpanded = from.IsProcesssNodeExpanded
 }
 
 type Library_WOP struct {
@@ -80,10 +83,77 @@ type Process_WOP struct {
 	// insertion point
 
 	Name string
+
+	ComputedPrefix string
+
+	IsInRenameMode bool
+
+	IsExpanded bool
 }
 
 func (from *Process) CopyBasicFields(to *Process) {
 	// insertion point
 	to.Name = from.Name
+	to.ComputedPrefix = from.ComputedPrefix
+	to.IsInRenameMode = from.IsInRenameMode
+	to.IsExpanded = from.IsExpanded
+}
+
+type ProcessCompositionShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	StartRatio float64
+
+	EndRatio float64
+
+	StartOrientation OrientationType
+
+	EndOrientation OrientationType
+
+	CornerOffsetRatio float64
+
+	IsHidden bool
+}
+
+func (from *ProcessCompositionShape) CopyBasicFields(to *ProcessCompositionShape) {
+	// insertion point
+	to.Name = from.Name
+	to.StartRatio = from.StartRatio
+	to.EndRatio = from.EndRatio
+	to.StartOrientation = from.StartOrientation
+	to.EndOrientation = from.EndOrientation
+	to.CornerOffsetRatio = from.CornerOffsetRatio
+	to.IsHidden = from.IsHidden
+}
+
+type ProcessShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	IsExpanded bool
+
+	X float64
+
+	Y float64
+
+	Width float64
+
+	Height float64
+
+	IsHidden bool
+}
+
+func (from *ProcessShape) CopyBasicFields(to *ProcessShape) {
+	// insertion point
+	to.Name = from.Name
+	to.IsExpanded = from.IsExpanded
+	to.X = from.X
+	to.Y = from.Y
+	to.Width = from.Width
+	to.Height = from.Height
+	to.IsHidden = from.IsHidden
 }
 

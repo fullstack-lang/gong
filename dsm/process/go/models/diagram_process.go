@@ -18,6 +18,15 @@ type Diagram struct {
 	Height float64
 
 	elementWhoseDiagramListIsDisplayed AbstractType
+
+	// DSM specific fields
+	Process_Shapes              []*ProcessShape
+	map_Process_ProcessShape    map[*Process]*ProcessShape
+	ProcesssWhoseNodeIsExpanded []*Process
+	IsProcesssNodeExpanded      bool
+
+	ProcessComposition_Shapes           []*ProcessCompositionShape
+	map_Process_ProcessCompositionShape map[*Process]*ProcessCompositionShape
 }
 
 func (d *Diagram) IsEditable() bool {
