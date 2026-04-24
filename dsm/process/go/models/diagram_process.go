@@ -1,6 +1,6 @@
 package models
 
-type Diagram struct {
+type DiagramProcess struct {
 	Name string
 
 	LibraryAbstractFields
@@ -29,42 +29,42 @@ type Diagram struct {
 	map_Process_ProcessCompositionShape map[*Process]*ProcessCompositionShape
 }
 
-func (d *Diagram) IsEditable() bool {
+func (d *DiagramProcess) IsEditable() bool {
 	return d.IsEditable_
 }
 
-func (d *Diagram) SetEditable(v bool) {
+func (d *DiagramProcess) SetEditable(v bool) {
 	d.IsEditable_ = v
 }
 
-func (d *Diagram) GetDefaultBoxHeigth() float64 {
+func (d *DiagramProcess) GetDefaultBoxHeigth() float64 {
 	return d.DefaultBoxHeigth
 }
 
-func (d *Diagram) GetDefaultBoxWidth() float64 {
+func (d *DiagramProcess) GetDefaultBoxWidth() float64 {
 	return d.DefaultBoxWidth
 }
 
-func (d *Diagram) GetElementWhoseDiagramListIsDisplayed() AbstractType {
+func (d *DiagramProcess) GetElementWhoseDiagramListIsDisplayed() AbstractType {
 	return d.elementWhoseDiagramListIsDisplayed
 }
 
-func (d *Diagram) SetElementWhoseDiagramListIsDisplayed(v AbstractType) {
+func (d *DiagramProcess) SetElementWhoseDiagramListIsDisplayed(v AbstractType) {
 	d.elementWhoseDiagramListIsDisplayed = v
 }
 
-func (d *Diagram) GetIsChecked() bool {
+func (d *DiagramProcess) GetIsChecked() bool {
 	return d.IsChecked
 }
 
-func (d *Diagram) SetIsChecked(v bool) {
+func (d *DiagramProcess) SetIsChecked(v bool) {
 	d.IsChecked = v
 }
 
-func (d *Diagram) GetIsShowPrefix() bool {
+func (d *DiagramProcess) GetIsShowPrefix() bool {
 	return d.IsShowPrefix
 }
 
-func (d *Diagram) SetIsShowPrefix(v bool) {
+func (d *DiagramProcess) SetIsShowPrefix(v bool) {
 	d.IsShowPrefix = v
 }

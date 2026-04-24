@@ -17,7 +17,7 @@ func FillUpForm(
 
 	switch instanceWithInferedType := any(instance).(type) {
 	// insertion point
-	case *models.Diagram:
+	case *models.DiagramProcess:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
@@ -122,18 +122,18 @@ func FillUpForm(
 		{
 			var rf models.ReverseField
 			_ = rf
-			rf.GongstructName = "Diagram"
+			rf.GongstructName = "DiagramProcess"
 			rf.Fieldname = "ProcesssWhoseNodeIsExpanded"
 			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Diagram),
+					reverseFieldOwner.(*models.DiagramProcess),
 					"ProcesssWhoseNodeIsExpanded",
 					instanceWithInferedType,
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.Diagram](
+				AssociationReverseFieldToForm[*models.DiagramProcess](
 					nil,
 					"ProcesssWhoseNodeIsExpanded",
 					instanceWithInferedType,
@@ -182,18 +182,18 @@ func FillUpForm(
 		{
 			var rf models.ReverseField
 			_ = rf
-			rf.GongstructName = "Diagram"
+			rf.GongstructName = "DiagramProcess"
 			rf.Fieldname = "ProcessComposition_Shapes"
 			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Diagram),
+					reverseFieldOwner.(*models.DiagramProcess),
 					"ProcessComposition_Shapes",
 					instanceWithInferedType,
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.Diagram](
+				AssociationReverseFieldToForm[*models.DiagramProcess](
 					nil,
 					"ProcessComposition_Shapes",
 					instanceWithInferedType,
@@ -222,18 +222,18 @@ func FillUpForm(
 		{
 			var rf models.ReverseField
 			_ = rf
-			rf.GongstructName = "Diagram"
+			rf.GongstructName = "DiagramProcess"
 			rf.Fieldname = "Process_Shapes"
 			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Diagram),
+					reverseFieldOwner.(*models.DiagramProcess),
 					"Process_Shapes",
 					instanceWithInferedType,
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.Diagram](
+				AssociationReverseFieldToForm[*models.DiagramProcess](
 					nil,
 					"Process_Shapes",
 					instanceWithInferedType,

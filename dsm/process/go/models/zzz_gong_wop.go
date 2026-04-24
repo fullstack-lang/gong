@@ -9,7 +9,7 @@ var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
 var _ = __GONG_time_The_fool_doth_think_he_is_wise__
 
 // insertion point
-type Diagram_WOP struct {
+type DiagramProcess_WOP struct {
 	// insertion point
 
 	Name string
@@ -37,7 +37,7 @@ type Diagram_WOP struct {
 	IsProcesssNodeExpanded bool
 }
 
-func (from *Diagram) CopyBasicFields(to *Diagram) {
+func (from *DiagramProcess) CopyBasicFields(to *DiagramProcess) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix

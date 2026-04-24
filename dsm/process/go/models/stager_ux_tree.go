@@ -171,11 +171,11 @@ func (stager *Stager) OnUpdateExpansion(isExpanded *bool) func(stage *tree.Stage
 	}
 }
 
-func (stager *Stager) OnUpdateDiagram(diagram *Diagram) func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+func (stager *Stager) OnUpdateDiagram(diagram *DiagramProcess) func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
 	return func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
 		if frontNode.IsChecked && !stagedNode.IsChecked {
 			// reset all ddiagram selection
-			for diagram_ := range *GetGongstructInstancesSet[Diagram](stager.stage) {
+			for diagram_ := range *GetGongstructInstancesSet[DiagramProcess](stager.stage) {
 				diagram_.IsChecked = false
 			}
 			diagram.IsChecked = true
@@ -187,7 +187,7 @@ func (stager *Stager) OnUpdateDiagram(diagram *Diagram) func(stage *tree.Stage, 
 			diagram.IsChecked = false
 			stagedNode.IsChecked = frontNode.IsChecked
 			// reset all ddiagram selection
-			for diagram_ := range *GetGongstructInstancesSet[Diagram](stager.stage) {
+			for diagram_ := range *GetGongstructInstancesSet[DiagramProcess](stager.stage) {
 				diagram_.IsChecked = false
 			}
 			stager.stage.Commit()

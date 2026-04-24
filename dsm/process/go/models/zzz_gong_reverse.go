@@ -2,7 +2,7 @@
 package models
 
 // insertion point
-func (inst *Diagram) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *DiagramProcess) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
@@ -39,11 +39,11 @@ func (inst *Process) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Re
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
-	case "Diagram":
+	case "DiagramProcess":
 		switch reverseField.Fieldname {
 		case "ProcesssWhoseNodeIsExpanded":
-			if _diagram, ok := stage.Diagram_ProcesssWhoseNodeIsExpanded_reverseMap[inst]; ok {
-				res = _diagram.Name
+			if _diagramprocess, ok := stage.DiagramProcess_ProcesssWhoseNodeIsExpanded_reverseMap[inst]; ok {
+				res = _diagramprocess.Name
 			}
 		}
 	case "Process":
@@ -62,11 +62,11 @@ func (inst *ProcessCompositionShape) GongGetReverseFieldOwnerName(stage *Stage, 
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
-	case "Diagram":
+	case "DiagramProcess":
 		switch reverseField.Fieldname {
 		case "ProcessComposition_Shapes":
-			if _diagram, ok := stage.Diagram_ProcessComposition_Shapes_reverseMap[inst]; ok {
-				res = _diagram.Name
+			if _diagramprocess, ok := stage.DiagramProcess_ProcessComposition_Shapes_reverseMap[inst]; ok {
+				res = _diagramprocess.Name
 			}
 		}
 	}
@@ -78,11 +78,11 @@ func (inst *ProcessShape) GongGetReverseFieldOwnerName(stage *Stage, reverseFiel
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
-	case "Diagram":
+	case "DiagramProcess":
 		switch reverseField.Fieldname {
 		case "Process_Shapes":
-			if _diagram, ok := stage.Diagram_Process_Shapes_reverseMap[inst]; ok {
-				res = _diagram.Name
+			if _diagramprocess, ok := stage.DiagramProcess_Process_Shapes_reverseMap[inst]; ok {
+				res = _diagramprocess.Name
 			}
 		}
 	}
@@ -90,7 +90,7 @@ func (inst *ProcessShape) GongGetReverseFieldOwnerName(stage *Stage, reverseFiel
 }
 
 // insertion point
-func (inst *Diagram) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *DiagramProcess) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -123,10 +123,10 @@ func (inst *Process) GongGetReverseFieldOwner(stage *Stage, reverseField *Revers
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
-	case "Diagram":
+	case "DiagramProcess":
 		switch reverseField.Fieldname {
 		case "ProcesssWhoseNodeIsExpanded":
-			res = stage.Diagram_ProcesssWhoseNodeIsExpanded_reverseMap[inst]
+			res = stage.DiagramProcess_ProcesssWhoseNodeIsExpanded_reverseMap[inst]
 		}
 	case "Process":
 		switch reverseField.Fieldname {
@@ -142,10 +142,10 @@ func (inst *ProcessCompositionShape) GongGetReverseFieldOwner(stage *Stage, reve
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
-	case "Diagram":
+	case "DiagramProcess":
 		switch reverseField.Fieldname {
 		case "ProcessComposition_Shapes":
-			res = stage.Diagram_ProcessComposition_Shapes_reverseMap[inst]
+			res = stage.DiagramProcess_ProcessComposition_Shapes_reverseMap[inst]
 		}
 	}
 	return res
@@ -156,10 +156,10 @@ func (inst *ProcessShape) GongGetReverseFieldOwner(stage *Stage, reverseField *R
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
-	case "Diagram":
+	case "DiagramProcess":
 		switch reverseField.Fieldname {
 		case "Process_Shapes":
-			res = stage.Diagram_Process_Shapes_reverseMap[inst]
+			res = stage.DiagramProcess_Process_Shapes_reverseMap[inst]
 		}
 	}
 	return res
