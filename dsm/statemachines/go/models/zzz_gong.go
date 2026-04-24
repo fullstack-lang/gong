@@ -4442,10 +4442,6 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:               "IsInRenameMode",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
 			Name:                 "State_Shapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "StateShape",
@@ -4628,10 +4624,6 @@ func (state *State) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Action",
 		},
-		{
-			Name:               "IsInRenameMode",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
 	}
 	return
 }
@@ -4738,10 +4730,6 @@ func (transition *Transition) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "Diagrams",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Diagram",
-		},
-		{
-			Name:               "IsInRenameMode",
-			GongFieldValueType: GongFieldValueTypeBool,
 		},
 	}
 	return
@@ -4917,10 +4905,6 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	case "IsEditable_":
 		res.valueString = fmt.Sprintf("%t", diagram.IsEditable_)
 		res.valueBool = diagram.IsEditable_
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsInRenameMode":
-		res.valueString = fmt.Sprintf("%t", diagram.IsInRenameMode)
-		res.valueBool = diagram.IsInRenameMode
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "State_Shapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -5131,10 +5115,6 @@ func (state *State) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 			res.valueString = state.Exit.Name
 			res.ids = state.Exit.GongGetUUID(stage)
 		}
-	case "IsInRenameMode":
-		res.valueString = fmt.Sprintf("%t", state.IsInRenameMode)
-		res.valueBool = state.IsInRenameMode
-		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -5266,10 +5246,6 @@ func (transition *Transition) GongGetFieldValue(fieldName string, stage *Stage) 
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
-	case "IsInRenameMode":
-		res.valueString = fmt.Sprintf("%t", transition.IsInRenameMode)
-		res.valueBool = transition.IsInRenameMode
-		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -5395,8 +5371,6 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 		diagram.IsExpanded = value.GetValueBool()
 	case "IsEditable_":
 		diagram.IsEditable_ = value.GetValueBool()
-	case "IsInRenameMode":
-		diagram.IsInRenameMode = value.GetValueBool()
 	case "State_Shapes":
 		diagram.State_Shapes = make([]*StateShape, 0)
 		ids := strings.Split(value.ids, ";")
@@ -5668,8 +5642,6 @@ func (state *State) GongSetFieldValue(fieldName string, value GongFieldValue, st
 				}
 			}
 		}
-	case "IsInRenameMode":
-		state.IsInRenameMode = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -5840,8 +5812,6 @@ func (transition *Transition) GongSetFieldValue(fieldName string, value GongFiel
 				}
 			}
 		}
-	case "IsInRenameMode":
-		transition.IsInRenameMode = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

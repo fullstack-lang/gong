@@ -646,4 +646,26 @@ func _(stage *models.Stage) {
 	// UX Loop Diagram
 	__Diagram__00000000_.IsChecked = false
 	stage.Commit()
+
+	// New Diagram
+	__Diagram__00000001_.IsChecked = false
+	// UX Loop Diagram
+	__Diagram__00000000_.IsChecked = true
+	stage.Commit()
+
+	// Probe Form2
+	__State__00000000_.Name = `Probe Form2`
+	stage.Commit()
+
+	// Probe Form2
+	__StateShape__00000000_.Name = `Probe Form2`
+	stage.Commit()
+
+	// Probe Form
+	__State__00000000_.Name = `Probe Form`
+	stage.Commit()
+
+	// Probe Form
+	__StateShape__00000000_.Name = `Probe Form`
+	stage.Commit()
 }

@@ -565,8 +565,6 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.IsExpanded = GongExtractBool(valueExpr)
 	case "IsEditable_":
 		instance.IsEditable_ = GongExtractBool(valueExpr)
-	case "IsInRenameMode":
-		instance.IsInRenameMode = GongExtractBool(valueExpr)
 	case "State_Shapes":
 		GongUnmarshallSliceOfPointers(&instance.State_Shapes, valueExpr, identifierMap)
 	case "StatesWhoseNodeIsExpanded":
@@ -822,8 +820,6 @@ func (u *StateUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		GongUnmarshallSliceOfPointers(&instance.Activities, valueExpr, identifierMap)
 	case "Exit":
 		GongUnmarshallPointer(&instance.Exit, valueExpr, identifierMap)
-	case "IsInRenameMode":
-		instance.IsInRenameMode = GongExtractBool(valueExpr)
 	}
 	return nil
 }
@@ -943,8 +939,6 @@ func (u *TransitionUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, f
 		GongUnmarshallPointer(&instance.Guard, valueExpr, identifierMap)
 	case "Diagrams":
 		GongUnmarshallSliceOfPointers(&instance.Diagrams, valueExpr, identifierMap)
-	case "IsInRenameMode":
-		instance.IsInRenameMode = GongExtractBool(valueExpr)
 	}
 	return nil
 }

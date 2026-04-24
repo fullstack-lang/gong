@@ -1979,9 +1979,6 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 	if diagram.IsEditable_ != diagramOther.IsEditable_ {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "IsEditable_"))
 	}
-	if diagram.IsInRenameMode != diagramOther.IsInRenameMode {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "IsInRenameMode"))
-	}
 	State_ShapesDifferent := false
 	if len(diagram.State_Shapes) != len(diagramOther.State_Shapes) {
 		State_ShapesDifferent = true
@@ -2296,9 +2293,6 @@ func (state *State) GongDiff(stage *Stage, stateOther *State) (diffs []string) {
 			diffs = append(diffs, state.GongMarshallField(stage, "Exit"))
 		}
 	}
-	if state.IsInRenameMode != stateOther.IsInRenameMode {
-		diffs = append(diffs, state.GongMarshallField(stage, "IsInRenameMode"))
-	}
 
 	return
 }
@@ -2489,9 +2483,6 @@ func (transition *Transition) GongDiff(stage *Stage, transitionOther *Transition
 	if DiagramsDifferent {
 		ops := Diff(stage, transition, transitionOther, "Diagrams", transitionOther.Diagrams, transition.Diagrams)
 		diffs = append(diffs, ops)
-	}
-	if transition.IsInRenameMode != transitionOther.IsInRenameMode {
-		diffs = append(diffs, transition.GongMarshallField(stage, "IsInRenameMode"))
 	}
 
 	return

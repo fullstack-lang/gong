@@ -61,8 +61,6 @@ type Diagram_WOP struct {
 	IsExpanded bool
 
 	IsEditable_ bool
-
-	IsInRenameMode bool
 }
 
 func (from *Diagram) CopyBasicFields(to *Diagram) {
@@ -71,7 +69,6 @@ func (from *Diagram) CopyBasicFields(to *Diagram) {
 	to.IsChecked = from.IsChecked
 	to.IsExpanded = from.IsExpanded
 	to.IsEditable_ = from.IsEditable_
-	to.IsInRenameMode = from.IsInRenameMode
 }
 
 type Guard_WOP struct {
@@ -168,8 +165,6 @@ type State_WOP struct {
 	IsFictif bool
 
 	IsEndState bool
-
-	IsInRenameMode bool
 }
 
 func (from *State) CopyBasicFields(to *State) {
@@ -178,7 +173,6 @@ func (from *State) CopyBasicFields(to *State) {
 	to.IsDecisionNode = from.IsDecisionNode
 	to.IsFictif = from.IsFictif
 	to.IsEndState = from.IsEndState
-	to.IsInRenameMode = from.IsInRenameMode
 }
 
 type StateMachine_WOP struct {
@@ -225,14 +219,11 @@ type Transition_WOP struct {
 	// insertion point
 
 	Name string
-
-	IsInRenameMode bool
 }
 
 func (from *Transition) CopyBasicFields(to *Transition) {
 	// insertion point
 	to.Name = from.Name
-	to.IsInRenameMode = from.IsInRenameMode
 }
 
 type Transition_Shape_WOP struct {
