@@ -28,6 +28,9 @@ func _(stage *models.Stage) {
 	// insertion point for declaration of instances to stage
 
 	__DiagramProcess__00000000_ := (&models.DiagramProcess{Name: `D1`}).Stage(stage)
+	__DiagramProcess__00000001_ := (&models.DiagramProcess{Name: `DiagramProcess`}).Stage(stage)
+	__DiagramProcess__00000002_ := (&models.DiagramProcess{Name: `DiagramProcess`}).Stage(stage)
+	__DiagramProcess__00000003_ := (&models.DiagramProcess{Name: `DiagramProcess`}).Stage(stage)
 
 	__Library__00000000_ := (&models.Library{Name: `Root`}).Stage(stage)
 
@@ -36,18 +39,55 @@ func _(stage *models.Stage) {
 	__Process__00000002_ := (&models.Process{Name: `P2 (P0.B)`}).Stage(stage)
 	__Process__00000003_ := (&models.Process{Name: `P3`}).Stage(stage)
 
+	__ProcessShape__00000000_ := (&models.ProcessShape{Name: `ProcessShape`}).Stage(stage)
+	__ProcessShape__00000001_ := (&models.ProcessShape{Name: `ProcessShape`}).Stage(stage)
+	__ProcessShape__00000002_ := (&models.ProcessShape{Name: `ProcessShape`}).Stage(stage)
+
 	// insertion point for initialization of values
 
 	__DiagramProcess__00000000_.Name = `D1`
 	__DiagramProcess__00000000_.ComputedPrefix = ``
-	__DiagramProcess__00000000_.IsChecked = true
+	__DiagramProcess__00000000_.IsChecked = false
 	__DiagramProcess__00000000_.IsEditable_ = true
 	__DiagramProcess__00000000_.IsShowPrefix = false
 	__DiagramProcess__00000000_.DefaultBoxWidth = 250.000000
 	__DiagramProcess__00000000_.DefaultBoxHeigth = 70.000000
-	__DiagramProcess__00000000_.Width = 2400.000000
-	__DiagramProcess__00000000_.Height = 2400.000000
+	__DiagramProcess__00000000_.Width = 4200.000000
+	__DiagramProcess__00000000_.Height = 4200.000000
 	__DiagramProcess__00000000_.IsProcesssNodeExpanded = false
+
+	__DiagramProcess__00000001_.Name = `DiagramProcess`
+	__DiagramProcess__00000001_.ComputedPrefix = ``
+	__DiagramProcess__00000001_.IsChecked = false
+	__DiagramProcess__00000001_.IsEditable_ = false
+	__DiagramProcess__00000001_.IsShowPrefix = false
+	__DiagramProcess__00000001_.DefaultBoxWidth = 250.000000
+	__DiagramProcess__00000001_.DefaultBoxHeigth = 70.000000
+	__DiagramProcess__00000001_.Width = 2400.000000
+	__DiagramProcess__00000001_.Height = 2850.000000
+	__DiagramProcess__00000001_.IsProcesssNodeExpanded = false
+
+	__DiagramProcess__00000002_.Name = `DiagramProcess`
+	__DiagramProcess__00000002_.ComputedPrefix = ``
+	__DiagramProcess__00000002_.IsChecked = false
+	__DiagramProcess__00000002_.IsEditable_ = false
+	__DiagramProcess__00000002_.IsShowPrefix = false
+	__DiagramProcess__00000002_.DefaultBoxWidth = 250.000000
+	__DiagramProcess__00000002_.DefaultBoxHeigth = 70.000000
+	__DiagramProcess__00000002_.Width = 2400.000000
+	__DiagramProcess__00000002_.Height = 2850.000000
+	__DiagramProcess__00000002_.IsProcesssNodeExpanded = false
+
+	__DiagramProcess__00000003_.Name = `DiagramProcess`
+	__DiagramProcess__00000003_.ComputedPrefix = ``
+	__DiagramProcess__00000003_.IsChecked = true
+	__DiagramProcess__00000003_.IsEditable_ = false
+	__DiagramProcess__00000003_.IsShowPrefix = false
+	__DiagramProcess__00000003_.DefaultBoxWidth = 250.000000
+	__DiagramProcess__00000003_.DefaultBoxHeigth = 70.000000
+	__DiagramProcess__00000003_.Width = 2400.000000
+	__DiagramProcess__00000003_.Height = 2850.000000
+	__DiagramProcess__00000003_.IsProcesssNodeExpanded = false
 
 	__Library__00000000_.Name = `Root`
 	__Library__00000000_.ComputedPrefix = ``
@@ -70,11 +110,44 @@ func _(stage *models.Stage) {
 	__Process__00000003_.ComputedPrefix = ``
 	__Process__00000003_.IsSubProcessNodeExpanded = false
 
+	__ProcessShape__00000000_.Name = `ProcessShape`
+	__ProcessShape__00000000_.IsExpanded = false
+	__ProcessShape__00000000_.X = 100.000000
+	__ProcessShape__00000000_.Y = 50.000000
+	__ProcessShape__00000000_.Width = 500.000000
+	__ProcessShape__00000000_.Height = 1000.000000
+	__ProcessShape__00000000_.IsHidden = false
+
+	__ProcessShape__00000001_.Name = `ProcessShape`
+	__ProcessShape__00000001_.IsExpanded = false
+	__ProcessShape__00000001_.X = 100.000000
+	__ProcessShape__00000001_.Y = 50.000000
+	__ProcessShape__00000001_.Width = 500.000000
+	__ProcessShape__00000001_.Height = 1000.000000
+	__ProcessShape__00000001_.IsHidden = false
+
+	__ProcessShape__00000002_.Name = `ProcessShape`
+	__ProcessShape__00000002_.IsExpanded = false
+	__ProcessShape__00000002_.X = 100.000000
+	__ProcessShape__00000002_.Y = 50.000000
+	__ProcessShape__00000002_.Width = 500.000000
+	__ProcessShape__00000002_.Height = 1000.000000
+	__ProcessShape__00000002_.IsHidden = false
+
 	// insertion point for setup of pointers
+	__DiagramProcess__00000001_.Process_Shapes = append(__DiagramProcess__00000001_.Process_Shapes, __ProcessShape__00000000_)
+	__DiagramProcess__00000002_.Process_Shapes = append(__DiagramProcess__00000002_.Process_Shapes, __ProcessShape__00000001_)
+	__DiagramProcess__00000003_.Process_Shapes = append(__DiagramProcess__00000003_.Process_Shapes, __ProcessShape__00000002_)
 	__Library__00000000_.RootProcesses = append(__Library__00000000_.RootProcesses, __Process__00000000_)
 	__Library__00000000_.RootProcesses = append(__Library__00000000_.RootProcesses, __Process__00000003_)
 	__Library__00000000_.ProcesssWhoseNodeIsExpanded = append(__Library__00000000_.ProcesssWhoseNodeIsExpanded, __Process__00000000_)
 	__Process__00000000_.SubProcesses = append(__Process__00000000_.SubProcesses, __Process__00000001_)
 	__Process__00000000_.SubProcesses = append(__Process__00000000_.SubProcesses, __Process__00000002_)
 	__Process__00000000_.DiagramProcesss = append(__Process__00000000_.DiagramProcesss, __DiagramProcess__00000000_)
+	__Process__00000001_.DiagramProcesss = append(__Process__00000001_.DiagramProcesss, __DiagramProcess__00000001_)
+	__Process__00000002_.DiagramProcesss = append(__Process__00000002_.DiagramProcesss, __DiagramProcess__00000002_)
+	__Process__00000003_.DiagramProcesss = append(__Process__00000003_.DiagramProcesss, __DiagramProcess__00000003_)
+	__ProcessShape__00000000_.Process = __Process__00000001_
+	__ProcessShape__00000001_.Process = __Process__00000002_
+	__ProcessShape__00000002_.Process = __Process__00000003_
 }
