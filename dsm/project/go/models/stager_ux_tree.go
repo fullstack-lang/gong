@@ -68,9 +68,17 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 
 	addAddItemButton(stager, nil, nil, &library.IsExpanded, libraryNode, &library.SubLibraries, nil, &[]*ProductShape{}, &[]*ProductCompositionShape{})
 
-	
+	itemAdderCallback := addAddItemButton(stager, nil, nil, &library.IsExpanded, libraryNode, &library.Diagrams, nil, &[]*ProductShape{}, &[]*ProductCompositionShape{})
 
-	addAddItemButton(stager, nil, nil, &library.IsExpanded, libraryNode, &library.Diagrams, nil, &[]*ProductShape{}, &[]*ProductCompositionShape{})
+	itemAdderCallback.OnBeforeCommit = func() {
+		newDiagram := itemAdderCallback.createdItem
+		newDiagram.IsEditable_ = true
+		newDiagram.IsExpanded = true
+		for diagram_ := range *GetGongstructInstancesSet[Diagram](stager.stage) {
+			diagram_.IsChecked = false
+		}
+		newDiagram.IsChecked = true
+	}
 
 	for _, diagram := range library.Diagrams {
 		diagramNode := &tree.Node{
