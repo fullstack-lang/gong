@@ -67,6 +67,9 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 	libraryNode.OnUpdate = stager.OnUpdateLibrary(library)
 
 	addAddItemButton(stager, nil, nil, &library.IsExpanded, libraryNode, &library.SubLibraries, nil, &[]*ProductShape{}, &[]*ProductCompositionShape{})
+
+	
+
 	addAddItemButton(stager, nil, nil, &library.IsExpanded, libraryNode, &library.Diagrams, nil, &[]*ProductShape{}, &[]*ProductCompositionShape{})
 
 	for _, diagram := range library.Diagrams {

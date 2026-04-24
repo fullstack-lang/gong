@@ -7,6 +7,18 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
+// addAddItemButton appends an "add" button to the given tree node.
+// When clicked, this button instantiates a new abstract element of type PT,
+// adds it to the provided items slice, and prepares the UI for immediate renaming.
+//
+// Special behaviors are implemented for specific element types (e.g., Diagram, Library).
+// If a receivingDiagram and shapes are provided, the function also creates
+// the corresponding visual shape (of type CT) on the diagram. If a parentItem
+// is provided and its shape is found, an association link (of type ACT) is automatically
+// generated between the parent and the newly created child shape.
+//
+// The heavy use of generics allows this function to be completely agnostic to the actual
+// underlying types (e.g. Product, Task, Note, and their respective shapes).
 func addAddItemButton[
 	T Gongstruct,
 	PT interface {
@@ -29,7 +41,8 @@ func addAddItemButton[
 	stager *Stager,
 	parentItemsWhoseNodeIsExpanded *[]PT, parentItem PT, isNodeExpanded *bool,
 	node *tree.Node, items *[]PT,
-	receivingDiagram DiagramIF, shapes *[]CT,
+	receivingDiagram DiagramIF,
+	shapes *[]CT,
 	associationShapes *[]ACT,
 ) {
 	var dummyItem PT
@@ -60,7 +73,7 @@ func addAddItemButton[
 			newDiagram.IsChecked = true
 		}
 
-		// if the created item is a project, add a diagram to it
+		// if the created item is a library, add a diagram to it
 		if newLibrary, ok := any(newAbstractElement).(*Library); ok {
 			newLibrary.IsExpanded = true
 			for diagram_ := range *GetGongstructInstancesSet[Diagram](stager.stage) {
