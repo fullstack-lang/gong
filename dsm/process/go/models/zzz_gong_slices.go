@@ -46,13 +46,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Library
 	// insertion point per field
-	stage.Library_DiagramProcesss_reverseMap = make(map[*DiagramProcess]*Library)
-	for library := range stage.Librarys {
-		_ = library
-		for _, _diagramprocess := range library.DiagramProcesss {
-			stage.Library_DiagramProcesss_reverseMap[_diagramprocess] = library
-		}
-	}
 	stage.Library_SubLibraries_reverseMap = make(map[*Library]*Library)
 	for library := range stage.Librarys {
 		_ = library
@@ -67,6 +60,13 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Library_RootProcesses_reverseMap[_process] = library
 		}
 	}
+	stage.Library_ProcesssWhoseNodeIsExpanded_reverseMap = make(map[*Process]*Library)
+	for library := range stage.Librarys {
+		_ = library
+		for _, _process := range library.ProcesssWhoseNodeIsExpanded {
+			stage.Library_ProcesssWhoseNodeIsExpanded_reverseMap[_process] = library
+		}
+	}
 
 	// Compute reverse map for named struct Process
 	// insertion point per field
@@ -75,6 +75,13 @@ func (stage *Stage) ComputeReverseMaps() {
 		_ = process
 		for _, _process := range process.SubProcesses {
 			stage.Process_SubProcesses_reverseMap[_process] = process
+		}
+	}
+	stage.Process_DiagramProcesss_reverseMap = make(map[*DiagramProcess]*Process)
+	for process := range stage.Processs {
+		_ = process
+		for _, _diagramprocess := range process.DiagramProcesss {
+			stage.Process_DiagramProcesss_reverseMap[_diagramprocess] = process
 		}
 	}
 

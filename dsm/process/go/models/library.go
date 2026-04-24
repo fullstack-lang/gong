@@ -6,8 +6,6 @@ type Library struct {
 	LibraryAbstractFields
 	AbstractTypeFields
 
-	DiagramProcesss []*DiagramProcess
-
 	objects []AbstractType
 
 	SubLibraries []*Library
@@ -18,7 +16,8 @@ type Library struct {
 	LogoSVGFile string // the content of the logo file, used for the static site generation
 
 	// DSM specific fieldsi
-	RootProcesses []*Process
+	RootProcesses               []*Process
+	ProcesssWhoseNodeIsExpanded []*Process
 }
 
 type LibraryAbstractFields struct {
