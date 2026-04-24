@@ -56,4 +56,60 @@ func _(stage *models.Stage) {
 
 	// insertion point for setup of pointers
 	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000000_)
+
+	stage.Commit()
+
+	// Default Diagram
+	__Diagram__00000000_.IsShowPrefix = true
+	__Diagram__00000000_.Width = 600.000000
+	__Diagram__00000000_.Height = 600.000000
+	stage.Commit()
+
+	// Default Diagram
+	__Diagram__00000000_.IsShowPrefix = false
+	stage.Commit()
+
+	__ProductShape__00000000_ := (&models.ProductShape{Name: `-Default Diagram`}).Stage(stage)
+	__Product__00000000_ := (&models.Product{Name: ``}).Stage(stage)
+	// 
+	__Library__00000000_.RootProducts = slices.Insert( __Library__00000000_.RootProducts, 0, __Product__00000000_)
+	// Default Diagram
+	__Diagram__00000000_.Product_Shapes = slices.Insert( __Diagram__00000000_.Product_Shapes, 0, __ProductShape__00000000_)
+	__Diagram__00000000_.IsPBSNodeExpanded = true
+	__ProductShape__00000000_.Name = `-Default Diagram`
+	__ProductShape__00000000_.IsExpanded = false
+	__ProductShape__00000000_.X = 153.106061
+	__ProductShape__00000000_.Y = 153.126803
+	__ProductShape__00000000_.Width = 250.000000
+	__ProductShape__00000000_.Height = 70.000000
+	__ProductShape__00000000_.IsHidden = false
+	__ProductShape__00000000_.Product = __Product__00000000_
+	__Product__00000000_.Name = ``
+	__Product__00000000_.ComputedPrefix = ``
+	__Product__00000000_.IsInRenameMode = true
+	__Product__00000000_.IsExpanded = false
+	__Product__00000000_.Description = ``
+	__Product__00000000_.IsProducersNodeExpanded = false
+	__Product__00000000_.IsConsumersNodeExpanded = false
+	stage.Commit()
+
+	// 
+	__Product__00000000_.ComputedPrefix = `1`
+	// Default Diagram
+	__Diagram__00000000_.Width = 1000.000000
+	__Diagram__00000000_.Height = 1000.000000
+	stage.Commit()
+
+	// a
+	__Product__00000000_.Name = `a`
+	__Product__00000000_.IsInRenameMode = false
+	stage.Commit()
+
+	// Default Diagram
+	__Diagram__00000000_.IsShowPrefix = true
+	stage.Commit()
+
+	// Default Diagram
+	__Diagram__00000000_.IsShowPrefix = false
+	stage.Commit()
 }
