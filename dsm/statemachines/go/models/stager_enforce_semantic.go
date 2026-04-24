@@ -1,6 +1,10 @@
 package models
 
-import "log"
+import (
+	"cmp"
+	"log"
+	"slices"
+)
 
 func (stager *Stager) enforce_semantic() {
 
@@ -116,6 +120,12 @@ func (stager *Stager) enforce_semantic() {
 				}
 			}
 		}
+
+		// since it is persited, the sorting allows for avoiding unwanted changes
+		// dues to the diagramSet
+		slices.SortFunc(state.Diagrams, func(a, b *Diagram) int {
+			return cmp.Compare(a.Name, b.Name)
+		})
 	}
 
 	stager.map_diagram_stateMachine = make(map[*Diagram]*StateMachine)
@@ -145,6 +155,12 @@ func (stager *Stager) enforce_semantic() {
 				}
 			}
 		}
+
+		// since it is persited, the sorting allows for avoiding unwanted changes
+		// dues to the diagramSet
+		slices.SortFunc(transition.Diagrams, func(a, b *Diagram) int {
+			return cmp.Compare(a.Name, b.Name)
+		})
 	}
 
 	{
