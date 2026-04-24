@@ -295,8 +295,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(diagramprocess.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(diagramprocess.GongMarshallField(stage, "ComputedPrefix"))
-		initializerStatements.WriteString(diagramprocess.GongMarshallField(stage, "IsInRenameMode"))
-		initializerStatements.WriteString(diagramprocess.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(diagramprocess.GongMarshallField(stage, "IsChecked"))
 		initializerStatements.WriteString(diagramprocess.GongMarshallField(stage, "IsEditable_"))
 		initializerStatements.WriteString(diagramprocess.GongMarshallField(stage, "IsShowPrefix"))
@@ -335,12 +333,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(library.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "ComputedPrefix"))
-		initializerStatements.WriteString(library.GongMarshallField(stage, "IsInRenameMode"))
-		initializerStatements.WriteString(library.GongMarshallField(stage, "IsExpanded"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "DiagramProcesss"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "SubLibraries"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "NbPixPerCharacter"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "LogoSVGFile"))
+		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootProcesses"))
 	}
 
 	processOrdered := []*Process{}
@@ -368,8 +365,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(process.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(process.GongMarshallField(stage, "ComputedPrefix"))
-		initializerStatements.WriteString(process.GongMarshallField(stage, "IsInRenameMode"))
-		initializerStatements.WriteString(process.GongMarshallField(stage, "IsExpanded"))
 		pointersInitializesStatements.WriteString(process.GongMarshallField(stage, "SubProcesses"))
 	}
 
@@ -547,16 +542,6 @@ func (diagramprocess *DiagramProcess) GongMarshallField(stage *Stage, fieldName 
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagramprocess.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(diagramprocess.ComputedPrefix))
-	case "IsInRenameMode":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagramprocess.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsInRenameMode")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagramprocess.IsInRenameMode))
-	case "IsExpanded":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagramprocess.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagramprocess.IsExpanded))
 	case "IsChecked":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagramprocess.GongGetIdentifier(stage))
@@ -647,16 +632,6 @@ func (library *Library) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(library.ComputedPrefix))
-	case "IsInRenameMode":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsInRenameMode")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", library.IsInRenameMode))
-	case "IsExpanded":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", library.IsExpanded))
 	case "NbPixPerCharacter":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
@@ -688,6 +663,16 @@ func (library *Library) GongMarshallField(stage *Stage, fieldName string) (res s
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
+	case "RootProcesses":
+		var sb strings.Builder
+		for _, _process := range library.RootProcesses {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", library.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "RootProcesses")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _process.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Library", fieldName)
 	}
@@ -707,16 +692,6 @@ func (process *Process) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{Identifier}}", process.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(process.ComputedPrefix))
-	case "IsInRenameMode":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", process.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsInRenameMode")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", process.IsInRenameMode))
-	case "IsExpanded":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", process.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", process.IsExpanded))
 
 	case "SubProcesses":
 		var sb strings.Builder
@@ -874,8 +849,6 @@ func (diagramprocess *DiagramProcess) GongMarshallAllFields(stage *Stage) (initR
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(diagramprocess.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(diagramprocess.GongMarshallField(stage, "ComputedPrefix"))
-		initializerStatements.WriteString(diagramprocess.GongMarshallField(stage, "IsInRenameMode"))
-		initializerStatements.WriteString(diagramprocess.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(diagramprocess.GongMarshallField(stage, "IsChecked"))
 		initializerStatements.WriteString(diagramprocess.GongMarshallField(stage, "IsEditable_"))
 		initializerStatements.WriteString(diagramprocess.GongMarshallField(stage, "IsShowPrefix"))
@@ -899,12 +872,11 @@ func (library *Library) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(library.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "ComputedPrefix"))
-		initializerStatements.WriteString(library.GongMarshallField(stage, "IsInRenameMode"))
-		initializerStatements.WriteString(library.GongMarshallField(stage, "IsExpanded"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "DiagramProcesss"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "SubLibraries"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "NbPixPerCharacter"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "LogoSVGFile"))
+		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootProcesses"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -917,8 +889,6 @@ func (process *Process) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(process.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(process.GongMarshallField(stage, "ComputedPrefix"))
-		initializerStatements.WriteString(process.GongMarshallField(stage, "IsInRenameMode"))
-		initializerStatements.WriteString(process.GongMarshallField(stage, "IsExpanded"))
 		pointersInitializesStatements.WriteString(process.GongMarshallField(stage, "SubProcesses"))
 	}
 	initRes = initializerStatements.String()

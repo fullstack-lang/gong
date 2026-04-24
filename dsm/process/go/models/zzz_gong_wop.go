@@ -16,10 +16,6 @@ type DiagramProcess_WOP struct {
 
 	ComputedPrefix string
 
-	IsInRenameMode bool
-
-	IsExpanded bool
-
 	IsChecked bool
 
 	IsEditable_ bool
@@ -41,8 +37,6 @@ func (from *DiagramProcess) CopyBasicFields(to *DiagramProcess) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
-	to.IsInRenameMode = from.IsInRenameMode
-	to.IsExpanded = from.IsExpanded
 	to.IsChecked = from.IsChecked
 	to.IsEditable_ = from.IsEditable_
 	to.IsShowPrefix = from.IsShowPrefix
@@ -60,10 +54,6 @@ type Library_WOP struct {
 
 	ComputedPrefix string
 
-	IsInRenameMode bool
-
-	IsExpanded bool
-
 	NbPixPerCharacter float64
 
 	LogoSVGFile string
@@ -73,8 +63,6 @@ func (from *Library) CopyBasicFields(to *Library) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
-	to.IsInRenameMode = from.IsInRenameMode
-	to.IsExpanded = from.IsExpanded
 	to.NbPixPerCharacter = from.NbPixPerCharacter
 	to.LogoSVGFile = from.LogoSVGFile
 }
@@ -85,18 +73,12 @@ type Process_WOP struct {
 	Name string
 
 	ComputedPrefix string
-
-	IsInRenameMode bool
-
-	IsExpanded bool
 }
 
 func (from *Process) CopyBasicFields(to *Process) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
-	to.IsInRenameMode = from.IsInRenameMode
-	to.IsExpanded = from.IsExpanded
 }
 
 type ProcessCompositionShape_WOP struct {

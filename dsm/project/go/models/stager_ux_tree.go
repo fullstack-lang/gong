@@ -49,13 +49,13 @@ func (stager *Stager) onUpdateDiagram(diagram *Diagram) func(stage *tree.Stage, 
 		}
 		if frontNode.IsExpanded != stagedNode.IsExpanded {
 			stagedNode.IsExpanded = frontNode.IsExpanded
-			diagram.IsExpanded = frontNode.IsExpanded
+			diagram.isExpanded = frontNode.IsExpanded
 			stager.stage.Commit()
 			return
 		}
 		if frontNode.Name != stagedNode.Name {
 			diagram.Name = frontNode.Name
-			diagram.IsInRenameMode = false
+			diagram.isInRenameMode = false
 			stager.stage.Commit()
 			return
 		}

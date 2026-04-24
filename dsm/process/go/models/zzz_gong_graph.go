@@ -160,6 +160,9 @@ func (stage *Stage) StageBranchLibrary(library *Library) {
 	for _, _library := range library.SubLibraries {
 		StageBranch(stage, _library)
 	}
+	for _, _process := range library.RootProcesses {
+		StageBranch(stage, _process)
+	}
 
 }
 
@@ -304,6 +307,9 @@ func CopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo
 	for _, _library := range libraryFrom.SubLibraries {
 		libraryTo.SubLibraries = append(libraryTo.SubLibraries, CopyBranchLibrary(mapOrigCopy, _library))
 	}
+	for _, _process := range libraryFrom.RootProcesses {
+		libraryTo.RootProcesses = append(libraryTo.RootProcesses, CopyBranchProcess(mapOrigCopy, _process))
+	}
 
 	return
 }
@@ -445,6 +451,9 @@ func (stage *Stage) UnstageBranchLibrary(library *Library) {
 	for _, _library := range library.SubLibraries {
 		UnstageBranch(stage, _library)
 	}
+	for _, _process := range library.RootProcesses {
+		UnstageBranch(stage, _process)
+	}
 
 }
 
@@ -533,6 +542,10 @@ func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, in
 	for _, _b := range instance.SubLibraries {
 		reference.SubLibraries = append(reference.SubLibraries, stage.Librarys_reference[_b])
 	}
+	reference.RootProcesses = reference.RootProcesses[:0]
+	for _, _b := range instance.RootProcesses {
+		reference.RootProcesses = append(reference.RootProcesses, stage.Processs_reference[_b])
+	}
 
 	return
 }
@@ -614,6 +627,13 @@ func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) () 
 		}
 	}
 	reference.SubLibraries = _SubLibraries
+	var _RootProcesses []*Process
+	for _, _reference := range reference.RootProcesses {
+		if _instance, ok := stage.Processs_instance[_reference]; ok {
+			_RootProcesses = append(_RootProcesses, _instance)
+		}
+	}
+	reference.RootProcesses = _RootProcesses
 
 	return
 }
@@ -668,12 +688,6 @@ func (diagramprocess *DiagramProcess) GongDiff(stage *Stage, diagramprocessOther
 	}
 	if diagramprocess.ComputedPrefix != diagramprocessOther.ComputedPrefix {
 		diffs = append(diffs, diagramprocess.GongMarshallField(stage, "ComputedPrefix"))
-	}
-	if diagramprocess.IsInRenameMode != diagramprocessOther.IsInRenameMode {
-		diffs = append(diffs, diagramprocess.GongMarshallField(stage, "IsInRenameMode"))
-	}
-	if diagramprocess.IsExpanded != diagramprocessOther.IsExpanded {
-		diffs = append(diffs, diagramprocess.GongMarshallField(stage, "IsExpanded"))
 	}
 	if diagramprocess.IsChecked != diagramprocessOther.IsChecked {
 		diffs = append(diffs, diagramprocess.GongMarshallField(stage, "IsChecked"))
@@ -776,12 +790,6 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 	if library.ComputedPrefix != libraryOther.ComputedPrefix {
 		diffs = append(diffs, library.GongMarshallField(stage, "ComputedPrefix"))
 	}
-	if library.IsInRenameMode != libraryOther.IsInRenameMode {
-		diffs = append(diffs, library.GongMarshallField(stage, "IsInRenameMode"))
-	}
-	if library.IsExpanded != libraryOther.IsExpanded {
-		diffs = append(diffs, library.GongMarshallField(stage, "IsExpanded"))
-	}
 	DiagramProcesssDifferent := false
 	if len(library.DiagramProcesss) != len(libraryOther.DiagramProcesss) {
 		DiagramProcesssDifferent = true
@@ -830,6 +838,27 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 	if library.LogoSVGFile != libraryOther.LogoSVGFile {
 		diffs = append(diffs, library.GongMarshallField(stage, "LogoSVGFile"))
 	}
+	RootProcessesDifferent := false
+	if len(library.RootProcesses) != len(libraryOther.RootProcesses) {
+		RootProcessesDifferent = true
+	} else {
+		for i := range library.RootProcesses {
+			if (library.RootProcesses[i] == nil) != (libraryOther.RootProcesses[i] == nil) {
+				RootProcessesDifferent = true
+				break
+			} else if library.RootProcesses[i] != nil && libraryOther.RootProcesses[i] != nil {
+				// this is a pointer comparaison
+				if library.RootProcesses[i] != libraryOther.RootProcesses[i] {
+					RootProcessesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if RootProcessesDifferent {
+		ops := Diff(stage, library, libraryOther, "RootProcesses", libraryOther.RootProcesses, library.RootProcesses)
+		diffs = append(diffs, ops)
+	}
 
 	return
 }
@@ -843,12 +872,6 @@ func (process *Process) GongDiff(stage *Stage, processOther *Process) (diffs []s
 	}
 	if process.ComputedPrefix != processOther.ComputedPrefix {
 		diffs = append(diffs, process.GongMarshallField(stage, "ComputedPrefix"))
-	}
-	if process.IsInRenameMode != processOther.IsInRenameMode {
-		diffs = append(diffs, process.GongMarshallField(stage, "IsInRenameMode"))
-	}
-	if process.IsExpanded != processOther.IsExpanded {
-		diffs = append(diffs, process.GongMarshallField(stage, "IsExpanded"))
 	}
 	SubProcessesDifferent := false
 	if len(process.SubProcesses) != len(processOther.SubProcesses) {

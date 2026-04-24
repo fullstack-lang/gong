@@ -347,7 +347,7 @@ var generateCmd = &cobra.Command{
 				if err != nil {
 					log.Fatalf("failed writing file %s: %v", destPath, err)
 				}
-				log.Printf("copied %s to %s", entry.Name(), destPath)
+				// log.Printf("copied %s to %s", entry.Name(), destPath)
 			}
 		}
 

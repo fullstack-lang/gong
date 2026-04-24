@@ -8,9 +8,9 @@ import (
 func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, parentNodes *[]*tree.Node) {
 	libraryNode := &tree.Node{
 		Name:            library.Name,
-		IsExpanded:      library.IsExpanded,
+		IsExpanded:      library.isExpanded,
 		IsNodeClickable: true,
-		IsInEditMode:    library.IsInRenameMode,
+		IsInEditMode:    library.isInRenameMode,
 	}
 	*parentNodes = append(*parentNodes, libraryNode)
 
@@ -45,14 +45,14 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 	}
 
 	libraryNode.OnUpdate = stager.OnUpdateLibrary(library)
-	addAddItemButtonSimple(stager, nil, nil, &library.IsExpanded, libraryNode, &library.SubLibraries)
+	addAddItemButtonSimple(stager, nil, nil, &library.isExpanded, libraryNode, &library.SubLibraries)
 
-	itemAdderCallback := addAddItemButtonSimple(stager, nil, nil, &library.IsExpanded, libraryNode, &library.DiagramProcesss)
+	itemAdderCallback := addAddItemButtonSimple(stager, nil, nil, &library.isExpanded, libraryNode, &library.DiagramProcesss)
 
 	itemAdderCallback.OnBeforeCommit = func() {
 		newDiagram := itemAdderCallback.createdItem
 		newDiagram.IsEditable_ = true
-		newDiagram.IsExpanded = true
+		newDiagram.isExpanded = true
 		for diagram_ := range *GetGongstructInstancesSet[DiagramProcess](stager.stage) {
 			diagram_.IsChecked = false
 		}
@@ -62,12 +62,12 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 	for _, diagram := range library.DiagramProcesss {
 		diagramNode := &tree.Node{
 			Name:              diagram.Name,
-			IsExpanded:        diagram.IsExpanded,
+			IsExpanded:        diagram.isExpanded,
 			IsNodeClickable:   true,
 			HasCheckboxButton: true,
 			IsChecked:         diagram.IsChecked,
 
-			IsInEditMode: diagram.IsInRenameMode,
+			IsInEditMode: diagram.isInRenameMode,
 		}
 		libraryNode.Children = append(libraryNode.Children, diagramNode)
 
@@ -126,6 +126,20 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 			diagramNode.Buttons = append(diagramNode.Buttons, showAllButton)
 		}
 
+		processesNode := &tree.Node{
+			Name:            "PBS",
+			FontStyle:       tree.ITALIC,
+			IsExpanded:      diagram.IsProcesssNodeExpanded,
+			IsNodeClickable: true,
+		}
+		diagramNode.Children = append(diagramNode.Children, processesNode)
+		processesNode.OnUpdate = stager.OnUpdateExpansion(&diagram.IsProcesssNodeExpanded)
+
+		addAddItemButton(stager, nil, nil, &diagram.IsProcesssNodeExpanded, processesNode, &library.RootProcesses, diagram, &diagram.Process_Shapes, &diagram.ProcessComposition_Shapes)
+
+		for _, product := range library.RootProcesses {
+			stager.treeProcessesWithinDiagram(diagram, product, processesNode)
+		}
 	}
 
 	for _, subLibrary := range library.SubLibraries {
@@ -139,13 +153,13 @@ func (stager *Stager) OnUpdateLibrary(library *Library) func(stage *tree.Stage, 
 	return func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
 		if frontNode.IsExpanded != stagedNode.IsExpanded {
 			stagedNode.IsExpanded = frontNode.IsExpanded
-			library.IsExpanded = frontNode.IsExpanded
+			library.isExpanded = frontNode.IsExpanded
 			stager.stage.Commit()
 			return
 		}
 		if frontNode.Name != stagedNode.Name {
 			library.Name = frontNode.Name
-			library.IsInRenameMode = false
+			library.isInRenameMode = false
 			stager.stage.Commit()
 			return
 		}
@@ -187,13 +201,13 @@ func (stager *Stager) OnUpdateDiagram(diagram *DiagramProcess) func(stage *tree.
 		}
 		if frontNode.IsExpanded != stagedNode.IsExpanded {
 			stagedNode.IsExpanded = frontNode.IsExpanded
-			diagram.IsExpanded = frontNode.IsExpanded
+			diagram.isExpanded = frontNode.IsExpanded
 			stager.stage.Commit()
 			return
 		}
 		if frontNode.Name != stagedNode.Name {
 			diagram.Name = frontNode.Name
-			diagram.IsInRenameMode = false
+			diagram.isInRenameMode = false
 			stager.stage.Commit()
 			return
 		}

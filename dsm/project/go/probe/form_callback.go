@@ -68,10 +68,6 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(diagram_.Name), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(diagram_.ComputedPrefix), formDiv)
-		case "IsInRenameMode":
-			FormDivBasicFieldToField(&(diagram_.IsInRenameMode), formDiv)
-		case "IsExpanded":
-			FormDivBasicFieldToField(&(diagram_.IsExpanded), formDiv)
 		case "IsChecked":
 			FormDivBasicFieldToField(&(diagram_.IsChecked), formDiv)
 		case "IsEditable_":
@@ -829,10 +825,6 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(library_.Name), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(library_.ComputedPrefix), formDiv)
-		case "IsInRenameMode":
-			FormDivBasicFieldToField(&(library_.IsInRenameMode), formDiv)
-		case "IsExpanded":
-			FormDivBasicFieldToField(&(library_.IsExpanded), formDiv)
 		case "RootProducts":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Product](libraryFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Product, 0)
@@ -1169,10 +1161,6 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(note_.Name), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(note_.ComputedPrefix), formDiv)
-		case "IsInRenameMode":
-			FormDivBasicFieldToField(&(note_.IsInRenameMode), formDiv)
-		case "IsExpanded":
-			FormDivBasicFieldToField(&(note_.IsExpanded), formDiv)
 		case "Products":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Product](noteFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Product, 0)
@@ -1798,8 +1786,6 @@ func (noteshapeFormCallback *NoteShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(noteshape_.Name), formDiv)
 		case "Note":
 			FormDivSelectFieldToField(&(noteshape_.Note), noteshapeFormCallback.probe.stageOfInterest, formDiv)
-		case "IsExpanded":
-			FormDivBasicFieldToField(&(noteshape_.IsExpanded), formDiv)
 		case "X":
 			FormDivBasicFieldToField(&(noteshape_.X), formDiv)
 		case "Y":
@@ -2116,10 +2102,6 @@ func (productFormCallback *ProductFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(product_.Name), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(product_.ComputedPrefix), formDiv)
-		case "IsInRenameMode":
-			FormDivBasicFieldToField(&(product_.IsInRenameMode), formDiv)
-		case "IsExpanded":
-			FormDivBasicFieldToField(&(product_.IsExpanded), formDiv)
 		case "Description":
 			FormDivBasicFieldToField(&(product_.Description), formDiv)
 		case "SubProducts":
@@ -2791,8 +2773,6 @@ func (productshapeFormCallback *ProductShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(productshape_.Name), formDiv)
 		case "Product":
 			FormDivSelectFieldToField(&(productshape_.Product), productshapeFormCallback.probe.stageOfInterest, formDiv)
-		case "IsExpanded":
-			FormDivBasicFieldToField(&(productshape_.IsExpanded), formDiv)
 		case "X":
 			FormDivBasicFieldToField(&(productshape_.X), formDiv)
 		case "Y":
@@ -2949,10 +2929,6 @@ func (resourceFormCallback *ResourceFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(resource_.Name), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(resource_.ComputedPrefix), formDiv)
-		case "IsInRenameMode":
-			FormDivBasicFieldToField(&(resource_.IsInRenameMode), formDiv)
-		case "IsExpanded":
-			FormDivBasicFieldToField(&(resource_.IsExpanded), formDiv)
 		case "Description":
 			FormDivBasicFieldToField(&(resource_.Description), formDiv)
 		case "Tasks":
@@ -3519,8 +3495,6 @@ func (resourceshapeFormCallback *ResourceShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(resourceshape_.Name), formDiv)
 		case "Resource":
 			FormDivSelectFieldToField(&(resourceshape_.Resource), resourceshapeFormCallback.probe.stageOfInterest, formDiv)
-		case "IsExpanded":
-			FormDivBasicFieldToField(&(resourceshape_.IsExpanded), formDiv)
 		case "X":
 			FormDivBasicFieldToField(&(resourceshape_.X), formDiv)
 		case "Y":
@@ -3837,10 +3811,6 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(task_.Name), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(task_.ComputedPrefix), formDiv)
-		case "IsInRenameMode":
-			FormDivBasicFieldToField(&(task_.IsInRenameMode), formDiv)
-		case "IsExpanded":
-			FormDivBasicFieldToField(&(task_.IsExpanded), formDiv)
 		case "Start":
 			FormDivBasicFieldToField(&(task_.Start), formDiv)
 		case "End":
@@ -4968,8 +4938,6 @@ func (taskshapeFormCallback *TaskShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(taskshape_.Name), formDiv)
 		case "Task":
 			FormDivSelectFieldToField(&(taskshape_.Task), taskshapeFormCallback.probe.stageOfInterest, formDiv)
-		case "IsExpanded":
-			FormDivBasicFieldToField(&(taskshape_.IsExpanded), formDiv)
 		case "X":
 			FormDivBasicFieldToField(&(taskshape_.X), formDiv)
 		case "Y":

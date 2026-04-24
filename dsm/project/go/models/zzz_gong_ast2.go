@@ -464,10 +464,6 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.Name = GongExtractString(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
-	case "IsInRenameMode":
-		instance.IsInRenameMode = GongExtractBool(valueExpr)
-	case "IsExpanded":
-		instance.IsExpanded = GongExtractBool(valueExpr)
 	case "IsChecked":
 		instance.IsChecked = GongExtractBool(valueExpr)
 	case "IsEditable_":
@@ -559,10 +555,6 @@ func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.Name = GongExtractString(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
-	case "IsInRenameMode":
-		instance.IsInRenameMode = GongExtractBool(valueExpr)
-	case "IsExpanded":
-		instance.IsExpanded = GongExtractBool(valueExpr)
 	case "RootProducts":
 		GongUnmarshallSliceOfPointers(&instance.RootProducts, valueExpr, identifierMap)
 	case "RootTasks":
@@ -610,10 +602,6 @@ func (u *NoteUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.Name = GongExtractString(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
-	case "IsInRenameMode":
-		instance.IsInRenameMode = GongExtractBool(valueExpr)
-	case "IsExpanded":
-		instance.IsExpanded = GongExtractBool(valueExpr)
 	case "Products":
 		GongUnmarshallSliceOfPointers(&instance.Products, valueExpr, identifierMap)
 	case "Tasks":
@@ -741,8 +729,6 @@ func (u *NoteShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 		instance.Name = GongExtractString(valueExpr)
 	case "Note":
 		GongUnmarshallPointer(&instance.Note, valueExpr, identifierMap)
-	case "IsExpanded":
-		instance.IsExpanded = GongExtractBool(valueExpr)
 	case "X":
 		instance.X = GongExtractFloat(valueExpr)
 	case "Y":
@@ -829,10 +815,6 @@ func (u *ProductUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.Name = GongExtractString(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
-	case "IsInRenameMode":
-		instance.IsInRenameMode = GongExtractBool(valueExpr)
-	case "IsExpanded":
-		instance.IsExpanded = GongExtractBool(valueExpr)
 	case "Description":
 		instance.Description = GongExtractString(valueExpr)
 	case "SubProducts":
@@ -915,8 +897,6 @@ func (u *ProductShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.Name = GongExtractString(valueExpr)
 	case "Product":
 		GongUnmarshallPointer(&instance.Product, valueExpr, identifierMap)
-	case "IsExpanded":
-		instance.IsExpanded = GongExtractBool(valueExpr)
 	case "X":
 		instance.X = GongExtractFloat(valueExpr)
 	case "Y":
@@ -958,10 +938,6 @@ func (u *ResourceUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 		instance.Name = GongExtractString(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
-	case "IsInRenameMode":
-		instance.IsInRenameMode = GongExtractBool(valueExpr)
-	case "IsExpanded":
-		instance.IsExpanded = GongExtractBool(valueExpr)
 	case "Description":
 		instance.Description = GongExtractString(valueExpr)
 	case "Tasks":
@@ -1042,8 +1018,6 @@ func (u *ResourceShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 		instance.Name = GongExtractString(valueExpr)
 	case "Resource":
 		GongUnmarshallPointer(&instance.Resource, valueExpr, identifierMap)
-	case "IsExpanded":
-		instance.IsExpanded = GongExtractBool(valueExpr)
 	case "X":
 		instance.X = GongExtractFloat(valueExpr)
 	case "Y":
@@ -1130,10 +1104,6 @@ func (u *TaskUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.Name = GongExtractString(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
-	case "IsInRenameMode":
-		instance.IsInRenameMode = GongExtractBool(valueExpr)
-	case "IsExpanded":
-		instance.IsExpanded = GongExtractBool(valueExpr)
 	case "Start":
 		if call, ok := valueExpr.(*ast.CallExpr); ok {
 			if len(call.Args) == 2 {
@@ -1330,8 +1300,6 @@ func (u *TaskShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 		instance.Name = GongExtractString(valueExpr)
 	case "Task":
 		GongUnmarshallPointer(&instance.Task, valueExpr, identifierMap)
-	case "IsExpanded":
-		instance.IsExpanded = GongExtractBool(valueExpr)
 	case "X":
 		instance.X = GongExtractFloat(valueExpr)
 	case "Y":
