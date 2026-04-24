@@ -23,78 +23,26 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	// insertion point for declaration of instances to stage
-
-	__Process__00000000_ := (&models.Process{Name: `Process 1`}).Stage(stage)
-
-	// insertion point for initialization of values
-
-	__Process__00000000_.Name = `Process 1`
-
-	// insertion point for setup of pointers
-
-	__Library__00000000_ := (&models.Library{Name: ``}).Stage(stage)
-	__Library__00000000_.Name = ``
-	__Library__00000000_.ComputedPrefix = ``
-	__Library__00000000_.IsInRenameMode = false
-	__Library__00000000_.IsExpanded = false
-	__Library__00000000_.NbPixPerCharacter = 0.000000
-	__Library__00000000_.LogoSVGFile = ``
-	stage.Commit()
-
-	__Library__00000001_ := (&models.Library{Name: ``}).Stage(stage)
-	// 
-	__Library__00000000_.IsExpanded = true
-	__Library__00000000_.SubLibraries = slices.Insert( __Library__00000000_.SubLibraries, 0, __Library__00000001_)
-	__Library__00000001_.Name = ``
-	__Library__00000001_.ComputedPrefix = ``
-	__Library__00000001_.IsInRenameMode = true
-	__Library__00000001_.IsExpanded = false
-	__Library__00000001_.NbPixPerCharacter = 0.000000
-	__Library__00000001_.LogoSVGFile = ``
-	stage.Commit()
-
-	// L1
-	__Library__00000001_.Name = `L1`
-	__Library__00000001_.IsInRenameMode = false
-	stage.Commit()
-
-	__DiagramProcess__00000000_ := (&models.DiagramProcess{Name: ``}).Stage(stage)
-	// 
-	__Library__00000000_.DiagramProcesss = slices.Insert( __Library__00000000_.DiagramProcesss, 0, __DiagramProcess__00000000_)
-	__DiagramProcess__00000000_.Name = ``
+	__DiagramProcess__00000000_ := (&models.DiagramProcess{Name: `D1`}).Stage(stage)
+	__DiagramProcess__00000001_ := (&models.DiagramProcess{Name: `D2`}).Stage(stage)
+	__Library__00000000_ := (&models.Library{Name: `Root`}).Stage(stage)
+	__ProcessShape__00000000_ := (&models.ProcessShape{Name: `-D1`}).Stage(stage)
+	__ProcessShape__00000001_ := (&models.ProcessShape{Name: `-D1`}).Stage(stage)
+	__Process__00000001_ := (&models.Process{Name: `P1`}).Stage(stage)
+	__DiagramProcess__00000000_.Name = `D1`
 	__DiagramProcess__00000000_.ComputedPrefix = ``
-	__DiagramProcess__00000000_.IsInRenameMode = true
-	__DiagramProcess__00000000_.IsExpanded = true
-	__DiagramProcess__00000000_.IsChecked = true
+	__DiagramProcess__00000000_.IsChecked = false
 	__DiagramProcess__00000000_.IsEditable_ = true
 	__DiagramProcess__00000000_.IsShowPrefix = false
 	__DiagramProcess__00000000_.DefaultBoxWidth = 0.000000
 	__DiagramProcess__00000000_.DefaultBoxHeigth = 0.000000
 	__DiagramProcess__00000000_.Width = 0.000000
 	__DiagramProcess__00000000_.Height = 0.000000
-	__DiagramProcess__00000000_.IsProcesssNodeExpanded = false
-	stage.Commit()
-
-	// D1
-	__DiagramProcess__00000000_.Name = `D1`
-	__DiagramProcess__00000000_.IsInRenameMode = false
-	stage.Commit()
-
-	// 
-	__Library__00000000_.SubLibraries = slices.Delete( __Library__00000000_.SubLibraries, 0, 1)
-	__Library__00000001_.Unstage(stage)
-	stage.Commit()
-
-	__DiagramProcess__00000001_ := (&models.DiagramProcess{Name: ``}).Stage(stage)
-	// 
-	__Library__00000000_.DiagramProcesss = slices.Insert( __Library__00000000_.DiagramProcesss, 1, __DiagramProcess__00000001_)
-	// D1
-	__DiagramProcess__00000000_.IsChecked = false
-	__DiagramProcess__00000001_.Name = ``
+	__DiagramProcess__00000000_.IsProcesssNodeExpanded = true
+	__DiagramProcess__00000000_.Process_Shapes = append(__DiagramProcess__00000000_.Process_Shapes, __ProcessShape__00000000_)
+	__DiagramProcess__00000000_.Process_Shapes = append(__DiagramProcess__00000000_.Process_Shapes, __ProcessShape__00000001_)
+	__DiagramProcess__00000001_.Name = `D2`
 	__DiagramProcess__00000001_.ComputedPrefix = ``
-	__DiagramProcess__00000001_.IsInRenameMode = true
-	__DiagramProcess__00000001_.IsExpanded = true
 	__DiagramProcess__00000001_.IsChecked = true
 	__DiagramProcess__00000001_.IsEditable_ = true
 	__DiagramProcess__00000001_.IsShowPrefix = false
@@ -102,31 +50,37 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000001_.DefaultBoxHeigth = 0.000000
 	__DiagramProcess__00000001_.Width = 0.000000
 	__DiagramProcess__00000001_.Height = 0.000000
-	__DiagramProcess__00000001_.IsProcesssNodeExpanded = false
-	stage.Commit()
-
-	// D2
-	__DiagramProcess__00000001_.Name = `D2`
-	__DiagramProcess__00000001_.IsInRenameMode = false
+	__DiagramProcess__00000001_.IsProcesssNodeExpanded = true
+	__Library__00000000_.Name = `Root`
+	__Library__00000000_.ComputedPrefix = ``
+	__Library__00000000_.NbPixPerCharacter = 0.000000
+	__Library__00000000_.LogoSVGFile = ``
+	__Library__00000000_.DiagramProcesss = append(__Library__00000000_.DiagramProcesss, __DiagramProcess__00000000_)
+	__Library__00000000_.DiagramProcesss = append(__Library__00000000_.DiagramProcesss, __DiagramProcess__00000001_)
+	__Library__00000000_.RootProcesses = append(__Library__00000000_.RootProcesses, __Process__00000001_)
+	__ProcessShape__00000000_.Name = `-D1`
+	__ProcessShape__00000000_.IsExpanded = false
+	__ProcessShape__00000000_.X = 128.340435
+	__ProcessShape__00000000_.Y = 169.677953
+	__ProcessShape__00000000_.Width = 0.000000
+	__ProcessShape__00000000_.Height = 0.000000
+	__ProcessShape__00000000_.IsHidden = false
+	__ProcessShape__00000000_.Process = __Process__00000001_
+	__ProcessShape__00000001_.Name = `-D1`
+	__ProcessShape__00000001_.IsExpanded = false
+	__ProcessShape__00000001_.X = 103.847267
+	__ProcessShape__00000001_.Y = 191.884898
+	__ProcessShape__00000001_.Width = 0.000000
+	__ProcessShape__00000001_.Height = 0.000000
+	__ProcessShape__00000001_.IsHidden = false
+	__ProcessShape__00000001_.Process = nil
+	__Process__00000001_.Name = `P1`
+	__Process__00000001_.ComputedPrefix = ``
 	stage.Commit()
 
 	// D1
 	__DiagramProcess__00000000_.IsChecked = true
 	// D2
 	__DiagramProcess__00000001_.IsChecked = false
-	stage.Commit()
-
-	// D1
-	__DiagramProcess__00000000_.IsChecked = false
-	// D2
-	__DiagramProcess__00000001_.IsChecked = true
-	stage.Commit()
-
-	// D1
-	__DiagramProcess__00000000_.IsShowPrefix = true
-	stage.Commit()
-
-	// D1
-	__DiagramProcess__00000000_.IsShowPrefix = false
 	stage.Commit()
 }

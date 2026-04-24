@@ -55,6 +55,7 @@ func (library *Library) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = GongCleanSlice(stage, &library.DiagramProcesss) || modified
 	modified = GongCleanSlice(stage, &library.SubLibraries) || modified
+	modified = GongCleanSlice(stage, &library.RootProcesses) || modified
 	// insertion point per field
 	return
 }

@@ -5,7 +5,7 @@ type ProductShape struct {
 	Name    string
 	Product *Product
 
-	IsExpanded bool
+	isExpanded bool
 
 	RectShape
 }
@@ -64,7 +64,7 @@ type TaskShape struct {
 	Name string
 	Task *Task
 
-	IsExpanded bool
+	isExpanded bool
 
 	RectShape
 }
@@ -217,7 +217,7 @@ type NoteShape struct {
 	Name string
 	Note *Note
 
-	IsExpanded bool
+	isExpanded bool
 
 	RectShape
 }
@@ -345,7 +345,7 @@ type ResourceShape struct {
 	Name     string
 	Resource *Resource
 
-	IsExpanded bool
+	isExpanded bool
 
 	RectShape
 }
