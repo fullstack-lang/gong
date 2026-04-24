@@ -13,13 +13,21 @@ func (stager *Stager) treeProcesses(
 	processsWhoseNodeIsExpanded *[]*Process) {
 
 	processNode := &tree.Node{
-		Name:       process.GetName(),
-		IsExpanded: slices.Index(*processsWhoseNodeIsExpanded, process) != -1,
+		Name:            process.GetName(),
+		IsExpanded:      slices.Index(*processsWhoseNodeIsExpanded, process) != -1,
+		IsNodeClickable: true,
+		IsInEditMode:    process.GetIsInRenameMode(),
 	}
 	parentNode.Children = append(parentNode.Children, processNode)
 
 	addRenameButton(process, processNode, stager)
 	processNode.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+		if frontNode.Name != stagedNode.Name {
+			process.SetName(frontNode.Name)
+			process.SetIsInRenameMode(false)
+			stager.stage.Commit()
+			return
+		}
 		if frontNode.IsExpanded != stagedNode.IsExpanded {
 			if frontNode.IsExpanded {
 				if slices.Index(*processsWhoseNodeIsExpanded, process) == -1 {
