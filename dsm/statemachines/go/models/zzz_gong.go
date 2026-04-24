@@ -4592,7 +4592,7 @@ func (state *State) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:               "IsFictif",
+			Name:               "IsFictious",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
@@ -5065,9 +5065,9 @@ func (state *State) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 		res.valueString = fmt.Sprintf("%t", state.IsDecisionNode)
 		res.valueBool = state.IsDecisionNode
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsFictif":
-		res.valueString = fmt.Sprintf("%t", state.IsFictif)
-		res.valueBool = state.IsFictif
+	case "IsFictious":
+		res.valueString = fmt.Sprintf("%t", state.IsFictious)
+		res.valueBool = state.IsFictious
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsEndState":
 		res.valueString = fmt.Sprintf("%t", state.IsEndState)
@@ -5574,8 +5574,8 @@ func (state *State) GongSetFieldValue(fieldName string, value GongFieldValue, st
 		}
 	case "IsDecisionNode":
 		state.IsDecisionNode = value.GetValueBool()
-	case "IsFictif":
-		state.IsFictif = value.GetValueBool()
+	case "IsFictious":
+		state.IsFictious = value.GetValueBool()
 	case "IsEndState":
 		state.IsEndState = value.GetValueBool()
 	case "SubStates":

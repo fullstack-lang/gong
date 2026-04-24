@@ -140,73 +140,73 @@ func _(stage *models.Stage) {
 
 	__State__00000000_.Name = `Initial State FR`
 	__State__00000000_.IsDecisionNode = false
-	__State__00000000_.IsFictif = false
+	__State__00000000_.IsFictious = false
 	__State__00000000_.IsEndState = false
 	__State__00000000_.IsInRenameMode = false
 
 	__State__00000001_.Name = `Red FR`
 	__State__00000001_.IsDecisionNode = false
-	__State__00000001_.IsFictif = false
+	__State__00000001_.IsFictious = false
 	__State__00000001_.IsEndState = false
 	__State__00000001_.IsInRenameMode = false
 
 	__State__00000002_.Name = `Green FR`
 	__State__00000002_.IsDecisionNode = false
-	__State__00000002_.IsFictif = false
+	__State__00000002_.IsFictious = false
 	__State__00000002_.IsEndState = false
 	__State__00000002_.IsInRenameMode = false
 
 	__State__00000003_.Name = `Yellow FR`
 	__State__00000003_.IsDecisionNode = false
-	__State__00000003_.IsFictif = false
+	__State__00000003_.IsFictious = false
 	__State__00000003_.IsEndState = false
 	__State__00000003_.IsInRenameMode = false
 
 	__State__00000004_.Name = `On FR`
 	__State__00000004_.IsDecisionNode = false
-	__State__00000004_.IsFictif = false
+	__State__00000004_.IsFictious = false
 	__State__00000004_.IsEndState = false
 	__State__00000004_.IsInRenameMode = false
 
 	__State__00000005_.Name = `Off FR`
 	__State__00000005_.IsDecisionNode = false
-	__State__00000005_.IsFictif = false
+	__State__00000005_.IsFictious = false
 	__State__00000005_.IsEndState = true
 	__State__00000005_.IsInRenameMode = false
 
 	__State__00000006_.Name = `Initial State UK`
 	__State__00000006_.IsDecisionNode = false
-	__State__00000006_.IsFictif = false
+	__State__00000006_.IsFictious = false
 	__State__00000006_.IsEndState = false
 	__State__00000006_.IsInRenameMode = false
 
 	__State__00000007_.Name = `Red UK`
 	__State__00000007_.IsDecisionNode = false
-	__State__00000007_.IsFictif = false
+	__State__00000007_.IsFictious = false
 	__State__00000007_.IsEndState = false
 	__State__00000007_.IsInRenameMode = false
 
 	__State__00000008_.Name = `Yellow UK`
 	__State__00000008_.IsDecisionNode = false
-	__State__00000008_.IsFictif = false
+	__State__00000008_.IsFictious = false
 	__State__00000008_.IsEndState = false
 	__State__00000008_.IsInRenameMode = false
 
 	__State__00000009_.Name = `Green UK`
 	__State__00000009_.IsDecisionNode = false
-	__State__00000009_.IsFictif = false
+	__State__00000009_.IsFictious = false
 	__State__00000009_.IsEndState = false
 	__State__00000009_.IsInRenameMode = false
 
 	__State__00000010_.Name = `On UK`
 	__State__00000010_.IsDecisionNode = false
-	__State__00000010_.IsFictif = false
+	__State__00000010_.IsFictious = false
 	__State__00000010_.IsEndState = false
 	__State__00000010_.IsInRenameMode = false
 
 	__State__00000011_.Name = `Off UK`
 	__State__00000011_.IsDecisionNode = false
-	__State__00000011_.IsFictif = false
+	__State__00000011_.IsFictious = false
 	__State__00000011_.IsEndState = true
 	__State__00000011_.IsInRenameMode = false
 

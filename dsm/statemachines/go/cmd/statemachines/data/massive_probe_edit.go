@@ -76,13 +76,13 @@ func _(stage *models.Stage) {
 
 	__State__00000000_.Name = `Single Item Selectiond`
 	__State__00000000_.IsDecisionNode = false
-	__State__00000000_.IsFictif = false
+	__State__00000000_.IsFictious = false
 	__State__00000000_.IsEndState = false
 	__State__00000000_.IsInRenameMode = false
 
 	__State__00000001_.Name = `Multi Item Selection`
 	__State__00000001_.IsDecisionNode = false
-	__State__00000001_.IsFictif = false
+	__State__00000001_.IsFictious = false
 	__State__00000001_.IsEndState = false
 	__State__00000001_.IsInRenameMode = false
 

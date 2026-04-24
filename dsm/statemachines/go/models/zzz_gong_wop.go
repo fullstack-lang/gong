@@ -162,7 +162,7 @@ type State_WOP struct {
 
 	IsDecisionNode bool
 
-	IsFictif bool
+	IsFictious bool
 
 	IsEndState bool
 }
@@ -171,7 +171,7 @@ func (from *State) CopyBasicFields(to *State) {
 	// insertion point
 	to.Name = from.Name
 	to.IsDecisionNode = from.IsDecisionNode
-	to.IsFictif = from.IsFictif
+	to.IsFictious = from.IsFictious
 	to.IsEndState = from.IsEndState
 }
 

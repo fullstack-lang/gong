@@ -140,79 +140,79 @@ func _(stage *models.Stage) {
 
 	__State__00000000_.Name = `Probe Form`
 	__State__00000000_.IsDecisionNode = false
-	__State__00000000_.IsFictif = false
+	__State__00000000_.IsFictious = false
 	__State__00000000_.IsEndState = false
 	__State__00000000_.IsInRenameMode = false
 
 	__State__00000001_.Name = `Probe Tree`
 	__State__00000001_.IsDecisionNode = false
-	__State__00000001_.IsFictif = false
+	__State__00000001_.IsFictious = false
 	__State__00000001_.IsEndState = false
 	__State__00000001_.IsInRenameMode = false
 
 	__State__00000002_.Name = `Probe Table`
 	__State__00000002_.IsDecisionNode = false
-	__State__00000002_.IsFictif = false
+	__State__00000002_.IsFictious = false
 	__State__00000002_.IsEndState = false
 	__State__00000002_.IsInRenameMode = false
 
 	__State__00000003_.Name = `Form - Update Stage Of Interest`
 	__State__00000003_.IsDecisionNode = false
-	__State__00000003_.IsFictif = false
+	__State__00000003_.IsFictious = false
 	__State__00000003_.IsEndState = false
 	__State__00000003_.IsInRenameMode = false
 
 	__State__00000004_.Name = `Enforce Model Semantic`
 	__State__00000004_.IsDecisionNode = false
-	__State__00000004_.IsFictif = false
+	__State__00000004_.IsFictious = false
 	__State__00000004_.IsEndState = false
 	__State__00000004_.IsInRenameMode = false
 
 	__State__00000005_.Name = `Update Probe Form`
 	__State__00000005_.IsDecisionNode = false
-	__State__00000005_.IsFictif = false
+	__State__00000005_.IsFictious = false
 	__State__00000005_.IsEndState = false
 	__State__00000005_.IsInRenameMode = false
 
 	__State__00000006_.Name = `Update Probe Table`
 	__State__00000006_.IsDecisionNode = false
-	__State__00000006_.IsFictif = false
+	__State__00000006_.IsFictious = false
 	__State__00000006_.IsEndState = false
 	__State__00000006_.IsInRenameMode = false
 
 	__State__00000007_.Name = `Update Probe Tree`
 	__State__00000007_.IsDecisionNode = false
-	__State__00000007_.IsFictif = false
+	__State__00000007_.IsFictious = false
 	__State__00000007_.IsEndState = false
 	__State__00000007_.IsInRenameMode = false
 
 	__State__00000008_.Name = `Load Stage`
 	__State__00000008_.IsDecisionNode = false
-	__State__00000008_.IsFictif = false
+	__State__00000008_.IsFictious = false
 	__State__00000008_.IsEndState = false
 	__State__00000008_.IsInRenameMode = false
 
 	__State__00000009_.Name = `Persist Stage`
 	__State__00000009_.IsDecisionNode = false
-	__State__00000009_.IsFictif = false
+	__State__00000009_.IsFictious = false
 	__State__00000009_.IsEndState = false
 	__State__00000009_.IsInRenameMode = false
 
 	__State__00000010_.Name = `Update UX ?`
 	__State__00000010_.IsDecisionNode = true
-	__State__00000010_.IsFictif = true
+	__State__00000010_.IsFictious = true
 	__State__00000010_.IsEndState = false
 	__State__00000010_.IsInRenameMode = false
 
 	__State__00000011_.Name = `Update UX ?`
 	__State__00000011_.IsDecisionNode = true
-	__State__00000011_.IsFictif = false
+	__State__00000011_.IsFictious = false
 	__State__00000011_.IsEndState = false
 	__State__00000011_.IsInRenameMode = false
 
 	__State__00000012_.Name = `Clean Stage`
 	__State__00000012_.IsDecisionNode = false
-	__State__00000012_.IsFictif = false
+	__State__00000012_.IsFictious = false
 	__State__00000012_.IsEndState = false
 	__State__00000012_.IsInRenameMode = false
 
@@ -621,7 +621,7 @@ func _(stage *models.Stage) {
 
 	__Diagram__00000001_ := (&models.Diagram{Name: `New Diagram`}).Stage(stage)
 	// UX Loop
-	__StateMachine__00000000_.Diagrams = slices.Insert( __StateMachine__00000000_.Diagrams, 1, __Diagram__00000001_)
+	__StateMachine__00000000_.Diagrams = slices.Insert(__StateMachine__00000000_.Diagrams, 1, __Diagram__00000001_)
 	__Diagram__00000001_.Name = `New Diagram`
 	__Diagram__00000001_.IsChecked = false
 	__Diagram__00000001_.IsExpanded = false

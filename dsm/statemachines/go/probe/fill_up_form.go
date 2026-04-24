@@ -304,7 +304,7 @@ func FillUpForm(
 		AssociationFieldToForm("Parent", instanceWithInferedType.Parent, formGroup, probe)
 		BasicFieldtoForm("IsDecisionNode", instanceWithInferedType.IsDecisionNode, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("IsFictif", instanceWithInferedType.IsFictif, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("IsFictious", instanceWithInferedType.IsFictious, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsEndState", instanceWithInferedType.IsEndState, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
