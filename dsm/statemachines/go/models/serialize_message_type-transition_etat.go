@@ -2,11 +2,12 @@ package models
 
 import (
 	"fmt"
+	"io"
 
 	"github.com/xuri/excelize/v2"
 )
 
-func SerializeStageMessageTypeTransitionEtat(stage *Stage, filename string) {
+func SerializeStageMessageTypeTransitionEtat(stage *Stage, w io.Writer) {
 
 	f := excelize.NewFile()
 	{
@@ -134,8 +135,9 @@ func SerializeStageMessageTypeTransitionEtat(stage *Stage, filename string) {
 	tab.SetExcelizeFile(f)
 	{
 		f.DeleteSheet("Sheet1")
-		if err := f.SaveAs(filename); err != nil {
-			fmt.Println("cannot write xl file : ", err)
+		// Use Write instead of SaveAs
+		if err := f.Write(w); err != nil {
+			fmt.Println("cannot write xl file to writer: ", err)
 		}
 	}
 

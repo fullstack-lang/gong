@@ -12,16 +12,13 @@ import (
 	svg_stack "github.com/fullstack-lang/gong/lib/svg/go/stack"
 	tree_stack "github.com/fullstack-lang/gong/lib/tree/go/stack"
 
-	// tmp
-	_ "github.com/fullstack-lang/gong/lib/cursor/go/stack"
-	_ "github.com/fullstack-lang/gong/lib/load/go/stack"
-	_ "github.com/fullstack-lang/gong/lib/slider/go/stack"
-	_ "github.com/fullstack-lang/gong/lib/tone/go/stack"
-
 	button "github.com/fullstack-lang/gong/lib/button/go/models"
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
+
+	load "github.com/fullstack-lang/gong/lib/load/go/models"
+	load_stack "github.com/fullstack-lang/gong/lib/load/go/stack"
 )
 
 type Stager struct {
@@ -31,6 +28,7 @@ type Stager struct {
 	treeObjectsSimulationStage *tree.Stage
 	treeDiagramStage           *tree.Stage
 	svgStage                   *svg.Stage
+	loadStage                  *load.Stage
 	buttonTransitionsStage     *button.Stage
 	buttonExportXLStage        *button.Stage
 
@@ -52,6 +50,8 @@ type Stager struct {
 	diagram                *Diagram
 	svgObject              *svg.SVG
 	map_SvgRect_StateShape map[*svg.Rect]*StateShape
+
+	filename string
 }
 
 func (stager *Stager) GetStage() *Stage {
@@ -86,6 +86,7 @@ func NewStager(
 	stager.treeObjectsSimulationStage = tree_stack.NewStack(r, stackName+"-objects", "", "", "", true, true).Stage
 	stager.treeDiagramStage = tree_stack.NewStack(r, stackName+"-diagrams", "", "", "", true, true).Stage
 	stager.svgStage = svg_stack.NewStack(r, stackName, "", "", "", true, true).Stage
+	stager.loadStage = load_stack.NewStack(r, "", "", "", "", true, true).Stage
 	stager.buttonTransitionsStage = button_stack.NewStack(r, stackName+"-transitions", "", "", "", false, false).Stage
 	stager.buttonExportXLStage = button_stack.NewStack(r, stackName+"-exportXL", "", "", "", true, true).Stage
 
@@ -99,6 +100,7 @@ func NewStager(
 		stager.buttonSimulation()
 		stager.buttonsExportXL()
 		stager.svg()
+		stager.load()
 		stager.treeDiagrams()
 	}
 
