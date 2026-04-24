@@ -25,9 +25,14 @@ func addNodeToTree[
 		LinkShapeInterface
 		AssociationConcreteType
 	},
-	ACT_ Gongstruct](
+	ACT_ Gongstruct,
+	DiagramType interface {
+		DiagramIF
+		AbstractType
+		comparable
+	}](
 	stager *Stager,
-	diagram DiagramIF,
+	diagram DiagramType,
 	parentNode *tree.Node,
 	element AT,
 	parentElement AT,
@@ -134,7 +139,7 @@ func addNodeToTree[
 			node.Buttons = append(node.Buttons, diagramsButton)
 
 			for _, diag := range diagrams {
-				if diag == diagram {
+				if any(diag) == any(diagram) {
 					continue
 				}
 				diagramNode := &tree.Node{
@@ -144,10 +149,10 @@ func addNodeToTree[
 					ToolTipPosition: tree.Right,
 					IsNodeClickable: true,
 					OnUpdate: func(_ *tree.Stage, _, _ *tree.Node) {
-						for diagram_ := range *GetGongstructInstancesSet[Diagram](stager.stage) {
-							diagram_.IsChecked = false
+						for diagram_ := range *GetGongstructInstancesSetFromPointerType[DiagramType](stager.stage) {
+							diagram_.SetIsChecked(false)
 						}
-						diag.IsChecked = true
+						diag.SetIsChecked(true)
 						diagram.SetElementWhoseDiagramListIsDisplayed(nil)
 						stage.Commit()
 					},
