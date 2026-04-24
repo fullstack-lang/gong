@@ -154,7 +154,7 @@ func (stage *Stage) StageBranchLibrary(library *Library) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _diagramprocess := range library.Diagrams {
+	for _, _diagramprocess := range library.DiagramProcesss {
 		StageBranch(stage, _diagramprocess)
 	}
 	for _, _library := range library.SubLibraries {
@@ -298,8 +298,8 @@ func CopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _diagramprocess := range libraryFrom.Diagrams {
-		libraryTo.Diagrams = append(libraryTo.Diagrams, CopyBranchDiagramProcess(mapOrigCopy, _diagramprocess))
+	for _, _diagramprocess := range libraryFrom.DiagramProcesss {
+		libraryTo.DiagramProcesss = append(libraryTo.DiagramProcesss, CopyBranchDiagramProcess(mapOrigCopy, _diagramprocess))
 	}
 	for _, _library := range libraryFrom.SubLibraries {
 		libraryTo.SubLibraries = append(libraryTo.SubLibraries, CopyBranchLibrary(mapOrigCopy, _library))
@@ -439,7 +439,7 @@ func (stage *Stage) UnstageBranchLibrary(library *Library) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _diagramprocess := range library.Diagrams {
+	for _, _diagramprocess := range library.DiagramProcesss {
 		UnstageBranch(stage, _diagramprocess)
 	}
 	for _, _library := range library.SubLibraries {
@@ -525,9 +525,9 @@ func (reference *DiagramProcess) GongReconstructPointersFromReferences(stage *St
 func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, instance *Library) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.Diagrams = reference.Diagrams[:0]
-	for _, _b := range instance.Diagrams {
-		reference.Diagrams = append(reference.Diagrams, stage.DiagramProcesss_reference[_b])
+	reference.DiagramProcesss = reference.DiagramProcesss[:0]
+	for _, _b := range instance.DiagramProcesss {
+		reference.DiagramProcesss = append(reference.DiagramProcesss, stage.DiagramProcesss_reference[_b])
 	}
 	reference.SubLibraries = reference.SubLibraries[:0]
 	for _, _b := range instance.SubLibraries {
@@ -600,13 +600,13 @@ func (reference *DiagramProcess) GongReconstructPointersFromInstances(stage *Sta
 func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _Diagrams []*DiagramProcess
-	for _, _reference := range reference.Diagrams {
+	var _DiagramProcesss []*DiagramProcess
+	for _, _reference := range reference.DiagramProcesss {
 		if _instance, ok := stage.DiagramProcesss_instance[_reference]; ok {
-			_Diagrams = append(_Diagrams, _instance)
+			_DiagramProcesss = append(_DiagramProcesss, _instance)
 		}
 	}
-	reference.Diagrams = _Diagrams
+	reference.DiagramProcesss = _DiagramProcesss
 	var _SubLibraries []*Library
 	for _, _reference := range reference.SubLibraries {
 		if _instance, ok := stage.Librarys_instance[_reference]; ok {
@@ -782,25 +782,25 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 	if library.IsExpanded != libraryOther.IsExpanded {
 		diffs = append(diffs, library.GongMarshallField(stage, "IsExpanded"))
 	}
-	DiagramsDifferent := false
-	if len(library.Diagrams) != len(libraryOther.Diagrams) {
-		DiagramsDifferent = true
+	DiagramProcesssDifferent := false
+	if len(library.DiagramProcesss) != len(libraryOther.DiagramProcesss) {
+		DiagramProcesssDifferent = true
 	} else {
-		for i := range library.Diagrams {
-			if (library.Diagrams[i] == nil) != (libraryOther.Diagrams[i] == nil) {
-				DiagramsDifferent = true
+		for i := range library.DiagramProcesss {
+			if (library.DiagramProcesss[i] == nil) != (libraryOther.DiagramProcesss[i] == nil) {
+				DiagramProcesssDifferent = true
 				break
-			} else if library.Diagrams[i] != nil && libraryOther.Diagrams[i] != nil {
+			} else if library.DiagramProcesss[i] != nil && libraryOther.DiagramProcesss[i] != nil {
 				// this is a pointer comparaison
-				if library.Diagrams[i] != libraryOther.Diagrams[i] {
-					DiagramsDifferent = true
+				if library.DiagramProcesss[i] != libraryOther.DiagramProcesss[i] {
+					DiagramProcesssDifferent = true
 					break
 				}
 			}
 		}
 	}
-	if DiagramsDifferent {
-		ops := Diff(stage, library, libraryOther, "Diagrams", libraryOther.Diagrams, library.Diagrams)
+	if DiagramProcesssDifferent {
+		ops := Diff(stage, library, libraryOther, "DiagramProcesss", libraryOther.DiagramProcesss, library.DiagramProcesss)
 		diffs = append(diffs, ops)
 	}
 	SubLibrariesDifferent := false

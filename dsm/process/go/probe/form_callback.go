@@ -181,8 +181,8 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 			}
 			diagramprocess_.ProcessComposition_Shapes = instanceSlice
 
-		case "Library:Diagrams":
-			// WARNING : this form deals with the N-N association "Library.Diagrams []*DiagramProcess" but
+		case "Library:DiagramProcesss":
+			// WARNING : this form deals with the N-N association "Library.DiagramProcesss []*DiagramProcess" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
 			//
 			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
@@ -197,7 +197,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 				var rf models.ReverseField
 				_ = rf
 				rf.GongstructName = "Library"
-				rf.Fieldname = "Diagrams"
+				rf.Fieldname = "DiagramProcesss"
 				formerAssociationSource := diagramprocess_.GongGetReverseFieldOwner(
 					diagramprocessFormCallback.probe.stageOfInterest,
 					&rf)
@@ -206,7 +206,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 				if formerAssociationSource != nil {
 					formerSource, ok = formerAssociationSource.(*models.Library)
 					if !ok {
-						log.Fatalln("Source of Library.Diagrams []*DiagramProcess, is not an Library instance")
+						log.Fatalln("Source of Library.DiagramProcesss []*DiagramProcess, is not an Library instance")
 					}
 				}
 			}
@@ -217,8 +217,8 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 			if newSourceName == nil {
 				// That could mean we clear the assocation for all source instances
 				if formerSource != nil {
-					idx := slices.Index(formerSource.Diagrams, diagramprocess_)
-					formerSource.Diagrams = slices.Delete(formerSource.Diagrams, idx, idx+1)
+					idx := slices.Index(formerSource.DiagramProcesss, diagramprocess_)
+					formerSource.DiagramProcesss = slices.Delete(formerSource.DiagramProcesss, idx, idx+1)
 				}
 				break // nothing else to do for this field
 			}
@@ -241,12 +241,12 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 				}
 			}
 			if newSource == nil {
-				log.Println("Source of Library.Diagrams []*DiagramProcess, with name", newSourceName, ", does not exist")
+				log.Println("Source of Library.DiagramProcesss []*DiagramProcess, with name", newSourceName, ", does not exist")
 				break
 			}
 
 			// (3) append the new value to the new source field
-			newSource.Diagrams = append(newSource.Diagrams, diagramprocess_)
+			newSource.DiagramProcesss = append(newSource.DiagramProcesss, diagramprocess_)
 		}
 	}
 
@@ -331,7 +331,7 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(library_.IsInRenameMode), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(library_.IsExpanded), formDiv)
-		case "Diagrams":
+		case "DiagramProcesss":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DiagramProcess](libraryFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.DiagramProcess, 0)
 
@@ -360,7 +360,7 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			library_.Diagrams = instanceSlice
+			library_.DiagramProcesss = instanceSlice
 
 		case "SubLibraries":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Library](libraryFormCallback.probe.stageOfInterest)

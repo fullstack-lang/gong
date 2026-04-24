@@ -9,8 +9,8 @@ func (inst *DiagramProcess) GongGetReverseFieldOwnerName(stage *Stage, reverseFi
 	// insertion point
 	case "Library":
 		switch reverseField.Fieldname {
-		case "Diagrams":
-			if _library, ok := stage.Library_Diagrams_reverseMap[inst]; ok {
+		case "DiagramProcesss":
+			if _library, ok := stage.Library_DiagramProcesss_reverseMap[inst]; ok {
 				res = _library.Name
 			}
 		}
@@ -97,8 +97,8 @@ func (inst *DiagramProcess) GongGetReverseFieldOwner(stage *Stage, reverseField 
 	// insertion point
 	case "Library":
 		switch reverseField.Fieldname {
-		case "Diagrams":
-			res = stage.Library_Diagrams_reverseMap[inst]
+		case "DiagramProcesss":
+			res = stage.Library_DiagramProcesss_reverseMap[inst]
 		}
 	}
 	return res
