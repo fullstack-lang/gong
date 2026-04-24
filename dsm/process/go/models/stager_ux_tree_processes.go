@@ -11,12 +11,31 @@ func (stager *Stager) treeProcesses(
 	process *Process,
 	parentNode *tree.Node,
 	processsWhoseNodeIsExpanded *[]*Process) {
+
 	processNode := &tree.Node{
 		Name:       process.GetName(),
 		IsExpanded: slices.Index(*processsWhoseNodeIsExpanded, process) != -1,
 	}
-
 	parentNode.Children = append(parentNode.Children, processNode)
+
+	addRenameButton(process, processNode, stager)
+	processNode.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+		if frontNode.IsExpanded != stagedNode.IsExpanded {
+			if frontNode.IsExpanded {
+				if slices.Index(*processsWhoseNodeIsExpanded, process) == -1 {
+					*processsWhoseNodeIsExpanded = append(*processsWhoseNodeIsExpanded, process)
+				}
+			} else {
+				if idx := slices.Index(*processsWhoseNodeIsExpanded, process); idx != -1 {
+					*processsWhoseNodeIsExpanded = slices.Delete(*processsWhoseNodeIsExpanded, idx, idx+1)
+				}
+			}
+			stager.stage.Commit()
+			return
+		}
+		stager.probeForm.FillUpFormFromGongstruct(process, GetPointerToGongstructName[*Process]())
+		stager.stage.Commit()
+	}
 
 	addAddItemButtonSimple(stager, processsWhoseNodeIsExpanded, process, nil, processNode, &process.SubProcesses)
 
@@ -27,7 +46,6 @@ func (stager *Stager) treeProcesses(
 		IsNodeClickable: true,
 	}
 	processNode.Children = append(processNode.Children, subProcessesNode)
-	subProcessesNode.OnUpdate = stager.OnUpdateExpansion(&process.IsSubProcessNodeExpanded)
 
 	for _, process_ := range process.SubProcesses {
 		stager.treeProcesses(process_, subProcessesNode, processsWhoseNodeIsExpanded)
@@ -62,10 +80,41 @@ func (stager *Stager) treeProcesses(
 
 		addRenameButton(element, node, stager)
 
-		diagramNode.OnUpdate = stager.OnUpdateDiagram(diagram)
+		diagramNode.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+			if frontNode.IsChecked && !stagedNode.IsChecked {
+				// reset all ddiagram selection
+				for diagram_ := range *GetGongstructInstancesSet[DiagramProcess](stager.stage) {
+					diagram_.IsChecked = false
+				}
+				diagram.IsChecked = true
+				stagedNode.IsChecked = frontNode.IsChecked
+				stager.stage.Commit()
+				return
+			}
+			if !frontNode.IsChecked && stagedNode.IsChecked {
+				diagram.IsChecked = false
+				stagedNode.IsChecked = frontNode.IsChecked
+				// reset all ddiagram selection
+				for diagram_ := range *GetGongstructInstancesSet[DiagramProcess](stager.stage) {
+					diagram_.IsChecked = false
+				}
+				stager.stage.Commit()
+				return
+			}
+			if frontNode.IsExpanded {
+				if slices.Index(*processsWhoseNodeIsExpanded, process) == -1 {
+					*processsWhoseNodeIsExpanded = append(*processsWhoseNodeIsExpanded, process)
+				}
+			} else {
+				if idx := slices.Index(*processsWhoseNodeIsExpanded, process); idx != -1 {
+					*processsWhoseNodeIsExpanded = slices.Delete(*processsWhoseNodeIsExpanded, idx, idx+1)
+				}
+			}
+			stager.probeForm.FillUpFormFromGongstruct(diagram, "Diagram")
+		}
 
 		{
-			showAllButton := &tree.Button{
+			showPrefixButton := &tree.Button{
 				Name:            "Diagram Prefix",
 				Icon:            string(buttons.BUTTON_show_chart),
 				HasToolTip:      true,
@@ -77,13 +126,13 @@ func (stager *Stager) treeProcesses(
 				},
 			}
 			if !diagram.IsShowPrefix {
-				showAllButton.Icon = string(buttons.BUTTON_label)
-				showAllButton.ToolTipText = "Show Prefix"
+				showPrefixButton.Icon = string(buttons.BUTTON_label)
+				showPrefixButton.ToolTipText = "Show Prefix"
 			} else {
-				showAllButton.Icon = string(buttons.BUTTON_label_off)
-				showAllButton.ToolTipText = "Hide Prefix"
+				showPrefixButton.Icon = string(buttons.BUTTON_label_off)
+				showPrefixButton.ToolTipText = "Hide Prefix"
 			}
-			diagramNode.Buttons = append(diagramNode.Buttons, showAllButton)
+			diagramNode.Buttons = append(diagramNode.Buttons, showPrefixButton)
 		}
 	}
 
