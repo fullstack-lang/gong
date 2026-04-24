@@ -85,4 +85,48 @@ func _(stage *models.Stage) {
 	__Library__00000000_.SubLibraries = slices.Delete( __Library__00000000_.SubLibraries, 0, 1)
 	__Library__00000001_.Unstage(stage)
 	stage.Commit()
+
+	__DiagramProcess__00000001_ := (&models.DiagramProcess{Name: ``}).Stage(stage)
+	// 
+	__Library__00000000_.DiagramProcesss = slices.Insert( __Library__00000000_.DiagramProcesss, 1, __DiagramProcess__00000001_)
+	// D1
+	__DiagramProcess__00000000_.IsChecked = false
+	__DiagramProcess__00000001_.Name = ``
+	__DiagramProcess__00000001_.ComputedPrefix = ``
+	__DiagramProcess__00000001_.IsInRenameMode = true
+	__DiagramProcess__00000001_.IsExpanded = true
+	__DiagramProcess__00000001_.IsChecked = true
+	__DiagramProcess__00000001_.IsEditable_ = true
+	__DiagramProcess__00000001_.IsShowPrefix = false
+	__DiagramProcess__00000001_.DefaultBoxWidth = 0.000000
+	__DiagramProcess__00000001_.DefaultBoxHeigth = 0.000000
+	__DiagramProcess__00000001_.Width = 0.000000
+	__DiagramProcess__00000001_.Height = 0.000000
+	__DiagramProcess__00000001_.IsProcesssNodeExpanded = false
+	stage.Commit()
+
+	// D2
+	__DiagramProcess__00000001_.Name = `D2`
+	__DiagramProcess__00000001_.IsInRenameMode = false
+	stage.Commit()
+
+	// D1
+	__DiagramProcess__00000000_.IsChecked = true
+	// D2
+	__DiagramProcess__00000001_.IsChecked = false
+	stage.Commit()
+
+	// D1
+	__DiagramProcess__00000000_.IsChecked = false
+	// D2
+	__DiagramProcess__00000001_.IsChecked = true
+	stage.Commit()
+
+	// D1
+	__DiagramProcess__00000000_.IsShowPrefix = true
+	stage.Commit()
+
+	// D1
+	__DiagramProcess__00000000_.IsShowPrefix = false
+	stage.Commit()
 }
