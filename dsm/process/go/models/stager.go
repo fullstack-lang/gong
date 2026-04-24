@@ -40,8 +40,8 @@ type Stager struct {
 	fileName                 string // fileName is used to store the name of the file to load or save
 	buttonStage              *button.Stage
 
-	svgObject *svg.SVG
-	diagram   *DiagramProcess // diagram is the current diagram being displayed
+	svgObjectDiagramProcess *svg.SVG
+	diagramProcess          *DiagramProcess // diagram is the current diagram being displayed
 
 	// map to navigate from abstract elements to all diagrams where they are displayed
 	map_Element_Diagrams map[AbstractType][]*DiagramProcess

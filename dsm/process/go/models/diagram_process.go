@@ -1,5 +1,7 @@
 package models
 
+import svg "github.com/fullstack-lang/gong/lib/svg/go/models"
+
 type DiagramProcess struct {
 	Name string
 
@@ -26,11 +28,13 @@ type DiagramProcess struct {
 	// Process
 	Process_Shapes              []*ProcessShape
 	map_Process_ProcessShape    map[*Process]*ProcessShape
+	map_Process_Rect            map[*Process]*svg.Rect
 	ProcesssWhoseNodeIsExpanded []*Process
 	IsProcesssNodeExpanded      bool
 
 	ProcessComposition_Shapes           []*ProcessCompositionShape
 	map_Process_ProcessCompositionShape map[*Process]*ProcessCompositionShape
+	map_SvgRect_ProcessShape            map[*svg.Rect]*ProcessShape
 }
 
 func (d *DiagramProcess) IsEditable() bool {
