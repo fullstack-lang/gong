@@ -35,20 +35,20 @@ func (p *Diagram_Tree_DiagramProxy) OnAfterUpdate(stage *tree.Stage, staged *tre
 	}
 	if front.IsExpanded && !staged.IsExpanded {
 		staged.IsExpanded = front.IsExpanded
-		p.diagram.IsExpanded = true
+		p.diagram.isExpanded = true
 		p.stager.stage.Commit()
 		return
 	}
 	if !front.IsExpanded && staged.IsExpanded {
 		staged.IsExpanded = front.IsExpanded
-		p.diagram.IsExpanded = false
+		p.diagram.isExpanded = false
 		p.stager.stage.Commit()
 		return
 	}
 
 	if front.Name != staged.Name {
 		p.diagram.Name = front.Name
-		p.diagram.IsInRenameMode = false
+		p.diagram.isInRenameMode = false
 
 		p.stager.stage.Commit()
 		return

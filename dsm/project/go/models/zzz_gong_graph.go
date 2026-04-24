@@ -2739,12 +2739,6 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 	if diagram.ComputedPrefix != diagramOther.ComputedPrefix {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "ComputedPrefix"))
 	}
-	if diagram.IsInRenameMode != diagramOther.IsInRenameMode {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "IsInRenameMode"))
-	}
-	if diagram.IsExpanded != diagramOther.IsExpanded {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "IsExpanded"))
-	}
 	if diagram.IsChecked != diagramOther.IsChecked {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "IsChecked"))
 	}
@@ -3191,12 +3185,6 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 	if library.ComputedPrefix != libraryOther.ComputedPrefix {
 		diffs = append(diffs, library.GongMarshallField(stage, "ComputedPrefix"))
 	}
-	if library.IsInRenameMode != libraryOther.IsInRenameMode {
-		diffs = append(diffs, library.GongMarshallField(stage, "IsInRenameMode"))
-	}
-	if library.IsExpanded != libraryOther.IsExpanded {
-		diffs = append(diffs, library.GongMarshallField(stage, "IsExpanded"))
-	}
 	RootProductsDifferent := false
 	if len(library.RootProducts) != len(libraryOther.RootProducts) {
 		RootProductsDifferent = true
@@ -3342,12 +3330,6 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 	}
 	if note.ComputedPrefix != noteOther.ComputedPrefix {
 		diffs = append(diffs, note.GongMarshallField(stage, "ComputedPrefix"))
-	}
-	if note.IsInRenameMode != noteOther.IsInRenameMode {
-		diffs = append(diffs, note.GongMarshallField(stage, "IsInRenameMode"))
-	}
-	if note.IsExpanded != noteOther.IsExpanded {
-		diffs = append(diffs, note.GongMarshallField(stage, "IsExpanded"))
 	}
 	ProductsDifferent := false
 	if len(note.Products) != len(noteOther.Products) {
@@ -3516,9 +3498,6 @@ func (noteshape *NoteShape) GongDiff(stage *Stage, noteshapeOther *NoteShape) (d
 			diffs = append(diffs, noteshape.GongMarshallField(stage, "Note"))
 		}
 	}
-	if noteshape.IsExpanded != noteshapeOther.IsExpanded {
-		diffs = append(diffs, noteshape.GongMarshallField(stage, "IsExpanded"))
-	}
 	if noteshape.X != noteshapeOther.X {
 		diffs = append(diffs, noteshape.GongMarshallField(stage, "X"))
 	}
@@ -3590,12 +3569,6 @@ func (product *Product) GongDiff(stage *Stage, productOther *Product) (diffs []s
 	}
 	if product.ComputedPrefix != productOther.ComputedPrefix {
 		diffs = append(diffs, product.GongMarshallField(stage, "ComputedPrefix"))
-	}
-	if product.IsInRenameMode != productOther.IsInRenameMode {
-		diffs = append(diffs, product.GongMarshallField(stage, "IsInRenameMode"))
-	}
-	if product.IsExpanded != productOther.IsExpanded {
-		diffs = append(diffs, product.GongMarshallField(stage, "IsExpanded"))
 	}
 	if product.Description != productOther.Description {
 		diffs = append(diffs, product.GongMarshallField(stage, "Description"))
@@ -3681,9 +3654,6 @@ func (productshape *ProductShape) GongDiff(stage *Stage, productshapeOther *Prod
 			diffs = append(diffs, productshape.GongMarshallField(stage, "Product"))
 		}
 	}
-	if productshape.IsExpanded != productshapeOther.IsExpanded {
-		diffs = append(diffs, productshape.GongMarshallField(stage, "IsExpanded"))
-	}
 	if productshape.X != productshapeOther.X {
 		diffs = append(diffs, productshape.GongMarshallField(stage, "X"))
 	}
@@ -3712,12 +3682,6 @@ func (resource *Resource) GongDiff(stage *Stage, resourceOther *Resource) (diffs
 	}
 	if resource.ComputedPrefix != resourceOther.ComputedPrefix {
 		diffs = append(diffs, resource.GongMarshallField(stage, "ComputedPrefix"))
-	}
-	if resource.IsInRenameMode != resourceOther.IsInRenameMode {
-		diffs = append(diffs, resource.GongMarshallField(stage, "IsInRenameMode"))
-	}
-	if resource.IsExpanded != resourceOther.IsExpanded {
-		diffs = append(diffs, resource.GongMarshallField(stage, "IsExpanded"))
 	}
 	if resource.Description != resourceOther.Description {
 		diffs = append(diffs, resource.GongMarshallField(stage, "Description"))
@@ -3818,9 +3782,6 @@ func (resourceshape *ResourceShape) GongDiff(stage *Stage, resourceshapeOther *R
 			diffs = append(diffs, resourceshape.GongMarshallField(stage, "Resource"))
 		}
 	}
-	if resourceshape.IsExpanded != resourceshapeOther.IsExpanded {
-		diffs = append(diffs, resourceshape.GongMarshallField(stage, "IsExpanded"))
-	}
 	if resourceshape.X != resourceshapeOther.X {
 		diffs = append(diffs, resourceshape.GongMarshallField(stage, "X"))
 	}
@@ -3892,12 +3853,6 @@ func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 	}
 	if task.ComputedPrefix != taskOther.ComputedPrefix {
 		diffs = append(diffs, task.GongMarshallField(stage, "ComputedPrefix"))
-	}
-	if task.IsInRenameMode != taskOther.IsInRenameMode {
-		diffs = append(diffs, task.GongMarshallField(stage, "IsInRenameMode"))
-	}
-	if task.IsExpanded != taskOther.IsExpanded {
-		diffs = append(diffs, task.GongMarshallField(stage, "IsExpanded"))
 	}
 	if task.Start != taskOther.Start {
 		diffs = append(diffs, task.GongMarshallField(stage, "Start"))
@@ -4122,9 +4077,6 @@ func (taskshape *TaskShape) GongDiff(stage *Stage, taskshapeOther *TaskShape) (d
 		if taskshape.Task != taskshapeOther.Task {
 			diffs = append(diffs, taskshape.GongMarshallField(stage, "Task"))
 		}
-	}
-	if taskshape.IsExpanded != taskshapeOther.IsExpanded {
-		diffs = append(diffs, taskshape.GongMarshallField(stage, "IsExpanded"))
 	}
 	if taskshape.X != taskshapeOther.X {
 		diffs = append(diffs, taskshape.GongMarshallField(stage, "X"))

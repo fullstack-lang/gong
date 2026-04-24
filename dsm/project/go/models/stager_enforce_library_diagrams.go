@@ -16,7 +16,7 @@ func (stager *Stager) enforceLibraryHasAtLeastOneDiagram() (needCommit bool) {
 				IsChecked:   true,
 				IsEditable_: true,
 				AbstractTypeFields: AbstractTypeFields{
-					IsExpanded: true,
+					isExpanded: true,
 				},
 			}
 			newDiagram.Stage(stager.stage)

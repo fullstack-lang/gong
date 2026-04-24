@@ -5591,14 +5591,6 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "IsInRenameMode",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsExpanded",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
 			Name:               "IsChecked",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -5753,14 +5745,6 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "IsInRenameMode",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsExpanded",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
 			Name:                 "RootProducts",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Product",
@@ -5812,14 +5796,6 @@ func (note *Note) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "IsInRenameMode",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsExpanded",
-			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:                 "Products",
@@ -5947,10 +5923,6 @@ func (noteshape *NoteShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Note",
 		},
 		{
-			Name:               "IsExpanded",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
 			Name:               "X",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
@@ -6033,14 +6005,6 @@ func (product *Product) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "IsInRenameMode",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsExpanded",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
 			Name:               "Description",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
@@ -6116,10 +6080,6 @@ func (productshape *ProductShape) GongGetFieldHeaders() (res []GongFieldHeader) 
 			TargetGongstructName: "Product",
 		},
 		{
-			Name:               "IsExpanded",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
 			Name:               "X",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
@@ -6153,14 +6113,6 @@ func (resource *Resource) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "IsInRenameMode",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsExpanded",
-			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "Description",
@@ -6233,10 +6185,6 @@ func (resourceshape *ResourceShape) GongGetFieldHeaders() (res []GongFieldHeader
 			Name:                 "Resource",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Resource",
-		},
-		{
-			Name:               "IsExpanded",
-			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "X",
@@ -6319,14 +6267,6 @@ func (task *Task) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "IsInRenameMode",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsExpanded",
-			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "Start",
@@ -6525,10 +6465,6 @@ func (taskshape *TaskShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Task",
 		},
 		{
-			Name:               "IsExpanded",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
 			Name:               "X",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
@@ -6614,14 +6550,6 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = diagram.Name
 	case "ComputedPrefix":
 		res.valueString = diagram.ComputedPrefix
-	case "IsInRenameMode":
-		res.valueString = fmt.Sprintf("%t", diagram.IsInRenameMode)
-		res.valueBool = diagram.IsInRenameMode
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsExpanded":
-		res.valueString = fmt.Sprintf("%t", diagram.IsExpanded)
-		res.valueBool = diagram.IsExpanded
-		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsChecked":
 		res.valueString = fmt.Sprintf("%t", diagram.IsChecked)
 		res.valueBool = diagram.IsChecked
@@ -6867,14 +6795,6 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = library.Name
 	case "ComputedPrefix":
 		res.valueString = library.ComputedPrefix
-	case "IsInRenameMode":
-		res.valueString = fmt.Sprintf("%t", library.IsInRenameMode)
-		res.valueBool = library.IsInRenameMode
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsExpanded":
-		res.valueString = fmt.Sprintf("%t", library.IsExpanded)
-		res.valueBool = library.IsExpanded
-		res.GongFieldValueType = GongFieldValueTypeBool
 	case "RootProducts":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range library.RootProducts {
@@ -6952,14 +6872,6 @@ func (note *Note) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.valueString = note.Name
 	case "ComputedPrefix":
 		res.valueString = note.ComputedPrefix
-	case "IsInRenameMode":
-		res.valueString = fmt.Sprintf("%t", note.IsInRenameMode)
-		res.valueBool = note.IsInRenameMode
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsExpanded":
-		res.valueString = fmt.Sprintf("%t", note.IsExpanded)
-		res.valueBool = note.IsExpanded
-		res.GongFieldValueType = GongFieldValueTypeBool
 	case "Products":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range note.Products {
@@ -7091,10 +7003,6 @@ func (noteshape *NoteShape) GongGetFieldValue(fieldName string, stage *Stage) (r
 			res.valueString = noteshape.Note.Name
 			res.ids = noteshape.Note.GongGetUUID(stage)
 		}
-	case "IsExpanded":
-		res.valueString = fmt.Sprintf("%t", noteshape.IsExpanded)
-		res.valueBool = noteshape.IsExpanded
-		res.GongFieldValueType = GongFieldValueTypeBool
 	case "X":
 		res.valueString = fmt.Sprintf("%f", noteshape.X)
 		res.valueFloat = noteshape.X
@@ -7169,14 +7077,6 @@ func (product *Product) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = product.Name
 	case "ComputedPrefix":
 		res.valueString = product.ComputedPrefix
-	case "IsInRenameMode":
-		res.valueString = fmt.Sprintf("%t", product.IsInRenameMode)
-		res.valueBool = product.IsInRenameMode
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsExpanded":
-		res.valueString = fmt.Sprintf("%t", product.IsExpanded)
-		res.valueBool = product.IsExpanded
-		res.GongFieldValueType = GongFieldValueTypeBool
 	case "Description":
 		res.valueString = product.Description
 	case "SubProducts":
@@ -7249,10 +7149,6 @@ func (productshape *ProductShape) GongGetFieldValue(fieldName string, stage *Sta
 			res.valueString = productshape.Product.Name
 			res.ids = productshape.Product.GongGetUUID(stage)
 		}
-	case "IsExpanded":
-		res.valueString = fmt.Sprintf("%t", productshape.IsExpanded)
-		res.valueBool = productshape.IsExpanded
-		res.GongFieldValueType = GongFieldValueTypeBool
 	case "X":
 		res.valueString = fmt.Sprintf("%f", productshape.X)
 		res.valueFloat = productshape.X
@@ -7284,14 +7180,6 @@ func (resource *Resource) GongGetFieldValue(fieldName string, stage *Stage) (res
 		res.valueString = resource.Name
 	case "ComputedPrefix":
 		res.valueString = resource.ComputedPrefix
-	case "IsInRenameMode":
-		res.valueString = fmt.Sprintf("%t", resource.IsInRenameMode)
-		res.valueBool = resource.IsInRenameMode
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsExpanded":
-		res.valueString = fmt.Sprintf("%t", resource.IsExpanded)
-		res.valueBool = resource.IsExpanded
-		res.GongFieldValueType = GongFieldValueTypeBool
 	case "Description":
 		res.valueString = resource.Description
 	case "Tasks":
@@ -7366,10 +7254,6 @@ func (resourceshape *ResourceShape) GongGetFieldValue(fieldName string, stage *S
 			res.valueString = resourceshape.Resource.Name
 			res.ids = resourceshape.Resource.GongGetUUID(stage)
 		}
-	case "IsExpanded":
-		res.valueString = fmt.Sprintf("%t", resourceshape.IsExpanded)
-		res.valueBool = resourceshape.IsExpanded
-		res.GongFieldValueType = GongFieldValueTypeBool
 	case "X":
 		res.valueString = fmt.Sprintf("%f", resourceshape.X)
 		res.valueFloat = resourceshape.X
@@ -7444,14 +7328,6 @@ func (task *Task) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.valueString = task.Name
 	case "ComputedPrefix":
 		res.valueString = task.ComputedPrefix
-	case "IsInRenameMode":
-		res.valueString = fmt.Sprintf("%t", task.IsInRenameMode)
-		res.valueBool = task.IsInRenameMode
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsExpanded":
-		res.valueString = fmt.Sprintf("%t", task.IsExpanded)
-		res.valueBool = task.IsExpanded
-		res.GongFieldValueType = GongFieldValueTypeBool
 	case "Start":
 		res.valueString = task.Start.String()
 	case "End":
@@ -7641,10 +7517,6 @@ func (taskshape *TaskShape) GongGetFieldValue(fieldName string, stage *Stage) (r
 			res.valueString = taskshape.Task.Name
 			res.ids = taskshape.Task.GongGetUUID(stage)
 		}
-	case "IsExpanded":
-		res.valueString = fmt.Sprintf("%t", taskshape.IsExpanded)
-		res.valueBool = taskshape.IsExpanded
-		res.GongFieldValueType = GongFieldValueTypeBool
 	case "X":
 		res.valueString = fmt.Sprintf("%f", taskshape.X)
 		res.valueFloat = taskshape.X
@@ -7682,10 +7554,6 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 		diagram.Name = value.GetValueString()
 	case "ComputedPrefix":
 		diagram.ComputedPrefix = value.GetValueString()
-	case "IsInRenameMode":
-		diagram.IsInRenameMode = value.GetValueBool()
-	case "IsExpanded":
-		diagram.IsExpanded = value.GetValueBool()
 	case "IsChecked":
 		diagram.IsChecked = value.GetValueBool()
 	case "IsEditable_":
@@ -7987,10 +7855,6 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 		library.Name = value.GetValueString()
 	case "ComputedPrefix":
 		library.ComputedPrefix = value.GetValueString()
-	case "IsInRenameMode":
-		library.IsInRenameMode = value.GetValueBool()
-	case "IsExpanded":
-		library.IsExpanded = value.GetValueBool()
 	case "RootProducts":
 		library.RootProducts = make([]*Product, 0)
 		ids := strings.Split(value.ids, ";")
@@ -8092,10 +7956,6 @@ func (note *Note) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 		note.Name = value.GetValueString()
 	case "ComputedPrefix":
 		note.ComputedPrefix = value.GetValueString()
-	case "IsInRenameMode":
-		note.IsInRenameMode = value.GetValueBool()
-	case "IsExpanded":
-		note.IsExpanded = value.GetValueBool()
 	case "Products":
 		note.Products = make([]*Product, 0)
 		ids := strings.Split(value.ids, ";")
@@ -8250,8 +8110,6 @@ func (noteshape *NoteShape) GongSetFieldValue(fieldName string, value GongFieldV
 				}
 			}
 		}
-	case "IsExpanded":
-		noteshape.IsExpanded = value.GetValueBool()
 	case "X":
 		noteshape.X = value.GetValueFloat()
 	case "Y":
@@ -8320,10 +8178,6 @@ func (product *Product) GongSetFieldValue(fieldName string, value GongFieldValue
 		product.Name = value.GetValueString()
 	case "ComputedPrefix":
 		product.ComputedPrefix = value.GetValueString()
-	case "IsInRenameMode":
-		product.IsInRenameMode = value.GetValueBool()
-	case "IsExpanded":
-		product.IsExpanded = value.GetValueBool()
 	case "Description":
 		product.Description = value.GetValueString()
 	case "SubProducts":
@@ -8400,8 +8254,6 @@ func (productshape *ProductShape) GongSetFieldValue(fieldName string, value Gong
 				}
 			}
 		}
-	case "IsExpanded":
-		productshape.IsExpanded = value.GetValueBool()
 	case "X":
 		productshape.X = value.GetValueFloat()
 	case "Y":
@@ -8425,10 +8277,6 @@ func (resource *Resource) GongSetFieldValue(fieldName string, value GongFieldVal
 		resource.Name = value.GetValueString()
 	case "ComputedPrefix":
 		resource.ComputedPrefix = value.GetValueString()
-	case "IsInRenameMode":
-		resource.IsInRenameMode = value.GetValueBool()
-	case "IsExpanded":
-		resource.IsExpanded = value.GetValueBool()
 	case "Description":
 		resource.Description = value.GetValueString()
 	case "Tasks":
@@ -8515,8 +8363,6 @@ func (resourceshape *ResourceShape) GongSetFieldValue(fieldName string, value Go
 				}
 			}
 		}
-	case "IsExpanded":
-		resourceshape.IsExpanded = value.GetValueBool()
 	case "X":
 		resourceshape.X = value.GetValueFloat()
 	case "Y":
@@ -8585,10 +8431,6 @@ func (task *Task) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 		task.Name = value.GetValueString()
 	case "ComputedPrefix":
 		task.ComputedPrefix = value.GetValueString()
-	case "IsInRenameMode":
-		task.IsInRenameMode = value.GetValueBool()
-	case "IsExpanded":
-		task.IsExpanded = value.GetValueBool()
 	case "Description":
 		task.Description = value.GetValueString()
 	case "SubTasks":
@@ -8787,8 +8629,6 @@ func (taskshape *TaskShape) GongSetFieldValue(fieldName string, value GongFieldV
 				}
 			}
 		}
-	case "IsExpanded":
-		taskshape.IsExpanded = value.GetValueBool()
 	case "X":
 		taskshape.X = value.GetValueFloat()
 	case "Y":

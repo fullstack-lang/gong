@@ -24,7 +24,7 @@ var _ map[string]any = map[string]any{
 
 // function will stage objects
 func _(stage *models.Stage) {
-	__Diagram__00000000_ := (&models.Diagram{Name: `Default Diagram`}).Stage(stage)
+
 	__Diagram__00000001_ := (&models.Diagram{Name: `WBS`}).Stage(stage)
 	__Diagram__00000002_ := (&models.Diagram{Name: `PBS`}).Stage(stage)
 	__Diagram__00000003_ := (&models.Diagram{Name: `RBS`}).Stage(stage)
@@ -73,7 +73,6 @@ the validity of the results and therefore verification effort is compromised.”
 
 SM RCS Thruster Qualification did not cover the flight envelope for temperature and duty cycle (TLYF). to Intermediate Cause 5: Inadequate Thruster Thermal Models Inadequate thermal modelling caused insufficient scrutiny for the thermal environment, leading to excessive heating from RCS thermal soakback and integrated heating from OMACs.`}).Stage(stage)
 	__NoteProductShape__00000026_ := (&models.NoteProductShape{Name: `Multiple groups, prior to CTF, discussed the lack of mission representative operational duty cycle testing for SM RCS engines.. This concern is one that has been tracked since prior to OFT1 and is specifically reviewed in this intermediate cause because it is widely accepted that operational duty cycle is a primary driver of hardware temperature. NASA Engineering and the CCP Spacecraft Office have consistently identified this qualification gap and recommended additional testing, however it was not incorporated into the pursued plans for risk assessments between flights. to Intermediate Cause 5: Inadequate Thruster Thermal Models Inadequate thermal modelling caused insufficient scrutiny for the thermal environment, leading to excessive heating from RCS thermal soakback and integrated heating from OMACs.`}).Stage(stage)
-	__NoteShape__00000000_ := (&models.NoteShape{Name: `-Default Diagram`}).Stage(stage)
 	__NoteShape__00000001_ := (&models.NoteShape{Name: `-PIT focus`}).Stage(stage)
 	__NoteShape__00000002_ := (&models.NoteShape{Name: `-PBS`}).Stage(stage)
 	__NoteShape__00000003_ := (&models.NoteShape{Name: `-PIT Report`}).Stage(stage)
@@ -99,7 +98,6 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__NoteShape__00000023_ := (&models.NoteShape{Name: `-PIT Report`}).Stage(stage)
 	__NoteShape__00000024_ := (&models.NoteShape{Name: `-PIT Report`}).Stage(stage)
 	__NoteShape__00000025_ := (&models.NoteShape{Name: `-PIT Report`}).Stage(stage)
-	__NoteTaskShape__00000000_ := (&models.NoteTaskShape{Name: `CFT ended in march 2025 to Starliner Crewed Flight Test (CFT)`}).Stage(stage)
 	__NoteTaskShape__00000001_ := (&models.NoteTaskShape{Name: ` S2A2 failed at 9050 m (GMT 14:00) and B1A3 failed at 526m (GMT 14:57). to ISS Approach`}).Stage(stage)
 	__Note__00000000_ := (&models.Note{Name: `CFT ended in march 2025`}).Stage(stage)
 	__Note__00000001_ := (&models.Note{Name: `A thorough review of the STAR report is advised (p14)
@@ -357,13 +355,12 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Resource__00000001_ := (&models.Resource{Name: `Barry "Butch" Wilmore`}).Stage(stage)
 	__Resource__00000002_ := (&models.Resource{Name: `Sunita "Suni" Williams`}).Stage(stage)
 	__Resource__00000003_ := (&models.Resource{Name: `NASA`}).Stage(stage)
-	__Resource__00000004_ := (&models.Resource{Name: `Crew Commercial Program (CPP)`}).Stage(stage)
+	__Resource__00000004_ := (&models.Resource{Name: `Crew Commercial Program (CPP2)`}).Stage(stage)
 	__Resource__00000005_ := (&models.Resource{Name: `Crews`}).Stage(stage)
 	__Resource__00000006_ := (&models.Resource{Name: `Boeing`}).Stage(stage)
 	__Resource__00000007_ := (&models.Resource{Name: ``}).Stage(stage)
 	__Resource__00000009_ := (&models.Resource{Name: ` Starliner Tests and Anomalies Review (STAR) Investigation Team`}).Stage(stage)
 	__Resource__00000010_ := (&models.Resource{Name: `Flight Control Team (FCT)`}).Stage(stage)
-	__TaskCompositionShape__00000000_ := (&models.TaskCompositionShape{Name: `Commercial Crew Program (CCP), to Starliner Crewed Flight Test (CFT)`}).Stage(stage)
 	__TaskCompositionShape__00000001_ := (&models.TaskCompositionShape{Name: `Commercial Crew Program (CCP), to Starliner Crewed Flight Test (CFT)`}).Stage(stage)
 	__TaskCompositionShape__00000002_ := (&models.TaskCompositionShape{Name: `Mishap investigations to `}).Stage(stage)
 	__TaskCompositionShape__00000003_ := (&models.TaskCompositionShape{Name: `Commercial Crew Program (CCP), to `}).Stage(stage)
@@ -371,9 +368,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__TaskCompositionShape__00000005_ := (&models.TaskCompositionShape{Name: `Starliner Crewed Flight Test (CFT) to `}).Stage(stage)
 	__TaskInputShape__00000000_ := (&models.TaskInputShape{Name: `Program Investigation Team (PIT) Report to  Starliner Tests and Anomalies Review (STAR) Investigation Report`}).Stage(stage)
 	__TaskOutputShape__00000000_ := (&models.TaskOutputShape{Name: `Program Investigation Team (PIT) Report to Program Investigation Team (PIT) Report`}).Stage(stage)
-	__TaskShape__00000000_ := (&models.TaskShape{Name: `NewTask-Default Diagram`}).Stage(stage)
-	__TaskShape__00000001_ := (&models.TaskShape{Name: `NewTask-Default Diagram`}).Stage(stage)
-	__TaskShape__00000002_ := (&models.TaskShape{Name: `-Default Diagram`}).Stage(stage)
 	__TaskShape__00000003_ := (&models.TaskShape{Name: `Mishap investigation-WBS`}).Stage(stage)
 	__TaskShape__00000004_ := (&models.TaskShape{Name: `Commercial Crew Program (CCP),-WBS`}).Stage(stage)
 	__TaskShape__00000005_ := (&models.TaskShape{Name: `Starliner Crewed Flight Test (CFT)-WBS`}).Stage(stage)
@@ -392,47 +386,18 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Task__00000005_ := (&models.Task{Name: `Orbital Flight Test-1 (OFT-1)`}).Stage(stage)
 	__Task__00000006_ := (&models.Task{Name: `Orbital Flight Test-2 (OFT-2)`}).Stage(stage)
 	__Task__00000007_ := (&models.Task{Name: `ISS Approach`}).Stage(stage)
-	__Diagram__00000000_.Name = `Default Diagram`
-	__Diagram__00000000_.ComputedPrefix = `1`
-	__Diagram__00000000_.IsInRenameMode = false
-	__Diagram__00000000_.IsExpanded = false
-	__Diagram__00000000_.IsChecked = false
-	__Diagram__00000000_.IsEditable_ = true
-	__Diagram__00000000_.IsShowPrefix = false
-	__Diagram__00000000_.DefaultBoxWidth = 250.000000
-	__Diagram__00000000_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000000_.Width = 27755.187127
-	__Diagram__00000000_.Height = 28517.751617
-	__Diagram__00000000_.IsPBSNodeExpanded = true
-	__Diagram__00000000_.IsWBSNodeExpanded = true
-	__Diagram__00000000_.IsNotesNodeExpanded = true
-	__Diagram__00000000_.IsResourcesNodeExpanded = true
-	__Diagram__00000000_.Task_Shapes = append(__Diagram__00000000_.Task_Shapes, __TaskShape__00000000_)
-	__Diagram__00000000_.Task_Shapes = append(__Diagram__00000000_.Task_Shapes, __TaskShape__00000001_)
-	__Diagram__00000000_.Task_Shapes = append(__Diagram__00000000_.Task_Shapes, __TaskShape__00000002_)
-	__Diagram__00000000_.TasksWhoseNodeIsExpanded = append(__Diagram__00000000_.TasksWhoseNodeIsExpanded, __Task__00000002_)
-	__Diagram__00000000_.TaskComposition_Shapes = append(__Diagram__00000000_.TaskComposition_Shapes, __TaskCompositionShape__00000000_)
-	__Diagram__00000000_.Note_Shapes = append(__Diagram__00000000_.Note_Shapes, __NoteShape__00000000_)
-	__Diagram__00000000_.NoteTaskShapes = append(__Diagram__00000000_.NoteTaskShapes, __NoteTaskShape__00000000_)
-	__Diagram__00000000_.Resource_Shapes = append(__Diagram__00000000_.Resource_Shapes, __ResourceShape__00000000_)
-	__Diagram__00000000_.Resource_Shapes = append(__Diagram__00000000_.Resource_Shapes, __ResourceShape__00000001_)
-	__Diagram__00000000_.Resource_Shapes = append(__Diagram__00000000_.Resource_Shapes, __ResourceShape__00000002_)
-	__Diagram__00000000_.ResourcesWhoseNodeIsExpanded = append(__Diagram__00000000_.ResourcesWhoseNodeIsExpanded, __Resource__00000000_)
-	__Diagram__00000000_.ResourceTaskShapes = append(__Diagram__00000000_.ResourceTaskShapes, __ResourceTaskShape__00000000_)
 	__Diagram__00000001_.Name = `WBS`
-	__Diagram__00000001_.ComputedPrefix = `2`
-	__Diagram__00000001_.IsInRenameMode = false
-	__Diagram__00000001_.IsExpanded = false
+	__Diagram__00000001_.ComputedPrefix = `1`
 	__Diagram__00000001_.IsChecked = false
 	__Diagram__00000001_.IsEditable_ = true
 	__Diagram__00000001_.IsShowPrefix = true
 	__Diagram__00000001_.DefaultBoxWidth = 250.000000
 	__Diagram__00000001_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000001_.Width = 28295.617766
-	__Diagram__00000001_.Height = 28156.674065
-	__Diagram__00000001_.IsPBSNodeExpanded = false
+	__Diagram__00000001_.Width = 31895.617766
+	__Diagram__00000001_.Height = 31756.674065
+	__Diagram__00000001_.IsPBSNodeExpanded = true
 	__Diagram__00000001_.IsWBSNodeExpanded = false
-	__Diagram__00000001_.IsNotesNodeExpanded = true
+	__Diagram__00000001_.IsNotesNodeExpanded = false
 	__Diagram__00000001_.IsResourcesNodeExpanded = false
 	__Diagram__00000001_.Task_Shapes = append(__Diagram__00000001_.Task_Shapes, __TaskShape__00000003_)
 	__Diagram__00000001_.Task_Shapes = append(__Diagram__00000001_.Task_Shapes, __TaskShape__00000004_)
@@ -454,19 +419,17 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Diagram__00000001_.NoteTaskShapes = append(__Diagram__00000001_.NoteTaskShapes, __NoteTaskShape__00000001_)
 	__Diagram__00000001_.ResourcesWhoseNodeIsExpanded = append(__Diagram__00000001_.ResourcesWhoseNodeIsExpanded, __Resource__00000003_)
 	__Diagram__00000002_.Name = `PBS`
-	__Diagram__00000002_.ComputedPrefix = `3`
-	__Diagram__00000002_.IsInRenameMode = false
-	__Diagram__00000002_.IsExpanded = false
-	__Diagram__00000002_.IsChecked = false
+	__Diagram__00000002_.ComputedPrefix = `2`
+	__Diagram__00000002_.IsChecked = true
 	__Diagram__00000002_.IsEditable_ = true
 	__Diagram__00000002_.IsShowPrefix = true
 	__Diagram__00000002_.DefaultBoxWidth = 250.000000
 	__Diagram__00000002_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000002_.Width = 28791.980809
-	__Diagram__00000002_.Height = 28321.961381
+	__Diagram__00000002_.Width = 32391.980809
+	__Diagram__00000002_.Height = 31921.961381
 	__Diagram__00000002_.IsPBSNodeExpanded = true
 	__Diagram__00000002_.IsWBSNodeExpanded = false
-	__Diagram__00000002_.IsNotesNodeExpanded = true
+	__Diagram__00000002_.IsNotesNodeExpanded = false
 	__Diagram__00000002_.IsResourcesNodeExpanded = false
 	__Diagram__00000002_.Product_Shapes = append(__Diagram__00000002_.Product_Shapes, __ProductShape__00000002_)
 	__Diagram__00000002_.Product_Shapes = append(__Diagram__00000002_.Product_Shapes, __ProductShape__00000003_)
@@ -477,9 +440,8 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Diagram__00000002_.Product_Shapes = append(__Diagram__00000002_.Product_Shapes, __ProductShape__00000010_)
 	__Diagram__00000002_.Product_Shapes = append(__Diagram__00000002_.Product_Shapes, __ProductShape__00000011_)
 	__Diagram__00000002_.Product_Shapes = append(__Diagram__00000002_.Product_Shapes, __ProductShape__00000027_)
-	__Diagram__00000002_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000002_.ProductsWhoseNodeIsExpanded, __Product__00000003_)
 	__Diagram__00000002_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000002_.ProductsWhoseNodeIsExpanded, __Product__00000006_)
-	__Diagram__00000002_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000002_.ProductsWhoseNodeIsExpanded, __Product__00000007_)
+	__Diagram__00000002_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000002_.ProductsWhoseNodeIsExpanded, __Product__00000002_)
 	__Diagram__00000002_.ProductComposition_Shapes = append(__Diagram__00000002_.ProductComposition_Shapes, __ProductCompositionShape__00000000_)
 	__Diagram__00000002_.ProductComposition_Shapes = append(__Diagram__00000002_.ProductComposition_Shapes, __ProductCompositionShape__00000001_)
 	__Diagram__00000002_.ProductComposition_Shapes = append(__Diagram__00000002_.ProductComposition_Shapes, __ProductCompositionShape__00000002_)
@@ -496,16 +458,14 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Diagram__00000002_.ResourcesWhoseNodeIsExpanded = append(__Diagram__00000002_.ResourcesWhoseNodeIsExpanded, __Resource__00000000_)
 	__Diagram__00000002_.ResourcesWhoseNodeIsExpanded = append(__Diagram__00000002_.ResourcesWhoseNodeIsExpanded, __Resource__00000006_)
 	__Diagram__00000003_.Name = `RBS`
-	__Diagram__00000003_.ComputedPrefix = `4`
-	__Diagram__00000003_.IsInRenameMode = false
-	__Diagram__00000003_.IsExpanded = false
+	__Diagram__00000003_.ComputedPrefix = `3`
 	__Diagram__00000003_.IsChecked = false
 	__Diagram__00000003_.IsEditable_ = true
 	__Diagram__00000003_.IsShowPrefix = true
 	__Diagram__00000003_.DefaultBoxWidth = 250.000000
 	__Diagram__00000003_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000003_.Width = 28485.651635
-	__Diagram__00000003_.Height = 28499.201740
+	__Diagram__00000003_.Width = 32085.651635
+	__Diagram__00000003_.Height = 32099.201740
 	__Diagram__00000003_.IsPBSNodeExpanded = true
 	__Diagram__00000003_.IsWBSNodeExpanded = false
 	__Diagram__00000003_.IsNotesNodeExpanded = false
@@ -533,16 +493,14 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Diagram__00000003_.ResourceComposition_Shapes = append(__Diagram__00000003_.ResourceComposition_Shapes, __ResourceCompositionShape__00000007_)
 	__Diagram__00000003_.ResourceComposition_Shapes = append(__Diagram__00000003_.ResourceComposition_Shapes, __ResourceCompositionShape__00000008_)
 	__Diagram__00000004_.Name = `PIT focus`
-	__Diagram__00000004_.ComputedPrefix = `5`
-	__Diagram__00000004_.IsInRenameMode = false
-	__Diagram__00000004_.IsExpanded = false
+	__Diagram__00000004_.ComputedPrefix = `4`
 	__Diagram__00000004_.IsChecked = false
 	__Diagram__00000004_.IsEditable_ = true
 	__Diagram__00000004_.IsShowPrefix = true
 	__Diagram__00000004_.DefaultBoxWidth = 250.000000
 	__Diagram__00000004_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000004_.Width = 28562.017987
-	__Diagram__00000004_.Height = 27758.658205
+	__Diagram__00000004_.Width = 32162.017987
+	__Diagram__00000004_.Height = 31358.658205
 	__Diagram__00000004_.IsPBSNodeExpanded = true
 	__Diagram__00000004_.IsWBSNodeExpanded = false
 	__Diagram__00000004_.IsNotesNodeExpanded = true
@@ -563,16 +521,14 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Diagram__00000004_.ResourcesWhoseNodeIsExpanded = append(__Diagram__00000004_.ResourcesWhoseNodeIsExpanded, __Resource__00000003_)
 	__Diagram__00000004_.ResourcesWhoseNodeIsExpanded = append(__Diagram__00000004_.ResourcesWhoseNodeIsExpanded, __Resource__00000000_)
 	__Diagram__00000005_.Name = `PIT Report`
-	__Diagram__00000005_.ComputedPrefix = `6`
-	__Diagram__00000005_.IsInRenameMode = false
-	__Diagram__00000005_.IsExpanded = true
-	__Diagram__00000005_.IsChecked = true
+	__Diagram__00000005_.ComputedPrefix = `5`
+	__Diagram__00000005_.IsChecked = false
 	__Diagram__00000005_.IsEditable_ = true
 	__Diagram__00000005_.IsShowPrefix = true
 	__Diagram__00000005_.DefaultBoxWidth = 250.000000
 	__Diagram__00000005_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000005_.Width = 28985.901110
-	__Diagram__00000005_.Height = 28948.855478
+	__Diagram__00000005_.Width = 32585.901110
+	__Diagram__00000005_.Height = 32548.855478
 	__Diagram__00000005_.IsPBSNodeExpanded = true
 	__Diagram__00000005_.IsWBSNodeExpanded = false
 	__Diagram__00000005_.IsNotesNodeExpanded = true
@@ -659,16 +615,14 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Diagram__00000005_.NoteProductShapes = append(__Diagram__00000005_.NoteProductShapes, __NoteProductShape__00000025_)
 	__Diagram__00000005_.NoteProductShapes = append(__Diagram__00000005_.NoteProductShapes, __NoteProductShape__00000026_)
 	__Diagram__00000006_.Name = `RCS PBS`
-	__Diagram__00000006_.ComputedPrefix = `7`
-	__Diagram__00000006_.IsInRenameMode = false
-	__Diagram__00000006_.IsExpanded = false
+	__Diagram__00000006_.ComputedPrefix = `6`
 	__Diagram__00000006_.IsChecked = false
 	__Diagram__00000006_.IsEditable_ = true
 	__Diagram__00000006_.IsShowPrefix = false
 	__Diagram__00000006_.DefaultBoxWidth = 250.000000
 	__Diagram__00000006_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000006_.Width = 28869.153628
-	__Diagram__00000006_.Height = 28577.529266
+	__Diagram__00000006_.Width = 32469.153628
+	__Diagram__00000006_.Height = 32177.529266
 	__Diagram__00000006_.IsPBSNodeExpanded = true
 	__Diagram__00000006_.IsWBSNodeExpanded = false
 	__Diagram__00000006_.IsNotesNodeExpanded = true
@@ -695,7 +649,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Diagram__00000006_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000006_.ProductsWhoseNodeIsExpanded, __Product__00000003_)
 	__Diagram__00000006_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000006_.ProductsWhoseNodeIsExpanded, __Product__00000033_)
 	__Diagram__00000006_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000006_.ProductsWhoseNodeIsExpanded, __Product__00000007_)
-	__Diagram__00000006_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000006_.ProductsWhoseNodeIsExpanded, __Product__00000002_)
+	__Diagram__00000006_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000006_.ProductsWhoseNodeIsExpanded, __Product__00000021_)
 	__Diagram__00000006_.ProductComposition_Shapes = append(__Diagram__00000006_.ProductComposition_Shapes, __ProductCompositionShape__00000007_)
 	__Diagram__00000006_.ProductComposition_Shapes = append(__Diagram__00000006_.ProductComposition_Shapes, __ProductCompositionShape__00000008_)
 	__Diagram__00000006_.ProductComposition_Shapes = append(__Diagram__00000006_.ProductComposition_Shapes, __ProductCompositionShape__00000009_)
@@ -731,8 +685,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Diagram__00000006_.NoteProductShapes = append(__Diagram__00000006_.NoteProductShapes, __NoteProductShape__00000015_)
 	__Library__00000000_.Name = `Startliner Mishape Report`
 	__Library__00000000_.ComputedPrefix = ``
-	__Library__00000000_.IsInRenameMode = false
-	__Library__00000000_.IsExpanded = true
 	__Library__00000000_.NbPixPerCharacter = 8.000000
 	__Library__00000000_.LogoSVGFile = `<?xml version="1.0"?> <svg width="508.204" height="141.732" xmlns="http://www.w3.org/2000/svg"> <path fill="#DB362D" d="M91.991,104.699c1.576,5.961,4.119,8.266,8.613,8.266c4.659,0,7.102-2.799,7.102-8.266V3.2h29.184v101.499 c0,14.307-1.856,20.506-9.11,27.762c-5.228,5.229-14.871,9.271-27.047,9.271c-9.837,0-19.25-3.256-25.253-9.27 c-5.263-5.273-8.154-10.689-12.672-27.764L44.9,37.033c-1.577-5.961-4.119-8.265-8.613-8.265c-4.66,0-7.103,2.798-7.103,8.265 v101.5H0v-101.5C0,22.727,1.857,16.527,9.111,9.271C14.337,4.044,23.981,0,36.158,0c9.837,0,19.25,3.257,25.253,9.27 c5.263,5.273,8.154,10.689,12.672,27.764L91.991,104.699z"/>  <path fill="#DB362D" d="M478.038,138.533L444.334,33.096c-0.372-1.164-0.723-2.152-1.263-2.811 c-0.926-1.127-2.207-1.719-3.931-1.719c-1.723,0-3.004,0.592-3.931,1.719c-0.539,0.658-0.891,1.646-1.262,2.811l-33.703,105.437 h-30.167l36.815-115.177c1.918-6,4.66-11.094,8.139-14.488C421.002,3.047,428.038,0,439.141,0s18.14,3.047,24.109,8.867 c3.479,3.395,6.221,8.488,8.14,14.488l36.814,115.177H478.038z"/>  <path fill="#DB362D" d="M328.878,138.533c19.12,0,28.446-4.062,35.814-11.389c8.153-8.105,12.053-16.973,12.053-30.213 c0-11.699-4.283-22.535-10.804-29.019c-8.526-8.479-19.116-11.151-36.384-11.151L305.37,56.76c-9.242,0-12.925-1.117-15.839-3.98 c-2.001-1.964-2.939-4.885-2.939-8.328c0-3.559,0.857-7.074,3.303-9.475c2.171-2.131,5.13-3.109,10.816-3.109h69.903V3.2H306.05 c-19.12,0-28.445,4.063-35.814,11.389c-8.152,8.105-12.053,16.972-12.053,30.212c0,11.701,4.283,22.536,10.804,29.019 c8.527,8.479,19.116,11.152,36.384,11.152l24.188,0.002c9.242,0,12.925,1.115,15.839,3.979c2.001,1.965,2.939,4.885,2.939,8.328 c0,3.559-0.857,7.074-3.302,9.475c-2.172,2.131-5.131,3.109-10.817,3.109h-72.094l-27.651-86.509 c-1.918-6-4.66-11.094-8.139-14.488C220.363,3.047,213.327,0,202.224,0s-18.14,3.047-24.108,8.867 c-3.48,3.395-6.221,8.488-8.139,14.488l-36.815,115.177h30.166l33.704-105.437c0.372-1.164,0.723-2.152,1.263-2.811 c0.926-1.127,2.208-1.719,3.931-1.719s3.004,0.592,3.931,1.719c0.54,0.658,0.891,1.646,1.262,2.811l33.704,105.437H328.878z"/> </svg>`
 	__Library__00000000_.RootProducts = append(__Library__00000000_.RootProducts, __Product__00000007_)
@@ -768,8 +720,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Library__00000000_.Notes = append(__Library__00000000_.Notes, __Note__00000023_)
 	__Library__00000000_.Notes = append(__Library__00000000_.Notes, __Note__00000024_)
 	__Library__00000000_.Notes = append(__Library__00000000_.Notes, __Note__00000025_)
-	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000000_)
-	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000000_)
 	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000001_)
 	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000002_)
 	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000003_)
@@ -1033,16 +983,7 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__NoteProductShape__00000026_.IsHidden = false
 	__NoteProductShape__00000026_.Note = __Note__00000024_
 	__NoteProductShape__00000026_.Product = __Product__00000044_
-	__NoteShape__00000000_.Name = `-Default Diagram`
-	__NoteShape__00000000_.IsExpanded = false
-	__NoteShape__00000000_.X = 92.441418
-	__NoteShape__00000000_.Y = 1047.751617
-	__NoteShape__00000000_.Width = 250.000000
-	__NoteShape__00000000_.Height = 70.000000
-	__NoteShape__00000000_.IsHidden = false
-	__NoteShape__00000000_.Note = __Note__00000000_
 	__NoteShape__00000001_.Name = `-PIT focus`
-	__NoteShape__00000001_.IsExpanded = false
 	__NoteShape__00000001_.X = 892.606649
 	__NoteShape__00000001_.Y = 74.204707
 	__NoteShape__00000001_.Width = 250.000000
@@ -1050,7 +991,6 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__NoteShape__00000001_.IsHidden = false
 	__NoteShape__00000001_.Note = __Note__00000001_
 	__NoteShape__00000002_.Name = `-PBS`
-	__NoteShape__00000002_.IsExpanded = false
 	__NoteShape__00000002_.X = 465.290428
 	__NoteShape__00000002_.Y = 281.921876
 	__NoteShape__00000002_.Width = 294.000000
@@ -1058,7 +998,6 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__NoteShape__00000002_.IsHidden = false
 	__NoteShape__00000002_.Note = __Note__00000002_
 	__NoteShape__00000003_.Name = `-PIT Report`
-	__NoteShape__00000003_.IsExpanded = false
 	__NoteShape__00000003_.X = 1285.673362
 	__NoteShape__00000003_.Y = 221.503075
 	__NoteShape__00000003_.Width = 250.000000
@@ -1066,7 +1005,6 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__NoteShape__00000003_.IsHidden = false
 	__NoteShape__00000003_.Note = __Note__00000003_
 	__NoteShape__00000004_.Name = `-PIT Report`
-	__NoteShape__00000004_.IsExpanded = false
 	__NoteShape__00000004_.X = 744.720613
 	__NoteShape__00000004_.Y = 305.622045
 	__NoteShape__00000004_.Width = 250.000000
@@ -1074,7 +1012,6 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__NoteShape__00000004_.IsHidden = false
 	__NoteShape__00000004_.Note = __Note__00000004_
 	__NoteShape__00000005_.Name = `-RCS PBS`
-	__NoteShape__00000005_.IsExpanded = false
 	__NoteShape__00000005_.X = 334.089724
 	__NoteShape__00000005_.Y = 779.092030
 	__NoteShape__00000005_.Width = 250.000000
@@ -1082,7 +1019,6 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__NoteShape__00000005_.IsHidden = false
 	__NoteShape__00000005_.Note = __Note__00000005_
 	__NoteShape__00000006_.Name = `-RCS PBS`
-	__NoteShape__00000006_.IsExpanded = false
 	__NoteShape__00000006_.X = 1219.153628
 	__NoteShape__00000006_.Y = 777.461448
 	__NoteShape__00000006_.Width = 250.000000
@@ -1090,7 +1026,6 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__NoteShape__00000006_.IsHidden = false
 	__NoteShape__00000006_.Note = __Note__00000006_
 	__NoteShape__00000007_.Name = `-RCS PBS`
-	__NoteShape__00000007_.IsExpanded = false
 	__NoteShape__00000007_.X = 596.510371
 	__NoteShape__00000007_.Y = 678.471309
 	__NoteShape__00000007_.Width = 269.000000
@@ -1098,7 +1033,6 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__NoteShape__00000007_.IsHidden = false
 	__NoteShape__00000007_.Note = __Note__00000007_
 	__NoteShape__00000008_.Name = `-RCS PBS`
-	__NoteShape__00000008_.IsExpanded = false
 	__NoteShape__00000008_.X = 917.375080
 	__NoteShape__00000008_.Y = 517.315922
 	__NoteShape__00000008_.Width = 250.000000
@@ -1106,7 +1040,6 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__NoteShape__00000008_.IsHidden = false
 	__NoteShape__00000008_.Note = __Note__00000008_
 	__NoteShape__00000009_.Name = `-RCS PBS`
-	__NoteShape__00000009_.IsExpanded = false
 	__NoteShape__00000009_.X = 880.446589
 	__NoteShape__00000009_.Y = 755.302818
 	__NoteShape__00000009_.Width = 250.000000
@@ -1114,7 +1047,6 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__NoteShape__00000009_.IsHidden = false
 	__NoteShape__00000009_.Note = __Note__00000009_
 	__NoteShape__00000010_.Name = `-RCS PBS`
-	__NoteShape__00000010_.IsExpanded = false
 	__NoteShape__00000010_.X = 861.189303
 	__NoteShape__00000010_.Y = 1040.200971
 	__NoteShape__00000010_.Width = 250.000000
@@ -1122,7 +1054,6 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__NoteShape__00000010_.IsHidden = false
 	__NoteShape__00000010_.Note = __Note__00000010_
 	__NoteShape__00000011_.Name = `-RCS PBS`
-	__NoteShape__00000011_.IsExpanded = false
 	__NoteShape__00000011_.X = 45.256122
 	__NoteShape__00000011_.Y = 950.529205
 	__NoteShape__00000011_.Width = 250.000000
@@ -1130,7 +1061,6 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__NoteShape__00000011_.IsHidden = false
 	__NoteShape__00000011_.Note = __Note__00000011_
 	__NoteShape__00000012_.Name = `-RCS PBS`
-	__NoteShape__00000012_.IsExpanded = false
 	__NoteShape__00000012_.X = 565.566920
 	__NoteShape__00000012_.Y = 924.052255
 	__NoteShape__00000012_.Width = 250.000000
@@ -1138,7 +1068,6 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__NoteShape__00000012_.IsHidden = false
 	__NoteShape__00000012_.Note = __Note__00000012_
 	__NoteShape__00000013_.Name = `-PIT Report`
-	__NoteShape__00000013_.IsExpanded = false
 	__NoteShape__00000013_.X = 1150.711246
 	__NoteShape__00000013_.Y = 600.447807
 	__NoteShape__00000013_.Width = 250.000000
@@ -1146,7 +1075,6 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__NoteShape__00000013_.IsHidden = false
 	__NoteShape__00000013_.Note = __Note__00000013_
 	__NoteShape__00000014_.Name = `-PIT Report`
-	__NoteShape__00000014_.IsExpanded = false
 	__NoteShape__00000014_.X = 1335.901110
 	__NoteShape__00000014_.Y = 996.520214
 	__NoteShape__00000014_.Width = 250.000000
@@ -1154,7 +1082,6 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__NoteShape__00000014_.IsHidden = false
 	__NoteShape__00000014_.Note = __Note__00000014_
 	__NoteShape__00000015_.Name = `-PIT Report`
-	__NoteShape__00000015_.IsExpanded = false
 	__NoteShape__00000015_.X = 95.642801
 	__NoteShape__00000015_.Y = 1355.855478
 	__NoteShape__00000015_.Width = 250.000000
@@ -1162,7 +1089,6 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__NoteShape__00000015_.IsHidden = false
 	__NoteShape__00000015_.Note = __Note__00000015_
 	__NoteShape__00000016_.Name = `-PIT Report`
-	__NoteShape__00000016_.IsExpanded = false
 	__NoteShape__00000016_.X = 425.148282
 	__NoteShape__00000016_.Y = 1430.634730
 	__NoteShape__00000016_.Width = 314.000000
@@ -1170,7 +1096,6 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__NoteShape__00000016_.IsHidden = false
 	__NoteShape__00000016_.Note = __Note__00000016_
 	__NoteShape__00000017_.Name = `-WBS`
-	__NoteShape__00000017_.IsExpanded = false
 	__NoteShape__00000017_.X = 591.638035
 	__NoteShape__00000017_.Y = 652.450426
 	__NoteShape__00000017_.Width = 292.000000
@@ -1178,7 +1103,6 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__NoteShape__00000017_.IsHidden = false
 	__NoteShape__00000017_.Note = __Note__00000017_
 	__NoteShape__00000018_.Name = `-PIT Report`
-	__NoteShape__00000018_.IsExpanded = false
 	__NoteShape__00000018_.X = 753.803011
 	__NoteShape__00000018_.Y = 1447.804082
 	__NoteShape__00000018_.Width = 250.000000
@@ -1186,7 +1110,6 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__NoteShape__00000018_.IsHidden = false
 	__NoteShape__00000018_.Note = __Note__00000018_
 	__NoteShape__00000019_.Name = `-PIT Report`
-	__NoteShape__00000019_.IsExpanded = false
 	__NoteShape__00000019_.X = 1024.260622
 	__NoteShape__00000019_.Y = 1594.529677
 	__NoteShape__00000019_.Width = 250.000000
@@ -1194,7 +1117,6 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__NoteShape__00000019_.IsHidden = false
 	__NoteShape__00000019_.Note = __Note__00000019_
 	__NoteShape__00000020_.Name = `-PIT Report`
-	__NoteShape__00000020_.IsExpanded = false
 	__NoteShape__00000020_.X = 1325.045052
 	__NoteShape__00000020_.Y = 1477.461652
 	__NoteShape__00000020_.Width = 250.000000
@@ -1202,7 +1124,6 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__NoteShape__00000020_.IsHidden = false
 	__NoteShape__00000020_.Note = __Note__00000020_
 	__NoteShape__00000021_.Name = `-PIT Report`
-	__NoteShape__00000021_.IsExpanded = false
 	__NoteShape__00000021_.X = 1009.364672
 	__NoteShape__00000021_.Y = 1927.551182
 	__NoteShape__00000021_.Width = 250.000000
@@ -1210,7 +1131,6 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__NoteShape__00000021_.IsHidden = false
 	__NoteShape__00000021_.Note = __Note__00000021_
 	__NoteShape__00000022_.Name = `-PIT Report`
-	__NoteShape__00000022_.IsExpanded = false
 	__NoteShape__00000022_.X = 409.341567
 	__NoteShape__00000022_.Y = 1822.743943
 	__NoteShape__00000022_.Width = 551.000000
@@ -1218,7 +1138,6 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__NoteShape__00000022_.IsHidden = false
 	__NoteShape__00000022_.Note = __Note__00000022_
 	__NoteShape__00000023_.Name = `-PIT Report`
-	__NoteShape__00000023_.IsExpanded = false
 	__NoteShape__00000023_.X = 258.414750
 	__NoteShape__00000023_.Y = 2019.668077
 	__NoteShape__00000023_.Width = 250.000000
@@ -1226,7 +1145,6 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__NoteShape__00000023_.IsHidden = false
 	__NoteShape__00000023_.Note = __Note__00000023_
 	__NoteShape__00000024_.Name = `-PIT Report`
-	__NoteShape__00000024_.IsExpanded = false
 	__NoteShape__00000024_.X = 177.291855
 	__NoteShape__00000024_.Y = 2342.855372
 	__NoteShape__00000024_.Width = 1451.000000
@@ -1234,22 +1152,12 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__NoteShape__00000024_.IsHidden = false
 	__NoteShape__00000024_.Note = __Note__00000024_
 	__NoteShape__00000025_.Name = `-PIT Report`
-	__NoteShape__00000025_.IsExpanded = false
 	__NoteShape__00000025_.X = 916.887483
 	__NoteShape__00000025_.Y = 2959.225340
 	__NoteShape__00000025_.Width = 723.000000
 	__NoteShape__00000025_.Height = 289.000000
 	__NoteShape__00000025_.IsHidden = false
 	__NoteShape__00000025_.Note = __Note__00000025_
-	__NoteTaskShape__00000000_.Name = `CFT ended in march 2025 to Starliner Crewed Flight Test (CFT)`
-	__NoteTaskShape__00000000_.StartRatio = 0.500000
-	__NoteTaskShape__00000000_.EndRatio = 0.500000
-	__NoteTaskShape__00000000_.StartOrientation = models.ORIENTATION_VERTICAL
-	__NoteTaskShape__00000000_.EndOrientation = models.ORIENTATION_VERTICAL
-	__NoteTaskShape__00000000_.CornerOffsetRatio = 1.680000
-	__NoteTaskShape__00000000_.IsHidden = false
-	__NoteTaskShape__00000000_.Note = __Note__00000000_
-	__NoteTaskShape__00000000_.Task = __Task__00000000_
 	__NoteTaskShape__00000001_.Name = ` S2A2 failed at 9050 m (GMT 14:00) and B1A3 failed at 526m (GMT 14:57). to ISS Approach`
 	__NoteTaskShape__00000001_.StartRatio = 0.500000
 	__NoteTaskShape__00000001_.EndRatio = 0.500000
@@ -1261,104 +1169,68 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__NoteTaskShape__00000001_.Task = __Task__00000007_
 	__Note__00000000_.Name = `CFT ended in march 2025`
 	__Note__00000000_.ComputedPrefix = `1`
-	__Note__00000000_.IsInRenameMode = false
-	__Note__00000000_.IsExpanded = false
 	__Note__00000000_.Tasks = append(__Note__00000000_.Tasks, __Task__00000000_)
 	__Note__00000001_.Name = `A thorough review of the STAR report is advised (p14)
 `
 	__Note__00000001_.ComputedPrefix = `2`
-	__Note__00000001_.IsInRenameMode = false
-	__Note__00000001_.IsExpanded = false
 	__Note__00000001_.Products = append(__Note__00000001_.Products, __Product__00000004_)
 	__Note__00000002_.Name = `NASA utilized a firm fixed price contracting type for CCtCap. 
 
 This was a significant shift from the cost-plus contracting for traditional NASA builds of developmental vehicles. These shifts signified that CCP was not only positioned to be an innovative, first-of-its kind program for NASA, but how it interacted with new and traditional space flight industry providers was setup to be significantly distinct and different.  `
 	__Note__00000002_.ComputedPrefix = `3`
-	__Note__00000002_.IsInRenameMode = false
-	__Note__00000002_.IsExpanded = false
 	__Note__00000002_.Products = append(__Note__00000002_.Products, __Product__00000006_)
 	__Note__00000003_.Name = `The CCP 1100 series of requirements were deliberately written at a higher-level, leaving room for provider innovation but there was also room for incorrect/inadequate interpretation by the providers. `
 	__Note__00000003_.ComputedPrefix = `4`
-	__Note__00000003_.IsInRenameMode = false
-	__Note__00000003_.IsExpanded = false
 	__Note__00000003_.Products = append(__Note__00000003_.Products, __Product__00000010_)
 	__Note__00000004_.Name = `The Commercial Provider focused on meeting contractual requirement language resulting in insufficient demonstration across the components/system and ground/flight. `
 	__Note__00000004_.ComputedPrefix = `5`
-	__Note__00000004_.IsInRenameMode = false
-	__Note__00000004_.IsExpanded = false
 	__Note__00000004_.Products = append(__Note__00000004_.Products, __Product__00000010_)
 	__Note__00000005_.Name = `Suppliers’ build quality/variability issues can be hard to exonerate for service modules, which is hardware that is disposed of during re-entry. `
 	__Note__00000005_.ComputedPrefix = `6`
-	__Note__00000005_.IsInRenameMode = false
-	__Note__00000005_.IsExpanded = false
 	__Note__00000005_.Products = append(__Note__00000005_.Products, __Product__00000013_)
 	__Note__00000005_.Products = append(__Note__00000005_.Products, __Product__00000016_)
 	__Note__00000006_.Name = `The Aerojet Rocketdyne (AR) thermal model included the effects of jet firings, but these effects were not validated by ground testing.
 
 Boeing thermal model did not include the effects of jet firings before CFT. `
 	__Note__00000006_.ComputedPrefix = `7`
-	__Note__00000006_.IsInRenameMode = false
-	__Note__00000006_.IsExpanded = false
 	__Note__00000006_.Products = append(__Note__00000006_.Products, __Product__00000016_)
 	__Note__00000007_.Name = `The thruster performance from OFT1 & OFT2 experienced greater than expected temperatures and continuing to operate lead to a false sense of security of the thruster capability/performance. `
 	__Note__00000007_.ComputedPrefix = `8`
-	__Note__00000007_.IsInRenameMode = false
-	__Note__00000007_.IsExpanded = false
 	__Note__00000007_.Products = append(__Note__00000007_.Products, __Product__00000016_)
 	__Note__00000008_.Name = `Flight instrumentation locations for thermal sensors were limited and in different locations than the locations for RCS Thruster ground firings. `
 	__Note__00000008_.ComputedPrefix = `9`
-	__Note__00000008_.IsInRenameMode = false
-	__Note__00000008_.IsExpanded = false
 	__Note__00000008_.Products = append(__Note__00000008_.Products, __Product__00000019_)
 	__Note__00000008_.Products = append(__Note__00000008_.Products, __Product__00000016_)
 	__Note__00000008_.Products = append(__Note__00000008_.Products, __Product__00000013_)
 	__Note__00000009_.Name = `OFT1 & OFT2 investigations did not include RCS/OMAC thruster firings and fault trees were not validated through subsequent ground testing. `
 	__Note__00000009_.ComputedPrefix = `10`
-	__Note__00000009_.IsInRenameMode = false
-	__Note__00000009_.IsExpanded = false
 	__Note__00000009_.Products = append(__Note__00000009_.Products, __Product__00000016_)
 	__Note__00000010_.Name = `For OFT2, NASA/Boeing did not have tools to measure thruster degradation, simply treated the thruster as failed/operational. `
 	__Note__00000010_.ComputedPrefix = `11`
-	__Note__00000010_.IsInRenameMode = false
-	__Note__00000010_.IsExpanded = false
 	__Note__00000010_.Products = append(__Note__00000010_.Products, __Product__00000016_)
 	__Note__00000011_.Name = `Pc (Chamber Pressure).To know if a thruster is actually firing, the spacecraft's computer looks at the pressure sensor inside the combustion chamber (the Pc telemetry). If the pressure shoots up to the expected level, it means combustion is happening and the thruster is pushing. If the pressure stays low or at zero, it assumes the thruster failed.`
 	__Note__00000011_.ComputedPrefix = `12`
-	__Note__00000011_.IsInRenameMode = false
-	__Note__00000011_.IsExpanded = false
 	__Note__00000011_.Products = append(__Note__00000011_.Products, __Product__00000013_)
 	__Note__00000011_.Products = append(__Note__00000011_.Products, __Product__00000028_)
 	__Note__00000012_.Name = `Pc transducer failed but the engine was able to restart. Boing confidence in the harxware robustness`
 	__Note__00000012_.ComputedPrefix = `13`
-	__Note__00000012_.IsInRenameMode = false
-	__Note__00000012_.IsExpanded = false
 	__Note__00000012_.Products = append(__Note__00000012_.Products, __Product__00000028_)
 	__Note__00000013_.Name = `The leading theory for the proximate cause of the CM RCS failure during the CFT is the formulation of carbazic acid, which corrodes stainless steel. The reaction between carbazic acid and stainless steel creates corrosion particulates in the thruster propellant valve, preventing it from opening. `
 	__Note__00000013_.ComputedPrefix = `14`
-	__Note__00000013_.IsInRenameMode = false
-	__Note__00000013_.IsExpanded = false
 	__Note__00000013_.Products = append(__Note__00000013_.Products, __Product__00000034_)
 	__Note__00000014_.Name = `Thruster health is monitored via chamber pressure and Fuel/Oxydizer injector temperatures`
 	__Note__00000014_.ComputedPrefix = `15`
-	__Note__00000014_.IsInRenameMode = false
-	__Note__00000014_.IsExpanded = false
 	__Note__00000014_.Products = append(__Note__00000014_.Products, __Product__00000034_)
 	__Note__00000015_.Name = `Commanded pulse lengths are neither recorded nor downlinked near real time with telemetry
 
 This complicates efforts to understand what went wrong with SM RCS jets when data suggests that pulse length is correlated to observed soakback temperatures.  `
 	__Note__00000015_.ComputedPrefix = `16`
-	__Note__00000015_.IsInRenameMode = false
-	__Note__00000015_.IsExpanded = false
 	__Note__00000015_.Products = append(__Note__00000015_.Products, __Product__00000036_)
 	__Note__00000016_.Name = `Many thruster pulses are less  FDIR in the  The FMCs see chamber pressure over a data bus from the  but the chamber pressure is only sent to the ground with a sample rate for recording every  limiting insight into thruster performance. This does not meet Nyquist Criterion for capturing the chamber pressure signal. As a result, aliasing effects may occur for pulses shorter than  where high-frequency components of the pressure signal are misrepresented or lost, further complicating accurate reconstruction of thruster behavior.  `
 	__Note__00000016_.ComputedPrefix = `17`
-	__Note__00000016_.IsInRenameMode = false
-	__Note__00000016_.IsExpanded = false
 	__Note__00000016_.Products = append(__Note__00000016_.Products, __Product__00000039_)
 	__Note__00000017_.Name = ` S2A2 failed at 9050 m (GMT 14:00) and B1A3 failed at 526m (GMT 14:57).`
 	__Note__00000017_.ComputedPrefix = `18`
-	__Note__00000017_.IsInRenameMode = false
-	__Note__00000017_.IsExpanded = false
 	__Note__00000017_.Tasks = append(__Note__00000017_.Tasks, __Task__00000007_)
 	__Note__00000018_.Name = `At the conclusion of the hotfire, when thruster is demonstrated, a jet is reenabled with jet-fail FDIR inhibited. Through this sequence, four of five jets were recovered. Spacecraft 6DOF control was reestablished in all axes. T
 
@@ -1366,8 +1238,6 @@ he spacecraft was moded back to auto and the rendezvous/dock was completed.  Whi
 
 Whaou.`
 	__Note__00000018_.ComputedPrefix = `19`
-	__Note__00000018_.IsInRenameMode = false
-	__Note__00000018_.IsExpanded = false
 	__Note__00000018_.Products = append(__Note__00000018_.Products, __Product__00000039_)
 	__Note__00000019_.Name = ` degraded performance was still observed. This testing demonstrated the issue was not purely transient.
 
@@ -1375,22 +1245,16 @@ It should have been done before ?!
 
  In addition to demonstrating transient degradation during high heating, the test program demonstrated an unrecoverable cumulative degradation that was potentially indicative of the observed performance of CFT. `
 	__Note__00000019_.ComputedPrefix = `20`
-	__Note__00000019_.IsInRenameMode = false
-	__Note__00000019_.IsExpanded = false
 	__Note__00000019_.Products = append(__Note__00000019_.Products, __Product__00000041_)
 	__Note__00000020_.Name = `B1.3.3.1.1.1 Heat identifies that excessive heating could cause the poppet to extrude, reducing flow. Poppet extrusion was observed in the post-test tear down of the WSTF (White Sands Test Facility) thruster unit.
 
 The initial heating was caused by the internal doghouse temperatures (addressed in C4.1 Thermal) and the follow-on heating induced by B1.3.3.1.4.2 RCS Thermal Soakback. This caused excessive temperatures beyond the capability of the thruster softgoods, causing the Teflon poppet to extrude. The evidence supports this being a contributor to the thruster fail-offs.`
 	__Note__00000020_.ComputedPrefix = `21`
-	__Note__00000020_.IsInRenameMode = false
-	__Note__00000020_.IsExpanded = false
 	__Note__00000020_.Products = append(__Note__00000020_.Products, __Product__00000042_)
 	__Note__00000021_.Name = `B1.3.3.1.4.2 RCS Thermal Soakback identifies the possibility that structure of the RCS thruster
 retains heat, and the heat is unable to be dissipated from the firings of the thrusters, causing the
 propellants to heat rapidly. `
 	__Note__00000021_.ComputedPrefix = `22`
-	__Note__00000021_.IsInRenameMode = false
-	__Note__00000021_.IsExpanded = false
 	__Note__00000021_.Products = append(__Note__00000021_.Products, __Product__00000042_)
 	__Note__00000022_.Name = `Intermediate Cause 5: Inadequate Thruster Thermal Models
 
@@ -1410,15 +1274,11 @@ There was no thermal model available to adequately understand the full impacts o
 environment upon the RCS thrusters, specifically the aft thrusters with the longest feed line tube,
 and very close proximity to the OMAC thrusters`
 	__Note__00000022_.ComputedPrefix = `23`
-	__Note__00000022_.IsInRenameMode = false
-	__Note__00000022_.IsExpanded = false
 	__Note__00000022_.Products = append(__Note__00000022_.Products, __Product__00000044_)
 	__Note__00000023_.Name = `Intermediate Cause 6: Insufficient Thruster Qualification
 
 SM RCS Thruster Qualification did not cover the flight envelope for temperature and duty cycle (TLYF).`
 	__Note__00000023_.ComputedPrefix = `24`
-	__Note__00000023_.IsInRenameMode = false
-	__Note__00000023_.IsExpanded = false
 	__Note__00000023_.Products = append(__Note__00000023_.Products, __Product__00000044_)
 	__Note__00000024_.Name = `Multiple groups, prior to CTF, discussed the lack of mission representative operational duty cycle testing for SM RCS engines.. This concern is one that has been tracked since prior to OFT1 and is specifically reviewed in this intermediate cause because it is widely accepted that operational duty cycle is a primary driver of hardware temperature. NASA Engineering and the CCP Spacecraft Office have consistently identified this qualification gap and recommended additional testing, however it was not incorporated into the pursued plans for risk assessments between flights.
 
@@ -1445,8 +1305,6 @@ The qualification gap risk was addressed in April 2023 during PCB-23-100 (CFT: S
 
 The OFT-2 IFA related to valve/injector assembly temperature measurements exceeding qualification limits, which were categorized as an Unexplained Anomaly (UA). The directive acknowledged that these exceedances were attributed to specific operational duty cycles. Consequently, the thermal risk was accepted as a 2x5 risk for potential jet failure. Despite this, engineering teams and the Engineering Review Board (ERB-23-0045-R2) emphasized the importance of testing SM RCS thrusters using flight-like duty cycles.`
 	__Note__00000024_.ComputedPrefix = `25`
-	__Note__00000024_.IsInRenameMode = false
-	__Note__00000024_.IsExpanded = false
 	__Note__00000024_.Products = append(__Note__00000024_.Products, __Product__00000044_)
 	__Note__00000025_.Name = `Organizational Factor 1: Insufficient Anomaly Resolution Process Multiple RCS thruster failures occurred on OFT 1 and OFT 2. While fault trees were developed, due diligence to reach direct and root cause was not performed and adequate block closure rationale was often incomplete.
 
@@ -1454,8 +1312,6 @@ Note : Anomaly Reports (AR) were closed.
 
 Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads to Flawed Flight Rationale. The thermal risk for Starliner’s SM RCS thrusters was mischaracterized due to reliance on simple models and inadequate qualification testing that failed to replicate mission-representative conditions. Despite clear evidence of thermal soakback and temperature exceedances, risk acceptance proceeded without resolving key environment and duty cycle concerns.`
 	__Note__00000025_.ComputedPrefix = `26`
-	__Note__00000025_.IsInRenameMode = false
-	__Note__00000025_.IsExpanded = false
 	__ProductCompositionShape__00000000_.Name = `Reports to `
 	__ProductCompositionShape__00000000_.StartRatio = 0.500000
 	__ProductCompositionShape__00000000_.EndRatio = 0.500000
@@ -1793,7 +1649,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductCompositionShape__00000043_.IsHidden = false
 	__ProductCompositionShape__00000043_.Product = __Product__00000046_
 	__ProductShape__00000002_.Name = `Dragon-PBS`
-	__ProductShape__00000002_.IsExpanded = false
 	__ProductShape__00000002_.X = 248.020302
 	__ProductShape__00000002_.Y = 747.039767
 	__ProductShape__00000002_.Width = 250.000000
@@ -1801,7 +1656,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000002_.IsHidden = false
 	__ProductShape__00000002_.Product = __Product__00000001_
 	__ProductShape__00000003_.Name = `Starliner-PBS`
-	__ProductShape__00000003_.IsExpanded = false
 	__ProductShape__00000003_.X = 73.852191
 	__ProductShape__00000003_.Y = 583.054452
 	__ProductShape__00000003_.Width = 250.000000
@@ -1809,7 +1663,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000003_.IsHidden = false
 	__ProductShape__00000003_.Product = __Product__00000002_
 	__ProductShape__00000004_.Name = `-PBS`
-	__ProductShape__00000004_.IsExpanded = false
 	__ProductShape__00000004_.X = 841.980809
 	__ProductShape__00000004_.Y = 105.166614
 	__ProductShape__00000004_.Width = 250.000000
@@ -1817,7 +1670,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000004_.IsHidden = false
 	__ProductShape__00000004_.Product = __Product__00000003_
 	__ProductShape__00000005_.Name = `-PBS`
-	__ProductShape__00000005_.IsExpanded = false
 	__ProductShape__00000005_.X = 841.980809
 	__ProductShape__00000005_.Y = 245.166614
 	__ProductShape__00000005_.Width = 250.000000
@@ -1825,7 +1677,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000005_.IsHidden = false
 	__ProductShape__00000005_.Product = __Product__00000004_
 	__ProductShape__00000006_.Name = `-PBS`
-	__ProductShape__00000006_.IsExpanded = false
 	__ProductShape__00000006_.X = 1141.980809
 	__ProductShape__00000006_.Y = 245.166614
 	__ProductShape__00000006_.Width = 250.000000
@@ -1833,7 +1684,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000006_.IsHidden = false
 	__ProductShape__00000006_.Product = __Product__00000005_
 	__ProductShape__00000007_.Name = `Program Investigation Team (PIT) Report-PIT focus`
-	__ProductShape__00000007_.IsExpanded = false
 	__ProductShape__00000007_.X = 912.017987
 	__ProductShape__00000007_.Y = 275.867255
 	__ProductShape__00000007_.Width = 250.000000
@@ -1841,7 +1691,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000007_.IsHidden = false
 	__ProductShape__00000007_.Product = __Product__00000005_
 	__ProductShape__00000008_.Name = ` Starliner Tests and Anomalies Review (STAR) Investigation Report-PIT focus`
-	__ProductShape__00000008_.IsExpanded = false
 	__ProductShape__00000008_.X = 499.019526
 	__ProductShape__00000008_.Y = 77.170905
 	__ProductShape__00000008_.Width = 250.000000
@@ -1849,7 +1698,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000008_.IsHidden = false
 	__ProductShape__00000008_.Product = __Product__00000004_
 	__ProductShape__00000009_.Name = `-PBS`
-	__ProductShape__00000009_.IsExpanded = false
 	__ProductShape__00000009_.X = 68.071765
 	__ProductShape__00000009_.Y = 367.961411
 	__ProductShape__00000009_.Width = 250.000000
@@ -1857,7 +1705,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000009_.IsHidden = false
 	__ProductShape__00000009_.Product = __Product__00000006_
 	__ProductShape__00000010_.Name = `-PBS`
-	__ProductShape__00000010_.IsExpanded = false
 	__ProductShape__00000010_.X = 101.619741
 	__ProductShape__00000010_.Y = 185.878693
 	__ProductShape__00000010_.Width = 250.000000
@@ -1865,7 +1712,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000010_.IsHidden = false
 	__ProductShape__00000010_.Product = __Product__00000007_
 	__ProductShape__00000011_.Name = `-PBS`
-	__ProductShape__00000011_.IsExpanded = false
 	__ProductShape__00000011_.X = 88.071765
 	__ProductShape__00000011_.Y = 851.961381
 	__ProductShape__00000011_.Width = 250.000000
@@ -1873,7 +1719,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000011_.IsHidden = false
 	__ProductShape__00000011_.Product = __Product__00000008_
 	__ProductShape__00000012_.Name = `Program Investigation Team (PIT) Report-PIT Report`
-	__ProductShape__00000012_.IsExpanded = false
 	__ProductShape__00000012_.X = 80.516205
 	__ProductShape__00000012_.Y = 109.119696
 	__ProductShape__00000012_.Width = 250.000000
@@ -1881,7 +1726,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000012_.IsHidden = false
 	__ProductShape__00000012_.Product = __Product__00000005_
 	__ProductShape__00000013_.Name = `-PIT Report`
-	__ProductShape__00000013_.IsExpanded = false
 	__ProductShape__00000013_.X = 82.516205
 	__ProductShape__00000013_.Y = 559.119696
 	__ProductShape__00000013_.Width = 276.000000
@@ -1889,7 +1733,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000013_.IsHidden = false
 	__ProductShape__00000013_.Product = __Product__00000009_
 	__ProductShape__00000014_.Name = `-PIT Report`
-	__ProductShape__00000014_.IsExpanded = false
 	__ProductShape__00000014_.X = 766.767652
 	__ProductShape__00000014_.Y = 110.422064
 	__ProductShape__00000014_.Width = 250.000000
@@ -1897,7 +1740,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000014_.IsHidden = false
 	__ProductShape__00000014_.Product = __Product__00000010_
 	__ProductShape__00000015_.Name = `-RCS PBS`
-	__ProductShape__00000015_.IsExpanded = false
 	__ProductShape__00000015_.X = 34.373886
 	__ProductShape__00000015_.Y = 167.792999
 	__ProductShape__00000015_.Width = 250.000000
@@ -1905,7 +1747,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000015_.IsHidden = false
 	__ProductShape__00000015_.Product = __Product__00000011_
 	__ProductShape__00000016_.Name = `-RCS PBS`
-	__ProductShape__00000016_.IsExpanded = false
 	__ProductShape__00000016_.X = 34.373886
 	__ProductShape__00000016_.Y = 307.792999
 	__ProductShape__00000016_.Width = 250.000000
@@ -1913,7 +1754,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000016_.IsHidden = false
 	__ProductShape__00000016_.Product = __Product__00000012_
 	__ProductShape__00000017_.Name = `-RCS PBS`
-	__ProductShape__00000017_.IsExpanded = false
 	__ProductShape__00000017_.X = 34.373886
 	__ProductShape__00000017_.Y = 447.792999
 	__ProductShape__00000017_.Width = 250.000000
@@ -1921,7 +1761,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000017_.IsHidden = false
 	__ProductShape__00000017_.Product = __Product__00000013_
 	__ProductShape__00000018_.Name = `CST-100 Starliner-RCS PBS`
-	__ProductShape__00000018_.IsExpanded = false
 	__ProductShape__00000018_.X = 33.736439
 	__ProductShape__00000018_.Y = 23.572991
 	__ProductShape__00000018_.Width = 250.000000
@@ -1929,7 +1768,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000018_.IsHidden = false
 	__ProductShape__00000018_.Product = __Product__00000002_
 	__ProductShape__00000019_.Name = `-RCS PBS`
-	__ProductShape__00000019_.IsExpanded = false
 	__ProductShape__00000019_.X = 595.736439
 	__ProductShape__00000019_.Y = 182.573022
 	__ProductShape__00000019_.Width = 250.000000
@@ -1937,7 +1775,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000019_.IsHidden = false
 	__ProductShape__00000019_.Product = __Product__00000014_
 	__ProductShape__00000020_.Name = `-RCS PBS`
-	__ProductShape__00000020_.IsExpanded = false
 	__ProductShape__00000020_.X = 595.736439
 	__ProductShape__00000020_.Y = 322.573022
 	__ProductShape__00000020_.Width = 250.000000
@@ -1945,7 +1782,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000020_.IsHidden = false
 	__ProductShape__00000020_.Product = __Product__00000015_
 	__ProductShape__00000021_.Name = `-RCS PBS`
-	__ProductShape__00000021_.IsExpanded = false
 	__ProductShape__00000021_.X = 595.736439
 	__ProductShape__00000021_.Y = 462.573022
 	__ProductShape__00000021_.Width = 250.000000
@@ -1953,7 +1789,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000021_.IsHidden = false
 	__ProductShape__00000021_.Product = __Product__00000016_
 	__ProductShape__00000022_.Name = `-PIT Report`
-	__ProductShape__00000022_.IsExpanded = false
 	__ProductShape__00000022_.X = 99.516205
 	__ProductShape__00000022_.Y = 315.119696
 	__ProductShape__00000022_.Width = 250.000000
@@ -1961,7 +1796,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000022_.IsHidden = false
 	__ProductShape__00000022_.Product = __Product__00000017_
 	__ProductShape__00000023_.Name = `-PIT Report`
-	__ProductShape__00000023_.IsExpanded = false
 	__ProductShape__00000023_.X = 232.516205
 	__ProductShape__00000023_.Y = 459.119696
 	__ProductShape__00000023_.Width = 285.000000
@@ -1969,7 +1803,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000023_.IsHidden = false
 	__ProductShape__00000023_.Product = __Product__00000018_
 	__ProductShape__00000024_.Name = `-RCS PBS`
-	__ProductShape__00000024_.IsExpanded = false
 	__ProductShape__00000024_.X = 949.373825
 	__ProductShape__00000024_.Y = 158.793044
 	__ProductShape__00000024_.Width = 250.000000
@@ -1977,7 +1810,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000024_.IsHidden = false
 	__ProductShape__00000024_.Product = __Product__00000019_
 	__ProductShape__00000025_.Name = `-RCS PBS`
-	__ProductShape__00000025_.IsExpanded = false
 	__ProductShape__00000025_.X = 34.373886
 	__ProductShape__00000025_.Y = 587.792999
 	__ProductShape__00000025_.Width = 250.000000
@@ -1985,7 +1817,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000025_.IsHidden = false
 	__ProductShape__00000025_.Product = __Product__00000020_
 	__ProductShape__00000027_.Name = `Boeing’s Enterprise Root Cause/Corrective Actions (eRCCA)-PBS`
-	__ProductShape__00000027_.IsExpanded = false
 	__ProductShape__00000027_.X = 827.950526
 	__ProductShape__00000027_.Y = 520.551130
 	__ProductShape__00000027_.Width = 250.000000
@@ -1993,7 +1824,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000027_.IsHidden = false
 	__ProductShape__00000027_.Product = __Product__00000022_
 	__ProductShape__00000028_.Name = `-PIT Report`
-	__ProductShape__00000028_.IsExpanded = false
 	__ProductShape__00000028_.X = 223.516205
 	__ProductShape__00000028_.Y = 706.119696
 	__ProductShape__00000028_.Width = 250.000000
@@ -2001,7 +1831,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000028_.IsHidden = false
 	__ProductShape__00000028_.Product = __Product__00000023_
 	__ProductShape__00000029_.Name = `-PIT Report`
-	__ProductShape__00000029_.IsExpanded = false
 	__ProductShape__00000029_.X = 523.516205
 	__ProductShape__00000029_.Y = 706.119696
 	__ProductShape__00000029_.Width = 250.000000
@@ -2009,7 +1838,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000029_.IsHidden = false
 	__ProductShape__00000029_.Product = __Product__00000024_
 	__ProductShape__00000030_.Name = `-RCS PBS`
-	__ProductShape__00000030_.IsExpanded = false
 	__ProductShape__00000030_.X = 1171.736439
 	__ProductShape__00000030_.Y = 335.572976
 	__ProductShape__00000030_.Width = 250.000000
@@ -2017,7 +1845,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000030_.IsHidden = false
 	__ProductShape__00000030_.Product = __Product__00000025_
 	__ProductShape__00000031_.Name = `-RCS PBS`
-	__ProductShape__00000031_.IsExpanded = false
 	__ProductShape__00000031_.X = 1174.736439
 	__ProductShape__00000031_.Y = 421.572976
 	__ProductShape__00000031_.Width = 250.000000
@@ -2025,7 +1852,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000031_.IsHidden = false
 	__ProductShape__00000031_.Product = __Product__00000026_
 	__ProductShape__00000032_.Name = `-PIT Report`
-	__ProductShape__00000032_.IsExpanded = false
 	__ProductShape__00000032_.X = 823.516205
 	__ProductShape__00000032_.Y = 706.119696
 	__ProductShape__00000032_.Width = 250.000000
@@ -2033,7 +1859,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000032_.IsHidden = false
 	__ProductShape__00000032_.Product = __Product__00000027_
 	__ProductShape__00000033_.Name = `-RCS PBS`
-	__ProductShape__00000033_.IsExpanded = false
 	__ProductShape__00000033_.X = 334.373886
 	__ProductShape__00000033_.Y = 587.792999
 	__ProductShape__00000033_.Width = 250.000000
@@ -2041,7 +1866,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000033_.IsHidden = false
 	__ProductShape__00000033_.Product = __Product__00000028_
 	__ProductShape__00000034_.Name = `-PIT Report`
-	__ProductShape__00000034_.IsExpanded = false
 	__ProductShape__00000034_.X = 86.516205
 	__ProductShape__00000034_.Y = 819.119696
 	__ProductShape__00000034_.Width = 250.000000
@@ -2049,7 +1873,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000034_.IsHidden = false
 	__ProductShape__00000034_.Product = __Product__00000029_
 	__ProductShape__00000035_.Name = `-PIT Report`
-	__ProductShape__00000035_.IsExpanded = false
 	__ProductShape__00000035_.X = 86.516205
 	__ProductShape__00000035_.Y = 959.119696
 	__ProductShape__00000035_.Width = 250.000000
@@ -2057,7 +1880,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000035_.IsHidden = false
 	__ProductShape__00000035_.Product = __Product__00000030_
 	__ProductShape__00000036_.Name = `-PIT Report`
-	__ProductShape__00000036_.IsExpanded = false
 	__ProductShape__00000036_.X = 386.516205
 	__ProductShape__00000036_.Y = 959.119696
 	__ProductShape__00000036_.Width = 250.000000
@@ -2065,7 +1887,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000036_.IsHidden = false
 	__ProductShape__00000036_.Product = __Product__00000031_
 	__ProductShape__00000037_.Name = `-PIT Report`
-	__ProductShape__00000037_.IsExpanded = false
 	__ProductShape__00000037_.X = 686.516205
 	__ProductShape__00000037_.Y = 959.119696
 	__ProductShape__00000037_.Width = 250.000000
@@ -2073,7 +1894,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000037_.IsHidden = false
 	__ProductShape__00000037_.Product = __Product__00000032_
 	__ProductShape__00000038_.Name = `-RCS PBS`
-	__ProductShape__00000038_.IsExpanded = false
 	__ProductShape__00000038_.X = 1173.736439
 	__ProductShape__00000038_.Y = 509.572991
 	__ProductShape__00000038_.Width = 250.000000
@@ -2081,7 +1901,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000038_.IsHidden = false
 	__ProductShape__00000038_.Product = __Product__00000033_
 	__ProductShape__00000039_.Name = `-PIT Report`
-	__ProductShape__00000039_.IsExpanded = false
 	__ProductShape__00000039_.X = 986.516205
 	__ProductShape__00000039_.Y = 959.119696
 	__ProductShape__00000039_.Width = 250.000000
@@ -2089,7 +1908,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000039_.IsHidden = false
 	__ProductShape__00000039_.Product = __Product__00000034_
 	__ProductShape__00000040_.Name = `-PIT Report`
-	__ProductShape__00000040_.IsExpanded = false
 	__ProductShape__00000040_.X = 86.516205
 	__ProductShape__00000040_.Y = 1096.119696
 	__ProductShape__00000040_.Width = 250.000000
@@ -2097,7 +1915,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000040_.IsHidden = false
 	__ProductShape__00000040_.Product = __Product__00000035_
 	__ProductShape__00000041_.Name = `-PIT Report`
-	__ProductShape__00000041_.IsExpanded = false
 	__ProductShape__00000041_.X = 83.516205
 	__ProductShape__00000041_.Y = 1237.119696
 	__ProductShape__00000041_.Width = 250.000000
@@ -2105,7 +1922,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000041_.IsHidden = false
 	__ProductShape__00000041_.Product = __Product__00000036_
 	__ProductShape__00000042_.Name = `-PIT Report`
-	__ProductShape__00000042_.IsExpanded = false
 	__ProductShape__00000042_.X = 542.516205
 	__ProductShape__00000042_.Y = 1105.119696
 	__ProductShape__00000042_.Width = 250.000000
@@ -2113,7 +1929,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000042_.IsHidden = false
 	__ProductShape__00000042_.Product = __Product__00000037_
 	__ProductShape__00000043_.Name = `-RCS PBS`
-	__ProductShape__00000043_.IsExpanded = false
 	__ProductShape__00000043_.X = 1173.736439
 	__ProductShape__00000043_.Y = 649.572991
 	__ProductShape__00000043_.Width = 250.000000
@@ -2121,7 +1936,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000043_.IsHidden = false
 	__ProductShape__00000043_.Product = __Product__00000038_
 	__ProductShape__00000044_.Name = `Orbital Maneuvering and Attitude Control (OMAC), 30 000 lbf-RCS PBS`
-	__ProductShape__00000044_.IsExpanded = false
 	__ProductShape__00000044_.X = 300.725524
 	__ProductShape__00000044_.Y = 254.217082
 	__ProductShape__00000044_.Width = 250.000000
@@ -2129,7 +1943,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000044_.IsHidden = false
 	__ProductShape__00000044_.Product = __Product__00000021_
 	__ProductShape__00000045_.Name = `-PIT Report`
-	__ProductShape__00000045_.IsExpanded = false
 	__ProductShape__00000045_.X = 386.516205
 	__ProductShape__00000045_.Y = 1236.119696
 	__ProductShape__00000045_.Width = 250.000000
@@ -2137,7 +1950,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000045_.IsHidden = false
 	__ProductShape__00000045_.Product = __Product__00000039_
 	__ProductShape__00000046_.Name = `-PIT Report`
-	__ProductShape__00000046_.IsExpanded = false
 	__ProductShape__00000046_.X = 686.516205
 	__ProductShape__00000046_.Y = 1236.119696
 	__ProductShape__00000046_.Width = 250.000000
@@ -2145,7 +1957,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000046_.IsHidden = false
 	__ProductShape__00000046_.Product = __Product__00000040_
 	__ProductShape__00000047_.Name = `-PIT Report`
-	__ProductShape__00000047_.IsExpanded = false
 	__ProductShape__00000047_.X = 986.516205
 	__ProductShape__00000047_.Y = 1236.119696
 	__ProductShape__00000047_.Width = 250.000000
@@ -2153,7 +1964,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000047_.IsHidden = false
 	__ProductShape__00000047_.Product = __Product__00000041_
 	__ProductShape__00000048_.Name = `-PIT Report`
-	__ProductShape__00000048_.IsExpanded = false
 	__ProductShape__00000048_.X = 1286.516205
 	__ProductShape__00000048_.Y = 1236.119696
 	__ProductShape__00000048_.Width = 250.000000
@@ -2161,7 +1971,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000048_.IsHidden = false
 	__ProductShape__00000048_.Product = __Product__00000042_
 	__ProductShape__00000049_.Name = `-PIT Report`
-	__ProductShape__00000049_.IsExpanded = false
 	__ProductShape__00000049_.X = 86.516205
 	__ProductShape__00000049_.Y = 1636.119696
 	__ProductShape__00000049_.Width = 250.000000
@@ -2169,7 +1978,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000049_.IsHidden = false
 	__ProductShape__00000049_.Product = __Product__00000043_
 	__ProductShape__00000050_.Name = `-PIT Report`
-	__ProductShape__00000050_.IsExpanded = false
 	__ProductShape__00000050_.X = 86.516205
 	__ProductShape__00000050_.Y = 1776.119696
 	__ProductShape__00000050_.Width = 250.000000
@@ -2177,7 +1985,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000050_.IsHidden = false
 	__ProductShape__00000050_.Product = __Product__00000044_
 	__ProductShape__00000051_.Name = `-PIT Report`
-	__ProductShape__00000051_.IsExpanded = false
 	__ProductShape__00000051_.X = 99.516205
 	__ProductShape__00000051_.Y = 2954.119696
 	__ProductShape__00000051_.Width = 250.000000
@@ -2185,7 +1992,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000051_.IsHidden = false
 	__ProductShape__00000051_.Product = __Product__00000045_
 	__ProductShape__00000052_.Name = `-PIT Report`
-	__ProductShape__00000052_.IsExpanded = false
 	__ProductShape__00000052_.X = 99.516205
 	__ProductShape__00000052_.Y = 3094.119696
 	__ProductShape__00000052_.Width = 250.000000
@@ -2194,15 +2000,11 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ProductShape__00000052_.Product = __Product__00000046_
 	__Product__00000001_.Name = `Dragon`
 	__Product__00000001_.ComputedPrefix = `1.1.2`
-	__Product__00000001_.IsInRenameMode = false
-	__Product__00000001_.IsExpanded = false
 	__Product__00000001_.Description = ``
 	__Product__00000001_.IsProducersNodeExpanded = false
 	__Product__00000001_.IsConsumersNodeExpanded = false
 	__Product__00000002_.Name = `CST-100 Starliner`
 	__Product__00000002_.ComputedPrefix = `1.1.1`
-	__Product__00000002_.IsInRenameMode = false
-	__Product__00000002_.IsExpanded = false
 	__Product__00000002_.Description = ``
 	__Product__00000002_.IsProducersNodeExpanded = false
 	__Product__00000002_.IsConsumersNodeExpanded = false
@@ -2215,8 +2017,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Product__00000002_.SubProducts = append(__Product__00000002_.SubProducts, __Product__00000033_)
 	__Product__00000003_.Name = `Reports`
 	__Product__00000003_.ComputedPrefix = `2`
-	__Product__00000003_.IsInRenameMode = false
-	__Product__00000003_.IsExpanded = false
 	__Product__00000003_.Description = ``
 	__Product__00000003_.IsProducersNodeExpanded = false
 	__Product__00000003_.IsConsumersNodeExpanded = false
@@ -2225,15 +2025,11 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Product__00000003_.SubProducts = append(__Product__00000003_.SubProducts, __Product__00000022_)
 	__Product__00000004_.Name = ` Starliner Tests and Anomalies Review (STAR) Investigation Report`
 	__Product__00000004_.ComputedPrefix = `2.1`
-	__Product__00000004_.IsInRenameMode = false
-	__Product__00000004_.IsExpanded = false
 	__Product__00000004_.Description = ``
 	__Product__00000004_.IsProducersNodeExpanded = false
 	__Product__00000004_.IsConsumersNodeExpanded = false
 	__Product__00000005_.Name = `Program Investigation Team (PIT) Report`
 	__Product__00000005_.ComputedPrefix = `2.2`
-	__Product__00000005_.IsInRenameMode = false
-	__Product__00000005_.IsExpanded = false
 	__Product__00000005_.Description = ``
 	__Product__00000005_.IsProducersNodeExpanded = false
 	__Product__00000005_.IsConsumersNodeExpanded = false
@@ -2242,8 +2038,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Product__00000005_.SubProducts = append(__Product__00000005_.SubProducts, __Product__00000029_)
 	__Product__00000006_.Name = `Commercial Crew Transportation Capability (CCtCap).`
 	__Product__00000006_.ComputedPrefix = `1.1`
-	__Product__00000006_.IsInRenameMode = false
-	__Product__00000006_.IsExpanded = false
 	__Product__00000006_.Description = ``
 	__Product__00000006_.IsProducersNodeExpanded = false
 	__Product__00000006_.IsConsumersNodeExpanded = false
@@ -2252,8 +2046,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Product__00000006_.SubProducts = append(__Product__00000006_.SubProducts, __Product__00000010_)
 	__Product__00000007_.Name = `NASA Assets/Capabities`
 	__Product__00000007_.ComputedPrefix = `1`
-	__Product__00000007_.IsInRenameMode = false
-	__Product__00000007_.IsExpanded = false
 	__Product__00000007_.Description = ``
 	__Product__00000007_.IsProducersNodeExpanded = false
 	__Product__00000007_.IsConsumersNodeExpanded = false
@@ -2261,15 +2053,11 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Product__00000007_.SubProducts = append(__Product__00000007_.SubProducts, __Product__00000008_)
 	__Product__00000008_.Name = `ISS`
 	__Product__00000008_.ComputedPrefix = `1.2`
-	__Product__00000008_.IsInRenameMode = false
-	__Product__00000008_.IsExpanded = false
 	__Product__00000008_.Description = ``
 	__Product__00000008_.IsProducersNodeExpanded = false
 	__Product__00000008_.IsConsumersNodeExpanded = false
 	__Product__00000009_.Name = `3 Commercial Crew Program (CCP) Background`
 	__Product__00000009_.ComputedPrefix = `2.2.2`
-	__Product__00000009_.IsInRenameMode = false
-	__Product__00000009_.IsExpanded = false
 	__Product__00000009_.Description = ``
 	__Product__00000009_.IsProducersNodeExpanded = false
 	__Product__00000009_.IsConsumersNodeExpanded = false
@@ -2278,31 +2066,23 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Product__00000009_.SubProducts = append(__Product__00000009_.SubProducts, __Product__00000027_)
 	__Product__00000010_.Name = `CCP Requirements`
 	__Product__00000010_.ComputedPrefix = `1.1.3`
-	__Product__00000010_.IsInRenameMode = false
-	__Product__00000010_.IsExpanded = false
 	__Product__00000010_.Description = ``
 	__Product__00000010_.IsProducersNodeExpanded = false
 	__Product__00000010_.IsConsumersNodeExpanded = false
 	__Product__00000011_.Name = `Crew Module (CM)`
 	__Product__00000011_.ComputedPrefix = `1.1.1.1`
-	__Product__00000011_.IsInRenameMode = false
-	__Product__00000011_.IsExpanded = false
 	__Product__00000011_.Description = ``
 	__Product__00000011_.IsProducersNodeExpanded = false
 	__Product__00000011_.IsConsumersNodeExpanded = false
 	__Product__00000011_.SubProducts = append(__Product__00000011_.SubProducts, __Product__00000012_)
 	__Product__00000012_.Name = `CM Reaction Control System (RCS)`
 	__Product__00000012_.ComputedPrefix = `1.1.1.1.1`
-	__Product__00000012_.IsInRenameMode = false
-	__Product__00000012_.IsExpanded = false
 	__Product__00000012_.Description = ``
 	__Product__00000012_.IsProducersNodeExpanded = false
 	__Product__00000012_.IsConsumersNodeExpanded = false
 	__Product__00000012_.SubProducts = append(__Product__00000012_.SubProducts, __Product__00000013_)
 	__Product__00000013_.Name = `12 CM RCS Thrusters (1200 lbf)`
 	__Product__00000013_.ComputedPrefix = `1.1.1.1.1.1`
-	__Product__00000013_.IsInRenameMode = false
-	__Product__00000013_.IsExpanded = false
 	__Product__00000013_.Description = ``
 	__Product__00000013_.IsProducersNodeExpanded = false
 	__Product__00000013_.IsConsumersNodeExpanded = false
@@ -2310,116 +2090,84 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Product__00000013_.SubProducts = append(__Product__00000013_.SubProducts, __Product__00000028_)
 	__Product__00000014_.Name = `Service Module (SM)`
 	__Product__00000014_.ComputedPrefix = `1.1.1.2`
-	__Product__00000014_.IsInRenameMode = false
-	__Product__00000014_.IsExpanded = false
 	__Product__00000014_.Description = ``
 	__Product__00000014_.IsProducersNodeExpanded = false
 	__Product__00000014_.IsConsumersNodeExpanded = false
 	__Product__00000014_.SubProducts = append(__Product__00000014_.SubProducts, __Product__00000015_)
 	__Product__00000015_.Name = `SM Reaction Control System (SM RCS)`
 	__Product__00000015_.ComputedPrefix = `1.1.1.2.1`
-	__Product__00000015_.IsInRenameMode = false
-	__Product__00000015_.IsExpanded = false
 	__Product__00000015_.Description = ``
 	__Product__00000015_.IsProducersNodeExpanded = false
 	__Product__00000015_.IsConsumersNodeExpanded = false
 	__Product__00000015_.SubProducts = append(__Product__00000015_.SubProducts, __Product__00000016_)
 	__Product__00000016_.Name = `28 SM RCS Thrusters (2800 lbf)`
 	__Product__00000016_.ComputedPrefix = `1.1.1.2.1.1`
-	__Product__00000016_.IsInRenameMode = false
-	__Product__00000016_.IsExpanded = false
 	__Product__00000016_.Description = ``
 	__Product__00000016_.IsProducersNodeExpanded = false
 	__Product__00000016_.IsConsumersNodeExpanded = false
 	__Product__00000017_.Name = `2 Additional Investigations `
 	__Product__00000017_.ComputedPrefix = `2.2.1`
-	__Product__00000017_.IsInRenameMode = false
-	__Product__00000017_.IsExpanded = false
 	__Product__00000017_.Description = ``
 	__Product__00000017_.IsProducersNodeExpanded = false
 	__Product__00000017_.IsConsumersNodeExpanded = false
 	__Product__00000017_.SubProducts = append(__Product__00000017_.SubProducts, __Product__00000018_)
 	__Product__00000018_.Name = `STAR Report Summary and Findings `
 	__Product__00000018_.ComputedPrefix = `2.2.1.1`
-	__Product__00000018_.IsInRenameMode = false
-	__Product__00000018_.IsExpanded = false
 	__Product__00000018_.Description = ``
 	__Product__00000018_.IsProducersNodeExpanded = false
 	__Product__00000018_.IsConsumersNodeExpanded = false
 	__Product__00000019_.Name = `Thermal Sensors`
 	__Product__00000019_.ComputedPrefix = `1.1.1.3`
-	__Product__00000019_.IsInRenameMode = false
-	__Product__00000019_.IsExpanded = false
 	__Product__00000019_.Description = ``
 	__Product__00000019_.IsProducersNodeExpanded = false
 	__Product__00000019_.IsConsumersNodeExpanded = false
 	__Product__00000020_.Name = `Dog House`
 	__Product__00000020_.ComputedPrefix = `1.1.1.1.1.1.1`
-	__Product__00000020_.IsInRenameMode = false
-	__Product__00000020_.IsExpanded = false
 	__Product__00000020_.Description = ``
 	__Product__00000020_.IsProducersNodeExpanded = false
 	__Product__00000020_.IsConsumersNodeExpanded = false
 	__Product__00000021_.Name = `Orbital Maneuvering and Attitude Control (OMAC), 30 000 lbf`
 	__Product__00000021_.ComputedPrefix = `1.1.1.4`
-	__Product__00000021_.IsInRenameMode = false
-	__Product__00000021_.IsExpanded = false
 	__Product__00000021_.Description = ``
 	__Product__00000021_.IsProducersNodeExpanded = false
 	__Product__00000021_.IsConsumersNodeExpanded = false
 	__Product__00000022_.Name = `Boeing’s Enterprise Root Cause/Corrective Actions (eRCCA)`
 	__Product__00000022_.ComputedPrefix = `2.3`
-	__Product__00000022_.IsInRenameMode = false
-	__Product__00000022_.IsExpanded = false
 	__Product__00000022_.Description = ``
 	__Product__00000022_.IsProducersNodeExpanded = false
 	__Product__00000022_.IsConsumersNodeExpanded = false
 	__Product__00000023_.Name = `3.1   Orbital Flight Test (OFT) Summary`
 	__Product__00000023_.ComputedPrefix = `2.2.2.1`
-	__Product__00000023_.IsInRenameMode = false
-	__Product__00000023_.IsExpanded = false
 	__Product__00000023_.Description = ``
 	__Product__00000023_.IsProducersNodeExpanded = false
 	__Product__00000023_.IsConsumersNodeExpanded = false
 	__Product__00000024_.Name = `3.2   Orbital Flight Test 2 (OFT-2) Summary`
 	__Product__00000024_.ComputedPrefix = `2.2.2.2`
-	__Product__00000024_.IsInRenameMode = false
-	__Product__00000024_.IsExpanded = false
 	__Product__00000024_.Description = ``
 	__Product__00000024_.IsProducersNodeExpanded = false
 	__Product__00000024_.IsConsumersNodeExpanded = false
 	__Product__00000025_.Name = `Flight Software (FSW)`
 	__Product__00000025_.ComputedPrefix = `1.1.1.5`
-	__Product__00000025_.IsInRenameMode = false
-	__Product__00000025_.IsExpanded = false
 	__Product__00000025_.Description = ``
 	__Product__00000025_.IsProducersNodeExpanded = false
 	__Product__00000025_.IsConsumersNodeExpanded = false
 	__Product__00000026_.Name = `Fault Detection, Isolation, and Recovery (FDIR)`
 	__Product__00000026_.ComputedPrefix = `1.1.1.6`
-	__Product__00000026_.IsInRenameMode = false
-	__Product__00000026_.IsExpanded = false
 	__Product__00000026_.Description = ``
 	__Product__00000026_.IsProducersNodeExpanded = false
 	__Product__00000026_.IsConsumersNodeExpanded = false
 	__Product__00000027_.Name = `3.3 Comparing SM RCS Thrusters Triggering Fail-Off FDIR on OFT1/OFT2`
 	__Product__00000027_.ComputedPrefix = `2.2.2.3`
-	__Product__00000027_.IsInRenameMode = false
-	__Product__00000027_.IsExpanded = false
 	__Product__00000027_.Description = ``
 	__Product__00000027_.IsProducersNodeExpanded = false
 	__Product__00000027_.IsConsumersNodeExpanded = false
 	__Product__00000028_.Name = `Transducer / pressure sensor (Pc)`
 	__Product__00000028_.ComputedPrefix = `1.1.1.1.1.1.2`
-	__Product__00000028_.IsInRenameMode = false
-	__Product__00000028_.IsExpanded = false
 	__Product__00000028_.Description = ``
 	__Product__00000028_.IsProducersNodeExpanded = false
 	__Product__00000028_.IsConsumersNodeExpanded = false
 	__Product__00000029_.Name = `4     Technical Root Cause Analysis (RCA) and Findings`
 	__Product__00000029_.ComputedPrefix = `2.2.3`
-	__Product__00000029_.IsInRenameMode = false
-	__Product__00000029_.IsExpanded = false
 	__Product__00000029_.Description = ``
 	__Product__00000029_.IsProducersNodeExpanded = false
 	__Product__00000029_.IsConsumersNodeExpanded = false
@@ -2431,44 +2179,32 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Product__00000029_.SubProducts = append(__Product__00000029_.SubProducts, __Product__00000037_)
 	__Product__00000030_.Name = `4.1   Objectives and Approach `
 	__Product__00000030_.ComputedPrefix = `2.2.3.1`
-	__Product__00000030_.IsInRenameMode = false
-	__Product__00000030_.IsExpanded = false
 	__Product__00000030_.Description = ``
 	__Product__00000030_.IsProducersNodeExpanded = false
 	__Product__00000030_.IsConsumersNodeExpanded = false
 	__Product__00000031_.Name = `4.2 Definitions`
 	__Product__00000031_.ComputedPrefix = `2.2.3.2`
-	__Product__00000031_.IsInRenameMode = false
-	__Product__00000031_.IsExpanded = false
 	__Product__00000031_.Description = ``
 	__Product__00000031_.IsProducersNodeExpanded = false
 	__Product__00000031_.IsConsumersNodeExpanded = false
 	__Product__00000032_.Name = `4.3 Fault Tree`
 	__Product__00000032_.ComputedPrefix = `2.2.3.3`
-	__Product__00000032_.IsInRenameMode = false
-	__Product__00000032_.IsExpanded = false
 	__Product__00000032_.Description = ``
 	__Product__00000032_.IsProducersNodeExpanded = false
 	__Product__00000032_.IsConsumersNodeExpanded = false
 	__Product__00000033_.Name = `Guidance, Navigation, and Control (GNC)`
 	__Product__00000033_.ComputedPrefix = `1.1.1.7`
-	__Product__00000033_.IsInRenameMode = false
-	__Product__00000033_.IsExpanded = false
 	__Product__00000033_.Description = ``
 	__Product__00000033_.IsProducersNodeExpanded = false
 	__Product__00000033_.IsConsumersNodeExpanded = false
 	__Product__00000033_.SubProducts = append(__Product__00000033_.SubProducts, __Product__00000038_)
 	__Product__00000034_.Name = `4.4   Analysis: CM RCS Jet Failure`
 	__Product__00000034_.ComputedPrefix = `2.2.3.4`
-	__Product__00000034_.IsInRenameMode = false
-	__Product__00000034_.IsExpanded = false
 	__Product__00000034_.Description = ``
 	__Product__00000034_.IsProducersNodeExpanded = false
 	__Product__00000034_.IsConsumersNodeExpanded = false
 	__Product__00000035_.Name = `4.5   Analysis: Loss of 6DOF Control - SM RCS Jet Failures`
 	__Product__00000035_.ComputedPrefix = `2.2.3.5`
-	__Product__00000035_.IsInRenameMode = false
-	__Product__00000035_.IsExpanded = false
 	__Product__00000035_.Description = ``
 	__Product__00000035_.IsProducersNodeExpanded = false
 	__Product__00000035_.IsConsumersNodeExpanded = false
@@ -2481,80 +2217,58 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Product__00000035_.SubProducts = append(__Product__00000035_.SubProducts, __Product__00000045_)
 	__Product__00000036_.Name = `4.5.1 Description of the system`
 	__Product__00000036_.ComputedPrefix = `2.2.3.5.1`
-	__Product__00000036_.IsInRenameMode = false
-	__Product__00000036_.IsExpanded = false
 	__Product__00000036_.Description = ``
 	__Product__00000036_.IsProducersNodeExpanded = false
 	__Product__00000036_.IsConsumersNodeExpanded = false
 	__Product__00000037_.Name = ``
 	__Product__00000037_.ComputedPrefix = `2.2.3.6`
-	__Product__00000037_.IsInRenameMode = false
-	__Product__00000037_.IsExpanded = false
 	__Product__00000037_.Description = ``
 	__Product__00000037_.IsProducersNodeExpanded = false
 	__Product__00000037_.IsConsumersNodeExpanded = false
 	__Product__00000038_.Name = `Inertial Measurement Unit (IMU) `
 	__Product__00000038_.ComputedPrefix = `1.1.1.7.1`
-	__Product__00000038_.IsInRenameMode = false
-	__Product__00000038_.IsExpanded = false
 	__Product__00000038_.Description = ``
 	__Product__00000038_.IsProducersNodeExpanded = false
 	__Product__00000038_.IsConsumersNodeExpanded = false
 	__Product__00000039_.Name = `4.5.2   Description of Events and Timeline `
 	__Product__00000039_.ComputedPrefix = `2.2.3.5.2`
-	__Product__00000039_.IsInRenameMode = false
-	__Product__00000039_.IsExpanded = false
 	__Product__00000039_.Description = ``
 	__Product__00000039_.IsProducersNodeExpanded = false
 	__Product__00000039_.IsConsumersNodeExpanded = false
 	__Product__00000040_.Name = `B1A3 Thruster failure`
 	__Product__00000040_.ComputedPrefix = `2.2.3.5.3`
-	__Product__00000040_.IsInRenameMode = false
-	__Product__00000040_.IsExpanded = false
 	__Product__00000040_.Description = ``
 	__Product__00000040_.IsProducersNodeExpanded = false
 	__Product__00000040_.IsConsumersNodeExpanded = false
 	__Product__00000041_.Name = `4.5.4   Starliner Engine Testing at White Sands Test Facility (WSTF) during CFT`
 	__Product__00000041_.ComputedPrefix = `2.2.3.5.4`
-	__Product__00000041_.IsInRenameMode = false
-	__Product__00000041_.IsExpanded = false
 	__Product__00000041_.Description = ``
 	__Product__00000041_.IsProducersNodeExpanded = false
 	__Product__00000041_.IsConsumersNodeExpanded = false
 	__Product__00000042_.Name = `4.5.5 Fault Tree`
 	__Product__00000042_.ComputedPrefix = `2.2.3.5.5`
-	__Product__00000042_.IsInRenameMode = false
-	__Product__00000042_.IsExpanded = false
 	__Product__00000042_.Description = ``
 	__Product__00000042_.IsProducersNodeExpanded = false
 	__Product__00000042_.IsConsumersNodeExpanded = false
 	__Product__00000043_.Name = `4.5.6 Most Probable Proximate Cause`
 	__Product__00000043_.ComputedPrefix = `2.2.3.5.6`
-	__Product__00000043_.IsInRenameMode = false
-	__Product__00000043_.IsExpanded = false
 	__Product__00000043_.Description = ``
 	__Product__00000043_.IsProducersNodeExpanded = false
 	__Product__00000043_.IsConsumersNodeExpanded = false
 	__Product__00000043_.SubProducts = append(__Product__00000043_.SubProducts, __Product__00000044_)
 	__Product__00000044_.Name = `Intermediate Cause 5: Inadequate Thruster Thermal Models Inadequate thermal modelling caused insufficient scrutiny for the thermal environment, leading to excessive heating from RCS thermal soakback and integrated heating from OMACs.`
 	__Product__00000044_.ComputedPrefix = `2.2.3.5.6.1`
-	__Product__00000044_.IsInRenameMode = false
-	__Product__00000044_.IsExpanded = false
 	__Product__00000044_.Description = ``
 	__Product__00000044_.IsProducersNodeExpanded = false
 	__Product__00000044_.IsConsumersNodeExpanded = false
 	__Product__00000045_.Name = `4.6 Analysis: Helium Leak`
 	__Product__00000045_.ComputedPrefix = `2.2.3.5.7`
-	__Product__00000045_.IsInRenameMode = false
-	__Product__00000045_.IsExpanded = false
 	__Product__00000045_.Description = ``
 	__Product__00000045_.IsProducersNodeExpanded = false
 	__Product__00000045_.IsConsumersNodeExpanded = false
 	__Product__00000045_.SubProducts = append(__Product__00000045_.SubProducts, __Product__00000046_)
 	__Product__00000046_.Name = `4.6.1 Description of the system`
 	__Product__00000046_.ComputedPrefix = `2.2.3.5.7.1`
-	__Product__00000046_.IsInRenameMode = false
-	__Product__00000046_.IsExpanded = false
 	__Product__00000046_.Description = ``
 	__Product__00000046_.IsProducersNodeExpanded = false
 	__Product__00000046_.IsConsumersNodeExpanded = false
@@ -2623,7 +2337,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ResourceCompositionShape__00000008_.IsHidden = false
 	__ResourceCompositionShape__00000008_.Resource = __Resource__00000010_
 	__ResourceShape__00000000_.Name = `-Default Diagram`
-	__ResourceShape__00000000_.IsExpanded = false
 	__ResourceShape__00000000_.X = 52.114853
 	__ResourceShape__00000000_.Y = 34.127119
 	__ResourceShape__00000000_.Width = 250.000000
@@ -2631,7 +2344,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ResourceShape__00000000_.IsHidden = false
 	__ResourceShape__00000000_.Resource = __Resource__00000000_
 	__ResourceShape__00000001_.Name = `-Default Diagram`
-	__ResourceShape__00000001_.IsExpanded = false
 	__ResourceShape__00000001_.X = 34.180389
 	__ResourceShape__00000001_.Y = 553.010316
 	__ResourceShape__00000001_.Width = 250.000000
@@ -2639,7 +2351,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ResourceShape__00000001_.IsHidden = false
 	__ResourceShape__00000001_.Resource = __Resource__00000001_
 	__ResourceShape__00000002_.Name = `-Default Diagram`
-	__ResourceShape__00000002_.IsExpanded = false
 	__ResourceShape__00000002_.X = 33.201744
 	__ResourceShape__00000002_.Y = 650.719328
 	__ResourceShape__00000002_.Width = 250.000000
@@ -2647,7 +2358,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ResourceShape__00000002_.IsHidden = false
 	__ResourceShape__00000002_.Resource = __Resource__00000002_
 	__ResourceShape__00000003_.Name = `-RBS`
-	__ResourceShape__00000003_.IsExpanded = false
 	__ResourceShape__00000003_.X = 134.737820
 	__ResourceShape__00000003_.Y = 123.124371
 	__ResourceShape__00000003_.Width = 250.000000
@@ -2655,7 +2365,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ResourceShape__00000003_.IsHidden = false
 	__ResourceShape__00000003_.Resource = __Resource__00000003_
 	__ResourceShape__00000004_.Name = `-RBS`
-	__ResourceShape__00000004_.IsExpanded = false
 	__ResourceShape__00000004_.X = 137.737820
 	__ResourceShape__00000004_.Y = 300.124371
 	__ResourceShape__00000004_.Width = 250.000000
@@ -2663,7 +2372,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ResourceShape__00000004_.IsHidden = false
 	__ResourceShape__00000004_.Resource = __Resource__00000004_
 	__ResourceShape__00000005_.Name = `-RBS`
-	__ResourceShape__00000005_.IsExpanded = false
 	__ResourceShape__00000005_.X = 137.737820
 	__ResourceShape__00000005_.Y = 440.124371
 	__ResourceShape__00000005_.Width = 250.000000
@@ -2671,7 +2379,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ResourceShape__00000005_.IsHidden = false
 	__ResourceShape__00000005_.Resource = __Resource__00000005_
 	__ResourceShape__00000006_.Name = `Barry "Butch" Wilmore-RBS`
-	__ResourceShape__00000006_.IsExpanded = false
 	__ResourceShape__00000006_.X = 132.423066
 	__ResourceShape__00000006_.Y = 597.719206
 	__ResourceShape__00000006_.Width = 250.000000
@@ -2679,7 +2386,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ResourceShape__00000006_.IsHidden = false
 	__ResourceShape__00000006_.Resource = __Resource__00000001_
 	__ResourceShape__00000007_.Name = `Sunita "Suni" Williams-RBS`
-	__ResourceShape__00000007_.IsExpanded = false
 	__ResourceShape__00000007_.X = 454.596590
 	__ResourceShape__00000007_.Y = 600.173621
 	__ResourceShape__00000007_.Width = 250.000000
@@ -2687,7 +2393,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ResourceShape__00000007_.IsHidden = false
 	__ResourceShape__00000007_.Resource = __Resource__00000002_
 	__ResourceShape__00000008_.Name = `PITProgram Investigation Team (PIT)-RBS`
-	__ResourceShape__00000008_.IsExpanded = false
 	__ResourceShape__00000008_.X = 835.651635
 	__ResourceShape__00000008_.Y = 297.886860
 	__ResourceShape__00000008_.Width = 250.000000
@@ -2695,7 +2400,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ResourceShape__00000008_.IsHidden = false
 	__ResourceShape__00000008_.Resource = __Resource__00000000_
 	__ResourceShape__00000009_.Name = `-RBS`
-	__ResourceShape__00000009_.IsExpanded = false
 	__ResourceShape__00000009_.X = 126.434105
 	__ResourceShape__00000009_.Y = 846.201664
 	__ResourceShape__00000009_.Width = 250.000000
@@ -2703,7 +2407,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ResourceShape__00000009_.IsHidden = false
 	__ResourceShape__00000009_.Resource = __Resource__00000006_
 	__ResourceShape__00000010_.Name = `-RBS`
-	__ResourceShape__00000010_.IsExpanded = false
 	__ResourceShape__00000010_.X = 110.434105
 	__ResourceShape__00000010_.Y = 1029.201740
 	__ResourceShape__00000010_.Width = 250.000000
@@ -2711,7 +2414,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ResourceShape__00000010_.IsHidden = false
 	__ResourceShape__00000010_.Resource = __Resource__00000007_
 	__ResourceShape__00000012_.Name = `-RBS`
-	__ResourceShape__00000012_.IsExpanded = false
 	__ResourceShape__00000012_.X = 437.737820
 	__ResourceShape__00000012_.Y = 440.124371
 	__ResourceShape__00000012_.Width = 413.000000
@@ -2719,7 +2421,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ResourceShape__00000012_.IsHidden = false
 	__ResourceShape__00000012_.Resource = __Resource__00000009_
 	__ResourceShape__00000013_.Name = `Program Investigation Team (PIT)-PBS`
-	__ResourceShape__00000013_.IsExpanded = false
 	__ResourceShape__00000013_.X = 1128.684052
 	__ResourceShape__00000013_.Y = 492.417667
 	__ResourceShape__00000013_.Width = 250.000000
@@ -2727,7 +2428,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ResourceShape__00000013_.IsHidden = false
 	__ResourceShape__00000013_.Resource = __Resource__00000000_
 	__ResourceShape__00000014_.Name = `Program Investigation Team (PIT)-PIT focus`
-	__ResourceShape__00000014_.IsExpanded = false
 	__ResourceShape__00000014_.X = 104.267926
 	__ResourceShape__00000014_.Y = 288.658205
 	__ResourceShape__00000014_.Width = 250.000000
@@ -2735,7 +2435,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ResourceShape__00000014_.IsHidden = false
 	__ResourceShape__00000014_.Resource = __Resource__00000000_
 	__ResourceShape__00000015_.Name = `-RBS`
-	__ResourceShape__00000015_.IsExpanded = false
 	__ResourceShape__00000015_.X = 883.737820
 	__ResourceShape__00000015_.Y = 438.124371
 	__ResourceShape__00000015_.Width = 250.000000
@@ -2753,71 +2452,43 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__ResourceTaskShape__00000000_.Task = __Task__00000001_
 	__Resource__00000000_.Name = `Program Investigation Team (PIT)`
 	__Resource__00000000_.ComputedPrefix = `1.2`
-	__Resource__00000000_.IsInRenameMode = false
-	__Resource__00000000_.IsExpanded = false
 	__Resource__00000000_.Description = ``
 	__Resource__00000000_.Tasks = append(__Resource__00000000_.Tasks, __Task__00000001_)
 	__Resource__00000001_.Name = `Barry "Butch" Wilmore`
 	__Resource__00000001_.ComputedPrefix = `1.1.1.1`
-	__Resource__00000001_.IsInRenameMode = false
-	__Resource__00000001_.IsExpanded = false
 	__Resource__00000001_.Description = ``
 	__Resource__00000002_.Name = `Sunita "Suni" Williams`
 	__Resource__00000002_.ComputedPrefix = `1.1.1.2`
-	__Resource__00000002_.IsInRenameMode = false
-	__Resource__00000002_.IsExpanded = false
 	__Resource__00000002_.Description = ``
 	__Resource__00000003_.Name = `NASA`
 	__Resource__00000003_.ComputedPrefix = `1`
-	__Resource__00000003_.IsInRenameMode = false
-	__Resource__00000003_.IsExpanded = false
 	__Resource__00000003_.Description = ``
 	__Resource__00000003_.SubResources = append(__Resource__00000003_.SubResources, __Resource__00000004_)
 	__Resource__00000003_.SubResources = append(__Resource__00000003_.SubResources, __Resource__00000000_)
-	__Resource__00000004_.Name = `Crew Commercial Program (CPP)`
+	__Resource__00000004_.Name = `Crew Commercial Program (CPP2)`
 	__Resource__00000004_.ComputedPrefix = `1.1`
-	__Resource__00000004_.IsInRenameMode = false
-	__Resource__00000004_.IsExpanded = false
 	__Resource__00000004_.Description = ``
 	__Resource__00000004_.SubResources = append(__Resource__00000004_.SubResources, __Resource__00000005_)
 	__Resource__00000004_.SubResources = append(__Resource__00000004_.SubResources, __Resource__00000009_)
 	__Resource__00000004_.SubResources = append(__Resource__00000004_.SubResources, __Resource__00000010_)
 	__Resource__00000005_.Name = `Crews`
 	__Resource__00000005_.ComputedPrefix = `1.1.1`
-	__Resource__00000005_.IsInRenameMode = false
-	__Resource__00000005_.IsExpanded = false
 	__Resource__00000005_.Description = ``
 	__Resource__00000005_.SubResources = append(__Resource__00000005_.SubResources, __Resource__00000001_)
 	__Resource__00000005_.SubResources = append(__Resource__00000005_.SubResources, __Resource__00000002_)
 	__Resource__00000006_.Name = `Boeing`
 	__Resource__00000006_.ComputedPrefix = `2`
-	__Resource__00000006_.IsInRenameMode = false
-	__Resource__00000006_.IsExpanded = false
 	__Resource__00000006_.Description = ``
 	__Resource__00000006_.SubResources = append(__Resource__00000006_.SubResources, __Resource__00000007_)
 	__Resource__00000007_.Name = ``
 	__Resource__00000007_.ComputedPrefix = `2.1`
-	__Resource__00000007_.IsInRenameMode = false
-	__Resource__00000007_.IsExpanded = false
 	__Resource__00000007_.Description = ``
 	__Resource__00000009_.Name = ` Starliner Tests and Anomalies Review (STAR) Investigation Team`
 	__Resource__00000009_.ComputedPrefix = `1.1.2`
-	__Resource__00000009_.IsInRenameMode = false
-	__Resource__00000009_.IsExpanded = false
 	__Resource__00000009_.Description = ``
 	__Resource__00000010_.Name = `Flight Control Team (FCT)`
 	__Resource__00000010_.ComputedPrefix = `1.1.3`
-	__Resource__00000010_.IsInRenameMode = false
-	__Resource__00000010_.IsExpanded = false
 	__Resource__00000010_.Description = ``
-	__TaskCompositionShape__00000000_.Name = `Commercial Crew Program (CCP), to Starliner Crewed Flight Test (CFT)`
-	__TaskCompositionShape__00000000_.StartRatio = 0.500000
-	__TaskCompositionShape__00000000_.EndRatio = 0.500000
-	__TaskCompositionShape__00000000_.StartOrientation = models.ORIENTATION_VERTICAL
-	__TaskCompositionShape__00000000_.EndOrientation = models.ORIENTATION_VERTICAL
-	__TaskCompositionShape__00000000_.CornerOffsetRatio = 1.680000
-	__TaskCompositionShape__00000000_.IsHidden = false
-	__TaskCompositionShape__00000000_.Task = __Task__00000000_
 	__TaskCompositionShape__00000001_.Name = `Commercial Crew Program (CCP), to Starliner Crewed Flight Test (CFT)`
 	__TaskCompositionShape__00000001_.StartRatio = 0.500000
 	__TaskCompositionShape__00000001_.EndRatio = 0.500000
@@ -2876,32 +2547,7 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__TaskOutputShape__00000000_.IsHidden = false
 	__TaskOutputShape__00000000_.Task = __Task__00000004_
 	__TaskOutputShape__00000000_.Product = __Product__00000005_
-	__TaskShape__00000000_.Name = `NewTask-Default Diagram`
-	__TaskShape__00000000_.IsExpanded = false
-	__TaskShape__00000000_.X = 61.409529
-	__TaskShape__00000000_.Y = 952.589880
-	__TaskShape__00000000_.Width = 250.000000
-	__TaskShape__00000000_.Height = 70.000000
-	__TaskShape__00000000_.IsHidden = false
-	__TaskShape__00000000_.Task = __Task__00000000_
-	__TaskShape__00000001_.Name = `NewTask-Default Diagram`
-	__TaskShape__00000001_.IsExpanded = false
-	__TaskShape__00000001_.X = 105.187127
-	__TaskShape__00000001_.Y = 246.958864
-	__TaskShape__00000001_.Width = 250.000000
-	__TaskShape__00000001_.Height = 70.000000
-	__TaskShape__00000001_.IsHidden = false
-	__TaskShape__00000001_.Task = __Task__00000001_
-	__TaskShape__00000002_.Name = `-Default Diagram`
-	__TaskShape__00000002_.IsExpanded = false
-	__TaskShape__00000002_.X = 62.073018
-	__TaskShape__00000002_.Y = 795.651222
-	__TaskShape__00000002_.Width = 250.000000
-	__TaskShape__00000002_.Height = 70.000000
-	__TaskShape__00000002_.IsHidden = false
-	__TaskShape__00000002_.Task = __Task__00000002_
 	__TaskShape__00000003_.Name = `Mishap investigation-WBS`
-	__TaskShape__00000003_.IsExpanded = false
 	__TaskShape__00000003_.X = 28.416829
 	__TaskShape__00000003_.Y = 546.674065
 	__TaskShape__00000003_.Width = 250.000000
@@ -2909,15 +2555,13 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__TaskShape__00000003_.IsHidden = false
 	__TaskShape__00000003_.Task = __Task__00000001_
 	__TaskShape__00000004_.Name = `Commercial Crew Program (CCP),-WBS`
-	__TaskShape__00000004_.IsExpanded = false
-	__TaskShape__00000004_.X = 16.071983
+	__TaskShape__00000004_.X = 14.071983
 	__TaskShape__00000004_.Y = 166.517160
 	__TaskShape__00000004_.Width = 250.000000
 	__TaskShape__00000004_.Height = 70.000000
 	__TaskShape__00000004_.IsHidden = false
 	__TaskShape__00000004_.Task = __Task__00000002_
 	__TaskShape__00000005_.Name = `Starliner Crewed Flight Test (CFT)-WBS`
-	__TaskShape__00000005_.IsExpanded = false
 	__TaskShape__00000005_.X = 645.617766
 	__TaskShape__00000005_.Y = 360.295606
 	__TaskShape__00000005_.Width = 250.000000
@@ -2925,7 +2569,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__TaskShape__00000005_.IsHidden = false
 	__TaskShape__00000005_.Task = __Task__00000000_
 	__TaskShape__00000006_.Name = `-WBS`
-	__TaskShape__00000006_.IsExpanded = false
 	__TaskShape__00000006_.X = 14.409715
 	__TaskShape__00000006_.Y = 32.470060
 	__TaskShape__00000006_.Width = 250.000000
@@ -2933,7 +2576,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__TaskShape__00000006_.IsHidden = false
 	__TaskShape__00000006_.Task = __Task__00000003_
 	__TaskShape__00000007_.Name = `Mishap investigation-PBS`
-	__TaskShape__00000007_.IsExpanded = false
 	__TaskShape__00000007_.X = 1128.178322
 	__TaskShape__00000007_.Y = 381.328484
 	__TaskShape__00000007_.Width = 250.000000
@@ -2941,7 +2583,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__TaskShape__00000007_.IsHidden = false
 	__TaskShape__00000007_.Task = __Task__00000001_
 	__TaskShape__00000008_.Name = `-WBS`
-	__TaskShape__00000008_.IsExpanded = false
 	__TaskShape__00000008_.X = 28.416829
 	__TaskShape__00000008_.Y = 686.674065
 	__TaskShape__00000008_.Width = 250.000000
@@ -2949,7 +2590,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__TaskShape__00000008_.IsHidden = false
 	__TaskShape__00000008_.Task = __Task__00000004_
 	__TaskShape__00000009_.Name = `Program Investigation Team (PIT) Report-PIT focus`
-	__TaskShape__00000009_.IsExpanded = false
 	__TaskShape__00000009_.X = 499.174738
 	__TaskShape__00000009_.Y = 283.233412
 	__TaskShape__00000009_.Width = 250.000000
@@ -2957,7 +2597,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__TaskShape__00000009_.IsHidden = false
 	__TaskShape__00000009_.Task = __Task__00000004_
 	__TaskShape__00000010_.Name = `-WBS`
-	__TaskShape__00000010_.IsExpanded = false
 	__TaskShape__00000010_.X = 19.071983
 	__TaskShape__00000010_.Y = 346.517160
 	__TaskShape__00000010_.Width = 250.000000
@@ -2965,7 +2604,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__TaskShape__00000010_.IsHidden = false
 	__TaskShape__00000010_.Task = __Task__00000005_
 	__TaskShape__00000011_.Name = `-WBS`
-	__TaskShape__00000011_.IsExpanded = false
 	__TaskShape__00000011_.X = 336.071983
 	__TaskShape__00000011_.Y = 355.517160
 	__TaskShape__00000011_.Width = 250.000000
@@ -2973,7 +2611,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__TaskShape__00000011_.IsHidden = false
 	__TaskShape__00000011_.Task = __Task__00000006_
 	__TaskShape__00000012_.Name = `-WBS`
-	__TaskShape__00000012_.IsExpanded = false
 	__TaskShape__00000012_.X = 645.617766
 	__TaskShape__00000012_.Y = 500.295606
 	__TaskShape__00000012_.Width = 250.000000
@@ -2982,8 +2619,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__TaskShape__00000012_.Task = __Task__00000007_
 	__Task__00000000_.Name = `Starliner Crewed Flight Test (CFT)`
 	__Task__00000000_.ComputedPrefix = `2.3`
-	__Task__00000000_.IsInRenameMode = false
-	__Task__00000000_.IsExpanded = false
 	__Task__00000000_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2024-06-05 00:00:00 +0000 UTC")
 	__Task__00000000_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2024-06-10 00:00:00 +0000 UTC")
 	__Task__00000000_.Description = `The mission of interest to the report.`
@@ -2994,8 +2629,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Task__00000000_.SubTasks = append(__Task__00000000_.SubTasks, __Task__00000007_)
 	__Task__00000001_.Name = `Mishap investigations`
 	__Task__00000001_.ComputedPrefix = `1`
-	__Task__00000001_.IsInRenameMode = false
-	__Task__00000001_.IsExpanded = false
 	__Task__00000001_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2025-02-01 00:00:00 +0000 UTC")
 	__Task__00000001_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2025-11-01 00:00:00 +0000 UTC")
 	__Task__00000001_.Description = ``
@@ -3006,8 +2639,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Task__00000001_.SubTasks = append(__Task__00000001_.SubTasks, __Task__00000004_)
 	__Task__00000002_.Name = `Commercial Crew Program (CCP),`
 	__Task__00000002_.ComputedPrefix = `2`
-	__Task__00000002_.IsInRenameMode = false
-	__Task__00000002_.IsExpanded = false
 	__Task__00000002_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Task__00000002_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Task__00000002_.Description = ``
@@ -3020,8 +2651,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Task__00000002_.SubTasks = append(__Task__00000002_.SubTasks, __Task__00000000_)
 	__Task__00000003_.Name = ` Commercial ReSupply (CRS) `
 	__Task__00000003_.ComputedPrefix = `3`
-	__Task__00000003_.IsInRenameMode = false
-	__Task__00000003_.IsExpanded = false
 	__Task__00000003_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Task__00000003_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Task__00000003_.Description = ``
@@ -3031,8 +2660,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Task__00000003_.Completion = ""
 	__Task__00000004_.Name = `Program Investigation Team (PIT) Report`
 	__Task__00000004_.ComputedPrefix = `1.1`
-	__Task__00000004_.IsInRenameMode = false
-	__Task__00000004_.IsExpanded = false
 	__Task__00000004_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Task__00000004_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Task__00000004_.Description = ``
@@ -3044,8 +2671,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Task__00000004_.Outputs = append(__Task__00000004_.Outputs, __Product__00000005_)
 	__Task__00000005_.Name = `Orbital Flight Test-1 (OFT-1)`
 	__Task__00000005_.ComputedPrefix = `2.1`
-	__Task__00000005_.IsInRenameMode = false
-	__Task__00000005_.IsExpanded = false
 	__Task__00000005_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2019-12-20 00:00:00 +0000 UTC")
 	__Task__00000005_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2019-12-20 00:00:00 +0000 UTC")
 	__Task__00000005_.Description = ``
@@ -3055,8 +2680,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Task__00000005_.Completion = ""
 	__Task__00000006_.Name = `Orbital Flight Test-2 (OFT-2)`
 	__Task__00000006_.ComputedPrefix = `2.2`
-	__Task__00000006_.IsInRenameMode = false
-	__Task__00000006_.IsExpanded = false
 	__Task__00000006_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2022-05-19 00:00:00 +0000 UTC")
 	__Task__00000006_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2022-05-25 00:00:00 +0000 UTC")
 	__Task__00000006_.Description = ``
@@ -3066,8 +2689,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Task__00000006_.Completion = ""
 	__Task__00000007_.Name = `ISS Approach`
 	__Task__00000007_.ComputedPrefix = `2.3.1`
-	__Task__00000007_.IsInRenameMode = false
-	__Task__00000007_.IsExpanded = false
 	__Task__00000007_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2024-06-05 00:00:00 +0000 UTC")
 	__Task__00000007_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2024-06-05 00:00:00 +0000 UTC")
 	__Task__00000007_.Description = ``
@@ -3075,614 +2696,5 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Task__00000007_.IsOutputsNodeExpanded = false
 	__Task__00000007_.IsWithCompletion = false
 	__Task__00000007_.Completion = ""
-	stage.Commit()
-
-	// Default Diagram
-	__Diagram__00000000_.Width = 27855.187127
-	__Diagram__00000000_.Height = 28617.751617
-	// PBS
-	__Diagram__00000002_.Width = 28891.980809
-	__Diagram__00000002_.Height = 28421.961381
-	// PIT Report
-	__Diagram__00000005_.IsExpanded = false
-	__Diagram__00000005_.Width = 29085.901110
-	__Diagram__00000005_.Height = 29048.855478
-	// PIT focus
-	__Diagram__00000004_.Width = 28662.017987
-	__Diagram__00000004_.Height = 27858.658205
-	// RBS
-	__Diagram__00000003_.Width = 28585.651635
-	__Diagram__00000003_.Height = 28599.201740
-	// RCS PBS
-	__Diagram__00000006_.Width = 28969.153628
-	__Diagram__00000006_.Height = 28677.529266
-	// WBS
-	__Diagram__00000001_.Width = 28395.617766
-	__Diagram__00000001_.Height = 28256.674065
-	stage.Commit()
-
-	// PBS
-	__Diagram__00000002_.IsChecked = true
-	// PIT Report
-	__Diagram__00000005_.IsChecked = false
-	stage.Commit()
-
-	// PBS
-	__Diagram__00000002_.IsExpanded = true
-	stage.Commit()
-
-	// PBS
-	__Diagram__00000002_.ProductsWhoseNodeIsExpanded = slices.Insert(__Diagram__00000002_.ProductsWhoseNodeIsExpanded, 3, __Product__00000002_)
-	stage.Commit()
-
-	// PBS
-	__Diagram__00000002_.IsExpanded = false
-	stage.Commit()
-
-	// PBS
-	__Diagram__00000002_.IsExpanded = true
-	stage.Commit()
-
-	// Default Diagram
-	__Diagram__00000000_.Width = 27955.187127
-	__Diagram__00000000_.Height = 28717.751617
-	// PBS
-	__Diagram__00000002_.Width = 28991.980809
-	__Diagram__00000002_.Height = 28521.961381
-	// PIT Report
-	__Diagram__00000005_.Width = 29185.901110
-	__Diagram__00000005_.Height = 29148.855478
-	// PIT focus
-	__Diagram__00000004_.Width = 28762.017987
-	__Diagram__00000004_.Height = 27958.658205
-	// RBS
-	__Diagram__00000003_.Width = 28685.651635
-	__Diagram__00000003_.Height = 28699.201740
-	// RCS PBS
-	__Diagram__00000006_.Width = 29069.153628
-	__Diagram__00000006_.Height = 28777.529266
-	// WBS
-	__Diagram__00000001_.Width = 28495.617766
-	__Diagram__00000001_.Height = 28356.674065
-	stage.Commit()
-
-	// Default Diagram
-	__Diagram__00000000_.Width = 28055.187127
-	__Diagram__00000000_.Height = 28817.751617
-	// PBS
-	__Diagram__00000002_.Width = 29091.980809
-	__Diagram__00000002_.Height = 28621.961381
-	// PIT Report
-	__Diagram__00000005_.Width = 29285.901110
-	__Diagram__00000005_.Height = 29248.855478
-	// PIT focus
-	__Diagram__00000004_.Width = 28862.017987
-	__Diagram__00000004_.Height = 28058.658205
-	// RBS
-	__Diagram__00000003_.Width = 28785.651635
-	__Diagram__00000003_.Height = 28799.201740
-	// RCS PBS
-	__Diagram__00000006_.Width = 29169.153628
-	__Diagram__00000006_.Height = 28877.529266
-	// WBS
-	__Diagram__00000001_.Width = 28595.617766
-	__Diagram__00000001_.Height = 28456.674065
-	stage.Commit()
-
-	// Default Diagram
-	__Diagram__00000000_.Width = 28155.187127
-	__Diagram__00000000_.Height = 28917.751617
-	// PBS
-	__Diagram__00000002_.Width = 29191.980809
-	__Diagram__00000002_.Height = 28721.961381
-	// PIT Report
-	__Diagram__00000005_.Width = 29385.901110
-	__Diagram__00000005_.Height = 29348.855478
-	// PIT focus
-	__Diagram__00000004_.Width = 28962.017987
-	__Diagram__00000004_.Height = 28158.658205
-	// RBS
-	__Diagram__00000003_.Width = 28885.651635
-	__Diagram__00000003_.Height = 28899.201740
-	// RCS PBS
-	__Diagram__00000006_.Width = 29269.153628
-	__Diagram__00000006_.Height = 28977.529266
-	// WBS
-	__Diagram__00000001_.Width = 28695.617766
-	__Diagram__00000001_.Height = 28556.674065
-	stage.Commit()
-
-	// PBS
-	__Diagram__00000002_.IsChecked = false
-	// RCS PBS
-	__Diagram__00000006_.IsChecked = true
-	stage.Commit()
-
-	// PBS
-	__Diagram__00000002_.IsPBSNodeExpanded = false
-	stage.Commit()
-
-	// PBS
-	__Diagram__00000002_.IsExpanded = false
-	stage.Commit()
-
-	// RCS PBS
-	__Diagram__00000006_.IsExpanded = true
-	stage.Commit()
-
-	// RCS PBS
-	__Diagram__00000006_.ProductsWhoseNodeIsExpanded = slices.Insert(__Diagram__00000006_.ProductsWhoseNodeIsExpanded, 8, __Product__00000021_)
-	stage.Commit()
-
-	// Default Diagram
-	__Diagram__00000000_.Width = 28255.187127
-	__Diagram__00000000_.Height = 29017.751617
-	// PBS
-	__Diagram__00000002_.Width = 29291.980809
-	__Diagram__00000002_.Height = 28821.961381
-	// PIT Report
-	__Diagram__00000005_.Width = 29485.901110
-	__Diagram__00000005_.Height = 29448.855478
-	// PIT focus
-	__Diagram__00000004_.Width = 29062.017987
-	__Diagram__00000004_.Height = 28258.658205
-	// RBS
-	__Diagram__00000003_.Width = 28985.651635
-	__Diagram__00000003_.Height = 28999.201740
-	// RCS PBS
-	__Diagram__00000006_.Width = 29369.153628
-	__Diagram__00000006_.Height = 29077.529266
-	__Diagram__00000006_.ProductsWhoseNodeIsExpanded = slices.Delete(__Diagram__00000006_.ProductsWhoseNodeIsExpanded, 7, 8)
-	// WBS
-	__Diagram__00000001_.Width = 28795.617766
-	__Diagram__00000001_.Height = 28656.674065
-	stage.Commit()
-
-	// PBS
-	__Diagram__00000002_.IsChecked = true
-	// RCS PBS
-	__Diagram__00000006_.IsChecked = false
-	stage.Commit()
-
-	// PBS
-	__Diagram__00000002_.IsChecked = false
-	// RCS PBS
-	__Diagram__00000006_.IsChecked = true
-	stage.Commit()
-
-	// PBS
-	__Diagram__00000002_.IsChecked = true
-	// RCS PBS
-	__Diagram__00000006_.IsChecked = false
-	stage.Commit()
-
-	// RCS PBS
-	__Diagram__00000006_.IsExpanded = false
-	stage.Commit()
-
-	// PBS
-	__Diagram__00000002_.IsExpanded = true
-	stage.Commit()
-
-	// Default Diagram
-	__Diagram__00000000_.Width = 28355.187127
-	__Diagram__00000000_.Height = 29117.751617
-	// PBS
-	__Diagram__00000002_.Width = 29391.980809
-	__Diagram__00000002_.Height = 28921.961381
-	// PIT Report
-	__Diagram__00000005_.Width = 29585.901110
-	__Diagram__00000005_.Height = 29548.855478
-	// PIT focus
-	__Diagram__00000004_.Width = 29162.017987
-	__Diagram__00000004_.Height = 28358.658205
-	// RBS
-	__Diagram__00000003_.Width = 29085.651635
-	__Diagram__00000003_.Height = 29099.201740
-	// RCS PBS
-	__Diagram__00000006_.Width = 29469.153628
-	__Diagram__00000006_.Height = 29177.529266
-	// WBS
-	__Diagram__00000001_.Width = 28895.617766
-	__Diagram__00000001_.Height = 28756.674065
-	stage.Commit()
-
-	__NoteShape__00000026_ := (&models.NoteShape{Name: `CFT ended in march 2025-PBS`}).Stage(stage)
-	// PBS
-	__Diagram__00000002_.Note_Shapes = slices.Insert(__Diagram__00000002_.Note_Shapes, 1, __NoteShape__00000026_)
-	__NoteShape__00000026_.Name = `CFT ended in march 2025-PBS`
-	__NoteShape__00000026_.IsExpanded = false
-	__NoteShape__00000026_.X = 106.565927
-	__NoteShape__00000026_.Y = 141.094225
-	__NoteShape__00000026_.Width = 250.000000
-	__NoteShape__00000026_.Height = 70.000000
-	__NoteShape__00000026_.IsHidden = false
-	__NoteShape__00000026_.Note = __Note__00000000_
-	stage.Commit()
-
-	// PBS
-	__Diagram__00000002_.Note_Shapes = slices.Delete(__Diagram__00000002_.Note_Shapes, 1, 2)
-	__NoteShape__00000026_.Unstage(stage)
-	stage.Commit()
-
-	// PBS
-	__Diagram__00000002_.IsPBSNodeExpanded = true
-	stage.Commit()
-
-	// PBS
-	__Diagram__00000002_.IsChecked = false
-	// RCS PBS
-	__Diagram__00000006_.IsChecked = true
-	stage.Commit()
-
-	// PBS
-	__Diagram__00000002_.IsChecked = true
-	// RCS PBS
-	__Diagram__00000006_.IsChecked = false
-	stage.Commit()
-
-	// Default Diagram
-	__Diagram__00000000_.Width = 28455.187127
-	__Diagram__00000000_.Height = 29217.751617
-	// PBS
-	__Diagram__00000002_.Width = 29491.980809
-	__Diagram__00000002_.Height = 29021.961381
-	// PIT Report
-	__Diagram__00000005_.Width = 29685.901110
-	__Diagram__00000005_.Height = 29648.855478
-	// PIT focus
-	__Diagram__00000004_.Width = 29262.017987
-	__Diagram__00000004_.Height = 28458.658205
-	// RBS
-	__Diagram__00000003_.Width = 29185.651635
-	__Diagram__00000003_.Height = 29199.201740
-	// RCS PBS
-	__Diagram__00000006_.Width = 29569.153628
-	__Diagram__00000006_.Height = 29277.529266
-	// WBS
-	__Diagram__00000001_.Width = 28995.617766
-	__Diagram__00000001_.Height = 28856.674065
-	stage.Commit()
-
-	// Default Diagram
-	__Diagram__00000000_.Width = 28555.187127
-	__Diagram__00000000_.Height = 29317.751617
-	// PBS
-	__Diagram__00000002_.Width = 29591.980809
-	__Diagram__00000002_.Height = 29121.961381
-	// PIT Report
-	__Diagram__00000005_.Width = 29785.901110
-	__Diagram__00000005_.Height = 29748.855478
-	// PIT focus
-	__Diagram__00000004_.Width = 29362.017987
-	__Diagram__00000004_.Height = 28558.658205
-	// RBS
-	__Diagram__00000003_.Width = 29285.651635
-	__Diagram__00000003_.Height = 29299.201740
-	// RCS PBS
-	__Diagram__00000006_.Width = 29669.153628
-	__Diagram__00000006_.Height = 29377.529266
-	// WBS
-	__Diagram__00000001_.Width = 29095.617766
-	__Diagram__00000001_.Height = 28956.674065
-	stage.Commit()
-
-	// PBS
-	__Diagram__00000002_.IsExpanded = false
-	stage.Commit()
-
-	// WBS
-	__Diagram__00000001_.IsExpanded = true
-	stage.Commit()
-
-	// WBS
-	__Diagram__00000001_.IsExpanded = false
-	stage.Commit()
-
-	// WBS
-	__Diagram__00000001_.IsExpanded = true
-	stage.Commit()
-
-	// Default Diagram
-	__Diagram__00000000_.IsExpanded = true
-	__Diagram__00000000_.Width = 28655.187127
-	__Diagram__00000000_.Height = 29417.751617
-	// PBS
-	__Diagram__00000002_.Width = 29691.980809
-	__Diagram__00000002_.Height = 29221.961381
-	// PIT Report
-	__Diagram__00000005_.Width = 29885.901110
-	__Diagram__00000005_.Height = 29848.855478
-	// PIT focus
-	__Diagram__00000004_.Width = 29462.017987
-	__Diagram__00000004_.Height = 28658.658205
-	// RBS
-	__Diagram__00000003_.Width = 29385.651635
-	__Diagram__00000003_.Height = 29399.201740
-	// RCS PBS
-	__Diagram__00000006_.Width = 29769.153628
-	__Diagram__00000006_.Height = 29477.529266
-	// WBS
-	__Diagram__00000001_.Width = 29195.617766
-	__Diagram__00000001_.Height = 29056.674065
-	stage.Commit()
-
-	// Default Diagram
-	__Diagram__00000000_.IsChecked = true
-	// PBS
-	__Diagram__00000002_.IsChecked = false
-	stage.Commit()
-
-	// Default Diagram
-	__Diagram__00000000_.IsChecked = false
-	// WBS
-	__Diagram__00000001_.IsChecked = true
-	stage.Commit()
-
-	// WBS
-	__Diagram__00000001_.IsNotesNodeExpanded = false
-	stage.Commit()
-
-	// Default Diagram
-	__Diagram__00000000_.TasksWhoseNodeIsExpanded = slices.Delete(__Diagram__00000000_.TasksWhoseNodeIsExpanded, 0, 1)
-	stage.Commit()
-
-	// Default Diagram
-	__Diagram__00000000_.IsWBSNodeExpanded = false
-	stage.Commit()
-
-	// Default Diagram
-	__Diagram__00000000_.IsResourcesNodeExpanded = false
-	stage.Commit()
-
-	// Default Diagram
-	__Diagram__00000000_.IsNotesNodeExpanded = false
-	stage.Commit()
-
-	// Default Diagram
-	__Diagram__00000000_.IsPBSNodeExpanded = false
-	stage.Commit()
-
-	// Default Diagram
-	__Diagram__00000000_.IsPBSNodeExpanded = true
-	stage.Commit()
-
-	// Default Diagram
-	__Diagram__00000000_.IsPBSNodeExpanded = false
-	stage.Commit()
-
-	// Default Diagram
-	__Diagram__00000000_.IsPBSNodeExpanded = true
-	stage.Commit()
-
-	// Default Diagram
-	__Diagram__00000000_.IsExpanded = false
-	stage.Commit()
-
-	// WBS
-	__Diagram__00000001_.IsExpanded = false
-	stage.Commit()
-
-	// Default Diagram
-	__Diagram__00000000_.IsChecked = true
-	// WBS
-	__Diagram__00000001_.IsChecked = false
-	stage.Commit()
-
-	// Default Diagram
-	__Diagram__00000000_.IsChecked = false
-	stage.Commit()
-
-	// Default Diagram
-	__Diagram__00000000_.IsChecked = true
-	stage.Commit()
-
-	// Startliner Mishape Report
-	__Library__00000000_.Diagrams = slices.Delete(__Library__00000000_.Diagrams, 1, 2)
-	__Library__00000000_.Diagrams = slices.Delete(__Library__00000000_.Diagrams, 0, 1)
-	__Diagram__00000000_.Unstage(stage)
-	stage.Commit()
-
-	// PBS
-	__Diagram__00000002_.ComputedPrefix = `2`
-	__Diagram__00000002_.Width = 31891.980809
-	__Diagram__00000002_.Height = 31421.961381
-	// PIT Report
-	__Diagram__00000005_.ComputedPrefix = `5`
-	__Diagram__00000005_.Width = 32085.901110
-	__Diagram__00000005_.Height = 32048.855478
-	// PIT focus
-	__Diagram__00000004_.ComputedPrefix = `4`
-	__Diagram__00000004_.Width = 31662.017987
-	__Diagram__00000004_.Height = 30858.658205
-	// RBS
-	__Diagram__00000003_.ComputedPrefix = `3`
-	__Diagram__00000003_.Width = 31585.651635
-	__Diagram__00000003_.Height = 31599.201740
-	// RCS PBS
-	__Diagram__00000006_.ComputedPrefix = `6`
-	__Diagram__00000006_.Width = 31969.153628
-	__Diagram__00000006_.Height = 31677.529266
-	// WBS
-	__Diagram__00000001_.ComputedPrefix = `1`
-	__Diagram__00000001_.Width = 31395.617766
-	__Diagram__00000001_.Height = 31256.674065
-	__NoteShape__00000000_.Unstage(stage)
-	__NoteTaskShape__00000000_.Unstage(stage)
-	__TaskCompositionShape__00000000_.Unstage(stage)
-	__TaskShape__00000000_.Unstage(stage)
-	__TaskShape__00000001_.Unstage(stage)
-	__TaskShape__00000002_.Unstage(stage)
-	stage.Commit()
-
-	// WBS
-	__Diagram__00000001_.IsChecked = true
-	stage.Commit()
-
-	// PBS
-	__Diagram__00000002_.IsChecked = true
-	// WBS
-	__Diagram__00000001_.IsChecked = false
-	stage.Commit()
-
-	// PBS
-	__Diagram__00000002_.IsChecked = false
-	// RBS
-	__Diagram__00000003_.IsChecked = true
-	stage.Commit()
-
-	// PIT focus
-	__Diagram__00000004_.IsChecked = true
-	// RBS
-	__Diagram__00000003_.IsChecked = false
-	stage.Commit()
-
-	// PIT Report
-	__Diagram__00000005_.IsChecked = true
-	// PIT focus
-	__Diagram__00000004_.IsChecked = false
-	stage.Commit()
-
-	// PIT Report
-	__Diagram__00000005_.IsChecked = false
-	// RCS PBS
-	__Diagram__00000006_.IsChecked = true
-	stage.Commit()
-
-	// RCS PBS
-	__Diagram__00000006_.IsChecked = false
-	// WBS
-	__Diagram__00000001_.IsChecked = true
-	stage.Commit()
-
-	// WBS
-	__Diagram__00000001_.IsExpanded = true
-	stage.Commit()
-
-	// WBS
-	__Diagram__00000001_.IsPBSNodeExpanded = true
-	stage.Commit()
-
-	// PBS
-	__Diagram__00000002_.IsExpanded = true
-	stage.Commit()
-
-	// PBS
-	__Diagram__00000002_.IsPBSNodeExpanded = false
-	stage.Commit()
-
-	// PBS
-	__Diagram__00000002_.IsNotesNodeExpanded = false
-	stage.Commit()
-
-	// PBS
-	__Diagram__00000002_.IsPBSNodeExpanded = true
-	stage.Commit()
-
-	// PBS
-	__Diagram__00000002_.ProductsWhoseNodeIsExpanded = slices.Delete(__Diagram__00000002_.ProductsWhoseNodeIsExpanded, 2, 3)
-	stage.Commit()
-
-	// PBS
-	__Diagram__00000002_.ProductsWhoseNodeIsExpanded = slices.Delete(__Diagram__00000002_.ProductsWhoseNodeIsExpanded, 0, 1)
-	stage.Commit()
-
-	// PBS
-	__Diagram__00000002_.IsPBSNodeExpanded = false
-	stage.Commit()
-
-	// PBS
-	__Diagram__00000002_.IsExpanded = false
-	stage.Commit()
-
-	// WBS
-	__Diagram__00000001_.IsPBSNodeExpanded = false
-	stage.Commit()
-
-	// WBS
-	__Diagram__00000001_.IsExpanded = false
-	stage.Commit()
-
-	// PBS
-	__Diagram__00000002_.IsChecked = true
-	// WBS
-	__Diagram__00000001_.IsChecked = false
-	stage.Commit()
-
-	// PBS
-	__Diagram__00000002_.IsChecked = false
-	__Diagram__00000002_.Width = 31991.980809
-	__Diagram__00000002_.Height = 31521.961381
-	// PIT Report
-	__Diagram__00000005_.Width = 32185.901110
-	__Diagram__00000005_.Height = 32148.855478
-	// PIT focus
-	__Diagram__00000004_.Width = 31762.017987
-	__Diagram__00000004_.Height = 30958.658205
-	// RBS
-	__Diagram__00000003_.IsChecked = true
-	__Diagram__00000003_.Width = 31685.651635
-	__Diagram__00000003_.Height = 31699.201740
-	// RCS PBS
-	__Diagram__00000006_.Width = 32069.153628
-	__Diagram__00000006_.Height = 31777.529266
-	// WBS
-	__Diagram__00000001_.Width = 31495.617766
-	__Diagram__00000001_.Height = 31356.674065
-	stage.Commit()
-
-	// Crew Commercial Program (CPP2)
-	__Resource__00000004_.Name = `Crew Commercial Program (CPP2)`
-	stage.Commit()
-
-	// PBS
-	__Diagram__00000002_.IsChecked = true
-	__Diagram__00000002_.Width = 32091.980809
-	__Diagram__00000002_.Height = 31621.961381
-	// PIT Report
-	__Diagram__00000005_.Width = 32285.901110
-	__Diagram__00000005_.Height = 32248.855478
-	// PIT focus
-	__Diagram__00000004_.Width = 31862.017987
-	__Diagram__00000004_.Height = 31058.658205
-	// RBS
-	__Diagram__00000003_.IsChecked = false
-	__Diagram__00000003_.Width = 31785.651635
-	__Diagram__00000003_.Height = 31799.201740
-	// RCS PBS
-	__Diagram__00000006_.Width = 32169.153628
-	__Diagram__00000006_.Height = 31877.529266
-	// WBS
-	__Diagram__00000001_.Width = 31595.617766
-	__Diagram__00000001_.Height = 31456.674065
-	stage.Commit()
-
-	// PBS
-	__Diagram__00000002_.IsChecked = false
-	stage.Commit()
-
-	// PBS
-	__Diagram__00000002_.Width = 32191.980809
-	__Diagram__00000002_.Height = 31721.961381
-	// PIT Report
-	__Diagram__00000005_.Width = 32385.901110
-	__Diagram__00000005_.Height = 32348.855478
-	// PIT focus
-	__Diagram__00000004_.Width = 31962.017987
-	__Diagram__00000004_.Height = 31158.658205
-	// RBS
-	__Diagram__00000003_.Width = 31885.651635
-	__Diagram__00000003_.Height = 31899.201740
-	// RCS PBS
-	__Diagram__00000006_.Width = 32269.153628
-	__Diagram__00000006_.Height = 31977.529266
-	// WBS
-	__Diagram__00000001_.IsChecked = true
-	__Diagram__00000001_.Width = 31695.617766
-	__Diagram__00000001_.Height = 31556.674065
-	stage.Commit()
-
-	// Commercial Crew Program (CCP),-WBS
-	__TaskShape__00000004_.X = 14.071983
 	stage.Commit()
 }

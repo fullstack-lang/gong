@@ -20,8 +20,8 @@ type AbstractTypeFields struct {
 	computedPrefix []int
 
 	// nodes can be edited
-	IsInRenameMode bool
-	IsExpanded     bool // to be made private once in production (no need to persist)
+	isInRenameMode bool
+	isExpanded     bool // to be made private once in production (no need to persist)
 
 	// When the full PBS is displayed, the computedWidth is the number of node
 	// aligned below. A leaf node has a computedWidth of 1
@@ -41,11 +41,11 @@ func (r *AbstractTypeFields) SetComputedPrefixInt(p []int) {
 }
 
 func (r *AbstractTypeFields) GetIsExpanded() bool {
-	return r.IsExpanded
+	return r.isExpanded
 }
 
 func (r *AbstractTypeFields) SetIsExpanded(isExpanded bool) {
-	r.IsExpanded = isExpanded
+	r.isExpanded = isExpanded
 }
 
 func (r *AbstractTypeFields) GetComputedPrefix() string {
@@ -57,9 +57,9 @@ func (r *AbstractTypeFields) SetComputedPrefix(ComputedPrefix string) {
 }
 
 func (r *AbstractTypeFields) GetIsInRenameMode() bool {
-	return r.IsInRenameMode
+	return r.isInRenameMode
 }
 
 func (r *AbstractTypeFields) SetIsInRenameMode(isInRenameMode bool) {
-	r.IsInRenameMode = isInRenameMode
+	r.isInRenameMode = isInRenameMode
 }

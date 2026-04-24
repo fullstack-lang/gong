@@ -161,6 +161,8 @@ type Stage struct {
 
 	Library_SubLibraries_reverseMap map[*Library]*Library
 
+	Library_RootProcesses_reverseMap map[*Process]*Library
+
 	OnAfterLibraryCreateCallback OnAfterCreateInterface[Library]
 	OnAfterLibraryUpdateCallback OnAfterUpdateInterface[Library]
 	OnAfterLibraryDeleteCallback OnAfterDeleteInterface[Library]
@@ -1791,6 +1793,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			DiagramProcesss: []*DiagramProcess{{Name: "DiagramProcesss"}},
 			// field is initialized with an instance of Library with the name of the field
 			SubLibraries: []*Library{{Name: "SubLibraries"}},
+			// field is initialized with an instance of Process with the name of the field
+			RootProcesses: []*Process{{Name: "RootProcesses"}},
 		}).(*Type)
 	case Process:
 		return any(&Process{
@@ -1950,6 +1954,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "RootProcesses":
+			res := make(map[*Process][]*Library)
+			for library := range stage.Librarys {
+				for _, process_ := range library.RootProcesses {
+					res[process_] = append(res[process_], library)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Process
 	case Process:
@@ -2030,6 +2042,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.GongstructName = "DiagramProcess"
 		rf.Fieldname = "ProcesssWhoseNodeIsExpanded"
 		res = append(res, rf)
+		rf.GongstructName = "Library"
+		rf.Fieldname = "RootProcesses"
+		res = append(res, rf)
 		rf.GongstructName = "Process"
 		rf.Fieldname = "SubProcesses"
 		res = append(res, rf)
@@ -2060,14 +2075,6 @@ func (diagramprocess *DiagramProcess) GongGetFieldHeaders() (res []GongFieldHead
 		{
 			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "IsInRenameMode",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsExpanded",
-			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "IsChecked",
@@ -2132,14 +2139,6 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "IsInRenameMode",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsExpanded",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
 			Name:                 "DiagramProcesss",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "DiagramProcess",
@@ -2157,6 +2156,11 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:               "LogoSVGFile",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
+		{
+			Name:                 "RootProcesses",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Process",
+		},
 	}
 	return
 }
@@ -2171,14 +2175,6 @@ func (process *Process) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "IsInRenameMode",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsExpanded",
-			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:                 "SubProcesses",
@@ -2333,14 +2329,6 @@ func (diagramprocess *DiagramProcess) GongGetFieldValue(fieldName string, stage 
 		res.valueString = diagramprocess.Name
 	case "ComputedPrefix":
 		res.valueString = diagramprocess.ComputedPrefix
-	case "IsInRenameMode":
-		res.valueString = fmt.Sprintf("%t", diagramprocess.IsInRenameMode)
-		res.valueBool = diagramprocess.IsInRenameMode
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsExpanded":
-		res.valueString = fmt.Sprintf("%t", diagramprocess.IsExpanded)
-		res.valueBool = diagramprocess.IsExpanded
-		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsChecked":
 		res.valueString = fmt.Sprintf("%t", diagramprocess.IsChecked)
 		res.valueBool = diagramprocess.IsChecked
@@ -2414,14 +2402,6 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = library.Name
 	case "ComputedPrefix":
 		res.valueString = library.ComputedPrefix
-	case "IsInRenameMode":
-		res.valueString = fmt.Sprintf("%t", library.IsInRenameMode)
-		res.valueBool = library.IsInRenameMode
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsExpanded":
-		res.valueString = fmt.Sprintf("%t", library.IsExpanded)
-		res.valueBool = library.IsExpanded
-		res.GongFieldValueType = GongFieldValueTypeBool
 	case "DiagramProcesss":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range library.DiagramProcesss {
@@ -2448,6 +2428,16 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "LogoSVGFile":
 		res.valueString = library.LogoSVGFile
+	case "RootProcesses":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range library.RootProcesses {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	}
 	return
 }
@@ -2459,14 +2449,6 @@ func (process *Process) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = process.Name
 	case "ComputedPrefix":
 		res.valueString = process.ComputedPrefix
-	case "IsInRenameMode":
-		res.valueString = fmt.Sprintf("%t", process.IsInRenameMode)
-		res.valueBool = process.IsInRenameMode
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsExpanded":
-		res.valueString = fmt.Sprintf("%t", process.IsExpanded)
-		res.valueBool = process.IsExpanded
-		res.GongFieldValueType = GongFieldValueTypeBool
 	case "SubProcesses":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range process.SubProcesses {
@@ -2570,10 +2552,6 @@ func (diagramprocess *DiagramProcess) GongSetFieldValue(fieldName string, value 
 		diagramprocess.Name = value.GetValueString()
 	case "ComputedPrefix":
 		diagramprocess.ComputedPrefix = value.GetValueString()
-	case "IsInRenameMode":
-		diagramprocess.IsInRenameMode = value.GetValueBool()
-	case "IsExpanded":
-		diagramprocess.IsExpanded = value.GetValueBool()
 	case "IsChecked":
 		diagramprocess.IsChecked = value.GetValueBool()
 	case "IsEditable_":
@@ -2645,10 +2623,6 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 		library.Name = value.GetValueString()
 	case "ComputedPrefix":
 		library.ComputedPrefix = value.GetValueString()
-	case "IsInRenameMode":
-		library.IsInRenameMode = value.GetValueBool()
-	case "IsExpanded":
-		library.IsExpanded = value.GetValueBool()
 	case "DiagramProcesss":
 		library.DiagramProcesss = make([]*DiagramProcess, 0)
 		ids := strings.Split(value.ids, ";")
@@ -2681,6 +2655,20 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 		library.NbPixPerCharacter = value.GetValueFloat()
 	case "LogoSVGFile":
 		library.LogoSVGFile = value.GetValueString()
+	case "RootProcesses":
+		library.RootProcesses = make([]*Process, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Processs {
+					if stage.Process_stagedOrder[__instance__] == uint(id) {
+						library.RootProcesses = append(library.RootProcesses, __instance__)
+						break
+					}
+				}
+			}
+		}
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -2694,10 +2682,6 @@ func (process *Process) GongSetFieldValue(fieldName string, value GongFieldValue
 		process.Name = value.GetValueString()
 	case "ComputedPrefix":
 		process.ComputedPrefix = value.GetValueString()
-	case "IsInRenameMode":
-		process.IsInRenameMode = value.GetValueBool()
-	case "IsExpanded":
-		process.IsExpanded = value.GetValueBool()
 	case "SubProcesses":
 		process.SubProcesses = make([]*Process, 0)
 		ids := strings.Split(value.ids, ";")

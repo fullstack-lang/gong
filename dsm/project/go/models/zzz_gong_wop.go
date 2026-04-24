@@ -16,10 +16,6 @@ type Diagram_WOP struct {
 
 	ComputedPrefix string
 
-	IsInRenameMode bool
-
-	IsExpanded bool
-
 	IsChecked bool
 
 	IsEditable_ bool
@@ -47,8 +43,6 @@ func (from *Diagram) CopyBasicFields(to *Diagram) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
-	to.IsInRenameMode = from.IsInRenameMode
-	to.IsExpanded = from.IsExpanded
 	to.IsChecked = from.IsChecked
 	to.IsEditable_ = from.IsEditable_
 	to.IsShowPrefix = from.IsShowPrefix
@@ -69,10 +63,6 @@ type Library_WOP struct {
 
 	ComputedPrefix string
 
-	IsInRenameMode bool
-
-	IsExpanded bool
-
 	NbPixPerCharacter float64
 
 	LogoSVGFile string
@@ -82,8 +72,6 @@ func (from *Library) CopyBasicFields(to *Library) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
-	to.IsInRenameMode = from.IsInRenameMode
-	to.IsExpanded = from.IsExpanded
 	to.NbPixPerCharacter = from.NbPixPerCharacter
 	to.LogoSVGFile = from.LogoSVGFile
 }
@@ -94,18 +82,12 @@ type Note_WOP struct {
 	Name string
 
 	ComputedPrefix string
-
-	IsInRenameMode bool
-
-	IsExpanded bool
 }
 
 func (from *Note) CopyBasicFields(to *Note) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
-	to.IsInRenameMode = from.IsInRenameMode
-	to.IsExpanded = from.IsExpanded
 }
 
 type NoteProductShape_WOP struct {
@@ -171,8 +153,6 @@ type NoteShape_WOP struct {
 
 	Name string
 
-	IsExpanded bool
-
 	X float64
 
 	Y float64
@@ -187,7 +167,6 @@ type NoteShape_WOP struct {
 func (from *NoteShape) CopyBasicFields(to *NoteShape) {
 	// insertion point
 	to.Name = from.Name
-	to.IsExpanded = from.IsExpanded
 	to.X = from.X
 	to.Y = from.Y
 	to.Width = from.Width
@@ -231,10 +210,6 @@ type Product_WOP struct {
 
 	ComputedPrefix string
 
-	IsInRenameMode bool
-
-	IsExpanded bool
-
 	Description string
 
 	IsProducersNodeExpanded bool
@@ -246,8 +221,6 @@ func (from *Product) CopyBasicFields(to *Product) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
-	to.IsInRenameMode = from.IsInRenameMode
-	to.IsExpanded = from.IsExpanded
 	to.Description = from.Description
 	to.IsProducersNodeExpanded = from.IsProducersNodeExpanded
 	to.IsConsumersNodeExpanded = from.IsConsumersNodeExpanded
@@ -287,8 +260,6 @@ type ProductShape_WOP struct {
 
 	Name string
 
-	IsExpanded bool
-
 	X float64
 
 	Y float64
@@ -303,7 +274,6 @@ type ProductShape_WOP struct {
 func (from *ProductShape) CopyBasicFields(to *ProductShape) {
 	// insertion point
 	to.Name = from.Name
-	to.IsExpanded = from.IsExpanded
 	to.X = from.X
 	to.Y = from.Y
 	to.Width = from.Width
@@ -318,10 +288,6 @@ type Resource_WOP struct {
 
 	ComputedPrefix string
 
-	IsInRenameMode bool
-
-	IsExpanded bool
-
 	Description string
 }
 
@@ -329,8 +295,6 @@ func (from *Resource) CopyBasicFields(to *Resource) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
-	to.IsInRenameMode = from.IsInRenameMode
-	to.IsExpanded = from.IsExpanded
 	to.Description = from.Description
 }
 
@@ -368,8 +332,6 @@ type ResourceShape_WOP struct {
 
 	Name string
 
-	IsExpanded bool
-
 	X float64
 
 	Y float64
@@ -384,7 +346,6 @@ type ResourceShape_WOP struct {
 func (from *ResourceShape) CopyBasicFields(to *ResourceShape) {
 	// insertion point
 	to.Name = from.Name
-	to.IsExpanded = from.IsExpanded
 	to.X = from.X
 	to.Y = from.Y
 	to.Width = from.Width
@@ -428,10 +389,6 @@ type Task_WOP struct {
 
 	ComputedPrefix string
 
-	IsInRenameMode bool
-
-	IsExpanded bool
-
 	Start time.Time
 
 	End time.Time
@@ -451,8 +408,6 @@ func (from *Task) CopyBasicFields(to *Task) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
-	to.IsInRenameMode = from.IsInRenameMode
-	to.IsExpanded = from.IsExpanded
 	to.Start = from.Start
 	to.End = from.End
 	to.Description = from.Description
@@ -554,8 +509,6 @@ type TaskShape_WOP struct {
 
 	Name string
 
-	IsExpanded bool
-
 	X float64
 
 	Y float64
@@ -570,7 +523,6 @@ type TaskShape_WOP struct {
 func (from *TaskShape) CopyBasicFields(to *TaskShape) {
 	// insertion point
 	to.Name = from.Name
-	to.IsExpanded = from.IsExpanded
 	to.X = from.X
 	to.Y = from.Y
 	to.Width = from.Width

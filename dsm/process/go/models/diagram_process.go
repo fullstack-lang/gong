@@ -19,7 +19,11 @@ type DiagramProcess struct {
 
 	elementWhoseDiagramListIsDisplayed AbstractType
 
-	// DSM specific fields
+	//
+	//  DSM specific fields
+	//
+
+	// Process
 	Process_Shapes              []*ProcessShape
 	map_Process_ProcessShape    map[*Process]*ProcessShape
 	ProcesssWhoseNodeIsExpanded []*Process

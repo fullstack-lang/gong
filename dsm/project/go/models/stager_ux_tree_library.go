@@ -8,9 +8,9 @@ import (
 func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, parentNodes *[]*tree.Node) {
 	libraryNode := &tree.Node{
 		Name:            library.Name,
-		IsExpanded:      library.IsExpanded,
+		IsExpanded:      library.isExpanded,
 		IsNodeClickable: true,
-		IsInEditMode:    library.IsInRenameMode,
+		IsInEditMode:    library.isInRenameMode,
 	}
 	*parentNodes = append(*parentNodes, libraryNode)
 
@@ -46,14 +46,14 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 
 	libraryNode.OnUpdate = stager.OnUpdateLibrary(library)
 
-	addAddItemButtonSimple(stager, nil, nil, &library.IsExpanded, libraryNode, &library.SubLibraries)
+	addAddItemButtonSimple(stager, nil, nil, &library.isExpanded, libraryNode, &library.SubLibraries)
 
-	itemAdderCallback := addAddItemButtonSimple(stager, nil, nil, &library.IsExpanded, libraryNode, &library.Diagrams)
+	itemAdderCallback := addAddItemButtonSimple(stager, nil, nil, &library.isExpanded, libraryNode, &library.Diagrams)
 
 	itemAdderCallback.OnBeforeCommit = func() {
 		newDiagram := itemAdderCallback.createdItem
 		newDiagram.IsEditable_ = true
-		newDiagram.IsExpanded = true
+		newDiagram.isExpanded = true
 		for diagram_ := range *GetGongstructInstancesSet[Diagram](stager.stage) {
 			diagram_.IsChecked = false
 		}
@@ -63,12 +63,12 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 	for _, diagram := range library.Diagrams {
 		diagramNode := &tree.Node{
 			Name:              diagram.Name,
-			IsExpanded:        diagram.IsExpanded,
+			IsExpanded:        diagram.isExpanded,
 			IsNodeClickable:   true,
 			HasCheckboxButton: true,
 			IsChecked:         diagram.IsChecked,
 
-			IsInEditMode: diagram.IsInRenameMode,
+			IsInEditMode: diagram.isInRenameMode,
 		}
 		libraryNode.Children = append(libraryNode.Children, diagramNode)
 
@@ -334,13 +334,13 @@ func (stager *Stager) OnUpdateLibrary(library *Library) func(stage *tree.Stage, 
 	return func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
 		if frontNode.IsExpanded != stagedNode.IsExpanded {
 			stagedNode.IsExpanded = frontNode.IsExpanded
-			library.IsExpanded = frontNode.IsExpanded
+			library.isExpanded = frontNode.IsExpanded
 			stager.stage.Commit()
 			return
 		}
 		if frontNode.Name != stagedNode.Name {
 			library.Name = frontNode.Name
-			library.IsInRenameMode = false
+			library.isInRenameMode = false
 			stager.stage.Commit()
 			return
 		}
