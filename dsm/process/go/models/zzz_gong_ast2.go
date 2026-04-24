@@ -517,8 +517,6 @@ func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.Name = GongExtractString(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
-	case "DiagramProcesss":
-		GongUnmarshallSliceOfPointers(&instance.DiagramProcesss, valueExpr, identifierMap)
 	case "SubLibraries":
 		GongUnmarshallSliceOfPointers(&instance.SubLibraries, valueExpr, identifierMap)
 	case "NbPixPerCharacter":
@@ -527,6 +525,8 @@ func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.LogoSVGFile = GongExtractString(valueExpr)
 	case "RootProcesses":
 		GongUnmarshallSliceOfPointers(&instance.RootProcesses, valueExpr, identifierMap)
+	case "ProcesssWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.ProcesssWhoseNodeIsExpanded, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -560,6 +560,10 @@ func (u *ProcessUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "SubProcesses":
 		GongUnmarshallSliceOfPointers(&instance.SubProcesses, valueExpr, identifierMap)
+	case "DiagramProcesss":
+		GongUnmarshallSliceOfPointers(&instance.DiagramProcesss, valueExpr, identifierMap)
+	case "IsSubProcessNodeExpanded":
+		instance.IsSubProcessNodeExpanded = GongExtractBool(valueExpr)
 	}
 	return nil
 }

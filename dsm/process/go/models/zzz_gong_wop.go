@@ -73,12 +73,15 @@ type Process_WOP struct {
 	Name string
 
 	ComputedPrefix string
+
+	IsSubProcessNodeExpanded bool
 }
 
 func (from *Process) CopyBasicFields(to *Process) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
+	to.IsSubProcessNodeExpanded = from.IsSubProcessNodeExpanded
 }
 
 type ProcessCompositionShape_WOP struct {

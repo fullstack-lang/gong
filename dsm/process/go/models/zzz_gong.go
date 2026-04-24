@@ -157,11 +157,11 @@ type Stage struct {
 	Librarys_referenceOrder map[*Library]uint
 
 	// insertion point for slice of pointers maps
-	Library_DiagramProcesss_reverseMap map[*DiagramProcess]*Library
-
 	Library_SubLibraries_reverseMap map[*Library]*Library
 
 	Library_RootProcesses_reverseMap map[*Process]*Library
+
+	Library_ProcesssWhoseNodeIsExpanded_reverseMap map[*Process]*Library
 
 	OnAfterLibraryCreateCallback OnAfterCreateInterface[Library]
 	OnAfterLibraryUpdateCallback OnAfterUpdateInterface[Library]
@@ -179,6 +179,8 @@ type Stage struct {
 
 	// insertion point for slice of pointers maps
 	Process_SubProcesses_reverseMap map[*Process]*Process
+
+	Process_DiagramProcesss_reverseMap map[*DiagramProcess]*Process
 
 	OnAfterProcessCreateCallback OnAfterCreateInterface[Process]
 	OnAfterProcessUpdateCallback OnAfterUpdateInterface[Process]
@@ -1789,18 +1791,20 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case Library:
 		return any(&Library{
 			// Initialisation of associations
-			// field is initialized with an instance of DiagramProcess with the name of the field
-			DiagramProcesss: []*DiagramProcess{{Name: "DiagramProcesss"}},
 			// field is initialized with an instance of Library with the name of the field
 			SubLibraries: []*Library{{Name: "SubLibraries"}},
 			// field is initialized with an instance of Process with the name of the field
 			RootProcesses: []*Process{{Name: "RootProcesses"}},
+			// field is initialized with an instance of Process with the name of the field
+			ProcesssWhoseNodeIsExpanded: []*Process{{Name: "ProcesssWhoseNodeIsExpanded"}},
 		}).(*Type)
 	case Process:
 		return any(&Process{
 			// Initialisation of associations
 			// field is initialized with an instance of Process with the name of the field
 			SubProcesses: []*Process{{Name: "SubProcesses"}},
+			// field is initialized with an instance of DiagramProcess with the name of the field
+			DiagramProcesss: []*DiagramProcess{{Name: "DiagramProcesss"}},
 		}).(*Type)
 	case ProcessCompositionShape:
 		return any(&ProcessCompositionShape{
@@ -1938,14 +1942,6 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	case Library:
 		switch fieldname {
 		// insertion point for per direct association field
-		case "DiagramProcesss":
-			res := make(map[*DiagramProcess][]*Library)
-			for library := range stage.Librarys {
-				for _, diagramprocess_ := range library.DiagramProcesss {
-					res[diagramprocess_] = append(res[diagramprocess_], library)
-				}
-			}
-			return any(res).(map[*End][]*Start)
 		case "SubLibraries":
 			res := make(map[*Library][]*Library)
 			for library := range stage.Librarys {
@@ -1962,6 +1958,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "ProcesssWhoseNodeIsExpanded":
+			res := make(map[*Process][]*Library)
+			for library := range stage.Librarys {
+				for _, process_ := range library.ProcesssWhoseNodeIsExpanded {
+					res[process_] = append(res[process_], library)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Process
 	case Process:
@@ -1972,6 +1976,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			for process := range stage.Processs {
 				for _, process_ := range process.SubProcesses {
 					res[process_] = append(res[process_], process)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "DiagramProcesss":
+			res := make(map[*DiagramProcess][]*Process)
+			for process := range stage.Processs {
+				for _, diagramprocess_ := range process.DiagramProcesss {
+					res[diagramprocess_] = append(res[diagramprocess_], process)
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -2027,7 +2039,7 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *DiagramProcess:
 		var rf ReverseField
 		_ = rf
-		rf.GongstructName = "Library"
+		rf.GongstructName = "Process"
 		rf.Fieldname = "DiagramProcesss"
 		res = append(res, rf)
 	case *Library:
@@ -2044,6 +2056,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		res = append(res, rf)
 		rf.GongstructName = "Library"
 		rf.Fieldname = "RootProcesses"
+		res = append(res, rf)
+		rf.GongstructName = "Library"
+		rf.Fieldname = "ProcesssWhoseNodeIsExpanded"
 		res = append(res, rf)
 		rf.GongstructName = "Process"
 		rf.Fieldname = "SubProcesses"
@@ -2139,11 +2154,6 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "DiagramProcesss",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "DiagramProcess",
-		},
-		{
 			Name:                 "SubLibraries",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Library",
@@ -2158,6 +2168,11 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:                 "RootProcesses",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Process",
+		},
+		{
+			Name:                 "ProcesssWhoseNodeIsExpanded",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Process",
 		},
@@ -2180,6 +2195,15 @@ func (process *Process) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "SubProcesses",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Process",
+		},
+		{
+			Name:                 "DiagramProcesss",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "DiagramProcess",
+		},
+		{
+			Name:               "IsSubProcessNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 	}
 	return
@@ -2402,16 +2426,6 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = library.Name
 	case "ComputedPrefix":
 		res.valueString = library.ComputedPrefix
-	case "DiagramProcesss":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range library.DiagramProcesss {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
 	case "SubLibraries":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range library.SubLibraries {
@@ -2431,6 +2445,16 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	case "RootProcesses":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range library.RootProcesses {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "ProcesssWhoseNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range library.ProcesssWhoseNodeIsExpanded {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -2459,6 +2483,20 @@ func (process *Process) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "DiagramProcesss":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range process.DiagramProcesss {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "IsSubProcessNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", process.IsSubProcessNodeExpanded)
+		res.valueBool = process.IsSubProcessNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -2623,20 +2661,6 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 		library.Name = value.GetValueString()
 	case "ComputedPrefix":
 		library.ComputedPrefix = value.GetValueString()
-	case "DiagramProcesss":
-		library.DiagramProcesss = make([]*DiagramProcess, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.DiagramProcesss {
-					if stage.DiagramProcess_stagedOrder[__instance__] == uint(id) {
-						library.DiagramProcesss = append(library.DiagramProcesss, __instance__)
-						break
-					}
-				}
-			}
-		}
 	case "SubLibraries":
 		library.SubLibraries = make([]*Library, 0)
 		ids := strings.Split(value.ids, ";")
@@ -2669,6 +2693,20 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 				}
 			}
 		}
+	case "ProcesssWhoseNodeIsExpanded":
+		library.ProcesssWhoseNodeIsExpanded = make([]*Process, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Processs {
+					if stage.Process_stagedOrder[__instance__] == uint(id) {
+						library.ProcesssWhoseNodeIsExpanded = append(library.ProcesssWhoseNodeIsExpanded, __instance__)
+						break
+					}
+				}
+			}
+		}
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -2696,6 +2734,22 @@ func (process *Process) GongSetFieldValue(fieldName string, value GongFieldValue
 				}
 			}
 		}
+	case "DiagramProcesss":
+		process.DiagramProcesss = make([]*DiagramProcess, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.DiagramProcesss {
+					if stage.DiagramProcess_stagedOrder[__instance__] == uint(id) {
+						process.DiagramProcesss = append(process.DiagramProcesss, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "IsSubProcessNodeExpanded":
+		process.IsSubProcessNodeExpanded = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

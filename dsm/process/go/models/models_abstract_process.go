@@ -7,8 +7,11 @@ type Process struct {
 	AbstractTypeFields
 
 	parentProcess *Process
+	SubProcesses  []*Process
 
-	SubProcesses []*Process
+	DiagramProcesss []*DiagramProcess
+
+	IsSubProcessNodeExpanded bool
 }
 
 var (

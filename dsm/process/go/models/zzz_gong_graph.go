@@ -154,13 +154,13 @@ func (stage *Stage) StageBranchLibrary(library *Library) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _diagramprocess := range library.DiagramProcesss {
-		StageBranch(stage, _diagramprocess)
-	}
 	for _, _library := range library.SubLibraries {
 		StageBranch(stage, _library)
 	}
 	for _, _process := range library.RootProcesses {
+		StageBranch(stage, _process)
+	}
+	for _, _process := range library.ProcesssWhoseNodeIsExpanded {
 		StageBranch(stage, _process)
 	}
 
@@ -180,6 +180,9 @@ func (stage *Stage) StageBranchProcess(process *Process) {
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _process := range process.SubProcesses {
 		StageBranch(stage, _process)
+	}
+	for _, _diagramprocess := range process.DiagramProcesss {
+		StageBranch(stage, _diagramprocess)
 	}
 
 }
@@ -301,14 +304,14 @@ func CopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _diagramprocess := range libraryFrom.DiagramProcesss {
-		libraryTo.DiagramProcesss = append(libraryTo.DiagramProcesss, CopyBranchDiagramProcess(mapOrigCopy, _diagramprocess))
-	}
 	for _, _library := range libraryFrom.SubLibraries {
 		libraryTo.SubLibraries = append(libraryTo.SubLibraries, CopyBranchLibrary(mapOrigCopy, _library))
 	}
 	for _, _process := range libraryFrom.RootProcesses {
 		libraryTo.RootProcesses = append(libraryTo.RootProcesses, CopyBranchProcess(mapOrigCopy, _process))
+	}
+	for _, _process := range libraryFrom.ProcesssWhoseNodeIsExpanded {
+		libraryTo.ProcesssWhoseNodeIsExpanded = append(libraryTo.ProcesssWhoseNodeIsExpanded, CopyBranchProcess(mapOrigCopy, _process))
 	}
 
 	return
@@ -331,6 +334,9 @@ func CopyBranchProcess(mapOrigCopy map[any]any, processFrom *Process) (processTo
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _process := range processFrom.SubProcesses {
 		processTo.SubProcesses = append(processTo.SubProcesses, CopyBranchProcess(mapOrigCopy, _process))
+	}
+	for _, _diagramprocess := range processFrom.DiagramProcesss {
+		processTo.DiagramProcesss = append(processTo.DiagramProcesss, CopyBranchDiagramProcess(mapOrigCopy, _diagramprocess))
 	}
 
 	return
@@ -445,13 +451,13 @@ func (stage *Stage) UnstageBranchLibrary(library *Library) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _diagramprocess := range library.DiagramProcesss {
-		UnstageBranch(stage, _diagramprocess)
-	}
 	for _, _library := range library.SubLibraries {
 		UnstageBranch(stage, _library)
 	}
 	for _, _process := range library.RootProcesses {
+		UnstageBranch(stage, _process)
+	}
+	for _, _process := range library.ProcesssWhoseNodeIsExpanded {
 		UnstageBranch(stage, _process)
 	}
 
@@ -471,6 +477,9 @@ func (stage *Stage) UnstageBranchProcess(process *Process) {
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _process := range process.SubProcesses {
 		UnstageBranch(stage, _process)
+	}
+	for _, _diagramprocess := range process.DiagramProcesss {
+		UnstageBranch(stage, _diagramprocess)
 	}
 
 }
@@ -534,10 +543,6 @@ func (reference *DiagramProcess) GongReconstructPointersFromReferences(stage *St
 func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, instance *Library) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.DiagramProcesss = reference.DiagramProcesss[:0]
-	for _, _b := range instance.DiagramProcesss {
-		reference.DiagramProcesss = append(reference.DiagramProcesss, stage.DiagramProcesss_reference[_b])
-	}
 	reference.SubLibraries = reference.SubLibraries[:0]
 	for _, _b := range instance.SubLibraries {
 		reference.SubLibraries = append(reference.SubLibraries, stage.Librarys_reference[_b])
@@ -545,6 +550,10 @@ func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, in
 	reference.RootProcesses = reference.RootProcesses[:0]
 	for _, _b := range instance.RootProcesses {
 		reference.RootProcesses = append(reference.RootProcesses, stage.Processs_reference[_b])
+	}
+	reference.ProcesssWhoseNodeIsExpanded = reference.ProcesssWhoseNodeIsExpanded[:0]
+	for _, _b := range instance.ProcesssWhoseNodeIsExpanded {
+		reference.ProcesssWhoseNodeIsExpanded = append(reference.ProcesssWhoseNodeIsExpanded, stage.Processs_reference[_b])
 	}
 
 	return
@@ -556,6 +565,10 @@ func (reference *Process) GongReconstructPointersFromReferences(stage *Stage, in
 	reference.SubProcesses = reference.SubProcesses[:0]
 	for _, _b := range instance.SubProcesses {
 		reference.SubProcesses = append(reference.SubProcesses, stage.Processs_reference[_b])
+	}
+	reference.DiagramProcesss = reference.DiagramProcesss[:0]
+	for _, _b := range instance.DiagramProcesss {
+		reference.DiagramProcesss = append(reference.DiagramProcesss, stage.DiagramProcesss_reference[_b])
 	}
 
 	return
@@ -613,13 +626,6 @@ func (reference *DiagramProcess) GongReconstructPointersFromInstances(stage *Sta
 func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _DiagramProcesss []*DiagramProcess
-	for _, _reference := range reference.DiagramProcesss {
-		if _instance, ok := stage.DiagramProcesss_instance[_reference]; ok {
-			_DiagramProcesss = append(_DiagramProcesss, _instance)
-		}
-	}
-	reference.DiagramProcesss = _DiagramProcesss
 	var _SubLibraries []*Library
 	for _, _reference := range reference.SubLibraries {
 		if _instance, ok := stage.Librarys_instance[_reference]; ok {
@@ -634,6 +640,13 @@ func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) () 
 		}
 	}
 	reference.RootProcesses = _RootProcesses
+	var _ProcesssWhoseNodeIsExpanded []*Process
+	for _, _reference := range reference.ProcesssWhoseNodeIsExpanded {
+		if _instance, ok := stage.Processs_instance[_reference]; ok {
+			_ProcesssWhoseNodeIsExpanded = append(_ProcesssWhoseNodeIsExpanded, _instance)
+		}
+	}
+	reference.ProcesssWhoseNodeIsExpanded = _ProcesssWhoseNodeIsExpanded
 
 	return
 }
@@ -648,6 +661,13 @@ func (reference *Process) GongReconstructPointersFromInstances(stage *Stage) () 
 		}
 	}
 	reference.SubProcesses = _SubProcesses
+	var _DiagramProcesss []*DiagramProcess
+	for _, _reference := range reference.DiagramProcesss {
+		if _instance, ok := stage.DiagramProcesss_instance[_reference]; ok {
+			_DiagramProcesss = append(_DiagramProcesss, _instance)
+		}
+	}
+	reference.DiagramProcesss = _DiagramProcesss
 
 	return
 }
@@ -790,27 +810,6 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 	if library.ComputedPrefix != libraryOther.ComputedPrefix {
 		diffs = append(diffs, library.GongMarshallField(stage, "ComputedPrefix"))
 	}
-	DiagramProcesssDifferent := false
-	if len(library.DiagramProcesss) != len(libraryOther.DiagramProcesss) {
-		DiagramProcesssDifferent = true
-	} else {
-		for i := range library.DiagramProcesss {
-			if (library.DiagramProcesss[i] == nil) != (libraryOther.DiagramProcesss[i] == nil) {
-				DiagramProcesssDifferent = true
-				break
-			} else if library.DiagramProcesss[i] != nil && libraryOther.DiagramProcesss[i] != nil {
-				// this is a pointer comparaison
-				if library.DiagramProcesss[i] != libraryOther.DiagramProcesss[i] {
-					DiagramProcesssDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if DiagramProcesssDifferent {
-		ops := Diff(stage, library, libraryOther, "DiagramProcesss", libraryOther.DiagramProcesss, library.DiagramProcesss)
-		diffs = append(diffs, ops)
-	}
 	SubLibrariesDifferent := false
 	if len(library.SubLibraries) != len(libraryOther.SubLibraries) {
 		SubLibrariesDifferent = true
@@ -859,6 +858,27 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		ops := Diff(stage, library, libraryOther, "RootProcesses", libraryOther.RootProcesses, library.RootProcesses)
 		diffs = append(diffs, ops)
 	}
+	ProcesssWhoseNodeIsExpandedDifferent := false
+	if len(library.ProcesssWhoseNodeIsExpanded) != len(libraryOther.ProcesssWhoseNodeIsExpanded) {
+		ProcesssWhoseNodeIsExpandedDifferent = true
+	} else {
+		for i := range library.ProcesssWhoseNodeIsExpanded {
+			if (library.ProcesssWhoseNodeIsExpanded[i] == nil) != (libraryOther.ProcesssWhoseNodeIsExpanded[i] == nil) {
+				ProcesssWhoseNodeIsExpandedDifferent = true
+				break
+			} else if library.ProcesssWhoseNodeIsExpanded[i] != nil && libraryOther.ProcesssWhoseNodeIsExpanded[i] != nil {
+				// this is a pointer comparaison
+				if library.ProcesssWhoseNodeIsExpanded[i] != libraryOther.ProcesssWhoseNodeIsExpanded[i] {
+					ProcesssWhoseNodeIsExpandedDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ProcesssWhoseNodeIsExpandedDifferent {
+		ops := Diff(stage, library, libraryOther, "ProcesssWhoseNodeIsExpanded", libraryOther.ProcesssWhoseNodeIsExpanded, library.ProcesssWhoseNodeIsExpanded)
+		diffs = append(diffs, ops)
+	}
 
 	return
 }
@@ -893,6 +913,30 @@ func (process *Process) GongDiff(stage *Stage, processOther *Process) (diffs []s
 	if SubProcessesDifferent {
 		ops := Diff(stage, process, processOther, "SubProcesses", processOther.SubProcesses, process.SubProcesses)
 		diffs = append(diffs, ops)
+	}
+	DiagramProcesssDifferent := false
+	if len(process.DiagramProcesss) != len(processOther.DiagramProcesss) {
+		DiagramProcesssDifferent = true
+	} else {
+		for i := range process.DiagramProcesss {
+			if (process.DiagramProcesss[i] == nil) != (processOther.DiagramProcesss[i] == nil) {
+				DiagramProcesssDifferent = true
+				break
+			} else if process.DiagramProcesss[i] != nil && processOther.DiagramProcesss[i] != nil {
+				// this is a pointer comparaison
+				if process.DiagramProcesss[i] != processOther.DiagramProcesss[i] {
+					DiagramProcesssDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if DiagramProcesssDifferent {
+		ops := Diff(stage, process, processOther, "DiagramProcesss", processOther.DiagramProcesss, process.DiagramProcesss)
+		diffs = append(diffs, ops)
+	}
+	if process.IsSubProcessNodeExpanded != processOther.IsSubProcessNodeExpanded {
+		diffs = append(diffs, process.GongMarshallField(stage, "IsSubProcessNodeExpanded"))
 	}
 
 	return

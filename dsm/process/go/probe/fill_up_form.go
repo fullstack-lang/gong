@@ -45,18 +45,18 @@ func FillUpForm(
 		{
 			var rf models.ReverseField
 			_ = rf
-			rf.GongstructName = "Library"
+			rf.GongstructName = "Process"
 			rf.Fieldname = "DiagramProcesss"
 			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Library),
+					reverseFieldOwner.(*models.Process),
 					"DiagramProcesss",
 					instanceWithInferedType,
 					formGroup,
 					probe)
 			} else {
-				AssociationReverseFieldToForm[*models.Library](
+				AssociationReverseFieldToForm[*models.Process](
 					nil,
 					"DiagramProcesss",
 					instanceWithInferedType,
@@ -71,13 +71,13 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		AssociationSliceToForm("DiagramProcesss", instanceWithInferedType, &instanceWithInferedType.DiagramProcesss, formGroup, probe)
 		AssociationSliceToForm("SubLibraries", instanceWithInferedType, &instanceWithInferedType.SubLibraries, formGroup, probe)
 		BasicFieldtoForm("NbPixPerCharacter", instanceWithInferedType.NbPixPerCharacter, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("LogoSVGFile", instanceWithInferedType.LogoSVGFile, instanceWithInferedType, probe.formStage, formGroup,
 			false, true, 600, true, 300)
 		AssociationSliceToForm("RootProcesses", instanceWithInferedType, &instanceWithInferedType.RootProcesses, formGroup, probe)
+		AssociationSliceToForm("ProcesssWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.ProcesssWhoseNodeIsExpanded, formGroup, probe)
 		{
 			var rf models.ReverseField
 			_ = rf
@@ -108,6 +108,9 @@ func FillUpForm(
 		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		AssociationSliceToForm("SubProcesses", instanceWithInferedType, &instanceWithInferedType.SubProcesses, formGroup, probe)
+		AssociationSliceToForm("DiagramProcesss", instanceWithInferedType, &instanceWithInferedType.DiagramProcesss, formGroup, probe)
+		BasicFieldtoForm("IsSubProcessNodeExpanded", instanceWithInferedType.IsSubProcessNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 		{
 			var rf models.ReverseField
 			_ = rf
@@ -147,6 +150,28 @@ func FillUpForm(
 				AssociationReverseFieldToForm[*models.Library](
 					nil,
 					"RootProcesses",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			}
+		}
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "Library"
+			rf.Fieldname = "ProcesssWhoseNodeIsExpanded"
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.Library),
+					"ProcesssWhoseNodeIsExpanded",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			} else {
+				AssociationReverseFieldToForm[*models.Library](
+					nil,
+					"ProcesssWhoseNodeIsExpanded",
 					instanceWithInferedType,
 					formGroup,
 					probe)
