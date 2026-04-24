@@ -60,8 +60,10 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		{"stage.Clean", func() bool { return stage.Clean() }},
 		{"enforceOrphansAbstractElement", stager.enforceOrphansAbstractElement},
 
-
 		// concrete semantic check
+
+		{"enforceShapeOrphans", stager.enforceShapeOrphans},
+		{"enforceShapesAbstractConsistency", stager.enforceShapesAbstractConsistency},
 	}
 
 	for _, method := range methods {
