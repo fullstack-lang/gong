@@ -40,9 +40,12 @@ func GongCleanPointer[T PointerToGongstruct](stage *Stage, element *T) (modified
 }
 
 // insertion point per named struct
-// Clean garbage collect unstaged instances that are referenced by Diagram
-func (diagram *Diagram) GongClean(stage *Stage) (modified bool) {
+// Clean garbage collect unstaged instances that are referenced by DiagramProcess
+func (diagramprocess *DiagramProcess) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
+	modified = GongCleanSlice(stage, &diagramprocess.Process_Shapes) || modified
+	modified = GongCleanSlice(stage, &diagramprocess.ProcesssWhoseNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &diagramprocess.ProcessComposition_Shapes) || modified
 	// insertion point per field
 	return
 }
@@ -59,7 +62,24 @@ func (library *Library) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Process
 func (process *Process) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
+	modified = GongCleanSlice(stage, &process.SubProcesses) || modified
 	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by ProcessCompositionShape
+func (processcompositionshape *ProcessCompositionShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = GongCleanPointer(stage, &processcompositionshape.Process) || modified
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by ProcessShape
+func (processshape *ProcessShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = GongCleanPointer(stage, &processshape.Process) || modified
 	return
 }
 

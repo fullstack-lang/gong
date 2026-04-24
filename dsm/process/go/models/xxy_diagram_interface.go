@@ -3,6 +3,8 @@ package models
 type DiagramIF interface {
 	GetName() string
 	GetIsChecked() bool
+	SetIsChecked(bool)
+	SetIsShowPrefix(bool)
 	GetIsShowPrefix() bool
 	GetElementWhoseDiagramListIsDisplayed() AbstractType
 	SetElementWhoseDiagramListIsDisplayed(AbstractType)

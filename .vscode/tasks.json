@@ -479,6 +479,20 @@
       ]
     },
     {
+      "label": "01 - gong generate process --dsm",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}/dsm/process/go/models"
+      },
+      "command": "gong",
+      "group": "build",
+      "args": [
+        "generate",
+        "--skipGoModCommands",
+        "--dsm"
+      ]
+    },
+    {
       "label": "01 - gong generate project",
       "type": "shell",
       "options": {
@@ -978,7 +992,7 @@
       ],
       "group": "build"
     },
-      {
+    {
       "label": "04 - go run form",
       "type": "shell",
       "options": {
