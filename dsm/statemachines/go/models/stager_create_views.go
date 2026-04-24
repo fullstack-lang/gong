@@ -82,6 +82,12 @@ func (stager *Stager) create_views() {
 											StackName: stager.probeForm.GetFormStage().GetName(),
 										},
 									},
+									{
+										Size: 0, // for the download
+										Load: &split.Load{
+											StackName: stager.loadStage.GetName(),
+										},
+									},
 								},
 							},
 						},
