@@ -143,4 +143,168 @@ func _(stage *models.Stage) {
 	__ProcessShape__00000004_.IsHidden = false
 	__ProcessShape__00000004_.Process = __Process__00000001_
 	stage.Commit()
+
+	__ProcessShape__00000005_ := (&models.ProcessShape{Name: `P1-D2`}).Stage(stage)
+	// D2
+	__DiagramProcess__00000001_.Process_Shapes = slices.Insert( __DiagramProcess__00000001_.Process_Shapes, 2, __ProcessShape__00000005_)
+	__ProcessShape__00000005_.Name = `P1-D2`
+	__ProcessShape__00000005_.IsExpanded = false
+	__ProcessShape__00000005_.X = 160.032097
+	__ProcessShape__00000005_.Y = 171.426270
+	__ProcessShape__00000005_.Width = 0.000000
+	__ProcessShape__00000005_.Height = 0.000000
+	__ProcessShape__00000005_.IsHidden = false
+	__ProcessShape__00000005_.Process = __Process__00000001_
+	stage.Commit()
+
+	// D1
+	__DiagramProcess__00000000_.IsChecked = true
+	// D2
+	__DiagramProcess__00000001_.IsChecked = false
+	stage.Commit()
+
+	// D2
+	__DiagramProcess__00000001_.Process_Shapes = slices.Delete( __DiagramProcess__00000001_.Process_Shapes, 2, 3)
+	__ProcessShape__00000005_.Unstage(stage)
+	stage.Commit()
+
+	// D2
+	__DiagramProcess__00000001_.Process_Shapes = slices.Delete( __DiagramProcess__00000001_.Process_Shapes, 1, 2)
+	__ProcessShape__00000004_.Unstage(stage)
+	stage.Commit()
+
+	// D1
+	__DiagramProcess__00000000_.IsChecked = false
+	// D2
+	__DiagramProcess__00000001_.IsChecked = true
+	stage.Commit()
+
+	// D1
+	__DiagramProcess__00000000_.IsChecked = true
+	// D2
+	__DiagramProcess__00000001_.IsChecked = false
+	stage.Commit()
+
+	// D1
+	__DiagramProcess__00000000_.IsChecked = false
+	// D2
+	__DiagramProcess__00000001_.IsChecked = true
+	stage.Commit()
+
+	// P1-D2
+	__ProcessShape__00000003_.Width = 100.000000
+	__ProcessShape__00000003_.Height = 100.000000
+	stage.Commit()
+
+	// D1
+	__DiagramProcess__00000000_.IsChecked = true
+	// D2
+	__DiagramProcess__00000001_.IsChecked = false
+	stage.Commit()
+
+	// D1
+	__DiagramProcess__00000000_.IsChecked = false
+	// D2
+	__DiagramProcess__00000001_.IsChecked = true
+	stage.Commit()
+
+	// D1
+	__DiagramProcess__00000000_.DefaultBoxWidth = 250.000000
+	__DiagramProcess__00000000_.DefaultBoxHeigth = 70.000000
+	// D2
+	__DiagramProcess__00000001_.DefaultBoxWidth = 250.000000
+	__DiagramProcess__00000001_.DefaultBoxHeigth = 70.000000
+	// Root
+	__Library__00000000_.NbPixPerCharacter = 8.000000
+	stage.Commit()
+
+	// D1
+	__DiagramProcess__00000000_.IsChecked = true
+	// D2
+	__DiagramProcess__00000001_.IsChecked = false
+	stage.Commit()
+
+	// D1
+	__DiagramProcess__00000000_.IsChecked = false
+	// D2
+	__DiagramProcess__00000001_.IsChecked = true
+	stage.Commit()
+
+	// D1
+	__DiagramProcess__00000000_.Width = 200.000000
+	__DiagramProcess__00000000_.Height = 200.000000
+	// D2
+	__DiagramProcess__00000001_.Width = 463.901066
+	__DiagramProcess__00000001_.Height = 429.483041
+	stage.Commit()
+
+	// P1-D2
+	__ProcessShape__00000003_.Width = 278.000000
+	stage.Commit()
+
+	// P1-D2
+	__ProcessShape__00000003_.Width = 309.000000
+	stage.Commit()
+
+	// P1-D2
+	__ProcessShape__00000003_.Width = 430.000000
+	stage.Commit()
+
+	// P1-D2
+	__ProcessShape__00000003_.Width = 521.000000
+	stage.Commit()
+
+	// D1
+	__DiagramProcess__00000000_.Width = 800.000000
+	__DiagramProcess__00000000_.Height = 800.000000
+	// D2
+	__DiagramProcess__00000001_.Width = 1284.901066
+	__DiagramProcess__00000001_.Height = 1029.483041
+	stage.Commit()
+
+	// Root
+	__Library__00000000_.DiagramProcesss = slices.Delete( __Library__00000000_.DiagramProcesss, 0, 1)
+	__DiagramProcess__00000000_.Unstage(stage)
+	stage.Commit()
+
+	// D2
+	__DiagramProcess__00000001_.Width = 1584.901066
+	__DiagramProcess__00000001_.Height = 1329.483041
+	stage.Commit()
+
+	// D2
+	__DiagramProcess__00000001_.Process_Shapes = slices.Delete( __DiagramProcess__00000001_.Process_Shapes, 0, 1)
+	__ProcessShape__00000003_.Unstage(stage)
+	stage.Commit()
+
+	__ProcessShape__00000006_ := (&models.ProcessShape{Name: `P1-D2`}).Stage(stage)
+	// D2
+	__DiagramProcess__00000001_.Process_Shapes = slices.Insert( __DiagramProcess__00000001_.Process_Shapes, 0, __ProcessShape__00000006_)
+	__ProcessShape__00000006_.Name = `P1-D2`
+	__ProcessShape__00000006_.IsExpanded = false
+	__ProcessShape__00000006_.X = 167.190905
+	__ProcessShape__00000006_.Y = 118.755068
+	__ProcessShape__00000006_.Width = 250.000000
+	__ProcessShape__00000006_.Height = 70.000000
+	__ProcessShape__00000006_.IsHidden = false
+	__ProcessShape__00000006_.Process = __Process__00000001_
+	stage.Commit()
+
+	// D2
+	__DiagramProcess__00000001_.Process_Shapes = slices.Delete( __DiagramProcess__00000001_.Process_Shapes, 0, 1)
+	__ProcessShape__00000006_.Unstage(stage)
+	stage.Commit()
+
+	__ProcessShape__00000007_ := (&models.ProcessShape{Name: `P1-D2`}).Stage(stage)
+	// D2
+	__DiagramProcess__00000001_.Process_Shapes = slices.Insert( __DiagramProcess__00000001_.Process_Shapes, 0, __ProcessShape__00000007_)
+	__ProcessShape__00000007_.Name = `P1-D2`
+	__ProcessShape__00000007_.IsExpanded = false
+	__ProcessShape__00000007_.X = 121.522900
+	__ProcessShape__00000007_.Y = 160.796912
+	__ProcessShape__00000007_.Width = 250.000000
+	__ProcessShape__00000007_.Height = 70.000000
+	__ProcessShape__00000007_.IsHidden = false
+	__ProcessShape__00000007_.Process = __Process__00000001_
+	stage.Commit()
 }
