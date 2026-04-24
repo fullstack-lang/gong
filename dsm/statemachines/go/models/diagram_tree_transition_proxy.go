@@ -22,7 +22,7 @@ func (proxy *DiagramTree_Transition_Proxy) OnAfterUpdate(stage *tree.Stage, stag
 
 	if frontNode.Name != stagedNode.Name {
 		proxy.transition.Name = frontNode.Name
-		proxy.transition.IsInRenameMode = false
+		proxy.transition.isInRenameMode = false
 		proxy.stager.stage.Commit()
 		return
 	}

@@ -440,8 +440,6 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(diagram_.IsExpanded), formDiv)
 		case "IsEditable_":
 			FormDivBasicFieldToField(&(diagram_.IsEditable_), formDiv)
-		case "IsInRenameMode":
-			FormDivBasicFieldToField(&(diagram_.IsInRenameMode), formDiv)
 		case "State_Shapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.StateShape](diagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.StateShape, 0)
@@ -1794,8 +1792,6 @@ func (stateFormCallback *StateFormCallback) OnSave() {
 
 		case "Exit":
 			FormDivSelectFieldToField(&(state_.Exit), stateFormCallback.probe.stageOfInterest, formDiv)
-		case "IsInRenameMode":
-			FormDivBasicFieldToField(&(state_.IsInRenameMode), formDiv)
 		case "Diagram:StatesWhoseNodeIsExpanded":
 			// WARNING : this form deals with the N-N association "Diagram.StatesWhoseNodeIsExpanded []*State" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
@@ -2537,8 +2533,6 @@ func (transitionFormCallback *TransitionFormCallback) OnSave() {
 			}
 			transition_.Diagrams = instanceSlice
 
-		case "IsInRenameMode":
-			FormDivBasicFieldToField(&(transition_.IsInRenameMode), formDiv)
 		}
 	}
 

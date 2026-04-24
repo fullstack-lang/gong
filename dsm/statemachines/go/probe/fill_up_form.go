@@ -70,8 +70,6 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsEditable_", instanceWithInferedType.IsEditable_, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("IsInRenameMode", instanceWithInferedType.IsInRenameMode, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
 		AssociationSliceToForm("State_Shapes", instanceWithInferedType, &instanceWithInferedType.State_Shapes, formGroup, probe)
 		AssociationSliceToForm("StatesWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.StatesWhoseNodeIsExpanded, formGroup, probe)
 		AssociationSliceToForm("Transition_Shapes", instanceWithInferedType, &instanceWithInferedType.Transition_Shapes, formGroup, probe)
@@ -315,8 +313,6 @@ func FillUpForm(
 		AssociationFieldToForm("Entry", instanceWithInferedType.Entry, formGroup, probe)
 		AssociationSliceToForm("Activities", instanceWithInferedType, &instanceWithInferedType.Activities, formGroup, probe)
 		AssociationFieldToForm("Exit", instanceWithInferedType.Exit, formGroup, probe)
-		BasicFieldtoForm("IsInRenameMode", instanceWithInferedType.IsInRenameMode, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
 		{
 			var rf models.ReverseField
 			_ = rf
@@ -464,8 +460,6 @@ func FillUpForm(
 		AssociationSliceToForm("GeneratedMessages", instanceWithInferedType, &instanceWithInferedType.GeneratedMessages, formGroup, probe)
 		AssociationFieldToForm("Guard", instanceWithInferedType.Guard, formGroup, probe)
 		AssociationSliceToForm("Diagrams", instanceWithInferedType, &instanceWithInferedType.Diagrams, formGroup, probe)
-		BasicFieldtoForm("IsInRenameMode", instanceWithInferedType.IsInRenameMode, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
 
 	case *models.Transition_Shape:
 		// insertion point

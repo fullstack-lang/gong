@@ -18,7 +18,7 @@ type Diagram struct {
 	IsChecked      bool
 	IsExpanded     bool
 	IsEditable_    bool
-	IsInRenameMode bool
+	isInRenameMode bool
 
 	State_Shapes              []*StateShape
 	StatesWhoseNodeIsExpanded []*State
@@ -92,7 +92,7 @@ type State struct {
 	Exit       *Action
 
 	// nodes can be edited
-	IsInRenameMode bool
+	isInRenameMode bool
 }
 
 func (state *State) IsComposite() bool {
@@ -149,7 +149,7 @@ type Transition struct {
 	// Diagram dans lequel la transition est présente
 	Diagrams []*Diagram
 
-	IsInRenameMode bool
+	isInRenameMode bool
 }
 
 type Guard struct {

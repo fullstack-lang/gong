@@ -103,7 +103,7 @@ func (stager *Stager) treeDiagrams() {
 			diagramNode.IsChecked = diagram.IsChecked
 			diagramNode.IsExpanded = diagram.IsExpanded
 
-			diagramNode.IsInEditMode = diagram.IsInRenameMode
+			diagramNode.IsInEditMode = diagram.isInRenameMode
 
 			diagramNode.IsNodeClickable = true
 			diagramProxy := new(Diagram_Tree_DiagramProxy)
@@ -113,13 +113,13 @@ func (stager *Stager) treeDiagrams() {
 			diagramNode.HasCheckboxButton = true
 			diagramNode.Impl = diagramProxy
 
-			if !diagram.IsInRenameMode {
+			if !diagram.isInRenameMode {
 				diagramNode.Buttons = append(diagramNode.Buttons,
 					&tree.Button{
 						Name: diagram.GetName() + " " + string(buttons.BUTTON_edit_note),
 						Icon: string(buttons.BUTTON_edit_note),
 						OnClick: func() {
-							diagram.IsInRenameMode = true
+							diagram.isInRenameMode = true
 							stager.stage.Commit()
 						},
 						HasToolTip:      true,
@@ -132,7 +132,7 @@ func (stager *Stager) treeDiagrams() {
 						Name: diagram.GetName() + " " + string(buttons.BUTTON_edit_off),
 						Icon: string(buttons.BUTTON_edit_off),
 						OnClick: func() {
-							diagram.IsInRenameMode = false
+							diagram.isInRenameMode = false
 							stager.stage.Commit()
 						},
 						HasToolTip:      true,
@@ -196,16 +196,16 @@ func (stager *Stager) treeDiagrams() {
 				diagramStateNode.Name = state.Name
 				diagramStateNode.HasCheckboxButton = true
 				diagramStateNode.IsNodeClickable = true
-				diagramStateNode.IsInEditMode = state.IsInRenameMode
+				diagramStateNode.IsInEditMode = state.isInRenameMode
 				diagramStateNode.IsExpanded = slices.Index(diagram.StatesWhoseNodeIsExpanded, state) != -1
 
-				if !state.IsInRenameMode {
+				if !state.isInRenameMode {
 					diagramStateNode.Buttons = append(diagramStateNode.Buttons,
 						&tree.Button{
 							Name: state.GetName() + " " + string(buttons.BUTTON_edit_note),
 							Icon: string(buttons.BUTTON_edit_note),
 							OnClick: func() {
-								state.IsInRenameMode = true
+								state.isInRenameMode = true
 								stager.stage.Commit()
 							},
 							HasToolTip:      true,
@@ -218,7 +218,7 @@ func (stager *Stager) treeDiagrams() {
 							Name: state.GetName() + " " + string(buttons.BUTTON_edit_off),
 							Icon: string(buttons.BUTTON_edit_off),
 							OnClick: func() {
-								state.IsInRenameMode = false
+								state.isInRenameMode = false
 								stager.stage.Commit()
 							},
 							HasToolTip:      true,
@@ -257,21 +257,21 @@ func (stager *Stager) treeDiagrams() {
 							transitionNode := new(tree.Node)
 							transitionNode.Name = transition_.Name + " --> " + transition_.End.Name
 
-							if transition_.IsInRenameMode {
+							if transition_.isInRenameMode {
 								transitionNode.Name = transition_.Name
 							}
 
 							transitionNode.HasCheckboxButton = true
 							transitionNode.IsNodeClickable = true
-							transitionNode.IsInEditMode = transition_.IsInRenameMode
+							transitionNode.IsInEditMode = transition_.isInRenameMode
 
-							if !transition_.IsInRenameMode {
+							if !transition_.isInRenameMode {
 								transitionNode.Buttons = append(transitionNode.Buttons,
 									&tree.Button{
 										Name: transition_.GetName() + " " + string(buttons.BUTTON_edit_note),
 										Icon: string(buttons.BUTTON_edit_note),
 										OnClick: func() {
-											transition_.IsInRenameMode = true
+											transition_.isInRenameMode = true
 											stager.stage.Commit()
 										},
 										HasToolTip:      true,
@@ -284,7 +284,7 @@ func (stager *Stager) treeDiagrams() {
 										Name: transition_.GetName() + " " + string(buttons.BUTTON_edit_off),
 										Icon: string(buttons.BUTTON_edit_off),
 										OnClick: func() {
-											transition_.IsInRenameMode = false
+											transition_.isInRenameMode = false
 											stager.stage.Commit()
 										},
 										HasToolTip:      true,
@@ -368,7 +368,7 @@ func (stager *Stager) treeDiagrams() {
 
 					if frontNode.Name != stagedNode.Name {
 						state.Name = frontNode.Name
-						state.IsInRenameMode = false
+						state.isInRenameMode = false
 						stager.stage.Commit()
 						return
 					}
