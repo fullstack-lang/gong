@@ -58,12 +58,14 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		// them. If the checkout is not performed, the stage might be dirty
 		// with slices of pointer or pointer to unstaged instance
 		{"stage.Clean", func() bool { return stage.Clean() }},
+		{"enforceDefaultValues", stager.enforceDefaultValues},
 		{"enforceOrphansAbstractElement", stager.enforceOrphansAbstractElement},
 
 		// concrete semantic check
-
+		{"enforceRelationDuplicates", stager.enforceRelationDuplicates},
 		{"enforceShapeOrphans", stager.enforceShapeOrphans},
 		{"enforceShapesAbstractConsistency", stager.enforceShapesAbstractConsistency},
+		{"enforceDiagramSize", stager.enforceDiagramSize},
 	}
 
 	for _, method := range methods {
