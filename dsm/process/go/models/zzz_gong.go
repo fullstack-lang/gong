@@ -157,7 +157,7 @@ type Stage struct {
 	Librarys_referenceOrder map[*Library]uint
 
 	// insertion point for slice of pointers maps
-	Library_Diagrams_reverseMap map[*DiagramProcess]*Library
+	Library_DiagramProcesss_reverseMap map[*DiagramProcess]*Library
 
 	Library_SubLibraries_reverseMap map[*Library]*Library
 
@@ -1788,7 +1788,7 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		return any(&Library{
 			// Initialisation of associations
 			// field is initialized with an instance of DiagramProcess with the name of the field
-			Diagrams: []*DiagramProcess{{Name: "Diagrams"}},
+			DiagramProcesss: []*DiagramProcess{{Name: "DiagramProcesss"}},
 			// field is initialized with an instance of Library with the name of the field
 			SubLibraries: []*Library{{Name: "SubLibraries"}},
 		}).(*Type)
@@ -1934,10 +1934,10 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	case Library:
 		switch fieldname {
 		// insertion point for per direct association field
-		case "Diagrams":
+		case "DiagramProcesss":
 			res := make(map[*DiagramProcess][]*Library)
 			for library := range stage.Librarys {
-				for _, diagramprocess_ := range library.Diagrams {
+				for _, diagramprocess_ := range library.DiagramProcesss {
 					res[diagramprocess_] = append(res[diagramprocess_], library)
 				}
 			}
@@ -2016,7 +2016,7 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "Library"
-		rf.Fieldname = "Diagrams"
+		rf.Fieldname = "DiagramProcesss"
 		res = append(res, rf)
 	case *Library:
 		var rf ReverseField
@@ -2140,7 +2140,7 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:                 "Diagrams",
+			Name:                 "DiagramProcesss",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "DiagramProcess",
 		},
@@ -2422,9 +2422,9 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%t", library.IsExpanded)
 		res.valueBool = library.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "Diagrams":
+	case "DiagramProcesss":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range library.Diagrams {
+		for idx, __instance__ := range library.DiagramProcesss {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -2649,15 +2649,15 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 		library.IsInRenameMode = value.GetValueBool()
 	case "IsExpanded":
 		library.IsExpanded = value.GetValueBool()
-	case "Diagrams":
-		library.Diagrams = make([]*DiagramProcess, 0)
+	case "DiagramProcesss":
+		library.DiagramProcesss = make([]*DiagramProcess, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.DiagramProcesss {
 					if stage.DiagramProcess_stagedOrder[__instance__] == uint(id) {
-						library.Diagrams = append(library.Diagrams, __instance__)
+						library.DiagramProcesss = append(library.DiagramProcesss, __instance__)
 						break
 					}
 				}

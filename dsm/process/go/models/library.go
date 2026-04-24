@@ -6,7 +6,7 @@ type Library struct {
 	LibraryAbstractFields
 	AbstractTypeFields
 
-	Diagrams []*DiagramProcess
+	DiagramProcesss []*DiagramProcess
 
 	objects []AbstractType
 

@@ -65,9 +65,21 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 	}
 
 	libraryNode.OnUpdate = stager.OnUpdateLibrary(library)
-	addAddItemButton(stager, nil, nil, &library.IsExpanded, libraryNode, &library.SubLibraries, nil, &[]*ProcessShape{}, &[]*ProcessCompositionShape{})
+	addAddItemButtonSimple(stager, nil, nil, &library.IsExpanded, libraryNode, &library.SubLibraries)
 
-	for _, diagram := range library.Diagrams {
+	itemAdderCallback := addAddItemButtonSimple(stager, nil, nil, &library.IsExpanded, libraryNode, &library.DiagramProcesss)
+
+	itemAdderCallback.OnBeforeCommit = func() {
+		newDiagram := itemAdderCallback.createdItem
+		newDiagram.IsEditable_ = true
+		newDiagram.IsExpanded = true
+		for diagram_ := range *GetGongstructInstancesSet[DiagramProcess](stager.stage) {
+			diagram_.IsChecked = false
+		}
+		newDiagram.IsChecked = true
+	}
+
+	for _, diagram := range library.DiagramProcesss {
 		diagramNode := &tree.Node{
 			Name:              diagram.Name,
 			IsExpanded:        diagram.IsExpanded,

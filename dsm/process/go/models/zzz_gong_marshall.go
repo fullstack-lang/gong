@@ -337,7 +337,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(library.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsInRenameMode"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsExpanded"))
-		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "Diagrams"))
+		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "DiagramProcesss"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "SubLibraries"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "NbPixPerCharacter"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "LogoSVGFile"))
@@ -668,12 +668,12 @@ func (library *Library) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LogoSVGFile")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(library.LogoSVGFile))
 
-	case "Diagrams":
+	case "DiagramProcesss":
 		var sb strings.Builder
-		for _, _diagramprocess := range library.Diagrams {
+		for _, _diagramprocess := range library.DiagramProcesss {
 			tmp := SliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", library.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Diagrams")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "DiagramProcesss")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _diagramprocess.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
 		}
@@ -901,7 +901,7 @@ func (library *Library) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		initializerStatements.WriteString(library.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsInRenameMode"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsExpanded"))
-		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "Diagrams"))
+		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "DiagramProcesss"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "SubLibraries"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "NbPixPerCharacter"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "LogoSVGFile"))
