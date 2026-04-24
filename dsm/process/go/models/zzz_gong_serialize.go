@@ -17,9 +17,11 @@ func SerializeStage2(stage *Stage, filename string, addIDs bool) {
 	f := excelize.NewFile()
 	{
 		// insertion point
-		SerializeExcelizePointerToGongstruct2[*Diagram](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*DiagramProcess](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Library](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Process](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*ProcessCompositionShape](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*ProcessShape](stage, f, addIDs)
 	}
 
 	// Create a style with wrap text enabled
