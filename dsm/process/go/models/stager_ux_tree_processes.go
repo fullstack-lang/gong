@@ -60,33 +60,7 @@ func (stager *Stager) treeProcesses(
 		element := diagram
 		node := diagramNode
 
-		if !element.GetIsInRenameMode() {
-			node.Buttons = append(node.Buttons,
-				&tree.Button{
-					Name: element.GetName() + " " + string(buttons.BUTTON_edit_note),
-					Icon: string(buttons.BUTTON_edit_note),
-					OnClick: func() {
-						element.SetIsInRenameMode(true)
-						stager.stage.Commit()
-					},
-					HasToolTip:      true,
-					ToolTipText:     "Rename the " + GetGongstructNameFromPointer(element),
-					ToolTipPosition: tree.Above,
-				})
-		} else {
-			node.Buttons = append(node.Buttons,
-				&tree.Button{
-					Name: element.GetName() + " " + string(buttons.BUTTON_edit_off),
-					Icon: string(buttons.BUTTON_edit_off),
-					OnClick: func() {
-						element.SetIsInRenameMode(false)
-						stager.stage.Commit()
-					},
-					HasToolTip:      true,
-					ToolTipText:     "Cancel renaming",
-					ToolTipPosition: tree.Above,
-				})
-		}
+		addRenameButton(element, node, stager)
 
 		diagramNode.OnUpdate = stager.OnUpdateDiagram(diagram)
 

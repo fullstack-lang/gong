@@ -15,33 +15,7 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 	*parentNodes = append(*parentNodes, libraryNode)
 
 	if library != stager.rootLibrary {
-		if !library.GetIsInRenameMode() {
-			libraryNode.Buttons = append(libraryNode.Buttons,
-				&tree.Button{
-					Name: library.GetName() + " " + string(buttons.BUTTON_edit_note),
-					Icon: string(buttons.BUTTON_edit_note),
-					OnClick: func() {
-						library.SetIsInRenameMode(true)
-						stager.stage.Commit()
-					},
-					HasToolTip:      true,
-					ToolTipText:     "Rename the " + GetGongstructNameFromPointer(library),
-					ToolTipPosition: tree.Above,
-				})
-		} else {
-			libraryNode.Buttons = append(libraryNode.Buttons,
-				&tree.Button{
-					Name: library.GetName() + " " + string(buttons.BUTTON_edit_off),
-					Icon: string(buttons.BUTTON_edit_off),
-					OnClick: func() {
-						library.SetIsInRenameMode(false)
-						stager.stage.Commit()
-					},
-					HasToolTip:      true,
-					ToolTipText:     "Cancel renaming",
-					ToolTipPosition: tree.Above,
-				})
-		}
+		addRenameButton(library, libraryNode, stager)
 	}
 
 	libraryNode.OnUpdate = stager.OnUpdateLibrary(library)
@@ -75,33 +49,7 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 		element := diagram
 		node := diagramNode
 
-		if !element.GetIsInRenameMode() {
-			node.Buttons = append(node.Buttons,
-				&tree.Button{
-					Name: element.GetName() + " " + string(buttons.BUTTON_edit_note),
-					Icon: string(buttons.BUTTON_edit_note),
-					OnClick: func() {
-						element.SetIsInRenameMode(true)
-						stager.stage.Commit()
-					},
-					HasToolTip:      true,
-					ToolTipText:     "Rename the " + GetGongstructNameFromPointer(element),
-					ToolTipPosition: tree.Above,
-				})
-		} else {
-			node.Buttons = append(node.Buttons,
-				&tree.Button{
-					Name: element.GetName() + " " + string(buttons.BUTTON_edit_off),
-					Icon: string(buttons.BUTTON_edit_off),
-					OnClick: func() {
-						element.SetIsInRenameMode(false)
-						stager.stage.Commit()
-					},
-					HasToolTip:      true,
-					ToolTipText:     "Cancel renaming",
-					ToolTipPosition: tree.Above,
-				})
-		}
+		addRenameButton(element, node, stager)
 
 		diagramNode.OnUpdate = stager.onUpdateDiagram(diagram)
 
