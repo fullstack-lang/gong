@@ -70,8 +70,10 @@ func (participant *Participant) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Process
 func (process *Process) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &process.SubProcesses) || modified
 	modified = GongCleanSlice(stage, &process.DiagramProcesss) || modified
+	modified = GongCleanSlice(stage, &process.SubProcesses) || modified
+	modified = GongCleanSlice(stage, &process.Participants) || modified
+	modified = GongCleanSlice(stage, &process.ParticipantWhoseNodeIsExpanded) || modified
 	// insertion point per field
 	return
 }

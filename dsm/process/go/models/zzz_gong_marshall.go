@@ -392,9 +392,12 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(process.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(process.GongMarshallField(stage, "ComputedPrefix"))
-		pointersInitializesStatements.WriteString(process.GongMarshallField(stage, "SubProcesses"))
 		pointersInitializesStatements.WriteString(process.GongMarshallField(stage, "DiagramProcesss"))
 		initializerStatements.WriteString(process.GongMarshallField(stage, "IsSubProcessNodeExpanded"))
+		pointersInitializesStatements.WriteString(process.GongMarshallField(stage, "SubProcesses"))
+		initializerStatements.WriteString(process.GongMarshallField(stage, "IsParticipantsNodeExpanded"))
+		pointersInitializesStatements.WriteString(process.GongMarshallField(stage, "Participants"))
+		pointersInitializesStatements.WriteString(process.GongMarshallField(stage, "ParticipantWhoseNodeIsExpanded"))
 	}
 
 	processcompositionshapeOrdered := []*ProcessCompositionShape{}
@@ -754,7 +757,22 @@ func (process *Process) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{Identifier}}", process.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsSubProcessNodeExpanded")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", process.IsSubProcessNodeExpanded))
+	case "IsParticipantsNodeExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", process.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsParticipantsNodeExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", process.IsParticipantsNodeExpanded))
 
+	case "DiagramProcesss":
+		var sb strings.Builder
+		for _, _diagramprocess := range process.DiagramProcesss {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", process.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "DiagramProcesss")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _diagramprocess.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	case "SubProcesses":
 		var sb strings.Builder
 		for _, _process := range process.SubProcesses {
@@ -765,13 +783,23 @@ func (process *Process) GongMarshallField(stage *Stage, fieldName string) (res s
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
-	case "DiagramProcesss":
+	case "Participants":
 		var sb strings.Builder
-		for _, _diagramprocess := range process.DiagramProcesss {
+		for _, _participant := range process.Participants {
 			tmp := SliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", process.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "DiagramProcesss")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _diagramprocess.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Participants")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _participant.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "ParticipantWhoseNodeIsExpanded":
+		var sb strings.Builder
+		for _, _participant := range process.ParticipantWhoseNodeIsExpanded {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", process.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ParticipantWhoseNodeIsExpanded")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _participant.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
@@ -973,9 +1001,12 @@ func (process *Process) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(process.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(process.GongMarshallField(stage, "ComputedPrefix"))
-		pointersInitializesStatements.WriteString(process.GongMarshallField(stage, "SubProcesses"))
 		pointersInitializesStatements.WriteString(process.GongMarshallField(stage, "DiagramProcesss"))
 		initializerStatements.WriteString(process.GongMarshallField(stage, "IsSubProcessNodeExpanded"))
+		pointersInitializesStatements.WriteString(process.GongMarshallField(stage, "SubProcesses"))
+		initializerStatements.WriteString(process.GongMarshallField(stage, "IsParticipantsNodeExpanded"))
+		pointersInitializesStatements.WriteString(process.GongMarshallField(stage, "Participants"))
+		pointersInitializesStatements.WriteString(process.GongMarshallField(stage, "ParticipantWhoseNodeIsExpanded"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
