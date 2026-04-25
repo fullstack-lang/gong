@@ -13,6 +13,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *Library:
 		ok = stage.IsStagedLibrary(target)
 
+	case *Participant:
+		ok = stage.IsStagedParticipant(target)
+
 	case *Process:
 		ok = stage.IsStagedProcess(target)
 
@@ -37,6 +40,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *Library:
 		ok = stage.IsStagedLibrary(target)
+
+	case *Participant:
+		ok = stage.IsStagedParticipant(target)
 
 	case *Process:
 		ok = stage.IsStagedProcess(target)
@@ -64,6 +70,13 @@ func (stage *Stage) IsStagedDiagramProcess(diagramprocess *DiagramProcess) (ok b
 func (stage *Stage) IsStagedLibrary(library *Library) (ok bool) {
 
 	_, ok = stage.Librarys[library]
+
+	return
+}
+
+func (stage *Stage) IsStagedParticipant(participant *Participant) (ok bool) {
+
+	_, ok = stage.Participants[participant]
 
 	return
 }
@@ -102,6 +115,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *Library:
 		stage.StageBranchLibrary(target)
+
+	case *Participant:
+		stage.StageBranchParticipant(target)
 
 	case *Process:
 		stage.StageBranchProcess(target)
@@ -163,6 +179,21 @@ func (stage *Stage) StageBranchLibrary(library *Library) {
 	for _, _process := range library.ProcesssWhoseNodeIsExpanded {
 		StageBranch(stage, _process)
 	}
+
+}
+
+func (stage *Stage) StageBranchParticipant(participant *Participant) {
+
+	// check if instance is already staged
+	if IsStaged(stage, participant) {
+		return
+	}
+
+	participant.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -242,6 +273,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchLibrary(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *Participant:
+		toT := CopyBranchParticipant(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *Process:
 		toT := CopyBranchProcess(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -313,6 +348,25 @@ func CopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo
 	for _, _process := range libraryFrom.ProcesssWhoseNodeIsExpanded {
 		libraryTo.ProcesssWhoseNodeIsExpanded = append(libraryTo.ProcesssWhoseNodeIsExpanded, CopyBranchProcess(mapOrigCopy, _process))
 	}
+
+	return
+}
+
+func CopyBranchParticipant(mapOrigCopy map[any]any, participantFrom *Participant) (participantTo *Participant) {
+
+	// participantFrom has already been copied
+	if _participantTo, ok := mapOrigCopy[participantFrom]; ok {
+		participantTo = _participantTo.(*Participant)
+		return
+	}
+
+	participantTo = new(Participant)
+	mapOrigCopy[participantFrom] = participantTo
+	participantFrom.CopyBasicFields(participantTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 	return
 }
@@ -400,6 +454,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Library:
 		stage.UnstageBranchLibrary(target)
 
+	case *Participant:
+		stage.UnstageBranchParticipant(target)
+
 	case *Process:
 		stage.UnstageBranchProcess(target)
 
@@ -460,6 +517,21 @@ func (stage *Stage) UnstageBranchLibrary(library *Library) {
 	for _, _process := range library.ProcesssWhoseNodeIsExpanded {
 		UnstageBranch(stage, _process)
 	}
+
+}
+
+func (stage *Stage) UnstageBranchParticipant(participant *Participant) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, participant) {
+		return
+	}
+
+	participant.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -559,6 +631,13 @@ func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, in
 	return
 }
 
+func (reference *Participant) GongReconstructPointersFromReferences(stage *Stage, instance *Participant) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
 func (reference *Process) GongReconstructPointersFromReferences(stage *Stage, instance *Process) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -647,6 +726,13 @@ func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) () 
 		}
 	}
 	reference.ProcesssWhoseNodeIsExpanded = _ProcesssWhoseNodeIsExpanded
+
+	return
+}
+
+func (reference *Participant) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
 
 	return
 }
@@ -878,6 +964,20 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 	if ProcesssWhoseNodeIsExpandedDifferent {
 		ops := Diff(stage, library, libraryOther, "ProcesssWhoseNodeIsExpanded", libraryOther.ProcesssWhoseNodeIsExpanded, library.ProcesssWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (participant *Participant) GongDiff(stage *Stage, participantOther *Participant) (diffs []string) {
+	// insertion point for field diffs
+	if participant.Name != participantOther.Name {
+		diffs = append(diffs, participant.GongMarshallField(stage, "Name"))
+	}
+	if participant.ComputedPrefix != participantOther.ComputedPrefix {
+		diffs = append(diffs, participant.GongMarshallField(stage, "ComputedPrefix"))
 	}
 
 	return

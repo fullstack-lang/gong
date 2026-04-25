@@ -68,6 +68,9 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
+	// Compute reverse map for named struct Participant
+	// insertion point per field
+
 	// Compute reverse map for named struct Process
 	// insertion point per field
 	stage.Process_SubProcesses_reverseMap = make(map[*Process]*Process)
@@ -104,6 +107,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
+	for instance := range stage.Participants {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.Processs {
 		res = append(res, instance)
 	}
@@ -129,6 +136,12 @@ func (diagramprocess *DiagramProcess) GongCopy() GongstructIF {
 func (library *Library) GongCopy() GongstructIF {
 	newInstance := new(Library)
 	library.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (participant *Participant) GongCopy() GongstructIF {
+	newInstance := new(Participant)
+	participant.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -168,6 +181,16 @@ func (library *Library) GongGetUUID(stage *Stage) (uuid string) {
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(library), uint64(GetOrderPointerGongstruct(stage, library)))
+	return
+}
+
+func (participant *Participant) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(participant).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(participant), uint64(GetOrderPointerGongstruct(stage, participant)))
 	return
 }
 
@@ -321,6 +344,57 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(librarys_newInstances)
 	lenDeletedInstances += len(librarys_deletedInstances)
+	var participants_newInstances []*Participant
+	var participants_deletedInstances []*Participant
+
+	// parse all staged instances and check if they have a reference
+	for participant := range stage.Participants {
+		if ref, ok := stage.Participants_reference[participant]; !ok {
+			participants_newInstances = append(participants_newInstances, participant)
+			newInstancesSlice = append(newInstancesSlice, participant.GongMarshallIdentifier(stage))
+			if stage.Participants_referenceOrder == nil {
+				stage.Participants_referenceOrder = make(map[*Participant]uint)
+			}
+			stage.Participants_referenceOrder[participant] = stage.Participant_stagedOrder[participant]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, participant.GongMarshallUnstaging(stage))
+			// delete(stage.Participants_referenceOrder, participant)
+			fieldInitializers, pointersInitializations := participant.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.Participant_stagedOrder[ref] = stage.Participant_stagedOrder[participant]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := participant.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, participant)
+			// delete(stage.Participant_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				fieldsEdit += fmt.Sprintf("\n\t// %s", participant.GetName())
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.Participants_reference {
+		instance := stage.Participants_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.Participants[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			participants_deletedInstances = append(participants_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(participants_newInstances)
+	lenDeletedInstances += len(participants_deletedInstances)
 	var processs_newInstances []*Process
 	var processs_deletedInstances []*Process
 
@@ -529,6 +603,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.Librarys_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.Participants_reference = make(map[*Participant]*Participant)
+	stage.Participants_referenceOrder = make(map[*Participant]uint) // diff Unstage needs the reference order
+	stage.Participants_instance = make(map[*Participant]*Participant)
+	for instance := range stage.Participants {
+		_copy := instance.GongCopy().(*Participant)
+		stage.Participants_reference[instance] = _copy
+		stage.Participants_instance[_copy] = instance
+		stage.Participants_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.Processs_reference = make(map[*Process]*Process)
 	stage.Processs_referenceOrder = make(map[*Process]uint) // diff Unstage needs the reference order
 	stage.Processs_instance = make(map[*Process]*Process)
@@ -567,6 +651,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.Librarys {
 		reference := stage.Librarys_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.Participants {
+		reference := stage.Participants_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -615,6 +704,18 @@ func (library *Library) GongGetOrder(stage *Stage) uint {
 		return order
 	} else {
 		log.Printf("instance %p of type Library was not staged and does not have a reference order", library)
+		return 0
+	}
+}
+
+func (participant *Participant) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.Participant_stagedOrder[participant]; ok {
+		return order
+	}
+	if order, ok := stage.Participants_referenceOrder[participant]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type Participant was not staged and does not have a reference order", participant)
 		return 0
 	}
 }
@@ -678,6 +779,15 @@ func (library *Library) GongGetReferenceIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", library.GongGetGongstructName(), library.GongGetOrder(stage))
 }
 
+func (participant *Participant) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", participant.GongGetGongstructName(), participant.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (participant *Participant) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", participant.GongGetGongstructName(), participant.GongGetOrder(stage))
+}
+
 func (process *Process) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", process.GongGetGongstructName(), process.GongGetOrder(stage))
 }
@@ -724,6 +834,14 @@ func (library *Library) GongMarshallIdentifier(stage *Stage) (decl string) {
 	return
 }
 
+func (participant *Participant) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", participant.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Participant")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(participant.Name))
+	return
+}
+
 func (process *Process) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", process.GongGetIdentifier(stage))
@@ -758,6 +876,12 @@ func (diagramprocess *DiagramProcess) GongMarshallUnstaging(stage *Stage) (decl 
 func (library *Library) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", library.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (participant *Participant) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", participant.GongGetReferenceIdentifier(stage))
 	return
 }
 

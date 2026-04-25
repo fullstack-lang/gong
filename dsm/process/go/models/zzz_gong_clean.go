@@ -60,6 +60,13 @@ func (library *Library) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by Participant
+func (participant *Participant) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by Process
 func (process *Process) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field

@@ -330,7 +330,7 @@ var generateCmd = &cobra.Command{
 
 		// copy dsm files if flag is set, potentially overwriting generated files
 		if dsm {
-			entries, err := dsm_models.XXYFiles.ReadDir(".")
+			entries, err := dsm_models.YYYFiles.ReadDir(".")
 			if err != nil {
 				log.Fatalf("failed reading embedded dsm files: %v", err)
 			}
@@ -338,7 +338,7 @@ var generateCmd = &cobra.Command{
 				if entry.IsDir() {
 					continue
 				}
-				content, err := dsm_models.XXYFiles.ReadFile(entry.Name())
+				content, err := dsm_models.YYYFiles.ReadFile(entry.Name())
 				if err != nil {
 					log.Fatalf("failed reading embedded file %s: %v", entry.Name(), err)
 				}
