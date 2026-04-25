@@ -89,6 +89,8 @@ type Process_WOP struct {
 	ComputedPrefix string
 
 	IsSubProcessNodeExpanded bool
+
+	IsParticipantsNodeExpanded bool
 }
 
 func (from *Process) CopyBasicFields(to *Process) {
@@ -96,6 +98,7 @@ func (from *Process) CopyBasicFields(to *Process) {
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsSubProcessNodeExpanded = from.IsSubProcessNodeExpanded
+	to.IsParticipantsNodeExpanded = from.IsParticipantsNodeExpanded
 }
 
 type ProcessCompositionShape_WOP struct {

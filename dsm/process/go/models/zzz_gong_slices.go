@@ -73,6 +73,13 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Process
 	// insertion point per field
+	stage.Process_DiagramProcesss_reverseMap = make(map[*DiagramProcess]*Process)
+	for process := range stage.Processs {
+		_ = process
+		for _, _diagramprocess := range process.DiagramProcesss {
+			stage.Process_DiagramProcesss_reverseMap[_diagramprocess] = process
+		}
+	}
 	stage.Process_SubProcesses_reverseMap = make(map[*Process]*Process)
 	for process := range stage.Processs {
 		_ = process
@@ -80,11 +87,18 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Process_SubProcesses_reverseMap[_process] = process
 		}
 	}
-	stage.Process_DiagramProcesss_reverseMap = make(map[*DiagramProcess]*Process)
+	stage.Process_Participants_reverseMap = make(map[*Participant]*Process)
 	for process := range stage.Processs {
 		_ = process
-		for _, _diagramprocess := range process.DiagramProcesss {
-			stage.Process_DiagramProcesss_reverseMap[_diagramprocess] = process
+		for _, _participant := range process.Participants {
+			stage.Process_Participants_reverseMap[_participant] = process
+		}
+	}
+	stage.Process_ParticipantWhoseNodeIsExpanded_reverseMap = make(map[*Participant]*Process)
+	for process := range stage.Processs {
+		_ = process
+		for _, _participant := range process.ParticipantWhoseNodeIsExpanded {
+			stage.Process_ParticipantWhoseNodeIsExpanded_reverseMap[_participant] = process
 		}
 	}
 

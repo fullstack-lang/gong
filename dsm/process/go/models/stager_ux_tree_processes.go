@@ -124,8 +124,7 @@ func (stager *Stager) treeProcesses(
 			diagramNode.Buttons = append(diagramNode.Buttons, showPrefixButton)
 		}
 	}
-	itemAdderCallback := addAddItemButtonSimple(stager, nil, nil, &process.isExpanded, processNode, &process.DiagramProcesss)
-
+	itemAdderCallback := addAddItemButtonVerySimple(stager, &process.isExpanded, processNode, &process.DiagramProcesss)
 	itemAdderCallback.OnBeforeCommit = func() {
 		newDiagram := itemAdderCallback.createdItem
 		newDiagram.IsEditable_ = true
@@ -135,8 +134,32 @@ func (stager *Stager) treeProcesses(
 		}
 		newDiagram.IsChecked = true
 	}
-
 	addAddItemButtonSimple(stager, processsWhoseNodeIsExpanded, process, nil, processNode, &process.SubProcesses)
+
+	// Participants
+	participantsNode := &tree.Node{
+		Name:            "Participants",
+		FontStyle:       tree.ITALIC,
+		IsExpanded:      process.IsParticipantsNodeExpanded,
+		IsNodeClickable: true,
+	}
+	processNode.Children = append(processNode.Children, participantsNode)
+	participantsNode.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+		if frontNode.IsExpanded != stagedNode.IsExpanded {
+			if frontNode.IsExpanded {
+				process.IsParticipantsNodeExpanded = true
+			} else {
+				process.IsParticipantsNodeExpanded = false
+			}
+			stager.stage.Commit()
+			return
+		}
+	}
+
+	for _, participant := range process.Participants {
+		stager.treeParticipants(participant, participantsNode, &process.ParticipantWhoseNodeIsExpanded)
+	}
+	addAddItemButtonSimple(stager, processsWhoseNodeIsExpanded, process, nil, participantsNode, &process.Participants)
 
 	// SubProcesses
 	subProcessesNode := &tree.Node{

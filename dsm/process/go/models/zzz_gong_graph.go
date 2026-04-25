@@ -209,11 +209,17 @@ func (stage *Stage) StageBranchProcess(process *Process) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _diagramprocess := range process.DiagramProcesss {
+		StageBranch(stage, _diagramprocess)
+	}
 	for _, _process := range process.SubProcesses {
 		StageBranch(stage, _process)
 	}
-	for _, _diagramprocess := range process.DiagramProcesss {
-		StageBranch(stage, _diagramprocess)
+	for _, _participant := range process.Participants {
+		StageBranch(stage, _participant)
+	}
+	for _, _participant := range process.ParticipantWhoseNodeIsExpanded {
+		StageBranch(stage, _participant)
 	}
 
 }
@@ -386,11 +392,17 @@ func CopyBranchProcess(mapOrigCopy map[any]any, processFrom *Process) (processTo
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _diagramprocess := range processFrom.DiagramProcesss {
+		processTo.DiagramProcesss = append(processTo.DiagramProcesss, CopyBranchDiagramProcess(mapOrigCopy, _diagramprocess))
+	}
 	for _, _process := range processFrom.SubProcesses {
 		processTo.SubProcesses = append(processTo.SubProcesses, CopyBranchProcess(mapOrigCopy, _process))
 	}
-	for _, _diagramprocess := range processFrom.DiagramProcesss {
-		processTo.DiagramProcesss = append(processTo.DiagramProcesss, CopyBranchDiagramProcess(mapOrigCopy, _diagramprocess))
+	for _, _participant := range processFrom.Participants {
+		processTo.Participants = append(processTo.Participants, CopyBranchParticipant(mapOrigCopy, _participant))
+	}
+	for _, _participant := range processFrom.ParticipantWhoseNodeIsExpanded {
+		processTo.ParticipantWhoseNodeIsExpanded = append(processTo.ParticipantWhoseNodeIsExpanded, CopyBranchParticipant(mapOrigCopy, _participant))
 	}
 
 	return
@@ -547,11 +559,17 @@ func (stage *Stage) UnstageBranchProcess(process *Process) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _diagramprocess := range process.DiagramProcesss {
+		UnstageBranch(stage, _diagramprocess)
+	}
 	for _, _process := range process.SubProcesses {
 		UnstageBranch(stage, _process)
 	}
-	for _, _diagramprocess := range process.DiagramProcesss {
-		UnstageBranch(stage, _diagramprocess)
+	for _, _participant := range process.Participants {
+		UnstageBranch(stage, _participant)
+	}
+	for _, _participant := range process.ParticipantWhoseNodeIsExpanded {
+		UnstageBranch(stage, _participant)
 	}
 
 }
@@ -641,13 +659,21 @@ func (reference *Participant) GongReconstructPointersFromReferences(stage *Stage
 func (reference *Process) GongReconstructPointersFromReferences(stage *Stage, instance *Process) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
+	reference.DiagramProcesss = reference.DiagramProcesss[:0]
+	for _, _b := range instance.DiagramProcesss {
+		reference.DiagramProcesss = append(reference.DiagramProcesss, stage.DiagramProcesss_reference[_b])
+	}
 	reference.SubProcesses = reference.SubProcesses[:0]
 	for _, _b := range instance.SubProcesses {
 		reference.SubProcesses = append(reference.SubProcesses, stage.Processs_reference[_b])
 	}
-	reference.DiagramProcesss = reference.DiagramProcesss[:0]
-	for _, _b := range instance.DiagramProcesss {
-		reference.DiagramProcesss = append(reference.DiagramProcesss, stage.DiagramProcesss_reference[_b])
+	reference.Participants = reference.Participants[:0]
+	for _, _b := range instance.Participants {
+		reference.Participants = append(reference.Participants, stage.Participants_reference[_b])
+	}
+	reference.ParticipantWhoseNodeIsExpanded = reference.ParticipantWhoseNodeIsExpanded[:0]
+	for _, _b := range instance.ParticipantWhoseNodeIsExpanded {
+		reference.ParticipantWhoseNodeIsExpanded = append(reference.ParticipantWhoseNodeIsExpanded, stage.Participants_reference[_b])
 	}
 
 	return
@@ -740,13 +766,6 @@ func (reference *Participant) GongReconstructPointersFromInstances(stage *Stage)
 func (reference *Process) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _SubProcesses []*Process
-	for _, _reference := range reference.SubProcesses {
-		if _instance, ok := stage.Processs_instance[_reference]; ok {
-			_SubProcesses = append(_SubProcesses, _instance)
-		}
-	}
-	reference.SubProcesses = _SubProcesses
 	var _DiagramProcesss []*DiagramProcess
 	for _, _reference := range reference.DiagramProcesss {
 		if _instance, ok := stage.DiagramProcesss_instance[_reference]; ok {
@@ -754,6 +773,27 @@ func (reference *Process) GongReconstructPointersFromInstances(stage *Stage) () 
 		}
 	}
 	reference.DiagramProcesss = _DiagramProcesss
+	var _SubProcesses []*Process
+	for _, _reference := range reference.SubProcesses {
+		if _instance, ok := stage.Processs_instance[_reference]; ok {
+			_SubProcesses = append(_SubProcesses, _instance)
+		}
+	}
+	reference.SubProcesses = _SubProcesses
+	var _Participants []*Participant
+	for _, _reference := range reference.Participants {
+		if _instance, ok := stage.Participants_instance[_reference]; ok {
+			_Participants = append(_Participants, _instance)
+		}
+	}
+	reference.Participants = _Participants
+	var _ParticipantWhoseNodeIsExpanded []*Participant
+	for _, _reference := range reference.ParticipantWhoseNodeIsExpanded {
+		if _instance, ok := stage.Participants_instance[_reference]; ok {
+			_ParticipantWhoseNodeIsExpanded = append(_ParticipantWhoseNodeIsExpanded, _instance)
+		}
+	}
+	reference.ParticipantWhoseNodeIsExpanded = _ParticipantWhoseNodeIsExpanded
 
 	return
 }
@@ -993,27 +1033,6 @@ func (process *Process) GongDiff(stage *Stage, processOther *Process) (diffs []s
 	if process.ComputedPrefix != processOther.ComputedPrefix {
 		diffs = append(diffs, process.GongMarshallField(stage, "ComputedPrefix"))
 	}
-	SubProcessesDifferent := false
-	if len(process.SubProcesses) != len(processOther.SubProcesses) {
-		SubProcessesDifferent = true
-	} else {
-		for i := range process.SubProcesses {
-			if (process.SubProcesses[i] == nil) != (processOther.SubProcesses[i] == nil) {
-				SubProcessesDifferent = true
-				break
-			} else if process.SubProcesses[i] != nil && processOther.SubProcesses[i] != nil {
-				// this is a pointer comparaison
-				if process.SubProcesses[i] != processOther.SubProcesses[i] {
-					SubProcessesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if SubProcessesDifferent {
-		ops := Diff(stage, process, processOther, "SubProcesses", processOther.SubProcesses, process.SubProcesses)
-		diffs = append(diffs, ops)
-	}
 	DiagramProcesssDifferent := false
 	if len(process.DiagramProcesss) != len(processOther.DiagramProcesss) {
 		DiagramProcesssDifferent = true
@@ -1037,6 +1056,72 @@ func (process *Process) GongDiff(stage *Stage, processOther *Process) (diffs []s
 	}
 	if process.IsSubProcessNodeExpanded != processOther.IsSubProcessNodeExpanded {
 		diffs = append(diffs, process.GongMarshallField(stage, "IsSubProcessNodeExpanded"))
+	}
+	SubProcessesDifferent := false
+	if len(process.SubProcesses) != len(processOther.SubProcesses) {
+		SubProcessesDifferent = true
+	} else {
+		for i := range process.SubProcesses {
+			if (process.SubProcesses[i] == nil) != (processOther.SubProcesses[i] == nil) {
+				SubProcessesDifferent = true
+				break
+			} else if process.SubProcesses[i] != nil && processOther.SubProcesses[i] != nil {
+				// this is a pointer comparaison
+				if process.SubProcesses[i] != processOther.SubProcesses[i] {
+					SubProcessesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if SubProcessesDifferent {
+		ops := Diff(stage, process, processOther, "SubProcesses", processOther.SubProcesses, process.SubProcesses)
+		diffs = append(diffs, ops)
+	}
+	if process.IsParticipantsNodeExpanded != processOther.IsParticipantsNodeExpanded {
+		diffs = append(diffs, process.GongMarshallField(stage, "IsParticipantsNodeExpanded"))
+	}
+	ParticipantsDifferent := false
+	if len(process.Participants) != len(processOther.Participants) {
+		ParticipantsDifferent = true
+	} else {
+		for i := range process.Participants {
+			if (process.Participants[i] == nil) != (processOther.Participants[i] == nil) {
+				ParticipantsDifferent = true
+				break
+			} else if process.Participants[i] != nil && processOther.Participants[i] != nil {
+				// this is a pointer comparaison
+				if process.Participants[i] != processOther.Participants[i] {
+					ParticipantsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ParticipantsDifferent {
+		ops := Diff(stage, process, processOther, "Participants", processOther.Participants, process.Participants)
+		diffs = append(diffs, ops)
+	}
+	ParticipantWhoseNodeIsExpandedDifferent := false
+	if len(process.ParticipantWhoseNodeIsExpanded) != len(processOther.ParticipantWhoseNodeIsExpanded) {
+		ParticipantWhoseNodeIsExpandedDifferent = true
+	} else {
+		for i := range process.ParticipantWhoseNodeIsExpanded {
+			if (process.ParticipantWhoseNodeIsExpanded[i] == nil) != (processOther.ParticipantWhoseNodeIsExpanded[i] == nil) {
+				ParticipantWhoseNodeIsExpandedDifferent = true
+				break
+			} else if process.ParticipantWhoseNodeIsExpanded[i] != nil && processOther.ParticipantWhoseNodeIsExpanded[i] != nil {
+				// this is a pointer comparaison
+				if process.ParticipantWhoseNodeIsExpanded[i] != processOther.ParticipantWhoseNodeIsExpanded[i] {
+					ParticipantWhoseNodeIsExpandedDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ParticipantWhoseNodeIsExpandedDifferent {
+		ops := Diff(stage, process, processOther, "ParticipantWhoseNodeIsExpanded", processOther.ParticipantWhoseNodeIsExpanded, process.ParticipantWhoseNodeIsExpanded)
+		diffs = append(diffs, ops)
 	}
 
 	return
