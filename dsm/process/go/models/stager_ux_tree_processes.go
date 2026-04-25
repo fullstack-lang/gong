@@ -45,32 +45,7 @@ func (stager *Stager) treeProcesses(
 		stager.stage.Commit()
 	}
 
-	addAddItemButtonSimple(stager, processsWhoseNodeIsExpanded, process, nil, processNode, &process.SubProcesses)
-
-	subProcessesNode := &tree.Node{
-		Name:            "SubProcesses",
-		FontStyle:       tree.ITALIC,
-		IsExpanded:      process.IsSubProcessNodeExpanded,
-		IsNodeClickable: true,
-	}
-	processNode.Children = append(processNode.Children, subProcessesNode)
-
-	for _, process_ := range process.SubProcesses {
-		stager.treeProcesses(process_, subProcessesNode, processsWhoseNodeIsExpanded)
-	}
-
-	itemAdderCallback := addAddItemButtonSimple(stager, nil, nil, &process.isExpanded, processNode, &process.DiagramProcesss)
-
-	itemAdderCallback.OnBeforeCommit = func() {
-		newDiagram := itemAdderCallback.createdItem
-		newDiagram.IsEditable_ = true
-		newDiagram.isExpanded = true
-		for diagram_ := range *GetGongstructInstancesSet[DiagramProcess](stager.stage) {
-			diagram_.IsChecked = false
-		}
-		newDiagram.IsChecked = true
-	}
-
+	// Diagrams
 	for _, diagram := range process.DiagramProcesss {
 		diagramNode := &tree.Node{
 			Name:              diagram.Name,
@@ -89,6 +64,12 @@ func (stager *Stager) treeProcesses(
 		addRenameButton(element, node, stager)
 
 		diagramNode.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+			if frontNode.Name != stagedNode.Name {
+				diagram.Name = frontNode.Name
+				diagram.isInRenameMode = false
+				stager.stage.Commit()
+				return
+			}
 			if frontNode.IsChecked && !stagedNode.IsChecked {
 				// reset all ddiagram selection
 				for diagram_ := range *GetGongstructInstancesSet[DiagramProcess](stager.stage) {
@@ -142,6 +123,32 @@ func (stager *Stager) treeProcesses(
 			}
 			diagramNode.Buttons = append(diagramNode.Buttons, showPrefixButton)
 		}
+	}
+	itemAdderCallback := addAddItemButtonSimple(stager, nil, nil, &process.isExpanded, processNode, &process.DiagramProcesss)
+
+	itemAdderCallback.OnBeforeCommit = func() {
+		newDiagram := itemAdderCallback.createdItem
+		newDiagram.IsEditable_ = true
+		newDiagram.isExpanded = true
+		for diagram_ := range *GetGongstructInstancesSet[DiagramProcess](stager.stage) {
+			diagram_.IsChecked = false
+		}
+		newDiagram.IsChecked = true
+	}
+
+	addAddItemButtonSimple(stager, processsWhoseNodeIsExpanded, process, nil, processNode, &process.SubProcesses)
+
+	// SubProcesses
+	subProcessesNode := &tree.Node{
+		Name:            "SubProcesses",
+		FontStyle:       tree.ITALIC,
+		IsExpanded:      process.IsSubProcessNodeExpanded,
+		IsNodeClickable: true,
+	}
+	processNode.Children = append(processNode.Children, subProcessesNode)
+
+	for _, process_ := range process.SubProcesses {
+		stager.treeProcesses(process_, subProcessesNode, processsWhoseNodeIsExpanded)
 	}
 
 }
