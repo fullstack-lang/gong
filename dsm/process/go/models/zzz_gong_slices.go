@@ -80,6 +80,13 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Process_DiagramProcesss_reverseMap[_diagramprocess] = process
 		}
 	}
+	stage.Process_DiagramProcessWhoseNodeIsExpanded_reverseMap = make(map[*DiagramProcess]*Process)
+	for process := range stage.Processs {
+		_ = process
+		for _, _diagramprocess := range process.DiagramProcessWhoseNodeIsExpanded {
+			stage.Process_DiagramProcessWhoseNodeIsExpanded_reverseMap[_diagramprocess] = process
+		}
+	}
 	stage.Process_SubProcesses_reverseMap = make(map[*Process]*Process)
 	for process := range stage.Processs {
 		_ = process

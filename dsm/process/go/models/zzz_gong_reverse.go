@@ -13,6 +13,10 @@ func (inst *DiagramProcess) GongGetReverseFieldOwnerName(stage *Stage, reverseFi
 			if _process, ok := stage.Process_DiagramProcesss_reverseMap[inst]; ok {
 				res = _process.Name
 			}
+		case "DiagramProcessWhoseNodeIsExpanded":
+			if _process, ok := stage.Process_DiagramProcessWhoseNodeIsExpanded_reverseMap[inst]; ok {
+				res = _process.Name
+			}
 		}
 	}
 	return
@@ -130,6 +134,8 @@ func (inst *DiagramProcess) GongGetReverseFieldOwner(stage *Stage, reverseField 
 		switch reverseField.Fieldname {
 		case "DiagramProcesss":
 			res = stage.Process_DiagramProcesss_reverseMap[inst]
+		case "DiagramProcessWhoseNodeIsExpanded":
+			res = stage.Process_DiagramProcessWhoseNodeIsExpanded_reverseMap[inst]
 		}
 	}
 	return res

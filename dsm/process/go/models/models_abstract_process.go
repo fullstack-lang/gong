@@ -8,12 +8,12 @@ type Process struct {
 
 	parentProcess *Process
 
-	DiagramProcesss []*DiagramProcess
+	DiagramProcesss                   []*DiagramProcess
+	DiagramProcessWhoseNodeIsExpanded []*DiagramProcess
 
 	IsSubProcessNodeExpanded bool
 	SubProcesses             []*Process
 
-	IsParticipantsNodeExpanded     bool
 	Participants                   []*Participant
 	ParticipantWhoseNodeIsExpanded []*Participant
 }
