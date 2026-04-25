@@ -20,10 +20,10 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 	libraryNode.OnUpdate = stager.OnUpdateLibrary(library)
 
 	// add sub library button
-	addAddItemButtonSimple(stager, nil, nil, &library.isExpanded, libraryNode, &library.SubLibraries)
+	addAddItemButtonVerySimple(stager, &library.isExpanded, libraryNode, &library.SubLibraries)
 
 	// add a process to the library button
-	addAddItemButtonSimple(stager, nil, nil, &library.isExpanded, libraryNode, &library.RootProcesses)
+	addAddItemButtonVerySimple(stager, &library.isExpanded, libraryNode, &library.RootProcesses)
 
 	for _, process := range library.RootProcesses {
 		stager.treeProcesses(process, libraryNode, &library.ProcesssWhoseNodeIsExpanded)

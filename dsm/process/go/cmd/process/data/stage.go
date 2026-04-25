@@ -33,6 +33,10 @@ func _(stage *models.Stage) {
 
 	__Library__00000000_ := (&models.Library{Name: `Root`}).Stage(stage)
 
+	__Participant__00000000_ := (&models.Participant{Name: `PP1`}).Stage(stage)
+	__Participant__00000001_ := (&models.Participant{Name: `PP2`}).Stage(stage)
+	__Participant__00000002_ := (&models.Participant{Name: `PP3`}).Stage(stage)
+
 	__Process__00000000_ := (&models.Process{Name: `P0`}).Stage(stage)
 	__Process__00000005_ := (&models.Process{Name: `P1`}).Stage(stage)
 
@@ -49,8 +53,8 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000000_.IsShowPrefix = false
 	__DiagramProcess__00000000_.DefaultBoxWidth = 250.000000
 	__DiagramProcess__00000000_.DefaultBoxHeigth = 70.000000
-	__DiagramProcess__00000000_.Width = 41400.000000
-	__DiagramProcess__00000000_.Height = 41400.000000
+	__DiagramProcess__00000000_.Width = 52800.000000
+	__DiagramProcess__00000000_.Height = 52800.000000
 	__DiagramProcess__00000000_.IsProcesssNodeExpanded = false
 
 	__DiagramProcess__00000005_.Name = `DiagramProcess`
@@ -60,8 +64,8 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000005_.IsShowPrefix = false
 	__DiagramProcess__00000005_.DefaultBoxWidth = 250.000000
 	__DiagramProcess__00000005_.DefaultBoxHeigth = 70.000000
-	__DiagramProcess__00000005_.Width = 10800.000000
-	__DiagramProcess__00000005_.Height = 11250.000000
+	__DiagramProcess__00000005_.Width = 22200.000000
+	__DiagramProcess__00000005_.Height = 22650.000000
 	__DiagramProcess__00000005_.IsProcesssNodeExpanded = false
 
 	__DiagramProcess__00000006_.Name = `D2`
@@ -71,8 +75,8 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000006_.IsShowPrefix = false
 	__DiagramProcess__00000006_.DefaultBoxWidth = 250.000000
 	__DiagramProcess__00000006_.DefaultBoxHeigth = 70.000000
-	__DiagramProcess__00000006_.Width = 6900.000000
-	__DiagramProcess__00000006_.Height = 7350.000000
+	__DiagramProcess__00000006_.Width = 18300.000000
+	__DiagramProcess__00000006_.Height = 18750.000000
 	__DiagramProcess__00000006_.IsProcesssNodeExpanded = false
 
 	__Library__00000000_.Name = `Root`
@@ -80,13 +84,24 @@ func _(stage *models.Stage) {
 	__Library__00000000_.NbPixPerCharacter = 8.000000
 	__Library__00000000_.LogoSVGFile = ``
 
+	__Participant__00000000_.Name = `PP1`
+	__Participant__00000000_.ComputedPrefix = ``
+
+	__Participant__00000001_.Name = `PP2`
+	__Participant__00000001_.ComputedPrefix = ``
+
+	__Participant__00000002_.Name = `PP3`
+	__Participant__00000002_.ComputedPrefix = ``
+
 	__Process__00000000_.Name = `P0`
 	__Process__00000000_.ComputedPrefix = ``
 	__Process__00000000_.IsSubProcessNodeExpanded = true
+	__Process__00000000_.IsParticipantsNodeExpanded = false
 
 	__Process__00000005_.Name = `P1`
 	__Process__00000005_.ComputedPrefix = ``
 	__Process__00000005_.IsSubProcessNodeExpanded = false
+	__Process__00000005_.IsParticipantsNodeExpanded = true
 
 	__ProcessShape__00000003_.Name = `ProcessShape`
 	__ProcessShape__00000003_.IsExpanded = false
@@ -119,9 +134,14 @@ func _(stage *models.Stage) {
 	__Library__00000000_.RootProcesses = append(__Library__00000000_.RootProcesses, __Process__00000000_)
 	__Library__00000000_.RootProcesses = append(__Library__00000000_.RootProcesses, __Process__00000005_)
 	__Library__00000000_.ProcesssWhoseNodeIsExpanded = append(__Library__00000000_.ProcesssWhoseNodeIsExpanded, __Process__00000000_)
+	__Library__00000000_.ProcesssWhoseNodeIsExpanded = append(__Library__00000000_.ProcesssWhoseNodeIsExpanded, __Process__00000005_)
 	__Process__00000000_.DiagramProcesss = append(__Process__00000000_.DiagramProcesss, __DiagramProcess__00000000_)
 	__Process__00000005_.DiagramProcesss = append(__Process__00000005_.DiagramProcesss, __DiagramProcess__00000005_)
 	__Process__00000005_.DiagramProcesss = append(__Process__00000005_.DiagramProcesss, __DiagramProcess__00000006_)
+	__Process__00000005_.Participants = append(__Process__00000005_.Participants, __Participant__00000000_)
+	__Process__00000005_.Participants = append(__Process__00000005_.Participants, __Participant__00000001_)
+	__Process__00000005_.Participants = append(__Process__00000005_.Participants, __Participant__00000002_)
+	__Process__00000005_.ParticipantWhoseNodeIsExpanded = append(__Process__00000005_.ParticipantWhoseNodeIsExpanded, __Participant__00000001_)
 	__ProcessShape__00000003_.Process = __Process__00000000_
 	__ProcessShape__00000005_.Process = __Process__00000005_
 	__ProcessShape__00000006_.Process = __Process__00000005_
