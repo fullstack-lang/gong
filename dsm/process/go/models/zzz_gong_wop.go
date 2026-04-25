@@ -31,6 +31,8 @@ type DiagramProcess_WOP struct {
 	Height float64
 
 	IsProcesssNodeExpanded bool
+
+	IsParticipantsNodeExpanded bool
 }
 
 func (from *DiagramProcess) CopyBasicFields(to *DiagramProcess) {
@@ -45,6 +47,7 @@ func (from *DiagramProcess) CopyBasicFields(to *DiagramProcess) {
 	to.Width = from.Width
 	to.Height = from.Height
 	to.IsProcesssNodeExpanded = from.IsProcesssNodeExpanded
+	to.IsParticipantsNodeExpanded = from.IsParticipantsNodeExpanded
 }
 
 type Library_WOP struct {
@@ -89,8 +92,6 @@ type Process_WOP struct {
 	ComputedPrefix string
 
 	IsSubProcessNodeExpanded bool
-
-	IsParticipantsNodeExpanded bool
 }
 
 func (from *Process) CopyBasicFields(to *Process) {
@@ -98,7 +99,6 @@ func (from *Process) CopyBasicFields(to *Process) {
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsSubProcessNodeExpanded = from.IsSubProcessNodeExpanded
-	to.IsParticipantsNodeExpanded = from.IsParticipantsNodeExpanded
 }
 
 type ProcessCompositionShape_WOP struct {

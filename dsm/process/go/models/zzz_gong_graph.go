@@ -212,6 +212,9 @@ func (stage *Stage) StageBranchProcess(process *Process) {
 	for _, _diagramprocess := range process.DiagramProcesss {
 		StageBranch(stage, _diagramprocess)
 	}
+	for _, _diagramprocess := range process.DiagramProcessWhoseNodeIsExpanded {
+		StageBranch(stage, _diagramprocess)
+	}
 	for _, _process := range process.SubProcesses {
 		StageBranch(stage, _process)
 	}
@@ -395,6 +398,9 @@ func CopyBranchProcess(mapOrigCopy map[any]any, processFrom *Process) (processTo
 	for _, _diagramprocess := range processFrom.DiagramProcesss {
 		processTo.DiagramProcesss = append(processTo.DiagramProcesss, CopyBranchDiagramProcess(mapOrigCopy, _diagramprocess))
 	}
+	for _, _diagramprocess := range processFrom.DiagramProcessWhoseNodeIsExpanded {
+		processTo.DiagramProcessWhoseNodeIsExpanded = append(processTo.DiagramProcessWhoseNodeIsExpanded, CopyBranchDiagramProcess(mapOrigCopy, _diagramprocess))
+	}
 	for _, _process := range processFrom.SubProcesses {
 		processTo.SubProcesses = append(processTo.SubProcesses, CopyBranchProcess(mapOrigCopy, _process))
 	}
@@ -562,6 +568,9 @@ func (stage *Stage) UnstageBranchProcess(process *Process) {
 	for _, _diagramprocess := range process.DiagramProcesss {
 		UnstageBranch(stage, _diagramprocess)
 	}
+	for _, _diagramprocess := range process.DiagramProcessWhoseNodeIsExpanded {
+		UnstageBranch(stage, _diagramprocess)
+	}
 	for _, _process := range process.SubProcesses {
 		UnstageBranch(stage, _process)
 	}
@@ -662,6 +671,10 @@ func (reference *Process) GongReconstructPointersFromReferences(stage *Stage, in
 	reference.DiagramProcesss = reference.DiagramProcesss[:0]
 	for _, _b := range instance.DiagramProcesss {
 		reference.DiagramProcesss = append(reference.DiagramProcesss, stage.DiagramProcesss_reference[_b])
+	}
+	reference.DiagramProcessWhoseNodeIsExpanded = reference.DiagramProcessWhoseNodeIsExpanded[:0]
+	for _, _b := range instance.DiagramProcessWhoseNodeIsExpanded {
+		reference.DiagramProcessWhoseNodeIsExpanded = append(reference.DiagramProcessWhoseNodeIsExpanded, stage.DiagramProcesss_reference[_b])
 	}
 	reference.SubProcesses = reference.SubProcesses[:0]
 	for _, _b := range instance.SubProcesses {
@@ -773,6 +786,13 @@ func (reference *Process) GongReconstructPointersFromInstances(stage *Stage) () 
 		}
 	}
 	reference.DiagramProcesss = _DiagramProcesss
+	var _DiagramProcessWhoseNodeIsExpanded []*DiagramProcess
+	for _, _reference := range reference.DiagramProcessWhoseNodeIsExpanded {
+		if _instance, ok := stage.DiagramProcesss_instance[_reference]; ok {
+			_DiagramProcessWhoseNodeIsExpanded = append(_DiagramProcessWhoseNodeIsExpanded, _instance)
+		}
+	}
+	reference.DiagramProcessWhoseNodeIsExpanded = _DiagramProcessWhoseNodeIsExpanded
 	var _SubProcesses []*Process
 	for _, _reference := range reference.SubProcesses {
 		if _instance, ok := stage.Processs_instance[_reference]; ok {
@@ -922,6 +942,9 @@ func (diagramprocess *DiagramProcess) GongDiff(stage *Stage, diagramprocessOther
 		ops := Diff(stage, diagramprocess, diagramprocessOther, "ProcessComposition_Shapes", diagramprocessOther.ProcessComposition_Shapes, diagramprocess.ProcessComposition_Shapes)
 		diffs = append(diffs, ops)
 	}
+	if diagramprocess.IsParticipantsNodeExpanded != diagramprocessOther.IsParticipantsNodeExpanded {
+		diffs = append(diffs, diagramprocess.GongMarshallField(stage, "IsParticipantsNodeExpanded"))
+	}
 
 	return
 }
@@ -1054,6 +1077,27 @@ func (process *Process) GongDiff(stage *Stage, processOther *Process) (diffs []s
 		ops := Diff(stage, process, processOther, "DiagramProcesss", processOther.DiagramProcesss, process.DiagramProcesss)
 		diffs = append(diffs, ops)
 	}
+	DiagramProcessWhoseNodeIsExpandedDifferent := false
+	if len(process.DiagramProcessWhoseNodeIsExpanded) != len(processOther.DiagramProcessWhoseNodeIsExpanded) {
+		DiagramProcessWhoseNodeIsExpandedDifferent = true
+	} else {
+		for i := range process.DiagramProcessWhoseNodeIsExpanded {
+			if (process.DiagramProcessWhoseNodeIsExpanded[i] == nil) != (processOther.DiagramProcessWhoseNodeIsExpanded[i] == nil) {
+				DiagramProcessWhoseNodeIsExpandedDifferent = true
+				break
+			} else if process.DiagramProcessWhoseNodeIsExpanded[i] != nil && processOther.DiagramProcessWhoseNodeIsExpanded[i] != nil {
+				// this is a pointer comparaison
+				if process.DiagramProcessWhoseNodeIsExpanded[i] != processOther.DiagramProcessWhoseNodeIsExpanded[i] {
+					DiagramProcessWhoseNodeIsExpandedDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if DiagramProcessWhoseNodeIsExpandedDifferent {
+		ops := Diff(stage, process, processOther, "DiagramProcessWhoseNodeIsExpanded", processOther.DiagramProcessWhoseNodeIsExpanded, process.DiagramProcessWhoseNodeIsExpanded)
+		diffs = append(diffs, ops)
+	}
 	if process.IsSubProcessNodeExpanded != processOther.IsSubProcessNodeExpanded {
 		diffs = append(diffs, process.GongMarshallField(stage, "IsSubProcessNodeExpanded"))
 	}
@@ -1077,9 +1121,6 @@ func (process *Process) GongDiff(stage *Stage, processOther *Process) (diffs []s
 	if SubProcessesDifferent {
 		ops := Diff(stage, process, processOther, "SubProcesses", processOther.SubProcesses, process.SubProcesses)
 		diffs = append(diffs, ops)
-	}
-	if process.IsParticipantsNodeExpanded != processOther.IsParticipantsNodeExpanded {
-		diffs = append(diffs, process.GongMarshallField(stage, "IsParticipantsNodeExpanded"))
 	}
 	ParticipantsDifferent := false
 	if len(process.Participants) != len(processOther.Participants) {

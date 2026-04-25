@@ -486,6 +486,8 @@ func (u *DiagramProcessUnmarshaller) UnmarshallField(stage *Stage, i GongstructI
 		instance.IsProcesssNodeExpanded = GongExtractBool(valueExpr)
 	case "ProcessComposition_Shapes":
 		GongUnmarshallSliceOfPointers(&instance.ProcessComposition_Shapes, valueExpr, identifierMap)
+	case "IsParticipantsNodeExpanded":
+		instance.IsParticipantsNodeExpanded = GongExtractBool(valueExpr)
 	}
 	return nil
 }
@@ -591,12 +593,12 @@ func (u *ProcessUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "DiagramProcesss":
 		GongUnmarshallSliceOfPointers(&instance.DiagramProcesss, valueExpr, identifierMap)
+	case "DiagramProcessWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.DiagramProcessWhoseNodeIsExpanded, valueExpr, identifierMap)
 	case "IsSubProcessNodeExpanded":
 		instance.IsSubProcessNodeExpanded = GongExtractBool(valueExpr)
 	case "SubProcesses":
 		GongUnmarshallSliceOfPointers(&instance.SubProcesses, valueExpr, identifierMap)
-	case "IsParticipantsNodeExpanded":
-		instance.IsParticipantsNodeExpanded = GongExtractBool(valueExpr)
 	case "Participants":
 		GongUnmarshallSliceOfPointers(&instance.Participants, valueExpr, identifierMap)
 	case "ParticipantWhoseNodeIsExpanded":
