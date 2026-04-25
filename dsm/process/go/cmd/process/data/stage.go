@@ -29,6 +29,7 @@ func _(stage *models.Stage) {
 
 	__DiagramProcess__00000000_ := (&models.DiagramProcess{Name: `D1`}).Stage(stage)
 	__DiagramProcess__00000005_ := (&models.DiagramProcess{Name: `DiagramProcess`}).Stage(stage)
+	__DiagramProcess__00000006_ := (&models.DiagramProcess{Name: `D2`}).Stage(stage)
 
 	__Library__00000000_ := (&models.Library{Name: `Root`}).Stage(stage)
 
@@ -37,6 +38,7 @@ func _(stage *models.Stage) {
 
 	__ProcessShape__00000003_ := (&models.ProcessShape{Name: `ProcessShape`}).Stage(stage)
 	__ProcessShape__00000005_ := (&models.ProcessShape{Name: `ProcessShape`}).Stage(stage)
+	__ProcessShape__00000006_ := (&models.ProcessShape{Name: `ProcessShape`}).Stage(stage)
 
 	// insertion point for initialization of values
 
@@ -47,20 +49,31 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000000_.IsShowPrefix = false
 	__DiagramProcess__00000000_.DefaultBoxWidth = 250.000000
 	__DiagramProcess__00000000_.DefaultBoxHeigth = 70.000000
-	__DiagramProcess__00000000_.Width = 33900.000000
-	__DiagramProcess__00000000_.Height = 33900.000000
+	__DiagramProcess__00000000_.Width = 39900.000000
+	__DiagramProcess__00000000_.Height = 39900.000000
 	__DiagramProcess__00000000_.IsProcesssNodeExpanded = false
 
 	__DiagramProcess__00000005_.Name = `DiagramProcess`
 	__DiagramProcess__00000005_.ComputedPrefix = ``
-	__DiagramProcess__00000005_.IsChecked = true
+	__DiagramProcess__00000005_.IsChecked = false
 	__DiagramProcess__00000005_.IsEditable_ = false
 	__DiagramProcess__00000005_.IsShowPrefix = false
 	__DiagramProcess__00000005_.DefaultBoxWidth = 250.000000
 	__DiagramProcess__00000005_.DefaultBoxHeigth = 70.000000
-	__DiagramProcess__00000005_.Width = 3300.000000
-	__DiagramProcess__00000005_.Height = 3750.000000
+	__DiagramProcess__00000005_.Width = 9300.000000
+	__DiagramProcess__00000005_.Height = 9750.000000
 	__DiagramProcess__00000005_.IsProcesssNodeExpanded = false
+
+	__DiagramProcess__00000006_.Name = `D2`
+	__DiagramProcess__00000006_.ComputedPrefix = ``
+	__DiagramProcess__00000006_.IsChecked = true
+	__DiagramProcess__00000006_.IsEditable_ = true
+	__DiagramProcess__00000006_.IsShowPrefix = false
+	__DiagramProcess__00000006_.DefaultBoxWidth = 250.000000
+	__DiagramProcess__00000006_.DefaultBoxHeigth = 70.000000
+	__DiagramProcess__00000006_.Width = 5400.000000
+	__DiagramProcess__00000006_.Height = 5850.000000
+	__DiagramProcess__00000006_.IsProcesssNodeExpanded = false
 
 	__Library__00000000_.Name = `Root`
 	__Library__00000000_.ComputedPrefix = ``
@@ -91,14 +104,25 @@ func _(stage *models.Stage) {
 	__ProcessShape__00000005_.Height = 1000.000000
 	__ProcessShape__00000005_.IsHidden = false
 
+	__ProcessShape__00000006_.Name = `ProcessShape`
+	__ProcessShape__00000006_.IsExpanded = false
+	__ProcessShape__00000006_.X = 100.000000
+	__ProcessShape__00000006_.Y = 50.000000
+	__ProcessShape__00000006_.Width = 500.000000
+	__ProcessShape__00000006_.Height = 1000.000000
+	__ProcessShape__00000006_.IsHidden = false
+
 	// insertion point for setup of pointers
 	__DiagramProcess__00000000_.Process_Shapes = append(__DiagramProcess__00000000_.Process_Shapes, __ProcessShape__00000003_)
 	__DiagramProcess__00000005_.Process_Shapes = append(__DiagramProcess__00000005_.Process_Shapes, __ProcessShape__00000005_)
+	__DiagramProcess__00000006_.Process_Shapes = append(__DiagramProcess__00000006_.Process_Shapes, __ProcessShape__00000006_)
 	__Library__00000000_.RootProcesses = append(__Library__00000000_.RootProcesses, __Process__00000000_)
 	__Library__00000000_.RootProcesses = append(__Library__00000000_.RootProcesses, __Process__00000005_)
 	__Library__00000000_.ProcesssWhoseNodeIsExpanded = append(__Library__00000000_.ProcesssWhoseNodeIsExpanded, __Process__00000005_)
 	__Process__00000000_.DiagramProcesss = append(__Process__00000000_.DiagramProcesss, __DiagramProcess__00000000_)
 	__Process__00000005_.DiagramProcesss = append(__Process__00000005_.DiagramProcesss, __DiagramProcess__00000005_)
+	__Process__00000005_.DiagramProcesss = append(__Process__00000005_.DiagramProcesss, __DiagramProcess__00000006_)
 	__ProcessShape__00000003_.Process = __Process__00000000_
 	__ProcessShape__00000005_.Process = __Process__00000005_
+	__ProcessShape__00000006_.Process = __Process__00000005_
 }
