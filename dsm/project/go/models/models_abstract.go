@@ -1,12 +1,8 @@
 package models
 
 import (
-	"embed"
 	"time"
 )
-
-//go:embed yyy_*.go
-var XXYFiles embed.FS
 
 // Note brings information to a diagram
 type Note struct {

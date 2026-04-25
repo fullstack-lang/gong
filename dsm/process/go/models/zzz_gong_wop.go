@@ -67,6 +67,20 @@ func (from *Library) CopyBasicFields(to *Library) {
 	to.LogoSVGFile = from.LogoSVGFile
 }
 
+type Participant_WOP struct {
+	// insertion point
+
+	Name string
+
+	ComputedPrefix string
+}
+
+func (from *Participant) CopyBasicFields(to *Participant) {
+	// insertion point
+	to.Name = from.Name
+	to.ComputedPrefix = from.ComputedPrefix
+}
+
 type Process_WOP struct {
 	// insertion point
 

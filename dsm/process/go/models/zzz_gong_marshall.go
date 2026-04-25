@@ -340,6 +340,33 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "ProcesssWhoseNodeIsExpanded"))
 	}
 
+	participantOrdered := []*Participant{}
+	for participant := range stage.Participants {
+		participantOrdered = append(participantOrdered, participant)
+	}
+	sort.Slice(participantOrdered[:], func(i, j int) bool {
+		participanti := participantOrdered[i]
+		participantj := participantOrdered[j]
+		participanti_order, oki := stage.Participant_stagedOrder[participanti]
+		participantj_order, okj := stage.Participant_stagedOrder[participantj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return participanti_order < participantj_order
+	})
+	if len(participantOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, participant := range participantOrdered {
+
+		identifiersDecl.WriteString(participant.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(participant.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(participant.GongMarshallField(stage, "ComputedPrefix"))
+	}
+
 	processOrdered := []*Process{}
 	for process := range stage.Processs {
 		processOrdered = append(processOrdered, process)
@@ -447,6 +474,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	for _, library := range libraryOrdered {
 		_ = library
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, participant := range participantOrdered {
+		_ = participant
 		var setPointerField string
 		_ = setPointerField
 
@@ -681,6 +716,26 @@ func (library *Library) GongMarshallField(stage *Stage, fieldName string) (res s
 	return
 }
 
+func (participant *Participant) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", participant.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(participant.Name))
+	case "ComputedPrefix":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", participant.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(participant.ComputedPrefix))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Participant", fieldName)
+	}
+	return
+}
+
 func (process *Process) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -894,6 +949,18 @@ func (library *Library) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		initializerStatements.WriteString(library.GongMarshallField(stage, "LogoSVGFile"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootProcesses"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "ProcesssWhoseNodeIsExpanded"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (participant *Participant) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(participant.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(participant.GongMarshallField(stage, "ComputedPrefix"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

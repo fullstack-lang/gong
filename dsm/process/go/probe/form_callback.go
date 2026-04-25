@@ -517,6 +517,86 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 
 	libraryFormCallback.probe.ux_tree()
 }
+func __gong__New__ParticipantFormCallback(
+	participant *models.Participant,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (participantFormCallback *ParticipantFormCallback) {
+	participantFormCallback = new(ParticipantFormCallback)
+	participantFormCallback.probe = probe
+	participantFormCallback.participant = participant
+	participantFormCallback.formGroup = formGroup
+
+	participantFormCallback.CreationMode = (participant == nil)
+
+	return
+}
+
+type ParticipantFormCallback struct {
+	participant *models.Participant
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (participantFormCallback *ParticipantFormCallback) OnSave() {
+	participantFormCallback.probe.stageOfInterest.Lock()
+	defer participantFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("ParticipantFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	participantFormCallback.probe.formStage.Checkout()
+
+	if participantFormCallback.participant == nil {
+		participantFormCallback.participant = new(models.Participant).Stage(participantFormCallback.probe.stageOfInterest)
+	}
+	participant_ := participantFormCallback.participant
+	_ = participant_
+
+	for _, formDiv := range participantFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(participant_.Name), formDiv)
+		case "ComputedPrefix":
+			FormDivBasicFieldToField(&(participant_.ComputedPrefix), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if participantFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		participant_.Unstage(participantFormCallback.probe.stageOfInterest)
+	}
+
+	participantFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.Participant](
+		participantFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if participantFormCallback.CreationMode || participantFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		participantFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(participantFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__ParticipantFormCallback(
+			nil,
+			participantFormCallback.probe,
+			newFormGroup,
+		)
+		participant := new(models.Participant)
+		FillUpForm(participant, newFormGroup, participantFormCallback.probe)
+		participantFormCallback.probe.formStage.Commit()
+	}
+
+	participantFormCallback.probe.ux_tree()
+}
 func __gong__New__ProcessFormCallback(
 	process *models.Process,
 	probe *Probe,

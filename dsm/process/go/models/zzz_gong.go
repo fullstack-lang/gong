@@ -168,6 +168,21 @@ type Stage struct {
 	OnAfterLibraryDeleteCallback OnAfterDeleteInterface[Library]
 	OnAfterLibraryReadCallback   OnAfterReadInterface[Library]
 
+	Participants                map[*Participant]struct{}
+	Participants_instance       map[*Participant]*Participant
+	Participants_mapString      map[string]*Participant
+	ParticipantOrder            uint
+	Participant_stagedOrder     map[*Participant]uint
+	Participant_orderStaged     map[uint]*Participant
+	Participants_reference      map[*Participant]*Participant
+	Participants_referenceOrder map[*Participant]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterParticipantCreateCallback OnAfterCreateInterface[Participant]
+	OnAfterParticipantUpdateCallback OnAfterUpdateInterface[Participant]
+	OnAfterParticipantDeleteCallback OnAfterDeleteInterface[Participant]
+	OnAfterParticipantReadCallback   OnAfterReadInterface[Participant]
+
 	Processs                map[*Process]struct{}
 	Processs_instance       map[*Process]*Process
 	Processs_mapString      map[string]*Process
@@ -461,6 +476,10 @@ func (stage *Stage) Squash() {
 	stage.Librarys_instance = make(map[*Library]*Library)
 	stage.Librarys_referenceOrder = make(map[*Library]uint)
 
+	stage.Participants_reference = make(map[*Participant]*Participant)
+	stage.Participants_instance = make(map[*Participant]*Participant)
+	stage.Participants_referenceOrder = make(map[*Participant]uint)
+
 	stage.Processs_reference = make(map[*Process]*Process)
 	stage.Processs_instance = make(map[*Process]*Process)
 	stage.Processs_referenceOrder = make(map[*Process]uint)
@@ -526,6 +545,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.LibraryOrder = maxLibraryOrder + 1
 	} else {
 		stage.LibraryOrder = 0
+	}
+
+	var maxParticipantOrder uint
+	var foundParticipant bool
+	for _, order := range stage.Participant_stagedOrder {
+		if !foundParticipant || order > maxParticipantOrder {
+			maxParticipantOrder = order
+			foundParticipant = true
+		}
+	}
+	if foundParticipant {
+		stage.ParticipantOrder = maxParticipantOrder + 1
+	} else {
+		stage.ParticipantOrder = 0
 	}
 
 	var maxProcessOrder uint
@@ -659,6 +692,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *Participant:
+		tmp := GetStructInstancesByOrder(stage.Participants, stage.Participant_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *Participant implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *Process:
 		tmp := GetStructInstancesByOrder(stage.Processs, stage.Process_stagedOrder)
 
@@ -734,6 +781,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.DiagramProcesss, stage.DiagramProcess_stagedOrder)
 	case "Library":
 		res = GetNamedStructInstances(stage.Librarys, stage.Library_stagedOrder)
+	case "Participant":
+		res = GetNamedStructInstances(stage.Participants, stage.Participant_stagedOrder)
 	case "Process":
 		res = GetNamedStructInstances(stage.Processs, stage.Process_stagedOrder)
 	case "ProcessCompositionShape":
@@ -813,6 +862,8 @@ type BackRepoInterface interface {
 	CheckoutDiagramProcess(diagramprocess *DiagramProcess)
 	CommitLibrary(library *Library)
 	CheckoutLibrary(library *Library)
+	CommitParticipant(participant *Participant)
+	CheckoutParticipant(participant *Participant)
 	CommitProcess(process *Process)
 	CheckoutProcess(process *Process)
 	CommitProcessCompositionShape(processcompositionshape *ProcessCompositionShape)
@@ -830,6 +881,9 @@ func NewStage(name string) (stage *Stage) {
 
 		Librarys:           make(map[*Library]struct{}),
 		Librarys_mapString: make(map[string]*Library),
+
+		Participants:           make(map[*Participant]struct{}),
+		Participants_mapString: make(map[string]*Participant),
 
 		Processs:           make(map[*Process]struct{}),
 		Processs_mapString: make(map[string]*Process),
@@ -858,6 +912,10 @@ func NewStage(name string) (stage *Stage) {
 		Library_orderStaged: make(map[uint]*Library),
 		Librarys_reference: make(map[*Library]*Library),
 
+		Participant_stagedOrder: make(map[*Participant]uint),
+		Participant_orderStaged: make(map[uint]*Participant),
+		Participants_reference: make(map[*Participant]*Participant),
+
 		Process_stagedOrder: make(map[*Process]uint),
 		Process_orderStaged: make(map[uint]*Process),
 		Processs_reference: make(map[*Process]*Process),
@@ -876,6 +934,8 @@ func NewStage(name string) (stage *Stage) {
 
 			"Library": &LibraryUnmarshaller{},
 
+			"Participant": &ParticipantUnmarshaller{},
+
 			"Process": &ProcessUnmarshaller{},
 
 			"ProcessCompositionShape": &ProcessCompositionShapeUnmarshaller{},
@@ -888,6 +948,7 @@ func NewStage(name string) (stage *Stage) {
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
 			{name: "DiagramProcess"},
 			{name: "Library"},
+			{name: "Participant"},
 			{name: "Process"},
 			{name: "ProcessCompositionShape"},
 			{name: "ProcessShape"},
@@ -906,6 +967,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.DiagramProcess_stagedOrder[instance]
 	case *Library:
 		return stage.Library_stagedOrder[instance]
+	case *Participant:
+		return stage.Participant_stagedOrder[instance]
 	case *Process:
 		return stage.Process_stagedOrder[instance]
 	case *ProcessCompositionShape:
@@ -925,6 +988,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.DiagramProcess_orderStaged[order]).(Type)
 	case *Library:
 		return any(stage.Library_orderStaged[order]).(Type)
+	case *Participant:
+		return any(stage.Participant_orderStaged[order]).(Type)
 	case *Process:
 		return any(stage.Process_orderStaged[order]).(Type)
 	case *ProcessCompositionShape:
@@ -943,6 +1008,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.DiagramProcess_stagedOrder[instance]
 	case *Library:
 		return stage.Library_stagedOrder[instance]
+	case *Participant:
+		return stage.Participant_stagedOrder[instance]
 	case *Process:
 		return stage.Process_stagedOrder[instance]
 	case *ProcessCompositionShape:
@@ -1016,6 +1083,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	// insertion point for computing the map of number of instances per gongstruct
 	stage.Map_GongStructName_InstancesNb["DiagramProcess"] = len(stage.DiagramProcesss)
 	stage.Map_GongStructName_InstancesNb["Library"] = len(stage.Librarys)
+	stage.Map_GongStructName_InstancesNb["Participant"] = len(stage.Participants)
 	stage.Map_GongStructName_InstancesNb["Process"] = len(stage.Processs)
 	stage.Map_GongStructName_InstancesNb["ProcessCompositionShape"] = len(stage.ProcessCompositionShapes)
 	stage.Map_GongStructName_InstancesNb["ProcessShape"] = len(stage.ProcessShapes)
@@ -1233,6 +1301,94 @@ func (library *Library) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (library *Library) SetName(name string) {
 	library.Name = name
+}
+
+// Stage puts participant to the model stage
+func (participant *Participant) Stage(stage *Stage) *Participant {
+	if _, ok := stage.Participants[participant]; !ok {
+		stage.Participants[participant] = struct{}{}
+		stage.Participant_stagedOrder[participant] = stage.ParticipantOrder
+		stage.Participant_orderStaged[stage.ParticipantOrder] = participant
+		stage.ParticipantOrder++
+	}
+	stage.Participants_mapString[participant.Name] = participant
+
+	return participant
+}
+
+// StagePreserveOrder puts participant to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ParticipantOrder
+// - update stage.ParticipantOrder accordingly
+func (participant *Participant) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.Participants[participant]; !ok {
+		stage.Participants[participant] = struct{}{}
+
+		if order > stage.ParticipantOrder {
+			stage.ParticipantOrder = order
+		}
+		stage.Participant_stagedOrder[participant] = order
+		stage.Participant_orderStaged[order] = participant
+		stage.ParticipantOrder++
+	}
+	stage.Participants_mapString[participant.Name] = participant
+}
+
+// Unstage removes participant off the model stage
+func (participant *Participant) Unstage(stage *Stage) *Participant {
+	delete(stage.Participants, participant)
+	// issue1150
+	// delete(stage.Participant_stagedOrder, participant)
+	delete(stage.Participants_mapString, participant.Name)
+
+	return participant
+}
+
+// UnstageVoid removes participant off the model stage
+func (participant *Participant) UnstageVoid(stage *Stage) {
+	delete(stage.Participants, participant)
+	// issue1150
+	// delete(stage.Participant_stagedOrder, participant)
+	delete(stage.Participants_mapString, participant.Name)
+}
+
+// commit participant to the back repo (if it is already staged)
+func (participant *Participant) Commit(stage *Stage) *Participant {
+	if _, ok := stage.Participants[participant]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitParticipant(participant)
+		}
+	}
+	return participant
+}
+
+func (participant *Participant) CommitVoid(stage *Stage) {
+	participant.Commit(stage)
+}
+
+func (participant *Participant) StageVoid(stage *Stage) {
+	participant.Stage(stage)
+}
+
+// Checkout participant to the back repo (if it is already staged)
+func (participant *Participant) Checkout(stage *Stage) *Participant {
+	if _, ok := stage.Participants[participant]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutParticipant(participant)
+		}
+	}
+	return participant
+}
+
+// for satisfaction of GongStruct interface
+func (participant *Participant) GetName() (res string) {
+	return participant.Name
+}
+
+// for satisfaction of GongStruct interface
+func (participant *Participant) SetName(name string) {
+	participant.Name = name
 }
 
 // Stage puts process to the model stage
@@ -1503,6 +1659,7 @@ func (processshape *ProcessShape) SetName(name string) {
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
 	CreateORMDiagramProcess(DiagramProcess *DiagramProcess)
 	CreateORMLibrary(Library *Library)
+	CreateORMParticipant(Participant *Participant)
 	CreateORMProcess(Process *Process)
 	CreateORMProcessCompositionShape(ProcessCompositionShape *ProcessCompositionShape)
 	CreateORMProcessShape(ProcessShape *ProcessShape)
@@ -1511,6 +1668,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
 	DeleteORMDiagramProcess(DiagramProcess *DiagramProcess)
 	DeleteORMLibrary(Library *Library)
+	DeleteORMParticipant(Participant *Participant)
 	DeleteORMProcess(Process *Process)
 	DeleteORMProcessCompositionShape(ProcessCompositionShape *ProcessCompositionShape)
 	DeleteORMProcessShape(ProcessShape *ProcessShape)
@@ -1526,6 +1684,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Librarys_mapString = make(map[string]*Library)
 	stage.Library_stagedOrder = make(map[*Library]uint)
 	stage.LibraryOrder = 0
+
+	stage.Participants = make(map[*Participant]struct{})
+	stage.Participants_mapString = make(map[string]*Participant)
+	stage.Participant_stagedOrder = make(map[*Participant]uint)
+	stage.ParticipantOrder = 0
 
 	stage.Processs = make(map[*Process]struct{})
 	stage.Processs_mapString = make(map[string]*Process)
@@ -1557,6 +1720,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.Librarys = nil
 	stage.Librarys_mapString = nil
 
+	stage.Participants = nil
+	stage.Participants_mapString = nil
+
 	stage.Processs = nil
 	stage.Processs_mapString = nil
 
@@ -1576,6 +1742,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for library := range stage.Librarys {
 		library.Unstage(stage)
+	}
+
+	for participant := range stage.Participants {
+		participant.Unstage(stage)
 	}
 
 	for process := range stage.Processs {
@@ -1670,6 +1840,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.DiagramProcesss).(*Type)
 	case map[*Library]any:
 		return any(&stage.Librarys).(*Type)
+	case map[*Participant]any:
+		return any(&stage.Participants).(*Type)
 	case map[*Process]any:
 		return any(&stage.Processs).(*Type)
 	case map[*ProcessCompositionShape]any:
@@ -1692,6 +1864,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.DiagramProcesss_mapString).(map[string]Type)
 	case *Library:
 		return any(stage.Librarys_mapString).(map[string]Type)
+	case *Participant:
+		return any(stage.Participants_mapString).(map[string]Type)
 	case *Process:
 		return any(stage.Processs_mapString).(map[string]Type)
 	case *ProcessCompositionShape:
@@ -1714,6 +1888,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.DiagramProcesss).(*map[*Type]struct{})
 	case Library:
 		return any(&stage.Librarys).(*map[*Type]struct{})
+	case Participant:
+		return any(&stage.Participants).(*map[*Type]struct{})
 	case Process:
 		return any(&stage.Processs).(*map[*Type]struct{})
 	case ProcessCompositionShape:
@@ -1736,6 +1912,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.DiagramProcesss).(*map[Type]struct{})
 	case *Library:
 		return any(&stage.Librarys).(*map[Type]struct{})
+	case *Participant:
+		return any(&stage.Participants).(*map[Type]struct{})
 	case *Process:
 		return any(&stage.Processs).(*map[Type]struct{})
 	case *ProcessCompositionShape:
@@ -1758,6 +1936,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.DiagramProcesss_mapString).(*map[string]*Type)
 	case Library:
 		return any(&stage.Librarys_mapString).(*map[string]*Type)
+	case Participant:
+		return any(&stage.Participants_mapString).(*map[string]*Type)
 	case Process:
 		return any(&stage.Processs_mapString).(*map[string]*Type)
 	case ProcessCompositionShape:
@@ -1797,6 +1977,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			RootProcesses: []*Process{{Name: "RootProcesses"}},
 			// field is initialized with an instance of Process with the name of the field
 			ProcesssWhoseNodeIsExpanded: []*Process{{Name: "ProcesssWhoseNodeIsExpanded"}},
+		}).(*Type)
+	case Participant:
+		return any(&Participant{
+			// Initialisation of associations
 		}).(*Type)
 	case Process:
 		return any(&Process{
@@ -1842,6 +2026,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		}
 	// reverse maps of direct associations of Library
 	case Library:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of Participant
+	case Participant:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -1967,6 +2156,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			}
 			return any(res).(map[*End][]*Start)
 		}
+	// reverse maps of direct associations of Participant
+	case Participant:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of Process
 	case Process:
 		switch fieldname {
@@ -2013,6 +2207,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "DiagramProcess"
 	case *Library:
 		res = "Library"
+	case *Participant:
+		res = "Participant"
 	case *Process:
 		res = "Process"
 	case *ProcessCompositionShape:
@@ -2048,6 +2244,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.GongstructName = "Library"
 		rf.Fieldname = "SubLibraries"
 		res = append(res, rf)
+	case *Participant:
+		var rf ReverseField
+		_ = rf
 	case *Process:
 		var rf ReverseField
 		_ = rf
@@ -2175,6 +2374,21 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "ProcesssWhoseNodeIsExpanded",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Process",
+		},
+	}
+	return
+}
+
+func (participant *Participant) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "ComputedPrefix",
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 	}
 	return
@@ -2466,6 +2680,17 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	return
 }
 
+func (participant *Participant) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = participant.Name
+	case "ComputedPrefix":
+		res.valueString = participant.ComputedPrefix
+	}
+	return
+}
+
 func (process *Process) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -2713,6 +2938,19 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 	return nil
 }
 
+func (participant *Participant) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		participant.Name = value.GetValueString()
+	case "ComputedPrefix":
+		participant.ComputedPrefix = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (process *Process) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -2837,6 +3075,10 @@ func (library *Library) GongGetGongstructName() string {
 	return "Library"
 }
 
+func (participant *Participant) GongGetGongstructName() string {
+	return "Participant"
+}
+
 func (process *Process) GongGetGongstructName() string {
 	return "Process"
 }
@@ -2864,6 +3106,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.Librarys_mapString = make(map[string]*Library)
 	for library := range stage.Librarys {
 		stage.Librarys_mapString[library.Name] = library
+	}
+
+	stage.Participants_mapString = make(map[string]*Participant)
+	for participant := range stage.Participants {
+		stage.Participants_mapString[participant.Name] = participant
 	}
 
 	stage.Processs_mapString = make(map[string]*Process)
