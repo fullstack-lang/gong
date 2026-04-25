@@ -53,30 +53,30 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000000_.IsShowPrefix = false
 	__DiagramProcess__00000000_.DefaultBoxWidth = 250.000000
 	__DiagramProcess__00000000_.DefaultBoxHeigth = 70.000000
-	__DiagramProcess__00000000_.Width = 52800.000000
-	__DiagramProcess__00000000_.Height = 52800.000000
+	__DiagramProcess__00000000_.Width = 54000.000000
+	__DiagramProcess__00000000_.Height = 54000.000000
 	__DiagramProcess__00000000_.IsProcesssNodeExpanded = false
 
 	__DiagramProcess__00000005_.Name = `DiagramProcess`
 	__DiagramProcess__00000005_.ComputedPrefix = ``
-	__DiagramProcess__00000005_.IsChecked = false
+	__DiagramProcess__00000005_.IsChecked = true
 	__DiagramProcess__00000005_.IsEditable_ = false
 	__DiagramProcess__00000005_.IsShowPrefix = false
 	__DiagramProcess__00000005_.DefaultBoxWidth = 250.000000
 	__DiagramProcess__00000005_.DefaultBoxHeigth = 70.000000
-	__DiagramProcess__00000005_.Width = 22200.000000
-	__DiagramProcess__00000005_.Height = 22650.000000
+	__DiagramProcess__00000005_.Width = 23400.000000
+	__DiagramProcess__00000005_.Height = 23850.000000
 	__DiagramProcess__00000005_.IsProcesssNodeExpanded = false
 
 	__DiagramProcess__00000006_.Name = `D2`
 	__DiagramProcess__00000006_.ComputedPrefix = ``
-	__DiagramProcess__00000006_.IsChecked = true
+	__DiagramProcess__00000006_.IsChecked = false
 	__DiagramProcess__00000006_.IsEditable_ = true
 	__DiagramProcess__00000006_.IsShowPrefix = false
 	__DiagramProcess__00000006_.DefaultBoxWidth = 250.000000
 	__DiagramProcess__00000006_.DefaultBoxHeigth = 70.000000
-	__DiagramProcess__00000006_.Width = 18300.000000
-	__DiagramProcess__00000006_.Height = 18750.000000
+	__DiagramProcess__00000006_.Width = 19500.000000
+	__DiagramProcess__00000006_.Height = 19950.000000
 	__DiagramProcess__00000006_.IsProcesssNodeExpanded = false
 
 	__Library__00000000_.Name = `Root`
@@ -123,7 +123,7 @@ func _(stage *models.Stage) {
 	__ProcessShape__00000006_.IsExpanded = false
 	__ProcessShape__00000006_.X = 100.000000
 	__ProcessShape__00000006_.Y = 50.000000
-	__ProcessShape__00000006_.Width = 500.000000
+	__ProcessShape__00000006_.Width = 980.000000
 	__ProcessShape__00000006_.Height = 1000.000000
 	__ProcessShape__00000006_.IsHidden = false
 
