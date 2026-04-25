@@ -195,6 +195,8 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	Process_DiagramProcesss_reverseMap map[*DiagramProcess]*Process
 
+	Process_DiagramProcessWhoseNodeIsExpanded_reverseMap map[*DiagramProcess]*Process
+
 	Process_SubProcesses_reverseMap map[*Process]*Process
 
 	Process_Participants_reverseMap map[*Participant]*Process
@@ -1991,6 +1993,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of DiagramProcess with the name of the field
 			DiagramProcesss: []*DiagramProcess{{Name: "DiagramProcesss"}},
+			// field is initialized with an instance of DiagramProcess with the name of the field
+			DiagramProcessWhoseNodeIsExpanded: []*DiagramProcess{{Name: "DiagramProcessWhoseNodeIsExpanded"}},
 			// field is initialized with an instance of Process with the name of the field
 			SubProcesses: []*Process{{Name: "SubProcesses"}},
 			// field is initialized with an instance of Participant with the name of the field
@@ -2181,6 +2185,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "DiagramProcessWhoseNodeIsExpanded":
+			res := make(map[*DiagramProcess][]*Process)
+			for process := range stage.Processs {
+				for _, diagramprocess_ := range process.DiagramProcessWhoseNodeIsExpanded {
+					res[diagramprocess_] = append(res[diagramprocess_], process)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "SubProcesses":
 			res := make(map[*Process][]*Process)
 			for process := range stage.Processs {
@@ -2261,6 +2273,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		_ = rf
 		rf.GongstructName = "Process"
 		rf.Fieldname = "DiagramProcesss"
+		res = append(res, rf)
+		rf.GongstructName = "Process"
+		rf.Fieldname = "DiagramProcessWhoseNodeIsExpanded"
 		res = append(res, rf)
 	case *Library:
 		var rf ReverseField
@@ -2367,6 +2382,10 @@ func (diagramprocess *DiagramProcess) GongGetFieldHeaders() (res []GongFieldHead
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "ProcessCompositionShape",
 		},
+		{
+			Name:               "IsParticipantsNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
 	}
 	return
 }
@@ -2441,6 +2460,11 @@ func (process *Process) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "DiagramProcess",
 		},
 		{
+			Name:                 "DiagramProcessWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "DiagramProcess",
+		},
+		{
 			Name:               "IsSubProcessNodeExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -2448,10 +2472,6 @@ func (process *Process) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "SubProcesses",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Process",
-		},
-		{
-			Name:               "IsParticipantsNodeExpanded",
-			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:                 "Participants",
@@ -2673,6 +2693,10 @@ func (diagramprocess *DiagramProcess) GongGetFieldValue(fieldName string, stage 
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "IsParticipantsNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", diagramprocess.IsParticipantsNodeExpanded)
+		res.valueBool = diagramprocess.IsParticipantsNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -2752,6 +2776,16 @@ func (process *Process) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "DiagramProcessWhoseNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range process.DiagramProcessWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	case "IsSubProcessNodeExpanded":
 		res.valueString = fmt.Sprintf("%t", process.IsSubProcessNodeExpanded)
 		res.valueBool = process.IsSubProcessNodeExpanded
@@ -2766,10 +2800,6 @@ func (process *Process) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
-	case "IsParticipantsNodeExpanded":
-		res.valueString = fmt.Sprintf("%t", process.IsParticipantsNodeExpanded)
-		res.valueBool = process.IsParticipantsNodeExpanded
-		res.GongFieldValueType = GongFieldValueTypeBool
 	case "Participants":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range process.Participants {
@@ -2941,6 +2971,8 @@ func (diagramprocess *DiagramProcess) GongSetFieldValue(fieldName string, value 
 				}
 			}
 		}
+	case "IsParticipantsNodeExpanded":
+		diagramprocess.IsParticipantsNodeExpanded = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -3040,6 +3072,20 @@ func (process *Process) GongSetFieldValue(fieldName string, value GongFieldValue
 				}
 			}
 		}
+	case "DiagramProcessWhoseNodeIsExpanded":
+		process.DiagramProcessWhoseNodeIsExpanded = make([]*DiagramProcess, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.DiagramProcesss {
+					if stage.DiagramProcess_stagedOrder[__instance__] == uint(id) {
+						process.DiagramProcessWhoseNodeIsExpanded = append(process.DiagramProcessWhoseNodeIsExpanded, __instance__)
+						break
+					}
+				}
+			}
+		}
 	case "IsSubProcessNodeExpanded":
 		process.IsSubProcessNodeExpanded = value.GetValueBool()
 	case "SubProcesses":
@@ -3056,8 +3102,6 @@ func (process *Process) GongSetFieldValue(fieldName string, value GongFieldValue
 				}
 			}
 		}
-	case "IsParticipantsNodeExpanded":
-		process.IsParticipantsNodeExpanded = value.GetValueBool()
 	case "Participants":
 		process.Participants = make([]*Participant, 0)
 		ids := strings.Split(value.ids, ";")
