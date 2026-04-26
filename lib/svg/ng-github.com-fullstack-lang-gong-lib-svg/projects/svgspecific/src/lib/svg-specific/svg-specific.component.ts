@@ -432,6 +432,20 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
     this.resizeSubject.next();
   }
 
+  @HostListener('window:mousemove', ['$event'])
+  onWindowMouseMove(event: MouseEvent): void {
+    if (this.State !== StateEnumType.WAITING_FOR_USER_INPUT && this.State !== StateEnumType.NOT_EDITABLE) {
+      this.onmousemove(event, 'window')
+    }
+  }
+
+  @HostListener('window:mouseup', ['$event'])
+  onWindowMouseUp(event: MouseEvent): void {
+    if (this.State !== StateEnumType.WAITING_FOR_USER_INPUT && this.State !== StateEnumType.NOT_EDITABLE) {
+      this.processMouseUp(event)
+    }
+  }
+
   //
   // USER INTERACTION MNGT
   //

@@ -210,6 +210,7 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 
     // Use the first 12 characters for a shorter, yet highly unique, signature
     shortHash := hex.EncodeToString(fullHash[:])[0:12]
+	_ = shortHash
 
 	// Use WriteMessage to send the pre-marshaled JSON data.
 	// websocket.TextMessage is typically what WriteJSON uses.
@@ -230,12 +231,11 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 
 		// 2. Use a single, formatted log line
 		log.Printf(
-			"%-12s | %-85s | Idx: %d | Size: %-9s | Hash: %s",
+			"%-12s | %-85s | Idx: %d | Size: %-9s",
 			component,
 			stackPath,
 			index,
 			formatBytes(jsonSize),
-			shortHash,
 		)
 	}
 	for {
@@ -271,6 +271,7 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 
 				// Use the first 12 characters for a shorter, yet highly unique, signature
 				shortHash := hex.EncodeToString(fullHash[:])[0:12]
+				_ = shortHash
 
 				// Use WriteMessage to send the pre-marshaled JSON data.
 				// websocket.TextMessage is typically what WriteJSON uses.
