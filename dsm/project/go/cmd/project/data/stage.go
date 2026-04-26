@@ -77,4 +77,37 @@ func _(stage *models.Stage) {
 	__Product__00000000_.IsProducersNodeExpanded = false
 	__Product__00000000_.IsConsumersNodeExpanded = false
 	stage.Commit()
+
+	// 
+	__Diagram__00000001_.Width = 100.000000
+	__Diagram__00000001_.Height = 100.000000
+	// Default Diagram
+	__Diagram__00000000_.Width = 503.106061
+	__Diagram__00000000_.Height = 323.126803
+	stage.Commit()
+
+	// -Default Diagram
+	__ProductShape__00000000_.X = 392.106061
+	__ProductShape__00000000_.Y = 221.126803
+	stage.Commit()
+
+	// -Default Diagram
+	__ProductShape__00000000_.X = 177.106061
+	__ProductShape__00000000_.Y = 180.126803
+	stage.Commit()
+
+	// -Default Diagram
+	__ProductShape__00000000_.X = 206.106061
+	__ProductShape__00000000_.Y = 219.126788
+	stage.Commit()
+
+	// -Default Diagram
+	__ProductShape__00000000_.X = 383.106061
+	__ProductShape__00000000_.Y = 212.126803
+	stage.Commit()
+
+	// Default Diagram
+	__Diagram__00000000_.Width = 733.106061
+	__Diagram__00000000_.Height = 382.126803
+	stage.Commit()
 }

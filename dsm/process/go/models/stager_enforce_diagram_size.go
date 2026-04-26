@@ -3,6 +3,9 @@ package models
 func (stager *Stager) enforceDiagramSize() (needCommit bool) {
 	for _, diagram := range GetGongstrucsSorted[*DiagramProcess](stager.stage) {
 
+		diagram.Width = 0
+		diagram.Height = 0
+
 		// parse all concrete shapes in the diagram that are not links
 		//  to compute the size of the diagram
 		// the size of the diagram is the max of the position of the shapes + their size
