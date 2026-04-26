@@ -48,13 +48,13 @@ func _(stage *models.Stage) {
 
 	__DiagramProcess__00000000_.Name = `D1`
 	__DiagramProcess__00000000_.ComputedPrefix = ``
-	__DiagramProcess__00000000_.IsChecked = false
+	__DiagramProcess__00000000_.IsChecked = true
 	__DiagramProcess__00000000_.IsEditable_ = true
 	__DiagramProcess__00000000_.IsShowPrefix = false
 	__DiagramProcess__00000000_.DefaultBoxWidth = 250.000000
 	__DiagramProcess__00000000_.DefaultBoxHeigth = 70.000000
-	__DiagramProcess__00000000_.Width = 60000.000000
-	__DiagramProcess__00000000_.Height = 60000.000000
+	__DiagramProcess__00000000_.Width = 1287.000000
+	__DiagramProcess__00000000_.Height = 1350.000000
 	__DiagramProcess__00000000_.IsProcesssNodeExpanded = false
 	__DiagramProcess__00000000_.IsParticipantsNodeExpanded = false
 
@@ -65,22 +65,22 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000005_.IsShowPrefix = false
 	__DiagramProcess__00000005_.DefaultBoxWidth = 250.000000
 	__DiagramProcess__00000005_.DefaultBoxHeigth = 70.000000
-	__DiagramProcess__00000005_.Width = 29400.000000
-	__DiagramProcess__00000005_.Height = 29850.000000
+	__DiagramProcess__00000005_.Width = 900.000000
+	__DiagramProcess__00000005_.Height = 1350.000000
 	__DiagramProcess__00000005_.IsProcesssNodeExpanded = false
 	__DiagramProcess__00000005_.IsParticipantsNodeExpanded = false
 
 	__DiagramProcess__00000006_.Name = `D2`
 	__DiagramProcess__00000006_.ComputedPrefix = ``
-	__DiagramProcess__00000006_.IsChecked = true
+	__DiagramProcess__00000006_.IsChecked = false
 	__DiagramProcess__00000006_.IsEditable_ = true
 	__DiagramProcess__00000006_.IsShowPrefix = false
 	__DiagramProcess__00000006_.DefaultBoxWidth = 250.000000
 	__DiagramProcess__00000006_.DefaultBoxHeigth = 70.000000
-	__DiagramProcess__00000006_.Width = 25500.000000
-	__DiagramProcess__00000006_.Height = 25950.000000
+	__DiagramProcess__00000006_.Width = 1380.000000
+	__DiagramProcess__00000006_.Height = 1350.000000
 	__DiagramProcess__00000006_.IsProcesssNodeExpanded = false
-	__DiagramProcess__00000006_.IsParticipantsNodeExpanded = false
+	__DiagramProcess__00000006_.IsParticipantsNodeExpanded = true
 
 	__Library__00000000_.Name = `Root`
 	__Library__00000000_.ComputedPrefix = ``
@@ -137,6 +137,7 @@ func _(stage *models.Stage) {
 	__Library__00000000_.ProcesssWhoseNodeIsExpanded = append(__Library__00000000_.ProcesssWhoseNodeIsExpanded, __Process__00000005_)
 	__Library__00000000_.ProcesssWhoseNodeIsExpanded = append(__Library__00000000_.ProcesssWhoseNodeIsExpanded, __Process__00000000_)
 	__Process__00000000_.DiagramProcesss = append(__Process__00000000_.DiagramProcesss, __DiagramProcess__00000000_)
+	__Process__00000000_.DiagramProcessWhoseNodeIsExpanded = append(__Process__00000000_.DiagramProcessWhoseNodeIsExpanded, __DiagramProcess__00000000_)
 	__Process__00000005_.DiagramProcesss = append(__Process__00000005_.DiagramProcesss, __DiagramProcess__00000005_)
 	__Process__00000005_.DiagramProcesss = append(__Process__00000005_.DiagramProcesss, __DiagramProcess__00000006_)
 	__Process__00000005_.DiagramProcessWhoseNodeIsExpanded = append(__Process__00000005_.DiagramProcessWhoseNodeIsExpanded, __DiagramProcess__00000005_)
