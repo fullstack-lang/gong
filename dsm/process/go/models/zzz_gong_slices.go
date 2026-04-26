@@ -36,13 +36,6 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.DiagramProcess_ProcesssWhoseNodeIsExpanded_reverseMap[_process] = diagramprocess
 		}
 	}
-	stage.DiagramProcess_ProcessComposition_Shapes_reverseMap = make(map[*ProcessCompositionShape]*DiagramProcess)
-	for diagramprocess := range stage.DiagramProcesss {
-		_ = diagramprocess
-		for _, _processcompositionshape := range diagramprocess.ProcessComposition_Shapes {
-			stage.DiagramProcess_ProcessComposition_Shapes_reverseMap[_processcompositionshape] = diagramprocess
-		}
-	}
 
 	// Compute reverse map for named struct Library
 	// insertion point per field
@@ -109,9 +102,6 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
-	// Compute reverse map for named struct ProcessCompositionShape
-	// insertion point per field
-
 	// Compute reverse map for named struct ProcessShape
 	// insertion point per field
 
@@ -133,10 +123,6 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.Processs {
-		res = append(res, instance)
-	}
-
-	for instance := range stage.ProcessCompositionShapes {
 		res = append(res, instance)
 	}
 
@@ -169,12 +155,6 @@ func (participant *Participant) GongCopy() GongstructIF {
 func (process *Process) GongCopy() GongstructIF {
 	newInstance := new(Process)
 	process.CopyBasicFields(newInstance)
-	return newInstance
-}
-
-func (processcompositionshape *ProcessCompositionShape) GongCopy() GongstructIF {
-	newInstance := new(ProcessCompositionShape)
-	processcompositionshape.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -222,16 +202,6 @@ func (process *Process) GongGetUUID(stage *Stage) (uuid string) {
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(process), uint64(GetOrderPointerGongstruct(stage, process)))
-	return
-}
-
-func (processcompositionshape *ProcessCompositionShape) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(processcompositionshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(processcompositionshape), uint64(GetOrderPointerGongstruct(stage, processcompositionshape)))
 	return
 }
 
@@ -467,57 +437,6 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(processs_newInstances)
 	lenDeletedInstances += len(processs_deletedInstances)
-	var processcompositionshapes_newInstances []*ProcessCompositionShape
-	var processcompositionshapes_deletedInstances []*ProcessCompositionShape
-
-	// parse all staged instances and check if they have a reference
-	for processcompositionshape := range stage.ProcessCompositionShapes {
-		if ref, ok := stage.ProcessCompositionShapes_reference[processcompositionshape]; !ok {
-			processcompositionshapes_newInstances = append(processcompositionshapes_newInstances, processcompositionshape)
-			newInstancesSlice = append(newInstancesSlice, processcompositionshape.GongMarshallIdentifier(stage))
-			if stage.ProcessCompositionShapes_referenceOrder == nil {
-				stage.ProcessCompositionShapes_referenceOrder = make(map[*ProcessCompositionShape]uint)
-			}
-			stage.ProcessCompositionShapes_referenceOrder[processcompositionshape] = stage.ProcessCompositionShape_stagedOrder[processcompositionshape]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, processcompositionshape.GongMarshallUnstaging(stage))
-			// delete(stage.ProcessCompositionShapes_referenceOrder, processcompositionshape)
-			fieldInitializers, pointersInitializations := processcompositionshape.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.ProcessCompositionShape_stagedOrder[ref] = stage.ProcessCompositionShape_stagedOrder[processcompositionshape]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := processcompositionshape.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, processcompositionshape)
-			// delete(stage.ProcessCompositionShape_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", processcompositionshape.GetName())
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.ProcessCompositionShapes_reference {
-		instance := stage.ProcessCompositionShapes_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.ProcessCompositionShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			processcompositionshapes_deletedInstances = append(processcompositionshapes_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(processcompositionshapes_newInstances)
-	lenDeletedInstances += len(processcompositionshapes_deletedInstances)
 	var processshapes_newInstances []*ProcessShape
 	var processshapes_deletedInstances []*ProcessShape
 
@@ -644,16 +563,6 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.Processs_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
-	stage.ProcessCompositionShapes_reference = make(map[*ProcessCompositionShape]*ProcessCompositionShape)
-	stage.ProcessCompositionShapes_referenceOrder = make(map[*ProcessCompositionShape]uint) // diff Unstage needs the reference order
-	stage.ProcessCompositionShapes_instance = make(map[*ProcessCompositionShape]*ProcessCompositionShape)
-	for instance := range stage.ProcessCompositionShapes {
-		_copy := instance.GongCopy().(*ProcessCompositionShape)
-		stage.ProcessCompositionShapes_reference[instance] = _copy
-		stage.ProcessCompositionShapes_instance[_copy] = instance
-		stage.ProcessCompositionShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
-
 	stage.ProcessShapes_reference = make(map[*ProcessShape]*ProcessShape)
 	stage.ProcessShapes_referenceOrder = make(map[*ProcessShape]uint) // diff Unstage needs the reference order
 	stage.ProcessShapes_instance = make(map[*ProcessShape]*ProcessShape)
@@ -682,11 +591,6 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.Processs {
 		reference := stage.Processs_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
-
-	for instance := range stage.ProcessCompositionShapes {
-		reference := stage.ProcessCompositionShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -753,18 +657,6 @@ func (process *Process) GongGetOrder(stage *Stage) uint {
 	}
 }
 
-func (processcompositionshape *ProcessCompositionShape) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.ProcessCompositionShape_stagedOrder[processcompositionshape]; ok {
-		return order
-	}
-	if order, ok := stage.ProcessCompositionShapes_referenceOrder[processcompositionshape]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type ProcessCompositionShape was not staged and does not have a reference order", processcompositionshape)
-		return 0
-	}
-}
-
 func (processshape *ProcessShape) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.ProcessShape_stagedOrder[processshape]; ok {
 		return order
@@ -818,15 +710,6 @@ func (process *Process) GongGetReferenceIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", process.GongGetGongstructName(), process.GongGetOrder(stage))
 }
 
-func (processcompositionshape *ProcessCompositionShape) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", processcompositionshape.GongGetGongstructName(), processcompositionshape.GongGetOrder(stage))
-}
-
-// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
-func (processcompositionshape *ProcessCompositionShape) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", processcompositionshape.GongGetGongstructName(), processcompositionshape.GongGetOrder(stage))
-}
-
 func (processshape *ProcessShape) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", processshape.GongGetGongstructName(), processshape.GongGetOrder(stage))
 }
@@ -871,14 +754,6 @@ func (process *Process) GongMarshallIdentifier(stage *Stage) (decl string) {
 	return
 }
 
-func (processcompositionshape *ProcessCompositionShape) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", processcompositionshape.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ProcessCompositionShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(processcompositionshape.Name))
-	return
-}
-
 func (processshape *ProcessShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", processshape.GongGetIdentifier(stage))
@@ -909,12 +784,6 @@ func (participant *Participant) GongMarshallUnstaging(stage *Stage) (decl string
 func (process *Process) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", process.GongGetReferenceIdentifier(stage))
-	return
-}
-
-func (processcompositionshape *ProcessCompositionShape) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", processcompositionshape.GongGetReferenceIdentifier(stage))
 	return
 }
 
