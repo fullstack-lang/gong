@@ -123,6 +123,7 @@ func NewLevel1StackDelta(
 	models.SetOrchestratorOnAfterUpdate[models.DiagramProcess](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Library](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Participant](stage)
+	models.SetOrchestratorOnAfterUpdate[models.ParticipantShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Process](stage)
 	models.SetOrchestratorOnAfterUpdate[models.ProcessShape](stage)
 

@@ -9,16 +9,8 @@ func (stager *Stager) enforceDiagramSize() (needCommit bool) {
 		// parse all concrete shapes in the diagram that are not links
 		//  to compute the size of the diagram
 		// the size of the diagram is the max of the position of the shapes + their size
-		for _, shape := range diagram.Process_Shapes {
-			if shape.X+shape.Width > diagram.Width {
-				diagram.Width = shape.X + shape.Width
-				needCommit = true
-			}
-			if shape.Y+shape.Height > diagram.Height {
-				diagram.Height = shape.Y + shape.Height
-				needCommit = true
-			}
-		}
+		needCommit = updateDiagramSize(diagram.Process_Shapes, &diagram.Width, &diagram.Height) || needCommit
+		needCommit = updateDiagramSize(diagram.Participant_Shapes, &diagram.Width, &diagram.Height) || needCommit
 
 		// add a margin to the diagram size
 		margin := 300.0
@@ -26,5 +18,19 @@ func (stager *Stager) enforceDiagramSize() (needCommit bool) {
 		diagram.Height += margin
 	}
 
+	return
+}
+
+func updateDiagramSize[T RectShapeInterface](shapes []T, width, height *float64) (needCommit bool) {
+	for _, shape := range shapes {
+		if shape.GetX()+shape.GetWidth() > *width {
+			*width = shape.GetX() + shape.GetWidth()
+			needCommit = true
+		}
+		if shape.GetY()+shape.GetHeight() > *height {
+			*height = shape.GetY() + shape.GetHeight()
+			needCommit = true
+		}
+	}
 	return
 }

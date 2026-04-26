@@ -33,6 +33,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.participant, probe)
 			}
+		case *ParticipantShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "ParticipantShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.participantshape, probe)
+			}
 		case *ProcessFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "Process", true)
@@ -106,6 +112,19 @@ func FillUpFormFromGongstructName(
 		participant := new(models.Participant)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(participant, formGroup, probe)
+	case "ParticipantShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "ParticipantShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ParticipantShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		participantshape := new(models.ParticipantShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(participantshape, formGroup, probe)
 	case "Process":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

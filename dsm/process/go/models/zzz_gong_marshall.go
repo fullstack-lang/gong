@@ -305,6 +305,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "Process_Shapes"))
 		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "ProcesssWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(diagramprocess.GongMarshallField(stage, "IsProcesssNodeExpanded"))
+		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "Participant_Shapes"))
 		initializerStatements.WriteString(diagramprocess.GongMarshallField(stage, "IsParticipantsNodeExpanded"))
 	}
 
@@ -365,6 +366,39 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(participant.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(participant.GongMarshallField(stage, "ComputedPrefix"))
+	}
+
+	participantshapeOrdered := []*ParticipantShape{}
+	for participantshape := range stage.ParticipantShapes {
+		participantshapeOrdered = append(participantshapeOrdered, participantshape)
+	}
+	sort.Slice(participantshapeOrdered[:], func(i, j int) bool {
+		participantshapei := participantshapeOrdered[i]
+		participantshapej := participantshapeOrdered[j]
+		participantshapei_order, oki := stage.ParticipantShape_stagedOrder[participantshapei]
+		participantshapej_order, okj := stage.ParticipantShape_stagedOrder[participantshapej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return participantshapei_order < participantshapej_order
+	})
+	if len(participantshapeOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, participantshape := range participantshapeOrdered {
+
+		identifiersDecl.WriteString(participantshape.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(participantshape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(participantshape.GongMarshallField(stage, "Participant"))
+		initializerStatements.WriteString(participantshape.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(participantshape.GongMarshallField(stage, "X"))
+		initializerStatements.WriteString(participantshape.GongMarshallField(stage, "Y"))
+		initializerStatements.WriteString(participantshape.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(participantshape.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(participantshape.GongMarshallField(stage, "IsHidden"))
 	}
 
 	processOrdered := []*Process{}
@@ -452,6 +486,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	for _, participant := range participantOrdered {
 		_ = participant
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, participantshape := range participantshapeOrdered {
+		_ = participantshape
 		var setPointerField string
 		_ = setPointerField
 
@@ -607,6 +649,16 @@ func (diagramprocess *DiagramProcess) GongMarshallField(stage *Stage, fieldName 
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
+	case "Participant_Shapes":
+		var sb strings.Builder
+		for _, _participantshape := range diagramprocess.Participant_Shapes {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramprocess.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Participant_Shapes")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _participantshape.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct DiagramProcess", fieldName)
 	}
@@ -689,6 +741,64 @@ func (participant *Participant) GongMarshallField(stage *Stage, fieldName string
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Participant", fieldName)
+	}
+	return
+}
+
+func (participantshape *ParticipantShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", participantshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(participantshape.Name))
+	case "IsExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", participantshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", participantshape.IsExpanded))
+	case "X":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", participantshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "X")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", participantshape.X))
+	case "Y":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", participantshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Y")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", participantshape.Y))
+	case "Width":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", participantshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Width")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", participantshape.Width))
+	case "Height":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", participantshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Height")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", participantshape.Height))
+	case "IsHidden":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", participantshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", participantshape.IsHidden))
+
+	case "Participant":
+		if participantshape.Participant != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", participantshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Participant")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", participantshape.Participant.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", participantshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Participant")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct ParticipantShape", fieldName)
 	}
 	return
 }
@@ -844,6 +954,7 @@ func (diagramprocess *DiagramProcess) GongMarshallAllFields(stage *Stage) (initR
 		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "Process_Shapes"))
 		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "ProcesssWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(diagramprocess.GongMarshallField(stage, "IsProcesssNodeExpanded"))
+		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "Participant_Shapes"))
 		initializerStatements.WriteString(diagramprocess.GongMarshallField(stage, "IsParticipantsNodeExpanded"))
 	}
 	initRes = initializerStatements.String()
@@ -874,6 +985,24 @@ func (participant *Participant) GongMarshallAllFields(stage *Stage) (initRes str
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(participant.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(participant.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (participantshape *ParticipantShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(participantshape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(participantshape.GongMarshallField(stage, "Participant"))
+		initializerStatements.WriteString(participantshape.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(participantshape.GongMarshallField(stage, "X"))
+		initializerStatements.WriteString(participantshape.GongMarshallField(stage, "Y"))
+		initializerStatements.WriteString(participantshape.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(participantshape.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(participantshape.GongMarshallField(stage, "IsHidden"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
