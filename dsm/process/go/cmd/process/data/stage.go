@@ -53,8 +53,8 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000000_.IsShowPrefix = false
 	__DiagramProcess__00000000_.DefaultBoxWidth = 250.000000
 	__DiagramProcess__00000000_.DefaultBoxHeigth = 70.000000
-	__DiagramProcess__00000000_.Width = 1475.000000
-	__DiagramProcess__00000000_.Height = 1350.000000
+	__DiagramProcess__00000000_.Width = 1567.615385
+	__DiagramProcess__00000000_.Height = 1341.000000
 	__DiagramProcess__00000000_.IsProcesssNodeExpanded = false
 	__DiagramProcess__00000000_.IsParticipantsNodeExpanded = false
 
@@ -106,9 +106,9 @@ func _(stage *models.Stage) {
 
 	__ProcessShape__00000003_.Name = `ProcessShape`
 	__ProcessShape__00000003_.IsExpanded = false
-	__ProcessShape__00000003_.X = 100.000000
-	__ProcessShape__00000003_.Y = 50.000000
-	__ProcessShape__00000003_.Width = 1075.000000
+	__ProcessShape__00000003_.X = 93.000000
+	__ProcessShape__00000003_.Y = 37.000000
+	__ProcessShape__00000003_.Width = 780.615385
 	__ProcessShape__00000003_.Height = 1000.000000
 	__ProcessShape__00000003_.IsHidden = false
 
