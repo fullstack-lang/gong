@@ -19,9 +19,6 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *Process:
 		ok = stage.IsStagedProcess(target)
 
-	case *ProcessCompositionShape:
-		ok = stage.IsStagedProcessCompositionShape(target)
-
 	case *ProcessShape:
 		ok = stage.IsStagedProcessShape(target)
 
@@ -46,9 +43,6 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *Process:
 		ok = stage.IsStagedProcess(target)
-
-	case *ProcessCompositionShape:
-		ok = stage.IsStagedProcessCompositionShape(target)
 
 	case *ProcessShape:
 		ok = stage.IsStagedProcessShape(target)
@@ -88,13 +82,6 @@ func (stage *Stage) IsStagedProcess(process *Process) (ok bool) {
 	return
 }
 
-func (stage *Stage) IsStagedProcessCompositionShape(processcompositionshape *ProcessCompositionShape) (ok bool) {
-
-	_, ok = stage.ProcessCompositionShapes[processcompositionshape]
-
-	return
-}
-
 func (stage *Stage) IsStagedProcessShape(processshape *ProcessShape) (ok bool) {
 
 	_, ok = stage.ProcessShapes[processshape]
@@ -122,9 +109,6 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Process:
 		stage.StageBranchProcess(target)
 
-	case *ProcessCompositionShape:
-		stage.StageBranchProcessCompositionShape(target)
-
 	case *ProcessShape:
 		stage.StageBranchProcessShape(target)
 
@@ -151,9 +135,6 @@ func (stage *Stage) StageBranchDiagramProcess(diagramprocess *DiagramProcess) {
 	}
 	for _, _process := range diagramprocess.ProcesssWhoseNodeIsExpanded {
 		StageBranch(stage, _process)
-	}
-	for _, _processcompositionshape := range diagramprocess.ProcessComposition_Shapes {
-		StageBranch(stage, _processcompositionshape)
 	}
 
 }
@@ -227,24 +208,6 @@ func (stage *Stage) StageBranchProcess(process *Process) {
 
 }
 
-func (stage *Stage) StageBranchProcessCompositionShape(processcompositionshape *ProcessCompositionShape) {
-
-	// check if instance is already staged
-	if IsStaged(stage, processcompositionshape) {
-		return
-	}
-
-	processcompositionshape.Stage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-	if processcompositionshape.Process != nil {
-		StageBranch(stage, processcompositionshape.Process)
-	}
-
-	//insertion point for the staging of instances referenced by slice of pointers
-
-}
-
 func (stage *Stage) StageBranchProcessShape(processshape *ProcessShape) {
 
 	// check if instance is already staged
@@ -290,10 +253,6 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchProcess(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
-	case *ProcessCompositionShape:
-		toT := CopyBranchProcessCompositionShape(mapOrigCopy, fromT)
-		return any(toT).(*Type)
-
 	case *ProcessShape:
 		toT := CopyBranchProcessShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -325,9 +284,6 @@ func CopyBranchDiagramProcess(mapOrigCopy map[any]any, diagramprocessFrom *Diagr
 	}
 	for _, _process := range diagramprocessFrom.ProcesssWhoseNodeIsExpanded {
 		diagramprocessTo.ProcesssWhoseNodeIsExpanded = append(diagramprocessTo.ProcesssWhoseNodeIsExpanded, CopyBranchProcess(mapOrigCopy, _process))
-	}
-	for _, _processcompositionshape := range diagramprocessFrom.ProcessComposition_Shapes {
-		diagramprocessTo.ProcessComposition_Shapes = append(diagramprocessTo.ProcessComposition_Shapes, CopyBranchProcessCompositionShape(mapOrigCopy, _processcompositionshape))
 	}
 
 	return
@@ -414,28 +370,6 @@ func CopyBranchProcess(mapOrigCopy map[any]any, processFrom *Process) (processTo
 	return
 }
 
-func CopyBranchProcessCompositionShape(mapOrigCopy map[any]any, processcompositionshapeFrom *ProcessCompositionShape) (processcompositionshapeTo *ProcessCompositionShape) {
-
-	// processcompositionshapeFrom has already been copied
-	if _processcompositionshapeTo, ok := mapOrigCopy[processcompositionshapeFrom]; ok {
-		processcompositionshapeTo = _processcompositionshapeTo.(*ProcessCompositionShape)
-		return
-	}
-
-	processcompositionshapeTo = new(ProcessCompositionShape)
-	mapOrigCopy[processcompositionshapeFrom] = processcompositionshapeTo
-	processcompositionshapeFrom.CopyBasicFields(processcompositionshapeTo)
-
-	//insertion point for the staging of instances referenced by pointers
-	if processcompositionshapeFrom.Process != nil {
-		processcompositionshapeTo.Process = CopyBranchProcess(mapOrigCopy, processcompositionshapeFrom.Process)
-	}
-
-	//insertion point for the staging of instances referenced by slice of pointers
-
-	return
-}
-
 func CopyBranchProcessShape(mapOrigCopy map[any]any, processshapeFrom *ProcessShape) (processshapeTo *ProcessShape) {
 
 	// processshapeFrom has already been copied
@@ -478,9 +412,6 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Process:
 		stage.UnstageBranchProcess(target)
 
-	case *ProcessCompositionShape:
-		stage.UnstageBranchProcessCompositionShape(target)
-
 	case *ProcessShape:
 		stage.UnstageBranchProcessShape(target)
 
@@ -507,9 +438,6 @@ func (stage *Stage) UnstageBranchDiagramProcess(diagramprocess *DiagramProcess) 
 	}
 	for _, _process := range diagramprocess.ProcesssWhoseNodeIsExpanded {
 		UnstageBranch(stage, _process)
-	}
-	for _, _processcompositionshape := range diagramprocess.ProcessComposition_Shapes {
-		UnstageBranch(stage, _processcompositionshape)
 	}
 
 }
@@ -583,24 +511,6 @@ func (stage *Stage) UnstageBranchProcess(process *Process) {
 
 }
 
-func (stage *Stage) UnstageBranchProcessCompositionShape(processcompositionshape *ProcessCompositionShape) {
-
-	// check if instance is already staged
-	if !IsStaged(stage, processcompositionshape) {
-		return
-	}
-
-	processcompositionshape.Unstage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-	if processcompositionshape.Process != nil {
-		UnstageBranch(stage, processcompositionshape.Process)
-	}
-
-	//insertion point for the staging of instances referenced by slice of pointers
-
-}
-
 func (stage *Stage) UnstageBranchProcessShape(processshape *ProcessShape) {
 
 	// check if instance is already staged
@@ -630,10 +540,6 @@ func (reference *DiagramProcess) GongReconstructPointersFromReferences(stage *St
 	reference.ProcesssWhoseNodeIsExpanded = reference.ProcesssWhoseNodeIsExpanded[:0]
 	for _, _b := range instance.ProcesssWhoseNodeIsExpanded {
 		reference.ProcesssWhoseNodeIsExpanded = append(reference.ProcesssWhoseNodeIsExpanded, stage.Processs_reference[_b])
-	}
-	reference.ProcessComposition_Shapes = reference.ProcessComposition_Shapes[:0]
-	for _, _b := range instance.ProcessComposition_Shapes {
-		reference.ProcessComposition_Shapes = append(reference.ProcessComposition_Shapes, stage.ProcessCompositionShapes_reference[_b])
 	}
 
 	return
@@ -692,16 +598,6 @@ func (reference *Process) GongReconstructPointersFromReferences(stage *Stage, in
 	return
 }
 
-func (reference *ProcessCompositionShape) GongReconstructPointersFromReferences(stage *Stage, instance *ProcessCompositionShape) () {
-	// insertion point for pointers field
-	if instance.Process != nil {
-		reference.Process = stage.Processs_reference[instance.Process]
-	}
-	// insertion point for slice of pointers field
-
-	return
-}
-
 func (reference *ProcessShape) GongReconstructPointersFromReferences(stage *Stage, instance *ProcessShape) () {
 	// insertion point for pointers field
 	if instance.Process != nil {
@@ -730,13 +626,6 @@ func (reference *DiagramProcess) GongReconstructPointersFromInstances(stage *Sta
 		}
 	}
 	reference.ProcesssWhoseNodeIsExpanded = _ProcesssWhoseNodeIsExpanded
-	var _ProcessComposition_Shapes []*ProcessCompositionShape
-	for _, _reference := range reference.ProcessComposition_Shapes {
-		if _instance, ok := stage.ProcessCompositionShapes_instance[_reference]; ok {
-			_ProcessComposition_Shapes = append(_ProcessComposition_Shapes, _instance)
-		}
-	}
-	reference.ProcessComposition_Shapes = _ProcessComposition_Shapes
 
 	return
 }
@@ -814,19 +703,6 @@ func (reference *Process) GongReconstructPointersFromInstances(stage *Stage) () 
 		}
 	}
 	reference.ParticipantWhoseNodeIsExpanded = _ParticipantWhoseNodeIsExpanded
-
-	return
-}
-
-func (reference *ProcessCompositionShape) GongReconstructPointersFromInstances(stage *Stage) () {
-	// insertion point for pointers field
-	if _reference := reference.Process; _reference != nil {
-		reference.Process = nil
-		if _instance, ok := stage.Processs_instance[_reference]; ok {
-			reference.Process = _instance
-		}
-	}
-	// insertion point for slice of pointers fields
 
 	return
 }
@@ -920,27 +796,6 @@ func (diagramprocess *DiagramProcess) GongDiff(stage *Stage, diagramprocessOther
 	}
 	if diagramprocess.IsProcesssNodeExpanded != diagramprocessOther.IsProcesssNodeExpanded {
 		diffs = append(diffs, diagramprocess.GongMarshallField(stage, "IsProcesssNodeExpanded"))
-	}
-	ProcessComposition_ShapesDifferent := false
-	if len(diagramprocess.ProcessComposition_Shapes) != len(diagramprocessOther.ProcessComposition_Shapes) {
-		ProcessComposition_ShapesDifferent = true
-	} else {
-		for i := range diagramprocess.ProcessComposition_Shapes {
-			if (diagramprocess.ProcessComposition_Shapes[i] == nil) != (diagramprocessOther.ProcessComposition_Shapes[i] == nil) {
-				ProcessComposition_ShapesDifferent = true
-				break
-			} else if diagramprocess.ProcessComposition_Shapes[i] != nil && diagramprocessOther.ProcessComposition_Shapes[i] != nil {
-				// this is a pointer comparaison
-				if diagramprocess.ProcessComposition_Shapes[i] != diagramprocessOther.ProcessComposition_Shapes[i] {
-					ProcessComposition_ShapesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ProcessComposition_ShapesDifferent {
-		ops := Diff(stage, diagramprocess, diagramprocessOther, "ProcessComposition_Shapes", diagramprocessOther.ProcessComposition_Shapes, diagramprocess.ProcessComposition_Shapes)
-		diffs = append(diffs, ops)
 	}
 	if diagramprocess.IsParticipantsNodeExpanded != diagramprocessOther.IsParticipantsNodeExpanded {
 		diffs = append(diffs, diagramprocess.GongMarshallField(stage, "IsParticipantsNodeExpanded"))
@@ -1163,42 +1018,6 @@ func (process *Process) GongDiff(stage *Stage, processOther *Process) (diffs []s
 	if ParticipantWhoseNodeIsExpandedDifferent {
 		ops := Diff(stage, process, processOther, "ParticipantWhoseNodeIsExpanded", processOther.ParticipantWhoseNodeIsExpanded, process.ParticipantWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
-	}
-
-	return
-}
-
-// GongDiff computes the diff between the instance and another instance of same gong struct type
-// and returns the list of differences as strings
-func (processcompositionshape *ProcessCompositionShape) GongDiff(stage *Stage, processcompositionshapeOther *ProcessCompositionShape) (diffs []string) {
-	// insertion point for field diffs
-	if processcompositionshape.Name != processcompositionshapeOther.Name {
-		diffs = append(diffs, processcompositionshape.GongMarshallField(stage, "Name"))
-	}
-	if (processcompositionshape.Process == nil) != (processcompositionshapeOther.Process == nil) {
-		diffs = append(diffs, processcompositionshape.GongMarshallField(stage, "Process"))
-	} else if processcompositionshape.Process != nil && processcompositionshapeOther.Process != nil {
-		if processcompositionshape.Process != processcompositionshapeOther.Process {
-			diffs = append(diffs, processcompositionshape.GongMarshallField(stage, "Process"))
-		}
-	}
-	if processcompositionshape.StartRatio != processcompositionshapeOther.StartRatio {
-		diffs = append(diffs, processcompositionshape.GongMarshallField(stage, "StartRatio"))
-	}
-	if processcompositionshape.EndRatio != processcompositionshapeOther.EndRatio {
-		diffs = append(diffs, processcompositionshape.GongMarshallField(stage, "EndRatio"))
-	}
-	if processcompositionshape.StartOrientation != processcompositionshapeOther.StartOrientation {
-		diffs = append(diffs, processcompositionshape.GongMarshallField(stage, "StartOrientation"))
-	}
-	if processcompositionshape.EndOrientation != processcompositionshapeOther.EndOrientation {
-		diffs = append(diffs, processcompositionshape.GongMarshallField(stage, "EndOrientation"))
-	}
-	if processcompositionshape.CornerOffsetRatio != processcompositionshapeOther.CornerOffsetRatio {
-		diffs = append(diffs, processcompositionshape.GongMarshallField(stage, "CornerOffsetRatio"))
-	}
-	if processcompositionshape.IsHidden != processcompositionshapeOther.IsHidden {
-		diffs = append(diffs, processcompositionshape.GongMarshallField(stage, "IsHidden"))
 	}
 
 	return

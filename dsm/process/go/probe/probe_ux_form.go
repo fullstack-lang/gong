@@ -39,12 +39,6 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.process, probe)
 			}
-		case *ProcessCompositionShapeFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "ProcessCompositionShape", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.processcompositionshape, probe)
-			}
 		case *ProcessShapeFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "ProcessShape", true)
@@ -125,19 +119,6 @@ func FillUpFormFromGongstructName(
 		process := new(models.Process)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(process, formGroup, probe)
-	case "ProcessCompositionShape":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "ProcessCompositionShape Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__ProcessCompositionShapeFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		processcompositionshape := new(models.ProcessCompositionShape)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(processcompositionshape, formGroup, probe)
 	case "ProcessShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

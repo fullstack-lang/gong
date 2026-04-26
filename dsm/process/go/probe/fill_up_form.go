@@ -41,7 +41,6 @@ func FillUpForm(
 		AssociationSliceToForm("ProcesssWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.ProcesssWhoseNodeIsExpanded, formGroup, probe)
 		BasicFieldtoForm("IsProcesssNodeExpanded", instanceWithInferedType.IsProcesssNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		AssociationSliceToForm("ProcessComposition_Shapes", instanceWithInferedType, &instanceWithInferedType.ProcessComposition_Shapes, formGroup, probe)
 		BasicFieldtoForm("IsParticipantsNodeExpanded", instanceWithInferedType.IsParticipantsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		{
@@ -272,44 +271,6 @@ func FillUpForm(
 				AssociationReverseFieldToForm[*models.Process](
 					nil,
 					"SubProcesses",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
-		}
-
-	case *models.ProcessCompositionShape:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
-		AssociationFieldToForm("Process", instanceWithInferedType.Process, formGroup, probe)
-		BasicFieldtoForm("StartRatio", instanceWithInferedType.StartRatio, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
-		BasicFieldtoForm("EndRatio", instanceWithInferedType.EndRatio, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
-		EnumTypeStringToForm("StartOrientation", instanceWithInferedType.StartOrientation, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("EndOrientation", instanceWithInferedType.EndOrientation, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("CornerOffsetRatio", instanceWithInferedType.CornerOffsetRatio, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
-		BasicFieldtoForm("IsHidden", instanceWithInferedType.IsHidden, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
-		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "DiagramProcess"
-			rf.Fieldname = "ProcessComposition_Shapes"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.DiagramProcess),
-					"ProcessComposition_Shapes",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.DiagramProcess](
-					nil,
-					"ProcessComposition_Shapes",
 					instanceWithInferedType,
 					formGroup,
 					probe)

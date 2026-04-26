@@ -140,8 +140,6 @@ type Stage struct {
 
 	DiagramProcess_ProcesssWhoseNodeIsExpanded_reverseMap map[*Process]*DiagramProcess
 
-	DiagramProcess_ProcessComposition_Shapes_reverseMap map[*ProcessCompositionShape]*DiagramProcess
-
 	OnAfterDiagramProcessCreateCallback OnAfterCreateInterface[DiagramProcess]
 	OnAfterDiagramProcessUpdateCallback OnAfterUpdateInterface[DiagramProcess]
 	OnAfterDiagramProcessDeleteCallback OnAfterDeleteInterface[DiagramProcess]
@@ -207,21 +205,6 @@ type Stage struct {
 	OnAfterProcessUpdateCallback OnAfterUpdateInterface[Process]
 	OnAfterProcessDeleteCallback OnAfterDeleteInterface[Process]
 	OnAfterProcessReadCallback   OnAfterReadInterface[Process]
-
-	ProcessCompositionShapes                map[*ProcessCompositionShape]struct{}
-	ProcessCompositionShapes_instance       map[*ProcessCompositionShape]*ProcessCompositionShape
-	ProcessCompositionShapes_mapString      map[string]*ProcessCompositionShape
-	ProcessCompositionShapeOrder            uint
-	ProcessCompositionShape_stagedOrder     map[*ProcessCompositionShape]uint
-	ProcessCompositionShape_orderStaged     map[uint]*ProcessCompositionShape
-	ProcessCompositionShapes_reference      map[*ProcessCompositionShape]*ProcessCompositionShape
-	ProcessCompositionShapes_referenceOrder map[*ProcessCompositionShape]uint
-
-	// insertion point for slice of pointers maps
-	OnAfterProcessCompositionShapeCreateCallback OnAfterCreateInterface[ProcessCompositionShape]
-	OnAfterProcessCompositionShapeUpdateCallback OnAfterUpdateInterface[ProcessCompositionShape]
-	OnAfterProcessCompositionShapeDeleteCallback OnAfterDeleteInterface[ProcessCompositionShape]
-	OnAfterProcessCompositionShapeReadCallback   OnAfterReadInterface[ProcessCompositionShape]
 
 	ProcessShapes                map[*ProcessShape]struct{}
 	ProcessShapes_instance       map[*ProcessShape]*ProcessShape
@@ -490,10 +473,6 @@ func (stage *Stage) Squash() {
 	stage.Processs_instance = make(map[*Process]*Process)
 	stage.Processs_referenceOrder = make(map[*Process]uint)
 
-	stage.ProcessCompositionShapes_reference = make(map[*ProcessCompositionShape]*ProcessCompositionShape)
-	stage.ProcessCompositionShapes_instance = make(map[*ProcessCompositionShape]*ProcessCompositionShape)
-	stage.ProcessCompositionShapes_referenceOrder = make(map[*ProcessCompositionShape]uint)
-
 	stage.ProcessShapes_reference = make(map[*ProcessShape]*ProcessShape)
 	stage.ProcessShapes_instance = make(map[*ProcessShape]*ProcessShape)
 	stage.ProcessShapes_referenceOrder = make(map[*ProcessShape]uint)
@@ -579,20 +558,6 @@ func (stage *Stage) recomputeOrders() {
 		stage.ProcessOrder = maxProcessOrder + 1
 	} else {
 		stage.ProcessOrder = 0
-	}
-
-	var maxProcessCompositionShapeOrder uint
-	var foundProcessCompositionShape bool
-	for _, order := range stage.ProcessCompositionShape_stagedOrder {
-		if !foundProcessCompositionShape || order > maxProcessCompositionShapeOrder {
-			maxProcessCompositionShapeOrder = order
-			foundProcessCompositionShape = true
-		}
-	}
-	if foundProcessCompositionShape {
-		stage.ProcessCompositionShapeOrder = maxProcessCompositionShapeOrder + 1
-	} else {
-		stage.ProcessCompositionShapeOrder = 0
 	}
 
 	var maxProcessShapeOrder uint
@@ -726,20 +691,6 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
-	case *ProcessCompositionShape:
-		tmp := GetStructInstancesByOrder(stage.ProcessCompositionShapes, stage.ProcessCompositionShape_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *ProcessCompositionShape implements.
-			res = append(res, any(v).(T))
-		}
-		return res
 	case *ProcessShape:
 		tmp := GetStructInstancesByOrder(stage.ProcessShapes, stage.ProcessShape_stagedOrder)
 
@@ -791,8 +742,6 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.Participants, stage.Participant_stagedOrder)
 	case "Process":
 		res = GetNamedStructInstances(stage.Processs, stage.Process_stagedOrder)
-	case "ProcessCompositionShape":
-		res = GetNamedStructInstances(stage.ProcessCompositionShapes, stage.ProcessCompositionShape_stagedOrder)
 	case "ProcessShape":
 		res = GetNamedStructInstances(stage.ProcessShapes, stage.ProcessShape_stagedOrder)
 	}
@@ -872,8 +821,6 @@ type BackRepoInterface interface {
 	CheckoutParticipant(participant *Participant)
 	CommitProcess(process *Process)
 	CheckoutProcess(process *Process)
-	CommitProcessCompositionShape(processcompositionshape *ProcessCompositionShape)
-	CheckoutProcessCompositionShape(processcompositionshape *ProcessCompositionShape)
 	CommitProcessShape(processshape *ProcessShape)
 	CheckoutProcessShape(processshape *ProcessShape)
 	GetLastCommitFromBackNb() uint
@@ -893,9 +840,6 @@ func NewStage(name string) (stage *Stage) {
 
 		Processs:           make(map[*Process]struct{}),
 		Processs_mapString: make(map[string]*Process),
-
-		ProcessCompositionShapes:           make(map[*ProcessCompositionShape]struct{}),
-		ProcessCompositionShapes_mapString: make(map[string]*ProcessCompositionShape),
 
 		ProcessShapes:           make(map[*ProcessShape]struct{}),
 		ProcessShapes_mapString: make(map[string]*ProcessShape),
@@ -926,10 +870,6 @@ func NewStage(name string) (stage *Stage) {
 		Process_orderStaged: make(map[uint]*Process),
 		Processs_reference: make(map[*Process]*Process),
 
-		ProcessCompositionShape_stagedOrder: make(map[*ProcessCompositionShape]uint),
-		ProcessCompositionShape_orderStaged: make(map[uint]*ProcessCompositionShape),
-		ProcessCompositionShapes_reference: make(map[*ProcessCompositionShape]*ProcessCompositionShape),
-
 		ProcessShape_stagedOrder: make(map[*ProcessShape]uint),
 		ProcessShape_orderStaged: make(map[uint]*ProcessShape),
 		ProcessShapes_reference: make(map[*ProcessShape]*ProcessShape),
@@ -944,8 +884,6 @@ func NewStage(name string) (stage *Stage) {
 
 			"Process": &ProcessUnmarshaller{},
 
-			"ProcessCompositionShape": &ProcessCompositionShapeUnmarshaller{},
-
 			"ProcessShape": &ProcessShapeUnmarshaller{},
 
 			// end of insertion point
@@ -956,7 +894,6 @@ func NewStage(name string) (stage *Stage) {
 			{name: "Library"},
 			{name: "Participant"},
 			{name: "Process"},
-			{name: "ProcessCompositionShape"},
 			{name: "ProcessShape"},
 		}, // end of insertion point
 
@@ -977,8 +914,6 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.Participant_stagedOrder[instance]
 	case *Process:
 		return stage.Process_stagedOrder[instance]
-	case *ProcessCompositionShape:
-		return stage.ProcessCompositionShape_stagedOrder[instance]
 	case *ProcessShape:
 		return stage.ProcessShape_stagedOrder[instance]
 	default:
@@ -998,8 +933,6 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.Participant_orderStaged[order]).(Type)
 	case *Process:
 		return any(stage.Process_orderStaged[order]).(Type)
-	case *ProcessCompositionShape:
-		return any(stage.ProcessCompositionShape_orderStaged[order]).(Type)
 	case *ProcessShape:
 		return any(stage.ProcessShape_orderStaged[order]).(Type)
 	default:
@@ -1018,8 +951,6 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.Participant_stagedOrder[instance]
 	case *Process:
 		return stage.Process_stagedOrder[instance]
-	case *ProcessCompositionShape:
-		return stage.ProcessCompositionShape_stagedOrder[instance]
 	case *ProcessShape:
 		return stage.ProcessShape_stagedOrder[instance]
 	default:
@@ -1091,7 +1022,6 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["Library"] = len(stage.Librarys)
 	stage.Map_GongStructName_InstancesNb["Participant"] = len(stage.Participants)
 	stage.Map_GongStructName_InstancesNb["Process"] = len(stage.Processs)
-	stage.Map_GongStructName_InstancesNb["ProcessCompositionShape"] = len(stage.ProcessCompositionShapes)
 	stage.Map_GongStructName_InstancesNb["ProcessShape"] = len(stage.ProcessShapes)
 }
 
@@ -1485,94 +1415,6 @@ func (process *Process) SetName(name string) {
 	process.Name = name
 }
 
-// Stage puts processcompositionshape to the model stage
-func (processcompositionshape *ProcessCompositionShape) Stage(stage *Stage) *ProcessCompositionShape {
-	if _, ok := stage.ProcessCompositionShapes[processcompositionshape]; !ok {
-		stage.ProcessCompositionShapes[processcompositionshape] = struct{}{}
-		stage.ProcessCompositionShape_stagedOrder[processcompositionshape] = stage.ProcessCompositionShapeOrder
-		stage.ProcessCompositionShape_orderStaged[stage.ProcessCompositionShapeOrder] = processcompositionshape
-		stage.ProcessCompositionShapeOrder++
-	}
-	stage.ProcessCompositionShapes_mapString[processcompositionshape.Name] = processcompositionshape
-
-	return processcompositionshape
-}
-
-// StagePreserveOrder puts processcompositionshape to the model stage, and if the astrtuct
-// was not staged before:
-//
-// - force the order if the order is equal or greater than the stage.ProcessCompositionShapeOrder
-// - update stage.ProcessCompositionShapeOrder accordingly
-func (processcompositionshape *ProcessCompositionShape) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.ProcessCompositionShapes[processcompositionshape]; !ok {
-		stage.ProcessCompositionShapes[processcompositionshape] = struct{}{}
-
-		if order > stage.ProcessCompositionShapeOrder {
-			stage.ProcessCompositionShapeOrder = order
-		}
-		stage.ProcessCompositionShape_stagedOrder[processcompositionshape] = order
-		stage.ProcessCompositionShape_orderStaged[order] = processcompositionshape
-		stage.ProcessCompositionShapeOrder++
-	}
-	stage.ProcessCompositionShapes_mapString[processcompositionshape.Name] = processcompositionshape
-}
-
-// Unstage removes processcompositionshape off the model stage
-func (processcompositionshape *ProcessCompositionShape) Unstage(stage *Stage) *ProcessCompositionShape {
-	delete(stage.ProcessCompositionShapes, processcompositionshape)
-	// issue1150
-	// delete(stage.ProcessCompositionShape_stagedOrder, processcompositionshape)
-	delete(stage.ProcessCompositionShapes_mapString, processcompositionshape.Name)
-
-	return processcompositionshape
-}
-
-// UnstageVoid removes processcompositionshape off the model stage
-func (processcompositionshape *ProcessCompositionShape) UnstageVoid(stage *Stage) {
-	delete(stage.ProcessCompositionShapes, processcompositionshape)
-	// issue1150
-	// delete(stage.ProcessCompositionShape_stagedOrder, processcompositionshape)
-	delete(stage.ProcessCompositionShapes_mapString, processcompositionshape.Name)
-}
-
-// commit processcompositionshape to the back repo (if it is already staged)
-func (processcompositionshape *ProcessCompositionShape) Commit(stage *Stage) *ProcessCompositionShape {
-	if _, ok := stage.ProcessCompositionShapes[processcompositionshape]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitProcessCompositionShape(processcompositionshape)
-		}
-	}
-	return processcompositionshape
-}
-
-func (processcompositionshape *ProcessCompositionShape) CommitVoid(stage *Stage) {
-	processcompositionshape.Commit(stage)
-}
-
-func (processcompositionshape *ProcessCompositionShape) StageVoid(stage *Stage) {
-	processcompositionshape.Stage(stage)
-}
-
-// Checkout processcompositionshape to the back repo (if it is already staged)
-func (processcompositionshape *ProcessCompositionShape) Checkout(stage *Stage) *ProcessCompositionShape {
-	if _, ok := stage.ProcessCompositionShapes[processcompositionshape]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutProcessCompositionShape(processcompositionshape)
-		}
-	}
-	return processcompositionshape
-}
-
-// for satisfaction of GongStruct interface
-func (processcompositionshape *ProcessCompositionShape) GetName() (res string) {
-	return processcompositionshape.Name
-}
-
-// for satisfaction of GongStruct interface
-func (processcompositionshape *ProcessCompositionShape) SetName(name string) {
-	processcompositionshape.Name = name
-}
-
 // Stage puts processshape to the model stage
 func (processshape *ProcessShape) Stage(stage *Stage) *ProcessShape {
 	if _, ok := stage.ProcessShapes[processshape]; !ok {
@@ -1667,7 +1509,6 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMLibrary(Library *Library)
 	CreateORMParticipant(Participant *Participant)
 	CreateORMProcess(Process *Process)
-	CreateORMProcessCompositionShape(ProcessCompositionShape *ProcessCompositionShape)
 	CreateORMProcessShape(ProcessShape *ProcessShape)
 }
 
@@ -1676,7 +1517,6 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMLibrary(Library *Library)
 	DeleteORMParticipant(Participant *Participant)
 	DeleteORMProcess(Process *Process)
-	DeleteORMProcessCompositionShape(ProcessCompositionShape *ProcessCompositionShape)
 	DeleteORMProcessShape(ProcessShape *ProcessShape)
 }
 
@@ -1700,11 +1540,6 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Processs_mapString = make(map[string]*Process)
 	stage.Process_stagedOrder = make(map[*Process]uint)
 	stage.ProcessOrder = 0
-
-	stage.ProcessCompositionShapes = make(map[*ProcessCompositionShape]struct{})
-	stage.ProcessCompositionShapes_mapString = make(map[string]*ProcessCompositionShape)
-	stage.ProcessCompositionShape_stagedOrder = make(map[*ProcessCompositionShape]uint)
-	stage.ProcessCompositionShapeOrder = 0
 
 	stage.ProcessShapes = make(map[*ProcessShape]struct{})
 	stage.ProcessShapes_mapString = make(map[string]*ProcessShape)
@@ -1732,9 +1567,6 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.Processs = nil
 	stage.Processs_mapString = nil
 
-	stage.ProcessCompositionShapes = nil
-	stage.ProcessCompositionShapes_mapString = nil
-
 	stage.ProcessShapes = nil
 	stage.ProcessShapes_mapString = nil
 
@@ -1756,10 +1588,6 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for process := range stage.Processs {
 		process.Unstage(stage)
-	}
-
-	for processcompositionshape := range stage.ProcessCompositionShapes {
-		processcompositionshape.Unstage(stage)
 	}
 
 	for processshape := range stage.ProcessShapes {
@@ -1850,8 +1678,6 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.Participants).(*Type)
 	case map[*Process]any:
 		return any(&stage.Processs).(*Type)
-	case map[*ProcessCompositionShape]any:
-		return any(&stage.ProcessCompositionShapes).(*Type)
 	case map[*ProcessShape]any:
 		return any(&stage.ProcessShapes).(*Type)
 	default:
@@ -1874,8 +1700,6 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.Participants_mapString).(map[string]Type)
 	case *Process:
 		return any(stage.Processs_mapString).(map[string]Type)
-	case *ProcessCompositionShape:
-		return any(stage.ProcessCompositionShapes_mapString).(map[string]Type)
 	case *ProcessShape:
 		return any(stage.ProcessShapes_mapString).(map[string]Type)
 	default:
@@ -1898,8 +1722,6 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.Participants).(*map[*Type]struct{})
 	case Process:
 		return any(&stage.Processs).(*map[*Type]struct{})
-	case ProcessCompositionShape:
-		return any(&stage.ProcessCompositionShapes).(*map[*Type]struct{})
 	case ProcessShape:
 		return any(&stage.ProcessShapes).(*map[*Type]struct{})
 	default:
@@ -1922,8 +1744,6 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.Participants).(*map[Type]struct{})
 	case *Process:
 		return any(&stage.Processs).(*map[Type]struct{})
-	case *ProcessCompositionShape:
-		return any(&stage.ProcessCompositionShapes).(*map[Type]struct{})
 	case *ProcessShape:
 		return any(&stage.ProcessShapes).(*map[Type]struct{})
 	default:
@@ -1946,8 +1766,6 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.Participants_mapString).(*map[string]*Type)
 	case Process:
 		return any(&stage.Processs_mapString).(*map[string]*Type)
-	case ProcessCompositionShape:
-		return any(&stage.ProcessCompositionShapes_mapString).(*map[string]*Type)
 	case ProcessShape:
 		return any(&stage.ProcessShapes_mapString).(*map[string]*Type)
 	default:
@@ -1971,8 +1789,6 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Process_Shapes: []*ProcessShape{{Name: "Process_Shapes"}},
 			// field is initialized with an instance of Process with the name of the field
 			ProcesssWhoseNodeIsExpanded: []*Process{{Name: "ProcesssWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of ProcessCompositionShape with the name of the field
-			ProcessComposition_Shapes: []*ProcessCompositionShape{{Name: "ProcessComposition_Shapes"}},
 		}).(*Type)
 	case Library:
 		return any(&Library{
@@ -2001,12 +1817,6 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Participants: []*Participant{{Name: "Participants"}},
 			// field is initialized with an instance of Participant with the name of the field
 			ParticipantWhoseNodeIsExpanded: []*Participant{{Name: "ParticipantWhoseNodeIsExpanded"}},
-		}).(*Type)
-	case ProcessCompositionShape:
-		return any(&ProcessCompositionShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Process with the name of the field
-			Process: &Process{Name: "Process"},
 		}).(*Type)
 	case ProcessShape:
 		return any(&ProcessShape{
@@ -2050,28 +1860,6 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	case Process:
 		switch fieldname {
 		// insertion point for per direct association field
-		}
-	// reverse maps of direct associations of ProcessCompositionShape
-	case ProcessCompositionShape:
-		switch fieldname {
-		// insertion point for per direct association field
-		case "Process":
-			res := make(map[*Process][]*ProcessCompositionShape)
-			for processcompositionshape := range stage.ProcessCompositionShapes {
-				if processcompositionshape.Process != nil {
-					process_ := processcompositionshape.Process
-					var processcompositionshapes []*ProcessCompositionShape
-					_, ok := res[process_]
-					if ok {
-						processcompositionshapes = res[process_]
-					} else {
-						processcompositionshapes = make([]*ProcessCompositionShape, 0)
-					}
-					processcompositionshapes = append(processcompositionshapes, processcompositionshape)
-					res[process_] = processcompositionshapes
-				}
-			}
-			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of ProcessShape
 	case ProcessShape:
@@ -2127,14 +1915,6 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			for diagramprocess := range stage.DiagramProcesss {
 				for _, process_ := range diagramprocess.ProcesssWhoseNodeIsExpanded {
 					res[process_] = append(res[process_], diagramprocess)
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "ProcessComposition_Shapes":
-			res := make(map[*ProcessCompositionShape][]*DiagramProcess)
-			for diagramprocess := range stage.DiagramProcesss {
-				for _, processcompositionshape_ := range diagramprocess.ProcessComposition_Shapes {
-					res[processcompositionshape_] = append(res[processcompositionshape_], diagramprocess)
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -2218,11 +1998,6 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			}
 			return any(res).(map[*End][]*Start)
 		}
-	// reverse maps of direct associations of ProcessCompositionShape
-	case ProcessCompositionShape:
-		switch fieldname {
-		// insertion point for per direct association field
-		}
 	// reverse maps of direct associations of ProcessShape
 	case ProcessShape:
 		switch fieldname {
@@ -2247,8 +2022,6 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "Participant"
 	case *Process:
 		res = "Process"
-	case *ProcessCompositionShape:
-		res = "ProcessCompositionShape"
 	case *ProcessShape:
 		res = "ProcessShape"
 	}
@@ -2306,12 +2079,6 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		res = append(res, rf)
 		rf.GongstructName = "Process"
 		rf.Fieldname = "SubProcesses"
-		res = append(res, rf)
-	case *ProcessCompositionShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "DiagramProcess"
-		rf.Fieldname = "ProcessComposition_Shapes"
 		res = append(res, rf)
 	case *ProcessShape:
 		var rf ReverseField
@@ -2376,11 +2143,6 @@ func (diagramprocess *DiagramProcess) GongGetFieldHeaders() (res []GongFieldHead
 		{
 			Name:               "IsProcesssNodeExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:                 "ProcessComposition_Shapes",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "ProcessCompositionShape",
 		},
 		{
 			Name:               "IsParticipantsNodeExpanded",
@@ -2482,48 +2244,6 @@ func (process *Process) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "ParticipantWhoseNodeIsExpanded",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Participant",
-		},
-	}
-	return
-}
-
-func (processcompositionshape *ProcessCompositionShape) GongGetFieldHeaders() (res []GongFieldHeader) {
-	// insertion point for list of field headers
-	res = []GongFieldHeader{
-		{
-			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:                 "Process",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "Process",
-		},
-		{
-			Name:               "StartRatio",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "EndRatio",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:                 "StartOrientation",
-			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "OrientationType",
-		},
-		{
-			Name:                 "EndOrientation",
-			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "OrientationType",
-		},
-		{
-			Name:               "CornerOffsetRatio",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "IsHidden",
-			GongFieldValueType: GongFieldValueTypeBool,
 		},
 	}
 	return
@@ -2683,16 +2403,6 @@ func (diagramprocess *DiagramProcess) GongGetFieldValue(fieldName string, stage 
 		res.valueString = fmt.Sprintf("%t", diagramprocess.IsProcesssNodeExpanded)
 		res.valueBool = diagramprocess.IsProcesssNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "ProcessComposition_Shapes":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagramprocess.ProcessComposition_Shapes {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
 	case "IsParticipantsNodeExpanded":
 		res.valueString = fmt.Sprintf("%t", diagramprocess.IsParticipantsNodeExpanded)
 		res.valueBool = diagramprocess.IsParticipantsNodeExpanded
@@ -2824,43 +2534,6 @@ func (process *Process) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	return
 }
 
-func (processcompositionshape *ProcessCompositionShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
-	switch fieldName {
-	// string value of fields
-	case "Name":
-		res.valueString = processcompositionshape.Name
-	case "Process":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if processcompositionshape.Process != nil {
-			res.valueString = processcompositionshape.Process.Name
-			res.ids = processcompositionshape.Process.GongGetUUID(stage)
-		}
-	case "StartRatio":
-		res.valueString = fmt.Sprintf("%f", processcompositionshape.StartRatio)
-		res.valueFloat = processcompositionshape.StartRatio
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "EndRatio":
-		res.valueString = fmt.Sprintf("%f", processcompositionshape.EndRatio)
-		res.valueFloat = processcompositionshape.EndRatio
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "StartOrientation":
-		enum := processcompositionshape.StartOrientation
-		res.valueString = enum.ToCodeString()
-	case "EndOrientation":
-		enum := processcompositionshape.EndOrientation
-		res.valueString = enum.ToCodeString()
-	case "CornerOffsetRatio":
-		res.valueString = fmt.Sprintf("%f", processcompositionshape.CornerOffsetRatio)
-		res.valueFloat = processcompositionshape.CornerOffsetRatio
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "IsHidden":
-		res.valueString = fmt.Sprintf("%t", processcompositionshape.IsHidden)
-		res.valueBool = processcompositionshape.IsHidden
-		res.GongFieldValueType = GongFieldValueTypeBool
-	}
-	return
-}
-
 func (processshape *ProcessShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -2957,20 +2630,6 @@ func (diagramprocess *DiagramProcess) GongSetFieldValue(fieldName string, value 
 		}
 	case "IsProcesssNodeExpanded":
 		diagramprocess.IsProcesssNodeExpanded = value.GetValueBool()
-	case "ProcessComposition_Shapes":
-		diagramprocess.ProcessComposition_Shapes = make([]*ProcessCompositionShape, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ProcessCompositionShapes {
-					if stage.ProcessCompositionShape_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.ProcessComposition_Shapes = append(diagramprocess.ProcessComposition_Shapes, __instance__)
-						break
-					}
-				}
-			}
-		}
 	case "IsParticipantsNodeExpanded":
 		diagramprocess.IsParticipantsNodeExpanded = value.GetValueBool()
 	default:
@@ -3136,40 +2795,6 @@ func (process *Process) GongSetFieldValue(fieldName string, value GongFieldValue
 	return nil
 }
 
-func (processcompositionshape *ProcessCompositionShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		processcompositionshape.Name = value.GetValueString()
-	case "Process":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			processcompositionshape.Process = nil
-			for __instance__ := range stage.Processs {
-				if stage.Process_stagedOrder[__instance__] == uint(id) {
-					processcompositionshape.Process = __instance__
-					break
-				}
-			}
-		}
-	case "StartRatio":
-		processcompositionshape.StartRatio = value.GetValueFloat()
-	case "EndRatio":
-		processcompositionshape.EndRatio = value.GetValueFloat()
-	case "StartOrientation":
-		processcompositionshape.StartOrientation.FromCodeString(value.GetValueString())
-	case "EndOrientation":
-		processcompositionshape.EndOrientation.FromCodeString(value.GetValueString())
-	case "CornerOffsetRatio":
-		processcompositionshape.CornerOffsetRatio = value.GetValueFloat()
-	case "IsHidden":
-		processcompositionshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
 func (processshape *ProcessShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -3225,10 +2850,6 @@ func (process *Process) GongGetGongstructName() string {
 	return "Process"
 }
 
-func (processcompositionshape *ProcessCompositionShape) GongGetGongstructName() string {
-	return "ProcessCompositionShape"
-}
-
 func (processshape *ProcessShape) GongGetGongstructName() string {
 	return "ProcessShape"
 }
@@ -3258,11 +2879,6 @@ func (stage *Stage) ResetMapStrings() {
 	stage.Processs_mapString = make(map[string]*Process)
 	for process := range stage.Processs {
 		stage.Processs_mapString[process.Name] = process
-	}
-
-	stage.ProcessCompositionShapes_mapString = make(map[string]*ProcessCompositionShape)
-	for processcompositionshape := range stage.ProcessCompositionShapes {
-		stage.ProcessCompositionShapes_mapString[processcompositionshape.Name] = processcompositionshape
 	}
 
 	stage.ProcessShapes_mapString = make(map[string]*ProcessShape)
