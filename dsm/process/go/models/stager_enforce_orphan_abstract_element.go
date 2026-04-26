@@ -18,7 +18,7 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 		},
 	)
 
-	needCommit = needCommit || reattachToLibraryRoots(
+	if reattachToLibraryRoots(
 		stager,
 		func() []*Library {
 			return stager.rootLibrary.SubLibraries
@@ -34,7 +34,9 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 		func(library *Library) []*Library {
 			return library.SubLibraries
 		},
-	)
+	) {
+		needCommit = true
+	}
 
 	return
 }
