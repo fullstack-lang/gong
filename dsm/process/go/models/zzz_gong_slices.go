@@ -36,6 +36,13 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.DiagramProcess_ProcesssWhoseNodeIsExpanded_reverseMap[_process] = diagramprocess
 		}
 	}
+	stage.DiagramProcess_Participant_Shapes_reverseMap = make(map[*ParticipantShape]*DiagramProcess)
+	for diagramprocess := range stage.DiagramProcesss {
+		_ = diagramprocess
+		for _, _participantshape := range diagramprocess.Participant_Shapes {
+			stage.DiagramProcess_Participant_Shapes_reverseMap[_participantshape] = diagramprocess
+		}
+	}
 
 	// Compute reverse map for named struct Library
 	// insertion point per field
@@ -62,6 +69,9 @@ func (stage *Stage) ComputeReverseMaps() {
 	}
 
 	// Compute reverse map for named struct Participant
+	// insertion point per field
+
+	// Compute reverse map for named struct ParticipantShape
 	// insertion point per field
 
 	// Compute reverse map for named struct Process
@@ -122,6 +132,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
+	for instance := range stage.ParticipantShapes {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.Processs {
 		res = append(res, instance)
 	}
@@ -149,6 +163,12 @@ func (library *Library) GongCopy() GongstructIF {
 func (participant *Participant) GongCopy() GongstructIF {
 	newInstance := new(Participant)
 	participant.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (participantshape *ParticipantShape) GongCopy() GongstructIF {
+	newInstance := new(ParticipantShape)
+	participantshape.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -192,6 +212,16 @@ func (participant *Participant) GongGetUUID(stage *Stage) (uuid string) {
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(participant), uint64(GetOrderPointerGongstruct(stage, participant)))
+	return
+}
+
+func (participantshape *ParticipantShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(participantshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(participantshape), uint64(GetOrderPointerGongstruct(stage, participantshape)))
 	return
 }
 
@@ -386,6 +416,57 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(participants_newInstances)
 	lenDeletedInstances += len(participants_deletedInstances)
+	var participantshapes_newInstances []*ParticipantShape
+	var participantshapes_deletedInstances []*ParticipantShape
+
+	// parse all staged instances and check if they have a reference
+	for participantshape := range stage.ParticipantShapes {
+		if ref, ok := stage.ParticipantShapes_reference[participantshape]; !ok {
+			participantshapes_newInstances = append(participantshapes_newInstances, participantshape)
+			newInstancesSlice = append(newInstancesSlice, participantshape.GongMarshallIdentifier(stage))
+			if stage.ParticipantShapes_referenceOrder == nil {
+				stage.ParticipantShapes_referenceOrder = make(map[*ParticipantShape]uint)
+			}
+			stage.ParticipantShapes_referenceOrder[participantshape] = stage.ParticipantShape_stagedOrder[participantshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, participantshape.GongMarshallUnstaging(stage))
+			// delete(stage.ParticipantShapes_referenceOrder, participantshape)
+			fieldInitializers, pointersInitializations := participantshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.ParticipantShape_stagedOrder[ref] = stage.ParticipantShape_stagedOrder[participantshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := participantshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, participantshape)
+			// delete(stage.ParticipantShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				fieldsEdit += fmt.Sprintf("\n\t// %s", participantshape.GetName())
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.ParticipantShapes_reference {
+		instance := stage.ParticipantShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.ParticipantShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			participantshapes_deletedInstances = append(participantshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(participantshapes_newInstances)
+	lenDeletedInstances += len(participantshapes_deletedInstances)
 	var processs_newInstances []*Process
 	var processs_deletedInstances []*Process
 
@@ -553,6 +634,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.Participants_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.ParticipantShapes_reference = make(map[*ParticipantShape]*ParticipantShape)
+	stage.ParticipantShapes_referenceOrder = make(map[*ParticipantShape]uint) // diff Unstage needs the reference order
+	stage.ParticipantShapes_instance = make(map[*ParticipantShape]*ParticipantShape)
+	for instance := range stage.ParticipantShapes {
+		_copy := instance.GongCopy().(*ParticipantShape)
+		stage.ParticipantShapes_reference[instance] = _copy
+		stage.ParticipantShapes_instance[_copy] = instance
+		stage.ParticipantShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.Processs_reference = make(map[*Process]*Process)
 	stage.Processs_referenceOrder = make(map[*Process]uint) // diff Unstage needs the reference order
 	stage.Processs_instance = make(map[*Process]*Process)
@@ -586,6 +677,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.Participants {
 		reference := stage.Participants_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.ParticipantShapes {
+		reference := stage.ParticipantShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -641,6 +737,18 @@ func (participant *Participant) GongGetOrder(stage *Stage) uint {
 		return order
 	} else {
 		log.Printf("instance %p of type Participant was not staged and does not have a reference order", participant)
+		return 0
+	}
+}
+
+func (participantshape *ParticipantShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.ParticipantShape_stagedOrder[participantshape]; ok {
+		return order
+	}
+	if order, ok := stage.ParticipantShapes_referenceOrder[participantshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type ParticipantShape was not staged and does not have a reference order", participantshape)
 		return 0
 	}
 }
@@ -701,6 +809,15 @@ func (participant *Participant) GongGetReferenceIdentifier(stage *Stage) string 
 	return fmt.Sprintf("__%s__%08d_", participant.GongGetGongstructName(), participant.GongGetOrder(stage))
 }
 
+func (participantshape *ParticipantShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", participantshape.GongGetGongstructName(), participantshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (participantshape *ParticipantShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", participantshape.GongGetGongstructName(), participantshape.GongGetOrder(stage))
+}
+
 func (process *Process) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", process.GongGetGongstructName(), process.GongGetOrder(stage))
 }
@@ -746,6 +863,14 @@ func (participant *Participant) GongMarshallIdentifier(stage *Stage) (decl strin
 	return
 }
 
+func (participantshape *ParticipantShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", participantshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ParticipantShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(participantshape.Name))
+	return
+}
+
 func (process *Process) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", process.GongGetIdentifier(stage))
@@ -778,6 +903,12 @@ func (library *Library) GongMarshallUnstaging(stage *Stage) (decl string) {
 func (participant *Participant) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", participant.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (participantshape *ParticipantShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", participantshape.GongGetReferenceIdentifier(stage))
 	return
 }
 

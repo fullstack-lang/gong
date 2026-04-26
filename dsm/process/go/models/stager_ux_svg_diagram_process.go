@@ -75,5 +75,19 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 		diagramProcess.map_Process_Rect[processShape.Process] = rect
 	}
 
+	for _, participantShape := range diagramProcess.Participant_Shapes {
+		if participantShape.IsHidden {
+			continue
+		}
+
+		rect := svgRect(
+			stager,
+			diagramProcess,
+			participantShape,
+			layer)
+
+		diagramProcess.map_Participant_Rect[participantShape.Participant] = rect
+	}
+
 	return svgObject
 }

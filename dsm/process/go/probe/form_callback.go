@@ -146,6 +146,37 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 
 		case "IsProcesssNodeExpanded":
 			FormDivBasicFieldToField(&(diagramprocess_.IsProcesssNodeExpanded), formDiv)
+		case "Participant_Shapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ParticipantShape](diagramprocessFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.ParticipantShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.ParticipantShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					diagramprocessFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.ParticipantShape](diagramprocessFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			diagramprocess_.Participant_Shapes = instanceSlice
+
 		case "IsParticipantsNodeExpanded":
 			FormDivBasicFieldToField(&(diagramprocess_.IsParticipantsNodeExpanded), formDiv)
 		case "Process:DiagramProcesss":
@@ -765,6 +796,164 @@ func (participantFormCallback *ParticipantFormCallback) OnSave() {
 	}
 
 	participantFormCallback.probe.ux_tree()
+}
+func __gong__New__ParticipantShapeFormCallback(
+	participantshape *models.ParticipantShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (participantshapeFormCallback *ParticipantShapeFormCallback) {
+	participantshapeFormCallback = new(ParticipantShapeFormCallback)
+	participantshapeFormCallback.probe = probe
+	participantshapeFormCallback.participantshape = participantshape
+	participantshapeFormCallback.formGroup = formGroup
+
+	participantshapeFormCallback.CreationMode = (participantshape == nil)
+
+	return
+}
+
+type ParticipantShapeFormCallback struct {
+	participantshape *models.ParticipantShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (participantshapeFormCallback *ParticipantShapeFormCallback) OnSave() {
+	participantshapeFormCallback.probe.stageOfInterest.Lock()
+	defer participantshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("ParticipantShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	participantshapeFormCallback.probe.formStage.Checkout()
+
+	if participantshapeFormCallback.participantshape == nil {
+		participantshapeFormCallback.participantshape = new(models.ParticipantShape).Stage(participantshapeFormCallback.probe.stageOfInterest)
+	}
+	participantshape_ := participantshapeFormCallback.participantshape
+	_ = participantshape_
+
+	for _, formDiv := range participantshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(participantshape_.Name), formDiv)
+		case "Participant":
+			FormDivSelectFieldToField(&(participantshape_.Participant), participantshapeFormCallback.probe.stageOfInterest, formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(participantshape_.IsExpanded), formDiv)
+		case "X":
+			FormDivBasicFieldToField(&(participantshape_.X), formDiv)
+		case "Y":
+			FormDivBasicFieldToField(&(participantshape_.Y), formDiv)
+		case "Width":
+			FormDivBasicFieldToField(&(participantshape_.Width), formDiv)
+		case "Height":
+			FormDivBasicFieldToField(&(participantshape_.Height), formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&(participantshape_.IsHidden), formDiv)
+		case "DiagramProcess:Participant_Shapes":
+			// WARNING : this form deals with the N-N association "DiagramProcess.Participant_Shapes []*ParticipantShape" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of ParticipantShape). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.DiagramProcess
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "DiagramProcess"
+				rf.Fieldname = "Participant_Shapes"
+				formerAssociationSource := participantshape_.GongGetReverseFieldOwner(
+					participantshapeFormCallback.probe.stageOfInterest,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.DiagramProcess)
+					if !ok {
+						log.Fatalln("Source of DiagramProcess.Participant_Shapes []*ParticipantShape, is not an DiagramProcess instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Participant_Shapes, participantshape_)
+					formerSource.Participant_Shapes = slices.Delete(formerSource.Participant_Shapes, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.DiagramProcess
+			for _diagramprocess := range *models.GetGongstructInstancesSet[models.DiagramProcess](participantshapeFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _diagramprocess.GetName() == newSourceName.GetName() {
+					newSource = _diagramprocess // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of DiagramProcess.Participant_Shapes []*ParticipantShape, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.Participant_Shapes = append(newSource.Participant_Shapes, participantshape_)
+		}
+	}
+
+	// manage the suppress operation
+	if participantshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		participantshape_.Unstage(participantshapeFormCallback.probe.stageOfInterest)
+	}
+
+	participantshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.ParticipantShape](
+		participantshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if participantshapeFormCallback.CreationMode || participantshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		participantshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(participantshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__ParticipantShapeFormCallback(
+			nil,
+			participantshapeFormCallback.probe,
+			newFormGroup,
+		)
+		participantshape := new(models.ParticipantShape)
+		FillUpForm(participantshape, newFormGroup, participantshapeFormCallback.probe)
+		participantshapeFormCallback.probe.formStage.Commit()
+	}
+
+	participantshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__ProcessFormCallback(
 	process *models.Process,

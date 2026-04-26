@@ -45,6 +45,7 @@ func (diagramprocess *DiagramProcess) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = GongCleanSlice(stage, &diagramprocess.Process_Shapes) || modified
 	modified = GongCleanSlice(stage, &diagramprocess.ProcesssWhoseNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &diagramprocess.Participant_Shapes) || modified
 	// insertion point per field
 	return
 }
@@ -63,6 +64,14 @@ func (library *Library) GongClean(stage *Stage) (modified bool) {
 func (participant *Participant) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by ParticipantShape
+func (participantshape *ParticipantShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = GongCleanPointer(stage, &participantshape.Participant) || modified
 	return
 }
 
