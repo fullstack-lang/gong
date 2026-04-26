@@ -435,6 +435,15 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
   @HostListener('window:mousemove', ['$event'])
   onWindowMouseMove(event: MouseEvent): void {
     if (this.State !== StateEnumType.WAITING_FOR_USER_INPUT && this.State !== StateEnumType.NOT_EDITABLE) {
+      let pt = mouseCoordInComponentRef(event, this.zoom, this.shiftX, this.shiftY)
+      
+      if (pt.X > this.svgWidth) {
+        this.svgWidth = pt.X + 100
+      }
+      if (pt.Y > this.svgHeight) {
+        this.svgHeight = pt.Y + 100
+      }
+
       this.onmousemove(event, 'window')
     }
   }
