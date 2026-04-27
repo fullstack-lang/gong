@@ -18,13 +18,13 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterParticipantCreateCallback != nil {
 			stage.OnAfterParticipantCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *ParticipantShape:
+		if stage.OnAfterParticipantShapeCreateCallback != nil {
+			stage.OnAfterParticipantShapeCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *Process:
 		if stage.OnAfterProcessCreateCallback != nil {
 			stage.OnAfterProcessCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *ProcessCompositionShape:
-		if stage.OnAfterProcessCompositionShapeCreateCallback != nil {
-			stage.OnAfterProcessCompositionShapeCreateCallback.OnAfterCreate(stage, target)
 		}
 	case *ProcessShape:
 		if stage.OnAfterProcessShapeCreateCallback != nil {
@@ -59,15 +59,15 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		if stage.OnAfterParticipantUpdateCallback != nil {
 			stage.OnAfterParticipantUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
+	case *ParticipantShape:
+		newTarget := any(new).(*ParticipantShape)
+		if stage.OnAfterParticipantShapeUpdateCallback != nil {
+			stage.OnAfterParticipantShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
 	case *Process:
 		newTarget := any(new).(*Process)
 		if stage.OnAfterProcessUpdateCallback != nil {
 			stage.OnAfterProcessUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *ProcessCompositionShape:
-		newTarget := any(new).(*ProcessCompositionShape)
-		if stage.OnAfterProcessCompositionShapeUpdateCallback != nil {
-			stage.OnAfterProcessCompositionShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *ProcessShape:
 		newTarget := any(new).(*ProcessShape)
@@ -99,15 +99,15 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*Participant)
 			stage.OnAfterParticipantDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *ParticipantShape:
+		if stage.OnAfterParticipantShapeDeleteCallback != nil {
+			staged := any(staged).(*ParticipantShape)
+			stage.OnAfterParticipantShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *Process:
 		if stage.OnAfterProcessDeleteCallback != nil {
 			staged := any(staged).(*Process)
 			stage.OnAfterProcessDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *ProcessCompositionShape:
-		if stage.OnAfterProcessCompositionShapeDeleteCallback != nil {
-			staged := any(staged).(*ProcessCompositionShape)
-			stage.OnAfterProcessCompositionShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	case *ProcessShape:
 		if stage.OnAfterProcessShapeDeleteCallback != nil {
@@ -136,13 +136,13 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterParticipantReadCallback != nil {
 			stage.OnAfterParticipantReadCallback.OnAfterRead(stage, target)
 		}
+	case *ParticipantShape:
+		if stage.OnAfterParticipantShapeReadCallback != nil {
+			stage.OnAfterParticipantShapeReadCallback.OnAfterRead(stage, target)
+		}
 	case *Process:
 		if stage.OnAfterProcessReadCallback != nil {
 			stage.OnAfterProcessReadCallback.OnAfterRead(stage, target)
-		}
-	case *ProcessCompositionShape:
-		if stage.OnAfterProcessCompositionShapeReadCallback != nil {
-			stage.OnAfterProcessCompositionShapeReadCallback.OnAfterRead(stage, target)
 		}
 	case *ProcessShape:
 		if stage.OnAfterProcessShapeReadCallback != nil {
@@ -165,10 +165,10 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterLibraryUpdateCallback = any(callback).(OnAfterUpdateInterface[Library])
 	case *Participant:
 		stage.OnAfterParticipantUpdateCallback = any(callback).(OnAfterUpdateInterface[Participant])
+	case *ParticipantShape:
+		stage.OnAfterParticipantShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ParticipantShape])
 	case *Process:
 		stage.OnAfterProcessUpdateCallback = any(callback).(OnAfterUpdateInterface[Process])
-	case *ProcessCompositionShape:
-		stage.OnAfterProcessCompositionShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ProcessCompositionShape])
 	case *ProcessShape:
 		stage.OnAfterProcessShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ProcessShape])
 	}
@@ -184,10 +184,10 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterLibraryCreateCallback = any(callback).(OnAfterCreateInterface[Library])
 	case *Participant:
 		stage.OnAfterParticipantCreateCallback = any(callback).(OnAfterCreateInterface[Participant])
+	case *ParticipantShape:
+		stage.OnAfterParticipantShapeCreateCallback = any(callback).(OnAfterCreateInterface[ParticipantShape])
 	case *Process:
 		stage.OnAfterProcessCreateCallback = any(callback).(OnAfterCreateInterface[Process])
-	case *ProcessCompositionShape:
-		stage.OnAfterProcessCompositionShapeCreateCallback = any(callback).(OnAfterCreateInterface[ProcessCompositionShape])
 	case *ProcessShape:
 		stage.OnAfterProcessShapeCreateCallback = any(callback).(OnAfterCreateInterface[ProcessShape])
 	}
@@ -203,10 +203,10 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterLibraryDeleteCallback = any(callback).(OnAfterDeleteInterface[Library])
 	case *Participant:
 		stage.OnAfterParticipantDeleteCallback = any(callback).(OnAfterDeleteInterface[Participant])
+	case *ParticipantShape:
+		stage.OnAfterParticipantShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ParticipantShape])
 	case *Process:
 		stage.OnAfterProcessDeleteCallback = any(callback).(OnAfterDeleteInterface[Process])
-	case *ProcessCompositionShape:
-		stage.OnAfterProcessCompositionShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ProcessCompositionShape])
 	case *ProcessShape:
 		stage.OnAfterProcessShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ProcessShape])
 	}
@@ -222,10 +222,10 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterLibraryReadCallback = any(callback).(OnAfterReadInterface[Library])
 	case *Participant:
 		stage.OnAfterParticipantReadCallback = any(callback).(OnAfterReadInterface[Participant])
+	case *ParticipantShape:
+		stage.OnAfterParticipantShapeReadCallback = any(callback).(OnAfterReadInterface[ParticipantShape])
 	case *Process:
 		stage.OnAfterProcessReadCallback = any(callback).(OnAfterReadInterface[Process])
-	case *ProcessCompositionShape:
-		stage.OnAfterProcessCompositionShapeReadCallback = any(callback).(OnAfterReadInterface[ProcessCompositionShape])
 	case *ProcessShape:
 		stage.OnAfterProcessShapeReadCallback = any(callback).(OnAfterReadInterface[ProcessShape])
 	}
