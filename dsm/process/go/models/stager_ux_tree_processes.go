@@ -10,8 +10,8 @@ import (
 func (stager *Stager) treeProcesses(
 	process *Process,
 	parentNode *tree.Node,
-	processsWhoseNodeIsExpanded *[]*Process) {
-
+	processsWhoseNodeIsExpanded *[]*Process,
+) {
 	processNode := &tree.Node{
 		Name:            process.GetName(),
 		IsExpanded:      slices.Index(*processsWhoseNodeIsExpanded, process) != -1,
@@ -147,7 +147,6 @@ func (stager *Stager) treeProcesses(
 		for _, participant := range process.Participants {
 			stager.treeParticipants(participant, participantsNode, &process.ParticipantWhoseNodeIsExpanded)
 		}
-		addAddItemButtonSimple(stager, processsWhoseNodeIsExpanded, process, nil, participantsNode, &process.Participants)
 	}
 	itemAdderCallback := addAddItemButtonVerySimple(stager, &process.isExpanded, processNode, &process.DiagramProcesss)
 	itemAdderCallback.OnBeforeCommit = func() {
@@ -173,5 +172,4 @@ func (stager *Stager) treeProcesses(
 	for _, process_ := range process.SubProcesses {
 		stager.treeProcesses(process_, subProcessesNode, processsWhoseNodeIsExpanded)
 	}
-
 }
