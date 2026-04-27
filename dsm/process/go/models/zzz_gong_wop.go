@@ -84,6 +84,35 @@ func (from *Participant) CopyBasicFields(to *Participant) {
 	to.ComputedPrefix = from.ComputedPrefix
 }
 
+type ParticipantShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	IsExpanded bool
+
+	X float64
+
+	Y float64
+
+	Width float64
+
+	Height float64
+
+	IsHidden bool
+}
+
+func (from *ParticipantShape) CopyBasicFields(to *ParticipantShape) {
+	// insertion point
+	to.Name = from.Name
+	to.IsExpanded = from.IsExpanded
+	to.X = from.X
+	to.Y = from.Y
+	to.Width = from.Width
+	to.Height = from.Height
+	to.IsHidden = from.IsHidden
+}
+
 type Process_WOP struct {
 	// insertion point
 
@@ -99,35 +128,6 @@ func (from *Process) CopyBasicFields(to *Process) {
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsSubProcessNodeExpanded = from.IsSubProcessNodeExpanded
-}
-
-type ProcessCompositionShape_WOP struct {
-	// insertion point
-
-	Name string
-
-	StartRatio float64
-
-	EndRatio float64
-
-	StartOrientation OrientationType
-
-	EndOrientation OrientationType
-
-	CornerOffsetRatio float64
-
-	IsHidden bool
-}
-
-func (from *ProcessCompositionShape) CopyBasicFields(to *ProcessCompositionShape) {
-	// insertion point
-	to.Name = from.Name
-	to.StartRatio = from.StartRatio
-	to.EndRatio = from.EndRatio
-	to.StartOrientation = from.StartOrientation
-	to.EndOrientation = from.EndOrientation
-	to.CornerOffsetRatio = from.CornerOffsetRatio
-	to.IsHidden = from.IsHidden
 }
 
 type ProcessShape_WOP struct {

@@ -5,7 +5,7 @@ import "time"
 func (stager *Stager) enforceRelationDuplicates() (needCommit bool) {
 	// Iterate through all diagrams in the stage
 	for _, diagram := range GetGongstrucsSorted[*DiagramProcess](stager.stage) {
-		needCommit = needCommit || removeDuplicateRelation(stager, diagram.ProcessComposition_Shapes)
+		_ = diagram
 	}
 	return
 }
@@ -14,7 +14,6 @@ func removeDuplicateRelation[SourceAT AbstractType, TargetAT AbstractType, ACT A
 	stager *Stager,
 	relations []ACT,
 ) (needCommit bool) {
-
 	// Map to track unique source-target pairs
 	type key struct {
 		source uint
@@ -27,7 +26,8 @@ func removeDuplicateRelation[SourceAT AbstractType, TargetAT AbstractType, ACT A
 
 		pairKey := key{
 			source: relation.GetAbstractStartElement().GongGetOrder(stager.stage),
-			target: relation.GetAbstractEndElement().GongGetOrder(stager.stage)}
+			target: relation.GetAbstractEndElement().GongGetOrder(stager.stage),
+		}
 
 		if seenPairs[pairKey] {
 			relation.UnstageVoid(stager.stage)
