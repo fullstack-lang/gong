@@ -45,8 +45,6 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 	svgObject.OverrideHeight = true
 	svgObject.OverriddenHeight = diagramProcess.Height
 
-	diagramProcess.map_Process_Rect = make(map[*Process]*svg.Rect)
-
 	// // to implement association between abstract elements by mouse drag
 	// svgImpl := &svgProxy{
 	// 	stager:  stager,
@@ -61,6 +59,7 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 	layer := (&svg.Layer{Name: "Layer 1"})
 	svgObject.Layers = append(svgObject.Layers, layer)
 
+	diagramProcess.map_Process_Rect = make(map[*Process]*svg.Rect)
 	for _, processShape := range diagramProcess.Process_Shapes {
 		if processShape.IsHidden {
 			continue
@@ -75,6 +74,7 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 		diagramProcess.map_Process_Rect[processShape.Process] = rect
 	}
 
+	diagramProcess.map_Participant_Rect = make(map[*Participant]*svg.Rect)
 	for _, participantShape := range diagramProcess.Participant_Shapes {
 		if participantShape.IsHidden {
 			continue

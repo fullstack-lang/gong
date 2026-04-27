@@ -44,7 +44,7 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000005_.Name = `DiagramProcess`
 	__DiagramProcess__00000005_.ComputedPrefix = ``
 	__DiagramProcess__00000005_.IsChecked = true
-	__DiagramProcess__00000005_.IsEditable_ = false
+	__DiagramProcess__00000005_.IsEditable_ = true
 	__DiagramProcess__00000005_.IsShowPrefix = false
 	__DiagramProcess__00000005_.DefaultBoxWidth = 250.000000
 	__DiagramProcess__00000005_.DefaultBoxHeigth = 70.000000
@@ -65,8 +65,8 @@ func _(stage *models.Stage) {
 	__ParticipantShape__00000000_.IsExpanded = false
 	__ParticipantShape__00000000_.X = 125.314125
 	__ParticipantShape__00000000_.Y = 198.340905
-	__ParticipantShape__00000000_.Width = 250.000000
-	__ParticipantShape__00000000_.Height = 70.000000
+	__ParticipantShape__00000000_.Width = 205.000000
+	__ParticipantShape__00000000_.Height = 580.000000
 	__ParticipantShape__00000000_.IsHidden = false
 
 	__Process__00000005_.Name = `P1`
