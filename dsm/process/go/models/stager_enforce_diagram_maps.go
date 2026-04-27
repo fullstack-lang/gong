@@ -9,36 +9,42 @@ func (stager *Stager) enforceDiagramMaps() {
 		_ = diagram
 
 		diagram.map_Process_ProcessShape = make(map[*Process]*ProcessShape)
-		for _, shape := range diagram.Process_Shapes {
-			if shape.Process != nil {
-				diagram.map_Process_ProcessShape[shape.Process] = shape
-				diagrams := stager.map_Element_Diagrams[shape.Process]
+		updateMapElementDiagrams(stager, diagram, diagram.Process_Shapes, diagram.map_Process_ProcessShape)
 
-				if diagrams == nil {
-					diagrams = []*DiagramProcess{diagram}
-				}
+		diagram.map_Participant_ParticipantShape = make(map[*Participant]*ParticipantShape)
+		updateMapElementDiagrams(stager, diagram, diagram.Participant_Shapes, diagram.map_Participant_ParticipantShape)
+	}
+}
 
-				if !slices.Contains(diagrams, diagram) {
-					diagrams = append(diagrams, diagram)
-				}
-				stager.map_Element_Diagrams[shape.Process] = diagrams
-			}
+func updateMapElementDiagrams[
+	AT interface {
+		AbstractType
+		comparable
+	},
+	CT ConcreteType,
+](
+	stager *Stager,
+	diagram *DiagramProcess,
+	shapes []CT,
+	diagramMap map[AT]CT,
+) {
+	for _, shape := range shapes {
+		abstractElement, ok := shape.GetAbstractElement().(AT)
+		if !ok {
+			continue
 		}
 
-		for _, shape := range diagram.Participant_Shapes {
-			if shape.Participant != nil {
-				diagram.map_Participant_ParticipantShape[shape.Participant] = shape
-			}
-			diagrams := stager.map_Element_Diagrams[shape.Participant]
+		// map the abstract element to its Shape within this diagram
+		diagramMap[abstractElement] = shape
 
-			if diagrams == nil {
-				diagrams = []*DiagramProcess{diagram}
-			}
-
-			if !slices.Contains(diagrams, diagram) {
-				diagrams = append(diagrams, diagram)
-			}
-			stager.map_Element_Diagrams[shape.Participant] = diagrams
+		// track all diagrams that display this element across the stage
+		diagrams := stager.map_Element_Diagrams[abstractElement]
+		if diagrams == nil {
+			diagrams = []*DiagramProcess{diagram}
 		}
+		if !slices.Contains(diagrams, diagram) {
+			diagrams = append(diagrams, diagram)
+		}
+		stager.map_Element_Diagrams[abstractElement] = diagrams
 	}
 }
