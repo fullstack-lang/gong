@@ -3749,6 +3749,8 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(rect_.ToolTipText), formDiv)
 		case "ToolTipPosition":
 			FormDivEnumStringFieldToField(&(rect_.ToolTipPosition), formDiv)
+		case "EnclosingRect":
+			FormDivSelectFieldToField(&(rect_.EnclosingRect), rectFormCallback.probe.stageOfInterest, formDiv)
 		case "MouseX":
 			FormDivBasicFieldToField(&(rect_.MouseX), formDiv)
 		case "MouseY":

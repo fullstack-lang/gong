@@ -664,6 +664,9 @@ func (stage *Stage) StageBranchRect(rect *Rect) {
 	rect.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+	if rect.EnclosingRect != nil {
+		StageBranch(stage, rect.EnclosingRect)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _condition := range rect.HoveringTrigger {
@@ -1266,6 +1269,9 @@ func CopyBranchRect(mapOrigCopy map[any]any, rectFrom *Rect) (rectTo *Rect) {
 	rectFrom.CopyBasicFields(rectTo)
 
 	//insertion point for the staging of instances referenced by pointers
+	if rectFrom.EnclosingRect != nil {
+		rectTo.EnclosingRect = CopyBranchRect(mapOrigCopy, rectFrom.EnclosingRect)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _condition := range rectFrom.HoveringTrigger {
@@ -1820,6 +1826,9 @@ func (stage *Stage) UnstageBranchRect(rect *Rect) {
 	rect.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+	if rect.EnclosingRect != nil {
+		UnstageBranch(stage, rect.EnclosingRect)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _condition := range rect.HoveringTrigger {
@@ -2170,6 +2179,9 @@ func (reference *Polyline) GongReconstructPointersFromReferences(stage *Stage, i
 
 func (reference *Rect) GongReconstructPointersFromReferences(stage *Stage, instance *Rect) () {
 	// insertion point for pointers field
+	if instance.EnclosingRect != nil {
+		reference.EnclosingRect = stage.Rects_reference[instance.EnclosingRect]
+	}
 	// insertion point for slice of pointers field
 	reference.HoveringTrigger = reference.HoveringTrigger[:0]
 	for _, _b := range instance.HoveringTrigger {
@@ -2535,6 +2547,12 @@ func (reference *Polyline) GongReconstructPointersFromInstances(stage *Stage) ()
 
 func (reference *Rect) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
+	if _reference := reference.EnclosingRect; _reference != nil {
+		reference.EnclosingRect = nil
+		if _instance, ok := stage.Rects_instance[_reference]; ok {
+			reference.EnclosingRect = _instance
+		}
+	}
 	// insertion point for slice of pointers fields
 	var _HoveringTrigger []*Condition
 	for _, _reference := range reference.HoveringTrigger {
@@ -3890,6 +3908,13 @@ func (rect *Rect) GongDiff(stage *Stage, rectOther *Rect) (diffs []string) {
 	}
 	if rect.ToolTipPosition != rectOther.ToolTipPosition {
 		diffs = append(diffs, rect.GongMarshallField(stage, "ToolTipPosition"))
+	}
+	if (rect.EnclosingRect == nil) != (rectOther.EnclosingRect == nil) {
+		diffs = append(diffs, rect.GongMarshallField(stage, "EnclosingRect"))
+	} else if rect.EnclosingRect != nil && rectOther.EnclosingRect != nil {
+		if rect.EnclosingRect != rectOther.EnclosingRect {
+			diffs = append(diffs, rect.GongMarshallField(stage, "EnclosingRect"))
+		}
 	}
 	if rect.MouseX != rectOther.MouseX {
 		diffs = append(diffs, rect.GongMarshallField(stage, "MouseX"))

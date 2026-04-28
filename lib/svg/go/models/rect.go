@@ -49,6 +49,10 @@ type Rect struct {
 	ToolTipText     string
 	ToolTipPosition ToolTipPositionEnum
 
+	// EnclosingRect is the rect that encloses this rect
+	// the rect cannot move outside of the enclosing rect
+	EnclosingRect *Rect
+
 	// deprecated, uses OnUpdate instead
 	Impl RectImplInterface
 

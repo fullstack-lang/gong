@@ -4993,6 +4993,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			RectAnchoredPaths: []*RectAnchoredPath{{Name: "RectAnchoredPaths"}},
 			// field is initialized with an instance of RectAnchoredPngImage with the name of the field
 			RectAnchoredPngImages: []*RectAnchoredPngImage{{Name: "RectAnchoredPngImages"}},
+			// field is initialized with an instance of Rect with the name of the field
+			EnclosingRect: &Rect{Name: "EnclosingRect"},
 		}).(*Type)
 	case RectAnchoredPath:
 		return any(&RectAnchoredPath{
@@ -5177,6 +5179,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	case Rect:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "EnclosingRect":
+			res := make(map[*Rect][]*Rect)
+			for rect := range stage.Rects {
+				if rect.EnclosingRect != nil {
+					rect_ := rect.EnclosingRect
+					var rects []*Rect
+					_, ok := res[rect_]
+					if ok {
+						rects = res[rect_]
+					} else {
+						rects = make([]*Rect, 0)
+					}
+					rects = append(rects, rect)
+					res[rect_] = rects
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of RectAnchoredPath
 	case RectAnchoredPath:
@@ -6810,6 +6829,11 @@ func (rect *Rect) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "ToolTipPositionEnum",
 		},
 		{
+			Name:                 "EnclosingRect",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Rect",
+		},
+		{
 			Name:               "MouseX",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
@@ -8309,6 +8333,12 @@ func (rect *Rect) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	case "ToolTipPosition":
 		enum := rect.ToolTipPosition
 		res.valueString = enum.ToCodeString()
+	case "EnclosingRect":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if rect.EnclosingRect != nil {
+			res.valueString = rect.EnclosingRect.Name
+			res.ids = rect.EnclosingRect.GongGetUUID(stage)
+		}
 	case "MouseX":
 		res.valueString = fmt.Sprintf("%f", rect.MouseX)
 		res.valueFloat = rect.MouseX
@@ -9633,6 +9663,17 @@ func (rect *Rect) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 		rect.ToolTipText = value.GetValueString()
 	case "ToolTipPosition":
 		rect.ToolTipPosition.FromCodeString(value.GetValueString())
+	case "EnclosingRect":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			rect.EnclosingRect = nil
+			for __instance__ := range stage.Rects {
+				if stage.Rect_stagedOrder[__instance__] == uint(id) {
+					rect.EnclosingRect = __instance__
+					break
+				}
+			}
+		}
 	case "MouseX":
 		rect.MouseX = value.GetValueFloat()
 	case "MouseY":

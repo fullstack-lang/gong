@@ -165,6 +165,7 @@ func (rect *Rect) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &rect.RectAnchoredPaths) || modified
 	modified = GongCleanSlice(stage, &rect.RectAnchoredPngImages) || modified
 	// insertion point per field
+	modified = GongCleanPointer(stage, &rect.EnclosingRect) || modified
 	return
 }
 
