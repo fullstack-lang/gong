@@ -142,6 +142,8 @@ type Stage struct {
 
 	DiagramProcess_Participant_Shapes_reverseMap map[*ParticipantShape]*DiagramProcess
 
+	DiagramProcess_ParticipantWhoseNodeIsExpanded_reverseMap map[*Participant]*DiagramProcess
+
 	OnAfterDiagramProcessCreateCallback OnAfterCreateInterface[DiagramProcess]
 	OnAfterDiagramProcessUpdateCallback OnAfterUpdateInterface[DiagramProcess]
 	OnAfterDiagramProcessDeleteCallback OnAfterDeleteInterface[DiagramProcess]
@@ -1973,6 +1975,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			ProcesssWhoseNodeIsExpanded: []*Process{{Name: "ProcesssWhoseNodeIsExpanded"}},
 			// field is initialized with an instance of ParticipantShape with the name of the field
 			Participant_Shapes: []*ParticipantShape{{Name: "Participant_Shapes"}},
+			// field is initialized with an instance of Participant with the name of the field
+			ParticipantWhoseNodeIsExpanded: []*Participant{{Name: "ParticipantWhoseNodeIsExpanded"}},
 		}).(*Type)
 	case Library:
 		return any(&Library{
@@ -2138,6 +2142,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "ParticipantWhoseNodeIsExpanded":
+			res := make(map[*Participant][]*DiagramProcess)
+			for diagramprocess := range stage.DiagramProcesss {
+				for _, participant_ := range diagramprocess.ParticipantWhoseNodeIsExpanded {
+					res[participant_] = append(res[participant_], diagramprocess)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Library
 	case Library:
@@ -2286,6 +2298,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *Participant:
 		var rf ReverseField
 		_ = rf
+		rf.GongstructName = "DiagramProcess"
+		rf.Fieldname = "ParticipantWhoseNodeIsExpanded"
+		res = append(res, rf)
 		rf.GongstructName = "Process"
 		rf.Fieldname = "Participants"
 		res = append(res, rf)
@@ -2369,13 +2384,13 @@ func (diagramprocess *DiagramProcess) GongGetFieldHeaders() (res []GongFieldHead
 			TargetGongstructName: "ProcessShape",
 		},
 		{
+			Name:               "IsProcesssNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:                 "ProcesssWhoseNodeIsExpanded",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Process",
-		},
-		{
-			Name:               "IsProcesssNodeExpanded",
-			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:                 "Participant_Shapes",
@@ -2385,6 +2400,11 @@ func (diagramprocess *DiagramProcess) GongGetFieldHeaders() (res []GongFieldHead
 		{
 			Name:               "IsParticipantsNodeExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "ParticipantWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Participant",
 		},
 	}
 	return
@@ -2667,6 +2687,10 @@ func (diagramprocess *DiagramProcess) GongGetFieldValue(fieldName string, stage 
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "IsProcesssNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", diagramprocess.IsProcesssNodeExpanded)
+		res.valueBool = diagramprocess.IsProcesssNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "ProcesssWhoseNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range diagramprocess.ProcesssWhoseNodeIsExpanded {
@@ -2677,10 +2701,6 @@ func (diagramprocess *DiagramProcess) GongGetFieldValue(fieldName string, stage 
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
-	case "IsProcesssNodeExpanded":
-		res.valueString = fmt.Sprintf("%t", diagramprocess.IsProcesssNodeExpanded)
-		res.valueBool = diagramprocess.IsProcesssNodeExpanded
-		res.GongFieldValueType = GongFieldValueTypeBool
 	case "Participant_Shapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range diagramprocess.Participant_Shapes {
@@ -2695,6 +2715,16 @@ func (diagramprocess *DiagramProcess) GongGetFieldValue(fieldName string, stage 
 		res.valueString = fmt.Sprintf("%t", diagramprocess.IsParticipantsNodeExpanded)
 		res.valueBool = diagramprocess.IsParticipantsNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ParticipantWhoseNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagramprocess.ParticipantWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	}
 	return
 }
@@ -2941,6 +2971,8 @@ func (diagramprocess *DiagramProcess) GongSetFieldValue(fieldName string, value 
 				}
 			}
 		}
+	case "IsProcesssNodeExpanded":
+		diagramprocess.IsProcesssNodeExpanded = value.GetValueBool()
 	case "ProcesssWhoseNodeIsExpanded":
 		diagramprocess.ProcesssWhoseNodeIsExpanded = make([]*Process, 0)
 		ids := strings.Split(value.ids, ";")
@@ -2955,8 +2987,6 @@ func (diagramprocess *DiagramProcess) GongSetFieldValue(fieldName string, value 
 				}
 			}
 		}
-	case "IsProcesssNodeExpanded":
-		diagramprocess.IsProcesssNodeExpanded = value.GetValueBool()
 	case "Participant_Shapes":
 		diagramprocess.Participant_Shapes = make([]*ParticipantShape, 0)
 		ids := strings.Split(value.ids, ";")
@@ -2973,6 +3003,20 @@ func (diagramprocess *DiagramProcess) GongSetFieldValue(fieldName string, value 
 		}
 	case "IsParticipantsNodeExpanded":
 		diagramprocess.IsParticipantsNodeExpanded = value.GetValueBool()
+	case "ParticipantWhoseNodeIsExpanded":
+		diagramprocess.ParticipantWhoseNodeIsExpanded = make([]*Participant, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Participants {
+					if stage.Participant_stagedOrder[__instance__] == uint(id) {
+						diagramprocess.ParticipantWhoseNodeIsExpanded = append(diagramprocess.ParticipantWhoseNodeIsExpanded, __instance__)
+						break
+					}
+				}
+			}
+		}
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

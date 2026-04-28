@@ -480,14 +480,16 @@ func (u *DiagramProcessUnmarshaller) UnmarshallField(stage *Stage, i GongstructI
 		instance.Height = GongExtractFloat(valueExpr)
 	case "Process_Shapes":
 		GongUnmarshallSliceOfPointers(&instance.Process_Shapes, valueExpr, identifierMap)
-	case "ProcesssWhoseNodeIsExpanded":
-		GongUnmarshallSliceOfPointers(&instance.ProcesssWhoseNodeIsExpanded, valueExpr, identifierMap)
 	case "IsProcesssNodeExpanded":
 		instance.IsProcesssNodeExpanded = GongExtractBool(valueExpr)
+	case "ProcesssWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.ProcesssWhoseNodeIsExpanded, valueExpr, identifierMap)
 	case "Participant_Shapes":
 		GongUnmarshallSliceOfPointers(&instance.Participant_Shapes, valueExpr, identifierMap)
 	case "IsParticipantsNodeExpanded":
 		instance.IsParticipantsNodeExpanded = GongExtractBool(valueExpr)
+	case "ParticipantWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.ParticipantWhoseNodeIsExpanded, valueExpr, identifierMap)
 	}
 	return nil
 }
