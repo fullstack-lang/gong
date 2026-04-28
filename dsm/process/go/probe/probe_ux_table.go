@@ -36,6 +36,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.Process](probe)
 	case "ProcessShape":
 		updateProbeTable[*models.ProcessShape](probe)
+	case "Task":
+		updateProbeTable[*models.Task](probe)
 	}
 }
 

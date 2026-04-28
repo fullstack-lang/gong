@@ -60,6 +60,7 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		{"stage.Clean", func() bool { return stage.Clean() }},
 		{"enforceDefaultValues", stager.enforceDefaultValues},
 		{"enforceOrphansAbstractElement", stager.enforceOrphansAbstractElement},
+		{"enforceTaskParticipantConsistency", stager.enforceTaskParticipantConsistency},
 
 		// concrete semantic check
 		{"enforceAtLeastOneDiagramPerProcess", stager.enforceAtLeastOneDiagramPerProcess},

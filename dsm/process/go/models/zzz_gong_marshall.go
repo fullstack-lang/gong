@@ -308,6 +308,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "Participant_Shapes"))
 		initializerStatements.WriteString(diagramprocess.GongMarshallField(stage, "IsParticipantsNodeExpanded"))
 		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "ParticipantWhoseNodeIsExpanded"))
+		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "TasksWhoseNodeIsExpanded"))
 	}
 
 	libraryOrdered := []*Library{}
@@ -367,6 +368,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(participant.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(participant.GongMarshallField(stage, "ComputedPrefix"))
+		pointersInitializesStatements.WriteString(participant.GongMarshallField(stage, "Tasks"))
 	}
 
 	participantshapeOrdered := []*ParticipantShape{}
@@ -468,6 +470,33 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(processshape.GongMarshallField(stage, "IsHidden"))
 	}
 
+	taskOrdered := []*Task{}
+	for task := range stage.Tasks {
+		taskOrdered = append(taskOrdered, task)
+	}
+	sort.Slice(taskOrdered[:], func(i, j int) bool {
+		taski := taskOrdered[i]
+		taskj := taskOrdered[j]
+		taski_order, oki := stage.Task_stagedOrder[taski]
+		taskj_order, okj := stage.Task_stagedOrder[taskj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return taski_order < taskj_order
+	})
+	if len(taskOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, task := range taskOrdered {
+
+		identifiersDecl.WriteString(task.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(task.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(task.GongMarshallField(stage, "ComputedPrefix"))
+	}
+
 	// insertion initialization of objects to stage
 	for _, diagramprocess := range diagramprocessOrdered {
 		_ = diagramprocess
@@ -511,6 +540,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	for _, processshape := range processshapeOrdered {
 		_ = processshape
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, task := range taskOrdered {
+		_ = task
 		var setPointerField string
 		_ = setPointerField
 
@@ -670,6 +707,16 @@ func (diagramprocess *DiagramProcess) GongMarshallField(stage *Stage, fieldName 
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
+	case "TasksWhoseNodeIsExpanded":
+		var sb strings.Builder
+		for _, _task := range diagramprocess.TasksWhoseNodeIsExpanded {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramprocess.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "TasksWhoseNodeIsExpanded")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _task.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct DiagramProcess", fieldName)
 	}
@@ -750,6 +797,16 @@ func (participant *Participant) GongMarshallField(stage *Stage, fieldName string
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(participant.ComputedPrefix))
 
+	case "Tasks":
+		var sb strings.Builder
+		for _, _task := range participant.Tasks {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", participant.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Tasks")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _task.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Participant", fieldName)
 	}
@@ -947,6 +1004,26 @@ func (processshape *ProcessShape) GongMarshallField(stage *Stage, fieldName stri
 	return
 }
 
+func (task *Task) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(task.Name))
+	case "ComputedPrefix":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(task.ComputedPrefix))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Task", fieldName)
+	}
+	return
+}
+
 // insertion point for marshall all fields methods
 func (diagramprocess *DiagramProcess) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
@@ -968,6 +1045,7 @@ func (diagramprocess *DiagramProcess) GongMarshallAllFields(stage *Stage) (initR
 		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "Participant_Shapes"))
 		initializerStatements.WriteString(diagramprocess.GongMarshallField(stage, "IsParticipantsNodeExpanded"))
 		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "ParticipantWhoseNodeIsExpanded"))
+		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "TasksWhoseNodeIsExpanded"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -997,6 +1075,7 @@ func (participant *Participant) GongMarshallAllFields(stage *Stage) (initRes str
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(participant.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(participant.GongMarshallField(stage, "ComputedPrefix"))
+		pointersInitializesStatements.WriteString(participant.GongMarshallField(stage, "Tasks"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -1051,6 +1130,18 @@ func (processshape *ProcessShape) GongMarshallAllFields(stage *Stage) (initRes s
 		initializerStatements.WriteString(processshape.GongMarshallField(stage, "Width"))
 		initializerStatements.WriteString(processshape.GongMarshallField(stage, "Height"))
 		initializerStatements.WriteString(processshape.GongMarshallField(stage, "IsHidden"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (task *Task) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(task.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(task.GongMarshallField(stage, "ComputedPrefix"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
