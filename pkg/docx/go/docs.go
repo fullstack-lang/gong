@@ -1,4 +1,4 @@
-// Package docx docx backend API
+// Package embeddedgo backend API
 //
 // docx exposes types of a package.
 //
@@ -22,4 +22,4 @@
 //	type: basic
 //
 // swagger:meta
-package docx
+package embeddedgo

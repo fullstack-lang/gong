@@ -1,4 +1,4 @@
-package test
+package embeddedgo
 
 import "embed"
 

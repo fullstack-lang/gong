@@ -11,7 +11,7 @@ import (
 	"{{PkgPathRoot}}/models"
 	"{{PkgPathRoot}}/probe"
 
-	{{pkgname}}_go "{{PkgPathRoot}}"
+	embeddedgo "{{PkgPathRoot}}"
 
 	"github.com/gin-gonic/gin"
 
@@ -89,8 +89,8 @@ func NewLevel1StackDelta(
 		// "go/diagrams/diagrams.go", the path is "../../diagrams/diagrams.go"
 		level1Stack.Probe = probe.NewProbe(
 			level1Stack.R,
-			{{pkgname}}_go.GoModelsDir,
-			{{pkgname}}_go.GoDiagramsDir,
+			embeddedgo.GoModelsDir,
+			embeddedgo.GoDiagramsDir,
 			embeddedDiagrams,
 			stage,
 		)

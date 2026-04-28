@@ -1,4 +1,4 @@
-// Package musicxml musicxml backend API
+// Package embeddedgo backend API
 //
 // musicxml exposes types of a package.
 //
@@ -22,4 +22,4 @@
 //	type: basic
 //
 // swagger:meta
-package musicxml
+package embeddedgo

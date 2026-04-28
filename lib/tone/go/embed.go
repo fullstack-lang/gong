@@ -1,4 +1,4 @@
-package tone
+package embeddedgo
 
 import "embed"
 

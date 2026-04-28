@@ -9,7 +9,7 @@ import (
 	"github.com/fullstack-lang/gong/dsm/xsd/tests/reqif/go/models"
 	"github.com/fullstack-lang/gong/dsm/xsd/tests/reqif/go/probe"
 
-	reqif_go "github.com/fullstack-lang/gong/dsm/xsd/tests/reqif/go"
+	embeddedgo "github.com/fullstack-lang/gong/dsm/xsd/tests/reqif/go"
 
 	"github.com/gin-gonic/gin"
 
@@ -85,8 +85,8 @@ func NewLevel1StackDelta(
 		// "go/diagrams/diagrams.go", the path is "../../diagrams/diagrams.go"
 		level1Stack.Probe = probe.NewProbe(
 			level1Stack.R,
-			reqif_go.GoModelsDir,
-			reqif_go.GoDiagramsDir,
+			embeddedgo.GoModelsDir,
+			embeddedgo.GoDiagramsDir,
 			embeddedDiagrams,
 			stage,
 		)

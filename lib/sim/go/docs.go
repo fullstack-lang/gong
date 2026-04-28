@@ -1,4 +1,4 @@
-// Package sim sim backend API
+// Package embeddedgo backend API
 //
 // sim exposes types of a package.
 //
@@ -22,4 +22,4 @@
 //	type: basic
 //
 // swagger:meta
-package sim
+package embeddedgo

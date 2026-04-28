@@ -1,4 +1,4 @@
-// Package barrgraph barrgraph backend API
+// Package embeddedgo backend API
 //
 // barrgraph exposes types of a package.
 //
@@ -22,4 +22,4 @@
 //	type: basic
 //
 // swagger:meta
-package barrgraph
+package embeddedgo

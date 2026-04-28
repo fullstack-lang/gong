@@ -1,4 +1,4 @@
-// Package gantt gantt backend API
+// Package embeddedgo backend API
 //
 // gantt exposes types of a package.
 //
@@ -22,4 +22,4 @@
 //	type: basic
 //
 // swagger:meta
-package gantt
+package embeddedgo

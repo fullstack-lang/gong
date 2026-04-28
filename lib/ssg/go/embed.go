@@ -1,4 +1,4 @@
-package ssg
+package embeddedgo
 
 import "embed"
 

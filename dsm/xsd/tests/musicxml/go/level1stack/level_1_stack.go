@@ -9,7 +9,7 @@ import (
 	"github.com/fullstack-lang/gong/dsm/xsd/tests/musicxml/go/models"
 	"github.com/fullstack-lang/gong/dsm/xsd/tests/musicxml/go/probe"
 
-	musicxml_go "github.com/fullstack-lang/gong/dsm/xsd/tests/musicxml/go"
+	embeddedgo "github.com/fullstack-lang/gong/dsm/xsd/tests/musicxml/go"
 
 	"github.com/gin-gonic/gin"
 
@@ -85,8 +85,8 @@ func NewLevel1StackDelta(
 		// "go/diagrams/diagrams.go", the path is "../../diagrams/diagrams.go"
 		level1Stack.Probe = probe.NewProbe(
 			level1Stack.R,
-			musicxml_go.GoModelsDir,
-			musicxml_go.GoDiagramsDir,
+			embeddedgo.GoModelsDir,
+			embeddedgo.GoDiagramsDir,
 			embeddedDiagrams,
 			stage,
 		)

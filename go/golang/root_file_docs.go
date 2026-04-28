@@ -1,6 +1,6 @@
 package golang
 
-const RootFileDocsTemplate = `// Package {{PkgName}} {{PkgName}} backend API
+const RootFileDocsTemplate = `// Package embeddedgo backend API
 //
 // {{PkgName}} exposes types of a package.
 //
@@ -24,5 +24,5 @@ const RootFileDocsTemplate = `// Package {{PkgName}} {{PkgName}} backend API
 //	type: basic
 //
 // swagger:meta
-package {{PkgName}}
+package embeddedgo
 `

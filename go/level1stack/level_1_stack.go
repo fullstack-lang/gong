@@ -9,7 +9,7 @@ import (
 	"github.com/fullstack-lang/gong/go/models"
 	"github.com/fullstack-lang/gong/go/probe"
 
-	gong_go "github.com/fullstack-lang/gong/go"
+	embeddedgo "github.com/fullstack-lang/gong/go"
 
 	"github.com/gin-gonic/gin"
 
@@ -85,8 +85,8 @@ func NewLevel1StackDelta(
 		// "go/diagrams/diagrams.go", the path is "../../diagrams/diagrams.go"
 		level1Stack.Probe = probe.NewProbe(
 			level1Stack.R,
-			gong_go.GoModelsDir,
-			gong_go.GoDiagramsDir,
+			embeddedgo.GoModelsDir,
+			embeddedgo.GoDiagramsDir,
 			embeddedDiagrams,
 			stage,
 		)

@@ -1,4 +1,4 @@
-// Package cursor cursor backend API
+// Package embeddedgo backend API
 //
 // cursor exposes types of a package.
 //
@@ -22,4 +22,4 @@
 //	type: basic
 //
 // swagger:meta
-package cursor
+package embeddedgo

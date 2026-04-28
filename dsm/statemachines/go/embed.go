@@ -1,4 +1,4 @@
-package statemachines
+package embeddedgo
 
 import "embed"
 

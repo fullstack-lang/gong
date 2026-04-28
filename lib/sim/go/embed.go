@@ -1,4 +1,4 @@
-package sim
+package embeddedgo
 
 import "embed"
 

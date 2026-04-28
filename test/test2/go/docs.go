@@ -1,4 +1,4 @@
-// Package test2 test2 backend API
+// Package embeddedgo backend API
 //
 // test2 exposes types of a package.
 //
@@ -22,4 +22,4 @@
 //	type: basic
 //
 // swagger:meta
-package test2
+package embeddedgo

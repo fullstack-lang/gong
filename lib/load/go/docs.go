@@ -1,4 +1,4 @@
-// Package load load backend API
+// Package embeddedgo backend API
 //
 // load exposes types of a package.
 //
@@ -22,4 +22,4 @@
 //	type: basic
 //
 // swagger:meta
-package load
+package embeddedgo

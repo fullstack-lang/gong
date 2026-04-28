@@ -1,4 +1,4 @@
-package button
+package embeddedgo
 
 import "embed"
 
