@@ -693,6 +693,34 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  private constrainRect(rect: svg.Rect) {
+    if (!rect.EnclosingRect) {
+      return;
+    }
+
+    // Priority 2: if X too big, resize X
+    // (This is performed first to guarantee that the shifting below can succeed)
+    if (rect.Width > rect.EnclosingRect.Width) {
+      rect.Width = rect.EnclosingRect.Width;
+    }
+    if (rect.Height > rect.EnclosingRect.Height) {
+      rect.Height = rect.EnclosingRect.Height;
+    }
+
+    // Priority 1: move X inside Y
+    if (rect.X < rect.EnclosingRect.X) {
+      rect.X = rect.EnclosingRect.X;
+    } else if (rect.X + rect.Width > rect.EnclosingRect.X + rect.EnclosingRect.Width) {
+      rect.X = rect.EnclosingRect.X + rect.EnclosingRect.Width - rect.Width;
+    }
+
+    if (rect.Y < rect.EnclosingRect.Y) {
+      rect.Y = rect.EnclosingRect.Y;
+    } else if (rect.Y + rect.Height > rect.EnclosingRect.Y + rect.EnclosingRect.Height) {
+      rect.Y = rect.EnclosingRect.Y + rect.EnclosingRect.Height - rect.Height;
+    }
+  }
+
   onmousemove(event: MouseEvent, source?: string): void {
     this.PointAtMouseMove = mouseCoordInComponentRef(event, this.zoom, this.shiftX, this.shiftY)
     let deltaX = this.PointAtMouseMove.X - this.PointAtMouseDown!.X
@@ -768,6 +796,8 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
         this.draggedRect!.Y = this.RectAtMouseDown!.Y + deltaY
       }
 
+      this.constrainRect(this.draggedRect!)
+
       // recompute segments of links connected to the resized rect
       let set = this.map_Rect_ConnectedLinks.get(this.draggedRect!)
       if (set != undefined) {
@@ -787,6 +817,9 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
             if (rect_.CanMoveVerticaly) {
               rect_.Y = rectAtMouseDown_!.Y + deltaY
             }
+
+            this.constrainRect(rect_)
+
             // recompute segments of links connected to the resized rect
             let set = this.map_Rect_ConnectedLinks.get(rect_)
             if (set != undefined) {
@@ -836,6 +869,8 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
           this.draggedRect!.Width = this.RectAtMouseDown!.Width * scale
         }
       }
+
+      this.constrainRect(this.draggedRect!)
 
       for (let path of this.draggedRect!.RectAnchoredPaths) {
         if (scaleProportionally && path.ScalePropotionnally) {

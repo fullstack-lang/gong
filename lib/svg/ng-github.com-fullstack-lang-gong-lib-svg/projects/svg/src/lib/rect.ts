@@ -68,6 +68,8 @@ export class Rect {
 	RectAnchoredRects: Array<RectAnchoredRect> = []
 	RectAnchoredPaths: Array<RectAnchoredPath> = []
 	RectAnchoredPngImages: Array<RectAnchoredPngImage> = []
+	EnclosingRect?: Rect
+
 
 	CreatedAt?: string
 	DeletedAt?: string
@@ -120,6 +122,13 @@ export function CopyRectToRectAPI(rect: Rect, rectAPI: RectAPI) {
 	rectAPI.MouseEventKey = rect.MouseEventKey
 
 	// insertion point for pointer fields encoding
+	rectAPI.RectPointersEncoding.EnclosingRectID.Valid = true
+	if (rect.EnclosingRect != undefined) {
+		rectAPI.RectPointersEncoding.EnclosingRectID.Int64 = rect.EnclosingRect.ID  
+	} else {
+		rectAPI.RectPointersEncoding.EnclosingRectID.Int64 = 0 		
+	}
+
 
 	// insertion point for slice of pointers fields encoding
 	rectAPI.RectPointersEncoding.HoveringTrigger = []
@@ -210,6 +219,7 @@ export function CopyRectAPIToRect(rectAPI: RectAPI, rect: Rect, frontRepo: Front
 	rect.MouseEventKey = rectAPI.MouseEventKey
 
 	// insertion point for pointer fields encoding
+	rect.EnclosingRect = frontRepo.map_ID_Rect.get(rectAPI.RectPointersEncoding.EnclosingRectID.Int64)
 
 	// insertion point for slice of pointers fields encoding
 	if (!Array.isArray(rectAPI.RectPointersEncoding.HoveringTrigger)) {

@@ -816,6 +816,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "HasToolTip"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "ToolTipText"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "ToolTipPosition"))
+		pointersInitializesStatements.WriteString(rect.GongMarshallField(stage, "EnclosingRect"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "MouseX"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "MouseY"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "MouseEventKey"))
@@ -2746,6 +2747,19 @@ func (rect *Rect) GongMarshallField(stage *Stage, fieldName string) (res string)
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
+	case "EnclosingRect":
+		if rect.EnclosingRect != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", rect.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosingRect")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", rect.EnclosingRect.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", rect.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosingRect")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Rect", fieldName)
 	}
@@ -3873,6 +3887,7 @@ func (rect *Rect) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "HasToolTip"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "ToolTipText"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "ToolTipPosition"))
+		pointersInitializesStatements.WriteString(rect.GongMarshallField(stage, "EnclosingRect"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "MouseX"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "MouseY"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "MouseEventKey"))

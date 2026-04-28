@@ -72,4 +72,6 @@ export class RectPointersEncoding {
 	RectAnchoredRects: number[] = []
 	RectAnchoredPaths: number[] = []
 	RectAnchoredPngImages: number[] = []
+	EnclosingRectID: NullInt64 = new NullInt64 // if pointer is null, EnclosingRect.ID = 0
+
 }

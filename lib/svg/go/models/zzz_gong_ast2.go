@@ -1207,6 +1207,8 @@ func (u *RectUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.ToolTipText = GongExtractString(valueExpr)
 	case "ToolTipPosition":
 		GongUnmarshallEnum(&instance.ToolTipPosition, valueExpr)
+	case "EnclosingRect":
+		GongUnmarshallPointer(&instance.EnclosingRect, valueExpr, identifierMap)
 	case "MouseX":
 		instance.MouseX = GongExtractFloat(valueExpr)
 	case "MouseY":
