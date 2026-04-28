@@ -1,4 +1,4 @@
-// Package xlsx xlsx backend API
+// Package embeddedgo backend API
 //
 // xlsx exposes types of a package.
 //
@@ -22,4 +22,4 @@
 //	type: basic
 //
 // swagger:meta
-package xlsx
+package embeddedgo

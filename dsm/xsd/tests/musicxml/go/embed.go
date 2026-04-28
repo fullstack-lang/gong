@@ -1,4 +1,4 @@
-package musicxml
+package embeddedgo
 
 import "embed"
 

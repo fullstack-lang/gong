@@ -1,4 +1,4 @@
-package xlsx
+package embeddedgo
 
 import "embed"
 

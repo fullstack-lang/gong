@@ -25,7 +25,7 @@ import (
 
 	"{{PkgPathRoot}}/models"
 
-	{{pkgname}}_go "{{PkgPathRoot}}"
+	embeddedgo "{{PkgPathRoot}}"
 )
 
 type Probe struct {
@@ -139,8 +139,8 @@ func NewProbe(
 		// by doc. Using a combination of the package name and the stage of interest name
 		// might prevent name collisions if more that one probe is being instancied
 		"{{PkgPathRoot}}"+":"+stageOfInterest.GetName(),
-		{{pkgname}}_go.GoModelsDir,
-		{{pkgname}}_go.GoDiagramsDir,
+		embeddedgo.GoModelsDir,
+		embeddedgo.GoDiagramsDir,
 		probe.diagramEditor,
 		stageOfInterest.Map_GongStructName_InstancesNb,
 	)

@@ -1,4 +1,4 @@
-// Package button button backend API
+// Package embeddedgo backend API
 //
 // button exposes types of a package.
 //
@@ -22,4 +22,4 @@
 //	type: basic
 //
 // swagger:meta
-package button
+package embeddedgo

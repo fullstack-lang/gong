@@ -1,4 +1,4 @@
-// Package xsd xsd backend API
+// Package embeddedgo backend API
 //
 // xsd exposes types of a package.
 //
@@ -22,4 +22,4 @@
 //	type: basic
 //
 // swagger:meta
-package xsd
+package embeddedgo

@@ -1,4 +1,4 @@
-package slider
+package embeddedgo
 
 import "embed"
 

@@ -1,4 +1,4 @@
-package gong
+package embeddedgo
 
 import "embed"
 

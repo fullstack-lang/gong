@@ -1,0 +1,189 @@
+diff --git a/dsm/project/go/models/stager_enforce_diagram_size.go b/dsm/project/go/models/stager_enforce_diagram_size.go
+index 490663a9c..a82628dfe 100644
+--- a/dsm/project/go/models/stager_enforce_diagram_size.go
++++ b/dsm/project/go/models/stager_enforce_diagram_size.go
+@@ -3,58 +3,60 @@ package models
+ func (stager *Stager) enforceDiagramSize() (needCommit bool) {
+ 	for _, diagram := range GetGongstrucsSorted[*Diagram](stager.stage) {
+ 
+-		diagram.Width = 0
+-		diagram.Height = 0
++		width := 0.0
++		height := 0.0
+ 
+ 		// parse all concrete shapes in the diagram that are not links
+ 		//  to compute the size of the diagram
+ 		// the size of the diagram is the max of the position of the shapes + their size
+ 		for _, shape := range diagram.Product_Shapes {
+-			if shape.X+shape.Width > diagram.Width {
+-				diagram.Width = shape.X + shape.Width
+-				needCommit = true
++			if shape.X+shape.Width > width {
++				width = shape.X + shape.Width
+ 			}
+-			if shape.Y+shape.Height > diagram.Height {
+-				diagram.Height = shape.Y + shape.Height
+-				needCommit = true
++			if shape.Y+shape.Height > height {
++				height = shape.Y + shape.Height
+ 			}
+ 		}
+ 
+ 		for _, shape := range diagram.Task_Shapes {
+-			if shape.X+shape.Width > diagram.Width {
+-				diagram.Width = shape.X + shape.Width
+-				needCommit = true
++			if shape.X+shape.Width > width {
++				width = shape.X + shape.Width
+ 			}
+-			if shape.Y+shape.Height > diagram.Height {
+-				diagram.Height = shape.Y + shape.Height
+-				needCommit = true
++			if shape.Y+shape.Height > height {
++				height = shape.Y + shape.Height
+ 			}
+ 		}
+ 
+ 		for _, shape := range diagram.Note_Shapes {
+-			if shape.X+shape.Width > diagram.Width {
+-				diagram.Width = shape.X + shape.Width
+-				needCommit = true
++			if shape.X+shape.Width > width {
++				width = shape.X + shape.Width
+ 			}
+-			if shape.Y+shape.Height > diagram.Height {
+-				diagram.Height = shape.Y + shape.Height
+-				needCommit = true
++			if shape.Y+shape.Height > height {
++				height = shape.Y + shape.Height
+ 			}
+ 		}
+ 		for _, shape := range diagram.Resource_Shapes {
+-			if shape.X+shape.Width > diagram.Width {
+-				diagram.Width = shape.X + shape.Width
+-				needCommit = true
++			if shape.X+shape.Width > width {
++				width = shape.X + shape.Width
+ 			}
+-			if shape.Y+shape.Height > diagram.Height {
+-				diagram.Height = shape.Y + shape.Height
+-				needCommit = true
++			if shape.Y+shape.Height > height {
++				height = shape.Y + shape.Height
+ 			}
+ 		}
+ 		// add a margin to the diagram size
+ 		margin := 100.0
+-		diagram.Width += margin
+-		diagram.Height += margin
++		width += margin
++		height += margin
++
++		if width != diagram.Width {
++			diagram.Width = width
++			needCommit = true
++		}
++
++		if height != diagram.Height {
++			diagram.Height = height
++			needCommit = true
++		}
+ 	}
+ 
+ 	return
+diff --git a/go/golang/generates_code.go b/go/golang/generates_code.go
+index 24d6e8941..85c766dbf 100644
+--- a/go/golang/generates_code.go
++++ b/go/golang/generates_code.go
+@@ -398,11 +398,13 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
+ 			modelPkg.ControllersPkgGenPath)
+ 	}
+ 
+-	gong_models.SimpleCodeGenerator(modelPkg,
+-		modelPkg.Name, modelPkg.PkgPath,
+-		filepath.Join(pkgPath, "../docs.go"),
+-		RootFileDocsTemplate,
+-		map[string]string{})
++	// gong_models.SimpleCodeGenerator(modelPkg,
++	// 	modelPkg.Name, modelPkg.PkgPath,
++	// 	filepath.Join(pkgPath, "../docs.go"),
++	// 	RootFileDocsTemplate,
++	// 	map[string]string{})
++
++	// if the module contains an hypen ("-"), replace it with an underscore
+ 
+ 	models.CodeGeneratorGongReverse(
+ 		modelPkg,
+diff --git a/go/golang/go_file_embed_go_dir.go b/go/golang/go_file_embed_go_dir.go
+index 51419aed5..fa62cb086 100644
+--- a/go/golang/go_file_embed_go_dir.go
++++ b/go/golang/go_file_embed_go_dir.go
+@@ -1,6 +1,6 @@
+ package golang
+ 
+-const EmebedGoDirTemplate = `package {{pkgname}}
++const EmebedGoDirTemplate = `package embeddedgo
+ 
+ import "embed"
+ 
+diff --git a/go/golang/level1stack/level_1_stack.go b/go/golang/level1stack/level_1_stack.go
+index 7948fd385..40f2e6404 100644
+--- a/go/golang/level1stack/level_1_stack.go
++++ b/go/golang/level1stack/level_1_stack.go
+@@ -11,7 +11,7 @@ import (
+ 	"{{PkgPathRoot}}/models"
+ 	"{{PkgPathRoot}}/probe"
+ 
+-	{{pkgname}}_go "{{PkgPathRoot}}"
++	embeddedgo "{{PkgPathRoot}}"
+ 
+ 	"github.com/gin-gonic/gin"
+ 
+@@ -89,8 +89,8 @@ func NewLevel1StackDelta(
+ 		// "go/diagrams/diagrams.go", the path is "../../diagrams/diagrams.go"
+ 		level1Stack.Probe = probe.NewProbe(
+ 			level1Stack.R,
+-			{{pkgname}}_go.GoModelsDir,
+-			{{pkgname}}_go.GoDiagramsDir,
++			embeddedgo.GoModelsDir,
++			embeddedgo.GoDiagramsDir,
+ 			embeddedDiagrams,
+ 			stage,
+ 		)
+diff --git a/go/golang/models/gong.go b/go/golang/models/gong.go
+index e29aba856..3cccace7e 100644
+--- a/go/golang/models/gong.go
++++ b/go/golang/models/gong.go
+@@ -1100,7 +1100,7 @@ func CodeGeneratorModelGong(
+ 	codeGO = models.Replace6(codeGO,
+ 		"{{PkgName}}", pkgName,
+ 		"{{TitlePkgName}}", caserEnglish.String(pkgName),
+-		"{{pkgname}}", strings.ToLower(pkgName),
++		"{{pkgname}}", strings.ReplaceAll(strings.ToLower(pkgName), "-", "_"),
+ 		"	 | ", "	", // for the replacement of the of the first bar in the Gongstruct Type def,
+ 		"{{mapReturnType}}", returnType,
+ 		"{{PkgPathRoot}}", strings.ReplaceAll(modelPkg.PkgPath, "/models", ""),
+diff --git a/go/golang/probe/probe.go b/go/golang/probe/probe.go
+index f362b6a40..0f1392fff 100644
+--- a/go/golang/probe/probe.go
++++ b/go/golang/probe/probe.go
+@@ -25,7 +25,7 @@ import (
+ 
+ 	"{{PkgPathRoot}}/models"
+ 
+-	{{pkgname}}_go "{{PkgPathRoot}}"
++	embeddedgo "{{PkgPathRoot}}"
+ )
+ 
+ type Probe struct {
+@@ -139,8 +139,8 @@ func NewProbe(
+ 		// by doc. Using a combination of the package name and the stage of interest name
+ 		// might prevent name collisions if more that one probe is being instancied
+ 		"{{PkgPathRoot}}"+":"+stageOfInterest.GetName(),
+-		{{pkgname}}_go.GoModelsDir,
+-		{{pkgname}}_go.GoDiagramsDir,
++		embeddedgo.GoModelsDir,
++		embeddedgo.GoDiagramsDir,
+ 		probe.diagramEditor,
+ 		stageOfInterest.Map_GongStructName_InstancesNb,
+ 	)

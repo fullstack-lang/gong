@@ -1,4 +1,4 @@
-// Package tree tree backend API
+// Package embeddedgo backend API
 //
 // tree exposes types of a package.
 //
@@ -22,4 +22,4 @@
 //	type: basic
 //
 // swagger:meta
-package tree
+package embeddedgo

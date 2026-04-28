@@ -1,4 +1,4 @@
-// Package tone tone backend API
+// Package embeddedgo backend API
 //
 // tone exposes types of a package.
 //
@@ -22,4 +22,4 @@
 //	type: basic
 //
 // swagger:meta
-package tone
+package embeddedgo

@@ -23,7 +23,7 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/markdown/go/models"
 
-	markdown_go "github.com/fullstack-lang/gong/lib/markdown/go"
+	embeddedgo "github.com/fullstack-lang/gong/lib/markdown/go"
 )
 
 type Probe struct {
@@ -137,8 +137,8 @@ func NewProbe(
 		// by doc. Using a combination of the package name and the stage of interest name
 		// might prevent name collisions if more that one probe is being instancied
 		"github.com/fullstack-lang/gong/lib/markdown/go"+":"+stageOfInterest.GetName(),
-		markdown_go.GoModelsDir,
-		markdown_go.GoDiagramsDir,
+		embeddedgo.GoModelsDir,
+		embeddedgo.GoDiagramsDir,
 		probe.diagramEditor,
 		stageOfInterest.Map_GongStructName_InstancesNb,
 	)

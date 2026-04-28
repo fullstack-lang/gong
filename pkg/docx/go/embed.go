@@ -1,4 +1,4 @@
-package docx
+package embeddedgo
 
 import "embed"
 

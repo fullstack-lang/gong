@@ -23,7 +23,7 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/form/go/models"
 
-	form_go "github.com/fullstack-lang/gong/lib/form/go"
+	embeddedgo "github.com/fullstack-lang/gong/lib/form/go"
 )
 
 type Probe struct {
@@ -137,8 +137,8 @@ func NewProbe(
 		// by doc. Using a combination of the package name and the stage of interest name
 		// might prevent name collisions if more that one probe is being instancied
 		"github.com/fullstack-lang/gong/lib/form/go"+":"+stageOfInterest.GetName(),
-		form_go.GoModelsDir,
-		form_go.GoDiagramsDir,
+		embeddedgo.GoModelsDir,
+		embeddedgo.GoDiagramsDir,
 		probe.diagramEditor,
 		stageOfInterest.Map_GongStructName_InstancesNb,
 	)

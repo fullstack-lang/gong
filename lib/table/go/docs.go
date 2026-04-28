@@ -1,4 +1,4 @@
-// Package table table backend API
+// Package embeddedgo backend API
 //
 // table exposes types of a package.
 //
@@ -22,4 +22,4 @@
 //	type: basic
 //
 // swagger:meta
-package table
+package embeddedgo

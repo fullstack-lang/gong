@@ -1,4 +1,4 @@
-package split
+package embeddedgo
 
 import "embed"
 

@@ -23,7 +23,7 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/xlsx/go/models"
 
-	xlsx_go "github.com/fullstack-lang/gong/lib/xlsx/go"
+	embeddedgo "github.com/fullstack-lang/gong/lib/xlsx/go"
 )
 
 type Probe struct {
@@ -137,8 +137,8 @@ func NewProbe(
 		// by doc. Using a combination of the package name and the stage of interest name
 		// might prevent name collisions if more that one probe is being instancied
 		"github.com/fullstack-lang/gong/lib/xlsx/go"+":"+stageOfInterest.GetName(),
-		xlsx_go.GoModelsDir,
-		xlsx_go.GoDiagramsDir,
+		embeddedgo.GoModelsDir,
+		embeddedgo.GoDiagramsDir,
 		probe.diagramEditor,
 		stageOfInterest.Map_GongStructName_InstancesNb,
 	)

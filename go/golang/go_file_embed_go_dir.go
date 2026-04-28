@@ -1,6 +1,6 @@
 package golang
 
-const EmebedGoDirTemplate = `package {{pkgname}}
+const EmebedGoDirTemplate = `package embeddedgo
 
 import "embed"
 

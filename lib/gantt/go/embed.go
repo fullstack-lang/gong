@@ -1,4 +1,4 @@
-package gantt
+package embeddedgo
 
 import "embed"
 
