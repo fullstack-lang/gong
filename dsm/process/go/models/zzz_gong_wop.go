@@ -159,3 +159,17 @@ func (from *ProcessShape) CopyBasicFields(to *ProcessShape) {
 	to.IsHidden = from.IsHidden
 }
 
+type Task_WOP struct {
+	// insertion point
+
+	Name string
+
+	ComputedPrefix string
+}
+
+func (from *Task) CopyBasicFields(to *Task) {
+	// insertion point
+	to.Name = from.Name
+	to.ComputedPrefix = from.ComputedPrefix
+}
+

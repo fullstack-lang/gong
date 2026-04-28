@@ -40,6 +40,8 @@ type DiagramProcess struct {
 	map_Participant_Rect             map[*Participant]*svg.Rect
 	IsParticipantsNodeExpanded       bool
 	ParticipantWhoseNodeIsExpanded   []*Participant
+
+	TasksWhoseNodeIsExpanded []*Task
 }
 
 func (d *DiagramProcess) IsEditable() bool {

@@ -50,6 +50,13 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.DiagramProcess_ParticipantWhoseNodeIsExpanded_reverseMap[_participant] = diagramprocess
 		}
 	}
+	stage.DiagramProcess_TasksWhoseNodeIsExpanded_reverseMap = make(map[*Task]*DiagramProcess)
+	for diagramprocess := range stage.DiagramProcesss {
+		_ = diagramprocess
+		for _, _task := range diagramprocess.TasksWhoseNodeIsExpanded {
+			stage.DiagramProcess_TasksWhoseNodeIsExpanded_reverseMap[_task] = diagramprocess
+		}
+	}
 
 	// Compute reverse map for named struct Library
 	// insertion point per field
@@ -77,6 +84,13 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Participant
 	// insertion point per field
+	stage.Participant_Tasks_reverseMap = make(map[*Task]*Participant)
+	for participant := range stage.Participants {
+		_ = participant
+		for _, _task := range participant.Tasks {
+			stage.Participant_Tasks_reverseMap[_task] = participant
+		}
+	}
 
 	// Compute reverse map for named struct ParticipantShape
 	// insertion point per field
@@ -122,6 +136,9 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct ProcessShape
 	// insertion point per field
 
+	// Compute reverse map for named struct Task
+	// insertion point per field
+
 	// end of insertion point per named struct
 }
 
@@ -148,6 +165,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.ProcessShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Tasks {
 		res = append(res, instance)
 	}
 
@@ -188,6 +209,12 @@ func (process *Process) GongCopy() GongstructIF {
 func (processshape *ProcessShape) GongCopy() GongstructIF {
 	newInstance := new(ProcessShape)
 	processshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (task *Task) GongCopy() GongstructIF {
+	newInstance := new(Task)
+	task.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -249,6 +276,16 @@ func (processshape *ProcessShape) GongGetUUID(stage *Stage) (uuid string) {
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(processshape), uint64(GetOrderPointerGongstruct(stage, processshape)))
+	return
+}
+
+func (task *Task) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(task).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(task), uint64(GetOrderPointerGongstruct(stage, task)))
 	return
 }
 
@@ -576,6 +613,57 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(processshapes_newInstances)
 	lenDeletedInstances += len(processshapes_deletedInstances)
+	var tasks_newInstances []*Task
+	var tasks_deletedInstances []*Task
+
+	// parse all staged instances and check if they have a reference
+	for task := range stage.Tasks {
+		if ref, ok := stage.Tasks_reference[task]; !ok {
+			tasks_newInstances = append(tasks_newInstances, task)
+			newInstancesSlice = append(newInstancesSlice, task.GongMarshallIdentifier(stage))
+			if stage.Tasks_referenceOrder == nil {
+				stage.Tasks_referenceOrder = make(map[*Task]uint)
+			}
+			stage.Tasks_referenceOrder[task] = stage.Task_stagedOrder[task]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, task.GongMarshallUnstaging(stage))
+			// delete(stage.Tasks_referenceOrder, task)
+			fieldInitializers, pointersInitializations := task.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.Task_stagedOrder[ref] = stage.Task_stagedOrder[task]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := task.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, task)
+			// delete(stage.Task_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				fieldsEdit += fmt.Sprintf("\n\t// %s", task.GetName())
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.Tasks_reference {
+		instance := stage.Tasks_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.Tasks[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			tasks_deletedInstances = append(tasks_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(tasks_newInstances)
+	lenDeletedInstances += len(tasks_deletedInstances)
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
 
@@ -671,6 +759,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.ProcessShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.Tasks_reference = make(map[*Task]*Task)
+	stage.Tasks_referenceOrder = make(map[*Task]uint) // diff Unstage needs the reference order
+	stage.Tasks_instance = make(map[*Task]*Task)
+	for instance := range stage.Tasks {
+		_copy := instance.GongCopy().(*Task)
+		stage.Tasks_reference[instance] = _copy
+		stage.Tasks_instance[_copy] = instance
+		stage.Tasks_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	// insertion point per named struct
 	for instance := range stage.DiagramProcesss {
 		reference := stage.DiagramProcesss_reference[instance]
@@ -699,6 +797,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.ProcessShapes {
 		reference := stage.ProcessShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.Tasks {
+		reference := stage.Tasks_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -784,6 +887,18 @@ func (processshape *ProcessShape) GongGetOrder(stage *Stage) uint {
 	}
 }
 
+func (task *Task) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.Task_stagedOrder[task]; ok {
+		return order
+	}
+	if order, ok := stage.Tasks_referenceOrder[task]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type Task was not staged and does not have a reference order", task)
+		return 0
+	}
+}
+
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
 // This identifier is composed of the Gongstruct name and the order of the instance
 // in the staging area
@@ -843,6 +958,15 @@ func (processshape *ProcessShape) GongGetReferenceIdentifier(stage *Stage) strin
 	return fmt.Sprintf("__%s__%08d_", processshape.GongGetGongstructName(), processshape.GongGetOrder(stage))
 }
 
+func (task *Task) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", task.GongGetGongstructName(), task.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (task *Task) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", task.GongGetGongstructName(), task.GongGetOrder(stage))
+}
+
 // MarshallIdentifier returns the code to instantiate the instance
 // in a marshalling file
 // insertion point per named struct
@@ -894,6 +1018,14 @@ func (processshape *ProcessShape) GongMarshallIdentifier(stage *Stage) (decl str
 	return
 }
 
+func (task *Task) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", task.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Task")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(task.Name))
+	return
+}
+
 // insertion point for unstaging
 func (diagramprocess *DiagramProcess) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
@@ -928,6 +1060,12 @@ func (process *Process) GongMarshallUnstaging(stage *Stage) (decl string) {
 func (processshape *ProcessShape) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", processshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (task *Task) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", task.GongGetReferenceIdentifier(stage))
 	return
 }
 

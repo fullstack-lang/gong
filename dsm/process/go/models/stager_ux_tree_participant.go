@@ -9,18 +9,17 @@ import (
 )
 
 func (stager *Stager) treeParticipants(
-	diagram *DiagramProcess,
+	diagramProcess *DiagramProcess,
 	participant *Participant,
-	parentNode *tree.Node,
-	participantsWhoseNodeIsExpanded *[]*Participant) {
+	parentNode *tree.Node) {
 
 	stage := stager.stage
 
 	// find the shape (if any)
-	shape, ok := diagram.map_Participant_ParticipantShape[participant]
+	shape, ok := diagramProcess.map_Participant_ParticipantShape[participant]
 	node := &tree.Node{
 		Name:              participant.Name,
-		IsExpanded:        slices.Contains(*participantsWhoseNodeIsExpanded, participant),
+		IsExpanded:        slices.Contains(diagramProcess.ParticipantWhoseNodeIsExpanded, participant),
 		IsNodeClickable:   true,
 		IsInEditMode:      participant.isInRenameMode,
 		HasCheckboxButton: true,
@@ -29,10 +28,10 @@ func (stager *Stager) treeParticipants(
 	parentNode.Children = append(parentNode.Children, node)
 	addRenameButton(participant, node, stager)
 
-	if shape, ok := diagram.map_Participant_ParticipantShape[participant]; ok {
+	if shape, ok := diagramProcess.map_Participant_ParticipantShape[participant]; ok {
 		node.IsChecked = true
 		visibilityButton := &tree.Button{
-			Name:            diagram.GetName(),
+			Name:            diagramProcess.GetName(),
 			Icon:            string(buttons.BUTTON_visibility_off),
 			ToolTipText:     "Hide from diagram",
 			HasToolTip:      true,
@@ -61,7 +60,7 @@ func (stager *Stager) treeParticipants(
 			if shape != nil {
 				log.Panic("adding a shape to an already product shape")
 			}
-			shape = newShapeToDiagram(participant, diagram, &diagram.Participant_Shapes, stage)
+			shape = newShapeToDiagram(participant, diagramProcess, &diagramProcess.Participant_Shapes, stage)
 
 			stage.Commit()
 			return
@@ -72,19 +71,19 @@ func (stager *Stager) treeParticipants(
 				log.Panic("remove a non existing shape to product")
 			}
 			shape.UnstageVoid(stage)
-			idx := slices.Index(diagram.Participant_Shapes, shape)
-			diagram.Participant_Shapes = slices.Delete(diagram.Participant_Shapes, idx, idx+1)
+			idx := slices.Index(diagramProcess.Participant_Shapes, shape)
+			diagramProcess.Participant_Shapes = slices.Delete(diagramProcess.Participant_Shapes, idx, idx+1)
 			stage.Commit()
 			return
 		}
 		if frontNode.IsExpanded != stagedNode.IsExpanded {
 			if frontNode.IsExpanded {
-				if !slices.Contains(*participantsWhoseNodeIsExpanded, participant) {
-					*participantsWhoseNodeIsExpanded = append(*participantsWhoseNodeIsExpanded, participant)
+				if !slices.Contains(diagramProcess.ParticipantWhoseNodeIsExpanded, participant) {
+					diagramProcess.ParticipantWhoseNodeIsExpanded = append(diagramProcess.ParticipantWhoseNodeIsExpanded, participant)
 				}
 			} else {
-				if idx := slices.Index(*participantsWhoseNodeIsExpanded, participant); idx != -1 {
-					*participantsWhoseNodeIsExpanded = slices.Delete(*participantsWhoseNodeIsExpanded, idx, idx+1)
+				if idx := slices.Index(diagramProcess.ParticipantWhoseNodeIsExpanded, participant); idx != -1 {
+					diagramProcess.ParticipantWhoseNodeIsExpanded = slices.Delete(diagramProcess.ParticipantWhoseNodeIsExpanded, idx, idx+1)
 				}
 			}
 			stage.Commit()
@@ -94,4 +93,14 @@ func (stager *Stager) treeParticipants(
 		stage.Commit()
 	}
 
+	for _, task := range participant.Tasks {
+		stager.treetasks(diagramProcess, task, node, &diagramProcess.TasksWhoseNodeIsExpanded)
+	}
+	addAddItemButtonSimple(
+		stager,
+		&diagramProcess.ParticipantWhoseNodeIsExpanded,
+		participant,
+		nil,
+		node,
+		&participant.Tasks)
 }

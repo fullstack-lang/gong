@@ -51,6 +51,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.processshape, probe)
 			}
+		case *TaskFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Task", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.task, probe)
+			}
 		}
 	}
 }
@@ -151,6 +157,19 @@ func FillUpFormFromGongstructName(
 		processshape := new(models.ProcessShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(processshape, formGroup, probe)
+	case "Task":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "Task Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__TaskFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		task := new(models.Task)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(task, formGroup, probe)
 	}
 	formStage.Commit()
 }

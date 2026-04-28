@@ -25,6 +25,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *ProcessShape:
 		ok = stage.IsStagedProcessShape(target)
 
+	case *Task:
+		ok = stage.IsStagedTask(target)
+
 	default:
 		_ = target
 	}
@@ -52,6 +55,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *ProcessShape:
 		ok = stage.IsStagedProcessShape(target)
+
+	case *Task:
+		ok = stage.IsStagedTask(target)
 
 	default:
 		_ = target
@@ -102,6 +108,13 @@ func (stage *Stage) IsStagedProcessShape(processshape *ProcessShape) (ok bool) {
 	return
 }
 
+func (stage *Stage) IsStagedTask(task *Task) (ok bool) {
+
+	_, ok = stage.Tasks[task]
+
+	return
+}
+
 // StageBranch stages instance and apply StageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
@@ -127,6 +140,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *ProcessShape:
 		stage.StageBranchProcessShape(target)
+
+	case *Task:
+		stage.StageBranchTask(target)
 
 	default:
 		_ = target
@@ -157,6 +173,9 @@ func (stage *Stage) StageBranchDiagramProcess(diagramprocess *DiagramProcess) {
 	}
 	for _, _participant := range diagramprocess.ParticipantWhoseNodeIsExpanded {
 		StageBranch(stage, _participant)
+	}
+	for _, _task := range diagramprocess.TasksWhoseNodeIsExpanded {
+		StageBranch(stage, _task)
 	}
 
 }
@@ -197,6 +216,9 @@ func (stage *Stage) StageBranchParticipant(participant *Participant) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _task := range participant.Tasks {
+		StageBranch(stage, _task)
+	}
 
 }
 
@@ -266,6 +288,21 @@ func (stage *Stage) StageBranchProcessShape(processshape *ProcessShape) {
 
 }
 
+func (stage *Stage) StageBranchTask(task *Task) {
+
+	// check if instance is already staged
+	if IsStaged(stage, task) {
+		return
+	}
+
+	task.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 // CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
@@ -301,6 +338,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchProcessShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *Task:
+		toT := CopyBranchTask(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	default:
 		_ = fromT // to espace compilation issue when model is empty
 	}
@@ -334,6 +375,9 @@ func CopyBranchDiagramProcess(mapOrigCopy map[any]any, diagramprocessFrom *Diagr
 	}
 	for _, _participant := range diagramprocessFrom.ParticipantWhoseNodeIsExpanded {
 		diagramprocessTo.ParticipantWhoseNodeIsExpanded = append(diagramprocessTo.ParticipantWhoseNodeIsExpanded, CopyBranchParticipant(mapOrigCopy, _participant))
+	}
+	for _, _task := range diagramprocessFrom.TasksWhoseNodeIsExpanded {
+		diagramprocessTo.TasksWhoseNodeIsExpanded = append(diagramprocessTo.TasksWhoseNodeIsExpanded, CopyBranchTask(mapOrigCopy, _task))
 	}
 
 	return
@@ -382,6 +426,9 @@ func CopyBranchParticipant(mapOrigCopy map[any]any, participantFrom *Participant
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _task := range participantFrom.Tasks {
+		participantTo.Tasks = append(participantTo.Tasks, CopyBranchTask(mapOrigCopy, _task))
+	}
 
 	return
 }
@@ -464,6 +511,25 @@ func CopyBranchProcessShape(mapOrigCopy map[any]any, processshapeFrom *ProcessSh
 	return
 }
 
+func CopyBranchTask(mapOrigCopy map[any]any, taskFrom *Task) (taskTo *Task) {
+
+	// taskFrom has already been copied
+	if _taskTo, ok := mapOrigCopy[taskFrom]; ok {
+		taskTo = _taskTo.(*Task)
+		return
+	}
+
+	taskTo = new(Task)
+	mapOrigCopy[taskFrom] = taskTo
+	taskFrom.CopyBasicFields(taskTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 // UnstageBranch stages instance and apply UnstageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the insance
 //
@@ -489,6 +555,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *ProcessShape:
 		stage.UnstageBranchProcessShape(target)
+
+	case *Task:
+		stage.UnstageBranchTask(target)
 
 	default:
 		_ = target
@@ -519,6 +588,9 @@ func (stage *Stage) UnstageBranchDiagramProcess(diagramprocess *DiagramProcess) 
 	}
 	for _, _participant := range diagramprocess.ParticipantWhoseNodeIsExpanded {
 		UnstageBranch(stage, _participant)
+	}
+	for _, _task := range diagramprocess.TasksWhoseNodeIsExpanded {
+		UnstageBranch(stage, _task)
 	}
 
 }
@@ -559,6 +631,9 @@ func (stage *Stage) UnstageBranchParticipant(participant *Participant) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _task := range participant.Tasks {
+		UnstageBranch(stage, _task)
+	}
 
 }
 
@@ -628,6 +703,21 @@ func (stage *Stage) UnstageBranchProcessShape(processshape *ProcessShape) {
 
 }
 
+func (stage *Stage) UnstageBranchTask(task *Task) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, task) {
+		return
+	}
+
+	task.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 // insertion point for pointer reconstruction from references
 func (reference *DiagramProcess) GongReconstructPointersFromReferences(stage *Stage, instance *DiagramProcess) () {
 	// insertion point for pointers field
@@ -647,6 +737,10 @@ func (reference *DiagramProcess) GongReconstructPointersFromReferences(stage *St
 	reference.ParticipantWhoseNodeIsExpanded = reference.ParticipantWhoseNodeIsExpanded[:0]
 	for _, _b := range instance.ParticipantWhoseNodeIsExpanded {
 		reference.ParticipantWhoseNodeIsExpanded = append(reference.ParticipantWhoseNodeIsExpanded, stage.Participants_reference[_b])
+	}
+	reference.TasksWhoseNodeIsExpanded = reference.TasksWhoseNodeIsExpanded[:0]
+	for _, _b := range instance.TasksWhoseNodeIsExpanded {
+		reference.TasksWhoseNodeIsExpanded = append(reference.TasksWhoseNodeIsExpanded, stage.Tasks_reference[_b])
 	}
 
 	return
@@ -674,6 +768,10 @@ func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, in
 func (reference *Participant) GongReconstructPointersFromReferences(stage *Stage, instance *Participant) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
+	reference.Tasks = reference.Tasks[:0]
+	for _, _b := range instance.Tasks {
+		reference.Tasks = append(reference.Tasks, stage.Tasks_reference[_b])
+	}
 
 	return
 }
@@ -725,6 +823,13 @@ func (reference *ProcessShape) GongReconstructPointersFromReferences(stage *Stag
 	return
 }
 
+func (reference *Task) GongReconstructPointersFromReferences(stage *Stage, instance *Task) () {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+
+	return
+}
+
 // insertion point for pointer reconstruction from instances
 func (reference *DiagramProcess) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
@@ -757,6 +862,13 @@ func (reference *DiagramProcess) GongReconstructPointersFromInstances(stage *Sta
 		}
 	}
 	reference.ParticipantWhoseNodeIsExpanded = _ParticipantWhoseNodeIsExpanded
+	var _TasksWhoseNodeIsExpanded []*Task
+	for _, _reference := range reference.TasksWhoseNodeIsExpanded {
+		if _instance, ok := stage.Tasks_instance[_reference]; ok {
+			_TasksWhoseNodeIsExpanded = append(_TasksWhoseNodeIsExpanded, _instance)
+		}
+	}
+	reference.TasksWhoseNodeIsExpanded = _TasksWhoseNodeIsExpanded
 
 	return
 }
@@ -792,6 +904,13 @@ func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) () 
 func (reference *Participant) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
+	var _Tasks []*Task
+	for _, _reference := range reference.Tasks {
+		if _instance, ok := stage.Tasks_instance[_reference]; ok {
+			_Tasks = append(_Tasks, _instance)
+		}
+	}
+	reference.Tasks = _Tasks
 
 	return
 }
@@ -859,6 +978,13 @@ func (reference *ProcessShape) GongReconstructPointersFromInstances(stage *Stage
 			reference.Process = _instance
 		}
 	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *Task) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 
 	return
@@ -986,6 +1112,27 @@ func (diagramprocess *DiagramProcess) GongDiff(stage *Stage, diagramprocessOther
 		ops := Diff(stage, diagramprocess, diagramprocessOther, "ParticipantWhoseNodeIsExpanded", diagramprocessOther.ParticipantWhoseNodeIsExpanded, diagramprocess.ParticipantWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
+	TasksWhoseNodeIsExpandedDifferent := false
+	if len(diagramprocess.TasksWhoseNodeIsExpanded) != len(diagramprocessOther.TasksWhoseNodeIsExpanded) {
+		TasksWhoseNodeIsExpandedDifferent = true
+	} else {
+		for i := range diagramprocess.TasksWhoseNodeIsExpanded {
+			if (diagramprocess.TasksWhoseNodeIsExpanded[i] == nil) != (diagramprocessOther.TasksWhoseNodeIsExpanded[i] == nil) {
+				TasksWhoseNodeIsExpandedDifferent = true
+				break
+			} else if diagramprocess.TasksWhoseNodeIsExpanded[i] != nil && diagramprocessOther.TasksWhoseNodeIsExpanded[i] != nil {
+				// this is a pointer comparaison
+				if diagramprocess.TasksWhoseNodeIsExpanded[i] != diagramprocessOther.TasksWhoseNodeIsExpanded[i] {
+					TasksWhoseNodeIsExpandedDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if TasksWhoseNodeIsExpandedDifferent {
+		ops := Diff(stage, diagramprocess, diagramprocessOther, "TasksWhoseNodeIsExpanded", diagramprocessOther.TasksWhoseNodeIsExpanded, diagramprocess.TasksWhoseNodeIsExpanded)
+		diffs = append(diffs, ops)
+	}
 
 	return
 }
@@ -1082,6 +1229,27 @@ func (participant *Participant) GongDiff(stage *Stage, participantOther *Partici
 	}
 	if participant.ComputedPrefix != participantOther.ComputedPrefix {
 		diffs = append(diffs, participant.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	TasksDifferent := false
+	if len(participant.Tasks) != len(participantOther.Tasks) {
+		TasksDifferent = true
+	} else {
+		for i := range participant.Tasks {
+			if (participant.Tasks[i] == nil) != (participantOther.Tasks[i] == nil) {
+				TasksDifferent = true
+				break
+			} else if participant.Tasks[i] != nil && participantOther.Tasks[i] != nil {
+				// this is a pointer comparaison
+				if participant.Tasks[i] != participantOther.Tasks[i] {
+					TasksDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if TasksDifferent {
+		ops := Diff(stage, participant, participantOther, "Tasks", participantOther.Tasks, participant.Tasks)
+		diffs = append(diffs, ops)
 	}
 
 	return
@@ -1276,6 +1444,20 @@ func (processshape *ProcessShape) GongDiff(stage *Stage, processshapeOther *Proc
 	}
 	if processshape.IsHidden != processshapeOther.IsHidden {
 		diffs = append(diffs, processshape.GongMarshallField(stage, "IsHidden"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
+	// insertion point for field diffs
+	if task.Name != taskOther.Name {
+		diffs = append(diffs, task.GongMarshallField(stage, "Name"))
+	}
+	if task.ComputedPrefix != taskOther.ComputedPrefix {
+		diffs = append(diffs, task.GongMarshallField(stage, "ComputedPrefix"))
 	}
 
 	return
