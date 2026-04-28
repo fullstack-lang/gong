@@ -29,8 +29,8 @@ type DiagramProcess struct {
 	Process_Shapes              []*ProcessShape
 	map_Process_ProcessShape    map[*Process]*ProcessShape
 	map_Process_Rect            map[*Process]*svg.Rect
-	ProcesssWhoseNodeIsExpanded []*Process
 	IsProcesssNodeExpanded      bool
+	ProcesssWhoseNodeIsExpanded []*Process
 
 	owningProcess *Process
 
@@ -39,6 +39,7 @@ type DiagramProcess struct {
 	map_Participant_ParticipantShape map[*Participant]*ParticipantShape
 	map_Participant_Rect             map[*Participant]*svg.Rect
 	IsParticipantsNodeExpanded       bool
+	ParticipantWhoseNodeIsExpanded   []*Participant
 }
 
 func (d *DiagramProcess) IsEditable() bool {
