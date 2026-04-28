@@ -33,7 +33,7 @@ func _(stage *models.Stage) {
 
 	__Participant__00000003_ := (&models.Participant{Name: `PP1`}).Stage(stage)
 
-	__ParticipantShape__00000000_ := (&models.ParticipantShape{Name: `-DiagramProcess`}).Stage(stage)
+	__ParticipantShape__00000003_ := (&models.ParticipantShape{Name: `PP1-DiagramProcess`}).Stage(stage)
 
 	__Process__00000005_ := (&models.Process{Name: `P1`}).Stage(stage)
 
@@ -61,13 +61,13 @@ func _(stage *models.Stage) {
 	__Participant__00000003_.Name = `PP1`
 	__Participant__00000003_.ComputedPrefix = ``
 
-	__ParticipantShape__00000000_.Name = `-DiagramProcess`
-	__ParticipantShape__00000000_.IsExpanded = false
-	__ParticipantShape__00000000_.X = 125.314125
-	__ParticipantShape__00000000_.Y = 198.340905
-	__ParticipantShape__00000000_.Width = 205.000000
-	__ParticipantShape__00000000_.Height = 580.000000
-	__ParticipantShape__00000000_.IsHidden = false
+	__ParticipantShape__00000003_.Name = `PP1-DiagramProcess`
+	__ParticipantShape__00000003_.IsExpanded = false
+	__ParticipantShape__00000003_.X = 226.059400
+	__ParticipantShape__00000003_.Y = 371.499060
+	__ParticipantShape__00000003_.Width = 250.000000
+	__ParticipantShape__00000003_.Height = 70.000000
+	__ParticipantShape__00000003_.IsHidden = false
 
 	__Process__00000005_.Name = `P1`
 	__Process__00000005_.ComputedPrefix = ``
@@ -83,10 +83,10 @@ func _(stage *models.Stage) {
 
 	// insertion point for setup of pointers
 	__DiagramProcess__00000005_.Process_Shapes = append(__DiagramProcess__00000005_.Process_Shapes, __ProcessShape__00000005_)
-	__DiagramProcess__00000005_.Participant_Shapes = append(__DiagramProcess__00000005_.Participant_Shapes, __ParticipantShape__00000000_)
+	__DiagramProcess__00000005_.Participant_Shapes = append(__DiagramProcess__00000005_.Participant_Shapes, __ParticipantShape__00000003_)
 	__Library__00000000_.RootProcesses = append(__Library__00000000_.RootProcesses, __Process__00000005_)
 	__Library__00000000_.ProcesssWhoseNodeIsExpanded = append(__Library__00000000_.ProcesssWhoseNodeIsExpanded, __Process__00000005_)
-	__ParticipantShape__00000000_.Participant = __Participant__00000003_
+	__ParticipantShape__00000003_.Participant = __Participant__00000003_
 	__Process__00000005_.DiagramProcesss = append(__Process__00000005_.DiagramProcesss, __DiagramProcess__00000005_)
 	__Process__00000005_.DiagramProcessWhoseNodeIsExpanded = append(__Process__00000005_.DiagramProcessWhoseNodeIsExpanded, __DiagramProcess__00000005_)
 	__Process__00000005_.Participants = append(__Process__00000005_.Participants, __Participant__00000003_)
