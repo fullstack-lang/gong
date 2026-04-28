@@ -1,4 +1,4 @@
-package doc
+package embeddedgo
 
 import "embed"
 

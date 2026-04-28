@@ -1,4 +1,4 @@
-// Package slider slider backend API
+// Package embeddedgo backend API
 //
 // slider exposes types of a package.
 //
@@ -22,4 +22,4 @@
 //	type: basic
 //
 // swagger:meta
-package slider
+package embeddedgo

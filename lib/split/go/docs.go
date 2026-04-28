@@ -1,4 +1,4 @@
-// Package split split backend API
+// Package embeddedgo backend API
 //
 // split exposes types of a package.
 //
@@ -22,4 +22,4 @@
 //	type: basic
 //
 // swagger:meta
-package split
+package embeddedgo

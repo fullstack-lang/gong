@@ -1100,7 +1100,7 @@ func CodeGeneratorModelGong(
 	codeGO = models.Replace6(codeGO,
 		"{{PkgName}}", pkgName,
 		"{{TitlePkgName}}", caserEnglish.String(pkgName),
-		"{{pkgname}}", strings.ToLower(pkgName),
+		"{{pkgname}}", strings.ReplaceAll(strings.ToLower(pkgName), "-", "_"),
 		"	 | ", "	", // for the replacement of the of the first bar in the Gongstruct Type def,
 		"{{mapReturnType}}", returnType,
 		"{{PkgPathRoot}}", strings.ReplaceAll(modelPkg.PkgPath, "/models", ""),

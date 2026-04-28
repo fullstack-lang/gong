@@ -1,4 +1,4 @@
-package load
+package embeddedgo
 
 import "embed"
 

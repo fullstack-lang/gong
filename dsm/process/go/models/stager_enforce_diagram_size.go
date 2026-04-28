@@ -3,19 +3,29 @@ package models
 func (stager *Stager) enforceDiagramSize() (needCommit bool) {
 	for _, diagram := range GetGongstrucsSorted[*DiagramProcess](stager.stage) {
 
-		diagram.Width = 0
-		diagram.Height = 0
+		width := 0.0
+		height := 0.0
 
 		// parse all concrete shapes in the diagram that are not links
 		//  to compute the size of the diagram
 		// the size of the diagram is the max of the position of the shapes + their size
-		needCommit = updateDiagramSize(diagram.Process_Shapes, &diagram.Width, &diagram.Height) || needCommit
-		needCommit = updateDiagramSize(diagram.Participant_Shapes, &diagram.Width, &diagram.Height) || needCommit
+		updateDiagramSize(diagram.Process_Shapes, &width, &height)
+		updateDiagramSize(diagram.Participant_Shapes, &width, &height)
 
 		// add a margin to the diagram size
 		margin := 300.0
-		diagram.Width += margin
-		diagram.Height += margin
+		width += margin
+		height += margin
+
+		if width != diagram.Width {
+			diagram.Width = width
+			needCommit = true
+		}
+
+		if height != diagram.Height {
+			diagram.Height = height
+			needCommit = true
+		}
 	}
 
 	return

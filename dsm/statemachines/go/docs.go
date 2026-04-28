@@ -1,4 +1,4 @@
-// Package statemachines statemachines backend API
+// Package embeddedgo backend API
 //
 // statemachines exposes types of a package.
 //
@@ -22,4 +22,4 @@
 //	type: basic
 //
 // swagger:meta
-package statemachines
+package embeddedgo

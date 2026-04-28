@@ -1,4 +1,4 @@
-// Package markdown markdown backend API
+// Package embeddedgo backend API
 //
 // markdown exposes types of a package.
 //
@@ -22,4 +22,4 @@
 //	type: basic
 //
 // swagger:meta
-package markdown
+package embeddedgo

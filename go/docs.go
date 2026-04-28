@@ -1,4 +1,4 @@
-// Package gong gong backend API
+// Package embeddedgo backend API
 //
 // gong exposes types of a package.
 //
@@ -22,4 +22,4 @@
 //	type: basic
 //
 // swagger:meta
-package gong
+package embeddedgo

@@ -1,4 +1,4 @@
-package reqif
+package embeddedgo
 
 import "embed"
 

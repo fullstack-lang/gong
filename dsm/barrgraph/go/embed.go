@@ -1,4 +1,4 @@
-package barrgraph
+package embeddedgo
 
 import "embed"
 

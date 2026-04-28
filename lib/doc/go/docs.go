@@ -1,4 +1,4 @@
-// Package doc doc backend API
+// Package embeddedgo backend API
 //
 // doc exposes types of a package.
 //
@@ -22,4 +22,4 @@
 //	type: basic
 //
 // swagger:meta
-package doc
+package embeddedgo
