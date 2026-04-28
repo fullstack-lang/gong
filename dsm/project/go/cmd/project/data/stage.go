@@ -110,4 +110,98 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.Width = 733.106061
 	__Diagram__00000000_.Height = 382.126803
 	stage.Commit()
+
+	// Default Diagram
+	__Diagram__00000000_.Product_Shapes = slices.Delete( __Diagram__00000000_.Product_Shapes, 0, 1)
+	__ProductShape__00000000_.Unstage(stage)
+	stage.Commit()
+
+	// Default Diagram
+	__Diagram__00000000_.Width = 100.000000
+	__Diagram__00000000_.Height = 100.000000
+	stage.Commit()
+
+	__ProductShape__00000001_ := (&models.ProductShape{Name: `a-Default Diagram`}).Stage(stage)
+	// Default Diagram
+	__Diagram__00000000_.Product_Shapes = slices.Insert( __Diagram__00000000_.Product_Shapes, 0, __ProductShape__00000001_)
+	__ProductShape__00000001_.Name = `a-Default Diagram`
+	__ProductShape__00000001_.X = 145.056982
+	__ProductShape__00000001_.Y = 125.618199
+	__ProductShape__00000001_.Width = 250.000000
+	__ProductShape__00000001_.Height = 70.000000
+	__ProductShape__00000001_.IsHidden = false
+	__ProductShape__00000001_.Product = __Product__00000000_
+	stage.Commit()
+
+	// Default Diagram
+	__Diagram__00000000_.Width = 495.056982
+	__Diagram__00000000_.Height = 295.618199
+	stage.Commit()
+
+	// a-Default Diagram
+	__ProductShape__00000001_.IsHidden = true
+	stage.Commit()
+
+	// a-Default Diagram
+	__ProductShape__00000001_.IsHidden = false
+	stage.Commit()
+
+	__ProductCompositionShape__00000000_ := (&models.ProductCompositionShape{Name: `a to `}).Stage(stage)
+	__ProductShape__00000002_ := (&models.ProductShape{Name: `-Default Diagram`}).Stage(stage)
+	__Product__00000001_ := (&models.Product{Name: ``}).Stage(stage)
+	// Default Diagram
+	__Diagram__00000000_.Product_Shapes = slices.Insert( __Diagram__00000000_.Product_Shapes, 1, __ProductShape__00000002_)
+	__Diagram__00000000_.ProductsWhoseNodeIsExpanded = slices.Insert( __Diagram__00000000_.ProductsWhoseNodeIsExpanded, 0, __Product__00000000_)
+	__Diagram__00000000_.ProductComposition_Shapes = slices.Insert( __Diagram__00000000_.ProductComposition_Shapes, 0, __ProductCompositionShape__00000000_)
+	// a
+	__Product__00000000_.SubProducts = slices.Insert( __Product__00000000_.SubProducts, 0, __Product__00000001_)
+	__ProductCompositionShape__00000000_.Name = `a to `
+	__ProductCompositionShape__00000000_.StartRatio = 0.500000
+	__ProductCompositionShape__00000000_.EndRatio = 0.500000
+	__ProductCompositionShape__00000000_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000000_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000000_.CornerOffsetRatio = 1.680000
+	__ProductCompositionShape__00000000_.IsHidden = false
+	__ProductCompositionShape__00000000_.Product = __Product__00000001_
+	__ProductShape__00000002_.Name = `-Default Diagram`
+	__ProductShape__00000002_.X = 145.056982
+	__ProductShape__00000002_.Y = 265.618199
+	__ProductShape__00000002_.Width = 250.000000
+	__ProductShape__00000002_.Height = 70.000000
+	__ProductShape__00000002_.IsHidden = false
+	__ProductShape__00000002_.Product = __Product__00000001_
+	__Product__00000001_.Name = ``
+	__Product__00000001_.ComputedPrefix = ``
+	__Product__00000001_.Description = ``
+	__Product__00000001_.IsProducersNodeExpanded = false
+	__Product__00000001_.IsConsumersNodeExpanded = false
+	stage.Commit()
+
+	// 
+	__Product__00000001_.ComputedPrefix = `1.1`
+	// Default Diagram
+	__Diagram__00000000_.Height = 435.618199
+	stage.Commit()
+
+	// A.1
+	__Product__00000001_.Name = `A.1`
+	stage.Commit()
+
+	// Default Diagram
+	__Diagram__00000000_.ProductComposition_Shapes = slices.Delete( __Diagram__00000000_.ProductComposition_Shapes, 0, 1)
+	__ProductCompositionShape__00000000_.Unstage(stage)
+	stage.Commit()
+
+	__ProductCompositionShape__00000001_ := (&models.ProductCompositionShape{Name: `a to A.1`}).Stage(stage)
+	// Default Diagram
+	__Diagram__00000000_.ProductComposition_Shapes = slices.Insert( __Diagram__00000000_.ProductComposition_Shapes, 0, __ProductCompositionShape__00000001_)
+	__ProductCompositionShape__00000001_.Name = `a to A.1`
+	__ProductCompositionShape__00000001_.StartRatio = 0.500000
+	__ProductCompositionShape__00000001_.EndRatio = 0.500000
+	__ProductCompositionShape__00000001_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000001_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000001_.CornerOffsetRatio = 1.680000
+	__ProductCompositionShape__00000001_.IsHidden = false
+	__ProductCompositionShape__00000001_.Product = __Product__00000001_
+	stage.Commit()
 }

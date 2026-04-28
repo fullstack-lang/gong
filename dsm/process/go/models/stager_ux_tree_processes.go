@@ -102,6 +102,7 @@ func (stager *Stager) treeProcesses(
 			stager.probeForm.FillUpFormFromGongstruct(diagramProcess, "Diagram")
 		}
 
+		// prefix button
 		{
 			showPrefixButton := &tree.Button{
 				Name:            "Diagram Prefix",
@@ -125,29 +126,38 @@ func (stager *Stager) treeProcesses(
 		}
 
 		// Participants
-		participantsNode := &tree.Node{
-			Name:            "Participants",
-			FontStyle:       tree.ITALIC,
-			IsExpanded:      diagramProcess.IsParticipantsNodeExpanded,
-			IsNodeClickable: true,
-		}
-		diagramNode.Children = append(diagramNode.Children, participantsNode)
-		participantsNode.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
-			if frontNode.IsExpanded != stagedNode.IsExpanded {
-				if frontNode.IsExpanded {
-					diagramProcess.IsParticipantsNodeExpanded = true
-				} else {
-					diagramProcess.IsParticipantsNodeExpanded = false
-				}
-				stager.stage.Commit()
-				return
+		{
+			participantsNode := &tree.Node{
+				Name:            "Participants",
+				FontStyle:       tree.ITALIC,
+				IsExpanded:      diagramProcess.IsParticipantsNodeExpanded,
+				IsNodeClickable: true,
 			}
-		}
+			diagramNode.Children = append(diagramNode.Children, participantsNode)
+			participantsNode.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+				if frontNode.IsExpanded != stagedNode.IsExpanded {
+					if frontNode.IsExpanded {
+						diagramProcess.IsParticipantsNodeExpanded = true
+					} else {
+						diagramProcess.IsParticipantsNodeExpanded = false
+					}
+					stager.stage.Commit()
+					return
+				}
+			}
 
-		for _, participant := range process.Participants {
-			stager.treeParticipants(participant, participantsNode, &process.ParticipantWhoseNodeIsExpanded)
+			for _, participant := range process.Participants {
+				stager.treeParticipants(diagramProcess, participant, participantsNode, &process.ParticipantWhoseNodeIsExpanded)
+			}
+			addAddItemButtonVerySimple(
+				stager,
+				&diagramProcess.IsParticipantsNodeExpanded,
+				participantsNode,
+				&process.Participants)
+
 		}
 	}
+
 	itemAdderCallback := addAddItemButtonVerySimple(stager, &process.isExpanded, processNode, &process.DiagramProcesss)
 	itemAdderCallback.OnBeforeCommit = func() {
 		newDiagram := itemAdderCallback.createdItem
