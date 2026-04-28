@@ -71,6 +71,10 @@ type RectPointersEncoding struct {
 
 	// field RectAnchoredPngImages is a slice of pointers to another Struct (optional or 0..1)
 	RectAnchoredPngImages IntSlice `gorm:"type:TEXT"`
+
+	// field EnclosingRect is a pointer to another Struct (optional or 0..1)
+	// This field is generated into another field to enable AS ONE association
+	EnclosingRectID sql.NullInt64
 }
 
 // RectDB describes a rect in the database
@@ -610,6 +614,18 @@ func (backRepoRect *BackRepoRectStruct) CommitPhaseTwoInstance(backRepo *BackRep
 				append(rectDB.RectPointersEncoding.RectAnchoredPngImages, int(rectanchoredpngimageAssocEnd_DB.ID))
 		}
 
+		// commit pointer value rect.EnclosingRect translates to updating the rect.EnclosingRectID
+		rectDB.EnclosingRectID.Valid = true // allow for a 0 value (nil association)
+		if rect.EnclosingRect != nil {
+			if EnclosingRectId, ok := backRepo.BackRepoRect.Map_RectPtr_RectDBID[rect.EnclosingRect]; ok {
+				rectDB.EnclosingRectID.Int64 = int64(EnclosingRectId)
+				rectDB.EnclosingRectID.Valid = true
+			}
+		} else {
+			rectDB.EnclosingRectID.Int64 = 0
+			rectDB.EnclosingRectID.Valid = true
+		}
+
 		_, err := backRepoRect.db.Save(rectDB)
 		if err != nil {
 			log.Fatal(err)
@@ -785,6 +801,27 @@ func (rectDB *RectDB) DecodePointers(backRepo *BackRepoStruct, rect *models.Rect
 		rect.RectAnchoredPngImages = append(rect.RectAnchoredPngImages, backRepo.BackRepoRectAnchoredPngImage.Map_RectAnchoredPngImageDBID_RectAnchoredPngImagePtr[uint(_RectAnchoredPngImageid)])
 	}
 
+	// EnclosingRect field	
+	{
+		id := rectDB.EnclosingRectID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoRect.Map_RectDBID_RectPtr[uint(id)]
+
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
+			if !ok {
+				log.Println("DecodePointers: rect.EnclosingRect, unknown pointer id", id)
+				rect.EnclosingRect = nil
+			} else {
+				// updates only if field has changed
+				if rect.EnclosingRect == nil || rect.EnclosingRect != tmp {
+					rect.EnclosingRect = tmp
+				}
+			}
+		} else {
+			rect.EnclosingRect = nil
+		}
+	}
+	
 }
 
 // CommitRect allows commit of a single rect (if already staged)
@@ -1456,6 +1493,12 @@ func (backRepoRect *BackRepoRectStruct) RestorePhaseTwo() {
 		_ = rectDB
 
 		// insertion point for reindexing pointers encoding
+		// reindexing EnclosingRect field
+		if rectDB.EnclosingRectID.Int64 != 0 {
+			rectDB.EnclosingRectID.Int64 = int64(BackRepoRectid_atBckpTime_newID[uint(rectDB.EnclosingRectID.Int64)])
+			rectDB.EnclosingRectID.Valid = true
+		}
+
 		// update databse with new index encoding
 		db, _ := backRepoRect.db.Model(rectDB)
 		_, err := db.Updates(*rectDB)
