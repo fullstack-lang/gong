@@ -74,8 +74,18 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 		diagramProcess.map_Process_Rect[processShape.Process] = rect
 	}
 
+	rectOfOwningProcess := diagramProcess.map_Process_Rect[diagramProcess.owningProcess]
+
 	diagramProcess.map_Participant_Rect = make(map[*Participant]*svg.Rect)
-	for _, participantShape := range diagramProcess.Participant_Shapes {
+
+	horizontalMargin := 10.0
+	verticalTopMargin := 50.0
+	verticalBottomMargin := 10.0
+
+	participantsWidth := rectOfOwningProcess.Width - 2*horizontalMargin
+	participantWidth := participantsWidth / float64(len(diagramProcess.Participant_Shapes))
+
+	for idx, participantShape := range diagramProcess.Participant_Shapes {
 		if participantShape.IsHidden {
 			continue
 		}
@@ -85,6 +95,24 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 			diagramProcess,
 			participantShape,
 			layer)
+
+		// rect cannot move
+		rect.CanMoveHorizontaly = false
+		rect.CanMoveVerticaly = false
+		rect.CanHaveBottomHandle = false
+		rect.CanHaveLeftHandle = false
+		rect.CanHaveRightHandle = false
+		rect.CanHaveTopHandle = false
+
+		// visuals
+		rect.RX = 0
+		rect.StrokeWidth = 1
+
+		rect.X = rectOfOwningProcess.X + horizontalMargin + float64(idx)*(participantWidth)
+		rect.Width = participantWidth
+
+		rect.Y = rectOfOwningProcess.Y + verticalTopMargin
+		rect.Height = rectOfOwningProcess.Height - verticalTopMargin - verticalBottomMargin
 
 		diagramProcess.map_Participant_Rect[participantShape.Participant] = rect
 	}
