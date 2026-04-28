@@ -131,6 +131,29 @@ func (inst *ProcessShape) GongGetReverseFieldOwnerName(stage *Stage, reverseFiel
 	return
 }
 
+func (inst *Task) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "DiagramProcess":
+		switch reverseField.Fieldname {
+		case "TasksWhoseNodeIsExpanded":
+			if _diagramprocess, ok := stage.DiagramProcess_TasksWhoseNodeIsExpanded_reverseMap[inst]; ok {
+				res = _diagramprocess.Name
+			}
+		}
+	case "Participant":
+		switch reverseField.Fieldname {
+		case "Tasks":
+			if _participant, ok := stage.Participant_Tasks_reverseMap[inst]; ok {
+				res = _participant.Name
+			}
+		}
+	}
+	return
+}
+
 // insertion point
 func (inst *DiagramProcess) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
@@ -232,6 +255,25 @@ func (inst *ProcessShape) GongGetReverseFieldOwner(stage *Stage, reverseField *R
 		switch reverseField.Fieldname {
 		case "Process_Shapes":
 			res = stage.DiagramProcess_Process_Shapes_reverseMap[inst]
+		}
+	}
+	return res
+}
+
+func (inst *Task) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	case "DiagramProcess":
+		switch reverseField.Fieldname {
+		case "TasksWhoseNodeIsExpanded":
+			res = stage.DiagramProcess_TasksWhoseNodeIsExpanded_reverseMap[inst]
+		}
+	case "Participant":
+		switch reverseField.Fieldname {
+		case "Tasks":
+			res = stage.Participant_Tasks_reverseMap[inst]
 		}
 	}
 	return res

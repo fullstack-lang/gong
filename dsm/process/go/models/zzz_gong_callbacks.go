@@ -30,6 +30,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterProcessShapeCreateCallback != nil {
 			stage.OnAfterProcessShapeCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *Task:
+		if stage.OnAfterTaskCreateCallback != nil {
+			stage.OnAfterTaskCreateCallback.OnAfterCreate(stage, target)
+		}
 	default:
 		_ = target
 	}
@@ -74,6 +78,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		if stage.OnAfterProcessShapeUpdateCallback != nil {
 			stage.OnAfterProcessShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
+	case *Task:
+		newTarget := any(new).(*Task)
+		if stage.OnAfterTaskUpdateCallback != nil {
+			stage.OnAfterTaskUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
 	default:
 		_ = oldTarget
 	}
@@ -114,6 +123,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*ProcessShape)
 			stage.OnAfterProcessShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *Task:
+		if stage.OnAfterTaskDeleteCallback != nil {
+			staged := any(staged).(*Task)
+			stage.OnAfterTaskDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	default:
 		_ = front
 	}
@@ -148,6 +162,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterProcessShapeReadCallback != nil {
 			stage.OnAfterProcessShapeReadCallback.OnAfterRead(stage, target)
 		}
+	case *Task:
+		if stage.OnAfterTaskReadCallback != nil {
+			stage.OnAfterTaskReadCallback.OnAfterRead(stage, target)
+		}
 	default:
 		_ = target
 	}
@@ -171,6 +189,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterProcessUpdateCallback = any(callback).(OnAfterUpdateInterface[Process])
 	case *ProcessShape:
 		stage.OnAfterProcessShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ProcessShape])
+	case *Task:
+		stage.OnAfterTaskUpdateCallback = any(callback).(OnAfterUpdateInterface[Task])
 	}
 }
 func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnAfterCreateInterface[Type]) {
@@ -190,6 +210,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterProcessCreateCallback = any(callback).(OnAfterCreateInterface[Process])
 	case *ProcessShape:
 		stage.OnAfterProcessShapeCreateCallback = any(callback).(OnAfterCreateInterface[ProcessShape])
+	case *Task:
+		stage.OnAfterTaskCreateCallback = any(callback).(OnAfterCreateInterface[Task])
 	}
 }
 func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnAfterDeleteInterface[Type]) {
@@ -209,6 +231,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterProcessDeleteCallback = any(callback).(OnAfterDeleteInterface[Process])
 	case *ProcessShape:
 		stage.OnAfterProcessShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ProcessShape])
+	case *Task:
+		stage.OnAfterTaskDeleteCallback = any(callback).(OnAfterDeleteInterface[Task])
 	}
 }
 func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAfterReadInterface[Type]) {
@@ -228,5 +252,7 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterProcessReadCallback = any(callback).(OnAfterReadInterface[Process])
 	case *ProcessShape:
 		stage.OnAfterProcessShapeReadCallback = any(callback).(OnAfterReadInterface[ProcessShape])
+	case *Task:
+		stage.OnAfterTaskReadCallback = any(callback).(OnAfterReadInterface[Task])
 	}
 }

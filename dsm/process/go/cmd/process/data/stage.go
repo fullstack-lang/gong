@@ -43,6 +43,10 @@ func _(stage *models.Stage) {
 
 	__ProcessShape__00000005_ := (&models.ProcessShape{Name: `ProcessShape`}).Stage(stage)
 
+	__Task__00000001_ := (&models.Task{Name: `T1`}).Stage(stage)
+	__Task__00000002_ := (&models.Task{Name: `T2`}).Stage(stage)
+	__Task__00000003_ := (&models.Task{Name: `PP2 T1`}).Stage(stage)
+
 	// insertion point for initialization of values
 
 	__DiagramProcess__00000005_.Name = `DiagramProcess`
@@ -107,13 +111,26 @@ func _(stage *models.Stage) {
 	__ProcessShape__00000005_.Height = 1000.000000
 	__ProcessShape__00000005_.IsHidden = false
 
+	__Task__00000001_.Name = `T1`
+	__Task__00000001_.ComputedPrefix = ``
+
+	__Task__00000002_.Name = `T2`
+	__Task__00000002_.ComputedPrefix = ``
+
+	__Task__00000003_.Name = `PP2 T1`
+	__Task__00000003_.ComputedPrefix = ``
+
 	// insertion point for setup of pointers
 	__DiagramProcess__00000005_.Process_Shapes = append(__DiagramProcess__00000005_.Process_Shapes, __ProcessShape__00000005_)
 	__DiagramProcess__00000005_.Participant_Shapes = append(__DiagramProcess__00000005_.Participant_Shapes, __ParticipantShape__00000003_)
 	__DiagramProcess__00000005_.Participant_Shapes = append(__DiagramProcess__00000005_.Participant_Shapes, __ParticipantShape__00000006_)
 	__DiagramProcess__00000005_.Participant_Shapes = append(__DiagramProcess__00000005_.Participant_Shapes, __ParticipantShape__00000007_)
+	__DiagramProcess__00000005_.ParticipantWhoseNodeIsExpanded = append(__DiagramProcess__00000005_.ParticipantWhoseNodeIsExpanded, __Participant__00000003_)
 	__Library__00000000_.RootProcesses = append(__Library__00000000_.RootProcesses, __Process__00000005_)
 	__Library__00000000_.ProcesssWhoseNodeIsExpanded = append(__Library__00000000_.ProcesssWhoseNodeIsExpanded, __Process__00000005_)
+	__Participant__00000003_.Tasks = append(__Participant__00000003_.Tasks, __Task__00000001_)
+	__Participant__00000003_.Tasks = append(__Participant__00000003_.Tasks, __Task__00000002_)
+	__Participant__00000004_.Tasks = append(__Participant__00000004_.Tasks, __Task__00000003_)
 	__ParticipantShape__00000003_.Participant = __Participant__00000003_
 	__ParticipantShape__00000006_.Participant = __Participant__00000004_
 	__ParticipantShape__00000007_.Participant = __Participant__00000005_
@@ -122,5 +139,6 @@ func _(stage *models.Stage) {
 	__Process__00000005_.Participants = append(__Process__00000005_.Participants, __Participant__00000003_)
 	__Process__00000005_.Participants = append(__Process__00000005_.Participants, __Participant__00000004_)
 	__Process__00000005_.Participants = append(__Process__00000005_.Participants, __Participant__00000005_)
+	__Process__00000005_.ParticipantWhoseNodeIsExpanded = append(__Process__00000005_.ParticipantWhoseNodeIsExpanded, __Participant__00000003_)
 	__ProcessShape__00000005_.Process = __Process__00000005_
 }

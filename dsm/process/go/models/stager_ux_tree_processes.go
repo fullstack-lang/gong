@@ -147,7 +147,7 @@ func (stager *Stager) treeProcesses(
 			}
 
 			for _, participant := range process.Participants {
-				stager.treeParticipants(diagramProcess, participant, participantsNode, &process.ParticipantWhoseNodeIsExpanded)
+				stager.treeParticipants(diagramProcess, participant, participantsNode)
 			}
 			addAddItemButtonVerySimple(
 				stager,

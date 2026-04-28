@@ -132,13 +132,10 @@ func onUpdateRectElement[CT interface {
 		}
 
 		if diffPosition {
-			// // Issue #7, this will allow multiple rect to be moved together
-			// stager.stage.CommitWithSuspendedCallbacks()
-			// // update the tree because it contains the undo/redo calls
-			// stager.tree()
-
-			// for the process diagram, a move of the owning process generates move of participants
-			stager.stage.Commit()
+			// Issue #7, this will allow multiple rect to be moved together
+			stager.stage.CommitWithSuspendedCallbacks()
+			// update the tree because it contains the undo/redo calls
+			stager.tree()
 		}
 
 		if diffSize {
