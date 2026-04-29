@@ -4,6 +4,7 @@ import (
 	"log"
 	"slices"
 
+	buttons "github.com/fullstack-lang/gong/lib/tree/go/buttons"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
@@ -29,6 +30,26 @@ func (stager *Stager) treetasks(
 	parentNode.Children = append(parentNode.Children, taskNode)
 
 	addRenameButton(task, taskNode, stager)
+
+	if shape, ok := diagramProcess.map_Task_TaskShape[task]; ok {
+		taskNode.IsChecked = true
+		visibilityButton := &tree.Button{
+			Name:            diagramProcess.GetName(),
+			Icon:            string(buttons.BUTTON_visibility_off),
+			ToolTipText:     "Hide from diagram",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				shape.SetIsHidden(!shape.GetIsHidden())
+				stage.Commit()
+			},
+		}
+		if shape.GetIsHidden() {
+			visibilityButton.Icon = string(buttons.BUTTON_visibility)
+			visibilityButton.ToolTipText = "Show on diagram"
+		}
+		taskNode.Buttons = append(taskNode.Buttons, visibilityButton)
+	}
 
 	taskNode.OnUpdate = func(_ *tree.Stage, stagedNode, frontNode *tree.Node) {
 		if frontNode.Name != stagedNode.Name {
