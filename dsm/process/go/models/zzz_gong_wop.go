@@ -168,12 +168,18 @@ type Task_WOP struct {
 	Name string
 
 	ComputedPrefix string
+
+	IsStartTask bool
+
+	IsEndTask bool
 }
 
 func (from *Task) CopyBasicFields(to *Task) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
+	to.IsStartTask = from.IsStartTask
+	to.IsEndTask = from.IsEndTask
 }
 
 type TaskShape_WOP struct {

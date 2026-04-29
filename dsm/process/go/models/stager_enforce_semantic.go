@@ -61,6 +61,7 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		{"enforceDefaultValues", stager.enforceDefaultValues},
 		{"enforceOrphansAbstractElement", stager.enforceOrphansAbstractElement},
 		{"enforceTaskParticipantConsistency", stager.enforceTaskParticipantConsistency},
+		{"enforce Task Semantic Rules", stager.enforceTaskSemanticRules},
 
 		// concrete semantic check
 		{"enforceAtLeastOneDiagramPerProcess", stager.enforceAtLeastOneDiagramPerProcess},

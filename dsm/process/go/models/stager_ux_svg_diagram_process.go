@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"log"
 
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
@@ -152,6 +153,49 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 			layer)
 
 		rect.EnclosingRect = participantRect
+
+		var smallRadius = 10.0
+		var bigRadius = 18.0
+		_ = bigRadius
+		if task.IsStartTask {
+
+			// pick up the title of the rect
+			stateTitleText := rect.RectAnchoredTexts[0]
+			stateTitleText.TextAnchorType = svg.TEXT_ANCHOR_START
+			stateTitleText.RectAnchorType = svg.RECT_TOP_LEFT
+			stateTitleText.DominantBaseline = svg.DominantBaselineCentral
+			stateTitleText.WhiteSpace = svg.WhiteSpaceEnumPre
+			stateTitleText.X_Offset = 0
+			stateTitleText.Y_Offset = 0
+
+			circle := new(svg.RectAnchoredPath)
+			circle.Stroke = svg.Black.ToString()
+			circle.StrokeWidth = 2
+			circle.StrokeOpacity = 1
+
+			circle.Color = svg.Black.ToString()
+			circle.FillOpacity = 1.0
+
+			// force size
+			rect.CanHaveBottomHandle = false
+			rect.CanHaveTopHandle = false
+
+			// we allow resizing for the sake of the text width
+			if rect.Width < 2*smallRadius {
+				rect.Width = 2 * smallRadius
+			}
+			rect.Height = 2 * smallRadius
+
+			circle.Definition = fmt.Sprintf("M %f 0 A %f %f 0 0 1 %f %f A %f %f 0 0 1 %f 0 Z",
+				smallRadius, smallRadius, smallRadius, smallRadius, 2*smallRadius, smallRadius, smallRadius, smallRadius)
+			circle.X_Offset = -smallRadius
+			circle.Y_Offset = -smallRadius
+			circle.RectAnchorType = svg.RECT_RIGHT
+			rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, circle)
+
+			rect.StrokeOpacity = 0.0
+			rect.FillOpacity = 0.0
+		}
 
 		diagramProcess.map_Task_Rect[taskShape.Task] = rect
 	}
