@@ -46,9 +46,11 @@ func _(stage *models.Stage) {
 	__Task__00000001_ := (&models.Task{Name: `T1`}).Stage(stage)
 	__Task__00000002_ := (&models.Task{Name: `T2`}).Stage(stage)
 	__Task__00000003_ := (&models.Task{Name: `PP2 T1`}).Stage(stage)
+	__Task__00000004_ := (&models.Task{Name: `Start`}).Stage(stage)
 
 	__TaskShape__00000000_ := (&models.TaskShape{Name: `T1-DiagramProcess`}).Stage(stage)
 	__TaskShape__00000002_ := (&models.TaskShape{Name: `T2-DiagramProcess`}).Stage(stage)
+	__TaskShape__00000004_ := (&models.TaskShape{Name: `Start-DiagramProcess`}).Stage(stage)
 
 	// insertion point for initialization of values
 
@@ -81,7 +83,7 @@ func _(stage *models.Stage) {
 
 	__ParticipantShape__00000006_.Name = `PP2-DiagramProcess`
 	__ParticipantShape__00000006_.IsExpanded = false
-	__ParticipantShape__00000006_.X = 608.000000
+	__ParticipantShape__00000006_.X = 347.000000
 	__ParticipantShape__00000006_.Y = 68.000000
 	__ParticipantShape__00000006_.Width = 261.000000
 	__ParticipantShape__00000006_.Height = 940.000000
@@ -117,12 +119,23 @@ func _(stage *models.Stage) {
 
 	__Task__00000001_.Name = `T1`
 	__Task__00000001_.ComputedPrefix = ``
+	__Task__00000001_.IsStartTask = false
+	__Task__00000001_.IsEndTask = false
 
 	__Task__00000002_.Name = `T2`
 	__Task__00000002_.ComputedPrefix = ``
+	__Task__00000002_.IsStartTask = false
+	__Task__00000002_.IsEndTask = false
 
 	__Task__00000003_.Name = `PP2 T1`
 	__Task__00000003_.ComputedPrefix = ``
+	__Task__00000003_.IsStartTask = false
+	__Task__00000003_.IsEndTask = false
+
+	__Task__00000004_.Name = `Start`
+	__Task__00000004_.ComputedPrefix = ``
+	__Task__00000004_.IsStartTask = true
+	__Task__00000004_.IsEndTask = false
 
 	__TaskShape__00000000_.Name = `T1-DiagramProcess`
 	__TaskShape__00000000_.IsExpanded = false
@@ -140,6 +153,14 @@ func _(stage *models.Stage) {
 	__TaskShape__00000002_.Height = 70.000000
 	__TaskShape__00000002_.IsHidden = false
 
+	__TaskShape__00000004_.Name = `Start-DiagramProcess`
+	__TaskShape__00000004_.IsExpanded = false
+	__TaskShape__00000004_.X = 147.000000
+	__TaskShape__00000004_.Y = 154.683844
+	__TaskShape__00000004_.Width = 58.000000
+	__TaskShape__00000004_.Height = 20.000000
+	__TaskShape__00000004_.IsHidden = false
+
 	// insertion point for setup of pointers
 	__DiagramProcess__00000005_.Process_Shapes = append(__DiagramProcess__00000005_.Process_Shapes, __ProcessShape__00000005_)
 	__DiagramProcess__00000005_.Participant_Shapes = append(__DiagramProcess__00000005_.Participant_Shapes, __ParticipantShape__00000009_)
@@ -148,10 +169,12 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000005_.ParticipantWhoseNodeIsExpanded = append(__DiagramProcess__00000005_.ParticipantWhoseNodeIsExpanded, __Participant__00000003_)
 	__DiagramProcess__00000005_.TaskShapes = append(__DiagramProcess__00000005_.TaskShapes, __TaskShape__00000000_)
 	__DiagramProcess__00000005_.TaskShapes = append(__DiagramProcess__00000005_.TaskShapes, __TaskShape__00000002_)
+	__DiagramProcess__00000005_.TaskShapes = append(__DiagramProcess__00000005_.TaskShapes, __TaskShape__00000004_)
 	__Library__00000000_.RootProcesses = append(__Library__00000000_.RootProcesses, __Process__00000005_)
 	__Library__00000000_.ProcesssWhoseNodeIsExpanded = append(__Library__00000000_.ProcesssWhoseNodeIsExpanded, __Process__00000005_)
 	__Participant__00000003_.Tasks = append(__Participant__00000003_.Tasks, __Task__00000001_)
 	__Participant__00000003_.Tasks = append(__Participant__00000003_.Tasks, __Task__00000002_)
+	__Participant__00000003_.Tasks = append(__Participant__00000003_.Tasks, __Task__00000004_)
 	__Participant__00000004_.Tasks = append(__Participant__00000004_.Tasks, __Task__00000003_)
 	__ParticipantShape__00000006_.Participant = __Participant__00000004_
 	__ParticipantShape__00000007_.Participant = __Participant__00000005_
@@ -165,4 +188,5 @@ func _(stage *models.Stage) {
 	__ProcessShape__00000005_.Process = __Process__00000005_
 	__TaskShape__00000000_.Task = __Task__00000001_
 	__TaskShape__00000002_.Task = __Task__00000002_
+	__TaskShape__00000004_.Task = __Task__00000004_
 }

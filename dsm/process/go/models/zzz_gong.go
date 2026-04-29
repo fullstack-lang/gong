@@ -3079,6 +3079,14 @@ func (task *Task) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
+		{
+			Name:               "IsStartTask",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsEndTask",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
 	}
 	return
 }
@@ -3507,6 +3515,14 @@ func (task *Task) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.valueString = task.Name
 	case "ComputedPrefix":
 		res.valueString = task.ComputedPrefix
+	case "IsStartTask":
+		res.valueString = fmt.Sprintf("%t", task.IsStartTask)
+		res.valueBool = task.IsStartTask
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsEndTask":
+		res.valueString = fmt.Sprintf("%t", task.IsEndTask)
+		res.valueBool = task.IsEndTask
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -3919,6 +3935,10 @@ func (task *Task) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 		task.Name = value.GetValueString()
 	case "ComputedPrefix":
 		task.ComputedPrefix = value.GetValueString()
+	case "IsStartTask":
+		task.IsStartTask = value.GetValueBool()
+	case "IsEndTask":
+		task.IsEndTask = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

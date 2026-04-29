@@ -1855,6 +1855,10 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(task_.Name), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(task_.ComputedPrefix), formDiv)
+		case "IsStartTask":
+			FormDivBasicFieldToField(&(task_.IsStartTask), formDiv)
+		case "IsEndTask":
+			FormDivBasicFieldToField(&(task_.IsEndTask), formDiv)
 		case "DiagramProcess:TasksWhoseNodeIsExpanded":
 			// WARNING : this form deals with the N-N association "DiagramProcess.TasksWhoseNodeIsExpanded []*Task" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)

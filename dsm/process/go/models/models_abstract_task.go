@@ -5,6 +5,9 @@ type Task struct {
 
 	LibraryAbstractFields
 	AbstractTypeFields
+
+	IsStartTask bool
+	IsEndTask   bool
 }
 
 var _ AbstractType = (*Task)(nil)
