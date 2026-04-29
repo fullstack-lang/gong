@@ -1607,6 +1607,12 @@ func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 	if task.ComputedPrefix != taskOther.ComputedPrefix {
 		diffs = append(diffs, task.GongMarshallField(stage, "ComputedPrefix"))
 	}
+	if task.IsStartTask != taskOther.IsStartTask {
+		diffs = append(diffs, task.GongMarshallField(stage, "IsStartTask"))
+	}
+	if task.IsEndTask != taskOther.IsEndTask {
+		diffs = append(diffs, task.GongMarshallField(stage, "IsEndTask"))
+	}
 
 	return
 }

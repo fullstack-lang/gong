@@ -730,6 +730,10 @@ func (u *TaskUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.Name = GongExtractString(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "IsStartTask":
+		instance.IsStartTask = GongExtractBool(valueExpr)
+	case "IsEndTask":
+		instance.IsEndTask = GongExtractBool(valueExpr)
 	}
 	return nil
 }
