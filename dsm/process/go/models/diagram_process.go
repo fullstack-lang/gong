@@ -45,8 +45,11 @@ type DiagramProcess struct {
 	TaskShapes               []*TaskShape
 	map_Task_TaskShape       map[*Task]*TaskShape
 	map_Task_Rect            map[*Task]*svg.Rect
+	map_SvgRect_TaskShape    map[*svg.Rect]*TaskShape // for drawing links between task
 
-	ControlFlowShape []*ControlFlowShape
+	ControlFlowsWhoseNodeIsExpanded  []*ControlFlow
+	ControlFlowShapes                []*ControlFlowShape
+	map_ControlFlow_ControlFlowShape map[*ControlFlow]*ControlFlowShape
 }
 
 func (d *DiagramProcess) IsEditable() bool {

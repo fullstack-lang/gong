@@ -8,6 +8,13 @@ type ControlFlowShape struct {
 	LinkShape
 }
 
+func (s *ControlFlowShape) GetAbstractElement() AbstractType {
+	return s.ControlFlow
+}
+
+func (s *ControlFlowShape) SetAbstractElement(a AbstractType) {
+	s.ControlFlow = a.(*ControlFlow)
+}
 func (s *ControlFlowShape) GetAbstractEndElement() AbstractType {
 	if s.ControlFlow == nil || s.ControlFlow.End == nil {
 		return nil

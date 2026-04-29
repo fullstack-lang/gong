@@ -126,10 +126,11 @@ func addAddButton[
 ) (callbacks *itemAdderCallback[PAT]) {
 	callbacks = &itemAdderCallback[PAT]{}
 
+	var dummyItem PAT
 	addButton := &tree.Button{
-		Name: GetGongstructNameFromPointer(conf.parentElement) + " " + string(buttons.BUTTON_add),
+		Name: GetGongstructNameFromPointer(dummyItem) + " " + string(buttons.BUTTON_add),
 		Icon: string(buttons.BUTTON_add),
-		ToolTipText: "Add a " + GetGongstructNameFromPointer(conf.parentElement) + " to \"" +
+		ToolTipText: "Add a " + GetGongstructNameFromPointer(dummyItem) + " to \"" +
 			conf.parentNode.Name + "\"",
 		HasToolTip:      true,
 		ToolTipPosition: tree.Right,

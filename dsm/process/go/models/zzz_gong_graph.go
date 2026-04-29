@@ -267,7 +267,10 @@ func (stage *Stage) StageBranchDiagramProcess(diagramprocess *DiagramProcess) {
 	for _, _taskshape := range diagramprocess.TaskShapes {
 		StageBranch(stage, _taskshape)
 	}
-	for _, _controlflowshape := range diagramprocess.ControlFlowShape {
+	for _, _controlflow := range diagramprocess.ControlFlowsWhoseNodeIsExpanded {
+		StageBranch(stage, _controlflow)
+	}
+	for _, _controlflowshape := range diagramprocess.ControlFlowShapes {
 		StageBranch(stage, _controlflowshape)
 	}
 
@@ -555,8 +558,11 @@ func CopyBranchDiagramProcess(mapOrigCopy map[any]any, diagramprocessFrom *Diagr
 	for _, _taskshape := range diagramprocessFrom.TaskShapes {
 		diagramprocessTo.TaskShapes = append(diagramprocessTo.TaskShapes, CopyBranchTaskShape(mapOrigCopy, _taskshape))
 	}
-	for _, _controlflowshape := range diagramprocessFrom.ControlFlowShape {
-		diagramprocessTo.ControlFlowShape = append(diagramprocessTo.ControlFlowShape, CopyBranchControlFlowShape(mapOrigCopy, _controlflowshape))
+	for _, _controlflow := range diagramprocessFrom.ControlFlowsWhoseNodeIsExpanded {
+		diagramprocessTo.ControlFlowsWhoseNodeIsExpanded = append(diagramprocessTo.ControlFlowsWhoseNodeIsExpanded, CopyBranchControlFlow(mapOrigCopy, _controlflow))
+	}
+	for _, _controlflowshape := range diagramprocessFrom.ControlFlowShapes {
+		diagramprocessTo.ControlFlowShapes = append(diagramprocessTo.ControlFlowShapes, CopyBranchControlFlowShape(mapOrigCopy, _controlflowshape))
 	}
 
 	return
@@ -847,7 +853,10 @@ func (stage *Stage) UnstageBranchDiagramProcess(diagramprocess *DiagramProcess) 
 	for _, _taskshape := range diagramprocess.TaskShapes {
 		UnstageBranch(stage, _taskshape)
 	}
-	for _, _controlflowshape := range diagramprocess.ControlFlowShape {
+	for _, _controlflow := range diagramprocess.ControlFlowsWhoseNodeIsExpanded {
+		UnstageBranch(stage, _controlflow)
+	}
+	for _, _controlflowshape := range diagramprocess.ControlFlowShapes {
 		UnstageBranch(stage, _controlflowshape)
 	}
 
@@ -1048,9 +1057,13 @@ func (reference *DiagramProcess) GongReconstructPointersFromReferences(stage *St
 	for _, _b := range instance.TaskShapes {
 		reference.TaskShapes = append(reference.TaskShapes, stage.TaskShapes_reference[_b])
 	}
-	reference.ControlFlowShape = reference.ControlFlowShape[:0]
-	for _, _b := range instance.ControlFlowShape {
-		reference.ControlFlowShape = append(reference.ControlFlowShape, stage.ControlFlowShapes_reference[_b])
+	reference.ControlFlowsWhoseNodeIsExpanded = reference.ControlFlowsWhoseNodeIsExpanded[:0]
+	for _, _b := range instance.ControlFlowsWhoseNodeIsExpanded {
+		reference.ControlFlowsWhoseNodeIsExpanded = append(reference.ControlFlowsWhoseNodeIsExpanded, stage.ControlFlows_reference[_b])
+	}
+	reference.ControlFlowShapes = reference.ControlFlowShapes[:0]
+	for _, _b := range instance.ControlFlowShapes {
+		reference.ControlFlowShapes = append(reference.ControlFlowShapes, stage.ControlFlowShapes_reference[_b])
 	}
 
 	return
@@ -1232,13 +1245,20 @@ func (reference *DiagramProcess) GongReconstructPointersFromInstances(stage *Sta
 		}
 	}
 	reference.TaskShapes = _TaskShapes
-	var _ControlFlowShape []*ControlFlowShape
-	for _, _reference := range reference.ControlFlowShape {
-		if _instance, ok := stage.ControlFlowShapes_instance[_reference]; ok {
-			_ControlFlowShape = append(_ControlFlowShape, _instance)
+	var _ControlFlowsWhoseNodeIsExpanded []*ControlFlow
+	for _, _reference := range reference.ControlFlowsWhoseNodeIsExpanded {
+		if _instance, ok := stage.ControlFlows_instance[_reference]; ok {
+			_ControlFlowsWhoseNodeIsExpanded = append(_ControlFlowsWhoseNodeIsExpanded, _instance)
 		}
 	}
-	reference.ControlFlowShape = _ControlFlowShape
+	reference.ControlFlowsWhoseNodeIsExpanded = _ControlFlowsWhoseNodeIsExpanded
+	var _ControlFlowShapes []*ControlFlowShape
+	for _, _reference := range reference.ControlFlowShapes {
+		if _instance, ok := stage.ControlFlowShapes_instance[_reference]; ok {
+			_ControlFlowShapes = append(_ControlFlowShapes, _instance)
+		}
+	}
+	reference.ControlFlowShapes = _ControlFlowShapes
 
 	return
 }
@@ -1387,6 +1407,9 @@ func (controlflow *ControlFlow) GongDiff(stage *Stage, controlflowOther *Control
 	// insertion point for field diffs
 	if controlflow.Name != controlflowOther.Name {
 		diffs = append(diffs, controlflow.GongMarshallField(stage, "Name"))
+	}
+	if controlflow.ComputedPrefix != controlflowOther.ComputedPrefix {
+		diffs = append(diffs, controlflow.GongMarshallField(stage, "ComputedPrefix"))
 	}
 	if (controlflow.Start == nil) != (controlflowOther.Start == nil) {
 		diffs = append(diffs, controlflow.GongMarshallField(stage, "Start"))
@@ -1605,25 +1628,46 @@ func (diagramprocess *DiagramProcess) GongDiff(stage *Stage, diagramprocessOther
 		ops := Diff(stage, diagramprocess, diagramprocessOther, "TaskShapes", diagramprocessOther.TaskShapes, diagramprocess.TaskShapes)
 		diffs = append(diffs, ops)
 	}
-	ControlFlowShapeDifferent := false
-	if len(diagramprocess.ControlFlowShape) != len(diagramprocessOther.ControlFlowShape) {
-		ControlFlowShapeDifferent = true
+	ControlFlowsWhoseNodeIsExpandedDifferent := false
+	if len(diagramprocess.ControlFlowsWhoseNodeIsExpanded) != len(diagramprocessOther.ControlFlowsWhoseNodeIsExpanded) {
+		ControlFlowsWhoseNodeIsExpandedDifferent = true
 	} else {
-		for i := range diagramprocess.ControlFlowShape {
-			if (diagramprocess.ControlFlowShape[i] == nil) != (diagramprocessOther.ControlFlowShape[i] == nil) {
-				ControlFlowShapeDifferent = true
+		for i := range diagramprocess.ControlFlowsWhoseNodeIsExpanded {
+			if (diagramprocess.ControlFlowsWhoseNodeIsExpanded[i] == nil) != (diagramprocessOther.ControlFlowsWhoseNodeIsExpanded[i] == nil) {
+				ControlFlowsWhoseNodeIsExpandedDifferent = true
 				break
-			} else if diagramprocess.ControlFlowShape[i] != nil && diagramprocessOther.ControlFlowShape[i] != nil {
+			} else if diagramprocess.ControlFlowsWhoseNodeIsExpanded[i] != nil && diagramprocessOther.ControlFlowsWhoseNodeIsExpanded[i] != nil {
 				// this is a pointer comparaison
-				if diagramprocess.ControlFlowShape[i] != diagramprocessOther.ControlFlowShape[i] {
-					ControlFlowShapeDifferent = true
+				if diagramprocess.ControlFlowsWhoseNodeIsExpanded[i] != diagramprocessOther.ControlFlowsWhoseNodeIsExpanded[i] {
+					ControlFlowsWhoseNodeIsExpandedDifferent = true
 					break
 				}
 			}
 		}
 	}
-	if ControlFlowShapeDifferent {
-		ops := Diff(stage, diagramprocess, diagramprocessOther, "ControlFlowShape", diagramprocessOther.ControlFlowShape, diagramprocess.ControlFlowShape)
+	if ControlFlowsWhoseNodeIsExpandedDifferent {
+		ops := Diff(stage, diagramprocess, diagramprocessOther, "ControlFlowsWhoseNodeIsExpanded", diagramprocessOther.ControlFlowsWhoseNodeIsExpanded, diagramprocess.ControlFlowsWhoseNodeIsExpanded)
+		diffs = append(diffs, ops)
+	}
+	ControlFlowShapesDifferent := false
+	if len(diagramprocess.ControlFlowShapes) != len(diagramprocessOther.ControlFlowShapes) {
+		ControlFlowShapesDifferent = true
+	} else {
+		for i := range diagramprocess.ControlFlowShapes {
+			if (diagramprocess.ControlFlowShapes[i] == nil) != (diagramprocessOther.ControlFlowShapes[i] == nil) {
+				ControlFlowShapesDifferent = true
+				break
+			} else if diagramprocess.ControlFlowShapes[i] != nil && diagramprocessOther.ControlFlowShapes[i] != nil {
+				// this is a pointer comparaison
+				if diagramprocess.ControlFlowShapes[i] != diagramprocessOther.ControlFlowShapes[i] {
+					ControlFlowShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ControlFlowShapesDifferent {
+		ops := Diff(stage, diagramprocess, diagramprocessOther, "ControlFlowShapes", diagramprocessOther.ControlFlowShapes, diagramprocess.ControlFlowShapes)
 		diffs = append(diffs, ops)
 	}
 
@@ -1749,6 +1793,9 @@ func (participant *Participant) GongDiff(stage *Stage, participantOther *Partici
 	if TasksDifferent {
 		ops := Diff(stage, participant, participantOther, "Tasks", participantOther.Tasks, participant.Tasks)
 		diffs = append(diffs, ops)
+	}
+	if participant.IsControlFlowsNodeExpanded != participantOther.IsControlFlowsNodeExpanded {
+		diffs = append(diffs, participant.GongMarshallField(stage, "IsControlFlowsNodeExpanded"))
 	}
 	ControlFlowsDifferent := false
 	if len(participant.ControlFlows) != len(participantOther.ControlFlows) {

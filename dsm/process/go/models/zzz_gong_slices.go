@@ -70,11 +70,18 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.DiagramProcess_TaskShapes_reverseMap[_taskshape] = diagramprocess
 		}
 	}
-	stage.DiagramProcess_ControlFlowShape_reverseMap = make(map[*ControlFlowShape]*DiagramProcess)
+	stage.DiagramProcess_ControlFlowsWhoseNodeIsExpanded_reverseMap = make(map[*ControlFlow]*DiagramProcess)
 	for diagramprocess := range stage.DiagramProcesss {
 		_ = diagramprocess
-		for _, _controlflowshape := range diagramprocess.ControlFlowShape {
-			stage.DiagramProcess_ControlFlowShape_reverseMap[_controlflowshape] = diagramprocess
+		for _, _controlflow := range diagramprocess.ControlFlowsWhoseNodeIsExpanded {
+			stage.DiagramProcess_ControlFlowsWhoseNodeIsExpanded_reverseMap[_controlflow] = diagramprocess
+		}
+	}
+	stage.DiagramProcess_ControlFlowShapes_reverseMap = make(map[*ControlFlowShape]*DiagramProcess)
+	for diagramprocess := range stage.DiagramProcesss {
+		_ = diagramprocess
+		for _, _controlflowshape := range diagramprocess.ControlFlowShapes {
+			stage.DiagramProcess_ControlFlowShapes_reverseMap[_controlflowshape] = diagramprocess
 		}
 	}
 
