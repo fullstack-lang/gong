@@ -125,6 +125,20 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Participant_ControlFlows_reverseMap[_controlflow] = participant
 		}
 	}
+	stage.Participant_TaskWhoseOutControlFlowsNodeIsExpanded_reverseMap = make(map[*Task]*Participant)
+	for participant := range stage.Participants {
+		_ = participant
+		for _, _task := range participant.TaskWhoseOutControlFlowsNodeIsExpanded {
+			stage.Participant_TaskWhoseOutControlFlowsNodeIsExpanded_reverseMap[_task] = participant
+		}
+	}
+	stage.Participant_TaskWhoseInControlFlowsNodeIsExpanded_reverseMap = make(map[*Task]*Participant)
+	for participant := range stage.Participants {
+		_ = participant
+		for _, _task := range participant.TaskWhoseInControlFlowsNodeIsExpanded {
+			stage.Participant_TaskWhoseInControlFlowsNodeIsExpanded_reverseMap[_task] = participant
+		}
+	}
 
 	// Compute reverse map for named struct ParticipantShape
 	// insertion point per field

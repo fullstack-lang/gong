@@ -32,10 +32,10 @@ func _(stage *models.Stage) {
 	__ControlFlow__00000002_ := (&models.ControlFlow{Name: `T4 to End`}).Stage(stage)
 	__ControlFlow__00000003_ := (&models.ControlFlow{Name: `Start to T1`}).Stage(stage)
 
-	__ControlFlowShape__00000000_ := (&models.ControlFlowShape{Name: `T1 to T2`}).Stage(stage)
 	__ControlFlowShape__00000001_ := (&models.ControlFlowShape{Name: `T2 to T4`}).Stage(stage)
 	__ControlFlowShape__00000002_ := (&models.ControlFlowShape{Name: `T4 to End`}).Stage(stage)
 	__ControlFlowShape__00000003_ := (&models.ControlFlowShape{Name: `Start to T1`}).Stage(stage)
+	__ControlFlowShape__00000004_ := (&models.ControlFlowShape{Name: `T1 to T2`}).Stage(stage)
 
 	__DiagramProcess__00000005_ := (&models.DiagramProcess{Name: `DiagramProcess`}).Stage(stage)
 
@@ -81,14 +81,6 @@ func _(stage *models.Stage) {
 	__ControlFlow__00000003_.Name = `Start to T1`
 	__ControlFlow__00000003_.ComputedPrefix = ``
 
-	__ControlFlowShape__00000000_.Name = `T1 to T2`
-	__ControlFlowShape__00000000_.StartRatio = 0.500000
-	__ControlFlowShape__00000000_.EndRatio = 0.500000
-	__ControlFlowShape__00000000_.StartOrientation = models.ORIENTATION_VERTICAL
-	__ControlFlowShape__00000000_.EndOrientation = models.ORIENTATION_VERTICAL
-	__ControlFlowShape__00000000_.CornerOffsetRatio = 1.469409
-	__ControlFlowShape__00000000_.IsHidden = false
-
 	__ControlFlowShape__00000001_.Name = `T2 to T4`
 	__ControlFlowShape__00000001_.StartRatio = 0.559622
 	__ControlFlowShape__00000001_.EndRatio = 0.500000
@@ -106,12 +98,20 @@ func _(stage *models.Stage) {
 	__ControlFlowShape__00000002_.IsHidden = false
 
 	__ControlFlowShape__00000003_.Name = `Start to T1`
-	__ControlFlowShape__00000003_.StartRatio = 0.500000
+	__ControlFlowShape__00000003_.StartRatio = 0.910949
 	__ControlFlowShape__00000003_.EndRatio = 0.500000
 	__ControlFlowShape__00000003_.StartOrientation = models.ORIENTATION_VERTICAL
 	__ControlFlowShape__00000003_.EndOrientation = models.ORIENTATION_VERTICAL
 	__ControlFlowShape__00000003_.CornerOffsetRatio = 3.065808
 	__ControlFlowShape__00000003_.IsHidden = false
+
+	__ControlFlowShape__00000004_.Name = `T1 to T2`
+	__ControlFlowShape__00000004_.StartRatio = 0.500000
+	__ControlFlowShape__00000004_.EndRatio = 0.500000
+	__ControlFlowShape__00000004_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ControlFlowShape__00000004_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ControlFlowShape__00000004_.CornerOffsetRatio = 1.355222
+	__ControlFlowShape__00000004_.IsHidden = false
 
 	__DiagramProcess__00000005_.Name = `DiagramProcess`
 	__DiagramProcess__00000005_.ComputedPrefix = ``
@@ -269,10 +269,10 @@ func _(stage *models.Stage) {
 	__ControlFlow__00000002_.End = __Task__00000005_
 	__ControlFlow__00000003_.Start = __Task__00000004_
 	__ControlFlow__00000003_.End = __Task__00000001_
-	__ControlFlowShape__00000000_.ControlFlow = __ControlFlow__00000000_
 	__ControlFlowShape__00000001_.ControlFlow = __ControlFlow__00000001_
 	__ControlFlowShape__00000002_.ControlFlow = __ControlFlow__00000002_
 	__ControlFlowShape__00000003_.ControlFlow = __ControlFlow__00000003_
+	__ControlFlowShape__00000004_.ControlFlow = __ControlFlow__00000000_
 	__DiagramProcess__00000005_.Process_Shapes = append(__DiagramProcess__00000005_.Process_Shapes, __ProcessShape__00000005_)
 	__DiagramProcess__00000005_.Participant_Shapes = append(__DiagramProcess__00000005_.Participant_Shapes, __ParticipantShape__00000009_)
 	__DiagramProcess__00000005_.Participant_Shapes = append(__DiagramProcess__00000005_.Participant_Shapes, __ParticipantShape__00000006_)
@@ -286,10 +286,10 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000005_.TaskShapes = append(__DiagramProcess__00000005_.TaskShapes, __TaskShape__00000007_)
 	__DiagramProcess__00000005_.TaskShapes = append(__DiagramProcess__00000005_.TaskShapes, __TaskShape__00000008_)
 	__DiagramProcess__00000005_.ControlFlowsWhoseNodeIsExpanded = append(__DiagramProcess__00000005_.ControlFlowsWhoseNodeIsExpanded, __ControlFlow__00000000_)
-	__DiagramProcess__00000005_.ControlFlowShapes = append(__DiagramProcess__00000005_.ControlFlowShapes, __ControlFlowShape__00000000_)
 	__DiagramProcess__00000005_.ControlFlowShapes = append(__DiagramProcess__00000005_.ControlFlowShapes, __ControlFlowShape__00000001_)
 	__DiagramProcess__00000005_.ControlFlowShapes = append(__DiagramProcess__00000005_.ControlFlowShapes, __ControlFlowShape__00000002_)
 	__DiagramProcess__00000005_.ControlFlowShapes = append(__DiagramProcess__00000005_.ControlFlowShapes, __ControlFlowShape__00000003_)
+	__DiagramProcess__00000005_.ControlFlowShapes = append(__DiagramProcess__00000005_.ControlFlowShapes, __ControlFlowShape__00000004_)
 	__Library__00000000_.RootProcesses = append(__Library__00000000_.RootProcesses, __Process__00000005_)
 	__Library__00000000_.ProcesssWhoseNodeIsExpanded = append(__Library__00000000_.ProcesssWhoseNodeIsExpanded, __Process__00000005_)
 	__Participant__00000003_.Tasks = append(__Participant__00000003_.Tasks, __Task__00000001_)

@@ -438,6 +438,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(participant.GongMarshallField(stage, "Tasks"))
 		initializerStatements.WriteString(participant.GongMarshallField(stage, "IsControlFlowsNodeExpanded"))
 		pointersInitializesStatements.WriteString(participant.GongMarshallField(stage, "ControlFlows"))
+		pointersInitializesStatements.WriteString(participant.GongMarshallField(stage, "TaskWhoseOutControlFlowsNodeIsExpanded"))
+		pointersInitializesStatements.WriteString(participant.GongMarshallField(stage, "TaskWhoseInControlFlowsNodeIsExpanded"))
 	}
 
 	participantshapeOrdered := []*ParticipantShape{}
@@ -1110,6 +1112,26 @@ func (participant *Participant) GongMarshallField(stage *Stage, fieldName string
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
+	case "TaskWhoseOutControlFlowsNodeIsExpanded":
+		var sb strings.Builder
+		for _, _task := range participant.TaskWhoseOutControlFlowsNodeIsExpanded {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", participant.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "TaskWhoseOutControlFlowsNodeIsExpanded")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _task.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "TaskWhoseInControlFlowsNodeIsExpanded":
+		var sb strings.Builder
+		for _, _task := range participant.TaskWhoseInControlFlowsNodeIsExpanded {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", participant.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "TaskWhoseInControlFlowsNodeIsExpanded")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _task.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Participant", fieldName)
 	}
@@ -1486,6 +1508,8 @@ func (participant *Participant) GongMarshallAllFields(stage *Stage) (initRes str
 		pointersInitializesStatements.WriteString(participant.GongMarshallField(stage, "Tasks"))
 		initializerStatements.WriteString(participant.GongMarshallField(stage, "IsControlFlowsNodeExpanded"))
 		pointersInitializesStatements.WriteString(participant.GongMarshallField(stage, "ControlFlows"))
+		pointersInitializesStatements.WriteString(participant.GongMarshallField(stage, "TaskWhoseOutControlFlowsNodeIsExpanded"))
+		pointersInitializesStatements.WriteString(participant.GongMarshallField(stage, "TaskWhoseInControlFlowsNodeIsExpanded"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

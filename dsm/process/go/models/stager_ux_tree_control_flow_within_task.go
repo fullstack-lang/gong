@@ -8,11 +8,10 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
-func (stager *Stager) treeControlFlows(
+func (stager *Stager) treecontrolflowsWithinTask(
 	diagramProcess *DiagramProcess,
 	controlFlow *ControlFlow,
 	parentNode *tree.Node,
-	controlflowWhoseNodeIsExpanded *[]*ControlFlow,
 ) {
 	stage := stager.stage
 
@@ -21,7 +20,7 @@ func (stager *Stager) treeControlFlows(
 
 	node := &tree.Node{
 		Name:              controlFlow.GetName(),
-		IsExpanded:        slices.Index(*controlflowWhoseNodeIsExpanded, controlFlow) != -1,
+		IsExpanded:        false,
 		IsNodeClickable:   true,
 		IsInEditMode:      controlFlow.GetIsInRenameMode(),
 		HasCheckboxButton: true,
@@ -93,19 +92,6 @@ func (stager *Stager) treeControlFlows(
 			idx := slices.Index(diagramProcess.ControlFlowShapes, shape)
 			diagramProcess.ControlFlowShapes = slices.Delete(diagramProcess.ControlFlowShapes, idx, idx+1)
 			stage.Commit()
-			return
-		}
-		if frontNode.IsExpanded != node.IsExpanded {
-			if frontNode.IsExpanded {
-				if slices.Index(*controlflowWhoseNodeIsExpanded, controlFlow) == -1 {
-					*controlflowWhoseNodeIsExpanded = append(*controlflowWhoseNodeIsExpanded, controlFlow)
-				}
-			} else {
-				if idx := slices.Index(*controlflowWhoseNodeIsExpanded, controlFlow); idx != -1 {
-					*controlflowWhoseNodeIsExpanded = slices.Delete(*controlflowWhoseNodeIsExpanded, idx, idx+1)
-				}
-			}
-			stager.stage.Commit()
 			return
 		}
 		stager.probeForm.FillUpFormFromGongstruct(controlFlow, GetPointerToGongstructName[*ControlFlow]())

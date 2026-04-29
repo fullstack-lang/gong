@@ -222,6 +222,10 @@ type Stage struct {
 
 	Participant_ControlFlows_reverseMap map[*ControlFlow]*Participant
 
+	Participant_TaskWhoseOutControlFlowsNodeIsExpanded_reverseMap map[*Task]*Participant
+
+	Participant_TaskWhoseInControlFlowsNodeIsExpanded_reverseMap map[*Task]*Participant
+
 	OnAfterParticipantCreateCallback OnAfterCreateInterface[Participant]
 	OnAfterParticipantUpdateCallback OnAfterUpdateInterface[Participant]
 	OnAfterParticipantDeleteCallback OnAfterDeleteInterface[Participant]
@@ -2749,6 +2753,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Tasks: []*Task{{Name: "Tasks"}},
 			// field is initialized with an instance of ControlFlow with the name of the field
 			ControlFlows: []*ControlFlow{{Name: "ControlFlows"}},
+			// field is initialized with an instance of Task with the name of the field
+			TaskWhoseOutControlFlowsNodeIsExpanded: []*Task{{Name: "TaskWhoseOutControlFlowsNodeIsExpanded"}},
+			// field is initialized with an instance of Task with the name of the field
+			TaskWhoseInControlFlowsNodeIsExpanded: []*Task{{Name: "TaskWhoseInControlFlowsNodeIsExpanded"}},
 		}).(*Type)
 	case ParticipantShape:
 		return any(&ParticipantShape{
@@ -3098,6 +3106,22 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "TaskWhoseOutControlFlowsNodeIsExpanded":
+			res := make(map[*Task][]*Participant)
+			for participant := range stage.Participants {
+				for _, task_ := range participant.TaskWhoseOutControlFlowsNodeIsExpanded {
+					res[task_] = append(res[task_], participant)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "TaskWhoseInControlFlowsNodeIsExpanded":
+			res := make(map[*Task][]*Participant)
+			for participant := range stage.Participants {
+				for _, task_ := range participant.TaskWhoseInControlFlowsNodeIsExpanded {
+					res[task_] = append(res[task_], participant)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of ParticipantShape
 	case ParticipantShape:
@@ -3289,6 +3313,12 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		res = append(res, rf)
 		rf.GongstructName = "Participant"
 		rf.Fieldname = "Tasks"
+		res = append(res, rf)
+		rf.GongstructName = "Participant"
+		rf.Fieldname = "TaskWhoseOutControlFlowsNodeIsExpanded"
+		res = append(res, rf)
+		rf.GongstructName = "Participant"
+		rf.Fieldname = "TaskWhoseInControlFlowsNodeIsExpanded"
 		res = append(res, rf)
 	case *TaskShape:
 		var rf ReverseField
@@ -3529,6 +3559,16 @@ func (participant *Participant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "ControlFlows",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "ControlFlow",
+		},
+		{
+			Name:                 "TaskWhoseOutControlFlowsNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Task",
+		},
+		{
+			Name:                 "TaskWhoseInControlFlowsNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Task",
 		},
 	}
 	return
@@ -4042,6 +4082,26 @@ func (participant *Participant) GongGetFieldValue(fieldName string, stage *Stage
 	case "ControlFlows":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range participant.ControlFlows {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "TaskWhoseOutControlFlowsNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range participant.TaskWhoseOutControlFlowsNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "TaskWhoseInControlFlowsNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range participant.TaskWhoseInControlFlowsNodeIsExpanded {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -4567,6 +4627,34 @@ func (participant *Participant) GongSetFieldValue(fieldName string, value GongFi
 				for __instance__ := range stage.ControlFlows {
 					if stage.ControlFlow_stagedOrder[__instance__] == uint(id) {
 						participant.ControlFlows = append(participant.ControlFlows, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "TaskWhoseOutControlFlowsNodeIsExpanded":
+		participant.TaskWhoseOutControlFlowsNodeIsExpanded = make([]*Task, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Tasks {
+					if stage.Task_stagedOrder[__instance__] == uint(id) {
+						participant.TaskWhoseOutControlFlowsNodeIsExpanded = append(participant.TaskWhoseOutControlFlowsNodeIsExpanded, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "TaskWhoseInControlFlowsNodeIsExpanded":
+		participant.TaskWhoseInControlFlowsNodeIsExpanded = make([]*Task, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Tasks {
+					if stage.Task_stagedOrder[__instance__] == uint(id) {
+						participant.TaskWhoseInControlFlowsNodeIsExpanded = append(participant.TaskWhoseInControlFlowsNodeIsExpanded, __instance__)
 						break
 					}
 				}
