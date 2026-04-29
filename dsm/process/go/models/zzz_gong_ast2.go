@@ -470,6 +470,49 @@ func (u *ControlFlowUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 	return nil
 }
 
+type ControlFlowShapeUnmarshaller struct{}
+
+func (u *ControlFlowShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(ControlFlowShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *ControlFlowShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*ControlFlowShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "ControlFlow":
+		GongUnmarshallPointer(&instance.ControlFlow, valueExpr, identifierMap)
+	case "StartRatio":
+		instance.StartRatio = GongExtractFloat(valueExpr)
+	case "EndRatio":
+		instance.EndRatio = GongExtractFloat(valueExpr)
+	case "StartOrientation":
+		GongUnmarshallEnum(&instance.StartOrientation, valueExpr)
+	case "EndOrientation":
+		GongUnmarshallEnum(&instance.EndOrientation, valueExpr)
+	case "CornerOffsetRatio":
+		instance.CornerOffsetRatio = GongExtractFloat(valueExpr)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
+	}
+	return nil
+}
+
 type DiagramProcessUnmarshaller struct{}
 
 func (u *DiagramProcessUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -527,6 +570,8 @@ func (u *DiagramProcessUnmarshaller) UnmarshallField(stage *Stage, i GongstructI
 		GongUnmarshallSliceOfPointers(&instance.TasksWhoseNodeIsExpanded, valueExpr, identifierMap)
 	case "TaskShapes":
 		GongUnmarshallSliceOfPointers(&instance.TaskShapes, valueExpr, identifierMap)
+	case "ControlFlowShape":
+		GongUnmarshallSliceOfPointers(&instance.ControlFlowShape, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -601,6 +646,8 @@ func (u *ParticipantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 		instance.Name = GongExtractString(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "IsTasksNodeExpanded":
+		instance.IsTasksNodeExpanded = GongExtractBool(valueExpr)
 	case "Tasks":
 		GongUnmarshallSliceOfPointers(&instance.Tasks, valueExpr, identifierMap)
 	case "ControlFlows":

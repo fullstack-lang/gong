@@ -20,6 +20,35 @@ func (from *ControlFlow) CopyBasicFields(to *ControlFlow) {
 	to.Name = from.Name
 }
 
+type ControlFlowShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	StartRatio float64
+
+	EndRatio float64
+
+	StartOrientation OrientationType
+
+	EndOrientation OrientationType
+
+	CornerOffsetRatio float64
+
+	IsHidden bool
+}
+
+func (from *ControlFlowShape) CopyBasicFields(to *ControlFlowShape) {
+	// insertion point
+	to.Name = from.Name
+	to.StartRatio = from.StartRatio
+	to.EndRatio = from.EndRatio
+	to.StartOrientation = from.StartOrientation
+	to.EndOrientation = from.EndOrientation
+	to.CornerOffsetRatio = from.CornerOffsetRatio
+	to.IsHidden = from.IsHidden
+}
+
 type DiagramProcess_WOP struct {
 	// insertion point
 
@@ -90,12 +119,15 @@ type Participant_WOP struct {
 	Name string
 
 	ComputedPrefix string
+
+	IsTasksNodeExpanded bool
 }
 
 func (from *Participant) CopyBasicFields(to *Participant) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
+	to.IsTasksNodeExpanded = from.IsTasksNodeExpanded
 }
 
 type ParticipantShape_WOP struct {
