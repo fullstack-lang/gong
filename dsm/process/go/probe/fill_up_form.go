@@ -235,6 +235,8 @@ func FillUpForm(
 		BasicFieldtoForm("IsControlFlowsNodeExpanded", instanceWithInferedType.IsControlFlowsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		AssociationSliceToForm("ControlFlows", instanceWithInferedType, &instanceWithInferedType.ControlFlows, formGroup, probe)
+		AssociationSliceToForm("TaskWhoseOutControlFlowsNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.TaskWhoseOutControlFlowsNodeIsExpanded, formGroup, probe)
+		AssociationSliceToForm("TaskWhoseInControlFlowsNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.TaskWhoseInControlFlowsNodeIsExpanded, formGroup, probe)
 		{
 			var rf models.ReverseField
 			_ = rf
@@ -533,6 +535,50 @@ func FillUpForm(
 				AssociationReverseFieldToForm[*models.Participant](
 					nil,
 					"Tasks",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			}
+		}
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "Participant"
+			rf.Fieldname = "TaskWhoseOutControlFlowsNodeIsExpanded"
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.Participant),
+					"TaskWhoseOutControlFlowsNodeIsExpanded",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			} else {
+				AssociationReverseFieldToForm[*models.Participant](
+					nil,
+					"TaskWhoseOutControlFlowsNodeIsExpanded",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			}
+		}
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "Participant"
+			rf.Fieldname = "TaskWhoseInControlFlowsNodeIsExpanded"
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.Participant),
+					"TaskWhoseInControlFlowsNodeIsExpanded",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			} else {
+				AssociationReverseFieldToForm[*models.Participant](
+					nil,
+					"TaskWhoseInControlFlowsNodeIsExpanded",
 					instanceWithInferedType,
 					formGroup,
 					probe)
