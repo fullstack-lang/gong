@@ -13,6 +13,9 @@ func (stager *Stager) enforceDiagramMaps() {
 
 		diagram.map_Participant_ParticipantShape = make(map[*Participant]*ParticipantShape)
 		updateMapElementDiagrams(stager, diagram, diagram.Participant_Shapes, diagram.map_Participant_ParticipantShape)
+
+		diagram.map_Task_TaskShape = make(map[*Task]*TaskShape)
+		updateMapElementDiagrams(stager, diagram, diagram.TaskShapes, diagram.map_Task_TaskShape)
 	}
 }
 

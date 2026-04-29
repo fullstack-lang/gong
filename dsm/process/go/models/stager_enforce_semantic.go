@@ -65,6 +65,7 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		// concrete semantic check
 		{"enforceAtLeastOneDiagramPerProcess", stager.enforceAtLeastOneDiagramPerProcess},
 		{"enforceAProcessDiagramHasItsOwningProcess", stager.enforceAProcessDiagramHasItsOwningProcess},
+		{"enforceNodeShapeDuplicates", stager.enforceNodeShapeDuplicates},
 		{"enforceRelationDuplicates", stager.enforceRelationDuplicates},
 		{"enforceShapeOrphans", stager.enforceShapeOrphans},
 		{"enforceParticipantShapeOrder", stager.enforceParticipantShapeOrder},
