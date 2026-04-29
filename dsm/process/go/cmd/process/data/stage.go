@@ -68,6 +68,7 @@ func _(stage *models.Stage) {
 	__Library__00000000_.ComputedPrefix = ``
 	__Library__00000000_.NbPixPerCharacter = 8.000000
 	__Library__00000000_.LogoSVGFile = ``
+	__Library__00000000_.IsExpandedTmp = true
 
 	__Participant__00000003_.Name = `PP1`
 	__Participant__00000003_.ComputedPrefix = ``

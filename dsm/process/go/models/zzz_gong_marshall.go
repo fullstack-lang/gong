@@ -342,6 +342,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(library.GongMarshallField(stage, "LogoSVGFile"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootProcesses"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "ProcesssWhoseNodeIsExpanded"))
+		initializerStatements.WriteString(library.GongMarshallField(stage, "IsExpandedTmp"))
 	}
 
 	participantOrdered := []*Participant{}
@@ -798,6 +799,11 @@ func (library *Library) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LogoSVGFile")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(library.LogoSVGFile))
+	case "IsExpandedTmp":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpandedTmp")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", library.IsExpandedTmp))
 
 	case "SubLibraries":
 		var sb strings.Builder
@@ -1174,6 +1180,7 @@ func (library *Library) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		initializerStatements.WriteString(library.GongMarshallField(stage, "LogoSVGFile"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootProcesses"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "ProcesssWhoseNodeIsExpanded"))
+		initializerStatements.WriteString(library.GongMarshallField(stage, "IsExpandedTmp"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

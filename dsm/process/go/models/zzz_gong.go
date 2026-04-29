@@ -2916,6 +2916,10 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Process",
 		},
+		{
+			Name:               "IsExpandedTmp",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
 	}
 	return
 }
@@ -3324,6 +3328,10 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "IsExpandedTmp":
+		res.valueString = fmt.Sprintf("%t", library.IsExpandedTmp)
+		res.valueBool = library.IsExpandedTmp
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -3716,6 +3724,8 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 				}
 			}
 		}
+	case "IsExpandedTmp":
+		library.IsExpandedTmp = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

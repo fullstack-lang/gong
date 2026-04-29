@@ -1361,6 +1361,9 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		ops := Diff(stage, library, libraryOther, "ProcesssWhoseNodeIsExpanded", libraryOther.ProcesssWhoseNodeIsExpanded, library.ProcesssWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
+	if library.IsExpandedTmp != libraryOther.IsExpandedTmp {
+		diffs = append(diffs, library.GongMarshallField(stage, "IsExpandedTmp"))
+	}
 
 	return
 }
