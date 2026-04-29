@@ -9,6 +9,17 @@ var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
 var _ = __GONG_time_The_fool_doth_think_he_is_wise__
 
 // insertion point
+type ControlFlow_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *ControlFlow) CopyBasicFields(to *ControlFlow) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type DiagramProcess_WOP struct {
 	// insertion point
 

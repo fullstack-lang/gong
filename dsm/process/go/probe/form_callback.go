@@ -19,6 +19,154 @@ var _ = slices.Delete([]string{"a"}, 0, 1)
 var _ = log.Panicf
 
 // insertion point
+func __gong__New__ControlFlowFormCallback(
+	controlflow *models.ControlFlow,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (controlflowFormCallback *ControlFlowFormCallback) {
+	controlflowFormCallback = new(ControlFlowFormCallback)
+	controlflowFormCallback.probe = probe
+	controlflowFormCallback.controlflow = controlflow
+	controlflowFormCallback.formGroup = formGroup
+
+	controlflowFormCallback.CreationMode = (controlflow == nil)
+
+	return
+}
+
+type ControlFlowFormCallback struct {
+	controlflow *models.ControlFlow
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (controlflowFormCallback *ControlFlowFormCallback) OnSave() {
+	controlflowFormCallback.probe.stageOfInterest.Lock()
+	defer controlflowFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("ControlFlowFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	controlflowFormCallback.probe.formStage.Checkout()
+
+	if controlflowFormCallback.controlflow == nil {
+		controlflowFormCallback.controlflow = new(models.ControlFlow).Stage(controlflowFormCallback.probe.stageOfInterest)
+	}
+	controlflow_ := controlflowFormCallback.controlflow
+	_ = controlflow_
+
+	for _, formDiv := range controlflowFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(controlflow_.Name), formDiv)
+		case "Start":
+			FormDivSelectFieldToField(&(controlflow_.Start), controlflowFormCallback.probe.stageOfInterest, formDiv)
+		case "End":
+			FormDivSelectFieldToField(&(controlflow_.End), controlflowFormCallback.probe.stageOfInterest, formDiv)
+		case "Participant:ControlFlows":
+			// WARNING : this form deals with the N-N association "Participant.ControlFlows []*ControlFlow" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of ControlFlow). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Participant
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Participant"
+				rf.Fieldname = "ControlFlows"
+				formerAssociationSource := controlflow_.GongGetReverseFieldOwner(
+					controlflowFormCallback.probe.stageOfInterest,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Participant)
+					if !ok {
+						log.Fatalln("Source of Participant.ControlFlows []*ControlFlow, is not an Participant instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.ControlFlows, controlflow_)
+					formerSource.ControlFlows = slices.Delete(formerSource.ControlFlows, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Participant
+			for _participant := range *models.GetGongstructInstancesSet[models.Participant](controlflowFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _participant.GetName() == newSourceName.GetName() {
+					newSource = _participant // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Participant.ControlFlows []*ControlFlow, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.ControlFlows = append(newSource.ControlFlows, controlflow_)
+		}
+	}
+
+	// manage the suppress operation
+	if controlflowFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		controlflow_.Unstage(controlflowFormCallback.probe.stageOfInterest)
+	}
+
+	controlflowFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.ControlFlow](
+		controlflowFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if controlflowFormCallback.CreationMode || controlflowFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		controlflowFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(controlflowFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__ControlFlowFormCallback(
+			nil,
+			controlflowFormCallback.probe,
+			newFormGroup,
+		)
+		controlflow := new(models.ControlFlow)
+		FillUpForm(controlflow, newFormGroup, controlflowFormCallback.probe)
+		controlflowFormCallback.probe.formStage.Commit()
+	}
+
+	controlflowFormCallback.probe.ux_tree()
+}
 func __gong__New__DiagramProcessFormCallback(
 	diagramprocess *models.DiagramProcess,
 	probe *Probe,
@@ -759,6 +907,37 @@ func (participantFormCallback *ParticipantFormCallback) OnSave() {
 				}
 			}
 			participant_.Tasks = instanceSlice
+
+		case "ControlFlows":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ControlFlow](participantFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.ControlFlow, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.ControlFlow)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					participantFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.ControlFlow](participantFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			participant_.ControlFlows = instanceSlice
 
 		case "DiagramProcess:ParticipantWhoseNodeIsExpanded":
 			// WARNING : this form deals with the N-N association "DiagramProcess.ParticipantWhoseNodeIsExpanded []*Participant" but

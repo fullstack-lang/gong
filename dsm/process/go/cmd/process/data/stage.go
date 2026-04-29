@@ -102,10 +102,10 @@ func _(stage *models.Stage) {
 
 	__ParticipantShape__00000009_.Name = `PP1-DiagramProcess`
 	__ParticipantShape__00000009_.IsExpanded = false
-	__ParticipantShape__00000009_.X = 100.517970
-	__ParticipantShape__00000009_.Y = 122.098051
-	__ParticipantShape__00000009_.Width = 250.000000
-	__ParticipantShape__00000009_.Height = 70.000000
+	__ParticipantShape__00000009_.X = 86.000000
+	__ParticipantShape__00000009_.Y = 68.000000
+	__ParticipantShape__00000009_.Width = 375.000000
+	__ParticipantShape__00000009_.Height = 940.000000
 	__ParticipantShape__00000009_.IsHidden = false
 
 	__Process__00000005_.Name = `P1`
@@ -163,8 +163,8 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000004_.Name = `Start-DiagramProcess`
 	__TaskShape__00000004_.IsExpanded = false
-	__TaskShape__00000004_.X = 169.000000
-	__TaskShape__00000004_.Y = 142.683844
+	__TaskShape__00000004_.X = 191.000000
+	__TaskShape__00000004_.Y = 143.683844
 	__TaskShape__00000004_.Width = 58.000000
 	__TaskShape__00000004_.Height = 20.000000
 	__TaskShape__00000004_.IsHidden = false

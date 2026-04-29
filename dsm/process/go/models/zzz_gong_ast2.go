@@ -437,6 +437,39 @@ func GongUnmarshallEnum[T interface{ FromCodeString(string) error }](
 }
 
 // insertion point per named struct
+type ControlFlowUnmarshaller struct{}
+
+func (u *ControlFlowUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(ControlFlow)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *ControlFlowUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*ControlFlow)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Start":
+		GongUnmarshallPointer(&instance.Start, valueExpr, identifierMap)
+	case "End":
+		GongUnmarshallPointer(&instance.End, valueExpr, identifierMap)
+	}
+	return nil
+}
+
 type DiagramProcessUnmarshaller struct{}
 
 func (u *DiagramProcessUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -570,6 +603,8 @@ func (u *ParticipantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "Tasks":
 		GongUnmarshallSliceOfPointers(&instance.Tasks, valueExpr, identifierMap)
+	case "ControlFlows":
+		GongUnmarshallSliceOfPointers(&instance.ControlFlows, valueExpr, identifierMap)
 	}
 	return nil
 }

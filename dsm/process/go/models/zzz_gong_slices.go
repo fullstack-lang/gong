@@ -20,6 +20,9 @@ var (
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per named struct
+	// Compute reverse map for named struct ControlFlow
+	// insertion point per field
+
 	// Compute reverse map for named struct DiagramProcess
 	// insertion point per field
 	stage.DiagramProcess_Process_Shapes_reverseMap = make(map[*ProcessShape]*DiagramProcess)
@@ -98,6 +101,13 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Participant_Tasks_reverseMap[_task] = participant
 		}
 	}
+	stage.Participant_ControlFlows_reverseMap = make(map[*ControlFlow]*Participant)
+	for participant := range stage.Participants {
+		_ = participant
+		for _, _controlflow := range participant.ControlFlows {
+			stage.Participant_ControlFlows_reverseMap[_controlflow] = participant
+		}
+	}
 
 	// Compute reverse map for named struct ParticipantShape
 	// insertion point per field
@@ -154,6 +164,10 @@ func (stage *Stage) ComputeReverseMaps() {
 
 func (stage *Stage) GetInstances() (res []GongstructIF) {
 	// insertion point per named struct
+	for instance := range stage.ControlFlows {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.DiagramProcesss {
 		res = append(res, instance)
 	}
@@ -190,6 +204,12 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 }
 
 // insertion point per named struct
+func (controlflow *ControlFlow) GongCopy() GongstructIF {
+	newInstance := new(ControlFlow)
+	controlflow.CopyBasicFields(newInstance)
+	return newInstance
+}
+
 func (diagramprocess *DiagramProcess) GongCopy() GongstructIF {
 	newInstance := new(DiagramProcess)
 	diagramprocess.CopyBasicFields(newInstance)
@@ -239,6 +259,16 @@ func (taskshape *TaskShape) GongCopy() GongstructIF {
 }
 
 // insertion point per named struct
+func (controlflow *ControlFlow) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(controlflow).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(controlflow), uint64(GetOrderPointerGongstruct(stage, controlflow)))
+	return
+}
+
 func (diagramprocess *DiagramProcess) GongGetUUID(stage *Stage) (uuid string) {
 
 	if __gong__, ok := any(diagramprocess).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
@@ -337,6 +367,57 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	stage.Clean()
 
 	// insertion point per named struct
+	var controlflows_newInstances []*ControlFlow
+	var controlflows_deletedInstances []*ControlFlow
+
+	// parse all staged instances and check if they have a reference
+	for controlflow := range stage.ControlFlows {
+		if ref, ok := stage.ControlFlows_reference[controlflow]; !ok {
+			controlflows_newInstances = append(controlflows_newInstances, controlflow)
+			newInstancesSlice = append(newInstancesSlice, controlflow.GongMarshallIdentifier(stage))
+			if stage.ControlFlows_referenceOrder == nil {
+				stage.ControlFlows_referenceOrder = make(map[*ControlFlow]uint)
+			}
+			stage.ControlFlows_referenceOrder[controlflow] = stage.ControlFlow_stagedOrder[controlflow]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, controlflow.GongMarshallUnstaging(stage))
+			// delete(stage.ControlFlows_referenceOrder, controlflow)
+			fieldInitializers, pointersInitializations := controlflow.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.ControlFlow_stagedOrder[ref] = stage.ControlFlow_stagedOrder[controlflow]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := controlflow.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, controlflow)
+			// delete(stage.ControlFlow_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				fieldsEdit += fmt.Sprintf("\n\t// %s", controlflow.GetName())
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.ControlFlows_reference {
+		instance := stage.ControlFlows_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.ControlFlows[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			controlflows_deletedInstances = append(controlflows_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(controlflows_newInstances)
+	lenDeletedInstances += len(controlflows_deletedInstances)
 	var diagramprocesss_newInstances []*DiagramProcess
 	var diagramprocesss_deletedInstances []*DiagramProcess
 
@@ -780,6 +861,16 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 // ComputeReferenceAndOrders will creates a deep copy of each of the staged elements
 func (stage *Stage) ComputeReferenceAndOrders() {
 	// insertion point per named struct
+	stage.ControlFlows_reference = make(map[*ControlFlow]*ControlFlow)
+	stage.ControlFlows_referenceOrder = make(map[*ControlFlow]uint) // diff Unstage needs the reference order
+	stage.ControlFlows_instance = make(map[*ControlFlow]*ControlFlow)
+	for instance := range stage.ControlFlows {
+		_copy := instance.GongCopy().(*ControlFlow)
+		stage.ControlFlows_reference[instance] = _copy
+		stage.ControlFlows_instance[_copy] = instance
+		stage.ControlFlows_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.DiagramProcesss_reference = make(map[*DiagramProcess]*DiagramProcess)
 	stage.DiagramProcesss_referenceOrder = make(map[*DiagramProcess]uint) // diff Unstage needs the reference order
 	stage.DiagramProcesss_instance = make(map[*DiagramProcess]*DiagramProcess)
@@ -861,6 +952,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 	}
 
 	// insertion point per named struct
+	for instance := range stage.ControlFlows {
+		reference := stage.ControlFlows_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
 	for instance := range stage.DiagramProcesss {
 		reference := stage.DiagramProcesss_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
@@ -911,6 +1007,18 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 // which is important for frontends such as web frontends
 // to avoid unnecessary re-renderings
 // insertion point per named struct
+func (controlflow *ControlFlow) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.ControlFlow_stagedOrder[controlflow]; ok {
+		return order
+	}
+	if order, ok := stage.ControlFlows_referenceOrder[controlflow]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type ControlFlow was not staged and does not have a reference order", controlflow)
+		return 0
+	}
+}
+
 func (diagramprocess *DiagramProcess) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.DiagramProcess_stagedOrder[diagramprocess]; ok {
 		return order
@@ -1012,6 +1120,15 @@ func (taskshape *TaskShape) GongGetOrder(stage *Stage) uint {
 // in the staging area
 // It is used to identify instances across sessions
 // insertion point per named struct
+func (controlflow *ControlFlow) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", controlflow.GongGetGongstructName(), controlflow.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (controlflow *ControlFlow) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", controlflow.GongGetGongstructName(), controlflow.GongGetOrder(stage))
+}
+
 func (diagramprocess *DiagramProcess) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", diagramprocess.GongGetGongstructName(), diagramprocess.GongGetOrder(stage))
 }
@@ -1087,6 +1204,14 @@ func (taskshape *TaskShape) GongGetReferenceIdentifier(stage *Stage) string {
 // MarshallIdentifier returns the code to instantiate the instance
 // in a marshalling file
 // insertion point per named struct
+func (controlflow *ControlFlow) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", controlflow.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ControlFlow")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(controlflow.Name))
+	return
+}
+
 func (diagramprocess *DiagramProcess) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", diagramprocess.GongGetIdentifier(stage))
@@ -1152,6 +1277,12 @@ func (taskshape *TaskShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 }
 
 // insertion point for unstaging
+func (controlflow *ControlFlow) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", controlflow.GongGetReferenceIdentifier(stage))
+	return
+}
+
 func (diagramprocess *DiagramProcess) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", diagramprocess.GongGetReferenceIdentifier(stage))

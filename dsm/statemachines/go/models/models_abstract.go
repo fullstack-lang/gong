@@ -146,7 +146,9 @@ type Transition struct {
 
 	Guard *Guard
 
-	// Diagram dans lequel la transition est présente
+	// Diagrams where the transition is present
+	// it goes against the normalization principle but
+	// it is needed in the XL export
 	Diagrams []*Diagram
 
 	isInRenameMode bool
