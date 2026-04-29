@@ -7,7 +7,7 @@ import (
 func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, parentNodes *[]*tree.Node) {
 	libraryNode := &tree.Node{
 		Name:            library.Name,
-		IsExpanded:      library.isExpanded,
+		IsExpanded:      library.IsExpandedTmp,
 		IsNodeClickable: true,
 		IsInEditMode:    library.isInRenameMode,
 	}
@@ -20,10 +20,10 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 	libraryNode.OnUpdate = stager.OnUpdateLibrary(library)
 
 	// add sub library button
-	addAddItemButtonVerySimple(stager, &library.isExpanded, libraryNode, &library.SubLibraries)
+	addAddItemButtonVerySimple(stager, &library.IsExpandedTmp, libraryNode, &library.SubLibraries)
 
 	// add a process to the library button
-	addAddItemButtonVerySimple(stager, &library.isExpanded, libraryNode, &library.RootProcesses)
+	addAddItemButtonVerySimple(stager, &library.IsExpandedTmp, libraryNode, &library.RootProcesses)
 
 	for _, process := range library.RootProcesses {
 		stager.treeProcesses(process, libraryNode, &library.ProcesssWhoseNodeIsExpanded)
@@ -40,7 +40,7 @@ func (stager *Stager) OnUpdateLibrary(library *Library) func(stage *tree.Stage, 
 	return func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
 		if frontNode.IsExpanded != stagedNode.IsExpanded {
 			stagedNode.IsExpanded = frontNode.IsExpanded
-			library.isExpanded = frontNode.IsExpanded
+			library.IsExpandedTmp = frontNode.IsExpanded
 			stager.stage.Commit()
 			return
 		}

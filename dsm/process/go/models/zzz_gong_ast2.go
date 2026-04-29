@@ -535,6 +535,8 @@ func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		GongUnmarshallSliceOfPointers(&instance.RootProcesses, valueExpr, identifierMap)
 	case "ProcesssWhoseNodeIsExpanded":
 		GongUnmarshallSliceOfPointers(&instance.ProcesssWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "IsExpandedTmp":
+		instance.IsExpandedTmp = GongExtractBool(valueExpr)
 	}
 	return nil
 }

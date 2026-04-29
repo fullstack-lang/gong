@@ -60,6 +60,8 @@ type Library_WOP struct {
 	NbPixPerCharacter float64
 
 	LogoSVGFile string
+
+	IsExpandedTmp bool
 }
 
 func (from *Library) CopyBasicFields(to *Library) {
@@ -68,6 +70,7 @@ func (from *Library) CopyBasicFields(to *Library) {
 	to.ComputedPrefix = from.ComputedPrefix
 	to.NbPixPerCharacter = from.NbPixPerCharacter
 	to.LogoSVGFile = from.LogoSVGFile
+	to.IsExpandedTmp = from.IsExpandedTmp
 }
 
 type Participant_WOP struct {
