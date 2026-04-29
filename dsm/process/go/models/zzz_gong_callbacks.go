@@ -6,6 +6,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point
+	case *ControlFlow:
+		if stage.OnAfterControlFlowCreateCallback != nil {
+			stage.OnAfterControlFlowCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *DiagramProcess:
 		if stage.OnAfterDiagramProcessCreateCallback != nil {
 			stage.OnAfterDiagramProcessCreateCallback.OnAfterCreate(stage, target)
@@ -52,6 +56,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point
+	case *ControlFlow:
+		newTarget := any(new).(*ControlFlow)
+		if stage.OnAfterControlFlowUpdateCallback != nil {
+			stage.OnAfterControlFlowUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
 	case *DiagramProcess:
 		newTarget := any(new).(*DiagramProcess)
 		if stage.OnAfterDiagramProcessUpdateCallback != nil {
@@ -102,6 +111,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 
 	switch front := any(front).(type) {
 	// insertion point
+	case *ControlFlow:
+		if stage.OnAfterControlFlowDeleteCallback != nil {
+			staged := any(staged).(*ControlFlow)
+			stage.OnAfterControlFlowDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *DiagramProcess:
 		if stage.OnAfterDiagramProcessDeleteCallback != nil {
 			staged := any(staged).(*DiagramProcess)
@@ -152,6 +166,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point
+	case *ControlFlow:
+		if stage.OnAfterControlFlowReadCallback != nil {
+			stage.OnAfterControlFlowReadCallback.OnAfterRead(stage, target)
+		}
 	case *DiagramProcess:
 		if stage.OnAfterDiagramProcessReadCallback != nil {
 			stage.OnAfterDiagramProcessReadCallback.OnAfterRead(stage, target)
@@ -195,6 +213,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	var instance Type
 	switch any(instance).(type) {
 	// insertion point
+	case *ControlFlow:
+		stage.OnAfterControlFlowUpdateCallback = any(callback).(OnAfterUpdateInterface[ControlFlow])
 	case *DiagramProcess:
 		stage.OnAfterDiagramProcessUpdateCallback = any(callback).(OnAfterUpdateInterface[DiagramProcess])
 	case *Library:
@@ -218,6 +238,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	var instance Type
 	switch any(instance).(type) {
 		// insertion point
+	case *ControlFlow:
+		stage.OnAfterControlFlowCreateCallback = any(callback).(OnAfterCreateInterface[ControlFlow])
 	case *DiagramProcess:
 		stage.OnAfterDiagramProcessCreateCallback = any(callback).(OnAfterCreateInterface[DiagramProcess])
 	case *Library:
@@ -241,6 +263,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 	var instance Type
 	switch any(instance).(type) {
 		// insertion point
+	case *ControlFlow:
+		stage.OnAfterControlFlowDeleteCallback = any(callback).(OnAfterDeleteInterface[ControlFlow])
 	case *DiagramProcess:
 		stage.OnAfterDiagramProcessDeleteCallback = any(callback).(OnAfterDeleteInterface[DiagramProcess])
 	case *Library:
@@ -264,6 +288,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 	var instance Type
 	switch any(instance).(type) {
 		// insertion point
+	case *ControlFlow:
+		stage.OnAfterControlFlowReadCallback = any(callback).(OnAfterReadInterface[ControlFlow])
 	case *DiagramProcess:
 		stage.OnAfterDiagramProcessReadCallback = any(callback).(OnAfterReadInterface[DiagramProcess])
 	case *Library:

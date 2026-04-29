@@ -7,6 +7,8 @@ type Participant struct {
 	AbstractTypeFields
 
 	Tasks []*Task
+
+	ControlFlows []*ControlFlow
 }
 
 var _ AbstractType = (*Participant)(nil)

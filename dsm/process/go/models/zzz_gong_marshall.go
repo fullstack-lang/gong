@@ -270,6 +270,34 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	_ = setValueField
 
 	// insertion initialization of objects to stage
+	controlflowOrdered := []*ControlFlow{}
+	for controlflow := range stage.ControlFlows {
+		controlflowOrdered = append(controlflowOrdered, controlflow)
+	}
+	sort.Slice(controlflowOrdered[:], func(i, j int) bool {
+		controlflowi := controlflowOrdered[i]
+		controlflowj := controlflowOrdered[j]
+		controlflowi_order, oki := stage.ControlFlow_stagedOrder[controlflowi]
+		controlflowj_order, okj := stage.ControlFlow_stagedOrder[controlflowj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return controlflowi_order < controlflowj_order
+	})
+	if len(controlflowOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, controlflow := range controlflowOrdered {
+
+		identifiersDecl.WriteString(controlflow.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(controlflow.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(controlflow.GongMarshallField(stage, "Start"))
+		pointersInitializesStatements.WriteString(controlflow.GongMarshallField(stage, "End"))
+	}
+
 	diagramprocessOrdered := []*DiagramProcess{}
 	for diagramprocess := range stage.DiagramProcesss {
 		diagramprocessOrdered = append(diagramprocessOrdered, diagramprocess)
@@ -371,6 +399,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(participant.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(participant.GongMarshallField(stage, "ComputedPrefix"))
 		pointersInitializesStatements.WriteString(participant.GongMarshallField(stage, "Tasks"))
+		pointersInitializesStatements.WriteString(participant.GongMarshallField(stage, "ControlFlows"))
 	}
 
 	participantshapeOrdered := []*ParticipantShape{}
@@ -535,6 +564,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 
 	// insertion initialization of objects to stage
+	for _, controlflow := range controlflowOrdered {
+		_ = controlflow
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
 	for _, diagramprocess := range diagramprocessOrdered {
 		_ = diagramprocess
 		var setPointerField string
@@ -653,6 +690,47 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 }
 
 // insertion point for marshall field methods
+func (controlflow *ControlFlow) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", controlflow.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(controlflow.Name))
+
+	case "Start":
+		if controlflow.Start != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", controlflow.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Start")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", controlflow.Start.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", controlflow.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Start")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	case "End":
+		if controlflow.End != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", controlflow.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "End")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", controlflow.End.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", controlflow.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "End")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct ControlFlow", fieldName)
+	}
+	return
+}
+
 func (diagramprocess *DiagramProcess) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -864,6 +942,16 @@ func (participant *Participant) GongMarshallField(stage *Stage, fieldName string
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", participant.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Tasks")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _task.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "ControlFlows":
+		var sb strings.Builder
+		for _, _controlflow := range participant.ControlFlows {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", participant.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ControlFlows")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _controlflow.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
@@ -1153,6 +1241,19 @@ func (taskshape *TaskShape) GongMarshallField(stage *Stage, fieldName string) (r
 }
 
 // insertion point for marshall all fields methods
+func (controlflow *ControlFlow) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(controlflow.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(controlflow.GongMarshallField(stage, "Start"))
+		pointersInitializesStatements.WriteString(controlflow.GongMarshallField(stage, "End"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
 func (diagramprocess *DiagramProcess) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
 	var initializerStatements strings.Builder
@@ -1206,6 +1307,7 @@ func (participant *Participant) GongMarshallAllFields(stage *Stage) (initRes str
 		initializerStatements.WriteString(participant.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(participant.GongMarshallField(stage, "ComputedPrefix"))
 		pointersInitializesStatements.WriteString(participant.GongMarshallField(stage, "Tasks"))
+		pointersInitializesStatements.WriteString(participant.GongMarshallField(stage, "ControlFlows"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
