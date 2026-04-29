@@ -173,3 +173,32 @@ func (from *Task) CopyBasicFields(to *Task) {
 	to.ComputedPrefix = from.ComputedPrefix
 }
 
+type TaskShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	IsExpanded bool
+
+	X float64
+
+	Y float64
+
+	Width float64
+
+	Height float64
+
+	IsHidden bool
+}
+
+func (from *TaskShape) CopyBasicFields(to *TaskShape) {
+	// insertion point
+	to.Name = from.Name
+	to.IsExpanded = from.IsExpanded
+	to.X = from.X
+	to.Y = from.Y
+	to.Width = from.Width
+	to.Height = from.Height
+	to.IsHidden = from.IsHidden
+}
+
