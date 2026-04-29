@@ -10,6 +10,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *ControlFlow:
 		ok = stage.IsStagedControlFlow(target)
 
+	case *ControlFlowShape:
+		ok = stage.IsStagedControlFlowShape(target)
+
 	case *DiagramProcess:
 		ok = stage.IsStagedDiagramProcess(target)
 
@@ -47,6 +50,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 	case *ControlFlow:
 		ok = stage.IsStagedControlFlow(target)
 
+	case *ControlFlowShape:
+		ok = stage.IsStagedControlFlowShape(target)
+
 	case *DiagramProcess:
 		ok = stage.IsStagedDiagramProcess(target)
 
@@ -81,6 +87,13 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 func (stage *Stage) IsStagedControlFlow(controlflow *ControlFlow) (ok bool) {
 
 	_, ok = stage.ControlFlows[controlflow]
+
+	return
+}
+
+func (stage *Stage) IsStagedControlFlowShape(controlflowshape *ControlFlowShape) (ok bool) {
+
+	_, ok = stage.ControlFlowShapes[controlflowshape]
 
 	return
 }
@@ -152,6 +165,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *ControlFlow:
 		stage.StageBranchControlFlow(target)
 
+	case *ControlFlowShape:
+		stage.StageBranchControlFlowShape(target)
+
 	case *DiagramProcess:
 		stage.StageBranchDiagramProcess(target)
 
@@ -203,6 +219,24 @@ func (stage *Stage) StageBranchControlFlow(controlflow *ControlFlow) {
 
 }
 
+func (stage *Stage) StageBranchControlFlowShape(controlflowshape *ControlFlowShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, controlflowshape) {
+		return
+	}
+
+	controlflowshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if controlflowshape.ControlFlow != nil {
+		StageBranch(stage, controlflowshape.ControlFlow)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) StageBranchDiagramProcess(diagramprocess *DiagramProcess) {
 
 	// check if instance is already staged
@@ -232,6 +266,9 @@ func (stage *Stage) StageBranchDiagramProcess(diagramprocess *DiagramProcess) {
 	}
 	for _, _taskshape := range diagramprocess.TaskShapes {
 		StageBranch(stage, _taskshape)
+	}
+	for _, _controlflowshape := range diagramprocess.ControlFlowShape {
+		StageBranch(stage, _controlflowshape)
 	}
 
 }
@@ -395,6 +432,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchControlFlow(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *ControlFlowShape:
+		toT := CopyBranchControlFlowShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *DiagramProcess:
 		toT := CopyBranchDiagramProcess(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -459,6 +500,28 @@ func CopyBranchControlFlow(mapOrigCopy map[any]any, controlflowFrom *ControlFlow
 	return
 }
 
+func CopyBranchControlFlowShape(mapOrigCopy map[any]any, controlflowshapeFrom *ControlFlowShape) (controlflowshapeTo *ControlFlowShape) {
+
+	// controlflowshapeFrom has already been copied
+	if _controlflowshapeTo, ok := mapOrigCopy[controlflowshapeFrom]; ok {
+		controlflowshapeTo = _controlflowshapeTo.(*ControlFlowShape)
+		return
+	}
+
+	controlflowshapeTo = new(ControlFlowShape)
+	mapOrigCopy[controlflowshapeFrom] = controlflowshapeTo
+	controlflowshapeFrom.CopyBasicFields(controlflowshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if controlflowshapeFrom.ControlFlow != nil {
+		controlflowshapeTo.ControlFlow = CopyBranchControlFlow(mapOrigCopy, controlflowshapeFrom.ControlFlow)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchDiagramProcess(mapOrigCopy map[any]any, diagramprocessFrom *DiagramProcess) (diagramprocessTo *DiagramProcess) {
 
 	// diagramprocessFrom has already been copied
@@ -491,6 +554,9 @@ func CopyBranchDiagramProcess(mapOrigCopy map[any]any, diagramprocessFrom *Diagr
 	}
 	for _, _taskshape := range diagramprocessFrom.TaskShapes {
 		diagramprocessTo.TaskShapes = append(diagramprocessTo.TaskShapes, CopyBranchTaskShape(mapOrigCopy, _taskshape))
+	}
+	for _, _controlflowshape := range diagramprocessFrom.ControlFlowShape {
+		diagramprocessTo.ControlFlowShape = append(diagramprocessTo.ControlFlowShape, CopyBranchControlFlowShape(mapOrigCopy, _controlflowshape))
 	}
 
 	return
@@ -679,6 +745,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *ControlFlow:
 		stage.UnstageBranchControlFlow(target)
 
+	case *ControlFlowShape:
+		stage.UnstageBranchControlFlowShape(target)
+
 	case *DiagramProcess:
 		stage.UnstageBranchDiagramProcess(target)
 
@@ -730,6 +799,24 @@ func (stage *Stage) UnstageBranchControlFlow(controlflow *ControlFlow) {
 
 }
 
+func (stage *Stage) UnstageBranchControlFlowShape(controlflowshape *ControlFlowShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, controlflowshape) {
+		return
+	}
+
+	controlflowshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if controlflowshape.ControlFlow != nil {
+		UnstageBranch(stage, controlflowshape.ControlFlow)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) UnstageBranchDiagramProcess(diagramprocess *DiagramProcess) {
 
 	// check if instance is already staged
@@ -759,6 +846,9 @@ func (stage *Stage) UnstageBranchDiagramProcess(diagramprocess *DiagramProcess) 
 	}
 	for _, _taskshape := range diagramprocess.TaskShapes {
 		UnstageBranch(stage, _taskshape)
+	}
+	for _, _controlflowshape := range diagramprocess.ControlFlowShape {
+		UnstageBranch(stage, _controlflowshape)
 	}
 
 }
@@ -921,6 +1011,16 @@ func (reference *ControlFlow) GongReconstructPointersFromReferences(stage *Stage
 	return
 }
 
+func (reference *ControlFlowShape) GongReconstructPointersFromReferences(stage *Stage, instance *ControlFlowShape) () {
+	// insertion point for pointers field
+	if instance.ControlFlow != nil {
+		reference.ControlFlow = stage.ControlFlows_reference[instance.ControlFlow]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
 func (reference *DiagramProcess) GongReconstructPointersFromReferences(stage *Stage, instance *DiagramProcess) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -947,6 +1047,10 @@ func (reference *DiagramProcess) GongReconstructPointersFromReferences(stage *St
 	reference.TaskShapes = reference.TaskShapes[:0]
 	for _, _b := range instance.TaskShapes {
 		reference.TaskShapes = append(reference.TaskShapes, stage.TaskShapes_reference[_b])
+	}
+	reference.ControlFlowShape = reference.ControlFlowShape[:0]
+	for _, _b := range instance.ControlFlowShape {
+		reference.ControlFlowShape = append(reference.ControlFlowShape, stage.ControlFlowShapes_reference[_b])
 	}
 
 	return
@@ -1070,6 +1174,19 @@ func (reference *ControlFlow) GongReconstructPointersFromInstances(stage *Stage)
 	return
 }
 
+func (reference *ControlFlowShape) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.ControlFlow; _reference != nil {
+		reference.ControlFlow = nil
+		if _instance, ok := stage.ControlFlows_instance[_reference]; ok {
+			reference.ControlFlow = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
 func (reference *DiagramProcess) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
@@ -1115,6 +1232,13 @@ func (reference *DiagramProcess) GongReconstructPointersFromInstances(stage *Sta
 		}
 	}
 	reference.TaskShapes = _TaskShapes
+	var _ControlFlowShape []*ControlFlowShape
+	for _, _reference := range reference.ControlFlowShape {
+		if _instance, ok := stage.ControlFlowShapes_instance[_reference]; ok {
+			_ControlFlowShape = append(_ControlFlowShape, _instance)
+		}
+	}
+	reference.ControlFlowShape = _ControlFlowShape
 
 	return
 }
@@ -1284,6 +1408,42 @@ func (controlflow *ControlFlow) GongDiff(stage *Stage, controlflowOther *Control
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
+func (controlflowshape *ControlFlowShape) GongDiff(stage *Stage, controlflowshapeOther *ControlFlowShape) (diffs []string) {
+	// insertion point for field diffs
+	if controlflowshape.Name != controlflowshapeOther.Name {
+		diffs = append(diffs, controlflowshape.GongMarshallField(stage, "Name"))
+	}
+	if (controlflowshape.ControlFlow == nil) != (controlflowshapeOther.ControlFlow == nil) {
+		diffs = append(diffs, controlflowshape.GongMarshallField(stage, "ControlFlow"))
+	} else if controlflowshape.ControlFlow != nil && controlflowshapeOther.ControlFlow != nil {
+		if controlflowshape.ControlFlow != controlflowshapeOther.ControlFlow {
+			diffs = append(diffs, controlflowshape.GongMarshallField(stage, "ControlFlow"))
+		}
+	}
+	if controlflowshape.StartRatio != controlflowshapeOther.StartRatio {
+		diffs = append(diffs, controlflowshape.GongMarshallField(stage, "StartRatio"))
+	}
+	if controlflowshape.EndRatio != controlflowshapeOther.EndRatio {
+		diffs = append(diffs, controlflowshape.GongMarshallField(stage, "EndRatio"))
+	}
+	if controlflowshape.StartOrientation != controlflowshapeOther.StartOrientation {
+		diffs = append(diffs, controlflowshape.GongMarshallField(stage, "StartOrientation"))
+	}
+	if controlflowshape.EndOrientation != controlflowshapeOther.EndOrientation {
+		diffs = append(diffs, controlflowshape.GongMarshallField(stage, "EndOrientation"))
+	}
+	if controlflowshape.CornerOffsetRatio != controlflowshapeOther.CornerOffsetRatio {
+		diffs = append(diffs, controlflowshape.GongMarshallField(stage, "CornerOffsetRatio"))
+	}
+	if controlflowshape.IsHidden != controlflowshapeOther.IsHidden {
+		diffs = append(diffs, controlflowshape.GongMarshallField(stage, "IsHidden"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
 func (diagramprocess *DiagramProcess) GongDiff(stage *Stage, diagramprocessOther *DiagramProcess) (diffs []string) {
 	// insertion point for field diffs
 	if diagramprocess.Name != diagramprocessOther.Name {
@@ -1445,6 +1605,27 @@ func (diagramprocess *DiagramProcess) GongDiff(stage *Stage, diagramprocessOther
 		ops := Diff(stage, diagramprocess, diagramprocessOther, "TaskShapes", diagramprocessOther.TaskShapes, diagramprocess.TaskShapes)
 		diffs = append(diffs, ops)
 	}
+	ControlFlowShapeDifferent := false
+	if len(diagramprocess.ControlFlowShape) != len(diagramprocessOther.ControlFlowShape) {
+		ControlFlowShapeDifferent = true
+	} else {
+		for i := range diagramprocess.ControlFlowShape {
+			if (diagramprocess.ControlFlowShape[i] == nil) != (diagramprocessOther.ControlFlowShape[i] == nil) {
+				ControlFlowShapeDifferent = true
+				break
+			} else if diagramprocess.ControlFlowShape[i] != nil && diagramprocessOther.ControlFlowShape[i] != nil {
+				// this is a pointer comparaison
+				if diagramprocess.ControlFlowShape[i] != diagramprocessOther.ControlFlowShape[i] {
+					ControlFlowShapeDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ControlFlowShapeDifferent {
+		ops := Diff(stage, diagramprocess, diagramprocessOther, "ControlFlowShape", diagramprocessOther.ControlFlowShape, diagramprocess.ControlFlowShape)
+		diffs = append(diffs, ops)
+	}
 
 	return
 }
@@ -1544,6 +1725,9 @@ func (participant *Participant) GongDiff(stage *Stage, participantOther *Partici
 	}
 	if participant.ComputedPrefix != participantOther.ComputedPrefix {
 		diffs = append(diffs, participant.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	if participant.IsTasksNodeExpanded != participantOther.IsTasksNodeExpanded {
+		diffs = append(diffs, participant.GongMarshallField(stage, "IsTasksNodeExpanded"))
 	}
 	TasksDifferent := false
 	if len(participant.Tasks) != len(participantOther.Tasks) {

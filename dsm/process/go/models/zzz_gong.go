@@ -141,6 +141,21 @@ type Stage struct {
 	OnAfterControlFlowDeleteCallback OnAfterDeleteInterface[ControlFlow]
 	OnAfterControlFlowReadCallback   OnAfterReadInterface[ControlFlow]
 
+	ControlFlowShapes                map[*ControlFlowShape]struct{}
+	ControlFlowShapes_instance       map[*ControlFlowShape]*ControlFlowShape
+	ControlFlowShapes_mapString      map[string]*ControlFlowShape
+	ControlFlowShapeOrder            uint
+	ControlFlowShape_stagedOrder     map[*ControlFlowShape]uint
+	ControlFlowShape_orderStaged     map[uint]*ControlFlowShape
+	ControlFlowShapes_reference      map[*ControlFlowShape]*ControlFlowShape
+	ControlFlowShapes_referenceOrder map[*ControlFlowShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterControlFlowShapeCreateCallback OnAfterCreateInterface[ControlFlowShape]
+	OnAfterControlFlowShapeUpdateCallback OnAfterUpdateInterface[ControlFlowShape]
+	OnAfterControlFlowShapeDeleteCallback OnAfterDeleteInterface[ControlFlowShape]
+	OnAfterControlFlowShapeReadCallback   OnAfterReadInterface[ControlFlowShape]
+
 	DiagramProcesss                map[*DiagramProcess]struct{}
 	DiagramProcesss_instance       map[*DiagramProcess]*DiagramProcess
 	DiagramProcesss_mapString      map[string]*DiagramProcess
@@ -162,6 +177,8 @@ type Stage struct {
 	DiagramProcess_TasksWhoseNodeIsExpanded_reverseMap map[*Task]*DiagramProcess
 
 	DiagramProcess_TaskShapes_reverseMap map[*TaskShape]*DiagramProcess
+
+	DiagramProcess_ControlFlowShape_reverseMap map[*ControlFlowShape]*DiagramProcess
 
 	OnAfterDiagramProcessCreateCallback OnAfterCreateInterface[DiagramProcess]
 	OnAfterDiagramProcessUpdateCallback OnAfterUpdateInterface[DiagramProcess]
@@ -533,6 +550,10 @@ func (stage *Stage) Squash() {
 	stage.ControlFlows_instance = make(map[*ControlFlow]*ControlFlow)
 	stage.ControlFlows_referenceOrder = make(map[*ControlFlow]uint)
 
+	stage.ControlFlowShapes_reference = make(map[*ControlFlowShape]*ControlFlowShape)
+	stage.ControlFlowShapes_instance = make(map[*ControlFlowShape]*ControlFlowShape)
+	stage.ControlFlowShapes_referenceOrder = make(map[*ControlFlowShape]uint)
+
 	stage.DiagramProcesss_reference = make(map[*DiagramProcess]*DiagramProcess)
 	stage.DiagramProcesss_instance = make(map[*DiagramProcess]*DiagramProcess)
 	stage.DiagramProcesss_referenceOrder = make(map[*DiagramProcess]uint)
@@ -604,6 +625,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.ControlFlowOrder = maxControlFlowOrder + 1
 	} else {
 		stage.ControlFlowOrder = 0
+	}
+
+	var maxControlFlowShapeOrder uint
+	var foundControlFlowShape bool
+	for _, order := range stage.ControlFlowShape_stagedOrder {
+		if !foundControlFlowShape || order > maxControlFlowShapeOrder {
+			maxControlFlowShapeOrder = order
+			foundControlFlowShape = true
+		}
+	}
+	if foundControlFlowShape {
+		stage.ControlFlowShapeOrder = maxControlFlowShapeOrder + 1
+	} else {
+		stage.ControlFlowShapeOrder = 0
 	}
 
 	var maxDiagramProcessOrder uint
@@ -793,6 +828,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *ControlFlowShape:
+		tmp := GetStructInstancesByOrder(stage.ControlFlowShapes, stage.ControlFlowShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *ControlFlowShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *DiagramProcess:
 		tmp := GetStructInstancesByOrder(stage.DiagramProcesss, stage.DiagramProcess_stagedOrder)
 
@@ -936,6 +985,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 	// insertion point for case
 	case "ControlFlow":
 		res = GetNamedStructInstances(stage.ControlFlows, stage.ControlFlow_stagedOrder)
+	case "ControlFlowShape":
+		res = GetNamedStructInstances(stage.ControlFlowShapes, stage.ControlFlowShape_stagedOrder)
 	case "DiagramProcess":
 		res = GetNamedStructInstances(stage.DiagramProcesss, stage.DiagramProcess_stagedOrder)
 	case "Library":
@@ -1023,6 +1074,8 @@ type BackRepoInterface interface {
 	// insertion point for Commit and Checkout signatures
 	CommitControlFlow(controlflow *ControlFlow)
 	CheckoutControlFlow(controlflow *ControlFlow)
+	CommitControlFlowShape(controlflowshape *ControlFlowShape)
+	CheckoutControlFlowShape(controlflowshape *ControlFlowShape)
 	CommitDiagramProcess(diagramprocess *DiagramProcess)
 	CheckoutDiagramProcess(diagramprocess *DiagramProcess)
 	CommitLibrary(library *Library)
@@ -1047,6 +1100,9 @@ func NewStage(name string) (stage *Stage) {
 	stage = &Stage{ // insertion point for array initiatialisation
 		ControlFlows:           make(map[*ControlFlow]struct{}),
 		ControlFlows_mapString: make(map[string]*ControlFlow),
+
+		ControlFlowShapes:           make(map[*ControlFlowShape]struct{}),
+		ControlFlowShapes_mapString: make(map[string]*ControlFlowShape),
 
 		DiagramProcesss:           make(map[*DiagramProcess]struct{}),
 		DiagramProcesss_mapString: make(map[string]*DiagramProcess),
@@ -1086,6 +1142,10 @@ func NewStage(name string) (stage *Stage) {
 		ControlFlow_orderStaged: make(map[uint]*ControlFlow),
 		ControlFlows_reference: make(map[*ControlFlow]*ControlFlow),
 
+		ControlFlowShape_stagedOrder: make(map[*ControlFlowShape]uint),
+		ControlFlowShape_orderStaged: make(map[uint]*ControlFlowShape),
+		ControlFlowShapes_reference: make(map[*ControlFlowShape]*ControlFlowShape),
+
 		DiagramProcess_stagedOrder: make(map[*DiagramProcess]uint),
 		DiagramProcess_orderStaged: make(map[uint]*DiagramProcess),
 		DiagramProcesss_reference: make(map[*DiagramProcess]*DiagramProcess),
@@ -1122,6 +1182,8 @@ func NewStage(name string) (stage *Stage) {
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
 			"ControlFlow": &ControlFlowUnmarshaller{},
 
+			"ControlFlowShape": &ControlFlowShapeUnmarshaller{},
+
 			"DiagramProcess": &DiagramProcessUnmarshaller{},
 
 			"Library": &LibraryUnmarshaller{},
@@ -1143,6 +1205,7 @@ func NewStage(name string) (stage *Stage) {
 
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
 			{name: "ControlFlow"},
+			{name: "ControlFlowShape"},
 			{name: "DiagramProcess"},
 			{name: "Library"},
 			{name: "Participant"},
@@ -1164,6 +1227,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 	// insertion point for order map initialisations
 	case *ControlFlow:
 		return stage.ControlFlow_stagedOrder[instance]
+	case *ControlFlowShape:
+		return stage.ControlFlowShape_stagedOrder[instance]
 	case *DiagramProcess:
 		return stage.DiagramProcess_stagedOrder[instance]
 	case *Library:
@@ -1191,6 +1256,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 	// insertion point for order map initialisations
 	case *ControlFlow:
 		return any(stage.ControlFlow_orderStaged[order]).(Type)
+	case *ControlFlowShape:
+		return any(stage.ControlFlowShape_orderStaged[order]).(Type)
 	case *DiagramProcess:
 		return any(stage.DiagramProcess_orderStaged[order]).(Type)
 	case *Library:
@@ -1217,6 +1284,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 	// insertion point for order map initialisations
 	case *ControlFlow:
 		return stage.ControlFlow_stagedOrder[instance]
+	case *ControlFlowShape:
+		return stage.ControlFlowShape_stagedOrder[instance]
 	case *DiagramProcess:
 		return stage.DiagramProcess_stagedOrder[instance]
 	case *Library:
@@ -1299,6 +1368,7 @@ func (stage *Stage) Commit() {
 func (stage *Stage) ComputeInstancesNb() {
 	// insertion point for computing the map of number of instances per gongstruct
 	stage.Map_GongStructName_InstancesNb["ControlFlow"] = len(stage.ControlFlows)
+	stage.Map_GongStructName_InstancesNb["ControlFlowShape"] = len(stage.ControlFlowShapes)
 	stage.Map_GongStructName_InstancesNb["DiagramProcess"] = len(stage.DiagramProcesss)
 	stage.Map_GongStructName_InstancesNb["Library"] = len(stage.Librarys)
 	stage.Map_GongStructName_InstancesNb["Participant"] = len(stage.Participants)
@@ -1433,6 +1503,94 @@ func (controlflow *ControlFlow) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (controlflow *ControlFlow) SetName(name string) {
 	controlflow.Name = name
+}
+
+// Stage puts controlflowshape to the model stage
+func (controlflowshape *ControlFlowShape) Stage(stage *Stage) *ControlFlowShape {
+	if _, ok := stage.ControlFlowShapes[controlflowshape]; !ok {
+		stage.ControlFlowShapes[controlflowshape] = struct{}{}
+		stage.ControlFlowShape_stagedOrder[controlflowshape] = stage.ControlFlowShapeOrder
+		stage.ControlFlowShape_orderStaged[stage.ControlFlowShapeOrder] = controlflowshape
+		stage.ControlFlowShapeOrder++
+	}
+	stage.ControlFlowShapes_mapString[controlflowshape.Name] = controlflowshape
+
+	return controlflowshape
+}
+
+// StagePreserveOrder puts controlflowshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ControlFlowShapeOrder
+// - update stage.ControlFlowShapeOrder accordingly
+func (controlflowshape *ControlFlowShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.ControlFlowShapes[controlflowshape]; !ok {
+		stage.ControlFlowShapes[controlflowshape] = struct{}{}
+
+		if order > stage.ControlFlowShapeOrder {
+			stage.ControlFlowShapeOrder = order
+		}
+		stage.ControlFlowShape_stagedOrder[controlflowshape] = order
+		stage.ControlFlowShape_orderStaged[order] = controlflowshape
+		stage.ControlFlowShapeOrder++
+	}
+	stage.ControlFlowShapes_mapString[controlflowshape.Name] = controlflowshape
+}
+
+// Unstage removes controlflowshape off the model stage
+func (controlflowshape *ControlFlowShape) Unstage(stage *Stage) *ControlFlowShape {
+	delete(stage.ControlFlowShapes, controlflowshape)
+	// issue1150
+	// delete(stage.ControlFlowShape_stagedOrder, controlflowshape)
+	delete(stage.ControlFlowShapes_mapString, controlflowshape.Name)
+
+	return controlflowshape
+}
+
+// UnstageVoid removes controlflowshape off the model stage
+func (controlflowshape *ControlFlowShape) UnstageVoid(stage *Stage) {
+	delete(stage.ControlFlowShapes, controlflowshape)
+	// issue1150
+	// delete(stage.ControlFlowShape_stagedOrder, controlflowshape)
+	delete(stage.ControlFlowShapes_mapString, controlflowshape.Name)
+}
+
+// commit controlflowshape to the back repo (if it is already staged)
+func (controlflowshape *ControlFlowShape) Commit(stage *Stage) *ControlFlowShape {
+	if _, ok := stage.ControlFlowShapes[controlflowshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitControlFlowShape(controlflowshape)
+		}
+	}
+	return controlflowshape
+}
+
+func (controlflowshape *ControlFlowShape) CommitVoid(stage *Stage) {
+	controlflowshape.Commit(stage)
+}
+
+func (controlflowshape *ControlFlowShape) StageVoid(stage *Stage) {
+	controlflowshape.Stage(stage)
+}
+
+// Checkout controlflowshape to the back repo (if it is already staged)
+func (controlflowshape *ControlFlowShape) Checkout(stage *Stage) *ControlFlowShape {
+	if _, ok := stage.ControlFlowShapes[controlflowshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutControlFlowShape(controlflowshape)
+		}
+	}
+	return controlflowshape
+}
+
+// for satisfaction of GongStruct interface
+func (controlflowshape *ControlFlowShape) GetName() (res string) {
+	return controlflowshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (controlflowshape *ControlFlowShape) SetName(name string) {
+	controlflowshape.Name = name
 }
 
 // Stage puts diagramprocess to the model stage
@@ -2142,6 +2300,7 @@ func (taskshape *TaskShape) SetName(name string) {
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
 	CreateORMControlFlow(ControlFlow *ControlFlow)
+	CreateORMControlFlowShape(ControlFlowShape *ControlFlowShape)
 	CreateORMDiagramProcess(DiagramProcess *DiagramProcess)
 	CreateORMLibrary(Library *Library)
 	CreateORMParticipant(Participant *Participant)
@@ -2154,6 +2313,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
 	DeleteORMControlFlow(ControlFlow *ControlFlow)
+	DeleteORMControlFlowShape(ControlFlowShape *ControlFlowShape)
 	DeleteORMDiagramProcess(DiagramProcess *DiagramProcess)
 	DeleteORMLibrary(Library *Library)
 	DeleteORMParticipant(Participant *Participant)
@@ -2169,6 +2329,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.ControlFlows_mapString = make(map[string]*ControlFlow)
 	stage.ControlFlow_stagedOrder = make(map[*ControlFlow]uint)
 	stage.ControlFlowOrder = 0
+
+	stage.ControlFlowShapes = make(map[*ControlFlowShape]struct{})
+	stage.ControlFlowShapes_mapString = make(map[string]*ControlFlowShape)
+	stage.ControlFlowShape_stagedOrder = make(map[*ControlFlowShape]uint)
+	stage.ControlFlowShapeOrder = 0
 
 	stage.DiagramProcesss = make(map[*DiagramProcess]struct{})
 	stage.DiagramProcesss_mapString = make(map[string]*DiagramProcess)
@@ -2222,6 +2387,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.ControlFlows = nil
 	stage.ControlFlows_mapString = nil
 
+	stage.ControlFlowShapes = nil
+	stage.ControlFlowShapes_mapString = nil
+
 	stage.DiagramProcesss = nil
 	stage.DiagramProcesss_mapString = nil
 
@@ -2252,6 +2420,10 @@ func (stage *Stage) Nil() { // insertion point for array nil
 func (stage *Stage) Unstage() { // insertion point for array nil
 	for controlflow := range stage.ControlFlows {
 		controlflow.Unstage(stage)
+	}
+
+	for controlflowshape := range stage.ControlFlowShapes {
+		controlflowshape.Unstage(stage)
 	}
 
 	for diagramprocess := range stage.DiagramProcesss {
@@ -2364,6 +2536,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 	// insertion point for generic get functions
 	case map[*ControlFlow]any:
 		return any(&stage.ControlFlows).(*Type)
+	case map[*ControlFlowShape]any:
+		return any(&stage.ControlFlowShapes).(*Type)
 	case map[*DiagramProcess]any:
 		return any(&stage.DiagramProcesss).(*Type)
 	case map[*Library]any:
@@ -2394,6 +2568,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 	// insertion point for generic get functions
 	case *ControlFlow:
 		return any(stage.ControlFlows_mapString).(map[string]Type)
+	case *ControlFlowShape:
+		return any(stage.ControlFlowShapes_mapString).(map[string]Type)
 	case *DiagramProcess:
 		return any(stage.DiagramProcesss_mapString).(map[string]Type)
 	case *Library:
@@ -2424,6 +2600,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 	// insertion point for generic get functions
 	case ControlFlow:
 		return any(&stage.ControlFlows).(*map[*Type]struct{})
+	case ControlFlowShape:
+		return any(&stage.ControlFlowShapes).(*map[*Type]struct{})
 	case DiagramProcess:
 		return any(&stage.DiagramProcesss).(*map[*Type]struct{})
 	case Library:
@@ -2454,6 +2632,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 	// insertion point for generic get functions
 	case *ControlFlow:
 		return any(&stage.ControlFlows).(*map[Type]struct{})
+	case *ControlFlowShape:
+		return any(&stage.ControlFlowShapes).(*map[Type]struct{})
 	case *DiagramProcess:
 		return any(&stage.DiagramProcesss).(*map[Type]struct{})
 	case *Library:
@@ -2484,6 +2664,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 	// insertion point for generic get functions
 	case ControlFlow:
 		return any(&stage.ControlFlows_mapString).(*map[string]*Type)
+	case ControlFlowShape:
+		return any(&stage.ControlFlowShapes_mapString).(*map[string]*Type)
 	case DiagramProcess:
 		return any(&stage.DiagramProcesss_mapString).(*map[string]*Type)
 	case Library:
@@ -2522,6 +2704,12 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// field is initialized with an instance of Task with the name of the field
 			End: &Task{Name: "End"},
 		}).(*Type)
+	case ControlFlowShape:
+		return any(&ControlFlowShape{
+			// Initialisation of associations
+			// field is initialized with an instance of ControlFlow with the name of the field
+			ControlFlow: &ControlFlow{Name: "ControlFlow"},
+		}).(*Type)
 	case DiagramProcess:
 		return any(&DiagramProcess{
 			// Initialisation of associations
@@ -2537,6 +2725,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			TasksWhoseNodeIsExpanded: []*Task{{Name: "TasksWhoseNodeIsExpanded"}},
 			// field is initialized with an instance of TaskShape with the name of the field
 			TaskShapes: []*TaskShape{{Name: "TaskShapes"}},
+			// field is initialized with an instance of ControlFlowShape with the name of the field
+			ControlFlowShape: []*ControlFlowShape{{Name: "ControlFlowShape"}},
 		}).(*Type)
 	case Library:
 		return any(&Library{
@@ -2644,6 +2834,28 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 					}
 					controlflows = append(controlflows, controlflow)
 					res[task_] = controlflows
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of ControlFlowShape
+	case ControlFlowShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "ControlFlow":
+			res := make(map[*ControlFlow][]*ControlFlowShape)
+			for controlflowshape := range stage.ControlFlowShapes {
+				if controlflowshape.ControlFlow != nil {
+					controlflow_ := controlflowshape.ControlFlow
+					var controlflowshapes []*ControlFlowShape
+					_, ok := res[controlflow_]
+					if ok {
+						controlflowshapes = res[controlflow_]
+					} else {
+						controlflowshapes = make([]*ControlFlowShape, 0)
+					}
+					controlflowshapes = append(controlflowshapes, controlflowshape)
+					res[controlflow_] = controlflowshapes
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -2759,6 +2971,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of ControlFlowShape
+	case ControlFlowShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of DiagramProcess
 	case DiagramProcess:
 		switch fieldname {
@@ -2808,6 +3025,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			for diagramprocess := range stage.DiagramProcesss {
 				for _, taskshape_ := range diagramprocess.TaskShapes {
 					res[taskshape_] = append(res[taskshape_], diagramprocess)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "ControlFlowShape":
+			res := make(map[*ControlFlowShape][]*DiagramProcess)
+			for diagramprocess := range stage.DiagramProcesss {
+				for _, controlflowshape_ := range diagramprocess.ControlFlowShape {
+					res[controlflowshape_] = append(res[controlflowshape_], diagramprocess)
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -2940,6 +3165,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 	// insertion point for generic get gongstruct name
 	case *ControlFlow:
 		res = "ControlFlow"
+	case *ControlFlowShape:
+		res = "ControlFlowShape"
 	case *DiagramProcess:
 		res = "DiagramProcess"
 	case *Library:
@@ -2978,6 +3205,12 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		_ = rf
 		rf.GongstructName = "Participant"
 		rf.Fieldname = "ControlFlows"
+		res = append(res, rf)
+	case *ControlFlowShape:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "DiagramProcess"
+		rf.Fieldname = "ControlFlowShape"
 		res = append(res, rf)
 	case *DiagramProcess:
 		var rf ReverseField
@@ -3074,6 +3307,48 @@ func (controlflow *ControlFlow) GongGetFieldHeaders() (res []GongFieldHeader) {
 	return
 }
 
+func (controlflowshape *ControlFlowShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "ControlFlow",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "ControlFlow",
+		},
+		{
+			Name:               "StartRatio",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "EndRatio",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:                 "StartOrientation",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "OrientationType",
+		},
+		{
+			Name:                 "EndOrientation",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "OrientationType",
+		},
+		{
+			Name:               "CornerOffsetRatio",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "IsHidden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+	}
+	return
+}
+
 func (diagramprocess *DiagramProcess) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -3151,6 +3426,11 @@ func (diagramprocess *DiagramProcess) GongGetFieldHeaders() (res []GongFieldHead
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "TaskShape",
 		},
+		{
+			Name:                 "ControlFlowShape",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "ControlFlowShape",
+		},
 	}
 	return
 }
@@ -3207,6 +3487,10 @@ func (participant *Participant) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsTasksNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:                 "Tasks",
@@ -3485,6 +3769,43 @@ func (controlflow *ControlFlow) GongGetFieldValue(fieldName string, stage *Stage
 	return
 }
 
+func (controlflowshape *ControlFlowShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = controlflowshape.Name
+	case "ControlFlow":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if controlflowshape.ControlFlow != nil {
+			res.valueString = controlflowshape.ControlFlow.Name
+			res.ids = controlflowshape.ControlFlow.GongGetUUID(stage)
+		}
+	case "StartRatio":
+		res.valueString = fmt.Sprintf("%f", controlflowshape.StartRatio)
+		res.valueFloat = controlflowshape.StartRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "EndRatio":
+		res.valueString = fmt.Sprintf("%f", controlflowshape.EndRatio)
+		res.valueFloat = controlflowshape.EndRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StartOrientation":
+		enum := controlflowshape.StartOrientation
+		res.valueString = enum.ToCodeString()
+	case "EndOrientation":
+		enum := controlflowshape.EndOrientation
+		res.valueString = enum.ToCodeString()
+	case "CornerOffsetRatio":
+		res.valueString = fmt.Sprintf("%f", controlflowshape.CornerOffsetRatio)
+		res.valueFloat = controlflowshape.CornerOffsetRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsHidden":
+		res.valueString = fmt.Sprintf("%t", controlflowshape.IsHidden)
+		res.valueBool = controlflowshape.IsHidden
+		res.GongFieldValueType = GongFieldValueTypeBool
+	}
+	return
+}
+
 func (diagramprocess *DiagramProcess) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -3588,6 +3909,16 @@ func (diagramprocess *DiagramProcess) GongGetFieldValue(fieldName string, stage 
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "ControlFlowShape":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagramprocess.ControlFlowShape {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	}
 	return
 }
@@ -3650,6 +3981,10 @@ func (participant *Participant) GongGetFieldValue(fieldName string, stage *Stage
 		res.valueString = participant.Name
 	case "ComputedPrefix":
 		res.valueString = participant.ComputedPrefix
+	case "IsTasksNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", participant.IsTasksNodeExpanded)
+		res.valueBool = participant.IsTasksNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "Tasks":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range participant.Tasks {
@@ -3914,6 +4249,40 @@ func (controlflow *ControlFlow) GongSetFieldValue(fieldName string, value GongFi
 	return nil
 }
 
+func (controlflowshape *ControlFlowShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		controlflowshape.Name = value.GetValueString()
+	case "ControlFlow":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			controlflowshape.ControlFlow = nil
+			for __instance__ := range stage.ControlFlows {
+				if stage.ControlFlow_stagedOrder[__instance__] == uint(id) {
+					controlflowshape.ControlFlow = __instance__
+					break
+				}
+			}
+		}
+	case "StartRatio":
+		controlflowshape.StartRatio = value.GetValueFloat()
+	case "EndRatio":
+		controlflowshape.EndRatio = value.GetValueFloat()
+	case "StartOrientation":
+		controlflowshape.StartOrientation.FromCodeString(value.GetValueString())
+	case "EndOrientation":
+		controlflowshape.EndOrientation.FromCodeString(value.GetValueString())
+	case "CornerOffsetRatio":
+		controlflowshape.CornerOffsetRatio = value.GetValueFloat()
+	case "IsHidden":
+		controlflowshape.IsHidden = value.GetValueBool()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (diagramprocess *DiagramProcess) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -4023,6 +4392,20 @@ func (diagramprocess *DiagramProcess) GongSetFieldValue(fieldName string, value 
 				}
 			}
 		}
+	case "ControlFlowShape":
+		diagramprocess.ControlFlowShape = make([]*ControlFlowShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.ControlFlowShapes {
+					if stage.ControlFlowShape_stagedOrder[__instance__] == uint(id) {
+						diagramprocess.ControlFlowShape = append(diagramprocess.ControlFlowShape, __instance__)
+						break
+					}
+				}
+			}
+		}
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -4097,6 +4480,8 @@ func (participant *Participant) GongSetFieldValue(fieldName string, value GongFi
 		participant.Name = value.GetValueString()
 	case "ComputedPrefix":
 		participant.ComputedPrefix = value.GetValueString()
+	case "IsTasksNodeExpanded":
+		participant.IsTasksNodeExpanded = value.GetValueBool()
 	case "Tasks":
 		participant.Tasks = make([]*Task, 0)
 		ids := strings.Split(value.ids, ";")
@@ -4344,6 +4729,10 @@ func (controlflow *ControlFlow) GongGetGongstructName() string {
 	return "ControlFlow"
 }
 
+func (controlflowshape *ControlFlowShape) GongGetGongstructName() string {
+	return "ControlFlowShape"
+}
+
 func (diagramprocess *DiagramProcess) GongGetGongstructName() string {
 	return "DiagramProcess"
 }
@@ -4386,6 +4775,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.ControlFlows_mapString = make(map[string]*ControlFlow)
 	for controlflow := range stage.ControlFlows {
 		stage.ControlFlows_mapString[controlflow.Name] = controlflow
+	}
+
+	stage.ControlFlowShapes_mapString = make(map[string]*ControlFlowShape)
+	for controlflowshape := range stage.ControlFlowShapes {
+		stage.ControlFlowShapes_mapString[controlflowshape.Name] = controlflowshape
 	}
 
 	stage.DiagramProcesss_mapString = make(map[string]*DiagramProcess)

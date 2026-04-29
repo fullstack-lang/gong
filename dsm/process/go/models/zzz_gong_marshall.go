@@ -298,6 +298,39 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(controlflow.GongMarshallField(stage, "End"))
 	}
 
+	controlflowshapeOrdered := []*ControlFlowShape{}
+	for controlflowshape := range stage.ControlFlowShapes {
+		controlflowshapeOrdered = append(controlflowshapeOrdered, controlflowshape)
+	}
+	sort.Slice(controlflowshapeOrdered[:], func(i, j int) bool {
+		controlflowshapei := controlflowshapeOrdered[i]
+		controlflowshapej := controlflowshapeOrdered[j]
+		controlflowshapei_order, oki := stage.ControlFlowShape_stagedOrder[controlflowshapei]
+		controlflowshapej_order, okj := stage.ControlFlowShape_stagedOrder[controlflowshapej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return controlflowshapei_order < controlflowshapej_order
+	})
+	if len(controlflowshapeOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, controlflowshape := range controlflowshapeOrdered {
+
+		identifiersDecl.WriteString(controlflowshape.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(controlflowshape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(controlflowshape.GongMarshallField(stage, "ControlFlow"))
+		initializerStatements.WriteString(controlflowshape.GongMarshallField(stage, "StartRatio"))
+		initializerStatements.WriteString(controlflowshape.GongMarshallField(stage, "EndRatio"))
+		initializerStatements.WriteString(controlflowshape.GongMarshallField(stage, "StartOrientation"))
+		initializerStatements.WriteString(controlflowshape.GongMarshallField(stage, "EndOrientation"))
+		initializerStatements.WriteString(controlflowshape.GongMarshallField(stage, "CornerOffsetRatio"))
+		initializerStatements.WriteString(controlflowshape.GongMarshallField(stage, "IsHidden"))
+	}
+
 	diagramprocessOrdered := []*DiagramProcess{}
 	for diagramprocess := range stage.DiagramProcesss {
 		diagramprocessOrdered = append(diagramprocessOrdered, diagramprocess)
@@ -338,6 +371,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "ParticipantWhoseNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "TasksWhoseNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "TaskShapes"))
+		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "ControlFlowShape"))
 	}
 
 	libraryOrdered := []*Library{}
@@ -398,6 +432,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(participant.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(participant.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(participant.GongMarshallField(stage, "IsTasksNodeExpanded"))
 		pointersInitializesStatements.WriteString(participant.GongMarshallField(stage, "Tasks"))
 		pointersInitializesStatements.WriteString(participant.GongMarshallField(stage, "ControlFlows"))
 	}
@@ -572,6 +607,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for pointers initialization
 	}
 
+	for _, controlflowshape := range controlflowshapeOrdered {
+		_ = controlflowshape
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
 	for _, diagramprocess := range diagramprocessOrdered {
 		_ = diagramprocess
 		var setPointerField string
@@ -731,6 +774,80 @@ func (controlflow *ControlFlow) GongMarshallField(stage *Stage, fieldName string
 	return
 }
 
+func (controlflowshape *ControlFlowShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", controlflowshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(controlflowshape.Name))
+	case "StartRatio":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", controlflowshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartRatio")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", controlflowshape.StartRatio))
+	case "EndRatio":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", controlflowshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndRatio")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", controlflowshape.EndRatio))
+	case "StartOrientation":
+		if controlflowshape.StartOrientation.ToCodeString() != "" {
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", controlflowshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartOrientation")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+controlflowshape.StartOrientation.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", controlflowshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartOrientation")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
+		}
+	case "EndOrientation":
+		if controlflowshape.EndOrientation.ToCodeString() != "" {
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", controlflowshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndOrientation")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+controlflowshape.EndOrientation.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", controlflowshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndOrientation")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
+		}
+	case "CornerOffsetRatio":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", controlflowshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CornerOffsetRatio")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", controlflowshape.CornerOffsetRatio))
+	case "IsHidden":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", controlflowshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", controlflowshape.IsHidden))
+
+	case "ControlFlow":
+		if controlflowshape.ControlFlow != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", controlflowshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ControlFlow")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", controlflowshape.ControlFlow.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", controlflowshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ControlFlow")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct ControlFlowShape", fieldName)
+	}
+	return
+}
+
 func (diagramprocess *DiagramProcess) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -850,6 +967,16 @@ func (diagramprocess *DiagramProcess) GongMarshallField(stage *Stage, fieldName 
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
+	case "ControlFlowShape":
+		var sb strings.Builder
+		for _, _controlflowshape := range diagramprocess.ControlFlowShape {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramprocess.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ControlFlowShape")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _controlflowshape.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct DiagramProcess", fieldName)
 	}
@@ -934,6 +1061,11 @@ func (participant *Participant) GongMarshallField(stage *Stage, fieldName string
 		res = strings.ReplaceAll(res, "{{Identifier}}", participant.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(participant.ComputedPrefix))
+	case "IsTasksNodeExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", participant.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsTasksNodeExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", participant.IsTasksNodeExpanded))
 
 	case "Tasks":
 		var sb strings.Builder
@@ -1254,6 +1386,24 @@ func (controlflow *ControlFlow) GongMarshallAllFields(stage *Stage) (initRes str
 	ptrRes = pointersInitializesStatements.String()
 	return
 }
+func (controlflowshape *ControlFlowShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(controlflowshape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(controlflowshape.GongMarshallField(stage, "ControlFlow"))
+		initializerStatements.WriteString(controlflowshape.GongMarshallField(stage, "StartRatio"))
+		initializerStatements.WriteString(controlflowshape.GongMarshallField(stage, "EndRatio"))
+		initializerStatements.WriteString(controlflowshape.GongMarshallField(stage, "StartOrientation"))
+		initializerStatements.WriteString(controlflowshape.GongMarshallField(stage, "EndOrientation"))
+		initializerStatements.WriteString(controlflowshape.GongMarshallField(stage, "CornerOffsetRatio"))
+		initializerStatements.WriteString(controlflowshape.GongMarshallField(stage, "IsHidden"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
 func (diagramprocess *DiagramProcess) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
 	var initializerStatements strings.Builder
@@ -1276,6 +1426,7 @@ func (diagramprocess *DiagramProcess) GongMarshallAllFields(stage *Stage) (initR
 		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "ParticipantWhoseNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "TasksWhoseNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "TaskShapes"))
+		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "ControlFlowShape"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -1306,6 +1457,7 @@ func (participant *Participant) GongMarshallAllFields(stage *Stage) (initRes str
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(participant.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(participant.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(participant.GongMarshallField(stage, "IsTasksNodeExpanded"))
 		pointersInitializesStatements.WriteString(participant.GongMarshallField(stage, "Tasks"))
 		pointersInitializesStatements.WriteString(participant.GongMarshallField(stage, "ControlFlows"))
 	}

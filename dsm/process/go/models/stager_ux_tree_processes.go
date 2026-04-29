@@ -134,13 +134,9 @@ func (stager *Stager) treeProcesses(
 				IsNodeClickable: true,
 			}
 			diagramNode.Children = append(diagramNode.Children, participantsNode)
-			participantsNode.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
-				if frontNode.IsExpanded != stagedNode.IsExpanded {
-					if frontNode.IsExpanded {
-						diagramProcess.IsParticipantsNodeExpanded = true
-					} else {
-						diagramProcess.IsParticipantsNodeExpanded = false
-					}
+			participantsNode.OnClick = func(frontNode *tree.Node) {
+				if frontNode.IsExpanded != diagramProcess.IsParticipantsNodeExpanded {
+					diagramProcess.IsParticipantsNodeExpanded = frontNode.IsExpanded
 					stager.stage.Commit()
 					return
 				}
