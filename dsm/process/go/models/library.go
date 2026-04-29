@@ -18,6 +18,9 @@ type Library struct {
 	// DSM specific fieldsi
 	RootProcesses               []*Process
 	ProcesssWhoseNodeIsExpanded []*Process
+
+	// temporary persistance of the library expand status.
+	IsExpandedTmp bool
 }
 
 type LibraryAbstractFields struct {

@@ -581,6 +581,8 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 			}
 			library_.ProcesssWhoseNodeIsExpanded = instanceSlice
 
+		case "IsExpandedTmp":
+			FormDivBasicFieldToField(&(library_.IsExpandedTmp), formDiv)
 		case "Library:SubLibraries":
 			// WARNING : this form deals with the N-N association "Library.SubLibraries []*Library" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
