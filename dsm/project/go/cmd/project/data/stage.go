@@ -204,4 +204,49 @@ func _(stage *models.Stage) {
 	__ProductCompositionShape__00000001_.IsHidden = false
 	__ProductCompositionShape__00000001_.Product = __Product__00000001_
 	stage.Commit()
+
+	__ProductCompositionShape__00000002_ := (&models.ProductCompositionShape{Name: `A.1 to `}).Stage(stage)
+	__ProductShape__00000003_ := (&models.ProductShape{Name: `-Default Diagram`}).Stage(stage)
+	__Product__00000002_ := (&models.Product{Name: ``}).Stage(stage)
+	// A.1
+	__Product__00000001_.SubProducts = slices.Insert( __Product__00000001_.SubProducts, 0, __Product__00000002_)
+	// Default Diagram
+	__Diagram__00000000_.Product_Shapes = slices.Insert( __Diagram__00000000_.Product_Shapes, 2, __ProductShape__00000003_)
+	__Diagram__00000000_.ProductsWhoseNodeIsExpanded = slices.Insert( __Diagram__00000000_.ProductsWhoseNodeIsExpanded, 1, __Product__00000001_)
+	__Diagram__00000000_.ProductComposition_Shapes = slices.Insert( __Diagram__00000000_.ProductComposition_Shapes, 1, __ProductCompositionShape__00000002_)
+	__ProductCompositionShape__00000002_.Name = `A.1 to `
+	__ProductCompositionShape__00000002_.StartRatio = 0.500000
+	__ProductCompositionShape__00000002_.EndRatio = 0.500000
+	__ProductCompositionShape__00000002_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000002_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000002_.CornerOffsetRatio = 1.680000
+	__ProductCompositionShape__00000002_.IsHidden = false
+	__ProductCompositionShape__00000002_.Product = __Product__00000002_
+	__ProductShape__00000003_.Name = `-Default Diagram`
+	__ProductShape__00000003_.X = 145.056982
+	__ProductShape__00000003_.Y = 405.618199
+	__ProductShape__00000003_.Width = 250.000000
+	__ProductShape__00000003_.Height = 70.000000
+	__ProductShape__00000003_.IsHidden = false
+	__ProductShape__00000003_.Product = __Product__00000002_
+	__Product__00000002_.Name = ``
+	__Product__00000002_.ComputedPrefix = ``
+	__Product__00000002_.Description = ``
+	__Product__00000002_.IsProducersNodeExpanded = false
+	__Product__00000002_.IsConsumersNodeExpanded = false
+	stage.Commit()
+
+	// 
+	__Product__00000002_.ComputedPrefix = `1.1.1`
+	// Default Diagram
+	__Diagram__00000000_.Height = 575.618199
+	stage.Commit()
+
+	// A.1.1
+	__Product__00000002_.Name = `A.1.1`
+	stage.Commit()
+
+	// A
+	__Product__00000000_.Name = `A`
+	stage.Commit()
 }

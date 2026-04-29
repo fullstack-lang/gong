@@ -93,9 +93,48 @@ func (stager *Stager) treeParticipants(
 		stage.Commit()
 	}
 
-	for _, task := range participant.Tasks {
-		stager.treetasks(diagramProcess, task, node, &diagramProcess.TasksWhoseNodeIsExpanded)
+	tasksNode := &tree.Node{
+		Name:            "Tasks",
+		FontStyle:       tree.ITALIC,
+		IsExpanded:      participant.IsTasksNodeExpanded,
+		IsNodeClickable: true,
 	}
+	node.Children = append(node.Children, tasksNode)
+	tasksNode.OnClick = func(frontNode *tree.Node) {
+		if frontNode.IsExpanded != participant.IsTasksNodeExpanded {
+			participant.IsTasksNodeExpanded = frontNode.IsExpanded
+			stager.stage.Commit()
+			return
+		}
+	}
+
+	for _, task := range participant.Tasks {
+		stager.treetasks(diagramProcess, task, tasksNode, &diagramProcess.TasksWhoseNodeIsExpanded)
+	}
+
+	// loook forward to https://github.com/golang/go/issues/61731
+	// proposal: spec: support type inference on generic structs
+	conf := addItemButtonConfiguration[
+		Task, *Task, // AT, PAT (Added Element)
+		Participant, *Participant, // ParentAT, PParentAT (Parent Element)
+		TaskShape, *TaskShape, // CT, PCT (Concrete Shape)
+		ControlFlowShape, *ControlFlowShape, // ACT, PACT (Association Shape)
+	]{
+		parentNode:                         tasksNode,
+		sliceForNewAddedItem:               &participant.Tasks,
+		isParentNodeExpandedByAddOperation: true,
+		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+		parentNodeExpansionBooleanValue:    &participant.IsTasksNodeExpanded,
+		parentElement:                      participant,
+		isWithAdditionOfShape:              true,
+		receivingDiagram:                   diagramProcess,
+		sliceForNewAddedShape:              &diagramProcess.TaskShapes,
+		isWithAdditionOfAssociationShape:   false,
+		sliceForNewCompositionShapes:       &diagramProcess.ControlFlowShape,
+	}
+
+	addAddButton(stager, conf)
+
 	addAddItemButtonSimple(
 		stager,
 		&diagramProcess.ParticipantWhoseNodeIsExpanded,

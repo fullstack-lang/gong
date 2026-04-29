@@ -6,7 +6,8 @@ type Participant struct {
 	LibraryAbstractFields
 	AbstractTypeFields
 
-	Tasks []*Task
+	IsTasksNodeExpanded bool
+	Tasks               []*Task
 
 	ControlFlows []*ControlFlow
 }

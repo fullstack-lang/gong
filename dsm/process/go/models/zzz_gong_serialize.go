@@ -18,6 +18,7 @@ func SerializeStage2(stage *Stage, filename string, addIDs bool) {
 	{
 		// insertion point
 		SerializeExcelizePointerToGongstruct2[*ControlFlow](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*ControlFlowShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*DiagramProcess](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Library](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Participant](stage, f, addIDs)

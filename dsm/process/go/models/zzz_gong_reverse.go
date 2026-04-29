@@ -18,6 +18,22 @@ func (inst *ControlFlow) GongGetReverseFieldOwnerName(stage *Stage, reverseField
 	return
 }
 
+func (inst *ControlFlowShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "DiagramProcess":
+		switch reverseField.Fieldname {
+		case "ControlFlowShape":
+			if _diagramprocess, ok := stage.DiagramProcess_ControlFlowShape_reverseMap[inst]; ok {
+				res = _diagramprocess.Name
+			}
+		}
+	}
+	return
+}
+
 func (inst *DiagramProcess) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -196,6 +212,20 @@ func (inst *ControlFlow) GongGetReverseFieldOwner(stage *Stage, reverseField *Re
 		switch reverseField.Fieldname {
 		case "ControlFlows":
 			res = stage.Participant_ControlFlows_reverseMap[inst]
+		}
+	}
+	return res
+}
+
+func (inst *ControlFlowShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	case "DiagramProcess":
+		switch reverseField.Fieldname {
+		case "ControlFlowShape":
+			res = stage.DiagramProcess_ControlFlowShape_reverseMap[inst]
 		}
 	}
 	return res

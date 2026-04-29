@@ -45,6 +45,8 @@ type DiagramProcess struct {
 	TaskShapes               []*TaskShape
 	map_Task_TaskShape       map[*Task]*TaskShape
 	map_Task_Rect            map[*Task]*svg.Rect
+
+	ControlFlowShape []*ControlFlowShape
 }
 
 func (d *DiagramProcess) IsEditable() bool {

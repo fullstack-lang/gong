@@ -20,7 +20,9 @@ type Node struct {
 	Impl NodeImplInterface
 
 	// OnUpdate is a callback called each time a node is modified from the front
+	// Deprecated
 	OnUpdate func(stage *Stage, stagedNode, frontNode *Node)
+	OnClick  func(frontNode *Node)
 
 	// BackgroundColor, if zero value will have the color to default, therwise, the node
 	// will have this color
@@ -76,5 +78,8 @@ func (node *Node) OnAfterUpdate(stage *Stage, _, frontNode *Node) {
 	}
 	if node.OnUpdate != nil {
 		node.OnUpdate(stage, node, frontNode)
+	}
+	if node.OnClick != nil {
+		node.OnClick(frontNode)
 	}
 }

@@ -26,6 +26,8 @@ func (probe *Probe) ux_table() {
 	// insertion point
 	case "ControlFlow":
 		updateProbeTable[*models.ControlFlow](probe)
+	case "ControlFlowShape":
+		updateProbeTable[*models.ControlFlowShape](probe)
 	case "DiagramProcess":
 		updateProbeTable[*models.DiagramProcess](probe)
 	case "Library":
