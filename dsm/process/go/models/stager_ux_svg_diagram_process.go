@@ -59,6 +59,9 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 	layer := (&svg.Layer{Name: "Layer 1"})
 	svgObject.Layers = append(svgObject.Layers, layer)
 
+	//
+	// Process
+	//
 	diagramProcess.map_Process_Rect = make(map[*Process]*svg.Rect)
 	for _, processShape := range diagramProcess.Process_Shapes {
 		if processShape.IsHidden {
@@ -76,8 +79,10 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 
 	rectOfOwningProcess := diagramProcess.map_Process_Rect[diagramProcess.owningProcess]
 
+	//
+	// Participant
+	//
 	diagramProcess.map_Participant_Rect = make(map[*Participant]*svg.Rect)
-
 	horizontalMargin := 10.0
 	verticalTopMargin := 50.0
 	verticalBottomMargin := 10.0
@@ -115,6 +120,23 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 		rect.Height = rectOfOwningProcess.Height - verticalTopMargin - verticalBottomMargin
 
 		diagramProcess.map_Participant_Rect[participantShape.Participant] = rect
+	}
+	//
+	// Task
+	//
+	diagramProcess.map_Task_Rect = make(map[*Task]*svg.Rect)
+	for _, taskShape := range diagramProcess.TaskShapes {
+		if taskShape.IsHidden {
+			continue
+		}
+
+		rect := svgRect(
+			stager,
+			diagramProcess,
+			taskShape,
+			layer)
+
+		diagramProcess.map_Task_Rect[taskShape.Task] = rect
 	}
 
 	return svgObject
