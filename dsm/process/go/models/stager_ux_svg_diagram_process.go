@@ -46,6 +46,8 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 	svgObject.OverrideHeight = true
 	svgObject.OverriddenHeight = diagramProcess.Height
 
+	diagramProcess.map_SvgRect_TaskShape = make(map[*svg.Rect]*TaskShape)
+
 	// // to implement association between abstract elements by mouse drag
 	// svgImpl := &svgProxy{
 	// 	stager:  stager,
@@ -151,6 +153,7 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 			diagramProcess,
 			taskShape,
 			layer)
+		diagramProcess.map_SvgRect_TaskShape[rect] = taskShape
 
 		rect.EnclosingRect = participantRect
 
@@ -247,6 +250,35 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 
 		}
 		diagramProcess.map_Task_Rect[taskShape.Task] = rect
+	}
+
+	for _, controlFlowShape := range diagramProcess.ControlFlowShapes {
+		if controlFlowShape.GetIsHidden() {
+			continue
+		}
+		_ = controlFlowShape
+		startTask := controlFlowShape.ControlFlow.Start
+		endTask := controlFlowShape.ControlFlow.End
+
+		if startTask == nil || endTask == nil {
+			log.Panic("There should be a start task and a end task")
+		}
+
+		startRect := diagramProcess.map_Task_Rect[startTask]
+		endRect := diagramProcess.map_Task_Rect[endTask]
+
+		if startRect == nil || endRect == nil {
+			continue
+		}
+
+		svgAssociationLink(
+			stager,
+			startRect, endRect,
+			controlFlowShape,
+			// when one clicks on the link, this is the form of the parent product
+			endTask,
+			layer,
+			false)
 	}
 
 	return svgObject

@@ -13,11 +13,14 @@ type ControlFlow_WOP struct {
 	// insertion point
 
 	Name string
+
+	ComputedPrefix string
 }
 
 func (from *ControlFlow) CopyBasicFields(to *ControlFlow) {
 	// insertion point
 	to.Name = from.Name
+	to.ComputedPrefix = from.ComputedPrefix
 }
 
 type ControlFlowShape_WOP struct {
@@ -121,6 +124,8 @@ type Participant_WOP struct {
 	ComputedPrefix string
 
 	IsTasksNodeExpanded bool
+
+	IsControlFlowsNodeExpanded bool
 }
 
 func (from *Participant) CopyBasicFields(to *Participant) {
@@ -128,6 +133,7 @@ func (from *Participant) CopyBasicFields(to *Participant) {
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsTasksNodeExpanded = from.IsTasksNodeExpanded
+	to.IsControlFlowsNodeExpanded = from.IsControlFlowsNodeExpanded
 }
 
 type ParticipantShape_WOP struct {

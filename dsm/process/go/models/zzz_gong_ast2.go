@@ -462,6 +462,8 @@ func (u *ControlFlowUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
+	case "ComputedPrefix":
+		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "Start":
 		GongUnmarshallPointer(&instance.Start, valueExpr, identifierMap)
 	case "End":
@@ -570,8 +572,10 @@ func (u *DiagramProcessUnmarshaller) UnmarshallField(stage *Stage, i GongstructI
 		GongUnmarshallSliceOfPointers(&instance.TasksWhoseNodeIsExpanded, valueExpr, identifierMap)
 	case "TaskShapes":
 		GongUnmarshallSliceOfPointers(&instance.TaskShapes, valueExpr, identifierMap)
-	case "ControlFlowShape":
-		GongUnmarshallSliceOfPointers(&instance.ControlFlowShape, valueExpr, identifierMap)
+	case "ControlFlowsWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.ControlFlowsWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "ControlFlowShapes":
+		GongUnmarshallSliceOfPointers(&instance.ControlFlowShapes, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -650,6 +654,8 @@ func (u *ParticipantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 		instance.IsTasksNodeExpanded = GongExtractBool(valueExpr)
 	case "Tasks":
 		GongUnmarshallSliceOfPointers(&instance.Tasks, valueExpr, identifierMap)
+	case "IsControlFlowsNodeExpanded":
+		instance.IsControlFlowsNodeExpanded = GongExtractBool(valueExpr)
 	case "ControlFlows":
 		GongUnmarshallSliceOfPointers(&instance.ControlFlows, valueExpr, identifierMap)
 	}

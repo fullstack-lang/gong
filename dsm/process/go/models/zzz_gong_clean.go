@@ -66,7 +66,8 @@ func (diagramprocess *DiagramProcess) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &diagramprocess.ParticipantWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &diagramprocess.TasksWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &diagramprocess.TaskShapes) || modified
-	modified = GongCleanSlice(stage, &diagramprocess.ControlFlowShape) || modified
+	modified = GongCleanSlice(stage, &diagramprocess.ControlFlowsWhoseNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &diagramprocess.ControlFlowShapes) || modified
 	// insertion point per field
 	return
 }
