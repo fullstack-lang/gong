@@ -2,6 +2,22 @@
 package models
 
 // insertion point
+func (inst *ControlFlow) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "Participant":
+		switch reverseField.Fieldname {
+		case "ControlFlows":
+			if _participant, ok := stage.Participant_ControlFlows_reverseMap[inst]; ok {
+				res = _participant.Name
+			}
+		}
+	}
+	return
+}
+
 func (inst *DiagramProcess) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -171,6 +187,20 @@ func (inst *TaskShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *
 }
 
 // insertion point
+func (inst *ControlFlow) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	case "Participant":
+		switch reverseField.Fieldname {
+		case "ControlFlows":
+			res = stage.Participant_ControlFlows_reverseMap[inst]
+		}
+	}
+	return res
+}
+
 func (inst *DiagramProcess) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil

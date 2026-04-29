@@ -7,6 +7,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 
 	switch target := any(instance).(type) {
 	// insertion point for stage
+	case *ControlFlow:
+		ok = stage.IsStagedControlFlow(target)
+
 	case *DiagramProcess:
 		ok = stage.IsStagedDiagramProcess(target)
 
@@ -41,6 +44,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage
+	case *ControlFlow:
+		ok = stage.IsStagedControlFlow(target)
+
 	case *DiagramProcess:
 		ok = stage.IsStagedDiagramProcess(target)
 
@@ -72,6 +78,13 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 }
 
 // insertion point for stage per struct
+func (stage *Stage) IsStagedControlFlow(controlflow *ControlFlow) (ok bool) {
+
+	_, ok = stage.ControlFlows[controlflow]
+
+	return
+}
+
 func (stage *Stage) IsStagedDiagramProcess(diagramprocess *DiagramProcess) (ok bool) {
 
 	_, ok = stage.DiagramProcesss[diagramprocess]
@@ -136,6 +149,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage branch
+	case *ControlFlow:
+		stage.StageBranchControlFlow(target)
+
 	case *DiagramProcess:
 		stage.StageBranchDiagramProcess(target)
 
@@ -166,6 +182,27 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 }
 
 // insertion point for stage branch per struct
+func (stage *Stage) StageBranchControlFlow(controlflow *ControlFlow) {
+
+	// check if instance is already staged
+	if IsStaged(stage, controlflow) {
+		return
+	}
+
+	controlflow.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if controlflow.Start != nil {
+		StageBranch(stage, controlflow.Start)
+	}
+	if controlflow.End != nil {
+		StageBranch(stage, controlflow.End)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) StageBranchDiagramProcess(diagramprocess *DiagramProcess) {
 
 	// check if instance is already staged
@@ -237,6 +274,9 @@ func (stage *Stage) StageBranchParticipant(participant *Participant) {
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _task := range participant.Tasks {
 		StageBranch(stage, _task)
+	}
+	for _, _controlflow := range participant.ControlFlows {
+		StageBranch(stage, _controlflow)
 	}
 
 }
@@ -351,6 +391,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	switch fromT := any(from).(type) {
 	// insertion point for stage branch
+	case *ControlFlow:
+		toT := CopyBranchControlFlow(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *DiagramProcess:
 		toT := CopyBranchDiagramProcess(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -390,6 +434,31 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 }
 
 // insertion point for stage branch per struct
+func CopyBranchControlFlow(mapOrigCopy map[any]any, controlflowFrom *ControlFlow) (controlflowTo *ControlFlow) {
+
+	// controlflowFrom has already been copied
+	if _controlflowTo, ok := mapOrigCopy[controlflowFrom]; ok {
+		controlflowTo = _controlflowTo.(*ControlFlow)
+		return
+	}
+
+	controlflowTo = new(ControlFlow)
+	mapOrigCopy[controlflowFrom] = controlflowTo
+	controlflowFrom.CopyBasicFields(controlflowTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if controlflowFrom.Start != nil {
+		controlflowTo.Start = CopyBranchTask(mapOrigCopy, controlflowFrom.Start)
+	}
+	if controlflowFrom.End != nil {
+		controlflowTo.End = CopyBranchTask(mapOrigCopy, controlflowFrom.End)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchDiagramProcess(mapOrigCopy map[any]any, diagramprocessFrom *DiagramProcess) (diagramprocessTo *DiagramProcess) {
 
 	// diagramprocessFrom has already been copied
@@ -472,6 +541,9 @@ func CopyBranchParticipant(mapOrigCopy map[any]any, participantFrom *Participant
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _task := range participantFrom.Tasks {
 		participantTo.Tasks = append(participantTo.Tasks, CopyBranchTask(mapOrigCopy, _task))
+	}
+	for _, _controlflow := range participantFrom.ControlFlows {
+		participantTo.ControlFlows = append(participantTo.ControlFlows, CopyBranchControlFlow(mapOrigCopy, _controlflow))
 	}
 
 	return
@@ -604,6 +676,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for unstage branch
+	case *ControlFlow:
+		stage.UnstageBranchControlFlow(target)
+
 	case *DiagramProcess:
 		stage.UnstageBranchDiagramProcess(target)
 
@@ -634,6 +709,27 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 }
 
 // insertion point for unstage branch per struct
+func (stage *Stage) UnstageBranchControlFlow(controlflow *ControlFlow) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, controlflow) {
+		return
+	}
+
+	controlflow.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if controlflow.Start != nil {
+		UnstageBranch(stage, controlflow.Start)
+	}
+	if controlflow.End != nil {
+		UnstageBranch(stage, controlflow.End)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) UnstageBranchDiagramProcess(diagramprocess *DiagramProcess) {
 
 	// check if instance is already staged
@@ -705,6 +801,9 @@ func (stage *Stage) UnstageBranchParticipant(participant *Participant) {
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _task := range participant.Tasks {
 		UnstageBranch(stage, _task)
+	}
+	for _, _controlflow := range participant.ControlFlows {
+		UnstageBranch(stage, _controlflow)
 	}
 
 }
@@ -809,6 +908,19 @@ func (stage *Stage) UnstageBranchTaskShape(taskshape *TaskShape) {
 }
 
 // insertion point for pointer reconstruction from references
+func (reference *ControlFlow) GongReconstructPointersFromReferences(stage *Stage, instance *ControlFlow) () {
+	// insertion point for pointers field
+	if instance.Start != nil {
+		reference.Start = stage.Tasks_reference[instance.Start]
+	}
+	if instance.End != nil {
+		reference.End = stage.Tasks_reference[instance.End]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
 func (reference *DiagramProcess) GongReconstructPointersFromReferences(stage *Stage, instance *DiagramProcess) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -865,6 +977,10 @@ func (reference *Participant) GongReconstructPointersFromReferences(stage *Stage
 	reference.Tasks = reference.Tasks[:0]
 	for _, _b := range instance.Tasks {
 		reference.Tasks = append(reference.Tasks, stage.Tasks_reference[_b])
+	}
+	reference.ControlFlows = reference.ControlFlows[:0]
+	for _, _b := range instance.ControlFlows {
+		reference.ControlFlows = append(reference.ControlFlows, stage.ControlFlows_reference[_b])
 	}
 
 	return
@@ -935,6 +1051,25 @@ func (reference *TaskShape) GongReconstructPointersFromReferences(stage *Stage, 
 }
 
 // insertion point for pointer reconstruction from instances
+func (reference *ControlFlow) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.Start; _reference != nil {
+		reference.Start = nil
+		if _instance, ok := stage.Tasks_instance[_reference]; ok {
+			reference.Start = _instance
+		}
+	}
+	if _reference := reference.End; _reference != nil {
+		reference.End = nil
+		if _instance, ok := stage.Tasks_instance[_reference]; ok {
+			reference.End = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
 func (reference *DiagramProcess) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
@@ -1022,6 +1157,13 @@ func (reference *Participant) GongReconstructPointersFromInstances(stage *Stage)
 		}
 	}
 	reference.Tasks = _Tasks
+	var _ControlFlows []*ControlFlow
+	for _, _reference := range reference.ControlFlows {
+		if _instance, ok := stage.ControlFlows_instance[_reference]; ok {
+			_ControlFlows = append(_ControlFlows, _instance)
+		}
+	}
+	reference.ControlFlows = _ControlFlows
 
 	return
 }
@@ -1115,6 +1257,31 @@ func (reference *TaskShape) GongReconstructPointersFromInstances(stage *Stage) (
 }
 
 // insertion point for diff per struct
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (controlflow *ControlFlow) GongDiff(stage *Stage, controlflowOther *ControlFlow) (diffs []string) {
+	// insertion point for field diffs
+	if controlflow.Name != controlflowOther.Name {
+		diffs = append(diffs, controlflow.GongMarshallField(stage, "Name"))
+	}
+	if (controlflow.Start == nil) != (controlflowOther.Start == nil) {
+		diffs = append(diffs, controlflow.GongMarshallField(stage, "Start"))
+	} else if controlflow.Start != nil && controlflowOther.Start != nil {
+		if controlflow.Start != controlflowOther.Start {
+			diffs = append(diffs, controlflow.GongMarshallField(stage, "Start"))
+		}
+	}
+	if (controlflow.End == nil) != (controlflowOther.End == nil) {
+		diffs = append(diffs, controlflow.GongMarshallField(stage, "End"))
+	} else if controlflow.End != nil && controlflowOther.End != nil {
+		if controlflow.End != controlflowOther.End {
+			diffs = append(diffs, controlflow.GongMarshallField(stage, "End"))
+		}
+	}
+
+	return
+}
+
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
 func (diagramprocess *DiagramProcess) GongDiff(stage *Stage, diagramprocessOther *DiagramProcess) (diffs []string) {
@@ -1397,6 +1564,27 @@ func (participant *Participant) GongDiff(stage *Stage, participantOther *Partici
 	}
 	if TasksDifferent {
 		ops := Diff(stage, participant, participantOther, "Tasks", participantOther.Tasks, participant.Tasks)
+		diffs = append(diffs, ops)
+	}
+	ControlFlowsDifferent := false
+	if len(participant.ControlFlows) != len(participantOther.ControlFlows) {
+		ControlFlowsDifferent = true
+	} else {
+		for i := range participant.ControlFlows {
+			if (participant.ControlFlows[i] == nil) != (participantOther.ControlFlows[i] == nil) {
+				ControlFlowsDifferent = true
+				break
+			} else if participant.ControlFlows[i] != nil && participantOther.ControlFlows[i] != nil {
+				// this is a pointer comparaison
+				if participant.ControlFlows[i] != participantOther.ControlFlows[i] {
+					ControlFlowsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ControlFlowsDifferent {
+		ops := Diff(stage, participant, participantOther, "ControlFlows", participantOther.ControlFlows, participant.ControlFlows)
 		diffs = append(diffs, ops)
 	}
 
