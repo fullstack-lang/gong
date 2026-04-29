@@ -118,7 +118,8 @@ func (stager *Stager) treeParticipants(
 		Task, *Task, // AT, PAT (Added Element)
 		Participant, *Participant, // ParentAT, PParentAT (Parent Element)
 		TaskShape, *TaskShape, // CT, PCT (Concrete Shape)
-		ControlFlowShape, *ControlFlowShape, // ACT, PACT (Association Shape)
+		// not used here, only for instanciation sake
+		ControlFlowShape, *ControlFlowShape, // ACT, PACT (Association Shape),
 	]{
 		parentNode:                         tasksNode,
 		sliceForNewAddedItem:               &participant.Tasks,
@@ -130,16 +131,27 @@ func (stager *Stager) treeParticipants(
 		receivingDiagram:                   diagramProcess,
 		sliceForNewAddedShape:              &diagramProcess.TaskShapes,
 		isWithAdditionOfAssociationShape:   false,
-		sliceForNewCompositionShapes:       &diagramProcess.ControlFlowShape,
+		sliceForNewCompositionShapes:       &diagramProcess.ControlFlowShapes,
 	}
 
 	addAddButton(stager, conf)
 
-	addAddItemButtonSimple(
-		stager,
-		&diagramProcess.ParticipantWhoseNodeIsExpanded,
-		participant,
-		nil,
-		node,
-		&participant.Tasks)
+	controlflowsNode := &tree.Node{
+		Name:            "ControlFlows",
+		FontStyle:       tree.ITALIC,
+		IsExpanded:      participant.IsControlFlowsNodeExpanded,
+		IsNodeClickable: true,
+	}
+	node.Children = append(node.Children, controlflowsNode)
+	controlflowsNode.OnClick = func(frontNode *tree.Node) {
+		if frontNode.IsExpanded != participant.IsControlFlowsNodeExpanded {
+			participant.IsControlFlowsNodeExpanded = frontNode.IsExpanded
+			stager.stage.Commit()
+			return
+		}
+	}
+
+	for _, controlflow := range participant.ControlFlows {
+		stager.treecontrolflows(diagramProcess, controlflow, controlflowsNode, &diagramProcess.ControlFlowsWhoseNodeIsExpanded)
+	}
 }

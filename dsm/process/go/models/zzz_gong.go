@@ -178,7 +178,9 @@ type Stage struct {
 
 	DiagramProcess_TaskShapes_reverseMap map[*TaskShape]*DiagramProcess
 
-	DiagramProcess_ControlFlowShape_reverseMap map[*ControlFlowShape]*DiagramProcess
+	DiagramProcess_ControlFlowsWhoseNodeIsExpanded_reverseMap map[*ControlFlow]*DiagramProcess
+
+	DiagramProcess_ControlFlowShapes_reverseMap map[*ControlFlowShape]*DiagramProcess
 
 	OnAfterDiagramProcessCreateCallback OnAfterCreateInterface[DiagramProcess]
 	OnAfterDiagramProcessUpdateCallback OnAfterUpdateInterface[DiagramProcess]
@@ -2725,8 +2727,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			TasksWhoseNodeIsExpanded: []*Task{{Name: "TasksWhoseNodeIsExpanded"}},
 			// field is initialized with an instance of TaskShape with the name of the field
 			TaskShapes: []*TaskShape{{Name: "TaskShapes"}},
+			// field is initialized with an instance of ControlFlow with the name of the field
+			ControlFlowsWhoseNodeIsExpanded: []*ControlFlow{{Name: "ControlFlowsWhoseNodeIsExpanded"}},
 			// field is initialized with an instance of ControlFlowShape with the name of the field
-			ControlFlowShape: []*ControlFlowShape{{Name: "ControlFlowShape"}},
+			ControlFlowShapes: []*ControlFlowShape{{Name: "ControlFlowShapes"}},
 		}).(*Type)
 	case Library:
 		return any(&Library{
@@ -3028,10 +3032,18 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "ControlFlowShape":
+		case "ControlFlowsWhoseNodeIsExpanded":
+			res := make(map[*ControlFlow][]*DiagramProcess)
+			for diagramprocess := range stage.DiagramProcesss {
+				for _, controlflow_ := range diagramprocess.ControlFlowsWhoseNodeIsExpanded {
+					res[controlflow_] = append(res[controlflow_], diagramprocess)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "ControlFlowShapes":
 			res := make(map[*ControlFlowShape][]*DiagramProcess)
 			for diagramprocess := range stage.DiagramProcesss {
-				for _, controlflowshape_ := range diagramprocess.ControlFlowShape {
+				for _, controlflowshape_ := range diagramprocess.ControlFlowShapes {
 					res[controlflowshape_] = append(res[controlflowshape_], diagramprocess)
 				}
 			}
@@ -3203,6 +3215,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *ControlFlow:
 		var rf ReverseField
 		_ = rf
+		rf.GongstructName = "DiagramProcess"
+		rf.Fieldname = "ControlFlowsWhoseNodeIsExpanded"
+		res = append(res, rf)
 		rf.GongstructName = "Participant"
 		rf.Fieldname = "ControlFlows"
 		res = append(res, rf)
@@ -3210,7 +3225,7 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "DiagramProcess"
-		rf.Fieldname = "ControlFlowShape"
+		rf.Fieldname = "ControlFlowShapes"
 		res = append(res, rf)
 	case *DiagramProcess:
 		var rf ReverseField
@@ -3291,6 +3306,10 @@ func (controlflow *ControlFlow) GongGetFieldHeaders() (res []GongFieldHeader) {
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
@@ -3427,7 +3446,12 @@ func (diagramprocess *DiagramProcess) GongGetFieldHeaders() (res []GongFieldHead
 			TargetGongstructName: "TaskShape",
 		},
 		{
-			Name:                 "ControlFlowShape",
+			Name:                 "ControlFlowsWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "ControlFlow",
+		},
+		{
+			Name:                 "ControlFlowShapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "ControlFlowShape",
 		},
@@ -3496,6 +3520,10 @@ func (participant *Participant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "Tasks",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Task",
+		},
+		{
+			Name:               "IsControlFlowsNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:                 "ControlFlows",
@@ -3753,6 +3781,8 @@ func (controlflow *ControlFlow) GongGetFieldValue(fieldName string, stage *Stage
 	// string value of fields
 	case "Name":
 		res.valueString = controlflow.Name
+	case "ComputedPrefix":
+		res.valueString = controlflow.ComputedPrefix
 	case "Start":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if controlflow.Start != nil {
@@ -3909,9 +3939,19 @@ func (diagramprocess *DiagramProcess) GongGetFieldValue(fieldName string, stage 
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
-	case "ControlFlowShape":
+	case "ControlFlowsWhoseNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagramprocess.ControlFlowShape {
+		for idx, __instance__ := range diagramprocess.ControlFlowsWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "ControlFlowShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagramprocess.ControlFlowShapes {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -3995,6 +4035,10 @@ func (participant *Participant) GongGetFieldValue(fieldName string, stage *Stage
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "IsControlFlowsNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", participant.IsControlFlowsNodeExpanded)
+		res.valueBool = participant.IsControlFlowsNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "ControlFlows":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range participant.ControlFlows {
@@ -4221,6 +4265,8 @@ func (controlflow *ControlFlow) GongSetFieldValue(fieldName string, value GongFi
 	// insertion point for per field code
 	case "Name":
 		controlflow.Name = value.GetValueString()
+	case "ComputedPrefix":
+		controlflow.ComputedPrefix = value.GetValueString()
 	case "Start":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
@@ -4392,15 +4438,29 @@ func (diagramprocess *DiagramProcess) GongSetFieldValue(fieldName string, value 
 				}
 			}
 		}
-	case "ControlFlowShape":
-		diagramprocess.ControlFlowShape = make([]*ControlFlowShape, 0)
+	case "ControlFlowsWhoseNodeIsExpanded":
+		diagramprocess.ControlFlowsWhoseNodeIsExpanded = make([]*ControlFlow, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.ControlFlows {
+					if stage.ControlFlow_stagedOrder[__instance__] == uint(id) {
+						diagramprocess.ControlFlowsWhoseNodeIsExpanded = append(diagramprocess.ControlFlowsWhoseNodeIsExpanded, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "ControlFlowShapes":
+		diagramprocess.ControlFlowShapes = make([]*ControlFlowShape, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.ControlFlowShapes {
 					if stage.ControlFlowShape_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.ControlFlowShape = append(diagramprocess.ControlFlowShape, __instance__)
+						diagramprocess.ControlFlowShapes = append(diagramprocess.ControlFlowShapes, __instance__)
 						break
 					}
 				}
@@ -4496,6 +4556,8 @@ func (participant *Participant) GongSetFieldValue(fieldName string, value GongFi
 				}
 			}
 		}
+	case "IsControlFlowsNodeExpanded":
+		participant.IsControlFlowsNodeExpanded = value.GetValueBool()
 	case "ControlFlows":
 		participant.ControlFlows = make([]*ControlFlow, 0)
 		ids := strings.Split(value.ids, ";")

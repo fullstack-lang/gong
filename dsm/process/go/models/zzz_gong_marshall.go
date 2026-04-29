@@ -294,6 +294,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(controlflow.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(controlflow.GongMarshallField(stage, "ComputedPrefix"))
 		pointersInitializesStatements.WriteString(controlflow.GongMarshallField(stage, "Start"))
 		pointersInitializesStatements.WriteString(controlflow.GongMarshallField(stage, "End"))
 	}
@@ -371,7 +372,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "ParticipantWhoseNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "TasksWhoseNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "TaskShapes"))
-		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "ControlFlowShape"))
+		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "ControlFlowsWhoseNodeIsExpanded"))
+		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "ControlFlowShapes"))
 	}
 
 	libraryOrdered := []*Library{}
@@ -434,6 +436,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(participant.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(participant.GongMarshallField(stage, "IsTasksNodeExpanded"))
 		pointersInitializesStatements.WriteString(participant.GongMarshallField(stage, "Tasks"))
+		initializerStatements.WriteString(participant.GongMarshallField(stage, "IsControlFlowsNodeExpanded"))
 		pointersInitializesStatements.WriteString(participant.GongMarshallField(stage, "ControlFlows"))
 	}
 
@@ -741,6 +744,11 @@ func (controlflow *ControlFlow) GongMarshallField(stage *Stage, fieldName string
 		res = strings.ReplaceAll(res, "{{Identifier}}", controlflow.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(controlflow.Name))
+	case "ComputedPrefix":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", controlflow.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(controlflow.ComputedPrefix))
 
 	case "Start":
 		if controlflow.Start != nil {
@@ -967,12 +975,22 @@ func (diagramprocess *DiagramProcess) GongMarshallField(stage *Stage, fieldName 
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
-	case "ControlFlowShape":
+	case "ControlFlowsWhoseNodeIsExpanded":
 		var sb strings.Builder
-		for _, _controlflowshape := range diagramprocess.ControlFlowShape {
+		for _, _controlflow := range diagramprocess.ControlFlowsWhoseNodeIsExpanded {
 			tmp := SliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramprocess.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ControlFlowShape")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ControlFlowsWhoseNodeIsExpanded")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _controlflow.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "ControlFlowShapes":
+		var sb strings.Builder
+		for _, _controlflowshape := range diagramprocess.ControlFlowShapes {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramprocess.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ControlFlowShapes")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _controlflowshape.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
 		}
@@ -1066,6 +1084,11 @@ func (participant *Participant) GongMarshallField(stage *Stage, fieldName string
 		res = strings.ReplaceAll(res, "{{Identifier}}", participant.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsTasksNodeExpanded")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", participant.IsTasksNodeExpanded))
+	case "IsControlFlowsNodeExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", participant.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsControlFlowsNodeExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", participant.IsControlFlowsNodeExpanded))
 
 	case "Tasks":
 		var sb strings.Builder
@@ -1379,6 +1402,7 @@ func (controlflow *ControlFlow) GongMarshallAllFields(stage *Stage) (initRes str
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(controlflow.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(controlflow.GongMarshallField(stage, "ComputedPrefix"))
 		pointersInitializesStatements.WriteString(controlflow.GongMarshallField(stage, "Start"))
 		pointersInitializesStatements.WriteString(controlflow.GongMarshallField(stage, "End"))
 	}
@@ -1426,7 +1450,8 @@ func (diagramprocess *DiagramProcess) GongMarshallAllFields(stage *Stage) (initR
 		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "ParticipantWhoseNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "TasksWhoseNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "TaskShapes"))
-		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "ControlFlowShape"))
+		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "ControlFlowsWhoseNodeIsExpanded"))
+		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "ControlFlowShapes"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -1459,6 +1484,7 @@ func (participant *Participant) GongMarshallAllFields(stage *Stage) (initRes str
 		initializerStatements.WriteString(participant.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(participant.GongMarshallField(stage, "IsTasksNodeExpanded"))
 		pointersInitializesStatements.WriteString(participant.GongMarshallField(stage, "Tasks"))
+		initializerStatements.WriteString(participant.GongMarshallField(stage, "IsControlFlowsNodeExpanded"))
 		pointersInitializesStatements.WriteString(participant.GongMarshallField(stage, "ControlFlows"))
 	}
 	initRes = initializerStatements.String()
