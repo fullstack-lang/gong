@@ -188,6 +188,14 @@ func (inst *Task) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Rever
 			if _participant, ok := stage.Participant_Tasks_reverseMap[inst]; ok {
 				res = _participant.Name
 			}
+		case "TaskWhoseOutControlFlowsNodeIsExpanded":
+			if _participant, ok := stage.Participant_TaskWhoseOutControlFlowsNodeIsExpanded_reverseMap[inst]; ok {
+				res = _participant.Name
+			}
+		case "TaskWhoseInControlFlowsNodeIsExpanded":
+			if _participant, ok := stage.Participant_TaskWhoseInControlFlowsNodeIsExpanded_reverseMap[inst]; ok {
+				res = _participant.Name
+			}
 		}
 	}
 	return
@@ -362,6 +370,10 @@ func (inst *Task) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseFi
 		switch reverseField.Fieldname {
 		case "Tasks":
 			res = stage.Participant_Tasks_reverseMap[inst]
+		case "TaskWhoseOutControlFlowsNodeIsExpanded":
+			res = stage.Participant_TaskWhoseOutControlFlowsNodeIsExpanded_reverseMap[inst]
+		case "TaskWhoseInControlFlowsNodeIsExpanded":
+			res = stage.Participant_TaskWhoseInControlFlowsNodeIsExpanded_reverseMap[inst]
 		}
 	}
 	return res

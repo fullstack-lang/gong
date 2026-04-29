@@ -658,6 +658,10 @@ func (u *ParticipantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 		instance.IsControlFlowsNodeExpanded = GongExtractBool(valueExpr)
 	case "ControlFlows":
 		GongUnmarshallSliceOfPointers(&instance.ControlFlows, valueExpr, identifierMap)
+	case "TaskWhoseOutControlFlowsNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.TaskWhoseOutControlFlowsNodeIsExpanded, valueExpr, identifierMap)
+	case "TaskWhoseInControlFlowsNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.TaskWhoseInControlFlowsNodeIsExpanded, valueExpr, identifierMap)
 	}
 	return nil
 }

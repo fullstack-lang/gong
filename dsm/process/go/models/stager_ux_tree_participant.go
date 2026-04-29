@@ -109,7 +109,7 @@ func (stager *Stager) treeParticipants(
 	}
 
 	for _, task := range participant.Tasks {
-		stager.treetasks(diagramProcess, task, tasksNode, &diagramProcess.TasksWhoseNodeIsExpanded)
+		stager.treetasks(diagramProcess, participant, task, tasksNode, &diagramProcess.TasksWhoseNodeIsExpanded)
 	}
 
 	// loook forward to https://github.com/golang/go/issues/61731
@@ -152,6 +152,6 @@ func (stager *Stager) treeParticipants(
 	}
 
 	for _, controlflow := range participant.ControlFlows {
-		stager.treecontrolflows(diagramProcess, controlflow, controlflowsNode, &diagramProcess.ControlFlowsWhoseNodeIsExpanded)
+		stager.treeControlFlows(diagramProcess, controlflow, controlflowsNode, &diagramProcess.ControlFlowsWhoseNodeIsExpanded)
 	}
 }

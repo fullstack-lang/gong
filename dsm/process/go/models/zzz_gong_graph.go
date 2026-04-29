@@ -318,6 +318,12 @@ func (stage *Stage) StageBranchParticipant(participant *Participant) {
 	for _, _controlflow := range participant.ControlFlows {
 		StageBranch(stage, _controlflow)
 	}
+	for _, _task := range participant.TaskWhoseOutControlFlowsNodeIsExpanded {
+		StageBranch(stage, _task)
+	}
+	for _, _task := range participant.TaskWhoseInControlFlowsNodeIsExpanded {
+		StageBranch(stage, _task)
+	}
 
 }
 
@@ -617,6 +623,12 @@ func CopyBranchParticipant(mapOrigCopy map[any]any, participantFrom *Participant
 	for _, _controlflow := range participantFrom.ControlFlows {
 		participantTo.ControlFlows = append(participantTo.ControlFlows, CopyBranchControlFlow(mapOrigCopy, _controlflow))
 	}
+	for _, _task := range participantFrom.TaskWhoseOutControlFlowsNodeIsExpanded {
+		participantTo.TaskWhoseOutControlFlowsNodeIsExpanded = append(participantTo.TaskWhoseOutControlFlowsNodeIsExpanded, CopyBranchTask(mapOrigCopy, _task))
+	}
+	for _, _task := range participantFrom.TaskWhoseInControlFlowsNodeIsExpanded {
+		participantTo.TaskWhoseInControlFlowsNodeIsExpanded = append(participantTo.TaskWhoseInControlFlowsNodeIsExpanded, CopyBranchTask(mapOrigCopy, _task))
+	}
 
 	return
 }
@@ -904,6 +916,12 @@ func (stage *Stage) UnstageBranchParticipant(participant *Participant) {
 	for _, _controlflow := range participant.ControlFlows {
 		UnstageBranch(stage, _controlflow)
 	}
+	for _, _task := range participant.TaskWhoseOutControlFlowsNodeIsExpanded {
+		UnstageBranch(stage, _task)
+	}
+	for _, _task := range participant.TaskWhoseInControlFlowsNodeIsExpanded {
+		UnstageBranch(stage, _task)
+	}
 
 }
 
@@ -1098,6 +1116,14 @@ func (reference *Participant) GongReconstructPointersFromReferences(stage *Stage
 	reference.ControlFlows = reference.ControlFlows[:0]
 	for _, _b := range instance.ControlFlows {
 		reference.ControlFlows = append(reference.ControlFlows, stage.ControlFlows_reference[_b])
+	}
+	reference.TaskWhoseOutControlFlowsNodeIsExpanded = reference.TaskWhoseOutControlFlowsNodeIsExpanded[:0]
+	for _, _b := range instance.TaskWhoseOutControlFlowsNodeIsExpanded {
+		reference.TaskWhoseOutControlFlowsNodeIsExpanded = append(reference.TaskWhoseOutControlFlowsNodeIsExpanded, stage.Tasks_reference[_b])
+	}
+	reference.TaskWhoseInControlFlowsNodeIsExpanded = reference.TaskWhoseInControlFlowsNodeIsExpanded[:0]
+	for _, _b := range instance.TaskWhoseInControlFlowsNodeIsExpanded {
+		reference.TaskWhoseInControlFlowsNodeIsExpanded = append(reference.TaskWhoseInControlFlowsNodeIsExpanded, stage.Tasks_reference[_b])
 	}
 
 	return
@@ -1308,6 +1334,20 @@ func (reference *Participant) GongReconstructPointersFromInstances(stage *Stage)
 		}
 	}
 	reference.ControlFlows = _ControlFlows
+	var _TaskWhoseOutControlFlowsNodeIsExpanded []*Task
+	for _, _reference := range reference.TaskWhoseOutControlFlowsNodeIsExpanded {
+		if _instance, ok := stage.Tasks_instance[_reference]; ok {
+			_TaskWhoseOutControlFlowsNodeIsExpanded = append(_TaskWhoseOutControlFlowsNodeIsExpanded, _instance)
+		}
+	}
+	reference.TaskWhoseOutControlFlowsNodeIsExpanded = _TaskWhoseOutControlFlowsNodeIsExpanded
+	var _TaskWhoseInControlFlowsNodeIsExpanded []*Task
+	for _, _reference := range reference.TaskWhoseInControlFlowsNodeIsExpanded {
+		if _instance, ok := stage.Tasks_instance[_reference]; ok {
+			_TaskWhoseInControlFlowsNodeIsExpanded = append(_TaskWhoseInControlFlowsNodeIsExpanded, _instance)
+		}
+	}
+	reference.TaskWhoseInControlFlowsNodeIsExpanded = _TaskWhoseInControlFlowsNodeIsExpanded
 
 	return
 }
@@ -1816,6 +1856,48 @@ func (participant *Participant) GongDiff(stage *Stage, participantOther *Partici
 	}
 	if ControlFlowsDifferent {
 		ops := Diff(stage, participant, participantOther, "ControlFlows", participantOther.ControlFlows, participant.ControlFlows)
+		diffs = append(diffs, ops)
+	}
+	TaskWhoseOutControlFlowsNodeIsExpandedDifferent := false
+	if len(participant.TaskWhoseOutControlFlowsNodeIsExpanded) != len(participantOther.TaskWhoseOutControlFlowsNodeIsExpanded) {
+		TaskWhoseOutControlFlowsNodeIsExpandedDifferent = true
+	} else {
+		for i := range participant.TaskWhoseOutControlFlowsNodeIsExpanded {
+			if (participant.TaskWhoseOutControlFlowsNodeIsExpanded[i] == nil) != (participantOther.TaskWhoseOutControlFlowsNodeIsExpanded[i] == nil) {
+				TaskWhoseOutControlFlowsNodeIsExpandedDifferent = true
+				break
+			} else if participant.TaskWhoseOutControlFlowsNodeIsExpanded[i] != nil && participantOther.TaskWhoseOutControlFlowsNodeIsExpanded[i] != nil {
+				// this is a pointer comparaison
+				if participant.TaskWhoseOutControlFlowsNodeIsExpanded[i] != participantOther.TaskWhoseOutControlFlowsNodeIsExpanded[i] {
+					TaskWhoseOutControlFlowsNodeIsExpandedDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if TaskWhoseOutControlFlowsNodeIsExpandedDifferent {
+		ops := Diff(stage, participant, participantOther, "TaskWhoseOutControlFlowsNodeIsExpanded", participantOther.TaskWhoseOutControlFlowsNodeIsExpanded, participant.TaskWhoseOutControlFlowsNodeIsExpanded)
+		diffs = append(diffs, ops)
+	}
+	TaskWhoseInControlFlowsNodeIsExpandedDifferent := false
+	if len(participant.TaskWhoseInControlFlowsNodeIsExpanded) != len(participantOther.TaskWhoseInControlFlowsNodeIsExpanded) {
+		TaskWhoseInControlFlowsNodeIsExpandedDifferent = true
+	} else {
+		for i := range participant.TaskWhoseInControlFlowsNodeIsExpanded {
+			if (participant.TaskWhoseInControlFlowsNodeIsExpanded[i] == nil) != (participantOther.TaskWhoseInControlFlowsNodeIsExpanded[i] == nil) {
+				TaskWhoseInControlFlowsNodeIsExpandedDifferent = true
+				break
+			} else if participant.TaskWhoseInControlFlowsNodeIsExpanded[i] != nil && participantOther.TaskWhoseInControlFlowsNodeIsExpanded[i] != nil {
+				// this is a pointer comparaison
+				if participant.TaskWhoseInControlFlowsNodeIsExpanded[i] != participantOther.TaskWhoseInControlFlowsNodeIsExpanded[i] {
+					TaskWhoseInControlFlowsNodeIsExpandedDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if TaskWhoseInControlFlowsNodeIsExpandedDifferent {
+		ops := Diff(stage, participant, participantOther, "TaskWhoseInControlFlowsNodeIsExpanded", participantOther.TaskWhoseInControlFlowsNodeIsExpanded, participant.TaskWhoseInControlFlowsNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 

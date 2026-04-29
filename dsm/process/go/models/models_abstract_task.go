@@ -8,6 +8,11 @@ type Task struct {
 
 	IsStartTask bool
 	IsEndTask   bool
+
+	outcontrolFlows []*ControlFlow
+	incontrolFlows  []*ControlFlow
+
+	owningParticipant *Participant
 }
 
 var _ AbstractType = (*Task)(nil)

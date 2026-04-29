@@ -13,6 +13,7 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 	// computes fields that are not persisted
 	stager.enforceOwningLibraryAndObjects()
 	stager.enforceDiagramMaps()
+	stager.computeTaskFields()
 
 	pass := 0
 	for {
@@ -37,6 +38,7 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 	// computes fields that are not persisted
 	stager.enforceOwningLibraryAndObjects()
 	stager.enforceDiagramMaps()
+	stager.computeTaskFields()
 
 	if needCommit {
 		stager.probeForm.CommitNotificationTable()

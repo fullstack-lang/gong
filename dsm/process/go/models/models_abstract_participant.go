@@ -11,6 +11,9 @@ type Participant struct {
 
 	IsControlFlowsNodeExpanded bool
 	ControlFlows               []*ControlFlow
+
+	TaskWhoseOutControlFlowsNodeIsExpanded []*Task
+	TaskWhoseInControlFlowsNodeIsExpanded  []*Task
 }
 
 var _ AbstractType = (*Participant)(nil)
