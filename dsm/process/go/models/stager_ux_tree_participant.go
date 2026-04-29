@@ -48,10 +48,6 @@ func (stager *Stager) treeParticipants(
 		node.Buttons = append(node.Buttons, visibilityButton)
 	}
 
-	{
-
-	}
-
 	node.OnUpdate = func(_ *tree.Stage, stagedNode, frontNode *tree.Node) {
 		if frontNode.Name != stagedNode.Name {
 			participant.Name = frontNode.Name
