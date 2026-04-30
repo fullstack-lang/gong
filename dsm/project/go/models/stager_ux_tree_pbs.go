@@ -18,7 +18,32 @@ func (stager *Stager) treePBSRecusriveInDiagram(diagram *Diagram, product *Produ
 		&diagram.ProductComposition_Shapes,
 	)
 
-	addAddItemButton(stager, &diagram.ProductsWhoseNodeIsExpanded, product, nil, productNode, &product.SubProducts, diagram, &diagram.Product_Shapes, &diagram.ProductComposition_Shapes)
+	conf := addItemButtonConfiguration[
+		Product, *Product, // AT, PAT (Added Element)
+		Product, *Product, // ParentAT, PParentAT (Parent Element)
+		ProductShape, *ProductShape, // CT, PCT (Concrete Shape)
+		ProductCompositionShape, *ProductCompositionShape, // ACT, PACT (Association Shape),
+	]{
+		baseItemButtonConfiguration: baseItemButtonConfiguration[
+			Product, *Product, // AT, PAT (Added Element)
+			Product, *Product, // ParentAT, PParentAT (Parent Element)
+		]{
+			parentNode:                         productNode,
+			sliceForNewAddedItem:               &product.SubProducts,
+			isParentNodeExpandedByAddOperation: true,
+			parentNodeExpansionType:            parentNodeExpansionTypeBySlice,
+			parentNodeExpansionSliceEncoding:   &diagram.ProductsWhoseNodeIsExpanded,
+			parentElement:                      product,
+		},
+		isWithAdditionOfShape:            true,
+		receivingDiagram:                 diagram,
+		sliceForNewAddedShape:            &diagram.Product_Shapes,
+		isWithAdditionOfAssociationShape: true,
+		sliceForNewCompositionShapes:     &diagram.ProductComposition_Shapes,
+	}
+
+	addAddButton(stager, conf)
+	//addAddItemButton(stager, &diagram.ProductsWhoseNodeIsExpanded, product, nil, productNode, &product.SubProducts, diagram, &diagram.Product_Shapes, &diagram.ProductComposition_Shapes)
 
 	for _, product := range product.SubProducts {
 		stager.treePBSRecusriveInDiagram(diagram, product, productNode)
