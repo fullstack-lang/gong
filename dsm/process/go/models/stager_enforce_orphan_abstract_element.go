@@ -20,6 +20,25 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 
 	if reattachToLibraryRoots(
 		stager,
+		func() []*DataFlow {
+			roots := make([]*DataFlow, 0)
+			for _, library := range GetGongstrucsSorted[*Library](stager.stage) {
+				roots = append(roots, library.RootDataFlows...)
+			}
+			return roots
+		},
+		func(dataflow *DataFlow) {
+			dataflow.GetOwningLibrary().RootDataFlows = append(dataflow.GetOwningLibrary().RootDataFlows, dataflow)
+		},
+		func(dataflow *DataFlow) []*DataFlow {
+			return []*DataFlow{}
+		},
+	) {
+		needCommit = true
+	}
+
+	if reattachToLibraryRoots(
+		stager,
 		func() []*Library {
 			return stager.rootLibrary.SubLibraries
 		},

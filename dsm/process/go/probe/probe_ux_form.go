@@ -27,6 +27,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.controlflowshape, probe)
 			}
+		case *DataFlowFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "DataFlow", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.dataflow, probe)
+			}
 		case *DiagramProcessFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "DiagramProcess", true)
@@ -123,6 +129,19 @@ func FillUpFormFromGongstructName(
 		controlflowshape := new(models.ControlFlowShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(controlflowshape, formGroup, probe)
+	case "DataFlow":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "DataFlow Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__DataFlowFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		dataflow := new(models.DataFlow)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(dataflow, formGroup, probe)
 	case "DiagramProcess":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
