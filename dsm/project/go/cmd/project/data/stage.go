@@ -131,4 +131,28 @@ func _(stage *models.Stage) {
 	__Product__00000002_.IsProducersNodeExpanded = false
 	__Product__00000002_.IsConsumersNodeExpanded = false
 	stage.Commit()
+
+	// -Default Diagram
+	__ProductShape__00000002_.Product = nil
+	// A
+	__Product__00000000_.SubProducts = slices.Delete( __Product__00000000_.SubProducts, 0, 1)
+	// Default Diagram
+	__Diagram__00000000_.ProductsWhoseNodeIsExpanded = slices.Delete( __Diagram__00000000_.ProductsWhoseNodeIsExpanded, 1, 2)
+	// a to A.1
+	__ProductCompositionShape__00000001_.Product = nil
+	__Product__00000001_.Unstage(stage)
+	stage.Commit()
+
+	// Default Diagram
+	__Diagram__00000000_.Height = 295.618199
+	__Diagram__00000000_.Product_Shapes = slices.Delete( __Diagram__00000000_.Product_Shapes, 2, 3)
+	__Diagram__00000000_.Product_Shapes = slices.Delete( __Diagram__00000000_.Product_Shapes, 1, 2)
+	__Diagram__00000000_.ProductComposition_Shapes = slices.Delete( __Diagram__00000000_.ProductComposition_Shapes, 1, 2)
+	__Diagram__00000000_.ProductComposition_Shapes = slices.Delete( __Diagram__00000000_.ProductComposition_Shapes, 0, 1)
+	__ProductCompositionShape__00000001_.Unstage(stage)
+	__ProductCompositionShape__00000002_.Unstage(stage)
+	__ProductShape__00000002_.Unstage(stage)
+	__ProductShape__00000003_.Unstage(stage)
+	__Product__00000002_.Unstage(stage)
+	stage.Commit()
 }
