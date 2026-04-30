@@ -285,12 +285,11 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 
 					// 2. Use a single, formatted log line
 					log.Printf(
-						"%-12s | %-85s | Idx: %d | Size: %-9s | Hash: %s",
+						"%-12s | %-85s | Idx: %d | Size: %-9s",
 						component,
 						stackPath,
 						index,
 						formatBytes(jsonSize),
-						shortHash,
 					)
 				}
 			}
