@@ -55,7 +55,7 @@ const (
 )" > go/models/hello_type.go
 gong generate go/models
 cd go/cmd/helloworld
-./helloworld -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage
+./helloworld data/stage
 cd ../../../..
 rm -rf helloworld
 ```
