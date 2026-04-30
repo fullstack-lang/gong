@@ -135,7 +135,7 @@ func _(stage *models.Stage) {
 
 	__Participant__00000003_.Name = `PP1`
 	__Participant__00000003_.ComputedPrefix = ``
-	__Participant__00000003_.IsTasksNodeExpanded = false
+	__Participant__00000003_.IsTasksNodeExpanded = true
 	__Participant__00000003_.IsControlFlowsNodeExpanded = true
 
 	__Participant__00000004_.Name = `PP2`
@@ -294,6 +294,7 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000005_.Participant_Shapes = append(__DiagramProcess__00000005_.Participant_Shapes, __ParticipantShape__00000007_)
 	__DiagramProcess__00000005_.ParticipantWhoseNodeIsExpanded = append(__DiagramProcess__00000005_.ParticipantWhoseNodeIsExpanded, __Participant__00000003_)
 	__DiagramProcess__00000005_.ParticipantWhoseNodeIsExpanded = append(__DiagramProcess__00000005_.ParticipantWhoseNodeIsExpanded, __Participant__00000004_)
+	__DiagramProcess__00000005_.TasksWhoseNodeIsExpanded = append(__DiagramProcess__00000005_.TasksWhoseNodeIsExpanded, __Task__00000001_)
 	__DiagramProcess__00000005_.TaskShapes = append(__DiagramProcess__00000005_.TaskShapes, __TaskShape__00000000_)
 	__DiagramProcess__00000005_.TaskShapes = append(__DiagramProcess__00000005_.TaskShapes, __TaskShape__00000002_)
 	__DiagramProcess__00000005_.TaskShapes = append(__DiagramProcess__00000005_.TaskShapes, __TaskShape__00000004_)
@@ -314,6 +315,7 @@ func _(stage *models.Stage) {
 	__Participant__00000003_.Tasks = append(__Participant__00000003_.Tasks, __Task__00000005_)
 	__Participant__00000003_.Tasks = append(__Participant__00000003_.Tasks, __Task__00000006_)
 	__Participant__00000003_.ControlFlows = append(__Participant__00000003_.ControlFlows, __ControlFlow__00000000_)
+	__Participant__00000003_.TaskWhoseOutControlFlowsNodeIsExpanded = append(__Participant__00000003_.TaskWhoseOutControlFlowsNodeIsExpanded, __Task__00000001_)
 	__Participant__00000004_.Tasks = append(__Participant__00000004_.Tasks, __Task__00000003_)
 	__Participant__00000004_.Tasks = append(__Participant__00000004_.Tasks, __Task__00000007_)
 	__ParticipantShape__00000006_.Participant = __Participant__00000004_

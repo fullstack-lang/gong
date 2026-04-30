@@ -15,9 +15,12 @@ type Library struct {
 	//gong:width 600 gong:height 300
 	LogoSVGFile string // the content of the logo file, used for the static site generation
 
-	// DSM specific fieldsi
+	// DSM specific fields
 	RootProcesses               []*Process
 	ProcesssWhoseNodeIsExpanded []*Process
+
+	RootDataFlows                []*DataFlow
+	DataFlowsWhoseNodeIsExpanded []*DataFlow
 
 	// temporary persistance of the library expand status.
 	IsExpandedTmp bool

@@ -41,6 +41,26 @@ func (inst *ControlFlowShape) GongGetReverseFieldOwnerName(stage *Stage, reverse
 	return
 }
 
+func (inst *DataFlow) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "Library":
+		switch reverseField.Fieldname {
+		case "RootDataFlows":
+			if _library, ok := stage.Library_RootDataFlows_reverseMap[inst]; ok {
+				res = _library.Name
+			}
+		case "DataFlowsWhoseNodeIsExpanded":
+			if _library, ok := stage.Library_DataFlowsWhoseNodeIsExpanded_reverseMap[inst]; ok {
+				res = _library.Name
+			}
+		}
+	}
+	return
+}
+
 func (inst *DiagramProcess) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -246,6 +266,22 @@ func (inst *ControlFlowShape) GongGetReverseFieldOwner(stage *Stage, reverseFiel
 		switch reverseField.Fieldname {
 		case "ControlFlowShapes":
 			res = stage.DiagramProcess_ControlFlowShapes_reverseMap[inst]
+		}
+	}
+	return res
+}
+
+func (inst *DataFlow) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	case "Library":
+		switch reverseField.Fieldname {
+		case "RootDataFlows":
+			res = stage.Library_RootDataFlows_reverseMap[inst]
+		case "DataFlowsWhoseNodeIsExpanded":
+			res = stage.Library_DataFlowsWhoseNodeIsExpanded_reverseMap[inst]
 		}
 	}
 	return res

@@ -13,6 +13,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *ControlFlowShape:
 		ok = stage.IsStagedControlFlowShape(target)
 
+	case *DataFlow:
+		ok = stage.IsStagedDataFlow(target)
+
 	case *DiagramProcess:
 		ok = stage.IsStagedDiagramProcess(target)
 
@@ -52,6 +55,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *ControlFlowShape:
 		ok = stage.IsStagedControlFlowShape(target)
+
+	case *DataFlow:
+		ok = stage.IsStagedDataFlow(target)
 
 	case *DiagramProcess:
 		ok = stage.IsStagedDiagramProcess(target)
@@ -94,6 +100,13 @@ func (stage *Stage) IsStagedControlFlow(controlflow *ControlFlow) (ok bool) {
 func (stage *Stage) IsStagedControlFlowShape(controlflowshape *ControlFlowShape) (ok bool) {
 
 	_, ok = stage.ControlFlowShapes[controlflowshape]
+
+	return
+}
+
+func (stage *Stage) IsStagedDataFlow(dataflow *DataFlow) (ok bool) {
+
+	_, ok = stage.DataFlows[dataflow]
 
 	return
 }
@@ -168,6 +181,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *ControlFlowShape:
 		stage.StageBranchControlFlowShape(target)
 
+	case *DataFlow:
+		stage.StageBranchDataFlow(target)
+
 	case *DiagramProcess:
 		stage.StageBranchDiagramProcess(target)
 
@@ -237,6 +253,27 @@ func (stage *Stage) StageBranchControlFlowShape(controlflowshape *ControlFlowSha
 
 }
 
+func (stage *Stage) StageBranchDataFlow(dataflow *DataFlow) {
+
+	// check if instance is already staged
+	if IsStaged(stage, dataflow) {
+		return
+	}
+
+	dataflow.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if dataflow.Start != nil {
+		StageBranch(stage, dataflow.Start)
+	}
+	if dataflow.End != nil {
+		StageBranch(stage, dataflow.End)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) StageBranchDiagramProcess(diagramprocess *DiagramProcess) {
 
 	// check if instance is already staged
@@ -296,6 +333,12 @@ func (stage *Stage) StageBranchLibrary(library *Library) {
 	}
 	for _, _process := range library.ProcesssWhoseNodeIsExpanded {
 		StageBranch(stage, _process)
+	}
+	for _, _dataflow := range library.RootDataFlows {
+		StageBranch(stage, _dataflow)
+	}
+	for _, _dataflow := range library.DataFlowsWhoseNodeIsExpanded {
+		StageBranch(stage, _dataflow)
 	}
 
 }
@@ -445,6 +488,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchControlFlowShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *DataFlow:
+		toT := CopyBranchDataFlow(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *DiagramProcess:
 		toT := CopyBranchDiagramProcess(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -531,6 +578,31 @@ func CopyBranchControlFlowShape(mapOrigCopy map[any]any, controlflowshapeFrom *C
 	return
 }
 
+func CopyBranchDataFlow(mapOrigCopy map[any]any, dataflowFrom *DataFlow) (dataflowTo *DataFlow) {
+
+	// dataflowFrom has already been copied
+	if _dataflowTo, ok := mapOrigCopy[dataflowFrom]; ok {
+		dataflowTo = _dataflowTo.(*DataFlow)
+		return
+	}
+
+	dataflowTo = new(DataFlow)
+	mapOrigCopy[dataflowFrom] = dataflowTo
+	dataflowFrom.CopyBasicFields(dataflowTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if dataflowFrom.Start != nil {
+		dataflowTo.Start = CopyBranchTask(mapOrigCopy, dataflowFrom.Start)
+	}
+	if dataflowFrom.End != nil {
+		dataflowTo.End = CopyBranchTask(mapOrigCopy, dataflowFrom.End)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchDiagramProcess(mapOrigCopy map[any]any, diagramprocessFrom *DiagramProcess) (diagramprocessTo *DiagramProcess) {
 
 	// diagramprocessFrom has already been copied
@@ -597,6 +669,12 @@ func CopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo
 	}
 	for _, _process := range libraryFrom.ProcesssWhoseNodeIsExpanded {
 		libraryTo.ProcesssWhoseNodeIsExpanded = append(libraryTo.ProcesssWhoseNodeIsExpanded, CopyBranchProcess(mapOrigCopy, _process))
+	}
+	for _, _dataflow := range libraryFrom.RootDataFlows {
+		libraryTo.RootDataFlows = append(libraryTo.RootDataFlows, CopyBranchDataFlow(mapOrigCopy, _dataflow))
+	}
+	for _, _dataflow := range libraryFrom.DataFlowsWhoseNodeIsExpanded {
+		libraryTo.DataFlowsWhoseNodeIsExpanded = append(libraryTo.DataFlowsWhoseNodeIsExpanded, CopyBranchDataFlow(mapOrigCopy, _dataflow))
 	}
 
 	return
@@ -766,6 +844,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *ControlFlowShape:
 		stage.UnstageBranchControlFlowShape(target)
 
+	case *DataFlow:
+		stage.UnstageBranchDataFlow(target)
+
 	case *DiagramProcess:
 		stage.UnstageBranchDiagramProcess(target)
 
@@ -835,6 +916,27 @@ func (stage *Stage) UnstageBranchControlFlowShape(controlflowshape *ControlFlowS
 
 }
 
+func (stage *Stage) UnstageBranchDataFlow(dataflow *DataFlow) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, dataflow) {
+		return
+	}
+
+	dataflow.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if dataflow.Start != nil {
+		UnstageBranch(stage, dataflow.Start)
+	}
+	if dataflow.End != nil {
+		UnstageBranch(stage, dataflow.End)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) UnstageBranchDiagramProcess(diagramprocess *DiagramProcess) {
 
 	// check if instance is already staged
@@ -894,6 +996,12 @@ func (stage *Stage) UnstageBranchLibrary(library *Library) {
 	}
 	for _, _process := range library.ProcesssWhoseNodeIsExpanded {
 		UnstageBranch(stage, _process)
+	}
+	for _, _dataflow := range library.RootDataFlows {
+		UnstageBranch(stage, _dataflow)
+	}
+	for _, _dataflow := range library.DataFlowsWhoseNodeIsExpanded {
+		UnstageBranch(stage, _dataflow)
 	}
 
 }
@@ -1048,6 +1156,19 @@ func (reference *ControlFlowShape) GongReconstructPointersFromReferences(stage *
 	return
 }
 
+func (reference *DataFlow) GongReconstructPointersFromReferences(stage *Stage, instance *DataFlow) () {
+	// insertion point for pointers field
+	if instance.Start != nil {
+		reference.Start = stage.Tasks_reference[instance.Start]
+	}
+	if instance.End != nil {
+		reference.End = stage.Tasks_reference[instance.End]
+	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
 func (reference *DiagramProcess) GongReconstructPointersFromReferences(stage *Stage, instance *DiagramProcess) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -1101,6 +1222,14 @@ func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, in
 	reference.ProcesssWhoseNodeIsExpanded = reference.ProcesssWhoseNodeIsExpanded[:0]
 	for _, _b := range instance.ProcesssWhoseNodeIsExpanded {
 		reference.ProcesssWhoseNodeIsExpanded = append(reference.ProcesssWhoseNodeIsExpanded, stage.Processs_reference[_b])
+	}
+	reference.RootDataFlows = reference.RootDataFlows[:0]
+	for _, _b := range instance.RootDataFlows {
+		reference.RootDataFlows = append(reference.RootDataFlows, stage.DataFlows_reference[_b])
+	}
+	reference.DataFlowsWhoseNodeIsExpanded = reference.DataFlowsWhoseNodeIsExpanded[:0]
+	for _, _b := range instance.DataFlowsWhoseNodeIsExpanded {
+		reference.DataFlowsWhoseNodeIsExpanded = append(reference.DataFlowsWhoseNodeIsExpanded, stage.DataFlows_reference[_b])
 	}
 
 	return
@@ -1226,6 +1355,25 @@ func (reference *ControlFlowShape) GongReconstructPointersFromInstances(stage *S
 	return
 }
 
+func (reference *DataFlow) GongReconstructPointersFromInstances(stage *Stage) () {
+	// insertion point for pointers field
+	if _reference := reference.Start; _reference != nil {
+		reference.Start = nil
+		if _instance, ok := stage.Tasks_instance[_reference]; ok {
+			reference.Start = _instance
+		}
+	}
+	if _reference := reference.End; _reference != nil {
+		reference.End = nil
+		if _instance, ok := stage.Tasks_instance[_reference]; ok {
+			reference.End = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
 func (reference *DiagramProcess) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
@@ -1313,6 +1461,20 @@ func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) () 
 		}
 	}
 	reference.ProcesssWhoseNodeIsExpanded = _ProcesssWhoseNodeIsExpanded
+	var _RootDataFlows []*DataFlow
+	for _, _reference := range reference.RootDataFlows {
+		if _instance, ok := stage.DataFlows_instance[_reference]; ok {
+			_RootDataFlows = append(_RootDataFlows, _instance)
+		}
+	}
+	reference.RootDataFlows = _RootDataFlows
+	var _DataFlowsWhoseNodeIsExpanded []*DataFlow
+	for _, _reference := range reference.DataFlowsWhoseNodeIsExpanded {
+		if _instance, ok := stage.DataFlows_instance[_reference]; ok {
+			_DataFlowsWhoseNodeIsExpanded = append(_DataFlowsWhoseNodeIsExpanded, _instance)
+		}
+	}
+	reference.DataFlowsWhoseNodeIsExpanded = _DataFlowsWhoseNodeIsExpanded
 
 	return
 }
@@ -1500,6 +1662,34 @@ func (controlflowshape *ControlFlowShape) GongDiff(stage *Stage, controlflowshap
 	}
 	if controlflowshape.IsHidden != controlflowshapeOther.IsHidden {
 		diffs = append(diffs, controlflowshape.GongMarshallField(stage, "IsHidden"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (dataflow *DataFlow) GongDiff(stage *Stage, dataflowOther *DataFlow) (diffs []string) {
+	// insertion point for field diffs
+	if dataflow.Name != dataflowOther.Name {
+		diffs = append(diffs, dataflow.GongMarshallField(stage, "Name"))
+	}
+	if dataflow.ComputedPrefix != dataflowOther.ComputedPrefix {
+		diffs = append(diffs, dataflow.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	if (dataflow.Start == nil) != (dataflowOther.Start == nil) {
+		diffs = append(diffs, dataflow.GongMarshallField(stage, "Start"))
+	} else if dataflow.Start != nil && dataflowOther.Start != nil {
+		if dataflow.Start != dataflowOther.Start {
+			diffs = append(diffs, dataflow.GongMarshallField(stage, "Start"))
+		}
+	}
+	if (dataflow.End == nil) != (dataflowOther.End == nil) {
+		diffs = append(diffs, dataflow.GongMarshallField(stage, "End"))
+	} else if dataflow.End != nil && dataflowOther.End != nil {
+		if dataflow.End != dataflowOther.End {
+			diffs = append(diffs, dataflow.GongMarshallField(stage, "End"))
+		}
 	}
 
 	return
@@ -1791,6 +1981,48 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 	}
 	if ProcesssWhoseNodeIsExpandedDifferent {
 		ops := Diff(stage, library, libraryOther, "ProcesssWhoseNodeIsExpanded", libraryOther.ProcesssWhoseNodeIsExpanded, library.ProcesssWhoseNodeIsExpanded)
+		diffs = append(diffs, ops)
+	}
+	RootDataFlowsDifferent := false
+	if len(library.RootDataFlows) != len(libraryOther.RootDataFlows) {
+		RootDataFlowsDifferent = true
+	} else {
+		for i := range library.RootDataFlows {
+			if (library.RootDataFlows[i] == nil) != (libraryOther.RootDataFlows[i] == nil) {
+				RootDataFlowsDifferent = true
+				break
+			} else if library.RootDataFlows[i] != nil && libraryOther.RootDataFlows[i] != nil {
+				// this is a pointer comparaison
+				if library.RootDataFlows[i] != libraryOther.RootDataFlows[i] {
+					RootDataFlowsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if RootDataFlowsDifferent {
+		ops := Diff(stage, library, libraryOther, "RootDataFlows", libraryOther.RootDataFlows, library.RootDataFlows)
+		diffs = append(diffs, ops)
+	}
+	DataFlowsWhoseNodeIsExpandedDifferent := false
+	if len(library.DataFlowsWhoseNodeIsExpanded) != len(libraryOther.DataFlowsWhoseNodeIsExpanded) {
+		DataFlowsWhoseNodeIsExpandedDifferent = true
+	} else {
+		for i := range library.DataFlowsWhoseNodeIsExpanded {
+			if (library.DataFlowsWhoseNodeIsExpanded[i] == nil) != (libraryOther.DataFlowsWhoseNodeIsExpanded[i] == nil) {
+				DataFlowsWhoseNodeIsExpandedDifferent = true
+				break
+			} else if library.DataFlowsWhoseNodeIsExpanded[i] != nil && libraryOther.DataFlowsWhoseNodeIsExpanded[i] != nil {
+				// this is a pointer comparaison
+				if library.DataFlowsWhoseNodeIsExpanded[i] != libraryOther.DataFlowsWhoseNodeIsExpanded[i] {
+					DataFlowsWhoseNodeIsExpandedDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if DataFlowsWhoseNodeIsExpandedDifferent {
+		ops := Diff(stage, library, libraryOther, "DataFlowsWhoseNodeIsExpanded", libraryOther.DataFlowsWhoseNodeIsExpanded, library.DataFlowsWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	if library.IsExpandedTmp != libraryOther.IsExpandedTmp {
