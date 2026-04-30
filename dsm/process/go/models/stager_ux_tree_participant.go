@@ -121,19 +121,23 @@ func (stager *Stager) treeParticipants(
 		// not used here, only for instanciation sake
 		ControlFlowShape, *ControlFlowShape, // ACT, PACT (Association Shape),
 	]{
-		parentNode:                         tasksNode,
-		sliceForNewAddedItem:               &participant.Tasks,
-		isParentNodeExpandedByAddOperation: true,
-		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
-		parentNodeExpansionBooleanValue:    &participant.IsTasksNodeExpanded,
-		parentElement:                      participant,
-		isWithAdditionOfShape:              true,
-		receivingDiagram:                   diagramProcess,
-		sliceForNewAddedShape:              &diagramProcess.TaskShapes,
-		isWithAdditionOfAssociationShape:   false,
-		sliceForNewCompositionShapes:       &diagramProcess.ControlFlowShapes,
+		baseItemButtonConfiguration: baseItemButtonConfiguration[
+			Task, *Task, // AT, PAT (Added Element)
+			Participant, *Participant, // ParentAT, PParentAT (Parent Element)
+		]{
+			parentNode:                         tasksNode,
+			sliceForNewAddedItem:               &participant.Tasks,
+			isParentNodeExpandedByAddOperation: true,
+			parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+			parentNodeExpansionBooleanValue:    &participant.IsTasksNodeExpanded,
+			parentElement:                      participant,
+		},
+		isWithAdditionOfShape:            true,
+		receivingDiagram:                 diagramProcess,
+		sliceForNewAddedShape:            &diagramProcess.TaskShapes,
+		isWithAdditionOfAssociationShape: false,
+		sliceForNewCompositionShapes:     &diagramProcess.ControlFlowShapes,
 	}
-
 	addAddButton(stager, conf)
 
 	controlflowsNode := &tree.Node{
