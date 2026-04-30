@@ -25,7 +25,7 @@ func (stager *Stager) enforceTaskShapeWithinProcess() (needCommit bool) {
 			// Check if task shape is within process shape
 			modified := false
 
-			margin := 20.0
+			margin := 1.0
 
 			if taskShape.X < owningProcessShape.X+margin {
 				taskShape.X = owningProcessShape.X + margin

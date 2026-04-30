@@ -9,6 +9,10 @@ type ControlFlowShape struct {
 }
 
 func (s *ControlFlowShape) GetAbstractElement() AbstractType {
+	// very important to return nil, otherwisse, it will be a typed nil and the check of nil will not work
+	if s.ControlFlow == nil {
+		return nil
+	}
 	return s.ControlFlow
 }
 
@@ -38,3 +42,5 @@ func (s *ControlFlowShape) SetAbstractStartElement(abstractElement AbstractType)
 }
 
 var _ AssociationConcreteType = (*ControlFlowShape)(nil)
+
+var _ ConcreteType = (*ControlFlowShape)(nil)
