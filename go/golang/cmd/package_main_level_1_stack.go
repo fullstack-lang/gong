@@ -5,6 +5,7 @@ const PackageMainLevel1Stack = `package main
 import (
 	"flag"
 	"log"
+	"os"
 	"strconv"
 
 	"{{PkgPathRoot}}/level1stack"
@@ -27,6 +28,12 @@ func main() {
 
 	// parse program arguments
 	flag.Parse()
+
+	if len(os.Args) > 1 {
+		argument := os.Args[1]
+		marshallOnCommit = &argument
+		unmarshallFromCode = &argument
+	}
 
 	// setup
 	// - model level1 stack with its probe
