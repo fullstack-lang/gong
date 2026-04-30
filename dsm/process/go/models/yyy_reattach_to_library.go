@@ -37,14 +37,15 @@ func reattachToLibraryRoots[T interface {
 		collectReachable(root)
 	}
 
-	// 2. Find all nodes and delete them
+	// 2. Find all nodes and, if not in a library, reattach to root library
 	for _, object := range GetGongstrucsSorted[T](stager.stage) {
 		if _, ok := reachable[object]; !ok {
 			if object != any(stager.rootLibrary) {
-				object.UnstageVoid(stager.stage)
+				attachDirectlyToLibraryRoot(object)
+				// object.UnstageVoid(stager.stage)
 				needCommit = true
 				stager.probeForm.AddNotification(time.Now(),
-					fmt.Sprintf("Orphan \"%s\" of type \"%s\" was deleted",
+					fmt.Sprintf("Orphan \"%s\" of type \"%s\" was reattached to root library",
 						object.GetName(), object.GongGetGongstructName()),
 				)
 			}
