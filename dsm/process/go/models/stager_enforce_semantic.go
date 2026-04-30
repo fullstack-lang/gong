@@ -59,23 +59,23 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		// this is the Clean that delete them from slices and pointers that reference
 		// them. If the checkout is not performed, the stage might be dirty
 		// with slices of pointer or pointer to unstaged instance
-		{"stage.Clean", func() bool { return stage.Clean() }},
-		{"enforceDefaultValues", stager.enforceDefaultValues},
-		{"enforceOrphansAbstractElement", stager.enforceOrphansAbstractElement},
-		{"enforceTaskParticipantConsistency", stager.enforceTaskParticipantConsistency},
-		{"Tasks Semantic Rules", stager.enforceTaskSemanticRules},
-		{"Control Flows semantic rules", stager.enforceControlFlowRules},
+		{"Clean stage", func() bool { return stage.Clean() }},
+		{"Enforce default values", stager.enforceDefaultValues},
+		{"Enforce orphans abstract element", stager.enforceOrphansAbstractElement},
+		{"Enforce task participant consistency", stager.enforceTaskParticipantConsistency},
+		{"Enforce task semantic rules", stager.enforceTaskSemanticRules},
+		{"Enforce control flow semantic rules", stager.enforceControlFlowRules},
 
 		// concrete semantic check
-		{"enforceAtLeastOneDiagramPerProcess", stager.enforceAtLeastOneDiagramPerProcess},
-		{"enforceAProcessDiagramHasItsOwningProcess", stager.enforceAProcessDiagramHasItsOwningProcess},
-		{"enforceNodeShapeDuplicates", stager.enforceNodeShapeDuplicates},
-		{"enforceRelationDuplicates", stager.enforceRelationDuplicates},
-		{"enforceShapeOrphans", stager.enforceShapeOrphans},
-		{"enforceParticipantShapeOrder", stager.enforceParticipantShapeOrder},
-		{"enforceTaskShapeWithinProcess", stager.enforceTaskShapeWithinProcess},
-		{"enforceShapesAbstractConsistency", stager.enforceShapesAbstractConsistency},
-		{"enforceDiagramSize", stager.enforceDiagramSize},
+		{"Enforce at least one diagram per process", stager.enforceAtLeastOneDiagramPerProcess},
+		{"Enforce a process diagram has its owning process", stager.enforceAProcessDiagramHasItsOwningProcess},
+		{"Enforce node shape duplicates", stager.enforceNodeShapeDuplicates},
+		{"Enforce relation duplicates", stager.enforceRelationDuplicates},
+		{"Enforce shape orphans", stager.enforceShapeOrphans},
+		{"Enforce participant shape order", stager.enforceParticipantShapeOrder},
+		{"Enforce task shape within process", stager.enforceTaskShapeWithinProcess},
+		{"Enforce shapes abstract consistency", stager.enforceShapesAbstractConsistency},
+		{"Enforce diagram size", stager.enforceDiagramSize},
 	}
 
 	for _, method := range methods {
