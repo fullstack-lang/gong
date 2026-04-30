@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"log"
+	"os"
 	"strconv"
 
 	"github.com/fullstack-lang/gong/dsm/project/go/level1stack"
@@ -25,6 +26,12 @@ func main() {
 
 	// parse program arguments
 	flag.Parse()
+
+	if len(os.Args) > 1 {
+		argument := os.Args[1]
+		marshallOnCommit = &argument
+		unmarshallFromCode = &argument
+	}
 
 	// setup
 	// - model level1 stack with its probe

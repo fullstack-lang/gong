@@ -5,6 +5,7 @@ const PackageMainFullStack = `package main
 import (
 	"flag"
 	"log"
+	"os"
 	"strconv"
 
 	// insertion point for models import{{modelsImportDirective}}
@@ -31,6 +32,12 @@ func main() {
 
 	// parse program arguments
 	flag.Parse()
+
+	if len(os.Args) > 1 {
+		argument := os.Args[1]
+		marshallOnCommit = &argument
+		unmarshallFromCode = &argument
+	}
 
 	// setup the static file server and get the controller
 	r := {{pkgname}}_static.ServeStaticFiles(*logGINFlag)
