@@ -95,7 +95,18 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 		diagramNode.Children = append(diagramNode.Children, pbsNode)
 		pbsNode.OnUpdate = stager.OnUpdateExpansion(&diagram.IsPBSNodeExpanded)
 
-		addAddItemButton(stager, nil, nil, &diagram.IsPBSNodeExpanded, pbsNode, &library.RootProducts, diagram, &diagram.Product_Shapes, &diagram.ProductComposition_Shapes)
+		conf := baseItemButtonConfiguration[
+			Library, *Library, // AT, PAT (Added Element)
+			Library, *Library, // ParentAT, PParentAT (Parent Element)
+		]{
+			parentNode:                         libraryNode,
+			sliceForNewAddedItem:               &library.SubLibraries,
+			isParentNodeExpandedByAddOperation: true,
+			parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+			parentNodeExpansionBooleanValue:    &library.isExpanded,
+			parentElement:                      library,
+		}
+		addAbstractItemButton(stager, conf)
 
 		for _, product := range library.RootProducts {
 			stager.treePBSRecusriveInDiagram(diagram, product, pbsNode)

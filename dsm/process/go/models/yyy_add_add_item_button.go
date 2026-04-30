@@ -12,117 +12,135 @@ type itemAdderCallback[PT AbstractType] struct {
 	OnBeforeCommit func()
 }
 
-// addItemButtonConfiguration defines the configuration for an "add" button
-// in the tree of instance in a DSM
-// instead of having a large API surface, there is one
-// addAddElementButton(addItemButtonConfiguration)
-type addItemButtonConfiguration[
-
-	// Abstact Type of the added element
-	AT Gongstruct,
-	PAT interface {
-		*AT
-		AbstractType
-	},
-
-	// Abstact Type of the parent node of the added element
-	ParentAT Gongstruct,
-	PParentAT interface {
-		*ParentAT
-		AbstractType
-	},
-
-	// Concrete type of the added element
-	CT Gongstruct,
-	PCT interface {
-		*CT
-		RectShapeInterface
-		ConcreteType
-	},
-
-	// Concrete type of the association concrete element
-	ACT Gongstruct,
-	PACT interface {
-		*ACT
-		LinkShapeInterface
-		AssociationConcreteType
-	},
-
-] struct {
-	// parentNode is where the node with be stored
-	parentNode *tree.Node
-
-	// the slice where to append the added element
-	sliceForNewAddedItem *[]PAT
-
-	// IsParentNodeExpanded indicates if it is necessary to expand the parent node
-	// in most case, it is true. When you add an item, you expect the parent node to expand
-	isParentNodeExpandedByAddOperation bool
-
-	//
-	parentNodeExpansionType
-	parentNodeExpansionBooleanValue *bool
-	// if the parent element is part of the slice, the node is exapanded
-	parentNodeExpansionSliceEncoding *[]PParentAT
-	parentElement                    PParentAT
-
-	// IsWithAdditionOfConcreteShape tells if a shape is added to diagram up in the tree
-	// by convention, in a DSM, the edit tree is organized by diagrams with
-	// the abstract instances below the diagram
-	isWithAdditionOfShape bool
-	receivingDiagram      DiagramIF
-	sliceForNewAddedShape *[]PCT
-
-	// IsWithAdditionOfAssociationShape tells if an association shape is added to diagram
-	isWithAdditionOfAssociationShape bool
-	sliceForNewCompositionShapes     *[]PACT
-}
-
 type parentNodeExpansionType string
 
 const (
-	parentNodeExpansionTypeNone           parentNodeExpansionType = ""
 	parentNodeExpansionTypeByBooleanValue parentNodeExpansionType = "parentNodeExpansionTypeByBooleanValue"
 	parentNodeExpansionTypeBySlice        parentNodeExpansionType = "parentNodeExpansionTypeBySlice"
 )
 
-// look forwward to https://github.com/golang/go/issues/77273
-// spec: generic methods for Go
-func addAddButton[
+// ---------------------------------------------------------
+// 1. BASE CONFIGURATION (Abstract elements only)
+// ---------------------------------------------------------
 
-	// Abstact Type of the added element
+type baseItemButtonConfiguration[
+	AT Gongstruct, PAT interface {
+		*AT
+		AbstractType
+	},
+	ParentAT Gongstruct, PParentAT interface {
+		*ParentAT
+		AbstractType
+	},
+] struct {
+	parentNode                         *tree.Node
+	sliceForNewAddedItem               *[]PAT
+	isParentNodeExpandedByAddOperation bool
+	parentNodeExpansionType            parentNodeExpansionType
+	parentNodeExpansionBooleanValue    *bool
+	parentNodeExpansionSliceEncoding   *[]PParentAT
+	parentElement                      PParentAT
+}
+
+// ---------------------------------------------------------
+// 2. COMPLEX CONFIGURATION (Embeds base config + Shapes)
+// ---------------------------------------------------------
+
+type addItemButtonConfiguration[
+	AT Gongstruct, PAT interface {
+		*AT
+		AbstractType
+	},
+	ParentAT Gongstruct, PParentAT interface {
+		*ParentAT
+		AbstractType
+	},
+	CT Gongstruct, PCT interface {
+		*CT
+		RectShapeInterface
+		ConcreteType
+	},
+	ACT Gongstruct, PACT interface {
+		*ACT
+		LinkShapeInterface
+		AssociationConcreteType
+	},
+] struct {
+	// Embedding the base configuration promotes its fields (like parentNode)
+	// so they can be accessed directly on this struct.
+	baseItemButtonConfiguration[AT, PAT, ParentAT, PParentAT]
+
+	isWithAdditionOfShape            bool
+	receivingDiagram                 DiagramIF
+	sliceForNewAddedShape            *[]PCT
+	isWithAdditionOfAssociationShape bool
+	sliceForNewCompositionShapes     *[]PACT
+}
+
+// ---------------------------------------------------------
+// 3. SHARED CORE LOGIC
+// ---------------------------------------------------------
+
+// processAbstractItemAddition handles the item creation, form updates,
+// and tree expansion logic shared by both button types.
+func processAbstractItemAddition[
+	AT Gongstruct, PAT interface {
+		*AT
+		AbstractType
+	},
+	ParentAT Gongstruct, PParentAT interface {
+		*ParentAT
+		AbstractType
+	},
+](
+	stager *Stager,
+	conf baseItemButtonConfiguration[AT, PAT, ParentAT, PParentAT],
+	callbacks *itemAdderCallback[PAT],
+) PAT {
+	newAbstractElement := PAT(new(AT))
+	callbacks.createdItem = newAbstractElement
+	newAbstractElement.SetName("New" + GetGongstructNameFromPointer(newAbstractElement))
+	newAbstractElement.SetName("") // easier to rename an item when its name is empty
+	newAbstractElement.SetIsInRenameMode(true)
+	newAbstractElement.StageVoid(stager.stage)
+	*conf.sliceForNewAddedItem = append(*conf.sliceForNewAddedItem, newAbstractElement)
+	stager.stage.ComputeReverseMaps()
+
+	stager.probeForm.FillUpFormFromGongstruct(newAbstractElement, GetPointerToGongstructName[PAT]())
+
+	// add the parent item to the list of items whose node is expanded
+	if conf.isParentNodeExpandedByAddOperation {
+		switch conf.parentNodeExpansionType {
+		case parentNodeExpansionTypeBySlice:
+			if conf.parentNodeExpansionSliceEncoding != nil && conf.parentElement != nil &&
+				!slices.Contains(*conf.parentNodeExpansionSliceEncoding, conf.parentElement) {
+				*conf.parentNodeExpansionSliceEncoding = append(*conf.parentNodeExpansionSliceEncoding, conf.parentElement)
+			}
+		case parentNodeExpansionTypeByBooleanValue:
+			*conf.parentNodeExpansionBooleanValue = true
+		}
+	}
+	return newAbstractElement
+}
+
+// ---------------------------------------------------------
+// 4. NEW SIMPLE FUNCTION (Abstract only)
+// ---------------------------------------------------------
+
+func addAbstractItemButton[
 	PAT interface {
 		*AT
 		AbstractType
 	},
 	AT Gongstruct,
-
-	// Abstact Type of the parent node of the added element
 	ParentAT Gongstruct,
 	PParentAT interface {
 		*ParentAT
 		AbstractType
 	},
-
-	// Concrete type of the added element
-	CT Gongstruct,
-	PCT interface {
-		*CT
-		RectShapeInterface
-		ConcreteType
-	},
-
-	// Concrete type of the association concrete element
-	ACT Gongstruct,
-	PACT interface {
-		*ACT
-		LinkShapeInterface
-		AssociationConcreteType
-	},
 ](
 	stager *Stager,
-	conf addItemButtonConfiguration[AT, PAT, ParentAT, PParentAT, CT, PCT, ACT, PACT],
-
+	conf baseItemButtonConfiguration[AT, PAT, ParentAT, PParentAT],
 ) (callbacks *itemAdderCallback[PAT]) {
 	callbacks = &itemAdderCallback[PAT]{}
 
@@ -138,37 +156,70 @@ func addAddButton[
 	conf.parentNode.Buttons = append(conf.parentNode.Buttons, addButton)
 
 	addButton.OnClick = func() {
-		newAbstractElement := PAT(new(AT))
-		callbacks.createdItem = newAbstractElement
-		newAbstractElement.SetName("New" + GetGongstructNameFromPointer(newAbstractElement))
-		newAbstractElement.SetName("") // easier to rename an item when its name is empty
-		newAbstractElement.SetIsInRenameMode(true)
-		newAbstractElement.StageVoid(stager.stage)
-		*conf.sliceForNewAddedItem = append(*conf.sliceForNewAddedItem, newAbstractElement)
-		stager.stage.ComputeReverseMaps() // this is important, otherwise, the form is not correctly initialized
+		// Call shared logic
+		processAbstractItemAddition(stager, conf, callbacks)
 
-		// stager.probeForm.SetCommitMode(false), no need yet
-		stager.probeForm.FillUpFormFromGongstruct(newAbstractElement, GetPointerToGongstructName[PAT]())
-		// stager.probeForm.SetCommitMode(true)
-
-		// add the parent item to the list of items whose node is expanded
-		if conf.isParentNodeExpandedByAddOperation {
-			switch conf.parentNodeExpansionType {
-			case parentNodeExpansionTypeBySlice:
-				if conf.parentNodeExpansionSliceEncoding != nil && conf.parentElement != nil &&
-					!slices.Contains(*conf.parentNodeExpansionSliceEncoding, conf.parentElement) {
-					*conf.parentNodeExpansionSliceEncoding = append(*conf.parentNodeExpansionSliceEncoding, conf.parentElement)
-				}
-			case parentNodeExpansionTypeByBooleanValue:
-				*conf.parentNodeExpansionBooleanValue = true
-			}
+		if callbacks.OnBeforeCommit != nil {
+			callbacks.OnBeforeCommit()
 		}
+		stager.stage.Commit()
+	}
+	return
+}
 
+// ---------------------------------------------------------
+// 5. FUNCTION (Complex, with shapes)
+// ---------------------------------------------------------
+
+func addAddButton[
+	PAT interface {
+		*AT
+		AbstractType
+	},
+	AT Gongstruct,
+	ParentAT Gongstruct,
+	PParentAT interface {
+		*ParentAT
+		AbstractType
+	},
+	CT Gongstruct,
+	PCT interface {
+		*CT
+		RectShapeInterface
+		ConcreteType
+	},
+	ACT Gongstruct,
+	PACT interface {
+		*ACT
+		LinkShapeInterface
+		AssociationConcreteType
+	},
+](
+	stager *Stager,
+	conf addItemButtonConfiguration[AT, PAT, ParentAT, PParentAT, CT, PCT, ACT, PACT],
+) (callbacks *itemAdderCallback[PAT]) {
+	callbacks = &itemAdderCallback[PAT]{}
+
+	var dummyItem PAT
+	addButton := &tree.Button{
+		Name: GetGongstructNameFromPointer(dummyItem) + " " + string(buttons.BUTTON_add),
+		Icon: string(buttons.BUTTON_add),
+		ToolTipText: "Add a " + GetGongstructNameFromPointer(dummyItem) + " to \"" +
+			conf.parentNode.Name + "\"", // Accessible via promoted fields
+		HasToolTip:      true,
+		ToolTipPosition: tree.Right,
+	}
+	conf.parentNode.Buttons = append(conf.parentNode.Buttons, addButton) // Promoted field
+
+	addButton.OnClick = func() {
+		// 1. Call shared abstract logic by passing the embedded base configuration
+		newAbstractElement := processAbstractItemAddition(stager, conf.baseItemButtonConfiguration, callbacks)
+
+		// 2. Perform shape-specific logic
 		if conf.isWithAdditionOfShape {
 			if conf.receivingDiagram != nil && conf.sliceForNewAddedShape != nil {
 				newShape := newShapeToDiagram(newAbstractElement, conf.receivingDiagram, conf.sliceForNewAddedShape, stager.stage)
 
-				// get the parent shape to eventually create an association shape
 				var parentShape PCT
 				if conf.parentElement != nil {
 					for _, parentShape_ := range *conf.sliceForNewAddedShape {
