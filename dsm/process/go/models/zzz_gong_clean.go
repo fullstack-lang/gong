@@ -57,6 +57,15 @@ func (controlflowshape *ControlFlowShape) GongClean(stage *Stage) (modified bool
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by DataFlow
+func (dataflow *DataFlow) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = GongCleanPointer(stage, &dataflow.Start) || modified
+	modified = GongCleanPointer(stage, &dataflow.End) || modified
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by DiagramProcess
 func (diagramprocess *DiagramProcess) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -78,6 +87,8 @@ func (library *Library) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &library.SubLibraries) || modified
 	modified = GongCleanSlice(stage, &library.RootProcesses) || modified
 	modified = GongCleanSlice(stage, &library.ProcesssWhoseNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &library.RootDataFlows) || modified
+	modified = GongCleanSlice(stage, &library.DataFlowsWhoseNodeIsExpanded) || modified
 	// insertion point per field
 	return
 }

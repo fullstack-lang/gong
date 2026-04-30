@@ -52,6 +52,20 @@ func (from *ControlFlowShape) CopyBasicFields(to *ControlFlowShape) {
 	to.IsHidden = from.IsHidden
 }
 
+type DataFlow_WOP struct {
+	// insertion point
+
+	Name string
+
+	ComputedPrefix string
+}
+
+func (from *DataFlow) CopyBasicFields(to *DataFlow) {
+	// insertion point
+	to.Name = from.Name
+	to.ComputedPrefix = from.ComputedPrefix
+}
+
 type DiagramProcess_WOP struct {
 	// insertion point
 
