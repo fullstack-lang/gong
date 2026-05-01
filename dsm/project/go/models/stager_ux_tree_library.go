@@ -263,18 +263,34 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 				var dummyMap map[*Note]*NoteProductShape
 				var dummySlice *[]*NoteProductShape
 
-				noteNode := addNodeToTree(
-					stager,
-					diagram,
-					notesNode,
-					note,
-					(*Note)(nil),
-					&diagram.NotesWhoseNodeIsExpanded,
-					&diagram.Note_Shapes,
-					diagram.map_Note_NoteShape,
-					dummyMap,
-					dummySlice,
-				)
+				noteNodeConf := TreeNodeShapeAndLinkConfiguration[
+					*Note, Note,
+					*NoteShape, NoteShape,
+					*NoteProductShape, NoteProductShape,
+					*Diagram,
+				]{
+					TreeNodeAndShapeConfiguration: TreeNodeAndShapeConfiguration[
+						*Note, Note,
+						*NoteShape, NoteShape,
+						*Diagram,
+					]{
+						TreeNodeConfiguration: TreeNodeConfiguration[
+							*Note, Note,
+							*Diagram,
+						]{
+							diagram:                     diagram,
+							parentNode:                  notesNode,
+							element:                     note,
+							parentElement:               (*Note)(nil),
+							elementsWhoseNodeIsExpanded: &diagram.NotesWhoseNodeIsExpanded,
+						},
+						shapes:    &diagram.Note_Shapes,
+						shapesMap: diagram.map_Note_NoteShape,
+					},
+					map_Element_CompositionShape: dummyMap,
+					compositionShapes:            dummySlice,
+				}
+				noteNode := addNodeToTreeWithConf(stager, noteNodeConf)
 
 				// allow display of associations note to products
 				for _, product := range note.Products {
