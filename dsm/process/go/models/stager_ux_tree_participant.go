@@ -114,14 +114,13 @@ func (stager *Stager) treeParticipants(
 
 	// loook forward to https://github.com/golang/go/issues/61731
 	// proposal: spec: support type inference on generic structs
-	conf := addItemButtonConfiguration[
+	conf := ItemAndShapeButtonConfiguration[
 		Task, *Task, // AT, PAT (Added Element)
 		Participant, *Participant, // ParentAT, PParentAT (Parent Element)
 		TaskShape, *TaskShape, // CT, PCT (Concrete Shape)
-		// not used here, only for instanciation sake
-		ControlFlowShape, *ControlFlowShape, // ACT, PACT (Association Shape),
+
 	]{
-		baseItemButtonConfiguration: baseItemButtonConfiguration[
+		ItemButtonConfiguration: ItemButtonConfiguration[
 			Task, *Task, // AT, PAT (Added Element)
 			Participant, *Participant, // ParentAT, PParentAT (Parent Element)
 		]{
@@ -132,13 +131,10 @@ func (stager *Stager) treeParticipants(
 			parentNodeExpansionBooleanValue:    &participant.IsTasksNodeExpanded,
 			parentElement:                      participant,
 		},
-		isWithAdditionOfShape:            true,
-		receivingDiagram:                 diagramProcess,
-		sliceForNewAddedShape:            &diagramProcess.TaskShapes,
-		isWithAdditionOfAssociationShape: false,
-		sliceForNewCompositionShapes:     &diagramProcess.ControlFlowShapes,
+		receivingDiagram:      diagramProcess,
+		sliceForNewAddedShape: &diagramProcess.TaskShapes,
 	}
-	addAddButton(stager, conf)
+	addCreateItemAndShapeButton(stager, conf)
 
 	controlflowsNode := &tree.Node{
 		Name:            "ControlFlows",
