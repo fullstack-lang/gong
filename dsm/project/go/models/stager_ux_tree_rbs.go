@@ -21,7 +21,34 @@ func (stager *Stager) treeRBSinDiagram(diagram *Diagram, resource *Resource, par
 		&diagram.ResourceComposition_Shapes,
 	)
 
-	addAddItemButton(stager, &diagram.ResourcesWhoseNodeIsExpanded, resource, nil, resourceNode, &resource.SubResources, diagram, &diagram.Resource_Shapes, &diagram.ResourceComposition_Shapes)
+	conf := ItemShapeAndLinkButtonConfiguration[
+		Resource, *Resource, // AT, PAT (Added Element)
+		Resource, *Resource, // ParentAT, PParentAT (Parent Element)
+		ResourceShape, *ResourceShape, // CT, PCT (Concrete Shape)
+		ResourceCompositionShape, *ResourceCompositionShape, // ACT, PACT (Association Shape)
+	]{
+		ItemAndShapeButtonConfiguration: ItemAndShapeButtonConfiguration[
+			Resource, *Resource, // AT, PAT (Added Element)
+			Resource, *Resource, // ParentAT, PParentAT (Parent Element)
+			ResourceShape, *ResourceShape, // CT, PCT (Concrete Shape)
+		]{
+			ItemButtonConfiguration: ItemButtonConfiguration[
+				Resource, *Resource, // AT, PAT (Added Element)
+				Resource, *Resource, // ParentAT, PParentAT (Parent Element)
+			]{
+				parentNode:                         resourceNode,
+				sliceForNewAddedItem:               &resource.SubResources,
+				isParentNodeExpandedByAddOperation: true,
+				parentNodeExpansionType:            parentNodeExpansionTypeBySlice,
+				parentNodeExpansionSliceEncoding:   &diagram.ResourcesWhoseNodeIsExpanded,
+				parentElement:                      resource,
+			},
+			receivingDiagram:      diagram,
+			sliceForNewAddedShape: &diagram.Resource_Shapes,
+		},
+		sliceForNewCompositionShapes: &diagram.ResourceComposition_Shapes,
+	}
+	addCreateItemShapeAndLinkButton(stager, conf)
 
 	for _, subResource := range resource.SubResources {
 		stager.treeRBSinDiagram(diagram, subResource, resourceNode)
