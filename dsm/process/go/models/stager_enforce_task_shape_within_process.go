@@ -20,27 +20,62 @@ func (stager *Stager) enforceTaskShapeWithinProcess() (needCommit bool) {
 			continue
 		}
 
+		horizontalMargin := 10.0
+		verticalTopMargin := 50.0
+		verticalBottomMargin := 10.0
+
+		participantsWidth := owningProcessShape.Width - 2*horizontalMargin
+		numParticipants := len(diagramProcess.Participant_Shapes)
+		var participantWidth float64
+		if numParticipants > 0 {
+			participantWidth = participantsWidth / float64(numParticipants)
+		}
+
 		for _, taskShape := range diagramProcess.TaskShapes {
 
-			// Check if task shape is within process shape
+			// The bounding shape is ideally the participant shape (swimlane),
+			// but we default to the overall process shape.
+			boundingX := owningProcessShape.X
+			boundingY := owningProcessShape.Y
+			boundingWidth := owningProcessShape.Width
+			boundingHeight := owningProcessShape.Height
+
+			if taskShape.Task != nil && taskShape.Task.owningParticipant != nil && numParticipants > 0 {
+				// Find the index of the owning participant to compute its exact SVG bounds
+				idx := -1
+				for i, pShape := range diagramProcess.Participant_Shapes {
+					if pShape.Participant == taskShape.Task.owningParticipant {
+						idx = i
+						break
+					}
+				}
+
+				if idx != -1 {
+					boundingX = owningProcessShape.X + horizontalMargin + float64(idx)*participantWidth
+					boundingWidth = participantWidth
+					boundingY = owningProcessShape.Y + verticalTopMargin
+					boundingHeight = owningProcessShape.Height - verticalTopMargin - verticalBottomMargin
+				}
+			}
+
 			modified := false
 
 			margin := 1.0
 
-			if taskShape.X < owningProcessShape.X+margin {
-				taskShape.X = owningProcessShape.X + margin
+			if taskShape.X < boundingX+margin {
+				taskShape.X = boundingX + margin
 				modified = true
 			}
 
-			if taskShape.Y < owningProcessShape.Y+margin {
-				taskShape.Y = owningProcessShape.Y + margin
+			if taskShape.Y < boundingY+margin {
+				taskShape.Y = boundingY + margin
 				modified = true
 			}
 
-			if taskShape.X+taskShape.Width > owningProcessShape.X+owningProcessShape.Width-margin {
-				newX := owningProcessShape.X + owningProcessShape.Width - taskShape.Width - margin
-				if newX < owningProcessShape.X+margin {
-					newX = owningProcessShape.X + margin
+			if taskShape.X+taskShape.Width > boundingX+boundingWidth-margin {
+				newX := boundingX + boundingWidth - taskShape.Width - margin
+				if newX < boundingX+margin {
+					newX = boundingX + margin
 				}
 				if taskShape.X != newX {
 					taskShape.X = newX
@@ -48,10 +83,10 @@ func (stager *Stager) enforceTaskShapeWithinProcess() (needCommit bool) {
 				}
 			}
 
-			if taskShape.Y+taskShape.Height > owningProcessShape.Y+owningProcessShape.Height-margin {
-				newY := owningProcessShape.Y + owningProcessShape.Height - taskShape.Height - margin
-				if newY < owningProcessShape.Y+margin {
-					newY = owningProcessShape.Y + margin
+			if taskShape.Y+taskShape.Height > boundingY+boundingHeight-margin {
+				newY := boundingY + boundingHeight - taskShape.Height - margin
+				if newY < boundingY+margin {
+					newY = boundingY + margin
 				}
 				if taskShape.Y != newY {
 					taskShape.Y = newY
@@ -62,7 +97,7 @@ func (stager *Stager) enforceTaskShapeWithinProcess() (needCommit bool) {
 			if modified {
 				needCommit = true
 				if stager.probeForm != nil {
-					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Task shape %s moved within owning process shape", taskShape.Name))
+					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Task shape %s moved within bounding shape", taskShape.Name))
 				}
 			}
 		}
