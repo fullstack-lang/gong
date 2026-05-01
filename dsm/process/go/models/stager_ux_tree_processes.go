@@ -157,6 +157,23 @@ func (stager *Stager) treeProcesses(
 			}
 			addCreateItemButton(stager, confParticipants)
 		}
+
+		{
+			//
+			// DataFlows
+			//
+			dataFlowsNode := &tree.Node{
+				Name:            "DataFlows",
+				FontStyle:       tree.ITALIC,
+				IsExpanded:      process.IsDataFlowsNodeExpanded,
+				IsNodeClickable: true,
+			}
+			diagramNode.Children = append(diagramNode.Children, dataFlowsNode)
+
+			for _, dataFlow := range process.DataFlows {
+				stager.treeDataFlowsWithinProcess(diagramProcess, dataFlow, diagramNode)
+			}
+		}
 	}
 
 	confDiagramProcesss := ItemButtonConfiguration[
@@ -180,6 +197,9 @@ func (stager *Stager) treeProcesses(
 		newDiagram.IsChecked = true
 	}
 
+	//
+	// SubProcesses
+	//
 	confSubProcesses := ItemButtonConfiguration[
 		Process, *Process,
 		Process, *Process,

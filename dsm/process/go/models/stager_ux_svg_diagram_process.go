@@ -281,5 +281,37 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 			false)
 	}
 
+	for _, dataFlowShape := range diagramProcess.DataFlowShapes {
+		if dataFlowShape.GetIsHidden() {
+			continue
+		}
+		_ = dataFlowShape
+
+		startTask := dataFlowShape.DataFlow.Start
+		endTask := dataFlowShape.DataFlow.End
+
+		if startTask == nil || endTask == nil {
+			log.Panic("There should be a start task and a end task")
+		}
+
+		startRect := diagramProcess.map_Task_Rect[startTask]
+		endRect := diagramProcess.map_Task_Rect[endTask]
+
+		if startRect == nil || endRect == nil {
+			continue
+		}
+
+		link := svgAssociationLink(
+			stager,
+			startRect, endRect,
+			dataFlowShape,
+			// when one clicks on the link, this is the form of the parent product
+			endTask,
+			layer,
+			false)
+
+		link.Presentation.StrokeDashArray = "5,5"
+	}
+
 	return svgObject
 }

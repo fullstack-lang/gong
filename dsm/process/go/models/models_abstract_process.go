@@ -16,9 +16,11 @@ type Process struct {
 
 	Participants                   []*Participant
 	ParticipantWhoseNodeIsExpanded []*Participant
+
+	DataFlows               []*DataFlow
+	IsDataFlowsNodeExpanded bool
 }
 
 var (
 	_ AbstractType = (*Process)(nil)
 )
-
