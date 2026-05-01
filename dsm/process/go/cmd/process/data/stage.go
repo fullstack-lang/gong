@@ -108,7 +108,7 @@ func _(stage *models.Stage) {
 	__DataFlowShape__00000001_.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__DataFlowShape__00000001_.EndOrientation = models.ORIENTATION_VERTICAL
 	__DataFlowShape__00000001_.CornerOffsetRatio = 1.051558
-	__DataFlowShape__00000001_.IsHidden = false
+	__DataFlowShape__00000001_.IsHidden = true
 
 	__DataFlowShape__00000002_.Name = `PP2 T2 to T2`
 	__DataFlowShape__00000002_.StartRatio = 0.500000
@@ -322,7 +322,6 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000006_.Process_Shapes = append(__DiagramProcess__00000006_.Process_Shapes, __ProcessShape__00000006_)
 	__Library__00000000_.RootProcesses = append(__Library__00000000_.RootProcesses, __Process__00000005_)
 	__Library__00000000_.RootProcesses = append(__Library__00000000_.RootProcesses, __Process__00000006_)
-	__Library__00000000_.ProcesssWhoseNodeIsExpanded = append(__Library__00000000_.ProcesssWhoseNodeIsExpanded, __Process__00000005_)
 	__Library__00000000_.RootDataFlows = append(__Library__00000000_.RootDataFlows, __DataFlow__00000000_)
 	__Library__00000000_.RootDataFlows = append(__Library__00000000_.RootDataFlows, __DataFlow__00000001_)
 	__Participant__00000003_.Tasks = append(__Participant__00000003_.Tasks, __Task__00000002_)

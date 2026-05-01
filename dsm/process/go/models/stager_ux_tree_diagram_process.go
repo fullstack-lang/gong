@@ -128,15 +128,23 @@ func (stager *Stager) treeDiagramProcess(
 		// DataFlows
 		//
 		dataFlowsNode := &tree.Node{
-			Name:            "DataFlows",
+			Name:            "Data Flows",
 			FontStyle:       tree.ITALIC,
 			IsExpanded:      process.IsDataFlowsNodeExpanded,
 			IsNodeClickable: true,
 		}
 		diagramNode.Children = append(diagramNode.Children, dataFlowsNode)
+		dataFlowsNode.OnClick = func(frontNode *tree.Node) {
+			if frontNode.IsExpanded != process.IsDataFlowsNodeExpanded {
+				process.IsDataFlowsNodeExpanded = frontNode.IsExpanded
+				stager.stage.Commit()
+				return
+			}
+			stager.stage.Commit()
+		}
 
 		for _, dataFlow := range process.DataFlows {
-			stager.treeDataFlowsWithinProcess(diagramProcess, dataFlow, diagramNode)
+			stager.treeDataFlowsWithinProcess(diagramProcess, dataFlow, dataFlowsNode)
 		}
 	}
 }
