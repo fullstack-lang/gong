@@ -14,6 +14,8 @@ type Participant struct {
 
 	TaskWhoseOutControlFlowsNodeIsExpanded []*Task
 	TaskWhoseInControlFlowsNodeIsExpanded  []*Task
+
+	owningProcess *Process
 }
 
 var _ AbstractType = (*Participant)(nil)

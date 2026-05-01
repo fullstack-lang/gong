@@ -455,6 +455,9 @@ func (stage *Stage) StageBranchProcess(process *Process) {
 	for _, _participant := range process.ParticipantWhoseNodeIsExpanded {
 		StageBranch(stage, _participant)
 	}
+	for _, _dataflow := range process.DataFlows {
+		StageBranch(stage, _dataflow)
+	}
 
 }
 
@@ -835,6 +838,9 @@ func CopyBranchProcess(mapOrigCopy map[any]any, processFrom *Process) (processTo
 	for _, _participant := range processFrom.ParticipantWhoseNodeIsExpanded {
 		processTo.ParticipantWhoseNodeIsExpanded = append(processTo.ParticipantWhoseNodeIsExpanded, CopyBranchParticipant(mapOrigCopy, _participant))
 	}
+	for _, _dataflow := range processFrom.DataFlows {
+		processTo.DataFlows = append(processTo.DataFlows, CopyBranchDataFlow(mapOrigCopy, _dataflow))
+	}
 
 	return
 }
@@ -1177,6 +1183,9 @@ func (stage *Stage) UnstageBranchProcess(process *Process) {
 	for _, _participant := range process.ParticipantWhoseNodeIsExpanded {
 		UnstageBranch(stage, _participant)
 	}
+	for _, _dataflow := range process.DataFlows {
+		UnstageBranch(stage, _dataflow)
+	}
 
 }
 
@@ -1407,6 +1416,10 @@ func (reference *Process) GongReconstructPointersFromReferences(stage *Stage, in
 	reference.ParticipantWhoseNodeIsExpanded = reference.ParticipantWhoseNodeIsExpanded[:0]
 	for _, _b := range instance.ParticipantWhoseNodeIsExpanded {
 		reference.ParticipantWhoseNodeIsExpanded = append(reference.ParticipantWhoseNodeIsExpanded, stage.Participants_reference[_b])
+	}
+	reference.DataFlows = reference.DataFlows[:0]
+	for _, _b := range instance.DataFlows {
+		reference.DataFlows = append(reference.DataFlows, stage.DataFlows_reference[_b])
 	}
 
 	return
@@ -1709,6 +1722,13 @@ func (reference *Process) GongReconstructPointersFromInstances(stage *Stage) () 
 		}
 	}
 	reference.ParticipantWhoseNodeIsExpanded = _ParticipantWhoseNodeIsExpanded
+	var _DataFlows []*DataFlow
+	for _, _reference := range reference.DataFlows {
+		if _instance, ok := stage.DataFlows_instance[_reference]; ok {
+			_DataFlows = append(_DataFlows, _instance)
+		}
+	}
+	reference.DataFlows = _DataFlows
 
 	return
 }
@@ -2511,6 +2531,30 @@ func (process *Process) GongDiff(stage *Stage, processOther *Process) (diffs []s
 	if ParticipantWhoseNodeIsExpandedDifferent {
 		ops := Diff(stage, process, processOther, "ParticipantWhoseNodeIsExpanded", processOther.ParticipantWhoseNodeIsExpanded, process.ParticipantWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
+	}
+	DataFlowsDifferent := false
+	if len(process.DataFlows) != len(processOther.DataFlows) {
+		DataFlowsDifferent = true
+	} else {
+		for i := range process.DataFlows {
+			if (process.DataFlows[i] == nil) != (processOther.DataFlows[i] == nil) {
+				DataFlowsDifferent = true
+				break
+			} else if process.DataFlows[i] != nil && processOther.DataFlows[i] != nil {
+				// this is a pointer comparaison
+				if process.DataFlows[i] != processOther.DataFlows[i] {
+					DataFlowsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if DataFlowsDifferent {
+		ops := Diff(stage, process, processOther, "DataFlows", processOther.DataFlows, process.DataFlows)
+		diffs = append(diffs, ops)
+	}
+	if process.IsDataFlowsNodeExpanded != processOther.IsDataFlowsNodeExpanded {
+		diffs = append(diffs, process.GongMarshallField(stage, "IsDataFlowsNodeExpanded"))
 	}
 
 	return

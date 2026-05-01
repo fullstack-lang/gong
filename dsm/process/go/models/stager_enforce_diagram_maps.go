@@ -19,6 +19,9 @@ func (stager *Stager) enforceDiagramMaps() {
 
 		diagram.map_ControlFlow_ControlFlowShape = make(map[*ControlFlow]*ControlFlowShape)
 		updateMapElementDiagrams(stager, diagram, diagram.ControlFlowShapes, diagram.map_ControlFlow_ControlFlowShape)
+
+		diagram.map_DataFlow_DataFlowShape = make(map[*DataFlow]*DataFlowShape)
+		updateMapElementDiagrams(stager, diagram, diagram.DataFlowShapes, diagram.map_DataFlow_DataFlowShape)
 	}
 }
 

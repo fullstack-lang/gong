@@ -46,29 +46,54 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 		endTask := targetAbstractElement.(*Task)
 		startTask := sourceAbstratctElement.(*Task)
 
-		controlFlow := (&ControlFlow{
-			Start: startTask,
-			End:   endTask,
-		})
-		startTask.owningParticipant.ControlFlows = append(startTask.owningParticipant.ControlFlows, controlFlow)
+		if startTask.owningParticipant == endTask.owningParticipant {
+			controlFlow := (&ControlFlow{
+				Start: startTask,
+				End:   endTask,
+			})
+			startTask.owningParticipant.ControlFlows = append(startTask.owningParticipant.ControlFlows, controlFlow)
 
-		controlFlow.Name = controlFlow.Start.GetName() + " to " + controlFlow.End.GetName()
-		controlFlow.Stage(stage)
+			controlFlow.Name = controlFlow.Start.GetName() + " to " + controlFlow.End.GetName()
+			controlFlow.Stage(stage)
 
-		controlFlowShape := (&ControlFlowShape{
-			ControlFlow: controlFlow,
-		}).Stage(stager.stage)
+			controlFlowShape := (&ControlFlowShape{
+				ControlFlow: controlFlow,
+			}).Stage(stager.stage)
 
-		controlFlowShape.SetName(controlFlow.Start.GetName() + " to " + controlFlow.End.GetName())
-		controlFlowShape.SetAbstractStartElement(controlFlow.Start)
-		controlFlowShape.SetAbstractEndElement(controlFlow.End)
-		controlFlowShape.SetStartOrientation(ORIENTATION_VERTICAL)
-		controlFlowShape.SetEndOrientation(ORIENTATION_VERTICAL)
+			controlFlowShape.SetName(controlFlow.Start.GetName() + " to " + controlFlow.End.GetName())
+			controlFlowShape.SetAbstractStartElement(controlFlow.Start)
+			controlFlowShape.SetAbstractEndElement(controlFlow.End)
+			controlFlowShape.SetStartOrientation(ORIENTATION_VERTICAL)
+			controlFlowShape.SetEndOrientation(ORIENTATION_VERTICAL)
 
-		controlFlowShape.SetCornerOffsetRatio(1.5)
-		controlFlowShape.SetStartRatio(0.5)
-		controlFlowShape.SetEndRatio(0.5)
-		diagramProcess.ControlFlowShapes = append(diagramProcess.ControlFlowShapes, controlFlowShape)
+			controlFlowShape.SetCornerOffsetRatio(1.5)
+			controlFlowShape.SetStartRatio(0.5)
+			controlFlowShape.SetEndRatio(0.5)
+			diagramProcess.ControlFlowShapes = append(diagramProcess.ControlFlowShapes, controlFlowShape)
+		} else {
+			dataFlow := (&DataFlow{
+				Start: startTask,
+				End:   endTask,
+			})
+			dataFlow.Start.owningParticipant.owningProcess.DataFlows = append(dataFlow.Start.owningParticipant.owningProcess.DataFlows, dataFlow)
+			dataFlow.Name = dataFlow.Start.GetName() + " to " + dataFlow.End.GetName()
+			dataFlow.Stage(stage)
+
+			dataFlowShape := (&DataFlowShape{
+				DataFlow: dataFlow,
+			}).Stage(stager.stage)
+
+			dataFlowShape.SetName(dataFlow.Start.GetName() + " to " + dataFlow.End.GetName())
+			dataFlowShape.SetAbstractStartElement(dataFlow.Start)
+			dataFlowShape.SetAbstractEndElement(dataFlow.End)
+			dataFlowShape.SetStartOrientation(ORIENTATION_VERTICAL)
+			dataFlowShape.SetEndOrientation(ORIENTATION_VERTICAL)
+
+			dataFlowShape.SetCornerOffsetRatio(1.5)
+			dataFlowShape.SetStartRatio(0.5)
+			dataFlowShape.SetEndRatio(0.5)
+			diagramProcess.DataFlowShapes = append(diagramProcess.DataFlowShapes, dataFlowShape)
+		}
 	}
 
 	// commit to encode the result, this will generate a new SVG generation

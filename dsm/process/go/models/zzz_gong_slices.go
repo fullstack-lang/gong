@@ -214,6 +214,13 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Process_ParticipantWhoseNodeIsExpanded_reverseMap[_participant] = process
 		}
 	}
+	stage.Process_DataFlows_reverseMap = make(map[*DataFlow]*Process)
+	for process := range stage.Processs {
+		_ = process
+		for _, _dataflow := range process.DataFlows {
+			stage.Process_DataFlows_reverseMap[_dataflow] = process
+		}
+	}
 
 	// Compute reverse map for named struct ProcessShape
 	// insertion point per field

@@ -33,6 +33,10 @@ func _(stage *models.Stage) {
 	__ControlFlowShape__00000003_ := (&models.ControlFlowShape{Name: `Start to T2`}).Stage(stage)
 	__ControlFlowShape__00000004_ := (&models.ControlFlowShape{Name: `T2 to End`}).Stage(stage)
 
+	__DataFlow__00000000_ := (&models.DataFlow{Name: `T2 to PP2 T2`}).Stage(stage)
+
+	__DataFlowShape__00000001_ := (&models.DataFlowShape{Name: `T2 to PP2 T2`}).Stage(stage)
+
 	__DiagramProcess__00000005_ := (&models.DiagramProcess{Name: `DiagramProcess`}).Stage(stage)
 
 	__Library__00000000_ := (&models.Library{Name: `Root`}).Stage(stage)
@@ -55,11 +59,13 @@ func _(stage *models.Stage) {
 	__Task__00000004_ := (&models.Task{Name: `Start`}).Stage(stage)
 	__Task__00000005_ := (&models.Task{Name: `End`}).Stage(stage)
 	__Task__00000006_ := (&models.Task{Name: `T4`}).Stage(stage)
+	__Task__00000007_ := (&models.Task{Name: `PP2 T2`}).Stage(stage)
 
 	__TaskShape__00000002_ := (&models.TaskShape{Name: `T2-DiagramProcess`}).Stage(stage)
 	__TaskShape__00000004_ := (&models.TaskShape{Name: `Start-DiagramProcess`}).Stage(stage)
 	__TaskShape__00000005_ := (&models.TaskShape{Name: `PP2 T1-DiagramProcess`}).Stage(stage)
 	__TaskShape__00000007_ := (&models.TaskShape{Name: `End-DiagramProcess`}).Stage(stage)
+	__TaskShape__00000008_ := (&models.TaskShape{Name: `-DiagramProcess`}).Stage(stage)
 
 	// insertion point for initialization of values
 
@@ -85,6 +91,17 @@ func _(stage *models.Stage) {
 	__ControlFlowShape__00000004_.CornerOffsetRatio = 1.500000
 	__ControlFlowShape__00000004_.IsHidden = false
 
+	__DataFlow__00000000_.Name = `T2 to PP2 T2`
+	__DataFlow__00000000_.ComputedPrefix = ``
+
+	__DataFlowShape__00000001_.Name = `T2 to PP2 T2`
+	__DataFlowShape__00000001_.StartRatio = 0.688864
+	__DataFlowShape__00000001_.EndRatio = 0.500000
+	__DataFlowShape__00000001_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__DataFlowShape__00000001_.EndOrientation = models.ORIENTATION_VERTICAL
+	__DataFlowShape__00000001_.CornerOffsetRatio = 1.051558
+	__DataFlowShape__00000001_.IsHidden = false
+
 	__DiagramProcess__00000005_.Name = `DiagramProcess`
 	__DiagramProcess__00000005_.ComputedPrefix = ``
 	__DiagramProcess__00000005_.IsChecked = true
@@ -95,7 +112,7 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000005_.Width = 1521.000000
 	__DiagramProcess__00000005_.Height = 1318.000000
 	__DiagramProcess__00000005_.IsProcesssNodeExpanded = false
-	__DiagramProcess__00000005_.IsParticipantsNodeExpanded = true
+	__DiagramProcess__00000005_.IsParticipantsNodeExpanded = false
 
 	__Library__00000000_.Name = `Root`
 	__Library__00000000_.ComputedPrefix = ``
@@ -105,7 +122,7 @@ func _(stage *models.Stage) {
 
 	__Participant__00000003_.Name = `PP1`
 	__Participant__00000003_.ComputedPrefix = ``
-	__Participant__00000003_.IsTasksNodeExpanded = true
+	__Participant__00000003_.IsTasksNodeExpanded = false
 	__Participant__00000003_.IsControlFlowsNodeExpanded = true
 
 	__Participant__00000004_.Name = `PP2`
@@ -150,6 +167,7 @@ func _(stage *models.Stage) {
 	__Process__00000005_.Name = `P1`
 	__Process__00000005_.ComputedPrefix = ``
 	__Process__00000005_.IsSubProcessNodeExpanded = false
+	__Process__00000005_.IsDataFlowsNodeExpanded = false
 
 	__ProcessShape__00000005_.Name = `ProcessShape`
 	__ProcessShape__00000005_.IsExpanded = false
@@ -184,6 +202,11 @@ func _(stage *models.Stage) {
 	__Task__00000006_.IsStartTask = false
 	__Task__00000006_.IsEndTask = false
 
+	__Task__00000007_.Name = `PP2 T2`
+	__Task__00000007_.ComputedPrefix = ``
+	__Task__00000007_.IsStartTask = false
+	__Task__00000007_.IsEndTask = false
+
 	__TaskShape__00000002_.Name = `T2-DiagramProcess`
 	__TaskShape__00000002_.IsExpanded = false
 	__TaskShape__00000002_.X = 191.000000
@@ -216,6 +239,14 @@ func _(stage *models.Stage) {
 	__TaskShape__00000007_.Height = 36.000000
 	__TaskShape__00000007_.IsHidden = false
 
+	__TaskShape__00000008_.Name = `-DiagramProcess`
+	__TaskShape__00000008_.IsExpanded = false
+	__TaskShape__00000008_.X = 524.000000
+	__TaskShape__00000008_.Y = 336.074115
+	__TaskShape__00000008_.Width = 250.000000
+	__TaskShape__00000008_.Height = 70.000000
+	__TaskShape__00000008_.IsHidden = false
+
 	// insertion point for setup of pointers
 	__ControlFlow__00000003_.Start = __Task__00000004_
 	__ControlFlow__00000003_.End = __Task__00000002_
@@ -223,6 +254,9 @@ func _(stage *models.Stage) {
 	__ControlFlow__00000004_.End = __Task__00000005_
 	__ControlFlowShape__00000003_.ControlFlow = __ControlFlow__00000003_
 	__ControlFlowShape__00000004_.ControlFlow = __ControlFlow__00000004_
+	__DataFlow__00000000_.Start = __Task__00000002_
+	__DataFlow__00000000_.End = __Task__00000007_
+	__DataFlowShape__00000001_.DataFlow = __DataFlow__00000000_
 	__DiagramProcess__00000005_.Process_Shapes = append(__DiagramProcess__00000005_.Process_Shapes, __ProcessShape__00000005_)
 	__DiagramProcess__00000005_.Participant_Shapes = append(__DiagramProcess__00000005_.Participant_Shapes, __ParticipantShape__00000009_)
 	__DiagramProcess__00000005_.Participant_Shapes = append(__DiagramProcess__00000005_.Participant_Shapes, __ParticipantShape__00000006_)
@@ -237,10 +271,13 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000005_.TaskShapes = append(__DiagramProcess__00000005_.TaskShapes, __TaskShape__00000004_)
 	__DiagramProcess__00000005_.TaskShapes = append(__DiagramProcess__00000005_.TaskShapes, __TaskShape__00000005_)
 	__DiagramProcess__00000005_.TaskShapes = append(__DiagramProcess__00000005_.TaskShapes, __TaskShape__00000007_)
+	__DiagramProcess__00000005_.TaskShapes = append(__DiagramProcess__00000005_.TaskShapes, __TaskShape__00000008_)
 	__DiagramProcess__00000005_.ControlFlowShapes = append(__DiagramProcess__00000005_.ControlFlowShapes, __ControlFlowShape__00000003_)
 	__DiagramProcess__00000005_.ControlFlowShapes = append(__DiagramProcess__00000005_.ControlFlowShapes, __ControlFlowShape__00000004_)
+	__DiagramProcess__00000005_.DataFlowShapes = append(__DiagramProcess__00000005_.DataFlowShapes, __DataFlowShape__00000001_)
 	__Library__00000000_.RootProcesses = append(__Library__00000000_.RootProcesses, __Process__00000005_)
 	__Library__00000000_.ProcesssWhoseNodeIsExpanded = append(__Library__00000000_.ProcesssWhoseNodeIsExpanded, __Process__00000005_)
+	__Library__00000000_.RootDataFlows = append(__Library__00000000_.RootDataFlows, __DataFlow__00000000_)
 	__Participant__00000003_.Tasks = append(__Participant__00000003_.Tasks, __Task__00000002_)
 	__Participant__00000003_.Tasks = append(__Participant__00000003_.Tasks, __Task__00000004_)
 	__Participant__00000003_.Tasks = append(__Participant__00000003_.Tasks, __Task__00000005_)
@@ -249,6 +286,7 @@ func _(stage *models.Stage) {
 	__Participant__00000003_.ControlFlows = append(__Participant__00000003_.ControlFlows, __ControlFlow__00000004_)
 	__Participant__00000003_.TaskWhoseOutControlFlowsNodeIsExpanded = append(__Participant__00000003_.TaskWhoseOutControlFlowsNodeIsExpanded, __Task__00000002_)
 	__Participant__00000004_.Tasks = append(__Participant__00000004_.Tasks, __Task__00000003_)
+	__Participant__00000004_.Tasks = append(__Participant__00000004_.Tasks, __Task__00000007_)
 	__ParticipantShape__00000006_.Participant = __Participant__00000004_
 	__ParticipantShape__00000007_.Participant = __Participant__00000005_
 	__ParticipantShape__00000009_.Participant = __Participant__00000003_
@@ -259,9 +297,11 @@ func _(stage *models.Stage) {
 	__Process__00000005_.Participants = append(__Process__00000005_.Participants, __Participant__00000005_)
 	__Process__00000005_.Participants = append(__Process__00000005_.Participants, __Participant__00000006_)
 	__Process__00000005_.ParticipantWhoseNodeIsExpanded = append(__Process__00000005_.ParticipantWhoseNodeIsExpanded, __Participant__00000003_)
+	__Process__00000005_.DataFlows = append(__Process__00000005_.DataFlows, __DataFlow__00000000_)
 	__ProcessShape__00000005_.Process = __Process__00000005_
 	__TaskShape__00000002_.Task = __Task__00000002_
 	__TaskShape__00000004_.Task = __Task__00000004_
 	__TaskShape__00000005_.Task = __Task__00000003_
 	__TaskShape__00000007_.Task = __Task__00000005_
+	__TaskShape__00000008_.Task = __Task__00000007_
 }

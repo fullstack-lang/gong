@@ -130,6 +130,7 @@ func (process *Process) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &process.SubProcesses) || modified
 	modified = GongCleanSlice(stage, &process.Participants) || modified
 	modified = GongCleanSlice(stage, &process.ParticipantWhoseNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &process.DataFlows) || modified
 	// insertion point per field
 	return
 }

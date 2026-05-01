@@ -834,6 +834,10 @@ func (u *ProcessUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		GongUnmarshallSliceOfPointers(&instance.Participants, valueExpr, identifierMap)
 	case "ParticipantWhoseNodeIsExpanded":
 		GongUnmarshallSliceOfPointers(&instance.ParticipantWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "DataFlows":
+		GongUnmarshallSliceOfPointers(&instance.DataFlows, valueExpr, identifierMap)
+	case "IsDataFlowsNodeExpanded":
+		instance.IsDataFlowsNodeExpanded = GongExtractBool(valueExpr)
 	}
 	return nil
 }
