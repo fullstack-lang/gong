@@ -50,6 +50,8 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 			Start: startTask,
 			End:   endTask,
 		})
+		startTask.owningParticipant.ControlFlows = append(startTask.owningParticipant.ControlFlows, controlFlow)
+
 		controlFlow.Name = controlFlow.Start.GetName() + " to " + controlFlow.End.GetName()
 		controlFlow.Stage(stage)
 

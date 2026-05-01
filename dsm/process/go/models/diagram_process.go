@@ -50,6 +50,10 @@ type DiagramProcess struct {
 	ControlFlowsWhoseNodeIsExpanded  []*ControlFlow
 	ControlFlowShapes                []*ControlFlowShape
 	map_ControlFlow_ControlFlowShape map[*ControlFlow]*ControlFlowShape
+
+	DataFlowsWhoseNodeIsExpanded []*DataFlow
+	DataFlowShapes               []*DataFlowShape
+	map_DataFlow_DataFlowShape   map[*DataFlow]*DataFlowShape
 }
 
 func (d *DiagramProcess) IsEditable() bool {
