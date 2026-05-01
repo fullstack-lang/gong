@@ -67,6 +67,7 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		{"Enforce task participant consistency", stager.enforceTaskParticipantConsistency},
 		{"Enforce task semantic rules", stager.enforceTaskSemanticRules},
 		{"Enforce control flow semantic rules", stager.enforceControlFlowRules},
+		{"Enforce data flow semantic rules", stager.enforceDataFlowRules},
 
 		// concrete semantic check
 		{"Enforce at least one diagram per process", stager.enforceAtLeastOneDiagramPerProcess},
