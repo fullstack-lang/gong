@@ -9,7 +9,7 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
-func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode *tree.Node) {
+func (stager *Stager) treeTask(diagram *Diagram, task *Task, parentNode *tree.Node) {
 	stage := stager.stage
 
 	taskNode := addNodeToTree(
@@ -55,7 +55,7 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 	addCreateItemShapeAndLinkButton(stager, conf)
 
 	for _, task := range task.SubTasks {
-		stager.treeWBSinDiagram(diagram, task, taskNode)
+		stager.treeTask(diagram, task, taskNode)
 	}
 
 	if len(task.Inputs) > 0 {

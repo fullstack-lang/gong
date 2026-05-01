@@ -7,7 +7,7 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
-func (stager *Stager) treeRBSinDiagram(diagram *Diagram, resource *Resource, parentNode *tree.Node) {
+func (stager *Stager) treeResourceinDiagram(diagram *Diagram, resource *Resource, parentNode *tree.Node) {
 	resourceNode := addNodeToTree(
 		stager,
 		diagram,
@@ -51,7 +51,7 @@ func (stager *Stager) treeRBSinDiagram(diagram *Diagram, resource *Resource, par
 	addCreateItemShapeAndLinkButton(stager, conf)
 
 	for _, subResource := range resource.SubResources {
-		stager.treeRBSinDiagram(diagram, subResource, resourceNode)
+		stager.treeResourceinDiagram(diagram, subResource, resourceNode)
 	}
 
 	if len(resource.Tasks) > 0 {
