@@ -128,7 +128,33 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 		diagramNode.Children = append(diagramNode.Children, wbsNode)
 		wbsNode.OnUpdate = stager.OnUpdateExpansion(&diagram.IsWBSNodeExpanded)
 
-		addAddItemButton(stager, nil, nil, &diagram.IsWBSNodeExpanded, wbsNode, &library.RootTasks, diagram, &diagram.Task_Shapes, &diagram.TaskComposition_Shapes)
+		confWBS := ItemShapeAndLinkButtonConfiguration[
+			Task, *Task, // AT, PAT (Added Element)
+			Task, *Task, // ParentAT, PParentAT (Parent Element)
+			TaskShape, *TaskShape, // CT, PCT (Concrete Shape)
+			TaskCompositionShape, *TaskCompositionShape, // ACT, PACT (Association Shape)
+		]{
+			ItemAndShapeButtonConfiguration: ItemAndShapeButtonConfiguration[
+				Task, *Task, // AT, PAT (Added Element)
+				Task, *Task, // ParentAT, PParentAT (Parent Element)
+				TaskShape, *TaskShape, // CT, PCT (Concrete Shape)
+			]{
+				ItemButtonConfiguration: ItemButtonConfiguration[
+					Task, *Task, // AT, PAT (Added Element)
+					Task, *Task, // ParentAT, PParentAT (Parent Element)
+				]{
+					parentNode:                         wbsNode,
+					sliceForNewAddedItem:               &library.RootTasks,
+					isParentNodeExpandedByAddOperation: true,
+					parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+					parentNodeExpansionBooleanValue:    &diagram.IsWBSNodeExpanded,
+				},
+				receivingDiagram:      diagram,
+				sliceForNewAddedShape: &diagram.Task_Shapes,
+			},
+			sliceForNewCompositionShapes: &diagram.TaskComposition_Shapes,
+		}
+		addCreateItemShapeAndLinkButton(stager, confWBS)
 
 		for _, task := range library.RootTasks {
 			stager.treeWBSinDiagram(diagram, task, wbsNode)
@@ -143,7 +169,33 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 		diagramNode.Children = append(diagramNode.Children, resourcesNode)
 		resourcesNode.OnUpdate = stager.OnUpdateExpansion(&diagram.IsResourcesNodeExpanded)
 
-		addAddItemButton(stager, nil, nil, &diagram.IsResourcesNodeExpanded, resourcesNode, &library.RootResources, diagram, &diagram.Resource_Shapes, &diagram.ResourceTaskShapes)
+		confRBS := ItemShapeAndLinkButtonConfiguration[
+			Resource, *Resource, // AT, PAT (Added Element)
+			Resource, *Resource, // ParentAT, PParentAT (Parent Element)
+			ResourceShape, *ResourceShape, // CT, PCT (Concrete Shape)
+			ResourceTaskShape, *ResourceTaskShape, // ACT, PACT (Association Shape)
+		]{
+			ItemAndShapeButtonConfiguration: ItemAndShapeButtonConfiguration[
+				Resource, *Resource, // AT, PAT (Added Element)
+				Resource, *Resource, // ParentAT, PParentAT (Parent Element)
+				ResourceShape, *ResourceShape, // CT, PCT (Concrete Shape)
+			]{
+				ItemButtonConfiguration: ItemButtonConfiguration[
+					Resource, *Resource, // AT, PAT (Added Element)
+					Resource, *Resource, // ParentAT, PParentAT (Parent Element)
+				]{
+					parentNode:                         resourcesNode,
+					sliceForNewAddedItem:               &library.RootResources,
+					isParentNodeExpandedByAddOperation: true,
+					parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+					parentNodeExpansionBooleanValue:    &diagram.IsResourcesNodeExpanded,
+				},
+				receivingDiagram:      diagram,
+				sliceForNewAddedShape: &diagram.Resource_Shapes,
+			},
+			sliceForNewCompositionShapes: &diagram.ResourceTaskShapes,
+		}
+		addCreateItemShapeAndLinkButton(stager, confRBS)
 
 		for _, resource := range library.RootResources {
 			stager.treeRBSinDiagram(diagram, resource, resourcesNode)
@@ -159,7 +211,33 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 			diagramNode.Children = append(diagramNode.Children, notesNode)
 			notesNode.OnUpdate = stager.OnUpdateExpansion(&diagram.IsNotesNodeExpanded)
 
-			addAddItemButton(stager, nil, nil, &diagram.IsNotesNodeExpanded, notesNode, &library.Notes, diagram, &diagram.Note_Shapes, &diagram.NoteProductShapes)
+			confNotes := ItemShapeAndLinkButtonConfiguration[
+				Note, *Note, // AT, PAT (Added Element)
+				Note, *Note, // ParentAT, PParentAT (Parent Element)
+				NoteShape, *NoteShape, // CT, PCT (Concrete Shape)
+				NoteProductShape, *NoteProductShape, // ACT, PACT (Association Shape)
+			]{
+				ItemAndShapeButtonConfiguration: ItemAndShapeButtonConfiguration[
+					Note, *Note, // AT, PAT (Added Element)
+					Note, *Note, // ParentAT, PParentAT (Parent Element)
+					NoteShape, *NoteShape, // CT, PCT (Concrete Shape)
+				]{
+					ItemButtonConfiguration: ItemButtonConfiguration[
+						Note, *Note, // AT, PAT (Added Element)
+						Note, *Note, // ParentAT, PParentAT (Parent Element)
+					]{
+						parentNode:                         notesNode,
+						sliceForNewAddedItem:               &library.Notes,
+						isParentNodeExpandedByAddOperation: true,
+						parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+						parentNodeExpansionBooleanValue:    &diagram.IsNotesNodeExpanded,
+					},
+					receivingDiagram:      diagram,
+					sliceForNewAddedShape: &diagram.Note_Shapes,
+				},
+				sliceForNewCompositionShapes: &diagram.NoteProductShapes,
+			}
+			addCreateItemShapeAndLinkButton(stager, confNotes)
 
 			for _, note := range library.Notes {
 				var dummyMap map[*Note]*NoteProductShape

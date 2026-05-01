@@ -338,4 +338,178 @@ func _(stage *models.Stage) {
 	// Default Diagram
 	__Diagram__00000001_.IsChecked = false
 	stage.Commit()
+
+	// Default Diagram
+	__Diagram__00000001_.Height = 321.095882
+	stage.Commit()
+
+	__TaskShape__00000000_ := (&models.TaskShape{Name: `-Default Diagram`}).Stage(stage)
+	__Task__00000000_ := (&models.Task{Name: ``}).Stage(stage)
+	// 
+	__Library__00000000_.RootTasks = slices.Insert( __Library__00000000_.RootTasks, 0, __Task__00000000_)
+	// Default Diagram
+	__Diagram__00000000_.IsWBSNodeExpanded = true
+	__Diagram__00000000_.Task_Shapes = slices.Insert( __Diagram__00000000_.Task_Shapes, 0, __TaskShape__00000000_)
+	__TaskShape__00000000_.Name = `-Default Diagram`
+	__TaskShape__00000000_.X = 106.726367
+	__TaskShape__00000000_.Y = 179.068338
+	__TaskShape__00000000_.Width = 250.000000
+	__TaskShape__00000000_.Height = 70.000000
+	__TaskShape__00000000_.IsHidden = false
+	__TaskShape__00000000_.Task = __Task__00000000_
+	__Task__00000000_.Name = ``
+	__Task__00000000_.ComputedPrefix = ``
+	__Task__00000000_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Task__00000000_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Task__00000000_.Description = ``
+	__Task__00000000_.IsInputsNodeExpanded = false
+	__Task__00000000_.IsOutputsNodeExpanded = false
+	__Task__00000000_.IsWithCompletion = false
+	__Task__00000000_.Completion = ""
+	stage.Commit()
+
+	// 
+	__Task__00000000_.ComputedPrefix = `1`
+	stage.Commit()
+
+	// W1
+	__Task__00000000_.Name = `W1`
+	stage.Commit()
+
+	__TaskCompositionShape__00000000_ := (&models.TaskCompositionShape{Name: `W1 to `}).Stage(stage)
+	__TaskShape__00000001_ := (&models.TaskShape{Name: `-Default Diagram`}).Stage(stage)
+	__Task__00000001_ := (&models.Task{Name: ``}).Stage(stage)
+	// Default Diagram
+	__Diagram__00000000_.Task_Shapes = slices.Insert( __Diagram__00000000_.Task_Shapes, 1, __TaskShape__00000001_)
+	__Diagram__00000000_.TasksWhoseNodeIsExpanded = slices.Insert( __Diagram__00000000_.TasksWhoseNodeIsExpanded, 0, __Task__00000000_)
+	__Diagram__00000000_.TaskComposition_Shapes = slices.Insert( __Diagram__00000000_.TaskComposition_Shapes, 0, __TaskCompositionShape__00000000_)
+	// W1
+	__Task__00000000_.SubTasks = slices.Insert( __Task__00000000_.SubTasks, 0, __Task__00000001_)
+	__TaskCompositionShape__00000000_.Name = `W1 to `
+	__TaskCompositionShape__00000000_.StartRatio = 0.500000
+	__TaskCompositionShape__00000000_.EndRatio = 0.500000
+	__TaskCompositionShape__00000000_.StartOrientation = models.ORIENTATION_VERTICAL
+	__TaskCompositionShape__00000000_.EndOrientation = models.ORIENTATION_VERTICAL
+	__TaskCompositionShape__00000000_.CornerOffsetRatio = 1.680000
+	__TaskCompositionShape__00000000_.IsHidden = false
+	__TaskCompositionShape__00000000_.Task = __Task__00000001_
+	__TaskShape__00000001_.Name = `-Default Diagram`
+	__TaskShape__00000001_.X = 106.726367
+	__TaskShape__00000001_.Y = 319.068338
+	__TaskShape__00000001_.Width = 250.000000
+	__TaskShape__00000001_.Height = 70.000000
+	__TaskShape__00000001_.IsHidden = false
+	__TaskShape__00000001_.Task = __Task__00000001_
+	__Task__00000001_.Name = ``
+	__Task__00000001_.ComputedPrefix = ``
+	__Task__00000001_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Task__00000001_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Task__00000001_.Description = ``
+	__Task__00000001_.IsInputsNodeExpanded = false
+	__Task__00000001_.IsOutputsNodeExpanded = false
+	__Task__00000001_.IsWithCompletion = false
+	__Task__00000001_.Completion = ""
+	stage.Commit()
+
+	// 
+	__Task__00000001_.ComputedPrefix = `1.1`
+	stage.Commit()
+
+	// W1.1
+	__Task__00000001_.Name = `W1.1`
+	stage.Commit()
+
+	__ResourceShape__00000000_ := (&models.ResourceShape{Name: `-Default Diagram`}).Stage(stage)
+	__Resource__00000000_ := (&models.Resource{Name: ``}).Stage(stage)
+	// 
+	__Library__00000000_.RootResources = slices.Insert( __Library__00000000_.RootResources, 0, __Resource__00000000_)
+	// Default Diagram
+	__Diagram__00000000_.Resource_Shapes = slices.Insert( __Diagram__00000000_.Resource_Shapes, 0, __ResourceShape__00000000_)
+	__Diagram__00000000_.IsResourcesNodeExpanded = true
+	__ResourceShape__00000000_.Name = `-Default Diagram`
+	__ResourceShape__00000000_.X = 151.182087
+	__ResourceShape__00000000_.Y = 100.740617
+	__ResourceShape__00000000_.Width = 250.000000
+	__ResourceShape__00000000_.Height = 70.000000
+	__ResourceShape__00000000_.IsHidden = false
+	__ResourceShape__00000000_.Resource = __Resource__00000000_
+	__Resource__00000000_.Name = ``
+	__Resource__00000000_.ComputedPrefix = ``
+	__Resource__00000000_.Description = ``
+	stage.Commit()
+
+	// 
+	__Resource__00000000_.ComputedPrefix = `1`
+	stage.Commit()
+
+	// R1
+	__Resource__00000000_.Name = `R1`
+	stage.Commit()
+
+	__ResourceCompositionShape__00000000_ := (&models.ResourceCompositionShape{Name: `R1 to `}).Stage(stage)
+	__ResourceShape__00000001_ := (&models.ResourceShape{Name: `-Default Diagram`}).Stage(stage)
+	__Resource__00000001_ := (&models.Resource{Name: ``}).Stage(stage)
+	// Default Diagram
+	__Diagram__00000000_.Resource_Shapes = slices.Insert( __Diagram__00000000_.Resource_Shapes, 1, __ResourceShape__00000001_)
+	__Diagram__00000000_.ResourcesWhoseNodeIsExpanded = slices.Insert( __Diagram__00000000_.ResourcesWhoseNodeIsExpanded, 0, __Resource__00000000_)
+	__Diagram__00000000_.ResourceComposition_Shapes = slices.Insert( __Diagram__00000000_.ResourceComposition_Shapes, 0, __ResourceCompositionShape__00000000_)
+	// R1
+	__Resource__00000000_.SubResources = slices.Insert( __Resource__00000000_.SubResources, 0, __Resource__00000001_)
+	__ResourceCompositionShape__00000000_.Name = `R1 to `
+	__ResourceCompositionShape__00000000_.StartRatio = 0.500000
+	__ResourceCompositionShape__00000000_.EndRatio = 0.500000
+	__ResourceCompositionShape__00000000_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000000_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ResourceCompositionShape__00000000_.CornerOffsetRatio = 1.680000
+	__ResourceCompositionShape__00000000_.IsHidden = false
+	__ResourceCompositionShape__00000000_.Resource = __Resource__00000001_
+	__ResourceShape__00000001_.Name = `-Default Diagram`
+	__ResourceShape__00000001_.X = 151.182087
+	__ResourceShape__00000001_.Y = 240.740617
+	__ResourceShape__00000001_.Width = 250.000000
+	__ResourceShape__00000001_.Height = 70.000000
+	__ResourceShape__00000001_.IsHidden = false
+	__ResourceShape__00000001_.Resource = __Resource__00000001_
+	__Resource__00000001_.Name = ``
+	__Resource__00000001_.ComputedPrefix = ``
+	__Resource__00000001_.Description = ``
+	stage.Commit()
+
+	// 
+	__Resource__00000001_.ComputedPrefix = `1.1`
+	stage.Commit()
+
+	// R1.1
+	__Resource__00000001_.Name = `R1.1`
+	stage.Commit()
+
+	// -Default Diagram
+	__ResourceShape__00000000_.X = 414.182087
+	__ResourceShape__00000000_.Y = 605.740632
+	stage.Commit()
+
+	// -Default Diagram
+	__ResourceShape__00000001_.X = 613.182087
+	__ResourceShape__00000001_.Y = 751.740586
+	stage.Commit()
+
+	// -Default Diagram
+	__ProductShape__00000002_.X = 185.056982
+	__ProductShape__00000002_.Y = 244.618199
+	stage.Commit()
+
+	// -Default Diagram
+	__TaskShape__00000000_.X = 110.726367
+	__TaskShape__00000000_.Y = 685.068292
+	stage.Commit()
+
+	// -Default Diagram
+	__TaskShape__00000001_.X = 225.726367
+	__TaskShape__00000001_.Y = 854.068307
+	stage.Commit()
+
+	// -Default Diagram
+	__TaskShape__00000001_.X = 214.726367
+	__TaskShape__00000001_.Y = 877.068307
+	stage.Commit()
 }
