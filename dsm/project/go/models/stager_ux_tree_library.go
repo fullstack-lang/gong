@@ -129,7 +129,7 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 		addCreateItemButton(stager, conf)
 
 		for _, product := range library.RootProducts {
-			stager.treePBSRecusriveInDiagram(diagram, product, pbsNode)
+			stager.treeProduct(diagram, product, pbsNode)
 		}
 
 		diagram.map_Task_TaskCompositionShape = make(map[*Task]*TaskCompositionShape)
@@ -177,7 +177,7 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 		addCreateItemShapeAndLinkButton(stager, confWBS)
 
 		for _, task := range library.RootTasks {
-			stager.treeWBSinDiagram(diagram, task, wbsNode)
+			stager.treeTask(diagram, task, wbsNode)
 		}
 
 		resourcesNode := &tree.Node{
@@ -218,7 +218,7 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 		addCreateItemShapeAndLinkButton(stager, confRBS)
 
 		for _, resource := range library.RootResources {
-			stager.treeRBSinDiagram(diagram, resource, resourcesNode)
+			stager.treeResourceinDiagram(diagram, resource, resourcesNode)
 		}
 
 		{
