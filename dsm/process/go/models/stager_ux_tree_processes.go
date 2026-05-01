@@ -145,16 +145,31 @@ func (stager *Stager) treeProcesses(
 			for _, participant := range process.Participants {
 				stager.treeParticipants(diagramProcess, participant, participantsNode)
 			}
-			addAddItemButtonVerySimple(
-				stager,
-				&diagramProcess.IsParticipantsNodeExpanded,
-				participantsNode,
-				&process.Participants)
-
+			confParticipants := ItemButtonConfiguration[
+				Participant, *Participant,
+				Process, *Process,
+			]{
+				parentNode:                         participantsNode,
+				sliceForNewAddedItem:               &process.Participants,
+				isParentNodeExpandedByAddOperation: true,
+				parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+				parentNodeExpansionBooleanValue:    &diagramProcess.IsParticipantsNodeExpanded,
+			}
+			addCreateItemButton(stager, confParticipants)
 		}
 	}
 
-	itemAdderCallback := addAddItemButtonVerySimple(stager, &process.isExpanded, processNode, &process.DiagramProcesss)
+	confDiagramProcesss := ItemButtonConfiguration[
+		DiagramProcess, *DiagramProcess,
+		Process, *Process,
+	]{
+		parentNode:                         processNode,
+		sliceForNewAddedItem:               &process.DiagramProcesss,
+		isParentNodeExpandedByAddOperation: true,
+		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+		parentNodeExpansionBooleanValue:    &process.isExpanded,
+	}
+	itemAdderCallback := addCreateItemButton(stager, confDiagramProcesss)
 	itemAdderCallback.OnBeforeCommit = func() {
 		newDiagram := itemAdderCallback.createdItem
 		newDiagram.IsEditable_ = true
