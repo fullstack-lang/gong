@@ -35,11 +35,9 @@ func (stager *Stager) treePBSRecusriveInDiagram(diagram *Diagram, product *Produ
 			parentNodeExpansionSliceEncoding:   &diagram.ProductsWhoseNodeIsExpanded,
 			parentElement:                      product,
 		},
-		isWithAdditionOfShape:            true,
-		receivingDiagram:                 diagram,
-		sliceForNewAddedShape:            &diagram.Product_Shapes,
-		isWithAdditionOfAssociationShape: true,
-		sliceForNewCompositionShapes:     &diagram.ProductComposition_Shapes,
+		receivingDiagram:             diagram,
+		sliceForNewAddedShape:        &diagram.Product_Shapes,
+		sliceForNewCompositionShapes: &diagram.ProductComposition_Shapes,
 	}
 
 	addAddButton(stager, conf)
