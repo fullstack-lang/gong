@@ -5,18 +5,34 @@ import (
 )
 
 func (stager *Stager) treeProduct(diagram *Diagram, product *Product, parentNode *tree.Node) {
-	productNode := addNodeToTree(
-		stager,
-		diagram,
-		parentNode,
-		product,
-		product.parentProduct,
-		&diagram.ProductsWhoseNodeIsExpanded,
-		&diagram.Product_Shapes,
-		diagram.map_Product_ProductShape,
-		diagram.map_Product_ProductCompositionShape,
-		&diagram.ProductComposition_Shapes,
-	)
+	productNodeConf := TreeNodeShapeAndLinkConfiguration[
+		*Product, Product,
+		*ProductShape, ProductShape,
+		*ProductCompositionShape, ProductCompositionShape,
+		*Diagram,
+	]{
+		TreeNodeAndShapeConfiguration: TreeNodeAndShapeConfiguration[
+			*Product, Product,
+			*ProductShape, ProductShape,
+			*Diagram,
+		]{
+			TreeNodeConfiguration: TreeNodeConfiguration[
+				*Product, Product,
+				*Diagram,
+			]{
+				diagram:                     diagram,
+				parentNode:                  parentNode,
+				element:                     product,
+				parentElement:               product.parentProduct,
+				elementsWhoseNodeIsExpanded: &diagram.ProductsWhoseNodeIsExpanded,
+			},
+			shapes:    &diagram.Product_Shapes,
+			shapesMap: diagram.map_Product_ProductShape,
+		},
+		map_Element_CompositionShape: diagram.map_Product_ProductCompositionShape,
+		compositionShapes:            &diagram.ProductComposition_Shapes,
+	}
+	productNode := addNodeToTreeWithConf(stager, productNodeConf)
 
 	conf := ItemShapeAndLinkButtonConfiguration[
 		Product, *Product, // AT, PAT (Added Element)

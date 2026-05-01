@@ -12,18 +12,34 @@ import (
 func (stager *Stager) treeTask(diagram *Diagram, task *Task, parentNode *tree.Node) {
 	stage := stager.stage
 
-	taskNode := addNodeToTree(
-		stager,
-		diagram,
-		parentNode,
-		task,
-		task.parentTask,
-		&diagram.TasksWhoseNodeIsExpanded,
-		&diagram.Task_Shapes,
-		diagram.map_Task_TaskShape,
-		diagram.map_Task_TaskCompositionShape,
-		&diagram.TaskComposition_Shapes,
-	)
+	taskNodeConf := TreeNodeShapeAndLinkConfiguration[
+		*Task, Task,
+		*TaskShape, TaskShape,
+		*TaskCompositionShape, TaskCompositionShape,
+		*Diagram,
+	]{
+		TreeNodeAndShapeConfiguration: TreeNodeAndShapeConfiguration[
+			*Task, Task,
+			*TaskShape, TaskShape,
+			*Diagram,
+		]{
+			TreeNodeConfiguration: TreeNodeConfiguration[
+				*Task, Task,
+				*Diagram,
+			]{
+				diagram:                     diagram,
+				parentNode:                  parentNode,
+				element:                     task,
+				parentElement:               task.parentTask,
+				elementsWhoseNodeIsExpanded: &diagram.TasksWhoseNodeIsExpanded,
+			},
+			shapes:    &diagram.Task_Shapes,
+			shapesMap: diagram.map_Task_TaskShape,
+		},
+		map_Element_CompositionShape: diagram.map_Task_TaskCompositionShape,
+		compositionShapes:            &diagram.TaskComposition_Shapes,
+	}
+	taskNode := addNodeToTreeWithConf(stager, taskNodeConf)
 
 	conf := ItemShapeAndLinkButtonConfiguration[
 		Task, *Task, // AT, PAT (Added Element)
