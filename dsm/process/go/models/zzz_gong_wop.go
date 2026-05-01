@@ -66,6 +66,35 @@ func (from *DataFlow) CopyBasicFields(to *DataFlow) {
 	to.ComputedPrefix = from.ComputedPrefix
 }
 
+type DataFlowShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	StartRatio float64
+
+	EndRatio float64
+
+	StartOrientation OrientationType
+
+	EndOrientation OrientationType
+
+	CornerOffsetRatio float64
+
+	IsHidden bool
+}
+
+func (from *DataFlowShape) CopyBasicFields(to *DataFlowShape) {
+	// insertion point
+	to.Name = from.Name
+	to.StartRatio = from.StartRatio
+	to.EndRatio = from.EndRatio
+	to.StartOrientation = from.StartOrientation
+	to.EndOrientation = from.EndOrientation
+	to.CornerOffsetRatio = from.CornerOffsetRatio
+	to.IsHidden = from.IsHidden
+}
+
 type DiagramProcess_WOP struct {
 	// insertion point
 
