@@ -47,7 +47,6 @@ func (stager *Stager) treePBSRecusriveInDiagram(diagram *Diagram, product *Produ
 	}
 
 	addCreateItemShapeAndLinkButton(stager, conf)
-	//addAddItemButton(stager, &diagram.ProductsWhoseNodeIsExpanded, product, nil, productNode, &product.SubProducts, diagram, &diagram.Product_Shapes, &diagram.ProductComposition_Shapes)
 
 	for _, product := range product.SubProducts {
 		stager.treePBSRecusriveInDiagram(diagram, product, productNode)

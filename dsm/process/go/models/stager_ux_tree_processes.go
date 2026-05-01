@@ -179,7 +179,19 @@ func (stager *Stager) treeProcesses(
 		}
 		newDiagram.IsChecked = true
 	}
-	addAddItemButtonSimple(stager, processsWhoseNodeIsExpanded, process, nil, processNode, &process.SubProcesses)
+
+	confSubProcesses := ItemButtonConfiguration[
+		Process, *Process,
+		Process, *Process,
+	]{
+		parentNode:                         processNode,
+		sliceForNewAddedItem:               &process.SubProcesses,
+		isParentNodeExpandedByAddOperation: true,
+		parentNodeExpansionType:            parentNodeExpansionTypeBySlice,
+		parentNodeExpansionSliceEncoding:   processsWhoseNodeIsExpanded,
+		parentElement:                      process,
+	}
+	addCreateItemButton(stager, confSubProcesses)
 
 	// SubProcesses
 	subProcessesNode := &tree.Node{
