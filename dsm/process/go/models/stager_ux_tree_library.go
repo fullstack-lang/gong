@@ -45,6 +45,10 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 	}
 	addCreateItemButton(stager, confRootProcesses)
 
+	//
+	// Processes
+	//
+
 	for _, process := range library.RootProcesses {
 		stager.treeProcesses(process, libraryNode, &library.ProcesssWhoseNodeIsExpanded)
 	}

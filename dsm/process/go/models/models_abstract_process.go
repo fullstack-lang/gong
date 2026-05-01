@@ -21,6 +21,4 @@ type Process struct {
 	IsDataFlowsNodeExpanded bool
 }
 
-var (
-	_ AbstractType = (*Process)(nil)
-)
+var _ AbstractType = (*Process)(nil)
