@@ -64,6 +64,13 @@ func (inst *DataFlow) GongGetReverseFieldOwnerName(stage *Stage, reverseField *R
 				res = _library.Name
 			}
 		}
+	case "Process":
+		switch reverseField.Fieldname {
+		case "DataFlows":
+			if _process, ok := stage.Process_DataFlows_reverseMap[inst]; ok {
+				res = _process.Name
+			}
+		}
 	}
 	return
 }
@@ -310,6 +317,11 @@ func (inst *DataFlow) GongGetReverseFieldOwner(stage *Stage, reverseField *Rever
 			res = stage.Library_RootDataFlows_reverseMap[inst]
 		case "DataFlowsWhoseNodeIsExpanded":
 			res = stage.Library_DataFlowsWhoseNodeIsExpanded_reverseMap[inst]
+		}
+	case "Process":
+		switch reverseField.Fieldname {
+		case "DataFlows":
+			res = stage.Process_DataFlows_reverseMap[inst]
 		}
 	}
 	return res

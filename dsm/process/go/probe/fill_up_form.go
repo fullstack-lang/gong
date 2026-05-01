@@ -182,6 +182,28 @@ func FillUpForm(
 					probe)
 			}
 		}
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "Process"
+			rf.Fieldname = "DataFlows"
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.Process),
+					"DataFlows",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			} else {
+				AssociationReverseFieldToForm[*models.Process](
+					nil,
+					"DataFlows",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			}
+		}
 
 	case *models.DataFlowShape:
 		// insertion point
@@ -474,6 +496,9 @@ func FillUpForm(
 		AssociationSliceToForm("SubProcesses", instanceWithInferedType, &instanceWithInferedType.SubProcesses, formGroup, probe)
 		AssociationSliceToForm("Participants", instanceWithInferedType, &instanceWithInferedType.Participants, formGroup, probe)
 		AssociationSliceToForm("ParticipantWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.ParticipantWhoseNodeIsExpanded, formGroup, probe)
+		AssociationSliceToForm("DataFlows", instanceWithInferedType, &instanceWithInferedType.DataFlows, formGroup, probe)
+		BasicFieldtoForm("IsDataFlowsNodeExpanded", instanceWithInferedType.IsDataFlowsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 		{
 			var rf models.ReverseField
 			_ = rf

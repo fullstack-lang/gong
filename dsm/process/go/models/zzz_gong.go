@@ -304,6 +304,8 @@ type Stage struct {
 
 	Process_ParticipantWhoseNodeIsExpanded_reverseMap map[*Participant]*Process
 
+	Process_DataFlows_reverseMap map[*DataFlow]*Process
+
 	OnAfterProcessCreateCallback OnAfterCreateInterface[Process]
 	OnAfterProcessUpdateCallback OnAfterUpdateInterface[Process]
 	OnAfterProcessDeleteCallback OnAfterDeleteInterface[Process]
@@ -3167,6 +3169,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Participants: []*Participant{{Name: "Participants"}},
 			// field is initialized with an instance of Participant with the name of the field
 			ParticipantWhoseNodeIsExpanded: []*Participant{{Name: "ParticipantWhoseNodeIsExpanded"}},
+			// field is initialized with an instance of DataFlow with the name of the field
+			DataFlows: []*DataFlow{{Name: "DataFlows"}},
 		}).(*Type)
 	case ProcessShape:
 		return any(&ProcessShape{
@@ -3665,6 +3669,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "DataFlows":
+			res := make(map[*DataFlow][]*Process)
+			for process := range stage.Processs {
+				for _, dataflow_ := range process.DataFlows {
+					res[dataflow_] = append(res[dataflow_], process)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of ProcessShape
 	case ProcessShape:
@@ -3759,6 +3771,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		res = append(res, rf)
 		rf.GongstructName = "Library"
 		rf.Fieldname = "DataFlowsWhoseNodeIsExpanded"
+		res = append(res, rf)
+		rf.GongstructName = "Process"
+		rf.Fieldname = "DataFlows"
 		res = append(res, rf)
 	case *DataFlowShape:
 		var rf ReverseField
@@ -4255,6 +4270,15 @@ func (process *Process) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "ParticipantWhoseNodeIsExpanded",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Participant",
+		},
+		{
+			Name:                 "DataFlows",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "DataFlow",
+		},
+		{
+			Name:               "IsDataFlowsNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 	}
 	return
@@ -4915,6 +4939,20 @@ func (process *Process) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "DataFlows":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range process.DataFlows {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "IsDataFlowsNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", process.IsDataFlowsNodeExpanded)
+		res.valueBool = process.IsDataFlowsNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -5606,6 +5644,22 @@ func (process *Process) GongSetFieldValue(fieldName string, value GongFieldValue
 				}
 			}
 		}
+	case "DataFlows":
+		process.DataFlows = make([]*DataFlow, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.DataFlows {
+					if stage.DataFlow_stagedOrder[__instance__] == uint(id) {
+						process.DataFlows = append(process.DataFlows, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "IsDataFlowsNodeExpanded":
+		process.IsDataFlowsNodeExpanded = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
