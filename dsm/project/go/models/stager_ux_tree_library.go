@@ -20,9 +20,29 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 
 	libraryNode.OnUpdate = stager.OnUpdateLibrary(library)
 
-	addAddItemButtonVerySimple(stager, &library.isExpanded, libraryNode, &library.SubLibraries)
+	confSubLibraries := ItemButtonConfiguration[
+		Library, *Library, // AT, PAT (Added Element)
+		Library, *Library, // ParentAT, PParentAT (Parent Element)
+	]{
+		parentNode:                         libraryNode,
+		sliceForNewAddedItem:               &library.SubLibraries,
+		isParentNodeExpandedByAddOperation: true,
+		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+		parentNodeExpansionBooleanValue:    &library.isExpanded,
+	}
+	addCreateItemButton(stager, confSubLibraries)
 
-	itemAdderCallback := addAddItemButtonVerySimple(stager, &library.isExpanded, libraryNode, &library.Diagrams)
+	confDiagrams := ItemButtonConfiguration[
+		Diagram, *Diagram, // AT, PAT (Added Element)
+		Library, *Library, // ParentAT, PParentAT (Parent Element)
+	]{
+		parentNode:                         libraryNode,
+		sliceForNewAddedItem:               &library.Diagrams,
+		isParentNodeExpandedByAddOperation: true,
+		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+		parentNodeExpansionBooleanValue:    &library.isExpanded,
+	}
+	itemAdderCallback := addCreateItemButton(stager, confDiagrams)
 
 	itemAdderCallback.OnBeforeCommit = func() {
 		newDiagram := itemAdderCallback.createdItem
