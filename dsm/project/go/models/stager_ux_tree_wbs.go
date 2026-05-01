@@ -25,7 +25,34 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 		&diagram.TaskComposition_Shapes,
 	)
 
-	addAddItemButton(stager, &diagram.TasksWhoseNodeIsExpanded, task, nil, taskNode, &task.SubTasks, diagram, &diagram.Task_Shapes, &diagram.TaskComposition_Shapes)
+	conf := ItemShapeAndLinkButtonConfiguration[
+		Task, *Task, // AT, PAT (Added Element)
+		Task, *Task, // ParentAT, PParentAT (Parent Element)
+		TaskShape, *TaskShape, // CT, PCT (Concrete Shape)
+		TaskCompositionShape, *TaskCompositionShape, // ACT, PACT (Association Shape)
+	]{
+		ItemAndShapeButtonConfiguration: ItemAndShapeButtonConfiguration[
+			Task, *Task, // AT, PAT (Added Element)
+			Task, *Task, // ParentAT, PParentAT (Parent Element)
+			TaskShape, *TaskShape, // CT, PCT (Concrete Shape)
+		]{
+			ItemButtonConfiguration: ItemButtonConfiguration[
+				Task, *Task, // AT, PAT (Added Element)
+				Task, *Task, // ParentAT, PParentAT (Parent Element)
+			]{
+				parentNode:                         taskNode,
+				sliceForNewAddedItem:               &task.SubTasks,
+				isParentNodeExpandedByAddOperation: true,
+				parentNodeExpansionType:            parentNodeExpansionTypeBySlice,
+				parentNodeExpansionSliceEncoding:   &diagram.TasksWhoseNodeIsExpanded,
+				parentElement:                      task,
+			},
+			receivingDiagram:      diagram,
+			sliceForNewAddedShape: &diagram.Task_Shapes,
+		},
+		sliceForNewCompositionShapes: &diagram.TaskComposition_Shapes,
+	}
+	addCreateItemShapeAndLinkButton(stager, conf)
 
 	for _, task := range task.SubTasks {
 		stager.treeWBSinDiagram(diagram, task, taskNode)
