@@ -18,6 +18,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterDataFlowCreateCallback != nil {
 			stage.OnAfterDataFlowCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *DataFlowShape:
+		if stage.OnAfterDataFlowShapeCreateCallback != nil {
+			stage.OnAfterDataFlowShapeCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *DiagramProcess:
 		if stage.OnAfterDiagramProcessCreateCallback != nil {
 			stage.OnAfterDiagramProcessCreateCallback.OnAfterCreate(stage, target)
@@ -78,6 +82,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*DataFlow)
 		if stage.OnAfterDataFlowUpdateCallback != nil {
 			stage.OnAfterDataFlowUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *DataFlowShape:
+		newTarget := any(new).(*DataFlowShape)
+		if stage.OnAfterDataFlowShapeUpdateCallback != nil {
+			stage.OnAfterDataFlowShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *DiagramProcess:
 		newTarget := any(new).(*DiagramProcess)
@@ -144,6 +153,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*DataFlow)
 			stage.OnAfterDataFlowDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *DataFlowShape:
+		if stage.OnAfterDataFlowShapeDeleteCallback != nil {
+			staged := any(staged).(*DataFlowShape)
+			stage.OnAfterDataFlowShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *DiagramProcess:
 		if stage.OnAfterDiagramProcessDeleteCallback != nil {
 			staged := any(staged).(*DiagramProcess)
@@ -206,6 +220,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterDataFlowReadCallback != nil {
 			stage.OnAfterDataFlowReadCallback.OnAfterRead(stage, target)
 		}
+	case *DataFlowShape:
+		if stage.OnAfterDataFlowShapeReadCallback != nil {
+			stage.OnAfterDataFlowShapeReadCallback.OnAfterRead(stage, target)
+		}
 	case *DiagramProcess:
 		if stage.OnAfterDiagramProcessReadCallback != nil {
 			stage.OnAfterDiagramProcessReadCallback.OnAfterRead(stage, target)
@@ -255,6 +273,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterControlFlowShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ControlFlowShape])
 	case *DataFlow:
 		stage.OnAfterDataFlowUpdateCallback = any(callback).(OnAfterUpdateInterface[DataFlow])
+	case *DataFlowShape:
+		stage.OnAfterDataFlowShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[DataFlowShape])
 	case *DiagramProcess:
 		stage.OnAfterDiagramProcessUpdateCallback = any(callback).(OnAfterUpdateInterface[DiagramProcess])
 	case *Library:
@@ -284,6 +304,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterControlFlowShapeCreateCallback = any(callback).(OnAfterCreateInterface[ControlFlowShape])
 	case *DataFlow:
 		stage.OnAfterDataFlowCreateCallback = any(callback).(OnAfterCreateInterface[DataFlow])
+	case *DataFlowShape:
+		stage.OnAfterDataFlowShapeCreateCallback = any(callback).(OnAfterCreateInterface[DataFlowShape])
 	case *DiagramProcess:
 		stage.OnAfterDiagramProcessCreateCallback = any(callback).(OnAfterCreateInterface[DiagramProcess])
 	case *Library:
@@ -313,6 +335,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterControlFlowShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ControlFlowShape])
 	case *DataFlow:
 		stage.OnAfterDataFlowDeleteCallback = any(callback).(OnAfterDeleteInterface[DataFlow])
+	case *DataFlowShape:
+		stage.OnAfterDataFlowShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[DataFlowShape])
 	case *DiagramProcess:
 		stage.OnAfterDiagramProcessDeleteCallback = any(callback).(OnAfterDeleteInterface[DiagramProcess])
 	case *Library:
@@ -342,6 +366,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterControlFlowShapeReadCallback = any(callback).(OnAfterReadInterface[ControlFlowShape])
 	case *DataFlow:
 		stage.OnAfterDataFlowReadCallback = any(callback).(OnAfterReadInterface[DataFlow])
+	case *DataFlowShape:
+		stage.OnAfterDataFlowShapeReadCallback = any(callback).(OnAfterReadInterface[DataFlowShape])
 	case *DiagramProcess:
 		stage.OnAfterDiagramProcessReadCallback = any(callback).(OnAfterReadInterface[DiagramProcess])
 	case *Library:

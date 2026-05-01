@@ -46,6 +46,13 @@ func (inst *DataFlow) GongGetReverseFieldOwnerName(stage *Stage, reverseField *R
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
+	case "DiagramProcess":
+		switch reverseField.Fieldname {
+		case "DataFlowsWhoseNodeIsExpanded":
+			if _diagramprocess, ok := stage.DiagramProcess_DataFlowsWhoseNodeIsExpanded_reverseMap[inst]; ok {
+				res = _diagramprocess.Name
+			}
+		}
 	case "Library":
 		switch reverseField.Fieldname {
 		case "RootDataFlows":
@@ -55,6 +62,22 @@ func (inst *DataFlow) GongGetReverseFieldOwnerName(stage *Stage, reverseField *R
 		case "DataFlowsWhoseNodeIsExpanded":
 			if _library, ok := stage.Library_DataFlowsWhoseNodeIsExpanded_reverseMap[inst]; ok {
 				res = _library.Name
+			}
+		}
+	}
+	return
+}
+
+func (inst *DataFlowShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "DiagramProcess":
+		switch reverseField.Fieldname {
+		case "DataFlowShapes":
+			if _diagramprocess, ok := stage.DiagramProcess_DataFlowShapes_reverseMap[inst]; ok {
+				res = _diagramprocess.Name
 			}
 		}
 	}
@@ -276,12 +299,31 @@ func (inst *DataFlow) GongGetReverseFieldOwner(stage *Stage, reverseField *Rever
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
+	case "DiagramProcess":
+		switch reverseField.Fieldname {
+		case "DataFlowsWhoseNodeIsExpanded":
+			res = stage.DiagramProcess_DataFlowsWhoseNodeIsExpanded_reverseMap[inst]
+		}
 	case "Library":
 		switch reverseField.Fieldname {
 		case "RootDataFlows":
 			res = stage.Library_RootDataFlows_reverseMap[inst]
 		case "DataFlowsWhoseNodeIsExpanded":
 			res = stage.Library_DataFlowsWhoseNodeIsExpanded_reverseMap[inst]
+		}
+	}
+	return res
+}
+
+func (inst *DataFlowShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	case "DiagramProcess":
+		switch reverseField.Fieldname {
+		case "DataFlowShapes":
+			res = stage.DiagramProcess_DataFlowShapes_reverseMap[inst]
 		}
 	}
 	return res
