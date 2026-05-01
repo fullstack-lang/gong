@@ -29,9 +29,13 @@ func _(stage *models.Stage) {
 
 	__ControlFlow__00000001_ := (&models.ControlFlow{Name: `T2 to T4`}).Stage(stage)
 	__ControlFlow__00000002_ := (&models.ControlFlow{Name: `T4 to End`}).Stage(stage)
+	__ControlFlow__00000003_ := (&models.ControlFlow{Name: `Start to T1`}).Stage(stage)
+	__ControlFlow__00000004_ := (&models.ControlFlow{Name: `T1 to T2`}).Stage(stage)
 
 	__ControlFlowShape__00000001_ := (&models.ControlFlowShape{Name: `T2 to T4`}).Stage(stage)
 	__ControlFlowShape__00000002_ := (&models.ControlFlowShape{Name: `T4 to End`}).Stage(stage)
+	__ControlFlowShape__00000003_ := (&models.ControlFlowShape{Name: `Start to T1`}).Stage(stage)
+	__ControlFlowShape__00000004_ := (&models.ControlFlowShape{Name: `T1 to T2`}).Stage(stage)
 
 	__DiagramProcess__00000005_ := (&models.DiagramProcess{Name: `DiagramProcess`}).Stage(stage)
 
@@ -55,6 +59,8 @@ func _(stage *models.Stage) {
 	__Task__00000005_ := (&models.Task{Name: `End`}).Stage(stage)
 	__Task__00000006_ := (&models.Task{Name: `T4`}).Stage(stage)
 	__Task__00000007_ := (&models.Task{Name: `PP2 T2`}).Stage(stage)
+	__Task__00000008_ := (&models.Task{Name: `T1`}).Stage(stage)
+	__Task__00000009_ := (&models.Task{Name: `PP2 T4`}).Stage(stage)
 
 	__TaskShape__00000002_ := (&models.TaskShape{Name: `T2-DiagramProcess`}).Stage(stage)
 	__TaskShape__00000004_ := (&models.TaskShape{Name: `Start-DiagramProcess`}).Stage(stage)
@@ -62,6 +68,8 @@ func _(stage *models.Stage) {
 	__TaskShape__00000007_ := (&models.TaskShape{Name: `End-DiagramProcess`}).Stage(stage)
 	__TaskShape__00000008_ := (&models.TaskShape{Name: `-DiagramProcess`}).Stage(stage)
 	__TaskShape__00000009_ := (&models.TaskShape{Name: `-DiagramProcess`}).Stage(stage)
+	__TaskShape__00000010_ := (&models.TaskShape{Name: `-DiagramProcess`}).Stage(stage)
+	__TaskShape__00000011_ := (&models.TaskShape{Name: `-DiagramProcess`}).Stage(stage)
 
 	// insertion point for initialization of values
 
@@ -70,6 +78,12 @@ func _(stage *models.Stage) {
 
 	__ControlFlow__00000002_.Name = `T4 to End`
 	__ControlFlow__00000002_.ComputedPrefix = ``
+
+	__ControlFlow__00000003_.Name = `Start to T1`
+	__ControlFlow__00000003_.ComputedPrefix = ``
+
+	__ControlFlow__00000004_.Name = `T1 to T2`
+	__ControlFlow__00000004_.ComputedPrefix = ``
 
 	__ControlFlowShape__00000001_.Name = `T2 to T4`
 	__ControlFlowShape__00000001_.StartRatio = 0.559622
@@ -86,6 +100,22 @@ func _(stage *models.Stage) {
 	__ControlFlowShape__00000002_.EndOrientation = models.ORIENTATION_VERTICAL
 	__ControlFlowShape__00000002_.CornerOffsetRatio = 1.958744
 	__ControlFlowShape__00000002_.IsHidden = false
+
+	__ControlFlowShape__00000003_.Name = `Start to T1`
+	__ControlFlowShape__00000003_.StartRatio = 0.500000
+	__ControlFlowShape__00000003_.EndRatio = 0.500000
+	__ControlFlowShape__00000003_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ControlFlowShape__00000003_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ControlFlowShape__00000003_.CornerOffsetRatio = 1.500000
+	__ControlFlowShape__00000003_.IsHidden = false
+
+	__ControlFlowShape__00000004_.Name = `T1 to T2`
+	__ControlFlowShape__00000004_.StartRatio = 0.500000
+	__ControlFlowShape__00000004_.EndRatio = 0.500000
+	__ControlFlowShape__00000004_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ControlFlowShape__00000004_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ControlFlowShape__00000004_.CornerOffsetRatio = 1.500000
+	__ControlFlowShape__00000004_.IsHidden = false
 
 	__DiagramProcess__00000005_.Name = `DiagramProcess`
 	__DiagramProcess__00000005_.ComputedPrefix = ``
@@ -186,6 +216,16 @@ func _(stage *models.Stage) {
 	__Task__00000007_.IsStartTask = false
 	__Task__00000007_.IsEndTask = false
 
+	__Task__00000008_.Name = `T1`
+	__Task__00000008_.ComputedPrefix = ``
+	__Task__00000008_.IsStartTask = false
+	__Task__00000008_.IsEndTask = false
+
+	__Task__00000009_.Name = `PP2 T4`
+	__Task__00000009_.ComputedPrefix = ``
+	__Task__00000009_.IsStartTask = false
+	__Task__00000009_.IsEndTask = false
+
 	__TaskShape__00000002_.Name = `T2-DiagramProcess`
 	__TaskShape__00000002_.IsExpanded = false
 	__TaskShape__00000002_.X = 175.000000
@@ -196,8 +236,8 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000004_.Name = `Start-DiagramProcess`
 	__TaskShape__00000004_.IsExpanded = false
-	__TaskShape__00000004_.X = 207.000000
-	__TaskShape__00000004_.Y = 149.683844
+	__TaskShape__00000004_.X = 215.000000
+	__TaskShape__00000004_.Y = 123.683844
 	__TaskShape__00000004_.Width = 58.000000
 	__TaskShape__00000004_.Height = 20.000000
 	__TaskShape__00000004_.IsHidden = false
@@ -234,13 +274,35 @@ func _(stage *models.Stage) {
 	__TaskShape__00000009_.Height = 70.000000
 	__TaskShape__00000009_.IsHidden = false
 
+	__TaskShape__00000010_.Name = `-DiagramProcess`
+	__TaskShape__00000010_.IsExpanded = false
+	__TaskShape__00000010_.X = 146.635086
+	__TaskShape__00000010_.Y = 224.699224
+	__TaskShape__00000010_.Width = 250.000000
+	__TaskShape__00000010_.Height = 70.000000
+	__TaskShape__00000010_.IsHidden = false
+
+	__TaskShape__00000011_.Name = `-DiagramProcess`
+	__TaskShape__00000011_.IsExpanded = false
+	__TaskShape__00000011_.X = 533.000000
+	__TaskShape__00000011_.Y = 351.667351
+	__TaskShape__00000011_.Width = 250.000000
+	__TaskShape__00000011_.Height = 70.000000
+	__TaskShape__00000011_.IsHidden = false
+
 	// insertion point for setup of pointers
 	__ControlFlow__00000001_.Start = __Task__00000002_
 	__ControlFlow__00000001_.End = __Task__00000006_
 	__ControlFlow__00000002_.Start = __Task__00000006_
 	__ControlFlow__00000002_.End = __Task__00000005_
+	__ControlFlow__00000003_.Start = __Task__00000004_
+	__ControlFlow__00000003_.End = __Task__00000008_
+	__ControlFlow__00000004_.Start = __Task__00000008_
+	__ControlFlow__00000004_.End = __Task__00000002_
 	__ControlFlowShape__00000001_.ControlFlow = __ControlFlow__00000001_
 	__ControlFlowShape__00000002_.ControlFlow = __ControlFlow__00000002_
+	__ControlFlowShape__00000003_.ControlFlow = __ControlFlow__00000003_
+	__ControlFlowShape__00000004_.ControlFlow = __ControlFlow__00000004_
 	__DiagramProcess__00000005_.Process_Shapes = append(__DiagramProcess__00000005_.Process_Shapes, __ProcessShape__00000005_)
 	__DiagramProcess__00000005_.Participant_Shapes = append(__DiagramProcess__00000005_.Participant_Shapes, __ParticipantShape__00000009_)
 	__DiagramProcess__00000005_.Participant_Shapes = append(__DiagramProcess__00000005_.Participant_Shapes, __ParticipantShape__00000006_)
@@ -253,16 +315,22 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000005_.TaskShapes = append(__DiagramProcess__00000005_.TaskShapes, __TaskShape__00000007_)
 	__DiagramProcess__00000005_.TaskShapes = append(__DiagramProcess__00000005_.TaskShapes, __TaskShape__00000008_)
 	__DiagramProcess__00000005_.TaskShapes = append(__DiagramProcess__00000005_.TaskShapes, __TaskShape__00000009_)
+	__DiagramProcess__00000005_.TaskShapes = append(__DiagramProcess__00000005_.TaskShapes, __TaskShape__00000010_)
+	__DiagramProcess__00000005_.TaskShapes = append(__DiagramProcess__00000005_.TaskShapes, __TaskShape__00000011_)
 	__DiagramProcess__00000005_.ControlFlowShapes = append(__DiagramProcess__00000005_.ControlFlowShapes, __ControlFlowShape__00000001_)
 	__DiagramProcess__00000005_.ControlFlowShapes = append(__DiagramProcess__00000005_.ControlFlowShapes, __ControlFlowShape__00000002_)
+	__DiagramProcess__00000005_.ControlFlowShapes = append(__DiagramProcess__00000005_.ControlFlowShapes, __ControlFlowShape__00000003_)
+	__DiagramProcess__00000005_.ControlFlowShapes = append(__DiagramProcess__00000005_.ControlFlowShapes, __ControlFlowShape__00000004_)
 	__Library__00000000_.RootProcesses = append(__Library__00000000_.RootProcesses, __Process__00000005_)
 	__Library__00000000_.ProcesssWhoseNodeIsExpanded = append(__Library__00000000_.ProcesssWhoseNodeIsExpanded, __Process__00000005_)
 	__Participant__00000003_.Tasks = append(__Participant__00000003_.Tasks, __Task__00000002_)
 	__Participant__00000003_.Tasks = append(__Participant__00000003_.Tasks, __Task__00000004_)
 	__Participant__00000003_.Tasks = append(__Participant__00000003_.Tasks, __Task__00000005_)
 	__Participant__00000003_.Tasks = append(__Participant__00000003_.Tasks, __Task__00000006_)
+	__Participant__00000003_.Tasks = append(__Participant__00000003_.Tasks, __Task__00000008_)
 	__Participant__00000004_.Tasks = append(__Participant__00000004_.Tasks, __Task__00000003_)
 	__Participant__00000004_.Tasks = append(__Participant__00000004_.Tasks, __Task__00000007_)
+	__Participant__00000004_.Tasks = append(__Participant__00000004_.Tasks, __Task__00000009_)
 	__ParticipantShape__00000006_.Participant = __Participant__00000004_
 	__ParticipantShape__00000007_.Participant = __Participant__00000005_
 	__ParticipantShape__00000009_.Participant = __Participant__00000003_
@@ -279,4 +347,6 @@ func _(stage *models.Stage) {
 	__TaskShape__00000007_.Task = __Task__00000005_
 	__TaskShape__00000008_.Task = __Task__00000006_
 	__TaskShape__00000009_.Task = __Task__00000007_
+	__TaskShape__00000010_.Task = __Task__00000008_
+	__TaskShape__00000011_.Task = __Task__00000009_
 }
