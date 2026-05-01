@@ -117,3 +117,83 @@ func onUpdateElementInDiagram[
 		stager.stage.Commit()
 	}
 }
+
+// onUpdateElementInDiagramWithoutLink handles the update event for an element in the diagram without a link
+func onUpdateElementInDiagramWithoutLink[
+	AT interface {
+		*AT_
+		AbstractType
+	},
+	AT_ Gongstruct,
+	ParentAT interface {
+		*ParentAT_
+		AbstractType
+	},
+	ParentAT_ Gongstruct,
+	CT interface {
+		*CT_
+		RectShapeInterface
+		ConcreteType
+	},
+	CT_ Gongstruct](
+	stager *Stager,
+	diagram DiagramIF,
+	element AT,
+	parentElement ParentAT,
+	elementsWhoseNodeIsExpanded *[]AT,
+	shapes *[]CT,
+	shapesMap map[AT]CT,
+) func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+	return func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+		// find the shape (if any)
+		shape := shapesMap[element]
+
+		if frontNode.IsChecked && !stagedNode.IsChecked {
+			stagedNode.IsChecked = frontNode.IsChecked
+			if any(shape) != nil {
+				log.Panic("adding a shape to an already existing shape")
+			}
+			shape = newShapeToDiagram(element, diagram, shapes, stager.stage)
+
+			stager.stage.Commit()
+			return
+		}
+		if !frontNode.IsChecked && stagedNode.IsChecked {
+			stagedNode.IsChecked = frontNode.IsChecked
+			if any(shape) == nil {
+				log.Panic("remove a non existing shape to diagram")
+			}
+			shape.UnstageVoid(stager.stage)
+			idx := slices.Index(*shapes, shape)
+			*shapes = slices.Delete(*shapes, idx, idx+1)
+			stager.stage.Commit()
+			return
+		}
+
+		if frontNode.IsExpanded != stagedNode.IsExpanded {
+			stagedNode.IsExpanded = frontNode.IsExpanded
+			if frontNode.IsExpanded {
+				if slices.Index(*elementsWhoseNodeIsExpanded, element) == -1 {
+					*elementsWhoseNodeIsExpanded = append(*elementsWhoseNodeIsExpanded, element)
+				}
+			} else {
+				if idx := slices.Index(*elementsWhoseNodeIsExpanded, element); idx != -1 {
+					*elementsWhoseNodeIsExpanded = slices.Delete(*elementsWhoseNodeIsExpanded, idx, idx+1)
+				}
+			}
+			stager.stage.Commit()
+			return
+		}
+
+		if frontNode.Name != stagedNode.Name {
+			element.SetName(frontNode.Name)
+			element.SetIsInRenameMode(false)
+			stager.stage.Commit()
+			stager.probeForm.FillUpFormFromGongstruct(element, GetPointerToGongstructName[AT]())
+			return
+		}
+
+		stager.probeForm.FillUpFormFromGongstruct(element, GetPointerToGongstructName[AT]())
+		stager.stage.Commit()
+	}
+}
