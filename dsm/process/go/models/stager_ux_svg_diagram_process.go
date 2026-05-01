@@ -271,14 +271,13 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 			continue
 		}
 
-		svgAssociationLink(
+		link := svgAssociationLinkAsCT[AbstractType](
 			stager,
 			startRect, endRect,
 			controlFlowShape,
-			// when one clicks on the link, this is the form of the parent product
-			endTask,
 			layer,
 			false)
+		_ = link
 	}
 
 	for _, dataFlowShape := range diagramProcess.DataFlowShapes {
@@ -301,12 +300,10 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 			continue
 		}
 
-		link := svgAssociationLink(
+		link := svgAssociationLinkAsCT[AbstractType](
 			stager,
 			startRect, endRect,
 			dataFlowShape,
-			// when one clicks on the link, this is the form of the parent product
-			endTask,
 			layer,
 			false)
 
