@@ -70,11 +70,9 @@ type addItemButtonConfiguration[
 	// so they can be accessed directly on this struct.
 	baseItemButtonConfiguration[AT, PAT, ParentAT, PParentAT]
 
-	isWithAdditionOfShape            bool
-	receivingDiagram                 DiagramIF
-	sliceForNewAddedShape            *[]PCT
-	isWithAdditionOfAssociationShape bool
-	sliceForNewCompositionShapes     *[]PACT
+	receivingDiagram             DiagramIF
+	sliceForNewAddedShape        *[]PCT
+	sliceForNewCompositionShapes *[]PACT
 }
 
 // ---------------------------------------------------------
@@ -216,27 +214,23 @@ func addAddButton[
 		newAbstractElement := processAbstractItemAddition(stager, conf.baseItemButtonConfiguration, callbacks)
 
 		// 2. Perform shape-specific logic
-		if conf.isWithAdditionOfShape {
-			if conf.receivingDiagram != nil && conf.sliceForNewAddedShape != nil {
-				newShape := newShapeToDiagram(newAbstractElement, conf.receivingDiagram, conf.sliceForNewAddedShape, stager.stage)
+		if conf.receivingDiagram != nil && conf.sliceForNewAddedShape != nil {
+			newShape := newShapeToDiagram(newAbstractElement, conf.receivingDiagram, conf.sliceForNewAddedShape, stager.stage)
 
-				var parentShape PCT
-				if conf.parentElement != nil {
-					for _, parentShape_ := range *conf.sliceForNewAddedShape {
-						if parentShape_.GetAbstractElement() == conf.parentElement {
-							parentShape = parentShape_
-							break
-						}
+			var parentShape PCT
+			if conf.parentElement != nil {
+				for _, parentShape_ := range *conf.sliceForNewAddedShape {
+					if parentShape_.GetAbstractElement() == conf.parentElement {
+						parentShape = parentShape_
+						break
 					}
 				}
-				if conf.isWithAdditionOfAssociationShape {
-					if parentShape != nil && conf.parentElement != nil && conf.sliceForNewCompositionShapes != nil {
-						addAssociationShapeToDiagram(stager, conf.parentElement, newAbstractElement, conf.sliceForNewCompositionShapes)
+			}
+			if parentShape != nil && conf.parentElement != nil && conf.sliceForNewCompositionShapes != nil {
+				addAssociationShapeToDiagram(stager, conf.parentElement, newAbstractElement, conf.sliceForNewCompositionShapes)
 
-						newShape.SetX(parentShape.GetX() + float64(len(*conf.sliceForNewAddedItem)-1)*parentShape.GetWidth()*1.2)
-						newShape.SetY(parentShape.GetY() + parentShape.GetHeight()*2.0)
-					}
-				}
+				newShape.SetX(parentShape.GetX() + float64(len(*conf.sliceForNewAddedItem)-1)*parentShape.GetWidth()*1.2)
+				newShape.SetY(parentShape.GetY() + parentShape.GetHeight()*2.0)
 			}
 		}
 
