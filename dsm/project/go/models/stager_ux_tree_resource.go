@@ -8,18 +8,34 @@ import (
 )
 
 func (stager *Stager) treeResourceinDiagram(diagram *Diagram, resource *Resource, parentNode *tree.Node) {
-	resourceNode := addNodeToTree(
-		stager,
-		diagram,
-		parentNode,
-		resource,
-		resource.parentResource,
-		&diagram.ResourcesWhoseNodeIsExpanded,
-		&diagram.Resource_Shapes,
-		diagram.map_Resource_ResourceShape,
-		diagram.map_Resource_ResourceCompositionShape,
-		&diagram.ResourceComposition_Shapes,
-	)
+	resourceNodeConf := TreeNodeShapeAndLinkConfiguration[
+		*Resource, Resource,
+		*ResourceShape, ResourceShape,
+		*ResourceCompositionShape, ResourceCompositionShape,
+		*Diagram,
+	]{
+		TreeNodeAndShapeConfiguration: TreeNodeAndShapeConfiguration[
+			*Resource, Resource,
+			*ResourceShape, ResourceShape,
+			*Diagram,
+		]{
+			TreeNodeConfiguration: TreeNodeConfiguration[
+				*Resource, Resource,
+				*Diagram,
+			]{
+				diagram:                     diagram,
+				parentNode:                  parentNode,
+				element:                     resource,
+				parentElement:               resource.parentResource,
+				elementsWhoseNodeIsExpanded: &diagram.ResourcesWhoseNodeIsExpanded,
+			},
+			shapes:    &diagram.Resource_Shapes,
+			shapesMap: diagram.map_Resource_ResourceShape,
+		},
+		map_Element_CompositionShape: diagram.map_Resource_ResourceCompositionShape,
+		compositionShapes:            &diagram.ResourceComposition_Shapes,
+	}
+	resourceNode := addNodeToTreeWithConf(stager, resourceNodeConf)
 
 	conf := ItemShapeAndLinkButtonConfiguration[
 		Resource, *Resource, // AT, PAT (Added Element)
