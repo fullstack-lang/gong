@@ -209,3 +209,127 @@ func addNodeToTree[
 
 	return node
 }
+
+// ---------------------------------------------------------
+// 1. BASE CONFIGURATION (Abstract elements only)
+// ---------------------------------------------------------
+
+type TreeNodeConfiguration[
+	AT interface {
+		*AT_
+		AbstractType
+	},
+	AT_ Gongstruct,
+	DiagramType interface {
+		DiagramIF
+		AbstractType
+		comparable
+	},
+] struct {
+	diagram                     DiagramType
+	parentNode                  *tree.Node
+	element                     AT
+	parentElement               AT
+	elementsWhoseNodeIsExpanded *[]AT
+}
+
+// ---------------------------------------------------------
+// 2. MIDDLE CONFIGURATION (Abstract + Shape)
+// ---------------------------------------------------------
+
+type TreeNodeAndShapeConfiguration[
+	AT interface {
+		*AT_
+		AbstractType
+	},
+	AT_ Gongstruct,
+	CT interface {
+		*CT_
+		RectShapeInterface
+		ConcreteType
+	},
+	CT_ Gongstruct,
+	DiagramType interface {
+		DiagramIF
+		AbstractType
+		comparable
+	},
+] struct {
+	TreeNodeConfiguration[AT, AT_, DiagramType]
+	shapes    *[]CT
+	shapesMap map[AT]CT
+}
+
+// ---------------------------------------------------------
+// 3. COMPLEX CONFIGURATION (Abstract + Shape + Link)
+// ---------------------------------------------------------
+
+type TreeNodeShapeAndLinkConfiguration[
+	AT interface {
+		*AT_
+		AbstractType
+	},
+	AT_ Gongstruct,
+	CT interface {
+		*CT_
+		RectShapeInterface
+		ConcreteType
+	},
+	CT_ Gongstruct,
+	ACT interface {
+		*ACT_
+		LinkShapeInterface
+		AssociationConcreteType
+	},
+	ACT_ Gongstruct,
+	DiagramType interface {
+		DiagramIF
+		AbstractType
+		comparable
+	},
+] struct {
+	TreeNodeAndShapeConfiguration[AT, AT_, CT, CT_, DiagramType]
+	map_Element_CompositionShape map[AT]ACT
+	compositionShapes            *[]ACT
+}
+
+// addNodeToTreeWithConf is a wrapper around addNodeToTree that uses the TreeNodeShapeAndLinkConfiguration
+func addNodeToTreeWithConf[
+	AT interface {
+		*AT_
+		AbstractType
+	},
+	AT_ Gongstruct,
+	CT interface {
+		*CT_
+		RectShapeInterface
+		ConcreteType
+	},
+	CT_ Gongstruct,
+	ACT interface {
+		*ACT_
+		LinkShapeInterface
+		AssociationConcreteType
+	},
+	ACT_ Gongstruct,
+	DiagramType interface {
+		DiagramIF
+		AbstractType
+		comparable
+	}](
+	stager *Stager,
+	conf TreeNodeShapeAndLinkConfiguration[AT, AT_, CT, CT_, ACT, ACT_, DiagramType],
+) *tree.Node {
+	return addNodeToTree(
+		stager,
+		conf.diagram,
+		conf.parentNode,
+		conf.element,
+		conf.parentElement,
+		conf.elementsWhoseNodeIsExpanded,
+		conf.shapes,
+		conf.shapesMap,
+		conf.map_Element_CompositionShape,
+		conf.compositionShapes,
+	)
+}
