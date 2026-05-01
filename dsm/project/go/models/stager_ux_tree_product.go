@@ -4,7 +4,7 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
-func (stager *Stager) treePBSRecusriveInDiagram(diagram *Diagram, product *Product, parentNode *tree.Node) {
+func (stager *Stager) treeProduct(diagram *Diagram, product *Product, parentNode *tree.Node) {
 	productNode := addNodeToTree(
 		stager,
 		diagram,
@@ -49,6 +49,6 @@ func (stager *Stager) treePBSRecusriveInDiagram(diagram *Diagram, product *Produ
 	addCreateItemShapeAndLinkButton(stager, conf)
 
 	for _, product := range product.SubProducts {
-		stager.treePBSRecusriveInDiagram(diagram, product, productNode)
+		stager.treeProduct(diagram, product, productNode)
 	}
 }

@@ -7,6 +7,19 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
+// This file contains the implementation of the "add item" button for tree nodes.
+// The main function is addAddItemButton, which is a highly generic function that can be used
+// to add any type of item (e.g. Product, Task, Note) to any type of parent item (e.g. Product, Task, Participant).
+// It also supports the automatic creation of the corresponding shape on the diagram and an association link to the parent shape.
+//
+// The implementation relies heavily on Go's generics to achieve maximum reusability and type safety.
+// The configuration structs (ItemButtonConfiguration, ItemAndShapeButtonConfiguration, ItemShapeAndLinkButtonConfiguration)
+// allow for flexible customization of the button's behavior and the associated diagram updates.
+//
+// implement is currently quite verbose but go langauages changes will significantly reduce this verbosity:
+// https://github.com/golang/go/issues/61731, proposal, spec: support type inference on generic structs
+// https://github.com/golang/go/issues/9859 , spec: direct reference to embedded fields in struct literals (in go 1.27)
+// https://github.com/golang/go/issues/12854, spec: type inferred composite literals
 type itemAdderCallback[PT AbstractType] struct {
 	createdItem    PT
 	OnBeforeCommit func()
