@@ -95,6 +95,7 @@ func (diagramprocess *DiagramProcess) GongClean(stage *Stage) (modified bool) {
 func (library *Library) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = GongCleanSlice(stage, &library.SubLibraries) || modified
+	modified = GongCleanSlice(stage, &library.SubLibrariesWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &library.RootProcesses) || modified
 	modified = GongCleanSlice(stage, &library.ProcesssWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &library.RootDataFlows) || modified

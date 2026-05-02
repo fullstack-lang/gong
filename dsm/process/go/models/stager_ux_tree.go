@@ -16,7 +16,7 @@ func (stager *Stager) tree() {
 		treeInstance.RootNodes = append(treeInstance.RootNodes, gni.(*tree.Node))
 	})
 
-	stager.treeLibrary(treeInstance, rootLibrary, &treeInstance.RootNodes)
+	stager.treeLibrary(rootLibrary, &treeInstance.RootNodes)
 
 	tree.StageBranch(stager.treeStage, treeInstance)
 

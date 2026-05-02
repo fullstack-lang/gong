@@ -368,6 +368,9 @@ func (stage *Stage) StageBranchLibrary(library *Library) {
 	for _, _library := range library.SubLibraries {
 		StageBranch(stage, _library)
 	}
+	for _, _library := range library.SubLibrariesWhoseNodeIsExpanded {
+		StageBranch(stage, _library)
+	}
 	for _, _process := range library.RootProcesses {
 		StageBranch(stage, _process)
 	}
@@ -739,6 +742,9 @@ func CopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo
 	for _, _library := range libraryFrom.SubLibraries {
 		libraryTo.SubLibraries = append(libraryTo.SubLibraries, CopyBranchLibrary(mapOrigCopy, _library))
 	}
+	for _, _library := range libraryFrom.SubLibrariesWhoseNodeIsExpanded {
+		libraryTo.SubLibrariesWhoseNodeIsExpanded = append(libraryTo.SubLibrariesWhoseNodeIsExpanded, CopyBranchLibrary(mapOrigCopy, _library))
+	}
 	for _, _process := range libraryFrom.RootProcesses {
 		libraryTo.RootProcesses = append(libraryTo.RootProcesses, CopyBranchProcess(mapOrigCopy, _process))
 	}
@@ -1096,6 +1102,9 @@ func (stage *Stage) UnstageBranchLibrary(library *Library) {
 	for _, _library := range library.SubLibraries {
 		UnstageBranch(stage, _library)
 	}
+	for _, _library := range library.SubLibrariesWhoseNodeIsExpanded {
+		UnstageBranch(stage, _library)
+	}
 	for _, _process := range library.RootProcesses {
 		UnstageBranch(stage, _process)
 	}
@@ -1340,6 +1349,10 @@ func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, in
 	reference.SubLibraries = reference.SubLibraries[:0]
 	for _, _b := range instance.SubLibraries {
 		reference.SubLibraries = append(reference.SubLibraries, stage.Librarys_reference[_b])
+	}
+	reference.SubLibrariesWhoseNodeIsExpanded = reference.SubLibrariesWhoseNodeIsExpanded[:0]
+	for _, _b := range instance.SubLibrariesWhoseNodeIsExpanded {
+		reference.SubLibrariesWhoseNodeIsExpanded = append(reference.SubLibrariesWhoseNodeIsExpanded, stage.Librarys_reference[_b])
 	}
 	reference.RootProcesses = reference.RootProcesses[:0]
 	for _, _b := range instance.RootProcesses {
@@ -1604,6 +1617,13 @@ func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) () 
 		}
 	}
 	reference.SubLibraries = _SubLibraries
+	var _SubLibrariesWhoseNodeIsExpanded []*Library
+	for _, _reference := range reference.SubLibrariesWhoseNodeIsExpanded {
+		if _instance, ok := stage.Librarys_instance[_reference]; ok {
+			_SubLibrariesWhoseNodeIsExpanded = append(_SubLibrariesWhoseNodeIsExpanded, _instance)
+		}
+	}
+	reference.SubLibrariesWhoseNodeIsExpanded = _SubLibrariesWhoseNodeIsExpanded
 	var _RootProcesses []*Process
 	for _, _reference := range reference.RootProcesses {
 		if _instance, ok := stage.Processs_instance[_reference]; ok {
@@ -2177,6 +2197,30 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		ops := Diff(stage, library, libraryOther, "SubLibraries", libraryOther.SubLibraries, library.SubLibraries)
 		diffs = append(diffs, ops)
 	}
+	if library.IsSubLibrariesNodeExpanded != libraryOther.IsSubLibrariesNodeExpanded {
+		diffs = append(diffs, library.GongMarshallField(stage, "IsSubLibrariesNodeExpanded"))
+	}
+	SubLibrariesWhoseNodeIsExpandedDifferent := false
+	if len(library.SubLibrariesWhoseNodeIsExpanded) != len(libraryOther.SubLibrariesWhoseNodeIsExpanded) {
+		SubLibrariesWhoseNodeIsExpandedDifferent = true
+	} else {
+		for i := range library.SubLibrariesWhoseNodeIsExpanded {
+			if (library.SubLibrariesWhoseNodeIsExpanded[i] == nil) != (libraryOther.SubLibrariesWhoseNodeIsExpanded[i] == nil) {
+				SubLibrariesWhoseNodeIsExpandedDifferent = true
+				break
+			} else if library.SubLibrariesWhoseNodeIsExpanded[i] != nil && libraryOther.SubLibrariesWhoseNodeIsExpanded[i] != nil {
+				// this is a pointer comparaison
+				if library.SubLibrariesWhoseNodeIsExpanded[i] != libraryOther.SubLibrariesWhoseNodeIsExpanded[i] {
+					SubLibrariesWhoseNodeIsExpandedDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if SubLibrariesWhoseNodeIsExpandedDifferent {
+		ops := Diff(stage, library, libraryOther, "SubLibrariesWhoseNodeIsExpanded", libraryOther.SubLibrariesWhoseNodeIsExpanded, library.SubLibrariesWhoseNodeIsExpanded)
+		diffs = append(diffs, ops)
+	}
 	if library.NbPixPerCharacter != libraryOther.NbPixPerCharacter {
 		diffs = append(diffs, library.GongMarshallField(stage, "NbPixPerCharacter"))
 	}
@@ -2203,6 +2247,9 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 	if RootProcessesDifferent {
 		ops := Diff(stage, library, libraryOther, "RootProcesses", libraryOther.RootProcesses, library.RootProcesses)
 		diffs = append(diffs, ops)
+	}
+	if library.IsProcessesNodeExpanded != libraryOther.IsProcessesNodeExpanded {
+		diffs = append(diffs, library.GongMarshallField(stage, "IsProcessesNodeExpanded"))
 	}
 	ProcesssWhoseNodeIsExpandedDifferent := false
 	if len(library.ProcesssWhoseNodeIsExpanded) != len(libraryOther.ProcesssWhoseNodeIsExpanded) {
@@ -2245,6 +2292,9 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 	if RootDataFlowsDifferent {
 		ops := Diff(stage, library, libraryOther, "RootDataFlows", libraryOther.RootDataFlows, library.RootDataFlows)
 		diffs = append(diffs, ops)
+	}
+	if library.IsDataFlowsNodeExpanded != libraryOther.IsDataFlowsNodeExpanded {
+		diffs = append(diffs, library.GongMarshallField(stage, "IsDataFlowsNodeExpanded"))
 	}
 	DataFlowsWhoseNodeIsExpandedDifferent := false
 	if len(library.DataFlowsWhoseNodeIsExpanded) != len(libraryOther.DataFlowsWhoseNodeIsExpanded) {
