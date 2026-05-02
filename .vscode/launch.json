@@ -419,7 +419,7 @@
             ]
         },
         {
-            "name": "doc: go run doc -embeddedDiagrams=true",
+            "name": "doc: go run -embeddedDiagrams=true",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -498,7 +498,7 @@
             ]
         },
         {
-            "name": "split: go run split issue564",
+            "name": "split: go run issue564",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -555,7 +555,7 @@
             ]
         },
         {
-            "name": "svg: go run svg -unmarshallFromCode=rectangle.go -marshallOnCommit=rectangle_out",
+            "name": "svg: go run -unmarshallFromCode=rectangle.go -marshallOnCommit=rectangle_out",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -566,7 +566,7 @@
             ]
         },
         {
-            "name": "svg: go run svg -unmarshallFromCode=rectangle.go -marshallOnCommit=rectangle.go",
+            "name": "svg: go run -unmarshallFromCode=rectangle.go -marshallOnCommit=rectangle.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -577,7 +577,7 @@
             ]
         },
         {
-            "name": "svg: go run svg -unmarshallFromCode=simple.go -marshallOnCommit=simple.go",
+            "name": "svg: go run -unmarshallFromCode=simple.go -marshallOnCommit=simple.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -588,7 +588,7 @@
             ]
         },
         {
-            "name": "svg: go run svg -unmarshallFromCode=bezier.go -marshallOnCommit=bezier.go",
+            "name": "svg: go run -unmarshallFromCode=bezier.go -marshallOnCommit=bezier.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -599,7 +599,7 @@
             ]
         },
         {
-            "name": "svg: go run svg -unmarshallFromCode=path.go -marshallOnCommit=path.go",
+            "name": "svg: go run -unmarshallFromCode=path.go -marshallOnCommit=path.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -610,7 +610,7 @@
             ]
         },
         {
-            "name": "svg: go run svg -unmarshallFromCode=issue1216.go -marshallOnCommit=issue1216.go",
+            "name": "svg: go run -unmarshallFromCode=issue1216.go -marshallOnCommit=issue1216.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -621,7 +621,7 @@
             ]
         },
         {
-            "name": "svg: go run svg -unmarshallFromCode=simple.go -marshallOnCommit=simple.go -port 8090",
+            "name": "svg: go run -unmarshallFromCode=simple.go -marshallOnCommit=simple.go -port 8090",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -675,7 +675,7 @@
             ]
         },
         {
-            "name": "test: go run test -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage_out",
+            "name": "test: go run -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage_out",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -686,7 +686,7 @@
             ]
         },
         {
-            "name": "test: go run test -unmarshallFromCode=data/stage.go -marshallOnCommit=stage -logFile=app.log",
+            "name": "test: go run -unmarshallFromCode=data/stage.go -marshallOnCommit=stage -logFile=app.log",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -714,7 +714,7 @@
             ]
         },
         {
-            "name": "test: go run test -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage",
+            "name": "test: go run -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -725,7 +725,7 @@
             ]
         },
         {
-            "name": "test: go run test -port=8082 -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage_out ",
+            "name": "test: go run -port=8082 -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage_out ",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -737,7 +737,7 @@
             ]
         },
         {
-            "name": "test: go run test -marshallOnCommit=stage",
+            "name": "test: go run -marshallOnCommit=stage",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -747,7 +747,7 @@
             ]
         },
         {
-            "name": "test: go run test debug TestStageCount",
+            "name": "test: go run debug TestStageCount",
             "type": "go",
             "request": "launch",
             "mode": "test",
@@ -758,7 +758,7 @@
             ]
         },
         {
-            "name": "test2: go run test2 -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage_out",
+            "name": "test2: go run -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage_out",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -769,7 +769,7 @@
             ]
         },
         {
-            "name": "test2: go run test2 -unmarshallFromCode=data/stage2.go -marshallOnCommit=stage2",
+            "name": "test2: go run -unmarshallFromCode=data/stage2.go -marshallOnCommit=stage2",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -780,7 +780,7 @@
             ]
         },
         {
-            "name": "test2: go run test2 -unmarshallFromCode=data/stage2.go",
+            "name": "test2: go run -unmarshallFromCode=data/stage2.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -790,7 +790,7 @@
             ]
         },
         {
-            "name": "test2: go run test2 -testPackageHierarchy",
+            "name": "test2: go run -testPackageHierarchy",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -812,7 +812,7 @@
             ]
         },
         {
-            "name": "test3: go run test3 -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage.go",
+            "name": "test3: go run -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -823,7 +823,7 @@
             ]
         },
         {
-            "name": "test3: go run test3 -unmarshallFromCode=data/issue1061.go -marshallOnCommit=data/issue1061_out.go",
+            "name": "test3: go run -unmarshallFromCode=data/issue1061.go -marshallOnCommit=data/issue1061_out.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -834,7 +834,7 @@
             ]
         },
         {
-            "name": "test3: go run test3 -unmarshallFromCode=data/issue1128.go -marshallOnCommit=data/issue1128.go",
+            "name": "test3: go run -unmarshallFromCode=data/issue1128.go -marshallOnCommit=data/issue1128.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -845,7 +845,7 @@
             ]
         },
         {
-            "name": "test3: go run test3 -unmarshallFromCode=data/stage-large.go -marshallOnCommit=data/stage-large.go",
+            "name": "test3: go run -unmarshallFromCode=data/stage-large.go -marshallOnCommit=data/stage-large.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -890,7 +890,7 @@
             ]
         },
         {
-            "name": "barrgraph: go run barrgraph cubism and abstract art",
+            "name": "barrgraph: go run cubism and abstract art",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -901,7 +901,7 @@
             ]
         },
         {
-            "name": "barrgraph: go run barrgraph modern design",
+            "name": "barrgraph: go run modern design",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -914,7 +914,7 @@
             ]
         },
         {
-            "name": "barrgraph: go run barrgraph renaissance",
+            "name": "barrgraph: go run renaissance",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -927,7 +927,7 @@
             ]
         },
         {
-            "name": "barrgraph: go run barrgraph aviva stool",
+            "name": "barrgraph: go run aviva stool",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -961,7 +961,7 @@
             ]
         },
         {
-            "name": "process: go run process data/stage.go",
+            "name": "process: go run data/stage.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -984,7 +984,7 @@
             ]
         },
         {
-            "name": "project: go run project starlinereport",
+            "name": "project: go run starlinereport",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -995,7 +995,7 @@
             ]
         },
         {
-            "name": "project: go run project data/stage.go",
+            "name": "project: go run data/stage.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -1006,7 +1006,7 @@
             ]
         },
         {
-            "name": "project: go run project data/simple.go",
+            "name": "project: go run data/simple.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -1059,7 +1059,7 @@
             ]
         },
         {
-            "name": "statemachines: go run statemachines -unmarshallFromCode=data/uxloop.go -marshallOnCommit=data/uxloop.go",
+            "name": "statemachines: go run -unmarshallFromCode=data/uxloop.go -marshallOnCommit=data/uxloop.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -1070,7 +1070,7 @@
             ]
         },
         {
-            "name": "statemachines: go run statemachines -unmarshallFromCode=data/massive_probe_edit.go -marshallOnCommit=data/massive_probe_edit.go",
+            "name": "statemachines: go run -unmarshallFromCode=data/massive_probe_edit.go -marshallOnCommit=data/massive_probe_edit.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -1081,7 +1081,7 @@
             ]
         },
         {
-            "name": "statemachines: go run statemachines -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage.go",
+            "name": "statemachines: go run -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -1092,7 +1092,7 @@
             ]
         },
         {
-            "name": "xsd: go run xsd -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage.go",
+            "name": "xsd: go run -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",

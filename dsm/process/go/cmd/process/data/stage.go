@@ -108,7 +108,7 @@ func _(stage *models.Stage) {
 	__DataFlowShape__00000001_.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__DataFlowShape__00000001_.EndOrientation = models.ORIENTATION_VERTICAL
 	__DataFlowShape__00000001_.CornerOffsetRatio = 1.051558
-	__DataFlowShape__00000001_.IsHidden = true
+	__DataFlowShape__00000001_.IsHidden = false
 
 	__DataFlowShape__00000002_.Name = `PP2 T2 to T2`
 	__DataFlowShape__00000002_.StartRatio = 0.500000
@@ -144,8 +144,11 @@ func _(stage *models.Stage) {
 
 	__Library__00000000_.Name = `Root`
 	__Library__00000000_.ComputedPrefix = ``
+	__Library__00000000_.IsSubLibrariesNodeExpanded = false
 	__Library__00000000_.NbPixPerCharacter = 8.000000
 	__Library__00000000_.LogoSVGFile = ``
+	__Library__00000000_.IsProcessesNodeExpanded = true
+	__Library__00000000_.IsDataFlowsNodeExpanded = true
 	__Library__00000000_.IsExpandedTmp = true
 
 	__Participant__00000003_.Name = `PP1`
@@ -170,9 +173,9 @@ func _(stage *models.Stage) {
 
 	__ParticipantShape__00000006_.Name = `PP2-DiagramProcess`
 	__ParticipantShape__00000006_.IsExpanded = false
-	__ParticipantShape__00000006_.X = 461.000000
+	__ParticipantShape__00000006_.X = 553.666667
 	__ParticipantShape__00000006_.Y = 68.000000
-	__ParticipantShape__00000006_.Width = 375.000000
+	__ParticipantShape__00000006_.Width = 328.666667
 	__ParticipantShape__00000006_.Height = 940.000000
 	__ParticipantShape__00000006_.IsHidden = false
 
@@ -195,7 +198,7 @@ func _(stage *models.Stage) {
 	__Process__00000005_.Name = `P1`
 	__Process__00000005_.ComputedPrefix = ``
 	__Process__00000005_.IsSubProcessNodeExpanded = false
-	__Process__00000005_.IsDataFlowsNodeExpanded = false
+	__Process__00000005_.IsDataFlowsNodeExpanded = true
 
 	__Process__00000006_.Name = `P2`
 	__Process__00000006_.ComputedPrefix = ``
@@ -322,6 +325,7 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000006_.Process_Shapes = append(__DiagramProcess__00000006_.Process_Shapes, __ProcessShape__00000006_)
 	__Library__00000000_.RootProcesses = append(__Library__00000000_.RootProcesses, __Process__00000005_)
 	__Library__00000000_.RootProcesses = append(__Library__00000000_.RootProcesses, __Process__00000006_)
+	__Library__00000000_.ProcesssWhoseNodeIsExpanded = append(__Library__00000000_.ProcesssWhoseNodeIsExpanded, __Process__00000005_)
 	__Library__00000000_.RootDataFlows = append(__Library__00000000_.RootDataFlows, __DataFlow__00000000_)
 	__Library__00000000_.RootDataFlows = append(__Library__00000000_.RootDataFlows, __DataFlow__00000001_)
 	__Participant__00000003_.Tasks = append(__Participant__00000003_.Tasks, __Task__00000002_)

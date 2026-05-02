@@ -691,16 +691,24 @@ func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "SubLibraries":
 		GongUnmarshallSliceOfPointers(&instance.SubLibraries, valueExpr, identifierMap)
+	case "IsSubLibrariesNodeExpanded":
+		instance.IsSubLibrariesNodeExpanded = GongExtractBool(valueExpr)
+	case "SubLibrariesWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.SubLibrariesWhoseNodeIsExpanded, valueExpr, identifierMap)
 	case "NbPixPerCharacter":
 		instance.NbPixPerCharacter = GongExtractFloat(valueExpr)
 	case "LogoSVGFile":
 		instance.LogoSVGFile = GongExtractString(valueExpr)
 	case "RootProcesses":
 		GongUnmarshallSliceOfPointers(&instance.RootProcesses, valueExpr, identifierMap)
+	case "IsProcessesNodeExpanded":
+		instance.IsProcessesNodeExpanded = GongExtractBool(valueExpr)
 	case "ProcesssWhoseNodeIsExpanded":
 		GongUnmarshallSliceOfPointers(&instance.ProcesssWhoseNodeIsExpanded, valueExpr, identifierMap)
 	case "RootDataFlows":
 		GongUnmarshallSliceOfPointers(&instance.RootDataFlows, valueExpr, identifierMap)
+	case "IsDataFlowsNodeExpanded":
+		instance.IsDataFlowsNodeExpanded = GongExtractBool(valueExpr)
 	case "DataFlowsWhoseNodeIsExpanded":
 		GongUnmarshallSliceOfPointers(&instance.DataFlowsWhoseNodeIsExpanded, valueExpr, identifierMap)
 	case "IsExpandedTmp":

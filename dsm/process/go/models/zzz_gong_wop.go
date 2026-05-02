@@ -143,9 +143,15 @@ type Library_WOP struct {
 
 	ComputedPrefix string
 
+	IsSubLibrariesNodeExpanded bool
+
 	NbPixPerCharacter float64
 
 	LogoSVGFile string
+
+	IsProcessesNodeExpanded bool
+
+	IsDataFlowsNodeExpanded bool
 
 	IsExpandedTmp bool
 }
@@ -154,8 +160,11 @@ func (from *Library) CopyBasicFields(to *Library) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
+	to.IsSubLibrariesNodeExpanded = from.IsSubLibrariesNodeExpanded
 	to.NbPixPerCharacter = from.NbPixPerCharacter
 	to.LogoSVGFile = from.LogoSVGFile
+	to.IsProcessesNodeExpanded = from.IsProcessesNodeExpanded
+	to.IsDataFlowsNodeExpanded = from.IsDataFlowsNodeExpanded
 	to.IsExpandedTmp = from.IsExpandedTmp
 }
 

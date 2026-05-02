@@ -8,7 +8,9 @@ type Library struct {
 
 	objects []AbstractType
 
-	SubLibraries []*Library
+	SubLibraries                    []*Library
+	IsSubLibrariesNodeExpanded      bool
+	SubLibrariesWhoseNodeIsExpanded []*Library
 
 	NbPixPerCharacter float64 // stored at the root Library only
 
@@ -17,9 +19,11 @@ type Library struct {
 
 	// DSM specific fields
 	RootProcesses               []*Process
+	IsProcessesNodeExpanded     bool
 	ProcesssWhoseNodeIsExpanded []*Process
 
 	RootDataFlows                []*DataFlow
+	IsDataFlowsNodeExpanded      bool
 	DataFlowsWhoseNodeIsExpanded []*DataFlow
 
 	// temporary persistance of the library expand status.

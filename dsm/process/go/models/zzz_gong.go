@@ -233,6 +233,8 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	Library_SubLibraries_reverseMap map[*Library]*Library
 
+	Library_SubLibrariesWhoseNodeIsExpanded_reverseMap map[*Library]*Library
+
 	Library_RootProcesses_reverseMap map[*Process]*Library
 
 	Library_ProcesssWhoseNodeIsExpanded_reverseMap map[*Process]*Library
@@ -3129,6 +3131,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of Library with the name of the field
 			SubLibraries: []*Library{{Name: "SubLibraries"}},
+			// field is initialized with an instance of Library with the name of the field
+			SubLibrariesWhoseNodeIsExpanded: []*Library{{Name: "SubLibrariesWhoseNodeIsExpanded"}},
 			// field is initialized with an instance of Process with the name of the field
 			RootProcesses: []*Process{{Name: "RootProcesses"}},
 			// field is initialized with an instance of Process with the name of the field
@@ -3550,6 +3554,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "SubLibrariesWhoseNodeIsExpanded":
+			res := make(map[*Library][]*Library)
+			for library := range stage.Librarys {
+				for _, library_ := range library.SubLibrariesWhoseNodeIsExpanded {
+					res[library_] = append(res[library_], library)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "RootProcesses":
 			res := make(map[*Process][]*Library)
 			for library := range stage.Librarys {
@@ -3795,6 +3807,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		_ = rf
 		rf.GongstructName = "Library"
 		rf.Fieldname = "SubLibraries"
+		res = append(res, rf)
+		rf.GongstructName = "Library"
+		rf.Fieldname = "SubLibrariesWhoseNodeIsExpanded"
 		res = append(res, rf)
 	case *Participant:
 		var rf ReverseField
@@ -4113,6 +4128,15 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Library",
 		},
 		{
+			Name:               "IsSubLibrariesNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "SubLibrariesWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Library",
+		},
+		{
 			Name:               "NbPixPerCharacter",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
@@ -4126,6 +4150,10 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Process",
 		},
 		{
+			Name:               "IsProcessesNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:                 "ProcesssWhoseNodeIsExpanded",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Process",
@@ -4134,6 +4162,10 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "RootDataFlows",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "DataFlow",
+		},
+		{
+			Name:               "IsDataFlowsNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:                 "DataFlowsWhoseNodeIsExpanded",
@@ -4726,6 +4758,20 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "IsSubLibrariesNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", library.IsSubLibrariesNodeExpanded)
+		res.valueBool = library.IsSubLibrariesNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "SubLibrariesWhoseNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range library.SubLibrariesWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	case "NbPixPerCharacter":
 		res.valueString = fmt.Sprintf("%f", library.NbPixPerCharacter)
 		res.valueFloat = library.NbPixPerCharacter
@@ -4742,6 +4788,10 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "IsProcessesNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", library.IsProcessesNodeExpanded)
+		res.valueBool = library.IsProcessesNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "ProcesssWhoseNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range library.ProcesssWhoseNodeIsExpanded {
@@ -4762,6 +4812,10 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "IsDataFlowsNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", library.IsDataFlowsNodeExpanded)
+		res.valueBool = library.IsDataFlowsNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "DataFlowsWhoseNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range library.DataFlowsWhoseNodeIsExpanded {
@@ -5390,6 +5444,22 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 				}
 			}
 		}
+	case "IsSubLibrariesNodeExpanded":
+		library.IsSubLibrariesNodeExpanded = value.GetValueBool()
+	case "SubLibrariesWhoseNodeIsExpanded":
+		library.SubLibrariesWhoseNodeIsExpanded = make([]*Library, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Librarys {
+					if stage.Library_stagedOrder[__instance__] == uint(id) {
+						library.SubLibrariesWhoseNodeIsExpanded = append(library.SubLibrariesWhoseNodeIsExpanded, __instance__)
+						break
+					}
+				}
+			}
+		}
 	case "NbPixPerCharacter":
 		library.NbPixPerCharacter = value.GetValueFloat()
 	case "LogoSVGFile":
@@ -5408,6 +5478,8 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 				}
 			}
 		}
+	case "IsProcessesNodeExpanded":
+		library.IsProcessesNodeExpanded = value.GetValueBool()
 	case "ProcesssWhoseNodeIsExpanded":
 		library.ProcesssWhoseNodeIsExpanded = make([]*Process, 0)
 		ids := strings.Split(value.ids, ";")
@@ -5436,6 +5508,8 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 				}
 			}
 		}
+	case "IsDataFlowsNodeExpanded":
+		library.IsDataFlowsNodeExpanded = value.GetValueBool()
 	case "DataFlowsWhoseNodeIsExpanded":
 		library.DataFlowsWhoseNodeIsExpanded = make([]*DataFlow, 0)
 		ids := strings.Split(value.ids, ";")
