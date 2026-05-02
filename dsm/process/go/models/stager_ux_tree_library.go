@@ -4,7 +4,7 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
-func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, parentNodes *[]*tree.Node) {
+func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 	libraryNode := &tree.Node{
 		Name:            library.Name,
 		IsExpanded:      library.IsExpandedTmp,
@@ -48,13 +48,67 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 	//
 	// Processes
 	//
+	processesNode := &tree.Node{
+		Name:            "Processes",
+		FontStyle:       tree.ITALIC,
+		IsExpanded:      library.IsProcessesNodeExpanded,
+		IsNodeClickable: true,
+	}
+	libraryNode.Children = append(libraryNode.Children, processesNode)
+	processesNode.OnClick = func(frontNode *tree.Node) {
+		if frontNode.IsExpanded != library.IsProcessesNodeExpanded {
+			library.IsProcessesNodeExpanded = frontNode.IsExpanded
+			stager.stage.Commit()
+			return
+		}
+	}
 
 	for _, process := range library.RootProcesses {
-		stager.treeProcesses(process, libraryNode, &library.ProcesssWhoseNodeIsExpanded)
+		stager.treeProcesses(process, processesNode, &library.ProcesssWhoseNodeIsExpanded)
+	}
+
+	//
+	// SubLibraries
+	//
+	subLibrariesNode := &tree.Node{
+		Name:            "Sub Libraries",
+		FontStyle:       tree.ITALIC,
+		IsExpanded:      library.IsSubLibrariesNodeExpanded,
+		IsNodeClickable: true,
+	}
+	libraryNode.Children = append(libraryNode.Children, subLibrariesNode)
+	subLibrariesNode.OnClick = func(frontNode *tree.Node) {
+		if frontNode.IsExpanded != library.IsSubLibrariesNodeExpanded {
+			library.IsSubLibrariesNodeExpanded = frontNode.IsExpanded
+			stager.stage.Commit()
+			return
+		}
 	}
 
 	for _, subLibrary := range library.SubLibraries {
-		stager.treeLibrary(treeInstance, subLibrary, &libraryNode.Children)
+		stager.treeLibrary(subLibrary, &subLibrariesNode.Children)
+	}
+
+	//
+	// Data Flows
+	//
+	dataFlowNodes := &tree.Node{
+		Name:            "Data Flows",
+		FontStyle:       tree.ITALIC,
+		IsExpanded:      library.IsDataFlowsNodeExpanded,
+		IsNodeClickable: true,
+	}
+	libraryNode.Children = append(libraryNode.Children, dataFlowNodes)
+	dataFlowNodes.OnClick = func(frontNode *tree.Node) {
+		if frontNode.IsExpanded != library.IsDataFlowsNodeExpanded {
+			library.IsDataFlowsNodeExpanded = frontNode.IsExpanded
+			stager.stage.Commit()
+			return
+		}
+	}
+
+	for _, dataFlow := range library.RootDataFlows {
+		stager.treeDataFlows(library, dataFlow, dataFlowNodes)
 	}
 }
 
