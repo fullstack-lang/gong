@@ -128,7 +128,7 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000005_.Width = 1521.000000
 	__DiagramProcess__00000005_.Height = 1318.000000
 	__DiagramProcess__00000005_.IsProcesssNodeExpanded = false
-	__DiagramProcess__00000005_.IsParticipantsNodeExpanded = false
+	__DiagramProcess__00000005_.IsParticipantsNodeExpanded = true
 
 	__DiagramProcess__00000006_.Name = `DiagramProcess`
 	__DiagramProcess__00000006_.ComputedPrefix = ``
@@ -308,8 +308,6 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000005_.Participant_Shapes = append(__DiagramProcess__00000005_.Participant_Shapes, __ParticipantShape__00000009_)
 	__DiagramProcess__00000005_.Participant_Shapes = append(__DiagramProcess__00000005_.Participant_Shapes, __ParticipantShape__00000006_)
 	__DiagramProcess__00000005_.Participant_Shapes = append(__DiagramProcess__00000005_.Participant_Shapes, __ParticipantShape__00000007_)
-	__DiagramProcess__00000005_.ParticipantWhoseNodeIsExpanded = append(__DiagramProcess__00000005_.ParticipantWhoseNodeIsExpanded, __Participant__00000006_)
-	__DiagramProcess__00000005_.ParticipantWhoseNodeIsExpanded = append(__DiagramProcess__00000005_.ParticipantWhoseNodeIsExpanded, __Participant__00000004_)
 	__DiagramProcess__00000005_.TasksWhoseNodeIsExpanded = append(__DiagramProcess__00000005_.TasksWhoseNodeIsExpanded, __Task__00000003_)
 	__DiagramProcess__00000005_.TasksWhoseNodeIsExpanded = append(__DiagramProcess__00000005_.TasksWhoseNodeIsExpanded, __Task__00000006_)
 	__DiagramProcess__00000005_.TasksWhoseNodeIsExpanded = append(__DiagramProcess__00000005_.TasksWhoseNodeIsExpanded, __Task__00000002_)
