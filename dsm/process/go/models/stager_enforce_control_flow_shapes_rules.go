@@ -42,33 +42,6 @@ func (stager *Stager) enforceControlFlowShapesRules() (needCommit bool) {
 			diagram.ControlFlow_Shapes = validControlFlowShapes
 			needCommit = true
 		}
-
-		// 2. Check DataFlow_Shapes
-		var validDataFlowShapes []*DataFlowShape
-		for _, dataFlowShape := range diagram.DataFlow_Shapes {
-			isValid := true
-			if dataFlowShape.DataFlow != nil {
-				if !tasksInDiagram[dataFlowShape.DataFlow.Start] || !tasksInDiagram[dataFlowShape.DataFlow.End] {
-					isValid = false
-				}
-			} else {
-				isValid = false
-			}
-
-			if isValid {
-				validDataFlowShapes = append(validDataFlowShapes, dataFlowShape)
-			} else {
-				dataFlowShape.UnstageVoid(stager.stage)
-				needCommit = true
-				if stager.probeForm != nil {
-					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaged data flow shape %s (missing start or end task shape)", dataFlowShape.GetName()))
-				}
-			}
-		}
-		if len(validDataFlowShapes) != len(diagram.DataFlow_Shapes) {
-			diagram.DataFlow_Shapes = validDataFlowShapes
-			needCommit = true
-		}
 	}
 
 	return
