@@ -12,34 +12,48 @@ import (
 func (stager *Stager) treeTask(diagram *Diagram, task *Task, parentNode *tree.Node) {
 	stage := stager.stage
 
-	taskNodeConf := TreeNodeShapeAndLinkConfiguration[
-		*Task, Task, // AT, AT_
-		*TaskShape, TaskShape, // CT, CT_
-		*TaskCompositionShape, TaskCompositionShape, // ACT, ACT_
-		*Diagram, // DiagramType
-	]{
-		TreeNodeAndShapeConfiguration: TreeNodeAndShapeConfiguration[
+	/*
+		taskNode := addNodeToTreeWithConf(stager,
+			TreeNodeShapeAndLinkConfiguration{
+					diagram:                      diagram,
+					parentNode:                   parentNode,
+					element:                      task,
+					parentElement:                task.parentTask,
+					elementsWhoseNodeIsExpanded:  &diagram.TasksWhoseNodeIsExpanded,
+					shapes:    					  &diagram.Task_Shapes,
+					shapesMap: 					  diagram.map_Task_TaskShape,
+					map_Element_CompositionShape: diagram.map_Task_TaskCompositionShape,
+					compositionShapes:            &diagram.TaskComposition_Shapes,
+		})
+	*/
+	taskNode := addNodeToTreeWithConf(stager,
+		TreeNodeShapeAndLinkConfiguration[
 			*Task, Task, // AT, AT_
 			*TaskShape, TaskShape, // CT, CT_
+			*TaskCompositionShape, TaskCompositionShape, // ACT, ACT_
 			*Diagram, // DiagramType
 		]{
-			TreeNodeConfiguration: TreeNodeConfiguration[
+			TreeNodeAndShapeConfiguration: TreeNodeAndShapeConfiguration[
 				*Task, Task, // AT, AT_
+				*TaskShape, TaskShape, // CT, CT_
 				*Diagram, // DiagramType
 			]{
-				diagram:                     diagram,
-				parentNode:                  parentNode,
-				element:                     task,
-				parentElement:               task.parentTask,
-				elementsWhoseNodeIsExpanded: &diagram.TasksWhoseNodeIsExpanded,
+				TreeNodeConfiguration: TreeNodeConfiguration[
+					*Task, Task, // AT, AT_
+					*Diagram, // DiagramType
+				]{
+					diagram:                     diagram,
+					parentNode:                  parentNode,
+					element:                     task,
+					parentElement:               task.parentTask,
+					elementsWhoseNodeIsExpanded: &diagram.TasksWhoseNodeIsExpanded,
+				},
+				shapes:    &diagram.Task_Shapes,
+				shapesMap: diagram.map_Task_TaskShape,
 			},
-			shapes:    &diagram.Task_Shapes,
-			shapesMap: diagram.map_Task_TaskShape,
-		},
-		map_Element_CompositionShape: diagram.map_Task_TaskCompositionShape,
-		compositionShapes:            &diagram.TaskComposition_Shapes,
-	}
-	taskNode := addNodeToTreeWithConf(stager, taskNodeConf)
+			map_Element_CompositionShape: diagram.map_Task_TaskCompositionShape,
+			compositionShapes:            &diagram.TaskComposition_Shapes,
+		})
 
 	conf := ItemShapeAndLinkButtonConfiguration[
 		Task, *Task, // AT, PAT (Added Element)
