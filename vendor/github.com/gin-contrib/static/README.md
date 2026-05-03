@@ -1,6 +1,7 @@
 # static middleware
 
 [![Run Tests](https://github.com/gin-contrib/static/actions/workflows/go.yml/badge.svg)](https://github.com/gin-contrib/static/actions/workflows/go.yml)
+[![Trivy Security Scan](https://github.com/gin-contrib/static/actions/workflows/trivy-scan.yml/badge.svg)](https://github.com/gin-contrib/static/actions/workflows/trivy-scan.yml)
 [![codecov](https://codecov.io/gh/gin-contrib/static/branch/master/graph/badge.svg)](https://codecov.io/gh/gin-contrib/static)
 [![Go Report Card](https://goreportcard.com/badge/github.com/gin-contrib/static)](https://goreportcard.com/report/github.com/gin-contrib/static)
 [![GoDoc](https://godoc.org/github.com/gin-contrib/static?status.svg)](https://godoc.org/github.com/gin-contrib/static)
@@ -33,33 +34,6 @@ See the [example](_example)
 package main
 
 import (
-  "github.com/gin-contrib/static"
-  "github.com/gin-gonic/gin"
-)
-
-func main() {
-  r := gin.Default()
-
-  // if Allow DirectoryIndex
-  //r.Use(static.Serve("/", static.LocalFile("/tmp", true)))
-  // set prefix
-  //r.Use(static.Serve("/static", static.LocalFile("/tmp", true)))
-
-  r.Use(static.Serve("/", static.LocalFile("/tmp", false)))
-  r.GET("/ping", func(c *gin.Context) {
-    c.String(200, "test")
-  })
-  // Listen and Server in 0.0.0.0:8080
-  r.Run(":8080")
-}
-```
-
-#### Serve embed folder
-
-```go
-package main
-
-import (
   "embed"
   "fmt"
   "net/http"
@@ -73,7 +47,11 @@ var server embed.FS
 
 func main() {
   r := gin.Default()
-  r.Use(static.Serve("/", static.EmbedFolder(server, "data/server")))
+  fs, err := static.EmbedFolder(server, "data/server")
+  if err != nil {
+    panic(err)
+  }
+  r.Use(static.Serve("/", fs))
   r.GET("/ping", func(c *gin.Context) {
     c.String(200, "test")
   })
@@ -82,8 +60,7 @@ func main() {
     c.Redirect(http.StatusMovedPermanently, "/")
   })
   // Listen and Server in 0.0.0.0:8080
-  if err := r.Run(":8080"); err != nil {
-    log.Fatal(err)
-  }
+  r.Run(":8080")
 }
+
 ```
