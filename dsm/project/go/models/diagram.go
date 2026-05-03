@@ -79,7 +79,9 @@ type Diagram struct {
 	map_SvgRect_NoteShape     map[*svg.Rect]*NoteShape
 	map_SvgRect_ResourceShape map[*svg.Rect]*ResourceShape
 
-	elementWhoseDiagramListIsDisplayed AbstractType
+	// within the tree branch of one diagram, when an element is present in more than one diagram,
+	// it is possible to access it via a list. Only one element have a list that is available per diagram.
+	diagramListElement AbstractType
 }
 
 func (d *Diagram) IsEditable() bool {
@@ -98,12 +100,12 @@ func (d *Diagram) GetDefaultBoxWidth() float64 {
 	return d.DefaultBoxWidth
 }
 
-func (d *Diagram) GetElementWhoseDiagramListIsDisplayed() AbstractType {
-	return d.elementWhoseDiagramListIsDisplayed
+func (d *Diagram) GetDiagramListElement() AbstractType {
+	return d.diagramListElement
 }
 
-func (d *Diagram) SetElementWhoseDiagramListIsDisplayed(v AbstractType) {
-	d.elementWhoseDiagramListIsDisplayed = v
+func (d *Diagram) SetDiagramListElement(v AbstractType) {
+	d.diagramListElement = v
 }
 
 func (d *Diagram) GetIsChecked() bool {

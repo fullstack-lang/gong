@@ -19,7 +19,9 @@ type DiagramProcess struct {
 	Width  float64
 	Height float64
 
-	elementWhoseDiagramListIsDisplayed AbstractType
+	// within the tree branch of one diagram, when an element is present in more than one diagram,
+	// it is possible to access it via a list. Only one element have a list that is available per diagram.
+	diagramListElement AbstractType
 
 	//
 	//  DSM specific fields
@@ -72,12 +74,12 @@ func (d *DiagramProcess) GetDefaultBoxWidth() float64 {
 	return d.DefaultBoxWidth
 }
 
-func (d *DiagramProcess) GetElementWhoseDiagramListIsDisplayed() AbstractType {
-	return d.elementWhoseDiagramListIsDisplayed
+func (d *DiagramProcess) GetDiagramListElement() AbstractType {
+	return d.diagramListElement
 }
 
-func (d *DiagramProcess) SetElementWhoseDiagramListIsDisplayed(v AbstractType) {
-	d.elementWhoseDiagramListIsDisplayed = v
+func (d *DiagramProcess) SetDiagramListElement(v AbstractType) {
+	d.diagramListElement = v
 }
 
 func (d *DiagramProcess) GetIsChecked() bool {
