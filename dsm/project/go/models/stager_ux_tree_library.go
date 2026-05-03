@@ -115,19 +115,6 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 		diagramNode.Children = append(diagramNode.Children, pbsNode)
 		pbsNode.OnUpdate = stager.OnUpdateExpansion(&diagram.IsPBSNodeExpanded)
 
-		conf := ItemButtonConfiguration[
-			Library, *Library, // AT, PAT (Added Element)
-			Library, *Library, // ParentAT, PParentAT (Parent Element)
-		]{
-			parentNode:                         libraryNode,
-			sliceForNewAddedItem:               &library.SubLibraries,
-			isParentNodeExpandedByAddOperation: true,
-			parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
-			parentNodeExpansionBooleanValue:    &library.isExpanded,
-			parentElement:                      library,
-		}
-		addCreateItemButton(stager, conf)
-
 		for _, product := range library.RootProducts {
 			stager.treeProduct(diagram, product, pbsNode)
 		}
