@@ -75,6 +75,7 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		{"Enforce node shape duplicates", stager.enforceNodeShapeDuplicates},
 		{"Enforce relation duplicates", stager.enforceRelationDuplicates},
 		{"Enforce shape orphans", stager.enforceShapeOrphans},
+		{"Enforce control flow shapes rules", stager.enforceControlFlowShapesRules},
 		{"Enforce participant shape order", stager.enforceParticipantShapeOrder},
 		{"Enforce task shape within process", stager.enforceTaskShapeWithinProcess},
 		{"Enforce shapes abstract consistency", stager.enforceShapesAbstractConsistency},
