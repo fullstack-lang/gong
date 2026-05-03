@@ -35,7 +35,7 @@ func (stager *Stager) treeResourceinDiagram(diagram *Diagram, resource *Resource
 		map_Element_CompositionShape: diagram.map_Resource_ResourceCompositionShape,
 		compositionShapes:            &diagram.ResourceComposition_Shapes,
 	}
-	resourceNode := addNodeToTreeWithConf(stager, resourceNodeConf)
+	resourceNode := addNodeToTree(stager, resourceNodeConf)
 
 	conf := ItemShapeAndLinkButtonConfiguration[
 		Resource, *Resource, // AT, PAT (Added Element)

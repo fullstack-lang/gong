@@ -46,7 +46,7 @@ type Stager struct {
 	diagram   *Diagram // diagram is the current diagram being displayed
 
 	// map to navigate from abstract elements to all diagrams where they are displayed
-	map_Element_Diagrams map[AbstractType][]*Diagram
+	map_Element_Diagrams map[AbstractType][]DiagramIF
 }
 
 func NewStager(
