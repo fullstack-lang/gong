@@ -12,16 +12,20 @@ func (shape *ArtefactTypeShape) GetArtElement() *ArtefactType {
 	return shape.ArtefactType
 }
 
-type ArtefactTypeShape struct {
-	Name string
-
-	ArtefactType *ArtefactType
-
+type PositionAndSize struct {
 	X, Y float64
 
 	Width, Height float64
 
 	IsHidden bool
+}
+
+type ArtefactTypeShape struct {
+	Name string
+
+	ArtefactType *ArtefactType
+
+	PositionAndSize
 }
 
 func (shape *MovementShape) GetArtElement() *Movement {
@@ -32,22 +36,14 @@ type MovementShape struct {
 	Name     string
 	Movement *Movement
 
-	X, Y float64
-
-	Width, Height float64
-
-	IsHidden bool
+	PositionAndSize
 }
 
 type ArtistShape struct {
 	Name   string
 	Artist *Artist
 
-	X, Y float64
-
-	Width, Height float64
-
-	IsHidden bool
+	PositionAndSize
 
 	ImagePng_X, ImagePng_Y, ImagePng_Width, ImagePng_Height float64
 
