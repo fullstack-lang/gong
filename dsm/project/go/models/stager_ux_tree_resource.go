@@ -9,19 +9,19 @@ import (
 
 func (stager *Stager) treeResourceinDiagram(diagram *Diagram, resource *Resource, parentNode *tree.Node) {
 	resourceNodeConf := TreeNodeShapeAndLinkConfiguration[
-		*Resource, Resource,
-		*ResourceShape, ResourceShape,
-		*ResourceCompositionShape, ResourceCompositionShape,
-		*Diagram,
+		*Resource, Resource, // AT, AT_
+		*ResourceShape, ResourceShape, // CT, CT_
+		*ResourceCompositionShape, ResourceCompositionShape, // ACT, ACT_
+		*Diagram, // DiagramType
 	]{
 		TreeNodeAndShapeConfiguration: TreeNodeAndShapeConfiguration[
-			*Resource, Resource,
-			*ResourceShape, ResourceShape,
-			*Diagram,
+			*Resource, Resource, // AT, AT_
+			*ResourceShape, ResourceShape, // CT, CT_
+			*Diagram, // DiagramType
 		]{
 			TreeNodeConfiguration: TreeNodeConfiguration[
-				*Resource, Resource,
-				*Diagram,
+				*Resource, Resource, // AT, AT_
+				*Diagram, // DiagramType
 			]{
 				diagram:                     diagram,
 				parentNode:                  parentNode,

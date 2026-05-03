@@ -13,19 +13,19 @@ func (stager *Stager) treeTask(diagram *Diagram, task *Task, parentNode *tree.No
 	stage := stager.stage
 
 	taskNodeConf := TreeNodeShapeAndLinkConfiguration[
-		*Task, Task,
-		*TaskShape, TaskShape,
-		*TaskCompositionShape, TaskCompositionShape,
-		*Diagram,
+		*Task, Task, // AT, AT_
+		*TaskShape, TaskShape, // CT, CT_
+		*TaskCompositionShape, TaskCompositionShape, // ACT, ACT_
+		*Diagram, // DiagramType
 	]{
 		TreeNodeAndShapeConfiguration: TreeNodeAndShapeConfiguration[
-			*Task, Task,
-			*TaskShape, TaskShape,
-			*Diagram,
+			*Task, Task, // AT, AT_
+			*TaskShape, TaskShape, // CT, CT_
+			*Diagram, // DiagramType
 		]{
 			TreeNodeConfiguration: TreeNodeConfiguration[
-				*Task, Task,
-				*Diagram,
+				*Task, Task, // AT, AT_
+				*Diagram, // DiagramType
 			]{
 				diagram:                     diagram,
 				parentNode:                  parentNode,
