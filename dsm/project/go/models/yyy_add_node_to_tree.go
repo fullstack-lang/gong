@@ -284,39 +284,6 @@ type TreeNodeShapeAndLinkConfiguration[
 	compositionShapes            *[]ACT
 }
 
-// addNodeToTreeWithConf is a wrapper around addNodeToTree that uses the TreeNodeShapeAndLinkConfiguration
-func addNodeToTreeWithConf[
-	AT interface {
-		*AT_
-		AbstractType
-	},
-	AT_ Gongstruct,
-	CT interface {
-		*CT_
-		RectShapeInterface
-		ConcreteType
-	},
-	CT_ Gongstruct,
-	ACT interface {
-		*ACT_
-		LinkShapeInterface
-		AssociationConcreteType
-	},
-	ACT_ Gongstruct,
-	DiagramType interface {
-		DiagramIF
-		AbstractType
-		comparable
-	}](
-	stager *Stager,
-	conf TreeNodeShapeAndLinkConfiguration[AT, AT_, CT, CT_, ACT, ACT_, DiagramType],
-) *tree.Node {
-	return addNodeToTree(
-		stager,
-		conf,
-	)
-}
-
 // ---------------------------------------------------------
 // 4. CONFIGURATION WITHOUT LINK
 // ---------------------------------------------------------

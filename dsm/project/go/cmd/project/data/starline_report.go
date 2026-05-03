@@ -3002,4 +3002,30 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__TaskShape__00000010_.Task = __Task__00000005_
 	__TaskShape__00000011_.Task = __Task__00000006_
 	__TaskShape__00000012_.Task = __Task__00000007_
+
+	stage.Commit()
+
+	// PBS
+	__Diagram__00000002_.IsChecked = false
+	// WBS
+	__Diagram__00000001_.IsChecked = true
+	stage.Commit()
+
+	// PBS
+	__Diagram__00000002_.IsChecked = true
+	// WBS
+	__Diagram__00000001_.IsChecked = false
+	stage.Commit()
+
+	// PBS
+	__Diagram__00000002_.ProductsWhoseNodeIsExpanded = slices.Insert( __Diagram__00000002_.ProductsWhoseNodeIsExpanded, 2, __Product__00000003_)
+	stage.Commit()
+
+	// -PBS
+	__ProductShape__00000005_.IsHidden = true
+	stage.Commit()
+
+	// -PBS
+	__ProductShape__00000005_.IsHidden = false
+	stage.Commit()
 }

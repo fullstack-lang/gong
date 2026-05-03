@@ -1,3 +1,4 @@
+// generated code (do not edit)
 package models
 
 // Append is a generic helper that appends an item to a slice via a pointer

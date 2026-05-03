@@ -32,7 +32,7 @@ func (stager *Stager) treeProduct(diagram *Diagram, product *Product, parentNode
 		map_Element_CompositionShape: diagram.map_Product_ProductCompositionShape,
 		compositionShapes:            &diagram.ProductComposition_Shapes,
 	}
-	productNode := addNodeToTreeWithConf(stager, productNodeConf)
+	productNode := addNodeToTree(stager, productNodeConf)
 
 	conf := ItemShapeAndLinkButtonConfiguration[
 		Product, *Product, // AT, PAT (Added Element)

@@ -277,7 +277,7 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 					map_Element_CompositionShape: dummyMap,
 					compositionShapes:            dummySlice,
 				}
-				noteNode := addNodeToTreeWithConf(stager, noteNodeConf)
+				noteNode := addNodeToTree(stager, noteNodeConf)
 
 				// allow display of associations note to products
 				for _, product := range note.Products {

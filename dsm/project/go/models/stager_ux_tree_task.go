@@ -13,7 +13,7 @@ func (stager *Stager) treeTask(diagram *Diagram, task *Task, parentNode *tree.No
 	stage := stager.stage
 
 	/*
-		taskNode := addNodeToTreeWithConf(stager,
+		taskNode := addNodeToTree(stager,
 			TreeNodeShapeAndLinkConfiguration{
 					diagram:                      diagram,
 					parentNode:                   parentNode,
@@ -26,7 +26,7 @@ func (stager *Stager) treeTask(diagram *Diagram, task *Task, parentNode *tree.No
 					compositionShapes:            &diagram.TaskComposition_Shapes,
 		})
 	*/
-	taskNode := addNodeToTreeWithConf(stager,
+	taskNode := addNodeToTree(stager,
 		TreeNodeShapeAndLinkConfiguration[
 			*Task, Task, // AT, AT_
 			*TaskShape, TaskShape, // CT, CT_
