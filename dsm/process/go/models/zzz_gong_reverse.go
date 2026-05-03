@@ -32,8 +32,8 @@ func (inst *ControlFlowShape) GongGetReverseFieldOwnerName(stage *Stage, reverse
 	// insertion point
 	case "DiagramProcess":
 		switch reverseField.Fieldname {
-		case "ControlFlowShapes":
-			if _diagramprocess, ok := stage.DiagramProcess_ControlFlowShapes_reverseMap[inst]; ok {
+		case "ControlFlow_Shapes":
+			if _diagramprocess, ok := stage.DiagramProcess_ControlFlow_Shapes_reverseMap[inst]; ok {
 				res = _diagramprocess.Name
 			}
 		}
@@ -82,8 +82,8 @@ func (inst *DataFlowShape) GongGetReverseFieldOwnerName(stage *Stage, reverseFie
 	// insertion point
 	case "DiagramProcess":
 		switch reverseField.Fieldname {
-		case "DataFlowShapes":
-			if _diagramprocess, ok := stage.DiagramProcess_DataFlowShapes_reverseMap[inst]; ok {
+		case "DataFlow_Shapes":
+			if _diagramprocess, ok := stage.DiagramProcess_DataFlow_Shapes_reverseMap[inst]; ok {
 				res = _diagramprocess.Name
 			}
 		}
@@ -262,8 +262,8 @@ func (inst *TaskShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *
 	// insertion point
 	case "DiagramProcess":
 		switch reverseField.Fieldname {
-		case "TaskShapes":
-			if _diagramprocess, ok := stage.DiagramProcess_TaskShapes_reverseMap[inst]; ok {
+		case "Task_Shapes":
+			if _diagramprocess, ok := stage.DiagramProcess_Task_Shapes_reverseMap[inst]; ok {
 				res = _diagramprocess.Name
 			}
 		}
@@ -298,8 +298,8 @@ func (inst *ControlFlowShape) GongGetReverseFieldOwner(stage *Stage, reverseFiel
 	// insertion point
 	case "DiagramProcess":
 		switch reverseField.Fieldname {
-		case "ControlFlowShapes":
-			res = stage.DiagramProcess_ControlFlowShapes_reverseMap[inst]
+		case "ControlFlow_Shapes":
+			res = stage.DiagramProcess_ControlFlow_Shapes_reverseMap[inst]
 		}
 	}
 	return res
@@ -338,8 +338,8 @@ func (inst *DataFlowShape) GongGetReverseFieldOwner(stage *Stage, reverseField *
 	// insertion point
 	case "DiagramProcess":
 		switch reverseField.Fieldname {
-		case "DataFlowShapes":
-			res = stage.DiagramProcess_DataFlowShapes_reverseMap[inst]
+		case "DataFlow_Shapes":
+			res = stage.DiagramProcess_DataFlow_Shapes_reverseMap[inst]
 		}
 	}
 	return res
@@ -482,8 +482,8 @@ func (inst *TaskShape) GongGetReverseFieldOwner(stage *Stage, reverseField *Reve
 	// insertion point
 	case "DiagramProcess":
 		switch reverseField.Fieldname {
-		case "TaskShapes":
-			res = stage.DiagramProcess_TaskShapes_reverseMap[inst]
+		case "Task_Shapes":
+			res = stage.DiagramProcess_Task_Shapes_reverseMap[inst]
 		}
 	}
 	return res

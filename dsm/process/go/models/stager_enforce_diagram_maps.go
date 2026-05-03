@@ -15,13 +15,13 @@ func (stager *Stager) enforceDiagramMaps() {
 		updateMapElementDiagrams(stager, diagram, diagram.Participant_Shapes, diagram.map_Participant_ParticipantShape)
 
 		diagram.map_Task_TaskShape = make(map[*Task]*TaskShape)
-		updateMapElementDiagrams(stager, diagram, diagram.TaskShapes, diagram.map_Task_TaskShape)
+		updateMapElementDiagrams(stager, diagram, diagram.Task_Shapes, diagram.map_Task_TaskShape)
 
 		diagram.map_ControlFlow_ControlFlowShape = make(map[*ControlFlow]*ControlFlowShape)
-		updateMapElementDiagrams(stager, diagram, diagram.ControlFlowShapes, diagram.map_ControlFlow_ControlFlowShape)
+		updateMapElementDiagrams(stager, diagram, diagram.ControlFlow_Shapes, diagram.map_ControlFlow_ControlFlowShape)
 
 		diagram.map_DataFlow_DataFlowShape = make(map[*DataFlow]*DataFlowShape)
-		updateMapElementDiagrams(stager, diagram, diagram.DataFlowShapes, diagram.map_DataFlow_DataFlowShape)
+		updateMapElementDiagrams(stager, diagram, diagram.DataFlow_Shapes, diagram.map_DataFlow_DataFlowShape)
 	}
 }
 

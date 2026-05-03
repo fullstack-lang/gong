@@ -76,7 +76,7 @@ func (stager *Stager) treeDataFlowsWithinProcess(
 			dataFlowShape.SetCornerOffsetRatio(1.1)
 			dataFlowShape.SetStartRatio(0.5)
 			dataFlowShape.SetEndRatio(0.5)
-			diagramProcess.DataFlowShapes = append(diagramProcess.DataFlowShapes, dataFlowShape)
+			diagramProcess.DataFlow_Shapes = append(diagramProcess.DataFlow_Shapes, dataFlowShape)
 
 			stage.Commit()
 			return
@@ -89,8 +89,8 @@ func (stager *Stager) treeDataFlowsWithinProcess(
 			shape.UnstageVoid(stage)
 
 			// not necessary since there is a semantic rule (gong clean) that remove the shape from the slice when it is unstaged
-			idx := slices.Index(diagramProcess.DataFlowShapes, shape)
-			diagramProcess.DataFlowShapes = slices.Delete(diagramProcess.DataFlowShapes, idx, idx+1)
+			idx := slices.Index(diagramProcess.DataFlow_Shapes, shape)
+			diagramProcess.DataFlow_Shapes = slices.Delete(diagramProcess.DataFlow_Shapes, idx, idx+1)
 			stage.Commit()
 			return
 		}

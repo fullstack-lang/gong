@@ -132,7 +132,7 @@ func (stager *Stager) treeParticipants(
 			parentElement:                      participant,
 		},
 		receivingDiagram:      diagramProcess,
-		sliceForNewAddedShape: &diagramProcess.TaskShapes,
+		sliceForNewAddedShape: &diagramProcess.Task_Shapes,
 	}
 	addCreateItemAndShapeButton(stager, conf)
 

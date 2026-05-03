@@ -31,7 +31,7 @@ func (stager *Stager) enforceTaskShapeWithinProcess() (needCommit bool) {
 			participantWidth = participantsWidth / float64(numParticipants)
 		}
 
-		for _, taskShape := range diagramProcess.TaskShapes {
+		for _, taskShape := range diagramProcess.Task_Shapes {
 
 			// The bounding shape is ideally the participant shape (swimlane),
 			// but we default to the overall process shape.
