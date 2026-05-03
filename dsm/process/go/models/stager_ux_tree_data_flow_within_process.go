@@ -18,13 +18,29 @@ func (stager *Stager) treeDataFlowsWithinProcess(
 	// find the shape (if any)
 	shape, isShapePresent := diagramProcess.map_DataFlow_DataFlowShape[dataFlow]
 
+	isStartShapePresent := false
+	isEndShapePresent := false
+	if dataFlow.Start != nil {
+		_, isStartShapePresent = diagramProcess.map_Task_TaskShape[dataFlow.Start]
+	}
+	if dataFlow.End != nil {
+		_, isEndShapePresent = diagramProcess.map_Task_TaskShape[dataFlow.End]
+	}
+	isCheckboxDisabled := !(isStartShapePresent && isEndShapePresent)
+
 	node := &tree.Node{
-		Name:              dataFlow.GetName(),
-		IsExpanded:        false,
-		IsNodeClickable:   true,
-		IsInEditMode:      dataFlow.GetIsInRenameMode(),
-		HasCheckboxButton: true,
-		IsChecked:         isShapePresent,
+		Name:               dataFlow.GetName(),
+		IsExpanded:         false,
+		IsNodeClickable:    true,
+		IsInEditMode:       dataFlow.GetIsInRenameMode(),
+		HasCheckboxButton:  true,
+		IsChecked:          isShapePresent,
+		IsCheckboxDisabled: isCheckboxDisabled,
+	}
+
+	if isCheckboxDisabled {
+		node.CheckboxHasToolTip = true
+		node.CheckboxToolTipText = "Start or end task shape is missing from the diagram"
 	}
 	parentNode.Children = append(parentNode.Children, node)
 
