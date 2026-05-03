@@ -1,3 +1,4 @@
+// generated code (do not edit)
 package models
 
 type AbstractType interface {
@@ -14,7 +15,6 @@ type AbstractType interface {
 }
 
 type AbstractTypeFields struct {
-
 	// ComputedPrefix is automaticaly computed by the semantic enforcing mechanism
 	ComputedPrefix string
 	computedPrefix []int

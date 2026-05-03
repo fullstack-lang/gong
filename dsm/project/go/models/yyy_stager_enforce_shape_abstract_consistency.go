@@ -1,3 +1,4 @@
+// generated code (do not edit)
 package models
 
 // enforceShapesAbstractConsistency iterates over all staged instances to ensure
