@@ -648,16 +648,16 @@ func (u *DiagramProcessUnmarshaller) UnmarshallField(stage *Stage, i GongstructI
 		GongUnmarshallSliceOfPointers(&instance.ParticipantWhoseNodeIsExpanded, valueExpr, identifierMap)
 	case "TasksWhoseNodeIsExpanded":
 		GongUnmarshallSliceOfPointers(&instance.TasksWhoseNodeIsExpanded, valueExpr, identifierMap)
-	case "TaskShapes":
-		GongUnmarshallSliceOfPointers(&instance.TaskShapes, valueExpr, identifierMap)
+	case "Task_Shapes":
+		GongUnmarshallSliceOfPointers(&instance.Task_Shapes, valueExpr, identifierMap)
 	case "ControlFlowsWhoseNodeIsExpanded":
 		GongUnmarshallSliceOfPointers(&instance.ControlFlowsWhoseNodeIsExpanded, valueExpr, identifierMap)
-	case "ControlFlowShapes":
-		GongUnmarshallSliceOfPointers(&instance.ControlFlowShapes, valueExpr, identifierMap)
+	case "ControlFlow_Shapes":
+		GongUnmarshallSliceOfPointers(&instance.ControlFlow_Shapes, valueExpr, identifierMap)
 	case "DataFlowsWhoseNodeIsExpanded":
 		GongUnmarshallSliceOfPointers(&instance.DataFlowsWhoseNodeIsExpanded, valueExpr, identifierMap)
-	case "DataFlowShapes":
-		GongUnmarshallSliceOfPointers(&instance.DataFlowShapes, valueExpr, identifierMap)
+	case "DataFlow_Shapes":
+		GongUnmarshallSliceOfPointers(&instance.DataFlow_Shapes, valueExpr, identifierMap)
 	}
 	return nil
 }

@@ -82,11 +82,11 @@ func (diagramprocess *DiagramProcess) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &diagramprocess.Participant_Shapes) || modified
 	modified = GongCleanSlice(stage, &diagramprocess.ParticipantWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &diagramprocess.TasksWhoseNodeIsExpanded) || modified
-	modified = GongCleanSlice(stage, &diagramprocess.TaskShapes) || modified
+	modified = GongCleanSlice(stage, &diagramprocess.Task_Shapes) || modified
 	modified = GongCleanSlice(stage, &diagramprocess.ControlFlowsWhoseNodeIsExpanded) || modified
-	modified = GongCleanSlice(stage, &diagramprocess.ControlFlowShapes) || modified
+	modified = GongCleanSlice(stage, &diagramprocess.ControlFlow_Shapes) || modified
 	modified = GongCleanSlice(stage, &diagramprocess.DataFlowsWhoseNodeIsExpanded) || modified
-	modified = GongCleanSlice(stage, &diagramprocess.DataFlowShapes) || modified
+	modified = GongCleanSlice(stage, &diagramprocess.DataFlow_Shapes) || modified
 	// insertion point per field
 	return
 }

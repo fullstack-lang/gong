@@ -77,7 +77,7 @@ func (stager *Stager) treeControlFlows(
 			controlFlowShape.SetCornerOffsetRatio(1.1)
 			controlFlowShape.SetStartRatio(0.5)
 			controlFlowShape.SetEndRatio(0.5)
-			diagramProcess.ControlFlowShapes = append(diagramProcess.ControlFlowShapes, controlFlowShape)
+			diagramProcess.ControlFlow_Shapes = append(diagramProcess.ControlFlow_Shapes, controlFlowShape)
 
 			stage.Commit()
 			return
@@ -90,8 +90,8 @@ func (stager *Stager) treeControlFlows(
 			shape.UnstageVoid(stage)
 
 			// not necessary since there is a semantic rule (gong clean) that remove the shape from the slice when it is unstaged
-			idx := slices.Index(diagramProcess.ControlFlowShapes, shape)
-			diagramProcess.ControlFlowShapes = slices.Delete(diagramProcess.ControlFlowShapes, idx, idx+1)
+			idx := slices.Index(diagramProcess.ControlFlow_Shapes, shape)
+			diagramProcess.ControlFlow_Shapes = slices.Delete(diagramProcess.ControlFlow_Shapes, idx, idx+1)
 			stage.Commit()
 			return
 		}

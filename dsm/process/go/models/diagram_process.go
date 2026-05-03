@@ -44,17 +44,17 @@ type DiagramProcess struct {
 	ParticipantWhoseNodeIsExpanded   []*Participant
 
 	TasksWhoseNodeIsExpanded []*Task
-	TaskShapes               []*TaskShape
+	Task_Shapes              []*TaskShape
 	map_Task_TaskShape       map[*Task]*TaskShape
 	map_Task_Rect            map[*Task]*svg.Rect
 	map_SvgRect_TaskShape    map[*svg.Rect]*TaskShape // for drawing links between task
 
 	ControlFlowsWhoseNodeIsExpanded  []*ControlFlow
-	ControlFlowShapes                []*ControlFlowShape
+	ControlFlow_Shapes               []*ControlFlowShape
 	map_ControlFlow_ControlFlowShape map[*ControlFlow]*ControlFlowShape
 
 	DataFlowsWhoseNodeIsExpanded []*DataFlow
-	DataFlowShapes               []*DataFlowShape
+	DataFlow_Shapes              []*DataFlowShape
 	map_DataFlow_DataFlowShape   map[*DataFlow]*DataFlowShape
 }
 

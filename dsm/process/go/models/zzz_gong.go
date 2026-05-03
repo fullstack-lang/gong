@@ -206,15 +206,15 @@ type Stage struct {
 
 	DiagramProcess_TasksWhoseNodeIsExpanded_reverseMap map[*Task]*DiagramProcess
 
-	DiagramProcess_TaskShapes_reverseMap map[*TaskShape]*DiagramProcess
+	DiagramProcess_Task_Shapes_reverseMap map[*TaskShape]*DiagramProcess
 
 	DiagramProcess_ControlFlowsWhoseNodeIsExpanded_reverseMap map[*ControlFlow]*DiagramProcess
 
-	DiagramProcess_ControlFlowShapes_reverseMap map[*ControlFlowShape]*DiagramProcess
+	DiagramProcess_ControlFlow_Shapes_reverseMap map[*ControlFlowShape]*DiagramProcess
 
 	DiagramProcess_DataFlowsWhoseNodeIsExpanded_reverseMap map[*DataFlow]*DiagramProcess
 
-	DiagramProcess_DataFlowShapes_reverseMap map[*DataFlowShape]*DiagramProcess
+	DiagramProcess_DataFlow_Shapes_reverseMap map[*DataFlowShape]*DiagramProcess
 
 	OnAfterDiagramProcessCreateCallback OnAfterCreateInterface[DiagramProcess]
 	OnAfterDiagramProcessUpdateCallback OnAfterUpdateInterface[DiagramProcess]
@@ -3116,15 +3116,15 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// field is initialized with an instance of Task with the name of the field
 			TasksWhoseNodeIsExpanded: []*Task{{Name: "TasksWhoseNodeIsExpanded"}},
 			// field is initialized with an instance of TaskShape with the name of the field
-			TaskShapes: []*TaskShape{{Name: "TaskShapes"}},
+			Task_Shapes: []*TaskShape{{Name: "Task_Shapes"}},
 			// field is initialized with an instance of ControlFlow with the name of the field
 			ControlFlowsWhoseNodeIsExpanded: []*ControlFlow{{Name: "ControlFlowsWhoseNodeIsExpanded"}},
 			// field is initialized with an instance of ControlFlowShape with the name of the field
-			ControlFlowShapes: []*ControlFlowShape{{Name: "ControlFlowShapes"}},
+			ControlFlow_Shapes: []*ControlFlowShape{{Name: "ControlFlow_Shapes"}},
 			// field is initialized with an instance of DataFlow with the name of the field
 			DataFlowsWhoseNodeIsExpanded: []*DataFlow{{Name: "DataFlowsWhoseNodeIsExpanded"}},
 			// field is initialized with an instance of DataFlowShape with the name of the field
-			DataFlowShapes: []*DataFlowShape{{Name: "DataFlowShapes"}},
+			DataFlow_Shapes: []*DataFlowShape{{Name: "DataFlow_Shapes"}},
 		}).(*Type)
 	case Library:
 		return any(&Library{
@@ -3501,10 +3501,10 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "TaskShapes":
+		case "Task_Shapes":
 			res := make(map[*TaskShape][]*DiagramProcess)
 			for diagramprocess := range stage.DiagramProcesss {
-				for _, taskshape_ := range diagramprocess.TaskShapes {
+				for _, taskshape_ := range diagramprocess.Task_Shapes {
 					res[taskshape_] = append(res[taskshape_], diagramprocess)
 				}
 			}
@@ -3517,10 +3517,10 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "ControlFlowShapes":
+		case "ControlFlow_Shapes":
 			res := make(map[*ControlFlowShape][]*DiagramProcess)
 			for diagramprocess := range stage.DiagramProcesss {
-				for _, controlflowshape_ := range diagramprocess.ControlFlowShapes {
+				for _, controlflowshape_ := range diagramprocess.ControlFlow_Shapes {
 					res[controlflowshape_] = append(res[controlflowshape_], diagramprocess)
 				}
 			}
@@ -3533,10 +3533,10 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "DataFlowShapes":
+		case "DataFlow_Shapes":
 			res := make(map[*DataFlowShape][]*DiagramProcess)
 			for diagramprocess := range stage.DiagramProcesss {
-				for _, dataflowshape_ := range diagramprocess.DataFlowShapes {
+				for _, dataflowshape_ := range diagramprocess.DataFlow_Shapes {
 					res[dataflowshape_] = append(res[dataflowshape_], diagramprocess)
 				}
 			}
@@ -3770,7 +3770,7 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "DiagramProcess"
-		rf.Fieldname = "ControlFlowShapes"
+		rf.Fieldname = "ControlFlow_Shapes"
 		res = append(res, rf)
 	case *DataFlow:
 		var rf ReverseField
@@ -3791,7 +3791,7 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "DiagramProcess"
-		rf.Fieldname = "DataFlowShapes"
+		rf.Fieldname = "DataFlow_Shapes"
 		res = append(res, rf)
 	case *DiagramProcess:
 		var rf ReverseField
@@ -3869,7 +3869,7 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "DiagramProcess"
-		rf.Fieldname = "TaskShapes"
+		rf.Fieldname = "Task_Shapes"
 		res = append(res, rf)
 	}
 	return
@@ -4083,7 +4083,7 @@ func (diagramprocess *DiagramProcess) GongGetFieldHeaders() (res []GongFieldHead
 			TargetGongstructName: "Task",
 		},
 		{
-			Name:                 "TaskShapes",
+			Name:                 "Task_Shapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "TaskShape",
 		},
@@ -4093,7 +4093,7 @@ func (diagramprocess *DiagramProcess) GongGetFieldHeaders() (res []GongFieldHead
 			TargetGongstructName: "ControlFlow",
 		},
 		{
-			Name:                 "ControlFlowShapes",
+			Name:                 "ControlFlow_Shapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "ControlFlowShape",
 		},
@@ -4103,7 +4103,7 @@ func (diagramprocess *DiagramProcess) GongGetFieldHeaders() (res []GongFieldHead
 			TargetGongstructName: "DataFlow",
 		},
 		{
-			Name:                 "DataFlowShapes",
+			Name:                 "DataFlow_Shapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "DataFlowShape",
 		},
@@ -4687,9 +4687,9 @@ func (diagramprocess *DiagramProcess) GongGetFieldValue(fieldName string, stage 
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
-	case "TaskShapes":
+	case "Task_Shapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagramprocess.TaskShapes {
+		for idx, __instance__ := range diagramprocess.Task_Shapes {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -4707,9 +4707,9 @@ func (diagramprocess *DiagramProcess) GongGetFieldValue(fieldName string, stage 
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
-	case "ControlFlowShapes":
+	case "ControlFlow_Shapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagramprocess.ControlFlowShapes {
+		for idx, __instance__ := range diagramprocess.ControlFlow_Shapes {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -4727,9 +4727,9 @@ func (diagramprocess *DiagramProcess) GongGetFieldValue(fieldName string, stage 
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
-	case "DataFlowShapes":
+	case "DataFlow_Shapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagramprocess.DataFlowShapes {
+		for idx, __instance__ := range diagramprocess.DataFlow_Shapes {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -5347,15 +5347,15 @@ func (diagramprocess *DiagramProcess) GongSetFieldValue(fieldName string, value 
 				}
 			}
 		}
-	case "TaskShapes":
-		diagramprocess.TaskShapes = make([]*TaskShape, 0)
+	case "Task_Shapes":
+		diagramprocess.Task_Shapes = make([]*TaskShape, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.TaskShapes {
 					if stage.TaskShape_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.TaskShapes = append(diagramprocess.TaskShapes, __instance__)
+						diagramprocess.Task_Shapes = append(diagramprocess.Task_Shapes, __instance__)
 						break
 					}
 				}
@@ -5375,15 +5375,15 @@ func (diagramprocess *DiagramProcess) GongSetFieldValue(fieldName string, value 
 				}
 			}
 		}
-	case "ControlFlowShapes":
-		diagramprocess.ControlFlowShapes = make([]*ControlFlowShape, 0)
+	case "ControlFlow_Shapes":
+		diagramprocess.ControlFlow_Shapes = make([]*ControlFlowShape, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.ControlFlowShapes {
 					if stage.ControlFlowShape_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.ControlFlowShapes = append(diagramprocess.ControlFlowShapes, __instance__)
+						diagramprocess.ControlFlow_Shapes = append(diagramprocess.ControlFlow_Shapes, __instance__)
 						break
 					}
 				}
@@ -5403,15 +5403,15 @@ func (diagramprocess *DiagramProcess) GongSetFieldValue(fieldName string, value 
 				}
 			}
 		}
-	case "DataFlowShapes":
-		diagramprocess.DataFlowShapes = make([]*DataFlowShape, 0)
+	case "DataFlow_Shapes":
+		diagramprocess.DataFlow_Shapes = make([]*DataFlowShape, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.DataFlowShapes {
 					if stage.DataFlowShape_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.DataFlowShapes = append(diagramprocess.DataFlowShapes, __instance__)
+						diagramprocess.DataFlow_Shapes = append(diagramprocess.DataFlow_Shapes, __instance__)
 						break
 					}
 				}

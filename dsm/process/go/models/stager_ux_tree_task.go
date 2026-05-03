@@ -24,7 +24,7 @@ func (stager *Stager) treetasks(
 		element:                     task,
 		parentElement:               participant,
 		elementsWhoseNodeIsExpanded: taskWhoseNodeIsExpanded,
-		shapes:                      &diagramProcess.TaskShapes,
+		shapes:                      &diagramProcess.Task_Shapes,
 		shapesMap:                   diagramProcess.map_Task_TaskShape,
 	}
 	taskNode := addNodeToTreeWithoutLink(stager, taskNodeConf)
