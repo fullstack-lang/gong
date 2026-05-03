@@ -330,6 +330,16 @@ var generateCmd = &cobra.Command{
 
 		// copy dsm files if flag is set, potentially overwriting generated files
 		if dsm {
+			// remove all existing yyy files before copying the embedded ones
+			existingFiles, err := os.ReadDir(pkgPath)
+			if err == nil {
+				for _, file := range existingFiles {
+					if !file.IsDir() && strings.HasPrefix(file.Name(), "yyy_") {
+						os.Remove(filepath.Join(pkgPath, file.Name()))
+					}
+				}
+			}
+
 			entries, err := dsm_models.YYYFiles.ReadDir(".")
 			if err != nil {
 				log.Fatalf("failed reading embedded dsm files: %v", err)
