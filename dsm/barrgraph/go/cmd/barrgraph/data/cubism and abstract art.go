@@ -24,6 +24,7 @@ var _ map[string]any = map[string]any{
 
 // function will stage objects
 func _(stage *models.Stage) {
+
 	// insertion point for declaration of instances to stage
 
 	__ArtefactType__00000000_ := (&models.ArtefactType{Name: `Japanese prints`}).Stage(stage)
@@ -372,6 +373,14 @@ func _(stage *models.Stage) {
 	__ArtistShape__00000000_.Width = 54.000000
 	__ArtistShape__00000000_.Height = 28.000000
 	__ArtistShape__00000000_.IsHidden = false
+	__ArtistShape__00000000_.ImagePng_X = 0.000000
+	__ArtistShape__00000000_.ImagePng_Y = 0.000000
+	__ArtistShape__00000000_.ImagePng_Width = 0.000000
+	__ArtistShape__00000000_.ImagePng_Height = 0.000000
+	__ArtistShape__00000000_.ImagePng_X_Offset = 0.000000
+	__ArtistShape__00000000_.ImagePng_Y_Offset = 0.000000
+	__ArtistShape__00000000_.ImagePng_RectAnchorType = ""
+	__ArtistShape__00000000_.ImagePngBase64Content = ``
 
 	__ArtistShape__00000001_.Name = ``
 	__ArtistShape__00000001_.X = 445.888889
@@ -379,6 +388,14 @@ func _(stage *models.Stage) {
 	__ArtistShape__00000001_.Width = 84.000000
 	__ArtistShape__00000001_.Height = 33.000000
 	__ArtistShape__00000001_.IsHidden = false
+	__ArtistShape__00000001_.ImagePng_X = 0.000000
+	__ArtistShape__00000001_.ImagePng_Y = 0.000000
+	__ArtistShape__00000001_.ImagePng_Width = 0.000000
+	__ArtistShape__00000001_.ImagePng_Height = 0.000000
+	__ArtistShape__00000001_.ImagePng_X_Offset = 0.000000
+	__ArtistShape__00000001_.ImagePng_Y_Offset = 0.000000
+	__ArtistShape__00000001_.ImagePng_RectAnchorType = ""
+	__ArtistShape__00000001_.ImagePngBase64Content = ``
 
 	__ArtistShape__00000002_.Name = ``
 	__ArtistShape__00000002_.X = 293.000000
@@ -386,6 +403,14 @@ func _(stage *models.Stage) {
 	__ArtistShape__00000002_.Width = 74.000000
 	__ArtistShape__00000002_.Height = 31.000000
 	__ArtistShape__00000002_.IsHidden = false
+	__ArtistShape__00000002_.ImagePng_X = 0.000000
+	__ArtistShape__00000002_.ImagePng_Y = 0.000000
+	__ArtistShape__00000002_.ImagePng_Width = 0.000000
+	__ArtistShape__00000002_.ImagePng_Height = 0.000000
+	__ArtistShape__00000002_.ImagePng_X_Offset = 0.000000
+	__ArtistShape__00000002_.ImagePng_Y_Offset = 0.000000
+	__ArtistShape__00000002_.ImagePng_RectAnchorType = ""
+	__ArtistShape__00000002_.ImagePngBase64Content = ``
 
 	__ArtistShape__00000003_.Name = ``
 	__ArtistShape__00000003_.X = 57.000000
@@ -393,6 +418,14 @@ func _(stage *models.Stage) {
 	__ArtistShape__00000003_.Width = 73.000000
 	__ArtistShape__00000003_.Height = 30.000000
 	__ArtistShape__00000003_.IsHidden = false
+	__ArtistShape__00000003_.ImagePng_X = 0.000000
+	__ArtistShape__00000003_.ImagePng_Y = 0.000000
+	__ArtistShape__00000003_.ImagePng_Width = 0.000000
+	__ArtistShape__00000003_.ImagePng_Height = 0.000000
+	__ArtistShape__00000003_.ImagePng_X_Offset = 0.000000
+	__ArtistShape__00000003_.ImagePng_Y_Offset = 0.000000
+	__ArtistShape__00000003_.ImagePng_RectAnchorType = ""
+	__ArtistShape__00000003_.ImagePngBase64Content = ``
 
 	__ArtistShape__00000004_.Name = ``
 	__ArtistShape__00000004_.X = 662.222222
@@ -400,6 +433,14 @@ func _(stage *models.Stage) {
 	__ArtistShape__00000004_.Width = 69.000000
 	__ArtistShape__00000004_.Height = 30.000000
 	__ArtistShape__00000004_.IsHidden = false
+	__ArtistShape__00000004_.ImagePng_X = 0.000000
+	__ArtistShape__00000004_.ImagePng_Y = 0.000000
+	__ArtistShape__00000004_.ImagePng_Width = 0.000000
+	__ArtistShape__00000004_.ImagePng_Height = 0.000000
+	__ArtistShape__00000004_.ImagePng_X_Offset = 0.000000
+	__ArtistShape__00000004_.ImagePng_Y_Offset = 0.000000
+	__ArtistShape__00000004_.ImagePng_RectAnchorType = ""
+	__ArtistShape__00000004_.ImagePngBase64Content = ``
 
 	__ArtistShape__00000005_.Name = ``
 	__ArtistShape__00000005_.X = 655.000000
@@ -407,6 +448,14 @@ func _(stage *models.Stage) {
 	__ArtistShape__00000005_.Width = 47.000000
 	__ArtistShape__00000005_.Height = 30.000000
 	__ArtistShape__00000005_.IsHidden = false
+	__ArtistShape__00000005_.ImagePng_X = 0.000000
+	__ArtistShape__00000005_.ImagePng_Y = 0.000000
+	__ArtistShape__00000005_.ImagePng_Width = 0.000000
+	__ArtistShape__00000005_.ImagePng_Height = 0.000000
+	__ArtistShape__00000005_.ImagePng_X_Offset = 0.000000
+	__ArtistShape__00000005_.ImagePng_Y_Offset = 0.000000
+	__ArtistShape__00000005_.ImagePng_RectAnchorType = ""
+	__ArtistShape__00000005_.ImagePngBase64Content = ``
 
 	__ArtistShape__00000006_.Name = ``
 	__ArtistShape__00000006_.X = 156.000000
@@ -414,6 +463,14 @@ func _(stage *models.Stage) {
 	__ArtistShape__00000006_.Width = 70.000000
 	__ArtistShape__00000006_.Height = 30.000000
 	__ArtistShape__00000006_.IsHidden = false
+	__ArtistShape__00000006_.ImagePng_X = 0.000000
+	__ArtistShape__00000006_.ImagePng_Y = 0.000000
+	__ArtistShape__00000006_.ImagePng_Width = 0.000000
+	__ArtistShape__00000006_.ImagePng_Height = 0.000000
+	__ArtistShape__00000006_.ImagePng_X_Offset = 0.000000
+	__ArtistShape__00000006_.ImagePng_Y_Offset = 0.000000
+	__ArtistShape__00000006_.ImagePng_RectAnchorType = ""
+	__ArtistShape__00000006_.ImagePngBase64Content = ``
 
 	__ArtistShape__00000007_.Name = ``
 	__ArtistShape__00000007_.X = 242.714286
@@ -421,6 +478,14 @@ func _(stage *models.Stage) {
 	__ArtistShape__00000007_.Width = 68.000000
 	__ArtistShape__00000007_.Height = 30.000000
 	__ArtistShape__00000007_.IsHidden = false
+	__ArtistShape__00000007_.ImagePng_X = 0.000000
+	__ArtistShape__00000007_.ImagePng_Y = 0.000000
+	__ArtistShape__00000007_.ImagePng_Width = 0.000000
+	__ArtistShape__00000007_.ImagePng_Height = 0.000000
+	__ArtistShape__00000007_.ImagePng_X_Offset = 0.000000
+	__ArtistShape__00000007_.ImagePng_Y_Offset = 0.000000
+	__ArtistShape__00000007_.ImagePng_RectAnchorType = ""
+	__ArtistShape__00000007_.ImagePngBase64Content = ``
 
 	__ArtistShape__00000008_.Name = ``
 	__ArtistShape__00000008_.X = 473.000000
@@ -428,6 +493,14 @@ func _(stage *models.Stage) {
 	__ArtistShape__00000008_.Width = 80.000000
 	__ArtistShape__00000008_.Height = 30.000000
 	__ArtistShape__00000008_.IsHidden = false
+	__ArtistShape__00000008_.ImagePng_X = 0.000000
+	__ArtistShape__00000008_.ImagePng_Y = 0.000000
+	__ArtistShape__00000008_.ImagePng_Width = 0.000000
+	__ArtistShape__00000008_.ImagePng_Height = 0.000000
+	__ArtistShape__00000008_.ImagePng_X_Offset = 0.000000
+	__ArtistShape__00000008_.ImagePng_Y_Offset = 0.000000
+	__ArtistShape__00000008_.ImagePng_RectAnchorType = ""
+	__ArtistShape__00000008_.ImagePngBase64Content = ``
 
 	__ControlPointShape__00000000_.Name = `Control Point Shape in Japanese prints to Fauvism 0`
 	__ControlPointShape__00000000_.X_Relative = 0.162020
@@ -748,10 +821,10 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.IsArtefactTypeCategoryNodeExpanded = false
 	__Diagram__00000000_.IsArtistCategoryNodeExpanded = false
 	__Diagram__00000000_.IsInfluenceCategoryNodeExpanded = false
-	__Diagram__00000000_.IsMovementCategoryHidden = true
-	__Diagram__00000000_.IsArtefactTypeCategoryHidden = true
-	__Diagram__00000000_.IsArtistCategoryHidden = true
-	__Diagram__00000000_.IsInfluenceCategoryHidden = true
+	__Diagram__00000000_.IsMovementCategoryHidden = false
+	__Diagram__00000000_.IsArtefactTypeCategoryHidden = false
+	__Diagram__00000000_.IsArtistCategoryHidden = false
+	__Diagram__00000000_.IsInfluenceCategoryHidden = false
 	__Diagram__00000000_.StartDate, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1890-01-01 00:00:00 +0000 UTC")
 	__Diagram__00000000_.EndDate, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1935-01-01 00:00:00 +0000 UTC")
 	__Diagram__00000000_.NbYearsForIntervals = 5

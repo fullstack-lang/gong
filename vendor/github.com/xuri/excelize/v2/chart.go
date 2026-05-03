@@ -1,4 +1,4 @@
-// Copyright 2016 - 2025 The excelize Authors. All rights reserved. Use of
+// Copyright 2016 - 2026 The excelize Authors. All rights reserved. Use of
 // this source code is governed by a BSD-style license that can be found in
 // the LICENSE file.
 //
@@ -583,18 +583,6 @@ func parseChartOptions(opts *Chart) (*Chart, error) {
 	if opts.Dimension.Height == 0 {
 		opts.Dimension.Height = defaultChartDimensionHeight
 	}
-	if opts.Format.PrintObject == nil {
-		opts.Format.PrintObject = boolPtr(true)
-	}
-	if opts.Format.Locked == nil {
-		opts.Format.Locked = boolPtr(false)
-	}
-	if opts.Format.ScaleX == 0 {
-		opts.Format.ScaleX = defaultDrawingScale
-	}
-	if opts.Format.ScaleY == 0 {
-		opts.Format.ScaleY = defaultDrawingScale
-	}
 	if opts.Legend.Position == "" {
 		opts.Legend.Position = defaultChartLegendPosition
 	}
@@ -611,6 +599,12 @@ func parseChartOptions(opts *Chart) (*Chart, error) {
 	if opts.ShowBlanksAs == "" {
 		opts.ShowBlanksAs = defaultChartShowBlanksAs
 	}
+	format := opts.Format
+	graphicOptions, err := format.parseGraphicOptions(nil)
+	if err != nil {
+		return opts, err
+	}
+	opts.Format = *graphicOptions
 	return opts, opts.parseSeries()
 }
 
@@ -791,6 +785,7 @@ func (opts *Chart) parseTitle() {
 //	Marker
 //	DataLabel
 //	DataLabelPosition
+//	DataPoint
 //
 // Name: Set the name for the series. The name is displayed in the chart legend
 // and in the formula bar. The 'Name' property is optional and if it isn't
@@ -839,6 +834,9 @@ func (opts *Chart) parseTitle() {
 // DataLabel: This sets the format of the chart series data label.
 //
 // DataLabelPosition: This sets the position of the chart series data label.
+//
+// DataPoint: This sets the format for individual data points in a doughnut, pie
+// or 3D pie chart series. The 'DataPoint' property is optional.
 //
 // Set properties of the chart legend. The options that can be set are:
 //
@@ -954,6 +952,8 @@ func (opts *Chart) parseTitle() {
 // The properties of 'XAxis' that can be set are:
 //
 //	None
+//	DropLines
+//	HighLowLines
 //	MajorGridLines
 //	MinorGridLines
 //	TickLabelSkip
@@ -982,6 +982,17 @@ func (opts *Chart) parseTitle() {
 //	Title
 //
 // None: Disable axes.
+//
+// DropLines: Specifies drop lines for the 2D and 3D area and line charts. Drop
+// lines are vertical lines that connect data points in a chart down to the
+// horizontal (category) axis. They are often used in Line or Area charts to
+// make it easier to see the exact category position of each point. The
+// 'DropLines' property is optional. The default value is false.
+//
+// HighLowLines: Specifies high low lines for the 2D line chart. High low lines
+// displayed by default in stock charts. They extend from the highest value to
+// the lowest value in each category. The 'HighLowLines' property is optional.
+// The default value is false.
 //
 // MajorGridLines: Specifies major grid lines.
 //
