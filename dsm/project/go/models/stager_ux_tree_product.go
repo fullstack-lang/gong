@@ -6,19 +6,19 @@ import (
 
 func (stager *Stager) treeProduct(diagram *Diagram, product *Product, parentNode *tree.Node) {
 	productNodeConf := TreeNodeShapeAndLinkConfiguration[
-		*Product, Product,
-		*ProductShape, ProductShape,
-		*ProductCompositionShape, ProductCompositionShape,
-		*Diagram,
+		*Product, Product, // AT, AT_
+		*ProductShape, ProductShape, // CT, CT_
+		*ProductCompositionShape, ProductCompositionShape, // ACT, ACT_
+		*Diagram, // DiagramType
 	]{
 		TreeNodeAndShapeConfiguration: TreeNodeAndShapeConfiguration[
-			*Product, Product,
-			*ProductShape, ProductShape,
-			*Diagram,
+			*Product, Product, // AT, AT_
+			*ProductShape, ProductShape, // CT, CT_
+			*Diagram, // DiagramType
 		]{
 			TreeNodeConfiguration: TreeNodeConfiguration[
-				*Product, Product,
-				*Diagram,
+				*Product, Product, // AT, AT_
+				*Diagram, // DiagramType
 			]{
 				diagram:                     diagram,
 				parentNode:                  parentNode,

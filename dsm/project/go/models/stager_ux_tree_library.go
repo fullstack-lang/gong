@@ -251,19 +251,19 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 				var dummySlice *[]*NoteProductShape
 
 				noteNodeConf := TreeNodeShapeAndLinkConfiguration[
-					*Note, Note,
-					*NoteShape, NoteShape,
-					*NoteProductShape, NoteProductShape,
-					*Diagram,
+					*Note, Note, // AT, AT_
+					*NoteShape, NoteShape, // CT, CT_
+					*NoteProductShape, NoteProductShape, // ACT, ACT_
+					*Diagram, // DiagramType
 				]{
 					TreeNodeAndShapeConfiguration: TreeNodeAndShapeConfiguration[
-						*Note, Note,
-						*NoteShape, NoteShape,
-						*Diagram,
+						*Note, Note, // AT, AT_
+						*NoteShape, NoteShape, // CT, CT_
+						*Diagram, // DiagramType
 					]{
 						TreeNodeConfiguration: TreeNodeConfiguration[
-							*Note, Note,
-							*Diagram,
+							*Note, Note, // AT, AT_
+							*Diagram, // DiagramType
 						]{
 							diagram:                     diagram,
 							parentNode:                  notesNode,
