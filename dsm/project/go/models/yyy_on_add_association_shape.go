@@ -1,3 +1,4 @@
+// generated code (do not edit)
 package models
 
 func onAddAssociationShape[
@@ -10,7 +11,8 @@ func onAddAssociationShape[
 	},
 	ACT_ Gongstruct,
 ](
-	stager *Stager, start ATstart, end ATend, shapes *[]ACT) func() {
+	stager *Stager, start ATstart, end ATend, shapes *[]ACT,
+) func() {
 	return func() {
 		addAssociationShapeToDiagram(stager, start, end, shapes)
 	}
