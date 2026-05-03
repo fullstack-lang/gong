@@ -433,11 +433,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(diagramprocess.GongMarshallField(stage, "IsParticipantsNodeExpanded"))
 		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "ParticipantWhoseNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "TasksWhoseNodeIsExpanded"))
-		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "TaskShapes"))
+		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "Task_Shapes"))
 		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "ControlFlowsWhoseNodeIsExpanded"))
-		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "ControlFlowShapes"))
+		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "ControlFlow_Shapes"))
 		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "DataFlowsWhoseNodeIsExpanded"))
-		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "DataFlowShapes"))
+		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "DataFlow_Shapes"))
 	}
 
 	libraryOrdered := []*Library{}
@@ -1175,12 +1175,12 @@ func (diagramprocess *DiagramProcess) GongMarshallField(stage *Stage, fieldName 
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
-	case "TaskShapes":
+	case "Task_Shapes":
 		var sb strings.Builder
-		for _, _taskshape := range diagramprocess.TaskShapes {
+		for _, _taskshape := range diagramprocess.Task_Shapes {
 			tmp := SliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramprocess.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "TaskShapes")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Task_Shapes")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _taskshape.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
 		}
@@ -1195,12 +1195,12 @@ func (diagramprocess *DiagramProcess) GongMarshallField(stage *Stage, fieldName 
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
-	case "ControlFlowShapes":
+	case "ControlFlow_Shapes":
 		var sb strings.Builder
-		for _, _controlflowshape := range diagramprocess.ControlFlowShapes {
+		for _, _controlflowshape := range diagramprocess.ControlFlow_Shapes {
 			tmp := SliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramprocess.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ControlFlowShapes")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ControlFlow_Shapes")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _controlflowshape.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
 		}
@@ -1215,12 +1215,12 @@ func (diagramprocess *DiagramProcess) GongMarshallField(stage *Stage, fieldName 
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
-	case "DataFlowShapes":
+	case "DataFlow_Shapes":
 		var sb strings.Builder
-		for _, _dataflowshape := range diagramprocess.DataFlowShapes {
+		for _, _dataflowshape := range diagramprocess.DataFlow_Shapes {
 			tmp := SliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramprocess.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "DataFlowShapes")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "DataFlow_Shapes")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _dataflowshape.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
 		}
@@ -1791,11 +1791,11 @@ func (diagramprocess *DiagramProcess) GongMarshallAllFields(stage *Stage) (initR
 		initializerStatements.WriteString(diagramprocess.GongMarshallField(stage, "IsParticipantsNodeExpanded"))
 		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "ParticipantWhoseNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "TasksWhoseNodeIsExpanded"))
-		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "TaskShapes"))
+		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "Task_Shapes"))
 		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "ControlFlowsWhoseNodeIsExpanded"))
-		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "ControlFlowShapes"))
+		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "ControlFlow_Shapes"))
 		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "DataFlowsWhoseNodeIsExpanded"))
-		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "DataFlowShapes"))
+		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "DataFlow_Shapes"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

@@ -131,7 +131,7 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 	rm := GetSliceOfPointersReverseMap[Participant, Task](GetAssociationName[Participant]().Tasks[0].Name, stager.stage)
 
 	diagramProcess.map_Task_Rect = make(map[*Task]*svg.Rect)
-	for _, taskShape := range diagramProcess.TaskShapes {
+	for _, taskShape := range diagramProcess.Task_Shapes {
 		if taskShape.IsHidden {
 			continue
 		}
@@ -252,7 +252,7 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 		diagramProcess.map_Task_Rect[taskShape.Task] = rect
 	}
 
-	for _, controlFlowShape := range diagramProcess.ControlFlowShapes {
+	for _, controlFlowShape := range diagramProcess.ControlFlow_Shapes {
 		if controlFlowShape.GetIsHidden() {
 			continue
 		}
@@ -280,7 +280,7 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 		_ = link
 	}
 
-	for _, dataFlowShape := range diagramProcess.DataFlowShapes {
+	for _, dataFlowShape := range diagramProcess.DataFlow_Shapes {
 		if dataFlowShape.GetIsHidden() {
 			continue
 		}

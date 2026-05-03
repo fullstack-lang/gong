@@ -296,8 +296,8 @@ func (controlflowshapeFormCallback *ControlFlowShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(controlflowshape_.CornerOffsetRatio), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(controlflowshape_.IsHidden), formDiv)
-		case "DiagramProcess:ControlFlowShapes":
-			// WARNING : this form deals with the N-N association "DiagramProcess.ControlFlowShapes []*ControlFlowShape" but
+		case "DiagramProcess:ControlFlow_Shapes":
+			// WARNING : this form deals with the N-N association "DiagramProcess.ControlFlow_Shapes []*ControlFlowShape" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
 			//
 			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
@@ -312,7 +312,7 @@ func (controlflowshapeFormCallback *ControlFlowShapeFormCallback) OnSave() {
 				var rf models.ReverseField
 				_ = rf
 				rf.GongstructName = "DiagramProcess"
-				rf.Fieldname = "ControlFlowShapes"
+				rf.Fieldname = "ControlFlow_Shapes"
 				formerAssociationSource := controlflowshape_.GongGetReverseFieldOwner(
 					controlflowshapeFormCallback.probe.stageOfInterest,
 					&rf)
@@ -321,7 +321,7 @@ func (controlflowshapeFormCallback *ControlFlowShapeFormCallback) OnSave() {
 				if formerAssociationSource != nil {
 					formerSource, ok = formerAssociationSource.(*models.DiagramProcess)
 					if !ok {
-						log.Fatalln("Source of DiagramProcess.ControlFlowShapes []*ControlFlowShape, is not an DiagramProcess instance")
+						log.Fatalln("Source of DiagramProcess.ControlFlow_Shapes []*ControlFlowShape, is not an DiagramProcess instance")
 					}
 				}
 			}
@@ -332,8 +332,8 @@ func (controlflowshapeFormCallback *ControlFlowShapeFormCallback) OnSave() {
 			if newSourceName == nil {
 				// That could mean we clear the assocation for all source instances
 				if formerSource != nil {
-					idx := slices.Index(formerSource.ControlFlowShapes, controlflowshape_)
-					formerSource.ControlFlowShapes = slices.Delete(formerSource.ControlFlowShapes, idx, idx+1)
+					idx := slices.Index(formerSource.ControlFlow_Shapes, controlflowshape_)
+					formerSource.ControlFlow_Shapes = slices.Delete(formerSource.ControlFlow_Shapes, idx, idx+1)
 				}
 				break // nothing else to do for this field
 			}
@@ -356,12 +356,12 @@ func (controlflowshapeFormCallback *ControlFlowShapeFormCallback) OnSave() {
 				}
 			}
 			if newSource == nil {
-				log.Println("Source of DiagramProcess.ControlFlowShapes []*ControlFlowShape, with name", newSourceName, ", does not exist")
+				log.Println("Source of DiagramProcess.ControlFlow_Shapes []*ControlFlowShape, with name", newSourceName, ", does not exist")
 				break
 			}
 
 			// (3) append the new value to the new source field
-			newSource.ControlFlowShapes = append(newSource.ControlFlowShapes, controlflowshape_)
+			newSource.ControlFlow_Shapes = append(newSource.ControlFlow_Shapes, controlflowshape_)
 		}
 	}
 
@@ -802,8 +802,8 @@ func (dataflowshapeFormCallback *DataFlowShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(dataflowshape_.CornerOffsetRatio), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(dataflowshape_.IsHidden), formDiv)
-		case "DiagramProcess:DataFlowShapes":
-			// WARNING : this form deals with the N-N association "DiagramProcess.DataFlowShapes []*DataFlowShape" but
+		case "DiagramProcess:DataFlow_Shapes":
+			// WARNING : this form deals with the N-N association "DiagramProcess.DataFlow_Shapes []*DataFlowShape" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
 			//
 			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
@@ -818,7 +818,7 @@ func (dataflowshapeFormCallback *DataFlowShapeFormCallback) OnSave() {
 				var rf models.ReverseField
 				_ = rf
 				rf.GongstructName = "DiagramProcess"
-				rf.Fieldname = "DataFlowShapes"
+				rf.Fieldname = "DataFlow_Shapes"
 				formerAssociationSource := dataflowshape_.GongGetReverseFieldOwner(
 					dataflowshapeFormCallback.probe.stageOfInterest,
 					&rf)
@@ -827,7 +827,7 @@ func (dataflowshapeFormCallback *DataFlowShapeFormCallback) OnSave() {
 				if formerAssociationSource != nil {
 					formerSource, ok = formerAssociationSource.(*models.DiagramProcess)
 					if !ok {
-						log.Fatalln("Source of DiagramProcess.DataFlowShapes []*DataFlowShape, is not an DiagramProcess instance")
+						log.Fatalln("Source of DiagramProcess.DataFlow_Shapes []*DataFlowShape, is not an DiagramProcess instance")
 					}
 				}
 			}
@@ -838,8 +838,8 @@ func (dataflowshapeFormCallback *DataFlowShapeFormCallback) OnSave() {
 			if newSourceName == nil {
 				// That could mean we clear the assocation for all source instances
 				if formerSource != nil {
-					idx := slices.Index(formerSource.DataFlowShapes, dataflowshape_)
-					formerSource.DataFlowShapes = slices.Delete(formerSource.DataFlowShapes, idx, idx+1)
+					idx := slices.Index(formerSource.DataFlow_Shapes, dataflowshape_)
+					formerSource.DataFlow_Shapes = slices.Delete(formerSource.DataFlow_Shapes, idx, idx+1)
 				}
 				break // nothing else to do for this field
 			}
@@ -862,12 +862,12 @@ func (dataflowshapeFormCallback *DataFlowShapeFormCallback) OnSave() {
 				}
 			}
 			if newSource == nil {
-				log.Println("Source of DiagramProcess.DataFlowShapes []*DataFlowShape, with name", newSourceName, ", does not exist")
+				log.Println("Source of DiagramProcess.DataFlow_Shapes []*DataFlowShape, with name", newSourceName, ", does not exist")
 				break
 			}
 
 			// (3) append the new value to the new source field
-			newSource.DataFlowShapes = append(newSource.DataFlowShapes, dataflowshape_)
+			newSource.DataFlow_Shapes = append(newSource.DataFlow_Shapes, dataflowshape_)
 		}
 	}
 
@@ -1121,7 +1121,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 			}
 			diagramprocess_.TasksWhoseNodeIsExpanded = instanceSlice
 
-		case "TaskShapes":
+		case "Task_Shapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TaskShape](diagramprocessFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.TaskShape, 0)
 
@@ -1150,7 +1150,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagramprocess_.TaskShapes = instanceSlice
+			diagramprocess_.Task_Shapes = instanceSlice
 
 		case "ControlFlowsWhoseNodeIsExpanded":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ControlFlow](diagramprocessFormCallback.probe.stageOfInterest)
@@ -1183,7 +1183,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 			}
 			diagramprocess_.ControlFlowsWhoseNodeIsExpanded = instanceSlice
 
-		case "ControlFlowShapes":
+		case "ControlFlow_Shapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ControlFlowShape](diagramprocessFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ControlFlowShape, 0)
 
@@ -1212,7 +1212,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagramprocess_.ControlFlowShapes = instanceSlice
+			diagramprocess_.ControlFlow_Shapes = instanceSlice
 
 		case "DataFlowsWhoseNodeIsExpanded":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DataFlow](diagramprocessFormCallback.probe.stageOfInterest)
@@ -1245,7 +1245,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 			}
 			diagramprocess_.DataFlowsWhoseNodeIsExpanded = instanceSlice
 
-		case "DataFlowShapes":
+		case "DataFlow_Shapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DataFlowShape](diagramprocessFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.DataFlowShape, 0)
 
@@ -1274,7 +1274,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagramprocess_.DataFlowShapes = instanceSlice
+			diagramprocess_.DataFlow_Shapes = instanceSlice
 
 		case "Process:DiagramProcesss":
 			// WARNING : this form deals with the N-N association "Process.DiagramProcesss []*DiagramProcess" but
@@ -3514,8 +3514,8 @@ func (taskshapeFormCallback *TaskShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(taskshape_.Height), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(taskshape_.IsHidden), formDiv)
-		case "DiagramProcess:TaskShapes":
-			// WARNING : this form deals with the N-N association "DiagramProcess.TaskShapes []*TaskShape" but
+		case "DiagramProcess:Task_Shapes":
+			// WARNING : this form deals with the N-N association "DiagramProcess.Task_Shapes []*TaskShape" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
 			//
 			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
@@ -3530,7 +3530,7 @@ func (taskshapeFormCallback *TaskShapeFormCallback) OnSave() {
 				var rf models.ReverseField
 				_ = rf
 				rf.GongstructName = "DiagramProcess"
-				rf.Fieldname = "TaskShapes"
+				rf.Fieldname = "Task_Shapes"
 				formerAssociationSource := taskshape_.GongGetReverseFieldOwner(
 					taskshapeFormCallback.probe.stageOfInterest,
 					&rf)
@@ -3539,7 +3539,7 @@ func (taskshapeFormCallback *TaskShapeFormCallback) OnSave() {
 				if formerAssociationSource != nil {
 					formerSource, ok = formerAssociationSource.(*models.DiagramProcess)
 					if !ok {
-						log.Fatalln("Source of DiagramProcess.TaskShapes []*TaskShape, is not an DiagramProcess instance")
+						log.Fatalln("Source of DiagramProcess.Task_Shapes []*TaskShape, is not an DiagramProcess instance")
 					}
 				}
 			}
@@ -3550,8 +3550,8 @@ func (taskshapeFormCallback *TaskShapeFormCallback) OnSave() {
 			if newSourceName == nil {
 				// That could mean we clear the assocation for all source instances
 				if formerSource != nil {
-					idx := slices.Index(formerSource.TaskShapes, taskshape_)
-					formerSource.TaskShapes = slices.Delete(formerSource.TaskShapes, idx, idx+1)
+					idx := slices.Index(formerSource.Task_Shapes, taskshape_)
+					formerSource.Task_Shapes = slices.Delete(formerSource.Task_Shapes, idx, idx+1)
 				}
 				break // nothing else to do for this field
 			}
@@ -3574,12 +3574,12 @@ func (taskshapeFormCallback *TaskShapeFormCallback) OnSave() {
 				}
 			}
 			if newSource == nil {
-				log.Println("Source of DiagramProcess.TaskShapes []*TaskShape, with name", newSourceName, ", does not exist")
+				log.Println("Source of DiagramProcess.Task_Shapes []*TaskShape, with name", newSourceName, ", does not exist")
 				break
 			}
 
 			// (3) append the new value to the new source field
-			newSource.TaskShapes = append(newSource.TaskShapes, taskshape_)
+			newSource.Task_Shapes = append(newSource.Task_Shapes, taskshape_)
 		}
 	}
 

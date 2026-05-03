@@ -335,19 +335,19 @@ func (stage *Stage) StageBranchDiagramProcess(diagramprocess *DiagramProcess) {
 	for _, _task := range diagramprocess.TasksWhoseNodeIsExpanded {
 		StageBranch(stage, _task)
 	}
-	for _, _taskshape := range diagramprocess.TaskShapes {
+	for _, _taskshape := range diagramprocess.Task_Shapes {
 		StageBranch(stage, _taskshape)
 	}
 	for _, _controlflow := range diagramprocess.ControlFlowsWhoseNodeIsExpanded {
 		StageBranch(stage, _controlflow)
 	}
-	for _, _controlflowshape := range diagramprocess.ControlFlowShapes {
+	for _, _controlflowshape := range diagramprocess.ControlFlow_Shapes {
 		StageBranch(stage, _controlflowshape)
 	}
 	for _, _dataflow := range diagramprocess.DataFlowsWhoseNodeIsExpanded {
 		StageBranch(stage, _dataflow)
 	}
-	for _, _dataflowshape := range diagramprocess.DataFlowShapes {
+	for _, _dataflowshape := range diagramprocess.DataFlow_Shapes {
 		StageBranch(stage, _dataflowshape)
 	}
 
@@ -705,20 +705,20 @@ func CopyBranchDiagramProcess(mapOrigCopy map[any]any, diagramprocessFrom *Diagr
 	for _, _task := range diagramprocessFrom.TasksWhoseNodeIsExpanded {
 		diagramprocessTo.TasksWhoseNodeIsExpanded = append(diagramprocessTo.TasksWhoseNodeIsExpanded, CopyBranchTask(mapOrigCopy, _task))
 	}
-	for _, _taskshape := range diagramprocessFrom.TaskShapes {
-		diagramprocessTo.TaskShapes = append(diagramprocessTo.TaskShapes, CopyBranchTaskShape(mapOrigCopy, _taskshape))
+	for _, _taskshape := range diagramprocessFrom.Task_Shapes {
+		diagramprocessTo.Task_Shapes = append(diagramprocessTo.Task_Shapes, CopyBranchTaskShape(mapOrigCopy, _taskshape))
 	}
 	for _, _controlflow := range diagramprocessFrom.ControlFlowsWhoseNodeIsExpanded {
 		diagramprocessTo.ControlFlowsWhoseNodeIsExpanded = append(diagramprocessTo.ControlFlowsWhoseNodeIsExpanded, CopyBranchControlFlow(mapOrigCopy, _controlflow))
 	}
-	for _, _controlflowshape := range diagramprocessFrom.ControlFlowShapes {
-		diagramprocessTo.ControlFlowShapes = append(diagramprocessTo.ControlFlowShapes, CopyBranchControlFlowShape(mapOrigCopy, _controlflowshape))
+	for _, _controlflowshape := range diagramprocessFrom.ControlFlow_Shapes {
+		diagramprocessTo.ControlFlow_Shapes = append(diagramprocessTo.ControlFlow_Shapes, CopyBranchControlFlowShape(mapOrigCopy, _controlflowshape))
 	}
 	for _, _dataflow := range diagramprocessFrom.DataFlowsWhoseNodeIsExpanded {
 		diagramprocessTo.DataFlowsWhoseNodeIsExpanded = append(diagramprocessTo.DataFlowsWhoseNodeIsExpanded, CopyBranchDataFlow(mapOrigCopy, _dataflow))
 	}
-	for _, _dataflowshape := range diagramprocessFrom.DataFlowShapes {
-		diagramprocessTo.DataFlowShapes = append(diagramprocessTo.DataFlowShapes, CopyBranchDataFlowShape(mapOrigCopy, _dataflowshape))
+	for _, _dataflowshape := range diagramprocessFrom.DataFlow_Shapes {
+		diagramprocessTo.DataFlow_Shapes = append(diagramprocessTo.DataFlow_Shapes, CopyBranchDataFlowShape(mapOrigCopy, _dataflowshape))
 	}
 
 	return
@@ -1069,19 +1069,19 @@ func (stage *Stage) UnstageBranchDiagramProcess(diagramprocess *DiagramProcess) 
 	for _, _task := range diagramprocess.TasksWhoseNodeIsExpanded {
 		UnstageBranch(stage, _task)
 	}
-	for _, _taskshape := range diagramprocess.TaskShapes {
+	for _, _taskshape := range diagramprocess.Task_Shapes {
 		UnstageBranch(stage, _taskshape)
 	}
 	for _, _controlflow := range diagramprocess.ControlFlowsWhoseNodeIsExpanded {
 		UnstageBranch(stage, _controlflow)
 	}
-	for _, _controlflowshape := range diagramprocess.ControlFlowShapes {
+	for _, _controlflowshape := range diagramprocess.ControlFlow_Shapes {
 		UnstageBranch(stage, _controlflowshape)
 	}
 	for _, _dataflow := range diagramprocess.DataFlowsWhoseNodeIsExpanded {
 		UnstageBranch(stage, _dataflow)
 	}
-	for _, _dataflowshape := range diagramprocess.DataFlowShapes {
+	for _, _dataflowshape := range diagramprocess.DataFlow_Shapes {
 		UnstageBranch(stage, _dataflowshape)
 	}
 
@@ -1319,25 +1319,25 @@ func (reference *DiagramProcess) GongReconstructPointersFromReferences(stage *St
 	for _, _b := range instance.TasksWhoseNodeIsExpanded {
 		reference.TasksWhoseNodeIsExpanded = append(reference.TasksWhoseNodeIsExpanded, stage.Tasks_reference[_b])
 	}
-	reference.TaskShapes = reference.TaskShapes[:0]
-	for _, _b := range instance.TaskShapes {
-		reference.TaskShapes = append(reference.TaskShapes, stage.TaskShapes_reference[_b])
+	reference.Task_Shapes = reference.Task_Shapes[:0]
+	for _, _b := range instance.Task_Shapes {
+		reference.Task_Shapes = append(reference.Task_Shapes, stage.TaskShapes_reference[_b])
 	}
 	reference.ControlFlowsWhoseNodeIsExpanded = reference.ControlFlowsWhoseNodeIsExpanded[:0]
 	for _, _b := range instance.ControlFlowsWhoseNodeIsExpanded {
 		reference.ControlFlowsWhoseNodeIsExpanded = append(reference.ControlFlowsWhoseNodeIsExpanded, stage.ControlFlows_reference[_b])
 	}
-	reference.ControlFlowShapes = reference.ControlFlowShapes[:0]
-	for _, _b := range instance.ControlFlowShapes {
-		reference.ControlFlowShapes = append(reference.ControlFlowShapes, stage.ControlFlowShapes_reference[_b])
+	reference.ControlFlow_Shapes = reference.ControlFlow_Shapes[:0]
+	for _, _b := range instance.ControlFlow_Shapes {
+		reference.ControlFlow_Shapes = append(reference.ControlFlow_Shapes, stage.ControlFlowShapes_reference[_b])
 	}
 	reference.DataFlowsWhoseNodeIsExpanded = reference.DataFlowsWhoseNodeIsExpanded[:0]
 	for _, _b := range instance.DataFlowsWhoseNodeIsExpanded {
 		reference.DataFlowsWhoseNodeIsExpanded = append(reference.DataFlowsWhoseNodeIsExpanded, stage.DataFlows_reference[_b])
 	}
-	reference.DataFlowShapes = reference.DataFlowShapes[:0]
-	for _, _b := range instance.DataFlowShapes {
-		reference.DataFlowShapes = append(reference.DataFlowShapes, stage.DataFlowShapes_reference[_b])
+	reference.DataFlow_Shapes = reference.DataFlow_Shapes[:0]
+	for _, _b := range instance.DataFlow_Shapes {
+		reference.DataFlow_Shapes = append(reference.DataFlow_Shapes, stage.DataFlowShapes_reference[_b])
 	}
 
 	return
@@ -1568,13 +1568,13 @@ func (reference *DiagramProcess) GongReconstructPointersFromInstances(stage *Sta
 		}
 	}
 	reference.TasksWhoseNodeIsExpanded = _TasksWhoseNodeIsExpanded
-	var _TaskShapes []*TaskShape
-	for _, _reference := range reference.TaskShapes {
+	var _Task_Shapes []*TaskShape
+	for _, _reference := range reference.Task_Shapes {
 		if _instance, ok := stage.TaskShapes_instance[_reference]; ok {
-			_TaskShapes = append(_TaskShapes, _instance)
+			_Task_Shapes = append(_Task_Shapes, _instance)
 		}
 	}
-	reference.TaskShapes = _TaskShapes
+	reference.Task_Shapes = _Task_Shapes
 	var _ControlFlowsWhoseNodeIsExpanded []*ControlFlow
 	for _, _reference := range reference.ControlFlowsWhoseNodeIsExpanded {
 		if _instance, ok := stage.ControlFlows_instance[_reference]; ok {
@@ -1582,13 +1582,13 @@ func (reference *DiagramProcess) GongReconstructPointersFromInstances(stage *Sta
 		}
 	}
 	reference.ControlFlowsWhoseNodeIsExpanded = _ControlFlowsWhoseNodeIsExpanded
-	var _ControlFlowShapes []*ControlFlowShape
-	for _, _reference := range reference.ControlFlowShapes {
+	var _ControlFlow_Shapes []*ControlFlowShape
+	for _, _reference := range reference.ControlFlow_Shapes {
 		if _instance, ok := stage.ControlFlowShapes_instance[_reference]; ok {
-			_ControlFlowShapes = append(_ControlFlowShapes, _instance)
+			_ControlFlow_Shapes = append(_ControlFlow_Shapes, _instance)
 		}
 	}
-	reference.ControlFlowShapes = _ControlFlowShapes
+	reference.ControlFlow_Shapes = _ControlFlow_Shapes
 	var _DataFlowsWhoseNodeIsExpanded []*DataFlow
 	for _, _reference := range reference.DataFlowsWhoseNodeIsExpanded {
 		if _instance, ok := stage.DataFlows_instance[_reference]; ok {
@@ -1596,13 +1596,13 @@ func (reference *DiagramProcess) GongReconstructPointersFromInstances(stage *Sta
 		}
 	}
 	reference.DataFlowsWhoseNodeIsExpanded = _DataFlowsWhoseNodeIsExpanded
-	var _DataFlowShapes []*DataFlowShape
-	for _, _reference := range reference.DataFlowShapes {
+	var _DataFlow_Shapes []*DataFlowShape
+	for _, _reference := range reference.DataFlow_Shapes {
 		if _instance, ok := stage.DataFlowShapes_instance[_reference]; ok {
-			_DataFlowShapes = append(_DataFlowShapes, _instance)
+			_DataFlow_Shapes = append(_DataFlow_Shapes, _instance)
 		}
 	}
-	reference.DataFlowShapes = _DataFlowShapes
+	reference.DataFlow_Shapes = _DataFlow_Shapes
 
 	return
 }
@@ -2057,25 +2057,25 @@ func (diagramprocess *DiagramProcess) GongDiff(stage *Stage, diagramprocessOther
 		ops := Diff(stage, diagramprocess, diagramprocessOther, "TasksWhoseNodeIsExpanded", diagramprocessOther.TasksWhoseNodeIsExpanded, diagramprocess.TasksWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
-	TaskShapesDifferent := false
-	if len(diagramprocess.TaskShapes) != len(diagramprocessOther.TaskShapes) {
-		TaskShapesDifferent = true
+	Task_ShapesDifferent := false
+	if len(diagramprocess.Task_Shapes) != len(diagramprocessOther.Task_Shapes) {
+		Task_ShapesDifferent = true
 	} else {
-		for i := range diagramprocess.TaskShapes {
-			if (diagramprocess.TaskShapes[i] == nil) != (diagramprocessOther.TaskShapes[i] == nil) {
-				TaskShapesDifferent = true
+		for i := range diagramprocess.Task_Shapes {
+			if (diagramprocess.Task_Shapes[i] == nil) != (diagramprocessOther.Task_Shapes[i] == nil) {
+				Task_ShapesDifferent = true
 				break
-			} else if diagramprocess.TaskShapes[i] != nil && diagramprocessOther.TaskShapes[i] != nil {
+			} else if diagramprocess.Task_Shapes[i] != nil && diagramprocessOther.Task_Shapes[i] != nil {
 				// this is a pointer comparaison
-				if diagramprocess.TaskShapes[i] != diagramprocessOther.TaskShapes[i] {
-					TaskShapesDifferent = true
+				if diagramprocess.Task_Shapes[i] != diagramprocessOther.Task_Shapes[i] {
+					Task_ShapesDifferent = true
 					break
 				}
 			}
 		}
 	}
-	if TaskShapesDifferent {
-		ops := Diff(stage, diagramprocess, diagramprocessOther, "TaskShapes", diagramprocessOther.TaskShapes, diagramprocess.TaskShapes)
+	if Task_ShapesDifferent {
+		ops := Diff(stage, diagramprocess, diagramprocessOther, "Task_Shapes", diagramprocessOther.Task_Shapes, diagramprocess.Task_Shapes)
 		diffs = append(diffs, ops)
 	}
 	ControlFlowsWhoseNodeIsExpandedDifferent := false
@@ -2099,25 +2099,25 @@ func (diagramprocess *DiagramProcess) GongDiff(stage *Stage, diagramprocessOther
 		ops := Diff(stage, diagramprocess, diagramprocessOther, "ControlFlowsWhoseNodeIsExpanded", diagramprocessOther.ControlFlowsWhoseNodeIsExpanded, diagramprocess.ControlFlowsWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
-	ControlFlowShapesDifferent := false
-	if len(diagramprocess.ControlFlowShapes) != len(diagramprocessOther.ControlFlowShapes) {
-		ControlFlowShapesDifferent = true
+	ControlFlow_ShapesDifferent := false
+	if len(diagramprocess.ControlFlow_Shapes) != len(diagramprocessOther.ControlFlow_Shapes) {
+		ControlFlow_ShapesDifferent = true
 	} else {
-		for i := range diagramprocess.ControlFlowShapes {
-			if (diagramprocess.ControlFlowShapes[i] == nil) != (diagramprocessOther.ControlFlowShapes[i] == nil) {
-				ControlFlowShapesDifferent = true
+		for i := range diagramprocess.ControlFlow_Shapes {
+			if (diagramprocess.ControlFlow_Shapes[i] == nil) != (diagramprocessOther.ControlFlow_Shapes[i] == nil) {
+				ControlFlow_ShapesDifferent = true
 				break
-			} else if diagramprocess.ControlFlowShapes[i] != nil && diagramprocessOther.ControlFlowShapes[i] != nil {
+			} else if diagramprocess.ControlFlow_Shapes[i] != nil && diagramprocessOther.ControlFlow_Shapes[i] != nil {
 				// this is a pointer comparaison
-				if diagramprocess.ControlFlowShapes[i] != diagramprocessOther.ControlFlowShapes[i] {
-					ControlFlowShapesDifferent = true
+				if diagramprocess.ControlFlow_Shapes[i] != diagramprocessOther.ControlFlow_Shapes[i] {
+					ControlFlow_ShapesDifferent = true
 					break
 				}
 			}
 		}
 	}
-	if ControlFlowShapesDifferent {
-		ops := Diff(stage, diagramprocess, diagramprocessOther, "ControlFlowShapes", diagramprocessOther.ControlFlowShapes, diagramprocess.ControlFlowShapes)
+	if ControlFlow_ShapesDifferent {
+		ops := Diff(stage, diagramprocess, diagramprocessOther, "ControlFlow_Shapes", diagramprocessOther.ControlFlow_Shapes, diagramprocess.ControlFlow_Shapes)
 		diffs = append(diffs, ops)
 	}
 	DataFlowsWhoseNodeIsExpandedDifferent := false
@@ -2141,25 +2141,25 @@ func (diagramprocess *DiagramProcess) GongDiff(stage *Stage, diagramprocessOther
 		ops := Diff(stage, diagramprocess, diagramprocessOther, "DataFlowsWhoseNodeIsExpanded", diagramprocessOther.DataFlowsWhoseNodeIsExpanded, diagramprocess.DataFlowsWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
-	DataFlowShapesDifferent := false
-	if len(diagramprocess.DataFlowShapes) != len(diagramprocessOther.DataFlowShapes) {
-		DataFlowShapesDifferent = true
+	DataFlow_ShapesDifferent := false
+	if len(diagramprocess.DataFlow_Shapes) != len(diagramprocessOther.DataFlow_Shapes) {
+		DataFlow_ShapesDifferent = true
 	} else {
-		for i := range diagramprocess.DataFlowShapes {
-			if (diagramprocess.DataFlowShapes[i] == nil) != (diagramprocessOther.DataFlowShapes[i] == nil) {
-				DataFlowShapesDifferent = true
+		for i := range diagramprocess.DataFlow_Shapes {
+			if (diagramprocess.DataFlow_Shapes[i] == nil) != (diagramprocessOther.DataFlow_Shapes[i] == nil) {
+				DataFlow_ShapesDifferent = true
 				break
-			} else if diagramprocess.DataFlowShapes[i] != nil && diagramprocessOther.DataFlowShapes[i] != nil {
+			} else if diagramprocess.DataFlow_Shapes[i] != nil && diagramprocessOther.DataFlow_Shapes[i] != nil {
 				// this is a pointer comparaison
-				if diagramprocess.DataFlowShapes[i] != diagramprocessOther.DataFlowShapes[i] {
-					DataFlowShapesDifferent = true
+				if diagramprocess.DataFlow_Shapes[i] != diagramprocessOther.DataFlow_Shapes[i] {
+					DataFlow_ShapesDifferent = true
 					break
 				}
 			}
 		}
 	}
-	if DataFlowShapesDifferent {
-		ops := Diff(stage, diagramprocess, diagramprocessOther, "DataFlowShapes", diagramprocessOther.DataFlowShapes, diagramprocess.DataFlowShapes)
+	if DataFlow_ShapesDifferent {
+		ops := Diff(stage, diagramprocess, diagramprocessOther, "DataFlow_Shapes", diagramprocessOther.DataFlow_Shapes, diagramprocess.DataFlow_Shapes)
 		diffs = append(diffs, ops)
 	}
 

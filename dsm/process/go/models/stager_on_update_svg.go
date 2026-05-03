@@ -69,7 +69,7 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 			controlFlowShape.SetCornerOffsetRatio(1.5)
 			controlFlowShape.SetStartRatio(0.5)
 			controlFlowShape.SetEndRatio(0.5)
-			diagramProcess.ControlFlowShapes = append(diagramProcess.ControlFlowShapes, controlFlowShape)
+			diagramProcess.ControlFlow_Shapes = append(diagramProcess.ControlFlow_Shapes, controlFlowShape)
 		} else {
 			dataFlow := (&DataFlow{
 				Start: startTask,
@@ -92,7 +92,7 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 			dataFlowShape.SetCornerOffsetRatio(1.5)
 			dataFlowShape.SetStartRatio(0.5)
 			dataFlowShape.SetEndRatio(0.5)
-			diagramProcess.DataFlowShapes = append(diagramProcess.DataFlowShapes, dataFlowShape)
+			diagramProcess.DataFlow_Shapes = append(diagramProcess.DataFlow_Shapes, dataFlowShape)
 		}
 	}
 

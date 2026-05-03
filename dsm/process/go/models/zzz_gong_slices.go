@@ -69,11 +69,11 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.DiagramProcess_TasksWhoseNodeIsExpanded_reverseMap[_task] = diagramprocess
 		}
 	}
-	stage.DiagramProcess_TaskShapes_reverseMap = make(map[*TaskShape]*DiagramProcess)
+	stage.DiagramProcess_Task_Shapes_reverseMap = make(map[*TaskShape]*DiagramProcess)
 	for diagramprocess := range stage.DiagramProcesss {
 		_ = diagramprocess
-		for _, _taskshape := range diagramprocess.TaskShapes {
-			stage.DiagramProcess_TaskShapes_reverseMap[_taskshape] = diagramprocess
+		for _, _taskshape := range diagramprocess.Task_Shapes {
+			stage.DiagramProcess_Task_Shapes_reverseMap[_taskshape] = diagramprocess
 		}
 	}
 	stage.DiagramProcess_ControlFlowsWhoseNodeIsExpanded_reverseMap = make(map[*ControlFlow]*DiagramProcess)
@@ -83,11 +83,11 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.DiagramProcess_ControlFlowsWhoseNodeIsExpanded_reverseMap[_controlflow] = diagramprocess
 		}
 	}
-	stage.DiagramProcess_ControlFlowShapes_reverseMap = make(map[*ControlFlowShape]*DiagramProcess)
+	stage.DiagramProcess_ControlFlow_Shapes_reverseMap = make(map[*ControlFlowShape]*DiagramProcess)
 	for diagramprocess := range stage.DiagramProcesss {
 		_ = diagramprocess
-		for _, _controlflowshape := range diagramprocess.ControlFlowShapes {
-			stage.DiagramProcess_ControlFlowShapes_reverseMap[_controlflowshape] = diagramprocess
+		for _, _controlflowshape := range diagramprocess.ControlFlow_Shapes {
+			stage.DiagramProcess_ControlFlow_Shapes_reverseMap[_controlflowshape] = diagramprocess
 		}
 	}
 	stage.DiagramProcess_DataFlowsWhoseNodeIsExpanded_reverseMap = make(map[*DataFlow]*DiagramProcess)
@@ -97,11 +97,11 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.DiagramProcess_DataFlowsWhoseNodeIsExpanded_reverseMap[_dataflow] = diagramprocess
 		}
 	}
-	stage.DiagramProcess_DataFlowShapes_reverseMap = make(map[*DataFlowShape]*DiagramProcess)
+	stage.DiagramProcess_DataFlow_Shapes_reverseMap = make(map[*DataFlowShape]*DiagramProcess)
 	for diagramprocess := range stage.DiagramProcesss {
 		_ = diagramprocess
-		for _, _dataflowshape := range diagramprocess.DataFlowShapes {
-			stage.DiagramProcess_DataFlowShapes_reverseMap[_dataflowshape] = diagramprocess
+		for _, _dataflowshape := range diagramprocess.DataFlow_Shapes {
+			stage.DiagramProcess_DataFlow_Shapes_reverseMap[_dataflowshape] = diagramprocess
 		}
 	}
 
