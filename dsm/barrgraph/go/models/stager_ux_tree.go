@@ -106,10 +106,12 @@ func (stager *Stager) tree() {
 					if frontNode.IsChecked && !stagedNode.IsChecked {
 						movementShape := &MovementShape{
 							Movement: movement,
-							Width:    240,
-							Height:   80,
-							X:        float64(int(rand.Float32()*100) + 10),
-							Y:        float64(int(rand.Float32()*100) + 10),
+							PositionAndSize: PositionAndSize{
+								Width:  240,
+								Height: 80,
+								X:      float64(int(rand.Float32()*100) + 10),
+								Y:      float64(int(rand.Float32()*100) + 10),
+							},
 						}
 						movementShape.Stage(stage)
 						diagram.MovementShapes = append(diagram.MovementShapes, movementShape)
@@ -192,10 +194,12 @@ func (stager *Stager) tree() {
 					if frontNode.IsChecked && !stagedNode.IsChecked {
 						artefactTypeShape := &ArtefactTypeShape{
 							ArtefactType: artefactType,
-							Width:        150,
-							Height:       25,
-							X:            float64(int(rand.Float32()*100) + 10),
-							Y:            float64(int(rand.Float32()*100) + 10),
+							PositionAndSize: PositionAndSize{
+								Width:  150,
+								Height: 25,
+								X:      float64(int(rand.Float32()*100) + 10),
+								Y:      float64(int(rand.Float32()*100) + 10),
+							},
 						}
 						artefactTypeShape.Stage(stage)
 						diagram.ArtefactTypeShapes = append(diagram.ArtefactTypeShapes, artefactTypeShape)
@@ -277,10 +281,12 @@ func (stager *Stager) tree() {
 					if frontNode.IsChecked && !stagedNode.IsChecked {
 						artistShape := &ArtistShape{
 							Artist: element,
-							Width:  80,
-							Height: 30,
-							X:      float64(int(rand.Float32()*100) + 10),
-							Y:      float64(int(rand.Float32()*100) + 10),
+							PositionAndSize: PositionAndSize{
+								Width:  80,
+								Height: 30,
+								X:      float64(int(rand.Float32()*100) + 10),
+								Y:      float64(int(rand.Float32()*100) + 10),
+							},
 						}
 						artistShape.Stage(stage)
 						diagram.ArtistShapes = append(diagram.ArtistShapes, artistShape)
