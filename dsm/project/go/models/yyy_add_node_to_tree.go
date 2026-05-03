@@ -128,6 +128,135 @@ type TreeNodeAndShapeConfigurationWithoutLink[
 	shapesMap                   map[AT]CT
 }
 
+func createBaseNode[
+	AT interface {
+		*AT_
+		AbstractType
+	},
+	AT_ Gongstruct,
+	CT interface {
+		*CT_
+		RectShapeInterface
+		ConcreteType
+	},
+	CT_ Gongstruct,
+	DiagramType interface {
+		DiagramIF
+		AbstractType
+		comparable
+	}](
+	stager *Stager,
+	diagram DiagramType,
+	element AT,
+	parentNode *tree.Node,
+	elementsWhoseNodeIsExpanded *[]AT,
+	shapesMap map[AT]CT,
+) *tree.Node {
+	stage := stager.stage
+	node := &tree.Node{
+		Name: element.GetName(),
+
+		IsExpanded: slices.Index(*elementsWhoseNodeIsExpanded, element) != -1,
+
+		HasCheckboxButton:  true,
+		IsCheckboxDisabled: !diagram.GetIsChecked(),
+
+		HasToolTip:      true,
+		ToolTipPosition: tree.Above,
+		ToolTipText:     "Add " + GetGongstructNameFromPointer(element) + " to diagram",
+
+		IsNodeClickable: true,
+
+		IsInEditMode: element.GetIsInRenameMode(),
+	}
+	if diagram.GetIsShowPrefix() {
+		node.IsWithPrefix = true
+		node.Prefix = element.GetComputedPrefix()
+	}
+	parentNode.Children = append(parentNode.Children, node)
+
+	// if the element is not in rename mode, then we can add a button to enter rename mode
+	addRenameButton(element, node, stager)
+
+	// if the element is in the diagram, then we can add a button to remove it from the diagram
+	if shape, ok := shapesMap[element]; ok {
+		node.IsChecked = true
+		visibilityButton := &tree.Button{
+			Name:            diagram.GetName(),
+			Icon:            string(buttons.BUTTON_visibility_off),
+			ToolTipText:     "Hide from diagram",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				shape.SetIsHidden(!shape.GetIsHidden())
+				stage.Commit()
+			},
+		}
+		if shape.GetIsHidden() {
+			visibilityButton.Icon = string(buttons.BUTTON_visibility)
+			visibilityButton.ToolTipText = "Show on diagram"
+		}
+		node.Buttons = append(node.Buttons, visibilityButton)
+	}
+
+	// add a button to have the list of other diagrams where the element is present
+	diagrams := stager.map_Element_Diagrams[any(element).(AbstractType)]
+	if len(diagrams) > 1 {
+		if diagram.GetDiagramListElement() == any(element).(AbstractType) {
+			node.IsExpanded = true
+			diagramsButton := &tree.Button{
+				Name:            diagram.GetName(),
+				Icon:            string(buttons.BUTTON_list),
+				ToolTipText:     "List of other " + fmt.Sprint(len(diagrams)-1) + " diagrams where element is present",
+				HasToolTip:      true,
+				ToolTipPosition: tree.Right,
+				OnClick: func() {
+					diagram.SetDiagramListElement(nil)
+					stage.Commit()
+				},
+			}
+			node.Buttons = append(node.Buttons, diagramsButton)
+
+			for _, diag := range diagrams {
+				if any(diag) == any(diagram) {
+					continue
+				}
+				diagramNode := &tree.Node{
+					Name:            diag.GetName(),
+					ToolTipText:     "Go to diagram \"" + diag.GetName() + "\"",
+					HasToolTip:      true,
+					ToolTipPosition: tree.Right,
+					IsNodeClickable: true,
+					OnUpdate: func(_ *tree.Stage, _, _ *tree.Node) {
+						for diagram_ := range *GetGongstructInstancesSetFromPointerType[DiagramType](stager.stage) {
+							diagram_.SetIsChecked(false)
+						}
+						diag.SetIsChecked(true)
+						diagram.SetDiagramListElement(nil)
+						stage.Commit()
+					},
+				}
+				node.Children = append(node.Children, diagramNode)
+			}
+		} else {
+			node.Buttons = append(node.Buttons,
+				&tree.Button{
+					Name:            diagram.GetName(),
+					Icon:            string(buttons.BUTTON_list),
+					ToolTipText:     "Show list of other diagrams where \"" + element.GetName() + "\" is present",
+					HasToolTip:      true,
+					ToolTipPosition: tree.Right,
+					OnClick: func() {
+						diagram.SetDiagramListElement(any(element).(AbstractType))
+						stage.Commit()
+					},
+				})
+		}
+	}
+
+	return node
+}
+
 func addNodeToTree[
 	AT interface {
 		*AT_
@@ -155,111 +284,19 @@ func addNodeToTree[
 	conf TreeNodeShapeAndLinkConfiguration[AT, AT_, CT, CT_, ACT, ACT_, DiagramType],
 ) *tree.Node {
 	stage := stager.stage
-	node := &tree.Node{
-		Name: conf.element.GetName(),
-
-		IsExpanded: slices.Index(*conf.elementsWhoseNodeIsExpanded, conf.element) != -1,
-
-		HasCheckboxButton:  true,
-		IsCheckboxDisabled: !conf.diagram.GetIsChecked(),
-
-		HasToolTip:      true,
-		ToolTipPosition: tree.Above,
-		ToolTipText:     "Add " + GetGongstructNameFromPointer(conf.element) + " to diagram",
-
-		IsNodeClickable: true,
-
-		IsInEditMode: conf.element.GetIsInRenameMode(),
-	}
-	if conf.diagram.GetIsShowPrefix() {
-		node.IsWithPrefix = true
-		node.Prefix = conf.element.GetComputedPrefix()
-	}
-	conf.parentNode.Children = append(conf.parentNode.Children, node)
-
-	// if the element is not in rename mode, then we can add a button to enter rename mode
-	addRenameButton(conf.element, node, stager)
-
-	// if the element is in the diagram, then we can add a button to remove it from the diagram
-	if shape, ok := conf.shapesMap[conf.element]; ok {
-		node.IsChecked = true
-		visibilityButton := &tree.Button{
-			Name:            conf.diagram.GetName(),
-			Icon:            string(buttons.BUTTON_visibility_off),
-			ToolTipText:     "Hide from diagram",
-			HasToolTip:      true,
-			ToolTipPosition: tree.Right,
-			OnClick: func() {
-				shape.SetIsHidden(!shape.GetIsHidden())
-				stage.Commit()
-			},
-		}
-		if shape.GetIsHidden() {
-			visibilityButton.Icon = string(buttons.BUTTON_visibility)
-			visibilityButton.ToolTipText = "Show on diagram"
-		}
-		node.Buttons = append(node.Buttons, visibilityButton)
-	}
+	node := createBaseNode(
+		stager,
+		conf.diagram,
+		conf.element,
+		conf.parentNode,
+		conf.elementsWhoseNodeIsExpanded,
+		conf.shapesMap,
+	)
 
 	_, isParentInDiagram := conf.shapesMap[conf.parentElement]
 	_, isChildInDiagram := conf.shapesMap[conf.element]
 	var compositionShape ACT
 	compositionShape, _ = conf.map_Element_CompositionShape[conf.element]
-
-	// add a button to have the list of other diagrams where the element is present
-	diagrams := stager.map_Element_Diagrams[conf.element]
-	if len(diagrams) > 1 {
-		if conf.diagram.GetElementWhoseDiagramListIsDisplayed() == conf.element {
-			node.IsExpanded = true
-			diagramsButton := &tree.Button{
-				Name:            conf.diagram.GetName(),
-				Icon:            string(buttons.BUTTON_list),
-				ToolTipText:     "List of other " + fmt.Sprint(len(diagrams)-1) + " diagrams where element is present",
-				HasToolTip:      true,
-				ToolTipPosition: tree.Right,
-				OnClick: func() {
-					conf.diagram.SetElementWhoseDiagramListIsDisplayed(nil)
-					stage.Commit()
-				},
-			}
-			node.Buttons = append(node.Buttons, diagramsButton)
-
-			for _, diag := range diagrams {
-				if any(diag) == any(conf.diagram) {
-					continue
-				}
-				diagramNode := &tree.Node{
-					Name:            diag.GetName(),
-					ToolTipText:     "Go to diagram \"" + diag.GetName() + "\"",
-					HasToolTip:      true,
-					ToolTipPosition: tree.Right,
-					IsNodeClickable: true,
-					OnUpdate: func(_ *tree.Stage, _, _ *tree.Node) {
-						for diagram_ := range *GetGongstructInstancesSetFromPointerType[DiagramType](stager.stage) {
-							diagram_.SetIsChecked(false)
-						}
-						diag.SetIsChecked(true)
-						conf.diagram.SetElementWhoseDiagramListIsDisplayed(nil)
-						stage.Commit()
-					},
-				}
-				node.Children = append(node.Children, diagramNode)
-			}
-		} else {
-			node.Buttons = append(node.Buttons,
-				&tree.Button{
-					Name:            conf.diagram.GetName(),
-					Icon:            string(buttons.BUTTON_list),
-					ToolTipText:     "Show list of other diagrams where \"" + conf.element.GetName() + "\" is present",
-					HasToolTip:      true,
-					ToolTipPosition: tree.Right,
-					OnClick: func() {
-						conf.diagram.SetElementWhoseDiagramListIsDisplayed(conf.element)
-						stage.Commit()
-					},
-				})
-		}
-	}
 
 	// if the parent element is in the diagram and the child element is in the diagram,
 	// then we can add a checkbox to add/remove the link between the parent and child element to/from the diagram
@@ -345,102 +382,14 @@ func addNodeToTreeWithoutLink[
 	stager *Stager,
 	conf TreeNodeAndShapeConfigurationWithoutLink[AT, AT_, ParentAT, ParentAT_, CT, CT_, DiagramType],
 ) *tree.Node {
-	stage := stager.stage
-	node := &tree.Node{
-		Name:               conf.element.GetName(),
-		IsExpanded:         slices.Index(*conf.elementsWhoseNodeIsExpanded, conf.element) != -1,
-		HasCheckboxButton:  true,
-		IsCheckboxDisabled: !conf.diagram.GetIsChecked(),
-		HasToolTip:         true,
-		ToolTipPosition:    tree.Above,
-		ToolTipText:        "Add " + GetGongstructNameFromPointer(conf.element) + " to diagram",
-		IsNodeClickable:    true,
-		IsInEditMode:       conf.element.GetIsInRenameMode(),
-	}
-	if conf.diagram.GetIsShowPrefix() {
-		node.IsWithPrefix = true
-		node.Prefix = conf.element.GetComputedPrefix()
-	}
-	conf.parentNode.Children = append(conf.parentNode.Children, node)
-
-	// if the element is not in rename mode, then we can add a button to enter rename mode
-	addRenameButton(conf.element, node, stager)
-
-	// if the element is in the diagram, then we can add a button to remove it from the diagram
-	if shape, ok := conf.shapesMap[conf.element]; ok {
-		node.IsChecked = true
-		visibilityButton := &tree.Button{
-			Name:            conf.diagram.GetName(),
-			Icon:            string(buttons.BUTTON_visibility_off),
-			ToolTipText:     "Hide from diagram",
-			HasToolTip:      true,
-			ToolTipPosition: tree.Right,
-			OnClick: func() {
-				shape.SetIsHidden(!shape.GetIsHidden())
-				stage.Commit()
-			},
-		}
-		if shape.GetIsHidden() {
-			visibilityButton.Icon = string(buttons.BUTTON_visibility)
-			visibilityButton.ToolTipText = "Show on diagram"
-		}
-		node.Buttons = append(node.Buttons, visibilityButton)
-	}
-
-	// add a button to have the list of other diagrams where the element is present
-	diagrams := stager.map_Element_Diagrams[any(conf.element).(AbstractType)]
-	if len(diagrams) > 1 {
-		if conf.diagram.GetElementWhoseDiagramListIsDisplayed() == any(conf.element).(AbstractType) {
-			node.IsExpanded = true
-			diagramsButton := &tree.Button{
-				Name:            conf.diagram.GetName(),
-				Icon:            string(buttons.BUTTON_list),
-				ToolTipText:     "List of other " + fmt.Sprint(len(diagrams)-1) + " diagrams where element is present",
-				HasToolTip:      true,
-				ToolTipPosition: tree.Right,
-				OnClick: func() {
-					conf.diagram.SetElementWhoseDiagramListIsDisplayed(nil)
-					stage.Commit()
-				},
-			}
-			node.Buttons = append(node.Buttons, diagramsButton)
-
-			for _, diag := range diagrams {
-				if any(diag) == any(conf.diagram) {
-					continue
-				}
-				diagramNode := &tree.Node{
-					Name:            diag.GetName(),
-					ToolTipText:     "Go to diagram \"" + diag.GetName() + "\"",
-					HasToolTip:      true,
-					ToolTipPosition: tree.Right,
-					IsNodeClickable: true,
-					OnUpdate: func(_ *tree.Stage, _, _ *tree.Node) {
-						for diagram_ := range *GetGongstructInstancesSetFromPointerType[DiagramType](stager.stage) {
-							diagram_.SetIsChecked(false)
-						}
-						diag.SetIsChecked(true)
-						conf.diagram.SetElementWhoseDiagramListIsDisplayed(nil)
-						stage.Commit()
-					},
-				}
-				node.Children = append(node.Children, diagramNode)
-			}
-		} else {
-			node.Buttons = append(node.Buttons,
-				&tree.Button{
-					Name:            conf.diagram.GetName(),
-					Icon:            string(buttons.BUTTON_list),
-					ToolTipText:     "Show list of other diagrams where \"" + conf.element.GetName() + "\" is present",
-					HasToolTip:      true,
-					ToolTipPosition: tree.Right,
-					OnClick: func() {
-						conf.diagram.SetElementWhoseDiagramListIsDisplayed(any(conf.element).(AbstractType))
-						stage.Commit()
-					},
-				})
-		}
-	}
+	node := createBaseNode(
+		stager,
+		conf.diagram,
+		conf.element,
+		conf.parentNode,
+		conf.elementsWhoseNodeIsExpanded,
+		conf.shapesMap,
+	)
 
 	// what to do when the node is clicked
 	node.OnUpdate = onUpdateElementInDiagramWithoutLink(
