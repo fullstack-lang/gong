@@ -13,7 +13,6 @@ func (stager *Stager) treetasks(
 	parentNode *tree.Node,
 	taskWhoseNodeIsExpanded *[]*Task,
 ) {
-
 	taskNodeConf := TreeNodeAndShapeConfigurationWithoutLink[
 		*Task, Task,
 		*Participant, Participant,
@@ -28,7 +27,7 @@ func (stager *Stager) treetasks(
 		shapes:                      &diagramProcess.TaskShapes,
 		shapesMap:                   diagramProcess.map_Task_TaskShape,
 	}
-	taskNode := addNodeToTreeWithoutLinkWithConf(stager, taskNodeConf)
+	taskNode := addNodeToTreeWithoutLink(stager, taskNodeConf)
 
 	nodeOutControlFlows := &tree.Node{
 		Name:            "out control flows",
