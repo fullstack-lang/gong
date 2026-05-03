@@ -151,7 +151,7 @@ func onUpdateElementInDiagramWithoutLink[
 
 		if frontNode.IsChecked && !stagedNode.IsChecked {
 			stagedNode.IsChecked = frontNode.IsChecked
-			if any(shape) != nil {
+			if shape != nil {
 				log.Panic("adding a shape to an already existing shape")
 			}
 			shape = newShapeToDiagram(element, diagram, shapes, stager.stage)
@@ -161,7 +161,7 @@ func onUpdateElementInDiagramWithoutLink[
 		}
 		if !frontNode.IsChecked && stagedNode.IsChecked {
 			stagedNode.IsChecked = frontNode.IsChecked
-			if any(shape) == nil {
+			if shape == nil {
 				log.Panic("remove a non existing shape to diagram")
 			}
 			shape.UnstageVoid(stager.stage)
