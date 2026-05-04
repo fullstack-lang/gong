@@ -26,6 +26,10 @@ type Library struct {
 	IsDataFlowsNodeExpanded      bool
 	DataFlowsWhoseNodeIsExpanded []*DataFlow
 
+	RootDatas                []*Data
+	IsDatasNodeExpanded      bool
+	DatasWhoseNodeIsExpanded []*Data
+
 	// temporary persistance of the library expand status.
 	IsExpandedTmp bool
 }

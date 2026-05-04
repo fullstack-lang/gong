@@ -156,6 +156,21 @@ type Stage struct {
 	OnAfterControlFlowShapeDeleteCallback OnAfterDeleteInterface[ControlFlowShape]
 	OnAfterControlFlowShapeReadCallback   OnAfterReadInterface[ControlFlowShape]
 
+	Datas                map[*Data]struct{}
+	Datas_instance       map[*Data]*Data
+	Datas_mapString      map[string]*Data
+	DataOrder            uint
+	Data_stagedOrder     map[*Data]uint
+	Data_orderStaged     map[uint]*Data
+	Datas_reference      map[*Data]*Data
+	Datas_referenceOrder map[*Data]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterDataCreateCallback OnAfterCreateInterface[Data]
+	OnAfterDataUpdateCallback OnAfterUpdateInterface[Data]
+	OnAfterDataDeleteCallback OnAfterDeleteInterface[Data]
+	OnAfterDataReadCallback   OnAfterReadInterface[Data]
+
 	DataFlows                map[*DataFlow]struct{}
 	DataFlows_instance       map[*DataFlow]*DataFlow
 	DataFlows_mapString      map[string]*DataFlow
@@ -242,6 +257,10 @@ type Stage struct {
 	Library_RootDataFlows_reverseMap map[*DataFlow]*Library
 
 	Library_DataFlowsWhoseNodeIsExpanded_reverseMap map[*DataFlow]*Library
+
+	Library_RootDatas_reverseMap map[*Data]*Library
+
+	Library_DatasWhoseNodeIsExpanded_reverseMap map[*Data]*Library
 
 	OnAfterLibraryCreateCallback OnAfterCreateInterface[Library]
 	OnAfterLibraryUpdateCallback OnAfterUpdateInterface[Library]
@@ -602,6 +621,10 @@ func (stage *Stage) Squash() {
 	stage.ControlFlowShapes_instance = make(map[*ControlFlowShape]*ControlFlowShape)
 	stage.ControlFlowShapes_referenceOrder = make(map[*ControlFlowShape]uint)
 
+	stage.Datas_reference = make(map[*Data]*Data)
+	stage.Datas_instance = make(map[*Data]*Data)
+	stage.Datas_referenceOrder = make(map[*Data]uint)
+
 	stage.DataFlows_reference = make(map[*DataFlow]*DataFlow)
 	stage.DataFlows_instance = make(map[*DataFlow]*DataFlow)
 	stage.DataFlows_referenceOrder = make(map[*DataFlow]uint)
@@ -695,6 +718,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.ControlFlowShapeOrder = maxControlFlowShapeOrder + 1
 	} else {
 		stage.ControlFlowShapeOrder = 0
+	}
+
+	var maxDataOrder uint
+	var foundData bool
+	for _, order := range stage.Data_stagedOrder {
+		if !foundData || order > maxDataOrder {
+			maxDataOrder = order
+			foundData = true
+		}
+	}
+	if foundData {
+		stage.DataOrder = maxDataOrder + 1
+	} else {
+		stage.DataOrder = 0
 	}
 
 	var maxDataFlowOrder uint
@@ -926,6 +963,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *Data:
+		tmp := GetStructInstancesByOrder(stage.Datas, stage.Data_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *Data implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *DataFlow:
 		tmp := GetStructInstancesByOrder(stage.DataFlows, stage.DataFlow_stagedOrder)
 
@@ -1099,6 +1150,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.ControlFlows, stage.ControlFlow_stagedOrder)
 	case "ControlFlowShape":
 		res = GetNamedStructInstances(stage.ControlFlowShapes, stage.ControlFlowShape_stagedOrder)
+	case "Data":
+		res = GetNamedStructInstances(stage.Datas, stage.Data_stagedOrder)
 	case "DataFlow":
 		res = GetNamedStructInstances(stage.DataFlows, stage.DataFlow_stagedOrder)
 	case "DataFlowShape":
@@ -1192,6 +1245,8 @@ type BackRepoInterface interface {
 	CheckoutControlFlow(controlflow *ControlFlow)
 	CommitControlFlowShape(controlflowshape *ControlFlowShape)
 	CheckoutControlFlowShape(controlflowshape *ControlFlowShape)
+	CommitData(data *Data)
+	CheckoutData(data *Data)
 	CommitDataFlow(dataflow *DataFlow)
 	CheckoutDataFlow(dataflow *DataFlow)
 	CommitDataFlowShape(dataflowshape *DataFlowShape)
@@ -1223,6 +1278,9 @@ func NewStage(name string) (stage *Stage) {
 
 		ControlFlowShapes:           make(map[*ControlFlowShape]struct{}),
 		ControlFlowShapes_mapString: make(map[string]*ControlFlowShape),
+
+		Datas:           make(map[*Data]struct{}),
+		Datas_mapString: make(map[string]*Data),
 
 		DataFlows:           make(map[*DataFlow]struct{}),
 		DataFlows_mapString: make(map[string]*DataFlow),
@@ -1272,6 +1330,10 @@ func NewStage(name string) (stage *Stage) {
 		ControlFlowShape_orderStaged: make(map[uint]*ControlFlowShape),
 		ControlFlowShapes_reference: make(map[*ControlFlowShape]*ControlFlowShape),
 
+		Data_stagedOrder: make(map[*Data]uint),
+		Data_orderStaged: make(map[uint]*Data),
+		Datas_reference: make(map[*Data]*Data),
+
 		DataFlow_stagedOrder: make(map[*DataFlow]uint),
 		DataFlow_orderStaged: make(map[uint]*DataFlow),
 		DataFlows_reference: make(map[*DataFlow]*DataFlow),
@@ -1318,6 +1380,8 @@ func NewStage(name string) (stage *Stage) {
 
 			"ControlFlowShape": &ControlFlowShapeUnmarshaller{},
 
+			"Data": &DataUnmarshaller{},
+
 			"DataFlow": &DataFlowUnmarshaller{},
 
 			"DataFlowShape": &DataFlowShapeUnmarshaller{},
@@ -1344,6 +1408,7 @@ func NewStage(name string) (stage *Stage) {
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
 			{name: "ControlFlow"},
 			{name: "ControlFlowShape"},
+			{name: "Data"},
 			{name: "DataFlow"},
 			{name: "DataFlowShape"},
 			{name: "DiagramProcess"},
@@ -1369,6 +1434,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.ControlFlow_stagedOrder[instance]
 	case *ControlFlowShape:
 		return stage.ControlFlowShape_stagedOrder[instance]
+	case *Data:
+		return stage.Data_stagedOrder[instance]
 	case *DataFlow:
 		return stage.DataFlow_stagedOrder[instance]
 	case *DataFlowShape:
@@ -1402,6 +1469,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.ControlFlow_orderStaged[order]).(Type)
 	case *ControlFlowShape:
 		return any(stage.ControlFlowShape_orderStaged[order]).(Type)
+	case *Data:
+		return any(stage.Data_orderStaged[order]).(Type)
 	case *DataFlow:
 		return any(stage.DataFlow_orderStaged[order]).(Type)
 	case *DataFlowShape:
@@ -1434,6 +1503,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.ControlFlow_stagedOrder[instance]
 	case *ControlFlowShape:
 		return stage.ControlFlowShape_stagedOrder[instance]
+	case *Data:
+		return stage.Data_stagedOrder[instance]
 	case *DataFlow:
 		return stage.DataFlow_stagedOrder[instance]
 	case *DataFlowShape:
@@ -1521,6 +1592,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	// insertion point for computing the map of number of instances per gongstruct
 	stage.Map_GongStructName_InstancesNb["ControlFlow"] = len(stage.ControlFlows)
 	stage.Map_GongStructName_InstancesNb["ControlFlowShape"] = len(stage.ControlFlowShapes)
+	stage.Map_GongStructName_InstancesNb["Data"] = len(stage.Datas)
 	stage.Map_GongStructName_InstancesNb["DataFlow"] = len(stage.DataFlows)
 	stage.Map_GongStructName_InstancesNb["DataFlowShape"] = len(stage.DataFlowShapes)
 	stage.Map_GongStructName_InstancesNb["DiagramProcess"] = len(stage.DiagramProcesss)
@@ -1745,6 +1817,94 @@ func (controlflowshape *ControlFlowShape) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (controlflowshape *ControlFlowShape) SetName(name string) {
 	controlflowshape.Name = name
+}
+
+// Stage puts data to the model stage
+func (data *Data) Stage(stage *Stage) *Data {
+	if _, ok := stage.Datas[data]; !ok {
+		stage.Datas[data] = struct{}{}
+		stage.Data_stagedOrder[data] = stage.DataOrder
+		stage.Data_orderStaged[stage.DataOrder] = data
+		stage.DataOrder++
+	}
+	stage.Datas_mapString[data.Name] = data
+
+	return data
+}
+
+// StagePreserveOrder puts data to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.DataOrder
+// - update stage.DataOrder accordingly
+func (data *Data) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.Datas[data]; !ok {
+		stage.Datas[data] = struct{}{}
+
+		if order > stage.DataOrder {
+			stage.DataOrder = order
+		}
+		stage.Data_stagedOrder[data] = order
+		stage.Data_orderStaged[order] = data
+		stage.DataOrder++
+	}
+	stage.Datas_mapString[data.Name] = data
+}
+
+// Unstage removes data off the model stage
+func (data *Data) Unstage(stage *Stage) *Data {
+	delete(stage.Datas, data)
+	// issue1150
+	// delete(stage.Data_stagedOrder, data)
+	delete(stage.Datas_mapString, data.Name)
+
+	return data
+}
+
+// UnstageVoid removes data off the model stage
+func (data *Data) UnstageVoid(stage *Stage) {
+	delete(stage.Datas, data)
+	// issue1150
+	// delete(stage.Data_stagedOrder, data)
+	delete(stage.Datas_mapString, data.Name)
+}
+
+// commit data to the back repo (if it is already staged)
+func (data *Data) Commit(stage *Stage) *Data {
+	if _, ok := stage.Datas[data]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitData(data)
+		}
+	}
+	return data
+}
+
+func (data *Data) CommitVoid(stage *Stage) {
+	data.Commit(stage)
+}
+
+func (data *Data) StageVoid(stage *Stage) {
+	data.Stage(stage)
+}
+
+// Checkout data to the back repo (if it is already staged)
+func (data *Data) Checkout(stage *Stage) *Data {
+	if _, ok := stage.Datas[data]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutData(data)
+		}
+	}
+	return data
+}
+
+// for satisfaction of GongStruct interface
+func (data *Data) GetName() (res string) {
+	return data.Name
+}
+
+// for satisfaction of GongStruct interface
+func (data *Data) SetName(name string) {
+	data.Name = name
 }
 
 // Stage puts dataflow to the model stage
@@ -2631,6 +2791,7 @@ func (taskshape *TaskShape) SetName(name string) {
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
 	CreateORMControlFlow(ControlFlow *ControlFlow)
 	CreateORMControlFlowShape(ControlFlowShape *ControlFlowShape)
+	CreateORMData(Data *Data)
 	CreateORMDataFlow(DataFlow *DataFlow)
 	CreateORMDataFlowShape(DataFlowShape *DataFlowShape)
 	CreateORMDiagramProcess(DiagramProcess *DiagramProcess)
@@ -2646,6 +2807,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
 	DeleteORMControlFlow(ControlFlow *ControlFlow)
 	DeleteORMControlFlowShape(ControlFlowShape *ControlFlowShape)
+	DeleteORMData(Data *Data)
 	DeleteORMDataFlow(DataFlow *DataFlow)
 	DeleteORMDataFlowShape(DataFlowShape *DataFlowShape)
 	DeleteORMDiagramProcess(DiagramProcess *DiagramProcess)
@@ -2668,6 +2830,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.ControlFlowShapes_mapString = make(map[string]*ControlFlowShape)
 	stage.ControlFlowShape_stagedOrder = make(map[*ControlFlowShape]uint)
 	stage.ControlFlowShapeOrder = 0
+
+	stage.Datas = make(map[*Data]struct{})
+	stage.Datas_mapString = make(map[string]*Data)
+	stage.Data_stagedOrder = make(map[*Data]uint)
+	stage.DataOrder = 0
 
 	stage.DataFlows = make(map[*DataFlow]struct{})
 	stage.DataFlows_mapString = make(map[string]*DataFlow)
@@ -2734,6 +2901,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.ControlFlowShapes = nil
 	stage.ControlFlowShapes_mapString = nil
 
+	stage.Datas = nil
+	stage.Datas_mapString = nil
+
 	stage.DataFlows = nil
 	stage.DataFlows_mapString = nil
 
@@ -2774,6 +2944,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for controlflowshape := range stage.ControlFlowShapes {
 		controlflowshape.Unstage(stage)
+	}
+
+	for data := range stage.Datas {
+		data.Unstage(stage)
 	}
 
 	for dataflow := range stage.DataFlows {
@@ -2896,6 +3070,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.ControlFlows).(*Type)
 	case map[*ControlFlowShape]any:
 		return any(&stage.ControlFlowShapes).(*Type)
+	case map[*Data]any:
+		return any(&stage.Datas).(*Type)
 	case map[*DataFlow]any:
 		return any(&stage.DataFlows).(*Type)
 	case map[*DataFlowShape]any:
@@ -2932,6 +3108,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.ControlFlows_mapString).(map[string]Type)
 	case *ControlFlowShape:
 		return any(stage.ControlFlowShapes_mapString).(map[string]Type)
+	case *Data:
+		return any(stage.Datas_mapString).(map[string]Type)
 	case *DataFlow:
 		return any(stage.DataFlows_mapString).(map[string]Type)
 	case *DataFlowShape:
@@ -2968,6 +3146,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.ControlFlows).(*map[*Type]struct{})
 	case ControlFlowShape:
 		return any(&stage.ControlFlowShapes).(*map[*Type]struct{})
+	case Data:
+		return any(&stage.Datas).(*map[*Type]struct{})
 	case DataFlow:
 		return any(&stage.DataFlows).(*map[*Type]struct{})
 	case DataFlowShape:
@@ -3004,6 +3184,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.ControlFlows).(*map[Type]struct{})
 	case *ControlFlowShape:
 		return any(&stage.ControlFlowShapes).(*map[Type]struct{})
+	case *Data:
+		return any(&stage.Datas).(*map[Type]struct{})
 	case *DataFlow:
 		return any(&stage.DataFlows).(*map[Type]struct{})
 	case *DataFlowShape:
@@ -3040,6 +3222,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.ControlFlows_mapString).(*map[string]*Type)
 	case ControlFlowShape:
 		return any(&stage.ControlFlowShapes_mapString).(*map[string]*Type)
+	case Data:
+		return any(&stage.Datas_mapString).(*map[string]*Type)
 	case DataFlow:
 		return any(&stage.DataFlows_mapString).(*map[string]*Type)
 	case DataFlowShape:
@@ -3087,6 +3271,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of ControlFlow with the name of the field
 			ControlFlow: &ControlFlow{Name: "ControlFlow"},
+		}).(*Type)
+	case Data:
+		return any(&Data{
+			// Initialisation of associations
 		}).(*Type)
 	case DataFlow:
 		return any(&DataFlow{
@@ -3141,6 +3329,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			RootDataFlows: []*DataFlow{{Name: "RootDataFlows"}},
 			// field is initialized with an instance of DataFlow with the name of the field
 			DataFlowsWhoseNodeIsExpanded: []*DataFlow{{Name: "DataFlowsWhoseNodeIsExpanded"}},
+			// field is initialized with an instance of Data with the name of the field
+			RootDatas: []*Data{{Name: "RootDatas"}},
+			// field is initialized with an instance of Data with the name of the field
+			DatasWhoseNodeIsExpanded: []*Data{{Name: "DatasWhoseNodeIsExpanded"}},
 		}).(*Type)
 	case Participant:
 		return any(&Participant{
@@ -3269,6 +3461,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of Data
+	case Data:
+		switch fieldname {
+		// insertion point for per direct association field
 		}
 	// reverse maps of direct associations of DataFlow
 	case DataFlow:
@@ -3447,6 +3644,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of Data
+	case Data:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of DataFlow
 	case DataFlow:
 		switch fieldname {
@@ -3594,6 +3796,22 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "RootDatas":
+			res := make(map[*Data][]*Library)
+			for library := range stage.Librarys {
+				for _, data_ := range library.RootDatas {
+					res[data_] = append(res[data_], library)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "DatasWhoseNodeIsExpanded":
+			res := make(map[*Data][]*Library)
+			for library := range stage.Librarys {
+				for _, data_ := range library.DatasWhoseNodeIsExpanded {
+					res[data_] = append(res[data_], library)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Participant
 	case Participant:
@@ -3720,6 +3938,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "ControlFlow"
 	case *ControlFlowShape:
 		res = "ControlFlowShape"
+	case *Data:
+		res = "Data"
 	case *DataFlow:
 		res = "DataFlow"
 	case *DataFlowShape:
@@ -3771,6 +3991,15 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		_ = rf
 		rf.GongstructName = "DiagramProcess"
 		rf.Fieldname = "ControlFlow_Shapes"
+		res = append(res, rf)
+	case *Data:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Library"
+		rf.Fieldname = "RootDatas"
+		res = append(res, rf)
+		rf.GongstructName = "Library"
+		rf.Fieldname = "DatasWhoseNodeIsExpanded"
 		res = append(res, rf)
 	case *DataFlow:
 		var rf ReverseField
@@ -3938,6 +4167,21 @@ func (controlflowshape *ControlFlowShape) GongGetFieldHeaders() (res []GongField
 		{
 			Name:               "IsHidden",
 			GongFieldValueType: GongFieldValueTypeBool,
+		},
+	}
+	return
+}
+
+func (data *Data) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "ComputedPrefix",
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 	}
 	return
@@ -4171,6 +4415,20 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "DataFlowsWhoseNodeIsExpanded",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "DataFlow",
+		},
+		{
+			Name:                 "RootDatas",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Data",
+		},
+		{
+			Name:               "IsDatasNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "DatasWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Data",
 		},
 		{
 			Name:               "IsExpandedTmp",
@@ -4534,6 +4792,17 @@ func (controlflowshape *ControlFlowShape) GongGetFieldValue(fieldName string, st
 	return
 }
 
+func (data *Data) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = data.Name
+	case "ComputedPrefix":
+		res.valueString = data.ComputedPrefix
+	}
+	return
+}
+
 func (dataflow *DataFlow) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -4819,6 +5088,30 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	case "DataFlowsWhoseNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range library.DataFlowsWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "RootDatas":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range library.RootDatas {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "IsDatasNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", library.IsDatasNodeExpanded)
+		res.valueBool = library.IsDatasNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "DatasWhoseNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range library.DatasWhoseNodeIsExpanded {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -5183,6 +5476,19 @@ func (controlflowshape *ControlFlowShape) GongSetFieldValue(fieldName string, va
 	return nil
 }
 
+func (data *Data) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		data.Name = value.GetValueString()
+	case "ComputedPrefix":
+		data.ComputedPrefix = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (dataflow *DataFlow) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -5524,6 +5830,36 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 				}
 			}
 		}
+	case "RootDatas":
+		library.RootDatas = make([]*Data, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Datas {
+					if stage.Data_stagedOrder[__instance__] == uint(id) {
+						library.RootDatas = append(library.RootDatas, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "IsDatasNodeExpanded":
+		library.IsDatasNodeExpanded = value.GetValueBool()
+	case "DatasWhoseNodeIsExpanded":
+		library.DatasWhoseNodeIsExpanded = make([]*Data, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Datas {
+					if stage.Data_stagedOrder[__instance__] == uint(id) {
+						library.DatasWhoseNodeIsExpanded = append(library.DatasWhoseNodeIsExpanded, __instance__)
+						break
+					}
+				}
+			}
+		}
 	case "IsExpandedTmp":
 		library.IsExpandedTmp = value.GetValueBool()
 	default:
@@ -5838,6 +6174,10 @@ func (controlflowshape *ControlFlowShape) GongGetGongstructName() string {
 	return "ControlFlowShape"
 }
 
+func (data *Data) GongGetGongstructName() string {
+	return "Data"
+}
+
 func (dataflow *DataFlow) GongGetGongstructName() string {
 	return "DataFlow"
 }
@@ -5893,6 +6233,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.ControlFlowShapes_mapString = make(map[string]*ControlFlowShape)
 	for controlflowshape := range stage.ControlFlowShapes {
 		stage.ControlFlowShapes_mapString[controlflowshape.Name] = controlflowshape
+	}
+
+	stage.Datas_mapString = make(map[string]*Data)
+	for data := range stage.Datas {
+		stage.Datas_mapString[data.Name] = data
 	}
 
 	stage.DataFlows_mapString = make(map[string]*DataFlow)
