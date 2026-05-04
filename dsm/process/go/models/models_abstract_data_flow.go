@@ -9,4 +9,8 @@ type DataFlow struct {
 	Start *Task
 
 	End *Task
+
+	Datas []*Data
 }
+
+var _ AbstractType = (*DataFlow)(nil)

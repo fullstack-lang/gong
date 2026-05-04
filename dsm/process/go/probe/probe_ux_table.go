@@ -34,6 +34,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.DataFlow](probe)
 	case "DataFlowShape":
 		updateProbeTable[*models.DataFlowShape](probe)
+	case "DataShape":
+		updateProbeTable[*models.DataShape](probe)
 	case "DiagramProcess":
 		updateProbeTable[*models.DiagramProcess](probe)
 	case "Library":

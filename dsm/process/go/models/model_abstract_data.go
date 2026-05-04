@@ -6,3 +6,5 @@ type Data struct {
 	LibraryAbstractFields
 	AbstractTypeFields
 }
+
+var _ AbstractType = (*Data)(nil)
