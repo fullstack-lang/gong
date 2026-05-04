@@ -1638,17 +1638,21 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
     if (segments.length < 2) return segment.EndPoint.X;
     
     let segment0 = segments[0];
-    let segment1 = segments[1];
     let isSeg0Horizontal = this.getOrientation(segment0) === 'horizontal';
     
-    // Determine the direction of the horizontal segment
-    let dirX = isSeg0Horizontal ? segment0.EndPoint.X - segment0.StartPoint.X : segment1.EndPoint.X - segment1.StartPoint.X;
-    let signX = dirX >= 0 ? 1 : -1;
-    let paddingX = 12; // Base padding distance from the corner
-    
-    // Place text opposite to the horizontal direction
-    return segment0.EndPoint.X - signX * paddingX;
-  }
+    if (isSeg0Horizontal) {
+        // Segment 1 is vertical: Center the text exactly on the corner's X coordinate
+        return segment0.EndPoint.X;
+    } else {
+        // Segment 1 is horizontal: Place text opposite to the horizontal direction
+        let segment1 = segments[1];
+        let dirX = segment1.EndPoint.X - segment1.StartPoint.X;
+        let signX = dirX >= 0 ? 1 : -1;
+        let paddingX = 12; // Base padding distance from the corner
+        
+        return segment0.EndPoint.X - signX * paddingX;
+    }
+}
 
   getCornerTextY(segment: Segment, segments: Segment[], text: svg.LinkAnchoredText): number {
     if (!text.AutomaticLayout) {
@@ -1690,13 +1694,16 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
     if (segments.length < 2) return 'start';
     
     let segment0 = segments[0];
-    let segment1 = segments[1];
     let isSeg0Horizontal = this.getOrientation(segment0) === 'horizontal';
     
-    // Determine the direction of the horizontal segment
-    let dirX = isSeg0Horizontal ? segment0.EndPoint.X - segment0.StartPoint.X : segment1.EndPoint.X - segment1.StartPoint.X;
-    
-    // If the line goes right, anchor to the end so text flows left. Vice versa for left.
-    return dirX >= 0 ? 'end' : 'start';
-}
+    if (isSeg0Horizontal) {
+        // Segment 1 is vertical: Text should be centered relative to the corner
+        return 'middle';
+    } else {
+        // Segment 1 is horizontal: Flow text away from the corner
+        let segment1 = segments[1];
+        let dirX = segment1.EndPoint.X - segment1.StartPoint.X;
+        return dirX >= 0 ? 'end' : 'start';
+    }
+ }
 }
