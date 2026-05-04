@@ -386,6 +386,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "ComputedPrefix"))
 		pointersInitializesStatements.WriteString(dataflow.GongMarshallField(stage, "Start"))
 		pointersInitializesStatements.WriteString(dataflow.GongMarshallField(stage, "End"))
+		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "IsDatasNodeExpanded"))
 		pointersInitializesStatements.WriteString(dataflow.GongMarshallField(stage, "Datas"))
 	}
 
@@ -495,6 +496,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "DataFlow_Shapes"))
 		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "DatasWhoseNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "Data_Shapes"))
+		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "DataFlowsWhoseDataNodeIsExpanded"))
 	}
 
 	libraryOrdered := []*Library{}
@@ -1059,6 +1061,11 @@ func (dataflow *DataFlow) GongMarshallField(stage *Stage, fieldName string) (res
 		res = strings.ReplaceAll(res, "{{Identifier}}", dataflow.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dataflow.ComputedPrefix))
+	case "IsDatasNodeExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", dataflow.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsDatasNodeExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", dataflow.IsDatasNodeExpanded))
 
 	case "Start":
 		if dataflow.Start != nil {
@@ -1380,6 +1387,16 @@ func (diagramprocess *DiagramProcess) GongMarshallField(stage *Stage, fieldName 
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramprocess.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Data_Shapes")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _datashape.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "DataFlowsWhoseDataNodeIsExpanded":
+		var sb strings.Builder
+		for _, _dataflow := range diagramprocess.DataFlowsWhoseDataNodeIsExpanded {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramprocess.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "DataFlowsWhoseDataNodeIsExpanded")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _dataflow.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
@@ -1977,6 +1994,7 @@ func (dataflow *DataFlow) GongMarshallAllFields(stage *Stage) (initRes string, p
 		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "ComputedPrefix"))
 		pointersInitializesStatements.WriteString(dataflow.GongMarshallField(stage, "Start"))
 		pointersInitializesStatements.WriteString(dataflow.GongMarshallField(stage, "End"))
+		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "IsDatasNodeExpanded"))
 		pointersInitializesStatements.WriteString(dataflow.GongMarshallField(stage, "Datas"))
 	}
 	initRes = initializerStatements.String()
@@ -2041,6 +2059,7 @@ func (diagramprocess *DiagramProcess) GongMarshallAllFields(stage *Stage) (initR
 		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "DataFlow_Shapes"))
 		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "DatasWhoseNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "Data_Shapes"))
+		pointersInitializesStatements.WriteString(diagramprocess.GongMarshallField(stage, "DataFlowsWhoseDataNodeIsExpanded"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
