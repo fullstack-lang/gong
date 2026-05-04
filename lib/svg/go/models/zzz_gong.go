@@ -271,6 +271,8 @@ type Stage struct {
 
 	Link_TextAtArrowEnd_reverseMap map[*LinkAnchoredText]*Link
 
+	Link_TextAtCorner_reverseMap map[*LinkAnchoredText]*Link
+
 	Link_ControlPoints_reverseMap map[*ControlPoint]*Link
 
 	OnAfterLinkCreateCallback OnAfterCreateInterface[Link]
@@ -4949,6 +4951,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			TextAtArrowStart: []*LinkAnchoredText{{Name: "TextAtArrowStart"}},
 			// field is initialized with an instance of LinkAnchoredText with the name of the field
 			TextAtArrowEnd: []*LinkAnchoredText{{Name: "TextAtArrowEnd"}},
+			// field is initialized with an instance of LinkAnchoredText with the name of the field
+			TextAtCorner: []*LinkAnchoredText{{Name: "TextAtCorner"}},
 			// field is initialized with an instance of ControlPoint with the name of the field
 			ControlPoints: []*ControlPoint{{Name: "ControlPoints"}},
 		}).(*Type)
@@ -5479,6 +5483,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "TextAtCorner":
+			res := make(map[*LinkAnchoredText][]*Link)
+			for link := range stage.Links {
+				for _, linkanchoredtext_ := range link.TextAtCorner {
+					res[linkanchoredtext_] = append(res[linkanchoredtext_], link)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "ControlPoints":
 			res := make(map[*ControlPoint][]*Link)
 			for link := range stage.Links {
@@ -5828,6 +5840,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		res = append(res, rf)
 		rf.GongstructName = "Link"
 		rf.Fieldname = "TextAtArrowEnd"
+		res = append(res, rf)
+		rf.GongstructName = "Link"
+		rf.Fieldname = "TextAtCorner"
 		res = append(res, rf)
 	case *Path:
 		var rf ReverseField
@@ -6323,6 +6338,11 @@ func (link *Link) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:                 "TextAtArrowEnd",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "LinkAnchoredText",
+		},
+		{
+			Name:                 "TextAtCorner",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "LinkAnchoredText",
 		},
@@ -7875,6 +7895,16 @@ func (link *Link) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "TextAtCorner":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range link.TextAtCorner {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	case "ControlPoints":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range link.ControlPoints {
@@ -9238,6 +9268,20 @@ func (link *Link) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 				for __instance__ := range stage.LinkAnchoredTexts {
 					if stage.LinkAnchoredText_stagedOrder[__instance__] == uint(id) {
 						link.TextAtArrowEnd = append(link.TextAtArrowEnd, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "TextAtCorner":
+		link.TextAtCorner = make([]*LinkAnchoredText, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.LinkAnchoredTexts {
+					if stage.LinkAnchoredText_stagedOrder[__instance__] == uint(id) {
+						link.TextAtCorner = append(link.TextAtCorner, __instance__)
 						break
 					}
 				}

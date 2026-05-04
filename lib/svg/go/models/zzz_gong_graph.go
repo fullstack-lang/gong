@@ -561,6 +561,9 @@ func (stage *Stage) StageBranchLink(link *Link) {
 	for _, _linkanchoredtext := range link.TextAtArrowEnd {
 		StageBranch(stage, _linkanchoredtext)
 	}
+	for _, _linkanchoredtext := range link.TextAtCorner {
+		StageBranch(stage, _linkanchoredtext)
+	}
 	for _, _controlpoint := range link.ControlPoints {
 		StageBranch(stage, _controlpoint)
 	}
@@ -1141,6 +1144,9 @@ func CopyBranchLink(mapOrigCopy map[any]any, linkFrom *Link) (linkTo *Link) {
 	}
 	for _, _linkanchoredtext := range linkFrom.TextAtArrowEnd {
 		linkTo.TextAtArrowEnd = append(linkTo.TextAtArrowEnd, CopyBranchLinkAnchoredText(mapOrigCopy, _linkanchoredtext))
+	}
+	for _, _linkanchoredtext := range linkFrom.TextAtCorner {
+		linkTo.TextAtCorner = append(linkTo.TextAtCorner, CopyBranchLinkAnchoredText(mapOrigCopy, _linkanchoredtext))
 	}
 	for _, _controlpoint := range linkFrom.ControlPoints {
 		linkTo.ControlPoints = append(linkTo.ControlPoints, CopyBranchControlPoint(mapOrigCopy, _controlpoint))
@@ -1723,6 +1729,9 @@ func (stage *Stage) UnstageBranchLink(link *Link) {
 	for _, _linkanchoredtext := range link.TextAtArrowEnd {
 		UnstageBranch(stage, _linkanchoredtext)
 	}
+	for _, _linkanchoredtext := range link.TextAtCorner {
+		UnstageBranch(stage, _linkanchoredtext)
+	}
 	for _, _controlpoint := range link.ControlPoints {
 		UnstageBranch(stage, _controlpoint)
 	}
@@ -2118,6 +2127,10 @@ func (reference *Link) GongReconstructPointersFromReferences(stage *Stage, insta
 	for _, _b := range instance.TextAtArrowEnd {
 		reference.TextAtArrowEnd = append(reference.TextAtArrowEnd, stage.LinkAnchoredTexts_reference[_b])
 	}
+	reference.TextAtCorner = reference.TextAtCorner[:0]
+	for _, _b := range instance.TextAtCorner {
+		reference.TextAtCorner = append(reference.TextAtCorner, stage.LinkAnchoredTexts_reference[_b])
+	}
 	reference.ControlPoints = reference.ControlPoints[:0]
 	for _, _b := range instance.ControlPoints {
 		reference.ControlPoints = append(reference.ControlPoints, stage.ControlPoints_reference[_b])
@@ -2471,6 +2484,13 @@ func (reference *Link) GongReconstructPointersFromInstances(stage *Stage) () {
 		}
 	}
 	reference.TextAtArrowEnd = _TextAtArrowEnd
+	var _TextAtCorner []*LinkAnchoredText
+	for _, _reference := range reference.TextAtCorner {
+		if _instance, ok := stage.LinkAnchoredTexts_instance[_reference]; ok {
+			_TextAtCorner = append(_TextAtCorner, _instance)
+		}
+	}
+	reference.TextAtCorner = _TextAtCorner
 	var _ControlPoints []*ControlPoint
 	for _, _reference := range reference.ControlPoints {
 		if _instance, ok := stage.ControlPoints_instance[_reference]; ok {
@@ -3310,6 +3330,27 @@ func (link *Link) GongDiff(stage *Stage, linkOther *Link) (diffs []string) {
 	}
 	if TextAtArrowEndDifferent {
 		ops := Diff(stage, link, linkOther, "TextAtArrowEnd", linkOther.TextAtArrowEnd, link.TextAtArrowEnd)
+		diffs = append(diffs, ops)
+	}
+	TextAtCornerDifferent := false
+	if len(link.TextAtCorner) != len(linkOther.TextAtCorner) {
+		TextAtCornerDifferent = true
+	} else {
+		for i := range link.TextAtCorner {
+			if (link.TextAtCorner[i] == nil) != (linkOther.TextAtCorner[i] == nil) {
+				TextAtCornerDifferent = true
+				break
+			} else if link.TextAtCorner[i] != nil && linkOther.TextAtCorner[i] != nil {
+				// this is a pointer comparaison
+				if link.TextAtCorner[i] != linkOther.TextAtCorner[i] {
+					TextAtCornerDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if TextAtCornerDifferent {
+		ops := Diff(stage, link, linkOther, "TextAtCorner", linkOther.TextAtCorner, link.TextAtCorner)
 		diffs = append(diffs, ops)
 	}
 	ControlPointsDifferent := false
