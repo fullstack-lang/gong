@@ -1628,4 +1628,75 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
       height: rectAnchoredPngImage.Height
     };
   }
+
+  // --- Helper methods for TextAtCorner positioning ---
+
+  getCornerTextX(segment: Segment, segments: Segment[], text: svg.LinkAnchoredText): number {
+    if (!text.AutomaticLayout) {
+        return segment.EndPoint.X + text.X_Offset;
+    }
+    if (segments.length < 2) return segment.EndPoint.X;
+    
+    let segment0 = segments[0];
+    let segment1 = segments[1];
+    let isSeg0Horizontal = this.getOrientation(segment0) === 'horizontal';
+    
+    // Determine the direction of the horizontal segment
+    let dirX = isSeg0Horizontal ? segment0.EndPoint.X - segment0.StartPoint.X : segment1.EndPoint.X - segment1.StartPoint.X;
+    let signX = dirX >= 0 ? 1 : -1;
+    let paddingX = 12; // Base padding distance from the corner
+    
+    // Place text opposite to the horizontal direction
+    return segment0.EndPoint.X - signX * paddingX;
+  }
+
+  getCornerTextY(segment: Segment, segments: Segment[], text: svg.LinkAnchoredText): number {
+    if (!text.AutomaticLayout) {
+        return segment.EndPoint.Y + text.Y_Offset;
+    }
+    if (segments.length < 2) return segment.EndPoint.Y;
+    
+    let segment0 = segments[0];
+    let segment1 = segments[1];
+    let isSeg0Vertical = this.getOrientation(segment0) === 'vertical';
+    
+    // Determine the direction of the vertical segment
+    let dirY = isSeg0Vertical ? segment0.EndPoint.Y - segment0.StartPoint.Y : segment1.EndPoint.Y - segment1.StartPoint.Y;
+    let signY = dirY >= 0 ? 1 : -1;
+    let paddingY = 8;
+    
+    // If the first segment is vertical, we push in the SAME direction as dirY to get away from the segment
+    // If the second segment is vertical, we push in the OPPOSITE direction of dirY to get away from it
+    let yOffset = isSeg0Vertical ? (signY * paddingY) : (-signY * paddingY);
+    
+    if (yOffset > 0) {
+        // Text is BELOW the corner; shift down by roughly 1em so the top of the text doesn't overlap the line
+        yOffset += this.oneEm * 0.8;
+    } else {
+        // Text is ABOVE the corner; shift up based on multiline count so the bottom line rests above the corner
+        let lines = this.splitTextIntoLines(text.Content);
+        if (lines.length > 1) {
+            yOffset -= (lines.length - 1) * this.oneEm;
+        }
+    }
+
+    return segment0.EndPoint.Y + yOffset;
+  }
+
+  getCornerTextAnchor(segment: Segment, segments: Segment[], text: svg.LinkAnchoredText): string {
+    if (!text.AutomaticLayout) {
+        return 'start'; 
+    }
+    if (segments.length < 2) return 'start';
+    
+    let segment0 = segments[0];
+    let segment1 = segments[1];
+    let isSeg0Horizontal = this.getOrientation(segment0) === 'horizontal';
+    
+    // Determine the direction of the horizontal segment
+    let dirX = isSeg0Horizontal ? segment0.EndPoint.X - segment0.StartPoint.X : segment1.EndPoint.X - segment1.StartPoint.X;
+    
+    // If the line goes right, anchor to the end so text flows left. Vice versa for left.
+    return dirX >= 0 ? 'end' : 'start';
+}
 }
