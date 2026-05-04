@@ -62,6 +62,7 @@ Line 2`}).Stage(stage)
 	__LinkAnchoredText__00000009_ := (&models.LinkAnchoredText{Name: `AA_LEFT_OR_TOP`}).Stage(stage)
 	__LinkAnchoredText__00000010_ := (&models.LinkAnchoredText{Name: `AA_RIGHT_OR_BOTTOM_BELOW`}).Stage(stage)
 	__LinkAnchoredText__00000011_ := (&models.LinkAnchoredText{Name: `LEFT_OR_TOP_ABOVE`}).Stage(stage)
+	__LinkAnchoredText__00000012_ := (&models.LinkAnchoredText{Name: `TEXT AT CORNER`}).Stage(stage)
 
 	__Rect__00000000_ := (&models.Rect{Name: `Bottom Rect`}).Stage(stage)
 	__Rect__00000001_ := (&models.Rect{Name: `Middle Rect`}).Stage(stage)
@@ -586,6 +587,27 @@ Line 2`
 	__LinkAnchoredText__00000011_.StrokeDashArray = ``
 	__LinkAnchoredText__00000011_.StrokeDashArrayWhenSelected = ``
 	__LinkAnchoredText__00000011_.Transform = ``
+
+	__LinkAnchoredText__00000012_.Name = `TEXT AT CORNER`
+	__LinkAnchoredText__00000012_.Content = `TEXT AT CORNER`
+	__LinkAnchoredText__00000012_.AutomaticLayout = true
+	__LinkAnchoredText__00000012_.LinkAnchorType = ""
+	__LinkAnchoredText__00000012_.X_Offset = 0.000000
+	__LinkAnchoredText__00000012_.Y_Offset = 0.000000
+	__LinkAnchoredText__00000012_.FontWeight = ``
+	__LinkAnchoredText__00000012_.FontSize = ``
+	__LinkAnchoredText__00000012_.FontStyle = ``
+	__LinkAnchoredText__00000012_.LetterSpacing = ``
+	__LinkAnchoredText__00000012_.FontFamily = ``
+	__LinkAnchoredText__00000012_.WhiteSpace = ""
+	__LinkAnchoredText__00000012_.Color = `green`
+	__LinkAnchoredText__00000012_.FillOpacity = 1.000000
+	__LinkAnchoredText__00000012_.Stroke = `green`
+	__LinkAnchoredText__00000012_.StrokeOpacity = 1.000000
+	__LinkAnchoredText__00000012_.StrokeWidth = 1.000000
+	__LinkAnchoredText__00000012_.StrokeDashArray = ``
+	__LinkAnchoredText__00000012_.StrokeDashArrayWhenSelected = ``
+	__LinkAnchoredText__00000012_.Transform = ``
 
 	__Rect__00000000_.Name = `Bottom Rect`
 	__Rect__00000000_.X = 333.000000
@@ -1435,6 +1457,7 @@ line 3`
 	__Link__00000003_.TextAtArrowStart = append(__Link__00000003_.TextAtArrowStart, __LinkAnchoredText__00000008_)
 	__Link__00000003_.TextAtArrowEnd = append(__Link__00000003_.TextAtArrowEnd, __LinkAnchoredText__00000009_)
 	__Link__00000003_.TextAtArrowEnd = append(__Link__00000003_.TextAtArrowEnd, __LinkAnchoredText__00000008_)
+	__Link__00000003_.TextAtCorner = append(__Link__00000003_.TextAtCorner, __LinkAnchoredText__00000012_)
 	__Link__00000004_.Start = __Rect__00000004_
 	__Link__00000004_.End = __Rect__00000003_
 	__Link__00000004_.TextAtArrowStart = append(__Link__00000004_.TextAtArrowStart, __LinkAnchoredText__00000009_)
@@ -1445,12 +1468,14 @@ line 3`
 	__Link__00000004_.TextAtArrowEnd = append(__Link__00000004_.TextAtArrowEnd, __LinkAnchoredText__00000008_)
 	__Link__00000004_.TextAtArrowEnd = append(__Link__00000004_.TextAtArrowEnd, __LinkAnchoredText__00000010_)
 	__Link__00000004_.TextAtArrowEnd = append(__Link__00000004_.TextAtArrowEnd, __LinkAnchoredText__00000011_)
+	__Link__00000004_.TextAtCorner = append(__Link__00000004_.TextAtCorner, __LinkAnchoredText__00000012_)
 	__Link__00000005_.Start = __Rect__00000003_
 	__Link__00000005_.End = __Rect__00000004_
 	__Link__00000005_.TextAtArrowStart = append(__Link__00000005_.TextAtArrowStart, __LinkAnchoredText__00000009_)
 	__Link__00000005_.TextAtArrowStart = append(__Link__00000005_.TextAtArrowStart, __LinkAnchoredText__00000008_)
 	__Link__00000005_.TextAtArrowEnd = append(__Link__00000005_.TextAtArrowEnd, __LinkAnchoredText__00000009_)
 	__Link__00000005_.TextAtArrowEnd = append(__Link__00000005_.TextAtArrowEnd, __LinkAnchoredText__00000008_)
+	__Link__00000005_.TextAtCorner = append(__Link__00000005_.TextAtCorner, __LinkAnchoredText__00000012_)
 	__Link__00000006_.Start = __Rect__00000001_
 	__Link__00000006_.End = __Rect__00000000_
 	__Rect__00000000_.RectAnchoredTexts = append(__Rect__00000000_.RectAnchoredTexts, __RectAnchoredText__00000000_)
